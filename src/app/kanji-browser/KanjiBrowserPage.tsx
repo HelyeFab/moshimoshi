@@ -441,7 +441,7 @@ function KanjiBrowserContent() {
               {/* Pin emoji for selection in study/review modes */}
               {(viewMode === 'study' || viewMode === 'review') && (
                 <button
-                  className="absolute top-1 right-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
+                  className="absolute top-1 left-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
                   onClick={(e) => {
                     e.stopPropagation()
                     toggleSelection(kanjiItem.kanji)
