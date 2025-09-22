@@ -443,9 +443,12 @@ function KanjiBrowserContent() {
                 <button
                   className="absolute top-1 left-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
                   onClick={(e) => {
+                    e.preventDefault()
                     e.stopPropagation()
                     toggleSelection(kanjiItem.kanji)
                   }}
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onTouchStart={(e) => e.stopPropagation()}
                   aria-label={isSelected ? "Unpin" : "Pin"}
                 >
                   <span className={isSelected ? "" : "opacity-30 grayscale"}>

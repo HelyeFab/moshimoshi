@@ -216,9 +216,12 @@ const KanaGrid = memo(function KanaGrid({
                 <button
                   className="absolute top-1 left-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
                   onClick={(e) => {
+                    e.preventDefault()
                     e.stopPropagation()
                     onToggleSelection(char)
                   }}
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onTouchStart={(e) => e.stopPropagation()}
                   aria-label={selectedCharacters.some(c => c.id === char.id) ? "Unpin" : "Pin"}
                 >
                   <span className={selectedCharacters.some(c => c.id === char.id) ? "" : "opacity-30 grayscale"}>
