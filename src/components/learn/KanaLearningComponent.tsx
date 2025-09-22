@@ -15,6 +15,7 @@ import KanaFilters from '@/components/learn/KanaFilters'
 import Navbar from '@/components/layout/Navbar'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
+import KanaDetailsModal from '@/components/learn/KanaDetailsModal'
 import { KanaAdapter } from '@/lib/review-engine/adapters/kana.adapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
@@ -107,11 +108,11 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   // State Management
   const [viewMode, setViewMode] = useState<ViewMode>('browse')
   const [selectedCharacters, setSelectedCharacters] = useState<KanaCharacter[]>([])
-  const [selectionMode, setSelectionMode] = useState(false)
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
   const [currentStudyIndex, setCurrentStudyIndex] = useState(0)
+  const [modalCharacter, setModalCharacter] = useState<KanaCharacter | null>(null)
   
   // Filter state
   const [filter, setFilter] = useState<FilterType>('all')
@@ -253,6 +254,12 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
 
   // Handle character selection for study/review
   const handleCharacterSelect = useCallback((character: KanaCharacter) => {
+    // Always open modal when clicking the card
+    setModalCharacter(character)
+  }, [])
+
+  // Handle toggling selection with pin emoji
+  const handleToggleSelection = useCallback((character: KanaCharacter) => {
     setSelectedCharacters(prev => {
       const isSelected = prev.some(c => c.id === character.id)
       if (isSelected) {
@@ -470,8 +477,9 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   }, [progress, saveProgressUpdate, showToast, t])
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
-      <LoadingOverlay isLoading={isLoading} />
+    <>
+      <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
+        <LoadingOverlay isLoading={isLoading} />
 
       {/* Header */}
       <Navbar user={user} showUserMenu={true} />
@@ -486,11 +494,10 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
           learned: progressStats.learned
         }}
         mode={viewMode}
-        onModeChange={setViewMode}
-        selectionMode={selectionMode}
-        onToggleSelection={() => {
-          setSelectionMode(!selectionMode)
-          if (selectionMode) {
+        onModeChange={(newMode) => {
+          setViewMode(newMode)
+          // Clear selections when switching modes
+          if (newMode === 'browse') {
             setSelectedCharacters([])
           }
         }}
@@ -525,8 +532,10 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               onCharacterSelect={handleCharacterSelect}
               onTogglePin={handleTogglePin}
               onTogglePinBatch={handleTogglePinBatch}
+              onToggleSelection={handleToggleSelection}
               showBothKana={showBothKana}
               displayScript={displayScript}
+              viewMode={viewMode}
             />
           </>
         )}
@@ -608,7 +617,16 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
           />
         )}
       </main>
-      
-    </div>
+
+      </div>
+
+      {/* Kana Details Modal */}
+      <KanaDetailsModal
+        character={modalCharacter}
+        isOpen={!!modalCharacter}
+        onClose={() => setModalCharacter(null)}
+        displayScript={displayScript}
+      />
+    </>
   )
 }

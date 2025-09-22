@@ -13,8 +13,10 @@ interface KanaGridProps {
   onCharacterSelect: (character: KanaCharacter) => void
   onTogglePin: (characterId: string) => void
   onTogglePinBatch?: (characterIds: string[], pinned: boolean) => void
+  onToggleSelection?: (character: KanaCharacter) => void
   showBothKana: boolean
   displayScript?: 'hiragana' | 'katakana'
+  viewMode?: 'browse' | 'study' | 'review'
 }
 
 const KanaGrid = memo(function KanaGrid({
@@ -24,8 +26,10 @@ const KanaGrid = memo(function KanaGrid({
   onCharacterSelect,
   onTogglePin,
   onTogglePinBatch,
+  onToggleSelection,
   showBothKana,
-  displayScript = 'hiragana'
+  displayScript = 'hiragana',
+  viewMode = 'browse'
 }: KanaGridProps) {
   const { t } = useI18n()
   const [hoveredId, setHoveredId] = useState<string | null>(null)
@@ -257,6 +261,22 @@ const KanaGrid = memo(function KanaGrid({
                 p-2 group
               `}
             >
+              {/* Pin emoji for selection in study/review modes */}
+              {(viewMode === 'study' || viewMode === 'review') && onToggleSelection && (
+                <button
+                  className="absolute -top-1 -right-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onToggleSelection(char)
+                  }}
+                  aria-label={selectedCharacters.some(c => c.id === char.id) ? "Unpin" : "Pin"}
+                >
+                  <span className={selectedCharacters.some(c => c.id === char.id) ? "" : "opacity-30 grayscale"}>
+                    📌
+                  </span>
+                </button>
+              )}
+
               {getProgressIcon(char.id)}
 
               <div className="text-center">
@@ -272,7 +292,7 @@ const KanaGrid = memo(function KanaGrid({
                     displayScript === 'hiragana' ? char.hiragana : char.katakana
                   )}
                 </div>
-                
+
                 {/* Show romaji on hover */}
                 <AnimatePresence>
                   {hoveredId === char.id && (
@@ -287,7 +307,7 @@ const KanaGrid = memo(function KanaGrid({
                   )}
                 </AnimatePresence>
               </div>
-              
+
               
               {/* Pronunciation note */}
               {char.pronunciation && (
