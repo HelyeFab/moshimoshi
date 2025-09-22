@@ -510,7 +510,9 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       
       {/* Main content */}
       <main className="container mx-auto px-4 py-8">
-        {viewMode === 'browse' && (
+        {(viewMode === 'browse' ||
+          (viewMode === 'study' && selectedCharacters.length === 0) ||
+          (viewMode === 'review' && reviewContent.length === 0)) && (
           <>
             <KanaFilters
               filterType={filter}
@@ -524,7 +526,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               displayScript={displayScript}
               onDisplayScriptChange={setDisplayScript}
             />
-            
+
             <KanaGrid
               characters={filteredKana}
               progress={progress}
@@ -539,7 +541,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
             />
           </>
         )}
-        
+
         {viewMode === 'study' && selectedCharacters.length > 0 && (
           <KanaStudyMode
             character={selectedCharacters[currentStudyIndex]}
