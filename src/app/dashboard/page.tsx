@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -35,8 +35,8 @@ const Confetti = dynamic(() => import('react-confetti'), { ssr: false })
 
 // Learning stats will be dynamic based on achievement data
 
-
-export default function DashboardPage() {
+// Dashboard content component that uses searchParams
+function DashboardContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showToast } = useToast()
@@ -604,5 +604,21 @@ export default function DashboardPage() {
         <BuyMeACoffeeButton variant="floating" />
       )}
     </div>
+  )
+}
+
+// Main export with Suspense wrapper
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={
+      <LoadingOverlay
+        isLoading={true}
+        message="Loading your dashboard..."
+        showDoshi={true}
+        fullScreen={true}
+      />
+    }>
+      <DashboardContent />
+    </Suspense>
   )
 }
