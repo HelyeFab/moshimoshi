@@ -142,65 +142,15 @@ const KanaGrid = memo(function KanaGrid({
   }
   
   const getCharacterStyles = (characterId: string) => {
-    const charProgress = progress[characterId]
-    const isSelected = selectedCharacters.some(c => c.id === characterId)
-
-    // Start with base styles
-    let borderStyle = ''
-    let bgStyle = ''
-
-    // Check if selected (highest priority for border)
-    if (isSelected) {
-      // Hard-coded blue border for selection - same in both themes
-      borderStyle = 'border-[#2563EB] border-[3px]'
-    } else {
-      // Not selected, use progress-based border
-      borderStyle = 'border-2 '
-      if (charProgress?.status === 'learned') {
-        borderStyle += 'border-green-400'
-      } else if (charProgress?.status === 'learning') {
-        borderStyle += 'border-yellow-400'
-      } else {
-        borderStyle += 'border-gray-200 dark:border-gray-600'
-      }
-    }
-
-    // Background based on progress (independent of selection)
-    if (charProgress?.status === 'learned') {
-      bgStyle = 'bg-green-50 dark:bg-green-900/20'
-    } else if (charProgress?.status === 'learning') {
-      bgStyle = 'bg-yellow-50 dark:bg-yellow-900/20'
-    }
-
+    // Simple styling - no special selection state since we use pin emoji
+    // Match KanjiBrowser approach for consistency
+    const borderStyle = 'border-2 border-gray-200 dark:border-gray-600'
+    const bgStyle = 'bg-white dark:bg-dark-800'
     return `${borderStyle} ${bgStyle}`
   }
   
-  const getProgressIcon = (characterId: string) => {
-    const charProgress = progress[characterId]
-    if (!charProgress) return null
-    
-    if (charProgress.status === 'learned') {
-      return (
-        <div className="absolute top-1 right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-          </svg>
-        </div>
-      )
-    }
-    
-    if (charProgress.pinned) {
-      return (
-        <div className="absolute top-1 left-1 w-5 h-5 bg-[#EF4444] rounded-full flex items-center justify-center">
-          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01-.553-.894V3a1 1 0 011-1h2zm-2 0a1 1 0 00-1 1v1.323L3.046 5.905l-1.599-.8a1 1 0 00-.894 1.79l1.233.616-1.738 5.42a1 1 0 00.285 1.05A3.989 3.989 0 005 15a3.989 3.989 0 002.667-1.019 1 1 0 00.285-1.05l-1.738-5.42 1.233-.617a1 1 0 00.553-.894V3a1 1 0 00-1-1H5z" />
-          </svg>
-        </div>
-      )
-    }
-    
-    return null
-  }
+  // Remove progress icons - we only use pin emoji for selection like KanjiBrowser
+  // This keeps the UI consistent across the app
   
   return (
     <div className="w-full flex justify-center">
@@ -277,8 +227,6 @@ const KanaGrid = memo(function KanaGrid({
                 </button>
               )}
 
-              {getProgressIcon(char.id)}
-
               <div className="text-center">
                 <div className="text-lg sm:text-2xl md:text-3xl font-japanese font-bold text-gray-800 dark:text-gray-200 mb-1">
                   {showBothKana ? (
@@ -308,13 +256,6 @@ const KanaGrid = memo(function KanaGrid({
                 </AnimatePresence>
               </div>
 
-              
-              {/* Pronunciation note */}
-              {char.pronunciation && (
-                <div className="absolute -top-2 -right-2 bg-yellow-400 dark:bg-yellow-600 text-xs px-1 rounded">
-                  !
-                </div>
-              )}
             </div>
           </motion.div>
                 ))}
