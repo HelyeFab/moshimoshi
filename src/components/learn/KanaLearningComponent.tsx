@@ -108,6 +108,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   // State Management
   const [viewMode, setViewMode] = useState<ViewMode>('browse')
   const [selectedCharacters, setSelectedCharacters] = useState<KanaCharacter[]>([])
+  const [studyCharacters, setStudyCharacters] = useState<KanaCharacter[]>([]) // Separate state for actual study session
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
@@ -254,10 +255,12 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
 
   // Handle character selection for study/review
   const handleCharacterSelect = useCallback((character: KanaCharacter) => {
-    // In browse mode, always open modal
-    // In study/review modes, clicking the card also opens modal (pin is for selection)
-    setModalCharacter(character)
-  }, [])
+    // Only open modal in browse mode
+    // In study/review modes, only the pin button should work
+    if (viewMode === 'browse') {
+      setModalCharacter(character)
+    }
+  }, [viewMode])
 
   // Handle toggling selection with pin emoji
   const handleToggleSelection = useCallback((character: KanaCharacter) => {
@@ -400,8 +403,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       await kanaProgressManagerV2.startKanaSession(script, user)
     }
 
-    // Update selected characters to include pinned ones
-    setSelectedCharacters(allCharacters)
+    // Set the study characters (separate from selection)
+    setStudyCharacters(allCharacters)
     setCurrentStudyIndex(0) // Reset index when starting study
     setViewMode('study')
   }, [selectedCharacters, pinnedCharacters, showToast, t, user, displayScript])
@@ -500,6 +503,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
           // Clear selections when switching modes
           if (newMode === 'browse') {
             setSelectedCharacters([])
+            setStudyCharacters([])
           }
         }}
         selectedCount={selectedCharacters.length}
@@ -512,7 +516,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       {/* Main content */}
       <main className="container mx-auto px-4 py-8">
         {(viewMode === 'browse' ||
-          (viewMode === 'study' && selectedCharacters.length === 0) ||
+          (viewMode === 'study' && studyCharacters.length === 0) ||
           (viewMode === 'review' && reviewContent.length === 0)) && (
           <>
             <KanaFilters
@@ -543,12 +547,12 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
           </>
         )}
 
-        {viewMode === 'study' && selectedCharacters.length > 0 && (
+        {viewMode === 'study' && studyCharacters.length > 0 && (
           <KanaStudyMode
-            character={selectedCharacters[currentStudyIndex]}
-            progress={progress[selectedCharacters[currentStudyIndex].id] || {}}
+            character={studyCharacters[currentStudyIndex]}
+            progress={progress[studyCharacters[currentStudyIndex].id] || {}}
             onNext={async () => {
-              if (currentStudyIndex < selectedCharacters.length - 1) {
+              if (currentStudyIndex < studyCharacters.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
               } else {
                 // End the session
@@ -567,7 +571,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
                 const achievementStore = useAchievementStore.getState()
                 await achievementStore.updateProgress({
                   sessionType: 'kana_study',
-                  itemsReviewed: selectedCharacters.length,
+                  itemsReviewed: studyCharacters.length,
                   accuracy: 100, // Study mode is practice, assume completion is success
                   duration: 0, // Duration tracking could be added if needed
                   completedAt: new Date()
@@ -578,6 +582,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
                 // Return to grid after completion
                 setViewMode('browse')
                 setCurrentStudyIndex(0)
+                setStudyCharacters([])  // Clear study characters
+                setSelectedCharacters([]) // Clear selection
               }
             }}
             onPrevious={() => {
@@ -592,6 +598,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               }
               setViewMode('browse')
               setCurrentStudyIndex(0) // Reset index when going back
+              setStudyCharacters([])  // Clear study characters
+              setSelectedCharacters([]) // Clear selection
             }}
             onUpdateProgress={async (characterId, updates) => {
               // Update local state immediately

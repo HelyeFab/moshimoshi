@@ -185,48 +185,39 @@ const KanaGrid = memo(function KanaGrid({
                 {rowChars.map((char, index) => (
           <motion.div
             key={char.id}
-            layout
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{
-              duration: 0.2,
-              delay: index * 0.01,
-              layout: { type: "spring", stiffness: 300, damping: 30 }
-            }}
-            whileHover={{ scale: 1.05 }}
+            transition={{ delay: index * 0.01 }}
+            whileHover={{ scale: 1.1, zIndex: 10 }}
             whileTap={{ scale: 0.95 }}
-            onHoverStart={() => setHoveredId(char.id)}
-            onHoverEnd={() => setHoveredId(null)}
             className="relative"
           >
-            {/* Pin emoji for selection in study/review modes - Outside the clickable div */}
-            {(viewMode === 'study' || viewMode === 'review') && onToggleSelection && (
-              <button
-                className="absolute top-1 right-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onToggleSelection(char)
-                }}
-                aria-label={selectedCharacters.some(c => c.id === char.id) ? "Unpin" : "Pin"}
-              >
-                <span className={selectedCharacters.some(c => c.id === char.id) ? "" : "opacity-30 grayscale"}>
-                  📌
-                </span>
-              </button>
-            )}
-
             <div
               onClick={() => onCharacterSelect(char)}
               className={`
-                relative w-full aspect-square rounded-xl
+                relative w-full aspect-square flex items-center justify-center
+                rounded-xl transition-all overflow-hidden cursor-pointer
                 ${getCharacterStyles(char.id)}
                 hover:shadow-lg dark:hover:shadow-dark-700/50
-                transition-all duration-200 cursor-pointer
-                flex flex-col items-center justify-center
-                p-2 group
               `}
             >
+              {/* Pin emoji for selection in study/review modes */}
+              {(viewMode === 'study' || viewMode === 'review') && (
+                <button
+                  className="absolute top-1 right-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (onToggleSelection) {
+                      onToggleSelection(char)
+                    }
+                  }}
+                  aria-label={selectedCharacters.some(c => c.id === char.id) ? "Unpin" : "Pin"}
+                >
+                  <span className={selectedCharacters.some(c => c.id === char.id) ? "" : "opacity-30 grayscale"}>
+                    📌
+                  </span>
+                </button>
+              )}
 
               <div className="text-center">
                 <div className="text-lg sm:text-2xl md:text-3xl font-japanese font-bold text-gray-800 dark:text-gray-200 mb-1">

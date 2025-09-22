@@ -2,7 +2,7 @@
 // Provides JWT signing, verification, and token management
 
 import jwt from 'jsonwebtoken'
-import crypto from 'crypto'
+const crypto = require('crypto')
 
 // Environment variables - check at runtime not initialization for edge runtime
 const JWT_SECRET = process.env.JWT_SECRET
