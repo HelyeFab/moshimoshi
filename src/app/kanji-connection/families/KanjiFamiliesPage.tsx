@@ -88,16 +88,9 @@ export default function KanjiFamiliesPage() {
     setSelectedFamily(familyId);
   };
 
-  const handleKanjiClick = (kanjiDetail: KanjiDetails) => {
-    // Convert to modal format
-    const kanjiForModal = {
-      kanji: kanjiDetail.kanji,
-      meaning: kanjiDetail.meanings?.join(', ') || '',
-      onyomi: kanjiDetail.on_readings || [],
-      kunyomi: kanjiDetail.kun_readings || [],
-      jlpt: kanjiDetail.jlpt ? `N${kanjiDetail.jlpt}` : 'N5'
-    };
-    setModalKanji(kanjiForModal);
+  const handleKanjiClick = (kanjiDetail: any) => {
+    // The API now returns a full Kanji object, so pass it directly
+    setModalKanji(kanjiDetail);
   };
 
   const getFilteredFamilies = () => {
@@ -303,6 +296,7 @@ export default function KanjiFamiliesPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.01 }}
                       onClick={() => handleKanjiClick(kanjiDetail)}
+                      title={kanjiDetail.meaning || kanjiDetail.meanings?.join(', ') || ''}
                       className={
                         viewMode === 'grid'
                           ? 'aspect-square bg-muted dark:bg-dark-700 hover:bg-primary-100 dark:hover:bg-primary-900/20 rounded-lg flex items-center justify-center text-2xl font-bold transition-colors'
@@ -315,7 +309,7 @@ export default function KanjiFamiliesPage() {
                       {viewMode === 'list' && (
                         <div className="flex-1 text-left">
                           <div className="text-sm text-muted-foreground dark:text-dark-400">
-                            {kanjiDetail.meanings?.join(', ')}
+                            {kanjiDetail.meaning || kanjiDetail.meanings?.join(', ') || ''}
                           </div>
                         </div>
                       )}

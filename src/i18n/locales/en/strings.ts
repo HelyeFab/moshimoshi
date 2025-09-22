@@ -82,6 +82,7 @@ export const strings = {
     resetProgress: "Reset Progress",
     settings: "Settings",
     playAudio: "Play Audio",
+    explore: "Explore",
   },
 
   // Moodboards
@@ -2266,6 +2267,10 @@ export const strings = {
             label: "Terms of Service",
             description: "Our terms and conditions"
           },
+          credits: {
+            label: "Credits & Acknowledgments",
+            description: "Open source libraries and data sources"
+          },
           contactUs: {
             label: "Contact Us",
             description: "Get help or send feedback"
@@ -2751,5 +2756,89 @@ export const strings = {
         complete: "Complete Review",
         noWords: "No words selected for review"
       }
+  },
+
+  // Credits Page
+  credits: {
+    title: "Credits & Acknowledgments",
+    subtitle: "Moshimoshi is built on the shoulders of giants. We gratefully acknowledge the following projects and communities.",
+    loading: "Loading credits...",
+    backToSettings: "← Back to Settings",
+
+    sections: {
+      dataSources: "Data Sources & Content",
+      libraries: "Libraries & Technologies",
+      specialThanks: "Special Thanks"
+    },
+
+    sources: {
+      jmdict: "Japanese-Multilingual Dictionary project",
+      wanikani: "Kanji learning methodology and mnemonics inspiration",
+      kanjicanvas: "Stroke order diagrams and kanji drawing components",
+      flaticon: "Icons and visual assets"
+    },
+
+    libraries: {
+      nextjs: "React framework for production",
+      react: "JavaScript library for user interfaces",
+      typescript: "JavaScript with syntax for types",
+      firebase: "Authentication, database, and storage",
+      tailwind: "Utility-first CSS framework",
+      openai: "AI-powered content generation and analysis",
+      redis: "In-memory data structure store",
+      stripe: "Payment processing and subscriptions"
+    },
+
+    thanks: {
+      community: {
+        name: "The Japanese Learning Community",
+        description: "For continuous feedback and support"
+      },
+      contributors: {
+        name: "Open Source Contributors",
+        description: "For making amazing tools freely available"
+      },
+      users: {
+        name: "Our Users",
+        description: "For trusting us with your learning journey"
+      }
+    },
+
+    license: {
+      title: "License & Usage",
+      description: "Moshimoshi respects the licenses of all third-party projects. We use these resources in compliance with their respective licenses. For detailed license information, please refer to each project's official documentation."
+    },
+
+    footer: {
+      madeWith: "Made with",
+      forLearners: "for Japanese learners worldwide",
+      contact: "Have a suggestion? Contact us!"
+    }
+  },
+
+  kanjiConnection: {
+    title: "Kanji Connections",
+    subtitle: "Discover relationships between kanji characters",
+    howItWorks: {
+      description: "Learn kanji through meaningful connections",
+      step1: "Explore kanji families that share components",
+      step2: "Master radicals that form the building blocks",
+      step3: "Recognize visual patterns across characters"
+    },
+    families: {
+      title: "Kanji Families",
+      subtitle: "Groups of related characters",
+      description: "Discover kanji that share semantic or phonetic components"
+    },
+    radicals: {
+      title: "Radicals & Components",
+      subtitle: "Building blocks of kanji",
+      description: "Learn the fundamental parts that make up complex characters"
+    },
+    visualLayout: {
+      title: "Visual Patterns",
+      subtitle: "Recognize structural similarities",
+      description: "Identify visual patterns and layouts across different kanji"
+    }
   },
 }

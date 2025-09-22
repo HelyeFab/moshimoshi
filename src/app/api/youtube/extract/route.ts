@@ -1,18 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ytdl from '@distube/ytdl-core';
 import axios from 'axios';
-import OpenAI from 'openai';
 import { TranscriptCacheManager } from '@/utils/transcriptCache';
 import { getSubtitles } from 'youtube-captions-scraper';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { firestore as db } from '@/lib/firebase/client';
+import { AIService } from '@/lib/ai/AIService';
+import { TranscriptProcessRequest } from '@/lib/ai/types';
 
-// Initialize OpenAI only if API key is available
-const openai = process.env.OPENAI_API_KEY
-  ? new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    })
-  : null;
+// Initialize AI Service
+const aiService = AIService.getInstance();
 
 // YouTube Data API v3 endpoint
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
@@ -85,73 +82,67 @@ async function formatTranscriptWithAI(
   contentId?: string
 ): Promise<any[] | null> {
   try {
-    // Skip if no OpenAI client or transcript too short
-    if (!openai || transcript.length < 3) {
-      console.log('🤖 [AI] Skipping formatting - OpenAI not configured or transcript too short');
+    // Skip if transcript too short
+    if (transcript.length < 3) {
+      console.log('🤖 [AI] Skipping formatting - transcript too short');
       return null;
     }
 
-    console.log('🤖 [AI] Starting direct OpenAI formatting for', transcript.length, 'segments');
+    console.log('🤖 [AI] Starting AI formatting for', transcript.length, 'segments');
 
-    // Combine all segments into continuous text
-    const fullText = transcript.map(line => line.text).join('');
-    const totalDuration = transcript[transcript.length - 1].endTime - transcript[0].startTime;
+    // Prepare request for unified AI service
+    const request: TranscriptProcessRequest = {
+      content: {
+        transcript: transcript.map(seg => ({
+          text: seg.text,
+          startTime: seg.startTime,
+          endTime: seg.endTime
+        })),
+        videoTitle,
+        language: 'ja'
+      },
+      splitForShadowing: true,
+      maxSegmentLength: 20,
+      addFurigana: false
+    };
 
-    const systemPrompt = `You are an expert Japanese language educator. Split this Japanese text into SHORT segments for shadowing practice.
-
-CRITICAL RULES:
-1. MAXIMUM 20 characters per segment (essential for comfortable repetition)
-2. NEVER split です/ます/でした/ました/だ/だった from their stems
-3. Aim for 8-15 characters ideally (2-3 seconds when spoken)
-4. Break long sentences at natural points:
-   - After て-form (して、見て、食べて)
-   - After connectors (から、けど、が、のに、ので)
-   - Between clauses
-5. Return ONLY a JSON array of strings
-
-Example: ["昨日友達と", "映画を見て", "楽しかったです"]`;
-
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: fullText }
-      ],
-      temperature: 0.3,
-      max_tokens: 4000
+    // Call unified AI service
+    const response = await aiService.process({
+      task: 'clean_transcript',
+      content: request,
+      config: {
+        jlptLevel: 'N4' // Default level
+      },
+      metadata: {
+        source: 'youtube-extract',
+        contentId
+      }
     });
 
-    const responseText = completion.choices[0].message.content?.trim();
-    if (!responseText) return null;
+    if (!response.success || !response.data) {
+      console.error('❌ [AI] Failed to format transcript:', response.error);
+      return null;
+    }
 
-    // Parse the segments from AI response
-    const segments = JSON.parse(responseText);
-    if (!Array.isArray(segments)) return null;
+    // Convert back to the expected format
+    const formattedTranscript = response.data.segments.map(seg => ({
+      id: seg.id,
+      text: seg.text,
+      startTime: seg.startTime,
+      endTime: seg.endTime,
+      words: [seg.text]
+    }));
 
-    // Calculate timing for each segment proportionally
-    const avgTimePerChar = totalDuration / fullText.length;
-    let currentTime = transcript[0].startTime;
-
-    const formattedTranscript = segments.map((text, index) => {
-      const duration = text.length * avgTimePerChar;
-      const segment = {
-        id: String(index + 1),
-        text: text,
-        startTime: currentTime,
-        endTime: currentTime + duration,
-        words: [text]
-      };
-      currentTime += duration;
-      return segment;
-    });
-
-    // Check segment lengths
+    // Log statistics
     const lengths = formattedTranscript.map(s => s.text.length);
     const avgLength = lengths.reduce((a, b) => a + b, 0) / lengths.length;
     const longSegments = lengths.filter(l => l > 20).length;
 
     console.log(`✅ [AI] Successfully formatted ${formattedTranscript.length} segments`);
     console.log(`📊 [AI] Avg length: ${avgLength.toFixed(1)} chars, Long segments (>20): ${longSegments}/${formattedTranscript.length}`);
+    if (response.cached) {
+      console.log(`💾 [AI] Response was cached`);
+    }
 
     if (longSegments > 0) {
       console.warn(`⚠️ [AI] ${longSegments} segments exceed 20 chars - may be difficult for shadowing`);

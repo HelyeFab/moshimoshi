@@ -189,7 +189,7 @@ const KanaGrid = memo(function KanaGrid({
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ 
+            transition={{
               duration: 0.2,
               delay: index * 0.01,
               layout: { type: "spring", stiffness: 300, damping: 30 }
@@ -200,6 +200,22 @@ const KanaGrid = memo(function KanaGrid({
             onHoverEnd={() => setHoveredId(null)}
             className="relative"
           >
+            {/* Pin emoji for selection in study/review modes - Outside the clickable div */}
+            {(viewMode === 'study' || viewMode === 'review') && onToggleSelection && (
+              <button
+                className="absolute top-1 right-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onToggleSelection(char)
+                }}
+                aria-label={selectedCharacters.some(c => c.id === char.id) ? "Unpin" : "Pin"}
+              >
+                <span className={selectedCharacters.some(c => c.id === char.id) ? "" : "opacity-30 grayscale"}>
+                  📌
+                </span>
+              </button>
+            )}
+
             <div
               onClick={() => onCharacterSelect(char)}
               className={`
@@ -211,24 +227,6 @@ const KanaGrid = memo(function KanaGrid({
                 p-2 group
               `}
             >
-              {/* Pin emoji for selection in study/review modes */}
-              {(viewMode === 'study' || viewMode === 'review') && onToggleSelection && (
-                <button
-                  className="absolute top-1 left-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    onToggleSelection(char)
-                  }}
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onTouchStart={(e) => e.stopPropagation()}
-                  aria-label={selectedCharacters.some(c => c.id === char.id) ? "Unpin" : "Pin"}
-                >
-                  <span className={selectedCharacters.some(c => c.id === char.id) ? "" : "opacity-30 grayscale"}>
-                    📌
-                  </span>
-                </button>
-              )}
 
               <div className="text-center">
                 <div className="text-lg sm:text-2xl md:text-3xl font-japanese font-bold text-gray-800 dark:text-gray-200 mb-1">

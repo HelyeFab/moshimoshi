@@ -322,7 +322,9 @@ export class PreferencesManager {
     try {
       console.log('[PreferencesManager] Syncing to Firebase...');
 
-      const prefsRef = doc(db, 'users', userId, 'preferences', 'settings');
+      // Use the userPreferences collection for premium users
+      // This matches the Firestore rules (lines 250-266)
+      const prefsRef = doc(db, 'userPreferences', userId);
 
       await setDoc(prefsRef, {
         ...preferences,
@@ -354,7 +356,9 @@ export class PreferencesManager {
     }
 
     try {
-      const prefsRef = doc(db, 'users', userId, 'preferences', 'settings');
+      // Use the userPreferences collection for premium users
+      // This matches the Firestore rules (lines 250-266)
+      const prefsRef = doc(db, 'userPreferences', userId);
       const snapshot = await getDoc(prefsRef);
 
       if (snapshot.exists()) {

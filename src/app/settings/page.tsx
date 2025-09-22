@@ -80,7 +80,8 @@ export default function SettingsPage() {
       if (preferences.privacy) setPrivacy(preferences.privacy)
       if (preferences.accessibility) setAccessibility(preferences.accessibility)
       if (preferences.palette) setSelectedPalette(preferences.palette)
-      if (preferences.theme && preferences.theme !== 'system') setTheme(preferences.theme)
+      // Always set theme if it exists in preferences, don't skip 'system'
+      if (preferences.theme) setTheme(preferences.theme)
       if (preferences.language) setLanguage(preferences.language)
 
       console.log('[Settings] Loaded preferences:', {
@@ -630,6 +631,20 @@ export default function SettingsPage() {
                   <div>
                     <p className="font-medium text-gray-900 dark:text-gray-100">{strings.settings?.sections?.legal?.termsOfService?.label || 'Terms of Service'}</p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">{strings.settings?.sections?.legal?.termsOfService?.description || 'Our terms and conditions'}</p>
+                  </div>
+                </div>
+                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">→</span>
+              </Link>
+
+              <Link
+                href="/credits"
+                className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">🙏</span>
+                  <div>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{strings.settings?.sections?.legal?.credits?.label || 'Credits & Acknowledgments'}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{strings.settings?.sections?.legal?.credits?.description || 'Open source libraries and data sources'}</p>
                   </div>
                 </div>
                 <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">→</span>

@@ -1,0 +1,144 @@
+{
+  "tasks": {
+    "generate_review_questions": {
+      "name": "Review Question Generation",
+      "description": "Generate educational review questions for kanji, vocabulary, and grammar",
+      "processor": "ReviewQuestionProcessor",
+      "cache": {
+        "enabled": true,
+        "duration": 3600
+      },
+      "validation": {
+        "required": ["content"],
+        "maxQuestions": 50,
+        "minQuestions": 1
+      },
+      "costEstimate": {
+        "base": 0.0003,
+        "perItem": 0.00005
+      }
+    },
+    "explain_grammar": {
+      "name": "Grammar Explanation",
+      "description": "Provide detailed grammar explanations with examples",
+      "processor": "GrammarExplainerProcessor",
+      "cache": {
+        "enabled": true,
+        "duration": 7200
+      },
+      "validation": {
+        "required": ["content"],
+        "maxLength": 1000
+      },
+      "costEstimate": {
+        "base": 0.0002
+      }
+    },
+    "generate_story": {
+      "name": "Story Generation",
+      "description": "Generate educational stories with vocabulary and quizzes",
+      "processor": "StoryProcessor",
+      "cache": {
+        "enabled": true,
+        "duration": 86400
+      },
+      "validation": {
+        "required": ["theme"],
+        "maxPages": 50
+      },
+      "costEstimate": {
+        "base": 0.001,
+        "perPage": 0.0002
+      },
+      "multiStep": true
+    },
+    "generate_moodboard": {
+      "name": "Moodboard Generation",
+      "description": "Generate themed kanji collections",
+      "processor": "MoodboardProcessor",
+      "cache": {
+        "enabled": true,
+        "duration": 86400
+      },
+      "validation": {
+        "required": ["theme"],
+        "maxKanji": 30,
+        "minKanji": 5
+      },
+      "costEstimate": {
+        "base": 0.0004
+      }
+    },
+    "clean_transcript": {
+      "name": "Transcript Formatting",
+      "description": "Format transcripts for shadowing practice",
+      "processor": "TranscriptProcessor",
+      "cache": {
+        "enabled": true,
+        "duration": 3600
+      },
+      "validation": {
+        "required": ["transcript"],
+        "maxSegments": 500
+      },
+      "costEstimate": {
+        "base": 0.0002,
+        "perMinute": 0.0001
+      }
+    },
+    "fix_transcript": {
+      "name": "Transcript Error Correction",
+      "description": "Fix errors in auto-generated transcripts",
+      "processor": "TranscriptProcessor",
+      "cache": {
+        "enabled": false
+      },
+      "validation": {
+        "required": ["transcript"]
+      },
+      "costEstimate": {
+        "base": 0.0003,
+        "perMinute": 0.0002
+      }
+    },
+    "process_article": {
+      "name": "Article Processing",
+      "description": "Process web articles for language learning",
+      "processor": "ArticleProcessor",
+      "cache": {
+        "enabled": true,
+        "duration": 7200
+      },
+      "validation": {
+        "required": ["content"],
+        "maxLength": 10000
+      },
+      "costEstimate": {
+        "base": 0.0005,
+        "per1000Chars": 0.0001
+      }
+    },
+    "extract_vocabulary": {
+      "name": "Vocabulary Extraction",
+      "description": "Extract key vocabulary from text",
+      "processor": "VocabularyProcessor",
+      "cache": {
+        "enabled": true,
+        "duration": 3600
+      },
+      "validation": {
+        "required": ["text"]
+      },
+      "costEstimate": {
+        "base": 0.0001
+      }
+    }
+  },
+  "globalSettings": {
+    "maxRequestsPerMinute": 60,
+    "maxTokensPerRequest": 4000,
+    "defaultCacheDuration": 3600,
+    "errorRetryAttempts": 2,
+    "errorRetryDelay": 1000
+  }
+}

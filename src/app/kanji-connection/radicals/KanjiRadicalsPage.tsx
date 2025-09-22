@@ -75,14 +75,8 @@ export default function KanjiRadicalsPage() {
   };
 
   const handleKanjiClick = (kanjiDetail: any) => {
-    const kanjiForModal = {
-      kanji: kanjiDetail.kanji,
-      meaning: kanjiDetail.meanings?.join(', ') || '',
-      onyomi: kanjiDetail.readings?.on || [],
-      kunyomi: kanjiDetail.readings?.kun || [],
-      jlpt: kanjiDetail.jlpt ? `N${kanjiDetail.jlpt}` : 'N5'
-    };
-    setModalKanji(kanjiForModal);
+    // The API now returns a full Kanji object, so pass it directly
+    setModalKanji(kanjiDetail);
   };
 
   const toggleTheme = (themeId: string) => {

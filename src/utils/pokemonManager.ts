@@ -33,10 +33,8 @@ class PokemonManager {
     if (!this.db) {
       if (typeof window !== 'undefined' && app) {
         this.db = getFirestore(app);
-        console.log('[PokemonManager] Firestore initialized');
       } else if (configDb) {
         this.db = configDb;
-        console.log('[PokemonManager] Using config db');
       }
     }
     return this.db;
@@ -148,26 +146,17 @@ class PokemonManager {
 
   // Get all caught Pokemon (merge local and cloud data)
   async getCaughtPokemon(user: User | null, isPremium: boolean): Promise<number[]> {
-    console.log('[PokemonManager] getCaughtPokemon called with:', {
-      user: user ? { uid: user.uid, email: user.email } : null,
-      isPremium
-    });
-
     try {
       // Always return empty for no user (guests don't persist)
       if (!user) {
-        console.log('[PokemonManager] No user, returning empty array');
         return [];
       }
 
       const userId = user.uid;
       const userEmail = user.email;
 
-      console.log('[PokemonManager] Attempting to fetch from cloud for userId:', userId);
-
       // For now, always try to fetch from cloud regardless of premium status for debugging
       const cloudPokemonIds = await this.getPokemonFromCloud(userId);
-      console.log('[PokemonManager] Cloud Pokemon IDs loaded:', cloudPokemonIds);
 
       if (cloudPokemonIds.length > 0) {
         // Sync to local for offline use
@@ -176,9 +165,7 @@ class PokemonManager {
       }
 
       // Fallback to local
-      console.log('[PokemonManager] No cloud data, checking local storage');
       const localPokemon = await pokemonStorage.getAllCaughtPokemonLocally(userId, userEmail);
-      console.log('[PokemonManager] Local Pokemon loaded:', localPokemon);
       return localPokemon;
     } catch (error) {
       console.error('[PokemonManager] Error getting caught Pokemon:', error);
@@ -189,30 +176,20 @@ class PokemonManager {
   // Get Pokemon from Firebase
   private async getPokemonFromCloud(userId: string): Promise<number[]> {
     try {
-      console.log('[PokemonManager] getPokemonFromCloud - Fetching for userId:', userId);
-
       const db = this.getDb();
       if (!db) {
-        console.error('[PokemonManager] Firestore not initialized - db is:', db);
+        console.error('[PokemonManager] Firestore not initialized');
         return [];
       }
 
-      console.log('[PokemonManager] Firestore is initialized, getting doc reference');
       const userPokedexRef = doc(db, this.COLLECTION_NAME, userId);
-      console.log('[PokemonManager] Fetching document from collection:', this.COLLECTION_NAME, 'for userId:', userId);
-
       const userPokedexDoc = await getDoc(userPokedexRef);
-      console.log('[PokemonManager] Document fetched. Exists:', userPokedexDoc.exists());
 
       if (userPokedexDoc.exists()) {
         const data = userPokedexDoc.data() as UserPokedex;
-        console.log('[PokemonManager] Found Firebase data:', data);
         const caught = data.caught || [];
-        console.log('[PokemonManager] Returning', caught.length, 'Pokemon:', caught);
         return caught;
       }
-
-      console.log('[PokemonManager] No Firebase document found for userId:', userId);
       return [];
     } catch (error: any) {
       // Check if it's a permission error - this is expected for new users or users without Pokemon

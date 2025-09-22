@@ -238,6 +238,37 @@ class KanjiService {
     return null
   }
 
+  // Batch get multiple kanji details efficiently
+  async getMultipleKanjiDetails(characters: string[]): Promise<Map<string, Kanji>> {
+    const result = new Map<string, Kanji>()
+
+    // If no characters requested, return empty map
+    if (!characters || characters.length === 0) {
+      return result
+    }
+
+    const levels: JLPTLevel[] = ['N5', 'N4', 'N3', 'N2', 'N1']
+
+    // Load all levels in parallel for better performance
+    const allLevelData = await Promise.all(
+      levels.map(level => this.loadKanjiByLevel(level))
+    )
+
+    // Flatten all kanji data and filter out undefined/null
+    const allKanji = allLevelData.flat().filter(k => k && k.kanji)
+
+    // Build the result map
+    for (const character of characters) {
+      const found = allKanji.find(k => k.kanji === character)
+      if (found) {
+        result.set(character, found)
+      }
+    }
+
+    console.log(`[KanjiService] Found ${result.size} of ${characters.length} kanji`)
+    return result
+  }
+
   async getStrokeOrderSVG(character: string): Promise<string | null> {
     try {
       // Get Unicode code point

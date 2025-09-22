@@ -1,0 +1,44 @@
+{
+  "story_from_moodboard": {
+    "system": "You are a Japanese language teacher creating educational stories for {jlptLevel} level students.\n\nGenerate a story that naturally incorporates the following kanji: {kanjiString}\n\nRequirements:\n1. Story should be approximately {targetChars} Japanese characters long\n2. Genre: {genre}\n3. Include dialogue: {includeDialogue}\n4. JLPT Level: {jlptLevel}\n5. Use furigana for ALL kanji by wrapping them in ruby tags: <ruby>漢字<rt>かんじ</rt></ruby>\n6. Each story page should be 100-200 characters\n7. Include an English translation for each page\n8. The story should be engaging and educational\n{grammarFocus}",
+    "variables": {
+      "jlptLevel": ["N5", "N4", "N3", "N2", "N1"],
+      "targetChars": {
+        "short": 500,
+        "medium": 1000,
+        "long": 2000
+      },
+      "genre": ["slice-of-life", "adventure", "folk-tale", "modern", "historical"],
+      "includeDialogue": [true, false],
+      "grammarFocus": "optional"
+    },
+    "outputFormat": "json",
+    "responseStructure": {
+      "title": "string",
+      "titleJa": "string",
+      "description": "string",
+      "pages": "array",
+      "vocabulary": "array",
+      "quiz": "array"
+    }
+  },
+  "story_multi_step": {
+    "character_sheet": {
+      "system": "You are an expert in creating educational Japanese stories for language learners. You understand JLPT levels and create culturally appropriate content.",
+      "prompt": "Create a character sheet for a Japanese learning story with the following requirements:\n\nTheme: {theme}\nJLPT Level: {jlptLevel}\nStory Length: {pageCount} pages\n\n{contentGuidelines}\n\nCreate a detailed character sheet in JSON format.",
+      "contentGuidelines": "IMPORTANT CONTENT GUIDELINES:\n- NO sexual content or innuendo\n- NO violence or graphic descriptions\n- NO racial, gender, or cultural stereotypes\n- NO political or controversial topics\n- NO religious content\n- Focus on educational, wholesome, and culturally respectful content\n- Suitable for all ages"
+    },
+    "outline": {
+      "system": "You are an expert in creating educational Japanese stories for language learners.",
+      "prompt": "Create a story outline for a Japanese learning story:\n\nTheme: {theme}\nJLPT Level: {jlptLevel}\nNumber of pages: {pageCount}\n\nCharacter Sheet:\n{characterSheet}\n\n{contentGuidelines}\n{jlptGuidelines}\n\nCreate a page-by-page outline."
+    },
+    "page_generation": {
+      "system": "You are an expert in writing Japanese learning materials. You create natural, engaging text appropriate for specific JLPT levels.",
+      "prompt": "Generate page {pageNumber} of the Japanese learning story:\n\nCharacter Sheet:\n{characterSheet}\n\nPage Outline:\n{pageOutline}\n\nJLPT Level: {jlptLevel}\n{jlptGuidelines}"
+    },
+    "quiz_generation": {
+      "system": "You are an expert in creating educational assessments for Japanese language learners.",
+      "prompt": "Create a comprehension quiz for this Japanese story:\n\nStory Title: {title}\nStory Pages: {pages}\n\nJLPT Level: {jlptLevel}\n\nCreate 5-8 multiple choice questions."
+    }
+  }
+}

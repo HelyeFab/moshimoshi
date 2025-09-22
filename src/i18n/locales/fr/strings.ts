@@ -98,6 +98,7 @@ export const strings = {
     today: "Aujourd'hui",
     yesterday: "Hier",
     theme: "Thème",
+    explore: "Explorer",
   },
 
   // Landing Page
@@ -1775,5 +1776,89 @@ export const strings = {
         complete: "Terminer la révision",
         noWords: "Aucun mot sélectionné pour révision"
       }
+  },
+
+  // Credits Page
+  credits: {
+    title: "Crédits et Remerciements",
+    subtitle: "Moshimoshi est construit sur les épaules de géants. Nous remercions sincèrement les projets et communautés suivants.",
+    loading: "Chargement des crédits...",
+    backToSettings: "← Retour aux Paramètres",
+
+    sections: {
+      dataSources: "Sources de Données et Contenu",
+      libraries: "Bibliothèques et Technologies",
+      specialThanks: "Remerciements Spéciaux"
+    },
+
+    sources: {
+      jmdict: "Projet de dictionnaire japonais multilingue",
+      wanikani: "Méthodologie d'apprentissage des kanji et inspiration mnémonique",
+      kanjicanvas: "Diagrammes d'ordre des traits et composants de dessin de kanji",
+      flaticon: "Icônes et ressources visuelles"
+    },
+
+    libraries: {
+      nextjs: "Framework React pour la production",
+      react: "Bibliothèque JavaScript pour les interfaces utilisateur",
+      typescript: "JavaScript avec syntaxe pour les types",
+      firebase: "Authentification, base de données et stockage",
+      tailwind: "Framework CSS utilitaire",
+      openai: "Génération et analyse de contenu par IA",
+      redis: "Stockage de données en mémoire",
+      stripe: "Traitement des paiements et abonnements"
+    },
+
+    thanks: {
+      community: {
+        name: "La Communauté d'Apprentissage du Japonais",
+        description: "Pour les retours continus et le soutien"
+      },
+      contributors: {
+        name: "Contributeurs Open Source",
+        description: "Pour avoir rendu des outils incroyables disponibles gratuitement"
+      },
+      users: {
+        name: "Nos Utilisateurs",
+        description: "Pour nous faire confiance dans votre parcours d'apprentissage"
+      }
+    },
+
+    license: {
+      title: "Licence et Utilisation",
+      description: "Moshimoshi respecte les licences de tous les projets tiers. Nous utilisons ces ressources en conformité avec leurs licences respectives. Pour des informations détaillées sur les licences, veuillez vous référer à la documentation officielle de chaque projet."
+    },
+
+    footer: {
+      madeWith: "Fait avec",
+      forLearners: "pour les apprenants de japonais du monde entier",
+      contact: "Vous avez une suggestion ? Contactez-nous !"
+    }
+  },
+
+  kanjiConnection: {
+    title: "Connexions Kanji",
+    subtitle: "Découvrez les relations entre les caractères kanji",
+    howItWorks: {
+      description: "Apprenez les kanji à travers des connexions significatives",
+      step1: "Explorez les familles de kanji qui partagent des composants",
+      step2: "Maîtrisez les radicaux qui forment les blocs de construction",
+      step3: "Reconnaissez les modèles visuels entre les caractères"
+    },
+    families: {
+      title: "Familles de Kanji",
+      subtitle: "Groupes de caractères liés",
+      description: "Découvrez les kanji qui partagent des composants sémantiques ou phonétiques"
+    },
+    radicals: {
+      title: "Radicaux et Composants",
+      subtitle: "Blocs de construction des kanji",
+      description: "Apprenez les parties fondamentales qui composent les caractères complexes"
+    },
+    visualLayout: {
+      title: "Modèles Visuels",
+      subtitle: "Reconnaître les similarités structurelles",
+      description: "Identifiez les modèles visuels et les dispositions à travers différents kanji"
+    }
   },
 }

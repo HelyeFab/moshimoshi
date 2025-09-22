@@ -11,6 +11,13 @@ service firebase.storage {
         request.auth.uid == resource.metadata['uid'];
     }
 
+    // Allow public read access to TTS audio files
+    // Write is handled by Admin SDK server-side, so no client write rules needed
+    match /tts/{allPaths=**} {
+      allow read: if true;
+      // No write rule needed - Admin SDK bypasses security rules
+    }
+
     // Default rule for other files
     match /{allPaths=**} {
       allow read: if request.auth != null;

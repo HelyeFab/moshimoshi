@@ -99,6 +99,7 @@ export const strings = {
     today: "今日",
     yesterday: "昨日",
     theme: "テーマ",
+    explore: "探索",
   },
 
   // Landing Page
@@ -1598,5 +1599,89 @@ export const strings = {
         complete: "復習を完了",
         noWords: "復習用の単語が選択されていません"
       }
+  },
+
+  // Credits Page
+  credits: {
+    title: "クレジット＆謝辞",
+    subtitle: "Moshimoshiは多くの素晴らしいプロジェクトとコミュニティによって支えられています。以下の方々に深く感謝いたします。",
+    loading: "クレジットを読み込み中...",
+    backToSettings: "← 設定に戻る",
+
+    sections: {
+      dataSources: "データソース＆コンテンツ",
+      libraries: "ライブラリ＆技術",
+      specialThanks: "特別な感謝"
+    },
+
+    sources: {
+      jmdict: "日本語多言語辞書プロジェクト",
+      wanikani: "漢字学習方法論とニーモニックのインスピレーション",
+      kanjicanvas: "筆順図と漢字描画コンポーネント",
+      flaticon: "アイコンとビジュアル素材"
+    },
+
+    libraries: {
+      nextjs: "プロダクション用Reactフレームワーク",
+      react: "ユーザーインターフェース用JavaScriptライブラリ",
+      typescript: "型付きJavaScript",
+      firebase: "認証、データベース、ストレージ",
+      tailwind: "ユーティリティファーストCSSフレームワーク",
+      openai: "AI駆動のコンテンツ生成と分析",
+      redis: "インメモリデータストア",
+      stripe: "決済処理とサブスクリプション"
+    },
+
+    thanks: {
+      community: {
+        name: "日本語学習コミュニティ",
+        description: "継続的なフィードバックとサポートに感謝"
+      },
+      contributors: {
+        name: "オープンソース貢献者",
+        description: "素晴らしいツールを無料で提供してくださることに感謝"
+      },
+      users: {
+        name: "ユーザーの皆様",
+        description: "学習の旅を私たちに託してくださることに感謝"
+      }
+    },
+
+    license: {
+      title: "ライセンス＆使用",
+      description: "Moshimoshiはすべてのサードパーティプロジェクトのライセンスを尊重します。これらのリソースは、それぞれのライセンスに準拠して使用しています。詳細なライセンス情報については、各プロジェクトの公式ドキュメントをご参照ください。"
+    },
+
+    footer: {
+      madeWith: "世界中の日本語学習者のために",
+      forLearners: "愛を込めて作りました",
+      contact: "ご提案がありますか？お問い合わせください！"
+    }
+  },
+
+  kanjiConnection: {
+    title: "漢字の繋がり",
+    subtitle: "漢字同士の関係性を発見しよう",
+    howItWorks: {
+      description: "意味のある繋がりを通じて漢字を学ぶ",
+      step1: "構成要素を共有する漢字ファミリーを探索",
+      step2: "基礎となる部首を習得",
+      step3: "文字間の視覚的パターンを認識"
+    },
+    families: {
+      title: "漢字ファミリー",
+      subtitle: "関連する文字のグループ",
+      description: "意味的または音声的な構成要素を共有する漢字を発見"
+    },
+    radicals: {
+      title: "部首と構成要素",
+      subtitle: "漢字の基本要素",
+      description: "複雑な文字を構成する基本的な部分を学ぶ"
+    },
+    visualLayout: {
+      title: "視覚的パターン",
+      subtitle: "構造的類似性を認識",
+      description: "異なる漢字間の視覚的パターンとレイアウトを識別"
+    }
   },
 }

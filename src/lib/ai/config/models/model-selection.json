@@ -1,0 +1,74 @@
+{
+  "models": {
+    "gpt-3.5-turbo": {
+      "description": "Fast, cost-effective for simple tasks",
+      "costPer1kInput": 0.0005,
+      "costPer1kOutput": 0.0015,
+      "maxTokens": 4096,
+      "bestFor": ["simple_extraction", "basic_questions", "flashcards"],
+      "temperature": {
+        "default": 0.7,
+        "creative": 0.9,
+        "precise": 0.3
+      }
+    },
+    "gpt-4o-mini": {
+      "description": "Balanced performance and cost",
+      "costPer1kInput": 0.00015,
+      "costPer1kOutput": 0.0006,
+      "maxTokens": 4096,
+      "bestFor": ["general_tasks", "story_generation", "grammar_explanation", "quiz_generation"],
+      "temperature": {
+        "default": 0.7,
+        "creative": 0.8,
+        "precise": 0.4
+      },
+      "isDefault": true
+    },
+    "gpt-4o": {
+      "description": "Most capable, best for complex analysis",
+      "costPer1kInput": 0.0025,
+      "costPer1kOutput": 0.01,
+      "maxTokens": 4096,
+      "bestFor": ["complex_analysis", "content_improvement", "advanced_translation"],
+      "temperature": {
+        "default": 0.7,
+        "creative": 0.8,
+        "precise": 0.3
+      }
+    }
+  },
+  "taskModelMapping": {
+    "generate_review_questions": "gpt-4o-mini",
+    "explain_grammar": "gpt-4o-mini",
+    "clean_transcript": "gpt-4o-mini",
+    "fix_transcript": "gpt-4o-mini",
+    "process_article": "gpt-4o-mini",
+    "generate_story": "gpt-4o-mini",
+    "generate_moodboard": "gpt-4o-mini",
+    "analyze_content": "gpt-4o",
+    "suggest_improvements": "gpt-4o",
+    "translate_content": "gpt-4o-mini",
+    "simplify_text": "gpt-4o-mini",
+    "generate_quiz": "gpt-4o-mini",
+    "create_flashcards": "gpt-3.5-turbo",
+    "extract_vocabulary": "gpt-3.5-turbo"
+  },
+  "complexityThresholds": {
+    "low": {
+      "maxInputTokens": 500,
+      "maxOutputTokens": 500,
+      "preferredModel": "gpt-3.5-turbo"
+    },
+    "medium": {
+      "maxInputTokens": 2000,
+      "maxOutputTokens": 2000,
+      "preferredModel": "gpt-4o-mini"
+    },
+    "high": {
+      "maxInputTokens": 4000,
+      "maxOutputTokens": 4000,
+      "preferredModel": "gpt-4o"
+    }
+  }
+}

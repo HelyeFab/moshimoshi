@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { SEMANTIC_RADICALS } from '@/lib/kanji/radicals';
+import fs from 'fs/promises';
+import path from 'path';
 
 // Predefined kanji lists for each radical
 const RADICAL_KANJI_MAP: Record<string, Record<string, string[]>> = {
@@ -115,6 +117,77 @@ function getRadicalKanji(radicalId: string, subThemes: boolean = false) {
   return { kanji: allKanji, subThemeGroups: {} };
 }
 
+// Cache for all kanji data
+let allKanjiCache: Map<string, any> | null = null;
+
+async function loadAllKanjiData() {
+  if (allKanjiCache) {
+    return allKanjiCache;
+  }
+
+  const kanjiMap = new Map<string, any>();
+  const levels = ['5', '4', '3', '2', '1'];
+
+  for (const level of levels) {
+    try {
+      const filePath = path.join(process.cwd(), 'public', 'data', 'kanji', `jlpt_${level}.json`);
+      const fileContent = await fs.readFile(filePath, 'utf-8');
+      const kanjiData = JSON.parse(fileContent);
+
+      for (const kanji of kanjiData) {
+        // Transform to match expected structure with readings property
+        kanjiMap.set(kanji.kanji, {
+          kanji: kanji.kanji,
+          meaning: kanji.meaning || '',
+          meanings: kanji.meaning ? kanji.meaning.split(/[,;]/).map((m: string) => m.trim()) : [],
+          onyomi: kanji.onyomi || [],
+          kunyomi: kanji.kunyomi || [],
+          readings: {
+            on: kanji.onyomi || [],
+            kun: kanji.kunyomi || []
+          },
+          strokeCount: kanji.strokeCount || 10,
+          jlpt: `N${level}` as const,
+          examples: []
+        });
+      }
+    } catch (error) {
+      console.error(`Failed to load JLPT N${level} data:`, error);
+    }
+  }
+
+  allKanjiCache = kanjiMap;
+  return kanjiMap;
+}
+
+async function getKanjiDetailsBatch(kanjiList: string[]) {
+  const kanjiMap = await loadAllKanjiData();
+
+  // Convert to array, maintaining order and providing fallbacks
+  return kanjiList.map(kanji => {
+    const found = kanjiMap.get(kanji);
+    if (found) {
+      return found;
+    }
+
+    // Fallback if kanji not found in database
+    return {
+      kanji,
+      meaning: '',
+      meanings: [],
+      onyomi: [],
+      kunyomi: [],
+      readings: {
+        on: [],
+        kun: []
+      },
+      strokeCount: 0,
+      jlpt: 'N5' as const,
+      examples: []
+    };
+  });
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const radicalId = searchParams.get('radical');
@@ -134,18 +207,30 @@ export async function GET(request: NextRequest) {
     }, { status: 404 });
   }
 
-  const { kanji, subThemeGroups, uncategorized } = getRadicalKanji(radicalId, subThemes);
+  const { kanji: kanjiList, subThemeGroups, uncategorized } = getRadicalKanji(radicalId, subThemes);
+
+  // Fetch detailed kanji data using batch loading
+  const kanjiWithDetails = await getKanjiDetailsBatch(kanjiList);
 
   const response: any = {
     radical,
-    totalCount: kanji.length,
-    kanji
+    totalCount: kanjiList.length,
+    kanji: kanjiWithDetails
   };
 
   if (subThemes) {
-    response.subThemeGroups = subThemeGroups;
+    // Enrich subThemeGroups with details using batch loading
+    const enrichedSubThemeGroups: Record<string, any[]> = {};
+    for (const [theme, kanjiArray] of Object.entries(subThemeGroups || {})) {
+      const kanjiStrings = kanjiArray.map((item: any) => item.kanji);
+      enrichedSubThemeGroups[theme] = await getKanjiDetailsBatch(kanjiStrings);
+    }
+    response.subThemeGroups = enrichedSubThemeGroups;
+
+    // Enrich uncategorized with details using batch loading
     if (uncategorized && uncategorized.length > 0) {
-      response.uncategorized = uncategorized;
+      const uncategorizedKanji = uncategorized.map((item: any) => item.kanji);
+      response.uncategorized = await getKanjiDetailsBatch(uncategorizedKanji);
     }
   }
 

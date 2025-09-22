@@ -285,8 +285,8 @@ export default function Navbar({ user, showUserMenu = true, backLink }: NavbarPr
                       </Link>
                     )}
 
-                    {/* Buy Me a Coffee Button - Footer Style */}
-                    <div className="border-t border-gray-200 dark:border-dark-700 bg-gray-50 dark:bg-dark-850">
+                    {/* Buy Me a Coffee Button */}
+                    <div className="border-t border-gray-200 dark:border-dark-700">
                       <BuyMeACoffeeButton variant="inline" />
                     </div>
 

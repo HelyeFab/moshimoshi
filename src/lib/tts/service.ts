@@ -23,6 +23,7 @@ import { getTtsConfig, TTS_ERROR_CODES } from './config';
 export class TTSService {
   private googleProvider?: GoogleTTSProvider;
   private elevenLabsProvider?: ElevenLabsProvider;
+  private uploadPromises: Map<string, Promise<{ url: string; path: string; size: number }>> = new Map();
 
   constructor() {
     // Initialize providers lazily
@@ -84,11 +85,12 @@ export class TTSService {
         }
       );
 
-      // Upload to Firebase Storage
-      const { url, path, size } = await this.uploadAudio(
+      // Upload to Firebase Storage with deduplication
+      const cacheKey = generateCacheKey(text, provider, voice);
+      const { url, path, size } = await this.uploadAudioWithDedup(
         audioData,
         provider,
-        generateCacheKey(text, provider, voice)
+        cacheKey
       );
 
       // Estimate duration
@@ -200,22 +202,99 @@ export class TTSService {
       volume?: number;
     }
   ): Promise<Buffer> {
+    let lastError: any = null;
+
     if (provider === 'google') {
-      if (!this.googleProvider) {
-        this.googleProvider = new GoogleTTSProvider();
+      try {
+        if (!this.googleProvider) {
+          this.googleProvider = new GoogleTTSProvider();
+        }
+
+        const result = await this.googleProvider.synthesize(text, options);
+        // Convert base64 to Buffer
+        const audioBuffer = Buffer.from(result.audioContent, 'base64');
+
+        // Validate the audio buffer is not empty
+        if (audioBuffer.length < 100) {
+          throw new Error('Google TTS returned empty or invalid audio data');
+        }
+
+        return audioBuffer;
+      } catch (error: any) {
+        console.error('Google TTS provider error:', error);
+        lastError = error;
+        // Fallback to ElevenLabs if Google fails
+        console.log('Falling back to ElevenLabs provider due to:', error.message);
+        provider = 'elevenlabs';
       }
-      
-      const result = await this.googleProvider.synthesize(text, options);
-      // Convert base64 to Buffer
-      return Buffer.from(result.audioContent, 'base64');
-    } else {
-      if (!this.elevenLabsProvider) {
-        this.elevenLabsProvider = new ElevenLabsProvider();
+    }
+
+    if (provider === 'elevenlabs') {
+      try {
+        if (!this.elevenLabsProvider) {
+          this.elevenLabsProvider = new ElevenLabsProvider();
+        }
+
+        const result = await this.elevenLabsProvider.synthesize(text, options);
+        // Convert ArrayBuffer to Buffer
+        const audioBuffer = Buffer.from(result.audioContent);
+
+        // Validate the audio buffer is not empty
+        if (audioBuffer.length < 100) {
+          throw new Error('ElevenLabs TTS returned empty or invalid audio data');
+        }
+
+        return audioBuffer;
+      } catch (error: any) {
+        console.error('ElevenLabs TTS provider error:', error);
+        // If both providers fail, throw the error
+        throw {
+          code: TTS_ERROR_CODES.PROVIDER_ERROR,
+          message: `All TTS providers failed. Last error: ${error.message || lastError?.message}`,
+          provider: 'both',
+          retryable: false,
+        } as TTSError;
       }
-      
-      const result = await this.elevenLabsProvider.synthesize(text, options);
-      // Convert ArrayBuffer to Buffer
-      return Buffer.from(result.audioContent);
+    }
+
+    throw {
+      code: TTS_ERROR_CODES.PROVIDER_ERROR,
+      message: 'No TTS provider available',
+      provider: 'unknown',
+      retryable: false,
+    } as TTSError;
+  }
+
+  /**
+   * Upload audio with deduplication to prevent concurrent upload conflicts
+   */
+  private async uploadAudioWithDedup(
+    audioData: Buffer,
+    provider: TTSProvider,
+    cacheKey: string
+  ): Promise<{ url: string; path: string; size: number }> {
+    const uploadKey = `${provider}-${cacheKey}`;
+
+    // Check if an upload is already in progress for this key
+    const existingUpload = this.uploadPromises.get(uploadKey);
+    if (existingUpload) {
+      console.log(`Upload already in progress for ${uploadKey}, waiting...`);
+      return existingUpload;
+    }
+
+    // Create and store the upload promise
+    const uploadPromise = this.uploadAudio(audioData, provider, cacheKey);
+    this.uploadPromises.set(uploadKey, uploadPromise);
+
+    try {
+      const result = await uploadPromise;
+      // Clean up after successful upload
+      this.uploadPromises.delete(uploadKey);
+      return result;
+    } catch (error) {
+      // Clean up after failed upload
+      this.uploadPromises.delete(uploadKey);
+      throw error;
     }
   }
 
@@ -227,36 +306,91 @@ export class TTSService {
     provider: TTSProvider,
     cacheKey: string
   ): Promise<{ url: string; path: string; size: number }> {
-    if (!storage) {
-      throw new Error('Firebase Storage is not initialized');
+    try {
+      if (!storage) {
+        console.error('Firebase Storage is not initialized, using data URL fallback');
+        // Fallback to data URL if Firebase Storage is not available
+        const base64 = audioData.toString('base64');
+        const dataUrl = `data:audio/mpeg;base64,${base64}`;
+        return {
+          url: dataUrl,
+          path: 'local',
+          size: audioData.length,
+        };
+      }
+
+      const path = generateStoragePath(provider, cacheKey);
+      const bucket = storage.bucket();
+      const file = bucket.file(path);
+
+      // Try to check if file already exists
+      try {
+        const [exists] = await file.exists();
+        if (exists) {
+          console.log(`File already exists at ${path}, using existing file`);
+          // File already exists, just return the URL
+          const url = `https://storage.googleapis.com/${bucket.name}/${path}`;
+          return {
+            url,
+            path,
+            size: audioData.length,
+          };
+        }
+      } catch (checkError) {
+        // Ignore exists check error and proceed with upload
+        console.log('Could not check if file exists, proceeding with upload');
+      }
+
+      // Upload the audio file, handling conflicts gracefully
+      try {
+        await file.save(audioData, {
+          metadata: {
+            contentType: 'audio/mpeg',
+            cacheControl: 'public, max-age=31536000', // 1 year cache
+            metadata: {
+              provider,
+              synthesizedAt: new Date().toISOString(),
+            },
+          },
+        });
+      } catch (uploadError: any) {
+        // If we get a 409 conflict, the file was uploaded by another request
+        if (uploadError.code === 409) {
+          console.log(`File upload conflict at ${path}, using existing file`);
+          // File exists now, return the URL
+          const url = `https://storage.googleapis.com/${bucket.name}/${path}`;
+          return {
+            url,
+            path,
+            size: audioData.length,
+          };
+        }
+        // Re-throw other errors
+        throw uploadError;
+      }
+
+      // Make the file publicly accessible
+      await file.makePublic();
+
+      // Get the public URL
+      const url = `https://storage.googleapis.com/${bucket.name}/${path}`;
+
+      return {
+        url,
+        path,
+        size: audioData.length,
+      };
+    } catch (error) {
+      console.error('Failed to upload audio to Firebase Storage:', error);
+      // Fallback to data URL on any upload error
+      const base64 = audioData.toString('base64');
+      const dataUrl = `data:audio/mpeg;base64,${base64}`;
+      return {
+        url: dataUrl,
+        path: 'local',
+        size: audioData.length,
+      };
     }
-    const path = generateStoragePath(provider, cacheKey);
-    const bucket = storage.bucket();
-    const file = bucket.file(path);
-
-    // Upload the audio file
-    await file.save(audioData, {
-      metadata: {
-        contentType: 'audio/mpeg',
-        cacheControl: 'public, max-age=31536000', // 1 year cache
-        metadata: {
-          provider,
-          synthesizedAt: new Date().toISOString(),
-        },
-      },
-    });
-
-    // Make the file publicly accessible
-    await file.makePublic();
-
-    // Get the public URL
-    const url = `https://storage.googleapis.com/${bucket.name}/${path}`;
-
-    return {
-      url,
-      path,
-      size: audioData.length,
-    };
   }
 
   /**

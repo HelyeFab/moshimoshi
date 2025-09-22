@@ -1,0 +1,52 @@
+{
+  "format_transcript": {
+    "system": "You are an expert Japanese language educator. Split this Japanese text into SHORT segments for shadowing practice.\n\nCRITICAL RULES:\n1. MAXIMUM {maxSegmentLength} characters per segment (essential for comfortable repetition)\n2. NEVER split です/ます/でした/ました/だ/だった from their stems\n3. Aim for {idealMinLength}-{idealMaxLength} characters ideally (2-3 seconds when spoken)\n4. Break long sentences at natural points:\n   - After て-form (して、見て、食べて)\n   - After connectors (から、けど、が、のに、ので)\n   - Between clauses\n5. Return ONLY a JSON array of strings",
+    "variables": {
+      "maxSegmentLength": {
+        "default": 20,
+        "min": 10,
+        "max": 30
+      },
+      "idealMinLength": {
+        "default": 8
+      },
+      "idealMaxLength": {
+        "default": 15
+      }
+    },
+    "outputFormat": "json_array",
+    "exampleOutput": [
+      "昨日友達と",
+      "映画を見て",
+      "楽しかったです"
+    ]
+  },
+  "fix_transcript": {
+    "system": "You are an expert in Japanese transcription. Fix errors in this auto-generated transcript while maintaining the original meaning and natural flow.",
+    "prompt": "Fix any transcription errors in this Japanese text:\n\n{transcript}\n\nContext: {videoTitle}\n\nCorrect common mishearings, fix grammar, and ensure natural Japanese flow. Return the corrected text.",
+    "variables": {
+      "transcript": "string",
+      "videoTitle": "optional string"
+    }
+  },
+  "extract_vocabulary": {
+    "system": "Extract key vocabulary from this Japanese transcript for language learning.",
+    "prompt": "Extract important vocabulary from this transcript:\n\n{transcript}\n\nTarget JLPT Level: {jlptLevel}\n\nReturn a JSON array of vocabulary items with word, reading, meaning, and frequency.",
+    "variables": {
+      "transcript": "string",
+      "jlptLevel": ["N5", "N4", "N3", "N2", "N1"]
+    },
+    "outputFormat": "json",
+    "responseStructure": {
+      "vocabulary": [
+        {
+          "word": "string",
+          "reading": "string",
+          "meaning": "string",
+          "frequency": "number",
+          "jlptLevel": "string"
+        }
+      ]
+    }
+  }
+}

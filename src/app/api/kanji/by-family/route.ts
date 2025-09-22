@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { KANJI_FAMILIES } from '@/lib/kanji/families';
+import fs from 'fs/promises';
+import path from 'path';
 
 // Predefined kanji lists for each family component
 const FAMILY_KANJI_MAP: Record<string, string[]> = {
@@ -90,18 +92,67 @@ function getKanjiForFamily(familyId: string): string[] {
   return Array.from(allKanji);
 }
 
-function getKanjiDetails(kanji: string) {
-  // Simple mock details - in production, fetch from a kanji database
-  return {
-    kanji,
-    meanings: ['meaning'],
-    on_readings: ['on'],
-    kun_readings: ['kun'],
-    stroke_count: 10,
-    jlpt: 3,
-    grade: 3,
-    frequency: 100
-  };
+// Cache for all kanji data
+let allKanjiCache: Map<string, any> | null = null;
+
+async function loadAllKanjiData() {
+  if (allKanjiCache) {
+    return allKanjiCache;
+  }
+
+  const kanjiMap = new Map<string, any>();
+  const levels = ['5', '4', '3', '2', '1'];
+
+  for (const level of levels) {
+    try {
+      const filePath = path.join(process.cwd(), 'public', 'data', 'kanji', `jlpt_${level}.json`);
+      const fileContent = await fs.readFile(filePath, 'utf-8');
+      const kanjiData = JSON.parse(fileContent);
+
+      for (const kanji of kanjiData) {
+        // Transform to match expected structure
+        kanjiMap.set(kanji.kanji, {
+          kanji: kanji.kanji,
+          meaning: kanji.meaning || '',
+          meanings: kanji.meaning ? kanji.meaning.split(/[,;]/).map((m: string) => m.trim()) : [],
+          onyomi: kanji.onyomi || [],
+          kunyomi: kanji.kunyomi || [],
+          strokeCount: kanji.strokeCount || 10,
+          jlpt: `N${level}` as const,
+          examples: []
+        });
+      }
+    } catch (error) {
+      console.error(`Failed to load JLPT N${level} data:`, error);
+    }
+  }
+
+  allKanjiCache = kanjiMap;
+  return kanjiMap;
+}
+
+async function getKanjiDetailsBatch(kanjiList: string[]) {
+  const kanjiMap = await loadAllKanjiData();
+
+  // Convert to array, maintaining order and providing fallbacks
+  return kanjiList.map(kanji => {
+    const found = kanjiMap.get(kanji);
+    if (found) {
+      return found;
+    }
+
+    // Fallback if kanji not found in database
+    return {
+      kanji,
+      meaning: '',
+      meanings: [],
+      onyomi: [],
+      kunyomi: [],
+      strokeCount: 0,
+      jlpt: 'N5' as const,
+      examples: []
+    };
+  });
 }
 
 export async function GET(request: NextRequest) {
@@ -136,7 +187,7 @@ export async function GET(request: NextRequest) {
     components: family.components,
     count: kanjiList.length,
     kanji: details
-      ? kanjiList.map(k => getKanjiDetails(k))
+      ? await getKanjiDetailsBatch(kanjiList)  // Use batch loading for efficiency
       : kanjiList
   };
 

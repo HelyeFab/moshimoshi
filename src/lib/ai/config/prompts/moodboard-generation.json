@@ -1,0 +1,48 @@
+{
+  "kanji_moodboard": {
+    "system": "You are a Japanese language expert creating educational kanji mood boards. Generate a list of kanji related to the given theme.\n\nRules:\n1. Include both common and less common kanji for the theme\n2. For family members, include both formal and informal terms\n3. CRITICAL: You MUST include kanji from {jlptLevel} level specifically\n4. Each kanji should have accurate readings and meanings\n5. Provide stroke count and relevant tags\n6. Generate exactly {kanjiCount} kanji entries\n7. IMPORTANT: Each kanji character must be unique - no duplicates\n8. The majority of kanji should be from the {jlptLevel} level",
+    "userPrompt": "Generate a kanji mood board for the theme: \"{theme}\"\n{tagsSection}\nJLPT Level: {jlptLevel}\nNumber of kanji: {kanjiCount}",
+    "variables": {
+      "theme": "string",
+      "jlptLevel": ["N5", "N4", "N3", "N2", "N1"],
+      "kanjiCount": {
+        "min": 5,
+        "max": 30,
+        "default": 15
+      },
+      "tags": "optional array"
+    },
+    "outputFormat": "json",
+    "responseStructure": {
+      "title": "string",
+      "description": "string",
+      "themeColor": "hex color",
+      "emoji": "string",
+      "kanjiList": [
+        {
+          "kanji": "string",
+          "meaning": "string",
+          "onyomi": "array of katakana",
+          "kunyomi": "array of hiragana",
+          "jlptLevel": "string",
+          "strokeCount": "number",
+          "tags": "array",
+          "examples": "array of 2 sentences"
+        }
+      ]
+    },
+    "postProcessing": {
+      "transform": {
+        "kanjiList": {
+          "mapTo": {
+            "kana": "{kunyomi[0] || onyomi[0]}",
+            "examples": {
+              "sentence": "{example}",
+              "translation": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}

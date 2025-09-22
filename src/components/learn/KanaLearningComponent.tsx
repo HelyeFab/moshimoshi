@@ -254,7 +254,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
 
   // Handle character selection for study/review
   const handleCharacterSelect = useCallback((character: KanaCharacter) => {
-    // Always open modal when clicking the card
+    // In browse mode, always open modal
+    // In study/review modes, clicking the card also opens modal (pin is for selection)
     setModalCharacter(character)
   }, [])
 
