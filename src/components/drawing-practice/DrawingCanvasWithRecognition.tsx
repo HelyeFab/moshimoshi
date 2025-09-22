@@ -168,14 +168,20 @@ export default function DrawingCanvasWithRecognition({
   }, [isDrawing, context, getCoordinates])
 
   // Recognize the drawn character
-  const recognizeCharacter = useCallback(() => {
+  const recognizeCharacter = useCallback(async () => {
     if (!isKanjiCanvasReady) {
       console.warn('KanjiCanvas not ready')
       return
     }
 
-    // Use filtered recognition for better character type handling
-    const result = kanjiCanvasService.recognizeWithFilter(canvasId.current, characterType)
+    // Use hybrid recognition (handwriting.js for kana, KanjiCanvas for kanji)
+    const result = await kanjiCanvasService.recognizeHybrid(
+      canvasId.current,
+      strokes,
+      characterType,
+      width,
+      height
+    )
     setRecognizedCandidates(result.candidates)
 
     if (onRecognition) {
@@ -183,7 +189,7 @@ export default function DrawingCanvasWithRecognition({
     }
 
     console.log('Recognition result:', result)
-  }, [isKanjiCanvasReady, onRecognition, characterType])
+  }, [isKanjiCanvasReady, onRecognition, characterType, strokes, width, height])
 
   // Stop drawing and trigger recognition
   const stopDrawing = useCallback((e?: MouseEvent | TouchEvent) => {
@@ -270,15 +276,26 @@ export default function DrawingCanvasWithRecognition({
   }, [strokes, context, width, height, isKanjiCanvasReady, autoRecognize, recognizeCharacter])
 
   // Submit drawing with recognition
-  const submitDrawing = useCallback(() => {
-    // Get final recognition
+  const submitDrawing = useCallback(async () => {
+    // Get final recognition using hybrid approach
     let finalCandidates: string[] = []
     let finalConfidence = 0
 
     if (isKanjiCanvasReady) {
-      const result = kanjiCanvasService.checkMatch(canvasId.current, character, characterType)
+      const result = await kanjiCanvasService.recognizeHybrid(
+        canvasId.current,
+        strokes,
+        characterType,
+        width,
+        height
+      )
+
+      // Check if the expected character is in the results
+      const matchIndex = result.candidates.indexOf(character)
+      const isMatch = matchIndex !== -1
+      finalConfidence = isMatch ? result.confidence[matchIndex] || 0.5 : 0
+
       finalCandidates = result.candidates
-      finalConfidence = result.confidence
     }
 
     const drawingData: DrawingData = {
@@ -293,7 +310,7 @@ export default function DrawingCanvasWithRecognition({
     if (onDrawingComplete) {
       onDrawingComplete(drawingData)
     }
-  }, [strokes, character, characterType, isKanjiCanvasReady, onDrawingComplete])
+  }, [strokes, character, characterType, isKanjiCanvasReady, onDrawingComplete, width, height])
 
   // Add event listeners
   useEffect(() => {

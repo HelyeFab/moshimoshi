@@ -1,5 +1,8 @@
 // Wrapper service for KanjiCanvas library
 // Provides TypeScript interface for the global KanjiCanvas object
+// Uses handwriting.js (Google IME) as fallback for better kana recognition
+
+import { handwritingService } from './handwritingService'
 
 declare global {
   interface Window {
@@ -266,6 +269,36 @@ class KanjiCanvasService {
       // Lower candidates
       return Math.round(55 + (result.confidence * 5))
     }
+  }
+
+  // Hybrid recognition using both KanjiCanvas and handwriting.js
+  async recognizeHybrid(
+    canvasId: string,
+    strokes: Array<{ points: Array<{ x: number; y: number }> }>,
+    characterType?: 'kanji' | 'kana',
+    canvasWidth: number = 300,
+    canvasHeight: number = 300
+  ): Promise<RecognitionResult> {
+    // For kana characters, use handwriting.js (Google IME) for better recognition
+    if (characterType === 'kana' && strokes.length > 0) {
+      try {
+        console.log('Using handwriting.js for kana recognition')
+        const googleResult = await handwritingService.recognize(strokes, canvasWidth, canvasHeight)
+
+        // Filter to only show kana characters
+        const filteredResult = handwritingService.filterKanaOnly(googleResult)
+
+        if (filteredResult.candidates.length > 0) {
+          console.log('Handwriting.js kana candidates:', filteredResult.candidates)
+          return filteredResult
+        }
+      } catch (error) {
+        console.error('Handwriting.js recognition failed, falling back to KanjiCanvas:', error)
+      }
+    }
+
+    // Fall back to KanjiCanvas for kanji or if handwriting.js fails
+    return this.recognizeWithFilter(canvasId, characterType)
   }
 }
 
