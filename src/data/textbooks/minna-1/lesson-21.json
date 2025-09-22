@@ -1,0 +1,1314 @@
+[
+  {
+    "id": "minna-1-21-1544776575105",
+    "japanese": "思います",
+    "reading": "思います",
+    "meaning": "to think",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "思[おも]います",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575106",
+    "japanese": "言います",
+    "reading": "言います",
+    "meaning": "to say",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "言[い]います",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575107",
+    "japanese": "勝ちます",
+    "reading": "勝ちます",
+    "meaning": "to win",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "勝[か]ちます",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575108",
+    "japanese": "負けます",
+    "reading": "負けます",
+    "meaning": "to lose, be beaten",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "負[ま]けます",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575109",
+    "japanese": "あります ［おまつりが～］",
+    "reading": "あります ［おまつりが～］",
+    "meaning": "[a festival] to be held, take place",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "あります　［おまつりが~］",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575110",
+    "japanese": "役に 立ちます",
+    "reading": "役に 立ちます",
+    "meaning": "to be useful",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "役[やく]に　 立[た]ちます",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575111",
+    "japanese": "動きます",
+    "reading": "動きます",
+    "meaning": "to move, work",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "動[うご]きます",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575112",
+    "japanese": "やめます ［かいしゃを～］",
+    "reading": "やめます ［かいしゃを～］",
+    "meaning": "to quit or retire from work [a company], stop, give up",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "やめます　［かいしゃを~］",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575113",
+    "japanese": "気を つけます",
+    "reading": "気を つけます",
+    "meaning": "to pay attention, take care",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "気[き]を　つけます",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575114",
+    "japanese": "留学します",
+    "reading": "留学します",
+    "meaning": "to study abroad",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "留学[りゅうがく]します",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575115",
+    "japanese": "むだ［な］",
+    "reading": "むだ［な］",
+    "meaning": "wasteful",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "むだ［な］",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575116",
+    "japanese": "不便［な］",
+    "reading": "不便［な］",
+    "meaning": "inconvenient",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "不便[ふべん]［な］",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575117",
+    "japanese": "すごい",
+    "reading": "すごい",
+    "meaning": "awful, great (express astonishment or admiration)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "すごい",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575118",
+    "japanese": "ほんとう",
+    "reading": "ほんとう",
+    "meaning": "true",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ほんとう",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575119",
+    "japanese": "うそ",
+    "reading": "うそ",
+    "meaning": "lie",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "うそ",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575120",
+    "japanese": "自動車",
+    "reading": "自動車",
+    "meaning": "car, automobile",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "自動車[じどうしゃ]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575121",
+    "japanese": "交通",
+    "reading": "交通",
+    "meaning": "transport, traffic",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "交通[こうつう]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575122",
+    "japanese": "物価",
+    "reading": "物価",
+    "meaning": "[commodity] prices",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "物価[ぶっか]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575123",
+    "japanese": "放送",
+    "reading": "放送",
+    "meaning": "announcement, broadcast",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "放送[ほうそう]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373687",
+    "japanese": "ニュース",
+    "reading": "ニュース",
+    "meaning": "news",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "21",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575125",
+    "japanese": "アニメ",
+    "reading": "アニメ",
+    "meaning": "anime (Japanese animation)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "アニメ",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575126",
+    "japanese": "マンガ",
+    "reading": "マンガ",
+    "meaning": "comic book",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "マンガ",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575127",
+    "japanese": "デザイン",
+    "reading": "デザイン",
+    "meaning": "design, artwork",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "デザイン",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575128",
+    "japanese": "夢",
+    "reading": "夢",
+    "meaning": "dream",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "夢[ゆめ]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575129",
+    "japanese": "天才",
+    "reading": "天才",
+    "meaning": "genius",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "天才[てんさい]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575130",
+    "japanese": "試合",
+    "reading": "試合",
+    "meaning": "game, match (～を　します: to play a game/match)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "試合[しあい]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575131",
+    "japanese": "意見",
+    "reading": "意見",
+    "meaning": "opinion",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "意見[いけん]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575132",
+    "japanese": "話",
+    "reading": "話",
+    "meaning": "talk, speech, what one says, story (～を　します: to talk, tell a story)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "話[はなし]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575133",
+    "japanese": "地球",
+    "reading": "地球",
+    "meaning": "earth",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "地球[ちきゅう]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575134",
+    "japanese": "月",
+    "reading": "月",
+    "meaning": "moon",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "月[つき]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575135",
+    "japanese": "最近",
+    "reading": "最近",
+    "meaning": "recently, these days",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "最近[さいきん]",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575136",
+    "japanese": "たぶん",
+    "reading": "たぶん",
+    "meaning": "probably, perhaps, maybe",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "たぶん",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575137",
+    "japanese": "きっと",
+    "reading": "きっと",
+    "meaning": "surely, definitely",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "きっと",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575138",
+    "japanese": "ほんとうに",
+    "reading": "ほんとうに",
+    "meaning": "really",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "ほんとうに",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575140",
+    "japanese": "～に ついて",
+    "reading": "～に ついて",
+    "meaning": "about ~, concerning ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "~に　ついて",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575141",
+    "japanese": "久しぶりでしね。",
+    "reading": "久しぶりでしね。",
+    "meaning": "It's been a long time [since we last met].",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "久[ひさ]しぶりでしね。",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575142",
+    "japanese": "～でも 飲みませんか。",
+    "reading": "～でも 飲みませんか。",
+    "meaning": "How about drinking ~ or something?",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "~でも　 飲[の]みませんか。",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575143",
+    "japanese": "もちろん",
+    "reading": "もちろん",
+    "meaning": "of course",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "もちろん",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1544776575144",
+    "japanese": "もう 帰らないと。。。",
+    "reading": "もう 帰らないと。。。",
+    "meaning": "I have to get home now...",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "もう　 帰[かえ]らないと。。。",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729372951",
+    "japanese": "仕方が ありません。",
+    "reading": "仕方が ありません。",
+    "meaning": "仕方[しかた]が　ありません。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "There is no other choice./It can't be helped.",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729372953",
+    "japanese": "暫くですね。",
+    "reading": "暫くですね。",
+    "meaning": "暫[しばら]くですね。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "It's been a long time (since I last saw you)./Long time no see.",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729372955",
+    "japanese": "～でも 飲みませんか。",
+    "reading": "～でも 飲みませんか。",
+    "meaning": "～ でも　 飲[の]みませんか。",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "How about drinking ～ or something?",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729372957",
+    "japanese": "見ないと……。",
+    "reading": "見ないと……。",
+    "meaning": "見[み]ないと……。",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "I've got to watch it.",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373681",
+    "japanese": "首相",
+    "reading": "首相",
+    "meaning": "首相[しゅしょう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "prime minister",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373683",
+    "japanese": "大統領",
+    "reading": "大統領",
+    "meaning": "大統領[だいとうりょう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "president",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373685",
+    "japanese": "政治",
+    "reading": "政治",
+    "meaning": "政治[せいじ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "politics",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373689",
+    "japanese": "スピーチ",
+    "reading": "スピーチ",
+    "meaning": "speech",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "21",
+        "reading": "",
+        "english": "(～を します: make a speech)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373691",
+    "japanese": "試合",
+    "reading": "試合",
+    "meaning": "試合[しあい]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "game, match",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373693",
+    "japanese": "アルバイト",
+    "reading": "アルバイト",
+    "meaning": "side job",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "21",
+        "reading": "",
+        "english": "(～を します: work part time)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373695",
+    "japanese": "意見",
+    "reading": "意見",
+    "meaning": "意見[いけん]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "opinion",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373697",
+    "japanese": "お 話",
+    "reading": "お 話",
+    "meaning": "(お) 話[はなし]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "talk, speech, what one says, story",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373699",
+    "japanese": "ユーモア",
+    "reading": "ユーモア",
+    "meaning": "humour",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "21",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373701",
+    "japanese": "無駄",
+    "reading": "無駄",
+    "meaning": "無駄[むだ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "waste",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373703",
+    "japanese": "デザイン",
+    "reading": "デザイン",
+    "meaning": "design",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "21",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373705",
+    "japanese": "交通",
+    "reading": "交通",
+    "meaning": "交通[こうつう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "transportation, traffic",
+        "reading": "",
+        "english": "21"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-21-1609729373707",
+    "japanese": "ラッシュ",
+    "reading": "ラッシュ",
+    "meaning": "rush hour",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "21",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-21",
+      "minna-1"
+    ],
+    "lesson": 21,
+    "textbook": "minna-1"
+  }
+]

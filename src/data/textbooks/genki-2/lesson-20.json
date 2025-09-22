@@ -1,0 +1,692 @@
+[
+  {
+    "id": "genki-2-20-1544776575083",
+    "japanese": "要ります［ビザが～］",
+    "reading": "要ります［ビザが～］",
+    "meaning": "to need, require [a visa]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "要[い]ります［ビザが~］",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575084",
+    "japanese": "調べます",
+    "reading": "調べます",
+    "meaning": "to check, investigate",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "調[しら]べます",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575085",
+    "japanese": "修理します",
+    "reading": "修理します",
+    "meaning": "to repair",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "修理[しゅうり]します",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575086",
+    "japanese": "僕",
+    "reading": "僕",
+    "meaning": "I (an informal equivalent of わたし used by men)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "僕[ぼく]",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575087",
+    "japanese": "君",
+    "reading": "君",
+    "meaning": "you (an informal equivalent of あなた used to address people of equal or lower status)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "君[きみ]",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575088",
+    "japanese": "～君",
+    "reading": "～君",
+    "meaning": "Mr. (an informal equivalent of ～さん used to address people of equal or lower status; also often appended to boys' names)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "~ 君[くん]",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575089",
+    "japanese": "うん",
+    "reading": "うん",
+    "meaning": "yes (an informal equivalent of はい)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "うん",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575090",
+    "japanese": "ううん",
+    "reading": "ううん",
+    "meaning": "no (an informal equivalent of いいえ)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ううん",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575091",
+    "japanese": "ことば",
+    "reading": "ことば",
+    "meaning": "word, language",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ことば",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575092",
+    "japanese": "着物",
+    "reading": "着物",
+    "meaning": "kimono (traditional Japanese attire)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "着物[きもの]",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729373675",
+    "japanese": "ビザ",
+    "reading": "ビザ",
+    "meaning": "visa",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "20",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575094",
+    "japanese": "初め",
+    "reading": "初め",
+    "meaning": "the beginning",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "初[はじ]め",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575095",
+    "japanese": "終わり",
+    "reading": "終わり",
+    "meaning": "the end of ~, The End",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "終[お]わり",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575096",
+    "japanese": "こっち",
+    "reading": "こっち",
+    "meaning": "this way, this place (an informal equivalent of こちら)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "こっち",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575097",
+    "japanese": "そっち",
+    "reading": "そっち",
+    "meaning": "that way, that place near the listener (an informal equivalent of そちら)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "そっち",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575098",
+    "japanese": "あっち",
+    "reading": "あっち",
+    "meaning": "that way, that place over there (an informal equivalent of あちら)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あっち",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575099",
+    "japanese": "どっち",
+    "reading": "どっち",
+    "meaning": "which one (of two things), which way, where (an informal equivalent of どちら)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "どっち",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575100",
+    "japanese": "みんあで",
+    "reading": "みんあで",
+    "meaning": "all together",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "みんあで",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575101",
+    "japanese": "～けど",
+    "reading": "～けど",
+    "meaning": "~, but (an informal equivalent of が)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "~けど",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575102",
+    "japanese": "おなかが いっぱいです",
+    "reading": "おなかが いっぱいです",
+    "meaning": "(I'm) full",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "おなかが　いっぱいです",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1544776575103",
+    "japanese": "よかったら",
+    "reading": "よかったら",
+    "meaning": "if you like",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "よかったら",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729372945",
+    "japanese": "国へ 帰るの?",
+    "reading": "国へ 帰るの?",
+    "meaning": "国[くに]へ　 帰[かえ]るの?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Are you going back to your country?",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729372947",
+    "japanese": "どう するの？",
+    "reading": "どう するの？",
+    "meaning": "どう　するの？",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "What will you do?",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729372949",
+    "japanese": "どう しようかな。",
+    "reading": "どう しようかな。",
+    "meaning": "どう　しようかな。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "What shall I do?",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729373667",
+    "japanese": "サラリーマン",
+    "reading": "サラリーマン",
+    "meaning": "salaried worker, office worker",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "20",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729373669",
+    "japanese": "言葉",
+    "reading": "言葉",
+    "meaning": "言葉[ことば]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "word, language",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729373671",
+    "japanese": "物価",
+    "reading": "物価",
+    "meaning": "物価[ぶっか]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "commodity prices",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729373673",
+    "japanese": "着物",
+    "reading": "着物",
+    "meaning": "着物[きもの]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "kimono (traditional Japanese attire)",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729373677",
+    "japanese": "初め",
+    "reading": "初め",
+    "meaning": "初[はじ]め",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "the beginning",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-20-1609729373679",
+    "japanese": "終わり",
+    "reading": "終わり",
+    "meaning": "終[お]わり",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "the end",
+        "reading": "",
+        "english": "20"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "genki-2"
+    ],
+    "lesson": 20,
+    "textbook": "genki-2"
+  }
+]

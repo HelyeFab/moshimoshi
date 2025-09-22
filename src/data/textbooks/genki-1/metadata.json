@@ -1,0 +1,26 @@
+{
+  "title": "Genki 1",
+  "totalCards": 1496,
+  "lessons": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "jlptDistribution": {
+    "N5": 1414,
+    "N4": 81,
+    "N3": 1
+  },
+  "partOfSpeechDistribution": {},
+  "source": "MCP anki-word-generator",
+  "importDate": "2025-07-26T08:34:15.733Z"
+}

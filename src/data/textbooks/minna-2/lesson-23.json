@@ -1,0 +1,522 @@
+[
+  {
+    "id": "minna-2-23-1550481808563",
+    "japanese": "自由に",
+    "reading": "自由に",
+    "meaning": "freely",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "自由[じゆう]に",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481731758",
+    "japanese": "世話を します",
+    "reading": "世話を します",
+    "meaning": "to take care of",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "世話[せわ]を　します",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481706565",
+    "japanese": "降ろします、下ろします",
+    "reading": "降ろします、下ろします",
+    "meaning": "to put down, lower, unload",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "降[お]ろします、 下[お]ろします",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481717938",
+    "japanese": "届けます",
+    "reading": "届けます",
+    "meaning": "to deliver",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "届[とど]けます",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481746685",
+    "japanese": "録音します",
+    "reading": "録音します",
+    "meaning": "to record",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "録音[ろくおん]します",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481765356",
+    "japanese": "嫌［な］",
+    "reading": "嫌［な］",
+    "meaning": "unwilling, reluctant",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "嫌[いや]［な］",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481779256",
+    "japanese": "塾",
+    "reading": "塾",
+    "meaning": "\u000ecram school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "塾[じゅく]",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481791069",
+    "japanese": "生徒",
+    "reading": "生徒",
+    "meaning": "pupil",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "生徒[せいと]",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481799889",
+    "japanese": "ファイル",
+    "reading": "ファイル",
+    "meaning": "file",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ファイル",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481823189",
+    "japanese": "〜間",
+    "reading": "〜間",
+    "meaning": "for ~ (referring to duration)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "〜 間[かん]",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481840049",
+    "japanese": "いい ことですね。",
+    "reading": "いい ことですね。",
+    "meaning": "That's good.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いい　ことですね。",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481919268",
+    "japanese": "お忙しいですか。",
+    "reading": "お忙しいですか。",
+    "meaning": "Are you busy? (used when talking to someone senior or older)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "お 忙[いそが]しいですか。",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481938478",
+    "japanese": "営業",
+    "reading": "営業",
+    "meaning": "business, sales",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "営業[えいぎょう]",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481975969",
+    "japanese": "それまでに",
+    "reading": "それまでに",
+    "meaning": "by that time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "それまでに",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550481997034",
+    "japanese": "かまいません。",
+    "reading": "かまいません。",
+    "meaning": "It's all right. / I don't mind.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "かまいません。",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550482012462",
+    "japanese": "楽しみます",
+    "reading": "楽しみます",
+    "meaning": "to enjoy oneself",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "楽[たの]しみます",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550482019232",
+    "japanese": "親",
+    "reading": "親",
+    "meaning": "parent",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "親[おや]",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550482040681",
+    "japanese": "小学生",
+    "reading": "小学生",
+    "meaning": "pupil, elementary schoolchild",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "小学生[しょうがくせい]",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550482056057",
+    "japanese": "ーパーセント",
+    "reading": "ーパーセント",
+    "meaning": "- percent",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ーパーセント",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550482071616",
+    "japanese": "その 次",
+    "reading": "その 次",
+    "meaning": "next",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "その　 次[つぎ]",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550482088499",
+    "japanese": "習字",
+    "reading": "習字",
+    "meaning": "calligraphy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "習字[しゅうじ]",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-23-1550482103593",
+    "japanese": "普通の",
+    "reading": "普通の",
+    "meaning": "normal, usual",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "普通[ふつう]の",
+        "reading": "",
+        "english": "48"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-23",
+      "minna-2"
+    ],
+    "lesson": 23,
+    "textbook": "minna-2"
+  }
+]

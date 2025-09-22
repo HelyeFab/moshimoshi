@@ -1,0 +1,1680 @@
+[
+  {
+    "id": "minna-1-12-1544776574792",
+    "japanese": "簡単［な］",
+    "reading": "簡単［な］",
+    "meaning": "easy, simple",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "簡単[かんたん]［な］",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574793",
+    "japanese": "近い",
+    "reading": "近い",
+    "meaning": "near",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "近[ちか]い",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574794",
+    "japanese": "遠い",
+    "reading": "遠い",
+    "meaning": "far",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "遠[とお]い",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574795",
+    "japanese": "早い、速い",
+    "reading": "早い、速い",
+    "meaning": "fast, early",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "早[はや]い、 速[はや]い",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574796",
+    "japanese": "遅い",
+    "reading": "遅い",
+    "meaning": "slow, late",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "遅[おそ]い",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574797",
+    "japanese": "多い ［人が～］",
+    "reading": "多い ［人が～］",
+    "meaning": "many [people], much",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "多[おお]い　［ 人[ひと]が~］",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574798",
+    "japanese": "少ない［人が～］",
+    "reading": "少ない［人が～］",
+    "meaning": "few [people], a little",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "少[すく]ない［ 人[ひと]が~］",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574799",
+    "japanese": "暖かい、温かい",
+    "reading": "暖かい、温かい",
+    "meaning": "warm",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "暖[あたた]かい、 温[あたた]かい",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574800",
+    "japanese": "涼しい",
+    "reading": "涼しい",
+    "meaning": "cool",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "涼[すず]しい",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574801",
+    "japanese": "甘い",
+    "reading": "甘い",
+    "meaning": "sweet",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "甘[あま]い",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574802",
+    "japanese": "辛い",
+    "reading": "辛い",
+    "meaning": "hot (taste), spicy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "辛[から]い",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574803",
+    "japanese": "重い",
+    "reading": "重い",
+    "meaning": "heavy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "重[おも]い",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574804",
+    "japanese": "軽い",
+    "reading": "軽い",
+    "meaning": "light",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "軽[かる]い",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574805",
+    "japanese": "いい［コーヒーが～］",
+    "reading": "いい［コーヒーが～］",
+    "meaning": "prefer [coffee]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いい［コーヒーが~］",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574806",
+    "japanese": "季節",
+    "reading": "季節",
+    "meaning": "season",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "季節[きせつ]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574807",
+    "japanese": "春",
+    "reading": "春",
+    "meaning": "spring",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "春[はる]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574808",
+    "japanese": "夏",
+    "reading": "夏",
+    "meaning": "summer",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "夏[なつ]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574809",
+    "japanese": "秋",
+    "reading": "秋",
+    "meaning": "autumn, fall",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "秋[あき]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574810",
+    "japanese": "冬",
+    "reading": "冬",
+    "meaning": "winter",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "冬[ふゆ]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574811",
+    "japanese": "天気",
+    "reading": "天気",
+    "meaning": "weather",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "天気[てんき]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574812",
+    "japanese": "雨",
+    "reading": "雨",
+    "meaning": "rain, rainy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "雨[あめ]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574813",
+    "japanese": "雪",
+    "reading": "雪",
+    "meaning": "snow, snowy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "雪[ゆき]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574814",
+    "japanese": "曇り",
+    "reading": "曇り",
+    "meaning": "cloudy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "曇[くも]り",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373479",
+    "japanese": "ホテル",
+    "reading": "ホテル",
+    "meaning": "hotel",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "12",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574816",
+    "japanese": "空港",
+    "reading": "空港",
+    "meaning": "airport",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "空港[くうこう]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574817",
+    "japanese": "海",
+    "reading": "海",
+    "meaning": "sea, ocean",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "海[うみ]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574818",
+    "japanese": "世界",
+    "reading": "世界",
+    "meaning": "world",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "世界[せかい]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574819",
+    "japanese": "パーティー",
+    "reading": "パーティー",
+    "meaning": "party (～を　します：to give a party)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "パーティー",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574820",
+    "japanese": "［お］祭り",
+    "reading": "［お］祭り",
+    "meaning": "festival",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "［お］ 祭[まつ]り",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574821",
+    "japanese": "すき焼き",
+    "reading": "すき焼き",
+    "meaning": "sukiyaki (beef and vegetable hot pot)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "すき 焼[や]き",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574822",
+    "japanese": "刺身",
+    "reading": "刺身",
+    "meaning": "sashimi (sliced raw fish)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "刺身[さしみ]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574823",
+    "japanese": "［お］すし",
+    "reading": "［お］すし",
+    "meaning": "sushi (vinegared rice topped with raw rish)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "［お］すし",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574824",
+    "japanese": "てんぷら",
+    "reading": "てんぷら",
+    "meaning": "tempura (seafood and vegetables deep fried in batter)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "てんぷら",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574825",
+    "japanese": "豚肉",
+    "reading": "豚肉",
+    "meaning": "pork",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "豚肉[ぶたにく]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574826",
+    "japanese": "鶏肉",
+    "reading": "鶏肉",
+    "meaning": "chicken",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "鶏肉[けいにく]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574827",
+    "japanese": "牛肉",
+    "reading": "牛肉",
+    "meaning": "beef",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "牛肉[ぎゅうにく]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574828",
+    "japanese": "レモン",
+    "reading": "レモン",
+    "meaning": "lemon",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "レモン",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574829",
+    "japanese": "生け花",
+    "reading": "生け花",
+    "meaning": "flower arrangement (～を　します：to practice flower arrangement)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "生け花[いけばな]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574830",
+    "japanese": "紅葉",
+    "reading": "紅葉",
+    "meaning": "maple, red leaves of autumn",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "紅葉[もみじ]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574832",
+    "japanese": "どちらも",
+    "reading": "どちらも",
+    "meaning": "both",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "どちらも",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574833",
+    "japanese": "いちばん",
+    "reading": "いちばん",
+    "meaning": "the most",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いちばん",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574835",
+    "japanese": "初めて",
+    "reading": "初めて",
+    "meaning": "for the first time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "初[はじ]めて",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574836",
+    "japanese": "ただいま。",
+    "reading": "ただいま。",
+    "meaning": "I'm home.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ただいま。",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574837",
+    "japanese": "お帰りなさい。",
+    "reading": "お帰りなさい。",
+    "meaning": "Welcome home.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 帰[かえ]りなさい。",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574838",
+    "japanese": "わあ、すごい ひとですね。",
+    "reading": "わあ、すごい ひとですね。",
+    "meaning": "Wow! Look at all those people!",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "わあ、すごい　ひとですね。",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574839",
+    "japanese": "疲れました。",
+    "reading": "疲れました。",
+    "meaning": "I'm tired",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "疲[つか]れました。",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574840",
+    "japanese": "祇園祭",
+    "reading": "祇園祭",
+    "meaning": "the Gion Festival (the most famous festival in Kyoto)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "祇園祭[ぎおんまつり]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574841",
+    "japanese": "<div>ホンコン 香港</div>",
+    "reading": "<div>ホンコン 香港</div>",
+    "meaning": "Hong Kong",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ホンコン　（ 香港[ほんこん]）",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1544776574842",
+    "japanese": "シンガポール",
+    "reading": "シンガポール",
+    "meaning": "Singapore",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "シンガポール",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1550630219246",
+    "japanese": "どちら",
+    "reading": "どちら",
+    "meaning": "which one (of two things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "どちら",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729372753",
+    "japanese": "いい",
+    "reading": "いい",
+    "meaning": "[コーヒーが～]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "prefer [coffee]",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729372899",
+    "japanese": "ただ今。",
+    "reading": "ただ今。",
+    "meaning": "ただ 今[いま]。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "I'm home.",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729372901",
+    "japanese": "お帰りなさい。",
+    "reading": "お帰りなさい。",
+    "meaning": "お 帰[かえ]りなさい。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Welcome home.",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729372903",
+    "japanese": "すごいですね。",
+    "reading": "すごいですね。",
+    "meaning": "That's amazing.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "12",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373461",
+    "japanese": "季節",
+    "reading": "季節",
+    "meaning": "季節[きせつ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "season",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373463",
+    "japanese": "春",
+    "reading": "春",
+    "meaning": "春[はる]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "spring",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373465",
+    "japanese": "夏",
+    "reading": "夏",
+    "meaning": "夏[なつ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "summer",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373467",
+    "japanese": "秋",
+    "reading": "秋",
+    "meaning": "秋[あき]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "autumn, fall",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373469",
+    "japanese": "冬",
+    "reading": "冬",
+    "meaning": "冬[ふゆ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "winter",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373471",
+    "japanese": "天気",
+    "reading": "天気",
+    "meaning": "天気[てんき]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "weather",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373473",
+    "japanese": "雨",
+    "reading": "雨",
+    "meaning": "雨[あめ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "rain, rainy",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373475",
+    "japanese": "雪",
+    "reading": "雪",
+    "meaning": "雪[ゆき]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "snow, snowy",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373477",
+    "japanese": "曇り",
+    "reading": "曇り",
+    "meaning": "曇[くも]り",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "cloudy",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373481",
+    "japanese": "空港",
+    "reading": "空港",
+    "meaning": "空港[くうこう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "airport",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373483",
+    "japanese": "海",
+    "reading": "海",
+    "meaning": "海[うみ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "sea, ocean",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373485",
+    "japanese": "世界",
+    "reading": "世界",
+    "meaning": "世界[せかい]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "world",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373487",
+    "japanese": "パーティー",
+    "reading": "パーティー",
+    "meaning": "party",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "12",
+        "reading": "",
+        "english": "(～を します: give a party)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373489",
+    "japanese": "お祭り",
+    "reading": "お祭り",
+    "meaning": "(お) 祭[まつ]り",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "festival",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373491",
+    "japanese": "試験",
+    "reading": "試験",
+    "meaning": "試験[しけん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "examination",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373493",
+    "japanese": "生け花",
+    "reading": "生け花",
+    "meaning": "生け花[いけばな]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "flower arrangement",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-12-1609729373495",
+    "japanese": "紅葉",
+    "reading": "紅葉",
+    "meaning": "紅葉[こうよう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "maple, red leaves of autumn",
+        "reading": "",
+        "english": "12"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-1"
+    ],
+    "lesson": 12,
+    "textbook": "minna-1"
+  }
+]

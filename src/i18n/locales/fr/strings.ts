@@ -1,0 +1,1779 @@
+export const strings = {
+  reviewDashboard: {
+    title: "Tableau de Révision",
+    description: "Suivez votre progression d'apprentissage et votre planning de révision",
+    tabs: {
+      overview: "Aperçu",
+      studied: "Étudié",
+      learned: "Appris",
+      queue: "File d'attente",
+      schedule: "Planning"
+    },
+    sections: {
+      reviewQueue: "File de Révision",
+      upcomingReviews: "Révisions à Venir",
+      learningProgress: "Progression d'Apprentissage",
+      allStudiedItems: "Tous les Éléments Étudiés",
+      learnedItems: "Éléments Appris",
+      masteredItems: "Maîtrisé",
+      inReview: "En Révision",
+      reviewQueueFull: "File de Révision - À Réviser Maintenant",
+      reviewSchedule: "Planning de Révision"
+    },
+    stats: {
+      studied: "Étudié",
+      learned: "Appris",
+      dueNow: "À Réviser",
+      upcoming: "À Venir"
+    },
+    filter: {
+      all: "Tout",
+      kana: "Kana",
+      kanji: "Kanji",
+      vocabulary: "Vocabulaire",
+      sentences: "Phrases"
+    },
+    actions: {
+      startReview: "Commencer la Révision",
+      viewAll: "Voir tout",
+      refresh: "Actualiser"
+    },
+    messages: {
+      noReviewsDue: "Aucune révision en attente. Excellent travail!",
+      noUpcoming: "Aucune révision programmée",
+      noItemsFiltered: "Aucun élément pour ce filtre",
+      noStudiedItems: "Aucun élément étudié pour l'instant",
+      queueEmpty: "Votre file de révision est vide!",
+      loading: "Chargement des données de révision...",
+      loadError: "Échec du chargement des données de révision"
+    },
+    time: {
+      today: "Aujourd'hui",
+      tomorrow: "Demain",
+      thisWeek: "Cette semaine"
+    },
+    contentTypes: {
+      kana: "Kana",
+      kanji: "Kanji",
+      vocabulary: "Vocabulaire",
+      sentence: "Phrase"
+    }
+  },
+  // Common/Shared
+  common: {
+    brand: "Moshimoshi",
+    loading: "Chargement...",
+    processing: "Traitement...",
+    close: "Fermer",
+    cancel: "Annuler",
+    confirm: "Confirmer",
+    save: "Enregistrer",
+    delete: "Supprimer",
+    edit: "Modifier",
+    back: "Retour",
+    next: "Suivant",
+    previous: "Précédent",
+    submit: "Soumettre",
+    continue: "Continuer",
+    clear: "Effacer",
+    signIn: "Se connecter",
+    signUp: "S'inscrire",
+    signOut: "Se déconnecter",
+    logOut: "Déconnexion",
+    email: "Email",
+    filter: "Filtrer",
+    actions: "Actions",
+    display: "Affichage",
+    password: "Mot de passe",
+    name: "Nom",
+    or: "Ou",
+    and: "et",
+    with: "avec",
+    free: "GRATUIT",
+    premium: "PREMIUM",
+    guest: "INVITÉ",
+    creating: "Création...",
+    saving: "Enregistrement...",
+    upgrade: "Passer au niveau supérieur",
+    today: "Aujourd'hui",
+    yesterday: "Hier",
+    theme: "Thème",
+  },
+
+  // Landing Page
+  landing: {
+    header: {
+      navigation: {
+        about: "À propos",
+        pricing: "Tarifs",
+        signIn: "Se connecter",
+      },
+    },
+    hero: {
+      badge: "GRATUIT !",
+      title: "Apprenez le japonais",
+      subtitle: "De manière amusante !",
+      description: "Maîtrisez les hiragana, katakana et kanji avec des leçons courtes et la répétition espacée qui fait que l'apprentissage reste en mémoire !",
+      primaryCta: "Commencer à apprendre maintenant",
+      secondaryCta: "J'ai déjà un compte",
+    },
+    mascots: {
+      sakura: "Sakura",
+      matcha: "Matcha",
+      fuji: "Fuji",
+      torii: "Torii",
+    },
+    features: {
+      personalizedLearning: {
+        title: "Apprentissage personnalisé",
+        description: "Les leçons alimentées par l'IA s'adaptent à votre rythme et votre style d'apprentissage",
+      },
+      stayMotivated: {
+        title: "Restez motivé",
+        description: "Gagnez des XP, maintenez des séries et débloquez des succès",
+      },
+      smartReview: {
+        title: "Système de révision intelligent",
+        description: "L'algorithme SRS garantit que vous révisez au moment parfait",
+      },
+    },
+    stats: {
+      title: "Rejoignez des milliers d'apprenants de japonais !",
+      activeLearners: {
+        number: "5M+",
+        label: "Apprenants actifs",
+      },
+      lessons: {
+        number: "10K+",
+        label: "Leçons",
+      },
+      successRate: {
+        number: "95%",
+        label: "Taux de réussite",
+      },
+    },
+    progressPreview: {
+      title: "Votre parcours d'apprentissage",
+      stage1: {
+        title: "Hiragana et Katakana",
+        description: "Maîtrisez les bases en 2 semaines",
+      },
+      stage2: {
+        title: "Kanji essentiels",
+        description: "Apprenez plus de 100 kanji de base avec des moyens mnémotechniques",
+      },
+      stage3: {
+        title: "Kanji avancés",
+        description: "Maîtrisez plus de 1000 kanji pour la fluidité",
+      },
+    },
+    finalCta: {
+      title: "Prêt à commencer votre voyage ?",
+      description: "C'est gratuit, amusant et ne prend que 5 minutes par jour !",
+      buttonText: "Commencer mon voyage gratuit",
+    },
+  },
+
+  // Dashboard
+  dashboard: {
+    loading: "Chargement de votre tableau de bord...",
+    stats: {
+      streak: {
+        label: "Série",
+        unit: "jours",
+      },
+      xpEarned: {
+        label: "XP gagnés",
+        unit: "points",
+      },
+      wordsLearned: {
+        label: "Mots appris",
+        unit: "mots",
+      },
+      timeStudied: {
+        label: "Temps étudié",
+        unit: "heures",
+      },
+    },
+    greetings: {
+      morning: {
+        japanese: "おはよう",
+        english: "Bonjour",
+      },
+      afternoon: {
+        japanese: "こんにちは",
+        english: "Bon après-midi",
+      },
+      evening: {
+        japanese: "こんばんは",
+        english: "Bonsoir",
+      },
+    },
+    navigation: {
+      userMenuAria: "Menu utilisateur",
+      account: "Compte",
+      settings: "Paramètres",
+      adminDashboard: "Tableau de bord admin",
+      backToDashboard: "← Retour au tableau de bord",
+    },
+    welcome: {
+      firstVisit: "Bienvenue sur Moshimoshi ! Doshi est ravi d'apprendre avec vous ! 🎉",
+      firstVisitMessage: "Bienvenue dans votre aventure d'apprentissage du japonais ! Doshi est là pour vous guider.",
+      returningMessage: "Prêt à continuer votre voyage ? Votre dévouement est inspirant !",
+      signoutToast: "Sayonara ! À bientôt ! 👋",
+      doshiClick: "Doshi dit : がんばって ! (Bonne chance !)",
+    },
+    progress: {
+      dailyGoal: {
+        title: "Objectif quotidien",
+        tooltip: "Complétez 30 minutes d'étude chaque jour",
+        progressLabel: "Progression",
+        encouragement: "Continuez ! Vous êtes à {{percentage}}% !",
+      },
+      achievement: {
+        title: "Dernier succès",
+        earnedTime: "Gagné il y a {{time}}",
+      },
+    },
+    account: {
+      title: "Détails du compte",
+      upgradeTooltip: "Passez au Premium pour des leçons illimitées !",
+      upgradeLink: "Mettre à niveau →",
+      fields: {
+        email: "Email",
+        memberSince: "Membre depuis",
+        emailStatus: "Statut de l'email",
+      },
+      emailStatusValues: {
+        verified: "✓ Vérifié",
+        pending: "⚠ En attente de vérification",
+      },
+      defaultMemberSince: "Récemment inscrit",
+    },
+    developer: {
+      modeTitle: "Mode développeur",
+      authTestLink: "→ Page de test d'authentification",
+    },
+  },
+
+  // Auth Pages
+  auth: {
+    signin: {
+      branding: {
+        logoText: "も",
+      },
+      page: {
+        title: "Bon retour !",
+        subtitle: "Connectez-vous pour continuer à apprendre le japonais",
+      },
+      form: {
+        labels: {
+          email: "Email",
+          password: "Mot de passe",
+        },
+        placeholders: {
+          email: "vous@example.com",
+          password: "••••••••",
+        },
+        checkbox: "Se souvenir de moi",
+        submitButton: {
+          default: "Se connecter",
+          loading: "Connexion...",
+        },
+      },
+      links: {
+        forgotPassword: "Mot de passe oublié ?",
+        signupLink: "Pas de compte ? Inscrivez-vous gratuitement",
+      },
+      alternativeAuth: {
+        divider: "Ou continuer avec",
+        magicLinkButton: "Envoyer un lien magique",
+        googleButton: "Continuer avec Google",
+      },
+      messages: {
+        signupSuccess: "Compte créé ! Veuillez vous connecter.",
+        signinSuccess: "Bon retour !",
+        magicLinkError: "Veuillez entrer votre adresse email pour continuer.",
+        magicLinkSuccess: "Vérifiez votre email pour le lien magique !",
+      },
+      errors: {
+        signinFailed: "Échec de la connexion",
+        sessionCreationFailed: "Échec de la création de session",
+        magicLinkFailed: "Échec de l'envoi du lien magique",
+        firebaseNotInitialized: "Firebase non initialisé",
+      },
+    },
+    signup: {
+      page: {
+        title: "Commencez votre voyage",
+        subtitle: "Créez un compte gratuit pour apprendre le japonais",
+      },
+      form: {
+        labels: {
+          name: "Nom (optionnel)",
+          email: "Email",
+          password: "Mot de passe",
+        },
+        placeholders: {
+          name: "Votre nom",
+          email: "vous@example.com",
+          password: "••••••••",
+        },
+        passwordRequirements: "Au moins 8 caractères avec 1 majuscule, 1 chiffre et 1 caractère spécial",
+        termsAgreement: "J'accepte les {{terms}} et la {{privacy}}",
+        termsLink: "Conditions d'utilisation",
+        privacyLink: "Politique de confidentialité",
+        submitButton: {
+          default: "Créer un compte gratuit",
+          loading: "Création du compte...",
+        },
+      },
+      links: {
+        signinLink: "Déjà un compte ? Se connecter",
+      },
+      alternativeAuth: {
+        divider: "Ou s'inscrire avec",
+        magicLinkButton: "S'inscrire avec lien magique",
+        googleButton: "Continuer avec Google",
+      },
+      magicLink: {
+        title: "Inscription par lien magique",
+        subtitle: "Nous vous enverrons un lien pour vous connecter instantanément",
+        sendButton: "Envoyer le lien magique",
+        sending: "Envoi en cours...",
+        backButton: "Retour à l'inscription normale",
+        successTitle: "Vérifiez vos emails !",
+        successMessage: "Nous avons envoyé un lien magique à",
+        successDescription: "Cliquez sur le lien dans l'email pour vous connecter.",
+        tryDifferentMethod: "Essayer une autre méthode",
+      },
+      messages: {
+        signupSuccess: "Compte créé avec succès ! Vous pouvez maintenant vous connecter.",
+        googleNewUser: "Bienvenue sur Moshimoshi ! Commençons votre voyage d'apprentissage du japonais !",
+        googleExistingUser: "Bon retour !",
+        magicLinkSent: "Lien magique envoyé ! Vérifiez vos emails pour vous connecter.",
+      },
+      errors: {
+        signupFailed: "Échec de l'inscription",
+        sessionCreationFailed: "Échec de la création de session",
+        firebaseNotInitialized: "Firebase non initialisé",
+        magicLinkFailed: "Échec de l'envoi du lien magique",
+      },
+    },
+  },
+
+  // Admin Dashboard
+  admin: {
+    pageTitle: "Vue d'ensemble du tableau de bord",
+    pageDescription: "Bon retour ! Voici ce qui se passe avec Moshimoshi aujourd'hui.",
+    loading: "Chargement du tableau de bord admin...",
+    errorMessages: {
+      loadingError: "Erreur de chargement du tableau de bord :",
+      fetchError: "Échec de la récupération des statistiques",
+      generalError: "Une erreur s'est produite",
+    },
+    statCards: {
+      totalUsers: "Utilisateurs totaux",
+      activeToday: "Actifs aujourd'hui",
+      newUsersToday: "Nouveaux utilisateurs aujourd'hui",
+      activeSubscriptions: "Abonnements actifs",
+      monthlyRevenue: "Revenus mensuels",
+      trialUsers: "Utilisateurs en essai",
+      totalLessons: "Leçons totales",
+      completedToday: "Complétées aujourd'hui",
+    },
+    sections: {
+      quickActions: "Actions rapides",
+      recentUsers: "Utilisateurs récents",
+      systemStatus: "État du système",
+      newsScraping: "Collecte de nouvelles",
+    },
+    quickActionButtons: {
+      moodBoards: "Tableaux d'humeur",
+      users: "Utilisateurs",
+      content: "Contenu",
+      analytics: "Analytique",
+    },
+    systemMetrics: {
+      database: "Base de données",
+      operational: "Opérationnel",
+      apiResponseTime: "Temps de réponse API",
+      cacheHitRate: "Taux de cache",
+      errorRate: "Taux d'erreur",
+      uptime: "Temps de fonctionnement",
+    },
+    userLabels: {
+      user: "Utilisateur",
+      noRecentUsers: "Aucun utilisateur récent",
+      daysAgo: "il y a {{days}}j",
+      hoursAgo: "il y a {{hours}}h",
+      minutesAgo: "il y a {{minutes}} min",
+      justNow: "À l'instant",
+    },
+    newsScraping: {
+      nhkEasy: "NHK Easy",
+      nhkSchedule: "Toutes les 4 heures",
+      watanoc: "Watanoc",
+      watanocSchedule: "Toutes les 6 heures",
+      mainichiShogakusei: "Mainichi Shogakusei",
+      mainichiSchedule: "Quotidien à 10h00",
+      scrapingArticles: "Récupération des articles...",
+    },
+  },
+
+  // Account Page
+  account: {
+    pageTitle: "アカウント",
+    pageDescription: "Gérer les paramètres de votre compte",
+    loadingMessage: "Chargement de votre compte...",
+    sections: {
+      profileInformation: "Informations du profil",
+      accountStatistics: "Statistiques du compte",
+      subscription: "Abonnement",
+      dangerZone: "Zone de danger",
+    },
+    profileFields: {
+      profilePhoto: "Photo de profil",
+      photoDescription: "JPG, PNG ou GIF. Max 2Mo.",
+      displayName: "Nom d'affichage",
+      namePlaceholder: "Entrez votre nom",
+      emailAddress: "Adresse email",
+      verified: "Vérifié",
+      verify: "Vérifier",
+    },
+    buttons: {
+      saveChanges: "Enregistrer les modifications",
+      updating: "Mise à jour...",
+      deleteAccount: "Supprimer le compte",
+      upgradeText: "Passer au Premium",
+      manageSubscription: "Gérer l'abonnement →",
+    },
+    statistics: {
+      daysActive: "Jours actifs",
+      wordsLearned: "Mots appris",
+      achievements: "Succès",
+      dayStreak: "Série de jours",
+    },
+    subscription: {
+      premium: "PREMIUM",
+      free: "GRATUIT",
+      plan: "Plan",
+      nextBilling: "Prochaine facturation",
+      premiumMonthly: "Premium mensuel",
+      premiumYearly: "Premium annuel",
+      freePlan: "Plan gratuit",
+      manageSubscription: "Gérer l'abonnement",
+      upgradeToPremium: "Passer au Premium",
+      currentPlan: "Plan actuel",
+      upgradeText: "Passez à la version supérieure pour débloquer des sessions de pratique illimitées et des fonctionnalités premium",
+      title: "Votre abonnement",
+      status: "Statut",
+      active: "Actif",
+      inactive: "Inactif",
+      canceled: "Annulé",
+      trialEnds: "L'essai se termine",
+      renews: "Se renouvelle",
+      expires: "Expire",
+      managePayment: "Gérer le paiement",
+      cancelSubscription: "Annuler l'abonnement",
+      reactivate: "Réactiver",
+      upgradeOptions: "Options de mise à niveau",
+      choosePlan: "Choisissez votre plan",
+      recommended: "Recommandé",
+      mostPopular: "Le plus populaire",
+      bestValue: "Meilleure valeur",
+      perMonth: "/mois",
+      perYear: "/an",
+      billed: "Facturé {{amount}} {{period}}",
+      monthly: "mensuellement",
+      yearly: "annuellement",
+      features: {
+        title: "Fonctionnalités incluses",
+        unlimited: "Sessions de pratique illimitées",
+        srs: "Répétition espacée avancée",
+        offline: "Mode hors ligne",
+        analytics: "Analyses détaillées",
+        priority: "Support prioritaire",
+        customization: "Personnalisation du parcours d'apprentissage",
+        ai: "Tuteur IA personnalisé",
+        certificates: "Certificats de progression",
+      },
+      upgrade: {
+        title: "Débloquez votre plein potentiel",
+        subtitle: "Passez au Premium et accélérez votre parcours d'apprentissage du japonais",
+        cta: "Mettre à niveau maintenant",
+        processing: "Traitement...",
+      },
+    },
+    dangerZone: {
+      description: "Supprimez votre compte et toutes les données associées. Cette action ne peut pas être annulée.",
+    },
+    deleteAccountDialog: {
+      title: "Supprimer le compte ?",
+      message: "Êtes-vous sûr de vouloir supprimer votre compte ? Cela supprimera définitivement toutes vos données, y compris les progrès, les succès et l'abonnement. Cette action ne peut pas être annulée.",
+      confirmText: "Oui, supprimer mon compte",
+      cancelText: "Annuler",
+    },
+    toastMessages: {
+      profileUpdated: "Profil mis à jour avec succès !",
+      accountDeletionRequested: "Suppression du compte demandée. Veuillez contacter le support.",
+    },
+  },
+
+  // UI Components
+  components: {
+    alert: {
+      dismissAriaLabel: "Fermer l'alerte",
+    },
+    dialog: {
+      defaultConfirm: "Confirmer",
+      defaultCancel: "Annuler",
+      processing: "Traitement...",
+    },
+    doshi: {
+      loading: "Chargement de Doshi...",
+      altText: "Doshi - Votre compagnon d'apprentissage",
+      failedToLoad: "Échec du chargement de l'animation du panda roux",
+      ariaLabel: "{{alt}} - Cliquez pour interagir",
+      moodAria: "Doshi est {{mood}}",
+    },
+    drawer: {
+      closeAriaLabel: "Fermer le tiroir",
+    },
+    loading: {
+      default: "Chargement...",
+      closeAriaLabel: "Fermer",
+    },
+    modal: {
+      closeAriaLabel: "Fermer la fenêtre modale",
+    },
+    theme: {
+      lightAriaLabel: "Thème clair",
+      systemAriaLabel: "Thème système",
+      darkAriaLabel: "Thème sombre",
+    },
+    toast: {
+      closeAriaLabel: "Fermer",
+      errorMessage: "useToast doit être utilisé dans ToastProvider",
+    },
+  },
+
+  // Error Messages (User-Friendly)
+  errors: {
+    auth: {
+      popupClosed: "Connexion annulée. Veuillez réessayer quand vous êtes prêt.",
+      networkFailed: "Problème de connexion. Veuillez vérifier votre internet et réessayer.",
+      tooManyRequests: "Trop de tentatives. Veuillez attendre un moment et réessayer.",
+      userDisabled: "Ce compte a été désactivé. Veuillez contacter le support.",
+      userNotFound: "Aucun compte trouvé avec cet email. Veuillez vérifier ou vous inscrire.",
+      wrongPassword: "Mot de passe incorrect. Veuillez réessayer.",
+      invalidEmail: "Veuillez entrer une adresse email valide.",
+      emailInUse: "Cet email est déjà enregistré. Veuillez vous connecter à la place.",
+      weakPassword: "Veuillez choisir un mot de passe plus fort (au moins 6 caractères).",
+      invalidCredential: "Identifiants invalides. Veuillez vérifier et réessayer.",
+      requiresRecentLogin: "Veuillez vous reconnecter pour terminer cette action.",
+      unauthorized: "Ce domaine n'est pas autorisé. Veuillez contacter le support.",
+      invalidActionCode: "Ce lien a expiré ou est invalide. Veuillez en demander un nouveau.",
+    },
+    validation: {
+      invalidInput: "Veuillez vérifier vos informations et réessayer.",
+    },
+    network: {
+      connectionIssue: "Problème de connexion. Veuillez vérifier votre internet.",
+      timeout: "La demande a expiré. Veuillez réessayer.",
+      offline: "Vous semblez être hors ligne. Veuillez vérifier votre connexion.",
+    },
+    payment: {
+      authenticationFailure: "Échec de l'authentification du paiement. Veuillez réessayer.",
+      cardDeclined: "Carte refusée. Veuillez essayer un autre moyen de paiement.",
+      expiredCard: "Votre carte a expiré. Veuillez mettre à jour vos informations de paiement.",
+      insufficientFunds: "Fonds insuffisants. Veuillez essayer un autre moyen de paiement.",
+      subscriptionRequired: "Abonnement Premium requis pour cette fonctionnalité.",
+      subscriptionExpired: "Votre abonnement a expiré. Veuillez le renouveler pour continuer.",
+    },
+    permission: {
+      denied: "Vous n'avez pas la permission d'effectuer cette action.",
+      unauthorized: "Veuillez vous connecter pour continuer.",
+      forbidden: "Accès refusé. Veuillez contacter le support si vous pensez qu'il s'agit d'une erreur.",
+    },
+    resource: {
+      notFound: "Le contenu demandé est introuvable.",
+      exhausted: "Limite quotidienne atteinte. Veuillez réessayer demain.",
+      alreadyExists: "Cela existe déjà. Veuillez choisir un nom différent.",
+    },
+    server: {
+      internal: "Quelque chose s'est mal passé de notre côté. Veuillez réessayer.",
+      serverError: "Erreur serveur. Notre équipe a été notifiée.",
+      unavailable: "Service temporairement indisponible. Veuillez réessayer plus tard.",
+    },
+    generic: {
+      unknown: "Une erreur inattendue s'est produite. Veuillez réessayer.",
+      somethingWrong: "Quelque chose s'est mal passé. Veuillez réessayer.",
+    },
+  },
+
+  // Dashboard
+  dashboard: {
+    greeting: {
+      morning: "Bonjour",
+      afternoon: "Bon après-midi",
+      evening: "Bonsoir"
+    },
+    welcome: {
+      firstVisit: "Bienvenue sur Moshimoshi ! Doshi est ravi d'apprendre avec vous ! 🎉",
+      returning: "Prêt à continuer votre voyage ? Votre dévouement est inspirant !",
+      clickDoshi: "Doshi dit : がんばって! (Bonne chance !)"
+    },
+    stats: {
+      streak: "Série",
+      days: "jours",
+      xpEarned: "XP Gagnés",
+      points: "points",
+      progress: "Progression",
+      achievements: "Succès",
+      recent: "récent"
+    },
+    learningVillage: {
+      title: "Bienvenue au Village d'Apprentissage",
+      subtitle: "Choisissez votre chemin vers la maîtrise du japonais",
+      clickToStart: "Cliquez sur n'importe quel stand pour commencer votre voyage !"
+    },
+    cards: {
+      hiragana: {
+        title: "Hiragana",
+        subtitle: "ひらがな",
+        description: "Maîtrisez l'écriture fluide"
+      },
+      katakana: {
+        title: "Katakana",
+        subtitle: "カタカナ",
+        description: "Caractères nets et angulaires"
+      },
+      kanji: {
+        title: "Kanji",
+        subtitle: "漢字",
+        description: "Caractères chinois anciens"
+      },
+      vocabulary: {
+        title: "Vocabulaire",
+        subtitle: "単語",
+        description: "Développez votre vocabulaire"
+      },
+      particles: {
+        title: "Particules",
+        subtitle: "助詞",
+        description: "Connectez vos mots"
+      },
+      listening: {
+        title: "Écoute",
+        subtitle: "聴解",
+        description: "Entraînez vos oreilles"
+      },
+      speaking: {
+        title: "Expression orale",
+        subtitle: "会話",
+        description: "Trouvez votre voix"
+      },
+      reading: {
+        title: "Lecture",
+        subtitle: "読解",
+        description: "Décodez l'écrit"
+      },
+      writing: {
+        title: "Écriture",
+        subtitle: "作文",
+        description: "Exprimez-vous par écrit"
+      },
+      culture: {
+        title: "Culture",
+        subtitle: "文化",
+        description: "Comprenez le Japon en profondeur"
+      },
+      business: {
+        title: "Affaires",
+        subtitle: "ビジネス",
+        description: "Japonais professionnel"
+      },
+      travel: {
+        title: "Voyage",
+        subtitle: "旅行",
+        description: "Naviguez au Japon facilement"
+      },
+      food: {
+        title: "Cuisine",
+        subtitle: "料理",
+        description: "Commandez comme un local"
+      },
+      anime: {
+        title: "Anime & Manga",
+        subtitle: "アニメ",
+        description: "Apprenez de vos favoris"
+      },
+      games: {
+        title: "Jeux",
+        subtitle: "ゲーム",
+        description: "Apprenez en jouant"
+      },
+      music: {
+        title: "Musique",
+        subtitle: "音楽",
+        description: "Apprenez par les chansons"
+      },
+      news: {
+        title: "Actualités",
+        subtitle: "ニュース",
+        description: "Événements actuels en japonais"
+      },
+      jlpt: {
+        title: "JLPT",
+        subtitle: "Prépa JLPT",
+        description: "Réussissez votre test"
+      },
+      flashcards: {
+        title: "Cartes mémoire",
+        subtitle: "カード",
+        description: "Sessions de révision rapide"
+      },
+      favourites: {
+        title: "Mes Favoris",
+        subtitle: "Éléments sauvegardés",
+        description: "Réviser les éléments sauvegardés"
+      },
+      myLists: {
+        title: "Mes Listes",
+        subtitle: "Listes personnelles",
+        description: "Gérer les listes personnalisées"
+      }
+    },
+    progress: {
+      label: "Progression",
+      percentage: "{{percent}}%"
+    },
+    achievements: {
+      title: "Succès",
+      unlocked: "débloqués",
+      points: "points",
+      complete: "complété",
+      categories: {
+        all: "Tous",
+        progress: "Progression",
+        streak: "Série",
+        accuracy: "Précision",
+        speed: "Vitesse",
+        special: "Spécial"
+      },
+      latest: "Dernier Succès",
+      tabs: {
+        all: "Tous",
+        progress: "Progression",
+        streak: "Série",
+        accuracy: "Précision",
+        speed: "Vitesse",
+        special: "Spécial"
+      },
+      stats: "{{unlocked}}/{{total}} débloqués • {{points}} points • {{percent}}% complété",
+      latestAchievement: "Dernier Succès",
+      readyToStart: "Prêt à commencer !",
+      firstLesson: "Complétez votre première leçon pour gagner des succès",
+      yourJourney: "Votre voyage commence maintenant"
+    },
+    dailyGoal: {
+      title: "Objectif quotidien",
+      progress: "Progression",
+      minutes: "{{min}}/30 min",
+      startPractice: "Commencez votre pratique quotidienne pour atteindre votre objectif !"
+    },
+    overview: "Aperçu",
+    srsProgress: "Progression SRS",
+    queueLeeches: "File et Sangsues",
+    accountDetails: {
+      title: "Détails du compte",
+      email: "Email",
+      emailStatus: "Statut de l'email",
+      verified: "Vérifié",
+      memberSince: "Membre depuis",
+      recentlyJoined: "Récemment inscrit",
+      upgrade: "Améliorer"
+    },
+    developerMode: "Mode développeur",
+    authTestPage: "Page de test d'authentification"
+  },
+
+  // Kana Learning System
+  kana: {
+    kanji: {
+      study: {
+        skip: "Passer",
+        examples: "Exemples",
+        markAsLearned: "Marquer comme appris",
+        noExamples: "Aucun exemple disponible"
+      }
+    }
+  },
+
+  // Review System
+  review: {
+    skip: "Passer",
+    showAnswer: "Afficher la réponse",
+    modes: {
+      recognition: "Reconnaissance",
+      recall: "Rappel",
+      listening: "Écoute",
+      writing: "Écriture",
+      speaking: "Expression orale"
+    },
+
+    // Kanji-specific
+    kanji: {
+      writeKanjiFor: "Écrivez le kanji pour :",
+      strokeCount: "{{count}} traits",
+      grade: "Niveau {{grade}}",
+      frequency: "Fréquence #{{rank}}"
+    },
+
+    // Confidence
+    confidence: "Confiance",
+    confidenceHelp: "Qu'est-ce que la confiance ?",
+    confidenceLevel: "Niveau de confiance",
+    confidenceLow: "Devine",
+    confidenceMedium: "Incertain",
+    confidenceHigh: "Confiant",
+    confidenceTooltip: {
+      title: "À quel point êtes-vous confiant ?",
+      description: "Ajustez le curseur pour indiquer votre niveau de certitude :",
+      high: "Élevé (70-100%) : Vous connaissez bien la réponse",
+      medium: "Moyen (30-70%) : Vous êtes quelque peu sûr",
+      low: "Faible (0-30%) : Vous devinez",
+      tip: "Cela aide le système à mieux planifier vos révisions selon vos connaissances réelles."
+    }
+  },
+
+  // Learn Section
+  learn: {
+    hiragana: "Hiragana",
+    katakana: "Katakana",
+    kanji: "Kanji",
+    vocabulary: "Vocabulaire",
+    grid: "Grille",
+    browse: "Parcourir",
+    study: "Étudier",
+    review: "Réviser",
+    progress: "Progression",
+    learned: "appris",
+    selectCharacters: "Veuillez sélectionner des caractères à étudier",
+    noStrugglingCharacters: "Aucun caractère difficile trouvé",
+  },
+
+  // Kana Learning System
+  kana: {
+    title: "Hiragana et Katakana",
+    hiragana: "Hiragana",
+    katakana: "Katakana",
+    combined: "Pratique combinée",
+    
+    navigation: {
+      backToGrid: "Retour aux caractères",
+      nextCharacter: "Caractère suivant",
+      previousCharacter: "Caractère précédent",
+      startStudy: "Commencer à étudier",
+      startReview: "Commencer la révision",
+      viewAll: "Voir tout",
+    },
+    
+    categories: {
+      all: "Tous les caractères",
+      vowels: "Voyelles",
+      basic: "Basique",
+      dakuten: "Dakuten",
+      handakuten: "Handakuten",
+      digraphs: "Digraphes",
+      special: "Spécial",
+    },
+    
+    study: {
+      studyMode: "Mode étude",
+      flipCard: "Appuyez pour retourner",
+      showRomaji: "Afficher le Romaji",
+      hideRomaji: "Masquer le Romaji",
+      playSound: "Jouer le son",
+      exampleWords: "Mots d'exemple",
+      strokeOrder: "Ordre des traits",
+      pinToReview: "Épingler pour révision",
+      unpinFromReview: "Désépingler de la révision",
+      markAsLearned: "Marquer comme appris",
+      pronunciation: "Prononciation",
+    },
+    
+    review: {
+      reviewMode: "Mode révision",
+      recognition: "Reconnaissance",
+      recall: "Rappel", 
+      listening: "Écoute",
+      selectAnswer: "Sélectionnez la bonne réponse",
+      typeAnswer: "Tapez la réponse",
+      correct: "Correct !",
+      incorrect: "Réessayez",
+      showAnswer: "Afficher la réponse",
+      nextQuestion: "Question suivante",
+      skipQuestion: "Passer",
+      endReview: "Terminer la révision",
+      reviewComplete: "Révision terminée !",
+      accuracy: "Précision",
+      timeSpent: "Temps passé",
+      itemsReviewed: "Éléments révisés",
+    },
+    
+    progress: {
+      learned: "Appris",
+      learning: "En apprentissage",
+      notStarted: "Non commencé",
+      mastered: "Maîtrisé",
+      totalProgress: "Progression totale",
+      charactersMastered: "Caractères maîtrisés",
+      reviewStreak: "Série de révisions",
+      lastReviewed: "Dernière révision",
+      nextReview: "Prochaine révision",
+    },
+    
+    filters: {
+      showAll: "Afficher tout",
+      showLearned: "Afficher appris",
+      showNotStarted: "Afficher non commencé",
+      filterByType: "Filtrer par type",
+      display: "Affichage",
+      sortBy: "Trier par",
+      alphabetical: "Alphabétique",
+      difficulty: "Difficulté",
+      progress: "Progression",
+    },
+    
+    tooltips: {
+      clickToStudy: "Cliquez pour étudier ce caractère",
+      rightClickToPin: "Clic droit pour épingler pour révision",
+      dragToReorder: "Glisser pour réorganiser",
+      progressInfo: "Vous avez appris {{learned}} sur {{total}} caractères",
+    },
+    
+    messages: {
+      loadingCharacters: "Chargement des caractères...",
+      noCharactersFound: "Aucun caractère trouvé",
+      pinnedSuccess: "Caractère épinglé pour révision",
+      unpinnedSuccess: "Caractère désépinglé de la révision",
+      markedAsLearned: "Caractère marqué comme appris",
+      reviewStarting: "Démarrage de la session de révision...",
+      studyStarting: "Démarrage de la session d'étude...",
+      progressSaved: "Progression enregistrée",
+      audioNotAvailable: "Audio non disponible pour ce caractère",
+    },
+  },
+
+  // Subscription Management
+  subscription: {
+    status: {
+      active: "Actif",
+      inactive: "Inactif",
+      canceled: "Annulé",
+      pastDue: "Paiement en retard",
+      trialing: "Période d'essai",
+      incomplete: "Incomplet",
+    },
+    invoice: {
+      title: "Historique de facturation",
+      noInvoices: "Aucune facture pour le moment",
+      date: "Date",
+      description: "Description",
+      amount: "Montant",
+      status: "Statut",
+      actions: "Actions",
+      download: "Télécharger",
+      subscription: "Abonnement",
+      statuses: {
+        paid: "Payé",
+        open: "Ouvert",
+        void: "Annulé",
+        uncollectible: "Non recouvrable",
+      },
+    },
+    plans: {
+      free: "Plan Gratuit",
+      guest: "Invité",
+      premiumMonthly: "Premium Mensuel",
+      premiumYearly: "Premium Annuel",
+    },
+    badges: {
+      premium: "Premium",
+      premiumPlus: "Premium+",
+      free: "Gratuit",
+    },
+    renewal: {
+      renews: "Renouvellement",
+      ends: "Expire",
+      daysRemaining: "{{days}} jours restants",
+      willEndOn: "Se terminera le {{date}}",
+    },
+    billing: {
+      monthly: "Mensuel",
+      yearly: "Annuel",
+      month: "mois",
+      year: "an",
+      perMonth: "par mois",
+      perYear: "par an",
+      save: "Économisez {{percent}}%",
+    },
+    features: {
+      unlimited: "Sessions de pratique illimitées",
+      cancelAnytime: "Annulez à tout moment",
+      bestValue: "Meilleure valeur - Économisez 25%",
+      advancedSRS: "Algorithme SRS avancé",
+      detailedAnalytics: "Analyses détaillées des progrès",
+      prioritySupport: "Support prioritaire",
+      offlineMode: "Mode hors ligne",
+      savePercentage: "Économisez 25% par rapport au mensuel",
+      monthsFree: "2 mois gratuits",
+      earlyAccess: "Accès anticipé aux nouvelles fonctionnalités",
+      personalizedInsights: "Perspectives d'apprentissage personnalisées",
+    },
+    upgrade: {
+      selectMonthly: "Choisir Mensuel",
+      selectYearly: "Choisir Annuel",
+      title: "Choisissez Votre Plan",
+      description: "Sélectionnez le plan qui vous convient le mieux",
+    },
+    savings: "Économisez 25% avec la facturation annuelle",
+    bestValue: "MEILLEURE VALEUR",
+    actions: {
+      upgrade: "Améliorer",
+      upgradeNow: "Améliorer maintenant",
+      manageBilling: "Gérer la facturation",
+      viewPlans: "Voir les plans",
+      cancel: "Annuler",
+    },
+    checkout: {
+      success: "🎉 Bienvenue sur Premium ! Votre abonnement est maintenant actif.",
+      canceled: "Paiement annulé. Vous pouvez réessayer à tout moment.",
+    },
+    errors: {
+      checkoutFailed: "Échec du démarrage du paiement. Veuillez réessayer.",
+      billingPortalFailed: "Impossible d'ouvrir le portail de facturation. Veuillez réessayer.",
+      cancelFailed: "Échec de l'annulation de l'abonnement. Veuillez réessayer.",
+    },
+    upgradePrompt: {
+      title: "Débloquez l'apprentissage illimité !",
+      description: "Passez à Premium pour des sessions de pratique illimitées, des analyses avancées et plus encore.",
+    },
+  },
+
+  // Entitlements & Limits
+  entitlements: {
+    limits: {
+      sessionsToday: "Sessions {{feature}} aujourd'hui",
+      sessionsLeft: "{{count}} sessions restantes",
+      resets: "Réinitialisation {{time}}",
+      unlimited: "Illimité",
+    },
+    messages: {
+      featureLimitReached: "Limite de fonctionnalité atteinte",
+      limitReached: "Vous avez atteint votre limite quotidienne.",
+      limitReachedWithTime: "Vous avez atteint votre limite quotidienne pour {{feature}}. Réinitialisation dans {{time}}.",
+      upgradeRequired: "Vous devez améliorer votre plan pour accéder à cette fonctionnalité.",
+      featureUnavailable: "Cette fonctionnalité est actuellement indisponible.",
+      runningLow: "Il vous reste {{count}} sessions {{feature}} aujourd'hui.",
+      checkFailed: "Échec de la vérification de l'accès aux fonctionnalités. Veuillez réessayer.",
+    },
+    upgrade: {
+      title: "Passer à Premium",
+      message: "Améliorez votre plan Premium pour débloquer toutes les fonctionnalités.",
+      benefits: {
+        unlimited: "Sessions de pratique illimitées",
+        advancedAnalytics: "Analyses et insights avancés",
+        prioritySupport: "Support prioritaire",
+        offlineMode: "Mode hors ligne",
+      },
+      cta: {
+        viewPricing: "Voir les tarifs",
+        learnMore: "En savoir plus",
+      },
+    },
+  },
+
+  // Pricing Page
+  pricing: {
+    title: "Choisissez votre parcours d'apprentissage",
+    subtitle: "Débloquez une pratique illimitée et accélérez votre maîtrise du japonais",
+    loading: "Chargement des tarifs...",
+    billing: {
+      monthly: "Mensuel",
+      yearly: "Annuel",
+      savePercent: "Économisez {{percent}}%",
+    },
+    buttons: {
+      processing: "Traitement...",
+      signUpFree: "S'inscrire gratuitement",
+      startFreeTrial: "Commencer l'essai gratuit",
+      currentPlan: "Plan actuel",
+      downgrade: "Rétrograder",
+      upgradeNow: "Améliorer maintenant",
+    },
+    badges: {
+      mostPopular: "Le plus populaire",
+      currentPlan: "Plan actuel",
+    },
+    messages: {
+      alreadyFree: "Vous êtes déjà sur le plan gratuit !",
+      alreadySubscribed: "Vous êtes déjà abonné à ce plan !",
+    },
+    manageBilling: "Gérer la facturation et l'abonnement",
+    trust: {
+      activeLearners: "Apprenants actifs",
+      successRate: "Taux de réussite",
+      support: "Support",
+      moneyBack: "Remboursement",
+    },
+    faq: {
+      title: "Questions fréquemment posées",
+      cancel: {
+        question: "Puis-je annuler à tout moment ?",
+        answer: "Oui ! Vous pouvez annuler votre abonnement à tout moment depuis vos paramètres de compte. Vous continuerez à avoir accès jusqu'à la fin de votre période de facturation.",
+      },
+      trial: {
+        question: "Y a-t-il un essai gratuit ?",
+        answer: "Nous offrons un niveau gratuit généreux avec 5 sessions de pratique quotidiennes. Cela vous permet de découvrir notre plateforme avant de vous engager dans un abonnement.",
+      },
+      switch: {
+        question: "Puis-je changer de plan ?",
+        answer: "Absolument ! Vous pouvez améliorer ou rétrograder votre plan à tout moment. Les changements prennent effet au prochain cycle de facturation.",
+      },
+    },
+
+    // Settings Page
+    settings: {
+      title: "Paramètres",
+      subtitle: "Personnalisez votre expérience d'apprentissage",
+      backToDashboard: "← Retour au tableau de bord",
+      saveButton: "Enregistrer tous les paramètres",
+      resetButton: "Réinitialiser tous les paramètres par défaut",
+      resetConfirm: "Êtes-vous sûr de vouloir réinitialiser tous les paramètres par défaut ?",
+      saveSuccess: "Paramètres enregistrés avec succès !",
+      resetSuccess: "Paramètres réinitialisés par défaut",
+
+      sections: {
+        appearance: {
+          title: "Apparence",
+          language: {
+            label: "Language / 言語 / Langue / Lingua / Sprache / Idioma"
+          },
+          theme: {
+            label: "Thème",
+            light: "Clair",
+            dark: "Sombre",
+            system: "Système"
+          },
+          colorPalette: {
+            label: "Palette de couleurs",
+            preview: "Aperçu :",
+            primary: "Primaire",
+            secondary: "Secondaire",
+            palettes: {
+              sakura: "Sakura",
+              ocean: "Océan",
+              matcha: "Matcha",
+              sunset: "Coucher de soleil",
+              lavender: "Lavande",
+              monochrome: "Mono"
+            }
+          }
+        },
+
+        learning: {
+          title: "Préférences d'apprentissage",
+          autoplay: {
+            label: "Audio automatique",
+            description: "Jouer automatiquement la prononciation lors de la visualisation des mots"
+          },
+          furigana: {
+            label: "Afficher les Furigana",
+            description: "Afficher les indices de lecture au-dessus des caractères kanji"
+          },
+          romaji: {
+            label: "Afficher le Romaji",
+            description: "Afficher le texte japonais romanisé"
+          },
+          soundEffects: {
+            label: "Effets sonores",
+            description: "Jouer des sons pour les réponses correctes/incorrectes"
+          },
+          hapticFeedback: {
+            label: "Retour haptique",
+            description: "Retour de vibration sur les appareils mobiles"
+          }
+        },
+
+        notifications: {
+          title: "Notifications",
+          dailyReminder: {
+            label: "Rappel d'étude quotidien",
+            description: "Recevez un rappel pour pratiquer chaque jour"
+          },
+          achievementAlerts: {
+            label: "Alertes de succès",
+            description: "Célébrez lorsque vous débloquez des succès"
+          },
+          weeklyProgress: {
+            label: "Rapport de progression hebdomadaire",
+            description: "Recevez un résumé de votre progression hebdomadaire"
+          },
+          marketingEmails: {
+            label: "E-mails marketing",
+            description: "Mises à jour sur les nouvelles fonctionnalités et le contenu"
+          }
+        },
+
+        privacy: {
+          title: "Confidentialité",
+          publicProfile: {
+            label: "Profil public",
+            description: "Permettre aux autres de voir votre profil"
+          },
+          showProgress: {
+            label: "Afficher la progression",
+            description: "Afficher votre progression d'apprentissage sur votre profil"
+          },
+          shareAchievements: {
+            label: "Partager les succès",
+            description: "Partager automatiquement les succès avec des amis"
+          }
+        },
+
+        accessibility: {
+          title: "Accessibilité",
+          largeText: {
+            label: "Texte large",
+            description: "Augmenter la taille du texte pour une meilleure lisibilité"
+          },
+          highContrast: {
+            label: "Contraste élevé",
+            description: "Augmenter le contraste des couleurs pour la visibilité"
+          },
+          reduceMotion: {
+            label: "Réduire le mouvement",
+            description: "Minimiser les animations et les transitions"
+          },
+          screenReader: {
+            label: "Support de lecteur d'écran",
+            description: "Optimiser pour la compatibilité avec les lecteurs d'écran"
+          }
+        },
+
+        legal: {
+          title: "Légal et assistance",
+          privacyPolicy: {
+            label: "Politique de confidentialité",
+            description: "Comment nous gérons vos données"
+          },
+          termsOfService: {
+            label: "Conditions d'utilisation",
+            description: "Nos termes et conditions"
+          },
+          contactUs: {
+            label: "Nous contacter",
+            description: "Obtenir de l'aide ou envoyer des commentaires"
+          },
+          emailSupport: {
+            label: "Support par e-mail",
+            description: "support@moshimoshi.app"
+          }
+        }
+      }
+    },
+  },
+
+  // Review Prompts
+  reviewPrompts: {
+    vocabulary: {
+      writeJapaneseFor: "Écrivez le japonais pour :",
+      whatWordDoYouHear: "Quel mot entendez-vous ?",
+      example: "Exemple :",
+      common: "Commun",
+      pitchAccent: "Accent : {{accent}}",
+      searchTitle: "Recherche de Vocabulaire",
+      searchDescription: "Recherchez des mots japonais avec des significations et des exemples",
+      searchPlaceholder: "Rechercher par kanji, kana, romaji ou signification en anglais...",
+      searchButton: "Rechercher",
+      searchSource: "Source de recherche :",
+      searchSourceJMDict: "JMDict (Hors ligne)",
+      searchSourceWaniKani: "WaniKani",
+      searchResults: "Résultats de recherche",
+      searchResultsCount: "Résultats de recherche ({{count}})",
+      searchQuickSearch: "Recherche rapide :",
+      searchHistory: "Historique de recherche",
+      searchHistoryClear: "Effacer",
+      searchHistoryEmpty: "Votre historique de recherche apparaîtra ici",
+      searchHistoryResults: "{{count}} résultats",
+      searchJustNow: "À l'instant",
+      searchMinutesAgo: "il y a {{minutes}} min",
+      searchHoursAgo: "il y a {{hours}} h",
+      searchDaysAgo: "il y a {{days}} jours",
+      loadingMessage: "Chargement de la recherche de vocabulaire...",
+      searching: "Recherche en cours...",
+
+      // Tabs
+      tabs: {
+        details: "Détails",
+        conjugations: "Conjugaisons"
+      },
+
+      // Toast messages
+      wanikaniUnavailable: "WaniKani n'est pas disponible. Utilisation du dictionnaire JMdict à la place.",
+      wanikaniSearchFailed: "La recherche WaniKani a échoué. Passage au dictionnaire JMdict.",
+      wanikaniMockData: "L'API WaniKani n'est pas configurée correctement. Veuillez passer à JMdict ou configurer un jeton API WaniKani valide.",
+      wanikaniInvalidKey: "La clé API WaniKani est invalide. Veuillez vérifier votre configuration API ou utiliser JMdict à la place.",
+      wanikaniServiceDown: "Le service WaniKani est temporairement indisponible. Réessayez plus tard ou utilisez JMdict.",
+      noResultsFound: "Aucun résultat trouvé. Essayez un autre terme de recherche.",
+      searchFailed: "La recherche a échoué. Veuillez réessayer.",
+      searchHistoryCleared: "Historique de recherche effacé",
+        loadingCache: "Chargement de la base de données de vocabulaire WaniKani pour la première fois... Cela peut prendre un moment.",
+      wordMeaning: "Signification",
+      wordRomaji: "Romaji",
+      wordTags: "Tags",
+      wordExampleSentences: "Phrases d'exemple",
+      wordExampleSentencesComingSoon: "Les phrases d'exemple arrivent bientôt !",
+      noExamplesFound: "Aucun exemple trouvé pour ce mot",
+
+      // Practice page
+      practiceTitle: "Pratique de conjugaison",
+      practiceDescription: "Maîtrisez les conjugaisons des verbes et adjectifs japonais",
+      filters: {
+        all: "Tout",
+        verbs: "Verbes uniquement",
+        adjectives: "Adjectifs uniquement"
+      },
+      actions: {
+        shuffle: "Mélanger",
+        loadNew: "Charger de nouveaux mots",
+        selectForReview: "Sélectionner pour révision",
+        showConjugations: "Afficher les conjugaisons",
+        hideConjugations: "Masquer les conjugaisons"
+      },
+      stats: {
+        verbs: "Verbes",
+        adjectives: "Adjectifs"
+      },
+      studyMode: {
+        title: "Étudier les conjugaisons",
+        description: "Apprenez à conjuguer les verbes et adjectifs japonais avec des exemples interactifs",
+        startStudying: "Commencer à étudier"
+      },
+      reviewMode: {
+        practiceConjugation: "Pratiquer cette conjugaison",
+        complete: "Terminer la révision",
+        noWords: "Aucun mot sélectionné pour révision"
+      }
+    }
+  },
+
+  // Fonctionnalité de listes personnalisées
+  favourites: {
+    title: "Mes Favoris",
+    description: "Votre vocabulaire, kanji et phrases sauvegardés",
+    filters: {
+      all: "Tout",
+      words: "Mots",
+      kanji: "Kanji",
+      sentences: "Phrases",
+    },
+    filterByList: "Filtrer par liste",
+    allLists: "Toutes les listes",
+    sortBy: "Trier par",
+    sort: {
+      recent: "Récemment ajouté",
+      alphabetical: "Alphabétique",
+      mastery: "Niveau de maîtrise",
+    },
+    noResultsFound: "Aucun élément trouvé",
+    noItemsSaved: "Aucun élément enregistré pour le moment",
+    tryDifferentSearch: "Essayez un autre terme de recherche",
+    startSaving: "Enregistrez des mots, kanji et phrases pour les voir ici",
+    confirmRemove: "Retirer cet élément de toutes les listes ?",
+    reviewedTimes: "Révisé {count} fois",
+    manageLists: "Gérer mes listes",
+  },
+
+  lists: {
+    title: "Mes listes",
+    pageDescription: "Créez et gérez vos listes d'étude personnalisées",
+    modal: {
+      title: "Créer une nouvelle liste",
+      createTitle: "Configurer votre liste",
+      saveTitle: "Enregistrer dans les listes",
+      selectType: "Choisissez le type de liste que vous voulez créer :",
+    },
+    types: {
+      flashcard: {
+        name: "Liste de cartes mémoire",
+        short: "Cartes mémoire",
+        description: "Réviser tout contenu avec répétition espacée",
+        accepts: "Accepte : Mots, Kanji, Phrases",
+      },
+      drillable: {
+        name: "Liste de pratique",
+        short: "Pratique",
+        description: "Pratiquer les conjugaisons des verbes et adjectifs",
+        accepts: "Accepte : Verbes et adjectifs uniquement",
+      },
+      sentence: {
+        name: "Liste de phrases",
+        short: "Phrases",
+        description: "Étudier des phrases complètes en contexte",
+        accepts: "Accepte : Phrases uniquement",
+      },
+    },
+    fields: {
+      name: "Nom de la liste",
+      description: "Description",
+      color: "Couleur",
+      icon: "Icône",
+      notes: "Notes personnelles",
+      tags: "Étiquettes",
+    },
+    placeholders: {
+      name: "ex. Vocabulaire JLPT N5",
+      description: "Description optionnelle pour votre liste",
+      search: "Rechercher des listes...",
+      notes: "Ajouter des notes ou mnémotechniques...",
+      tags: "Étiquettes séparées par des virgules",
+    },
+    actions: {
+      create: "Créer la liste",
+      createNew: "Créer une nouvelle liste",
+      createFirst: "Créer votre première liste",
+      save: "Enregistrer",
+      saveToList: "Enregistrer dans la liste",
+      delete: "Supprimer",
+      edit: "Modifier la liste",
+      remove: "Retirer de la liste",
+      addItems: "Ajouter des éléments",
+      review: "Réviser",
+      manage: "Gérer la liste",
+    },
+    deleteDialog: {
+      title: "Supprimer la liste",
+      message: "Êtes-vous sûr de vouloir supprimer \"{{name}}\" ? Cette action est irréversible.",
+      confirm: "Supprimer",
+      cancel: "Annuler",
+    },
+    labels: {
+      itemCount: "{count} éléments",
+      alreadySaved: "Déjà enregistré",
+      incompatibleLists: "Types de listes incompatibles",
+      drillable: "Conjugable",
+      updated: "Mis à jour",
+    },
+    quota: {
+      remaining: "{count} listes restantes",
+      guestLimit: "Connectez-vous pour créer des listes",
+      freeLimit: "Les utilisateurs gratuits peuvent créer jusqu'à 3 listes",
+    },
+    success: {
+      created: "Liste créée avec succès",
+      updated: "Liste mise à jour avec succès",
+      deleted: "Liste supprimée avec succès",
+      itemAdded: "Ajouté à {count} liste(s)",
+      itemRemoved: "Retiré de {count} liste(s)",
+      itemUpdated: "Élément mis à jour avec succès",
+    },
+    errors: {
+      limitReached: "Vous avez atteint votre limite de listes. Passez au niveau supérieur pour en créer davantage.",
+      nameRequired: "Veuillez entrer un nom de liste",
+      typeRequired: "Veuillez sélectionner un type de liste",
+      createFailed: "Échec de la création de liste",
+      loadFailed: "Échec du chargement des listes",
+      saveFailed: "Échec de l'enregistrement de l'élément",
+      noListSelected: "Veuillez sélectionner au moins une liste",
+      incompatibleType: "Ce type de liste ne peut pas accepter cet élément",
+    },
+    empty: {
+      noLists: "Vous n'avez pas encore créé de listes",
+      noItems: "Cette liste est vide",
+      noResults: "Aucun résultat trouvé",
+      getStarted: "Commencez à organiser vos matériaux d'apprentissage en listes personnalisées",
+      tryDifferentSearch: "Essayez de rechercher avec des mots-clés différents",
+    },
+    stats: {
+      items: "Éléments",
+      mastered: "Maîtrisé",
+      learning: "En apprentissage",
+      total: "Total",
+    },
+  },
+
+  // YouTube Shadowing
+  youtubeShadowing: {
+    title: "Shadowing YouTube",
+    description: "Pratiquez le japonais avec des vidéos YouTube et des fichiers multimédias",
+
+    hero: {
+      title: "Maîtrisez le japonais avec n'importe quel média",
+      subtitle: "Transformez des vidéos YouTube ou vos propres fichiers multimédias en sessions de pratique de shadowing interactives avec des transcriptions générées par IA"
+    },
+
+    modes: {
+      input: "Ajouter un média",
+      player: "Pratiquer"
+    },
+
+    input: {
+      youtube: "URL YouTube",
+      upload: "Télécharger un fichier",
+      youtubeTitle: "Coller l'URL YouTube",
+      uploadTitle: "Télécharger un fichier multimédia",
+      placeholder: "https://www.youtube.com/watch?v=...",
+      supportedFormats: "Formats supportés :",
+      extract: "Extraire et commencer",
+      uploadButton: "Sélectionner un fichier",
+      maxSize: "Taille maximale :",
+      acceptedFormats: "Formats acceptés : MP4, MP3, WAV, M4A"
+    },
+
+    errors: {
+      invalidUrl: "Veuillez entrer une URL YouTube valide",
+      emptyUrl: "Veuillez entrer une URL YouTube",
+      extractFailed: "Impossible d'extraire l'ID de la vidéo depuis l'URL",
+      uploadFailed: "Échec du téléchargement du fichier",
+      transcriptFailed: "Échec de la génération de la transcription",
+      playerFailed: "Échec du chargement du lecteur"
+    },
+
+    features: {
+      transcripts: {
+        title: "Transcriptions instantanées",
+        description: "Transcription alimentée par IA en quelques secondes"
+      },
+      shadowing: {
+        title: "Pratique du shadowing",
+        description: "Perfectionnez votre prononciation et votre rythme"
+      },
+      furigana: {
+        title: "Support Furigana",
+        description: "Aide à la lecture pour tous les niveaux"
+      }
+    },
+
+    player: {
+      loading: "Chargement du lecteur...",
+      extractingAudio: "Extraction de l'audio...",
+      generatingTranscript: "Génération de la transcription...",
+      ready: "Prêt à pratiquer !",
+
+      controls: {
+        play: "Lecture",
+        pause: "Pause",
+        previous: "Ligne précédente",
+        next: "Ligne suivante",
+        repeat: "Répéter",
+        speed: "Vitesse",
+        volume: "Volume",
+        settings: "Paramètres",
+        furigana: "Afficher les Furigana",
+        grammar: "Afficher la grammaire"
+      },
+
+      settings: {
+        playbackSpeed: "Vitesse de lecture",
+        repeatCount: "Nombre de répétitions",
+        pauseBetween: "Pause entre",
+        continuous: "Lecture continue",
+        autoScroll: "Défilement automatique"
+      },
+
+      transcript: {
+        edit: "Modifier",
+        regenerate: "Régénérer",
+        save: "Sauvegarder les modifications",
+        cancel: "Annuler la modification"
+      }
+    },
+
+    freeAccess: "Accès gratuit",
+    loadingTitle: "Chargement du titre de la vidéo...",
+    by: "par",
+
+    usage: {
+      today: "Utilisation d'aujourd'hui",
+      unlimited: "Illimité",
+      remaining: "restant",
+      limitReached: "Limite quotidienne atteinte",
+      newVideos: "Nouvelles vidéos aujourd'hui",
+      uploads: "téléchargements"
+    }
+  },
+
+  conjugation: {
+      title: "Conjugaison",
+      showConjugations: "Afficher les conjugaisons",
+      hideConjugations: "Masquer les conjugaisons",
+      expandAll: "Tout développer",
+      collapseAll: "Tout réduire",
+      groups: {
+        stems: "Radicaux",
+        basicForms: "Formes de base",
+        politeForms: "Formes polies",
+        conditionalForms: "Formes conditionnelles",
+        volitionalForms: "Formes volitives",
+        imperativeForms: "Formes impératives",
+        potentialForms: "Formes potentielles",
+        passiveForms: "Formes passives",
+        causativeForms: "Formes causatives",
+        causativePassiveForms: "Formes causatives-passives",
+        desiderativeForms: "Formes désidératives (たい)",
+        progressiveForms: "Formes progressives",
+        requestForms: "Formes de demande",
+        colloquialForms: "Formes familières",
+        formalForms: "Formes formelles/classiques",
+        presumptiveForms: "Formes présomptives",
+        plainform: "Forme neutre",
+        politeform: "Forme polie",
+        taiformwantto: "Forme tai (vouloir)",
+        "taiform(wantto)": "Forme tai (vouloir)",
+        imperativeforms: "Formes impératives",
+        provisionalform: "Forme provisoire",
+        conditionalform: "Forme conditionnelle",
+        alternativeform: "Forme alternative",
+        potentialplainform: "Forme potentielle neutre",
+        potentialpoliteform: "Forme potentielle polie",
+        passiveplainform: "Forme passive neutre",
+        passivepoliteform: "Forme passive polie",
+        causativeplainform: "Forme causative neutre",
+        causativepoliteform: "Forme causative polie",
+        causativepassiveplainform: "Forme causative-passive neutre",
+        causativepassivepoliteform: "Forme causative-passive polie",
+        colloquialform: "Forme familière",
+        formalform: "Forme formelle",
+        classicalformnu: "Forme classique (nu)",
+        "classicalform(nu)": "Forme classique (nu)",
+        classicalformzaru: "Forme classique (zaru)",
+        "classicalform(zaru)": "Forme classique (zaru)",
+        // Groupes spécifiques aux adjectifs
+        basicforms: "Formes de base",
+        politeforms: "Formes polies",
+        conditionalforms: "Formes conditionnelles",
+        presumptiveforms: "Formes présomptives"
+      },
+      forms: {
+        // Radicaux
+        masuStem: "Radical masu",
+        negativeStem: "Radical négatif",
+        teForm: "Forme te",
+        negativeTeForm: "Forme te négative",
+        adverbialNegative: "Négatif adverbial",
+        // Formes de base
+        present: "Présent/Dictionnaire",
+        past: "Passé",
+        negative: "Négatif",
+        pastNegative: "Passé négatif",
+        // Formes polies
+        polite: "Poli",
+        politePast: "Poli passé",
+        politeNegative: "Poli négatif",
+        politePastNegative: "Poli passé négatif",
+        politeVolitional: "Poli volitif",
+        // Conditionnelles
+        provisional: "Si/Quand (ば)",
+        provisionalNegative: "Si pas (ば)",
+        conditional: "Si/Quand (たら)",
+        conditionalNegative: "Si pas (たら)",
+        // Volitives
+        volitional: "Allons-y/Devons",
+        volitionalNegative: "N'allons pas",
+        // Impératives
+        imperativePlain: "Commande",
+        imperativePolite: "S'il vous plaît faites",
+        imperativeNegative: "Ne pas",
+        // Potentielles
+        potential: "Peut faire",
+        potentialNegative: "Ne peut pas faire",
+        potentialPast: "Pouvait faire",
+        potentialPastNegative: "Ne pouvait pas faire",
+        // Passives
+        passive: "Est fait",
+        passiveNegative: "N'est pas fait",
+        passivePast: "A été fait",
+        passivePastNegative: "N'a pas été fait",
+        // Causatives
+        causative: "Faire/Laisser faire",
+        causativeNegative: "Ne pas faire/laisser faire",
+        causativePast: "A fait/laissé faire",
+        causativePastNegative: "N'a pas fait/laissé faire",
+        // Causatives-passives
+        causativePassive: "Être obligé de faire",
+        causativePassiveNegative: "Ne pas être obligé de faire",
+        // Désidératives
+        taiForm: "Vouloir",
+        taiFormNegative: "Ne pas vouloir",
+        taiFormPast: "Voulait",
+        taiFormPastNegative: "Ne voulait pas",
+        // Progressives
+        progressive: "Est en train de faire",
+        progressiveNegative: "N'est pas en train de faire",
+        progressivePast: "Était en train de faire",
+        progressivePastNegative: "N'était pas en train de faire",
+        // Demande
+        request: "S'il vous plaît faites",
+        requestNegative: "S'il vous plaît ne faites pas",
+        // Familières
+        colloquialNegative: "Pas (familier)",
+        // Formelles
+        formalNegative: "Pas (formel)",
+        classicalNegative: "Pas (classique)",
+        // Présomptives
+        presumptive: "Probablement",
+        presumptiveNegative: "Probablement pas"
+      },
+      wordTypes: {
+        ichidan: "Verbe ichidan",
+        godan: "Verbe godan",
+        irregular: "Verbe irrégulier",
+        iadjective: "Adjectif en i",
+        naadjective: "Adjectif en na"
+      },
+      messages: {
+        notConjugatable: "Ce mot ne peut pas être conjugué",
+        lowConfidence: "Type de conjugaison détecté avec une faible confiance",
+        specialCase: "Ce mot a des règles de conjugaison spéciales"
+      },
+      // Page de pratique
+      practiceTitle: "Pratique de conjugaison",
+      practiceDescription: "Maîtrisez les conjugaisons de verbes et adjectifs japonais",
+      searchPlaceholder: "Rechercher un verbe ou un adjectif...",
+      searchButton: "Rechercher",
+      clearSearch: "Effacer",
+      searchResults: "Résultats de recherche",
+      noSearchResults: "Aucun mot conjugable trouvé",
+      filters: {
+        all: "Tout",
+        verbs: "Verbes seulement",
+        adjectives: "Adjectifs seulement"
+      },
+      actions: {
+        shuffle: "Mélanger",
+        loadNew: "Charger de nouveaux mots",
+        selectForReview: "Sélectionner pour révision",
+        showConjugations: "Afficher les conjugaisons",
+        hideConjugations: "Masquer les conjugaisons"
+      },
+      settings: "Paramètres",
+      stats: {
+        verbs: "Verbes",
+        adjectives: "Adjectifs"
+      },
+      studyMode: {
+        title: "Étudier les conjugaisons",
+        description: "Apprenez à conjuguer les verbes et adjectifs japonais avec des exemples interactifs",
+        startStudying: "Commencer l'étude"
+      },
+      reviewMode: {
+        practiceConjugation: "Pratiquer cette conjugaison",
+        complete: "Terminer la révision",
+        noWords: "Aucun mot sélectionné pour révision"
+      }
+  },
+}

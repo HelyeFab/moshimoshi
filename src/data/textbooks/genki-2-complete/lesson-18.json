@@ -1,0 +1,2068 @@
+[
+  {
+    "id": "genki-2-18-new-302",
+    "japanese": "お湯が沸く",
+    "reading": "おゆがわく",
+    "meaning": "water boils",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "お湯が沸く",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n3",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-270",
+    "japanese": "お目出度う御座います(rare)",
+    "reading": "おめでとうございます",
+    "meaning": "Congratulations!",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "お目出度う御座います(rare)",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n2",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575044",
+    "japanese": "お祈り",
+    "reading": "お祈り",
+    "meaning": "prayer (～を　します：to pray)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "お 祈[いの]り",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373637",
+    "japanese": "お祈り",
+    "reading": "お祈り",
+    "meaning": "(お) 祈[いの]り",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "prayer",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575056",
+    "japanese": "ぜひ",
+    "reading": "ぜひ",
+    "meaning": "by all means, really",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ぜひ",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575053",
+    "japanese": "それは おもしろいですね。",
+    "reading": "それは おもしろいですね。",
+    "meaning": "That's interesting, isn't it?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "それは　おもしろいですね。",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729372939",
+    "japanese": "それは 面Cいですね。",
+    "reading": "それは 面Cいですね。",
+    "meaning": "それは 面白[おもしろ]いですね。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "That must be interesting.",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575030",
+    "japanese": "できます",
+    "reading": "できます",
+    "meaning": "to be able to, can",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "できます",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575054",
+    "japanese": "なかなか",
+    "reading": "なかなか",
+    "meaning": "not easily (used with negatives)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "なかなか",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575052",
+    "japanese": "へえ",
+    "reading": "へえ",
+    "meaning": "What! Really! (used when expressing surprise)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "へえ",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729372937",
+    "japanese": "へえ",
+    "reading": "へえ",
+    "meaning": "Really!",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "18",
+        "reading": "",
+        "english": "(used when expressing surprise)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575055",
+    "japanese": "ほんとうですか。",
+    "reading": "ほんとうですか。",
+    "meaning": "Really?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ほんとうですか。",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575050",
+    "japanese": "インターネット",
+    "reading": "インターネット",
+    "meaning": "the Internet",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "インターネット",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-271",
+    "japanese": "カーテン",
+    "reading": "",
+    "meaning": "curtain",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "カーテン",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-279",
+    "japanese": "シャンプー",
+    "reading": "",
+    "meaning": "shampoo",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "シャンプー",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n3",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-274",
+    "japanese": "スイッチ",
+    "reading": "",
+    "meaning": "switch",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "スイッチ",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-282",
+    "japanese": "スカート",
+    "reading": "",
+    "meaning": "skirt",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "スカート",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-276",
+    "japanese": "スープ",
+    "reading": "",
+    "meaning": "soup",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "スープ",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-272",
+    "japanese": "ソファ",
+    "reading": "",
+    "meaning": "sofa",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ソファ",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-281",
+    "japanese": "タオル",
+    "reading": "",
+    "meaning": "towel",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "タオル",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-277",
+    "japanese": "バナナ",
+    "reading": "",
+    "meaning": "banana",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "バナナ",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373629",
+    "japanese": "ピアノ",
+    "reading": "ピアノ",
+    "meaning": "piano",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "18",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-278",
+    "japanese": "ポップコーン",
+    "reading": "",
+    "meaning": "popcorn",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ポップコーン",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n3",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575040",
+    "japanese": "メートル",
+    "reading": "メートル",
+    "meaning": "meter",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "メートル",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-295",
+    "japanese": "不安",
+    "reading": "ふあん(な)",
+    "meaning": "anxious; worried",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "不安",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575038",
+    "japanese": "予約します",
+    "reading": "予約します",
+    "meaning": "to reserve, book",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "予約[よやく]します",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-317",
+    "japanese": "今すぐ",
+    "reading": "いますぐ",
+    "meaning": "right away",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今すぐ",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-273",
+    "japanese": "冷蔵庫",
+    "reading": "れいぞうこ",
+    "meaning": "refrigerator",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "冷蔵庫",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-266",
+    "japanese": "前",
+    "reading": "まえ",
+    "meaning": "before…",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "前",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-306",
+    "japanese": "助かる",
+    "reading": "たすかる",
+    "meaning": "to be saved; to be helped",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "助かる",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575048",
+    "japanese": "動物",
+    "reading": "動物",
+    "meaning": "animal",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "動物[どうぶつ]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373645",
+    "japanese": "動物",
+    "reading": "動物",
+    "meaning": "動物[どうぶつ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "animal",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-305",
+    "japanese": "咲く",
+    "reading": "さく",
+    "meaning": "to bloom (～が)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "咲く",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-304",
+    "japanese": "壊す",
+    "reading": "こわす",
+    "meaning": "to break (something) (～を)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "壊す",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-314",
+    "japanese": "壊れる",
+    "reading": "こわれる",
+    "meaning": "(something) breaks (～が)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "壊れる",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-290",
+    "japanese": "夕方",
+    "reading": "ゆうがた",
+    "meaning": "evening",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "夕方",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-288",
+    "japanese": "外",
+    "reading": "そと",
+    "meaning": "outside",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "外",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-294",
+    "japanese": "大切",
+    "reading": "たいせつ(な)",
+    "meaning": "precious; important",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "大切",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575032",
+    "japanese": "弾きます",
+    "reading": "弾きます",
+    "meaning": "<div>to play (stringed instrument, piano, etc.)<br></div>",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "弾[ひ]きます",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-289",
+    "japanese": "後",
+    "reading": "あと",
+    "meaning": "the rest",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "後",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-293",
+    "japanese": "恥ずかしい",
+    "reading": "はずかしい",
+    "meaning": "embarrasing",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "恥ずかしい",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n3",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-300",
+    "japanese": "押す",
+    "reading": "おす",
+    "meaning": "to press; to push (～を)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "押す",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575035",
+    "japanese": "捨てます",
+    "reading": "捨てます",
+    "meaning": "to throw away",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "捨[す]てます",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575036",
+    "japanese": "換えます",
+    "reading": "換えます",
+    "meaning": "to exchange, change",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "換[か]えます",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-284",
+    "japanese": "携帯（電話）",
+    "reading": "けいたい（でんわ）",
+    "meaning": "cell phone",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "携帯（電話）",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n3",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575057",
+    "japanese": "故郷",
+    "reading": "故郷",
+    "meaning": "Furusato (a song title meaning 'Home Town')",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "故郷[ふるさと]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575043",
+    "japanese": "日記",
+    "reading": "日記",
+    "meaning": "diary",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "日記[にっき]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373635",
+    "japanese": "日記",
+    "reading": "日記",
+    "meaning": "日記[にっき]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "diary",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-291",
+    "japanese": "明るい",
+    "reading": "あかるい",
+    "meaning": "bright",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "明るい",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729372941",
+    "japanese": "本当ですか。",
+    "reading": "本当ですか。",
+    "meaning": "本当[ほんとう]ですか。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Really?",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-285",
+    "japanese": "桜",
+    "reading": "さくら",
+    "meaning": "cherry blossom",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "桜",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575033",
+    "japanese": "歌います",
+    "reading": "歌います",
+    "meaning": "to sing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "歌[うた]います",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-309",
+    "japanese": "汚す",
+    "reading": "よごす",
+    "meaning": "to make dirty （～を）",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "汚す",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-315",
+    "japanese": "汚れる",
+    "reading": "よごれる",
+    "meaning": "to become dirty (～が)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "汚れる",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-316",
+    "japanese": "注文する",
+    "reading": "ちゅうもんする",
+    "meaning": "to place an order (～を)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "注文する",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575031",
+    "japanese": "洗います",
+    "reading": "洗います",
+    "meaning": "to wash",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "洗[あら]います",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-313",
+    "japanese": "消える",
+    "reading": "きえる",
+    "meaning": "(something) goes off (～が)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "消える",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-308",
+    "japanese": "点く（rare）",
+    "reading": "つく",
+    "meaning": "(something) turns on (～が)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "点く（rare）",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n2",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-296",
+    "japanese": "無理",
+    "reading": "むり(な)",
+    "meaning": "impossible",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "無理",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-269",
+    "japanese": "然うか(rare)",
+    "reading": "そうか",
+    "meaning": "I see.(casual)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "然うか(rare)",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n2",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-311",
+    "japanese": "片付ける",
+    "reading": "かたづける",
+    "meaning": "to tidy up（～を）",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "片付ける",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373649",
+    "japanese": "牧場",
+    "reading": "牧場",
+    "meaning": "牧場[ぼくじょう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ranch, stock farm",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575051",
+    "japanese": "特に",
+    "reading": "特に",
+    "meaning": "especially",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "特[とく]に",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575041",
+    "japanese": "現金",
+    "reading": "現金",
+    "meaning": "cash",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "現金[げんきん]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373631",
+    "japanese": "現金",
+    "reading": "現金",
+    "meaning": "現金[げんきん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "cash",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-267",
+    "japanese": "矢っ張り(rare)",
+    "reading": "やっぱり",
+    "meaning": "after all",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "矢っ張り(rare)",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n2",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575047",
+    "japanese": "社長",
+    "reading": "社長",
+    "meaning": "company president",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "社長[しゃちょう]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373643",
+    "japanese": "社長",
+    "reading": "社長",
+    "meaning": "社長[しゃちょう]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "president of a company",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-312",
+    "japanese": "考える",
+    "reading": "かんがえる",
+    "meaning": "to think (about); to consider",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "考える",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-310",
+    "japanese": "落ちる",
+    "reading": "おちる",
+    "meaning": "(something) drops (～が)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "落ちる",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-301",
+    "japanese": "落とす",
+    "reading": "おとす",
+    "meaning": "to drop (something) (~を）",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "落とす",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-286",
+    "japanese": "虫",
+    "reading": "むし",
+    "meaning": "insect",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "虫",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-280",
+    "japanese": "蝋燭（rare）",
+    "reading": "ろうそく",
+    "meaning": "candle",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "蝋燭（rare）",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n2",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575045",
+    "japanese": "課長",
+    "reading": "課長",
+    "meaning": "section head",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "課長[かちょう]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373639",
+    "japanese": "課長",
+    "reading": "課長",
+    "meaning": "課長[かちょう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "section chief",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-299",
+    "japanese": "謝る",
+    "reading": "あやまる",
+    "meaning": "to apologize (personに)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "謝る",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575042",
+    "japanese": "趣味",
+    "reading": "趣味",
+    "meaning": "hobby",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "趣味[しゅみ]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373633",
+    "japanese": "趣味",
+    "reading": "趣味",
+    "meaning": "趣味[しゅみ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "hobby",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-303",
+    "japanese": "転ぶ",
+    "reading": "ころぶ",
+    "meaning": "to fall down",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "転ぶ",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575037",
+    "japanese": "運転します",
+    "reading": "運転します",
+    "meaning": "to drive",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "運転[うんてん]します",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575046",
+    "japanese": "部長",
+    "reading": "部長",
+    "meaning": "department head",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "部長[ぶちょう]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373641",
+    "japanese": "部長",
+    "reading": "部長",
+    "meaning": "部長[ぶちょう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "department chief",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-275",
+    "japanese": "醤油",
+    "reading": "しょうゆ",
+    "meaning": "soy sauce",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "醤油",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-298",
+    "japanese": "閉まる",
+    "reading": "しまる",
+    "meaning": "(something) closes (～が)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "閉まる",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-297",
+    "japanese": "開く",
+    "reading": "あく",
+    "meaning": "(something) opens (～が)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "開く",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575034",
+    "japanese": "集めます",
+    "reading": "集めます",
+    "meaning": "to collect, gather",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "集[あつ]めます",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-307",
+    "japanese": "頼む",
+    "reading": "たのむ",
+    "meaning": "to ask (a favor) (personに～を)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "頼む",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1544776575049",
+    "japanese": "馬",
+    "reading": "馬",
+    "meaning": "horse",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "馬[うま]",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-1609729373647",
+    "japanese": "馬",
+    "reading": "馬",
+    "meaning": "馬[うま]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "horse",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-268",
+    "japanese": "～かな（あ）",
+    "reading": "",
+    "meaning": "I wonder…(casual)",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "～かな（あ）",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n3",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-18-new-265",
+    "japanese": "～によると",
+    "reading": "",
+    "meaning": "according to…",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "～によると",
+        "reading": "",
+        "english": "18"
+      }
+    ],
+    "tags": [
+      "n3",
+      "lesson-18",
+      "genki-2"
+    ],
+    "lesson": 18,
+    "textbook": "genki-2"
+  }
+]

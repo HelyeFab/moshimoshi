@@ -1,0 +1,1048 @@
+[
+  {
+    "id": "genki-2-13-1544776574843",
+    "japanese": "遊びます",
+    "reading": "遊びます",
+    "meaning": "to enjoy oneself, play",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "遊[あそ]びます",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574844",
+    "japanese": "泳ぎます",
+    "reading": "泳ぎます",
+    "meaning": "to swim",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "泳[およ]ぎます",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574845",
+    "japanese": "迎えます",
+    "reading": "迎えます",
+    "meaning": "to go to meet, welcome",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "迎[むか]えます",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574846",
+    "japanese": "つかれます",
+    "reading": "つかれます",
+    "meaning": "to get tired (when expressing the condition of being tired, つかれました is used)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "つかれます",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574847",
+    "japanese": "結婚します",
+    "reading": "結婚します",
+    "meaning": "to marry, get married",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "結婚[けっこん]します",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574848",
+    "japanese": "買い物します",
+    "reading": "買い物します",
+    "meaning": "to do shopping",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "買い物[かいもの]します",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574849",
+    "japanese": "食事します",
+    "reading": "食事します",
+    "meaning": "to have a meal, dine",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "食事[しょくじ]します",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574850",
+    "japanese": "散歩します ［公園を～］",
+    "reading": "散歩します ［公園を～］",
+    "meaning": "to take a walk [in a park]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "散歩[さんぽ]します　［ 公園[こうえん]を~］",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574851",
+    "japanese": "大変［な］",
+    "reading": "大変［な］",
+    "meaning": "hard, tough, severe, awful",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "大変[たいへん]［な］",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574852",
+    "japanese": "欲しい",
+    "reading": "欲しい",
+    "meaning": "want (something)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "欲[ほ]しい",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574853",
+    "japanese": "広い",
+    "reading": "広い",
+    "meaning": "wide, spacious",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "広[ひろ]い",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574854",
+    "japanese": "狭い",
+    "reading": "狭い",
+    "meaning": "narrow, small (room, etc.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "狭[せま]い",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373499",
+    "japanese": "プール",
+    "reading": "プール",
+    "meaning": "swimming pool",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "13",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574856",
+    "japanese": "川",
+    "reading": "川",
+    "meaning": "river",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "川[かわ]",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574857",
+    "japanese": "美術",
+    "reading": "美術",
+    "meaning": "fine arts",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "美術[びじゅつ]",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574858",
+    "japanese": "釣り",
+    "reading": "釣り",
+    "meaning": "fishing (～を　します：to fish, anble)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "釣[つ]り",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574859",
+    "japanese": "スキー",
+    "reading": "スキー",
+    "meaning": "skiing (～を　します：to ski)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "スキー",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574860",
+    "japanese": "週末",
+    "reading": "週末",
+    "meaning": "weekend",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "週末[しゅうまつ]",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574861",
+    "japanese": "［お］正月",
+    "reading": "［お］正月",
+    "meaning": "New Year's Day",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "［お］ 正月[しょうがつ]",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574862",
+    "japanese": "～ごろ",
+    "reading": "～ごろ",
+    "meaning": "about ~ (time)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "~ごろ",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574863",
+    "japanese": "何か",
+    "reading": "何か",
+    "meaning": "something",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "何[なに]か",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574864",
+    "japanese": "どこか",
+    "reading": "どこか",
+    "meaning": "somewhere, some place",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "どこか",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574865",
+    "japanese": "のどが かわきます",
+    "reading": "のどが かわきます",
+    "meaning": "to get thirsty (when expressing the condition of being thirsty, のどが　かわきました　is used)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "のどが　かわきます",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574866",
+    "japanese": "おなかが すきます",
+    "reading": "おなかが すきます",
+    "meaning": "to get hungry (when expressing the condition of being hungry, おなかが　すきました　is used)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "おなかが　すきます",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574867",
+    "japanese": "そう しましょう。",
+    "reading": "そう しましょう。",
+    "meaning": "Let's do that. (used when agreeing with someone's suggestion)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "そう　しましょう。",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574868",
+    "japanese": "ご 注 もんは？",
+    "reading": "ご 注 もんは？",
+    "meaning": "May I take your order?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ご　 注[ちゅう]　もんは？",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574869",
+    "japanese": "定食",
+    "reading": "定食",
+    "meaning": "set meal, table d'hote",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "定食[ていしょく]",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574870",
+    "japanese": "牛どん",
+    "reading": "牛どん",
+    "meaning": "bowl of rice topped with beef",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "牛[ぎゅう]どん",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574871",
+    "japanese": "［少々］お待ちください",
+    "reading": "［少々］お待ちください",
+    "meaning": "Please wait [a moment]. (polite equivalent of です)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "［ 少々[しょうしょう]］お 待[ま]ちください",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1544776574872",
+    "japanese": "別々に",
+    "reading": "別々に",
+    "meaning": "separately",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "別々[べつべつ]に",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729372905",
+    "japanese": "お腹が空きました。",
+    "reading": "お腹が空きました。",
+    "meaning": "お 腹[なか]が 空[す]きました。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(I'm) hungry.",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729372907",
+    "japanese": "お腹が一杯です。",
+    "reading": "お腹が一杯です。",
+    "meaning": "お 腹[なか]が 一杯[いっぱい]です。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(I'm) full.",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729372909",
+    "japanese": "喉が 渇きました。",
+    "reading": "喉が 渇きました。",
+    "meaning": "喉[のど]が 渇[かわ]きました。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(I'm) thirsty.",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729372913",
+    "japanese": "そう しましょう。",
+    "reading": "そう しましょう。",
+    "meaning": "そう しましょう。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "Let's do that.",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729372915",
+    "japanese": "ご注文は?",
+    "reading": "ご注文は?",
+    "meaning": "ご 注文[ちゅうもん]は?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "May I take your order?",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729372917",
+    "japanese": "少々 お待ちください。",
+    "reading": "少々 お待ちください。",
+    "meaning": "( 少々[しょうしょう]) お 待[ま]ちください。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Please wait (a moment).",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373497",
+    "japanese": "市役所",
+    "reading": "市役所",
+    "meaning": "市役所[しやくしょ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "municipal office, city hall",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373501",
+    "japanese": "川",
+    "reading": "川",
+    "meaning": "川[かわ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "river",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373503",
+    "japanese": "経済",
+    "reading": "経済",
+    "meaning": "経済[けいざい]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "economy",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373505",
+    "japanese": "美術",
+    "reading": "美術",
+    "meaning": "美術[びじゅつ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "fine arts",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373507",
+    "japanese": "釣り",
+    "reading": "釣り",
+    "meaning": "釣[つ]り",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "fishing",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373509",
+    "japanese": "スキー",
+    "reading": "スキー",
+    "meaning": "skiing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "13",
+        "reading": "",
+        "english": "(～を します: ski)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373511",
+    "japanese": "会議",
+    "reading": "会議",
+    "meaning": "会議[かいぎ]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "meeting, conference",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-13-1609729373513",
+    "japanese": "登録",
+    "reading": "登録",
+    "meaning": "登録[とうろく]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "registration",
+        "reading": "",
+        "english": "13"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "genki-2"
+    ],
+    "lesson": 13,
+    "textbook": "genki-2"
+  }
+]

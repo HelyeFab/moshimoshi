@@ -1,0 +1,284 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
+import { IndexedDBStorage } from '@/lib/review-engine/offline/indexed-db'
+import logger from '@/lib/logger'
+
+interface ReviewItem {
+  id: string
+  contentType: 'kana' | 'kanji' | 'vocabulary' | 'sentence'
+  primaryDisplay: string
+  secondaryDisplay?: string
+  state: 'new' | 'learning' | 'review' | 'mastered'
+  interval: number
+  easeFactor: number
+  consecutiveCorrect: number
+  successRate: number
+  lastReviewDate?: Date
+  nextReviewDate?: Date
+}
+
+interface LeechItem {
+  id: string
+  content: {
+    primaryDisplay: string
+    secondaryDisplay?: string
+    contentType: string
+    difficulty: number
+  }
+  failureCount: number
+  successRate: number
+  lastFailureDate: Date
+  firstSeenDate: Date
+  errorHistory: Array<{
+    date: Date
+    userAnswer: string
+    correctAnswer: string
+    errorType: 'typo' | 'confusion' | 'memory'
+  }>
+  srsData: {
+    easeFactor: number
+    interval: number
+    consecutiveFailures: number
+  }
+}
+
+interface ReviewSession {
+  id: string
+  date: Date
+  duration: number
+  itemsReviewed: number
+  accuracy: number
+  averageResponseTime: number
+  mode: 'recognition' | 'recall'
+  status: 'completed' | 'abandoned'
+}
+
+interface CurrentSession {
+  id: string
+  startTime: Date
+  itemsCompleted: number
+  itemsTotal: number
+  currentAccuracy: number
+  averageResponseTime: number
+  streak: number
+}
+
+export function useReviewData() {
+  const { user, isGuest } = useAuth()
+  const { isPremium } = useSubscription()
+  const [srsItems, setSrsItems] = useState<ReviewItem[]>([])
+  const [queueItems, setQueueItems] = useState<any[]>([])
+  const [sessions, setSessions] = useState<ReviewSession[]>([])
+  const [currentSession, setCurrentSession] = useState<CurrentSession | null>(null)
+  const [leeches, setLeeches] = useState<LeechItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    loadReviewData()
+  }, [user, isPremium])
+
+  const loadReviewData = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      // For guests and free users, use local IndexedDB
+      if (isGuest || !isPremium) {
+        await loadLocalData()
+      } else {
+        // Premium users get cloud-synced data
+        await loadCloudData()
+      }
+    } catch (err) {
+      logger.error('Failed to load review data:', err)
+      setError('Failed to load review data')
+      // Fallback to local data on error
+      await loadLocalData()
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const loadLocalData = async () => {
+    try {
+      const storage = new IndexedDBStorage()
+      await storage.initialize()
+
+      // Load SRS items from IndexedDB
+      const userId = user?.uid || 'guest'
+      const storedSession = await storage.getSession(userId)
+
+      if (storedSession?.items) {
+        const items: ReviewItem[] = storedSession.items.map((item: any, index: number) => ({
+          id: `item_${index}`,
+          contentType: item.content?.contentType || 'vocabulary',
+          primaryDisplay: item.content?.primaryDisplay || '',
+          secondaryDisplay: item.content?.secondaryDisplay,
+          state: determineState(item),
+          interval: item.srsData?.interval || 0,
+          easeFactor: item.srsData?.easeFactor || 2.5,
+          consecutiveCorrect: item.srsData?.consecutiveCorrect || 0,
+          successRate: item.accuracy || 0,
+          lastReviewDate: item.lastReviewedAt,
+          nextReviewDate: item.nextReviewAt
+        }))
+        setSrsItems(items)
+
+        // Generate queue items (due for review)
+        const due = items.filter(item => {
+          if (!item.nextReviewDate) return item.state === 'new'
+          return new Date(item.nextReviewDate) <= new Date()
+        })
+        setQueueItems(due)
+
+        // Identify leeches (items with low success rate)
+        const leechItems = items
+          .filter(item => item.successRate < 0.6 && item.state !== 'new')
+          .map(item => ({
+            id: item.id,
+            content: {
+              primaryDisplay: item.primaryDisplay,
+              secondaryDisplay: item.secondaryDisplay,
+              contentType: item.contentType,
+              difficulty: 1 - item.successRate
+            },
+            failureCount: Math.floor((1 - item.successRate) * 10),
+            successRate: item.successRate,
+            lastFailureDate: new Date(),
+            firstSeenDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+            errorHistory: [],
+            srsData: {
+              easeFactor: item.easeFactor,
+              interval: item.interval,
+              consecutiveFailures: Math.max(0, 3 - item.consecutiveCorrect)
+            }
+          }))
+        setLeeches(leechItems)
+      }
+
+      // Generate mock sessions for demo purposes
+      // In production, these would be loaded from IndexedDB
+      const mockSessions: ReviewSession[] = [
+        {
+          id: '1',
+          date: new Date(Date.now() - 24 * 60 * 60 * 1000),
+          duration: 1800,
+          itemsReviewed: 25,
+          accuracy: 0.85,
+          averageResponseTime: 3.2,
+          mode: 'recognition',
+          status: 'completed'
+        },
+        {
+          id: '2',
+          date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+          duration: 1200,
+          itemsReviewed: 15,
+          accuracy: 0.73,
+          averageResponseTime: 4.1,
+          mode: 'recall',
+          status: 'completed'
+        }
+      ]
+      setSessions(mockSessions)
+
+      // Check for active session
+      if (storedSession?.status === 'active') {
+        setCurrentSession({
+          id: storedSession.id,
+          startTime: storedSession.startedAt,
+          itemsCompleted: storedSession.currentIndex || 0,
+          itemsTotal: storedSession.items?.length || 0,
+          currentAccuracy: calculateAccuracy(storedSession.items),
+          averageResponseTime: 2.8,
+          streak: calculateStreak(storedSession.items)
+        })
+      }
+    } catch (err) {
+      logger.error('Failed to load local data:', err)
+      throw err
+    }
+  }
+
+  const loadCloudData = async () => {
+    try {
+      // Fetch from API endpoints that sync with Firebase
+      const [statsRes, queueRes, progressRes] = await Promise.all([
+        fetch('/api/review/stats'),
+        fetch('/api/review/queue'),
+        fetch('/api/review/progress/studied')
+      ])
+
+      if (statsRes.ok && queueRes.ok && progressRes.ok) {
+        const progressData = await progressRes.json()
+        const queueData = await queueRes.json()
+
+        // Transform API data to our format
+        const items: ReviewItem[] = progressData.items?.map((item: any) => ({
+          id: item.id,
+          contentType: item.contentType,
+          primaryDisplay: item.primaryDisplay,
+          secondaryDisplay: item.secondaryDisplay,
+          state: item.status,
+          interval: item.srsLevel || 0,
+          easeFactor: 2.5,
+          consecutiveCorrect: item.correctCount || 0,
+          successRate: item.accuracy || 0,
+          lastReviewDate: item.lastReviewedAt ? new Date(item.lastReviewedAt) : undefined,
+          nextReviewDate: item.nextReviewAt ? new Date(item.nextReviewAt) : undefined
+        })) || []
+
+        setSrsItems(items)
+        setQueueItems(queueData.items || [])
+
+        // Also sync to local for offline access
+        const storage = new IndexedDBStorage()
+        await storage.initialize()
+        await storage.cacheContent(items)
+      }
+    } catch (err) {
+      logger.error('Failed to load cloud data:', err)
+      throw err
+    }
+  }
+
+  const determineState = (item: any): 'new' | 'learning' | 'review' | 'mastered' => {
+    if (!item.lastReviewedAt) return 'new'
+    const accuracy = item.accuracy || 0
+    const interval = item.srsData?.interval || 0
+
+    if (interval >= 21 && accuracy >= 0.9) return 'mastered'
+    if (interval < 1) return 'learning'
+    return 'review'
+  }
+
+  const calculateAccuracy = (items: any[]): number => {
+    if (!items || items.length === 0) return 0
+    const correct = items.filter(item => item.correct).length
+    return correct / items.length
+  }
+
+  const calculateStreak = (items: any[]): number => {
+    let streak = 0
+    for (let i = items.length - 1; i >= 0; i--) {
+      if (items[i].correct) streak++
+      else break
+    }
+    return streak
+  }
+
+  return {
+    srsItems,
+    queueItems,
+    sessions,
+    currentSession,
+    leeches,
+    loading,
+    error,
+    refetch: loadReviewData
+  }
+}

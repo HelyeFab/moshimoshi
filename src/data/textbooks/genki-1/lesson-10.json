@@ -1,0 +1,1574 @@
+[
+  {
+    "id": "genki-1-10-1544776574683",
+    "japanese": "あります",
+    "reading": "あります",
+    "meaning": "to exist, be (referring to inanimate things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "あります",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574684",
+    "japanese": "います",
+    "reading": "います",
+    "meaning": "to exist, be (referring to animate things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "います",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574685",
+    "japanese": "いろいろ［な］",
+    "reading": "いろいろ［な］",
+    "meaning": "various",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いろいろ［な］",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574686",
+    "japanese": "男の 人",
+    "reading": "男の 人",
+    "meaning": "man",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "男[おとこ]の　 人[ひと]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574687",
+    "japanese": "女の 人",
+    "reading": "女の 人",
+    "meaning": "woman",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "女[おんな]の 人[ひと]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574688",
+    "japanese": "男の 子",
+    "reading": "男の 子",
+    "meaning": "boy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "男[おとこ]の　 子[こ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574689",
+    "japanese": "女の 子",
+    "reading": "女の 子",
+    "meaning": "girl",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "女[おんな]の　 子[こ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574690",
+    "japanese": "犬",
+    "reading": "犬",
+    "meaning": "dog",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "犬[いぬ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574691",
+    "japanese": "猫",
+    "reading": "猫",
+    "meaning": "cat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "猫[ねこ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574692",
+    "japanese": "パンダ",
+    "reading": "パンダ",
+    "meaning": "panda",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "パンダ",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574693",
+    "japanese": "象",
+    "reading": "象",
+    "meaning": "elephant",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "象[ぞう]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574694",
+    "japanese": "木",
+    "reading": "木",
+    "meaning": "tree, wood",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "木[き]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574695",
+    "japanese": "物",
+    "reading": "物",
+    "meaning": "thing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "物[もの]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574696",
+    "japanese": "電池",
+    "reading": "電池",
+    "meaning": "battery",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "電池[でんち]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574697",
+    "japanese": "箱",
+    "reading": "箱",
+    "meaning": "box",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "箱[はこ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373407",
+    "japanese": "スイッチ",
+    "reading": "スイッチ",
+    "meaning": "switch",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "10",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574699",
+    "japanese": "冷蔵庫",
+    "reading": "冷蔵庫",
+    "meaning": "refrigerator",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "冷蔵庫[れいぞうこ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373411",
+    "japanese": "テーブル",
+    "reading": "テーブル",
+    "meaning": "table",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "10",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373413",
+    "japanese": "ベッド",
+    "reading": "ベッド",
+    "meaning": "bed",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "10",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574702",
+    "japanese": "棚",
+    "reading": "棚",
+    "meaning": "shelf",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "棚[たな]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373417",
+    "japanese": "ドア",
+    "reading": "ドア",
+    "meaning": "door",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "10",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574704",
+    "japanese": "窓",
+    "reading": "窓",
+    "meaning": "window",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "窓[まど]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373421",
+    "japanese": "ポスト",
+    "reading": "ポスト",
+    "meaning": "postbox, mailbox",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "10",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574706",
+    "japanese": "ビル",
+    "reading": "ビル",
+    "meaning": "building",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ビル&nbsp;",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574707",
+    "japanese": "ATM",
+    "reading": "ATM",
+    "meaning": "cash machine, ATM (Automatic Teller Machine)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ATM",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574708",
+    "japanese": "コンビニ",
+    "reading": "コンビニ",
+    "meaning": "convenience store",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "コンビニ",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574709",
+    "japanese": "公園",
+    "reading": "公園",
+    "meaning": "park",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "公園[こうえん]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574710",
+    "japanese": "喫茶店",
+    "reading": "喫茶店",
+    "meaning": "cafe, coffee shop",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "喫茶店[きっさてん]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574711",
+    "japanese": "～屋",
+    "reading": "～屋",
+    "meaning": "~ shop, ~ store",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "~ 屋[や]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574712",
+    "japanese": "乗り場",
+    "reading": "乗り場",
+    "meaning": "a fixed place to catch taxis, trains, etc.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "乗り場[のりば]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574713",
+    "japanese": "県",
+    "reading": "県",
+    "meaning": "prefecture",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "県[けん]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574714",
+    "japanese": "上",
+    "reading": "上",
+    "meaning": "on, above, over",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "上[うえ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574715",
+    "japanese": "下",
+    "reading": "下",
+    "meaning": "under, below, beneath",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "下[した]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574716",
+    "japanese": "前",
+    "reading": "前",
+    "meaning": "front, before",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "前[まえ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574717",
+    "japanese": "うしろ",
+    "reading": "うしろ",
+    "meaning": "back, behind",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "うしろ",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574718",
+    "japanese": "右",
+    "reading": "右",
+    "meaning": "right [side]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "右[みぎ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574719",
+    "japanese": "左",
+    "reading": "左",
+    "meaning": "left [side]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "左[ひだり]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574720",
+    "japanese": "中",
+    "reading": "中",
+    "meaning": "in, inside",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "中[なか]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574721",
+    "japanese": "外",
+    "reading": "外",
+    "meaning": "outside",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "外[そと]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574722",
+    "japanese": "隣",
+    "reading": "隣",
+    "meaning": "next, next door",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "隣[となり]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574723",
+    "japanese": "近く",
+    "reading": "近く",
+    "meaning": "near, vicinity",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "近[ちか]く",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574724",
+    "japanese": "間",
+    "reading": "間",
+    "meaning": "between, among",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "間[あいだ]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574725",
+    "japanese": "～や ～［など］",
+    "reading": "～や ～［など］",
+    "meaning": "~, ~, and so on",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "~や　~［など］",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574726",
+    "japanese": "［どうも］ すみません。",
+    "reading": "［どうも］ すみません。",
+    "meaning": "Thank you.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "［どうも］　すみません。",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574727",
+    "japanese": "ナンプラー",
+    "reading": "ナンプラー",
+    "meaning": "nam pla (fish sauce)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ナンプラー",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574728",
+    "japanese": "コーナー",
+    "reading": "コーナー",
+    "meaning": "corner, section",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "コーナー",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574729",
+    "japanese": "いちばん 下",
+    "reading": "いちばん 下",
+    "meaning": "the bottom",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "いちばん　 下[した]",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1544776574730",
+    "japanese": "とうきょう デズニーランド",
+    "reading": "とうきょう デズニーランド",
+    "meaning": "Tokyo Disneyland",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "とうきょう　デズニーランド",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373385",
+    "japanese": "男の人",
+    "reading": "男の人",
+    "meaning": "男[おとこ]の 人[ひと]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "man",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373387",
+    "japanese": "女の人",
+    "reading": "女の人",
+    "meaning": "女[おんな]の 人[ひと]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "woman",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373389",
+    "japanese": "男の子",
+    "reading": "男の子",
+    "meaning": "男[おとこ]の 子[こ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "boy",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373391",
+    "japanese": "女の子",
+    "reading": "女の子",
+    "meaning": "女[おんな]の 子[こ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "girl",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373393",
+    "japanese": "犬",
+    "reading": "犬",
+    "meaning": "犬[いぬ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "dog",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373395",
+    "japanese": "猫",
+    "reading": "猫",
+    "meaning": "猫[ねこ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "cat",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373397",
+    "japanese": "木",
+    "reading": "木",
+    "meaning": "木[き]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "tree, wood",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373399",
+    "japanese": "物",
+    "reading": "物",
+    "meaning": "物[もの]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "thing",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373401",
+    "japanese": "フィルム",
+    "reading": "フィルム",
+    "meaning": "film",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "10",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373403",
+    "japanese": "電池",
+    "reading": "電池",
+    "meaning": "電池[でんち]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "battery",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373405",
+    "japanese": "箱",
+    "reading": "箱",
+    "meaning": "箱[はこ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "box",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373409",
+    "japanese": "冷蔵庫",
+    "reading": "冷蔵庫",
+    "meaning": "冷蔵庫[れいぞうこ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "refrigerator",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373415",
+    "japanese": "棚",
+    "reading": "棚",
+    "meaning": "棚[たな]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "shelf",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373419",
+    "japanese": "窓",
+    "reading": "窓",
+    "meaning": "窓[まど]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "window",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373425",
+    "japanese": "公園",
+    "reading": "公園",
+    "meaning": "公園[こうえん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "park",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373427",
+    "japanese": "喫茶店",
+    "reading": "喫茶店",
+    "meaning": "喫茶店[きっさてん]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "coffee shop",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373429",
+    "japanese": "本屋",
+    "reading": "本屋",
+    "meaning": "本屋[ほんや]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "bookstore",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373431",
+    "japanese": "乗り場",
+    "reading": "乗り場",
+    "meaning": "乗り場[のりば]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "a fixed place to catch taxis, trains, etc.",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-10-1609729373433",
+    "japanese": "県",
+    "reading": "県",
+    "meaning": "県[けん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "prefecture",
+        "reading": "",
+        "english": "10"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-10",
+      "genki-1"
+    ],
+    "lesson": 10,
+    "textbook": "genki-1"
+  }
+]

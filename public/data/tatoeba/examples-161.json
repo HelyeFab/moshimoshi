@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "375882",
+    "japanese": "言語を学ぶ際に間違うことを恐れてはいけないのです。",
+    "english": "You must not be afraid of making mistakes when learning a language."
+  },
+  {
+    "id": "376003",
+    "japanese": "この動詞は普通、3人称でのみ使われます。",
+    "english": "This verb is normally used only in the third person."
+  },
+  {
+    "id": "375914",
+    "japanese": "メンヘラ臭いのはスルーすればいいのになんでみんなレスつけてんの？",
+    "english": "Why does everybody have to reply to them when you can just ignore the cracked-sounding ones?"
+  },
+  {
+    "id": "375961",
+    "japanese": "まー！このＴシャツ、3000円？！ぼったくりだわ。",
+    "english": "What! This T-shirt is 3,000 yen? This is a rip-off!"
+  },
+  {
+    "id": "2716106",
+    "japanese": "はあ？ このTシャツで3000円とかぼったくりだろ。",
+    "english": "What! This T-shirt is 3,000 yen? This is a rip-off!"
+  },
+  {
+    "id": "376011",
+    "japanese": "先日母と二人で海外旅行に行ってきました。",
+    "english": "The other day I went on an overseas trip with my mother."
+  },
+  {
+    "id": "376015",
+    "japanese": "最近はいかがお過ごしでしたか？",
+    "english": "How have you been doing lately?"
+  },
+  {
+    "id": "376017",
+    "japanese": "僕と、仲良くしてくれませんか？",
+    "english": "Would you be friends with me?"
+  },
+  {
+    "id": "376019",
+    "japanese": "中国料理好きじゃありませんか？",
+    "english": "You don't like Chinese cooking?"
+  },
+  {
+    "id": "376022",
+    "japanese": "口座番号などを記憶したプラスチック製の磁気カードはキャッシュカードと言いますか？",
+    "english": "Is the magnetic card made of plastic which stores your bank account called a cash card?"
+  },
+  {
+    "id": "417957",
+    "japanese": "あなたは何をしていたんですか。",
+    "english": "What were you doing?"
+  },
+  {
+    "id": "9533858",
+    "japanese": "猫それぞれが、独自の性格を持っています。",
+    "english": "Each cat has its own personality."
+  },
+  {
+    "id": "9533958",
+    "japanese": "猫それぞれに個性があります。",
+    "english": "Each cat has its own personality."
+  },
+  {
+    "id": "1562871",
+    "japanese": "このテレビの直し方わかりますか。",
+    "english": "Do you know how to fix this TV?"
+  },
+  {
+    "id": "409243",
+    "japanese": "彼はその本を棚の上に置きました。",
+    "english": "He placed the book on the shelf."
+  },
+  {
+    "id": "376403",
+    "japanese": "大丈夫だ。",
+    "english": "I am okay."
+  },
+  {
+    "id": "1014814",
+    "japanese": "１滴の毒は１６０人を殺すのに十分である。",
+    "english": "One drop of the poison is enough to kill 160 people."
+  },
+  {
+    "id": "881639",
+    "japanese": "準備できてる？",
+    "english": "Are you ready?"
+  },
+  {
+    "id": "2250794",
+    "japanese": "もういいかい？",
+    "english": "Are you ready?"
+  },
+  {
+    "id": "3069849",
+    "japanese": "準備はできましたか？",
+    "english": "Are you ready?"
+  },
+  {
+    "id": "13220996",
+    "japanese": "理解できない。",
+    "english": "I don't understand."
+  },
+  {
+    "id": "13220997",
+    "japanese": "理解できません。",
+    "english": "I don't understand."
+  },
+  {
+    "id": "376736",
+    "japanese": "ダロウェイ夫人は、私が花を買ってくるわ、と言った。",
+    "english": "Mrs. Dalloway said she would buy the flowers herself."
+  },
+  {
+    "id": "426650",
+    "japanese": "ベティは彼の母を殺したんだ。",
+    "english": "Betty killed his mother."
+  },
+  {
+    "id": "377439",
+    "japanese": "「タバコぐらい体に悪いものはない」と医者は言った。",
+    "english": "The doctor said, \"There's nothing worse for your health than tobacco.\""
+  },
+  {
+    "id": "377441",
+    "japanese": "風邪を引いたら、この薬を飲んで下さい。",
+    "english": "Please take this medicine if you catch a cold."
+  },
+  {
+    "id": "2142015",
+    "japanese": "彼は教師になるのが目標だ。",
+    "english": "His objective is to become a teacher."
+  },
+  {
+    "id": "5390566",
+    "japanese": "英語が話せますか。",
+    "english": "Do you speak English?"
+  },
+  {
+    "id": "13177683",
+    "japanese": "質問がある。",
+    "english": "I have a question."
+  },
+  {
+    "id": "9210402",
+    "japanese": "その歌は知らなかったよ。",
+    "english": "I didn't know that song."
+  },
+  {
+    "id": "778207",
+    "japanese": "犬を見た。",
+    "english": "I saw a dog."
+  },
+  {
+    "id": "2442985",
+    "japanese": "犬を見かけました。",
+    "english": "I saw a dog."
+  },
+  {
+    "id": "4216118",
+    "japanese": "犬を見たんだ。",
+    "english": "I saw a dog."
+  },
+  {
+    "id": "2350860",
+    "japanese": "良い質問です。",
+    "english": "Good question!"
+  },
+  {
+    "id": "872726",
+    "japanese": "アイスクリームとスパゲッティの食べ過ぎはダメだよ。",
+    "english": "You mustn't eat too much ice cream and spaghetti."
+  },
+  {
+    "id": "378545",
+    "japanese": "私は京都に行きたい。",
+    "english": "I want to go to Kyoto."
+  },
+  {
+    "id": "866803",
+    "japanese": "今日のコンピュータには大抵マルチコアプロセッサが装備されている。",
+    "english": "Most computers made today are equipped with multi-core processors."
+  },
+  {
+    "id": "378736",
+    "japanese": "あの仕事はどこまで進んでいる？",
+    "english": "How far have you got on that job?"
+  },
+  {
+    "id": "463520",
+    "japanese": "テーブルの上にメロンが一つあります。",
+    "english": "There is a melon on the table."
+  },
+  {
+    "id": "5765367",
+    "japanese": "来たいですか。",
+    "english": "Do you want to go?"
+  },
+  {
+    "id": "6207168",
+    "japanese": "僕は右利きです。",
+    "english": "I am right-handed."
+  },
+  {
+    "id": "5018809",
+    "japanese": "もう二度とあなたなんかと会いたくない。",
+    "english": "I don't ever want to see you again."
+  },
+  {
+    "id": "12047487",
+    "japanese": "私の目の前に二度と現れないで。",
+    "english": "I don't ever want to see you again."
+  },
+  {
+    "id": "1487293",
+    "japanese": "私の苗字は周と言います。",
+    "english": "My surname is Zhou."
+  },
+  {
+    "id": "379582",
+    "japanese": "谷口先生はお遅れになったでしょうね。",
+    "english": "It looks like Mr Taniguchi is late, doesn't it?"
+  },
+  {
+    "id": "10094321",
+    "japanese": "困らせてごめんね。",
+    "english": "Sorry to trouble you."
+  },
+  {
+    "id": "10094332",
+    "japanese": "迷惑かけてごめんね。",
+    "english": "Sorry to trouble you."
+  },
+  {
+    "id": "912084",
+    "japanese": "彼の庭は芸術作品です。",
+    "english": "His garden is a work of art."
+  },
+  {
+    "id": "381356",
+    "japanese": "彼は国民と約束したことを実行することを強調したが、彼は多くの約束を守っていない。",
+    "english": "He emphasised carrying out promises made to the people, but he failed to uphold many commitments."
+  },
+  {
+    "id": "872716",
+    "japanese": "子供がハープを弾いている。",
+    "english": "A child is playing harp."
+  },
+  {
+    "id": "979752",
+    "japanese": "ごはん食べたの？",
+    "english": "Have you eaten yet?"
+  },
+  {
+    "id": "382371",
+    "japanese": "いつかお時間のあるときにでもご一瞥くだされば幸いです。",
+    "english": "I'd be grateful if you could take a look when you've got time sometime."
+  },
+  {
+    "id": "382373",
+    "japanese": "果たして、ゴア氏は大統領候補として立つのか？",
+    "english": "Will Gore stand as presidential candidate?"
+  },
+  {
+    "id": "382374",
+    "japanese": "毎朝線路を横切る。",
+    "english": "I cross the rail tracks every morning."
+  },
+  {
+    "id": "382377",
+    "japanese": "昨夜は泥酔してお風呂に入らないで寝ちゃった。",
+    "english": "Last night I was dead drunk and fell asleep without having a bath."
+  },
+  {
+    "id": "382896",
+    "japanese": "あの人は自らの運命に満足している人です。",
+    "english": "That man is a man content with his fate."
+  },
+  {
+    "id": "382899",
+    "japanese": "人は足るを知らねばならぬ。",
+    "english": "People must learn to be satisfied."
+  },
+  {
+    "id": "5072725",
+    "japanese": "彼はお金が必要だ。",
+    "english": "He needs money."
+  },
+  {
+    "id": "2145049",
+    "japanese": "彼女は金も、家族も友人もなくしてしまった。",
+    "english": "She lost her money, her family, her friends."
+  },
+  {
+    "id": "2876214",
+    "japanese": "何もかも逆さまだ。",
+    "english": "Everything is upside down."
+  },
+  {
+    "id": "1142909",
+    "japanese": "エレベーターはありますか？",
+    "english": "Is there an elevator?"
+  },
+  {
+    "id": "1204075",
+    "japanese": "それは見るに耐えない。",
+    "english": "I couldn't stand looking at it."
+  },
+  {
+    "id": "383970",
+    "japanese": "私には姪が二人いる。",
+    "english": "I have two nieces."
+  },
+  {
+    "id": "383967",
+    "japanese": "何てこった、初心者にやられた！",
+    "english": "omg a n00b pwned me!"
+  },
+  {
+    "id": "383966",
+    "japanese": "私の愛について語りたい。",
+    "english": "I want to speak about my love."
+  },
+  {
+    "id": "383960",
+    "japanese": "誰も私に話しかけない。",
+    "english": "Nobody speaks to me."
+  },
+  {
+    "id": "1484719",
+    "japanese": "花火が見える！",
+    "english": "I see fireworks!"
+  },
+  {
+    "id": "1046139",
+    "japanese": "私のドイツ語は本当に駄目だと思う。",
+    "english": "I think my German is really fucked up."
+  },
+  {
+    "id": "1115597",
+    "japanese": "いいえ、幽霊なんて怖くはない。",
+    "english": "No, I'm not afraid of ghosts."
+  },
+  {
+    "id": "384103",
+    "japanese": "日曜日に会いました。",
+    "english": "We met on Sunday."
+  },
+  {
+    "id": "1698473",
+    "japanese": "バケツをひっくり返したような雨だ。",
+    "english": "It's raining cats and dogs."
+  },
+  {
+    "id": "8581952",
+    "japanese": "土砂降りです。",
+    "english": "It's raining cats and dogs."
+  },
+  {
+    "id": "384720",
+    "japanese": "シャツの替えがない。",
+    "english": "I don't have a spare shirt."
+  },
+  {
+    "id": "385047",
+    "japanese": "ネットは広大だわ。",
+    "english": "The net is huge."
+  },
+  {
+    "id": "385175",
+    "japanese": "まあ、いいわ。続けて。",
+    "english": "Well, OK. Continue."
+  },
+  {
+    "id": "385176",
+    "japanese": "ああ、いいよ。続けて。",
+    "english": "Well, OK. Continue."
+  },
+  {
+    "id": "385325",
+    "japanese": "あ！また忘れてた！図書館に本を返しにいく日だった！",
+    "english": "Ah! I forgot again! I was supposed to go to the library to return a book today!"
+  },
+  {
+    "id": "537014",
+    "japanese": "ベルが鳴った。",
+    "english": "The bell rang."
+  },
+  {
+    "id": "1073477",
+    "japanese": "すみません、今、何時ですか。",
+    "english": "Excuse me, what time is it?"
+  },
+  {
+    "id": "11052439",
+    "japanese": "すみません。今、何時ですか？",
+    "english": "Excuse me, what time is it?"
+  },
+  {
+    "id": "386003",
+    "japanese": "鮎漁の解禁日に合わせて漁が始まることが多い。",
+    "english": "Fishing often starts to go with the start of the Ayu season."
+  },
+  {
+    "id": "386009",
+    "japanese": "彼女は言語学の専門家として認められている。",
+    "english": "She is recognized to be an expert on linguistics."
+  },
+  {
+    "id": "386203",
+    "japanese": "昨夜、この自動販売機は愚連隊によって壊されました。",
+    "english": "This vending machine was destroyed by hoodlums last night."
+  },
+  {
+    "id": "386205",
+    "japanese": "日本で一番南にある島は沖縄です。",
+    "english": "Okinawa is the southernmost island in Japan."
+  },
+  {
+    "id": "386210",
+    "japanese": "日本で全部の雑誌の発行部数はどのぐらいでしょうか。",
+    "english": "How many copies of magazines are being printed in Japan across all Japanese magazines?"
+  },
+  {
+    "id": "4772253",
+    "japanese": "いい？",
+    "english": "Is that okay?"
+  },
+  {
+    "id": "8687007",
+    "japanese": "それでいい？",
+    "english": "Is that okay?"
+  },
+  {
+    "id": "8687014",
+    "japanese": "それで問題ない？",
+    "english": "Is that okay?"
+  },
+  {
+    "id": "488569",
+    "japanese": "私は、なかった物を探していた。",
+    "english": "I was searching for something that didn't exist."
+  },
+  {
+    "id": "1185720",
+    "japanese": "フォースと共に在らんことを。",
+    "english": "May the force be with you."
+  },
+  {
+    "id": "530099",
+    "japanese": "彼は車の運転の仕方を習っている。",
+    "english": "He is learning how to drive a car."
+  },
+  {
+    "id": "530789",
+    "japanese": "彼は車の運転を習っています。",
+    "english": "He is learning how to drive a car."
+  },
+  {
+    "id": "1483505",
+    "japanese": "昨夜、誰かに私の自転車を盗まれました。",
+    "english": "My bike was stolen last night."
+  },
+  {
+    "id": "537012",
+    "japanese": "父はサッカーが好きじゃない。",
+    "english": "My dad doesn't like soccer."
+  },
+  {
+    "id": "961431",
+    "japanese": "戦争が好きな人はいない。",
+    "english": "Nobody likes war."
+  },
+  {
+    "id": "8775091",
+    "japanese": "明日は出掛けるの？",
+    "english": "Are you going out tomorrow?"
+  },
+  {
+    "id": "386835",
+    "japanese": "明日、雨になれば、ピクニックに行きません。",
+    "english": "If it rains tomorrow, I won't go to the picnic."
+  },
+  {
+    "id": "387144",
+    "japanese": "Ｐが半順序集合であることを証明せよ。",
+    "english": "Prove that P is a poset."
+  },
+  {
+    "id": "387322",
+    "japanese": "主よ。あなたは、みことばのとおりに、あなたのしもべに良くしてくださいました。",
+    "english": "You have dealt well with Your servant, O LORD, according to Your word."
+  },
+  {
+    "id": "866732",
+    "japanese": "ネズミを捕まえてくれるのであれば、その猫が黒かろうが白かろうが、どちらでも構わない。",
+    "english": "It doesn't matter whether the cat is black or white as long as it catches mice."
+  },
+  {
+    "id": "11179389",
+    "japanese": "犬は嗅覚が鋭いのです。",
+    "english": "Dogs have a keen sense of smell."
+  },
+  {
+    "id": "1204068",
+    "japanese": "数年ぶりだから、彼女は私のことがわかるかしら。",
+    "english": "I wonder if she'll recognize me after all these years."
+  },
+  {
+    "id": "1204070",
+    "japanese": "数年ぶりで、彼女は私の顔を覚えているだろうか。",
+    "english": "I wonder if she'll recognize me after all these years."
+  },
+  {
+    "id": "387392",
+    "japanese": "あなたは猫を3匹飼っている。",
+    "english": "You have three cats."
+  },
+  {
+    "id": "1183777",
+    "japanese": "このご恩は一生忘れません。",
+    "english": "I'll never forget your kindness as long as I live."
+  },
+  {
+    "id": "1168348",
+    "japanese": "人はお互いに家の詮索するのが大好きなのだ。",
+    "english": "People love to check out each other's houses."
+  },
+  {
+    "id": "1204066",
+    "japanese": "今日はちょっと寒い。",
+    "english": "It's a little cold today."
+  },
+  {
+    "id": "1204065",
+    "japanese": "もう月が出ているよ。",
+    "english": "The moon is already out."
+  },
+  {
+    "id": "1172805",
+    "japanese": "そういう類いのものは、どこにでもあるわけではない。",
+    "english": "That kind of thing can't be found just anywhere."
+  },
+  {
+    "id": "1204008",
+    "japanese": "彼は私たちのチームの最優秀選手です。",
+    "english": "He's the most valuable player on our team."
+  },
+  {
+    "id": "1204011",
+    "japanese": "彼はうちのチームのＭＶＰだ。",
+    "english": "He's the most valuable player on our team."
+  },
+  {
+    "id": "1204007",
+    "japanese": "夕食までに家に帰ってこなかったこと、お父さんに謝らなくちゃいけないよ。",
+    "english": "You should apologize to your father for not getting home in time for dinner."
+  },
+  {
+    "id": "1179403",
+    "japanese": "私が来るなと言ったのにかかわらず、彼はやってきた。",
+    "english": "He came even though I told him not to."
+  },
+  {
+    "id": "1177960",
+    "japanese": "こちらをフロントにお渡しください。",
+    "english": "Please hand this in at the front desk."
+  },
+  {
+    "id": "442923",
+    "japanese": "始めましょう。",
+    "english": "Let's begin."
+  },
+  {
+    "id": "1203518",
+    "japanese": "女性はたいてい男性より10年寿命が長い。",
+    "english": "Women usually live 10 years longer than men do."
+  },
+  {
+    "id": "1905016",
+    "japanese": "忙しい生活を送っているので、彼は普段家族に会うことはない。",
+    "english": "Living a busy life, he usually doesn't see his family."
+  },
+  {
+    "id": "1203514",
+    "japanese": "熱が高いんだ。",
+    "english": "I have a high fever."
+  },
+  {
+    "id": "1203512",
+    "japanese": "「安いんだね。10ヤードもらおうかな」と、その女の子は答えた。",
+    "english": "\"That's cheap. I'll take ten yards,\" the girl answered."
+  },
+  {
+    "id": "1203510",
+    "japanese": "彼は外車を購入するため、懸命に働いた。",
+    "english": "In order to buy a foreign car, he worked very hard."
+  },
+  {
+    "id": "1203508",
+    "japanese": "私たちには時間がある。",
+    "english": "We have time to spare."
+  },
+  {
+    "id": "1171675",
+    "japanese": "テーブルの上にはまだたくさんの料理がある。",
+    "english": "There are still a lot of dishes on the table."
+  },
+  {
+    "id": "1203000",
+    "japanese": "週末はどんな予定？",
+    "english": "What're your plans for the weekend?"
+  },
+  {
+    "id": "1202992",
+    "japanese": "ジョンは水泳部に所属している。",
+    "english": "John is in the swimming club."
+  },
+  {
+    "id": "1202991",
+    "japanese": "彼が好きなのはゼリーです。",
+    "english": "What he likes is jelly."
+  },
+  {
+    "id": "1202931",
+    "japanese": "グレイスは怒った顔をしていた。",
+    "english": "Grace looked angry."
+  },
+  {
+    "id": "2718360",
+    "japanese": "グラハム・グリーンは私のお気に入りの作家の一人です。",
+    "english": "Graham Greene is one of my favorite authors."
+  },
+  {
+    "id": "3757341",
+    "japanese": "グレアム・グリーンは私の好きな作家の一人です。",
+    "english": "Graham Greene is one of my favorite authors."
+  },
+  {
+    "id": "1202920",
+    "japanese": "クリスマスプレゼントみたいにラッピングしてください。",
+    "english": "Please wrap it like a Christmas present."
+  },
+  {
+    "id": "1202294",
+    "japanese": "そろそろクリスマスでしょう？",
+    "english": "Christmas is soon, right?"
+  },
+  {
+    "id": "1202291",
+    "japanese": "もうすぐクリスマスだね。",
+    "english": "Christmas is soon, isn't it?"
+  },
+  {
+    "id": "11031138",
+    "japanese": "もうすぐクリスマスです。",
+    "english": "Christmas is soon."
+  },
+  {
+    "id": "1202263",
+    "japanese": "クリスマスの日、トムの右足はまだギプスをはめていた。",
+    "english": "On Christmas Day, Tom's right leg was still in a cast."
+  },
+  {
+    "id": "13089119",
+    "japanese": "クリスマスに何を買ってあげたの？",
+    "english": "What did you buy her for Christmas?"
+  },
+  {
+    "id": "387481",
+    "japanese": "ケンさんの犬はとても大きい。",
+    "english": "Ken's dog is very big."
+  },
+  {
+    "id": "387526",
+    "japanese": "熟成したチーズの方が好きだ。",
+    "english": "I prefer mature cheese."
+  },
+  {
+    "id": "709762",
+    "japanese": "僕の言う事は誰も信じてくれない。",
+    "english": "Nobody believes what I say."
+  },
+  {
+    "id": "1173374",
+    "japanese": "私たちは彼女の助けを頼りにできる。",
+    "english": "We can depend on her to help us."
+  },
+  {
+    "id": "936252",
+    "japanese": "この果物はオレンジのような形をして、パイナップルのような味がします。",
+    "english": "This fruit is shaped like an orange and tastes like a pineapple."
+  },
+  {
+    "id": "1170973",
+    "japanese": "私たちは彼女がカナダ生まれなのを知っている。",
+    "english": "We know that she was born in Canada."
+  },
+  {
+    "id": "4919569",
+    "japanese": "この川は流れが速い。",
+    "english": "This river flows rapidly."
+  },
+  {
+    "id": "387580",
+    "japanese": "彼はスーツやネクタイの好みにうるさい。",
+    "english": "He's picky about suits and ties."
+  },
+  {
+    "id": "1107943",
+    "japanese": "この間彼女に会ったとき、両親のことを聞かれた。",
+    "english": "When I met her the other day, she asked about my parents."
+  },
+  {
+    "id": "1107944",
+    "japanese": "こないだ彼女に会ったとき、両親のことを聞かれた。",
+    "english": "When I met her the other day, she asked about my parents."
+  },
+  {
+    "id": "1202216",
+    "japanese": "ちょうど出かけようとしていたところに、彼女から電話がかかってきた。",
+    "english": "When I was about to leave my house, I got a telephone call from her."
+  },
+  {
+    "id": "878557",
+    "japanese": "新聞を読みながら同時にテレビを観る人もいる。",
+    "english": "Some people read the newspaper and watch TV at the same time."
+  },
+  {
+    "id": "387781",
+    "japanese": "彼は最近改宗したカトリック信者です。",
+    "english": "He is a recent convert to Catholicism."
+  },
+  {
+    "id": "387780",
+    "japanese": "彼女は彼からその秘密を引き出すだろう。今すぐ彼女に打ち明けた方がいい。",
+    "english": "She will worm the secret out of him. I had better trust her with it at once."
+  },
+  {
+    "id": "387855",
+    "japanese": "楽しみのない生活は嫌です！",
+    "english": "I couldn't stand a life without pleasures!"
+  },
+  {
+    "id": "387866",
+    "japanese": "オバマ氏が勝つと思う。楽勝だよ。",
+    "english": "I think Obama will win. It'll be a walkover!"
+  },
+  {
+    "id": "387868",
+    "japanese": "お前なら勝てる。楽勝だよ！",
+    "english": "You can do it. It'll be a cakewalk!"
+  },
+  {
+    "id": "387871",
+    "japanese": "ＭＹＳＴやＲＩＶＥＮででてくるような革表紙の本のようなブックカバーをつくりたい。",
+    "english": "I want to make a book cover like the leather-bound books that you get in Myst and Riven."
+  },
+  {
+    "id": "387891",
+    "japanese": "今さっきフランス語の試験が終わったとこなんだけど、楽勝だったよ。",
+    "english": "I just got done with my French exam. It was a piece of cake!"
+  },
+  {
+    "id": "869851",
+    "japanese": "その山の頂は雪に覆われている。",
+    "english": "The top of the mountain is covered in snow."
+  },
+  {
+    "id": "1202213",
+    "japanese": "その男性は私が誰なのかと聞いてきたが、私はその質問に答える必要などないと思った。",
+    "english": "That man asked me who I was, but I didn't think it was necessary to answer that question."
+  },
+  {
+    "id": "9203534",
+    "japanese": "人々は立ち上がり、歌い始めた。",
+    "english": "The people stood up and began to sing."
+  },
+  {
+    "id": "1174246",
+    "japanese": "彼女はそれを聞いてすぐにここへ来た。",
+    "english": "She came here as soon as she heard it."
+  },
+  {
+    "id": "1020956",
+    "japanese": "シャワーを浴びなくちゃ。",
+    "english": "I need to take a shower."
+  },
+  {
+    "id": "1166888",
+    "japanese": "車の修理にかなりお金がかかった。",
+    "english": "It cost a lot of money to repair the car."
+  },
+  {
+    "id": "1158676",
+    "japanese": "車をお借りできますか。",
+    "english": "May I borrow your car?"
+  },
+  {
+    "id": "1171900",
+    "japanese": "車を運転するときは油断してはいけない。",
+    "english": "You must be careful when you drive a car."
+  },
+  {
+    "id": "10366745",
+    "japanese": "お金が欲しいって言ってたよ。",
+    "english": "He said that he wanted some money."
+  },
+  {
+    "id": "12488283",
+    "japanese": "ピアノを持ってるのかな？",
+    "english": "Does she have a piano?"
+  },
+  {
+    "id": "12488285",
+    "japanese": "ピアノはあるのかな？",
+    "english": "Does she have a piano?"
+  },
+  {
+    "id": "1167069",
+    "japanese": "彼女のせいで、彼は悲惨な生活を送った。",
+    "english": "Because of her, he lived a miserable life."
+  },
+  {
+    "id": "1193481",
+    "japanese": "この花は綺麗なだけでなく、いい匂いがする。",
+    "english": "These flowers aren't only beautiful, but they smell nice."
+  },
+  {
+    "id": "553882",
+    "japanese": "信濃川は日本で一番長い。",
+    "english": "The Shinano River is the longest river in Japan."
+  },
+  {
+    "id": "388324",
+    "japanese": "保険の料金は使用目的（仕事かレジャーか）によって異なります。",
+    "english": "The insurance payments depend on the use intended (work or leisure)."
+  },
+  {
+    "id": "388326",
+    "japanese": "まず仕事かレジャーかと聞かれる。",
+    "english": "First you'll be asked if you're on business or leisure."
+  },
+  {
+    "id": "1207562",
+    "japanese": "彼女は彼のセーターを何日もかけて編んだ。",
+    "english": "She spent many days knitting a sweater for him."
+  },
+  {
+    "id": "388344",
+    "japanese": "ミスを発見したら、コメントしてください。",
+    "english": "If you find a mistake, please leave a comment."
+  },
+  {
+    "id": "1160484",
+    "japanese": "間違いを見つけたら、コメントを残しておいてください。",
+    "english": "If you find a mistake, please leave a comment."
+  },
+  {
+    "id": "388348",
+    "japanese": "コメントはまだありません。",
+    "english": "There are no comments yet."
+  },
+  {
+    "id": "638108",
+    "japanese": "ビルは彼の父親がたくさんタバコを吸うのが好きではない。",
+    "english": "Bill doesn't like the fact that his father smokes a lot."
+  },
+  {
+    "id": "1206187",
+    "japanese": "彼女の厳しい表情に、彼は話すのをやめた。",
+    "english": "Her stern look got him to quit talking."
+  },
+  {
+    "id": "1206180",
+    "japanese": "彼は百歳の誕生日の数日前に亡くなった。",
+    "english": "He died a few days before his hundredth birthday."
+  },
+  {
+    "id": "1206125",
+    "japanese": "メアリーは彼に何と言えばいいのか全く分からない。",
+    "english": "Mary is at a loss about what to say to him."
+  },
+  {
+    "id": "1206133",
+    "japanese": "メアリーは彼に何を言えばいいのか困っている。",
+    "english": "Mary is at a loss about what to say to him."
+  },
+  {
+    "id": "1181181",
+    "japanese": "メアリーは彼に何を言えばいいのか分からない。",
+    "english": "Mary doesn't know what to say to him."
+  },
+  {
+    "id": "1206122",
+    "japanese": "彼女は彼を探して歩き回った。",
+    "english": "She walked around looking for him."
+  },
+  {
+    "id": "1172977",
+    "japanese": "私はメアリーに会ってすぐに彼女のことが好きになった。",
+    "english": "I started liking Mary as soon as I met her."
+  },
+  {
+    "id": "2257903",
+    "japanese": "僕は彼女に一目惚れした。",
+    "english": "I fell in love with her the moment I met her."
+  },
+  {
+    "id": "9015146",
+    "japanese": "彼女に会った途端、僕は恋に落ちた。",
+    "english": "I fell in love with her the moment I met her."
+  },
+  {
+    "id": "1206022",
+    "japanese": "彼らが担任の先生を大好きになるとは思ってもみなかった。",
+    "english": "I never thought that they would like their teacher so much."
+  },
+  {
+    "id": "9062077",
+    "japanese": "彼女は服にこだわりがない。",
+    "english": "She doesn't care how she dresses."
+  },
+  {
+    "id": "9062080",
+    "japanese": "彼女は服装にはこだわらない。",
+    "english": "She doesn't care how she dresses."
+  },
+  {
+    "id": "1204112",
+    "japanese": "言い換えれば、彼女は良き妻となった。",
+    "english": "In other words, she became a good wife."
+  },
+  {
+    "id": "1204099",
+    "japanese": "彼女は道を横断するお年寄りの手助けをした。",
+    "english": "She helped the old man across the street."
+  },
+  {
+    "id": "1204092",
+    "japanese": "彼女はその少年を立派な人に育て上げた。",
+    "english": "She raised the boy to be a fine person."
+  },
+  {
+    "id": "1204089",
+    "japanese": "彼女は美的センスがゼロだ。",
+    "english": "She has no sense of beauty."
+  },
+  {
+    "id": "1204088",
+    "japanese": "彼女は美的感覚に優れている。",
+    "english": "She has an eye for beauty."
+  },
+  {
+    "id": "1166902",
+    "japanese": "私はおばあさんに席を譲った。",
+    "english": "I gave my seat to the old lady."
+  },
+  {
+    "id": "1204087",
+    "japanese": "混んでいるバスの車内では、若者はお年寄りに席を譲るべきだ。",
+    "english": "On crowded buses, young people should give their seats to old people."
+  },
+  {
+    "id": "388492",
+    "japanese": "イソップ童話に『すっぱい葡萄』という話があります。",
+    "english": "In Aesop's Fables is a story called \"Sour Grapes\"."
+  },
+  {
+    "id": "1185753",
+    "japanese": "昨夜彼は休憩なしで働いた。",
+    "english": "He worked last night without taking a break."
+  },
+  {
+    "id": "1181105",
+    "japanese": "君はジェーンを彼女の妹と間違えたのかもしれない。",
+    "english": "You may have mistaken Jane for her sister."
+  },
+  {
+    "id": "1218424",
+    "japanese": "彼女はすぐに手紙の返事をくれた。",
+    "english": "She answered my letter right away."
+  },
+  {
+    "id": "567172",
+    "japanese": "彼女は涙をうかべて答えた。",
+    "english": "She answered in tears."
+  },
+  {
+    "id": "1218420",
+    "japanese": "彼女は単に議論のために論じる。",
+    "english": "She argues just for the sake of arguing."
+  },
+  {
+    "id": "1166629",
+    "japanese": "彼女はボートで太平洋を横断することができた。",
+    "english": "She was able to cross the Pacific Ocean by boat."
+  },
+  {
+    "id": "1166415",
+    "japanese": "彼女はボートでの太平洋横断に成功した。",
+    "english": "She succeeded in crossing the Pacific Ocean by boat."
+  },
+  {
+    "id": "1218415",
+    "japanese": "彼女は私の給料が安いと文句を言った。",
+    "english": "She complained that my salary was low."
+  },
+  {
+    "id": "1213776",
+    "japanese": "彼女はハーバード大学への入学が決まった。",
+    "english": "She was accepted to Harvard."
+  },
+  {
+    "id": "1213770",
+    "japanese": "彼女はハーバード大学に受かった。",
+    "english": "She was accepted by Harvard."
+  },
+  {
+    "id": "1069490",
+    "japanese": "彼女は幽霊を見て驚いた。",
+    "english": "She was surprised when she saw the ghost."
+  },
+  {
+    "id": "1213768",
+    "japanese": "彼女はその知らせを聞いてとても驚いた。",
+    "english": "She was very surprised when she heard the news."
+  },
+  {
+    "id": "1211970",
+    "japanese": "彼女は両親が彼女を見つめていることに気付いた。",
+    "english": "She became aware that her parents were watching her."
+  },
+  {
+    "id": "1212832",
+    "japanese": "彼女は両親が自分を見守っているのに気が付いた。",
+    "english": "She became aware that her parents were watching her."
+  },
+  {
+    "id": "1211966",
+    "japanese": "その太った女性は猿を抱きかかえていた。",
+    "english": "The fat woman was holding a monkey."
+  },
+  {
+    "id": "1211965",
+    "japanese": "彼女は昇進した。",
+    "english": "She was promoted."
+  },
+  {
+    "id": "1211964",
+    "japanese": "彼女は非常に急いでいた。",
+    "english": "She was in a great hurry."
+  },
+  {
+    "id": "1211962",
+    "japanese": "ケイトは強制的にその本を読まされた。",
+    "english": "Kate was forced to read the book."
+  },
+  {
+    "id": "1211960",
+    "japanese": "彼女は議長に任命された。",
+    "english": "She was appointed chairperson."
+  },
+  {
+    "id": "1211957",
+    "japanese": "彼女はもう少しで車にぶつかるところだった。",
+    "english": "She was almost hit by a car."
+  },
+  {
+    "id": "1211942",
+    "japanese": "彼女は出かけようとしていたところだった。",
+    "english": "She was about to go out."
+  },
+  {
+    "id": "1211936",
+    "japanese": "ミニスカートはもう流行遅れだ。",
+    "english": "Short skirts are already out of fashion."
+  },
+  {
+    "id": "1159851",
+    "japanese": "この靴はこの白いスカートに良く合います。",
+    "english": "Those shoes go well with this white skirt."
+  },
+  {
+    "id": "1107912",
+    "japanese": "この間彼女は映画に行った。",
+    "english": "She went to a movie the other day."
+  },
+  {
+    "id": "1107914",
+    "japanese": "先日彼女は映画を見に行った。",
+    "english": "She went to a movie the other day."
+  },
+  {
+    "id": "1210657",
+    "japanese": "父が今日の午後映画に行こうと提案した。",
+    "english": "My father suggested that we go to the movies this afternoon."
+  },
+  {
+    "id": "1210650",
+    "japanese": "映画を見に行こうよ。",
+    "english": "Let's go to a movie."
+  },
+  {
+    "id": "10616166",
+    "japanese": "映画を観に行こうよ。",
+    "english": "Let's go to a movie."
+  },
+  {
+    "id": "2381900",
+    "japanese": "彼女は手紙を読んで涙を流した。",
+    "english": "She cried as she read the letter."
+  },
+  {
+    "id": "1210199",
+    "japanese": "彼女はたくさんのオレンジから果汁を搾り出した。",
+    "english": "She squeezed the juice from many oranges."
+  },
+  {
+    "id": "1209993",
+    "japanese": "メアリーが試験に合格しますように。",
+    "english": "I hope that Mary passes the examination."
+  },
+  {
+    "id": "1087652",
+    "japanese": "私の意見としては、彼は正しいと思います。",
+    "english": "In my opinion, he is correct."
+  },
+  {
+    "id": "1209986",
+    "japanese": "私の考えでは、彼が正しいと思います。",
+    "english": "In my opinion, he is correct."
+  },
+  {
+    "id": "1209977",
+    "japanese": "彼女はそろそろ村に到着してるよ。",
+    "english": "I'm sure that she has arrived at the village by now."
+  },
+  {
+    "id": "1209978",
+    "japanese": "彼女は今頃もう村に到着してるよ。",
+    "english": "I'm sure that she has arrived at the village by now."
+  },
+  {
+    "id": "1171016",
+    "japanese": "今日彼女が来るような気がする。",
+    "english": "I have a feeling that she will come today."
+  },
+  {
+    "id": "1209974",
+    "japanese": "彼女が来るなんて聞いていない。",
+    "english": "I've not heard that she will come."
+  },
+  {
+    "id": "1168383",
+    "japanese": "彼女が来るという知らせは一切受け取っていません。",
+    "english": "I haven't received any notice that she's coming."
+  },
+  {
+    "id": "1168384",
+    "japanese": "彼女が来るという知らせは何も受け取っていません。",
+    "english": "I haven't received any notice that she's coming."
+  },
+  {
+    "id": "1209837",
+    "japanese": "赤いドレスは彼女を引き立てた。",
+    "english": "Her red dress made her stand out."
+  },
+  {
+    "id": "1209831",
+    "japanese": "スーツを着ていたので彼は目立っていた。",
+    "english": "He stood out because he was wearing a suit."
+  },
+  {
+    "id": "10280184",
+    "japanese": "彼は自分の失敗を運が悪いからだと思うことが多い。",
+    "english": "He often attributes his failures to bad luck."
+  },
+  {
+    "id": "1185682",
+    "japanese": "彼は無試験でその学校の入学が認められた。",
+    "english": "He was admitted to that school without taking the exam."
+  },
+  {
+    "id": "389502",
+    "japanese": "そのときはそのときになって考えましょう。",
+    "english": "We'll cross that bridge when we come to it."
+  },
+  {
+    "id": "10007420",
+    "japanese": "北京は中国の首都だ。",
+    "english": "Beijing is the capital of China."
+  },
+  {
+    "id": "389274",
+    "japanese": "からだには、心と同じくらいたくさんの過去の記憶や感情が蓄積されている。",
+    "english": "Just as many memories of the past and feelings are stored up in the body as in the spirit."
+  },
+  {
+    "id": "389276",
+    "japanese": "マルチブート環境のＰＣでは搭載ＯＳと同数のライセンスが必要ですか？",
+    "english": "Do you need as many licenses as you have operating systems installed in a multi-boot PC?"
+  },
+  {
+    "id": "389278",
+    "japanese": "通常のフライトマイルと同数のボーナスマイルをプレゼント！",
+    "english": "We'll give you as many bonus miles as the normal air miles!"
+  },
+  {
+    "id": "389691",
+    "japanese": "小さな火花はしばしば大きな炎を起こす。",
+    "english": "A small spark often kindles a large flame."
+  },
+  {
+    "id": "389481",
+    "japanese": "あなたがこれらの事をしたのを、わたしが黙っていたので、あなたはわたしを全く自分とひとしい者と思った。しかしわたしはあなたを責め、あなたの目の前にその罪をならべる。「詩篇５０：２１」",
+    "english": "You have done these things, and I kept silence. You thought that the \"I AM\" was just like you. I will rebuke you, and accuse you in front of your eyes."
+  },
+  {
+    "id": "389483",
+    "japanese": "手紙を書くのを決して忘れないようにしなさい。",
+    "english": "Be sure and remember to write a letter."
+  },
+  {
+    "id": "389524",
+    "japanese": "「親離れ」だけではない。親も「子離れ」をしないといけない。",
+    "english": "Not just 'child's independence'. Parents must also become independent of their children."
+  },
+  {
+    "id": "389527",
+    "japanese": "一人暮らしで金銭面で親に頼っていない。",
+    "english": "I live on my own and don't depend on my parents for money."
+  },
+  {
+    "id": "389629",
+    "japanese": "豚も煽てりゃ木に登る。",
+    "english": "Even pigs can climb a tree when flattered."
+  },
+  {
+    "id": "389649",
+    "japanese": "コーヒーとクロワッサン、お願いします。",
+    "english": "I'll have a coffee and a croissant."
+  },
+  {
+    "id": "389692",
+    "japanese": "我々は学校のためでなく、人生のために学ぶ。",
+    "english": "Not for school, but for life do we learn."
+  },
+  {
+    "id": "389696",
+    "japanese": "死を忘れるな。",
+    "english": "Don't forget death."
+  },
+  {
+    "id": "389702",
+    "japanese": "愛されることを望むなら、愛しなさい！",
+    "english": "If you want to be loved, love!"
+  },
+  {
+    "id": "1614179",
+    "japanese": "愛ほど尊いものはない。",
+    "english": "There's nothing as precious as love."
+  },
+  {
+    "id": "389773",
+    "japanese": "トムは「詰めてくれ」と言って強引に割り込んで座った。",
+    "english": "Tom said, \"budge over,\" forced his way in and sat down."
+  },
+  {
+    "id": "389844",
+    "japanese": "偉大な人の好意は神々の恩恵である。",
+    "english": "The friendship of a great man is a gift from the gods."
+  },
+  {
+    "id": "389960",
+    "japanese": "確かにあなたの言い分は正しいかもしれません。",
+    "english": "Certainly you may well be right."
+  },
+  {
+    "id": "9073531",
+    "japanese": "どうやってお金を稼いでるの？",
+    "english": "How do you make your money?"
+  },
+  {
+    "id": "389994",
+    "japanese": "均整とは倦怠のことだ。",
+    "english": "Symmetry is boring."
+  },
+  {
+    "id": "390010",
+    "japanese": "神よ、神よ、なぜ私を見捨てられたか？",
+    "english": "My God, my God, why hast thou forsaken me?"
+  },
+  {
+    "id": "2469388",
+    "japanese": "わが神、わが神、なんぞ我を見棄て給ひし。",
+    "english": "My God, my God, why hast thou forsaken me?"
+  },
+  {
+    "id": "390015",
+    "japanese": "すべての幸福な家庭は互いに似ている。不幸な家庭はそれぞれの仕方で不幸である。",
+    "english": "Happy families are all alike; every unhappy family is unhappy in its own way."
+  },
+  {
+    "id": "390021",
+    "japanese": "巧言令色、鮮なし仁。",
+    "english": "Fine words and an insinuating appearance are seldom associated with true virtue."
+  },
+  {
+    "id": "390024",
+    "japanese": "なぜ自動翻訳は使い物にならないのか？",
+    "english": "Why is machine translation useless?"
+  },
+  {
+    "id": "390031",
+    "japanese": "語りえないことについては、沈黙するほかない。",
+    "english": "Whereof one cannot speak, thereof one must be silent."
+  },
+  {
+    "id": "3312284",
+    "japanese": "語りえぬものについては沈黙しなければならない。",
+    "english": "Whereof one cannot speak, thereof one must be silent."
+  },
+  {
+    "id": "390034",
+    "japanese": "戦争は決して地震や津波のような天変地異ではない。何の音沙汰もなく突然やってくるものではない。",
+    "english": "War is not a natural disaster like an earthquake or a tsunami. It does not come without warning."
+  },
+  {
+    "id": "390036",
+    "japanese": "猫は三年の恩を三日で忘れる、犬は三日飼えば三年恩を忘れぬ。",
+    "english": "A cat will forget three years of kindness in three days, feed a dog for three days and he will remember it for three years."
+  },
+  {
+    "id": "390038",
+    "japanese": "猫がいない間に鼠は踊る。",
+    "english": "When the cat is not there, the mice are dancing."
+  },
+  {
+    "id": "390042",
+    "japanese": "我輩は猫である。名前はまだない。",
+    "english": "I am a cat. I don't have a name yet."
+  },
+  {
+    "id": "2281023",
+    "japanese": "私は猫です。名前はまだありません。",
+    "english": "I am a cat. I don't have a name yet."
+  },
+  {
+    "id": "2330661",
+    "japanese": "吾輩は猫である。名前はまだ無い。",
+    "english": "I am a cat. I don't have a name yet."
+  },
+  {
+    "id": "390046",
+    "japanese": "人生は地獄よりも地獄的である。",
+    "english": "Life is more hellish than hell itself."
+  },
+  {
+    "id": "390049",
+    "japanese": "恋愛はただ性欲の詩的表現をうけたものである。",
+    "english": "Love is merely a lyrical way of referring to lust."
+  },
+  {
+    "id": "390052",
+    "japanese": "自由は山巓の空気に似ている。どちらも弱い者には堪えることは出来ない。",
+    "english": "Freedom is akin to the rarified air of a mountain top. Weak men cannot bear one or the other."
+  },
+  {
+    "id": "390055",
+    "japanese": "阿呆はいつも彼以外のものを阿呆であると信じている。",
+    "english": "A fool always believes that it is the others who are fools."
+  },
+  {
+    "id": "390058",
+    "japanese": "天才の一面は明らかに醜聞を起し得る才能である。",
+    "english": "A facet of genius is the ability to provoke scandals."
+  },
+  {
+    "id": "390062",
+    "japanese": "あらゆる神の属性中、最も神のために同情するのは神には自殺の出来ないことである。",
+    "english": "Out of all the attributes of the gods, the one I find most pitiable is their inability to commit suicide."
+  },
+  {
+    "id": "390065",
+    "japanese": "人生は一箱のマッチに似ている。重大に扱うのはばかばかしい。重大に扱わねば危険である。",
+    "english": "Life is as a box of matches. Treating it cautiously is foolish, not treating it cautiously is dangerous."
+  },
+  {
+    "id": "390070",
+    "japanese": "恋の悲しみを知らぬものに恋の味は話せない。",
+    "english": "Those who do not know the sadness of love may not speak of it."
+  },
+  {
+    "id": "390075",
+    "japanese": "恋とは巨大な矛盾であります。それなくしては生きられず、しかもそれによって傷つく。",
+    "english": "Love is a great contradiction. You cannot live without it but at the same time you will be hurt by it."
+  },
+  {
+    "id": "390077",
+    "japanese": "恋愛とはなにか。私は言う。それは非常に恥ずかしいものである。",
+    "english": "I will tell you what love is. It's very embarrassing."
+  },
+  {
+    "id": "390080",
+    "japanese": "全ての場合を通じて、恋愛は忍耐である。",
+    "english": "In all cases, love is perseverance."
+  },
+  {
+    "id": "390081",
+    "japanese": "恋は多く人生の苦痛を包むオブラートなり。",
+    "english": "Love is a pill made from a great many people's sufferings."
+  },
+  {
+    "id": "390083",
+    "japanese": "少女の恋は詩なり。年増の恋は哲学なり。",
+    "english": "The love of a young maiden is a poem. The love of an old maid is philosophy."
+  },
+  {
+    "id": "390084",
+    "japanese": "愛することにかけては、女性こそ専門家で、男性は永遠に素人である。",
+    "english": "When it comes to love, women are experts and men eternal novices."
+  },
+  {
+    "id": "390086",
+    "japanese": "愛は文明の奇跡である。",
+    "english": "Love is the miracle of civilization."
+  },
+  {
+    "id": "390088",
+    "japanese": "アラフォー出産は何も珍しいことはありません。",
+    "english": "There is nothing abnormal in having a child around forty."
+  },
+  {
+    "id": "1614261",
+    "japanese": "愛は文明の奇跡だ。",
+    "english": "Love is the miracle of civilization."
+  },
+  {
+    "id": "390134",
+    "japanese": "人は軽蔑されたと感じたときに最もよく怒る。だから自信のあるものはあまり怒らない。",
+    "english": "People are most angry when they feel they are being mocked. That's why those who are confident in themselves seldom become angry."
+  },
+  {
+    "id": "390136",
+    "japanese": "人生とオムレツは、タイミングが大事。",
+    "english": "In life as with omelets, the timing is important."
+  },
+  {
+    "id": "390147",
+    "japanese": "羊飼いはいつも羊に「羊の利害と自分の利害は同じだ」と説得しようとしている。",
+    "english": "The shepherd always tries to persuade the sheep that their interests and his own are the same."
+  },
+  {
+    "id": "390199",
+    "japanese": "フェイスブックでの絶対的なプライバシーは幻想であり、実際には存在しない。",
+    "english": "Absolute privacy on Facebook is an illusion. It doesn't exist in reality."
+  },
+  {
+    "id": "390210",
+    "japanese": "子供より親が大事と思いたい。",
+    "english": "I want to think that parents are more important than their children."
+  },
+  {
+    "id": "390385",
+    "japanese": "数日前、ガールフレンドのソフィーちゃんがアルバータ州・エドモントンから隣のブリティッシュ・コロンビア州・ビクトリアへ引越しをした。",
+    "english": "A few days ago, my girlfriend Sophie moved from Edmonton, Alberta to Victoria, British Columbia."
+  },
+  {
+    "id": "390395",
+    "japanese": "ケベック、カナダ にあるフランス語語学スクールの最も安い料金を保証します。",
+    "english": "We guarantee the cheapest price for a French language school in Quebec, Canada."
+  },
+  {
+    "id": "390398",
+    "japanese": "ケベックのフランス語はカナダのケベック州において700万以上の人々によって話されています。",
+    "english": "French from Quebec is spoken by more than 7 million speakers."
+  },
+  {
+    "id": "390406",
+    "japanese": "私は６月初旬にトロントに来たものです。",
+    "english": "I came to Toronto at the beginning of June."
+  },
+  {
+    "id": "390414",
+    "japanese": "メアドからしてアメ公か？",
+    "english": "Looking at his email address, would you say he's American?"
+  },
+  {
+    "id": "10387251",
+    "japanese": "人間の心と行動を研究する学問である心理学は、観察や実験によって知識を構築します。",
+    "english": "Psychology, which studies the human mind and human behavior, builds knowledge by observation and experiments."
+  },
+  {
+    "id": "390637",
+    "japanese": "ロッキード事件とは、アメリカの航空機製造大手のロッキード社による、主に同社の旅客機の受注をめぐって1976年2 月に明るみに出た世界的な大規模汚職事件。",
+    "english": "The Lockheed scandal is a worldwide corruption scandal involving the major American plane manufacturer Lockheed. It came to light in February 1976 and revolved mainly around the acceptance of passenger plane contracts."
+  },
+  {
+    "id": "390639",
+    "japanese": "日歯連闇献金事件とは日本歯科医師連盟が自由民主党所属の国会議員に闇献金した事件。",
+    "english": "The Japanese Dentists Association affair is an incident concerning secret donations from the Japanese Dentists Association to Diet members belonging to the LDP."
+  },
+  {
+    "id": "390641",
+    "japanese": "リクルート事件は、値上がり確実であったリクルートコスモス社の未公開株を賄賂として受け取ったとして、政治家や官僚らが次々に逮捕された日本の汚職事件である。",
+    "english": "The Recruit scandal is a corruption scandal concerning public officials and politicians who accepted as bribes undisclosed shares from the RecruitCoscom company. The shares had been rising steadily."
+  },
+  {
+    "id": "390645",
+    "japanese": "賄賂は、権力機構の成立に付随して出現する。",
+    "english": "Bribes are something that arises in conjunction with power organizations."
+  },
+  {
+    "id": "390649",
+    "japanese": "『メトロイドプライム3 コラプション』は、任天堂発売のWii専用ゲームソフト。",
+    "english": "\"Metroid Prime 3: Corruption\" is a videogame by Nintendo sold exclusively for the Wii."
+  },
+  {
+    "id": "390717",
+    "japanese": "シルヴィオ・ベルルスコーニはイタリアの政治家、現在のイタリア首相、また成功した実業家。",
+    "english": "Silvio Berlusconi is an Italian politician, the current Prime Minister of Italy, as well as a successful entrepreneur."
+  },
+  {
+    "id": "390718",
+    "japanese": "陸路を運ぶのは大変ですが、海路で運ぶのは簡単です。",
+    "english": "It's very difficult to transport them overland, but simple to do so by sea."
+  },
+  {
+    "id": "390734",
+    "japanese": "カモメはうるさい鳴き声やフン害、ゴミ袋を裂いたり、 食べ物を狙って攻撃するなどの迷惑行為を引き起こします。",
+    "english": "Seagulls cause all types of disturbances by cackling loudly, spreading guano, tearing up garbage bags and attacking to get food."
+  },
+  {
+    "id": "390740",
+    "japanese": "コーネル大学の調査によると、醜い被告人は甘いマスクの持ち主より２２％以上有罪判決が下される可能性がある。",
+    "english": "According to a Cornell University study, unattractive defendants are 22 percent more likely to be convicted than good-looking ones."
+  },
+  {
+    "id": "994016",
+    "japanese": "コーネル大学の研究によると、ブサイクな被告はイケメン、美女の被告より２２パーセント高い確率で有罪になるんだって。",
+    "english": "According to a Cornell University study, unattractive defendants are 22 percent more likely to be convicted than good-looking ones."
+  },
+  {
+    "id": "1220864",
+    "japanese": "私は彼が立ち止まっていたのに気付いた。",
+    "english": "I noticed that he had stopped."
+  },
+  {
+    "id": "390926",
+    "japanese": "恥ずかしがらないで。",
+    "english": "Don't be shy."
+  },
+  {
+    "id": "1220855",
+    "japanese": "すぐ出発してと彼に頼んだ。",
+    "english": "I asked him to leave at once."
+  },
+  {
+    "id": "1220850",
+    "japanese": "私は彼に部屋を離れるように言った。",
+    "english": "I told him to leave the room."
+  },
+  {
+    "id": "390995",
+    "japanese": "俗説で「玉レタスを4分の1程度食べると眠くなる」と言われ、韓国では仕事前のドライバーが食べてはいけない食べ物として知られている。",
+    "english": "In Korea, there's a popular theory that says that: \"If you eat a quarter of an Iceberg lettuce, you will fall asleep\". Thus, amongst truck drivers in Korea, lettuce is known as something that should not be eaten before work."
+  },
+  {
+    "id": "391040",
+    "japanese": "クリームは、脂肪とたんぱく質が濃縮した濃厚で、白色や薄黄色の液体。",
+    "english": "Cream is a white and light yellow liquid composed of concentrated proteins and fat."
+  },
+  {
+    "id": "1220701",
+    "japanese": "二度と彼に会うことはないだろう。",
+    "english": "I will never see him again."
+  },
+  {
+    "id": "1033716",
+    "japanese": "住所を教えてもらえませんか。",
+    "english": "Can you tell me your address?"
+  },
+  {
+    "id": "1033717",
+    "japanese": "住所を教えていただけますか。",
+    "english": "Can you tell me your address?"
+  },
+  {
+    "id": "391259",
+    "japanese": "女体盛りとは、女性の裸体に刺身など食べ物を盛り付けることを言う。",
+    "english": "Nyotaimori is where food, like sashimi, is laid out on a naked woman."
+  },
+  {
+    "id": "391262",
+    "japanese": "僕は猫が大好きで大好きで仕方ない猫馬鹿です。",
+    "english": "I love cats so much, I can't help it, I'm a crazy cat lover."
+  },
+  {
+    "id": "391284",
+    "japanese": "ガガ様のライブ一緒に行ける方いませんか？",
+    "english": "Can anybody come with me to a Lady Gaga concert?"
+  },
+  {
+    "id": "514705",
+    "japanese": "ガガ様のライブ一緒に行きたい方いらっしゃいますか？",
+    "english": "Is there anybody who would like to go see a live concert of Lady Gaga with me?"
+  },
+  {
+    "id": "391396",
+    "japanese": "この部屋は静かです。",
+    "english": "This room is quiet."
+  },
+  {
+    "id": "391399",
+    "japanese": "イタリアの食べ物は美味しかったです。",
+    "english": "The food was great in Italy."
+  },
+  {
+    "id": "391401",
+    "japanese": "レストランは駅から遠かったです。",
+    "english": "The restaurant was far from the station."
+  },
+  {
+    "id": "391427",
+    "japanese": "雨が降って来ました。",
+    "english": "It had started to rain."
+  },
+  {
+    "id": "391428",
+    "japanese": "これから段々暖かくなって行くでしょう。",
+    "english": "It's going to get steadily hotter from now."
+  },
+  {
+    "id": "391430",
+    "japanese": "ご飯を食べて行きましょう。",
+    "english": "Let's eat before we go."
+  },
+  {
+    "id": "1172449",
+    "japanese": "彼が帰宅した途端に雨が降った。",
+    "english": "It rained as soon as he got home."
+  },
+  {
+    "id": "391742",
+    "japanese": "階段からおちると階下にすばやく下りてしまう。",
+    "english": "When you fall off the stairs, you're downstairs quickly."
+  },
+  {
+    "id": "391756",
+    "japanese": "人生とは自転車のようなものだ。倒れないようにするには走らなければならない。",
+    "english": "Life is like riding a bicycle. To keep your balance you must keep moving."
+  },
+  {
+    "id": "7061545",
+    "japanese": "常識とは、18歳までに身に付けた偏見のコレクションである。",
+    "english": "Common sense is the collection of prejudices acquired by age eighteen."
+  },
+  {
+    "id": "391763",
+    "japanese": "不可能という言葉はフランス語にはない。",
+    "english": "Impossible is not French."
+  },
+  {
+    "id": "416166",
+    "japanese": "不可能という言葉はフランス的ではない。",
+    "english": "Impossible is not French."
+  },
+  {
+    "id": "416167",
+    "japanese": "不可能ということばは、フランス語ではない。",
+    "english": "Impossible is not French."
+  },
+  {
+    "id": "416168",
+    "japanese": "フランス人はなにかが不可能だとは考えない。",
+    "english": "Impossible is not French."
+  },
+  {
+    "id": "391765",
+    "japanese": "宗教なき社会は、羅針盤のない船のようなものである。",
+    "english": "A society without religion is like a ship without a compass."
+  },
+  {
+    "id": "391769",
+    "japanese": "天才とは、彼らの世紀を照らして光輝くべく運命づけられた流星である。",
+    "english": "Men of genius are meteors destined to burn in order to illuminate their century."
+  },
+  {
+    "id": "391851",
+    "japanese": "神は存在しないなら何をすることも許されていると判断した。",
+    "english": "He decided that if God didn't exist then everything was permitted."
+  },
+  {
+    "id": "391853",
+    "japanese": "神よ、私に貞潔さと堅固さをおあたえください。ですが、いますぐにではなく。",
+    "english": "God, please give me chastity and continence, but not yet."
+  },
+  {
+    "id": "391855",
+    "japanese": "神は風を備える、だが人が帆をあげなければならない。",
+    "english": "God provides the wind, but man must raise the sails."
+  },
+  {
+    "id": "391861",
+    "japanese": "私は幸福であろうと決意した。なぜなら健康によいからだ。",
+    "english": "I decided to be happy because it's good for my health."
+  },
+  {
+    "id": "391864",
+    "japanese": "もし神が存在しないなら、神を発明しなければならない。",
+    "english": "If God did not exist, we'd have to invent him."
+  },
+  {
+    "id": "391868",
+    "japanese": "世界を動かそうと思ったらまず､自分自身を動かせ。",
+    "english": "Let him that would move the world, first move himself."
+  },
+  {
+    "id": "391870",
+    "japanese": "あまりに旅に時間を費やす者は、最後には己の国でよそものとなる。",
+    "english": "Those who spend too much time traveling become strangers in their own country."
+  },
+  {
+    "id": "391873",
+    "japanese": "神は無限の球である。その中心は到るところにあり、その円周はどこにもない。",
+    "english": "God is an infinite sphere whose center is everywhere and circumference is nowhere."
+  },
+  {
+    "id": "391877",
+    "japanese": "感情には、理性にはまったく知られぬ感情の理屈がある。",
+    "english": "The heart has its reasons, which reason does not know."
+  },
+  {
+    "id": "391879",
+    "japanese": "己が真理を保持していると信じるのは人間の生まれつきの病である。",
+    "english": "It is man's natural sickness to believe that he possesses the Truth."
+  },
+  {
+    "id": "391882",
+    "japanese": "好奇心は虚栄以外のなにものでもない。ほとんどの場合、話すためにだけ、人は知ることを欲する。",
+    "english": "Curiosity is nothing more than vanity. More often than not we only seek knowledge to show it off."
+  },
+  {
+    "id": "1218823",
+    "japanese": "これは彼女の手作りケーキです。",
+    "english": "These are cakes that she baked herself."
+  },
+  {
+    "id": "391892",
+    "japanese": "産科・婦人科の計６１床も満床で、受け入れは不可能と答えたという。",
+    "english": "They replied that because all 61 beds in the obstetrics/gynaecology department were full, no admissions were possible."
+  },
+  {
+    "id": "391894",
+    "japanese": "石綿金網を発見された場合飛散防止のため石綿の部分を水に濡らしてビニール袋に包み安全を確保して下さい。",
+    "english": "In the event that asbestos-covered mesh is found, ensure its safety by damping the asbestos portion to prevent dust release and wrapping in a plastic bag."
+  },
+  {
+    "id": "391896",
+    "japanese": "探検家が山中の道なき道を行った。",
+    "english": "The explorer pushed his way through the trackless mountain region."
+  },
+  {
+    "id": "391898",
+    "japanese": "規則もへったくれもあるものか。",
+    "english": "To hell with conventions!"
+  },
+  {
+    "id": "391964",
+    "japanese": "一部の人はひどい目に遭ったとき、他人に祈りを求めるのに自分は祈ることを忘れてしまう。",
+    "english": "There are those, who, in distress, seek the help of other people's prayers, but have no mind to pray for themselves."
+  },
+  {
+    "id": "391928",
+    "japanese": "命令する前に服従することを学ばねばならない。",
+    "english": "Before you give orders, you must learn to obey."
+  },
+  {
+    "id": "391934",
+    "japanese": "牡牛を捕まえるには角をつかめ。",
+    "english": "To catch the bull, grab its horns."
+  },
+  {
+    "id": "391936",
+    "japanese": "生きるためには食べねばならない。食べるために生きるのではない。",
+    "english": "You must eat to live. You must not live to eat."
+  },
+  {
+    "id": "391938",
+    "japanese": "鉄は熱いうちに打たねばならぬ。",
+    "english": "You must strike while the iron is hot."
+  },
+  {
+    "id": "391940",
+    "japanese": "これを悪しく考える者らは恥じよ。",
+    "english": "Shame be to him who thinks evil of it."
+  },
+  {
+    "id": "391941",
+    "japanese": "自分自身を助けなさい。そうしたら天が君を助けるだろう。",
+    "english": "Help yourself and God will help you."
+  },
+  {
+    "id": "391943",
+    "japanese": "雨の後は良い日が来る。",
+    "english": "After the rain, fair weather."
+  },
+  {
+    "id": "391945",
+    "japanese": "鍛冶屋になるのは，鉄を鍛えながらだ。",
+    "english": "It's by smithing that one becomes a blacksmith."
+  },
+  {
+    "id": "391947",
+    "japanese": "ゆっくりと急げ。",
+    "english": "Hurry slowly."
+  },
+  {
+    "id": "391950",
+    "japanese": "博打で幸運、恋愛で不運。",
+    "english": "Lucky at cards, unlucky in love."
+  },
+  {
+    "id": "391952",
+    "japanese": "悪口雑言をいわれても、いわれた人の価値が下がるわけではない。",
+    "english": "Even if malicious gossip is being circulated around someone, it doesn't necessarily mean that the value of that person will be diminished."
+  },
+  {
+    "id": "391954",
+    "japanese": "食べるほど食欲がでる。",
+    "english": "The more I eat the bigger my appetite gets."
+  },
+  {
+    "id": "391956",
+    "japanese": "うまい酒に宣伝はいらない。",
+    "english": "There's no need to advertise a good sake."
+  },
+  {
+    "id": "1172443",
+    "japanese": "次に彼女が来る時には、家にいるつもりです。",
+    "english": "I'll be at home the next time she comes."
+  },
+  {
+    "id": "1153389",
+    "japanese": "彼がどこへ逃げたのか、誰にもわからない。",
+    "english": "Nobody knows where he has escaped to."
+  },
+  {
+    "id": "392026",
+    "japanese": "彼は病気なのに学校に来ています。",
+    "english": "He came to school even though he was unwell."
+  },
+  {
+    "id": "392027",
+    "japanese": "それほど勉強していないのですよ。",
+    "english": "I haven't studied that much!"
+  },
+  {
+    "id": "392028",
+    "japanese": "トマさんは小学生向けの本が読めるぐらい漢字をたくさん覚えています。",
+    "english": "Tom has memorised so many kanji that he can read books for primary school children."
+  },
+  {
+    "id": "392030",
+    "japanese": "明子さんはアポイントを忘れるほどいそがしいです。",
+    "english": "Akiko is busy enough to forget her appointments."
+  },
+  {
+    "id": "392096",
+    "japanese": "考古学は人類が残した痕跡の研究を通し、人類の活動とその変化を研究する学問である。",
+    "english": "Archeology is a science that studies the activities of human beings and their changes through the study of the traces left by them."
+  },
+  {
+    "id": "392106",
+    "japanese": "公園で酔っ払いが騒いでいると近隣住民から通報があり、警察官が駆けつけたところ、泥酔し全裸になった草彅が一人でいた。",
+    "english": "There was a report from the neighbours because a drunkard was making noise in the park. When the police officers arrived at the scene, Kusanagi was alone, dead drunk and completely naked."
+  },
+  {
+    "id": "943494",
+    "japanese": "廊下から居間、台所、トイレに行けます。また階段を上がれば、寝室と浴室があります。",
+    "english": "From the corridor, you can reach the living room, the kitchen, and the toilet, or you can take the stairs upstairs, where the bedrooms and the bathroom are."
+  },
+  {
+    "id": "8738519",
+    "japanese": "これが欲しかったやつ？",
+    "english": "Is this what you wanted?"
+  },
+  {
+    "id": "392114",
+    "japanese": "暗殺説もあるが、では誰が何のために暗殺したのかは特定されたわけではなく、いまだ真相は不明である。",
+    "english": "There were assassination theories but it was not clear who would have killed him and for what reason. Even now the truth about his death is unclear."
+  },
+  {
+    "id": "392116",
+    "japanese": "日本列島にも旧石器文化が存在したことは、岩宿遺跡をはじめ、各地での発掘調査の結果から明らかとなっているが、日本の旧石器文化の遺物には造形芸術と呼ぶべきものはほとんど存在しない。",
+    "english": "As evidenced by findings from the Iwajuku site to results of excavations around the country, a paleolithic culture did exist in the Japanese archipelago. However, there are almost no surviving artifacts of what could be termed plastic art."
+  },
+  {
+    "id": "9686075",
+    "japanese": "ここに来た理由は何なの？",
+    "english": "Why did you come here?"
+  },
+  {
+    "id": "9573944",
+    "japanese": "彼は私より３個上だよ。",
+    "english": "He's three years older than me."
+  },
+  {
+    "id": "10636930",
+    "japanese": "あいつがどの日に来るのか分からないんだ。",
+    "english": "I don't know what day he'll come."
+  },
+  {
+    "id": "392188",
+    "japanese": "ベンヤミンは優れた芸術作品を前にして人が経験するであろう畏怖や崇敬の感覚を指して「アウラ」という語を用いた。",
+    "english": "Benjamin called the sense of awe and reverence experienced before a great work of art \"aura\"."
+  },
+  {
+    "id": "787215",
+    "japanese": "これはなんですか？",
+    "english": "What is this?"
+  },
+  {
+    "id": "4621452",
+    "japanese": "これは何ですか？",
+    "english": "What is this?"
+  },
+  {
+    "id": "2602586",
+    "japanese": "これはDVDです。",
+    "english": "This is a DVD."
+  },
+  {
+    "id": "8744887",
+    "japanese": "これって、あなたのDVD？",
+    "english": "Is this your DVD?"
+  },
+  {
+    "id": "1202388",
+    "japanese": "用心深い鳥は木を選ぶ。思慮深い従者は主を選ぶ。",
+    "english": "A prudent bird chooses its tree. A wise servant chooses his master."
+  },
+  {
+    "id": "11310712",
+    "japanese": "借りたものは返した方がいいよ。",
+    "english": "You should return what you borrow."
+  },
+  {
+    "id": "778262",
+    "japanese": "ついに！",
+    "english": "Finally!"
+  },
+  {
+    "id": "7577179",
+    "japanese": "やっと！",
+    "english": "Finally!"
+  },
+  {
+    "id": "1967481",
+    "japanese": "目覚まし時計で起こされるより、鳥の鳴き声で目覚める方がずっといい。",
+    "english": "Much better to be woken by the birds than by an alarm."
+  },
+  {
+    "id": "1471203",
+    "japanese": "客観的な歴史は存在するだろうか。",
+    "english": "Does objective history exist?"
+  },
+  {
+    "id": "1221955",
+    "japanese": "女性は読み物をしている。",
+    "english": "The woman is reading."
+  },
+  {
+    "id": "393250",
+    "japanese": "水、ガス、電気が遠くから運ばれて我々の要求を満たすためになんなく供給されているように、いつか画像と音楽はちょっとした合図みたいなシンプルな手の仕草によって提供されることにもなります。",
+    "english": "Just as water, gas, and electricity are brought into our houses from far off to satisfy our needs in response to a minimal effort, so we shall be supplied with visual or auditory images, which will appear and disappear at a simple movement of the hand, hardly more than a sign."
+  },
+  {
+    "id": "412915",
+    "japanese": "水やガス、電気が欲しい時に簡単に手に入るように、映像や音楽も手を軽く動かすだけで点けたり消したり出来るようになるだろう。",
+    "english": "Just as water, gas, and electricity are brought into our houses from far off to satisfy our needs in response to a minimal effort, so we shall be supplied with visual or auditory images, which will appear and disappear at a simple movement of the hand, hardly more than a sign."
+  },
+  {
+    "id": "392598",
+    "japanese": "昔は若者たちが羊を描いておいてと訊いていたのに今時にはコッミットを教えてくれと尋ねてきます。時代が変わったね。",
+    "english": "Before, young ones used to ask me to draw them a sheep, now they want me to teach them how to make a commit. Times, they are a-changin'."
+  },
+  {
+    "id": "392628",
+    "japanese": "アウグスティヌスの思想的影響はキリスト教にとどまらず、西洋思想全体に及んでいるといっても過言ではない。",
+    "english": "It would not be an exaggeration to say that Augustine's thought had an influence not only on Christianity but on the whole of Western thought."
+  },
+  {
+    "id": "10905063",
+    "japanese": "うちの子は学校よ。",
+    "english": "My children are at school."
+  },
+  {
+    "id": "10905064",
+    "japanese": "子供たちは学校に行ってるわ。",
+    "english": "My children are at school."
+  },
+  {
+    "id": "393141",
+    "japanese": "このようなケースは、その会社の本社に連絡するのが常道です。",
+    "english": "It is normal practice to contact the company's home office in these kinds of cases."
+  },
+  {
+    "id": "393171",
+    "japanese": "お元気ですか。ずいぶん長い間お会いしていません。",
+    "english": "How are you doing? I haven't seen you for an age!"
+  },
+  {
+    "id": "1087639",
+    "japanese": "お元気ですか。お久しぶりですね。",
+    "english": "How are you doing? I haven't seen you for an age!"
+  },
+  {
+    "id": "393245",
+    "japanese": "口を開いて愚かさについて疑問を解消するより、口を閉じたままで愚かに見られる方がまだいい。",
+    "english": "It is better to keep your mouth shut and appear stupid than to open it and remove all doubt."
+  },
+  {
+    "id": "393247",
+    "japanese": "銀行家とは、日が照っている時に人に傘を貸し、雨が降り出した途端に返せと言ってくる連中である。",
+    "english": "A banker is a fellow who lends you his umbrella when the sun is shining, but wants it back the minute it begins to rain."
+  },
+  {
+    "id": "395014",
+    "japanese": "政府は、政治問題に関するネット上の会話を監視し、誤った情報と判断した場合にそれを訂正する方法を模索している。",
+    "english": "The government is looking for ways to monitor online chatter about political issues and correct what it perceives as misinformation."
+  },
+  {
+    "id": "926739",
+    "japanese": "お願いします。",
+    "english": "Please."
+  },
+  {
+    "id": "8533908",
+    "japanese": "どうぞ。",
+    "english": "Please."
+  },
+  {
+    "id": "393362",
+    "japanese": "掃除の時間に数人の生徒で教壇をつる。",
+    "english": "When cleaning the classroom, a few students carry the podium."
+  },
+  {
+    "id": "393557",
+    "japanese": "様々な神経伝達物質とホルモンが攻撃行動と相関することが示されている。",
+    "english": "It has been shown that there is a relation between various neurotransmitters and hormones and aggressive behavior."
+  },
+  {
+    "id": "393563",
+    "japanese": "同種個体への攻撃性は繁殖に関係するいくつかの目的にかなう。",
+    "english": "Interspecies aggression is oriented towards goals related to reproduction."
+  },
+  {
+    "id": "393564",
+    "japanese": "攻撃性のもっとも顕著なタイプは捕食者と被食者間によく見られる。",
+    "english": "The most visible forms of aggression are often seen between prey and predator."
+  },
+  {
+    "id": "393788",
+    "japanese": "このため、今夜から明日にかけて全般に曇りや雨の天気でしょう。",
+    "english": "Because of this it will probably be generally cloudy and rainy weather over tonight and tomorrow."
+  },
+  {
+    "id": "393790",
+    "japanese": "ジャスティン班長、亜空間レーダーに反応出ました！",
+    "english": "Squad Leader Justin, a blip's appeared on the hyperspace radar!"
+  },
+  {
+    "id": "393792",
+    "japanese": "予想に反して楽に勝てましたね。",
+    "english": "Contrary to expectations, they won with ease."
+  },
+  {
+    "id": "393794",
+    "japanese": "最上川の川べりを歩いたのは初めて。",
+    "english": "It was the first time I'd walked along the Mogami River."
+  },
+  {
+    "id": "393796",
+    "japanese": "吸い終わったらすぐ部屋の中に入るなら問題ないですか？",
+    "english": "It isn't a problem as long as I come back into the room right after finishing smoking, is it?"
+  },
+  {
+    "id": "393798",
+    "japanese": "外れた。相手に着弾していない。",
+    "english": "Off-target. My opponent hadn't been hit."
+  },
+  {
+    "id": "393800",
+    "japanese": "必ず、お電話に出てください。",
+    "english": "Please be certain to answer the phone."
+  },
+  {
+    "id": "393802",
+    "japanese": "今学期は良が２つあった。",
+    "english": "I got two Bs this semester."
+  },
+  {
+    "id": "393804",
+    "japanese": "トマトの作柄は良だ。",
+    "english": "The tomato crop is of good quality."
+  },
+  {
+    "id": "393806",
+    "japanese": "心停止の患者を応急処置で生かした。",
+    "english": "We used emergency measures to revive the cardiac arrest patient."
+  },
+  {
+    "id": "393809",
+    "japanese": "不平を言わずにがまんしろ。",
+    "english": "Beggars can't be choosers."
+  },
+  {
+    "id": "393875",
+    "japanese": "乞食は選択者にはなれない。",
+    "english": "Beggars can't be choosers."
+  },
+  {
+    "id": "1139319",
+    "japanese": "物乞いは物言いをつけられぬ。",
+    "english": "Beggars can't be choosers."
+  },
+  {
+    "id": "393811",
+    "japanese": "すべての動物は平等である。しかしある動物は他の動物よりさらに平等である。",
+    "english": "All animals are equal, but some animals are more equal than others."
+  },
+  {
+    "id": "393813",
+    "japanese": "デスクトップにショートカットを作成しておいたほうが、いろいろ便利だと思います。",
+    "english": "I think you will find it convenient to put a short-cut on the desktop."
+  },
+  {
+    "id": "393815",
+    "japanese": "お前らの憐れみなんぞ願い下げだ。",
+    "english": "I don't want your pity."
+  },
+  {
+    "id": "393817",
+    "japanese": "彼女に留守を頼んで外出しました。",
+    "english": "I went on the trip, leaving the house in her care."
+  },
+  {
+    "id": "393819",
+    "japanese": "罰金の話はでっち上げだそうです。",
+    "english": "It seems that the stuff about the fine was made up."
+  },
+  {
+    "id": "393821",
+    "japanese": "その気持ちは同じ世代じゃないとわからないと思うんですよ。",
+    "english": "I think you can't understand that feeling unless you're from the same generation."
+  },
+  {
+    "id": "393823",
+    "japanese": "リラックスできる癒し系の音楽をよく聞いている。",
+    "english": "I often listen to soothing music in order to relax."
+  },
+  {
+    "id": "393825",
+    "japanese": "バルカン山脈はブルガリアの中央を東西に走る山脈。",
+    "english": "The Balkan Mountain range runs across Bulgaria from west to east."
+  },
+  {
+    "id": "393827",
+    "japanese": "大きなステーキをぺろりと平らげた。",
+    "english": "I made very short work of the big steak."
+  },
+  {
+    "id": "393829",
+    "japanese": "研究者が癌を治療するための有望な方向性を指し示した。",
+    "english": "The researcher suggested promising directions for treating the cancer."
+  },
+  {
+    "id": "393831",
+    "japanese": "方向性がはっきりしない。",
+    "english": "The course of action is unclear."
+  },
+  {
+    "id": "393833",
+    "japanese": "内閣が触れを回した。",
+    "english": "The Cabinet sent round an official notice."
+  },
+  {
+    "id": "393835",
+    "japanese": "クラブの今日の発展にはこれらの人々の努力があずかって大いに力があった。",
+    "english": "What this club is today is largely due to the effort of these people."
+  },
+  {
+    "id": "393837",
+    "japanese": "お褒めにあずかって光栄です。",
+    "english": "I'm really flattered to hear that."
+  },
+  {
+    "id": "393839",
+    "japanese": "薬剤師になる目的で薬学を志望する人は６年制学科を選んでください。",
+    "english": "People taking pharmacy with the intent of becoming chemists should choose the six year course."
+  },
+  {
+    "id": "393840",
+    "japanese": "和子が胸をはだけて赤ん坊に乳をふくませた。",
+    "english": "Kazuko bared her breast and fed the baby."
+  },
+  {
+    "id": "393842",
+    "japanese": "木曜島はオーストラリア最北端ヨーク岬とニューギニア島の間のトレス海峡に位置する。",
+    "english": "Thursday Island is situated in the Torres Strait between Australia's northernmost Cape York and New Guinea."
+  },
+  {
+    "id": "995099",
+    "japanese": "私たちは電気ハエたたきの世界での生産と販売について新しいデータを持っている。",
+    "english": "We have new data about production and sale of electric fly swatters worldwide."
+  },
+  {
+    "id": "393862",
+    "japanese": "気前のよきより、まず至当たれ。",
+    "english": "Be just before you are generous."
+  },
+  {
+    "id": "393865",
+    "japanese": "黙っていなさい。さもなくば何か聞く価値のあることを言いなさい。",
+    "english": "Be silent, or speak something worth hearing."
+  },
+  {
+    "id": "393870",
+    "japanese": "美というのは、見る人の目の中でのことだ。",
+    "english": "Beauty is in the eye of the beholder."
+  },
+  {
+    "id": "393878",
+    "japanese": "一番良いものが、一番安い。",
+    "english": "The cheapest is the best."
+  },
+  {
+    "id": "393883",
+    "japanese": "今日の卵は明日の鶏に勝る。",
+    "english": "Better an egg today than a hen tomorrow."
+  },
+  {
+    "id": "393885",
+    "japanese": "連中がこのことに気づかぬうち機先を制したほうがいいでしょう。",
+    "english": "We'd probably be best off beating them to the punch before they notice that fact."
+  },
+  {
+    "id": "393887",
+    "japanese": "この語学センターでは、英語をはじめ世界１５か国の外国語が学べる。",
+    "english": "At this language centre, about 15 international languages are taught, including English."
+  },
+  {
+    "id": "393889",
+    "japanese": "もちろん、実際に「はやぶさ」が太陽に近づいているわけではなく、図のように地球から見て太陽の反対側に位置するだけですが、このような現象を「合」と呼びます。",
+    "english": "Of course \"Hayabusa\" is not actually closing in on the Sun, it is just positioned as in the figure so that, seen from the Earth, it is on the opposite side of the Sun; this is called 'conjunction'."
+  },
+  {
+    "id": "393891",
+    "japanese": "あの人の言うことはでたらめです。",
+    "english": "What he says is nonsense."
+  },
+  {
+    "id": "393893",
+    "japanese": "もちを食べている時にのどに詰まらせて窒息死する老人がたくさんいる。",
+    "english": "Many old people choke to death while eating mochi."
+  },
+  {
+    "id": "393895",
+    "japanese": "北朝鮮が６か国協議の合意に基づき核開発計画を申告した２６日、米国が「テロ支援国」の指定解除手続きに入ったことで、拉致被害者の家族らには「拉致問題が置き去りにされるのでは」という不安が広がった。",
+    "english": "With North Korea's announcement on the 26th of its nuclear development plan based upon the agreement stemming from the Six Party Talks, and the United States' commencement of procedures to remove North Korea from its designation on the list of State Sponsors of Terrorism, the families of abductees have expressed growing unease that it may constitute an abandonment of the abductee issue."
+  },
+  {
+    "id": "393900",
+    "japanese": "守りを固めろ！来るぞ！",
+    "english": "Tighten the defences! They're coming!"
+  },
+  {
+    "id": "393912",
+    "japanese": "唯一の証拠は、下着に付着していた精液の痕跡。",
+    "english": "The only evidence was the traces of semen stuck to the underwear."
+  },
+  {
+    "id": "10258119",
+    "japanese": "食事中にそういうことをするのは行儀が悪いよ。",
+    "english": "It's bad manners to do that kind of thing during meals."
+  },
+  {
+    "id": "1232521",
+    "japanese": "彼はダメ人間だ。",
+    "english": "He's a hopeless case."
+  },
+  {
+    "id": "394126",
+    "japanese": "あなたが死ぬまでに何が何でも達成したいことはなんですか？",
+    "english": "What is it that you want to achieve, whatever it takes, before you die?"
+  },
+  {
+    "id": "394132",
+    "japanese": "図体ばかり大きいから喧嘩強そうだが、実際喧嘩弱いだろ。",
+    "english": "He's just got a large build, so he looks like he'd be a fighter, but he's probably really a pushover."
+  },
+  {
+    "id": "394136",
+    "japanese": "マッチ箱をひとつと、糸の通った針を取り出します。",
+    "english": "Take out a matchbox and a needle and thread."
+  },
+  {
+    "id": "394373",
+    "japanese": "その言葉のなかには、ある種の波長を合わせるという意味がこめられている。",
+    "english": "In that word is included the meaning of matching up to somebody's particular wavelength."
+  },
+  {
+    "id": "394375",
+    "japanese": "頑張れさえすれば体力や知力がなくても何でもできるという一種の精神主義もある。",
+    "english": "There is also one type of idealism that says even without strength or intelligence you can do anything if you can merely persist."
+  },
+  {
+    "id": "394382",
+    "japanese": "「おぅーい、どうした丹治」「前の学校で習ってない単元があって困っている」",
+    "english": "\"Oy, what's up, Tanji?\" \"I'm having trouble because there's a unit I didn't take at my last school.\""
+  },
+  {
+    "id": "394385",
+    "japanese": "秀、食べすぎだよ。デブるぞ。",
+    "english": "Shu, you're eating too much. You'll get fat!"
+  },
+  {
+    "id": "394387",
+    "japanese": "怪我自体はなん針か縫う程度だそうです。",
+    "english": "Apparently the wound itself only needs a few stitches."
+  },
+  {
+    "id": "394389",
+    "japanese": "アンインストール方法：フォルダごとごみ箱にぽいっ。",
+    "english": "Uninstall method: Chuck the whole folder into the recycle bin."
+  },
+  {
+    "id": "394391",
+    "japanese": "一匹の妖怪がヨーロッパを徘徊している。共産主義という妖怪が。",
+    "english": "A spectre is haunting Europe — the spectre of communism."
+  },
+  {
+    "id": "394404",
+    "japanese": "それはいかんわい！",
+    "english": "That won't work!"
+  },
+  {
+    "id": "394461",
+    "japanese": "己の慣習でないものを、人は野蛮と呼ぶ。",
+    "english": "Each man calls barbarism whatever is not his own practice."
+  },
+  {
+    "id": "394467",
+    "japanese": "人にとって人以上に恐怖となる獣は世界に存在しない。",
+    "english": "For man, there is no beast more scary than man."
+  },
+  {
+    "id": "394475",
+    "japanese": "牛乳はすぐ悪くなるの？",
+    "english": "Does milk spoil quickly?"
+  },
+  {
+    "id": "394487",
+    "japanese": "ヌテラは日本のなかでなじみが薄いが、アメリカやヨーロッパなどでは人気のあるスプレッドであり、スーパーマーケットや食料品店には、大小さまざまなサイズの瓶が並んでいる光景が見られる。",
+    "english": "Nutella is not very well known in Japan. However, in America and Europe it's a popular spread and various sized jars of Nutella may be seen lined up inside many grocery stores and supermarkets."
+  },
+  {
+    "id": "394489",
+    "japanese": "その犬が噛みつこうとしたときに、首を押えつけてとことん叱りつけた。",
+    "english": "When the dog tried to bite me, I held him down by the neck and thoroughly scolded him."
+  },
+  {
+    "id": "394508",
+    "japanese": "日本では、諸外国と比較して食生活におけるトランス脂肪酸の平均摂取量は少なく、相対的に健康への影響は少ないと主張する説もある。",
+    "english": "Compared to many other countries, the average intake of trans-fats per person in Japan is low and it is hypothesized that it does not have a strong impact on health."
+  },
+  {
+    "id": "394528",
+    "japanese": "マイアミ・ヒートは、アメリカ合衆国フロリダ州マイアミに本拠を置く全米プロバスケットボール協会のチーム。",
+    "english": "The Miami Heat is a pro basketball team part of the NBA and located in Miami."
+  },
+  {
+    "id": "394537",
+    "japanese": "夏好きだけど、暑さにたえられない。",
+    "english": "I like summer, but I can't stand the heat."
+  },
+  {
+    "id": "394541",
+    "japanese": "暑いやらむしむしするやらで彼はよく眠れなかった。",
+    "english": "What with the heat and the humidity, he couldn't sleep well."
+  },
+  {
+    "id": "1090095",
+    "japanese": "俺は彼女が好きだ。",
+    "english": "I'm in love with her."
+  },
+  {
+    "id": "394675",
+    "japanese": "私にはいとこが二人いる。",
+    "english": "I have two cousins."
+  },
+  {
+    "id": "2265630",
+    "japanese": "何人いるか数えます。",
+    "english": "I'm counting how many people there are."
+  },
+  {
+    "id": "394759",
+    "japanese": "私は明後日から学年末試験です。なのに全く勉強していません。",
+    "english": "I have my year-end exams in 2 days, yet I'm not studying at all."
+  },
+  {
+    "id": "394762",
+    "japanese": "日本単独ではできないことも韓国と一緒に共同でやればできるかもしれない、という可能性はあると思います。",
+    "english": "There are problems that Japan might not be able to solve independently but which it might be able to solve in cooperation with Korea."
+  },
+  {
+    "id": "394768",
+    "japanese": "シチリア島にある5世紀頃ローマ帝国時代のモザイクには、ビキニに似た服で運動する女性が描かれている。",
+    "english": "A woman in movement clothed in what resembles a bikini is drawn on a Sicilian mosaic from 5th century Rome."
+  },
+  {
+    "id": "394797",
+    "japanese": "ジョーダンに留守を頼んで外出しました。",
+    "english": "Having asked Jordan to watch after the house, I went out."
+  },
+  {
+    "id": "9089406",
+    "japanese": "彼女ね、彼と別れるつもりなのよ。",
+    "english": "She plans to break up with her boyfriend."
+  },
+  {
+    "id": "394809",
+    "japanese": "酒豪とは、アルコール飲料を大量に飲むことが出来、さらにこれで酔態をさらさない者の俗称である。",
+    "english": "Shugo is a colloquial way of referring to someone who can drink large quantities of alcohol and additionally not feel the effects of intoxication."
+  },
+  {
+    "id": "10919685",
+    "japanese": "今は彼女に会いたくないんだ。",
+    "english": "I don't feel like meeting her now."
+  },
+  {
+    "id": "1185687",
+    "japanese": "私は彼女から一通も手紙をもらわなかった。",
+    "english": "I didn't receive even one letter from her."
+  },
+  {
+    "id": "394839",
+    "japanese": "どれに乗ったらよいか分からない。駅員を探すが見つからなかった。",
+    "english": "I didn't know which to take. I looked for a station attendant but didn't find one."
+  },
+  {
+    "id": "2904868",
+    "japanese": "以下の問いに英語で答えよ。",
+    "english": "Answer the following questions in English."
+  },
+  {
+    "id": "1487467",
+    "japanese": "村と町の違いはなんでしょうか。",
+    "english": "What's the difference between a village and a town?"
+  },
+  {
+    "id": "2876228",
+    "japanese": "あなたのお爺さんはどこに住んでいますか。",
+    "english": "Where does your grandpa live?"
+  },
+  {
+    "id": "2486077",
+    "japanese": "機嫌悪いの？",
+    "english": "What's the matter?"
+  },
+  {
+    "id": "11257955",
+    "japanese": "どないしたん？",
+    "english": "What's the matter?"
+  },
+  {
+    "id": "9142090",
+    "japanese": "私、あの歌手が大好きなんだ。",
+    "english": "I like that singer a lot."
+  },
+  {
+    "id": "1485373",
+    "japanese": "彼が彼女が好きかどうか誰にもわからない。",
+    "english": "No one knows if he loves her or not."
+  },
+  {
+    "id": "2426832",
+    "japanese": "彼は幸せだと思う。",
+    "english": "I think he's happy."
+  },
+  {
+    "id": "8964964",
+    "japanese": "これ、気になる。",
+    "english": "This annoys me."
+  },
+  {
+    "id": "395399",
+    "japanese": "イギリス人が本物のアメリカなまりをマネするのはすごく難しいと思います。",
+    "english": "I think it's very difficult for an Englishman to imitate a real American accent."
+  },
+  {
+    "id": "11753182",
+    "japanese": "あいつ、親父の言う事は一切聞かないからな。",
+    "english": "He never listens to what his father says."
+  },
+  {
+    "id": "395535",
+    "japanese": "父は母に給料全額を渡している。",
+    "english": "My father gives my mother all of his salary."
+  },
+  {
+    "id": "11394625",
+    "japanese": "うちのお父さん、給料は全部お母さんに渡してるよ。",
+    "english": "My father gives my mother all of his salary."
+  },
+  {
+    "id": "10697351",
+    "japanese": "彼女はとてもきれいな字を書くんですよ。",
+    "english": "She has very nice-looking handwriting."
+  },
+  {
+    "id": "8571052",
+    "japanese": "彼女の字はきれいだ。",
+    "english": "She has beautiful handwriting."
+  },
+  {
+    "id": "8571055",
+    "japanese": "彼女はきれいな字を書く。",
+    "english": "She has beautiful handwriting."
+  },
+  {
+    "id": "395560",
+    "japanese": "あなたはその本を買いましたか？",
+    "english": "Did you buy that book?"
+  },
+  {
+    "id": "395569",
+    "japanese": "今日医者に行きました。",
+    "english": "Today, I went to the doctor's."
+  },
+  {
+    "id": "395570",
+    "japanese": "この城は美しい。",
+    "english": "The castle is beautiful."
+  },
+  {
+    "id": "395607",
+    "japanese": "学生は多くの時間を遊びに費やす。",
+    "english": "Students spend a lot of time playing."
+  },
+  {
+    "id": "395613",
+    "japanese": "今日図書館で勉強するつもりだったけど、起きたのは12時ごろ。",
+    "english": "Today, I was supposed to study at the library but I woke up around 12 o'clock."
+  },
+  {
+    "id": "395644",
+    "japanese": "タイムトラベルは、実在する現象かは解明されていないが、理論物理学などにおいて実現の可能性が示されることがある。",
+    "english": "It's not clear right now whether time travel is really something that exists in reality but its possibility has been proven by theoretical physics."
+  },
+  {
+    "id": "395654",
+    "japanese": "持続可能な開発は、現代の世代が、将来の世代の利益や要求を充足する能力を損なわない範囲内で環境を利用し、要求を満たしていこうとする理念。",
+    "english": "Sustainable development is the concept of the current generation utilizing the environment and meet human demands while not harming the ability of future generations to satisfy their own demands and interests."
+  },
+  {
+    "id": "395665",
+    "japanese": "私は彼の行動が正しかったと思います。",
+    "english": "I believe the actions that he took were right."
+  },
+  {
+    "id": "10239556",
+    "japanese": "この漫画、あいつの姉ちゃんに貸してもらったんだ。",
+    "english": "I borrowed this comic from his sister."
+  },
+  {
+    "id": "10768236",
+    "japanese": "彼の説明は覚えてないんだ。",
+    "english": "I can't remember his explanation."
+  },
+  {
+    "id": "395755",
+    "japanese": "今日は鎧をつけていなくても佩刀するのは忘れていなかった。",
+    "english": "Today, even though he has not put on his armor, he has not forgotten to carry his sword."
+  },
+  {
+    "id": "395808",
+    "japanese": "露店などの安いアクセサリーなどが販売しているお店でよく瑪瑙の商品を見るのですが、あれって本物ですか？",
+    "english": "I often see cheap accessories made of agate sold in street stalls and such but are they the real thing?"
+  },
+  {
+    "id": "2749564",
+    "japanese": "私は飛行機に乗る前に息子に電話し、空港まで迎えに来るよう伝えた。",
+    "english": "I phoned my son before boarding the plane, telling him to come to the airport to pick me up."
+  },
+  {
+    "id": "880337",
+    "japanese": "部屋の前に立っている人は歴史学科の教授です。",
+    "english": "The person standing at the front of the room is a professor in the History Department."
+  },
+  {
+    "id": "395840",
+    "japanese": "私には関係ない。",
+    "english": "This doesn't concern me."
+  },
+  {
+    "id": "395860",
+    "japanese": "その学生が３年生になって学校に来たのは始業式の日だけです。",
+    "english": "Since he became a third year student, the only day he came to school was the day of the opening ceremony."
+  },
+  {
+    "id": "437488",
+    "japanese": "私達は駅へ急いだ。",
+    "english": "We hurried to the train station."
+  },
+  {
+    "id": "8533911",
+    "japanese": "見事！",
+    "english": "Great!"
+  },
+  {
+    "id": "8533912",
+    "japanese": "流石！",
+    "english": "Great!"
+  },
+  {
+    "id": "8533915",
+    "japanese": "さすが！",
+    "english": "Great!"
+  },
+  {
+    "id": "8533917",
+    "japanese": "すんごい！",
+    "english": "Great!"
+  },
+  {
+    "id": "8533919",
+    "japanese": "すごーい！",
+    "english": "Great!"
+  },
+  {
+    "id": "395979",
+    "japanese": "彼は意見を次々と変える。",
+    "english": "He changes his opinions one after another."
+  },
+  {
+    "id": "9134239",
+    "japanese": "冬にはコートを着るんだよ。",
+    "english": "I wear an overcoat in the winter."
+  },
+  {
+    "id": "882386",
+    "japanese": "午後に図書館へ行くのであれば、私の代わりに2冊の本を返却しておいていただけませんか？",
+    "english": "If you are going to the library this afternoon, would you please return two books for me whilst you are there?"
+  },
+  {
+    "id": "1180432",
+    "japanese": "もし僕が君なら、彼のアドバイスに耳を貸すよ。",
+    "english": "If I were you, I'd follow his advice."
+  },
+  {
+    "id": "8727179",
+    "japanese": "私なら、彼のアドバイス通りにするだろうな。",
+    "english": "If I were you, I'd follow his advice."
+  },
+  {
+    "id": "8727183",
+    "japanese": "俺だったら、彼の忠告に従うけどなあ。",
+    "english": "If I were you, I'd follow his advice."
+  },
+  {
+    "id": "1149201",
+    "japanese": "彼女の帽子はとても変に見えた。",
+    "english": "Her hat looked very funny."
+  },
+  {
+    "id": "1149208",
+    "japanese": "彼女の帽子はとてもへんてこりんだった。",
+    "english": "Her hat looked very funny."
+  },
+  {
+    "id": "9777197",
+    "japanese": "彼女の住所が分からないのよ。",
+    "english": "I don't know her address."
+  },
+  {
+    "id": "4318040",
+    "japanese": "バッテリー残量が少なくなっています。",
+    "english": "The battery is low."
+  },
+  {
+    "id": "869751",
+    "japanese": "腹を空かせた子犬たちが路上で吠えている。",
+    "english": "Hungry puppies are barking on the street."
+  },
+  {
+    "id": "2684210",
+    "japanese": "私は数学が大好きです。",
+    "english": "I love math."
+  },
+  {
+    "id": "1483586",
+    "japanese": "パンはいったいどこにあるんだ？",
+    "english": "Where did all the bread go?"
+  },
+  {
+    "id": "10367349",
+    "japanese": "心当たりはないよ。",
+    "english": "I don't have a clue."
+  },
+  {
+    "id": "1037385",
+    "japanese": "事務所のドアは黄色です。",
+    "english": "The door of the office is yellow."
+  },
+  {
+    "id": "10839675",
+    "japanese": "これか、それの、どちらか選んで。",
+    "english": "Choose between this and that."
+  },
+  {
+    "id": "9961079",
+    "japanese": "その車を買うつもりなの？",
+    "english": "Are you going to buy that car?"
+  },
+  {
+    "id": "3450266",
+    "japanese": "この辺にあるのは、私たちの本です。",
+    "english": "These are our books."
+  },
+  {
+    "id": "3450267",
+    "japanese": "この辺、俺らの本だから。",
+    "english": "These are our books."
+  },
+  {
+    "id": "1144592",
+    "japanese": "あの本は彼らのです。",
+    "english": "That book is theirs."
+  },
+  {
+    "id": "3418205",
+    "japanese": "この新しい本を持っていますか。",
+    "english": "Do you have this new book?"
+  },
+  {
+    "id": "397556",
+    "japanese": "犬は吠えても隊商は進む。",
+    "english": "Dogs bark when the caravan passes by."
+  },
+  {
+    "id": "3580937",
+    "japanese": "私はエンジニアです。",
+    "english": "I'm an engineer."
+  },
+  {
+    "id": "397663",
+    "japanese": "男は狼なら女は魔物だ。",
+    "english": "If men are wolves then women are devils."
+  },
+  {
+    "id": "397691",
+    "japanese": "事実は明白だ。それを混乱は憤慨するだろう、無知は嘲笑するだろう、悪意は曲げようとするだろう、しかしそれが事実なのだ。",
+    "english": "The truth is incontrovertible. Panic may resent it, ignorance may deride it, malice may distort it, but there it is."
+  },
+  {
+    "id": "397697",
+    "japanese": "今は終わりではない。これは終わりの始まりですらない。しかしあるいは、始まりの終わりかもしれない。",
+    "english": "Now this is not the end. It is not even the beginning of the end. But it is, perhaps, the end of the beginning."
+  },
+  {
+    "id": "1035864",
+    "japanese": "あれはナイフじゃないよ。これがナイフだよ。",
+    "english": "That's not a knife. THIS is a knife."
+  },
+  {
+    "id": "1047142",
+    "japanese": "スパイダーマンはかっこいいけど、蜘蛛は違うよ。",
+    "english": "Spider-Man is cool. Spiders are NOT."
+  },
+  {
+    "id": "9392964",
+    "japanese": "あの泳いでる男の子、見てごらんよ。",
+    "english": "Look at that boy who's swimming."
+  },
+  {
+    "id": "1680807",
+    "japanese": "あの少年は賢いです。",
+    "english": "That boy is smart."
+  },
+  {
+    "id": "869538",
+    "japanese": "私たちは先生に尋ねました。「結婚式はどこで行われるのですか?」",
+    "english": "We asked our teacher: \"Where will the wedding be held?\""
+  },
+  {
+    "id": "398100",
+    "japanese": "登山道は一面の落ち葉で柔らかく歩きやすかった。",
+    "english": "The mountain path was under a blanket of leaves, soft and easy to walk on."
+  },
+  {
+    "id": "398103",
+    "japanese": "彼は自分の母親にナイフで切り付け殺人未遂で有罪になった。",
+    "english": "He was found guilty of attempted murder for attacking his mother with a knife."
+  },
+  {
+    "id": "398118",
+    "japanese": "泣いている赤ちゃんと一緒にいると、こちらまで泣きたくなってしまう。",
+    "english": "When I'm with a crying baby, I end up wanting to cry myself!"
+  },
+  {
+    "id": "398124",
+    "japanese": "自分は他人である。",
+    "english": "I is an other."
+  },
+  {
+    "id": "398127",
+    "japanese": "私たちにとっては耳の痛い「真実」でしたが、この映画を観て地球の危機を改めて感じました。",
+    "english": "It's a painful 'truth' for us, but watching this movie brought home to me again the danger facing Earth."
+  },
+  {
+    "id": "398162",
+    "japanese": "日本の論者にはこういう謙遜な態度が少ないのが残念だと思います。",
+    "english": "I feel it unfortunate that there is little of this kind of humble attitude amongst Japanese debaters."
+  },
+  {
+    "id": "398178",
+    "japanese": "まず目に入るのは真っ赤なディスカウントドラッグストアの看板である。",
+    "english": "The first thing that hits you is the bright red discount drugstore sign."
+  },
+  {
+    "id": "398187",
+    "japanese": "彼女の顔の美しさに、僕はただ見とれていた。",
+    "english": "I was simply entranced by the beauty of her face."
+  },
+  {
+    "id": "398195",
+    "japanese": "私達は彼と取り引きすることにした。",
+    "english": "We decided to make a deal with him."
+  },
+  {
+    "id": "398205",
+    "japanese": "神への信頼を失うとは、道しるべを失うこと。",
+    "english": "To lose faith in God is to lose your guide."
+  },
+  {
+    "id": "398274",
+    "japanese": "ちゃんと現実を直視して生きるべきだ。",
+    "english": "You should live staring reality right in the eye."
+  },
+  {
+    "id": "398396",
+    "japanese": "忍耐力は科学の根源である。",
+    "english": "Patience is the mother of science."
+  },
+  {
+    "id": "942196",
+    "japanese": "草が生えているところに水はない。水があるところに草は生えない。",
+    "english": "Where there is grass, there is no water. Where there is water, there is no grass."
+  },
+  {
+    "id": "472784",
+    "japanese": "私はこの状況が気に入らない。",
+    "english": "I'm not happy with this situation."
+  },
+  {
+    "id": "398520",
+    "japanese": "冗談ですよ。",
+    "english": "I'm just kidding."
+  },
+  {
+    "id": "398521",
+    "japanese": "冗談を言ってるだけです。",
+    "english": "I'm just kidding."
+  },
+  {
+    "id": "9779183",
+    "japanese": "あの生徒たちのことを考えると、頭が痛いよ。",
+    "english": "When I think about those students, it gives me a headache."
+  },
+  {
+    "id": "2208044",
+    "japanese": "彼の才能は素晴らしい。",
+    "english": "I admire his talent."
+  },
+  {
+    "id": "9686136",
+    "japanese": "あいつと遊びに出かけても楽しくないんだ。",
+    "english": "I don't enjoy hanging out with him."
+  },
+  {
+    "id": "398652",
+    "japanese": "英語はさっぱり話せません。",
+    "english": "I can't speak English at all."
+  },
+  {
+    "id": "9695984",
+    "japanese": "英語は全く話せません。",
+    "english": "I can't speak English at all."
+  },
+  {
+    "id": "9695985",
+    "japanese": "英語は全然話せないの。",
+    "english": "I can't speak English at all."
+  },
+  {
+    "id": "398662",
+    "japanese": "僕は落ち込むどころか、彼女に憎しみを覚えるだろう。",
+    "english": "Rather than getting depressed, I'd probably feel hatred towards her."
+  },
+  {
+    "id": "3555490",
+    "japanese": "クモは巣を張りたがる。",
+    "english": "Spiders like to build spiderwebs."
+  },
+  {
+    "id": "538094",
+    "japanese": "世界、こんにちは！",
+    "english": "Hello, world!"
+  },
+  {
+    "id": "398845",
+    "japanese": "基本的にサイトや雑誌等で販売しているペニス増大サプリメントは効き目がありません。",
+    "english": "Penis enlargement supplements, as sold on sites and in magazines, have essentially no effect."
+  },
+  {
+    "id": "607700",
+    "japanese": "私たちは皆さんを愛しているから、そしてサイトを改善するために、タトエバの管理を行っています。わかりましたか？私たちは君たちを愛してるね？",
+    "english": "Because we love you, we are updating Tatoeba to bring you a better user experience. See? We love you huh?"
+  },
+  {
+    "id": "1163924",
+    "japanese": "彼はよく他の人たちを助けています。",
+    "english": "He often helps others."
+  },
+  {
+    "id": "492778",
+    "japanese": "君はいつ帰る？",
+    "english": "When are you going home?"
+  },
+  {
+    "id": "1751953",
+    "japanese": "何時ごろ帰るの？",
+    "english": "When are you going home?"
+  },
+  {
+    "id": "2672966",
+    "japanese": "中国から来ました。",
+    "english": "I came from China."
+  },
+  {
+    "id": "993938",
+    "japanese": "カード使えますか？",
+    "english": "Do you accept credit cards?"
+  },
+  {
+    "id": "1192219",
+    "japanese": "翻訳してるとこ。",
+    "english": "I am translating."
+  },
+  {
+    "id": "399108",
+    "japanese": "韓国料理が大好きです。",
+    "english": "I love Korean food."
+  },
+  {
+    "id": "399114",
+    "japanese": "次の月曜日は休日です。",
+    "english": "Next Monday is a holiday."
+  },
+  {
+    "id": "9832618",
+    "japanese": "どうぞ食べて。お腹すいてるんでしょ？",
+    "english": "Please eat. You're hungry, aren't you?"
+  },
+  {
+    "id": "1470704",
+    "japanese": "私は、彼は来ないと思う。",
+    "english": "I think he won't come."
+  },
+  {
+    "id": "1355522",
+    "japanese": "彼は頭脳明晰だ。",
+    "english": "He has a good head on his shoulders."
+  },
+  {
+    "id": "1355523",
+    "japanese": "彼は頭の回転が速い。",
+    "english": "He has a good head on his shoulders."
+  },
+  {
+    "id": "399208",
+    "japanese": "ノリコさんって、なんていい人なの。",
+    "english": "How nice of Noriko."
+  },
+  {
+    "id": "399507",
+    "japanese": "のりこさん、親切ね。",
+    "english": "How nice of Noriko."
+  },
+  {
+    "id": "399255",
+    "japanese": "「お召し上がりですか？お持ち帰りですか？」「ここで食べます」",
+    "english": "\"Do you want it to eat here, or take away?\" \"Eat here please.\""
+  },
+  {
+    "id": "7217969",
+    "japanese": "あなたの車を貸していただけませんか？",
+    "english": "Could I borrow your car?"
+  },
+  {
+    "id": "8687267",
+    "japanese": "1人でいるの？",
+    "english": "Are you alone?"
+  },
+  {
+    "id": "9851622",
+    "japanese": "一人かい？",
+    "english": "Are you alone?"
+  },
+  {
+    "id": "472806",
+    "japanese": "私は昼食を作らなければならない。",
+    "english": "I should be making lunch."
+  },
+  {
+    "id": "399470",
+    "japanese": "急いては事をし損ずる。",
+    "english": "Hurrying leads to mistakes being made."
+  },
+  {
+    "id": "399477",
+    "japanese": "減食が１００万人以上の死亡原因になっているそうだ。",
+    "english": "Dieting accounts for more than one million deaths."
+  },
+  {
+    "id": "399741",
+    "japanese": "大東亜戦争の結果である日本の汚点は、未だ消えない。",
+    "english": "Japan's shame, the result of the Pacific War, has not yet faded."
+  },
+  {
+    "id": "399747",
+    "japanese": "バツイチ子持ちは汚点ですか？",
+    "english": "Is it a disgrace to be divorced with children?"
+  },
+  {
+    "id": "399829",
+    "japanese": "バケツによる消火活動は、すぐに失敗と分かった。",
+    "english": "Attempts to fight the fire with buckets soon proved fruitless."
+  },
+  {
+    "id": "2140569",
+    "japanese": "彼は面目を失った。",
+    "english": "He lost face."
+  },
+  {
+    "id": "400073",
+    "japanese": "誰もが、心に故郷を抱いています。",
+    "english": "Anyone cherishes his native town in his heart."
+  },
+  {
+    "id": "400079",
+    "japanese": "宮廷では、平安初期には中国文化の模倣一辺倒でしたが、平安中期には日本的な美意識に基づいた文化が花開きました。",
+    "english": "During the Heian period's initial stages, the imperial court completely devoted itself to imitating Chinese culture, however during the midst of the period, a culture based off of Japanese sense of beauty began to bloom."
+  },
+  {
+    "id": "400081",
+    "japanese": "また、『源氏物語』をはじめとする物語が愛好されました。",
+    "english": "Additionally, the tale starting with \"Genji's Story\" was also much loved."
+  },
+  {
+    "id": "400102",
+    "japanese": "グレンには二人の女性の友人がいます。",
+    "english": "Glenn has two friends who are women."
+  },
+  {
+    "id": "11263807",
+    "japanese": "彼が東京に到着したら、すぐに電話しますよ。",
+    "english": "When he arrives in Tokyo, I'll call you right away."
+  },
+  {
+    "id": "1163591",
+    "japanese": "窓の外の騒音のせいで、彼は眠ることができなかった。",
+    "english": "He couldn't sleep because of the noise outside his window."
+  },
+  {
+    "id": "1182457",
+    "japanese": "雪で出かけることができなかった。",
+    "english": "I couldn't go out because of the snow."
+  },
+  {
+    "id": "400170",
+    "japanese": "私たちは彼の成功は、勤勉のためだと思います。",
+    "english": "We think the reason for his success was because of hard work."
+  },
+  {
+    "id": "672326",
+    "japanese": "何が飲みたい？",
+    "english": "What do you want to drink?"
+  },
+  {
+    "id": "2633467",
+    "japanese": "何飲みたい？",
+    "english": "What do you want to drink?"
+  },
+  {
+    "id": "1667724",
+    "japanese": "何を食べたいですか？",
+    "english": "What would you like to eat?"
+  },
+  {
+    "id": "9227142",
+    "japanese": "あいつらのケンカの理由なんて知らないよ。",
+    "english": "I don't know why they are fighting."
+  },
+  {
+    "id": "1169652",
+    "japanese": "彼らのトラブルとは無関係だ。",
+    "english": "I have nothing to do with their troubles."
+  },
+  {
+    "id": "11698064",
+    "japanese": "手伝ってあげるつもり？",
+    "english": "Are you planning to help them?"
+  },
+  {
+    "id": "1639638",
+    "japanese": "今朝、私は天使を見た。",
+    "english": "This morning, I saw an angel."
+  },
+  {
+    "id": "400412",
+    "japanese": "Internet Explorerの中止ボタンがしいたけに見えて困る。",
+    "english": "It's troublesome that Internet Explorer's stop icon looks like a shiitake mushroom."
+  },
+  {
+    "id": "1160677",
+    "japanese": "私たちの先生は、厳しいけど優しい先生です。",
+    "english": "Our English teacher is both strict and kind."
+  },
+  {
+    "id": "9207512",
+    "japanese": "この手紙、英語で書かなきゃ駄目なの？",
+    "english": "Does this letter have to be written in English?"
+  },
+  {
+    "id": "400494",
+    "japanese": "悪書を追放しよう。まずは世界中にはびこってる聖書からだな。",
+    "english": "Let's remove harmful books from circulation. Starting first with the bibles that have spread all over the world."
+  },
+  {
+    "id": "400523",
+    "japanese": "そう言えば小さすぎるわよ、その指輪。",
+    "english": "Now that I think of it, it's too small - that ring."
+  },
+  {
+    "id": "400533",
+    "japanese": "ガラスの歴史は極めて古く、古代オリエントに始まりました。",
+    "english": "The history of glass is extremely long, and begins in the ancient Orient."
+  },
+  {
+    "id": "400540",
+    "japanese": "ローマ時代に吹きガラスの技法が開発されるとガラスが飛躍的な発展を遂げました。",
+    "english": "Glass developed dramatically in the Roman era when glass blowing techniques were invented."
+  },
+  {
+    "id": "400544",
+    "japanese": "中国でも戦国時代の墳墓からガラスが出土している。",
+    "english": "In China too glass is being excavated out of graves from the Era of Warring States."
+  },
+  {
+    "id": "400547",
+    "japanese": "漢代にはローマガラスの容器が輸入され、5世紀には北魏でガラス容器の製作が始まりました。",
+    "english": "Roman glass containers were imported during the Han Dynasty, and the production of glass containers began in the Northern Wei dynasty in the 5th century."
+  },
+  {
+    "id": "11604057",
+    "japanese": "英語は3時限目です。",
+    "english": "English is third period."
+  },
+  {
+    "id": "1510819",
+    "japanese": "時間があれば、買い物に行こう。",
+    "english": "If you have time, let's go shopping."
+  },
+  {
+    "id": "400606",
+    "japanese": "人間を大切にすれば石が出る。",
+    "english": "Treat the men well and the ore will come."
+  },
+  {
+    "id": "400609",
+    "japanese": "彼女は上司に口頭で報告をした。",
+    "english": "She gave an oral report to her boss."
+  },
+  {
+    "id": "472753",
+    "japanese": "インターネット上にはタタール語のサイトは少ない。",
+    "english": "There are few sites in the Tatar language on the Internet."
+  },
+  {
+    "id": "400832",
+    "japanese": "私の夢は日本に行くことです。",
+    "english": "My dream is to go to Japan."
+  },
+  {
+    "id": "400837",
+    "japanese": "私は日本に行きたい。",
+    "english": "I would like to go to Japan."
+  },
+  {
+    "id": "400865",
+    "japanese": "こんにちは、お元気ですか。",
+    "english": "Good day, how are you?"
+  },
+  {
+    "id": "400868",
+    "japanese": "小学校を卒業して中学校に入学することが「大人への第一歩」と見なす考え方も存在します。",
+    "english": "The graduation from elementary school to middle school is regarded by some as the first step towards adulthood."
+  },
+  {
+    "id": "2208036",
+    "japanese": "彼はとてもハンサムだ。",
+    "english": "He is very handsome."
+  },
+  {
+    "id": "400948",
+    "japanese": "生きるのが本当にしんどいです。",
+    "english": "I am really tired of living."
+  },
+  {
+    "id": "631532",
+    "japanese": "生きるって本当に面倒臭ぇよなぁ～。",
+    "english": "I am really tired of living."
+  },
+  {
+    "id": "400950",
+    "japanese": "朝起きたら家に誰もいなくて、一日中ほったらかしにされました。",
+    "english": "When I woke up in the morning, there was no one in the house. I was abandoned for the whole day."
+  },
+  {
+    "id": "400952",
+    "japanese": "少量のアルコールは心身をリラックスさせ、血流を良くします。",
+    "english": "A small amount of alcohol will relax the mind and body and improve blood circulation."
+  },
+  {
+    "id": "400954",
+    "japanese": "主人は晩酌が楽しみなので、発泡酒を６缶以上は空けていますし、日本酒の燗が５本も６本も空いていて、たまに休肝日ということで飲まない日もあるのですが２日以上続いたことはありません。",
+    "english": "My husband likes to have a drink in the evening. He drinks 6 or more bottles of sparkling wine and 5 or 6 bottles of warm sake. Sometimes he has a day where he doesn't drink, but it has never lasted for more than two days."
+  },
+  {
+    "id": "400960",
+    "japanese": "奇襲してから宣戦布告するのはよくあることらしいですが、１０万人規模の非戦闘員の爆殺は前代未聞です。",
+    "english": "Declaring war after a surprise attack is to be expected, but killing over ten thousand non-combatants with a bomb is something unheard of."
+  },
+  {
+    "id": "401043",
+    "japanese": "弟は初めから彼女が好きじゃなかった。",
+    "english": "My brother didn't like her from the start."
+  },
+  {
+    "id": "12598364",
+    "japanese": "彼の小説はフランス語版もあります。",
+    "english": "His novels also appear in French."
+  },
+  {
+    "id": "401113",
+    "japanese": "面接はうまくいきました！",
+    "english": "I did well at the interview!"
+  },
+  {
+    "id": "401499",
+    "japanese": "翌月にはＮＨＬ初シャットアウトゲームを記録しＮＨＬスーパーゴーリーとしての才能を見せた。",
+    "english": "The next month he achieved his first NHL shutout and showed the talent of an NHL super goalie."
+  },
+  {
+    "id": "401556",
+    "japanese": "サンタクロースは庭で立っていました。",
+    "english": "Santa Claus was standing in the garden."
+  },
+  {
+    "id": "401622",
+    "japanese": "次の電車は何時発ですか。",
+    "english": "What time does the next train leave?"
+  },
+  {
+    "id": "10037088",
+    "japanese": "家ではお父さんのこと何て呼んでるの？",
+    "english": "What do you call your father at home?"
+  },
+  {
+    "id": "2684228",
+    "japanese": "君は昨晩何をしていたのですか？",
+    "english": "What did you do last night?"
+  },
+  {
+    "id": "5067273",
+    "japanese": "昨夜は何をしてたの？",
+    "english": "What did you do last night?"
+  },
+  {
+    "id": "401876",
+    "japanese": "１９世紀になる英語圏の国ではマスターベーションにより、記憶力が弱まる、注意力が散漫になるとよく言われていた。",
+    "english": "In the English world of the 19th century, it was often said that masturbation would lead to a loss of memory and attention."
+  },
+  {
+    "id": "401877",
+    "japanese": "男性の割礼が、性器ヘルペスや癌の原因にもなるウイルス感染のリスクを軽減します。",
+    "english": "Male circumcision decreases the risk of viral infections that cause herpes and cancer."
+  },
+  {
+    "id": "401882",
+    "japanese": "スターリン時代には、強制収容所の収容者たちは国家のための奴隷となりました。",
+    "english": "During the Stalinist era, prisoners at concentration camps became slaves in service of the state."
+  },
+  {
+    "id": "401890",
+    "japanese": "同性愛者の司祭が主教に昇格させられたと聞いたが、結局捏造したものであった。",
+    "english": "I heard that a gay priest had been promoted to the rank of bishop, but it turned out to be a fabrication."
+  },
+  {
+    "id": "401892",
+    "japanese": "女性が下半身が見える状態で公道を歩いていると公然猥褻罪となり、上半身裸で歩いていると軽犯罪法第１条第２０号の罪となります。",
+    "english": "If a women walks on a public street exposing her lower body, it's public indecency. If she walks while exposing her upper body, then it's a violation of article 20(1) of the minor offenses act."
+  },
+  {
+    "id": "401894",
+    "japanese": "世捨て人となり仙人のように山中をさまよい自給自足で誰とも接触せず野垂れ死にをしない方法とは絶対ある。",
+    "english": "There is definitely a way to quit the world and live like an hermit in the mountains, being self-sufficient and without contact with anybody while not dying like a dog."
+  },
+  {
+    "id": "401896",
+    "japanese": "女性が自慰をすれば女性ホルモンが分泌され、女性らしさが出てきます。",
+    "english": "If a woman masturbates, she will secrete female hormones and become more feminine."
+  },
+  {
+    "id": "401898",
+    "japanese": "夫の勃起不全はお酒を呑むようになったのが原因でしょうか？",
+    "english": "Is the source of the erectile dysfunction of my husband the fact that he started drinking?"
+  },
+  {
+    "id": "401901",
+    "japanese": "日本に駐留していた米軍人と日本人女性の間に生まれた子供のことを、侮蔑の意図を込めて、「あいのこ」と呼んでいました。",
+    "english": "The children of American soldiers staying in Japan and Japanese women were disparagingly called half-breeds."
+  },
+  {
+    "id": "401904",
+    "japanese": "「阿婆擦れ」とかいてあるがそれはヤリマンのことでしょう。",
+    "english": "It's written abazure (bitch). Surely this must mean a slut?"
+  },
+  {
+    "id": "401906",
+    "japanese": "表日本は明るい裏日本はおっとりとは本当ですか？",
+    "english": "Is it true that the Pacific side of Japan is cheerful while the Sea of Japan side of Japan is more quiet?"
+  },
+  {
+    "id": "401907",
+    "japanese": "ハムスターの金玉が片方肥大しています。",
+    "english": "My hamster has a swollen testicle on one side."
+  },
+  {
+    "id": "401909",
+    "japanese": "結婚したくないからおばあちゃんは僕の事をカタワだとか言ってました。",
+    "english": "Because I don't want to marry, my grandmother called me messed up."
+  },
+  {
+    "id": "401911",
+    "japanese": "「不具者」という言葉は侮辱かもしれませんね。",
+    "english": "The word fugusha (\"disabled\") might be insulting."
+  },
+  {
+    "id": "401914",
+    "japanese": "映画「ノートルダムのせむし男」は題名変更され、今は「ノートルダムの鐘」と言われます。",
+    "english": "The movie \"The Hunchback of Notre-Dame\" has been renamed and is now called \"The Bell of Notre-Dame\"."
+  },
+  {
+    "id": "401919",
+    "japanese": "ロンパリという言葉は眼がちゃんと前を向かず、左右別の方向を向いているために、まるでロンドンとパリを見ているようだということでロンパリと言われるそうです。",
+    "english": "\"Ronpari\" is a word that designates those whose eyes don't look straight, but in different directions to the left and right, as if they were looking at Paris and London."
+  },
+  {
+    "id": "401936",
+    "japanese": "いい年してラノベ読んでる奴って普通に知恵遅れの障害者だろうな。",
+    "english": "Normally, a guy who reads light novels despite not being a kid anymore is a retard, don't you think?"
+  },
+  {
+    "id": "401938",
+    "japanese": "タクシー運転手になった東大卒の木村さんは誰かの物指しで、落ちこぼれなのかもしれないけど、運転好きならいいんじゃないかな。",
+    "english": "Kimura is a Tokyo university graduate who became a taxi driver. According to some people's standards, he might be considered a failure, but I think it's fine as long as he likes driving."
+  },
+  {
+    "id": "401940",
+    "japanese": "深海魚は明かりを見ることはなくて、一生上から来た零れを食い続ける。",
+    "english": "Deep water fish never see the light and live all their lives from the scraps that come from above."
+  },
+  {
+    "id": "401949",
+    "japanese": "加齢臭は、年を重ねると出てくる中高年独特のにおいのことだ。世間で言う「おっさん臭い」や「おやじ臭」というのは、この加齢臭のことだ。",
+    "english": "Kareishu is a special smell that comes as old people age. Popular expressions such as: \"Ossan kusai\" or \"Oyaji kusai\" (smelly old man) refer to this smell."
+  },
+  {
+    "id": "401968",
+    "japanese": "中国では漢字の字数が多いから、複雑な繁体字をやめて覚えやすい簡体字に置き換え、識字率を高めることが簡体字推進の目的でした。",
+    "english": "In China, there is a large number of characters, so the goal of the character simplification was to replace the complex traditional characters with easy to remember simplified characters and increase the literacy rate."
+  },
+  {
+    "id": "8954709",
+    "japanese": "あいつら、離婚するのかなあ。",
+    "english": "I wonder if they'll get divorced."
+  },
+  {
+    "id": "401971",
+    "japanese": "曽根崎には心中が多いと聞きました。",
+    "english": "I heard there were many double suicides in Sonezaki."
+  },
+  {
+    "id": "401973",
+    "japanese": "あいつはヤリチンらしいゼ。",
+    "english": "He looks like a player."
+  },
+  {
+    "id": "401975",
+    "japanese": "禅僧は新宿駅のあたりで托鉢しています。",
+    "english": "Zen priests beg for alms near Shinjuku station."
+  },
+  {
+    "id": "1168380",
+    "japanese": "トムが帰宅したら、話してみます。",
+    "english": "I'm going to talk to Tom when he comes home."
+  },
+  {
+    "id": "402044",
+    "japanese": "何て上手に日本語を話すんだ。",
+    "english": "What a good speaker of Japanese!"
+  },
+  {
+    "id": "1140753",
+    "japanese": "彼の誕生日に何を買えばいいのかわからない。",
+    "english": "I don't know what to buy him for his birthday."
+  },
+  {
+    "id": "402148",
+    "japanese": "彼らは自身が犯した罪に対する反省はなく、次々と悪事を重ねています。",
+    "english": "They show no remorse for their misdeeds, but continue to commit one crime after another."
+  },
+  {
+    "id": "9524715",
+    "japanese": "本当にそうだね。",
+    "english": "You can say that again."
+  },
+  {
+    "id": "9553167",
+    "japanese": "すごくおいしいでしょ？",
+    "english": "It tastes very good, doesn't it?"
+  },
+  {
+    "id": "1265315",
+    "japanese": "父はおいしい昼ご飯を私に作ってくれた。",
+    "english": "My father made me a delicious lunch."
+  },
+  {
+    "id": "9682016",
+    "japanese": "サルが木から落っこちたんだよ。",
+    "english": "The monkey fell from the tree."
+  },
+  {
+    "id": "402412",
+    "japanese": "最近の少年はアンポンタンですよね。",
+    "english": "Young people nowadays are fools."
+  },
+  {
+    "id": "402415",
+    "japanese": "２ちゃんねるって大半が低能じゃないですか？",
+    "english": "Don't you think that most people on 2chan are idiots?"
+  },
+  {
+    "id": "1401171",
+    "japanese": "うん、本当に素敵な夜だね。",
+    "english": "Yes, it's such a nice evening."
+  },
+  {
+    "id": "402420",
+    "japanese": "捕らえることのできないもの、身軽で素早いもののたとえ、だそうです。",
+    "english": "It's apparently a metaphor for something uncatchable, light of body and fleet of foot."
+  },
+  {
+    "id": "402428",
+    "japanese": "ネット上では悪質な、個人を貶めようとする行動が多く見られる気がします。",
+    "english": "It seems that I often see mean and disparaging behavior towards individuals on the net."
+  },
+  {
+    "id": "402432",
+    "japanese": "日本の官僚達は国家が破綻するまで天下りを続けて税金をむさぼる国賊に過ぎない！",
+    "english": "Japanese bureaucrats are nothing but traitors to the country who covet our tax money and will continue the practice of amakudari until the country is bankrupt."
+  },
+  {
+    "id": "402444",
+    "japanese": "日本には売国奴政党がいます。",
+    "english": "There is a political party in Japan that would sell out its own country."
+  },
+  {
+    "id": "402450",
+    "japanese": "この問題についてマスゴミは偏った報道ばかりしている気がする。",
+    "english": "Concerning this issue, I feel that the trash media only report biased information."
+  },
+  {
+    "id": "402464",
+    "japanese": "世の中は藪医者だらけ。",
+    "english": "The world is full of incompetent doctors."
+  },
+  {
+    "id": "402470",
+    "japanese": "最近売女のような女が増えている気がします。",
+    "english": "Recently, I feel like the number of women with loose morals is increasing."
+  },
+  {
+    "id": "402476",
+    "japanese": "援助交際をほのめかすネット掲示板に書き込んだ女子高生が検挙されました。",
+    "english": "A high school girl posting on a web forum hinting at underaged prostitution has been arrested."
+  },
+  {
+    "id": "402482",
+    "japanese": "昨日、男に「お前は本当に尻軽女だな」と言われました。",
+    "english": "Yesterday, a man told me that I sleep around too much."
+  },
+  {
+    "id": "1174243",
+    "japanese": "熱はないよ。",
+    "english": "You don't have a fever."
+  },
+  {
+    "id": "1579000",
+    "japanese": "あなたは熱がない。",
+    "english": "You don't have a fever."
+  },
+  {
+    "id": "9979565",
+    "japanese": "明日って、晴れると思う？",
+    "english": "Do you think the weather will be fine tomorrow?"
+  },
+  {
+    "id": "1168362",
+    "japanese": "明日はいい天気だと思う？",
+    "english": "Do you think tomorrow's weather will be good?"
+  },
+  {
+    "id": "402542",
+    "japanese": "彼女が『今、覗いてたでしょう。この出歯亀野郎。』と怒りました。",
+    "english": "\"Just now, you were looking. You Peeping Tom,\" she said angrily."
+  },
+  {
+    "id": "402551",
+    "japanese": "私は30代未婚の愚かな負け犬女です。",
+    "english": "I'm a stupid old maid in my thirties."
+  },
+  {
+    "id": "402554",
+    "japanese": "世の中、捨て猫がいっぱいいるようです。",
+    "english": "There are many abandoned cats in the world."
+  },
+  {
+    "id": "872745",
+    "japanese": "パレードがやってきたとき、通りには沢山の人がいた。",
+    "english": "There were lots of people on the street when the parade came by."
+  },
+  {
+    "id": "402562",
+    "japanese": "夫が私の友人と浮気しているようなんです。彼女に泥棒猫！って言いたいです。",
+    "english": "It appears that my husband is cheating on me with my friend. I want to tell her: \"You thieving cat!\""
+  },
+  {
+    "id": "402573",
+    "japanese": "結婚直前、泥酔の父親は「何処の馬の骨か解らん奴に娘をやれん！」と花婿に怒鳴りつけた。",
+    "english": "Just before the wedding, the drunken father shouted at the groom: \"I won't hand out my daughter to some stranger!\""
+  },
+  {
+    "id": "402575",
+    "japanese": "陰茎は雄の生殖器のひとつ。",
+    "english": "The penis is one of the male reproductive organs."
+  },
+  {
+    "id": "402577",
+    "japanese": "君は巨乳好きか貧乳好きか？",
+    "english": "Do you like women with large or small breasts?"
+  },
+  {
+    "id": "402579",
+    "japanese": "酒の飲みすぎがインポの原因のひとつです。",
+    "english": "Excessive drinking is one of the causes of impotence."
+  },
+  {
+    "id": "402581",
+    "japanese": "日本人はなんでそんなにビアンとかバイとかに偏見を持つのですか？",
+    "english": "Why are Japanese so prejudiced against lesbians and bisexuals?"
+  },
+  {
+    "id": "402586",
+    "japanese": "多くの宗教において、姦淫は罪悪とされる。",
+    "english": "According to many religions, adultery is a crime."
+  },
+  {
+    "id": "402588",
+    "japanese": "近所の痴呆のお婆ちゃんが、僕の畑を荒らして困るんです。",
+    "english": "I'm in difficulties because of the demented old woman next door wreaking havoc in my fields."
+  },
+  {
+    "id": "402590",
+    "japanese": "監督にお前チョンガーかと聞かれて意味も分からずハイと言った。",
+    "english": "My coach asked me if I was \"unattached\" and I didn't understand so I said yes."
+  },
+  {
+    "id": "402592",
+    "japanese": "この前、電車の中で魅力的な熟女を見た。",
+    "english": "Recently, I saw an attractive mature woman on the train."
+  },
+  {
+    "id": "402594",
+    "japanese": "年増は娘盛りを過ぎた女性である。",
+    "english": "A middle-aged woman is a woman who is past her prime."
+  },
+  {
+    "id": "402596",
+    "japanese": "はい、大阪でも相手に罵詈雑言を浴びせるとき、アホと言います。",
+    "english": "Yes, in Osaka, too, we say \"idiot\" when we are insulting someone."
+  },
+  {
+    "id": "402598",
+    "japanese": "僕は奥さんよりセフレがほしいのです。",
+    "english": "It's not a wife that I want, but a sex friend."
+  },
+  {
+    "id": "402600",
+    "japanese": "僕は正義感で「君達、これは犯罪だぞ。恥を知れ」と暴走族のリーダーに言った。",
+    "english": "Out of a sense of justice, I said to the leader of the biker gang: \"What you are doing is a crime! Be ashamed of yourselves!\""
+  },
+  {
+    "id": "402604",
+    "japanese": "何カマトトぶってんだアホ！",
+    "english": "Why are you feigning innocence?!"
+  },
+  {
+    "id": "402606",
+    "japanese": "「女も肉も腐りがけが美味い」と課長はいきなり言いだした。",
+    "english": "The section chief said out of the blue: \"Women and meat, I like them a little rotten.\""
+  },
+  {
+    "id": "402621",
+    "japanese": "シカゴカブスは１９０８年を最後にワールドシリーズに勝ったことがない。",
+    "english": "The Chicago Cubs have not won the World Series since 1908."
+  },
+  {
+    "id": "1184211",
+    "japanese": "メアリーがそんなに早く来るとは思ってもみなかった。",
+    "english": "I didn't expect that Mary would come so soon."
+  },
+  {
+    "id": "1167603",
+    "japanese": "ジョージが来るかどうかわかりません。",
+    "english": "I don't know if George is coming or not."
+  },
+  {
+    "id": "1035161",
+    "japanese": "彼は私たちよりよい点数を取った。",
+    "english": "He got a better score than us."
+  },
+  {
+    "id": "402798",
+    "japanese": "いつも授業をサボって友人に代返を頼むような人は嫌いです。",
+    "english": "I hate those who always skip class and ask their friends to answer the roll call for them."
+  },
+  {
+    "id": "402800",
+    "japanese": "私たちの年代の卒業生たちはノー勉で卒業試験を受ける人が結構いたようです。",
+    "english": "In our time, there were many students who passed the graduation exam without studying."
+  },
+  {
+    "id": "402803",
+    "japanese": "私はスイカを食べるのが好きです。",
+    "english": "I like to eat watermelon."
+  },
+  {
+    "id": "1140743",
+    "japanese": "わたしはスイカが好きです。",
+    "english": "I like to eat watermelon."
+  },
+  {
+    "id": "402812",
+    "japanese": "会いたい奴は会えるもんさ。",
+    "english": "Those who want to meet, will meet."
+  },
+  {
+    "id": "402842",
+    "japanese": "インターネットの断片的ニュースを読んでいるだけですが、まあ、だいたい想像がつきます。",
+    "english": "I'm only reading the scraps on news on the Internet, but, well, I get the general picture."
+  },
+  {
+    "id": "2132748",
+    "japanese": "あなたには、それを証明することはできない。",
+    "english": "You can't prove that."
+  },
+  {
+    "id": "402879",
+    "japanese": "野球を見に行くのは好きです。",
+    "english": "I like going to watch baseball."
+  },
+  {
+    "id": "402882",
+    "japanese": "野球を見に行くのが好きです。",
+    "english": "I like going to watch baseball."
+  },
+  {
+    "id": "1140762",
+    "japanese": "野球観戦に行くのが好きです。",
+    "english": "I like to go and watch baseball games."
+  },
+  {
+    "id": "402900",
+    "japanese": "マスコミが報道しなかったのはなぜ？",
+    "english": "Why is it the mass media didn't report this?"
+  },
+  {
+    "id": "1174242",
+    "japanese": "私は彼が言ったことを全部書きとめようとした。",
+    "english": "I tried to write down everything he said."
+  },
+  {
+    "id": "403298",
+    "japanese": "私は彼の気持ちが理解出来ません。",
+    "english": "I can't understand his feelings."
+  },
+  {
+    "id": "1171856",
+    "japanese": "彼の父親は外国にいると聞いている。",
+    "english": "I hear that his father is in another country."
+  },
+  {
+    "id": "403004",
+    "japanese": "一年間 ビッグマックだけを食べたら特にノー問題ですか？",
+    "english": "If you eat only Big Macs for one year, will it be no problem?"
+  },
+  {
+    "id": "1770363",
+    "japanese": "僕の言うことわかりますか？",
+    "english": "Do you understand me?"
+  },
+  {
+    "id": "1949315",
+    "japanese": "私の言わんとすることがわかりますか？",
+    "english": "Do you understand me?"
+  },
+  {
+    "id": "1345606",
+    "japanese": "空港はどこですか？",
+    "english": "Where's the airport?"
+  },
+  {
+    "id": "2929527",
+    "japanese": "すみません、何とおっしゃいましたか？",
+    "english": "I beg your pardon. What did you say?"
+  },
+  {
+    "id": "829613",
+    "japanese": "ゆっくりとお話願います。",
+    "english": "Please speak slowly."
+  },
+  {
+    "id": "8795518",
+    "japanese": "ゆっくり話してください。",
+    "english": "Please speak slowly."
+  },
+  {
+    "id": "989892",
+    "japanese": "わかりますか。",
+    "english": "Do you understand?"
+  },
+  {
+    "id": "991978",
+    "japanese": "わかりましたか。",
+    "english": "Do you understand?"
+  },
+  {
+    "id": "408295",
+    "japanese": "どういたしまして。",
+    "english": "You're welcome."
+  },
+  {
+    "id": "5933543",
+    "japanese": "いいえ！",
+    "english": "You're welcome."
+  },
+  {
+    "id": "1483653",
+    "japanese": "あそこに銀行もあるんだよね？",
+    "english": "The bank is there too, isn't it?"
+  },
+  {
+    "id": "8755613",
+    "japanese": "その牛乳はおいしいの？",
+    "english": "Is the milk good?"
+  },
+  {
+    "id": "3143829",
+    "japanese": "遠くの親類より近くの他人。",
+    "english": "A close neighbor is better than a distant relative."
+  },
+  {
+    "id": "403366",
+    "japanese": "おまえはケツの穴の小さい男だな。",
+    "english": "You're one narrow minded individual."
+  },
+  {
+    "id": "1752760",
+    "japanese": "君は心の狭い女だな。",
+    "english": "You're one narrow minded individual."
+  },
+  {
+    "id": "10560261",
+    "japanese": "叱っとくよ。",
+    "english": "I'll scold him."
+  },
+  {
+    "id": "2124155",
+    "japanese": "彼には会ったことがない。",
+    "english": "I've never met him."
+  },
+  {
+    "id": "403584",
+    "japanese": "保険のテレアポでアポイントを取るコツです。",
+    "english": "It is the art of getting insurance appointments when telemarketing."
+  },
+  {
+    "id": "403659",
+    "japanese": "朝マラの立たぬ奴に金貸すな。",
+    "english": "Don't lend money to someone who can't have a morning erection."
+  },
+  {
+    "id": "403779",
+    "japanese": "半年後に銀行融資を受けたいのだが、今から何を準備すればいいのか？",
+    "english": "I want to get a bank loan in half a year's time - what should I be doing now?"
+  },
+  {
+    "id": "403781",
+    "japanese": "明後日のアポイントを取りたいのですが。",
+    "english": "I'd like to make an appointment for the day after tomorrow."
+  },
+  {
+    "id": "403802",
+    "japanese": "私たちの生活には判子が必需品です。",
+    "english": "Hanko are essential in our daily life."
+  },
+  {
+    "id": "403804",
+    "japanese": "この一週間に何回判子を使ったか、思い出せないくらいです。",
+    "english": "This week I used my hanko so often that I can't remember how many times I've used it."
+  },
+  {
+    "id": "403806",
+    "japanese": "日本はこうした判子が使われていますが、外国はサインが主流です。",
+    "english": "Seals are used like this in Japan, but abroad signatures are the rule."
+  },
+  {
+    "id": "403808",
+    "japanese": "日本では、何かと判子を使いますが、実は署名でもオッケーな場合が多いです。",
+    "english": "In Japan you tend to use your personal seal, but actually a signature would often suffice."
+  },
+  {
+    "id": "403811",
+    "japanese": "例えば、宅配便の受け取りには、判子は必要有りません。",
+    "english": "For example, you don't need a personal seal to collect a parcel."
+  },
+  {
+    "id": "1471023",
+    "japanese": "もしアルファベットを並べ直してもいいなら、UとIを隣同士に置こうかなあ。",
+    "english": "If I could rearrange the alphabet, I would put U and I together."
+  },
+  {
+    "id": "760545",
+    "japanese": "一度に複数の仕事をこなすのは得意ではありません。",
+    "english": "I'm not good at multitasking."
+  },
+  {
+    "id": "403861",
+    "japanese": "円周の長さの求め方ってどうでしたっけ？忘れました。",
+    "english": "How do you derive the length of the circumference? I've forgotten."
+  },
+  {
+    "id": "403874",
+    "japanese": "彼らは大体同じ年齢です。",
+    "english": "They are about the same age."
+  },
+  {
+    "id": "403875",
+    "japanese": "彼らはほぼ同じ年齢です。",
+    "english": "They are about the same age."
+  },
+  {
+    "id": "403924",
+    "japanese": "彼に助言を与えるだけでなく尺八も与えた。",
+    "english": "I not only gave him some advice, I also gave him a blowjob."
+  },
+  {
+    "id": "403926",
+    "japanese": "彼女に助言を与えるだけでなくクンニも与えた。",
+    "english": "I not only gave her some advice, I also gave her a cunnilingus."
+  },
+  {
+    "id": "403969",
+    "japanese": "彼に助言を与えるだけでなくフェラも与えた。",
+    "english": "I not only gave him some advice, I also performed fellatio on him."
+  },
+  {
+    "id": "403976",
+    "japanese": "尺八と言えばほとんどが竹製ですが、最近木でできている尺八が出てきました。",
+    "english": "Most Shakuhachi are made from bamboo, but recently some wooden ones have appeared."
+  },
+  {
+    "id": "875889",
+    "japanese": "3の3乗は27です。",
+    "english": "3 cubed is 27."
+  },
+  {
+    "id": "11619438",
+    "japanese": "腕時計が止まっちゃって、時間が分からなかったんだ。",
+    "english": "My watch stopped, so I didn't know the time."
+  },
+  {
+    "id": "404073",
+    "japanese": "階段を走って降りたのに、電車に乗れなかった。",
+    "english": "Even though I ran down the stairs, I couldn't catch the train."
+  },
+  {
+    "id": "404079",
+    "japanese": "彼に助言を与えるだけでなく飛行機も与えた。",
+    "english": "I gave him, not just advice, but also an airplane."
+  },
+  {
+    "id": "404081",
+    "japanese": "彼に助言を与えるだけでなく自転車も与えた。",
+    "english": "I not only gave him some advice, I also gave him a bicycle."
+  },
+  {
+    "id": "404097",
+    "japanese": "お腹がすいた。",
+    "english": "I'm hungry!"
+  },
+  {
+    "id": "460374",
+    "japanese": "腹が減った。",
+    "english": "I'm hungry!"
+  },
+  {
+    "id": "4268571",
+    "japanese": "お腹が減った。",
+    "english": "I'm hungry!"
+  },
+  {
+    "id": "3488208",
+    "japanese": "私の言ってること、わかります？",
+    "english": "Do you understand what I'm saying?"
+  },
+  {
+    "id": "1170897",
+    "japanese": "私が学校に着いた時には、そのレースは既に終わっていた。",
+    "english": "When I got to school, the race had already finished."
+  },
+  {
+    "id": "1170898",
+    "japanese": "私が学校に着いた時には、その競技は終わってしまっていた。",
+    "english": "When I got to school, the race had already finished."
+  },
+  {
+    "id": "11608502",
+    "japanese": "朝ご飯に何にも食べなかったから、今めちゃめちゃ腹減ってるよ。",
+    "english": "Since I didn't eat anything for breakfast, I'm very hungry now."
+  },
+  {
+    "id": "869816",
+    "japanese": "彼女は私に助けを求めてきた。",
+    "english": "She asked me for help."
+  },
+  {
+    "id": "404563",
+    "japanese": "多くの人が私を頭がおかしいと思っています。",
+    "english": "Many people think I'm crazy."
+  },
+  {
+    "id": "423387",
+    "japanese": "幸福というのは何ですか。",
+    "english": "What is happiness?"
+  },
+  {
+    "id": "423644",
+    "japanese": "幸せって何だ？",
+    "english": "What is happiness?"
+  },
+  {
+    "id": "423645",
+    "japanese": "幸せって何なんだろう？",
+    "english": "What is happiness?"
+  },
+  {
+    "id": "423646",
+    "japanese": "幸福って何？",
+    "english": "What is happiness?"
+  },
+  {
+    "id": "423649",
+    "japanese": "幸せって何だろう？",
+    "english": "What is happiness?"
+  },
+  {
+    "id": "423650",
+    "japanese": "幸せって何だっけ？",
+    "english": "What is happiness?"
+  },
+  {
+    "id": "641944",
+    "japanese": "幸せは何ですか。",
+    "english": "What is happiness?"
+  },
+  {
+    "id": "494318",
+    "japanese": "カザンに地下鉄がある。",
+    "english": "There is a metro in Kazan."
+  },
+  {
+    "id": "640529",
+    "japanese": "南アフリカは遠い。",
+    "english": "South Africa is far away."
+  },
+  {
+    "id": "1164920",
+    "japanese": "彼はその賞を手に入れるために何でもした。",
+    "english": "He did everything he could to get the prize."
+  },
+  {
+    "id": "1167438",
+    "japanese": "彼は以前ほど真面目に働いていない。",
+    "english": "He doesn't work as hard as he used to."
+  },
+  {
+    "id": "1035847",
+    "japanese": "パパ、ブブゼラ買って！",
+    "english": "Daddy, buy me a vuvuzela!"
+  },
+  {
+    "id": "489421",
+    "japanese": "ビルは始発電車に乗るために早く起きました。",
+    "english": "Bill got up early in order to catch the first train."
+  },
+  {
+    "id": "405058",
+    "japanese": "仏教は、インドの釈迦を開祖とする宗教である。",
+    "english": "Buddhism is a religion founded by the Indian Shakyamuni."
+  },
+  {
+    "id": "405340",
+    "japanese": "大人になったら何になる？",
+    "english": "What will you do when you grow up?"
+  },
+  {
+    "id": "3508006",
+    "japanese": "やれやれ・・・。",
+    "english": "Oh boy..."
+  },
+  {
+    "id": "3508007",
+    "japanese": "ったく。",
+    "english": "Oh boy..."
+  },
+  {
+    "id": "11753166",
+    "japanese": "外国に行く気？",
+    "english": "Do you plan to go overseas?"
+  },
+  {
+    "id": "1278766",
+    "japanese": "それが好きなんでしょう？",
+    "english": "You like it, don't you?"
+  },
+  {
+    "id": "405673",
+    "japanese": "Webマーケティングの弱点を克服するウィジェットです。",
+    "english": "It's the widget that overcomes web marketing's weaknesses."
+  },
+  {
+    "id": "405675",
+    "japanese": "自分の弱点を克服することは難しいことではありません。",
+    "english": "It isn't hard to overcome your weaknesses."
+  },
+  {
+    "id": "419017",
+    "japanese": "彼はりんごを食べています。",
+    "english": "He's eating an apple."
+  },
+  {
+    "id": "419018",
+    "japanese": "彼女はりんごを食べています。",
+    "english": "She's eating an apple."
+  },
+  {
+    "id": "405866",
+    "japanese": "前腕と手くびが痛いです。手根管症候群が原因かもしれない。",
+    "english": "My wrist and forearm hurt, I think I might be suffering from carpal tunnel syndrome."
+  },
+  {
+    "id": "1487472",
+    "japanese": "来い、お嬢ちゃんよ、座ってて！",
+    "english": "Come here, little girl, sit down!"
+  },
+  {
+    "id": "406007",
+    "japanese": "ある春の天気のよい朝、この家を建てた人の孫の孫の孫になる人がとおりがかりました。",
+    "english": "One fine morning in spring along came the great-great-granddaughter of the man who had built this house."
+  },
+  {
+    "id": "406128",
+    "japanese": "ググってあげましょう。",
+    "english": "Let me google that for you."
+  },
+  {
+    "id": "406160",
+    "japanese": "パソコンを始めた頃はノートンの重いソフトに騙され四苦八苦していた。",
+    "english": "When I started using a computer I was taken in by Norton's CPU-hungry software and had a lot of trouble."
+  },
+  {
+    "id": "406167",
+    "japanese": "ボディペインティングをしたことがありますか？",
+    "english": "Have you ever tried body painting?"
+  },
+  {
+    "id": "406169",
+    "japanese": "ボディチェックが嫌い。",
+    "english": "I don't like frisk searches."
+  },
+  {
+    "id": "406181",
+    "japanese": "私は大阪に行くためにこのカメラは不可欠です。",
+    "english": "I really need this camera for my trip to Osaka."
+  },
+  {
+    "id": "406266",
+    "japanese": "しかし、中国語や韓国語を話すことができると、もっとたくさんの人と考え方を共有することができるんです。",
+    "english": "However if you can speak Chinese, Korean, etc. you're able to share your way of thinking with many more people."
+  },
+  {
+    "id": "3366952",
+    "japanese": "トムは私の友達だ。",
+    "english": "Tom is my friend."
+  },
+  {
+    "id": "3366953",
+    "japanese": "トムは俺の友達だ。",
+    "english": "Tom is my friend."
+  },
+  {
+    "id": "3366954",
+    "japanese": "トムは私の友達です。",
+    "english": "Tom is my friend."
+  },
+  {
+    "id": "3366955",
+    "japanese": "トムは僕の友達です。",
+    "english": "Tom is my friend."
+  },
+  {
+    "id": "4532090",
+    "japanese": "お気に入りのスポーツは何ですか。",
+    "english": "What's your favorite sport?"
+  },
+  {
+    "id": "406831",
+    "japanese": "背後に見え隠れするのは近年の不動産不況だ。",
+    "english": "What slips in and out of view in the background is the real estate slump of recent years."
+  },
+  {
+    "id": "406977",
+    "japanese": "子供はいつか巣立って行くんだよね。",
+    "english": "Children all leave the nest one day."
+  },
+  {
+    "id": "406979",
+    "japanese": "この少年はラジコンの天才よ！",
+    "english": "This boy is a genius at controlling RC vehicles!"
+  },
+  {
+    "id": "406981",
+    "japanese": "スケートボードをすると結構膝に負担がかかると思う。",
+    "english": "When you skateboard, it puts quite a strain on your knees."
+  },
+  {
+    "id": "9695348",
+    "japanese": "彼は泥酔していたため、家まで運転できなかった。",
+    "english": "Since he was very drunk, he couldn't drive his car home."
+  },
+  {
+    "id": "407134",
+    "japanese": "その頃、泥棒、他殺、餓死のことばっかり聞いていたんだ。",
+    "english": "During that time, we only heard about thieves, about murders, about men who had died of hunger."
+  },
+  {
+    "id": "1058167",
+    "japanese": "その頃、泥棒、他殺、餓死についてばっかり聞いていたんだ。",
+    "english": "During that time, we only heard about thieves, about murders, about men who had died of hunger."
+  },
+  {
+    "id": "1058168",
+    "japanese": "その頃、泥棒、他殺、餓死についての話ばっかり聞いていたんだ。",
+    "english": "During that time, we only heard about thieves, about murders, about men who had died of hunger."
+  },
+  {
+    "id": "1099487",
+    "japanese": "私は赤ワインより白ワインのほうが好きです。",
+    "english": "I like white wine better than red wine."
+  },
+  {
+    "id": "407193",
+    "japanese": "こころを開いて話すことができましたか？",
+    "english": "Were you able to open up and talk?"
+  },
+  {
+    "id": "407541",
+    "japanese": "最近アフガニスタンでは、豊富な鉱物資源が発見された。",
+    "english": "Rich mineral deposits have been discovered recently in Afghanistan."
+  },
+  {
+    "id": "407545",
+    "japanese": "アンシャンレジームの特徴の一つは、百姓以外は、殆ど誰もが特権をもっていたと言うことです。",
+    "english": "One of the characteristics of the Ancien Régime is that almost everybody had privileges, except peasants."
+  },
+  {
+    "id": "2472723",
+    "japanese": "さみしかったよ。",
+    "english": "I missed you."
+  },
+  {
+    "id": "778279",
+    "japanese": "よく外国へ行かれますか？",
+    "english": "Do you often travel abroad?"
+  },
+  {
+    "id": "2876152",
+    "japanese": "明日はおそらく雪が降るだろう。",
+    "english": "It will probably snow tomorrow."
+  },
+  {
+    "id": "10317822",
+    "japanese": "教授をお願いしたいのですが。",
+    "english": "May I speak to the professor?"
+  },
+  {
+    "id": "408173",
+    "japanese": "気晴らしを求める王女の意欲はとどまるところを知りませんでした。そのため、私たちはそうした気晴らしに、それをいっそう刺激的なものにしうる新たな調味料を加えることばかりを考えていました。",
+    "english": "The princess's taste for pleasures was expanding; and we thought only about how to sprinkle on them new seasonings, so as to give them more spice."
+  },
+  {
+    "id": "9520213",
+    "japanese": "このコーヒー熱くて飲めないよ。",
+    "english": "This coffee is too hot for me to drink."
+  },
+  {
+    "id": "10272566",
+    "japanese": "あの女の子なら知ってるよ。",
+    "english": "I know that girl."
+  },
+  {
+    "id": "407885",
+    "japanese": "カラスはよくゴミ漁りします。",
+    "english": "Crows often fish through garbage."
+  },
+  {
+    "id": "407917",
+    "japanese": "極端な食事制限をする拒食症の女子高生が増えている。",
+    "english": "The number of anorexic high school girls practicing extreme dietary restrictions is increasing."
+  },
+  {
+    "id": "407985",
+    "japanese": "マザー・テレサは老人たちを献身的に介抱しました。",
+    "english": "Mother Theresa devoutly cared for old people."
+  },
+  {
+    "id": "1484882",
+    "japanese": "どっちのドレスがいいか決められない。",
+    "english": "I can't decide which dress I should buy."
+  },
+  {
+    "id": "408026",
+    "japanese": "中学校時代に、入院中の祖父が病院の看護師に対して「ありがとう、助かるよ」とよく声をかけていたことがとても印象的でした。",
+    "english": "In my secondary school days, I was much impressed by how my hospitalised grandfather would often tell the nurses there, \"Thank you, I appreciate your help.\""
+  },
+  {
+    "id": "408028",
+    "japanese": "田中さんは怪我した人の手当てをしたり、病気になった人の介抱をしたりすることが好きでした。",
+    "english": "Mrs Tanaka liked to carry out first aid on the injured and take care of the sick."
+  },
+  {
+    "id": "3418629",
+    "japanese": "この学生の本は新しいです。",
+    "english": "This student's books are new."
+  },
+  {
+    "id": "408055",
+    "japanese": "昔々、インドに猿と狐と兎が仲良く暮らしておりました。",
+    "english": "Long long ago in India, a monkey, a fox, and a rabbit lived happily together."
+  },
+  {
+    "id": "408065",
+    "japanese": "三匹は老人を助けようとして、さるは得意の木登りで木の実や果物を集め、 きつねは川から魚を獲り、老人の所に運びました。",
+    "english": "The three animals tried to help the old man, the monkey using its ability to climb to collect fruit and nuts, and the fox catching fish in the stream to bring to him."
+  },
+  {
+    "id": "408075",
+    "japanese": "兎は得意なことは何もなかったのですが、 献身的に老人を介抱しました。",
+    "english": "The rabbit did not have any special abilities but devotedly attended the old man."
+  },
+  {
+    "id": "408082",
+    "japanese": "倒れていた老人は、実は仏様だったのです。",
+    "english": "The old man who'd fallen was really Buddha."
+  },
+  {
+    "id": "408087",
+    "japanese": "仏様は、うさぎの努力に感心し、うさぎを月に昇らせ、永遠にその姿をとどめさせたのです。",
+    "english": "Buddha, impressed by the rabbit's efforts, raised him unto the moon and set him in that form forever more."
+  },
+  {
+    "id": "494247",
+    "japanese": "私たちは子供がふたりいる。",
+    "english": "We have two kids."
+  },
+  {
+    "id": "408176",
+    "japanese": "待ちくたびれて寝てしまったのだろう。",
+    "english": "He probably got tired of waiting and fell asleep."
+  },
+  {
+    "id": "12889995",
+    "japanese": "お名前は何ですか？",
+    "english": "What's your name?"
+  },
+  {
+    "id": "408303",
+    "japanese": "そうです。日本語ではウェートレスは英語の\"waitress\"と\"weightless\"にも該当する。でも\"waitress\"という意味が普通だね。",
+    "english": "That's correct. In Japanese, ウエートレス corresponds both to the English \"waitress\" and \"weightless\". However, \"waitress\" is the more usual meaning."
+  },
+  {
+    "id": "408304",
+    "japanese": "新潟市の水族館で６月１８日、飼育員の誤りで飼育されていた魚約 7,000匹が大量死した。",
+    "english": "On June 18 at the Niigata city aquarium, 7000 fish died because of a mistake by an employee."
+  },
+  {
+    "id": "408306",
+    "japanese": "小泉さんは本当に自惚れの強い男だね。",
+    "english": "Mr Koizumi is really full of himself."
+  },
+  {
+    "id": "2146628",
+    "japanese": "うちの庭にりんごの木を植えました。",
+    "english": "I planted an apple tree in my garden."
+  },
+  {
+    "id": "869844",
+    "japanese": "スーパーヒーローにも、時には休息が必要だ。",
+    "english": "Even superheroes need an occasional break."
+  },
+  {
+    "id": "408771",
+    "japanese": "残念ながら君の演じる役は演劇の冒頭で殺されるのだ。",
+    "english": "It's too bad, but your character gets killed at the start of the play."
+  },
+  {
+    "id": "408776",
+    "japanese": "僕の演じる役は本の木だけで、役が無いのとほぼ同じです。",
+    "english": "Since the role I play is that of a tree, it's just as if I didn't have one."
+  },
+  {
+    "id": "408785",
+    "japanese": "居酒屋まで駆けっこしましょう！",
+    "english": "Let's race to the Izakaya!"
+  },
+  {
+    "id": "408790",
+    "japanese": "結婚の後、アランは黴だらけの小さいアパートを出て、生活が華美に流れた。",
+    "english": "After his wedding, Alain left his small, moldy apartment and led an extravagant life."
+  },
+  {
+    "id": "408800",
+    "japanese": "伊勢崎市は６月１９日から、男性職員のひげを禁止したと聞いた。タリバンのひげ強制法律と正反対ですよね。",
+    "english": "I heard that Isezaki city decided to ban beards for male city employees starting June 19. It's the complete opposite of the Taliban laws imposing the wearing of beards."
+  },
+  {
+    "id": "408872",
+    "japanese": "泡風呂につかりながらテレビを見ることが好き。",
+    "english": "I like to watch TV in my Jacuzzi."
+  },
+  {
+    "id": "408879",
+    "japanese": "小泉さんは話の切れ目のない人です。",
+    "english": "Mr. Koizumi talks endlessly without stopping."
+  },
+  {
+    "id": "408935",
+    "japanese": "ジャクージの傍には蝋燭が煌々と輝いていた。",
+    "english": "Candles gleamed brightly beside the jacuzzi."
+  },
+  {
+    "id": "11125471",
+    "japanese": "お金持ってないの？",
+    "english": "Don't you have any money?"
+  },
+  {
+    "id": "413519",
+    "japanese": "彼は私のいるのに気がついた。",
+    "english": "He noticed my presence."
+  },
+  {
+    "id": "409162",
+    "japanese": "竿にシーツを全部干しました。",
+    "english": "I put all of the sheets to dry on the pole."
+  },
+  {
+    "id": "409166",
+    "japanese": "この地方は貴重な鉱物を産出します。",
+    "english": "This region produces precious minerals."
+  },
+  {
+    "id": "409168",
+    "japanese": "腰痛のため、小泉さんのパーティー に参上いたしません。",
+    "english": "Due to my lumbago, I won't be able to attend Koizumi's party."
+  },
+  {
+    "id": "409170",
+    "japanese": "一日中、釣り竿を立てたため、腰が痛くなりました。",
+    "english": "My back hurts because I've been fishing all day."
+  },
+  {
+    "id": "409212",
+    "japanese": "真由美がお小遣いをはたいてビーチボールを買った。",
+    "english": "Mayumi gathered her small change and bought a beach ball."
+  },
+  {
+    "id": "409229",
+    "japanese": "お母さんの言ったことは本当だった。",
+    "english": "What my mother had said was true."
+  },
+  {
+    "id": "409234",
+    "japanese": "そのドレスを着たら、尻軽な女みたいね。",
+    "english": "When you wear that dress, you look like a slut."
+  },
+  {
+    "id": "409236",
+    "japanese": "やべ！彼女がもう帰ったんだ！どうしよう？！",
+    "english": "Crap! My girlfriend is already back! What should we do?!"
+  },
+  {
+    "id": "409238",
+    "japanese": "キムと言う友達が、時々、たいへんな肛門出血があるんだ。",
+    "english": "My friend Kim has really bad anal bleeding sometimes."
+  },
+  {
+    "id": "2260013",
+    "japanese": "来年は中国語を勉強したい。",
+    "english": "I want to learn Chinese next year."
+  },
+  {
+    "id": "2742206",
+    "japanese": "おなかペコペコだ。",
+    "english": "I am hungry."
+  },
+  {
+    "id": "10094197",
+    "japanese": "腹減った。",
+    "english": "I am hungry."
+  },
+  {
+    "id": "409758",
+    "japanese": "彼女のおかまを掘る後でたいていよく洗わなきゃならないんだ。",
+    "english": "After having anal sex with my girlfriend, we usually need to have a good wash."
+  },
+  {
+    "id": "409762",
+    "japanese": "やっぱり、おばこなんだ！",
+    "english": "As I thought, she's a virgin!"
+  },
+  {
+    "id": "409768",
+    "japanese": "しめやかな女はだいたい一番きれいだと思う。にぎやかな人はひどいな。",
+    "english": "Subdued girls are generally the prettiest I reckon. The loud, bustling ones are awful."
+  },
+  {
+    "id": "409770",
+    "japanese": "この歌を聞いたら、あなたについて思って、懐かしむんだ。",
+    "english": "When I hear this song, I think of you, and miss you."
+  },
+  {
+    "id": "409786",
+    "japanese": "「可愛い子犬ね。どうしてパンダと名付けられたの？」「パンダのような顔をしているからだ」",
+    "english": "\"What a cute puppy. Why is he called Panda?\" \"Because his face looks like a panda.\""
+  },
+  {
+    "id": "409827",
+    "japanese": "明日から強化合宿に入るんですが、強化するのは体力面ではなく、メンタルの部分です。",
+    "english": "I'm going to a training camp tomorrow. However it's not the physical side that I'll be training, but the mental."
+  },
+  {
+    "id": "936200",
+    "japanese": "私の秘密を知りたい? 単純な話しさ・・・",
+    "english": "Do you want to know my secret? It's very simple..."
+  },
+  {
+    "id": "409852",
+    "japanese": "もう少し諸規則の弾力的運用はできないか。",
+    "english": "Can't you apply the rules a little more elastically?"
+  },
+  {
+    "id": "409917",
+    "japanese": "助手席に置いていた鞄がない！",
+    "english": "The bag I left on the passenger seat is missing!"
+  },
+  {
+    "id": "409926",
+    "japanese": "私たちを夕食に招待してくれてありがとう。",
+    "english": "Thank you for inviting us to dinner."
+  },
+  {
+    "id": "410061",
+    "japanese": "な～んて、単に外食に誘われただけです。",
+    "english": "Kidding! I was simply invited to go out to dinner."
+  },
+  {
+    "id": "1324722",
+    "japanese": "彼に頼むつもりはない。",
+    "english": "I have no intention of asking him."
+  },
+  {
+    "id": "1324723",
+    "japanese": "彼に頼む気はありません。",
+    "english": "I have no intention of asking him."
+  },
+  {
+    "id": "410179",
+    "japanese": "僕は心の中では憂鬱になっているけど、見た目にはわからないでしょう？",
+    "english": "I'm feeling depressed on the inside, but you can't tell by looking, can you?"
+  },
+  {
+    "id": "410196",
+    "japanese": "社交ダンスは僕と一緒にしませんか？",
+    "english": "Would you join me for some ballroom dancing?"
+  },
+  {
+    "id": "410199",
+    "japanese": "鳩山さんは社宅に住んでいるらしい。",
+    "english": "It seems that Mr Hatoyama is living in company housing."
+  },
+  {
+    "id": "410204",
+    "japanese": "屋根付きの金ぴかの霊柩車って、見慣れてるからなんとも思わないけど、最初に考えたやつはセンスがどうかしてる。",
+    "english": "I don't mind since I'm used to it, but the first guy who thought about making a hearse with a golden roof on top of it, he must have had quite bad taste."
+  },
+  {
+    "id": "410214",
+    "japanese": "私の夫は日曜休日も出社していると言っているけど、時にはその話が胡散臭いと思うことがあります。",
+    "english": "My husband tells me he goes to work even on Sundays and holidays but sometimes I suspect there's something fishy about his story."
+  },
+  {
+    "id": "13231279",
+    "japanese": "彼女は美しいです。",
+    "english": "She is beautiful."
+  },
+  {
+    "id": "13231281",
+    "japanese": "彼女は美しいね。",
+    "english": "She is beautiful."
+  },
+  {
+    "id": "13231285",
+    "japanese": "きれいだね。",
+    "english": "She is beautiful."
+  },
+  {
+    "id": "13231300",
+    "japanese": "美しいね。",
+    "english": "She is beautiful."
+  },
+  {
+    "id": "13231307",
+    "japanese": "きれいですね。",
+    "english": "She is beautiful."
+  },
+  {
+    "id": "410425",
+    "japanese": "奇跡について一番驚くべきことは、奇跡が起こることです。",
+    "english": "The most incredible thing about miracles is that they happen."
+  },
+  {
+    "id": "410315",
+    "japanese": "誰がカールの仇討ちをする？",
+    "english": "Who will avenge the death of Karl?"
+  },
+  {
+    "id": "410420",
+    "japanese": "死んだ獅子より生きている犬の方がましだ。",
+    "english": "A living dog is better than a dead lion."
+  },
+  {
+    "id": "935423",
+    "japanese": "私たち三人とも学生です。",
+    "english": "All three of us are students."
+  },
+  {
+    "id": "1168389",
+    "japanese": "彼女はオレンジから果汁を搾り出そうとした。",
+    "english": "She tried to squeeze the juice from the orange."
+  },
+  {
+    "id": "11571280",
+    "japanese": "このオレンジ、食べてもいい？",
+    "english": "May I eat this orange?"
+  },
+  {
+    "id": "12848627",
+    "japanese": "到着しました。",
+    "english": "We've arrived."
+  },
+  {
+    "id": "1064324",
+    "japanese": "ちょっと待って。",
+    "english": "Wait a moment."
+  },
+  {
+    "id": "2445827",
+    "japanese": "ちょっと待て。",
+    "english": "Wait a moment."
+  },
+  {
+    "id": "8886169",
+    "japanese": "少しお待ちください。",
+    "english": "Wait a moment."
+  },
+  {
+    "id": "8886173",
+    "japanese": "少々お待ちください。",
+    "english": "Wait a moment."
+  },
+  {
+    "id": "10608937",
+    "japanese": "少し待ってて。",
+    "english": "Wait a moment."
+  },
+  {
+    "id": "9015623",
+    "japanese": "もう、私のバカ！",
+    "english": "What an idiot I am!"
+  },
+  {
+    "id": "10320704",
+    "japanese": "お前って、マジでついてるんだな。",
+    "english": "You really are lucky, aren't you?"
+  },
+  {
+    "id": "4778012",
+    "japanese": "本当についてない！",
+    "english": "I really am unlucky!"
+  },
+  {
+    "id": "3697521",
+    "japanese": "好きです。",
+    "english": "I like you."
+  },
+  {
+    "id": "10535720",
+    "japanese": "煮るなり焼くなり、好きにしてくれ。",
+    "english": "Do as you please."
+  },
+  {
+    "id": "10231741",
+    "japanese": "私のカメラに触れないで。",
+    "english": "Don't touch my camera."
+  },
+  {
+    "id": "2048667",
+    "japanese": "私は間違っていますか？",
+    "english": "Am I wrong?"
+  },
+  {
+    "id": "411055",
+    "japanese": "ヘーゲルの弁証法の秘密は究極的に次のポイントにだけ存在する；神学を経て哲学を否定するために哲学を経て、神学を否定します。",
+    "english": "The secret of Hegel's dialectic lies ultimately in this alone, that it negates theology through philosophy in order then to negate philosophy through theology."
+  },
+  {
+    "id": "411208",
+    "japanese": "循環論法すれば賞賛を浴るのは哲学だけです。",
+    "english": "Only in philosophy can you use a circular argument and get praised for it."
+  },
+  {
+    "id": "1614163",
+    "japanese": "愛をもつ者は神の内にあり、また神はその者の内におられる、なぜなら神は愛だからだ。",
+    "english": "He who has love, is in God, and God is in him, for God is love."
+  },
+  {
+    "id": "912154",
+    "japanese": "信仰によって物事を見るということは、理性の目を閉じてしまうことだ。蝋燭の灯を消せば、朝日はよりはっきりと姿を現す。",
+    "english": "The Way to see by Faith, is to shut the Eye of Reason: The Morning Daylight appears plainer when you put out your Candle."
+  },
+  {
+    "id": "1486399",
+    "japanese": "私の見たものは車か、それともネコか？",
+    "english": "Was it a car or a cat I saw?"
+  },
+  {
+    "id": "411230",
+    "japanese": "食欲は食べていると起こり、乾きは酒を飲んでいると消える。",
+    "english": "Appetite comes with eating, but the thirst goes away with drinking."
+  },
+  {
+    "id": "1302429",
+    "japanese": "私が払いましょう。",
+    "english": "I'll pay."
+  },
+  {
+    "id": "9345960",
+    "japanese": "慌てなくても大丈夫だよ。",
+    "english": "You don't need to hurry."
+  },
+  {
+    "id": "10470727",
+    "japanese": "今すぐやらなくても大丈夫だからね。",
+    "english": "You don't need to do that right away."
+  },
+  {
+    "id": "11332577",
+    "japanese": "なんでそこにいたの？",
+    "english": "Why were you there?"
+  },
+  {
+    "id": "1471009",
+    "japanese": "ごめんなさい、付き添えないの。",
+    "english": "I'm sorry, but I can't go with you."
+  },
+  {
+    "id": "10081425",
+    "japanese": "悪いけど、一緒には行けないよ。",
+    "english": "I'm sorry, but I can't go with you."
+  },
+  {
+    "id": "4651964",
+    "japanese": "おっしゃる通りです。",
+    "english": "You're right."
+  },
+  {
+    "id": "893205",
+    "japanese": "その問題の根本原因は、現代の世界において、賢明な人々が猜疑心に満ちている一方で、愚かな人々が自信過剰であるということである。",
+    "english": "The fundamental cause of the trouble is that in the modern world the stupid are cocksure while the intelligent are full of doubt."
+  },
+  {
+    "id": "411849",
+    "japanese": "憂国者はいつも国のために死のうと訴えていて、国のために人を殺そうとは言わない。",
+    "english": "Patriots always talk of dying for their country, and never of killing for their country."
+  },
+  {
+    "id": "912170",
+    "japanese": "愛を恐れるということは、人生を恐れるということだ。そして人生を恐れている者は、もう死んだも同然である。",
+    "english": "To fear love is to fear life, and those who fear life are already three parts dead."
+  },
+  {
+    "id": "936165",
+    "japanese": "戦争は誰が正しいかを決めるのではなく、誰が後に残るかを決めるだけだ。",
+    "english": "War does not determine who is right — only who is left."
+  },
+  {
+    "id": "769340",
+    "japanese": "ドイツの方ですよね？",
+    "english": "You're Germans, aren't you?"
+  },
+  {
+    "id": "1037431",
+    "japanese": "私は簡単には泣かない。",
+    "english": "I don't cry easily."
+  },
+  {
+    "id": "1037416",
+    "japanese": "授業は毎日九時に始まります。",
+    "english": "Classes start at nine o'clock every day."
+  },
+  {
+    "id": "5894534",
+    "japanese": "大学の頃、彼女はディスコに行ったことは一度しかなかった。",
+    "english": "When she was a student, she went to the disco only once."
+  },
+  {
+    "id": "872797",
+    "japanese": "コーヒーが飲みたいです。",
+    "english": "I would like to drink a coffee."
+  },
+  {
+    "id": "412014",
+    "japanese": "ポールはよく重いツールをずるずる引きずる。",
+    "english": "Paul often drags heavy tools with him."
+  },
+  {
+    "id": "412017",
+    "japanese": "写真が暴露された後で女優の清純なイメージが汚された。",
+    "english": "After the pictures were revealed, the actress' clean image was tainted."
+  },
+  {
+    "id": "412020",
+    "japanese": "清濁あわせのむ。",
+    "english": "Accept both good and bad."
+  },
+  {
+    "id": "412024",
+    "japanese": "ボーリング店のオープニングセレモニーは退屈だった。",
+    "english": "The bowling shop's opening ceremony was boring."
+  },
+  {
+    "id": "2228514",
+    "japanese": "当時私は学生だった。",
+    "english": "I was a student at that time."
+  },
+  {
+    "id": "412030",
+    "japanese": "パスタ会社が主催したのど自慢コンクールに参加して、準決勝戦まで到達しました。",
+    "english": "I entered a singing contest sponsored by a pasta company and I made it to the semifinals."
+  },
+  {
+    "id": "412037",
+    "japanese": "リさんが怪我されたため、スターズの戦力がだいぶ低下しました。",
+    "english": "Because Lee was injured, the strength of the Stars has greatly diminished."
+  },
+  {
+    "id": "412047",
+    "japanese": "ちょっと絵を描いただけで他意はありません。",
+    "english": "I was just drawing pictures, I had no further intention."
+  },
+  {
+    "id": "412049",
+    "japanese": "人類は生態系の退化を防ぐことができるだろうか？",
+    "english": "Will humanity be able to prevent the degradation of ecosystems?"
+  },
+  {
+    "id": "412920",
+    "japanese": "人類は生態系の衰退を食い止めることができるのでしょうか？",
+    "english": "Will humanity be able to prevent the degradation of ecosystems?"
+  },
+  {
+    "id": "414713",
+    "japanese": "人類は生態系の悪化を防ぐことができるのでしょうか？",
+    "english": "Will humanity be able to prevent the degradation of ecosystems?"
+  },
+  {
+    "id": "414716",
+    "japanese": "人類は生態系の劣化を防ぐことができるでしょうか？",
+    "english": "Will humanity be able to prevent the degradation of ecosystems?"
+  },
+  {
+    "id": "412068",
+    "japanese": "生の魚を食べる犬なんているのだろうか？",
+    "english": "Are there dogs that eat raw fish?"
+  },
+  {
+    "id": "412070",
+    "japanese": "「外国では魚を生で食べない」というのは嘘だ。",
+    "english": "It's a lie that, \"they don't eat fish raw abroad.\""
+  },
+  {
+    "id": "412342",
+    "japanese": "彼は、自発的にママの掃除を手伝った。",
+    "english": "He voluntarily helped his mum clean."
+  },
+  {
+    "id": "412789",
+    "japanese": "テレビを見るときは部屋を明るくして離れて見てください。",
+    "english": "When watching TV, please ensure that the room is brightly lit and watch from a distance."
+  },
+  {
+    "id": "412847",
+    "japanese": "社会の秩序は自然から生じたものではない。社会の秩序は慣習の上に基礎付けられている。",
+    "english": "Social order does not come from nature. It is founded on customs."
+  },
+  {
+    "id": "412849",
+    "japanese": "女は観察し、男は判断する。",
+    "english": "Woman observes, man decides."
+  },
+  {
+    "id": "412851",
+    "japanese": "ソクラテスの生と死が賢人の生と死だというなら、イエスの生と死は神の生と死である。",
+    "english": "If the life and death of Socrates was the life and death of a wise man, then the life and death of Jesus is the life and death of a God."
+  },
+  {
+    "id": "774009",
+    "japanese": "信じる人々には次のような印が伴います。すなわち、私の名によって悪霊を追い出し、新しい言葉を語り、蛇をもつかみ、たとい毒を飲んでも決して害を受けず、また、病人に手を置けば病人は癒やされます。",
+    "english": "And these signs shall follow them that believe; In my name shall they cast out devils; they shall speak with new tongues; they shall take up serpents; and if they drink any deadly thing it shall not hurt them; they shall lay hands on the sick, and they shall recover!"
+  },
+  {
+    "id": "774010",
+    "japanese": "信じる者には次のような印が伴う。彼らは私の名によって悪霊を追い出し、新しい言葉を語る。手で蛇をつかみ、また、毒を飲んでも決して害を受けず、病人に手を置けば治る。",
+    "english": "And these signs shall follow them that believe; In my name shall they cast out devils; they shall speak with new tongues; they shall take up serpents; and if they drink any deadly thing it shall not hurt them; they shall lay hands on the sick, and they shall recover!"
+  },
+  {
+    "id": "1116427",
+    "japanese": "おじいさんが木陰で休んでいました。",
+    "english": "An old man was resting in the shade of the tree."
+  },
+  {
+    "id": "1116429",
+    "japanese": "おじいさんが木陰で休憩していました。",
+    "english": "An old man was resting in the shade of the tree."
+  },
+  {
+    "id": "1166923",
+    "japanese": "兄は私たちのために準備を全てしてくれた。",
+    "english": "My older brother did all the preparation for us."
+  },
+  {
+    "id": "413046",
+    "japanese": "弱肉強食。",
+    "english": "The weak are food for the strong."
+  },
+  {
+    "id": "762116",
+    "japanese": "この靴は小さすぎる。",
+    "english": "These shoes are too small."
+  },
+  {
+    "id": "6537567",
+    "japanese": "結婚していますか。",
+    "english": "Are you married?"
+  },
+  {
+    "id": "8802748",
+    "japanese": "これは父の物です。",
+    "english": "This is my father's."
+  },
+  {
+    "id": "8802750",
+    "japanese": "これは父さんのです。",
+    "english": "This is my father's."
+  },
+  {
+    "id": "413316",
+    "japanese": "授業は八時三十分から始まる。",
+    "english": "The class begins at 8:30."
+  },
+  {
+    "id": "413324",
+    "japanese": "紙か何かある？",
+    "english": "Can I borrow something to write on?"
+  },
+  {
+    "id": "413326",
+    "japanese": "なんか紙ちょうだい。",
+    "english": "Can I borrow something to write on?"
+  },
+  {
+    "id": "413351",
+    "japanese": "ブリティッシュコロンビアの沿岸生態系の劣化が急速に進行している。",
+    "english": "The coastal ecosystem of British Columbia is rapidly declining."
+  },
+  {
+    "id": "413517",
+    "japanese": "この映画は貧しい女性が、列車事故による混乱で富豪の令嬢と人違いされてしまう物語です。",
+    "english": "This movie is about a poor girl who gets mistaken for the daughter of a rich man in the confusion following a train crash."
+  },
+  {
+    "id": "413547",
+    "japanese": "息子の保育園の保母さんにクレームをつけたいと思っています。",
+    "english": "I'm thinking about complaining about my son's teacher at the kindergarten."
+  },
+  {
+    "id": "413576",
+    "japanese": "リラックスするには時間がかかる。",
+    "english": "It takes time to relax."
+  },
+  {
+    "id": "413579",
+    "japanese": "陰陽師身の上知らず。",
+    "english": "The Ying Yang diviner may not predict his own fate."
+  },
+  {
+    "id": "413634",
+    "japanese": "僕の夢はランボルギーニトラクターを買うことなんです。",
+    "english": "My dream is to buy a Lamborghini tractor."
+  },
+  {
+    "id": "1700300",
+    "japanese": "彼の提案は全く論外だ。",
+    "english": "His proposal is completely out of the question."
+  },
+  {
+    "id": "1515953",
+    "japanese": "家に来て。",
+    "english": "Come home."
+  }
+]

@@ -1,0 +1,788 @@
+[
+  {
+    "id": "minna-2-22-1550481599189",
+    "japanese": "関係",
+    "reading": "関係",
+    "meaning": "relationship",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "関係[かんけい]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481406097",
+    "japanese": "恋人",
+    "reading": "恋人",
+    "meaning": "sweetheart, boyfriend, girlfriend",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "恋人[こいびと]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481416287",
+    "japanese": "相手",
+    "reading": "相手",
+    "meaning": "the other person",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "相手[あいて]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481590816",
+    "japanese": "理由",
+    "reading": "理由",
+    "meaning": "reason",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "理由[りゆう]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481430916",
+    "japanese": "知り合います",
+    "reading": "知り合います",
+    "meaning": "to get acquainted",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "知り合[しりあ]います",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550479750615",
+    "japanese": "吹きます［風が〜］",
+    "reading": "吹きます［風が〜］",
+    "meaning": "[wind] to blow",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "吹[ふ]きます［ 風[かぜ]が〜］",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550479780582",
+    "japanese": "燃えます［ごみが〜］",
+    "reading": "燃えます［ごみが〜］",
+    "meaning": "[rubbish] to burn",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "燃[も]えます［ごみが〜］",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550479819632",
+    "japanese": "亡くなります",
+    "reading": "亡くなります",
+    "meaning": "to pass away (euphemistic equivalent of しにます)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "亡[な]くなります",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550480589331",
+    "japanese": "集まります［人が〜］",
+    "reading": "集まります［人が〜］",
+    "meaning": "[people] to gather",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "集[あつ]まります［ 人[ひと]が〜］",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550480862715",
+    "japanese": "別れます［人が〜］",
+    "reading": "別れます［人が〜］",
+    "meaning": "[people] to part, separate",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "別[わか]れます［ 人[ひと]が〜］",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550480957770",
+    "japanese": "します［音／声が〜］［味が〜］［においが〜］",
+    "reading": "します［音／声が〜］［味が〜］［においが〜］",
+    "meaning": "[sound/voice] to be heard, to taste, to smell",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "します［ 音[おと]／ 声[こえ]が〜］［ 味[あじ]が〜］［においが〜］",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550480982704",
+    "japanese": "厳しい",
+    "reading": "厳しい",
+    "meaning": "strict, hard",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "厳[きび]しい",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481004956",
+    "japanese": "ひどい",
+    "reading": "ひどい",
+    "meaning": "terrible, severe",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "ひどい",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481022771",
+    "japanese": "怖い",
+    "reading": "怖い",
+    "meaning": "frightening, horrible",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "怖[こわ]い",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481042387",
+    "japanese": "実験",
+    "reading": "実験",
+    "meaning": "experiment",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "実験[じっけん]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481070635",
+    "japanese": "データ",
+    "reading": "データ",
+    "meaning": "data",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "データ",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481081223",
+    "japanese": "人口",
+    "reading": "人口",
+    "meaning": "population",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "人口[じんこう]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481089464",
+    "japanese": "におい",
+    "reading": "におい",
+    "meaning": "smell",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "におい",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481104745",
+    "japanese": "科学",
+    "reading": "科学",
+    "meaning": "science",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "科学[かがく]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481121938",
+    "japanese": "医学",
+    "reading": "医学",
+    "meaning": "medicine, medical science",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "医学[いがく]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481132427",
+    "japanese": "文学",
+    "reading": "文学",
+    "meaning": "literature",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "文学[ぶんがく]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481181754",
+    "japanese": "パトカー",
+    "reading": "パトカー",
+    "meaning": "police car",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "パトカー",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481219981",
+    "japanese": "救急車",
+    "reading": "救急車",
+    "meaning": "ambulance",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "救急[きゅうきゅう] 車[しゃ]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481248224",
+    "japanese": "賛成",
+    "reading": "賛成",
+    "meaning": "approval, agreement",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "賛成[さんせい]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481264263",
+    "japanese": "反対",
+    "reading": "反対",
+    "meaning": "objection, opposition",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "反対[はんたい]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481283610",
+    "japanese": "大統領",
+    "reading": "大統領",
+    "meaning": "president",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "大統領[だいとうりょう]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481313679",
+    "japanese": "〜に よると",
+    "reading": "〜に よると",
+    "meaning": "according to ~ (indicates the source of information)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "〜に　よると",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481374243",
+    "japanese": "婚約します",
+    "reading": "婚約します",
+    "meaning": "to get engaged",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "婚約[こんやく]します",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481392855",
+    "japanese": "どうも",
+    "reading": "どうも",
+    "meaning": "it seems that (used when making a tentative judgement)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "どうも",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481451749",
+    "japanese": "検証",
+    "reading": "検証",
+    "meaning": "makeup (〜を　します：to put on makeup)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "検証[けんしょう]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481542230",
+    "japanese": "女性",
+    "reading": "女性",
+    "meaning": "female, woman",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "女性[じょせい]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481557210",
+    "japanese": "男性",
+    "reading": "男性",
+    "meaning": "male, man",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "男性[だんせい]",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-22-1550481580576",
+    "japanese": "長生き",
+    "reading": "長生き",
+    "meaning": "long life (〜します：to live long)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "長生[ながい]き",
+        "reading": "",
+        "english": "47"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-22",
+      "minna-2"
+    ],
+    "lesson": 22,
+    "textbook": "minna-2"
+  }
+]

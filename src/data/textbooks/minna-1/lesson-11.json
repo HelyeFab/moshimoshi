@@ -1,0 +1,1824 @@
+[
+  {
+    "id": "minna-1-11-1544776574731",
+    "japanese": "います ［子どもが〜］",
+    "reading": "います ［子どもが〜］",
+    "meaning": "to have [a child]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "います　［ 子[こ]どもが〜］",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574732",
+    "japanese": "います［日本に～］",
+    "reading": "います［日本に～］",
+    "meaning": "to stay, be [in Japan]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "います［ 日本[にっほん]に~］",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574733",
+    "japanese": "かかります",
+    "reading": "かかります",
+    "meaning": "to take, cost (referring to time or money)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "かかります",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574734",
+    "japanese": "休みます ［会社を～］",
+    "reading": "休みます ［会社を～］",
+    "meaning": "to take a day off [work]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "休[やす]みます　［ 会社[かいしゃ]を~］",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574735",
+    "japanese": "一つ",
+    "reading": "一つ",
+    "meaning": "one (used when counting things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "一[ひと]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574736",
+    "japanese": "二つ",
+    "reading": "二つ",
+    "meaning": "two (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "二[ふた]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574737",
+    "japanese": "三つ",
+    "reading": "三つ",
+    "meaning": "three (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "三[みっ]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574738",
+    "japanese": "四つ",
+    "reading": "四つ",
+    "meaning": "four (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "四[よっ]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574739",
+    "japanese": "五つ",
+    "reading": "五つ",
+    "meaning": "five (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "五[いつ]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574740",
+    "japanese": "六つ",
+    "reading": "六つ",
+    "meaning": "six (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "六[むっ]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574741",
+    "japanese": "七つ",
+    "reading": "七つ",
+    "meaning": "seven (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "七[なな]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574742",
+    "japanese": "八つ",
+    "reading": "八つ",
+    "meaning": "eight things",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "八[やっ]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574743",
+    "japanese": "九つ",
+    "reading": "九つ",
+    "meaning": "nine (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "九[ここの]つ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574744",
+    "japanese": "とう",
+    "reading": "とう",
+    "meaning": "ten (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "とう",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574745",
+    "japanese": "いくつ",
+    "reading": "いくつ",
+    "meaning": "how many (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いくつ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574746",
+    "japanese": "一人",
+    "reading": "一人",
+    "meaning": "one person",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "一人[ひとり]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574747",
+    "japanese": "二人",
+    "reading": "二人",
+    "meaning": "two people",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "二人[ふたり]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574748",
+    "japanese": "ー人",
+    "reading": "ー人",
+    "meaning": "- people",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ー人[にん]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574749",
+    "japanese": "－台",
+    "reading": "－台",
+    "meaning": "counter for machines, cars, etc.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "counter"
+    ],
+    "examples": [
+      {
+        "japanese": "ー台[だい]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574750",
+    "japanese": "－枚",
+    "reading": "－枚",
+    "meaning": "counter for paper, stamps, etc.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "counter"
+    ],
+    "examples": [
+      {
+        "japanese": "ー枚[まい]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574751",
+    "japanese": "－回",
+    "reading": "－回",
+    "meaning": "- times",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ー回[かい]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574752",
+    "japanese": "りんご",
+    "reading": "りんご",
+    "meaning": "apple",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "りんご",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574753",
+    "japanese": "みかん",
+    "reading": "みかん",
+    "meaning": "mandarin orange",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "みかん",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373439",
+    "japanese": "サンドイッチ",
+    "reading": "サンドイッチ",
+    "meaning": "sandwich",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "11",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574755",
+    "japanese": "かれー［ライス］",
+    "reading": "かれー［ライス］",
+    "meaning": "curry [with rice]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "かれー［ライス］",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373443",
+    "japanese": "アイスクリーム",
+    "reading": "アイスクリーム",
+    "meaning": "ice cream",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "11",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574757",
+    "japanese": "切手",
+    "reading": "切手",
+    "meaning": "postage stamp",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "切手[きって]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574758",
+    "japanese": "はがき",
+    "reading": "はがき",
+    "meaning": "postcard",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "はがき",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574759",
+    "japanese": "封筒",
+    "reading": "封筒",
+    "meaning": "envelope",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "封筒[ふうとう]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574760",
+    "japanese": "両親",
+    "reading": "両親",
+    "meaning": "parents",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "両親[りょうしん]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574761",
+    "japanese": "兄弟",
+    "reading": "兄弟",
+    "meaning": "brothers and sisters, siblings",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "兄弟[きょうだい]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574762",
+    "japanese": "兄",
+    "reading": "兄",
+    "meaning": "(my) elder brother",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "兄[あに]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574763",
+    "japanese": "お兄さん",
+    "reading": "お兄さん",
+    "meaning": "(someone else's) elder brother",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 兄[にい]さん",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574764",
+    "japanese": "姉",
+    "reading": "姉",
+    "meaning": "(my) elder sister",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "姉[あね]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574765",
+    "japanese": "お姉さん",
+    "reading": "お姉さん",
+    "meaning": "(someone else's) elder sister",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 姉[ねえ]さん",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574766",
+    "japanese": "弟",
+    "reading": "弟",
+    "meaning": "(my) younger brother",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "弟[おとうと]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574767",
+    "japanese": "弟さん",
+    "reading": "弟さん",
+    "meaning": "(someone else's) younger brother",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "弟[おとうと]さん",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574768",
+    "japanese": "妹",
+    "reading": "妹",
+    "meaning": "(my) younger sister",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "妹[いもうと]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574769",
+    "japanese": "妹さん",
+    "reading": "妹さん",
+    "meaning": "(someone else's) younger sister",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "妹[いもうと]さん",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574770",
+    "japanese": "外国",
+    "reading": "外国",
+    "meaning": "foreign country",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "外国[がいこく]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574771",
+    "japanese": "りゅうがくせい",
+    "reading": "りゅうがくせい",
+    "meaning": "foreign student",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "りゅうがくせい",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574772",
+    "japanese": "クラス",
+    "reading": "クラス",
+    "meaning": "class",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "クラス",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574773",
+    "japanese": "－時間",
+    "reading": "－時間",
+    "meaning": "- hours(s)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ー時間[じかん]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574774",
+    "japanese": "ーしゅうかん",
+    "reading": "ーしゅうかん",
+    "meaning": "- week(s)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ーしゅうかん",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574775",
+    "japanese": "ーか月",
+    "reading": "ーか月",
+    "meaning": "- month(s)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ーか 月[げつ]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574776",
+    "japanese": "－年",
+    "reading": "－年",
+    "meaning": "- year(s)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ー年[ねん]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574777",
+    "japanese": "～ぐらい",
+    "reading": "～ぐらい",
+    "meaning": "about ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "~ぐらい",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574778",
+    "japanese": "どのくらい",
+    "reading": "どのくらい",
+    "meaning": "how long",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "どのくらい",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574779",
+    "japanese": "全部で",
+    "reading": "全部で",
+    "meaning": "in total",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "全部[ぜんぶ]で",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574780",
+    "japanese": "みんな",
+    "reading": "みんな",
+    "meaning": "all, everything, everyone",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "na-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "みんな",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574781",
+    "japanese": "ーだけ",
+    "reading": "ーだけ",
+    "meaning": "only ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ーだけ",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574782",
+    "japanese": "かしこまりました。",
+    "reading": "かしこまりました。",
+    "meaning": "Certainly, (Sir/Madam).",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "かしこまりました。",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574783",
+    "japanese": "いい ［お］天気ですね。",
+    "reading": "いい ［お］天気ですね。",
+    "meaning": "Nice weather, isn't it?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "いい　［お］ 天気[てんき]ですね。",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574784",
+    "japanese": "お出かけですか。",
+    "reading": "お出かけですか。",
+    "meaning": "Are you going out?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 出[で]かけですか。",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574785",
+    "japanese": "ちょっと ～まで。",
+    "reading": "ちょっと ～まで。",
+    "meaning": "I'm just going to ~.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "ちょっと　~まで。",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574786",
+    "japanese": "行ってらっしゃい。",
+    "reading": "行ってらっしゃい。",
+    "meaning": "See you later./So long. (lit. Go and come back.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "行[い]ってらっしゃい。",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574787",
+    "japanese": "行って きます。",
+    "reading": "行って きます。",
+    "meaning": "See you later./So long. (lit. I'm going and coming back.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "行[い]って　きます。",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574788",
+    "japanese": "船便",
+    "reading": "船便",
+    "meaning": "sea mail",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "船便[ふなびん]",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574789",
+    "japanese": "航空便 エアマール",
+    "reading": "航空便 エアマール",
+    "meaning": "airmail",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "航空[こうくう] 便[びん]　（エアマール）",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574790",
+    "japanese": "お願いします。",
+    "reading": "お願いします。",
+    "meaning": "Please. (lit. ask for a favor)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 願[ねが]いします。",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1544776574791",
+    "japanese": "オーストラリア",
+    "reading": "オーストラリア",
+    "meaning": "Australia",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "オーストラリア",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729372887",
+    "japanese": "いらっしゃいませ。",
+    "reading": "いらっしゃいませ。",
+    "meaning": "Welcome./May I help you?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "11",
+        "reading": "",
+        "english": "(a greeting to a guest or a customer just entering a shop, etc.)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729372889",
+    "japanese": "いい お天気ですね。",
+    "reading": "いい お天気ですね。",
+    "meaning": "いい　(お) 天気[てんき]ですね。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Nice weather, isn't it?",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729372891",
+    "japanese": "お出かけですか。",
+    "reading": "お出かけですか。",
+    "meaning": "お 出[で]かけですか。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Are you going out?",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729372893",
+    "japanese": "ちょっと ～まで。",
+    "reading": "ちょっと ～まで。",
+    "meaning": "ちょっと　～まで。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "I'm just going to ～.",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729372895",
+    "japanese": "行って いらっしゃい。",
+    "reading": "行って いらっしゃい。",
+    "meaning": "行[い]って　いらっしゃい。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "So long.",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729372897",
+    "japanese": "行って 参ります。",
+    "reading": "行って 参ります。",
+    "meaning": "行[い]って　 参[まい]ります。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "So long.",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373435",
+    "japanese": "林檎",
+    "reading": "林檎",
+    "meaning": "林檎[りんご]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "apple",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373437",
+    "japanese": "蜜柑",
+    "reading": "蜜柑",
+    "meaning": "蜜柑[みかん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "mandarin orange",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373441",
+    "japanese": "カレーライス",
+    "reading": "カレーライス",
+    "meaning": "カレー(ライス)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "curry (and rice)",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373445",
+    "japanese": "切手",
+    "reading": "切手",
+    "meaning": "切手[きって]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "postage stamp",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373447",
+    "japanese": "葉書",
+    "reading": "葉書",
+    "meaning": "葉書[はがき]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "post card",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373449",
+    "japanese": "封筒",
+    "reading": "封筒",
+    "meaning": "封筒[ふうとう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "envelope",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373451",
+    "japanese": "速達",
+    "reading": "速達",
+    "meaning": "速達[そくたつ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "special delivery",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373453",
+    "japanese": "書留",
+    "reading": "書留",
+    "meaning": "書留[かきとめ]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "registered mail",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373455",
+    "japanese": "エアメール 航空便",
+    "reading": "エアメール 航空便",
+    "meaning": "エアメール ( 航空[こうくう] 便[びん])",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "airmail",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373457",
+    "japanese": "船便",
+    "reading": "船便",
+    "meaning": "船便[ふなびん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "sea mail",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-11-1609729373459",
+    "japanese": "外国",
+    "reading": "外国",
+    "meaning": "外国[がいこく]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "foreign country",
+        "reading": "",
+        "english": "11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-11",
+      "minna-1"
+    ],
+    "lesson": 11,
+    "textbook": "minna-1"
+  }
+]

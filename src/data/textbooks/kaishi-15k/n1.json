@@ -1,0 +1,398 @@
+[
+  {
+    "id": "kaishi-1490",
+    "japanese": "日曜日",
+    "reading": "にちようび",
+    "meaning": "Sunday",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>日曜日</b>は海に行きました。",
+        "reading": "",
+        "english": "We went to the beach on Sunday."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-6372"
+    ],
+    "frequency": 6372,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-111",
+    "japanese": "おじいさん",
+    "reading": "おじいさん",
+    "meaning": "grandfather",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>おじいさん</b>はジョギングが嫌いです。",
+        "reading": "",
+        "english": "My grandfather dislikes jogging."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-7329"
+    ],
+    "frequency": 7329,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1489",
+    "japanese": "土曜日",
+    "reading": "どようび",
+    "meaning": "Saturday",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>土曜日</b>の夜はクラブに行きます。",
+        "reading": "",
+        "english": "I'm going to a club Saturday night."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-8009"
+    ],
+    "frequency": 8009,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-408",
+    "japanese": "来月",
+    "reading": "らいげつ",
+    "meaning": "next month",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>来月</b>から大学生になります。",
+        "reading": "",
+        "english": "I'll be a college student starting next month."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-8556"
+    ],
+    "frequency": 8556,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1495",
+    "japanese": "五つ",
+    "reading": "いつつ",
+    "meaning": "five (things)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "桃を<b>五つ</b>ください。",
+        "reading": "",
+        "english": "I'd like five peaches, please."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-8764"
+    ],
+    "frequency": 8764,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-50",
+    "japanese": "いいえ",
+    "reading": "いいえ",
+    "meaning": "no (polite)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "A「山田さんですか。」<br>B「<b>いいえ</b>。」",
+        "reading": "",
+        "english": "A: Are you Yamada-san?<br>B: No, I'm not."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-8787"
+    ],
+    "frequency": 8787,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-112",
+    "japanese": "おばあさん",
+    "reading": "おばあさん",
+    "meaning": "grandmother",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女は<b>おばあさん</b>と住んでいる。",
+        "reading": "",
+        "english": "She lives with her grandmother."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-10393"
+    ],
+    "frequency": 10393,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1484",
+    "japanese": "月曜日",
+    "reading": "げつようび",
+    "meaning": "Monday",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>月曜日</b>に会いましょう。",
+        "reading": "",
+        "english": "Let's meet on Monday."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-12170"
+    ],
+    "frequency": 12170,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1497",
+    "japanese": "七つ",
+    "reading": "ななつ",
+    "meaning": "seven (things)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ロールパンを<b>七つ</b>買ってきてください。",
+        "reading": "",
+        "english": "Please go and buy seven bread rolls."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-12371"
+    ],
+    "frequency": 12371,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-238",
+    "japanese": "毎月",
+    "reading": "まいつき",
+    "meaning": "every month",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は<b>毎月</b>貯金をしています。",
+        "reading": "",
+        "english": "I save money every month."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-12521"
+    ],
+    "frequency": 12521,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1488",
+    "japanese": "金曜日",
+    "reading": "きんようび",
+    "meaning": "Friday",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>金曜日</b>の夜は友達と出かけます。",
+        "reading": "",
+        "english": "I go out with my friends on Friday nights."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-13327"
+    ],
+    "frequency": 13327,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1496",
+    "japanese": "六つ",
+    "reading": "むっつ",
+    "meaning": "six (things)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "おにぎりを<b>六つ</b>作りました。",
+        "reading": "",
+        "english": "I made six rice balls."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-13907"
+    ],
+    "frequency": 13907,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1017",
+    "japanese": "いとこ",
+    "reading": "いとこ",
+    "meaning": "cousin",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>いとこ</b>と私は同じ年です。",
+        "reading": "",
+        "english": "My cousin and I are the same age."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-15676"
+    ],
+    "frequency": 15676,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1498",
+    "japanese": "八つ",
+    "reading": "やっつ",
+    "meaning": "eight (things)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの家には時計が<b>八つ</b>あります。",
+        "reading": "",
+        "english": "There are eight clocks in that house."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-17804"
+    ],
+    "frequency": 17804,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1486",
+    "japanese": "水曜日",
+    "reading": "すいようび",
+    "meaning": "Wednesday",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>水曜日</b>はバイトがあります。",
+        "reading": "",
+        "english": "I work part time on Wednesdays."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-19967"
+    ],
+    "frequency": 19967,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1485",
+    "japanese": "火曜日",
+    "reading": "かようび",
+    "meaning": "Tuesday",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>火曜日</b>に会議があります。",
+        "reading": "",
+        "english": "There's a meeting on Tuesday."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-22190"
+    ],
+    "frequency": 22190,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1487",
+    "japanese": "木曜日",
+    "reading": "もくようび",
+    "meaning": "Thursday",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>木曜日</b>は仕事が休みです。",
+        "reading": "",
+        "english": "I don't have work on Thursday."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-23008"
+    ],
+    "frequency": 23008,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1499",
+    "japanese": "九つ",
+    "reading": "ここのつ",
+    "meaning": "nine (things)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "兄はおにぎりを<b>九つ</b>も食べた。",
+        "reading": "",
+        "english": "My older brother ate nine rice balls."
+      }
+    ],
+    "tags": [
+      "n1",
+      "kaishi-15k",
+      "freq-26445"
+    ],
+    "frequency": 26445,
+    "source": "kaishi-15k"
+  }
+]

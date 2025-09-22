@@ -1,0 +1,965 @@
+[
+  {
+    "kanji": "郎",
+    "meaning": "husband",
+    "onyomi": [
+      "ロウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "結",
+    "meaning": "bind",
+    "onyomi": [
+      "ケツ"
+    ],
+    "kunyomi": [
+      "むす.ぶ",
+      "ゆ.わえる",
+      "ゆ.う"
+    ]
+  },
+  {
+    "kanji": "氏",
+    "meaning": "family",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": [
+      "うじ"
+    ]
+  },
+  {
+    "kanji": "衛",
+    "meaning": "defense",
+    "onyomi": [
+      "エイ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "第",
+    "meaning": "number",
+    "onyomi": [
+      "ダイ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "保",
+    "meaning": "protect",
+    "onyomi": [
+      "ホ"
+    ],
+    "kunyomi": [
+      "たも.つ"
+    ]
+  },
+  {
+    "kanji": "義",
+    "meaning": "honour; meaning",
+    "onyomi": [
+      "ギ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "吉",
+    "meaning": "good luck",
+    "onyomi": [
+      "キツ",
+      "キチ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "士",
+    "meaning": "samurai",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "藤",
+    "meaning": "wisteria",
+    "onyomi": [
+      "トウ"
+    ],
+    "kunyomi": [
+      "ふじ"
+    ]
+  },
+  {
+    "kanji": "井",
+    "meaning": "well",
+    "onyomi": [
+      "セイ",
+      "ショウ"
+    ],
+    "kunyomi": [
+      "い"
+    ]
+  },
+  {
+    "kanji": "江",
+    "meaning": "stream",
+    "onyomi": [
+      "コウ"
+    ],
+    "kunyomi": [
+      "え"
+    ]
+  },
+  {
+    "kanji": "張",
+    "meaning": "stretch",
+    "onyomi": [
+      "チョウ"
+    ],
+    "kunyomi": [
+      "は.る"
+    ]
+  },
+  {
+    "kanji": "松",
+    "meaning": "pine tree",
+    "onyomi": [
+      "ショウ"
+    ],
+    "kunyomi": [
+      "まつ"
+    ]
+  },
+  {
+    "kanji": "応",
+    "meaning": "satisfy",
+    "onyomi": [
+      "オウ"
+    ],
+    "kunyomi": [
+      "おう.じる",
+      "こた.える"
+    ]
+  },
+  {
+    "kanji": "視",
+    "meaning": "see",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "態",
+    "meaning": "condition",
+    "onyomi": [
+      "タイ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "姿",
+    "meaning": "appearance",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": [
+      "すがた"
+    ]
+  },
+  {
+    "kanji": "皇",
+    "meaning": "emperor",
+    "onyomi": [
+      "コウ",
+      "オウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "宮",
+    "meaning": "palace",
+    "onyomi": [
+      "ク",
+      "キュウ",
+      "グウ"
+    ],
+    "kunyomi": [
+      "みや"
+    ]
+  },
+  {
+    "kanji": "離",
+    "meaning": "separate",
+    "onyomi": [
+      "リ"
+    ],
+    "kunyomi": [
+      "はな.れる",
+      "はな.す"
+    ]
+  },
+  {
+    "kanji": "基",
+    "meaning": "foundation",
+    "onyomi": [
+      "キ"
+    ],
+    "kunyomi": [
+      "もと",
+      "もとい"
+    ]
+  },
+  {
+    "kanji": "隊",
+    "meaning": "squad",
+    "onyomi": [
+      "タイ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "素",
+    "meaning": "element",
+    "onyomi": [
+      "ソ",
+      "ス"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "価",
+    "meaning": "price",
+    "onyomi": [
+      "カ"
+    ],
+    "kunyomi": [
+      "あたい"
+    ]
+  },
+  {
+    "kanji": "撃",
+    "meaning": "trounce",
+    "onyomi": [
+      "ゲキ"
+    ],
+    "kunyomi": [
+      "う.つ"
+    ]
+  },
+  {
+    "kanji": "振",
+    "meaning": "wield",
+    "onyomi": [
+      "シン"
+    ],
+    "kunyomi": [
+      "ふ.る",
+      "ふ.れる",
+      "ふ.るう"
+    ]
+  },
+  {
+    "kanji": "証",
+    "meaning": "evidence",
+    "onyomi": [
+      "ショウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "派",
+    "meaning": "faction",
+    "onyomi": [
+      "ハ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "僕",
+    "meaning": "me",
+    "onyomi": [
+      "ボク"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "佐",
+    "meaning": "help",
+    "onyomi": [
+      "サ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "紀",
+    "meaning": "chronicle",
+    "onyomi": [
+      "キ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "統",
+    "meaning": "govern",
+    "onyomi": [
+      "トウ"
+    ],
+    "kunyomi": [
+      "す.べる"
+    ]
+  },
+  {
+    "kanji": "器",
+    "meaning": "utensil",
+    "onyomi": [
+      "キ"
+    ],
+    "kunyomi": [
+      "うつわ"
+    ]
+  },
+  {
+    "kanji": "異",
+    "meaning": "different",
+    "onyomi": [
+      "イ"
+    ],
+    "kunyomi": [
+      "こと"
+    ]
+  },
+  {
+    "kanji": "護",
+    "meaning": "defend",
+    "onyomi": [
+      "ゴ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "条",
+    "meaning": "twig",
+    "onyomi": [
+      "ジョウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "独",
+    "meaning": "alone",
+    "onyomi": [
+      "ドク"
+    ],
+    "kunyomi": [
+      "ひと.り"
+    ]
+  },
+  {
+    "kanji": "源",
+    "meaning": "source",
+    "onyomi": [
+      "ゲン"
+    ],
+    "kunyomi": [
+      "みなもと"
+    ]
+  },
+  {
+    "kanji": "影",
+    "meaning": "shadow",
+    "onyomi": [
+      "エイ"
+    ],
+    "kunyomi": [
+      "かげ"
+    ]
+  },
+  {
+    "kanji": "眼",
+    "meaning": "eye",
+    "onyomi": [
+      "ガン",
+      "ゲン"
+    ],
+    "kunyomi": [
+      "まなこ"
+    ]
+  },
+  {
+    "kanji": "企",
+    "meaning": "plan",
+    "onyomi": [
+      "キ"
+    ],
+    "kunyomi": [
+      "くわだ.てる"
+    ]
+  },
+  {
+    "kanji": "津",
+    "meaning": "inlet",
+    "onyomi": [
+      "シン"
+    ],
+    "kunyomi": [
+      "つ"
+    ]
+  },
+  {
+    "kanji": "案",
+    "meaning": "plan",
+    "onyomi": [
+      "アン"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "策",
+    "meaning": "policy",
+    "onyomi": [
+      "サク"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "宗",
+    "meaning": "religion",
+    "onyomi": [
+      "シュウ",
+      "ソウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "提",
+    "meaning": "submit",
+    "onyomi": [
+      "テイ"
+    ],
+    "kunyomi": [
+      "さ.げる"
+    ]
+  },
+  {
+    "kanji": "昭",
+    "meaning": "bright",
+    "onyomi": [
+      "ショウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "密",
+    "meaning": "secret",
+    "onyomi": [
+      "ミツ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "司",
+    "meaning": "administer",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "検",
+    "meaning": "investigation",
+    "onyomi": [
+      "ケン"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "康",
+    "meaning": "peace",
+    "onyomi": [
+      "コウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "沢",
+    "meaning": "marsh",
+    "onyomi": [
+      "タク"
+    ],
+    "kunyomi": [
+      "さわ"
+    ]
+  },
+  {
+    "kanji": "秀",
+    "meaning": "excellent",
+    "onyomi": [
+      "シュウ"
+    ],
+    "kunyomi": [
+      "ひい.でる"
+    ]
+  },
+  {
+    "kanji": "興",
+    "meaning": "entertainment",
+    "onyomi": [
+      "コウ",
+      "キョウ"
+    ],
+    "kunyomi": [
+      "おこ.る",
+      "おこ.す"
+    ]
+  },
+  {
+    "kanji": "率",
+    "meaning": "lead; ratio",
+    "onyomi": [
+      "ソツ",
+      "リツ"
+    ],
+    "kunyomi": [
+      "ひき.いる"
+    ]
+  },
+  {
+    "kanji": "評",
+    "meaning": "criticism",
+    "onyomi": [
+      "ヒョウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "監",
+    "meaning": "keep watch",
+    "onyomi": [
+      "カン"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "崎",
+    "meaning": "headland  さき headland, small peninsula",
+    "onyomi": [],
+    "kunyomi": [
+      "さき"
+    ]
+  },
+  {
+    "kanji": "鮮",
+    "meaning": "vivid",
+    "onyomi": [
+      "セン"
+    ],
+    "kunyomi": [
+      "あざ.やか"
+    ]
+  },
+  {
+    "kanji": "激",
+    "meaning": "violent",
+    "onyomi": [
+      "ゲキ"
+    ],
+    "kunyomi": [
+      "はげ.しい"
+    ]
+  },
+  {
+    "kanji": "徳",
+    "meaning": "benevolence",
+    "onyomi": [
+      "トク"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "挙",
+    "meaning": "rise up",
+    "onyomi": [
+      "キョ"
+    ],
+    "kunyomi": [
+      "あ.がる",
+      "あ.げる"
+    ]
+  },
+  {
+    "kanji": "志",
+    "meaning": "good intention",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": [
+      "こころざ.す",
+      "こころざし"
+    ]
+  },
+  {
+    "kanji": "敷",
+    "meaning": "spread out",
+    "onyomi": [
+      "フ"
+    ],
+    "kunyomi": [
+      "し.く"
+    ]
+  },
+  {
+    "kanji": "系",
+    "meaning": "system",
+    "onyomi": [
+      "ケイ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "織",
+    "meaning": "weave",
+    "onyomi": [
+      "ショク",
+      "シキ"
+    ],
+    "kunyomi": [
+      "お.る"
+    ]
+  },
+  {
+    "kanji": "製",
+    "meaning": "manufacture",
+    "onyomi": [
+      "セイ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "端",
+    "meaning": "edge",
+    "onyomi": [
+      "タン"
+    ],
+    "kunyomi": [
+      "は",
+      "はし",
+      "はた"
+    ]
+  },
+  {
+    "kanji": "遺",
+    "meaning": "bequest",
+    "onyomi": [
+      "イ",
+      "ユイ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "房",
+    "meaning": "room",
+    "onyomi": [
+      "ボウ"
+    ],
+    "kunyomi": [
+      "ふさ"
+    ]
+  },
+  {
+    "kanji": "街",
+    "meaning": "town",
+    "onyomi": [
+      "カイ",
+      "ガイ"
+    ],
+    "kunyomi": [
+      "まち"
+    ]
+  },
+  {
+    "kanji": "尾",
+    "meaning": "tail",
+    "onyomi": [
+      "ビ"
+    ],
+    "kunyomi": [
+      "お"
+    ]
+  },
+  {
+    "kanji": "株",
+    "meaning": "stock  かぶ",
+    "onyomi": [],
+    "kunyomi": [
+      "かぶ"
+    ]
+  },
+  {
+    "kanji": "従",
+    "meaning": "obey",
+    "onyomi": [
+      "ジュウ",
+      "ショウ",
+      "ジュ"
+    ],
+    "kunyomi": [
+      "したが.う",
+      "したが.える"
+    ]
+  },
+  {
+    "kanji": "敵",
+    "meaning": "enemy",
+    "onyomi": [
+      "テキ"
+    ],
+    "kunyomi": [
+      "かたき"
+    ]
+  },
+  {
+    "kanji": "展",
+    "meaning": "expand",
+    "onyomi": [
+      "テン"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "描",
+    "meaning": "draw",
+    "onyomi": [
+      "ビョウ"
+    ],
+    "kunyomi": [
+      "か.く",
+      "えが.く"
+    ]
+  },
+  {
+    "kanji": "修",
+    "meaning": "to master",
+    "onyomi": [
+      "シュウ",
+      "シュ"
+    ],
+    "kunyomi": [
+      "おさ.める"
+    ]
+  },
+  {
+    "kanji": "我",
+    "meaning": "I; myself",
+    "onyomi": [
+      "ガ"
+    ],
+    "kunyomi": [
+      "われ",
+      "わ.が"
+    ]
+  },
+  {
+    "kanji": "載",
+    "meaning": "place on",
+    "onyomi": [
+      "サイ"
+    ],
+    "kunyomi": [
+      "の.る",
+      "の.せる"
+    ]
+  },
+  {
+    "kanji": "響",
+    "meaning": "affect",
+    "onyomi": [
+      "キョウ"
+    ],
+    "kunyomi": [
+      "ひび.く"
+    ]
+  },
+  {
+    "kanji": "秘",
+    "meaning": "secret",
+    "onyomi": [
+      "ヒ"
+    ],
+    "kunyomi": [
+      "ひ.める"
+    ]
+  },
+  {
+    "kanji": "攻",
+    "meaning": "attack",
+    "onyomi": [
+      "コウ"
+    ],
+    "kunyomi": [
+      "せ.める"
+    ]
+  },
+  {
+    "kanji": "健",
+    "meaning": "healthy",
+    "onyomi": [
+      "ケン"
+    ],
+    "kunyomi": [
+      "すこ.やか"
+    ]
+  },
+  {
+    "kanji": "裁",
+    "meaning": "pass judgment",
+    "onyomi": [
+      "サイ"
+    ],
+    "kunyomi": [
+      "さば.く",
+      "た.つ"
+    ]
+  },
+  {
+    "kanji": "隠",
+    "meaning": "hide",
+    "onyomi": [
+      "イン"
+    ],
+    "kunyomi": [
+      "かく.す",
+      "かく.れる"
+    ]
+  },
+  {
+    "kanji": "環",
+    "meaning": "surround",
+    "onyomi": [
+      "カン"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "援",
+    "meaning": "assistance",
+    "onyomi": [
+      "エン"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "故",
+    "meaning": "strike",
+    "onyomi": [
+      "コ"
+    ],
+    "kunyomi": [
+      "ゆえ"
+    ]
+  },
+  {
+    "kanji": "幕",
+    "meaning": "curtain",
+    "onyomi": [
+      "バク",
+      "マク"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "督",
+    "meaning": "coach",
+    "onyomi": [
+      "トク"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "倉",
+    "meaning": "storehouse",
+    "onyomi": [
+      "ソウ"
+    ],
+    "kunyomi": [
+      "くら"
+    ]
+  },
+  {
+    "kanji": "施",
+    "meaning": "carry out",
+    "onyomi": [
+      "シ",
+      "セ"
+    ],
+    "kunyomi": [
+      "ほどこ.す"
+    ]
+  },
+  {
+    "kanji": "嫌",
+    "meaning": "disagreeable",
+    "onyomi": [
+      "ケン",
+      "ゲン"
+    ],
+    "kunyomi": [
+      "いや",
+      "きら.う"
+    ]
+  },
+  {
+    "kanji": "継",
+    "meaning": "follow",
+    "onyomi": [
+      "ケイ"
+    ],
+    "kunyomi": [
+      "つ.ぐ"
+    ]
+  },
+  {
+    "kanji": "障",
+    "meaning": "hinder",
+    "onyomi": [
+      "ショウ"
+    ],
+    "kunyomi": [
+      "さわ.る"
+    ]
+  },
+  {
+    "kanji": "貴",
+    "meaning": "precious",
+    "onyomi": [
+      "キ"
+    ],
+    "kunyomi": [
+      "たっと.い",
+      "とうと.い",
+      "たっと.ぶ",
+      "とうと.ぶ"
+    ]
+  },
+  {
+    "kanji": "整",
+    "meaning": "put in order",
+    "onyomi": [
+      "セイ"
+    ],
+    "kunyomi": [
+      "ととの.える",
+      "ととの.う"
+    ]
+  },
+  {
+    "kanji": "衆",
+    "meaning": "populace",
+    "onyomi": [
+      "シュウ",
+      "シュ"
+    ],
+    "kunyomi": []
+  }
+]

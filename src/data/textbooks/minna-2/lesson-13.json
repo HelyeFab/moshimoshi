@@ -1,0 +1,1280 @@
+[
+  {
+    "id": "minna-2-13-1550382984239",
+    "japanese": "運びます",
+    "reading": "運びます",
+    "meaning": "to carry, transport",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "運[はこ]びます",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384224108",
+    "japanese": "大好き［な］",
+    "reading": "大好き［な］",
+    "meaning": "like very much",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "大好[だいす]き［な］",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383509365",
+    "japanese": "村",
+    "reading": "村",
+    "meaning": "village",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "村[むら]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383583772",
+    "japanese": "健康",
+    "reading": "健康",
+    "meaning": "health",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "健康[けんこう]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550382948588",
+    "japanese": "参加します［旅行に〜］",
+    "reading": "参加します［旅行に〜］",
+    "meaning": "to join [a tour], participate, attend",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "参加[さんか]します［ 旅行[りょこう]に〜］",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550382963926",
+    "japanese": "育てます",
+    "reading": "育てます",
+    "meaning": "to breed, bring up",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "育[そだ]てます",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383010506",
+    "japanese": "入院します",
+    "reading": "入院します",
+    "meaning": "to enter a hospital",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "入院[にゅういん]します",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383034725",
+    "japanese": "退院します",
+    "reading": "退院します",
+    "meaning": "to leave a hospital",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "退院[たいいん]します",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383079624",
+    "japanese": "入れます［電源を〜］",
+    "reading": "入れます［電源を〜］",
+    "meaning": "to turn on [the power switch]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "入[い]れます［ 電源[でんげん]を〜］",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383114131",
+    "japanese": "切ります［電源を〜］",
+    "reading": "切ります［電源を〜］",
+    "meaning": "to turn off [the power switch]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "切[き]ります［ 電源[でんげん]を〜］",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383170545",
+    "japanese": "掛けます［かぎを〜］",
+    "reading": "掛けます［かぎを〜］",
+    "meaning": "to lock",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "掛[か]けます［かぎを〜］",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383195844",
+    "japanese": "つきます［うそを〜］",
+    "reading": "つきます［うそを〜］",
+    "meaning": "to tell [a lie]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "つきます［うそを〜］",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383281738",
+    "japanese": "気持ちが いい",
+    "reading": "気持ちが いい",
+    "meaning": "pleasant, aggreeable",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "気持[きも]ちが　いい",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383301413",
+    "japanese": "気持ちが 悪い",
+    "reading": "気持ちが 悪い",
+    "meaning": "unpleasant, disgusting",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "気持[きも]ちが　 悪[わる]い",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383318446",
+    "japanese": "大きな 〜",
+    "reading": "大きな 〜",
+    "meaning": "large ~, big ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "大[おお]きな　〜",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383353751",
+    "japanese": "小さな 〜",
+    "reading": "小さな 〜",
+    "meaning": "small ~, little ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "小[ちい]さな　〜",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383406537",
+    "japanese": "赤ちゃん",
+    "reading": "赤ちゃん",
+    "meaning": "baby",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "赤[あか]ちゃん",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383426038",
+    "japanese": "小学校",
+    "reading": "小学校",
+    "meaning": "elementary school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "小学校[しょうがっこう]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383437594",
+    "japanese": "中学校",
+    "reading": "中学校",
+    "meaning": "junior high school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "中学校[ちゅうがっこう]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383449802",
+    "japanese": "駅前",
+    "reading": "駅前",
+    "meaning": "the area in front of the station",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "駅前[えきまえ]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383465046",
+    "japanese": "海岸",
+    "reading": "海岸",
+    "meaning": "seaside, seashore",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "海岸[かいがん]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383499390",
+    "japanese": "工場",
+    "reading": "工場",
+    "meaning": "factory",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "工場[こうじょう]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383519340",
+    "japanese": "かな",
+    "reading": "かな",
+    "meaning": "hiragana and katakana script",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "na-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "かな",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383533149",
+    "japanese": "指輪",
+    "reading": "指輪",
+    "meaning": "ring",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "指輪[ゆびわ]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383542508",
+    "japanese": "電源",
+    "reading": "電源",
+    "meaning": "power switch",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "電源[でんげん]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383572429",
+    "japanese": "習慣",
+    "reading": "習慣",
+    "meaning": "habit",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "習慣[しゅうかん]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383608720",
+    "japanese": "〜製",
+    "reading": "〜製",
+    "meaning": "made in ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "〜 製[せい]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383622851",
+    "japanese": "おととし",
+    "reading": "おととし",
+    "meaning": "the year before last",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "おととし",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383677892",
+    "japanese": "［あ、］いけない。",
+    "reading": "［あ、］いけない。",
+    "meaning": "Oops! / Oh, no! (used when one has made a mistake)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "［あ、］いけない。",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383726157",
+    "japanese": "お先に［失礼します］。",
+    "reading": "お先に［失礼します］。",
+    "meaning": "Excuse me [for leaving before you].",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 先[さき]に［ 失礼[しつれい]します］。",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383762280",
+    "japanese": "原爆ドーム",
+    "reading": "原爆ドーム",
+    "meaning": "dome commemorating the atomic bombing of Hiroshima",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "原爆[げんばく]ドーム",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383801941",
+    "japanese": "出雲大社",
+    "reading": "出雲大社",
+    "meaning": "a shrine in Izumo city in Shinmane prefecture",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "出雲[いずも] 大社[たいしゃ]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383817755",
+    "japanese": "チェンマイ",
+    "reading": "チェンマイ",
+    "meaning": "Chiangmai (in Thailand)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "チェンマイ",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383836699",
+    "japanese": "回覧",
+    "reading": "回覧",
+    "meaning": "circular",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "回覧[かいらん]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383864837",
+    "japanese": "研究室",
+    "reading": "研究室",
+    "meaning": "study room, professor's office, laboratory",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "研究[けんきゅう] 室[しつ]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383886248",
+    "japanese": "きちんと",
+    "reading": "きちんと",
+    "meaning": "neatly, tidily",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "きちんと",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383907636",
+    "japanese": "整理します",
+    "reading": "整理します",
+    "meaning": "sort (things) out",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "整理[せいり]します",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383918075",
+    "japanese": "方法",
+    "reading": "方法",
+    "meaning": "method",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "方法[ほうほう]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383939441",
+    "japanese": "〜と いう",
+    "reading": "〜と いう",
+    "meaning": "entitled ~, named ~, called ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "〜と　いう",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383971182",
+    "japanese": "ー冊",
+    "reading": "ー冊",
+    "meaning": "counter for books, etc.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "counter"
+    ],
+    "examples": [
+      {
+        "japanese": "ー 冊[さつ]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550383988664",
+    "japanese": "はんこ",
+    "reading": "はんこ",
+    "meaning": "seal, stamp",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "はんこ",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384024561",
+    "japanese": "押します［はんこを〜］",
+    "reading": "押します［はんこを〜］",
+    "meaning": "to affix [a seal], stamp",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "押[お]します［はんこを〜］",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384046124",
+    "japanese": "双子",
+    "reading": "双子",
+    "meaning": "twins",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "双子[ふたご]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384059832",
+    "japanese": "姉妹",
+    "reading": "姉妹",
+    "meaning": "sisters",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "姉妹[しまい]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384082164",
+    "japanese": "5年生",
+    "reading": "5年生",
+    "meaning": "fifth grade, fifth year",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "5 年生[ねんせい]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384108417",
+    "japanese": "似て います",
+    "reading": "似て います",
+    "meaning": "to resemble, be like",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "似[に]て　います",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384129169",
+    "japanese": "性格",
+    "reading": "性格",
+    "meaning": "character",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "性格[せいかく]<br>",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384143448",
+    "japanese": "おとなしい",
+    "reading": "おとなしい",
+    "meaning": "quiet, gentle",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "おとなしい",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384203826",
+    "japanese": "時間が たちます",
+    "reading": "時間が たちます",
+    "meaning": "time passes by",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "時間[じかん]が　たちます",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384236549",
+    "japanese": "ー点",
+    "reading": "ー点",
+    "meaning": "- points",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ー 点[てん]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384261083",
+    "japanese": "気が 強い",
+    "reading": "気が 強い",
+    "meaning": "tough, strong-willed",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "気[き]が　 強[つよ]い",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384316624",
+    "japanese": "不思議［な］",
+    "reading": "不思議［な］",
+    "meaning": "mysterious, strange",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "不思議[ふしぎ]［な］",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384336220",
+    "japanese": "年齢",
+    "reading": "年齢",
+    "meaning": "age",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "年齢[ねんれい]",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-13-1550384352283",
+    "japanese": "しかた",
+    "reading": "しかた",
+    "meaning": "way (of doing something)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "しかた",
+        "reading": "",
+        "english": "38"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-13",
+      "minna-2"
+    ],
+    "lesson": 13,
+    "textbook": "minna-2"
+  }
+]

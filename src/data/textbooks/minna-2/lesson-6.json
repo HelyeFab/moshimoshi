@@ -1,0 +1,834 @@
+[
+  {
+    "id": "minna-2-6-1550042194700",
+    "japanese": "嫌［な］",
+    "reading": "嫌［な］",
+    "meaning": "hateful, disagreeable",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "嫌[いや]［な］",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550040860362",
+    "japanese": "続けます",
+    "reading": "続けます",
+    "meaning": "to continue",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "続[つづ]けます",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550040879667",
+    "japanese": "見つけます",
+    "reading": "見つけます",
+    "meaning": "to find",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "見[み]つけます",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550040941064",
+    "japanese": "取ります［休みを〜］",
+    "reading": "取ります［休みを〜］",
+    "meaning": "to take [a holiday]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "取[と]ります［ 休[やす]みを〜］",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041034850",
+    "japanese": "受けます［試験を〜］",
+    "reading": "受けます［試験を〜］",
+    "meaning": "to take [an examination]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "受[う]けます［ 試験[しけん]を〜］",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041069221",
+    "japanese": "申し込みます",
+    "reading": "申し込みます",
+    "meaning": "to apply for, enter for",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "申し込[もうしこ]みます",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041108776",
+    "japanese": "休憩します",
+    "reading": "休憩します",
+    "meaning": "to take a break, take a rest",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "休憩[きゅうけい]します",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041147846",
+    "japanese": "連休",
+    "reading": "連休",
+    "meaning": "consecutive holidays",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "連休[れんきゅう]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041173426",
+    "japanese": "作文",
+    "reading": "作文",
+    "meaning": "essay, composition",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "作文[さくぶん]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041209151",
+    "japanese": "発表",
+    "reading": "発表",
+    "meaning": "announcement, presentation (〜します：to announce)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "発表[はっぴょう]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041237638",
+    "japanese": "展覧会",
+    "reading": "展覧会",
+    "meaning": "exhibition",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "展覧[てんらん] 会[かい]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041268858",
+    "japanese": "結婚式",
+    "reading": "結婚式",
+    "meaning": "wedding ceremony",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "結婚式[けっこんしき]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041312302",
+    "japanese": "［お］葬式",
+    "reading": "［お］葬式",
+    "meaning": "funeral",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "［お］ 葬式[そうしき]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041465789",
+    "japanese": "式",
+    "reading": "式",
+    "meaning": "ceremony",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "式[しき]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041494061",
+    "japanese": "本社",
+    "reading": "本社",
+    "meaning": "head office (HQ)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "本社[ほんしゃ]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041514183",
+    "japanese": "支店",
+    "reading": "支店",
+    "meaning": "branch office",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "支店[してん]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041550396",
+    "japanese": "教会",
+    "reading": "教会",
+    "meaning": "church",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "教会[きょうかい]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041572614",
+    "japanese": "大学院",
+    "reading": "大学院",
+    "meaning": "graduate school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "大学院[だいがくいん]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041590846",
+    "japanese": "動物園",
+    "reading": "動物園",
+    "meaning": "zoo",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "動物[どうぶつ] 園[えん]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041607602",
+    "japanese": "温泉",
+    "reading": "温泉",
+    "meaning": "hot spring, spa",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "温泉[おんせん]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041628703",
+    "japanese": "帰り",
+    "reading": "帰り",
+    "meaning": "\u000ereturn",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "帰[かえ]り",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041655515",
+    "japanese": "お子さん",
+    "reading": "お子さん",
+    "meaning": "(someone else's) child",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 子[こ]さん",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041691490",
+    "japanese": "ー号",
+    "reading": "ー号",
+    "meaning": "train number, typhoon number, etc.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ー 号[ごう]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041717923",
+    "japanese": "〜の 方",
+    "reading": "〜の 方",
+    "meaning": "place toward ~, direction of ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "〜の　 方[ほう]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041744917",
+    "japanese": "ずっと",
+    "reading": "ずっと",
+    "meaning": "the whole time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ずっと",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041779885",
+    "japanese": "バリ",
+    "reading": "バリ",
+    "meaning": "Bali (Indonesian island)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "バリ",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041804480",
+    "japanese": "ピカソ",
+    "reading": "ピカソ",
+    "meaning": "Pablo Picasso, Spanish painter (1881-1973)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ピカソ",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550041990530",
+    "japanese": "のぞみ",
+    "reading": "のぞみ",
+    "meaning": "name of a Shinkansen train (~42号：Nozomi Superexpress No. 42)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "のぞみ",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550042035028",
+    "japanese": "残ります",
+    "reading": "残ります",
+    "meaning": "to remain, be left, stay behind",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "残[のこ]ります",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550042067273",
+    "japanese": "入学試験",
+    "reading": "入学試験",
+    "meaning": "entrance examination",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "入学[にゅうがく] 試験[しけん]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550042084883",
+    "japanese": "月に",
+    "reading": "月に",
+    "meaning": "per month",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "月[つき]に",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550042149238",
+    "japanese": "卒業します",
+    "reading": "卒業します",
+    "meaning": "to graduate",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "卒業[そつぎょう]します",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550042168970",
+    "japanese": "映画館",
+    "reading": "映画館",
+    "meaning": "movie theater, cinema",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "映画[えいが] 館[かん]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550042230807",
+    "japanese": "閉じます",
+    "reading": "閉じます",
+    "meaning": "to close",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "閉[と]じます",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-6-1550042251867",
+    "japanese": "都会",
+    "reading": "都会",
+    "meaning": "city",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "都会[とかい]",
+        "reading": "",
+        "english": "31"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "minna-2"
+    ],
+    "lesson": 6,
+    "textbook": "minna-2"
+  }
+]

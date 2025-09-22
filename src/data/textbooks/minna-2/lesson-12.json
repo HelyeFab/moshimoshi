@@ -1,0 +1,1344 @@
+[
+  {
+    "id": "minna-2-12-1550378361930",
+    "japanese": "ー世紀",
+    "reading": "ー世紀",
+    "meaning": "-th century",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ー 世紀[せいき]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377788229",
+    "japanese": "誘います",
+    "reading": "誘います",
+    "meaning": "to invite, ask someone to join",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "誘[さそ]います",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377755361",
+    "japanese": "褒めます",
+    "reading": "褒めます",
+    "meaning": "\u000eto praise",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "褒[ほ]めます",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377768452",
+    "japanese": "しかります",
+    "reading": "しかります",
+    "meaning": "to scold",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "しかります",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377805139",
+    "japanese": "招待します",
+    "reading": "招待します",
+    "meaning": "to invite",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "招待[しょうたい]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377819860",
+    "japanese": "頼みます",
+    "reading": "頼みます",
+    "meaning": "to ask, request",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "頼[たの]みます",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377852981",
+    "japanese": "注意します",
+    "reading": "注意します",
+    "meaning": "to warn, advise",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "注意[ちゅうい]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377871494",
+    "japanese": "とります",
+    "reading": "とります",
+    "meaning": "to rob, steal",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "とります",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377891572",
+    "japanese": "踏みます",
+    "reading": "踏みます",
+    "meaning": "to step on",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "踏[ふ]みます",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377908118",
+    "japanese": "壊します",
+    "reading": "壊します",
+    "meaning": "to break, destroy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "壊[こわ]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377925575",
+    "japanese": "汚します",
+    "reading": "汚します",
+    "meaning": "to make ~ dirty",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "汚[よご]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377948255",
+    "japanese": "行います",
+    "reading": "行います",
+    "meaning": "to hold, carry out, practise",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "行[おこな]います",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377966767",
+    "japanese": "輸出します",
+    "reading": "輸出します",
+    "meaning": "to export",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "輸出[ゆしゅつ]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550377983799",
+    "japanese": "輸入します",
+    "reading": "輸入します",
+    "meaning": "to import",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "輸入[ゆにゅう]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378042673",
+    "japanese": "翻訳します",
+    "reading": "翻訳します",
+    "meaning": "to translate",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "翻訳[ほんやく]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378057511",
+    "japanese": "発明します",
+    "reading": "発明します",
+    "meaning": "to invent",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "発明[はつめい]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378073174",
+    "japanese": "発見します",
+    "reading": "発見します",
+    "meaning": "to discover",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "発見[はっけん]します",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378165607",
+    "japanese": "米",
+    "reading": "米",
+    "meaning": "rice",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "米[こめ]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378178465",
+    "japanese": "麦",
+    "reading": "麦",
+    "meaning": "barley, wheat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "麦[むぎ]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378189407",
+    "japanese": "石油",
+    "reading": "石油",
+    "meaning": "oil",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "石油[せきゆ]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378204883",
+    "japanese": "原料",
+    "reading": "原料",
+    "meaning": "raw material",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "原料[げんりょう]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378220357",
+    "japanese": "インスタントラーメン",
+    "reading": "インスタントラーメン",
+    "meaning": "instant noodles",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "インスタントラーメン",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378228168",
+    "japanese": "デート",
+    "reading": "デート",
+    "meaning": "date",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "デート",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378244377",
+    "japanese": "泥棒",
+    "reading": "泥棒",
+    "meaning": "thief, robber",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "泥棒[どろぼう]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378279429",
+    "japanese": "警官",
+    "reading": "警官",
+    "meaning": "policeman",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "警官[けいかん]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378303913",
+    "japanese": "世界中",
+    "reading": "世界中",
+    "meaning": "all over the world",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "世界中[せかいじゅう]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378339616",
+    "japanese": "〜中",
+    "reading": "〜中",
+    "meaning": "all over ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "〜 中[じゅう]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378381466",
+    "japanese": "何語",
+    "reading": "何語",
+    "meaning": "what language",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "何[なに] 語[ご]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378394409",
+    "japanese": "だれか",
+    "reading": "だれか",
+    "meaning": "somebody",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "だれか",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378411850",
+    "japanese": "よかったですね。",
+    "reading": "よかったですね。",
+    "meaning": "Sounds good.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "よかったですね。",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378428993",
+    "japanese": "オリンピック",
+    "reading": "オリンピック",
+    "meaning": "Olympic Games",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "オリンピック",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378479211",
+    "japanese": "ワールドカップ",
+    "reading": "ワールドカップ",
+    "meaning": "World Cup",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ワールドカップ",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378499412",
+    "japanese": "東大寺",
+    "reading": "東大寺",
+    "meaning": "Todaiji Temple",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "東大寺[とうだいじ]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378513768",
+    "japanese": "大仏",
+    "reading": "大仏",
+    "meaning": "Great Buddha",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "大仏[だいぶつ]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378535494",
+    "japanese": "江戸時代",
+    "reading": "江戸時代",
+    "meaning": "Edo Period (1603-1868)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "江戸[えど] 時代[じだい]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378565525",
+    "japanese": "ポルトガル",
+    "reading": "ポルトガル",
+    "meaning": "Portugal",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ポルトガル",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378628785",
+    "japanese": "サウジアラビア",
+    "reading": "サウジアラビア",
+    "meaning": "Saudi Arabia",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "サウジアラビア",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378644330",
+    "japanese": "ロシア",
+    "reading": "ロシア",
+    "meaning": "Russia",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ロシア",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378682017",
+    "japanese": "皆様",
+    "reading": "皆様",
+    "meaning": "Ladies and Gentlemen, everybody (respectful equivalent of みなさん）",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "皆様[みなさま]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378720337",
+    "japanese": "焼けます［うちが〜］",
+    "reading": "焼けます［うちが〜］",
+    "meaning": "[house] to burn down",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "焼[や]けます［うちが〜］",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378734479",
+    "japanese": "その後",
+    "reading": "その後",
+    "meaning": "after that, later",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "その 後[ご]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378760329",
+    "japanese": "世界遺産",
+    "reading": "世界遺産",
+    "meaning": "World Heritage Site",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "世界[せかい] 遺産[いさん]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378801065",
+    "japanese": "〜の 一つ",
+    "reading": "〜の 一つ",
+    "meaning": "one of the ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "〜の　 一[ひと]つ",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378831916",
+    "japanese": "金色",
+    "reading": "金色",
+    "meaning": "golden color",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "金色[きんいろ]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378842538",
+    "japanese": "本物",
+    "reading": "本物",
+    "meaning": "real thing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "本物[ほんもの]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378858514",
+    "japanese": "金",
+    "reading": "金",
+    "meaning": "gold",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "金[きん]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378881744",
+    "japanese": "ーキロ",
+    "reading": "ーキロ",
+    "meaning": "- kilograms, - kilometers",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ーキロ",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378905408",
+    "japanese": "美しい",
+    "reading": "美しい",
+    "meaning": "beautiful, pretty",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "美[うつく]しい",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378950565",
+    "japanese": "豪華［な］",
+    "reading": "豪華［な］",
+    "meaning": "gorgeous",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "豪華[ごうか]［な］",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550378976344",
+    "japanese": "彫刻",
+    "reading": "彫刻",
+    "meaning": "engraving, carving, sculpture",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "彫刻[ちょうこく]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550379085713",
+    "japanese": "彫ります",
+    "reading": "彫ります",
+    "meaning": "to engrave, carve",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "彫[ほ]ります",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550379108255",
+    "japanese": "仲間",
+    "reading": "仲間",
+    "meaning": "colleague, friend",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "仲間[なかま]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550379157565",
+    "japanese": "その あと",
+    "reading": "その あと",
+    "meaning": "after that",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "その　あと",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550379217778",
+    "japanese": "ねずみ",
+    "reading": "ねずみ",
+    "meaning": "mouse",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ねずみ",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550379272774",
+    "japanese": "一匹も いません。",
+    "reading": "一匹も いません。",
+    "meaning": "There is not a single (mouse).",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "一匹[いっぴき]も　いません。",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550379320120",
+    "japanese": "眠り猫",
+    "reading": "眠り猫",
+    "meaning": "The Sleeping Cat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "眠[ねむ]り 猫[ねこ]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-12-1550379395853",
+    "japanese": "左甚五郎",
+    "reading": "左甚五郎",
+    "meaning": "famous Japanese sculptor of the Edo Period (1594-1651)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "左[ひだり] 甚[じん]五[ご]郎[ろう]",
+        "reading": "",
+        "english": "37"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-12",
+      "minna-2"
+    ],
+    "lesson": 12,
+    "textbook": "minna-2"
+  }
+]

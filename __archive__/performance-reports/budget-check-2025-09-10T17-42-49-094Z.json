@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-09-10T17:42:49.083Z",
+  "violations": [
+    {
+      "metric": "bundle_size_total",
+      "actual": 14799819.333333334,
+      "max": 200000,
+      "severity": "critical"
+    }
+  ],
+  "warnings": [],
+  "passed": [
+    {
+      "metric": "heap_memory",
+      "actual": 4747296,
+      "target": 500000000
+    }
+  ],
+  "metrics": {
+    "bundleSize": {
+      "total": 44399458,
+      "static": 24947252,
+      "server": 19452206
+    },
+    "memory": {
+      "rss": 52625408,
+      "heapUsed": 4747296,
+      "heapTotal": 5537792
+    }
+  }
+}

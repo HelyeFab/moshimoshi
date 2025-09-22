@@ -1,0 +1,772 @@
+[
+  {
+    "kanji": "緑",
+    "meaning": "green",
+    "onyomi": [
+      "ロク",
+      "リョク"
+    ],
+    "kunyomi": [
+      "みどり"
+    ]
+  },
+  {
+    "kanji": "畳",
+    "meaning": "fold",
+    "onyomi": [
+      "ジョウ"
+    ],
+    "kunyomi": [
+      "たた.む",
+      "たたみ"
+    ]
+  },
+  {
+    "kanji": "咲",
+    "meaning": "blossom  さ.く to blossom, bloom",
+    "onyomi": [],
+    "kunyomi": [
+      "さ.く"
+    ]
+  },
+  {
+    "kanji": "貿",
+    "meaning": "trade",
+    "onyomi": [
+      "ボウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "踊",
+    "meaning": "dance",
+    "onyomi": [
+      "ヨウ"
+    ],
+    "kunyomi": [
+      "おど.り",
+      "おど.る"
+    ]
+  },
+  {
+    "kanji": "封",
+    "meaning": "seal",
+    "onyomi": [
+      "フウ",
+      "ホウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "兆",
+    "meaning": "sign",
+    "onyomi": [
+      "チョウ"
+    ],
+    "kunyomi": [
+      "きざ.し",
+      "きざ.す"
+    ]
+  },
+  {
+    "kanji": "柱",
+    "meaning": "pillar",
+    "onyomi": [
+      "チュウ"
+    ],
+    "kunyomi": [
+      "はしら"
+    ]
+  },
+  {
+    "kanji": "駐",
+    "meaning": "stop over",
+    "onyomi": [
+      "チュウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "祝",
+    "meaning": "celebrate",
+    "onyomi": [
+      "シュク",
+      "シュウ"
+    ],
+    "kunyomi": [
+      "いわ.う"
+    ]
+  },
+  {
+    "kanji": "炭",
+    "meaning": "coal",
+    "onyomi": [
+      "タン"
+    ],
+    "kunyomi": [
+      "すみ"
+    ]
+  },
+  {
+    "kanji": "柔",
+    "meaning": "soft",
+    "onyomi": [
+      "ジュウ",
+      "ニュウ"
+    ],
+    "kunyomi": [
+      "やわ.らかい"
+    ]
+  },
+  {
+    "kanji": "雇",
+    "meaning": "employ",
+    "onyomi": [
+      "コ"
+    ],
+    "kunyomi": [
+      "やと.う"
+    ]
+  },
+  {
+    "kanji": "乾",
+    "meaning": "dry up",
+    "onyomi": [
+      "カン"
+    ],
+    "kunyomi": [
+      "かわ.く",
+      "かわ.かす"
+    ]
+  },
+  {
+    "kanji": "鋭",
+    "meaning": "sharp",
+    "onyomi": [
+      "エイ"
+    ],
+    "kunyomi": [
+      "するど.い"
+    ]
+  },
+  {
+    "kanji": "氷",
+    "meaning": "ice",
+    "onyomi": [
+      "ヒョウ"
+    ],
+    "kunyomi": [
+      "ひ",
+      "こおり"
+    ]
+  },
+  {
+    "kanji": "隅",
+    "meaning": "corner",
+    "onyomi": [
+      "グウ"
+    ],
+    "kunyomi": [
+      "すみ"
+    ]
+  },
+  {
+    "kanji": "冊",
+    "meaning": "volume",
+    "onyomi": [
+      "サツ",
+      "サク"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "糸",
+    "meaning": "thread",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": [
+      "いと"
+    ]
+  },
+  {
+    "kanji": "募",
+    "meaning": "appeal for",
+    "onyomi": [
+      "ボ"
+    ],
+    "kunyomi": [
+      "つの.る"
+    ]
+  },
+  {
+    "kanji": "硬",
+    "meaning": "hard",
+    "onyomi": [
+      "コウ"
+    ],
+    "kunyomi": [
+      "かた.い"
+    ]
+  },
+  {
+    "kanji": "塗",
+    "meaning": "paint",
+    "onyomi": [
+      "ト"
+    ],
+    "kunyomi": [
+      "ぬ.る"
+    ]
+  },
+  {
+    "kanji": "憎",
+    "meaning": "hate",
+    "onyomi": [
+      "ゾウ"
+    ],
+    "kunyomi": [
+      "にく.む",
+      "にく.しみ",
+      "にく.い",
+      "にく.らしい"
+    ]
+  },
+  {
+    "kanji": "泥",
+    "meaning": "mud",
+    "onyomi": [
+      "デイ"
+    ],
+    "kunyomi": [
+      "どろ"
+    ]
+  },
+  {
+    "kanji": "脂",
+    "meaning": "fat",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": [
+      "あぶら"
+    ]
+  },
+  {
+    "kanji": "粉",
+    "meaning": "flour",
+    "onyomi": [
+      "フン"
+    ],
+    "kunyomi": [
+      "こな",
+      "こ"
+    ]
+  },
+  {
+    "kanji": "詞",
+    "meaning": "part of speech",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "筒",
+    "meaning": "cylinder",
+    "onyomi": [
+      "トウ"
+    ],
+    "kunyomi": [
+      "つつ"
+    ]
+  },
+  {
+    "kanji": "掃",
+    "meaning": "sweep",
+    "onyomi": [
+      "ソウ"
+    ],
+    "kunyomi": [
+      "は.く"
+    ]
+  },
+  {
+    "kanji": "塔",
+    "meaning": "pagoda",
+    "onyomi": [
+      "トウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "賢",
+    "meaning": "wise",
+    "onyomi": [
+      "ケン"
+    ],
+    "kunyomi": [
+      "かしこ.い"
+    ]
+  },
+  {
+    "kanji": "拾",
+    "meaning": "pick up",
+    "onyomi": [
+      "シュウ",
+      "ジュウ"
+    ],
+    "kunyomi": [
+      "ひろ.う"
+    ]
+  },
+  {
+    "kanji": "麦",
+    "meaning": "wheat",
+    "onyomi": [
+      "バク"
+    ],
+    "kunyomi": [
+      "むぎ"
+    ]
+  },
+  {
+    "kanji": "刷",
+    "meaning": "print",
+    "onyomi": [
+      "サツ"
+    ],
+    "kunyomi": [
+      "す.る"
+    ]
+  },
+  {
+    "kanji": "卵",
+    "meaning": "egg",
+    "onyomi": [
+      "ラン"
+    ],
+    "kunyomi": [
+      "たまご"
+    ]
+  },
+  {
+    "kanji": "械",
+    "meaning": "contraption",
+    "onyomi": [
+      "カイ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "皿",
+    "meaning": "dish  さら",
+    "onyomi": [],
+    "kunyomi": [
+      "さら"
+    ]
+  },
+  {
+    "kanji": "祈",
+    "meaning": "pray",
+    "onyomi": [
+      "キ"
+    ],
+    "kunyomi": [
+      "いの.る"
+    ]
+  },
+  {
+    "kanji": "灰",
+    "meaning": "ash",
+    "onyomi": [
+      "カイ"
+    ],
+    "kunyomi": [
+      "はい"
+    ]
+  },
+  {
+    "kanji": "召",
+    "meaning": "summon",
+    "onyomi": [
+      "ショウ"
+    ],
+    "kunyomi": [
+      "め.す"
+    ]
+  },
+  {
+    "kanji": "溶",
+    "meaning": "dissolve",
+    "onyomi": [
+      "ヨウ"
+    ],
+    "kunyomi": [
+      "と.ける",
+      "と.く",
+      "と.かす"
+    ]
+  },
+  {
+    "kanji": "磨",
+    "meaning": "polish",
+    "onyomi": [
+      "マ"
+    ],
+    "kunyomi": [
+      "みが.く"
+    ]
+  },
+  {
+    "kanji": "粒",
+    "meaning": "grain",
+    "onyomi": [
+      "リュウ"
+    ],
+    "kunyomi": [
+      "つぶ"
+    ]
+  },
+  {
+    "kanji": "喫",
+    "meaning": "eat; drink; smoke",
+    "onyomi": [
+      "キツ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "机",
+    "meaning": "desk",
+    "onyomi": [
+      "キ"
+    ],
+    "kunyomi": [
+      "つくえ"
+    ]
+  },
+  {
+    "kanji": "貯",
+    "meaning": "savings",
+    "onyomi": [
+      "チョ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "匹",
+    "meaning": "counter for animals",
+    "onyomi": [
+      "ヒツ"
+    ],
+    "kunyomi": [
+      "ひき"
+    ]
+  },
+  {
+    "kanji": "綿",
+    "meaning": "cotton",
+    "onyomi": [
+      "メン"
+    ],
+    "kunyomi": [
+      "わた"
+    ]
+  },
+  {
+    "kanji": "贈",
+    "meaning": "to present",
+    "onyomi": [
+      "ゾウ"
+    ],
+    "kunyomi": [
+      "おく.る"
+    ]
+  },
+  {
+    "kanji": "凍",
+    "meaning": "freeze",
+    "onyomi": [
+      "トウ"
+    ],
+    "kunyomi": [
+      "こお.る",
+      "こご.える"
+    ]
+  },
+  {
+    "kanji": "瓶",
+    "meaning": "flower pot",
+    "onyomi": [
+      "ビン"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "帽",
+    "meaning": "cap",
+    "onyomi": [
+      "ボウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "涼",
+    "meaning": "refreshing",
+    "onyomi": [
+      "リョウ"
+    ],
+    "kunyomi": [
+      "すず.しい",
+      "すず.む"
+    ]
+  },
+  {
+    "kanji": "秒",
+    "meaning": "a second",
+    "onyomi": [
+      "ビョウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "湿",
+    "meaning": "damp",
+    "onyomi": [
+      "シツ"
+    ],
+    "kunyomi": [
+      "しめ.る",
+      "しめ.す"
+    ]
+  },
+  {
+    "kanji": "蒸",
+    "meaning": "heat with steam",
+    "onyomi": [
+      "ジョウ"
+    ],
+    "kunyomi": [
+      "む.す",
+      "む.れる",
+      "む.らす"
+    ]
+  },
+  {
+    "kanji": "菓",
+    "meaning": "candy",
+    "onyomi": [
+      "カ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "耕",
+    "meaning": "cultivate",
+    "onyomi": [
+      "コウ"
+    ],
+    "kunyomi": [
+      "たがや.す"
+    ]
+  },
+  {
+    "kanji": "鉱",
+    "meaning": "mineral",
+    "onyomi": [
+      "コウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "膚",
+    "meaning": "skin",
+    "onyomi": [
+      "フ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "胃",
+    "meaning": "stomach",
+    "onyomi": [
+      "イ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "挟",
+    "meaning": "put between",
+    "onyomi": [
+      "キョウ"
+    ],
+    "kunyomi": [
+      "はさ.む",
+      "はさ.まる"
+    ]
+  },
+  {
+    "kanji": "郊",
+    "meaning": "suburbs",
+    "onyomi": [
+      "コウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "銅",
+    "meaning": "copper",
+    "onyomi": [
+      "ドウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "鈍",
+    "meaning": "dull",
+    "onyomi": [
+      "ドン"
+    ],
+    "kunyomi": [
+      "にぶ.い",
+      "にぶ.る"
+    ]
+  },
+  {
+    "kanji": "貝",
+    "meaning": "shellfish  かい",
+    "onyomi": [],
+    "kunyomi": [
+      "かい"
+    ]
+  },
+  {
+    "kanji": "缶",
+    "meaning": "can",
+    "onyomi": [
+      "カン"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "枯",
+    "meaning": "wither",
+    "onyomi": [
+      "コ"
+    ],
+    "kunyomi": [
+      "か.れる",
+      "か.らす"
+    ]
+  },
+  {
+    "kanji": "滴",
+    "meaning": "drip",
+    "onyomi": [
+      "テキ"
+    ],
+    "kunyomi": [
+      "しずく",
+      "したた.る"
+    ]
+  },
+  {
+    "kanji": "符",
+    "meaning": "sign",
+    "onyomi": [
+      "フ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "畜",
+    "meaning": "animal raising",
+    "onyomi": [
+      "チク"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "軟",
+    "meaning": "soft",
+    "onyomi": [
+      "ナン"
+    ],
+    "kunyomi": [
+      "やわ.らか",
+      "やわ.らかい"
+    ]
+  },
+  {
+    "kanji": "濯",
+    "meaning": "laundry",
+    "onyomi": [
+      "タク"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "隻",
+    "meaning": "ships",
+    "onyomi": [
+      "セキ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "伺",
+    "meaning": "visit",
+    "onyomi": [
+      "シ"
+    ],
+    "kunyomi": [
+      "うかが.う"
+    ]
+  },
+  {
+    "kanji": "沸",
+    "meaning": "boil",
+    "onyomi": [
+      "フツ"
+    ],
+    "kunyomi": [
+      "わ.かす",
+      "わ.く"
+    ]
+  },
+  {
+    "kanji": "曇",
+    "meaning": "cloudy",
+    "onyomi": [
+      "ドン"
+    ],
+    "kunyomi": [
+      "くも.る"
+    ]
+  },
+  {
+    "kanji": "肯",
+    "meaning": "agreement",
+    "onyomi": [
+      "コウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "燥",
+    "meaning": "dry up",
+    "onyomi": [
+      "ソウ"
+    ],
+    "kunyomi": []
+  },
+  {
+    "kanji": "零",
+    "meaning": "zero",
+    "onyomi": [
+      "レイ"
+    ],
+    "kunyomi": []
+  }
+]

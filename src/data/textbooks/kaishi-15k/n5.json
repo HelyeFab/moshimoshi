@@ -1,0 +1,7570 @@
+[
+  {
+    "id": "kaishi-32",
+    "japanese": "する",
+    "reading": "する",
+    "meaning": "do, make",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はテニスを<b>します</b>。",
+        "reading": "",
+        "english": "He plays tennis (lit: \"He does tennis\")."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-12"
+    ],
+    "frequency": 12,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-140",
+    "japanese": "事",
+    "reading": "こと",
+    "meaning": "thing, incident",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "インターネットで日本の<b>事</b>を調べました。",
+        "reading": "",
+        "english": "I researched things about Japan on the internet."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-14"
+    ],
+    "frequency": 14,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-33",
+    "japanese": "なる",
+    "reading": "なる",
+    "meaning": "become, result in, come (to do)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "日本語の勉強が好きに<b>なりました</b>。",
+        "reading": "",
+        "english": "I have come to like Japanese study."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-15"
+    ],
+    "frequency": 15,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-20",
+    "japanese": "ある",
+    "reading": "ある",
+    "meaning": "have, exist (inanimate)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ペンが<b>ある</b>。",
+        "reading": "",
+        "english": "There is a pen."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-16"
+    ],
+    "frequency": 16,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-14",
+    "japanese": "それ",
+    "reading": "それ",
+    "meaning": "that",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>それ</b>は本です。",
+        "reading": "",
+        "english": "That is a book."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-17"
+    ],
+    "frequency": 17,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1",
+    "japanese": "私",
+    "reading": "わたし",
+    "meaning": "I (polite, general)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>私</b>はアンです。",
+        "reading": "",
+        "english": "I am Ann."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-19"
+    ],
+    "frequency": 19,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-77",
+    "japanese": "言う",
+    "reading": "いう",
+    "meaning": "say",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ゆっくり<b>言って</b>ください。",
+        "reading": "",
+        "english": "Please say it slowly."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-20"
+    ],
+    "frequency": 20,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-19",
+    "japanese": "いる",
+    "reading": "いる",
+    "meaning": "have, exist (animate)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "兄が<b>います</b>。",
+        "reading": "",
+        "english": "I have an older brother."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-21"
+    ],
+    "frequency": 21,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-58",
+    "japanese": "思う",
+    "reading": "おもう",
+    "meaning": "think",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "これがいいと<b>思います</b>。",
+        "reading": "",
+        "english": "I think this is good."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-25"
+    ],
+    "frequency": 25,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-26",
+    "japanese": "その",
+    "reading": "その",
+    "meaning": "that one",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>その</b>本ですか。",
+        "reading": "",
+        "english": "Is it that book?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-28"
+    ],
+    "frequency": 28,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-25",
+    "japanese": "この",
+    "reading": "この",
+    "meaning": "this one",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "山田さんの本はどれですか。<b>この</b>本ですか。",
+        "reading": "",
+        "english": "Which book is Yamada-san's? Is it this book?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-30"
+    ],
+    "frequency": 30,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-60",
+    "japanese": "そう",
+    "reading": "そう",
+    "meaning": "in such manner, that way",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私も<b>そう</b>思います。",
+        "reading": "",
+        "english": "That's what I think too."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-31"
+    ],
+    "frequency": 31,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-24",
+    "japanese": "無い",
+    "reading": "ない",
+    "meaning": "to not be",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今はあまり時間が<b>無い</b>のです。",
+        "reading": "",
+        "english": "I don't have much time now."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-33"
+    ],
+    "frequency": 33,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-55",
+    "japanese": "来る",
+    "reading": "くる",
+    "meaning": "come",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "明日、<b>来ます</b>か。",
+        "reading": "",
+        "english": "Will you come tomorrow?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-34"
+    ],
+    "frequency": 34,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-3",
+    "japanese": "さん",
+    "reading": "さん",
+    "meaning": "san",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あなたはトム<b>さん</b>ですか。",
+        "reading": "",
+        "english": "Are you Tom-san?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-35"
+    ],
+    "frequency": 35,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-7",
+    "japanese": "いい",
+    "reading": "いい",
+    "meaning": "good",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの人は<b>いい</b>人です。",
+        "reading": "",
+        "english": "That person is a good person."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-37"
+    ],
+    "frequency": 37,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-29",
+    "japanese": "見る",
+    "reading": "みる",
+    "meaning": "see, look at",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "兄は毎日テレビを<b>見ます</b>。",
+        "reading": "",
+        "english": "My older brother watches TV every day."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-38"
+    ],
+    "frequency": 38,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-92",
+    "japanese": "くれる",
+    "reading": "くれる",
+    "meaning": "give (receiver is in the speaker's group)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "父が本を<b>くれました</b>。",
+        "reading": "",
+        "english": "My father gave me a book."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-39"
+    ],
+    "frequency": 39,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-12",
+    "japanese": "これ",
+    "reading": "これ",
+    "meaning": "this",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>これ</b>は日本語の本です。",
+        "reading": "",
+        "english": "This is a Japanese book."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-40"
+    ],
+    "frequency": 40,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-181",
+    "japanese": "俺",
+    "reading": "おれ",
+    "meaning": "I (male)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>俺</b>はロックを聞くのが好きだ。",
+        "reading": "",
+        "english": "I like to listen to rock music."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-42"
+    ],
+    "frequency": 42,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-215",
+    "japanese": "やる",
+    "reading": "やる",
+    "meaning": "to&nbsp;do",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "一緒に宿題を<b>やろう</b>。",
+        "reading": "",
+        "english": "Let's do our homework together."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-46"
+    ],
+    "frequency": 46,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-94",
+    "japanese": "物",
+    "reading": "もの",
+    "meaning": "thing, object",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "色々な<b>物</b>をもらいました。",
+        "reading": "",
+        "english": "I received many things."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-51"
+    ],
+    "frequency": 51,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-27",
+    "japanese": "あの",
+    "reading": "あの",
+    "meaning": "that one there",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>あの</b>本ですか。",
+        "reading": "",
+        "english": "That book (over there)?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-53"
+    ],
+    "frequency": 53,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-86",
+    "japanese": "もう",
+    "reading": "もう",
+    "meaning": "already, yet",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は<b>もう</b>帰りました。",
+        "reading": "",
+        "english": "He's already gone home."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-56"
+    ],
+    "frequency": 56,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-87",
+    "japanese": "もう",
+    "reading": "もう",
+    "meaning": "another, again",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>もう</b>ちょっと食べたい。",
+        "reading": "",
+        "english": "I want to eat a little more."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-56"
+    ],
+    "frequency": 56,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-53",
+    "japanese": "行く",
+    "reading": "いく",
+    "meaning": "go",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "学校へ<b>行きます</b>。",
+        "reading": "",
+        "english": "I will go to school."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-58"
+    ],
+    "frequency": 58,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-38",
+    "japanese": "ここ",
+    "reading": "ここ",
+    "meaning": "here",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>ここ</b>に本があります。",
+        "reading": "",
+        "english": "There's a book here."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-59"
+    ],
+    "frequency": 59,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-13",
+    "japanese": "何",
+    "reading": "なに・なん",
+    "meaning": "what",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "A「これは<b>何</b>ですか。」<br>B「本です。」",
+        "reading": "",
+        "english": "A: What is this?<br>B: It's a book."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-62"
+    ],
+    "frequency": 62,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-22",
+    "japanese": "今",
+    "reading": "いま",
+    "meaning": "now",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は<b>今</b>、勉強しています。",
+        "reading": "",
+        "english": "He's studying now."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-64"
+    ],
+    "frequency": 64,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-138",
+    "japanese": "自分",
+    "reading": "じぶん",
+    "meaning": "self, oneself",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "分からない言葉は<b>自分</b>で調べてください。",
+        "reading": "",
+        "english": "Please look up any words you don't know on your own."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-65"
+    ],
+    "frequency": 65,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-66",
+    "japanese": "聞く",
+    "reading": "きく",
+    "meaning": "hear",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女はラジオを<b>聞いています</b>。",
+        "reading": "",
+        "english": "She's listening to the radio."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-67"
+    ],
+    "frequency": 67,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-67",
+    "japanese": "聞く",
+    "reading": "きく",
+    "meaning": "ask",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "トムに<b>聞いて</b>。",
+        "reading": "",
+        "english": "Ask Tom."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-67"
+    ],
+    "frequency": 67,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-46",
+    "japanese": "知る",
+    "reading": "しる",
+    "meaning": "know",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの人を<b>知っています</b>か。",
+        "reading": "",
+        "english": "Do you know that person?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-68"
+    ],
+    "frequency": 68,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-6",
+    "japanese": "人",
+    "reading": "ひと",
+    "meaning": "person",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの<b>人</b>はいい人です。",
+        "reading": "",
+        "english": "That person is a good person."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-71"
+    ],
+    "frequency": 71,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-8",
+    "japanese": "人",
+    "reading": "じん",
+    "meaning": "person from (nationality)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私はイギリス<b>人</b>です。",
+        "reading": "",
+        "english": "I am British."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-71"
+    ],
+    "frequency": 71,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-96",
+    "japanese": "中",
+    "reading": "なか",
+    "meaning": "inside, middle",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "父は家の<b>中</b>にいます。",
+        "reading": "",
+        "english": "My father is inside the house."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-75"
+    ],
+    "frequency": 75,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-216",
+    "japanese": "顔",
+    "reading": "かお",
+    "meaning": "face",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はタオルで<b>顔</b>を拭きました。",
+        "reading": "",
+        "english": "He wiped his face with a towel."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-76"
+    ],
+    "frequency": 76,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-100",
+    "japanese": "前",
+    "reading": "まえ",
+    "meaning": "front, before",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ララちゃんは家の<b>前</b>に立っています。",
+        "reading": "",
+        "english": "Lara-chan is standing in front of the house."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-79"
+    ],
+    "frequency": 79,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-217",
+    "japanese": "今朝",
+    "reading": "けさ",
+    "meaning": "this morning",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>今朝</b>は早く家を出ました。",
+        "reading": "",
+        "english": "I left the house early this morning."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-81"
+    ],
+    "frequency": 81,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-218",
+    "japanese": "出る",
+    "reading": "でる",
+    "meaning": "to&nbsp;go out, to&nbsp;leave",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今朝は早く家を<b>出ました</b>。",
+        "reading": "",
+        "english": "I left the house early this morning."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-81"
+    ],
+    "frequency": 81,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-219",
+    "japanese": "そして",
+    "reading": "そして",
+    "meaning": "and, and then",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "このロボットは言葉が分かります。<b>そして</b>、ダンスも出来ます。",
+        "reading": "",
+        "english": "This robot understands words. On top of that, it can also dance."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-82"
+    ],
+    "frequency": 82,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-61",
+    "japanese": "どう",
+    "reading": "どう",
+    "meaning": "how, what",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あなたは<b>どう</b>思いますか。",
+        "reading": "",
+        "english": "What do you think?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-88"
+    ],
+    "frequency": 88,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-72",
+    "japanese": "考える",
+    "reading": "かんがえる",
+    "meaning": "think, consider",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "よく<b>考えて</b>ください。",
+        "reading": "",
+        "english": "Please think carefully."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-91"
+    ],
+    "frequency": 91,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-49",
+    "japanese": "はい",
+    "reading": "はい",
+    "meaning": "yes (polite)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "A「山田さんですか。」<br>B「<b>はい</b>。」",
+        "reading": "",
+        "english": "A: Are you Yamada-san?<br>B: Yes, I am."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-92"
+    ],
+    "frequency": 92,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-85",
+    "japanese": "ちょっと",
+    "reading": "ちょっと",
+    "meaning": "a little",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "これは<b>ちょっと</b>高いですね。",
+        "reading": "",
+        "english": "A: This is a little expensive."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-93"
+    ],
+    "frequency": 93,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-220",
+    "japanese": "まだ",
+    "reading": "まだ",
+    "meaning": "yet, more",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "宿題は<b>まだ</b>終わっていません。",
+        "reading": "",
+        "english": "I haven't finished my homework yet."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-96"
+    ],
+    "frequency": 96,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-221",
+    "japanese": "じゃ",
+    "reading": "じゃ",
+    "meaning": "then, well",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>じゃ</b>、それをください。",
+        "reading": "",
+        "english": "Okay, then I'll have that one."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-98"
+    ],
+    "frequency": 98,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-56",
+    "japanese": "また",
+    "reading": "また",
+    "meaning": "again, also",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "明日、<b>また</b>来ます。",
+        "reading": "",
+        "english": "I'll come again tomorrow."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-99"
+    ],
+    "frequency": 99,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-47",
+    "japanese": "彼女",
+    "reading": "かのじょ",
+    "meaning": "she, her, girlfriend",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>彼女</b>の名前を知っていますか。",
+        "reading": "",
+        "english": "Do you know her name?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-100"
+    ],
+    "frequency": 100,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-45",
+    "japanese": "話",
+    "reading": "はなし",
+    "meaning": "talk, story",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あなたの<b>話</b>は面白いね。",
+        "reading": "",
+        "english": "Your story is interesting."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-101"
+    ],
+    "frequency": 101,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-97",
+    "japanese": "出来る",
+    "reading": "できる",
+    "meaning": "can do, be good at",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あなたはスキーが<b>出来ます</b>か？",
+        "reading": "",
+        "english": "Can you ski?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-103"
+    ],
+    "frequency": 103,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-98",
+    "japanese": "本当",
+    "reading": "ほんとう",
+    "meaning": "truth, reality",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "その話は<b>本当</b>ですか。",
+        "reading": "",
+        "english": "Is this story true?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-108"
+    ],
+    "frequency": 108,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-222",
+    "japanese": "ため",
+    "reading": "ため",
+    "meaning": "sake, purpose",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "これは医者の<b>ため</b>のサイトです。",
+        "reading": "",
+        "english": "This is a website made for doctors."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-109"
+    ],
+    "frequency": 109,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-39",
+    "japanese": "そこ",
+    "reading": "そこ",
+    "meaning": "there",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>そこ</b>はトイレです。",
+        "reading": "",
+        "english": "There is the bathroom."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-110"
+    ],
+    "frequency": 110,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-93",
+    "japanese": "もらう",
+    "reading": "もらう",
+    "meaning": "receive",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女からプレゼントを<b>もらいました</b>。",
+        "reading": "",
+        "english": "I got a present from her."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-112"
+    ],
+    "frequency": 112,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-108",
+    "japanese": "手",
+    "reading": "て",
+    "meaning": "hand",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "分かった人は<b>手</b>を上げてください。",
+        "reading": "",
+        "english": "The people who understood, please raise your hand."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-113"
+    ],
+    "frequency": 113,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-79",
+    "japanese": "待つ",
+    "reading": "まつ",
+    "meaning": "wait",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "1時間友達を<b>待ちました</b>。",
+        "reading": "",
+        "english": "I waited for my friend for an hour."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-114"
+    ],
+    "frequency": 114,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-134",
+    "japanese": "言葉",
+    "reading": "ことば",
+    "meaning": "word, language",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この<b>言葉</b>の意味が分かりません。",
+        "reading": "",
+        "english": "I don't understand the meaning of this word."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-115"
+    ],
+    "frequency": 115,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-101",
+    "japanese": "入る",
+    "reading": "はいる",
+    "meaning": "enter",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "レストランに<b>入ります</b>。",
+        "reading": "",
+        "english": "I will enter the restaurant."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-116"
+    ],
+    "frequency": 116,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-48",
+    "japanese": "ちゃん",
+    "reading": "ちゃん",
+    "meaning": "chan",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女はララ<b>ちゃん</b>です。",
+        "reading": "",
+        "english": "She is Lara-chan."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-120"
+    ],
+    "frequency": 120,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-224",
+    "japanese": "ところ",
+    "reading": "ところ",
+    "meaning": "place",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は友達の<b>ところ</b>に泊まった。",
+        "reading": "",
+        "english": "I stayed at my friend's place for the night."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-124"
+    ],
+    "frequency": 124,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-120",
+    "japanese": "今日",
+    "reading": "きょう",
+    "meaning": "today",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>今日</b>の勉強を始めましょう。",
+        "reading": "",
+        "english": "Let's begin today's studies."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-125"
+    ],
+    "frequency": 125,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-106",
+    "japanese": "声",
+    "reading": "こえ",
+    "meaning": "voice, sound",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は大きな<b>声</b>で話した。",
+        "reading": "",
+        "english": "He spoke with a loud voice."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-127"
+    ],
+    "frequency": 127,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-115",
+    "japanese": "持つ",
+    "reading": "もつ",
+    "meaning": "have, hold",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は車を<b>持っています</b>。",
+        "reading": "",
+        "english": "I have a car."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-128"
+    ],
+    "frequency": 128,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-15",
+    "japanese": "あれ",
+    "reading": "あれ",
+    "meaning": "that over there",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>あれ</b>は何ですか。",
+        "reading": "",
+        "english": "What's that?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-129"
+    ],
+    "frequency": 129,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-107",
+    "japanese": "目",
+    "reading": "め",
+    "meaning": "eye",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ララちゃんは<b>目</b>が大きいです。",
+        "reading": "",
+        "english": "Lara-chan has big eyes."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-130"
+    ],
+    "frequency": 130,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-225",
+    "japanese": "少し",
+    "reading": "すこし",
+    "meaning": "a bit, a little while",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>少し</b>疲れました。",
+        "reading": "",
+        "english": "I'm a little tired."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-131"
+    ],
+    "frequency": 131,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-226",
+    "japanese": "見える",
+    "reading": "みえる",
+    "meaning": "be visible",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ここから富士山がよく<b>見えます</b>。",
+        "reading": "",
+        "english": "You can see Mount Fuji well from here."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-133"
+    ],
+    "frequency": 133,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-227",
+    "japanese": "違う",
+    "reading": "ちがう",
+    "meaning": "to&nbsp;differ, to&nbsp;be wrong",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "答えが<b>違います</b>。",
+        "reading": "",
+        "english": "That's the wrong answer."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-134"
+    ],
+    "frequency": 134,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-64",
+    "japanese": "方",
+    "reading": "ほう",
+    "meaning": "direction, side",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は私の<b>方</b>を見ました。",
+        "reading": "",
+        "english": "He looked in my direction."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-135"
+    ],
+    "frequency": 135,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-65",
+    "japanese": "方",
+    "reading": "かた",
+    "meaning": "person (polite form)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "次の<b>方</b>、どうぞ。",
+        "reading": "",
+        "english": "The next person, please."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-135"
+    ],
+    "frequency": 135,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-2",
+    "japanese": "あなた",
+    "reading": "あなた",
+    "meaning": "you (usually when one doesn't know the person)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>あなた</b>はトムさんですか。",
+        "reading": "",
+        "english": "Are you Tom-san?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-136"
+    ],
+    "frequency": 136,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-228",
+    "japanese": "男",
+    "reading": "おとこ",
+    "meaning": "man, male",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>男</b>の人が私たちに話しかけた。",
+        "reading": "",
+        "english": "A man began talking to us."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-138"
+    ],
+    "frequency": 138,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-117",
+    "japanese": "使う",
+    "reading": "つかう",
+    "meaning": "use",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "毎日、コンピューターを<b>使います</b>。",
+        "reading": "",
+        "english": "I use the computer every day."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-140"
+    ],
+    "frequency": 140,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-213",
+    "japanese": "くん",
+    "reading": "くん",
+    "meaning": "kun (usu. used with men younger or of the same age)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "健<b>くん</b>は１歳です",
+        "reading": "",
+        "english": "Ken-kun is one year old."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-140"
+    ],
+    "frequency": 140,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-69",
+    "japanese": "分かる",
+    "reading": "わかる",
+    "meaning": "understand",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "日本語のニュースが全然<b>分かりませんでした</b>。",
+        "reading": "",
+        "english": "I didn't understand the Japanese news at all."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-142"
+    ],
+    "frequency": 142,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-229",
+    "japanese": "ただ",
+    "reading": "ただ",
+    "meaning": "free",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この温泉は<b>ただ</b>です。",
+        "reading": "",
+        "english": "This hot spring is free."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-143"
+    ],
+    "frequency": 143,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-230",
+    "japanese": "ただ",
+    "reading": "ただ",
+    "meaning": "simply",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は<b>ただ</b>彼女と話したかっただけです。",
+        "reading": "",
+        "english": "I just wanted to speak with her."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-143"
+    ],
+    "frequency": 143,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-197",
+    "japanese": "僕",
+    "reading": "ぼく",
+    "meaning": "I (male)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>僕</b>は君が大好きです。",
+        "reading": "",
+        "english": "I love you."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-144"
+    ],
+    "frequency": 144,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-118",
+    "japanese": "大丈夫",
+    "reading": "だいじょうぶ",
+    "meaning": "alright, OK",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>大丈夫</b>ですか。",
+        "reading": "",
+        "english": "Are you alright?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-146"
+    ],
+    "frequency": 146,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-4",
+    "japanese": "彼",
+    "reading": "かれ",
+    "meaning": "he, him",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>彼</b>はトムさんです。",
+        "reading": "",
+        "english": "He is Tom-san."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-150"
+    ],
+    "frequency": 150,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-95",
+    "japanese": "君",
+    "reading": "きみ",
+    "meaning": "you (to someone of equal or lower status)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この本を<b>君</b>にあげます。",
+        "reading": "",
+        "english": "I'm going to give you this book."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-153"
+    ],
+    "frequency": 153,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-231",
+    "japanese": "人間",
+    "reading": "にんげん",
+    "meaning": "human being, people",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>人間</b>の心は複雑です。",
+        "reading": "",
+        "english": "The human mind is a complex thing."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-158"
+    ],
+    "frequency": 158,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-141",
+    "japanese": "同じ",
+    "reading": "おなじ",
+    "meaning": "same, identical",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私も<b>同じ</b>こと考えてた。",
+        "reading": "",
+        "english": "I was thinking the same thing."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-160"
+    ],
+    "frequency": 160,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-121",
+    "japanese": "部屋",
+    "reading": "へや",
+    "meaning": "room",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>部屋</b>にキッチンがあります。",
+        "reading": "",
+        "english": "The room has a kitchen."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-162"
+    ],
+    "frequency": 162,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-122",
+    "japanese": "悪い",
+    "reading": "わるい",
+    "meaning": "bad",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの人は<b>悪い</b>人です。",
+        "reading": "",
+        "english": "That person is a bad person."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-163"
+    ],
+    "frequency": 163,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-23",
+    "japanese": "時間",
+    "reading": "じかん",
+    "meaning": "time, hour",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今は<b>時間</b>がありません。",
+        "reading": "",
+        "english": "I don't have time now."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-164"
+    ],
+    "frequency": 164,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-232",
+    "japanese": "作る",
+    "reading": "つくる",
+    "meaning": "to&nbsp;make, to&nbsp;create",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今、朝ご飯を<b>作っています</b>。",
+        "reading": "",
+        "english": "I'm making breakfast now."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-166"
+    ],
+    "frequency": 166,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-43",
+    "japanese": "家",
+    "reading": "いえ",
+    "meaning": "house, home",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ここが私の<b>家</b>です。",
+        "reading": "",
+        "english": "This is my house."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-168"
+    ],
+    "frequency": 168,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-123",
+    "japanese": "まあ",
+    "reading": "まあ",
+    "meaning": "well...",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>まあ</b>これでいいだろう。",
+        "reading": "",
+        "english": "Well, this will do I suppose."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-171"
+    ],
+    "frequency": 171,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-35",
+    "japanese": "ください",
+    "reading": "ください",
+    "meaning": "please give..., please do...",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "コーヒーを<b>ください</b>。",
+        "reading": "",
+        "english": "Please give me a coffee."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-172"
+    ],
+    "frequency": 172,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-233",
+    "japanese": "感じる",
+    "reading": "かんじる",
+    "meaning": "to&nbsp;feel, to&nbsp;sense",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "膝に痛みを<b>感じます</b>。",
+        "reading": "",
+        "english": "I feel a pain in my knee."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-175"
+    ],
+    "frequency": 175,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-234",
+    "japanese": "上",
+    "reading": "うえ",
+    "meaning": "up, above",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>上</b>を向いて。",
+        "reading": "",
+        "english": "Look up."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-176"
+    ],
+    "frequency": 176,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-235",
+    "japanese": "強い",
+    "reading": "つよい",
+    "meaning": "strong",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今日は風が<b>強い</b>。",
+        "reading": "",
+        "english": "The wind is strong today."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-177"
+    ],
+    "frequency": 177,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-236",
+    "japanese": "出す",
+    "reading": "だす",
+    "meaning": "to&nbsp;take out",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はかばんから教科書を<b>出した</b>。",
+        "reading": "",
+        "english": "He took the textbook out of his bag."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-178"
+    ],
+    "frequency": 178,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-70",
+    "japanese": "よく",
+    "reading": "よく",
+    "meaning": "well",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>よく</b>分かりました。",
+        "reading": "",
+        "english": "I understood well."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-180"
+    ],
+    "frequency": 180,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-71",
+    "japanese": "よく",
+    "reading": "よく",
+    "meaning": "often",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ジャズのCDを<b>よく</b>聞きます。",
+        "reading": "",
+        "english": "I listen to Jazz CDs often."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-180"
+    ],
+    "frequency": 180,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-237",
+    "japanese": "笑う",
+    "reading": "わらう",
+    "meaning": "laugh, smile",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "赤ん坊が<b>笑っています</b>。",
+        "reading": "",
+        "english": "The baby is laughing."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-181"
+    ],
+    "frequency": 181,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-240",
+    "japanese": "多く",
+    "reading": "おおく",
+    "meaning": "many, much",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "毎年<b>多く</b>の人が海外へ旅行する。",
+        "reading": "",
+        "english": "Each year, a lot of people travel abroad."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-181"
+    ],
+    "frequency": 181,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-41",
+    "japanese": "どこ",
+    "reading": "どこ",
+    "meaning": "where",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの本を<b>どこ</b>に置きましたか。",
+        "reading": "",
+        "english": "Where did you put that book?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-182"
+    ],
+    "frequency": 182,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-241",
+    "japanese": "くらい",
+    "reading": "くらい",
+    "meaning": "approximately, about",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "毎日、７時間<b>くらい</b>眠ります。",
+        "reading": "",
+        "english": "I sleep for about seven hours every day."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-184"
+    ],
+    "frequency": 184,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-116",
+    "japanese": "みんな",
+    "reading": "みんな",
+    "meaning": "all, everybody",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "家族は<b>みんな</b>元気です。",
+        "reading": "",
+        "english": "Everyone in my family is doing well."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-185"
+    ],
+    "frequency": 185,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-5",
+    "japanese": "好き",
+    "reading": "すき",
+    "meaning": "like, fond of",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私はワインが<b>好き</b>です。",
+        "reading": "",
+        "english": "I like wine."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-186"
+    ],
+    "frequency": 186,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-245",
+    "japanese": "力",
+    "reading": "ちから",
+    "meaning": "strength, power",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私より妹の方が<b>力</b>があります。",
+        "reading": "",
+        "english": "My younger sister has more strength than I do."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-188"
+    ],
+    "frequency": 188,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-246",
+    "japanese": "世界",
+    "reading": "せかい",
+    "meaning": "world",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>世界</b>の地図はありますか。",
+        "reading": "",
+        "english": "Do you have a map of the world?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-189"
+    ],
+    "frequency": 189,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-247",
+    "japanese": "相手",
+    "reading": "あいて",
+    "meaning": "partner, opponent",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "試合の<b>相手</b>は誰ですか。",
+        "reading": "",
+        "english": "Who is the opponent of the match?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-190"
+    ],
+    "frequency": 190,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-248",
+    "japanese": "姿",
+    "reading": "すがた",
+    "meaning": "figure, appearance",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "遠くに彼女の<b>姿</b>が見えた。",
+        "reading": "",
+        "english": "I saw her figure from a distance."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-191"
+    ],
+    "frequency": 191,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-249",
+    "japanese": "死ぬ",
+    "reading": "しぬ",
+    "meaning": "to&nbsp;die",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "犬が病気で<b>死にました</b>。",
+        "reading": "",
+        "english": "My dog died due to sickness."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-192"
+    ],
+    "frequency": 192,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-42",
+    "japanese": "置く",
+    "reading": "おく",
+    "meaning": "put, place",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの本をどこに<b>置きました</b>か。",
+        "reading": "",
+        "english": "Where did you put that book?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-194"
+    ],
+    "frequency": 194,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-124",
+    "japanese": "食べる",
+    "reading": "たべる",
+    "meaning": "eat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "昨日タイカレーを<b>食べました</b>。",
+        "reading": "",
+        "english": "I ate Thai curry yesterday."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-195"
+    ],
+    "frequency": 195,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-126",
+    "japanese": "場所",
+    "reading": "ばしょ",
+    "meaning": "place, location",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "行ってみたい<b>場所</b>がたくさんあります。",
+        "reading": "",
+        "english": "There are many places I want to go to."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-197"
+    ],
+    "frequency": 197,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-250",
+    "japanese": "早い",
+    "reading": "はやい",
+    "meaning": "early",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "A「今朝、5時に起きました。」<br>B「<b>早い</b>ですね。」",
+        "reading": "",
+        "english": "A: I woke up at 5 A.M. this morning.<br>B: That's early, isn't it?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-198"
+    ],
+    "frequency": 198,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-251",
+    "japanese": "早い",
+    "reading": "はやい",
+    "meaning": "fast (in terms of time)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "A「東京から大阪まで2時間半です。」<br>B「<b>早い</b>ですね。」",
+        "reading": "",
+        "english": "A: It takes two and a half hours from Tokyo to Osaka.<br>B: That's fast, isn't it?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-198"
+    ],
+    "frequency": 198,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-252",
+    "japanese": "頭",
+    "reading": "あたま",
+    "meaning": "head",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今朝から<b>頭</b>が痛い。",
+        "reading": "",
+        "english": "My head has been hurting since this morning."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-199"
+    ],
+    "frequency": 199,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-75",
+    "japanese": "もっと",
+    "reading": "もっと",
+    "meaning": "more, a bit more",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>もっと</b>勉強しなければいけないと思った。",
+        "reading": "",
+        "english": "I thought that I would have to study more."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-200"
+    ],
+    "frequency": 200,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-253",
+    "japanese": "戻る",
+    "reading": "もどる",
+    "meaning": "to&nbsp;return, to&nbsp;go back",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今、会社に<b>戻ります</b>。",
+        "reading": "",
+        "english": "I'm going back to the office now."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-201"
+    ],
+    "frequency": 201,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-127",
+    "japanese": "呼ぶ",
+    "reading": "よぶ",
+    "meaning": "call, name",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ウェイターを<b>呼びましょう</b>。",
+        "reading": "",
+        "english": "Let's call the waiter."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-203"
+    ],
+    "frequency": 203,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-150",
+    "japanese": "続ける",
+    "reading": "つづける",
+    "meaning": "to continue, to keep up",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "仕事を<b>続けて</b>ください。",
+        "reading": "",
+        "english": "Please continue your work."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-204"
+    ],
+    "frequency": 204,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-254",
+    "japanese": "ずっと",
+    "reading": "ずっと",
+    "meaning": "continuously, the whole time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>ずっと</b>日本へ留学したいと思っていました。",
+        "reading": "",
+        "english": "I always thought that I'd like to study abroad in Japan."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-205"
+    ],
+    "frequency": 205,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-74",
+    "japanese": "話す",
+    "reading": "はなす",
+    "meaning": "talk, speak",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "先生と日本語で<b>話します</b>。",
+        "reading": "",
+        "english": "I speak Japanese with the teacher."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-206"
+    ],
+    "frequency": 206,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-91",
+    "japanese": "あげる",
+    "reading": "あげる",
+    "meaning": "give (receiver is not in the speaker's group)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "友達にプレゼントを<b>あげます</b>。",
+        "reading": "",
+        "english": "I will give a present to my friend."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-207"
+    ],
+    "frequency": 207,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-109",
+    "japanese": "上げる",
+    "reading": "あげる",
+    "meaning": "raise, increase",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "分かった人は手を<b>上げて</b>ください。",
+        "reading": "",
+        "english": "The people who understood, please raise your hand."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-207"
+    ],
+    "frequency": 207,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-255",
+    "japanese": "どうして",
+    "reading": "どうして",
+    "meaning": "why",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>どうして</b>泣いているの。",
+        "reading": "",
+        "english": "Why are you crying?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-208"
+    ],
+    "frequency": 208,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-114",
+    "japanese": "いつも",
+    "reading": "いつも",
+    "meaning": "always, usually",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女は<b>いつも</b>元気だ。",
+        "reading": "",
+        "english": "She's always full of energy."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-209"
+    ],
+    "frequency": 209,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-62",
+    "japanese": "会う",
+    "reading": "あう",
+    "meaning": "meet",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "明日、彼と<b>会います</b>。",
+        "reading": "",
+        "english": "I will meet him tomorrow."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-210"
+    ],
+    "frequency": 210,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-59",
+    "japanese": "こう",
+    "reading": "こう",
+    "meaning": "like this, this kind of",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>こう</b>しましょう。",
+        "reading": "",
+        "english": "Let’s do this (“this way”)."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-211"
+    ],
+    "frequency": 211,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-256",
+    "japanese": "やっぱり",
+    "reading": "やっぱり",
+    "meaning": "just as I thought, after all",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>やっぱり</b>旅が大好きだ。",
+        "reading": "",
+        "english": "I really love to travel after all."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-213"
+    ],
+    "frequency": 213,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-257",
+    "japanese": "つもり",
+    "reading": "つもり",
+    "meaning": "intention, purpose",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "明日からタバコを止める<b>つもり</b>です。",
+        "reading": "",
+        "english": "I intend to stop smoking starting tomorrow."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-214"
+    ],
+    "frequency": 214,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-258",
+    "japanese": "必要",
+    "reading": "ひつよう",
+    "meaning": "necessary, needed",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "これは授業に<b>必要</b>な本です。",
+        "reading": "",
+        "english": "This book is necessary for class."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-215"
+    ],
+    "frequency": 215,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-259",
+    "japanese": "終わる",
+    "reading": "おわる",
+    "meaning": "to&nbsp;finish, to&nbsp;end",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "会議は4時に<b>終わります</b>。",
+        "reading": "",
+        "english": "The conference ends at four o'clock."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-216"
+    ],
+    "frequency": 216,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-260",
+    "japanese": "者",
+    "reading": "もの",
+    "meaning": "person",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は先ほど電話した<b>者</b>です。",
+        "reading": "",
+        "english": "I'm the person who called a while earlier."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-217"
+    ],
+    "frequency": 217,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-128",
+    "japanese": "動く",
+    "reading": "うごく",
+    "meaning": "move",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "エレベーターが<b>動いています</b>。",
+        "reading": "",
+        "english": "The elevator is moving."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-218"
+    ],
+    "frequency": 218,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-44",
+    "japanese": "帰る",
+    "reading": "かえる",
+    "meaning": "return, go back",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "家に<b>帰ろう</b>。",
+        "reading": "",
+        "english": "Let's go home."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-220"
+    ],
+    "frequency": 220,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-261",
+    "japanese": "後",
+    "reading": "あと",
+    "meaning": "after",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "仕事の<b>後</b>、映画を見た。",
+        "reading": "",
+        "english": "I saw a movie after work."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-221"
+    ],
+    "frequency": 221,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-262",
+    "japanese": "こちら",
+    "reading": "こちら",
+    "meaning": "here, this way",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "受付は<b>こちら</b>です。",
+        "reading": "",
+        "english": "The reception desk is this way."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-222"
+    ],
+    "frequency": 222,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-263",
+    "japanese": "向かう",
+    "reading": "むかう",
+    "meaning": "to&nbsp;face, to&nbsp;head toward",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今、会社に<b>向かっています</b>。",
+        "reading": "",
+        "english": "I'm heading for the office right now."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-223"
+    ],
+    "frequency": 223,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-129",
+    "japanese": "気持ち",
+    "reading": "きもち",
+    "meaning": "feeling, sensation",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼の<b>気持ち</b>が分からない。",
+        "reading": "",
+        "english": "I don't understand his feelings."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-225"
+    ],
+    "frequency": 225,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-264",
+    "japanese": "きっと",
+    "reading": "きっと",
+    "meaning": "surely, certainly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "明日は<b>きっと</b>雨が降ります。",
+        "reading": "",
+        "english": "It will surely rain tomorrow."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-228"
+    ],
+    "frequency": 228,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-265",
+    "japanese": "変わる",
+    "reading": "かわる",
+    "meaning": "to&nbsp;change",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "信号が青に<b>変わりました</b>。",
+        "reading": "",
+        "english": "The traffic light turned green."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-229"
+    ],
+    "frequency": 229,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-130",
+    "japanese": "誰",
+    "reading": "だれ",
+    "meaning": "who",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>誰</b>と会ってみたいですか。",
+        "reading": "",
+        "english": "Who would you like to meet one day?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-231"
+    ],
+    "frequency": 231,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-266",
+    "japanese": "凄い",
+    "reading": "すごい",
+    "meaning": "wonderful, great, a lot",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>凄い</b>雨になった。",
+        "reading": "",
+        "english": "It began raining heavily."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-232"
+    ],
+    "frequency": 232,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-63",
+    "japanese": "次",
+    "reading": "つぎ",
+    "meaning": "next, subsequent",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>次</b>はいつ会いましょうか。",
+        "reading": "",
+        "english": "When next shall we meet?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-234"
+    ],
+    "frequency": 234,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-267",
+    "japanese": "女",
+    "reading": "おんな",
+    "meaning": "woman, girl",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "店員は若い<b>女</b>の人でした。",
+        "reading": "",
+        "english": "The salesclerk was a young woman."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-235"
+    ],
+    "frequency": 235,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-149",
+    "japanese": "仕事",
+    "reading": "しごと",
+    "meaning": "work, job",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "父の<b>仕事</b>を手伝います。",
+        "reading": "",
+        "english": "I help with my father's work."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-236"
+    ],
+    "frequency": 236,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-268",
+    "japanese": "ちゃんと",
+    "reading": "ちゃんと",
+    "meaning": "properly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "朝食は<b>ちゃんと</b>食べましたか。",
+        "reading": "",
+        "english": "Did you properly eat breakfast?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-237"
+    ],
+    "frequency": 237,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-119",
+    "japanese": "始める",
+    "reading": "はじめる",
+    "meaning": "start",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "テストを<b>始めて</b>ください。",
+        "reading": "",
+        "english": "Please start the test."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-240"
+    ],
+    "frequency": 240,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-269",
+    "japanese": "音",
+    "reading": "おと",
+    "meaning": "sound",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "外で大きい<b>音</b>がします。",
+        "reading": "",
+        "english": "There is a loud noise outside."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-241"
+    ],
+    "frequency": 241,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-151",
+    "japanese": "見せる",
+    "reading": "みせる",
+    "meaning": "to&nbsp;show",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あのカメラを<b>見せて</b>ください。",
+        "reading": "",
+        "english": "Please show me that camera."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-244"
+    ],
+    "frequency": 244,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-270",
+    "japanese": "体",
+    "reading": "からだ",
+    "meaning": "body",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "妹は<b>体</b>が弱いです。",
+        "reading": "",
+        "english": "My sister has a weak body."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-245"
+    ],
+    "frequency": 245,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-131",
+    "japanese": "子",
+    "reading": "こ",
+    "meaning": "child, kid",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "その<b>子</b>は日本語が分からない。",
+        "reading": "",
+        "english": "That kid doesn't understand Japanese."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-247"
+    ],
+    "frequency": 247,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-132",
+    "japanese": "どんな",
+    "reading": "どんな",
+    "meaning": "what kind of...",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "スミスさんは<b>どんな</b>人ですか。",
+        "reading": "",
+        "english": "What kind of person is Smith-san?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-248"
+    ],
+    "frequency": 248,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-152",
+    "japanese": "うち",
+    "reading": "うち",
+    "meaning": "one's household",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>うち</b>へ帰ります。",
+        "reading": "",
+        "english": "I will go home."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-254"
+    ],
+    "frequency": 254,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-105",
+    "japanese": "大きい",
+    "reading": "おおきい",
+    "meaning": "big, large",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は<b>大きい</b>家に住んでいる。",
+        "reading": "",
+        "english": "He lives in a big house."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-255"
+    ],
+    "frequency": 255,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-271",
+    "japanese": "掛ける",
+    "reading": "かける",
+    "meaning": "to&nbsp;hang, to&nbsp;put on",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "夫の服をハンガーに<b>掛けた</b>。",
+        "reading": "",
+        "english": "I put my husband's clothes on a hanger."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-256"
+    ],
+    "frequency": 256,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-37",
+    "japanese": "教える",
+    "reading": "おしえる",
+    "meaning": "teach, tell",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あなたの名前を<b>教えて</b>ください。",
+        "reading": "",
+        "english": "Please tell me your name."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-257"
+    ],
+    "frequency": 257,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-272",
+    "japanese": "歩く",
+    "reading": "あるく",
+    "meaning": "to&nbsp;walk, to&nbsp;go on foot",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "駅まで<b>歩きましょう</b>。",
+        "reading": "",
+        "english": "Let's walk to the station."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-259"
+    ],
+    "frequency": 259,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-133",
+    "japanese": "意味",
+    "reading": "いみ",
+    "meaning": "meaning, significance",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>意味</b>が分かりません。",
+        "reading": "",
+        "english": "I don't understand what you mean."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-261"
+    ],
+    "frequency": 261,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-135",
+    "japanese": "心配",
+    "reading": "しんぱい",
+    "meaning": "worry",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "母が<b>心配</b>しています。",
+        "reading": "",
+        "english": "My mother is worried."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-262"
+    ],
+    "frequency": 262,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-136",
+    "japanese": "様子",
+    "reading": "ようす",
+    "meaning": "appearance, state",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女の<b>様子</b>を見てきます。",
+        "reading": "",
+        "english": "I'm going to see how she's doing."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-263"
+    ],
+    "frequency": 263,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-36",
+    "japanese": "名前",
+    "reading": "なまえ",
+    "meaning": "name",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あなたの<b>名前</b>を教えてください。",
+        "reading": "",
+        "english": "Please tell me your name."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-264"
+    ],
+    "frequency": 264,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-273",
+    "japanese": "存在",
+    "reading": "そんざい",
+    "meaning": "existence, being",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "宇宙人は<b>存在</b>すると思いますか。",
+        "reading": "",
+        "english": "Do you think that aliens exist?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-265"
+    ],
+    "frequency": 265,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-274",
+    "japanese": "過ぎる",
+    "reading": "すぎる",
+    "meaning": "to&nbsp;exceed, to&nbsp;pass by",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "時が<b>過ぎる</b>のは速い。",
+        "reading": "",
+        "english": "Time passes quickly."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-266"
+    ],
+    "frequency": 266,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-275",
+    "japanese": "聞こえる",
+    "reading": "きこえる",
+    "meaning": "can hear",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "隣の部屋からテレビの音が<b>聞こえる</b>。",
+        "reading": "",
+        "english": "I can hear the sound of the television from the next room."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-267"
+    ],
+    "frequency": 267,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-276",
+    "japanese": "受ける",
+    "reading": "うける",
+    "meaning": "to&nbsp;receive, to&nbsp;accept",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "親友の言葉に、酷いショックを<b>受けた</b>。",
+        "reading": "",
+        "english": "I was terribly shocked at my friend's words."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-268"
+    ],
+    "frequency": 268,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-280",
+    "japanese": "殺す",
+    "reading": "ころす",
+    "meaning": "to&nbsp;kill",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は生き物を<b>殺す</b>のが嫌いだ。",
+        "reading": "",
+        "english": "I hate killing living things."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-269"
+    ],
+    "frequency": 269,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-281",
+    "japanese": "まさか",
+    "reading": "まさか",
+    "meaning": "by no means, never!",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>まさか</b>彼がやったんじゃないよね？",
+        "reading": "",
+        "english": "No way. He didn’t do that, did he?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-271"
+    ],
+    "frequency": 271,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-34",
+    "japanese": "先生",
+    "reading": "せんせい",
+    "meaning": "teacher",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は日本語の<b>先生</b>になりたいです。",
+        "reading": "",
+        "english": "I want to become a Japanese teacher."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-277"
+    ],
+    "frequency": 277,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-282",
+    "japanese": "絶対",
+    "reading": "ぜったい",
+    "meaning": "absolutely",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "そんなことは<b>絶対</b>できないよ。",
+        "reading": "",
+        "english": "I can never ever do such a thing."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-278"
+    ],
+    "frequency": 278,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-137",
+    "japanese": "信じる",
+    "reading": "しんじる",
+    "meaning": "to&nbsp;believe, to&nbsp;trust",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼の言葉を<b>信じています</b>。",
+        "reading": "",
+        "english": "I believe his words."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-279"
+    ],
+    "frequency": 279,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-283",
+    "japanese": "理由",
+    "reading": "りゆう",
+    "meaning": "reason, cause",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "遅れた<b>理由</b>を教えてください。",
+        "reading": "",
+        "english": "Please tell me why you were late."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-280"
+    ],
+    "frequency": 280,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-284",
+    "japanese": "口",
+    "reading": "くち",
+    "meaning": "mouth",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>口</b>を大きく開けてください。",
+        "reading": "",
+        "english": "Open wide, please."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-281"
+    ],
+    "frequency": 281,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-285",
+    "japanese": "外",
+    "reading": "そと",
+    "meaning": "outside",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>外</b>は暑いよ。",
+        "reading": "",
+        "english": "It's hot outside."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-282"
+    ],
+    "frequency": 282,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-286",
+    "japanese": "逃げる",
+    "reading": "にげる",
+    "meaning": "to&nbsp;escape, to&nbsp;run away",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "鳥が窓から<b>逃げた</b>よ。",
+        "reading": "",
+        "english": "The bird flew out of the window."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-283"
+    ],
+    "frequency": 283,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-154",
+    "japanese": "忘れる",
+    "reading": "わすれる",
+    "meaning": "to&nbsp;forget",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "約束を<b>忘れないで</b>ください。",
+        "reading": "",
+        "english": "Please don't forget your promise."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-284"
+    ],
+    "frequency": 284,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-287",
+    "japanese": "誰か",
+    "reading": "だれか",
+    "meaning": "someone",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>誰か</b>に聞いてみてください。",
+        "reading": "",
+        "english": "Please try asking someone."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-285"
+    ],
+    "frequency": 285,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-288",
+    "japanese": "まるで",
+    "reading": "まるで",
+    "meaning": "just like, completely",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は<b>まるで</b>子供のようにはしゃいだよ。",
+        "reading": "",
+        "english": "He was excited just like a kid."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-286"
+    ],
+    "frequency": 286,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-289",
+    "japanese": "他",
+    "reading": "ほか",
+    "meaning": "another, somewhere else",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>他</b>に方法がありません。",
+        "reading": "",
+        "english": "There's no other way."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-287"
+    ],
+    "frequency": 287,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-290",
+    "japanese": "他",
+    "reading": "た",
+    "meaning": "other (esp. people and abstract matters)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "留学生はアジア人が多く、その<b>他</b>は3割です。",
+        "reading": "",
+        "english": "The majority of foreign students are Asian, with 30 percent from other regions."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-287"
+    ],
+    "frequency": 287,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-157",
+    "japanese": "さっき",
+    "reading": "さっき",
+    "meaning": "(only) a moment ago",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>さっき</b>の話を続けましょう。",
+        "reading": "",
+        "english": "Let's continue the conversation we had earlier."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-290"
+    ],
+    "frequency": 290,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-291",
+    "japanese": "問題",
+    "reading": "もんだい",
+    "meaning": "problem, question",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>問題</b>が一つあります。",
+        "reading": "",
+        "english": "There's one problem."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-291"
+    ],
+    "frequency": 291,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-158",
+    "japanese": "今度",
+    "reading": "こんど",
+    "meaning": "next time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>今度</b>はどこに行きたいですか。",
+        "reading": "",
+        "english": "Where do you want to go next time?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-292"
+    ],
+    "frequency": 292,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-183",
+    "japanese": "今度",
+    "reading": "こんど",
+    "meaning": "this time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>今度</b>のテストはとても難しかった。",
+        "reading": "",
+        "english": "The test this time was really difficult."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-292"
+    ],
+    "frequency": 292,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-293",
+    "japanese": "普通",
+    "reading": "ふつう",
+    "meaning": "normal, regular, average",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの店は料理もサービスも<b>普通</b>です。",
+        "reading": "",
+        "english": "The food and the service at that restaurant is average."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-293"
+    ],
+    "frequency": 293,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-143",
+    "japanese": "もちろん",
+    "reading": "もちろん",
+    "meaning": "of course, no doubt",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>もちろん</b>一緒に行きます。",
+        "reading": "",
+        "english": "Of course we'll go together."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-294"
+    ],
+    "frequency": 294,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-294",
+    "japanese": "心",
+    "reading": "こころ",
+    "meaning": "heart, mind",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は素直な<b>心</b>を持っている。",
+        "reading": "",
+        "english": "He has an honest heart."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-295"
+    ],
+    "frequency": 295,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-299",
+    "japanese": "以上",
+    "reading": "いじょう",
+    "meaning": "... or more, beyond",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "夏は３０度<b>以上</b>の日が何日もあります。",
+        "reading": "",
+        "english": "There are several days in the summer that are 30 degrees Celsius or more."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-298"
+    ],
+    "frequency": 298,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-300",
+    "japanese": "それで",
+    "reading": "それで",
+    "meaning": "then, so",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "昨日は熱がありました。<b>それで</b>、学校を休みました。",
+        "reading": "",
+        "english": "I had a fever yesterday. Because of this, I took the day off from school."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-298"
+    ],
+    "frequency": 298,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-301",
+    "japanese": "生きる",
+    "reading": "いきる",
+    "meaning": "to&nbsp;live, to&nbsp;exist",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "１００歳まで<b>生きたい</b>です。",
+        "reading": "",
+        "english": "I want to live to 100."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-300"
+    ],
+    "frequency": 300,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-302",
+    "japanese": "最初",
+    "reading": "さいしょ",
+    "meaning": "first, beginning",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "5ページの<b>最初</b>を見てください。",
+        "reading": "",
+        "english": "Please look at the beginning of page 5."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-302"
+    ],
+    "frequency": 302,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-303",
+    "japanese": "最後",
+    "reading": "さいご",
+    "meaning": "last, final",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "今日が夏休み<b>最後</b>の日だ。",
+        "reading": "",
+        "english": "Today's the last day of summer vacation."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-303"
+    ],
+    "frequency": 303,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-304",
+    "japanese": "日",
+    "reading": "ひ",
+    "meaning": "day",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "休みの<b>日</b>に本を読みます。",
+        "reading": "",
+        "english": "I read on free days."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-304"
+    ],
+    "frequency": 304,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-155",
+    "japanese": "守る",
+    "reading": "まもる",
+    "meaning": "to&nbsp;protect, to&nbsp;observe",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は約束を<b>守る</b>人です。",
+        "reading": "",
+        "english": "He's one to keep his promises."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-307"
+    ],
+    "frequency": 307,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-305",
+    "japanese": "間",
+    "reading": "あいだ",
+    "meaning": "interval",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "雲の<b>間</b>から月が出た。",
+        "reading": "",
+        "english": "The moon came out from between the clouds."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-308"
+    ],
+    "frequency": 308,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-306",
+    "japanese": "間",
+    "reading": "ま",
+    "meaning": "interval, duration of time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は少し<b>間</b>を置いてから返事した。",
+        "reading": "",
+        "english": "He responded after a short pause."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-308"
+    ],
+    "frequency": 308,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-307",
+    "japanese": "について",
+    "reading": "について",
+    "meaning": "concerning, regarding",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "日本の経済<b>について</b>調べています。",
+        "reading": "",
+        "english": "I am researching about the Japanese economy."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-309"
+    ],
+    "frequency": 309,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-310",
+    "japanese": "感じ",
+    "reading": "かんじ",
+    "meaning": "feeling, impression",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの子は<b>感じ</b>の良い子です。",
+        "reading": "",
+        "english": "That child seems like a good child."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-310"
+    ],
+    "frequency": 310,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-311",
+    "japanese": "胸",
+    "reading": "むね",
+    "meaning": "chest",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>胸</b>に少し痛みがあります。",
+        "reading": "",
+        "english": "I have a slight pain in my chest."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-311"
+    ],
+    "frequency": 311,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-312",
+    "japanese": "表情",
+    "reading": "ひょうじょう",
+    "meaning": "expression, look",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はとても<b>表情</b>が豊かですね。",
+        "reading": "",
+        "english": "He's very expressive."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-312"
+    ],
+    "frequency": 312,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-159",
+    "japanese": "これから",
+    "reading": "これから",
+    "meaning": "from now on, after this",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>これから</b>考えます。",
+        "reading": "",
+        "english": "I will think about it from now."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-313"
+    ],
+    "frequency": 313,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-313",
+    "japanese": "多い",
+    "reading": "おおい",
+    "meaning": "a lot",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6月は雨が<b>多い</b>です。",
+        "reading": "",
+        "english": "It rains a lot in June."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-314"
+    ],
+    "frequency": 314,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-145",
+    "japanese": "楽しい",
+    "reading": "たのしい",
+    "meaning": "fun, enjoyable",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はとても<b>楽しい</b>人です。",
+        "reading": "",
+        "english": "He's a very fun person."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-315"
+    ],
+    "frequency": 315,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-314",
+    "japanese": "初めて",
+    "reading": "はじめて",
+    "meaning": "for the first time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "東京に来るのは<b>初めて</b>です。",
+        "reading": "",
+        "english": "It's the first time I've been to Tokyo."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-316"
+    ],
+    "frequency": 316,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-315",
+    "japanese": "無理",
+    "reading": "むり",
+    "meaning": "unreasonable, impossible",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "毎日アルバイトをするのは<b>無理</b>です。",
+        "reading": "",
+        "english": "It's impossible to work part-time everyday."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-317"
+    ],
+    "frequency": 317,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-84",
+    "japanese": "一番",
+    "reading": "いちばん",
+    "meaning": "(the) most",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "これがこの町で<b>一番</b>高いビルです。",
+        "reading": "",
+        "english": "This is the tallest building in this town."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-318"
+    ],
+    "frequency": 318,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-82",
+    "japanese": "高い",
+    "reading": "たかい",
+    "meaning": "expensive",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "このカメラは<b>高い</b>ですね。",
+        "reading": "",
+        "english": "This camera is expensive."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-319"
+    ],
+    "frequency": 319,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-83",
+    "japanese": "高い",
+    "reading": "たかい",
+    "meaning": "high, tall",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "これがこの町で一番<b>高い</b>ビルです。",
+        "reading": "",
+        "english": "This is the tallest building in town."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-319"
+    ],
+    "frequency": 319,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-316",
+    "japanese": "欲しい",
+    "reading": "ほしい",
+    "meaning": "wanting, wishing for",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "小さいパソコンが<b>欲しい</b>です。",
+        "reading": "",
+        "english": "I want a small computer."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-320"
+    ],
+    "frequency": 320,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-104",
+    "japanese": "大きな",
+    "reading": "おおきな",
+    "meaning": "big, large",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>大きな</b>家に住みたい。",
+        "reading": "",
+        "english": "I want to live in a big house."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-321"
+    ],
+    "frequency": 321,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-317",
+    "japanese": "ごめん",
+    "reading": "ごめん",
+    "meaning": "sorry",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>ごめん</b>。ビールはない。",
+        "reading": "",
+        "english": "I am sorry. There is no beer."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-323"
+    ],
+    "frequency": 323,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-318",
+    "japanese": "覚える",
+    "reading": "おぼえる",
+    "meaning": "to&nbsp;memorize",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "毎日、漢字を<b>覚えます</b>。",
+        "reading": "",
+        "english": "I memorize kanji every day."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-324"
+    ],
+    "frequency": 324,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-319",
+    "japanese": "別に",
+    "reading": "べつに",
+    "meaning": "(not) particularly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>別に</b>好きじゃありません。",
+        "reading": "",
+        "english": "I don't particularly like it."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-325"
+    ],
+    "frequency": 325,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-320",
+    "japanese": "思い出す",
+    "reading": "おもいだす",
+    "meaning": "to&nbsp;recollect, to&nbsp;recall",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "大切な用事を<b>思い出しました</b>。",
+        "reading": "",
+        "english": "I just remembered an important thing I have to do."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-328"
+    ],
+    "frequency": 328,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-144",
+    "japanese": "とても",
+    "reading": "とても",
+    "meaning": "very",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この本は<b>とても</b>面白い。",
+        "reading": "",
+        "english": "This book is very interesting."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-329"
+    ],
+    "frequency": 329,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-99",
+    "japanese": "立つ",
+    "reading": "たつ",
+    "meaning": "stand, rise",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はステージに<b>立った</b>。",
+        "reading": "",
+        "english": "He stood on stage."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-330"
+    ],
+    "frequency": 330,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-321",
+    "japanese": "入れる",
+    "reading": "いれる",
+    "meaning": "to&nbsp;put in",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はかばんに手帳を<b>入れた</b>。",
+        "reading": "",
+        "english": "He put the notebook in his bag."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-331"
+    ],
+    "frequency": 331,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-160",
+    "japanese": "止める",
+    "reading": "とめる",
+    "meaning": "to&nbsp;stop (at some place)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あのビルの前で<b>止めて</b>ください。",
+        "reading": "",
+        "english": "Stop in front of that building, please."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-332"
+    ],
+    "frequency": 332,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-161",
+    "japanese": "止める",
+    "reading": "やめる",
+    "meaning": "to&nbsp;stop (doing something)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "話すのを<b>止めて</b>ください。",
+        "reading": "",
+        "english": "Please stop talking."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-332"
+    ],
+    "frequency": 332,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-322",
+    "japanese": "開く",
+    "reading": "あく",
+    "meaning": "to&nbsp;open",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "次の駅で右のドアが<b>開きます</b>。",
+        "reading": "",
+        "english": "Doors on the right side will open at the next stop."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-333"
+    ],
+    "frequency": 333,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-323",
+    "japanese": "開く",
+    "reading": "ひらく",
+    "meaning": "to&nbsp;open",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "32ページを<b>開いて</b>ください。",
+        "reading": "",
+        "english": "Please open to page 32."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-333"
+    ],
+    "frequency": 333,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-324",
+    "japanese": "残る",
+    "reading": "のこる",
+    "meaning": "to&nbsp;remain, to&nbsp;be left over",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "料理がたくさん<b>残りました</b>。",
+        "reading": "",
+        "english": "A lot of food was left over."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-334"
+    ],
+    "frequency": 334,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-325",
+    "japanese": "答える",
+    "reading": "こたえる",
+    "meaning": "to&nbsp;answer",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "先生の質問に<b>答えます</b>。",
+        "reading": "",
+        "english": "I will answer the teacher's question."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-335"
+    ],
+    "frequency": 335,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-326",
+    "japanese": "怖い",
+    "reading": "こわい",
+    "meaning": "fearful, be afraid, fearsome",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は犬が<b>怖い</b>です。",
+        "reading": "",
+        "english": "I'm scared of dogs."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-337"
+    ],
+    "frequency": 337,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-162",
+    "japanese": "頼む",
+    "reading": "たのむ",
+    "meaning": "to&nbsp;ask, to&nbsp;request",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私はハンバーガーを<b>頼みました</b>。",
+        "reading": "",
+        "english": "I ordered a hamburger."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-338"
+    ],
+    "frequency": 338,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-76",
+    "japanese": "ゆっくり",
+    "reading": "ゆっくり",
+    "meaning": "slowly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "もっと<b>ゆっくり</b>話してください。",
+        "reading": "",
+        "english": "Please speak more slowly."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-339"
+    ],
+    "frequency": 339,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-327",
+    "japanese": "年",
+    "reading": "ねん",
+    "meaning": "counter for years",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "韓国に5<b>年</b>いました。",
+        "reading": "",
+        "english": "I was in South Korea for five years."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-340"
+    ],
+    "frequency": 340,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-328",
+    "japanese": "年",
+    "reading": "とし",
+    "meaning": "year",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "新しい<b>年</b>が始まりました。",
+        "reading": "",
+        "english": "A new year has started."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-340"
+    ],
+    "frequency": 340,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-329",
+    "japanese": "取る",
+    "reading": "とる",
+    "meaning": "to&nbsp;take, to get",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "テストでいい点を<b>取った</b>。",
+        "reading": "",
+        "english": "I got a good grade on the test."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-341"
+    ],
+    "frequency": 341,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-330",
+    "japanese": "全て",
+    "reading": "すべて",
+    "meaning": "all, entirely",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼に<b>全て</b>のことを伝えた。",
+        "reading": "",
+        "english": "I told him everything."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-342"
+    ],
+    "frequency": 342,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-331",
+    "japanese": "助ける",
+    "reading": "たすける",
+    "meaning": "to&nbsp;help, to&nbsp;save",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女は病気の犬を<b>助けた</b>。",
+        "reading": "",
+        "english": "She helped a sick dog."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-344"
+    ],
+    "frequency": 344,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-332",
+    "japanese": "状況",
+    "reading": "じょうきょう",
+    "meaning": "state of affairs, conditions",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この<b>状況</b>では出発は難しいです。",
+        "reading": "",
+        "english": "It will be difficult to depart in these conditions."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-346"
+    ],
+    "frequency": 346,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-163",
+    "japanese": "許す",
+    "reading": "ゆるす",
+    "meaning": "to&nbsp;forgive, to&nbsp;permit",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は彼を<b>許しました</b>。",
+        "reading": "",
+        "english": "I forgave him."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-349"
+    ],
+    "frequency": 349,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-333",
+    "japanese": "確認",
+    "reading": "かくにん",
+    "meaning": "confirmation",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "もう一度、予約を<b>確認</b>した。",
+        "reading": "",
+        "english": "I confirmed my reservation one more time."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-350"
+    ],
+    "frequency": 350,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-164",
+    "japanese": "嬉しい",
+    "reading": "うれしい",
+    "meaning": "happy, glad",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼に会えて<b>嬉しかった</b>。",
+        "reading": "",
+        "english": "I was glad to be able to meet him."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-355"
+    ],
+    "frequency": 355,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-334",
+    "japanese": "消える",
+    "reading": "きえる",
+    "meaning": "to&nbsp;turn off, to&nbsp;disappear",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "電気が<b>消えている</b>ので、田中さんは部屋にいないでしょう。",
+        "reading": "",
+        "english": "The light is off, so Tanaka-san must not be in this room."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-357"
+    ],
+    "frequency": 357,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-165",
+    "japanese": "頑張る",
+    "reading": "がんばる",
+    "meaning": "to&nbsp;persevere, to&nbsp;do one's best",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "勉強もスポーツも<b>頑張っています</b>。",
+        "reading": "",
+        "english": "I do my best in sports and my studies."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-359"
+    ],
+    "frequency": 359,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-166",
+    "japanese": "なるほど",
+    "reading": "なるほど",
+    "meaning": "I see, really",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>なるほど</b>、よく分かりました。",
+        "reading": "",
+        "english": "I see, I understand quite well."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-361"
+    ],
+    "frequency": 361,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-335",
+    "japanese": "長い",
+    "reading": "ながい",
+    "meaning": "long",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女の髪はとても<b>長い</b>。",
+        "reading": "",
+        "english": "Her hair is very long."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-362"
+    ],
+    "frequency": 362,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-336",
+    "japanese": "驚く",
+    "reading": "おどろく",
+    "meaning": "to&nbsp;be surprised, to&nbsp;be astonished",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "夜中に道で大きな声がして、<b>驚きました</b>。",
+        "reading": "",
+        "english": "I was surprised by a loud voice on the street in the middle of the night."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-363"
+    ],
+    "frequency": 363,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-337",
+    "japanese": "腕",
+    "reading": "うで",
+    "meaning": "arm",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>腕</b>を回してください。",
+        "reading": "",
+        "english": "Please rotate your arm."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-366"
+    ],
+    "frequency": 366,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-338",
+    "japanese": "以外",
+    "reading": "いがい",
+    "meaning": "except for",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は雨の日<b>以外</b>は自転車で学校に行く。",
+        "reading": "",
+        "english": "I go to school by bicycle except on rainy days."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-367"
+    ],
+    "frequency": 367,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-167",
+    "japanese": "つまり",
+    "reading": "つまり",
+    "meaning": "in short, basically",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>つまり</b>、あなたは何も知らないのですね。",
+        "reading": "",
+        "english": "So, basically, you don't know anything."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-368"
+    ],
+    "frequency": 368,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-339",
+    "japanese": "困る",
+    "reading": "こまる",
+    "meaning": "to&nbsp;be at a loss, to&nbsp;be in trouble",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ケータイをなくして<b>困っています</b>。",
+        "reading": "",
+        "english": "I'm at a loss because I lost my cell phone."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-369"
+    ],
+    "frequency": 369,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1491",
+    "japanese": "一つ",
+    "reading": "ひとつ",
+    "meaning": "one (thing)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "それを<b>一つ</b>ください。",
+        "reading": "",
+        "english": "Please give me one of those."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-371"
+    ],
+    "frequency": 371,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-172",
+    "japanese": "今回",
+    "reading": "こんかい",
+    "meaning": "this time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "まあ<b>今回</b>は許してあげよう。",
+        "reading": "",
+        "english": "Well, I'll let you off this time."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-373"
+    ],
+    "frequency": 373,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-168",
+    "japanese": "国",
+    "reading": "くに",
+    "meaning": "country",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "どこの<b>国</b>が好きですか。",
+        "reading": "",
+        "english": "Which country do you like?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-374"
+    ],
+    "frequency": 374,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-340",
+    "japanese": "離れる",
+    "reading": "はなれる",
+    "meaning": "to&nbsp;be separated, to&nbsp;be apart",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "実家を4年間<b>離れていました</b>。",
+        "reading": "",
+        "english": "I was away from my parents' house for 4 years."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-376"
+    ],
+    "frequency": 376,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-341",
+    "japanese": "気",
+    "reading": "き",
+    "meaning": "spirit, temperament",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "旅行に行く<b>気</b>があるか彼女に聞かれました。",
+        "reading": "",
+        "english": "She asked if I was willing to travel."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-377"
+    ],
+    "frequency": 377,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-342",
+    "japanese": "書く",
+    "reading": "かく",
+    "meaning": "to&nbsp;write",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼に手紙を<b>書きました</b>。",
+        "reading": "",
+        "english": "I wrote him a letter."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-378"
+    ],
+    "frequency": 378,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-343",
+    "japanese": "光",
+    "reading": "ひかり",
+    "meaning": "light, flash",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この部屋は<b>光</b>がたくさん入って、いいね。",
+        "reading": "",
+        "english": "It’s nice how much light comes into this room, isn’t it?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-380"
+    ],
+    "frequency": 380,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-344",
+    "japanese": "走る",
+    "reading": "はしる",
+    "meaning": "to&nbsp;run",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は毎晩3キロ<b>走っています</b>。",
+        "reading": "",
+        "english": "Every night he runs three kilometers."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-381"
+    ],
+    "frequency": 381,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-169",
+    "japanese": "優しい",
+    "reading": "やさしい",
+    "meaning": "gentle, kind",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はとても<b>優しい</b>人です。",
+        "reading": "",
+        "english": "He's a very kind person."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-382"
+    ],
+    "frequency": 382,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-170",
+    "japanese": "嫌",
+    "reading": "いや",
+    "meaning": "disliking, unwilling (to do)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は待つのが<b>嫌</b>だ。",
+        "reading": "",
+        "english": "I dislike waiting."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-383"
+    ],
+    "frequency": 383,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-171",
+    "japanese": "そんなに",
+    "reading": "そんなに",
+    "meaning": "that much",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "A「毎日忙しいですか。」<br>B「<b>そんなに</b>忙しくないです。」",
+        "reading": "",
+        "english": "A: Are you busy every day?<br>B: No, not that much."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-384"
+    ],
+    "frequency": 384,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-345",
+    "japanese": "戦う",
+    "reading": "たたかう",
+    "meaning": "to&nbsp;wage war, to&nbsp;fight",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は最後まで<b>戦った</b>よ。",
+        "reading": "",
+        "english": "He fought to the very end."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-385"
+    ],
+    "frequency": 385,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-21",
+    "japanese": "あまり",
+    "reading": "あまり",
+    "meaning": "(not) very, (not) much",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "スポーツは<b>あまり</b>好きじゃありません。",
+        "reading": "",
+        "english": "I don't really like sports."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-388"
+    ],
+    "frequency": 388,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-346",
+    "japanese": "余り",
+    "reading": "あまり",
+    "meaning": "remainder, leftover",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>余り</b>は次回使いましょう。",
+        "reading": "",
+        "english": "Let's use the left-over portion next time."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-388"
+    ],
+    "frequency": 388,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-347",
+    "japanese": "全部",
+    "reading": "ぜんぶ",
+    "meaning": "all, everything",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "お弁当を<b>全部</b>食べました。",
+        "reading": "",
+        "english": "I ate all that was in the lunchbox."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-390"
+    ],
+    "frequency": 390,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-348",
+    "japanese": "瞬間",
+    "reading": "しゅんかん",
+    "meaning": "instant, moment",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "その<b>瞬間</b>、猫が跳び出しました。",
+        "reading": "",
+        "english": "At that instant, the cat ran out."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-391"
+    ],
+    "frequency": 391,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-173",
+    "japanese": "夜",
+    "reading": "よる",
+    "meaning": "evening, night",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "昨日の<b>夜</b>は家にいました。",
+        "reading": "",
+        "english": "I was at home last night."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-392"
+    ],
+    "frequency": 392,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-174",
+    "japanese": "買う",
+    "reading": "かう",
+    "meaning": "to&nbsp;buy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "昨日、シーディーを<b>買いました</b>。",
+        "reading": "",
+        "english": "Yesterday, I bought a CD."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-394"
+    ],
+    "frequency": 394,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-349",
+    "japanese": "説明",
+    "reading": "せつめい",
+    "meaning": "explanation",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この文法の<b>説明</b>は良く分かりません。",
+        "reading": "",
+        "english": "I don't really understand the explanation of this grammar."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-395"
+    ],
+    "frequency": 395,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-199",
+    "japanese": "飲む",
+    "reading": "のむ",
+    "meaning": "drink",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "水を<b>飲みます</b>。",
+        "reading": "",
+        "english": "I drink water."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-397"
+    ],
+    "frequency": 397,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-175",
+    "japanese": "今まで",
+    "reading": "いままで",
+    "meaning": "until now",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>今まで</b>どこにいたのですか。",
+        "reading": "",
+        "english": "Where have you been up until now?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-398"
+    ],
+    "frequency": 398,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-177",
+    "japanese": "あいつ",
+    "reading": "あいつ",
+    "meaning": "that guy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>あいつ</b>は本当にいい奴だ。",
+        "reading": "",
+        "english": "This guy is truly a great guy."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-400"
+    ],
+    "frequency": 400,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-176",
+    "japanese": "奴",
+    "reading": "やつ",
+    "meaning": "that guy, (s)he (usu. derogatory)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>奴</b>は人の言うことを聞かない。",
+        "reading": "",
+        "english": "That guy doesn't listen to what others tell him."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-401"
+    ],
+    "frequency": 401,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-178",
+    "japanese": "もし",
+    "reading": "もし",
+    "meaning": "if, in the event of...",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>もし</b>時間があったら、ランチをしませんか。",
+        "reading": "",
+        "english": "If you have time, would you like to get lunch?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-402"
+    ],
+    "frequency": 402,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-350",
+    "japanese": "決める",
+    "reading": "きめる",
+    "meaning": "to decide",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "会議の時間を<b>決めましょう</b>。",
+        "reading": "",
+        "english": "Let's decide the time of the meeting."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-403"
+    ],
+    "frequency": 403,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-179",
+    "japanese": "理解",
+    "reading": "りかい",
+    "meaning": "understanding, comprehension",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>理解</b>してくれてありがとう。",
+        "reading": "",
+        "english": "Thank you for understanding."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-404"
+    ],
+    "frequency": 404,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-351",
+    "japanese": "女性",
+    "reading": "じょせい",
+    "meaning": "woman, female",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "そのパーティーに<b>女性</b>は何人来ますか。",
+        "reading": "",
+        "english": "How many women are coming to that party?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-405"
+    ],
+    "frequency": 405,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-57",
+    "japanese": "いつ",
+    "reading": "いつ",
+    "meaning": "when",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女は<b>いつ</b>来ますか。",
+        "reading": "",
+        "english": "When is she coming?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-407"
+    ],
+    "frequency": 407,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-201",
+    "japanese": "時",
+    "reading": "とき",
+    "meaning": "time, occasion",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "暇な<b>時</b>は本を読んでいます。",
+        "reading": "",
+        "english": "In my free time, I read books."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-407"
+    ],
+    "frequency": 407,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-202",
+    "japanese": "時",
+    "reading": "じ",
+    "meaning": "hour, o'clock",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "A「何<b>時</b>ですか。」<br>B「3時です。」",
+        "reading": "",
+        "english": "A: What time is it?<br>B: It's 3 o'clock."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-407"
+    ],
+    "frequency": 407,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-180",
+    "japanese": "夢",
+    "reading": "ゆめ",
+    "meaning": "dream",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私の<b>夢</b>は先生になることです。",
+        "reading": "",
+        "english": "My dream is to become a teacher."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-408"
+    ],
+    "frequency": 408,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-352",
+    "japanese": "頂く",
+    "reading": "いただく",
+    "meaning": "to&nbsp;receive, to&nbsp;take (humble form)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "お客様にお菓子を<b>頂いた</b>。",
+        "reading": "",
+        "english": "A customer gave me some snacks."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-409"
+    ],
+    "frequency": 409,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-512",
+    "japanese": "頂きます",
+    "reading": "いただきます",
+    "meaning": "let's eat!, thank you for the meal",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>頂きます</b>。",
+        "reading": "",
+        "english": "Thank you for the meal."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-409"
+    ],
+    "frequency": 409,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-353",
+    "japanese": "敵",
+    "reading": "てき",
+    "meaning": "enemy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あそこに<b>敵</b>がひそんでいる。",
+        "reading": "",
+        "english": "The enemy is lurking there."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-410"
+    ],
+    "frequency": 410,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-354",
+    "japanese": "起きる",
+    "reading": "おきる",
+    "meaning": "to&nbsp;occur",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "近所で盗難事件が<b>起きました</b>。",
+        "reading": "",
+        "english": "Some burglaries occurred in the neighborhood."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-412"
+    ],
+    "frequency": 412,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-355",
+    "japanese": "起きる",
+    "reading": "おきる",
+    "meaning": "to&nbsp;get up, to&nbsp;get out of bed",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は毎朝6時に<b>起きます</b>。",
+        "reading": "",
+        "english": "I get up at six o'clock every morning."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-412"
+    ],
+    "frequency": 412,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-184",
+    "japanese": "おかしい",
+    "reading": "おかしい",
+    "meaning": "strange, suspicious",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼の様子が<b>おかしい</b>。",
+        "reading": "",
+        "english": "He's acting strange."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-414"
+    ],
+    "frequency": 414,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-356",
+    "japanese": "落ちる",
+    "reading": "おちる",
+    "meaning": "to&nbsp;fall",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "荷物が下に<b>落ちてしまいました</b>。",
+        "reading": "",
+        "english": "My bag fell down there."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-415"
+    ],
+    "frequency": 415,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-357",
+    "japanese": "足",
+    "reading": "あし",
+    "meaning": "leg, foot",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は<b>足</b>が長い。",
+        "reading": "",
+        "english": "He has long legs."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-416"
+    ],
+    "frequency": 416,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-358",
+    "japanese": "それに",
+    "reading": "それに",
+    "meaning": "in addition",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "連休はホテル代が高いです。<b>それに</b>、どこも人が多いです。",
+        "reading": "",
+        "english": "Hotel fairs are expensive during extended weekends. In addition, it's crowded everywhere."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-417"
+    ],
+    "frequency": 417,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-359",
+    "japanese": "先に",
+    "reading": "さきに",
+    "meaning": "before, ahead",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "では、私たちは<b>先に</b>出発します。",
+        "reading": "",
+        "english": "We will leave before you then."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-417"
+    ],
+    "frequency": 417,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-360",
+    "japanese": "魔法",
+    "reading": "まほう",
+    "meaning": "magic",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女はまるで<b>魔法</b>にかかったみたいだ。",
+        "reading": "",
+        "english": "She acts as if she is under a spell."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-419"
+    ],
+    "frequency": 419,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-186",
+    "japanese": "女の子",
+    "reading": "おんなのこ",
+    "meaning": "girl",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あの<b>女の子</b>を知っていますか。",
+        "reading": "",
+        "english": "Do you know that girl?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-420"
+    ],
+    "frequency": 420,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-361",
+    "japanese": "探す",
+    "reading": "さがす",
+    "meaning": "to&nbsp;look for, to&nbsp;search",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ピンクのセーターをずっと<b>探しています</b>。",
+        "reading": "",
+        "english": "I've been looking for a pink sweater for a while."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-421"
+    ],
+    "frequency": 421,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-362",
+    "japanese": "子供",
+    "reading": "こども",
+    "meaning": "child, kid",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "電車で<b>子供</b>が騒いでいた。",
+        "reading": "",
+        "english": "Kids were making a racket in the train."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-422"
+    ],
+    "frequency": 422,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-54",
+    "japanese": "明日",
+    "reading": "あした",
+    "meaning": "tomorrow",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>明日</b>、学校へ行きます。",
+        "reading": "",
+        "english": "Tomorrow, I will go to school."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-423"
+    ],
+    "frequency": 423,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-187",
+    "japanese": "寝る",
+    "reading": "ねる",
+    "meaning": "sleep",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "もう<b>寝よう</b>。",
+        "reading": "",
+        "english": "Let's sleep."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-427"
+    ],
+    "frequency": 427,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-80",
+    "japanese": "昨日",
+    "reading": "きのう",
+    "meaning": "yesterday",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>昨日</b>、友達に会った。",
+        "reading": "",
+        "english": "I met a friend yesterday."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-430"
+    ],
+    "frequency": 430,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-363",
+    "japanese": "怒る",
+    "reading": "おこる",
+    "meaning": "to&nbsp;get angry, to&nbsp;scold",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女が嘘をついたので、彼は<b>怒った</b>。",
+        "reading": "",
+        "english": "He was angry because she lied."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-431"
+    ],
+    "frequency": 431,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-188",
+    "japanese": "伝える",
+    "reading": "つたえる",
+    "meaning": "to&nbsp;convey, to&nbsp;transmit",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "みんなにこのことを<b>伝えて</b>ください。",
+        "reading": "",
+        "english": "Please tell everyone about this matter."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-432"
+    ],
+    "frequency": 432,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-364",
+    "japanese": "笑顔",
+    "reading": "えがお",
+    "meaning": "smile",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "赤ちゃんの<b>笑顔</b>が可愛い。",
+        "reading": "",
+        "english": "The baby's smile is cute."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-433"
+    ],
+    "frequency": 433,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-189",
+    "japanese": "小さい",
+    "reading": "ちいさい",
+    "meaning": "small",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私のカメラは<b>小さい</b>です。",
+        "reading": "",
+        "english": "My camera is small."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-434"
+    ],
+    "frequency": 434,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-190",
+    "japanese": "選ぶ",
+    "reading": "えらぶ",
+    "meaning": "to&nbsp;choose, to&nbsp;elect",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "プレゼントを<b>選ぶ</b>のはとても楽しいです。",
+        "reading": "",
+        "english": "Choosing presents is very fun."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-436"
+    ],
+    "frequency": 436,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-365",
+    "japanese": "先輩",
+    "reading": "せんぱい",
+    "meaning": "senior (at work, school, etc.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>先輩</b>からメール来た？",
+        "reading": "",
+        "english": "Did you get a text from your senior?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-437"
+    ],
+    "frequency": 437,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-366",
+    "japanese": "続く",
+    "reading": "つづく",
+    "meaning": "to&nbsp;continue, to&nbsp;keep up",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "雨の日が２週間も<b>続いています</b>。",
+        "reading": "",
+        "english": "Rainy days have continued for two weeks."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-438"
+    ],
+    "frequency": 438,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-367",
+    "japanese": "こんなに",
+    "reading": "こんなに",
+    "meaning": "this much, such",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>こんなに</b>面白い本は初めて読んだ。",
+        "reading": "",
+        "english": "It's the first time I read such an interesting book."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-438"
+    ],
+    "frequency": 438,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-368",
+    "japanese": "変",
+    "reading": "へん",
+    "meaning": "strange, funny",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>変</b>な音が聞こえます。",
+        "reading": "",
+        "english": "I hear a strange sound."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-439"
+    ],
+    "frequency": 439,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-369",
+    "japanese": "読む",
+    "reading": "よむ",
+    "meaning": "to&nbsp;read",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "日本語の本を<b>読みます</b>。",
+        "reading": "",
+        "english": "I read a Japanese language book."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-440"
+    ],
+    "frequency": 440,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-370",
+    "japanese": "当然",
+    "reading": "とうぜん",
+    "meaning": "natural, as a matter of course",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女が怒るのも<b>当然</b>だ。",
+        "reading": "",
+        "english": "It's natural that she would be angry."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-441"
+    ],
+    "frequency": 441,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-371",
+    "japanese": "情報",
+    "reading": "じょうほう",
+    "meaning": "information",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私はホテルの<b>情報</b>が知りたいです。",
+        "reading": "",
+        "english": "I'd like to know some information about the hotel."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-442"
+    ],
+    "frequency": 442,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-191",
+    "japanese": "座る",
+    "reading": "すわる",
+    "meaning": "to&nbsp;sit",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "どうぞ<b>座って</b>ください。",
+        "reading": "",
+        "english": "Please sit down."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-444"
+    ],
+    "frequency": 444,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-372",
+    "japanese": "見つける",
+    "reading": "みつける",
+    "meaning": "to&nbsp;find",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "新しい仕事を<b>見つけました</b>。",
+        "reading": "",
+        "english": "I found a new job."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-446"
+    ],
+    "frequency": 446,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-192",
+    "japanese": "簡単",
+    "reading": "かんたん",
+    "meaning": "simple, easy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "このテストはとても<b>簡単</b>です。",
+        "reading": "",
+        "english": "This test is really simple."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-448"
+    ],
+    "frequency": 448,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-373",
+    "japanese": "少女",
+    "reading": "しょうじょ",
+    "meaning": "girl",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>少女</b>は母親の手を握った。",
+        "reading": "",
+        "english": "The girl clasped her mother's hand."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-451"
+    ],
+    "frequency": 451,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-374",
+    "japanese": "大変",
+    "reading": "たいへん",
+    "meaning": "terrible, serious, grave",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>大変</b>なことが起こりました。",
+        "reading": "",
+        "english": "A terrible thing happened."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-452"
+    ],
+    "frequency": 452,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-375",
+    "japanese": "かなり",
+    "reading": "かなり",
+    "meaning": "fairly, rather",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は<b>かなり</b>英語が上手です。",
+        "reading": "",
+        "english": "He's pretty good at English."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-454"
+    ],
+    "frequency": 454,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-193",
+    "japanese": "お願い",
+    "reading": "おねがい",
+    "meaning": "favor",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>お願い</b>があります。",
+        "reading": "",
+        "english": "I have a favor to ask."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-456"
+    ],
+    "frequency": 456,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-376",
+    "japanese": "下",
+    "reading": "した",
+    "meaning": "under, below",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "財布は机の<b>下</b>にあった。",
+        "reading": "",
+        "english": "My purse was under the desk."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-457"
+    ],
+    "frequency": 457,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-377",
+    "japanese": "下",
+    "reading": "もと",
+    "meaning": "under (the supervision of)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私はその教授の<b>下</b>で論文を書いたの。",
+        "reading": "",
+        "english": "I wrote my thesis under that professor's supervision."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-457"
+    ],
+    "frequency": 457,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-378",
+    "japanese": "かかる",
+    "reading": "かかる",
+    "meaning": "to&nbsp;take (e.g. time or money)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "自転車で10分ぐらい<b>かかります</b>。",
+        "reading": "",
+        "english": "It takes about 10 minutes by bicycle."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-458"
+    ],
+    "frequency": 458,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-379",
+    "japanese": "掛かる",
+    "reading": "かかる",
+    "meaning": "to&nbsp;hang, to&nbsp;be hung",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "綺麗なカレンダーが<b>掛かっています</b>ね。",
+        "reading": "",
+        "english": "A beautiful calendar is hanging, isn't it?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-458"
+    ],
+    "frequency": 458,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-380",
+    "japanese": "一度",
+    "reading": "いちど",
+    "meaning": "once",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>一度</b>、花見をしたことがあります。",
+        "reading": "",
+        "english": "I went to flower viewing once before."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-459"
+    ],
+    "frequency": 459,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-381",
+    "japanese": "完全",
+    "reading": "かんぜん",
+    "meaning": "perfect, complete",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この古い寺院は今でも<b>完全</b>な形を保っているんだ。",
+        "reading": "",
+        "english": "This old Buddhist temple still maintains its complete form."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-461"
+    ],
+    "frequency": 461,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-382",
+    "japanese": "後ろ",
+    "reading": "うしろ",
+    "meaning": "back, behind",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>後ろ</b>を向いて。",
+        "reading": "",
+        "english": "Turn around."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-464"
+    ],
+    "frequency": 464,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-383",
+    "japanese": "泣く",
+    "reading": "なく",
+    "meaning": "to&nbsp;cry",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "妹はすぐに<b>泣く</b>。",
+        "reading": "",
+        "english": "My little sister cries easily."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-466"
+    ],
+    "frequency": 466,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-384",
+    "japanese": "状態",
+    "reading": "じょうたい",
+    "meaning": "state, condition",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ここは道の<b>状態</b>がとても悪いです。",
+        "reading": "",
+        "english": "The road is in a very bad state here."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-468"
+    ],
+    "frequency": 468,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-727",
+    "japanese": "娘",
+    "reading": "むすめ",
+    "meaning": "daughter",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私の<b>娘</b>はアメリカにいます。",
+        "reading": "",
+        "english": "My daughter is in America."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-471"
+    ],
+    "frequency": 471,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-194",
+    "japanese": "進む",
+    "reading": "すすむ",
+    "meaning": "to&nbsp;move forward",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "前に<b>進んで</b>ください。",
+        "reading": "",
+        "english": "Please move forward."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-473"
+    ],
+    "frequency": 473,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-385",
+    "japanese": "関係",
+    "reading": "かんけい",
+    "meaning": "relation(ship)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼はその事件に<b>関係</b>がない。",
+        "reading": "",
+        "english": "He has nothing to do with that incident."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-474"
+    ],
+    "frequency": 474,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-386",
+    "japanese": "向ける",
+    "reading": "むける",
+    "meaning": "to&nbsp;turn toward, to&nbsp;point at",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は上司に怒りの目を<b>向けた</b>んだよ。",
+        "reading": "",
+        "english": "He stared with angry eyes at his superior."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-476"
+    ],
+    "frequency": 476,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-387",
+    "japanese": "奥",
+    "reading": "おく",
+    "meaning": "inner part, back (of...)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "はさみは机の<b>奥</b>にあった。",
+        "reading": "",
+        "english": "The scissors were at the back of the desk."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-477"
+    ],
+    "frequency": 477,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-388",
+    "japanese": "軽い",
+    "reading": "かるい",
+    "meaning": "light",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "この靴はとても<b>軽い</b>。",
+        "reading": "",
+        "english": "These shoes are very light."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-478"
+    ],
+    "frequency": 478,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-389",
+    "japanese": "返す",
+    "reading": "かえす",
+    "meaning": "to&nbsp;return, to&nbsp;repay",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "図書館に本を<b>返した</b>。",
+        "reading": "",
+        "english": "I returned the book to the library."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-479"
+    ],
+    "frequency": 479,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-390",
+    "japanese": "現れる",
+    "reading": "あらわれる",
+    "meaning": "to&nbsp;appear, to&nbsp;emerge",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "雲の間から太陽が<b>現れました</b>。",
+        "reading": "",
+        "english": "The sun appeared between the clouds."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-481"
+    ],
+    "frequency": 481,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-391",
+    "japanese": "痛い",
+    "reading": "いたい",
+    "meaning": "hurt, ouch",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "歯が<b>痛い</b>です。",
+        "reading": "",
+        "english": "My tooth hurts."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-482"
+    ],
+    "frequency": 482,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-392",
+    "japanese": "どうやら",
+    "reading": "どうやら",
+    "meaning": "(seems) likely, seems like",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "明日は<b>どうやら</b>雨らしいよ。",
+        "reading": "",
+        "english": "Seems like it's going to rain tomorrow."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-483"
+    ],
+    "frequency": 483,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-195",
+    "japanese": "全く",
+    "reading": "まったく",
+    "meaning": "entirely, truly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私には<b>全く</b>分かりません。",
+        "reading": "",
+        "english": "I don't understand at all."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-484"
+    ],
+    "frequency": 484,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-393",
+    "japanese": "点ける",
+    "reading": "つける",
+    "meaning": "to&nbsp;switch on",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "電気を<b>点けて</b>ください。",
+        "reading": "",
+        "english": "Please turn on the light."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-486"
+    ],
+    "frequency": 486,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-394",
+    "japanese": "付ける",
+    "reading": "つける",
+    "meaning": "to&nbsp;attach, to&nbsp;set, to&nbsp;add",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "おまけを<b>付けました</b>。",
+        "reading": "",
+        "english": "I added a freebie."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-486"
+    ],
+    "frequency": 486,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-395",
+    "japanese": "一瞬",
+    "reading": "いっしゅん",
+    "meaning": "instant, for a moment",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>一瞬</b>自分の耳を疑ったよ。",
+        "reading": "",
+        "english": "I doubted my ears for an instant."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-487"
+    ],
+    "frequency": 487,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-196",
+    "japanese": "なぜ",
+    "reading": "なぜ",
+    "meaning": "why",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>なぜ</b>来なかったの。",
+        "reading": "",
+        "english": "Why didn't you come?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-488"
+    ],
+    "frequency": 488,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-396",
+    "japanese": "隠す",
+    "reading": "かくす",
+    "meaning": "to&nbsp;hide",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "僕に<b>隠している</b>ことは無いですか。",
+        "reading": "",
+        "english": "Is there anything you're hiding from me?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-489"
+    ],
+    "frequency": 489,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-397",
+    "japanese": "準備",
+    "reading": "じゅんび",
+    "meaning": "preparation, arrangements",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "明日の会議の<b>準備</b>をした。",
+        "reading": "",
+        "english": "I prepared for tomorrow's meeting."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-490"
+    ],
+    "frequency": 490,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-398",
+    "japanese": "そろそろ",
+    "reading": "そろそろ",
+    "meaning": "soon, about time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>そろそろ</b>始めましょうか。",
+        "reading": "",
+        "english": "It's about time to begin."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-491"
+    ],
+    "frequency": 491,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-198",
+    "japanese": "水",
+    "reading": "みず",
+    "meaning": "water",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>水</b>を飲みます。",
+        "reading": "",
+        "english": "I drink water."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-492"
+    ],
+    "frequency": 492,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-399",
+    "japanese": "落ち着く",
+    "reading": "おちつく",
+    "meaning": "to&nbsp;calm down,&nbsp;to&nbsp;settle in",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私の話を<b>落ち着いて</b>聞いてください。",
+        "reading": "",
+        "english": "Calm down and listen to me."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-493"
+    ],
+    "frequency": 493,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-400",
+    "japanese": "恥ずかしい",
+    "reading": "はずかしい",
+    "meaning": "embarrassing, shy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "とても<b>恥ずかしかった</b>。",
+        "reading": "",
+        "english": "It was very embarrassing."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-494"
+    ],
+    "frequency": 494,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-401",
+    "japanese": "場合",
+    "reading": "ばあい",
+    "meaning": "situation, case",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "分からない<b>場合</b>は私に聞いてください。",
+        "reading": "",
+        "english": "Please ask me in case you don't understand."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-495"
+    ],
+    "frequency": 495,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-402",
+    "japanese": "しっかり",
+    "reading": "しっかり",
+    "meaning": "tightly, firmly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "両手で<b>しっかり</b>持って。",
+        "reading": "",
+        "english": "Hold it firmly with both hands."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-496"
+    ],
+    "frequency": 496,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-403",
+    "japanese": "しっかり",
+    "reading": "しっかり",
+    "meaning": "mature, responsible",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼は若いのに<b>しっかり</b>してるね。",
+        "reading": "",
+        "english": "He is responsible even though he is young."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-496"
+    ],
+    "frequency": 496,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-404",
+    "japanese": "髪",
+    "reading": "かみ",
+    "meaning": "hair(style)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "昨日、<b>髪</b>を切りました。",
+        "reading": "",
+        "english": "I had my hair cut yesterday."
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-497"
+    ],
+    "frequency": 497,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-11",
+    "japanese": "本",
+    "reading": "ほん",
+    "meaning": "book",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いい<b>本</b>でしたね。",
+        "reading": "",
+        "english": "It was a good book, wasn't it?"
+      }
+    ],
+    "tags": [
+      "n5",
+      "kaishi-15k",
+      "freq-499"
+    ],
+    "frequency": 499,
+    "source": "kaishi-15k"
+  }
+]

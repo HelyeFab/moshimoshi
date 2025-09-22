@@ -1,0 +1,35 @@
+{
+  "totalCards": 16442,
+  "textbooks": {
+    "genki-1": {
+      "title": "Genki 1",
+      "cardCount": 1496
+    },
+    "genki-2": {
+      "title": "Genki 2",
+      "cardCount": 491
+    },
+    "genki-2-new": {
+      "title": "Genki 2 New",
+      "cardCount": 589
+    },
+    "minna-1": {
+      "title": "Minna 1",
+      "cardCount": 2029
+    },
+    "minna-2": {
+      "title": "Minna 2",
+      "cardCount": 1058
+    }
+  },
+  "vocabularySources": {
+    "kaishi-15k": {
+      "title": "Kaishi 15K",
+      "cardCount": 1500
+    },
+    "kanji-in-context": {
+      "title": "Kanji In Context",
+      "cardCount": 9279
+    }
+  }
+}

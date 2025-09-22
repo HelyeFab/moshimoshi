@@ -1,0 +1,1306 @@
+[
+  {
+    "id": "minna-2-7-1550211348954",
+    "japanese": "空",
+    "reading": "空",
+    "meaning": "sky",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "空[そら]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211413906",
+    "japanese": "西",
+    "reading": "西",
+    "meaning": "west",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "西[にし]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210368628",
+    "japanese": "運動します",
+    "reading": "運動します",
+    "meaning": "to (take) exercise",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "運動[うんどう]します",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210391893",
+    "japanese": "成功します",
+    "reading": "成功します",
+    "meaning": "to succeed",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "成功[せいこう]します",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210601742",
+    "japanese": "失敗します［試験に〜］",
+    "reading": "失敗します［試験に〜］",
+    "meaning": "to fail [an examination]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "失敗[しっぱい]します［ 試験[しけん]に〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210638945",
+    "japanese": "合格します［試験に〜］",
+    "reading": "合格します［試験に〜］",
+    "meaning": "to pass [an examination]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "合格[ごうかく]します［ 試験[しけん]に〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210682349",
+    "japanese": "やみます［雨が〜］",
+    "reading": "やみます［雨が〜］",
+    "meaning": "[rain] to stop",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "やみます［ 雨[あめ]が〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210704125",
+    "japanese": "晴れます",
+    "reading": "晴れます",
+    "meaning": "to clear up",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "晴[は]れます",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210719051",
+    "japanese": "曇ります",
+    "reading": "曇ります",
+    "meaning": "to get cloudy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "曇[くも]ります",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210768043",
+    "japanese": "続きます［熱が〜］",
+    "reading": "続きます［熱が〜］",
+    "meaning": "to continue [a high temperature/fever]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "続[つづ]きます［ 熱[ねつ]が〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210822254",
+    "japanese": "ひきます［かぜを〜］",
+    "reading": "ひきます［かぜを〜］",
+    "meaning": "to catch [a cold]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "ひきます［かぜを〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210838829",
+    "japanese": "冷やします",
+    "reading": "冷やします",
+    "meaning": "to cool",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "冷[ひ]やします",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210886184",
+    "japanese": "込みます［道が〜］",
+    "reading": "込みます［道が〜］",
+    "meaning": "[a road] to get crowded",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "込[こ]みます［ 道[みち]が〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210926802",
+    "japanese": "すきます［道が〜］",
+    "reading": "すきます［道が〜］",
+    "meaning": "[a road] to get less crowded",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "すきます［ 道[みち]が〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550210964888",
+    "japanese": "出ます［試合に〜］［パーティーに〜］",
+    "reading": "出ます［試合に〜］［パーティーに〜］",
+    "meaning": "to participate [in a match]; to attend [a party]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "出[で]ます［ 試合[しあい]に〜］［パーティーに〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211075768",
+    "japanese": "無理を します",
+    "reading": "無理を します",
+    "meaning": "to overdo things",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "無理[むり]を　します",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211103522",
+    "japanese": "十分［な］",
+    "reading": "十分［な］",
+    "meaning": "enough, sufficient",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "十分[じゅうぶん]［な］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211115144",
+    "japanese": "おかしい",
+    "reading": "おかしい",
+    "meaning": "strange, funny",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "おかしい",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211125949",
+    "japanese": "うるさい",
+    "reading": "うるさい",
+    "meaning": "noisy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "うるさい",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211144812",
+    "japanese": "先生",
+    "reading": "先生",
+    "meaning": "doctor",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "先生[せんせい]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211177128",
+    "japanese": "やけど",
+    "reading": "やけど",
+    "meaning": "burning (〜を　します：to get burned)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "やけど",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211215301",
+    "japanese": "けが",
+    "reading": "けが",
+    "meaning": "injury (〜を　します：to get injured)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "けが",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211283295",
+    "japanese": "せき",
+    "reading": "せき",
+    "meaning": "cough (〜を　します／〜が　出ます：to have a cough)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "せき",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211310991",
+    "japanese": "インフルエンザ",
+    "reading": "インフルエンザ",
+    "meaning": "influenza (i.e., the flu)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "インフルエンザ",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211362012",
+    "japanese": "太陽",
+    "reading": "太陽",
+    "meaning": "sun",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "太陽[たいよう]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211374104",
+    "japanese": "星",
+    "reading": "星",
+    "meaning": "star",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "星[ほし]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211388795",
+    "japanese": "風",
+    "reading": "風",
+    "meaning": "wind",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "風[かぜ]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211401365",
+    "japanese": "東",
+    "reading": "東",
+    "meaning": "east",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "東[ひがし]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211426060",
+    "japanese": "南",
+    "reading": "南",
+    "meaning": "south",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "南[みなみ]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211436715",
+    "japanese": "北",
+    "reading": "北",
+    "meaning": "north",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "北[きた]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211472024",
+    "japanese": "国際 〜",
+    "reading": "国際 〜",
+    "meaning": "international ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "国際[こくさい]　〜",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211500906",
+    "japanese": "水道",
+    "reading": "水道",
+    "meaning": "faucet, tap, water supply",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "水道[すいどう]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211524788",
+    "japanese": "エンジン",
+    "reading": "エンジン",
+    "meaning": "engine",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "エンジン",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211537577",
+    "japanese": "チーム",
+    "reading": "チーム",
+    "meaning": "team",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "チーム",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211549587",
+    "japanese": "今夜",
+    "reading": "今夜",
+    "meaning": "this evening",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "今夜[こんや]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211573288",
+    "japanese": "夕方",
+    "reading": "夕方",
+    "meaning": "late afternoon",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "夕方[ゆうがた]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211586924",
+    "japanese": "まえ",
+    "reading": "まえ",
+    "meaning": "a time in the past, before",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "まえ",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211596813",
+    "japanese": "遅く",
+    "reading": "遅く",
+    "meaning": "late (time)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "遅[おそ]く",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211628805",
+    "japanese": "こんなに",
+    "reading": "こんなに",
+    "meaning": "this (much, etc.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "こんなに",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211650764",
+    "japanese": "そんなに",
+    "reading": "そんなに",
+    "meaning": "that (much, etc.) (concerning a matter related to the listener)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "そんなに",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211678144",
+    "japanese": "あんなに",
+    "reading": "あんなに",
+    "meaning": "that (much, etc.) (concerning a matter not related to the speaker or the listener)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "あんなに",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211709211",
+    "japanese": "ヨーロッパ",
+    "reading": "ヨーロッパ",
+    "meaning": "Europe",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ヨーロッパ",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211734440",
+    "japanese": "元気",
+    "reading": "元気",
+    "meaning": "\u000evigor, energy, etc.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "元気[げんき]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211751796",
+    "japanese": "胃",
+    "reading": "胃",
+    "meaning": "stomach",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "胃[い]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211770141",
+    "japanese": "ストレス",
+    "reading": "ストレス",
+    "meaning": "\u000estress",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ストレス",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211785464",
+    "japanese": "それは いけませんえ。",
+    "reading": "それは いけませんえ。",
+    "meaning": "I'm sorry to hear that.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "それは　いけませんえ。",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211832234",
+    "japanese": "星占い",
+    "reading": "星占い",
+    "meaning": "horoscope",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "星[ほし] 占[うらな]い",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211860851",
+    "japanese": "牡牛座",
+    "reading": "牡牛座",
+    "meaning": "Taurus",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "牡[お] 牛[うし] 座[ざ]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211887181",
+    "japanese": "働きすぎ",
+    "reading": "働きすぎ",
+    "meaning": "overworking",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "働[はたら]きすぎ",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211905874",
+    "japanese": "困ります",
+    "reading": "困ります",
+    "meaning": "to be in trouble, have a problem",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "困[こま]ります",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211921545",
+    "japanese": "宝くじ",
+    "reading": "宝くじ",
+    "meaning": "lottery",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "宝[たから]くじ",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550211954997",
+    "japanese": "当たります［宝くじが〜］",
+    "reading": "当たります［宝くじが〜］",
+    "meaning": "to win [a lottery]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "当[あ]たります［ 宝[たから]くじが〜］",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550212003775",
+    "japanese": "恋愛",
+    "reading": "恋愛",
+    "meaning": "romantic love",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "恋愛[れんあい]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550212037757",
+    "japanese": "ラッキーアイテム",
+    "reading": "ラッキーアイテム",
+    "meaning": "something lucky",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ラッキーアイテム",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-7-1550212048081",
+    "japanese": "石",
+    "reading": "石",
+    "meaning": "stone",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "石[いし]",
+        "reading": "",
+        "english": "32"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "minna-2"
+    ],
+    "lesson": 7,
+    "textbook": "minna-2"
+  }
+]

@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "80414",
+    "japanese": "明日は大切な日だ。",
+    "english": "Tomorrow will be a big day."
+  },
+  {
+    "id": "80415",
+    "japanese": "明日は早起きしなければならない。ピクニックにいくのだから。",
+    "english": "We've got to get up early tomorrow. We're going on a picnic."
+  },
+  {
+    "id": "80416",
+    "japanese": "明日は早く起こしてくれ。",
+    "english": "Wake me up early tomorrow morning."
+  },
+  {
+    "id": "80417",
+    "japanese": "明日は雪になると思う。",
+    "english": "I believe it will be snowing tomorrow."
+  },
+  {
+    "id": "80418",
+    "japanese": "明日は雪だろう。",
+    "english": "It'll snow tomorrow."
+  },
+  {
+    "id": "80419",
+    "japanese": "明日は晴れるに決まってるよ。",
+    "english": "It ought to be fine tomorrow."
+  },
+  {
+    "id": "80420",
+    "japanese": "明日は晴れるといいと思う。",
+    "english": "I hope that it is fine tomorrow."
+  },
+  {
+    "id": "80421",
+    "japanese": "明日は晴れるといいですね。",
+    "english": "When it clears up tomorrow it is good."
+  },
+  {
+    "id": "80422",
+    "japanese": "明日は晴れるかしら。",
+    "english": "I wonder if it will clear up tomorrow."
+  },
+  {
+    "id": "80423",
+    "japanese": "明日は晴れるでしょうか。",
+    "english": "Will it be sunny tomorrow?"
+  },
+  {
+    "id": "80426",
+    "japanese": "明日は晴れだろうか。",
+    "english": "Will it be fine weather tomorrow?"
+  },
+  {
+    "id": "80427",
+    "japanese": "明日は晴れかどうか知りたいな。",
+    "english": "We want to know if it will be sunny tomorrow."
+  },
+  {
+    "id": "80428",
+    "japanese": "明日は勝てないかもしれない。",
+    "english": "We may not win tomorrow."
+  },
+  {
+    "id": "80429",
+    "japanese": "明日は暑くなるでしょうか。",
+    "english": "Will it be hot tomorrow?"
+  },
+  {
+    "id": "80430",
+    "japanese": "明日は暑くなるでしょう。",
+    "english": "It will be hot tomorrow."
+  },
+  {
+    "id": "80431",
+    "japanese": "明日は十時から会社にいます。",
+    "english": "I'll be in my office from ten tomorrow."
+  },
+  {
+    "id": "80432",
+    "japanese": "明日は時々にわか雨が降るかもしれない。",
+    "english": "Occasional showers are possible tomorrow."
+  },
+  {
+    "id": "80433",
+    "japanese": "明日は歯医者へいかねばならないでしょう。",
+    "english": "You will have to go to the dentist's tomorrow."
+  },
+  {
+    "id": "80435",
+    "japanese": "明日は降らないと思います。",
+    "english": "I don't think it'll rain tomorrow."
+  },
+  {
+    "id": "80436",
+    "japanese": "明日は君か彼が来ることになっている。",
+    "english": "Either you or he is supposed to come tomorrow."
+  },
+  {
+    "id": "80437",
+    "japanese": "明日は恐らく雨が降るでしょう。",
+    "english": "It will rain perhaps tomorrow."
+  },
+  {
+    "id": "80438",
+    "japanese": "明日は休みだ。",
+    "english": "It is a holiday tomorrow."
+  },
+  {
+    "id": "80439",
+    "japanese": "明日は休みます。",
+    "english": "I'll be absent tomorrow."
+  },
+  {
+    "id": "80440",
+    "japanese": "明日は学校が休みです。",
+    "english": "We have no school tomorrow."
+  },
+  {
+    "id": "80441",
+    "japanese": "明日は学校に遅れるなよ。",
+    "english": "Don't be late for school tomorrow."
+  },
+  {
+    "id": "80442",
+    "japanese": "明日は我が身。",
+    "english": "Tomorrow it might be me."
+  },
+  {
+    "id": "80443",
+    "japanese": "明日は家にいます。",
+    "english": "I will be at home tomorrow."
+  },
+  {
+    "id": "80444",
+    "japanese": "明日は何時の出発ですか。",
+    "english": "What time do we leave tomorrow?"
+  },
+  {
+    "id": "80446",
+    "japanese": "明日は英語のテストだろう、だったら今晩は数学の宿題にかかずらわっちゃだめだ。",
+    "english": "You have an English test tomorrow, so don't get bogged down in your math homework tonight."
+  },
+  {
+    "id": "80447",
+    "japanese": "明日は雨天ではなかろうかと思う。",
+    "english": "I'm afraid it will be rainy tomorrow."
+  },
+  {
+    "id": "80448",
+    "japanese": "明日雨は降らないと思うよ。",
+    "english": "I don't think that it will rain tomorrow."
+  },
+  {
+    "id": "80450",
+    "japanese": "明日は雨になるでしょう。",
+    "english": "It seems it'll rain tomorrow."
+  },
+  {
+    "id": "80451",
+    "japanese": "明日は雨になりそうだ。",
+    "english": "I'm afraid it's going to rain tomorrow."
+  },
+  {
+    "id": "80452",
+    "japanese": "明日は雨だろうか。",
+    "english": "Will it rain tomorrow?"
+  },
+  {
+    "id": "80453",
+    "japanese": "明日は雨が降るでしょうか。",
+    "english": "Will it rain tomorrow?"
+  },
+  {
+    "id": "80454",
+    "japanese": "明日は雨が降るだろうと思う。",
+    "english": "I am afraid it will rain tomorrow."
+  },
+  {
+    "id": "80455",
+    "japanese": "明日は雨が降るかもしれない。",
+    "english": "It may rain tomorrow."
+  },
+  {
+    "id": "80456",
+    "japanese": "明日は雨が降るかしら。",
+    "english": "I wonder if it will rain tomorrow."
+  },
+  {
+    "id": "80457",
+    "japanese": "明日は雨が降らないと思う。",
+    "english": "I don't think that it will rain tomorrow."
+  },
+  {
+    "id": "80459",
+    "japanese": "明日は雨が降っているのかどうかわからない。",
+    "english": "I can't tell if it will be raining tomorrow."
+  },
+  {
+    "id": "80460",
+    "japanese": "明日は雨かしら。",
+    "english": "I wonder if it will rain tomorrow."
+  },
+  {
+    "id": "80461",
+    "japanese": "明日は一日中家にいるつもりです。",
+    "english": "I plan to stay at home all day tomorrow."
+  },
+  {
+    "id": "80463",
+    "japanese": "明日は一日中レポートを作成しているでしょう。",
+    "english": "I will be working on my report all day tomorrow."
+  },
+  {
+    "id": "80464",
+    "japanese": "明日はまた新たな日がやってくる。",
+    "english": "Tomorrow is another day."
+  },
+  {
+    "id": "80465",
+    "japanese": "明日はまた暑くなるでしょうか。",
+    "english": "Will it be hot again tomorrow?"
+  },
+  {
+    "id": "80466",
+    "japanese": "明日はピクニックに行くつもりだ。",
+    "english": "I am going on a picnic tomorrow."
+  },
+  {
+    "id": "80468",
+    "japanese": "明日はどんな予定ですか。",
+    "english": "What's your schedule for tomorrow?"
+  },
+  {
+    "id": "80469",
+    "japanese": "明日はテストがあります。",
+    "english": "We have a test tomorrow."
+  },
+  {
+    "id": "80470",
+    "japanese": "明日はショーがあります。",
+    "english": "There is a show tomorrow."
+  },
+  {
+    "id": "80471",
+    "japanese": "明日はサッカーの試合だ。",
+    "english": "It's the soccer match tomorrow."
+  },
+  {
+    "id": "80472",
+    "japanese": "明日はクリスマスだ。",
+    "english": "Tomorrow is Christmas Day."
+  },
+  {
+    "id": "80473",
+    "japanese": "明日はきっと大雨が降るだろう。",
+    "english": "We anticipate a heavy rainfall tomorrow."
+  },
+  {
+    "id": "80474",
+    "japanese": "明日はきっと雨だよ。",
+    "english": "I bet it will rain tomorrow."
+  },
+  {
+    "id": "80475",
+    "japanese": "明日はお休みです。",
+    "english": "It is a holiday tomorrow."
+  },
+  {
+    "id": "80476",
+    "japanese": "明日、いつもより１時間早く出勤することはできますか。",
+    "english": "Is it possible for you to come to the office an hour earlier than usual tomorrow?"
+  },
+  {
+    "id": "80477",
+    "japanese": "明日はあなたはつまっていますか。",
+    "english": "Are you engaged for tomorrow?"
+  },
+  {
+    "id": "80478",
+    "japanese": "明日は６時に起きます。",
+    "english": "I'm getting up at six o'clock tomorrow morning."
+  },
+  {
+    "id": "80479",
+    "japanese": "明日は１０時間、勉強しなくてはならない。",
+    "english": "I'll have to study ten hours tomorrow."
+  },
+  {
+    "id": "80480",
+    "japanese": "明日は、朝市に行こう。",
+    "english": "Tomorrow let's go to the morning bazaar."
+  },
+  {
+    "id": "80481",
+    "japanese": "明日は、昔の友人が訪ねてくる。",
+    "english": "An old friend will call on me tomorrow."
+  },
+  {
+    "id": "80482",
+    "japanese": "明日は、寺巡りをしよう。",
+    "english": "Let's visit some temples tomorrow."
+  },
+  {
+    "id": "80483",
+    "japanese": "明日は、７時にモーニングコールをかけてもらうことにしよう。",
+    "english": "Let's arrange for a 7:00 a.m. wake-up call."
+  },
+  {
+    "id": "80484",
+    "japanese": "明日の予定は、天候によるね。",
+    "english": "Our plans for tomorrow depend on the weather."
+  },
+  {
+    "id": "80485",
+    "japanese": "明日の夕方はお暇ですか。",
+    "english": "Are you free tomorrow evening?"
+  },
+  {
+    "id": "80486",
+    "japanese": "明日の夕方、私たちはパーティーを開く予定だ。",
+    "english": "We are going to give a party tomorrow evening."
+  },
+  {
+    "id": "80487",
+    "japanese": "明日の夕方、きっとうちへ寄って下さい。",
+    "english": "Be sure to drop in to see us tomorrow evening."
+  },
+  {
+    "id": "80488",
+    "japanese": "明日の夜私のコンサートに来て。",
+    "english": "Come to my concert tomorrow evening."
+  },
+  {
+    "id": "80489",
+    "japanese": "明日の夜は多分雪だろう。",
+    "english": "It may well snow tomorrow night."
+  },
+  {
+    "id": "80490",
+    "japanese": "明日の夜は星が見えますか。",
+    "english": "Can the star be seen tomorrow night?"
+  },
+  {
+    "id": "80491",
+    "japanese": "明日の夜はどうですか。",
+    "english": "How about tomorrow night?"
+  },
+  {
+    "id": "80492",
+    "japanese": "明日の夜のディナーの予約をお願いします。",
+    "english": "I'd like to make reservations for dinner tomorrow."
+  },
+  {
+    "id": "80493",
+    "japanese": "明日の夜から雨だから置き傘をしていこう。",
+    "english": "It's supposed to rain tomorrow night, so let's leave our umbrellas until then."
+  },
+  {
+    "id": "80494",
+    "japanese": "明日の夜９時に集合です。",
+    "english": "We are to meet together at 9 o'clock tomorrow night."
+  },
+  {
+    "id": "80495",
+    "japanese": "明日の夜、映画に行かない？",
+    "english": "Wanna go to a movie tomorrow night?"
+  },
+  {
+    "id": "80496",
+    "japanese": "明日の晩五人のお客を迎えることになっている。",
+    "english": "We are to take in five guests tomorrow evening."
+  },
+  {
+    "id": "80498",
+    "japanese": "明日の晩テーブルを４人分予約したいのですが。",
+    "english": "I'd like to book a table for four for tomorrow night."
+  },
+  {
+    "id": "80499",
+    "japanese": "明日の晩、彼と夕食を一緒にすることになっているんで、そのときそれとなく打診してみるよ。",
+    "english": "I'm going to have dinner with him tomorrow night, so I'll feel him out then."
+  },
+  {
+    "id": "80500",
+    "japanese": "明日の天気は良くなるだろう。",
+    "english": "The weather outlook for tomorrow is not good."
+  },
+  {
+    "id": "80501",
+    "japanese": "明日の天気は晴れ時々雨でしょう。",
+    "english": "Tomorrow's weather should be sunny with occasional rain."
+  },
+  {
+    "id": "80502",
+    "japanese": "明日の天気はどうですか。",
+    "english": "What's the weather forecast for tomorrow?"
+  },
+  {
+    "id": "80504",
+    "japanese": "明日の天気がどうなるのか見当もつかない。",
+    "english": "I have no idea what the weather will be like tomorrow."
+  },
+  {
+    "id": "80505",
+    "japanese": "明日の天気がどうなるかを予想するのは難しい。",
+    "english": "It's hard to predict what the weather will be like tomorrow."
+  },
+  {
+    "id": "80507",
+    "japanese": "明日の朝立ち寄ってあなたを車に乗せていきましょう。",
+    "english": "I'll come by and pick you up tomorrow morning."
+  },
+  {
+    "id": "80508",
+    "japanese": "明日の朝、来なさい。",
+    "english": "Come tomorrow morning."
+  },
+  {
+    "id": "80509",
+    "japanese": "明日の朝忘れないで６時に私を起こしてください。",
+    "english": "Please remember to wake me up at six tomorrow morning."
+  },
+  {
+    "id": "80510",
+    "japanese": "明日の朝八時に誘いに行きます。",
+    "english": "I'll call for you at eight tomorrow morning."
+  },
+  {
+    "id": "80512",
+    "japanese": "明日の朝電話します。",
+    "english": "I'll call you up tomorrow morning."
+  },
+  {
+    "id": "80513",
+    "japanese": "明日の朝食はパンですか？ご飯ですか？",
+    "english": "Will tomorrow's breakfast be bread, or rice?"
+  },
+  {
+    "id": "80514",
+    "japanese": "明日の朝迎えに来るのを忘れないでね。",
+    "english": "Don't forget to pick me up tomorrow morning."
+  },
+  {
+    "id": "80515",
+    "japanese": "明日の朝私に会うのを忘れないで。",
+    "english": "Don't forget to see me tomorrow morning."
+  },
+  {
+    "id": "80516",
+    "japanese": "明日の朝、私たちは日本を発ちます。",
+    "english": "We are leaving Japan tomorrow morning."
+  },
+  {
+    "id": "80517",
+    "japanese": "明日の朝起きたら、素敵なものが見つかるよ。",
+    "english": "When you wake up tomorrow morning, you will find a wonderful thing."
+  },
+  {
+    "id": "80518",
+    "japanese": "明日の朝会社に電話してください。",
+    "english": "Call me at the office tomorrow morning."
+  },
+  {
+    "id": "80519",
+    "japanese": "明日の朝一番に彼に電話しよう。",
+    "english": "I'll call him first thing in the morning."
+  },
+  {
+    "id": "80520",
+    "japanese": "明日の朝まで待ちなさい。",
+    "english": "Wait until tomorrow morning."
+  },
+  {
+    "id": "80521",
+    "japanese": "明日の朝は早く出かけないといけないからな。",
+    "english": "We must be off early tomorrow morning."
+  },
+  {
+    "id": "80522",
+    "japanese": "明日の朝は早く起きろよ。",
+    "english": "Get up early tomorrow morning!"
+  },
+  {
+    "id": "80523",
+    "japanese": "明日の朝は早く起きなければいけませんよ。",
+    "english": "You have to wake up early tomorrow morning."
+  },
+  {
+    "id": "80524",
+    "japanese": "明日の朝は７時に起きなさい。",
+    "english": "Get up at seven tomorrow morning."
+  },
+  {
+    "id": "80525",
+    "japanese": "明日の朝に電話をいたします。",
+    "english": "I'll call you up tomorrow morning."
+  },
+  {
+    "id": "80526",
+    "japanese": "明日の朝なら空いています。",
+    "english": "Tomorrow morning will be OK."
+  },
+  {
+    "id": "80527",
+    "japanese": "明日の朝チェックアウトしたいのですが。",
+    "english": "I'd like to check out tomorrow morning."
+  },
+  {
+    "id": "80528",
+    "japanese": "明日の朝この手紙を出してください。",
+    "english": "Mail this letter tomorrow morning."
+  },
+  {
+    "id": "80529",
+    "japanese": "明日の朝から一緒にジョギング始めようね。",
+    "english": "Let's start jogging together from tomorrow morning."
+  },
+  {
+    "id": "80530",
+    "japanese": "明日の朝９時に電話を下さい。",
+    "english": "Call me at nine tomorrow morning."
+  },
+  {
+    "id": "80533",
+    "japanese": "明日の朝８時に駅で会いましょう。",
+    "english": "Let's meet at the station at eight tomorrow morning."
+  },
+  {
+    "id": "80534",
+    "japanese": "明日の朝７時に誘いに寄るよ。",
+    "english": "I'll call for you at 7 tomorrow morning."
+  },
+  {
+    "id": "80535",
+    "japanese": "明日の朝７時にモーニングコールしてください。",
+    "english": "I'd like a wake-up call at seven tomorrow morning."
+  },
+  {
+    "id": "80539",
+    "japanese": "明日の朝１台お願いできますか。",
+    "english": "Could I have one for tomorrow morning?"
+  },
+  {
+    "id": "80540",
+    "japanese": "明日の朝、必ず事務所にきなさい。",
+    "english": "Come to the office tomorrow morning without fail."
+  },
+  {
+    "id": "80541",
+    "japanese": "明日の朝、彼に早くきてもらってくれ。",
+    "english": "Have him come early tomorrow morning."
+  },
+  {
+    "id": "80542",
+    "japanese": "明日の朝、起床したときには太陽が輝いて、小鳥がさえずっているだろう。",
+    "english": "When I get up tomorrow morning, the sun will be shining and the birds will be singing."
+  },
+  {
+    "id": "80543",
+    "japanese": "明日の朝、何時にロビーに集合すればいいですか？",
+    "english": "What time should I come to the lobby tomorrow?"
+  },
+  {
+    "id": "80544",
+    "japanese": "明日の朝、駅であなたをお待ちしております。",
+    "english": "I'll be waiting for you at the station tomorrow morning."
+  },
+  {
+    "id": "80545",
+    "japanese": "明日の朝、この手紙を投函するのを覚えておいてください。",
+    "english": "Remember to mail this letter tomorrow morning."
+  },
+  {
+    "id": "80546",
+    "japanese": "明日の準備はできた？",
+    "english": "Did you get everything ready for tomorrow?"
+  },
+  {
+    "id": "80547",
+    "japanese": "明日の授業の準備をするべきだ。",
+    "english": "You should prepare for tomorrow's lessons."
+  },
+  {
+    "id": "80548",
+    "japanese": "明日の試験のことで緊張してはいけません。",
+    "english": "You mustn't be nervous about tomorrow's exam."
+  },
+  {
+    "id": "80549",
+    "japanese": "明日の今頃は大阪を見物しているでしょう。",
+    "english": "We will be doing the sights of Osaka about this time tomorrow."
+  },
+  {
+    "id": "80550",
+    "japanese": "明日の今頃は雨が降っていることでしょう。",
+    "english": "It will be raining at this time tomorrow."
+  },
+  {
+    "id": "80551",
+    "japanese": "明日の今ごろ私は試験を受けているだろう。",
+    "english": "I will be taking the exam about this time tomorrow."
+  },
+  {
+    "id": "80552",
+    "japanese": "明日の今ごろまでには、私はロンドンにいるでしょう。",
+    "english": "I will be in London by this time tomorrow."
+  },
+  {
+    "id": "80553",
+    "japanese": "明日の今ごろは太平洋の上を飛んでいることでしょう。",
+    "english": "I will be flying over the Pacific about this time tomorrow."
+  },
+  {
+    "id": "80554",
+    "japanese": "明日の今ごろは図書館で勉強しているでしょう。",
+    "english": "This time tomorrow I'll be studying in the library."
+  },
+  {
+    "id": "80555",
+    "japanese": "明日の今ごろはロンドン見物をしているでしょう。",
+    "english": "We'll be doing the sights of London about this time tomorrow."
+  },
+  {
+    "id": "80556",
+    "japanese": "明日の今ごろはパリの市内観光をしているでしょう。",
+    "english": "We'll be seeing the sights of Paris about this time tomorrow."
+  },
+  {
+    "id": "80557",
+    "japanese": "明日の今ごろはパリにいるはずだ。",
+    "english": "We should be in Paris by this time tomorrow."
+  },
+  {
+    "id": "80558",
+    "japanese": "明日の今ごろ、彼らは選手権を目指して戦っているところだろう。",
+    "english": "They will be fighting for the championship this time tomorrow."
+  },
+  {
+    "id": "80559",
+    "japanese": "明日の今ごろ、彼は蔵王でスキーをしているだろう。",
+    "english": "He will be skiing on Mt. Zao about this time tomorrow."
+  },
+  {
+    "id": "80560",
+    "japanese": "明日の今ごろ、私たちは富士山に登山中でしょう。",
+    "english": "About this time tomorrow, we'll be climbing Mt. Fuji."
+  },
+  {
+    "id": "80561",
+    "japanese": "明日の午後彼に会います。",
+    "english": "I see him tomorrow afternoon."
+  },
+  {
+    "id": "80562",
+    "japanese": "明日の午後は空いてますか？",
+    "english": "Are you free tomorrow afternoon?"
+  },
+  {
+    "id": "80563",
+    "japanese": "明日の午後もう一度来てください。その時にはもっとお話しする時間があるでしょうから。",
+    "english": "Come again tomorrow afternoon, when I will have more time to talk with you."
+  },
+  {
+    "id": "80564",
+    "japanese": "明日の午後に会いたいのですが。",
+    "english": "I'd like to see him tomorrow afternoon."
+  },
+  {
+    "id": "80565",
+    "japanese": "明日の午後にお目にかかりたいのですが。",
+    "english": "I'd like to see him tomorrow afternoon."
+  },
+  {
+    "id": "80566",
+    "japanese": "明日の午後ならいつでもおいでください。",
+    "english": "You may come at any time tomorrow afternoon."
+  },
+  {
+    "id": "80567",
+    "japanese": "明日の午後、テニスをしませんか。",
+    "english": "Won't you play tennis tomorrow afternoon?"
+  },
+  {
+    "id": "80568",
+    "japanese": "明日の午後に電話します。",
+    "english": "I will call you tomorrow afternoon."
+  },
+  {
+    "id": "80569",
+    "japanese": "明日の午後あいてる？",
+    "english": "Are you busy tomorrow afternoon?"
+  },
+  {
+    "id": "80570",
+    "japanese": "明日の午後７時に羽田に着きます。",
+    "english": "I'll arrive at Haneda Airport tomorrow evening at 7."
+  },
+  {
+    "id": "80571",
+    "japanese": "明日の午後、いつでもお出かけください。",
+    "english": "Go any time you want, tomorrow afternoon."
+  },
+  {
+    "id": "80572",
+    "japanese": "明日の計画はどうなっていますか。",
+    "english": "What's the program for tomorrow?"
+  },
+  {
+    "id": "80573",
+    "japanese": "明日の計画は立てていません。気楽にするつもりです。",
+    "english": "I don't have any plans for tomorrow. I'm going to take it easy."
+  },
+  {
+    "id": "80574",
+    "japanese": "明日の気温はどうだろうか。",
+    "english": "What's the temperature going to be tomorrow?"
+  },
+  {
+    "id": "80575",
+    "japanese": "明日の課題は何ですか。",
+    "english": "What's the assignment for tomorrow?"
+  },
+  {
+    "id": "80576",
+    "japanese": "明日のパーティーにはケータリングを手配しました。",
+    "english": "I arranged catering for tomorrow's party."
+  },
+  {
+    "id": "80577",
+    "japanese": "明日のこの時間までに、全てのものを整頓しておいてほしい。",
+    "english": "I want everything in order by this time tomorrow."
+  },
+  {
+    "id": "80578",
+    "japanese": "明日のお天気はどうかしら？",
+    "english": "I wonder what the weather will be tomorrow."
+  },
+  {
+    "id": "80580",
+    "japanese": "明日の６時に予約したいのですが。",
+    "english": "I'd like to make a reservation for 6 p.m. tomorrow."
+  },
+  {
+    "id": "80581",
+    "japanese": "明日の５時までに、君は報告書を提出しなければいけない。",
+    "english": "You are to hand in your report by 5:00 tomorrow."
+  },
+  {
+    "id": "80582",
+    "japanese": "明日の１１時に予約をしてありますが、時間を変更できますか。",
+    "english": "I have an appointment at eleven tomorrow, but can I change the time?"
+  },
+  {
+    "id": "80583",
+    "japanese": "明日になればきっと天候もよくなるだろう。",
+    "english": "The weather is bound to get better tomorrow."
+  },
+  {
+    "id": "80584",
+    "japanese": "明日ナンシーのお別れ会を開きます。",
+    "english": "We'll have a farewell party for Nancy tomorrow."
+  },
+  {
+    "id": "80585",
+    "japanese": "明日なら私と連絡が取れます。",
+    "english": "You can get in touch with me tomorrow."
+  },
+  {
+    "id": "80586",
+    "japanese": "明日ならどうですか。",
+    "english": "How about for tomorrow?"
+  },
+  {
+    "id": "80588",
+    "japanese": "明日どこかの工場へ見学に行くんですよね。",
+    "english": "You're visiting a factory tomorrow, aren't you?"
+  },
+  {
+    "id": "80589",
+    "japanese": "明日会いに来てください。",
+    "english": "You can visit me tomorrow."
+  },
+  {
+    "id": "80590",
+    "japanese": "明日という日もある。",
+    "english": "Tomorrow is another day."
+  },
+  {
+    "id": "80591",
+    "japanese": "明日で丸々１週間雨が降り続く事になっているでしょう。",
+    "english": "It will have been raining a whole week tomorrow."
+  },
+  {
+    "id": "80593",
+    "japanese": "明日で５日間雪が降り続くことになる。",
+    "english": "It will have been snowing for five days tomorrow."
+  },
+  {
+    "id": "80594",
+    "japanese": "明日で１週間雨が続く事になる。",
+    "english": "It will have been raining a week tomorrow."
+  },
+  {
+    "id": "80595",
+    "japanese": "明日で１週間雨が降り続いていることになる。",
+    "english": "It will have been raining for a week tomorrow."
+  },
+  {
+    "id": "80596",
+    "japanese": "明日ダンスに行く事になっています。",
+    "english": "We are going to a dance tomorrow."
+  },
+  {
+    "id": "80597",
+    "japanese": "明日たちます。",
+    "english": "I start tomorrow."
+  },
+  {
+    "id": "80598",
+    "japanese": "明日それをいただきに上がります。",
+    "english": "I will call for it tomorrow."
+  },
+  {
+    "id": "80599",
+    "japanese": "明日そのテープを返してください。",
+    "english": "Please bring back the tape tomorrow."
+  },
+  {
+    "id": "80600",
+    "japanese": "明日そのことについて彼に尋ねるつもりです。",
+    "english": "I will ask him about it tomorrow."
+  },
+  {
+    "id": "80601",
+    "japanese": "明日そのことについて彼に尋ねてみるつもりです。",
+    "english": "I will ask him about it tomorrow."
+  },
+  {
+    "id": "80602",
+    "japanese": "明日そのことについて彼に尋ねてみます。",
+    "english": "I will ask him about it tomorrow."
+  },
+  {
+    "id": "80604",
+    "japanese": "明日そちらへ持ってまいります。",
+    "english": "I'll bring it to you tomorrow."
+  },
+  {
+    "id": "80605",
+    "japanese": "明日お返事いたします。",
+    "english": "I'll answer you tomorrow."
+  },
+  {
+    "id": "80606",
+    "japanese": "明日この本を君に貸して挙げようと先日彼は私に言った。",
+    "english": "The other day he said to me, \"I will lend you this book tomorrow.\""
+  },
+  {
+    "id": "80607",
+    "japanese": "明日このラジオを修繕してもらおう。",
+    "english": "I'll have this radio fixed tomorrow."
+  },
+  {
+    "id": "80608",
+    "japanese": "明日このことについてお目にかからなくてはと思います。",
+    "english": "I'd better see you about this tomorrow."
+  },
+  {
+    "id": "80609",
+    "japanese": "明日ここへ戻ってくると彼は言った。",
+    "english": "He said that he would come back here tomorrow."
+  },
+  {
+    "id": "80610",
+    "japanese": "明日ここへくることを約束する。",
+    "english": "I promise that I'll be here tomorrow."
+  },
+  {
+    "id": "80611",
+    "japanese": "明日ここに必ず来なさい。",
+    "english": "Come here tomorrow without fail."
+  },
+  {
+    "id": "80612",
+    "japanese": "明日ここに７時にくるのを忘れるな。",
+    "english": "Don't forget to come here at seven tomorrow."
+  },
+  {
+    "id": "80613",
+    "japanese": "明日きっと伺います。",
+    "english": "I will come tomorrow without fail."
+  },
+  {
+    "id": "80614",
+    "japanese": "明日から梅雨前線が活発になります。",
+    "english": "The seasonal rain front is moving in tomorrow."
+  },
+  {
+    "id": "80615",
+    "japanese": "明日から仕事をはじめるのはあなたにとって都合がよいですか。",
+    "english": "Will it be convenient for you to start work tomorrow?"
+  },
+  {
+    "id": "80616",
+    "japanese": "明日から５連休だから、みんなルンルン気分だね。",
+    "english": "Everybody is in a good mood looking forward to the five-day holiday that starts tomorrow."
+  },
+  {
+    "id": "80617",
+    "japanese": "明日から２週間お願いします。",
+    "english": "For two weeks from tomorrow, please."
+  },
+  {
+    "id": "80618",
+    "japanese": "明日お宅に伺います。",
+    "english": "I'll pay you a visit at your house tomorrow."
+  },
+  {
+    "id": "80619",
+    "japanese": "明日お伺いしてもよろしいですか。",
+    "english": "Do you mind if I call on you tomorrow?"
+  },
+  {
+    "id": "80620",
+    "japanese": "明日お会い出来ますか。",
+    "english": "May I see you tomorrow?"
+  },
+  {
+    "id": "80621",
+    "japanese": "明日お会いしましょう。",
+    "english": "See you tomorrow."
+  },
+  {
+    "id": "80622",
+    "japanese": "明日お会いしたいのですが。",
+    "english": "I'd like to see you tomorrow."
+  },
+  {
+    "id": "80623",
+    "japanese": "明日おみえになるまでには、この小説を読み終えておきます。",
+    "english": "I will have finished reading this novel by the time you come tomorrow."
+  },
+  {
+    "id": "80624",
+    "japanese": "明日お暇ならば、京都のあちこちをご案内できます。",
+    "english": "If you are free tomorrow, I can show you around Kyoto."
+  },
+  {
+    "id": "80625",
+    "japanese": "明日おじを訪問する。",
+    "english": "I am seeing my uncle tomorrow."
+  },
+  {
+    "id": "80626",
+    "japanese": "明日おじが私たちを訪ねて来ることになっている。",
+    "english": "My uncle is coming to see us tomorrow."
+  },
+  {
+    "id": "80627",
+    "japanese": "明日おいでを願えますか。",
+    "english": "Could you come and see me tomorrow?"
+  },
+  {
+    "id": "80628",
+    "japanese": "明日エンジンのテストをする予定だ。",
+    "english": "We are going to do a test of the engine tomorrow."
+  },
+  {
+    "id": "80629",
+    "japanese": "明日伺ってもいいですか。",
+    "english": "May I come and see you tomorrow?"
+  },
+  {
+    "id": "80630",
+    "japanese": "明日あるいは晴れるかもしれない。",
+    "english": "It may possibly be fine tomorrow."
+  },
+  {
+    "id": "80631",
+    "japanese": "明日あなたを訪問します。",
+    "english": "I will call on you tomorrow."
+  },
+  {
+    "id": "80632",
+    "japanese": "明日電話をかけてもいいですか。",
+    "english": "May I call you tomorrow?"
+  },
+  {
+    "id": "80633",
+    "japanese": "明日あなたにご連絡して、時間を決めることにします。",
+    "english": "I'll get hold of you tomorrow and set up a time."
+  },
+  {
+    "id": "80635",
+    "japanese": "明日７時に起こしてくれませんか。",
+    "english": "Can you wake me up at 7:00 tomorrow?"
+  },
+  {
+    "id": "80636",
+    "japanese": "明日７時に起こしていただけますか。",
+    "english": "Can you wake me up at 7:00 tomorrow?"
+  },
+  {
+    "id": "80637",
+    "japanese": "明日３時にあなたにお会いしましょう。",
+    "english": "I will meet you at three o'clock tomorrow."
+  },
+  {
+    "id": "80638",
+    "japanese": "明日３マイル競争が行われる予定です。",
+    "english": "There's going to be a three-mile race tomorrow."
+  },
+  {
+    "id": "80639",
+    "japanese": "明日１日休ませてください。",
+    "english": "Will you let me have a holiday tomorrow?"
+  },
+  {
+    "id": "80640",
+    "japanese": "明日１０時にお会いできますか。",
+    "english": "Can I see you at ten tomorrow?"
+  },
+  {
+    "id": "80641",
+    "japanese": "明日…明日という日が遠い遠い先のことのように感じられた。",
+    "english": "Tomorrow ... tomorrow seemed such a long, long way off."
+  },
+  {
+    "id": "80642",
+    "japanese": "明日、友達の誕生会を開きます。",
+    "english": "I'm going to give a birthday party for my friend tomorrow."
+  },
+  {
+    "id": "80643",
+    "japanese": "明日、忘れずに彼に会いに行きなさい。",
+    "english": "Remember to see him tomorrow."
+  },
+  {
+    "id": "80644",
+    "japanese": "明日、必ず私に電話を下さい。",
+    "english": "Mind you call me up tomorrow."
+  },
+  {
+    "id": "80645",
+    "japanese": "明日、彼女に電話をかけなさい。",
+    "english": "Call her tomorrow."
+  },
+  {
+    "id": "80646",
+    "japanese": "明日、彼はあなたを訪問しないでしょう。",
+    "english": "He's not going to visit you tomorrow."
+  },
+  {
+    "id": "80647",
+    "japanese": "明日、彼と会うことになっているので、何か連絡があったら伝えるよ。",
+    "english": "Since I will see him tomorrow, I can give him a message if you want."
+  },
+  {
+    "id": "80648",
+    "japanese": "明日、東京見物をするのはいかがですか。",
+    "english": "What do you say to doing the sights of Tokyo tomorrow?"
+  },
+  {
+    "id": "80649",
+    "japanese": "明日、天気がよければピクニックに行くつもりです。",
+    "english": "We will go on a picnic if it is fine tomorrow."
+  },
+  {
+    "id": "80650",
+    "japanese": "明日、朝の仕事は休むつもりです。",
+    "english": "I'm taking tomorrow morning off from work."
+  },
+  {
+    "id": "80651",
+    "japanese": "明日、大事なプレゼンがあるって言うのに、余裕綽々だね。",
+    "english": "You're pretty calm, cool and collected for somebody who has a major presentation tomorrow."
+  },
+  {
+    "id": "80652",
+    "japanese": "明日、雪が降るだろう。",
+    "english": "It'll snow tomorrow."
+  },
+  {
+    "id": "80653",
+    "japanese": "明日、晴れるといいんだけど。",
+    "english": "I hope the weather will be fine tomorrow."
+  },
+  {
+    "id": "80654",
+    "japanese": "明日、食事でもどう？",
+    "english": "I was wondering if you'd like to join me for dinner tomorrow."
+  },
+  {
+    "id": "80655",
+    "japanese": "明日、叔父さんと会う約束があるんだ。",
+    "english": "I have an appointment with my uncle tomorrow."
+  },
+  {
+    "id": "80656",
+    "japanese": "明日、時間どおりにこちらにおいでいただけますか。",
+    "english": "Can I rely on you to be here on time tomorrow?"
+  },
+  {
+    "id": "80657",
+    "japanese": "明日、時間があるかなって思ってたんだけど・・・。",
+    "english": "I was wondering if you were free tomorrow."
+  },
+  {
+    "id": "80658",
+    "japanese": "明日、私は新しい車で母をつれて出かけます。",
+    "english": "I will take my mother out in my new car tomorrow."
+  },
+  {
+    "id": "80659",
+    "japanese": "明日、私の犬の世話をしていただけませんか。",
+    "english": "Will you look after my dog tomorrow?"
+  },
+  {
+    "id": "80660",
+    "japanese": "明日、私たちの教授は英国に帰るのよ。",
+    "english": "Tomorrow our professor is going back to England."
+  },
+  {
+    "id": "80661",
+    "japanese": "明日、お返事します。",
+    "english": "You shall have my answer tomorrow."
+  },
+  {
+    "id": "80662",
+    "japanese": "明日、月食が起こります。",
+    "english": "There will be a lunar eclipse tomorrow."
+  },
+  {
+    "id": "80663",
+    "japanese": "明日、月見の会があるだろう。",
+    "english": "They will have a moon-viewing party tomorrow."
+  },
+  {
+    "id": "80664",
+    "japanese": "明日、電話するよ。",
+    "english": "I'll call you up tomorrow."
+  },
+  {
+    "id": "80665",
+    "japanese": "明日、家に友達が来る。",
+    "english": "A friend's coming over tomorrow."
+  },
+  {
+    "id": "80666",
+    "japanese": "明日、駅でお出迎えしましょう。",
+    "english": "I will meet you at the station tomorrow."
+  },
+  {
+    "id": "80667",
+    "japanese": "明日、泳ぎに行こうよ。",
+    "english": "What do you say to going swimming tomorrow?"
+  },
+  {
+    "id": "80668",
+    "japanese": "明日、雨が降ればいいのに。",
+    "english": "I hope it rains tomorrow."
+  },
+  {
+    "id": "80669",
+    "japanese": "明日、雨が降るのだろうか。",
+    "english": "Will it rain tomorrow?"
+  },
+  {
+    "id": "80670",
+    "japanese": "明日、フォードを借りられますか。",
+    "english": "Can I borrow your Ford for tomorrow?"
+  },
+  {
+    "id": "80671",
+    "japanese": "明日、この報告書を発送するよういって下さい。",
+    "english": "Please remind me to mail the report tomorrow."
+  },
+  {
+    "id": "80672",
+    "japanese": "明日、きっと君を訪ねます。",
+    "english": "I will visit you tomorrow without fail."
+  },
+  {
+    "id": "80673",
+    "japanese": "明日、お邪魔してもかまいませんか。",
+    "english": "Do you mind my visiting you tomorrow?"
+  },
+  {
+    "id": "80674",
+    "japanese": "明朝忘れず私に会いに来なさい。",
+    "english": "You mustn't forget to come and see me tomorrow morning."
+  },
+  {
+    "id": "80675",
+    "japanese": "明朝必ず参ります。",
+    "english": "I'll come without fail tomorrow morning."
+  },
+  {
+    "id": "80676",
+    "japanese": "明朝は早起きしなければなりませんか。",
+    "english": "Do we have to get up early tomorrow morning?"
+  },
+  {
+    "id": "80677",
+    "japanese": "明朝お宅に伺ってもよろしいですか。",
+    "english": "May I call on you at your house tomorrow morning?"
+  },
+  {
+    "id": "80678",
+    "japanese": "明朝９時にお会いしましょう。",
+    "english": "I'll see you at nine tomorrow morning."
+  },
+  {
+    "id": "80679",
+    "japanese": "明朝８時までには彼らは学校に行ってしまっているでしょう。",
+    "english": "They will have gone to school by eight tomorrow morning."
+  },
+  {
+    "id": "80680",
+    "japanese": "明朝７時に私を車で迎えに来てくれますか。",
+    "english": "Will you pick me up at seven tomorrow morning?"
+  },
+  {
+    "id": "80682",
+    "japanese": "明朝６時にチェックアウトをしたい。",
+    "english": "I want to check out at 6 tomorrow morning."
+  },
+  {
+    "id": "80683",
+    "japanese": "明朝、われわれは早くに出発しなければならない。",
+    "english": "We'll have to set out early tomorrow morning."
+  },
+  {
+    "id": "80684",
+    "japanese": "明治は５対３のスコアで慶応に敗れた。",
+    "english": "Meiji was beaten by Keio by a score of three to five."
+  },
+  {
+    "id": "80685",
+    "japanese": "明子はフランスに何人かの友達がいる。",
+    "english": "Akiko has some friends in France."
+  },
+  {
+    "id": "80686",
+    "japanese": "明子にはハナという名の叔母さんがいます。",
+    "english": "Akiko has an aunt whose name is Hana."
+  },
+  {
+    "id": "80687",
+    "japanese": "明子にあったその瞬間から、彼は明子が好きになった。",
+    "english": "He took to Akiko from the moment he met her."
+  },
+  {
+    "id": "80688",
+    "japanese": "明細を教えていただけますか。",
+    "english": "I'd like you to itemize the charges."
+  },
+  {
+    "id": "80689",
+    "japanese": "明後日野球場に野球を見に行く予定だ。",
+    "english": "I plan to watch a game at the baseball field the day after tomorrow."
+  },
+  {
+    "id": "80690",
+    "japanese": "明後日雨が降れば、私は家にいます。",
+    "english": "If it rains the day after tomorrow I'll be inside."
+  },
+  {
+    "id": "80691",
+    "japanese": "明後日もし雨が降れば、私は家にいます。",
+    "english": "If it rains the day after tomorrow, I'll stay at home."
+  },
+  {
+    "id": "80692",
+    "japanese": "明後日までにこの仕事をやってしまわねばならぬ。",
+    "english": "I must get my work done by the day after tomorrow."
+  },
+  {
+    "id": "80693",
+    "japanese": "明後日までにこの仕事をやってしまわねばならない。",
+    "english": "I must get this work done by the day after tomorrow."
+  },
+  {
+    "id": "80694",
+    "japanese": "明後日の晩かえります。",
+    "english": "I'll come back the evening after next."
+  },
+  {
+    "id": "80695",
+    "japanese": "明後日ティーパーティーを開きましょう。",
+    "english": "Let's have a tea party the day after tomorrow."
+  },
+  {
+    "id": "80697",
+    "japanese": "明後日いらして下さい。",
+    "english": "Come and see me the day after tomorrow."
+  },
+  {
+    "id": "80698",
+    "japanese": "明後日、彼女は京都にむけ出発します。",
+    "english": "She will start for Kyoto the day after tomorrow."
+  },
+  {
+    "id": "80699",
+    "japanese": "明言はしなかったが、彼は私が嘘をついていると暗にほのめかした。",
+    "english": "He hasn't said so explicitly, but he's let it be understood that I was lying."
+  },
+  {
+    "id": "80700",
+    "japanese": "明確にしなければならない最初の点は、そのデザインが純粋に実験的なものであったということである。",
+    "english": "The first point that requires clarification is that the design was purely experimental."
+  },
+  {
+    "id": "80701",
+    "japanese": "明確にしなければならないのは次の４点である。",
+    "english": "Four points need to be made."
+  },
+  {
+    "id": "80703",
+    "japanese": "明確な陳述をしていただけませんか。",
+    "english": "Will you please make a specific statement?"
+  },
+  {
+    "id": "80704",
+    "japanese": "明確すぎて証明を要しない。",
+    "english": "It's so obvious we don't need proof."
+  },
+  {
+    "id": "80705",
+    "japanese": "明確さが一番大事です。",
+    "english": "Clarity comes first."
+  },
+  {
+    "id": "80706",
+    "japanese": "明るく微笑みながら、彼女は私に手を振った。",
+    "english": "She waved her hand to me, smiling brightly."
+  },
+  {
+    "id": "80707",
+    "japanese": "明るくなりはじめて、物が次第に見えるようになった。",
+    "english": "It began to be light, and things were becoming visible by degrees."
+  },
+  {
+    "id": "80708",
+    "japanese": "明るくなってきた。もうすぐ朝だ。",
+    "english": "It's getting light. Morning is coming."
+  },
+  {
+    "id": "80709",
+    "japanese": "明るい内にテントを張ってしまおう。",
+    "english": "Let's put up the tent while it is still light."
+  },
+  {
+    "id": "80710",
+    "japanese": "明るい色が私たちの目を引いた。",
+    "english": "The bright colors arrested our eyes."
+  },
+  {
+    "id": "80711",
+    "japanese": "子供の明るい笑い声が森の中に広がった。",
+    "english": "The children's laughs spread throughout the forest."
+  },
+  {
+    "id": "80712",
+    "japanese": "明るい気分になる。",
+    "english": "It makes me feel cheerful."
+  },
+  {
+    "id": "80713",
+    "japanese": "明らかに彼女は生物工学についてよく知っている。",
+    "english": "Clearly, she knows a lot about biotechnology."
+  },
+  {
+    "id": "80714",
+    "japanese": "彼女は明らかにその結果に満足していた。",
+    "english": "She was clearly satisfied with the results."
+  },
+  {
+    "id": "80715",
+    "japanese": "明らかに彼は答えを知っている。",
+    "english": "It is clear that he knows the answer."
+  },
+  {
+    "id": "80716",
+    "japanese": "明らかに彼は私が言ったことを理解していなかった。",
+    "english": "It was apparent that he did not understand what I had said."
+  },
+  {
+    "id": "80717",
+    "japanese": "明らかに彼は間違っている。",
+    "english": "Obviously he is wrong."
+  },
+  {
+    "id": "80718",
+    "japanese": "明らかに彼はミスをした。",
+    "english": "Evidently, he's made a mistake."
+  },
+  {
+    "id": "80719",
+    "japanese": "明らかに彼はそのような人ではない。",
+    "english": "Obviously, he's not that kind of person."
+  },
+  {
+    "id": "80720",
+    "japanese": "明らかに彼の責任だ。",
+    "english": "Obviously, he is to blame."
+  },
+  {
+    "id": "80721",
+    "japanese": "明らかに誰かが嘘をついている。",
+    "english": "Someone is obviously telling a lie."
+  },
+  {
+    "id": "80722",
+    "japanese": "明らかに君の間違いだ。",
+    "english": "Clearly you are mistaken."
+  },
+  {
+    "id": "80723",
+    "japanese": "明らかにこれが最も重要な点です。",
+    "english": "Clearly, this is the most important point."
+  },
+  {
+    "id": "80724",
+    "japanese": "明らかにうわさは真実ではない。",
+    "english": "Clearly, the rumor is not true."
+  },
+  {
+    "id": "80725",
+    "japanese": "明らかに、彼らは彼の富と地位を妬んでいる。",
+    "english": "Obviously, they are jealous of his wealth and status."
+  },
+  {
+    "id": "80726",
+    "japanese": "明らかに、彼は嘘をついている。",
+    "english": "Obviously, he is lying."
+  },
+  {
+    "id": "80727",
+    "japanese": "明け方近くは、ぐっと冷え込む。",
+    "english": "It gets extremely cold toward dawn."
+  },
+  {
+    "id": "80728",
+    "japanese": "明け方に寒かったので毛布をもう１枚掛けた。",
+    "english": "It was cold at dawn, so I put on another blanket."
+  },
+  {
+    "id": "80729",
+    "japanese": "明けましておめでとう。",
+    "english": "Happy New Year!"
+  },
+  {
+    "id": "80730",
+    "japanese": "明かり窓に届かない。",
+    "english": "I can't reach the transom."
+  },
+  {
+    "id": "80731",
+    "japanese": "明かりを消しなさい。",
+    "english": "Put out the light."
+  },
+  {
+    "id": "80732",
+    "japanese": "明かりを消して。",
+    "english": "Turn off the light."
+  },
+  {
+    "id": "80733",
+    "japanese": "明かりを消して、寝なさい。",
+    "english": "Put out the light and go to bed."
+  },
+  {
+    "id": "80734",
+    "japanese": "明かりを消さないで下さい。",
+    "english": "Don't turn off the light."
+  },
+  {
+    "id": "80735",
+    "japanese": "明かりをつけていただけません？",
+    "english": "Will you turn on the light?"
+  },
+  {
+    "id": "80736",
+    "japanese": "明かりは星のように輝いた。",
+    "english": "The light shone like so many stars."
+  },
+  {
+    "id": "80737",
+    "japanese": "明かりをつけっぱなしにしたままで寝てはいけない。",
+    "english": "Don't sleep with the light left on."
+  },
+  {
+    "id": "80738",
+    "japanese": "明かりはひとりでに消えた。",
+    "english": "The light went out by itself."
+  },
+  {
+    "id": "80739",
+    "japanese": "明かりは自然に消えた。",
+    "english": "The light went out by itself."
+  },
+  {
+    "id": "80740",
+    "japanese": "明かりが消えて、私たちは闇の中に取り残された。",
+    "english": "The light went out and we were left in the dark."
+  },
+  {
+    "id": "80741",
+    "japanese": "明かりが消え、私達は暗闇に残された。",
+    "english": "The light went out and we were left in the dark."
+  },
+  {
+    "id": "80742",
+    "japanese": "明かりが十分になかったので、本がよく読めなかった。",
+    "english": "Poor light hindered my reading."
+  },
+  {
+    "id": "80743",
+    "japanese": "明かりがパッとついた。",
+    "english": "The light came on suddenly."
+  },
+  {
+    "id": "80744",
+    "japanese": "明かりがつけっぱなしでしたよ。",
+    "english": "You left your lights on."
+  },
+  {
+    "id": "80745",
+    "japanese": "明かりがついているのだから、彼らが外出したはずがない。",
+    "english": "They can't have gone out because the light's on."
+  },
+  {
+    "id": "80746",
+    "japanese": "明かりがついているから彼は家にいるに違いない。",
+    "english": "He must be at home as the light is on."
+  },
+  {
+    "id": "80747",
+    "japanese": "明かりがついている。",
+    "english": "The light is on."
+  },
+  {
+    "id": "80749",
+    "japanese": "命有っての、物だね。",
+    "english": "Where there is life, there is hope."
+  },
+  {
+    "id": "80750",
+    "japanese": "命は誰でも惜しい。",
+    "english": "Life is dear to everybody."
+  },
+  {
+    "id": "80751",
+    "japanese": "命の種はまかれた。",
+    "english": "Life's seed is laid."
+  },
+  {
+    "id": "80752",
+    "japanese": "命のある間は希望がある。",
+    "english": "While there is life, there is hope."
+  },
+  {
+    "id": "80753",
+    "japanese": "命にかかわるような病気ではありません。",
+    "english": "It's not the sort of illness that puts your life at risk."
+  },
+  {
+    "id": "80754",
+    "japanese": "命じたとおりにやりなさい。",
+    "english": "Do as I told you to do."
+  },
+  {
+    "id": "80755",
+    "japanese": "命が縮む思いをした。",
+    "english": "I felt as if my life had been shortened."
+  },
+  {
+    "id": "80756",
+    "japanese": "命がけで探し出した。",
+    "english": "I found this at the risk of my life."
+  },
+  {
+    "id": "80758",
+    "japanese": "命ある限り希望あり。",
+    "english": "While there is life, there is hope."
+  },
+  {
+    "id": "80759",
+    "japanese": "命あっての物種。",
+    "english": "While there is life, there is hope."
+  },
+  {
+    "id": "80760",
+    "japanese": "名誉にかかわる問題なので、彼は怒った。",
+    "english": "He got angry because his honor was at stake."
+  },
+  {
+    "id": "80761",
+    "japanese": "名簿に私の名前も追加してください。",
+    "english": "Please add my name to the list."
+  },
+  {
+    "id": "80762",
+    "japanese": "名前を略さずに書きなさい。",
+    "english": "Write your name in full."
+  },
+  {
+    "id": "80764",
+    "japanese": "名前を書き終わったら日付も書いておきなさい。",
+    "english": "When you have written your name, write the date."
+  },
+  {
+    "id": "80765",
+    "japanese": "名前を呼ばれるまで、椅子にかけてお待ちください。",
+    "english": "Please have a seat and wait until your name is called."
+  },
+  {
+    "id": "80766",
+    "japanese": "名前を呼ばれるのが聞こえましたか。",
+    "english": "Did you hear your name called?"
+  },
+  {
+    "id": "80767",
+    "japanese": "名前を呼ばれて胸がどきどきした。",
+    "english": "My heart beat when I heard my name called."
+  },
+  {
+    "id": "80768",
+    "japanese": "名前を呼ばれた学生は試験を始めてください。",
+    "english": "Those students whose names have been called will begin their exams."
+  },
+  {
+    "id": "80769",
+    "japanese": "名前を呼ばれたら起立しなさい。",
+    "english": "Stand up when your name is called."
+  },
+  {
+    "id": "80772",
+    "japanese": "名前をすっかり忘れてしまいました。",
+    "english": "I quite forget your name."
+  },
+  {
+    "id": "80773",
+    "japanese": "名前は忘れてしまいましたが、ある作家がこの小説を書いたのです。",
+    "english": "A writer, whose name I have forgotten, wrote this novel."
+  },
+  {
+    "id": "80774",
+    "japanese": "名前は田中一郎です。",
+    "english": "My name is Ichiro Tanaka."
+  },
+  {
+    "id": "80775",
+    "japanese": "名前は知らないが、彼女の顔だけは知っている。",
+    "english": "I don't know her name, but I do know her by sight."
+  },
+  {
+    "id": "80776",
+    "japanese": "名前は似ているが、それらは決して同じではない。",
+    "english": "Although the names are similar, they are far from being the same."
+  },
+  {
+    "id": "80779",
+    "japanese": "名前はリンダで、トニーより１つ年下でした。",
+    "english": "Her name was Linda, and she was a year younger than Tony."
+  },
+  {
+    "id": "80780",
+    "japanese": "名前はちょっとわからないんですけど。",
+    "english": "I'm not sure of the name."
+  },
+  {
+    "id": "80781",
+    "japanese": "名前はすべてアルファベット順で載っています。",
+    "english": "All the names are listed in alphabetical order."
+  },
+  {
+    "id": "80783",
+    "japanese": "名前の混同が少しあった。",
+    "english": "There has been a little confusion of names."
+  },
+  {
+    "id": "80784",
+    "japanese": "名前と住所を言ってください。",
+    "english": "Name and address, please."
+  },
+  {
+    "id": "80785",
+    "japanese": "名前だけでしか彼を知らない。",
+    "english": "I know him only by name."
+  },
+  {
+    "id": "80786",
+    "japanese": "名前が書けないからといって彼をからかってはいけない。",
+    "english": "Don't make fun of him because he cannot write his name."
+  },
+  {
+    "id": "80787",
+    "japanese": "名前が書き終わったら日付も書いておきなさい。",
+    "english": "When you have written your name, please write the date."
+  },
+  {
+    "id": "80788",
+    "japanese": "名前が呼ばれるのを聞いた。",
+    "english": "I heard my name called."
+  },
+  {
+    "id": "80790",
+    "japanese": "名前が呼ばれたら返事をしろ。",
+    "english": "Answer to your name when it is called."
+  },
+  {
+    "id": "80791",
+    "japanese": "名前が呼ばれたら返事をしてください。",
+    "english": "Answer to your name when it is called."
+  },
+  {
+    "id": "80792",
+    "japanese": "名声を保つことは難しい。",
+    "english": "It is hard to maintain one's reputation."
+  },
+  {
+    "id": "80793",
+    "japanese": "名声を求める人々もいる。",
+    "english": "Some people go after fame."
+  },
+  {
+    "id": "80794",
+    "japanese": "名声を求めるな。",
+    "english": "Don't chase after fame."
+  },
+  {
+    "id": "80795",
+    "japanese": "名声は必ずしも成功に付き物というわけではない。",
+    "english": "Fame is not always an accompaniment of success."
+  },
+  {
+    "id": "80796",
+    "japanese": "名声に恥じないように行動するのはとてもむずかしい。",
+    "english": "It is very hard to live up to your reputation."
+  },
+  {
+    "id": "80797",
+    "japanese": "名声にもかかわらず、彼は幸せではない。",
+    "english": "Despite all his fame, he is not happy."
+  },
+  {
+    "id": "80798",
+    "japanese": "名声だけを目的にするのは間違っている。",
+    "english": "It is wrong to aim at fame only."
+  },
+  {
+    "id": "80799",
+    "japanese": "名所見物をしている。",
+    "english": "I'm seeing all the sights."
+  },
+  {
+    "id": "80800",
+    "japanese": "名所があまり多くて１、２日で見るわけにはいかなかった。",
+    "english": "There were too many sights to see in a day or two."
+  },
+  {
+    "id": "80801",
+    "japanese": "名詞から動詞が派生していることもあれば、その逆のこともある。",
+    "english": "Sometimes a verb is derived from a noun and sometimes it is the other way around."
+  },
+  {
+    "id": "80802",
+    "japanese": "名古屋は東京と大阪の間にあります。",
+    "english": "Nagoya is between Tokyo and Osaka."
+  },
+  {
+    "id": "80803",
+    "japanese": "名古屋は城で有名な都市だ。",
+    "english": "Nagoya is a city which is famous for its castle."
+  },
+  {
+    "id": "80804",
+    "japanese": "名古屋は京都の東の方にある。",
+    "english": "Nagoya is to the east of Kyoto."
+  },
+  {
+    "id": "80805",
+    "japanese": "名古屋は夏とても暑いのでいつも１日に２、３回は服を取り替えます。",
+    "english": "I usually have to change my clothes two or three times a day during the hot summer in Nagoya."
+  },
+  {
+    "id": "80806",
+    "japanese": "名古屋の次はどこですか。",
+    "english": "What's the stop after Nagoya?"
+  },
+  {
+    "id": "80807",
+    "japanese": "名古屋の夏を涼しく過ごすには扇風機が必須だ。",
+    "english": "In Nagoya summers a fan is essential to help stay cool."
+  },
+  {
+    "id": "80808",
+    "japanese": "名古屋の夏の暑さを我慢できますか。",
+    "english": "Can you stand the summer heat in Nagoya?"
+  },
+  {
+    "id": "80809",
+    "japanese": "名古屋は東京と大阪の間にある。",
+    "english": "Nagoya lies between Tokyo and Osaka."
+  },
+  {
+    "id": "80810",
+    "japanese": "名古屋と言えば、あなたは瀬戸へ行ったことはありますか。",
+    "english": "Speaking of Nagoya, have you ever been to Seto?"
+  },
+  {
+    "id": "80811",
+    "japanese": "名古屋で道を見つけるのは簡単だ。標識を見さえすればいい。",
+    "english": "Finding one's way around Nagoya is very simple. All you do is look at the signs."
+  },
+  {
+    "id": "80812",
+    "japanese": "名古屋で運転を代わってやった。",
+    "english": "I took over the wheel at Nagoya."
+  },
+  {
+    "id": "80814",
+    "japanese": "名案が浮かんだ。",
+    "english": "A good idea occurred to me."
+  },
+  {
+    "id": "80815",
+    "japanese": "名案が突然彼女に浮かんだ。",
+    "english": "A good idea suddenly struck her."
+  },
+  {
+    "id": "80816",
+    "japanese": "名案が心に浮かんだ。",
+    "english": "A great idea presented itself in my mind."
+  },
+  {
+    "id": "80817",
+    "japanese": "名を捨てて実を取る。",
+    "english": "Profit is better than fame."
+  },
+  {
+    "id": "80818",
+    "japanese": "名案が昨夜私の頭に浮かんだ。",
+    "english": "A good idea occurred to me last night."
+  },
+  {
+    "id": "80819",
+    "japanese": "名のある人たちはみんなレセプションに出席していた。",
+    "english": "Everybody who is anybody was present at the reception."
+  },
+  {
+    "id": "80820",
+    "japanese": "冥界の扉は開かれた。",
+    "english": "The nether gate was opened."
+  },
+  {
+    "id": "80821",
+    "japanese": "娘達は父親の死のショックから元気を取り戻した。",
+    "english": "The daughters recuperated from the shock of the death of their father."
+  },
+  {
+    "id": "80822",
+    "japanese": "娘達は二人ともが留学したがっているわけではない。",
+    "english": "It isn't that both daughters want to study abroad."
+  },
+  {
+    "id": "80823",
+    "japanese": "娘を女子校に入れた。",
+    "english": "I entered my daughter in a girl's school."
+  },
+  {
+    "id": "80824",
+    "japanese": "娘を学校に行かせてもいいですか。",
+    "english": "Can my daughter go to school?"
+  },
+  {
+    "id": "80825",
+    "japanese": "娘は来年成年に達します。",
+    "english": "My daughter will come of age next year."
+  },
+  {
+    "id": "80826",
+    "japanese": "娘は目に入れても痛くない。",
+    "english": "My daughter is the apple of my eye."
+  },
+  {
+    "id": "80827",
+    "japanese": "娘は未熟児でした。",
+    "english": "My daughter was premature."
+  },
+  {
+    "id": "80828",
+    "japanese": "娘は母親に同行して欲しいと頼んだ。",
+    "english": "The girl begged her mother to accompany her."
+  },
+  {
+    "id": "80829",
+    "japanese": "娘は生れた時８ポンドの重さだった。",
+    "english": "My daughter weighed eight pounds at birth."
+  },
+  {
+    "id": "80830",
+    "japanese": "娘は歯を矯正中です。",
+    "english": "My daughter has braces."
+  },
+  {
+    "id": "80831",
+    "japanese": "娘は私の上衣の袖にすがりついて、私を行かせまいとした。",
+    "english": "My daughter held on to my coat sleeve and would not let me go."
+  },
+  {
+    "id": "80832",
+    "japanese": "娘は私たちの看護にもかかわらず少しも良くないのです。",
+    "english": "Our daughter is none the better because we've been nursing."
+  },
+  {
+    "id": "80833",
+    "japanese": "娘は妻が着ていたドレスが着られるようになった。",
+    "english": "My daughter has grown into a dress my wife used to wear."
+  },
+  {
+    "id": "80834",
+    "japanese": "娘は今年成年になる。",
+    "english": "My daughter will come of age this year."
+  },
+  {
+    "id": "80835",
+    "japanese": "娘は言語や芸術よりも自然科学が好きです。",
+    "english": "My daughter prefers science to languages or art."
+  },
+  {
+    "id": "80836",
+    "japanese": "娘はやっと１５歳です。",
+    "english": "My daughter is barely fifteen."
+  },
+  {
+    "id": "80837",
+    "japanese": "娘の父親は金離れがいい。",
+    "english": "Her father is liberal with money."
+  },
+  {
+    "id": "80838",
+    "japanese": "娘の歯列を矯正していただきたいのです。",
+    "english": "I'd like to have her teeth straightened."
+  },
+  {
+    "id": "80839",
+    "japanese": "娘の永久歯がはえてきました。",
+    "english": "My daughter is cutting her permanent teeth."
+  },
+  {
+    "id": "80840",
+    "japanese": "娘たちのおしゃべりはいつまでも続いた。",
+    "english": "The girls' chatter was endless."
+  },
+  {
+    "id": "80842",
+    "japanese": "娘が無事に着いたかどうかと思って電話をかけようとしたが、通じなかった。",
+    "english": "Wondering if my daughter had arrived safely I tried to call her but couldn't get through."
+  },
+  {
+    "id": "80843",
+    "japanese": "娘が卒業した後は自分の好きに任せることにきめた。",
+    "english": "We have decided to leave our daughter to herself after she left school."
+  },
+  {
+    "id": "80844",
+    "japanese": "娘が帰って来たので彼の生活が明るくなった。",
+    "english": "The return of his daughter brightened his life."
+  },
+  {
+    "id": "80845",
+    "japanese": "娘が何か病気になったようだ。",
+    "english": "I think my daughter's coming down with something."
+  },
+  {
+    "id": "80846",
+    "japanese": "娘がマッチで指をやけどしてしまいました。",
+    "english": "Our daughter burned her finger with a match."
+  },
+  {
+    "id": "80847",
+    "japanese": "娘がときどき私の見舞いにきてくれた。",
+    "english": "My daughter came to see me from time to time."
+  },
+  {
+    "id": "80849",
+    "japanese": "彼には娘が１人いました。",
+    "english": "He had one daughter."
+  },
+  {
+    "id": "80850",
+    "japanese": "霧を通して、わずかに陸地をみわけることができた。",
+    "english": "The land could just be discerned through the mist."
+  },
+  {
+    "id": "80851",
+    "japanese": "霧はロンドンで見慣れた光景だった。",
+    "english": "Fog was a familiar sight in London."
+  },
+  {
+    "id": "80852",
+    "japanese": "霧は、吹き払う風が出てくるまで晴れないでしょう。",
+    "english": "The fog won't clear until there's a wind to blow it away."
+  },
+  {
+    "id": "80853",
+    "japanese": "霧の中から突然船が現れた。",
+    "english": "A boat suddenly appeared out of the mist."
+  },
+  {
+    "id": "80854",
+    "japanese": "霧の他には何も見えなかった。",
+    "english": "We could see nothing but fog."
+  },
+  {
+    "id": "80856",
+    "japanese": "霧のため全列車は運転休止となった。",
+    "english": "Railroad service was suspended because of the fog."
+  },
+  {
+    "id": "80857",
+    "japanese": "霧のため山の輪郭がぼんやりしていた。",
+    "english": "The mountain was blurred by fog."
+  },
+  {
+    "id": "80858",
+    "japanese": "霧のために、交通は一時不通になっている。",
+    "english": "Due to the fog, traffic is temporarily suspended."
+  },
+  {
+    "id": "80859",
+    "japanese": "霧で飛行機は離陸を妨げられた。",
+    "english": "The fog prevented the planes from taking off."
+  },
+  {
+    "id": "80860",
+    "japanese": "霧で谷が見えなかった。",
+    "english": "The valley was hidden from view in the mist."
+  },
+  {
+    "id": "80861",
+    "japanese": "霧で視界が１００メートルしかきかなかった。",
+    "english": "Fog has limited visibility to 100 meters."
+  },
+  {
+    "id": "80862",
+    "japanese": "その女の子が霧たちこめる森の中でなくなっちまった。",
+    "english": "The girl disappeared in the misty forest."
+  },
+  {
+    "id": "80863",
+    "japanese": "霧が立ち込めた。",
+    "english": "The fog closed in."
+  },
+  {
+    "id": "80864",
+    "japanese": "霧が立ちこめて見晴らしがきかなかった。",
+    "english": "A curtain of mist blocked our view."
+  },
+  {
+    "id": "80865",
+    "japanese": "霧が濃くなってきていますね。",
+    "english": "The fog is getting thicker."
+  },
+  {
+    "id": "80866",
+    "japanese": "霧が深かったので、歩いている人たちの姿を見分けるのは困難だった。",
+    "english": "It was foggy, so it was hard to make out the figures of people walking."
+  },
+  {
+    "id": "80867",
+    "japanese": "霧が急に濃くなってきた。",
+    "english": "The fog was thickening quickly."
+  },
+  {
+    "id": "80868",
+    "japanese": "霧がはれた。",
+    "english": "The fog has lifted."
+  },
+  {
+    "id": "80869",
+    "japanese": "霧がどんどん濃くなっている。",
+    "english": "The fog is growing thicker."
+  },
+  {
+    "id": "80870",
+    "japanese": "霧がとても濃かったので、一寸先も見えなかった。",
+    "english": "The mist was so dense that I could not see even an inch ahead."
+  },
+  {
+    "id": "80871",
+    "japanese": "霧がだんだん濃くなっている。",
+    "english": "The fog is growing thicker."
+  },
+  {
+    "id": "80872",
+    "japanese": "霧がすぐに晴れてくれればいいんだが。",
+    "english": "I hope the fog will go away soon."
+  },
+  {
+    "id": "80873",
+    "japanese": "矛盾する報告を受けて、その役員は自分の立場を考え直した。",
+    "english": "Conflicting reports prompted the director to reconsider her position."
+  },
+  {
+    "id": "80874",
+    "japanese": "無料なのですか。",
+    "english": "Is it free?"
+  },
+  {
+    "id": "80875",
+    "japanese": "無料で見本を配っています。",
+    "english": "They're giving away samples free."
+  },
+  {
+    "id": "80877",
+    "japanese": "無料でそれが得られる。",
+    "english": "You may get it free of charge."
+  },
+  {
+    "id": "80878",
+    "japanese": "無理強いするつもりはありません。",
+    "english": "I don't wanna press you."
+  },
+  {
+    "id": "80879",
+    "japanese": "無理を承知でやっていただけませんか。",
+    "english": "You must think it's impossible, but could you at least give it a try?"
+  },
+  {
+    "id": "80880",
+    "japanese": "無理をしないように。",
+    "english": "Don't exert yourself."
+  },
+  {
+    "id": "80881",
+    "japanese": "無理も通れば道理となる。",
+    "english": "Where might is master, justice is servant."
+  },
+  {
+    "id": "80882",
+    "japanese": "無理もないわ、はじめのうちは、そんな風に感じるものよね。",
+    "english": "You're bound to feel that way at first, I guess."
+  },
+  {
+    "id": "80883",
+    "japanese": "無理な相談じゃないだろう。",
+    "english": "I'm not asking for the moon."
+  },
+  {
+    "id": "80884",
+    "japanese": "無理だと思うわ。年中、仕事で手一杯の人だから。",
+    "english": "I don't think she could spare the time because she is always busy with her work."
+  },
+  {
+    "id": "80885",
+    "japanese": "無理するなよ！",
+    "english": "Don't work too hard!"
+  },
+  {
+    "id": "80888",
+    "japanese": "無理してはいけませんね。",
+    "english": "You should take it easy."
+  },
+  {
+    "id": "80889",
+    "japanese": "無理が彼の体にこたえ始めた。",
+    "english": "The strain is beginning to tell on him."
+  },
+  {
+    "id": "80890",
+    "japanese": "無理が通れば道理が引っ込む。",
+    "english": "Might makes right."
+  },
+  {
+    "id": "80891",
+    "japanese": "無用の立ち入り禁止。",
+    "english": "No admittance except on business."
+  },
+  {
+    "id": "80893",
+    "japanese": "無謀な男達が南極探検中に凍死した。",
+    "english": "The reckless men froze to death during their expedition to the Antarctic."
+  },
+  {
+    "id": "80894",
+    "japanese": "無謀な運転で二人の男は逮捕された。",
+    "english": "The two men were arrested for reckless driving."
+  },
+  {
+    "id": "80895",
+    "japanese": "無表情な女の人にいいよるのは、味つけの入ってないスープをすするようなものだ。",
+    "english": "Making love to an expressionless woman is like sipping soup without any seasoning."
+  },
+  {
+    "id": "80896",
+    "japanese": "無茶な事をしてるよ。",
+    "english": "He is riding for a fall."
+  },
+  {
+    "id": "80897",
+    "japanese": "無地の白い紙で十分です。",
+    "english": "Plain white paper will do."
+  },
+  {
+    "id": "80898",
+    "japanese": "無茶しなければよかった。",
+    "english": "I shouldn't have overdone it."
+  },
+  {
+    "id": "80899",
+    "japanese": "無断で欠席すべきではない。",
+    "english": "You should not be absent without notice."
+  },
+  {
+    "id": "80900",
+    "japanese": "無知は幸福。",
+    "english": "Ignorance is bliss."
+  },
+  {
+    "id": "80901",
+    "japanese": "無断でそこに駐車してはいけません。",
+    "english": "You must not park your car there without permission."
+  },
+  {
+    "id": "80903",
+    "japanese": "無駄足だったよ。",
+    "english": "It was a wild goose chase."
+  },
+  {
+    "id": "80904",
+    "japanese": "無駄使いは、とっくにやめていてよいころだ。",
+    "english": "It's high time you stopped wasting your money."
+  },
+  {
+    "id": "80905",
+    "japanese": "無駄使いしないようにね。計画的に使ってね。",
+    "english": "So use it wisely and don't waste it."
+  },
+  {
+    "id": "80906",
+    "japanese": "無駄口をたたくな。",
+    "english": "Don't waste your breath."
+  },
+  {
+    "id": "80907",
+    "japanese": "無駄遣いをするな。",
+    "english": "Don't waste your money."
+  },
+  {
+    "id": "80909",
+    "japanese": "無駄にした時間を埋め合わせるようにがんばって働いています。",
+    "english": "We are working hard to make up for lost time."
+  },
+  {
+    "id": "80910",
+    "japanese": "無駄にした時間を埋め合わせることは難しい。",
+    "english": "It is difficult to make up for wasted time."
+  },
+  {
+    "id": "80911",
+    "japanese": "無駄にした時間を取り戻したらどうなの。",
+    "english": "Why don't you make up for the lost time?"
+  },
+  {
+    "id": "80912",
+    "japanese": "無駄にした時間を取り戻しさえすれば。",
+    "english": "All you need to do is get back the time you have wasted."
+  },
+  {
+    "id": "80913",
+    "japanese": "無駄にした時間を取り返さなければならない。",
+    "english": "You must make up for lost time."
+  },
+  {
+    "id": "80914",
+    "japanese": "無駄な努力はしたくない。",
+    "english": "I do not want to exert myself in vain."
+  },
+  {
+    "id": "80915",
+    "japanese": "無駄な抵抗はやめなさい。",
+    "english": "It's useless to try and resist."
+  },
+  {
+    "id": "80916",
+    "japanese": "無声子音にこれらの規則を適用することは適切だと思われる。",
+    "english": "It seems appropriate to apply these rules to the voiceless consonants."
+  },
+  {
+    "id": "80918",
+    "japanese": "無数の小企業が不景気のときに倒産した。",
+    "english": "Thousands of small businesses went under during the recession."
+  },
+  {
+    "id": "80919",
+    "japanese": "無神論者が司教の説明をあざけった。",
+    "english": "The irreligious scoffed at the bishop's interpretation."
+  },
+  {
+    "id": "80921",
+    "japanese": "無条件でその計画に同意した。",
+    "english": "We agreed to the plan without qualification."
+  },
+  {
+    "id": "80922",
+    "japanese": "無情な男だったけれど、彼の目は涙で一杯になった。",
+    "english": "Hard as he was, his eyes filled with tears."
+  },
+  {
+    "id": "80923",
+    "japanese": "無邪気とはどういうものなのですか。",
+    "english": "What is it like to be innocent?"
+  },
+  {
+    "id": "80924",
+    "japanese": "無実を証明できなかったので、彼は故郷の町を去らなければならなかった。",
+    "english": "Unable to prove his innocence, he was forced to leave his native town."
+  },
+  {
+    "id": "80925",
+    "japanese": "無実だという彼の申し立てを信じますか。",
+    "english": "Do you believe his statement that he is innocent?"
+  },
+  {
+    "id": "80926",
+    "japanese": "無実だという彼の主張は誰も信じないだろう。",
+    "english": "Nobody will believe his assertion that he is innocent."
+  },
+  {
+    "id": "80928",
+    "japanese": "無事におつきになったと聞いて安心しました。",
+    "english": "I was relieved to hear that you had arrived safely."
+  },
+  {
+    "id": "80929",
+    "japanese": "無事だった乗客はほとんどいなかった。",
+    "english": "There were few passengers who were safe."
+  },
+  {
+    "id": "80930",
+    "japanese": "無視された気がした。",
+    "english": "I felt left out."
+  },
+  {
+    "id": "80931",
+    "japanese": "無試験で入学を許可された。",
+    "english": "I was admitted to school without having to take an entrance examination."
+  },
+  {
+    "id": "80932",
+    "japanese": "無罪の男が誤って逮捕された。",
+    "english": "An innocent man was arrested by mistake."
+  },
+  {
+    "id": "80933",
+    "japanese": "無罪の人々は、もちろん放免された。",
+    "english": "Of course, innocent people were released."
+  },
+  {
+    "id": "80934",
+    "japanese": "無言は承諾。",
+    "english": "Who is silent is held to consent."
+  },
+  {
+    "id": "80935",
+    "japanese": "無口だからなおさら彼が好きなのだ。",
+    "english": "I like him all the more for his reticence."
+  },
+  {
+    "id": "80936",
+    "japanese": "無言が記録されたためしはない。",
+    "english": "No silence was ever written down."
+  },
+  {
+    "id": "80937",
+    "japanese": "無気味な静けさが彼らの心胆を寒からしめた。",
+    "english": "The eerie silence struck terror into their hearts."
+  },
+  {
+    "id": "80940",
+    "japanese": "無鉛レギュラーを満タンにしてください。",
+    "english": "I'd like a full tank of regular unleaded."
+  },
+  {
+    "id": "80941",
+    "japanese": "無鉛レギュラーを１０ドル分いれてください。",
+    "english": "Ten dollars of regular unleaded, please."
+  },
+  {
+    "id": "80942",
+    "japanese": "無為なれば孤独を避けよ。孤独なれば無為を避けよ。",
+    "english": "If you are idle, be not solitary, if you are solitary, be not idle."
+  },
+  {
+    "id": "80943",
+    "japanese": "無くなったとあきらめていた財布がみつかって彼女は大変喜んだ。",
+    "english": "She was very glad to find the purse she had given up for lost."
+  },
+  {
+    "id": "80944",
+    "japanese": "無くなった１ドルはどこへ行ったのでしょう。",
+    "english": "Where is the missing dollar?"
+  },
+  {
+    "id": "80946",
+    "japanese": "無から有は生じ得ない。",
+    "english": "Nothing can come of nothing."
+  },
+  {
+    "id": "80947",
+    "japanese": "無から有は生じない。",
+    "english": "Nothing comes from nothing."
+  },
+  {
+    "id": "80948",
+    "japanese": "無い袖は振れぬ。",
+    "english": "You can't spend what you don't have."
+  },
+  {
+    "id": "80950",
+    "japanese": "夢をつかめ！",
+    "english": "Get the dream."
+  },
+  {
+    "id": "80951",
+    "japanese": "夢を叶えるためにはある程度の犠牲・努力・苦労は覚悟している。",
+    "english": "I've steeled myself to face a certain amount of sacrifice, effort and hardship if that's what it takes to fulfill my dream."
+  },
+  {
+    "id": "80952",
+    "japanese": "夢みたいだ。",
+    "english": "It's like a dream come true."
+  },
+  {
+    "id": "80953",
+    "japanese": "夢は本当になった。",
+    "english": "My dream has come true."
+  },
+  {
+    "id": "80954",
+    "japanese": "夢は必ずしも実現しないものだ。",
+    "english": "One's dreams do not always come true."
+  },
+  {
+    "id": "80955",
+    "japanese": "夢は時としてあたる。",
+    "english": "Dreams sometimes come true."
+  },
+  {
+    "id": "80956",
+    "japanese": "夢は叶った。",
+    "english": "Dreams came true."
+  },
+  {
+    "id": "80957",
+    "japanese": "夢は我々の性格の試金石である。",
+    "english": "Dreams are the touchstones of our characters."
+  },
+  {
+    "id": "80958",
+    "japanese": "夢はかないます。",
+    "english": "Dreams come true."
+  },
+  {
+    "id": "80959",
+    "japanese": "夢は、世界一周旅行。",
+    "english": "My dream is to take a round-the-world trip."
+  },
+  {
+    "id": "80960",
+    "japanese": "夢の世界ではどんなことでも起こりうる。",
+    "english": "Anything can happen in the world of dreams."
+  },
+  {
+    "id": "80961",
+    "japanese": "夢に欠けている主な事は首尾一貫性である。",
+    "english": "The main thing that dreams lack is consistency."
+  },
+  {
+    "id": "80962",
+    "japanese": "夢にも彼女にまた会えるとは思わなかった。",
+    "english": "Little did I think that I would ever see her again."
+  },
+  {
+    "id": "80964",
+    "japanese": "ここであなたに会うなんて夢にも思わなかった。",
+    "english": "Little did I dream that I would see you here."
+  },
+  {
+    "id": "80965",
+    "japanese": "夢ではないかもしれませんよ。",
+    "english": "It may not be a dream."
+  },
+  {
+    "id": "80966",
+    "japanese": "夢が生き生きと記憶に残ることもある。",
+    "english": "Dreams may be vivid and memorable."
+  },
+  {
+    "id": "80967",
+    "japanese": "夢が実現できて良かったですね。",
+    "english": "I'm very pleased that your dream came true."
+  },
+  {
+    "id": "80968",
+    "japanese": "夢が実現した。",
+    "english": "His dream came true."
+  },
+  {
+    "id": "80969",
+    "japanese": "夢がすべて叶いますように。",
+    "english": "May all my dreams come true."
+  },
+  {
+    "id": "80970",
+    "japanese": "夢うつつでテレビを見ていた。",
+    "english": "I was watching TV half sleeping."
+  },
+  {
+    "id": "80971",
+    "japanese": "務めを怠ったと言って彼は私をとがめた。",
+    "english": "He blamed me for neglecting my duty."
+  },
+  {
+    "id": "80973",
+    "japanese": "眠れないんですよ。",
+    "english": "I can't fall asleep."
+  },
+  {
+    "id": "80974",
+    "japanese": "眠れないので、私はただ時計を眺めている。",
+    "english": "I can't sleep, and I'm just looking at the clock."
+  },
+  {
+    "id": "80975",
+    "japanese": "眠る前に電気を消したほうがいいですよ。",
+    "english": "You had better turn off the light before you go to sleep."
+  },
+  {
+    "id": "80976",
+    "japanese": "眠る前にたばこの火を消すようにしなさい。",
+    "english": "See to it that your cigarette is put out before you go to bed."
+  },
+  {
+    "id": "80977",
+    "japanese": "眠ると体の機能がゆっくりになり、体温が下がる。",
+    "english": "When we are asleep, bodily functions slow down and body temperature falls."
+  },
+  {
+    "id": "80978",
+    "japanese": "眠るというより考える為に横になった。",
+    "english": "I lay down not so much to sleep as to think."
+  },
+  {
+    "id": "80979",
+    "japanese": "眠ることができなかった。",
+    "english": "I couldn't sleep."
+  },
+  {
+    "id": "80980",
+    "japanese": "眠りは最大の泥棒。人生の半分も盗んでしまう。",
+    "english": "Sleep is the greatest thief, for it steals half one's life."
+  },
+  {
+    "id": "80981",
+    "japanese": "眠りが浅いんだ。",
+    "english": "I'm a light sleeper."
+  },
+  {
+    "id": "80982",
+    "japanese": "眠らなくちゃ。",
+    "english": "I need to get some sleep."
+  },
+  {
+    "id": "80983",
+    "japanese": "眠ってる犬は眠らせておけ。",
+    "english": "Let a sleeping dog lie."
+  },
+  {
+    "id": "80984",
+    "japanese": "眠ってしまわないように気をつけなさい。",
+    "english": "Take care lest you should fall asleep."
+  },
+  {
+    "id": "80986",
+    "japanese": "眠っている赤ん坊を起こさないように注意しなさい。",
+    "english": "Take care not to awake the sleeping baby."
+  },
+  {
+    "id": "80987",
+    "japanese": "眠っている赤ちゃんを見るのは楽しい。",
+    "english": "It is delightful to look at a sleeping baby."
+  },
+  {
+    "id": "80989",
+    "japanese": "眠っている子どもというのは天使のようだ。",
+    "english": "A sleeping child looks like an angel."
+  },
+  {
+    "id": "80991",
+    "japanese": "眠っている間に財布を盗まれた。",
+    "english": "I had my wallet stolen while I was asleep."
+  },
+  {
+    "id": "80992",
+    "japanese": "眠っているライオンを目覚めさせるな。",
+    "english": "Wake not a sleeping lion."
+  },
+  {
+    "id": "80993",
+    "japanese": "眠っているようだったが、本当は死んでいた。",
+    "english": "He looked asleep, but he was really dead."
+  },
+  {
+    "id": "80994",
+    "japanese": "眠っているの、トム。",
+    "english": "Are you sleeping, Tom?"
+  },
+  {
+    "id": "80995",
+    "japanese": "眠ったような町はにぎやかな都会に変わった。",
+    "english": "The sleepy town has been transformed into a bustling city."
+  },
+  {
+    "id": "80996",
+    "japanese": "眠くならないにはコーヒーを飲むのがいい。",
+    "english": "In order to stay awake, I may have to drink more coffee."
+  },
+  {
+    "id": "80997",
+    "japanese": "眠くなったので、私は寝た。",
+    "english": "Feeling sleepy, I went to bed."
+  },
+  {
+    "id": "80998",
+    "japanese": "眠くないんですか。",
+    "english": "Aren't you sleepy?"
+  },
+  {
+    "id": "80999",
+    "japanese": "眠くないからと言うだけで遅くまで起きていてはいけない。",
+    "english": "You should not sit up late just because it has charm."
+  },
+  {
+    "id": "81000",
+    "japanese": "眠かったので床についた。",
+    "english": "As I was sleepy, I went to bed."
+  },
+  {
+    "id": "81001",
+    "japanese": "眠かったけれども、宿題を終わらすことができた。",
+    "english": "Sleepy as I was, I managed to finish my homework."
+  },
+  {
+    "id": "81002",
+    "japanese": "眠い時や退屈な時にはあくびが出る。",
+    "english": "We yawn when sleepy or bored."
+  },
+  {
+    "id": "81003",
+    "japanese": "眠い時はコーヒーを飲んで気分転換してごらん。",
+    "english": "Refresh yourself with a cup of coffee when sleepy."
+  },
+  {
+    "id": "81004",
+    "japanese": "眠いときに勉強しても無駄だ。",
+    "english": "It is no use studying when you are sleepy."
+  },
+  {
+    "id": "81005",
+    "japanese": "眠いのは当然だ。",
+    "english": "No wonder I'm sleepy."
+  },
+  {
+    "id": "81006",
+    "japanese": "眠いから帰ります。",
+    "english": "I'm sleepy, so I am leaving now."
+  },
+  {
+    "id": "81007",
+    "japanese": "眠いですか？",
+    "english": "Are you sleepy?"
+  },
+  {
+    "id": "81008",
+    "japanese": "眠い！",
+    "english": "I'm sleepy!"
+  },
+  {
+    "id": "81009",
+    "japanese": "少数民族は偏見、貧困、抑圧と戦っている。",
+    "english": "Ethnic minorities struggle against prejudice, poverty, and oppression."
+  },
+  {
+    "id": "81010",
+    "japanese": "民生用・産業用を含めて、ゴミのかさをコンパクト化する機器の今後の市場成長性が法制度の動向と関連して注目される。",
+    "english": "Attention is focussed on the potential for growth of the personal and industrial use garbage compactor market in relation to trends in law."
+  },
+  {
+    "id": "81011",
+    "japanese": "民衆は支配者たちに反抗した。",
+    "english": "The people revolted against their rulers."
+  },
+  {
+    "id": "81012",
+    "japanese": "民衆は残酷な暴君によって虐げられていた。",
+    "english": "The people suffered under the cruel tyrant."
+  },
+  {
+    "id": "81013",
+    "japanese": "民衆は国王に対して反乱を起こした。",
+    "english": "People rose in revolt against the king."
+  },
+  {
+    "id": "81014",
+    "japanese": "民衆は圧制に立ち向かった。",
+    "english": "The people revolted against the tyranny."
+  },
+  {
+    "id": "81015",
+    "japanese": "民衆はまるで羊のように独裁者の後に従った。",
+    "english": "The people followed the dictator like so many sheep."
+  },
+  {
+    "id": "81016",
+    "japanese": "民主党は選挙運動のために民放テレビの放送枠を買いました。",
+    "english": "The Democrats bought space on commercial television for the campaign."
+  },
+  {
+    "id": "81017",
+    "japanese": "民主党は共和党に勝つと思いますか。",
+    "english": "Do you think the Democratic Party will get the better of the Republican Party?"
+  },
+  {
+    "id": "81018",
+    "japanese": "民主党はまだ候補者を決めていないが、どっちにしても負けるに決まっている。",
+    "english": "The Democrats haven't decided on their candidates yet, but in any case they're sure to lose."
+  },
+  {
+    "id": "81019",
+    "japanese": "民主主義国家に住む利点の一つは、自分が考えていることを何でもいうことが許されることである。",
+    "english": "One of the advantages of living in a democracy is that one is permitted to say whatever he thinks."
+  },
+  {
+    "id": "81020",
+    "japanese": "民主主義は政治形態の一つである。",
+    "english": "Democracy is one form of government."
+  },
+  {
+    "id": "81021",
+    "japanese": "民主主義は食料とかセメントのようには輸出できるものではない。",
+    "english": "Democracy is not exportable like food or cement."
+  },
+  {
+    "id": "81022",
+    "japanese": "民主主義は自由を積極的に認める。",
+    "english": "Democracy encourages freedom."
+  },
+  {
+    "id": "81023",
+    "japanese": "民主主義は古代ギリシャに始まった。",
+    "english": "Democracy originated in Ancient Greece."
+  },
+  {
+    "id": "81024",
+    "japanese": "民主主義の精神がわれわれの日常生活の中に浸透するには相当の年月がかかると思います。",
+    "english": "I believe it will be quite a long time before the spirit of democracy pervades our daily life."
+  },
+  {
+    "id": "81025",
+    "japanese": "民主主義の生命は個人の自由にある。",
+    "english": "Individual freedom is the soul of democracy."
+  },
+  {
+    "id": "81026",
+    "japanese": "民主主義の貴重な成果は国民にとって、非常に大切なものである。だから国民はこの民主主義の理念を維持するために戦う。",
+    "english": "The precious results of democracy are the apple of the people's eye and the people will fight to maintain these ideals."
+  },
+  {
+    "id": "81027",
+    "japanese": "民主主義に対する信頼をなくした者もいる。",
+    "english": "Some have lost faith in democracy."
+  },
+  {
+    "id": "81028",
+    "japanese": "民主主義とは、人民の、人民による、人民のための政治である。",
+    "english": "Democracy is the government of the people, by the people, and for the people."
+  },
+  {
+    "id": "81029",
+    "japanese": "民主主義では、国民は直接政府の役人を選ぶ。",
+    "english": "In a democracy, the people elect their government officials directly."
+  },
+  {
+    "id": "81030",
+    "japanese": "民主国家では全ての国民は平等の権利を持つ。",
+    "english": "In a democracy, all citizens have equal rights."
+  },
+  {
+    "id": "81031",
+    "japanese": "民間機が軍事的領域を侵犯したとのことです。",
+    "english": "A commercial airplane allegedly violated military airspace."
+  },
+  {
+    "id": "81032",
+    "japanese": "民間企業に対する投資をもっと認めてほしい。",
+    "english": "I'm eager to be allowed to do more private-sector investment."
+  },
+  {
+    "id": "81033",
+    "japanese": "民の声は神の声。",
+    "english": "The voice of the people is the voice of God."
+  },
+  {
+    "id": "81034",
+    "japanese": "妙な話だが、彼女はそのことをとても良く知っている。",
+    "english": "Strange to say, she knows the fact very well."
+  },
+  {
+    "id": "81035",
+    "japanese": "妙な話だが、私は何の痛みも感じなかった。",
+    "english": "Strange to say, I didn't feel any pain."
+  },
+  {
+    "id": "81036",
+    "japanese": "妙な音が聞こえた。",
+    "english": "I heard a strange sound."
+  },
+  {
+    "id": "81037",
+    "japanese": "妙な話だが、我々は誰もその間違いに気付かなかった。",
+    "english": "Strange to say, none of us noticed the mistake."
+  },
+  {
+    "id": "81038",
+    "japanese": "妙な噂が広がっている。",
+    "english": "Queer rumors are in the air."
+  },
+  {
+    "id": "81039",
+    "japanese": "妙なる調べに目ざめると。",
+    "english": "I wake up to the sound of music."
+  },
+  {
+    "id": "81040",
+    "japanese": "妙なことには、私は昨日同じ夢を２回みた。",
+    "english": "Strange to say, I dreamed the same dream twice last night."
+  },
+  {
+    "id": "81041",
+    "japanese": "妙なことに、彼女は突然いなくなった。",
+    "english": "Strange to say, she suddenly disappeared."
+  },
+  {
+    "id": "81042",
+    "japanese": "脈が遅いです。",
+    "english": "My pulse is slow."
+  },
+  {
+    "id": "81043",
+    "japanese": "脈がはやいです。",
+    "english": "My pulse is fast."
+  },
+  {
+    "id": "81044",
+    "japanese": "おい、脈がないぞ。",
+    "english": "Hey, there's no pulse."
+  },
+  {
+    "id": "81048",
+    "japanese": "佐渡さんは魅力的な個性の持ち主なのに、その価値が分からず、自分を好まない。",
+    "english": "Even though Sato has a nice personality, he doesn't know its value and doesn't like himself."
+  },
+  {
+    "id": "81049",
+    "japanese": "魅力的なホステスのために乾杯！",
+    "english": "Let's drink to our charming hostess!"
+  },
+  {
+    "id": "81050",
+    "japanese": "魅力は見る目を打つが、真価は魂を勝ち取る。",
+    "english": "Charms strike the sight, but merit wins the soul."
+  },
+  {
+    "id": "81051",
+    "japanese": "未来の実現へのただ一つの限界は、現在への疑いだろう。",
+    "english": "The only limit to our realization of tomorrow will be our doubts of today."
+  },
+  {
+    "id": "81052",
+    "japanese": "未来のパイロットは模擬操縦室で訓練される。",
+    "english": "The future pilot is trained in a mock cockpit."
+  },
+  {
+    "id": "81053",
+    "japanese": "未来のことをどうしてそんなに楽観できるんですか。",
+    "english": "How can you be so optimistic about the future?"
+  },
+  {
+    "id": "81054",
+    "japanese": "未来に何が起こるか知ることはできない。",
+    "english": "There is no knowing what will happen in the future."
+  },
+  {
+    "id": "81055",
+    "japanese": "未払い給料の受取りを諦めました。",
+    "english": "I gave up on receiving the unpaid salary."
+  },
+  {
+    "id": "81056",
+    "japanese": "未知の語に出会った時には、辞書で調べなければならない。",
+    "english": "When you come across new words, you must look them up in your dictionary."
+  },
+  {
+    "id": "81057",
+    "japanese": "未成年者は喫煙を禁じられている。",
+    "english": "Persons under age are prohibited from smoking."
+  },
+  {
+    "id": "81058",
+    "japanese": "未成年者はたばこを吸うのを禁じられている。",
+    "english": "Persons under age are prohibited from smoking."
+  },
+  {
+    "id": "81059",
+    "japanese": "未成年者の喫煙は法律で禁じられている。",
+    "english": "Minors are prohibited from smoking by law."
+  },
+  {
+    "id": "81060",
+    "japanese": "未成年者お断り。",
+    "english": "Adults only."
+  },
+  {
+    "id": "81061",
+    "japanese": "未だパリに行ったことがありません。",
+    "english": "I have never been to Paris."
+  },
+  {
+    "id": "81062",
+    "japanese": "味噌汁が温まった。",
+    "english": "The miso soup has heated up."
+  },
+  {
+    "id": "81063",
+    "japanese": "味見させてもらえますか。",
+    "english": "Could I have a sample taste?"
+  },
+  {
+    "id": "81064",
+    "japanese": "味は日本のお米に比べて遜色はありません。",
+    "english": "It tastes every bit as good as Japanese rice."
+  },
+  {
+    "id": "81065",
+    "japanese": "味はいかがですか。",
+    "english": "How about the taste?"
+  },
+  {
+    "id": "81066",
+    "japanese": "漫画を読むことはたいてい子供の気晴らしと見られている。",
+    "english": "Reading comics is usually viewed as the pastime of children."
+  },
+  {
+    "id": "81067",
+    "japanese": "漫画の下に「ホット・ドッグをどうぞ」と書いたのである。",
+    "english": "Under the cartoon, he wrote \"Get your hot dogs!\""
+  },
+  {
+    "id": "81068",
+    "japanese": "漫画と日本の映画産業の関係は、ベストセラーとハリウッドの関係に似ている。",
+    "english": "Manga are to the Japanese film industry what bestsellers are to Hollywood."
+  },
+  {
+    "id": "81069",
+    "japanese": "満腹はごちそうも同然。",
+    "english": "Enough is as good as a feast."
+  },
+  {
+    "id": "81070",
+    "japanese": "満腹なので、もうこれ以上食べられない。",
+    "english": "I am full, and I can eat no more."
+  },
+  {
+    "id": "81071",
+    "japanese": "満点を取るつもりだ。",
+    "english": "I intend to get full marks."
+  },
+  {
+    "id": "81072",
+    "japanese": "満足はごちそうと同じ位結構なもの。",
+    "english": "Enough is as good as a feast."
+  },
+  {
+    "id": "81073",
+    "japanese": "満足の色が彼の顔に浮かんだ。",
+    "english": "A look of contentment appeared on his face."
+  },
+  {
+    "id": "81074",
+    "japanese": "満足そうですね。",
+    "english": "You look contented."
+  },
+  {
+    "id": "81076",
+    "japanese": "満足している人は幸福である。",
+    "english": "Happy is a man who is contented."
+  },
+  {
+    "id": "81077",
+    "japanese": "満足したブタとなるよりも満足しないソクラテスとなる方が良い。",
+    "english": "It is better to be Socrates dissatisfied than a pig satisfied."
+  },
+  {
+    "id": "81078",
+    "japanese": "満席です。",
+    "english": "All the seats are booked."
+  },
+  {
+    "id": "81079",
+    "japanese": "満場一致というわけにはいかないけれど、君の提案は採択されたよ。",
+    "english": "It was by no means unanimous, but your proposal was selected."
+  },
+  {
+    "id": "81080",
+    "japanese": "満月でしたか新月でしたか。",
+    "english": "Was it a full moon or a new moon?"
+  },
+  {
+    "id": "81081",
+    "japanese": "満月が空にさえている。",
+    "english": "A full moon is shining bright in the sky."
+  },
+  {
+    "id": "81082",
+    "japanese": "満員電車の中は息が詰まりそうだった。",
+    "english": "I thought I was going to suffocate on the crowded train."
+  },
+  {
+    "id": "81083",
+    "japanese": "満ち足りた心は永遠の祝宴である。",
+    "english": "A contented mind is a perpetual feast."
+  },
+  {
+    "id": "81084",
+    "japanese": "満タンにしてください。",
+    "english": "Fill it up."
+  },
+  {
+    "id": "81085",
+    "japanese": "満タンでお願いします。",
+    "english": "Fill it up, please."
+  },
+  {
+    "id": "81086",
+    "japanese": "慢性的な便秘で苦しんでいます。",
+    "english": "I'm suffering from chronic constipation."
+  },
+  {
+    "id": "81087",
+    "japanese": "慢性の皮膚炎があります。",
+    "english": "I have chronic dermatitis."
+  },
+  {
+    "id": "81088",
+    "japanese": "万雷の拍手のうちに幕が下りた。",
+    "english": "The curtain fell amid the wild applause of the audience."
+  },
+  {
+    "id": "81089",
+    "japanese": "万万承知の上です。",
+    "english": "I know it very well."
+  },
+  {
+    "id": "81090",
+    "japanese": "万物が静まり返っている。",
+    "english": "All is still."
+  },
+  {
+    "id": "81091",
+    "japanese": "万年筆を持っていますか。",
+    "english": "Do you have a fountain pen with you?"
+  },
+  {
+    "id": "81092",
+    "japanese": "万難を排して君の味方をしよう。",
+    "english": "I'll stand by you through thick and thin."
+  },
+  {
+    "id": "81093",
+    "japanese": "万難を排してやり遂げよう。",
+    "english": "I will do it at all costs."
+  },
+  {
+    "id": "81094",
+    "japanese": "少年たちは「万難を排して決行しましょう」と言った。",
+    "english": "The young men said that they would do it despite all of the difficulties."
+  },
+  {
+    "id": "81095",
+    "japanese": "万次郎はこの二国をお互いに親しくするために一役果たしました。",
+    "english": "Manjiro played a part in making the two countries friends with each other."
+  },
+  {
+    "id": "81096",
+    "japanese": "万事用意しておけ。",
+    "english": "Have everything ready."
+  },
+  {
+    "id": "81099",
+    "japanese": "万事順調だ。",
+    "english": "Everything is all right."
+  },
+  {
+    "id": "81101",
+    "japanese": "万事うまく行った。",
+    "english": "Everything went right for me."
+  },
+  {
+    "id": "81102",
+    "japanese": "万事好都合にいった。",
+    "english": "Everything went smoothly."
+  },
+  {
+    "id": "81104",
+    "japanese": "万事休すだ。もうどうしようもない。",
+    "english": "It is all over with me. It can't be helped."
+  },
+  {
+    "id": "81106",
+    "japanese": "万事は我々に有利だ。",
+    "english": "Circumstances are entirely favorable to us."
+  },
+  {
+    "id": "81107",
+    "japanese": "万事はその結果いかんにかかっている。",
+    "english": "Much depends upon the result."
+  },
+  {
+    "id": "81108",
+    "japanese": "万事トントン拍子にいった。",
+    "english": "Everything fell into my lap."
+  },
+  {
+    "id": "81109",
+    "japanese": "万事が金の世の中だ。",
+    "english": "Money is everything."
+  },
+  {
+    "id": "81110",
+    "japanese": "万事がうまくいく。",
+    "english": "Everything is going well."
+  },
+  {
+    "id": "81111",
+    "japanese": "万事うまくいくように私が気をつけます。",
+    "english": "I will see that all goes well."
+  },
+  {
+    "id": "81112",
+    "japanese": "万事うまくいくだろう。",
+    "english": "Who knows but everything will go well?"
+  },
+  {
+    "id": "81113",
+    "japanese": "万国の労働者よ。団結せよ！",
+    "english": "Workers of the world, unite!"
+  },
+  {
+    "id": "81114",
+    "japanese": "万一列車に乗り遅れたら、バスでいきます。",
+    "english": "If we should miss the train, we'll go by bus."
+  },
+  {
+    "id": "81115",
+    "japanese": "万一明日彼が死んだら、君はいったいどうしますか。",
+    "english": "If he should die tomorrow, what in the world would you do?"
+  },
+  {
+    "id": "81116",
+    "japanese": "万一明日梅雨に入ったらどうしよう。",
+    "english": "What if the rainy season should set in tomorrow?"
+  },
+  {
+    "id": "81117",
+    "japanese": "万一明日雨になれば、野球の試合は延期されるだろう。",
+    "english": "Should it rain tomorrow, the baseball game will be postponed."
+  },
+  {
+    "id": "81118",
+    "japanese": "万一明日雨だったら、次の晴天の日まで出発を延ばします。",
+    "english": "If it should rain tomorrow, I will put off my departure till the first fine day."
+  },
+  {
+    "id": "81119",
+    "japanese": "万一明日雨が降れば試合は中止されるでしょう。",
+    "english": "If it should rain tomorrow, the game would be called off."
+  },
+  {
+    "id": "81120",
+    "japanese": "万一明日雨が降れば、彼らは行かないだろう。",
+    "english": "If it should rain tomorrow, they will not go."
+  },
+  {
+    "id": "81121",
+    "japanese": "万一明日雨が降れば、私は家にいるでしょう。",
+    "english": "If it should rain tomorrow, I would stay home."
+  },
+  {
+    "id": "81123",
+    "japanese": "万一明日の午後雨が降ったら体育館に集まろう。",
+    "english": "If it should rain tomorrow afternoon, we will meet in the gym."
+  },
+  {
+    "id": "81124",
+    "japanese": "万一僕が失敗すれば、両親がどんなにがっかりすることだろう。",
+    "english": "How disappointed my parents would be, if I should fail!"
+  },
+  {
+    "id": "81125",
+    "japanese": "万一病気になったらどうする？",
+    "english": "What would you do, if you should be taken ill?"
+  },
+  {
+    "id": "81126",
+    "japanese": "万一彼女が遅れてきたら、このメッセージを伝言して下さい。",
+    "english": "If she should come late, give her this message."
+  },
+  {
+    "id": "81127",
+    "japanese": "万一彼に会ったら、私に電話をするように言ってください。",
+    "english": "If you should meet him, tell him to call me up."
+  },
+  {
+    "id": "81128",
+    "japanese": "万一彼が来たらなんと言ったらよいのでしょうか。",
+    "english": "Should he come, what should I say to him?"
+  },
+  {
+    "id": "81129",
+    "japanese": "万一彼が来たら、この書類を渡して欲しい。",
+    "english": "Should he come, give him this paper."
+  },
+  {
+    "id": "81130",
+    "japanese": "万一彼が忙しいのなら、手伝いなさい。",
+    "english": "If he should be busy, help him."
+  },
+  {
+    "id": "81131",
+    "japanese": "万一彼が訪ねてきたら、彼に私は忙しいといってくれ。",
+    "english": "If he should call, tell him I am busy."
+  },
+  {
+    "id": "81132",
+    "japanese": "万一彼が君の結婚のことを聞こうものなら、彼はものすごく怒るだろう。",
+    "english": "Should he hear of your marriage, he will be furious."
+  },
+  {
+    "id": "81133",
+    "japanese": "万一彼から電話があったら、１時間で帰ってくると伝えてください。",
+    "english": "If he should call me, please tell him I'll be back in an hour."
+  },
+  {
+    "id": "81134",
+    "japanese": "万一彼がこちらへきたらすぐ知らせます。",
+    "english": "If by any chance he comes here, I'll let you know at once."
+  },
+  {
+    "id": "81135",
+    "japanese": "万一彼があなたに会えば、彼は驚くだろうに。",
+    "english": "Should he see you, he would be surprised."
+  },
+  {
+    "id": "81136",
+    "japanese": "万一突然英語で話しかけられたら、逃げ出すかもしれない。",
+    "english": "If I should be suddenly spoken to in English, I might run away."
+  },
+  {
+    "id": "81137",
+    "japanese": "万一天気なら私は行きます。",
+    "english": "Should it be fine, I will go."
+  },
+  {
+    "id": "81138",
+    "japanese": "万一遅れたら、私ぬきで夕食を始めなさい。",
+    "english": "If I should be late, start dinner without me."
+  },
+  {
+    "id": "81139",
+    "japanese": "万一第三次世界大戦が起こるようなことがあれば、勝者はあり得ないだろう。",
+    "english": "Should World War III come about, there would be no winners at all."
+  },
+  {
+    "id": "81141",
+    "japanese": "万一戦争が起こったら、我々はどうなるのだろう。",
+    "english": "What would become of us if war should break out?"
+  },
+  {
+    "id": "81142",
+    "japanese": "万一重大な危機が生じたら、政府はすばやく行動しなければならないだろう。",
+    "english": "Were a serious crisis to arise, the government would have to act swiftly."
+  },
+  {
+    "id": "81143",
+    "japanese": "万一車の調子が悪かったら、私はバスで行きます。",
+    "english": "If anything should be wrong with my car, I would go by bus."
+  },
+  {
+    "id": "81144",
+    "japanese": "万一車の調子が悪かったら、バスで行きます。",
+    "english": "If something were wrong with my car, I'd go by bus."
+  },
+  {
+    "id": "81145",
+    "japanese": "万一失敗すれば、私はもう一度やってみるだろう。",
+    "english": "If I should fail, I would try again."
+  },
+  {
+    "id": "81146",
+    "japanese": "万一失敗しても、落胆するな。",
+    "english": "If you should fail, don't lose heart."
+  },
+  {
+    "id": "81147",
+    "japanese": "万一失敗してもくじけるな。",
+    "english": "Don't get discouraged if you should fail."
+  },
+  {
+    "id": "81148",
+    "japanese": "万一失敗しても、私はもう一度やってみるでしょう。",
+    "english": "If I should fail, I would try again."
+  },
+  {
+    "id": "81149",
+    "japanese": "万一失敗しても、もう一度がんばります。",
+    "english": "Should I fail, I would try again."
+  },
+  {
+    "id": "81150",
+    "japanese": "万一失敗しても、またやってみます。",
+    "english": "If I should fail, I would try again."
+  },
+  {
+    "id": "81151",
+    "japanese": "万一失敗したら両親はどう言うだろう。",
+    "english": "Should I fail, what would my parents say?"
+  },
+  {
+    "id": "81153",
+    "japanese": "万一失敗したら、またやってみよう。",
+    "english": "If I should fail, I would try again."
+  },
+  {
+    "id": "81154",
+    "japanese": "万一私の留守中に彼が電話をかけてきたら、折り返し私の方から電話をかける。",
+    "english": "Should he call me in my absence, please tell him that I will call him back."
+  },
+  {
+    "id": "81155",
+    "japanese": "万一私が遅れたら、私を待たないでください。",
+    "english": "Should I be late, don't wait for me."
+  },
+  {
+    "id": "81156",
+    "japanese": "万一私が死んだら、私の心臓を必要な人に提供して下さい。",
+    "english": "If I should die, please offer my heart to someone who needs it."
+  },
+  {
+    "id": "81158",
+    "japanese": "万一考えることをやめれば、その人はもはや人間ではなくなるであろう。",
+    "english": "If for some reason a man stopped thinking, that man would no longer be a man."
+  },
+  {
+    "id": "81159",
+    "japanese": "万一虎がおりから出てきたらどうしますか。",
+    "english": "If a tiger should come out of the cage, what would you do?"
+  },
+  {
+    "id": "81160",
+    "japanese": "万一熊にであったら、死んだふりをしなさい。",
+    "english": "If you should meet a bear, pretend to be dead."
+  },
+  {
+    "id": "81161",
+    "japanese": "万一勤めをやめたら、どうしますか。",
+    "english": "If you were to quit your job, what would you do?"
+  },
+  {
+    "id": "81162",
+    "japanese": "万一急行列車に乗り遅れたら、次の列車に乗ろう。",
+    "english": "If we should miss the express, we'll take the next train."
+  },
+  {
+    "id": "81163",
+    "japanese": "万一気が変わったら、知らせて下さい。",
+    "english": "If you should change your mind, let me know."
+  },
+  {
+    "id": "81164",
+    "japanese": "万一間違いを見つけたら、直ちに知らせてください。",
+    "english": "If you should find any mistakes, please let me know at once."
+  },
+  {
+    "id": "81165",
+    "japanese": "万一獲物が死に絶えれば、狩人いなくなるだろう。",
+    "english": "If the hunted should perish, the hunter would, too."
+  },
+  {
+    "id": "81166",
+    "japanese": "万一何か悪いことが起こったら、私に知らせてください。",
+    "english": "If anything bad should come about, let me know."
+  },
+  {
+    "id": "81167",
+    "japanese": "万一雨の場合は私が来るとは思わないでください。",
+    "english": "Don't expect me in case it should be rainy."
+  },
+  {
+    "id": "81168",
+    "japanese": "万一雨が降れば、彼はいかないだろう。",
+    "english": "If it were to rain, he would not go."
+  },
+  {
+    "id": "81169",
+    "japanese": "万一雨が降れば、園遊会は行われないでしょう。",
+    "english": "If the weather should be wet, the garden party will not be held."
+  },
+  {
+    "id": "81171",
+    "japanese": "万一雨が降ったら旅は楽しくないだろう。",
+    "english": "Should it rain, we wouldn't have a pleasant trip."
+  },
+  {
+    "id": "81174",
+    "japanese": "万一雨が降ったらわれわれは出発を延期します。",
+    "english": "We shall put off our departure in case it rains."
+  },
+  {
+    "id": "81175",
+    "japanese": "万一雨が降ったら、園遊会が混乱するだろう。",
+    "english": "If it should rain, the garden party would be in a mess."
+  },
+  {
+    "id": "81176",
+    "japanese": "万一もし５月に雪が降れば、彼らはびっくりするだろう。",
+    "english": "If it snowed in May, they would be surprised."
+  },
+  {
+    "id": "81177",
+    "japanese": "万一また遅刻したら、あなたは職を失うことになりますよ。",
+    "english": "If you should be late again, you'll lose your job."
+  },
+  {
+    "id": "81178",
+    "japanese": "万一ハイジャックにあったらどうしますか。",
+    "english": "What if hijackers should appear?"
+  },
+  {
+    "id": "81179",
+    "japanese": "万一の場合はここへ電話をください。",
+    "english": "In case of an emergency, phone me at this number."
+  },
+  {
+    "id": "81180",
+    "japanese": "万一の場合に備えて貯金するのは賢明だ。",
+    "english": "It is wise to save money for a rainy day."
+  },
+  {
+    "id": "81181",
+    "japanese": "万一の場合に備えてお金をためるのは賢明だ。",
+    "english": "You had better keep your money for a rainy day."
+  },
+  {
+    "id": "81182",
+    "japanese": "万一の場合にはベルを鳴らしなさい。",
+    "english": "Ring the bell in an emergency."
+  },
+  {
+    "id": "81183",
+    "japanese": "万一の時に頼れる貯金を持っていることは役に立つものです。",
+    "english": "It is always useful to have savings to fall back on."
+  },
+  {
+    "id": "81184",
+    "japanese": "万一の時に備えて手すりにつかまりなさい。",
+    "english": "Get hold of the rail just in case."
+  },
+  {
+    "id": "81185",
+    "japanese": "万一のときに備えて貯金をするのは賢明だ。",
+    "english": "It would be wise of you to save money for a rainy day."
+  },
+  {
+    "id": "81186",
+    "japanese": "万一に備えて連絡をたもってください。",
+    "english": "Try to keep in touch with me, just in case."
+  },
+  {
+    "id": "81187",
+    "japanese": "万一に備えて傘を持っていった方がいいだろうな。",
+    "english": "Perhaps I should take an umbrella with me just in case."
+  },
+  {
+    "id": "81188",
+    "japanese": "万一に備えてお金をたくわえる。",
+    "english": "I am saving money to prepare for the worst."
+  },
+  {
+    "id": "81189",
+    "japanese": "万一だれかがそのように私に話しかけてきたなら、私は警官を呼ぶだろう。",
+    "english": "If anyone were to talk to me like that, I would call the police."
+  },
+  {
+    "id": "81190",
+    "japanese": "万一そんなことをしたらあなたはひどい非難を受けるだろう。",
+    "english": "If you should do that, you would come in for severe criticism."
+  },
+  {
+    "id": "81191",
+    "japanese": "万一それが起これば、君はどうしますか。",
+    "english": "Should that happen, what will you do?"
+  },
+  {
+    "id": "81192",
+    "japanese": "万一ジェイソンが電話してきたら、僕はいないといってくれ。",
+    "english": "If Jason should call me, tell him I'm not in."
+  },
+  {
+    "id": "81193",
+    "japanese": "万一シーリアにあったら、よろしく伝えてください。",
+    "english": "If you should see Celia, give her my best wishes."
+  },
+  {
+    "id": "81194",
+    "japanese": "万一この飛行機が乗っ取られたら、君は一体どうするだろうか。",
+    "english": "If this airplane were to be hijacked, what in the world would you do?"
+  },
+  {
+    "id": "81195",
+    "japanese": "万一あなたの身に何か起これば、すぐに私たちに知らせてください。",
+    "english": "Should anything happen to you, let us know at once."
+  },
+  {
+    "id": "81196",
+    "japanese": "万一あなたが死んだら、あなたの家族はどうなるのだろう。",
+    "english": "If you should die, what would become of your family?"
+  },
+  {
+    "id": "81197",
+    "japanese": "万一あす雨が降れば、ピクニックは中止されるだろう。",
+    "english": "Should it rain tomorrow, the picnic would be canceled."
+  },
+  {
+    "id": "81198",
+    "japanese": "万一、私が大金を稼いだら、君にその半分をあげよう。",
+    "english": "If I should make a lot of money, I would give you half of it."
+  },
+  {
+    "id": "81199",
+    "japanese": "万一、君が結婚したと聞けば、彼はとても驚くだろう。",
+    "english": "If he could hear of your marriage, he will be very surprised."
+  },
+  {
+    "id": "81200",
+    "japanese": "万一、その事実を知ったら彼はひどく驚くだろう。",
+    "english": "Should he know the fact, he would be astonished."
+  },
+  {
+    "id": "81201",
+    "japanese": "万が一彼がこちらへ来たらすぐに知らせます。",
+    "english": "If he should come here, I will let you know at once."
+  },
+  {
+    "id": "81202",
+    "japanese": "万が一気が変わったら、知らせて下さい。",
+    "english": "If you should change your mind, let me know."
+  },
+  {
+    "id": "81203",
+    "japanese": "万が一の場合に備えて貯金するのは賢明だ。",
+    "english": "It is wise to save money for a rainy day."
+  },
+  {
+    "id": "81204",
+    "japanese": "万が一の時のために、保険には入っておいたほうがいいよ。",
+    "english": "Insurance is a good idea - just in case."
+  },
+  {
+    "id": "81205",
+    "japanese": "万が一に備えて、武器になるものを探した。",
+    "english": "I looked around for a weapon just in case."
+  },
+  {
+    "id": "81206",
+    "japanese": "麿は雅びな家の生まれでおじゃる。",
+    "english": "I am descended from a graceful family."
+  },
+  {
+    "id": "81207",
+    "japanese": "麿はプリンを食べないではおれぬ。",
+    "english": "I cannot resist eating pudding."
+  },
+  {
+    "id": "81208",
+    "japanese": "末永く、楽しい日々を送られますようお祈りします。",
+    "english": "We wish her many happy years in the future."
+  },
+  {
+    "id": "81209",
+    "japanese": "末の娘にはいつもリンゴの３分の１が与えられる。",
+    "english": "One-third of an apple is always given to our youngest daughter."
+  },
+  {
+    "id": "81210",
+    "japanese": "又来年会えるといいですね。",
+    "english": "Hope to see you again next year."
+  },
+  {
+    "id": "81211",
+    "japanese": "又貸ししない条件でこのＣＤを貸してあげよう。",
+    "english": "I will lend you this CD on condition that you don't lend it to anyone else."
+  },
+  {
+    "id": "81212",
+    "japanese": "又しても彼女は遅刻した。",
+    "english": "She was late once again."
+  },
+  {
+    "id": "81213",
+    "japanese": "又しても死を免れることができた。",
+    "english": "Again I was able to escape death."
+  },
+  {
+    "id": "81214",
+    "japanese": "又しても彼は試験に落ちた。",
+    "english": "He failed the examination again."
+  },
+  {
+    "id": "81215",
+    "japanese": "又お会いできてうれしいです。",
+    "english": "I'm very glad to see you again."
+  },
+  {
+    "id": "81216",
+    "japanese": "枕を下さい。",
+    "english": "Can I get a pillow?"
+  },
+  {
+    "id": "81219",
+    "japanese": "枕と毛布を下さい。",
+    "english": "May I have a pillow and a blanket, please?"
+  },
+  {
+    "id": "81220",
+    "japanese": "枕と毛布をもってきていただけるか。",
+    "english": "Could you bring me a pillow and blanket, please?"
+  },
+  {
+    "id": "81221",
+    "japanese": "幕が上がってにぎやかなカクテルパーティーの場面となる。",
+    "english": "The curtain raised on a noisy cocktail party."
+  },
+  {
+    "id": "81222",
+    "japanese": "幕が下りた。",
+    "english": "The curtain fell."
+  },
+  {
+    "id": "81223",
+    "japanese": "幕が終わり明かりがついた。",
+    "english": "The act ended and the lights were turned on."
+  },
+  {
+    "id": "81224",
+    "japanese": "幕があがった。",
+    "english": "The curtain rose."
+  },
+  {
+    "id": "81225",
+    "japanese": "毎晩電話するよ。",
+    "english": "I'll give you a ring every night."
+  },
+  {
+    "id": "81226",
+    "japanese": "毎晩遅くまで起きていてはいけない。",
+    "english": "Don't stay up late every night."
+  },
+  {
+    "id": "81227",
+    "japanese": "毎晩十分な睡眠をとれば、あなたはずっと気分がよくなるだろう。",
+    "english": "If you get enough rest every night, you'll feel much better."
+  },
+  {
+    "id": "81228",
+    "japanese": "毎晩飲み歩いてばかりいたら、奥さんに愛想尽かされるぞ。",
+    "english": "If you stay out drinking every night, your wife is going to leave you."
+  },
+  {
+    "id": "81229",
+    "japanese": "毎晩１００回髪をとかします。",
+    "english": "I brush my hair 100 strokes every night."
+  },
+  {
+    "id": "81230",
+    "japanese": "毎晩夜更かししていると、体を壊すよ。",
+    "english": "It'll do harm to you to sit up late every night."
+  },
+  {
+    "id": "81231",
+    "japanese": "毎年友達から便りがある。",
+    "english": "I hear from my friend every year."
+  },
+  {
+    "id": "81232",
+    "japanese": "毎年約２００万ポンドの小麦が輸出された。",
+    "english": "About two million pounds of wheat were exported annually."
+  },
+  {
+    "id": "81233",
+    "japanese": "毎年毎年不作続きだった。",
+    "english": "They had poor crops year after year."
+  },
+  {
+    "id": "81234",
+    "japanese": "毎年同じ旧型の製品を作っても始まらない。",
+    "english": "It's no good making the same old products year after year."
+  },
+  {
+    "id": "81235",
+    "japanese": "毎年沢山の数の書物が出版されている。",
+    "english": "A great number of books are published every year."
+  },
+  {
+    "id": "81236",
+    "japanese": "毎年多くの人々が自動車事故で亡くなっている。",
+    "english": "A lot of people are killed in automobile accidents every year."
+  },
+  {
+    "id": "81237",
+    "japanese": "毎年、世界でどれほどの人が餓死しているか知っていますか。",
+    "english": "Do you know how many people starve to death in the world annually?"
+  },
+  {
+    "id": "81238",
+    "japanese": "毎年小麦は豊作だ。",
+    "english": "The wheat crop bears a good harvest every year."
+  },
+  {
+    "id": "81239",
+    "japanese": "毎年純利益は千万ドルになる。",
+    "english": "Net-profit comes to 10 million dollars every year."
+  },
+  {
+    "id": "81240",
+    "japanese": "毎年春になると、庭に出るのを楽しみにしている。",
+    "english": "Every spring I am anxious to get out in the garden again."
+  },
+  {
+    "id": "81241",
+    "japanese": "毎年私は学校用として新しいノートを買う。",
+    "english": "Every year, I buy new notebooks for school."
+  },
+  {
+    "id": "81242",
+    "japanese": "毎年今頃、台風がその島を襲う。",
+    "english": "About this time of the year typhoons visit the island."
+  },
+  {
+    "id": "81243",
+    "japanese": "毎年行きます。",
+    "english": "I go every year."
+  },
+  {
+    "id": "81244",
+    "japanese": "毎年だんだん暖かくなってくるように思われる。",
+    "english": "It seems that it is getting warmer and warmer every year."
+  },
+  {
+    "id": "81245",
+    "japanese": "毎年交通事故で亡くなる老人が多い。",
+    "english": "Lots of old people are killed in traffic accidents every year."
+  },
+  {
+    "id": "81246",
+    "japanese": "毎年たくさんの事故が発生する。",
+    "english": "A great number of accidents happen every year."
+  },
+  {
+    "id": "81247",
+    "japanese": "毎年タイを訪問するヨーロッパ人の数とても多い。",
+    "english": "The number of Europeans who visit Thailand every year is very large."
+  },
+  {
+    "id": "81248",
+    "japanese": "毎年ここに来なきゃ。",
+    "english": "I'll have to come here every year."
+  },
+  {
+    "id": "81249",
+    "japanese": "毎年およそ４５００種のポピュラーのＬＰが登場する。",
+    "english": "Each year some 4500 different Pop LPs appear."
+  },
+  {
+    "id": "81250",
+    "japanese": "毎年７月に選手権大会が終わると、彼は翌年の準備を始める。",
+    "english": "Each year in July, when the Championships are over, he starts to prepare for the next year."
+  },
+  {
+    "id": "81251",
+    "japanese": "毎年200万ポンドの小麦粉が輸出されている。",
+    "english": "About two million pounds of flour are exported annually."
+  },
+  {
+    "id": "81252",
+    "japanese": "毎年１ヶ月の休暇をもらうことが契約の条項になっている。",
+    "english": "It is stipulated that we should receive a month's vacation every year."
+  },
+  {
+    "id": "81253",
+    "japanese": "毎年１０月が観光客の数が最高になるそうだ。",
+    "english": "They say that every year the number of tourists is greatest in October."
+  },
+  {
+    "id": "81254",
+    "japanese": "毎年、浜松で凧揚げ大会が開かれる。",
+    "english": "Each year Hamamatsu has a kite festival."
+  },
+  {
+    "id": "81255",
+    "japanese": "毎年、日本には台風が上陸します。",
+    "english": "Typhoons strike Japan every year."
+  },
+  {
+    "id": "81256",
+    "japanese": "毎年、多くの日本人が海外へ旅行する。",
+    "english": "Many Japanese travel abroad every year."
+  },
+  {
+    "id": "81257",
+    "japanese": "毎年、多くの観光客がこの島に来る。",
+    "english": "Many tourists come to this island every year."
+  },
+  {
+    "id": "81258",
+    "japanese": "毎年、多くの外国人が日本を訪れます。",
+    "english": "A lot of foreigners visit Japan every year."
+  },
+  {
+    "id": "81259",
+    "japanese": "毎年、世界各地に異常な天気が起きています。",
+    "english": "Every year brings stranger weather to many areas of the world."
+  },
+  {
+    "id": "81260",
+    "japanese": "毎年、私たちの町は春には暖かい天気になる。",
+    "english": "Every year, spring brings warm weather to our town."
+  },
+  {
+    "id": "81261",
+    "japanese": "毎年、桜が見頃の頃に祭りが催される。",
+    "english": "Every year, a festival is held when it is the best time to see the cherry trees."
+  },
+  {
+    "id": "81262",
+    "japanese": "毎年、ダイアリーを買うときに、どんな点を重要視していますか。",
+    "english": "When you look for an annual diary, what's the most important thing you look for?"
+  },
+  {
+    "id": "81263",
+    "japanese": "毎年、２７００万エーカーの熱帯雨林が破壊されているのである。",
+    "english": "Each year, twenty-seven million acres of the tropical rainforests are destroyed."
+  },
+  {
+    "id": "81264",
+    "japanese": "毎日練習することが極めて重要です。",
+    "english": "It is essential for you to practice every day."
+  },
+  {
+    "id": "81265",
+    "japanese": "毎日曜日に教会に行きます。",
+    "english": "I go to church every Sunday."
+  },
+  {
+    "id": "81267",
+    "japanese": "毎日風呂に入る人もいれば、そうでない人もいる。",
+    "english": "Some people take a bath every day and others don't."
+  },
+  {
+    "id": "81268",
+    "japanese": "毎日皮膚がなくなるって知ってた？",
+    "english": "Did you know we lose skin every day?"
+  },
+  {
+    "id": "81269",
+    "japanese": "毎日彼らは太陽の神を幸せにするためにラマを殺した。",
+    "english": "Every day they killed a llama to make the Sun God happy."
+  },
+  {
+    "id": "81270",
+    "japanese": "毎日買い物をするのは好きじゃないけどそうしなければならない。",
+    "english": "I dislike shopping every day but I must do so."
+  },
+  {
+    "id": "81272",
+    "japanese": "毎日日記をつけなければならない。",
+    "english": "We must keep a diary every day."
+  },
+  {
+    "id": "81273",
+    "japanese": "毎日日記をつけている。",
+    "english": "I keep a diary every day."
+  },
+  {
+    "id": "81274",
+    "japanese": "毎日同じ教室を２つの異なった生徒達の集団で使っているのです。",
+    "english": "We use the same classroom for two different groups of students each day."
+  },
+  {
+    "id": "81275",
+    "japanese": "毎日働く時間帯が違うんです。",
+    "english": "Every day I work different hours."
+  },
+  {
+    "id": "81276",
+    "japanese": "あなたは毎日朝食をとるべきです。",
+    "english": "You should have breakfast every day."
+  },
+  {
+    "id": "81277",
+    "japanese": "毎日大量の二酸化炭素が生成されている。",
+    "english": "Massive amounts of carbon dioxide are generated every day."
+  },
+  {
+    "id": "81278",
+    "japanese": "毎日大食していると、ブクブク太り過ぎること間違いなし。",
+    "english": "If you pig out every day, you're sure to gain too much weight."
+  },
+  {
+    "id": "81279",
+    "japanese": "毎日新聞を読みなさい、さもないと時勢におくれます。",
+    "english": "Read the newspaper every day, or you will fall behind the times."
+  },
+  {
+    "id": "81280",
+    "japanese": "毎日新鮮な野菜サラダを食べてます。",
+    "english": "We eat a fresh, green salad every day."
+  },
+  {
+    "id": "81281",
+    "japanese": "毎日少しずつ学びなさい。",
+    "english": "Learn little by little every day."
+  },
+  {
+    "id": "81282",
+    "japanese": "毎日自分の部屋を掃除しなければならない。",
+    "english": "You must clean your room every day."
+  },
+  {
+    "id": "81283",
+    "japanese": "毎日歯を磨きなさい。",
+    "english": "Brush your teeth every day."
+  },
+  {
+    "id": "81284",
+    "japanese": "毎日私は病気の友人を訪ねた。",
+    "english": "Day after day I called on my sick friend."
+  },
+  {
+    "id": "81285",
+    "japanese": "毎日私たちはエジソンが発明した多くの物を使っている。",
+    "english": "Every day we use many things which Edison invented."
+  },
+  {
+    "id": "81286",
+    "japanese": "毎日市営プールに行きます。",
+    "english": "I go to the city pool every day."
+  },
+  {
+    "id": "81287",
+    "japanese": "毎日三時間英語を勉強することにしている。",
+    "english": "I make it a rule to study English for 3 hours every day."
+  },
+  {
+    "id": "81288",
+    "japanese": "毎日午後３時に郵便を集めに来る。",
+    "english": "They come to collect the mail at three in the afternoon every day."
+  },
+  {
+    "id": "81289",
+    "japanese": "毎日教会へ行きます。",
+    "english": "I go to church every day."
+  },
+  {
+    "id": "81290",
+    "japanese": "毎日規則正しい生活をするのは、とても良いことだと思う。",
+    "english": "I think it is very good to lead a regular life."
+  },
+  {
+    "id": "81291",
+    "japanese": "毎日学校に行く途中で、私は普通、多くの犬や猫を目にする。",
+    "english": "On my way to school each day, I generally see many dogs and cats."
+  },
+  {
+    "id": "81292",
+    "japanese": "毎日学校に行く途中で、私は犬を目にする。",
+    "english": "On my way to school each day, I see dogs."
+  },
+  {
+    "id": "81293",
+    "japanese": "毎日外食ばかりで済ませていると、家族料理が恋しくなります。",
+    "english": "Because I eat out every day, I miss home cooking."
+  },
+  {
+    "id": "81294",
+    "japanese": "毎年何百万という人が飢えで死んでいる。",
+    "english": "Millions of people starve to death every year."
+  },
+  {
+    "id": "81295",
+    "japanese": "毎日何時間昼寝しますか。",
+    "english": "How many hours do you take a nap every day?"
+  },
+  {
+    "id": "81296",
+    "japanese": "毎日英作文の練習をする。",
+    "english": "I do exercises in English composition every day."
+  },
+  {
+    "id": "81298",
+    "japanese": "毎日一生懸命に英語を勉強したが、あまり身につかなかった。",
+    "english": "I studied English very hard every day, but I didn't learn a lot."
+  },
+  {
+    "id": "81299",
+    "japanese": "毎日英語を勉強しなさい。",
+    "english": "Study English every day."
+  },
+  {
+    "id": "81300",
+    "japanese": "毎日マンハッタンの中心部にいくには１時間半もかかる。",
+    "english": "The daily trek to midtown Manhattan takes about an hour and a half."
+  },
+  {
+    "id": "81302",
+    "japanese": "毎日の務めを怠るな。",
+    "english": "Don't fail in your daily duties."
+  },
+  {
+    "id": "81303",
+    "japanese": "毎日の単調な暮らしにはうんざりだ。",
+    "english": "I am tired of the day-to-day routine of life."
+  },
+  {
+    "id": "81304",
+    "japanese": "毎日の単調な生活にはうんざりだ。",
+    "english": "I am tired of the day-to-day routine of life."
+  },
+  {
+    "id": "81306",
+    "japanese": "毎日の運動が健康には不可欠である。",
+    "english": "Everyday physical exercise is indispensable to your health."
+  },
+  {
+    "id": "81307",
+    "japanese": "毎日の飲食物には注意しなさい。",
+    "english": "Take good care of what you eat and drink every day."
+  },
+  {
+    "id": "81308",
+    "japanese": "毎日のきまり仕事にはつくづく飽きた。",
+    "english": "I am quite tired of daily routine."
+  },
+  {
+    "id": "81309",
+    "japanese": "毎日どのようにして学校へ行くのですか。",
+    "english": "How do you go to school every day?"
+  },
+  {
+    "id": "81311",
+    "japanese": "毎日どこでバスに乗りますか。",
+    "english": "Where do you get on the bus every day?"
+  },
+  {
+    "id": "81312",
+    "japanese": "毎日それらは十分なだけのえさをやりなさい。",
+    "english": "Give them just enough food every day."
+  },
+  {
+    "id": "81313",
+    "japanese": "毎日その少年はやってきたものでした。",
+    "english": "Every day the boy would come."
+  },
+  {
+    "id": "81314",
+    "japanese": "毎日こんなに暑いのですか。",
+    "english": "Is it this hot every day?"
+  },
+  {
+    "id": "81317",
+    "japanese": "毎日ある程度運動する事は必要だ。",
+    "english": "It is necessary to do some exercise every day."
+  },
+  {
+    "id": "81318",
+    "japanese": "毎日１錠を、薬がなくなるまで飲んで下さい。",
+    "english": "Take one tablet a day until all of the medicine is gone."
+  },
+  {
+    "id": "81319",
+    "japanese": "毎日１０冊の本を読むとは彼は本の虫に違いない。",
+    "english": "He must be a bookworm to read ten books every day."
+  },
+  {
+    "id": "81320",
+    "japanese": "毎日、放課後に私はその本屋で彼女を待った。",
+    "english": "Every day I waited for her at the bookstore after school."
+  },
+  {
+    "id": "81321",
+    "japanese": "毎日、彼女はピアノをひきます。",
+    "english": "She plays the piano every day."
+  },
+  {
+    "id": "81322",
+    "japanese": "毎日日記をつけるのは難しいことだと分かった。",
+    "english": "I found it difficult to keep a diary every day."
+  },
+  {
+    "id": "81323",
+    "japanese": "毎日、小銭を貯めることになれば、一年すると相当の額になるだろう。",
+    "english": "If one is to save up the chicken feed every day, it will amount to a very substantial sum in a year."
+  },
+  {
+    "id": "81324",
+    "japanese": "毎日、決まりきったことをしている。",
+    "english": "I follow my routine every day."
+  },
+  {
+    "id": "81325",
+    "japanese": "毎日、６時までには帰りますよ。",
+    "english": "I'll be back by 6 o'clock every day."
+  },
+  {
+    "id": "81326",
+    "japanese": "毎度お手数をおかけして申し訳ありません。",
+    "english": "I'm sorry to trouble you so often."
+  },
+  {
+    "id": "81327",
+    "japanese": "毎度ごひいきにありがとうございます。",
+    "english": "Thank you for your patronage."
+  },
+  {
+    "id": "81328",
+    "japanese": "毎朝腕立て伏せを２０回やります。",
+    "english": "He does twenty push-ups every morning."
+  },
+  {
+    "id": "81329",
+    "japanese": "毎朝六時に彼を起こします。",
+    "english": "I wake him at six every morning."
+  },
+  {
+    "id": "81330",
+    "japanese": "毎朝必ず天気予報を見てから外出します。",
+    "english": "I always watch the weather report before going out in the morning."
+  },
+  {
+    "id": "81331",
+    "japanese": "毎朝必ずジョギングをすることにしているんだ。",
+    "english": "I make it a rule to go jogging every morning."
+  },
+  {
+    "id": "81332",
+    "japanese": "毎朝彼女の歌声が聞こえてくる。",
+    "english": "You can hear her singing every morning."
+  },
+  {
+    "id": "81333",
+    "japanese": "毎朝朝食をとっている間、彼の犬は彼をじっと見つめていた。",
+    "english": "His dog stared at him every morning while he had his breakfast."
+  },
+  {
+    "id": "81334",
+    "japanese": "毎朝の地下鉄があんなに混雑しなかったらなあ。",
+    "english": "I wish the subway wasn't so crowded every morning."
+  },
+  {
+    "id": "81335",
+    "japanese": "毎朝早起きできるように努力するつもりだ。",
+    "english": "I'll make an effort to get up early every morning."
+  },
+  {
+    "id": "81336",
+    "japanese": "毎朝早起きするのを習慣にしている。",
+    "english": "I make it a rule to get up early in the morning."
+  },
+  {
+    "id": "81337",
+    "japanese": "毎朝私たちは１０分間ホームルームがあります。",
+    "english": "We have a homeroom meeting for ten minutes every morning."
+  },
+  {
+    "id": "81338",
+    "japanese": "毎朝散歩するのは、健康によい。",
+    "english": "It is good for your health to take a walk every morning."
+  },
+  {
+    "id": "81339",
+    "japanese": "毎朝犬の運動に公園を散歩する。",
+    "english": "I walk my dog in the park every morning."
+  },
+  {
+    "id": "81340",
+    "japanese": "毎朝起こしてもらえますか。",
+    "english": "Would you wake me up every morning?"
+  },
+  {
+    "id": "81341",
+    "japanese": "毎朝運転するのに結構うんざりしてきていたのよ。",
+    "english": "I'm getting pretty tired of driving every morning."
+  },
+  {
+    "id": "81342",
+    "japanese": "毎朝とても楽しそうだけど。",
+    "english": "You look on top of the world every morning."
+  },
+  {
+    "id": "81343",
+    "japanese": "毎朝、雌牛は仔牛に乳をやる。",
+    "english": "Cows give their calves milk every morning."
+  },
+  {
+    "id": "81345",
+    "japanese": "毎朝、駅の時計で自分の時計を合わせます。",
+    "english": "Every morning I set my watch by the station clock."
+  },
+  {
+    "id": "81346",
+    "japanese": "毎朝ジョギングすることにした。",
+    "english": "I've decided to jog every morning."
+  },
+  {
+    "id": "81347",
+    "japanese": "毎食後歯をみがきなさい。",
+    "english": "Brush your teeth after each meal."
+  },
+  {
+    "id": "81349",
+    "japanese": "毎週日曜日の朝にします。",
+    "english": "I do it every Sunday morning."
+  },
+  {
+    "id": "81350",
+    "japanese": "毎週日曜日、たかしは車のエンジンを調節する。",
+    "english": "Every Sunday, Takashi loves to adjust his car's engine."
+  },
+  {
+    "id": "81351",
+    "japanese": "毎週土曜日の放課後に私たちはテニスをした。",
+    "english": "We played tennis after school every Saturday."
+  },
+  {
+    "id": "81352",
+    "japanese": "毎週田中さんは万一に備えて少しずつお金をためている。",
+    "english": "Each week, Mrs. Tanaka saves a little money for a rainy day."
+  },
+  {
+    "id": "81353",
+    "japanese": "毎週釣りに行く。",
+    "english": "Every week he goes fishing."
+  },
+  {
+    "id": "81354",
+    "japanese": "毎週火曜日の朝、ラーク先生と呼ばれている老婦人ご学校にやって来ました。",
+    "english": "Every Tuesday morning an old lady called Mrs. Lark came to the school."
+  },
+  {
+    "id": "81355",
+    "japanese": "毎週火曜日には、先生のころころした小さな指がピアノの鍵盤をあちこちと鳥のように飛びはねていました。",
+    "english": "Every Tuesday her fat little fingers flew like birds up and down the keys of song too."
+  },
+  {
+    "id": "81356",
+    "japanese": "毎週月曜日にゴミを集めにきます。",
+    "english": "They collect our garbage every Monday."
+  },
+  {
+    "id": "81357",
+    "japanese": "毎月友達から便りがある。",
+    "english": "I hear from my friend every month."
+  },
+  {
+    "id": "81358",
+    "japanese": "毎月何回ぐらい映画に行くんですか？",
+    "english": "How often do you go to the movies every month?"
+  },
+  {
+    "id": "81359",
+    "japanese": "毎月一回会合を開いている。",
+    "english": "We hold a meeting once a month."
+  },
+  {
+    "id": "81360",
+    "japanese": "毎月の収入の一部を貯蓄すれば損はない。",
+    "english": "It will pay you to save a part of your salary each month."
+  },
+  {
+    "id": "81361",
+    "japanese": "毎月のガス代はいくらですか。",
+    "english": "How much is your monthly gas bill?"
+  },
+  {
+    "id": "81362",
+    "japanese": "毎回食事の前に手を洗いなさい。",
+    "english": "Wash your hands before each meal."
+  },
+  {
+    "id": "81363",
+    "japanese": "妹をパーティーに連れて行きます。",
+    "english": "I'll bring my sister to the party."
+  },
+  {
+    "id": "81364",
+    "japanese": "妹は来年早々に結婚します。",
+    "english": "My sister will marry early next year."
+  },
+  {
+    "id": "81365",
+    "japanese": "妹は要領が悪くて損ばかりしている。",
+    "english": "My sister is clumsy, which is a disadvantage to her."
+  },
+  {
+    "id": "81366",
+    "japanese": "妹は北海道へ行くまでに宿題をやり終えているだろう。",
+    "english": "My sister will have finished her homework before she goes to Hokkaido."
+  },
+  {
+    "id": "81367",
+    "japanese": "妹は母に似ている。",
+    "english": "My sister resembles my mother."
+  },
+  {
+    "id": "81368",
+    "japanese": "妹は別として、私の家族はテレビを見ません。",
+    "english": "Apart from my sister, my family doesn't watch TV."
+  },
+  {
+    "id": "81369",
+    "japanese": "妹は部屋をいつもきれいにいておく。",
+    "english": "My sister always keeps her room clean."
+  },
+  {
+    "id": "81370",
+    "japanese": "妹は布を５ヤール買った。",
+    "english": "My sister bought five yards of cloth."
+  },
+  {
+    "id": "81371",
+    "japanese": "妹は彼らとの交際を望んでいない。",
+    "english": "My sister doesn't wish to associate with them."
+  },
+  {
+    "id": "81372",
+    "japanese": "妹は朝からずっと編み物をしている。",
+    "english": "My sister has been knitting since this morning."
+  },
+  {
+    "id": "81373",
+    "japanese": "妹は朝からずっと自分の部屋で勉強をしています。",
+    "english": "My sister has been studying in her room since this morning."
+  },
+  {
+    "id": "81374",
+    "japanese": "妹は足が長い。",
+    "english": "My sister has long legs."
+  },
+  {
+    "id": "81375",
+    "japanese": "妹は絶えず漫画を読んでいます。",
+    "english": "My sister is constantly reading comic books."
+  },
+  {
+    "id": "81376",
+    "japanese": "妹は雪だるまの絵を描いた。",
+    "english": "My little sister painted a picture of a snowman."
+  },
+  {
+    "id": "81377",
+    "japanese": "妹は水鳥を見て興奮した。",
+    "english": "My little sister was excited to see the waterfowl."
+  },
+  {
+    "id": "81378",
+    "japanese": "妹は人形で遊んでいる。",
+    "english": "My sister is playing with a doll."
+  },
+  {
+    "id": "81379",
+    "japanese": "妹は心ゆくまで笑った。",
+    "english": "My sister laughed to her heart's content."
+  },
+  {
+    "id": "81380",
+    "japanese": "妹は床の上に皿を落とした。",
+    "english": "My sister dropped her plate on the floor."
+  },
+  {
+    "id": "81381",
+    "japanese": "妹は自分のすべての持ち物を大切にする。",
+    "english": "My sister takes care of everything she possesses."
+  },
+  {
+    "id": "81382",
+    "japanese": "妹は時々自分が男の子だったらいいのにと願っていた。",
+    "english": "My little sister sometimes wished she was a boy."
+  },
+  {
+    "id": "81383",
+    "japanese": "妹は私といっしょに行くと言い張った。",
+    "english": "My sister insisted on going with me."
+  },
+  {
+    "id": "81384",
+    "japanese": "妹は仕事を持っています。",
+    "english": "My sister has a job."
+  },
+  {
+    "id": "81385",
+    "japanese": "妹は四歳の時からずっとピアノを習っている。",
+    "english": "My sister has been taking piano lessons since she was four."
+  },
+  {
+    "id": "81386",
+    "japanese": "妹は昨日神戸へ行った。",
+    "english": "My sister went to Kobe yesterday."
+  },
+  {
+    "id": "81387",
+    "japanese": "妹は脚が長くて、スポーツが好きです。",
+    "english": "My sister has long legs and likes sports."
+  },
+  {
+    "id": "81388",
+    "japanese": "妹は学校へ行く年齢になっていません。",
+    "english": "My sister is too young to go to school."
+  },
+  {
+    "id": "81389",
+    "japanese": "妹は英仏語を使いこなす。",
+    "english": "My sister has a good command of both English and French."
+  },
+  {
+    "id": "81390",
+    "japanese": "妹は一人でエアロビクスクラスに行ける年齢だ。",
+    "english": "My sister is old enough to go to a workout studio by herself."
+  },
+  {
+    "id": "81391",
+    "japanese": "妹は悪い風邪にかかっている。",
+    "english": "My sister is suffering from a bad cold."
+  },
+  {
+    "id": "81392",
+    "japanese": "妹はもう、本を上手に読む事が出来る。",
+    "english": "My little sister can read books well now."
+  },
+  {
+    "id": "81393",
+    "japanese": "妹はそれを自分自身の目で見た。",
+    "english": "My sister saw it with her own eyes."
+  },
+  {
+    "id": "81394",
+    "japanese": "妹はその試験に合格した。",
+    "english": "My sister was successful in the examination."
+  },
+  {
+    "id": "81395",
+    "japanese": "妹はせっかちだからよく忘れ物をする。",
+    "english": "My sister is always in such a hurry that she often leaves things behind."
+  },
+  {
+    "id": "81396",
+    "japanese": "妹は３歳年下で弟は４歳年下です。",
+    "english": "My sister is three years younger than I and my brother is four years younger."
+  },
+  {
+    "id": "81397",
+    "japanese": "妹は２１で大学生です。",
+    "english": "My sister is twenty-one years old and a college student."
+  },
+  {
+    "id": "81398",
+    "japanese": "妹は、月に１度家に必ず手紙を書く。",
+    "english": "My sister never fails to write home once a month."
+  },
+  {
+    "id": "81399",
+    "japanese": "妹がスキーを教えてほしいと私に頼んできた。",
+    "english": "My sister asked me to teach her how to ski."
+  },
+  {
+    "id": "81400",
+    "japanese": "妹は「こんにちは」とは言わなかった。",
+    "english": "My sister did not say \"Hello.\""
+  },
+  {
+    "id": "81401",
+    "japanese": "妹の方が私よりも上手にピアノを弾けます。",
+    "english": "My sister can play the piano better than I can."
+  },
+  {
+    "id": "81402",
+    "japanese": "姉の髪は肩まで届きます。",
+    "english": "My sister's hair reaches to her shoulders."
+  },
+  {
+    "id": "81403",
+    "japanese": "妹の誕生日に真珠のネックレスを贈った。",
+    "english": "I gave my sister a pearl necklace on her birthday."
+  },
+  {
+    "id": "81405",
+    "japanese": "妹の視力は申し分ない。",
+    "english": "My sister has perfect vision."
+  },
+  {
+    "id": "81406",
+    "japanese": "妹に車で駅まで迎えに行かせます。",
+    "english": "I will have my sister pick you up at the station."
+  },
+  {
+    "id": "81407",
+    "japanese": "妹にブラウスのアイロン掛けをさせた。",
+    "english": "She had her blouse ironed by her sister."
+  },
+  {
+    "id": "81408",
+    "japanese": "妹には若さと夢があります。",
+    "english": "My sister has youth and dreams."
+  },
+  {
+    "id": "81409",
+    "japanese": "妹には２人の息子がいるので、私には２人の甥がいることになる。",
+    "english": "My sister has two sons, so I have two nephews."
+  },
+  {
+    "id": "81410",
+    "japanese": "妹にあきらめるように説得してもだめだった。",
+    "english": "It was no good persuading my sister to give up."
+  },
+  {
+    "id": "81411",
+    "japanese": "妹と私は交換で部屋を掃除します。",
+    "english": "My sister and I take turns in cleaning our room."
+  },
+  {
+    "id": "81412",
+    "japanese": "妹と私はときどき映画に行きます。",
+    "english": "My sister and I go to the movies from time to time."
+  },
+  {
+    "id": "81413",
+    "japanese": "妹さんを連れておいでになってはどうですか。",
+    "english": "What do you say to bringing your sister?"
+  },
+  {
+    "id": "81415",
+    "japanese": "妹さんは元気？",
+    "english": "How's your sister?"
+  },
+  {
+    "id": "81416",
+    "japanese": "妹さんによろしくね。",
+    "english": "Say hello to your sister for me."
+  },
+  {
+    "id": "81417",
+    "japanese": "妹さんが手術後危機を脱したそうで、よかったですね。",
+    "english": "I'm glad to hear that your sister is out of danger after her operation."
+  },
+  {
+    "id": "81418",
+    "japanese": "妹が友達と話している。",
+    "english": "My sister is having a conversation with her friends."
+  },
+  {
+    "id": "81419",
+    "japanese": "妹が朝食を用意するでしょう。",
+    "english": "My sister will prepare breakfast."
+  },
+  {
+    "id": "81420",
+    "japanese": "妹が結婚してから３年になる。",
+    "english": "It is three years since my sister got married."
+  },
+  {
+    "id": "81421",
+    "japanese": "妹から便りがあった。手紙によれば目下元気だそうだ。",
+    "english": "I heard from my sister. The letter says she is well now."
+  },
+  {
+    "id": "81422",
+    "japanese": "妹がそこにいるのが見えた。",
+    "english": "I saw my sister there."
+  },
+  {
+    "id": "81423",
+    "japanese": "妹が産まれた日のことはよく憶えています。",
+    "english": "Well do I remember the day when my sister was born."
+  },
+  {
+    "id": "81424",
+    "japanese": "埋め合わせをしますよ。",
+    "english": "I'll make it up for you."
+  },
+  {
+    "id": "81425",
+    "japanese": "麻薬中毒は現代社会の癌だ。",
+    "english": "Drug addiction is a cancer in modern society."
+  },
+  {
+    "id": "81426",
+    "japanese": "麻薬中毒で多くの人が堕落した。",
+    "english": "Drug addiction degraded many people."
+  },
+  {
+    "id": "81427",
+    "japanese": "麻薬汚染の問題は国際的である。",
+    "english": "The drug problem is international."
+  },
+  {
+    "id": "81428",
+    "japanese": "麻薬はどんなものでも敬遠しておいたほうがいい。",
+    "english": "I think he should stay away from drugs of any sort."
+  },
+  {
+    "id": "81429",
+    "japanese": "麻薬の密売は根こそぎ絶やさなければならない。",
+    "english": "We must eradicate the drug traffic, root and branch."
+  },
+  {
+    "id": "81430",
+    "japanese": "麻薬のためのお金やマフィアの資金は殺人の報酬であることが多い。",
+    "english": "Drug money and Mafia money are often blood money."
+  },
+  {
+    "id": "81431",
+    "japanese": "麻薬に手を出すとろくなことはない。",
+    "english": "If you mess with drugs, you're asking for trouble."
+  },
+  {
+    "id": "81432",
+    "japanese": "麻雀牌はとってもきれいなものです。",
+    "english": "Mahjong tiles are very beautiful."
+  },
+  {
+    "id": "81433",
+    "japanese": "麻雀は普通、四人で遊ぶゲームです。",
+    "english": "Mahjong is a game four people play."
+  },
+  {
+    "id": "81434",
+    "japanese": "麻雀は世界でとても有名な、ゲームのひとつです。",
+    "english": "Mahjong is a game well-known all around the world."
+  },
+  {
+    "id": "81435",
+    "japanese": "麻雀は最も面白いゲームのなかのひとつです。",
+    "english": "Mahjong is one of the most interesting games."
+  },
+  {
+    "id": "81436",
+    "japanese": "麻雀のやり方を知ってる？",
+    "english": "Do you know how to play mahjong?"
+  },
+  {
+    "id": "81437",
+    "japanese": "麻雀が大好きです。",
+    "english": "I like mahjong."
+  },
+  {
+    "id": "81438",
+    "japanese": "麻酔の注射をします。",
+    "english": "I'll give you anaesthesia."
+  },
+  {
+    "id": "81439",
+    "japanese": "麻原は、自分を救世主だと思ってる。",
+    "english": "Asahara thinks himself a savior."
+  },
+  {
+    "id": "81440",
+    "japanese": "魔女集会で悪魔を召喚する。",
+    "english": "Her coven conjures the demons."
+  },
+  {
+    "id": "81443",
+    "japanese": "魔女は哀れな少女を呪った。",
+    "english": "The witch cursed the poor little girl."
+  },
+  {
+    "id": "81444",
+    "japanese": "魔王は言った。「俺が負けるわっきゃねーべ。審判は皆地獄にいるのだ」。",
+    "english": "\"How can I lose?\" answered Satan. \"All the umpires are down here in Hell.\""
+  },
+  {
+    "id": "81445",
+    "japanese": "魔王が神に野球で勝負を挑んだ。",
+    "english": "The devil challenged God to a baseball game."
+  },
+  {
+    "id": "81446",
+    "japanese": "摩擦でマッチに火がつくようになる。",
+    "english": "Friction causes a match to light."
+  },
+  {
+    "id": "81447",
+    "japanese": "翻訳者は、彼の言っていることを説明するのは不可能だとわかった。",
+    "english": "The translator found it impossible to explain what he meant."
+  },
+  {
+    "id": "81448",
+    "japanese": "翻訳を原文と比べてみよう。",
+    "english": "Let's compare the translation with the original."
+  },
+  {
+    "id": "81449",
+    "japanese": "翻訳は母語をよりよく知るのに役立つ。",
+    "english": "Translating helps us to know our mother tongue better."
+  },
+  {
+    "id": "81450",
+    "japanese": "翻訳は決して容易ではない。",
+    "english": "Translation is by no means easy."
+  },
+  {
+    "id": "81451",
+    "japanese": "翻訳の質が良くなった。",
+    "english": "The quality of translation has improved."
+  },
+  {
+    "id": "81452",
+    "japanese": "翻訳家か通訳になろうと勉強しています。",
+    "english": "I am studying to be a translator or interpreter."
+  },
+  {
+    "id": "81453",
+    "japanese": "本論文ではダイアド・スタイルという概念、および美術に与えた影響を検討したい。",
+    "english": "In this paper I would like to examine the notion of \"dyad style\" and its influence on fine arts."
+  },
+  {
+    "id": "81455",
+    "japanese": "本来は、貧困層の女性や子供に医療保護を提供するために創設された制度である、アメリカ低所得者医療扶助制度が、今日では、その予算の約３分の１を老人に費やしている。",
+    "english": "Medicaid, a program originally created to provide medical care for poverty-level women and children, today spends almost a third of its budget on elderly people."
+  },
+  {
+    "id": "81456",
+    "japanese": "本命と対抗馬が競り合ったお陰で、ダークホースの彼が漁夫の利を得たってわけだ。",
+    "english": "Since the favorite and his rival were running against each other a dark horse like him was able to pull out in front."
+  },
+  {
+    "id": "81457",
+    "japanese": "本末を転倒するな。",
+    "english": "Don't put the cart before the horse."
+  },
+  {
+    "id": "81458",
+    "japanese": "本末を転倒してはいけない。",
+    "english": "Don't put the cart before the horse."
+  },
+  {
+    "id": "81459",
+    "japanese": "本物を追求しろ。",
+    "english": "Make it real."
+  },
+  {
+    "id": "81460",
+    "japanese": "本物の皮を使う方が結局は安くつくだろう。",
+    "english": "It'll be cheaper in the long run to use real leather."
+  },
+  {
+    "id": "81461",
+    "japanese": "彼は本物と偽物を区別できない。",
+    "english": "He can't tell the real thing from the fake."
+  },
+  {
+    "id": "81462",
+    "japanese": "本物と偽物を見分けるのは困難だ。",
+    "english": "It is hard to discern between the true and the false."
+  },
+  {
+    "id": "81463",
+    "japanese": "本能に従うと道を誤ることが多い。",
+    "english": "Instinct is often a poor guide."
+  },
+  {
+    "id": "81466",
+    "japanese": "本日の特別料理について説明します。",
+    "english": "Let me tell you about our special."
+  },
+  {
+    "id": "81467",
+    "japanese": "本日の株価は下がり気味です。",
+    "english": "The stock prices are on the low side today."
+  },
+  {
+    "id": "81468",
+    "japanese": "本日の映画は「サウンド・オブ・ミュージック」でございます。",
+    "english": "Today's movie is The Sound of Music."
+  },
+  {
+    "id": "81469",
+    "japanese": "本日のランチの内容はなんですか。",
+    "english": "What are you serving today?"
+  },
+  {
+    "id": "81470",
+    "japanese": "本日ご覧ください。",
+    "english": "Please visit there today."
+  },
+  {
+    "id": "81471",
+    "japanese": "本当を言うと私はそれに飽きた。",
+    "english": "To tell the truth, I am tired of it."
+  },
+  {
+    "id": "81472",
+    "japanese": "本当を言うと、コンピューターには詳しくないの。",
+    "english": "I'm not really familiar with computers."
+  },
+  {
+    "id": "81473",
+    "japanese": "本当は僕も行きたいよ。",
+    "english": "Actually, I'd also like to go."
+  },
+  {
+    "id": "81474",
+    "japanese": "本当は彼は彼女に手紙を書かなかったのである。",
+    "english": "The truth is that he didn't write a letter to her."
+  },
+  {
+    "id": "81475",
+    "japanese": "本当は気がすすまないんだ。",
+    "english": "The thing is, I don't really want to."
+  },
+  {
+    "id": "81476",
+    "japanese": "本当はその声明は彼の個人的見解にすぎない。",
+    "english": "The truth is that the statement is his personal view."
+  },
+  {
+    "id": "81477",
+    "japanese": "本当は、彼はいいやつなんだ。",
+    "english": "In fact, he is a nice fellow."
+  },
+  {
+    "id": "81478",
+    "japanese": "本当の話をしなさい。",
+    "english": "Tell me a true story."
+  },
+  {
+    "id": "81479",
+    "japanese": "本当の友達なら君を裏切ったりしないだろう。",
+    "english": "A true friend would not betray you."
+  },
+  {
+    "id": "81480",
+    "japanese": "本当の友達なら、そんなことは言わないだろう。",
+    "english": "A true friend would not say such a thing."
+  },
+  {
+    "id": "81481",
+    "japanese": "本当の友情は金銭よりも価値がある。",
+    "english": "Real friendship is more valuable than money."
+  },
+  {
+    "id": "81482",
+    "japanese": "本当の友達なら、あんなふうには行動しなかっただろう。",
+    "english": "A true friend would have acted differently."
+  },
+  {
+    "id": "81484",
+    "japanese": "本当の問題はどうやってその病気を予防するかである。",
+    "english": "The real issue is how to prevent the disease."
+  },
+  {
+    "id": "81485",
+    "japanese": "本当の戦争はこの話よりもずっと怖い。",
+    "english": "The real war is much more horrible than this story."
+  },
+  {
+    "id": "81486",
+    "japanese": "本当の戦争はこの話よりもずっと恐ろしい。",
+    "english": "The real war is much more horrible than this story."
+  },
+  {
+    "id": "81487",
+    "japanese": "本当の紳士なら、友達を裏切ったりしないだろう。",
+    "english": "A true gentleman would not betray his friends."
+  },
+  {
+    "id": "81488",
+    "japanese": "本当の所を読みとらなきゃ。",
+    "english": "Read between the lines."
+  },
+  {
+    "id": "81489",
+    "japanese": "本当の自分自身をもっと知りたいのに・・・。",
+    "english": "I must be true to myself."
+  },
+  {
+    "id": "81490",
+    "japanese": "本当の事を言った事を後悔している。",
+    "english": "I regret telling you the truth."
+  },
+  {
+    "id": "81491",
+    "japanese": "本当の事を言ったとはさすがに勇気がある。",
+    "english": "You were courageous to tell the truth."
+  },
+  {
+    "id": "81492",
+    "japanese": "本当のことをいえば、私はそこにはいかなかった。",
+    "english": "To tell the truth, I didn't go there."
+  },
+  {
+    "id": "81493",
+    "japanese": "本当の原因は彼の性格にある。",
+    "english": "The real problem lies in his character."
+  },
+  {
+    "id": "81495",
+    "japanese": "本当の科学者ならそういう風には考えない。",
+    "english": "A true scientist wouldn't think like that."
+  },
+  {
+    "id": "81496",
+    "japanese": "本当の科学者ならそんなふうには考えないだろう。",
+    "english": "A true scientist wouldn't think like that."
+  },
+  {
+    "id": "81497",
+    "japanese": "本当のマンションではありません。",
+    "english": "It isn't a real apartment."
+  },
+  {
+    "id": "81498",
+    "japanese": "本当のことを知ってたら、あなたにお話しましたよ。",
+    "english": "Had I known the truth, I would have told it to you."
+  },
+  {
+    "id": "81499",
+    "japanese": "本当のことを言えば彼は人間ではない。",
+    "english": "To tell the truth, he is not a human being."
+  },
+  {
+    "id": "81501",
+    "japanese": "本当のことを言うと、彼女はもう彼を愛していないのだ。",
+    "english": "To tell the truth, she no longer loves him."
+  },
+  {
+    "id": "81502",
+    "japanese": "本当のことを言うと、彼は有名な弁護士です。",
+    "english": "To tell the truth, he is a famous lawyer."
+  },
+  {
+    "id": "81503",
+    "japanese": "本当のことを言うと、全然お金を持ち合わせていません。",
+    "english": "To tell the truth, I have no money with me."
+  },
+  {
+    "id": "81504",
+    "japanese": "本当のことを言うと、私はお前の父ではない。",
+    "english": "To tell the truth, I am not your father."
+  },
+  {
+    "id": "81505",
+    "japanese": "本当のことを言うと、私はあんまりスポーツには興味がないの。",
+    "english": "I'm not much for sports to tell the truth."
+  },
+  {
+    "id": "81506",
+    "japanese": "本当のことを教えてよ。",
+    "english": "Tell me the truth."
+  },
+  {
+    "id": "81507",
+    "japanese": "本当のことをおっしゃっていただけませんか。",
+    "english": "Would you be kind enough to tell me the truth?"
+  }
+]

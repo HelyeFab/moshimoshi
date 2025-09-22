@@ -1,0 +1,39 @@
+{
+  "title": "Minna no Nihongo 1",
+  "totalCards": 2029,
+  "lessons": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "jlptDistribution": {
+    "N5": 1914,
+    "N4": 114,
+    "N3": 1
+  },
+  "partOfSpeechDistribution": {},
+  "source": "MCP anki-word-generator",
+  "importDate": "2025-07-26T08:34:16.266Z"
+}

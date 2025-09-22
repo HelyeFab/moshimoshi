@@ -1,0 +1,276 @@
+{
+  "name": "moshimoshi-waf-rules",
+  "version": "1.0.0",
+  "description": "Web Application Firewall rules for Moshimoshi Review Engine",
+  "rules": [
+    {
+      "id": "sql-injection-prevention",
+      "priority": 1,
+      "action": "BLOCK",
+      "description": "Block SQL injection attempts",
+      "conditions": [
+        {
+          "type": "REGEX",
+          "field": "REQUEST_URI",
+          "patterns": [
+            "(\\/\\*|\\*\\/|\\-\\-|\\#|\\|\\||\\\\)",
+            "(union.*select|select.*from|insert.*into|delete.*from)",
+            "(drop\\s+table|alter\\s+table|create\\s+table)",
+            "(exec\\s*\\(|execute\\s*\\(|sp_executesql)",
+            "(xp_cmdshell|sp_configure|sp_addlogin|sp_droplogin)"
+          ]
+        }
+      ],
+      "rateLimit": null
+    },
+    {
+      "id": "xss-prevention",
+      "priority": 2,
+      "action": "BLOCK",
+      "description": "Block XSS attempts",
+      "conditions": [
+        {
+          "type": "REGEX",
+          "field": "REQUEST_BODY",
+          "patterns": [
+            "<script[^>]*>.*?</script>",
+            "javascript:",
+            "on(load|error|click|mouse|focus|blur)\\s*=",
+            "<iframe[^>]*>",
+            "<embed[^>]*>",
+            "<object[^>]*>",
+            "document\\.(cookie|location|write)",
+            "window\\.(location|open)",
+            "eval\\s*\\(",
+            "alert\\s*\\("
+          ]
+        }
+      ],
+      "rateLimit": null
+    },
+    {
+      "id": "path-traversal-prevention",
+      "priority": 3,
+      "action": "BLOCK",
+      "description": "Block path traversal attempts",
+      "conditions": [
+        {
+          "type": "REGEX",
+          "field": "REQUEST_URI",
+          "patterns": [
+            "\\.\\.\\/",
+            "\\.\\.\\\\"
+          ]
+        }
+      ],
+      "rateLimit": null
+    },
+    {
+      "id": "command-injection-prevention",
+      "priority": 4,
+      "action": "BLOCK",
+      "description": "Block command injection attempts",
+      "conditions": [
+        {
+          "type": "REGEX",
+          "field": "REQUEST_BODY",
+          "patterns": [
+            "(;|\\||&|`|\\$\\(|\\$\\{).*?(ls|cat|wget|curl|bash|sh|cmd|powershell)",
+            "\\b(chmod|chown|sudo|su|passwd|shadow|etc\\/passwd)\\b"
+          ]
+        }
+      ],
+      "rateLimit": null
+    },
+    {
+      "id": "api-rate-limiting",
+      "priority": 5,
+      "action": "RATE_LIMIT",
+      "description": "Rate limit API endpoints",
+      "conditions": [
+        {
+          "type": "PATH",
+          "field": "REQUEST_URI",
+          "patterns": [
+            "/api/*"
+          ]
+        }
+      ],
+      "rateLimit": {
+        "requests": 100,
+        "period": "MINUTE",
+        "blockDuration": 300
+      }
+    },
+    {
+      "id": "auth-rate-limiting",
+      "priority": 6,
+      "action": "RATE_LIMIT",
+      "description": "Strict rate limiting for authentication endpoints",
+      "conditions": [
+        {
+          "type": "PATH",
+          "field": "REQUEST_URI",
+          "patterns": [
+            "/api/auth/login",
+            "/api/auth/register",
+            "/api/auth/reset-password"
+          ]
+        }
+      ],
+      "rateLimit": {
+        "requests": 5,
+        "period": "MINUTE",
+        "blockDuration": 900
+      }
+    },
+    {
+      "id": "large-payload-prevention",
+      "priority": 7,
+      "action": "BLOCK",
+      "description": "Block oversized payloads",
+      "conditions": [
+        {
+          "type": "SIZE",
+          "field": "REQUEST_BODY",
+          "maxSize": 10485760
+        }
+      ],
+      "rateLimit": null
+    },
+    {
+      "id": "bot-detection",
+      "priority": 8,
+      "action": "CHALLENGE",
+      "description": "Challenge suspicious bot traffic",
+      "conditions": [
+        {
+          "type": "USER_AGENT",
+          "field": "USER_AGENT",
+          "patterns": [
+            "^$",
+            "^-$",
+            "bot|crawler|spider|scraper",
+            "curl|wget|python|java|ruby|perl|php"
+          ]
+        }
+      ],
+      "rateLimit": null,
+      "exceptions": [
+        "googlebot",
+        "bingbot",
+        "slackbot",
+        "twitterbot",
+        "facebookexternalhit"
+      ]
+    },
+    {
+      "id": "geo-blocking",
+      "priority": 9,
+      "action": "BLOCK",
+      "description": "Block traffic from high-risk countries",
+      "conditions": [
+        {
+          "type": "GEO",
+          "field": "COUNTRY_CODE",
+          "blockedCountries": []
+        }
+      ],
+      "enabled": false,
+      "rateLimit": null
+    },
+    {
+      "id": "protocol-validation",
+      "priority": 10,
+      "action": "BLOCK",
+      "description": "Block non-HTTPS traffic in production",
+      "conditions": [
+        {
+          "type": "PROTOCOL",
+          "field": "REQUEST_SCHEME",
+          "allowedProtocols": ["https"]
+        }
+      ],
+      "environments": ["production"],
+      "rateLimit": null
+    },
+    {
+      "id": "http-method-validation",
+      "priority": 11,
+      "action": "BLOCK",
+      "description": "Block unusual HTTP methods",
+      "conditions": [
+        {
+          "type": "METHOD",
+          "field": "REQUEST_METHOD",
+          "blockedMethods": ["TRACE", "TRACK", "CONNECT", "OPTIONS"]
+        }
+      ],
+      "rateLimit": null
+    },
+    {
+      "id": "file-upload-validation",
+      "priority": 12,
+      "action": "BLOCK",
+      "description": "Validate file uploads",
+      "conditions": [
+        {
+          "type": "FILE_EXTENSION",
+          "field": "UPLOAD_FILE",
+          "blockedExtensions": [
+            ".exe", ".dll", ".bat", ".cmd", ".sh",
+            ".ps1", ".vbs", ".js", ".jar", ".scr"
+          ],
+          "allowedExtensions": [
+            ".jpg", ".jpeg", ".png", ".gif", ".pdf",
+            ".mp3", ".mp4", ".wav"
+          ]
+        }
+      ],
+      "rateLimit": null
+    }
+  ],
+  "ipWhitelist": [],
+  "ipBlacklist": [],
+  "customHeaders": {
+    "X-Frame-Options": "DENY",
+    "X-Content-Type-Options": "nosniff",
+    "X-XSS-Protection": "1; mode=block",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.stripe.com https://*.firebaseio.com https://*.googleapis.com; frame-ancestors 'none';",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=()"
+  },
+  "ddosProtection": {
+    "enabled": true,
+    "sensitivity": "medium",
+    "thresholds": {
+      "requestsPerSecond": 100,
+      "requestsPerMinute": 1000,
+      "connectionsPerIp": 20,
+      "challengeThreshold": 50
+    },
+    "mitigationActions": [
+      "CHALLENGE",
+      "RATE_LIMIT",
+      "BLOCK"
+    ]
+  },
+  "logging": {
+    "enabled": true,
+    "level": "INFO",
+    "includeBlocked": true,
+    "includeChallenged": true,
+    "includeAllowed": false,
+    "fields": [
+      "timestamp",
+      "ip",
+      "country",
+      "method",
+      "uri",
+      "userAgent",
+      "action",
+      "ruleId"
+    ]
+  }
+}

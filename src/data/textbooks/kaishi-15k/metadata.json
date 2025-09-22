@@ -1,0 +1,12 @@
+{
+  "source": "kaishi-15k",
+  "totalCards": 1500,
+  "levels": {
+    "N5": 344,
+    "N4": 727,
+    "N3": 403,
+    "N2": 8,
+    "N1": 18
+  },
+  "lastUpdated": "2025-01-26"
+}

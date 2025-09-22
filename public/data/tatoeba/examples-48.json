@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "220858",
+    "japanese": "この切符は３日間有効です。",
+    "english": "This ticket is good for three days."
+  },
+  {
+    "id": "220855",
+    "japanese": "この切符は購入後２日のみ有効である。",
+    "english": "This ticket holds good only for two days after purchase."
+  },
+  {
+    "id": "220856",
+    "japanese": "この切符は一ヶ月間有効である。",
+    "english": "This ticket holds good for a month."
+  },
+  {
+    "id": "220857",
+    "japanese": "この切符はまだ一週間有効だ。",
+    "english": "This ticket is good for one more week."
+  },
+  {
+    "id": "220859",
+    "japanese": "この切符の出発日を変更できますか。",
+    "english": "Could you change the departure date for this ticket?"
+  },
+  {
+    "id": "220860",
+    "japanese": "この切符で二人入れるよ。",
+    "english": "The ticket admits two persons."
+  },
+  {
+    "id": "220861",
+    "japanese": "この切符で特別展をみられますか。",
+    "english": "Can I see the special exhibit with this ticket?"
+  },
+  {
+    "id": "220862",
+    "japanese": "この切符では２人無料で入場できる。",
+    "english": "This ticket will admit two persons free."
+  },
+  {
+    "id": "220863",
+    "japanese": "この切符で２名入場できます。",
+    "english": "This ticket admits two persons."
+  },
+  {
+    "id": "220864",
+    "japanese": "この切手のどちらでもあげよう。",
+    "english": "I'll give you either of these stamps."
+  },
+  {
+    "id": "220865",
+    "japanese": "この切手には誰の肖像が印刷してありますか。",
+    "english": "Whose image is on this stamp?"
+  },
+  {
+    "id": "220866",
+    "japanese": "この赤色で柄全体がだいなしだ。",
+    "english": "The red kills the whole pattern."
+  },
+  {
+    "id": "220867",
+    "japanese": "この赤ん坊はまだスプーンが使えない。",
+    "english": "The baby cannot use a spoon yet."
+  },
+  {
+    "id": "220868",
+    "japanese": "この赤ちゃんは男ですか女ですか。",
+    "english": "Is this baby a he or a she?"
+  },
+  {
+    "id": "2790142",
+    "japanese": "この赤ちゃんは男の子？ 女の子？",
+    "english": "Is this baby a he or a she?"
+  },
+  {
+    "id": "220869",
+    "japanese": "この赤ちゃんは生後3週間です。",
+    "english": "This baby is 3 weeks old."
+  },
+  {
+    "id": "220870",
+    "japanese": "この赤い帽子は彼女の服によく合ってますよ。",
+    "english": "This red hat corresponds well to her dress."
+  },
+  {
+    "id": "482812",
+    "japanese": "この赤い帽子は幾らですか。",
+    "english": "How much for this red hat?"
+  },
+  {
+    "id": "220872",
+    "japanese": "この赤いボタンを押すだけでいいのです。",
+    "english": "You have only to push this red button."
+  },
+  {
+    "id": "220873",
+    "japanese": "この責任は結局だれにあるのか。",
+    "english": "Who is ultimately responsible for this?"
+  },
+  {
+    "id": "220874",
+    "japanese": "この石鹸を使えば彼女の顔の色艶がよくなるだろう。",
+    "english": "This soap will improve her complexion."
+  },
+  {
+    "id": "220875",
+    "japanese": "この石を動かすのを手伝ってください。",
+    "english": "Help me move this stone."
+  },
+  {
+    "id": "9997327",
+    "japanese": "この石動かすの手伝って。",
+    "english": "Help me move this stone."
+  },
+  {
+    "id": "220876",
+    "japanese": "この石を持ち上げる事が出来ますか。",
+    "english": "Can you lift this stone?"
+  },
+  {
+    "id": "220877",
+    "japanese": "この石は重すぎて持ち上げられない。",
+    "english": "This stone is too heavy to lift."
+  },
+  {
+    "id": "220878",
+    "japanese": "この石は重すぎて私には動かせない。",
+    "english": "This stone is too heavy for me to move."
+  },
+  {
+    "id": "220879",
+    "japanese": "この石はとても重かったので持ち上げることができなかった。",
+    "english": "This stone was so heavy that I could not lift it."
+  },
+  {
+    "id": "220880",
+    "japanese": "この石はあの石の２倍の重さだ。",
+    "english": "This stone is twice as heavy as that one."
+  },
+  {
+    "id": "220882",
+    "japanese": "この石は５トンの重さがある。",
+    "english": "This stone weighs five tons."
+  },
+  {
+    "id": "220881",
+    "japanese": "この石には、真ん中に穴がある。",
+    "english": "This stone has a hole in the center."
+  },
+  {
+    "id": "11510679",
+    "japanese": "この石鹼は、水で泡立ちます。",
+    "english": "This soap lathers up with water."
+  },
+  {
+    "id": "220884",
+    "japanese": "この席を取っておいてくれませんか。",
+    "english": "Will you keep this seat for me?"
+  },
+  {
+    "id": "9848938",
+    "japanese": "この席、取っといてくれる？",
+    "english": "Will you keep this seat for me?"
+  },
+  {
+    "id": "220885",
+    "japanese": "この席を取っておいてくださいませんか。",
+    "english": "Will you hold this seat for me?"
+  },
+  {
+    "id": "9928453",
+    "japanese": "この席、見といてくれる？",
+    "english": "Will you hold this seat for me?"
+  },
+  {
+    "id": "220886",
+    "japanese": "この席を見ていてくれませんか。",
+    "english": "Can you save this seat for me?"
+  },
+  {
+    "id": "220887",
+    "japanese": "この席まで案内してくれますか。",
+    "english": "Could you take me to this seat?"
+  },
+  {
+    "id": "170382",
+    "japanese": "このイスはあいていますか。",
+    "english": "Is this seat taken?"
+  },
+  {
+    "id": "220889",
+    "japanese": "この席はふさがってますか。",
+    "english": "Is this seat taken?"
+  },
+  {
+    "id": "220891",
+    "japanese": "この席はどなたかいらっしゃいますか。",
+    "english": "Is this seat taken?"
+  },
+  {
+    "id": "220894",
+    "japanese": "この席は空いていますか？",
+    "english": "Is this seat taken?"
+  },
+  {
+    "id": "222956",
+    "japanese": "この椅子ふさがっていますか。",
+    "english": "Is this seat taken?"
+  },
+  {
+    "id": "220888",
+    "japanese": "この席はふさがっていないといいが。",
+    "english": "I hope this seat is not occupied."
+  },
+  {
+    "id": "220890",
+    "japanese": "この席はどのあたりでしょう？",
+    "english": "Where's this seat?"
+  },
+  {
+    "id": "220892",
+    "japanese": "この席はあいてますか。",
+    "english": "Is this seat empty?"
+  },
+  {
+    "id": "3703959",
+    "japanese": "この席空いてますか？",
+    "english": "Is this seat empty?"
+  },
+  {
+    "id": "220893",
+    "japanese": "この席からはステージが良く見えない。",
+    "english": "I can't see the stage well from this seat."
+  },
+  {
+    "id": "220895",
+    "japanese": "この静かな生活にはいい加減飽きてしまった。",
+    "english": "I'm about tired of this quiet life."
+  },
+  {
+    "id": "220896",
+    "japanese": "この静かな森で動物を狩ることは禁止されている。",
+    "english": "Hunting game is forbidden in these tranquil woods."
+  },
+  {
+    "id": "220897",
+    "japanese": "この静かな原野で狩猟をすることは禁止されています。",
+    "english": "Hunting game is forbidden in this tranquil wilderness."
+  },
+  {
+    "id": "220898",
+    "japanese": "この青いセーターはとてもきれいだ。",
+    "english": "This blue sweater is very pretty."
+  },
+  {
+    "id": "10515981",
+    "japanese": "この青のセーター、めっちゃかわいいよ。",
+    "english": "This blue sweater is very pretty."
+  },
+  {
+    "id": "220899",
+    "japanese": "この請求書の支払いは今日になっています。",
+    "english": "Payment of this bill is due today."
+  },
+  {
+    "id": "220900",
+    "japanese": "この製品は美しく仕上がっている。",
+    "english": "This work is beautifully finished."
+  },
+  {
+    "id": "220901",
+    "japanese": "この製品は飛ぶように売れています。",
+    "english": "These products are selling like hot cakes."
+  },
+  {
+    "id": "220903",
+    "japanese": "この製品はイタリア製だ。",
+    "english": "This product is made in Italy."
+  },
+  {
+    "id": "220902",
+    "japanese": "この製品は彼らの製品より勝っている。",
+    "english": "These products are superior to theirs."
+  },
+  {
+    "id": "220905",
+    "japanese": "この製品のお陰で我が社は大きな利益をあげた。",
+    "english": "This product brought us a large margin."
+  },
+  {
+    "id": "220904",
+    "japanese": "この製品は、２月１５日までにご注文いただければ、３月１５日までにお届けすることができます。",
+    "english": "Please order this product by February 15, and we will be able to deliver it before March 15."
+  },
+  {
+    "id": "220907",
+    "japanese": "この生地は洋服をつくるのには向かない。",
+    "english": "This material is not suitable for a dress."
+  },
+  {
+    "id": "220906",
+    "japanese": "この生徒たちはそれぞれの自分の意見をもっている。",
+    "english": "Each of these students has his or her own opinion."
+  },
+  {
+    "id": "220910",
+    "japanese": "この生地は引っ張るとすぐ伸びる。",
+    "english": "This material stretches easily."
+  },
+  {
+    "id": "220911",
+    "japanese": "この生地はしみになりやすい。",
+    "english": "This fabric stains easily."
+  },
+  {
+    "id": "220912",
+    "japanese": "この生地はあの生地よりも上質です。",
+    "english": "This cloth is superior to that."
+  },
+  {
+    "id": "9421747",
+    "japanese": "この布はあれよりも質がいいですよ。",
+    "english": "This cloth is superior to that."
+  },
+  {
+    "id": "220913",
+    "japanese": "この生地はアイロンがよくきく。",
+    "english": "This cloth irons well."
+  },
+  {
+    "id": "220914",
+    "japanese": "この生地で洋服を作ってください。",
+    "english": "I want a suit made of this material."
+  },
+  {
+    "id": "220915",
+    "japanese": "この生地でスカートを作ろうと思っています。",
+    "english": "I'm going to make this material into a skirt."
+  },
+  {
+    "id": "220916",
+    "japanese": "この生地、今度作ろうと思ってる服に使おうと思うんですが、幾らしますか。",
+    "english": "I want to buy this material for a new dress. How much does it cost?"
+  },
+  {
+    "id": "220917",
+    "japanese": "この生活に疲れた。",
+    "english": "I'm tired of living this life."
+  },
+  {
+    "id": "220918",
+    "japanese": "この晴天が週末まで続くことを望む。",
+    "english": "I hope this fine weather lasts till the weekend."
+  },
+  {
+    "id": "11185317",
+    "japanese": "このお天気が週末まで続くといいな。",
+    "english": "I hope this fine weather lasts till the weekend."
+  },
+  {
+    "id": "220919",
+    "japanese": "この政府はまさしく時代に逆行している。",
+    "english": "This government is really putting the clock back."
+  },
+  {
+    "id": "220920",
+    "japanese": "この政治的問題は激しい議論を巻き起こした。",
+    "english": "This political problem gave rise to hot discussions."
+  },
+  {
+    "id": "220922",
+    "japanese": "この政策は、景気を刺激するのにきっと大いに役立つであろう。",
+    "english": "This policy is sure to go a long way towards stimulating business."
+  },
+  {
+    "id": "220924",
+    "japanese": "この政策の結果、物価が大幅に上昇した。",
+    "english": "Prices rose drastically as a result of this policy."
+  },
+  {
+    "id": "220926",
+    "japanese": "この制度は十中八九うまくいくだろう。",
+    "english": "This system will work well in nine cases out of ten."
+  },
+  {
+    "id": "220928",
+    "japanese": "この制度は欠陥だらけだ。",
+    "english": "This system is bristling with defects and drawbacks."
+  },
+  {
+    "id": "220927",
+    "japanese": "この制度には改良の余地がない。",
+    "english": "There is no room for further improvement in this system."
+  },
+  {
+    "id": "220930",
+    "japanese": "この世界を直視するべきだ。",
+    "english": "We ought to look the world straight in the face."
+  },
+  {
+    "id": "220929",
+    "japanese": "この世界へようこそ！",
+    "english": "Welcome to this world!"
+  },
+  {
+    "id": "143417",
+    "japanese": "世界はいつ誕生したのだろうか。",
+    "english": "When did the world come into being?"
+  },
+  {
+    "id": "220931",
+    "japanese": "この世界は何時生じたのか。",
+    "english": "When did the world come into being?"
+  },
+  {
+    "id": "220932",
+    "japanese": "この世界に戦争なんてなければよいのに。",
+    "english": "If only there were no wars in the world."
+  },
+  {
+    "id": "220933",
+    "japanese": "この世は我々の想像力にとっての画布そのものである。",
+    "english": "This world is but canvas to our imaginations."
+  },
+  {
+    "id": "220934",
+    "japanese": "この世は仮の宿に過ぎない。",
+    "english": "This world is but a place of passage."
+  },
+  {
+    "id": "122916",
+    "japanese": "日のもとに新しきものなし。",
+    "english": "There is nothing new under the sun."
+  },
+  {
+    "id": "138137",
+    "japanese": "太陽のもとに新しいものなどはない。",
+    "english": "There is nothing new under the sun."
+  },
+  {
+    "id": "220935",
+    "japanese": "この世の中には新しいことは何もない。",
+    "english": "There is nothing new under the sun."
+  },
+  {
+    "id": "220939",
+    "japanese": "この世に全く新しきものなし。",
+    "english": "There is nothing new under the sun."
+  },
+  {
+    "id": "220941",
+    "japanese": "この世に新しいものはない。",
+    "english": "There is nothing new under the sun."
+  },
+  {
+    "id": "220936",
+    "japanese": "この世の心配事は忘れて気をゆったり持て。",
+    "english": "Forget the anxieties of life and learn to relax."
+  },
+  {
+    "id": "220937",
+    "japanese": "この世の喜びはほんのすこししかない。",
+    "english": "The joys of the world do but little."
+  },
+  {
+    "id": "220938",
+    "japanese": "この世のことは、何もかも知るというわけにはいかない。",
+    "english": "We cannot know everything in the world."
+  },
+  {
+    "id": "220940",
+    "japanese": "この世に戦争がまったくない時代を想像することができますか。",
+    "english": "Can you imagine a time when the world is free of war?"
+  },
+  {
+    "id": "220942",
+    "japanese": "この世に私が恐れるものは何もない。",
+    "english": "There is nothing in this world that I am afraid of."
+  },
+  {
+    "id": "10367176",
+    "japanese": "この世に怖いものなんてない。",
+    "english": "There is nothing in this world that I am afraid of."
+  },
+  {
+    "id": "220943",
+    "japanese": "この世に私がいなくなる日が来るだろう。",
+    "english": "The day will come when I cease to be on this earth."
+  },
+  {
+    "id": "220944",
+    "japanese": "この世に思い煩らうことはない。",
+    "english": "I don't have a care in the world."
+  },
+  {
+    "id": "1186801",
+    "japanese": "私には悩みなど何もない。",
+    "english": "I don't have a care in the world."
+  },
+  {
+    "id": "220945",
+    "japanese": "この世にかわいい子はただ一人、母親にとってはそれはわが子。",
+    "english": "There's only one pretty child in the world, and every mother has it."
+  },
+  {
+    "id": "220946",
+    "japanese": "この世にお茶がなかったならばどうするだろう。",
+    "english": "What would the world do without tea?"
+  },
+  {
+    "id": "220947",
+    "japanese": "この世にある人は誰でも多くの困難に対処しなければならない。",
+    "english": "Everybody in this world has to cope with a lot of difficulties."
+  },
+  {
+    "id": "9928526",
+    "japanese": "この世界にいる誰もが、多くの困難に立ち向かわなければならない。",
+    "english": "Everybody in this world has to cope with a lot of difficulties."
+  },
+  {
+    "id": "220948",
+    "japanese": "この世で男にとって最良のことは良妻を選ぶことであり、最悪のことは選び損なって悪妻を持つことである。",
+    "english": "The best thing in the world for a man is to choose a good wife, the worst being to mistakenly choose an ill-suited one."
+  },
+  {
+    "id": "220949",
+    "japanese": "この世で大切なことは、今、自分がどこにいるかということよりも、むしろどの方向に向かって進んでいるかということであると思う。",
+    "english": "I find the great thing in this world is not so much where we stand as in what direction we are moving."
+  },
+  {
+    "id": "220950",
+    "japanese": "この世で太陽の影響を受けないものは何一つ無い。",
+    "english": "There is nothing on earth that is not affected by the sun."
+  },
+  {
+    "id": "220951",
+    "japanese": "この世で太陽の影響を受けないものはない。",
+    "english": "There is nothing on earth that is not affected by the sun."
+  },
+  {
+    "id": "220952",
+    "japanese": "この世で私たちが何かを学べないものは何も無い。",
+    "english": "There is nothing in the world from which we can't learn something."
+  },
+  {
+    "id": "220953",
+    "japanese": "この世で愛する者を失うことほどつらいことはない。",
+    "english": "Nothing is as terrible as losing someone you love in the world."
+  },
+  {
+    "id": "220954",
+    "japanese": "この世で愛するものを失う事ほど苦しい事はない。",
+    "english": "Nothing is as terrible as losing someone you love in the world."
+  },
+  {
+    "id": "220956",
+    "japanese": "この世がいつ出現したのかわかってない。",
+    "english": "We don't know when this world came into being."
+  },
+  {
+    "id": "220955",
+    "japanese": "この世で、いくら受けても受けすぎることはなく、いくら与えても与えすぎることのない唯一のものは愛情である。",
+    "english": "The only thing in the world which one can never receive or give too much is love."
+  },
+  {
+    "id": "220957",
+    "japanese": "この数年間に彼は不朽の名詩を書いた。",
+    "english": "During these years he wrote immortal poems."
+  },
+  {
+    "id": "220958",
+    "japanese": "この数字は原油輸入減を反映している。",
+    "english": "This figure is a mirror of the decrease in imports of crude oil."
+  },
+  {
+    "id": "220959",
+    "japanese": "この数字の列を合計しなさい。",
+    "english": "Add up this column of figures."
+  },
+  {
+    "id": "220961",
+    "japanese": "この随筆は一個の旅行かばんについてのものです。",
+    "english": "This essay is about a piece of luggage."
+  },
+  {
+    "id": "220963",
+    "japanese": "この水着は伸縮性のある素材でできている。",
+    "english": "This swimming suit is made of elastic material."
+  },
+  {
+    "id": "220964",
+    "japanese": "この水を飲むのはよい。",
+    "english": "It is good to drink this water."
+  },
+  {
+    "id": "220966",
+    "japanese": "この水は少量のアルコールを含んでいる。",
+    "english": "This water contains a little alcohol."
+  },
+  {
+    "id": "220967",
+    "japanese": "この水は少し塩辛い。",
+    "english": "This water is a little salty."
+  },
+  {
+    "id": "220968",
+    "japanese": "この水は殺菌してある。",
+    "english": "This water is sterilized."
+  },
+  {
+    "id": "220969",
+    "japanese": "この水は嫌なにおいがする。",
+    "english": "This water has an ugly smell."
+  },
+  {
+    "id": "220970",
+    "japanese": "この水は飲料に適している。",
+    "english": "This water is good to drink."
+  },
+  {
+    "id": "220973",
+    "japanese": "この水は飲めます。",
+    "english": "This water is good to drink."
+  },
+  {
+    "id": "220974",
+    "japanese": "この水は飲むのに適している。",
+    "english": "This water is good to drink."
+  },
+  {
+    "id": "220977",
+    "japanese": "この水は、飲用に適している。",
+    "english": "This water is good to drink."
+  },
+  {
+    "id": "220971",
+    "japanese": "この水は飲んでも大丈夫だ。",
+    "english": "This water is safe to drink."
+  },
+  {
+    "id": "220972",
+    "japanese": "この水は飲んでも安心です。",
+    "english": "This water is safe to drink."
+  },
+  {
+    "id": "220975",
+    "japanese": "この水はよい味がする。",
+    "english": "This water tastes good."
+  },
+  {
+    "id": "220978",
+    "japanese": "この推理小説はまだ半分も読んでない。",
+    "english": "I am halfway through this detective story."
+  },
+  {
+    "id": "220979",
+    "japanese": "この推理小説はまだ半分ぐらいしか読んでいない。",
+    "english": "I am halfway through this detective story."
+  },
+  {
+    "id": "220980",
+    "japanese": "この図書館には非常にたくさんの本があります。",
+    "english": "There are a great many books in this library."
+  },
+  {
+    "id": "220984",
+    "japanese": "この図書館にはたくさんの本があります。",
+    "english": "There are a great many books in this library."
+  },
+  {
+    "id": "220981",
+    "japanese": "この図書館には中国語の本がかなりそろっている。",
+    "english": "This library has a large collection of Chinese books."
+  },
+  {
+    "id": "220982",
+    "japanese": "この図書館には英語の本がたくさんある。",
+    "english": "There are a lot of English books in this library."
+  },
+  {
+    "id": "220983",
+    "japanese": "この図書館には英語の雑誌がありますか。",
+    "english": "Are there any English magazines in this library?"
+  },
+  {
+    "id": "220985",
+    "japanese": "この図書館には５万冊以上の書物がある。",
+    "english": "This library has more than 50,000 volumes."
+  },
+  {
+    "id": "220986",
+    "japanese": "この図書館では１度に３冊まで借りられます。",
+    "english": "At this library, you can borrow up to three books at a time."
+  },
+  {
+    "id": "220987",
+    "japanese": "この図解は地球の深い内部を示している。",
+    "english": "The illustration shows the deep interior."
+  },
+  {
+    "id": "220988",
+    "japanese": "この図はオゾン層の機能を説明している。",
+    "english": "This chart illustrates the function of ozone layer."
+  },
+  {
+    "id": "220989",
+    "japanese": "この図が私の言いたいことを説明してくれるでしょう。",
+    "english": "This diagram will illustrate what I mean."
+  },
+  {
+    "id": "220990",
+    "japanese": "この人々は、血によってではなく、肉の欲求や人の意欲によってでもなく、ただ、神によって生まれたのである。",
+    "english": "These children are born not of natural descent, nor of human decision or a husband's will, but born of God."
+  },
+  {
+    "id": "220994",
+    "japanese": "この人形は君一人で作ったの？",
+    "english": "Did you make this doll by yourself?"
+  },
+  {
+    "id": "3228971",
+    "japanese": "この人形、一人で作ったの？",
+    "english": "Did you make this doll by yourself?"
+  },
+  {
+    "id": "3228975",
+    "japanese": "この人形、自分で作ったの？",
+    "english": "Did you make this doll by yourself?"
+  },
+  {
+    "id": "220991",
+    "japanese": "この人込みを見ると東京の通りを思い出す。",
+    "english": "This crowd reminds me of the streets of Tokyo."
+  },
+  {
+    "id": "220993",
+    "japanese": "この人形は私のです。",
+    "english": "This doll belongs to me."
+  },
+  {
+    "id": "220995",
+    "japanese": "この人形はマリリン・モンローのつもりらしいが、実物ほどよくないと思う。",
+    "english": "This figure is supposed to represent Marilyn Monroe, but I don't think it does her justice."
+  },
+  {
+    "id": "220996",
+    "japanese": "この人形はたった６０セントです。",
+    "english": "This doll costs only sixty cents."
+  },
+  {
+    "id": "220997",
+    "japanese": "この人形は叔母からの贈り物です。",
+    "english": "This doll is a gift from my aunt."
+  },
+  {
+    "id": "220999",
+    "japanese": "この人は目が見えなくなって五年になる。",
+    "english": "This man has been blind for five years at least."
+  },
+  {
+    "id": "220998",
+    "japanese": "この人形が欲しいのですが。",
+    "english": "I'd like to buy this doll."
+  },
+  {
+    "id": "221001",
+    "japanese": "この人は光についてあかしするために来た。",
+    "english": "He came as a witness to testify concerning that light."
+  },
+  {
+    "id": "221002",
+    "japanese": "この人は画家だ！",
+    "english": "This fellow is an artist!"
+  },
+  {
+    "id": "221003",
+    "japanese": "この人は、車を盗んだといわれている人です。",
+    "english": "This is the man who they say stole the car."
+  },
+  {
+    "id": "221004",
+    "japanese": "この人たちは無実どころではありません。",
+    "english": "These people are anything but innocent."
+  },
+  {
+    "id": "221005",
+    "japanese": "この人がジョンで、あの人は兄さんだ。",
+    "english": "This is John and that is his brother."
+  },
+  {
+    "id": "221007",
+    "japanese": "この人が、あなたが先日ほめていらっしゃった少女ですか。",
+    "english": "Is this the girl you spoke well of the other day?"
+  },
+  {
+    "id": "221008",
+    "japanese": "この人、あたしをどなりつけるんですよ！",
+    "english": "This man's shouting at me!"
+  },
+  {
+    "id": "221009",
+    "japanese": "この身振りは若い人たちにはよく知られている。",
+    "english": "This gesture is familiar to young people."
+  },
+  {
+    "id": "221010",
+    "japanese": "この神秘を解いたものはいますか。",
+    "english": "Has anybody solved this mystery?"
+  },
+  {
+    "id": "10893275",
+    "japanese": "この謎を解明した人はいるの？",
+    "english": "Has anybody solved this mystery?"
+  },
+  {
+    "id": "221011",
+    "japanese": "この神殿を壊してみなさい。",
+    "english": "Destroy this temple."
+  },
+  {
+    "id": "221012",
+    "japanese": "この神殿は建てるのに４６年かかりました。",
+    "english": "It has taken forty-six years to build this temple."
+  },
+  {
+    "id": "221013",
+    "japanese": "この真珠は本物そっくりだ。",
+    "english": "These pearls look real."
+  },
+  {
+    "id": "221014",
+    "japanese": "この真っ赤なりんごを８つ下さい。",
+    "english": "Give me these 8 crimson apples please."
+  },
+  {
+    "id": "221015",
+    "japanese": "この申込用紙に必要事項を記入してすぐ送って下さい。",
+    "english": "Fill in this application form and send it at once."
+  },
+  {
+    "id": "221016",
+    "japanese": "この申込書に記入してください。",
+    "english": "Please fill in this application form."
+  },
+  {
+    "id": "9054948",
+    "japanese": "この申請書にご記入ください。",
+    "english": "Please fill in this application form."
+  },
+  {
+    "id": "221017",
+    "japanese": "この申し出は、われわれの要求を満たさない。",
+    "english": "This offer does not meet our requirements."
+  },
+  {
+    "id": "221018",
+    "japanese": "この森には野ブドウが密集して生えている。",
+    "english": "There is a dense growth of vines in this forest."
+  },
+  {
+    "id": "221019",
+    "japanese": "この森にはたくさんの鳥がいる。",
+    "english": "There are many birds in this forest."
+  },
+  {
+    "id": "221020",
+    "japanese": "この森には、幽霊がいると信じられている。",
+    "english": "It is believed that ghosts exist in this forest."
+  },
+  {
+    "id": "221021",
+    "japanese": "この森では野生のうさぎを見る事が出来る。",
+    "english": "You can see some wild rabbits in the forest."
+  },
+  {
+    "id": "221022",
+    "japanese": "この森では多くの動物が見られる。",
+    "english": "You can see many animals in this forest."
+  },
+  {
+    "id": "221023",
+    "japanese": "この新薬は効果が永続的である。",
+    "english": "This new medicine has a lasting effect."
+  },
+  {
+    "id": "221024",
+    "japanese": "この新薬は君の回復を早めるかも知れない。",
+    "english": "This new medicine may aid your recovery."
+  },
+  {
+    "id": "221025",
+    "japanese": "この新聞は最も人気のある筆者をはずしてから、読者数を減らし始めた。",
+    "english": "The newspaper began to lose readers when it dispensed with one of its most popular writers."
+  },
+  {
+    "id": "221026",
+    "japanese": "この新聞は購読者が多い。",
+    "english": "This paper has a large circulation."
+  },
+  {
+    "id": "9145921",
+    "japanese": "この新聞は発行部数が多い。",
+    "english": "This paper has a large circulation."
+  },
+  {
+    "id": "221027",
+    "japanese": "この新日程でご都合が悪いようでしたら、ご連絡下さい。",
+    "english": "If you will not be available at the new time, please let us know."
+  },
+  {
+    "id": "221028",
+    "japanese": "この新製品は価格表から２０％引きで提供する用意がございます。",
+    "english": "We can offer these new products at 20% below list price."
+  },
+  {
+    "id": "221029",
+    "japanese": "この新人歌手は本当にすばらしい。",
+    "english": "This new singer is really great."
+  },
+  {
+    "id": "221030",
+    "japanese": "この新人のアナウンサー、さっきからとちってばかりいる。",
+    "english": "This new announcer keeps stumbling."
+  },
+  {
+    "id": "221031",
+    "japanese": "この新車は他車をしのぐだろう。",
+    "english": "This new car will put other cars to shame."
+  },
+  {
+    "id": "221032",
+    "japanese": "この新型自動車はとても人気がある。",
+    "english": "This new model of car is so popular."
+  },
+  {
+    "id": "221033",
+    "japanese": "この新型機械を使えば多くの労力が省ける。",
+    "english": "This modern machine dispenses with much hard labor."
+  },
+  {
+    "id": "221034",
+    "japanese": "この新型の車はとても人気があるので需要に応じるために新しい工場を作らねばならなかった。",
+    "english": "This new model of car is so popular that they have had to open a new factory to meet the demand."
+  },
+  {
+    "id": "221035",
+    "japanese": "この新たな投資が利益増につながるだろう。",
+    "english": "This new investment will multiply our profit."
+  },
+  {
+    "id": "221036",
+    "japanese": "この新しい清涼飲料水は、この夏の一押しです。",
+    "english": "This new soft drink is the best thing to drink this summer."
+  },
+  {
+    "id": "221037",
+    "japanese": "この新しい政策によって大規模に職業が生まれることが期待される。",
+    "english": "It is hoped that this new policy will create jobs on a large scale."
+  },
+  {
+    "id": "221038",
+    "japanese": "この新しい手順をとれば、時間の節約になるでしょう。",
+    "english": "You will save time if you adopt this new procedure."
+  },
+  {
+    "id": "221039",
+    "japanese": "この新しい車の特徴は、もし酔っ払った人が運転しようとしてもエンジンは動かないことである。",
+    "english": "A feature of this new car is that if a drunk person is driving, the engine won't start."
+  },
+  {
+    "id": "221040",
+    "japanese": "この新しい型は市場で手に入りますか。",
+    "english": "Is this new model available on the market?"
+  },
+  {
+    "id": "1066808",
+    "japanese": "この新しいモデルは市場で入手可能ですか。",
+    "english": "Is this new model available on the market?"
+  },
+  {
+    "id": "221041",
+    "japanese": "この新しい靴は履き心地が悪い。",
+    "english": "I am uncomfortable in these new shoes."
+  },
+  {
+    "id": "221042",
+    "japanese": "この新しい靴は、きつくてあしが痛い。",
+    "english": "The new shoes pinch my feet."
+  },
+  {
+    "id": "221043",
+    "japanese": "この新しい機種を買う前に一度試してみたい。",
+    "english": "I'd like to try out this new model before I buy it."
+  },
+  {
+    "id": "221044",
+    "japanese": "この新しい機械の使い方がわかりかけてきたところです。",
+    "english": "I'm getting the hang of this new machine."
+  },
+  {
+    "id": "221045",
+    "japanese": "この新しいブーツでみんなの鼻を明かしてやりたいんだ。",
+    "english": "With these new boots of mine, I hope to knock them dead."
+  },
+  {
+    "id": "221046",
+    "japanese": "この新しいバス便は住民の要求にかなうでしょう。",
+    "english": "This new bus service will meet the residents' needs."
+  },
+  {
+    "id": "221047",
+    "japanese": "この新しいネクタイはスーツによく合っている。",
+    "english": "This new necktie goes well with the suit."
+  },
+  {
+    "id": "221048",
+    "japanese": "この新しいコート、どう？",
+    "english": "What do you think of my new coat?"
+  },
+  {
+    "id": "221049",
+    "japanese": "この新しいカーテンはじゅうたんには似合わない。",
+    "english": "These new curtains don't go well with the rugs."
+  },
+  {
+    "id": "221050",
+    "japanese": "この食品は有毒である。",
+    "english": "This food is unhealthy."
+  },
+  {
+    "id": "10258096",
+    "japanese": "この食べ物は健康によくないよ。",
+    "english": "This food is unhealthy."
+  },
+  {
+    "id": "221051",
+    "japanese": "この食品は密閉された容器に入れておけば一週間もつ。",
+    "english": "This food will keep for a week in an airtight container."
+  },
+  {
+    "id": "221052",
+    "japanese": "この食品は１０度以下で保存したほうがいい。",
+    "english": "You had better keep this food under ten degrees."
+  },
+  {
+    "id": "221053",
+    "japanese": "この食事は二人分ある。",
+    "english": "This meal is adequate for two."
+  },
+  {
+    "id": "221054",
+    "japanese": "この食事にはビタミンがたくさんはいっている。",
+    "english": "This diet is full of vitamins."
+  },
+  {
+    "id": "221055",
+    "japanese": "この食べ物は腐った匂いがする。",
+    "english": "This food smells rotten."
+  },
+  {
+    "id": "221056",
+    "japanese": "この食べ物は私の体に合わない。",
+    "english": "This food does not agree with me."
+  },
+  {
+    "id": "221057",
+    "japanese": "この食べ物は、私には合わない。",
+    "english": "This food does not agree with me."
+  },
+  {
+    "id": "221058",
+    "japanese": "この食べ物は、それなくしては我々の身体が正しく機能しないすべてのミネラルを含んでいます。",
+    "english": "This food contains all the minerals without which our bodies would not function."
+  },
+  {
+    "id": "221059",
+    "japanese": "この色はあなたに似合う。",
+    "english": "This color becomes you."
+  },
+  {
+    "id": "221060",
+    "japanese": "この色、気に入りましたか。",
+    "english": "Do you like this color?"
+  },
+  {
+    "id": "2445808",
+    "japanese": "あなたはこの色が好きですか。",
+    "english": "Do you like this color?"
+  },
+  {
+    "id": "221061",
+    "japanese": "この職業には経験が必要だ。",
+    "english": "This profession requires experience."
+  },
+  {
+    "id": "221062",
+    "japanese": "この職について少し説明させてください。",
+    "english": "Please let me tell you a little bit about this position."
+  },
+  {
+    "id": "221063",
+    "japanese": "この織物を染めて欲しいのです。",
+    "english": "I'd like to have this fabric dyed."
+  },
+  {
+    "id": "221064",
+    "japanese": "この植物は水不足で枯れかけている。",
+    "english": "This plant is dying for want of water."
+  },
+  {
+    "id": "221065",
+    "japanese": "この植物は食べられる。",
+    "english": "This plant is good to eat."
+  },
+  {
+    "id": "221066",
+    "japanese": "この植物の根には水がものすごく必要。",
+    "english": "The roots of the plant are greedy for water."
+  },
+  {
+    "id": "221067",
+    "japanese": "この錠剤は何ですか。",
+    "english": "What are these tablets?"
+  },
+  {
+    "id": "221068",
+    "japanese": "この状況はとても喜んでなんかいられない。",
+    "english": "I'm far from happy about this situation."
+  },
+  {
+    "id": "221069",
+    "japanese": "この状況が私たちにとって非常に困難であることは知っている。",
+    "english": "I know the situation is very difficult for us."
+  },
+  {
+    "id": "221070",
+    "japanese": "この条件を受けていただけると、他社との競合が有利になります。",
+    "english": "This would enable us to compete more effectively with other agencies."
+  },
+  {
+    "id": "221071",
+    "japanese": "この条件に該当する人は誰もいない。",
+    "english": "There is nobody who fulfils these conditions."
+  },
+  {
+    "id": "221072",
+    "japanese": "この条件では拒絶に等しい。",
+    "english": "These conditions amount to refusal."
+  },
+  {
+    "id": "221074",
+    "japanese": "この情報をすぐに提供してくれ。",
+    "english": "Supply me with this information as soon as possible."
+  },
+  {
+    "id": "221073",
+    "japanese": "この情報は秘密です。",
+    "english": "This information is confidential."
+  },
+  {
+    "id": "221075",
+    "japanese": "この情報は内密にしてください。",
+    "english": "Keep this information under your hat."
+  },
+  {
+    "id": "11155222",
+    "japanese": "このことはマル秘で。",
+    "english": "Keep this information under your hat."
+  },
+  {
+    "id": "221076",
+    "japanese": "この情報は当然最新であるべきなのに、実際はそうでない。",
+    "english": "This information is not as up-to-date as it should be."
+  },
+  {
+    "id": "221077",
+    "japanese": "この情報は調べたところ間違いない。",
+    "english": "This information checks out all right."
+  },
+  {
+    "id": "221078",
+    "japanese": "この情報は注釈ではなく本文で扱うべきだ。",
+    "english": "You should treat this information in the main body of the text, not in the notes."
+  },
+  {
+    "id": "221079",
+    "japanese": "この情報は正しいか。",
+    "english": "Is this information right?"
+  },
+  {
+    "id": "221081",
+    "japanese": "この情報が間違い無いことは私が保証します。",
+    "english": "I guarantee that this information is correct."
+  },
+  {
+    "id": "221080",
+    "japanese": "この場面は君が良くない。",
+    "english": "You're wrong in this case."
+  },
+  {
+    "id": "221087",
+    "japanese": "この場合は君が悪い。",
+    "english": "You're wrong in this case."
+  },
+  {
+    "id": "221082",
+    "japanese": "この場所を野菜を作るのに使っていいですか。",
+    "english": "Can I use this area to raise vegetables?"
+  },
+  {
+    "id": "221084",
+    "japanese": "この場所に？",
+    "english": "Just right here?"
+  },
+  {
+    "id": "221086",
+    "japanese": "この場所での喫煙は禁じられています。",
+    "english": "Smoking is forbidden in this area."
+  },
+  {
+    "id": "221085",
+    "japanese": "この場合は経験がものを言う。",
+    "english": "Experience will tell in this case."
+  },
+  {
+    "id": "221090",
+    "japanese": "この場合は、翻訳は事実上不可能だ。",
+    "english": "In this case, translation is, in effect, impossible."
+  },
+  {
+    "id": "221089",
+    "japanese": "この場合にはその新しい規則があてはまる。",
+    "english": "The new rule holds good in this case."
+  },
+  {
+    "id": "221088",
+    "japanese": "この場合、この規則を適用できますか？",
+    "english": "Can we apply this rule in this case?"
+  },
+  {
+    "id": "221091",
+    "japanese": "この場合、この理論をあてはめることはできません。",
+    "english": "You can't apply this theory to this case."
+  },
+  {
+    "id": "221092",
+    "japanese": "この場をお借りして一言挨拶を申し上げます。",
+    "english": "Please allow me to say a few words on this occasion."
+  },
+  {
+    "id": "221093",
+    "japanese": "この城はあの城よりも美しい。",
+    "english": "This castle is more beautiful than that."
+  },
+  {
+    "id": "221094",
+    "japanese": "この城の塔から町の全景が見渡せる。",
+    "english": "This castle tower commands a panoramic view of the whole city."
+  },
+  {
+    "id": "221095",
+    "japanese": "この城から町を見渡すことができる。",
+    "english": "This castle overlooks the city."
+  },
+  {
+    "id": "221097",
+    "japanese": "この上着を両方とも着て比べてごらんよ。",
+    "english": "Try on both these coats and compare them."
+  },
+  {
+    "id": "221098",
+    "japanese": "この上着を何か少し派手な物と組み合わせられませんか。",
+    "english": "Can you match this coat with something a little more colorful?"
+  },
+  {
+    "id": "221099",
+    "japanese": "この上着をお召しになってみてはいかがですか。そのズボンに似合いますよ。",
+    "english": "Why don't you try this jacket on? It looks nice with your trousers."
+  },
+  {
+    "id": "221100",
+    "japanese": "この上着は背中のところが少しきつい。",
+    "english": "This coat is a little tight across the back."
+  },
+  {
+    "id": "221101",
+    "japanese": "この上着は洗濯が簡単だという長所がある。",
+    "english": "This jacket has the virtue of being easy to wash."
+  },
+  {
+    "id": "221102",
+    "japanese": "この上着は私の体に合わない。",
+    "english": "This coat doesn't fit me."
+  },
+  {
+    "id": "221103",
+    "japanese": "この上着は私にぴったり合う。",
+    "english": "This coat fits me very well."
+  },
+  {
+    "id": "221104",
+    "japanese": "この上着は私にはだぶだぶだ。",
+    "english": "This coat looks loose on me."
+  },
+  {
+    "id": "221105",
+    "japanese": "この上着は仕立て直さなければならない。",
+    "english": "This coat must be altered."
+  },
+  {
+    "id": "221106",
+    "japanese": "この上着は雨を通さない。",
+    "english": "This coat is rainproof."
+  },
+  {
+    "id": "221107",
+    "japanese": "この上着はもう私の体に合わない。",
+    "english": "This coat does not fit me any more."
+  },
+  {
+    "id": "221109",
+    "japanese": "この上着はどんな素材で出来ているのですか。",
+    "english": "What stuff is this jacket made of?"
+  },
+  {
+    "id": "221108",
+    "japanese": "この上着はちょっと大きすぎる。",
+    "english": "This jacket is a little too big."
+  },
+  {
+    "id": "221110",
+    "japanese": "この線より上にサインしてください。",
+    "english": "Sign above this line."
+  },
+  {
+    "id": "221111",
+    "japanese": "この上なく入念に準備した計画でもしばしば失敗する。",
+    "english": "The best laid plans of mice and men often go awry."
+  },
+  {
+    "id": "221112",
+    "japanese": "この賞をいただいき光栄に存じます。",
+    "english": "I am honored to be awarded this prize."
+  },
+  {
+    "id": "221113",
+    "japanese": "この証書は完全に無効である。",
+    "english": "This bond is null and void."
+  },
+  {
+    "id": "221114",
+    "japanese": "この証拠は彼にとって不利だった。",
+    "english": "This evidence was against him."
+  },
+  {
+    "id": "221115",
+    "japanese": "この証拠には、疑いの余地がない。これが、ピカソの本物の作品であるはずがない。",
+    "english": "The evidence leaves no room for doubt; this can't be an original Picasso."
+  },
+  {
+    "id": "221116",
+    "japanese": "この証拠で彼が横領者だということが分かった。",
+    "english": "This evidence revealed him to be an embezzler."
+  },
+  {
+    "id": "221118",
+    "japanese": "この証拠からして当然彼女は無実だということになる。",
+    "english": "It follows from this evidence that she is innocent."
+  },
+  {
+    "id": "221117",
+    "japanese": "この証拠から彼は無罪ということになる。",
+    "english": "From this evidence it follows that he is innocent."
+  },
+  {
+    "id": "221119",
+    "japanese": "この証拠から、彼は犯人ではないということになる。",
+    "english": "From this evidence, it follows that he is not the criminal."
+  },
+  {
+    "id": "221120",
+    "japanese": "この肖像画はほぼ実物大です。",
+    "english": "This portrait is nearly as large as life."
+  },
+  {
+    "id": "221121",
+    "japanese": "この紹介状は叔父によってかかれた。",
+    "english": "My uncle wrote this letter of introduction."
+  },
+  {
+    "id": "221122",
+    "japanese": "この章では幾何学の概念に焦点をあてます。",
+    "english": "This chapter will focus on the concepts of geometry."
+  },
+  {
+    "id": "221123",
+    "japanese": "この章ではその惑星の謎に焦点をあてます。",
+    "english": "This chapter will focus on the riddles of the planets."
+  },
+  {
+    "id": "221124",
+    "japanese": "この症状はいつまで続くのですか。",
+    "english": "For how long will I continue to have these symptoms?"
+  },
+  {
+    "id": "221125",
+    "japanese": "この症状が出たのは初めてですか。",
+    "english": "Is this the first time you've had this symptom?"
+  },
+  {
+    "id": "221126",
+    "japanese": "この症状が出たのはいつですか。",
+    "english": "How long have you had this problem?"
+  },
+  {
+    "id": "221127",
+    "japanese": "この昇進は、あなたの熱心で質の高い仕事ぶりを反映したものでしょう。",
+    "english": "This promotion properly reflects the quality and diligence of your work."
+  },
+  {
+    "id": "221128",
+    "japanese": "この床の面積は６００平方メートルある。",
+    "english": "The area of this floor is 600 square meters."
+  },
+  {
+    "id": "221129",
+    "japanese": "この少年は窓を壊した事を否定した。",
+    "english": "This boy denied having broken the window."
+  },
+  {
+    "id": "221130",
+    "japanese": "この少年たちは少女たちと話をするのがうまくない。",
+    "english": "These boys are not good at speaking to girls."
+  },
+  {
+    "id": "221131",
+    "japanese": "この少女は誰ですか。",
+    "english": "Who is this girl?"
+  },
+  {
+    "id": "9069111",
+    "japanese": "この女の子は誰？",
+    "english": "Who is this girl?"
+  },
+  {
+    "id": "221132",
+    "japanese": "この少女たちは私の生徒なのですが、私に会いに来たのです。",
+    "english": "These girls, who're my pupils, have come to see me."
+  },
+  {
+    "id": "221133",
+    "japanese": "この小包を郵便局へ持って行ってください。",
+    "english": "Please take this parcel to the post office."
+  },
+  {
+    "id": "221134",
+    "japanese": "この小包を郵便で出してくれませんか。",
+    "english": "Will you mail this parcel for me?"
+  },
+  {
+    "id": "221135",
+    "japanese": "この小包を船便で送ってください。",
+    "english": "Please send this parcel by surface mail."
+  },
+  {
+    "id": "221136",
+    "japanese": "この小包を書留にしたいのですが。",
+    "english": "I'd like to have this parcel registered."
+  },
+  {
+    "id": "221137",
+    "japanese": "この小包をすぐ送りたい。",
+    "english": "I want to send this parcel at once."
+  },
+  {
+    "id": "221138",
+    "japanese": "この小包をすぐ送ってもらいたい。",
+    "english": "I want you to send this parcel at once."
+  },
+  {
+    "id": "221139",
+    "japanese": "この小包をカナダへ送りたいのですが。",
+    "english": "I'd like to mail this package to Canada."
+  },
+  {
+    "id": "221140",
+    "japanese": "この小包は君宛てだ。",
+    "english": "This parcel is addressed to you."
+  },
+  {
+    "id": "221141",
+    "japanese": "この小麦は粉にされる。",
+    "english": "This wheat is made into flour."
+  },
+  {
+    "id": "221142",
+    "japanese": "この小説は読んでて楽しかったよ。",
+    "english": "I have enjoyed reading this novel."
+  },
+  {
+    "id": "221143",
+    "japanese": "この小説を読めば必ず涙が出てくる。",
+    "english": "You cannot read this novel without crying."
+  },
+  {
+    "id": "1067285",
+    "japanese": "この小説は涙なしでは読めないよ。",
+    "english": "You cannot read this novel without crying."
+  },
+  {
+    "id": "221144",
+    "japanese": "この小説を読むことに興味のある生徒はほとんどいません。",
+    "english": "Few students are interested in reading this novel."
+  },
+  {
+    "id": "221145",
+    "japanese": "この小説を子供向きに書き改めるのは難しい。",
+    "english": "It is hard to adapt this story for children."
+  },
+  {
+    "id": "221146",
+    "japanese": "この小説は理解するには難しい。",
+    "english": "It is difficult to understand this novel."
+  },
+  {
+    "id": "146936",
+    "japanese": "この小説は難解だ。",
+    "english": "This novel is difficult to understand."
+  },
+  {
+    "id": "221147",
+    "japanese": "この小説は理解しにくい。",
+    "english": "This novel is difficult to understand."
+  },
+  {
+    "id": "221148",
+    "japanese": "この小説は米国の作家によって書かれた。",
+    "english": "This novel was written by an American writer."
+  },
+  {
+    "id": "221150",
+    "japanese": "この小説は難しすぎて、私には読むことができない。",
+    "english": "This novel is too difficult for me to read."
+  },
+  {
+    "id": "221151",
+    "japanese": "この小説は読む価値がある。",
+    "english": "It is worthwhile to read this novel."
+  },
+  {
+    "id": "221162",
+    "japanese": "この小説は一読の価値がある。",
+    "english": "It is worthwhile to read this novel."
+  },
+  {
+    "id": "221153",
+    "japanese": "この小説は読むたびごとに実におもしろいと思う。",
+    "english": "Every time I read this novel, I find it very interesting."
+  },
+  {
+    "id": "221154",
+    "japanese": "この小説は想像力に富んでいる。",
+    "english": "This novel is very imaginative."
+  },
+  {
+    "id": "221152",
+    "japanese": "この小説は退屈だ。",
+    "english": "This novel bores me."
+  },
+  {
+    "id": "221155",
+    "japanese": "この小説は若い人に大きな影響を与えた。",
+    "english": "This novel exercised a great influence on young people."
+  },
+  {
+    "id": "221156",
+    "japanese": "この小説は子供でも読めるほどやさしい。",
+    "english": "This novel is so easy that even a child can read it."
+  },
+  {
+    "id": "221157",
+    "japanese": "この小説は三部から成っている。",
+    "english": "This novel consists of three parts."
+  },
+  {
+    "id": "221158",
+    "japanese": "この小説は三部からなりたっている。",
+    "english": "This novel consists of three parts."
+  },
+  {
+    "id": "221166",
+    "japanese": "この小説は三部構成だ。",
+    "english": "This novel consists of three parts."
+  },
+  {
+    "id": "221159",
+    "japanese": "この小説は作家の最高の出来栄えを示しているようだと思う。",
+    "english": "I think this novel shows the author at his best."
+  },
+  {
+    "id": "221161",
+    "japanese": "この小説は英語から訳されました。",
+    "english": "This novel was translated from English."
+  },
+  {
+    "id": "221160",
+    "japanese": "この小説は映画用に脚色された。",
+    "english": "The novel was adapted for a film."
+  },
+  {
+    "id": "221163",
+    "japanese": "この小説はとても興奮する。",
+    "english": "The novel is very exciting."
+  },
+  {
+    "id": "221164",
+    "japanese": "この小説はとてもおもしろい。",
+    "english": "This novel is interesting enough."
+  },
+  {
+    "id": "221165",
+    "japanese": "この小説はたいした物だと思う。",
+    "english": "I have a good opinion of this novel."
+  },
+  {
+    "id": "221167",
+    "japanese": "この小説はおもしろくもあり、ためにもなる。",
+    "english": "This novel is both interesting and instructive."
+  },
+  {
+    "id": "221168",
+    "japanese": "この小説はあれよりずっと面白い。",
+    "english": "This novel is by far more interesting than that one."
+  },
+  {
+    "id": "221169",
+    "japanese": "この小説はあの小説よりずっと長い。",
+    "english": "This novel is much longer than that."
+  },
+  {
+    "id": "221170",
+    "japanese": "この小説は、百年前の日本人のありのままの生活を描いている。",
+    "english": "This novel describes the life of the Japanese as it was a hundred years ago."
+  },
+  {
+    "id": "221171",
+    "japanese": "この小説の方が先週読んだ小説よりおもしろい。",
+    "english": "This novel is more interesting than the one I read last week."
+  },
+  {
+    "id": "221172",
+    "japanese": "この小説の作者は誰ですか。",
+    "english": "Who is the author of this story?"
+  },
+  {
+    "id": "221173",
+    "japanese": "この小説の作者はだれだと思いますか。",
+    "english": "Who do you think is the writer of this novel?"
+  },
+  {
+    "id": "221174",
+    "japanese": "この小切手を裏書きしてください。",
+    "english": "Endorse this check."
+  },
+  {
+    "id": "221175",
+    "japanese": "この小切手を現金に換えてください。",
+    "english": "Please cash this check."
+  },
+  {
+    "id": "221176",
+    "japanese": "この小切手を現金にしてくれますか。",
+    "english": "Can you cash this check for me?"
+  },
+  {
+    "id": "221177",
+    "japanese": "この小切手を銀行の当座に入れなさい。",
+    "english": "Deposit this check in my checking account."
+  },
+  {
+    "id": "221178",
+    "japanese": "この小切手は不渡りになりました。",
+    "english": "This check was not honored."
+  },
+  {
+    "id": "221179",
+    "japanese": "この小切手は持参人払いだ。",
+    "english": "This check is payable to the bearer."
+  },
+  {
+    "id": "237499",
+    "japanese": "この小切手で支払いを認めてくれますか。",
+    "english": "Will you honor this check?"
+  },
+  {
+    "id": "221180",
+    "japanese": "この小冊子は無料だ。",
+    "english": "This booklet is free of charge."
+  },
+  {
+    "id": "221181",
+    "japanese": "この小屋は倒壊のおそれがある。",
+    "english": "This hut is in danger of falling down."
+  },
+  {
+    "id": "221182",
+    "japanese": "この小さな家を見ていると私が生まれた家を思い出します。",
+    "english": "This cottage reminds me of the one I was born in."
+  },
+  {
+    "id": "221183",
+    "japanese": "この奨学金のおかげで彼は留学できた。",
+    "english": "The scholarship enabled him to study abroad."
+  },
+  {
+    "id": "221184",
+    "japanese": "この商品は免税品です。",
+    "english": "The goods are exempt from taxes."
+  },
+  {
+    "id": "221185",
+    "japanese": "この商品はテレビの宣伝でよく知られている。",
+    "english": "This product is well known by its advertisement on television."
+  },
+  {
+    "id": "221186",
+    "japanese": "この商品の需要は多い。",
+    "english": "These goods are in great demand."
+  },
+  {
+    "id": "221187",
+    "japanese": "この商品にはおまけが付く。",
+    "english": "This article comes with a free gift."
+  },
+  {
+    "id": "221188",
+    "japanese": "この商売は儲かりません。",
+    "english": "There isn't much money in this business."
+  },
+  {
+    "id": "221189",
+    "japanese": "この勝利に対して我々は大変な代価を払った。",
+    "english": "We paid a heavy price for this victory."
+  },
+  {
+    "id": "221190",
+    "japanese": "この除草剤は人間には無害だ。",
+    "english": "This weed killer does not harm human beings."
+  },
+  {
+    "id": "221192",
+    "japanese": "この女性はインド人です。",
+    "english": "This lady is Indian."
+  },
+  {
+    "id": "221191",
+    "japanese": "この女性は、その往復を２０時間以内で終えた。",
+    "english": "She completed the trip in less than 20 hours."
+  },
+  {
+    "id": "221193",
+    "japanese": "この女性が今日の午後３時にある事故を目撃しました。",
+    "english": "This lady witnessed an accident at three o'clock this afternoon."
+  },
+  {
+    "id": "221194",
+    "japanese": "この女の子達のほうが、きのう会った子たちよりかわいらしい。",
+    "english": "These girls are more charming than the ones I met yesterday."
+  },
+  {
+    "id": "221195",
+    "japanese": "この女の子はまだ小さくてもののよしあしがわからない。",
+    "english": "The girl is not old enough to be responsible."
+  },
+  {
+    "id": "221196",
+    "japanese": "この女の子は昨日来た子だ。",
+    "english": "This is the girl that came yesterday."
+  },
+  {
+    "id": "221197",
+    "japanese": "この書類を片付けてください。",
+    "english": "Please get these papers out of the way."
+  },
+  {
+    "id": "221198",
+    "japanese": "この書類を書き写すとき一語もおとすことのないように気をつけなさい。",
+    "english": "In copying this paper, be careful not to leave out any words."
+  },
+  {
+    "id": "221199",
+    "japanese": "この書類を写すとき一語もおとさないように気をつけなさい。",
+    "english": "In copying this paper, be careful not to leave out any words."
+  },
+  {
+    "id": "221200",
+    "japanese": "この書類を支社に届けてくれませんか。",
+    "english": "Will you take this document to the branch?"
+  },
+  {
+    "id": "221201",
+    "japanese": "この書類を今すぐ彼女に届けてほしい。",
+    "english": "I want you to take this paper to her right away."
+  },
+  {
+    "id": "221202",
+    "japanese": "この書類をめくってその問題を私に詳細に説明して下さい。",
+    "english": "Please turn over these papers and explain the matter to me in detail."
+  },
+  {
+    "id": "221203",
+    "japanese": "この書類をタイプで打ってくれませんか。",
+    "english": "Will you type this paper for me?"
+  },
+  {
+    "id": "221204",
+    "japanese": "この書類をそれぞれ２部ずつコピーしてほしいんだが。",
+    "english": "I'd like two copies of each of these documents."
+  },
+  {
+    "id": "221205",
+    "japanese": "この書類を５枚コピーして下さい。",
+    "english": "Please make five copies of this document."
+  },
+  {
+    "id": "221209",
+    "japanese": "この書類に署名していただけますか。",
+    "english": "Will you sign your name on this paper?"
+  },
+  {
+    "id": "11526610",
+    "japanese": "こちらの用紙にサインをお願いします。",
+    "english": "Will you sign your name on this paper?"
+  },
+  {
+    "id": "221210",
+    "japanese": "この書類に苦情の取り扱いかたが丁寧に説明してある。",
+    "english": "The document clearly spells out the correct procedure for dealing with complaints."
+  },
+  {
+    "id": "221212",
+    "japanese": "この書類にサインして下さい。",
+    "english": "Put your name on this document."
+  },
+  {
+    "id": "221213",
+    "japanese": "この書式はやや複雑そうだ。書きこむのを手伝ってくれ。",
+    "english": "This form looks kind of complicated. Help me fill it out."
+  },
+  {
+    "id": "221214",
+    "japanese": "この書式に記入してください。",
+    "english": "Fill out this form, please."
+  },
+  {
+    "id": "221215",
+    "japanese": "この書斎は私の父のです。",
+    "english": "This study is my father's study."
+  },
+  {
+    "id": "221216",
+    "japanese": "この書斎は客間兼用だ。",
+    "english": "I also use this study for receiving guests."
+  },
+  {
+    "id": "221218",
+    "japanese": "この暑さでは勉強する気がしない。",
+    "english": "I don't like studying in this heat."
+  },
+  {
+    "id": "221217",
+    "japanese": "この暑さの中帽子なしで外出してはいけません。",
+    "english": "Don't go out in this heat with a bare head."
+  },
+  {
+    "id": "221219",
+    "japanese": "この暑さでは草は茶色になるだろう。",
+    "english": "This heat will turn the grass brown."
+  },
+  {
+    "id": "221220",
+    "japanese": "この暑さでは上着を着ていられない。",
+    "english": "I can't keep my coat on in this heat."
+  },
+  {
+    "id": "9359893",
+    "japanese": "この暑さじゃ、上着なんて着てられないよ。",
+    "english": "I can't keep my coat on in this heat."
+  },
+  {
+    "id": "221221",
+    "japanese": "この暑い中を外出するくらいなら家にいた方がよい。",
+    "english": "I would rather stay at home than go out in this hot weather."
+  },
+  {
+    "id": "221222",
+    "japanese": "この暑い最中になぜ、あなたはロンドンにいなければならないのですか。",
+    "english": "Why do you have to stay in London in this heat?"
+  },
+  {
+    "id": "221223",
+    "japanese": "この所少し疲れを感じているので、今週は泳ぎに行っていない。",
+    "english": "Recently I have been feeling a little tired, so I have not gone swimming this week."
+  },
+  {
+    "id": "89232",
+    "japanese": "彼女は私達の援助の申し出を断った。",
+    "english": "She turned down our offer of help."
+  },
+  {
+    "id": "221224",
+    "japanese": "この所は私たちの援助の申し出を断った。",
+    "english": "She turned down our offer of help."
+  },
+  {
+    "id": "93760",
+    "japanese": "彼女は、海外旅行をするために貯金している。",
+    "english": "She is saving money to go abroad."
+  },
+  {
+    "id": "221225",
+    "japanese": "この所は海外旅行するために貯金している。",
+    "english": "She is saving money to go abroad."
+  },
+  {
+    "id": "221226",
+    "japanese": "この瞬間は歴史に記録されるだろう。",
+    "english": "This moment will be recorded in history."
+  },
+  {
+    "id": "221227",
+    "japanese": "この春休みには、海外費用の足しにするため、レストランでアルバイトをした。",
+    "english": "During my last spring vacation I took a job in a restaurant to help pay the costs of my trip abroad."
+  },
+  {
+    "id": "221228",
+    "japanese": "この宿泊カードに記入して下さい。",
+    "english": "Fill out this registration card, please."
+  },
+  {
+    "id": "221229",
+    "japanese": "この宿題を全部君が一人でやったとは思えません。",
+    "english": "I don't think that you did all this homework by yourself."
+  },
+  {
+    "id": "221230",
+    "japanese": "この宿題を終えるのに十分な時間がかかる。",
+    "english": "There is enough time to finish this homework."
+  },
+  {
+    "id": "10792709",
+    "japanese": "この宿題を終わらせる時間はたっぷりあるよ。",
+    "english": "There is enough time to finish this homework."
+  },
+  {
+    "id": "221231",
+    "japanese": "この宿題は私には難しい。",
+    "english": "This homework is difficult for me."
+  },
+  {
+    "id": "221232",
+    "japanese": "この宿題は月曜日に提出することになっている。",
+    "english": "This assignment is to be handed in on Monday."
+  },
+  {
+    "id": "221233",
+    "japanese": "この宿題はだいぶ時間がかかるだろう。",
+    "english": "This homework will take very long."
+  },
+  {
+    "id": "221234",
+    "japanese": "この銃は誰の物だろう。",
+    "english": "Who does the gun belong to?"
+  },
+  {
+    "id": "221235",
+    "japanese": "この銃は３００メートルの射程がある。",
+    "english": "This gun has a range of 300 meters."
+  },
+  {
+    "id": "221236",
+    "japanese": "この銃には弾が入っていません。",
+    "english": "This gun is out of bullets."
+  },
+  {
+    "id": "221237",
+    "japanese": "この重要な７月のＤＣＡ会議にご出席いただき、さらにご宿泊中に東京の多様な魅力もお楽しみくださるよう希望しています。",
+    "english": "I hope you can join us at these very important July DCA meetings and complement your stay by exploring some of the many affordable charms of Tokyo."
+  },
+  {
+    "id": "221238",
+    "japanese": "この重役のポストに適当な人物を見つけるには、人材斡旋業者に依頼する必要がある。",
+    "english": "We'll need a head hunting agency to find the right man for this executive position."
+  },
+  {
+    "id": "221239",
+    "japanese": "この重さを量ってもらえませんか。",
+    "english": "Can you weigh this, please?"
+  },
+  {
+    "id": "221240",
+    "japanese": "この重い荷物を運ぶのを手伝ってくれませんか。",
+    "english": "Please help me with this heavy baggage."
+  },
+  {
+    "id": "1251886",
+    "japanese": "この荷物重いんで手伝ってください。",
+    "english": "Please help me with this heavy baggage."
+  },
+  {
+    "id": "221242",
+    "japanese": "この住宅地域は住み心地がよい。",
+    "english": "This residential area is comfortable to live in."
+  },
+  {
+    "id": "221243",
+    "japanese": "この住所まで、行ってください。",
+    "english": "Please take me to this address."
+  },
+  {
+    "id": "224011",
+    "japanese": "このアドレスのところに行ってください。",
+    "english": "Please take me to this address."
+  },
+  {
+    "id": "221244",
+    "japanese": "この住所へお願いします。",
+    "english": "We request this address."
+  },
+  {
+    "id": "221245",
+    "japanese": "この週末は暇ですか。",
+    "english": "Are you free this weekend?"
+  },
+  {
+    "id": "3024516",
+    "japanese": "今週末は暇？",
+    "english": "Are you free this weekend?"
+  },
+  {
+    "id": "3247983",
+    "japanese": "今週末空いてる？",
+    "english": "Are you free this weekend?"
+  },
+  {
+    "id": "221246",
+    "japanese": "この週末には忘れずに遊びにきてください。",
+    "english": "Please remember to come and see us this weekend."
+  },
+  {
+    "id": "221247",
+    "japanese": "この週末には２つの最強のチームが激突する。",
+    "english": "The two strongest teams will clash with each other this weekend."
+  },
+  {
+    "id": "221248",
+    "japanese": "この週刊誌は毎週１回発行される。",
+    "english": "This weekly comes out once a week."
+  },
+  {
+    "id": "221249",
+    "japanese": "この習慣は日本人の間にすっかり定着した。",
+    "english": "This custom has become firmly established among the Japanese."
+  },
+  {
+    "id": "221250",
+    "japanese": "この習慣は日本に特有のものである。",
+    "english": "This custom is peculiar to Japan."
+  },
+  {
+    "id": "221251",
+    "japanese": "この習慣は絶えて久しい。",
+    "english": "This custom became extinct a long time ago."
+  },
+  {
+    "id": "221252",
+    "japanese": "この習慣は世代から世代へと受け継がれてきた。",
+    "english": "This custom has been handed down from generation to generation."
+  },
+  {
+    "id": "221253",
+    "japanese": "この習慣は江戸時代に始まった。",
+    "english": "This custom began in the Edo Period."
+  },
+  {
+    "id": "221254",
+    "japanese": "この習慣は江戸時代からのものだ。",
+    "english": "This custom dates from the Edo period."
+  },
+  {
+    "id": "221255",
+    "japanese": "この習慣は古代から続いている。",
+    "english": "This custom dates from ancient times."
+  },
+  {
+    "id": "221256",
+    "japanese": "この習慣はアメリカ独特のものである。",
+    "english": "This custom is unique to America."
+  },
+  {
+    "id": "221257",
+    "japanese": "この秋は台風が多い。",
+    "english": "We have had lots of typhoons this fall."
+  },
+  {
+    "id": "221258",
+    "japanese": "この秋は荒れた日が続くと思います。",
+    "english": "We expect stormy days this fall."
+  },
+  {
+    "id": "221259",
+    "japanese": "この秋に総選挙があるといわれている。",
+    "english": "It is said that there will be a general election this fall."
+  },
+  {
+    "id": "221260",
+    "japanese": "この秋には総選挙があるという噂です。",
+    "english": "They say there will be a general election this fall."
+  },
+  {
+    "id": "221261",
+    "japanese": "この秋には「ロミオとジュリエット」が上演されます。",
+    "english": "They are going to bring out \"Romeo and Juliet\" this coming fall."
+  },
+  {
+    "id": "221262",
+    "japanese": "この州には鉱物資源が豊富です。",
+    "english": "The province is rich in mineral resources."
+  },
+  {
+    "id": "221263",
+    "japanese": "この授業は明日休講です。",
+    "english": "This lesson is cancelled tomorrow."
+  },
+  {
+    "id": "13252549",
+    "japanese": "この科目が最も重要だ。",
+    "english": "This subject is the most important."
+  },
+  {
+    "id": "221267",
+    "japanese": "この授業は１０分後に終わります。",
+    "english": "This class will be over in ten minutes."
+  },
+  {
+    "id": "221266",
+    "japanese": "この酒には独特の味わいがある。",
+    "english": "This liquor has a taste all of its own."
+  },
+  {
+    "id": "221265",
+    "japanese": "この種は長距離移動の記録を持っています。",
+    "english": "This species holds the record for long-distance migration."
+  },
+  {
+    "id": "221269",
+    "japanese": "この種の要求に屈するくらいなら死んだ方がましだ。",
+    "english": "I'd rather die than yield to this sort of demand."
+  },
+  {
+    "id": "221268",
+    "japanese": "この種の洋服地は持ちがよくないだろう。",
+    "english": "The suit materials of this sort will not stand up well."
+  },
+  {
+    "id": "221270",
+    "japanese": "この種の毛布は十分に虫干ししなければならない。",
+    "english": "This kind of blanket needs good airing."
+  },
+  {
+    "id": "221271",
+    "japanese": "この種の本はあまり私の注意を引かなかった。",
+    "english": "Few books of this character have come to my attention."
+  },
+  {
+    "id": "221272",
+    "japanese": "この種の保険は掛け捨てが多い。",
+    "english": "With this type of insurance, most policies don't come with a maturity refund."
+  },
+  {
+    "id": "221273",
+    "japanese": "この種の爆弾は全人類にとって重大な脅威だ。",
+    "english": "This kind of bomb is a serious menace to mankind."
+  },
+  {
+    "id": "221274",
+    "japanese": "この種の猫には尾が無い。",
+    "english": "This type of cat has no tail."
+  },
+  {
+    "id": "221275",
+    "japanese": "この種の猫にはしっぽがない。",
+    "english": "This type of cat has no tail."
+  },
+  {
+    "id": "1256515",
+    "japanese": "このタイプの猫にはしっぽがない。",
+    "english": "This type of cat has no tail."
+  },
+  {
+    "id": "221276",
+    "japanese": "この種の専門知識は日常生活とはほとんど関係がない。",
+    "english": "This kind of specialized knowledge has very little to do with daily life."
+  },
+  {
+    "id": "221277",
+    "japanese": "この種の食べ物は食べ慣れています。",
+    "english": "I am accustomed to eating this sort of food."
+  },
+  {
+    "id": "221278",
+    "japanese": "この種の植物は熱帯地方にのみ育ちます。",
+    "english": "This kind of plant grows only in the tropical regions."
+  },
+  {
+    "id": "221279",
+    "japanese": "この種の辞書は市販されている。",
+    "english": "These dictionaries are on the market."
+  },
+  {
+    "id": "221280",
+    "japanese": "この種の事例は統計的処理が適応できる。",
+    "english": "This kind of case is amenable to statistical treatment."
+  },
+  {
+    "id": "221281",
+    "japanese": "この種の事故はしばしば起こるものだ。",
+    "english": "Accidents of this kind often occur."
+  },
+  {
+    "id": "221282",
+    "japanese": "この種の事件はよく疑惑を生む。",
+    "english": "Events of that type generally arouse suspicion."
+  },
+  {
+    "id": "221283",
+    "japanese": "この種の仕事は非常に忍耐を必要とする。",
+    "english": "This sort of work calls for great patience."
+  },
+  {
+    "id": "221284",
+    "japanese": "この種の仕事は非常な忍耐を必要とする。",
+    "english": "This sort of work calls for great patience."
+  },
+  {
+    "id": "221285",
+    "japanese": "この種の仕事はすごい努力を必要とする。",
+    "english": "This sort of work calls for great patience."
+  },
+  {
+    "id": "221357",
+    "japanese": "この手の仕事は強い忍耐力を必要とする。",
+    "english": "This sort of work calls for great patience."
+  },
+  {
+    "id": "237450",
+    "japanese": "この種の仕事は大変な忍耐力を必要とする。",
+    "english": "This sort of work calls for great patience."
+  },
+  {
+    "id": "221286",
+    "japanese": "この種の仕事には大変な根気が必要とされる。",
+    "english": "This sort of work calls for a lot of patience."
+  },
+  {
+    "id": "221288",
+    "japanese": "この種の犬は日本だけにいる。",
+    "english": "This kind of dog exists only in Japan."
+  },
+  {
+    "id": "221289",
+    "japanese": "この種の経験は誰にも馴染み深い。",
+    "english": "This kind of experience is familiar to everyone."
+  },
+  {
+    "id": "221290",
+    "japanese": "この種の経験は誰にでもよくあることです。",
+    "english": "This kind of experience is familiar to everybody."
+  },
+  {
+    "id": "221291",
+    "japanese": "この種の経験はだれにもある。",
+    "english": "This kind of experience is familiar to everybody."
+  },
+  {
+    "id": "221292",
+    "japanese": "この種の靴は地面がぬれているとすべりやすい。",
+    "english": "This kind of shoe is apt to slip on wet ground."
+  },
+  {
+    "id": "221293",
+    "japanese": "この種の機械を使う時には、皮の手袋は必需品だね。",
+    "english": "A pair of leather gloves is a must when you work with these machines."
+  },
+  {
+    "id": "221294",
+    "japanese": "この種の慣習はアジアの国々に独特のものだと思います。",
+    "english": "I think this kind of custom is unique to Asian countries."
+  },
+  {
+    "id": "221295",
+    "japanese": "この種の音楽は年輩の人たちが理解するのに苦労するものだ。",
+    "english": "This kind of music is something that older people have difficulty understanding."
+  },
+  {
+    "id": "221296",
+    "japanese": "この種の汚染物質は主として自動車エンジンの燃焼から生まれる。",
+    "english": "Pollutants like this derive mainly from the combustion of fuel in car engines."
+  },
+  {
+    "id": "221297",
+    "japanese": "この種のブラウスは流行遅れになりかけている。",
+    "english": "This type of blouse is beginning to be dated."
+  },
+  {
+    "id": "221298",
+    "japanese": "この種のバラは野生です。",
+    "english": "This kind of rose grows wild."
+  },
+  {
+    "id": "221299",
+    "japanese": "この手袋は両方がそろっていない。",
+    "english": "Their gloves are not in pairs."
+  },
+  {
+    "id": "221301",
+    "japanese": "この手袋が彼女の手を暖かくしてくれた。",
+    "english": "These gloves kept her hands warm."
+  },
+  {
+    "id": "221302",
+    "japanese": "この手続きにはお役所仕事がだいぶからんでいます。",
+    "english": "There's a lot of red tape involved in this procedure."
+  },
+  {
+    "id": "221303",
+    "japanese": "この手術は成功するかしら、と彼は思った。",
+    "english": "He said to himself, \"Will this operation result in success?\""
+  },
+  {
+    "id": "1637314",
+    "japanese": "「この作戦はうまくいくだろうか」彼はひとりごちた。",
+    "english": "He said to himself, \"Will this operation result in success?\""
+  },
+  {
+    "id": "221304",
+    "japanese": "この手紙を郵送してくださいませんか。",
+    "english": "Would you mind mailing this letter for me?"
+  },
+  {
+    "id": "221311",
+    "japanese": "この手紙を投函していただけませんか。",
+    "english": "Would you mind mailing this letter for me?"
+  },
+  {
+    "id": "1163764",
+    "japanese": "この手紙を出しておいていただけませんか。",
+    "english": "Would you mind mailing this letter for me?"
+  },
+  {
+    "id": "221305",
+    "japanese": "この手紙を忘れずに投函しなさい。",
+    "english": "Remember to mail this letter."
+  },
+  {
+    "id": "221306",
+    "japanese": "この手紙を必ず投函するようにしてください。",
+    "english": "See to it that this letter is posted without fail."
+  },
+  {
+    "id": "221307",
+    "japanese": "この手紙を必ず投函して下さい。",
+    "english": "Don't fail to mail this letter."
+  },
+  {
+    "id": "221308",
+    "japanese": "この手紙を日本までファックスしてください。",
+    "english": "I'd like to fax this to Japan."
+  },
+  {
+    "id": "221310",
+    "japanese": "この手紙を投函してくれませんか。",
+    "english": "Will you mail this letter for me?"
+  },
+  {
+    "id": "9176367",
+    "japanese": "この手紙、出しといてくれる？",
+    "english": "Will you mail this letter for me?"
+  },
+  {
+    "id": "221312",
+    "japanese": "この手紙を朝一番で出すの忘れないでね。",
+    "english": "Don't forget to mail this letter first thing in the morning."
+  },
+  {
+    "id": "221313",
+    "japanese": "この手紙を速達で送っていただけませんか。",
+    "english": "Will you express this letter?"
+  },
+  {
+    "id": "221314",
+    "japanese": "この手紙を書類にしてもらいたい。",
+    "english": "I want this letter registered."
+  },
+  {
+    "id": "221315",
+    "japanese": "この手紙を書留にしてもらいたいのですが。",
+    "english": "I want this letter registered."
+  },
+  {
+    "id": "221316",
+    "japanese": "この手紙を書留にしたい。",
+    "english": "I want to have this letter registered."
+  },
+  {
+    "id": "9826844",
+    "japanese": "この手紙を書留にしてほしいんです。",
+    "english": "I want to have this letter registered."
+  },
+  {
+    "id": "221317",
+    "japanese": "この手紙を書き終えたら、あの山の２マイルほど先の湖水にご案内しましょう。",
+    "english": "When I have finished writing the letter, I will take you to the lake about two miles beyond the hill."
+  },
+  {
+    "id": "221318",
+    "japanese": "この手紙を出すのを忘れないで下さいね。",
+    "english": "Please remember to mail this letter."
+  },
+  {
+    "id": "221319",
+    "japanese": "この手紙を出して下さい。",
+    "english": "Please mail this letter for me."
+  },
+  {
+    "id": "9930912",
+    "japanese": "この手紙を出しておいてください。",
+    "english": "Please mail this letter for me."
+  },
+  {
+    "id": "221320",
+    "japanese": "この手紙を出しておいて下さい。",
+    "english": "Can you mail these letters for me?"
+  },
+  {
+    "id": "221321",
+    "japanese": "この手紙を出していただけますか。",
+    "english": "Can you mail these for me?"
+  },
+  {
+    "id": "221322",
+    "japanese": "この手紙を受け取って驚いたかもしれません。",
+    "english": "You may be surprised to receive this letter."
+  },
+  {
+    "id": "221323",
+    "japanese": "この手紙を受け取ったらすぐに返事を下さい。",
+    "english": "Write back to me as soon as you get this letter."
+  },
+  {
+    "id": "221324",
+    "japanese": "この手紙を受け取ったらすぐに私に電話を下さい。",
+    "english": "Please call me on receiving this letter."
+  },
+  {
+    "id": "221327",
+    "japanese": "この手紙を航空便で出してください。",
+    "english": "Send this letter by air."
+  },
+  {
+    "id": "221328",
+    "japanese": "この手紙をタイプで打ってください。",
+    "english": "Type this letter for me."
+  },
+  {
+    "id": "221329",
+    "japanese": "この手紙をすぐだしてきてください。",
+    "english": "Please mail this letter for me at once."
+  },
+  {
+    "id": "221330",
+    "japanese": "この手紙は紛失するといけないから、書留にするがよい。",
+    "english": "You had better get this letter registered for fear it should be lost."
+  },
+  {
+    "id": "221331",
+    "japanese": "これは誰からの手紙ですか？",
+    "english": "Who is this letter from?"
+  },
+  {
+    "id": "221332",
+    "japanese": "この手紙は昨晩ナオコによって書かれました。",
+    "english": "This letter was written by Naoko last night."
+  },
+  {
+    "id": "221333",
+    "japanese": "この手紙は個人的なものであり、他の誰にも読まれたくない。",
+    "english": "This letter is personal, and I don't want anyone else to read it."
+  },
+  {
+    "id": "221335",
+    "japanese": "この手紙は英語で書かなければなりませんか。",
+    "english": "Must this letter be written in English?"
+  },
+  {
+    "id": "221336",
+    "japanese": "この手紙は宛名が違っている。",
+    "english": "This letter is wrongly addressed."
+  },
+  {
+    "id": "221337",
+    "japanese": "この手紙はメアリーが書いたものですか。",
+    "english": "Was this letter written by Mary?"
+  },
+  {
+    "id": "221338",
+    "japanese": "この手紙が、謎を解く唯一の手掛かりだ。",
+    "english": "This letter is the only key to the mystery."
+  },
+  {
+    "id": "221339",
+    "japanese": "この手紙はながすぎて手ごろな値段で訳してもらえない。",
+    "english": "This letter is too long to have it translated at a reasonable price."
+  },
+  {
+    "id": "221340",
+    "japanese": "この手紙はすぐに出さないといけないよ。",
+    "english": "This letter has to be sent right away."
+  },
+  {
+    "id": "221341",
+    "japanese": "この手紙はケンによって書かれましたか。",
+    "english": "Was this letter written by Ken?"
+  },
+  {
+    "id": "221343",
+    "japanese": "この手紙に切手を貼って下さい。",
+    "english": "Will you stamp this letter for me?"
+  },
+  {
+    "id": "221344",
+    "japanese": "この手紙には署名がない。",
+    "english": "This letter bears no signature."
+  },
+  {
+    "id": "221345",
+    "japanese": "この手紙には外国切手がはってある。",
+    "english": "This letter bears a foreign stamp."
+  },
+  {
+    "id": "221347",
+    "japanese": "この手紙にはわざわざご返事くださるに及びません。",
+    "english": "Don't bother to answer this letter."
+  },
+  {
+    "id": "148593",
+    "japanese": "手紙では来週の月曜に着くといっている。",
+    "english": "This letter says that he will arrive on Monday."
+  },
+  {
+    "id": "221348",
+    "japanese": "この手紙で彼は日曜日に着くといっている。",
+    "english": "This letter says that he will arrive on Monday."
+  },
+  {
+    "id": "221349",
+    "japanese": "この手紙で彼は辞意を表明している。",
+    "english": "This letter purports to be his resignation."
+  },
+  {
+    "id": "221350",
+    "japanese": "この手紙から察すると彼は立腹しているようだ。",
+    "english": "I gathered from this letter that he was angry."
+  },
+  {
+    "id": "221351",
+    "japanese": "この手紙から、彼が本当に思っていることが解った。",
+    "english": "The letter showed what he really felt."
+  },
+  {
+    "id": "221353",
+    "japanese": "この手作りのイタリア製チタン自転車は、恐ろしく軽い。",
+    "english": "This handmade Italian-made titanium bicycle is terribly light."
+  },
+  {
+    "id": "221354",
+    "japanese": "この手荷物を別の場所に置いてもらえませんか。",
+    "english": "Could you put this bag in another place?"
+  },
+  {
+    "id": "221355",
+    "japanese": "この手違いについて説明を要求します。",
+    "english": "I demand an explanation for this mistake."
+  },
+  {
+    "id": "221356",
+    "japanese": "この手の本はあまり読まない。",
+    "english": "I don't read this kind of book much."
+  },
+  {
+    "id": "237487",
+    "japanese": "この手の事故は３回は続く。",
+    "english": "These things always happen in threes."
+  },
+  {
+    "id": "221358",
+    "japanese": "この手の仕事にはかなりの忍耐力が必要だ。",
+    "english": "This kind of work requires a lot of patience."
+  },
+  {
+    "id": "221359",
+    "japanese": "この手の雑誌は若者に害を与えかねない。",
+    "english": "This kind of magazine can do harm to young people."
+  },
+  {
+    "id": "221360",
+    "japanese": "この手の音楽は私の趣味じゃない。",
+    "english": "This sort of music is not my cup of tea."
+  },
+  {
+    "id": "7493097",
+    "japanese": "このジャンルの音楽は私の趣味じゃない。",
+    "english": "This sort of music is not my cup of tea."
+  },
+  {
+    "id": "221361",
+    "japanese": "この取り決めは一時的なものでしかない。",
+    "english": "This arrangement is only temporary."
+  },
+  {
+    "id": "221362",
+    "japanese": "この取り決めには関係したくない。",
+    "english": "I'll be no party to this arrangement."
+  },
+  {
+    "id": "221363",
+    "japanese": "この取り引きには大金が賭けられている。",
+    "english": "There's a lot of money at stake in this transaction."
+  },
+  {
+    "id": "221364",
+    "japanese": "この主要道路のお陰でずいぶん時間が節約できる。",
+    "english": "This highway saves us a lot of time."
+  },
+  {
+    "id": "221365",
+    "japanese": "この若人に対してねたましく思う気持ちを、君はやむを得ないものと受け入れなければならない。",
+    "english": "You need to come to terms with your jealousy of this young man."
+  },
+  {
+    "id": "221366",
+    "japanese": "この若さで国際大会で優勝するなんて、まさに前途洋洋ですね。",
+    "english": "His victory at this age in an international competition is a good indication of a bright future."
+  },
+  {
+    "id": "221367",
+    "japanese": "この蛇口は使えません。故障しています。",
+    "english": "You can't use this faucet. It's out of order."
+  },
+  {
+    "id": "221369",
+    "japanese": "この車を処分しなければならない。",
+    "english": "This car must go."
+  },
+  {
+    "id": "221368",
+    "japanese": "この蛇は触っても安全ですか。",
+    "english": "Is this snake safe to touch?"
+  },
+  {
+    "id": "221370",
+    "japanese": "この車を自由にお使い下さい。",
+    "english": "The car is at your service."
+  },
+  {
+    "id": "221371",
+    "japanese": "この車を好きなときに使っていいですよ。",
+    "english": "You can put this car to use as you like."
+  },
+  {
+    "id": "221372",
+    "japanese": "この車をできるだけ早く修理してもらいたいのですが。",
+    "english": "I would like to have this car repaired as soon as possible."
+  },
+  {
+    "id": "221373",
+    "japanese": "この車は乱暴な使い方をされてきたに違いない。",
+    "english": "This car must have had tough usage."
+  },
+  {
+    "id": "221374",
+    "japanese": "この車は父が使っています。",
+    "english": "This car is used by my father."
+  },
+  {
+    "id": "221375",
+    "japanese": "この車は父が持っているのと同じタイプの車だ。",
+    "english": "This is the same type of car as my father has."
+  },
+  {
+    "id": "221378",
+    "japanese": "この車は日本で作られました。",
+    "english": "This car was made in Japan."
+  },
+  {
+    "id": "995343",
+    "japanese": "この車は日本製だ。",
+    "english": "This car was made in Japan."
+  },
+  {
+    "id": "995345",
+    "japanese": "この車はメイド・イン・ジャパンだ。",
+    "english": "This car was made in Japan."
+  },
+  {
+    "id": "995346",
+    "japanese": "この自動車は日本製だ。",
+    "english": "This car was made in Japan."
+  },
+  {
+    "id": "995348",
+    "japanese": "この自動車はメイド・イン・ジャパンだ。",
+    "english": "This car was made in Japan."
+  },
+  {
+    "id": "221377",
+    "japanese": "この車は日本製です。",
+    "english": "This car is made in Japan."
+  },
+  {
+    "id": "221379",
+    "japanese": "この車は動かない。",
+    "english": "This car won't start."
+  },
+  {
+    "id": "221380",
+    "japanese": "この車は天然ガスで動く。",
+    "english": "This car runs on natural gas."
+  },
+  {
+    "id": "221381",
+    "japanese": "この車は直しても甲斐が無い。",
+    "english": "This car isn't worth repairing."
+  },
+  {
+    "id": "12510837",
+    "japanese": "この車は修理するだけ無駄だよ。",
+    "english": "This car isn't worth repairing."
+  },
+  {
+    "id": "221383",
+    "japanese": "この車は即金で買った。",
+    "english": "I paid cash for the car."
+  },
+  {
+    "id": "221382",
+    "japanese": "この車は調子がいい。",
+    "english": "This car is in good condition."
+  },
+  {
+    "id": "221384",
+    "japanese": "この車は洗う必要がある。",
+    "english": "This car needs washing."
+  },
+  {
+    "id": "221385",
+    "japanese": "この車は新品同様だ。",
+    "english": "This car is as good as new."
+  },
+  {
+    "id": "221386",
+    "japanese": "この車は新車同様だ。",
+    "english": "This car is like new."
+  },
+  {
+    "id": "221387",
+    "japanese": "この車は修理する必要がある。",
+    "english": "This car needs repairing."
+  },
+  {
+    "id": "221389",
+    "japanese": "この車は修理してもらう必要がある。",
+    "english": "This car needs repairing."
+  },
+  {
+    "id": "221390",
+    "japanese": "この車は修理が必要だ。",
+    "english": "This car needs repairing."
+  },
+  {
+    "id": "221388",
+    "japanese": "この車は修理するだけの値打ちはない。",
+    "english": "It isn't worth repairing this car."
+  },
+  {
+    "id": "221391",
+    "japanese": "この車は自分で自由に使えない。",
+    "english": "This car is not at my disposal."
+  },
+  {
+    "id": "221392",
+    "japanese": "この車は時代遅れです。",
+    "english": "This car is out of date."
+  },
+  {
+    "id": "221393",
+    "japanese": "この車は時速６０キロで走っている。",
+    "english": "This car is going 60km an hour."
+  },
+  {
+    "id": "221394",
+    "japanese": "この車は私の父のものです。",
+    "english": "This car is my father's."
+  },
+  {
+    "id": "221395",
+    "japanese": "この車は錆に強い。",
+    "english": "This car is resistant to rust."
+  },
+  {
+    "id": "221396",
+    "japanese": "この車は昨日乗ったのと同じ車だ。",
+    "english": "This is same car that we were in yesterday."
+  },
+  {
+    "id": "221397",
+    "japanese": "この車は最新型です。",
+    "english": "This car is the latest model."
+  },
+  {
+    "id": "221398",
+    "japanese": "この車は高そうですが、耐久性があるので長い目で見れば得です。",
+    "english": "This seems expensive, but it's so durable it will pay off in the long run."
+  },
+  {
+    "id": "221399",
+    "japanese": "この車は故障しそうだ。",
+    "english": "This car is going to break down."
+  },
+  {
+    "id": "221400",
+    "japanese": "この車は近ごろ故障ばかりしている。",
+    "english": "This car is always breaking down lately."
+  },
+  {
+    "id": "221401",
+    "japanese": "この車は過去１０年間使用されてきた。",
+    "english": "This car has been used for the past ten years."
+  },
+  {
+    "id": "221403",
+    "japanese": "この車は以前ほど快調に走らない。",
+    "english": "This car is running less smoothly than it used to."
+  },
+  {
+    "id": "221404",
+    "japanese": "この車はわたしのだ。",
+    "english": "This car is mine."
+  },
+  {
+    "id": "221405",
+    "japanese": "この車はよく売れる。",
+    "english": "This car sells well."
+  },
+  {
+    "id": "9827549",
+    "japanese": "こちらの車はよく売れてますよ。",
+    "english": "This car sells well."
+  },
+  {
+    "id": "221406",
+    "japanese": "この車はもうすぐガソリンを使い果たすのでガソリンスタンドを探す必要がある。",
+    "english": "We need to look for a gas station because this car will soon run out of gas."
+  },
+  {
+    "id": "221407",
+    "japanese": "この車はとても運転が楽だ。",
+    "english": "This car handles very easily."
+  },
+  {
+    "id": "221408",
+    "japanese": "この車はどこか具合が悪いようだ。",
+    "english": "It seems that something is wrong with this car."
+  },
+  {
+    "id": "221409",
+    "japanese": "この車はそんな目的にかなうように作られている。",
+    "english": "This car is built to serve such purposes."
+  },
+  {
+    "id": "221410",
+    "japanese": "この車はスピードが一番はやい車です。",
+    "english": "This is the car with the most speed."
+  },
+  {
+    "id": "221411",
+    "japanese": "この車はがらくた同然である。",
+    "english": "This car is no better than junk."
+  },
+  {
+    "id": "221412",
+    "japanese": "この車はあれほど良くない。",
+    "english": "This car is not so nice as that one."
+  },
+  {
+    "id": "221413",
+    "japanese": "この車はあれに比べればよい。",
+    "english": "This car is better as compared with that one."
+  },
+  {
+    "id": "221414",
+    "japanese": "この車はあまりガソリンを食わない。",
+    "english": "This car is very economical on gas."
+  },
+  {
+    "id": "221415",
+    "japanese": "この車はあの車より性能がよい。",
+    "english": "This car has a better performance than that one."
+  },
+  {
+    "id": "221416",
+    "japanese": "この車はあの車よりもすぐれている。",
+    "english": "This car is superior to that."
+  },
+  {
+    "id": "221418",
+    "japanese": "この車はあの車と同じくらい大きい。",
+    "english": "This car is as big as that car."
+  },
+  {
+    "id": "221417",
+    "japanese": "この車はあの車より大きい。",
+    "english": "This car is bigger than that one."
+  },
+  {
+    "id": "221419",
+    "japanese": "この車は５人乗れる。",
+    "english": "This car accommodates five people."
+  },
+  {
+    "id": "11455758",
+    "japanese": "この車は5人乗りです。",
+    "english": "This car accommodates five people."
+  },
+  {
+    "id": "221420",
+    "japanese": "この車は４トン車だ。",
+    "english": "This car can carry a load of 4 tons."
+  },
+  {
+    "id": "221421",
+    "japanese": "この車は「年間最優秀車」に選ばれた。",
+    "english": "This car was selected the \"car of the year\"."
+  },
+  {
+    "id": "221422",
+    "japanese": "この車の予備の部品を買うことができない。",
+    "english": "I cannot buy spare parts for this car."
+  },
+  {
+    "id": "221423",
+    "japanese": "この車の燃費はどれくらいですか。",
+    "english": "What is the fuel mileage of this car?"
+  },
+  {
+    "id": "221424",
+    "japanese": "この車の燃費はどれくらい？",
+    "english": "What mileage do you get with this car?"
+  },
+  {
+    "id": "221425",
+    "japanese": "この車の値段は１５％引きになっています。",
+    "english": "The price of this car is discounted fifteen percent."
+  },
+  {
+    "id": "221426",
+    "japanese": "この車の前は、ニッサン車に乗っていました。",
+    "english": "I had a Nissan before this one."
+  },
+  {
+    "id": "221427",
+    "japanese": "車の修理をお願いします。",
+    "english": "Please repair the car."
+  },
+  {
+    "id": "221428",
+    "japanese": "この車の価格はとても高い。",
+    "english": "The price of this car is very high."
+  },
+  {
+    "id": "221429",
+    "japanese": "この車の維持は高くつく。",
+    "english": "It is expensive running this car."
+  },
+  {
+    "id": "221430",
+    "japanese": "この車のタイヤの空気は十分でない。",
+    "english": "The tires of this car don't have enough air in them."
+  },
+  {
+    "id": "221431",
+    "japanese": "この車のエンジンはおかしい。",
+    "english": "Something is wrong with the engine of this car."
+  },
+  {
+    "id": "221432",
+    "japanese": "この車には楽にその山をのぼるだけの力がある。",
+    "english": "This car has enough power to go up the mountain easily."
+  },
+  {
+    "id": "221433",
+    "japanese": "この車にはエアコンがついている。",
+    "english": "This car comes with an air conditioner."
+  },
+  {
+    "id": "221434",
+    "japanese": "この社会では医者の地位はかなり高い。",
+    "english": "The status of a doctor is very high in this community."
+  },
+  {
+    "id": "1773037",
+    "japanese": "この地域では医者の地位がかなり高い。",
+    "english": "The status of a doctor is very high in this community."
+  },
+  {
+    "id": "221435",
+    "japanese": "この社会が若さということにそのような感情的特権を付与するというのは誤解を引き起こしやすいと思う。",
+    "english": "I find it apt to cause misunderstanding that society confers such emotional privileges upon youth."
+  },
+  {
+    "id": "221437",
+    "japanese": "この写真大好き。",
+    "english": "I love this picture."
+  },
+  {
+    "id": "221436",
+    "japanese": "この社はジュピターにささげられたものだ。",
+    "english": "This shrine is sacred to Jupiter."
+  },
+  {
+    "id": "221438",
+    "japanese": "この写真を出来るだけ早く現像して下さい。",
+    "english": "I want this photograph developed as soon as possible."
+  },
+  {
+    "id": "11222350",
+    "japanese": "至急この写真を現像してほしいのですが。",
+    "english": "I want this photograph developed as soon as possible."
+  },
+  {
+    "id": "221439",
+    "japanese": "この写真を見ると必ず亡くなった母のことを思い出す。",
+    "english": "I never see this picture without thinking of my dead mother."
+  },
+  {
+    "id": "156887",
+    "japanese": "私はこの絵を見るといつも父のことを思い出す。",
+    "english": "I never see this picture without thinking of my father."
+  },
+  {
+    "id": "221440",
+    "japanese": "この写真を見ると必ず父を思い出す。",
+    "english": "I never see this picture without thinking of my father."
+  },
+  {
+    "id": "221441",
+    "japanese": "この写真を見ると必ず私は若い頃を思い出す。",
+    "english": "I never see this picture without thinking of my young days."
+  },
+  {
+    "id": "221442",
+    "japanese": "この写真を見ると必ず学生時代を思い出す。",
+    "english": "I cannot look at this photo without being reminded of my school days."
+  },
+  {
+    "id": "221443",
+    "japanese": "この写真を見ると必ず、田舎での幸せな日々を私は思い出す。",
+    "english": "I never see this photo without being reminded of my happy days in the countryside."
+  },
+  {
+    "id": "221444",
+    "japanese": "この写真を見ると私は学生時代を思い出す。",
+    "english": "The picture reminds me of when I was a student."
+  },
+  {
+    "id": "1108436",
+    "japanese": "この写真は私に学生時代を思い出させてくれる。",
+    "english": "The picture reminds me of when I was a student."
+  },
+  {
+    "id": "221445",
+    "japanese": "この写真を見るとむかつく。",
+    "english": "I always view this photo with disgust."
+  },
+  {
+    "id": "221446",
+    "japanese": "この写真を見るといつも彼を思い出す。",
+    "english": "I never see this picture without thinking of him."
+  },
+  {
+    "id": "221447",
+    "japanese": "この写真を見るといつも彼のことを思い出す。",
+    "english": "I never see this picture without thinking of him."
+  },
+  {
+    "id": "221448",
+    "japanese": "この写真を見るといつも昔を思い出す。",
+    "english": "These pictures always remind me of the old days."
+  },
+  {
+    "id": "221449",
+    "japanese": "この写真を見るとあの休日の事を思い出す。",
+    "english": "When I see this picture, I'm reminded of our holiday."
+  },
+  {
+    "id": "221450",
+    "japanese": "この写真を見ると、私は必ず子供のころを思い出す。",
+    "english": "I never see this picture without being reminded of my childhood."
+  },
+  {
+    "id": "221451",
+    "japanese": "この写真を見ると、私は家族のことを思い出す。",
+    "english": "The picture reminds me of my family."
+  },
+  {
+    "id": "221452",
+    "japanese": "この写真を見るたびに私の父を思い出す。",
+    "english": "Every time I see this picture, I remember my father."
+  },
+  {
+    "id": "221453",
+    "japanese": "この写真を見るたびに、父を思い出す。",
+    "english": "Every time I see this photo, I think of my father."
+  },
+  {
+    "id": "221454",
+    "japanese": "この写真を見て下さい。",
+    "english": "Please take a look at this picture."
+  },
+  {
+    "id": "221455",
+    "japanese": "この写真をよく見て私を見つけてごらん。",
+    "english": "Have a good look at this picture and find me in it."
+  },
+  {
+    "id": "221456",
+    "japanese": "この写真をよく見てそこに僕がいるか確かめて下さい。",
+    "english": "Have a good look at this picture and tell me whether or not you can find me in it."
+  },
+  {
+    "id": "221458",
+    "japanese": "この写真をよく見て、そこにぼくがいるかどうか見て下さい。",
+    "english": "Have a good look at this picture and tell me whether or not you can find me in it."
+  },
+  {
+    "id": "221457",
+    "japanese": "この写真をよく見て。",
+    "english": "Have a good look at this picture."
+  },
+  {
+    "id": "221459",
+    "japanese": "この写真をどう思う、今日現像したのだ。",
+    "english": "How do you like these photos? I had them developed today."
+  },
+  {
+    "id": "221462",
+    "japanese": "この写真は楽しかった私の少年時代を思い出させる。",
+    "english": "This photograph reminds me of enjoyable times when I was a child."
+  },
+  {
+    "id": "221463",
+    "japanese": "この写真の猫を見かけたら、お電話ください。",
+    "english": "Please call us when you see the cat in this picture."
+  },
+  {
+    "id": "221464",
+    "japanese": "この写真の中の少女は誰ですか。",
+    "english": "Who is the girl in this picture?"
+  },
+  {
+    "id": "221465",
+    "japanese": "この写真ではシンガポールはとても素敵なようだ。",
+    "english": "Singapore looks very nice in this picture."
+  },
+  {
+    "id": "221466",
+    "japanese": "この写真、いつ頃までに仕上がりますか。",
+    "english": "How quickly can you finish these pictures?"
+  },
+  {
+    "id": "221467",
+    "japanese": "この芝生は座れないほどぬれている。",
+    "english": "This grass is too wet to sit on."
+  },
+  {
+    "id": "221468",
+    "japanese": "この芝居はどこで上演していますか。",
+    "english": "Where is this play being performed?"
+  },
+  {
+    "id": "221469",
+    "japanese": "この芝居は２つの短い場面で構成されている。",
+    "english": "This drama consists of just two short scenes."
+  },
+  {
+    "id": "221470",
+    "japanese": "この芝居にはユーモアがない。",
+    "english": "This play has no humor in it."
+  },
+  {
+    "id": "221471",
+    "japanese": "この芝は刈らなければならない。",
+    "english": "This grass needs cutting."
+  },
+  {
+    "id": "221472",
+    "japanese": "この実験を行うのにいくら注意しても注意しすぎることはない。",
+    "english": "You can't be too careful when doing this experiment."
+  },
+  {
+    "id": "221473",
+    "japanese": "この実験の結果、要素Ｔが構造全体を決定しているという推定が導き出される。",
+    "english": "The result of this experiment leads to our presumption that element T determines the entire structure."
+  },
+  {
+    "id": "221474",
+    "japanese": "この実験には以下の手段を使用した。",
+    "english": "We used the following procedures in this experiment."
+  },
+  {
+    "id": "221475",
+    "japanese": "この実験においては、粒子Ｍを水平方向に加速してやることが非常に重要である。",
+    "english": "It is of great significance in this experiment to accelerate the particle M in the horizontal direction."
+  },
+  {
+    "id": "221477",
+    "japanese": "この実験では不注意は許されない。",
+    "english": "You can't afford to be careless in this experiment."
+  },
+  {
+    "id": "221478",
+    "japanese": "この実はたべられます。",
+    "english": "This berry is good to eat."
+  },
+  {
+    "id": "221479",
+    "japanese": "この質問は答えにくいな。",
+    "english": "This question is difficult to answer."
+  },
+  {
+    "id": "221480",
+    "japanese": "この質問は決してやさしくない。",
+    "english": "This question is by no means easy."
+  },
+  {
+    "id": "221481",
+    "japanese": "この質問に答えるのは簡単だ。",
+    "english": "It is easy to answer this question."
+  },
+  {
+    "id": "221482",
+    "japanese": "この質問に答えられますか。",
+    "english": "Can you answer this question?"
+  },
+  {
+    "id": "221483",
+    "japanese": "この質問に答えとしてもごもごと言ったには、私が５０歳になっても、出かけようとすると母が窓から身を乗り出して飛ばし過ぎないように注意したいという話だけであった。",
+    "english": "All I could mumble in response was that when I was a man of fifty, my mother would lean out of the window when I left and remind me not to drive too fast."
+  },
+  {
+    "id": "221485",
+    "japanese": "この失敗は私の間違った判断に起因する。",
+    "english": "This fault results from my wrong decision."
+  },
+  {
+    "id": "221486",
+    "japanese": "この失敗は私に責任がある。",
+    "english": "I am responsible for this failure."
+  },
+  {
+    "id": "221487",
+    "japanese": "この失敗は君の間違いのせいだ。",
+    "english": "This failure is due to your mistake."
+  },
+  {
+    "id": "10483022",
+    "japanese": "この失敗はお前のミスのせいだ。",
+    "english": "This failure is due to your mistake."
+  },
+  {
+    "id": "221488",
+    "japanese": "この失敗は、君自身の怠慢から起こったものだ。",
+    "english": "This failure was brought about by your own negligence."
+  },
+  {
+    "id": "221489",
+    "japanese": "この失敗、きっと一生、言われつづけるなあ。",
+    "english": "We'll never live this fiasco down."
+  },
+  {
+    "id": "221491",
+    "japanese": "この七面鳥は５人分あります。",
+    "english": "This turkey will serve five."
+  },
+  {
+    "id": "221490",
+    "japanese": "この失業者の増加は不景気の当然な結果である。",
+    "english": "This increase in unemployment is a consequence of the recession."
+  },
+  {
+    "id": "221493",
+    "japanese": "この辞書を使ってもいいですか。",
+    "english": "Would you mind my using this dictionary?"
+  },
+  {
+    "id": "221492",
+    "japanese": "この七面鳥おいしいね。",
+    "english": "This turkey tastes good."
+  },
+  {
+    "id": "221494",
+    "japanese": "この辞書を使っても良いですか。",
+    "english": "Can I use this dictionary?"
+  },
+  {
+    "id": "11070524",
+    "japanese": "この辞書、貸してあげるよ。",
+    "english": "I'll lend you this dictionary."
+  },
+  {
+    "id": "221496",
+    "japanese": "この辞書は非常に役に立つ。",
+    "english": "This dictionary is of great use."
+  },
+  {
+    "id": "221521",
+    "japanese": "この辞書はすごく役に立つんだ。",
+    "english": "This dictionary is of great use."
+  },
+  {
+    "id": "221497",
+    "japanese": "この辞書は特に語法に重点を置いている。",
+    "english": "This dictionary puts a special emphasis on usage."
+  },
+  {
+    "id": "221498",
+    "japanese": "この辞書は大きさが手ごろだ。",
+    "english": "This dictionary is handy in size."
+  },
+  {
+    "id": "221499",
+    "japanese": "この辞書は信頼できるよ。",
+    "english": "You can depend on this dictionary."
+  },
+  {
+    "id": "221500",
+    "japanese": "この辞書は初級者に、いやそれどころか上級者にも役に立つ。",
+    "english": "This dictionary is useful to beginners, yes, and to advanced learners."
+  },
+  {
+    "id": "221501",
+    "japanese": "この辞書は私の姉のです。",
+    "english": "This dictionary is my sister's."
+  },
+  {
+    "id": "10264537",
+    "japanese": "この辞書、うちのお姉ちゃんのなんだ。",
+    "english": "This dictionary is my sister's."
+  },
+  {
+    "id": "221502",
+    "japanese": "この辞書は私のものではありません。",
+    "english": "This dictionary doesn't belong to me."
+  },
+  {
+    "id": "221503",
+    "japanese": "この辞書は私に大いに役立った。",
+    "english": "This dictionary has been of great use to me."
+  },
+  {
+    "id": "221504",
+    "japanese": "この辞書は私にたいへん役に立つ。",
+    "english": "This dictionary is of great use to me."
+  },
+  {
+    "id": "221518",
+    "japanese": "この辞書はとても役に立っている。",
+    "english": "This dictionary is of great use to me."
+  },
+  {
+    "id": "221505",
+    "japanese": "この辞書は私たちには大変価値がある。",
+    "english": "This dictionary is of great value to us."
+  },
+  {
+    "id": "221506",
+    "japanese": "この辞書は私たちにとってありがたいものだ。",
+    "english": "This dictionary is great boon up to us."
+  },
+  {
+    "id": "221507",
+    "japanese": "この辞書は高校生向きに作られている。",
+    "english": "This dictionary is adapted for high school students."
+  },
+  {
+    "id": "221508",
+    "japanese": "この辞書は主に高校生を対象としたものです。",
+    "english": "This dictionary is primarily intended for high school students."
+  },
+  {
+    "id": "221509",
+    "japanese": "この辞書は高い。",
+    "english": "This dictionary is expensive."
+  },
+  {
+    "id": "221510",
+    "japanese": "この辞書は見出し語が約４万はいっている。",
+    "english": "This dictionary contains about 40,000 headwords."
+  },
+  {
+    "id": "221511",
+    "japanese": "この辞書は群を抜いてよい。",
+    "english": "This dictionary is by far the best."
+  },
+  {
+    "id": "221512",
+    "japanese": "この辞書は君のと同じぐらい役に立つ。",
+    "english": "This dictionary is as useful as yours."
+  },
+  {
+    "id": "221513",
+    "japanese": "この辞書は簡約版だ。",
+    "english": "This dictionary is an abridged edition."
+  },
+  {
+    "id": "221514",
+    "japanese": "この辞書は学生に非常に役に立つ。",
+    "english": "This dictionary is of great use for students."
+  },
+  {
+    "id": "221515",
+    "japanese": "この辞書は英語で書かれている。",
+    "english": "This dictionary is written in English."
+  },
+  {
+    "id": "221516",
+    "japanese": "この辞書はまったく役に立たない。",
+    "english": "This dictionary is no good."
+  },
+  {
+    "id": "221517",
+    "japanese": "この辞書はほとんど役に立たない。",
+    "english": "This dictionary is of little use."
+  },
+  {
+    "id": "221519",
+    "japanese": "この辞書はとても高いが買う価値がある。",
+    "english": "This dictionary is very expensive, but is worth buying."
+  },
+  {
+    "id": "221520",
+    "japanese": "この辞書はせいぜい２万語くらいしかのっていない。",
+    "english": "This dictionary contains not more than 20,000 words."
+  },
+  {
+    "id": "221522",
+    "japanese": "この辞書はきわめて初心者向きである。",
+    "english": "This dictionary is well adapted for beginners."
+  },
+  {
+    "id": "221523",
+    "japanese": "この辞書はあれより優れている。",
+    "english": "This dictionary is superior to that one."
+  },
+  {
+    "id": "221524",
+    "japanese": "この辞書はあまり役にたたん。",
+    "english": "This dictionary doesn't go very far."
+  },
+  {
+    "id": "221525",
+    "japanese": "この辞書はあの辞書にまったく引けを取らない。",
+    "english": "This dictionary is every bit as good as that one."
+  },
+  {
+    "id": "221526",
+    "japanese": "この辞書はあの辞書と同じくらい役に立つ。",
+    "english": "This dictionary is as useful as that one."
+  },
+  {
+    "id": "221527",
+    "japanese": "この辞書は１２冊ある。",
+    "english": "This dictionary has 12 volumes."
+  },
+  {
+    "id": "10611375",
+    "japanese": "この辞典は全１２巻です。",
+    "english": "This dictionary has 12 volumes."
+  },
+  {
+    "id": "221528",
+    "japanese": "この辞書は、第３巻が今欠けていますが、百ドルでした。",
+    "english": "This dictionary, of which the third volume is missing, cost me a hundred dollars."
+  },
+  {
+    "id": "221529",
+    "japanese": "この辞書の用例はわかりやすい。",
+    "english": "The examples in this dictionary are easy to understand."
+  },
+  {
+    "id": "221530",
+    "japanese": "この辞書の全ての単語が重要です。",
+    "english": "Every word in this dictionary is important."
+  },
+  {
+    "id": "221537",
+    "japanese": "この辞書にある単語はすべて大切である。",
+    "english": "Every word in this dictionary is important."
+  },
+  {
+    "id": "11268345",
+    "japanese": "この辞書のどの単語も重要ですよ。",
+    "english": "Every word in this dictionary is important."
+  },
+  {
+    "id": "221531",
+    "japanese": "この辞書の全ての単語が重要だとは限らない。",
+    "english": "Not every word in this dictionary is important."
+  },
+  {
+    "id": "221532",
+    "japanese": "この辞書の改訂には６年かかった。",
+    "english": "The revision of this dictionary took six years."
+  },
+  {
+    "id": "221533",
+    "japanese": "この辞書には大いに改善の余地がある。",
+    "english": "There is plenty of room for improvement in this dictionary."
+  },
+  {
+    "id": "221534",
+    "japanese": "この辞書には情報がたくさん入っています。",
+    "english": "This dictionary contains a lot of information."
+  },
+  {
+    "id": "221535",
+    "japanese": "この辞書には少なくとも５万語載っている。",
+    "english": "This dictionary contains not less than fifty thousand words."
+  },
+  {
+    "id": "221536",
+    "japanese": "この辞書には序文はあるが端書きがない。",
+    "english": "This dictionary has a preface, not a foreword."
+  },
+  {
+    "id": "160877",
+    "japanese": "この辞書無しで済ますことは出来ない。",
+    "english": "I can't do without this dictionary."
+  },
+  {
+    "id": "221538",
+    "japanese": "この辞書なしには済まされない。",
+    "english": "I can't do without this dictionary."
+  },
+  {
+    "id": "10674471",
+    "japanese": "この辞書がないとやっていけないんだよ。",
+    "english": "I can't do without this dictionary."
+  },
+  {
+    "id": "221539",
+    "japanese": "この辞書とあの辞書を比べると、どちらがいいか容易にわかるだろう。",
+    "english": "When you compare this dictionary with that one, you can easily see which is better."
+  },
+  {
+    "id": "221540",
+    "japanese": "この辞書とあの辞書を比べてみよう。",
+    "english": "Let's compare this dictionary with that one."
+  },
+  {
+    "id": "221541",
+    "japanese": "この辞書でよろしいですか。",
+    "english": "Will this dictionary do?"
+  },
+  {
+    "id": "221542",
+    "japanese": "この辞書では発音は見出し語の直後にある。",
+    "english": "In this dictionary the pronunciation comes right after the headword."
+  },
+  {
+    "id": "160876",
+    "japanese": "私はこの辞書無しではやっていけません。",
+    "english": "I cannot do without this dictionary."
+  },
+  {
+    "id": "160884",
+    "japanese": "私はこの辞書なしではできない。",
+    "english": "I cannot do without this dictionary."
+  },
+  {
+    "id": "160886",
+    "japanese": "私はこの辞書なしではすまされない。",
+    "english": "I cannot do without this dictionary."
+  },
+  {
+    "id": "221543",
+    "japanese": "この辞書が無くては済まされない。",
+    "english": "I cannot do without this dictionary."
+  },
+  {
+    "id": "221544",
+    "japanese": "この自動販売機は故障しています。",
+    "english": "This vending machine is out of order."
+  },
+  {
+    "id": "221545",
+    "japanese": "この自動販売機に５００円硬貨は使えない。",
+    "english": "This vending machine won't accept 500 yen coins."
+  },
+  {
+    "id": "221546",
+    "japanese": "この自動販売機、動かないんですが。",
+    "english": "This vending machine isn't working."
+  },
+  {
+    "id": "1256518",
+    "japanese": "この自販機、作動しないんですけど。",
+    "english": "This vending machine isn't working."
+  },
+  {
+    "id": "221547",
+    "japanese": "この自動車は運転しやすい。",
+    "english": "This car handles well."
+  },
+  {
+    "id": "221548",
+    "japanese": "この自動車はアルコールを燃料に使う。",
+    "english": "This car runs on alcohol."
+  },
+  {
+    "id": "221549",
+    "japanese": "この自転車を使ってもいいですか。",
+    "english": "Can I use this bike?"
+  },
+  {
+    "id": "221550",
+    "japanese": "この自転車は油が切れている。",
+    "english": "This bicycle needs oiling."
+  },
+  {
+    "id": "11814735",
+    "japanese": "この自転車、油をささなきゃ。",
+    "english": "This bicycle needs oiling."
+  },
+  {
+    "id": "11814736",
+    "japanese": "この自転車、注油しないと。",
+    "english": "This bicycle needs oiling."
+  },
+  {
+    "id": "11814737",
+    "japanese": "このチャリ、オイルささないと。",
+    "english": "This bicycle needs oiling."
+  },
+  {
+    "id": "221551",
+    "japanese": "この自転車は誰のものですか。",
+    "english": "Whose is this bicycle?"
+  },
+  {
+    "id": "221552",
+    "japanese": "この自動車は操縦しやすい。",
+    "english": "This car is easy to handle."
+  },
+  {
+    "id": "10563897",
+    "japanese": "この車は運転しやすいね。",
+    "english": "This car is easy to handle."
+  },
+  {
+    "id": "10760470",
+    "japanese": "この車、運転しやすいよ。",
+    "english": "This car is easy to handle."
+  },
+  {
+    "id": "221554",
+    "japanese": "この自転車は乗りやすい。",
+    "english": "This bike is easy to ride."
+  },
+  {
+    "id": "221553",
+    "japanese": "この自転車は修理する必要があるな。",
+    "english": "This bicycle needs repairing."
+  },
+  {
+    "id": "221555",
+    "japanese": "この自転車は私の弟のものだ。",
+    "english": "This bicycle belongs to my brother."
+  },
+  {
+    "id": "221556",
+    "japanese": "この自転車は私の兄に使われる。",
+    "english": "This bike is used by my brother."
+  },
+  {
+    "id": "221557",
+    "japanese": "この自転車は私のものです。",
+    "english": "This bicycle belongs to me."
+  },
+  {
+    "id": "221558",
+    "japanese": "この自転車は今月の初めからここに置かれたままだ。",
+    "english": "This bicycle has been left here since the beginning of this month."
+  },
+  {
+    "id": "221559",
+    "japanese": "この自転車はひどい。重すぎる。",
+    "english": "This bike is awful; it's too heavy."
+  },
+  {
+    "id": "221561",
+    "japanese": "この自転車に油をさしなさい。",
+    "english": "Oil this bicycle."
+  },
+  {
+    "id": "221560",
+    "japanese": "この自転車に乗っててひどい事故に遭ったんです。",
+    "english": "I had a terrible accident riding this bike."
+  },
+  {
+    "id": "221562",
+    "japanese": "この自画像の私があなたを見つめているように思えても、そうではありません。",
+    "english": "If in this self-portrait I seem to be staring at you, I'm not."
+  },
+  {
+    "id": "221563",
+    "japanese": "この磁鉄鉱は地球の磁場に引きつけられる。",
+    "english": "The magnetite is attracted to the earth's magnetic field."
+  },
+  {
+    "id": "221564",
+    "japanese": "この磁場の線が２極で北の磁力と南の磁力の間に走っています。",
+    "english": "The lines of this field run between magnetic north and magnetic south at the two poles."
+  },
+  {
+    "id": "221565",
+    "japanese": "この治療をすれば一晩で良くなるよ。",
+    "english": "This remedy will do you good overnight."
+  },
+  {
+    "id": "221566",
+    "japanese": "この次来るときは、花を持ってきてあげよう。",
+    "english": "Next time I come, I'll bring you some flowers."
+  },
+  {
+    "id": "221567",
+    "japanese": "この次は試合に勝つぞ。",
+    "english": "I will win the game next time."
+  },
+  {
+    "id": "1177015",
+    "japanese": "この次はもっと上手く歌えるよ。",
+    "english": "You will be able to sing better next time."
+  },
+  {
+    "id": "221569",
+    "japanese": "この次はもっと早く来よう。",
+    "english": "I will come earlier next time."
+  },
+  {
+    "id": "221570",
+    "japanese": "この次はいつ会えますか。",
+    "english": "When can I see you next time?"
+  },
+  {
+    "id": "221571",
+    "japanese": "この次の火曜日、すなわち９月１０日に君に会いたい。",
+    "english": "I will see you on next Tuesday, that is to say, the 10th of September."
+  },
+  {
+    "id": "221572",
+    "japanese": "この次のお手紙で、そちらの町について話してください。",
+    "english": "Please tell me about your town in your next letter."
+  },
+  {
+    "id": "221573",
+    "japanese": "この次に来るときその本を持ってきてくれ。",
+    "english": "Please bring me the book next time you come."
+  },
+  {
+    "id": "221574",
+    "japanese": "この次に彼がきた時に、そのことについて彼に話しましょう。",
+    "english": "I will tell him about it when he comes next time."
+  },
+  {
+    "id": "221575",
+    "japanese": "この次に償いをするよ。",
+    "english": "I will make up for it next time."
+  },
+  {
+    "id": "221576",
+    "japanese": "この次いつ集まればよいのか彼に聞いてください。",
+    "english": "Ask him when to get together next."
+  },
+  {
+    "id": "221577",
+    "japanese": "この次、京都に来たら私を訪ねなさい。",
+    "english": "Look me up next time you are in Kyoto."
+  },
+  {
+    "id": "221578",
+    "japanese": "この時計、喉から手が出るほど欲しかったんだ。",
+    "english": "I wanted this watch so badly I could taste it."
+  },
+  {
+    "id": "221579",
+    "japanese": "この時計会社の優れた技巧は群を抜いている。",
+    "english": "The quality of craftsmanship in this clock company is unsurpassed."
+  },
+  {
+    "id": "221580",
+    "japanese": "この時計を買いたいところだが高すぎる。",
+    "english": "I would buy this watch, except it's too expensive."
+  },
+  {
+    "id": "221581",
+    "japanese": "この時計を少し安いのと交換したいのです。",
+    "english": "I would like to exchange this watch for a cheaper one."
+  },
+  {
+    "id": "221582",
+    "japanese": "この時計をただで上げよう。",
+    "english": "You can have this watch for nothing."
+  },
+  {
+    "id": "221583",
+    "japanese": "この時計は本当にお買い得です。",
+    "english": "This watch is a real bargain."
+  },
+  {
+    "id": "1698572",
+    "japanese": "この時計は正真正銘掘り出し物ですよ。",
+    "english": "This watch is a real bargain."
+  },
+  {
+    "id": "221584",
+    "japanese": "この時計は防水です。",
+    "english": "This watch is waterproof."
+  },
+  {
+    "id": "11065802",
+    "japanese": "この時計は防水仕様です。",
+    "english": "This watch is waterproof."
+  },
+  {
+    "id": "221585",
+    "japanese": "この時計は父のです。",
+    "english": "This watch is my father's."
+  },
+  {
+    "id": "221586",
+    "japanese": "この時計は不正確だ。",
+    "english": "This watch keeps bad time."
+  },
+  {
+    "id": "221587",
+    "japanese": "この時計は非常に価値がある。",
+    "english": "This watch is of great value."
+  },
+  {
+    "id": "221588",
+    "japanese": "この時計は日本製です。",
+    "english": "This watch is made in Japan."
+  },
+  {
+    "id": "221589",
+    "japanese": "この時計は動かない。",
+    "english": "The clock does not run."
+  },
+  {
+    "id": "221590",
+    "japanese": "この時計は動いてません。",
+    "english": "This clock isn't working."
+  },
+  {
+    "id": "221591",
+    "japanese": "この時計は電気で動く。",
+    "english": "This clock is electric."
+  },
+  {
+    "id": "221592",
+    "japanese": "この時計の値段はお幾らですか。",
+    "english": "What is the price of this watch?"
+  },
+  {
+    "id": "221593",
+    "japanese": "この時計は絶対に狂わないこと請け合いだ。",
+    "english": "I guarantee this watch to keep perfect time."
+  },
+  {
+    "id": "221594",
+    "japanese": "この時計は正確ですよ。",
+    "english": "This clock is accurate."
+  },
+  {
+    "id": "221595",
+    "japanese": "この時計は修理の必要がある。一日２０分も進む。",
+    "english": "This watch needs repairing. It gains 20 minutes a day."
+  },
+  {
+    "id": "221596",
+    "japanese": "この時計は修理する必要がある。",
+    "english": "This watch wants mending."
+  },
+  {
+    "id": "221598",
+    "japanese": "この時計は私のではなくあなたのです。",
+    "english": "This watch is not mine but yours."
+  },
+  {
+    "id": "221599",
+    "japanese": "この時計は高い。",
+    "english": "This watch is expensive."
+  },
+  {
+    "id": "221600",
+    "japanese": "この時計は昨日なくした私のものと似ている。",
+    "english": "This watch is similar to mine I lost yesterday."
+  },
+  {
+    "id": "221601",
+    "japanese": "この時計は故障しているらしい。",
+    "english": "This clock seems to be malfunctioning."
+  },
+  {
+    "id": "221602",
+    "japanese": "この時計は故障している。",
+    "english": "This clock is out of order."
+  },
+  {
+    "id": "1156217",
+    "japanese": "この時計はこわれている。",
+    "english": "This clock is out of order."
+  },
+  {
+    "id": "236790",
+    "japanese": "この時計は強い衝撃にも堪えます。",
+    "english": "This watch is shock-proof."
+  },
+  {
+    "id": "221604",
+    "japanese": "この時計は壊れている。",
+    "english": "This watch is broken."
+  },
+  {
+    "id": "1515649",
+    "japanese": "この時計、こわれてる。",
+    "english": "This watch is broken."
+  },
+  {
+    "id": "221605",
+    "japanese": "この時計は一万円だった。",
+    "english": "This watch cost me ten thousand yen."
+  },
+  {
+    "id": "1637320",
+    "japanese": "この時計は1万円した。",
+    "english": "This watch cost me ten thousand yen."
+  },
+  {
+    "id": "221606",
+    "japanese": "この時計は一日に二分進む。",
+    "english": "This clock gains two minutes a day."
+  },
+  {
+    "id": "221607",
+    "japanese": "この時計は一日に３分遅れます。",
+    "english": "This clock loses three minutes a day."
+  },
+  {
+    "id": "221608",
+    "japanese": "この時計は一日１分進む。",
+    "english": "This clock gains one minute a day."
+  },
+  {
+    "id": "221609",
+    "japanese": "この時計はどこか故障しているらしい。",
+    "english": "Something seems to be wrong with this watch."
+  },
+  {
+    "id": "221610",
+    "japanese": "この時計はどうかしたようだ。",
+    "english": "Something has happened to this clock."
+  },
+  {
+    "id": "221611",
+    "japanese": "この時計はせいぜい１０ドルだ。",
+    "english": "This watch costs ten dollars at the most."
+  },
+  {
+    "id": "221612",
+    "japanese": "この時計はおじさんからもらったんだ。",
+    "english": "This watch was given me by my uncle."
+  },
+  {
+    "id": "221613",
+    "japanese": "この時計はあれよりもずっと良い。",
+    "english": "This watch is far better than that one."
+  },
+  {
+    "id": "221614",
+    "japanese": "この時計はあれよりもずっと高価だ。",
+    "english": "This clock is far more expensive than that."
+  },
+  {
+    "id": "221615",
+    "japanese": "この時計はあの時計よりも優れている。",
+    "english": "This watch is superior to that one."
+  },
+  {
+    "id": "236832",
+    "japanese": "この時計はあの時計ほど高価ではない。",
+    "english": "This watch is less expensive than that one."
+  },
+  {
+    "id": "221616",
+    "japanese": "この時計はあの時計の２倍も値段が高い。",
+    "english": "This watch is twice as expensive as that one."
+  },
+  {
+    "id": "11754964",
+    "japanese": "この時計、あの時計の倍の値段なんだよ。",
+    "english": "This watch is twice as expensive as that one."
+  },
+  {
+    "id": "221617",
+    "japanese": "この時計はあのブレスレットと同じくらい高価な贈り物です。",
+    "english": "This watch is as expensive a gift as that bracelet."
+  },
+  {
+    "id": "221618",
+    "japanese": "この時計はあなたにあげるつもりです。",
+    "english": "This watch is meant for you."
+  },
+  {
+    "id": "221619",
+    "japanese": "この時計は１５分ごとになる。",
+    "english": "This clock strikes the quarter hour."
+  },
+  {
+    "id": "221620",
+    "japanese": "この時計は１０分遅れている。",
+    "english": "This watch is ten minutes slow."
+  },
+  {
+    "id": "221621",
+    "japanese": "この時計は１０分進んでいる。",
+    "english": "This watch is ten minutes fast."
+  },
+  {
+    "id": "221622",
+    "japanese": "この時計は、一年間の保証付です。",
+    "english": "They guarantee this clock for a year."
+  },
+  {
+    "id": "221623",
+    "japanese": "この時計の時間は正確だ。",
+    "english": "This watch keeps correct time."
+  },
+  {
+    "id": "221624",
+    "japanese": "この時期に雪が降るのは、ふつうではない。",
+    "english": "Snowing at this time of the year is unusual."
+  },
+  {
+    "id": "221625",
+    "japanese": "この時間帯は道路が混雑するんだ。",
+    "english": "There's a lot of traffic on the roads around this time of the day."
+  },
+  {
+    "id": "221626",
+    "japanese": "この時間は道路がとても込んでいるからね。",
+    "english": "The roads are very crowded at this time of the day."
+  },
+  {
+    "id": "221627",
+    "japanese": "この時間に会社に電気がついているのは変だ。",
+    "english": "It's odd that there should be a light on in the office at this hour."
+  },
+  {
+    "id": "221628",
+    "japanese": "この時間にいつも彼はきます。",
+    "english": "This is the time he normally arrives."
+  },
+  {
+    "id": "221629",
+    "japanese": "この寺院は七世紀からのものです。",
+    "english": "This temple dates from the 7th century."
+  },
+  {
+    "id": "221630",
+    "japanese": "この寺院は７８０年に建てられた。",
+    "english": "This temple dates back to 780."
+  },
+  {
+    "id": "221631",
+    "japanese": "この寺は桜の花で有名である。",
+    "english": "This temple is famous for its cherry blossoms."
+  },
+  {
+    "id": "11846467",
+    "japanese": "このお寺って、桜の名所なのよ。",
+    "english": "This temple is famous for its cherry blossoms."
+  },
+  {
+    "id": "221632",
+    "japanese": "このお寺は、500年以上も前に建てられたと言われています。",
+    "english": "This temple is said to have been built over 500 years ago."
+  },
+  {
+    "id": "221633",
+    "japanese": "この寺の本尊は何であるか知っていますか。",
+    "english": "Do you know which deity this temple is dedicated to?"
+  },
+  {
+    "id": "221634",
+    "japanese": "この事務所の通常営業時間は９時から５時までです。",
+    "english": "The usual business hours in this office are from nine to five."
+  },
+  {
+    "id": "221636",
+    "japanese": "この事実を忘れてはならない。",
+    "english": "This fact must not be forgotten."
+  },
+  {
+    "id": "221635",
+    "japanese": "この事態は慎重な取り扱いを要する。",
+    "english": "This situation requires nice handling."
+  },
+  {
+    "id": "221637",
+    "japanese": "この事実を心に留めておいて下さい。",
+    "english": "Please bear this fact in mind."
+  },
+  {
+    "id": "221638",
+    "japanese": "この事実は彼らにほとんど知られていない。",
+    "english": "This fact is all but unknown to them."
+  },
+  {
+    "id": "221639",
+    "japanese": "この事実は彼の無罪を証明している。",
+    "english": "This fact bears witness to his innocence."
+  },
+  {
+    "id": "221640",
+    "japanese": "この事実はほとんど重要ではない。",
+    "english": "This fact is of little consequence."
+  },
+  {
+    "id": "221641",
+    "japanese": "この事実はどんなぼんやり者にも明白だ。",
+    "english": "The fact is apparent to the most casual observer."
+  },
+  {
+    "id": "221642",
+    "japanese": "この事実に照らして彼に罪がないことは明らかだ。",
+    "english": "In the light of this fact, it is clear that he is innocent."
+  },
+  {
+    "id": "221643",
+    "japanese": "この事実で彼が無知なのが分かる。",
+    "english": "This fact accounts for his ignorance."
+  },
+  {
+    "id": "221644",
+    "japanese": "この事実から彼の無実が分る。",
+    "english": "This fact shows that he is innocent."
+  },
+  {
+    "id": "221645",
+    "japanese": "この事実から彼が正直な人だとわかる。",
+    "english": "This fact shows that he is honest."
+  },
+  {
+    "id": "221646",
+    "japanese": "この事実から、地球が太陽の周りを回っていることが分かる。",
+    "english": "This fact shows that the earth goes round the sun."
+  },
+  {
+    "id": "221647",
+    "japanese": "この事実から、私たちは彼が無実だとわかる。",
+    "english": "This fact shows us that he is innocent."
+  },
+  {
+    "id": "221648",
+    "japanese": "この事故は彼の不注意によって引き起こされた。",
+    "english": "This accident was brought about by his carelessness."
+  },
+  {
+    "id": "221651",
+    "japanese": "この事故は、彼の不注意で引き起こされた。",
+    "english": "This accident was brought about by his carelessness."
+  },
+  {
+    "id": "221649",
+    "japanese": "この事故は私とは何の関係もない。",
+    "english": "This accident has nothing to do with me."
+  },
+  {
+    "id": "221650",
+    "japanese": "この事故は運転者の不注意から起こった。",
+    "english": "This accident resulted from the carelessness of the driver."
+  },
+  {
+    "id": "221652",
+    "japanese": "この事故の責任はあなたにあります。",
+    "english": "You are responsible for this accident."
+  },
+  {
+    "id": "221653",
+    "japanese": "この事故には多くの原因があった。",
+    "english": "There were a number of reasons for this accident."
+  },
+  {
+    "id": "221654",
+    "japanese": "この事故については私が責任を負う。",
+    "english": "I'll answer for this accident."
+  },
+  {
+    "id": "221655",
+    "japanese": "この事故で１００人ほど死んだ。",
+    "english": "About one hundred people were killed in this accident."
+  },
+  {
+    "id": "221656",
+    "japanese": "この事件を過大視してはならない。",
+    "english": "We must not make too much of this incident."
+  },
+  {
+    "id": "221657",
+    "japanese": "この事件は誰が審理するのですか。",
+    "english": "Who will try this case?"
+  },
+  {
+    "id": "221658",
+    "japanese": "この事件は会社のいい宣伝になった。",
+    "english": "This event was good publicity for the company."
+  },
+  {
+    "id": "221659",
+    "japanese": "この事件は運動を崩壊させた。",
+    "english": "This incident led the movement to collapse."
+  },
+  {
+    "id": "221660",
+    "japanese": "この事件はだれかが糸を引いているに違いない。",
+    "english": "Somebody must be at the bottom of this affair."
+  },
+  {
+    "id": "221661",
+    "japanese": "この事件はあの事件と似たところがある。",
+    "english": "This case has an affinity with that one."
+  },
+  {
+    "id": "221662",
+    "japanese": "この事件の裏に何かがあるに違いない。",
+    "english": "There must be something at the back of this matter."
+  },
+  {
+    "id": "160043",
+    "japanese": "私はその出来事を、ほんの昨日起こったかのように、はっきりと覚えている。",
+    "english": "I remember the event as clearly as if it had happened just yesterday."
+  },
+  {
+    "id": "221663",
+    "japanese": "この事件の事はまるで昨日の事のようにはっきり覚えています。",
+    "english": "I remember the event as clearly as if it had happened just yesterday."
+  },
+  {
+    "id": "221664",
+    "japanese": "この事件の陰に誰か黒幕がいるに違いない。",
+    "english": "There must be someone behind this affair."
+  },
+  {
+    "id": "221665",
+    "japanese": "この事件に手を貸してください。",
+    "english": "Give me a hand with this case."
+  },
+  {
+    "id": "221666",
+    "japanese": "この事件では警察はほとんど手がかりがない。",
+    "english": "The police have few clues to go on in this case."
+  },
+  {
+    "id": "221667",
+    "japanese": "この事業は金を食う。",
+    "english": "This job eats money."
+  },
+  {
+    "id": "221668",
+    "japanese": "この事業には多額の資金が要る。",
+    "english": "We need a large amount of money for this project."
+  },
+  {
+    "id": "221669",
+    "japanese": "この事業で私は成功するなんて思っていませんでした。",
+    "english": "Little did I dream of my success in this business."
+  },
+  {
+    "id": "223281",
+    "japanese": "このビジネスがうまくいくなんて夢にも思っていなかった。",
+    "english": "Little did I dream of my success in this business."
+  },
+  {
+    "id": "221670",
+    "japanese": "この事を注意して見守ろう。",
+    "english": "Let's keep an eye on this."
+  },
+  {
+    "id": "221671",
+    "japanese": "この事を詳細に説明する時間がありません。",
+    "english": "I have no time to explain this in detail."
+  },
+  {
+    "id": "221674",
+    "japanese": "この事は私自身の体験から言っているのです。",
+    "english": "I say this from my own experience."
+  },
+  {
+    "id": "11121894",
+    "japanese": "これは私の経験に基づいて言ってるんです。",
+    "english": "I say this from my own experience."
+  },
+  {
+    "id": "221673",
+    "japanese": "この事は絶対に口外しません。",
+    "english": "I'll never tell this to anyone."
+  },
+  {
+    "id": "221672",
+    "japanese": "この事をどのようにして知ったのか。",
+    "english": "How did you come to know this?"
+  },
+  {
+    "id": "221675",
+    "japanese": "この事は我々の大部分にもあてはまる。",
+    "english": "This holds for most of us."
+  },
+  {
+    "id": "221676",
+    "japanese": "この事はすべて奇妙に聞こえるかもしれないが本当である。",
+    "english": "All this may sound strange, but it is true."
+  },
+  {
+    "id": "221677",
+    "japanese": "この事はお父さんに言わないで。",
+    "english": "Don't tell Father about this."
+  },
+  {
+    "id": "223769",
+    "japanese": "このことは御父さんには言わないで。",
+    "english": "Don't tell Father about this."
+  },
+  {
+    "id": "227620",
+    "japanese": "おとうさんには言わないでね。",
+    "english": "Don't tell Father about this."
+  },
+  {
+    "id": "221678",
+    "japanese": "この事の根本には何かあるに違いない。",
+    "english": "There must be something at the bottom of all this."
+  },
+  {
+    "id": "221679",
+    "japanese": "この事に関してはあなたの意見に賛成です。",
+    "english": "In this regard, I agree with you."
+  },
+  {
+    "id": "221680",
+    "japanese": "この事に加えて、ほかにもまだ理由がある。",
+    "english": "In addition to this, there are other reasons."
+  },
+  {
+    "id": "221681",
+    "japanese": "彼ならこの問題を解けるだろう。",
+    "english": "Perhaps he could solve this problem."
+  },
+  {
+    "id": "221682",
+    "japanese": "この事にかっかするなよ。そのうちにおさまるから。",
+    "english": "Don't be so worked up over this thing. It will all blow over before you know it."
+  },
+  {
+    "id": "160899",
+    "japanese": "私はこの事とは無関係です。",
+    "english": "I have nothing to do with this matter."
+  },
+  {
+    "id": "221683",
+    "japanese": "この事と私は全く関係がない。",
+    "english": "I have nothing to do with this matter."
+  },
+  {
+    "id": "221684",
+    "japanese": "この事で彼をいくらほめてもまだ足りない。",
+    "english": "We cannot praise him highly enough for this."
+  },
+  {
+    "id": "221685",
+    "japanese": "この事で私は反問した。",
+    "english": "This weighed heavily on my mind."
+  },
+  {
+    "id": "221686",
+    "japanese": "この事で何も腹を立てるには及ばない。",
+    "english": "There's no call to get angry over this matter."
+  },
+  {
+    "id": "221687",
+    "japanese": "この事が私の希望をくじいた。",
+    "english": "This quenched my hope."
+  },
+  {
+    "id": "221688",
+    "japanese": "この事が暗に意味することは最初は理解されなかった。",
+    "english": "The implications of this did not at first sink in."
+  },
+  {
+    "id": "221689",
+    "japanese": "この事から彼は当然その事実を知っていたことになる。",
+    "english": "It follows from this that he was aware of the fact."
+  },
+  {
+    "id": "221690",
+    "japanese": "この事があったのは、ヨルダンの向こう岸のベタニヤであって、ヨハネはそこで、バプテスマを授けていた。",
+    "english": "This all happened at Bethany on the other side of Jordan, where John was baptizing."
+  },
+  {
+    "id": "221691",
+    "japanese": "この歯ブラシを使っているのは母ではない。",
+    "english": "This toothbrush is not used by my mother."
+  },
+  {
+    "id": "221692",
+    "japanese": "この歯に冷たいものがしみますか。",
+    "english": "Is this tooth sensitive to cold foods?"
+  },
+  {
+    "id": "221694",
+    "japanese": "この歯が虫歯になっています。",
+    "english": "This tooth is decayed."
+  },
+  {
+    "id": "221693",
+    "japanese": "この歯が不安定です。",
+    "english": "This tooth is wobbly."
+  },
+  {
+    "id": "221695",
+    "japanese": "この歯がグラグラします。",
+    "english": "This tooth is loose."
+  },
+  {
+    "id": "221696",
+    "japanese": "この資料を翻訳するにはたいへんな忍耐を必要とする。",
+    "english": "Translating this material calls for a lot of patience."
+  },
+  {
+    "id": "221697",
+    "japanese": "この資料が信頼できるかどうか疑わしい。",
+    "english": "It is questionable whether this data can be relied on."
+  },
+  {
+    "id": "221698",
+    "japanese": "この試合は何と退屈なのだろう。",
+    "english": "How boring this game is!"
+  },
+  {
+    "id": "221699",
+    "japanese": "この試合は延期された。",
+    "english": "This game was put off."
+  },
+  {
+    "id": "221700",
+    "japanese": "この試合はいただきだ。",
+    "english": "We have this game on ice."
+  },
+  {
+    "id": "221701",
+    "japanese": "この試合には負けたくない。",
+    "english": "I don't want to lose this match."
+  },
+  {
+    "id": "221702",
+    "japanese": "この試合が彼にとっては、最初の大きな試合になる。",
+    "english": "This will be his first match in the public eye."
+  },
+  {
+    "id": "221703",
+    "japanese": "この試験は辞書持ち込み可です。",
+    "english": "You can use a dictionary for this exam."
+  },
+  {
+    "id": "221704",
+    "japanese": "この試験のためによく準備した。",
+    "english": "I prepared well for this examination."
+  },
+  {
+    "id": "221705",
+    "japanese": "この試みは失敗に終わった。",
+    "english": "This attempt resulted in failure."
+  },
+  {
+    "id": "221706",
+    "japanese": "この試みは完全に成功などと言えたものではない。",
+    "english": "This attempt has been less than a complete success."
+  },
+  {
+    "id": "221708",
+    "japanese": "この詩を翻訳するのは私には難しすぎる。",
+    "english": "Translating this poem is too much for me."
+  },
+  {
+    "id": "10094222",
+    "japanese": "この詩を訳すのは、私には無理だな。",
+    "english": "Translating this poem is too much for me."
+  },
+  {
+    "id": "221709",
+    "japanese": "この詩を書いたのは誰ですか。",
+    "english": "Who wrote this poem?"
+  },
+  {
+    "id": "221719",
+    "japanese": "この詩は誰が書いたのですか。",
+    "english": "Who wrote this poem?"
+  },
+  {
+    "id": "221710",
+    "japanese": "この詩を書いたときは、彼女はとても若かったにちがいない。",
+    "english": "She must have been very young when she wrote this poem."
+  },
+  {
+    "id": "993600",
+    "japanese": "この詩を書いたとき彼女はとても若かったはずだ。",
+    "english": "She must have been very young when she wrote this poem."
+  },
+  {
+    "id": "221711",
+    "japanese": "この詩を暗記しましょう。",
+    "english": "Let's learn this poem by heart."
+  },
+  {
+    "id": "221712",
+    "japanese": "この詩を暗記しなさい。",
+    "english": "Commit this poem to memory."
+  },
+  {
+    "id": "221714",
+    "japanese": "この詩をどのように解釈しますか。",
+    "english": "How do you interpret this poem?"
+  },
+  {
+    "id": "160902",
+    "japanese": "私はこの詩歌を暗記しなければならない。",
+    "english": "I must learn this poem by heart."
+  },
+  {
+    "id": "160903",
+    "japanese": "私はこの詩を暗記しなければならない。",
+    "english": "I must learn this poem by heart."
+  },
+  {
+    "id": "221713",
+    "japanese": "この詩を暗記しなければならないんだ。",
+    "english": "I must learn this poem by heart."
+  },
+  {
+    "id": "221715",
+    "japanese": "この詩は無名の詩人によって書かれた。",
+    "english": "This poem was written by a nameless poet."
+  },
+  {
+    "id": "221716",
+    "japanese": "この詩は本来フランス語で書かれていた。",
+    "english": "This poem was originally written in French."
+  },
+  {
+    "id": "221717",
+    "japanese": "この詩は彼の作とされている。",
+    "english": "This poem is attributed to him."
+  },
+  {
+    "id": "221718",
+    "japanese": "この詩は読者の大いなる洞察を必要としている。",
+    "english": "This poem calls for great insight from the reader."
+  },
+  {
+    "id": "221720",
+    "japanese": "この詩は私の手に負えない。",
+    "english": "This poem is too much for me."
+  },
+  {
+    "id": "221721",
+    "japanese": "この詩は私の手には負えない。",
+    "english": "This poem is too much for me."
+  },
+  {
+    "id": "221722",
+    "japanese": "この詩は私には理解できない。",
+    "english": "This poem is too much for me."
+  },
+  {
+    "id": "221723",
+    "japanese": "この詩は散文のように読める。",
+    "english": "This poem reads like a piece of prose."
+  },
+  {
+    "id": "221724",
+    "japanese": "この詩は昨夜彼によって書かれました。",
+    "english": "This poem was written by him last night."
+  },
+  {
+    "id": "221725",
+    "japanese": "この詩は昨夜書かれました。",
+    "english": "This poem was written last night."
+  },
+  {
+    "id": "221726",
+    "japanese": "この紙を切るのにはさみが必要です。",
+    "english": "I need a pair of scissors to cut this paper."
+  },
+  {
+    "id": "221727",
+    "japanese": "この紙は大きすぎて封筒に入らない。",
+    "english": "The paper is too big for the envelope."
+  },
+  {
+    "id": "221728",
+    "japanese": "この紙は吸収力が高い。",
+    "english": "This paper has very good absorption."
+  },
+  {
+    "id": "221729",
+    "japanese": "この紙はどちらが表だか見分けがつかない。",
+    "english": "I cannot tell which is the right side of this paper."
+  },
+  {
+    "id": "221730",
+    "japanese": "この紙はざらざらしている。",
+    "english": "This paper is rough."
+  },
+  {
+    "id": "221731",
+    "japanese": "この紙はインクを吸わない。",
+    "english": "This paper does not absorb ink."
+  },
+  {
+    "id": "221732",
+    "japanese": "この紙はインクを吸い込まない。",
+    "english": "This paper does not absorb ink."
+  },
+  {
+    "id": "221733",
+    "japanese": "この紙の下のほうにあなたの名前を書いてください。",
+    "english": "Please write your name at the bottom of this paper."
+  },
+  {
+    "id": "221734",
+    "japanese": "この紙に書いていただけますか。",
+    "english": "Would you mind writing it down on this piece of paper?"
+  },
+  {
+    "id": "221735",
+    "japanese": "この紙に記入するのを手伝ってください。",
+    "english": "Please help me fill out this form."
+  },
+  {
+    "id": "221736",
+    "japanese": "この紙なら君の目的にぴったりであるはずだ。",
+    "english": "This paper should be adequate for your purpose."
+  },
+  {
+    "id": "221737",
+    "japanese": "この糸はすぐもつれる。",
+    "english": "This thread tangles easily."
+  },
+  {
+    "id": "221738",
+    "japanese": "この私の友人はピアニストであるばかりでなく、作曲家でもあります。",
+    "english": "My friend here is not only a pianist, but also a composer."
+  },
+  {
+    "id": "221739",
+    "japanese": "この施設内でゴミの投げ捨てをすると、最高５００ドルの罰金を課せられることがあります。",
+    "english": "Littering in this facility is subject to a maximum fine of $500."
+  },
+  {
+    "id": "221740",
+    "japanese": "この指輪をある場所で買った。",
+    "english": "I bought this ring at a certain place."
+  },
+  {
+    "id": "221741",
+    "japanese": "この指輪は大きすぎて私の指に合わない。",
+    "english": "This ring is too big to wear on my finger."
+  },
+  {
+    "id": "221742",
+    "japanese": "この指輪は高い。もっと安いのを見せてください。",
+    "english": "This ring is expensive. Show me some cheap ones."
+  },
+  {
+    "id": "221744",
+    "japanese": "この指輪はいくらぐらいの値打ちのものでしょうか。",
+    "english": "How much is this ring worth?"
+  },
+  {
+    "id": "221743",
+    "japanese": "この指輪は光沢をうしなった。",
+    "english": "This ring lost its luster."
+  },
+  {
+    "id": "221745",
+    "japanese": "この指に刺がささって取れません。",
+    "english": "I can't get this splinter out of my finger."
+  },
+  {
+    "id": "9705591",
+    "japanese": "このとげが指から抜けないんだよ。",
+    "english": "I can't get this splinter out of my finger."
+  },
+  {
+    "id": "9705774",
+    "japanese": "この、指のとげが抜けないんだよ。",
+    "english": "I can't get this splinter out of my finger."
+  },
+  {
+    "id": "221746",
+    "japanese": "この市を案内していただけませんか。",
+    "english": "Will you guide me around the city?"
+  },
+  {
+    "id": "221747",
+    "japanese": "この市は年々人口が増加している。",
+    "english": "This city has been increasing in population year after year."
+  },
+  {
+    "id": "221749",
+    "japanese": "この市の人口はどのくらいですか。",
+    "english": "How large is the population of this city?"
+  },
+  {
+    "id": "221750",
+    "japanese": "この市の市長は市民の要請にみみを貸さないと非難された。",
+    "english": "The mayor of this city was blamed for turning a deaf ear to the people's requests."
+  },
+  {
+    "id": "221751",
+    "japanese": "この市には多くの映画館がある。",
+    "english": "There are a number of movie theaters in this city."
+  },
+  {
+    "id": "12319835",
+    "japanese": "この街には、たくさん映画館があります。",
+    "english": "There are a number of movie theaters in this city."
+  },
+  {
+    "id": "221752",
+    "japanese": "この市には見物する所がかなりある。",
+    "english": "There are a number of places to see in this city."
+  },
+  {
+    "id": "221753",
+    "japanese": "この市にはたくさんの娯楽施設がある。",
+    "english": "There are many amusements in the city."
+  },
+  {
+    "id": "221755",
+    "japanese": "この市で最も高い建物です。",
+    "english": "It's the highest building in this city."
+  },
+  {
+    "id": "10994009",
+    "japanese": "この街で一番高いビルなんですよ。",
+    "english": "It's the highest building in this city."
+  },
+  {
+    "id": "221754",
+    "japanese": "この市にはいくつもの映画館がある。",
+    "english": "There are many movie theaters in this city."
+  },
+  {
+    "id": "221756",
+    "japanese": "この子犬は里心がついて泣いているんだ。",
+    "english": "This puppy is crying because it misses its mother."
+  },
+  {
+    "id": "221757",
+    "japanese": "この子供達をかまわないことに私は立腹している。",
+    "english": "I'm angry at the neglect of these children."
+  },
+  {
+    "id": "221758",
+    "japanese": "この子供達は親にかまってもらえない。",
+    "english": "These children are neglected by their parents."
+  },
+  {
+    "id": "221759",
+    "japanese": "この子供たちにそれぞれ３個ずつあげなさい。",
+    "english": "Give these children three pieces each."
+  },
+  {
+    "id": "10854802",
+    "japanese": "この子たちに３つずつ渡してあげて。",
+    "english": "Give these children three pieces each."
+  },
+  {
+    "id": "221760",
+    "japanese": "この子は物覚えが早い。",
+    "english": "The child is learning quickly."
+  },
+  {
+    "id": "221761",
+    "japanese": "この子は複雑な数学の問題を簡単に解いた。",
+    "english": "This child solved the complicated mathematics problem easily."
+  },
+  {
+    "id": "221762",
+    "japanese": "この子は豚じゃないわよ。猿よ。",
+    "english": "It's not a pig; it's a monkey."
+  },
+  {
+    "id": "221763",
+    "japanese": "この子は今日、借りてきた猫のようだ。",
+    "english": "This child is as gentle as a lamb today."
+  },
+  {
+    "id": "221764",
+    "japanese": "この子は今歯が生えかけているところです。",
+    "english": "This child is teething now."
+  },
+  {
+    "id": "221765",
+    "japanese": "この子はすくすくとよく育ちました。",
+    "english": "This child has grown up normally."
+  },
+  {
+    "id": "221766",
+    "japanese": "この子の知能は平均以上だ。",
+    "english": "This boy's intelligence is above average."
+  },
+  {
+    "id": "221767",
+    "japanese": "この子にこの服を着せて。",
+    "english": "Put the kid into these clothes."
+  },
+  {
+    "id": "221768",
+    "japanese": "この子がひとりで東京まで来たなんて、私は信じないよ。",
+    "english": "I don't believe the child came to Tokyo alone."
+  },
+  {
+    "id": "221769",
+    "japanese": "この仕事を明日の２時までにしあげてほしいんです。",
+    "english": "I want this work completed by two o'clock tomorrow afternoon."
+  },
+  {
+    "id": "221770",
+    "japanese": "この仕事を片付けたらね。",
+    "english": "I'll be with you as soon as I finish this job."
+  },
+  {
+    "id": "1228991",
+    "japanese": "この仕事が終わったらすぐに行きます。",
+    "english": "I'll be with you as soon as I finish this job."
+  },
+  {
+    "id": "221771",
+    "japanese": "この仕事を終えるつもりだったが、できなかった。",
+    "english": "I expected to finish this work, but I couldn't."
+  },
+  {
+    "id": "221772",
+    "japanese": "この仕事を終えなければ次の契約をとることはできない。",
+    "english": "If we don't finish this job, we'll lose the next contract."
+  },
+  {
+    "id": "221773",
+    "japanese": "この仕事を終えてしまったら外出しよう。",
+    "english": "I will go out when I have finished this work."
+  },
+  {
+    "id": "221774",
+    "japanese": "この仕事を終えたら本を読みます。",
+    "english": "I will read a book when I have finished this task."
+  },
+  {
+    "id": "221775",
+    "japanese": "この仕事を完成するためには、以下の作業が必要となります。",
+    "english": "To complete this work, the following working items are recommended."
+  },
+  {
+    "id": "221776",
+    "japanese": "この仕事を何とか来月中に始めたいと考えています。",
+    "english": "I hope we can start this task next month."
+  },
+  {
+    "id": "221777",
+    "japanese": "この仕事を引き受けると他の町へ引っ越すことになるだろう。",
+    "english": "This job will mean moving to another city."
+  },
+  {
+    "id": "221778",
+    "japanese": "この仕事を一日で終わらせるのは不可能だ。",
+    "english": "It is impossible for me to finish this work in a day."
+  },
+  {
+    "id": "221779",
+    "japanese": "この仕事をどんどん進めなさい。",
+    "english": "Go ahead with this work."
+  },
+  {
+    "id": "221780",
+    "japanese": "この仕事をできるだけ早くすませましょう。",
+    "english": "Let's finish this work as soon as possible."
+  },
+  {
+    "id": "221781",
+    "japanese": "この仕事をする人を誰か雇わねばならないだろう。",
+    "english": "You will have to take on someone to do this work."
+  },
+  {
+    "id": "221782",
+    "japanese": "この仕事をするには我々が非常に気持ちをしっかり持つことが必要だ。",
+    "english": "This job makes tremendous claims on our emotional strength."
+  },
+  {
+    "id": "221783",
+    "japanese": "この仕事を５年ほどやっています。",
+    "english": "I've been in that line of work for five years."
+  },
+  {
+    "id": "221784",
+    "japanese": "この仕事を５時までに全部は終えられないと思う。",
+    "english": "I don't think I can get through all this work by five."
+  },
+  {
+    "id": "82402",
+    "japanese": "この仕事を１日でやることは僕にはとてもできない。",
+    "english": "It is just out of the question for me to finish the work in a day."
+  },
+  {
+    "id": "10669732",
+    "japanese": "この仕事を１日で終わらせるなんて、私には到底無理な話なのよ。",
+    "english": "It is just out of the question for me to finish the work in a day."
+  },
+  {
+    "id": "221786",
+    "japanese": "この仕事は儲からないよ。",
+    "english": "This work doesn't pay."
+  },
+  {
+    "id": "221817",
+    "japanese": "この仕事は割に合わないな。",
+    "english": "This work doesn't pay."
+  },
+  {
+    "id": "221788",
+    "japanese": "この仕事は明日までに終えなければならない。",
+    "english": "This work must be finished by tomorrow."
+  },
+  {
+    "id": "10165202",
+    "japanese": "この仕事は明日までに終わらせなきゃいけないんだ。",
+    "english": "This work must be finished by tomorrow."
+  },
+  {
+    "id": "221787",
+    "japanese": "この仕事は必ずしもやさしくない。",
+    "english": "This work is not necessarily easy."
+  },
+  {
+    "id": "221789",
+    "japanese": "この仕事は彼に向いている。",
+    "english": "This work is made for him."
+  },
+  {
+    "id": "221790",
+    "japanese": "この仕事は彼には手に負えない。",
+    "english": "This task is too much for him."
+  },
+  {
+    "id": "221791",
+    "japanese": "この仕事は半時間で仕上げられます。",
+    "english": "This work can be finished in half an hour."
+  }
+]

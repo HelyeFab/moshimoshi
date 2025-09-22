@@ -1,0 +1,304 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "version": 1,
+  "description": "DoshiSensei feature entitlements configuration - Single source of truth for Stripe integration",
+  "lastUpdated": "2025-01-11",
+  "plans": {
+    "guest": {
+      "displayName": "Guest",
+      "description": "Limited access for unauthenticated users",
+      "stripePriceId": null,
+      "isDefault": false,
+      "order": 0
+    },
+    "free": {
+      "displayName": "Free",
+      "description": "Basic access for registered users",
+      "stripePriceId": null,
+      "isDefault": true,
+      "order": 1
+    },
+    "premium_monthly": {
+      "displayName": "Premium Monthly",
+      "description": "Full access with monthly billing",
+      "stripePriceId": "price_monthly_xxx",
+      "isDefault": false,
+      "order": 2
+    },
+    "premium_yearly": {
+      "displayName": "Premium Yearly",
+      "description": "Full access with annual billing (best value)",
+      "stripePriceId": "price_yearly_yyy",
+      "isDefault": false,
+      "order": 3
+    }
+  },
+  "features": [
+    {
+      "id": "hiragana_practice",
+      "name": "Hiragana Practice",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": true,
+      "description": "Practice hiragana characters with SRS-based review sessions",
+      "metadata": {
+        "contentType": "kana",
+        "difficulty": "beginner",
+        "estimatedDuration": "5-10 minutes"
+      }
+    },
+    {
+      "id": "katakana_practice",
+      "name": "Katakana Practice",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": true,
+      "description": "Practice katakana characters with SRS-based review sessions",
+      "metadata": {
+        "contentType": "kana",
+        "difficulty": "beginner",
+        "estimatedDuration": "5-10 minutes"
+      }
+    },
+    {
+      "id": "kanji_browser",
+      "name": "Kanji Browser",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Browse and explore kanji with detailed information",
+      "metadata": {
+        "contentType": "kanji",
+        "difficulty": "intermediate",
+        "estimatedDuration": "10-15 minutes",
+        "producesReviewable": true,
+        "countsForStreak": true,
+        "givesXp": false,
+        "hasBookmarks": true,
+        "maxAddToReviewPerDay": 10
+      }
+    },
+    {
+      "id": "custom_lists",
+      "name": "Custom Lists",
+      "category": "organization",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "monthly",
+      "notifications": false,
+      "description": "Create and manage custom study lists for words, kanji, and sentences",
+      "metadata": {
+        "contentType": "mixed",
+        "difficulty": "all",
+        "producesReviewable": true,
+        "countsForStreak": false,
+        "givesXp": false,
+        "hasCloudSync": true,
+        "maxListsPerUser": {
+          "guest": 0,
+          "free": 10,
+          "premium": -1
+        },
+        "maxItemsPerList": {
+          "guest": 0,
+          "free": 100,
+          "premium": -1
+        }
+      }
+    },
+    {
+      "id": "save_items",
+      "name": "Save Items to Lists",
+      "category": "organization",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "monthly",
+      "notifications": false,
+      "description": "Save vocabulary words, kanji, and sentences to your custom lists",
+      "metadata": {
+        "contentType": "mixed",
+        "difficulty": "all",
+        "producesReviewable": false,
+        "countsForStreak": false,
+        "givesXp": false,
+        "hasCloudSync": true,
+        "maxSavesPerDay": {
+          "guest": 0,
+          "free": 50,
+          "premium": -1
+        }
+      }
+    },
+    {
+      "id": "youtube_shadowing",
+      "name": "YouTube Shadowing",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": true,
+      "description": "Practice Japanese pronunciation and listening with YouTube videos and transcript shadowing",
+      "metadata": {
+        "contentType": "video",
+        "difficulty": "all",
+        "estimatedDuration": "15-30 minutes",
+        "producesReviewable": false,
+        "countsForStreak": true,
+        "givesXp": true,
+        "hasTranscripts": true,
+        "supportedFormats": ["youtube"],
+        "maxVideosPerDay": {
+          "guest": 0,
+          "free": 3,
+          "premium": -1
+        }
+      }
+    },
+    {
+      "id": "media_upload",
+      "name": "Media File Upload",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Upload and practice with your own video/audio files for shadowing practice",
+      "metadata": {
+        "contentType": "media",
+        "difficulty": "all",
+        "producesReviewable": false,
+        "countsForStreak": true,
+        "givesXp": true,
+        "hasTranscripts": true,
+        "supportedFormats": ["mp4", "mp3", "wav", "m4a"],
+        "maxFileSizeMB": {
+          "guest": 0,
+          "free": 50,
+          "premium": 200
+        },
+        "maxUploadsPerDay": {
+          "guest": 0,
+          "free": 2,
+          "premium": -1
+        }
+      }
+    },
+    {
+      "id": "stall_layout_customization",
+      "name": "Learning Village Layout Customization",
+      "category": "personalization",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "none",
+      "notifications": false,
+      "description": "Customize the layout of Learning Village stalls by dragging and dropping them to your preferred order",
+      "metadata": {
+        "contentType": "settings",
+        "difficulty": "all",
+        "producesReviewable": false,
+        "countsForStreak": false,
+        "givesXp": false,
+        "hasCloudSync": true,
+        "syncToPlatform": {
+          "guest": "none",
+          "free": "localStorage",
+          "premium": "firebase"
+        },
+        "features": {
+          "dragAndDrop": true,
+          "resetToDefault": true,
+          "editMode": true,
+          "touchSupport": true,
+          "keyboardShortcuts": false
+        },
+        "maxLayouts": {
+          "guest": 0,
+          "free": 1,
+          "premium": 5
+        }
+      }
+    }
+  ],
+  "limits": {
+    "guest": {
+      "daily": {
+        "hiragana_practice": 3,
+        "katakana_practice": 3,
+        "kanji_browser": 0,
+        "custom_lists": 0,
+        "save_items": 0,
+        "youtube_shadowing": 0,
+        "media_upload": 0,
+        "stall_layout_customization": 0
+      }
+    },
+    "free": {
+      "daily": {
+        "hiragana_practice": 5,
+        "katakana_practice": 5,
+        "kanji_browser": 5,
+        "custom_lists": 10,
+        "save_items": 50,
+        "youtube_shadowing": 3,
+        "media_upload": 2,
+        "stall_layout_customization": 1
+      }
+    },
+    "premium_monthly": {
+      "daily": {
+        "hiragana_practice": -1,
+        "katakana_practice": -1,
+        "kanji_browser": 10,
+        "custom_lists": -1,
+        "save_items": -1,
+        "youtube_shadowing": 20,
+        "media_upload": -1,
+        "stall_layout_customization": -1
+      }
+    },
+    "premium_yearly": {
+      "daily": {
+        "hiragana_practice": -1,
+        "katakana_practice": -1,
+        "kanji_browser": 10,
+        "custom_lists": -1,
+        "save_items": -1,
+        "youtube_shadowing": 20,
+        "media_upload": -1,
+        "stall_layout_customization": -1
+      }
+    }
+  },
+  "permissions": {
+    "guest": ["do_practice"],
+    "free": ["do_practice"],
+    "premium_monthly": ["do_practice"],
+    "premium_yearly": ["do_practice"]
+  },
+  "stripeMapping": {
+    "priceToProduct": {
+      "price_monthly_xxx": "prod_monthly",
+      "price_yearly_yyy": "prod_yearly"
+    },
+    "productToPlan": {
+      "prod_monthly": "premium_monthly",
+      "prod_yearly": "premium_yearly"
+    }
+  },
+  "metadata": {
+    "unlimitedValue": -1,
+    "defaultPlan": "free",
+    "guestPlan": "guest",
+    "premiumPlans": ["premium_monthly", "premium_yearly"],
+    "freePlans": ["free"],
+    "allPlans": ["guest", "free", "premium_monthly", "premium_yearly"],
+    "resetTime": "00:00",
+    "resetTimezone": "UTC"
+  }
+}

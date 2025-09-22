@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "165107",
+    "japanese": "私たちは民主主義擁護のために戦わねばならない。",
+    "english": "We must fight for our democracy."
+  },
+  {
+    "id": "165108",
+    "japanese": "私たちは民主主義の社会に住んでいます。",
+    "english": "We live in a democratic society."
+  },
+  {
+    "id": "165109",
+    "japanese": "私たちは未来のために過去を学ぶ。",
+    "english": "We study the past for the sake of the future."
+  },
+  {
+    "id": "165110",
+    "japanese": "私たちは毎年展覧会を開く。",
+    "english": "We hold an exhibition every year."
+  },
+  {
+    "id": "165111",
+    "japanese": "私たちは毎年夏に海外へ行きます。",
+    "english": "We go abroad every summer."
+  },
+  {
+    "id": "165112",
+    "japanese": "私たちは毎年夏にキャンプに出かけます。",
+    "english": "We go camping every summer."
+  },
+  {
+    "id": "165113",
+    "japanese": "私たちは毎年カナダから穀物を輸入する。",
+    "english": "We import grain from Canada every year."
+  },
+  {
+    "id": "165114",
+    "japanese": "私たちは毎日電話で連絡を取り合っている。",
+    "english": "We communicate with each other by telephone every day."
+  },
+  {
+    "id": "165115",
+    "japanese": "私たちは毎日多くの水を使用する。",
+    "english": "We use a lot of water every day."
+  },
+  {
+    "id": "165116",
+    "japanese": "私たちは毎日正午に昼食を食べます。",
+    "english": "We have lunch at noon every day."
+  },
+  {
+    "id": "165117",
+    "japanese": "私たちは毎日学校で英語を勉強する。",
+    "english": "We study English at school every day."
+  },
+  {
+    "id": "165118",
+    "japanese": "私たちは毎日英語を学ぶ。",
+    "english": "We study English every day."
+  },
+  {
+    "id": "165119",
+    "japanese": "私たちは毎日風呂に入ります。",
+    "english": "We take a bath every day."
+  },
+  {
+    "id": "165120",
+    "japanese": "私たちは毎日テレビを見ます。",
+    "english": "We watch TV every day."
+  },
+  {
+    "id": "165121",
+    "japanese": "私たちは毎日テニスをします。",
+    "english": "We play tennis every day."
+  },
+  {
+    "id": "165122",
+    "japanese": "私たちは毎日たくさん水を使います。",
+    "english": "We use a lot of water every day."
+  },
+  {
+    "id": "165124",
+    "japanese": "私たちは毎朝食前にジョギングをする。",
+    "english": "We jog before breakfast every morning."
+  },
+  {
+    "id": "165125",
+    "japanese": "私たちは毎朝散歩することを習慣づけている。",
+    "english": "We make it a practice to take a walk every morning."
+  },
+  {
+    "id": "165126",
+    "japanese": "私たちは毎週末にきまってスケートに行ったものです。",
+    "english": "We used to go skating every weekend."
+  },
+  {
+    "id": "165127",
+    "japanese": "私たちは毎週土曜日にフットボールをする。",
+    "english": "We play football every Saturday."
+  },
+  {
+    "id": "165128",
+    "japanese": "私たちは毎週金曜日に集まります。",
+    "english": "We gather together every Friday."
+  },
+  {
+    "id": "165129",
+    "japanese": "私たちは本当に新車を買わなければなりませんね。",
+    "english": "We really ought to buy a new car, oughtn't we?"
+  },
+  {
+    "id": "165130",
+    "japanese": "私たちは本を閉じていた。",
+    "english": "We kept our books closed."
+  },
+  {
+    "id": "165131",
+    "japanese": "私たちは北海道の小さな町に着いた。",
+    "english": "We arrived at a small town in Hokkaido."
+  },
+  {
+    "id": "165132",
+    "japanese": "私たちは北海道に観光に行った。",
+    "english": "We went sightseeing in Hokkaido."
+  },
+  {
+    "id": "165133",
+    "japanese": "私たちは貿易に頼らなければなかった。",
+    "english": "We had to depend on trade."
+  },
+  {
+    "id": "165134",
+    "japanese": "私たちは暴力が嫌いだ。",
+    "english": "We abhor violence."
+  },
+  {
+    "id": "165136",
+    "japanese": "私たちは暴力に頼るのではなく、理性に訴えるべきだ。",
+    "english": "We should appeal to reason instead of resorting to violence."
+  },
+  {
+    "id": "165137",
+    "japanese": "私たちは忙しくてのらくらしていられない。",
+    "english": "We are too busy to be idle."
+  },
+  {
+    "id": "165138",
+    "japanese": "私たちは豊かな生活水準を当然のことと思っています。",
+    "english": "We take our high standard of living for granted."
+  },
+  {
+    "id": "165139",
+    "japanese": "私たちは訪問客で忙殺された。",
+    "english": "We were swamped with visitors."
+  },
+  {
+    "id": "165140",
+    "japanese": "私たちは法を守る義務がある。",
+    "english": "We are bound to obey laws."
+  },
+  {
+    "id": "165141",
+    "japanese": "私たちは法の定めに従わなければならない。",
+    "english": "We must keep the law."
+  },
+  {
+    "id": "165142",
+    "japanese": "私たちは法と秩序を維持しなければならない。",
+    "english": "We must keep law and order."
+  },
+  {
+    "id": "165143",
+    "japanese": "私たちは放課後テニスをする。",
+    "english": "We play tennis after school."
+  },
+  {
+    "id": "165144",
+    "japanese": "私たちは報酬のことを誤解していた。",
+    "english": "We deceived ourselves as to the reward."
+  },
+  {
+    "id": "165145",
+    "japanese": "私たちは母校を訪れた。",
+    "english": "We visited our old school."
+  },
+  {
+    "id": "165146",
+    "japanese": "私たちは母の４５歳の誕生日を祝った。",
+    "english": "We celebrated Mother's 45th birthday."
+  },
+  {
+    "id": "165147",
+    "japanese": "私たちは歩いて旅行した。",
+    "english": "We traveled on foot."
+  },
+  {
+    "id": "165148",
+    "japanese": "私達は歩いて川へ行きました。",
+    "english": "We walked to the river."
+  },
+  {
+    "id": "165149",
+    "japanese": "私たちは歩いて湖をぐるりと回って来た。",
+    "english": "We have walked all around the lake."
+  },
+  {
+    "id": "165150",
+    "japanese": "私たちは保守的な国民だ。",
+    "english": "We are a conservative people."
+  },
+  {
+    "id": "165151",
+    "japanese": "私たちは勉強の必要性を理解している。",
+    "english": "We understand the necessity of studying."
+  },
+  {
+    "id": "165152",
+    "japanese": "私たちは勉強するために学校へ行く。",
+    "english": "We go to school to study."
+  },
+  {
+    "id": "165153",
+    "japanese": "私たちは勉強したいので学校へ行きます。",
+    "english": "We go to school because we want to learn."
+  },
+  {
+    "id": "165154",
+    "japanese": "私たちは別の方法を採用した。",
+    "english": "We adopted an alternative method."
+  },
+  {
+    "id": "165155",
+    "japanese": "私たちは米一粒でさえ無駄にしてはいけません。",
+    "english": "We shouldn't waste even one grain of rice."
+  },
+  {
+    "id": "165156",
+    "japanese": "私たちは米をつくっている。",
+    "english": "We cultivate rice."
+  },
+  {
+    "id": "165157",
+    "japanese": "私たちは並木道を歩いた。",
+    "english": "We walked along an avenue lined with trees."
+  },
+  {
+    "id": "165158",
+    "japanese": "私たちは平和を待ち望んでいた。",
+    "english": "We were longing for peace."
+  },
+  {
+    "id": "165159",
+    "japanese": "私たちは平和を切望している。",
+    "english": "We are anxious for peace."
+  },
+  {
+    "id": "165160",
+    "japanese": "私たちは平和を求めている。",
+    "english": "We are longing for peace."
+  },
+  {
+    "id": "165161",
+    "japanese": "私たちは平和のために尽くさなければならない。",
+    "english": "We should work for the cause of peace."
+  },
+  {
+    "id": "165162",
+    "japanese": "私たちは平和に暮らしています。",
+    "english": "We live in peace."
+  },
+  {
+    "id": "165163",
+    "japanese": "私たちは一日平均八時間働く。",
+    "english": "We average 8 hour's work a day."
+  },
+  {
+    "id": "165164",
+    "japanese": "私たちは文房具類を大量に買う。",
+    "english": "We buy stationery in bulk."
+  },
+  {
+    "id": "165165",
+    "japanese": "私たちは文通していただけで、直接会ったことはないのです。",
+    "english": "We've only corresponded and never met in person."
+  },
+  {
+    "id": "165166",
+    "japanese": "私たちは部屋を暖かいままにしておこうじゃないか。",
+    "english": "We will keep the room warm."
+  },
+  {
+    "id": "165167",
+    "japanese": "私たちは部屋の中で静かにしていた。",
+    "english": "We kept quiet in the room."
+  },
+  {
+    "id": "165168",
+    "japanese": "私たちは部屋に入ろうとしていた。",
+    "english": "We were just about to enter the room."
+  },
+  {
+    "id": "165169",
+    "japanese": "私たちは父の墓参りをした。",
+    "english": "We visited our father's grave."
+  },
+  {
+    "id": "165170",
+    "japanese": "私たちは父にバースデイプレゼントをあげるつもりです。",
+    "english": "We will give Father a birthday present."
+  },
+  {
+    "id": "165171",
+    "japanese": "私たちは普通料理された魚を食べる。",
+    "english": "We usually eat cooked fish."
+  },
+  {
+    "id": "165172",
+    "japanese": "私たちは普通はこの部屋で寝る。",
+    "english": "We usually sleep in this room."
+  },
+  {
+    "id": "165173",
+    "japanese": "私たちは普通ナイフ、フォーク、スプーンを使って食べます。",
+    "english": "We usually eat with a knife, fork and spoon."
+  },
+  {
+    "id": "165174",
+    "japanese": "私たちは富士山の景観に感嘆した。",
+    "english": "We admired the view of Mt. Fuji."
+  },
+  {
+    "id": "165175",
+    "japanese": "私たちは夫の安い給料でどうにかやっと暮らしているだけです。",
+    "english": "We only just manage to keep afloat on my husband's small salary."
+  },
+  {
+    "id": "165176",
+    "japanese": "私たちは不思議な経験について次々に語った。",
+    "english": "We took turns telling tales of strange happenings."
+  },
+  {
+    "id": "165177",
+    "japanese": "私たちは貧乏でしたが、幸せでした。",
+    "english": "We were poor, but we were happy."
+  },
+  {
+    "id": "165178",
+    "japanese": "私たちは貧しかった頃の事を知っている。",
+    "english": "We know the time when we were poor."
+  },
+  {
+    "id": "165180",
+    "japanese": "私たちは貧しい人々を見下してはいけない。",
+    "english": "We should not look down on poor people."
+  },
+  {
+    "id": "165181",
+    "japanese": "私たちは浜辺にカメを見に行きました。",
+    "english": "We went to see turtles on the beach."
+  },
+  {
+    "id": "165182",
+    "japanese": "私たちは浜へ泳ぎに行った。",
+    "english": "We went swimming at the beach."
+  },
+  {
+    "id": "165183",
+    "japanese": "私たちは病気のときに健康の価値がわかる。",
+    "english": "We know the value of good health when we are sick."
+  },
+  {
+    "id": "165184",
+    "japanese": "私たちは必要な処置を講じた。",
+    "english": "We took the necessary measures."
+  },
+  {
+    "id": "165185",
+    "japanese": "私たちは美と言うとき、私たちの美意識を満足させてくれる、精神的なものや物質的なもの（この場合物質的なものである場合の方が多いが）のことを言っているのだと思う。",
+    "english": "I suppose that what we mean by beauty is that object, spiritual or material, more often material, which satisfies our aesthetic sense."
+  },
+  {
+    "id": "165186",
+    "japanese": "私たちは美しい入り日に見とれた。",
+    "english": "We admired the beautiful sunset."
+  },
+  {
+    "id": "165187",
+    "japanese": "私たちは飛行機でフランスに向かっています。",
+    "english": "We are traveling to France by air."
+  },
+  {
+    "id": "165188",
+    "japanese": "私たちは被災者に食料と衣服を供給しなければならない。",
+    "english": "We must provide the victims with food and clothes."
+  },
+  {
+    "id": "165189",
+    "japanese": "私たちは彼女を料理長と呼んでいます。",
+    "english": "We call her a chef."
+  },
+  {
+    "id": "165190",
+    "japanese": "私たちは秘密を守らなければならないと彼は言った。",
+    "english": "He said we must keep the secret."
+  },
+  {
+    "id": "165191",
+    "japanese": "私たちは彼女を助手に雇った。",
+    "english": "We employed her as an assistant."
+  },
+  {
+    "id": "165192",
+    "japanese": "私たちは彼女を市長に選んだ。",
+    "english": "We elected her mayor."
+  },
+  {
+    "id": "165193",
+    "japanese": "私たちは彼女を見送りに駅まで行った。",
+    "english": "We went to the station to see her off."
+  },
+  {
+    "id": "165194",
+    "japanese": "私たちは彼女を議長に選んだ。",
+    "english": "We elected her chairperson."
+  },
+  {
+    "id": "165195",
+    "japanese": "私たちは彼女を何年も知っている。",
+    "english": "We have known her for years."
+  },
+  {
+    "id": "165196",
+    "japanese": "私たちは彼女をチームの主将に選んだ。",
+    "english": "We elected her captain of our team."
+  },
+  {
+    "id": "165197",
+    "japanese": "私たちは彼女をリーダーに選んだ。",
+    "english": "We chose her to be our leader."
+  },
+  {
+    "id": "165198",
+    "japanese": "私たちは彼女を「アン」という愛称で呼んだ。",
+    "english": "We nicknamed her \"Ann\"."
+  },
+  {
+    "id": "165199",
+    "japanese": "私たちは彼女をキャプテンに選んだ。",
+    "english": "We elected her captain of our team."
+  },
+  {
+    "id": "165200",
+    "japanese": "私たちは彼女の話に深い感情を覚えた。",
+    "english": "We were deeply moved by her story."
+  },
+  {
+    "id": "165202",
+    "japanese": "私たちは彼女の悲しみに気づかなかった。",
+    "english": "We didn't take notice of her sorrow."
+  },
+  {
+    "id": "165203",
+    "japanese": "私たちは彼女の提案に同意した。",
+    "english": "We agreed to her suggestions."
+  },
+  {
+    "id": "165204",
+    "japanese": "私たちは彼女の親切に頼ることはできない。",
+    "english": "We cannot rely on her kindness."
+  },
+  {
+    "id": "165205",
+    "japanese": "私たちは彼女の住所を見つけ出せなかった。",
+    "english": "We could not find out her address."
+  },
+  {
+    "id": "165206",
+    "japanese": "私たちは彼女の車が遠くのわずか１点になるまで、見送っていた。",
+    "english": "We watched her drive her car away, until it was no more than a dot in the distance."
+  },
+  {
+    "id": "165207",
+    "japanese": "私たちは彼女の指示に従って作業を完了した。",
+    "english": "We have finished the work in accordance with her instructions."
+  },
+  {
+    "id": "165208",
+    "japanese": "私たちは彼女の指示に従って、作業を終了した。",
+    "english": "We have finished the work in accordance with her instructions."
+  },
+  {
+    "id": "165209",
+    "japanese": "私たちは彼女の婚約を祝った。",
+    "english": "We congratulated her on her engagement."
+  },
+  {
+    "id": "165210",
+    "japanese": "私たちは彼女の救助に出かけた。",
+    "english": "We went to her rescue."
+  },
+  {
+    "id": "165211",
+    "japanese": "私たちは彼女の安否を気つかっている。",
+    "english": "We are anxious about her safety."
+  },
+  {
+    "id": "165212",
+    "japanese": "私たちは彼女の安否をきづかった。",
+    "english": "We felt anxious for her safety."
+  },
+  {
+    "id": "165213",
+    "japanese": "私たちは彼女のために送別会を開いた。",
+    "english": "We gave a farewell party in honor of her."
+  },
+  {
+    "id": "165214",
+    "japanese": "私たちは彼女のことを誤解していたのかもしれない。",
+    "english": "We might have misunderstood her."
+  },
+  {
+    "id": "165215",
+    "japanese": "私たちは彼女に同情した。",
+    "english": "We felt sympathy for her."
+  },
+  {
+    "id": "165216",
+    "japanese": "私たちは彼女に誤りを納得させることができなかった。",
+    "english": "We could not convince her of her mistakes."
+  },
+  {
+    "id": "165217",
+    "japanese": "私たちは彼女にすてきな誕生日のプレゼントを選んだ。",
+    "english": "We chose her a nice birthday present."
+  },
+  {
+    "id": "165218",
+    "japanese": "私たちは彼女と知り合いではない。",
+    "english": "We have no acquaintance with her."
+  },
+  {
+    "id": "165219",
+    "japanese": "私たちは彼女が踊るのをみました。",
+    "english": "We saw her dance."
+  },
+  {
+    "id": "165220",
+    "japanese": "私たちは彼女が部屋にはいるのをみた。",
+    "english": "We saw her enter the room."
+  },
+  {
+    "id": "165221",
+    "japanese": "私たちは彼女が好きですが、彼女のほうも私たちが好きです。",
+    "english": "We love her, and she loves us, too."
+  },
+  {
+    "id": "165222",
+    "japanese": "私たちは彼女が賢い女性であることがわかった。",
+    "english": "We found her a wise lady."
+  },
+  {
+    "id": "165223",
+    "japanese": "私たちは彼女が回復するとすぐに再び歩き始めた。",
+    "english": "We began to walk again as soon as she was recovered."
+  },
+  {
+    "id": "165224",
+    "japanese": "私たちは彼女が何をほしがっているのかわからなかった。",
+    "english": "We couldn't make out what she wanted."
+  },
+  {
+    "id": "165225",
+    "japanese": "私たちは彼女が一人で行くのは危険だと思った。",
+    "english": "We thought it dangerous for her to go alone."
+  },
+  {
+    "id": "165226",
+    "japanese": "私たちは彼を勇敢な男だと認めないわけにはいかない。",
+    "english": "We must allow him his bravery."
+  },
+  {
+    "id": "165227",
+    "japanese": "私たちは彼を天才だと思った。",
+    "english": "We thought of him as a genius."
+  },
+  {
+    "id": "165228",
+    "japanese": "私たちは彼を尊敬している。",
+    "english": "We look up to him."
+  },
+  {
+    "id": "165229",
+    "japanese": "私たちは彼を助けようとあらゆる努力をした。",
+    "english": "We made every effort to help him."
+  },
+  {
+    "id": "165231",
+    "japanese": "私たちは彼を死んだものとあきらめた。",
+    "english": "We gave him up for dead."
+  },
+  {
+    "id": "165232",
+    "japanese": "私たちは彼を私たちのヒーローだと考えている。",
+    "english": "We regard him as our hero."
+  },
+  {
+    "id": "165233",
+    "japanese": "私たちは彼を師として尊敬している。",
+    "english": "We look up to him as our teacher."
+  },
+  {
+    "id": "165234",
+    "japanese": "私たちは彼を市長に選んだ。",
+    "english": "We elected him mayor."
+  },
+  {
+    "id": "165235",
+    "japanese": "私たちは彼を市長に選出しました。",
+    "english": "We elected him mayor."
+  },
+  {
+    "id": "165236",
+    "japanese": "私たちは彼を行かせた。",
+    "english": "We made him go."
+  },
+  {
+    "id": "165237",
+    "japanese": "私たちは彼を攻撃する気持ちはありません。",
+    "english": "We have no notion of attacking him."
+  },
+  {
+    "id": "165238",
+    "japanese": "私たちは彼を見失った。",
+    "english": "We lost sight of him."
+  },
+  {
+    "id": "165239",
+    "japanese": "私たちは彼を議長に選んだ。",
+    "english": "We elected him chairman."
+  },
+  {
+    "id": "165240",
+    "japanese": "私たちは彼を議長に選出した。",
+    "english": "We elected him chairman."
+  },
+  {
+    "id": "165241",
+    "japanese": "私たちは彼を議長にしました。",
+    "english": "We made him chairman."
+  },
+  {
+    "id": "165243",
+    "japanese": "私たちは彼を学者としてたいした物とは思わない。",
+    "english": "We think little of him as a scholar."
+  },
+  {
+    "id": "165246",
+    "japanese": "私たちは彼をリーダーに選びました。",
+    "english": "We elected him our leader."
+  },
+  {
+    "id": "165247",
+    "japanese": "私たちは彼をとても正直だと思っている。",
+    "english": "We think him to be very honest."
+  },
+  {
+    "id": "165248",
+    "japanese": "私たちは彼をどの程度まで信頼すべきか。",
+    "english": "To what degree can we trust him?"
+  },
+  {
+    "id": "165249",
+    "japanese": "私たちは彼をよき先輩として尊敬している。",
+    "english": "We respect him as a good senior."
+  },
+  {
+    "id": "165250",
+    "japanese": "私たちは彼をチームの主将に選びました。",
+    "english": "We elected him captain of our team."
+  },
+  {
+    "id": "165251",
+    "japanese": "私たちは彼を家に招いた。",
+    "english": "We invited him to our house."
+  },
+  {
+    "id": "165252",
+    "japanese": "私たちは彼らを静かにさせておいた。",
+    "english": "We kept them quiet."
+  },
+  {
+    "id": "165253",
+    "japanese": "私たちは彼をその会の議長に選んだ。",
+    "english": "We have elected him chairman of the meeting."
+  },
+  {
+    "id": "165254",
+    "japanese": "私たちは彼らの住所の変更を知らされていない。",
+    "english": "We have not been notified about their change of address."
+  },
+  {
+    "id": "165255",
+    "japanese": "私たちは彼らの要求に屈した。",
+    "english": "We gave way to their demands."
+  },
+  {
+    "id": "165256",
+    "japanese": "私たちは彼らの子供一人一人に立派な土産を選びました。",
+    "english": "We chose a good present for each of their children."
+  },
+  {
+    "id": "165257",
+    "japanese": "私たちは彼らの安全を強く望む。",
+    "english": "We are anxious for their safety."
+  },
+  {
+    "id": "165258",
+    "japanese": "私たちは彼らのけんかを眺めていた。",
+    "english": "We were looking on as they quarreled."
+  },
+  {
+    "id": "165259",
+    "japanese": "私たちは彼らと親しくなりました。",
+    "english": "We made friends with them."
+  },
+  {
+    "id": "165260",
+    "japanese": "私たちは彼らに食料と衣服を供給した。",
+    "english": "We supplied them with food and clothes."
+  },
+  {
+    "id": "165261",
+    "japanese": "私たちは彼らとは関係を断っている。",
+    "english": "We have broken off relations with them."
+  },
+  {
+    "id": "165262",
+    "japanese": "私たちは彼らが新車を買うなんて予想もしなかった。",
+    "english": "We didn't anticipate their buying a new car."
+  },
+  {
+    "id": "165264",
+    "japanese": "私たちは彼らが外出するのを見た。",
+    "english": "We saw them leave."
+  },
+  {
+    "id": "165265",
+    "japanese": "私たちは彼は天才だという結論に達した。",
+    "english": "We came to the conclusion that he is a genius."
+  },
+  {
+    "id": "165266",
+    "japanese": "私たちは彼は嘘を言ったのではないかと疑った。",
+    "english": "We suspected him of lying."
+  },
+  {
+    "id": "165267",
+    "japanese": "私たちは彼の話を頭から信用した。",
+    "english": "We took his story on trust."
+  },
+  {
+    "id": "165268",
+    "japanese": "私たちは彼の話はどうも信用できない。",
+    "english": "We can hardly believe his story."
+  },
+  {
+    "id": "165269",
+    "japanese": "私たちは彼の要求を認めることはできなかった。",
+    "english": "We couldn't allow his claim."
+  },
+  {
+    "id": "165272",
+    "japanese": "私たちは彼の勇気にとても感心した。",
+    "english": "We had great admiration for his courage."
+  },
+  {
+    "id": "165273",
+    "japanese": "私たちは彼の勇敢さを讃えずにはいられませんでした。",
+    "english": "We could not but admire his courage."
+  },
+  {
+    "id": "165274",
+    "japanese": "私たちは彼の妙な質問に少し驚いた。",
+    "english": "We were somewhat surprised at his strange question."
+  },
+  {
+    "id": "165275",
+    "japanese": "私たちは彼の発見を喜んだ。",
+    "english": "We have rejoiced over his discovery."
+  },
+  {
+    "id": "165276",
+    "japanese": "私たちは彼の能力を過小評価していたのかもしれない。",
+    "english": "We might have underestimated his ability."
+  },
+  {
+    "id": "165277",
+    "japanese": "私たちは彼の年齢を考慮に入れなければなれない。",
+    "english": "We must allow for his age."
+  },
+  {
+    "id": "165278",
+    "japanese": "私たちは彼の年齢を考慮してやらなければならない。",
+    "english": "We must make allowance for his age."
+  },
+  {
+    "id": "165279",
+    "japanese": "私たちは彼の突然の死に大きなショックを受けた。",
+    "english": "We were so shocked at his sudden death."
+  },
+  {
+    "id": "165280",
+    "japanese": "私たちは彼の提案に同意した。",
+    "english": "We agreed to his suggestions."
+  },
+  {
+    "id": "165281",
+    "japanese": "私たちは彼の長話に全くあきあきしている。",
+    "english": "We are awfully fed up with his long speech."
+  },
+  {
+    "id": "165282",
+    "japanese": "私たちは彼の長話にうんざりしている。",
+    "english": "We are weary of his long talk."
+  },
+  {
+    "id": "165283",
+    "japanese": "私たちは彼の著書の発行を期待している。",
+    "english": "We are expecting the issue of his book."
+  },
+  {
+    "id": "165284",
+    "japanese": "私たちは彼の忠告を聞くべきだった。",
+    "english": "We should have taken his advice."
+  },
+  {
+    "id": "165285",
+    "japanese": "私たちは彼の損害は１００ドルと見積った。",
+    "english": "We estimated his losses at 100 dollars."
+  },
+  {
+    "id": "165286",
+    "japanese": "私たちは彼の息子をジミーと呼ぶ。",
+    "english": "We call his son Jimmy."
+  },
+  {
+    "id": "165287",
+    "japanese": "私たちは彼の成功を祝福した。",
+    "english": "We congratulated him on his success."
+  },
+  {
+    "id": "165288",
+    "japanese": "私たちは彼の成功を聞いて喜んだ。",
+    "english": "We were delighted to hear of his success."
+  },
+  {
+    "id": "165289",
+    "japanese": "私たちは、彼の成功は才能よりも努力によるものだと考える。",
+    "english": "We attribute his success more to hard work than to genius."
+  },
+  {
+    "id": "165290",
+    "japanese": "私たちは彼の招待に応じた。",
+    "english": "We accepted his invitation."
+  },
+  {
+    "id": "165291",
+    "japanese": "私たちは彼の小説の全文を読んだ。",
+    "english": "We read his whole novel."
+  },
+  {
+    "id": "165292",
+    "japanese": "私たちは彼の手品の実演に感嘆した。",
+    "english": "We wondered at his display of magic."
+  },
+  {
+    "id": "165294",
+    "japanese": "私たちは彼の試験合格を祝った。",
+    "english": "We congratulated him on passing the examinations."
+  },
+  {
+    "id": "165295",
+    "japanese": "私たちは彼の仕事を援助した。",
+    "english": "We aided him in his business."
+  },
+  {
+    "id": "165296",
+    "japanese": "私たちは彼の困難な状況を考慮に入れるべきだ。",
+    "english": "We ought to make allowances for his difficult situation."
+  },
+  {
+    "id": "165297",
+    "japanese": "私たちは彼の行動は正しかったということに同意した。",
+    "english": "We agreed that his actions were warranted."
+  },
+  {
+    "id": "165298",
+    "japanese": "私たちは彼の行為を子供っぽいと思った。",
+    "english": "We regarded his behavior as childish."
+  },
+  {
+    "id": "165299",
+    "japanese": "私たちは彼の言葉に腹を立てた。",
+    "english": "We got angry at his words."
+  },
+  {
+    "id": "165300",
+    "japanese": "私たちは彼の言おうとする意味をつかむことができなかった。",
+    "english": "We could not get at his meaning."
+  },
+  {
+    "id": "165301",
+    "japanese": "私たちは彼の計画を採用するほうがよいと思う。",
+    "english": "I think it better for us to adopt his plan."
+  },
+  {
+    "id": "165302",
+    "japanese": "私たちは彼の協力の重要性を強調した。",
+    "english": "We emphasized the importance of his co-operation."
+  },
+  {
+    "id": "165303",
+    "japanese": "私たちは彼の救助に出かけた。",
+    "english": "We went to his rescue."
+  },
+  {
+    "id": "165304",
+    "japanese": "私たちは彼の家族と知り合いだ。",
+    "english": "We are acquainted with his family."
+  },
+  {
+    "id": "165305",
+    "japanese": "私たちは彼の演説の全文を読んだ。",
+    "english": "We read the full text of his speech."
+  },
+  {
+    "id": "165306",
+    "japanese": "私たちは彼の家の前で会うことになっている。",
+    "english": "We are to meet in front of his house."
+  },
+  {
+    "id": "165307",
+    "japanese": "私たちは彼の援助を求めた。",
+    "english": "We called on his aid."
+  },
+  {
+    "id": "165308",
+    "japanese": "私たちは彼のプランに賛成した。",
+    "english": "We agreed with his plan."
+  },
+  {
+    "id": "165309",
+    "japanese": "私たちは彼のために送別会を開く予定です。",
+    "english": "We are going to hold a farewell party for him."
+  },
+  {
+    "id": "165310",
+    "japanese": "私たちは彼のすばらしい演奏をほめた。",
+    "english": "We praised him for his wonderful performance."
+  },
+  {
+    "id": "165311",
+    "japanese": "私たちは彼の７０歳の誕生日を祝ってパーティーを催した。",
+    "english": "We gave a party in celebration of his 70th birthday."
+  },
+  {
+    "id": "165312",
+    "japanese": "私たちは彼に追いつけなかった。",
+    "english": "We could not overtake him."
+  },
+  {
+    "id": "165313",
+    "japanese": "私たちは彼に少しケーキを残しておいた。",
+    "english": "We left him some cake."
+  },
+  {
+    "id": "165314",
+    "japanese": "私たちは彼に失望した。",
+    "english": "We were disappointed in him."
+  },
+  {
+    "id": "165315",
+    "japanese": "私たちは彼に喫煙をやめるよう説得したが無駄だった。",
+    "english": "We tried in vain to talk him out of smoking."
+  },
+  {
+    "id": "165316",
+    "japanese": "私たちは彼にロンドンの写真を見せた。",
+    "english": "We showed him some pictures of London."
+  },
+  {
+    "id": "165317",
+    "japanese": "私たちは彼によい仕事を提供した。",
+    "english": "We offered him a nice job."
+  },
+  {
+    "id": "165318",
+    "japanese": "私たちは彼にその犬を飼わせてやった。",
+    "english": "We let him keep the dog."
+  },
+  {
+    "id": "165319",
+    "japanese": "私たちは彼にその家を３０万ドルで売ると申し出た。",
+    "english": "We offered him the house for $300,000."
+  },
+  {
+    "id": "165320",
+    "japanese": "私たちは彼にスピーチを頼んだ。",
+    "english": "We called on him for a speech."
+  },
+  {
+    "id": "165321",
+    "japanese": "私たちは彼にずっと高い給料を払うと誘ってその会社を辞めさせた。",
+    "english": "We lured him away from the company by offering him a much larger salary."
+  },
+  {
+    "id": "165322",
+    "japanese": "私たちは彼にすぐに出て行くように言われた。",
+    "english": "We were told by him to leave the room at once."
+  },
+  {
+    "id": "165323",
+    "japanese": "私たちは彼に会えて本当に嬉しかった。",
+    "english": "We were only too glad to see him."
+  },
+  {
+    "id": "165324",
+    "japanese": "私たちは彼とその家の値段について話し合った。",
+    "english": "We bargained with him for the house."
+  },
+  {
+    "id": "165325",
+    "japanese": "私たちは彼が有罪だという証拠を２つもっている。",
+    "english": "We have two pieces of evidence of his guilt."
+  },
+  {
+    "id": "165326",
+    "japanese": "私たちは彼が無実であると信じていた。",
+    "english": "We believed him to be innocent."
+  },
+  {
+    "id": "165327",
+    "japanese": "私たちは彼が無事に戻ったのを聞いてうれしかった。",
+    "english": "We were glad to hear of his safe return."
+  },
+  {
+    "id": "165328",
+    "japanese": "私たちは彼が満点をとったことにびっくり仰天した。",
+    "english": "We were amazed that he had gotten full credit."
+  },
+  {
+    "id": "165329",
+    "japanese": "私たちは彼が当然、私たちに同行すると思っていた。",
+    "english": "We took it for granted that he would come with us."
+  },
+  {
+    "id": "165330",
+    "japanese": "私たちは彼が誠実だからなおさら彼が好きです。",
+    "english": "We love him all the more because he is honest."
+  },
+  {
+    "id": "165331",
+    "japanese": "私たちは彼が正直であると確信している。",
+    "english": "We are sure of his honesty."
+  },
+  {
+    "id": "165332",
+    "japanese": "私たちは彼が正直だと考える。",
+    "english": "We consider him honest."
+  },
+  {
+    "id": "165333",
+    "japanese": "私たちは彼が正しかったという結論に達した。",
+    "english": "We came to the conclusion that he had been right."
+  },
+  {
+    "id": "165334",
+    "japanese": "私たちは彼が証言をしたくないということに気づいた。",
+    "english": "We noticed his reluctance to testify."
+  },
+  {
+    "id": "165335",
+    "japanese": "私たちは彼が困っていることはよくわかる。",
+    "english": "We appreciate his difficulties."
+  },
+  {
+    "id": "165336",
+    "japanese": "私たちは彼が見えなくなるまで見送った。",
+    "english": "We watched him until he was out of sight."
+  },
+  {
+    "id": "165337",
+    "japanese": "私たちは彼が加わるのを当然だと思った。",
+    "english": "We took it for granted that he would join us."
+  },
+  {
+    "id": "165338",
+    "japanese": "私たちは彼が嘘をついていると思っている。",
+    "english": "We suspect him of telling a lie."
+  },
+  {
+    "id": "165339",
+    "japanese": "私たちは彼がその計画に賛成するのは当然だと思った。",
+    "english": "We took it for granted that he would approve of the plan."
+  },
+  {
+    "id": "165340",
+    "japanese": "私たちは彼がすぐに来て、手伝ってくれるのを願った。",
+    "english": "We hoped he would come and help us at once."
+  },
+  {
+    "id": "165341",
+    "japanese": "私たちは彼がすぐ戻ってくると思う。",
+    "english": "We expect him to come back soon."
+  },
+  {
+    "id": "165342",
+    "japanese": "私たちは彼がそこへ行けることを希望する。",
+    "english": "We hope that he can go there."
+  },
+  {
+    "id": "165343",
+    "japanese": "私たちは彼がこれ以上酒を飲むのを止めさせなければならない。",
+    "english": "We have to stop him from drinking any more."
+  },
+  {
+    "id": "165344",
+    "japanese": "私たちは畑全体に種をまいた。",
+    "english": "We scattered seeds all over the field."
+  },
+  {
+    "id": "165345",
+    "japanese": "私たちは畑に野菜の種をまいた。",
+    "english": "We put vegetable seeds in the field."
+  },
+  {
+    "id": "165346",
+    "japanese": "私たちは箱根で一泊した。",
+    "english": "We stayed overnight in Hakone."
+  },
+  {
+    "id": "165347",
+    "japanese": "私たちは拍手した。",
+    "english": "We clapped our hands."
+  },
+  {
+    "id": "165348",
+    "japanese": "私たちは博物館でミイラを見た。",
+    "english": "We saw a mummy at the museum."
+  },
+  {
+    "id": "165350",
+    "japanese": "私たちは買い物に中心街に行く。",
+    "english": "We go downtown to do shopping."
+  },
+  {
+    "id": "165351",
+    "japanese": "私たちは梅の花で有名な水戸公園を見に行った。",
+    "english": "We visited Mito Park, which is famous for its plum blossoms."
+  },
+  {
+    "id": "165353",
+    "japanese": "私たちは日毎に年をとっていく。",
+    "english": "We are getting older day by day."
+  },
+  {
+    "id": "165354",
+    "japanese": "私たちは年をとればとるほど夢を見なくなる。",
+    "english": "The older we grow, the less we dream."
+  },
+  {
+    "id": "165355",
+    "japanese": "私たちは年をとるにつれて忘れっぽくなるんだよ。",
+    "english": "We become forgetful as we grow older."
+  },
+  {
+    "id": "165356",
+    "japanese": "私たちは年に一度集まります。",
+    "english": "We get together once a year."
+  },
+  {
+    "id": "165357",
+    "japanese": "私たちは猫を飼っています。私たちはみなその猫が好きです。",
+    "english": "We have a cat. We are all fond of it."
+  },
+  {
+    "id": "165358",
+    "japanese": "私たちは猫と犬を飼っている。",
+    "english": "We have a cat and a dog."
+  },
+  {
+    "id": "165359",
+    "japanese": "日曜日までここに滞在します。",
+    "english": "We will stay here until Sunday."
+  },
+  {
+    "id": "165360",
+    "japanese": "私たちは日曜日によくトランプをする。",
+    "english": "We often play cards on Sunday."
+  },
+  {
+    "id": "165361",
+    "japanese": "私たちは日曜日には家の近くの公園でキャッチボールをします。",
+    "english": "We play catch in the park near our house on Sundays."
+  },
+  {
+    "id": "165362",
+    "japanese": "私たちは日本人が働き者だといわれるのをよく耳にする。",
+    "english": "We often hear it said that the Japanese are good workers."
+  },
+  {
+    "id": "165363",
+    "japanese": "私たちは日本語を話す。",
+    "english": "We speak Japanese."
+  },
+  {
+    "id": "165364",
+    "japanese": "私たちは日本語の発音の仕方を習った。",
+    "english": "We learned how to pronounce Japanese."
+  },
+  {
+    "id": "165365",
+    "japanese": "私たちは日本の歌を習いたいと思っている。",
+    "english": "We want to learn some Japanese songs."
+  },
+  {
+    "id": "165366",
+    "japanese": "私たちは日本の歌をいくつか習いたい。",
+    "english": "We want to learn some Japanese songs."
+  },
+  {
+    "id": "165367",
+    "japanese": "私たちは日本の歌をいくつか学びたい。",
+    "english": "We want to learn some Japanese songs."
+  },
+  {
+    "id": "165369",
+    "japanese": "私たちは日暮れまでには絶対ロンドンに着かないだろう。",
+    "english": "We'll never reach London before dark."
+  },
+  {
+    "id": "165371",
+    "japanese": "私たちは日の暮れる前までに車で１００キロ行った。",
+    "english": "We covered 100 kilometers in the car before it got dark."
+  },
+  {
+    "id": "165372",
+    "japanese": "私たちは日が暮れる前に車で１００キロ走破した。",
+    "english": "We covered 100 kilometers in the car before it got dark."
+  },
+  {
+    "id": "165373",
+    "japanese": "私たちは日が地平線に沈んでいくのを見守っていた。",
+    "english": "We watched the sun sinking below the horizon."
+  },
+  {
+    "id": "165374",
+    "japanese": "私たちは二度と彼女に会えない運命だった。",
+    "english": "We were never to see her again."
+  },
+  {
+    "id": "165375",
+    "japanese": "私たちは二次喫煙の危険を非常に意識するようになってきた。",
+    "english": "We are becoming very aware of the dangers of secondhand smoke."
+  },
+  {
+    "id": "165376",
+    "japanese": "私たちは難しい選択に直面している。",
+    "english": "We are faced with a difficult choice."
+  },
+  {
+    "id": "165377",
+    "japanese": "私たちは南フランスへ転地療養に行く。",
+    "english": "We go to the South of France for a change of air."
+  },
+  {
+    "id": "165378",
+    "japanese": "私たちは内臓器官を調べるためにカエルを解剖した。",
+    "english": "We dissected a frog to examine its internal organs."
+  },
+  {
+    "id": "165379",
+    "japanese": "私たちは独特で成熟したひとりひとりの人間になるべきだ。",
+    "english": "We should become unique, mature individuals."
+  },
+  {
+    "id": "165380",
+    "japanese": "私たちは特に何もしなかった。",
+    "english": "We did nothing in particular."
+  },
+  {
+    "id": "165381",
+    "japanese": "私たちは道路に沿ってゆっくり歩いた。",
+    "english": "We walked slowly along the road."
+  },
+  {
+    "id": "165382",
+    "japanese": "私たちは道路で踊ります。",
+    "english": "We dance along the street."
+  },
+  {
+    "id": "165383",
+    "japanese": "私たちは道をまちがえたにちがいない。",
+    "english": "We must've taken the wrong road."
+  },
+  {
+    "id": "165384",
+    "japanese": "私たちは道に迷った、もしそうでなければもっと早くここへ来ていただろう。",
+    "english": "If we hadn't lost our way, we would have been here sooner."
+  },
+  {
+    "id": "165385",
+    "japanese": "私たちは同窓生です。",
+    "english": "We were at school together."
+  },
+  {
+    "id": "165386",
+    "japanese": "私たちは同級生です。",
+    "english": "We're classmates."
+  },
+  {
+    "id": "165387",
+    "japanese": "私たちは同じ年齢です。",
+    "english": "We're the same age."
+  },
+  {
+    "id": "165388",
+    "japanese": "私たちは同じ学校に通っている。",
+    "english": "We go to the same school."
+  },
+  {
+    "id": "165389",
+    "japanese": "私たちは同じ日に生まれた。",
+    "english": "We were born on the same day."
+  },
+  {
+    "id": "165390",
+    "japanese": "私たちは同じ学級で英語を勉強します。",
+    "english": "We study English in the same class."
+  },
+  {
+    "id": "165391",
+    "japanese": "私たちは同じバスで仕事に行きます。",
+    "english": "We take the same bus to work."
+  },
+  {
+    "id": "165392",
+    "japanese": "私たちは動物園でサルをみました。",
+    "english": "We saw the monkey at the zoo."
+  },
+  {
+    "id": "165393",
+    "japanese": "私たちは頭では偏見が間違っていることを知っている。",
+    "english": "Intellectually we know prejudice is wrong."
+  },
+  {
+    "id": "165394",
+    "japanese": "私たちは頭では偏見が間違っていることは知っている。",
+    "english": "Intellectually we know prejudice is wrong."
+  },
+  {
+    "id": "165395",
+    "japanese": "私たちは当分ここにとどまることにした。",
+    "english": "We have decided to stay here for the time being."
+  },
+  {
+    "id": "165396",
+    "japanese": "私たちは当時は同級生だった。",
+    "english": "We were in the same class then."
+  },
+  {
+    "id": "165397",
+    "japanese": "私たちは東京へ何度も行ったことがある。",
+    "english": "We have been to Tokyo many times."
+  },
+  {
+    "id": "165398",
+    "japanese": "私たちは投票の権利を持った、自由な市民である。",
+    "english": "We are free citizens with the right of vote."
+  },
+  {
+    "id": "165399",
+    "japanese": "私たちは冬に毛織物を着る。",
+    "english": "We wear wool in winter."
+  },
+  {
+    "id": "165400",
+    "japanese": "私たちは土曜日の晩にパーティーを開くつもりです。",
+    "english": "We are going to have a party on Saturday night."
+  },
+  {
+    "id": "165401",
+    "japanese": "私たちは土曜日の朝はいつもテニスをする。",
+    "english": "We always play tennis on Saturday morning."
+  },
+  {
+    "id": "165402",
+    "japanese": "私たちは土曜日に働きましたが、今はちがいます。",
+    "english": "We worked on Saturdays, but now we don't."
+  },
+  {
+    "id": "165403",
+    "japanese": "私たちは努力したにも関わらず結局失敗した。",
+    "english": "Despite our efforts, we failed after all."
+  },
+  {
+    "id": "165404",
+    "japanese": "私たちは電話で話をした。",
+    "english": "We talked over the phone."
+  },
+  {
+    "id": "165406",
+    "japanese": "私たちは田舎の生活にとても引かれている。",
+    "english": "We're very attracted to life in the countryside."
+  },
+  {
+    "id": "165408",
+    "japanese": "私たちは店が開くのを待っていました。",
+    "english": "We were waiting for the shop to open."
+  },
+  {
+    "id": "165409",
+    "japanese": "私たちは庭をきれいにそうじした。",
+    "english": "We cleaned up our garden."
+  },
+  {
+    "id": "165410",
+    "japanese": "私たちは庭で野菜を栽培している。",
+    "english": "We grow vegetables in our garden."
+  },
+  {
+    "id": "165411",
+    "japanese": "私たちは庭でかわいそうな小さな猫を見つけた。",
+    "english": "We found a poor little cat in the yard."
+  },
+  {
+    "id": "165412",
+    "japanese": "私たちは通訳の助けなしで話した。",
+    "english": "We talked without the aid of an interpreter."
+  },
+  {
+    "id": "165413",
+    "japanese": "私たちは通常パン一切れとコーヒー１杯をいただきます。",
+    "english": "We usually have a slice of bread and a cup of coffee."
+  },
+  {
+    "id": "165414",
+    "japanese": "私たちは通常、列車は時間どおりに到着するだろうと思う。",
+    "english": "We usually expect that trains will arrive on time."
+  },
+  {
+    "id": "165415",
+    "japanese": "私たちは通りを歩いた。",
+    "english": "We walked along the street."
+  },
+  {
+    "id": "165416",
+    "japanese": "私たちは通りのちょうど向こう側のあのアパートに住んでいます。",
+    "english": "We live in that apartment just over the street."
+  },
+  {
+    "id": "165417",
+    "japanese": "私たちは鳥がひなにえさをやる様子を観察した。",
+    "english": "We watched a bird feeding its young."
+  },
+  {
+    "id": "165418",
+    "japanese": "私たちは長年親しくしている。",
+    "english": "We've been close friends for many years."
+  },
+  {
+    "id": "165419",
+    "japanese": "私たちは長年の仲間である。",
+    "english": "We've been mates for years."
+  },
+  {
+    "id": "165420",
+    "japanese": "私たちは長年の知り合いです。",
+    "english": "We have known each other for years."
+  },
+  {
+    "id": "165421",
+    "japanese": "私たちは長く寒い冬を過ごすが、その楽しみ方を知っている。",
+    "english": "We have a long and cold winter, but we know how to enjoy it."
+  },
+  {
+    "id": "165422",
+    "japanese": "私たちは長い間彼を待っていた。",
+    "english": "We were waiting for him for a long time."
+  },
+  {
+    "id": "165423",
+    "japanese": "私たちは長い間会っていない。",
+    "english": "We haven't met for ages."
+  },
+  {
+    "id": "165424",
+    "japanese": "私たちは長い間の友人です。",
+    "english": "We have been good friends for a long time."
+  },
+  {
+    "id": "165425",
+    "japanese": "私たちは長い間その街を訪れなかった。",
+    "english": "We have wanted to visit the city for a long time."
+  },
+  {
+    "id": "165426",
+    "japanese": "私たちは町はずれの小さなホテルに泊まった。",
+    "english": "We put up at a small hotel just on the edge of the town."
+  },
+  {
+    "id": "165427",
+    "japanese": "私たちは町へ直行した。",
+    "english": "We took a direct road to town."
+  },
+  {
+    "id": "165429",
+    "japanese": "私たちは朝早く家を出た。",
+    "english": "We left home early in the morning."
+  },
+  {
+    "id": "165430",
+    "japanese": "私たちは朝食前に散歩するのが習慣だった。",
+    "english": "We used to take a walk before breakfast."
+  },
+  {
+    "id": "165431",
+    "japanese": "私たちは朝食にパンと卵をとります。",
+    "english": "We have bread and eggs for breakfast."
+  },
+  {
+    "id": "165432",
+    "japanese": "私たちは朝食にサンドイッチを食べた。",
+    "english": "We ate sandwiches for breakfast."
+  },
+  {
+    "id": "165433",
+    "japanese": "私たちは注意してみたが何も見えなかった。",
+    "english": "We looked, but saw nothing."
+  },
+  {
+    "id": "165434",
+    "japanese": "私たちは昼食後テレビを見た。",
+    "english": "We watched TV after lunch."
+  },
+  {
+    "id": "165435",
+    "japanese": "私たち、昼食に出かけるのだけど、一緒にどう？",
+    "english": "We're going out for lunch. Why don't you come along?"
+  },
+  {
+    "id": "165436",
+    "japanese": "私たちは昼は働き、夜は休息する。",
+    "english": "We work by day and rest by night."
+  },
+  {
+    "id": "165437",
+    "japanese": "私たちは竹かごの作り方を教わった。",
+    "english": "We received instructions on how to make a bamboo basket."
+  },
+  {
+    "id": "165438",
+    "japanese": "私たちは遅れないようにタクシーに乗った。",
+    "english": "We took a taxi so as not to be late."
+  },
+  {
+    "id": "165439",
+    "japanese": "私たちは池の周りを歩いた。",
+    "english": "We walked around the pond."
+  },
+  {
+    "id": "165440",
+    "japanese": "私たちは地面が揺れているのを感じた。",
+    "english": "We felt the ground trembling."
+  },
+  {
+    "id": "165441",
+    "japanese": "私たちは地球上に住んでいる。",
+    "english": "We live on the earth."
+  },
+  {
+    "id": "165442",
+    "japanese": "私たちは地球温暖化の対処にもっと積極的な役割を果たすべきだ。",
+    "english": "We should play a more active role in combating global warming."
+  },
+  {
+    "id": "165443",
+    "japanese": "私たちは地球が太陽の周りを回転すると信じていた。",
+    "english": "We believed that the earth moves round the sun."
+  },
+  {
+    "id": "165444",
+    "japanese": "私たちは知らせを聞いてひどく驚いた。",
+    "english": "We were shocked at the news."
+  },
+  {
+    "id": "165445",
+    "japanese": "私たちは知っている事を話した。",
+    "english": "We spoke what we know."
+  },
+  {
+    "id": "165446",
+    "japanese": "私たちは温かく迎えられた。",
+    "english": "We were welcomed warmly."
+  },
+  {
+    "id": "165447",
+    "japanese": "私たちは弾に当たるのが怖かったので、階下に走って降りていったの。",
+    "english": "We were afraid that we might be hit by a bullet, so we ran downstairs."
+  },
+  {
+    "id": "165448",
+    "japanese": "私たちは誕生日に彼女にプレゼントをあげるつもりだ。",
+    "english": "We will give her a present on her birthday."
+  },
+  {
+    "id": "165449",
+    "japanese": "私たちは誰もその質問に答えられなかった。",
+    "english": "None of us was able to answer the question."
+  },
+  {
+    "id": "165450",
+    "japanese": "私たちは誰でも歴史にはある程度の興味を持っている。ある意味では、みんな歴史家なのである。",
+    "english": "All of us have an interest in history. In a sense, we are all historians."
+  },
+  {
+    "id": "165452",
+    "japanese": "私たちは誰でも、将来何かすることがあります。",
+    "english": "Everyone of us has something to do in the future."
+  },
+  {
+    "id": "165453",
+    "japanese": "私たちは誰かに何かを伝えるために、つまり情報を伝達するために言葉を使う。",
+    "english": "We use words to tell somebody something, that is, to communicate."
+  },
+  {
+    "id": "165454",
+    "japanese": "私たちは誰かが叫ぶのを聞いた。",
+    "english": "We heard somebody shout."
+  },
+  {
+    "id": "165455",
+    "japanese": "私たちは大量の食糧を輸入している。",
+    "english": "We import a large quantity of food."
+  },
+  {
+    "id": "165456",
+    "japanese": "私たちは大都市に住んでいる。",
+    "english": "We live in a big city."
+  },
+  {
+    "id": "165457",
+    "japanese": "私たちは大地が揺れるのを感じた。",
+    "english": "We felt the earth tremble."
+  },
+  {
+    "id": "165458",
+    "japanese": "私たちは大阪まで交替で運転した。",
+    "english": "We took turns driving on the way to Osaka."
+  },
+  {
+    "id": "165459",
+    "japanese": "私たちは大阪タワーのてっぺんに上がった。",
+    "english": "We got to the top of Osaka Tower."
+  },
+  {
+    "id": "165460",
+    "japanese": "私たちは大雨のため釣りに行けなかった。",
+    "english": "The heavy rain prevented us from going fishing."
+  },
+  {
+    "id": "165461",
+    "japanese": "私たちは大きな図書館の近くに住んでいます。",
+    "english": "We live near a big library."
+  },
+  {
+    "id": "165462",
+    "japanese": "私たちは大きな犬を飼っている。",
+    "english": "We are keeping a big dog."
+  },
+  {
+    "id": "165463",
+    "japanese": "私たちは大きな教室を割り当てられた。",
+    "english": "We have been assigned the large classroom."
+  },
+  {
+    "id": "165464",
+    "japanese": "私たちは台湾経由で行った。",
+    "english": "We went by way of Taiwan."
+  },
+  {
+    "id": "165465",
+    "japanese": "私たちは台風で家の屋根を壊されました。",
+    "english": "We got our roof damaged by the typhoon."
+  },
+  {
+    "id": "165466",
+    "japanese": "私たちは台風が農作物を台無しにした日のことを忘れません。",
+    "english": "We will never forget the day the typhoon ruined the crops."
+  },
+  {
+    "id": "165467",
+    "japanese": "私たちは代わる代わる馬の世話をした。",
+    "english": "We took care of our horses by turns."
+  },
+  {
+    "id": "165468",
+    "japanese": "私たちは代わる代わる寝た。",
+    "english": "We slept by turns."
+  },
+  {
+    "id": "165469",
+    "japanese": "私たちは代わる代わる子供たちの面倒を見た。",
+    "english": "We took care of our children by turns."
+  },
+  {
+    "id": "165470",
+    "japanese": "私たちは待っていたが、彼は来なかった。",
+    "english": "We waited but he failed to arrive."
+  },
+  {
+    "id": "165471",
+    "japanese": "体育館でバスケットをしました。",
+    "english": "We played basketball in the gym."
+  },
+  {
+    "id": "165472",
+    "japanese": "私たちは体育の日に好天を期待している。",
+    "english": "We are banking on fine weather for the sports day."
+  },
+  {
+    "id": "165473",
+    "japanese": "私たちは太陽や風のようなエネルギー資源を使っています。",
+    "english": "We'll use energy sources such as the sun and wind."
+  },
+  {
+    "id": "165474",
+    "japanese": "私たちは太陽が地平線の下に沈むのを見た。",
+    "english": "We saw the sun sink below the horizon."
+  },
+  {
+    "id": "165475",
+    "japanese": "私たちは太陽が地平線に昇るのを見た。",
+    "english": "We saw the sun rise above the horizon."
+  },
+  {
+    "id": "165476",
+    "japanese": "私たちは太平洋上空を２、３時間飛んだ。",
+    "english": "We flew over the Pacific Ocean for a few hours."
+  },
+  {
+    "id": "165477",
+    "japanese": "私たちは太平洋の上空を飛んでいます。",
+    "english": "We are flying over the Pacific."
+  },
+  {
+    "id": "165478",
+    "japanese": "私たちは多摩動物園に行った。",
+    "english": "We went to the Tama Zoo."
+  },
+  {
+    "id": "165479",
+    "japanese": "私たちは多くの問題に直面している。",
+    "english": "We are faced with a host of problems."
+  },
+  {
+    "id": "165480",
+    "japanese": "私たちは多くの水を使用する。",
+    "english": "We use a lot of water."
+  },
+  {
+    "id": "165481",
+    "japanese": "私たちは多くの人に新しい店について尋ねたが、そのうわさを聞いた者は誰もいなかった。",
+    "english": "We asked many persons about the new store, but no one had heard of it."
+  },
+  {
+    "id": "165482",
+    "japanese": "私たちは多くの困難に遭遇した。",
+    "english": "We encountered many difficulties."
+  },
+  {
+    "id": "165483",
+    "japanese": "私たちは多くの交渉ごとをしたがまったくむだになった。",
+    "english": "We held many negotiations but to no purpose."
+  },
+  {
+    "id": "165484",
+    "japanese": "私たちは多くのもめごとで苦しんだ。",
+    "english": "We suffered from a great many troubles."
+  },
+  {
+    "id": "165485",
+    "japanese": "私たちは多かれ少なかれ利己的である。",
+    "english": "We are more or less selfish."
+  },
+  {
+    "id": "165486",
+    "japanese": "私たちは多かれ少なかれ選挙の結果に失望した。",
+    "english": "We were more or less disappointed about the election."
+  },
+  {
+    "id": "165488",
+    "japanese": "私たちは他人の権利を尊重すべきです。まして生命はなおさらです。",
+    "english": "We should respect the rights of others, much more their lives."
+  },
+  {
+    "id": "165489",
+    "japanese": "私たちは他人の権利を尊重すべきである。",
+    "english": "We should respect the right of others."
+  },
+  {
+    "id": "165490",
+    "japanese": "私たちは他人の基本的な人権を尊重すべきであり、まして他人の生命は当然である。",
+    "english": "We should respect the basic human rights of others much more their lives."
+  },
+  {
+    "id": "165491",
+    "japanese": "私たちは他人に親切にしなければならない。",
+    "english": "We must try to be kind to other people."
+  },
+  {
+    "id": "165492",
+    "japanese": "私たちは他の文化も自分の文化同様に尊重しなければならない。",
+    "english": "We must pay regard to other cultures like ours."
+  },
+  {
+    "id": "165493",
+    "japanese": "私たちは村人から敵意を持って迎えられた。",
+    "english": "We got a hostile reception from the villagers."
+  },
+  {
+    "id": "165494",
+    "japanese": "私たちは息を切らしたその試合を見守った。",
+    "english": "We watched the game while holding our breath."
+  },
+  {
+    "id": "165495",
+    "japanese": "私たちは像を木材で作った。",
+    "english": "We made statues out of wood."
+  },
+  {
+    "id": "165496",
+    "japanese": "私たちは草の上に横になった。",
+    "english": "We lay on the grass."
+  },
+  {
+    "id": "165497",
+    "japanese": "私たちは早起きして、家の掃除を始めた。",
+    "english": "We got up early and set about cleaning our house."
+  },
+  {
+    "id": "165498",
+    "japanese": "私たちは早めに出発しなければなりません。",
+    "english": "We must leave early."
+  },
+  {
+    "id": "165499",
+    "japanese": "私たちは早く旅行の日取りを決めなくてはならない。",
+    "english": "We have to fix the date for our trip quickly."
+  },
+  {
+    "id": "165500",
+    "japanese": "私たちは早く来なければならないと思う。",
+    "english": "I take it that we are to come early."
+  },
+  {
+    "id": "165501",
+    "japanese": "私たちは早く出発する事に意見が一致している。",
+    "english": "We are agreed that we start early."
+  },
+  {
+    "id": "165502",
+    "japanese": "私たちは想像力を使うように奨励されています。",
+    "english": "We are encouraged to use our imagination."
+  },
+  {
+    "id": "165503",
+    "japanese": "私たちは双子です。みんなよく私と兄を間違えます。",
+    "english": "We are twins. People often mistake me for my brother."
+  },
+  {
+    "id": "165504",
+    "japanese": "私たちは素晴らしい時を過ごした。",
+    "english": "We had a wonderful time."
+  },
+  {
+    "id": "165505",
+    "japanese": "私たちは祖母を見舞いに博多へ行きました。",
+    "english": "We went to Hakata to visit my grandmother."
+  },
+  {
+    "id": "165506",
+    "japanese": "私たちは祖先をうやまうべきだ。",
+    "english": "We should worship our ancestors."
+  },
+  {
+    "id": "165507",
+    "japanese": "私たちは全力を尽くすつもりです。",
+    "english": "We will do our best."
+  },
+  {
+    "id": "165508",
+    "japanese": "私たちは全体としてうるさい。",
+    "english": "We are noisy as a whole."
+  },
+  {
+    "id": "165510",
+    "japanese": "私たちは全員疲れていた。",
+    "english": "We were all tired."
+  },
+  {
+    "id": "165511",
+    "japanese": "私たちは全員彼女の結婚式に出席しました。",
+    "english": "We were all present at her wedding."
+  },
+  {
+    "id": "165512",
+    "japanese": "私たちは全員彼女の結婚式に出ていました。",
+    "english": "We were all present at her wedding."
+  },
+  {
+    "id": "165513",
+    "japanese": "私たちは全員急いで乗り込みました。",
+    "english": "All of us climbed aboard quickly."
+  },
+  {
+    "id": "165514",
+    "japanese": "私たちは全く新しい方法を試しています。",
+    "english": "We are trying a completely new method."
+  },
+  {
+    "id": "165515",
+    "japanese": "私たちは全く偶然に再会した。",
+    "english": "We met each other again completely by accident."
+  },
+  {
+    "id": "165516",
+    "japanese": "私たちは全く共通のところがない。",
+    "english": "We have absolutely nothing in common."
+  },
+  {
+    "id": "165517",
+    "japanese": "私たちは前もって２カ月前に航空券を買った。",
+    "english": "We bought our plane tickets two months in advance."
+  },
+  {
+    "id": "165518",
+    "japanese": "私たちは全くの幸運で生き残った。",
+    "english": "We survived by sheer luck."
+  },
+  {
+    "id": "165519",
+    "japanese": "私たちは前の校長先生よりも今度の校長先生のほうが好きです。",
+    "english": "We like the present headmaster better than his predecessor."
+  },
+  {
+    "id": "165520",
+    "japanese": "私たちは船長の命令を厳密に実行した。",
+    "english": "We carried out the captain's order to the letter."
+  },
+  {
+    "id": "165521",
+    "japanese": "私たちは船長に歓迎された。",
+    "english": "We were welcomed by the Captain."
+  },
+  {
+    "id": "165522",
+    "japanese": "私たちは船に乗って行った。",
+    "english": "We rode on a boat."
+  },
+  {
+    "id": "165523",
+    "japanese": "私たちは船で海を渡っている。",
+    "english": "We crossed the waters in a boat."
+  },
+  {
+    "id": "165525",
+    "japanese": "私たちは川村博士を祝して送別会を開いた。",
+    "english": "We held a farewell party in honor of Dr. Kawamura."
+  },
+  {
+    "id": "165526",
+    "japanese": "私たちは川下にある橋を渡って回り道をしなければならなかった。",
+    "english": "We had to make a detour across a bridge down the river from here."
+  },
+  {
+    "id": "165527",
+    "japanese": "私たちは川へ行った。",
+    "english": "We went to the river."
+  },
+  {
+    "id": "165528",
+    "japanese": "私たちは川の強い流れにさからってボートをこぐことができなかった。",
+    "english": "We couldn't row against the strong current."
+  },
+  {
+    "id": "165529",
+    "japanese": "私たちは川に沿って散歩した。",
+    "english": "We took a walk along the river."
+  },
+  {
+    "id": "165530",
+    "japanese": "私たちは川に沿って歩いた。",
+    "english": "We walked along the river."
+  },
+  {
+    "id": "165531",
+    "japanese": "私たちは川にキャンプに行った。",
+    "english": "We went camping near the river."
+  },
+  {
+    "id": "165532",
+    "japanese": "私たちは川で死んだ魚を何匹か見つけました。",
+    "english": "We found some dead fish in the river."
+  },
+  {
+    "id": "165533",
+    "japanese": "私たちは川で泳ぐ事を楽しんだ。",
+    "english": "We enjoyed swimming in the river."
+  },
+  {
+    "id": "165534",
+    "japanese": "私たちは先日、吉田君を我が野球チームのキャッチャーに選んだ。",
+    "english": "The other day, we chose Yoshida to be the catcher on our school's baseball team."
+  },
+  {
+    "id": "165535",
+    "japanese": "私たちは先生の後についてその本を読んだ。",
+    "english": "We read the book after the teacher."
+  },
+  {
+    "id": "165536",
+    "japanese": "私たちは先生の回りに集まった。",
+    "english": "We grouped ourselves round our teacher."
+  },
+  {
+    "id": "165537",
+    "japanese": "私たちは先生のまわりに輪になって集まった。",
+    "english": "We formed a circle around the teacher."
+  },
+  {
+    "id": "165538",
+    "japanese": "私たちは先週とても忙しかった。",
+    "english": "We were very busy last week."
+  },
+  {
+    "id": "165539",
+    "japanese": "私たちは雪合戦をした。",
+    "english": "We had a snowball fight."
+  },
+  {
+    "id": "165540",
+    "japanese": "私たちは雪の中にクマの足跡を見つけた。",
+    "english": "We saw the traces of a bear in the snow."
+  },
+  {
+    "id": "165541",
+    "japanese": "私たちは雪といえばいつもスキーを連想する。",
+    "english": "We always associate snow with skiing."
+  },
+  {
+    "id": "165542",
+    "japanese": "私たちは赤十字運動に参加する。",
+    "english": "We take part in Red Cross movement."
+  },
+  {
+    "id": "165543",
+    "japanese": "私たちは石炭を使い果たした。",
+    "english": "We have used up the coal."
+  },
+  {
+    "id": "165544",
+    "japanese": "私たちは税法の改善を支持した。",
+    "english": "We were in favor of reforming the tax laws."
+  },
+  {
+    "id": "165545",
+    "japanese": "私たちは昔からの友人です。",
+    "english": "We're friends from way back."
+  },
+  {
+    "id": "165546",
+    "japanese": "私たちは税金を納めなければならない。",
+    "english": "We must pay the tax."
+  },
+  {
+    "id": "165547",
+    "japanese": "私たちは静かにそこで待ちました。",
+    "english": "We waited there quietly."
+  },
+  {
+    "id": "165548",
+    "japanese": "私たちは静かにしていた。",
+    "english": "We kept quiet."
+  },
+  {
+    "id": "165549",
+    "japanese": "私たちは生命を失う危険があった。",
+    "english": "We were in danger of losing our lives."
+  },
+  {
+    "id": "165550",
+    "japanese": "私たちは精一杯彼を助けたが、彼はありがとうとさえ言わなかった。",
+    "english": "We did our best to help him, but he didn't so much as say thank you."
+  },
+  {
+    "id": "165552",
+    "japanese": "私たちは生産技術では国際的に競争力がある。",
+    "english": "We are internationally competitive in production technology."
+  },
+  {
+    "id": "165553",
+    "japanese": "私たちは生まれ故郷に引っ越そうかと考えています。",
+    "english": "We are thinking of moving back home."
+  },
+  {
+    "id": "165554",
+    "japanese": "私たちは生きるために食べる。",
+    "english": "We eat so that we can live."
+  },
+  {
+    "id": "165556",
+    "japanese": "私達が生きていくためには衣食住が必要です。",
+    "english": "We need food, clothes and a home in order to live."
+  },
+  {
+    "id": "165557",
+    "japanese": "私たちは正方形のテーブルを持っています。",
+    "english": "We have a square table."
+  },
+  {
+    "id": "165558",
+    "japanese": "私たちは正午前にそこへ着いた。",
+    "english": "We arrived there before noon."
+  },
+  {
+    "id": "165559",
+    "japanese": "私たちは正午に働くのを止めた。",
+    "english": "We stopped working at noon."
+  },
+  {
+    "id": "165560",
+    "japanese": "私たちは正午ごろ昼食を食べる。",
+    "english": "We have lunch at about noon."
+  },
+  {
+    "id": "165561",
+    "japanese": "私たちは正午から仕事をはじめた。",
+    "english": "We began our work at noon."
+  },
+  {
+    "id": "165562",
+    "japanese": "私たちは正しい見方でその問題を見なくてはならない。",
+    "english": "We must see the matter in its proper perspective."
+  },
+  {
+    "id": "165564",
+    "japanese": "私たちは政府が減税してくれるのを期待すべきです。",
+    "english": "We must look to the government for a tax cut."
+  },
+  {
+    "id": "165565",
+    "japanese": "私たちは政治家というと偽善を連想しがちだ。",
+    "english": "We tend to associate politicians with hypocrisy."
+  },
+  {
+    "id": "165566",
+    "japanese": "私たちは政治と宗教を分けなければならない。",
+    "english": "We must separate politics from religion."
+  },
+  {
+    "id": "165567",
+    "japanese": "私たちは成年に達すると選挙権を手にする。",
+    "english": "We have the right to vote when we come of age."
+  },
+  {
+    "id": "165568",
+    "japanese": "私たちは成り行きを見守るよりしかたがないと思う。",
+    "english": "There's nothing for it but to wait and see."
+  },
+  {
+    "id": "165569",
+    "japanese": "私たちは制服を支給された。",
+    "english": "We were supplied with uniforms."
+  },
+  {
+    "id": "165570",
+    "japanese": "私たちは是非ともこの計画を実行に移さなければならない。",
+    "english": "We must carry out this plan by all means."
+  },
+  {
+    "id": "165571",
+    "japanese": "私たちは世界平和を目標に進むべきだ。",
+    "english": "We should be headed for world peace."
+  },
+  {
+    "id": "165573",
+    "japanese": "私たちは世界一周旅行から今帰ってきたところです。",
+    "english": "We have just returned from a trip around the world."
+  },
+  {
+    "id": "165574",
+    "japanese": "私たちは世界の情勢をますます速く知るようになった。",
+    "english": "We have come to know what is going on in the world faster and faster."
+  },
+  {
+    "id": "165575",
+    "japanese": "私たちは数回会合を持った。",
+    "english": "We've had several meetings."
+  },
+  {
+    "id": "165576",
+    "japanese": "私たちは水無しでは一日もやっていけない。",
+    "english": "We can not do without water even for a day."
+  },
+  {
+    "id": "165577",
+    "japanese": "私たちは水が１００度で沸騰するのを知っている。",
+    "english": "We know that water boils at 100 degrees."
+  },
+  {
+    "id": "165578",
+    "japanese": "私たちは図書館利用の特権を与えられた。",
+    "english": "We were given the privilege of using the library."
+  },
+  {
+    "id": "165579",
+    "japanese": "私たちは人生の目的は何かと徹夜で議論した。",
+    "english": "We argued with something of the purpose in the life about."
+  },
+  {
+    "id": "165580",
+    "japanese": "私たちは人生の中であらゆる機会を最大限に利用すべきです。",
+    "english": "We should make the most of every opportunity in our life."
+  },
+  {
+    "id": "165581",
+    "japanese": "私たちは人工雪でスキーをした。",
+    "english": "We skied on artificial snow."
+  },
+  {
+    "id": "165582",
+    "japanese": "私たちは人をその人の人格を基に判断しようと考えるかもしれないが、それらは一見したところでははっきりわからないものである。",
+    "english": "Although we may intend to judge a person on the basis of his or her personal qualities, they are not visible at first sight."
+  },
+  {
+    "id": "165583",
+    "japanese": "私たちは身動きもしなかったし、物音一つ立てなかった。",
+    "english": "We neither moved nor made any noise."
+  },
+  {
+    "id": "165584",
+    "japanese": "私たちは身につけている衣服で他人を判断しがちである。",
+    "english": "We are liable to judge others by the clothes they wear."
+  },
+  {
+    "id": "165585",
+    "japanese": "私たちは親をあてにしてはいけない。",
+    "english": "We should not depend on your parents."
+  },
+  {
+    "id": "165586",
+    "japanese": "私たちは親しい友人です。",
+    "english": "We're close friends."
+  },
+  {
+    "id": "165587",
+    "japanese": "私たちは神を信じています。",
+    "english": "We believe in God."
+  },
+  {
+    "id": "165588",
+    "japanese": "私たちは神の存在を信じる。",
+    "english": "We believe in the existence of God."
+  },
+  {
+    "id": "165589",
+    "japanese": "私たちは真夜中まで電話で話した。",
+    "english": "We talked on the phone until midnight."
+  },
+  {
+    "id": "165590",
+    "japanese": "私たちは真夜中にロンドンに着いた。",
+    "english": "We reached London at midnight."
+  },
+  {
+    "id": "165591",
+    "japanese": "私たちは真・善・美を追求しなければならない。",
+    "english": "We must seek after the true, the good and the beautiful."
+  },
+  {
+    "id": "165592",
+    "japanese": "私たちは森を歩き回った。",
+    "english": "We went about in the woods."
+  },
+  {
+    "id": "165593",
+    "japanese": "私たちは森の中に散歩に行きました。",
+    "english": "We went for a walk in the forest."
+  },
+  {
+    "id": "165594",
+    "japanese": "私たちは森の中で道に迷った。",
+    "english": "We lost our way in the woods."
+  },
+  {
+    "id": "165595",
+    "japanese": "私たちは新聞を毎日読まずには最新のトピックスについてゆけない。",
+    "english": "We can not follow the latest topics without reading a newspaper every day."
+  },
+  {
+    "id": "165596",
+    "japanese": "私たちは新聞の再生利用を始めました。",
+    "english": "We have started to recycle newspapers."
+  },
+  {
+    "id": "165597",
+    "japanese": "私たちは新聞で日常の出来事を知ります。",
+    "english": "We know about daily events through the newspapers."
+  },
+  {
+    "id": "165598",
+    "japanese": "私たちは新鮮な空気を必要とする。",
+    "english": "We need fresh air."
+  },
+  {
+    "id": "165599",
+    "japanese": "私たちは新鮮な空気を求めて外出した。",
+    "english": "We went out for some fresh air."
+  },
+  {
+    "id": "165600",
+    "japanese": "私たちは新しい方法を考え出した。",
+    "english": "We thought out a new way."
+  },
+  {
+    "id": "165601",
+    "japanese": "私たちは新しい町を作るためにここへ来た。",
+    "english": "We came here to build a new town."
+  },
+  {
+    "id": "165602",
+    "japanese": "私たちは新しい家を建てるために貯金をしている。",
+    "english": "We're saving up to build a new house."
+  },
+  {
+    "id": "165603",
+    "japanese": "私たちは新しい家を８万ドルで買った。",
+    "english": "We purchased a new house for eighty thousand dollars."
+  },
+  {
+    "id": "165604",
+    "japanese": "私たちは心ゆくまでパーティーを楽しんだ。",
+    "english": "We enjoyed the party to our heart's content."
+  },
+  {
+    "id": "165605",
+    "japanese": "私たちは信用を獲得しなければならない。",
+    "english": "We must work up a reputation."
+  },
+  {
+    "id": "165606",
+    "japanese": "私たちは食糧をたっぷり持っている。",
+    "english": "We have ample food."
+  },
+  {
+    "id": "165607",
+    "japanese": "私たちは食料と水の蓄えがもつかぎりここにいられる。",
+    "english": "We can stay here for as long as our supplies of food and water hold out."
+  },
+  {
+    "id": "165608",
+    "japanese": "私たちは食事の準備をした。",
+    "english": "We prepared our meals."
+  },
+  {
+    "id": "165609",
+    "japanese": "私たちは食べ物を非常に必要としている。",
+    "english": "We are badly in need of food."
+  },
+  {
+    "id": "165610",
+    "japanese": "私たちは植物園で多くの珍しい植物を見ました。",
+    "english": "We found many strange plants in a botanical garden."
+  },
+  {
+    "id": "165611",
+    "japanese": "私たちは状況の重大さを十分に認識しています。",
+    "english": "We are fully aware of the importance of the situation."
+  },
+  {
+    "id": "165612",
+    "japanese": "私たちは常に地震対策を考えておかなければならない。",
+    "english": "We should always be fully prepared for an earthquake."
+  },
+  {
+    "id": "165613",
+    "japanese": "私たちは常に公共の利益を考えなければならない。",
+    "english": "We must always consider the public interest."
+  },
+  {
+    "id": "165614",
+    "japanese": "私たちは障害を乗り越えて突き進んだ。",
+    "english": "We pushed ahead despite the obstacles."
+  },
+  {
+    "id": "165615",
+    "japanese": "私たちは笑いに笑った。",
+    "english": "We laughed and laughed."
+  },
+  {
+    "id": "165616",
+    "japanese": "私たちは少年がトラックにひかれるのを見た。",
+    "english": "We saw a boy run over by a truck."
+  },
+  {
+    "id": "165617",
+    "japanese": "私たちは少なくとも月に一冊本を読むべきだ。",
+    "english": "We should read one book a month at least."
+  },
+  {
+    "id": "165618",
+    "japanese": "私たちは少なくとも１０人のアメリカ人と友達になった。",
+    "english": "We made friends with at least ten Americans."
+  },
+  {
+    "id": "165619",
+    "japanese": "私たちは少し砂糖が必要だ。",
+    "english": "We need a little sugar."
+  },
+  {
+    "id": "165620",
+    "japanese": "私たちは小部屋に滞在させられた。",
+    "english": "We were made to stay in a small room."
+  },
+  {
+    "id": "165621",
+    "japanese": "私たちは小麦をひいて粉にする。",
+    "english": "We grind wheat into flour."
+  },
+  {
+    "id": "165622",
+    "japanese": "小鳥の囀りが聞こえます。",
+    "english": "We can hear the bird sing."
+  },
+  {
+    "id": "165623",
+    "japanese": "私たちは小船でその川を渡った。",
+    "english": "We went down the river in a small boat."
+  },
+  {
+    "id": "165624",
+    "japanese": "私たちは小さな家で我慢しなければならなかった。",
+    "english": "We had to make the best of our small house."
+  },
+  {
+    "id": "165625",
+    "japanese": "私たちは小さなボートで川を下った。",
+    "english": "We went down the river in a small boat."
+  },
+  {
+    "id": "165628",
+    "japanese": "私たちは将来に備えることが必要である。",
+    "english": "It is necessary that we provide for the future."
+  },
+  {
+    "id": "165630",
+    "japanese": "私たちは助け合うべきである。",
+    "english": "We ought to help each other."
+  },
+  {
+    "id": "165631",
+    "japanese": "私たちは助けを呼ばざるを得ない。",
+    "english": "We cannot but rely on your help."
+  },
+  {
+    "id": "165632",
+    "japanese": "私たちは書類事務の泥沼に陥っていた。",
+    "english": "We were bogged down in a morass of paperwork."
+  },
+  {
+    "id": "165633",
+    "japanese": "私たちは書物から多くの楽しみを得ることができる。",
+    "english": "We can derive great pleasure from books."
+  },
+  {
+    "id": "165634",
+    "japanese": "私たちは自己紹介をした。",
+    "english": "We introduced ourselves to each other."
+  },
+  {
+    "id": "165635",
+    "japanese": "私たちは初めて彼の生まれ故郷を訪ねた。",
+    "english": "We visited his home country for the first time."
+  },
+  {
+    "id": "165636",
+    "japanese": "私たちは初めて彼の故郷を訪ねた。",
+    "english": "We visited his home country for the first time."
+  },
+  {
+    "id": "165637",
+    "japanese": "私たちは順番にその本を読んだ。",
+    "english": "Each of us read the book in turn."
+  },
+  {
+    "id": "165638",
+    "japanese": "私たちは春桜の花の下を通学した。",
+    "english": "We went to school under the cherry blossoms in spring."
+  },
+  {
+    "id": "165639",
+    "japanese": "私たちは出来高制で働いている。",
+    "english": "We're paid by the job."
+  },
+  {
+    "id": "165640",
+    "japanese": "私たちは出来るだけたくさんの情報を集めなければいけません。",
+    "english": "We have to get as much information as possible."
+  },
+  {
+    "id": "165641",
+    "japanese": "私たちは出発を明日に延ばした。",
+    "english": "We put off the departure till tomorrow."
+  },
+  {
+    "id": "165642",
+    "japanese": "私たちは出かけたが二度と戻らなかった。",
+    "english": "We went out and never returned."
+  },
+  {
+    "id": "165643",
+    "japanese": "私たちは宿題を時間内に終えることができなかった。",
+    "english": "We were unable to finish our homework in time."
+  },
+  {
+    "id": "165644",
+    "japanese": "私たちは十分注意してこの彫像を動かさなければならない。",
+    "english": "We must move this statue very carefully."
+  },
+  {
+    "id": "165645",
+    "japanese": "私たちは十分に満足した。",
+    "english": "We were fully satisfied."
+  },
+  {
+    "id": "165646",
+    "japanese": "私たちは十分な睡眠を必要とする。",
+    "english": "We require much sleep."
+  },
+  {
+    "id": "165647",
+    "japanese": "私たちは十分な水ばかりではなく汚れていない水を必要としている。",
+    "english": "We need not only adequate water but clean water."
+  },
+  {
+    "id": "165648",
+    "japanese": "私たちは十二時前にチェックインしないといけない。",
+    "english": "We have to book in before twelve o'clock."
+  },
+  {
+    "id": "165649",
+    "japanese": "私たちは十組の男女をパーティーに招待した。",
+    "english": "We invited ten couples to the party."
+  },
+  {
+    "id": "165650",
+    "japanese": "私たちは住むのによい家を探している。",
+    "english": "We are looking for a nice house to live in."
+  },
+  {
+    "id": "165651",
+    "japanese": "私たちは週末にはいつも互いに家を訪ねたものだ。",
+    "english": "We used to visit each other on weekends."
+  },
+  {
+    "id": "165652",
+    "japanese": "私たちは週休二日制確立を目指している。",
+    "english": "We are aiming at establishing the five-day workweek."
+  },
+  {
+    "id": "165653",
+    "japanese": "私たちは週に一度外食する。",
+    "english": "We dine out once a week."
+  },
+  {
+    "id": "165654",
+    "japanese": "私たちは週に１回ここに集まります。",
+    "english": "We gather here once a week."
+  },
+  {
+    "id": "165655",
+    "japanese": "私たちは週ぎめでアパートを借りた。",
+    "english": "We rented the apartment by the week."
+  },
+  {
+    "id": "165656",
+    "japanese": "私たちは舟を作るのに非常に努力した。",
+    "english": "We made much effort to build the boat."
+  },
+  {
+    "id": "165657",
+    "japanese": "私たちは需要を満たさなければならない。",
+    "english": "We have to meet the demand."
+  },
+  {
+    "id": "165658",
+    "japanese": "私たちは授業中英語を使う。",
+    "english": "We speak English in class."
+  },
+  {
+    "id": "165659",
+    "japanese": "私たちは酒と会話に耽った。",
+    "english": "We indulged in conversation and drink."
+  },
+  {
+    "id": "165660",
+    "japanese": "私たちは趣味・教育的背景など、いろいろと共通したものを持っている。",
+    "english": "We have many things in common: hobbies, educational background, and so on."
+  },
+  {
+    "id": "165661",
+    "japanese": "私たちは趣味、学歴など、いろいろと共通したものを持っている。",
+    "english": "We have many things in common: hobbies, educational backgrounds, for instance."
+  },
+  {
+    "id": "165662",
+    "japanese": "私たちには手の打ちようが無いんです。",
+    "english": "We can do nothing about it."
+  },
+  {
+    "id": "165663",
+    "japanese": "私たちは手に汗を握って野球の試合を見た。",
+    "english": "We watched the baseball game with excitement."
+  },
+  {
+    "id": "165664",
+    "japanese": "私たちは主義に忠実でなければならない。",
+    "english": "We must be loyal to our principles."
+  },
+  {
+    "id": "165665",
+    "japanese": "私たちは若者を必要としている。正直でありさえすれば、どんな若者でもかまわない。",
+    "english": "We want a young man. As long as he is honest, any boy will do."
+  },
+  {
+    "id": "165666",
+    "japanese": "私たちは車庫付きの家を捜しています。",
+    "english": "We are looking for a house with a garage."
+  },
+  {
+    "id": "165667",
+    "japanese": "私たちは車の後ろに回って押した。",
+    "english": "We got behind the car and pushed."
+  },
+  {
+    "id": "165668",
+    "japanese": "私たちは車に乗り込んだ。",
+    "english": "We got into a car."
+  },
+  {
+    "id": "165669",
+    "japanese": "私たちは車にたくさんの荷物を載せた。",
+    "english": "We loaded a lot of luggage into the car."
+  },
+  {
+    "id": "165671",
+    "japanese": "私たちは社会の習慣に従わなければならない。",
+    "english": "We should conform to the customs of society."
+  },
+  {
+    "id": "165672",
+    "japanese": "私たちは写真家が子供をまず助け出さなかったといって非難した。",
+    "english": "We criticized the photographer for not rescuing the child first."
+  },
+  {
+    "id": "165673",
+    "japanese": "私たちは失敗をよく考えなければならない。",
+    "english": "We must reflect on our failure."
+  },
+  {
+    "id": "165675",
+    "japanese": "私たちは七時と七時半の間に夕食をします。",
+    "english": "We have our dinner between seven and seven-thirty."
+  },
+  {
+    "id": "165676",
+    "japanese": "私たちは自分の信念を人に押し付けないようにすべきである。",
+    "english": "We should try to avoid imposing our own beliefs on others."
+  },
+  {
+    "id": "165677",
+    "japanese": "私たちは自分の信仰に固守しなければならない。",
+    "english": "We must cling to our faith."
+  },
+  {
+    "id": "165678",
+    "japanese": "私たちは自分の健康には十分注意しなければなりません。",
+    "english": "We must take good care of ourselves."
+  },
+  {
+    "id": "165679",
+    "japanese": "私たちは自分の感情を言葉以外の方法で表すことが多い。",
+    "english": "We often express our emotions nonverbally."
+  },
+  {
+    "id": "165680",
+    "japanese": "私たちは自分たちの権利を守らなければならない。",
+    "english": "We must stand up for our rights."
+  },
+  {
+    "id": "165681",
+    "japanese": "私たちは自動車で村々を次から次へと通り抜け、ついに目的地についた。",
+    "english": "We drove through village after village, until we got to our destination."
+  },
+  {
+    "id": "165682",
+    "japanese": "私たちは自転車を借りて、萩野町を観光した。",
+    "english": "We rented bicycles and saw the sights of Hagino."
+  },
+  {
+    "id": "165683",
+    "japanese": "私たちは自然をよい状態にしておかなければなりません。",
+    "english": "We must keep nature in good condition."
+  },
+  {
+    "id": "165684",
+    "japanese": "私たちは耳で聞く。",
+    "english": "We hear with ears."
+  },
+  {
+    "id": "165685",
+    "japanese": "私たちは自然と調和して生活することを学ばなければならない。",
+    "english": "We must learn to live in harmony with nature."
+  },
+  {
+    "id": "165686",
+    "japanese": "私たちは耳で音楽を聴く。",
+    "english": "We hear music with our ears."
+  },
+  {
+    "id": "165688",
+    "japanese": "私たちは次の試合に失敗しないように、最善をつくさねばならない。",
+    "english": "We must try our best lest we should lose the next game."
+  },
+  {
+    "id": "165689",
+    "japanese": "私たちは次の金曜日の午後３時に日本を出発する。",
+    "english": "We leave Japan at 3 p.m. next Friday."
+  },
+  {
+    "id": "165690",
+    "japanese": "私たちは次の駅で降ります。",
+    "english": "We are getting off at the next station."
+  },
+  {
+    "id": "165691",
+    "japanese": "私たちは次の駅で降りなければならない。",
+    "english": "We have to get off at the next station."
+  },
+  {
+    "id": "165693",
+    "japanese": "私たちは時代遅れの習慣を廃止すべきだ。",
+    "english": "We should do away with out-of-date customs."
+  },
+  {
+    "id": "165694",
+    "japanese": "私たちは時代遅れにならないように新聞を読む。",
+    "english": "We read newspapers so that we may not fall behind the times."
+  },
+  {
+    "id": "165695",
+    "japanese": "私たちは時折釣りに行く。",
+    "english": "We go fishing together once in a while."
+  },
+  {
+    "id": "165696",
+    "japanese": "私たちは時折一緒に釣りに行きます。",
+    "english": "We go fishing together once in a while."
+  },
+  {
+    "id": "165697",
+    "japanese": "私たちは時折クラブで彼に出会います。",
+    "english": "We meet him on occasion at the club."
+  },
+  {
+    "id": "165704",
+    "japanese": "私たちは時々彼らに会う。",
+    "english": "We see them on occasion."
+  },
+  {
+    "id": "165705",
+    "japanese": "私たちは時々魚釣りに行く。",
+    "english": "We go fishing once in a while."
+  },
+  {
+    "id": "165706",
+    "japanese": "私たちは時間通りに到着しますか。",
+    "english": "Will we arrive on time?"
+  },
+  {
+    "id": "165707",
+    "japanese": "私たちは時間割に従って勉強する。",
+    "english": "We study according to the schedule."
+  },
+  {
+    "id": "165709",
+    "japanese": "私たちは時間を決めてボートを借りた。",
+    "english": "We hired a boat by the hour."
+  },
+  {
+    "id": "165710",
+    "japanese": "私たちは時間とお金を節約したほうがよい。",
+    "english": "We had better save our time and money."
+  },
+  {
+    "id": "165711",
+    "japanese": "私たちは時間ぎめでボートを借りた。",
+    "english": "We hired a boat by the hour."
+  },
+  {
+    "id": "165712",
+    "japanese": "私たちは時間がたくさんある。",
+    "english": "We have plenty of time."
+  },
+  {
+    "id": "165713",
+    "japanese": "私たちは時には過ちを犯すものだ。",
+    "english": "We are bound to make mistakes from time to time."
+  },
+  {
+    "id": "165714",
+    "japanese": "私たちは事故のため二時間遅れた。",
+    "english": "We were held up for two hours on account of the accident."
+  },
+  {
+    "id": "165715",
+    "japanese": "私たちは事故に遭わない様にいつもシートベルトをしておくべきだ。",
+    "english": "We should always wear a seatbelt in case we have an accident."
+  },
+  {
+    "id": "165716",
+    "japanese": "私たちは資金不足のため、計画を遂行することができなかった。",
+    "english": "We couldn't carry out our project because of a lack of funds."
+  },
+  {
+    "id": "165717",
+    "japanese": "私たちは資金を使い果たした。",
+    "english": "We exhausted our funds."
+  },
+  {
+    "id": "165719",
+    "japanese": "私たちは試合に敗れた。",
+    "english": "We lost the game."
+  },
+  {
+    "id": "165720",
+    "japanese": "私たちは私たち自身をそこできれいにします。",
+    "english": "We clean ourselves there."
+  },
+  {
+    "id": "165721",
+    "japanese": "私たちは私たちの論争の公平な判定者としておとうさんを選んだ。",
+    "english": "We chose Father as a neutral judge of our disputes."
+  },
+  {
+    "id": "165722",
+    "japanese": "私たちは私たちの犬をホワイトと名づけました。",
+    "english": "We named our dog White."
+  },
+  {
+    "id": "165723",
+    "japanese": "私たちは私たちのお金を有効に活用したい。",
+    "english": "We want to put our money to good use."
+  },
+  {
+    "id": "165724",
+    "japanese": "私たちは私たちに何が出来るだろうかと思った。",
+    "english": "We wondered what we could do."
+  },
+  {
+    "id": "165725",
+    "japanese": "私たちは私たちがその運動を支援すべきだという結論に達した。",
+    "english": "We came to the conclusion that we should support the movement."
+  },
+  {
+    "id": "165726",
+    "japanese": "私たちは死んだ人々のために何かしなければならない。",
+    "english": "We have to do something for the dead."
+  },
+  {
+    "id": "165727",
+    "japanese": "私たちは死に直面した。",
+    "english": "We stood face to face with death."
+  },
+  {
+    "id": "165728",
+    "japanese": "私たちは支援を訴えた。",
+    "english": "We made an appeal for support."
+  },
+  {
+    "id": "165729",
+    "japanese": "私たちは思っているほど安全ではない。",
+    "english": "We are not all that safe."
+  },
+  {
+    "id": "165730",
+    "japanese": "私たちは市内のある場所で会った。",
+    "english": "We met at a certain place in the city."
+  },
+  {
+    "id": "165731",
+    "japanese": "私たちは市場で野菜と魚を買った。",
+    "english": "We bought some vegetables and fish at the market."
+  },
+  {
+    "id": "165732",
+    "japanese": "私たちは子供扱いされるのにはうんざりだ。",
+    "english": "We are tired of being treated like children."
+  },
+  {
+    "id": "165733",
+    "japanese": "私たちは子供の頃持っていたある種の感覚を決して失わない。",
+    "english": "We never lose a certain sense we had when we were kids."
+  },
+  {
+    "id": "165734",
+    "japanese": "私たちは子供の頃よくこの川で泳いだものだ。",
+    "english": "We used to bathe in this river in our childhood."
+  },
+  {
+    "id": "165735",
+    "japanese": "私たちは子供の幸福のためにあらゆることをした。",
+    "english": "We did everything for the welfare of our children."
+  },
+  {
+    "id": "165736",
+    "japanese": "私たちは子供のころからお互いに知り合いです。",
+    "english": "We have known each other since we were children."
+  },
+  {
+    "id": "165737",
+    "japanese": "私たちは子供にひとり寝の習慣をつけた。",
+    "english": "We accustomed our children to sleeping alone."
+  },
+  {
+    "id": "165738",
+    "japanese": "私たちは子供たちを静かにさせておいた。",
+    "english": "We kept the children quiet."
+  },
+  {
+    "id": "165739",
+    "japanese": "私たちは子供が家にいるときには騒音にはずい分我慢しなければならない。",
+    "english": "We have to put up with a lot of noise when the children are at home."
+  },
+  {
+    "id": "165740",
+    "japanese": "私たちは子供がたくさんほしい。",
+    "english": "We want to have a large family."
+  },
+  {
+    "id": "165741",
+    "japanese": "私たちは四十年以上平和を享受しています。",
+    "english": "We have been enjoying peace for more than 40 years."
+  },
+  {
+    "id": "165742",
+    "japanese": "私たちは仕事の遅れをできるだけ早く取り戻さなければならない。",
+    "english": "We have to catch up on our work as soon as possible."
+  },
+  {
+    "id": "165743",
+    "japanese": "私たちは散開して森の中を捜索した。",
+    "english": "We spread out and began to search through the woods."
+  },
+  {
+    "id": "165744",
+    "japanese": "私たちは山小屋で一夜を過ごした。",
+    "english": "We passed a night in a mountain hut."
+  },
+  {
+    "id": "165745",
+    "japanese": "私たちは山の中途まで登った。",
+    "english": "We went halfway up the mountain."
+  },
+  {
+    "id": "165746",
+    "japanese": "私たちは山の上から平野を見下ろした。",
+    "english": "We looked down on the plain from the hilltop."
+  },
+  {
+    "id": "165747",
+    "japanese": "私たちは三度試みたが、いずれも失敗した。",
+    "english": "We had three tries and failed each time."
+  },
+  {
+    "id": "165748",
+    "japanese": "私たちは桜が見頃のうちにワシントンに着いた。",
+    "english": "We got to Washington in time for the cherry blossoms."
+  },
+  {
+    "id": "165749",
+    "japanese": "私たちは昨夜出かけなかった。その映画に行けたのだが、家にいることにした。",
+    "english": "We didn't go out last night. We could have gone to the movies, but we decided to stay home."
+  },
+  {
+    "id": "165750",
+    "japanese": "私たちは昨夜楽しい時を過ごした。",
+    "english": "We had a good time last night."
+  },
+  {
+    "id": "165751",
+    "japanese": "私たちは昨夜映画を見に行きました。",
+    "english": "We went to the movies last night."
+  },
+  {
+    "id": "165752",
+    "japanese": "私たちは昨夜チェスをして楽しみました。",
+    "english": "We enjoyed playing chess last night."
+  },
+  {
+    "id": "165753",
+    "japanese": "私たちは昨晩そのパーティーに出席した。",
+    "english": "We attended the party last evening."
+  },
+  {
+    "id": "165754",
+    "japanese": "私たちは昨晩、テレビでクイズショーを楽しんだ。",
+    "english": "We enjoyed the quiz show on television last night."
+  },
+  {
+    "id": "165756",
+    "japanese": "私たちは昨年会い、来年もまた会おうと望んでいる。",
+    "english": "We met last year and hope to meet again next year."
+  },
+  {
+    "id": "165757",
+    "japanese": "私たちは昨年の夏農場で働いた。",
+    "english": "We worked on a farm last summer."
+  },
+  {
+    "id": "165758",
+    "japanese": "私たちは昨日無事にここに着いた。",
+    "english": "We arrived here safely yesterday."
+  },
+  {
+    "id": "165759",
+    "japanese": "私たちは昨日掃除をしました。",
+    "english": "We cleaned our classroom yesterday."
+  },
+  {
+    "id": "165760",
+    "japanese": "私たちは昨日芝居を見に行きました。",
+    "english": "We went to the play yesterday."
+  },
+  {
+    "id": "165761",
+    "japanese": "私たちは昨日試験があった。",
+    "english": "We had an examination yesterday."
+  },
+  {
+    "id": "165762",
+    "japanese": "私たちは昨日会う事になっていたのだが。",
+    "english": "We were to have met yesterday."
+  },
+  {
+    "id": "165764",
+    "japanese": "私たちは昨日バスケットをした。",
+    "english": "We played basketball yesterday."
+  },
+  {
+    "id": "165765",
+    "japanese": "私たちは昨日テニスをした。",
+    "english": "We played tennis yesterday."
+  },
+  {
+    "id": "165766",
+    "japanese": "私たちは昨日、野球の試合をした。",
+    "english": "We played a baseball game yesterday."
+  },
+  {
+    "id": "165767",
+    "japanese": "私は昨日、本を読みませんでした。",
+    "english": "I did not read a book yesterday."
+  },
+  {
+    "id": "165768",
+    "japanese": "私たちは阪神の大ファンです。",
+    "english": "We are great Tigers fans."
+  },
+  {
+    "id": "165769",
+    "japanese": "私たちは坂を上がったり下がったりしなければならなかった。",
+    "english": "We had to go up and down the slopes."
+  },
+  {
+    "id": "165770",
+    "japanese": "私たちは歳をとるにつれて知恵を身につける。",
+    "english": "We gain wisdom with age."
+  },
+  {
+    "id": "165771",
+    "japanese": "私たちは最初は試合に備えて熱心に練習した。",
+    "english": "We trained hard for the game at first."
+  },
+  {
+    "id": "165772",
+    "japanese": "私たちは最初に何をすべきかを習った。",
+    "english": "We learned what we should do first."
+  },
+  {
+    "id": "165773",
+    "japanese": "私たちは最終列車に間に合った。",
+    "english": "We were able to catch the last train."
+  },
+  {
+    "id": "165774",
+    "japanese": "私たちは最終決定を来週まで延期しなければならない。",
+    "english": "We have to put off making a final decision until next week."
+  },
+  {
+    "id": "165775",
+    "japanese": "私たちは最悪の場合の覚悟はできている。",
+    "english": "We are prepared for the worst."
+  },
+  {
+    "id": "165776",
+    "japanese": "私たちは最後まで勝利を得ようと争った。",
+    "english": "We disputed the victory to the end."
+  },
+  {
+    "id": "165777",
+    "japanese": "私たちは再生できるエネルギー源を開発しなければならない。",
+    "english": "We must develop the renewable energy sources."
+  },
+  {
+    "id": "165778",
+    "japanese": "私たちは再生可能なエネルギー源を開発する必要がある。",
+    "english": "We must develop renewable energy sources."
+  },
+  {
+    "id": "165779",
+    "japanese": "私たちは再び戦争が起こらないことを本当に望む。",
+    "english": "We really hope another war will not break out."
+  },
+  {
+    "id": "165780",
+    "japanese": "私たちは座るとすぐ行く時間だとわかった。",
+    "english": "No sooner had we sat down than we found it was time to go."
+  },
+  {
+    "id": "165781",
+    "japanese": "私たちは座ってあれやこれやの話をした。",
+    "english": "We sat talking about this and that."
+  },
+  {
+    "id": "165782",
+    "japanese": "私たちは砂漠でオアシスとおぼしきものを見た。",
+    "english": "We saw what looked like an oasis in the desert."
+  },
+  {
+    "id": "165783",
+    "japanese": "私は砂糖なしで紅茶を飲みます。",
+    "english": "I drink my tea without sugar."
+  },
+  {
+    "id": "165784",
+    "japanese": "私たちは佐藤さんが部屋から出るのを見た。",
+    "english": "We saw Mr Sato leave the room."
+  },
+  {
+    "id": "165785",
+    "japanese": "私たちは混雑した通りで偶然出会った。",
+    "english": "We had a casual meeting on the crowded street."
+  },
+  {
+    "id": "165786",
+    "japanese": "私たちは困難を克服するため協力し合った。",
+    "english": "We pulled together to get out of hardship."
+  },
+  {
+    "id": "165787",
+    "japanese": "私たちは困っている人を助けるべきだ。",
+    "english": "We should help people in need."
+  },
+  {
+    "id": "165788",
+    "japanese": "私たちは今夜ハワイへ出発する予定です。",
+    "english": "We are leaving for Hawaii tonight."
+  },
+  {
+    "id": "165789",
+    "japanese": "私たちは今夜７時に彼に会うことになっている。",
+    "english": "We are to meet him at seven this evening."
+  },
+  {
+    "id": "165790",
+    "japanese": "私たちは今晩彼女の子供たちの世話をしなくてはならない。",
+    "english": "We must look after her children this evening."
+  },
+  {
+    "id": "165791",
+    "japanese": "私たちは今晩食事に呼ばれました。",
+    "english": "We have been invited to dinner this evening."
+  },
+  {
+    "id": "165792",
+    "japanese": "私たちは今晩はあまり遅くまで起きていない方がよい。",
+    "english": "We had better not stay up too late tonight."
+  },
+  {
+    "id": "165793",
+    "japanese": "私たちは今晩パーティーを開きます。",
+    "english": "We have a party this evening."
+  },
+  {
+    "id": "165794",
+    "japanese": "私たちは今年は例年になく暑い夏を経験しそうだ。",
+    "english": "We are in for an unusually hot summer this year."
+  },
+  {
+    "id": "165795",
+    "japanese": "私たちは今年は休日なしで済まさなければならないようだ。",
+    "english": "It looks as though we shall have to go without a holiday this year."
+  },
+  {
+    "id": "165796",
+    "japanese": "私たちは今年の夏スペインに行こうと思っている。",
+    "english": "We are hoping to visit Spain this summer."
+  },
+  {
+    "id": "165797",
+    "japanese": "私たちは今日数学の試験を受けた。",
+    "english": "We had an examination in mathematics today."
+  },
+  {
+    "id": "165798",
+    "japanese": "私たちは今日家にいます。",
+    "english": "We are at home today."
+  },
+  {
+    "id": "165800",
+    "japanese": "私たちは今日の厳しい現実に適応しなければならない。",
+    "english": "We must adapt to today's harsh realities."
+  },
+  {
+    "id": "165801",
+    "japanese": "私たちは今度の日曜日にピクニックに行きます。",
+    "english": "We'll go on a picnic next Sunday."
+  },
+  {
+    "id": "165802",
+    "japanese": "私たちは今度の日曜にピクニックにいきます。",
+    "english": "We'll go on a picnic next Sunday."
+  },
+  {
+    "id": "165803",
+    "japanese": "私たちは今度の２月で五年間英語を勉強していることになります。",
+    "english": "We will have been studying English for five years next February."
+  },
+  {
+    "id": "165804",
+    "japanese": "私たちは今週のうちにそのお金を返さなくてはならない。",
+    "english": "We are to pay back the money within the week."
+  },
+  {
+    "id": "165805",
+    "japanese": "私たちは今の賃金では食べてゆけない。",
+    "english": "We cannot earn our bread with the present wages."
+  },
+  {
+    "id": "165806",
+    "japanese": "私たちは今でも彼が無罪であるのは本当だと信じている。",
+    "english": "We still believe it true that he is innocent."
+  },
+  {
+    "id": "165807",
+    "japanese": "私たちは今でも若いときの夢に固執している。",
+    "english": "We are still clinging to the dreams of our youth."
+  },
+  {
+    "id": "165808",
+    "japanese": "私たちは今シーズンたくさん試合をした。",
+    "english": "We've played a lot of matches this season."
+  },
+  {
+    "id": "165809",
+    "japanese": "私たちは黒い犬と白い犬を飼っている。",
+    "english": "We have a black and a white dog."
+  },
+  {
+    "id": "165810",
+    "japanese": "私たちは今、行動を起こさなければいけない。",
+    "english": "We have to act now."
+  },
+  {
+    "id": "165811",
+    "japanese": "私たちは合唱コンクールで一等賞をとるために一生懸命がんばった。",
+    "english": "We tried hard to get first prize in the chorus contest."
+  },
+  {
+    "id": "165812",
+    "japanese": "私たちは国民の祝日に旗を立てる。",
+    "english": "We put up the flags on national holidays."
+  },
+  {
+    "id": "165813",
+    "japanese": "私たちは高校生です。",
+    "english": "We are high school students."
+  },
+  {
+    "id": "165814",
+    "japanese": "私たちは高金利で金を借りた。",
+    "english": "We borrowed money at high interest."
+  },
+  {
+    "id": "165815",
+    "japanese": "私たちは高校で多くの科目を勉強する。",
+    "english": "We study many subjects in high school."
+  },
+  {
+    "id": "165816",
+    "japanese": "私たちは香港経由で帰ってきた。",
+    "english": "We came back by way of Hong Kong."
+  },
+  {
+    "id": "165817",
+    "japanese": "私たちは行かざるを得ない。",
+    "english": "We have no choice but to go."
+  },
+  {
+    "id": "165818",
+    "japanese": "私たちは行いが悪いといって彼女を非難した。",
+    "english": "We criticized her for her behavior."
+  },
+  {
+    "id": "165819",
+    "japanese": "私たちは考えられる限り全ての方法を試してみたが、全くどれもうまくいかない。",
+    "english": "We've tried every conceivable method, but absolutely nothing works."
+  },
+  {
+    "id": "165821",
+    "japanese": "私たちは幸福です。",
+    "english": "We are happy."
+  },
+  {
+    "id": "165822",
+    "japanese": "私たちは幸せに生きるために法律を守らなければならない。",
+    "english": "We must keep the law to live happily."
+  },
+  {
+    "id": "165823",
+    "japanese": "私たちは好天を利用してテニスを楽しんだ。",
+    "english": "We took advantage of the good weather to play tennis."
+  },
+  {
+    "id": "165824",
+    "japanese": "私たちは好天を利用してピクニックに出かけました。",
+    "english": "We took advantage of the sunny weather to go on a picnic."
+  },
+  {
+    "id": "165825",
+    "japanese": "私たちは公明正大に行動する。",
+    "english": "We act without fear or favor."
+  },
+  {
+    "id": "165826",
+    "japanese": "私たちは公衆道徳についていっそう考えねばならない。",
+    "english": "We must think further about public morality."
+  },
+  {
+    "id": "165827",
+    "japanese": "私たちは公園を散歩した。",
+    "english": "We took a walk in the park."
+  },
+  {
+    "id": "165828",
+    "japanese": "私たちは公園の回りを走った。",
+    "english": "We ran around the park."
+  },
+  {
+    "id": "165830",
+    "japanese": "私たちは公園に集まりました。",
+    "english": "We got together in the park."
+  },
+  {
+    "id": "165831",
+    "japanese": "私たちは公園で偶然、彼女に会った。",
+    "english": "We happened to meet her in the park."
+  },
+  {
+    "id": "165832",
+    "japanese": "私たちは公園でよくままごとをしたものだ。",
+    "english": "We often played house in the park."
+  },
+  {
+    "id": "165833",
+    "japanese": "私たちは交通渋滞を避けるために裏道を通った。",
+    "english": "We took a back road to avoid the heavy traffic."
+  },
+  {
+    "id": "165834",
+    "japanese": "私たちは交通渋滞をうまく避ける方法を知っている。",
+    "english": "We know how to get around traffic congestion."
+  },
+  {
+    "id": "165835",
+    "japanese": "私たちは交通が３０分渋滞してそのために遅刻した。",
+    "english": "We were held up for half an hour in the traffic and so we arrived late."
+  },
+  {
+    "id": "165836",
+    "japanese": "私たちは交代で部屋の掃除をした。",
+    "english": "We alternated in cleaning the room."
+  },
+  {
+    "id": "165837",
+    "japanese": "私たちは誤りをたくさん犯しやすい。",
+    "english": "It is easy for us to make many mistakes."
+  },
+  {
+    "id": "165838",
+    "japanese": "私たちは語りに語って、とうとう夜が明けた。",
+    "english": "We talked and talked until the day broke."
+  },
+  {
+    "id": "165839",
+    "japanese": "私たちは午後中ずっと勉強していました。",
+    "english": "We were studying all afternoon."
+  },
+  {
+    "id": "165840",
+    "japanese": "私たちは午後９時シカゴ着の予定だった。",
+    "english": "We were arriving in Chicago at 9:00 p.m."
+  },
+  {
+    "id": "165841",
+    "japanese": "私たちは午後４時３０分に離陸するはずだったのだが。",
+    "english": "We were to have taken off at 4:30 p.m."
+  },
+  {
+    "id": "165842",
+    "japanese": "私たちは午後２時に会いました。",
+    "english": "We met at two in the afternoon."
+  },
+  {
+    "id": "165843",
+    "japanese": "私たちは互いに向き合って食事をはじめた。",
+    "english": "We sat down to dinner in opposition to each other."
+  },
+  {
+    "id": "165844",
+    "japanese": "私たちは互いに助け合った。",
+    "english": "We helped one another."
+  },
+  {
+    "id": "165845",
+    "japanese": "私たちは互いに固い友情の絆で結ばれている。",
+    "english": "We are bound to each other by a close friendship."
+  },
+  {
+    "id": "165847",
+    "japanese": "私たちは互いに何マイルも離れたところで住んでいる。",
+    "english": "We live many miles distant from each other."
+  },
+  {
+    "id": "165848",
+    "japanese": "私たちは互いに慰め合った。",
+    "english": "We consoled each other."
+  },
+  {
+    "id": "165849",
+    "japanese": "私たちは五時に駅に着いた。",
+    "english": "We arrived at the station at five."
+  },
+  {
+    "id": "165850",
+    "japanese": "私たちは五マイルほど歩いた。",
+    "english": "We walked about five miles."
+  },
+  {
+    "id": "165851",
+    "japanese": "私たちは狐を捕まえるためにわなをしかけた。",
+    "english": "We set a trap to catch a fox."
+  },
+  {
+    "id": "165852",
+    "japanese": "私たちは湖をぐるりと回ってきた。",
+    "english": "We have walked all around the lake."
+  },
+  {
+    "id": "165853",
+    "japanese": "私たちは湖へ釣りに行った。",
+    "english": "We went fishing in the lake."
+  },
+  {
+    "id": "165854",
+    "japanese": "私たちは湖へ着くとすぐに泳ぎはじめた。",
+    "english": "As soon as we got to the lake, we started swimming."
+  },
+  {
+    "id": "165855",
+    "japanese": "私たちは湖へ泳ぎに行った。",
+    "english": "We went swimming in the lake."
+  },
+  {
+    "id": "165856",
+    "japanese": "私たちは湖の見える所に来た。",
+    "english": "We came in view of the lake."
+  },
+  {
+    "id": "165857",
+    "japanese": "私たちは湖の岸に沿って歩いた。",
+    "english": "We walked along the shore of the lake."
+  },
+  {
+    "id": "165859",
+    "japanese": "私たちは湖で水泳を楽しんだ。",
+    "english": "We enjoyed swimming in the lake."
+  },
+  {
+    "id": "165860",
+    "japanese": "私たちは故郷を離れる考えは全くなかった。",
+    "english": "We had no notion of leaving our hometown."
+  },
+  {
+    "id": "165861",
+    "japanese": "私たちは古代ローマとギリシアについて学んでいる。",
+    "english": "We learn about ancient Rome and Greece."
+  },
+  {
+    "id": "165862",
+    "japanese": "私たちは古い電車を買いました。",
+    "english": "We bought a used train car."
+  },
+  {
+    "id": "165863",
+    "japanese": "私たちは古い習慣を廃止しようとしている。",
+    "english": "We are trying to do away with the old customs."
+  },
+  {
+    "id": "165864",
+    "japanese": "私たちは古い習慣に従ってそのようにしました。",
+    "english": "We did so after an old custom."
+  },
+  {
+    "id": "165865",
+    "japanese": "私たちは古い家が取り壊されるのを見ました。",
+    "english": "We saw some old houses pulled down."
+  },
+  {
+    "id": "165866",
+    "japanese": "私たちは個人の権利を尊重しなければならない。",
+    "english": "We must respect the rights of the individual."
+  },
+  {
+    "id": "165867",
+    "japanese": "私たちは言葉によって意志を伝える。",
+    "english": "We use words to communicate."
+  },
+  {
+    "id": "165868",
+    "japanese": "私たちは言語によって思想を表現する。",
+    "english": "We express our thoughts by means of languages."
+  },
+  {
+    "id": "165871",
+    "japanese": "私たちは原子力エネルギーを利用すべきだ。",
+    "english": "We should make use of atomic energy."
+  },
+  {
+    "id": "165872",
+    "japanese": "私たちは原子爆弾を二度と使うべきではない。",
+    "english": "We should never use an atomic bomb again."
+  },
+  {
+    "id": "165873",
+    "japanese": "私たちは険しい山を登った。",
+    "english": "We climbed up the steep mountain."
+  },
+  {
+    "id": "165874",
+    "japanese": "私たちは険しい坂を登った。",
+    "english": "We climbed the steep slope."
+  },
+  {
+    "id": "165875",
+    "japanese": "私たちは見えるだろうと思うものを見るのである。",
+    "english": "We see what we expect to see."
+  },
+  {
+    "id": "165876",
+    "japanese": "私たちは犬をポチと名づけた。",
+    "english": "We named the dog Pochi."
+  },
+  {
+    "id": "165877",
+    "japanese": "私たちは犬を３匹と猫を１匹飼っている。",
+    "english": "We keep three dogs and a cat."
+  },
+  {
+    "id": "165878",
+    "japanese": "私たちは健康に有害な食品を知らずに食べている事がよくある。",
+    "english": "We often eat foods which are harmful to our health without knowing it."
+  },
+  {
+    "id": "165879",
+    "japanese": "私たちは月が地球のまわりを回っていることを学んだ。",
+    "english": "We learned that the moon goes around the earth."
+  },
+  {
+    "id": "165880",
+    "japanese": "私たちは血がつながっている。",
+    "english": "We are related by blood."
+  },
+  {
+    "id": "165881",
+    "japanese": "私たちは結婚式と新婚旅行の準備で忙しい。",
+    "english": "We are busy preparing for our wedding and honeymoon."
+  },
+  {
+    "id": "165882",
+    "japanese": "私たちは結婚を前提として交際しています。",
+    "english": "We are dating with a view to marriage."
+  },
+  {
+    "id": "165883",
+    "japanese": "私たちは結婚してから３０年になります。",
+    "english": "It is thirty years since we married."
+  },
+  {
+    "id": "165884",
+    "japanese": "私たちは結局幸福になるでしょう。",
+    "english": "We will become happy in the long run."
+  },
+  {
+    "id": "165885",
+    "japanese": "私たちは決心しなければならない、しかもすぐにだ。",
+    "english": "We must make up our minds, and soon!"
+  },
+  {
+    "id": "165886",
+    "japanese": "私たちは劇場でブラウン夫人に会った。",
+    "english": "We met Mrs. Brown at the theater."
+  },
+  {
+    "id": "165887",
+    "japanese": "計画を変更するのは難しいと分かった。",
+    "english": "We found it hard to change the plan."
+  },
+  {
+    "id": "165890",
+    "japanese": "私たちは計画を変更しなければならない。",
+    "english": "We have to change our plan."
+  },
+  {
+    "id": "165891",
+    "japanese": "私たちは計画を変えない方がよい。",
+    "english": "We'd better not change the schedule."
+  },
+  {
+    "id": "165892",
+    "japanese": "私たちは兄弟です。",
+    "english": "We are brother and sister."
+  },
+  {
+    "id": "165896",
+    "japanese": "私たちは君の提案に賛成しよう。",
+    "english": "We'll go along with your suggestion."
+  },
+  {
+    "id": "165897",
+    "japanese": "私たちは君の試験での成功を切望している。",
+    "english": "We are anxious for your success in the examination."
+  },
+  {
+    "id": "165898",
+    "japanese": "私たちは君の援助を必要としている。",
+    "english": "We require your help."
+  },
+  {
+    "id": "165899",
+    "japanese": "私たちは君たちと同じような問題を抱えています。",
+    "english": "We have the same problems as you."
+  },
+  {
+    "id": "165900",
+    "japanese": "私たちは君に一つ忠告したい。",
+    "english": "Let us give you a piece of advice."
+  },
+  {
+    "id": "165901",
+    "japanese": "私たちは君がいなくてとても寂しくてたまらない。",
+    "english": "We cannot help missing you badly."
+  },
+  {
+    "id": "165902",
+    "japanese": "私たちは靴をはくのに慣れている。",
+    "english": "We are accustomed to wearing shoes."
+  },
+  {
+    "id": "165903",
+    "japanese": "私たちは偶然彼女に遭った。",
+    "english": "We met her by accident."
+  },
+  {
+    "id": "165904",
+    "japanese": "私たちは偶然、その店で彼女の弟に会った。",
+    "english": "We met her brother at the shop by chance."
+  },
+  {
+    "id": "165905",
+    "japanese": "私たちは空港まで急いだが、飛行機に乗り遅れてしまった。",
+    "english": "We hurried to the airport only to miss the plane."
+  },
+  {
+    "id": "165906",
+    "japanese": "私たちは空を見上げたが、星は一つも見えなかった。",
+    "english": "We looked at the sky, but couldn't see any stars."
+  },
+  {
+    "id": "165907",
+    "japanese": "私たちは銀行にお金を預けます。",
+    "english": "We deposit money in a bank."
+  },
+  {
+    "id": "165909",
+    "japanese": "私たちは金持ちも貧乏人も同じように扱われると主張した。",
+    "english": "We insisted on rich and poor being treated alike."
+  },
+  {
+    "id": "165911",
+    "japanese": "私たちは近い将来ピーターを日本に招待したい。",
+    "english": "We wish to invite Peter to Japan in the near future."
+  },
+  {
+    "id": "165912",
+    "japanese": "私たちは近い将来、この問題を話し合わなくてはならないでしょう。",
+    "english": "We'll have to talk this matter over in the near future."
+  },
+  {
+    "id": "165913",
+    "japanese": "私たちは狭い道を歩いていった。",
+    "english": "We walked along a narrow path."
+  },
+  {
+    "id": "165914",
+    "japanese": "私たちは教授の示した問題を解こうと試みたが、とても面倒な問いに思えた。",
+    "english": "We tried to figure out the problem our professor had given us, but it seemed confusing."
+  },
+  {
+    "id": "165915",
+    "japanese": "私たちは教室を掃除しなければならない。",
+    "english": "We must clean our classroom."
+  },
+  {
+    "id": "165917",
+    "japanese": "私たちは恐怖の中で生きていて、苦しんでいるの。太陽も花も楽しめないし、私たちの子供時代も楽しめないのよ。",
+    "english": "We are living in fear, we are suffering, we are not enjoying the sun and flowers, we are not enjoying our childhood."
+  },
+  {
+    "id": "165918",
+    "japanese": "私たちは恐れています。",
+    "english": "We are afraid."
+  },
+  {
+    "id": "165919",
+    "japanese": "私たちは共同でその会社をやっていた。",
+    "english": "We were associated in the enterprise."
+  },
+  {
+    "id": "165920",
+    "japanese": "私たちは京都の町をぶらぶら歩いた。",
+    "english": "We walked up and down the streets of Kyoto."
+  },
+  {
+    "id": "165921",
+    "japanese": "私たちは居間の半分の場所を取るグランドピアノを買った。",
+    "english": "We bought a grand piano which took up half of our living room."
+  },
+  {
+    "id": "165922",
+    "japanese": "私たちは牛乳でバターを作ります。",
+    "english": "We make milk into butter."
+  },
+  {
+    "id": "165923",
+    "japanese": "私たちは給仕がドアを通って来るのを見た。",
+    "english": "We saw the waiter coming through the door."
+  },
+  {
+    "id": "165924",
+    "japanese": "私たちは泣かないわけにはいかなかった。",
+    "english": "We couldn't help weeping."
+  },
+  {
+    "id": "165925",
+    "japanese": "私たちは泣いているの。",
+    "english": "We are crying."
+  },
+  {
+    "id": "165926",
+    "japanese": "私たちは急斜面を上がった。",
+    "english": "We climbed a sharp slope."
+  },
+  {
+    "id": "165928",
+    "japanese": "私たちは急いで食事をすまし、すぐに出かけた。",
+    "english": "We ate a hasty meal and left immediately."
+  },
+  {
+    "id": "165929",
+    "japanese": "私たちは急いでいました。",
+    "english": "We were in a hurry."
+  },
+  {
+    "id": "165930",
+    "japanese": "私たちは休日にはよく海岸へ行ったものだった。",
+    "english": "We used to go on holiday to the seaside."
+  },
+  {
+    "id": "165931",
+    "japanese": "私たちは休日にそこでキャンプした。",
+    "english": "We camped there over the holiday."
+  },
+  {
+    "id": "165932",
+    "japanese": "私たちは休息をとるために木陰を探した。",
+    "english": "We sought the shade to rest."
+  },
+  {
+    "id": "165933",
+    "japanese": "私たちは休暇を思う存分楽しんだ。",
+    "english": "We enjoyed our holidays to the full."
+  },
+  {
+    "id": "165934",
+    "japanese": "私たちは休暇の計画を立てています。",
+    "english": "We are making plans for the holidays."
+  },
+  {
+    "id": "165935",
+    "japanese": "私たちは休暇が終わってまた学校に戻ってきた。",
+    "english": "We are back in school again after the holidays are over."
+  },
+  {
+    "id": "165936",
+    "japanese": "私たちは休みを利用してシンガポールへ旅行することに決めた。",
+    "english": "We decided on a trip to Singapore for our vacation."
+  },
+  {
+    "id": "165937",
+    "japanese": "私たちは丘へピクニックに行った。",
+    "english": "We went on a picnic to the hill."
+  },
+  {
+    "id": "165938",
+    "japanese": "私たちは喫茶店で昼食を食べた。",
+    "english": "We ate lunch in a coffee lounge."
+  },
+  {
+    "id": "165939",
+    "japanese": "私たちは丘のふもとにある池の方へ進んだ。",
+    "english": "We made for a pond at the foot of the hill."
+  },
+  {
+    "id": "165940",
+    "japanese": "私たちは喫茶店で昼食をとった。",
+    "english": "We ate lunch in a coffee lounge."
+  },
+  {
+    "id": "165941",
+    "japanese": "私たちは喫茶店で急いで昼食をとった。",
+    "english": "We ate a quick lunch in a coffee lounge."
+  },
+  {
+    "id": "165942",
+    "japanese": "私たちは喫茶店で楽しく時を過ごした。",
+    "english": "We had a good time at a coffee shop."
+  },
+  {
+    "id": "165943",
+    "japanese": "私たちは喫煙反対の運動を開始した。",
+    "english": "We started a campaign against smoking."
+  },
+  {
+    "id": "165944",
+    "japanese": "私たちは義務を果たします。",
+    "english": "We fulfill our obligations."
+  },
+  {
+    "id": "165945",
+    "japanese": "私たちは記憶するという能力をもっている。",
+    "english": "We have the ability to remember."
+  },
+  {
+    "id": "165946",
+    "japanese": "私たちは規則に従わなければならない。",
+    "english": "We must conform to the rules."
+  },
+  {
+    "id": "165947",
+    "japanese": "私たちは規則に従うべきだ。",
+    "english": "We should obey the rules."
+  },
+  {
+    "id": "165948",
+    "japanese": "私たちは規制に従うべきだ。",
+    "english": "We should obey the rules."
+  },
+  {
+    "id": "165949",
+    "japanese": "私たちの汽車は長いトンネルを通り抜けた。",
+    "english": "Our train went through a long tunnel."
+  },
+  {
+    "id": "165951",
+    "japanese": "私たちは喜んでお助けします。",
+    "english": "We're willing to help you."
+  },
+  {
+    "id": "165953",
+    "japanese": "私たちは丸くなって座った。",
+    "english": "We sat in a ring."
+  },
+  {
+    "id": "165954",
+    "japanese": "私たちは丸いテーブルを買った。",
+    "english": "We bought a round table."
+  },
+  {
+    "id": "165955",
+    "japanese": "私たちは間違った方角に進んでいるのではないかと思う。",
+    "english": "I am afraid we are advancing in the wrong direction."
+  },
+  {
+    "id": "165956",
+    "japanese": "私たちは間違いをしたかもしれない。",
+    "english": "We may have made a mistake."
+  },
+  {
+    "id": "165957",
+    "japanese": "私たちは間違いをしがちです。",
+    "english": "We are apt to make mistakes."
+  },
+  {
+    "id": "165958",
+    "japanese": "私たちは間もなく一緒に暮らせるでしょう。",
+    "english": "It won't be long before we can live together."
+  },
+  {
+    "id": "165960",
+    "japanese": "私たちは監督によって１日３時間練習させられた。",
+    "english": "We were made to practice three hours a day by the manager."
+  },
+  {
+    "id": "165961",
+    "japanese": "私たちは環境を守るように努力しなければならない。",
+    "english": "We must try to protect the environment."
+  },
+  {
+    "id": "165962",
+    "japanese": "私たちは環境を守るように努力しなくてはならない。",
+    "english": "We must try to protect the environment."
+  },
+  {
+    "id": "165963",
+    "japanese": "私たちは環境を守るように努力しなくてはいけない。",
+    "english": "We must try to protect the environment."
+  },
+  {
+    "id": "165965",
+    "japanese": "私たちは鞄をどけて、老婦人が座れるように場所をあけた。",
+    "english": "We moved our bags to make room for the elderly lady to sit down."
+  },
+  {
+    "id": "165966",
+    "japanese": "私たちは活発な討論をした。",
+    "english": "We had a very vigorous debate."
+  },
+  {
+    "id": "165967",
+    "japanese": "私たちは割引率についての意見が一致した。",
+    "english": "We have agreed on the rate of discount."
+  },
+  {
+    "id": "165968",
+    "japanese": "私たちは楽しく一杯やりながらそのことを論じた。",
+    "english": "We cheerfully discussed the matter over a drink."
+  },
+  {
+    "id": "165969",
+    "japanese": "私たちは楽しい光景を目にした。",
+    "english": "We saw a joyful sight."
+  },
+  {
+    "id": "165970",
+    "japanese": "私たちは学生時代以来ずっとお互いに会っていない。",
+    "english": "We have not seen each other since our school days."
+  },
+  {
+    "id": "165971",
+    "japanese": "私たちは学生の成績の照合をした。",
+    "english": "We made a check of the student' records."
+  },
+  {
+    "id": "165972",
+    "japanese": "私たちは学生です。",
+    "english": "We are students."
+  },
+  {
+    "id": "165973",
+    "japanese": "私たちは学校へ行く途中にわか雨に会った。",
+    "english": "We were caught in a shower on the way to school."
+  },
+  {
+    "id": "165974",
+    "japanese": "私たちは学校へ行かなければなりません。",
+    "english": "We must go to school."
+  },
+  {
+    "id": "165975",
+    "japanese": "私たちは学校へバスで行った。",
+    "english": "We went to school by bus."
+  },
+  {
+    "id": "165976",
+    "japanese": "私たちは学校の勉強に多くの時間を当てた。",
+    "english": "We spent a lot of time on our lessons."
+  },
+  {
+    "id": "165977",
+    "japanese": "私たちは学校の前であった。",
+    "english": "We met in front of the school."
+  },
+  {
+    "id": "165978",
+    "japanese": "私たちは学校の近くに住んでいる。",
+    "english": "We live in the neighborhood of the school."
+  },
+  {
+    "id": "165979",
+    "japanese": "私たちは学校に遅れないように急いだ。",
+    "english": "We hurried for fear we should be late for school."
+  },
+  {
+    "id": "165980",
+    "japanese": "私たちは学校で早めに弁当を食べた。",
+    "english": "We had an early lunch at school."
+  },
+  {
+    "id": "165981",
+    "japanese": "私たちは学校で英語を習います。",
+    "english": "We learn English at school."
+  },
+  {
+    "id": "165982",
+    "japanese": "私たちは学校で英語を学ぶ。",
+    "english": "We learn English at school."
+  },
+  {
+    "id": "165983",
+    "japanese": "私たちは学校で英語の勉強をします。",
+    "english": "We study English at school."
+  },
+  {
+    "id": "165984",
+    "japanese": "私たちは学校では制服を着なければならない。",
+    "english": "We have to wear school uniforms at school."
+  },
+  {
+    "id": "165985",
+    "japanese": "私たちは学校でたくさんのことを学ぶ。",
+    "english": "We learn a good deal at school."
+  },
+  {
+    "id": "165986",
+    "japanese": "私たちは学校から帰る途中でにわか雨にあった。",
+    "english": "We were caught in a shower on our way from school."
+  },
+  {
+    "id": "165988",
+    "japanese": "私たちは学ぶために学校に行く。",
+    "english": "We go to school to learn."
+  },
+  {
+    "id": "165989",
+    "japanese": "私たちは外国について多くのことを学ばねばならない。",
+    "english": "We must learn a lot about foreign countries."
+  },
+  {
+    "id": "165990",
+    "japanese": "どうして製糖所に行かないの？私たちは皆忙しいですから。",
+    "english": "Why aren't you going to the sugar shack? Because we're all busy."
+  },
+  {
+    "id": "165991",
+    "japanese": "私たちは皆平和を願った。",
+    "english": "We all wished for peace."
+  },
+  {
+    "id": "165992",
+    "japanese": "私たちは皆彼をよく知っています。",
+    "english": "All of us know him well."
+  },
+  {
+    "id": "165993",
+    "japanese": "私たちは皆卒業を待ち望んでいる。",
+    "english": "We all long for our graduation."
+  },
+  {
+    "id": "165994",
+    "japanese": "私たちは皆世界平和を熱望している。",
+    "english": "We are all eager for world peace."
+  },
+  {
+    "id": "165995",
+    "japanese": "私たちは皆事故による死者に哀悼の意を表した。",
+    "english": "We all mourned for the people killed in the accident."
+  },
+  {
+    "id": "165996",
+    "japanese": "私たちは皆会に出席していた。",
+    "english": "We were all present at the meeting."
+  },
+  {
+    "id": "165997",
+    "japanese": "私たちは皆英語で話す。",
+    "english": "All of us talk in English."
+  },
+  {
+    "id": "165998",
+    "japanese": "私たちは皆できるだけ長く生きたいと思います。",
+    "english": "All of us want to live as long as possible."
+  },
+  {
+    "id": "165999",
+    "japanese": "私たちは皆さんの交渉をずっと見守ってまいりました。",
+    "english": "We have been watching your negotiations."
+  },
+  {
+    "id": "166000",
+    "japanese": "私たちは皆カンニングをするのは悪いことだと思っている。",
+    "english": "We all consider it wrong to cheat in the examination."
+  },
+  {
+    "id": "166001",
+    "japanese": "私たちは皆がやれるように順番にボール投げをした。",
+    "english": "We threw the ball in turn so that everyone could have a try."
+  },
+  {
+    "id": "166002",
+    "japanese": "私たちは皆あなたに賛成です。",
+    "english": "We all agree with you."
+  },
+  {
+    "id": "166003",
+    "japanese": "私たちは皆、生まれて来るときは気が狂っている。",
+    "english": "We are all born mad."
+  },
+  {
+    "id": "166004",
+    "japanese": "私たちは皆、試験でカンニングをすることは悪いと思う。",
+    "english": "We all consider it wrong to cheat in exams."
+  },
+  {
+    "id": "166005",
+    "japanese": "私たちは海岸に沿って歩いた。",
+    "english": "We walked along the beach."
+  },
+  {
+    "id": "166006",
+    "japanese": "私たちは海老やその他のシーフードで腹いっぱいになった。",
+    "english": "We glutted ourselves with lobsters and other seafood."
+  },
+  {
+    "id": "166007",
+    "japanese": "私たちは海で泳いだ。",
+    "english": "We swam in the sea."
+  },
+  {
+    "id": "166008",
+    "japanese": "私たちは会場の後ろに座った。",
+    "english": "We sat at the back of the hall."
+  },
+  {
+    "id": "166009",
+    "japanese": "私たちは会合を延期しなければならなかった。",
+    "english": "We had to put off the meeting."
+  },
+  {
+    "id": "166010",
+    "japanese": "私たちは会合は短時間で終わると思っていたが、実際にはほぼ３時間も続いた。",
+    "english": "We thought the meeting was going to be short, but it actually went on for almost three hours."
+  },
+  {
+    "id": "166011",
+    "japanese": "私たちは会議を一週間延ばした。",
+    "english": "We delayed the meeting for a week."
+  },
+  {
+    "id": "166012",
+    "japanese": "私たちは会議でこのテーマについて討論するだろう。",
+    "english": "We will debate this subject at the meeting."
+  },
+  {
+    "id": "166014",
+    "japanese": "私たちは過去を後悔しがちである。",
+    "english": "We are given to regretting our past."
+  },
+  {
+    "id": "166015",
+    "japanese": "私たちは荷物を車に積み込んだ。",
+    "english": "We loaded our baggage into the car."
+  },
+  {
+    "id": "166016",
+    "japanese": "私たちは花子にピアノを弾いてくれるように頼みました。",
+    "english": "We asked Hanako to play the piano."
+  },
+  {
+    "id": "166017",
+    "japanese": "私たちは火事の方向に急いだ。",
+    "english": "We hurried in the direction of the fire."
+  },
+  {
+    "id": "166018",
+    "japanese": "私たちは火をずっとたいておいた。",
+    "english": "We kept the fire burning."
+  },
+  {
+    "id": "166019",
+    "japanese": "私たちは火の周りに円を描いて座った。",
+    "english": "We sat around the fire in a circle."
+  },
+  {
+    "id": "166020",
+    "japanese": "私たちは火の周りに円を作って座った。",
+    "english": "We sat around the fire in a circle."
+  },
+  {
+    "id": "166021",
+    "japanese": "私たちは家路についた。",
+    "english": "We set out for home."
+  },
+  {
+    "id": "166022",
+    "japanese": "私たちは家庭の伝統を維持しなければならない。",
+    "english": "We must keep up the family traditions."
+  },
+  {
+    "id": "166023",
+    "japanese": "私たちは家具を二つちょうど購入したところだ。",
+    "english": "We have just bought two pieces of furniture."
+  },
+  {
+    "id": "166024",
+    "japanese": "私たちは家が全部、次から次へと壊されるのをみた。",
+    "english": "We saw all the houses pulled down one after another."
+  },
+  {
+    "id": "166025",
+    "japanese": "私たちは夏休み中、ずっとそこでキャンプをした。",
+    "english": "We camped there through summer vacation."
+  },
+  {
+    "id": "166026",
+    "japanese": "私たちは夏休みを過ごしに海岸へ行った。",
+    "english": "We went to the coast for our summer vacation."
+  },
+  {
+    "id": "166028",
+    "japanese": "私たちは何年も文通をつづけている。",
+    "english": "We have carried on a correspondence for years."
+  },
+  {
+    "id": "166029",
+    "japanese": "私たちは何人かの生徒が来るだろうと思っていたが、教室にはだれ一人いなかった。",
+    "english": "We hoped some students would come, but there were none in the classroom."
+  },
+  {
+    "id": "166030",
+    "japanese": "私たちは何時間も待った。",
+    "english": "We waited for hours and hours."
+  },
+  {
+    "id": "166031",
+    "japanese": "私たちは何をするか、そしてどこへ行くかについて議論した。",
+    "english": "We discussed what to do and where to go."
+  },
+  {
+    "id": "166032",
+    "japanese": "私たちは何をしてどこへいくべきかを論じた。",
+    "english": "We discussed what to do and where to go."
+  },
+  {
+    "id": "166033",
+    "japanese": "私たちは何ひとつ不自由していない。",
+    "english": "We lack nothing."
+  },
+  {
+    "id": "166034",
+    "japanese": "何としてでも彼を説得しなくてはならない。",
+    "english": "We have to use every means to persuade him."
+  },
+  {
+    "id": "166035",
+    "japanese": "私たちは何とか外国切手を数枚入手できた。",
+    "english": "We managed to get some foreign stamps."
+  },
+  {
+    "id": "166036",
+    "japanese": "私たちは何か生きていく目標をもたねばならない。",
+    "english": "We must have something to live for."
+  },
+  {
+    "id": "166037",
+    "japanese": "私たちは何か生きがいを持たなければならない。",
+    "english": "We must have something to live for."
+  },
+  {
+    "id": "166038",
+    "japanese": "私たちは何か食べるものが必要だ。",
+    "english": "We need something to eat."
+  },
+  {
+    "id": "166039",
+    "japanese": "私たちは何が起きつつあるか気づいていた。",
+    "english": "We were alive to what was going on."
+  },
+  {
+    "id": "166040",
+    "japanese": "私たちは音楽を聴くために話すのをやめた。",
+    "english": "We stopped talking so that we could hear the music."
+  },
+  {
+    "id": "166041",
+    "japanese": "私たちは音楽を聴いて楽しんだ。",
+    "english": "We enjoyed listening to the music."
+  },
+  {
+    "id": "166042",
+    "japanese": "私たちは温かい歓迎を受けた。",
+    "english": "We received a warm welcome."
+  },
+  {
+    "id": "166043",
+    "japanese": "私たちは横浜から神戸まで航行した。",
+    "english": "We sailed from Yokohama to Kobe."
+  },
+  {
+    "id": "166044",
+    "japanese": "私たちは遠征試合でほとんど負けてしまった。",
+    "english": "We lost almost all our away games."
+  },
+  {
+    "id": "166045",
+    "japanese": "私たちは駅前のホテルに泊まった。",
+    "english": "We stayed at a hotel in front of the station."
+  },
+  {
+    "id": "166046",
+    "japanese": "私たちは駅まで急いでいったが、結局は汽車に乗り遅れた。",
+    "english": "We hurried to the station only to miss the train."
+  },
+  {
+    "id": "166047",
+    "japanese": "私たちは駅の近くに住んでいます。",
+    "english": "We live close to the station."
+  },
+  {
+    "id": "166048",
+    "japanese": "私たちは駅に時間どおりに着いた。",
+    "english": "We reached the station on time."
+  },
+  {
+    "id": "166049",
+    "japanese": "私たちは駅で３時に解散した。",
+    "english": "We parted at the station at three."
+  },
+  {
+    "id": "166050",
+    "japanese": "私たちは英語を学びながら、楽しい時間を過ごした。",
+    "english": "We had good time, learning English."
+  },
+  {
+    "id": "166051",
+    "japanese": "私たちは英語を学ばなければならない。",
+    "english": "We must study English."
+  },
+  {
+    "id": "166052",
+    "japanese": "私たちは英語の読み方を学びました。",
+    "english": "We learned how to read English."
+  },
+  {
+    "id": "166053",
+    "japanese": "私たちは英語で少なからず誤りを犯します。",
+    "english": "We make not a few mistakes when speaking in English."
+  },
+  {
+    "id": "166054",
+    "japanese": "私たちは英語が国際語であることを知った。",
+    "english": "We learned that English is an international language."
+  },
+  {
+    "id": "166055",
+    "japanese": "私たちは泳ぐことを楽しんだ。",
+    "english": "We enjoyed swimming."
+  },
+  {
+    "id": "166056",
+    "japanese": "私たちは永遠にそこに住むことはできない。",
+    "english": "We cannot live on it forever."
+  },
+  {
+    "id": "166057",
+    "japanese": "私たちは映画に行くんですよ。一緒においでなさい。",
+    "english": "We are going to the movies. Come with us."
+  },
+  {
+    "id": "166058",
+    "japanese": "私たちは映画に行くところなんです。",
+    "english": "We're going to the movies."
+  },
+  {
+    "id": "166059",
+    "japanese": "私たちは雲より高く飛んでいます。",
+    "english": "We are flying above the clouds."
+  },
+  {
+    "id": "166060",
+    "japanese": "私たちは運命共同体だ。",
+    "english": "We're in the same boat."
+  },
+  {
+    "id": "166061",
+    "japanese": "私たちは運転それ自体に集中することでよい運転手になるのではない。",
+    "english": "We do not become good drivers by concentrating on driving as such."
+  },
+  {
+    "id": "166062",
+    "japanese": "私たちは雨降りにもかかわらず、外出した。",
+    "english": "We went out in spite of the rain."
+  },
+  {
+    "id": "166063",
+    "japanese": "私たちは雨の中を進んで行った。",
+    "english": "We were going along in the rain."
+  },
+  {
+    "id": "166064",
+    "japanese": "私たちは雨のために外出できなかった。",
+    "english": "We couldn't go out because of the rain."
+  },
+  {
+    "id": "166065",
+    "japanese": "私たちは雨が止み次第出発します。",
+    "english": "We'll start as soon as it stops raining."
+  },
+  {
+    "id": "166066",
+    "japanese": "私たちは雨が激しく降っているという理由だけで、今夜外へ食べに出かけなかった。",
+    "english": "We didn't eat out this evening only because it was raining hard."
+  },
+  {
+    "id": "166067",
+    "japanese": "私たちは飲料水の供給をその川に頼っている。",
+    "english": "We depend upon the river for the supply of water to drink."
+  },
+  {
+    "id": "166068",
+    "japanese": "私たちは一列にならんでバスを待った。",
+    "english": "We queued up for the bus."
+  },
+  {
+    "id": "166069",
+    "japanese": "私たちは一列に並ばされた。",
+    "english": "We were made to stand in line."
+  },
+  {
+    "id": "166070",
+    "japanese": "私たちは一番星が空に輝いているのを見た。",
+    "english": "We saw the first star shining in the sky."
+  },
+  {
+    "id": "166071",
+    "japanese": "私たちは一般に食後にお茶を飲む。",
+    "english": "We generally drink tea after a meal."
+  },
+  {
+    "id": "166074",
+    "japanese": "私たちは一日に７時間は寝なければならない。",
+    "english": "We must sleep at least seven hours a day."
+  },
+  {
+    "id": "166076",
+    "japanese": "私たちは一日でその仕事をしなければならない。",
+    "english": "We have to do the work in a day."
+  },
+  {
+    "id": "166077",
+    "japanese": "私たちは一生懸命働かなければならない。",
+    "english": "We must work hard."
+  },
+  {
+    "id": "166078",
+    "japanese": "私たちは一緒に昼食をとっていました。",
+    "english": "We were eating lunch together."
+  },
+  {
+    "id": "166079",
+    "japanese": "私たちは一緒に歌を歌って楽しんだ。",
+    "english": "We enjoyed singing songs together."
+  },
+  {
+    "id": "166080",
+    "japanese": "私たちは一緒に歌った。",
+    "english": "We joined in on the chorus."
+  },
+  {
+    "id": "166081",
+    "japanese": "私たちは一緒にいた。",
+    "english": "We were together."
+  },
+  {
+    "id": "166082",
+    "japanese": "私たちは一緒に、次の駅まで歩いた。",
+    "english": "We walked together as far as the next station."
+  },
+  {
+    "id": "166083",
+    "japanese": "私たちは一言も聞き漏らさないように注意深く聞いていた。",
+    "english": "We listened carefully in order not to miss a single word."
+  },
+  {
+    "id": "166084",
+    "japanese": "私たちは一休みしないともうこれ以上歩けません。",
+    "english": "We cannot go any farther without a rest."
+  },
+  {
+    "id": "166085",
+    "japanese": "私たちは医者を呼んだ方がいい。",
+    "english": "We'd better call the doctor."
+  },
+  {
+    "id": "166086",
+    "japanese": "私たちは意志疎通が上手だ。",
+    "english": "We are the great communicators."
+  },
+  {
+    "id": "166087",
+    "japanese": "私たちは委員会が詳しい答えを出すように望んでいます。",
+    "english": "We want the committee to work out the details."
+  },
+  {
+    "id": "166088",
+    "japanese": "私たちは委員会がこの問題を解決するよう望んでいます。",
+    "english": "We want the committee to work out this problem."
+  },
+  {
+    "id": "166089",
+    "japanese": "私たちは以前神戸に住んでいた。",
+    "english": "We used to live in Kobe."
+  },
+  {
+    "id": "166091",
+    "japanese": "私たちは以前より暮らし向きがよい。",
+    "english": "We are better off than we used to be."
+  },
+  {
+    "id": "166092",
+    "japanese": "私たちは以前パリにすんでいた。",
+    "english": "We lived in Paris before."
+  },
+  {
+    "id": "166093",
+    "japanese": "私たちは案内人の後から中へ入った。",
+    "english": "We went in after the guide."
+  },
+  {
+    "id": "166094",
+    "japanese": "私たちは暗闇の中に何か白いものを見ました。",
+    "english": "We saw something white in the dark."
+  },
+  {
+    "id": "166095",
+    "japanese": "暗くなる前に東京につくだろう。",
+    "english": "We will reach Tokyo before dark."
+  },
+  {
+    "id": "166097",
+    "japanese": "私たちは暗くなるとその火の周りで歌った。",
+    "english": "We sang around the fire when it got dark."
+  },
+  {
+    "id": "166098",
+    "japanese": "私たちは暗くならないうちにテントを張った。",
+    "english": "We set up our tents before dark."
+  },
+  {
+    "id": "166099",
+    "japanese": "私たちはワインは最優良品のみ使っている。",
+    "english": "We use only the best brand of wine."
+  },
+  {
+    "id": "166100",
+    "japanese": "私たちはロンドンに喜劇を見に行った。",
+    "english": "We went to see a comedy in London."
+  },
+  {
+    "id": "166101",
+    "japanese": "私たちはロンドンで知り合った。",
+    "english": "We got to know each other in London."
+  },
+  {
+    "id": "166102",
+    "japanese": "私たちはロンドンからニューヨークまで飛行機で行った。",
+    "english": "We flew from London to New York."
+  },
+  {
+    "id": "166103",
+    "japanese": "私たちはロバートをボブと呼んでいた。",
+    "english": "We called Robert \"Bob\"."
+  },
+  {
+    "id": "166104",
+    "japanese": "私たちはローマへ行って、そこに一週間滞在した。",
+    "english": "We went to Rome, where we stayed a week."
+  },
+  {
+    "id": "166105",
+    "japanese": "私たちはローマのホテルに到着した。",
+    "english": "We arrived at a hotel in Rome."
+  },
+  {
+    "id": "166106",
+    "japanese": "私たちはローマに行って、そこで１週間過ごした。",
+    "english": "We went to Rome, where we stayed a week."
+  },
+  {
+    "id": "166107",
+    "japanese": "私たちはローマで楽しく過ごしてます。",
+    "english": "We are having a nice time in Rome."
+  },
+  {
+    "id": "166108",
+    "japanese": "私たちはロープを切り落とした。",
+    "english": "We cut off the rope."
+  },
+  {
+    "id": "166109",
+    "japanese": "私たちはレポートを今月末までに提出しなければならない。",
+    "english": "We have to turn in our reports by the end of this month."
+  },
+  {
+    "id": "166110",
+    "japanese": "私たちはレストランに入り、夕食をとりながらエネルギー危機について論じた。",
+    "english": "We entered a restaurant and discussed the energy crisis over our dinner."
+  },
+  {
+    "id": "166111",
+    "japanese": "私たちはレストランに入って昼食を食べた。",
+    "english": "We entered the restaurant and had lunch."
+  },
+  {
+    "id": "166112",
+    "japanese": "私たちはレストランに行きました。",
+    "english": "We went to a restaurant."
+  },
+  {
+    "id": "166113",
+    "japanese": "私たちはレストランで夕食をとった。",
+    "english": "We had dinner at a restaurant."
+  },
+  {
+    "id": "166114",
+    "japanese": "私たちはリンゴを食べた。",
+    "english": "We ate some apples."
+  },
+  {
+    "id": "166115",
+    "japanese": "私たちはラジオを聞きます。",
+    "english": "We listen to the radio."
+  },
+  {
+    "id": "166116",
+    "japanese": "私たちはラジオをつけた。",
+    "english": "We turned on the radio."
+  },
+  {
+    "id": "166117",
+    "japanese": "私たちはライバルに価格競争で敗れた。",
+    "english": "We lost out to our rival in price competition."
+  },
+  {
+    "id": "166118",
+    "japanese": "私たちはよく眠った。",
+    "english": "We had a sound sleep."
+  },
+  {
+    "id": "166119",
+    "japanese": "私たちはよく未来について語り合ったものだ。",
+    "english": "We would often talk about our future."
+  },
+  {
+    "id": "166120",
+    "japanese": "私たちはよく日本と英国を比較する。",
+    "english": "We often compare Japan with Britain."
+  },
+  {
+    "id": "166121",
+    "japanese": "私たちはよく川へ釣りに行った。",
+    "english": "We often went fishing in the river."
+  },
+  {
+    "id": "166122",
+    "japanese": "私たちはよく川へ泳ぎに行ったものだった。",
+    "english": "We would often go swimming in the river."
+  },
+  {
+    "id": "166123",
+    "japanese": "私たちはよく将来のことについて話し合ったものだ。",
+    "english": "We used to talk about our future."
+  },
+  {
+    "id": "166124",
+    "japanese": "私たちはよく考えた末彼の申し出を受け入れた。",
+    "english": "After much consideration, we accepted his offer."
+  },
+  {
+    "id": "166125",
+    "japanese": "私たちはよく公園で遊んだものだ。",
+    "english": "We used to play in the park."
+  },
+  {
+    "id": "166126",
+    "japanese": "私たちはよく映画に行って楽しんだものだ。",
+    "english": "We often enjoyed going to the movies."
+  },
+  {
+    "id": "166127",
+    "japanese": "私たちはよく一緒に御昼を食べます。",
+    "english": "We often eat lunch together."
+  },
+  {
+    "id": "166128",
+    "japanese": "私たちはよくちょっとした贈り物をしあったものだった。",
+    "english": "We would often give each other little presents."
+  },
+  {
+    "id": "166129",
+    "japanese": "私たちはよい友達でいなければならない、と覚えておきなさい。",
+    "english": "Please keep in mind that we have to be with other students."
+  },
+  {
+    "id": "166130",
+    "japanese": "私たちはよい本と、悪い本とを見分けなければならない。",
+    "english": "We should distinguish a good book from a bad one."
+  },
+  {
+    "id": "166131",
+    "japanese": "私たちはよい人とは一緒につきあうけれど、悪い人とはつき合わないわ。",
+    "english": "We mix with the good, not with the bad."
+  },
+  {
+    "id": "166132",
+    "japanese": "私たちはゆったりと腰を下ろしていた。",
+    "english": "We were sitting comfortably."
+  },
+  {
+    "id": "166133",
+    "japanese": "私たちはやっと彼を説得して私たちの考えに同調させた。",
+    "english": "We managed to bring him around to our way of thinking."
+  },
+  {
+    "id": "166134",
+    "japanese": "私たちはやがてまたあなたにお目にかかるでしょう。",
+    "english": "We will be seeing you again before long."
+  },
+  {
+    "id": "166135",
+    "japanese": "私たちはものすごい雪のために遅れた。",
+    "english": "We were late because of the heavy snow."
+  },
+  {
+    "id": "166136",
+    "japanese": "私たちはもっと勉強する必要があります。",
+    "english": "We need to study more."
+  },
+  {
+    "id": "166137",
+    "japanese": "私たちはもっと早くそれを話し合うべきだったのに。",
+    "english": "We ought to have talked it over much earlier."
+  },
+  {
+    "id": "166138",
+    "japanese": "私たちは、もっとおしゃべり好きにならなくてはいけないよ。",
+    "english": "We should be more talkative."
+  },
+  {
+    "id": "166139",
+    "japanese": "私たちはもう少し早く出発してもかまいませんか。",
+    "english": "Do you mind our leaving a little earlier?"
+  },
+  {
+    "id": "166140",
+    "japanese": "私たちはもう行った方がよくないですか。",
+    "english": "Hadn't we better go now?"
+  },
+  {
+    "id": "166141",
+    "japanese": "私たちはもう行ったほうがいいでしょう。",
+    "english": "It seems to me that we should go now."
+  },
+  {
+    "id": "166144",
+    "japanese": "私たちはもうずいぶん長くここにいます。",
+    "english": "We've been here long enough."
+  },
+  {
+    "id": "166145",
+    "japanese": "私たちはもうじき幸福になるのですね。",
+    "english": "We'll soon be happy, won't we?"
+  },
+  {
+    "id": "166146",
+    "japanese": "私たちはもうおいとましなければならない。",
+    "english": "We ought to leave now."
+  },
+  {
+    "id": "166147",
+    "japanese": "私たちはもういちど彼に会おうと思います。",
+    "english": "I reckon we'll see him once more."
+  },
+  {
+    "id": "166148",
+    "japanese": "私たちはもう３年間英語を勉強しています。",
+    "english": "We have been studying English for three years now."
+  },
+  {
+    "id": "166149",
+    "japanese": "私たちはもう２、３日隠れていることに決めた。",
+    "english": "We decided to lie hidden for a few days."
+  },
+  {
+    "id": "166150",
+    "japanese": "私たちはもう１００ヤード歩いた。",
+    "english": "We walked another hundred yards."
+  },
+  {
+    "id": "166151",
+    "japanese": "私たちはメアリーに立派な誕生日の贈り物を選んだ。",
+    "english": "We chose Mary a good birthday present."
+  },
+  {
+    "id": "166152",
+    "japanese": "私たちはみんな流感にかかり、先生もかかった。",
+    "english": "We all caught flu, and so did the teacher."
+  },
+  {
+    "id": "166153",
+    "japanese": "私たちはみんな黙っていた。",
+    "english": "All of us were silent."
+  },
+  {
+    "id": "166154",
+    "japanese": "私たちはみんな彼の成功を確信している。",
+    "english": "We are all convinced of his success."
+  },
+  {
+    "id": "166155",
+    "japanese": "私たちはみんな彼の罪を確信している。",
+    "english": "We are all convinced that he's guilty."
+  },
+  {
+    "id": "166156",
+    "japanese": "私たちはみんな彼の１０年ぶりの帰国を待ち望んでいた。",
+    "english": "We were all anxious for his first return in ten years."
+  },
+  {
+    "id": "166157",
+    "japanese": "私たちはみんな地球に住んでいる。",
+    "english": "We all live on the earth."
+  },
+  {
+    "id": "166158",
+    "japanese": "私たちはみんな恒久的な平和を願っている。",
+    "english": "We all wish for permanent world peace."
+  },
+  {
+    "id": "166160",
+    "japanese": "私たちはみんなあなたの健康を心配していますよ。",
+    "english": "We are all anxious about your health."
+  },
+  {
+    "id": "166162",
+    "japanese": "私たちはみんな君の健康のことを気にしている。",
+    "english": "We are all anxious about your health."
+  },
+  {
+    "id": "166163",
+    "japanese": "私たちはみんな間違いをする。",
+    "english": "We all make mistakes."
+  },
+  {
+    "id": "166164",
+    "japanese": "私たちはみんな楽しく食事をしていました。",
+    "english": "All of us were happy at the table."
+  },
+  {
+    "id": "166165",
+    "japanese": "私たちはみな幸福を願う。",
+    "english": "We all wish for happiness."
+  },
+  {
+    "id": "166167",
+    "japanese": "私たちはみんなで紛失した書類をくまなく探したがどうしてもみつからなかった。",
+    "english": "We all searched high and low for the missing documents, but they were never found."
+  },
+  {
+    "id": "166168",
+    "japanese": "私たちはみんなその知らせに驚きました。",
+    "english": "All of us were surprised at the news."
+  },
+  {
+    "id": "166169",
+    "japanese": "私たちはみんなその集まりの準備とした。",
+    "english": "We all made preparation for the meeting."
+  },
+  {
+    "id": "166170",
+    "japanese": "私たちはみんなその映画を楽しんだ。",
+    "english": "We all enjoyed the film."
+  },
+  {
+    "id": "166171",
+    "japanese": "私たちはみんないっしょに遊んだ。",
+    "english": "We played all together."
+  },
+  {
+    "id": "166172",
+    "japanese": "私たちはみんないつかは死ななければならない。",
+    "english": "All of us must die some day."
+  },
+  {
+    "id": "166176",
+    "japanese": "私たちはみな立ち上がった。",
+    "english": "All of us stood up."
+  },
+  {
+    "id": "166177",
+    "japanese": "私たちはみな平和を望みます。",
+    "english": "We all hope for peace."
+  },
+  {
+    "id": "166178",
+    "japanese": "私たちはみな病気にかかりやすい。",
+    "english": "We are all liable to disease."
+  },
+  {
+    "id": "166179",
+    "japanese": "私たちはみな彼女をじろじろみました。",
+    "english": "All of us stared at her."
+  },
+  {
+    "id": "166180",
+    "japanese": "私たちはみな彼女をじろじろ見ました。ずいぶん彼女は変わったのです。",
+    "english": "All of us stared at her; she had changed so much."
+  },
+  {
+    "id": "166181",
+    "japanese": "私たちはみな彼女の死の知らせに驚いた。",
+    "english": "We were all surprised at the news of her death."
+  },
+  {
+    "id": "166182",
+    "japanese": "私たちはみな彼を立派な学者だと思った。",
+    "english": "We all took him to be a great scholar."
+  },
+  {
+    "id": "166183",
+    "japanese": "私たちはみな彼の死の知らせに驚いた。",
+    "english": "We were all surprised at the news of his death."
+  },
+  {
+    "id": "166184",
+    "japanese": "私たちはみな窓から見た。",
+    "english": "All of us looked through the window."
+  },
+  {
+    "id": "166185",
+    "japanese": "私たちはみな真実を知りたがっています。",
+    "english": "We are all eager to know the truth."
+  },
+  {
+    "id": "166186",
+    "japanese": "私たちはみな収穫の手伝いをした。",
+    "english": "We all helped with the harvest."
+  }
+]

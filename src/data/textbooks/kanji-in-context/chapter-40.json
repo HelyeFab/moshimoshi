@@ -1,0 +1,2962 @@
+[
+  {
+    "id": "kic-40-7215",
+    "japanese": "開廷",
+    "reading": "開[かい] 廷[てい]",
+    "meaning": "する：to open court proceedings",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7216",
+    "japanese": "出廷",
+    "reading": "出[しゅっ] 廷[てい]",
+    "meaning": "する：to appear in court",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7217",
+    "japanese": "宮廷",
+    "reading": "宮[きゅう] 廷[てい]",
+    "meaning": "imperial palace",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7218",
+    "japanese": "対処",
+    "reading": "対[たい] 処[しょ]",
+    "meaning": "する：to cope with (a difficult situation, etc.), to deal with, to treat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7219",
+    "japanese": "処分",
+    "reading": "処[しょ] 分[ぶん]",
+    "meaning": "する：to dispose of, to deal with, to punish",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7220",
+    "japanese": "処置",
+    "reading": "処[しょ] 置[ち]",
+    "meaning": "する：to deal with, to take measures, to give medical treatment",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7221",
+    "japanese": "処女",
+    "reading": "処[しょ] 女[じょ]",
+    "meaning": "virgin (female)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7222",
+    "japanese": "拠点",
+    "reading": "拠[きょ] 点[てん]",
+    "meaning": "foothold, base",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7223",
+    "japanese": "準拠",
+    "reading": "準[じゅん] 拠[きょ]",
+    "meaning": "する：to conform to (guidelines, etc.), to be based on",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7224",
+    "japanese": "仮名遣い",
+    "reading": "仮[か] 名[な] 遣[づか]い",
+    "meaning": "kana usage",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7225",
+    "japanese": "言葉遣い",
+    "reading": "言[こと] 葉[ば] 遣[づか]い",
+    "meaning": "wording, phraseology",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7226",
+    "japanese": "生還",
+    "reading": "生[せい] 還[かん]",
+    "meaning": "する：to come back alive",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7227",
+    "japanese": "還元",
+    "reading": "還[かん] 元[げん]",
+    "meaning": "する：to return (the company's profits to the consumers)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7228",
+    "japanese": "逐一",
+    "reading": "逐[ちく] 一[いち]",
+    "meaning": "one by one, in detail",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7229",
+    "japanese": "逐次",
+    "reading": "逐[ちく] 次[じ]",
+    "meaning": "one after another, one by one, in succession",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7230",
+    "japanese": "自殺未遂",
+    "reading": "自[じ] 殺[さつ] 未[み] 遂[すい]",
+    "meaning": "attempted suicide",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7231",
+    "japanese": "撃墜",
+    "reading": "撃[げき] 墜[つい]",
+    "meaning": "する：to shoot down (an aeroplane [airplane])",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7232",
+    "japanese": "失墜",
+    "reading": "失[しっ] 墜[つい]",
+    "meaning": "する：to lose (prestige, credit, etc.), to fall (from power, etc.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7233",
+    "japanese": "悔いる",
+    "reading": "悔[く]いる",
+    "meaning": "to repent, to regret, to be sorry for",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7234",
+    "japanese": "頻発",
+    "reading": "頻[ひん] 発[ぱつ]",
+    "meaning": "する：to occur frequently",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7235",
+    "japanese": "頻出",
+    "reading": "頻[ひん] 出[しゅつ]",
+    "meaning": "する：to appear frequently",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7236",
+    "japanese": "頻度",
+    "reading": "頻[ひん] 度[ど]",
+    "meaning": "frequency",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7237",
+    "japanese": "項目",
+    "reading": "項[こう] 目[もく]",
+    "meaning": "item, heading",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7238",
+    "japanese": "条項",
+    "reading": "条[じょう] 項[こう]",
+    "meaning": "article, clause, provision",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7239",
+    "japanese": "要項",
+    "reading": "要[よう] 項[こう]",
+    "meaning": "guidelines, handbook (on applying to a school, etc.), the essential points",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7240",
+    "japanese": "自動販売機",
+    "reading": "自[じ] 動[どう] 販[はん] 売[ばい] 機[き]",
+    "meaning": "vending machine",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7241",
+    "japanese": "市販",
+    "reading": "市[し] 販[はん]",
+    "meaning": "する：to put on the market",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7242",
+    "japanese": "販路",
+    "reading": "販[はん] 路[ろ]",
+    "meaning": "a market (for goods), outlet",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7243",
+    "japanese": "贈る",
+    "reading": "贈[おく]る",
+    "meaning": "to give a present",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7244",
+    "japanese": "贈与税",
+    "reading": "贈[ぞう] 与[よ] 税[ぜい]",
+    "meaning": "gift tax",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7245",
+    "japanese": "贈答品",
+    "reading": "贈[ぞう] 答[とう] 品[ひん]",
+    "meaning": "gift",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7246",
+    "japanese": "贈賄",
+    "reading": "贈[ぞう] 賄[わい]",
+    "meaning": "する：to give a bribe",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7247",
+    "japanese": "収賄",
+    "reading": "収[しゅう] 賄[わい]",
+    "meaning": "する：to accept a bribe",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7248",
+    "japanese": "贈収賄事件",
+    "reading": "贈[ぞう] 収[しゅう] 賄[わい] 事[じ] 件[けん]",
+    "meaning": "bribery case",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7249",
+    "japanese": "堅固な",
+    "reading": "堅[けん] 固[ご]な",
+    "meaning": "strong, solid, firm",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7250",
+    "japanese": "中堅企業",
+    "reading": "中[ちゅう] 堅[けん] 企[き] 業[ぎょう]",
+    "meaning": "medium-sized companies",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7251",
+    "japanese": "堅持",
+    "reading": "堅[けん] 持[じ]",
+    "meaning": "する：to hold fast to, to adhere to",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7252",
+    "japanese": "臨時国会",
+    "reading": "臨[りん] 時[じ] 国[こっ] 会[かい]",
+    "meaning": "extraordinary session of the Diet",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7253",
+    "japanese": "臨床心理学",
+    "reading": "臨[りん] 床[しょう] 心[しん] 理[り] 学[がく]",
+    "meaning": "clinical psychology",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7254",
+    "japanese": "臨終",
+    "reading": "臨[りん] 終[じゅう]",
+    "meaning": "one's last moments, one's death",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7255",
+    "japanese": "新幹線",
+    "reading": "新[しん] 幹[かん] 線[せん]",
+    "meaning": "the Shinkansen, Japan's bullet train",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7256",
+    "japanese": "幹事長",
+    "reading": "幹[かん] 事[じ] 長[ちょう]",
+    "meaning": "secretary-general [executive] secretary (of a party)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7257",
+    "japanese": "根幹",
+    "reading": "根[こん] 幹[かん]",
+    "meaning": "basis, root, nucleus",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7258",
+    "japanese": "語幹",
+    "reading": "語[ご] 幹[かん]",
+    "meaning": "stem of a word",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7259",
+    "japanese": "草稿",
+    "reading": "草[そう] 稿[こう]",
+    "meaning": "rough draft",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7260",
+    "japanese": "投稿",
+    "reading": "投[とう] 稿[こう]",
+    "meaning": "contribution (of one's writing)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7261",
+    "japanese": "稼ぎ",
+    "reading": "稼[かせ]ぎ",
+    "meaning": "earnings, income",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7262",
+    "japanese": "稲作",
+    "reading": "稲[いな] 作[さく]",
+    "meaning": "rice growing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7263",
+    "japanese": "隠す",
+    "reading": "隠[かく]す",
+    "meaning": "to hide, to conceal, to put (something) out of sight",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7264",
+    "japanese": "隔離",
+    "reading": "隔[かく] 離[り]",
+    "meaning": "する：to isolate, to quarantine",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7265",
+    "japanese": "隔たる",
+    "reading": "隔[へだ]たる",
+    "meaning": "to be distant from, to be remote, to be estranged",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7266",
+    "japanese": "金融",
+    "reading": "金[きん] 融[ゆう]",
+    "meaning": "finance, financing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7267",
+    "japanese": "融資",
+    "reading": "融[ゆう] 資[し]",
+    "meaning": "する：to finance, to loan, to furnish funds (vi.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7268",
+    "japanese": "融通",
+    "reading": "融[ゆう] 通[ずう]",
+    "meaning": "する：to lend (money)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7269",
+    "japanese": "融通がきく",
+    "reading": "融[ゆう] 通[ずう]がきく",
+    "meaning": "flexible, adaptable",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7270",
+    "japanese": "融合",
+    "reading": "融[ゆう] 合[ごう]",
+    "meaning": "する：to fuse, to merge",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7271",
+    "japanese": "核融合",
+    "reading": "核[かく] 融[ゆう] 合[ごう]",
+    "meaning": "nuclear fusion",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7272",
+    "japanese": "私邸",
+    "reading": "私[し] 邸[てい]",
+    "meaning": "private residence (in contrast to official residence)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7273",
+    "japanese": "公邸",
+    "reading": "公[こう] 邸[てい]",
+    "meaning": "official residence",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7274",
+    "japanese": "首相官邸",
+    "reading": "首[しゅ] 相[しょう] 官[かん] 邸[てい]",
+    "meaning": "official residence of the prime minister",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7275",
+    "japanese": "隅田川",
+    "reading": "隅[すみ] 田[だ] 川[がわ]",
+    "meaning": "Sumida River",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7276",
+    "japanese": "偶発的な",
+    "reading": "偶[ぐう] 発[はつ] 的[てき]な",
+    "meaning": "accidental",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7277",
+    "japanese": "偶数",
+    "reading": "偶[ぐう] 数[すう]",
+    "meaning": "even number",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7278",
+    "japanese": "配偶者",
+    "reading": "配[はい] 偶[ぐう] 者[しゃ]",
+    "meaning": "spouse",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7279",
+    "japanese": "偶像",
+    "reading": "偶[ぐう] 像[ぞう]",
+    "meaning": "idol, icon",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7280",
+    "japanese": "偉人",
+    "reading": "偉[い] 人[じん]",
+    "meaning": "great person",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7281",
+    "japanese": "俗語",
+    "reading": "俗[ぞく] 語[ご]",
+    "meaning": "slang",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7282",
+    "japanese": "侵入",
+    "reading": "侵[しん] 入[にゅう]",
+    "meaning": "する：to invade, to trespass",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7283",
+    "japanese": "侵害",
+    "reading": "侵[しん] 害[がい]",
+    "meaning": "する：to infringe on",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7284",
+    "japanese": "侵攻",
+    "reading": "侵[しん] 攻[こう]",
+    "meaning": "する：to invade",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7285",
+    "japanese": "伸ばす",
+    "reading": "伸[の]ばす",
+    "meaning": "to stretch, to lengthen, to increase",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7286",
+    "japanese": "差し伸べる",
+    "reading": "差[さ]し 伸[の]べる",
+    "meaning": "to reach out (one's hand)",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7287",
+    "japanese": "主催",
+    "reading": "主[しゅ] 催[さい]",
+    "meaning": "する：to sponsor, to promote",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7288",
+    "japanese": "主催者",
+    "reading": "主[しゅ] 催[さい] 者[しゃ]",
+    "meaning": "sponsor, promoter",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7289",
+    "japanese": "催し物",
+    "reading": "催[もよお]し 物[もの]",
+    "meaning": "entertainment, special event",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7290",
+    "japanese": "催眠術",
+    "reading": "催[さい] 眠[みん] 術[じゅつ]",
+    "meaning": "hypnotism",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7291",
+    "japanese": "国債",
+    "reading": "国[こく] 債[さい]",
+    "meaning": "government bond",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7292",
+    "japanese": "社債",
+    "reading": "社[しゃ] 債[さい]",
+    "meaning": "(corporate) bond [debenture]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7293",
+    "japanese": "債券",
+    "reading": "債[さい] 券[けん]",
+    "meaning": "bonds, debentures",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7294",
+    "japanese": "債権（者）",
+    "reading": "債[さい] 権[けん]（ 者[しゃ]）",
+    "meaning": "credit(or)",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7295",
+    "japanese": "債務（者）",
+    "reading": "債[さい] 務[む]（ 者[しゃ]）",
+    "meaning": "debt(or)",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7296",
+    "japanese": "併用",
+    "reading": "併[へい] 用[よう]",
+    "meaning": "する：to use together, to use two things at the same time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7297",
+    "japanese": "併発",
+    "reading": "併[へい] 発[はつ]",
+    "meaning": "する：to have a complication (from surgery, a disease, etc.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7298",
+    "japanese": "共産圏",
+    "reading": "共[きょう] 産[さん] 圏[けん]",
+    "meaning": "the Communist bloc",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7299",
+    "japanese": "北極圏",
+    "reading": "北[ほっ] 極[きょく] 圏[けん]",
+    "meaning": "the Arctic Circle",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7300",
+    "japanese": "南極圏",
+    "reading": "南[なん] 極[きょく] 圏[けん]",
+    "meaning": "the Antarctic Circle",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7301",
+    "japanese": "大気圏",
+    "reading": "大[たい] 気[き] 圏[けん]",
+    "meaning": "the atmosphere",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7302",
+    "japanese": "宙返り",
+    "reading": "宙[ちゅう] 返[がえ]り",
+    "meaning": "する：to somersault",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7303",
+    "japanese": "抽出",
+    "reading": "抽[ちゅう] 出[しゅつ]",
+    "meaning": "する：to extract, to sample",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7304",
+    "japanese": "抽選",
+    "reading": "抽[ちゅう] 選[せん]",
+    "meaning": "lottery, a drawing (of lots)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7305",
+    "japanese": "拍車",
+    "reading": "拍[はく] 車[しゃ]",
+    "meaning": "spur",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7306",
+    "japanese": "脈拍",
+    "reading": "脈[みゃく] 拍[はく]",
+    "meaning": "pulse",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7307",
+    "japanese": "摘出",
+    "reading": "摘[てき] 出[しゅつ]",
+    "meaning": "する：to extract, to take out, to remove",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7308",
+    "japanese": "摘発",
+    "reading": "摘[てき] 発[はつ]",
+    "meaning": "する：to disclose, to expose",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7309",
+    "japanese": "茶摘み",
+    "reading": "茶[ちゃ] 摘[つ]み",
+    "meaning": "tea picking",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7310",
+    "japanese": "握力",
+    "reading": "握[あく] 力[りょく]",
+    "meaning": "grasping power, (the strength of one's) grip",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7311",
+    "japanese": "掌握",
+    "reading": "掌[しょう] 握[あく]",
+    "meaning": "する：to control, to command",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7312",
+    "japanese": "探知機",
+    "reading": "探[たん] 知[ち] 機[き]",
+    "meaning": "detector, device used for detection",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7313",
+    "japanese": "採掘",
+    "reading": "採[さい] 掘[くつ]",
+    "meaning": "する：to mine",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7314",
+    "japanese": "内堀",
+    "reading": "内[うち] 堀[ぼり]",
+    "meaning": "inner moat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7315",
+    "japanese": "外堀",
+    "reading": "外[そと] 堀[ぼり]",
+    "meaning": "outer moat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7316",
+    "japanese": "埋立地",
+    "reading": "埋[うめ] 立[たて] 地[ち]",
+    "meaning": "reclaimed land",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7317",
+    "japanese": "埋もれる",
+    "reading": "埋[う]もれる",
+    "meaning": "to be buried, to sink into obscurity",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7318",
+    "japanese": "埋葬",
+    "reading": "埋[まい] 葬[そう]",
+    "meaning": "する：to inter",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7319",
+    "japanese": "排気ガス",
+    "reading": "排[はい] 気[き]ガス",
+    "meaning": "exhaust (fumes)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7320",
+    "japanese": "排水",
+    "reading": "排[はい] 水[すい]",
+    "meaning": "drainage",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7321",
+    "japanese": "排日運動",
+    "reading": "排[はい] 日[にち] 運[うん] 動[どう]",
+    "meaning": "anti-Japanese movement",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7322",
+    "japanese": "開拓者",
+    "reading": "開[かい] 拓[たく] 者[しゃ]",
+    "meaning": "pioneer, settler",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7323",
+    "japanese": "干拓",
+    "reading": "干[かん] 拓[たく]",
+    "meaning": "する：to reclaim land by drainage",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7324",
+    "japanese": "抑止力",
+    "reading": "抑[よく] 止[し] 力[りょく]",
+    "meaning": "deterrent",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7325",
+    "japanese": "取り扱う",
+    "reading": "取[と]り 扱[あつか]う",
+    "meaning": "to deal in, to handle",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7326",
+    "japanese": "取扱注意",
+    "reading": "取[とり] 扱[あつかい] 注[ちゅう] 意[い]",
+    "meaning": "Handle With Care",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7327",
+    "japanese": "撮影所",
+    "reading": "撮[さつ] 影[えい] 所[じょ]",
+    "meaning": "film studio",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7328",
+    "japanese": "挑戦者",
+    "reading": "挑[ちょう] 戦[せん] 者[しゃ]",
+    "meaning": "challenger",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7329",
+    "japanese": "挑発",
+    "reading": "挑[ちょう] 発[はつ]",
+    "meaning": "する：to provoke, to arouse",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7330",
+    "japanese": "挑発的な",
+    "reading": "挑[ちょう] 発[はつ] 的[てき]な",
+    "meaning": "provocative, suggestive",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7331",
+    "japanese": "前兆",
+    "reading": "前[ぜん] 兆[ちょう]",
+    "meaning": "omen, sign",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7332",
+    "japanese": "応援",
+    "reading": "応[おう] 援[えん]",
+    "meaning": "する：to cheer, to root for, to aid, to support",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7333",
+    "japanese": "声援",
+    "reading": "声[せい] 援[えん]",
+    "meaning": "shout of encouragement [support]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7334",
+    "japanese": "援軍",
+    "reading": "援[えん] 軍[ぐん]",
+    "meaning": "reinforcements",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7335",
+    "japanese": "後援会",
+    "reading": "後[こう] 援[えん] 会[かい]",
+    "meaning": "group supporting a politician, fan club",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7336",
+    "japanese": "規制緩和",
+    "reading": "規[き] 制[せい] 緩[かん] 和[わ]",
+    "meaning": "deregulation, relaxation of restrictions",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7337",
+    "japanese": "緩い",
+    "reading": "緩[ゆる]い",
+    "meaning": "loose, slack, lax",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7338",
+    "japanese": "緩める",
+    "reading": "緩[ゆる]める",
+    "meaning": "to loosen, to relieve, to relax, to slacken",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7339",
+    "japanese": "丈夫な",
+    "reading": "丈[じょう] 夫[ぶ]な",
+    "meaning": "healthy, strong, durable",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7340",
+    "japanese": "背丈",
+    "reading": "背[せ] 丈[たけ]",
+    "meaning": "one's height, stature",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7341",
+    "japanese": "牧草",
+    "reading": "牧[ぼく] 草[そう]",
+    "meaning": "grass, pasture",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7342",
+    "japanese": "放牧",
+    "reading": "放[ほう] 牧[ぼく]",
+    "meaning": "する：to pasture, to graze",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7343",
+    "japanese": "遊牧",
+    "reading": "遊[ゆう] 牧[ぼく]",
+    "meaning": "nomadism",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7344",
+    "japanese": "牧師",
+    "reading": "牧[ぼく] 師[し]",
+    "meaning": "clergyman, minister, pastor",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7345",
+    "japanese": "牧畜業",
+    "reading": "牧[ぼく] 畜[ちく] 業[ぎょう]",
+    "meaning": "stock farming",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7346",
+    "japanese": "充電",
+    "reading": "充[じゅう] 電[でん]",
+    "meaning": "する：to (re)charge (electricity)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7347",
+    "japanese": "充満",
+    "reading": "充[じゅう] 満[まん]",
+    "meaning": "する：to be full of (poisonous gas, smoke, etc.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7348",
+    "japanese": "充足",
+    "reading": "充[じゅう] 足[そく]",
+    "meaning": "する：to suffice, to satisfy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7349",
+    "japanese": "充血",
+    "reading": "充[じゅう] 血[けつ]",
+    "meaning": "する：to be bloodshot, to be congested",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7350",
+    "japanese": "玄米",
+    "reading": "玄[げん] 米[まい]",
+    "meaning": "brown rice",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7351",
+    "japanese": "豪遊",
+    "reading": "豪[ごう] 遊[ゆう]",
+    "meaning": "する：to spend extravagantly, to live it up",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7352",
+    "japanese": "豪華な",
+    "reading": "豪[ごう] 華[か]な",
+    "meaning": "gorgeous, deluxe, magnificent",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7353",
+    "japanese": "豪勢な",
+    "reading": "豪[ごう] 勢[せい]な",
+    "meaning": "luxurious, grand",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7354",
+    "japanese": "豪州",
+    "reading": "豪[ごう] 州[しゅう]",
+    "meaning": "Australia",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7355",
+    "japanese": "盲目の",
+    "reading": "盲[もう] 目[もく]の",
+    "meaning": "blind",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7356",
+    "japanese": "昇進",
+    "reading": "昇[しょう] 進[しん]",
+    "meaning": "する：to be promoted (in rank, at work, etc.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7357",
+    "japanese": "昇格",
+    "reading": "昇[しょう] 格[かく]",
+    "meaning": "する：to be promoted (to a higher rank)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7358",
+    "japanese": "昇給",
+    "reading": "昇[しょう] 給[きゅう]",
+    "meaning": "salary increase",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7359",
+    "japanese": "曇る",
+    "reading": "曇[くも]る",
+    "meaning": "to get cloudy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7360",
+    "japanese": "糖分",
+    "reading": "糖[とう] 分[ぶん]",
+    "meaning": "sugar content",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7361",
+    "japanese": "化粧品",
+    "reading": "化[け] 粧[しょう] 品[ひん]",
+    "meaning": "cosmetics, make-up",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7362",
+    "japanese": "化粧室",
+    "reading": "化[け] 粧[しょう] 室[しつ]",
+    "meaning": "dressing room, restroom, powder room",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7363",
+    "japanese": "鼻血",
+    "reading": "鼻[はな] 血[ぢ]",
+    "meaning": "nosebleed",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7364",
+    "japanese": "休憩時間",
+    "reading": "休[きゅう] 憩[けい] 時[じ] 間[かん]",
+    "meaning": "recess, intermission, break time",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7365",
+    "japanese": "憩い",
+    "reading": "憩[いこ]い",
+    "meaning": "relaxation, rest",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7366",
+    "japanese": "二枚舌",
+    "reading": "二[に] 枚[まい] 舌[じた]",
+    "meaning": "forked tongue, two-faced, duplicity",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7367",
+    "japanese": "舌打ち",
+    "reading": "舌[した] 打[う]ち",
+    "meaning": "する：to cluck one's tongue",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7368",
+    "japanese": "舌戦",
+    "reading": "舌[ぜっ] 戦[せん]",
+    "meaning": "verbal warfare, heated discussion",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7369",
+    "japanese": "弁舌",
+    "reading": "弁[べん] 舌[ぜつ]",
+    "meaning": "eloquence",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7370",
+    "japanese": "含める",
+    "reading": "含[ふく]める",
+    "meaning": "to include",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7371",
+    "japanese": "含有量",
+    "reading": "含[がん] 有[ゆう] 量[りょう]",
+    "meaning": "amount contained, (alcohol, etc.) content",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7372",
+    "japanese": "叫び声",
+    "reading": "叫[さけ]び 声[ごえ]",
+    "meaning": "shout, cry, scream",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7373",
+    "japanese": "好奇心",
+    "reading": "好[こう] 奇[き] 心[しん]",
+    "meaning": "curiosity",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7374",
+    "japanese": "奇数",
+    "reading": "奇[き] 数[すう]",
+    "meaning": "odd number",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7375",
+    "japanese": "宮崎",
+    "reading": "宮[みや] 崎[ざき]",
+    "meaning": "Miyazaki (a city on the eastern coast of Kyushu)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7376",
+    "japanese": "ドーバー海峡",
+    "reading": "ドーバー 海[かい] 峡[きょう]",
+    "meaning": "the Strait of Dover",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7377",
+    "japanese": "繊維工業",
+    "reading": "繊[せん] 維[い] 工[こう] 業[ぎょう]",
+    "meaning": "textile industry",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7378",
+    "japanese": "合成繊維",
+    "reading": "合[ごう] 成[せい] 繊[せん] 維[い]",
+    "meaning": "synthetic fibre",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7379",
+    "japanese": "化学繊維",
+    "reading": "化[か] 学[がく] 繊[せん] 維[い]",
+    "meaning": "synthetic fibre",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7380",
+    "japanese": "繊細な",
+    "reading": "繊[せん] 細[さい]な",
+    "meaning": "delicate, fine",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7381",
+    "japanese": "維持費",
+    "reading": "維[い] 持[じ] 費[ひ]",
+    "meaning": "maintenance costs",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7382",
+    "japanese": "内紛",
+    "reading": "内[ない] 紛[ふん]",
+    "meaning": "internal trouble [strife]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7383",
+    "japanese": "紛失",
+    "reading": "紛[ふん] 失[しつ]",
+    "meaning": "する：to lose (an object), to be lost, to be missing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7384",
+    "japanese": "紛れる",
+    "reading": "紛[まぎ]れる",
+    "meaning": "to be mistaken (for), to be mixed with, to be diverted",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7385",
+    "japanese": "紛らす",
+    "reading": "紛[まぎ]らす",
+    "meaning": "to divert (attention, one's mind)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7386",
+    "japanese": "紳士服",
+    "reading": "紳[しん] 士[し] 服[ふく]",
+    "meaning": "men's clothing",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7387",
+    "japanese": "成長",
+    "reading": "成[せい] 長[ちょう]",
+    "meaning": "する：to grow, to mature",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7388",
+    "japanese": "特長",
+    "reading": "特[とく] 長[ちょう]",
+    "meaning": "merit, strong point, strength, forte",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7389",
+    "japanese": "不安な",
+    "reading": "不[ふ] 安[あん]な",
+    "meaning": "uneasy, insecure",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7390",
+    "japanese": "表裏のない人",
+    "reading": "表[ひょう] 裏[り]のない 人[ひと]",
+    "meaning": "honest person",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7391",
+    "japanese": "協会",
+    "reading": "協[きょう] 会[かい]",
+    "meaning": "society, association",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7392",
+    "japanese": "縦線",
+    "reading": "縦[たて] 線[せん]",
+    "meaning": "vertical line",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7393",
+    "japanese": "操縦",
+    "reading": "操[そう] 縦[じゅう]",
+    "meaning": "する：to steer, to operate, to pilot, to manoeuvre",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7394",
+    "japanese": "思索",
+    "reading": "思[し] 索[さく]",
+    "meaning": "する：to contemplate",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7395",
+    "japanese": "捜索",
+    "reading": "捜[そう] 索[さく]",
+    "meaning": "する：to search [look] for",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7396",
+    "japanese": "探索",
+    "reading": "探[たん] 索[さく]",
+    "meaning": "する：to search for, to explore",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7397",
+    "japanese": "累積赤字",
+    "reading": "累[るい] 積[せき] 赤[あか] 字[じ]",
+    "meaning": "cumulative deficit",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7398",
+    "japanese": "累積債務",
+    "reading": "累[るい] 積[せき] 債[さい] 務[む]",
+    "meaning": "cumulative debts",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n4",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  },
+  {
+    "id": "kic-40-7399",
+    "japanese": "折り畳み式",
+    "reading": "折[お]り 畳[たた]み 式[しき]",
+    "meaning": "collapsible",
+    "jlptLevel": "N3",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n3",
+      "kanji-in-context",
+      "chapter-40"
+    ],
+    "chapter": 40,
+    "source": "kanji-in-context"
+  }
+]

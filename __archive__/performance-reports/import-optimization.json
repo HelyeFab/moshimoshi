@@ -1,0 +1,305 @@
+{
+  "timestamp": "2025-09-10T14:56:14.565Z",
+  "suggestions": [
+    {
+      "file": "src/app/api/auth/google/route.ts",
+      "issue": "Possibly unused import: createSession",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/auth/magic-link/request/route.ts",
+      "issue": "Possibly unused import: TokenSecurity",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/auth/password/reset-confirm/route.ts",
+      "issue": "Possibly unused import: RedisKeys",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/auth/password/reset-request/route.ts",
+      "issue": "Possibly unused import: RedisKeys",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/auth/password/reset-request/route.ts",
+      "issue": "Possibly unused import: createSessionToken",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/auth/password/reset-request/route.ts",
+      "issue": "Possibly unused import: generateFingerprint",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/review/pin/bulk/route.ts",
+      "issue": "Possibly unused import: NextResponse",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/review/pin/route.ts",
+      "issue": "Possibly unused import: NextResponse",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/review/queue/route.ts",
+      "issue": "Possibly unused import: validateQuery",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/review/queue/route.ts",
+      "issue": "Possibly unused import: queueSchemas",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/review/session/start/route.ts",
+      "issue": "Possibly unused import: v4",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/review/sessions/route.ts",
+      "issue": "Possibly unused import: v4",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/user/delete-account/route.ts",
+      "issue": "Possibly unused import: CacheTTL",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/api/user/export-data/route.ts",
+      "issue": "Possibly unused import: CacheTTL",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/learn/hiragana/page.tsx",
+      "issue": "Possibly unused import: getBasicKana",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/learn/hiragana/page.tsx",
+      "issue": "Possibly unused import: playKanaAudio",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/learn/hiragana/page.tsx",
+      "issue": "Possibly unused import: type KanaCharacter",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/app/showcase/page.tsx",
+      "issue": "Possibly unused import: LoadingPage",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/dashboard/LearningVillage.tsx",
+      "issue": "Possibly unused import: AnimatePresence",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/learn/KanaGrid.tsx",
+      "issue": "Possibly unused import: playKanaAudio",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/review/dashboard/QuickActions.tsx",
+      "issue": "Possibly unused import: Zap",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/review/dashboard/ReviewQueue.tsx",
+      "issue": "Possibly unused import: Clock",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/review/dashboard/ReviewQueue.tsx",
+      "issue": "Possibly unused import: SortAsc",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/review/dashboard/ReviewQueue.tsx",
+      "issue": "Possibly unused import: Check",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/review/dashboard/ReviewQueue.tsx",
+      "issue": "Possibly unused import: X",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/review/dashboard/StatsOverview.tsx",
+      "issue": "Possibly unused import: TrendingUp",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/components/review/gamification/StreakDisplay.tsx",
+      "issue": "Possibly unused import: TrendingUp",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/hooks/useTTS.ts",
+      "issue": "Possibly unused import: TTSError",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/i18n/I18nContext.tsx",
+      "issue": "Possibly unused import: TranslationKeys",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/auth/session.ts",
+      "issue": "Possibly unused import: SessionPayload",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/firebase/client.ts",
+      "issue": "Heavy library 'firebase/app' imported statically",
+      "suggestion": "Use dynamic import: const app = await import('firebase/app')"
+    },
+    {
+      "file": "src/lib/firebase/client.ts",
+      "issue": "Heavy library 'firebase/auth' imported statically",
+      "suggestion": "Use dynamic import: const auth = await import('firebase/auth')"
+    },
+    {
+      "file": "src/lib/firebase/client.ts",
+      "issue": "Heavy library 'firebase/firestore' imported statically",
+      "suggestion": "Use dynamic import: const firestore = await import('firebase/firestore')"
+    },
+    {
+      "file": "src/lib/firebase/client.ts",
+      "issue": "Heavy library 'firebase/storage' imported statically",
+      "suggestion": "Use dynamic import: const storage = await import('firebase/storage')"
+    },
+    {
+      "file": "src/lib/firebase/config.ts",
+      "issue": "Heavy library 'firebase/app' imported statically",
+      "suggestion": "Use dynamic import: const app = await import('firebase/app')"
+    },
+    {
+      "file": "src/lib/firebase/config.ts",
+      "issue": "Heavy library 'firebase/auth' imported statically",
+      "suggestion": "Use dynamic import: const auth = await import('firebase/auth')"
+    },
+    {
+      "file": "src/lib/firebase/dao/review-item-dao.ts",
+      "issue": "Possibly unused import: DocumentReference",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/firebase/dao/review-item-dao.ts",
+      "issue": "Possibly unused import: Query",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/firebase/dao/review-item-dao.ts",
+      "issue": "Possibly unused import: WriteBatch",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/firebase/dao/review-item-dao.ts",
+      "issue": "Possibly unused import: fromTimestamp",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/firebase/dao/review-set-dao.ts",
+      "issue": "Possibly unused import: WriteBatch",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/firebase/dao/review-set-dao.ts",
+      "issue": "Possibly unused import: ContentType",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/performance/cache-manager.ts",
+      "issue": "Possibly unused import: RedisKeys",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/performance/cache-manager.ts",
+      "issue": "Possibly unused import: CacheTTL",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/redis/caches/stats-cache.ts",
+      "issue": "Possibly unused import: ContentType",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/__tests__/jest.setup.ts",
+      "issue": "Possibly unused import: getTestDatabase",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/__tests__/test-utils/api-test-setup.ts",
+      "issue": "Possibly unused import: createMocks",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/__tests__/test-utils/mockFactory.ts",
+      "issue": "Possibly unused import: ReviewMode",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/__tests__/test-utils/testDatabase.ts",
+      "issue": "Possibly unused import: ReviewSessionItem",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/offline/indexed-db.ts",
+      "issue": "Possibly unused import: ProgressData",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/pinning/offline-sync.ts",
+      "issue": "Possibly unused import: BulkPinResult",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/pinning/offline-sync.ts",
+      "issue": "Possibly unused import: SyncQueueItem",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/pinning/pin-manager.ts",
+      "issue": "Possibly unused import: ReleaseSchedule",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/pinning/pin-manager.ts",
+      "issue": "Possibly unused import: ReviewableContentWithSRS",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/pinning/pin-manager.ts",
+      "issue": "Possibly unused import: v4",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/review-engine/pinning/types.ts",
+      "issue": "Possibly unused import: ReviewableContentWithSRS",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/tts/providers/google.ts",
+      "issue": "Possibly unused import: TTSResult",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/tts/service.ts",
+      "issue": "Possibly unused import: TTSCacheEntry",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/lib/tts/service.ts",
+      "issue": "Possibly unused import: normalizeText",
+      "suggestion": "Remove unused import to reduce bundle size"
+    },
+    {
+      "file": "src/utils/cn.ts",
+      "issue": "Possibly unused import: type ClassValue",
+      "suggestion": "Remove unused import to reduce bundle size"
+    }
+  ]
+}

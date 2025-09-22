@@ -1,0 +1,640 @@
+[
+  {
+    "id": "minna-2-20-1550478305620",
+    "japanese": "目が 覚めます",
+    "reading": "目が 覚めます",
+    "meaning": "to wake up",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "目[め]が　 覚[さ]めます",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478024456",
+    "japanese": "急に",
+    "reading": "急に",
+    "meaning": "suddenly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "急[きゅう]に",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477637443",
+    "japanese": "信じます",
+    "reading": "信じます",
+    "meaning": "to believe, trust",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "信[しん]じます",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477699387",
+    "japanese": "カンセルします",
+    "reading": "カンセルします",
+    "meaning": "to cancel",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "カンセルします",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477713395",
+    "japanese": "知らせます",
+    "reading": "知らせます",
+    "meaning": "to inform",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "知[し]らせます",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477730790",
+    "japanese": "保証書",
+    "reading": "保証書",
+    "meaning": "guarantee",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "保証書[ほしょうしょ]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477849227",
+    "japanese": "領収書",
+    "reading": "領収書",
+    "meaning": "receipt",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "領収[りょうしゅう] 書[しょ]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477858216",
+    "japanese": "カンプ",
+    "reading": "カンプ",
+    "meaning": "camp",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "カンプ",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477889918",
+    "japanese": "中止",
+    "reading": "中止",
+    "meaning": "calling off, cancelling, suspension",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "中止[ちゅうし]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477906692",
+    "japanese": "点",
+    "reading": "点",
+    "meaning": "point, score",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "点[てん]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477950332",
+    "japanese": "梅",
+    "reading": "梅",
+    "meaning": "plum (blossom)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "梅[うめ]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550477992166",
+    "japanese": "１１０番",
+    "reading": "１１０番",
+    "meaning": "the emergency police telephone number",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "１１０ 番[ばん]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478011765",
+    "japanese": "１１９番",
+    "reading": "１１９番",
+    "meaning": "the emergency fire service telephone number",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "１１９ 番[ばん]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478034730",
+    "japanese": "無理に",
+    "reading": "無理に",
+    "meaning": "unreasonably",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "無理[むり]に",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478061618",
+    "japanese": "楽しみに して います",
+    "reading": "楽しみに して います",
+    "meaning": "to be looking forward to, be expecting",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "楽[たの]しみに　して　います",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478096108",
+    "japanese": "以上です",
+    "reading": "以上です",
+    "meaning": "That's all.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "以上[いじょう]です",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478113007",
+    "japanese": "係員",
+    "reading": "係員",
+    "meaning": "person in charge, organiser",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "係員[かかりいん]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478135486",
+    "japanese": "コース",
+    "reading": "コース",
+    "meaning": "course, route",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "コース",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478142326",
+    "japanese": "スタート",
+    "reading": "スタート",
+    "meaning": "start",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "スタート",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478168343",
+    "japanese": "ー位",
+    "reading": "ー位",
+    "meaning": "-th (ranking)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ー 位[い]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478194578",
+    "japanese": "優勝します",
+    "reading": "優勝します",
+    "meaning": "to win the championship, come first",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "優勝[ゆうしょう]します<br>",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478206083",
+    "japanese": "悩み",
+    "reading": "悩み",
+    "meaning": "trouble, worry",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "悩[なや]み",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478285861",
+    "japanese": "目覚まし［時計］",
+    "reading": "目覚まし［時計］",
+    "meaning": "alarm clock",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "目覚[めざ]まし［ 時計[どけい]］",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478316576",
+    "japanese": "大学生",
+    "reading": "大学生",
+    "meaning": "university student",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "大学生[だいがくせい]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478407774",
+    "japanese": "回答",
+    "reading": "回答",
+    "meaning": "answer, reply (〜します：to answer, reply)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "回答[かいとう]",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478471387",
+    "japanese": "セットします",
+    "reading": "セットします",
+    "meaning": "to set",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "セットします",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  },
+  {
+    "id": "minna-2-20-1550478483032",
+    "japanese": "それでも",
+    "reading": "それでも",
+    "meaning": "nevertheless, for all that",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "それでも",
+        "reading": "",
+        "english": "45"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-20",
+      "minna-2"
+    ],
+    "lesson": 20,
+    "textbook": "minna-2"
+  }
+]

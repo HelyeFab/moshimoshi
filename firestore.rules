@@ -1,0 +1,432 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        request.auth.token.admin == true;
+    }
+    
+    function hasValidTimestamp() {
+      return request.resource.data.keys().hasAll(['createdAt', 'updatedAt']) &&
+        request.resource.data.createdAt is timestamp &&
+        request.resource.data.updatedAt is timestamp;
+    }
+    
+    function isValidVersion() {
+      return request.resource.data.version == resource.data.version + 1;
+    }
+    
+    // Review items - users can only access their own
+    match /review_items/{itemId} {
+      allow read: if isOwner(resource.data.userId);
+      
+      allow create: if isOwner(request.resource.data.userId) &&
+        request.resource.data.keys().hasAll(['userId', 'contentType', 'contentId', 'status']) &&
+        hasValidTimestamp();
+      
+      allow update: if isOwner(resource.data.userId) &&
+        request.resource.data.userId == resource.data.userId &&
+        isValidVersion();
+      
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // Review sets - handle sharing and public access
+    match /review_sets/{setId} {
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.isPublic == true ||
+        request.auth.uid in resource.data.sharedWith
+      );
+      
+      allow create: if isOwner(request.resource.data.userId) &&
+        request.resource.data.keys().hasAll(['userId', 'name', 'category']) &&
+        hasValidTimestamp();
+      
+      allow update: if isOwner(resource.data.userId) &&
+        request.resource.data.userId == resource.data.userId;
+      
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // Review sessions - users can only access their own
+    match /review_sessions/{sessionId} {
+      allow read: if isOwner(resource.data.userId);
+      
+      allow create: if isOwner(request.resource.data.userId) &&
+        request.resource.data.keys().hasAll(['userId', 'sessionType', 'deviceType']);
+      
+      allow update: if isOwner(resource.data.userId) &&
+        request.resource.data.userId == resource.data.userId;
+      
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+    
+    // Review statistics - users can only access their own
+    match /review_statistics/{statId} {
+      allow read: if isOwner(resource.data.userId) || 
+        (isAuthenticated() && resource.data.isPublic == true);
+      
+      allow create: if isOwner(request.resource.data.userId);
+      
+      allow update: if isOwner(resource.data.userId) &&
+        request.resource.data.userId == resource.data.userId;
+      
+      allow delete: if false; // Statistics should never be deleted
+    }
+    
+    // Pinned items - users can only access their own
+    match /pinned_items/{pinnedId} {
+      allow read: if isOwner(resource.data.userId);
+      
+      allow create: if isOwner(request.resource.data.userId) &&
+        request.resource.data.keys().hasAll(['userId', 'contentType', 'contentId']);
+      
+      allow update: if isOwner(resource.data.userId) &&
+        request.resource.data.userId == resource.data.userId;
+      
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // Review presets - read-only for regular users, writable by admins
+    match /review_presets/{presetId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // User profiles with subscription facts (Entitlements v2)
+    match /users/{userId} {
+      // Allow users to read their own profile (INCLUDING subscription data)
+      allow read: if isOwner(userId) || isAdmin();
+
+      // Allow user creation with minimal requirements (profile can be created by server or client)
+      allow create: if isOwner(userId);
+
+      // Allow updates but protect subscription facts
+      allow update: if isOwner(userId) &&
+        // Users cannot modify their subscription facts directly
+        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['subscription', 'stripeCustomerId']));
+
+      allow delete: if false; // Users should be soft-deleted
+    }
+    
+    // Usage collection - track feature usage (Entitlements v2)
+    match /usage/{userId}/daily/{date} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if false; // Only server can write usage data
+    }
+    
+    // Entitlement decision logs - for auditing
+    match /logs/entitlements/{document} {
+      allow read: if isAdmin();
+      allow write: if false; // Only server can write
+    }
+    
+    // Subscription update logs
+    match /logs/subscription_updates/{document} {
+      allow read: if isAdmin();
+      allow write: if false; // Only server can write
+    }
+    
+    // Stripe customer mapping
+    match /stripe_customers/{document} {
+      allow read: if false; // Only server can read
+      allow write: if false; // Only server can write
+    }
+    
+    // Processed events for idempotency
+    match /processed_events/{eventId} {
+      allow read: if false; // Only server can read
+      allow write: if false; // Only server can write
+    }
+    
+    // Stripe event logs
+    match /stripe_events/{eventId} {
+      allow read: if isAdmin();
+      allow write: if false; // Only server can write
+    }
+    
+    // Idempotency records
+    match /idempotency/{key} {
+      allow read: if false; // Only server can read
+      allow write: if false; // Only server can write
+    }
+    
+    // Content collections (public read for learning materials)
+    match /content/hiragana/{document} {
+      allow read: if true; // Public content
+      allow write: if isAdmin();
+    }
+    
+    match /content/katakana/{document} {
+      allow read: if true; // Public content
+      allow write: if isAdmin();
+    }
+    
+    // Pokemon collection - users can only access their own
+    match /pokemon/{userId} {
+      allow read: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+        request.resource.data.keys().hasAll(['userId', 'caught', 'totalCaught']);
+
+      allow update: if isOwner(userId) &&
+        request.resource.data.userId == resource.data.userId;
+
+      allow delete: if false; // Pokemon data should not be deleted
+    }
+
+    // Universal progress collections - users can only access their own
+    // Supports any content type: hiragana, katakana, kanji, vocabulary, sentences, etc.
+    match /users/{userId}/progress/{contentType} {
+      allow read: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+
+      allow delete: if false; // Progress data should not be deleted
+    }
+
+    // Session tracking for analytics
+    match /users/{userId}/sessions/{sessionId} {
+      allow read: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+
+      allow delete: if false; // Session data should not be deleted
+    }
+
+    // Universal review history - tracks ALL learning events
+    match /users/{userId}/review_history/{entryId} {
+      allow read: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.keys().hasAll(['contentType', 'contentId', 'event', 'timestamp']);
+
+      allow update: if false; // Review history is immutable
+
+      allow delete: if false; // Review history should never be deleted
+    }
+
+    // User preferences collection - structured under users collection
+    match /users/{userId}/preferences/{document} {
+      // Only the user can read their own preferences
+      allow read: if isOwner(userId);
+
+      // User can create preferences if authenticated and it's their own data
+      allow create: if isOwner(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.keys().hasAll(['userId', 'updatedAt']);
+
+      // User can update their own preferences
+      allow update: if isOwner(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.userId == resource.data.userId;
+
+      // Preferences should not be deleted (only updated)
+      allow delete: if false;
+    }
+
+    // User preferences - top-level collection for stall layout and other preferences
+    // Premium users can sync their preferences to cloud
+    match /userPreferences/{userId} {
+      // Users can read their own preferences
+      allow read: if isOwner(userId);
+
+      // Only premium users can write their preferences to cloud
+      allow create: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+
+      // Only premium users can update their preferences
+      allow update: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+
+      // Preferences should not be deleted
+      allow delete: if false;
+    }
+
+    // Vocabulary search history - Premium users can sync their search history
+    match /users/{userId}/searched_words/{entryId} {
+      // Only the user can read their own search history
+      allow read: if isOwner(userId);
+
+      // Server-side only writes (via Admin SDK)
+      // Client cannot directly write to prevent abuse
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // Achievement data - Premium users can sync their achievements
+    match /users/{userId}/achievements/{document} {
+      // Users can read their own achievements
+      allow read: if isOwner(userId);
+
+      // Only premium users can write (sync) their achievements
+      // Check subscription in the user document, not in auth token
+      // Accept both premium_monthly and premium_yearly
+      allow create: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['lastUpdated']);
+
+      allow update: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['lastUpdated']);
+
+      // Achievements should not be deleted
+      allow delete: if false;
+    }
+
+    // Study Lists - Premium users can sync their custom lists
+    match /users/{userId}/studyLists/{listId} {
+      // Users can read their own lists
+      allow read: if isOwner(userId);
+
+      // Only premium users can write (sync) their lists to cloud
+      allow create: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['name', 'type', 'createdAt', 'updatedAt', 'version']) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.userId == userId &&
+        request.resource.data.version == resource.data.version + 1;
+
+      // Allow soft delete (setting deleted flag)
+      allow delete: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+    }
+
+    // Saved Study Items - Premium users can sync their saved items
+    match /users/{userId}/savedItems/{itemId} {
+      // Users can read their own saved items
+      allow read: if isOwner(userId);
+
+      // Only premium users can write (sync) their saved items
+      allow create: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['itemType', 'content', 'savedAt', 'lastModified', 'version']) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.userId == userId &&
+        request.resource.data.version == resource.data.version + 1;
+
+      // Allow deletion of saved items
+      allow delete: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+    }
+
+    // Audit logs - write-only for system, read-only for admins
+    match /audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false; // Only server-side writes
+    }
+
+    // MoodBoards - public read, admin write
+    match /moodBoards/{boardId} {
+      allow read: if true; // Public content for all users
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Stories - public read for published stories, admin write
+    match /stories/{storyId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Story progress - users can track their own progress
+    match /storyProgress/{progressId} {
+      allow read: if isOwner(resource.data.userId);
+
+      allow create: if isOwner(request.resource.data.userId) &&
+        request.resource.data.keys().hasAll(['userId', 'storyId', 'currentPage', 'lastReadAt']);
+
+      allow update: if isOwner(resource.data.userId) &&
+        request.resource.data.userId == resource.data.userId;
+
+      allow delete: if false; // Progress should not be deleted
+    }
+
+    // YouTube Shadowing - Video History (tracks which videos user has accessed)
+    // Only premium users can track their video history for unlimited repeat access
+    match /userVideoHistory/{userId} {
+      allow read: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+
+      allow create: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['videoIds', 'lastUpdated']);
+
+      allow update: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+
+      allow delete: if false; // History should not be deleted
+    }
+
+    // YouTube Shadowing - Transcript Cache (stores transcripts for reuse)
+    match /transcriptCache/{cacheId} {
+      // Anyone authenticated can read cached transcripts
+      allow read: if isAuthenticated();
+
+      // Only authenticated users can create cache entries
+      allow create: if isAuthenticated() &&
+        request.resource.data.keys().hasAll(['contentId', 'contentType', 'transcript', 'language']);
+
+      // Cache entries can be updated by authenticated users
+      allow update: if isAuthenticated();
+
+      allow delete: if false; // Cache should not be deleted by users
+    }
+
+    // YouTube Shadowing - API Usage Logs (for monitoring)
+    match /apiUsageLogs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated(); // Allow authenticated users to log API usage
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

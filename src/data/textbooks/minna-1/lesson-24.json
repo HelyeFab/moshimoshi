@@ -1,0 +1,524 @@
+[
+  {
+    "id": "minna-1-24-1544776575195",
+    "japanese": "くれます",
+    "reading": "くれます",
+    "meaning": "to give (me)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "くれます",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575196",
+    "japanese": "直します",
+    "reading": "直します",
+    "meaning": "to repair, correct",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "直[なお]します",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575197",
+    "japanese": "連れて 行きます",
+    "reading": "連れて 行きます",
+    "meaning": "to take (someone)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "連[つ]れて　 行[い]きます",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575198",
+    "japanese": "連れて 来ます",
+    "reading": "連れて 来ます",
+    "meaning": "to bring (someone)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "連[つ]れて　 来[き]ます",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575199",
+    "japanese": "送ります［人を～］",
+    "reading": "送ります［人を～］",
+    "meaning": "to escort [someone], go with",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "送[おく]ります［ 人[ひと]を~］",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575200",
+    "japanese": "紹介します",
+    "reading": "紹介します",
+    "meaning": "to introduce",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "紹介[しょうかい]します",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575201",
+    "japanese": "案内します",
+    "reading": "案内します",
+    "meaning": "to show around, show the way",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "案内[あんない]します",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575202",
+    "japanese": "説明します",
+    "reading": "説明します",
+    "meaning": "to explain",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "説明[せつめい]します",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575203",
+    "japanese": "おじいさん／おじちゃん",
+    "reading": "おじいさん／おじちゃん",
+    "meaning": "grandfather, old man",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "おじいさん／おじちゃん",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575204",
+    "japanese": "おばあさん／おばあちゃん",
+    "reading": "おばあさん／おばあちゃん",
+    "meaning": "grandmother, old woman",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "おばあさん／おばあちゃん",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575205",
+    "japanese": "準備",
+    "reading": "準備",
+    "meaning": "preparation (～［を］　します: to prepare)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "準備[じゅんび]",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575206",
+    "japanese": "引っ越し",
+    "reading": "引っ越し",
+    "meaning": "moving out (～［を］　します: to move out)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "引っ越[ひっこ]し",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575207",
+    "japanese": "［お］菓子",
+    "reading": "［お］菓子",
+    "meaning": "sweets, snacks",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "［お］ 菓子[かし]",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575208",
+    "japanese": "ホームステイ",
+    "reading": "ホームステイ",
+    "meaning": "homestay",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ホームステイ",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575209",
+    "japanese": "全部",
+    "reading": "全部",
+    "meaning": "all",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "全部[ぜんぶ]",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575210",
+    "japanese": "自分で",
+    "reading": "自分で",
+    "meaning": "by oneself",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "自分[じぶん]で",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1544776575211",
+    "japanese": "ほかに",
+    "reading": "ほかに",
+    "meaning": "besides",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "ほかに",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1609729373765",
+    "japanese": "準備",
+    "reading": "準備",
+    "meaning": "準備[じゅんび]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "preparation",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1609729373767",
+    "japanese": "意味",
+    "reading": "意味",
+    "meaning": "意味[いみ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "meaning",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1609729373769",
+    "japanese": "お菓子",
+    "reading": "お菓子",
+    "meaning": "(お) 菓子[かし]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "sweets, snacks",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1609729373771",
+    "japanese": "ワゴン車",
+    "reading": "ワゴン車",
+    "meaning": "ワゴン 車[しゃ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "station wagon",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-24-1609729373773",
+    "japanese": "お 弁当",
+    "reading": "お 弁当",
+    "meaning": "(お) 弁当[べんとう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "box lunch",
+        "reading": "",
+        "english": "24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-24",
+      "minna-1"
+    ],
+    "lesson": 24,
+    "textbook": "minna-1"
+  }
+]

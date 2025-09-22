@@ -1,0 +1,152 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { getSession } from '@/lib/auth/session'
+import { adminDb } from '@/lib/firebase/admin'
+import { FieldValue } from 'firebase-admin/firestore'
+
+interface ProgressItem {
+  contentId: string
+  progress: any
+  timestamp: number
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    // Get the authenticated user from session
+    const session = await getSession()
+
+    if (!session?.uid) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    const { contentType, items, reviewHistory } = await request.json()
+
+    if (!contentType || !items) {
+      return NextResponse.json(
+        { error: 'Missing required fields: contentType and items' },
+        { status: 400 }
+      )
+    }
+
+    // Check if user is premium
+    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const userData = userDoc.exists ? userDoc.data() : null
+    const isPremium = userData?.subscription?.plan === 'premium_monthly' ||
+                      userData?.subscription?.plan === 'premium_yearly'
+
+    console.log(`[API Progress] User ${session.uid} - Premium: ${isPremium}, Content Type: ${contentType}`)
+
+    // Save to progress subcollection (for all users, not just premium)
+    const progressRef = adminDb
+      .collection('users')
+      .doc(session.uid)
+      .collection('progress')
+      .doc(contentType)
+
+    // Convert items Map to a plain object for Firestore
+    const itemsObject: Record<string, any> = {}
+    for (const [key, value] of items) {
+      itemsObject[key] = value
+    }
+
+    await progressRef.set({
+      items: itemsObject,
+      lastUpdated: FieldValue.serverTimestamp(),
+      contentType,
+      userId: session.uid
+    }, { merge: true })
+
+    // Save review history if provided and user is premium
+    if (reviewHistory && reviewHistory.length > 0 && isPremium) {
+      const batch = adminDb.batch()
+
+      for (const entry of reviewHistory) {
+        const historyRef = adminDb
+          .collection('users')
+          .doc(session.uid)
+          .collection('review_history')
+          .doc() // Auto-generate ID
+
+        batch.set(historyRef, {
+          ...entry,
+          userId: session.uid,
+          createdAt: FieldValue.serverTimestamp()
+        })
+      }
+
+      await batch.commit()
+      console.log(`[API Progress] Saved ${reviewHistory.length} review history entries`)
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Progress saved for ${contentType}`,
+      itemsCount: Object.keys(itemsObject).length,
+      isPremium
+    })
+
+  } catch (error) {
+    console.error('[API Progress] Error saving progress:', error)
+    return NextResponse.json(
+      { error: 'Failed to save progress' },
+      { status: 500 }
+    )
+  }
+}
+
+// GET endpoint to retrieve progress
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getSession()
+
+    if (!session?.uid) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    const { searchParams } = new URL(request.url)
+    const contentType = searchParams.get('contentType')
+
+    if (!contentType) {
+      return NextResponse.json(
+        { error: 'Missing contentType parameter' },
+        { status: 400 }
+      )
+    }
+
+    // Get progress from Firestore
+    const progressRef = adminDb
+      .collection('users')
+      .doc(session.uid)
+      .collection('progress')
+      .doc(contentType)
+
+    const progressDoc = await progressRef.get()
+
+    if (!progressDoc.exists) {
+      return NextResponse.json({
+        items: {},
+        contentType
+      })
+    }
+
+    const data = progressDoc.data()
+
+    return NextResponse.json({
+      items: data?.items || {},
+      contentType,
+      lastUpdated: data?.lastUpdated?.toDate?.() || null
+    })
+
+  } catch (error) {
+    console.error('[API Progress] Error loading progress:', error)
+    return NextResponse.json(
+      { error: 'Failed to load progress' },
+      { status: 500 }
+    )
+  }
+}

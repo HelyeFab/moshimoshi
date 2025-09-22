@@ -1,0 +1,178 @@
+[
+  {
+    "id": "kaishi-1013",
+    "japanese": "お兄さん",
+    "reading": "おにいさん",
+    "meaning": "older brother",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "あなたの<b>お兄さん</b>は何歳？",
+        "reading": "",
+        "english": "How old is your big brother?"
+      }
+    ],
+    "tags": [
+      "n2",
+      "kaishi-15k",
+      "freq-3017"
+    ],
+    "frequency": 3017,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-211",
+    "japanese": "九",
+    "reading": "きゅう",
+    "meaning": "nine",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "野球は<b>九</b>人で1チームです。",
+        "reading": "",
+        "english": "In baseball there are nine people on one team."
+      }
+    ],
+    "tags": [
+      "n2",
+      "kaishi-15k",
+      "freq-3036"
+    ],
+    "frequency": 3036,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-297",
+    "japanese": "秋",
+    "reading": "あき",
+    "meaning": "fall",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "彼女は<b>秋</b>に結婚します。",
+        "reading": "",
+        "english": "She'll get married this fall."
+      }
+    ],
+    "tags": [
+      "n2",
+      "kaishi-15k",
+      "freq-3363"
+    ],
+    "frequency": 3363,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1016",
+    "japanese": "おばさん",
+    "reading": "おばさん",
+    "meaning": "aunt",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>おばさん</b>一家が遊びに来ました。",
+        "reading": "",
+        "english": "My aunt and her family came to visit me."
+      }
+    ],
+    "tags": [
+      "n2",
+      "kaishi-15k",
+      "freq-3838"
+    ],
+    "frequency": 3838,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-279",
+    "japanese": "来年",
+    "reading": "らいねん",
+    "meaning": "next year",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>来年</b>一緒に旅行しましょう。",
+        "reading": "",
+        "english": "Let's travel together next year."
+      }
+    ],
+    "tags": [
+      "n2",
+      "kaishi-15k",
+      "freq-4134"
+    ],
+    "frequency": 4134,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-239",
+    "japanese": "毎年",
+    "reading": "まいとし",
+    "meaning": "every year",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "<b>毎年</b>、クリスマスに国へ帰ります。",
+        "reading": "",
+        "english": "I return to my country on Christmas of every year."
+      }
+    ],
+    "tags": [
+      "n2",
+      "kaishi-15k",
+      "freq-4148"
+    ],
+    "frequency": 4148,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-9",
+    "japanese": "日本語",
+    "reading": "にほんご",
+    "meaning": "Japanese language",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は<b>日本語</b>を勉強しています。",
+        "reading": "",
+        "english": "I'm studying Japanese."
+      }
+    ],
+    "tags": [
+      "n2",
+      "kaishi-15k",
+      "freq-5442"
+    ],
+    "frequency": 5442,
+    "source": "kaishi-15k"
+  },
+  {
+    "id": "kaishi-1494",
+    "japanese": "四つ",
+    "reading": "よっつ",
+    "meaning": "four (things)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "私は腕時計を<b>四つ</b>持っています。",
+        "reading": "",
+        "english": "I have four wristwatches."
+      }
+    ],
+    "tags": [
+      "n2",
+      "kaishi-15k",
+      "freq-5905"
+    ],
+    "frequency": 5905,
+    "source": "kaishi-15k"
+  }
+]

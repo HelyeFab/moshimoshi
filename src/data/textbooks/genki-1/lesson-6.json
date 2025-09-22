@@ -1,0 +1,1832 @@
+[
+  {
+    "id": "genki-1-6-1550634584512",
+    "japanese": "何",
+    "reading": "何",
+    "meaning": "what",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "何[なに]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574475",
+    "japanese": "食べます",
+    "reading": "食べます",
+    "meaning": "To eat",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "食[た]べます",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574476",
+    "japanese": "飲みます",
+    "reading": "飲みます",
+    "meaning": "to drink",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "飲[の]みます",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574477",
+    "japanese": "吸います［たばこを～］",
+    "reading": "吸います［たばこを～］",
+    "meaning": "To smoke [a cigarette]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "吸[す]います［たばこを~］",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574478",
+    "japanese": "見ます",
+    "reading": "見ます",
+    "meaning": "To see, look at, watch",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "見[み]ます",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574479",
+    "japanese": "聞きます",
+    "reading": "聞きます",
+    "meaning": "To hear, listen",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "聞[き]きます",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574480",
+    "japanese": "読みます",
+    "reading": "読みます",
+    "meaning": "To read",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "読[よ]みます",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574481",
+    "japanese": "書きます",
+    "reading": "書きます",
+    "meaning": "To write (かきます　can also mean to draw or paint, but in this case it is written with hirigana in this book)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "書[か]きます",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574482",
+    "japanese": "買います",
+    "reading": "買います",
+    "meaning": "To buy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "買[か]います",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574483",
+    "japanese": "取ります ［写真を～］",
+    "reading": "取ります ［写真を～］",
+    "meaning": "To take [a photograph]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "取[と]ります　［ 写真[しゃしん]を~］",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574484",
+    "japanese": "します",
+    "reading": "します",
+    "meaning": "To do, play",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "します",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574485",
+    "japanese": "会います ［友達に〜］",
+    "reading": "会います ［友達に〜］",
+    "meaning": "To meet [a friend]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "会[あ]います　［ 友達[ともだち]に〜］",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574486",
+    "japanese": "ごはん",
+    "reading": "ごはん",
+    "meaning": "a meal, cooked rice",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ごはん",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574487",
+    "japanese": "朝ごはん",
+    "reading": "朝ごはん",
+    "meaning": "breakfast",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "朝[あさ]ごはん",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574488",
+    "japanese": "昼ごはん",
+    "reading": "昼ごはん",
+    "meaning": "lunch",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "昼[ひる]ごはん",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574489",
+    "japanese": "晩ごはん",
+    "reading": "晩ごはん",
+    "meaning": "dinner, supper",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "晩[ばん]ごはん",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373157",
+    "japanese": "パン",
+    "reading": "パン",
+    "meaning": "bread",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574491",
+    "japanese": "卵",
+    "reading": "卵",
+    "meaning": "egg",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "卵[たまご]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574492",
+    "japanese": "肉",
+    "reading": "肉",
+    "meaning": "meat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "肉[にく]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574493",
+    "japanese": "魚",
+    "reading": "魚",
+    "meaning": "fish",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "魚[さかな]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574494",
+    "japanese": "野菜",
+    "reading": "野菜",
+    "meaning": "vegetable",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "野菜[やさい]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574495",
+    "japanese": "果物",
+    "reading": "果物",
+    "meaning": "fruit",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "果物[くだもの]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574496",
+    "japanese": "[お] 水",
+    "reading": "[お] 水",
+    "meaning": "water",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "[お] 水[みず]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574497",
+    "japanese": "お茶",
+    "reading": "お茶",
+    "meaning": "tea, green tea",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 茶[ちゃ]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574498",
+    "japanese": "紅茶",
+    "reading": "紅茶",
+    "meaning": "black tea",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "紅茶[こうちゃ]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574499",
+    "japanese": "牛乳ミルク",
+    "reading": "牛乳ミルク",
+    "meaning": "milk",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "牛乳[ぎゅうにゅう]（ミルク）",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373177",
+    "japanese": "ジュース",
+    "reading": "ジュース",
+    "meaning": "juice",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373179",
+    "japanese": "ビール",
+    "reading": "ビール",
+    "meaning": "beer",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574502",
+    "japanese": "［お］酒",
+    "reading": "［お］酒",
+    "meaning": "alcohol, Japanese rice wine",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "［お］ 酒[さけ]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574503",
+    "japanese": "たばこ",
+    "reading": "たばこ",
+    "meaning": "tobacco, cigarette",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "たばこ",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574504",
+    "japanese": "手紙",
+    "reading": "手紙",
+    "meaning": "letter",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "手紙[てがみ]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373189",
+    "japanese": "レポート",
+    "reading": "レポート",
+    "meaning": "report",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574506",
+    "japanese": "写真",
+    "reading": "写真",
+    "meaning": "photograph",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "写真[しゃしん]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574507",
+    "japanese": "ビデオ",
+    "reading": "ビデオ",
+    "meaning": "video [tape], video deck",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ビデオ",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574508",
+    "japanese": "店",
+    "reading": "店",
+    "meaning": "shop, store",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "店[みせ]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574509",
+    "japanese": "庭",
+    "reading": "庭",
+    "meaning": "garden",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "庭[にわ]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574510",
+    "japanese": "宿題",
+    "reading": "宿題",
+    "meaning": "homework (～を　します：do homework)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "宿題[しゅくだい]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574511",
+    "japanese": "テニス",
+    "reading": "テニス",
+    "meaning": "tennis (～を　します：play tennis)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "テニス",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574512",
+    "japanese": "サッカー",
+    "reading": "サッカー",
+    "meaning": "soccer, football (～を　します：play soccer)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "サッカー",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574513",
+    "japanese": "［お］花見",
+    "reading": "［お］花見",
+    "meaning": "cherry-blossom viewing (～を　します：view the cherry blossoms)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "［お］ 花見[はなみ]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574515",
+    "japanese": "いっしょに",
+    "reading": "いっしょに",
+    "meaning": "together",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "いっしょに",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574516",
+    "japanese": "ちょっと",
+    "reading": "ちょっと",
+    "meaning": "a little while, a little bit",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ちょっと",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574517",
+    "japanese": "いつも",
+    "reading": "いつも",
+    "meaning": "always, usually",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いつも",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574518",
+    "japanese": "時々",
+    "reading": "時々",
+    "meaning": "sometimes",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "時々[ときどき]",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574519",
+    "japanese": "それから",
+    "reading": "それから",
+    "meaning": "after then, and then",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "それから",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574521",
+    "japanese": "いいですね。",
+    "reading": "いいですね。",
+    "meaning": "That's good.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いいですね。",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574522",
+    "japanese": "わかりました。",
+    "reading": "わかりました。",
+    "meaning": "I see, I understood.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "わかりました。",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574523",
+    "japanese": "何ですか。",
+    "reading": "何ですか。",
+    "meaning": "Yes? (lit. What is it?)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "何[なん]ですか。",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574524",
+    "japanese": "じゃ、また［あした］。",
+    "reading": "じゃ、また［あした］。",
+    "meaning": "See you [tomorrow].",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "じゃ、また［あした］。",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1544776574525",
+    "japanese": "メキシコ",
+    "reading": "メキシコ",
+    "meaning": "Mexico",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "メキシコ",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373195",
+    "japanese": "レストラン",
+    "reading": "レストラン",
+    "meaning": "restaurant",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1550809939922",
+    "japanese": "ええ",
+    "reading": "ええ",
+    "meaning": "yes",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ええ",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729372851",
+    "japanese": "何ですか。",
+    "reading": "何ですか。",
+    "meaning": "何[なん]ですか。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Yes?",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729372853",
+    "japanese": "じゃ、また明日。",
+    "reading": "じゃ、また明日。",
+    "meaning": "じゃ、また( 明日[あした])。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "See you (tomorrow).",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373149",
+    "japanese": "ご飯",
+    "reading": "ご飯",
+    "meaning": "ご 飯[はん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "a meal, cooked rice",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373151",
+    "japanese": "朝ご飯",
+    "reading": "朝ご飯",
+    "meaning": "朝[あさ]ご 飯[はん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "breakfast",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373153",
+    "japanese": "昼ご飯",
+    "reading": "昼ご飯",
+    "meaning": "昼[ひる]ご 飯[はん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "lunch",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373155",
+    "japanese": "晩ご飯",
+    "reading": "晩ご飯",
+    "meaning": "晩[ばん]ご 飯[はん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "dinner",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373159",
+    "japanese": "卵",
+    "reading": "卵",
+    "meaning": "卵[たまご]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "egg",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373161",
+    "japanese": "肉",
+    "reading": "肉",
+    "meaning": "肉[にく]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "meat",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373163",
+    "japanese": "魚",
+    "reading": "魚",
+    "meaning": "魚[さかな]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "fish",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373165",
+    "japanese": "野菜",
+    "reading": "野菜",
+    "meaning": "野菜[やさい]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "vegetable",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373167",
+    "japanese": "果物",
+    "reading": "果物",
+    "meaning": "果物[くだもの]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "fruit",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373169",
+    "japanese": "水",
+    "reading": "水",
+    "meaning": "水[みず]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "water",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373171",
+    "japanese": "お茶",
+    "reading": "お茶",
+    "meaning": "お 茶[ちゃ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "tea, green tea",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373173",
+    "japanese": "紅茶",
+    "reading": "紅茶",
+    "meaning": "紅茶[こうちゃ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "black tea",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373175",
+    "japanese": "牛乳ミルク",
+    "reading": "牛乳ミルク",
+    "meaning": "牛乳[ぎゅうにゅう](ミルク)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "milk",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373181",
+    "japanese": "お酒",
+    "reading": "お酒",
+    "meaning": "(お) 酒[さけ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "alcohol, Japanese rice wine",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373183",
+    "japanese": "ビデオ",
+    "reading": "ビデオ",
+    "meaning": "video tape, video deck",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373185",
+    "japanese": "映画",
+    "reading": "映画",
+    "meaning": "映画[えいが]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "movie",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373187",
+    "japanese": "手紙",
+    "reading": "手紙",
+    "meaning": "手紙[てがみ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "letter",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373191",
+    "japanese": "写真",
+    "reading": "写真",
+    "meaning": "写真[しゃしん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "photograph",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373193",
+    "japanese": "店",
+    "reading": "店",
+    "meaning": "店[みせ]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "store, shop",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373197",
+    "japanese": "庭",
+    "reading": "庭",
+    "meaning": "庭[にわ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "garden",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373199",
+    "japanese": "宿題",
+    "reading": "宿題",
+    "meaning": "宿題[しゅくだい]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "homework",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373201",
+    "japanese": "テニス",
+    "reading": "テニス",
+    "meaning": "tennis",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6",
+        "reading": "",
+        "english": "(～を します: play tennis)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373203",
+    "japanese": "サッカー",
+    "reading": "サッカー",
+    "meaning": "soccer, football",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "6",
+        "reading": "",
+        "english": "(～を します: play soccer)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-6-1609729373205",
+    "japanese": "お花見",
+    "reading": "お花見",
+    "meaning": "(お) 花見[はなみ]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "cherry-blossom viewing",
+        "reading": "",
+        "english": "6"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-6",
+      "genki-1"
+    ],
+    "lesson": 6,
+    "textbook": "genki-1"
+  }
+]

@@ -1,0 +1,2396 @@
+[
+  {
+    "id": "genki-1-7-1544776574526",
+    "japanese": "切ります",
+    "reading": "切ります",
+    "meaning": "To cut, slice",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "切[き]ります",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574527",
+    "japanese": "送ります",
+    "reading": "送ります",
+    "meaning": "To send",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "送[おく]ります",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574528",
+    "japanese": "あげます",
+    "reading": "あげます",
+    "meaning": "To give",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "あげます",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574529",
+    "japanese": "もらいます",
+    "reading": "もらいます",
+    "meaning": "To receive",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "もらいます",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574530",
+    "japanese": "貸します",
+    "reading": "貸します",
+    "meaning": "To lend",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "貸[か]します",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574531",
+    "japanese": "借ります",
+    "reading": "借ります",
+    "meaning": "To borrow",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "借[か]ります",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574532",
+    "japanese": "教えます",
+    "reading": "教えます",
+    "meaning": "To teach",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "教[おし]えます",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574533",
+    "japanese": "習います",
+    "reading": "習います",
+    "meaning": "To learn",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "習[なら]います",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574534",
+    "japanese": "かけます［電話を～］",
+    "reading": "かけます［電話を～］",
+    "meaning": "make [a phone call]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "かけます［ 電話[でんわ]を~］",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574535",
+    "japanese": "手",
+    "reading": "手",
+    "meaning": "hand, arm",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "手[て]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574536",
+    "japanese": "はし",
+    "reading": "はし",
+    "meaning": "chopsticks",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "はし",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373211",
+    "japanese": "スプーン",
+    "reading": "スプーン",
+    "meaning": "spoon",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373213",
+    "japanese": "ナイフ",
+    "reading": "ナイフ",
+    "meaning": "knife",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373215",
+    "japanese": "フォーク",
+    "reading": "フォーク",
+    "meaning": "fork",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574540",
+    "japanese": "はさみ",
+    "reading": "はさみ",
+    "meaning": "scissors",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "はさみ",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373223",
+    "japanese": "パソコン",
+    "reading": "パソコン",
+    "meaning": "personal computer",
+    "jlptLevel": "N4",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574542",
+    "japanese": "ケータイ でんわ",
+    "reading": "ケータイ でんわ",
+    "meaning": "mobile phone, cell phone",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ケータイ（でんわ）",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574543",
+    "japanese": "メール",
+    "reading": "メール",
+    "meaning": "e-mail",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "メール",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574544",
+    "japanese": "年賀状",
+    "reading": "年賀状",
+    "meaning": "New Year's greeting card",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "年賀状[ねんがじょう]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373225",
+    "japanese": "パンチ",
+    "reading": "パンチ",
+    "meaning": "punch",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574546",
+    "japanese": "ホッチキス",
+    "reading": "ホッチキス",
+    "meaning": "stapler",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ホッチキス",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574547",
+    "japanese": "セロテープ",
+    "reading": "セロテープ",
+    "meaning": "Sellotape, Scotch tap, clear adhesive tap",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "セロテープ",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574548",
+    "japanese": "消しゴム",
+    "reading": "消しゴム",
+    "meaning": "rubber, eraser",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "消しゴム[けしごむ]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574549",
+    "japanese": "紙",
+    "reading": "紙",
+    "meaning": "paper",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "紙[かみ]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574550",
+    "japanese": "花",
+    "reading": "花",
+    "meaning": "flower, blossom",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "花[はな]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373237",
+    "japanese": "シャツ",
+    "reading": "シャツ",
+    "meaning": "shirt",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373239",
+    "japanese": "プレゼント",
+    "reading": "プレゼント",
+    "meaning": "present, gift",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574553",
+    "japanese": "荷物",
+    "reading": "荷物",
+    "meaning": "luggage, baggage, parcel",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "荷物[にもつ]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574554",
+    "japanese": "お金",
+    "reading": "お金",
+    "meaning": "money",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "お 金[かね]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574555",
+    "japanese": "きっぷ",
+    "reading": "きっぷ",
+    "meaning": "ticket",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "きっぷ",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373247",
+    "japanese": "クリスマス",
+    "reading": "クリスマス",
+    "meaning": "Christmas",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574557",
+    "japanese": "父",
+    "reading": "父",
+    "meaning": "(my) father",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "父[ちち]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574558",
+    "japanese": "母",
+    "reading": "母",
+    "meaning": "(my) mother",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "母[はは]",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574559",
+    "japanese": "お父さん",
+    "reading": "お父さん",
+    "meaning": "(someone else's) father (also used to address one's own father)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "お 父[とう]さん",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574560",
+    "japanese": "お母さん",
+    "reading": "お母さん",
+    "meaning": "(someone else's) mother (also used to address one's own mother)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "お 母[かあ]さん",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574562",
+    "japanese": "まだ",
+    "reading": "まだ",
+    "meaning": "not yet",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "まだ",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574563",
+    "japanese": "これから",
+    "reading": "これから",
+    "meaning": "from now on, soon",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "これから",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574564",
+    "japanese": "［～、］すてきですね。",
+    "reading": "［～、］すてきですね。",
+    "meaning": "What a nice [~]!",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "［~、］すてきですね。",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574565",
+    "japanese": "いらっしゃい。",
+    "reading": "いらっしゃい。",
+    "meaning": "How nice of you to come. (lit. Welcome.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "いらっしゃい。",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574566",
+    "japanese": "どうぞ お上がり ください",
+    "reading": "どうぞ お上がり ください",
+    "meaning": "Do come in.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "どうぞ　お 上[あ]がり　ください",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574567",
+    "japanese": "失礼します。",
+    "reading": "失礼します。",
+    "meaning": "May I? (lit. I commit an incivility.)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "失礼[しつれい]します。",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574568",
+    "japanese": "［～は］いかがですか。",
+    "reading": "［～は］いかがですか。",
+    "meaning": "Won't you have [~]?/Would you like to have [~]? (used when offering something)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "［~は］いかがですか。",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574569",
+    "japanese": "いただきます",
+    "reading": "いただきます",
+    "meaning": "Thank you./I accept. (said before starting to eat or drink)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "いただきます",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574570",
+    "japanese": "ごちそうさま［でした］。",
+    "reading": "ごちそうさま［でした］。",
+    "meaning": "That was delicious. (said after eating or drinking)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ごちそうさま［でした］。",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1544776574571",
+    "japanese": "スパイン",
+    "reading": "スパイン",
+    "meaning": "Spain",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "スパイン",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373375",
+    "japanese": "チケット",
+    "reading": "チケット",
+    "meaning": "ticket",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": "切符[きっぷ] = ticket (7)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729372855",
+    "japanese": "ごめんください。",
+    "reading": "ごめんください。",
+    "meaning": "Excuse me./Anybody home?/May I come in?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": "(an expression used by a visitor)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729372857",
+    "japanese": "いらっしゃい。",
+    "reading": "いらっしゃい。",
+    "meaning": "How nice of you to come.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": "(lit. Welcome.)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729372859",
+    "japanese": "どうぞ お上がり ください。",
+    "reading": "どうぞ お上がり ください。",
+    "meaning": "どうぞ　お 上[あ]がり ください。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Do come in.",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729372861",
+    "japanese": "失礼します。",
+    "reading": "失礼します。",
+    "meaning": "失礼[しつれい]します。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Thank you./May I?",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729372863",
+    "japanese": "～は いかがですか。",
+    "reading": "～は いかがですか。",
+    "meaning": "(～は) いかがですか。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "Won't you have (～)? Would you like to have (～)?",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729372865",
+    "japanese": "頂きます。",
+    "reading": "頂きます。",
+    "meaning": "頂[いただ]きます。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Thank you./I accept.",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729372867",
+    "japanese": "～、 素敵ですね。",
+    "reading": "～、 素敵ですね。",
+    "meaning": "(～、) 素敵[すてき]ですね。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "What a nice (～)!",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373207",
+    "japanese": "手",
+    "reading": "手",
+    "meaning": "手[て]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "hand, arm",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373209",
+    "japanese": "箸",
+    "reading": "箸",
+    "meaning": "箸[はし]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "chopsticks",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373217",
+    "japanese": "鋏",
+    "reading": "鋏",
+    "meaning": "鋏[はさみ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "scissors",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373219",
+    "japanese": "ファクス",
+    "reading": "ファクス",
+    "meaning": "fax",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373221",
+    "japanese": "ワープロ",
+    "reading": "ワープロ",
+    "meaning": "word processor",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373227",
+    "japanese": "ホッチキス / ステープらー",
+    "reading": "ホッチキス/ステープらー",
+    "meaning": "stapler",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373229",
+    "japanese": "セロテープ",
+    "reading": "セロテープ",
+    "meaning": "cellotape",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "7",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373231",
+    "japanese": "消しゴム",
+    "reading": "消しゴム",
+    "meaning": "消[け]しゴム",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "eraser",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373233",
+    "japanese": "紙",
+    "reading": "紙",
+    "meaning": "紙[かみ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "paper",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373235",
+    "japanese": "花",
+    "reading": "花",
+    "meaning": "花[はな]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "flower, blossom",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373241",
+    "japanese": "荷物",
+    "reading": "荷物",
+    "meaning": "荷物[にもつ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "baggage, parcel",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373243",
+    "japanese": "お金",
+    "reading": "お金",
+    "meaning": "お 金[かね]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "money",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373245",
+    "japanese": "切符",
+    "reading": "切符",
+    "meaning": "切符[きっぷ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ticket",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373249",
+    "japanese": "父",
+    "reading": "父",
+    "meaning": "父[ちち]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) father",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373251",
+    "japanese": "母",
+    "reading": "母",
+    "meaning": "母[はは]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) mother",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373253",
+    "japanese": "お父さん",
+    "reading": "お父さん",
+    "meaning": "お 父[とう]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) father",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373255",
+    "japanese": "お母さん",
+    "reading": "お母さん",
+    "meaning": "お 母[かあ]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) mother",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373257",
+    "japanese": "旅行",
+    "reading": "旅行",
+    "meaning": "旅行[りょこう]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "trip, tour",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373259",
+    "japanese": "お土産",
+    "reading": "お土産",
+    "meaning": "お 土産[みやげ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "souvenir, present",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373261",
+    "japanese": "祖母",
+    "reading": "祖母",
+    "meaning": "祖母[そぼ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) grandmother",
+        "reading": "",
+        "english": "7, 41"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373263",
+    "japanese": "祖父",
+    "reading": "祖父",
+    "meaning": "祖父[そふ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) grandfather",
+        "reading": "",
+        "english": "7, 41"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373265",
+    "japanese": "祖父母",
+    "reading": "祖父母",
+    "meaning": "祖父母[そふぼ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) grandparents",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373267",
+    "japanese": "両親",
+    "reading": "両親",
+    "meaning": "両親[りょうしん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) parents",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373269",
+    "japanese": "兄弟",
+    "reading": "兄弟",
+    "meaning": "兄弟[きょうだい]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) brothers and sisters",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373271",
+    "japanese": "兄",
+    "reading": "兄",
+    "meaning": "兄[あに]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) elder brother",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373273",
+    "japanese": "姉",
+    "reading": "姉",
+    "meaning": "姉[あね]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) elder sister",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373275",
+    "japanese": "弟",
+    "reading": "弟",
+    "meaning": "弟[おとうと]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) younger brother",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373277",
+    "japanese": "妹",
+    "reading": "妹",
+    "meaning": "妹[いもうと]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) younger sister",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373279",
+    "japanese": "夫婦",
+    "reading": "夫婦",
+    "meaning": "夫婦[ふうふ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "husband &amp; wife (me and my spouse)",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373281",
+    "japanese": "妻",
+    "reading": "妻",
+    "meaning": "妻[つま]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) wife",
+        "reading": "",
+        "english": "7, 9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373283",
+    "japanese": "夫",
+    "reading": "夫",
+    "meaning": "夫[おっと]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) husband",
+        "reading": "",
+        "english": "7, 9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373285",
+    "japanese": "息子",
+    "reading": "息子",
+    "meaning": "息子[むすこ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) son",
+        "reading": "",
+        "english": "7, 28"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373287",
+    "japanese": "娘",
+    "reading": "娘",
+    "meaning": "娘[むすめ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(my) daughter",
+        "reading": "",
+        "english": "7, 28"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373289",
+    "japanese": "お祖父さん",
+    "reading": "お祖父さん",
+    "meaning": "お 祖父[じい]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) grandfather",
+        "reading": "",
+        "english": "7, 24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373291",
+    "japanese": "お祖母さん",
+    "reading": "お祖母さん",
+    "meaning": "お 祖母[ばあ]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) grandmother",
+        "reading": "",
+        "english": "7, 24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373293",
+    "japanese": "ご両親",
+    "reading": "ご両親",
+    "meaning": "ご 両親[りょうしん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) parents",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373295",
+    "japanese": "ご兄弟",
+    "reading": "ご兄弟",
+    "meaning": "ご 兄弟[きょうだい]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) brothers and sisters",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373297",
+    "japanese": "お兄さん",
+    "reading": "お兄さん",
+    "meaning": "お 兄[にい]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) elder brother",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373299",
+    "japanese": "お姉さん",
+    "reading": "お姉さん",
+    "meaning": "お 姉[ねえ]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) elder sister",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373301",
+    "japanese": "弟さん",
+    "reading": "弟さん",
+    "meaning": "弟[おとうと]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) younger brother",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373303",
+    "japanese": "妹さん",
+    "reading": "妹さん",
+    "meaning": "妹[いもうと]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) younger sister",
+        "reading": "",
+        "english": "7, 11"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373305",
+    "japanese": "ご主人",
+    "reading": "ご主人",
+    "meaning": "ご 主人[しゅじん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) husband",
+        "reading": "",
+        "english": "7, 9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373307",
+    "japanese": "奥さん",
+    "reading": "奥さん",
+    "meaning": "奥[おく]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) wife",
+        "reading": "",
+        "english": "7, 9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373309",
+    "japanese": "ご夫婦",
+    "reading": "ご夫婦",
+    "meaning": "ご 夫婦[ふうふ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "husband and wife (somebody else)",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373311",
+    "japanese": "息子さん",
+    "reading": "息子さん",
+    "meaning": "息子[むすこ]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) son",
+        "reading": "",
+        "english": "7, 28"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373313",
+    "japanese": "娘さん",
+    "reading": "娘さん",
+    "meaning": "娘[むすめ]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) daughter",
+        "reading": "",
+        "english": "7, 28"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373315",
+    "japanese": "お子さん",
+    "reading": "お子さん",
+    "meaning": "お 子[こ]さん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "(someone else's) children",
+        "reading": "",
+        "english": "7"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373761",
+    "japanese": "お祖父さん/お祖父ちゃん",
+    "reading": "お祖父さん/お祖父ちゃん",
+    "meaning": "お 祖父[じい]さん/お 祖父[じい]ちゃん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "grandfather",
+        "reading": "",
+        "english": "7, 24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  },
+  {
+    "id": "genki-1-7-1609729373763",
+    "japanese": "お祖母さん/お祖母ちゃん",
+    "reading": "お祖母さん/お祖母ちゃん",
+    "meaning": "お 祖母[ばあ]さん/お 祖母[ばあ]ちゃん",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "grandmother",
+        "reading": "",
+        "english": "7, 24"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-7",
+      "genki-1"
+    ],
+    "lesson": 7,
+    "textbook": "genki-1"
+  }
+]

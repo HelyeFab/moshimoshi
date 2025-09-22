@@ -1,0 +1,1692 @@
+[
+  {
+    "id": "minna-1-9-1544776574631",
+    "japanese": "わかります",
+    "reading": "わかります",
+    "meaning": "To understand",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "わかります",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574633",
+    "japanese": "好き［な］",
+    "reading": "好き［な］",
+    "meaning": "like",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "好[す]き［な］",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574634",
+    "japanese": "嫌い［な］",
+    "reading": "嫌い［な］",
+    "meaning": "dislike",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "嫌[きら]い［な］",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574635",
+    "japanese": "上手です［な］",
+    "reading": "上手です［な］",
+    "meaning": "good at",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "上手[じょうず]です［な］",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574636",
+    "japanese": "下手［な］",
+    "reading": "下手［な］",
+    "meaning": "poor at",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "下手[へた]［な］",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574637",
+    "japanese": "飲み物",
+    "reading": "飲み物",
+    "meaning": "drinks",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "飲み物[のみもの]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574638",
+    "japanese": "りょうり",
+    "reading": "りょうり",
+    "meaning": "dish (cooked food), cooking (～を　します：to cook)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "りょうり",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574639",
+    "japanese": "スポーツ",
+    "reading": "スポーツ",
+    "meaning": "sport (～を　します：play sports)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "スポーツ",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574640",
+    "japanese": "野球",
+    "reading": "野球",
+    "meaning": "baseball (～を　します：to play baseball)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "野球[やきゅう]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574641",
+    "japanese": "ダンス",
+    "reading": "ダンス",
+    "meaning": "Dance (～を　します：to dance)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "ダンス",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574642",
+    "japanese": "旅行",
+    "reading": "旅行",
+    "meaning": "trip, tour (～［を］　します：to travel, make a trip)",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "旅行[りょこう]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574643",
+    "japanese": "音楽",
+    "reading": "音楽",
+    "meaning": "music",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "音楽[おんがく]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574644",
+    "japanese": "歌",
+    "reading": "歌",
+    "meaning": "song",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "歌[うた]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373351",
+    "japanese": "クラシック",
+    "reading": "クラシック",
+    "meaning": "classical music",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373353",
+    "japanese": "ジャズ",
+    "reading": "ジャズ",
+    "meaning": "jazz",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373355",
+    "japanese": "コンサート",
+    "reading": "コンサート",
+    "meaning": "concert",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373357",
+    "japanese": "カラオケ",
+    "reading": "カラオケ",
+    "meaning": "karaoke",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574649",
+    "japanese": "歌舞伎",
+    "reading": "歌舞伎",
+    "meaning": "Kabuki (traditional Japanese musical drama)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "歌舞伎[かぶき]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574650",
+    "japanese": "絵",
+    "reading": "絵",
+    "meaning": "picture, drawing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "絵[え]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574651",
+    "japanese": "字",
+    "reading": "字",
+    "meaning": "letter, character",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "字[じ]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574652",
+    "japanese": "漢字",
+    "reading": "漢字",
+    "meaning": "Chinese character",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "漢字[かんじ]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574653",
+    "japanese": "ひらがな",
+    "reading": "ひらがな",
+    "meaning": "hiragana script",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "na-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "ひらがな",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574654",
+    "japanese": "かたかな",
+    "reading": "かたかな",
+    "meaning": "katakana script",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "na-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "かたかな",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574655",
+    "japanese": "ローマ字",
+    "reading": "ローマ字",
+    "meaning": "the Roman alphabet",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ローマ字[ろーまじ]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574656",
+    "japanese": "細かい お金",
+    "reading": "細かい お金",
+    "meaning": "small change",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "細[こま]かい　お 金[かね]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574658",
+    "japanese": "時間",
+    "reading": "時間",
+    "meaning": "time",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "時間[じかん]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574659",
+    "japanese": "用事",
+    "reading": "用事",
+    "meaning": "something to do, errand",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "用事[ようじ]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574660",
+    "japanese": "約束",
+    "reading": "約束",
+    "meaning": "appointment, promise (～［を］　します：to promise)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "約束[やくそく]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574661",
+    "japanese": "アルバイト",
+    "reading": "アルバイト",
+    "meaning": "side job (～を　します：to work part-time)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "アルバイト",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574662",
+    "japanese": "ご主人",
+    "reading": "ご主人",
+    "meaning": "(someone else's) husband",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "ご 主人[しゅじん]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574663",
+    "japanese": "夫／主人",
+    "reading": "夫／主人",
+    "meaning": "(my) husband",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "夫[おっと]／ 主人[しゅじん]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574664",
+    "japanese": "奥さん",
+    "reading": "奥さん",
+    "meaning": "(someone else's) wife",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "奥[おく]さん",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574665",
+    "japanese": "妻／家内",
+    "reading": "妻／家内",
+    "meaning": "(my) wife",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "妻[つま]／ 家内[かない]",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574666",
+    "japanese": "子ども",
+    "reading": "子ども",
+    "meaning": "child",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "子[こ]ども",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574668",
+    "japanese": "だいたい",
+    "reading": "だいたい",
+    "meaning": "mostly, roughly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "i-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "だいたい",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574669",
+    "japanese": "たくさん",
+    "reading": "たくさん",
+    "meaning": "many, much",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "たくさん",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574670",
+    "japanese": "少し",
+    "reading": "少し",
+    "meaning": "a little, a few",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "少[すこ]し",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574671",
+    "japanese": "ぜんぜん",
+    "reading": "ぜんぜん",
+    "meaning": "not at all (used with negatives)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ぜんぜん",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574672",
+    "japanese": "早く、速く",
+    "reading": "早く、速く",
+    "meaning": "early, quickly, fast",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "早[はや]く、 速[はや]く",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574674",
+    "japanese": "どうして",
+    "reading": "どうして",
+    "meaning": "why",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "どうして",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574675",
+    "japanese": "貸して ください。",
+    "reading": "貸して ください。",
+    "meaning": "Please lend (it to me).",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "貸[か]して　ください。",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574677",
+    "japanese": "ざんねんです［が］",
+    "reading": "ざんねんです［が］",
+    "meaning": "I'm sorry [,but], unfortunately",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ざんねんです［が］",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574678",
+    "japanese": "ああ",
+    "reading": "ああ",
+    "meaning": "oh",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "ああ",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574679",
+    "japanese": "いっしょに いかがですか。",
+    "reading": "いっしょに いかがですか。",
+    "meaning": "Won't you join me (us)?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "いっしょに　いかがですか。",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574680",
+    "japanese": "［～は］ ちょっと",
+    "reading": "［～は］ ちょっと",
+    "meaning": "[~] is a bit difficult. (a euphemism used when declining an invitation)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "［~は］　ちょっと",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574681",
+    "japanese": "だめですか。",
+    "reading": "だめですか。",
+    "meaning": "So you can't (come)?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "だめですか。",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1544776574682",
+    "japanese": "また 今度 お願いします。",
+    "reading": "また 今度 お願いします。",
+    "meaning": "Please ask me again some other time. (used when refusing an invitation indirectly, considering someone's feelings)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "また　 今度[こんど]　お 願[ねが]いします。",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1550630360109",
+    "japanese": "〜から",
+    "reading": "〜から",
+    "meaning": "because ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "〜から",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1550631524519",
+    "japanese": "あります",
+    "reading": "あります",
+    "meaning": "to have",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "あります",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1550632529494",
+    "japanese": "よく",
+    "reading": "よく",
+    "meaning": "well, much",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "よく",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729372883",
+    "japanese": "一緒に いかがですか。",
+    "reading": "一緒に いかがですか。",
+    "meaning": "一緒[いっしょ]に　いかがですか。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Won't you come join me (us)?",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729372885",
+    "japanese": "～は ちょっと...。",
+    "reading": "～は ちょっと...。",
+    "meaning": "(～は)　ちょっと...。",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "(～) is a bit difficult.",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373337",
+    "japanese": "料理",
+    "reading": "料理",
+    "meaning": "料理[りょうり]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "dish (cooked food), cooking",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373339",
+    "japanese": "飲み物",
+    "reading": "飲み物",
+    "meaning": "飲み物[のみもの]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "drinks",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373341",
+    "japanese": "スポーツ",
+    "reading": "スポーツ",
+    "meaning": "sports",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": "(～を します: play sports)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373343",
+    "japanese": "野球",
+    "reading": "野球",
+    "meaning": "野球[やきゅう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "baseball",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373345",
+    "japanese": "ダンス",
+    "reading": "ダンス",
+    "meaning": "dance",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": "(～を します: dance)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373347",
+    "japanese": "音楽",
+    "reading": "音楽",
+    "meaning": "音楽[おんがく]",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "music",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373349",
+    "japanese": "歌",
+    "reading": "歌",
+    "meaning": "歌[うた]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "song",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373359",
+    "japanese": "歌舞伎",
+    "reading": "歌舞伎",
+    "meaning": "歌舞伎[かぶき]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Kabuki (traditional Japanese musical drama)",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373361",
+    "japanese": "絵",
+    "reading": "絵",
+    "meaning": "絵[え]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "picture, drawing",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373363",
+    "japanese": "字",
+    "reading": "字",
+    "meaning": "字[じ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "letter, character",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373365",
+    "japanese": "漢字",
+    "reading": "漢字",
+    "meaning": "漢字[かんじ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "Chinese characters",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373367",
+    "japanese": "ひらがな",
+    "reading": "ひらがな",
+    "meaning": "Hiragana script",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "na-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373369",
+    "japanese": "かたかな",
+    "reading": "かたかな",
+    "meaning": "Katakana script",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "na-adjective"
+    ],
+    "examples": [
+      {
+        "japanese": "9",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373371",
+    "japanese": "ローマ字",
+    "reading": "ローマ字",
+    "meaning": "ローマ 字[じ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "the Roman alphabet",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373373",
+    "japanese": "細かい お金",
+    "reading": "細かい お金",
+    "meaning": "細[こま]かい お 金[かね]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "small change",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373377",
+    "japanese": "時間",
+    "reading": "時間",
+    "meaning": "時間[じかん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "time",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373379",
+    "japanese": "用事",
+    "reading": "用事",
+    "meaning": "用事[ようじ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "something to do, errand",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373381",
+    "japanese": "約束",
+    "reading": "約束",
+    "meaning": "約束[やくそく]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "appointment, promise",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373383",
+    "japanese": "子供",
+    "reading": "子供",
+    "meaning": "子供[こども]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "child",
+        "reading": "",
+        "english": "9"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  },
+  {
+    "id": "minna-1-9-1609729373533",
+    "japanese": "おつり",
+    "reading": "おつり",
+    "meaning": "change (money)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "14",
+        "reading": "",
+        "english": "(used only for change returned after a transaction)<br>細[こま]かい お 金[かね] = small change (9)"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-9",
+      "minna-1"
+    ],
+    "lesson": 9,
+    "textbook": "minna-1"
+  }
+]

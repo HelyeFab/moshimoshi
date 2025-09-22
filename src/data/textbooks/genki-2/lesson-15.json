@@ -1,0 +1,784 @@
+[
+  {
+    "id": "genki-2-15-1544776574918",
+    "japanese": "置きます",
+    "reading": "置きます",
+    "meaning": "to put",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "置[お]きます",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574919",
+    "japanese": "作ります、造ります",
+    "reading": "作ります、造ります",
+    "meaning": "to make, produce",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "作[つく]ります、 造[つく]ります",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574920",
+    "japanese": "売ります",
+    "reading": "売ります",
+    "meaning": "to sell",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "売[う]ります",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574921",
+    "japanese": "知ります",
+    "reading": "知ります",
+    "meaning": "to get to know",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "知[し]ります",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574922",
+    "japanese": "済みます",
+    "reading": "済みます",
+    "meaning": "to live, dwell, reside, etc.&nbsp;",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "済[す]みます",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574923",
+    "japanese": "研究します",
+    "reading": "研究します",
+    "meaning": "to do research",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "研究[けんきゅう]します",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574924",
+    "japanese": "資料",
+    "reading": "資料",
+    "meaning": "materials, data",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "資料[しりょう]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373537",
+    "japanese": "カタログ",
+    "reading": "カタログ",
+    "meaning": "catalogue",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "15",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574926",
+    "japanese": "時刻表",
+    "reading": "時刻表",
+    "meaning": "timetable",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "時刻[じこく] 表[ひょう]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574927",
+    "japanese": "服",
+    "reading": "服",
+    "meaning": "clothes",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "服[ふく]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574928",
+    "japanese": "製品",
+    "reading": "製品",
+    "meaning": "products",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "製品[せいひん]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373545",
+    "japanese": "ソフト",
+    "reading": "ソフト",
+    "meaning": "software",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "15",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574930",
+    "japanese": "電子辞書",
+    "reading": "電子辞書",
+    "meaning": "electric dictionary",
+    "jlptLevel": "N4",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "電子[でんし] 辞書[じしょ]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n4",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574931",
+    "japanese": "経済",
+    "reading": "経済",
+    "meaning": "economy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "経済[けいざい]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574932",
+    "japanese": "市役所",
+    "reading": "市役所",
+    "meaning": "municipal office, city hall",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "市役所[しやくしょ]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574933",
+    "japanese": "高校",
+    "reading": "高校",
+    "meaning": "senior high school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "高校[こうこう]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574934",
+    "japanese": "歯医者",
+    "reading": "歯医者",
+    "meaning": "dentist, dentist's",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "歯医者[はいしゃ]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574935",
+    "japanese": "独身",
+    "reading": "独身",
+    "meaning": "single, unmarried",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "独身[どくしん]",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574936",
+    "japanese": "すみません",
+    "reading": "すみません",
+    "meaning": "I'm sorry.",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "すみません",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574937",
+    "japanese": "みなさん",
+    "reading": "みなさん",
+    "meaning": "Ladies and Gentlemen, everybody",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "みなさん",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574938",
+    "japanese": "思い出します",
+    "reading": "思い出します",
+    "meaning": "to remember, recollect",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "思い出[おもいだ]します",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1544776574939",
+    "japanese": "いらっしゃいます",
+    "reading": "いらっしゃいます",
+    "meaning": "to be (honorific equivalent of います)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "verb"
+    ],
+    "examples": [
+      {
+        "japanese": "いらっしゃいます",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373535",
+    "japanese": "資料",
+    "reading": "資料",
+    "meaning": "資料[しりょう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "materials, data",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373539",
+    "japanese": "時刻表",
+    "reading": "時刻表",
+    "meaning": "時刻[じこく] 表[ひょう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "timetable",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373541",
+    "japanese": "服",
+    "reading": "服",
+    "meaning": "服[ふく]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "clothes",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373543",
+    "japanese": "製品",
+    "reading": "製品",
+    "meaning": "製品[せいひん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "products",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373547",
+    "japanese": "専門",
+    "reading": "専門",
+    "meaning": "専門[せんもん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "speciality, field of study",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373549",
+    "japanese": "歯医者",
+    "reading": "歯医者",
+    "meaning": "歯医者[はいしゃ]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "dentist, dentist's",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373551",
+    "japanese": "床屋",
+    "reading": "床屋",
+    "meaning": "床屋[とこや]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "barber, barber's",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373553",
+    "japanese": "プレイガイド",
+    "reading": "プレイガイド",
+    "meaning": "(theatre) ticket agency",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [
+      {
+        "japanese": "15",
+        "reading": "",
+        "english": ""
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373555",
+    "japanese": "独身",
+    "reading": "独身",
+    "meaning": "独身[どくしん]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "single, unmarried",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373557",
+    "japanese": "ご家族",
+    "reading": "ご家族",
+    "meaning": "ご 家族[かぞく]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "your family",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  },
+  {
+    "id": "genki-2-15-1609729373559",
+    "japanese": "高校",
+    "reading": "高校",
+    "meaning": "高校[こうこう]",
+    "jlptLevel": "N5",
+    "partOfSpeech": [
+      "noun"
+    ],
+    "examples": [
+      {
+        "japanese": "senior high school",
+        "reading": "",
+        "english": "15"
+      }
+    ],
+    "tags": [
+      "n5",
+      "lesson-15",
+      "genki-2"
+    ],
+    "lesson": 15,
+    "textbook": "genki-2"
+  }
+]

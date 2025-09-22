@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "118818",
+    "japanese": "彼には少なからぬ経験がある。",
+    "english": "He has not a little experience."
+  },
+  {
+    "id": "118819",
+    "japanese": "彼には少しもやましい点がない。",
+    "english": "There is nothing funny about him."
+  },
+  {
+    "id": "118820",
+    "japanese": "彼には商売で成功できるだけの押しの強さがない。",
+    "english": "He is not aggressive enough to succeed in business."
+  },
+  {
+    "id": "118821",
+    "japanese": "彼には商人になった息子が２人いる。",
+    "english": "He has two sons who became merchants."
+  },
+  {
+    "id": "118822",
+    "japanese": "彼には助けてくれる友がいなかった。",
+    "english": "He had no friend to help him."
+  },
+  {
+    "id": "118823",
+    "japanese": "彼には住む家もない。",
+    "english": "He has no house to live in."
+  },
+  {
+    "id": "118824",
+    "japanese": "彼には手を焼いた。",
+    "english": "I didn't get anywhere with him."
+  },
+  {
+    "id": "118825",
+    "japanese": "彼には住む家がない。",
+    "english": "He has no house in which to live."
+  },
+  {
+    "id": "118826",
+    "japanese": "彼には弱点があるからかえってよけいに彼が好きだ。",
+    "english": "I like him all the more for his weaknesses."
+  },
+  {
+    "id": "118827",
+    "japanese": "彼には社長になれるような力量はない。",
+    "english": "He doesn't have the capacity to be president."
+  },
+  {
+    "id": "118828",
+    "japanese": "彼には自分を継承してくれる子供が一人もいない。",
+    "english": "He has no children to succeed to him."
+  },
+  {
+    "id": "118829",
+    "japanese": "彼には自分の意見というものがない。",
+    "english": "He has no idea of his own."
+  },
+  {
+    "id": "118830",
+    "japanese": "彼には自分が悪かったことを認めるぐらいの心得もなかった。",
+    "english": "He didn't have the decency to admit that he was wrong."
+  },
+  {
+    "id": "118831",
+    "japanese": "彼には時たま会います。",
+    "english": "I see him once in a while."
+  },
+  {
+    "id": "118832",
+    "japanese": "彼には事実と虚構の区別がつかない。",
+    "english": "He can't tell fact from fiction."
+  },
+  {
+    "id": "118833",
+    "japanese": "彼には事業を経営する能力がある。",
+    "english": "He has the ability to manage a business."
+  },
+  {
+    "id": "118834",
+    "japanese": "彼には事業を経営するのに十分な才能がある。",
+    "english": "He has enough ability to manage a business."
+  },
+  {
+    "id": "118835",
+    "japanese": "彼には試験に受かってほしい。",
+    "english": "I hope he will get through the exam."
+  },
+  {
+    "id": "118836",
+    "japanese": "彼には私の仕事を援助する気がなかった。",
+    "english": "He had no intention of assisting my job."
+  },
+  {
+    "id": "118837",
+    "japanese": "彼には私にないものがあった。それは信念であった。",
+    "english": "He had something that I didn't have - faith."
+  },
+  {
+    "id": "118838",
+    "japanese": "彼には私と彼のお兄さんの区別がつきません。",
+    "english": "I can't distinguish him from his brother."
+  },
+  {
+    "id": "118839",
+    "japanese": "彼には私たちを訪れる機会がなかった。",
+    "english": "He had no chance to visit us."
+  },
+  {
+    "id": "118840",
+    "japanese": "彼には思想の理想がかけている。",
+    "english": "His thoughts are empty of idea."
+  },
+  {
+    "id": "118841",
+    "japanese": "彼には思わず説得されてしまうよ。",
+    "english": "He persuades you in spite of yourself."
+  },
+  {
+    "id": "118842",
+    "japanese": "彼には子供と触れ合う時間がなかった。",
+    "english": "He didn't have time to spend with his children."
+  },
+  {
+    "id": "118843",
+    "japanese": "彼には子供が少なくとも５人はいる。",
+    "english": "He has not less than five children."
+  },
+  {
+    "id": "118844",
+    "japanese": "彼には子供が何人かいますか。",
+    "english": "Does he have any children?"
+  },
+  {
+    "id": "118845",
+    "japanese": "彼には子供がないが、その他の点では幸福な生活を送っている。",
+    "english": "He has no children, but he is leading an otherwise happy life."
+  },
+  {
+    "id": "118846",
+    "japanese": "彼には子供がせいぜい３人ぐらいしかない。",
+    "english": "He has not more than three children."
+  },
+  {
+    "id": "118847",
+    "japanese": "彼には子供がいません。",
+    "english": "He has no children."
+  },
+  {
+    "id": "118848",
+    "japanese": "彼には子供がいない。",
+    "english": "He has no children."
+  },
+  {
+    "id": "118849",
+    "japanese": "彼には子供がいますか。",
+    "english": "Does he have any children?"
+  },
+  {
+    "id": "118850",
+    "japanese": "彼には子供が１２人もいる。",
+    "english": "He has no less than twelve children."
+  },
+  {
+    "id": "118851",
+    "japanese": "彼には姉が３人いる。ひとりは東京に、残りは名古屋にいる。",
+    "english": "He has three sisters; one is in Tokyo and the others are in Nagoya."
+  },
+  {
+    "id": "118852",
+    "japanese": "彼には仕える使用人が１人しかいない。",
+    "english": "He has only one servant to attend on him."
+  },
+  {
+    "id": "118853",
+    "japanese": "彼には仕えてくれる召し使いがたった一人しかいない。",
+    "english": "He has only one servant to attend on him."
+  },
+  {
+    "id": "118854",
+    "japanese": "彼には三人の息子がいた。",
+    "english": "He had three sons."
+  },
+  {
+    "id": "118855",
+    "japanese": "彼には三人の子供がいます。",
+    "english": "He has three children."
+  },
+  {
+    "id": "118856",
+    "japanese": "彼には三人の兄弟がある。",
+    "english": "He has three brothers."
+  },
+  {
+    "id": "118857",
+    "japanese": "彼には才能があるという言葉ではまだ足りない。",
+    "english": "Talented isn't the word for him."
+  },
+  {
+    "id": "118858",
+    "japanese": "彼には困っているんです。",
+    "english": "He is giving me a hard time."
+  },
+  {
+    "id": "118859",
+    "japanese": "彼には国籍が不利に働いた。",
+    "english": "His nationality counted against him."
+  },
+  {
+    "id": "118860",
+    "japanese": "彼には国際政治に関する情報の蓄積がある。",
+    "english": "He has fund of information about world politics."
+  },
+  {
+    "id": "118861",
+    "japanese": "彼には行かないように頼んだ。にもかかわらず彼は去った。",
+    "english": "I asked him not to go, but he left all the same."
+  },
+  {
+    "id": "118862",
+    "japanese": "彼には語り合う親しい友がいない。",
+    "english": "He has no close friends to talk with."
+  },
+  {
+    "id": "118863",
+    "japanese": "彼には五人も兄弟がいる。",
+    "english": "He has as many as five brothers."
+  },
+  {
+    "id": "118864",
+    "japanese": "彼には故郷を離れる考えは全くなかった。",
+    "english": "He had no notion of leaving his hometown."
+  },
+  {
+    "id": "118865",
+    "japanese": "彼には権力も能力も備わっている。",
+    "english": "He has got both authority and ability."
+  },
+  {
+    "id": "118866",
+    "japanese": "彼には結婚するゆとりはない。",
+    "english": "He cannot afford to marry."
+  },
+  {
+    "id": "118867",
+    "japanese": "彼には欠点もあるが、やはり私は彼が好きだ。",
+    "english": "He has some faults, but I like him none the less."
+  },
+  {
+    "id": "118869",
+    "japanese": "彼には欠点があるが、それでも彼が好きだ。",
+    "english": "I love him none the less for his faults."
+  },
+  {
+    "id": "118870",
+    "japanese": "彼には欠点が多いが、私は彼を好きにならずにはいられない。",
+    "english": "I cannot help liking him in spite of his many faults."
+  },
+  {
+    "id": "118871",
+    "japanese": "彼には欠点があるのでなおのこと彼が好きだ。",
+    "english": "I like him the better for his faults."
+  },
+  {
+    "id": "118872",
+    "japanese": "彼には欠点があるにもかかわらず、私は彼を立派だと思う。",
+    "english": "I admire him, in spite of his faults."
+  },
+  {
+    "id": "118873",
+    "japanese": "彼には欠点があるが私は彼のことを愛している。",
+    "english": "I love him none the less for his faults."
+  },
+  {
+    "id": "118874",
+    "japanese": "彼には欠点があるからなおさら好きだ。",
+    "english": "I like him all the better for his faults."
+  },
+  {
+    "id": "118875",
+    "japanese": "彼には欠点があるからかえって好きだ。",
+    "english": "I love him all the more for his faults."
+  },
+  {
+    "id": "118876",
+    "japanese": "彼には欠点があるからいっそう私は好きだ。",
+    "english": "I like him all the better for his faults."
+  },
+  {
+    "id": "118877",
+    "japanese": "彼には欠点があるから、私はなおさら彼が好きだ。",
+    "english": "I like him all the better for his faults."
+  },
+  {
+    "id": "118883",
+    "japanese": "彼には欠点があったが、それでも私は彼を愛していた。",
+    "english": "He had faults, but despite that I loved him."
+  },
+  {
+    "id": "118884",
+    "japanese": "彼には傑出した音楽の才能がある。",
+    "english": "He has an outstanding talent for music."
+  },
+  {
+    "id": "118885",
+    "japanese": "彼には警告していたのですが。",
+    "english": "I blew the whistle on him."
+  },
+  {
+    "id": "118886",
+    "japanese": "彼には経済観念がない。",
+    "english": "He has no sense of economy."
+  },
+  {
+    "id": "118887",
+    "japanese": "彼には経営の才があります。",
+    "english": "He has managerial talent."
+  },
+  {
+    "id": "118888",
+    "japanese": "彼には兄弟が二人いて、一人は大阪で、もう一人は神戸で暮らしている。",
+    "english": "He has two brothers, one lives in Osaka and the other in Kobe."
+  },
+  {
+    "id": "118889",
+    "japanese": "彼には兄弟が一人と姉妹が二人いる。",
+    "english": "He has a brother and two sisters."
+  },
+  {
+    "id": "118890",
+    "japanese": "彼には君を傷つけるつもりなんてなかったのだ。",
+    "english": "He didn't mean to hurt you."
+  },
+  {
+    "id": "118891",
+    "japanese": "彼には君の声が聞こえたはずがない。",
+    "english": "He can't have heard you."
+  },
+  {
+    "id": "118892",
+    "japanese": "彼には君の気持ちを傷つけるつもりはなかった。",
+    "english": "He did not intend to hurt your feelings."
+  },
+  {
+    "id": "118893",
+    "japanese": "彼には君と同じ年の息子がいる。",
+    "english": "He has a son of your age."
+  },
+  {
+    "id": "118894",
+    "japanese": "彼には近いうちに休みをやろう。",
+    "english": "He shall have a holiday one of these days."
+  },
+  {
+    "id": "118895",
+    "japanese": "彼には矯正が必要である。",
+    "english": "He needs discipline."
+  },
+  {
+    "id": "118896",
+    "japanese": "彼には教師たる才能がない。",
+    "english": "He has no capacity to be a teacher."
+  },
+  {
+    "id": "118897",
+    "japanese": "彼には教職の経験が無かったが、やみくもにこの世界に飛び込んだ。",
+    "english": "He'd had no experience of teaching, but he plunged in nonetheless."
+  },
+  {
+    "id": "118898",
+    "japanese": "彼には気を許すな。",
+    "english": "Be on your guard against him."
+  },
+  {
+    "id": "118899",
+    "japanese": "彼には給料の他に少し収入がある。",
+    "english": "He has some income in addition to his salary."
+  },
+  {
+    "id": "118901",
+    "japanese": "彼には感謝しきれない。",
+    "english": "I cannot thank him too much."
+  },
+  {
+    "id": "118902",
+    "japanese": "彼には寒さがとてもこたえる。",
+    "english": "He feels the cold very much."
+  },
+  {
+    "id": "118904",
+    "japanese": "彼には確か二人の息子がいたとおもう。",
+    "english": "He has two sons, I believe."
+  },
+  {
+    "id": "118905",
+    "japanese": "彼には会計士になる能力がある。",
+    "english": "He has the capacity to become an accountant."
+  },
+  {
+    "id": "118906",
+    "japanese": "彼には我慢できない。",
+    "english": "I can't put up with him."
+  },
+  {
+    "id": "118907",
+    "japanese": "彼には加古川の人を軽蔑しているふしがある。",
+    "english": "He seems to hold people from Kakogawa in contempt."
+  },
+  {
+    "id": "118908",
+    "japanese": "彼には我を忘れて楽しみにふける時間があった。",
+    "english": "He had time to lose himself in his amusement."
+  },
+  {
+    "id": "118909",
+    "japanese": "彼には何度も会ったことがある。",
+    "english": "I have seen him many times."
+  },
+  {
+    "id": "118910",
+    "japanese": "彼には何も言う勇気がなかった。",
+    "english": "He didn't dare say anything."
+  },
+  {
+    "id": "118911",
+    "japanese": "彼には何も言いたくない。",
+    "english": "I've got nothing to say to him."
+  },
+  {
+    "id": "118912",
+    "japanese": "彼には何の心配もない。",
+    "english": "He is free from care."
+  },
+  {
+    "id": "118913",
+    "japanese": "彼には何ヶ月も会っていない。",
+    "english": "I have not seen him in months."
+  },
+  {
+    "id": "118914",
+    "japanese": "彼には何の因果か怠け者の息子がいる。",
+    "english": "He is cursed with idle sons."
+  },
+  {
+    "id": "118915",
+    "japanese": "彼には何か不安がある。",
+    "english": "He has something to complain of."
+  },
+  {
+    "id": "118916",
+    "japanese": "彼には音楽家の素質がある。",
+    "english": "He has something of the musician in him."
+  },
+  {
+    "id": "118917",
+    "japanese": "彼には音楽家になった３人の息子がいる。",
+    "english": "He has three sons who became musicians."
+  },
+  {
+    "id": "118918",
+    "japanese": "彼には音楽の才能がある。",
+    "english": "He has a gift for music."
+  },
+  {
+    "id": "118919",
+    "japanese": "彼には臆病なところもあったが、非常に大胆なところもあった。",
+    "english": "Though timid in some respects, he was very bold in others."
+  },
+  {
+    "id": "118920",
+    "japanese": "彼には運動が必要だ。",
+    "english": "He is in want of exercise."
+  },
+  {
+    "id": "118921",
+    "japanese": "彼には嘘をでっち上げる癖があるのは本当だ。",
+    "english": "It is true that he has a habit of inventing lies."
+  },
+  {
+    "id": "118923",
+    "japanese": "彼には一緒に遊ぶ友達がいない。",
+    "english": "He has no friend to play with."
+  },
+  {
+    "id": "118924",
+    "japanese": "彼には医者になった息子が３人いた。",
+    "english": "He had three sons who became doctors."
+  },
+  {
+    "id": "118925",
+    "japanese": "彼には以前一度会ったことがあったので、彼だとすぐわかった。",
+    "english": "Having seen him before, I recognized him at once."
+  },
+  {
+    "id": "118926",
+    "japanese": "彼には悪評が絶えない。",
+    "english": "He is a constant subject of scandal."
+  },
+  {
+    "id": "118927",
+    "japanese": "彼には愛想が尽きた。",
+    "english": "I am disgusted with him."
+  },
+  {
+    "id": "118928",
+    "japanese": "彼にはロシア語が通じる。",
+    "english": "He is learned in Russian."
+  },
+  {
+    "id": "118929",
+    "japanese": "彼にはよくあることだがその日も自転車で登校した。",
+    "english": "That day he went to school by bicycle, as is usual with him."
+  },
+  {
+    "id": "118930",
+    "japanese": "彼にはよくある事だが、また遅刻した。",
+    "english": "As is often the case with him, he was late again."
+  },
+  {
+    "id": "118931",
+    "japanese": "彼にはよくあることですが、授業に遅刻してしまいました。",
+    "english": "As is often the case with him, he was late for class."
+  },
+  {
+    "id": "118933",
+    "japanese": "彼にはよくあることだが不注意な誤りをした。",
+    "english": "He made a careless mistake, as is often the case with him."
+  },
+  {
+    "id": "118934",
+    "japanese": "彼にはよくあることだが、夜遅くまで起きている。",
+    "english": "As is often the case with him, he sits up late at night."
+  },
+  {
+    "id": "118935",
+    "japanese": "彼にはよくあることだが、彼は遅刻した。",
+    "english": "As is often the case with him, he was late."
+  },
+  {
+    "id": "118936",
+    "japanese": "彼にはよくあることだが、彼は遅れてやって来た。",
+    "english": "He came late, as is often the case with him."
+  },
+  {
+    "id": "118939",
+    "japanese": "彼にはよくあることだが、遅れてやってきた。",
+    "english": "As is often the case with him, he came late."
+  },
+  {
+    "id": "118940",
+    "japanese": "彼にはよくあることだが、今日も学校を休んだ。",
+    "english": "He was absent from school today, as is often the case with him."
+  },
+  {
+    "id": "118941",
+    "japanese": "彼にはよくあることだが、間違いを犯した。",
+    "english": "He made an error, as he often does."
+  },
+  {
+    "id": "118943",
+    "japanese": "彼にはよくあることだが、家に教科書を忘れた。",
+    "english": "As is often the case with him, he left his textbook at home."
+  },
+  {
+    "id": "118944",
+    "japanese": "彼にはよくあることだが、学校に遅刻した。",
+    "english": "As is often the case with him, he was late for school."
+  },
+  {
+    "id": "118945",
+    "japanese": "彼にはよくあることだが、ひげをそらずに会社にでかけた。",
+    "english": "As is often the case with him, he went to the office without shaving."
+  },
+  {
+    "id": "118946",
+    "japanese": "彼にはユーモア精神が全然ないようだ。",
+    "english": "He seems to be bankrupt of humor."
+  },
+  {
+    "id": "118947",
+    "japanese": "彼にはよくあることだが、あの試験でカンニングをした。",
+    "english": "As is often the case with him, he cheated in that exam."
+  },
+  {
+    "id": "118948",
+    "japanese": "彼にはものの道理がわかっていない。",
+    "english": "He doesn't understand the principle of the thing."
+  },
+  {
+    "id": "118949",
+    "japanese": "彼にはもう我慢できない。",
+    "english": "He can't endure anymore."
+  },
+  {
+    "id": "118950",
+    "japanese": "彼にはもう我慢ならない。",
+    "english": "I can't put up with him any longer."
+  },
+  {
+    "id": "118951",
+    "japanese": "彼にはもう一人息子がいる。",
+    "english": "He has another son."
+  },
+  {
+    "id": "118953",
+    "japanese": "彼にはまだ多くの闘志が残っていた。",
+    "english": "He had plenty of fight left in him."
+  },
+  {
+    "id": "118954",
+    "japanese": "彼にはまた会うだろう。",
+    "english": "I'll be seeing him again."
+  },
+  {
+    "id": "118955",
+    "japanese": "彼にはほとんど言うべきことがなかった。",
+    "english": "He had little, if anything, to say."
+  },
+  {
+    "id": "118956",
+    "japanese": "彼にははっきりした目的がない。",
+    "english": "He has no specific aim."
+  },
+  {
+    "id": "118957",
+    "japanese": "彼にはなかなか会えない。",
+    "english": "It is difficult to gain access to him."
+  },
+  {
+    "id": "118958",
+    "japanese": "彼にはドライなユーモアはわかりませんよ。",
+    "english": "He doesn't have a dry sense of humor."
+  },
+  {
+    "id": "118959",
+    "japanese": "彼にはどことなく謎めいたところがある。",
+    "english": "There's something mysterious about him."
+  },
+  {
+    "id": "118960",
+    "japanese": "彼にはどこか変わったことがある。",
+    "english": "There's something unusual about him."
+  },
+  {
+    "id": "118961",
+    "japanese": "彼にはどこか、変わった所がある。",
+    "english": "There's something unusual about him."
+  },
+  {
+    "id": "118962",
+    "japanese": "彼にはどうしても勝てない。まだまだ甘いな。",
+    "english": "I just can't seem to outdo him. I've got a lot to learn."
+  },
+  {
+    "id": "118963",
+    "japanese": "彼にはたやすく会える。",
+    "english": "He is easy to reach."
+  },
+  {
+    "id": "118964",
+    "japanese": "彼にはちゃんとしたアリバイがあった。",
+    "english": "He had a strong alibi."
+  },
+  {
+    "id": "118965",
+    "japanese": "彼にはたびたび会ったことがあるので、私は彼のことをよく知っている。",
+    "english": "Having often seen him, I know him quite well."
+  },
+  {
+    "id": "118966",
+    "japanese": "彼にはそんな扱いは必要ない。",
+    "english": "He doesn't need such treatment."
+  },
+  {
+    "id": "118967",
+    "japanese": "彼にはそんなことはお手の物だ。",
+    "english": "It is right up his alley."
+  },
+  {
+    "id": "118968",
+    "japanese": "彼にはそれを信じる十分な根拠がある。",
+    "english": "He has good grounds for believing that."
+  },
+  {
+    "id": "118969",
+    "japanese": "彼にはそれをするだけの大胆さがなかった。",
+    "english": "He had no confidence to do it."
+  },
+  {
+    "id": "118970",
+    "japanese": "彼にはそれはすることができない。",
+    "english": "He is unable to do it."
+  },
+  {
+    "id": "118971",
+    "japanese": "彼にはそれが全くわからなかった。",
+    "english": "He could make nothing of it."
+  },
+  {
+    "id": "118972",
+    "japanese": "彼にはそれが出来ると確信する。",
+    "english": "I don't doubt his ability to do it."
+  },
+  {
+    "id": "118973",
+    "japanese": "彼にその理由を説明する必要がありますか。",
+    "english": "Is it necessary for me to explain the reason to him?"
+  },
+  {
+    "id": "118974",
+    "japanese": "彼にはその問題に対処する十分な経験がなかった。",
+    "english": "He didn't have enough experience to cope with the problem."
+  },
+  {
+    "id": "118975",
+    "japanese": "彼にはその法案に反対の発言をする気骨があるだろうか。",
+    "english": "Will he have the backbone to speak out against the bill?"
+  },
+  {
+    "id": "118976",
+    "japanese": "彼にはその文の意味が理解できなかった。",
+    "english": "He couldn't understand the sentence."
+  },
+  {
+    "id": "118977",
+    "japanese": "彼にはその病気を乗り切るだけの力がある。",
+    "english": "He has the strength to survive the illness."
+  },
+  {
+    "id": "118978",
+    "japanese": "彼にはその申し出を断るだけの分別があった。",
+    "english": "He had enough wisdom to refuse the offer."
+  },
+  {
+    "id": "118979",
+    "japanese": "彼にはその失敗の責任がある。",
+    "english": "He is to blame for the failure."
+  },
+  {
+    "id": "118980",
+    "japanese": "彼にはその仕事をする力量がある。",
+    "english": "He is competent for the job."
+  },
+  {
+    "id": "118981",
+    "japanese": "彼にはその仕事をする力はないと思う。",
+    "english": "I doubt his ability to do the job."
+  },
+  {
+    "id": "118982",
+    "japanese": "彼にはその仕事をする能力がある。",
+    "english": "He has the ability to do the job."
+  },
+  {
+    "id": "118985",
+    "japanese": "彼にはその仕事をきちんとこなす能力がない。",
+    "english": "He doesn't have the ability to do the work properly."
+  },
+  {
+    "id": "118986",
+    "japanese": "彼にはその仕事ができない。",
+    "english": "He is not up to the task."
+  },
+  {
+    "id": "118987",
+    "japanese": "彼にはその靴が小さすぎると解った。",
+    "english": "He found the shoes too small for him."
+  },
+  {
+    "id": "118988",
+    "japanese": "彼にはそのお金を借りる友達がいなかった。",
+    "english": "He had no friend from whom he could borrow the money."
+  },
+  {
+    "id": "118989",
+    "japanese": "彼にはその５分が５時間にも思えた。",
+    "english": "To him those five minutes seemed like five hours."
+  },
+  {
+    "id": "118990",
+    "japanese": "彼にはそこへいく特別の理由はなかった。",
+    "english": "He had no particular reason to go there."
+  },
+  {
+    "id": "118991",
+    "japanese": "彼にはする事がたくさんある。",
+    "english": "He has a lot of things to do."
+  },
+  {
+    "id": "118993",
+    "japanese": "彼にはすばらしいユーモアの感覚があった。",
+    "english": "He had a magnificent sense of humor."
+  },
+  {
+    "id": "118994",
+    "japanese": "彼にはジョンという名の息子がいる。",
+    "english": "He has a son whose name is John."
+  },
+  {
+    "id": "118995",
+    "japanese": "彼にはじめてあったのがいつなのか覚えていません。",
+    "english": "I don't remember when I first met him."
+  },
+  {
+    "id": "118996",
+    "japanese": "彼にはこんなのたやすい事だからね。",
+    "english": "It's as easy as pie for him."
+  },
+  {
+    "id": "118997",
+    "japanese": "彼にはこの秘密を隠しておこうじゃないか。",
+    "english": "Let's conceal this secret from him."
+  },
+  {
+    "id": "118998",
+    "japanese": "彼にはこの土地の所有権はない。",
+    "english": "He has no title to this land."
+  },
+  {
+    "id": "118999",
+    "japanese": "彼にはこの単調な家庭生活がおもしろくなかった。",
+    "english": "He did not relish this simple family life."
+  },
+  {
+    "id": "119000",
+    "japanese": "彼にはこの仕事をするだけの力がある。",
+    "english": "He is equal to this work."
+  },
+  {
+    "id": "119001",
+    "japanese": "彼にはこの言葉がどんな意味を持つのか全くわからなかった。",
+    "english": "He had no idea what these words meant."
+  },
+  {
+    "id": "119002",
+    "japanese": "彼にはこの機械を修理してもらえそうにない。",
+    "english": "I can't seem to get him to fix this machine."
+  },
+  {
+    "id": "119003",
+    "japanese": "彼にはかなり芸術的な素質がある。",
+    "english": "He has something of the artist in him."
+  },
+  {
+    "id": "119004",
+    "japanese": "彼にはかなりの収入がある。",
+    "english": "He has a fair income."
+  },
+  {
+    "id": "119005",
+    "japanese": "彼にはガールフレンドがいない。",
+    "english": "He has no girlfriend."
+  },
+  {
+    "id": "119006",
+    "japanese": "彼にはお金が足りないようだった。",
+    "english": "It seemed that he was short of money."
+  },
+  {
+    "id": "119007",
+    "japanese": "彼にはいろんな欠点があるが、私は彼が好きだ。",
+    "english": "For all his faults, I like him."
+  },
+  {
+    "id": "119008",
+    "japanese": "彼にはいなかにいい家があります。",
+    "english": "He has a nice place in the country."
+  },
+  {
+    "id": "119009",
+    "japanese": "彼にはいつもびっくりさせられる。",
+    "english": "I'm always surprised by him."
+  },
+  {
+    "id": "119010",
+    "japanese": "彼にはいつものことだが、１５分遅れてきた。",
+    "english": "As is usual with him, he arrived a quarter of an hour late."
+  },
+  {
+    "id": "119012",
+    "japanese": "彼にはいくら感謝してもしきれない気持ちだ。",
+    "english": "I cannot thank him enough."
+  },
+  {
+    "id": "119013",
+    "japanese": "彼にはある政治家の息がかかっている。",
+    "english": "He has the backing of a certain politician."
+  },
+  {
+    "id": "119014",
+    "japanese": "彼にはアリバイがないという点で疑われた。",
+    "english": "He was suspect in that he had no alibi."
+  },
+  {
+    "id": "119015",
+    "japanese": "彼にはあまり会いたくない。",
+    "english": "I'd rather not meet him."
+  },
+  {
+    "id": "119016",
+    "japanese": "彼にはあなたがよりかかれる丈夫な肩がある。",
+    "english": "He has a strong shoulder for you to lean on."
+  },
+  {
+    "id": "119017",
+    "japanese": "彼には３人の息子があり、同じ会社で働いています。",
+    "english": "He has three sons, who work in the same office."
+  },
+  {
+    "id": "119018",
+    "japanese": "彼には2人の娘がいる。",
+    "english": "He has two daughters."
+  },
+  {
+    "id": "119019",
+    "japanese": "彼には３００冊もの蔵書がある。",
+    "english": "He has no less than three hundred books."
+  },
+  {
+    "id": "119020",
+    "japanese": "彼には２人の娘がいて１人はピアニスト、もう１人はバイオリニスト。",
+    "english": "He has two daughters, one is a pianist and the other is a violinist."
+  },
+  {
+    "id": "119021",
+    "japanese": "彼には２人の息子がいるが、２人ともまだ学校に通ってない。",
+    "english": "He has two sons that don't go to school yet."
+  },
+  {
+    "id": "119022",
+    "japanese": "彼には２、３のかなり優秀なアシスタントがいた。",
+    "english": "He had two or three rather competent assistants."
+  },
+  {
+    "id": "119023",
+    "japanese": "彼には１人の息子と２人の娘がいる。",
+    "english": "He has a son and two daughters."
+  },
+  {
+    "id": "119024",
+    "japanese": "彼には、知識とその上経験もある。",
+    "english": "He has knowledge and experience as well."
+  },
+  {
+    "id": "119025",
+    "japanese": "彼には、少し臆病なところがある。",
+    "english": "He is a bit of a coward."
+  },
+  {
+    "id": "119026",
+    "japanese": "彼には、自分のために働いてくれる部下が数名いる。",
+    "english": "He has several men to work for him."
+  },
+  {
+    "id": "119027",
+    "japanese": "彼には、何も文句の言うべき所がない。",
+    "english": "I have no fault to find with him."
+  },
+  {
+    "id": "119028",
+    "japanese": "彼には、とてもかわいらしい娘がいる。",
+    "english": "He has a daughter who is very pretty."
+  },
+  {
+    "id": "119029",
+    "japanese": "彼には、その仕事をきちんとこなす能力はない。",
+    "english": "He doesn't have the ability to do the work properly."
+  },
+  {
+    "id": "119030",
+    "japanese": "彼には、かわいらしい娘がいる。",
+    "english": "He has a daughter who is pretty."
+  },
+  {
+    "id": "119031",
+    "japanese": "彼にどんな欠点があるにしても、卑劣なところはない。",
+    "english": "Whatever faults he may have, meanness is not one of them."
+  },
+  {
+    "id": "119032",
+    "japanese": "彼にどんないろいろと助言をしても、彼は自分の望むことをやるだろう。",
+    "english": "However much advice we give him, he still does exactly what he wants."
+  },
+  {
+    "id": "119033",
+    "japanese": "彼にとても勝ち目はない。",
+    "english": "He won't get a look-in."
+  },
+  {
+    "id": "119034",
+    "japanese": "彼にとって良い詩を作るのは簡単だ。",
+    "english": "It's easy for him to compose a good poem."
+  },
+  {
+    "id": "119035",
+    "japanese": "彼にとって彼女は全てです。",
+    "english": "She is everything to him."
+  },
+  {
+    "id": "119036",
+    "japanese": "彼にとって成功の誇りを隠すのは困難だった。",
+    "english": "It was difficult for him to hide his pride in his success."
+  },
+  {
+    "id": "119037",
+    "japanese": "彼にとって人前で話すのはむずかしいだろう。",
+    "english": "It will be difficult for him to speak in public."
+  },
+  {
+    "id": "119038",
+    "japanese": "彼にとっては万事うまくいった。",
+    "english": "Everything went well with him."
+  },
+  {
+    "id": "119039",
+    "japanese": "彼にとっては富が人生のおおきな目標である。",
+    "english": "To him wealth is the great prize in life."
+  },
+  {
+    "id": "119040",
+    "japanese": "彼にとってその石を運ぶことは簡単だ。",
+    "english": "It is easy for him to carry the stone."
+  },
+  {
+    "id": "119041",
+    "japanese": "彼にとってそのクイズに答えることは簡単だった。",
+    "english": "It was easy for him to answer the quiz."
+  },
+  {
+    "id": "119043",
+    "japanese": "彼にどこに駐車したのか聞いてください。",
+    "english": "Ask him where he parked his car."
+  },
+  {
+    "id": "119045",
+    "japanese": "彼にどこかで会ったことがあるかもしれないが、どこだったか思い出せない。",
+    "english": "I may have met him somewhere before, but I can't recall where."
+  },
+  {
+    "id": "119046",
+    "japanese": "彼にどうにかこうにかそれを分からせた。",
+    "english": "I managed to make him understand it."
+  },
+  {
+    "id": "119047",
+    "japanese": "彼について困るのは、時間を守らないことだ。",
+    "english": "The trouble with him is that he is not punctual."
+  },
+  {
+    "id": "119048",
+    "japanese": "彼について困ったことは、彼が時間を守らないということだ。",
+    "english": "The trouble with him is that he is not punctual."
+  },
+  {
+    "id": "119049",
+    "japanese": "彼についてみんなの話から判断すると、私は彼こそその役職に最適だと思う。",
+    "english": "Judging by what everyone says about him, I think he is just the right man for the post."
+  },
+  {
+    "id": "119050",
+    "japanese": "彼についてはずいぶん多くの話が語られている。",
+    "english": "Many a story has been told about him."
+  },
+  {
+    "id": "119051",
+    "japanese": "彼についていろいろな噂が流れていた。",
+    "english": "Rumors were current about him."
+  },
+  {
+    "id": "119052",
+    "japanese": "彼について言った事は彼の兄についても当てはまる。",
+    "english": "What I told you about him also holds good for his brother."
+  },
+  {
+    "id": "119053",
+    "japanese": "彼についていくのがやっとだった。",
+    "english": "I had enough to keep up with him."
+  },
+  {
+    "id": "119054",
+    "japanese": "彼についてあなたに話しましょう。",
+    "english": "I will tell you about him."
+  },
+  {
+    "id": "119055",
+    "japanese": "彼について、知っているのはそれだけです。",
+    "english": "That is all I know about him."
+  },
+  {
+    "id": "119056",
+    "japanese": "彼にちゃんと半分分けてあげなさい。",
+    "english": "Give him a fair half."
+  },
+  {
+    "id": "119057",
+    "japanese": "彼にチャンスを与えてやれ！",
+    "english": "Give him a break!"
+  },
+  {
+    "id": "119058",
+    "japanese": "彼に近付かないよう注意しただろう。",
+    "english": "I warned you off about him."
+  },
+  {
+    "id": "119059",
+    "japanese": "彼にタバコをやめさせることはほとんど不可能だ。",
+    "english": "It is next to impossible to make him stop smoking."
+  },
+  {
+    "id": "119060",
+    "japanese": "彼にタバコをやめさせられなかった。",
+    "english": "I couldn't get him to stop smoking."
+  },
+  {
+    "id": "119062",
+    "japanese": "彼に助けを頼んでごらんよ。",
+    "english": "You can ask him for help."
+  },
+  {
+    "id": "119063",
+    "japanese": "彼にたくさん仕事を与えなさい。",
+    "english": "Give him plenty of work to do."
+  },
+  {
+    "id": "119064",
+    "japanese": "彼にそんな失礼なことを言うものではない。",
+    "english": "You shouldn't say such rude things to him."
+  },
+  {
+    "id": "119065",
+    "japanese": "彼にそんなばかげた考えをたたきこむな。",
+    "english": "Don't put such silly thoughts into his head."
+  },
+  {
+    "id": "119066",
+    "japanese": "彼にそんなことができたとは驚くべきことです。",
+    "english": "It is marvelous that he should have done such a thing."
+  },
+  {
+    "id": "119067",
+    "japanese": "彼にそれを独りでさせるな。",
+    "english": "Don't let him do it alone."
+  },
+  {
+    "id": "119068",
+    "japanese": "彼にそれを触らせるな。",
+    "english": "Don't let him touch it."
+  },
+  {
+    "id": "119069",
+    "japanese": "彼にそれを独りでさせなさい。",
+    "english": "Let him do it alone."
+  },
+  {
+    "id": "119070",
+    "japanese": "彼にそれをさせられなかった。",
+    "english": "I couldn't get him to do it."
+  },
+  {
+    "id": "119071",
+    "japanese": "彼にそれをやろう。",
+    "english": "He shall have it."
+  },
+  {
+    "id": "119072",
+    "japanese": "彼にそれをさせなさい。",
+    "english": "Let him do it."
+  },
+  {
+    "id": "119074",
+    "japanese": "彼に本をあげたの。",
+    "english": "I gave him the book."
+  },
+  {
+    "id": "119075",
+    "japanese": "彼にその事実を知らせたか。",
+    "english": "Did you acquaint him with the fact?"
+  },
+  {
+    "id": "119077",
+    "japanese": "彼にその仕事ができると思いますか。",
+    "english": "Do you think that he is equal to the task?"
+  },
+  {
+    "id": "119078",
+    "japanese": "彼にその仕事を手伝わせなさい。",
+    "english": "Get him to help you with the work."
+  },
+  {
+    "id": "119079",
+    "japanese": "彼にその金をすぐ払わせましょう。",
+    "english": "He shall pay you the money at once."
+  },
+  {
+    "id": "119080",
+    "japanese": "彼にその絵は良いねと言ったのは正直な気持ちだった。",
+    "english": "When I told him I liked the picture, I really meant it."
+  },
+  {
+    "id": "119081",
+    "japanese": "彼にその荷物を運んでもらおう。",
+    "english": "I will have him carry the baggage upstairs."
+  },
+  {
+    "id": "119082",
+    "japanese": "彼にその荷物をあなたの事務所まで運ばせました。",
+    "english": "I had him carry the baggage to your office."
+  },
+  {
+    "id": "119083",
+    "japanese": "彼にそのような大金を預けるな。",
+    "english": "Don't trust him with such a large sum of money."
+  },
+  {
+    "id": "119084",
+    "japanese": "彼にそのことを秘密にしておいたのは君も用心深かった。",
+    "english": "It was discreet of you to keep it a secret from him."
+  },
+  {
+    "id": "119085",
+    "japanese": "彼にそのことを信じさせようとしても無駄だ。",
+    "english": "It is no use trying to convince him of that."
+  },
+  {
+    "id": "119086",
+    "japanese": "彼にそこへ行くように主張した。",
+    "english": "We made a point of his going there."
+  },
+  {
+    "id": "119087",
+    "japanese": "彼にそうしてくれと頼んだんだ。",
+    "english": "I asked him to do that."
+  },
+  {
+    "id": "119088",
+    "japanese": "彼にすぐに借金を返すように要求した。",
+    "english": "I demanded that he pay the debt back at once."
+  },
+  {
+    "id": "119089",
+    "japanese": "彼にすぐにここへ来るように言いなさい。",
+    "english": "Tell him to come here at once."
+  },
+  {
+    "id": "119090",
+    "japanese": "彼にしたがうより他に仕方がない。",
+    "english": "I cannot do otherwise than obey him."
+  },
+  {
+    "id": "119091",
+    "japanese": "ファンは彼にサインを求めた。",
+    "english": "The fan asked for his autograph."
+  },
+  {
+    "id": "119092",
+    "japanese": "彼にサインしてもらうから、何か書くもの持ってない？",
+    "english": "I'm going to ask him for an autograph. Do you have anything to write with?"
+  },
+  {
+    "id": "119093",
+    "japanese": "彼にご用ですか。",
+    "english": "Do you want him?"
+  },
+  {
+    "id": "119094",
+    "japanese": "彼にこれを読んでもらいたい。",
+    "english": "I want him to read this."
+  },
+  {
+    "id": "119095",
+    "japanese": "彼にこれ以上タバコを吸わないように説得したがだめだった。",
+    "english": "I tried in vain to persuade him not to smoke any more."
+  },
+  {
+    "id": "119096",
+    "japanese": "彼にこの手紙を投函させましょうか。",
+    "english": "Shall I have him mail this letter?"
+  },
+  {
+    "id": "119097",
+    "japanese": "彼にこの箱を二階へ運んでもらおう。",
+    "english": "I'll get him to carry this case upstairs."
+  },
+  {
+    "id": "119098",
+    "japanese": "彼にこの時計を修理させよう。",
+    "english": "I will have him repair this watch."
+  },
+  {
+    "id": "119099",
+    "japanese": "彼にこの事がばれたら、きっとかんかんになるにちがいない。",
+    "english": "If he finds out, certainly he will be very angry."
+  },
+  {
+    "id": "119100",
+    "japanese": "彼にこの仕事は無理だ。",
+    "english": "He is not equal to the task."
+  },
+  {
+    "id": "119101",
+    "japanese": "彼にこの仕事ができるか。",
+    "english": "Can he do this job?"
+  },
+  {
+    "id": "119102",
+    "japanese": "彼にビールを一杯注いであげてください。",
+    "english": "Please pour him a glass of beer."
+  },
+  {
+    "id": "119103",
+    "japanese": "彼にかばんを運んでもらった。",
+    "english": "I had him carry my bag."
+  },
+  {
+    "id": "119104",
+    "japanese": "彼にかつを入れなければならない。",
+    "english": "We've got to shake him up."
+  },
+  {
+    "id": "119105",
+    "japanese": "彼にかぜをうつされた。",
+    "english": "He gave me a cold."
+  },
+  {
+    "id": "119106",
+    "japanese": "彼にお金を用立ててあげた。",
+    "english": "I accommodated him with money."
+  },
+  {
+    "id": "119107",
+    "japanese": "彼にお金を返すのを忘れないようにしないと。",
+    "english": "I've got to remember to return this money to him."
+  },
+  {
+    "id": "119108",
+    "japanese": "彼にお金を払わせれば？",
+    "english": "Let him pay for it."
+  },
+  {
+    "id": "119110",
+    "japanese": "彼にお金を貸してくれるように頼んだところ、彼は拒否した。",
+    "english": "When I asked him to lend me some money, he turned down my request."
+  },
+  {
+    "id": "119111",
+    "japanese": "彼にお金を支払わせよう。",
+    "english": "I will make him pay the money."
+  },
+  {
+    "id": "119112",
+    "japanese": "彼におおいに期待している。",
+    "english": "I expect much of him."
+  },
+  {
+    "id": "119113",
+    "japanese": "彼にうまく仕返しをしてやった。",
+    "english": "I got even with him."
+  },
+  {
+    "id": "119114",
+    "japanese": "彼にウイスキーかジンをすすめたが、彼はどちらもいらないと言った。",
+    "english": "I offered him whisky or gin, but he said he didn't need either."
+  },
+  {
+    "id": "119116",
+    "japanese": "彼にいつお会いになられますか。",
+    "english": "When would you like to see him?"
+  },
+  {
+    "id": "119117",
+    "japanese": "彼にいい知らせがあると言うと彼は熱心に聞き入った。",
+    "english": "When I told him I had some good news for him, he was all ears."
+  },
+  {
+    "id": "119118",
+    "japanese": "彼にいい球を投げてやった。",
+    "english": "I threw him a nice ball."
+  },
+  {
+    "id": "119119",
+    "japanese": "彼はいい加減な返事で言い逃れた。",
+    "english": "He put me off with a vague answer."
+  },
+  {
+    "id": "119120",
+    "japanese": "彼にあんなばかげたことをやめさせなければならない。",
+    "english": "We must stop him from doing such stupid things."
+  },
+  {
+    "id": "119121",
+    "japanese": "彼にアメリカの市民権が与えられるだろう。",
+    "english": "He will be given American citizenship."
+  },
+  {
+    "id": "119122",
+    "japanese": "彼にあまり期待を掛けるな。",
+    "english": "Don't expect too much of him."
+  },
+  {
+    "id": "119123",
+    "japanese": "彼にあなたを紹介させて下さい。",
+    "english": "Let me introduce you to him."
+  },
+  {
+    "id": "119124",
+    "japanese": "彼にあなたをご紹介させて下さい。",
+    "english": "Let me introduce you to him."
+  },
+  {
+    "id": "119125",
+    "japanese": "仮にあなたの近所で火事が起こったら、あなたはどうしますか。",
+    "english": "If a fire should break out in your neighborhood, what would you do?"
+  },
+  {
+    "id": "119126",
+    "japanese": "彼にあったら謝らなくてはならないよ。",
+    "english": "You will have to apologize when you see him."
+  },
+  {
+    "id": "119127",
+    "japanese": "彼に会ったとたんに、彼女はわっと泣き出した。",
+    "english": "As soon as she met him, she burst into tears."
+  },
+  {
+    "id": "119128",
+    "japanese": "彼にああいう口の利き方をするな。",
+    "english": "Don't speak to him like that."
+  },
+  {
+    "id": "119129",
+    "japanese": "彼に１万ドルが支払われた。",
+    "english": "He was paid 10,000 dollars."
+  },
+  {
+    "id": "119130",
+    "japanese": "彼に１時間待たされた。",
+    "english": "He kept me waiting for an hour."
+  },
+  {
+    "id": "119131",
+    "japanese": "彼に１０ドルだまされました。",
+    "english": "He suckered me out of ten dollars."
+  },
+  {
+    "id": "119132",
+    "japanese": "彼に１０００ドル借りている。",
+    "english": "I owe him 1,000 dollars."
+  },
+  {
+    "id": "119133",
+    "japanese": "彼なら妹のよき夫となるだろう。",
+    "english": "He will make my sister a good husband."
+  },
+  {
+    "id": "119134",
+    "japanese": "彼なら相手にとって不足なし。",
+    "english": "He is a good match for me."
+  },
+  {
+    "id": "119135",
+    "japanese": "彼なら昇進しても当然だ。",
+    "english": "He deserves a promotion."
+  },
+  {
+    "id": "119136",
+    "japanese": "彼なら私よりそれをうまくやれる。",
+    "english": "He is able to do it better than I am."
+  },
+  {
+    "id": "119137",
+    "japanese": "彼なら間違いない。",
+    "english": "He can be trusted."
+  },
+  {
+    "id": "119138",
+    "japanese": "彼なら何をしても誉められるであろう。",
+    "english": "No matter what he may do, he will be praised."
+  },
+  {
+    "id": "119139",
+    "japanese": "彼ならなにをしてもほめられる。",
+    "english": "No matter what he may do, he will be praised."
+  },
+  {
+    "id": "119140",
+    "japanese": "彼ならできるでしょうが。",
+    "english": "He could do it."
+  },
+  {
+    "id": "119141",
+    "japanese": "彼ならそれくらいの事はいいかねない。",
+    "english": "He can say such things."
+  },
+  {
+    "id": "119142",
+    "japanese": "彼ならすごいことをやらかしそうだ。",
+    "english": "He is doing a super job."
+  },
+  {
+    "id": "119143",
+    "japanese": "彼ならきっといいテニスの相手になると思います。",
+    "english": "I'm sure he can give you a good game of tennis."
+  },
+  {
+    "id": "119144",
+    "japanese": "彼ならいつでも力になってくれるよ。",
+    "english": "He'll always come through."
+  },
+  {
+    "id": "119145",
+    "japanese": "彼なら５０００ドルは払える。",
+    "english": "He is good for five thousand dollars."
+  },
+  {
+    "id": "119146",
+    "japanese": "彼なしで始めてもよかろう。",
+    "english": "We may as well begin without him."
+  },
+  {
+    "id": "119147",
+    "japanese": "彼と話をしても無駄だ。聞こうとしないから。",
+    "english": "It is no use talking to him. He never listens."
+  },
+  {
+    "id": "119148",
+    "japanese": "彼と話し合っても割に合わない。",
+    "english": "It doesn't pay to talk with him."
+  },
+  {
+    "id": "119149",
+    "japanese": "彼と話をするときは宗教問題は口に出すな。",
+    "english": "Keep off the religious issue when talking with him."
+  },
+  {
+    "id": "119150",
+    "japanese": "彼と話している間は話の邪魔をしないで下さい。",
+    "english": "Please don't cut in while I'm talking with him."
+  },
+  {
+    "id": "119151",
+    "japanese": "彼と話したことがありますか。",
+    "english": "Did you ever talk to him?"
+  },
+  {
+    "id": "119152",
+    "japanese": "彼と話がしたいんです。",
+    "english": "I want to have a talk with him."
+  },
+  {
+    "id": "119153",
+    "japanese": "彼と論議しても無駄だ。",
+    "english": "It's no use arguing with him."
+  },
+  {
+    "id": "119154",
+    "japanese": "彼と連絡を取りたいんだが、電話番号知っているかい？",
+    "english": "I want to contact him. Do you know his phone number?"
+  },
+  {
+    "id": "119155",
+    "japanese": "彼と連絡がとれましたか。",
+    "english": "Could you get in touch with him?"
+  },
+  {
+    "id": "119156",
+    "japanese": "彼と来週の金曜日あうつもりです。",
+    "english": "I am meeting him next Friday."
+  },
+  {
+    "id": "119157",
+    "japanese": "彼と友人はベンチに座った。",
+    "english": "He and his friend sat on the bench."
+  },
+  {
+    "id": "119159",
+    "japanese": "彼と僕はツーカーの仲だ。",
+    "english": "We can just about read each other's minds."
+  },
+  {
+    "id": "119160",
+    "japanese": "彼と付き合わない方がいいよ。",
+    "english": "You'd better not keep company with him."
+  },
+  {
+    "id": "119161",
+    "japanese": "彼と付き合っていくのは難しいことがわかった。",
+    "english": "I found it difficult to get along with him."
+  },
+  {
+    "id": "119162",
+    "japanese": "彼と付き合うのは難しい。",
+    "english": "He is difficult to get along with."
+  },
+  {
+    "id": "119163",
+    "japanese": "彼と付き合うのはやめなさい。",
+    "english": "Don't keep company with him."
+  },
+  {
+    "id": "119164",
+    "japanese": "彼と彼女は３年前に結婚した。",
+    "english": "He and she got married three years ago."
+  },
+  {
+    "id": "119165",
+    "japanese": "彼と彼女と２人きりになれたほんの束の間に、デートをしてくれと頼んだ。",
+    "english": "When he got her alone for a moment, he asked for a date."
+  },
+  {
+    "id": "119166",
+    "japanese": "彼と彼らの間にはこえられぬみぞがあった。",
+    "english": "A gulf divided him from them."
+  },
+  {
+    "id": "119167",
+    "japanese": "彼と彼の兄を見分けるのは簡単だ。",
+    "english": "It is easy to tell him from his brother."
+  },
+  {
+    "id": "119168",
+    "japanese": "彼と彼の兄とは見分けがつかない。",
+    "english": "I cannot tell him from his brother."
+  },
+  {
+    "id": "119169",
+    "japanese": "彼と同様に私も勤勉ではない。",
+    "english": "I am no more diligent than he is."
+  },
+  {
+    "id": "119170",
+    "japanese": "彼と同様に君も勤勉だ。",
+    "english": "You as well as he are diligent."
+  },
+  {
+    "id": "119171",
+    "japanese": "彼と同じように私も納得していない。",
+    "english": "I, as well as he, am not convinced."
+  },
+  {
+    "id": "119172",
+    "japanese": "彼と電話で話したら、疲れてるみたいだった。",
+    "english": "When I talked with him on the phone, he sounded tired."
+  },
+  {
+    "id": "119173",
+    "japanese": "彼と張り合えるものはいない。",
+    "english": "No one can cope with him."
+  },
+  {
+    "id": "119174",
+    "japanese": "彼と仲直りしたい。",
+    "english": "I want to come to terms with him."
+  },
+  {
+    "id": "119175",
+    "japanese": "彼と仲間になった。",
+    "english": "I fell into company with him."
+  },
+  {
+    "id": "119176",
+    "japanese": "彼と知り合ってもう長いのですか。",
+    "english": "Have you known him for a long time?"
+  },
+  {
+    "id": "119177",
+    "japanese": "彼と知り合ってどのくらいになりますか。",
+    "english": "How long have you known him?"
+  },
+  {
+    "id": "119178",
+    "japanese": "彼と知り合ってから二年になります。",
+    "english": "I have known him for two years."
+  },
+  {
+    "id": "119179",
+    "japanese": "彼と知り合いになった。",
+    "english": "I got to know him."
+  },
+  {
+    "id": "119180",
+    "japanese": "彼と妥協しなければならなかった。",
+    "english": "I had to meet him halfway."
+  },
+  {
+    "id": "119181",
+    "japanese": "彼と全く関係を持たないほうがよいよ。",
+    "english": "You should have nothing to do with him."
+  },
+  {
+    "id": "119182",
+    "japanese": "彼と接触を保ってはいけない。",
+    "english": "You must not keep in touch with him."
+  },
+  {
+    "id": "119183",
+    "japanese": "彼と接触してはいけない。",
+    "english": "You must not come in contact with him."
+  },
+  {
+    "id": "119185",
+    "japanese": "彼と私は同名異人です。",
+    "english": "He is my namesake, but no relation."
+  },
+  {
+    "id": "119186",
+    "japanese": "彼と私は同じ部屋です。",
+    "english": "He and I share a room."
+  },
+  {
+    "id": "119187",
+    "japanese": "彼と私は竹馬の友。",
+    "english": "He and I are childhood friends."
+  },
+  {
+    "id": "119188",
+    "japanese": "彼と私は先生です。",
+    "english": "He and I are teachers."
+  },
+  {
+    "id": "119189",
+    "japanese": "彼と私は兄弟です。",
+    "english": "He and I are brothers."
+  },
+  {
+    "id": "119190",
+    "japanese": "彼と私はホテルに滞在した。",
+    "english": "He and I stayed at the hotel."
+  },
+  {
+    "id": "119191",
+    "japanese": "彼と私はスペイン語を話すことができない。",
+    "english": "He and I cannot speak Spanish."
+  },
+  {
+    "id": "119192",
+    "japanese": "彼と私はごみ問題の再利用の点から話し合った。",
+    "english": "He and I discussed the waste problem in terms of recycling."
+  },
+  {
+    "id": "119193",
+    "japanese": "彼と私はクラスメートです。",
+    "english": "He and I are classmates."
+  },
+  {
+    "id": "119194",
+    "japanese": "彼と私はいとこ同士です。",
+    "english": "He and I are cousins."
+  },
+  {
+    "id": "119195",
+    "japanese": "彼と私はいっしょに歩いた。",
+    "english": "He and I walked together."
+  },
+  {
+    "id": "119196",
+    "japanese": "彼と私の考えは一致しない。",
+    "english": "His ideas conflict with mine."
+  },
+  {
+    "id": "119197",
+    "japanese": "彼と私には共通点が何もない。",
+    "english": "I have nothing in common with him."
+  },
+  {
+    "id": "119198",
+    "japanese": "彼と私とはだいたい同じような体の造りです。",
+    "english": "He and I are pretty much the same build."
+  },
+  {
+    "id": "119199",
+    "japanese": "彼と私とどちらのほうが若いですか。",
+    "english": "Who is younger, he or I?"
+  },
+  {
+    "id": "119200",
+    "japanese": "彼と言い争っても無駄だ。",
+    "english": "It is no use arguing with him."
+  },
+  {
+    "id": "119201",
+    "japanese": "彼と結婚するつもりはない。",
+    "english": "I don't intend to marry him."
+  },
+  {
+    "id": "119202",
+    "japanese": "彼と結婚するぐらいなら死んだ方がましだ。",
+    "english": "I would rather die than marry him."
+  },
+  {
+    "id": "119203",
+    "japanese": "彼と近づきになるやいなや、私は彼をよく知るようになろうと決心した。",
+    "english": "No sooner had I come into contact with him than I determined to get to know him well."
+  },
+  {
+    "id": "119204",
+    "japanese": "彼と議論するのは骨折り損だ。",
+    "english": "It's pointless arguing with him."
+  },
+  {
+    "id": "119205",
+    "japanese": "彼と議論しようとしても無駄だ。",
+    "english": "It is no use trying to argue with him."
+  },
+  {
+    "id": "119206",
+    "japanese": "彼と議論しても無駄だ。",
+    "english": "It's no use arguing with him."
+  },
+  {
+    "id": "119207",
+    "japanese": "彼と会った時なぜそっぽを向いたのか。",
+    "english": "Why did you turn away when you met him?"
+  },
+  {
+    "id": "119208",
+    "japanese": "彼と会ったのが幸いだった。",
+    "english": "I was happy to see him."
+  },
+  {
+    "id": "119209",
+    "japanese": "彼と会うのが楽しみだなあ。",
+    "english": "I'm looking forward to seeing him."
+  },
+  {
+    "id": "119210",
+    "japanese": "彼と映画に行くのをためらった。",
+    "english": "I hesitated to go to the movie with him."
+  },
+  {
+    "id": "119211",
+    "japanese": "彼と一緒に働くなんて耐えられない。",
+    "english": "I can't bear to work with him."
+  },
+  {
+    "id": "119212",
+    "japanese": "彼と一緒に釣りに行くつもりだ。",
+    "english": "I'm going fishing with him."
+  },
+  {
+    "id": "119213",
+    "japanese": "彼と一緒に生活している人たちは、彼を尊敬していた。",
+    "english": "Those whom he lived with respected him."
+  },
+  {
+    "id": "119214",
+    "japanese": "彼と一緒に学校に行くのが常だった。",
+    "english": "I used to go to school with him."
+  },
+  {
+    "id": "119215",
+    "japanese": "彼と一緒に行くか一人でここにとどまるか、どちらかにしなければならなかった。",
+    "english": "I had to choose going with him or staying here alone."
+  },
+  {
+    "id": "119216",
+    "japanese": "彼と一緒にいるところを見られたくない。",
+    "english": "I don't want to be seen in his company."
+  },
+  {
+    "id": "119217",
+    "japanese": "彼と一緒だと落ち着くの。",
+    "english": "I feel comfortable in his company."
+  },
+  {
+    "id": "119218",
+    "japanese": "彼と一緒だと気が楽だ。",
+    "english": "I feel comfortable in his company."
+  },
+  {
+    "id": "119219",
+    "japanese": "彼と一緒だと安心感がある。",
+    "english": "I feel secure with him."
+  },
+  {
+    "id": "119220",
+    "japanese": "彼と一時間も世界平和について論争した。",
+    "english": "I disputed with him about world peace for an hour."
+  },
+  {
+    "id": "119221",
+    "japanese": "彼と違って、息子は背が高い。",
+    "english": "Unlike him, his son is tall."
+  },
+  {
+    "id": "119222",
+    "japanese": "彼と意見が合わない場合、彼は怒りがちだ。",
+    "english": "If you disagree with him, he is liable to get angry."
+  },
+  {
+    "id": "119223",
+    "japanese": "彼と握手しなさい。",
+    "english": "Shake hands with him."
+  },
+  {
+    "id": "119224",
+    "japanese": "彼とは幼なじみです。",
+    "english": "He is a childhood friend."
+  },
+  {
+    "id": "119225",
+    "japanese": "彼とは夕食会で同席した。",
+    "english": "I once sat at the same table with him at a dinner party."
+  },
+  {
+    "id": "119226",
+    "japanese": "彼とは仲のよい間柄だ。",
+    "english": "I am on good terms with him."
+  },
+  {
+    "id": "119227",
+    "japanese": "彼とは親しい間柄だ。",
+    "english": "I'm on good terms with him."
+  },
+  {
+    "id": "119228",
+    "japanese": "彼とは上手くやっていけない。",
+    "english": "I just can't get along with him."
+  },
+  {
+    "id": "119229",
+    "japanese": "彼とは初対面です。",
+    "english": "I met him for the first time."
+  },
+  {
+    "id": "119231",
+    "japanese": "彼とは仕事の上だけのつきあいだ。",
+    "english": "He's just a business associate."
+  },
+  {
+    "id": "119232",
+    "japanese": "彼とは個人的な接触がある。",
+    "english": "I am in touch with him."
+  },
+  {
+    "id": "119233",
+    "japanese": "彼とは学生時代から肝胆相照らす仲だよ。",
+    "english": "He and I have been inseparable friends since our student days."
+  },
+  {
+    "id": "119234",
+    "japanese": "彼とは会っていない。",
+    "english": "I haven't met him."
+  },
+  {
+    "id": "119235",
+    "japanese": "彼とは一度腹を割って話したいと思っています。",
+    "english": "I want to talk frankly with him."
+  },
+  {
+    "id": "119236",
+    "japanese": "彼とはよく釣りに行った。",
+    "english": "I often went fishing with him."
+  },
+  {
+    "id": "119237",
+    "japanese": "彼とはまったく関係がない。",
+    "english": "I have nothing to do with him."
+  },
+  {
+    "id": "119238",
+    "japanese": "彼とはどうも呼吸が合わない。",
+    "english": "I cannot get along with him."
+  },
+  {
+    "id": "119239",
+    "japanese": "彼とはつきあいがありますか。",
+    "english": "Do you have access to him?"
+  },
+  {
+    "id": "119240",
+    "japanese": "彼とはツーと言えばカーの仲だよ。以心伝心の仲とでも言っておこう。",
+    "english": "He and I have a near-telepathic understanding of each other. No sooner does one of us say something than the other is already responding."
+  },
+  {
+    "id": "119241",
+    "japanese": "彼とはそこでばったり会う。",
+    "english": "I'm always meeting him there."
+  },
+  {
+    "id": "119242",
+    "japanese": "彼とはうまくやっている。",
+    "english": "I get on well with him."
+  },
+  {
+    "id": "119243",
+    "japanese": "彼とはお互い子供のときからつきあっている。",
+    "english": "I've been friends with him since we were children."
+  },
+  {
+    "id": "119244",
+    "japanese": "彼とはあまり親しくするなよ。",
+    "english": "Don't get too close with him."
+  },
+  {
+    "id": "119245",
+    "japanese": "彼とは２０年以上も親しい間柄である。",
+    "english": "I have been on friendly terms with him for more than twenty years."
+  },
+  {
+    "id": "119246",
+    "japanese": "彼とは１０年来の知り合いだ。",
+    "english": "I have known him for ten years."
+  },
+  {
+    "id": "119247",
+    "japanese": "彼との約束をやぶるなよ。",
+    "english": "Don't disappoint him."
+  },
+  {
+    "id": "119248",
+    "japanese": "彼との仲をとりもとうか。",
+    "english": "Do you want me to fix you up with him?"
+  },
+  {
+    "id": "119249",
+    "japanese": "彼との子供のころから仲良しだ。",
+    "english": "He and I have been good friends since we were children."
+  },
+  {
+    "id": "119250",
+    "japanese": "彼との交際で得るところが多かった。",
+    "english": "I benefited much from my association with him."
+  },
+  {
+    "id": "119251",
+    "japanese": "彼との関係はもう終わっている。",
+    "english": "I am through with him."
+  },
+  {
+    "id": "119252",
+    "japanese": "彼との会話から彼が仕事に満足していないと私は推論した。",
+    "english": "I inferred from our conversation that he was unhappy with his job."
+  },
+  {
+    "id": "119253",
+    "japanese": "彼とのつきあいは長く続かなかった。",
+    "english": "My association with him did not last long."
+  },
+  {
+    "id": "119254",
+    "japanese": "彼となんとか話をつけよう。",
+    "english": "I'll fix it up with him."
+  },
+  {
+    "id": "119255",
+    "japanese": "彼とつまらない事で喧嘩をした。",
+    "english": "I had a quarrel with him about trifles."
+  },
+  {
+    "id": "119256",
+    "japanese": "彼とつきあうのは君にとってマイナスだ。",
+    "english": "I don't think your seeing him is good for you."
+  },
+  {
+    "id": "119257",
+    "japanese": "彼とだと気が楽なの。",
+    "english": "I feel comfortable in his company."
+  },
+  {
+    "id": "119258",
+    "japanese": "彼とその連れはいっしょに来ないかと私を誘った。",
+    "english": "He and his companion asked me to come along with them."
+  },
+  {
+    "id": "119259",
+    "japanese": "彼とそのことで妥協した。",
+    "english": "I compromised with him on the matter."
+  },
+  {
+    "id": "119260",
+    "japanese": "彼とそこで会うことになっている。",
+    "english": "I am to meet him there."
+  },
+  {
+    "id": "119261",
+    "japanese": "彼とスキーに行こうとは決して思わない。",
+    "english": "He is the last person I would want to go skiing with."
+  },
+  {
+    "id": "119262",
+    "japanese": "彼としては少しもいらいらしてなかった。",
+    "english": "There was no irritation on his part."
+  },
+  {
+    "id": "119263",
+    "japanese": "彼としてはもっと悪くもできたのに。",
+    "english": "For his part he could have done worse."
+  },
+  {
+    "id": "119264",
+    "japanese": "彼とここで会うのが夢だ。",
+    "english": "I dream of seeing him there."
+  },
+  {
+    "id": "119265",
+    "japanese": "彼とけんかしない日はない。",
+    "english": "Not a day passes without having an argument with him."
+  },
+  {
+    "id": "119266",
+    "japanese": "彼とうまくやっていく自信がない。",
+    "english": "I don't think I can get along with him."
+  },
+  {
+    "id": "119267",
+    "japanese": "彼とうまくやっていくのは難しいよ。",
+    "english": "It's very hard to get along with him."
+  },
+  {
+    "id": "119268",
+    "japanese": "彼とうまくやっていくのは大変難しい。",
+    "english": "He is very difficult to get along with."
+  },
+  {
+    "id": "119269",
+    "japanese": "彼とうまくやっていくことはできない。",
+    "english": "There is no getting along with him."
+  },
+  {
+    "id": "119270",
+    "japanese": "彼どうしたのかしら。このところ約束を破りっぱなしだよ。",
+    "english": "I wonder what's wrong with him. He keeps breaking his word these days."
+  },
+  {
+    "id": "119271",
+    "japanese": "彼といるとくつろいだ気分になります。",
+    "english": "I feel relaxed with him."
+  },
+  {
+    "id": "119272",
+    "japanese": "彼といってもよろしいか。",
+    "english": "May I go with him?"
+  },
+  {
+    "id": "119273",
+    "japanese": "彼といっしょに居ると気づまりだ。",
+    "english": "I never feel at ease in his company."
+  },
+  {
+    "id": "119274",
+    "japanese": "彼といっしょに行くなんて馬鹿なことはおやめなさい。",
+    "english": "Don't be so foolish as to go with him."
+  },
+  {
+    "id": "119275",
+    "japanese": "彼といっしょにいると私はいつも楽しい。",
+    "english": "Being with him always makes me happy."
+  },
+  {
+    "id": "119277",
+    "japanese": "彼とあったほうがいいかな。",
+    "english": "I'd better see him."
+  },
+  {
+    "id": "119278",
+    "japanese": "彼という人間がわかって彼を見直した。",
+    "english": "When I understood him I thought better of him."
+  },
+  {
+    "id": "119279",
+    "japanese": "彼と１０時に会うことになってるの。",
+    "english": "I am to meet him at ten."
+  },
+  {
+    "id": "119280",
+    "japanese": "彼ですらそれが上手にできるなら、我々ならなおさらだ。",
+    "english": "If he can do it well, so much more can we."
+  },
+  {
+    "id": "119281",
+    "japanese": "彼って長野に住んでいるはずなのに、なんで東京駅にいる？",
+    "english": "He's supposed to be living in Nagano. What's he doing at Tokyo station?"
+  },
+  {
+    "id": "119282",
+    "japanese": "彼って尊大な奴だよね。",
+    "english": "He is a proud one, you see."
+  },
+  {
+    "id": "119283",
+    "japanese": "彼って手の掛かる人だね。",
+    "english": "You really have to manage him carefully."
+  },
+  {
+    "id": "119284",
+    "japanese": "彼って私のタイプ！",
+    "english": "He is my type!"
+  },
+  {
+    "id": "119285",
+    "japanese": "彼って意地悪だと思わない？私がホラー物の映画が嫌いなのを知ってるくせにいつも見るんだよ。もう、いやんなっちゃう。",
+    "english": "Isn't my boyfriend terrible? He always takes me to see horror movies, even though he knows I don't like them. I hate it."
+  },
+  {
+    "id": "119286",
+    "japanese": "彼ってどんな人？",
+    "english": "What is he like?"
+  },
+  {
+    "id": "119287",
+    "japanese": "彼ってクールだから、私たちみんな彼にはカリスマ性があると思っている。",
+    "english": "He's so cool that we all think he's charismatic."
+  },
+  {
+    "id": "119288",
+    "japanese": "彼だけはその習慣を守らない。",
+    "english": "He is the only one that doesn't observe the custom."
+  },
+  {
+    "id": "119289",
+    "japanese": "彼だけでなく私も行くことになっている。",
+    "english": "Not only he but also I am to go."
+  },
+  {
+    "id": "119290",
+    "japanese": "彼だけでなく、彼の両親も私にとても親切です。",
+    "english": "His parents as well as he are very kind to me."
+  },
+  {
+    "id": "119291",
+    "japanese": "彼だけがその手紙を読んだ。",
+    "english": "Only he read the letter."
+  },
+  {
+    "id": "119293",
+    "japanese": "彼の言葉は問題の核心に触れるものだった。",
+    "english": "His words pierced to the heart of the matter."
+  },
+  {
+    "id": "119294",
+    "japanese": "彼こそ本物の紳士だ。",
+    "english": "He is a real gentleman."
+  },
+  {
+    "id": "119295",
+    "japanese": "彼こそ本当の天才だ。",
+    "english": "He is a genius, if ever there is one."
+  },
+  {
+    "id": "119296",
+    "japanese": "彼こそ本校で野球の最優秀選手だ。",
+    "english": "He is the very best baseball player in our school."
+  },
+  {
+    "id": "119297",
+    "japanese": "彼こそ適任者であるという考えがふと心に浮かんだ。",
+    "english": "It occurred to me that he was the right man."
+  },
+  {
+    "id": "119298",
+    "japanese": "彼こそ適材適所という者だ。",
+    "english": "He is just the man for the job."
+  },
+  {
+    "id": "119299",
+    "japanese": "彼こそ適材適所であることが私の頭に浮かばなかった。",
+    "english": "It never occurred to me that he was the right man in the right place."
+  },
+  {
+    "id": "119300",
+    "japanese": "彼こそ私の会いたかった人です。",
+    "english": "He is the very person I have wanted to see."
+  },
+  {
+    "id": "119301",
+    "japanese": "彼こそ私が必要としている人物だ。",
+    "english": "He is the very man I want."
+  },
+  {
+    "id": "119302",
+    "japanese": "彼こそ我々が探し求めていた人だ。",
+    "english": "He is the very man that we've been looking for."
+  },
+  {
+    "id": "119303",
+    "japanese": "彼こそその地位にふさわしい人だ。",
+    "english": "He is the right man for the post."
+  },
+  {
+    "id": "119304",
+    "japanese": "彼こそその仕事の適任者だ。",
+    "english": "He is the very man for the job."
+  },
+  {
+    "id": "119305",
+    "japanese": "彼こそその仕事にうってつけの人物だ。",
+    "english": "He is the only person for the job."
+  },
+  {
+    "id": "119306",
+    "japanese": "彼こそクラスの中で一番の発明家です。",
+    "english": "He is the very best inventor in the class."
+  },
+  {
+    "id": "119307",
+    "japanese": "彼こそが私に必要な人なのかもしれない。",
+    "english": "He may be the very man that I need."
+  },
+  {
+    "id": "119308",
+    "japanese": "彼こそが私が待ちつづけていた人だ。",
+    "english": "He is the very man that I have waited for."
+  },
+  {
+    "id": "119310",
+    "japanese": "彼こそいわゆる生きる辞書だ。",
+    "english": "He is what we call a walking dictionary."
+  },
+  {
+    "id": "119311",
+    "japanese": "彼ぐらいハンサムだったらいいのになあ。",
+    "english": "I wish I were as handsome as he."
+  },
+  {
+    "id": "119313",
+    "japanese": "彼が嗅覚を失ったのは、頭部のけがのためだった。",
+    "english": "The loss of his sense of smell was due to a head injury."
+  },
+  {
+    "id": "119314",
+    "japanese": "彼が腕を折ったのは氷の上で滑って転んだためだ。",
+    "english": "His broken arm was the result of a slip on the ice."
+  },
+  {
+    "id": "119315",
+    "japanese": "彼が賄賂を受け取ったのではないかと皆が思った。",
+    "english": "Everybody suspected him of taking a bribe."
+  },
+  {
+    "id": "119316",
+    "japanese": "話をやめるように頼んだが、彼はそれでも話し続けた。",
+    "english": "I asked him to stop talking, but he still went on."
+  },
+  {
+    "id": "119317",
+    "japanese": "彼が話をしている紳士は誰ですか。",
+    "english": "Who is that gentleman to whom he is speaking?"
+  },
+  {
+    "id": "119318",
+    "japanese": "彼が話すのを聞けば、彼を外国人と思うだろう。",
+    "english": "To hear him speak, you'd take him for a foreigner."
+  },
+  {
+    "id": "119319",
+    "japanese": "彼が話すのを聞けば、君は彼を外国人と間違うだろう。",
+    "english": "To hear him talk, you would take him for a foreigner."
+  },
+  {
+    "id": "119320",
+    "japanese": "彼が話すのを聞いたら、彼のことを女の子と思うかもしれません。",
+    "english": "To hear him talk, you might take him for a girl."
+  },
+  {
+    "id": "119321",
+    "japanese": "彼が話すとみなが黙った。",
+    "english": "He spoke, and all were silent."
+  },
+  {
+    "id": "119322",
+    "japanese": "彼が話し終わるとみんな黙っていた。",
+    "english": "When he finished speaking, there was a silence."
+  },
+  {
+    "id": "119323",
+    "japanese": "彼が話している事を理解するのは困難だった。",
+    "english": "It was difficult for me to make out what he was saying."
+  },
+  {
+    "id": "119324",
+    "japanese": "彼が話しているのは英語ですか、フランス語ですか、それともドイツ語ですか。",
+    "english": "Is he speaking English, French, or German?"
+  },
+  {
+    "id": "119325",
+    "japanese": "彼が話していることは重要です。",
+    "english": "The matter that he is talking about is important."
+  },
+  {
+    "id": "119326",
+    "japanese": "彼が話しかけている少女はナンシーです。",
+    "english": "The girl to whom he is speaking is Nancy."
+  },
+  {
+    "id": "119327",
+    "japanese": "彼が恋をしているのは明らかだ。",
+    "english": "It's evident to everybody that he's in love."
+  },
+  {
+    "id": "119328",
+    "japanese": "彼が恋に落ちたその女の子は数ヶ月後、彼のもとを去った。",
+    "english": "The girl with whom he fell in love left him after a few months."
+  },
+  {
+    "id": "119329",
+    "japanese": "彼が良くなったのはつい最近の事です。",
+    "english": "It was only recently that he got well."
+  },
+  {
+    "id": "119330",
+    "japanese": "彼が料金を払わなかったので水道を止められた。",
+    "english": "They shut his water off because he didn't pay the bill."
+  },
+  {
+    "id": "119331",
+    "japanese": "彼が両親に逆らったはずがない。",
+    "english": "He cannot have gone against his parents."
+  },
+  {
+    "id": "119332",
+    "japanese": "彼が立ち上がったのを合図に皆は部屋から出始めた。",
+    "english": "His standing up was the signal for everybody to start leaving the room."
+  },
+  {
+    "id": "119333",
+    "japanese": "彼が理事長の代行をしている。",
+    "english": "He is acting for the chief director."
+  },
+  {
+    "id": "119334",
+    "japanese": "彼が利口なかわいい少年だったのを覚えています。",
+    "english": "I remember him as a cute, bright little boy."
+  },
+  {
+    "id": "119335",
+    "japanese": "彼が利口だということは否定できない。",
+    "english": "There is no denying that he is clever."
+  },
+  {
+    "id": "119336",
+    "japanese": "彼が落胆している事は誰の目にも明らかだった。",
+    "english": "His disappointment was obvious to everyone."
+  },
+  {
+    "id": "119337",
+    "japanese": "彼が頼りにしているのは父だ。",
+    "english": "It is on his father that he depends."
+  },
+  {
+    "id": "119338",
+    "japanese": "彼が来週には帰るという保証はない。",
+    "english": "There is no guarantee that he'll be back next week."
+  },
+  {
+    "id": "119339",
+    "japanese": "彼が来る前に宿題を終えます。",
+    "english": "I will get through with my homework before he comes."
+  },
+  {
+    "id": "119340",
+    "japanese": "彼が来れないのは残念だ。",
+    "english": "It is a pity that he can't come."
+  },
+  {
+    "id": "119341",
+    "japanese": "彼が来る時を知らせて下さい。",
+    "english": "Let me know the time when he will come."
+  },
+  {
+    "id": "119343",
+    "japanese": "彼が来る見込みはありますか。",
+    "english": "Is there any likelihood of his coming?"
+  },
+  {
+    "id": "119344",
+    "japanese": "彼が来るまで待ちましょう。",
+    "english": "Let's wait till he comes."
+  },
+  {
+    "id": "119345",
+    "japanese": "彼が来るまで私は行ってはいけません。",
+    "english": "Until he comes, I cannot go away."
+  },
+  {
+    "id": "119346",
+    "japanese": "彼が来るまでは、すべてが順調だった。",
+    "english": "Everything was in order until he came."
+  },
+  {
+    "id": "119347",
+    "japanese": "彼が来るまでここで待っていてください。",
+    "english": "Be waiting here until he comes."
+  },
+  {
+    "id": "119348",
+    "japanese": "彼が来るまでここで待ちます。",
+    "english": "I will wait here till he comes."
+  },
+  {
+    "id": "119349",
+    "japanese": "彼が来るのを待っても無駄だ。",
+    "english": "It is no good waiting for him to come."
+  },
+  {
+    "id": "119350",
+    "japanese": "彼が来るのは確かだ。",
+    "english": "It is certain that he will come."
+  },
+  {
+    "id": "119351",
+    "japanese": "彼が来るのか来ないのかは私にとってはどうでもいい。",
+    "english": "It makes no difference to me whether he comes or not."
+  },
+  {
+    "id": "119353",
+    "japanese": "彼が来るとよいと思う。",
+    "english": "I hope that he will come."
+  },
+  {
+    "id": "119354",
+    "japanese": "彼が来るとパーティーが台無しになる。",
+    "english": "He will blow our party."
+  },
+  {
+    "id": "119355",
+    "japanese": "彼が来るといけないから準備しておいた方がよろしい。",
+    "english": "You had better be ready in case he comes."
+  },
+  {
+    "id": "119356",
+    "japanese": "彼が来るというニュースはたちまち広まった。",
+    "english": "The news that he would come, quickly got abroad."
+  },
+  {
+    "id": "119357",
+    "japanese": "彼が来ることを確かめるために電話をした。",
+    "english": "I telephoned to make sure that he was coming."
+  },
+  {
+    "id": "119358",
+    "japanese": "彼が来ることは確実です。",
+    "english": "That he will come is certain."
+  },
+  {
+    "id": "119359",
+    "japanese": "彼が来ることは確かです。",
+    "english": "That he will come is certain."
+  },
+  {
+    "id": "119360",
+    "japanese": "彼が来ることはありえない。",
+    "english": "There's no possibility of his coming."
+  },
+  {
+    "id": "119361",
+    "japanese": "彼が来ることはありうると思う。",
+    "english": "I think it possible that he may come."
+  },
+  {
+    "id": "119362",
+    "japanese": "彼が来るか来ないかは私にはどうでもいいことだ。",
+    "english": "It makes no difference to me whether he comes or not."
+  },
+  {
+    "id": "119363",
+    "japanese": "彼が来るか来ないかは私にとって重要ではない。",
+    "english": "It makes no difference to me whether he comes or not."
+  },
+  {
+    "id": "119364",
+    "japanese": "彼が来るか来ないかは私にとってどちらでもいいことだ。",
+    "english": "It makes no difference to me whether he comes or not."
+  },
+  {
+    "id": "119366",
+    "japanese": "彼が来るか来ないかはどうでもいい。",
+    "english": "It makes no difference whether he comes or not."
+  },
+  {
+    "id": "119367",
+    "japanese": "彼が来るかは疑わしい。",
+    "english": "I am doubtful whether he will come."
+  },
+  {
+    "id": "119368",
+    "japanese": "彼が来るかどうか知らない。",
+    "english": "I don't know whether he will come or not."
+  },
+  {
+    "id": "119369",
+    "japanese": "彼が来るかどうか疑問だ。",
+    "english": "I doubt if he will come."
+  },
+  {
+    "id": "119370",
+    "japanese": "彼が来るかどうか疑わしいと思った。",
+    "english": "I thought it doubtful whether he would come or not."
+  },
+  {
+    "id": "119371",
+    "japanese": "彼が来るかどうかわからない。",
+    "english": "It isn't certain whether he will come or not."
+  },
+  {
+    "id": "119372",
+    "japanese": "彼が来るかどうかは大して重要ではない。",
+    "english": "It makes no difference whether he will come or not."
+  },
+  {
+    "id": "119373",
+    "japanese": "彼が来るかどうかは重要ではない。",
+    "english": "It doesn't matter whether he comes or not."
+  },
+  {
+    "id": "119374",
+    "japanese": "彼が来るかどうかは私にはどうでもいいことだ。",
+    "english": "It makes no difference to me whether he comes or not."
+  },
+  {
+    "id": "119375",
+    "japanese": "彼が来るかどうかは私にとってどうでもいいことだ。",
+    "english": "It makes no difference to me whether he comes or not."
+  },
+  {
+    "id": "119376",
+    "japanese": "彼が来るかどうかはわからない。",
+    "english": "It isn't certain whether he will come or not."
+  },
+  {
+    "id": "119378",
+    "japanese": "彼が来るかどうかは、私にはわからない。",
+    "english": "I don't know whether he comes or not."
+  },
+  {
+    "id": "119379",
+    "japanese": "彼が来るかどうかは、はっきりしない。",
+    "english": "It is uncertain whether he is coming or not."
+  },
+  {
+    "id": "119380",
+    "japanese": "彼が来るかどうかは、うたがわしい。",
+    "english": "It is doubtful whether he will come or not."
+  },
+  {
+    "id": "119381",
+    "japanese": "彼が来ようと来まいとほとんど問題ではない。",
+    "english": "It matters little whether he comes or not."
+  },
+  {
+    "id": "119382",
+    "japanese": "彼が来ようが来まいが重要ではない。",
+    "english": "It doesn't matter whether he comes or not."
+  },
+  {
+    "id": "119383",
+    "japanese": "彼が来ようが来まいが私にはどうでもいいことだ。",
+    "english": "It makes no difference to me whether he comes or not."
+  },
+  {
+    "id": "119384",
+    "japanese": "彼が来ようが来まいが結果は同じだろう。",
+    "english": "Whether he comes or not, the result will be the same."
+  },
+  {
+    "id": "119385",
+    "japanese": "彼が来ようが来まいが、私は行く。",
+    "english": "Whether he comes or not, I'll go."
+  },
+  {
+    "id": "119387",
+    "japanese": "彼が来なければ私達は行かない。",
+    "english": "If he doesn't come, we won't go."
+  },
+  {
+    "id": "119388",
+    "japanese": "彼が来なかったとはとても変だ。",
+    "english": "It was extraordinary that he did not come."
+  },
+  {
+    "id": "119389",
+    "japanese": "彼が来ないのを見ると彼は旅行中なのかもしれない。",
+    "english": "Seeing that he has not come, he may be on a trip."
+  },
+  {
+    "id": "119390",
+    "japanese": "彼が来ないのを見ると、彼は旅行中かもしれない。",
+    "english": "Seeing that he has not come, he may be on a trip."
+  },
+  {
+    "id": "119391",
+    "japanese": "彼が来ないことに５ドルかけよう。",
+    "english": "I bet five dollars that he will not come."
+  },
+  {
+    "id": "119392",
+    "japanese": "彼が来ても来なくても、時間通りにパーティーを始めよう。",
+    "english": "Whether he comes or not, we'll begin the party on time."
+  },
+  {
+    "id": "119393",
+    "japanese": "彼が来てくれるだろうと期待していた。",
+    "english": "I expected that he would come."
+  },
+  {
+    "id": "119394",
+    "japanese": "彼が来た時、彼にそれについてたずねなさい。",
+    "english": "Ask him about it when he comes."
+  },
+  {
+    "id": "119395",
+    "japanese": "彼が来たら出発します。",
+    "english": "We will start when he comes."
+  },
+  {
+    "id": "119396",
+    "japanese": "彼が来たら教えてくれませんか。",
+    "english": "Will you let me know when he comes?"
+  },
+  {
+    "id": "119397",
+    "japanese": "彼が来たらそれをやろう。",
+    "english": "Let's do it when he comes."
+  },
+  {
+    "id": "119398",
+    "japanese": "彼が来たらそう伝えよう。",
+    "english": "I'll tell him so when he comes."
+  },
+  {
+    "id": "119399",
+    "japanese": "彼が来たらすぐに知らせて下さい。",
+    "english": "Let me know in no time when he comes."
+  },
+  {
+    "id": "119400",
+    "japanese": "彼が来たらすぐに出発しよう。",
+    "english": "Let's start as soon as he comes."
+  },
+  {
+    "id": "119401",
+    "japanese": "彼が来たらすぐに我々は出発します。",
+    "english": "We will leave as soon as he comes."
+  },
+  {
+    "id": "119402",
+    "japanese": "彼が来たらあなたの伝言を伝えておきます。",
+    "english": "I'll give him your message when he comes."
+  },
+  {
+    "id": "119403",
+    "japanese": "彼が来たとき私は宿題をしていた。",
+    "english": "When he came, I was doing my homework."
+  },
+  {
+    "id": "119404",
+    "japanese": "彼が来たときは私はその手紙を書き終えていた。",
+    "english": "I had written the letter when he came."
+  },
+  {
+    "id": "119405",
+    "japanese": "彼が来たとき、私は風呂に入っていました。",
+    "english": "I was taking a bath when he came."
+  },
+  {
+    "id": "119406",
+    "japanese": "彼が欲しかったのは金よりもむしろ名声だ。",
+    "english": "It is not so much money as fame that he wanted."
+  },
+  {
+    "id": "119407",
+    "japanese": "彼が与えた理由は理解しにくい。",
+    "english": "The reason which he gave is hard to understand."
+  },
+  {
+    "id": "119408",
+    "japanese": "彼が有名な人物だというのがわかります。",
+    "english": "I see that he is an able man."
+  },
+  {
+    "id": "119409",
+    "japanese": "彼が有能な人であることは知っている。",
+    "english": "I know him for a man of ability."
+  },
+  {
+    "id": "119410",
+    "japanese": "彼が有罪であるという事実は依然として残っている。",
+    "english": "The fact remains that he is guilty."
+  },
+  {
+    "id": "119411",
+    "japanese": "彼が有罪であることは否定できない。",
+    "english": "It cannot be denied that he is guilty."
+  },
+  {
+    "id": "119412",
+    "japanese": "彼が有罪だということは否定できない。",
+    "english": "It cannot be denied that he is guilty."
+  },
+  {
+    "id": "119413",
+    "japanese": "彼が有罪だというが、私はその反対だと信じている。",
+    "english": "They say he is guilty, but I believe the contrary."
+  },
+  {
+    "id": "119414",
+    "japanese": "彼が有罪だというが、私はその正反対だと信じている。",
+    "english": "They say he is guilty, but I believe the contrary."
+  },
+  {
+    "id": "119416",
+    "japanese": "彼が友人の期待を裏切るかもしれないとはついぞ思わなかった。",
+    "english": "It never occurred to me that he might fail his friend."
+  },
+  {
+    "id": "119417",
+    "japanese": "彼が勇気ある人として知られている。",
+    "english": "We know him to be a brave man."
+  },
+  {
+    "id": "119418",
+    "japanese": "彼が勇敢であることには感心せずにはおれなかった。",
+    "english": "I could not but admire his courage."
+  },
+  {
+    "id": "119419",
+    "japanese": "彼が優勝しそうだ。",
+    "english": "He is likely to win the championship."
+  },
+  {
+    "id": "119420",
+    "japanese": "彼が優れた医者であることは有名である。",
+    "english": "He is famous as a good doctor."
+  },
+  {
+    "id": "119421",
+    "japanese": "彼が約束を破ったのは、なぜだと思いますか。",
+    "english": "What do you think made him break his promise?"
+  },
+  {
+    "id": "119422",
+    "japanese": "彼が約束を守る事は、易しい事ではなかった。",
+    "english": "It wasn't easy for him to keep his promise."
+  },
+  {
+    "id": "119423",
+    "japanese": "彼が約束を守るのは言うまでもないことだ。",
+    "english": "It goes without saying that he keeps his promise."
+  },
+  {
+    "id": "119424",
+    "japanese": "彼が約束を守るかどうかは疑わしい。",
+    "english": "It is doubtful whether he will keep his word."
+  },
+  {
+    "id": "119426",
+    "japanese": "彼が役に立つ情報を提供してくれようとくれまいと、私は彼に会って見たい。",
+    "english": "I want to meet him to see whether or not he gives me useful information."
+  },
+  {
+    "id": "119427",
+    "japanese": "彼が戻るまで待とう。",
+    "english": "Let's wait till he comes back."
+  },
+  {
+    "id": "119428",
+    "japanese": "彼が野球が好きかフットボールが好きかは私にはどうでもよいことだ。",
+    "english": "It makes no difference to me whether he likes baseball or football."
+  },
+  {
+    "id": "119429",
+    "japanese": "彼が戻るまで私はここで待ちます。",
+    "english": "I will wait here until he comes back."
+  },
+  {
+    "id": "119430",
+    "japanese": "彼が戻るまで決定できない。",
+    "english": "We have to stay a decision until he comes back."
+  },
+  {
+    "id": "119431",
+    "japanese": "彼が戻るまでに必ず終わらせます。",
+    "english": "I will finish it by the time he comes back."
+  },
+  {
+    "id": "119432",
+    "japanese": "彼が戻らなければ奥さんはいったいどうなるのだろうか。",
+    "english": "Whatever will become of his wife if he does not return?"
+  },
+  {
+    "id": "119433",
+    "japanese": "彼が戻って来るまで待つ以外しかたがなかった。",
+    "english": "There was nothing for it but to wait till he came back."
+  },
+  {
+    "id": "119434",
+    "japanese": "彼が戻って来るまでここで待ちなさい。",
+    "english": "Wait here till he comes back."
+  },
+  {
+    "id": "119435",
+    "japanese": "彼が戻ってくるまで御待ちください。",
+    "english": "Please wait till he comes back."
+  },
+  {
+    "id": "119436",
+    "japanese": "彼が戻ってくるまでここでお待ちになったらどうですか。",
+    "english": "How about waiting here until he gets back?"
+  },
+  {
+    "id": "119437",
+    "japanese": "彼が戻ってくるという望みが私を元気づけた。",
+    "english": "The hope of his return encouraged me."
+  },
+  {
+    "id": "119438",
+    "japanese": "彼が戻ってきた時には、女は歩み去っていた。",
+    "english": "When he came back, the woman had walked off."
+  },
+  {
+    "id": "119439",
+    "japanese": "彼が戻ってきたらそう話しましょう。",
+    "english": "I will tell him so when he comes back."
+  },
+  {
+    "id": "119440",
+    "japanese": "彼が戻ってきたら、その伝言を伝えてください。",
+    "english": "Give him the message when he comes back."
+  },
+  {
+    "id": "119441",
+    "japanese": "彼が戻っていたら、そう伝えて下さい。",
+    "english": "Tell him so, when he comes back."
+  },
+  {
+    "id": "119442",
+    "japanese": "彼が戻ったらすぐ、あなたに知らせます。",
+    "english": "As soon as he returns, I will tell you."
+  },
+  {
+    "id": "119443",
+    "japanese": "彼が目を覚ました時は昼間だった。",
+    "english": "When he awoke it was day."
+  },
+  {
+    "id": "119444",
+    "japanese": "彼が目を覚ますまで待ちましょう。",
+    "english": "Let's wait until he wakes up."
+  },
+  {
+    "id": "119445",
+    "japanese": "彼が目を覚ましてはいけないので私たちは動かなかった。",
+    "english": "We didn't move so that we would not wake him up."
+  },
+  {
+    "id": "119446",
+    "japanese": "彼が黙り込んだとき、私は自分が侮辱されているような気がした。",
+    "english": "I felt insulted when he kept silent."
+  },
+  {
+    "id": "119447",
+    "japanese": "彼が黙っているのは罪を犯している事を意味していると思いますか。",
+    "english": "Do you think his silence denotes guilt?"
+  },
+  {
+    "id": "119448",
+    "japanese": "彼が黙っていたので、彼女は怒っているのだと思った。",
+    "english": "She inferred from his silence that he was angry."
+  },
+  {
+    "id": "119449",
+    "japanese": "彼が木をのこぎりでひいているのを見た。",
+    "english": "I saw him sawing a tree."
+  },
+  {
+    "id": "119450",
+    "japanese": "彼が明日時間通りに来るかどうかジュース一本賭けない？",
+    "english": "I wonder whether he'll make it here on time tomorrow. Want to bet a can of juice on it?"
+  },
+  {
+    "id": "119451",
+    "japanese": "彼が明日までにそこに着くことが望ましい。",
+    "english": "It is preferable that he gets there by tomorrow."
+  },
+  {
+    "id": "119452",
+    "japanese": "彼が娘を自慢するのはもっともだ。",
+    "english": "He may well be proud of his daughter."
+  },
+  {
+    "id": "119453",
+    "japanese": "彼が無実なら、当然彼の妻が有罪ということになる。",
+    "english": "If he is innocent, it follows that his wife is guilty."
+  },
+  {
+    "id": "119454",
+    "japanese": "彼が無実であるということをだれも信じない。",
+    "english": "No one believes that he is innocent."
+  },
+  {
+    "id": "119455",
+    "japanese": "彼が無実であることは私たちにとって明らかだった。",
+    "english": "It was evident to all of us that he was innocent."
+  },
+  {
+    "id": "119456",
+    "japanese": "彼が無実であることは私たちすべてにとって明らかだった。",
+    "english": "It was evident to all of us that he was innocent."
+  },
+  {
+    "id": "119457",
+    "japanese": "彼が無実であることは間違いない。",
+    "english": "That he is innocent is quite certain."
+  },
+  {
+    "id": "119458",
+    "japanese": "彼が無事に戻るという望みはない。",
+    "english": "There is no hope of his coming back safe."
+  },
+  {
+    "id": "119459",
+    "japanese": "彼が無事に戻ることを切望しています。",
+    "english": "I'm anxious for him to return safe."
+  },
+  {
+    "id": "119460",
+    "japanese": "彼が無事に到着したという知らせは家族を喜ばせた。",
+    "english": "The news of his safe arrival delighted his family."
+  },
+  {
+    "id": "119461",
+    "japanese": "彼が無事に帰宅したか確かめなさい。",
+    "english": "Make certain that he returned home safely."
+  },
+  {
+    "id": "119462",
+    "japanese": "彼が無事だと聞いて彼らは喜んだ。",
+    "english": "They rejoiced when they heard he was safe."
+  },
+  {
+    "id": "119463",
+    "japanese": "彼が無事だと聞いて私は、安心した。",
+    "english": "I was relieved to hear that he was safe."
+  },
+  {
+    "id": "119464",
+    "japanese": "彼が無罪であると信じる十分な理由がある。",
+    "english": "We have every reason to believe him innocent."
+  },
+  {
+    "id": "119465",
+    "japanese": "彼が無罪であることは言うまでもない。",
+    "english": "It goes without saying that he is not guilty."
+  },
+  {
+    "id": "119466",
+    "japanese": "彼が無罪だと信じているのは私たちだけではない。",
+    "english": "We are not alone in believing that he is not guilty."
+  },
+  {
+    "id": "119467",
+    "japanese": "彼が眠りかけたとき名前が呼ばれるのを耳にした。",
+    "english": "He was about to fall asleep, when he heard his name called."
+  },
+  {
+    "id": "119468",
+    "japanese": "彼が眠っている間に泥棒が入った。",
+    "english": "A burglar broke in while he was asleep."
+  },
+  {
+    "id": "119469",
+    "japanese": "彼が満点を取ったのでクラスの平均点があがった。",
+    "english": "His perfect score brought the class average up."
+  },
+  {
+    "id": "119470",
+    "japanese": "彼が毎年海外へ行くというのは本当だ。",
+    "english": "It is true that he goes abroad every year."
+  },
+  {
+    "id": "119471",
+    "japanese": "彼が毎日日記を付けているのに刺激されて、私も英語で日記を付けることにしました。",
+    "english": "He writes a daily journal, and that inspired me to try doing the same thing, but in English."
+  },
+  {
+    "id": "119472",
+    "japanese": "彼が本当は何が欲しいのかわからない。",
+    "english": "I can't figure out what he really wants."
+  },
+  {
+    "id": "119473",
+    "japanese": "彼が本当の理由を見つけようとしたって無駄だ。",
+    "english": "It's no good his trying to find the true reason."
+  },
+  {
+    "id": "119474",
+    "japanese": "彼が本当の事をいっているかどうか疑わしい。",
+    "english": "It is doubtful whether he is telling the truth."
+  },
+  {
+    "id": "119475",
+    "japanese": "彼が本当のことを私に言うのを怠ったため事故が起きた。",
+    "english": "His failure to tell me the truth caused an accident."
+  },
+  {
+    "id": "119476",
+    "japanese": "彼が本当のことを言うと期待してよい。",
+    "english": "You can count on him to tell the truth."
+  },
+  {
+    "id": "119477",
+    "japanese": "彼が本を読み始めてから２時間たった時に、彼女が入ってきた。",
+    "english": "He had been reading for two hours when she came in."
+  },
+  {
+    "id": "119478",
+    "japanese": "彼が僕に辞任して欲しいと思っているのを、僕は暗黙のうちに理解した。",
+    "english": "I could read between the lines that he wanted me to resign."
+  },
+  {
+    "id": "119479",
+    "japanese": "彼が僕にそう思い込ませたのです。",
+    "english": "He put the idea into my head."
+  },
+  {
+    "id": "119480",
+    "japanese": "彼が望んでいたのは絵を完成させる時間だけだった。",
+    "english": "All he wanted was time to finish his painting."
+  },
+  {
+    "id": "119482",
+    "japanese": "彼が忙しかったのは本当だ。",
+    "english": "That he was busy is true."
+  },
+  {
+    "id": "119483",
+    "japanese": "彼が忙しかったというのは本当だ。",
+    "english": "That he was busy is true."
+  },
+  {
+    "id": "119484",
+    "japanese": "彼が忙しかったことを私は知っています。",
+    "english": "I know that he was busy."
+  },
+  {
+    "id": "119485",
+    "japanese": "彼が忙しいはずはないだろう。",
+    "english": "It is impossible that he is busy."
+  },
+  {
+    "id": "119486",
+    "japanese": "彼が忙しいのは知ってるよ。",
+    "english": "I know he is busy."
+  },
+  {
+    "id": "119487",
+    "japanese": "彼が忘れていった書類の束を抱えて彼の後を追いかけた。",
+    "english": "I ran after him with a pile of papers that he'd left behind."
+  },
+  {
+    "id": "119488",
+    "japanese": "彼が亡くなって三年になります。",
+    "english": "It is three years since he died."
+  },
+  {
+    "id": "119489",
+    "japanese": "彼が亡くなってから２年になるそうだ。",
+    "english": "They say that he has been dead for two years."
+  },
+  {
+    "id": "119490",
+    "japanese": "彼が亡くなった責任の一端は私に有ります。",
+    "english": "His death was partly my fault."
+  },
+  {
+    "id": "119491",
+    "japanese": "彼が亡くなったとき、私達は５年間彼を知っていました。",
+    "english": "We had known him for five years when he died."
+  },
+  {
+    "id": "119492",
+    "japanese": "彼が訪ねてきたとき、宿題を終えたところだった。",
+    "english": "I had just finished my homework when he visited me."
+  },
+  {
+    "id": "119493",
+    "japanese": "彼が宝石箱を開けると彼女は目を見張った。",
+    "english": "She was all eyes as he opened the jewelry box."
+  },
+  {
+    "id": "119494",
+    "japanese": "彼が勉強しているとき、ドアが突然バタンと開いた。",
+    "english": "As he was studying, the door was suddenly flung open."
+  },
+  {
+    "id": "119495",
+    "japanese": "彼が勉強したがらなかったのも不思議ではない。",
+    "english": "No wonder he didn't feel like studying."
+  },
+  {
+    "id": "119496",
+    "japanese": "彼が変える決心をしたなんて知らなかったよ。",
+    "english": "I didn't know he had decided to leave."
+  },
+  {
+    "id": "119497",
+    "japanese": "彼が壁にかかっている絵を描いた。",
+    "english": "He painted the picture which is on the wall."
+  },
+  {
+    "id": "119498",
+    "japanese": "彼が平等を勝ち取るための運動に献身していた期間に、いくつかの新しい法律が議会を通過していた。",
+    "english": "In the years he had worked so hard for equality, new laws had been passed."
+  },
+  {
+    "id": "119499",
+    "japanese": "彼が文句ばかり言うので仕事がやりにくかった。",
+    "english": "We had a hard time doing the job because he was always complaining."
+  },
+  {
+    "id": "119500",
+    "japanese": "彼が腹を立てていることを考えると、何か誤解があるにちがいない。",
+    "english": "Seeing that he is angry, there must be some misunderstanding."
+  },
+  {
+    "id": "119501",
+    "japanese": "彼が部屋を出る音が聞こえた。",
+    "english": "I heard him go out of the room."
+  },
+  {
+    "id": "119502",
+    "japanese": "彼が部屋を出ていったとたんみんなどっと吹き出した。",
+    "english": "He had no sooner gone out of the room than all of them burst out laughing."
+  },
+  {
+    "id": "119503",
+    "japanese": "彼が部屋に飛び込んできた。",
+    "english": "He burst into the room."
+  },
+  {
+    "id": "119504",
+    "japanese": "彼が部屋に忍び込むのに気がついた。",
+    "english": "I noticed him sneak into the room."
+  },
+  {
+    "id": "119505",
+    "japanese": "彼が部屋に入るのが見えた。",
+    "english": "He was seen to enter the room."
+  },
+  {
+    "id": "119506",
+    "japanese": "彼が部屋に入ってきた。",
+    "english": "He came into the room."
+  },
+  {
+    "id": "119507",
+    "japanese": "彼が部屋にはいるや否や、彼女はわっと泣き出した。",
+    "english": "Hardly had he entered the room, when she burst into tears."
+  },
+  {
+    "id": "119508",
+    "japanese": "彼が部屋にはいるのを見た。",
+    "english": "I saw him enter the room."
+  },
+  {
+    "id": "119509",
+    "japanese": "彼が部屋にはいると、警官が待ちかまえていた。",
+    "english": "He entered the room, to be confronted by a policeman."
+  },
+  {
+    "id": "119510",
+    "japanese": "彼が武器を商っているのは公然の秘密である。",
+    "english": "It is an open secret that he deals in weapons."
+  },
+  {
+    "id": "119511",
+    "japanese": "彼が負傷したという知らせは彼女にとってショックであった。",
+    "english": "The news that he had got injured was a shock to her."
+  },
+  {
+    "id": "119512",
+    "japanese": "彼が負けたことは顔つきでわかる。",
+    "english": "His face says that he lost."
+  },
+  {
+    "id": "119513",
+    "japanese": "彼が父親を誇りに思うのも当然だ。",
+    "english": "He may well be proud of his father."
+  },
+  {
+    "id": "119514",
+    "japanese": "彼が父親の遺産を相続するだろう。",
+    "english": "He will succeed to his father's property."
+  },
+  {
+    "id": "119515",
+    "japanese": "彼が父親に代わって事業を営んでいる。",
+    "english": "He is managing the business for his father."
+  },
+  {
+    "id": "119516",
+    "japanese": "彼が父を誇りに思うのも当然だろう。",
+    "english": "He may well be proud of his father."
+  },
+  {
+    "id": "119518",
+    "japanese": "彼が不平を言うのももっともだ。",
+    "english": "He complains with good reason."
+  },
+  {
+    "id": "119519",
+    "japanese": "彼が不作法なのは意識的であって、偶発的ではなかった。",
+    "english": "His rudeness was conscious, not accidental."
+  },
+  {
+    "id": "119521",
+    "japanese": "彼が不合格だったのには驚いた。",
+    "english": "To my surprise, he failed the exam."
+  },
+  {
+    "id": "119522",
+    "japanese": "彼が貧しいというだけの理由で彼女は彼を軽蔑している。",
+    "english": "She despises him only because he is poor."
+  },
+  {
+    "id": "119523",
+    "japanese": "彼が貧しいからといって不幸だということにはならない。",
+    "english": "Just because he is poor, it does not follow that he is unhappy."
+  },
+  {
+    "id": "119524",
+    "japanese": "彼が病気になってから３年になる。",
+    "english": "He fell ill three years ago."
+  },
+  {
+    "id": "119525",
+    "japanese": "彼が病気になったのは悪い天候のせいでした。",
+    "english": "It was the bad weather that caused his illness."
+  },
+  {
+    "id": "119526",
+    "japanese": "彼が病気で寝ていたのをあなたは知っていたはずだ。",
+    "english": "You ought to have known that he was sick in bed."
+  },
+  {
+    "id": "119527",
+    "japanese": "彼が病気であろうとは思いもしなかった。",
+    "english": "It never occurred to me that he might be ill."
+  },
+  {
+    "id": "119528",
+    "japanese": "彼が病気であるはずがない。",
+    "english": "He can't be ill."
+  },
+  {
+    "id": "119529",
+    "japanese": "彼が病気であるとはまったく思いもしなかった。",
+    "english": "It never occurred to me that he might be ill."
+  },
+  {
+    "id": "119530",
+    "japanese": "彼が病気であることは本当だ。",
+    "english": "It's true that he's ill."
+  },
+  {
+    "id": "119531",
+    "japanese": "彼が病気だという事実は、彼女にはそれほど大したことではなかった。",
+    "english": "The fact that he was sick was not very impressive to her."
+  },
+  {
+    "id": "119532",
+    "japanese": "彼が病気だというのは明らかなようだ。",
+    "english": "It seems obvious that he is sick."
+  },
+  {
+    "id": "119533",
+    "japanese": "彼が病気だというのは一体本当だろうか。",
+    "english": "Can it be true that he is ill?"
+  },
+  {
+    "id": "119534",
+    "japanese": "彼が病気だということは秘密にしておこう。",
+    "english": "Let's keep it secret that he is ill."
+  },
+  {
+    "id": "119535",
+    "japanese": "彼が病気だったはずはない。",
+    "english": "He can't have been ill."
+  },
+  {
+    "id": "119536",
+    "japanese": "彼が病気だったはずがない。",
+    "english": "He cannot have been ill."
+  },
+  {
+    "id": "119537",
+    "japanese": "彼が描いた絵を見て下さい。",
+    "english": "Look at the picture which he painted."
+  },
+  {
+    "id": "119538",
+    "japanese": "彼が描いたその絵は非常に価値がある。",
+    "english": "The picture painted by him is of great value."
+  },
+  {
+    "id": "119539",
+    "japanese": "彼が飛行機事故で助かったのは奇跡だ。",
+    "english": "It's a miracle he wasn't killed in the plane crash."
+  },
+  {
+    "id": "119540",
+    "japanese": "彼が飛行機に乗り込むと、見物人が集まってきた。",
+    "english": "Spectators gathered as he climbed into the plane."
+  },
+  {
+    "id": "119541",
+    "japanese": "彼が秘密を打ち明け始めるとみんな聞き耳をたてた。",
+    "english": "We were all ears when he started to tell us his secret."
+  },
+  {
+    "id": "119542",
+    "japanese": "彼が疲れているのは誰の目にも明らかだった。",
+    "english": "It was obvious to everybody that he was tired."
+  },
+  {
+    "id": "119543",
+    "japanese": "彼が彼女を好きなのは行動から見て一目瞭然だ。",
+    "english": "It's clear from his actions that he loves her."
+  },
+  {
+    "id": "119544",
+    "japanese": "彼が彼女を気の毒に思うのは仕方がない。",
+    "english": "There's nothing that can be done about his feeling sorry for her."
+  },
+  {
+    "id": "119545",
+    "japanese": "彼が彼女を愛していることは確かだった。",
+    "english": "That he loved her was certain."
+  },
+  {
+    "id": "119546",
+    "japanese": "彼が彼女を愛しているかどうか誰も知りません。",
+    "english": "No one knows whether he loves her or not."
+  },
+  {
+    "id": "119547",
+    "japanese": "彼が彼女をたたくのを私たちは止めることができなかった。",
+    "english": "We couldn't stop him from hitting her."
+  },
+  {
+    "id": "119548",
+    "japanese": "彼が彼女に話すとにっこりした。",
+    "english": "He told her and she smiled."
+  },
+  {
+    "id": "119549",
+    "japanese": "彼が彼女に恋をしているというのは本当だ。",
+    "english": "That he is in love with her is true."
+  },
+  {
+    "id": "119550",
+    "japanese": "彼が彼女に腹を立てるのももっともだ。",
+    "english": "He may well get angry with her."
+  },
+  {
+    "id": "119552",
+    "japanese": "彼が彼女にそんなことを言ったとは残酷なことだ。",
+    "english": "It is cruel of him to say such things to her."
+  },
+  {
+    "id": "119553",
+    "japanese": "彼が彼女にそんなことを言ったとは残酷だ。",
+    "english": "It was cruel of him to say such things to her."
+  },
+  {
+    "id": "119554",
+    "japanese": "彼が彼女におわびをするのは理の当然である。",
+    "english": "It stands to reason that he should apologize to her."
+  },
+  {
+    "id": "119555",
+    "japanese": "彼が彼女と別れなければならない日がついにやってきた。",
+    "english": "The day came at last when he had to part from her."
+  },
+  {
+    "id": "119556",
+    "japanese": "彼が彼女と結婚できないのは残念だ。",
+    "english": "It is a pity that he can not marry her."
+  },
+  {
+    "id": "119557",
+    "japanese": "彼が彼女と結婚することは間違いない。",
+    "english": "There is no question that he will marry her."
+  },
+  {
+    "id": "119559",
+    "japanese": "彼が彼女と結婚するかどうかは確かではなかった。",
+    "english": "It was uncertain whether he would marry her."
+  },
+  {
+    "id": "119560",
+    "japanese": "彼か私が悪い。",
+    "english": "He or I am to blame."
+  },
+  {
+    "id": "119561",
+    "japanese": "彼が販売部の責任者だ。",
+    "english": "He's in charge of the sales department."
+  },
+  {
+    "id": "119562",
+    "japanese": "彼が罰せられるのも当然のことだと思った。",
+    "english": "We thought it natural that he should be punished."
+  },
+  {
+    "id": "119563",
+    "japanese": "彼が罰せられるのは当然だ。",
+    "english": "He deserves punishment."
+  },
+  {
+    "id": "119564",
+    "japanese": "彼が罰せられたのは当然のことだと思った。",
+    "english": "We took it for granted that he had been punished."
+  },
+  {
+    "id": "119565",
+    "japanese": "彼が買った最初の品物は目覚まし時計です。",
+    "english": "The first item he bought was an alarm clock."
+  },
+  {
+    "id": "119566",
+    "japanese": "彼が破産したというのは本当だ。",
+    "english": "It is true that he went bankrupt."
+  },
+  {
+    "id": "119567",
+    "japanese": "彼が熱を出して寝ていると知っていたら、私は彼の面倒を見ていただろう。",
+    "english": "I would have taken care of him if I had known that he was ill with a fever."
+  },
+  {
+    "id": "119568",
+    "japanese": "彼が任命される見込みはない。",
+    "english": "There is no hope of his being appointed."
+  },
+  {
+    "id": "119569",
+    "japanese": "彼が入って来た時私は本を読んでいた。",
+    "english": "I had been reading a book when he came in."
+  },
+  {
+    "id": "119570",
+    "japanese": "彼が入ってきたとき、私は一時間読書をしていた。",
+    "english": "I had been reading for an hour when he came in."
+  },
+  {
+    "id": "119571",
+    "japanese": "彼が入って来たとき、私は２時間英語を勉強しつづけていた。",
+    "english": "I had been studying English for two hours when he came in."
+  },
+  {
+    "id": "119572",
+    "japanese": "彼が入ってくると、緊張した雰囲気になった。",
+    "english": "The atmosphere became strained when he came."
+  },
+  {
+    "id": "119573",
+    "japanese": "彼が入ってきた時真っ暗だった。",
+    "english": "It was dark when he came in."
+  },
+  {
+    "id": "119574",
+    "japanese": "彼が入ってきたのに気づきましたか。",
+    "english": "Did you notice him coming in?"
+  },
+  {
+    "id": "119575",
+    "japanese": "彼が入ってきたとき私は１時間くらい本を読んでいた。",
+    "english": "I had been reading a book for about an hour when he came in."
+  },
+  {
+    "id": "119577",
+    "japanese": "彼が入ってきた、それと同時にベルが鳴った。",
+    "english": "He came in, and at the same time the bell rang."
+  },
+  {
+    "id": "119578",
+    "japanese": "彼が入った後でドアが閉まった。",
+    "english": "The door shut after him."
+  },
+  {
+    "id": "119579",
+    "japanese": "彼が日本を去ってから十年になる。",
+    "english": "It has been ten years since he left Japan."
+  },
+  {
+    "id": "119580",
+    "japanese": "彼が日本をたってから３ヶ月過ぎた。",
+    "english": "It has been three months since he left Japan."
+  },
+  {
+    "id": "119581",
+    "japanese": "彼は日本のみならず、世界においても有名な物理学者である。",
+    "english": "He is a famous physicist not only in Japan, but in the world."
+  },
+  {
+    "id": "119582",
+    "japanese": "彼が日本に来て二年になります。",
+    "english": "It has been two years since he came to Japan."
+  },
+  {
+    "id": "119583",
+    "japanese": "彼が日本に来て３年になります。",
+    "english": "He has been in Japan for three years."
+  },
+  {
+    "id": "119584",
+    "japanese": "彼が日本に来たのは子供のときでした。",
+    "english": "He came to Japan as a child."
+  },
+  {
+    "id": "119585",
+    "japanese": "彼が二階へあがっていくのが見えた。",
+    "english": "He was seen to go upstairs."
+  },
+  {
+    "id": "119586",
+    "japanese": "彼が突然来たのでめんどうなことになった。",
+    "english": "His sudden appearance gave rise to trouble."
+  },
+  {
+    "id": "119587",
+    "japanese": "彼が突然現れたので驚いた。",
+    "english": "I was surprised at his sudden appearance."
+  },
+  {
+    "id": "119588",
+    "japanese": "彼が突然現れたので我々はみな驚いた。",
+    "english": "His sudden appearance surprised us all."
+  },
+  {
+    "id": "119589",
+    "japanese": "彼がどうして突然勤めを辞めてしまったのかさっぱり分からない。",
+    "english": "I don't know at all why he quit his job suddenly."
+  },
+  {
+    "id": "119590",
+    "japanese": "彼が突然やって来たのはなぜだったのか教えてください。",
+    "english": "Let me know why it was that he came suddenly."
+  },
+  {
+    "id": "119591",
+    "japanese": "彼が独力でその仕事をした。",
+    "english": "He did the work on his own."
+  },
+  {
+    "id": "119592",
+    "japanese": "彼が得点を挙げると群集は大声を上げた。",
+    "english": "The crowd yelled when he scored a goal."
+  },
+  {
+    "id": "119593",
+    "japanese": "彼が得た結果は大部分は満足すべきものである。",
+    "english": "The results he has got are, in the main, satisfactory."
+  },
+  {
+    "id": "119594",
+    "japanese": "彼が道路を渡るのを見た。",
+    "english": "I saw him cross the street."
+  },
+  {
+    "id": "119595",
+    "japanese": "彼が道路を渡るのが彼女に見られた。",
+    "english": "She saw him crossing the road."
+  },
+  {
+    "id": "119596",
+    "japanese": "彼が道に迷ったとは不思議だ。",
+    "english": "It is strange that he should have lost his way."
+  },
+  {
+    "id": "119597",
+    "japanese": "彼が同意しなかったのは変だ。",
+    "english": "It was extraordinary that he did not agree."
+  },
+  {
+    "id": "119598",
+    "japanese": "彼が働く必要はない。",
+    "english": "There is no need for him to work."
+  },
+  {
+    "id": "119599",
+    "japanese": "彼が働いているのはいったいどこか。",
+    "english": "Where the heck does he work?"
+  },
+  {
+    "id": "119600",
+    "japanese": "彼が頭のいい息子を自慢するのも無理はない。",
+    "english": "He may well be proud of his bright son."
+  },
+  {
+    "id": "119601",
+    "japanese": "彼が到着する日を知らせて下さい。",
+    "english": "Let me know when he will arrive."
+  },
+  {
+    "id": "119602",
+    "japanese": "彼が到着するや否や、バスは出発した。",
+    "english": "No sooner had he arrived than the bus departed."
+  },
+  {
+    "id": "119603",
+    "japanese": "彼が到着するまでに列車は出発しているでしょう。",
+    "english": "The train will have started by the time he arrives."
+  },
+  {
+    "id": "119604",
+    "japanese": "彼が答える前に長い時間の間隔があった。",
+    "english": "There was a long interval before he replied."
+  },
+  {
+    "id": "119605",
+    "japanese": "彼が答えるまでに長い間があった。",
+    "english": "There was a long interval before he answered."
+  },
+  {
+    "id": "119606",
+    "japanese": "彼が当代随一の作家のひとりであるのは言うまでもない。",
+    "english": "Needless to say he is one of the best writers of the present generation."
+  },
+  {
+    "id": "119607",
+    "japanese": "彼が東京へ発ったとき、だれも駅まで見送りに行かなかった。",
+    "english": "No one went to the station to see him off when he left for Tokyo."
+  },
+  {
+    "id": "119608",
+    "japanese": "彼が東京へ行ったことはたしかだと思う。",
+    "english": "I think it certain that he went to Tokyo."
+  },
+  {
+    "id": "119609",
+    "japanese": "彼が東京に着いたらすぐ私はあなたに電話します。",
+    "english": "On his getting to Tokyo, I'll telephone you."
+  },
+  {
+    "id": "119610",
+    "japanese": "彼が東京に行ってから半年になります。",
+    "english": "It is half a year since he went to Tokyo."
+  },
+  {
+    "id": "119611",
+    "japanese": "彼が投手として能力があることは否定できないが、かなりけがに弱い。",
+    "english": "There's no denying his ability as a pitcher, but he is rather injury-prone."
+  },
+  {
+    "id": "119612",
+    "japanese": "彼が倒れかけた時私は彼の腕をつかんだ。",
+    "english": "I caught him by the arm before he could fall."
+  },
+  {
+    "id": "119613",
+    "japanese": "彼が怒るのも当然です。",
+    "english": "It's natural for him to get angry."
+  },
+  {
+    "id": "119614",
+    "japanese": "彼が怒るのは当然だと思う。",
+    "english": "I think it natural for him to get angry."
+  },
+  {
+    "id": "119615",
+    "japanese": "彼が怒るのは当たり前だ。",
+    "english": "It is quite natural that he should be angry."
+  },
+  {
+    "id": "119616",
+    "japanese": "彼が怒るのは珍しい。",
+    "english": "It is rare for him to get angry."
+  },
+  {
+    "id": "119617",
+    "japanese": "彼が怒るといけないから本当の事は言わなかった。",
+    "english": "I didn't tell him the truth for fear he would get angry."
+  },
+  {
+    "id": "119618",
+    "japanese": "彼が怒っているのは無理もない。",
+    "english": "No wonder he is so angry."
+  },
+  {
+    "id": "119619",
+    "japanese": "彼が怒ったのも当然だと思います。",
+    "english": "I think it natural that he got angry."
+  },
+  {
+    "id": "119620",
+    "japanese": "彼が怒ったのも当然だ。",
+    "english": "Naturally he got angry."
+  },
+  {
+    "id": "119621",
+    "japanese": "彼が度々口をはさむので腹がたった。",
+    "english": "I was annoyed with him for his interruptions."
+  },
+  {
+    "id": "119622",
+    "japanese": "彼が登場すると群集は歓声を上げた。",
+    "english": "The crowd cheered when he appeared."
+  },
+  {
+    "id": "119623",
+    "japanese": "彼が渡米してから１０年になる。",
+    "english": "Ten years have passed since he went to America."
+  },
+  {
+    "id": "119625",
+    "japanese": "彼が電話したとき、私はしばらくの間本を読んでいた。",
+    "english": "I had been reading a book for some time when he called."
+  },
+  {
+    "id": "119626",
+    "japanese": "彼が電車を乗り過ごしたことは確かである。",
+    "english": "It is certain that he missed the train."
+  },
+  {
+    "id": "119627",
+    "japanese": "彼が電車に乗り遅れたに違いない。",
+    "english": "He must have missed the train."
+  },
+  {
+    "id": "119628",
+    "japanese": "彼が店に入るのが見えた。",
+    "english": "I saw him enter the store."
+  },
+  {
+    "id": "119629",
+    "japanese": "彼が天才であるというのは言い過ぎではない。",
+    "english": "It is not too much to say that he is a genius."
+  },
+  {
+    "id": "119630",
+    "japanese": "彼が天才であることは誰の目にも明らかだ。",
+    "english": "That he is a genius is clear to everyone."
+  },
+  {
+    "id": "119631",
+    "japanese": "彼が天才であることはすぐ分かる。",
+    "english": "You can easily tell that he is a genius."
+  },
+  {
+    "id": "119632",
+    "japanese": "彼が鉄砲を掃除していたら暴発し、もう少しで妻に当たるところだった。",
+    "english": "The gun went off while he was cleaning it, and the bullet almost struck his wife."
+  },
+  {
+    "id": "119633",
+    "japanese": "彼が泥棒と言うことが判明した。",
+    "english": "It was proved that he was a thief."
+  },
+  {
+    "id": "119634",
+    "japanese": "彼が泥だらけでうつ伏せになっているのを見たとき、笑わずにはいられなかった。",
+    "english": "I couldn't help laughing when I saw him lying face down covered with mud."
+  },
+  {
+    "id": "119635",
+    "japanese": "彼が提出した結果に明白に見られる誤りは、手順の欠陥というよりは不注意に起因するものである。",
+    "english": "The errors apparent in his results are due more to carelessness than faulty procedures."
+  },
+  {
+    "id": "119636",
+    "japanese": "彼が通れるように僕は脇に寄った。",
+    "english": "I stepped aside so that he could pass."
+  },
+  {
+    "id": "119637",
+    "japanese": "彼が通り過ぎようとしたとき、スフィンクスは彼の前に飛び出した。",
+    "english": "When he was about to pass, the Sphinx jumped in front of him."
+  },
+  {
+    "id": "119638",
+    "japanese": "彼が通りを渡るのが見えた。",
+    "english": "We saw him walk across the street."
+  },
+  {
+    "id": "119639",
+    "japanese": "彼が通りを横切るのが見られた。",
+    "english": "He was seen crossing the street."
+  },
+  {
+    "id": "119640",
+    "japanese": "彼が通りを横切っているのが見えた。",
+    "english": "We saw him walking across the street."
+  },
+  {
+    "id": "119641",
+    "japanese": "彼が直さなければならないのはその傲慢さだ。",
+    "english": "It is his laziness that he must overcome."
+  },
+  {
+    "id": "119642",
+    "japanese": "彼が長生きしますように。",
+    "english": "May he live long!"
+  },
+  {
+    "id": "119643",
+    "japanese": "彼が町を歩いているのを見たのは昨日です。",
+    "english": "It was yesterday that I saw him walking down the street."
+  },
+  {
+    "id": "119644",
+    "japanese": "彼が朝日を受けて光り輝いていた。",
+    "english": "He was brilliant in the morning sun."
+  },
+  {
+    "id": "119645",
+    "japanese": "彼が朝食を食べ終わるか終わらないうちにお医者さんが来た。",
+    "english": "Hardly had he finished breakfast when the doctor came."
+  },
+  {
+    "id": "119646",
+    "japanese": "彼が朝食を終えるか終えないうちに電話が鳴った。",
+    "english": "He had hardly finished breakfast when the telephone rang."
+  },
+  {
+    "id": "119647",
+    "japanese": "彼が仲裁してその場は丸く収めた。",
+    "english": "He intervened and settled the matter peacefully for the time being."
+  },
+  {
+    "id": "119648",
+    "japanese": "彼が仲間に加わるのは当然だと思ってました。",
+    "english": "I took it for granted that he would become a member."
+  },
+  {
+    "id": "119649",
+    "japanese": "彼が中国語を知っていたおかげで私達は計画を順調に実行することが出来た。",
+    "english": "His knowledge of Chinese enables us to carry out our plan smoothly."
+  },
+  {
+    "id": "119650",
+    "japanese": "彼が中に入れるように脇によった。",
+    "english": "I stepped aside so that he could come in."
+  },
+  {
+    "id": "119651",
+    "japanese": "彼が中国で成長したというのは有名だ。",
+    "english": "That he grew up in China is well-known."
+  },
+  {
+    "id": "119652",
+    "japanese": "彼が着いたらすぐに出発しよう。",
+    "english": "Let's leave as soon as he arrives."
+  },
+  {
+    "id": "119653",
+    "japanese": "彼が着いたらすぐにこの伝言を伝えよう。",
+    "english": "I'll give him this message the moment he arrives."
+  },
+  {
+    "id": "119654",
+    "japanese": "彼が着いたらすぐにこの伝言を伝えてくれ。",
+    "english": "Give him this message the moment he arrives."
+  },
+  {
+    "id": "119655",
+    "japanese": "彼が遅れたので事態はますます悪くなった。",
+    "english": "His delay made the situation all the worse."
+  },
+  {
+    "id": "119656",
+    "japanese": "彼が知事になるために、その金を使おうとしていたこと、知ってた。",
+    "english": "I knew that he was trying to use that money to become governor."
+  },
+  {
+    "id": "119657",
+    "japanese": "彼が知ってさえいればよかったのだがなあ。",
+    "english": "If only he had known!"
+  },
+  {
+    "id": "119660",
+    "japanese": "彼が誕生日カードを送ってくれた。",
+    "english": "He sent me a birthday card."
+  },
+  {
+    "id": "119662",
+    "japanese": "彼が誰だか知りません。",
+    "english": "I don't know who he is."
+  },
+  {
+    "id": "119666",
+    "japanese": "彼が棚にぶつかって、とても高価な陶器が落ちて粉々に割れてしまった。",
+    "english": "After he bumped into the shelf, the priceless china fell and shattered into fragments."
+  },
+  {
+    "id": "119667",
+    "japanese": "彼が脱獄囚だなんて、私には思いもよらなかった。",
+    "english": "It never occurred to me that he was a prison-breaker."
+  },
+  {
+    "id": "119668",
+    "japanese": "彼が大変驚いたことには、彼の犬は死んでいた。",
+    "english": "Much to his surprise, he found his dog dead."
+  },
+  {
+    "id": "119670",
+    "japanese": "彼が大好き！",
+    "english": "I really like him!"
+  },
+  {
+    "id": "119671",
+    "japanese": "彼が大学生かどうか私は知らない。",
+    "english": "I don't know whether he's a college student or not."
+  },
+  {
+    "id": "119672",
+    "japanese": "彼が大音楽家になるだろうという母親の予言はのちに現実になった。",
+    "english": "His mother's prophecy that he would be a great musician was later fulfilled."
+  },
+  {
+    "id": "119673",
+    "japanese": "彼が大きな事を言えば言うほど、その言葉の中を見出すのはいっそう困難だった。",
+    "english": "The bigger the words he used, the harder it was to find anything in them."
+  },
+  {
+    "id": "119674",
+    "japanese": "彼が大きな顔をしていた。",
+    "english": "He acted like he owned the place."
+  },
+  {
+    "id": "119675",
+    "japanese": "彼が大きな間違いをしたことは明らかだ。",
+    "english": "It is clear that he has made a big mistake."
+  },
+  {
+    "id": "119676",
+    "japanese": "彼が逮捕されたのは当然だ。",
+    "english": "No wonder he was arrested."
+  },
+  {
+    "id": "119677",
+    "japanese": "彼が退職したとき同僚は彼にプレゼントした。",
+    "english": "His colleagues gave him a present when he retired."
+  },
+  {
+    "id": "119678",
+    "japanese": "彼が怠け者なのは私にはどうしようもない。",
+    "english": "I cannot help his being lazy."
+  },
+  {
+    "id": "119679",
+    "japanese": "彼が打ってランナーを３人生還させた。",
+    "english": "He batted three runners home."
+  },
+  {
+    "id": "119680",
+    "japanese": "彼が他人の悪口を言うのを聞いたことがありません。",
+    "english": "I've never heard him speak ill of others."
+  },
+  {
+    "id": "119681",
+    "japanese": "彼が息子達を自慢するのももっともだ。",
+    "english": "He may well be proud of his sons."
+  },
+  {
+    "id": "119682",
+    "japanese": "彼が息子を自慢に思うのも無理はない。",
+    "english": "It's not surprising that he be proud of his son."
+  },
+  {
+    "id": "119683",
+    "japanese": "彼が息子を自慢するのも当然だ。",
+    "english": "He is justly proud of his son."
+  },
+  {
+    "id": "119684",
+    "japanese": "彼が息子を自慢するのはもっともです。",
+    "english": "He's every reason to be proud of his son."
+  },
+  {
+    "id": "119685",
+    "japanese": "彼が息子の自慢をするのは当然だ。",
+    "english": "It is only natural that he be proud of his son."
+  },
+  {
+    "id": "119686",
+    "japanese": "彼が送ってくれた林檎はおいしかった。",
+    "english": "The apples which he sent to me were delicious."
+  },
+  {
+    "id": "119687",
+    "japanese": "彼が走っているのを見た。",
+    "english": "I saw him running."
+  },
+  {
+    "id": "119688",
+    "japanese": "彼が走った距離は、思っていたよりもはるかに長かった。",
+    "english": "The distance he ran was much greater than had been expected."
+  },
+  {
+    "id": "119689",
+    "japanese": "彼が窓ガラスを割った男だと思いますか。",
+    "english": "Do you think he is the guy that broke the window?"
+  },
+  {
+    "id": "119690",
+    "japanese": "彼が早起きであると信じている。",
+    "english": "I believe him to get up early."
+  },
+  {
+    "id": "119691",
+    "japanese": "彼が早起きするなんて珍しい。",
+    "english": "It's unusual for him to get up early."
+  },
+  {
+    "id": "119692",
+    "japanese": "彼が善良だからといって、賢いということにはならない。",
+    "english": "Because he is good, it does not follow that he is wise."
+  },
+  {
+    "id": "119693",
+    "japanese": "彼が選挙に勝つ望みはほとんどない。",
+    "english": "There is little hope of his winning the election."
+  },
+  {
+    "id": "119694",
+    "japanese": "彼が選挙に勝つ見込みはありますか。",
+    "english": "Is there any possibility that he'll win the election?"
+  },
+  {
+    "id": "119696",
+    "japanese": "彼が専攻している学問は経済学である。",
+    "english": "He is specializing in the study of economics."
+  },
+  {
+    "id": "119697",
+    "japanese": "彼が先週受けた試験は大変難しかった。",
+    "english": "The examination he took last week was very hard."
+  },
+  {
+    "id": "119698",
+    "japanese": "彼が先日私が話していた少年です。",
+    "english": "He is the boy of whom I spoke the other day."
+  },
+  {
+    "id": "119699",
+    "japanese": "彼が絶えず侮辱したので私の怒りをかった。",
+    "english": "His constant insults aroused my anger."
+  },
+  {
+    "id": "119700",
+    "japanese": "彼が赤い顔をしていたのは怒っていたからだ。",
+    "english": "His red face showed his anger."
+  },
+  {
+    "id": "119701",
+    "japanese": "彼が誠実なことは私が責任を持ちます。",
+    "english": "I vouch for his sincerity."
+  },
+  {
+    "id": "119702",
+    "japanese": "彼が生活費を稼いでいる。",
+    "english": "He brings home the bread and butter."
+  },
+  {
+    "id": "119703",
+    "japanese": "彼が生まれて育ったとこはどこですか。",
+    "english": "Where was he born and raised?"
+  },
+  {
+    "id": "119704",
+    "japanese": "彼が生まれた日は大雪だった。",
+    "english": "It snowed heavily in the morning he was born."
+  },
+  {
+    "id": "119705",
+    "japanese": "彼が生まれた村はここから遠い。",
+    "english": "The village in which he was born is far from here."
+  },
+  {
+    "id": "119706",
+    "japanese": "彼が生まれたのは１９５０年だ。",
+    "english": "It was in 1950 that he was born."
+  },
+  {
+    "id": "119707",
+    "japanese": "彼が生き残ったということは注目すべきことだ。",
+    "english": "That he survived was remarkable."
+  },
+  {
+    "id": "119708",
+    "japanese": "彼が生きている望みは、たとえあるとしてもごくわずかだ。",
+    "english": "There is little, if any, hope of his being alive."
+  },
+  {
+    "id": "119709",
+    "japanese": "彼が生きている見込みは全くない。",
+    "english": "There is no hope of his being alive."
+  },
+  {
+    "id": "119710",
+    "japanese": "彼が生きているのか死んでいるのかわからない。",
+    "english": "I don't know whether he is dead or alive."
+  },
+  {
+    "id": "119711",
+    "japanese": "彼が生きていると聞いて安心した。",
+    "english": "I was relieved to hear that he was alive."
+  },
+  {
+    "id": "119712",
+    "japanese": "彼が生きているということは確かである。",
+    "english": "That he is alive is certain."
+  },
+  {
+    "id": "119713",
+    "japanese": "彼が生きていることを確かめる術はない。",
+    "english": "There is no way to confirm that he is alive."
+  },
+  {
+    "id": "119714",
+    "japanese": "彼が正直もののはずがない。",
+    "english": "He can't be an honest man."
+  },
+  {
+    "id": "119715",
+    "japanese": "彼が正直なのを知っている。",
+    "english": "I know him to be honest."
+  },
+  {
+    "id": "119716",
+    "japanese": "彼が正直なのは保証します。私は彼をよく知っていますから。",
+    "english": "I answer for his honesty, for I know him well."
+  },
+  {
+    "id": "119717",
+    "japanese": "彼が正直なのは認めます。",
+    "english": "I answer for his honesty."
+  },
+  {
+    "id": "119718",
+    "japanese": "彼が正直なのは疑いのないことだ。",
+    "english": "His honesty cannot be doubted."
+  },
+  {
+    "id": "119720",
+    "japanese": "彼が正直なのでいっそう彼のことを尊敬する。",
+    "english": "We respect him all the more for his honesty."
+  },
+  {
+    "id": "119721",
+    "japanese": "彼が正直である事は認めるけど、能力には疑問を持っている。",
+    "english": "Granted that he is honest, but I doubt his ability."
+  },
+  {
+    "id": "119722",
+    "japanese": "彼が正直である事は私は決して疑わないだろう。",
+    "english": "I would never question his honesty."
+  },
+  {
+    "id": "119723",
+    "japanese": "彼が正直であることを決して疑わないだろう。",
+    "english": "I would never question his honesty."
+  },
+  {
+    "id": "119724",
+    "japanese": "彼が正直であることは認めるが、能力には疑問を持っている。",
+    "english": "Admitting that he is honest, I doubt his ability."
+  },
+  {
+    "id": "119725",
+    "japanese": "彼が正直であることは疑いもない。",
+    "english": "His honesty is beyond doubt."
+  },
+  {
+    "id": "119726",
+    "japanese": "彼が正直であることがわかった。",
+    "english": "I found him honest."
+  },
+  {
+    "id": "119727",
+    "japanese": "彼が正直であることに疑いはない。",
+    "english": "There is no doubt that he is honest."
+  },
+  {
+    "id": "119728",
+    "japanese": "彼が正直だなどとどうして確信できましょうか。",
+    "english": "How can we be sure of his honesty?"
+  },
+  {
+    "id": "119729",
+    "japanese": "彼が正直だと信じる根拠は十分ある。",
+    "english": "There are sufficient grounds for believing he is honest."
+  },
+  {
+    "id": "119731",
+    "japanese": "彼が正直か私は疑っている。",
+    "english": "I doubt if he is honest."
+  },
+  {
+    "id": "119732",
+    "japanese": "彼が正直だということを否定できない。",
+    "english": "We cannot gainsay that he is honest."
+  },
+  {
+    "id": "119733",
+    "japanese": "彼が正確に何時に着くのか私は知らない。",
+    "english": "I don't know exactly when he will arrive."
+  },
+  {
+    "id": "119734",
+    "japanese": "彼が正しいというのは私の意見です。",
+    "english": "I am of the opinion that he is right."
+  },
+  {
+    "id": "119735",
+    "japanese": "彼が正しいことは認める。",
+    "english": "I admit that he is right."
+  },
+  {
+    "id": "119736",
+    "japanese": "彼が正しいコースを選んだかどうかについて、私達はいくぶん疑念がある。",
+    "english": "We have some doubt as to whether he has chosen the right course."
+  },
+  {
+    "id": "119737",
+    "japanese": "彼が成功を期待するようにしむけた。",
+    "english": "I led him to expect success."
+  },
+  {
+    "id": "119738",
+    "japanese": "彼が成功する望みはまったくありません。",
+    "english": "There isn't any hope of his success."
+  },
+  {
+    "id": "119739",
+    "japanese": "彼が成功する望みはほとんどない。",
+    "english": "There is very little hope of his success."
+  },
+  {
+    "id": "119740",
+    "japanese": "彼が成功する見込みは少しはある。",
+    "english": "There is a little hope that he will succeed."
+  },
+  {
+    "id": "119752",
+    "japanese": "彼が成功する見込みが強かった。",
+    "english": "There was a strong likelihood of his succeeding."
+  },
+  {
+    "id": "119753",
+    "japanese": "彼が成功する可能性はほとんどない。",
+    "english": "There is little, if any, possibility of his success."
+  },
+  {
+    "id": "119754",
+    "japanese": "彼が成功するように彼を助けよう。",
+    "english": "Let's help him so that he will succeed."
+  },
+  {
+    "id": "696313",
+    "japanese": "上司が事実を知ったとき、彼はその嘘のせいでトラブルに巻き込まれた。",
+    "english": "The lie got him in trouble when his boss found out the truth."
+  },
+  {
+    "id": "119885",
+    "japanese": "彼が成功するのは当然だと思っていた。",
+    "english": "I took it for granted that he would succeed."
+  },
+  {
+    "id": "119886",
+    "japanese": "彼が成功するなどということは、とてもありえない。",
+    "english": "He couldn't possibly succeed."
+  },
+  {
+    "id": "119887",
+    "japanese": "彼が成功するとだれが保証できようか。",
+    "english": "Who can guarantee his success?"
+  },
+  {
+    "id": "119889",
+    "japanese": "彼が成功するということは確実だ。",
+    "english": "That he will succeed is certain."
+  },
+  {
+    "id": "119890",
+    "japanese": "彼が成功することを望む。",
+    "english": "I hope that he will succeed."
+  },
+  {
+    "id": "119891",
+    "japanese": "彼が成功することは確実です。",
+    "english": "It is certain that he will succeed."
+  },
+  {
+    "id": "119892",
+    "japanese": "彼が成功するか否かは、彼の努力次第である。",
+    "english": "Whether he will succeed or not depends on his efforts."
+  },
+  {
+    "id": "119893",
+    "japanese": "彼が成功するか否かは、彼の健康の如何によります。",
+    "english": "Whether he will succeed or not depends upon his health."
+  },
+  {
+    "id": "119894",
+    "japanese": "彼が成功するかどうかについてはほとんど疑いはない。",
+    "english": "There is little doubt as to whether he will succeed or not."
+  },
+  {
+    "id": "119895",
+    "japanese": "彼が成功するかしないかは彼の努力次第である。",
+    "english": "His success depends on his efforts."
+  },
+  {
+    "id": "119896",
+    "japanese": "彼が成功するかいなかは、彼の健康次第です。",
+    "english": "Whether he will succeed or not depends upon his health."
+  },
+  {
+    "id": "119897",
+    "japanese": "彼が成功しようとは夢にも思わなかった。",
+    "english": "Never did I dream that he would succeed."
+  },
+  {
+    "id": "119898",
+    "japanese": "彼が成功したのを聞いて、私たちは喜んだ。",
+    "english": "We were delighted to hear of his success."
+  },
+  {
+    "id": "119899",
+    "japanese": "彼が成功したのは不思議ではない。",
+    "english": "It is no wonder that he has succeeded."
+  },
+  {
+    "id": "119912",
+    "japanese": "彼が成功したのは能力と勤勉さのおかげだ。",
+    "english": "He owed his success to both ability and industry."
+  },
+  {
+    "id": "119913",
+    "japanese": "彼が成功したのは当然です。",
+    "english": "It's natural that he should have succeeded."
+  },
+  {
+    "id": "119914",
+    "japanese": "彼が成功したのは単に幸運のおかげだ。",
+    "english": "He owes his success only to good luck."
+  },
+  {
+    "id": "119916",
+    "japanese": "彼が成功したのは幸運のおかげである。",
+    "english": "He owes his success to good luck."
+  },
+  {
+    "id": "119928",
+    "japanese": "彼が成功したのは幸運だったからでなく一生懸命働いたからです。",
+    "english": "It is through hard work that he succeeded, not through good luck."
+  },
+  {
+    "id": "119929",
+    "japanese": "彼が成功したのはよく働いたらです。",
+    "english": "His success is the result of hard work."
+  },
+  {
+    "id": "119930",
+    "japanese": "彼が成功したのは、努力したからではなくたまたま運がよかったためである。",
+    "english": "He succeeded, not because he made efforts, but because he happened to be lucky."
+  },
+  {
+    "id": "119941",
+    "japanese": "彼が成功したのは、才能より不断の努力のおかげだ。",
+    "english": "He has succeeded by virtue of his constant efforts rather than his talent."
+  },
+  {
+    "id": "119943",
+    "japanese": "彼が世界的な名声を得た後も、近所の人は誰も彼を天才とは信じなかった。",
+    "english": "No one in the neighborhood believed him to be a genius even after he had achieved world-wide fame."
+  },
+  {
+    "id": "138624",
+    "japanese": "町では速度は50キロに制限されています。",
+    "english": "In towns, speed is limited to 50 km/h."
+  },
+  {
+    "id": "119974",
+    "japanese": "彼が人前で演説できるのかどうか疑問である。",
+    "english": "I doubt that he can make a speech in public."
+  },
+  {
+    "id": "119975",
+    "japanese": "彼が人格者であることは否定できない。",
+    "english": "That he is a man of character cannot be denied."
+  },
+  {
+    "id": "120035",
+    "japanese": "彼が人をだますようなことをするのをほっといてはいけない。",
+    "english": "You shouldn't let him get away with cheating."
+  },
+  {
+    "id": "120036",
+    "japanese": "彼が親切にも手伝ってくれた。",
+    "english": "He thoughtfully gave me a helping hand."
+  },
+  {
+    "id": "120049",
+    "japanese": "彼が親切だからではなく、正直だから私は彼を好きなのである。",
+    "english": "I like him not because he is kind but because he is honest."
+  },
+  {
+    "id": "120050",
+    "japanese": "彼が紳士だなんてとんでもない。",
+    "english": "He is anything but a gentleman."
+  },
+  {
+    "id": "120053",
+    "japanese": "彼が真相を知らなかったのは本当です。",
+    "english": "It is true that he couldn't know the truth."
+  },
+  {
+    "id": "120054",
+    "japanese": "彼が真珠を盗んだのは本当です。",
+    "english": "It is true that he stole the pearl."
+  },
+  {
+    "id": "120058",
+    "japanese": "彼が真実を知っているはずはない。",
+    "english": "He can't know the truth."
+  },
+  {
+    "id": "120064",
+    "japanese": "彼が真実を告げていたものと私は認めます。",
+    "english": "I accept that he was telling the truth."
+  },
+  {
+    "id": "120065",
+    "japanese": "彼が新聞を読んでいる間、彼の犬は側で横になっていた。",
+    "english": "While he was reading a newspaper, his dog was lying beside him."
+  },
+  {
+    "id": "120066",
+    "japanese": "僕にはどこにでもいるおっさんとしか見えないけどなあ。",
+    "english": "To me he's no different from a million other dull middle aged men."
+  },
+  {
+    "id": "120067",
+    "japanese": "彼が新しく教授陣に加わった人です。",
+    "english": "He is a new addition to the teaching staff."
+  },
+  {
+    "id": "120075",
+    "japanese": "彼が新しくよい考えを思いついてくれればいいのですが。",
+    "english": "I hope he will come up with a new and good idea."
+  },
+  {
+    "id": "120076",
+    "japanese": "彼が新しい職で成功するよう希望します。",
+    "english": "I hope he will succeed in his new position."
+  },
+  {
+    "id": "120078",
+    "japanese": "彼が心臓発作を起こしたとき、私はその場にいた。",
+    "english": "I was on the spot when he had a heart attack."
+  },
+  {
+    "id": "120101",
+    "japanese": "彼が信頼できることは君に保証できる。",
+    "english": "I can assure you of his reliability."
+  },
+  {
+    "id": "120103",
+    "japanese": "彼が食事のことで不平を言うのを耳にしたことがない。",
+    "english": "Never have I heard him complaining about his meals."
+  },
+  {
+    "id": "120104",
+    "japanese": "彼が職を得ることは重要なことだ。",
+    "english": "It is important for him to get the job."
+  },
+  {
+    "id": "120108",
+    "japanese": "彼が乗った列車はいつ京都に着きますか。",
+    "english": "When does his train arrive at Kyoto?"
+  },
+  {
+    "id": "120113",
+    "japanese": "彼が乗ったジャンボ機はもう当然大阪へ着いているはずだ。",
+    "english": "His jumbo jet ought to have arrived in Osaka now."
+  },
+  {
+    "id": "120122",
+    "japanese": "彼が賞を取らなかったからといって、彼を見下してはいけない。",
+    "english": "You mustn't despise him because he didn't win a prize."
+  },
+  {
+    "id": "120124",
+    "japanese": "彼が笑うと、子供達には彼の長い灰色の歯が見えました。",
+    "english": "When he smiled, the children saw his long, gray teeth."
+  },
+  {
+    "id": "120127",
+    "japanese": "彼が承諾するのはもちろんのことだと思った。",
+    "english": "I took it for granted that he would consent."
+  },
+  {
+    "id": "120129",
+    "japanese": "彼が少しでもりこうになったのなら私は満足だ。",
+    "english": "I'm satisfied if he has become any wiser."
+  },
+  {
+    "id": "120131",
+    "japanese": "彼が小説を書くのには驚いた。",
+    "english": "His writing of a novel surprised us."
+  },
+  {
+    "id": "120139",
+    "japanese": "彼が奨学金をもらえるかどうか、まだ決まっていない。",
+    "english": "Whether he will be offered the scholarship or not is still in the air."
+  },
+  {
+    "id": "120140",
+    "japanese": "彼が勝つ見込みはほとんどない。",
+    "english": "There is little chance of his winning."
+  },
+  {
+    "id": "120143",
+    "japanese": "彼が勝つほうに一万円かけるよ。",
+    "english": "I'll bet 10,000 yen on his winning."
+  },
+  {
+    "id": "120144",
+    "japanese": "彼が勝ちそうだ。",
+    "english": "It looks like he's winning."
+  },
+  {
+    "id": "120145",
+    "japanese": "彼が女の子に話す話し方にはいつも驚く。",
+    "english": "I'm always surprised at the way he talks to girls."
+  },
+  {
+    "id": "120147",
+    "japanese": "彼が助けてくれるのを当然のことと思った。",
+    "english": "We took it for granted that he would help us."
+  },
+  {
+    "id": "120148",
+    "japanese": "彼が助けてくれることを疑わない。",
+    "english": "I don't doubt that he will help me."
+  },
+  {
+    "id": "120149",
+    "japanese": "彼が助けてくれなかったら彼女は失敗していただろう。",
+    "english": "She would have failed but for his help."
+  },
+  {
+    "id": "120150",
+    "japanese": "彼が助けてくれなかったらば私は報告書を完成できなかったろう。",
+    "english": "Had it not been for his help, I couldn't have finished the report."
+  },
+  {
+    "id": "120151",
+    "japanese": "彼が書いた小説は面白い。",
+    "english": "The novels he wrote are interesting."
+  },
+  {
+    "id": "120152",
+    "japanese": "彼が署名した契約書がなければ、彼の口頭での同意は何の意味もないだろう。",
+    "english": "His oral agreement may not mean anything without his signed contract."
+  },
+  {
+    "id": "120153",
+    "japanese": "彼が出発して３時間半が経過した。",
+    "english": "Three and a half hours have passed since he left."
+  },
+  {
+    "id": "120154",
+    "japanese": "彼が処方してくれた薬は効かなかった。",
+    "english": "The medicine he had prescribed failed to take effect."
+  },
+  {
+    "id": "120155",
+    "japanese": "彼が初めて日本にやってきたのは１０年前だった。",
+    "english": "It was ten years ago that he first came to Japan."
+  },
+  {
+    "id": "120156",
+    "japanese": "彼が出て行けば家の中に平和になるだろう。",
+    "english": "His departure means that there will be peace in the house."
+  },
+  {
+    "id": "120157",
+    "japanese": "彼が出ていったらすぐに銀行が閉まってしまった。",
+    "english": "As soon as he left, the bank closed."
+  },
+  {
+    "id": "120158",
+    "japanese": "彼が出ていく音が聞こえた。",
+    "english": "I heard him go out."
+  },
+  {
+    "id": "120159",
+    "japanese": "彼が出かける主要な理由はパティに会うことだった。",
+    "english": "His primary reason for going out was to see Patty."
+  },
+  {
+    "id": "120160",
+    "japanese": "彼が出かけると雨が降り出した。",
+    "english": "It began to rain when he went out."
+  },
+  {
+    "id": "120161",
+    "japanese": "彼が出かけるとすぐ雨が降り出した。",
+    "english": "As soon as he went out, it began to rain."
+  },
+  {
+    "id": "120162",
+    "japanese": "彼が重要な役を果たした。",
+    "english": "He played an important part."
+  },
+  {
+    "id": "120167",
+    "japanese": "彼が住んでいる町を知っていますか。",
+    "english": "Do you know the town where he lives?"
+  },
+  {
+    "id": "120169",
+    "japanese": "彼が住んでいる町の通りには、草花も木もありませんでした。",
+    "english": "There weren't any flowers or trees on the streets of his town."
+  },
+  {
+    "id": "120170",
+    "japanese": "彼が住んでいる所は町から遠い所に在ります。",
+    "english": "The place where he lives is far from town."
+  },
+  {
+    "id": "120171",
+    "japanese": "彼が終電に乗りそこなうなんていい気味だ。",
+    "english": "It serves him right that he missed the last train."
+  },
+  {
+    "id": "120172",
+    "japanese": "彼が終えたことは確かだ。",
+    "english": "I am positive that he has finished."
+  },
+  {
+    "id": "120173",
+    "japanese": "彼が就職する可能性はありますか。",
+    "english": "Is there any possibility of his resigning?"
+  },
+  {
+    "id": "120174",
+    "japanese": "彼が首になった理由を教えて下さい。",
+    "english": "Tell me the reason why he was fired."
+  },
+  {
+    "id": "120175",
+    "japanese": "彼が手伝ってくれないということがだんだん私たちにわかってきた。",
+    "english": "It has slowly dawned upon us that he will not help."
+  },
+  {
+    "id": "120176",
+    "japanese": "彼が手術するかどうかは、移植する臓器の提供次第だ。",
+    "english": "Whether he has the operation depends upon the availability of the organ."
+  },
+  {
+    "id": "120177",
+    "japanese": "彼が若い時はよく早起きしたものだ。",
+    "english": "He was an early riser in his youth."
+  },
+  {
+    "id": "120178",
+    "japanese": "彼が若いのだと言う事をしんしゃくしてやる方がよい。",
+    "english": "You had better take his youth into account."
+  },
+  {
+    "id": "120179",
+    "japanese": "彼が若いことを考慮に入れなければならない。",
+    "english": "We must take into account the fact that he is young."
+  },
+  {
+    "id": "120180",
+    "japanese": "彼が借金の保証人になってくれた。",
+    "english": "He guaranteed my debt."
+  },
+  {
+    "id": "120181",
+    "japanese": "彼が車を洗うのを見ました。",
+    "english": "I saw him wash the car."
+  },
+  {
+    "id": "120182",
+    "japanese": "彼が車を洗うのが見られました。",
+    "english": "Someone saw him wash his car."
+  },
+  {
+    "id": "120183",
+    "japanese": "彼が車を自慢するのももっともだ。",
+    "english": "He may well be proud of his car."
+  },
+  {
+    "id": "120184",
+    "japanese": "彼が車をバックさせようとして電柱にぶつけたとき、彼の車をひどく壊れた。",
+    "english": "His car was seriously damaged when he backed into a telephone pole."
+  },
+  {
+    "id": "120185",
+    "japanese": "彼が車で駅まで送ってくれた。",
+    "english": "He kindly drove me to the station."
+  },
+  {
+    "id": "120186",
+    "japanese": "彼が謝ろうとしていたちょうどそのとき、その人は彼の顔にパンチをくらわせた。",
+    "english": "He was about to apologize when the man punched him in the face."
+  },
+  {
+    "id": "120187",
+    "japanese": "彼が写真を見せると真実味が出た。",
+    "english": "The photo he showed added color to his story."
+  },
+  {
+    "id": "120188",
+    "japanese": "彼が写真を見せると、彼の話に真実味が出た。",
+    "english": "The photo he showed added color to his story."
+  },
+  {
+    "id": "120189",
+    "japanese": "彼が実際どんな人かを説明するのは不可能だと分かった。",
+    "english": "I found it impossible to explain what he is really like."
+  },
+  {
+    "id": "120190",
+    "japanese": "彼が質問に容易に答えたのには我々は驚いた。",
+    "english": "The ease with which he answered the question surprised us."
+  },
+  {
+    "id": "120191",
+    "japanese": "彼が失敗のショックから立ち直ることを期待している。",
+    "english": "I expect him to get over the shock of his failure."
+  },
+  {
+    "id": "120192",
+    "japanese": "彼が失敗することは私にはまず考えられない。",
+    "english": "It is hardly conceivable to me that he will fail."
+  },
+  {
+    "id": "120193",
+    "japanese": "彼が失敗することは確かです。",
+    "english": "That he will fail is certain."
+  },
+  {
+    "id": "120194",
+    "japanese": "彼が失敗しないかと心配だ。",
+    "english": "I am afraid he will make a mistake."
+  },
+  {
+    "id": "120195",
+    "japanese": "彼が失敗したのは当たり前だ。",
+    "english": "It is no wonder that he has failed."
+  },
+  {
+    "id": "120196",
+    "japanese": "彼が失敗したのは怠けたせいだ。",
+    "english": "His failure was due to his idleness."
+  },
+  {
+    "id": "120197",
+    "japanese": "彼が失敗したのは少しも驚きではない。",
+    "english": "It is no wonder that he failed."
+  },
+  {
+    "id": "120198",
+    "japanese": "彼が失敗したのには驚いた。",
+    "english": "I was surprised that he had failed."
+  },
+  {
+    "id": "120199",
+    "japanese": "彼が失敗したことをきいて驚いた。",
+    "english": "I was astonished to hear that he failed."
+  },
+  {
+    "id": "120200",
+    "japanese": "彼が失業したので、彼らの結婚生活は破綻した。",
+    "english": "Because he was unemployed, their wedlock failed."
+  },
+  {
+    "id": "120201",
+    "japanese": "彼が辞任したのは驚くことではない。",
+    "english": "It is not surprising that he resigned."
+  },
+  {
+    "id": "120202",
+    "japanese": "彼が辞職する決心をしていたことは知らなかった。",
+    "english": "I didn't know he had decided to leave his job."
+  },
+  {
+    "id": "120203",
+    "japanese": "彼が辞職するという噂が広まっている。",
+    "english": "There is a rumor about that he is going to resign."
+  },
+  {
+    "id": "120205",
+    "japanese": "彼が辞職するだろうという噂がある。",
+    "english": "There are rumors that he will resign."
+  },
+  {
+    "id": "120206",
+    "japanese": "彼が辞職しなければならない理由はない。",
+    "english": "There is no reason why he should resign."
+  },
+  {
+    "id": "120207",
+    "japanese": "彼が辞職したという噂がある。",
+    "english": "There is a rumor that he has resigned."
+  },
+  {
+    "id": "120208",
+    "japanese": "彼が自分の利益のために彼らを援助したことは確かだ。",
+    "english": "It is certain that he helped them for his own benefit."
+  },
+  {
+    "id": "120209",
+    "japanese": "彼が自分の娘を自慢するのももっともだ。",
+    "english": "He may well be proud of his daughter."
+  },
+  {
+    "id": "120210",
+    "japanese": "彼が自分の娘を自慢するのはもっともだ。",
+    "english": "He may well be proud of his daughter."
+  },
+  {
+    "id": "120211",
+    "japanese": "彼が自分の本を書き終えるのはほとんど不可能であるかのように思えた。",
+    "english": "It looked almost impossible for him to finish his book."
+  },
+  {
+    "id": "120212",
+    "japanese": "彼が自分のコンピューターを操作するのには、そうするだけでよかった。",
+    "english": "That was all he needed to operate his computer."
+  },
+  {
+    "id": "120213",
+    "japanese": "彼が自分の叔母さんだと思った女性は、知らない人であった。",
+    "english": "The woman who he thought was his aunt was a stranger."
+  },
+  {
+    "id": "120214",
+    "japanese": "彼が自分で描いた絵がある。",
+    "english": "There is a picture of his own painting."
+  },
+  {
+    "id": "120215",
+    "japanese": "彼が自分で手紙を書くはずがない。",
+    "english": "He can't possibly write the letter by himself."
+  },
+  {
+    "id": "120216",
+    "japanese": "彼が自動車事故で大怪我をしたときいて私はびっくりした。",
+    "english": "I am very much surprised to hear that he got badly injured in a motorcar accident."
+  },
+  {
+    "id": "120217",
+    "japanese": "彼が自転車に乗れるようになるまで３ヶ月かかった。",
+    "english": "It took him three months to learn to ride a bicycle."
+  },
+  {
+    "id": "120218",
+    "japanese": "彼が自転車で通り過ぎているときに、助けを求める叫び声が聞こえた。",
+    "english": "He was passing by on his bicycle when he heard a cry for help."
+  },
+  {
+    "id": "120219",
+    "japanese": "彼が次に出した二冊目の本は小説だった。",
+    "english": "His next two books were novels."
+  },
+  {
+    "id": "120220",
+    "japanese": "彼が次に何をしでかすかわからない。",
+    "english": "There is no knowing what he will do next."
+  },
+  {
+    "id": "120221",
+    "japanese": "彼が次にしたことは、私にはまったくの驚きだった。",
+    "english": "What he did next was quite a surprise to me."
+  },
+  {
+    "id": "120222",
+    "japanese": "彼が時間通りにくる可能性はあまりない。",
+    "english": "There is not much possibility of his coming on time."
+  },
+  {
+    "id": "120223",
+    "japanese": "彼が時間を守るのは確かです。",
+    "english": "You can rely upon his being punctual."
+  },
+  {
+    "id": "120224",
+    "japanese": "彼が時間を守る事などあてにはできない。",
+    "english": "You cannot calculate on his punctuality."
+  },
+  {
+    "id": "120225",
+    "japanese": "彼が時間に間に合ってくれさえすればなあ。",
+    "english": "If only he arrives in time!"
+  },
+  {
+    "id": "120226",
+    "japanese": "彼が時間どおり来るかどうかは疑わしいと思う。",
+    "english": "I doubt if he will come on time."
+  }
+]

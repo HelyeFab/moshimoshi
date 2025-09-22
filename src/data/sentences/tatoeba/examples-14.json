@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "191416",
+    "japanese": "悪事続きだ。",
+    "english": "When it rains, it pours."
+  },
+  {
+    "id": "189693",
+    "japanese": "雨が降れば彼は来ないだろう。",
+    "english": "He won't come if it rains."
+  },
+  {
+    "id": "193445",
+    "japanese": "もし万一雨が降れば、彼はこないでしょう。",
+    "english": "He won't come if it rains."
+  },
+  {
+    "id": "189694",
+    "japanese": "雨が降れば試合は延期されるでしょう。",
+    "english": "If it rains, the game will be put off."
+  },
+  {
+    "id": "189695",
+    "japanese": "雨が降れば家にいる。",
+    "english": "I'll stay if it rains."
+  },
+  {
+    "id": "9517766",
+    "japanese": "雨だったら家にいるよ。",
+    "english": "I'll stay if it rains."
+  },
+  {
+    "id": "81172",
+    "japanese": "万一雨が降ったら試合は中止になるだろう。",
+    "english": "If it rains, the game will be canceled."
+  },
+  {
+    "id": "81173",
+    "japanese": "万一雨が降ったら試合は中止だ。",
+    "english": "If it rains, the game will be canceled."
+  },
+  {
+    "id": "189696",
+    "japanese": "雨が降ればその試合は中止になるでしょう。",
+    "english": "If it rains, the game will be canceled."
+  },
+  {
+    "id": "189697",
+    "japanese": "雨が降ればこの木は生き返るでしょう。",
+    "english": "The rain will revive this tree."
+  },
+  {
+    "id": "189698",
+    "japanese": "雨が降る前に洗濯物を取り込もう。",
+    "english": "I'll take in the washing before it rains."
+  },
+  {
+    "id": "9835149",
+    "japanese": "雨が降る前に洗濯物入れとくよ。",
+    "english": "I'll take in the washing before it rains."
+  },
+  {
+    "id": "189699",
+    "japanese": "雨が降る時には、バスはよく遅れる。",
+    "english": "When it rains, the buses are late more often than not."
+  },
+  {
+    "id": "189700",
+    "japanese": "雨が降る恐れがある。",
+    "english": "It's threatening to rain."
+  },
+  {
+    "id": "189701",
+    "japanese": "雨が降るよう祈った。",
+    "english": "We prayed for rain."
+  },
+  {
+    "id": "189702",
+    "japanese": "雨が降るような気がする。",
+    "english": "I have a hunch that it will rain."
+  },
+  {
+    "id": "889674",
+    "japanese": "雨の降る予感がする。",
+    "english": "I have a hunch that it will rain."
+  },
+  {
+    "id": "9112548",
+    "japanese": "雨も降ってることだし、帰らないと。",
+    "english": "It's raining, so we should go home."
+  },
+  {
+    "id": "189704",
+    "japanese": "雨が降ると必ず屋根から雨水が漏る。",
+    "english": "Every time it rains, the roof leaks."
+  },
+  {
+    "id": "189705",
+    "japanese": "雨が降ると彼女は憂鬱になる。",
+    "english": "When it rains, she feels blue."
+  },
+  {
+    "id": "1152077",
+    "japanese": "雨は彼女の心を曇らせる。",
+    "english": "When it rains, she feels blue."
+  },
+  {
+    "id": "189706",
+    "japanese": "雨が降ると彼女はバスに乗る。",
+    "english": "When it rains, she takes the bus."
+  },
+  {
+    "id": "189707",
+    "japanese": "雨が降ると通りは水が出る。",
+    "english": "Our streets flood when we have rain."
+  },
+  {
+    "id": "10290229",
+    "japanese": "雨が降ると道が水浸しになるんです。",
+    "english": "Our streets flood when we have rain."
+  },
+  {
+    "id": "10291226",
+    "japanese": "雨が降ると道が冠水しちゃうんだ。",
+    "english": "Our streets flood when we have rain."
+  },
+  {
+    "id": "189708",
+    "japanese": "雨が降ると新聞に出てましたか。",
+    "english": "Did the newspaper say it was going to rain?"
+  },
+  {
+    "id": "9461673",
+    "japanese": "新聞の天気予報には雨が降るって書いてあった？",
+    "english": "Did the newspaper say it was going to rain?"
+  },
+  {
+    "id": "189709",
+    "japanese": "雨が降ると思う。",
+    "english": "I am afraid it will be rainy."
+  },
+  {
+    "id": "189710",
+    "japanese": "雨が降るといけないので傘を持って行きなさい。",
+    "english": "Take your umbrella with you in case it rains."
+  },
+  {
+    "id": "189719",
+    "japanese": "雨が降るといけないから傘を持って行きなさい。",
+    "english": "Take your umbrella with you in case it rains."
+  },
+  {
+    "id": "2836201",
+    "japanese": "雨降るといけないから傘持って行きな。",
+    "english": "Take your umbrella with you in case it rains."
+  },
+  {
+    "id": "189711",
+    "japanese": "雨が降るといけないので私はかさを持っていった。",
+    "english": "I took my umbrella for fear of rain."
+  },
+  {
+    "id": "189712",
+    "japanese": "雨が降るといけないので、忘れずに傘を持って行くのよ。",
+    "english": "Don't forget to take an umbrella in case it rains."
+  },
+  {
+    "id": "189722",
+    "japanese": "雨が降るといけないから、傘を忘れないでね。",
+    "english": "Don't forget to take an umbrella in case it rains."
+  },
+  {
+    "id": "189713",
+    "japanese": "雨が降るといけないので、忘れずに傘を持って行きなさい。",
+    "english": "Don't forget to bring your umbrella in case it rains."
+  },
+  {
+    "id": "189714",
+    "japanese": "雨が降るといけないので、部屋を出る時には窓を閉めて下さい。",
+    "english": "Since it would be bad if it rained, please shut the window when you come out of the room."
+  },
+  {
+    "id": "189715",
+    "japanese": "雨が降るといけないので、傘を持っていった方がいい。",
+    "english": "You'd better take your umbrella, just in case it rains."
+  },
+  {
+    "id": "9080234",
+    "japanese": "雨が降った時用に、傘は持っていきなよ。",
+    "english": "You'd better take your umbrella, just in case it rains."
+  },
+  {
+    "id": "189716",
+    "japanese": "雨が降るといけないと思って傘を持っていった。",
+    "english": "I took my umbrella lest it rain."
+  },
+  {
+    "id": "189717",
+    "japanese": "雨が降るといけないから傘を持って行った。",
+    "english": "I took an umbrella in case it rains."
+  },
+  {
+    "id": "189720",
+    "japanese": "雨が降るといけないから傘を持って行った方がいいよ。",
+    "english": "I think you'd better take an umbrella in case it rains."
+  },
+  {
+    "id": "189721",
+    "japanese": "雨が降るといけないから傘をお持ちなさい。",
+    "english": "Take an umbrella with you in case it should rain."
+  },
+  {
+    "id": "189723",
+    "japanese": "雨が降るといけないから、傘を持って行きなさい。",
+    "english": "Take an umbrella with you in case it rains."
+  },
+  {
+    "id": "189724",
+    "japanese": "雨が降るといけないから、かさを忘れずに持って行ってね。",
+    "english": "Remember to take your umbrella in case it rains."
+  },
+  {
+    "id": "189725",
+    "japanese": "雨は降るでしょうか。",
+    "english": "Is it going to rain?"
+  },
+  {
+    "id": "9518753",
+    "japanese": "雨は降るのかな？",
+    "english": "Is it going to rain?"
+  },
+  {
+    "id": "189726",
+    "japanese": "雨が降るだろうと彼がいった。",
+    "english": "He observed that we should probably have rain coming."
+  },
+  {
+    "id": "189728",
+    "japanese": "雨が降るだろうと思っていたのだが、それでも旅行に出かけた。",
+    "english": "We thought it would rain; nevertheless, we started on our trip."
+  },
+  {
+    "id": "189729",
+    "japanese": "雨が降るかもしれないと私は言った。",
+    "english": "I said it might rain."
+  },
+  {
+    "id": "189730",
+    "japanese": "雨が降るかもしれないし降らないかもしれない。",
+    "english": "It may rain, and then again, it may not."
+  },
+  {
+    "id": "189731",
+    "japanese": "雨が降るかもしれないが、とにかく私は今日行きます。",
+    "english": "It may rain, but I will go today anyhow."
+  },
+  {
+    "id": "169691",
+    "japanese": "昨夜からずっと雨が降り続いている。",
+    "english": "It's been raining since last night."
+  },
+  {
+    "id": "189633",
+    "japanese": "雨になるかもしれないな。",
+    "english": "It may rain."
+  },
+  {
+    "id": "189732",
+    "japanese": "雨が降るかもしれない。",
+    "english": "It may rain."
+  },
+  {
+    "id": "189734",
+    "japanese": "雨が降り出す前に出発した方がいいだろう。",
+    "english": "We had better start before it begins to rain."
+  },
+  {
+    "id": "189735",
+    "japanese": "雨が降り出すと彼女は洗濯物を取り込んだ。",
+    "english": "She took in the washing when it started to rain."
+  },
+  {
+    "id": "189736",
+    "japanese": "雨が降り出すといけないから傘を持って行きなさい。",
+    "english": "Take an umbrella with you in case it begins to rain."
+  },
+  {
+    "id": "189737",
+    "japanese": "雨が降り出したのは昨日の夜でした。",
+    "english": "It was yesterday evening when it began to rain."
+  },
+  {
+    "id": "189738",
+    "japanese": "雨が降り出したとき、私たちはそんなに遠くへは行ってなかった。",
+    "english": "We had not gone so far when it started to rain."
+  },
+  {
+    "id": "189739",
+    "japanese": "雨が降り出した。どうぞ傘にお入りください。",
+    "english": "It's beginning to rain. Please share my umbrella."
+  },
+  {
+    "id": "189740",
+    "japanese": "雨が降り出した。だから彼は芝生に水をやるまでもなかったのだ。",
+    "english": "It began to rain, so he need not have watered the lawn."
+  },
+  {
+    "id": "189741",
+    "japanese": "雨が降り出しそうだ。",
+    "english": "It is going to rain."
+  },
+  {
+    "id": "189743",
+    "japanese": "雨が降り止んだ。",
+    "english": "It has ceased raining."
+  },
+  {
+    "id": "189742",
+    "japanese": "雨が降り出さないうちに帰りましょう。",
+    "english": "Let's go back before it begins to rain."
+  },
+  {
+    "id": "189744",
+    "japanese": "雨が降り始めたので、私は家に駆け込んだ。",
+    "english": "As it began to rain, I ran into my house."
+  },
+  {
+    "id": "189745",
+    "japanese": "雨が降りはじめると、彼女は息子に洗濯物を取り込むように言った。",
+    "english": "When it began to rain, she told her son to take in the washing."
+  },
+  {
+    "id": "189746",
+    "japanese": "雨が降りはじめた。",
+    "english": "The rain began to fall."
+  },
+  {
+    "id": "189748",
+    "japanese": "雨が降りだして彼女はぬれてしまった。",
+    "english": "It began to rain and she got wet."
+  },
+  {
+    "id": "189747",
+    "japanese": "雨が降りはしないかと思う。",
+    "english": "I am afraid that it will rain."
+  },
+  {
+    "id": "189749",
+    "japanese": "雨が降りだしたとき何をしていましたか。",
+    "english": "What were you doing when it began to rain?"
+  },
+  {
+    "id": "10493298",
+    "japanese": "雨が降ってきたとき何してたの？",
+    "english": "What were you doing when it began to rain?"
+  },
+  {
+    "id": "189750",
+    "japanese": "雨が降りそうですね。",
+    "english": "I think it's going to rain."
+  },
+  {
+    "id": "189751",
+    "japanese": "雨が降りそうです。",
+    "english": "It is likely to rain."
+  },
+  {
+    "id": "189752",
+    "japanese": "雨が降りそうだ。洗濯物を取りこんだ方がいいよ。",
+    "english": "It looks like rain. You had better take in the washing."
+  },
+  {
+    "id": "189753",
+    "japanese": "雨が降りそうだ。あの黒い雲をごらんよ。",
+    "english": "It's going to rain. Look at those dark clouds."
+  },
+  {
+    "id": "189754",
+    "japanese": "雨が降らなければ私も行きます。",
+    "english": "Unless it rains, I will go, too."
+  },
+  {
+    "id": "189755",
+    "japanese": "雨が降らなかったら、私たちには楽しい旅行となったでしょうに。",
+    "english": "But for the rain, we would have had a pleasant journey."
+  },
+  {
+    "id": "189756",
+    "japanese": "雨が降らなかったために庭の花が枯れてしまった。",
+    "english": "The flowers in the garden died from the absence of rain."
+  },
+  {
+    "id": "189757",
+    "japanese": "雨が降らなかったせいで草木が枯れてしまった。",
+    "english": "Absence of rain caused the plants to die."
+  },
+  {
+    "id": "189759",
+    "japanese": "雨が降らない限り、試合は日曜日に行います。",
+    "english": "Unless it rains, the game will be held on Sunday."
+  },
+  {
+    "id": "189758",
+    "japanese": "雨が降らない限り、フェスティバルは庭園で開催されるだろう。",
+    "english": "The festival will be held in the garden, unless it rains."
+  },
+  {
+    "id": "189760",
+    "japanese": "雨が降って試合はコールドゲームになった。",
+    "english": "It was raining and the game was called off."
+  },
+  {
+    "id": "10651739",
+    "japanese": "雨が降っており、試合は中止となった。",
+    "english": "It was raining and the game was called off."
+  },
+  {
+    "id": "189761",
+    "japanese": "雨が降っても読書の好きな人は気がめいらない。",
+    "english": "Rain doesn't depress people who like reading."
+  },
+  {
+    "id": "189762",
+    "japanese": "雨が降っても、彼らは自分の仕事をやめなかった。",
+    "english": "The rain didn't stop them from doing their job."
+  },
+  {
+    "id": "189763",
+    "japanese": "雨が降っており、ジョーが帰宅するまでには彼の長い髪は完全に濡れていた。",
+    "english": "It was raining, and Joe's long hair was completely wet by the time he got home."
+  },
+  {
+    "id": "189766",
+    "japanese": "雨が降っている時に出かけるのは好きじゃない。",
+    "english": "I don't like to go outside when it's raining."
+  },
+  {
+    "id": "1111211",
+    "japanese": "雨の中外へ出るのは好きじゃない。",
+    "english": "I don't like to go outside when it's raining."
+  },
+  {
+    "id": "189765",
+    "japanese": "雨が降っている時は、この通りを横断しないようにしろ。",
+    "english": "Avoid crossing this street when it is raining."
+  },
+  {
+    "id": "1138959",
+    "japanese": "雨が降っているときは、この通りを渡らないでください。",
+    "english": "Avoid crossing this street when it is raining."
+  },
+  {
+    "id": "189767",
+    "japanese": "雨が降っているので、家にいるほうがいいよ。",
+    "english": "Seeing that it is raining, you had better stay home."
+  },
+  {
+    "id": "189768",
+    "japanese": "雨が降っているから、今夕は早めに暗くなるでしょう。",
+    "english": "It will get dark earlier this evening, as it is raining."
+  },
+  {
+    "id": "189769",
+    "japanese": "雨が降っているが、私は外出したい。",
+    "english": "It's raining, but I would like to go out."
+  },
+  {
+    "id": "189770",
+    "japanese": "雨が降っている。今日は家にいたら。",
+    "english": "It's raining. You might just as well stay home."
+  },
+  {
+    "id": "189772",
+    "japanese": "雨が降っていなければ、魚釣りに行くのに。",
+    "english": "If it were not raining, I would go fishing."
+  },
+  {
+    "id": "189773",
+    "japanese": "雨が降っていたんだ。道がぬれている。",
+    "english": "It's been raining. The roads are wet."
+  },
+  {
+    "id": "189774",
+    "japanese": "雨が降っていたら、今夜は外出しない。",
+    "english": "If it is raining, I won't go out tonight."
+  },
+  {
+    "id": "189775",
+    "japanese": "雨が降っていたので家の中にいました。",
+    "english": "I stayed indoors because it rained."
+  },
+  {
+    "id": "189776",
+    "japanese": "雨が降っていたのでタクシーに乗った。",
+    "english": "Since it was raining, I took a taxi."
+  },
+  {
+    "id": "189777",
+    "japanese": "雨が降っていたのでキャサリンはずっと家にいた。",
+    "english": "Catherine stayed indoors because it was raining."
+  },
+  {
+    "id": "189778",
+    "japanese": "雨が降っていたので、野球の試合は中止になった。",
+    "english": "The weather being rainy, the baseball game was cancelled."
+  },
+  {
+    "id": "189779",
+    "japanese": "雨が降っていたので、私はタクシーに乗りました。",
+    "english": "I took a taxi because it was raining."
+  },
+  {
+    "id": "189780",
+    "japanese": "雨が降っていたので、いっそう憂鬱だった。",
+    "english": "It was all the more depressing because it was raining."
+  },
+  {
+    "id": "189781",
+    "japanese": "雨が降っていたけれども彼女は外出した。",
+    "english": "Though it was raining, she went out."
+  },
+  {
+    "id": "189782",
+    "japanese": "雨が降っていたけれども、みんなは楽しい時を過ごした。",
+    "english": "Although it rained, everyone had a good time."
+  },
+  {
+    "id": "189783",
+    "japanese": "雨が降っていたが私たちはフットボールをした。",
+    "english": "Though it was raining, we played football."
+  },
+  {
+    "id": "189784",
+    "japanese": "雨が降っていたから家にいたのではない。",
+    "english": "I didn't stay home because it was raining."
+  },
+  {
+    "id": "189786",
+    "japanese": "雨が降っていた。",
+    "english": "It was raining."
+  },
+  {
+    "id": "189785",
+    "japanese": "雨が降っていたが、彼は外出した。",
+    "english": "It was raining, but he went out."
+  },
+  {
+    "id": "189787",
+    "japanese": "雨が降って、その秋の日を陰うつにした。",
+    "english": "The rain made the autumn day dismal."
+  },
+  {
+    "id": "189788",
+    "japanese": "雨が降った後は植物がすくすく育つ。",
+    "english": "Plants grow quickly after rain."
+  },
+  {
+    "id": "189789",
+    "japanese": "雨が降ったり雪が降ったりすると、私はいつもブーツを履きます。",
+    "english": "I always wear boots when it rains or snows."
+  },
+  {
+    "id": "10047195",
+    "japanese": "雨とか雪の時は、必ずブーツを履くんだ。",
+    "english": "I always wear boots when it rains or snows."
+  },
+  {
+    "id": "189790",
+    "japanese": "雨が降ったりやんだりしている。",
+    "english": "It has been raining off and on."
+  },
+  {
+    "id": "189791",
+    "japanese": "雨が降ったら、練習試合は延期にするつもりだ。",
+    "english": "If it rains, we will put off our practice match."
+  },
+  {
+    "id": "189792",
+    "japanese": "雨が降ったので試合はコールドゲームになった。",
+    "english": "The game was called off because it rained."
+  },
+  {
+    "id": "189793",
+    "japanese": "雨が降ったので私達は家にいた。",
+    "english": "Since it was raining, we stayed at home."
+  },
+  {
+    "id": "10908866",
+    "japanese": "雨が降ってたから家にいたんだよ。",
+    "english": "Since it was raining, we stayed at home."
+  },
+  {
+    "id": "189794",
+    "japanese": "雨が降ったので私たちは会合を延期しなければならなかった。",
+    "english": "The rain compelled us to put off the gathering."
+  },
+  {
+    "id": "189795",
+    "japanese": "雨が降ったので海辺にはほとんど人がいなかった。",
+    "english": "Few were at the seaside because it was raining."
+  },
+  {
+    "id": "189796",
+    "japanese": "雨が降ったので、彼らは家にいました。",
+    "english": "They stayed at home, because it rained."
+  },
+  {
+    "id": "189797",
+    "japanese": "雨が降ったので、ピクニックに行かなかった。",
+    "english": "Since it rained, we did not go on a picnic."
+  },
+  {
+    "id": "189798",
+    "japanese": "雨が降ったため、ピクニックは体育館で開かれた。",
+    "english": "The picnic was held in the gym on account of the rain."
+  },
+  {
+    "id": "1812333",
+    "japanese": "雨のため、ピクニックは体育館で行われた。",
+    "english": "The picnic was held in the gym on account of the rain."
+  },
+  {
+    "id": "189800",
+    "japanese": "雨が降ったから行かなかった。",
+    "english": "Since it rained, I did not go."
+  },
+  {
+    "id": "189801",
+    "japanese": "雨が激しく打っていた。",
+    "english": "The rain was beating against the windows."
+  },
+  {
+    "id": "189802",
+    "japanese": "雨が激しく窓に吹きつけた。",
+    "english": "The rain was lashing against the windows."
+  },
+  {
+    "id": "189803",
+    "japanese": "雨が激しく降り始めた。",
+    "english": "A heavy rain began to fall."
+  },
+  {
+    "id": "189804",
+    "japanese": "雨が激しく降っていますそれでも私は行かなければならない。",
+    "english": "It's raining hard and yet I must go."
+  },
+  {
+    "id": "189805",
+    "japanese": "雨が激しく降っていたのに、彼女はどうしてもドライブに行くといって聞かなかった。",
+    "english": "It was raining hard, but she insisted on going for a drive."
+  },
+  {
+    "id": "189806",
+    "japanese": "雨が激しく降っていたが、彼は外出することに決めた。",
+    "english": "In spite of the heavy rain, he decided to go out."
+  },
+  {
+    "id": "189807",
+    "japanese": "雨が激しく降った、その結果、野球の試合は中止になった。",
+    "english": "It rained heavily, and consequently the baseball game was called off."
+  },
+  {
+    "id": "175963",
+    "japanese": "激しく雨が降っている。",
+    "english": "It is raining hard."
+  },
+  {
+    "id": "189808",
+    "japanese": "雨が激しく降っている。",
+    "english": "It is raining hard."
+  },
+  {
+    "id": "189836",
+    "japanese": "雨がひどく降っている。",
+    "english": "It is raining hard."
+  },
+  {
+    "id": "197557",
+    "japanese": "ひどい雨降りだ。",
+    "english": "It is raining hard."
+  },
+  {
+    "id": "189809",
+    "japanese": "雨が岩場の窪んだところにいくつもの水溜まりを作っていた。",
+    "english": "Rain formed pools in the hollow spaces on the rocks."
+  },
+  {
+    "id": "189811",
+    "japanese": "雨が屋根の隙間からぽたぽた落ちていた。",
+    "english": "The rain was dripping through a leak in the roof."
+  },
+  {
+    "id": "189812",
+    "japanese": "雨が屋根からゆっくりと滴り落ちた。",
+    "english": "Rain dripped off the roof slowly."
+  },
+  {
+    "id": "189813",
+    "japanese": "雨が一日中降るだろうと彼女は我々に告げた。",
+    "english": "She advised us that it would rain all day."
+  },
+  {
+    "id": "189815",
+    "japanese": "雨がやんで空が明るくなった。",
+    "english": "The sky lightened as it stopped raining."
+  },
+  {
+    "id": "189817",
+    "japanese": "雨がやんでくれさえしたら。",
+    "english": "If only the rain would stop."
+  },
+  {
+    "id": "189829",
+    "japanese": "雨がやみさえすればなあ。",
+    "english": "If only the rain would stop."
+  },
+  {
+    "id": "189818",
+    "japanese": "雨がやんで、やっとテニスの試合を終わらせることができた。",
+    "english": "It stopped raining and we managed to finish our game of tennis."
+  },
+  {
+    "id": "189819",
+    "japanese": "雨がやんだら野球をしよう。",
+    "english": "Let's play baseball when the rain stops."
+  },
+  {
+    "id": "189820",
+    "japanese": "雨がやんだら外出するかもしれない。",
+    "english": "I may go out if the rain lets up."
+  },
+  {
+    "id": "189821",
+    "japanese": "雨がやんだので彼は散歩に出かけた。",
+    "english": "Since it stopped raining, he went out for a walk."
+  },
+  {
+    "id": "189822",
+    "japanese": "雨がやんだので、彼らはまた試合を続けた。",
+    "english": "The rain being over, they went on with the game."
+  },
+  {
+    "id": "189823",
+    "japanese": "雨がやんだとたんに虹が現れた。",
+    "english": "Scarcely had the rain stopped before a rainbow appeared."
+  },
+  {
+    "id": "189824",
+    "japanese": "雨がやめばいいのにな。",
+    "english": "If only it would stop raining!"
+  },
+  {
+    "id": "237033",
+    "japanese": "雨がやみさえすればいいのになあ。",
+    "english": "If only it would stop raining!"
+  },
+  {
+    "id": "189825",
+    "japanese": "雨がやむまで待ちなさい。",
+    "english": "Wait till the rain stops."
+  },
+  {
+    "id": "189827",
+    "japanese": "雨がやむのを待ちましょう。",
+    "english": "Let's wait for the rain to stop."
+  },
+  {
+    "id": "189828",
+    "japanese": "雨がやみ次第、家に向かって出発しよう。",
+    "english": "We shall leave for home as soon as it stops raining."
+  },
+  {
+    "id": "189830",
+    "japanese": "雨がまともに私に降り注いでいた。",
+    "english": "The rain was falling on my face."
+  },
+  {
+    "id": "189831",
+    "japanese": "雨がますますひどく降っている。",
+    "english": "It is raining worse than ever."
+  },
+  {
+    "id": "81593",
+    "japanese": "本格的に雨が降り出した。",
+    "english": "It began to rain in earnest."
+  },
+  {
+    "id": "189832",
+    "japanese": "雨が本降りになってきた。",
+    "english": "It began to rain in earnest."
+  },
+  {
+    "id": "189833",
+    "japanese": "雨がふるといけないから窓を閉めた。",
+    "english": "He closed the window for fear of rain."
+  },
+  {
+    "id": "189834",
+    "japanese": "雨が降らなければ出かけよう。",
+    "english": "Let's go out unless it rains."
+  },
+  {
+    "id": "189835",
+    "japanese": "雨がひどく降ってきた、それで私たちは屋内で遊んだ。",
+    "english": "It was raining hard, so we played indoors."
+  },
+  {
+    "id": "189837",
+    "japanese": "雨がひどく降っていたが、さらに悪いことには、風が出はじめた。",
+    "english": "It was raining hard, and what is worse, the wind began to rise."
+  },
+  {
+    "id": "189838",
+    "japanese": "雨がひどいので日を変えて訪ねることにした。",
+    "english": "It rained so hard that we decided to visit him some other time."
+  },
+  {
+    "id": "189839",
+    "japanese": "雨がぱらぱら降り出しました。",
+    "english": "It began to sprinkle."
+  },
+  {
+    "id": "189840",
+    "japanese": "雨がとてもひどく降っていたので、私たちは出発を延期しなければならなかった。",
+    "english": "It was raining so hard that we had to put off our departure."
+  },
+  {
+    "id": "189841",
+    "japanese": "雨がちょうど止んだ、出発しよう。",
+    "english": "The rain just stopped, so let's leave."
+  },
+  {
+    "id": "189843",
+    "japanese": "雨があと2・3時間、降らないでくれたらなあ。",
+    "english": "I only hope that the rain holds off for a few hours more."
+  },
+  {
+    "id": "189844",
+    "japanese": "雨があたり一帯に降っている。",
+    "english": "The rain is raining all around."
+  },
+  {
+    "id": "189845",
+    "japanese": "雨があたりいっぱい降っている。",
+    "english": "The rain is raining all around."
+  },
+  {
+    "id": "189846",
+    "japanese": "雨があがったら散歩に行こう。",
+    "english": "When the rain stops, we'll go for a walk."
+  },
+  {
+    "id": "189847",
+    "japanese": "５日間続けて雨が降った。",
+    "english": "It rained five days on end."
+  },
+  {
+    "id": "189848",
+    "japanese": "雨が３日間降り続いた。",
+    "english": "The rain lasted three days."
+  },
+  {
+    "id": "189849",
+    "japanese": "雨が５日も続いている。",
+    "english": "It has been raining a full five days."
+  },
+  {
+    "id": "189850",
+    "japanese": "雨が３時間も激しく降り続いています。",
+    "english": "It has been raining heavily for three hours."
+  },
+  {
+    "id": "189851",
+    "japanese": "雨あしが強くなる前に家に帰ろう。",
+    "english": "Let's get home before this rain gets any stronger."
+  },
+  {
+    "id": "189853",
+    "japanese": "羽は鳥に固有のものだ。",
+    "english": "Feathers are peculiar to birds."
+  },
+  {
+    "id": "189855",
+    "japanese": "烏は石炭のように黒い。",
+    "english": "A crow is as black as coal."
+  },
+  {
+    "id": "189854",
+    "japanese": "羽に深い傷を負った小鳥を見つけました。",
+    "english": "I found a bird whose wing was severely damaged."
+  },
+  {
+    "id": "189856",
+    "japanese": "宇宙旅行を楽しめる時がまもなくやってくるだろう。",
+    "english": "It won't be long before we can enjoy space travel."
+  },
+  {
+    "id": "189857",
+    "japanese": "宇宙旅行を楽しめるときが来るだろう。",
+    "english": "The time will come when we can enjoy space travel."
+  },
+  {
+    "id": "189858",
+    "japanese": "宇宙旅行は不可能だと考えられていた。",
+    "english": "Space travel was thought to be impossible."
+  },
+  {
+    "id": "189859",
+    "japanese": "宇宙旅行はもはや夢ではない。",
+    "english": "Space travel is no longer a dream."
+  },
+  {
+    "id": "189860",
+    "japanese": "宇宙旅行はそのうち珍しくないものになるだろう。",
+    "english": "Space travel will be commonplace some time in the future."
+  },
+  {
+    "id": "189861",
+    "japanese": "宇宙旅行するってどんなものだろう。",
+    "english": "I wonder what it is like to travel through space."
+  },
+  {
+    "id": "189862",
+    "japanese": "宇宙飛行士達は熱狂した人々の励ましと喝采に迎えられた。",
+    "english": "The astronauts were greeted with cheers and applause of an enthusiastic crowd."
+  },
+  {
+    "id": "189863",
+    "japanese": "宇宙飛行士達は自然と湧き起こった拍手で迎えられた。",
+    "english": "The astronauts were greeted with spontaneous applause."
+  },
+  {
+    "id": "189864",
+    "japanese": "宇宙飛行士はロケットに乗って月へ行った。",
+    "english": "The astronauts went up to the moon in a rocket."
+  },
+  {
+    "id": "189865",
+    "japanese": "宇宙飛行士たちは、彼らの熱狂的な歓呼と喝采で迎えられた。",
+    "english": "The astronauts were greeted by their enthusiastic cheers and applause."
+  },
+  {
+    "id": "189866",
+    "japanese": "宇宙飛行士たちが無事に戻ってきたので人々は喜んだ。",
+    "english": "People were delighted at the safe return of the astronauts."
+  },
+  {
+    "id": "189868",
+    "japanese": "宇宙船は月を回る軌道を外れている。",
+    "english": "The spaceship is out of orbit around the moon."
+  },
+  {
+    "id": "189870",
+    "japanese": "宇宙船は間もなく月に到着するだろう。",
+    "english": "The space ship will get to the moon soon."
+  },
+  {
+    "id": "189869",
+    "japanese": "宇宙船は完璧な着陸をした。",
+    "english": "The spaceship made a perfect landing."
+  },
+  {
+    "id": "189871",
+    "japanese": "宇宙船による月旅行はもはや夢ではない。",
+    "english": "A voyage to the moon in a spaceship is no longer a dream."
+  },
+  {
+    "id": "189872",
+    "japanese": "宇宙船から見ると、地球は青く見える。",
+    "english": "Seen from a spaceship, the Earth looks blue."
+  },
+  {
+    "id": "189873",
+    "japanese": "宇宙船からながめると、地球は青く見える。",
+    "english": "Seen from a spacecraft, the earth looks blue."
+  },
+  {
+    "id": "189874",
+    "japanese": "宇宙空間には空気がない。",
+    "english": "There is no air in space."
+  },
+  {
+    "id": "189875",
+    "japanese": "宇宙科学はまだその緒に就いたばかりである。",
+    "english": "Space science is still in its infancy."
+  },
+  {
+    "id": "189876",
+    "japanese": "宇宙を旅行できる日がやって来た。",
+    "english": "The time has come when we can travel through space."
+  },
+  {
+    "id": "189877",
+    "japanese": "宇宙は神秘に満ちている。",
+    "english": "Space is full of mystery."
+  },
+  {
+    "id": "189878",
+    "japanese": "宇宙の利用は、日本の参加に関する限りでは、非軍事的目的に限定されるべきである。",
+    "english": "The use of space must be limited to non-military purposes, as far as Japan's involvement is concerned."
+  },
+  {
+    "id": "189879",
+    "japanese": "宇宙の始まりは何ですか。",
+    "english": "What is the origin of the universe?"
+  },
+  {
+    "id": "189880",
+    "japanese": "宇宙の起源はおそらく永遠に説明されないだろう。",
+    "english": "The origin of the universe will probably never be explained."
+  },
+  {
+    "id": "189881",
+    "japanese": "宇宙の果てへの道を求める。",
+    "english": "I am seeking the path to the end of the universe."
+  },
+  {
+    "id": "189882",
+    "japanese": "宇宙の果てへと私を誘う。",
+    "english": "I am invited to the end of the universe."
+  },
+  {
+    "id": "189883",
+    "japanese": "宇宙には無数の天体がある。",
+    "english": "There are countless heavenly bodies in space."
+  },
+  {
+    "id": "189884",
+    "japanese": "宇宙には無数の星がある。",
+    "english": "There are innumerable stars in the universe."
+  },
+  {
+    "id": "189885",
+    "japanese": "宇宙には限りはない。",
+    "english": "There is no limit to the universe."
+  },
+  {
+    "id": "189886",
+    "japanese": "宇宙には何百万もの星がある。",
+    "english": "There are millions of stars in the universe."
+  },
+  {
+    "id": "189887",
+    "japanese": "宇宙にはたくさんの銀河がある。",
+    "english": "There are many galaxies in the universe."
+  },
+  {
+    "id": "189889",
+    "japanese": "宇宙から見ると、地球はとても美しい。",
+    "english": "Seen from space, the earth is very beautiful."
+  },
+  {
+    "id": "189888",
+    "japanese": "右腕を伸ばせません。",
+    "english": "I can't stretch my right arm."
+  },
+  {
+    "id": "189890",
+    "japanese": "右腕を上げられません。",
+    "english": "I can't lift my right arm."
+  },
+  {
+    "id": "2803449",
+    "japanese": "右腕が上がりません。",
+    "english": "I can't lift my right arm."
+  },
+  {
+    "id": "189891",
+    "japanese": "右腕を骨折したようです。",
+    "english": "I think my right arm is broken."
+  },
+  {
+    "id": "9464056",
+    "japanese": "右腕を骨折したみたいなんだ。",
+    "english": "I think my right arm is broken."
+  },
+  {
+    "id": "189892",
+    "japanese": "右腕を曲げられません。",
+    "english": "I can't bend my right arm."
+  },
+  {
+    "id": "189893",
+    "japanese": "右腕の関節が脱臼したようです。",
+    "english": "I'm afraid I dislocated my right arm."
+  },
+  {
+    "id": "189894",
+    "japanese": "右腕にひびが入ったようです。",
+    "english": "I'm afraid I have a crack in my right arm."
+  },
+  {
+    "id": "189895",
+    "japanese": "右目では何も見えないんだ。",
+    "english": "I can't see anything with my right eye."
+  },
+  {
+    "id": "189896",
+    "japanese": "右目が熱い感じです。",
+    "english": "My right eye feels hot."
+  },
+  {
+    "id": "189897",
+    "japanese": "右目がどうにかなってしまった。",
+    "english": "Something has happened to my right eye."
+  },
+  {
+    "id": "189898",
+    "japanese": "右足がしびれちゃった。",
+    "english": "My right foot is sleeping."
+  },
+  {
+    "id": "189900",
+    "japanese": "右側を通るべきだ。",
+    "english": "You should keep to the right."
+  },
+  {
+    "id": "9729120",
+    "japanese": "右側を通りなさいよ。",
+    "english": "You should keep to the right."
+  },
+  {
+    "id": "189901",
+    "japanese": "右側にある建物は学校だ。",
+    "english": "The building on the right side is a school."
+  },
+  {
+    "id": "189902",
+    "japanese": "右側では噛まないでくださいね。",
+    "english": "Don't bite on the right side."
+  },
+  {
+    "id": "189903",
+    "japanese": "右折しなさい、そうすれば私の事務所が見つかります。",
+    "english": "Turn to the right, and you'll find my office."
+  },
+  {
+    "id": "12990626",
+    "japanese": "右に曲がると、うちの事務所があるよ。",
+    "english": "Turn to the right, and you'll find my office."
+  },
+  {
+    "id": "189904",
+    "japanese": "右上の親知らずが痛みます。",
+    "english": "My upper right wisdom tooth hurts."
+  },
+  {
+    "id": "189905",
+    "japanese": "右手を挙げなさい。",
+    "english": "Raise your right hand."
+  },
+  {
+    "id": "189906",
+    "japanese": "右手に海のさざ波が見えてきたよ。",
+    "english": "I could see the rippling waves on my right."
+  },
+  {
+    "id": "189907",
+    "japanese": "右手に海が見えますよ。",
+    "english": "You can see the sea on your right."
+  },
+  {
+    "id": "189908",
+    "japanese": "右手がしびれます。",
+    "english": "My right hand is numb."
+  },
+  {
+    "id": "189909",
+    "japanese": "右耳からうみが出ます。",
+    "english": "Pus is coming out of my right ear."
+  },
+  {
+    "id": "189910",
+    "japanese": "右脚にうおのめができています。",
+    "english": "I have a corn on my right foot."
+  },
+  {
+    "id": "189911",
+    "japanese": "右を向いてください。",
+    "english": "Turn to the right."
+  },
+  {
+    "id": "189926",
+    "japanese": "右に曲がりなさい。",
+    "english": "Turn to the right."
+  },
+  {
+    "id": "5253130",
+    "japanese": "右に曲がって。",
+    "english": "Turn to the right."
+  },
+  {
+    "id": "189912",
+    "japanese": "右わき腹を下にして横になってください。",
+    "english": "Lie on your right side."
+  },
+  {
+    "id": "1267032",
+    "japanese": "右を下にして横になってください。",
+    "english": "Lie on your right side."
+  },
+  {
+    "id": "189913",
+    "japanese": "右へ曲がれば前方に市役所がありますよ。",
+    "english": "Turning to the right, you will find the city hall in front of you."
+  },
+  {
+    "id": "189914",
+    "japanese": "右へ曲がると病院があります。",
+    "english": "Turning to the right, you will find the hospital."
+  },
+  {
+    "id": "189916",
+    "japanese": "右に曲がると、白い塔が見えます。",
+    "english": "Turning to the right, you will see a white tower."
+  },
+  {
+    "id": "189917",
+    "japanese": "右の鼻に豆が入ってしまいました。",
+    "english": "There's a pea in my right nostril."
+  },
+  {
+    "id": "189918",
+    "japanese": "右の道を行って下さい。",
+    "english": "Take the road on the right."
+  },
+  {
+    "id": "189919",
+    "japanese": "右の道を行け。",
+    "english": "Take the road on the right."
+  },
+  {
+    "id": "189920",
+    "japanese": "右の袖をあげてください。",
+    "english": "Roll up your right sleeve."
+  },
+  {
+    "id": "189921",
+    "japanese": "右の靴下が裏返しだよ。",
+    "english": "You have your right sock on wrong side out."
+  },
+  {
+    "id": "189922",
+    "japanese": "右に曲がれば大きな建物が見えますよ。",
+    "english": "If you turn right, you will see a big building."
+  },
+  {
+    "id": "189923",
+    "japanese": "右に曲がると、博物館に出ますよ。",
+    "english": "Turning to the right, you will come to the museum."
+  },
+  {
+    "id": "189924",
+    "japanese": "右に曲がると、左手に病院があります。",
+    "english": "Turning right, you'll find the hospital on your left."
+  },
+  {
+    "id": "189925",
+    "japanese": "右に曲がりなさい。そうすればそのホテルが見つかりますよ。",
+    "english": "Turn to the right, and you'll find the hotel."
+  },
+  {
+    "id": "189927",
+    "japanese": "右と左は反対語です。",
+    "english": "Right and left are opposites."
+  },
+  {
+    "id": "189928",
+    "japanese": "右から進入して来る車にはいつも道を譲りなさい。",
+    "english": "Always give way to traffic coming from the right."
+  },
+  {
+    "id": "189929",
+    "japanese": "右からぐるっと回って、もっと、もっと、はい、そのまま仰向けになってください。",
+    "english": "OK, now turn to your right, a little further, a little further... good. Now lie still on your back."
+  },
+  {
+    "id": "189930",
+    "japanese": "隠者は木造の小屋に住んでいた。",
+    "english": "The hermit lived in a wooden hut."
+  },
+  {
+    "id": "189933",
+    "japanese": "陰徳あれば陽報あり。",
+    "english": "Secret gifts are openly rewarded."
+  },
+  {
+    "id": "189932",
+    "japanese": "隠さないで話してくれ。",
+    "english": "Don't hold back anything."
+  },
+  {
+    "id": "189935",
+    "japanese": "陰険な奴。",
+    "english": "You are a snake!"
+  },
+  {
+    "id": "189934",
+    "japanese": "陰口を言われるのが好きな人はいない。",
+    "english": "Nobody likes being spoken ill of behind their back."
+  },
+  {
+    "id": "189936",
+    "japanese": "陰で彼の悪口を言うな。",
+    "english": "Don't speak badly of him in his absence."
+  },
+  {
+    "id": "144630",
+    "japanese": "人の陰口を言ってはいけない。",
+    "english": "You should not speak ill of others behind their backs."
+  },
+  {
+    "id": "189937",
+    "japanese": "陰で他人の悪口を言うべきでない。",
+    "english": "You should not speak ill of others behind their backs."
+  },
+  {
+    "id": "189938",
+    "japanese": "陰で人の話をしてはいけないよ。",
+    "english": "You should not speak about others behind their backs."
+  },
+  {
+    "id": "138514",
+    "japanese": "他人の陰口をたたくな。",
+    "english": "Don't speak ill of others behind their back."
+  },
+  {
+    "id": "144631",
+    "japanese": "人の陰で悪口を言うな。",
+    "english": "Don't speak ill of others behind their back."
+  },
+  {
+    "id": "189939",
+    "japanese": "陰で人の悪口を言ってはいけない。",
+    "english": "Don't speak ill of others behind their back."
+  },
+  {
+    "id": "189940",
+    "japanese": "陰で人のうわさをするべきでない。",
+    "english": "You shouldn't talk about people behind their backs."
+  },
+  {
+    "id": "10541207",
+    "japanese": "人の陰口を言うのはよくないよ。",
+    "english": "You shouldn't talk about people behind their backs."
+  },
+  {
+    "id": "189941",
+    "japanese": "飲料水中の酸性雨は人間の健康に影響する。",
+    "english": "Acid rain in drinking water affects human health."
+  },
+  {
+    "id": "189943",
+    "japanese": "飲物のミニマムはありますか。",
+    "english": "Is there a drink minimum?"
+  },
+  {
+    "id": "189944",
+    "japanese": "飲酒運転は危険だ。",
+    "english": "Drinking and driving can be dangerous."
+  },
+  {
+    "id": "189945",
+    "japanese": "飲酒運転は許される行為ではない。",
+    "english": "Driving after drinking alcohol is not acceptable behavior."
+  },
+  {
+    "id": "189947",
+    "japanese": "飲んだら車を運転してはならない。",
+    "english": "If you're drunk don't take the wheel of a car."
+  },
+  {
+    "id": "189948",
+    "japanese": "飲めば飲むほど注意力が鈍る。",
+    "english": "The more you drink, the less careful you will be."
+  },
+  {
+    "id": "189949",
+    "japanese": "飲み方をご説明します。",
+    "english": "I'll explain how to take this medicine."
+  },
+  {
+    "id": "189950",
+    "japanese": "飲み物を注文したいんですが。",
+    "english": "I would like to order drinks now."
+  },
+  {
+    "id": "189951",
+    "japanese": "飲み物を自由にお取り下さい。",
+    "english": "Help yourself to a drink."
+  },
+  {
+    "id": "189953",
+    "japanese": "飲み物を差し上げましょうか。",
+    "english": "May I offer you a drink?"
+  },
+  {
+    "id": "189952",
+    "japanese": "飲み物を作りましょう。",
+    "english": "I'll fix a drink."
+  },
+  {
+    "id": "189954",
+    "japanese": "飲み物をくれませんか。",
+    "english": "Will you give me a drink?"
+  },
+  {
+    "id": "9839623",
+    "japanese": "飲み物をもらえませんか？",
+    "english": "Will you give me a drink?"
+  },
+  {
+    "id": "189956",
+    "japanese": "飲み物は無料ですか。",
+    "english": "Are drinks free?"
+  },
+  {
+    "id": "189955",
+    "japanese": "飲み物は冷たくておいしそうに見えた。",
+    "english": "The drinks looked cool and delicious."
+  },
+  {
+    "id": "10631677",
+    "japanese": "飲み物は、冷えて美味そうだった。",
+    "english": "The drinks looked cool and delicious."
+  },
+  {
+    "id": "189957",
+    "japanese": "飲み物はヤシの実の殻に入れてあった。",
+    "english": "The drinks were served in coconut shells."
+  },
+  {
+    "id": "189958",
+    "japanese": "飲み物はどうぞお好きなものをお取り下さい。",
+    "english": "Please help yourselves to drinks."
+  },
+  {
+    "id": "189959",
+    "japanese": "飲み物でも作ろう。",
+    "english": "I'm going to make a drink."
+  },
+  {
+    "id": "189961",
+    "japanese": "三菱さんが飲み代を浮かすために家飲みしています。",
+    "english": "Mr. Mitsubishi is drinking at home to save his drinking money."
+  },
+  {
+    "id": "189960",
+    "japanese": "飲み物でも作ってあげましょう。",
+    "english": "Let's get you fixed up with a drink."
+  },
+  {
+    "id": "570317",
+    "japanese": "一人あたり７千ドル払った。",
+    "english": "Each individual paid 7000 dollars."
+  },
+  {
+    "id": "189963",
+    "japanese": "飲み水を十分用意しておきなさい。",
+    "english": "Have a good supply of drinking water."
+  },
+  {
+    "id": "189964",
+    "japanese": "飲み食いするものが十分ある限り彼は何も気にしない。",
+    "english": "He doesn't care, provided he has enough to eat and drink."
+  },
+  {
+    "id": "189965",
+    "japanese": "飲み過ぎることは出来るが、ほどほどに飲むことは出来ない。",
+    "english": "One can drink too much, but one never drinks enough."
+  },
+  {
+    "id": "189966",
+    "japanese": "飲み過ぎはあなたの人生を台なしにする。",
+    "english": "Too much drinking will make your life a ruin."
+  },
+  {
+    "id": "189967",
+    "japanese": "飲み過ぎて部屋が回り始めた。",
+    "english": "The room started to spin after I drank too much."
+  },
+  {
+    "id": "189968",
+    "japanese": "飲み過ぎて、なんか足元がフラフラする。",
+    "english": "I drank too much and the ground seemed to spin under my feet."
+  },
+  {
+    "id": "189969",
+    "japanese": "飲み過ぎた！顔がむくんでる！",
+    "english": "I drank too much. My face is swollen!"
+  },
+  {
+    "id": "189970",
+    "japanese": "飲み屋で隣り合わせた奴と意気投合しちゃってさ、朝まで飲んじゃったよ。",
+    "english": "I got along so well with the guy sitting next to me at the pub that we ended up drinking together till dawn."
+  },
+  {
+    "id": "189971",
+    "japanese": "飲みすぎると健康を害するよ。",
+    "english": "You will ruin your health if you drink too much."
+  },
+  {
+    "id": "189973",
+    "japanese": "飲みすぎで健康を危険にさらすな。",
+    "english": "Don't risk your health by over drinking."
+  },
+  {
+    "id": "189972",
+    "japanese": "飲みすぎると胃の病気になるかもしれません。",
+    "english": "Too much alcohol may result in gastric disease."
+  },
+  {
+    "id": "189974",
+    "japanese": "飲まされた。",
+    "english": "I was made to drink."
+  },
+  {
+    "id": "189975",
+    "japanese": "引力は宇宙のあらゆる物に影響を与える。",
+    "english": "Gravity acts on everything in the universe."
+  },
+  {
+    "id": "189976",
+    "japanese": "引力によって物体が重さを持つようになる。",
+    "english": "Gravity causes objects to have weight."
+  },
+  {
+    "id": "189977",
+    "japanese": "引力とは、物体が相互に引き付け合う自然界の力のことである。",
+    "english": "Gravity is the natural force by which objects are attracted to each other."
+  },
+  {
+    "id": "189978",
+    "japanese": "引力が惑星を引きつける。",
+    "english": "Gravity binds the planets to the Sun."
+  },
+  {
+    "id": "189979",
+    "japanese": "引力がなかったら我々は宇宙に放り出されるだろう。",
+    "english": "Without gravity we would be hurled off into space."
+  },
+  {
+    "id": "189980",
+    "japanese": "引退したら余生を田舎で過ごしたいんだ。",
+    "english": "When I retire, I'd like to spend the rest of my life in the country."
+  },
+  {
+    "id": "189981",
+    "japanese": "引出しがどうしても開かないんだよ。",
+    "english": "The drawer won't open."
+  },
+  {
+    "id": "189982",
+    "japanese": "引出しの中身をからにしなさい。",
+    "english": "Empty the drawer of its contents."
+  },
+  {
+    "id": "189983",
+    "japanese": "引っ張るぞ。",
+    "english": "We're going to pull it."
+  },
+  {
+    "id": "189984",
+    "japanese": "引っ越すとき手伝ってもらえますか。",
+    "english": "Can you help me when I move?"
+  },
+  {
+    "id": "10715898",
+    "japanese": "引っ越しの時、手伝ってもらえる？",
+    "english": "Can you help me when I move?"
+  },
+  {
+    "id": "189985",
+    "japanese": "引っ越しのとき手伝っていただけますか。",
+    "english": "Could you help me when I move?"
+  },
+  {
+    "id": "189986",
+    "japanese": "引っ越して来た当時、彼女はこの町が気に入らなかったが、今では慣れてしまった。",
+    "english": "She didn't like this city when she moved here, but she has gotten used to it now."
+  },
+  {
+    "id": "189987",
+    "japanese": "引けばドアが開きます。",
+    "english": "You have to pull that door to open it."
+  },
+  {
+    "id": "189988",
+    "japanese": "引き返そう。",
+    "english": "Let's turn back."
+  },
+  {
+    "id": "189989",
+    "japanese": "引き続き努力いたします。",
+    "english": "I will continue with my efforts."
+  },
+  {
+    "id": "189990",
+    "japanese": "引き続きのご支援を感謝いたします。",
+    "english": "We appreciate your continued support."
+  },
+  {
+    "id": "189991",
+    "japanese": "引き伸ばしをしてほしかった写真は、いつできるのですか。",
+    "english": "When will they have that picture ready that I wanted to get blown up?"
+  },
+  {
+    "id": "189992",
+    "japanese": "引き上げてくれ。",
+    "english": "Give me a hoist."
+  },
+  {
+    "id": "189993",
+    "japanese": "引き出しはがらくたでぎっしり詰まっている。",
+    "english": "The drawer is stuffed full of odds and ends."
+  },
+  {
+    "id": "189994",
+    "japanese": "引き出しの鍵がいたずらされて、書類が一部紛失した。",
+    "english": "The lock on my drawer had been tampered with and some of my papers were missing."
+  },
+  {
+    "id": "189996",
+    "japanese": "引き出しのカギをかけ忘れたんだ。",
+    "english": "I forgot to lock the drawer."
+  },
+  {
+    "id": "189995",
+    "japanese": "引き止めても無駄だ。",
+    "english": "It's no use holding me back."
+  },
+  {
+    "id": "189997",
+    "japanese": "引き換え券を見せて下さい。",
+    "english": "May I see your claim tags?"
+  },
+  {
+    "id": "189998",
+    "japanese": "引かないで押してあけるんです。",
+    "english": "Don't pull it. Push it open."
+  },
+  {
+    "id": "189999",
+    "japanese": "因果を含めてあきらめさせた。",
+    "english": "I persuaded him to give up the idea."
+  },
+  {
+    "id": "190000",
+    "japanese": "印刷術はいつ発明されましたか。",
+    "english": "When was printing invented?"
+  },
+  {
+    "id": "2455302",
+    "japanese": "印刷術が発明されたのはいつですか？",
+    "english": "When was printing invented?"
+  },
+  {
+    "id": "190001",
+    "japanese": "印刷ミスはすぐに指摘されなければならない。",
+    "english": "Mistakes in the printing should be pointed out at once."
+  },
+  {
+    "id": "190002",
+    "japanese": "印刷の誤りがたくさん見つかった。",
+    "english": "Many typographical errors were found."
+  },
+  {
+    "id": "190004",
+    "japanese": "印刷インキが不足している。",
+    "english": "Printing ink is in short supply."
+  },
+  {
+    "id": "190005",
+    "japanese": "稲妻は雷鳴より先にくる。",
+    "english": "Lightning precedes thunder."
+  },
+  {
+    "id": "190006",
+    "japanese": "稲妻は普通、雷鳴の前に光る。",
+    "english": "Lightning is usually followed by thunder."
+  },
+  {
+    "id": "1267818",
+    "japanese": "稲光はたいてい雷の音がした後で光る。",
+    "english": "Lightning is usually followed by thunder."
+  },
+  {
+    "id": "190007",
+    "japanese": "稲妻は危険なこともある。",
+    "english": "Lightning can be dangerous."
+  },
+  {
+    "id": "190008",
+    "japanese": "稲妻は電気による一現象である。",
+    "english": "Lightning is an electrical phenomenon."
+  },
+  {
+    "id": "190009",
+    "japanese": "稲妻で部屋は時々明るくなった。",
+    "english": "Lightning lit up the room every now and then."
+  },
+  {
+    "id": "190010",
+    "japanese": "稲妻が走るたびに、犬はベッドの下に隠れた。",
+    "english": "The dog hid under the bed whenever lightning flashed."
+  },
+  {
+    "id": "2459234",
+    "japanese": "稲妻が光るたびに、犬はベッドの下に身を隠した。",
+    "english": "The dog hid under the bed whenever lightning flashed."
+  },
+  {
+    "id": "190011",
+    "japanese": "稲妻が光ったかと思うと雷がなった。",
+    "english": "After the lightning, came the thunder."
+  },
+  {
+    "id": "190012",
+    "japanese": "稲妻が光った。",
+    "english": "The lightning flashed."
+  },
+  {
+    "id": "190013",
+    "japanese": "稲光は雷の音に先行する。",
+    "english": "The flash of lightning precedes the sound of thunder."
+  },
+  {
+    "id": "190014",
+    "japanese": "稲は雨の多い地域で作られる。",
+    "english": "Rice is grown in rainy regions."
+  },
+  {
+    "id": "1003802",
+    "japanese": "稲作は雨の多い地域で行われている。",
+    "english": "Rice is grown in rainy regions."
+  },
+  {
+    "id": "190015",
+    "japanese": "稲の収穫期にはお祭りをする。",
+    "english": "A festival is held at the rice harvest."
+  },
+  {
+    "id": "190016",
+    "japanese": "稲の取り入れはもう済んだ。",
+    "english": "The rice crop is already in."
+  },
+  {
+    "id": "190017",
+    "japanese": "一郎は利益よりも友情を大切にする。",
+    "english": "Ichiro puts friendship above profit."
+  },
+  {
+    "id": "190018",
+    "japanese": "一郎ははじめて名古屋へ行く。",
+    "english": "Ichiro will go to Nagoya for the first time."
+  },
+  {
+    "id": "190021",
+    "japanese": "一連の爆発で、その研究施設は瓦礫の山と化した。",
+    "english": "A series of blasts reduced the laboratory to ruins."
+  },
+  {
+    "id": "190022",
+    "japanese": "一連の出来事が戦争の勃発を引き起こした。",
+    "english": "A chain of events led to the outbreak of the war."
+  },
+  {
+    "id": "190023",
+    "japanese": "一列に立ち並んだ家が新しいアパートに席を譲るためにとりこわされつつある。",
+    "english": "A row of old houses is being destroyed to make way for new flats."
+  },
+  {
+    "id": "190024",
+    "japanese": "一列に並んで下さい。",
+    "english": "Please line up in a row."
+  },
+  {
+    "id": "190026",
+    "japanese": "一塁手は、走ってきた打者にタッチしアウトを取った。",
+    "english": "The first baseman tagged the runner out."
+  },
+  {
+    "id": "190025",
+    "japanese": "一例をあげればその点ははっきりするだろう。",
+    "english": "An illustration may make the point clear."
+  },
+  {
+    "id": "190027",
+    "japanese": "一輪車は車輪がひとつしかありません。",
+    "english": "A unicycle has only one wheel."
+  },
+  {
+    "id": "190028",
+    "japanese": "一両日中に上京すると書き添えてあった。",
+    "english": "He added that he was coming to town in a day or two."
+  },
+  {
+    "id": "190030",
+    "japanese": "一両日中にお知らせします。",
+    "english": "I'll let you know in a day or so."
+  },
+  {
+    "id": "190029",
+    "japanese": "一両日中にお返事します。",
+    "english": "I'll give you an answer in a day or two."
+  },
+  {
+    "id": "190031",
+    "japanese": "一流ホテルの部屋を予約して下さい。",
+    "english": "Please book me a room in a first-class hotel."
+  },
+  {
+    "id": "190032",
+    "japanese": "一流の腕前ですね。",
+    "english": "That's a class act."
+  },
+  {
+    "id": "190033",
+    "japanese": "一卵性双生児を出産しました。",
+    "english": "I delivered identical twins."
+  },
+  {
+    "id": "190034",
+    "japanese": "一夜づけの試験勉強で徹夜しなければいけないだろう。",
+    "english": "I suppose I'll be in trouble if I don't stay up all night to cram for the examination."
+  },
+  {
+    "id": "190036",
+    "japanese": "一目見て彼には少年が空腹なのが分かった。",
+    "english": "At a glance, he knew that the child was hungry."
+  },
+  {
+    "id": "190037",
+    "japanese": "一目見て彼が疲れているのがわかった。",
+    "english": "At a glance I knew that he was tired."
+  },
+  {
+    "id": "190038",
+    "japanese": "一目見て、ジョーンズ氏だとわかった。",
+    "english": "I recognized Mr Jones at first glance."
+  },
+  {
+    "id": "190039",
+    "japanese": "一目で彼女に魅了された。",
+    "english": "She attracted me at first sight."
+  },
+  {
+    "id": "190040",
+    "japanese": "一目で彼女と分かった。",
+    "english": "I recognized her at first glance."
+  },
+  {
+    "id": "190043",
+    "japanese": "一万円貸してくれませんか。",
+    "english": "Can you lend me 10,000 yen?"
+  },
+  {
+    "id": "9049823",
+    "japanese": "一万円貸してくれない？",
+    "english": "Can you lend me 10,000 yen?"
+  },
+  {
+    "id": "190044",
+    "japanese": "一万円札、崩してくれますか。",
+    "english": "Can you break a 10,000 yen bill?"
+  },
+  {
+    "id": "235644",
+    "japanese": "１万円札くずれますか。",
+    "english": "Can you break a 10,000 yen bill?"
+  },
+  {
+    "id": "190045",
+    "japanese": "一本の矢が鷹を貫通した。",
+    "english": "An arrow passed through the hawk."
+  },
+  {
+    "id": "190047",
+    "japanese": "一本のチョークを取り出した。",
+    "english": "He took out a piece of chalk."
+  },
+  {
+    "id": "190046",
+    "japanese": "一本の高い木が水面に長い影を映している。",
+    "english": "A tall tree projects its long shadow on the water."
+  },
+  {
+    "id": "190048",
+    "japanese": "一方は背が高く、もう一方は背が低い。",
+    "english": "One is tall and the other is short."
+  },
+  {
+    "id": "190049",
+    "japanese": "一方は知っているが他方は知らない。",
+    "english": "I know one of them but not the other."
+  },
+  {
+    "id": "190050",
+    "japanese": "一方は赤で、また一方は白である。",
+    "english": "One is red and the other is white."
+  },
+  {
+    "id": "190051",
+    "japanese": "一方の本は薄い、他方は厚い、厚いのは約２００ページある。",
+    "english": "One book is thin. The other is thick. The thick one has about 200 pages."
+  },
+  {
+    "id": "190052",
+    "japanese": "一方に当てはまることは他方にも当てはまる。",
+    "english": "What's sauce for the goose is sauce for the gander."
+  },
+  {
+    "id": "190053",
+    "japanese": "一方で彼は誰にでも親切なのだが、他方でなれなれしすぎることは決してない。",
+    "english": "On the one hand he is kind to everyone, but on the other hand he never behaves with too much familiarity."
+  },
+  {
+    "id": "190054",
+    "japanese": "一方で彼は私の報告書を賞賛したが、他方ではそれを批判した。",
+    "english": "On one hand he praised my report, but on the other hand he criticized it."
+  },
+  {
+    "id": "190055",
+    "japanese": "一方で我々は大損害を被ったが、他方その経験から学んだものも大きかった。",
+    "english": "On the one hand we suffered a heavy loss, but on the other hand we learned a great deal from the experience."
+  },
+  {
+    "id": "190056",
+    "japanese": "一方では彼は親切だが、他方では怠け者だ。",
+    "english": "On one hand he is kind, but on the other hand he is lazy."
+  },
+  {
+    "id": "190058",
+    "japanese": "一方では君は間違っている。かといって、私はそのことであなたを責めることはできない。",
+    "english": "On the one hand, you are wrong, but on the other hand, I can't blame you for that."
+  },
+  {
+    "id": "190059",
+    "japanese": "一方、アメリカ人は、大きな成功を夢見て危険を冒す傾向が強い。",
+    "english": "Americans, on the other hand, are more likely to take chances in the hope of achieving great success."
+  },
+  {
+    "id": "190060",
+    "japanese": "一歩踏み出せば半分終わったも同じ。",
+    "english": "The first step is as good as half over."
+  },
+  {
+    "id": "190062",
+    "japanese": "一歩誤るとせんじんの谷だ。",
+    "english": "One step further, and you will fall into an abyss."
+  },
+  {
+    "id": "190061",
+    "japanese": "一歩一歩学ばなければなりません。",
+    "english": "You must learn step by step."
+  },
+  {
+    "id": "190063",
+    "japanese": "一歩でも動けばおまえを殺すぞ。",
+    "english": "If you move a step, and you will be a dead man."
+  },
+  {
+    "id": "190064",
+    "japanese": "一歩でも動いてみろ、おまえの命はないぞ。",
+    "english": "Move a step, and you'll be a dead man!"
+  },
+  {
+    "id": "190065",
+    "japanese": "一歩でも動いてごらん、崖から落ちてしまうよ。",
+    "english": "A single step, and you will fall over the cliff."
+  },
+  {
+    "id": "146971",
+    "japanese": "小金に賢く大金に愚か。",
+    "english": "Penny wise, pound foolish."
+  },
+  {
+    "id": "190066",
+    "japanese": "一文惜しみの百知らず。",
+    "english": "Penny wise, pound foolish."
+  },
+  {
+    "id": "190067",
+    "japanese": "一文惜しみの百失い。",
+    "english": "Penny wise and pound foolish."
+  },
+  {
+    "id": "190068",
+    "japanese": "1分は60秒です。",
+    "english": "A minute has sixty seconds."
+  },
+  {
+    "id": "190069",
+    "japanese": "ちょっと一服しませんか？",
+    "english": "What do you say to taking a rest?"
+  },
+  {
+    "id": "190070",
+    "japanese": "一服いかがですか。",
+    "english": "How about a smoke?"
+  },
+  {
+    "id": "190072",
+    "japanese": "一部始終を聞かせてくれ。",
+    "english": "Give me chapter and verse."
+  },
+  {
+    "id": "190073",
+    "japanese": "一部君の意見に賛成する。",
+    "english": "I partly agree with you."
+  },
+  {
+    "id": "10085295",
+    "japanese": "部分的には賛成だよ。",
+    "english": "I partly agree with you."
+  },
+  {
+    "id": "190074",
+    "japanese": "一部の病院は幼児用ミルクの無料見本を配布する。",
+    "english": "Some hospitals hand out free samples of baby milk."
+  },
+  {
+    "id": "190075",
+    "japanese": "一部の大学の先生は授業に遅く来て早く帰る。",
+    "english": "Some college teachers come to class late and leave early."
+  },
+  {
+    "id": "190076",
+    "japanese": "一部の赤ん坊は、１歳になる前に泳げるようになる。",
+    "english": "Some babies learn to swim even before they are one year old."
+  },
+  {
+    "id": "190077",
+    "japanese": "一部の人々は日本がすべて一番だと思っている。",
+    "english": "Some people believe that Japan is No.1 in everything."
+  },
+  {
+    "id": "190078",
+    "japanese": "一部の新聞はそのニュースを歪めて報道した。",
+    "english": "Some newspapers distorted the news."
+  },
+  {
+    "id": "190079",
+    "japanese": "一部の黒人はより過激な解決策を求める。",
+    "english": "Some Blacks seek more radical solutions."
+  },
+  {
+    "id": "190080",
+    "japanese": "一秒は一分の六十分の一です。",
+    "english": "A second is a sixtieth part of a minute."
+  },
+  {
+    "id": "190081",
+    "japanese": "一匹の猫が通りを横切った。",
+    "english": "A cat ran across the street."
+  },
+  {
+    "id": "190082",
+    "japanese": "一匹の犬と二人の人間がジャンプしている。",
+    "english": "One dog and two people are jumping."
+  },
+  {
+    "id": "168938",
+    "japanese": "始発列車に乗るために早起きした。",
+    "english": "I got up early in order to catch the first train."
+  },
+  {
+    "id": "190083",
+    "japanese": "一番列車に乗るために早起きをした。",
+    "english": "I got up early in order to catch the first train."
+  },
+  {
+    "id": "2242470",
+    "japanese": "私は始発電車に乗るために早起きした。",
+    "english": "I got up early in order to catch the first train."
+  },
+  {
+    "id": "9524703",
+    "japanese": "始発に乗るために早く起きたんだ。",
+    "english": "I got up early in order to catch the first train."
+  },
+  {
+    "id": "190084",
+    "japanese": "一番列車に間に合うように速く歩いた。",
+    "english": "I walked quickly so that I might catch the first train."
+  },
+  {
+    "id": "190085",
+    "japanese": "一番良いことは専門家にしてもらうことだ。",
+    "english": "The best thing to do is to ask an expert to repair it."
+  },
+  {
+    "id": "1827972",
+    "japanese": "一番いいのは、専門家に修理を依頼することだよ。",
+    "english": "The best thing to do is to ask an expert to repair it."
+  },
+  {
+    "id": "190086",
+    "japanese": "チャールズはいつも一番容易な方法をとる。",
+    "english": "Charles always takes the line of least resistance."
+  },
+  {
+    "id": "190088",
+    "japanese": "一番年下の少年がハイカーの一行に遅れた。",
+    "english": "The youngest boy dropped behind the other hikers."
+  },
+  {
+    "id": "190089",
+    "japanese": "一番多かったのは、ヨーロッパからであったが、ラテン・アメリカ、アジア、アフリカ、オーストラリア、カナダからも大勢がやってきた。",
+    "english": "The greatest number came from Europe, but many also came from Latin America, Asia, Africa, Australia, and Canada."
+  },
+  {
+    "id": "190090",
+    "japanese": "一番上手に書く少年が賞をもらいます。",
+    "english": "The boy who writes best wins the prize."
+  },
+  {
+    "id": "190091",
+    "japanese": "一番上の姉が母の代わりをした。",
+    "english": "The eldest sister acted for the mother."
+  },
+  {
+    "id": "190092",
+    "japanese": "一番暑い季節はいつですか。",
+    "english": "Which is the hottest of all the seasons?"
+  },
+  {
+    "id": "190093",
+    "japanese": "一番最初に見るのはスポーツ欄だよ。",
+    "english": "I always read the sports page first."
+  },
+  {
+    "id": "190094",
+    "japanese": "一番高い車はいくらぐらいですか。",
+    "english": "How much is the most expensive car?"
+  },
+  {
+    "id": "190095",
+    "japanese": "一番高いものは、土地です。",
+    "english": "The most expensive thing is land."
+  },
+  {
+    "id": "190096",
+    "japanese": "一番近くの電話ボックスはどこですか。",
+    "english": "Where is the nearest telephone box?"
+  },
+  {
+    "id": "190097",
+    "japanese": "一番近い旅行代理店はどこにありますか。",
+    "english": "Where's the nearest travel agency?"
+  },
+  {
+    "id": "190098",
+    "japanese": "一番近い薬局はどこにありますか。",
+    "english": "Where's the nearest drugstore?"
+  },
+  {
+    "id": "190099",
+    "japanese": "一番近い博物館はどこにありますか。",
+    "english": "Where's the nearest museum?"
+  },
+  {
+    "id": "190100",
+    "japanese": "一番近い動物園はどこにあるか教えていただけますか。",
+    "english": "Can you tell me where the nearest zoo is?"
+  },
+  {
+    "id": "190101",
+    "japanese": "一番近い図書館はどこにありますか。",
+    "english": "Where's the nearest library?"
+  },
+  {
+    "id": "237396",
+    "japanese": "一番近い公衆電話はどこにあるか教えていただけますか。",
+    "english": "Can you tell me where the nearest pay phone is?"
+  },
+  {
+    "id": "190102",
+    "japanese": "一番近い銀行はどこにありますか。",
+    "english": "Where is the nearest bank?"
+  },
+  {
+    "id": "190103",
+    "japanese": "一番近い銀行はどこですか。",
+    "english": "Where is the nearest bank?"
+  },
+  {
+    "id": "2790210",
+    "japanese": "ここから一番近い銀行はどこですか？",
+    "english": "Where is the nearest bank?"
+  },
+  {
+    "id": "190104",
+    "japanese": "一番近い教会はどこにあるか教えて下さい。",
+    "english": "Can you tell me where the nearest church is?"
+  },
+  {
+    "id": "190105",
+    "japanese": "一番近い教会はどこにありますか。",
+    "english": "Where's the nearest church?"
+  },
+  {
+    "id": "190106",
+    "japanese": "一番近い教会はどこですか。",
+    "english": "Where's the nearest church?"
+  },
+  {
+    "id": "190107",
+    "japanese": "一番近い館内電話はどこにあるか教えて下さい。",
+    "english": "Can you tell me where the nearest courtesy phone is?"
+  },
+  {
+    "id": "190108",
+    "japanese": "一番近い館内電話はどこにあるか教えていただけますか。",
+    "english": "Can you tell me where the nearest courtesy phone is?"
+  },
+  {
+    "id": "190109",
+    "japanese": "一番近い画廊はどこにありますか。",
+    "english": "Where's the nearest art gallery?"
+  },
+  {
+    "id": "190110",
+    "japanese": "一番近い遺失物取扱所はどこですか。",
+    "english": "Where is the nearest lost and found?"
+  },
+  {
+    "id": "12148233",
+    "japanese": "一番近い落とし物カウンターはどこですか？",
+    "english": "Where is the nearest lost and found?"
+  },
+  {
+    "id": "190111",
+    "japanese": "一番近いホテルの館内電話はどこにあるか教えていただけますか。",
+    "english": "Can you tell me where the nearest hotel service phone is?"
+  },
+  {
+    "id": "190112",
+    "japanese": "一番近いバス停はどこですか。",
+    "english": "Can you tell me where the nearest bus stop is?"
+  },
+  {
+    "id": "190113",
+    "japanese": "一番近いデパートはどこにありますか。",
+    "english": "Where's the nearest department store?"
+  },
+  {
+    "id": "190114",
+    "japanese": "一番近いショッピングモールはどこにありますか。",
+    "english": "Where's the nearest shopping mall?"
+  },
+  {
+    "id": "190115",
+    "japanese": "一番近いアンティークショップはどこにあるか教えていただけますか。",
+    "english": "Can you tell me where the nearest antique shop is?"
+  },
+  {
+    "id": "190116",
+    "japanese": "一番近いアメリカンエキスプレスのオフィスはどこにありますか。",
+    "english": "Where is nearest American Express office?"
+  },
+  {
+    "id": "190117",
+    "japanese": "一番近いアメリカン・エキスプレスのオフィスはどこにあるかご存じですか。",
+    "english": "Do you know where the nearest American Express office is?"
+  },
+  {
+    "id": "190118",
+    "japanese": "一番近いアメリカン・エキスプレスのオフィスの電話番号を知りたいのですが。",
+    "english": "I'd like to know the phone number of the nearest American Express office."
+  },
+  {
+    "id": "190120",
+    "japanese": "一番下の妹が出世したとき私は我を忘れて嫉妬した。",
+    "english": "I was beside myself with jealousy when my youngest sister rose in the world."
+  },
+  {
+    "id": "190121",
+    "japanese": "一番下の弟は祖母により幼年時代育てられた。",
+    "english": "My youngest brother was brought up by our grandmother."
+  },
+  {
+    "id": "1869171",
+    "japanese": "一番下の弟は、祖母に育てられた。",
+    "english": "My youngest brother was brought up by our grandmother."
+  },
+  {
+    "id": "190122",
+    "japanese": "一番下の子は毎日午前中を保育園ですごしました。",
+    "english": "The youngest child spent every morning at a nursery."
+  },
+  {
+    "id": "190123",
+    "japanese": "一番右側の車線は現在工事中である。",
+    "english": "The rightmost lane is now under construction."
+  },
+  {
+    "id": "190124",
+    "japanese": "一番安い部屋を１室、４泊お願いします。",
+    "english": "I'd like the most inexpensive room you have for four nights."
+  },
+  {
+    "id": "190125",
+    "japanese": "一番安い車を１週間借りたいんですが。",
+    "english": "I'd like to rent your most inexpensive car for a week."
+  },
+  {
+    "id": "190126",
+    "japanese": "一番よいものを買うのが結局は安くつく。",
+    "english": "It's always cheaper in the end to buy the best."
+  },
+  {
+    "id": "190127",
+    "japanese": "一番よいものが腐ると一番困るものになる。",
+    "english": "What is most troublesome is the corruption of the best."
+  },
+  {
+    "id": "190128",
+    "japanese": "一番よいのは彼女に電話することです。",
+    "english": "The best thing is to telephone her."
+  },
+  {
+    "id": "190129",
+    "japanese": "一番よいのは君が自分でその仕事をすることだろう。",
+    "english": "The best thing would be for you to do the work yourself."
+  },
+  {
+    "id": "190130",
+    "japanese": "一番のチャンネルで英語が、７番のチャンネルでは日本語がお聞きになれます。",
+    "english": "You can hear English on Channel 1, and Japanese on Channel 7."
+  },
+  {
+    "id": "190131",
+    "japanese": "一晩眠ると気分が良くなりますよ。",
+    "english": "You will feel better after a night's sleep."
+  },
+  {
+    "id": "190132",
+    "japanese": "一晩彼を泊めることができる。",
+    "english": "We can accommodate him for the night."
+  },
+  {
+    "id": "190133",
+    "japanese": "一晩泊めてあげよう。",
+    "english": "I'll fix you up for the night."
+  },
+  {
+    "id": "190134",
+    "japanese": "一晩中風が強く吹いていた。",
+    "english": "It was blowing hard all night."
+  },
+  {
+    "id": "190135",
+    "japanese": "一晩中政治の話をしてよく夜をあかしたものだ。",
+    "english": "We would often sit up all night discussing politics."
+  },
+  {
+    "id": "190136",
+    "japanese": "一晩中山中をさ迷った。",
+    "english": "I was roaming over the mountains all through the night."
+  },
+  {
+    "id": "190137",
+    "japanese": "一晩中寒くて不安でした。",
+    "english": "I felt cold and uneasy all night."
+  },
+  {
+    "id": "190138",
+    "japanese": "一晩中雨が降ったりやんだりしていた。",
+    "english": "It was raining on and off all night long."
+  },
+  {
+    "id": "190139",
+    "japanese": "一晩中飲んで、ボブはぐっすり眠った。",
+    "english": "After drinking all night, Bob was dead to the world."
+  },
+  {
+    "id": "190140",
+    "japanese": "一晩水につかっていた着物はずっしり重たかった。",
+    "english": "The clothes soaked in water overnight were heavy."
+  },
+  {
+    "id": "190141",
+    "japanese": "一晩私たちを泊めていただけませんか。",
+    "english": "Will you put us up for one night?"
+  },
+  {
+    "id": "190142",
+    "japanese": "一晩にたった２時間寝るだけで、人間は生きていけるのかしら。",
+    "english": "I wonder whether man could live with only two hours' sleep a night."
+  },
+  {
+    "id": "190143",
+    "japanese": "一晩でその本を全部読んだ。",
+    "english": "I read the whole book in one evening."
+  },
+  {
+    "id": "12076731",
+    "japanese": "一晩で完読しました。",
+    "english": "I read the whole book in one evening."
+  },
+  {
+    "id": "237004",
+    "japanese": "一晩ぐっすり眠ったので彼はさわやかに見えた。",
+    "english": "He looked refreshed after a good night's sleep."
+  },
+  {
+    "id": "1132459",
+    "japanese": "彼はぐっすり眠ってすっきりした顔をしていた。",
+    "english": "He looked refreshed after a good night's sleep."
+  },
+  {
+    "id": "190145",
+    "japanese": "一般入場料は大人が７ドルです。",
+    "english": "General admission is $7 for adults."
+  },
+  {
+    "id": "190146",
+    "japanese": "一般的に、小さな女の子は人形が好きだ。",
+    "english": "In general, little girls are fond of dolls."
+  },
+  {
+    "id": "190200",
+    "japanese": "一般に小さい女の子は人形が好きだ。",
+    "english": "In general, little girls are fond of dolls."
+  },
+  {
+    "id": "190147",
+    "japanese": "一般的に言って日本車は海外で人気が高い。",
+    "english": "Generally speaking, Japanese cars are popular overseas."
+  },
+  {
+    "id": "190149",
+    "japanese": "一般的に言って去年は気候が穏やかだった。",
+    "english": "Generally speaking, the weather was mild last year."
+  },
+  {
+    "id": "190151",
+    "japanese": "一般的に言って、預金は増加している。",
+    "english": "Generally speaking, savings are increasing."
+  },
+  {
+    "id": "190150",
+    "japanese": "一般的に言ってイングランドの気候は穏やかだ。",
+    "english": "Generally speaking, the climate in England is mild."
+  },
+  {
+    "id": "190154",
+    "japanese": "一般的に言って、子供は戸外で遊ぶのが好きだ。",
+    "english": "Generally speaking, children like to play outdoors."
+  },
+  {
+    "id": "13115934",
+    "japanese": "一般的に、子供は外遊びが好きだと言われている。",
+    "english": "Generally speaking, children like to play outdoors."
+  },
+  {
+    "id": "190155",
+    "japanese": "一般的に言って、高校生は大学生より一生懸命勉強する。",
+    "english": "Generally speaking, high school students study harder than college students."
+  },
+  {
+    "id": "190157",
+    "japanese": "一般的に言って、ここでは六月にほとんど雨が降らない。",
+    "english": "Generally speaking, there is little rain here in June."
+  },
+  {
+    "id": "190156",
+    "japanese": "一般的に言って、この町の人は観光客に親切です。",
+    "english": "The people in this town, generally speaking, are kind to visitors."
+  },
+  {
+    "id": "190159",
+    "japanese": "一般的に言えば日本人は内気です。",
+    "english": "Generally, Japanese people are shy."
+  },
+  {
+    "id": "1773274",
+    "japanese": "一般的に言って日本人はシャイです。",
+    "english": "Generally, Japanese people are shy."
+  },
+  {
+    "id": "190158",
+    "japanese": "一般的に言って、オーケストラの指揮者は演奏会で燕尾服を着ます。",
+    "english": "Generally speaking, orchestra conductors wear tailcoats at concerts."
+  },
+  {
+    "id": "190160",
+    "japanese": "一般的に言えば日本のウェイターはサービスがよい。",
+    "english": "Generally speaking, a waiter in Japan gives good service."
+  },
+  {
+    "id": "190161",
+    "japanese": "一般的に言えば。ニュージーランド人は日本人より背が高い。",
+    "english": "Generally speaking, New Zealanders are taller than Japanese."
+  },
+  {
+    "id": "190162",
+    "japanese": "一般的に言えば、日本の女性はしとやかである。",
+    "english": "Generally speaking, Japanese women are modest."
+  },
+  {
+    "id": "190165",
+    "japanese": "一般的に言えば、男性は女性より背が高い。",
+    "english": "Generally speaking, men are taller than women."
+  },
+  {
+    "id": "190171",
+    "japanese": "一般的に言えば、女は男よりも長生きする。",
+    "english": "Generally speaking, a woman will live longer than a man."
+  },
+  {
+    "id": "190167",
+    "japanese": "一般的に言えば、西欧人は魚を生では食べない。",
+    "english": "Generally speaking, Westerners don't eat fish raw."
+  },
+  {
+    "id": "190168",
+    "japanese": "一般的に言えば、小さな女の子は人形が好きです。",
+    "english": "Generally speaking, little girls are fond of dolls."
+  },
+  {
+    "id": "190170",
+    "japanese": "一般的に言えば、女性は男性よりほぼ１０年長生きする。",
+    "english": "Generally speaking, women live longer than men by almost ten years."
+  },
+  {
+    "id": "190172",
+    "japanese": "一般的に言えば、アメリカ人はコーヒーが好きだ。",
+    "english": "Generally speaking, Americans like coffee."
+  },
+  {
+    "id": "1202433",
+    "japanese": "なべて言うと、アメリカ人はコーヒーを好む。",
+    "english": "Generally speaking, Americans like coffee."
+  },
+  {
+    "id": "190173",
+    "japanese": "一般的に言うと日本人は勤勉である。",
+    "english": "Generally speaking, the Japanese are hard workers."
+  },
+  {
+    "id": "190174",
+    "japanese": "一般的に言うと、日本の人々は勤勉である。",
+    "english": "Generally speaking, the Japanese people are diligent."
+  },
+  {
+    "id": "190175",
+    "japanese": "一般的に言うと、男性は女性よりも速く走れる。",
+    "english": "Generally speaking, men can run faster than women can."
+  },
+  {
+    "id": "2239648",
+    "japanese": "一般に男性は女性より速く走ることができる。",
+    "english": "Generally speaking, men can run faster than women can."
+  },
+  {
+    "id": "2239668",
+    "japanese": "一般に男性は女性よりも足が速い。",
+    "english": "Generally speaking, men can run faster than women can."
+  },
+  {
+    "id": "2239673",
+    "japanese": "一般に女性よりも男性の方が足が速い。",
+    "english": "Generally speaking, men can run faster than women can."
+  },
+  {
+    "id": "190177",
+    "japanese": "一般的には、覇権的秩序というモデルは成功したと認められる交渉ストラテジーすべてに対する説明を与えることはできない。",
+    "english": "Admittedly, models of hegemonic order cannot provide an explanation for all observed successful bargaining strategies."
+  },
+  {
+    "id": "190178",
+    "japanese": "一般的にイギリス人は飼っているペットを極端にかわいがっている。",
+    "english": "In general, the English are extremely fond of their pets."
+  },
+  {
+    "id": "190179",
+    "japanese": "一般的にいえば、歴史は繰り返す。",
+    "english": "Generally speaking, history repeats itself."
+  },
+  {
+    "id": "190181",
+    "japanese": "一般的にいえば、男の子は長い髪の女の子が好きだ。",
+    "english": "Generally speaking, boys like girls with long hair."
+  },
+  {
+    "id": "190180",
+    "japanese": "一般的にいえば、男は女よりも肉体的に強い。",
+    "english": "Generally speaking, men are physically stronger than women."
+  },
+  {
+    "id": "190182",
+    "japanese": "一般的にいえば、現代の若者は利口だ。",
+    "english": "Generally speaking, the young people of today are clever."
+  },
+  {
+    "id": "190184",
+    "japanese": "一般的に、消費者は質よりも量を選ぶ。",
+    "english": "In general, consumers prefer quantity to quality."
+  },
+  {
+    "id": "190183",
+    "japanese": "一般的にいうと、英国人は他人のことに好奇心を持たない。",
+    "english": "Generally speaking, the Englishman is not curious about others."
+  },
+  {
+    "id": "190185",
+    "japanese": "一般大衆は戦争に反対している。",
+    "english": "The people at large are against war."
+  },
+  {
+    "id": "190186",
+    "japanese": "一般大衆は最もよい審判者である。",
+    "english": "The public is the best judge."
+  },
+  {
+    "id": "190187",
+    "japanese": "一般大衆は現在の政府に不満である。",
+    "english": "The public at large are dissatisfied with the present government."
+  },
+  {
+    "id": "190188",
+    "japanese": "一般大衆は、公金がどのように使われるのかについての情報を知る権利がある。",
+    "english": "The public is entitled to information about how public money is spent."
+  },
+  {
+    "id": "190189",
+    "japanese": "一般人を避けるため、その映画スターは偽名でホテルにチェックインした。",
+    "english": "In order to elude the eager public, the movie star checked into the hotel under a false name."
+  },
+  {
+    "id": "190190",
+    "japanese": "一般人はそれは間違っていると感じている。",
+    "english": "The general feeling is that it's wrong."
+  },
+  {
+    "id": "10765966",
+    "japanese": "それは間違っている、というのが一般的な感覚だ。",
+    "english": "The general feeling is that it's wrong."
+  },
+  {
+    "id": "190191",
+    "japanese": "一般常識を持っていますか。",
+    "english": "Does he have general common sense?"
+  },
+  {
+    "id": "190192",
+    "japanese": "一般の世論は戦争に反対である。",
+    "english": "The general opinion is against the war."
+  },
+  {
+    "id": "190193",
+    "japanese": "一般の人々はその戦争に反対だった。",
+    "english": "The people at large were against the war."
+  },
+  {
+    "id": "190195",
+    "japanese": "一般の国民は現状から見て、大きな変化を望んでいる。",
+    "english": "The people at large are hoping for great changes in the light of the present situation."
+  },
+  {
+    "id": "190196",
+    "japanese": "一般に日本人は勤勉だ。",
+    "english": "In general, Japanese are hardworking."
+  },
+  {
+    "id": "190197",
+    "japanese": "一般に日本人は、自分たちがかつてより暮らし向きがよくなったと考えている。",
+    "english": "The Japanese at large consider themselves better off than they used to be."
+  },
+  {
+    "id": "190198",
+    "japanese": "一般に男子の方が女子より背が高い。",
+    "english": "Boys, as a rule, are taller than girls."
+  },
+  {
+    "id": "190199",
+    "japanese": "一般に人々は新しい法律に反対である。",
+    "english": "People in general are against the new law."
+  },
+  {
+    "id": "190201",
+    "japanese": "一般に若者は形式を嫌う。",
+    "english": "In general, young people dislike formality."
+  },
+  {
+    "id": "10105437",
+    "japanese": "今週は概ね天気の良い日が続いた。",
+    "english": "The weather this week has been good on the whole."
+  },
+  {
+    "id": "190203",
+    "japanese": "一般に今の若い人は政治に関心がない。",
+    "english": "In general, young people today are not interested in politics."
+  },
+  {
+    "id": "190205",
+    "japanese": "一般には、彼は音楽の天才だと言ってよい。",
+    "english": "In general, it may be said that he is a genius in music."
+  },
+  {
+    "id": "190206",
+    "japanese": "一般に、医者と患者との間の意思の疎通は治療の最も大切な部分である。",
+    "english": "In general, communication between doctors and their patients is the most important part of medical treatment."
+  },
+  {
+    "id": "190207",
+    "japanese": "一般に、アメリカの人々は大型車の方を好む。",
+    "english": "In general, people in America tend to prefer bigger cars."
+  },
+  {
+    "id": "190208",
+    "japanese": "一泊分の内金をお願いします。",
+    "english": "We'd like a deposit for one night."
+  },
+  {
+    "id": "190209",
+    "japanese": "一泊いくらですか。",
+    "english": "What's the daily rate?"
+  },
+  {
+    "id": "190210",
+    "japanese": "一杯付き合いませんか。",
+    "english": "Would you join me in a drink?"
+  },
+  {
+    "id": "190211",
+    "japanese": "一杯頂いても構いません。",
+    "english": "I wouldn't mind a drink."
+  },
+  {
+    "id": "190212",
+    "japanese": "一杯やりたいなあ。",
+    "english": "I feel like a drink."
+  },
+  {
+    "id": "190213",
+    "japanese": "一杯やりたいきがする。",
+    "english": "I feel like having a drink."
+  },
+  {
+    "id": "9841577",
+    "japanese": "一杯飲みたい気分だな。",
+    "english": "I feel like having a drink."
+  },
+  {
+    "id": "190214",
+    "japanese": "一杯のミルクを下さい。",
+    "english": "Please give me a cup of milk."
+  },
+  {
+    "id": "628700",
+    "japanese": "牛乳をいっぱいください。",
+    "english": "Please give me a cup of milk."
+  },
+  {
+    "id": "2138345",
+    "japanese": "ミルクを一杯ください。",
+    "english": "Please give me a cup of milk."
+  },
+  {
+    "id": "190216",
+    "japanese": "一杯のコーヒーを飲んだら頭がすっきりした。",
+    "english": "A cup of coffee cleared my head."
+  },
+  {
+    "id": "1153141",
+    "japanese": "コーヒー１杯で頭がすっきりしたよ。",
+    "english": "A cup of coffee cleared my head."
+  },
+  {
+    "id": "190215",
+    "japanese": "一杯どう？",
+    "english": "How about a drink?"
+  },
+  {
+    "id": "190218",
+    "japanese": "一杯ごちそうしようか。",
+    "english": "Can I buy you a drink?"
+  },
+  {
+    "id": "12621186",
+    "japanese": "一杯おごるよ。",
+    "english": "Can I buy you a drink?"
+  },
+  {
+    "id": "190217",
+    "japanese": "一杯ください。",
+    "english": "Give me a shot."
+  },
+  {
+    "id": "190220",
+    "japanese": "一杯おごりましょう。",
+    "english": "I'll buy you a drink."
+  },
+  {
+    "id": "190219",
+    "japanese": "一杯おごらせて下さい。",
+    "english": "Let me buy you a drink."
+  },
+  {
+    "id": "235668",
+    "japanese": "１杯おごろう。",
+    "english": "Let me buy you a drink."
+  },
+  {
+    "id": "190221",
+    "japanese": "一杯いかがですか。",
+    "english": "Want a drink?"
+  },
+  {
+    "id": "890127",
+    "japanese": "何か飲む？",
+    "english": "Want a drink?"
+  },
+  {
+    "id": "190222",
+    "japanese": "一年練習して、彼女はどうにかピアノを弾いている。",
+    "english": "After a year's practice, she plays the piano after a fashion."
+  },
+  {
+    "id": "190224",
+    "japanese": "一年分のおこづかいを先に渡しておく。",
+    "english": "I'm going to give you a year's worth of allowance all at once."
+  },
+  {
+    "id": "190223",
+    "japanese": "一年中雨が多い。",
+    "english": "They have much rain all year round."
+  },
+  {
+    "id": "190226",
+    "japanese": "一年中で一番いい季節ですね。",
+    "english": "It's the best season of the year."
+  },
+  {
+    "id": "10690198",
+    "japanese": "一年で一番いい季節です。",
+    "english": "It's the best season of the year."
+  },
+  {
+    "id": "10690199",
+    "japanese": "一年で一番いいシーズンだね。",
+    "english": "It's the best season of the year."
+  },
+  {
+    "id": "190225",
+    "japanese": "一年中いつも同じでした。",
+    "english": "It was the same all year round."
+  },
+  {
+    "id": "190227",
+    "japanese": "一年前くらい前に来ました。",
+    "english": "I was here about a year ago."
+  },
+  {
+    "id": "190228",
+    "japanese": "一年先輩だからって、そんなに威張らなくていいじゃない。",
+    "english": "Who said you can swagger around like that just because you're one year ahead of me?"
+  },
+  {
+    "id": "190229",
+    "japanese": "一年間で浪費するはした金がいくらになるか、だれにも決めかねる。",
+    "english": "No one can determine the amount of money we waste in a year."
+  },
+  {
+    "id": "190230",
+    "japanese": "一年やそこらで英語をマスターすることは不可能だ。",
+    "english": "It is impossible to master English in a year or so."
+  },
+  {
+    "id": "190231",
+    "japanese": "一年の最初の月は一月です。",
+    "english": "The first month of the year is January."
+  },
+  {
+    "id": "190232",
+    "japanese": "一年の計は元旦にあり。",
+    "english": "New Year's Day is the key to the year."
+  },
+  {
+    "id": "190233",
+    "japanese": "一年のこの時期には雪がたくさん降る。",
+    "english": "We have a lot of snow at this time of the year."
+  },
+  {
+    "id": "190234",
+    "japanese": "一年には四季があります。",
+    "english": "There are four seasons in a year."
+  },
+  {
+    "id": "190235",
+    "japanese": "一年には四つの季節がある。",
+    "english": "There are four seasons in a year."
+  },
+  {
+    "id": "190236",
+    "japanese": "一年でローンが払いきれるかね。",
+    "english": "Can you pay off your loans in a year?"
+  },
+  {
+    "id": "190237",
+    "japanese": "一日風邪で休んだだけなのに、机の上に書類が山積みになっている。",
+    "english": "I only missed one day of work because of a cold and my desk is piled high with papers."
+  },
+  {
+    "id": "190238",
+    "japanese": "一日中立ちっぱなしだったのでくたくただ。",
+    "english": "I'm worn out, because I've been standing all day."
+  },
+  {
+    "id": "190240",
+    "japanese": "一日中閉じこもってるつもり？",
+    "english": "You can't stay in here all day."
+  },
+  {
+    "id": "190239",
+    "japanese": "一日中歩き回ってくたくただ。",
+    "english": "I walked around all day, and I am done in."
+  },
+  {
+    "id": "190241",
+    "japanese": "一日中農場で働いていたので、彼はすっかり疲れきっていた。",
+    "english": "Having worked on the farm all day long, he was completely tired out."
+  },
+  {
+    "id": "190242",
+    "japanese": "一日中働いたあとは、一杯のビールが何よりだ。",
+    "english": "There is nothing like a glass of beer after a whole day's work."
+  },
+  {
+    "id": "190243",
+    "japanese": "一日中大雨だったので、その間家に閉じこもっていた。",
+    "english": "It rained heavily all day, during which time I stayed indoors."
+  },
+  {
+    "id": "190244",
+    "japanese": "一日中待った後、研究者達はまだ嵐がやむのを待っていたので、調査を再開することができた。",
+    "english": "After waiting all day, the workers were still looking for a break in the weather so they could resume the search."
+  },
+  {
+    "id": "190245",
+    "japanese": "一日中上天気だった。",
+    "english": "It was fine all day."
+  },
+  {
+    "id": "190246",
+    "japanese": "一日中合体しっぱなしだったのでくたくたでごんす。",
+    "english": "We are worn out, because we have been uniting all day."
+  },
+  {
+    "id": "190247",
+    "japanese": "一日中海岸で遊んだ。",
+    "english": "We enjoyed ourselves at the seaside all day."
+  },
+  {
+    "id": "190249",
+    "japanese": "一日中家に閉じこもるのは健康に良くない。",
+    "english": "It is not good for your health to shut yourself in all day."
+  },
+  {
+    "id": "190248",
+    "japanese": "彼女は一日中英語を耳にしています。",
+    "english": "She hears English all through the day."
+  },
+  {
+    "id": "190250",
+    "japanese": "一日中、雨は止むことなく降り続いた。",
+    "english": "It rained continuously all day."
+  },
+  {
+    "id": "190251",
+    "japanese": "一日中雨が激しく降った。",
+    "english": "It rained hard all day."
+  },
+  {
+    "id": "2116612",
+    "japanese": "一日中強い雨が降っていた。",
+    "english": "It rained hard all day."
+  },
+  {
+    "id": "190252",
+    "japanese": "一日中ベッドに寝ていないといけませんでした。",
+    "english": "I had to stay in bed all day."
+  },
+  {
+    "id": "235689",
+    "japanese": "１日中ベッドに寝ていなければなりませんでした。",
+    "english": "I had to stay in bed all day."
+  },
+  {
+    "id": "190253",
+    "japanese": "一日中ひなたに座っているなんていいはずがありません。",
+    "english": "It can't be good sitting in the sun all day."
+  },
+  {
+    "id": "190254",
+    "japanese": "一日中コンピューターに向かってるから、結構電磁波浴びてる。",
+    "english": "I sit in front of a computer screen all day, so I get pretty heavily bombarded by electro-magnetic waves."
+  },
+  {
+    "id": "190255",
+    "japanese": "一日たりとも英語から離れるな。",
+    "english": "Do not stay away from English, even for a day."
+  },
+  {
+    "id": "190256",
+    "japanese": "一日前に予告してもらえばどんな品物でも供給できます。",
+    "english": "Any goods can be supplied at a day's notice."
+  },
+  {
+    "id": "190257",
+    "japanese": "一日千秋の思いで待ち焦がれていたｉＢｏｏｋをやっと買ってもらったよ。ラッキー。",
+    "english": "I couldn't wait to get my hands on one of those iBooks and now I got one as a present. I feel so lucky!"
+  },
+  {
+    "id": "190258",
+    "japanese": "一日三回この薬を飲みなさい。",
+    "english": "Take this medicine three times a day."
+  },
+  {
+    "id": "219271",
+    "japanese": "この薬を一日に三回飲みなさい。",
+    "english": "Take this medicine three times a day."
+  },
+  {
+    "id": "9861831",
+    "japanese": "１日に３回、こちらのお薬を飲んでください。",
+    "english": "Take this medicine three times a day."
+  },
+  {
+    "id": "190259",
+    "japanese": "一日休みを取ってもいいですか。",
+    "english": "Do you mind if I take a day off?"
+  },
+  {
+    "id": "190260",
+    "japanese": "一日休みとれるの？",
+    "english": "Can you get a day off?"
+  },
+  {
+    "id": "190261",
+    "japanese": "一日一日と寒くなってきた。",
+    "english": "It is getting colder and colder day by day."
+  },
+  {
+    "id": "8918872",
+    "japanese": "日に日に寒くなっています。",
+    "english": "It is getting colder and colder day by day."
+  },
+  {
+    "id": "190262",
+    "japanese": "一日一日が歴史の１ページである。",
+    "english": "Every day of thy life is a page in thy history."
+  },
+  {
+    "id": "190263",
+    "japanese": "一日一善。良いことをした後は、気持ちがいいね。",
+    "english": "I always feel good after I do my good deed for the day."
+  },
+  {
+    "id": "190264",
+    "japanese": "一日一生懸命働いた後には、たっぷりと温かい食事をとりたいものである。",
+    "english": "After a hard day's work, a man can do with a good, hot meal."
+  },
+  {
+    "id": "190267",
+    "japanese": "一日ひとくそ、医者いらず。",
+    "english": "A shit a day keeps the doctor away."
+  },
+  {
+    "id": "190266",
+    "japanese": "一日や一年の長さはほとんど変わらない。",
+    "english": "The length of a day or a year varies but little."
+  },
+  {
+    "id": "190268",
+    "japanese": "一日は二十四時間ある。",
+    "english": "A day has twenty-four hours."
+  },
+  {
+    "id": "190269",
+    "japanese": "一日が終わろうとしている。",
+    "english": "The day is almost over."
+  },
+  {
+    "id": "190271",
+    "japanese": "一日の仕事が終わると皆家路を急ぐ。",
+    "english": "At the end of a working day, everybody is in a hurry to get home."
+  },
+  {
+    "id": "190272",
+    "japanese": "一日のツアーはありますか。",
+    "english": "Do you offer any all-day tours?"
+  },
+  {
+    "id": "9532889",
+    "japanese": "日帰りのツアーはありますか？",
+    "english": "Do you offer any all-day tours?"
+  },
+  {
+    "id": "190273",
+    "japanese": "一日のうちに四つの季節を経験することができる国は、イギリス以外にないといわれている。",
+    "english": "In no country other than England, it has been said, can one experience four seasons in the course of a single day."
+  },
+  {
+    "id": "190274",
+    "japanese": "一日にせめて二回は歯を磨くべきだ。",
+    "english": "You should brush your teeth at least twice a day."
+  },
+  {
+    "id": "12120908",
+    "japanese": "少なくとも１日２回は歯を磨きなさい。",
+    "english": "You should brush your teeth at least twice a day."
+  },
+  {
+    "id": "190275",
+    "japanese": "一日に６時間、授業があります。",
+    "english": "We have six lessons a day."
+  },
+  {
+    "id": "190276",
+    "japanese": "一日に６０キロ歩くことは難しい。",
+    "english": "It is difficult to walk 60 kilometers a day."
+  },
+  {
+    "id": "190277",
+    "japanese": "一日でも君のことを思わずに過ごすことはまず無い。",
+    "english": "Hardly a day passes that I don't think of you."
+  },
+  {
+    "id": "190278",
+    "japanese": "一日でその仕事をやり終えるのは君にはまず不可能だ。",
+    "english": "It is next to impossible for you to finish the work in a day."
+  },
+  {
+    "id": "190279",
+    "japanese": "一日でこの仕事を全部こなすのは難しいと思います。",
+    "english": "I find it difficult to do all this work in a day."
+  },
+  {
+    "id": "190280",
+    "japanese": "一日で５００ドルつかってしまった。",
+    "english": "I've spent $500 a day."
+  },
+  {
+    "id": "190281",
+    "japanese": "一日たりとも我々は水なしにはいきられない。",
+    "english": "We can't even live for a day without water."
+  },
+  {
+    "id": "190282",
+    "japanese": "一日せっせと働いた後は静かに休んでいたいんだよ。",
+    "english": "I want to be quiet after a day's hard work."
+  },
+  {
+    "id": "190284",
+    "japanese": "一日いい天気になりそうですよ。",
+    "english": "I think it's going to be a nice day."
+  },
+  {
+    "id": "2242476",
+    "japanese": "素敵な一日になると思う。",
+    "english": "I think it's going to be a nice day."
+  },
+  {
+    "id": "9206199",
+    "japanese": "いい天気になると思うよ。",
+    "english": "I think it's going to be a nice day."
+  },
+  {
+    "id": "190283",
+    "japanese": "一日かかってもやり遂げる。",
+    "english": "We'll finish it if it takes us all day."
+  },
+  {
+    "id": "190286",
+    "japanese": "一日、そこで過ごせるわね。",
+    "english": "We can make a day of it."
+  },
+  {
+    "id": "190287",
+    "japanese": "一難去ってまた一難。",
+    "english": "Out of the frying pan and into the fire."
+  },
+  {
+    "id": "190288",
+    "japanese": "一難去ってまた一難、またまた難題が社長からトップダウンで降りてきたよ。",
+    "english": "No sooner had we finished working on one tough problem than the president sent us yet another straight from the top."
+  },
+  {
+    "id": "190289",
+    "japanese": "一同を代表して、歓迎の意を表します。",
+    "english": "On behalf of the company, I welcome you."
+  },
+  {
+    "id": "190290",
+    "japanese": "一同を代表して、あなたを歓迎します。",
+    "english": "On behalf of the company, I welcome you."
+  },
+  {
+    "id": "190291",
+    "japanese": "一等賞は彼によって勝ち取られるかもしれません。",
+    "english": "The first prize may be won by him."
+  },
+  {
+    "id": "190292",
+    "japanese": "一度話し合いをすれば、お互いに満足のいく解決方法を見つけられると思います。",
+    "english": "I know that if we discuss it, we can find a solution that will satisfy both of us."
+  },
+  {
+    "id": "190293",
+    "japanese": "一度約束したらそれを守らねばなりません。",
+    "english": "Once you have made a promise, you should keep it."
+  },
+  {
+    "id": "228864",
+    "japanese": "いったん約束をしたら、守らなくてはいけない。",
+    "english": "Once you have made a promise, you should keep it."
+  },
+  {
+    "id": "190294",
+    "japanese": "一度放たれた石と言葉は呼び戻せない。",
+    "english": "A stone once cast, and a word once spoken, cannot be recalled."
+  },
+  {
+    "id": "190295",
+    "japanese": "一度彼女に路上で会ったことを覚えている。",
+    "english": "I remember seeing her once on the street."
+  },
+  {
+    "id": "190296",
+    "japanese": "一度彼女とゆっくり話をしてみたいものです。",
+    "english": "I'd like to have a good talk with her."
+  },
+  {
+    "id": "190298",
+    "japanese": "一度食べてみて下さい。",
+    "english": "Please try one."
+  },
+  {
+    "id": "10075145",
+    "japanese": "お試しください。",
+    "english": "Please try one."
+  },
+  {
+    "id": "190297",
+    "japanese": "一度川を渡れば、もう安全だ。",
+    "english": "Once across the river, you are safe."
+  },
+  {
+    "id": "190299",
+    "japanese": "一度習慣が身につけば、それはわれわれに対してほとんど強制的な力を持つ。",
+    "english": "Once a habit has been acquired, it almost has compulsive power over us."
+  },
+  {
+    "id": "190300",
+    "japanese": "一度失われた時間は取り戻せない。",
+    "english": "Once lost, time cannot be recalled."
+  },
+  {
+    "id": "190301",
+    "japanese": "一度失われた時間は決して取り戻せないと言っても過言ではない。",
+    "english": "It is not too much to say that time once lost can never be recovered."
+  },
+  {
+    "id": "190302",
+    "japanese": "一度失えば、決して取り戻すことはできないだろう。",
+    "english": "Once gone, you will never get it back."
+  },
+  {
+    "id": "190303",
+    "japanese": "一度殺すと、殺しが楽しくなる。",
+    "english": "Once we've killed, we enjoy killing."
+  },
+  {
+    "id": "190304",
+    "japanese": "一度何かやると決めたら、あくまでやり通せ。",
+    "english": "Once you have decided to do something, stick to it."
+  },
+  {
+    "id": "175328",
+    "japanese": "一度悪名を取ったら最後だ。",
+    "english": "Give a dog a bad name and hang him."
+  },
+  {
+    "id": "190306",
+    "japanese": "一度悪評がたてば二度と浮かばれない。",
+    "english": "Give a dog a bad name and hang him."
+  },
+  {
+    "id": "190307",
+    "japanese": "一度悪い評判が立ったらどうにもならぬ。",
+    "english": "Give a dog a bad name and hang him."
+  },
+  {
+    "id": "190308",
+    "japanese": "一度も会ったことがないというのは確かなのかい。",
+    "english": "Are you sure you've never met him?"
+  },
+  {
+    "id": "190309",
+    "japanese": "一度も会ったことがない。",
+    "english": "I haven't met him even once."
+  },
+  {
+    "id": "9049871",
+    "japanese": "彼には一度も会ったことはありません。",
+    "english": "I haven't met him even once."
+  },
+  {
+    "id": "190311",
+    "japanese": "一度に二つのことをやろうとしてはいけない。",
+    "english": "Don't attempt two things at once."
+  },
+  {
+    "id": "190310",
+    "japanese": "一度に二つの計画を試みてはいけない。",
+    "english": "Don't attempt two projects at a time."
+  },
+  {
+    "id": "190312",
+    "japanese": "一度に二つのことをするな。",
+    "english": "Don't try to do two things at a time."
+  },
+  {
+    "id": "190326",
+    "japanese": "一度に２つのことをしようとするな。",
+    "english": "Don't try to do two things at a time."
+  },
+  {
+    "id": "235547",
+    "japanese": "２つのことを一度にしようとしてはいけません。",
+    "english": "Don't try to do two things at a time."
+  },
+  {
+    "id": "235716",
+    "japanese": "１度に２つの事をしようと思うな。",
+    "english": "Don't try to do two things at a time."
+  },
+  {
+    "id": "190313",
+    "japanese": "一度に二つのことはできないよ。",
+    "english": "I can't do two things at a time."
+  },
+  {
+    "id": "10842066",
+    "japanese": "一遍に二つのことはできないよ。",
+    "english": "I can't do two things at a time."
+  },
+  {
+    "id": "10842067",
+    "japanese": "同時に二つのことができないんだ。",
+    "english": "I can't do two things at a time."
+  },
+  {
+    "id": "190314",
+    "japanese": "一度に少しずつ学びなさい。",
+    "english": "Learn a little at a time."
+  },
+  {
+    "id": "190315",
+    "japanese": "一度に三個づつ取りなさい。",
+    "english": "Take three at a time."
+  },
+  {
+    "id": "190317",
+    "japanese": "一度に何冊借りられますか。",
+    "english": "How many books can I take out at one time?"
+  },
+  {
+    "id": "2869674",
+    "japanese": "一度に何冊まで借りられますか？",
+    "english": "How many books can I take out at one time?"
+  },
+  {
+    "id": "190316",
+    "japanese": "一度に一事をせよ。",
+    "english": "Do one thing at a time."
+  },
+  {
+    "id": "190318",
+    "japanese": "一度に一つのことをせよ。",
+    "english": "Do one thing at a time."
+  },
+  {
+    "id": "190319",
+    "japanese": "一度に一つしか、だめよ。",
+    "english": "You can't just do one thing at a time."
+  },
+  {
+    "id": "190320",
+    "japanese": "一度にひとつのことをするようにしなさい。",
+    "english": "Try to do one thing at a time."
+  },
+  {
+    "id": "190321",
+    "japanese": "一度にたくさんの食物を食べてはいけません。",
+    "english": "You must not eat too much food at one time."
+  },
+  {
+    "id": "190322",
+    "japanese": "一度にたくさんのものを盛り込むと、出来映えがかえって悪くなる。",
+    "english": "Too many irons in the fire result in bad workmanship."
+  },
+  {
+    "id": "190323",
+    "japanese": "一度にたくさんのことをやろうとするのがいけないようです。",
+    "english": "I think I try to do too much at a time."
+  },
+  {
+    "id": "190324",
+    "japanese": "一度にそんなにたくさんの質問には答えられない。",
+    "english": "I cannot answer so many questions at a time."
+  },
+  {
+    "id": "190325",
+    "japanese": "一度にあまりたくさんのことに手を出すと、どこから始めてよいか、わからないものだ。",
+    "english": "When one has too many irons in the fire, he doesn't know where to start working."
+  },
+  {
+    "id": "190327",
+    "japanese": "一度に１５以上ご注文いただけるという条件で、ＳＴＬ＃３４５６の特別値引きをいたします。",
+    "english": "We can offer you a special 5% discount on STL#3456, provided that you place an order of more than 15 units at one time."
+  },
+  {
+    "id": "190328",
+    "japanese": "一度で成功しなければ、何度でもやってみよ。",
+    "english": "If at first you don't succeed, try, try, try again."
+  },
+  {
+    "id": "11011106",
+    "japanese": "最初がうまくいかなくても、何度でもやってみろよ。",
+    "english": "If at first you don't succeed, try, try, try again."
+  },
+  {
+    "id": "190329",
+    "japanese": "一度でいい意味のある存在になりたいと願う。",
+    "english": "I wish for once I could be something."
+  },
+  {
+    "id": "190330",
+    "japanese": "一度してしまったことは元には戻らない。",
+    "english": "What's done cannot be undone."
+  },
+  {
+    "id": "190331",
+    "japanese": "一度ここを発つと、再び戻ることはできない。",
+    "english": "Once you leave here, you can't come back again."
+  },
+  {
+    "id": "190334",
+    "japanese": "一通に署名の上ご返送ください。",
+    "english": "Please return one set to us with your signature."
+  },
+  {
+    "id": "190336",
+    "japanese": "一致団結して何か新しいことをやろうじゃないか。",
+    "english": "Let's close ranks and do something new."
+  },
+  {
+    "id": "190337",
+    "japanese": "ギャングの一団が金を盗んだ。",
+    "english": "A group of gangsters stole money."
+  },
+  {
+    "id": "190338",
+    "japanese": "一台の車が全速力で通り過ぎた。",
+    "english": "A car passed by at top speed."
+  },
+  {
+    "id": "190339",
+    "japanese": "一台の車が私の家の前で止まった。",
+    "english": "A car drew up in front of my house."
+  },
+  {
+    "id": "190340",
+    "japanese": "一体彼は何に怒っているのだろう。",
+    "english": "What is he mad at, I wonder?"
+  },
+  {
+    "id": "190341",
+    "japanese": "一体彼の話は本当だろうか。",
+    "english": "Can his story be true?"
+  },
+  {
+    "id": "198001",
+    "japanese": "はたして彼の話は本当だろうか。",
+    "english": "Can his story be true?"
+  },
+  {
+    "id": "190342",
+    "japanese": "一体誰かしら？",
+    "english": "Who ever can it be?"
+  },
+  {
+    "id": "190344",
+    "japanese": "一体全体問題は何か。",
+    "english": "What on earth is the problem?"
+  },
+  {
+    "id": "137035",
+    "japanese": "誰がこの混乱のあとかたづけをすることになっているか。",
+    "english": "Who's going to clear up all this mess?"
+  },
+  {
+    "id": "190343",
+    "japanese": "一体誰がこのように散らかった状態をすべて片づけるのだろうか。",
+    "english": "Who's going to clear up all this mess?"
+  },
+  {
+    "id": "190345",
+    "japanese": "一体全体誰があなたにそんなばかげた話をしたのですか。",
+    "english": "Whoever told you such a ridiculous story?"
+  },
+  {
+    "id": "190346",
+    "japanese": "一体全体君は何をしているんだ。",
+    "english": "What on earth are you doing here?"
+  },
+  {
+    "id": "190352",
+    "japanese": "一体全体ここで何をしているんだ？",
+    "english": "What on earth are you doing here?"
+  },
+  {
+    "id": "190347",
+    "japanese": "一体全体何故君がここにいるのだ？",
+    "english": "Why on earth are you here?"
+  },
+  {
+    "id": "10054859",
+    "japanese": "一体また何でお前がここにいるんだよ？",
+    "english": "Why on earth are you here?"
+  },
+  {
+    "id": "190348",
+    "japanese": "一体全体どうやって君はそれをしたんだい。",
+    "english": "How in the world did you do it?"
+  },
+  {
+    "id": "190349",
+    "japanese": "一体全体どうして新築した家を売ってしまったんですか。",
+    "english": "Why on earth did you sell your newly-built house?"
+  },
+  {
+    "id": "190350",
+    "japanese": "一体全体どうしたんだ。",
+    "english": "What on earth is the matter?"
+  },
+  {
+    "id": "190351",
+    "japanese": "一体全体どうしたというんだ。",
+    "english": "What on earth is the matter?"
+  },
+  {
+    "id": "190365",
+    "japanese": "一体どうしたんだ。",
+    "english": "What on earth is the matter?"
+  },
+  {
+    "id": "190373",
+    "japanese": "一体、どうしたの。",
+    "english": "What on earth is the matter?"
+  },
+  {
+    "id": "190353",
+    "japanese": "一体全体あの音は何か。",
+    "english": "Whatever is that noise?"
+  },
+  {
+    "id": "190354",
+    "japanese": "一体全体あなたは私の部屋で何をしているの。",
+    "english": "What on earth are you doing in my room?"
+  },
+  {
+    "id": "190355",
+    "japanese": "一体全体、どうして建てたばかりの家を売却してしまったんだい。",
+    "english": "Why on earth did you sell your newly built house?"
+  },
+  {
+    "id": "190356",
+    "japanese": "一体全体、きみはそれをどうしようと言うつもりなのか。",
+    "english": "What the hell are you going to do with it?"
+  },
+  {
+    "id": "1154153",
+    "japanese": "そんなもの持ち出して一体何をしようというんだ？",
+    "english": "What the hell are you going to do with it?"
+  },
+  {
+    "id": "190357",
+    "japanese": "一体君は何を言おうとしているんだい。",
+    "english": "What in the world are you getting at?"
+  },
+  {
+    "id": "176869",
+    "japanese": "君は本当に英語が話せるのか。",
+    "english": "Can you speak English at all?"
+  },
+  {
+    "id": "190358",
+    "japanese": "一体君は英語が話せるのかね。",
+    "english": "Can you speak English at all?"
+  },
+  {
+    "id": "190359",
+    "japanese": "一体何を彼にあげたのですか。",
+    "english": "What was it that you gave him?"
+  },
+  {
+    "id": "190360",
+    "japanese": "一体何をしているのだ。",
+    "english": "What the devil are you doing?"
+  },
+  {
+    "id": "190361",
+    "japanese": "一体何が今晩表であんなひどい音をたてているのか見当もつきません。",
+    "english": "I don't know what kind of creature is making such a terrible noise outside tonight."
+  },
+  {
+    "id": "190362",
+    "japanese": "一体どこで彼に会ったんだ。",
+    "english": "Where on earth did you meet him?"
+  },
+  {
+    "id": "228941",
+    "japanese": "いったいあなたはどこで彼と会ったのですか。",
+    "english": "Where on earth did you meet him?"
+  },
+  {
+    "id": "190363",
+    "japanese": "一体どうやってそんな事をしたのだ。",
+    "english": "How in the world did you do such a thing?"
+  },
+  {
+    "id": "190364",
+    "japanese": "一体どうしてその事を知っていたの？",
+    "english": "How on earth did you know that?"
+  },
+  {
+    "id": "190366",
+    "japanese": "一体どうしたら若さが取り戻せるのだろう。",
+    "english": "How on earth can we restore our youth?"
+  },
+  {
+    "id": "190367",
+    "japanese": "一体どういう了見だね。",
+    "english": "What's the big idea?"
+  },
+  {
+    "id": "1317175",
+    "japanese": "どういうつもりだ？",
+    "english": "What's the big idea?"
+  },
+  {
+    "id": "1317178",
+    "japanese": "何のつもりだ？",
+    "english": "What's the big idea?"
+  },
+  {
+    "id": "190368",
+    "japanese": "一体だれが私の名簿をめちゃめちゃにしたのだ。",
+    "english": "Who's gone and messed up my list of names?"
+  },
+  {
+    "id": "190369",
+    "japanese": "一体その報告は本当だろうか。",
+    "english": "Can the report be true?"
+  },
+  {
+    "id": "190371",
+    "japanese": "一体その噂は本当なのだろうか。",
+    "english": "Can the rumor be true?"
+  },
+  {
+    "id": "213342",
+    "japanese": "そのうわさは本当だろうか。",
+    "english": "Can the rumor be true?"
+  },
+  {
+    "id": "213353",
+    "japanese": "そのうわさは果たして本当だろうか。",
+    "english": "Can the rumor be true?"
+  },
+  {
+    "id": "213354",
+    "japanese": "そのうわさは一体本当だろうか。",
+    "english": "Can the rumor be true?"
+  },
+  {
+    "id": "231365",
+    "japanese": "あのうわさは本当かしら。",
+    "english": "Can the rumor be true?"
+  },
+  {
+    "id": "190372",
+    "japanese": "一体あなたは何をしているのですか。",
+    "english": "What on earth are you doing?"
+  },
+  {
+    "id": "228905",
+    "japanese": "いったい何をしているのだろう。",
+    "english": "What on earth are you doing?"
+  },
+  {
+    "id": "228906",
+    "japanese": "いったい何をしているの？",
+    "english": "What on earth are you doing?"
+  },
+  {
+    "id": "232309",
+    "japanese": "あなたは一体何をしているんですか。",
+    "english": "What on earth are you doing?"
+  },
+  {
+    "id": "190374",
+    "japanese": "一束だけ一番上に本物の札がのっていた。",
+    "english": "Only one stack had a real bill on top."
+  },
+  {
+    "id": "190375",
+    "japanese": "一息いれようよ。",
+    "english": "Let's take a break."
+  },
+  {
+    "id": "202804",
+    "japanese": "ちょっと一休みしよう。",
+    "english": "Let's take a break."
+  },
+  {
+    "id": "216946",
+    "japanese": "さぁ、休憩をとろう。",
+    "english": "Let's take a break."
+  },
+  {
+    "id": "10570943",
+    "japanese": "休憩しましょう。",
+    "english": "Let's take a break."
+  },
+  {
+    "id": "190377",
+    "japanese": "一石二鳥。",
+    "english": "To kill two birds with one stone."
+  },
+  {
+    "id": "190376",
+    "japanese": "一千万円くらいかな？",
+    "english": "Is it about ten million yen?"
+  },
+  {
+    "id": "190378",
+    "japanese": "一昔前だったら、駅や、レストランや、病院の待合室でタバコに火をつけるのをためらう人はいなかっただろう。",
+    "english": "At one time, people would not have hesitated to light up a cigarette in stations, restaurants, or hospital waiting rooms."
+  },
+  {
+    "id": "190379",
+    "japanese": "一隻の船に全部を積む冒険をするな。",
+    "english": "Don't risk putting everything in one boat."
+  },
+  {
+    "id": "190380",
+    "japanese": "一隻の船が海を走っていた。",
+    "english": "There was a ship sailing on the sea."
+  },
+  {
+    "id": "190382",
+    "japanese": "一生懸命勉強すれば試験に受かるでしょう。",
+    "english": "If you work hard, you'll pass your exam."
+  },
+  {
+    "id": "190384",
+    "japanese": "一生懸命勉強すればテストに合格するだろう、と彼は私に言った。",
+    "english": "He said to me, \"Study hard, and you will pass the test.\""
+  },
+  {
+    "id": "190385",
+    "japanese": "一生懸命勉強する者は誰でも必ず成功する。",
+    "english": "Whoever studies hard cannot help but succeed."
+  },
+  {
+    "id": "190386",
+    "japanese": "一生懸命勉強するなら、彼はテストに合格するだろうに。",
+    "english": "If he studied hard, he would pass the test."
+  },
+  {
+    "id": "190387",
+    "japanese": "一生懸命勉強することは君のためになる。",
+    "english": "It will pay you to study hard."
+  },
+  {
+    "id": "190388",
+    "japanese": "一生懸命勉強しなさい。さもないと、来年また同じ授業を取らなくてはならなくなりますよ。",
+    "english": "Work hard, or you'll have to take the same course again next year."
+  },
+  {
+    "id": "190389",
+    "japanese": "一生懸命勉強しなさい、そうすれば成功します。",
+    "english": "Study hard, and you'll succeed."
+  },
+  {
+    "id": "190390",
+    "japanese": "一生懸命勉強しなさい、そうすれば試験に受かるだろう。",
+    "english": "Work hard, and you will pass the examination."
+  },
+  {
+    "id": "190391",
+    "japanese": "一生懸命勉強しなさい、そうすれば試験に合格するでしょう。",
+    "english": "Work hard, and you will pass the examination."
+  },
+  {
+    "id": "190393",
+    "japanese": "一生懸命勉強しなさい、さもないと試験に落ちるぞ。",
+    "english": "Study hard, or you'll fail the exam."
+  },
+  {
+    "id": "190392",
+    "japanese": "一生懸命勉強しなさい、そうしないと試験に失敗するだろう。",
+    "english": "Work hard, or you will fail the examination."
+  },
+  {
+    "id": "190394",
+    "japanese": "一生懸命勉強しなければ、テストに合格しないだろう、と彼は私に言った。",
+    "english": "He said to me, 'Study hard, or you won't pass the test.'"
+  },
+  {
+    "id": "190395",
+    "japanese": "一生懸命勉強しないと悪い点がつづくよ。",
+    "english": "If you don't study hard, you'll continue to get poor scores."
+  },
+  {
+    "id": "190397",
+    "japanese": "一生懸命勉強したので、彼はいい点が取れた。",
+    "english": "Hard work enabled him to get good marks."
+  },
+  {
+    "id": "190398",
+    "japanese": "一生懸命働けばだれでも一財産作れる。",
+    "english": "There's a fortune in the making for any hard worker."
+  },
+  {
+    "id": "190399",
+    "japanese": "一生懸命働く人は成功する。",
+    "english": "Those who work hard will succeed."
+  },
+  {
+    "id": "190400",
+    "japanese": "一生懸命働く事で夢を実現できる。",
+    "english": "You can make your dream come true by working hard."
+  },
+  {
+    "id": "190401",
+    "japanese": "一生懸命働くことによって夢を実現することができる。",
+    "english": "You can make your dream come true by working hard."
+  },
+  {
+    "id": "190410",
+    "japanese": "一生懸命努力することで夢を実現させることができるんだよ。",
+    "english": "You can make your dream come true by working hard."
+  },
+  {
+    "id": "9534641",
+    "japanese": "頑張ってやれば、夢を実現させることだってできるんだよ。",
+    "english": "You can make your dream come true by working hard."
+  },
+  {
+    "id": "190402",
+    "japanese": "一生懸命働きなさい、そうすれば成功するでしょう。",
+    "english": "Work hard, and you will succeed."
+  },
+  {
+    "id": "190403",
+    "japanese": "一生懸命働きなさい、そうすれば君の給料はだんだん上がるだろう。",
+    "english": "Work hard, and your salary will be raised by degrees."
+  },
+  {
+    "id": "190404",
+    "japanese": "一生懸命働かなければ君は成功しないだろう。",
+    "english": "You won't succeed unless you work hard."
+  },
+  {
+    "id": "175966",
+    "japanese": "激しい労働の後で一休みすることほど心地よいことはない。",
+    "english": "Nothing is more pleasant than taking a rest after hard work."
+  },
+  {
+    "id": "190405",
+    "japanese": "一生懸命働いた後に、休憩を取るほど楽しい事はない。",
+    "english": "Nothing is more pleasant than taking a rest after hard work."
+  },
+  {
+    "id": "190408",
+    "japanese": "一生懸命働いたあとに休息を取るほど楽しいことはない。",
+    "english": "Nothing is more pleasant than taking a rest after hard work."
+  },
+  {
+    "id": "190406",
+    "japanese": "一生懸命働いたので彼は疲れているに違いない。",
+    "english": "He must be tired after such hard work."
+  },
+  {
+    "id": "190407",
+    "japanese": "一生懸命働いたが、彼は相変わらず貧乏であった。",
+    "english": "He remained poor despite being a hard worker."
+  },
+  {
+    "id": "190409",
+    "japanese": "一生懸命働いた。",
+    "english": "He worked hard."
+  },
+  {
+    "id": "190411",
+    "japanese": "一生懸命努力して、彼はとうとう契約にこぎつけた。",
+    "english": "After much effort, he ended up with a contract."
+  },
+  {
+    "id": "190412",
+    "japanese": "一生懸命走ったけど、列車に乗り遅れた。",
+    "english": "I ran and ran, but missed the train."
+  },
+  {
+    "id": "190413",
+    "japanese": "一生懸命走ったが、列車に乗りそこなった。",
+    "english": "I ran and ran, but missed the train."
+  },
+  {
+    "id": "155965",
+    "japanese": "私は出来るだけ速く走った。",
+    "english": "I ran as fast as I could."
+  },
+  {
+    "id": "161485",
+    "japanese": "私はありったけの力を出して走った。",
+    "english": "I ran as fast as I could."
+  },
+  {
+    "id": "190415",
+    "japanese": "一生懸命走った。",
+    "english": "I ran as fast as I could."
+  },
+  {
+    "id": "190416",
+    "japanese": "一生懸命やったのはわかるが、それでも君の報告書は満足できるものではない。",
+    "english": "I know you worked very hard on it, but still I'm not satisfied with your report."
+  },
+  {
+    "id": "190418",
+    "japanese": "一生懸命頑張ってどうにかもう１羽折ることができた。",
+    "english": "With great effort she managed to fold one more."
+  },
+  {
+    "id": "190417",
+    "japanese": "一生懸命何をしてるんだい。",
+    "english": "What are you doing so hard?"
+  },
+  {
+    "id": "190419",
+    "japanese": "一生懸命やれば成功する。",
+    "english": "If he tries hard, he will succeed."
+  },
+  {
+    "id": "190420",
+    "japanese": "一生懸命やらなければ進歩はない。",
+    "english": "You can't get ahead if you don't work hard."
+  },
+  {
+    "id": "10669496",
+    "japanese": "頑張らないと前には進めないんだよ。",
+    "english": "You can't get ahead if you don't work hard."
+  },
+  {
+    "id": "190421",
+    "japanese": "一生懸命やったなら成功するだろうに。",
+    "english": "If he tried hard, he would succeed."
+  },
+  {
+    "id": "190424",
+    "japanese": "一生懸命に勉強しなければ決して良い成績はとれない。",
+    "english": "You cannot make a good mark without working hard."
+  },
+  {
+    "id": "190425",
+    "japanese": "一生懸命に働くことに決めたんだ。",
+    "english": "I decided that I was going to work as hard as I can."
+  },
+  {
+    "id": "190426",
+    "japanese": "一生懸命にやるつもりです。",
+    "english": "I mean to fight hard."
+  },
+  {
+    "id": "190427",
+    "japanese": "一生懸命することは君に勝利をもたらす。",
+    "english": "Hard work and dedication will bring you success."
+  },
+  {
+    "id": "190428",
+    "japanese": "一生懸命し続けることはいいことだ。",
+    "english": "It is good to keep studying all your life."
+  },
+  {
+    "id": "190429",
+    "japanese": "一生懸命がんばっても彼女の名前が思い出せない。",
+    "english": "I'm trying hard, but can't think of her name."
+  },
+  {
+    "id": "190430",
+    "japanese": "一生のうちで青春なんて一度しかない。",
+    "english": "Youth comes but once in life."
+  },
+  {
+    "id": "190431",
+    "japanese": "一生で一番恥ずかしいことです。",
+    "english": "This is the most embarrassing moment of my life."
+  },
+  {
+    "id": "190432",
+    "japanese": "一生で一番辛い経験といえるでしょう。",
+    "english": "That might be the most painful experience in my life."
+  },
+  {
+    "id": "190433",
+    "japanese": "一生懸命練習すれば英語がもっとうまく話せるようになるだろう。",
+    "english": "You'll be able to speak English better if you practice hard."
+  },
+  {
+    "id": "190434",
+    "japanese": "一生懸命努力すれば、あなたは成功するだろう。",
+    "english": "If you try very hard, you will succeed."
+  },
+  {
+    "id": "236690",
+    "japanese": "一生かかって蓄えた貯金をだまし取られてしまったのだった。",
+    "english": "I'd been cheated out of my life savings!"
+  },
+  {
+    "id": "190435",
+    "japanese": "一生懸命に勉強するのが私の仕事だと思う。",
+    "english": "I think it is my business to study hard."
+  },
+  {
+    "id": "190436",
+    "japanese": "一生かかっても、仕返ししてやるからな。",
+    "english": "I'll get even with you, if it takes me the rest of my life."
+  },
+  {
+    "id": "190437",
+    "japanese": "一世紀半混乱が続いた後に、やっと国王の権威が回復された。",
+    "english": "Only after a century and a half of confusion was the royal authority restored."
+  },
+  {
+    "id": "190438",
+    "japanese": "一寸先は闇。",
+    "english": "Who can read the future?"
+  },
+  {
+    "id": "190439",
+    "japanese": "一寸の虫にも五分の魂。",
+    "english": "The worm turns."
+  },
+  {
+    "id": "190440",
+    "japanese": "一陣の風をうけて帆がふくらんだ。",
+    "english": "A gust of wind swelled the sails."
+  },
+  {
+    "id": "190441",
+    "japanese": "一人旅ほど楽しいものはない。",
+    "english": "Nothing is so pleasant as traveling alone."
+  },
+  {
+    "id": "190442",
+    "japanese": "一人旅は危険だと言って両親は反対した。",
+    "english": "My parents objected to my traveling alone, saying it would be dangerous."
+  },
+  {
+    "id": "236721",
+    "japanese": "一人暮らしをはじめた。",
+    "english": "I began living by myself."
+  },
+  {
+    "id": "190443",
+    "japanese": "一人暮らしをしていると、お袋の味が恋しくなるよ。",
+    "english": "Living on my own, I really miss my mom's cooking."
+  },
+  {
+    "id": "190444",
+    "japanese": "一人息子を失ったことは彼らにとって大きな悲劇であった。",
+    "english": "It was a great tragedy for them to lose their only son."
+  },
+  {
+    "id": "190445",
+    "japanese": "一人取り残されて、その赤ん坊は泣き出した。",
+    "english": "Left alone, the baby began to cry."
+  },
+  {
+    "id": "190446",
+    "japanese": "一人殺せば悪人となるが何百万人を殺せば英雄となる。",
+    "english": "One murder makes a villain, millions a hero."
+  },
+  {
+    "id": "190447",
+    "japanese": "一人一人順番だって、自己紹介をした。",
+    "english": "Each man stood up in turn and introduced himself."
+  },
+  {
+    "id": "190448",
+    "japanese": "一人一人が戸口を掃けば、町はきれいになる。",
+    "english": "If each would sweep before the door, we should have a clean city."
+  },
+  {
+    "id": "190449",
+    "japanese": "一人を選んでくれ。",
+    "english": "Choose the one."
+  },
+  {
+    "id": "235734",
+    "japanese": "１人の他みんな出席した。",
+    "english": "All but one were present."
+  },
+  {
+    "id": "236989",
+    "japanese": "一人を除いて全員出席した。",
+    "english": "All but one were present."
+  },
+  {
+    "id": "190450",
+    "japanese": "一人を除いて全員が彼の計画に賛成した。",
+    "english": "All except one agreed to his plan."
+  },
+  {
+    "id": "190452",
+    "japanese": "一人ぼっちにされたので、その小さな女の子は泣きだした。",
+    "english": "Left alone, the little girl began to cry."
+  },
+  {
+    "id": "190453",
+    "japanese": "一人は教師で、もう一人は医者で、残りの一人は記者だ。",
+    "english": "One is a teacher, another is a doctor, and the other is a journalist."
+  },
+  {
+    "id": "190454",
+    "japanese": "一人はとどまり、もう一人は出て行った。",
+    "english": "One stayed and the other went away."
+  },
+  {
+    "id": "190455",
+    "japanese": "一人はいやだ。",
+    "english": "I dislike being alone."
+  },
+  {
+    "id": "190456",
+    "japanese": "一人の老婦人を除けばバスはがらがらだった。",
+    "english": "The bus was empty except for one elderly woman."
+  },
+  {
+    "id": "190457",
+    "japanese": "一人の老人が木陰で休んでいた。",
+    "english": "An old man was at rest under the tree."
+  },
+  {
+    "id": "190458",
+    "japanese": "一人の老人が私達の会話に割りこんできた。",
+    "english": "An old man broke into our conversation."
+  },
+  {
+    "id": "190459",
+    "japanese": "一人の老人がやってきた。",
+    "english": "An old man came along."
+  },
+  {
+    "id": "190460",
+    "japanese": "一人の目撃者は噂を聞いただけの１０人にまさる。",
+    "english": "One eyewitness is better than ten earwitnesses."
+  },
+  {
+    "id": "190461",
+    "japanese": "一人の父親は百人の学校長に優る。",
+    "english": "One father is more than a hundred schoolmasters."
+  },
+  {
+    "id": "190462",
+    "japanese": "一人の男が彼女に追いついた。",
+    "english": "A man overtook her."
+  },
+  {
+    "id": "190463",
+    "japanese": "一人の男が近づいてきた。",
+    "english": "A man drew near."
+  },
+  {
+    "id": "190464",
+    "japanese": "一人の男がつかつかと近づいてきて、マッチを貸して下さいと言った。",
+    "english": "A man came up to me and asked for a match."
+  },
+  {
+    "id": "142719",
+    "japanese": "生徒は誰もその質問に答えられませんでした。",
+    "english": "No student was able to answer the question."
+  },
+  {
+    "id": "190466",
+    "japanese": "一人の生徒もその質問に答えられなかった。",
+    "english": "No student was able to answer the question."
+  },
+  {
+    "id": "190465",
+    "japanese": "一人の男がその場に現れた。",
+    "english": "A man appeared at the site."
+  },
+  {
+    "id": "190467",
+    "japanese": "一人の乗客が気を失ったが、スチュワーデスが彼を正気づかせた。",
+    "english": "A passenger fainted, but the stewardess brought him round."
+  },
+  {
+    "id": "1193508",
+    "japanese": "乗客の一人が気を失ったが、客室乗務員が意識を回復させた。",
+    "english": "A passenger fainted, but the stewardess brought him round."
+  },
+  {
+    "id": "190468",
+    "japanese": "一人の少女が群衆の中から王様に近づいた。",
+    "english": "A girl approached the king from among the crowd."
+  },
+  {
+    "id": "190469",
+    "japanese": "一人の小さな男の子が道を横切っている。",
+    "english": "A boy is walking across the street."
+  },
+  {
+    "id": "190470",
+    "japanese": "一人の小さな女の子がしくしく泣いているのをみつけた。",
+    "english": "I found that there was a little girl sobbing."
+  },
+  {
+    "id": "190471",
+    "japanese": "一人の女性が木の後ろから現れた。",
+    "english": "A woman appeared from behind a tree."
+  },
+  {
+    "id": "190472",
+    "japanese": "一人の個人の中に幾千ものことなった人間がいる。",
+    "english": "Within every man are thousands."
+  },
+  {
+    "id": "190474",
+    "japanese": "一人のクルーカットの学生がバスの前方の座席に座っていた。",
+    "english": "A student with a crew cut was sitting in the front seat."
+  },
+  {
+    "id": "190475",
+    "japanese": "一人になるや否や、彼女はその手紙を開いた。",
+    "english": "The moment she was alone she opened the letter."
+  },
+  {
+    "id": "190476",
+    "japanese": "一人になると彼はこころゆくまで泣いた。",
+    "english": "When left alone, he cried to his heart's content."
+  },
+  {
+    "id": "190477",
+    "japanese": "一人になるとその子はいたずらを始めた。",
+    "english": "The little boy got into mischief when he was left alone."
+  },
+  {
+    "id": "190479",
+    "japanese": "一人になると、時々泣きたくなることがあります。",
+    "english": "Left alone, I sometimes feel like crying."
+  },
+  {
+    "id": "190478",
+    "japanese": "一人になると、赤ん坊は泣きながら寝入った。",
+    "english": "Left to itself, the baby cried itself to sleep."
+  },
+  {
+    "id": "152178",
+    "japanese": "私を１人にして。",
+    "english": "Leave me alone."
+  },
+  {
+    "id": "163415",
+    "japanese": "私の邪魔をしないでくれ。",
+    "english": "Leave me alone."
+  },
+  {
+    "id": "164830",
+    "japanese": "私にかまわないでください。",
+    "english": "Leave me alone."
+  },
+  {
+    "id": "190481",
+    "japanese": "一人にしておいて下さい。",
+    "english": "Leave me alone."
+  },
+  {
+    "id": "414248",
+    "japanese": "ほっといてくれ。",
+    "english": "Leave me alone."
+  },
+  {
+    "id": "1457484",
+    "japanese": "放っといて。",
+    "english": "Leave me alone."
+  },
+  {
+    "id": "10087734",
+    "japanese": "放っておいてくれ。",
+    "english": "Leave me alone."
+  },
+  {
+    "id": "190480",
+    "japanese": "一人になったとき、彼は本を読みはじめた。",
+    "english": "Left alone, he began to read a book."
+  },
+  {
+    "id": "162037",
+    "japanese": "私は一人で旅行するのが好きだ。",
+    "english": "I like to travel by myself."
+  },
+  {
+    "id": "190482",
+    "japanese": "一人で旅行するのが好きです。",
+    "english": "I like to travel by myself."
+  },
+  {
+    "id": "2231322",
+    "japanese": "私は一人旅が好きです。",
+    "english": "I like to travel by myself."
+  },
+  {
+    "id": "190483",
+    "japanese": "一人で旅をするほど楽しいものはない。",
+    "english": "Nothing is so pleasant as travelling alone."
+  },
+  {
+    "id": "190484",
+    "japanese": "一人で暮らすことには慣れたよ。",
+    "english": "I got accustomed to living alone."
+  },
+  {
+    "id": "190485",
+    "japanese": "一人で着物を着ることが出来ますか。",
+    "english": "Can you put on a kimono by yourself?"
+  },
+  {
+    "id": "190486",
+    "japanese": "一人で地下鉄に乗るのは危ないですか。",
+    "english": "Is it dangerous to take a subway alone?"
+  },
+  {
+    "id": "190487",
+    "japanese": "一人で大勢は助けられないが、大勢は一人が助けられる。",
+    "english": "One can't help many, but many can help one."
+  },
+  {
+    "id": "190488",
+    "japanese": "一人で生活するのは寂しい。",
+    "english": "It is lonely to live alone."
+  },
+  {
+    "id": "156293",
+    "japanese": "私は自分で行く代わりに、使いの者を送った。",
+    "english": "Instead of going myself, I sent a messenger."
+  },
+  {
+    "id": "156299",
+    "japanese": "私は自分でいかないで、使者を使った。",
+    "english": "Instead of going myself, I sent a messenger."
+  },
+  {
+    "id": "191799",
+    "japanese": "わたしは自分で行く代わりに、使いの者をやった。",
+    "english": "Instead of going myself, I sent a messenger."
+  },
+  {
+    "id": "1705635",
+    "japanese": "私は自分で行かないで、使者を行かせた。",
+    "english": "Instead of going myself, I sent a messenger."
+  },
+  {
+    "id": "1705636",
+    "japanese": "私は自分で行かないで、使者を送った。",
+    "english": "Instead of going myself, I sent a messenger."
+  },
+  {
+    "id": "190491",
+    "japanese": "一人で行くよりはむしろ家にいたい。",
+    "english": "I'd rather stay home than go alone."
+  },
+  {
+    "id": "190493",
+    "japanese": "一人で行かせてくれ。",
+    "english": "Let me go alone."
+  },
+  {
+    "id": "190490",
+    "japanese": "一人で行くのはいやです。",
+    "english": "I don't want to go alone."
+  },
+  {
+    "id": "1200175",
+    "japanese": "一人で行きたくない。",
+    "english": "I don't want to go alone."
+  },
+  {
+    "id": "190492",
+    "japanese": "一人で外出するのを許した。",
+    "english": "She allowed him to go alone."
+  },
+  {
+    "id": "190494",
+    "japanese": "一人で外出するとは彼女も不注意だった。",
+    "english": "It was careless of her to go out alone."
+  },
+  {
+    "id": "190495",
+    "japanese": "一人で海外旅行したいと彼女は思ったが、考え直してやめた。",
+    "english": "Though she wished to travel abroad by herself, she thought better of it."
+  },
+  {
+    "id": "190496",
+    "japanese": "一人ではピアノは運べません。",
+    "english": "You cannot lift the piano alone."
+  },
+  {
+    "id": "190497",
+    "japanese": "一人でその山に登るのは危険だと思います。",
+    "english": "I think it's dangerous to climb that mountain alone."
+  },
+  {
+    "id": "190498",
+    "japanese": "一人でこの机を動かせますか。",
+    "english": "Can you move this desk by yourself?"
+  },
+  {
+    "id": "190499",
+    "japanese": "一人でここに来たのですか。",
+    "english": "Did you come here alone?"
+  },
+  {
+    "id": "190501",
+    "japanese": "一人くらい増えても減ってもたいしたことはない。",
+    "english": "One person more or less doesn't make much difference."
+  },
+  {
+    "id": "190502",
+    "japanese": "一人あたり千ドル払った。",
+    "english": "Each individual paid 1,000 dollars."
+  },
+  {
+    "id": "190504",
+    "japanese": "入場料は一人10ドルです。",
+    "english": "The admission is ten dollars a person."
+  },
+  {
+    "id": "190505",
+    "japanese": "一身上の都合です。",
+    "english": "For personal reasons."
+  },
+  {
+    "id": "190506",
+    "japanese": "一心不乱に仕事に取り組むのは良いけれど、まわりが全然見えてないね。",
+    "english": "It's good to be able to concentrate single-mindedly on your work, but you're completely ignoring the people around you."
+  },
+  {
+    "id": "190507",
+    "japanese": "一食くらい食事を抜いてもたいしたことないよ。",
+    "english": "It won't hurt you to skip one meal."
+  },
+  {
+    "id": "190508",
+    "japanese": "一緒に連れて行って下さい。",
+    "english": "Take me with you."
+  },
+  {
+    "id": "164944",
+    "japanese": "私といっしょに来ませんか。",
+    "english": "Won't you come with me?"
+  },
+  {
+    "id": "190509",
+    "japanese": "一緒に来ませんか。",
+    "english": "Won't you come with me?"
+  },
+  {
+    "id": "190530",
+    "japanese": "一緒に行きませんか。",
+    "english": "Won't you come with me?"
+  },
+  {
+    "id": "190511",
+    "japanese": "一緒に来てくれませんか。",
+    "english": "Come with me, will you?"
+  },
+  {
+    "id": "190512",
+    "japanese": "一緒に来ていただけなかったのが残念です。",
+    "english": "I'm sorry for your not having come with us."
+  },
+  {
+    "id": "190513",
+    "japanese": "一緒に遊ばない？",
+    "english": "Would you play with me?"
+  },
+  {
+    "id": "2087321",
+    "japanese": "一緒に遊びませんか。",
+    "english": "Would you play with me?"
+  },
+  {
+    "id": "164890",
+    "japanese": "一緒に買い物に行きませんか。",
+    "english": "Won't you go shopping with me?"
+  },
+  {
+    "id": "190516",
+    "japanese": "一緒に働けるのを楽しみにしています。",
+    "english": "I'm looking forward to serving your company."
+  },
+  {
+    "id": "190518",
+    "japanese": "一緒に働いていたので彼らは家全体をすぐにきれいにした。",
+    "english": "Working together, they cleaned the entire house in no time."
+  },
+  {
+    "id": "105515",
+    "japanese": "彼は私達が一緒に仕事をしていた時いつも私をからかった。",
+    "english": "He was always pulling my leg when we worked together."
+  },
+  {
+    "id": "106361",
+    "japanese": "彼は私たちが一緒に働いていたとき終始私をからかっていた。",
+    "english": "He was always pulling my leg when we worked together."
+  },
+  {
+    "id": "106367",
+    "japanese": "一緒に仕事をしていたとき、彼はいつも私をからかってばかりいた。",
+    "english": "He was always pulling my leg when we worked together."
+  },
+  {
+    "id": "190517",
+    "japanese": "一緒に働いていた時、彼はいつも私をからかってばかりいた。",
+    "english": "He was always pulling my leg when we worked together."
+  },
+  {
+    "id": "190520",
+    "japanese": "一緒に釣りに行こう。",
+    "english": "Come along with me and go fishing."
+  },
+  {
+    "id": "190519",
+    "japanese": "一緒に田舎への旅に行ってもいいですか。",
+    "english": "Do you mind if I join your trip to the country?"
+  },
+  {
+    "id": "190521",
+    "japanese": "一緒に釣りに行くのはどうですか。",
+    "english": "What do you say to going fishing with me?"
+  },
+  {
+    "id": "190535",
+    "japanese": "一緒に魚釣りに行きませんか。",
+    "english": "What do you say to going fishing with me?"
+  },
+  {
+    "id": "190522",
+    "japanese": "一緒に走ってもいいですか。",
+    "english": "May I run with you?"
+  },
+  {
+    "id": "190523",
+    "japanese": "一緒に食事に出かけませんか。",
+    "english": "What do you say to dining out together?"
+  },
+  {
+    "id": "190537",
+    "japanese": "一緒に外で食事をしてはどうだろう。",
+    "english": "What do you say to dining out together?"
+  },
+  {
+    "id": "190524",
+    "japanese": "一緒に食事でもいかがですか。",
+    "english": "Would you like to have lunch together?"
+  },
+  {
+    "id": "190525",
+    "japanese": "一緒に食べにいきませんか。",
+    "english": "How about eating out with me?"
+  },
+  {
+    "id": "190526",
+    "japanese": "一緒に写真に入っていただけますか。",
+    "english": "Can I take your picture with us?"
+  },
+  {
+    "id": "190528",
+    "japanese": "一緒に行こう。私たちは川を泳いでわたって、熊の子を連れ去り、熊の子を連れて山の家へ行き、一緒に幸せを見つけることができる。",
+    "english": "Let us go together. We can swim across the river, carry off the bear cubs, take them to the house on the mountain, and together find happiness."
+  },
+  {
+    "id": "190529",
+    "japanese": "一緒に行けるといいのだけれど、実際はいけません。",
+    "english": "I wish I could go with you, but as it is, I can't."
+  },
+  {
+    "id": "190531",
+    "japanese": "一緒に行きたいのですが。",
+    "english": "I would like to go with you."
+  },
+  {
+    "id": "217216",
+    "japanese": "ご一緒したいものです。",
+    "english": "I would like to go with you."
+  },
+  {
+    "id": "226772",
+    "japanese": "お伴したいものです。",
+    "english": "I would like to go with you."
+  },
+  {
+    "id": "190532",
+    "japanese": "一緒に行かない？",
+    "english": "Do you want to come along?"
+  },
+  {
+    "id": "190545",
+    "japanese": "一緒にくるかい。",
+    "english": "Do you want to come along?"
+  },
+  {
+    "id": "190534",
+    "japanese": "一緒に協力して、さらに頑張ろう。",
+    "english": "Let's work together to do our best."
+  },
+  {
+    "id": "190536",
+    "japanese": "一緒に勘定して下さい。",
+    "english": "Put it on one bill, please."
+  },
+  {
+    "id": "190538",
+    "japanese": "一緒に英語の歌を歌おう。",
+    "english": "Let's sing some English songs together."
+  },
+  {
+    "id": "190539",
+    "japanese": "一緒に泳ぎませんか。",
+    "english": "Will you join us for a swim?"
+  },
+  {
+    "id": "190540",
+    "japanese": "一緒に泳ぎに行きませんか。",
+    "english": "Would you like to go swimming with us?"
+  },
+  {
+    "id": "190541",
+    "japanese": "一緒に映画を見に行きませんか。",
+    "english": "Would you like to go see a movie with me?"
+  },
+  {
+    "id": "190542",
+    "japanese": "一緒に飲みませんか。",
+    "english": "Will you join me for a drink?"
+  },
+  {
+    "id": "190543",
+    "japanese": "一緒には映画に行かない、と彼女は彼にきっぱり言った。",
+    "english": "She told him once and for all that she would not go to the movie with him."
+  },
+  {
+    "id": "190544",
+    "japanese": "一緒にコーヒーを飲みながら雑談をしませんか。",
+    "english": "Why don't you come in for a cup of coffee and a chat?"
+  },
+  {
+    "id": "190546",
+    "japanese": "一緒にいるのを見られたくない人と一緒にいるときに限って、知り合いに会うことが多い。",
+    "english": "When we are with a person we don't want to be seen with, we often meet someone we know."
+  },
+  {
+    "id": "190547",
+    "japanese": "一緒にいってやってみない？",
+    "english": "Do you want to come along and give it a go?"
+  },
+  {
+    "id": "190548",
+    "japanese": "一緒に行きます。",
+    "english": "I'm coming with you."
+  },
+  {
+    "id": "190550",
+    "japanese": "一所懸命働いて彼は成功した。",
+    "english": "Hard work has brought him success."
+  },
+  {
+    "id": "190551",
+    "japanese": "一所懸命になって彼はその木に登った。",
+    "english": "With great effort he climbed up the tree."
+  },
+  {
+    "id": "190552",
+    "japanese": "一瞬躊躇すればパイロットは命も落としかねない。",
+    "english": "A moment's hesitation may cost a pilot his life."
+  },
+  {
+    "id": "190553",
+    "japanese": "一瞬魔が差して盗んでしまった。",
+    "english": "I must have stolen it when I lost control of myself momentarily."
+  },
+  {
+    "id": "190554",
+    "japanese": "一瞬の間が生まれた。",
+    "english": "There was a momentary pause."
+  },
+  {
+    "id": "190555",
+    "japanese": "一瞬、彼は男を追いかけようかと思った。",
+    "english": "For a moment, he thought of going after the man."
+  },
+  {
+    "id": "190556",
+    "japanese": "一週間分の石炭を使ってしまった。",
+    "english": "We have used our ration of coal for the week."
+  },
+  {
+    "id": "190557",
+    "japanese": "一週間入院していたんです。",
+    "english": "I was in the hospital for a week."
+  },
+  {
+    "id": "10907087",
+    "japanese": "私は一週間入院した。",
+    "english": "I was in the hospital for a week."
+  },
+  {
+    "id": "190558",
+    "japanese": "一週間滞在する予定です。",
+    "english": "We plan to stay a week."
+  },
+  {
+    "id": "190559",
+    "japanese": "一週間熟考した末に新しい計画を考えついた。",
+    "english": "A week's reflection led to a new plan."
+  },
+  {
+    "id": "190560",
+    "japanese": "一週間後にそのＣＤを返すよ。",
+    "english": "I will give you back the CD in a week."
+  },
+  {
+    "id": "190562",
+    "japanese": "一週間雨が降り続いた。",
+    "english": "It kept raining for a week."
+  },
+  {
+    "id": "190563",
+    "japanese": "一週間以内にそれをやるなどはっきり言ってしまうな。",
+    "english": "Don't commit yourself to doing it within a week."
+  },
+  {
+    "id": "190565",
+    "japanese": "1週間以内にお届けします。",
+    "english": "We are able to deliver within a week."
+  },
+  {
+    "id": "190564",
+    "japanese": "一週間以内にその仕事を終えるでしょう。",
+    "english": "I'll finish the work in a week or less."
+  },
+  {
+    "id": "190566",
+    "japanese": "一週間メシ抜きだったよ。",
+    "english": "I went without food for a week."
+  },
+  {
+    "id": "190567",
+    "japanese": "一週間は七日です。",
+    "english": "There are seven days in a week."
+  },
+  {
+    "id": "975105",
+    "japanese": "1週間は、7日です。",
+    "english": "There are seven days in a week."
+  },
+  {
+    "id": "10206543",
+    "japanese": "一週間は７日です。",
+    "english": "There are seven days in a week."
+  },
+  {
+    "id": "190569",
+    "japanese": "一週間の有給休暇をください。",
+    "english": "I would like a week off with pay."
+  },
+  {
+    "id": "109991",
+    "japanese": "彼は一週間休みをとった。",
+    "english": "He took a week off."
+  },
+  {
+    "id": "9020785",
+    "japanese": "彼は一週間の休みをとった。",
+    "english": "He took a week off."
+  },
+  {
+    "id": "190571",
+    "japanese": "一週間のうちで何日学校に通いますか。",
+    "english": "How many days a week do you go to school?"
+  },
+  {
+    "id": "10766992",
+    "japanese": "週に何日学校に行ってるの？",
+    "english": "How many days a week do you go to school?"
+  },
+  {
+    "id": "148146",
+    "japanese": "週に何回お風呂に入りますか。",
+    "english": "How often a week do you take a bath?"
+  },
+  {
+    "id": "190572",
+    "japanese": "一週間に何回入浴しますか。",
+    "english": "How often a week do you take a bath?"
+  },
+  {
+    "id": "190573",
+    "japanese": "一週間に英語の授業が五回もある。",
+    "english": "We have five English classes a week."
+  },
+  {
+    "id": "190574",
+    "japanese": "一週間に１０冊も本を読むの？一ヶ月の間違いではないの？",
+    "english": "You can read ten books in a week? Don't you mean in a month?"
+  },
+  {
+    "id": "190575",
+    "japanese": "一週間で返すならお金を貸してあげる。",
+    "english": "I will lend you some money, on the condition that you repay it in a week."
+  },
+  {
+    "id": "11897903",
+    "japanese": "公園で劇の台詞を覚えなければならなかった。",
+    "english": "We had to memorize the lines of the play in the park."
+  },
+  {
+    "id": "190577",
+    "japanese": "一週間たたないうちに彼に会うだろう。",
+    "english": "I shall see him in less than a week."
+  },
+  {
+    "id": "190578",
+    "japanese": "一週間ずっと天気がよい。",
+    "english": "The weather has been nice all week."
+  },
+  {
+    "id": "9841987",
+    "japanese": "ここ一週間ずっと天気いいよ。",
+    "english": "The weather has been nice all week."
+  },
+  {
+    "id": "190579",
+    "japanese": "一週間ずっと一人だったので話し相手に飢えていた。",
+    "english": "I'd been on my own all week and was starving for conversation."
+  },
+  {
+    "id": "190581",
+    "japanese": "一時的なものです。",
+    "english": "It's a temporary condition."
+  },
+  {
+    "id": "190583",
+    "japanese": "一時期は、コーラにはまって、毎日のように飲んでたよ。",
+    "english": "For a while, I was really into cola, drinking it every day."
+  },
+  {
+    "id": "190585",
+    "japanese": "一時間待ったが彼はあらわれなかった。",
+    "english": "I waited for an hour, but he didn't appear."
+  },
+  {
+    "id": "190584",
+    "japanese": "一時間半もずっと待っていたのです。",
+    "english": "I've been waiting for one and a half-hours."
+  },
+  {
+    "id": "190586",
+    "japanese": "一時間前に彼女に会ったよ。",
+    "english": "I met her an hour ago."
+  },
+  {
+    "id": "190587",
+    "japanese": "一時間前に雪が降り止みました。",
+    "english": "It stopped snowing an hour ago."
+  },
+  {
+    "id": "190588",
+    "japanese": "一時間車に乗って私達は空港に着きました。",
+    "english": "An hour's drive brought us to the airport."
+  },
+  {
+    "id": "190589",
+    "japanese": "一時間以上も待ったんだよ。",
+    "english": "I've been waiting for you for over an hour."
+  },
+  {
+    "id": "190590",
+    "japanese": "一時間もたたないうちに帰ってきます。",
+    "english": "I'll be back within an hour."
+  },
+  {
+    "id": "235776",
+    "japanese": "１時間以内に戻ってきます。",
+    "english": "I'll be back within an hour."
+  },
+  {
+    "id": "190591",
+    "japanese": "一時間もすればまず間違いなく晴れるだろう。",
+    "english": "Ten to one it'll clear up in an hour or so."
+  },
+  {
+    "id": "235780",
+    "japanese": "１時間もすれば間違いなく晴れるだろう。",
+    "english": "Ten to one it'll clear up in an hour or so."
+  },
+  {
+    "id": "190592",
+    "japanese": "一時間もあなたを恋しく思わないことはできない。",
+    "english": "Scarcely an hour goes by that I don't I think of you with love."
+  },
+  {
+    "id": "190593",
+    "japanese": "一時間ほど君の自転車を貸してくれないか。",
+    "english": "Will you lend me your bicycle for an hour?"
+  },
+  {
+    "id": "190594",
+    "japanese": "一時間で君の家に着くはずだ。",
+    "english": "He should get to your house in an hour."
+  },
+  {
+    "id": "190595",
+    "japanese": "一時間でそのリストを作成できると思いますか。",
+    "english": "Do you think you can make out the list in an hour?"
+  },
+  {
+    "id": "190596",
+    "japanese": "一時間ぐらいの間、私の代わりに受付をやってください。",
+    "english": "Please cover for me at the reception desk for about one hour."
+  },
+  {
+    "id": "190599",
+    "japanese": "一事が万事。",
+    "english": "He who steals a pin will steal an ox."
+  },
+  {
+    "id": "143235",
+    "japanese": "成功ほど続いて起こるものはない。",
+    "english": "Nothing succeeds like success."
+  },
+  {
+    "id": "190598",
+    "japanese": "一事成れば万事成る。",
+    "english": "Nothing succeeds like success."
+  },
+  {
+    "id": "190597",
+    "japanese": "一時、私たちは敵だったが、和解したからには、もう親しい間柄である。",
+    "english": "At one time we were enemies, but we've buried the hatchet and we are now on friendly terms with each other."
+  },
+  {
+    "id": "190600",
+    "japanese": "一子相伝の技と言うわりには、彼の蹴りは大した事はないね。",
+    "english": "For a guy who was chosen by his father as the only son to be taught the secrets of this martial art, he doesn't have that much of a kick."
+  },
+  {
+    "id": "190601",
+    "japanese": "一冊の本に４０ドルも支払えない。",
+    "english": "I can't afford $40 for one book!"
+  },
+  {
+    "id": "10039956",
+    "japanese": "本１冊のために４０ドルは払えないよ。",
+    "english": "I can't afford $40 for one book!"
+  },
+  {
+    "id": "190602",
+    "japanese": "一昨日成田に着きました。",
+    "english": "I arrived at Narita the day before yesterday."
+  },
+  {
+    "id": "190603",
+    "japanese": "一昨日からの雨ですが、午後には晴れるでしょう。",
+    "english": "It has been raining since the day before yesterday, but it may clear up this afternoon."
+  },
+  {
+    "id": "190604",
+    "japanese": "一昨日から、雨が降ったりやんだりしている。",
+    "english": "It has been raining on and off since the day before yesterday."
+  }
+]

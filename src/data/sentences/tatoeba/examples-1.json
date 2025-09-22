@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "8612284",
+    "japanese": "そのやり方を教えて。",
+    "english": "Teach me how you do it."
+  },
+  {
+    "id": "8612285",
+    "japanese": "どうやればいいか教えて。",
+    "english": "Teach me how you do it."
+  },
+  {
+    "id": "80927",
+    "japanese": "無事に便りなし。",
+    "english": "No news is good news."
+  },
+  {
+    "id": "83335",
+    "japanese": "便りがないのは良い知らせ。",
+    "english": "No news is good news."
+  },
+  {
+    "id": "3357775",
+    "japanese": "これを期待していたんだ！",
+    "english": "I was expecting it!"
+  },
+  {
+    "id": "349135",
+    "japanese": "待合室で少々お待ちください。",
+    "english": "Wait in the waiting room."
+  },
+  {
+    "id": "349111",
+    "japanese": "あの人がそんなにたくさん飲んだと僕は知らなかった。",
+    "english": "I didn't know he drank so much."
+  },
+  {
+    "id": "1078970",
+    "japanese": "フルーツジュースが欲しいですか？",
+    "english": "Do you want fruit juice?"
+  },
+  {
+    "id": "99881",
+    "japanese": "彼はいい人です。",
+    "english": "He's a good person."
+  },
+  {
+    "id": "229344",
+    "japanese": "いい人です。",
+    "english": "He's a good person."
+  },
+  {
+    "id": "819032",
+    "japanese": "お召し上がれ。",
+    "english": "Enjoy your meal!"
+  },
+  {
+    "id": "819033",
+    "japanese": "お召し上がり下さい。",
+    "english": "Enjoy your meal!"
+  },
+  {
+    "id": "819034",
+    "japanese": "どうぞ、お召し上がれ。",
+    "english": "Enjoy your meal!"
+  },
+  {
+    "id": "1614248",
+    "japanese": "愛に嫉妬はつきもの。",
+    "english": "There's no love without jealousy."
+  },
+  {
+    "id": "991992",
+    "japanese": "俺たちは同類だよ。",
+    "english": "We are cut from the same cloth."
+  },
+  {
+    "id": "1148685",
+    "japanese": "壁に耳あり。",
+    "english": "The walls have ears."
+  },
+  {
+    "id": "12188436",
+    "japanese": "声がガラガラだよ。",
+    "english": "I've got a frog in my throat."
+  },
+  {
+    "id": "147177",
+    "japanese": "勝手に何でも使って。",
+    "english": "Make yourself at home."
+  },
+  {
+    "id": "184139",
+    "japanese": "楽にしてね。",
+    "english": "Make yourself at home."
+  },
+  {
+    "id": "201286",
+    "japanese": "どうぞ気楽にして下さい。",
+    "english": "Make yourself at home."
+  },
+  {
+    "id": "201287",
+    "japanese": "どうぞ楽になって下さい。",
+    "english": "Make yourself at home."
+  },
+  {
+    "id": "225652",
+    "japanese": "くつろいでいて下さい。",
+    "english": "Make yourself at home."
+  },
+  {
+    "id": "227368",
+    "japanese": "楽になさってください。",
+    "english": "Make yourself at home."
+  },
+  {
+    "id": "227752",
+    "japanese": "おくつろぎ下さい。",
+    "english": "Make yourself at home."
+  },
+  {
+    "id": "3082763",
+    "japanese": "聞いちゃだめだ。彼はいい加減な事を言っている。",
+    "english": "Don't listen to him, he's talking nonsense."
+  },
+  {
+    "id": "1200901",
+    "japanese": "もうそれはいらない。",
+    "english": "I don't want it anymore."
+  },
+  {
+    "id": "897044",
+    "japanese": "彼は数回来ました。",
+    "english": "He came several times."
+  },
+  {
+    "id": "724628",
+    "japanese": "我々は友人のことを考えねばなりません。",
+    "english": "We must think about friends."
+  },
+  {
+    "id": "897045",
+    "japanese": "お風呂に入ってくるよ。",
+    "english": "I'm going to take a bath."
+  },
+  {
+    "id": "350073",
+    "japanese": "電車で出発しました。",
+    "english": "We left by train."
+  },
+  {
+    "id": "1849430",
+    "japanese": "私達は電車で出発しました。",
+    "english": "We left by train."
+  },
+  {
+    "id": "533471",
+    "japanese": "食べ過ぎると太る。",
+    "english": "If you eat too much, you'll become fat."
+  },
+  {
+    "id": "4260179",
+    "japanese": "食べすぎると太るよ。",
+    "english": "If you eat too much, you'll become fat."
+  },
+  {
+    "id": "897046",
+    "japanese": "いらっしゃいませんか？",
+    "english": "Would you like to come?"
+  },
+  {
+    "id": "349103",
+    "japanese": "それは本当だと思った。",
+    "english": "I thought it was true."
+  },
+  {
+    "id": "724627",
+    "japanese": "ここが前に話した街です。",
+    "english": "This is the town I told you about."
+  },
+  {
+    "id": "5326",
+    "japanese": "土曜日までに本を返さなければなりません。",
+    "english": "I have to give back the book before Saturday."
+  },
+  {
+    "id": "5327",
+    "japanese": "ハロー、問題が解決したよ。以上お知らせでした。",
+    "english": "Hi, I just wanted to let you know that the problem is fixed."
+  },
+  {
+    "id": "5328",
+    "japanese": "どうしてノートパソコンは持っているのに携帯電話は持っていないの？",
+    "english": "How can you have a laptop and not a cell phone?"
+  },
+  {
+    "id": "5329",
+    "japanese": "私は友達とビールを飲みに行った。",
+    "english": "I went to drink a beer with friends."
+  },
+  {
+    "id": "5330",
+    "japanese": "彼らは言い争いをした。",
+    "english": "They quarreled."
+  },
+  {
+    "id": "5331",
+    "japanese": "私はキャビアを食べた。",
+    "english": "I ate caviar."
+  },
+  {
+    "id": "329791",
+    "japanese": "このナイフは私にはとても便利でした。",
+    "english": "This knife was very useful to me."
+  },
+  {
+    "id": "1019501",
+    "japanese": "君は違う鍵を取った。",
+    "english": "You took the wrong key."
+  },
+  {
+    "id": "139686",
+    "japanese": "何とか入れた。",
+    "english": "I managed to get in."
+  },
+  {
+    "id": "5332",
+    "japanese": "いくらですか？",
+    "english": "How much is it?"
+  },
+  {
+    "id": "1531858",
+    "japanese": "それはいくらですか。",
+    "english": "How much is it?"
+  },
+  {
+    "id": "5334",
+    "japanese": "すぐに伝票をお持ちします。",
+    "english": "I'll bring you the bill immediately."
+  },
+  {
+    "id": "138760",
+    "japanese": "はい、おつりです。",
+    "english": "Here is your change."
+  },
+  {
+    "id": "138759",
+    "japanese": "チップを置きましたか。",
+    "english": "Did you leave a tip?"
+  },
+  {
+    "id": "138758",
+    "japanese": "チケットを忘れないでください。",
+    "english": "Don't forget the ticket."
+  },
+  {
+    "id": "4067860",
+    "japanese": "チケットを忘れないように。",
+    "english": "Don't forget the ticket."
+  },
+  {
+    "id": "5335",
+    "japanese": "ごめん、お釣りが無い。",
+    "english": "I'm sorry, I don't have change."
+  },
+  {
+    "id": "5336",
+    "japanese": "状況は私たちが思っていたよりも悪い。",
+    "english": "The situation is worse than we believed."
+  },
+  {
+    "id": "1099134",
+    "japanese": "我々は最悪の事態を考えておかなければいけない。",
+    "english": "We have to expect the worst."
+  },
+  {
+    "id": "5337",
+    "japanese": "彼らはなぜなのかさえ知らない。",
+    "english": "They don't even know why."
+  },
+  {
+    "id": "5338",
+    "japanese": "私はあなたに本当のことを言って欲しい。",
+    "english": "I want you to tell me the truth."
+  },
+  {
+    "id": "161740",
+    "japanese": "私には本当のことを話してもらいたい。",
+    "english": "I want you to tell me the truth."
+  },
+  {
+    "id": "5339",
+    "japanese": "あなたは私が出発してから到着した。",
+    "english": "You arrived at the moment I left."
+  },
+  {
+    "id": "138756",
+    "japanese": "誰が私たちと一緒に来るのか知りたい。",
+    "english": "I want to know who is coming with us."
+  },
+  {
+    "id": "138754",
+    "japanese": "フィレンツェはイタリアのもっとも美しい都市です。",
+    "english": "Florence is the most beautiful city in Italy."
+  },
+  {
+    "id": "5340",
+    "japanese": "私は友達に話しかけた。",
+    "english": "I talked to friends."
+  },
+  {
+    "id": "5341",
+    "japanese": "映画は2時に始まった。",
+    "english": "The film started at 2 o'clock."
+  },
+  {
+    "id": "5342",
+    "japanese": "映画は2時間続いた。",
+    "english": "The film lasted 2 hours."
+  },
+  {
+    "id": "5343",
+    "japanese": "あなたが戻って来てくれて嬉しいです。",
+    "english": "I'm glad to see you back."
+  },
+  {
+    "id": "5344",
+    "japanese": "あなたはすっかり変わりましたね。",
+    "english": "You changed a lot."
+  },
+  {
+    "id": "724624",
+    "japanese": "彼を知る人は彼の事が好きです。",
+    "english": "Those who know him like him."
+  },
+  {
+    "id": "5345",
+    "japanese": "何が起きたのか話して下さい。",
+    "english": "Tell me what happened."
+  },
+  {
+    "id": "5346",
+    "japanese": "彼女達は真面目な子たちです。",
+    "english": "They are sensible girls."
+  },
+  {
+    "id": "5347",
+    "japanese": "あなたって、なんてきれいなんでしょう！",
+    "english": "How beautiful you are!"
+  },
+  {
+    "id": "232236",
+    "japanese": "あなたは何と美しいのでしょう。",
+    "english": "How beautiful you are!"
+  },
+  {
+    "id": "138742",
+    "japanese": "働くより楽しむほうが簡単である。",
+    "english": "It's easier to have fun than to work."
+  },
+  {
+    "id": "5348",
+    "japanese": "あなたはもっと仕事をしなければなりません。",
+    "english": "You must work more."
+  },
+  {
+    "id": "138741",
+    "japanese": "あなたが思っているより難しい。",
+    "english": "It's more difficult than you think."
+  },
+  {
+    "id": "897047",
+    "japanese": "彼には賛成できません。",
+    "english": "I don't agree with him."
+  },
+  {
+    "id": "145552",
+    "japanese": "心熱けれど肉体は弱し。",
+    "english": "The spirit is willing, but the flesh is weak."
+  },
+  {
+    "id": "138740",
+    "japanese": "やるべきことがたくさんあります。手伝ってほしいですか。",
+    "english": "There's quite a lot of things to do; do you want some help?"
+  },
+  {
+    "id": "1508616",
+    "japanese": "彼がそのニュースを新聞で読んで知りました。",
+    "english": "He learned the news while reading the newspaper."
+  },
+  {
+    "id": "419899",
+    "japanese": "そのことをする時間があるか分からない。",
+    "english": "I don't know if I'll have time to do it."
+  },
+  {
+    "id": "934612",
+    "japanese": "都会では気付かれず通り過ぎることもあるだろうが、村の中ではそうはいかない。",
+    "english": "In a town you may pass unnoticed, whereas in a village it's impossible."
+  },
+  {
+    "id": "127749",
+    "japanese": "子供のころ、私は一人、自室で何時間も本を読んで過ごしたものだった。",
+    "english": "When I was a child, I would spend hours reading alone in my room."
+  },
+  {
+    "id": "897050",
+    "japanese": "狼は普通、人々を襲ったりしません。",
+    "english": "Wolves won't usually attack people."
+  },
+  {
+    "id": "724630",
+    "japanese": "「どなたか手伝って戴けませんか？」「はい。私でよろしければ」",
+    "english": "\"Can somebody help me?\" \"I will.\""
+  },
+  {
+    "id": "138784",
+    "japanese": "出る時にドアをお閉めください。",
+    "english": "Please will you close the door when you go out."
+  },
+  {
+    "id": "176882",
+    "japanese": "君は僕に風邪をうつした。",
+    "english": "You've given me your cold."
+  },
+  {
+    "id": "398073",
+    "japanese": "ああ！　もし私がお金持ちだったら、スペインに自分の家を買ったのに。",
+    "english": "Ah! If I were rich, I'd buy myself a house in Spain."
+  },
+  {
+    "id": "2212396",
+    "japanese": "ああ！ もし私がお金持ちだったら、スペインに家を買うのに。",
+    "english": "Ah! If I were rich, I'd buy myself a house in Spain."
+  },
+  {
+    "id": "916412",
+    "japanese": "彼女の庭は芸術作品です。",
+    "english": "Her garden is a work of art."
+  },
+  {
+    "id": "1168428",
+    "japanese": "私は魚よりもむしろ鳥になりたい。",
+    "english": "I'd rather be a bird than a fish."
+  },
+  {
+    "id": "1168429",
+    "japanese": "私はどちらかといえば魚より鳥になりたい。",
+    "english": "I'd rather be a bird than a fish."
+  },
+  {
+    "id": "4704",
+    "japanese": "何してるの？",
+    "english": "What are you doing?"
+  },
+  {
+    "id": "4706",
+    "japanese": "お誕生日おめでとうムーリエル！",
+    "english": "Happy birthday, Muiriel!"
+  },
+  {
+    "id": "4710",
+    "japanese": "知らない。",
+    "english": "I don't know."
+  },
+  {
+    "id": "4718",
+    "japanese": "先程、どういうわけかマイクが入りませんでした。",
+    "english": "For some reason the microphone didn't work earlier."
+  },
+  {
+    "id": "176883",
+    "japanese": "君は僕に電話する必要はない。",
+    "english": "You need not telephone me."
+  },
+  {
+    "id": "176884",
+    "japanese": "君は僕に多額の借金があるのだと、ブライアンはくり返しクリスに言いました。",
+    "english": "Brian repeatedly told Chris that he owed him a pretty large amount of money."
+  },
+  {
+    "id": "177644",
+    "japanese": "君はどうして私にそんなことが言えるのか。",
+    "english": "How dare you say such a thing to me?"
+  },
+  {
+    "id": "176886",
+    "japanese": "君は僕にないものねだりをしているね。",
+    "english": "You ask me to do the impossible."
+  },
+  {
+    "id": "4734",
+    "japanese": "心配しないで。",
+    "english": "Don't worry about it!"
+  },
+  {
+    "id": "4792",
+    "japanese": "傷を付けたのは私だけど、こんなの簡単に直せる傷よ。",
+    "english": "I was the one who scratched it, but this kind of scratch is easy to fix."
+  },
+  {
+    "id": "4824",
+    "japanese": "何が起きたの？",
+    "english": "What happened?"
+  },
+  {
+    "id": "4830",
+    "japanese": "恐い話が聞きたいなら、数週間前に私が見た夢のことを話してあげるよ。",
+    "english": "If you want to hear a scary story, I'll tell you about a dream I had a few weeks ago."
+  },
+  {
+    "id": "4834",
+    "japanese": "君は本当は馬鹿ではない。",
+    "english": "You are not actually an idiot."
+  },
+  {
+    "id": "176887",
+    "japanese": "君は僕と同様、物覚えが悪い。",
+    "english": "You are no better at remembering things than I am."
+  },
+  {
+    "id": "176888",
+    "japanese": "君は僕と同じ背の高さです。",
+    "english": "You are as tall as I am."
+  },
+  {
+    "id": "176889",
+    "japanese": "君は僕と同じラケットを持っている。",
+    "english": "You have the same racket as I have."
+  },
+  {
+    "id": "89598",
+    "japanese": "彼女は私と同じくらい本を持っている。",
+    "english": "She has as many books as I."
+  },
+  {
+    "id": "4955",
+    "japanese": "３年前に東京へ来て以来ここに住んでいる。",
+    "english": "I came to Tokyo three years ago and have been living here ever since."
+  },
+  {
+    "id": "4956",
+    "japanese": "１か月あまり名古屋に居たことがある。",
+    "english": "I lived for more than a month in Nagoya."
+  },
+  {
+    "id": "4964",
+    "japanese": "それで誰もあなたを助けなかったの？",
+    "english": "And nobody helped you?"
+  },
+  {
+    "id": "5033",
+    "japanese": "私はいつも思っていた、心筋梗塞を患うことは死期を知らせる前兆だと。",
+    "english": "I always thought that suffering a heart attack was an omen of death."
+  },
+  {
+    "id": "5059",
+    "japanese": "何時ですか。",
+    "english": "What time do you have?"
+  },
+  {
+    "id": "5060",
+    "japanese": "ご出身はどちらですか。",
+    "english": "Where do you come from?"
+  },
+  {
+    "id": "5061",
+    "japanese": "あなたの名前は？",
+    "english": "What is your name?"
+  },
+  {
+    "id": "5070",
+    "japanese": "賛成です。",
+    "english": "I agree with you."
+  },
+  {
+    "id": "5075",
+    "japanese": "ひとりにさせて！",
+    "english": "Leave me alone!"
+  },
+  {
+    "id": "5078",
+    "japanese": "おいくつですか？",
+    "english": "How old are you?"
+  },
+  {
+    "id": "5094",
+    "japanese": "赤い冷蔵庫を見たことがない。",
+    "english": "I have never seen a red refrigerator."
+  },
+  {
+    "id": "5095",
+    "japanese": "彼は約束を破った。",
+    "english": "He broke his word."
+  },
+  {
+    "id": "5160",
+    "japanese": "野菜を食べたら？",
+    "english": "Why don't you eat some vegetables?"
+  },
+  {
+    "id": "5164",
+    "japanese": "創造説は擬似科学だ。",
+    "english": "Creationism is pseudoscience."
+  },
+  {
+    "id": "5188",
+    "japanese": "あなたは正しい。",
+    "english": "You're right."
+  },
+  {
+    "id": "5203",
+    "japanese": "君の助けが必要なんだ。",
+    "english": "I need your help."
+  },
+  {
+    "id": "5209",
+    "japanese": "私はあなたが送ってくれた手紙を読んでいました。",
+    "english": "I was reading the letter you sent me."
+  },
+  {
+    "id": "5230",
+    "japanese": "もっと時間が必要だ。",
+    "english": "I need more time."
+  },
+  {
+    "id": "5244",
+    "japanese": "小規模の森林火災はみるみる広がり大火災となった。",
+    "english": "A small forest fire quickly spread and became a huge conflagration."
+  },
+  {
+    "id": "5275",
+    "japanese": "学校は好きじゃない。",
+    "english": "I don't like school."
+  },
+  {
+    "id": "5298",
+    "japanese": "きょう何を昼食に食べましたか。",
+    "english": "What did you eat for lunch today?"
+  },
+  {
+    "id": "5320",
+    "japanese": "どこに行きますか？",
+    "english": "Where are you going to?"
+  },
+  {
+    "id": "5323",
+    "japanese": "どこから来ましたか？",
+    "english": "Where are you from?"
+  },
+  {
+    "id": "5325",
+    "japanese": "何歳ですか。",
+    "english": "How old is he?"
+  },
+  {
+    "id": "5333",
+    "japanese": "クレジットカードでも良いですか？",
+    "english": "Do you accept credit cards?"
+  },
+  {
+    "id": "5349",
+    "japanese": "成功だ！",
+    "english": "We succeeded!"
+  },
+  {
+    "id": "138768",
+    "japanese": "我々は彼をすぐに病院へ連れていかねばならない。彼は重症だ。",
+    "english": "We have to take him to the hospital immediately; he is seriously injured!"
+  },
+  {
+    "id": "138757",
+    "japanese": "教えてよ！",
+    "english": "Tell me about it!"
+  },
+  {
+    "id": "138738",
+    "japanese": "どのフォルダにファイルを保存しましたか。",
+    "english": "In which folder did you save the file?"
+  },
+  {
+    "id": "5993",
+    "japanese": "マリアさんの髪は長いです。",
+    "english": "Maria has long hair."
+  },
+  {
+    "id": "5996",
+    "japanese": "あしたは、来なくていいよ。",
+    "english": "You don't have to come tomorrow."
+  },
+  {
+    "id": "3023059",
+    "japanese": "明日は来なくていいですよ。",
+    "english": "You don't have to come tomorrow."
+  },
+  {
+    "id": "3023061",
+    "japanese": "明日は来なくてもいいですよ。",
+    "english": "You don't have to come tomorrow."
+  },
+  {
+    "id": "6001",
+    "japanese": "薬を飲まなければなりません。",
+    "english": "I have to take medicine."
+  },
+  {
+    "id": "6004",
+    "japanese": "ここで写真を撮らないでください。",
+    "english": "Please do not take photos here."
+  },
+  {
+    "id": "6006",
+    "japanese": "奈良は静かで、きれいな町です。",
+    "english": "Nara is a quiet and beautiful city."
+  },
+  {
+    "id": "6010",
+    "japanese": "公園を散歩しています。",
+    "english": "I'm taking a walk in a park."
+  },
+  {
+    "id": "2313071",
+    "japanese": "公園で散歩なう。",
+    "english": "I'm taking a walk in a park."
+  },
+  {
+    "id": "6013",
+    "japanese": "私の趣味は音楽を聞くことです。",
+    "english": "My hobby is to listen to music."
+  },
+  {
+    "id": "6015",
+    "japanese": "いくら考えても、わかりません。",
+    "english": "No matter how much I consider it I do not understand."
+  },
+  {
+    "id": "6018",
+    "japanese": "暇だったら、手伝ってください。",
+    "english": "If you are free, give me a hand."
+  },
+  {
+    "id": "6021",
+    "japanese": "日曜日でも、働きます。",
+    "english": "I work even on Sunday."
+  },
+  {
+    "id": "897054",
+    "japanese": "それは随分昔に起きたことです。",
+    "english": "It happened a long time ago."
+  },
+  {
+    "id": "172609",
+    "japanese": "今までどこに行っていたの？",
+    "english": "Where have you been?"
+  },
+  {
+    "id": "200885",
+    "japanese": "どこへ行っていたのですか。",
+    "english": "Where have you been?"
+  },
+  {
+    "id": "2972360",
+    "japanese": "どこにいたの？",
+    "english": "Where have you been?"
+  },
+  {
+    "id": "3878052",
+    "japanese": "どこ行ってたの？",
+    "english": "Where have you been?"
+  },
+  {
+    "id": "138739",
+    "japanese": "一晩中雪が降っています。",
+    "english": "It's been snowing all night."
+  },
+  {
+    "id": "6039",
+    "japanese": "どうしてそんなに日本の歴史に詳しいの？",
+    "english": "How come you know so much about Japanese history?"
+  },
+  {
+    "id": "138735",
+    "japanese": "明かりをつけてくれませんか。",
+    "english": "Could you turn on the light, please?"
+  },
+  {
+    "id": "138734",
+    "japanese": "その交差点を右に曲がってください。",
+    "english": "Turn right at the crossroad."
+  },
+  {
+    "id": "96822",
+    "japanese": "彼らは錠を下ろすのを忘れた。",
+    "english": "They forgot to lock the door."
+  },
+  {
+    "id": "6056",
+    "japanese": "彼は1888年7月28日に生まれました。",
+    "english": "He was born on July 28th, 1888."
+  },
+  {
+    "id": "138732",
+    "japanese": "面接はどうでしたか。",
+    "english": "How did your interview go?"
+  },
+  {
+    "id": "138733",
+    "japanese": "私は手紙を書かねばなりません。紙を持っていますか。",
+    "english": "I have to write a letter. Do you have some paper?"
+  },
+  {
+    "id": "138731",
+    "japanese": "頼みを聞いてくれませんか。",
+    "english": "Could you do me a favour please?"
+  },
+  {
+    "id": "897055",
+    "japanese": "彼女は私に怒っています。",
+    "english": "She is mad at me."
+  },
+  {
+    "id": "192000",
+    "japanese": "わが目を疑っちゃうなあ。",
+    "english": "I can't believe my eyes."
+  },
+  {
+    "id": "79979",
+    "japanese": "目には目を、歯には歯を。",
+    "english": "An eye for an eye, a tooth for a tooth."
+  },
+  {
+    "id": "138729",
+    "japanese": "「兄弟はいますか？」「いいえ、一人っ子です」",
+    "english": "\"Do you have any siblings?\" \"No, I'm an only child.\""
+  },
+  {
+    "id": "176891",
+    "japanese": "君は僕と一緒に来るのだ。",
+    "english": "You are to come with me."
+  },
+  {
+    "id": "176892",
+    "japanese": "君は僕と一緒に行かなければならないよ。",
+    "english": "You have to come with me."
+  },
+  {
+    "id": "511550",
+    "japanese": "あなたは私と一緒に来なければいけません。",
+    "english": "You have to come with me."
+  },
+  {
+    "id": "176893",
+    "japanese": "君は僕が言ったことに腹を立てているのか。",
+    "english": "Are you angry at what I said?"
+  },
+  {
+    "id": "10538095",
+    "japanese": "私が言ったことに怒ってるの？",
+    "english": "Are you angry at what I said?"
+  },
+  {
+    "id": "176894",
+    "japanese": "君は暴力行使を正当化することができますか。",
+    "english": "Can you justify the use of violence?"
+  },
+  {
+    "id": "176895",
+    "japanese": "君は忙しい人なのだから、私が君の予定に合わせます。",
+    "english": "You are a busy man, so I will adjust myself to your schedule."
+  },
+  {
+    "id": "176896",
+    "japanese": "君は法律に従わなければならない。",
+    "english": "You are supposed to obey the law."
+  },
+  {
+    "id": "176898",
+    "japanese": "君は簿記ができますか。",
+    "english": "Can you do bookkeeping?"
+  },
+  {
+    "id": "176897",
+    "japanese": "方向音痴なんだね。",
+    "english": "You have no sense of direction."
+  },
+  {
+    "id": "176900",
+    "japanese": "君は文法の練習をしなければならない。",
+    "english": "You must practice grammar."
+  },
+  {
+    "id": "176899",
+    "japanese": "君は保健室に行った方がいいぞ。",
+    "english": "You had better go to the infirmary."
+  },
+  {
+    "id": "176901",
+    "japanese": "君は分別があるのだから、女性に年齢を聞いてはならない。",
+    "english": "You should know better than to ask a lady her age."
+  },
+  {
+    "id": "9664156",
+    "japanese": "女性に年齢を聞くほど馬鹿じゃないわよね。",
+    "english": "You should know better than to ask a lady her age."
+  },
+  {
+    "id": "176902",
+    "japanese": "君は物事を中途半端にしてはいけないよ。",
+    "english": "You shouldn't do things by halves."
+  },
+  {
+    "id": "176903",
+    "japanese": "君は部屋代を前もって払うべきだ。",
+    "english": "You should pay your rent in advance."
+  },
+  {
+    "id": "84130",
+    "japanese": "部屋をきれいにしておかなければいけません。",
+    "english": "You must keep your room clean."
+  },
+  {
+    "id": "149770",
+    "japanese": "自分の部屋はきれいにしておきなさい。",
+    "english": "You must keep your room clean."
+  },
+  {
+    "id": "149776",
+    "japanese": "自分の部屋はいつもきれいにしておかなければいけないよ。",
+    "english": "You must keep your room clean."
+  },
+  {
+    "id": "176904",
+    "japanese": "君は部屋を清潔にしておかなければならないよ。",
+    "english": "You must keep your room clean."
+  },
+  {
+    "id": "176905",
+    "japanese": "君は部屋の中では帽子をとらなくてはならない。",
+    "english": "You must take off your hat in the room."
+  },
+  {
+    "id": "176906",
+    "japanese": "君は浮き足立っているね。",
+    "english": "You are wavering."
+  },
+  {
+    "id": "84947",
+    "japanese": "富士山に登ったことがありますか。",
+    "english": "Have you ever climbed Mt. Fuji?"
+  },
+  {
+    "id": "232053",
+    "japanese": "あなたは今までに富士山を登ったことがありますか。",
+    "english": "Have you ever climbed Mt. Fuji?"
+  },
+  {
+    "id": "232057",
+    "japanese": "今までに富士山に登ったことってある？",
+    "english": "Have you ever climbed Mt. Fuji?"
+  },
+  {
+    "id": "3332576",
+    "japanese": "富士山登ったことある？",
+    "english": "Have you ever climbed Mt. Fuji?"
+  },
+  {
+    "id": "3332582",
+    "japanese": "富士山に登ったことはありますか？",
+    "english": "Have you ever climbed Mt. Fuji?"
+  },
+  {
+    "id": "176908",
+    "japanese": "君は不屈の精神で危機を切り抜けられるだろう。",
+    "english": "Your undaunted spirit will carry you through."
+  },
+  {
+    "id": "176909",
+    "japanese": "君は病気のお母さんの面倒をもっと見るべきだ。",
+    "english": "You should take care of your sick mother."
+  },
+  {
+    "id": "10616288",
+    "japanese": "病気のお母さんを看てあげなさい。",
+    "english": "You should take care of your sick mother."
+  },
+  {
+    "id": "176910",
+    "japanese": "君は標準英語を学ばなくてはいけない。",
+    "english": "You have to learn standard English."
+  },
+  {
+    "id": "176911",
+    "japanese": "君は必要以上に多くの切手を買ってしまった。",
+    "english": "You have bought more postage stamps than are necessary."
+  },
+  {
+    "id": "176912",
+    "japanese": "君は必ずしも間違ってはいない。",
+    "english": "You are not at all wrong."
+  },
+  {
+    "id": "176913",
+    "japanese": "君は飛行機で旅行したことがありますか。",
+    "english": "Have you ever traveled in a plane?"
+  },
+  {
+    "id": "176914",
+    "japanese": "君は非常に優秀な弁護士になれる気がする。",
+    "english": "I have a feeling you'll be a very good lawyer."
+  },
+  {
+    "id": "176915",
+    "japanese": "君は非常にぐうたらだ。",
+    "english": "You are idle to the bone."
+  },
+  {
+    "id": "85843",
+    "japanese": "秘密を守れる？",
+    "english": "Can you keep a secret?"
+  },
+  {
+    "id": "176916",
+    "japanese": "秘密を守れますか。",
+    "english": "Can you keep a secret?"
+  },
+  {
+    "id": "2224708",
+    "japanese": "誰にも言いませんか。",
+    "english": "Can you keep a secret?"
+  },
+  {
+    "id": "176917",
+    "japanese": "君は疲れているようだから、休んだ方がよい。",
+    "english": "Since you look tired, you had better take a rest."
+  },
+  {
+    "id": "176918",
+    "japanese": "君は疲れているので、休んだ方がよい。",
+    "english": "Now that you are tired, you'd better rest."
+  },
+  {
+    "id": "176919",
+    "japanese": "君は疲れている、そして私も疲れている。",
+    "english": "You are tired, and so am I."
+  },
+  {
+    "id": "176920",
+    "japanese": "君は疲れていますね。",
+    "english": "You are tired, aren't you?"
+  },
+  {
+    "id": "226770",
+    "japanese": "お疲れでしょうね。",
+    "english": "You are tired, aren't you?"
+  },
+  {
+    "id": "8667820",
+    "japanese": "疲れたのね。",
+    "english": "You are tired, aren't you?"
+  },
+  {
+    "id": "8667821",
+    "japanese": "疲れてるんでしょ。",
+    "english": "You are tired, aren't you?"
+  },
+  {
+    "id": "176921",
+    "japanese": "君は疲れていないのですか。",
+    "english": "Are you not tired?"
+  },
+  {
+    "id": "176922",
+    "japanese": "君は疲れた顔をしている。１、２時間休息すべきだ。",
+    "english": "You look tired. You ought to rest for an hour or two."
+  },
+  {
+    "id": "9812240",
+    "japanese": "疲れてるみたいだね。１時間か２時間、休んだ方がいいよ。",
+    "english": "You look tired. You ought to rest for an hour or two."
+  },
+  {
+    "id": "176924",
+    "japanese": "君は批判を気にしすぎる。",
+    "english": "You are too sensitive to criticism."
+  },
+  {
+    "id": "108036",
+    "japanese": "彼に頼っておけばいい。",
+    "english": "You can rely on him."
+  },
+  {
+    "id": "176954",
+    "japanese": "君は彼をあてにしていい。",
+    "english": "You can rely on him."
+  },
+  {
+    "id": "9029768",
+    "japanese": "彼に頼ればいいんだよ。",
+    "english": "You can rely on him."
+  },
+  {
+    "id": "176925",
+    "japanese": "君は彼女を信頼してよい。",
+    "english": "You can rely on her."
+  },
+  {
+    "id": "176927",
+    "japanese": "君は彼女を助けなければいけない。しかもすぐに。",
+    "english": "You must help her, and soon!"
+  },
+  {
+    "id": "231614",
+    "japanese": "あなたは彼女を助けなければならない。しかもすぐにだ。",
+    "english": "You must help her, and soon!"
+  },
+  {
+    "id": "176928",
+    "japanese": "君は彼女の無邪気さに付け込んではいけない。",
+    "english": "You must not take advantage of her innocence."
+  },
+  {
+    "id": "176929",
+    "japanese": "君は彼女の忠告に従って行動すべきだったのにしなかった。",
+    "english": "You should have acted on her advice."
+  },
+  {
+    "id": "176930",
+    "japanese": "君は彼女の感情をふみつけにしているよ。",
+    "english": "You are treading on her corns."
+  },
+  {
+    "id": "176931",
+    "japanese": "君は彼女に謝罪すべきだと思うよ。",
+    "english": "I think that you ought to apologize to her."
+  },
+  {
+    "id": "176932",
+    "japanese": "君は彼女に謝らなければならぬ、しかもいますぐに。",
+    "english": "You must apologize to her, and that at once."
+  },
+  {
+    "id": "146658",
+    "japanese": "少々お待ち下さい。",
+    "english": "Just a minute."
+  },
+  {
+    "id": "146661",
+    "japanese": "少々おまちください。",
+    "english": "Just a minute."
+  },
+  {
+    "id": "146794",
+    "japanese": "少し待って下さい。",
+    "english": "Just a minute."
+  },
+  {
+    "id": "202733",
+    "japanese": "ちょっと待って下さい。",
+    "english": "Just a minute."
+  },
+  {
+    "id": "202736",
+    "japanese": "ちょっと待ってね。",
+    "english": "Just a minute."
+  },
+  {
+    "id": "202848",
+    "japanese": "ちょっとお待ち下さい。",
+    "english": "Just a minute."
+  },
+  {
+    "id": "176933",
+    "japanese": "君は彼女に元気かどうかたずねたのかい。なんていってた。",
+    "english": "You asked after her? What did she say?"
+  },
+  {
+    "id": "176934",
+    "japanese": "君は彼女に期待をかけすぎている。",
+    "english": "You are expecting too much of her."
+  },
+  {
+    "id": "176935",
+    "japanese": "君は彼女に会ったのかい。",
+    "english": "Did you meet her?"
+  },
+  {
+    "id": "10146762",
+    "japanese": "あの子に会ったんですか？",
+    "english": "Did you meet her?"
+  },
+  {
+    "id": "176936",
+    "japanese": "君は彼女に会いたくてたまらないのですか。",
+    "english": "Do you want to see her very much?"
+  },
+  {
+    "id": "176937",
+    "japanese": "君は彼女にひとめぼれしたのかい。",
+    "english": "Did you fall in love with her at first sight?"
+  },
+  {
+    "id": "176938",
+    "japanese": "君は彼女にだまされたのだ。",
+    "english": "You were taken in by her."
+  },
+  {
+    "id": "176939",
+    "japanese": "君は彼女に「その仕事を３日前に済ませたんだ」と言った。",
+    "english": "You told her that you had finished the work three days before."
+  },
+  {
+    "id": "176941",
+    "japanese": "君は彼女と比べて勤勉だ。",
+    "english": "Unlike her, you are diligent."
+  },
+  {
+    "id": "176940",
+    "japanese": "君は彼女に、勝るとも劣らずかわいい。",
+    "english": "You are not less pretty than her."
+  },
+  {
+    "id": "176942",
+    "japanese": "君は彼女が彼と踊っているのをいつ見ましたか。",
+    "english": "When did you see her dancing with him?"
+  },
+  {
+    "id": "176943",
+    "japanese": "君は彼女が好きになるだろう。",
+    "english": "You'll come to like her."
+  },
+  {
+    "id": "176944",
+    "japanese": "君は彼女がどんなに君を愛しているか気づいているのか。",
+    "english": "Are you aware of how much she loves you?"
+  },
+  {
+    "id": "176946",
+    "japanese": "君は彼を訪問した方がよいと思う。",
+    "english": "I think you had better call on him."
+  },
+  {
+    "id": "176947",
+    "japanese": "君は彼を怒らせないように気をつけなければならない。",
+    "english": "You must be careful not to make him angry."
+  },
+  {
+    "id": "176948",
+    "japanese": "君は彼を死んだものとしてあきらめなければなりません。",
+    "english": "You must give him up for dead."
+  },
+  {
+    "id": "176949",
+    "japanese": "君は彼を玄関まで見送る必要はなかったのだ。",
+    "english": "You needn't have seen him to the door."
+  },
+  {
+    "id": "176951",
+    "japanese": "君は彼を軽蔑するべきではない。",
+    "english": "You shouldn't look down on him."
+  },
+  {
+    "id": "176950",
+    "japanese": "君は彼を見くびっている。",
+    "english": "You are selling him short."
+  },
+  {
+    "id": "176952",
+    "japanese": "君は彼を敬遠する方がよい。",
+    "english": "You had better keep him at a respectful distance."
+  },
+  {
+    "id": "176953",
+    "japanese": "君は彼を偉大だとおもってはならない。",
+    "english": "You must not look upon him as great."
+  },
+  {
+    "id": "176955",
+    "japanese": "君は彼らを助けるよう求められている。",
+    "english": "You're required to help them."
+  },
+  {
+    "id": "176956",
+    "japanese": "君は彼より若いのかい。",
+    "english": "Are you younger than him?"
+  },
+  {
+    "id": "176957",
+    "japanese": "君は彼の返事を待ちさえすればよい。",
+    "english": "All that you have to do is to wait for his reply."
+  },
+  {
+    "id": "176958",
+    "japanese": "君は彼の年齢を考慮に入れなければならない。",
+    "english": "You must take his age into account."
+  },
+  {
+    "id": "10227913",
+    "japanese": "彼の年齢を考慮する必要があるね。",
+    "english": "You must take his age into account."
+  },
+  {
+    "id": "117453",
+    "japanese": "彼の考えに賛成ですかそれとも反対ですか。",
+    "english": "Are you for or against his idea?"
+  },
+  {
+    "id": "176959",
+    "japanese": "君は彼の提案に賛成か反対か。",
+    "english": "Are you for or against his idea?"
+  },
+  {
+    "id": "176960",
+    "japanese": "君は彼の忠告を尊重せねばならない。",
+    "english": "You must pay attention to his advice."
+  },
+  {
+    "id": "176961",
+    "japanese": "君は彼の忠告を受け入れるべきだったのに。",
+    "english": "You should have accepted his advice."
+  },
+  {
+    "id": "176962",
+    "japanese": "君は彼の忠告に従ったほうがよい。",
+    "english": "You may as well follow his advice."
+  },
+  {
+    "id": "176963",
+    "japanese": "君は彼の蔵書を利用して良い。",
+    "english": "You may make use of his library."
+  },
+  {
+    "id": "176964",
+    "japanese": "君は彼の助言に従えさえすればよい。",
+    "english": "All you have to do is follow his advice."
+  },
+  {
+    "id": "176965",
+    "japanese": "君は彼の助言に従いさえすればよい。",
+    "english": "All that you have to do is to follow his advice."
+  },
+  {
+    "id": "176966",
+    "japanese": "君は彼の若さを考慮に入れなければならない。",
+    "english": "You must allow for his youth."
+  },
+  {
+    "id": "176967",
+    "japanese": "君は彼の仕事を手伝うべきだった。",
+    "english": "You should have helped him with his work."
+  },
+  {
+    "id": "176968",
+    "japanese": "君は彼の言う事にもっと注意を払うべきだ。",
+    "english": "You should pay more attention to what he says."
+  },
+  {
+    "id": "176969",
+    "japanese": "君は彼の言うことに注意を払わなければならない。",
+    "english": "You must pay attention to him."
+  },
+  {
+    "id": "176970",
+    "japanese": "君は彼の警告にもっと注意を払うべきだ。",
+    "english": "You should pay more attention to his warnings."
+  },
+  {
+    "id": "176971",
+    "japanese": "君は彼の計画を採用すればよかったのだ。",
+    "english": "You ought to have adopted his plan."
+  },
+  {
+    "id": "176972",
+    "japanese": "君は彼の経験不足を考慮しなければならない。",
+    "english": "You must make allowance for his lack of experience."
+  },
+  {
+    "id": "176973",
+    "japanese": "君は彼の奇行を気にしないほうがよい。",
+    "english": "It's better to ignore his eccentricities."
+  },
+  {
+    "id": "176974",
+    "japanese": "君は彼の寛大な性格に付け込むべきではない。",
+    "english": "You should not play on his generous nature."
+  },
+  {
+    "id": "176975",
+    "japanese": "君は彼の寛大な性格に付け込まない方がよい。",
+    "english": "You had better not play on his generous nature."
+  },
+  {
+    "id": "176977",
+    "japanese": "君は彼のことを買いかぶっている。",
+    "english": "You overestimate him."
+  },
+  {
+    "id": "176976",
+    "japanese": "君は彼の援助を当てにすることができる。",
+    "english": "You can depend on his help."
+  },
+  {
+    "id": "176978",
+    "japanese": "彼の言ったことが本当だと認めたのですか。",
+    "english": "Did you accept his statement as true?"
+  },
+  {
+    "id": "176979",
+    "japanese": "君は彼に本当のことを言うべきだった。",
+    "english": "You should have told him the truth."
+  },
+  {
+    "id": "176980",
+    "japanese": "君は彼に彼がなくしたお金を戻すべきだ。",
+    "english": "You must compensate him for the money he lost."
+  },
+  {
+    "id": "176981",
+    "japanese": "君は彼に多くを期待できない。",
+    "english": "You can't expect much of him."
+  },
+  {
+    "id": "176982",
+    "japanese": "君は彼に真実を話すべきだ。",
+    "english": "You should tell him the truth."
+  },
+  {
+    "id": "176983",
+    "japanese": "君は彼に真実を伝えた方がよい。",
+    "english": "You should tell him the truth."
+  },
+  {
+    "id": "9076412",
+    "japanese": "彼に本当のことを伝えた方がいいよ。",
+    "english": "You should tell him the truth."
+  },
+  {
+    "id": "176984",
+    "japanese": "君は彼に助言を求めるべきだ。",
+    "english": "You ought to ask him for advice."
+  },
+  {
+    "id": "176985",
+    "japanese": "君は彼に助言を求めない方がいいだろう。",
+    "english": "It would be better for you not to ask him for advice."
+  },
+  {
+    "id": "176986",
+    "japanese": "君は彼に手紙を書かなかったのですか。",
+    "english": "Didn't you write a letter to him?"
+  },
+  {
+    "id": "9165896",
+    "japanese": "彼に手紙を書かなかったの？",
+    "english": "Didn't you write a letter to him?"
+  },
+  {
+    "id": "176987",
+    "japanese": "君は彼に借金を払ってくれるように頼みさえすればよい。",
+    "english": "You need only ask him to pay the debt."
+  },
+  {
+    "id": "176988",
+    "japanese": "君は彼に謝礼をすると言った。",
+    "english": "You told him that he should have a reward."
+  },
+  {
+    "id": "176989",
+    "japanese": "あいつは君の言い訳には耳を貸さないと思うよ。",
+    "english": "I don't think you can gain his ear."
+  },
+  {
+    "id": "176990",
+    "japanese": "君は彼に感謝すべきだ。",
+    "english": "You ought to thank him."
+  },
+  {
+    "id": "176991",
+    "japanese": "君は彼にちょっと手をかしてやりさえすればいい。",
+    "english": "You have only to give him a little help."
+  },
+  {
+    "id": "176992",
+    "japanese": "君は彼にあんなことを言うべきではなかったのに。",
+    "english": "You ought not to have said a thing like that to him."
+  },
+  {
+    "id": "176994",
+    "japanese": "君は彼と別れるのが賢明だろう。",
+    "english": "You will do well to leave him."
+  },
+  {
+    "id": "176993",
+    "japanese": "君は彼と同じくらい速く泳げますか。",
+    "english": "Can you swim as fast as he?"
+  },
+  {
+    "id": "176995",
+    "japanese": "君は彼と交際しない方がよい。",
+    "english": "You had better not keep company with him."
+  },
+  {
+    "id": "176996",
+    "japanese": "君は彼が約束を守ると信じてよい。",
+    "english": "You can trust him to keep his word."
+  },
+  {
+    "id": "10229768",
+    "japanese": "あいつなら、ちゃんと約束を守るよ。",
+    "english": "You can trust him to keep his word."
+  },
+  {
+    "id": "119663",
+    "japanese": "彼が誰だか知っていますか。",
+    "english": "Do you know who he is?"
+  },
+  {
+    "id": "119665",
+    "japanese": "彼が誰か知っていますか。",
+    "english": "Do you know who he is?"
+  },
+  {
+    "id": "176997",
+    "japanese": "君は彼が誰だか知っているか。",
+    "english": "Do you know who he is?"
+  },
+  {
+    "id": "81935",
+    "japanese": "僕は君の成功を確信しているよ。",
+    "english": "I'm certain of your success."
+  },
+  {
+    "id": "176998",
+    "japanese": "僕は君が成功すると確信している。",
+    "english": "I'm certain of your success."
+  },
+  {
+    "id": "178169",
+    "japanese": "君の成功を確信しています。",
+    "english": "I'm certain of your success."
+  },
+  {
+    "id": "120306",
+    "japanese": "彼が死んだものと諦めてはいけない。",
+    "english": "You should not give him up for lost."
+  },
+  {
+    "id": "176999",
+    "japanese": "君は彼が死んだものとあきらめた方がよい。",
+    "english": "You should not give him up for lost."
+  },
+  {
+    "id": "177000",
+    "japanese": "君は彼が君の年だったころと同じほどよく働く。",
+    "english": "You work as hard as he did at your age."
+  },
+  {
+    "id": "177002",
+    "japanese": "君は彼が泳いでいるのを見たことがありますか。",
+    "english": "Have you ever seen him swimming?"
+  },
+  {
+    "id": "177003",
+    "japanese": "君は彼がわざとその間違いをしたと思うかい。",
+    "english": "Do you think he made that mistake on purpose?"
+  },
+  {
+    "id": "9051924",
+    "japanese": "あのミスを彼がわざとやったと思ってるの？",
+    "english": "Do you think he made that mistake on purpose?"
+  },
+  {
+    "id": "177004",
+    "japanese": "君は彼がどの学科に興味を持っていると思いますか。",
+    "english": "What subject do you think he is interested in?"
+  },
+  {
+    "id": "177005",
+    "japanese": "君は彼がここにいるうちに、そのことを話しておくべきだった。",
+    "english": "You should have told him about it while he was here."
+  },
+  {
+    "id": "177006",
+    "japanese": "君は彼が２年前に亡くなったのを知らないのか。",
+    "english": "Didn't you know that he passed away two years ago?"
+  },
+  {
+    "id": "177008",
+    "japanese": "君は彼が２年前に亡くなったことを知らないのか。",
+    "english": "Didn't you know that he passed away two years ago?"
+  },
+  {
+    "id": "177007",
+    "japanese": "君は彼が２年前に亡くなったということを知らないのか。",
+    "english": "Don't you know that he passed away two years ago?"
+  },
+  {
+    "id": "121286",
+    "japanese": "髪を切ってもらった方がいいよ。",
+    "english": "You should get your hair cut."
+  },
+  {
+    "id": "177009",
+    "japanese": "君は髪の毛を刈ってもらったほうがいい。",
+    "english": "You should get your hair cut."
+  },
+  {
+    "id": "177010",
+    "japanese": "君は馬鹿に違いない。",
+    "english": "You must be a fool."
+  },
+  {
+    "id": "177011",
+    "japanese": "馬に乗ることができますか？",
+    "english": "Can you ride a horse?"
+  },
+  {
+    "id": "10246225",
+    "japanese": "馬に乗れるの？",
+    "english": "Can you ride a horse?"
+  },
+  {
+    "id": "177013",
+    "japanese": "君は馬に乗ることができない。",
+    "english": "You can't ride a horse."
+  },
+  {
+    "id": "177014",
+    "japanese": "君は能力にしたがって上達する。",
+    "english": "You will progress in proportion to your abilities."
+  },
+  {
+    "id": "177015",
+    "japanese": "君は熱心に勉強すべきだ。",
+    "english": "You should work hard."
+  },
+  {
+    "id": "1031209",
+    "japanese": "君は一生懸命働くべきだよ。",
+    "english": "You should work hard."
+  },
+  {
+    "id": "177016",
+    "japanese": "君は熱心に勉強しなければならない。",
+    "english": "You must study hard."
+  },
+  {
+    "id": "686034",
+    "japanese": "しっかり勉強しないといけません。",
+    "english": "You must study hard."
+  },
+  {
+    "id": "177017",
+    "japanese": "熱はないですね。",
+    "english": "You don't have a temperature."
+  },
+  {
+    "id": "177018",
+    "japanese": "君は入ってはいけない。",
+    "english": "You must not come in."
+  },
+  {
+    "id": "177019",
+    "japanese": "君は日曜日に働く必要があるのですか。",
+    "english": "Must you work on Sunday?"
+  },
+  {
+    "id": "177020",
+    "japanese": "君は日曜日に学校に行く必要がない。",
+    "english": "You don't have to go to school on Sunday."
+  },
+  {
+    "id": "177021",
+    "japanese": "君は日曜日には普通何をしますか。",
+    "english": "What do you usually do on Sundays?"
+  },
+  {
+    "id": "1658482",
+    "japanese": "普段日曜は何してる？",
+    "english": "What do you usually do on Sundays?"
+  },
+  {
+    "id": "177022",
+    "japanese": "君は日本人の学生ですか。",
+    "english": "Are you a Japanese student?"
+  },
+  {
+    "id": "177023",
+    "japanese": "君は日本の学生ですか。",
+    "english": "Are you a Japanese student?"
+  },
+  {
+    "id": "2412120",
+    "japanese": "日本の学生さんですか？",
+    "english": "Are you a Japanese student?"
+  },
+  {
+    "id": "122896",
+    "japanese": "日記をつけていますか。",
+    "english": "Do you keep a diary?"
+  },
+  {
+    "id": "177025",
+    "japanese": "君は肉の料理の仕方を知っていますか。",
+    "english": "Do you know how to cook meat?"
+  },
+  {
+    "id": "177026",
+    "japanese": "君は二歳の時に十まで数えることができた。",
+    "english": "You could count to ten when you were two."
+  },
+  {
+    "id": "10924201",
+    "japanese": "あんた、２歳の時には１０まで数えることができてたんだよ。",
+    "english": "You could count to ten when you were two."
+  },
+  {
+    "id": "177027",
+    "japanese": "君は二歳のときに１０まで数えることができた。",
+    "english": "You could count to ten when you were two years old."
+  },
+  {
+    "id": "9628189",
+    "japanese": "お前はな、２歳の時には１０まで数えることができたんだぞ。",
+    "english": "You could count to ten when you were two years old."
+  },
+  {
+    "id": "177028",
+    "japanese": "君は独りで泳ぎに行ける歳ではない。",
+    "english": "You are not old enough to go swimming by yourself."
+  },
+  {
+    "id": "226938",
+    "japanese": "お前は一人で泳ぎに行くにはまだ幼すぎる。",
+    "english": "You are not old enough to go swimming by yourself."
+  },
+  {
+    "id": "177029",
+    "japanese": "働きすぎですよ。",
+    "english": "You work too hard."
+  },
+  {
+    "id": "9628259",
+    "japanese": "仕事、頑張りすぎだぞ。",
+    "english": "You work too hard."
+  },
+  {
+    "id": "177030",
+    "japanese": "君は働きすぎだよ。しばらくのんびりしたら。",
+    "english": "You are working too hard. Take it easy for a while."
+  },
+  {
+    "id": "177031",
+    "japanese": "君は頭痛がしていてはくつろげるはずが無い。",
+    "english": "You can't feel at ease with a headache."
+  },
+  {
+    "id": "177033",
+    "japanese": "君は頭がよいからその難問も解けないはずはない。",
+    "english": "You are too clever not to solve the hard problem."
+  },
+  {
+    "id": "177032",
+    "japanese": "君は答えがわかるって？",
+    "english": "You know the answer?"
+  },
+  {
+    "id": "177036",
+    "japanese": "君は当地に住んでいるのか。",
+    "english": "Do you live here?"
+  },
+  {
+    "id": "2666713",
+    "japanese": "ここに住んでるの？",
+    "english": "Do you live here?"
+  },
+  {
+    "id": "10756618",
+    "japanese": "こちらにお住いなんですか？",
+    "english": "Do you live here?"
+  },
+  {
+    "id": "177035",
+    "japanese": "君は当然参加するものと思っている。",
+    "english": "I take it for granted that you will join."
+  },
+  {
+    "id": "177034",
+    "japanese": "君は当然、僕の味方だと思っていたよ。",
+    "english": "I took it for granted that you were on my side."
+  },
+  {
+    "id": "9171068",
+    "japanese": "日曜日って、学校には行かないんだよね？",
+    "english": "You don't go to school on Sunday, do you?"
+  },
+  {
+    "id": "177038",
+    "japanese": "君は徹底的に英語を学んだほうがよい。",
+    "english": "You had better study English thoroughly."
+  },
+  {
+    "id": "177039",
+    "japanese": "君は直に出発する方がいい。",
+    "english": "You may as well leave at once."
+  },
+  {
+    "id": "177040",
+    "japanese": "君は直ちに家へ帰らなければならない。",
+    "english": "You must go home at once."
+  },
+  {
+    "id": "177799",
+    "japanese": "君はすぐに家に帰らなければいけません。",
+    "english": "You must go home at once."
+  },
+  {
+    "id": "214911",
+    "japanese": "すぐに家に帰りなさい。",
+    "english": "You must go home at once."
+  },
+  {
+    "id": "177041",
+    "japanese": "君は直ちに医者に行く必要がある。",
+    "english": "It is necessary for you to see a doctor at once."
+  },
+  {
+    "id": "177301",
+    "japanese": "君は今すぐ医者に診てもらわなければいけない。",
+    "english": "It is necessary for you to see a doctor at once."
+  },
+  {
+    "id": "177302",
+    "japanese": "君は今すぐ医者に診てもらわなければならない。",
+    "english": "It is necessary for you to see a doctor at once."
+  },
+  {
+    "id": "177902",
+    "japanese": "君はいますぐ医者にみてもらわないといけない。",
+    "english": "It is necessary for you to see a doctor at once."
+  },
+  {
+    "id": "177042",
+    "japanese": "君は直ちにクラブを脱退したほうがよい。",
+    "english": "You may as well withdraw from the club right away."
+  },
+  {
+    "id": "177043",
+    "japanese": "君は町中の笑いものだっていうことを知らないのか。",
+    "english": "Don't you know that you are the laughingstock of the whole town?"
+  },
+  {
+    "id": "177044",
+    "japanese": "君は朝寝坊に違いない。",
+    "english": "You must be a late riser."
+  },
+  {
+    "id": "177045",
+    "japanese": "君は朝食に何を食べますか。",
+    "english": "What do you have for breakfast?"
+  },
+  {
+    "id": "9207975",
+    "japanese": "朝ごはんはどんなもの食べてるの？",
+    "english": "What do you have for breakfast?"
+  },
+  {
+    "id": "177046",
+    "japanese": "君は昼食にパンを食べますか。",
+    "english": "Do you have bread for lunch?"
+  },
+  {
+    "id": "177047",
+    "japanese": "君は遅刻した理由をどう説明するのかね。",
+    "english": "How do you account for your being late?"
+  },
+  {
+    "id": "177048",
+    "japanese": "君は遅れないでしょうね。",
+    "english": "You won't be late, will you?"
+  },
+  {
+    "id": "10807060",
+    "japanese": "遅刻はしないよな？",
+    "english": "You won't be late, will you?"
+  },
+  {
+    "id": "177049",
+    "japanese": "君は遅れたことを謝りさえすればいい。",
+    "english": "All you have to do is apologize for being late."
+  },
+  {
+    "id": "177050",
+    "japanese": "君は遅くまで起きていたにちがいない。",
+    "english": "You must have stayed up late."
+  },
+  {
+    "id": "177051",
+    "japanese": "君は遅くとも日曜日には戻ってこなければならない。",
+    "english": "You must be back on Sunday at the latest."
+  },
+  {
+    "id": "177052",
+    "japanese": "君は遅かれ早かれ怠けていたことを後悔するよ。",
+    "english": "Sooner or later, you will regret your idleness."
+  },
+  {
+    "id": "177053",
+    "japanese": "君は遅かれ早かれ、そのやり方を知るだろう。",
+    "english": "You'll learn how to do it sooner or later."
+  },
+  {
+    "id": "10784166",
+    "japanese": "そのうち、やり方がわかるようになるよ。",
+    "english": "You'll learn how to do it sooner or later."
+  },
+  {
+    "id": "177054",
+    "japanese": "君は恥を知るべきだ。",
+    "english": "You ought to be ashamed."
+  },
+  {
+    "id": "10068253",
+    "japanese": "恥を知りなさい。",
+    "english": "You ought to be ashamed."
+  },
+  {
+    "id": "177055",
+    "japanese": "君は断固として彼の要求を拒絶すべきであった。",
+    "english": "You should have refused his request flatly."
+  },
+  {
+    "id": "127458",
+    "japanese": "誰を待ってるの？",
+    "english": "Who are you waiting for?"
+  },
+  {
+    "id": "177057",
+    "japanese": "君は誰を待っているのですか。",
+    "english": "Who are you waiting for?"
+  },
+  {
+    "id": "231736",
+    "japanese": "誰を待っているの？",
+    "english": "Who are you waiting for?"
+  },
+  {
+    "id": "788253",
+    "japanese": "誰を待っていますか？",
+    "english": "Who are you waiting for?"
+  },
+  {
+    "id": "3455043",
+    "japanese": "誰待ってるの？",
+    "english": "Who are you waiting for?"
+  },
+  {
+    "id": "3455046",
+    "japanese": "誰待ってんの？",
+    "english": "Who are you waiting for?"
+  },
+  {
+    "id": "177056",
+    "japanese": "君は胆力を練る必要がある。",
+    "english": "You must build up your courage."
+  },
+  {
+    "id": "177058",
+    "japanese": "君は誰のことを言っているのか。",
+    "english": "Whom are you speaking of?"
+  },
+  {
+    "id": "177060",
+    "japanese": "誰でも好きな人を招待していいよ。",
+    "english": "You may invite whomever you like."
+  },
+  {
+    "id": "177061",
+    "japanese": "君は誰かとここで出会うの。",
+    "english": "Are you meeting someone here?"
+  },
+  {
+    "id": "2263753",
+    "japanese": "ここで待ち合わせをしているんですか？",
+    "english": "Are you meeting someone here?"
+  },
+  {
+    "id": "177062",
+    "japanese": "君は大変読書力がある。",
+    "english": "Your reading is very advanced."
+  },
+  {
+    "id": "177064",
+    "japanese": "君は大麦と小麦の区別ができますか。",
+    "english": "Can you tell wheat from barley?"
+  },
+  {
+    "id": "10638372",
+    "japanese": "小麦と大麦の見分けってつく？",
+    "english": "Can you tell wheat from barley?"
+  },
+  {
+    "id": "177063",
+    "japanese": "君は大変青白い顔をしている。",
+    "english": "You look very pale."
+  },
+  {
+    "id": "161270",
+    "japanese": "お前のことを誇りに思うよ。",
+    "english": "I'm proud of you."
+  },
+  {
+    "id": "161613",
+    "japanese": "あなたを誇りに思います。",
+    "english": "I'm proud of you."
+  },
+  {
+    "id": "177065",
+    "japanese": "君は大したものだ。",
+    "english": "I'm proud of you."
+  },
+  {
+    "id": "177066",
+    "japanese": "君は大きな危険を冒しながら、彼に任せている事になる。",
+    "english": "You're running a big risk in trusting him."
+  },
+  {
+    "id": "137479",
+    "japanese": "大人になったら何になりたい？",
+    "english": "What do you want to be when you grow up?"
+  },
+  {
+    "id": "137756",
+    "japanese": "大きくなったら何になりたいですか。",
+    "english": "What do you want to be when you grow up?"
+  },
+  {
+    "id": "177067",
+    "japanese": "君は大きくなったら何になりたいの？",
+    "english": "What do you want to be when you grow up?"
+  },
+  {
+    "id": "889751",
+    "japanese": "大きくなったら、何になりたい？",
+    "english": "What do you want to be when you grow up?"
+  },
+  {
+    "id": "177068",
+    "japanese": "君は大きくなったから、好きなようにしてよい。",
+    "english": "Now that you are a big boy, you may do as you please."
+  },
+  {
+    "id": "177069",
+    "japanese": "君は大きい箱か小さい箱のどちらかをとっていいよ。",
+    "english": "You may take either the big box or the small one."
+  },
+  {
+    "id": "177070",
+    "japanese": "君は退屈そうだ。",
+    "english": "You look bored."
+  },
+  {
+    "id": "3573943",
+    "japanese": "退屈そうだね。",
+    "english": "You look bored."
+  },
+  {
+    "id": "177071",
+    "japanese": "君は待たされるのが好きですか。",
+    "english": "Do you like to be kept waiting?"
+  },
+  {
+    "id": "177072",
+    "japanese": "君は体に気を付けさえすればいいよ。",
+    "english": "All you have to do is to take care of yourself."
+  },
+  {
+    "id": "177073",
+    "japanese": "君は多分この本を読んでしまったでしょう。",
+    "english": "You may have read this book already."
+  },
+  {
+    "id": "10096235",
+    "japanese": "この本はもう読んだことあるかもしれないね。",
+    "english": "You may have read this book already."
+  },
+  {
+    "id": "177074",
+    "japanese": "君は多くの困難に直面するだろう。",
+    "english": "You will be up against many difficulties."
+  },
+  {
+    "id": "177075",
+    "japanese": "君は他人の援助に頼ってはいけない。",
+    "english": "You mustn't depend on others for help."
+  },
+  {
+    "id": "177076",
+    "japanese": "君は他人のことを詮索しすぎる。",
+    "english": "You are too inquisitive about other people's affairs."
+  },
+  {
+    "id": "177077",
+    "japanese": "君は他人のあらさがしをしすぎるよ。",
+    "english": "You are too critical of others' shortcomings."
+  },
+  {
+    "id": "177079",
+    "japanese": "君は速球が投げられますか。",
+    "english": "Can you throw a fastball?"
+  },
+  {
+    "id": "177078",
+    "japanese": "君は他人に頼りすぎる。",
+    "english": "You depend too much on others."
+  },
+  {
+    "id": "177081",
+    "japanese": "君は息が臭い。",
+    "english": "You have foul breath."
+  },
+  {
+    "id": "177080",
+    "japanese": "君は騒音に神経質すぎる。",
+    "english": "You are too sensitive to noise."
+  },
+  {
+    "id": "177082",
+    "japanese": "君は相撲取りの隣にくるとちっぽけにみえる。",
+    "english": "You look tiny next to a sumo wrestler."
+  },
+  {
+    "id": "11107447",
+    "japanese": "力士の横にいると小っちゃく見えるな。",
+    "english": "You look tiny next to a sumo wrestler."
+  },
+  {
+    "id": "177083",
+    "japanese": "君は相撲に詳しいね。",
+    "english": "You know quite a lot about sumo."
+  },
+  {
+    "id": "177084",
+    "japanese": "君は相変わらず同じような電話しくれない。",
+    "english": "You're giving me the same old line."
+  },
+  {
+    "id": "177085",
+    "japanese": "君は相変わらず健康そうに見える。",
+    "english": "You look as healthy as ever."
+  },
+  {
+    "id": "9834623",
+    "japanese": "相変わらず元気そうだね。",
+    "english": "You look as healthy as ever."
+  },
+  {
+    "id": "177737",
+    "japanese": "君はその事について彼女に謝るべきだ。",
+    "english": "You are to apologize to her for it."
+  },
+  {
+    "id": "177087",
+    "japanese": "君は全力を尽くしさえすればよい。",
+    "english": "All you have to do is try your best."
+  },
+  {
+    "id": "177088",
+    "japanese": "君は全部のドアを施錠するか、せめて閉じるべきだった。",
+    "english": "You should have locked, or at least closed, all the doors."
+  },
+  {
+    "id": "177089",
+    "japanese": "君は全然ぼくの話を聞いてくれない。壁に向って話すようなものだ。",
+    "english": "You never listen. I might as well talk to the wall."
+  },
+  {
+    "id": "177090",
+    "japanese": "君は善良な学生です。",
+    "english": "You are a good student."
+  },
+  {
+    "id": "177091",
+    "japanese": "君は善悪の判断ができないのか。",
+    "english": "Can't you tell right from wrong?"
+  },
+  {
+    "id": "177092",
+    "japanese": "君は善悪の区別をつけるべきだ。",
+    "english": "You should distinguish between right and wrong."
+  },
+  {
+    "id": "177093",
+    "japanese": "前もってそれを彼に言っておいた方が良いよ。",
+    "english": "You would do well to tell it to him in advance."
+  },
+  {
+    "id": "177095",
+    "japanese": "君は前にこの話を聞いたことがあるだろう。",
+    "english": "You will have heard this story before."
+  },
+  {
+    "id": "177096",
+    "japanese": "君は前と同じ誤りを犯した。",
+    "english": "You made the same mistake as last time."
+  },
+  {
+    "id": "177097",
+    "japanese": "君は戦争に賛成か反対か。",
+    "english": "Are you for the war or against it?"
+  },
+  {
+    "id": "177098",
+    "japanese": "君は戦争が起こると思うかね。",
+    "english": "Do you believe war will start?"
+  },
+  {
+    "id": "177099",
+    "japanese": "君は先生の指示に従うべきだ。",
+    "english": "You should follow your teacher's advice."
+  },
+  {
+    "id": "9835088",
+    "japanese": "先生のアドバイスは聞いておいた方がいいよ。",
+    "english": "You should follow your teacher's advice."
+  },
+  {
+    "id": "177100",
+    "japanese": "君は先生の許可を受けるべきだ。",
+    "english": "You ought to ask for your teacher's permission."
+  },
+  {
+    "id": "177101",
+    "japanese": "君は先生に助言を求めた方がいいでしょう。",
+    "english": "You may as well ask for your teacher's advice."
+  },
+  {
+    "id": "177102",
+    "japanese": "君は赤信号を無視して走りましたね。",
+    "english": "You ran a red light."
+  },
+  {
+    "id": "177103",
+    "japanese": "君は聖書に手をのせて誓うべきだ。",
+    "english": "You should swear on the Bible."
+  },
+  {
+    "id": "177104",
+    "japanese": "君は精神を養わなくてはならない。",
+    "english": "You must cultivate your mind."
+  },
+  {
+    "id": "177106",
+    "japanese": "君は生のカキは食べれますか。",
+    "english": "Can you eat raw oysters?"
+  },
+  {
+    "id": "9152832",
+    "japanese": "生のカキは食べれる？",
+    "english": "Can you eat raw oysters?"
+  },
+  {
+    "id": "177105",
+    "japanese": "君は生まれながらの詩人だ。",
+    "english": "You are made to be a poet."
+  },
+  {
+    "id": "177107",
+    "japanese": "君は正直者のようだ。",
+    "english": "You seem an honest man."
+  },
+  {
+    "id": "177109",
+    "japanese": "君は正装する必要は無かった。",
+    "english": "You didn't have to dress."
+  },
+  {
+    "id": "177110",
+    "japanese": "君は正午までにこの仕事を終わらせねばならない。",
+    "english": "You have to get this work finished by noon."
+  },
+  {
+    "id": "177111",
+    "japanese": "君は正しいと思いますが。",
+    "english": "I should think you are right."
+  },
+  {
+    "id": "177112",
+    "japanese": "君は正しいかもしれないが私は君の意見に反対する。",
+    "english": "You may be right, but I am against your opinion."
+  },
+  {
+    "id": "177114",
+    "japanese": "君は政治に関心をもっているかい。",
+    "english": "Are you concerned with politics?"
+  },
+  {
+    "id": "177113",
+    "japanese": "君は成功するよ。",
+    "english": "You can get ahead in the world."
+  },
+  {
+    "id": "103425",
+    "japanese": "彼は世界を知らない。",
+    "english": "He is ignorant of the world."
+  },
+  {
+    "id": "103434",
+    "japanese": "彼は世の中の事に無知だ。",
+    "english": "He is ignorant of the world."
+  },
+  {
+    "id": "155585",
+    "japanese": "彼は世間知らずだ。",
+    "english": "He is ignorant of the world."
+  },
+  {
+    "id": "177117",
+    "japanese": "君は数ページ先でそれが述べられているのを見つけるでしょう。",
+    "english": "You will find it stated a few pages further on."
+  },
+  {
+    "id": "2750301",
+    "japanese": "水泳は好きですか？",
+    "english": "Are you fond of swimming?"
+  },
+  {
+    "id": "2750304",
+    "japanese": "水泳好きなの？",
+    "english": "Are you fond of swimming?"
+  },
+  {
+    "id": "177118",
+    "japanese": "すぐに人前で話すことに慣れますよ。",
+    "english": "You will soon get used to speaking in public."
+  },
+  {
+    "id": "144005",
+    "japanese": "人生の目標を見失ってはいけない。",
+    "english": "You must not lose sight of your goal in life."
+  },
+  {
+    "id": "177120",
+    "japanese": "君は人生におけるゴールを見失ってはいけない。",
+    "english": "You must not lose sight of your goal in life."
+  },
+  {
+    "id": "177121",
+    "japanese": "君は親切にも私を助けてくれた。",
+    "english": "You were kind to help me."
+  },
+  {
+    "id": "177122",
+    "japanese": "君は親元から飛び出せるか。",
+    "english": "Can you break away from your parents?"
+  },
+  {
+    "id": "144923",
+    "japanese": "神の存在を信じますか。",
+    "english": "Do you believe in God?"
+  },
+  {
+    "id": "144925",
+    "japanese": "神の実在を信じますか。",
+    "english": "Do you believe in God?"
+  },
+  {
+    "id": "177124",
+    "japanese": "君は神を信じますか。",
+    "english": "Do you believe in God?"
+  },
+  {
+    "id": "231816",
+    "japanese": "あなたは神様を信じますか。",
+    "english": "Do you believe in God?"
+  },
+  {
+    "id": "4457331",
+    "japanese": "神様を信じている？",
+    "english": "Do you believe in God?"
+  },
+  {
+    "id": "177125",
+    "japanese": "君は真剣に勉強すれば試験に合格する期待がもてる。",
+    "english": "If you study earnestly, you can expect to pass the exam."
+  },
+  {
+    "id": "177128",
+    "japanese": "君は新しい車を買う時期ですよ。",
+    "english": "It's time for you to buy a new car."
+  },
+  {
+    "id": "231819",
+    "japanese": "あなたは新車を買うべきだ。",
+    "english": "It's time for you to buy a new car."
+  },
+  {
+    "id": "9276100",
+    "japanese": "車の買い替え時だよ。",
+    "english": "It's time for you to buy a new car."
+  },
+  {
+    "id": "177127",
+    "japanese": "君は新しい仕事を始める時期だ。",
+    "english": "It is high time you started a new business."
+  },
+  {
+    "id": "177129",
+    "japanese": "君は心ないことをしたものだ。",
+    "english": "How thoughtless of you to do that."
+  },
+  {
+    "id": "177130",
+    "japanese": "君は信頼してよい。彼は決して、君を裏切らない。",
+    "english": "You can rely on him. He never lets you down."
+  },
+  {
+    "id": "177131",
+    "japanese": "君は食卓の上を片づけなければならない。",
+    "english": "You must clear the table."
+  },
+  {
+    "id": "11169181",
+    "japanese": "テーブルの上を片付けなさい。",
+    "english": "You must clear the table."
+  },
+  {
+    "id": "177132",
+    "japanese": "君は食事前に手を洗いますか。",
+    "english": "Do you wash your hands before meals?"
+  },
+  {
+    "id": "10944586",
+    "japanese": "ご飯の前に手は洗ってる？",
+    "english": "Do you wash your hands before meals?"
+  },
+  {
+    "id": "236875",
+    "japanese": "君は食事を減らした方がいいと思う。",
+    "english": "I think you'd better go on a diet."
+  },
+  {
+    "id": "1170927",
+    "japanese": "君はダイエットをした方がいいと思う。",
+    "english": "I think you'd better go on a diet."
+  },
+  {
+    "id": "177133",
+    "japanese": "君は食べ物を買ったのだから僕がワインを買えば五分五分になる。",
+    "english": "You bought the food, so if I buy the wine that will even things up."
+  },
+  {
+    "id": "177134",
+    "japanese": "君は食べ物に目がないね。",
+    "english": "You really have a passion for food."
+  },
+  {
+    "id": "145923",
+    "japanese": "食べ過ぎない方がいいよ。",
+    "english": "You had better not eat too much."
+  },
+  {
+    "id": "177136",
+    "japanese": "食べすぎないように気をつけたほうがいいよ。",
+    "english": "You had better be careful not to overeat."
+  },
+  {
+    "id": "177137",
+    "japanese": "君は職務怠慢の申し開きをしなければならない。",
+    "english": "You must account for your neglect of duty."
+  },
+  {
+    "id": "177139",
+    "japanese": "君は常軌を逸しているよ。",
+    "english": "You are way off track."
+  },
+  {
+    "id": "177138",
+    "japanese": "君は冗談なのか本気なのか。",
+    "english": "Are you in jest or in earnest?"
+  },
+  {
+    "id": "177140",
+    "japanese": "君は少し休んだほうがよい。",
+    "english": "You had better take a little rest."
+  },
+  {
+    "id": "177142",
+    "japanese": "君は少し休んだほうがいいと思うよ。顔色が悪いから。",
+    "english": "I think you'd better take a rest; you look ill."
+  },
+  {
+    "id": "177141",
+    "japanese": "君は少しやり過ぎです。",
+    "english": "You're going too far."
+  },
+  {
+    "id": "193028",
+    "japanese": "やり過ぎだぞ。",
+    "english": "You're going too far."
+  },
+  {
+    "id": "2374978",
+    "japanese": "やりすぎだよ。",
+    "english": "You're going too far."
+  },
+  {
+    "id": "177143",
+    "japanese": "君は将来何をしたいですか。",
+    "english": "What do you want to do in the future?"
+  },
+  {
+    "id": "177144",
+    "japanese": "君は商売熱心だね。",
+    "english": "You work hard."
+  },
+  {
+    "id": "177145",
+    "japanese": "君は勝手に出かけていいよ。",
+    "english": "You are free to go out."
+  },
+  {
+    "id": "177147",
+    "japanese": "君は女性の扱い方がうまい。",
+    "english": "You have a way with women."
+  },
+  {
+    "id": "177146",
+    "japanese": "君は勝手に好きな事をしてよろしい。",
+    "english": "You are welcome to do anything you like."
+  },
+  {
+    "id": "177148",
+    "japanese": "君は準備なしに受験するなんて馬鹿なことをすべきでなかったね。",
+    "english": "You should have known better than to take an examination without preparing for it."
+  },
+  {
+    "id": "177150",
+    "japanese": "宿題は自分でやったの？",
+    "english": "Did you do your homework by yourself?"
+  },
+  {
+    "id": "177151",
+    "japanese": "君は十分年をとっているから、その理由が分からない筈がない。",
+    "english": "You are too old not to see the reason."
+  },
+  {
+    "id": "177551",
+    "japanese": "君はもう子供ではないのだから、この理由が分からないはずはない。",
+    "english": "You are too old not to see the reason."
+  },
+  {
+    "id": "177152",
+    "japanese": "君は十分事実を知っていると思う。",
+    "english": "I take it that you are fully acquainted with the facts."
+  },
+  {
+    "id": "231857",
+    "japanese": "あなたは十分事実を知っていると思う。",
+    "english": "I take it that you are fully acquainted with the facts."
+  },
+  {
+    "id": "177153",
+    "japanese": "君は周囲の人に無関心すぎるよ。",
+    "english": "You are too negligent of those around you."
+  },
+  {
+    "id": "177154",
+    "japanese": "君は授業に間に合いませんよ。",
+    "english": "You won't be in time for school."
+  },
+  {
+    "id": "232159",
+    "japanese": "あなたは学校に間に合わないでしょう。",
+    "english": "You won't be in time for school."
+  },
+  {
+    "id": "177155",
+    "japanese": "君は酒をやめるべきだ。",
+    "english": "You should give up drinking."
+  },
+  {
+    "id": "9049210",
+    "japanese": "禁酒したほうがいいよ。",
+    "english": "You should give up drinking."
+  },
+  {
+    "id": "177156",
+    "japanese": "君は酒に頼るべきではない。",
+    "english": "You should not resort to drinking."
+  },
+  {
+    "id": "177157",
+    "japanese": "タバコと酒を止めるべきだ。",
+    "english": "You should give up drinking and smoking."
+  },
+  {
+    "id": "11897895",
+    "japanese": "酒とタバコはやめた方がいいよ。",
+    "english": "You should give up drinking and smoking."
+  },
+  {
+    "id": "177158",
+    "japanese": "君は趣味にそんな大金を費やすべきではなかったのに。",
+    "english": "You ought not to have spent so much money on your hobby."
+  },
+  {
+    "id": "177159",
+    "japanese": "君は手先が器用だね。",
+    "english": "You have a light hand, don't you?"
+  },
+  {
+    "id": "177160",
+    "japanese": "君は手紙を書くのが好きだから、彼女に一筆書いたらどうですか。",
+    "english": "Since you like to write letters, why don't you drop her a line?"
+  },
+  {
+    "id": "177162",
+    "japanese": "手紙を書いていますか。",
+    "english": "Are you writing a letter?"
+  },
+  {
+    "id": "1053564",
+    "japanese": "手紙を書いてるんですか？",
+    "english": "Are you writing a letter?"
+  },
+  {
+    "id": "177161",
+    "japanese": "君は手間をかける必要はなかった。",
+    "english": "You needn't have gone to the trouble."
+  },
+  {
+    "id": "104532",
+    "japanese": "彼は若そうだ。私より年上のはずはない。",
+    "english": "He looks young. He cannot be older than I."
+  },
+  {
+    "id": "177164",
+    "japanese": "君は若い、それに反し私はかなり年をとっている。",
+    "english": "You are young. I, on the contrary, am very old."
+  },
+  {
+    "id": "177165",
+    "japanese": "君は借金を返さなければならない。",
+    "english": "You should pay back your debts."
+  },
+  {
+    "id": "177166",
+    "japanese": "君は借金を払うべきだ。",
+    "english": "You should pay your debts."
+  },
+  {
+    "id": "231868",
+    "japanese": "あなたは借金を払うべきだ。",
+    "english": "You should pay your debts."
+  },
+  {
+    "id": "10773472",
+    "japanese": "借金は返さなきゃダメだよ。",
+    "english": "You should pay your debts."
+  },
+  {
+    "id": "10773473",
+    "japanese": "借りたものは返さなきゃ。",
+    "english": "You should pay your debts."
+  },
+  {
+    "id": "177168",
+    "japanese": "君は車を直してもらうべきだ。",
+    "english": "You should get your car fixed."
+  },
+  {
+    "id": "177167",
+    "japanese": "君は車を洗ってもらった方がよい。",
+    "english": "You had better have your car washed."
+  },
+  {
+    "id": "177169",
+    "japanese": "君は車を運転するときにどんなに注意深くしてもし過ぎることはない。",
+    "english": "You cannot be too careful when driving."
+  },
+  {
+    "id": "10325425",
+    "japanese": "車の運転はしない方がいいよ。",
+    "english": "You had better not drive a car."
+  },
+  {
+    "id": "177171",
+    "japanese": "車の運転は出来ますか？",
+    "english": "Can you drive a car?"
+  },
+  {
+    "id": "231914",
+    "japanese": "あなたは自動車を運転できますか。",
+    "english": "Can you drive a car?"
+  },
+  {
+    "id": "231916",
+    "japanese": "あなたは自動車の運転ができますか。",
+    "english": "Can you drive a car?"
+  },
+  {
+    "id": "1158821",
+    "japanese": "車は運転できるの？",
+    "english": "Can you drive a car?"
+  },
+  {
+    "id": "11848218",
+    "japanese": "車の運転って、できる？",
+    "english": "Can you drive a car?"
+  },
+  {
+    "id": "177172",
+    "japanese": "君は車の運転ができますよね。",
+    "english": "You can drive a car, can't you?"
+  },
+  {
+    "id": "177173",
+    "japanese": "謝罪する必要はないですよ。",
+    "english": "You don't have to make an apology."
+  },
+  {
+    "id": "177174",
+    "japanese": "君は謝罪すべきだ。",
+    "english": "You should apologize."
+  },
+  {
+    "id": "13177637",
+    "japanese": "謝ったほうがいい。",
+    "english": "You should apologize."
+  },
+  {
+    "id": "177175",
+    "japanese": "君は実際に事故を見たのですか。",
+    "english": "Did you actually see the accident?"
+  },
+  {
+    "id": "177176",
+    "japanese": "君は失敗を不運のせいにしてはいけない。",
+    "english": "Don't set your failure down to bad luck."
+  },
+  {
+    "id": "177177",
+    "japanese": "君は失敗を認めるべきだ。",
+    "english": "You should acknowledge your failure."
+  },
+  {
+    "id": "10836919",
+    "japanese": "自分の失敗を認めろよ。",
+    "english": "You should acknowledge your failure."
+  },
+  {
+    "id": "177178",
+    "japanese": "君は失敗しないように一生懸命働かなければならない。",
+    "english": "You must work hard in order not to fail."
+  },
+  {
+    "id": "177179",
+    "japanese": "君は辞書を引く習慣をつけるべきだ。",
+    "english": "You should try to form the habit of using your dictionaries."
+  },
+  {
+    "id": "177180",
+    "japanese": "君は辞書の使い方を知っていますか。",
+    "english": "Do you know how to use a dictionary?"
+  },
+  {
+    "id": "177181",
+    "japanese": "君は辞書の使い方を学ぶべきだ。",
+    "english": "You should learn how to use your dictionary."
+  },
+  {
+    "id": "177182",
+    "japanese": "君は自由に帰っていいよ。",
+    "english": "You are free to go home."
+  },
+  {
+    "id": "177183",
+    "japanese": "君は自分用の部屋を持っていますか。",
+    "english": "Do you have a room of your own?"
+  },
+  {
+    "id": "177187",
+    "japanese": "自分の部屋を持っていますか？",
+    "english": "Do you have a room of your own?"
+  },
+  {
+    "id": "9041270",
+    "japanese": "自分の部屋って持ってる？",
+    "english": "Do you have a room of your own?"
+  },
+  {
+    "id": "177184",
+    "japanese": "君は自分を抑えることを学ぶべきだ。",
+    "english": "You should learn to restrain yourself."
+  },
+  {
+    "id": "176744",
+    "japanese": "君は自分の友人には忠実でなければならない。",
+    "english": "You should be true to your friends."
+  },
+  {
+    "id": "176835",
+    "japanese": "君は友達には忠実でなければならない。",
+    "english": "You should be true to your friends."
+  },
+  {
+    "id": "10863028",
+    "japanese": "友達には誠実でいなさい。",
+    "english": "You should be true to your friends."
+  },
+  {
+    "id": "177186",
+    "japanese": "君は自分の無知を恥じるべきである。",
+    "english": "You should be ashamed of your ignorance."
+  },
+  {
+    "id": "177188",
+    "japanese": "君は自分の不始末をどう弁明するのか。",
+    "english": "What account can you give of your misbehavior?"
+  },
+  {
+    "id": "177189",
+    "japanese": "君は自分の道を切り開こうとすべきだ。",
+    "english": "You should try to cut your way."
+  },
+  {
+    "id": "177190",
+    "japanese": "君は自分の収入の範囲内で生活するように、余分な支出は切りつめなければならない。",
+    "english": "You must cut down on extra expenses in order to live within your means."
+  },
+  {
+    "id": "177191",
+    "japanese": "君は自分の主義に従って行動すべきである。",
+    "english": "You should live up to your principles."
+  },
+  {
+    "id": "177192",
+    "japanese": "君は自分の仕事を他の人と分け合わねばならない。",
+    "english": "You must share your jobs with others."
+  },
+  {
+    "id": "177193",
+    "japanese": "君は自分の仕事に専心すべきだ。",
+    "english": "You should attend to your own business."
+  },
+  {
+    "id": "11257840",
+    "japanese": "自分の仕事をやりなさい。",
+    "english": "You should attend to your own business."
+  },
+  {
+    "id": "177194",
+    "japanese": "君は自分の行動の申し開きをしなければならない。",
+    "english": "You must account for your conduct."
+  },
+  {
+    "id": "177195",
+    "japanese": "君は自分の行動に対して責任を取りなさい。",
+    "english": "You'll have to answer for your behavior."
+  },
+  {
+    "id": "177196",
+    "japanese": "君は自分の行動に責任がある。",
+    "english": "You are responsible for what you do."
+  },
+  {
+    "id": "177197",
+    "japanese": "君は自分の行為に責任を持つべきだ。",
+    "english": "You should be responsible for your actions."
+  },
+  {
+    "id": "177198",
+    "japanese": "君は自分の行いを恥ずかしいと思うべきだ。",
+    "english": "You should be ashamed of your conduct."
+  },
+  {
+    "id": "177201",
+    "japanese": "君は自分の健康を度外視するわけにはいかない。",
+    "english": "You can't afford to neglect your health."
+  },
+  {
+    "id": "177199",
+    "japanese": "君は自分の好きのようにこの部屋を利用してもよい。",
+    "english": "You are at liberty to make use of this room in any way you please."
+  },
+  {
+    "id": "177200",
+    "japanese": "君は自分の義務を果たすべきだ。",
+    "english": "You must perform your duty."
+  },
+  {
+    "id": "177756",
+    "japanese": "君はその義務を果たすべきである。",
+    "english": "You must perform your duty."
+  },
+  {
+    "id": "177202",
+    "japanese": "君は自分の安全にもっと気を配るべきだ。",
+    "english": "You should be more thoughtful of your safety."
+  },
+  {
+    "id": "9049238",
+    "japanese": "もっと自分の安全のことを考えないと駄目だよ。",
+    "english": "You should be more thoughtful of your safety."
+  },
+  {
+    "id": "177203",
+    "japanese": "君は自分のためになるような書物を読むべきだ。",
+    "english": "You should read such books as will benefit you."
+  },
+  {
+    "id": "177204",
+    "japanese": "君は自分のしたことに対して責任がある。",
+    "english": "You are responsible for what you have done."
+  },
+  {
+    "id": "105113",
+    "japanese": "自分で重要だと思う本を読むべきだ。",
+    "english": "You should read such books as you consider important."
+  },
+  {
+    "id": "177206",
+    "japanese": "君は自分でそれを完成しなければならない。",
+    "english": "You yourself have to finish it."
+  },
+  {
+    "id": "149971",
+    "japanese": "自分でそれをしなければならない。",
+    "english": "You must do it yourself."
+  },
+  {
+    "id": "177207",
+    "japanese": "それは自分でしなくてはいけない。",
+    "english": "You must do it yourself."
+  },
+  {
+    "id": "9780612",
+    "japanese": "自分でやらなきゃ駄目だよ。",
+    "english": "You must do it yourself."
+  },
+  {
+    "id": "177208",
+    "japanese": "君は自分が申し立てていることに自信がありますか。",
+    "english": "Are you sure of your facts?"
+  },
+  {
+    "id": "177209",
+    "japanese": "君は自分がもはや若くないことを考慮に入れたほうがいい。",
+    "english": "You had better take into consideration that you are no longer young."
+  },
+  {
+    "id": "177210",
+    "japanese": "君は自分がまちがっていることを認めなければならない。",
+    "english": "You must admit that you are in the wrong."
+  },
+  {
+    "id": "177212",
+    "japanese": "君は自己紹介すべきだったのに。",
+    "english": "You should have introduced yourself."
+  },
+  {
+    "id": "177211",
+    "japanese": "君は自制しなければならない。",
+    "english": "You must control yourself."
+  },
+  {
+    "id": "177213",
+    "japanese": "君は次の昇任予定者です。",
+    "english": "You are the next in line for promotion."
+  },
+  {
+    "id": "177214",
+    "japanese": "君は時間どおりに仕事を始めるべきだ。",
+    "english": "You ought to get to work on time."
+  },
+  {
+    "id": "177215",
+    "japanese": "君は時には子供の世話をしなければならない。",
+    "english": "You should look after the children from time to time."
+  },
+  {
+    "id": "177216",
+    "japanese": "君は字をもっときれいに書く必要がある。",
+    "english": "There is need for improvement in your handwriting."
+  },
+  {
+    "id": "177217",
+    "japanese": "君は字がうまいね。",
+    "english": "You write a very good hand."
+  },
+  {
+    "id": "177218",
+    "japanese": "君は事実を直視しなければならない。",
+    "english": "You must face the facts."
+  },
+  {
+    "id": "177219",
+    "japanese": "君は事実を直視しなくてはならない。",
+    "english": "You must face the facts."
+  },
+  {
+    "id": "177220",
+    "japanese": "君は事実を直視しなくてはいけない。",
+    "english": "You must face the facts."
+  },
+  {
+    "id": "10977039",
+    "japanese": "現実と向き合わなきゃ。",
+    "english": "You must face the facts."
+  },
+  {
+    "id": "177221",
+    "japanese": "歯医者に診てもらうべきだ。",
+    "english": "You ought to see a dentist."
+  },
+  {
+    "id": "9775759",
+    "japanese": "歯医者に行った方がいいよ。",
+    "english": "You ought to see a dentist."
+  },
+  {
+    "id": "177222",
+    "japanese": "君は資金をうまく運転しなくてはならない。",
+    "english": "You must employ your capital well."
+  },
+  {
+    "id": "177223",
+    "japanese": "君は試験の準備をしたほうがよい。",
+    "english": "You may as well prepare for your examination."
+  },
+  {
+    "id": "177224",
+    "japanese": "君は試験に受かるように一生懸命勉強すべきだ。",
+    "english": "You should study hard so that you can pass the examination."
+  },
+  {
+    "id": "9837993",
+    "japanese": "試験に合格できるように、頑張って勉強しなさいよ。",
+    "english": "You should study hard so that you can pass the examination."
+  },
+  {
+    "id": "177225",
+    "japanese": "君は試験に合格するものと思われている。",
+    "english": "You are expected to pass the exam."
+  },
+  {
+    "id": "152106",
+    "japanese": "私を馬鹿だと思っているのですか。",
+    "english": "Do you take me for a fool?"
+  },
+  {
+    "id": "152145",
+    "japanese": "私を愚か者だと思いますか。",
+    "english": "Do you take me for a fool?"
+  },
+  {
+    "id": "152156",
+    "japanese": "私をばか者だと思いますか。",
+    "english": "Do you take me for a fool?"
+  },
+  {
+    "id": "157536",
+    "japanese": "私は愚か者だと思いますか。",
+    "english": "Do you take me for a fool?"
+  },
+  {
+    "id": "231981",
+    "japanese": "あなたは私があほだと思ってますか。",
+    "english": "Do you take me for a fool?"
+  },
+  {
+    "id": "9814321",
+    "japanese": "私のこと、バカだと思ってるわけ？",
+    "english": "Do you take me for a fool?"
+  },
+  {
+    "id": "177227",
+    "japanese": "君は私を笑うかもしれない。",
+    "english": "You may laugh at me."
+  },
+  {
+    "id": "177228",
+    "japanese": "君は私を誤解している。",
+    "english": "You do me wrong."
+  },
+  {
+    "id": "205139",
+    "japanese": "それは私に対する誤解ですよ。",
+    "english": "You do me wrong."
+  },
+  {
+    "id": "177229",
+    "japanese": "君は私を君の友人のうちに数えてよい。",
+    "english": "You can number me among your friends."
+  },
+  {
+    "id": "177230",
+    "japanese": "君は私を一体なんだと思っていたのだ。",
+    "english": "What on earth did you take me for?"
+  },
+  {
+    "id": "177231",
+    "japanese": "君は私の知っている中で憎たらしいほど機知に富んだ人だよ。",
+    "english": "You are the wickedest witty person I know."
+  },
+  {
+    "id": "177232",
+    "japanese": "君は私の息子の宿題を手伝ってやらなくてもよかったのに。",
+    "english": "You need not have helped my son with his homework."
+  },
+  {
+    "id": "9838179",
+    "japanese": "私の新しい車を使ってもいいですよ。",
+    "english": "You may use my new car."
+  },
+  {
+    "id": "177234",
+    "japanese": "君は私の言うとおりにしなければならない。",
+    "english": "You must do as I tell you."
+  },
+  {
+    "id": "10367679",
+    "japanese": "俺が言うとおりにやれよ。",
+    "english": "You must do as I tell you."
+  },
+  {
+    "id": "163695",
+    "japanese": "私の言った通りにしなさい。",
+    "english": "You are to do as I tell you."
+  },
+  {
+    "id": "177235",
+    "japanese": "君は私の言うとおりにしなくてはいけない。",
+    "english": "You are to do as I tell you."
+  },
+  {
+    "id": "177236",
+    "japanese": "君は私の案に賛成ですか反対ですか。",
+    "english": "Are you for or against my plan?"
+  },
+  {
+    "id": "236709",
+    "japanese": "私の計画に賛成ですか、反対ですか。",
+    "english": "Are you for or against my plan?"
+  },
+  {
+    "id": "177237",
+    "japanese": "君は私のヨットを自由に使ってよい。",
+    "english": "You are welcome to the use of my yacht."
+  },
+  {
+    "id": "177238",
+    "japanese": "君は私に要求する権利はない。",
+    "english": "You have no claim on me."
+  },
+  {
+    "id": "177239",
+    "japanese": "本当のことを話してくれればよかったのに。",
+    "english": "I wish you had told me the truth."
+  },
+  {
+    "id": "177241",
+    "japanese": "君は私に真実を言うべきだったのに。",
+    "english": "You should have told me the truth."
+  },
+  {
+    "id": "177240",
+    "japanese": "君は私に嘘をついたね。",
+    "english": "You lied to me, didn't you?"
+  },
+  {
+    "id": "12823351",
+    "japanese": "私に嘘ついたでしょ？",
+    "english": "You lied to me, didn't you?"
+  },
+  {
+    "id": "177242",
+    "japanese": "君は私たちの家に泊まったほうがよいと思う。",
+    "english": "I think you had better stay with us."
+  },
+  {
+    "id": "177243",
+    "japanese": "君は私たちのパーティーに来るべきだったのに。",
+    "english": "You ought to have come to our party."
+  },
+  {
+    "id": "177244",
+    "japanese": "君は私たちにそう行動せよという。",
+    "english": "You insist upon our taking that course of action."
+  },
+  {
+    "id": "177245",
+    "japanese": "君は私たちが戻ってくるまでここにいなければならない。",
+    "english": "You are to stay here until we come back."
+  },
+  {
+    "id": "177246",
+    "japanese": "君は私が帰るのを待ちさえすればよい。",
+    "english": "All you have to do is to wait for me to return."
+  },
+  {
+    "id": "177247",
+    "japanese": "君は私がどんなに心配しているかを知らない。",
+    "english": "You don't know how worried I am."
+  },
+  {
+    "id": "177248",
+    "japanese": "君は私がすすめる通りにするほうがよい。",
+    "english": "You had better do as I suggest."
+  },
+  {
+    "id": "177249",
+    "japanese": "君は私がケーキを作るのを想像する事が出来ますか。",
+    "english": "Can you imagine me making a cake?"
+  },
+  {
+    "id": "11608498",
+    "japanese": "私がケーキ作る姿を想像できる？",
+    "english": "Can you imagine me making a cake?"
+  },
+  {
+    "id": "177250",
+    "japanese": "君は指示に従ってさえいればいいのです。",
+    "english": "You have only to follow the directions."
+  },
+  {
+    "id": "177251",
+    "japanese": "君は指示に従っていればいいのです。",
+    "english": "You have only to follow the directions."
+  },
+  {
+    "id": "177252",
+    "japanese": "君は指示に従う事を身につけなければいけない。",
+    "english": "You must learn to obey instructions."
+  },
+  {
+    "id": "177253",
+    "japanese": "君は仕事を得るのに成功した。",
+    "english": "You finally succeeded in getting a job."
+  },
+  {
+    "id": "177654",
+    "japanese": "君はついに仕事を得るのに成功した。",
+    "english": "You finally succeeded in getting a job."
+  },
+  {
+    "id": "177254",
+    "japanese": "君は仕事に欲求不満を感じている。",
+    "english": "You are frustrated with your work."
+  },
+  {
+    "id": "177743",
+    "japanese": "君はその仕事に欲求不満を感じている。",
+    "english": "You are frustrated with your work."
+  },
+  {
+    "id": "177255",
+    "japanese": "仕事に遅刻したね。",
+    "english": "You were late for work."
+  },
+  {
+    "id": "9529821",
+    "japanese": "仕事に遅れたね。",
+    "english": "You were late for work."
+  },
+  {
+    "id": "177256",
+    "japanese": "君は仕事に精を出すべきだ。",
+    "english": "You should go about your business."
+  },
+  {
+    "id": "177257",
+    "japanese": "君は仕事に精を出した方がよい。",
+    "english": "You'd better knuckle down to work."
+  },
+  {
+    "id": "177258",
+    "japanese": "君は散髪する必要がある。",
+    "english": "Your hair wants cutting."
+  },
+  {
+    "id": "177259",
+    "japanese": "傘を持っていった方がいいよ。",
+    "english": "You had better take an umbrella with you."
+  },
+  {
+    "id": "177260",
+    "japanese": "君は皿を洗いさえすればよい。",
+    "english": "All you have to do is wash the dish."
+  },
+  {
+    "id": "177262",
+    "japanese": "君は昨夜私に電話をかけましたか。",
+    "english": "Did you call me up last night?"
+  },
+  {
+    "id": "177264",
+    "japanese": "昨日僕に会いに来ればよかったのに。",
+    "english": "You ought to have come to see me yesterday."
+  },
+  {
+    "id": "169616",
+    "japanese": "昨夜君は外出していましたか。",
+    "english": "Did you go out last night?"
+  },
+  {
+    "id": "177263",
+    "japanese": "君は昨晩外出しましたか。",
+    "english": "Did you go out last night?"
+  },
+  {
+    "id": "1306421",
+    "japanese": "昨日の夜は出かけたの？",
+    "english": "Did you go out last night?"
+  },
+  {
+    "id": "177265",
+    "japanese": "君は昨日学校に来なかったねえ。",
+    "english": "You didn't come to school yesterday, did you?"
+  },
+  {
+    "id": "11015472",
+    "japanese": "昨日は学校に来てないんでしょ？",
+    "english": "You didn't come to school yesterday, did you?"
+  },
+  {
+    "id": "177266",
+    "japanese": "君は昨日学校にこなかった。",
+    "english": "You did not come to school yesterday."
+  },
+  {
+    "id": "170061",
+    "japanese": "昨日の火事のこと聞きました？",
+    "english": "Did you hear about the fire yesterday?"
+  },
+  {
+    "id": "169993",
+    "japanese": "昨日はなぜ休んだのですか。",
+    "english": "Why were you absent yesterday?"
+  },
+  {
+    "id": "177268",
+    "japanese": "君は昨日なぜ欠席したのか。",
+    "english": "Why were you absent yesterday?"
+  },
+  {
+    "id": "237355",
+    "japanese": "昨日なぜ休んだの。",
+    "english": "Why were you absent yesterday?"
+  },
+  {
+    "id": "177270",
+    "japanese": "君は細心の注意を払って講義ノートを作成したほうがいい。",
+    "english": "I advise you to be careful in making notes for the lecture."
+  },
+  {
+    "id": "177271",
+    "japanese": "君は最善を尽くしさえすればよい。",
+    "english": "All you have to do is do your best."
+  },
+  {
+    "id": "177273",
+    "japanese": "君は最初の計画を実行すべきだ。",
+    "english": "You should carry out his offer."
+  },
+  {
+    "id": "177272",
+    "japanese": "君は最善をつくさなければならない。",
+    "english": "You must do your best."
+  },
+  {
+    "id": "177275",
+    "japanese": "君は最悪の事態を覚悟しなくてはならない。",
+    "english": "You should be ready for the worst."
+  },
+  {
+    "id": "177274",
+    "japanese": "最近働きすぎだよ。疲れてるんじゃない？",
+    "english": "You work too hard these days. Aren't you tired?"
+  },
+  {
+    "id": "177276",
+    "japanese": "あなたは今夜彼の家で、彼と連絡をとることができます。",
+    "english": "You can get in touch with him at his home tonight."
+  },
+  {
+    "id": "232040",
+    "japanese": "あなたは今晩彼の家で彼と連絡が取れる。",
+    "english": "You can get in touch with him at his home tonight."
+  },
+  {
+    "id": "171820",
+    "japanese": "今日は楽しそうですね。",
+    "english": "You look happy today."
+  },
+  {
+    "id": "177278",
+    "japanese": "君は今日明るい顔をしている。",
+    "english": "You look happy today."
+  },
+  {
+    "id": "2684257",
+    "japanese": "今日はなんだか嬉しそうだね。",
+    "english": "You look happy today."
+  },
+  {
+    "id": "1278763",
+    "japanese": "今日はちょっと熱があるんだろ？",
+    "english": "You have a little fever today, don't you?"
+  },
+  {
+    "id": "177279",
+    "japanese": "君は今日寝ていたほうがよさそうだ。",
+    "english": "It would be better for you to stay in bed today."
+  },
+  {
+    "id": "1278761",
+    "japanese": "今日、顔色が悪いよ。",
+    "english": "You look pale today."
+  },
+  {
+    "id": "177282",
+    "japanese": "今日は外出しないほうがいい。",
+    "english": "You'd better not go out today."
+  },
+  {
+    "id": "9178127",
+    "japanese": "今日は出かけない方がいいよ。",
+    "english": "You'd better not go out today."
+  },
+  {
+    "id": "177283",
+    "japanese": "君は今日外に出てはならない。",
+    "english": "You must not go out today."
+  },
+  {
+    "id": "177284",
+    "japanese": "今日は、彼女には会わないほうがいいですよ。",
+    "english": "You had better not see her today."
+  },
+  {
+    "id": "177286",
+    "japanese": "今日はとてもチャーミングだね。",
+    "english": "You look very charming today."
+  },
+  {
+    "id": "177289",
+    "japanese": "君は今出発をすれば、当然間に合うはずだ。",
+    "english": "You ought to be on time if you start now."
+  },
+  {
+    "id": "177290",
+    "japanese": "君は今出発する必要がある。",
+    "english": "It is necessary for you to start now."
+  },
+  {
+    "id": "177291",
+    "japanese": "君は今週は随分働いたね。",
+    "english": "You worked a lot this week."
+  },
+  {
+    "id": "177292",
+    "japanese": "君は今週は散髪しなくてもよい。",
+    "english": "You need not have a haircut this week."
+  },
+  {
+    "id": "177293",
+    "japanese": "君は今私たちと一緒に来るのだ。",
+    "english": "You're coming with us now."
+  },
+  {
+    "id": "177294",
+    "japanese": "君は今何をしているの。",
+    "english": "What are you about now?"
+  },
+  {
+    "id": "177295",
+    "japanese": "君は今よりもずっと多くのお金が必要になるだろう。",
+    "english": "You will need much more money than you do now."
+  },
+  {
+    "id": "177296",
+    "japanese": "カンガルーを見たことはありますか？",
+    "english": "Have you ever seen a kangaroo?"
+  },
+  {
+    "id": "1269015",
+    "japanese": "あなたはカンガルーを見たことがありますか。",
+    "english": "Have you ever seen a kangaroo?"
+  },
+  {
+    "id": "177298",
+    "japanese": "今の給料でやっていけるのか？",
+    "english": "Can you get by on your wages?"
+  },
+  {
+    "id": "177299",
+    "japanese": "君は今でかけた方がよい。",
+    "english": "You'd better start now."
+  },
+  {
+    "id": "177300",
+    "japanese": "君は今すぐ出発せねばならない。",
+    "english": "It is necessary that you start at once."
+  },
+  {
+    "id": "232071",
+    "japanese": "高校生ですか？",
+    "english": "Are you a senior high school student?"
+  },
+  {
+    "id": "177303",
+    "japanese": "君は行動に慎重さを欠いていた。",
+    "english": "You were careless in your action."
+  },
+  {
+    "id": "177306",
+    "japanese": "君は行ったほうがよい。",
+    "english": "You had better go."
+  },
+  {
+    "id": "177305",
+    "japanese": "君は行儀よくする年頃です。",
+    "english": "You are old enough to behave yourself."
+  },
+  {
+    "id": "194038",
+    "japanese": "もう大きいのだから行儀よくしなさいよ。",
+    "english": "You are old enough to behave yourself."
+  },
+  {
+    "id": "177307",
+    "japanese": "君は行く必要がある。",
+    "english": "It is necessary for you to go."
+  },
+  {
+    "id": "177310",
+    "japanese": "君は行かなければならない。",
+    "english": "It is necessary for you to go."
+  },
+  {
+    "id": "173372",
+    "japanese": "行くも留まるも自由にしなさい。",
+    "english": "You may go or stay at will."
+  },
+  {
+    "id": "173374",
+    "japanese": "行くも留まるもあなたの自由です。",
+    "english": "You may go or stay at will."
+  },
+  {
+    "id": "177308",
+    "japanese": "君は行くもとどまるも意のままにしなさい。",
+    "english": "You may go or stay at will."
+  },
+  {
+    "id": "177309",
+    "japanese": "君が行きたくなければそのパーティーに行く必要はない。",
+    "english": "You don't have to go to the party unless you want to."
+  },
+  {
+    "id": "173415",
+    "japanese": "行かなければならない。",
+    "english": "You have to go."
+  },
+  {
+    "id": "177311",
+    "japanese": "君は行かねばならない。",
+    "english": "You have to go."
+  },
+  {
+    "id": "227527",
+    "japanese": "おまえは行かなければならない。",
+    "english": "You have to go."
+  },
+  {
+    "id": "9659936",
+    "japanese": "お前が行くべきなんだよ。",
+    "english": "You have to go."
+  },
+  {
+    "id": "177312",
+    "japanese": "君は行かないほうがよい。",
+    "english": "You'd better not go."
+  },
+  {
+    "id": "177313",
+    "japanese": "君は考えを現実と一致させるべきだ。",
+    "english": "You should make your ideas correspond with reality."
+  },
+  {
+    "id": "177314",
+    "japanese": "君は港内に林立する帆柱を見るであろう。",
+    "english": "You will see a forest of masts in the harbor."
+  },
+  {
+    "id": "177315",
+    "japanese": "幸せですか？",
+    "english": "Are you happy?"
+  },
+  {
+    "id": "1090098",
+    "japanese": "あなたは幸せですか？",
+    "english": "Are you happy?"
+  },
+  {
+    "id": "11571706",
+    "japanese": "嬉しい？",
+    "english": "Are you happy?"
+  },
+  {
+    "id": "177316",
+    "japanese": "君は好奇心が旺盛だね。",
+    "english": "You are really full of curiosity, aren't you?"
+  },
+  {
+    "id": "10546687",
+    "japanese": "本当に好奇心旺盛だよね？",
+    "english": "You are really full of curiosity, aren't you?"
+  },
+  {
+    "id": "177317",
+    "japanese": "君は好きなように君のお金を処分してよい。",
+    "english": "You are free to do as you please with your money."
+  },
+  {
+    "id": "177318",
+    "japanese": "君は口の利き方を知らなければならない。",
+    "english": "You've got to learn to hold your tongue."
+  },
+  {
+    "id": "177319",
+    "japanese": "君は言われた通りにしなければならない。",
+    "english": "You must do as you are told to do."
+  },
+  {
+    "id": "177320",
+    "japanese": "君は鍵をなくすなんて不注意だったね。",
+    "english": "It was careless of you to lose the key."
+  },
+  {
+    "id": "177321",
+    "japanese": "君は賢い選択をした。",
+    "english": "You made a wise choice."
+  },
+  {
+    "id": "177322",
+    "japanese": "君は見事にやってのけた。",
+    "english": "You did an excellent job."
+  },
+  {
+    "id": "10768338",
+    "japanese": "でかしたぞ。",
+    "english": "You did an excellent job."
+  },
+  {
+    "id": "177323",
+    "japanese": "君は犬が庭を通り抜けて行くのを見なかったかい。",
+    "english": "Didn't you see a dog pass through the yard?"
+  },
+  {
+    "id": "177324",
+    "japanese": "君は健康のために煙草を止めた方がいい。",
+    "english": "You had better give up smoking for your health."
+  },
+  {
+    "id": "177325",
+    "japanese": "君は月曜日に報告書を提出しなければならない。",
+    "english": "You have to turn in the reports on Monday."
+  },
+  {
+    "id": "10104899",
+    "japanese": "報告書は月曜日に提出ですからね。",
+    "english": "You have to turn in the reports on Monday."
+  },
+  {
+    "id": "237038",
+    "japanese": "君は月曜日にそこを出発した方がいい。",
+    "english": "You had better leave there on Monday."
+  },
+  {
+    "id": "177326",
+    "japanese": "君は月に何回家に手紙をかきますか。",
+    "english": "How many times a month do you write home?"
+  },
+  {
+    "id": "177327",
+    "japanese": "君は潔く辞任すべきだ。",
+    "english": "You should do the honorable thing and resign."
+  },
+  {
+    "id": "177328",
+    "japanese": "君は決心しなければならない。しかも今すぐにだ。",
+    "english": "You must make up your mind, and that at once."
+  },
+  {
+    "id": "177329",
+    "japanese": "君は欠席の理由を説明しなければならない。",
+    "english": "You have to account for your absence."
+  },
+  {
+    "id": "177330",
+    "japanese": "君は欠席の理由をどうやって説明しますか。",
+    "english": "How do you account for your absence?"
+  },
+  {
+    "id": "177331",
+    "japanese": "君は計算を間違えているよ。",
+    "english": "You're off in your reckoning."
+  },
+  {
+    "id": "177332",
+    "japanese": "君は計画を中止したほうがよい。",
+    "english": "You had better call off your plan."
+  },
+  {
+    "id": "177333",
+    "japanese": "君は計画を取りやめたほうがよい。",
+    "english": "You had better call off your plan."
+  },
+  {
+    "id": "177334",
+    "japanese": "君は計画を遣り通さなければならない。",
+    "english": "You must go through with your plan."
+  },
+  {
+    "id": "177752",
+    "japanese": "君はその計画をやり通さなければならない。",
+    "english": "You must go through with your plan."
+  },
+  {
+    "id": "232108",
+    "japanese": "あなたは計画をやり通さなければならない。",
+    "english": "You must go through with your plan."
+  },
+  {
+    "id": "9841568",
+    "japanese": "自分の計画はやり通さなきゃ駄目だよ。",
+    "english": "You must go through with your plan."
+  },
+  {
+    "id": "177335",
+    "japanese": "君は軍備縮小を支持すべきだ。",
+    "english": "You should advocate disarmament."
+  },
+  {
+    "id": "177336",
+    "japanese": "君は君自身の運命の主でもあります。",
+    "english": "You are the master of your own destiny."
+  },
+  {
+    "id": "177337",
+    "japanese": "君は君自身で判断しなければいけない。",
+    "english": "You must judge for yourself."
+  },
+  {
+    "id": "177338",
+    "japanese": "君は君を助けてくれるような友達を持たなければならない。",
+    "english": "You need to have friends who can help you out."
+  },
+  {
+    "id": "177339",
+    "japanese": "君は君の理論の基礎をどこに置いているのか。",
+    "english": "What do you base your theory on?"
+  },
+  {
+    "id": "177340",
+    "japanese": "君は君の役割を果たせ、僕はその他の事をやる。",
+    "english": "You do your part and I'll do the rest."
+  },
+  {
+    "id": "177342",
+    "japanese": "君は君の主義に基づいて行動すべきだ。",
+    "english": "You must live up to your principles."
+  },
+  {
+    "id": "177341",
+    "japanese": "君は君の幸福に注意を払うべきだ。",
+    "english": "You should pay attention to your well-being."
+  },
+  {
+    "id": "177343",
+    "japanese": "靴下を裏返しにはいてるよ。",
+    "english": "You are wearing your socks inside out."
+  },
+  {
+    "id": "177345",
+    "japanese": "君は靴を脱ぐには及ばない。",
+    "english": "You need not take off your shoes."
+  },
+  {
+    "id": "2378570",
+    "japanese": "靴は脱がなくていいよ！",
+    "english": "You need not take off your shoes."
+  },
+  {
+    "id": "177346",
+    "japanese": "君は空腹だと思う。",
+    "english": "I suppose you're hungry."
+  },
+  {
+    "id": "8585698",
+    "japanese": "お腹すいてるでしょ。",
+    "english": "I suppose you're hungry."
+  },
+  {
+    "id": "177347",
+    "japanese": "君は空港に急いで行く必要はなかったのだ。",
+    "english": "You needn't have hurried to the airport."
+  },
+  {
+    "id": "177348",
+    "japanese": "君は空を飛ぶ夢を見る事がありますか。",
+    "english": "Do you ever dream about flying through the sky?"
+  },
+  {
+    "id": "177349",
+    "japanese": "君は九州へ行ったことがありますか。",
+    "english": "Have you ever been to Kyushu?"
+  },
+  {
+    "id": "177350",
+    "japanese": "君は九時前に帰らなければならない。",
+    "english": "You must come back before nine o'clock."
+  },
+  {
+    "id": "234899",
+    "japanese": "９時前に帰らなければならない。",
+    "english": "You must come back before nine o'clock."
+  },
+  {
+    "id": "177351",
+    "japanese": "君は銀行から金が借りられるよ。",
+    "english": "You can get a loan from a bank."
+  },
+  {
+    "id": "177352",
+    "japanese": "君は禁煙するよう努力すべきだ。",
+    "english": "You should make an effort to stop smoking."
+  },
+  {
+    "id": "177353",
+    "japanese": "勤務中はタバコを吸わない方がいいよ。",
+    "english": "You had better not smoke while on duty."
+  },
+  {
+    "id": "177354",
+    "japanese": "教科書を書き写すときに１語落としてしまったよ。",
+    "english": "You've left out a word in copying the textbook."
+  },
+  {
+    "id": "177355",
+    "japanese": "君は漁夫の利を占めようとしているのか。",
+    "english": "Are you trying to fish in troubled waters?"
+  },
+  {
+    "id": "177356",
+    "japanese": "休息をとったほうがいいよ。",
+    "english": "I think you had better take a rest."
+  },
+  {
+    "id": "9994269",
+    "japanese": "休んだ方がいいと思うよ。",
+    "english": "I think you had better take a rest."
+  },
+  {
+    "id": "182495",
+    "japanese": "急ぐ必要はありません。",
+    "english": "You have no need to hurry."
+  },
+  {
+    "id": "165927",
+    "japanese": "急ぐ必要はなかったのに。",
+    "english": "You need not have hurried."
+  },
+  {
+    "id": "177358",
+    "japanese": "急がなくて良かったのに。",
+    "english": "You need not have hurried."
+  },
+  {
+    "id": "177359",
+    "japanese": "急がなくてもよかったのに。早く着きすぎですよ。",
+    "english": "You needn't have hurried; you've arrived too early."
+  },
+  {
+    "id": "177360",
+    "japanese": "急いだほうがいいよ。",
+    "english": "You'd better hurry up."
+  },
+  {
+    "id": "177361",
+    "japanese": "君は宮沢りえを知っているか。",
+    "english": "Do you know who Rie Miyazawa is?"
+  },
+  {
+    "id": "177362",
+    "japanese": "休暇はどこで過ごすつもりですか？",
+    "english": "Where are you going to spend the vacation?"
+  },
+  {
+    "id": "177363",
+    "japanese": "君は休暇が必要だ。",
+    "english": "You are in need of a holiday."
+  },
+  {
+    "id": "177364",
+    "japanese": "君は丘を上がって行かなければならない。",
+    "english": "You must go up the hill."
+  },
+  {
+    "id": "177365",
+    "japanese": "君は規則正しい習慣を身につけないといけない。",
+    "english": "You must form regular habits."
+  },
+  {
+    "id": "177366",
+    "japanese": "君は規則を破った。",
+    "english": "You broke the rule."
+  },
+  {
+    "id": "177367",
+    "japanese": "君は規則に従って行動しなければならない。",
+    "english": "You must act in accordance with the rules."
+  },
+  {
+    "id": "177368",
+    "japanese": "君は規則に従うべきだ。",
+    "english": "You should conform to the rules."
+  },
+  {
+    "id": "177369",
+    "japanese": "君は帰国のことを友人に知らせたのか。",
+    "english": "Did you inform your friends of your home-coming?"
+  },
+  {
+    "id": "177371",
+    "japanese": "机を少しは片づけなさい。",
+    "english": "Clear up your desk a bit."
+  },
+  {
+    "id": "177370",
+    "japanese": "君は機会を出来るだけ利用した方がいい。",
+    "english": "You had better make the most of your opportunities."
+  },
+  {
+    "id": "177372",
+    "japanese": "君は危険な領域に踏み込んでいるよ。",
+    "english": "You're stepping into dangerous territory."
+  },
+  {
+    "id": "177373",
+    "japanese": "君は危機に直面していることを知らねばならんよ。",
+    "english": "You must know you're faced with a crisis."
+  },
+  {
+    "id": "177374",
+    "japanese": "顔色が悪いですよ。",
+    "english": "You look pale."
+  },
+  {
+    "id": "177377",
+    "japanese": "君は顔色がすぐれないね。",
+    "english": "You look pale."
+  },
+  {
+    "id": "183629",
+    "japanese": "顔色がよくありません。",
+    "english": "You look pale."
+  },
+  {
+    "id": "183645",
+    "japanese": "顔が青いよ。",
+    "english": "You look pale."
+  },
+  {
+    "id": "10987655",
+    "japanese": "お前、顔色悪いぞ。",
+    "english": "You look pale."
+  },
+  {
+    "id": "177376",
+    "japanese": "君は顔色が悪いからすぐ寝たほうがいい。",
+    "english": "You look pale. You had better lie down in bed at once."
+  },
+  {
+    "id": "1590333",
+    "japanese": "顔色が悪いよ。すぐにベッドに横になった方がいい。",
+    "english": "You look pale. You had better lie down in bed at once."
+  },
+  {
+    "id": "177375",
+    "japanese": "君は顔色がまっ青だよ。",
+    "english": "You are as white as a sheet."
+  },
+  {
+    "id": "1278764",
+    "japanese": "君、顔面蒼白だよ。",
+    "english": "You are as white as a sheet."
+  },
+  {
+    "id": "177378",
+    "japanese": "君は間違っていると思う。",
+    "english": "I think that you're wrong."
+  },
+  {
+    "id": "232145",
+    "japanese": "あなたは間違っているとおもうのですが。",
+    "english": "I think that you're wrong."
+  },
+  {
+    "id": "177379",
+    "japanese": "君は漢詩を読んだことがありますか。",
+    "english": "Have you ever read any Chinese poems?"
+  },
+  {
+    "id": "177380",
+    "japanese": "君は完璧な仕事をしてくれた。",
+    "english": "You've done a perfect job."
+  },
+  {
+    "id": "177381",
+    "japanese": "君は学生にすぎない。",
+    "english": "You are nothing but a student."
+  },
+  {
+    "id": "177383",
+    "japanese": "君は学校を休んではいけない。",
+    "english": "You must not be absent from school."
+  },
+  {
+    "id": "177382",
+    "japanese": "君は学校に遅れるかもしれない。",
+    "english": "You may be late for school."
+  },
+  {
+    "id": "177384",
+    "japanese": "君は学校で何の科目を取っていますか。",
+    "english": "What subjects are you taking at school?"
+  },
+  {
+    "id": "177386",
+    "japanese": "君は確かに物知りだが、それを教えるのはうまくない。",
+    "english": "Indeed you know a lot of things, but you're not good at teaching them."
+  },
+  {
+    "id": "177387",
+    "japanese": "君は外来思想に偏見を抱いているようだ。",
+    "english": "You seem to be prejudiced against ideas that come from foreign countries."
+  },
+  {
+    "id": "177388",
+    "japanese": "君は外国へ行きたいですか。",
+    "english": "Would you like to go abroad?"
+  },
+  {
+    "id": "9640653",
+    "japanese": "海外に行ってみたいですか？",
+    "english": "Would you like to go abroad?"
+  },
+  {
+    "id": "177389",
+    "japanese": "君は海外へ行くつもりですか。",
+    "english": "Do you plan to go abroad?"
+  },
+  {
+    "id": "11753161",
+    "japanese": "外国に行くつもりなの？",
+    "english": "Do you plan to go abroad?"
+  },
+  {
+    "id": "177390",
+    "japanese": "君は会合に出席すべきだったのに。",
+    "english": "You should have attended the meeting."
+  },
+  {
+    "id": "177759",
+    "japanese": "君はその会合に出席すべきだったのに。",
+    "english": "You should have attended the meeting."
+  },
+  {
+    "id": "177391",
+    "japanese": "君は会に出席する資格はない。",
+    "english": "You are not entitled to attend the meeting."
+  },
+  {
+    "id": "177393",
+    "japanese": "君は課長としての貫禄がないね。",
+    "english": "You don't have proper dignity as chief of the section."
+  },
+  {
+    "id": "177392",
+    "japanese": "君は果物が好きだ。",
+    "english": "You like fruit."
+  },
+  {
+    "id": "177394",
+    "japanese": "君は家族扶養の責任を忘れてはならない。",
+    "english": "You must be mindful of your family responsibilities."
+  },
+  {
+    "id": "177395",
+    "japanese": "君は家をペンキ塗りしてもらう必要はなかったのに。",
+    "english": "You did not need to have your house painted."
+  },
+  {
+    "id": "177397",
+    "japanese": "君は家にいますか。",
+    "english": "Will you stay at home?"
+  },
+  {
+    "id": "177396",
+    "japanese": "君は家にいなさい。",
+    "english": "You will stay at home."
+  },
+  {
+    "id": "177398",
+    "japanese": "君は何年生ですか。",
+    "english": "What grade are you in?"
+  },
+  {
+    "id": "177399",
+    "japanese": "君は何度も同じ間違いをし続けている。",
+    "english": "You continue making the same mistakes time after time."
+  },
+  {
+    "id": "9028229",
+    "japanese": "ずっと同じ間違いばかりしてるじゃないの。",
+    "english": "You continue making the same mistakes time after time."
+  },
+  {
+    "id": "177400",
+    "japanese": "君は何処へ行ってもよい。",
+    "english": "You may go anywhere."
+  },
+  {
+    "id": "177634",
+    "japanese": "君はどこにでも行ってよい。",
+    "english": "You may go anywhere."
+  },
+  {
+    "id": "177401",
+    "japanese": "君は何時に勤務につくの？",
+    "english": "What time are you going on duty?"
+  },
+  {
+    "id": "177402",
+    "japanese": "君は何時に駅に着くの。",
+    "english": "What time will you get to the station?"
+  },
+  {
+    "id": "177403",
+    "japanese": "君は何事にも気を回しすぎだよ。",
+    "english": "You're too suspicious about everything."
+  },
+  {
+    "id": "10350420",
+    "japanese": "何でもかんでも疑ってかかりすぎなんだよ。",
+    "english": "You're too suspicious about everything."
+  },
+  {
+    "id": "177404",
+    "japanese": "君は何冊の本をお持ちですか。",
+    "english": "How many books do you have?"
+  },
+  {
+    "id": "232208",
+    "japanese": "あなたは何冊の本を持っていますか。",
+    "english": "How many books do you have?"
+  },
+  {
+    "id": "992009",
+    "japanese": "どれくらい本を持っていますか。",
+    "english": "How many books do you have?"
+  },
+  {
+    "id": "9637406",
+    "japanese": "本は何冊持ってるの？",
+    "english": "How many books do you have?"
+  },
+  {
+    "id": "177405",
+    "japanese": "何を探しているんですか？",
+    "english": "What are you looking for?"
+  },
+  {
+    "id": "187545",
+    "japanese": "何を探しているの？",
+    "english": "What are you looking for?"
+  },
+  {
+    "id": "232217",
+    "japanese": "あなたは何を捜しているのですか。",
+    "english": "What are you looking for?"
+  },
+  {
+    "id": "779003",
+    "japanese": "何を検索していますか。",
+    "english": "What are you looking for?"
+  },
+  {
+    "id": "779004",
+    "japanese": "何を求めていますか。",
+    "english": "What are you looking for?"
+  },
+  {
+    "id": "2405116",
+    "japanese": "何探してるの？",
+    "english": "What are you looking for?"
+  },
+  {
+    "id": "2533654",
+    "japanese": "何探してんの？",
+    "english": "What are you looking for?"
+  },
+  {
+    "id": "187572",
+    "japanese": "何を見てるの？",
+    "english": "What are you looking at?"
+  },
+  {
+    "id": "187574",
+    "japanese": "何を見ているんですか。",
+    "english": "What are you looking at?"
+  },
+  {
+    "id": "1315771",
+    "japanese": "君はいったいどこを見ているんだ？",
+    "english": "What are you looking at?"
+  },
+  {
+    "id": "3552883",
+    "japanese": "何見てるの？",
+    "english": "What are you looking at?"
+  },
+  {
+    "id": "177408",
+    "japanese": "君は何を学びますか。",
+    "english": "What do you learn?"
+  },
+  {
+    "id": "177410",
+    "japanese": "君は何をするつもりなの。",
+    "english": "What do you intend to do?"
+  },
+  {
+    "id": "187861",
+    "japanese": "何するつもり？",
+    "english": "What do you intend to do?"
+  },
+  {
+    "id": "177409",
+    "japanese": "君は何もかもめちゃくちゃにしてしまった。",
+    "english": "You have put everything out of order."
+  },
+  {
+    "id": "177412",
+    "japanese": "何になるつもりですか。",
+    "english": "What are you going to be?"
+  },
+  {
+    "id": "177413",
+    "japanese": "君は何になりたいの。",
+    "english": "What do you want to be?"
+  },
+  {
+    "id": "232234",
+    "japanese": "あなたは何になりたいの？",
+    "english": "What do you want to be?"
+  },
+  {
+    "id": "177415",
+    "japanese": "君は何にする？",
+    "english": "What will you have?"
+  },
+  {
+    "id": "177416",
+    "japanese": "何にしますか？",
+    "english": "What are you going to have?"
+  },
+  {
+    "id": "232235",
+    "japanese": "あなたは何にするの。",
+    "english": "What are you going to have?"
+  },
+  {
+    "id": "177417",
+    "japanese": "君は何としても我を通そうとする。",
+    "english": "You will have your own way."
+  },
+  {
+    "id": "177646",
+    "japanese": "どうしても自分の思い通りにしたがるね。",
+    "english": "You will have your own way."
+  },
+  {
+    "id": "177960",
+    "japanese": "君はあくまで意地を張るのだね。",
+    "english": "You will have your own way."
+  },
+  {
+    "id": "232507",
+    "japanese": "あなたはどうしても意地を張るのだね。",
+    "english": "You will have your own way."
+  },
+  {
+    "id": "177419",
+    "japanese": "何で目が覚めたの？",
+    "english": "What woke you up?"
+  },
+  {
+    "id": "177596",
+    "japanese": "君はなにで目を覚ましましたか。",
+    "english": "What woke you up?"
+  },
+  {
+    "id": "1278765",
+    "japanese": "君はどうして目が覚めたんだ？",
+    "english": "What woke you up?"
+  },
+  {
+    "id": "177418",
+    "japanese": "君は何でもかんでも手を出したがる。",
+    "english": "You want to have a finger in every pie, don't you?"
+  },
+  {
+    "id": "177420",
+    "japanese": "何でこんなに早く来たの？",
+    "english": "What did you come here so early for?"
+  },
+  {
+    "id": "177421",
+    "japanese": "君は何ヶ月もよく働いたのだから休暇をもらったのは当然のことだ。",
+    "english": "You've worked hard for months and have certainly earned a holiday."
+  },
+  {
+    "id": "177422",
+    "japanese": "君は何が欲しいのか知らせてください。",
+    "english": "Please let me know what you want."
+  },
+  {
+    "id": "177424",
+    "japanese": "何か書くものを持っているかい。",
+    "english": "I wonder if you have something to write with."
+  },
+  {
+    "id": "188131",
+    "japanese": "何がお好きですか。",
+    "english": "What do you like?"
+  },
+  {
+    "id": "2445685",
+    "japanese": "あなたは何が好きですか。",
+    "english": "What do you like?"
+  },
+  {
+    "id": "177426",
+    "japanese": "君は何かほかのことを考えているみたいだね。",
+    "english": "You seem to be thinking of something else."
+  },
+  {
+    "id": "10014574",
+    "japanese": "違うことを考えてるようだね。",
+    "english": "You seem to be thinking of something else."
+  },
+  {
+    "id": "177428",
+    "japanese": "君は何かクラブに入っていますか。",
+    "english": "Do you belong to any clubs?"
+  },
+  {
+    "id": "9647236",
+    "japanese": "どこかのクラブに所属してるの？",
+    "english": "Do you belong to any clubs?"
+  },
+  {
+    "id": "188276",
+    "japanese": "音楽は好きですか。",
+    "english": "Do you love music?"
+  },
+  {
+    "id": "177429",
+    "japanese": "君は音楽がよくわかるね。",
+    "english": "You really have an ear for music."
+  },
+  {
+    "id": "177431",
+    "japanese": "君は臆病ではない。",
+    "english": "You are not a coward."
+  },
+  {
+    "id": "11144992",
+    "japanese": "お前は腰抜けなんかじゃないよ。",
+    "english": "You are not a coward."
+  },
+  {
+    "id": "628658",
+    "japanese": "あなたは自分の鉛筆を落とした。",
+    "english": "You dropped your pencil."
+  },
+  {
+    "id": "1050389",
+    "japanese": "鉛筆を落としましたよ。",
+    "english": "You dropped your pencil."
+  },
+  {
+    "id": "177433",
+    "japanese": "鉛筆をお持ちですか。",
+    "english": "Do you have any pencils?"
+  },
+  {
+    "id": "9681765",
+    "japanese": "鉛筆はありますか？",
+    "english": "Do you have any pencils?"
+  },
+  {
+    "id": "9681768",
+    "japanese": "鉛筆は持ってる？",
+    "english": "Do you have any pencils?"
+  },
+  {
+    "id": "177435",
+    "japanese": "君は煙草を吸うのをやめるのが先決だ。",
+    "english": "First, you have to stop smoking."
+  },
+  {
+    "id": "177436",
+    "japanese": "君は煙草を吸うのをやめることが必要だ。",
+    "english": "It is necessary for you to stop smoking."
+  },
+  {
+    "id": "203376",
+    "japanese": "たばこを止めることがあなたにとって必要です。",
+    "english": "It is necessary for you to stop smoking."
+  },
+  {
+    "id": "177437",
+    "japanese": "君は英語を話せないのですか。",
+    "english": "Are you not able to speak English?"
+  },
+  {
+    "id": "189233",
+    "japanese": "英語が話せないの？",
+    "english": "Are you not able to speak English?"
+  },
+  {
+    "id": "177439",
+    "japanese": "君は英語を勉強しますか。",
+    "english": "Do you study English?"
+  },
+  {
+    "id": "177440",
+    "japanese": "君は英語を習得するために一生懸命努力しさえすればよい。",
+    "english": "All you have to do is try hard to master English."
+  },
+  {
+    "id": "177441",
+    "japanese": "君は英語の復習をしようとしましたか。",
+    "english": "Did you try to review the English lessons?"
+  },
+  {
+    "id": "177442",
+    "japanese": "英語で話が通じますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "177444",
+    "japanese": "英語で自分の意思を通じさせることができますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "177445",
+    "japanese": "君は英語で自分の意志を伝えられますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "189202",
+    "japanese": "英語で話を理解してもらうことができますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "189203",
+    "japanese": "英語で話を通じさせる事ができますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "189219",
+    "japanese": "英語で自分の言うことを相手に理解させられますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "189232",
+    "japanese": "英語であなたの言うことを理解させることができますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "232284",
+    "japanese": "あなたは英語で相手に理解してもらえますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "232286",
+    "japanese": "あなたは英語で自分自身が理解されるようにすることができますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "232287",
+    "japanese": "あなたは英語で自分の言うことを理解してもらえますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "233451",
+    "japanese": "あなたの英語は人に通じますか。",
+    "english": "Can you make yourself understood in English?"
+  },
+  {
+    "id": "177446",
+    "japanese": "君は英語が話せませんね？",
+    "english": "You can't speak English, can you?"
+  },
+  {
+    "id": "177447",
+    "japanese": "君は英語が話せますかと彼は私に聞きました。",
+    "english": "He asked me if I could speak English."
+  },
+  {
+    "id": "177448",
+    "japanese": "君は英語がうまく話せますね？",
+    "english": "You can speak English well, can you not?"
+  },
+  {
+    "id": "177449",
+    "japanese": "君は泳げるんだろう？",
+    "english": "You can swim, can't you?"
+  },
+  {
+    "id": "232296",
+    "japanese": "あなたは泳げますよね。",
+    "english": "You can swim, can't you?"
+  },
+  {
+    "id": "9834909",
+    "japanese": "泳げるんだよね？",
+    "english": "You can swim, can't you?"
+  },
+  {
+    "id": "177451",
+    "japanese": "君は泳げますか。",
+    "english": "Can you swim?"
+  },
+  {
+    "id": "189250",
+    "japanese": "泳げますか。",
+    "english": "Can you swim?"
+  },
+  {
+    "id": "232298",
+    "japanese": "あなたは泳ぐ事が出来ますか。",
+    "english": "Can you swim?"
+  },
+  {
+    "id": "177450",
+    "japanese": "泳げないんですよね？",
+    "english": "You can't swim, can you?"
+  },
+  {
+    "id": "9182159",
+    "japanese": "お前、泳げないんだよな？",
+    "english": "You can't swim, can you?"
+  },
+  {
+    "id": "10568302",
+    "japanese": "泳げないんだよね？",
+    "english": "You can't swim, can you?"
+  },
+  {
+    "id": "9823847",
+    "japanese": "運転免許を取るのは、それほど難しくないと思うよ。",
+    "english": "I think you'll have very little difficulty in getting a driver's license."
+  },
+  {
+    "id": "177453",
+    "japanese": "君は運転免許をとるには、まだ若すぎる。",
+    "english": "You're still too young to get a driver's license."
+  },
+  {
+    "id": "9152829",
+    "japanese": "お前が車の免許を取るには、まだ早いんだよ。",
+    "english": "You're still too young to get a driver's license."
+  },
+  {
+    "id": "9817336",
+    "japanese": "あなたはまだ運転免許を取れる年じゃないわよ。",
+    "english": "You're still too young to get a driver's license."
+  },
+  {
+    "id": "177454",
+    "japanese": "君は運がよかった。飛行機は定時運航だよ。",
+    "english": "You're in luck. The plane is on time."
+  },
+  {
+    "id": "177457",
+    "japanese": "君が一番背が高いな。",
+    "english": "You are tallest."
+  },
+  {
+    "id": "177455",
+    "japanese": "君は嘘をついてはいけない。",
+    "english": "You must not tell a lie."
+  },
+  {
+    "id": "177456",
+    "japanese": "君は一体何を言おうとしているのか。",
+    "english": "What are you driving at?"
+  },
+  {
+    "id": "187583",
+    "japanese": "何をなさるつもりですか。",
+    "english": "What are you driving at?"
+  },
+  {
+    "id": "199108",
+    "japanese": "なにが言いたいのですか。",
+    "english": "What are you driving at?"
+  },
+  {
+    "id": "201400",
+    "japanese": "どうするつもりなの？",
+    "english": "What are you driving at?"
+  },
+  {
+    "id": "177458",
+    "japanese": "君は一体それを読んだのか。",
+    "english": "Did you read it at all?"
+  },
+  {
+    "id": "9843805",
+    "japanese": "そもそも読んだんですか？",
+    "english": "Did you read it at all?"
+  },
+  {
+    "id": "177459",
+    "japanese": "一生懸命勉強しさえすれば、試験に合格できるでしょう。",
+    "english": "You have only to study hard, and you will pass the test."
+  },
+  {
+    "id": "177460",
+    "japanese": "一生懸命勉強すればいい。",
+    "english": "You have only to study hard."
+  },
+  {
+    "id": "177461",
+    "japanese": "君は一生懸命勉強しさえすればよい。",
+    "english": "You have only to study hard."
+  },
+  {
+    "id": "177463",
+    "japanese": "君は一人の教師なんだから、自分の感情を厳しくコントロールできるようにならなければならない。",
+    "english": "Being a teacher, you must learn to keep a tight rein on your emotions."
+  },
+  {
+    "id": "1160439",
+    "japanese": "君はもうひとりぼっちじゃないんだよ。",
+    "english": "You'll never be alone."
+  },
+  {
+    "id": "177466",
+    "japanese": "君は医者の忠告に従うべきだ。",
+    "english": "You should follow the doctor's advice."
+  },
+  {
+    "id": "9149388",
+    "japanese": "お医者さんの意見には従ったほうがいいよ。",
+    "english": "You should follow the doctor's advice."
+  },
+  {
+    "id": "177468",
+    "japanese": "君は医者にみてもらったほうがよい。",
+    "english": "You'd better consult the doctor."
+  },
+  {
+    "id": "1226201",
+    "japanese": "医者に相談した方がいいよ。",
+    "english": "You'd better consult the doctor."
+  },
+  {
+    "id": "177467",
+    "japanese": "君は医者に忠告を求めたほうがよい。",
+    "english": "You had better ask the doctor for advice."
+  },
+  {
+    "id": "177470",
+    "japanese": "君は意志が強いな。",
+    "english": "You are strong-minded."
+  },
+  {
+    "id": "177469",
+    "japanese": "君って、意外に純情だね。",
+    "english": "I'm surprised that you're so naïve."
+  },
+  {
+    "id": "177471",
+    "japanese": "君は偉いことをやったね。",
+    "english": "You've done it!"
+  },
+  {
+    "id": "2027777",
+    "japanese": "あなた、やっちゃったじゃない。",
+    "english": "You've done it!"
+  },
+  {
+    "id": "177472",
+    "japanese": "君は以前私にあったことを覚えていますか。",
+    "english": "Do you remember seeing me before?"
+  },
+  {
+    "id": "9029750",
+    "japanese": "前に私に会ったこと覚えてる？",
+    "english": "Do you remember seeing me before?"
+  },
+  {
+    "id": "177473",
+    "japanese": "君は暗闇の恐怖を克服しなければならない。",
+    "english": "You must conquer your fear of the dark."
+  },
+  {
+    "id": "177474",
+    "japanese": "君は暗闇に対する恐怖を克服しなければならない。",
+    "english": "You must conquer your fear of the dark."
+  },
+  {
+    "id": "9661956",
+    "japanese": "暗い所が怖いっていうのを乗り越える必要がありますね。",
+    "english": "You must conquer your fear of the dark."
+  },
+  {
+    "id": "177475",
+    "japanese": "君は暗くならないうちに家に帰るべきです。",
+    "english": "You should return home before it gets dark."
+  },
+  {
+    "id": "177476",
+    "japanese": "君は安全な場所にいる。",
+    "english": "You are in a safe place."
+  },
+  {
+    "id": "177477",
+    "japanese": "君は安心していい。この寄付をすることについて、私にはなんら下心はない。",
+    "english": "You may rest assured; I have no ulterior motive in making this donation."
+  },
+  {
+    "id": "177478",
+    "japanese": "君は悪習をやめなければいけない。",
+    "english": "You must rid yourself of bad habits."
+  },
+  {
+    "id": "177479",
+    "japanese": "君は悪い前例を作ってしまった。",
+    "english": "You've set a bad example."
+  },
+  {
+    "id": "177480",
+    "japanese": "君はわざと窓をこわしたのか、それとも偶然にか。",
+    "english": "Did you break the window on purpose or by accident?"
+  },
+  {
+    "id": "11138675",
+    "japanese": "窓を割ったのはわざとなの？それとも、うっかり割っちゃったの？",
+    "english": "Did you break the window on purpose or by accident?"
+  },
+  {
+    "id": "177481",
+    "japanese": "君はロンドンに何日残るつもりですか。",
+    "english": "How many days will you remain in London?"
+  },
+  {
+    "id": "177482",
+    "japanese": "君はロスを取り戻さなければならない。",
+    "english": "You must make up for the loss."
+  },
+  {
+    "id": "177484",
+    "japanese": "リンゴが好きではないのですか。",
+    "english": "Don't you like apples?"
+  },
+  {
+    "id": "10246876",
+    "japanese": "リンゴ、嫌いなの？",
+    "english": "Don't you like apples?"
+  },
+  {
+    "id": "177483",
+    "japanese": "君はレインコートを着たほうがよい。",
+    "english": "You had better put on a raincoat."
+  },
+  {
+    "id": "177485",
+    "japanese": "君はラブストーリーが好きじゃないんだね。",
+    "english": "You don't like love stories."
+  },
+  {
+    "id": "177486",
+    "japanese": "君はよく勉強すれば良い点をとれるだろうが。",
+    "english": "If you studied hard, you would get good marks."
+  },
+  {
+    "id": "177487",
+    "japanese": "君はよく勉強した、そうでなければ失敗していただろう。",
+    "english": "You worked hard, or you would have failed."
+  },
+  {
+    "id": "177488",
+    "japanese": "君はよく人の悪口を言う。",
+    "english": "You are too ready to speak ill of others."
+  },
+  {
+    "id": "164475",
+    "japanese": "私によくもそんな口のきき方ができるものだ。",
+    "english": "How dare you speak to me like that?"
+  },
+  {
+    "id": "177489",
+    "japanese": "君はよくも私にそんな口がきけるな。",
+    "english": "How dare you speak to me like that?"
+  },
+  {
+    "id": "192806",
+    "japanese": "よくもまあ私にそんな口がきけるね。",
+    "english": "How dare you speak to me like that?"
+  },
+  {
+    "id": "177490",
+    "japanese": "君はよくもそんな口がきけるもんだ。",
+    "english": "How dare you speak like that!"
+  },
+  {
+    "id": "10450964",
+    "japanese": "よくもまあ、そんな口の利き方ができるね。",
+    "english": "How dare you speak like that!"
+  },
+  {
+    "id": "177491",
+    "japanese": "君はよくなる見込みが十分ある。",
+    "english": "You have a good chance to get well."
+  },
+  {
+    "id": "177492",
+    "japanese": "君はよくそんなことが言えるね。",
+    "english": "How dare you say that?"
+  },
+  {
+    "id": "177493",
+    "japanese": "君はよくがんばるね。",
+    "english": "You're really a hard worker."
+  },
+  {
+    "id": "668029",
+    "japanese": "あなたは働き者だ。",
+    "english": "You're really a hard worker."
+  },
+  {
+    "id": "1087662",
+    "japanese": "あなたは本当に頑張り屋さんだ。",
+    "english": "You're really a hard worker."
+  },
+  {
+    "id": "12891348",
+    "japanese": "ほんと、働き者ね。",
+    "english": "You're really a hard worker."
+  },
+  {
+    "id": "12891353",
+    "japanese": "ほんと、働き者なんだから。",
+    "english": "You're really a hard worker."
+  },
+  {
+    "id": "177494",
+    "japanese": "君はユーモアのセンスがある。",
+    "english": "You have a good sense of humor."
+  },
+  {
+    "id": "179311",
+    "japanese": "空飛ぶ円盤を見た事がありますか。",
+    "english": "Have you ever seen a UFO?"
+  },
+  {
+    "id": "234790",
+    "japanese": "ＵＦＯを見た事はありますか。",
+    "english": "Have you ever seen a UFO?"
+  },
+  {
+    "id": "3561944",
+    "japanese": "UFO見たことある？",
+    "english": "Have you ever seen a UFO?"
+  },
+  {
+    "id": "177496",
+    "japanese": "君はもはや子供なんかではない。",
+    "english": "You are no longer a mere child."
+  },
+  {
+    "id": "177497",
+    "japanese": "君はもはや、ほんの子供というわけにはいかない。",
+    "english": "You are no longer a mere child."
+  },
+  {
+    "id": "177499",
+    "japanese": "君はものごとをあるがままに受け入れなければいけない。",
+    "english": "You must take things as they are."
+  },
+  {
+    "id": "177501",
+    "japanese": "君はもっと冷静に行動すべきだ。",
+    "english": "You should act more calmly."
+  },
+  {
+    "id": "10801475",
+    "japanese": "もっと落ち着いて行動しなよ。",
+    "english": "You should act more calmly."
+  },
+  {
+    "id": "232349",
+    "japanese": "もっと本を読んだ方がいいですよ。",
+    "english": "It would be better for you to read more books."
+  },
+  {
+    "id": "177502",
+    "japanese": "君はもっと勉強しなければならない。",
+    "english": "You must study more."
+  },
+  {
+    "id": "832396",
+    "japanese": "もっと勉強すればいいのに。",
+    "english": "You must study more."
+  },
+  {
+    "id": "177503",
+    "japanese": "君はもっと分別を持つべきだったのに。",
+    "english": "You should have known better."
+  },
+  {
+    "id": "177504",
+    "japanese": "君はもっと分別をもちなさい。",
+    "english": "You should know better."
+  },
+  {
+    "id": "9665080",
+    "japanese": "お前は馬鹿なことするような子じゃないよな。",
+    "english": "You should know better."
+  },
+  {
+    "id": "177505",
+    "japanese": "君はもっと分別があってもいい年だよ。",
+    "english": "You are old enough to know better."
+  },
+  {
+    "id": "177506",
+    "japanese": "君はもっと熱心に勉強すべきです。",
+    "english": "You should study harder."
+  },
+  {
+    "id": "9663073",
+    "japanese": "もっと勉強頑張った方がいいよ。",
+    "english": "You should study harder."
+  },
+  {
+    "id": "177507",
+    "japanese": "君はもっと熱心に勉強しなければならない。",
+    "english": "You must study much harder."
+  },
+  {
+    "id": "3553306",
+    "japanese": "もっともっと真面目に勉強しなくては駄目だ。",
+    "english": "You must study much harder."
+  },
+  {
+    "id": "177508",
+    "japanese": "君はもっと熱心に勉強しさえすればよい。",
+    "english": "All you have to do is to work harder."
+  },
+  {
+    "id": "177510",
+    "japanese": "君はもっと注意すべきだ。",
+    "english": "You should be more careful."
+  },
+  {
+    "id": "177509",
+    "japanese": "君はもっと体を大切にしなければならない。",
+    "english": "You should take better care of yourself."
+  },
+  {
+    "id": "776971",
+    "japanese": "もっと自分を大切にしなければだめですよ。",
+    "english": "You should take better care of yourself."
+  },
+  {
+    "id": "177511",
+    "japanese": "もっと早く出発すれば良かったのに。",
+    "english": "It is regrettable that you did not start earlier."
+  }
+]

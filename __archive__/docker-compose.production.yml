@@ -1,0 +1,76 @@
+version: '3.8'
+
+# Production-specific overrides
+services:
+  app:
+    image: ${DOCKER_REGISTRY}/moshimoshi:${VERSION:-latest}
+    environment:
+      - NODE_ENV=production
+      - LOG_LEVEL=info
+      - SENTRY_ENVIRONMENT=production
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=moshimoshi-app"
+
+  redis:
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    volumes:
+      - redis-data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=moshimoshi-redis"
+
+  nginx:
+    deploy:
+      replicas: 2
+      placement:
+        preferences:
+          - spread: node.id
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=moshimoshi-nginx"
+
+volumes:
+  redis-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /var/data/moshimoshi/redis

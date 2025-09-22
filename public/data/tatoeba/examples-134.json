@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "157458",
+    "japanese": "私は君に悪意はない。",
+    "english": "I mean you no harm."
+  },
+  {
+    "id": "157460",
+    "japanese": "私は君にノートをあげよう。",
+    "english": "I will give you a notebook."
+  },
+  {
+    "id": "157462",
+    "japanese": "私は君にそのようなことを言ったかもしれないが、全然覚えていない。",
+    "english": "I may have told you such a thing, but I don't remember it at all."
+  },
+  {
+    "id": "157463",
+    "japanese": "私は君にそこに行ってもらいたい。",
+    "english": "I'd like you to go there."
+  },
+  {
+    "id": "157464",
+    "japanese": "すぐ来てほしい。",
+    "english": "I want you to come at once."
+  },
+  {
+    "id": "157465",
+    "japanese": "私は君にこの話を以前にしたかもしれません。",
+    "english": "I may have told you this story before."
+  },
+  {
+    "id": "157466",
+    "japanese": "私は君にこの手紙を読んでもらいたい。",
+    "english": "I want you to read this letter."
+  },
+  {
+    "id": "157467",
+    "japanese": "私は君にこの英語の手紙を読んでもらいたい。",
+    "english": "I want you to read this English letter."
+  },
+  {
+    "id": "157468",
+    "japanese": "私は君にここにもっと長くいてもらいたい。",
+    "english": "I want you to stay here longer."
+  },
+  {
+    "id": "157469",
+    "japanese": "私は君にいくら借りがありますか。",
+    "english": "How much do I owe you?"
+  },
+  {
+    "id": "157470",
+    "japanese": "私は君にギターを弾いてもらいたい。",
+    "english": "I want you to play the guitar for me."
+  },
+  {
+    "id": "157471",
+    "japanese": "私は君にいくらかお金を貸してもかまいません。",
+    "english": "I don't mind lending some money to you."
+  },
+  {
+    "id": "157472",
+    "japanese": "君に１つ頼みがある。",
+    "english": "I want to ask a favor of you."
+  },
+  {
+    "id": "157473",
+    "japanese": "私は君に3,000円借りがある。",
+    "english": "I owe you 3,000 yen."
+  },
+  {
+    "id": "157474",
+    "japanese": "同意見です。",
+    "english": "I agree with you."
+  },
+  {
+    "id": "157475",
+    "japanese": "私は君と同じ結論に達した。",
+    "english": "I came to the same decision as you."
+  },
+  {
+    "id": "157477",
+    "japanese": "私は君とは全然意見が合わない。",
+    "english": "I do not agree with you at all."
+  },
+  {
+    "id": "157481",
+    "japanese": "私は君との再会を期待している。",
+    "english": "I'm looking forward to seeing you again."
+  },
+  {
+    "id": "157482",
+    "japanese": "私は君たち兄弟がテレビに出ていてビックリした。",
+    "english": "I was surprised at you and your brother appearing on TV."
+  },
+  {
+    "id": "157483",
+    "japanese": "私は君たちみなが最善を尽くすことを期待する。",
+    "english": "I expect you all to do your best."
+  },
+  {
+    "id": "157485",
+    "japanese": "私は君が彼をたたいたことを責めなかった。",
+    "english": "I didn't blame you for hitting him."
+  },
+  {
+    "id": "157486",
+    "japanese": "私は君が彼に会うことが必要だと思う。",
+    "english": "I think it necessary for you to see him."
+  },
+  {
+    "id": "157488",
+    "japanese": "私は君が着ているような型の上着がほしい。",
+    "english": "I want the same style of jacket as yours."
+  },
+  {
+    "id": "157489",
+    "japanese": "私は君が正直だと信じている。",
+    "english": "I believe you are honest."
+  },
+  {
+    "id": "157490",
+    "japanese": "私は君が正しいと全く確信しているわけではない。",
+    "english": "I am not wholly convinced that you are right."
+  },
+  {
+    "id": "157491",
+    "japanese": "私は君が成功したと聞いてとてもうれしい。",
+    "english": "I am very glad to hear of your success."
+  },
+  {
+    "id": "157492",
+    "japanese": "私は君が成功したということを聞いてたいへんうれしい。",
+    "english": "I am very glad to hear of your success."
+  },
+  {
+    "id": "157493",
+    "japanese": "私は君が私に言ったことを決して忘れません。",
+    "english": "I'll never forget what you told me."
+  },
+  {
+    "id": "157494",
+    "japanese": "私は君が昨夜寝言を言っていたのを聞いた。",
+    "english": "I heard you talking in your sleep last night."
+  },
+  {
+    "id": "157495",
+    "japanese": "私は君が今もっている辞書と同じ辞書がほしい。",
+    "english": "I want the same dictionary as you have."
+  },
+  {
+    "id": "157497",
+    "japanese": "私は君が間違っていると言ったことを後悔している。",
+    "english": "I regret saying that you were wrong."
+  },
+  {
+    "id": "157498",
+    "japanese": "私は君がやったような事はできません。",
+    "english": "I can't do such a thing like you did."
+  },
+  {
+    "id": "157499",
+    "japanese": "私は君がやったことが気に入りません。",
+    "english": "I am not pleased with what you have done."
+  },
+  {
+    "id": "157500",
+    "japanese": "私は君がどこの出身かしらないし、彼も知らない。",
+    "english": "I don't know where you're from, and neither does he."
+  },
+  {
+    "id": "157501",
+    "japanese": "私は君がそうすることは必要だと思う。",
+    "english": "I think it necessary that you should do so."
+  },
+  {
+    "id": "157503",
+    "japanese": "私は君がいつも遅れてくるのが気に入らない。",
+    "english": "I don't like your coming late every time."
+  },
+  {
+    "id": "157504",
+    "japanese": "私は君があの事故に関してその話をデッチ上げたと見ている。",
+    "english": "I think you made up that story about the accident."
+  },
+  {
+    "id": "157505",
+    "japanese": "私は熊が怖い。",
+    "english": "I am afraid of bears."
+  },
+  {
+    "id": "157506",
+    "japanese": "私は靴を磨いてもらった。",
+    "english": "I had my shoes cleaned."
+  },
+  {
+    "id": "157507",
+    "japanese": "私は靴を一足買わなければならない。",
+    "english": "I must buy a pair of shoes."
+  },
+  {
+    "id": "157509",
+    "japanese": "私は靴をぼろぼろにしてしまった。",
+    "english": "I've worn out my shoes."
+  },
+  {
+    "id": "157510",
+    "japanese": "私は靴をぬらした。",
+    "english": "I got my shoes wet."
+  },
+  {
+    "id": "157511",
+    "japanese": "私は靴をあの店で直してもらった。",
+    "english": "I had my shoes mended at that store."
+  },
+  {
+    "id": "157512",
+    "japanese": "私は靴の紐をほどいた。",
+    "english": "I loosened my shoelaces."
+  },
+  {
+    "id": "157514",
+    "japanese": "私は偶然彼女に駅で会った。",
+    "english": "I met her at the station by accident."
+  },
+  {
+    "id": "157515",
+    "japanese": "私は偶然彼に出会った。",
+    "english": "I met him by chance."
+  },
+  {
+    "id": "157516",
+    "japanese": "私は偶然電車の中で旧友に出会った。",
+    "english": "I came upon an old friend of mine on the train."
+  },
+  {
+    "id": "157517",
+    "japanese": "私は偶然空港で彼に会った。",
+    "english": "It chanced that I met him at the airport."
+  },
+  {
+    "id": "157518",
+    "japanese": "私は偶然に彼女とバス停で会いました。",
+    "english": "I met her by accident at the bus stop."
+  },
+  {
+    "id": "157519",
+    "japanese": "私は偶然にも京都で旧友にあった。",
+    "english": "I met an old friend by chance in Kyoto."
+  },
+  {
+    "id": "157520",
+    "japanese": "私は偶然にリバプールに来たのだった。",
+    "english": "I came to Liverpool by chance."
+  },
+  {
+    "id": "157521",
+    "japanese": "私は偶然そこで働いていた。",
+    "english": "I chanced to be working there."
+  },
+  {
+    "id": "157522",
+    "japanese": "私は偶然その本を見つけた。",
+    "english": "I found the book by chance."
+  },
+  {
+    "id": "157523",
+    "japanese": "私は偶然ジェーンに会った。",
+    "english": "I met Jane by accident."
+  },
+  {
+    "id": "157524",
+    "japanese": "私は空腹のクモです。",
+    "english": "I am a hungry spider."
+  },
+  {
+    "id": "157525",
+    "japanese": "私は空腹のあまり口もきけなかった。",
+    "english": "I was too hungry to speak."
+  },
+  {
+    "id": "157526",
+    "japanese": "私は空腹でめまいがした。",
+    "english": "I felt faint with hunger."
+  },
+  {
+    "id": "157527",
+    "japanese": "私は空想にふけって多くの時間を無駄に過ごす。",
+    "english": "I waste a lot of time daydreaming."
+  },
+  {
+    "id": "157528",
+    "japanese": "私は空港へ母を見送りに行った。",
+    "english": "I went to the airport to see my mother off."
+  },
+  {
+    "id": "157529",
+    "japanese": "私は空港の写真を持っています。",
+    "english": "I have a picture of an airport."
+  },
+  {
+    "id": "157530",
+    "japanese": "私は空港の関税免除のショッピングを思う存分楽しんだ。",
+    "english": "I indulged in some duty-free shopping at the airport."
+  },
+  {
+    "id": "157531",
+    "japanese": "私は空港で友達に会った。",
+    "english": "I met a friend of mine at the airport."
+  },
+  {
+    "id": "157532",
+    "japanese": "私は空港で偶然彼とであった。",
+    "english": "I chanced to meet him at the airport."
+  },
+  {
+    "id": "157533",
+    "japanese": "私は空軍に入った。",
+    "english": "I went into the air force."
+  },
+  {
+    "id": "157534",
+    "japanese": "私は空を飛べないのと同じく泳ぐこともできない。",
+    "english": "I can no more swim than I can fly."
+  },
+  {
+    "id": "157535",
+    "japanese": "私は空に不思議な動く物体を見た。",
+    "english": "I saw a strange moving object in the sky."
+  },
+  {
+    "id": "157537",
+    "japanese": "私は愚かにも彼を信じてしまった。",
+    "english": "I was foolish enough to believe him."
+  },
+  {
+    "id": "157538",
+    "japanese": "私は愚かにも定期券を家に置き忘れた。",
+    "english": "I was foolish enough to leave my commutation ticket at home."
+  },
+  {
+    "id": "157539",
+    "japanese": "私は愚かにもそれを信じた。",
+    "english": "I was foolish enough to believe it."
+  },
+  {
+    "id": "157540",
+    "japanese": "私は愚かな迷信など信じない。",
+    "english": "I have no faith in a silly superstition."
+  },
+  {
+    "id": "157541",
+    "japanese": "私は苦情を言ったが、店ではこのセーターを引き取るのを拒んだ。",
+    "english": "I complained, but they refused to take this sweater back."
+  },
+  {
+    "id": "157542",
+    "japanese": "私は苦学して大学を卒業した。",
+    "english": "I worked my way through college."
+  },
+  {
+    "id": "157543",
+    "japanese": "私は苦いものが好きだ。",
+    "english": "I have a fancy for bitter things."
+  },
+  {
+    "id": "157544",
+    "japanese": "私は九州へ行ったことが無い。",
+    "english": "I have never been to Kyushu."
+  },
+  {
+    "id": "157545",
+    "japanese": "私は九州の福岡の生まれです。",
+    "english": "I'm from Fukuoka in Kyushu."
+  },
+  {
+    "id": "157546",
+    "japanese": "私は九時までに宿題をやってしまうつもりだ。",
+    "english": "I will finish my homework by nine."
+  },
+  {
+    "id": "157548",
+    "japanese": "私は銀行に行って預金から２万ドル引き出した。",
+    "english": "I went to the bank to withdraw $20,000 from my savings account."
+  },
+  {
+    "id": "157549",
+    "japanese": "私は銀行に行きます。",
+    "english": "I'm going to the bank."
+  },
+  {
+    "id": "157550",
+    "japanese": "銀行に行かなければいけないんです。",
+    "english": "I have to go to the bank."
+  },
+  {
+    "id": "157551",
+    "japanese": "私は銀行に口座を開いた。",
+    "english": "I opened my account with the bank."
+  },
+  {
+    "id": "157552",
+    "japanese": "私は銀行で働いています。",
+    "english": "I work for a bank."
+  },
+  {
+    "id": "157553",
+    "japanese": "私は銀行で働いていました。",
+    "english": "I worked for a bank."
+  },
+  {
+    "id": "157554",
+    "japanese": "私は銀行で円を少しドルに両替した。",
+    "english": "I exchanged some yen for dollars at the bank."
+  },
+  {
+    "id": "157555",
+    "japanese": "私は銀貨を数枚持っている。",
+    "english": "I have several silver coins."
+  },
+  {
+    "id": "157556",
+    "japanese": "私は銀のティースプーンを集めています。",
+    "english": "I collect silver tea spoons."
+  },
+  {
+    "id": "157557",
+    "japanese": "私は金儲けをしようという特別の目的でそこへ行った。",
+    "english": "I went there for the express purpose of earning money."
+  },
+  {
+    "id": "157558",
+    "japanese": "私は金持ちではないし、金持ちになりたくもない。",
+    "english": "I'm not rich, nor do I wish to be."
+  },
+  {
+    "id": "157559",
+    "japanese": "私は金持ちではないし、またそうなりたいとも思わない。",
+    "english": "I am not rich, nor do I wish to be."
+  },
+  {
+    "id": "157560",
+    "japanese": "私は金持ちではないし、なりたいとも思わない。",
+    "english": "I am not rich, nor do I wish to be."
+  },
+  {
+    "id": "157561",
+    "japanese": "私は金持ちでした。",
+    "english": "I was a rich man."
+  },
+  {
+    "id": "157562",
+    "japanese": "私は金持ちじゃないが捧げられるものがたくさんある。",
+    "english": "I'm not rich but have so much to offer."
+  },
+  {
+    "id": "157563",
+    "japanese": "私は金を持ち合わせていない。",
+    "english": "I have no money with me."
+  },
+  {
+    "id": "157564",
+    "japanese": "私は金を銀行に３年定期預金に入れた。",
+    "english": "I put the money in a three-year time deposit at the bank."
+  },
+  {
+    "id": "157565",
+    "japanese": "私は金よりむしろ名誉を選ぶ。",
+    "english": "I would choose honor before money."
+  },
+  {
+    "id": "157566",
+    "japanese": "私は金もないし友達もいません。",
+    "english": "I have neither money nor friends."
+  },
+  {
+    "id": "157567",
+    "japanese": "私は金もないし友だちもありませんが、あなたが考えていらっしゃるほど不幸ではありません。",
+    "english": "Though I have neither money nor friends, I am not so unhappy as you think."
+  },
+  {
+    "id": "157569",
+    "japanese": "私は金が無くて困っている。",
+    "english": "I need money badly."
+  },
+  {
+    "id": "157570",
+    "japanese": "私は金が最も重要だという考えは好きではない。",
+    "english": "I don't like the idea that money is everything."
+  },
+  {
+    "id": "157571",
+    "japanese": "私は近日中に彼を訪問しよう。",
+    "english": "I will call on him one of these days."
+  },
+  {
+    "id": "157572",
+    "japanese": "私は近所の人と仲が良い。",
+    "english": "I'm on good terms with the neighbors."
+  },
+  {
+    "id": "157573",
+    "japanese": "私は近所の人と楽しい会話をしました。",
+    "english": "I had an interesting conversation with my neighbor."
+  },
+  {
+    "id": "157574",
+    "japanese": "私は近視なので、あの看板に何が書いてあるか分からない。",
+    "english": "I am near-sighted, so I cannot make out what is written on that signboard."
+  },
+  {
+    "id": "157575",
+    "japanese": "私は近いうちにその展覧会を見に行くつもりだ。",
+    "english": "I am going to visit the art exhibition one of these days."
+  },
+  {
+    "id": "157577",
+    "japanese": "私は禁酒を誓ったが、結局次の週からまた飲み始めた。",
+    "english": "I swore off drinking only to start again the next week."
+  },
+  {
+    "id": "157579",
+    "japanese": "私は禁煙します。",
+    "english": "I'm giving up smoking."
+  },
+  {
+    "id": "157580",
+    "japanese": "私は玉ねぎの味が嫌いだ。",
+    "english": "I don't like the taste of onions."
+  },
+  {
+    "id": "157581",
+    "japanese": "私は勤勉の重要性に対する信念を持っている。",
+    "english": "I hold a belief in the importance of hard work."
+  },
+  {
+    "id": "157582",
+    "japanese": "私は曲を覚えようとした。",
+    "english": "I tried to learn the melody by heart."
+  },
+  {
+    "id": "157583",
+    "japanese": "私は驚いて飛び上がった。",
+    "english": "I jumped up in surprise."
+  },
+  {
+    "id": "157584",
+    "japanese": "私は驚いてそして悲しくなった。",
+    "english": "I was surprised and became sad."
+  },
+  {
+    "id": "157585",
+    "japanese": "私は鏡に写っている自分を見つめているのです。",
+    "english": "I'm staring at myself in a mirror."
+  },
+  {
+    "id": "157586",
+    "japanese": "私は鏡に息を吹きかけた。",
+    "english": "I blew my breath against the mirror."
+  },
+  {
+    "id": "157587",
+    "japanese": "私は興奮して固唾をのんだ。",
+    "english": "I held my breath in excitement."
+  },
+  {
+    "id": "157588",
+    "japanese": "私は橋本といいます。",
+    "english": "My name is Hashimoto."
+  },
+  {
+    "id": "157589",
+    "japanese": "私は橋本君からその知らせを受けた。",
+    "english": "I was told the news by Hashimoto."
+  },
+  {
+    "id": "157590",
+    "japanese": "私は橋の上で彼と別れた。",
+    "english": "I parted from him on the bridge."
+  },
+  {
+    "id": "157591",
+    "japanese": "私は教授と１時３０分に会う約束がある。",
+    "english": "I have an appointment with the professor at 1:30."
+  },
+  {
+    "id": "157592",
+    "japanese": "私は教授です。",
+    "english": "I am a professor."
+  },
+  {
+    "id": "157593",
+    "japanese": "私は教授です、いやもっと正確に言えば、助教授です。",
+    "english": "I'm a professor, or rather an associate professor, to be exact."
+  },
+  {
+    "id": "157594",
+    "japanese": "私は教室に一人でいた。",
+    "english": "I was alone in the classroom."
+  },
+  {
+    "id": "157595",
+    "japanese": "私は教室で自分の声を届かせることができなかった。",
+    "english": "I couldn't make myself heard in the classroom."
+  },
+  {
+    "id": "157596",
+    "japanese": "私は教師になる目的で英語を学び始めた。",
+    "english": "I started to learn English with the aim of becoming a teacher."
+  },
+  {
+    "id": "157597",
+    "japanese": "私は教師になるつもりで英語を学び始めた。",
+    "english": "I started to learn English with the aim of becoming a teacher."
+  },
+  {
+    "id": "157598",
+    "japanese": "私は教師になるつもりだった。",
+    "english": "I intended to have become a teacher."
+  },
+  {
+    "id": "157600",
+    "japanese": "私は教師というよりもむしろ作家だ。",
+    "english": "I am a writer rather than a teacher."
+  },
+  {
+    "id": "157601",
+    "japanese": "私は教師です。私もそうです。",
+    "english": "\"I am a teacher.\" \"So am I.\""
+  },
+  {
+    "id": "157602",
+    "japanese": "私は教師です。",
+    "english": "I'm a teacher."
+  },
+  {
+    "id": "157603",
+    "japanese": "私は教会で彼女に会った。",
+    "english": "I met her at the church."
+  },
+  {
+    "id": "157604",
+    "japanese": "私は教会である女性に会いましたが、その人の美しさはいつまでも印象に残っています。",
+    "english": "I saw a woman at the church, whose beauty made a lasting impression on me."
+  },
+  {
+    "id": "157605",
+    "japanese": "教科書を買うのを忘れてた。",
+    "english": "I forgot to buy the textbook."
+  },
+  {
+    "id": "157606",
+    "japanese": "私は教員になったことを後悔している。",
+    "english": "I regret becoming a teacher."
+  },
+  {
+    "id": "157607",
+    "japanese": "私は教育の必要性をしみじみと感じた。",
+    "english": "The necessity of education came home to me."
+  },
+  {
+    "id": "157608",
+    "japanese": "私は教育の重要性を痛感した。",
+    "english": "It was brought home to me how important education is."
+  },
+  {
+    "id": "157609",
+    "japanese": "私は教育がいかに重要であるかを痛感しました。",
+    "english": "It was brought home to me how important education is."
+  },
+  {
+    "id": "157610",
+    "japanese": "私は教えています。",
+    "english": "I teach."
+  },
+  {
+    "id": "157611",
+    "japanese": "私は教えた後ひどく疲れています。",
+    "english": "I am very tired from teaching."
+  },
+  {
+    "id": "157612",
+    "japanese": "私は恐竜の進化にとても興味を持っている。",
+    "english": "The evolution of dinosaurs interests me greatly."
+  },
+  {
+    "id": "157613",
+    "japanese": "私は恐怖のために震えていた。",
+    "english": "I was trembling with fear."
+  },
+  {
+    "id": "157614",
+    "japanese": "私は恐怖のためにひと言も話せなかった。",
+    "english": "I could not say a word for fear."
+  },
+  {
+    "id": "157615",
+    "japanese": "私は恐怖で気も狂わんばかりだった。",
+    "english": "I almost went crazy with fear."
+  },
+  {
+    "id": "157616",
+    "japanese": "私は恐ろしい夢を見た。",
+    "english": "I had a terrible dream."
+  },
+  {
+    "id": "157617",
+    "japanese": "私は恐ろしい事故にあった。",
+    "english": "I met with an awful accident."
+  },
+  {
+    "id": "157618",
+    "japanese": "私は強調構文なんて殆ど忘れていた。",
+    "english": "I have pretty much forgotten the emphatic constructions."
+  },
+  {
+    "id": "157619",
+    "japanese": "私は強く信じている。",
+    "english": "I firmly believe."
+  },
+  {
+    "id": "157620",
+    "japanese": "私は強い風に傘を吹き飛ばされた。",
+    "english": "I had my umbrella blown off by the strong wind."
+  },
+  {
+    "id": "157621",
+    "japanese": "私は協力的でない人たちに我慢できない。",
+    "english": "I am impatient with those who aren't cooperative."
+  },
+  {
+    "id": "157622",
+    "japanese": "私は京都大学を卒業しました。",
+    "english": "I graduated from Kyoto University."
+  },
+  {
+    "id": "157623",
+    "japanese": "私は京都を訪れるつもりだ。",
+    "english": "I will visit Kyoto."
+  },
+  {
+    "id": "157624",
+    "japanese": "私は京都へ行くと必ず南禅寺を訪れる。",
+    "english": "I never go to Kyoto without visiting the Nanzenji Temple."
+  },
+  {
+    "id": "157626",
+    "japanese": "私は京都の叔父のところに泊まるつもりだ。",
+    "english": "I'm going to stay with my uncle in Kyoto."
+  },
+  {
+    "id": "157627",
+    "japanese": "私は京都の古い寺に深い愛着を感じる。",
+    "english": "I am deeply attached to old temples in Kyoto."
+  },
+  {
+    "id": "157628",
+    "japanese": "私は京都の叔母さんの家に泊まる予定だ。",
+    "english": "I am going to stay with my aunt in Kyoto."
+  },
+  {
+    "id": "157629",
+    "japanese": "私は京都に着くとすぐ病気になった。",
+    "english": "I had no sooner arrived in Kyoto than I fell ill."
+  },
+  {
+    "id": "157630",
+    "japanese": "京都に住んでいる友達がいます。",
+    "english": "I have a friend who lives in Kyoto."
+  },
+  {
+    "id": "157631",
+    "japanese": "私は京都に行った。そしてそこでたまたま彼女にあった。",
+    "english": "I went to Kyoto, where I happened to see her."
+  },
+  {
+    "id": "157632",
+    "japanese": "私は東京に行きたい。",
+    "english": "I want to go to Tokyo."
+  },
+  {
+    "id": "157633",
+    "japanese": "私は京都に行ったことがある。",
+    "english": "I have been to Kyoto."
+  },
+  {
+    "id": "157634",
+    "japanese": "私は京都と、そして奈良にも訪れる計画を立てている。",
+    "english": "I am planning to visit Kyoto, and Nara as well."
+  },
+  {
+    "id": "157635",
+    "japanese": "私は京都で生まれた。",
+    "english": "I was born in Kyoto."
+  },
+  {
+    "id": "157636",
+    "japanese": "私は京都か奈良に住みたい。",
+    "english": "I want to live in Kyoto or in Nara."
+  },
+  {
+    "id": "157637",
+    "japanese": "私は魚より肉の方を好む。",
+    "english": "I like meat better than fish."
+  },
+  {
+    "id": "157638",
+    "japanese": "私は魚より肉の方が好きだ。",
+    "english": "I like meat better than fish."
+  },
+  {
+    "id": "157639",
+    "japanese": "私は魚よりも肉の方が断然いい。",
+    "english": "I prefer meat to fish any day."
+  },
+  {
+    "id": "157640",
+    "japanese": "私は魚が好きだ。",
+    "english": "I like fish."
+  },
+  {
+    "id": "157641",
+    "japanese": "私は居眠りをして降りる駅を乗り過ごした事に気づいた。",
+    "english": "I noticed that I had slept past my station."
+  },
+  {
+    "id": "157642",
+    "japanese": "私は去年彼と知り合いになった。",
+    "english": "I got acquainted with him last year."
+  },
+  {
+    "id": "157643",
+    "japanese": "私は去年日本に来ました。",
+    "english": "I came to Japan last year."
+  },
+  {
+    "id": "157644",
+    "japanese": "私は去年中学３年生だった。",
+    "english": "I was in the third year of middle school last year."
+  },
+  {
+    "id": "157645",
+    "japanese": "私は去年大手術を受けた。",
+    "english": "I underwent major surgery last year."
+  },
+  {
+    "id": "157646",
+    "japanese": "私は去年大学を卒業した。",
+    "english": "I graduated from university last year."
+  },
+  {
+    "id": "157647",
+    "japanese": "私は去年三田市に住んでいました。",
+    "english": "I lived in Sanda City last year."
+  },
+  {
+    "id": "157648",
+    "japanese": "私は去年三田に住んでいませんでした。",
+    "english": "I did not live in Sanda last year."
+  },
+  {
+    "id": "157649",
+    "japanese": "私は去年高校を卒業しました。",
+    "english": "I graduated from high school last year."
+  },
+  {
+    "id": "157650",
+    "japanese": "私は去年医者に行きませんでした。",
+    "english": "I didn't see a doctor last year."
+  },
+  {
+    "id": "157652",
+    "japanese": "私は去年の秋にアメリカにいった。",
+    "english": "I went to America last fall."
+  },
+  {
+    "id": "157654",
+    "japanese": "私は去年の夏の冒険を覚えている。",
+    "english": "I remember last summer's adventure."
+  },
+  {
+    "id": "157655",
+    "japanese": "私は去年の４月、カナダ横断旅行をした。",
+    "english": "I took a trip across Canada last April."
+  },
+  {
+    "id": "157656",
+    "japanese": "私は去年ニューヨークに住んでいた。",
+    "english": "I lived in New York last year."
+  },
+  {
+    "id": "157657",
+    "japanese": "去年から神戸に住んでいるの。",
+    "english": "I have lived in Kobe since last year."
+  },
+  {
+    "id": "157658",
+    "japanese": "私は去年から三田に住んでいません。",
+    "english": "I have not lived in Sanda since last year."
+  },
+  {
+    "id": "157659",
+    "japanese": "私は去年、それを別の筋から聞いた。",
+    "english": "I heard about it from another source last year."
+  },
+  {
+    "id": "157660",
+    "japanese": "私は牛乳が飲みたいな。",
+    "english": "I want to drink milk."
+  },
+  {
+    "id": "157661",
+    "japanese": "私は牛乳をいくらか買わなければなりません。",
+    "english": "I must buy some milk."
+  },
+  {
+    "id": "157662",
+    "japanese": "私は牛肉より羊肉の方が好きだ。",
+    "english": "I prefer mutton to beef."
+  },
+  {
+    "id": "157663",
+    "japanese": "私は旧友に出会い、さらに不思議な事に恩師に出会った。",
+    "english": "I met an old friend, and what was more strange, my former teacher."
+  },
+  {
+    "id": "157664",
+    "japanese": "私は旧友に偶然であった。",
+    "english": "I ran into an old friend of mine."
+  },
+  {
+    "id": "157665",
+    "japanese": "私は給与の５分の１を税金で取られてしまう。",
+    "english": "One-fifth of my wages go to taxes."
+  },
+  {
+    "id": "157666",
+    "japanese": "私は級友に追いつく為に一生懸命勉強する。",
+    "english": "I work hard to catch up with the class."
+  },
+  {
+    "id": "157667",
+    "japanese": "私は級友に計画を提案したが、級友の何人かはそれに反対だった。",
+    "english": "I proposed the plan to my classmates, some of whom were against it."
+  },
+  {
+    "id": "157668",
+    "japanese": "私は級友に会った。",
+    "english": "I met my classmate."
+  },
+  {
+    "id": "157669",
+    "japanese": "私は泣き出しそうだった。",
+    "english": "I was almost in tears."
+  },
+  {
+    "id": "157670",
+    "japanese": "私は泣きたいような気がした。",
+    "english": "I felt like crying."
+  },
+  {
+    "id": "157671",
+    "japanese": "私は泣かずにいられなかった。",
+    "english": "I couldn't help but cry."
+  },
+  {
+    "id": "157672",
+    "japanese": "私は急用で外出しなければならない。",
+    "english": "I must be away on urgent business."
+  },
+  {
+    "id": "157673",
+    "japanese": "私は急にわきばらに痛みを感じた。",
+    "english": "I felt a sudden pain in my side."
+  },
+  {
+    "id": "157674",
+    "japanese": "私は急にスピーチをしなければならなくなった。",
+    "english": "I had to make a speech at short notice."
+  },
+  {
+    "id": "157675",
+    "japanese": "私は急がなければなりませんか。",
+    "english": "Must I hurry?"
+  },
+  {
+    "id": "157676",
+    "japanese": "私は急いで服を着た。",
+    "english": "I put on my clothes in a hurry."
+  },
+  {
+    "id": "157677",
+    "japanese": "私は急いで朝食を食べて、家を出た。",
+    "english": "I had a hasty breakfast and left home."
+  },
+  {
+    "id": "157679",
+    "japanese": "私は急いで昼食を終えた。",
+    "english": "I finished my lunch quickly."
+  },
+  {
+    "id": "157680",
+    "japanese": "私は急いで昼食をとった。",
+    "english": "I ate a hasty lunch."
+  },
+  {
+    "id": "157681",
+    "japanese": "私は急いで着物を着た。",
+    "english": "I hurried my clothes on."
+  },
+  {
+    "id": "157682",
+    "japanese": "私は急いで計算をした。",
+    "english": "I calculated hastily."
+  },
+  {
+    "id": "157684",
+    "japanese": "私は急いでいません。",
+    "english": "I'm not in a hurry."
+  },
+  {
+    "id": "157685",
+    "japanese": "私は急いでいたので、タクシーに乗らなければならなかった。",
+    "english": "As I was in a hurry, I had to take a taxi."
+  },
+  {
+    "id": "157686",
+    "japanese": "私は吸う前に吸って良いのか良く考える。",
+    "english": "I think twice before I smoke."
+  },
+  {
+    "id": "157687",
+    "japanese": "私は休日にはよく何時間も釣りをしたものだった。",
+    "english": "I used to fish for hours on holidays."
+  },
+  {
+    "id": "157689",
+    "japanese": "私は休暇中どこへも行かなかった。",
+    "english": "I didn't go anywhere during the holiday."
+  },
+  {
+    "id": "157690",
+    "japanese": "私は休暇を利用して東京を訪れた。",
+    "english": "I availed myself of a holiday to visit Tokyo."
+  },
+  {
+    "id": "157691",
+    "japanese": "私は休暇を取る余裕がない。",
+    "english": "I cannot afford a holiday."
+  },
+  {
+    "id": "157692",
+    "japanese": "私は休暇を箱根で過ごした。",
+    "english": "I spent my vacation in Hakone."
+  },
+  {
+    "id": "157693",
+    "japanese": "私は休暇をりようして、故郷の名古屋へ帰った。",
+    "english": "Taking advantage of the holidays, I returned home to Nagoya."
+  },
+  {
+    "id": "157694",
+    "japanese": "私は休暇の大部分を叔父の家で過ごした。",
+    "english": "I spent the major part of my vacation at my uncle's."
+  },
+  {
+    "id": "157695",
+    "japanese": "私は休暇の計画を立てた。",
+    "english": "I laid out a schedule for the vacation."
+  },
+  {
+    "id": "157696",
+    "japanese": "私は休暇の間に京都見物をしました。",
+    "english": "I saw the sights of Kyoto during my vacation."
+  },
+  {
+    "id": "157697",
+    "japanese": "私は休暇で出かけていました。",
+    "english": "I was out of town on vacation."
+  },
+  {
+    "id": "157698",
+    "japanese": "私は休暇で外国に行っていました。",
+    "english": "I was abroad on vacation."
+  },
+  {
+    "id": "157699",
+    "japanese": "私は休暇で２週間ハワイに行っていた。",
+    "english": "I went to Hawaii on vacation for a couple of weeks."
+  },
+  {
+    "id": "157700",
+    "japanese": "私は休むために横になった。",
+    "english": "I lay down to rest."
+  },
+  {
+    "id": "157701",
+    "japanese": "私は久しぶりにその町を訪ねた。",
+    "english": "I visited the town for the first time in a long time."
+  },
+  {
+    "id": "157702",
+    "japanese": "私は丘を登り下りして息切れがした。",
+    "english": "I was out of breath from walking up and down hills."
+  },
+  {
+    "id": "157703",
+    "japanese": "私は逆の意見を持っている。",
+    "english": "I hold the converse opinion."
+  },
+  {
+    "id": "157704",
+    "japanese": "私は客に別れのあいさつを述べた。",
+    "english": "I bade farewell to the guests."
+  },
+  {
+    "id": "157705",
+    "japanese": "私は喫茶店に入ったが、そこでたまたま彼と会った。",
+    "english": "I went into a tearoom, where I happened to see him."
+  },
+  {
+    "id": "157706",
+    "japanese": "私は喫茶店でコーヒーを１杯飲みました。",
+    "english": "I had a cup of coffee at the coffee shop."
+  },
+  {
+    "id": "157707",
+    "japanese": "私は喫煙は好まない。健康に悪いからだ。",
+    "english": "I don't care for smoking; it's bad for the health."
+  },
+  {
+    "id": "157708",
+    "japanese": "私は吉雄ほど忙しくない。",
+    "english": "I am not as busy as Yoshio."
+  },
+  {
+    "id": "157709",
+    "japanese": "私は議長に任命された。",
+    "english": "I have been nominated for the chairman."
+  },
+  {
+    "id": "157710",
+    "japanese": "私は議長に指名された。",
+    "english": "I was appointed chairperson."
+  },
+  {
+    "id": "157711",
+    "japanese": "私は義務上これを最後までやり通さなければならない。",
+    "english": "I am in duty bound to see this thing through."
+  },
+  {
+    "id": "157712",
+    "japanese": "私は義務を果たそうと努力した。",
+    "english": "I tried to fulfill my duty."
+  },
+  {
+    "id": "157713",
+    "japanese": "私は疑念を表明せずにはおれない。",
+    "english": "I cannot forbear expressing my doubts."
+  },
+  {
+    "id": "157714",
+    "japanese": "私は疑い深い性格です。",
+    "english": "I have a suspicious nature."
+  },
+  {
+    "id": "157715",
+    "japanese": "私は技師になるつもりです。",
+    "english": "I am going to be an engineer."
+  },
+  {
+    "id": "157716",
+    "japanese": "私は技師になりたい。",
+    "english": "I want to be an engineer."
+  },
+  {
+    "id": "157718",
+    "japanese": "私は貴方が汽車で行くことを勧めます。",
+    "english": "I recommend you to go by train."
+  },
+  {
+    "id": "157719",
+    "japanese": "私は貴乃花が急いで体育館を出てくる時、彼をちらっと見た。",
+    "english": "I got a quick glimpse of Takanohana as he hurriedly left the gymnasium."
+  },
+  {
+    "id": "157720",
+    "japanese": "私は貴社のモデル１２３を「テクノワールド」誌の１９９７年１月号で拝見しました。",
+    "english": "I noticed your Model 123 in the January 1997 issue of Techno-World Magazine."
+  },
+  {
+    "id": "157721",
+    "japanese": "私は記憶力が不足している。",
+    "english": "I am running short of memory."
+  },
+  {
+    "id": "157722",
+    "japanese": "私は記憶違いをしていた。",
+    "english": "I was guilty of a slip of memory."
+  },
+  {
+    "id": "157723",
+    "japanese": "私は記憶が不足している。",
+    "english": "I am running short of memory."
+  },
+  {
+    "id": "157724",
+    "japanese": "私は規則的な生活をしています。",
+    "english": "I lead a regular life."
+  },
+  {
+    "id": "157725",
+    "japanese": "私は規則正しい生活をしている。",
+    "english": "I have an orderly lifestyle."
+  },
+  {
+    "id": "157726",
+    "japanese": "私は季節の中で春が好きだ。",
+    "english": "I like spring the best of the seasons."
+  },
+  {
+    "id": "157727",
+    "japanese": "私は汽車に間に合うように早く起きた。",
+    "english": "I got up early to be in time for the train."
+  },
+  {
+    "id": "157728",
+    "japanese": "私は汽車で旅行することが好きだ。",
+    "english": "I am very fond of travelling by train."
+  },
+  {
+    "id": "157729",
+    "japanese": "私は気落ちしていた。",
+    "english": "I was deeply discouraged."
+  },
+  {
+    "id": "157730",
+    "japanese": "私は気分転換に音楽を聴こうと提案した。",
+    "english": "I suggested that we should listen to music for a change."
+  },
+  {
+    "id": "157732",
+    "japanese": "私は気分が悪くて立っていられなかった。",
+    "english": "I was too sick to stand."
+  },
+  {
+    "id": "157734",
+    "japanese": "私は気持ちを隠せない。",
+    "english": "I can't hide my feelings."
+  },
+  {
+    "id": "157735",
+    "japanese": "私は気候が暖かくなるまで、イギリスに行くのを延ばすよ。",
+    "english": "I'll put off my visit to England till the weather is warmer."
+  },
+  {
+    "id": "157736",
+    "japanese": "私は気まずい思いで体がほてった。",
+    "english": "I was feverish with embarrassment."
+  },
+  {
+    "id": "157737",
+    "japanese": "私は気づかれることなく彼の後ろを通りすぎた。",
+    "english": "I passed behind him without being noticed."
+  },
+  {
+    "id": "157738",
+    "japanese": "私は帰宅の途中どこかで財布を盗まれた。",
+    "english": "I had my purse stolen somewhere on my way home."
+  },
+  {
+    "id": "157739",
+    "japanese": "私は帰宅の途中で彼の家に寄るつもりです。",
+    "english": "I'm going to drop in at his house on my way home."
+  },
+  {
+    "id": "157740",
+    "japanese": "私は帰宅の許可を得た。",
+    "english": "I got leave to go home."
+  },
+  {
+    "id": "157741",
+    "japanese": "私は帰宅するとすぐに寝た。",
+    "english": "I slept soon when I came home."
+  },
+  {
+    "id": "157742",
+    "japanese": "私は帰宅するといつもコートにブラシをかける。",
+    "english": "I always brush my coat when I come home."
+  },
+  {
+    "id": "157743",
+    "japanese": "私は帰宅してもよいですか。",
+    "english": "May I go home?"
+  },
+  {
+    "id": "157744",
+    "japanese": "私は帰宅しなければいけません。",
+    "english": "I have to go home."
+  },
+  {
+    "id": "157745",
+    "japanese": "私は帰国してからとても忙しい。",
+    "english": "I've been very busy since I returned from abroad."
+  },
+  {
+    "id": "157746",
+    "japanese": "私は帰り道に交通事故に遭った。",
+    "english": "I met with a traffic accident on my way back."
+  },
+  {
+    "id": "157747",
+    "japanese": "私は帰らないわ。",
+    "english": "I'm not going back."
+  },
+  {
+    "id": "157748",
+    "japanese": "私は機会をつかんでローマを訪れた。",
+    "english": "I took the opportunity to visit Rome."
+  },
+  {
+    "id": "157749",
+    "japanese": "私は機会があればいつでもその博物館へ行きます。",
+    "english": "I go to the museum whenever I get the chance."
+  },
+  {
+    "id": "157750",
+    "japanese": "私は期末試験の前にもっと勉強するべきだった。",
+    "english": "I should have studied harder before the term exams."
+  },
+  {
+    "id": "157751",
+    "japanese": "私は机の上に地図を広げた。",
+    "english": "I unfolded the map on the desk."
+  },
+  {
+    "id": "157752",
+    "japanese": "私は机の上に大きな地図を広げた。",
+    "english": "I spread the big map on the table."
+  },
+  {
+    "id": "157753",
+    "japanese": "私は幾分疲れを感じています。",
+    "english": "I'm feeling kind of tired."
+  },
+  {
+    "id": "157754",
+    "japanese": "私は幾分困惑した気持ちだった。",
+    "english": "I felt rather puzzled."
+  },
+  {
+    "id": "157755",
+    "japanese": "私は奇妙な物体が道路に落ちているのに気づいた。",
+    "english": "I found a strange object lying on the road."
+  },
+  {
+    "id": "157756",
+    "japanese": "私は奇妙な物音を聞いた。",
+    "english": "I heard a funny noise."
+  },
+  {
+    "id": "157757",
+    "japanese": "私は奇妙な音でびっくりしたので飛び上がりました。",
+    "english": "As I was frightened by the strange sound, I jumped up."
+  },
+  {
+    "id": "157758",
+    "japanese": "私は基本的な朝食であるみそ汁とご飯が好きです。",
+    "english": "I like a basic breakfast - miso soup and rice."
+  },
+  {
+    "id": "157759",
+    "japanese": "私は喜んで返事をした。",
+    "english": "I answered with joy."
+  },
+  {
+    "id": "157760",
+    "japanese": "私は喜んで君の仕事を手伝います。",
+    "english": "I am willing to help you with your work."
+  },
+  {
+    "id": "157761",
+    "japanese": "私は喜んでその会に出席します。",
+    "english": "I am willing to attend the meeting."
+  },
+  {
+    "id": "157762",
+    "japanese": "私は喜んでお手伝いします。",
+    "english": "I am happy to help you."
+  },
+  {
+    "id": "157763",
+    "japanese": "私は喜んであなたを助けよう。",
+    "english": "I am ready to help you."
+  },
+  {
+    "id": "157764",
+    "japanese": "私は喜んであなたを手伝います。",
+    "english": "I'd be happy to help you."
+  },
+  {
+    "id": "157765",
+    "japanese": "私は喜んであなたの援助をします。",
+    "english": "I'd be happy to help you."
+  },
+  {
+    "id": "157766",
+    "japanese": "私は喜んであなたのお手伝いをさせていただきます。",
+    "english": "I'd be most happy to assist you."
+  },
+  {
+    "id": "157767",
+    "japanese": "私は喜んであなたのお供をします。",
+    "english": "I am ready to follow you."
+  },
+  {
+    "id": "157769",
+    "japanese": "私は喜びを抑え切れなかった。",
+    "english": "I could hardly contain myself for joy."
+  },
+  {
+    "id": "157770",
+    "japanese": "私は喜びで我を忘れた。",
+    "english": "I was beside myself with joy."
+  },
+  {
+    "id": "157771",
+    "japanese": "私は喜びでいっぱいでした。",
+    "english": "I was filled with joy."
+  },
+  {
+    "id": "157772",
+    "japanese": "私は危険を冒すのは好きではない。",
+    "english": "I don't like to run a risk."
+  },
+  {
+    "id": "157773",
+    "japanese": "私は危険を犯して敢えてソニーの株を５００株買った。",
+    "english": "I went out on a limb and bought 500 shares of Sony stock."
+  },
+  {
+    "id": "157775",
+    "japanese": "私は危うく犯罪に巻き込まれるところだった。",
+    "english": "I came near to getting involved in a crime."
+  },
+  {
+    "id": "157776",
+    "japanese": "危うくトラックに轢かれそうになった。",
+    "english": "I came near to being run over by the truck."
+  },
+  {
+    "id": "157777",
+    "japanese": "危うくトラックにひかれるところだった。",
+    "english": "I was nearly run over by a truck."
+  },
+  {
+    "id": "157778",
+    "japanese": "私は企てに失敗した。",
+    "english": "I was foiled in my attempt."
+  },
+  {
+    "id": "157779",
+    "japanese": "私は顔の上にハンカチをかぶせて眠った。",
+    "english": "I went to sleep with a handkerchief over my face."
+  },
+  {
+    "id": "157780",
+    "japanese": "私は顔に冷たい風が当たるのを感じた。",
+    "english": "I felt a cold wind on my face."
+  },
+  {
+    "id": "157781",
+    "japanese": "私は岩本和人です。",
+    "english": "I am Kazuto Iwamoto."
+  },
+  {
+    "id": "157782",
+    "japanese": "私は顔が燃えているように感じた。",
+    "english": "I felt as if my face were on fire."
+  },
+  {
+    "id": "157783",
+    "japanese": "私は眼鏡を壊してしまった。それで黒板が見えなかった。",
+    "english": "I had broken my glasses, so that I couldn't see the blackboard."
+  },
+  {
+    "id": "157784",
+    "japanese": "私は眼鏡なしで読書できる。",
+    "english": "I can read without glasses."
+  },
+  {
+    "id": "157785",
+    "japanese": "私は眼鏡なしではほとんどみえない。",
+    "english": "I can hardly see without my glasses."
+  },
+  {
+    "id": "157786",
+    "japanese": "私は眼の検査をしてもらった。",
+    "english": "I got my eyes tested."
+  },
+  {
+    "id": "157787",
+    "japanese": "私は岸辺で美しい貝殻を見つけた。",
+    "english": "I found a beautiful shell on the shore."
+  },
+  {
+    "id": "157788",
+    "japanese": "私は関西国際空港でトニー君を見送った。",
+    "english": "I saw Tony off at Kansai International Airport."
+  },
+  {
+    "id": "157789",
+    "japanese": "私は間違わずには英語を話せない。",
+    "english": "I cannot speak English without making some mistakes."
+  },
+  {
+    "id": "157790",
+    "japanese": "私は間違って彼の傘を持って帰った。",
+    "english": "I took his umbrella by mistake."
+  },
+  {
+    "id": "157791",
+    "japanese": "私は間違って彼の傘を持ってきてしまった。",
+    "english": "I have brought his umbrella by mistake."
+  },
+  {
+    "id": "157792",
+    "japanese": "私は間違ってはいないと私の名誉のために彼は言ってくれた。",
+    "english": "He did me the honor of saying that I was right."
+  },
+  {
+    "id": "157793",
+    "japanese": "私は間違ってすみませんと謝った。",
+    "english": "I asked forgiveness for the mistake I made."
+  },
+  {
+    "id": "157794",
+    "japanese": "私は間違っているかもしれない。",
+    "english": "I might be wrong."
+  },
+  {
+    "id": "157796",
+    "japanese": "私は間違ったのかもしれない。",
+    "english": "I may have made a mistake."
+  },
+  {
+    "id": "157797",
+    "japanese": "私は間違った、そうするつもりはなかったのだが。",
+    "english": "I've made a mistake, though I didn't intend to."
+  },
+  {
+    "id": "157798",
+    "japanese": "私は間違いを指摘されて、きまり悪い思いをした。",
+    "english": "I was abashed when my mistakes were pointed out."
+  },
+  {
+    "id": "157799",
+    "japanese": "私は間違いをすることが好きではありません。",
+    "english": "I do not like to make mistakes."
+  },
+  {
+    "id": "157800",
+    "japanese": "私は観光ビザを持っています。",
+    "english": "I have a tourist visa."
+  },
+  {
+    "id": "157801",
+    "japanese": "私は観劇中だった。",
+    "english": "I was at the theater."
+  },
+  {
+    "id": "157802",
+    "japanese": "私は肝臓の病歴がある。",
+    "english": "I have a history of liver trouble."
+  },
+  {
+    "id": "157803",
+    "japanese": "私は簡単にスペイン語が読める。",
+    "english": "I can read Spanish easily."
+  },
+  {
+    "id": "157804",
+    "japanese": "私は看護婦です。",
+    "english": "I'm a nurse."
+  },
+  {
+    "id": "157805",
+    "japanese": "私は看護婦になりたい。",
+    "english": "I want to be a nurse."
+  },
+  {
+    "id": "157806",
+    "japanese": "私は監視されているのに気づいていた。",
+    "english": "I was aware of being watched."
+  },
+  {
+    "id": "157807",
+    "japanese": "私は甘党なんです。",
+    "english": "I have a sweet tooth."
+  },
+  {
+    "id": "157808",
+    "japanese": "私は甘やかされた子供は嫌いだ。",
+    "english": "I don't like spoiled children."
+  },
+  {
+    "id": "157809",
+    "japanese": "甘い物を食べないようにしています。",
+    "english": "I allow myself no sweets."
+  },
+  {
+    "id": "157810",
+    "japanese": "私は甘いものが好きだ。",
+    "english": "I have a fondness for sweets."
+  },
+  {
+    "id": "157811",
+    "japanese": "私は甘いケーキがとても好きだ。",
+    "english": "I like sweet cakes very much."
+  },
+  {
+    "id": "157812",
+    "japanese": "私は環境問題について多くのことを知っています。",
+    "english": "I know a lot about environmental problems."
+  },
+  {
+    "id": "157813",
+    "japanese": "私は環境保護の仕事をしている女性にインタビューをしました。",
+    "english": "I interviewed a lady who works to protect the environment."
+  },
+  {
+    "id": "157814",
+    "japanese": "私は歓迎をうけた。",
+    "english": "I received a welcome."
+  },
+  {
+    "id": "157815",
+    "japanese": "私は完全にその考え方を捨てたわけではない。",
+    "english": "I haven't completely given up the idea."
+  },
+  {
+    "id": "157816",
+    "japanese": "私は寒さに敏感だ。",
+    "english": "I am very sensitive to the cold."
+  },
+  {
+    "id": "157817",
+    "japanese": "私は寒さに弱い。",
+    "english": "I am easily affected by cold weather."
+  },
+  {
+    "id": "157818",
+    "japanese": "私は寒さになれている。",
+    "english": "I am accustomed to cold weather."
+  },
+  {
+    "id": "157819",
+    "japanese": "私は寒くてぬれています。",
+    "english": "I'm cold and wet."
+  },
+  {
+    "id": "157821",
+    "japanese": "私は寒いと感じた。",
+    "english": "I felt cold."
+  },
+  {
+    "id": "157823",
+    "japanese": "私は鞄と傘を一時預かり室に預けた。",
+    "english": "I checked my briefcase and umbrella in the cloakroom."
+  },
+  {
+    "id": "157824",
+    "japanese": "私は滑って階段から転げ落ちた。",
+    "english": "I slipped and fell down the stairs."
+  },
+  {
+    "id": "157825",
+    "japanese": "私は割のいい仕事の申し入れを受けた。",
+    "english": "I received a good job offer."
+  },
+  {
+    "id": "157826",
+    "japanese": "私は楽屋の外に着きました。",
+    "english": "I arrived outside the dressing room."
+  },
+  {
+    "id": "157830",
+    "japanese": "私は楽しみでピアノを弾く。",
+    "english": "I play the piano for amusement."
+  },
+  {
+    "id": "157831",
+    "japanese": "私は楽しくテニスを遊んだ。",
+    "english": "I had a time playing tennis."
+  },
+  {
+    "id": "157832",
+    "japanese": "私は楽しい休暇になることを期待している。",
+    "english": "I anticipate a good vacation."
+  },
+  {
+    "id": "157833",
+    "japanese": "私は楽しいひとときを過ごしました。",
+    "english": "I had a good time."
+  },
+  {
+    "id": "157834",
+    "japanese": "私は学生時代に怠けていたことを後悔している。",
+    "english": "I regret having been lazy in my school days."
+  },
+  {
+    "id": "157835",
+    "japanese": "私は学生時代にはもっと夜遅くまで起きていた。",
+    "english": "I stayed up much later when I was a student."
+  },
+  {
+    "id": "157837",
+    "japanese": "私は学生ビザを持っています。",
+    "english": "I have a student visa."
+  },
+  {
+    "id": "157838",
+    "japanese": "私は学生は勉強をしに学校へ来るのが当然だと思っている。",
+    "english": "I take it for granted that students come to school to study."
+  },
+  {
+    "id": "157839",
+    "japanese": "私は学生の誰にも本は貸さない。",
+    "english": "I don't lend my books to any of the students."
+  },
+  {
+    "id": "157840",
+    "japanese": "私は学生の時から、彼と親しくつき合っている。",
+    "english": "I kept company with him since we were students."
+  },
+  {
+    "id": "157842",
+    "japanese": "私は学生の頃、よくあのピザ店へ行ったものだった。",
+    "english": "When I was a student, I used to go to that pizza parlor."
+  },
+  {
+    "id": "157843",
+    "japanese": "私は学生です。",
+    "english": "I am a student."
+  },
+  {
+    "id": "157844",
+    "japanese": "私は学生だが彼はちがう。",
+    "english": "I am a student, but he isn't."
+  },
+  {
+    "id": "157845",
+    "japanese": "私は学校時代をよく覚えている。",
+    "english": "I remember my school days very well."
+  },
+  {
+    "id": "157846",
+    "japanese": "私は学校を卒業してはじめて勉強の重要さがわかった。",
+    "english": "It wasn't until I left school that I realized the importance of study."
+  },
+  {
+    "id": "157847",
+    "japanese": "私は学校時代にあったいろいろなことを今でもはっきり覚えている。",
+    "english": "I still have many clear memories of my school days."
+  },
+  {
+    "id": "157848",
+    "japanese": "私は学校を誇りに思っている。",
+    "english": "I'm proud of my school."
+  },
+  {
+    "id": "157849",
+    "japanese": "私は学校をやめなければならないんです。",
+    "english": "I have to leave school."
+  },
+  {
+    "id": "157850",
+    "japanese": "私は学校へ歩いていく。",
+    "english": "I walk to school."
+  },
+  {
+    "id": "157851",
+    "japanese": "私は学校へ行く途中にトニー君に出会った。",
+    "english": "I met Tony on my way school this morning."
+  },
+  {
+    "id": "157852",
+    "japanese": "私は学校へ行く途中でした。",
+    "english": "I was on my way to school."
+  },
+  {
+    "id": "157854",
+    "japanese": "私は学校へ行きません。",
+    "english": "I do not go to school."
+  },
+  {
+    "id": "157855",
+    "japanese": "私は学校へバスで通っています。",
+    "english": "I go to school by bus."
+  },
+  {
+    "id": "157856",
+    "japanese": "私は学校へいく途中彼に会った。",
+    "english": "I met him on my way to school."
+  },
+  {
+    "id": "157857",
+    "japanese": "私は学校の近くに住んでいるので、昼食を食べに家に戻ってくる。",
+    "english": "Living near the school, I come home for lunch."
+  },
+  {
+    "id": "157858",
+    "japanese": "私は学校の近くに住んでいるので、昼食をとりに家に戻ってくる。",
+    "english": "Because I live near the school, I come home for lunch."
+  },
+  {
+    "id": "157859",
+    "japanese": "私は学校に遅刻しないように急いだ。",
+    "english": "I hurried in order not to be late for school."
+  },
+  {
+    "id": "157860",
+    "japanese": "私は学校に遅刻したことがないのを誇りに思ってる。",
+    "english": "I am proud of never being late for school."
+  },
+  {
+    "id": "157861",
+    "japanese": "私は学校に遅れてしまったことを謝った。",
+    "english": "I apologized for having been late for school."
+  },
+  {
+    "id": "157862",
+    "japanese": "私は学校に遅れたので走った。",
+    "english": "I ran because I was late for school."
+  },
+  {
+    "id": "157863",
+    "japanese": "私は学校に時間どおりに着いた。",
+    "english": "I arrived at school on time."
+  },
+  {
+    "id": "157865",
+    "japanese": "私は学校に行く途中で叔父にあった。",
+    "english": "I saw my uncle on the way to school."
+  },
+  {
+    "id": "157866",
+    "japanese": "私は学校に行く前に一時間ジョギングに当てています。",
+    "english": "I put in an hour of jogging before I go to school."
+  },
+  {
+    "id": "157867",
+    "japanese": "私は学校に誇りをもっている。",
+    "english": "I'm proud of my school."
+  },
+  {
+    "id": "157868",
+    "japanese": "私は学校にいる時が一番楽しい。",
+    "english": "I feel happiest when I am in school."
+  },
+  {
+    "id": "157869",
+    "japanese": "私は学校に１０分遅刻した。",
+    "english": "I was ten minutes late for school."
+  },
+  {
+    "id": "157870",
+    "japanese": "私は学校で勉強する。",
+    "english": "I study at school."
+  },
+  {
+    "id": "157871",
+    "japanese": "私は学校で美術を勉強しています。",
+    "english": "I'm studying art at school."
+  },
+  {
+    "id": "157872",
+    "japanese": "私は学校で日本文学の英語訳、特に漱石の『吾輩は猫である』や『心』、芥川の『鼻』や『河童』を楽しく読んだ。",
+    "english": "At school I had enjoyed reading Japanese literature in English translation, in particular Soseki's I am a Cat and Kokoro, and Akutagawa's The Nose and Kappa."
+  },
+  {
+    "id": "157873",
+    "japanese": "私は学校でもっと一生懸命に勉強しなかったことを後悔している。",
+    "english": "I regret not having studied harder at school."
+  },
+  {
+    "id": "157874",
+    "japanese": "私は学校でめったに彼に会ったことがなかった。",
+    "english": "I rarely saw him at school."
+  },
+  {
+    "id": "157875",
+    "japanese": "私は学校での勉強とは別に、詩を書いている。",
+    "english": "Apart from schoolwork, I write poetry."
+  },
+  {
+    "id": "157876",
+    "japanese": "私は学校が終わってからテニスをした。",
+    "english": "I played tennis after school was over."
+  },
+  {
+    "id": "157877",
+    "japanese": "私は学校から帰宅の途中彼女に会った。",
+    "english": "On my way home from school I met her."
+  },
+  {
+    "id": "157878",
+    "japanese": "私は学校から帰る途中で彼に会った。",
+    "english": "I met him on my way from school."
+  },
+  {
+    "id": "157880",
+    "japanese": "私は学校から帰ってから、時々店で両親の手伝いをします。",
+    "english": "I sometimes help my parents in the shop after school."
+  },
+  {
+    "id": "157881",
+    "japanese": "私は学校から家に帰る途中にトニー君に出会った。",
+    "english": "I met Tony on my way home from school."
+  },
+  {
+    "id": "157882",
+    "japanese": "私は学校からの帰り道で彼に会った。",
+    "english": "I met him on my way home from school."
+  },
+  {
+    "id": "157883",
+    "japanese": "私は学科では美術と音楽が好きです。",
+    "english": "I like art and music among my school subjects."
+  },
+  {
+    "id": "157884",
+    "japanese": "学園祭で彼らと親しくなった。",
+    "english": "I made friends with them at the school festival."
+  },
+  {
+    "id": "157885",
+    "japanese": "私は学びたいので、学校へ行く。",
+    "english": "I go to school because I want to learn."
+  },
+  {
+    "id": "157886",
+    "japanese": "私は角を曲がる彼の姿をちらっと見た。",
+    "english": "I caught a glimpse of him as he turned the corner."
+  },
+  {
+    "id": "157887",
+    "japanese": "私は角を曲がって、開店早々の食堂を見つけた。",
+    "english": "I turned the corner and caught sight of a newly opened restaurant."
+  },
+  {
+    "id": "157888",
+    "japanese": "私は角にある劇場に行くところです。",
+    "english": "I am going to the theater on the corner."
+  },
+  {
+    "id": "157889",
+    "japanese": "私は覚悟ができている。",
+    "english": "I am ready."
+  },
+  {
+    "id": "157890",
+    "japanese": "私は確かにそう言ったが、そのつもりではなかった。",
+    "english": "I did say that, but I didn't mean it."
+  },
+  {
+    "id": "157891",
+    "japanese": "私は核実験に反対だと喜んで公式に言明する。",
+    "english": "I am willing to go on record as opposing nuclear tests."
+  },
+  {
+    "id": "157892",
+    "japanese": "私は各生徒用に番号札を使います。",
+    "english": "I use numbered index cards for each student."
+  },
+  {
+    "id": "157893",
+    "japanese": "私は外套なしで済ますことができる。",
+    "english": "I can do without an overcoat."
+  },
+  {
+    "id": "157894",
+    "japanese": "私は外出せずに家にいた。",
+    "english": "I stayed at home instead of going out."
+  },
+  {
+    "id": "157895",
+    "japanese": "私は外出する前にそれを終えなければならない。",
+    "english": "I must finish it before I go out."
+  },
+  {
+    "id": "157897",
+    "japanese": "私は外出すると必ず何かを買ってしまう。",
+    "english": "I never go out without buying something."
+  },
+  {
+    "id": "157898",
+    "japanese": "私は外出するときには傘を持って行く。",
+    "english": "I take an umbrella with me when I go out."
+  },
+  {
+    "id": "157899",
+    "japanese": "私は外出しようとしていた。その時電話が鳴った。",
+    "english": "I was going out, when the telephone rang."
+  },
+  {
+    "id": "157900",
+    "japanese": "私は外出しなければならない。",
+    "english": "I must go out."
+  },
+  {
+    "id": "157901",
+    "japanese": "私は外出しないように言われたので、その忠告にしたがった。",
+    "english": "I was told not go out, which advice I followed."
+  },
+  {
+    "id": "157902",
+    "japanese": "私は外出したくない。",
+    "english": "I don't want to go out."
+  },
+  {
+    "id": "157903",
+    "japanese": "私は外国製品よりもも国内製品を買う方が好きだ。",
+    "english": "I prefer to buy domestic rather than foreign products."
+  },
+  {
+    "id": "157904",
+    "japanese": "私は外国人に英語を教えてもらった。",
+    "english": "I was taught English by a foreigner."
+  },
+  {
+    "id": "157905",
+    "japanese": "私は外国人なのでその冗談の意味が分からなかった。",
+    "english": "Being a foreigner, I couldn't catch on to the joke."
+  },
+  {
+    "id": "157906",
+    "japanese": "私は外国語を二つ教わっている。",
+    "english": "I am learning two foreign languages."
+  },
+  {
+    "id": "157907",
+    "japanese": "私は外国へ行こうか考えている。",
+    "english": "I am thinking of going abroad."
+  },
+  {
+    "id": "157908",
+    "japanese": "私は外国へ行くつもりだったが。",
+    "english": "I intended to have gone abroad."
+  },
+  {
+    "id": "157909",
+    "japanese": "私は外国へ行きたくてたまらない。",
+    "english": "I am aching to go abroad."
+  },
+  {
+    "id": "157911",
+    "japanese": "私は外国の車よりイギリスの車が好きだ。",
+    "english": "I prefer English cars to foreign ones."
+  },
+  {
+    "id": "157912",
+    "japanese": "私は外国の学生としばしば接触した。",
+    "english": "I came into frequent contact with foreign students."
+  },
+  {
+    "id": "157913",
+    "japanese": "私は外国に友人が多くいます。",
+    "english": "I have many friends in foreign countries."
+  },
+  {
+    "id": "157915",
+    "japanese": "私は外国でまったくひとりぼっちです。",
+    "english": "I am all alone in a foreign country."
+  },
+  {
+    "id": "157916",
+    "japanese": "私は外国から帰ってきた。",
+    "english": "I returned from abroad."
+  },
+  {
+    "id": "157917",
+    "japanese": "私は外へ出られなかった。",
+    "english": "I could not get out."
+  },
+  {
+    "id": "157918",
+    "japanese": "私は外の風景にすべての注意を集中した。",
+    "english": "I addressed my full attention to the landscape outside."
+  },
+  {
+    "id": "157919",
+    "japanese": "私は外に走って行って、タクシーをつかまえた。",
+    "english": "I ran out and caught a taxi."
+  },
+  {
+    "id": "157920",
+    "japanese": "私は外に出るために帽子をかぶった。",
+    "english": "I put on my cap to go out."
+  },
+  {
+    "id": "157921",
+    "japanese": "私は階段を上っているときに、彼に会った。",
+    "english": "I met him on the stairs as I was coming up."
+  },
+  {
+    "id": "157923",
+    "japanese": "私は開会の辞を言った。",
+    "english": "I gave an opening address."
+  },
+  {
+    "id": "157924",
+    "japanese": "私は絵美に新しいＣＤをあげるつもりです。",
+    "english": "I'm going to give Emi a new CD."
+  },
+  {
+    "id": "157925",
+    "japanese": "私は絵を描くのが好きです。",
+    "english": "I like to draw pictures."
+  },
+  {
+    "id": "157926",
+    "japanese": "私は絵を描くための部屋がほしい。",
+    "english": "I want a room to paint a picture in."
+  },
+  {
+    "id": "157927",
+    "japanese": "私は絵を描きたい。",
+    "english": "I would like to draw."
+  },
+  {
+    "id": "157929",
+    "japanese": "私は絵をかくのが苦手だ。",
+    "english": "I am poor at drawing."
+  },
+  {
+    "id": "157930",
+    "japanese": "私は絵はだめだけど姉は素晴らしい芸術家だ。",
+    "english": "I can't draw, but my sister is a great artist."
+  },
+  {
+    "id": "157931",
+    "japanese": "私は絵の勉強をする為に、パリに行きたい。",
+    "english": "I wish to go to Paris to study art."
+  },
+  {
+    "id": "157932",
+    "japanese": "私は絵の才能をみせた。",
+    "english": "I showed genius in painting."
+  },
+  {
+    "id": "157933",
+    "japanese": "私は絵のことはよくわからないが、この筆のタッチはすごいと思う。",
+    "english": "I don't know much about painting, but I can tell that this brush has an excellent stroke feel to it."
+  },
+  {
+    "id": "157934",
+    "japanese": "私は皆に聞こえてしまうほどの大声で話した。",
+    "english": "I spoke so loudly as to be heard by everyone."
+  },
+  {
+    "id": "157935",
+    "japanese": "私は皆さんにもっと時間を守っていただきたい。",
+    "english": "I'd like you to be more punctual."
+  },
+  {
+    "id": "157936",
+    "japanese": "私は皆さんと仕事を共にすることを誇りに思います。",
+    "english": "I am proud to work with you."
+  },
+  {
+    "id": "157937",
+    "japanese": "私は海辺での楽しい休暇を楽しみにしている。",
+    "english": "I am anticipating a good vacation at the seaside."
+  },
+  {
+    "id": "157938",
+    "japanese": "私は海軍に入った。",
+    "english": "I went into the navy."
+  },
+  {
+    "id": "157939",
+    "japanese": "私は海岸の近くに住んでいるあいだ、よく泳いだ。",
+    "english": "While living near the beach, I often enjoyed swimming."
+  },
+  {
+    "id": "157940",
+    "japanese": "私は海外留学した学生がうらやましかった。",
+    "english": "I was envious of the students who had studied abroad."
+  },
+  {
+    "id": "157941",
+    "japanese": "私は海外事業部で働いています。",
+    "english": "I am working in the Overseas Operations Division."
+  },
+  {
+    "id": "157943",
+    "japanese": "私は海外へ行く夢をあきらめざるを得ません。",
+    "english": "There's nothing I can do but give up the idea of going abroad."
+  },
+  {
+    "id": "157944",
+    "japanese": "私は海を見下ろした。",
+    "english": "I looked down at the sea."
+  },
+  {
+    "id": "157945",
+    "japanese": "私は海より山が好きだ。",
+    "english": "I like mountains better than seas."
+  },
+  {
+    "id": "157946",
+    "japanese": "私は海に泳ぎにいった。",
+    "english": "I went swimming in the sea."
+  },
+  {
+    "id": "157947",
+    "japanese": "私は海で休暇を過ごしました。",
+    "english": "I spent my vacation at the beach."
+  },
+  {
+    "id": "157948",
+    "japanese": "私は海で泳ぎたい。",
+    "english": "I want to bathe in the sea."
+  },
+  {
+    "id": "157949",
+    "japanese": "私は快適な生活がしたい。",
+    "english": "I want to live in comfort."
+  },
+  {
+    "id": "157950",
+    "japanese": "私は壊れた人形が誰かによって直されているのに気がついた。",
+    "english": "I found the broken doll mended by somebody."
+  },
+  {
+    "id": "157951",
+    "japanese": "私は回復する間もなく別のひどい風邪にかかってしまった。",
+    "english": "I didn't have time to recover before I came down with another horrible cold."
+  },
+  {
+    "id": "157952",
+    "japanese": "私は回答をする前にその問題をじっくり考えねばならない。",
+    "english": "I must think over the matter before giving my answer."
+  },
+  {
+    "id": "157953",
+    "japanese": "私は解読プログラムを持っていません。",
+    "english": "I don't have a decryption program."
+  },
+  {
+    "id": "157954",
+    "japanese": "私は会社勤めです。普通のサラリーマンです。",
+    "english": "I'm a company man - an ordinary salaried office worker."
+  },
+  {
+    "id": "157955",
+    "japanese": "私は会社員です。",
+    "english": "I am an office worker."
+  },
+  {
+    "id": "157956",
+    "japanese": "私は会社のトップの座につきたい。",
+    "english": "I want to be at the top of the company."
+  },
+  {
+    "id": "157957",
+    "japanese": "私は会社のために旅行をした。",
+    "english": "I traveled in the interest of my company."
+  },
+  {
+    "id": "157958",
+    "japanese": "私は会社のために精一杯やってきた。",
+    "english": "I've given my best for the company."
+  },
+  {
+    "id": "157959",
+    "japanese": "私は会社から帰宅する途中でケーキを買ってくるように頼まれた。",
+    "english": "I was asked to buy some cakes on the way home from the office."
+  },
+  {
+    "id": "157960",
+    "japanese": "私は会合に出席します。",
+    "english": "I'll attend the meeting."
+  },
+  {
+    "id": "157961",
+    "japanese": "私は会議の日付を忘れた。",
+    "english": "I forgot the date of the meeting."
+  },
+  {
+    "id": "157962",
+    "japanese": "私は会議に遅れたので、最も大切な部分を聞き逃がしてしまった。",
+    "english": "I was late for the meeting with the result that I missed the most important part."
+  },
+  {
+    "id": "157963",
+    "japanese": "私は会議に出席するために早く起きた。",
+    "english": "I got up early in order to attend the meeting."
+  },
+  {
+    "id": "157964",
+    "japanese": "私は会議に間に合うよう早めに家を出た。",
+    "english": "I left home early so I'd be on time for the meeting."
+  },
+  {
+    "id": "157965",
+    "japanese": "私は会議には出席しなかった。",
+    "english": "I was not present at that meeting."
+  },
+  {
+    "id": "157966",
+    "japanese": "私は会議で提案を拒絶された。",
+    "english": "My proposal was turned down in the conference."
+  },
+  {
+    "id": "157967",
+    "japanese": "私は会議で思い切って自分の意見を述べた。",
+    "english": "I ventured to say my opinion at the conference."
+  },
+  {
+    "id": "157968",
+    "japanese": "私は会議でひどい時間を過ごした。",
+    "english": "I had an awful time at the conference."
+  },
+  {
+    "id": "157969",
+    "japanese": "私は会を欠席した。",
+    "english": "I was absent from the meeting."
+  },
+  {
+    "id": "157970",
+    "japanese": "私は会を延期することを提案します。",
+    "english": "I suggest that the meeting be postponed."
+  },
+  {
+    "id": "157971",
+    "japanese": "私は会に出席した。",
+    "english": "I presented myself at the meeting."
+  },
+  {
+    "id": "157973",
+    "japanese": "私は会った人すべてにそのニュースを話した。",
+    "english": "I told the news to everyone I met."
+  },
+  {
+    "id": "157974",
+    "japanese": "私は画帳と鉛筆を持って車で海辺にスケッチしに行くのが好きです。",
+    "english": "I like to take my pad and pencil and drive to the seashore to sketch."
+  },
+  {
+    "id": "157975",
+    "japanese": "私は蚊を入れないよう窓を閉めた。",
+    "english": "I shut the window to keep the mosquitoes out."
+  },
+  {
+    "id": "157976",
+    "japanese": "蚊に刺された。",
+    "english": "I got bitten by mosquitoes."
+  },
+  {
+    "id": "157977",
+    "japanese": "私は過去3年間、給料の4分の1を貯金しています。",
+    "english": "I have put aside one fourth of my salary for the last three years."
+  },
+  {
+    "id": "157978",
+    "japanese": "私は課長に任命された。",
+    "english": "I was appointed to section chief."
+  },
+  {
+    "id": "157979",
+    "japanese": "私は荷造りに忙しかった、なぜなら２日後にフランスに出発することになっていたから。",
+    "english": "I was busy packing, because I was leaving for France in two days."
+  },
+  {
+    "id": "157981",
+    "japanese": "私は花見に行ってきました。",
+    "english": "I have been to see the cherry blossoms."
+  },
+  {
+    "id": "157982",
+    "japanese": "花を見に公園に行ってきたところです。",
+    "english": "I have been to the park to see flowers."
+  },
+  {
+    "id": "157983",
+    "japanese": "私は花をたくさん持っている。赤いものもあれば黄色いのもある。",
+    "english": "I have a lot of flowers. Some are red and others are yellow."
+  },
+  {
+    "id": "157984",
+    "japanese": "私は花の展覧会に薔薇を展示するつもりだ。",
+    "english": "I'm going to exhibit my roses at the flower show."
+  },
+  {
+    "id": "157985",
+    "japanese": "私は花の展示会にバラを展示するつもりだ。",
+    "english": "I'm going to exhibit my roses at the flower show."
+  },
+  {
+    "id": "157987",
+    "japanese": "私は花に水をやる必要はなかった。水をやった後に雨が降った。",
+    "english": "I need not have watered the flowers. Just after I finished it started raining."
+  },
+  {
+    "id": "157989",
+    "japanese": "私は花に水をやっている所です。",
+    "english": "I am watering the flowers."
+  },
+  {
+    "id": "157991",
+    "japanese": "私は稼ぐお金を全て貯めようとした。",
+    "english": "I tried to set by all the money I could earn."
+  },
+  {
+    "id": "157992",
+    "japanese": "私は火曜日までにこの本を読み終えているだろう。",
+    "english": "I will have finished reading this book by Tuesday."
+  },
+  {
+    "id": "157993",
+    "japanese": "私は歌舞伎を研究しています。",
+    "english": "I'm studying kabuki drama."
+  },
+  {
+    "id": "157994",
+    "japanese": "私は歌手になりたい。",
+    "english": "I hope to become a singer."
+  },
+  {
+    "id": "157995",
+    "japanese": "私は歌を歌うことが好きです。",
+    "english": "I like to sing songs."
+  },
+  {
+    "id": "157996",
+    "japanese": "歌うのが得意です。",
+    "english": "I'm good at singing."
+  },
+  {
+    "id": "157997",
+    "japanese": "私は歌うのが好きだ。",
+    "english": "I like to sing."
+  },
+  {
+    "id": "157998",
+    "japanese": "私は歌いたい気がする。",
+    "english": "I feel like singing."
+  },
+  {
+    "id": "158000",
+    "japanese": "果物を安く買えるところを見つけたんだ。",
+    "english": "I found out where to buy fruit cheaply."
+  },
+  {
+    "id": "158002",
+    "japanese": "私は暇な時間に詩を書きます。",
+    "english": "I write poems in my free time."
+  },
+  {
+    "id": "158003",
+    "japanese": "私は暇なときはラジオを聴いて過ごすことが多いです。",
+    "english": "I often spend my leisure time listening to the radio."
+  },
+  {
+    "id": "158005",
+    "japanese": "私は家路につき、ビルは会社に居残った。",
+    "english": "I went home and Bill stayed at the office."
+  },
+  {
+    "id": "158006",
+    "japanese": "家賃は週に５０ドルしか払えないよ。",
+    "english": "I can pay no more than $50 a week for rent."
+  },
+  {
+    "id": "158007",
+    "japanese": "私は家族を養うために懸命に働いた。",
+    "english": "I worked hard in order to support my family."
+  },
+  {
+    "id": "158008",
+    "japanese": "私は家族や友人に贈り物をするのが好きです。",
+    "english": "I like to give gifts to my family and friends."
+  },
+  {
+    "id": "158009",
+    "japanese": "私は家族の中で初めての音楽家なのです。",
+    "english": "I am the first musician in my family."
+  },
+  {
+    "id": "158010",
+    "japanese": "私は家族の写真を撮った。",
+    "english": "I took a picture of my family."
+  },
+  {
+    "id": "158011",
+    "japanese": "私は家族のみなに愛されています。",
+    "english": "I am loved by all my family."
+  },
+  {
+    "id": "158012",
+    "japanese": "私は家族のために休日を返上することに同意した。",
+    "english": "I concurred in giving up my vacation for my family."
+  },
+  {
+    "id": "158013",
+    "japanese": "私は家族に食べ物や洋服を用意してあげることができる。",
+    "english": "I am able to provide food and clothes for my family."
+  },
+  {
+    "id": "158014",
+    "japanese": "私は家族にあなたの手紙を読んであげた。",
+    "english": "I read your letter to my family."
+  },
+  {
+    "id": "158015",
+    "japanese": "私は家族といっしょに家にいるときがいちばん幸せを感じる。",
+    "english": "I feel happiest when I am at home with my family."
+  },
+  {
+    "id": "158016",
+    "japanese": "私は家族と一緒にキャンプに行った。",
+    "english": "I went camping with my family."
+  },
+  {
+    "id": "158017",
+    "japanese": "私は家事をするのを数時間後に延ばした。",
+    "english": "I postponed doing my housework for a few hours."
+  },
+  {
+    "id": "158018",
+    "japanese": "私は家計を妻に任せた。",
+    "english": "I entrusted my wife with the family finances."
+  },
+  {
+    "id": "158019",
+    "japanese": "私は家具を３点買った。",
+    "english": "I bought three pieces of furniture."
+  },
+  {
+    "id": "158020",
+    "japanese": "私は家を有利に売った。",
+    "english": "I sold the house to advantage."
+  },
+  {
+    "id": "158021",
+    "japanese": "私は家を売るつもりです。",
+    "english": "I'm going to sell my house."
+  },
+  {
+    "id": "158022",
+    "japanese": "私は家を買う考えを捨てた。",
+    "english": "I have abandoned the idea of buying a house."
+  },
+  {
+    "id": "158023",
+    "japanese": "私は家を探している。",
+    "english": "I'm looking for a house."
+  },
+  {
+    "id": "158024",
+    "japanese": "私は家へ帰りたい。",
+    "english": "I want to go home."
+  },
+  {
+    "id": "158026",
+    "japanese": "私は家の伝統を維持していくつもりはなかった。",
+    "english": "I was not going to keep up the family tradition."
+  },
+  {
+    "id": "158027",
+    "japanese": "私は家の中を見回した。",
+    "english": "I looked round the inside of the house."
+  },
+  {
+    "id": "158028",
+    "japanese": "私は家の中にいるよ。",
+    "english": "I am in the house."
+  },
+  {
+    "id": "158029",
+    "japanese": "私は家の中で何かが動くのを感じた。",
+    "english": "I felt something move in the house."
+  },
+  {
+    "id": "158030",
+    "japanese": "私は家の鍵を失って途方にくれた。",
+    "english": "I was at a loss when I lost my house key."
+  },
+  {
+    "id": "158031",
+    "japanese": "私は家のそばに木を見つけることができます。",
+    "english": "I can find a tree by the house."
+  },
+  {
+    "id": "158032",
+    "japanese": "私は家に着くやいなや寝た。",
+    "english": "The moment I arrived home, I went to bed."
+  },
+  {
+    "id": "158033",
+    "japanese": "私は家に自分の部屋があります。",
+    "english": "I have my own bedroom at home."
+  },
+  {
+    "id": "158034",
+    "japanese": "私は家に帰る途中で嵐にあった。",
+    "english": "I got caught in a storm on my way home."
+  },
+  {
+    "id": "158035",
+    "japanese": "私は家に帰る途中で白い鳥を見た。",
+    "english": "I saw a white bird on my way home."
+  },
+  {
+    "id": "158036",
+    "japanese": "私は家に帰る途中で私の友人の一人に会った。",
+    "english": "I met one of my friends on my way home."
+  },
+  {
+    "id": "158038",
+    "japanese": "私は家に帰る途中でその本屋に立ち寄るのが常であった。",
+    "english": "I used to drop in at the bookstore on my way home."
+  },
+  {
+    "id": "158039",
+    "japanese": "私は家に帰る途中、彼女に会いました。",
+    "english": "I met her on my way home."
+  },
+  {
+    "id": "158040",
+    "japanese": "私は家に帰りました。",
+    "english": "I went home."
+  },
+  {
+    "id": "158041",
+    "japanese": "私は家に帰ってからうたた寝した。",
+    "english": "I took a doze after coming home."
+  },
+  {
+    "id": "158042",
+    "japanese": "私は家にペンキを塗ってもらった。",
+    "english": "I had my house painted."
+  },
+  {
+    "id": "158043",
+    "japanese": "私は家にとどまるようにと彼らに懸命に言ったが、彼らは断固として私の意見に耳を傾けようとはしなかった。",
+    "english": "I tried hard to make them stay home, but they refused to listen to me."
+  },
+  {
+    "id": "158044",
+    "japanese": "私は家にいるより外出するのが好きだ。",
+    "english": "I prefer going out to staying home."
+  },
+  {
+    "id": "158046",
+    "japanese": "私は家にいるつもりだ。",
+    "english": "I will stay at home."
+  },
+  {
+    "id": "158048",
+    "japanese": "私は家にいなければならない。",
+    "english": "I have to stay home."
+  },
+  {
+    "id": "158049",
+    "japanese": "私は家にいて小説でも読む方がよい。",
+    "english": "For my part I prefer to stay at home and read a novel."
+  },
+  {
+    "id": "158050",
+    "japanese": "私は家にいた。というのはその日は雨がふったからである。",
+    "english": "I stayed at home, for it rained that day."
+  },
+  {
+    "id": "158051",
+    "japanese": "私は家にあるだけのバターをジョーンズ夫人に貸してあげた。",
+    "english": "I lent Mrs. Jones all the butter there was in the house."
+  },
+  {
+    "id": "158052",
+    "japanese": "私は家で英語を勉強します。",
+    "english": "I study English at home."
+  },
+  {
+    "id": "158053",
+    "japanese": "私は家で英語の勉強をします。",
+    "english": "I study English at home."
+  },
+  {
+    "id": "158054",
+    "japanese": "私は家がひどくゆれているのを感じた。",
+    "english": "I felt the house shaking terribly."
+  },
+  {
+    "id": "158056",
+    "japanese": "私は夏休み中午後には水泳をした。",
+    "english": "I swam in the afternoons during the summer vacation."
+  },
+  {
+    "id": "158057",
+    "japanese": "私は夏休み中に、私の生まれた村へ帰った。",
+    "english": "I went back to my village during the summer vacation."
+  },
+  {
+    "id": "158058",
+    "japanese": "私は夏休みを利用して外国を旅行する。",
+    "english": "I will take advantage of the summer vacation to travel abroad."
+  },
+  {
+    "id": "158059",
+    "japanese": "私は夏休みを楽しみに待っている。",
+    "english": "I am looking forward to the summer vacation."
+  },
+  {
+    "id": "158061",
+    "japanese": "夏休みは叔母さんの家で過ごしました。",
+    "english": "I spent the summer vacation at my aunt's house."
+  },
+  {
+    "id": "158063",
+    "japanese": "私は夏休みには午前中に勉強した。",
+    "english": "I studied in the morning during the summer vacation."
+  },
+  {
+    "id": "158064",
+    "japanese": "私は夏を思えば、かならず子どものころを思い出す。",
+    "english": "I never think of summer without thinking of my childhood."
+  },
+  {
+    "id": "158065",
+    "japanese": "私は夏をすごすために叔母の家に滞在しています。",
+    "english": "I'm staying at my aunt's for the summer."
+  },
+  {
+    "id": "158066",
+    "japanese": "私は夏より冬が好きです。",
+    "english": "I like winter better than summer."
+  },
+  {
+    "id": "158067",
+    "japanese": "私は夏は凍った棒アイスクリームをしゃぶるのが好きです。",
+    "english": "I like to suck on frozen ice cream bars in the summer."
+  },
+  {
+    "id": "158069",
+    "japanese": "私は夏はエアコンなしで済ますことはできない。",
+    "english": "I can't survive without air conditioning in the summer."
+  },
+  {
+    "id": "158070",
+    "japanese": "私は夏のために別荘を用意した。",
+    "english": "I took a cottage for the summer."
+  },
+  {
+    "id": "158071",
+    "japanese": "私は夏に北海道に行きます。",
+    "english": "I am going to Hokkaido in the summer."
+  },
+  {
+    "id": "158072",
+    "japanese": "私は夏には水泳をする。",
+    "english": "I swim in the summer."
+  },
+  {
+    "id": "158073",
+    "japanese": "私は夏には毎朝入浴する。",
+    "english": "I take a bath every morning in summer."
+  },
+  {
+    "id": "158074",
+    "japanese": "私は夏が近づくにつれて、つい体を鍛えようとする。",
+    "english": "I end up unconsciously trying to get fit as summer draws near."
+  },
+  {
+    "id": "158075",
+    "japanese": "私は夏が一番好きだ。",
+    "english": "I like summer the best."
+  },
+  {
+    "id": "158076",
+    "japanese": "私は価格について彼と契約する。",
+    "english": "I make a bargain with him over the price."
+  },
+  {
+    "id": "158077",
+    "japanese": "私は何不自由なく暮らしている。",
+    "english": "I live in comfort."
+  },
+  {
+    "id": "158078",
+    "japanese": "私は何百羽もの鳥を見つけた。",
+    "english": "I caught sight of hundreds of birds."
+  },
+  {
+    "id": "158079",
+    "japanese": "私は何匹かのかわいそうな猫が追い出されるのを見た。",
+    "english": "I saw some poor cats kicked out."
+  },
+  {
+    "id": "158080",
+    "japanese": "私は何年も何年も生きてきました。",
+    "english": "I lived for years and years."
+  },
+  {
+    "id": "158081",
+    "japanese": "私は何年もこの店と取り引きがある。",
+    "english": "I've dealt with this store for years."
+  },
+  {
+    "id": "158082",
+    "japanese": "私は何年もここにいます。",
+    "english": "I have been here for many years."
+  },
+  {
+    "id": "158083",
+    "japanese": "私は何度も旅行したことがある。",
+    "english": "I have traveled many times."
+  },
+  {
+    "id": "158084",
+    "japanese": "私は何度も幽霊について考えたことがある。",
+    "english": "I have thought about ghosts many times."
+  },
+  {
+    "id": "158085",
+    "japanese": "私は何度も彼の事務所に電話したが誰もでなかった。",
+    "english": "I called his office again and again, but no one answered."
+  },
+  {
+    "id": "158086",
+    "japanese": "私は何度も彼に会ったことがある。",
+    "english": "I have met him many times."
+  },
+  {
+    "id": "158087",
+    "japanese": "私は何度も彼と連絡をとろうとしていた。",
+    "english": "I have tried innumerable times to contact him."
+  },
+  {
+    "id": "158089",
+    "japanese": "私は何度もやってみた。",
+    "english": "I tried again and again."
+  },
+  {
+    "id": "158090",
+    "japanese": "私は何度も転びながら、坂を下っていった。",
+    "english": "I went down the slope, falling again and again."
+  },
+  {
+    "id": "158091",
+    "japanese": "私は何度もパソコンを試しに使ってみた。",
+    "english": "I tried many times to use a personal computer."
+  },
+  {
+    "id": "158092",
+    "japanese": "私は何度もその問題に挑戦した。",
+    "english": "I tried the problem again and again."
+  },
+  {
+    "id": "158093",
+    "japanese": "私は何人かの生徒が宿題のことで文句を言うのを聞いた。",
+    "english": "I heard some students complain about the homework."
+  },
+  {
+    "id": "158094",
+    "japanese": "私は何人かの若い作家たちを尊敬していた。",
+    "english": "I respected some young writers."
+  },
+  {
+    "id": "158095",
+    "japanese": "私は何十回もそこへ行きました。",
+    "english": "I went there dozens of times."
+  },
+  {
+    "id": "158096",
+    "japanese": "私は何時間も友人らとそのことについて討議した。",
+    "english": "I debated for hours with my friends on the subject."
+  },
+  {
+    "id": "158098",
+    "japanese": "私は何時間も待ったが、彼女は現れなかった。",
+    "english": "I waited for hours, but she didn't show up."
+  },
+  {
+    "id": "158099",
+    "japanese": "私は何時の日か行かねばならない。",
+    "english": "I must go some day or other."
+  },
+  {
+    "id": "158100",
+    "japanese": "私は何時に出発することになっているか確認したい。",
+    "english": "I want to make sure what time I'm supposed to leave."
+  },
+  {
+    "id": "158101",
+    "japanese": "私は何時かわかりません。",
+    "english": "I don't know what time it is."
+  },
+  {
+    "id": "158102",
+    "japanese": "私は何事にも彼の指導を仰ぐ。",
+    "english": "I look to him for direction in everything."
+  },
+  {
+    "id": "158103",
+    "japanese": "私は何事においても全力を尽くすつもりだ。",
+    "english": "I will do my best in everything."
+  },
+  {
+    "id": "158104",
+    "japanese": "私は何冊かの本を読むために図書館へ行きました。",
+    "english": "I went to the library to read some books."
+  },
+  {
+    "id": "158105",
+    "japanese": "私は何歳だと思いますか。",
+    "english": "How old do you think I am?"
+  },
+  {
+    "id": "158106",
+    "japanese": "私は何軒もの店でその本を探しました。",
+    "english": "I inquired about the book in many stores."
+  },
+  {
+    "id": "158107",
+    "japanese": "私は何気なくその雑誌を見た。",
+    "english": "I took a casual look at the magazine."
+  },
+  {
+    "id": "158108",
+    "japanese": "私は何を勉強すべきか分かりません。",
+    "english": "I don't know what to study."
+  },
+  {
+    "id": "158110",
+    "japanese": "私は何をなすべきでしょうか。",
+    "english": "What am I to do?"
+  },
+  {
+    "id": "158111",
+    "japanese": "私は何をなすべきか決めなければならない。",
+    "english": "I must decide what to do."
+  },
+  {
+    "id": "158112",
+    "japanese": "私は何をすればいいの。",
+    "english": "What am I to do?"
+  },
+  {
+    "id": "158113",
+    "japanese": "私は何をすべきか知っている。",
+    "english": "I know what to do."
+  },
+  {
+    "id": "158114",
+    "japanese": "私は何をすべきか決めなくてはならない。",
+    "english": "I must decide what to do."
+  },
+  {
+    "id": "158116",
+    "japanese": "私は何をしましょうか。",
+    "english": "Where do I come in?"
+  },
+  {
+    "id": "158117",
+    "japanese": "私は何をしなければならないのですか。",
+    "english": "What am I to do?"
+  },
+  {
+    "id": "158118",
+    "japanese": "私は何をして良いのか途方にくれた。",
+    "english": "I was at sea as to what to do."
+  },
+  {
+    "id": "158120",
+    "japanese": "私は何をしたらよいのかわからなかったので、彼に聞いた。",
+    "english": "Not knowing what to do, I asked him for advice."
+  },
+  {
+    "id": "158121",
+    "japanese": "私は何をしたらよいでしょう。",
+    "english": "What had I better do?"
+  },
+  {
+    "id": "158122",
+    "japanese": "私は何をしたらよいか途方にくれた。",
+    "english": "I was at a loss what to do."
+  },
+  {
+    "id": "158123",
+    "japanese": "私は何をしたらいいのか知っています。",
+    "english": "I know what to do."
+  },
+  {
+    "id": "158124",
+    "japanese": "私は何をしたらいいのかわからなかったので、彼に助言を求めた。",
+    "english": "As I did not know what to do, I asked him for advice."
+  },
+  {
+    "id": "158125",
+    "japanese": "何をしたらいいか分からない。",
+    "english": "I don't know what to do."
+  },
+  {
+    "id": "158126",
+    "japanese": "私は何より君の友情が大事だ。",
+    "english": "I value your friendship more than anything."
+  },
+  {
+    "id": "158127",
+    "japanese": "私は何も頼りにするものがない。",
+    "english": "I have nothing to fall back on."
+  },
+  {
+    "id": "158128",
+    "japanese": "何も食べる気にならないんだ。",
+    "english": "I don't feel like eating anything."
+  },
+  {
+    "id": "158129",
+    "japanese": "何も食べたくない。",
+    "english": "I don't feel like eating anything."
+  },
+  {
+    "id": "158130",
+    "japanese": "私は何も言わなかったが、それが彼を怒らせてしまった。",
+    "english": "I said nothing, which made him angry."
+  },
+  {
+    "id": "158131",
+    "japanese": "私は何も言わなかった。そのことが彼女を怒らせた。",
+    "english": "I said nothing, which made her angry."
+  },
+  {
+    "id": "158132",
+    "japanese": "私は何も言わなかった、そしてそのことで彼は一層激怒した。",
+    "english": "I said nothing, which made him more furious."
+  },
+  {
+    "id": "158133",
+    "japanese": "私は何も言わなかった。そのことが彼をますます怒らせた。",
+    "english": "I said nothing, which made him all the more angry."
+  },
+  {
+    "id": "158134",
+    "japanese": "私は何も言うことを思いつかなかった。",
+    "english": "I couldn't think of anything to say."
+  },
+  {
+    "id": "158135",
+    "japanese": "私は何も見なかった。",
+    "english": "I saw nothing."
+  },
+  {
+    "id": "158138",
+    "japanese": "私は何も恐くはありません。",
+    "english": "I am not frightened of anything."
+  },
+  {
+    "id": "158139",
+    "japanese": "私は何も恐くありません。",
+    "english": "I'm not frightened of anything."
+  },
+  {
+    "id": "158140",
+    "japanese": "私は何もできない。",
+    "english": "I can't do anything."
+  },
+  {
+    "id": "158141",
+    "japanese": "私には何もすることができないんだ。",
+    "english": "I can't do anything."
+  },
+  {
+    "id": "158142",
+    "japanese": "私は何もしないよりは働く方が好きだ。",
+    "english": "I prefer working to doing nothing."
+  },
+  {
+    "id": "158143",
+    "japanese": "私は何もしないで１週間そこで過ごした。",
+    "english": "I spent an idle week there."
+  },
+  {
+    "id": "158145",
+    "japanese": "何もかも言ってしまおう。",
+    "english": "I will let myself loose."
+  },
+  {
+    "id": "158146",
+    "japanese": "私は何の予告もされないでその場で話をしなければならなかった。",
+    "english": "I had to speak at a moment's notice."
+  },
+  {
+    "id": "158147",
+    "japanese": "私は難なく彼の家を見つけた。",
+    "english": "I had no difficulty in finding his house."
+  },
+  {
+    "id": "158152",
+    "japanese": "私は何としても目的を果たすつもりだ。",
+    "english": "I will accomplish my purpose at any cost."
+  },
+  {
+    "id": "158153",
+    "japanese": "私は何としても酒を止めるつもりです。",
+    "english": "I will give up drinking at any cost."
+  },
+  {
+    "id": "158154",
+    "japanese": "私は何とかその場を切り抜けた。",
+    "english": "I managed to get out of the scrape."
+  },
+  {
+    "id": "158155",
+    "japanese": "私は何とかして彼女に会いたい。",
+    "english": "I want to see her by any means."
+  },
+  {
+    "id": "158157",
+    "japanese": "私は何でも自分のしたい放題にしたかったのに。",
+    "english": "I wanted to have had everything my own way."
+  },
+  {
+    "id": "158158",
+    "japanese": "私は何でもひとりでしなければならなかった。",
+    "english": "I had to do everything alone."
+  },
+  {
+    "id": "158162",
+    "japanese": "私には何か聞こえます。",
+    "english": "I can hear something."
+  },
+  {
+    "id": "158163",
+    "japanese": "何か電車で読むものが欲しい。",
+    "english": "I want something to read on the train."
+  },
+  {
+    "id": "158164",
+    "japanese": "私は何か食べ物が欲しかった。",
+    "english": "I wanted something to eat."
+  },
+  {
+    "id": "158165",
+    "japanese": "私は何か食べるものを買いたい。",
+    "english": "I want to buy something to eat."
+  },
+  {
+    "id": "158167",
+    "japanese": "何か食べたいような気がする。",
+    "english": "I feel like eating something."
+  },
+  {
+    "id": "158168",
+    "japanese": "私は何か食べたい。",
+    "english": "I want to eat something."
+  },
+  {
+    "id": "158169",
+    "japanese": "私は何が起こっても君の味方だ。",
+    "english": "I'll stand by you no matter what happens."
+  },
+  {
+    "id": "158172",
+    "japanese": "私は何か飲みたい。",
+    "english": "I want to drink something."
+  },
+  {
+    "id": "158173",
+    "japanese": "私は何か悪いものを食べたようだ。",
+    "english": "I am afraid I ate something bad."
+  },
+  {
+    "id": "158174",
+    "japanese": "私は何がなんでもそのコンサートの切符を得なければならない。",
+    "english": "I must get the concert ticket by all means."
+  },
+  {
+    "id": "158175",
+    "japanese": "私は何がこの箱の中にあるのか知っています。",
+    "english": "I know what's in the box."
+  },
+  {
+    "id": "158176",
+    "japanese": "私は何かが背中で動いているのを感じた。",
+    "english": "I felt something moving on my back."
+  },
+  {
+    "id": "158177",
+    "japanese": "私は何かが足に触れるのを感じた。",
+    "english": "I felt something touch my foot."
+  },
+  {
+    "id": "158179",
+    "japanese": "私は化学に関する６さつの本をニューヨークから注文した。",
+    "english": "I ordered half a dozen books on chemistry from New York."
+  },
+  {
+    "id": "158180",
+    "japanese": "私は化学にまったく興味がない。",
+    "english": "I'm not a bit interested in chemistry."
+  },
+  {
+    "id": "158181",
+    "japanese": "私は下宿を探していました。",
+    "english": "I was on the hunt for lodgings."
+  },
+  {
+    "id": "158182",
+    "japanese": "私は下宿しています。",
+    "english": "I live in a rooming house."
+  },
+  {
+    "id": "158183",
+    "japanese": "私は下宿させてもらっているのと交換にリーさんの子供に英語を教えている。",
+    "english": "I teach Mr Lee's children English in exchange for room and board."
+  },
+  {
+    "id": "158184",
+    "japanese": "私は音痴だから歌いたくない。",
+    "english": "I don't want to sing, because I'm tone-deaf."
+  },
+  {
+    "id": "158185",
+    "japanese": "私は音楽部員だ。",
+    "english": "I belong to the music club."
+  },
+  {
+    "id": "158186",
+    "japanese": "私は音楽、特にロックが大好きだ。",
+    "english": "I love music, especially rock."
+  },
+  {
+    "id": "158187",
+    "japanese": "私は音楽大学で声楽を専攻しています。",
+    "english": "I'm studying voice at a college of music."
+  },
+  {
+    "id": "158188",
+    "japanese": "私は音楽を聴くのが好きです。",
+    "english": "I like listening to music."
+  },
+  {
+    "id": "158189",
+    "japanese": "私は音楽を聴くこと、とりわけジャズを聞くのが好きです。",
+    "english": "I like listening to music, especially jazz."
+  },
+  {
+    "id": "158190",
+    "japanese": "私は音楽を聴きながら勉強をよくする。",
+    "english": "I often study while listening to music."
+  },
+  {
+    "id": "158191",
+    "japanese": "私は音楽を聴きながら勉強することがよくある。",
+    "english": "I often study while listening to music."
+  },
+  {
+    "id": "158192",
+    "japanese": "私は音楽を聴いてかなりの時間を過ごす。",
+    "english": "I spend a lot of time listening to music."
+  },
+  {
+    "id": "158193",
+    "japanese": "私は音楽を聴いています。",
+    "english": "I am listening to the music."
+  },
+  {
+    "id": "158194",
+    "japanese": "私は音楽をきくのが好きだし、まして演奏するのはなおさら好きだ。",
+    "english": "I like listening to music, and playing music even more."
+  },
+  {
+    "id": "158195",
+    "japanese": "私は音楽よりも英語の方が好きです。",
+    "english": "I like English better than music."
+  },
+  {
+    "id": "158196",
+    "japanese": "私は音楽の魅力から逃れることはできない。",
+    "english": "I can't run away from the fascination of music."
+  },
+  {
+    "id": "158197",
+    "japanese": "私は音楽の勉強にオーストリアへ行きたい。",
+    "english": "I would like to go to Austria in order to study music."
+  },
+  {
+    "id": "158198",
+    "japanese": "私は音楽のことは分かりません。",
+    "english": "I have no ear for music."
+  },
+  {
+    "id": "158199",
+    "japanese": "私は音楽に熱中していた。",
+    "english": "I have given myself to music."
+  },
+  {
+    "id": "158200",
+    "japanese": "音楽について話したよ。",
+    "english": "I talked about music."
+  },
+  {
+    "id": "158201",
+    "japanese": "私は音楽に興味があります。",
+    "english": "I am interested in music."
+  },
+  {
+    "id": "158202",
+    "japanese": "私は音楽にたいへん興味をもっている。",
+    "english": "I am very interested in music."
+  },
+  {
+    "id": "158203",
+    "japanese": "私は音楽クラブに入っています。",
+    "english": "I am in the music club."
+  },
+  {
+    "id": "158204",
+    "japanese": "私は音楽が分からない。",
+    "english": "I have no ear for music."
+  },
+  {
+    "id": "158205",
+    "japanese": "私は音楽が好きではありません。",
+    "english": "I do not like music."
+  },
+  {
+    "id": "158206",
+    "japanese": "私は音楽が好きですが絵も好きです。",
+    "english": "I like music, but I also like paintings."
+  },
+  {
+    "id": "158207",
+    "japanese": "私は音楽が好きだ。",
+    "english": "I am fond of music."
+  },
+  {
+    "id": "158208",
+    "japanese": "私は音楽がわかりません。",
+    "english": "I don't have an ear for music."
+  },
+  {
+    "id": "158209",
+    "japanese": "私は音楽がとても好きだ。",
+    "english": "I like music very much."
+  },
+  {
+    "id": "158210",
+    "japanese": "私は音楽、特にクラシック音楽が好きだ。",
+    "english": "I like music, particularly classical music."
+  },
+  {
+    "id": "158211",
+    "japanese": "私は音楽、ことにクラシックが好きだ。",
+    "english": "I like music, especially classical music."
+  },
+  {
+    "id": "158212",
+    "japanese": "私は温度を毎日記録している。",
+    "english": "I keep a daily record of the temperature."
+  },
+  {
+    "id": "158213",
+    "japanese": "私は温室でランを栽培している。",
+    "english": "I grow orchids in my greenhouse."
+  },
+  {
+    "id": "158214",
+    "japanese": "私は恩人にしたことを、恥ずかしく思った。",
+    "english": "I was ashamed of what I had done to my benefactor."
+  },
+  {
+    "id": "158215",
+    "japanese": "私は恩師の世話でこの仕事に就いた。",
+    "english": "I got this job with my teacher's help."
+  },
+  {
+    "id": "158216",
+    "japanese": "私は屋根をライトブルーに塗った。",
+    "english": "I painted the roof light blue."
+  },
+  {
+    "id": "158217",
+    "japanese": "私は屋根に当たる雨の音が好きだ。",
+    "english": "I love the sound of rain on the roof."
+  },
+  {
+    "id": "158218",
+    "japanese": "私は沖縄のあたりの暖かい海が好きだ。",
+    "english": "I like the warm sea around Okinawa."
+  },
+  {
+    "id": "158219",
+    "japanese": "私は王子その人にあいました。",
+    "english": "I met the prince himself."
+  },
+  {
+    "id": "158220",
+    "japanese": "私は横浜に住んでいる。",
+    "english": "I live in Yokohama."
+  },
+  {
+    "id": "158221",
+    "japanese": "私は横浜で生まれました。",
+    "english": "I was born in Yokohama."
+  },
+  {
+    "id": "158222",
+    "japanese": "私は横浜で育った。",
+    "english": "I was raised in Yokohama."
+  },
+  {
+    "id": "158223",
+    "japanese": "私は脇目もふらず道をまっすぐに歩いていった。",
+    "english": "I walked straight ahead without looking to the side."
+  },
+  {
+    "id": "158224",
+    "japanese": "私は横になって休んだ。",
+    "english": "I lay down to rest."
+  },
+  {
+    "id": "158225",
+    "japanese": "私は押入れに閉じ込められるのがこわかった。",
+    "english": "I was afraid of being put into a closet."
+  },
+  {
+    "id": "158226",
+    "japanese": "私は押し出された。",
+    "english": "I was crowded out."
+  },
+  {
+    "id": "158227",
+    "japanese": "私は応答を待ったが、誰も出なかった。",
+    "english": "I waited for the answer but nobody answered."
+  },
+  {
+    "id": "158228",
+    "japanese": "私は応接間に案内された。",
+    "english": "I was ushered into the drawing room."
+  },
+  {
+    "id": "158229",
+    "japanese": "私は往来で財布を拾った。",
+    "english": "I picked up a purse in the street."
+  },
+  {
+    "id": "158230",
+    "japanese": "私は鉛筆書きの手紙を受け取った。",
+    "english": "I got a letter written with a pencil."
+  },
+  {
+    "id": "158231",
+    "japanese": "私は鉛筆を持っていません。",
+    "english": "I don't have a pencil."
+  },
+  {
+    "id": "158232",
+    "japanese": "私は鉛筆を彼にかしてやった。",
+    "english": "I lent my pencil to him."
+  },
+  {
+    "id": "158234",
+    "japanese": "私は鉛筆をけずるナイフがほしい。",
+    "english": "I want a knife to sharpen my pencil with."
+  },
+  {
+    "id": "158235",
+    "japanese": "私は鉛筆を２ダース買った。",
+    "english": "I bought two dozen pencils."
+  },
+  {
+    "id": "158236",
+    "japanese": "私は鉛筆を１０本買ったが、そのうち半分は弟に与える事になっていた。",
+    "english": "I bought ten pencils, half of which were to be given to my brother."
+  },
+  {
+    "id": "158237",
+    "japanese": "私は遠くに彼女の姿を見つけた。",
+    "english": "I caught sight of her figure in the distance."
+  },
+  {
+    "id": "158238",
+    "japanese": "私は遠くに稲妻のひらめきを見た。",
+    "english": "I saw flashes of lightning in the distance."
+  },
+  {
+    "id": "158239",
+    "japanese": "私は遠い郊外からわざわざ通勤しなくてはいけない。",
+    "english": "I have to commute all the way from a distant suburb."
+  },
+  {
+    "id": "158240",
+    "japanese": "私は煙草を禁じられている。",
+    "english": "I am forbidden tobacco."
+  },
+  {
+    "id": "158241",
+    "japanese": "私は煙草を吸わずにはいられなかった。",
+    "english": "I could not refrain from smoking."
+  },
+  {
+    "id": "158243",
+    "japanese": "煙草をやめられないんです。",
+    "english": "I can't give up smoking."
+  },
+  {
+    "id": "158244",
+    "japanese": "私は煙草と酒をやめた。",
+    "english": "I stopped smoking and drinking."
+  },
+  {
+    "id": "158245",
+    "japanese": "私は煙のために息ができなかった。",
+    "english": "I was unable to breathe because of the smoke."
+  },
+  {
+    "id": "158246",
+    "japanese": "煙でむせた。",
+    "english": "I was choked by smoke."
+  },
+  {
+    "id": "158247",
+    "japanese": "私は演説をすると決まってあがる。",
+    "english": "I never make a speech without being nervous."
+  },
+  {
+    "id": "158248",
+    "japanese": "私は演説の草稿を作った。",
+    "english": "I made a draft of my speech."
+  },
+  {
+    "id": "158249",
+    "japanese": "私は演劇部に入っている。",
+    "english": "I belong to the drama club."
+  },
+  {
+    "id": "158250",
+    "japanese": "私は園遊会で大切な役目を果たした。",
+    "english": "I played an important part in the garden party."
+  },
+  {
+    "id": "158251",
+    "japanese": "私は駅を間違えて下車しました。",
+    "english": "I got off at the wrong station."
+  },
+  {
+    "id": "158252",
+    "japanese": "私は駅まで歩いて行くのに１０分かかった。",
+    "english": "It took me ten minutes to walk to the station."
+  },
+  {
+    "id": "158253",
+    "japanese": "私は駅まで歩いた。",
+    "english": "I walked as far as the station."
+  },
+  {
+    "id": "158254",
+    "japanese": "私は駅までタクシーに乗った。",
+    "english": "I took a cab to the station."
+  },
+  {
+    "id": "158255",
+    "japanese": "私は駅までずっと歩かなければならなかった。",
+    "english": "I had to walk all the way to the station."
+  },
+  {
+    "id": "158256",
+    "japanese": "私は駅までずっと走った。",
+    "english": "I ran all the way to the station."
+  },
+  {
+    "id": "158259",
+    "japanese": "私は駅へと急いだが、列車に乗り遅れてしまった。",
+    "english": "I hurried to the station only to miss the train."
+  },
+  {
+    "id": "158260",
+    "japanese": "私は駅へ行った。",
+    "english": "I went to the station."
+  },
+  {
+    "id": "158261",
+    "japanese": "私は駅の方に出発するところだ。",
+    "english": "I'm just about to set off for the station."
+  },
+  {
+    "id": "158262",
+    "japanese": "私は駅の近くにいます。",
+    "english": "I am near the station."
+  },
+  {
+    "id": "158263",
+    "japanese": "私は駅の近くにある喫茶店で彼女と待ち合わせた。",
+    "english": "I met her in a coffee shop near the station."
+  },
+  {
+    "id": "158264",
+    "japanese": "私は駅の近くで１人の老人に会った。",
+    "english": "I met an old man near the station."
+  },
+  {
+    "id": "158265",
+    "japanese": "私は駅に彼を迎えに行きます。",
+    "english": "I will pick him up at the station."
+  },
+  {
+    "id": "158266",
+    "japanese": "駅に着いたよ。",
+    "english": "I arrived at the station."
+  },
+  {
+    "id": "158267",
+    "japanese": "私は駅で彼に出くわした。",
+    "english": "I bumped into him at the station."
+  },
+  {
+    "id": "158268",
+    "japanese": "私は駅で彼と落ち合った。",
+    "english": "I joined him at the station."
+  },
+  {
+    "id": "158269",
+    "japanese": "私は駅で切符を探すのに大変苦労した。",
+    "english": "I had great difficulty in finding my ticket at the station."
+  },
+  {
+    "id": "158270",
+    "japanese": "私は駅で自分の名前が呼ばれるのを聞いた。",
+    "english": "I heard my name called in the station."
+  },
+  {
+    "id": "158271",
+    "japanese": "私は駅で偶然叔父に会った。",
+    "english": "I ran across my uncle at the station."
+  },
+  {
+    "id": "158273",
+    "japanese": "私は駅でしばしば佐々木先生に会ったことがある。",
+    "english": "I have often met Mr Sasaki at the station."
+  },
+  {
+    "id": "158274",
+    "japanese": "私は駅から歩いた。",
+    "english": "I walked from the station."
+  },
+  {
+    "id": "158275",
+    "japanese": "私は駅で５時に彼女と会うことになっている。",
+    "english": "I am to meet her at five at the station."
+  },
+  {
+    "id": "158276",
+    "japanese": "駅から遠くないところに住みたい。",
+    "english": "I want to live close to the station."
+  },
+  {
+    "id": "158277",
+    "japanese": "私は駅から一時間のところに住んでいる。",
+    "english": "I live about an hour from the station."
+  },
+  {
+    "id": "158278",
+    "japanese": "私は駅からホテルまでタクシーで行った。",
+    "english": "I took a taxi from the station to the hotel."
+  },
+  {
+    "id": "158279",
+    "japanese": "私は駅から二百メートル以内に住んでいます。",
+    "english": "I live within 200 meters of the station."
+  },
+  {
+    "id": "158280",
+    "japanese": "私は英雄のいない小説は嫌いだ。",
+    "english": "I don't like a novel without a hero."
+  },
+  {
+    "id": "158281",
+    "japanese": "私は英国式朝食とお茶が好きです。",
+    "english": "I like English Breakfast tea the best."
+  },
+  {
+    "id": "158282",
+    "japanese": "私は英国の田舎に愛着を感じずにはいられない。",
+    "english": "I can't help but feel affection for the English countryside."
+  },
+  {
+    "id": "158283",
+    "japanese": "英語にはうんざりだよ。",
+    "english": "I'm fed up with English."
+  },
+  {
+    "id": "158284",
+    "japanese": "私は英語を喋ることができる。",
+    "english": "I can speak English."
+  },
+  {
+    "id": "158285",
+    "japanese": "私は英語を話せるようになりたい。",
+    "english": "I want to be able to speak English."
+  },
+  {
+    "id": "158286",
+    "japanese": "私はドイツ語どころか英語も話せない。",
+    "english": "I cannot speak English, much less German."
+  },
+  {
+    "id": "158287",
+    "japanese": "私は英語を話す事が出来ます。",
+    "english": "I can speak English."
+  },
+  {
+    "id": "158288",
+    "japanese": "私は英語を話すのが上手だ。",
+    "english": "I am good at speaking English."
+  },
+  {
+    "id": "158289",
+    "japanese": "私は英語を話すと必ず間違える。",
+    "english": "I cannot speak English without making some mistakes."
+  },
+  {
+    "id": "158290",
+    "japanese": "私は英語を毎日１時間勉強します。",
+    "english": "I study English an hour every day."
+  },
+  {
+    "id": "158291",
+    "japanese": "私は英語を勉強するのが好きです。",
+    "english": "I like to study English."
+  },
+  {
+    "id": "158292",
+    "japanese": "私は英語を勉強するつもりです。",
+    "english": "I am going to study English."
+  },
+  {
+    "id": "158295",
+    "japanese": "私は英語を勉強したい。",
+    "english": "I want to study English."
+  },
+  {
+    "id": "158296",
+    "japanese": "私は英語を読めるが話せない。",
+    "english": "I can read English, but I can't speak it."
+  },
+  {
+    "id": "158297",
+    "japanese": "私は英語を始めてからもう６年になる。",
+    "english": "It is six years since I started to study English."
+  },
+  {
+    "id": "158298",
+    "japanese": "私は英語を教える事ができます。",
+    "english": "I can teach English."
+  },
+  {
+    "id": "158299",
+    "japanese": "私は英語を教える。",
+    "english": "I teach English."
+  },
+  {
+    "id": "158300",
+    "japanese": "私は英語をやり直さなければならない。",
+    "english": "I must brush up my English."
+  },
+  {
+    "id": "158301",
+    "japanese": "私は英語をやり直したい。",
+    "english": "I want to brush up my English."
+  },
+  {
+    "id": "158302",
+    "japanese": "私は英語をしゃべれる。",
+    "english": "I can speak English."
+  },
+  {
+    "id": "158303",
+    "japanese": "私は英語の本を買ったが、その本はわかりにくかった。",
+    "english": "I bought an English book, but the book was hard to understand."
+  },
+  {
+    "id": "158304",
+    "japanese": "私は英語の本を少し持っている。",
+    "english": "I have a few English books."
+  },
+  {
+    "id": "158305",
+    "japanese": "私は英語の本を何冊か持っています。",
+    "english": "I have some English books."
+  },
+  {
+    "id": "158306",
+    "japanese": "私は英語の本をほとんど持っていない。",
+    "english": "I have few English books."
+  },
+  {
+    "id": "158307",
+    "japanese": "私は英語の方が好きです。",
+    "english": "I like English better."
+  },
+  {
+    "id": "158308",
+    "japanese": "私は英語の勉強に加えてフランス語も学んでいる。",
+    "english": "I study French in addition to English."
+  },
+  {
+    "id": "158309",
+    "japanese": "私は英語の勉強に一日に数時間を使うつもりである。",
+    "english": "I intend to devote a few hours a day to the study of English."
+  },
+  {
+    "id": "158310",
+    "japanese": "私は英語を勉強することが好きです。",
+    "english": "I like studying English."
+  },
+  {
+    "id": "158311",
+    "japanese": "私は英語の発音をもっとよくしたい。",
+    "english": "I would like to improve my English pronunciation."
+  },
+  {
+    "id": "158312",
+    "japanese": "私は英語の谷口先生を尊敬しています。",
+    "english": "I really look up to my English teacher, Mr Taniguchi."
+  },
+  {
+    "id": "158313",
+    "japanese": "私は英語の授業の予習にあまり時間をかけない。",
+    "english": "I don't do much study ahead for the English classes."
+  },
+  {
+    "id": "158314",
+    "japanese": "私は英語の手紙の書き方を知っています。",
+    "english": "I know how to write a letter in English."
+  },
+  {
+    "id": "158316",
+    "japanese": "私は英語の試験でＣを取ったことを両親に悟られないようにした。",
+    "english": "I didn't let on to my parents that I got a C on the English test."
+  },
+  {
+    "id": "158317",
+    "japanese": "私は英語に飽き飽きしている。",
+    "english": "I'm fed up with English."
+  },
+  {
+    "id": "158318",
+    "japanese": "私は英語に精通しています。",
+    "english": "I'm at ease in English."
+  },
+  {
+    "id": "158319",
+    "japanese": "私は英語に興味があります。",
+    "english": "I am interested in English."
+  },
+  {
+    "id": "158320",
+    "japanese": "私は英語に加えて、ドイツ語も勉強したい。",
+    "english": "I want to study German in addition to English."
+  },
+  {
+    "id": "158321",
+    "japanese": "私は英語にみがきをかけなければならない。",
+    "english": "I must brush up my English."
+  },
+  {
+    "id": "158322",
+    "japanese": "私は英語にみがきをかけたい。",
+    "english": "I would like to brush up my English."
+  },
+  {
+    "id": "158323",
+    "japanese": "私は英語にうんざりだ。",
+    "english": "I'm fed up with English."
+  },
+  {
+    "id": "158324",
+    "japanese": "私は英語と音楽が好きです。",
+    "english": "I like English and music."
+  },
+  {
+    "id": "158325",
+    "japanese": "私は英語で話が通じた。",
+    "english": "I could make myself understood in English."
+  },
+  {
+    "id": "158327",
+    "japanese": "私は英語で用がたせなかった。",
+    "english": "I could not make myself understood in English."
+  },
+  {
+    "id": "158328",
+    "japanese": "私は英語で彼を負かすのは不可能だとわかった。",
+    "english": "I found it impossible to beat him at English."
+  },
+  {
+    "id": "158329",
+    "japanese": "私は英語で日記をつけている。",
+    "english": "I keep a diary in English."
+  },
+  {
+    "id": "158330",
+    "japanese": "私は英語で先生に手紙を書いた。",
+    "english": "I wrote to my teacher in English."
+  },
+  {
+    "id": "158331",
+    "japanese": "私は英語で書かれた新聞を買った。",
+    "english": "I bought a newspaper written in English."
+  },
+  {
+    "id": "158332",
+    "japanese": "私は英語で書かれた手紙をうけとった。",
+    "english": "I received a letter written in English."
+  },
+  {
+    "id": "158333",
+    "japanese": "私は英語で手紙を書き終えた。",
+    "english": "I finished writing a letter in English."
+  },
+  {
+    "id": "158334",
+    "japanese": "私は英語で手紙を書きました。",
+    "english": "I wrote a letter in English."
+  },
+  {
+    "id": "158335",
+    "japanese": "私は英語で自分の言うことを他人に理解させるのは難しいと思った。",
+    "english": "I found it difficult to make myself understood in English."
+  },
+  {
+    "id": "158336",
+    "japanese": "私は英語で自分の意志を相手に通じさせることは出来ない。",
+    "english": "I can't make myself understood in English."
+  },
+  {
+    "id": "158338",
+    "japanese": "私は英語で講義をした。",
+    "english": "I delivered a lecture in English."
+  },
+  {
+    "id": "158339",
+    "japanese": "私は英語で演説をするよう求められた。",
+    "english": "I was called upon to make a speech in English."
+  },
+  {
+    "id": "158340",
+    "japanese": "私は英語でよい成績を取った。",
+    "english": "I got a good grade in English."
+  },
+  {
+    "id": "158341",
+    "japanese": "私の英語では話が通じないのではないかと思います。",
+    "english": "I'm afraid I won't be able to make myself understand in English."
+  },
+  {
+    "id": "158342",
+    "japanese": "私は英語でうまく自分の意思を伝えることができなかった。",
+    "english": "I couldn't make myself understood well in English."
+  },
+  {
+    "id": "158343",
+    "japanese": "私は英語が話せる。",
+    "english": "I can speak English."
+  },
+  {
+    "id": "158344",
+    "japanese": "私は英語が話せない、ましてドイツ語はだめだ。",
+    "english": "I can't speak English, much less German."
+  },
+  {
+    "id": "158345",
+    "japanese": "私は英語が不得意だった。",
+    "english": "I was poor at English."
+  },
+  {
+    "id": "158346",
+    "japanese": "私は英語が読める。",
+    "english": "I am able to read English."
+  },
+  {
+    "id": "158347",
+    "japanese": "私は英語が大変好きです。",
+    "english": "I like English very much."
+  },
+  {
+    "id": "158348",
+    "japanese": "私は英語が好きではありません。",
+    "english": "I don't like English."
+  },
+  {
+    "id": "158349",
+    "japanese": "私は英語が好きだが、上手く話せない。",
+    "english": "I like English, but I cannot speak well."
+  },
+  {
+    "id": "158350",
+    "japanese": "私は英語がわかりません。",
+    "english": "I don't understand English."
+  },
+  {
+    "id": "158351",
+    "japanese": "私は英会話もろくにできない、ましてやスペイン語など話せるはずはありません。",
+    "english": "I can't even speak English very well, much less Spanish."
+  },
+  {
+    "id": "158352",
+    "japanese": "私は泳げます。",
+    "english": "I'm able to swim."
+  },
+  {
+    "id": "158353",
+    "japanese": "私は泳ぐことが出来ます。",
+    "english": "I'm able to swim."
+  },
+  {
+    "id": "158354",
+    "japanese": "私は泳ぐよりもむしろテニスをしたい。",
+    "english": "I would rather play tennis than swim."
+  },
+  {
+    "id": "158355",
+    "japanese": "私は泳ぐのを楽しんだ。",
+    "english": "I enjoyed swimming."
+  },
+  {
+    "id": "158356",
+    "japanese": "泳ぐのがとても好きなんです。",
+    "english": "I like swimming very much."
+  },
+  {
+    "id": "158357",
+    "japanese": "私は泳ぐことに興味があります。",
+    "english": "I am interested in swimming."
+  },
+  {
+    "id": "158358",
+    "japanese": "私は泳ぐことが好きです。",
+    "english": "I like to swim."
+  },
+  {
+    "id": "158359",
+    "japanese": "私は泳ぎ方を知らない。",
+    "english": "I don't know how to swim."
+  },
+  {
+    "id": "158360",
+    "japanese": "私は泳ぎ方を知っている。",
+    "english": "I know how to swim."
+  },
+  {
+    "id": "158361",
+    "japanese": "私は泳ぎ方を覚えたい。",
+    "english": "I want to learn how to swim."
+  },
+  {
+    "id": "158362",
+    "japanese": "泳ぎかたは知っているが、その川では泳ぎたくないんだ。",
+    "english": "I know how to swim, but I don't like swimming in the river."
+  },
+  {
+    "id": "158363",
+    "japanese": "私は永久に生きたいのです。",
+    "english": "I want to live forever."
+  },
+  {
+    "id": "158364",
+    "japanese": "私は永久にタバコを吸うのを止めた。",
+    "english": "I have given up smoking for good and all."
+  },
+  {
+    "id": "158365",
+    "japanese": "私は永遠に煙草をやめるでしょう。",
+    "english": "I will quit smoking for good."
+  },
+  {
+    "id": "158366",
+    "japanese": "私は長いこと彼から便りをもらっていません。",
+    "english": "I haven't heard from him for a long time."
+  },
+  {
+    "id": "158367",
+    "japanese": "私は映画を見に行きたい気がする。",
+    "english": "I feel like going to the movies."
+  },
+  {
+    "id": "158368",
+    "japanese": "私は映画よりはむしろ美術館へ行きたい。",
+    "english": "I would rather go to the art museum than to the movie theater."
+  },
+  {
+    "id": "158369",
+    "japanese": "私は映画に行こうと提案した。",
+    "english": "I suggested that we should go to the movies."
+  },
+  {
+    "id": "158370",
+    "japanese": "私は映画には行かず、一日中家にいました。",
+    "english": "I stayed home all day long instead of going to the movies."
+  },
+  {
+    "id": "158371",
+    "japanese": "私は映画が大好きです。",
+    "english": "I'm a movie fan."
+  },
+  {
+    "id": "158372",
+    "japanese": "私は映画が好きでない。",
+    "english": "I don't care for moving pictures."
+  },
+  {
+    "id": "158373",
+    "japanese": "私は映画が好きです。",
+    "english": "I am fond of the cinema."
+  },
+  {
+    "id": "158374",
+    "japanese": "私は営業部門の一員です。",
+    "english": "I am a member of the sales department."
+  },
+  {
+    "id": "158375",
+    "japanese": "私は営業マンです。",
+    "english": "I'm a salesman."
+  },
+  {
+    "id": "158376",
+    "japanese": "雲の上を飛んでみたい。",
+    "english": "I want to fly above the clouds."
+  },
+  {
+    "id": "158377",
+    "japanese": "私は雲の上を飛んだ。",
+    "english": "I flew above the clouds."
+  },
+  {
+    "id": "158378",
+    "japanese": "私は運良く彼に会えた。",
+    "english": "It was very lucky for me that I saw him."
+  },
+  {
+    "id": "158379",
+    "japanese": "私は運命に満足している。",
+    "english": "I am contented with my lot."
+  },
+  {
+    "id": "158380",
+    "japanese": "私は運命に服従せざるを得なかった。",
+    "english": "I was forced to submit to my fate."
+  },
+  {
+    "id": "158382",
+    "japanese": "私は運動が苦手です。",
+    "english": "Exercise is not in my line."
+  },
+  {
+    "id": "158383",
+    "japanese": "私は運転中に居眠りするのではないかと心配だった。",
+    "english": "I was afraid I might fall asleep while driving."
+  },
+  {
+    "id": "158384",
+    "japanese": "私は運転の経験がありません。",
+    "english": "I am not experienced in driving."
+  },
+  {
+    "id": "158385",
+    "japanese": "私は運勢を占ってもらった。",
+    "english": "I had my fortune told."
+  },
+  {
+    "id": "158386",
+    "japanese": "私は運が良かった。",
+    "english": "I was lucky."
+  },
+  {
+    "id": "158387",
+    "japanese": "私は嘘をつくような人間ではない。",
+    "english": "I'm above telling lies."
+  },
+  {
+    "id": "158388",
+    "japanese": "私は嘘をついたことがない。",
+    "english": "I always keep my promises."
+  },
+  {
+    "id": "158389",
+    "japanese": "私は雨の中を歩くのは気にならない。",
+    "english": "I don't mind walking in the rain."
+  },
+  {
+    "id": "158390",
+    "japanese": "私は雨の日以外は毎日散歩しています。",
+    "english": "I take a walk every day except when it rains."
+  },
+  {
+    "id": "158391",
+    "japanese": "私は雨の中を１０分も待たされた。",
+    "english": "I was kept waiting in the rain for as long as ten minutes."
+  },
+  {
+    "id": "158392",
+    "japanese": "私は雨のためにピクニックに行けなかった。",
+    "english": "I couldn't go on a picnic because of the rain."
+  },
+  {
+    "id": "158393",
+    "japanese": "私は雨にもかかわらず出かけた。",
+    "english": "I went out in spite of the rain."
+  },
+  {
+    "id": "158394",
+    "japanese": "雨のため、出発を延期しました。",
+    "english": "We put off our departure because of the rain."
+  },
+  {
+    "id": "158395",
+    "japanese": "私は雨が降ると腰が痛むことに気付いています。",
+    "english": "I am aware that my hip aches when it rains."
+  },
+  {
+    "id": "158396",
+    "japanese": "私は雨が降り出す前に学校に着いた。",
+    "english": "I reached school before the rain started."
+  },
+  {
+    "id": "158397",
+    "japanese": "私は雨が降り始めたのだと思った。",
+    "english": "I thought rain was beginning to fall."
+  },
+  {
+    "id": "158398",
+    "japanese": "私は雨が降っても行くつもりだ。",
+    "english": "I will go even if it rains."
+  },
+  {
+    "id": "158399",
+    "japanese": "私は雨が降っていたが出かけた。",
+    "english": "I went out although it was raining."
+  },
+  {
+    "id": "158400",
+    "japanese": "私は右足を負傷した。",
+    "english": "I got my right leg injured."
+  },
+  {
+    "id": "158401",
+    "japanese": "私は右足を折った。",
+    "english": "I broke my right leg."
+  },
+  {
+    "id": "158402",
+    "japanese": "私は右の目が見えない。",
+    "english": "I am blind in the right eye."
+  },
+  {
+    "id": "158403",
+    "japanese": "私はお酒が嫌いです。",
+    "english": "I don't like drinking."
+  },
+  {
+    "id": "158404",
+    "japanese": "私は飲酒の習慣を治してもらいました。",
+    "english": "I was cured of my drinking habit."
+  },
+  {
+    "id": "158405",
+    "japanese": "私は飲む物は何も欲しくはありません。",
+    "english": "I don't want anything to drink."
+  },
+  {
+    "id": "158406",
+    "japanese": "私は飲みすぎて頭がもうろうとしていた。",
+    "english": "My mind was in a haze after drinking so much."
+  },
+  {
+    "id": "158408",
+    "japanese": "私は引退しようと決心しています。",
+    "english": "I have decided to retire."
+  },
+  {
+    "id": "158409",
+    "japanese": "私は引っ越してきたばかりです。",
+    "english": "I just moved."
+  },
+  {
+    "id": "158411",
+    "japanese": "夏になる前に完成させるべきだったな。",
+    "english": "I should have completed it before summer."
+  },
+  {
+    "id": "158412",
+    "japanese": "私は一輪車に乗れる女の子を知っている。",
+    "english": "I know a girl who can ride a unicycle."
+  },
+  {
+    "id": "158413",
+    "japanese": "私は一目見て彼は非凡な男であると知りました。",
+    "english": "I saw at a glance that he was an extraordinary man."
+  },
+  {
+    "id": "158414",
+    "japanese": "私は一目見ただけで彼だとわかった。",
+    "english": "I recognized him at first glance."
+  },
+  {
+    "id": "158415",
+    "japanese": "私は一文無しになった。",
+    "english": "I'm cleaned out."
+  },
+  {
+    "id": "158416",
+    "japanese": "私は一歩一歩目標を達成するつもりです。",
+    "english": "I will accomplish my purpose step by step."
+  },
+  {
+    "id": "158417",
+    "japanese": "私は一匹の犬を見た。",
+    "english": "I saw a dog."
+  },
+  {
+    "id": "158418",
+    "japanese": "私は一番列車に乗るために翌朝早く起きた。",
+    "english": "I got up early the next morning to catch the first train."
+  },
+  {
+    "id": "158419",
+    "japanese": "私は一番列車に間に合うように駅へ急いだ。",
+    "english": "I hurried to the station so as to be in time for the first train."
+  },
+  {
+    "id": "158420",
+    "japanese": "私は一番列車に間に合うように急いだ。",
+    "english": "I hurried in order to catch the first train."
+  },
+  {
+    "id": "158421",
+    "japanese": "私は一番列車に間に合うくらい早く起きた。",
+    "english": "I got up early enough to catch the first train."
+  },
+  {
+    "id": "158422",
+    "japanese": "一番上の棚まで手が届かないんだ。",
+    "english": "I can't reach the top shelf."
+  },
+  {
+    "id": "158423",
+    "japanese": "私は一番下の階にいる。",
+    "english": "I live on the bottom floor."
+  },
+  {
+    "id": "158424",
+    "japanese": "私は一番いい服を着ていた。",
+    "english": "I was wearing my best clothes."
+  },
+  {
+    "id": "158425",
+    "japanese": "私は一晩中おきていた。",
+    "english": "I sat up all night."
+  },
+  {
+    "id": "158426",
+    "japanese": "私は一晩ぐっすり眠った。",
+    "english": "I had a good night's rest."
+  },
+  {
+    "id": "158427",
+    "japanese": "私は一般の学生のことを言っているのであって、特定の学生のことを言っているのではない。",
+    "english": "I mean students in general, but not in particular."
+  },
+  {
+    "id": "158428",
+    "japanese": "私は一般に夏は早起きだ。",
+    "english": "I get up early in summer as a rule."
+  },
+  {
+    "id": "158429",
+    "japanese": "私は一杯の水で生き返った。",
+    "english": "I was revived by a glass of water."
+  },
+  {
+    "id": "158430",
+    "japanese": "私は一日中忙しかった。",
+    "english": "I was busy all day."
+  },
+  {
+    "id": "158431",
+    "japanese": "私は一日中働いてとても疲れている。",
+    "english": "I'm very tired from working all day."
+  },
+  {
+    "id": "158432",
+    "japanese": "私は一日中働いた。だからとても疲れている。",
+    "english": "I've worked all day, so that I am very tired."
+  },
+  {
+    "id": "158433",
+    "japanese": "私は一日中海辺で過ごした。",
+    "english": "I spent the entire day on the beach."
+  },
+  {
+    "id": "158434",
+    "japanese": "私は一日中暇ですので、いつでもあなたの都合のよい時に伺います。",
+    "english": "I am free all day, I'll come and see you at any time that suits you."
+  },
+  {
+    "id": "158435",
+    "japanese": "私は一日中家に居ました。",
+    "english": "I stayed home all day."
+  },
+  {
+    "id": "158437",
+    "japanese": "私は一日おきに彼を訪問します。",
+    "english": "I call on him every other day."
+  },
+  {
+    "id": "158438",
+    "japanese": "私は一日おきにふろに入ります。",
+    "english": "I take a bath every other day."
+  },
+  {
+    "id": "158439",
+    "japanese": "私は一日おきにそのレストランに行く。",
+    "english": "I go to the restaurant every 2 days."
+  },
+  {
+    "id": "158440",
+    "japanese": "私は一等賞をめざして彼と争った。",
+    "english": "I competed with him for the first prize."
+  },
+  {
+    "id": "158441",
+    "japanese": "私は一度も釧路に行ったことがありません。",
+    "english": "I have never been to Kushiro."
+  },
+  {
+    "id": "158443",
+    "japanese": "私は一度もアメリカに行ったことがありません。",
+    "english": "I have never been to America."
+  },
+  {
+    "id": "158444",
+    "japanese": "私は一度パリを訪れたことがある。",
+    "english": "I have visited Paris once."
+  },
+  {
+    "id": "158445",
+    "japanese": "私は一度に２段駆け上がった。",
+    "english": "I ran upstairs two steps at a time."
+  },
+  {
+    "id": "158446",
+    "japanese": "私は一度テレビドラマで彼女を見たことがある。",
+    "english": "I have seen her once in a TV drama."
+  },
+  {
+    "id": "158447",
+    "japanese": "私は一度その映画を見たことがありましたのでテレビを消しました。",
+    "english": "I turned off the TV because I had seen the movie before."
+  },
+  {
+    "id": "158448",
+    "japanese": "私は一体、自分が本当に誰かを理解したことがあったのだろうか、と思った。",
+    "english": "I wondered if I had ever really understood anyone."
+  },
+  {
+    "id": "158449",
+    "japanese": "私は一生懸命勉強している。",
+    "english": "I am studying very hard."
+  },
+  {
+    "id": "158450",
+    "japanese": "私は一生懸命物理に取り組まなければならない。",
+    "english": "I have to bone up on my physics."
+  },
+  {
+    "id": "158451",
+    "japanese": "私は一生懸命働くのに慣れている。",
+    "english": "I am accustomed to working hard."
+  },
+  {
+    "id": "158452",
+    "japanese": "私は一生懸命働いた、そのためにとても疲れた。",
+    "english": "I worked hard all day, so I was very tired."
+  },
+  {
+    "id": "158453",
+    "japanese": "私は一生懸命したのだが、その試験におちてしまった。",
+    "english": "I studied very hard, only to fail the examination."
+  },
+  {
+    "id": "158454",
+    "japanese": "私は一生涯彼の大ファンでした。",
+    "english": "I have been his greatest fan all my life."
+  },
+  {
+    "id": "158455",
+    "japanese": "私は一人暮らしには慣れている。",
+    "english": "I am accustomed to living alone."
+  },
+  {
+    "id": "158456",
+    "japanese": "私は一人も兄弟がいません。",
+    "english": "I don't have any brothers."
+  },
+  {
+    "id": "158457",
+    "japanese": "一人ぼっちで暮らしたくはない。",
+    "english": "I don't want to live by myself."
+  },
+  {
+    "id": "158458",
+    "japanese": "私は一人の弟がいます。",
+    "english": "I have one brother."
+  },
+  {
+    "id": "158459",
+    "japanese": "私は一人のおばあさんに会った。",
+    "english": "I met an old woman."
+  },
+  {
+    "id": "158460",
+    "japanese": "私は一人で旅行をする事が好きです。",
+    "english": "I like to travel alone."
+  },
+  {
+    "id": "158461",
+    "japanese": "私は一人で旅に行くということは絶対にない。",
+    "english": "There is absolutely no way that I would go on a trip alone."
+  },
+  {
+    "id": "158462",
+    "japanese": "私は一人で暮らすことに耐えられない。",
+    "english": "I can't bear living alone."
+  },
+  {
+    "id": "158463",
+    "japanese": "私は一人で森を歩いた。",
+    "english": "I walked in the woods by myself."
+  },
+  {
+    "id": "158464",
+    "japanese": "私は一人で行くべきだと思いますか。",
+    "english": "Do you think I should go alone?"
+  },
+  {
+    "id": "158465",
+    "japanese": "私は一人では買い物に行きたくない。",
+    "english": "I would rather not go shopping alone."
+  },
+  {
+    "id": "158466",
+    "japanese": "私は一人でそれができる。",
+    "english": "I can do it by myself."
+  },
+  {
+    "id": "158467",
+    "japanese": "私は一人でその仕事を無理矢理させられた。",
+    "english": "I was compelled to do the work alone."
+  },
+  {
+    "id": "158468",
+    "japanese": "私は一人でその仕事を終えた。",
+    "english": "I finished the work by myself."
+  },
+  {
+    "id": "158469",
+    "japanese": "私は一人でそこへいかねばなりませんでした。",
+    "english": "I had to go there alone."
+  },
+  {
+    "id": "158470",
+    "japanese": "一人でこの犬小屋を作ったんだ。",
+    "english": "I made this kennel by myself."
+  },
+  {
+    "id": "158471",
+    "japanese": "私は一人でいるのが嫌いだ。",
+    "english": "I don't like to be alone."
+  },
+  {
+    "id": "158472",
+    "japanese": "私は一人でいるのが好きなんです。",
+    "english": "I like being alone."
+  },
+  {
+    "id": "158473",
+    "japanese": "私は一人っ子です。",
+    "english": "I am an only child."
+  },
+  {
+    "id": "158474",
+    "japanese": "私は一笑に付されてしまった。",
+    "english": "I was laughed out of court."
+  },
+  {
+    "id": "158476",
+    "japanese": "私は一瞬彼女の姿を見たが、群衆の中で見失った。",
+    "english": "I saw her for a moment, but then lost sight of her in the crowd."
+  },
+  {
+    "id": "158477",
+    "japanese": "私は一週間前彼女に出会った。",
+    "english": "I saw her a week ago."
+  },
+  {
+    "id": "158478",
+    "japanese": "私は一週間前に事故でけがをしたので外に出られない。",
+    "english": "I can't go out, because I was injured a week ago in an accident."
+  },
+  {
+    "id": "158479",
+    "japanese": "私は一週間以内に故郷に帰らなければなりません。",
+    "english": "I must return home within a week."
+  },
+  {
+    "id": "158480",
+    "japanese": "私は一週間に２、３度図書館に行きます。",
+    "english": "I go to the library two or three times a week."
+  },
+  {
+    "id": "158481",
+    "japanese": "一週間ここに滞在しています。",
+    "english": "I have been here for a week."
+  },
+  {
+    "id": "158482",
+    "japanese": "私は一時間勉強しました。",
+    "english": "I studied for one hour."
+  },
+  {
+    "id": "158483",
+    "japanese": "私は一時間につき十ドルもらっています。",
+    "english": "I am paid 10 dollars an hour."
+  },
+  {
+    "id": "158484",
+    "japanese": "私は一時間ではそこへ着けません。",
+    "english": "I cannot get there in an hour."
+  },
+  {
+    "id": "158485",
+    "japanese": "私は一時間その本をさがした。",
+    "english": "I looked for the book for an hour."
+  },
+  {
+    "id": "158486",
+    "japanese": "私は一冊の本を買った。",
+    "english": "I bought a book."
+  },
+  {
+    "id": "158487",
+    "japanese": "私は一行が出発するのを見守った。",
+    "english": "I watched the expedition as it set off."
+  },
+  {
+    "id": "158488",
+    "japanese": "私は一見して彼が正直者だとわかった。",
+    "english": "I knew at a glance that he was an honest man."
+  },
+  {
+    "id": "158489",
+    "japanese": "私は一介の貧乏教師にすぎない。",
+    "english": "I am just a humble teacher."
+  },
+  {
+    "id": "158490",
+    "japanese": "私は一つの袋は運んできたが、もう一つのほうは後へ残してきた。",
+    "english": "I carried one bag, but the other one was left behind."
+  },
+  {
+    "id": "158491",
+    "japanese": "私は一つの会社に束縛されたくない。",
+    "english": "I don't want to be tied to one company."
+  },
+  {
+    "id": "158492",
+    "japanese": "一つお願いがあるんだ。",
+    "english": "I have just one thing to ask of you."
+  },
+  {
+    "id": "158493",
+    "japanese": "私は一か八か彼の挑戦を受けてみた。",
+    "english": "I took a chance and accepted his challenge."
+  },
+  {
+    "id": "158494",
+    "japanese": "私は井上氏がそのホテルに泊まったと聞いた。",
+    "english": "I hear Mr Inoue has put up at that hotel."
+  },
+  {
+    "id": "158495",
+    "japanese": "私は医者を職業とすることに決めた。",
+    "english": "I decided to make medicine my vocation."
+  },
+  {
+    "id": "158496",
+    "japanese": "私は医者を呼びにやらなければならない。",
+    "english": "I must send for the doctor."
+  },
+  {
+    "id": "158497",
+    "japanese": "私は医者を完全に信頼している。",
+    "english": "I have complete faith in my doctor."
+  },
+  {
+    "id": "158498",
+    "japanese": "私は医者の忠告に従わなかったことを後悔している。",
+    "english": "I regret not having taken my doctor's advice."
+  },
+  {
+    "id": "158499",
+    "japanese": "私は医者の忠告によって酒を飲み過ぎなかった。",
+    "english": "The doctor's advice kept me from drinking too much."
+  },
+  {
+    "id": "158500",
+    "japanese": "私は医者に診てもらいに行ったが、あいにく留守だった。",
+    "english": "I went to see the doctor, only to find him absent."
+  },
+  {
+    "id": "158501",
+    "japanese": "私は医者に酒を止められている。",
+    "english": "The doctor tells me not to touch alcohol."
+  },
+  {
+    "id": "158502",
+    "japanese": "私は医者に行かなければならない。",
+    "english": "I must pay a visit to the doctor."
+  },
+  {
+    "id": "158503",
+    "japanese": "私は医者に見てもらったほうがいいと言われた。",
+    "english": "I was told that I should see a doctor."
+  },
+  {
+    "id": "158504",
+    "japanese": "私は医者になろうと決心した。",
+    "english": "I decided to be a doctor."
+  },
+  {
+    "id": "158505",
+    "japanese": "私は医者になる決心をした。",
+    "english": "I made up my mind to be a doctor."
+  },
+  {
+    "id": "158508",
+    "japanese": "私は医者になりたかった。",
+    "english": "I wanted to become a doctor."
+  },
+  {
+    "id": "158509",
+    "japanese": "私は医者になりたい。",
+    "english": "I wish to be a doctor."
+  },
+  {
+    "id": "158510",
+    "japanese": "私は医者ではなくて教師だ。",
+    "english": "I am not a doctor, but a teacher."
+  },
+  {
+    "id": "158511",
+    "japanese": "私は医者です。",
+    "english": "I'm a doctor."
+  },
+  {
+    "id": "158512",
+    "japanese": "私は医者か看護婦か先生になりたい。",
+    "english": "I want to be a doctor or a nurse or a teacher."
+  },
+  {
+    "id": "158513",
+    "japanese": "私は医師に少し質問した。",
+    "english": "I asked the doctor some questions."
+  },
+  {
+    "id": "158514",
+    "japanese": "私は医師としての立場であなたに禁煙するように忠告します。",
+    "english": "I advise you in my capacity as a doctor to stop smoking."
+  },
+  {
+    "id": "158515",
+    "japanese": "私は医学を専攻しています。",
+    "english": "I am majoring in medicine."
+  },
+  {
+    "id": "158516",
+    "japanese": "私は遺産を病院に贈ろう。",
+    "english": "I shall will my money to a hospital."
+  },
+  {
+    "id": "158517",
+    "japanese": "私は遺言のことで弁護士と相談した。",
+    "english": "I had a consultation with a lawyer about my will."
+  },
+  {
+    "id": "158518",
+    "japanese": "私は違った観点からその問題を見ています。",
+    "english": "I am looking at the matter from a different viewpoint."
+  },
+  {
+    "id": "158519",
+    "japanese": "私は違う列車に乗ったことが次第に分かり始めた。",
+    "english": "It gradually dawned on me that I had taken the wrong train."
+  },
+  {
+    "id": "158520",
+    "japanese": "私は衣類は普通地元の店で買います。",
+    "english": "I usually buy clothing at a local store."
+  },
+  {
+    "id": "158521",
+    "japanese": "私は胃に激しい痛みを覚えた。",
+    "english": "I felt a sharp pain in the stomach."
+  },
+  {
+    "id": "158522",
+    "japanese": "意を決して海の中に飛び込んだ。",
+    "english": "I boldly jumped into the sea."
+  },
+  {
+    "id": "158523",
+    "japanese": "私は意に反して彼と結婚した。",
+    "english": "I married him against my will."
+  },
+  {
+    "id": "158524",
+    "japanese": "私は意に反してこれをせざるをえなかった。",
+    "english": "I was compelled to do this against my will."
+  },
+  {
+    "id": "158525",
+    "japanese": "私は委員会の決議を支持した。",
+    "english": "I supported the committee's decision."
+  },
+  {
+    "id": "158526",
+    "japanese": "私は委員会の議長を知っている。",
+    "english": "I am acquainted with the chairman of the committee."
+  },
+  {
+    "id": "158527",
+    "japanese": "私は伊丹十三監督の全ての映画が好きです。",
+    "english": "I like all films that Juzo Itami directs."
+  },
+  {
+    "id": "158528",
+    "japanese": "私は以前富士山に登ったことがある。",
+    "english": "I have climbed Mt. Fuji before."
+  },
+  {
+    "id": "158529",
+    "japanese": "私は以前彼に会ったことがある。",
+    "english": "I have met him before."
+  },
+  {
+    "id": "158530",
+    "japanese": "私は以前神戸に住んでいた事がある。",
+    "english": "I've lived in Kobe before."
+  },
+  {
+    "id": "158531",
+    "japanese": "私は以前古いロールスロイスを持っていた。",
+    "english": "I used to have an old Rolls Royce."
+  },
+  {
+    "id": "158532",
+    "japanese": "私は以前君に会った事を覚えている。",
+    "english": "I remember seeing you before."
+  },
+  {
+    "id": "158533",
+    "japanese": "私は以前君にまずお母さんに頼むべきだと言ったよ。",
+    "english": "I told you before that you should ask your mother first."
+  },
+  {
+    "id": "158534",
+    "japanese": "私は以前京都を訪れたことがあります。",
+    "english": "I have visited Kyoto before."
+  },
+  {
+    "id": "158535",
+    "japanese": "私は以前よりも暇はあるがお金がない。",
+    "english": "I have more time, and less money than ever."
+  },
+  {
+    "id": "158536",
+    "japanese": "私は以前よく彼と日曜日テニスをしたものだ。",
+    "english": "I would play tennis with him on Sunday."
+  },
+  {
+    "id": "158537",
+    "japanese": "私は以前よく朝早く散歩をしたものだ。",
+    "english": "I used to take a walk early in the morning."
+  },
+  {
+    "id": "158538",
+    "japanese": "私は以前ユーフォーを見た事がある。",
+    "english": "I have seen a UFO before."
+  },
+  {
+    "id": "158539",
+    "japanese": "私は以前は毎朝散歩しました。",
+    "english": "I used to take a walk every morning."
+  },
+  {
+    "id": "158540",
+    "japanese": "私は以前は葡萄酒が嫌いでしたが、今ではとても好きです。",
+    "english": "I didn't use to like wine, but now I'm quite fond of it."
+  },
+  {
+    "id": "158541",
+    "japanese": "私は以前は日記をつけていた。",
+    "english": "I used to keep a diary."
+  },
+  {
+    "id": "158542",
+    "japanese": "私は以前はバトミントンをやったものですが、今はもうやりません。",
+    "english": "I used to play badminton, but I don't anymore."
+  },
+  {
+    "id": "158543",
+    "japanese": "私は以前彼女に会ったことがある。",
+    "english": "I have seen her before."
+  },
+  {
+    "id": "158544",
+    "japanese": "私は以前に彼女と会った事が無い事を確信した。",
+    "english": "I was sure I had never seen her before."
+  },
+  {
+    "id": "158545",
+    "japanese": "私は以前に札幌に行った事がある。",
+    "english": "I've been to Sapporo before."
+  },
+  {
+    "id": "158546",
+    "japanese": "私は以前に学校に遅刻したことはなかった。",
+    "english": "I had never been late for school before."
+  },
+  {
+    "id": "158547",
+    "japanese": "私は以前にその絵を見たことがある。",
+    "english": "I have seen the picture before."
+  },
+  {
+    "id": "158549",
+    "japanese": "私は以前この本を読んだことがあります。",
+    "english": "I have read this book before."
+  },
+  {
+    "id": "158550",
+    "japanese": "私は以前この小説を読んだ覚えがある。",
+    "english": "I remember reading this novel before."
+  },
+  {
+    "id": "158551",
+    "japanese": "私は以前ここへ来たことがあるような気がする。",
+    "english": "I have a feeling that I have been here before."
+  },
+  {
+    "id": "158552",
+    "japanese": "私は以前あなたに会ったことを覚えている。",
+    "english": "I remember seeing you before."
+  },
+  {
+    "id": "158553",
+    "japanese": "私は暗闇の中で手探りで電気のスイッチを探した。",
+    "english": "I felt for the light switch in the dark."
+  },
+  {
+    "id": "158554",
+    "japanese": "私は暗くならないうちに家に帰らなければなりません。",
+    "english": "I must get home before it gets dark."
+  },
+  {
+    "id": "158555",
+    "japanese": "私は暗くなってから一人で歩いて帰るのは嫌だ。",
+    "english": "I don't like walking home alone after dark."
+  },
+  {
+    "id": "158556",
+    "japanese": "私は暗がりでいすを探している。",
+    "english": "I am looking for the chair in the dark."
+  },
+  {
+    "id": "158557",
+    "japanese": "私は安室奈美恵を見かけた。",
+    "english": "I caught sight of Namie Amuro."
+  },
+  {
+    "id": "158560",
+    "japanese": "私は悪いことをしたと認める。",
+    "english": "I admit having done wrong."
+  }
+]

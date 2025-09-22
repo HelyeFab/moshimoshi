@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "2233559",
+    "japanese": "彼はいつでも明るい。",
+    "english": "He is always cheerful."
+  },
+  {
+    "id": "9032484",
+    "japanese": "彼は必ず約束を守るんだ。",
+    "english": "He always keeps his word."
+  },
+  {
+    "id": "10001902",
+    "japanese": "あいつって、ヤな奴だよな。",
+    "english": "He is an unpleasant fellow."
+  },
+  {
+    "id": "395857",
+    "japanese": "彼はいろいろな人種の人とコンタクトを取っている。",
+    "english": "He is in touch with all kinds of people."
+  },
+  {
+    "id": "1193058",
+    "japanese": "彼は嘘をつくのが上手だ。",
+    "english": "He is adept at telling lies."
+  },
+  {
+    "id": "2361096",
+    "japanese": "彼は冗談がうまい。",
+    "english": "He tells a good joke."
+  },
+  {
+    "id": "9748942",
+    "japanese": "あいつ、試験に受かったんだよ。",
+    "english": "He passed the examination."
+  },
+  {
+    "id": "9988844",
+    "japanese": "彼、オーストラリア出身だと思うけど、違うかも。",
+    "english": "I think he is from Australia, but I'm not sure."
+  },
+  {
+    "id": "1157303",
+    "japanese": "彼は父親にそっくりだ。",
+    "english": "He's a carbon copy of his father."
+  },
+  {
+    "id": "1157306",
+    "japanese": "彼は父親とうり二つだ。",
+    "english": "He's a carbon copy of his father."
+  },
+  {
+    "id": "2233240",
+    "japanese": "彼は金を要求した。",
+    "english": "He asked for money."
+  },
+  {
+    "id": "2233241",
+    "japanese": "彼は金を貸してくれと頼んだ。",
+    "english": "He asked for money."
+  },
+  {
+    "id": "10352886",
+    "japanese": "彼はお金をねだった。",
+    "english": "He asked for money."
+  },
+  {
+    "id": "3553302",
+    "japanese": "彼は金に窮していた。",
+    "english": "He was hard up."
+  },
+  {
+    "id": "9748539",
+    "japanese": "あの人はお金を持ってないんです。",
+    "english": "He has no money."
+  },
+  {
+    "id": "1151854",
+    "japanese": "彼らは微笑みを交わした。",
+    "english": "They smiled at each other."
+  },
+  {
+    "id": "739234",
+    "japanese": "彼は父の時計を遺失した。",
+    "english": "He has lost his father's watch."
+  },
+  {
+    "id": "12693634",
+    "japanese": "彼は父親の腕時計を紛失してしまった。",
+    "english": "He has lost his father's watch."
+  },
+  {
+    "id": "1123638",
+    "japanese": "彼は父親より背が高い。",
+    "english": "He is taller than his father."
+  },
+  {
+    "id": "2210550",
+    "japanese": "彼は恋人を連れていた。",
+    "english": "He was accompanied by his girlfriend."
+  },
+  {
+    "id": "1689781",
+    "japanese": "彼はファビョり癖がある。",
+    "english": "He is inclined to get mad."
+  },
+  {
+    "id": "1690298",
+    "japanese": "彼は鞄のファスナーを開けた。",
+    "english": "He zipped open his bag."
+  },
+  {
+    "id": "2380518",
+    "japanese": "彼はクラスで最下位だった。",
+    "english": "He was at the bottom of the class."
+  },
+  {
+    "id": "1119286",
+    "japanese": "彼は来るはずでした。",
+    "english": "He was supposed to come."
+  },
+  {
+    "id": "9494139",
+    "japanese": "あいつは絶対嘘なんかつかないよ。",
+    "english": "He never tells lies."
+  },
+  {
+    "id": "10515285",
+    "japanese": "あいつは約束を守ったためしがない。",
+    "english": "He never keeps his word."
+  },
+  {
+    "id": "11169573",
+    "japanese": "コーヒーが苦手なのよ。",
+    "english": "He doesn't like coffee."
+  },
+  {
+    "id": "2380522",
+    "japanese": "彼は面白い話をした。",
+    "english": "He told a funny story."
+  },
+  {
+    "id": "1134379",
+    "japanese": "彼はこっそりと裏口へ移動した。",
+    "english": "He sneaked around to the back door."
+  },
+  {
+    "id": "1179387",
+    "japanese": "彼は先日彼女に会いに行った。",
+    "english": "He went to see her the other day."
+  },
+  {
+    "id": "1179389",
+    "japanese": "彼はこないだ彼女に会いに行った。",
+    "english": "He went to see her the other day."
+  },
+  {
+    "id": "6037210",
+    "japanese": "彼は前回の会議に来なかった。",
+    "english": "He didn't come to the last meeting."
+  },
+  {
+    "id": "9740610",
+    "japanese": "あいつはこの近くに住んでるんだ。",
+    "english": "He lives near here."
+  },
+  {
+    "id": "2227493",
+    "japanese": "彼は来れるよ。",
+    "english": "He can come."
+  },
+  {
+    "id": "1237601",
+    "japanese": "彼は転んだ時、手に怪我をした。",
+    "english": "He hurt his hand when he fell."
+  },
+  {
+    "id": "1209811",
+    "japanese": "彼は怖くて泳げない。",
+    "english": "He is afraid to swim."
+  },
+  {
+    "id": "2354067",
+    "japanese": "彼はサッカーをする。",
+    "english": "He plays soccer."
+  },
+  {
+    "id": "1037387",
+    "japanese": "彼はサッカーをするのが好きなんです。",
+    "english": "He likes playing soccer."
+  },
+  {
+    "id": "1673695",
+    "japanese": "彼は別れも告げずに行ってしまった。",
+    "english": "He left without saying goodbye."
+  },
+  {
+    "id": "10037221",
+    "japanese": "彼なら、よくそこで朝ご飯を食べてるわよ。",
+    "english": "He often eats breakfast there."
+  },
+  {
+    "id": "11150516",
+    "japanese": "あいつ、しょっちゅう彼女の悪口を言ってるんだ。",
+    "english": "He often calls her names."
+  },
+  {
+    "id": "2422273",
+    "japanese": "彼は惚れっぽい人だ。",
+    "english": "He often falls in love."
+  },
+  {
+    "id": "9077155",
+    "japanese": "彼をしばらくほっとくことにした。",
+    "english": "We decided to leave him alone for a while."
+  },
+  {
+    "id": "1504591",
+    "japanese": "彼はジャズについて知らなけばならないことは全部知っている。",
+    "english": "He knows everything that there is to know about jazz."
+  },
+  {
+    "id": "9735139",
+    "japanese": "彼は近所に住んでいるんだ。",
+    "english": "He lives close by."
+  },
+  {
+    "id": "12296442",
+    "japanese": "そろそろ帰ってくるかな？",
+    "english": "Will he come home soon?"
+  },
+  {
+    "id": "9687345",
+    "japanese": "彼って怒りっぽいのよね。",
+    "english": "He is quick to take offense."
+  },
+  {
+    "id": "10001978",
+    "japanese": "あの人すぐカッとなるから、好きじゃない。",
+    "english": "I don't like him because he loses his temper easily."
+  },
+  {
+    "id": "10372440",
+    "japanese": "彼はずっと自分の主義に忠実であった。",
+    "english": "He remained steadfast to his principles."
+  },
+  {
+    "id": "10224972",
+    "japanese": "あいつ、スピード出し過ぎて捕まったんだ。",
+    "english": "He was caught for speeding."
+  },
+  {
+    "id": "2381367",
+    "japanese": "彼は全ての棚の寸法を測った。",
+    "english": "He measured all his shelves."
+  },
+  {
+    "id": "1770034",
+    "japanese": "彼には為すべきことがたくさんあった。",
+    "english": "He had a lot of things to do."
+  },
+  {
+    "id": "1139091",
+    "japanese": "彼のすることは何事においてもマイペースだ。",
+    "english": "He always takes his time in everything that he does."
+  },
+  {
+    "id": "11119167",
+    "japanese": "彼、そんなこと言ってないって、否定してるよ。",
+    "english": "He denies having said so."
+  },
+  {
+    "id": "1181174",
+    "japanese": "彼は何がそこで起こったかを正確に述べた。",
+    "english": "He accurately described what happened there."
+  },
+  {
+    "id": "1630417",
+    "japanese": "彼はすぐそこに住んでいる。",
+    "english": "He lives just around the corner."
+  },
+  {
+    "id": "1196569",
+    "japanese": "彼はそのスキャンダルに関係していることを認めている。",
+    "english": "He admits being involved in the scandal."
+  },
+  {
+    "id": "10365336",
+    "japanese": "彼はそのけばけばしいシャツをすっと着た。",
+    "english": "He slipped the gaudy shirt on."
+  },
+  {
+    "id": "393898",
+    "japanese": "彼はそのとき着ていたもの以外に服を持っていなかった。",
+    "english": "He had no clothes other than what he was wearing."
+  },
+  {
+    "id": "10240170",
+    "japanese": "彼はそのコンテストへの参加資格を失った。",
+    "english": "He was disqualified from taking part in the contest."
+  },
+  {
+    "id": "1177457",
+    "japanese": "彼はお金とともに姿をくらました。",
+    "english": "He absconded with the money."
+  },
+  {
+    "id": "1673849",
+    "japanese": "彼はあなたに会えてとても喜んでいました。",
+    "english": "He was delighted to see you."
+  },
+  {
+    "id": "1209136",
+    "japanese": "彼はその犬が恐い。",
+    "english": "He is afraid of the dog."
+  },
+  {
+    "id": "9033038",
+    "japanese": "彼らはそれからずっと幸せに暮らしましたとさ。",
+    "english": "They lived happily ever after."
+  },
+  {
+    "id": "1163949",
+    "japanese": "彼はその仕事に応募し、採用された。",
+    "english": "He applied for the job and got it."
+  },
+  {
+    "id": "1193450",
+    "japanese": "その仕事に彼は適任だ。",
+    "english": "He is adequate to the job."
+  },
+  {
+    "id": "1211969",
+    "japanese": "彼はその職務を承諾している。",
+    "english": "He has agreed to do the task."
+  },
+  {
+    "id": "1385464",
+    "japanese": "彼は手紙の封を開けずに送り返した。",
+    "english": "He sent the letter back unopened."
+  },
+  {
+    "id": "1736422",
+    "japanese": "彼はこういったトラブルを解決する専門家だ。",
+    "english": "He is an expert at solving such problems."
+  },
+  {
+    "id": "992188",
+    "japanese": "彼はそのポストの資格を満たしていない。",
+    "english": "He is not qualified for the job."
+  },
+  {
+    "id": "11559649",
+    "japanese": "彼は、立て続けに3杯の水を飲み干した。",
+    "english": "He drank three cups of the water, one after the other."
+  },
+  {
+    "id": "1233793",
+    "japanese": "彼はその音に文句を言った。",
+    "english": "He complained about the noise."
+  },
+  {
+    "id": "1119294",
+    "japanese": "彼はその男が盗んだと言い掛かりをつけた。",
+    "english": "He accused the man of stealing."
+  },
+  {
+    "id": "1179466",
+    "japanese": "彼はその保存情報にアクセスできる。",
+    "english": "He has access to the stored information."
+  },
+  {
+    "id": "10876076",
+    "japanese": "彼はあの街のことよく知ってるよ。",
+    "english": "He knows the city well."
+  },
+  {
+    "id": "2261030",
+    "japanese": "彼はかつかつの生活を送っている。",
+    "english": "He's living from hand to mouth."
+  },
+  {
+    "id": "2680022",
+    "japanese": "彼はバラバラになった破片をつなぎ合わせた。",
+    "english": "He stuck the broken pieces together."
+  },
+  {
+    "id": "1255127",
+    "japanese": "彼は無実だった。",
+    "english": "He was innocent of the crime."
+  },
+  {
+    "id": "1733991",
+    "japanese": "彼はその話題に明るい。",
+    "english": "He is familiar with the subject."
+  },
+  {
+    "id": "1186850",
+    "japanese": "彼はその問題を処理した。",
+    "english": "He acted on the matter."
+  },
+  {
+    "id": "1556119",
+    "japanese": "彼はソファーに寝そべっている。",
+    "english": "He is lying on the sofa."
+  },
+  {
+    "id": "2422272",
+    "japanese": "彼はそのことについて語った。",
+    "english": "He mentioned it."
+  },
+  {
+    "id": "3357762",
+    "japanese": "その男は、それが真実であることを認めた。",
+    "english": "He admitted that it was true."
+  },
+  {
+    "id": "2431157",
+    "japanese": "彼はやり続けた。",
+    "english": "He went on doing it."
+  },
+  {
+    "id": "1193485",
+    "japanese": "彼はどういう意味で言ったのだと思う？",
+    "english": "What do you think he meant by that?"
+  },
+  {
+    "id": "2385261",
+    "japanese": "彼は全部平らげた。",
+    "english": "He ate all of it."
+  },
+  {
+    "id": "12375597",
+    "japanese": "彼は、そんなことは言っていないと否定した。",
+    "english": "He denied having said such a thing."
+  },
+  {
+    "id": "857196",
+    "japanese": "彼は普通遅く家に帰ります。",
+    "english": "He usually comes home late."
+  },
+  {
+    "id": "2385262",
+    "japanese": "彼はダイビングが得意だ。",
+    "english": "He is good at diving."
+  },
+  {
+    "id": "2084672",
+    "japanese": "彼はとても遅くに帰宅した。",
+    "english": "He came home very late."
+  },
+  {
+    "id": "8649172",
+    "japanese": "彼は家の中で独りぼっちだった。",
+    "english": "He was all alone in the house."
+  },
+  {
+    "id": "8649192",
+    "japanese": "彼は家の中で一人っきりだった。",
+    "english": "He was all alone in the house."
+  },
+  {
+    "id": "1015159",
+    "japanese": "彼なら、さっき出掛けたところです。",
+    "english": "He went out just now."
+  },
+  {
+    "id": "1003752",
+    "japanese": "彼はたばこをやめた。",
+    "english": "He gave up cigarettes."
+  },
+  {
+    "id": "650772",
+    "japanese": "彼は禁煙すると決めた。",
+    "english": "He decided to quit smoking."
+  },
+  {
+    "id": "1752766",
+    "japanese": "彼は何の造作もなく手紙を書いた。",
+    "english": "He wrote a letter with great facility."
+  },
+  {
+    "id": "9065751",
+    "japanese": "彼は抜群に優秀な生徒だ。",
+    "english": "He is by far the best student."
+  },
+  {
+    "id": "1172640",
+    "japanese": "彼は終電にぎりぎり間にあった。",
+    "english": "He was just in time for the last train."
+  },
+  {
+    "id": "1180380",
+    "japanese": "彼はついにそれをやってのけた。",
+    "english": "He accomplished it at last."
+  },
+  {
+    "id": "2234707",
+    "japanese": "彼はすぐに疲れる。",
+    "english": "He gets tired easily."
+  },
+  {
+    "id": "1084071",
+    "japanese": "彼は非社交的だ。",
+    "english": "He is unsociable."
+  },
+  {
+    "id": "10488887",
+    "japanese": "彼はいつもサングラスをしています。",
+    "english": "He always wears dark glasses."
+  },
+  {
+    "id": "1160529",
+    "japanese": "彼は全速で駆けた。",
+    "english": "He ran as fast as he could."
+  },
+  {
+    "id": "1052660",
+    "japanese": "彼はテニスをする代わりに釣りに行った。",
+    "english": "He went fishing instead of playing tennis."
+  },
+  {
+    "id": "1186917",
+    "japanese": "彼はテレビで何度も演じてきた。",
+    "english": "He has acted on TV many times."
+  },
+  {
+    "id": "1245257",
+    "japanese": "彼は鍵を回した。",
+    "english": "He turned the key."
+  },
+  {
+    "id": "1245240",
+    "japanese": "彼は左手でドアノブを回した。",
+    "english": "He turned the doorknob with his left hand."
+  },
+  {
+    "id": "3447494",
+    "japanese": "彼は英語ですら解さない。ましてドイツ語など分かるはずがない。",
+    "english": "He knows no English, not to mention German."
+  },
+  {
+    "id": "3447495",
+    "japanese": "彼はドイツ語もフランス語も話せない。",
+    "english": "He cannot speak either German or French."
+  },
+  {
+    "id": "3447496",
+    "japanese": "ドイツ語、フランス語はおろか、彼は英語すら分からない。",
+    "english": "He does not know English, not to mention German or French."
+  },
+  {
+    "id": "3447498",
+    "japanese": "彼は生粋のドイツ人だ。",
+    "english": "He is a German by origin."
+  },
+  {
+    "id": "3447499",
+    "japanese": "彼はドイツ生まれだ。",
+    "english": "He is a German by origin."
+  },
+  {
+    "id": "3447502",
+    "japanese": "一体何が問題なのか、彼は私に言わなかった。",
+    "english": "He didn't tell me what the matter was."
+  },
+  {
+    "id": "3447504",
+    "japanese": "彼はどうしたらよいか、決めかねているようだった。",
+    "english": "He looked uncertain what to do."
+  },
+  {
+    "id": "3447509",
+    "japanese": "彼は金を受け取ろうとはしなかった。",
+    "english": "He would not take the money."
+  },
+  {
+    "id": "3447523",
+    "japanese": "彼は言葉を失った。",
+    "english": "Words failed him."
+  },
+  {
+    "id": "9705738",
+    "japanese": "結局あいつは来なかったな。",
+    "english": "He didn't come after all."
+  },
+  {
+    "id": "1202177",
+    "japanese": "ついに彼の望み通りになった。",
+    "english": "He finally got his wish."
+  },
+  {
+    "id": "1866529",
+    "japanese": "彼はどこに行った？",
+    "english": "Where did he go?"
+  },
+  {
+    "id": "843592",
+    "japanese": "彼はとても感じのよい人みたいだ。",
+    "english": "He seems very pleasant."
+  },
+  {
+    "id": "2234708",
+    "japanese": "彼はとても丈夫だ。",
+    "english": "He is strong as a horse."
+  },
+  {
+    "id": "10200088",
+    "japanese": "すごい喉が渇いてるから、水をくれって言ってたよ。",
+    "english": "He was very thirsty and asked for some water."
+  },
+  {
+    "id": "10287465",
+    "japanese": "とても幸せそうだったよ。",
+    "english": "They looked very happy."
+  },
+  {
+    "id": "1071231",
+    "japanese": "彼はとても幸せそうだ。",
+    "english": "He seems quite happy."
+  },
+  {
+    "id": "2230132",
+    "japanese": "彼はとても幸せなようだ。",
+    "english": "He seems quite happy."
+  },
+  {
+    "id": "2974701",
+    "japanese": "彼は人に避けられるほど、性格が攻撃的です。",
+    "english": "He is so aggressive that others avoid him."
+  },
+  {
+    "id": "1753592",
+    "japanese": "彼が詩人とかないわ。",
+    "english": "He is anything but a poet."
+  },
+  {
+    "id": "11352018",
+    "japanese": "あいつ、テニスがすごく上手いんだ。",
+    "english": "He can play tennis very well."
+  },
+  {
+    "id": "1176958",
+    "japanese": "彼はすごい正直なんだよ。",
+    "english": "He is very honest."
+  },
+  {
+    "id": "12010582",
+    "japanese": "早足でついていけなかったよ。",
+    "english": "He walked so fast that I couldn't keep up with him."
+  },
+  {
+    "id": "1385540",
+    "japanese": "彼はトラの頭を撃ち抜いた。",
+    "english": "He shot a tiger through the head."
+  },
+  {
+    "id": "1177642",
+    "japanese": "彼は彼女が行きそうなどんなパーティーにも出ない。",
+    "english": "He absents himself from any party she is likely to attend."
+  },
+  {
+    "id": "1171692",
+    "japanese": "彼は宙返りをした。",
+    "english": "He turned a somersault."
+  },
+  {
+    "id": "1156718",
+    "japanese": "彼はかなりの自信家だ。",
+    "english": "He has great confidence in himself."
+  },
+  {
+    "id": "10098659",
+    "japanese": "彼はすごくいい人だね。",
+    "english": "He is a pretty great guy."
+  },
+  {
+    "id": "9699972",
+    "japanese": "あいつがそれをやった理由は分かってるんだ。",
+    "english": "I know why he did it."
+  },
+  {
+    "id": "1154135",
+    "japanese": "彼の英語はぺらぺらじゃないか！",
+    "english": "How fluently he speaks English!"
+  },
+  {
+    "id": "1091915",
+    "japanese": "なんちゅう大食いなんだこいつは。",
+    "english": "What a big eater he is!"
+  },
+  {
+    "id": "1315762",
+    "japanese": "彼って超天才じゃん！",
+    "english": "What a genius he is!"
+  },
+  {
+    "id": "9777114",
+    "japanese": "彼は何て言ったらいいか分からなかったのよ。",
+    "english": "He did not know what to say."
+  },
+  {
+    "id": "9699779",
+    "japanese": "彼は窃盗罪で起訴された。",
+    "english": "He was accused of theft."
+  },
+  {
+    "id": "2240411",
+    "japanese": "彼らは飼い猫たちにトムとジェリーと名付けた。",
+    "english": "They named their cats Tom and Jerry."
+  },
+  {
+    "id": "2403716",
+    "japanese": "彼はパーティー大好き人間です。",
+    "english": "He's a party animal."
+  },
+  {
+    "id": "1163937",
+    "japanese": "彼はパイロットになる決心をした。",
+    "english": "He made up his mind to be a pilot."
+  },
+  {
+    "id": "2226639",
+    "japanese": "彼は愚かだ。",
+    "english": "He is foolish."
+  },
+  {
+    "id": "3266096",
+    "japanese": "私は彼を馬鹿にしている。",
+    "english": "I look upon him as a fool."
+  },
+  {
+    "id": "1484920",
+    "japanese": "彼は馬鹿なことをしたから、笑われました。",
+    "english": "He did something stupid and was sneered at."
+  },
+  {
+    "id": "1180790",
+    "japanese": "彼は莫大な財産を築いた。",
+    "english": "He accumulated a large fortune."
+  },
+  {
+    "id": "541884",
+    "japanese": "彼はパンとバターが好きだ。",
+    "english": "He likes bread and butter."
+  },
+  {
+    "id": "1689587",
+    "japanese": "彼はハムレットに配役された。",
+    "english": "He was cast as Hamlet."
+  },
+  {
+    "id": "1545476",
+    "japanese": "彼はパリへの旅行を考えていた。",
+    "english": "He contemplated taking a trip to Paris."
+  },
+  {
+    "id": "10081418",
+    "japanese": "彼はビールを一杯頼みました。",
+    "english": "He asked for a glass of beer."
+  },
+  {
+    "id": "2750690",
+    "japanese": "ビールを三本飲んだ。",
+    "english": "He drank three bottles of beer."
+  },
+  {
+    "id": "1006933",
+    "japanese": "彼は自分の影にもおびえる。",
+    "english": "He is afraid of his own shadow."
+  },
+  {
+    "id": "1207547",
+    "japanese": "彼はひどく臆病だ。",
+    "english": "He is afraid of his own shadow."
+  },
+  {
+    "id": "2293867",
+    "japanese": "彼は重傷を負った。",
+    "english": "He was badly wounded."
+  },
+  {
+    "id": "12132533",
+    "japanese": "とても貧しかった。",
+    "english": "He was very poor."
+  },
+  {
+    "id": "1167581",
+    "japanese": "彼は月に一度髪を切ってもらいます。",
+    "english": "He has his hair cut once a month."
+  },
+  {
+    "id": "1167583",
+    "japanese": "彼は月一で散髪してもらう。",
+    "english": "He has his hair cut once a month."
+  },
+  {
+    "id": "10513263",
+    "japanese": "彼はフランスに行くと決心した。",
+    "english": "He decided to go to France."
+  },
+  {
+    "id": "10513265",
+    "japanese": "彼はフランスに行くことにした。",
+    "english": "He decided to go to France."
+  },
+  {
+    "id": "517208",
+    "japanese": "彼は三回フランスを訪れた。",
+    "english": "He has visited France three times."
+  },
+  {
+    "id": "1090105",
+    "japanese": "彼はスペイン語とイタリア語に長けている。",
+    "english": "He is proficient in both Spanish and Italian."
+  },
+  {
+    "id": "9276235",
+    "japanese": "彼はフランス語が堪能なんです。",
+    "english": "He has a good command of French."
+  },
+  {
+    "id": "10634852",
+    "japanese": "彼はフランス語の知識が豊富だ。",
+    "english": "He has a good knowledge of French."
+  },
+  {
+    "id": "995156",
+    "japanese": "彼にフランス語でかなう人はいない。",
+    "english": "He is second to none in his command of French."
+  },
+  {
+    "id": "1142906",
+    "japanese": "彼のアクセントから分かった通り、彼はフランス人だった。",
+    "english": "He was a Frenchman, as I discovered from his accent."
+  },
+  {
+    "id": "1144196",
+    "japanese": "彼はヘビを全く怖がらない。",
+    "english": "He's not at all afraid of snakes."
+  },
+  {
+    "id": "8980548",
+    "japanese": "彼はベンチに腰掛けタバコを吸った。",
+    "english": "He sat smoking on the bench."
+  },
+  {
+    "id": "1185680",
+    "japanese": "彼はベンについていくらかの知識を得た。",
+    "english": "He acquired some knowledge about Ben."
+  },
+  {
+    "id": "9523057",
+    "japanese": "彼はボストンから来てるんです。",
+    "english": "He has come from Boston."
+  },
+  {
+    "id": "1259755",
+    "japanese": "彼は自分の服のボタンホールに花を差し込んだ。",
+    "english": "He stuck a flower in his buttonhole."
+  },
+  {
+    "id": "10089720",
+    "japanese": "あいつ毎日のようにここに来るんだ。",
+    "english": "He comes here almost every day."
+  },
+  {
+    "id": "10878972",
+    "japanese": "僕と同じぐらいの歳だよ。",
+    "english": "He is about my age."
+  },
+  {
+    "id": "11033337",
+    "japanese": "あいつ、車の修理は自分でやってるんだよ。",
+    "english": "He repairs his own car."
+  },
+  {
+    "id": "1177059",
+    "japanese": "彼はロンドンへ出発するところだ。",
+    "english": "He is about to leave for London."
+  },
+  {
+    "id": "1097548",
+    "japanese": "彼はまさに寝に行こうというところだった。",
+    "english": "He was just on the verge of going to sleep."
+  },
+  {
+    "id": "2113452",
+    "japanese": "あいつはまた自分の傘をなくしたよ。",
+    "english": "He lost his umbrella again."
+  },
+  {
+    "id": "9506095",
+    "japanese": "彼はまだ私に手紙の返事をくれないんです。",
+    "english": "He hasn't answered my letter yet."
+  },
+  {
+    "id": "2179184",
+    "japanese": "彼は頭から川に落ちた。",
+    "english": "He fell head-long into the river."
+  },
+  {
+    "id": "1276664",
+    "japanese": "彼は紳士の中の紳士だ。",
+    "english": "He is every inch a gentleman."
+  },
+  {
+    "id": "1177859",
+    "japanese": "彼は少しも他人の気持ちを大事にしない。",
+    "english": "He has absolutely no respect for other people's feelings."
+  },
+  {
+    "id": "1248317",
+    "japanese": "彼は招待されなかったのでがっかりした。",
+    "english": "He was disappointed at not being invited."
+  },
+  {
+    "id": "1190317",
+    "japanese": "彼はまるで王様のであるかのような振る舞いをする。",
+    "english": "He acts as if he were a king."
+  },
+  {
+    "id": "1107803",
+    "japanese": "彼は自分の目で見たかのように事故についてわたしに語った。",
+    "english": "He told me about the accident as if he had seen it with his own eyes."
+  },
+  {
+    "id": "9092287",
+    "japanese": "彼はまるで病人みたいに見えるね。",
+    "english": "He looks as if he were ill."
+  },
+  {
+    "id": "1276654",
+    "japanese": "彼はよくミルトンの言葉を引用する。",
+    "english": "He often quotes Milton."
+  },
+  {
+    "id": "1128603",
+    "japanese": "彼ら全員が、私がそこにいるのを見て驚いた。",
+    "english": "They were all surprised to see me there."
+  },
+  {
+    "id": "1276652",
+    "japanese": "彼は皆からの評判がいい。",
+    "english": "He is well spoken of by everybody."
+  },
+  {
+    "id": "10642161",
+    "japanese": "メアリーが自分を馬鹿にしていることに、彼はようやく気づいたのだった。",
+    "english": "He finally realized that Mary had made a fool of him."
+  },
+  {
+    "id": "12463500",
+    "japanese": "あいつ、今日の午後はメアリーとデートなんだ。",
+    "english": "He has a date with Mary this afternoon."
+  },
+  {
+    "id": "11610664",
+    "japanese": "あいつはメアリーにぞっこんなんだよ。",
+    "english": "He's head over heels in love with Mary."
+  },
+  {
+    "id": "8513386",
+    "japanese": "彼はもうここで働いていません。",
+    "english": "He no longer works here."
+  },
+  {
+    "id": "10795113",
+    "japanese": "もう戻ってきたの？",
+    "english": "Is he back already?"
+  },
+  {
+    "id": "11072633",
+    "japanese": "あいつ、もう行っちゃったの？",
+    "english": "Has he gone already?"
+  },
+  {
+    "id": "2474624",
+    "japanese": "彼はもう高齢ですから、世話をするのはあなたの務めなんですよ。",
+    "english": "Now that he is old, it is your duty to look after him."
+  },
+  {
+    "id": "1247646",
+    "japanese": "彼は紛れもなく村の最高齢者です。",
+    "english": "He is unquestionably the oldest man in the village."
+  },
+  {
+    "id": "1734235",
+    "japanese": "彼は疑いなく村一番の年寄りだ。",
+    "english": "He is unquestionably the oldest man in the village."
+  },
+  {
+    "id": "1276647",
+    "japanese": "彼は昨夜の寒さが原因で死亡した。",
+    "english": "He died from the cold last night."
+  },
+  {
+    "id": "2295511",
+    "japanese": "彼はユーモアのセンスがある。",
+    "english": "He has a sense of humor."
+  },
+  {
+    "id": "1142223",
+    "japanese": "彼女は霧の立ち込めた森の中へゆっくりと消えていった。",
+    "english": "She slowly disappeared into the foggy forest."
+  },
+  {
+    "id": "1056551",
+    "japanese": "彼は生まれつき記憶力がいい。",
+    "english": "He has a naturally good memory."
+  },
+  {
+    "id": "2295512",
+    "japanese": "彼は口が軽い。",
+    "english": "He has a big mouth."
+  },
+  {
+    "id": "1276641",
+    "japanese": "彼は回復しますか。",
+    "english": "Will he get well?"
+  },
+  {
+    "id": "1276644",
+    "japanese": "彼の病気は治りますか。",
+    "english": "Will he get well?"
+  },
+  {
+    "id": "1276640",
+    "japanese": "彼はうまく泳げると言った。",
+    "english": "He said he could swim well."
+  },
+  {
+    "id": "1276639",
+    "japanese": "彼はうまく泳げると答えた。",
+    "english": "He answered that he could swim well."
+  },
+  {
+    "id": "9518687",
+    "japanese": "あいつはよく俺のところに遊びに来てたんだよ。",
+    "english": "He would often come to see me."
+  },
+  {
+    "id": "994954",
+    "japanese": "彼はとてもよく勉強する。",
+    "english": "He works very hard."
+  },
+  {
+    "id": "470285",
+    "japanese": "彼はよく風景を描く。",
+    "english": "He often paints landscapes."
+  },
+  {
+    "id": "2285044",
+    "japanese": "彼は信頼できる人です。",
+    "english": "He is a man of his word."
+  },
+  {
+    "id": "1174715",
+    "japanese": "彼は以前友達をいじめていた。",
+    "english": "He used to bully his friends."
+  },
+  {
+    "id": "1065276",
+    "japanese": "彼はロシア語の読み書きができる。",
+    "english": "He can both speak and write Russian."
+  },
+  {
+    "id": "3462862",
+    "japanese": "彼は完璧なロシア語を話す。",
+    "english": "He speaks Russian perfectly."
+  },
+  {
+    "id": "1902544",
+    "japanese": "彼はロミオを演ずるとポスターに出ていた。",
+    "english": "He was billed to appear as Romeo."
+  },
+  {
+    "id": "3462848",
+    "japanese": "彼はロンドンでたくさん写真を撮った。",
+    "english": "He took many pictures in London."
+  },
+  {
+    "id": "3462845",
+    "japanese": "ロンドンに滞在中、彼は大英博物館を訪れた。",
+    "english": "While in London, he visited the British Museum."
+  },
+  {
+    "id": "3462832",
+    "japanese": "彼らはロンドン郊外に居を構えることに決めた。",
+    "english": "They decided to settle in a suburb of London."
+  },
+  {
+    "id": "3462817",
+    "japanese": "彼はワイングラスを落とし、グラスの足を折ってしまった。",
+    "english": "He dropped his wineglass and broke its stem."
+  },
+  {
+    "id": "3462814",
+    "japanese": "彼は一日たりともワインなしではいられない。",
+    "english": "He can't go without wine for even a day."
+  },
+  {
+    "id": "1805101",
+    "japanese": "彼はワインをボトル一本空けた。",
+    "english": "He drank a bottle of wine."
+  },
+  {
+    "id": "11608477",
+    "japanese": "ワインをひと瓶飲み干しやがった。",
+    "english": "He drank a bottle of wine."
+  },
+  {
+    "id": "3462807",
+    "japanese": "彼はわがチームのどの選手とも引けをとらない。",
+    "english": "He is as good as any player on our team."
+  },
+  {
+    "id": "3462787",
+    "japanese": "彼は単純明快に説明する。",
+    "english": "He gives plain, simple explanations."
+  },
+  {
+    "id": "3462755",
+    "japanese": "彼は小脇に本を抱えている。",
+    "english": "He is holding his books under his arm."
+  },
+  {
+    "id": "3462752",
+    "japanese": "彼はわざとそうしたのではないかという考えが、ふと私の頭をよぎった。",
+    "english": "It occurred to me that he had done it on purpose."
+  },
+  {
+    "id": "2249884",
+    "japanese": "彼は憎めない人だ。",
+    "english": "He is a lovable person."
+  },
+  {
+    "id": "2420472",
+    "japanese": "彼はバランスを崩して倒れた。",
+    "english": "He lost his balance and fell down."
+  },
+  {
+    "id": "1097537",
+    "japanese": "彼は暗算が出来るほど頭が良くない。",
+    "english": "He doesn't have enough brains to do sums in his head."
+  },
+  {
+    "id": "1097538",
+    "japanese": "彼は暗算が出来るほどの頭脳を持ち合わせていない。",
+    "english": "He doesn't have enough brains to do sums in his head."
+  },
+  {
+    "id": "13256507",
+    "japanese": "あの人は偉大な科学者です。",
+    "english": "He is a great scientist."
+  },
+  {
+    "id": "1151806",
+    "japanese": "彼は大物政治家になるという野心を忘れたことはなかった。",
+    "english": "He never forgot his ambition to become a great statesman."
+  },
+  {
+    "id": "2446673",
+    "japanese": "あれは医者ではありません。",
+    "english": "He is not a doctor."
+  },
+  {
+    "id": "2446675",
+    "japanese": "その男性は医者ではありません。",
+    "english": "He is not a doctor."
+  },
+  {
+    "id": "1202176",
+    "japanese": "彼は医者になることを望んでいる。",
+    "english": "He wishes to become a doctor."
+  },
+  {
+    "id": "9773664",
+    "japanese": "彼は何も言わずに立ち去った。",
+    "english": "He went away without saying a word."
+  },
+  {
+    "id": "10138421",
+    "japanese": "彼は何も言わず出ていった。",
+    "english": "He went out without saying a word."
+  },
+  {
+    "id": "2408773",
+    "japanese": "一週間後、彼はまたやって来た。",
+    "english": "He came again after a week."
+  },
+  {
+    "id": "1139090",
+    "japanese": "彼は先週家を出てからずっと帰ってきていない。",
+    "english": "He hasn't come home since he left last week."
+  },
+  {
+    "id": "541901",
+    "japanese": "彼は私たちと一緒に来たがった。",
+    "english": "He wanted to come with us."
+  },
+  {
+    "id": "1284934",
+    "japanese": "彼は終生貧乏のままだった。",
+    "english": "He remained poor all his life."
+  },
+  {
+    "id": "1284910",
+    "japanese": "彼は精一杯努力している。",
+    "english": "He tries hard."
+  },
+  {
+    "id": "1182459",
+    "japanese": "彼は常に一生懸命働く。",
+    "english": "He is accustomed to working hard."
+  },
+  {
+    "id": "8505293",
+    "japanese": "彼は、その子に一目惚れだったんだよ。",
+    "english": "He fell in love with the girl at first sight."
+  },
+  {
+    "id": "3658117",
+    "japanese": "彼は宇宙飛行士になることを夢見ている。",
+    "english": "He is dreaming of becoming an astronaut."
+  },
+  {
+    "id": "1383978",
+    "japanese": "彼は雨になるだろうと予測した。",
+    "english": "He predicted there would be rain."
+  },
+  {
+    "id": "1166409",
+    "japanese": "彼は泳ぎに行こうと勧めた。",
+    "english": "He suggested that we go for a swim."
+  },
+  {
+    "id": "1209129",
+    "japanese": "彼は泳ぐのが怖い。",
+    "english": "He is afraid of swimming."
+  },
+  {
+    "id": "2281686",
+    "japanese": "彼は泳げない。",
+    "english": "He can't swim."
+  },
+  {
+    "id": "1576206",
+    "japanese": "彼は海に泳ぎに行った。",
+    "english": "He went to sea to swim."
+  },
+  {
+    "id": "3070021",
+    "japanese": "彼にとって英語を勉強するということは容易ではない。",
+    "english": "English is not easy for him to learn."
+  },
+  {
+    "id": "1284834",
+    "japanese": "彼は英語を自由自在に話せる。",
+    "english": "He has a good command of English."
+  },
+  {
+    "id": "9049814",
+    "japanese": "彼ね、英語が苦手なんだ。",
+    "english": "He is weak in English."
+  },
+  {
+    "id": "10693468",
+    "japanese": "彼は英語が話せません。ましてやドイツ語も話せません。",
+    "english": "He cannot speak English, much less German."
+  },
+  {
+    "id": "1048184",
+    "japanese": "彼は英語を話しますか。",
+    "english": "Does he speak English?"
+  },
+  {
+    "id": "9645001",
+    "japanese": "彼は英語はもちろん、フランス語も話せるんです。",
+    "english": "He speaks French as well as English."
+  },
+  {
+    "id": "2244821",
+    "japanese": "彼は英語もフランス語もとてもよくできる。",
+    "english": "He can speak both English and French very well."
+  },
+  {
+    "id": "779840",
+    "japanese": "彼は英語を教えて生活をしている。",
+    "english": "He earns his living by teaching English."
+  },
+  {
+    "id": "2354094",
+    "japanese": "彼は英語を教えている。",
+    "english": "He teaches English."
+  },
+  {
+    "id": "9943142",
+    "japanese": "彼ね、英語を習い始めたのよ。",
+    "english": "He began to learn English."
+  },
+  {
+    "id": "2256949",
+    "japanese": "彼はネイティブのように英語を話す。",
+    "english": "He speaks English like a native."
+  },
+  {
+    "id": "2256954",
+    "japanese": "彼はネイティブのように英語がペラペラだ。",
+    "english": "He speaks English like a native."
+  },
+  {
+    "id": "9065899",
+    "japanese": "彼ね、英語を話さなきゃいけないの。",
+    "english": "He has to speak English."
+  },
+  {
+    "id": "1700309",
+    "japanese": "彼は駅で英語の先生にばったり会った。",
+    "english": "He met his English teacher at the station by accident."
+  },
+  {
+    "id": "1056473",
+    "japanese": "彼は駅に向かって歩いています。",
+    "english": "He is walking towards the station."
+  },
+  {
+    "id": "1284777",
+    "japanese": "彼は円をドルに両替した。",
+    "english": "He exchanged yen for dollars."
+  },
+  {
+    "id": "1284778",
+    "japanese": "彼は円をドルと交換した。",
+    "english": "He exchanged yen for dollars."
+  },
+  {
+    "id": "1014786",
+    "japanese": "彼は音楽狂だ。",
+    "english": "He is mad about music."
+  },
+  {
+    "id": "8797924",
+    "japanese": "彼は数学がほとんど分かってないのに、ましてや化学なんて。",
+    "english": "He knows little of mathematics, still less of chemistry."
+  },
+  {
+    "id": "1773367",
+    "japanese": "彼は何か始めるとそれにのめり込む性質です。",
+    "english": "When he begins to do anything, he devotes himself to it."
+  },
+  {
+    "id": "995164",
+    "japanese": "彼は本当にばかだねえ。",
+    "english": "What a fool he is!"
+  },
+  {
+    "id": "9994486",
+    "japanese": "彼は何をしてるのかな？",
+    "english": "What is he doing?"
+  },
+  {
+    "id": "1370649",
+    "japanese": "彼は何を言いたいのでしょうか。",
+    "english": "What is he driving at?"
+  },
+  {
+    "id": "1316998",
+    "japanese": "彼は何を調べたのですか。",
+    "english": "What did he look up?"
+  },
+  {
+    "id": "2408832",
+    "japanese": "彼は何もかも三日坊主だ。",
+    "english": "He can't stick to anything very long."
+  },
+  {
+    "id": "1284773",
+    "japanese": "彼は何時に戻ると思っていますか。",
+    "english": "When do you expect him back?"
+  },
+  {
+    "id": "11267642",
+    "japanese": "いつ来るって言ってた？",
+    "english": "When did he say he would come?"
+  },
+  {
+    "id": "1556120",
+    "japanese": "彼は家にいないんだよね？",
+    "english": "He isn't at home, is he?"
+  },
+  {
+    "id": "2301436",
+    "japanese": "彼は家にいますか。",
+    "english": "Is he at home?"
+  },
+  {
+    "id": "1284753",
+    "japanese": "彼は自宅に手紙を出した。",
+    "english": "He mailed a letter home."
+  },
+  {
+    "id": "11138679",
+    "japanese": "ちょうど家を出てったとこだよ。",
+    "english": "He has just left home."
+  },
+  {
+    "id": "2230131",
+    "japanese": "彼は家を飛び出した。",
+    "english": "He ran away from home."
+  },
+  {
+    "id": "1175972",
+    "japanese": "彼は家族を見捨てた。",
+    "english": "He abandoned his family."
+  },
+  {
+    "id": "1179467",
+    "japanese": "彼はうっかり金槌で親指を叩いてしまった。",
+    "english": "He accidentally hit his thumb with the hammer."
+  },
+  {
+    "id": "1172666",
+    "japanese": "彼は過労である。",
+    "english": "He is tired from overwork."
+  },
+  {
+    "id": "431674",
+    "japanese": "彼はわが社の代表として会議に参加しました。",
+    "english": "He represented our company at the conference."
+  },
+  {
+    "id": "1471050",
+    "japanese": "彼は期待に応えなかった。",
+    "english": "He did not live up to expectations."
+  },
+  {
+    "id": "1168361",
+    "japanese": "彼は私たちの誰よりも歌が上手だ。",
+    "english": "He can sing better than any of us."
+  },
+  {
+    "id": "640545",
+    "japanese": "彼に会うといつも「こんにちは」と言われます。",
+    "english": "He always says \"Hello\" when I see him."
+  },
+  {
+    "id": "1177641",
+    "japanese": "彼はミーティングを欠席した。",
+    "english": "He absented himself from the meeting."
+  },
+  {
+    "id": "2249252",
+    "japanese": "彼はいつも会議に遅れてくる。",
+    "english": "He tends to be late for meetings."
+  },
+  {
+    "id": "1034626",
+    "japanese": "彼は車で会社に行く。",
+    "english": "He goes to the office by car."
+  },
+  {
+    "id": "1275793",
+    "japanese": "彼は私と同じ職場にいます。",
+    "english": "He works with me at the office."
+  },
+  {
+    "id": "2971814",
+    "japanese": "その人は回復する可能性がありません。",
+    "english": "He is beyond the chance of recovery."
+  },
+  {
+    "id": "1209141",
+    "japanese": "彼は海が怖い。",
+    "english": "He's afraid of the sea."
+  },
+  {
+    "id": "1736603",
+    "japanese": "彼は２段飛ばしに階段を駆け上がった。",
+    "english": "He jumped up the steps three at a time."
+  },
+  {
+    "id": "10489017",
+    "japanese": "彼は海外に行くことにした。",
+    "english": "He decided to go abroad."
+  },
+  {
+    "id": "1284084",
+    "japanese": "彼は大学の外に住んでいる。",
+    "english": "He lives off campus."
+  },
+  {
+    "id": "1082371",
+    "japanese": "彼は英語がすらすら読める。",
+    "english": "He can read English easily."
+  },
+  {
+    "id": "1213334",
+    "japanese": "彼は活動的な人だ。",
+    "english": "He is an active person."
+  },
+  {
+    "id": "11804060",
+    "japanese": "エネルギッシュな方よ。",
+    "english": "He is full of energy."
+  },
+  {
+    "id": "9700869",
+    "japanese": "彼が完璧だなんてとんでもない。",
+    "english": "He is far from perfect."
+  },
+  {
+    "id": "2238110",
+    "japanese": "彼は決して手抜きをしない人だ。",
+    "english": "He is a person who never cuts corners."
+  },
+  {
+    "id": "1069482",
+    "japanese": "彼は丈夫で健康そうに見える。",
+    "english": "He appears to be strong and healthy."
+  },
+  {
+    "id": "3244976",
+    "japanese": "彼の顔は怒りで赤くなった。",
+    "english": "He was red with anger."
+  },
+  {
+    "id": "3415893",
+    "japanese": "彼は危険にひるんだりはしない。",
+    "english": "He never shrinks from danger."
+  },
+  {
+    "id": "3415885",
+    "japanese": "彼は一喜一憂した。",
+    "english": "He fluctuated between hope and despair."
+  },
+  {
+    "id": "3415886",
+    "japanese": "彼は希望と絶望の狭間で揺れた。",
+    "english": "He fluctuated between hope and despair."
+  },
+  {
+    "id": "9934226",
+    "japanese": "彼は自分の席にいますよ。",
+    "english": "He is at his desk."
+  },
+  {
+    "id": "2309340",
+    "japanese": "彼は机の中を片付けた。",
+    "english": "He cleared out his desk."
+  },
+  {
+    "id": "2309341",
+    "japanese": "彼は机を右に動かした。",
+    "english": "He moved the desk to the right."
+  },
+  {
+    "id": "1248320",
+    "japanese": "彼は事が期待通りにいかなかったので、がっかりした。",
+    "english": "He was disappointed that things didn't turn out as he'd hoped."
+  },
+  {
+    "id": "10042235",
+    "japanese": "彼ね、ご機嫌斜めなのよ。",
+    "english": "He is in a bad mood."
+  },
+  {
+    "id": "1186963",
+    "japanese": "彼は素早く動いて火を消した。",
+    "english": "He acted quickly and put out the fire."
+  },
+  {
+    "id": "2249894",
+    "japanese": "彼は気が若い。",
+    "english": "He is young at heart."
+  },
+  {
+    "id": "2249910",
+    "japanese": "彼は電車から降りた。",
+    "english": "He got off the train."
+  },
+  {
+    "id": "11609746",
+    "japanese": "急ぎの用ができて、大阪に行かれました。",
+    "english": "He has gone to Osaka on urgent business."
+  },
+  {
+    "id": "11609747",
+    "japanese": "急用で大阪に行かれましたよ。",
+    "english": "He has gone to Osaka on urgent business."
+  },
+  {
+    "id": "4591619",
+    "japanese": "彼は同級生と仲がいい。",
+    "english": "He is on good terms with his classmates."
+  },
+  {
+    "id": "2287353",
+    "japanese": "彼は魚が好きじゃない。",
+    "english": "He doesn't like fish."
+  },
+  {
+    "id": "1166921",
+    "japanese": "彼は魚の販売でお金を稼ぐのだと思います。",
+    "english": "I think he makes money by selling fish."
+  },
+  {
+    "id": "1239635",
+    "japanese": "彼は京大で学んでいる。",
+    "english": "He is studying at Kyoto University."
+  },
+  {
+    "id": "2354078",
+    "japanese": "彼は強そうだ。",
+    "english": "He looks strong."
+  },
+  {
+    "id": "1753620",
+    "japanese": "彼は教えられたことを吸収した。",
+    "english": "He assimilated what he was taught."
+  },
+  {
+    "id": "11331665",
+    "japanese": "彼は教師だよ。",
+    "english": "He is a teacher."
+  },
+  {
+    "id": "13172299",
+    "japanese": "あの人は教師です。",
+    "english": "He is a teacher."
+  },
+  {
+    "id": "13172306",
+    "japanese": "あの方は教師です。",
+    "english": "He is a teacher."
+  },
+  {
+    "id": "13172345",
+    "japanese": "彼は先生です。",
+    "english": "He is a teacher."
+  },
+  {
+    "id": "1178032",
+    "japanese": "彼はアルコールを控えている。",
+    "english": "He abstained from alcohol."
+  },
+  {
+    "id": "9025308",
+    "japanese": "彼は財産目当てで結婚した。",
+    "english": "He married for money."
+  },
+  {
+    "id": "2325060",
+    "japanese": "彼は株に投資した。",
+    "english": "He invested his money in stocks."
+  },
+  {
+    "id": "2252815",
+    "japanese": "彼は気前よく金を出してくれる。",
+    "english": "He is generous with his money."
+  },
+  {
+    "id": "9025085",
+    "japanese": "彼は気前がいい。",
+    "english": "He is generous with his money."
+  },
+  {
+    "id": "8527293",
+    "japanese": "彼は裕福であるにもかかわらず幸福ではない。",
+    "english": "He's rich, but he isn't happy."
+  },
+  {
+    "id": "10051860",
+    "japanese": "彼、お金持ちそうだったよ。",
+    "english": "He looked like a rich man."
+  },
+  {
+    "id": "2252808",
+    "japanese": "彼は今では金持ちらしい。",
+    "english": "He seems to be rich now."
+  },
+  {
+    "id": "10144896",
+    "japanese": "９時だってさ。",
+    "english": "He said, \"It's nine o'clock.\""
+  },
+  {
+    "id": "1181118",
+    "japanese": "彼は一生懸命働いて財産を増やした。",
+    "english": "He accumulated his fortune by hard work."
+  },
+  {
+    "id": "1156701",
+    "japanese": "彼から何をするか聞いた？",
+    "english": "Did he tell you what to do?"
+  },
+  {
+    "id": "10322401",
+    "japanese": "あいつ、お前のことすごく怒ってるぞ。",
+    "english": "He's very angry with you."
+  },
+  {
+    "id": "1192334",
+    "japanese": "彼は群衆に向かって厳かに語りかけた。",
+    "english": "He addressed the crowd gravely."
+  },
+  {
+    "id": "2287149",
+    "japanese": "彼は軍に召集された。",
+    "english": "He was drafted into the army."
+  },
+  {
+    "id": "8532771",
+    "japanese": "彼は勤務中です。",
+    "english": "He is on duty."
+  },
+  {
+    "id": "8533168",
+    "japanese": "彼は任務にあたっている。",
+    "english": "He is on duty."
+  },
+  {
+    "id": "2263382",
+    "japanese": "彼は死刑判決を受けた。",
+    "english": "He was sentenced to death."
+  },
+  {
+    "id": "9679340",
+    "japanese": "彼ね、刑務所に放り込まれたのよ。",
+    "english": "He was put in prison."
+  },
+  {
+    "id": "4562333",
+    "japanese": "彼はここに着いたばかりだ。",
+    "english": "He has just arrived here."
+  },
+  {
+    "id": "418371",
+    "japanese": "彼は経済学の権威です。",
+    "english": "He is a great authority on economics."
+  },
+  {
+    "id": "2261629",
+    "japanese": "彼は警官を見るや否や逃亡した。",
+    "english": "As soon as he saw the policeman, he ran away."
+  },
+  {
+    "id": "2261630",
+    "japanese": "警察官の姿を見て、彼はたちまち逃げ去った。",
+    "english": "As soon as he saw the policeman, he ran away."
+  },
+  {
+    "id": "9110552",
+    "japanese": "彼は絶対嘘つかないよ。",
+    "english": "He never tells a lie."
+  },
+  {
+    "id": "10901558",
+    "japanese": "彼が振り返ることはなかった。",
+    "english": "He never looked back."
+  },
+  {
+    "id": "2249907",
+    "japanese": "彼は気が変わった。",
+    "english": "He changed his mind."
+  },
+  {
+    "id": "2249909",
+    "japanese": "彼は決断を下すことができない。",
+    "english": "He can't make a decision."
+  },
+  {
+    "id": "2285047",
+    "japanese": "どのみち彼は来るだろう。",
+    "english": "He will come after all."
+  },
+  {
+    "id": "2285048",
+    "japanese": "いずれにしても彼は来るだろう。",
+    "english": "He will come after all."
+  },
+  {
+    "id": "1087714",
+    "japanese": "彼は既婚者で二人の子持ちだ。",
+    "english": "He is married with two children."
+  },
+  {
+    "id": "10495616",
+    "japanese": "彼は血を見て震え上がった。",
+    "english": "He shuddered at the sight of blood."
+  },
+  {
+    "id": "1174624",
+    "japanese": "彼は月に三度、髪を切ってもらう。",
+    "english": "He gets a haircut three times a month."
+  },
+  {
+    "id": "2262161",
+    "japanese": "彼はまた元気になった。",
+    "english": "He got well again."
+  },
+  {
+    "id": "2432346",
+    "japanese": "彼は犬が恐い。",
+    "english": "He is afraid of dogs."
+  },
+  {
+    "id": "1254704",
+    "japanese": "彼は一匹の犬だけを連れて旅をした。",
+    "english": "He traveled with only a dog for company."
+  },
+  {
+    "id": "10578178",
+    "japanese": "彼は肩をすくめました。",
+    "english": "He shrugged his shoulders."
+  },
+  {
+    "id": "1151801",
+    "japanese": "彼は見知らぬ女性を彼の母親として認めることができなかった。",
+    "english": "He could not accept a strange woman as his mother."
+  },
+  {
+    "id": "2287145",
+    "japanese": "彼は情報通だ。",
+    "english": "He's a well-informed person."
+  },
+  {
+    "id": "1151788",
+    "japanese": "彼が頭がいいからと言って、彼が誠実であると決まったわけではない。",
+    "english": "Just because he's wise doesn't mean that he's honest."
+  },
+  {
+    "id": "9694561",
+    "japanese": "彼って賢そうね。",
+    "english": "He looks like a clever boy."
+  },
+  {
+    "id": "1189202",
+    "japanese": "彼は分別のある行動をとっている。",
+    "english": "He has acted wisely."
+  },
+  {
+    "id": "2420276",
+    "japanese": "彼は古びた靴をはいていた。",
+    "english": "He wore old shoes."
+  },
+  {
+    "id": "10075913",
+    "japanese": "あいつ、わざと嘘ついたんだ。",
+    "english": "He told deliberate lies."
+  },
+  {
+    "id": "1631835",
+    "japanese": "彼は朝いつも忙しいわけではない。",
+    "english": "He is not always busy in the morning."
+  },
+  {
+    "id": "9576203",
+    "japanese": "あいつは自分の過ちを悔やんでるんだ。",
+    "english": "He regrets his mistake."
+  },
+  {
+    "id": "10890819",
+    "japanese": "彼は公金を横領した。",
+    "english": "He embezzled public money."
+  },
+  {
+    "id": "2410352",
+    "japanese": "彼は公衆の面前で私を侮辱した。",
+    "english": "He insulted me in public."
+  },
+  {
+    "id": "1045065",
+    "japanese": "彼は分厚い眼鏡をかけています。",
+    "english": "He wears thick glasses."
+  },
+  {
+    "id": "7803722",
+    "japanese": "彼は言い訳をでっち上げた。",
+    "english": "He made up an excuse."
+  },
+  {
+    "id": "12351440",
+    "japanese": "彼は嬉しいです。",
+    "english": "He is happy."
+  },
+  {
+    "id": "468751",
+    "japanese": "彼は幸せではないかもしれない。",
+    "english": "He may not be happy."
+  },
+  {
+    "id": "9479919",
+    "japanese": "彼って幸せじゃないかもね。",
+    "english": "He may not be happy."
+  },
+  {
+    "id": "9754826",
+    "japanese": "彼は嬉しくないかもしれないよ。",
+    "english": "He may not be happy."
+  },
+  {
+    "id": "1100933",
+    "japanese": "彼は大きな家に住んでいる。",
+    "english": "He lives in a large house."
+  },
+  {
+    "id": "2309349",
+    "japanese": "彼は校長になったばかりだ。",
+    "english": "He has just become a principal."
+  },
+  {
+    "id": "1273307",
+    "japanese": "彼は実行力のある人です。",
+    "english": "He is a man of action."
+  },
+  {
+    "id": "9831277",
+    "japanese": "あいつ、高給取りだよな。",
+    "english": "He is a highly paid man."
+  },
+  {
+    "id": "11727185",
+    "japanese": "あいつ、高校を中退したんだ。",
+    "english": "He dropped out of high school."
+  },
+  {
+    "id": "12132528",
+    "japanese": "お国のために命を捧げたのです。",
+    "english": "He gave his life for his country."
+  },
+  {
+    "id": "1471031",
+    "japanese": "彼はサングラスをかけている。",
+    "english": "He is wearing sunglasses."
+  },
+  {
+    "id": "9562973",
+    "japanese": "あいつって、今勉強してるの？",
+    "english": "Is he studying now?"
+  },
+  {
+    "id": "10883896",
+    "japanese": "ここに来てまだ日が浅いんだ。",
+    "english": "He hasn't been here long."
+  },
+  {
+    "id": "2408805",
+    "japanese": "彼は今までで最高の素晴らしい歌手です。",
+    "english": "He is the greatest singer that ever lived."
+  },
+  {
+    "id": "2228656",
+    "japanese": "彼は午前中に起きた。",
+    "english": "He got up in the morning."
+  },
+  {
+    "id": "2408814",
+    "japanese": "彼は昼食をとっている。",
+    "english": "He is having lunch."
+  },
+  {
+    "id": "9559268",
+    "japanese": "あいつなら昼飯食ってるよ。",
+    "english": "He is having lunch."
+  },
+  {
+    "id": "1530686",
+    "japanese": "彼は本を読んでいます。",
+    "english": "He is reading a book."
+  },
+  {
+    "id": "1173599",
+    "japanese": "彼は砂糖なしのコーヒーが好みだ。",
+    "english": "He likes coffee without sugar."
+  },
+  {
+    "id": "1504609",
+    "japanese": "彼はブラックコーヒーが好きだ。",
+    "english": "He likes coffee without sugar."
+  },
+  {
+    "id": "1112894",
+    "japanese": "彼は終電を逃した。",
+    "english": "He missed the last train."
+  },
+  {
+    "id": "1116716",
+    "japanese": "彼は妻と子供たちにお願いされたのでタバコをやめた。",
+    "english": "He stopped smoking because his wife and children asked him to."
+  },
+  {
+    "id": "10050449",
+    "japanese": "彼は妻に腹を立てていた。",
+    "english": "He was angry with his wife."
+  },
+  {
+    "id": "1204121",
+    "japanese": "彼は、妻があまり家庭的ではないことを心配している。",
+    "english": "He is afraid his wife is not very domestic."
+  },
+  {
+    "id": "461941",
+    "japanese": "彼は奥さんと子供と友達がいない。",
+    "english": "He has no wife, no children and no friends."
+  },
+  {
+    "id": "2229186",
+    "japanese": "彼は家にいるのだろうか。",
+    "english": "I wonder if he's at home."
+  },
+  {
+    "id": "9551030",
+    "japanese": "あいつ、家にいるかな。",
+    "english": "I wonder if he's at home."
+  },
+  {
+    "id": "10099874",
+    "japanese": "彼は自分の罪を認めた。",
+    "english": "He confessed his guilt."
+  },
+  {
+    "id": "2230142",
+    "japanese": "彼は昨年遺言書を作成した。",
+    "english": "He made a will last year."
+  },
+  {
+    "id": "1055841",
+    "japanese": "彼は昨日の夜遅く家に帰った。",
+    "english": "He came home late last night."
+  },
+  {
+    "id": "2234718",
+    "japanese": "彼は三位に入賞した。",
+    "english": "He won the third prize."
+  },
+  {
+    "id": "2408776",
+    "japanese": "彼は三日後に出発する。",
+    "english": "He is leaving in three days."
+  },
+  {
+    "id": "1172849",
+    "japanese": "彼は三日後に戻ってきた。",
+    "english": "He came back three days later."
+  },
+  {
+    "id": "1053694",
+    "japanese": "彼は散歩が好きです。",
+    "english": "He likes a walk."
+  },
+  {
+    "id": "10446142",
+    "japanese": "彼は生まれつき目が見えなかった。",
+    "english": "He was blind from birth."
+  },
+  {
+    "id": "10094203",
+    "japanese": "彼はニューヨークに出張中だよ。",
+    "english": "He has gone to New York on business."
+  },
+  {
+    "id": "10094204",
+    "japanese": "彼はニューヨーク出張に行ってるよ。",
+    "english": "He has gone to New York on business."
+  },
+  {
+    "id": "1260502",
+    "japanese": "彼は自分の仕事に専念した。",
+    "english": "He stuck to his job."
+  },
+  {
+    "id": "1139089",
+    "japanese": "彼は始発電車に飛び乗り、時間ぎりぎりでそこに到着した。",
+    "english": "He caught the first train and got there just in time."
+  },
+  {
+    "id": "2301811",
+    "japanese": "彼は付き合いにくい人だ。",
+    "english": "He's a difficult person to deal with."
+  },
+  {
+    "id": "1192320",
+    "japanese": "彼は市長に話しかけた。",
+    "english": "He addressed himself to the mayor."
+  },
+  {
+    "id": "9540472",
+    "japanese": "彼なら市長に立候補するだろうね。",
+    "english": "He will run for mayor."
+  },
+  {
+    "id": "8788747",
+    "japanese": "彼は死んで罪を償った。",
+    "english": "He committed suicide to atone for his sin."
+  },
+  {
+    "id": "1169654",
+    "japanese": "この前彼に会ったときは、とても元気だった。",
+    "english": "The last time when I saw him, he was quite well."
+  },
+  {
+    "id": "1181116",
+    "japanese": "彼は私が絶対会いたくない人だ。",
+    "english": "He is the last man I want to see."
+  },
+  {
+    "id": "1166654",
+    "japanese": "彼は自分の車の運転を、私にさせてはくれなかった。",
+    "english": "He wouldn't allow me to drive his car."
+  },
+  {
+    "id": "1237397",
+    "japanese": "私たち全員の中で、彼が一番お金を持っていない。",
+    "english": "He has the least money of us all."
+  },
+  {
+    "id": "9966968",
+    "japanese": "母さんが面白い話をしてくれたの。",
+    "english": "My mother told us an interesting story."
+  },
+  {
+    "id": "1174662",
+    "japanese": "彼は私たちを散々てこずらせた。",
+    "english": "He gave us quite a lot of trouble."
+  },
+  {
+    "id": "544742",
+    "japanese": "彼はアルバムを見せてくれた。",
+    "english": "He showed me his album."
+  },
+  {
+    "id": "991763",
+    "japanese": "彼からこの本を貰った。",
+    "english": "He gave me this book."
+  },
+  {
+    "id": "3555822",
+    "japanese": "彼は私にいいカメラを買ってくれた。",
+    "english": "He bought me a nice camera."
+  },
+  {
+    "id": "2971719",
+    "japanese": "あの人はわたしにその本はおもしろいって言ったの。",
+    "english": "He told me that the book was interesting."
+  },
+  {
+    "id": "2971715",
+    "japanese": "あの人がそれをわたしにくれたの。",
+    "english": "He gave it to me."
+  },
+  {
+    "id": "2312999",
+    "japanese": "彼は私の腕をねじり上げた。",
+    "english": "He twisted my arm."
+  },
+  {
+    "id": "10185112",
+    "japanese": "彼は私への援助を約束してくれた。",
+    "english": "He assured me of his help."
+  },
+  {
+    "id": "10075630",
+    "japanese": "彼は私に、私の名前をたずねた。",
+    "english": "He asked me what my name was."
+  },
+  {
+    "id": "1261550",
+    "japanese": "彼はときどき私に手紙を書くと約束してくれた。",
+    "english": "He promised that he would write to me once in a while."
+  },
+  {
+    "id": "1697940",
+    "japanese": "彼は何も食べるものをくれなかった。",
+    "english": "He didn't give me anything to eat."
+  },
+  {
+    "id": "1137835",
+    "japanese": "彼は私にどこで折り紙が買えるのか教えてくれた。",
+    "english": "He told me where to buy origami."
+  },
+  {
+    "id": "10847511",
+    "japanese": "中華は好きか聞かれたよ。",
+    "english": "He asked if I liked Chinese food."
+  },
+  {
+    "id": "1140321",
+    "japanese": "彼はわたしに持っているお金をくれた。",
+    "english": "He gave me what money he had."
+  },
+  {
+    "id": "1203525",
+    "japanese": "彼は私に、彼女の言うことを信じないようにと忠告した。",
+    "english": "He advised me not to believe what she says."
+  },
+  {
+    "id": "1056397",
+    "japanese": "彼は私に手紙を書くと言ったが、まだ書いてこない。",
+    "english": "He said he would write to me, but he hasn't."
+  },
+  {
+    "id": "2313008",
+    "japanese": "彼は私にウインクした。",
+    "english": "He gave me a wink."
+  },
+  {
+    "id": "1643719",
+    "japanese": "奴は僕の旧友だ。",
+    "english": "He is an old friend of mine."
+  },
+  {
+    "id": "8501313",
+    "japanese": "彼は、自分の意見に固執している。",
+    "english": "He persists in his opinion."
+  },
+  {
+    "id": "8501319",
+    "japanese": "彼は、自説に固執しています。",
+    "english": "He persists in his opinion."
+  },
+  {
+    "id": "2204276",
+    "japanese": "彼は私の同級生です。",
+    "english": "He is my classmate."
+  },
+  {
+    "id": "1172667",
+    "japanese": "彼はわたしに赦しを請うた。",
+    "english": "He asked my pardon."
+  },
+  {
+    "id": "1203529",
+    "japanese": "彼は私の研究にアドバイスしてくれた。",
+    "english": "He advised me on my study."
+  },
+  {
+    "id": "747052",
+    "japanese": "彼は我々の言語を話しません。",
+    "english": "He doesn't speak our language."
+  },
+  {
+    "id": "1565531",
+    "japanese": "彼は私の古い友人です。",
+    "english": "He is my old friend."
+  },
+  {
+    "id": "8657782",
+    "japanese": "彼は私の手をしっかりと握った。",
+    "english": "He gave my hand a firm clasp."
+  },
+  {
+    "id": "9505514",
+    "japanese": "彼は私の申し出を突っぱねた。",
+    "english": "He turned down my offer."
+  },
+  {
+    "id": "8571008",
+    "japanese": "彼は私のすぐ後ろにいました。",
+    "english": "He was just behind me."
+  },
+  {
+    "id": "13228568",
+    "japanese": "あの方は私の先生です。",
+    "english": "He is my teacher."
+  },
+  {
+    "id": "13228575",
+    "japanese": "あの人は私の先生です。",
+    "english": "He is my teacher."
+  },
+  {
+    "id": "10654688",
+    "japanese": "僕の前に座ったんだよ。",
+    "english": "He sat in front of me."
+  },
+  {
+    "id": "11189496",
+    "japanese": "息子ではなく、甥です。",
+    "english": "He is not my son, but my nephew."
+  },
+  {
+    "id": "1114340",
+    "japanese": "この人はお父さんです。",
+    "english": "He is my father."
+  },
+  {
+    "id": "2204460",
+    "japanese": "彼は私を待たせていた。",
+    "english": "He kept me waiting."
+  },
+  {
+    "id": "2287146",
+    "japanese": "彼は詩を暗記していた。",
+    "english": "He was learning a poem."
+  },
+  {
+    "id": "10093772",
+    "japanese": "彼は短編小説を書いてみました。",
+    "english": "He tried writing a short story."
+  },
+  {
+    "id": "2512252",
+    "japanese": "彼はロープを噛み切った。",
+    "english": "He cut the rope with his teeth."
+  },
+  {
+    "id": "2408796",
+    "japanese": "彼は事故で命を落とした。",
+    "english": "He lost his life in an accident."
+  },
+  {
+    "id": "1191517",
+    "japanese": "彼はさらにひどい仕打ちを加えた。",
+    "english": "He added insult to injury."
+  },
+  {
+    "id": "1770357",
+    "japanese": "彼は時間をつぶしているだけだ。",
+    "english": "He is just killing time."
+  },
+  {
+    "id": "2204454",
+    "japanese": "彼は時間内に到着した。",
+    "english": "He arrived in time."
+  },
+  {
+    "id": "1181484",
+    "japanese": "彼は時計を盗んだという理由で私を訴えた。",
+    "english": "He accused me of having stolen his watch."
+  },
+  {
+    "id": "2265702",
+    "japanese": "彼は時々くじけてしまう。",
+    "english": "He sometimes loses hope."
+  },
+  {
+    "id": "11912973",
+    "japanese": "たまに東京への出張もありますよ。",
+    "english": "He sometimes goes to Tokyo on business."
+  },
+  {
+    "id": "10159880",
+    "japanese": "彼は物覚えがいい。",
+    "english": "He is quick to learn."
+  },
+  {
+    "id": "9483249",
+    "japanese": "彼が直接そこに行った。",
+    "english": "He went there in person."
+  },
+  {
+    "id": "1192326",
+    "japanese": "彼はレポーターたちに向かって語った。",
+    "english": "He addressed himself to the reporters."
+  },
+  {
+    "id": "2349410",
+    "japanese": "彼は自分の車を運転する。",
+    "english": "He drives his own car."
+  },
+  {
+    "id": "10593525",
+    "japanese": "交通事故で死んじゃったの。",
+    "english": "He was killed in a car accident."
+  },
+  {
+    "id": "1751767",
+    "japanese": "彼は今忙しいと言った。",
+    "english": "He told me that he was busy."
+  },
+  {
+    "id": "2426539",
+    "japanese": "彼が自分でやった。",
+    "english": "He did it himself."
+  },
+  {
+    "id": "1191415",
+    "japanese": "彼は計画を新しい状況に適応させた。",
+    "english": "He adapted his plan to the new situation."
+  },
+  {
+    "id": "12140886",
+    "japanese": "彼は犬にポパイという名前をつけた。",
+    "english": "He named his dog Popeye."
+  },
+  {
+    "id": "1035133",
+    "japanese": "彼は自分の失敗を運が悪いせいにしている。",
+    "english": "He ascribes his failure to bad luck."
+  },
+  {
+    "id": "1168949",
+    "japanese": "彼は自分の未来について不確かだ。",
+    "english": "He is uncertain about his future."
+  },
+  {
+    "id": "1075638",
+    "japanese": "彼は自分の成功を運がいいからだと考えている。",
+    "english": "He attributes his success to good luck."
+  },
+  {
+    "id": "1111475",
+    "japanese": "彼は自分の父親は教師だと言った。",
+    "english": "He told me that his father was a teacher."
+  },
+  {
+    "id": "1111476",
+    "japanese": "彼は自分の父親は先生をしていると言った。",
+    "english": "He told me that his father was a teacher."
+  },
+  {
+    "id": "10039840",
+    "japanese": "彼は自分の罪を認めました。",
+    "english": "He admitted his guilt."
+  },
+  {
+    "id": "1795069",
+    "japanese": "彼は質問をするために挙手した。",
+    "english": "He raised his hand to ask a question."
+  },
+  {
+    "id": "1177415",
+    "japanese": "質問をすることは彼のプライドが許さない。",
+    "english": "He is above asking questions."
+  },
+  {
+    "id": "2301866",
+    "japanese": "彼は確かに頭が切れる。",
+    "english": "He certainly is smart."
+  },
+  {
+    "id": "2283790",
+    "japanese": "彼は社長の個人秘書だ。",
+    "english": "He is the boss's private secretary."
+  },
+  {
+    "id": "8848181",
+    "japanese": "彼は全財産を車に費やした。",
+    "english": "He spent all of his money on a car."
+  },
+  {
+    "id": "1179152",
+    "japanese": "彼は車の速度を上げて私を追い越した。",
+    "english": "He accelerated his car and overtook me."
+  },
+  {
+    "id": "1159829",
+    "japanese": "彼は洗車をし始めた。",
+    "english": "He started washing his car."
+  },
+  {
+    "id": "12600995",
+    "japanese": "若そう。",
+    "english": "He looks young."
+  },
+  {
+    "id": "1643751",
+    "japanese": "彼は手ぶらだった。",
+    "english": "His hands were empty."
+  },
+  {
+    "id": "1753644",
+    "japanese": "彼はたくさんのあぶく銭を得た。",
+    "english": "He made a lot of easy money."
+  },
+  {
+    "id": "1273301",
+    "japanese": "彼は才能のある人だ。",
+    "english": "He is a man of ability."
+  },
+  {
+    "id": "1385517",
+    "japanese": "彼は頭をぶんぶんと振った。",
+    "english": "He shook his head back and forth."
+  },
+  {
+    "id": "993673",
+    "japanese": "彼は就職のチャンスをつかんだ。",
+    "english": "He grabbed the chance to get a job."
+  },
+  {
+    "id": "2287326",
+    "japanese": "彼は重い責任から解放された。",
+    "english": "He was relieved of his heavy responsibility."
+  },
+  {
+    "id": "1158804",
+    "japanese": "彼は重い病気で、回復の見込みはない。",
+    "english": "He is seriously ill and unlikely to recover."
+  },
+  {
+    "id": "2271620",
+    "japanese": "彼はきつい仕事にも慣れている。",
+    "english": "He is accustomed to hard work."
+  },
+  {
+    "id": "2430544",
+    "japanese": "彼は女装した。",
+    "english": "He disguised himself as a woman."
+  },
+  {
+    "id": "2225525",
+    "japanese": "彼は商売の経験が豊かだった。",
+    "english": "He was experienced in business."
+  },
+  {
+    "id": "2225526",
+    "japanese": "彼は経験豊富なビジネスマンだった。",
+    "english": "He was experienced in business."
+  },
+  {
+    "id": "2225531",
+    "japanese": "彼は商売経験が豊富だった。",
+    "english": "He was experienced in business."
+  },
+  {
+    "id": "1372239",
+    "japanese": "彼は仕事でよく海外に行く。",
+    "english": "He often goes abroad on business."
+  },
+  {
+    "id": "2420473",
+    "japanese": "彼は小さな村で育った。",
+    "english": "He grew up in a little village."
+  },
+  {
+    "id": "1247376",
+    "japanese": "彼は小川の二つ上だ。",
+    "english": "He is two years older than Ogawa."
+  },
+  {
+    "id": "1226892",
+    "japanese": "彼はちょっと耳が遠いので、大きな声で話してください。",
+    "english": "He's somewhat hard of hearing, so please speak louder."
+  },
+  {
+    "id": "9471755",
+    "japanese": "彼は少し耳が不自由なので、大きめの声で話してあげてください。",
+    "english": "He's somewhat hard of hearing, so please speak louder."
+  },
+  {
+    "id": "2430542",
+    "japanese": "彼は少し前に出ました。",
+    "english": "He left a while ago."
+  },
+  {
+    "id": "8928703",
+    "japanese": "彼は少なくとも５冊、英語の本を持っている。",
+    "english": "He has no less than five English books."
+  },
+  {
+    "id": "1240202",
+    "japanese": "彼は彼の時計を盗もうとしていた少年を捕まえた。",
+    "english": "He caught a boy stealing his watch."
+  },
+  {
+    "id": "2227528",
+    "japanese": "彼は今、寝たきりの状態だ。",
+    "english": "He is confined to bed now."
+  },
+  {
+    "id": "2228509",
+    "japanese": "彼は寝込んでいる。",
+    "english": "He is confined to bed now."
+  },
+  {
+    "id": "10057010",
+    "japanese": "彼は床に目をやった。",
+    "english": "He looked down at the floor."
+  },
+  {
+    "id": "10057011",
+    "japanese": "彼は床に視線を落とした。",
+    "english": "He looked down at the floor."
+  },
+  {
+    "id": "10911459",
+    "japanese": "彼は笑っていた。",
+    "english": "He laughed."
+  },
+  {
+    "id": "10551968",
+    "japanese": "笑顔で迎えてくれました。",
+    "english": "He greeted me with a smile."
+  },
+  {
+    "id": "8805641",
+    "japanese": "彼は上司とウマが合わない。",
+    "english": "He gets along badly with his boss."
+  },
+  {
+    "id": "10148330",
+    "japanese": "彼はギターが巧いのよ。",
+    "english": "He plays the guitar well."
+  },
+  {
+    "id": "10148211",
+    "japanese": "彼は上着のファスナーを閉めた。",
+    "english": "He zipped up his jacket."
+  },
+  {
+    "id": "9049805",
+    "japanese": "彼はコートを羽織ってなかったよ。",
+    "english": "He had no coat on."
+  },
+  {
+    "id": "2295521",
+    "japanese": "彼は上着をコート掛けにかけた。",
+    "english": "He hung his coat on a hook."
+  },
+  {
+    "id": "2295522",
+    "japanese": "彼は上着をフックに掛けた。",
+    "english": "He hung his coat on a hook."
+  },
+  {
+    "id": "4642828",
+    "japanese": "彼は食べています。",
+    "english": "He is eating."
+  },
+  {
+    "id": "1023540",
+    "japanese": "彼寝てる？",
+    "english": "Is he sleeping?"
+  },
+  {
+    "id": "1158365",
+    "japanese": "彼は寝ていますか。",
+    "english": "Is he sleeping?"
+  },
+  {
+    "id": "2666712",
+    "japanese": "寝てるの？",
+    "english": "Is he sleeping?"
+  },
+  {
+    "id": "2486214",
+    "japanese": "彼は寝る前に目覚ましをかけた。",
+    "english": "He set the alarm before going to bed."
+  },
+  {
+    "id": "2946674",
+    "japanese": "彼は寝る前に目覚し時計をあわせた。",
+    "english": "He set the alarm before going to bed."
+  },
+  {
+    "id": "2249877",
+    "japanese": "彼は根はいい人だ。",
+    "english": "He is a good man at heart."
+  },
+  {
+    "id": "1248021",
+    "japanese": "彼は来週自転車を買うつもりだ。",
+    "english": "He is going to buy a new bicycle next week."
+  },
+  {
+    "id": "10022376",
+    "japanese": "彼ね、新聞に載りたかったのよ。",
+    "english": "He wanted to be in the newspapers."
+  },
+  {
+    "id": "10040063",
+    "japanese": "彼、優しそう。",
+    "english": "He seems kind."
+  },
+  {
+    "id": "7011921",
+    "japanese": "彼は愚かにもそれを信じてしまった。",
+    "english": "He was foolish enough to believe it."
+  },
+  {
+    "id": "1223434",
+    "japanese": "彼は親から離れて一本立ちしている。",
+    "english": "He is independent of his parents."
+  },
+  {
+    "id": "1223435",
+    "japanese": "彼は親から自立している。",
+    "english": "He is independent of his parents."
+  },
+  {
+    "id": "686041",
+    "japanese": "彼は危険を承知しています。",
+    "english": "He is aware of the danger."
+  },
+  {
+    "id": "1384938",
+    "japanese": "彼は私の申し出を快諾した。",
+    "english": "He readily agreed to my proposal."
+  },
+  {
+    "id": "1384940",
+    "japanese": "彼は私の申し込みを快く承諾した。",
+    "english": "He readily agreed to my proposal."
+  },
+  {
+    "id": "10522561",
+    "japanese": "彼は人混みの中に紛れていった。",
+    "english": "He disappeared in the crowd."
+  },
+  {
+    "id": "994467",
+    "japanese": "彼は人生の多くを海外で過ごした。",
+    "english": "He lived abroad for much of his life."
+  },
+  {
+    "id": "2249886",
+    "japanese": "彼は数を数えることができない。",
+    "english": "He can't count."
+  },
+  {
+    "id": "2309045",
+    "japanese": "彼は数学が全くだめだ。",
+    "english": "He is terrible at math."
+  },
+  {
+    "id": "2309047",
+    "japanese": "彼は数学が大の苦手だ。",
+    "english": "He is terrible at math."
+  },
+  {
+    "id": "10066231",
+    "japanese": "彼は世界中に友人がいた。",
+    "english": "He had friends all over the world."
+  },
+  {
+    "id": "2264806",
+    "japanese": "彼は星を見上げた。",
+    "english": "He looked up at the stars."
+  },
+  {
+    "id": "2249893",
+    "japanese": "彼は上の空だ。",
+    "english": "He's not all there."
+  },
+  {
+    "id": "9456354",
+    "japanese": "彼でしたら、お昼までこちらにいます。",
+    "english": "He'll be here until noon."
+  },
+  {
+    "id": "1700321",
+    "japanese": "彼は正直なの。それが彼を好きな理由。",
+    "english": "He is honest. That's why I like him."
+  },
+  {
+    "id": "10119701",
+    "japanese": "彼は日本人として生まれた。",
+    "english": "He is Japanese by birth."
+  },
+  {
+    "id": "11110387",
+    "japanese": "生物学者さんです。",
+    "english": "He is a biologist."
+  },
+  {
+    "id": "11110388",
+    "japanese": "彼は、生物学者なんです。",
+    "english": "He is a biologist."
+  },
+  {
+    "id": "1142220",
+    "japanese": "彼は全力を尽くしたが、すぐにあんな速いランナーには勝てないことがわかった。",
+    "english": "He did his best but soon saw that he could not compete with such a fast runner."
+  },
+  {
+    "id": "2309055",
+    "japanese": "かつての彼は寡黙な男だった。",
+    "english": "He used to be a quiet man."
+  },
+  {
+    "id": "2252471",
+    "japanese": "彼は赤子同然だ。",
+    "english": "He is no better than a baby."
+  },
+  {
+    "id": "9194910",
+    "japanese": "彼はグラス一杯の赤ワインを飲んだ。",
+    "english": "He drank a glass of red wine."
+  },
+  {
+    "id": "2287344",
+    "japanese": "彼は雪のせいで遅刻した。",
+    "english": "He was late because of the snow."
+  },
+  {
+    "id": "2426974",
+    "japanese": "彼は先月奥さんと離婚した。",
+    "english": "He divorced his wife last month."
+  },
+  {
+    "id": "8839420",
+    "japanese": "彼は先週アメリカへ行った。",
+    "english": "He went to America last week."
+  },
+  {
+    "id": "1259786",
+    "japanese": "彼は先生に向かって舌をべーっと出した。",
+    "english": "He stuck out his tongue at his teacher."
+  },
+  {
+    "id": "1259790",
+    "japanese": "彼は先生にあっかんべーをした。",
+    "english": "He stuck out his tongue at his teacher."
+  },
+  {
+    "id": "2299507",
+    "japanese": "彼は教師に向いていない。",
+    "english": "He's not cut out for teaching."
+  },
+  {
+    "id": "1107853",
+    "japanese": "彼が先日あなたと会った人です。",
+    "english": "He is the man you met the other day."
+  },
+  {
+    "id": "1107858",
+    "japanese": "彼は、この間あなたが会った人ですよ。",
+    "english": "He is the man you met the other day."
+  },
+  {
+    "id": "1107863",
+    "japanese": "彼がこないだ君と会った人だよ。",
+    "english": "He is the man you met the other day."
+  },
+  {
+    "id": "2287319",
+    "japanese": "彼は選挙で大差で当選した。",
+    "english": "He won the election by a large majority."
+  },
+  {
+    "id": "1149077",
+    "japanese": "彼はその前日に彼女に会ったと言った。",
+    "english": "He said that he had met her on the previous day."
+  },
+  {
+    "id": "2311940",
+    "japanese": "彼は彼女のおじいさんに教育された。",
+    "english": "He was educated by her grandfather."
+  },
+  {
+    "id": "1035163",
+    "japanese": "彼は彼のおじいさんに似ている。",
+    "english": "He resembles his grandfather."
+  },
+  {
+    "id": "10066634",
+    "japanese": "彼、素敵な青年になったわ。",
+    "english": "He became a nice young man."
+  },
+  {
+    "id": "11064126",
+    "japanese": "好青年になってたよ。",
+    "english": "He became a nice young man."
+  },
+  {
+    "id": "522337",
+    "japanese": "彼は倉庫の警備員として仕事をしている。",
+    "english": "He is working as a security guard at a warehouse."
+  },
+  {
+    "id": "1607172",
+    "japanese": "彼は走りながら助けを呼んでいた。",
+    "english": "He was running and calling for help."
+  },
+  {
+    "id": "2253292",
+    "japanese": "彼は物音を聞いた。",
+    "english": "He heard the noise."
+  },
+  {
+    "id": "2249878",
+    "japanese": "彼は荒い息遣いをしている。",
+    "english": "He is breathing hard."
+  },
+  {
+    "id": "2249882",
+    "japanese": "彼は肩で息をしている。",
+    "english": "He is breathing hard."
+  },
+  {
+    "id": "1199190",
+    "japanese": "彼は息子の怠惰さを戒めた。",
+    "english": "He admonished his son for being lazy."
+  },
+  {
+    "id": "2430537",
+    "japanese": "彼は息を切らしていた。",
+    "english": "He was out of breath."
+  },
+  {
+    "id": "10303759",
+    "japanese": "彼の足取りはおぼつかなかった。",
+    "english": "He was unsteady on his feet."
+  },
+  {
+    "id": "1228850",
+    "japanese": "彼は慌てて出発した。",
+    "english": "He went off in a hurry."
+  },
+  {
+    "id": "2321357",
+    "japanese": "彼は速いペースで歩いた。",
+    "english": "He walked at a quick pace."
+  },
+  {
+    "id": "10236615",
+    "japanese": "彼は口外はしないと約束してくれた。",
+    "english": "He promised not to tell."
+  },
+  {
+    "id": "2227507",
+    "japanese": "彼は趣味がたくさんある。",
+    "english": "He has a lot of hobbies."
+  },
+  {
+    "id": "1115346",
+    "japanese": "彼は大きな家と車を２台持っていた。",
+    "english": "He possessed a large house and two cars."
+  },
+  {
+    "id": "10646992",
+    "japanese": "彼は大学を出たばっかりなのよ。",
+    "english": "He is fresh from college."
+  },
+  {
+    "id": "2179194",
+    "japanese": "彼は大学卒業後日本に戻った。",
+    "english": "He returned to Japan after graduating from college."
+  },
+  {
+    "id": "2301455",
+    "japanese": "彼は腕の良い大工だ。",
+    "english": "He is a good carpenter."
+  },
+  {
+    "id": "1151762",
+    "japanese": "彼は大事な犬を手放すことがどうしてもできなかった。",
+    "english": "He couldn't possibly part with his beloved dog."
+  },
+  {
+    "id": "1180395",
+    "japanese": "彼はとうとう大事業を完遂した。",
+    "english": "He accomplished the great undertaking at last."
+  },
+  {
+    "id": "10618948",
+    "japanese": "彼はとても孤独を感じていた。",
+    "english": "He felt very lonely."
+  },
+  {
+    "id": "2860778",
+    "japanese": "彼はとても怠け者だ。",
+    "english": "He is such a lazy fellow."
+  },
+  {
+    "id": "2430545",
+    "japanese": "彼はとても眠そうだ。",
+    "english": "He seems to be very sleepy."
+  },
+  {
+    "id": "2426538",
+    "japanese": "彼は脱税の罪に問われた。",
+    "english": "He was accused of evading tax."
+  },
+  {
+    "id": "1667603",
+    "japanese": "彼は誰かに部屋を掃除させるだろう。",
+    "english": "He'll make someone clean the room."
+  },
+  {
+    "id": "1152255",
+    "japanese": "彼は誰にも彼のプライベートなことに口出しさせなかった。",
+    "english": "He wouldn't let anybody interfere with his private affairs."
+  },
+  {
+    "id": "1152871",
+    "japanese": "彼は私生活には誰も立ち入らせなかった。",
+    "english": "He wouldn't let anybody interfere with his private affairs."
+  },
+  {
+    "id": "1152877",
+    "japanese": "彼はプライベートには誰も立ち入らせなかった。",
+    "english": "He wouldn't let anybody interfere with his private affairs."
+  },
+  {
+    "id": "1185696",
+    "japanese": "彼は知識欲旺盛だ。",
+    "english": "He is acquisitive of knowledge."
+  },
+  {
+    "id": "11390285",
+    "japanese": "彼は内気で、話しかけらない限り口を開かないんだ。こっちから声をかけてあげないと。",
+    "english": "He's shy, and never speaks unless spoken to. You have to talk to him."
+  },
+  {
+    "id": "1260725",
+    "japanese": "彼は遅くても5時までには来ると、私に約束した。",
+    "english": "He promised me to come by five at the latest."
+  },
+  {
+    "id": "2431156",
+    "japanese": "彼は中学生になった。",
+    "english": "He entered junior high school."
+  },
+  {
+    "id": "6832851",
+    "japanese": "彼は中国についての本を書いた。",
+    "english": "He wrote a book on China."
+  },
+  {
+    "id": "2325051",
+    "japanese": "彼は長いこと歩いて疲れていた。",
+    "english": "He was tired from his long walk."
+  },
+  {
+    "id": "994751",
+    "japanese": "彼は今長い手紙を書いている最中だ。",
+    "english": "He's writing a long letter."
+  },
+  {
+    "id": "10767007",
+    "japanese": "長居できないんだよ。",
+    "english": "He can't stay long."
+  },
+  {
+    "id": "2327945",
+    "japanese": "背の高い男性でした。",
+    "english": "He was a tall man."
+  },
+  {
+    "id": "1151741",
+    "japanese": "彼は通りすがりに、私に会釈した。",
+    "english": "He nodded to me as he passed."
+  },
+  {
+    "id": "2287342",
+    "japanese": "彼は釣りが大好きだ。",
+    "english": "He loves fishing."
+  },
+  {
+    "id": "9826780",
+    "japanese": "彼はね、魚釣りが大好きなのよ。",
+    "english": "He loves fishing."
+  },
+  {
+    "id": "1142903",
+    "japanese": "彼は一時停止の標識を見ていなかったので、通りを渡ろうとしていた子供をもう少しではねてしまうところだった。",
+    "english": "He didn't see the stop sign and almost hit the child crossing the street."
+  },
+  {
+    "id": "9359764",
+    "japanese": "彼は時間通りに来れなかった。",
+    "english": "He failed to come on time."
+  },
+  {
+    "id": "10556951",
+    "japanese": "彼は庭でジャガイモを育てました。",
+    "english": "He grew potatoes in his garden."
+  },
+  {
+    "id": "10556952",
+    "japanese": "彼は自分の菜園でじゃがいもを栽培しました。",
+    "english": "He grew potatoes in his garden."
+  },
+  {
+    "id": "9434905",
+    "japanese": "彼は庭仕事が好きなんだ。",
+    "english": "He likes to work in the garden."
+  },
+  {
+    "id": "9434906",
+    "japanese": "彼は庭いじりが好きなんだよ。",
+    "english": "He likes to work in the garden."
+  },
+  {
+    "id": "2232551",
+    "japanese": "彼は負けても潔い。",
+    "english": "He is a good loser."
+  },
+  {
+    "id": "1143406",
+    "japanese": "彼は電気を消すのを忘れた。",
+    "english": "He forgot to turn off the light."
+  },
+  {
+    "id": "568769",
+    "japanese": "彼は学校に行く途中でその事故を見た。",
+    "english": "He saw the accident on the way to school."
+  },
+  {
+    "id": "13201667",
+    "japanese": "怒りながらも、辛抱強く私の話を聞いてくれた。",
+    "english": "He was angry, but he listened to me patiently."
+  },
+  {
+    "id": "10764050",
+    "japanese": "怒ってるんじゃないかな。",
+    "english": "I think he is angry."
+  },
+  {
+    "id": "1239489",
+    "japanese": "彼は転んだ時に左足を痛めた。",
+    "english": "He hurt his left foot when he fell."
+  },
+  {
+    "id": "1171709",
+    "japanese": "彼は東京に一年います。",
+    "english": "He has been in Tokyo for a year."
+  },
+  {
+    "id": "630416",
+    "japanese": "彼は東京に住むことが好きです。",
+    "english": "He likes to live in Tokyo."
+  },
+  {
+    "id": "10066649",
+    "japanese": "彼は東京暮らしが気に入っています。",
+    "english": "He likes to live in Tokyo."
+  },
+  {
+    "id": "9345739",
+    "japanese": "彼は信頼できると思うよ。",
+    "english": "I believe that he's trustworthy."
+  },
+  {
+    "id": "9170395",
+    "japanese": "彼は答えを渋った。",
+    "english": "He was reluctant to answer."
+  },
+  {
+    "id": "9344015",
+    "japanese": "彼は答える前に一瞬ためらった。",
+    "english": "He hesitated before answering."
+  },
+  {
+    "id": "9344034",
+    "japanese": "彼が答える前に一瞬の間があった。",
+    "english": "He hesitated before answering."
+  },
+  {
+    "id": "1144138",
+    "japanese": "彼は頭がいいけど、それでも彼のことは好きじゃない。",
+    "english": "He's intelligent, but I still don't like him."
+  },
+  {
+    "id": "2354060",
+    "japanese": "彼は素早い。",
+    "english": "He moves quickly."
+  },
+  {
+    "id": "8547359",
+    "japanese": "彼は動けませんでした。",
+    "english": "He was unable to move."
+  },
+  {
+    "id": "2252371",
+    "japanese": "彼は道端で友人に出会った。",
+    "english": "He encountered a friend on the road."
+  },
+  {
+    "id": "2252792",
+    "japanese": "彼は道を渡った。",
+    "english": "He crossed the street."
+  },
+  {
+    "id": "2252795",
+    "japanese": "彼は道路を横断した。",
+    "english": "He crossed the street."
+  },
+  {
+    "id": "9341527",
+    "japanese": "彼は自分自身に話しかけた。",
+    "english": "He talked to himself."
+  },
+  {
+    "id": "1177409",
+    "japanese": "彼は他の誰よりも独創性がある。",
+    "english": "He is above all others in originality."
+  },
+  {
+    "id": "2252444",
+    "japanese": "彼は本を読むのに飽きた。",
+    "english": "He got tired of reading."
+  },
+  {
+    "id": "10464814",
+    "japanese": "彼は二度と口にすることはなかった。",
+    "english": "He never said it again."
+  },
+  {
+    "id": "3072160",
+    "japanese": "彼は二度と故郷に帰れない運命にあった。",
+    "english": "He was never to come back to his hometown."
+  },
+  {
+    "id": "1112975",
+    "japanese": "彼は日本の小説をフランス語に翻訳した。",
+    "english": "He translated a Japanese novel into French."
+  },
+  {
+    "id": "1811300",
+    "japanese": "彼は日本語に大変興味がある。",
+    "english": "He's very much interested in the Japanese language."
+  },
+  {
+    "id": "9336730",
+    "japanese": "彼は日本車を持ってるんだよ。",
+    "english": "He has a Japanese car."
+  },
+  {
+    "id": "2426913",
+    "japanese": "彼は念入りに書類を確かめた。",
+    "english": "He had a good look at the papers."
+  },
+  {
+    "id": "1180363",
+    "japanese": "彼は任務を完了した。",
+    "english": "He accomplished his mission."
+  },
+  {
+    "id": "1180366",
+    "japanese": "彼は使命を果たした。",
+    "english": "He accomplished his mission."
+  },
+  {
+    "id": "2426652",
+    "japanese": "彼は猫が好きじゃない。",
+    "english": "He does not like cats."
+  },
+  {
+    "id": "9336172",
+    "japanese": "彼は暑さに耐えられなかった。",
+    "english": "He couldn't bear the heat."
+  },
+  {
+    "id": "1224589",
+    "japanese": "彼は熱意にあふれている。",
+    "english": "He is alive with enthusiasm."
+  },
+  {
+    "id": "9423175",
+    "japanese": "彼は年齢が高すぎるよ。",
+    "english": "He is too old."
+  },
+  {
+    "id": "1190318",
+    "japanese": "彼は年相応の行動をする。",
+    "english": "He acts his age."
+  },
+  {
+    "id": "930310",
+    "japanese": "彼は棚の上の本まで手が届かないほど背が低いです。",
+    "english": "He is too short to get at the book on the shelf."
+  },
+  {
+    "id": "11101988",
+    "japanese": "あいつ、チビのくせに、バスケがうまんだよ。",
+    "english": "He is short, but good at basketball."
+  },
+  {
+    "id": "1160468",
+    "japanese": "彼はできもしないことに手を出した。",
+    "english": "He bit off more than he could chew."
+  },
+  {
+    "id": "1174245",
+    "japanese": "彼は親しみやすい人だ。",
+    "english": "He is a friendly person."
+  },
+  {
+    "id": "12047497",
+    "japanese": "フレンドリーな方よ。",
+    "english": "He is a friendly person."
+  },
+  {
+    "id": "8495570",
+    "japanese": "彼は30分で２マイル歩いた。",
+    "english": "He walked two miles in half an hour."
+  },
+  {
+    "id": "8495727",
+    "japanese": "彼は30分で約３km歩きました。",
+    "english": "He walked two miles in half an hour."
+  },
+  {
+    "id": "1184790",
+    "japanese": "彼は年をとってから教育を受けた。",
+    "english": "He acquired education late in his life."
+  },
+  {
+    "id": "1745065",
+    "japanese": "彼は自分の現状に満足している。",
+    "english": "He is content with his present state."
+  },
+  {
+    "id": "1173497",
+    "japanese": "彼は私に彼の新しい劇の原稿を見せてくれた。",
+    "english": "He showed me the manuscript of his new play."
+  },
+  {
+    "id": "1149232",
+    "japanese": "秘書が結婚するというので、彼は彼女を手放さなければならなかった。",
+    "english": "He had to part with his secretary because she got married."
+  },
+  {
+    "id": "1635160",
+    "japanese": "彼は彼らに囚人たちを釈放するように命令しました。",
+    "english": "He ordered them to release the prisoners."
+  },
+  {
+    "id": "532320",
+    "japanese": "彼は彼たちより頭が良いです。",
+    "english": "He is cleverer than they are."
+  },
+  {
+    "id": "2264571",
+    "japanese": "彼は彼らを監視した。",
+    "english": "He kept an eye on them."
+  },
+  {
+    "id": "10087373",
+    "japanese": "彼は腹立たし気に、彼女からの手紙をビリビリに破いた。",
+    "english": "He angrily tore up the letter from her."
+  },
+  {
+    "id": "1034885",
+    "japanese": "彼は彼女の夫になると決めた。",
+    "english": "He decided to marry her."
+  },
+  {
+    "id": "1151732",
+    "japanese": "彼は彼女と離れていることに耐えられなかった。",
+    "english": "He couldn't bear to be apart from her."
+  },
+  {
+    "id": "1212996",
+    "japanese": "彼は彼女に恋をした。",
+    "english": "He fell in love with her."
+  },
+  {
+    "id": "1383987",
+    "japanese": "彼は彼女に気付かずに通り過ぎた。",
+    "english": "He ran past without noticing her."
+  },
+  {
+    "id": "2576273",
+    "japanese": "以前、彼女に会った記憶がある。",
+    "english": "I remember seeing her once."
+  },
+  {
+    "id": "5373511",
+    "japanese": "彼は彼女に近づいた。",
+    "english": "He drew up to her."
+  },
+  {
+    "id": "1144484",
+    "japanese": "彼は彼女に犬を買ってあげた。",
+    "english": "He bought her a dog."
+  },
+  {
+    "id": "2426789",
+    "japanese": "彼は彼女には優しくない。",
+    "english": "He is not kind to her."
+  },
+  {
+    "id": "1190469",
+    "japanese": "彼は彼女のいる前ではとても恥ずかしそうにする。",
+    "english": "He acts very shy in her presence."
+  },
+  {
+    "id": "8579849",
+    "japanese": "彼は彼女の演技に感動し涙を流した。",
+    "english": "He cried in admiration of her performance."
+  },
+  {
+    "id": "10144686",
+    "japanese": "彼女の住所が分かれば手紙を書くんだけどって言ってたよ。",
+    "english": "He said that if he knew her address, he would write to her."
+  },
+  {
+    "id": "1239494",
+    "japanese": "彼は彼女のアドバイスを無視した。",
+    "english": "He ignored her advice."
+  },
+  {
+    "id": "10744685",
+    "japanese": "彼に彼女の冗談は通じなかった。",
+    "english": "He didn't get her joke."
+  },
+  {
+    "id": "10425182",
+    "japanese": "彼は彼女の両方の二の腕をつかんだ。",
+    "english": "He took her by the upper arms."
+  },
+  {
+    "id": "1116406",
+    "japanese": "彼は彼女より三つ上です。",
+    "english": "He is older than she is by three years."
+  },
+  {
+    "id": "1116409",
+    "japanese": "彼は彼女より三歳年上です。",
+    "english": "He is older than she is by three years."
+  },
+  {
+    "id": "2264573",
+    "japanese": "彼は彼女の悪口を言った。",
+    "english": "He called her bad names."
+  },
+  {
+    "id": "9314666",
+    "japanese": "彼は彼女からお金をだまし取った。",
+    "english": "He swindled her."
+  },
+  {
+    "id": "2249875",
+    "japanese": "彼は彼女をひっぱたいた。",
+    "english": "He slapped her."
+  },
+  {
+    "id": "2252363",
+    "japanese": "彼は太り過ぎている。",
+    "english": "He is overweight."
+  },
+  {
+    "id": "8576491",
+    "japanese": "彼は太りすぎよ。",
+    "english": "He is overweight."
+  },
+  {
+    "id": "1182490",
+    "japanese": "彼は人生で目覚ましい成功を得た。",
+    "english": "He achieved great success in life."
+  },
+  {
+    "id": "2311291",
+    "japanese": "彼は病院で意識を回復した。",
+    "english": "He regained consciousness in the hospital."
+  },
+  {
+    "id": "2427930",
+    "japanese": "彼は病院で働きたいと思っている。",
+    "english": "He wants to work in a hospital."
+  },
+  {
+    "id": "9399231",
+    "japanese": "彼は具合が悪かったので来ることができなかった。",
+    "english": "He couldn't come because he was sick."
+  },
+  {
+    "id": "1050411",
+    "japanese": "彼は病気で学校を休んだ。",
+    "english": "He was absent from school because he was sick."
+  },
+  {
+    "id": "1206757",
+    "japanese": "彼は病気になるのではないかと心配している。",
+    "english": "He is afraid of becoming sick."
+  },
+  {
+    "id": "2287147",
+    "japanese": "彼は貧乏極まりない。",
+    "english": "He is as poor as can be."
+  },
+  {
+    "id": "2234729",
+    "japanese": "彼は悪人だ。",
+    "english": "He is an evil man."
+  },
+  {
+    "id": "1181157",
+    "japanese": "彼は財を成した。",
+    "english": "He has accumulated wealth."
+  },
+  {
+    "id": "2265706",
+    "japanese": "彼は単なる普通の人です。",
+    "english": "He's just an ordinary man."
+  },
+  {
+    "id": "2265708",
+    "japanese": "彼はただの凡人です。",
+    "english": "He's just an ordinary man."
+  },
+  {
+    "id": "2265713",
+    "japanese": "彼は平凡な男性です。",
+    "english": "He's just an ordinary man."
+  },
+  {
+    "id": "1009940",
+    "japanese": "彼は自分の父が偉大な科学者であったことを誇りに思っている。",
+    "english": "He is proud that his father was a great scientist."
+  },
+  {
+    "id": "1168250",
+    "japanese": "彼は父親ほど背が高くない。",
+    "english": "He is not as tall as his father."
+  },
+  {
+    "id": "2321358",
+    "japanese": "彼は無理やり部屋に入った。",
+    "english": "He forced his way into the room."
+  },
+  {
+    "id": "2217774",
+    "japanese": "彼は部屋を片付けた。",
+    "english": "He put his room in order."
+  },
+  {
+    "id": "9294274",
+    "japanese": "彼は自分の部屋はきれいにしてるんだ。",
+    "english": "He keeps his room clean."
+  },
+  {
+    "id": "2287348",
+    "japanese": "彼は風邪でダウンした。",
+    "english": "He came down with a cold."
+  },
+  {
+    "id": "8794691",
+    "japanese": "彼は落ち着いて見えたが、実はとても緊張していた。",
+    "english": "He looked calm, but actually he was very nervous."
+  },
+  {
+    "id": "1177446",
+    "japanese": "彼は普通の学生じゃない。",
+    "english": "He is above the ordinary type of student."
+  },
+  {
+    "id": "1177447",
+    "japanese": "彼は平凡な学生ではない。",
+    "english": "He is above the ordinary type of student."
+  },
+  {
+    "id": "1698805",
+    "japanese": "彼は稲を育てている。",
+    "english": "He grows rice."
+  },
+  {
+    "id": "9363942",
+    "japanese": "彼はびっこを引いていた。",
+    "english": "He walked with a limp."
+  },
+  {
+    "id": "9363975",
+    "japanese": "彼は足を引きずって歩いた。",
+    "english": "He walked with a limp."
+  },
+  {
+    "id": "2805447",
+    "japanese": "勉強しなかったため、試験に落ちました。",
+    "english": "He failed in the examination because he had not studied."
+  },
+  {
+    "id": "10982600",
+    "japanese": "彼は勉強熱心だ。",
+    "english": "He is diligent in his study."
+  },
+  {
+    "id": "4865363",
+    "japanese": "彼はお母さんに手紙を書く。",
+    "english": "He writes letters to his mother."
+  },
+  {
+    "id": "520112",
+    "japanese": "彼は報告書を改ざんした。",
+    "english": "He doctored his report."
+  },
+  {
+    "id": "873967",
+    "japanese": "彼の傲慢が凋落に繋がった。",
+    "english": "His arrogance led to his downfall."
+  },
+  {
+    "id": "774808",
+    "japanese": "彼は経験がとても深かったのです。",
+    "english": "He was rich in experiences."
+  },
+  {
+    "id": "1219150",
+    "japanese": "彼はかわいい女の子に僕を紹介してくれた。",
+    "english": "He introduced me to a pretty girl."
+  },
+  {
+    "id": "1383984",
+    "japanese": "彼は私に迅速な回答を執拗に求めた。",
+    "english": "He pressed me for a prompt reply."
+  },
+  {
+    "id": "1179143",
+    "japanese": "彼は私の提案に渋々同意した。",
+    "english": "He reluctantly agreed to my proposal."
+  },
+  {
+    "id": "1385435",
+    "japanese": "彼が本を読むことはまずない。",
+    "english": "He seldom, if ever, reads a book."
+  },
+  {
+    "id": "1385436",
+    "japanese": "彼が本を読むことがあっても、ごく稀なことだ。",
+    "english": "He seldom, if ever, reads a book."
+  },
+  {
+    "id": "1260477",
+    "japanese": "彼は本を鞄に入れた。",
+    "english": "He stuck the book in his bag."
+  },
+  {
+    "id": "1174649",
+    "japanese": "彼は本を読破した。",
+    "english": "He read the book from cover to cover."
+  },
+  {
+    "id": "1174654",
+    "japanese": "彼は本を全部読んだ。",
+    "english": "He read the book from cover to cover."
+  },
+  {
+    "id": "630419",
+    "japanese": "彼は読書が好きです。",
+    "english": "He likes to read books."
+  },
+  {
+    "id": "1034537",
+    "japanese": "彼は本気で勉強を始めた。",
+    "english": "He started to study in earnest."
+  },
+  {
+    "id": "9634454",
+    "japanese": "彼は本当に賢い子だよ。",
+    "english": "He is a very smart boy."
+  },
+  {
+    "id": "1149135",
+    "japanese": "彼は妹にパンを一切れ切ってあげた。",
+    "english": "He cut his sister a piece of bread."
+  },
+  {
+    "id": "2426665",
+    "japanese": "彼は毎週洗車している。",
+    "english": "He washes the car every week."
+  },
+  {
+    "id": "9276127",
+    "japanese": "彼は、毎朝６時に起きると言ってました。",
+    "english": "He said that he gets up at 6 o'clock every day."
+  },
+  {
+    "id": "10456279",
+    "japanese": "彼は毎日欠かさず新聞を読む。",
+    "english": "He never misses reading the papers every day."
+  },
+  {
+    "id": "1174583",
+    "japanese": "彼は毎日牛乳をたくさん飲みます。",
+    "english": "He drinks a lot of milk every day."
+  },
+  {
+    "id": "10280166",
+    "japanese": "僕は眠ってしまった。",
+    "english": "I fell asleep."
+  },
+  {
+    "id": "10333259",
+    "japanese": "寝てしまった。",
+    "english": "I fell asleep."
+  },
+  {
+    "id": "2230571",
+    "japanese": "彼は無礼な人だ。",
+    "english": "He is a rude person."
+  },
+  {
+    "id": "1142202",
+    "japanese": "彼は自分の無礼を詫びたが、彼女は許そうとしなかった。",
+    "english": "He apologized for his rudeness, but she wouldn't forgive him."
+  },
+  {
+    "id": "10906728",
+    "japanese": "１００パーあいつは無実だよ。",
+    "english": "I bet my bottom dollar he is innocent."
+  },
+  {
+    "id": "2250894",
+    "japanese": "彼は急にやめた。",
+    "english": "He quit without notice."
+  },
+  {
+    "id": "2250896",
+    "japanese": "彼は何の前触れもなくやめた。",
+    "english": "He quit without notice."
+  },
+  {
+    "id": "2426836",
+    "japanese": "彼は娘のおでこにキスをした。",
+    "english": "He kissed his daughter on the forehead."
+  },
+  {
+    "id": "2432348",
+    "japanese": "彼の命が危ない。",
+    "english": "His life is in danger."
+  },
+  {
+    "id": "10692118",
+    "japanese": "明日には戻りますよ。",
+    "english": "He will be back tomorrow."
+  },
+  {
+    "id": "6037311",
+    "japanese": "彼は明日東京に行きますよね？",
+    "english": "He will go to Tokyo tomorrow, won't he?"
+  },
+  {
+    "id": "4895686",
+    "japanese": "彼の視力が悪いです。",
+    "english": "His eyesight is bad."
+  },
+  {
+    "id": "2287331",
+    "japanese": "彼は野球に熱中している。",
+    "english": "He is crazy about baseball."
+  },
+  {
+    "id": "10681614",
+    "japanese": "あいつは野球があまり好きじゃないんだ。",
+    "english": "He doesn't care much for baseball."
+  },
+  {
+    "id": "1656282",
+    "japanese": "彼は野球がとても得意だ。",
+    "english": "He's very good at playing baseball."
+  },
+  {
+    "id": "2316970",
+    "japanese": "彼は約束を守ります。",
+    "english": "He is as good as his word."
+  },
+  {
+    "id": "10809025",
+    "japanese": "あいつは約束は守る男だから、協力するって言ったのなら、やってくれるよ。",
+    "english": "He is a man of his word, so if he said he'd help, he will."
+  },
+  {
+    "id": "4715134",
+    "japanese": "彼は友人に英語を教えている。",
+    "english": "He teaches English to his friends."
+  },
+  {
+    "id": "9776963",
+    "japanese": "彼は腕利きのエンジニアさ。",
+    "english": "He is an able engineer."
+  },
+  {
+    "id": "2283374",
+    "japanese": "彼は仕事で呼び出された。",
+    "english": "He was called away on business."
+  },
+  {
+    "id": "10671730",
+    "japanese": "来るって言ってますよ。",
+    "english": "He says he will come."
+  },
+  {
+    "id": "2309344",
+    "japanese": "彼は来ると思います。",
+    "english": "We think that he will come."
+  },
+  {
+    "id": "1202475",
+    "japanese": "彼は来ないだろうと思っていた。",
+    "english": "I thought he wouldn't come."
+  },
+  {
+    "id": "9672891",
+    "japanese": "あいつ、元気がないんだよ。",
+    "english": "He is depressed."
+  },
+  {
+    "id": "2724979",
+    "japanese": "船は嵐に翻弄されていた。",
+    "english": "The ship was at the mercy of the storm."
+  },
+  {
+    "id": "2318385",
+    "japanese": "彼は裏切った。",
+    "english": "He turned traitor."
+  },
+  {
+    "id": "1203530",
+    "japanese": "彼は旅慣れている。",
+    "english": "He is used to traveling."
+  },
+  {
+    "id": "2426772",
+    "japanese": "彼は旅行で留守にしています。",
+    "english": "He's away on a trip."
+  },
+  {
+    "id": "10583584",
+    "japanese": "彼は親と一緒に暮らしています。",
+    "english": "He lives with his parents."
+  },
+  {
+    "id": "1698419",
+    "japanese": "彼が両方のレースに勝てるか疑問だ。",
+    "english": "I doubt whether he will win both races."
+  },
+  {
+    "id": "2188160",
+    "japanese": "彼女は料理が上手だそうだ。",
+    "english": "It is said that she is a good cook."
+  },
+  {
+    "id": "2228657",
+    "japanese": "彼って、格好いいよね。",
+    "english": "He is cool, isn't he?"
+  },
+  {
+    "id": "11563385",
+    "japanese": "老衰で2年前にお亡くなりになりました。",
+    "english": "He died of old age two years ago."
+  },
+  {
+    "id": "1149237",
+    "japanese": "彼は話しかけられない限り、話さなかった。",
+    "english": "He did not speak unless spoken to."
+  },
+  {
+    "id": "10578165",
+    "japanese": "彼は雑誌を取るために手を伸ばしました。",
+    "english": "He stretched out his arm for a magazine."
+  },
+  {
+    "id": "1077194",
+    "japanese": "彼らがいつ着くか知ってますか。",
+    "english": "Do you know when they will arrive?"
+  },
+  {
+    "id": "1077196",
+    "japanese": "彼らがいつ到着するかご存知ですか。",
+    "english": "Do you know when they will arrive?"
+  },
+  {
+    "id": "1077199",
+    "japanese": "それらがいつ届くかわかりますか。",
+    "english": "Do you know when they will arrive?"
+  },
+  {
+    "id": "10764031",
+    "japanese": "みんな好きよ。",
+    "english": "I like all of them."
+  },
+  {
+    "id": "9151955",
+    "japanese": "あの人たちが何言ったって、別に気にならないよ。",
+    "english": "I don't care about what they say."
+  },
+  {
+    "id": "8587351",
+    "japanese": "二人が結婚してどれくらいか知っていますか？",
+    "english": "Do you know how long they have been married?"
+  },
+  {
+    "id": "10662377",
+    "japanese": "あの古い建物が解体されるのを見てたんだ。",
+    "english": "I watched them destroy the old building."
+  },
+  {
+    "id": "10661928",
+    "japanese": "彼らと議論しても無駄です。",
+    "english": "It's no use bandying words with them."
+  },
+  {
+    "id": "1681312",
+    "japanese": "彼らには何も食べるものがなかった。",
+    "english": "They had no food."
+  },
+  {
+    "id": "1151737",
+    "japanese": "彼らと一緒に行こうか考え中です。",
+    "english": "I'm considering going with them."
+  },
+  {
+    "id": "1153386",
+    "japanese": "彼は彼らに話しかけようと立ち止まった。",
+    "english": "He stopped to talk to them."
+  },
+  {
+    "id": "11199004",
+    "japanese": "会議には誰も出席しませんでした。",
+    "english": "None of them were present at the meeting."
+  },
+  {
+    "id": "10127671",
+    "japanese": "あの中でどいつがお前の弟なの？",
+    "english": "Which of them is your brother?"
+  },
+  {
+    "id": "9856585",
+    "japanese": "あいつらのことは放っときな。",
+    "english": "Let them take care of themselves."
+  },
+  {
+    "id": "9814195",
+    "japanese": "あの人たちのすぐ後ろをついて行くのよ。",
+    "english": "Follow close behind them."
+  },
+  {
+    "id": "10066677",
+    "japanese": "二人の結婚式に招待されたのよ。",
+    "english": "I was invited to their wedding."
+  },
+  {
+    "id": "1153377",
+    "japanese": "彼の失礼な態度には腹が立つ。",
+    "english": "I resent his rude attitude."
+  },
+  {
+    "id": "10832515",
+    "japanese": "親密度は年月とともに増していった。",
+    "english": "Their intimacy grew with the years."
+  },
+  {
+    "id": "1240950",
+    "japanese": "彼らのライフスタイルは僕らのとは違う。",
+    "english": "Their lifestyle is different to ours."
+  },
+  {
+    "id": "10647005",
+    "japanese": "誰も望みを捨てなかった。",
+    "english": "No one gave up hope."
+  },
+  {
+    "id": "10645706",
+    "japanese": "彼らの夢が叶ったのだ。",
+    "english": "Their dreams came true."
+  },
+  {
+    "id": "11557464",
+    "japanese": "あの人達の約束は、何一つ守られていないんです。",
+    "english": "None of their promises have been kept."
+  },
+  {
+    "id": "11558022",
+    "japanese": "約束は何一つ果たされていない。",
+    "english": "None of their promises have been kept."
+  },
+  {
+    "id": "2248585",
+    "japanese": "彼らは中国語で話していたので、私には一言も分からなかった。",
+    "english": "Their conversation being in Chinese, I did not understand one word."
+  },
+  {
+    "id": "1196437",
+    "japanese": "彼らはその丘からの素晴らしい眺めに感動した。",
+    "english": "They admired the fine view from the hill."
+  },
+  {
+    "id": "1196439",
+    "japanese": "彼らはその丘からの素晴らしい眺めに見とれた。",
+    "english": "They admired the fine view from the hill."
+  },
+  {
+    "id": "10037948",
+    "japanese": "二人には十二人の子供がいます。",
+    "english": "They have twelve children."
+  },
+  {
+    "id": "12334863",
+    "japanese": "二人は並んで歩いていた。",
+    "english": "They were walking two abreast."
+  },
+  {
+    "id": "11733642",
+    "japanese": "いつコンサートやるんだろ？",
+    "english": "When will they give a concert?"
+  },
+  {
+    "id": "9112565",
+    "japanese": "今やふたりは３人の子持ちだ。",
+    "english": "Now they have three children."
+  },
+  {
+    "id": "10738739",
+    "japanese": "２人は相思相愛なの？",
+    "english": "Do they love each other?"
+  },
+  {
+    "id": "1734772",
+    "japanese": "彼らは自分たちの家族がお互いに嫌っていると気付いた。",
+    "english": "They found that their families didn't like each other."
+  },
+  {
+    "id": "9143002",
+    "japanese": "二人はね、クリスマスイブに結婚したんだよ。",
+    "english": "They married on Christmas Eve."
+  },
+  {
+    "id": "1747700",
+    "japanese": "彼らはしょっちゅう家に顔を出す。",
+    "english": "They often drop in to see us."
+  },
+  {
+    "id": "1749315",
+    "japanese": "彼らは東京での生活費についての愚痴をよくこぼす。",
+    "english": "They often complain about the cost of living in Tokyo."
+  },
+  {
+    "id": "1177020",
+    "japanese": "彼らはスペイン語を少し話すことができます。",
+    "english": "They are able to speak Spanish a little."
+  },
+  {
+    "id": "1175985",
+    "japanese": "彼らは丘を敵軍に明け渡した。",
+    "english": "They abandoned the hill to enemy forces."
+  },
+  {
+    "id": "1215037",
+    "japanese": "彼らはその事故の原因を調査することに同意した。",
+    "english": "They agreed to look into the causes of the accident."
+  },
+  {
+    "id": "2081441",
+    "japanese": "彼らはやきもきしている。",
+    "english": "They're on pins and needles."
+  },
+  {
+    "id": "11087699",
+    "japanese": "今、到着しました。",
+    "english": "They have just arrived."
+  },
+  {
+    "id": "1202217",
+    "japanese": "彼らはテレビで新製品を宣伝した。",
+    "english": "They advertised a new product on TV."
+  },
+  {
+    "id": "11623856",
+    "japanese": "二人は素敵な時を過ごしました。",
+    "english": "They had a lovely time together."
+  },
+  {
+    "id": "12702883",
+    "japanese": "トランプに誘われた。",
+    "english": "They invited me to play cards."
+  },
+  {
+    "id": "12702891",
+    "japanese": "トランプをしようと誘われた。",
+    "english": "They invited me to play cards."
+  },
+  {
+    "id": "9165480",
+    "japanese": "トムが若い頃にどんな苦労を経験したか、奴らは分かってないんだ。",
+    "english": "They don't know what difficulties Tom went through in his youth."
+  },
+  {
+    "id": "875885",
+    "japanese": "彼らはフランス語で喋っていたので、私は一言も理解できなかった。",
+    "english": "As their conversation was in French, I could not understand a word."
+  },
+  {
+    "id": "3474655",
+    "japanese": "全部なくなってしまっていた。",
+    "english": "All of them were gone."
+  },
+  {
+    "id": "3474652",
+    "japanese": "彼らはもうその仕事を終えた。",
+    "english": "They have already finished the work."
+  },
+  {
+    "id": "3474757",
+    "japanese": "彼らはもうその仕事を終えている。",
+    "english": "They have already finished the work."
+  },
+  {
+    "id": "3474651",
+    "japanese": "彼らは山羊を殺し、神に捧げた。",
+    "english": "They killed a goat as a sacrifice to God."
+  },
+  {
+    "id": "3474650",
+    "japanese": "彼らは手厚い看護を受けている。",
+    "english": "They are well looked after."
+  },
+  {
+    "id": "3474648",
+    "japanese": "彼らはロケットを打ち上げた。",
+    "english": "They launched a rocket."
+  },
+  {
+    "id": "3474645",
+    "japanese": "彼らは招待を断ってきた。",
+    "english": "They declined our invitation."
+  },
+  {
+    "id": "3474643",
+    "japanese": "彼らは私の依頼に応じてサンプルを送ってくれた。",
+    "english": "They sent me a sample in answer to my request."
+  },
+  {
+    "id": "3474641",
+    "japanese": "彼らは一時間前に町を去った。",
+    "english": "They left the town an hour ago."
+  },
+  {
+    "id": "3474642",
+    "japanese": "彼らは一時間前にその町を去った。",
+    "english": "They left the town an hour ago."
+  },
+  {
+    "id": "3474640",
+    "japanese": "彼らは典型的な若者だ。",
+    "english": "They are typical young people."
+  },
+  {
+    "id": "1034946",
+    "japanese": "彼らは寒かったので泳ぎませんでした。",
+    "english": "They didn't swim because it was cold."
+  },
+  {
+    "id": "3474634",
+    "japanese": "彼らは英語が気に入っている。",
+    "english": "They like English."
+  },
+  {
+    "id": "3474633",
+    "japanese": "彼らは英語で言いたいことを理解してもらえた。",
+    "english": "They could make themselves understood in English."
+  },
+  {
+    "id": "3474631",
+    "japanese": "彼らは英語で喋っているのだろうか？",
+    "english": "Are they speaking English?"
+  },
+  {
+    "id": "3474630",
+    "japanese": "彼らは駅へと急いだ。",
+    "english": "They hurried to the station."
+  },
+  {
+    "id": "3474628",
+    "japanese": "彼らは輪になった。",
+    "english": "They formed themselves into a circle."
+  },
+  {
+    "id": "3474629",
+    "japanese": "彼らは円陣を組んだ。",
+    "english": "They formed themselves into a circle."
+  },
+  {
+    "id": "3474627",
+    "japanese": "彼らは王を即刻処刑するよう、要求した。",
+    "english": "They demanded the king be put to death at once."
+  },
+  {
+    "id": "1055827",
+    "japanese": "彼らは何時間も彼を待った。",
+    "english": "They waited for him for hours."
+  },
+  {
+    "id": "1179490",
+    "japanese": "彼らは歓声を上げて彼女を女王に迎えた。",
+    "english": "They acclaimed her Queen."
+  },
+  {
+    "id": "1689593",
+    "japanese": "彼らは賃上げを求めた。",
+    "english": "They asked for an increase of salary."
+  },
+  {
+    "id": "1752905",
+    "japanese": "彼らは給料のアップを求めた。",
+    "english": "They asked for an increase of salary."
+  },
+  {
+    "id": "1212923",
+    "japanese": "彼らはご近所と仲がいい。",
+    "english": "They have been on good terms with their neighbours."
+  },
+  {
+    "id": "10612877",
+    "japanese": "彼らは刑務所から脱獄した。",
+    "english": "They escaped from prison."
+  },
+  {
+    "id": "3320973",
+    "japanese": "彼らは石油を掘り当てる思惑だった。",
+    "english": "They intended to drill for oil."
+  },
+  {
+    "id": "10217016",
+    "japanese": "彼らは石油の採掘を行うつもりだった。",
+    "english": "They intended to drill for oil."
+  },
+  {
+    "id": "10610366",
+    "japanese": "犬の面倒を見てくれるの？",
+    "english": "Do they take care of the dog?"
+  },
+  {
+    "id": "1233780",
+    "japanese": "彼らは新しい車と古い車を見比べた。",
+    "english": "They compared the new car with the old one."
+  },
+  {
+    "id": "1175992",
+    "japanese": "彼らは祖国を捨てた。",
+    "english": "They abandoned their country."
+  },
+  {
+    "id": "1102631",
+    "japanese": "彼らは午前中、授業が４時間あります。",
+    "english": "They have four classes in the morning."
+  },
+  {
+    "id": "1186709",
+    "japanese": "彼らは合意により、速やかに行動した。",
+    "english": "They acted immediately by agreement."
+  },
+  {
+    "id": "11527810",
+    "japanese": "二人は、自分たちの子供にトーマスという名前を付けました。",
+    "english": "They named their child Thomas."
+  },
+  {
+    "id": "1181512",
+    "japanese": "彼らは子供たちに厳しすぎるという理由で先生を責め立てた。",
+    "english": "They accused the teacher of being too strict with the children."
+  },
+  {
+    "id": "1146927",
+    "japanese": "彼らは子供の育て方としつけ方でお互いの意見が合わなかった。",
+    "english": "They differed with each other on the care and upbringing of their children."
+  },
+  {
+    "id": "1248324",
+    "japanese": "彼らは私たちのリビングのソファに座っていた。",
+    "english": "They were sitting on the sofa in our living room."
+  },
+  {
+    "id": "10301091",
+    "japanese": "私の名前は知られていません。",
+    "english": "They don't know my name."
+  },
+  {
+    "id": "994754",
+    "japanese": "彼らは試験に失敗した。",
+    "english": "They failed in the examination."
+  },
+  {
+    "id": "1223442",
+    "japanese": "彼らは自由党と手を結んだ。",
+    "english": "They aligned themselves with the Liberals."
+  },
+  {
+    "id": "10050459",
+    "japanese": "あの人たち、住む家がないのよ。",
+    "english": "They have no house to live in."
+  },
+  {
+    "id": "1177286",
+    "japanese": "彼らは始めるところです。",
+    "english": "They are about to start."
+  },
+  {
+    "id": "8868825",
+    "japanese": "彼らは商売上手だね。",
+    "english": "They are shrewd in trade."
+  },
+  {
+    "id": "10300924",
+    "japanese": "彼らは教師だ。",
+    "english": "They are teachers."
+  },
+  {
+    "id": "11133889",
+    "japanese": "あの方達は先生なんです。",
+    "english": "They are teachers."
+  },
+  {
+    "id": "9994438",
+    "japanese": "あいつら船酔いしそうだよな。",
+    "english": "They are likely to get seasick."
+  },
+  {
+    "id": "488586",
+    "japanese": "彼らは自分の息子をジョンと名づけた。",
+    "english": "They named their son John."
+  },
+  {
+    "id": "10191389",
+    "japanese": "あの人たちは体育館にいるの？",
+    "english": "Are they in the gym?"
+  },
+  {
+    "id": "8580466",
+    "japanese": "あの人たちは誰？",
+    "english": "Who are they?"
+  },
+  {
+    "id": "357674",
+    "japanese": "彼らは天文学に非常に興味を持っている。",
+    "english": "They are very interested in astronomy."
+  },
+  {
+    "id": "1097532",
+    "japanese": "彼らは盗まれた金を発見した。",
+    "english": "They found the stolen money."
+  },
+  {
+    "id": "10125604",
+    "japanese": "あの人たちここに住んでたの？",
+    "english": "Did they live here?"
+  },
+  {
+    "id": "10098760",
+    "japanese": "あの人たちは日本人なの？",
+    "english": "Are they Japanese?"
+  },
+  {
+    "id": "1202269",
+    "japanese": "彼らは住宅売り出しの広告を出した。",
+    "english": "They advertised that they had a house for sale."
+  },
+  {
+    "id": "1181235",
+    "japanese": "彼のせいでクラスにトラブルが起きるのだと、彼らは彼に言い掛かりをつけた。",
+    "english": "They accused him of being in the classroom in order to cause trouble."
+  },
+  {
+    "id": "3239435",
+    "japanese": "彼らは僕の努力を評価してくれる。",
+    "english": "They appreciate my effort."
+  },
+  {
+    "id": "1263818",
+    "japanese": "彼らは木立の間にある、あの家に住んでいる。",
+    "english": "They live in that house among the trees."
+  },
+  {
+    "id": "2263723",
+    "japanese": "彼らは盗み聞きされるのを恐れた。",
+    "english": "They feared being overheard."
+  },
+  {
+    "id": "1766783",
+    "japanese": "彼らは旅行者に近づき、金をねだった。",
+    "english": "They approached the tourists and asked them for money."
+  },
+  {
+    "id": "1035162",
+    "japanese": "彼らは高齢者特有のニーズを考慮に入れるのを怠った。",
+    "english": "They failed to take into account the special needs of old people."
+  },
+  {
+    "id": "1142902",
+    "japanese": "彼らひとりひとりにプレゼントを買ってあげた。",
+    "english": "I bought them each a present."
+  },
+  {
+    "id": "11169177",
+    "japanese": "いつか譲歩してくれるよ。",
+    "english": "They'll give in to us some day."
+  },
+  {
+    "id": "9065874",
+    "japanese": "彼女たちも来るの？",
+    "english": "Are they coming as well?"
+  },
+  {
+    "id": "9226973",
+    "japanese": "あの人たちを助けてあげるの？",
+    "english": "Will you help them?"
+  },
+  {
+    "id": "10015873",
+    "japanese": "あの人たちを中に入れてあげてちょうだい。",
+    "english": "Let them come in."
+  },
+  {
+    "id": "10611551",
+    "japanese": "入ってもらって。",
+    "english": "Let them come in."
+  },
+  {
+    "id": "10042877",
+    "japanese": "二人は相思相愛なのよ。",
+    "english": "They love each other."
+  },
+  {
+    "id": "10565649",
+    "japanese": "どうしてもからかっちゃうんだよ。",
+    "english": "I can't help making fun of him."
+  },
+  {
+    "id": "10569682",
+    "japanese": "ついついおちょくりたくなっちゃうの。",
+    "english": "I can't help making fun of him."
+  },
+  {
+    "id": "10115183",
+    "japanese": "あの人のこと知ってたの？",
+    "english": "Did you know him?"
+  },
+  {
+    "id": "1678429",
+    "japanese": "彼を助けなければいけません。",
+    "english": "I must help him."
+  },
+  {
+    "id": "10142683",
+    "japanese": "あいつは頼りになるぞ。",
+    "english": "You can rely upon him."
+  },
+  {
+    "id": "1321363",
+    "japanese": "彼女は10ヶ国語を話すことができる。",
+    "english": "She is able to speak ten languages."
+  },
+  {
+    "id": "10050266",
+    "japanese": "彼女が嘘をつくわけがない。",
+    "english": "She cannot have told a lie."
+  },
+  {
+    "id": "1171699",
+    "japanese": "彼女がここに来たと聞きました。",
+    "english": "I heard that she came here."
+  },
+  {
+    "id": "1097542",
+    "japanese": "彼女の一日も早い回復を願っています。",
+    "english": "I hope that she'll get well soon."
+  },
+  {
+    "id": "991762",
+    "japanese": "君が刑務所を出る頃には彼女は結婚しているよ。",
+    "english": "By the time you get out of prison, she'll have been married."
+  },
+  {
+    "id": "10056980",
+    "japanese": "彼女がその本を読み始めたと思ったらすぐに、誰かがドアをノックした。",
+    "english": "She had hardly begun to read the book before someone knocked at the door."
+  },
+  {
+    "id": "1118861",
+    "japanese": "彼女がそんなに急いでいたのを変だとは思いませんか。",
+    "english": "Don't you think it odd that she was in such a hurry?"
+  },
+  {
+    "id": "1118858",
+    "japanese": "彼女がそんな良い申し出を断ったのには驚きだ。",
+    "english": "I am surprised that she refused such a good offer."
+  },
+  {
+    "id": "10324324",
+    "japanese": "彼女がこんないい話を断るなんて、びっくりだよ。",
+    "english": "I am surprised that she refused such a good offer."
+  },
+  {
+    "id": "11029687",
+    "japanese": "居場所知ってるよ。",
+    "english": "I know where she is."
+  },
+  {
+    "id": "10520534",
+    "japanese": "彼女が住んでるところ、分かる？",
+    "english": "Do you know where she lives?"
+  },
+  {
+    "id": "1174322",
+    "japanese": "彼女が弾くピアノの音がよく聞こえてきます。",
+    "english": "I often hear her play the piano."
+  },
+  {
+    "id": "2224731",
+    "japanese": "彼女は私ではなくトムを愛している。",
+    "english": "She loves Tom, not me."
+  },
+  {
+    "id": "1185745",
+    "japanese": "彼女が案内役を務めた。",
+    "english": "She acted as a guide."
+  },
+  {
+    "id": "1181340",
+    "japanese": "彼女が何をするつもりなのか、全く知らなかった。",
+    "english": "I had no idea of what she intended to do."
+  },
+  {
+    "id": "11491539",
+    "japanese": "何を買ったか、聞いてみろよ。",
+    "english": "Ask her what she bought."
+  },
+  {
+    "id": "11007809",
+    "japanese": "彼女の歌声が聞こえてきた。",
+    "english": "I heard her singing."
+  },
+  {
+    "id": "1046075",
+    "japanese": "彼女は自分の母国語でさえも間違えずに話すことはできません。",
+    "english": "She can't even speak her native language without making mistakes."
+  },
+  {
+    "id": "1046076",
+    "japanese": "彼女は自分の母国語でさえも間違えてしまいます。",
+    "english": "She can't even speak her native language without making mistakes."
+  },
+  {
+    "id": "9682490",
+    "japanese": "彼女がかわいそうだよ。",
+    "english": "I feel sorry for her."
+  },
+  {
+    "id": "1204109",
+    "japanese": "彼女を見れば君を好きなことがまるわかりだよ。",
+    "english": "Her look says that she loves you."
+  },
+  {
+    "id": "1202175",
+    "japanese": "ゆうべ彼女が来ていたらなあ。",
+    "english": "I wish she had come last night."
+  },
+  {
+    "id": "1134358",
+    "japanese": "彼女がぐっすり眠っているのを確かめてから、彼は部屋をそっと抜け出し、出発した。",
+    "english": "After making sure she was sound asleep, he crept out of the room and set off."
+  },
+  {
+    "id": "10954066",
+    "japanese": "彼女が担当することになります。",
+    "english": "She's going to be in charge."
+  },
+  {
+    "id": "1057309",
+    "japanese": "彼女が早く良くなるといいですね。",
+    "english": "I hope that she will get well soon."
+  },
+  {
+    "id": "1196459",
+    "japanese": "私は彼女が他の人たちよりずば抜けていると認めている。",
+    "english": "I admit her superiority to others."
+  },
+  {
+    "id": "1251855",
+    "japanese": "彼女の内気なところがまた一層僕に彼女を好きにさせるんだ。",
+    "english": "I like her all the better for her shyness."
+  },
+  {
+    "id": "10792438",
+    "japanese": "彼女が都会に住んでいようが田舎に住んでいようが、僕には大した違いはないよ。",
+    "english": "It makes no difference to me whether she lives in the city or in the country."
+  },
+  {
+    "id": "1623500",
+    "japanese": "彼女が彼と結婚していると聞いて、私たちはがっかりした。",
+    "english": "We were disappointed to hear that she had married him."
+  },
+  {
+    "id": "1174299",
+    "japanese": "なぜ彼女が彼に眉をひそめたのか分からなかった。",
+    "english": "I couldn't understand why she frowned at him."
+  },
+  {
+    "id": "1174301",
+    "japanese": "彼女がなぜ彼に顔をしかめたのか分からなかった。",
+    "english": "I couldn't understand why she frowned at him."
+  },
+  {
+    "id": "10491031",
+    "japanese": "寝室から彼女の泣きじゃくる声が聞こえた。",
+    "english": "I could hear her sobbing in her bedroom."
+  },
+  {
+    "id": "8854681",
+    "japanese": "彼女はすぐに新しい学校に慣れた。",
+    "english": "She soon adjusted herself to the new school."
+  },
+  {
+    "id": "396388",
+    "japanese": "私達は昨日家にいなかった。",
+    "english": "We didn't stay home yesterday."
+  },
+  {
+    "id": "1181318",
+    "japanese": "絶対彼女と2年前に会ってると思う。",
+    "english": "I am sure I saw her two years ago."
+  },
+  {
+    "id": "1006951",
+    "japanese": "彼女への愛に我を忘れていたのは事実だ。",
+    "english": "It is true that I was head over heels in love with her."
+  },
+  {
+    "id": "11160232",
+    "japanese": "彼女にぞっこんだったのは本当だよ。",
+    "english": "It is true that I was head over heels in love with her."
+  },
+  {
+    "id": "1320026",
+    "japanese": "彼女には素晴らしいユーモアのセンスがある。",
+    "english": "She has a marvelous sense of humor."
+  },
+  {
+    "id": "1643754",
+    "japanese": "例によって、彼女は午後の会議に遅れて来た。",
+    "english": "As is often the case with her, she was late for the meeting this afternoon."
+  },
+  {
+    "id": "2520543",
+    "japanese": "彼女には兄が五人いる。",
+    "english": "She has five older brothers."
+  },
+  {
+    "id": "1104382",
+    "japanese": "彼女は美に対して眼識がある。",
+    "english": "She has an eye for the beautiful."
+  },
+  {
+    "id": "1080872",
+    "japanese": "彼女には敵が全くいない。",
+    "english": "She doesn't have any enemies."
+  },
+  {
+    "id": "993565",
+    "japanese": "彼女のためにヒナギクを１本摘んだ。",
+    "english": "I plucked a daisy for her."
+  },
+  {
+    "id": "10472758",
+    "japanese": "彼女、昔は良かったんだけどね。",
+    "english": "She has seen better days."
+  },
+  {
+    "id": "1163741",
+    "japanese": "彼女によろしくとお伝えください。",
+    "english": "Please say hello to her."
+  },
+  {
+    "id": "8630727",
+    "japanese": "彼女にラブレターを書いてた。",
+    "english": "I was writing her a love letter."
+  },
+  {
+    "id": "1112907",
+    "japanese": "彼女にプロポーズするんだ。",
+    "english": "I'm going to propose to her."
+  },
+  {
+    "id": "1179359",
+    "japanese": "僕が彼女に結婚して欲しいと頼んだら、彼女は受け入れてくれたんだ。",
+    "english": "I asked her to marry me and she accepted."
+  },
+  {
+    "id": "10467072",
+    "japanese": "あの子から目が離せないよ。",
+    "english": "I can't take my eyes off her."
+  },
+  {
+    "id": "1772465",
+    "japanese": "彼女に自己紹介するチャンスがなかった。",
+    "english": "I didn't get a chance to introduce myself to her."
+  },
+  {
+    "id": "1231762",
+    "japanese": "私は彼女に新しい車を買ってあげた。",
+    "english": "I bought her a new car."
+  },
+  {
+    "id": "11296199",
+    "japanese": "新車を買ってやったんだ。",
+    "english": "I bought her a new car."
+  },
+  {
+    "id": "2558190",
+    "japanese": "彼女に赤ちゃんができた。",
+    "english": "She is going to have a baby."
+  },
+  {
+    "id": "2558191",
+    "japanese": "彼女に子供ができた。",
+    "english": "She is going to have a baby."
+  },
+  {
+    "id": "1166039",
+    "japanese": "彼女に電話したが、話し中だった。",
+    "english": "I called her, but the line was busy."
+  },
+  {
+    "id": "11883685",
+    "japanese": "僕は彼女と恋に落ちた。",
+    "english": "I fell in love with her."
+  },
+  {
+    "id": "389037",
+    "japanese": "彼女のお母さんは彼女に新しいドレスを作ってあげました。",
+    "english": "Her mother made her a new dress."
+  },
+  {
+    "id": "1141261",
+    "japanese": "彼女のお母さんは彼女に新しいドレスを作ってくれました。",
+    "english": "Her mother made her a new dress."
+  },
+  {
+    "id": "10094130",
+    "japanese": "彼女の一番下の子は５歳だよ。",
+    "english": "Her youngest child is five years old."
+  },
+  {
+    "id": "10094131",
+    "japanese": "彼女の末っ子は５歳なんだ。",
+    "english": "Her youngest child is five years old."
+  },
+  {
+    "id": "1585235",
+    "japanese": "彼女の助けがなかったら、私は今頃生きていないだろう。",
+    "english": "If it weren't for her help, I would not be alive now."
+  },
+  {
+    "id": "395031",
+    "japanese": "彼女の両親は彼女のけがのことが心配でたまらない。",
+    "english": "Her folks cannot help worrying about her wound."
+  },
+  {
+    "id": "1644170",
+    "japanese": "彼女の欠点はおしゃべりが過ぎるところだ。",
+    "english": "Her weakness is that she talks too much."
+  },
+  {
+    "id": "1139055",
+    "japanese": "彼女の言っていることが理解できません。",
+    "english": "I can't understand what she says."
+  },
+  {
+    "id": "1166280",
+    "japanese": "彼女の車は二年目です。",
+    "english": "Her car is two years old."
+  },
+  {
+    "id": "10557163",
+    "japanese": "あの子の手、大理石のように冷たかったわ。",
+    "english": "Her hands felt as cold as marble."
+  },
+  {
+    "id": "11742872",
+    "japanese": "彼女の小説は、どちらも読んだことがない。",
+    "english": "I haven't read either of her novels."
+  },
+  {
+    "id": "1142561",
+    "japanese": "彼女の少女のような顔立ちからは、とても四十過ぎには見えなかった。",
+    "english": "Her girlish complexion belied the fact that she was over forty."
+  },
+  {
+    "id": "1035167",
+    "japanese": "彼女は明るい性格です。",
+    "english": "She has a cheerful disposition."
+  },
+  {
+    "id": "1658490",
+    "japanese": "彼女は母譲りの気性をしている。",
+    "english": "She derives her character from her mother."
+  },
+  {
+    "id": "2572376",
+    "japanese": "彼女、いくつだと思う？",
+    "english": "Can you guess her age?"
+  },
+  {
+    "id": "10335441",
+    "japanese": "彼女の髪は、テンパなのよ。",
+    "english": "Her hair is naturally curly."
+  },
+  {
+    "id": "368067",
+    "japanese": "彼女の美しい声は耳にとても心地よく響いた。",
+    "english": "Her lovely voice was a real feast to the ears."
+  },
+  {
+    "id": "11110089",
+    "japanese": "彼女ね、病気で来れなかったのよ。",
+    "english": "Because of illness, she couldn't come."
+  },
+  {
+    "id": "10763966",
+    "japanese": "旦那さん、今東京にお住まいなのよ。",
+    "english": "Her husband is now living in Tokyo."
+  },
+  {
+    "id": "1656148",
+    "japanese": "彼女の借金は返済できる限界を超えている。",
+    "english": "Her debts amount to more than she can pay."
+  },
+  {
+    "id": "3555817",
+    "japanese": "あの子は、平日はいつも忙しい。",
+    "english": "She is always busy on weekdays."
+  },
+  {
+    "id": "12461923",
+    "japanese": "彼女の亡き夫はバイオリン奏者だった。",
+    "english": "Her late husband was a violinist."
+  },
+  {
+    "id": "2255569",
+    "japanese": "彼女の夢は看護師になることです。",
+    "english": "Her dream is to become a nurse."
+  },
+  {
+    "id": "2237962",
+    "japanese": "彼女の名は世界中で知られています。",
+    "english": "Her name is known all over the world."
+  },
+  {
+    "id": "9477938",
+    "japanese": "彼女の名前が知りたいな。",
+    "english": "I would like to know her name."
+  },
+  {
+    "id": "1167575",
+    "japanese": "彼女のスピーチで感動して泣いた。",
+    "english": "I was moved to tears by her speech."
+  },
+  {
+    "id": "11241491",
+    "japanese": "六時ごろ来るって言ってたよ。",
+    "english": "She told me she would be here about six."
+  },
+  {
+    "id": "760542",
+    "japanese": "彼女はピアノがとても上手だ。",
+    "english": "She plays the piano very well."
+  },
+  {
+    "id": "9506301",
+    "japanese": "彼女はワインが好きだよ。",
+    "english": "She likes wine."
+  },
+  {
+    "id": "10248572",
+    "japanese": "彼女はメアリーと比べて頭は良いのだけれども、メアリーほど可愛くはない。",
+    "english": "She's smarter than Mary, but she's not as pretty as Mary."
+  },
+  {
+    "id": "2249253",
+    "japanese": "彼女は遅刻癖がある。",
+    "english": "She tends to be late for school."
+  },
+  {
+    "id": "2566012",
+    "japanese": "彼女は去年、髪が長かった。",
+    "english": "She had long hair last year."
+  },
+  {
+    "id": "2228583",
+    "japanese": "彼女は一人にしないようにと彼に頼んだ。",
+    "english": "She asked him not to leave her alone."
+  },
+  {
+    "id": "2233014",
+    "japanese": "彼女はやってみた。",
+    "english": "She tried."
+  },
+  {
+    "id": "1166915",
+    "japanese": "彼女が本当に欲しいものが何かわからない。",
+    "english": "I can't figure out what she really wants."
+  },
+  {
+    "id": "10855032",
+    "japanese": "１０時までに戻るという条件付きで、ディスコに行くことが許可された。",
+    "english": "She was allowed to go to the disco on condition that she was back by ten."
+  },
+  {
+    "id": "1237386",
+    "japanese": "彼女には十人の子供がいる。",
+    "english": "She has ten children."
+  },
+  {
+    "id": "10339607",
+    "japanese": "あの子、１０年前は今より太ってたのよ。",
+    "english": "She was fatter ten years ago than she is now."
+  },
+  {
+    "id": "1799414",
+    "japanese": "彼女は1960年に亡くなりました。",
+    "english": "She died in 1960."
+  },
+  {
+    "id": "1421787",
+    "japanese": "彼女は一人息子を埋葬した。",
+    "english": "She has buried her only son."
+  },
+  {
+    "id": "1689697",
+    "japanese": "彼女は２年で医者になるだろう。",
+    "english": "She will become a doctor in two years."
+  },
+  {
+    "id": "10561182",
+    "japanese": "彼女はきれいなリンゴを３つ選びました。",
+    "english": "She picked out three beautiful apples."
+  },
+  {
+    "id": "10028687",
+    "japanese": "彼女は５年前に家を出たっきり、何の音沙汰もない。",
+    "english": "She left home five years ago, and has never been heard of since."
+  },
+  {
+    "id": "1151917",
+    "japanese": "彼女は八つだ。",
+    "english": "She is eight."
+  },
+  {
+    "id": "13115846",
+    "japanese": "8時までおりてこなかった。",
+    "english": "She did not come down until 8:00."
+  },
+  {
+    "id": "2287370",
+    "japanese": "彼女は笑われた。",
+    "english": "She was laughed at."
+  },
+  {
+    "id": "2287372",
+    "japanese": "彼女は笑い物にされた。",
+    "english": "She was laughed at."
+  },
+  {
+    "id": "10366704",
+    "japanese": "彼女はただキョロキョロしていた。",
+    "english": "She did nothing but look around."
+  },
+  {
+    "id": "1237399",
+    "japanese": "彼女はあなたのと同じバッグを持っている。",
+    "english": "She has the same bag as you have."
+  },
+  {
+    "id": "1035899",
+    "japanese": "彼女は大体あなたと同じくらいの身長です。",
+    "english": "She's about the same height as you."
+  },
+  {
+    "id": "11527161",
+    "japanese": "あの人がお母さん？",
+    "english": "Is she your mother?"
+  },
+  {
+    "id": "1023601",
+    "japanese": "彼女は君の番号知ってるの？",
+    "english": "Does she know your phone number?"
+  },
+  {
+    "id": "1013515",
+    "japanese": "彼らは君より背が高いかもしれない。",
+    "english": "They might be taller than you."
+  },
+  {
+    "id": "1421823",
+    "japanese": "彼女にはボーイフレンドがあり余るほどいる。",
+    "english": "She has too many boyfriends."
+  },
+  {
+    "id": "1752897",
+    "japanese": "アメリカへの旅支度に彼女は忙しくしている。",
+    "english": "She has been busy preparing for her trip to the USA."
+  },
+  {
+    "id": "1247884",
+    "japanese": "彼女は自身の抱えている問題で落ち込んでいた。",
+    "english": "She was depressed by all her problems."
+  },
+  {
+    "id": "2174727",
+    "japanese": "彼女は普段ジーンズをはいている。",
+    "english": "She usually wears jeans."
+  },
+  {
+    "id": "9041256",
+    "japanese": "彼女はしょっちゅう私に電話をかけてきたんだ。",
+    "english": "She was always telephoning me."
+  },
+  {
+    "id": "11834147",
+    "japanese": "彼女、しょっちゅう食事に文句言うんだ。",
+    "english": "She's always complaining about the food."
+  },
+  {
+    "id": "10765969",
+    "japanese": "彼女、しょっちゅう親と言い合ってたよ。",
+    "english": "She was always quarreling with her parents."
+  }
+]

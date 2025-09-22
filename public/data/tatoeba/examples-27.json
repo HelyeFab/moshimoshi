@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "201341",
+    "japanese": "どうぞお立ち寄りください。",
+    "english": "Please drop in on us."
+  },
+  {
+    "id": "137998",
+    "japanese": "お体を大切にして下さいね。",
+    "english": "Please take care of yourself."
+  },
+  {
+    "id": "201344",
+    "japanese": "どうぞお体を大事にして下さい。",
+    "english": "Please take care of yourself."
+  },
+  {
+    "id": "201683",
+    "japanese": "どうかお体に気をつけてください。",
+    "english": "Please take care of yourself."
+  },
+  {
+    "id": "226912",
+    "japanese": "お体にお気を付けください。",
+    "english": "Please take care of yourself."
+  },
+  {
+    "id": "11648557",
+    "japanese": "ご自愛ください。",
+    "english": "Please take care of yourself."
+  },
+  {
+    "id": "11648598",
+    "japanese": "くれぐれもご自愛くださいませ。",
+    "english": "Please take care of yourself."
+  },
+  {
+    "id": "201347",
+    "japanese": "どうぞおいで下さい。",
+    "english": "Do me the favor of coming."
+  },
+  {
+    "id": "201349",
+    "japanese": "どうぞお構いなく。",
+    "english": "Please don't bother."
+  },
+  {
+    "id": "201361",
+    "japanese": "どうぞおかまいなく。",
+    "english": "Please don't bother."
+  },
+  {
+    "id": "201351",
+    "japanese": "どうぞお気楽になさって下さい。",
+    "english": "Please make yourself comfortable."
+  },
+  {
+    "id": "201353",
+    "japanese": "どうぞお楽にして下さい。",
+    "english": "Please make yourself comfortable."
+  },
+  {
+    "id": "201354",
+    "japanese": "どうぞお楽になさってください。",
+    "english": "Please make yourself comfortable."
+  },
+  {
+    "id": "149698",
+    "japanese": "自由にケーキを取ってください。",
+    "english": "Please help yourself to the cakes."
+  },
+  {
+    "id": "201355",
+    "japanese": "どうぞお菓子をご自由におあがりください。",
+    "english": "Please help yourself to the cakes."
+  },
+  {
+    "id": "236815",
+    "japanese": "どうぞおたちにならないで下さい。",
+    "english": "Please don't get up."
+  },
+  {
+    "id": "201359",
+    "japanese": "どうぞおくつろぎください。コーヒーもご自由にお飲みください。",
+    "english": "Please make yourself at home, and help yourself to some coffee."
+  },
+  {
+    "id": "201360",
+    "japanese": "どうぞおかわりをして下さい。",
+    "english": "Please have a second helping."
+  },
+  {
+    "id": "9032026",
+    "japanese": "おかわりをどうぞ。",
+    "english": "Please have a second helping."
+  },
+  {
+    "id": "170848",
+    "japanese": "座って下さい。",
+    "english": "Sit down, please."
+  },
+  {
+    "id": "201362",
+    "japanese": "どうぞおかけになってください。",
+    "english": "Sit down, please."
+  },
+  {
+    "id": "227136",
+    "japanese": "お座り下さい。",
+    "english": "Sit down, please."
+  },
+  {
+    "id": "227758",
+    "japanese": "おかけ下さい。",
+    "english": "Sit down, please."
+  },
+  {
+    "id": "978433",
+    "japanese": "お座りください。",
+    "english": "Sit down, please."
+  },
+  {
+    "id": "4769864",
+    "japanese": "どうぞおかけください。",
+    "english": "Sit down, please."
+  },
+  {
+    "id": "170843",
+    "japanese": "座りなよ。",
+    "english": "Please have a seat."
+  },
+  {
+    "id": "236991",
+    "japanese": "どうぞおかけ下さい。",
+    "english": "Please have a seat."
+  },
+  {
+    "id": "978424",
+    "japanese": "腰を下ろしてください。",
+    "english": "Please have a seat."
+  },
+  {
+    "id": "201364",
+    "japanese": "どうぞあなたの旅行について話して下さい。",
+    "english": "Please tell me about your trip."
+  },
+  {
+    "id": "10903275",
+    "japanese": "旅についてお話しください。",
+    "english": "Please tell me about your trip."
+  },
+  {
+    "id": "201365",
+    "japanese": "どうぞあなたのいいと思うようになさい。",
+    "english": "Please do as it seems best to you."
+  },
+  {
+    "id": "201366",
+    "japanese": "どうぞ３階へ上がってください。",
+    "english": "Please go up to the third floor."
+  },
+  {
+    "id": "10802298",
+    "japanese": "３階へお上がりください。",
+    "english": "Please go up to the third floor."
+  },
+  {
+    "id": "201368",
+    "japanese": "どうぞ、私のレポートのコピーを７０部お作りください。",
+    "english": "I appreciate your request to reproduce 70 copies of my report."
+  },
+  {
+    "id": "201369",
+    "japanese": "どうぞ、私に話して下さい。",
+    "english": "Please, tell me."
+  },
+  {
+    "id": "1067284",
+    "japanese": "お願い、私に話して。",
+    "english": "Please, tell me."
+  },
+  {
+    "id": "201371",
+    "japanese": "どうぞ、鉛筆をたくさん持ってきてください。",
+    "english": "Please get a lot of pencils."
+  },
+  {
+    "id": "201372",
+    "japanese": "どうぞ、もういっぱいビールをお飲みください。",
+    "english": "Have another glass of beer, please."
+  },
+  {
+    "id": "201373",
+    "japanese": "どうぞ、そのままお座りになっていてください。",
+    "english": "Please remain seated."
+  },
+  {
+    "id": "201374",
+    "japanese": "どうぞ、そうして下さい。",
+    "english": "Yes, please do."
+  },
+  {
+    "id": "201375",
+    "japanese": "どうぞ、ご自分のことをお話し下さい、アンソニー卿。",
+    "english": "Tell me about yourself, please, Sir Anthony."
+  },
+  {
+    "id": "201377",
+    "japanese": "どうぞ、ここにあなたの名前を書いてください。",
+    "english": "Please write down your name here."
+  },
+  {
+    "id": "10300458",
+    "japanese": "こちらにお名前をお書きください。",
+    "english": "Please write down your name here."
+  },
+  {
+    "id": "201376",
+    "japanese": "どうぞ、こちらの方へおこしください。",
+    "english": "Will you step this way, please?"
+  },
+  {
+    "id": "10778092",
+    "japanese": "こちらにお願いします。",
+    "english": "Will you step this way, please?"
+  },
+  {
+    "id": "149699",
+    "japanese": "自由にクッキーをお取り下さい。",
+    "english": "Please help yourself to the cookies."
+  },
+  {
+    "id": "201378",
+    "japanese": "どうぞ、クッキーをご自由におとりください。",
+    "english": "Please help yourself to the cookies."
+  },
+  {
+    "id": "225666",
+    "japanese": "クッキーをどうぞ自由に召し上がって下さい。",
+    "english": "Please help yourself to the cookies."
+  },
+  {
+    "id": "201381",
+    "japanese": "どうぞ、お幸せに。",
+    "english": "I wish you every happiness."
+  },
+  {
+    "id": "201382",
+    "japanese": "どうぞ、お菓子を自由にお取り下さい。",
+    "english": "Help yourself to the cake, please."
+  },
+  {
+    "id": "10679860",
+    "japanese": "どうぞケーキをお召し上がりください。",
+    "english": "Help yourself to the cake, please."
+  },
+  {
+    "id": "201383",
+    "japanese": "どうぞ、おすわりください。",
+    "english": "Please take a seat."
+  },
+  {
+    "id": "227366",
+    "japanese": "お掛けください。",
+    "english": "Please take a seat."
+  },
+  {
+    "id": "201384",
+    "japanese": "どうせ日本文化の粋などは連中には絶対わかるまい。",
+    "english": "They'll never truly understand the essence of Japanese culture anyway."
+  },
+  {
+    "id": "201385",
+    "japanese": "どうせ行くんでしょ。",
+    "english": "I daresay you are going to go no matter what."
+  },
+  {
+    "id": "201386",
+    "japanese": "どうせ英語を習うなら徹底的に学びなさい。",
+    "english": "At any rate, if you learn English, study it thoroughly."
+  },
+  {
+    "id": "201387",
+    "japanese": "どうせ英語をやるのなら徹底的にやれ。",
+    "english": "If you learn English at all, learn it thoroughly."
+  },
+  {
+    "id": "201389",
+    "japanese": "どうせやるからには上手にやるようにしなさい。",
+    "english": "If you do it at all, try to do it well."
+  },
+  {
+    "id": "201391",
+    "japanese": "どうせお前は。",
+    "english": "You're only foolin' round."
+  },
+  {
+    "id": "201392",
+    "japanese": "どうすれば天国に行けるのでしょうか。",
+    "english": "How can I get to heaven?"
+  },
+  {
+    "id": "201394",
+    "japanese": "どうすれば戦争をなくす事ができるか。",
+    "english": "How can we abolish war?"
+  },
+  {
+    "id": "201587",
+    "japanese": "どうしたら戦争をなくすことができるか。",
+    "english": "How can we abolish war?"
+  },
+  {
+    "id": "201393",
+    "japanese": "どうすれば長距離電話がかけられますか。",
+    "english": "How can I make a long-distance call?"
+  },
+  {
+    "id": "201395",
+    "japanese": "どうすれば君と連絡がとれる。",
+    "english": "How can I reach you?"
+  },
+  {
+    "id": "9046279",
+    "japanese": "どうやったら連絡取れる？",
+    "english": "How can I reach you?"
+  },
+  {
+    "id": "11528227",
+    "japanese": "連絡方法教えて。",
+    "english": "How can I reach you?"
+  },
+  {
+    "id": "159370",
+    "japanese": "私はどうしたらよいのか困っている。",
+    "english": "I am at a loss what to do."
+  },
+  {
+    "id": "201396",
+    "japanese": "どうすればいいのか分からない。",
+    "english": "I am at a loss what to do."
+  },
+  {
+    "id": "201594",
+    "japanese": "どうしたらいいのか途方に暮れている。",
+    "english": "I am at a loss what to do."
+  },
+  {
+    "id": "201397",
+    "japanese": "どうすればいいのかわからなかったので、私は先生に助言を求めた。",
+    "english": "Not knowing what to do, I asked the teacher for advice."
+  },
+  {
+    "id": "201398",
+    "japanese": "どうすれば、ナンシーとデートすることに成功できるでしょうか。",
+    "english": "How can I succeed in getting a date with Nancy?"
+  },
+  {
+    "id": "201399",
+    "japanese": "どうするつもりなんだ？",
+    "english": "What are you going to do about it?"
+  },
+  {
+    "id": "201401",
+    "japanese": "どうするかを決めるときは、論理ではなく本能を当てにする。",
+    "english": "In making a decision, I rely not on logic but on instinct."
+  },
+  {
+    "id": "169010",
+    "japanese": "仕方がないよ。",
+    "english": "It can't be helped."
+  },
+  {
+    "id": "201402",
+    "japanese": "どうしようも無いのね。",
+    "english": "It can't be helped."
+  },
+  {
+    "id": "204898",
+    "japanese": "それは避けられない。",
+    "english": "It can't be helped."
+  },
+  {
+    "id": "201403",
+    "japanese": "どうしよう、コンピューターが立ち上がらない。",
+    "english": "I can't start up my computer. What am I supposed to do?"
+  },
+  {
+    "id": "9077353",
+    "japanese": "パソコンが起動しない。どうすればいいんだ？",
+    "english": "I can't start up my computer. What am I supposed to do?"
+  },
+  {
+    "id": "9077354",
+    "japanese": "パソコンが立ち上がらないの。どうしたらいいの？",
+    "english": "I can't start up my computer. What am I supposed to do?"
+  },
+  {
+    "id": "201404",
+    "japanese": "どうして良いか分からなかったので、私は彼に助けを求めた。",
+    "english": "Not knowing what to do, I asked him for help."
+  },
+  {
+    "id": "201491",
+    "japanese": "どうしてよいかわからなかったので、私は彼に助力を求めた。",
+    "english": "Not knowing what to do, I asked him for help."
+  },
+  {
+    "id": "201592",
+    "japanese": "どうしたらよいかわからなかったので、私は彼に助力を求めた。",
+    "english": "Not knowing what to do, I asked him for help."
+  },
+  {
+    "id": "201407",
+    "japanese": "どうして彼女は来ないのか。",
+    "english": "How is it she does not come?"
+  },
+  {
+    "id": "201408",
+    "japanese": "どうして彼女は電話を切ったのですか。",
+    "english": "How come she hung up on you?"
+  },
+  {
+    "id": "201409",
+    "japanese": "どうして彼女はそんなに怒ったのか。",
+    "english": "What made her so angry?"
+  },
+  {
+    "id": "2352717",
+    "japanese": "何が彼女をそんなに怒らせたのか。",
+    "english": "What made her so angry?"
+  },
+  {
+    "id": "201410",
+    "japanese": "どうして彼女はあのような不快な連中と関わりを待つようになったのか。",
+    "english": "How did she get mixed up with such unpleasant people?"
+  },
+  {
+    "id": "201413",
+    "japanese": "どうして彼女が僕の意見に反対なのか分からない。",
+    "english": "I don't understand why she is opposed to my opinion."
+  },
+  {
+    "id": "201414",
+    "japanese": "どうして彼女が好きなのか話してくれませんか。",
+    "english": "Will you tell me why you like her?"
+  },
+  {
+    "id": "201415",
+    "japanese": "どうして彼女がこなかったのかわからない。",
+    "english": "I can't figure out why she didn't come."
+  },
+  {
+    "id": "201416",
+    "japanese": "どうして彼を知るようになったのですか。",
+    "english": "How did you get to know him?"
+  },
+  {
+    "id": "10810033",
+    "japanese": "彼とはどうやって知り合ったの？",
+    "english": "How did you get to know him?"
+  },
+  {
+    "id": "201417",
+    "japanese": "どうして彼らは君の提案をはねつけたんだい。",
+    "english": "Why did they turn down your proposal?"
+  },
+  {
+    "id": "201418",
+    "japanese": "どうして彼らはそんな宗教に入信したのだろうか。",
+    "english": "Why did they come to believe in such a religion?"
+  },
+  {
+    "id": "201419",
+    "japanese": "どうして彼らの疑いと恐怖を払いのけることができようか。",
+    "english": "How can we dispel their doubts and fears?"
+  },
+  {
+    "id": "201420",
+    "japanese": "どうして彼は来られなかったのですか。",
+    "english": "What prevented him from coming?"
+  },
+  {
+    "id": "201421",
+    "japanese": "どうして彼は憎まれるのか。",
+    "english": "What makes him hated?"
+  },
+  {
+    "id": "201422",
+    "japanese": "どうして彼は自分のほうが僕より分別が有ると思うんだろう。",
+    "english": "Why should he think that he knows better than I do?"
+  },
+  {
+    "id": "201423",
+    "japanese": "どうして彼は私を知っているかのように私を見ているのだろう。",
+    "english": "Why is he looking at me as though he knows me?"
+  },
+  {
+    "id": "201424",
+    "japanese": "どうして彼は考えを変えたのかしら？",
+    "english": "I wonder what has made him change his mind."
+  },
+  {
+    "id": "201425",
+    "japanese": "どうして彼はモリーが嫌いなの？",
+    "english": "How come he hates Molly?"
+  },
+  {
+    "id": "201426",
+    "japanese": "どうして彼はパーティーに来なかったのですか。",
+    "english": "What had kept him from coming to the party?"
+  },
+  {
+    "id": "201427",
+    "japanese": "どうして彼はそんな事をしたのだろう。",
+    "english": "Why might he have done that, I wonder?"
+  },
+  {
+    "id": "201428",
+    "japanese": "どうして彼はそんなことを怒っているのですか。",
+    "english": "Why is he angry about something like that?"
+  },
+  {
+    "id": "201430",
+    "japanese": "どうして彼はあの時あんなに怒ったのだろう。",
+    "english": "What made him so angry then, I wonder?"
+  },
+  {
+    "id": "201431",
+    "japanese": "どうして彼にそんなにつらくあたるのですか。",
+    "english": "Why are you so hard on him?"
+  },
+  {
+    "id": "201432",
+    "japanese": "どうして彼が本当のことを言わなかったのかわからない。",
+    "english": "I can't figure out why he didn't tell the truth."
+  },
+  {
+    "id": "201433",
+    "japanese": "どうして彼がそんなに不安になっているかについて、君は誤解している。",
+    "english": "You are mistaken as to what makes him so nervous."
+  },
+  {
+    "id": "201434",
+    "japanese": "どうして彼がそんなことをしたのか理解できない。",
+    "english": "I cannot figure out why he has done that."
+  },
+  {
+    "id": "201435",
+    "japanese": "どうして髪を乾かしているの。",
+    "english": "Why are you drying your hair?"
+  },
+  {
+    "id": "122106",
+    "japanese": "入っておいでよ。",
+    "english": "Why don't you come in?"
+  },
+  {
+    "id": "201436",
+    "japanese": "どうして入試に失敗したのですか。",
+    "english": "Why did you fail the entrance examination?"
+  },
+  {
+    "id": "201439",
+    "japanese": "どうして届かないのか分かってる？",
+    "english": "And why do you think that is?"
+  },
+  {
+    "id": "201438",
+    "japanese": "どうして日本は公害がこれほどひどくなるまで放っておいたのか。",
+    "english": "Why has Japan let pollution get so bad?"
+  },
+  {
+    "id": "201443",
+    "japanese": "どうして人々が私をじっと見ているのだろうかと思った。",
+    "english": "I wondered why people were staring at me."
+  },
+  {
+    "id": "1144622",
+    "japanese": "なぜみんなが私を見つめているのか不思議だった。",
+    "english": "I wondered why people were staring at me."
+  },
+  {
+    "id": "201442",
+    "japanese": "どうして太郎はそんなに上手に英語が話せるの？",
+    "english": "Why can Taro speak English so well?"
+  },
+  {
+    "id": "201441",
+    "japanese": "どうして誰も僕に教えてくれなかったんだろう。",
+    "english": "I wonder why nobody told me."
+  },
+  {
+    "id": "201440",
+    "japanese": "どうして逃げたの。",
+    "english": "Why did you run away?"
+  },
+  {
+    "id": "201444",
+    "japanese": "どうして紳士らしくふるまおうとしないのか。",
+    "english": "Why don't you try to behave like a gentleman?"
+  },
+  {
+    "id": "201445",
+    "japanese": "どうして出生率がそんなに急激に減ったのだろうか。",
+    "english": "Why has the birthrate declined so sharply?"
+  },
+  {
+    "id": "201446",
+    "japanese": "どうして謝って彼の許しを請わないんだ。",
+    "english": "Why not apologize and ask for his pardon?"
+  },
+  {
+    "id": "201447",
+    "japanese": "どうして試験で最初の問題を抜かしたの？",
+    "english": "Why did you leave out the first question on the exam?"
+  },
+  {
+    "id": "201448",
+    "japanese": "どうして私をつれていってくれないの。",
+    "english": "How come you aren't taking me?"
+  },
+  {
+    "id": "201449",
+    "japanese": "どうして私の手を握っているの？",
+    "english": "Why are you holding my hands?"
+  },
+  {
+    "id": "201450",
+    "japanese": "どうして私の好きな色が緑だと思ったのですか。",
+    "english": "What made you think that my favorite color was green?"
+  },
+  {
+    "id": "201451",
+    "japanese": "どうして私のと同じカメラを買ったの？",
+    "english": "Why have you bought the same camera as I have?"
+  },
+  {
+    "id": "201452",
+    "japanese": "どうして私に頼むの、自分でやればいいじゃない。",
+    "english": "Why ask me? Wouldn't it be better to do it yourself?"
+  },
+  {
+    "id": "201453",
+    "japanese": "どうして私に彼はそのような深刻な質問をしたのだろう。",
+    "english": "Why all of a sudden did he ask me such a serious question?"
+  },
+  {
+    "id": "201454",
+    "japanese": "どうして私にそんなに高く跳べるでしょう。",
+    "english": "How can I jump so high?"
+  },
+  {
+    "id": "201456",
+    "japanese": "どうして私が彼の居場所を知っていようか。",
+    "english": "How should I know where he is?"
+  },
+  {
+    "id": "201458",
+    "japanese": "どうして私が反対だと思うのですか。",
+    "english": "What makes you think that I'm against that?"
+  },
+  {
+    "id": "201461",
+    "japanese": "どうして私がそれをしてはいけないのかわからない。",
+    "english": "I don't see why I should not do that."
+  },
+  {
+    "id": "11790921",
+    "japanese": "やっちゃいけない理由が分からないよ。",
+    "english": "I don't see why I should not do that."
+  },
+  {
+    "id": "201462",
+    "japanese": "どうして昨夜、私に電話しなかったのですか。",
+    "english": "How come you didn't call me last night?"
+  },
+  {
+    "id": "9032573",
+    "japanese": "何で昨日の夜電話してくれなかったの？",
+    "english": "How come you didn't call me last night?"
+  },
+  {
+    "id": "201463",
+    "japanese": "どうして今日はこんなに混んでるのかしら。",
+    "english": "I wonder why it's so crowded here today."
+  },
+  {
+    "id": "201466",
+    "japanese": "どうして言ってくれないの？",
+    "english": "Why don't you ever say it?"
+  },
+  {
+    "id": "10178538",
+    "japanese": "何でそれ言わないんだよ？",
+    "english": "Why don't you ever say it?"
+  },
+  {
+    "id": "201467",
+    "japanese": "どうして見ず知らずの男が自分の名前を知っているんだろう？",
+    "english": "How did a total stranger know his name?"
+  },
+  {
+    "id": "201469",
+    "japanese": "どうして君は彼女が書類を持ち逃げしたなんて思えるの。",
+    "english": "How can you believe that she made away with the papers?"
+  },
+  {
+    "id": "10680229",
+    "japanese": "なんで出発前に買っとかなかったの？",
+    "english": "Why didn't you get one before we left?"
+  },
+  {
+    "id": "201471",
+    "japanese": "どうして君は何も話さないのか。",
+    "english": "How come you say nothing?"
+  },
+  {
+    "id": "201473",
+    "japanese": "どうして君はそれを知るようになったのですか。",
+    "english": "How did you come to know it?"
+  },
+  {
+    "id": "201472",
+    "japanese": "どうしてそんな事をしているの。",
+    "english": "What are you doing that for?"
+  },
+  {
+    "id": "9049221",
+    "japanese": "何でそんなことしてるの？",
+    "english": "What are you doing that for?"
+  },
+  {
+    "id": "201475",
+    "japanese": "どうして君はそのような行いが黙認できるのだろうか。",
+    "english": "How can you tolerate such a deed?"
+  },
+  {
+    "id": "201477",
+    "japanese": "どうして君はこんなに早くここへ来たのですか。",
+    "english": "What made you come here so early?"
+  },
+  {
+    "id": "201478",
+    "japanese": "どうして君の答えが僕のと違うのか調べてみよう。",
+    "english": "Let's check why your answers differ from mine."
+  },
+  {
+    "id": "201479",
+    "japanese": "どうして君のお父さんはあの男の正体を見抜いたのかわからない。",
+    "english": "I can't understand how your father managed to see through that man."
+  },
+  {
+    "id": "201481",
+    "japanese": "どうして君、このことを知らないのかね？",
+    "english": "How come you don't know this?"
+  },
+  {
+    "id": "10329549",
+    "japanese": "何でこれ知らないんだよ。",
+    "english": "How come you don't know this?"
+  },
+  {
+    "id": "201480",
+    "japanese": "どうして君がここにいるの？",
+    "english": "How come you are here?"
+  },
+  {
+    "id": "201484",
+    "japanese": "どうして机の下にいるの。",
+    "english": "Why are you under the desk?"
+  },
+  {
+    "id": "201483",
+    "japanese": "どうして帰りがこんなに遅くなったの。",
+    "english": "Why did you come home so late?"
+  },
+  {
+    "id": "201485",
+    "japanese": "どうして家を手放したの？",
+    "english": "Why did you part with your house?"
+  },
+  {
+    "id": "201487",
+    "japanese": "どうして煙草を止める決心をしたのですか。",
+    "english": "What made up your mind to quit smoking?"
+  },
+  {
+    "id": "201489",
+    "japanese": "どうしてリストから私の名前を外したのかしら。",
+    "english": "I wonder why they left my name off the list."
+  },
+  {
+    "id": "201490",
+    "japanese": "どうしてよいか分からなかったので私は助けを求めた。",
+    "english": "Not knowing what to do, I asked for help."
+  },
+  {
+    "id": "201595",
+    "japanese": "どうしたらいいのかわからなかったので助けを求めた。",
+    "english": "Not knowing what to do, I asked for help."
+  },
+  {
+    "id": "201492",
+    "japanese": "どうしてよいかわからなかったので、私は途方にくれた。",
+    "english": "Not knowing what to do, I was at a loss."
+  },
+  {
+    "id": "201493",
+    "japanese": "どうしてよいかわからなかったので、私は警察に電話した。",
+    "english": "Not knowing what to do, I telephoned the police."
+  },
+  {
+    "id": "201597",
+    "japanese": "どうしたらあの日々が忘れられるか。",
+    "english": "How can I forget those days?"
+  },
+  {
+    "id": "10081788",
+    "japanese": "あの頃のことを忘れるわけないじゃない。",
+    "english": "How can I forget those days?"
+  },
+  {
+    "id": "201495",
+    "japanese": "どうしても彼女の名前が思い出せない。",
+    "english": "I can't recall her name."
+  },
+  {
+    "id": "201496",
+    "japanese": "どうしても彼女の電話番号が思い出せない。",
+    "english": "I can't for the life of me remember her phone number."
+  },
+  {
+    "id": "201497",
+    "japanese": "どうしても彼女の住所が思い出せないんだよ。",
+    "english": "I can't for the life of me remember her address."
+  },
+  {
+    "id": "201498",
+    "japanese": "どうしても彼女に真実を話せなかった。",
+    "english": "I couldn't bring myself to tell her the truth."
+  },
+  {
+    "id": "201509",
+    "japanese": "どうしても私は、彼女に真実を話すことができなかった。",
+    "english": "I couldn't bring myself to tell her the truth."
+  },
+  {
+    "id": "201499",
+    "japanese": "どうしても彼の名前が思い出せなかった。",
+    "english": "I could not remember his name for the life of me."
+  },
+  {
+    "id": "201500",
+    "japanese": "どうしても箱が開かなかった。",
+    "english": "We could not open the box anyhow."
+  },
+  {
+    "id": "201501",
+    "japanese": "どうしても働く気になれない。",
+    "english": "For some reason or other I cannot bring myself to work."
+  },
+  {
+    "id": "201502",
+    "japanese": "どうしても生徒の名前が暗記できない。",
+    "english": "I just can't memorize students' names."
+  },
+  {
+    "id": "9258140",
+    "japanese": "どうも生徒の名前が覚えられないんですよ。",
+    "english": "I just can't memorize students' names."
+  },
+  {
+    "id": "201503",
+    "japanese": "どうしても正確な言葉を思い出せない。",
+    "english": "I can't recall the exact words."
+  },
+  {
+    "id": "201505",
+    "japanese": "どうしても習慣から抜けきれないんだよなあ。",
+    "english": "I'm just a creature of habit, I guess."
+  },
+  {
+    "id": "201504",
+    "japanese": "どうしても治したいのです。",
+    "english": "I want to get rid of it."
+  },
+  {
+    "id": "1199144",
+    "japanese": "それを取り除きたいのです。",
+    "english": "I want to get rid of it."
+  },
+  {
+    "id": "201507",
+    "japanese": "どうしても私は彼の名が思い出せなかった。",
+    "english": "For the life of me, I couldn't remember his name."
+  },
+  {
+    "id": "144017",
+    "japanese": "人生に事故はつきもの。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "144018",
+    "japanese": "人生に災難は付き物。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "150817",
+    "japanese": "事故は避けられないものだ。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "150823",
+    "japanese": "事故は起こるものだ。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "150826",
+    "japanese": "事故は起こりがちなもの。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "150827",
+    "japanese": "事故は起こりうるものだ。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "150832",
+    "japanese": "事故はとかく起こりがちなもの。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "150870",
+    "japanese": "事故というのは起こるものだ。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "201506",
+    "japanese": "どうしても事故は起こるものだ。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "1128888",
+    "japanese": "不測の事態は起こるもの。",
+    "english": "Accidents will happen."
+  },
+  {
+    "id": "201508",
+    "japanese": "どうしても私はアメリカに住みたい。",
+    "english": "At all costs, I want to live in America."
+  },
+  {
+    "id": "201510",
+    "japanese": "どうしても私の言葉を彼に信じさせる事が出来なかった。",
+    "english": "I could never make him believe what I said."
+  },
+  {
+    "id": "201511",
+    "japanese": "どうしても決心がつかないんだ。",
+    "english": "I just can't make up my mind."
+  },
+  {
+    "id": "201512",
+    "japanese": "どうしてもやり方が思い出せないんだ。",
+    "english": "I can't recollect how to do it."
+  },
+  {
+    "id": "201513",
+    "japanese": "どうしてもたばこを吸うのなら、どうか外へ出てください。",
+    "english": "If you are going to smoke, please go outside."
+  },
+  {
+    "id": "201514",
+    "japanese": "どうしてもそれが理解できない。",
+    "english": "I cannot understand it for the life of me."
+  },
+  {
+    "id": "201516",
+    "japanese": "どうしてもその仕事を受ける気になれなかった。",
+    "english": "I couldn't bring myself to take the job."
+  },
+  {
+    "id": "201515",
+    "japanese": "どうしてもそれがどこだったか思い出せないんだ。",
+    "english": "I cannot for the life of me remember where it was."
+  },
+  {
+    "id": "201517",
+    "japanese": "どうしてもこのたちの悪い風邪が抜けないのです。",
+    "english": "I simply cannot get rid of this bad cold of mine."
+  },
+  {
+    "id": "201518",
+    "japanese": "どうしてもイタリアへ行きたい。",
+    "english": "I do want to go to Italy."
+  },
+  {
+    "id": "8647206",
+    "japanese": "イタリアにぜひ行ってみたい。",
+    "english": "I do want to go to Italy."
+  },
+  {
+    "id": "201519",
+    "japanese": "どうしてベンチを赤く塗ったの？",
+    "english": "Why did you paint the bench red?"
+  },
+  {
+    "id": "201520",
+    "japanese": "どうしてフランス語を勉強するのを断念したの。",
+    "english": "Why did you give up the idea of learning French?"
+  },
+  {
+    "id": "9685798",
+    "japanese": "何でフランス語を学ぶっていう目的を諦めちゃったの？",
+    "english": "Why did you give up the idea of learning French?"
+  },
+  {
+    "id": "201521",
+    "japanese": "どうしてビルはエンジニアになる決心をしたのか。",
+    "english": "What made Bill decide to be an engineer?"
+  },
+  {
+    "id": "201523",
+    "japanese": "どうしてバイオリンをひくようになったのですか。",
+    "english": "How did you learn to play the violin?"
+  },
+  {
+    "id": "201522",
+    "japanese": "どうしてバイクを処分しないの？もうまったく乗っていないのに。",
+    "english": "Why don't you get rid of your motorcycle? You never ride it any more."
+  },
+  {
+    "id": "201525",
+    "japanese": "どうしてなにも言わなかったのですか。",
+    "english": "Why didn't you say anything?"
+  },
+  {
+    "id": "10094169",
+    "japanese": "どうして何も言わなかったの？",
+    "english": "Why didn't you say anything?"
+  },
+  {
+    "id": "201524",
+    "japanese": "どうしてニューヨークのことをビッグアップルって呼ぶの？",
+    "english": "Why do they call New York the Big Apple?"
+  },
+  {
+    "id": "201527",
+    "japanese": "どうしてそんな風に考えるのですか。",
+    "english": "What makes you think that way?"
+  },
+  {
+    "id": "201528",
+    "japanese": "どうしてそんな馬鹿な事を言ったの？",
+    "english": "Why did you say such a stupid thing?"
+  },
+  {
+    "id": "11266668",
+    "japanese": "なんでそんなバカなこと言っちゃったの？",
+    "english": "Why did you say such a stupid thing?"
+  },
+  {
+    "id": "201529",
+    "japanese": "どうしてそんな馬鹿な事が言えるんですか。",
+    "english": "How can you say such a silly thing?"
+  },
+  {
+    "id": "201530",
+    "japanese": "どうしてそんな結論に到達したのですか。",
+    "english": "How did you arrive at such a conclusion?"
+  },
+  {
+    "id": "201531",
+    "japanese": "どうしてそんな屈辱が、我慢ができるのですか。",
+    "english": "How can you bear such a humiliation?"
+  },
+  {
+    "id": "201532",
+    "japanese": "どうしてそんな危険を犯すのですか。",
+    "english": "Why do you take such a risk?"
+  },
+  {
+    "id": "201533",
+    "japanese": "どうしてそんなミスをしたの？",
+    "english": "How come you made such a mistake?"
+  },
+  {
+    "id": "201534",
+    "japanese": "どうしてそんなに落ち着いていられるの？",
+    "english": "How can you be so calm?"
+  },
+  {
+    "id": "201535",
+    "japanese": "どうしてそんな馬鹿なことを言ったの？",
+    "english": "What made you say such a stupid thing as that?"
+  },
+  {
+    "id": "201536",
+    "japanese": "どうしてそんなに熱心に働くの、とクララは私に言った。",
+    "english": "Clara asked me why I worked so hard."
+  },
+  {
+    "id": "201539",
+    "japanese": "どうしてそんなに受け身的なのか。仕返ししてはどうだ。",
+    "english": "How can you be so passive? Why don't you retaliate?"
+  },
+  {
+    "id": "201538",
+    "japanese": "どうしてそんなに遅くなったの。",
+    "english": "Why are you so late?"
+  },
+  {
+    "id": "201537",
+    "japanese": "どうしてそんなに怒ってるの？",
+    "english": "Why are you so angry?"
+  },
+  {
+    "id": "3717901",
+    "japanese": "なんでそんな怒ってるの？",
+    "english": "Why are you so angry?"
+  },
+  {
+    "id": "201540",
+    "japanese": "どうしてそんなに古い車がほしいのですか。",
+    "english": "What do you want such an old car for?"
+  },
+  {
+    "id": "201542",
+    "japanese": "どうしてそんなことで謝らなければいけないの？",
+    "english": "Why does that require an apology?"
+  },
+  {
+    "id": "201541",
+    "japanese": "どうしてそんなにふさぎ込んだ顔をしているのか言ってごらん。",
+    "english": "Tell me what makes you so depressed."
+  },
+  {
+    "id": "201543",
+    "japanese": "どうしてそんなことが起こったの？",
+    "english": "How did such a thing come about?"
+  },
+  {
+    "id": "201544",
+    "japanese": "どうしてそれを信じるようになりましたか。",
+    "english": "How did you come to believe that?"
+  },
+  {
+    "id": "201545",
+    "japanese": "どうしてそれを耳にするようになったのか。",
+    "english": "How did you come to hear of it?"
+  },
+  {
+    "id": "201546",
+    "japanese": "どうしてその弁護士はその議論で負けたのだろうか。",
+    "english": "Why did the lawyer lose the argument?"
+  },
+  {
+    "id": "150833",
+    "japanese": "事故はどうやって起こったのだろう。",
+    "english": "How did the accident come about?"
+  },
+  {
+    "id": "201547",
+    "japanese": "どうしてその事故が起こったのか。",
+    "english": "How did the accident come about?"
+  },
+  {
+    "id": "209852",
+    "japanese": "その事故はどんなふうにして起こったのですか。",
+    "english": "How did the accident come about?"
+  },
+  {
+    "id": "209853",
+    "japanese": "その事故はどのようにして起こったのですか。",
+    "english": "How did the accident come about?"
+  },
+  {
+    "id": "209855",
+    "japanese": "その事故はどうして起こったのか。",
+    "english": "How did the accident come about?"
+  },
+  {
+    "id": "201548",
+    "japanese": "どうしてそのように考えられるのですか。",
+    "english": "What makes you think so?"
+  },
+  {
+    "id": "8613573",
+    "japanese": "なぜそう考えるの？",
+    "english": "What makes you think so?"
+  },
+  {
+    "id": "8613574",
+    "japanese": "どうしてそう思ったの？",
+    "english": "What makes you think so?"
+  },
+  {
+    "id": "201549",
+    "japanese": "どうしてそのような考えを思いついたんだい。",
+    "english": "What put such an idea into your head?"
+  },
+  {
+    "id": "201550",
+    "japanese": "どうしてそのような考えを思いついたの。",
+    "english": "What put such an idea into your head?"
+  },
+  {
+    "id": "201551",
+    "japanese": "どうしてスペイン語を学ぶのですか。",
+    "english": "What do you learn Spanish for?"
+  },
+  {
+    "id": "201552",
+    "japanese": "どうしてスーツがもう１着買えるって言うの？",
+    "english": "How can you afford another suit?"
+  },
+  {
+    "id": "201553",
+    "japanese": "どうしてジェイムズがいつも奥さんにけちをつけるのか、僕には理解できない。",
+    "english": "I can't understand why James always finds fault with his wife."
+  },
+  {
+    "id": "201555",
+    "japanese": "どうしてこんな結論に達したのですか。",
+    "english": "What led you to this conclusion?"
+  },
+  {
+    "id": "232462",
+    "japanese": "あなたはどのようにしてこの結論に達したのですか。",
+    "english": "What led you to this conclusion?"
+  },
+  {
+    "id": "201554",
+    "japanese": "どうしてこんな誤解が生じたのだろう。",
+    "english": "How did this misunderstanding ever arise?"
+  },
+  {
+    "id": "201556",
+    "japanese": "どうしてこんなに夜遅く訪ねてくるのか。",
+    "english": "How come you call on us so late at night?"
+  },
+  {
+    "id": "201557",
+    "japanese": "どうしてこんなとんでもない時間に電話をするのだ。",
+    "english": "Why did you call me at this unearthly hour?"
+  },
+  {
+    "id": "201558",
+    "japanese": "どうしてこの仕事を辞めることができよう。",
+    "english": "How can I quit this job?"
+  },
+  {
+    "id": "201559",
+    "japanese": "どうしてこの言語を話すことができるのですか。",
+    "english": "How is it that you can speak this language?"
+  },
+  {
+    "id": "201560",
+    "japanese": "どうしてこの危険な状況が起こったのか。",
+    "english": "How did this dangerous state come about?"
+  },
+  {
+    "id": "201562",
+    "japanese": "どうしてカラオケがこんなに人気があるのかしら。",
+    "english": "I wonder why karaoke is so popular."
+  },
+  {
+    "id": "201563",
+    "japanese": "どうしてお前は道理に従おうとしないのか。",
+    "english": "Why will you not listen to reason?"
+  },
+  {
+    "id": "201565",
+    "japanese": "どうしていいのかわからなくて、彼は私に助けを求めた。",
+    "english": "Not knowing what to do, he asked me for help."
+  },
+  {
+    "id": "201566",
+    "japanese": "どうしていいかわからず、私たちは警察に電話した。",
+    "english": "Not knowing what to do, we telephoned the police."
+  },
+  {
+    "id": "201570",
+    "japanese": "どうしてあなたは私の忠告に従わなかったのですか。",
+    "english": "Why didn't you follow my advice?"
+  },
+  {
+    "id": "201573",
+    "japanese": "どうしてあなたはそんなばかな事をしたのですか。",
+    "english": "What made you do a silly thing like that?"
+  },
+  {
+    "id": "201575",
+    "japanese": "どうしてあなたにお詫びする理由があるのですか。",
+    "english": "Why should I apologize to you?"
+  },
+  {
+    "id": "9314702",
+    "japanese": "どうしてあなたに謝らないといけないの？",
+    "english": "Why should I apologize to you?"
+  },
+  {
+    "id": "9329263",
+    "japanese": "どうして私が謝らなきゃいけないの？",
+    "english": "Why should I apologize to you?"
+  },
+  {
+    "id": "201574",
+    "japanese": "どうしてあなたはそう考えたのですか。",
+    "english": "What made you think so?"
+  },
+  {
+    "id": "201576",
+    "japanese": "どうしてあなたって素直じゃないの？",
+    "english": "Why can't you take things just as they are?"
+  },
+  {
+    "id": "201577",
+    "japanese": "どうして、英語ができないと生き残れないなんてあおるんだ？",
+    "english": "Why do they say you have to learn English to survive?"
+  },
+  {
+    "id": "201578",
+    "japanese": "どうして、もっと早く言ってくれなかったのですか。そうすれば対処できたのに。",
+    "english": "Why didn't you tell us about this earlier? We'd have been able to do something about it."
+  },
+  {
+    "id": "201579",
+    "japanese": "どうして、こんなに暑いのですか。",
+    "english": "Why is it so hot?"
+  },
+  {
+    "id": "10906650",
+    "japanese": "なんでこんなに暑いんだよ。",
+    "english": "Why is it so hot?"
+  },
+  {
+    "id": "201580",
+    "japanese": "どうして、パーティーに来なかったのですか。",
+    "english": "How come you didn't come to the party?"
+  },
+  {
+    "id": "10008555",
+    "japanese": "何でパーティーに来なかったんだよ。",
+    "english": "How come you didn't come to the party?"
+  },
+  {
+    "id": "201581",
+    "japanese": "どうしたんだい。車のスピードが落ちているよ。",
+    "english": "What happened? The car's slowing down."
+  },
+  {
+    "id": "201582",
+    "japanese": "どうしたんだい、マイク。",
+    "english": "What's up, Mike?"
+  },
+  {
+    "id": "201583",
+    "japanese": "どうしたわけで彼は姉妹との仲がまずくなったのか。",
+    "english": "What has estranged him from his sister?"
+  },
+  {
+    "id": "201584",
+    "japanese": "どうしたら不眠症を治せるのか教えてください。",
+    "english": "Tell me how to beat sleeplessness."
+  },
+  {
+    "id": "201585",
+    "japanese": "どうしたら彼と連絡が取れるか教えてください。",
+    "english": "Please tell me how I can get in touch with him."
+  },
+  {
+    "id": "201586",
+    "japanese": "どうしたら彼が常に注目を集められるか分かりません。",
+    "english": "I don't know how to satisfy his need for constant attention."
+  },
+  {
+    "id": "201588",
+    "japanese": "どうしたらお金持ちになれるのかしら？",
+    "english": "How can I become rich?"
+  },
+  {
+    "id": "201589",
+    "japanese": "どうしたら英国商品が買えますか。",
+    "english": "How can we buy British goods?"
+  },
+  {
+    "id": "201590",
+    "japanese": "どうしたらよいのか分からなかったので、私は先生の助言を求めた。",
+    "english": "As I was at a loss what to do, I asked my teacher for advice."
+  },
+  {
+    "id": "201591",
+    "japanese": "どうしたらよいか途方に暮れてしまった。",
+    "english": "I was almost at my wits' end about how to act."
+  },
+  {
+    "id": "201593",
+    "japanese": "どうしたらエンジンがかかりますか。",
+    "english": "How can I start the engine?"
+  },
+  {
+    "id": "201596",
+    "japanese": "どうしたらいいか分からなかったので、彼女は黙っていた。",
+    "english": "Not knowing what to do, she remained silent."
+  },
+  {
+    "id": "201598",
+    "japanese": "どうしたら、ここから動物園に到着できますか。",
+    "english": "How can I get to the zoo from here?"
+  },
+  {
+    "id": "201600",
+    "japanese": "どうしたのですかと彼は私にいった。",
+    "english": "He asked me what was the matter with me."
+  },
+  {
+    "id": "201601",
+    "japanese": "どうしたんですか。顔色が悪いですよ。",
+    "english": "What's the matter with you? You look pale."
+  },
+  {
+    "id": "10008713",
+    "japanese": "どうかなさいましたか？何かできることはありますか？",
+    "english": "What's the trouble? Can I be of any help?"
+  },
+  {
+    "id": "201603",
+    "japanese": "どうしたの？お父さん、そんなしかめっ面して。",
+    "english": "What's the matter, dad? Why are you grimacing like that?"
+  },
+  {
+    "id": "201604",
+    "japanese": "どうしたの、ベルボトムなんかはいて。",
+    "english": "Have you lost your marbles, wearing those bell-bottoms?"
+  },
+  {
+    "id": "10017840",
+    "japanese": "ベルボトムなんか履いて、気は確かなの？",
+    "english": "Have you lost your marbles, wearing those bell-bottoms?"
+  },
+  {
+    "id": "201605",
+    "japanese": "どうか立ったままでいて下さい。",
+    "english": "Please remain standing."
+  },
+  {
+    "id": "9453373",
+    "japanese": "立ったままでお願いします。",
+    "english": "Please remain standing."
+  },
+  {
+    "id": "80506",
+    "japanese": "明日の朝6時に起こしてください。",
+    "english": "Please wake me up at six tomorrow morning."
+  },
+  {
+    "id": "80538",
+    "japanese": "明日の朝６時に起こして下さい。",
+    "english": "Please wake me up at six tomorrow morning."
+  },
+  {
+    "id": "201606",
+    "japanese": "どうか明朝６時に起こして下さい。",
+    "english": "Please wake me up at six tomorrow morning."
+  },
+  {
+    "id": "235054",
+    "japanese": "６時に起こして下さい。",
+    "english": "Please wake me up at six tomorrow morning."
+  },
+  {
+    "id": "939514",
+    "japanese": "明日の朝、６時に起こしてね。",
+    "english": "Please wake me up at six tomorrow morning."
+  },
+  {
+    "id": "201607",
+    "japanese": "どうか明かりをつけて下さい。",
+    "english": "Turn on the light, please."
+  },
+  {
+    "id": "2858288",
+    "japanese": "電気をつけてください。",
+    "english": "Turn on the light, please."
+  },
+  {
+    "id": "201608",
+    "japanese": "どうか埋め合わせをさせてください。",
+    "english": "Please let me make it up to you."
+  },
+  {
+    "id": "148548",
+    "japanese": "手紙を忘れずにポストに入れてください。",
+    "english": "Please remember to mail the letter."
+  },
+  {
+    "id": "9051903",
+    "japanese": "忘れずに手紙を出しておいてくださいね。",
+    "english": "Please remember to mail the letter."
+  },
+  {
+    "id": "182164",
+    "japanese": "許して下さい。",
+    "english": "Please forgive me."
+  },
+  {
+    "id": "201609",
+    "japanese": "どうか僕を許して下さい。",
+    "english": "Please forgive me."
+  },
+  {
+    "id": "201645",
+    "japanese": "どうか許して下さい。",
+    "english": "Please forgive me."
+  },
+  {
+    "id": "13117666",
+    "japanese": "申し訳ありません。",
+    "english": "Please forgive me."
+  },
+  {
+    "id": "84903",
+    "japanese": "普段着でおいでください。",
+    "english": "Please come in an ordinary dress."
+  },
+  {
+    "id": "201611",
+    "japanese": "どうか平服でおいで下さい。",
+    "english": "Please come in an ordinary dress."
+  },
+  {
+    "id": "9474658",
+    "japanese": "平服でお越しください。",
+    "english": "Please come in an ordinary dress."
+  },
+  {
+    "id": "201614",
+    "japanese": "どうか発音で誤りがあったら直してください。",
+    "english": "Please correct my pronunciation."
+  },
+  {
+    "id": "201613",
+    "japanese": "どうか彼に会いに行ってください。",
+    "english": "I entreat you to go and see him."
+  },
+  {
+    "id": "201616",
+    "japanese": "どうか道を教えておくれ。",
+    "english": "Let me know the way."
+  },
+  {
+    "id": "201615",
+    "japanese": "どうか内緒にして下さい。",
+    "english": "Keep it secret, please."
+  },
+  {
+    "id": "201617",
+    "japanese": "どうか電話でその結果をお知らせ下さい。",
+    "english": "Please let me know the result by telephone."
+  },
+  {
+    "id": "201619",
+    "japanese": "どうか中に入れて下さい。",
+    "english": "Please let me in."
+  },
+  {
+    "id": "140357",
+    "japanese": "窓を開けてくれますか。",
+    "english": "Open the window, please."
+  },
+  {
+    "id": "201620",
+    "japanese": "どうか窓を開けてください。",
+    "english": "Open the window, please."
+  },
+  {
+    "id": "201621",
+    "japanese": "どうか早く元のようにすっかりお元気になってください。",
+    "english": "I hope you will be quite well again before long."
+  },
+  {
+    "id": "201622",
+    "japanese": "どうか先に進んで道をふさがないで下さい。",
+    "english": "Pass on, please, and do not obstruct the way."
+  },
+  {
+    "id": "143711",
+    "japanese": "水を一杯持ってきてください。",
+    "english": "Bring me a glass of water, please."
+  },
+  {
+    "id": "201624",
+    "japanese": "手紙を出すのを忘れないでくださいね。",
+    "english": "Please don't forget to post the letter."
+  },
+  {
+    "id": "201626",
+    "japanese": "どうか写真を撮らせてください。",
+    "english": "Please let me take your picture."
+  },
+  {
+    "id": "201689",
+    "japanese": "どうかあなたの写真を撮らせてください。",
+    "english": "Please let me take your picture."
+  },
+  {
+    "id": "201627",
+    "japanese": "どうか紙を１枚持ってきてください。",
+    "english": "Bring me a sheet of paper, please."
+  },
+  {
+    "id": "201628",
+    "japanese": "どうか私を一人にしないでください。",
+    "english": "Anyhow, don't make me one."
+  },
+  {
+    "id": "201629",
+    "japanese": "どうか私の新しい本を読んで批評してください。",
+    "english": "Please read and criticize my new book."
+  },
+  {
+    "id": "10181586",
+    "japanese": "宿題手伝ってくれよ、お願いだよ。",
+    "english": "Help me with my homework, please."
+  },
+  {
+    "id": "201631",
+    "japanese": "どうか私のこの痛みを取り除いて下さい。",
+    "english": "Please rid me of this pain."
+  },
+  {
+    "id": "201632",
+    "japanese": "どうか私のことをお許しください。",
+    "english": "I beg you forgive me."
+  },
+  {
+    "id": "201633",
+    "japanese": "どうか私のオーバーを捜して下さい。",
+    "english": "Please find me my overcoat."
+  },
+  {
+    "id": "201634",
+    "japanese": "どうか私に微笑みかけておくれ。",
+    "english": "Smile at me, please."
+  },
+  {
+    "id": "201636",
+    "japanese": "どうか私に時間を教えてくれませんか。",
+    "english": "Can you tell me the time, please?"
+  },
+  {
+    "id": "201637",
+    "japanese": "どうか私に気を使わないで下さい。",
+    "english": "Please don't bother about me."
+  },
+  {
+    "id": "201638",
+    "japanese": "どうか私にパンを一切れください。",
+    "english": "Please give me a piece of bread."
+  },
+  {
+    "id": "201639",
+    "japanese": "どうか私にバードウォッチングの話をしてくれませんか。",
+    "english": "Would you please tell me the story about bird watching?"
+  },
+  {
+    "id": "201640",
+    "japanese": "どうか私にかまわないでください。",
+    "english": "Please don't mind me."
+  },
+  {
+    "id": "201641",
+    "japanese": "どうか私がその手紙を投函することを忘れないように注意して下さい。",
+    "english": "Please remind me to post the letter."
+  },
+  {
+    "id": "201642",
+    "japanese": "どうか戸を閉めてください。",
+    "english": "Shut the door, please."
+  },
+  {
+    "id": "201644",
+    "japanese": "どうか君の詳しい計画を見せて下さい。",
+    "english": "Please show me your detailed plan."
+  },
+  {
+    "id": "201647",
+    "japanese": "どうか楽しい旅行を。",
+    "english": "I hope you enjoy your flight."
+  },
+  {
+    "id": "201648",
+    "japanese": "どうか下がってください。",
+    "english": "Please step back."
+  },
+  {
+    "id": "201649",
+    "japanese": "どうか悪く思わないでください。",
+    "english": "Please don't have any hard feelings."
+  },
+  {
+    "id": "201650",
+    "japanese": "私を彼女に紹介してください。",
+    "english": "Please introduce me to her."
+  },
+  {
+    "id": "201651",
+    "japanese": "とうがらしで舌がひりひりした。",
+    "english": "The chili burnt my tongue."
+  },
+  {
+    "id": "201652",
+    "japanese": "どうかよく聞いてください。",
+    "english": "I beg of you to listen carefully."
+  },
+  {
+    "id": "201654",
+    "japanese": "どうかもう一度私にその話をしてください。",
+    "english": "Please tell me the story once more."
+  },
+  {
+    "id": "10778202",
+    "japanese": "もう一度お話を聞かせてください。",
+    "english": "Please tell me the story once more."
+  },
+  {
+    "id": "9687097",
+    "japanese": "もう一度チャンスをください。",
+    "english": "Please give me another chance."
+  },
+  {
+    "id": "201656",
+    "japanese": "どうかひらにご容赦ください。",
+    "english": "Please accept my humble apologies."
+  },
+  {
+    "id": "201657",
+    "japanese": "どうかドアを閉めてくれませんか。",
+    "english": "Will you please shut the door?"
+  },
+  {
+    "id": "1249711",
+    "japanese": "ドアを閉めてもらえませんか。",
+    "english": "Will you please shut the door?"
+  },
+  {
+    "id": "201659",
+    "japanese": "どうかテレビを点けて下さい。",
+    "english": "Please turn the television on."
+  },
+  {
+    "id": "164158",
+    "japanese": "私のためにどうか戸を開けてくださいませんか。",
+    "english": "Would you be so kind as to open the door for me?"
+  },
+  {
+    "id": "201658",
+    "japanese": "どうかドアを開けていただけませんでしょうか。",
+    "english": "Would you be so kind as to open the door for me?"
+  },
+  {
+    "id": "201660",
+    "japanese": "どうかテレビの音を小さくしてくれませんか。",
+    "english": "Would you please turn down the TV?"
+  },
+  {
+    "id": "201661",
+    "japanese": "どうかできるだけ早く来てください。",
+    "english": "Please come as soon as possible."
+  },
+  {
+    "id": "10571234",
+    "japanese": "できるだけ早くお越しください。",
+    "english": "Please come as soon as possible."
+  },
+  {
+    "id": "201663",
+    "japanese": "どうかたばこはご遠慮ください。",
+    "english": "Kindly refrain from smoking."
+  },
+  {
+    "id": "203434",
+    "japanese": "たばこは、おつつしみください。",
+    "english": "Kindly refrain from smoking."
+  },
+  {
+    "id": "201664",
+    "japanese": "どうかそんなに悲しまずに元気を出してください。",
+    "english": "Please don't be so sad. Cheer up!"
+  },
+  {
+    "id": "201665",
+    "japanese": "どうかそんなに騒がないで下さい。",
+    "english": "Don't be so noisy, please."
+  },
+  {
+    "id": "201666",
+    "japanese": "もっと簡単な言葉で説明してくださいませんか。",
+    "english": "Will you please put that in simpler words?"
+  },
+  {
+    "id": "201668",
+    "japanese": "どうかその本を貸してくれませんか。",
+    "english": "Could you lend me the book?"
+  },
+  {
+    "id": "9051915",
+    "japanese": "その本を貸していただけませんか？",
+    "english": "Could you lend me the book?"
+  },
+  {
+    "id": "201667",
+    "japanese": "どうかそれが真実であってくれればよいのだが。",
+    "english": "Would to God that it were true!"
+  },
+  {
+    "id": "201670",
+    "japanese": "どうかそこで起こっていることをいつも私に知らせてください。",
+    "english": "Please keep me informed of what is happening there."
+  },
+  {
+    "id": "201671",
+    "japanese": "どうかすきやきの料理のしかたを教えて下さい。",
+    "english": "Please tell me how to cook sukiyaki."
+  },
+  {
+    "id": "10608926",
+    "japanese": "すき焼きの作り方を教えてください。",
+    "english": "Please tell me how to cook sukiyaki."
+  },
+  {
+    "id": "201672",
+    "japanese": "どうかしましたか。顔色が悪いですよ。",
+    "english": "What's the matter? You look pale."
+  },
+  {
+    "id": "201673",
+    "japanese": "どうかしばらく私を一人にさせて。",
+    "english": "Please don't interrupt me for a while."
+  },
+  {
+    "id": "201675",
+    "japanese": "どうかしたのと彼女は詰問した。",
+    "english": "\"What's the matter with you?\" she demanded."
+  },
+  {
+    "id": "174237",
+    "japanese": "御両親によろしくお伝え下さい。",
+    "english": "Please remember me to your parents."
+  },
+  {
+    "id": "201678",
+    "japanese": "どうかご家族によろしくお伝えください。",
+    "english": "I hope you will give my best regards to your family."
+  },
+  {
+    "id": "201679",
+    "japanese": "どうかこの情報は秘密にしてください。",
+    "english": "Please keep this information to yourself."
+  },
+  {
+    "id": "9034249",
+    "japanese": "この情報は内密にお願いします。",
+    "english": "Please keep this information to yourself."
+  },
+  {
+    "id": "201680",
+    "japanese": "どうかこの書類に目を通してくださいませんか。",
+    "english": "Would you please have a look at this document?"
+  },
+  {
+    "id": "217872",
+    "japanese": "こちらの書類に目を通していただきたいのですが。",
+    "english": "Would you please have a look at this document?"
+  },
+  {
+    "id": "201681",
+    "japanese": "どうかこの手紙を忘れずに投函してください。",
+    "english": "Please remember to post this letter."
+  },
+  {
+    "id": "201682",
+    "japanese": "どうかきっぱりと決心してください。",
+    "english": "Please make up your mind once and for all."
+  },
+  {
+    "id": "201685",
+    "japanese": "どうかお願いがあるのですが。",
+    "english": "Would you please do me a favor?"
+  },
+  {
+    "id": "201686",
+    "japanese": "どうかあのような悪人から私を守ってください。",
+    "english": "Please defend me from such bad men."
+  },
+  {
+    "id": "201687",
+    "japanese": "どうかあなたの問題について私に話して下さい。",
+    "english": "Please tell me about your problem."
+  },
+  {
+    "id": "201688",
+    "japanese": "どうかあなたの写真を送ってください。",
+    "english": "Please send me a picture of yourself."
+  },
+  {
+    "id": "201690",
+    "japanese": "どうかあなたの実体験のことを書いて下さい。",
+    "english": "Please write about your real experience."
+  },
+  {
+    "id": "10570187",
+    "japanese": "実体験をお書きください。",
+    "english": "Please write about your real experience."
+  },
+  {
+    "id": "11563309",
+    "japanese": "体験談を書いてください。",
+    "english": "Please write about your real experience."
+  },
+  {
+    "id": "217200",
+    "japanese": "ご家族によろしくお伝え下さい。",
+    "english": "Please say hello to your family."
+  },
+  {
+    "id": "152152",
+    "japanese": "私を一人にしておいてください。",
+    "english": "Please leave me alone."
+  },
+  {
+    "id": "201694",
+    "japanese": "どうか、私をほっておいてください。",
+    "english": "Please leave me alone."
+  },
+  {
+    "id": "9345721",
+    "japanese": "お願いだから独りにして。",
+    "english": "Please leave me alone."
+  },
+  {
+    "id": "9958290",
+    "japanese": "一人にしてください。",
+    "english": "Please leave me alone."
+  },
+  {
+    "id": "201693",
+    "japanese": "どうか、明日の朝７時に私を起こすのを忘れずに。",
+    "english": "Please remember to wake me up at seven tomorrow morning."
+  },
+  {
+    "id": "10500661",
+    "japanese": "明日の朝７時に私を起こすの、忘れないでくださいね。",
+    "english": "Please remember to wake me up at seven tomorrow morning."
+  },
+  {
+    "id": "201695",
+    "japanese": "どうか、ぜひお入りになってください。",
+    "english": "Do come in, please."
+  },
+  {
+    "id": "201696",
+    "japanese": "どういっても七時までにいかないと。",
+    "english": "However we go, we must get there by seven."
+  },
+  {
+    "id": "156264",
+    "japanese": "私は自分の気持ちをどう表してよいか途方に暮れた。",
+    "english": "I was at a loss for words."
+  },
+  {
+    "id": "157242",
+    "japanese": "私は言葉に困った。",
+    "english": "I was at a loss for words."
+  },
+  {
+    "id": "170999",
+    "japanese": "困り果てて言葉につまった。",
+    "english": "I was at a loss for words."
+  },
+  {
+    "id": "10045029",
+    "japanese": "言葉を失った。",
+    "english": "I was at a loss for words."
+  },
+  {
+    "id": "201697",
+    "japanese": "どういったらよいか分からなかったので、彼は黙っていた。",
+    "english": "As he didn't know what to say, he remained silent."
+  },
+  {
+    "id": "201699",
+    "japanese": "どういう理由で泣いたの？",
+    "english": "For what reason did you cry?"
+  },
+  {
+    "id": "201701",
+    "japanese": "どういう所を見学したいですか。",
+    "english": "What kind of places would you like to see?"
+  },
+  {
+    "id": "201702",
+    "japanese": "どういう処置を取るかはあなたに任せます。",
+    "english": "I leave it in your hands what course of action to take."
+  },
+  {
+    "id": "201703",
+    "japanese": "どういう種類の人たちが君は一番好きですか。",
+    "english": "What kind of people do you like best?"
+  },
+  {
+    "id": "201704",
+    "japanese": "どういう始まりであったにせよバレンタインデーには長いロマンチックな歴史がある。",
+    "english": "Whatever the origin is, Valentine's Day has had a long and romantic history."
+  },
+  {
+    "id": "201706",
+    "japanese": "どういうわけであんな嘘をついたのですか。",
+    "english": "What is the reason for that lie?"
+  },
+  {
+    "id": "201707",
+    "japanese": "どういうわけかメールにアクセスできませんでした。",
+    "english": "For some reason I couldn't access my e-mail."
+  },
+  {
+    "id": "201708",
+    "japanese": "どういうわけかあの子が好きになった。",
+    "english": "Somehow I have taken a fancy to that girl."
+  },
+  {
+    "id": "201709",
+    "japanese": "どういうわけか、彼女は僕にひどく怒っていた。",
+    "english": "She was somehow incensed against me."
+  },
+  {
+    "id": "201710",
+    "japanese": "どういうふうに動くか見せてください。",
+    "english": "Show me how it works."
+  },
+  {
+    "id": "201711",
+    "japanese": "どういう風にしてそこへ行くか説明して下さい。",
+    "english": "Please explain how to get there."
+  },
+  {
+    "id": "9203473",
+    "japanese": "そこへの行き方を説明してください。",
+    "english": "Please explain how to get there."
+  },
+  {
+    "id": "201712",
+    "japanese": "どういうはずみでここに来たのか自分でもわからない。",
+    "english": "I don't know what motivated me to come here."
+  },
+  {
+    "id": "187971",
+    "japanese": "何が言いたいの？",
+    "english": "What are you implying?"
+  },
+  {
+    "id": "1158314",
+    "japanese": "何が言いたいのですか？",
+    "english": "What are you implying?"
+  },
+  {
+    "id": "201713",
+    "japanese": "どうあろうとも、私がまちがっております。",
+    "english": "However that may be, I am wrong."
+  },
+  {
+    "id": "201714",
+    "japanese": "どうあってもあなたをお助けできません。",
+    "english": "I cannot possibly help you."
+  },
+  {
+    "id": "175038",
+    "japanese": "元気ですか。",
+    "english": "How are you doing?"
+  },
+  {
+    "id": "201716",
+    "japanese": "どう？近ごろ。",
+    "english": "How are you doing?"
+  },
+  {
+    "id": "201718",
+    "japanese": "トイレを借りてもいいですか。",
+    "english": "Can I use your toilet, please?"
+  },
+  {
+    "id": "201720",
+    "japanese": "トイレをお借りできますか。",
+    "english": "Can I use your toilet, please?"
+  },
+  {
+    "id": "201719",
+    "japanese": "トイレを拝借できますか。",
+    "english": "May I use the toilet?"
+  },
+  {
+    "id": "170665",
+    "japanese": "最近は何か変わったことがあるかい？",
+    "english": "What's happening?"
+  },
+  {
+    "id": "201717",
+    "japanese": "どう、調子は？",
+    "english": "What's happening?"
+  },
+  {
+    "id": "10012755",
+    "japanese": "何が起こってんのよ。",
+    "english": "What's happening?"
+  },
+  {
+    "id": "201724",
+    "japanese": "トイレはどちらでしょうか。",
+    "english": "Where's the restroom?"
+  },
+  {
+    "id": "201723",
+    "japanese": "トイレは家の外の庭にありました。",
+    "english": "The toilet was outside, in the yard."
+  },
+  {
+    "id": "11091092",
+    "japanese": "トイレは外のお庭にありましたよ。",
+    "english": "The toilet was outside, in the yard."
+  },
+  {
+    "id": "201722",
+    "japanese": "トイレは上の階です。",
+    "english": "The toilet is upstairs."
+  },
+  {
+    "id": "76532",
+    "japanese": "トイレをお借りしていい？",
+    "english": "May I use your toilet?"
+  },
+  {
+    "id": "201721",
+    "japanese": "トイレをお借りしてもよろしいですか。",
+    "english": "May I use your toilet?"
+  },
+  {
+    "id": "201738",
+    "japanese": "トイレお借りできますか。",
+    "english": "May I use your toilet?"
+  },
+  {
+    "id": "4897863",
+    "japanese": "ちょっとトイレをお借りしてもよろしいですか。",
+    "english": "May I use your toilet?"
+  },
+  {
+    "id": "201727",
+    "japanese": "トイレはあちらにあります。",
+    "english": "The toilet is over there."
+  },
+  {
+    "id": "201729",
+    "japanese": "トイレの水を流すのを忘れないようにね。",
+    "english": "Don't forget to flush the toilet."
+  },
+  {
+    "id": "201730",
+    "japanese": "トイレの水が流れません。",
+    "english": "The toilet doesn't flush."
+  },
+  {
+    "id": "201731",
+    "japanese": "トイレの水が止まりません。",
+    "english": "The toilet won't stop running."
+  },
+  {
+    "id": "201733",
+    "japanese": "トイレで読書するのが私の習慣だ。",
+    "english": "It's my habit to read on the toilet."
+  },
+  {
+    "id": "201735",
+    "japanese": "トイレットペーパーの買い置きがある。",
+    "english": "We have a stock of toilet paper."
+  },
+  {
+    "id": "9466145",
+    "japanese": "この近くにトイレはありますか？",
+    "english": "Is there a toilet near here?"
+  },
+  {
+    "id": "201734",
+    "japanese": "トイレットペーパーがありません。",
+    "english": "There's no toilet paper."
+  },
+  {
+    "id": "201737",
+    "japanese": "トイレがうまく流れません。",
+    "english": "The toilet doesn't flush properly."
+  },
+  {
+    "id": "201739",
+    "japanese": "ドイルの研究で提出されている議論は、最初、麻薬に関連する犯罪に関する白書として出版されたものである。",
+    "english": "The argument presented in Doyle's study was first published as a white paper on drug-related crimes."
+  },
+  {
+    "id": "201740",
+    "japanese": "ドイツ人は質素な国民だ。",
+    "english": "Germans are a frugal people."
+  },
+  {
+    "id": "201741",
+    "japanese": "ドイツ語を話す機会はほとんどない。",
+    "english": "We have few opportunities to speak German."
+  },
+  {
+    "id": "201743",
+    "japanese": "ドイツ語は苦手だ。",
+    "english": "I am weak in German."
+  },
+  {
+    "id": "201742",
+    "japanese": "ドイツ語は話せません。",
+    "english": "I cannot speak German."
+  },
+  {
+    "id": "201744",
+    "japanese": "ドイツ語はやさしい言語ではありません。",
+    "english": "German is not an easy language."
+  },
+  {
+    "id": "201745",
+    "japanese": "ドイツ語の「ありがとう」の言い方を思い出せないんだ。",
+    "english": "I can't remember how to say \"Thank you\" in German."
+  },
+  {
+    "id": "201746",
+    "japanese": "ドイツ語がさっぱり分からない。",
+    "english": "I don't understand German at all."
+  },
+  {
+    "id": "2289270",
+    "japanese": "ドイツ語は全くわかりません。",
+    "english": "I don't understand German at all."
+  },
+  {
+    "id": "4212013",
+    "japanese": "私はドイツ語を全く理解できない。",
+    "english": "I don't understand German at all."
+  },
+  {
+    "id": "201747",
+    "japanese": "ドイツ軍は敗走した。",
+    "english": "The Germans took to flight."
+  },
+  {
+    "id": "201748",
+    "japanese": "ドイツは多くの科学者を生んだ。",
+    "english": "Germany has produced many scientists."
+  },
+  {
+    "id": "201750",
+    "japanese": "ドイツはフランスに隣接している。",
+    "english": "Germany borders on France."
+  },
+  {
+    "id": "201751",
+    "japanese": "ドイツはフランスと境を接している。",
+    "english": "Germany borders on France."
+  },
+  {
+    "id": "201752",
+    "japanese": "ドイツはかつてイタリアと同盟国であった。",
+    "english": "Germany was once allied with Italy."
+  },
+  {
+    "id": "201753",
+    "japanese": "ドイツはオランダと接している。",
+    "english": "Germany adjoins the Netherlands."
+  },
+  {
+    "id": "201754",
+    "japanese": "ドイツはイタリアと同盟を結んだ。",
+    "english": "Germany made an alliance with Italy."
+  },
+  {
+    "id": "201755",
+    "japanese": "ドイツは１８８０年代に社会保障制度を採用した。",
+    "english": "Germany adopted a social security system in the 1880's."
+  },
+  {
+    "id": "201757",
+    "japanese": "ドイツの人口は米国の半分以下である。",
+    "english": "The population of Germany is less than half that of the United States."
+  },
+  {
+    "id": "201758",
+    "japanese": "ドイツの首相は移民問題に悩まされています。",
+    "english": "The German Chancellor is plagued by immigration problems."
+  },
+  {
+    "id": "201759",
+    "japanese": "ドイツに滞在した１年間は非常に実りの多いものだった。",
+    "english": "Their stay in Germany for a year was very fruitful."
+  },
+  {
+    "id": "201760",
+    "japanese": "ドイツとイタリアは第二次世界大戦中、同盟国であった。",
+    "english": "Germany was allied with Italy in World War II."
+  },
+  {
+    "id": "201761",
+    "japanese": "ドイツでは今日、いくつかの都市で襲撃に反対する抗議行動が催されましたが、その都市の中には、月曜日の放火による襲撃でトルコ人３人が殺害されたハンブルク近くの都市も含まれています。",
+    "english": "In Germany today, anti-violence rallies took place in several cities, including one near Hamburg where three Turks were killed in an arson attack on Monday."
+  },
+  {
+    "id": "201762",
+    "japanese": "ドイツからいつ帰国しましたか。",
+    "english": "When did you come back from Germany?"
+  },
+  {
+    "id": "201763",
+    "japanese": "というわけで、人材を啓発するためのセンターが日本に作られるべきであろう。",
+    "english": "Therefore, a center for the development of human resources should be built in Japan."
+  },
+  {
+    "id": "201765",
+    "japanese": "というのも、僕は手引き書の指示に従わなかったし、そのレッスンを学習することもしなかったからである。",
+    "english": "Which was because I didn't follow the directions in the manual or learn their lessons."
+  },
+  {
+    "id": "201767",
+    "japanese": "というのは彼女が彼の能力を信頼していたからである。",
+    "english": "It was because she had faith in his capabilities."
+  },
+  {
+    "id": "201768",
+    "japanese": "というのは、律法はモーセによって、恵みとまことはイエス・キリストによって実現したからである。",
+    "english": "For the law was given through Moses; grace and truth came through Jesus Christ."
+  },
+  {
+    "id": "201769",
+    "japanese": "ということはつまり、たとえ彼らが各々２子しか持たないとしても人口は急増し続けるだろう。",
+    "english": "That means that even if they only have two children each, the population will continue to grow rapidly."
+  },
+  {
+    "id": "201770",
+    "japanese": "ドア係に切符を見せて、劇場の中に入っていきました。",
+    "english": "I showed my ticket to the doorman and went into the theatre."
+  },
+  {
+    "id": "201771",
+    "japanese": "ドアを閉めるのを忘れないでください。",
+    "english": "Please don't forget to shut the door."
+  },
+  {
+    "id": "201772",
+    "japanese": "ドアを閉めましょうか。",
+    "english": "Shall I close the door?"
+  },
+  {
+    "id": "201795",
+    "japanese": "ドアを開けてはいけません。",
+    "english": "Don't open the door."
+  },
+  {
+    "id": "1471014",
+    "japanese": "ドアを開けないで。",
+    "english": "Don't open the door."
+  },
+  {
+    "id": "201776",
+    "japanese": "ドアを閉めてくれませんか。",
+    "english": "Would you mind closing the door?"
+  },
+  {
+    "id": "9517471",
+    "japanese": "ドアを閉めてもらえないでしょうか？",
+    "english": "Would you mind closing the door?"
+  },
+  {
+    "id": "201777",
+    "japanese": "ドアを閉めてくださいませんか。",
+    "english": "Would you mind shutting the door?"
+  },
+  {
+    "id": "201781",
+    "japanese": "ドアを閉めていただけませんか。",
+    "english": "Would you mind shutting the door?"
+  },
+  {
+    "id": "201778",
+    "japanese": "ドアを閉めてから、鍵を置いてきたことに気がついた。",
+    "english": "After I shut the door, I remembered I had left my key behind."
+  },
+  {
+    "id": "201779",
+    "japanese": "ドアを閉めておきなさいよ。",
+    "english": "Keep the door closed."
+  },
+  {
+    "id": "201831",
+    "japanese": "ドアは閉めておきなさい。",
+    "english": "Keep the door closed."
+  },
+  {
+    "id": "174533",
+    "japanese": "戸を閉めろ。",
+    "english": "Shut the door."
+  },
+  {
+    "id": "201780",
+    "japanese": "ドアを閉めて。",
+    "english": "Shut the door."
+  },
+  {
+    "id": "1509094",
+    "japanese": "ドアを閉めて！",
+    "english": "Shut the door."
+  },
+  {
+    "id": "4804656",
+    "japanese": "ドア閉めて。",
+    "english": "Shut the door."
+  },
+  {
+    "id": "201782",
+    "japanese": "ドアを閉じるとすぐに誰かがノックし始めた。",
+    "english": "I had no sooner closed the door than somebody started knocking on it."
+  },
+  {
+    "id": "111756",
+    "japanese": "彼はドアを青に塗った。",
+    "english": "He painted the door blue."
+  },
+  {
+    "id": "201784",
+    "japanese": "彼はドアを青く塗った。",
+    "english": "He painted the door blue."
+  },
+  {
+    "id": "201783",
+    "japanese": "ドアを白く塗ってください。",
+    "english": "Please paint the door white."
+  },
+  {
+    "id": "174539",
+    "japanese": "戸を開けっ放しにするな。",
+    "english": "Don't leave the door open."
+  },
+  {
+    "id": "201786",
+    "japanese": "ドアを開け放しにしておくな。",
+    "english": "Don't leave the door open."
+  },
+  {
+    "id": "201799",
+    "japanese": "ドアを開けておかないで。",
+    "english": "Don't leave the door open."
+  },
+  {
+    "id": "201802",
+    "japanese": "ドアを開けっ放しにしてはいけません。",
+    "english": "Don't leave the door open."
+  },
+  {
+    "id": "201804",
+    "japanese": "ドアを開けっぱなしにするな。",
+    "english": "Don't leave the door open."
+  },
+  {
+    "id": "201805",
+    "japanese": "ドアを開けたままにしておくな。",
+    "english": "Don't leave the door open."
+  },
+  {
+    "id": "9034864",
+    "japanese": "ドアを開けっ放しにしないでちょうだい。",
+    "english": "Don't leave the door open."
+  },
+  {
+    "id": "11102689",
+    "japanese": "ドアは開けっ放しにしないように。",
+    "english": "Don't leave the door open."
+  },
+  {
+    "id": "201785",
+    "japanese": "ドアを後ろ手に閉めた。",
+    "english": "I shut the door behind me."
+  },
+  {
+    "id": "201787",
+    "japanese": "ドアを開ける際に、私は鍵を壊してしまった。",
+    "english": "In opening the door, I broke the lock."
+  },
+  {
+    "id": "201788",
+    "japanese": "ドアを開けると彼が寝ていた。",
+    "english": "When I opened the door, I found him asleep."
+  },
+  {
+    "id": "201789",
+    "japanese": "ドアを開けると２人の少年が並んで立っているのが見えた。",
+    "english": "I opened the door and saw two boys standing side by side."
+  },
+  {
+    "id": "3453252",
+    "japanese": "ドアを開けると、男の子が2人並んで立っていた。",
+    "english": "I opened the door and saw two boys standing side by side."
+  },
+  {
+    "id": "201790",
+    "japanese": "ドアを開けようとしたら、ドアの握りがとれた。",
+    "english": "I tried to open the door, and the doorknob came off."
+  },
+  {
+    "id": "201791",
+    "japanese": "ドアを開けなさい。",
+    "english": "Open the door."
+  },
+  {
+    "id": "201801",
+    "japanese": "ドアを開けて。",
+    "english": "Open the door."
+  },
+  {
+    "id": "1017188",
+    "japanese": "戸を開けて。",
+    "english": "Open the door."
+  },
+  {
+    "id": "10993184",
+    "japanese": "扉よ開け。",
+    "english": "Open the door."
+  },
+  {
+    "id": "201792",
+    "japanese": "ドアを開けて中に入れて下さい。",
+    "english": "Open the door and let me in, please."
+  },
+  {
+    "id": "201793",
+    "japanese": "ドアを開けてもよろしいですか。",
+    "english": "Would you mind my opening the door?"
+  },
+  {
+    "id": "201794",
+    "japanese": "ドアを開けてはならない。",
+    "english": "You must not open the door."
+  },
+  {
+    "id": "201796",
+    "japanese": "ドアを開けてくれませんか。",
+    "english": "Will you open the door?"
+  },
+  {
+    "id": "201824",
+    "japanese": "ドアをあけてくださいませんか。",
+    "english": "Will you open the door?"
+  },
+  {
+    "id": "210869",
+    "japanese": "その戸を開けてください。",
+    "english": "Please open the door."
+  },
+  {
+    "id": "201798",
+    "japanese": "ドアを開けておきなさい。",
+    "english": "Keep the door open."
+  },
+  {
+    "id": "201800",
+    "japanese": "ドアを開けていただけませんか。",
+    "english": "Would you please open the door?"
+  },
+  {
+    "id": "201806",
+    "japanese": "ドアを開けたままにしておくとは、あなたはなんて不注意なんだろう。",
+    "english": "It is very careless of you to leave the door open."
+  },
+  {
+    "id": "201807",
+    "japanese": "ドアを開けたままにしておいてくれませんか。",
+    "english": "Will you leave the door open?"
+  },
+  {
+    "id": "201808",
+    "japanese": "ドアを開けたままにしておいた。",
+    "english": "We left the door open."
+  },
+  {
+    "id": "136983",
+    "japanese": "誰がドアを開いたままにしておいたんだ？",
+    "english": "Who left the door open?"
+  },
+  {
+    "id": "136984",
+    "japanese": "誰がドアをあいたままにしておいたんだろう。",
+    "english": "Who left the door open?"
+  },
+  {
+    "id": "201809",
+    "japanese": "ドアを開けたままにしたのは誰だよ？",
+    "english": "Who left the door open?"
+  },
+  {
+    "id": "203206",
+    "japanese": "だれがドアを開けっ放しにしたのだ。",
+    "english": "Who left the door open?"
+  },
+  {
+    "id": "201810",
+    "japanese": "ドアを開けたとたんに、彼は焦げ臭い匂いを嗅いだ。",
+    "english": "The instant he opened the door, he smelt something burning."
+  },
+  {
+    "id": "201811",
+    "japanese": "ドアを開けたとき、そこには見知らぬ人が立っていた。",
+    "english": "Opening the door, I found a stranger standing there."
+  },
+  {
+    "id": "201812",
+    "japanese": "ドアをロックして。",
+    "english": "Lock the door."
+  },
+  {
+    "id": "3496838",
+    "japanese": "ドアに鍵をかけて。",
+    "english": "Lock the door."
+  },
+  {
+    "id": "201813",
+    "japanese": "ドアを押し開けられますか。",
+    "english": "Can you push the door open?"
+  },
+  {
+    "id": "201814",
+    "japanese": "ドアをバタンと閉めるな。",
+    "english": "Don't shut the door with a bang."
+  },
+  {
+    "id": "201816",
+    "japanese": "ドアをノックしなさい。",
+    "english": "Knock on the door."
+  },
+  {
+    "id": "201815",
+    "japanese": "ドアをバタンと閉めないで。",
+    "english": "Don't slam the door."
+  },
+  {
+    "id": "11875827",
+    "japanese": "ドアをバタンと閉めるのはよせ。",
+    "english": "Don't slam the door."
+  },
+  {
+    "id": "201817",
+    "japanese": "ドアをノックしてみたが誰もいなかった。",
+    "english": "I knocked on the door, but nobody answered."
+  },
+  {
+    "id": "10614353",
+    "japanese": "ドアをノックしたが、応答はなかった。",
+    "english": "I knocked on the door, but nobody answered."
+  },
+  {
+    "id": "201819",
+    "japanese": "ドアをそのままにしておいてはいけません。",
+    "english": "The door must not be left open."
+  },
+  {
+    "id": "201818",
+    "japanese": "ドアをたたくのはやめろ。",
+    "english": "Stop beating on the door!"
+  },
+  {
+    "id": "201821",
+    "japanese": "ドアをお閉めくださいね。",
+    "english": "Shut the door, will you?"
+  },
+  {
+    "id": "201820",
+    "japanese": "ドアをこじ開けた。",
+    "english": "The door was broken open."
+  },
+  {
+    "id": "201822",
+    "japanese": "ドアをあけると、彼女が眠っていました。",
+    "english": "Opening the door, I found her sleeping."
+  },
+  {
+    "id": "201823",
+    "japanese": "ドアを開けたままにしないでいただけますか。",
+    "english": "Would you please not leave the door open?"
+  },
+  {
+    "id": "201826",
+    "japanese": "ドアまでゆっくり歩きなさい。",
+    "english": "Walk slowly to the door."
+  },
+  {
+    "id": "201827",
+    "japanese": "ドアボーイが私を劇場に入れてくれなかった。",
+    "english": "The doorman did not permit me to enter the theater."
+  },
+  {
+    "id": "212921",
+    "japanese": "そのドアマンは、私が劇場に入るのを許可してくれなかった。",
+    "english": "The doorman did not permit me to enter the theater."
+  },
+  {
+    "id": "201848",
+    "japanese": "ドアは９時にロックされます。",
+    "english": "The door is locked at nine o'clock."
+  },
+  {
+    "id": "201829",
+    "japanese": "ドアは毎晩九時にロックされています。",
+    "english": "The door is locked at nine every night."
+  },
+  {
+    "id": "201830",
+    "japanese": "ドアは毎朝開けられます。",
+    "english": "The door is opened every morning."
+  },
+  {
+    "id": "174541",
+    "japanese": "戸は閉まったままだった。",
+    "english": "The door remained closed."
+  },
+  {
+    "id": "201832",
+    "japanese": "ドアは閉じられたままだった。",
+    "english": "The door remained closed."
+  },
+  {
+    "id": "201833",
+    "japanese": "ドアは彼女の前で閉じられたままだった。",
+    "english": "The door remained closed before her."
+  },
+  {
+    "id": "201834",
+    "japanese": "ドアは内側から鍵がかかっていたので、私たちは開けることができなかった。",
+    "english": "We couldn't open the door because it was locked from within."
+  },
+  {
+    "id": "201835",
+    "japanese": "ドアは内側から鍵がかかったままだったので、彼はその家に入れなかった。",
+    "english": "The door remaining locked up from inside, he could not enter the house."
+  },
+  {
+    "id": "201836",
+    "japanese": "ドアは少し開いていた。",
+    "english": "The door was left ajar."
+  },
+  {
+    "id": "201838",
+    "japanese": "ドアは思ったほど悪くはないぞ。",
+    "english": "Doors ain't as bad as you think."
+  },
+  {
+    "id": "201839",
+    "japanese": "ドアは外に出ると自動的に閉まります。",
+    "english": "The door will lock automatically when you go out."
+  },
+  {
+    "id": "201841",
+    "japanese": "ドアは開けられなかった。",
+    "english": "The door could not be opened."
+  },
+  {
+    "id": "201840",
+    "japanese": "ドアは開けるか閉めるかしなければならない。",
+    "english": "A door must be either shut or open."
+  },
+  {
+    "id": "201842",
+    "japanese": "ドアは押されて開いた。",
+    "english": "The door pushed open."
+  },
+  {
+    "id": "201843",
+    "japanese": "ドアは一日中閉まりっぱなしだった。",
+    "english": "The door remained closed all day."
+  },
+  {
+    "id": "212929",
+    "japanese": "そのドアは１日中閉められたままだった。",
+    "english": "The door remained closed all day."
+  },
+  {
+    "id": "12946576",
+    "japanese": "ドアは終日閉まったままだった。",
+    "english": "The door remained closed all day."
+  },
+  {
+    "id": "201844",
+    "japanese": "ドアはどうしても開かなかった。",
+    "english": "The door would not open."
+  },
+  {
+    "id": "210874",
+    "japanese": "その戸はどうしても開かなかった。",
+    "english": "The door would not open."
+  },
+  {
+    "id": "1771818",
+    "japanese": "ドアはどうしても開いてくれなかった。",
+    "english": "The door would not open."
+  },
+  {
+    "id": "201845",
+    "japanese": "ドアはどうしてもしまらない。",
+    "english": "The door won't close."
+  },
+  {
+    "id": "201846",
+    "japanese": "ドアはジムによって開けられます。",
+    "english": "The door is opened by Jim."
+  },
+  {
+    "id": "201847",
+    "japanese": "ドアはしっかり閉まっている。",
+    "english": "The door is shut fast."
+  },
+  {
+    "id": "201849",
+    "japanese": "ドアは１０時に閉めなさい。",
+    "english": "See to it that the door is locked at 10."
+  },
+  {
+    "id": "201850",
+    "japanese": "ドアは１０時に、閉めるようにしなさい。",
+    "english": "See to it that the door is locked at 10."
+  },
+  {
+    "id": "174543",
+    "japanese": "戸は内側から鍵がかけられていた。",
+    "english": "The door was locked from within."
+  },
+  {
+    "id": "201851",
+    "japanese": "ドアは内側から鍵がかかっていた。",
+    "english": "The door was locked from within."
+  },
+  {
+    "id": "201852",
+    "japanese": "ドアの側に犬がいます。",
+    "english": "There's a dog by the door."
+  },
+  {
+    "id": "201854",
+    "japanese": "ドアの所にいる人が誰であれ、待つようにいってください。",
+    "english": "Whoever is at the door, please ask him to wait."
+  },
+  {
+    "id": "201853",
+    "japanese": "ドアの前に立ちさえすればよい。ひとりでに開くから。",
+    "english": "You have only to stand in front of the door. It will open by itself."
+  },
+  {
+    "id": "201856",
+    "japanese": "ドアの取っ手をつかんだらはずれた。",
+    "english": "The handle came away from the door when I grasped it."
+  },
+  {
+    "id": "201855",
+    "japanese": "ドアの所にいる女の子はルーシーです。",
+    "english": "The girl at the door is Lucy."
+  },
+  {
+    "id": "201857",
+    "japanese": "ドアの近くに少年がいます。",
+    "english": "There is a boy near the door."
+  },
+  {
+    "id": "201861",
+    "japanese": "ドアのロックあけて。",
+    "english": "Unlock the door."
+  },
+  {
+    "id": "201860",
+    "japanese": "ドアの一番近くに座っている少年を知っています。",
+    "english": "I know the boy who is sitting closest to the door."
+  },
+  {
+    "id": "201859",
+    "japanese": "ドアの陰から男が現れた。",
+    "english": "A man appeared from behind the door."
+  },
+  {
+    "id": "201858",
+    "japanese": "ドアの陰から変な音が聞こえた。",
+    "english": "A strange sound was heard from behind the door."
+  },
+  {
+    "id": "201862",
+    "japanese": "ドアのパタンという音がきこえた。",
+    "english": "I could hear doors slamming."
+  },
+  {
+    "id": "201863",
+    "japanese": "ドアのところに立っている少女は誰ですか。",
+    "english": "Who is the girl standing at the door?"
+  },
+  {
+    "id": "174529",
+    "japanese": "戸口に男の人がいる。",
+    "english": "There is a man at the door."
+  },
+  {
+    "id": "201864",
+    "japanese": "ドアのところに人が立っている。",
+    "english": "There is a man at the door."
+  },
+  {
+    "id": "201865",
+    "japanese": "ドアのところに立っているあの男の子はだれですか。",
+    "english": "Who's that boy standing at the door?"
+  },
+  {
+    "id": "201866",
+    "japanese": "ドアのそばの立っている少年は私の弟です。",
+    "english": "The boy standing by the door is my brother."
+  },
+  {
+    "id": "201867",
+    "japanese": "ドアのそばのかぎに上着をかけなさい。",
+    "english": "Hang your jacket on the hook by the door."
+  },
+  {
+    "id": "201868",
+    "japanese": "ドアのそばに立っている人は有名な歌手です。",
+    "english": "The man standing by the door is a famous singer."
+  },
+  {
+    "id": "201869",
+    "japanese": "ドアのそばにある自転車は私のです。",
+    "english": "The bicycle by the door is mine."
+  },
+  {
+    "id": "9196530",
+    "japanese": "その扉のそばの自転車、私のよ。",
+    "english": "The bicycle by the door is mine."
+  },
+  {
+    "id": "201870",
+    "japanese": "ドアのカギをなくしたので家に入れない。",
+    "english": "I lost the door key, so I can't enter the house."
+  },
+  {
+    "id": "201871",
+    "japanese": "ドアには大きな金色の星がついていました。",
+    "english": "There was a big gold star on the door."
+  },
+  {
+    "id": "201872",
+    "japanese": "ドアに指をはさむなんて彼は何と不注意なんだ。",
+    "english": "How careless he was to pinch his fingers in the door!"
+  },
+  {
+    "id": "201873",
+    "japanese": "ドアに指をはさみました。",
+    "english": "I caught my finger in the door."
+  },
+  {
+    "id": "201874",
+    "japanese": "彼女はドアに鍵を掛けた。",
+    "english": "She locked the door."
+  },
+  {
+    "id": "201875",
+    "japanese": "ドアに鍵をかけ忘れるなんて不注意でした。",
+    "english": "It was careless of me to forget to lock the door."
+  },
+  {
+    "id": "10014456",
+    "japanese": "ドアに鍵をかけ忘れたのは、僕の不注意だったんだ。",
+    "english": "It was careless of me to forget to lock the door."
+  },
+  {
+    "id": "201877",
+    "japanese": "ドアに鍵をかけてくださいませんか。",
+    "english": "Would you please lock the door?"
+  },
+  {
+    "id": "9468425",
+    "japanese": "ドアに鍵をかけてもらえますか？",
+    "english": "Would you please lock the door?"
+  },
+  {
+    "id": "82581",
+    "japanese": "忘れずにドアの鍵をかけなさい。",
+    "english": "Remember to lock the door."
+  },
+  {
+    "id": "174523",
+    "japanese": "戸締まりを忘れるなよ。",
+    "english": "Remember to lock the door."
+  },
+  {
+    "id": "201876",
+    "japanese": "ドアに鍵をかけるのを忘れないように。",
+    "english": "Remember to lock the door."
+  },
+  {
+    "id": "201879",
+    "japanese": "ドアに鍵をかけたままにしておけ。",
+    "english": "Keep the door locked."
+  },
+  {
+    "id": "201880",
+    "japanese": "ドアに鍵をかけたままにしておきなさい。",
+    "english": "Keep the door locked."
+  },
+  {
+    "id": "10162237",
+    "japanese": "ドアの鍵はかけておくこと。",
+    "english": "Keep the door locked."
+  },
+  {
+    "id": "201878",
+    "japanese": "ドアに鍵をかけておかなかったなんて君は不注意だったよ。",
+    "english": "It was careless of you to leave the door unlocked."
+  },
+  {
+    "id": "201881",
+    "japanese": "ドアに鍵をかけずにおくとは不注意でしたね。",
+    "english": "It was careless of you to leave the door unlocked."
+  },
+  {
+    "id": "201882",
+    "japanese": "ドアに鍵が掛かっていたので、どうしても部屋に入れなかった。",
+    "english": "The door was locked, so I couldn't get into the room anyway."
+  },
+  {
+    "id": "201883",
+    "japanese": "ドアに鍵がかかっていることを確かめましたか。",
+    "english": "Have you made sure the door is locked?"
+  },
+  {
+    "id": "1144625",
+    "japanese": "ドアに鍵がかかっているのを確認しましたか。",
+    "english": "Have you made sure the door is locked?"
+  },
+  {
+    "id": "201884",
+    "japanese": "ドアを閉められるように、もう少し前に進んでもらえますか。",
+    "english": "Could you move forward so we can close the door?"
+  },
+  {
+    "id": "201885",
+    "japanese": "ドアには鍵がかかっていてどうしても入れなかった。",
+    "english": "The doors were locked and we couldn't get in anyhow."
+  },
+  {
+    "id": "201887",
+    "japanese": "ドアにかんぬきをし、錠をかけた。",
+    "english": "We barred the door and locked it."
+  },
+  {
+    "id": "201888",
+    "japanese": "ドアにいちばん近い駐車場所は重役専用です。",
+    "english": "The parking spaces nearest the door are reserved for executives."
+  },
+  {
+    "id": "201890",
+    "japanese": "ドアが閉まるのが聞こえた。",
+    "english": "I heard the door close."
+  },
+  {
+    "id": "201892",
+    "japanese": "ドアが閉まる音を聞いた。",
+    "english": "I heard the door close."
+  },
+  {
+    "id": "11645108",
+    "japanese": "ドアが閉まる音がした。",
+    "english": "I heard the door close."
+  },
+  {
+    "id": "201889",
+    "japanese": "ドアが枠に合わなければ合うまでドアにかんなをかけなければならない。",
+    "english": "If a door doesn't fit the casing, we must plane it carefully until it does."
+  },
+  {
+    "id": "201891",
+    "japanese": "ドアが閉まろうとしている。",
+    "english": "The door is closing."
+  },
+  {
+    "id": "201893",
+    "japanese": "ドアが閉まるようにすることができますか。",
+    "english": "Can you get the door to shut?"
+  },
+  {
+    "id": "201896",
+    "japanese": "ドアが閉まっていたので、入ることが出来なかった。",
+    "english": "The door was locked, so I couldn't get in."
+  },
+  {
+    "id": "201897",
+    "japanese": "ドアが風で閉まった。",
+    "english": "The door blew shut."
+  },
+  {
+    "id": "201898",
+    "japanese": "ドアが不意にバタンとしまったので驚いてしまった。",
+    "english": "When the door slammed unexpectedly, it startled me."
+  },
+  {
+    "id": "201899",
+    "japanese": "ドアが白く塗られているあの建物は何ですか。",
+    "english": "What is that building whose door is painted white?"
+  },
+  {
+    "id": "201900",
+    "japanese": "ドアが突然マイクによってあけられました。",
+    "english": "The door was suddenly opened by Mike."
+  },
+  {
+    "id": "175072",
+    "japanese": "鍵がかけられていて、中に入れなかった。",
+    "english": "The door was locked and we couldn't get in."
+  },
+  {
+    "id": "201901",
+    "japanese": "ドアが施錠されていて、私達は中へ入れなかった。",
+    "english": "The door was locked and we couldn't get in."
+  },
+  {
+    "id": "201902",
+    "japanese": "ドアが開くとすぐに、彼らは逃げ出しました。",
+    "english": "As soon as the door opened, they ran away."
+  },
+  {
+    "id": "201903",
+    "japanese": "ドアが開くと、戸口に彼女が立っていた。",
+    "english": "The door opened and there she was, standing in the doorway."
+  },
+  {
+    "id": "201906",
+    "japanese": "ドアが開いた時は、危うくプラットホームに倒れてしまうところだった。",
+    "english": "As the door slid open, he almost fell onto the platform."
+  },
+  {
+    "id": "201907",
+    "japanese": "ドアが開いた。",
+    "english": "The door opened."
+  },
+  {
+    "id": "201908",
+    "japanese": "ドアがゆっくりと開いた。",
+    "english": "The door opened slowly."
+  },
+  {
+    "id": "201910",
+    "japanese": "ドアがパッと勢い良くあいた。",
+    "english": "The door burst open."
+  },
+  {
+    "id": "174545",
+    "japanese": "戸はひとりでに開いた。",
+    "english": "The door opened automatically."
+  },
+  {
+    "id": "201909",
+    "japanese": "ドアがひとりでに開いた。",
+    "english": "The door opened automatically."
+  },
+  {
+    "id": "10755201",
+    "japanese": "ドアは自動的に開いた。",
+    "english": "The door opened automatically."
+  },
+  {
+    "id": "201911",
+    "japanese": "ドアがどうしても開かないんだ。",
+    "english": "The door won't open."
+  },
+  {
+    "id": "212928",
+    "japanese": "そのドアはどうしても開かない。",
+    "english": "The door won't open."
+  },
+  {
+    "id": "201912",
+    "japanese": "ドアがきちんと閉まらない時はドアを少し削らなければならない。",
+    "english": "If the door doesn't fit, you might have to shave off a bit of the wood until it closes properly."
+  },
+  {
+    "id": "201913",
+    "japanese": "ドアがカチリと音をたてて閉まった。",
+    "english": "The door clicked shut."
+  },
+  {
+    "id": "201914",
+    "japanese": "ドアがあいている。行って閉めてこよう。",
+    "english": "The door is open. I'll go and shut it."
+  },
+  {
+    "id": "10928591",
+    "japanese": "ドアが開いてるよ。閉めてくるね。",
+    "english": "The door is open. I'll go and shut it."
+  },
+  {
+    "id": "201915",
+    "japanese": "テントを組み立てるのに３０分かかった。",
+    "english": "It took us half an hour to set up the tent."
+  },
+  {
+    "id": "201916",
+    "japanese": "テントの中で明け方まで延々とおしゃべりをしました。",
+    "english": "In the tent we talked and talked."
+  },
+  {
+    "id": "9080962",
+    "japanese": "テントの中で私たち喋りまくったの。",
+    "english": "In the tent we talked and talked."
+  },
+  {
+    "id": "9080965",
+    "japanese": "私たちテントの中でずっと喋ってたの。",
+    "english": "In the tent we talked and talked."
+  },
+  {
+    "id": "201917",
+    "japanese": "テントの中ではなくて外で食べよう。",
+    "english": "Let's eat outside instead of in our tents."
+  },
+  {
+    "id": "201918",
+    "japanese": "てんで役にたたない。",
+    "english": "It's no use at all."
+  },
+  {
+    "id": "201920",
+    "japanese": "デンヴァーとモントリオールとどっちが好きですか。",
+    "english": "Which do you like better, Denver or Montreal?"
+  },
+  {
+    "id": "201921",
+    "japanese": "テロリストの爆弾によって、祭気分はいささか消沈した。",
+    "english": "The festive mood was slightly spoiled by terrorist bombs."
+  },
+  {
+    "id": "201922",
+    "japanese": "テロリストが手榴弾を投げる前に爆発してしまい、片腕を吹き飛ばされてしまった。",
+    "english": "The grenade blew up before the terrorist could throw it, and his arm was blown off!"
+  },
+  {
+    "id": "201923",
+    "japanese": "テレフォンカードはどこで手に入れることができますか。",
+    "english": "Where can I get a telephone card?"
+  },
+  {
+    "id": "201924",
+    "japanese": "テレビ番組の中にはおもしろいのもあれば、そうでないのもある。",
+    "english": "Some TV programs are interesting, and others are not."
+  },
+  {
+    "id": "201925",
+    "japanese": "テレビ番組が子供たちに悪い影響を与えている。",
+    "english": "TV programs have a bad influence on children."
+  },
+  {
+    "id": "201926",
+    "japanese": "テレビ電話はまもなく一般的に用いられるようになるだろう。",
+    "english": "The TV telephone will come into popular use soon."
+  },
+  {
+    "id": "201927",
+    "japanese": "テレビ中継された大阪での追跡劇の末、彼は逮捕された。",
+    "english": "He was arrested by police after a TV chase in Osaka."
+  },
+  {
+    "id": "201928",
+    "japanese": "テレビ消してもいい？",
+    "english": "Can I turn off the TV?"
+  },
+  {
+    "id": "201929",
+    "japanese": "テレビ広告を禁止しようとする動きがある。",
+    "english": "There are movements to try to ban TV advertising."
+  },
+  {
+    "id": "201930",
+    "japanese": "テレビ観戦者はカメラが捕らえるものしか見られない。",
+    "english": "Television viewers see only what the camera shows."
+  },
+  {
+    "id": "201932",
+    "japanese": "テレビを付けてもいいですか。",
+    "english": "May I turn on the TV?"
+  },
+  {
+    "id": "202016",
+    "japanese": "テレビのスイッチを入れて下さい。",
+    "english": "Please turn on the TV."
+  },
+  {
+    "id": "201933",
+    "japanese": "テレビを点けてもいいですか。",
+    "english": "May I turn on the television?"
+  },
+  {
+    "id": "202043",
+    "japanese": "テレビつけてもいい？",
+    "english": "May I turn on the television?"
+  },
+  {
+    "id": "201934",
+    "japanese": "テレビを製造している工場を訪問します。",
+    "english": "We'll visit a factory which produces television sets."
+  },
+  {
+    "id": "201935",
+    "japanese": "テレビを消しましょう。",
+    "english": "Oh, don't watch television."
+  },
+  {
+    "id": "201936",
+    "japanese": "テレビを消しなさい。",
+    "english": "Please turn off the TV."
+  },
+  {
+    "id": "201937",
+    "japanese": "テレビを消して下さい。",
+    "english": "Please turn off the TV."
+  },
+  {
+    "id": "201938",
+    "japanese": "テレビを消して。",
+    "english": "Turn off the TV."
+  },
+  {
+    "id": "201939",
+    "japanese": "テレビを修理に出さなければならないんだよ。",
+    "english": "I must get the television fixed."
+  },
+  {
+    "id": "201940",
+    "japanese": "テレビを修理してもらわないといけないな。",
+    "english": "The television set needs to be fixed."
+  },
+  {
+    "id": "201941",
+    "japanese": "テレビを修繕させたら、10000円とられた。",
+    "english": "It cost me ten thousand yen to have my television set repaired."
+  },
+  {
+    "id": "10758365",
+    "japanese": "テレビの修理に１万円もかかったよ。",
+    "english": "It cost me ten thousand yen to have my television set repaired."
+  },
+  {
+    "id": "201942",
+    "japanese": "テレビを左に動かしてください。",
+    "english": "Please move the TV set to the left."
+  },
+  {
+    "id": "201943",
+    "japanese": "テレビを見る前に宿題を終えなさい。",
+    "english": "You're to do your homework before you watch TV."
+  },
+  {
+    "id": "201944",
+    "japanese": "テレビを見る前に宿題をしなさい。",
+    "english": "Do your homework before you watch TV."
+  },
+  {
+    "id": "201945",
+    "japanese": "テレビを見るのを止めてもいい頃でしょう。",
+    "english": "It's time you stopped watching television."
+  },
+  {
+    "id": "10014594",
+    "japanese": "テレビを見る時間は終わりだよ。",
+    "english": "It's time you stopped watching television."
+  },
+  {
+    "id": "201946",
+    "japanese": "テレビを見るのやめましょう。",
+    "english": "Let's not watch TV."
+  },
+  {
+    "id": "201947",
+    "japanese": "テレビを見るのは楽しいよ。",
+    "english": "It's fun to watch TV."
+  },
+  {
+    "id": "201948",
+    "japanese": "メアリーはテレビを見るのが好きだ。",
+    "english": "Mary likes watching TV."
+  },
+  {
+    "id": "201949",
+    "japanese": "テレビを見るときに使うんだ。",
+    "english": "I mean, when I watch T. V. I'd sit in it."
+  },
+  {
+    "id": "201950",
+    "japanese": "テレビを見ることは受動的活動である。",
+    "english": "Watching TV is a passive activity."
+  },
+  {
+    "id": "201951",
+    "japanese": "テレビを見ることはおもしろい。",
+    "english": "Watching TV is fun."
+  },
+  {
+    "id": "201952",
+    "japanese": "テレビを見ることによって、その参加がより受動的になり熱のないものになることで、ファンの役割も変わってしまう。",
+    "english": "Watching television changes the role of the fans by making their participation more passive and distant."
+  },
+  {
+    "id": "201953",
+    "japanese": "私はテレビを見る。",
+    "english": "I watch television."
+  },
+  {
+    "id": "9935945",
+    "japanese": "テレビは見るよ。",
+    "english": "I watch television."
+  },
+  {
+    "id": "201954",
+    "japanese": "テレビを見ながら新聞を読む人もいる。",
+    "english": "Some people read the newspaper while watching television."
+  },
+  {
+    "id": "201955",
+    "japanese": "テレビを見ないでトランプをしようよ。",
+    "english": "Let's play cards instead of watching television."
+  },
+  {
+    "id": "201956",
+    "japanese": "テレビを見てはいけません。",
+    "english": "Don't watch TV."
+  },
+  {
+    "id": "201957",
+    "japanese": "テレビを見てないで、外で遊びなさい。",
+    "english": "Play outside instead of watching TV."
+  },
+  {
+    "id": "201958",
+    "japanese": "テレビを見てそんなに長時間過ごしてはいけない。",
+    "english": "Don't spend so much time watching TV."
+  },
+  {
+    "id": "201960",
+    "japanese": "テレビを見ている間は仕事が出来ないので困る。",
+    "english": "The trouble is you cannot work while watching TV."
+  },
+  {
+    "id": "124739",
+    "japanese": "電話が鳴ったとき、私はテレビを見ていました。",
+    "english": "I was watching TV when the telephone rang."
+  },
+  {
+    "id": "201961",
+    "japanese": "テレビを見ていると電話が鳴った。",
+    "english": "I was watching TV when the telephone rang."
+  },
+  {
+    "id": "201962",
+    "japanese": "テレビを見ているとすぐ眠くなる。",
+    "english": "I fall asleep easily while watching television."
+  },
+  {
+    "id": "201963",
+    "japanese": "テレビを見ていて眠ってしまった。",
+    "english": "Watching TV, I fell asleep."
+  },
+  {
+    "id": "201964",
+    "japanese": "テレビを見た後で宿題するよ。",
+    "english": "I'll do my homework after I watch television."
+  },
+  {
+    "id": "10809869",
+    "japanese": "テレビ見てから宿題するね。",
+    "english": "I'll do my homework after I watch television."
+  },
+  {
+    "id": "201965",
+    "japanese": "テレビを見たりラジオを聞いたりするとき、耳にする音楽はしばしばアフリカ起源のものです。",
+    "english": "When you watch television or listen to the radio, the music which you hear is often African in origin."
+  },
+  {
+    "id": "201966",
+    "japanese": "テレビをつけてくれる？",
+    "english": "Will you turn on the TV?"
+  },
+  {
+    "id": "201967",
+    "japanese": "テレビをつけてくれますか。",
+    "english": "Will you turn on the television?"
+  },
+  {
+    "id": "201969",
+    "japanese": "テレビをつけていいですか。",
+    "english": "Would you mind if I turned the TV on?"
+  },
+  {
+    "id": "201971",
+    "japanese": "テレビをつけっぱなしにするな！",
+    "english": "Don't keep the TV on!"
+  },
+  {
+    "id": "201972",
+    "japanese": "テレビをつけたまま寝るとは彼は不注意だった。",
+    "english": "It was careless of him to go to bed with the TV on."
+  },
+  {
+    "id": "201973",
+    "japanese": "テレビをおくための場所がなければいけないよ。",
+    "english": "You must make room for the television."
+  },
+  {
+    "id": "201974",
+    "japanese": "テレビやマンガのせいで学生は本を読みません。",
+    "english": "Students don't read many books because of TV and comics."
+  },
+  {
+    "id": "201975",
+    "japanese": "テレビみようよ。",
+    "english": "Let's watch TV."
+  },
+  {
+    "id": "753451",
+    "japanese": "テレビを見ましょう。",
+    "english": "Let's watch TV."
+  },
+  {
+    "id": "201976",
+    "japanese": "テレビは暴力行為を見せて、それがとりわけ年少の者たちに影響を及ぼす。",
+    "english": "Television shows violence, which influences, above all, younger people."
+  },
+  {
+    "id": "201977",
+    "japanese": "テレビは彼には大きな魅力がある。",
+    "english": "Television has a great appeal for him."
+  },
+  {
+    "id": "201978",
+    "japanese": "テレビは日常生活で重要な役割を果たしている。",
+    "english": "TV plays an important part in everyday life."
+  },
+  {
+    "id": "201979",
+    "japanese": "テレビは創造力を鈍らせる力がある。",
+    "english": "Television can dull our creative power."
+  },
+  {
+    "id": "201980",
+    "japanese": "テレビは精神を受け身の状態にして置くという点で有害である。",
+    "english": "TV is harmful in that it keeps your mind in a passive state."
+  },
+  {
+    "id": "201981",
+    "japanese": "テレビは情報を与えるための非常に重要な媒体である。",
+    "english": "Television is a very important medium through which to provide information."
+  },
+  {
+    "id": "201982",
+    "japanese": "テレビは情報を与えるための非常に重要な手段である。",
+    "english": "Television is a very important medium for giving information."
+  },
+  {
+    "id": "201983",
+    "japanese": "テレビは少し離れて見るべきだ。",
+    "english": "You should watch television at a distance."
+  },
+  {
+    "id": "201984",
+    "japanese": "テレビは重要な教養の源になることも出来、その教育放送は多くの学校で高く評価されている。",
+    "english": "Television could be an important source of culture, and its educational broadcasts are valued in many schools."
+  },
+  {
+    "id": "201985",
+    "japanese": "テレビは視聴者に娯楽ばかりではなく、知識も与える。",
+    "english": "Television enlightens the viewers as well as entertains them."
+  },
+  {
+    "id": "201986",
+    "japanese": "テレビは私たちから家庭での夕食時の会話の楽しみを奪ってしまった。",
+    "english": "TV has robbed us of our enjoyment of conversation at dinner at home."
+  },
+  {
+    "id": "201987",
+    "japanese": "テレビは子供に害があると思いますか。",
+    "english": "Do you think television does children harm?"
+  },
+  {
+    "id": "201988",
+    "japanese": "テレビは家庭生活をダメにしている。",
+    "english": "Television is ruining family life."
+  },
+  {
+    "id": "201989",
+    "japanese": "テレビは家庭に呼ぶことなどできないような人々に楽しませてもらうことを可能にさせる。",
+    "english": "Television enables you to be entertained by people you wouldn't have in your home."
+  },
+  {
+    "id": "201990",
+    "japanese": "テレビはもういいかげんにしなさい。",
+    "english": "Enough TV, already!"
+  },
+  {
+    "id": "201991",
+    "japanese": "テレビはスポーツファンに一層大きな便宜を与える、という長所を持っている。",
+    "english": "Television has the advantage of providing sports fans with greater convenience."
+  },
+  {
+    "id": "201992",
+    "japanese": "テレビはしばしば家庭内の意思の疎通を妨げるという事実はすでによく知られている。",
+    "english": "The fact that television frequently limits communication within families is already well known."
+  },
+  {
+    "id": "201993",
+    "japanese": "テレビはここでは見られていない。",
+    "english": "TV is not watched here."
+  },
+  {
+    "id": "201994",
+    "japanese": "テレビはいつからあるの？",
+    "english": "When did TV appear?"
+  },
+  {
+    "id": "201995",
+    "japanese": "テレビは、昔ぜいたく品だった。",
+    "english": "A television set used to be a luxury."
+  },
+  {
+    "id": "201996",
+    "japanese": "テレビの漫画は、それなりに教育的だと言う人もいる。",
+    "english": "Some people say that cartoons on television are educational in themselves."
+  },
+  {
+    "id": "201997",
+    "japanese": "テレビの普及によって我々の読書の時間がかなり奪われている。",
+    "english": "The spread of television has considerably deprived us of our time for reading."
+  },
+  {
+    "id": "201998",
+    "japanese": "テレビの番組では何が一番お好きですか。",
+    "english": "Which of the TV programs do you like best?"
+  },
+  {
+    "id": "201999",
+    "japanese": "テレビの発明は我々の日常生活に大きな変化をもたらした。",
+    "english": "The invention of TV caused a drastic change in our daily life."
+  },
+  {
+    "id": "202001",
+    "japanese": "テレビの存在を当然のことと思っている。",
+    "english": "We take it for granted that television exists."
+  },
+  {
+    "id": "202002",
+    "japanese": "テレビの画面を調節してください。",
+    "english": "Please adjust the television picture."
+  },
+  {
+    "id": "202004",
+    "japanese": "テレビの音大きくして。",
+    "english": "Turn up the TV."
+  },
+  {
+    "id": "202003",
+    "japanese": "テレビの画像はぼやけて見えた。",
+    "english": "The TV picture was blurred."
+  },
+  {
+    "id": "1186752",
+    "japanese": "テレビの音を小さくしてもいい？",
+    "english": "Do you mind if I turn down the TV?"
+  },
+  {
+    "id": "202006",
+    "japanese": "テレビの音小さくして。",
+    "english": "Turn down the TV."
+  },
+  {
+    "id": "202007",
+    "japanese": "テレビの音を少し小さくしてくれ。眠ろうとしているんだから。",
+    "english": "Turn down the TV a little. I'm trying to go to sleep."
+  },
+  {
+    "id": "202008",
+    "japanese": "テレビの音を少し下げてくれませんか。",
+    "english": "Would you please turn down the TV a little?"
+  },
+  {
+    "id": "202009",
+    "japanese": "テレビの音を小さくしなさい。",
+    "english": "Turn down the television."
+  },
+  {
+    "id": "202010",
+    "japanese": "テレビの音を小さくしてもらえませんか。",
+    "english": "Could you please turn your television down?"
+  },
+  {
+    "id": "202011",
+    "japanese": "テレビのリモコンどこに置いたのかな？",
+    "english": "Where's the remote control for the TV?"
+  },
+  {
+    "id": "9509025",
+    "japanese": "テレビのリモコンはどこ？",
+    "english": "Where's the remote control for the TV?"
+  },
+  {
+    "id": "9518952",
+    "japanese": "テレビのリモコンって、どこ？",
+    "english": "Where's the remote control for the TV?"
+  },
+  {
+    "id": "237511",
+    "japanese": "テレビのリモコンがソファーの下にある。",
+    "english": "There is a TV remote control under the couch."
+  },
+  {
+    "id": "1052658",
+    "japanese": "ソファーの下にテレビのリモコンがある。",
+    "english": "There is a TV remote control under the couch."
+  },
+  {
+    "id": "202012",
+    "japanese": "テレビのニュース番組は我々が世界に遅れないでついていく助けになる。",
+    "english": "The TV news program help us keep up with the world."
+  },
+  {
+    "id": "202013",
+    "japanese": "テレビのニュースによると、インドで飛行機の墜落事故があったそうだ。",
+    "english": "According to TV news, there was a plane crash in India."
+  },
+  {
+    "id": "202014",
+    "japanese": "テレビのニュースでその日の出来事を知ります。",
+    "english": "The TV newscast informs us of daily news."
+  },
+  {
+    "id": "202015",
+    "japanese": "テレビはためになるというよりもむしろ害になると主張する人もいる。",
+    "english": "Some people insist that television does more harm than good."
+  },
+  {
+    "id": "2269140",
+    "japanese": "テレビは有害無益だと言う人もいる。",
+    "english": "Some people insist that television does more harm than good."
+  },
+  {
+    "id": "202017",
+    "japanese": "テレビのおかげで子供達は本を読むことを怠りがちである。",
+    "english": "Thanks to television, boys and girls are apt to neglect reading books."
+  },
+  {
+    "id": "202018",
+    "japanese": "テレビのおかげで今日何が起こっているかを知ることができる。",
+    "english": "Television enables us to know what is happening today."
+  },
+  {
+    "id": "202019",
+    "japanese": "テレビのおかげで我々は知識を広めることができる。",
+    "english": "Television helps us widen our knowledge."
+  },
+  {
+    "id": "10654625",
+    "japanese": "テレビは私たちの知識を広げてくれます。",
+    "english": "Television helps us widen our knowledge."
+  },
+  {
+    "id": "202020",
+    "japanese": "テレビのおかげで我々は外国の風俗習慣について学ぶことができる。",
+    "english": "Television enables us to learn about foreign manners and customs."
+  },
+  {
+    "id": "202021",
+    "japanese": "テレビのおかげで、私たちは自分の部屋で野球の試合が楽しめます。",
+    "english": "Thanks to television, we can enjoy watching baseball games in our rooms."
+  },
+  {
+    "id": "202023",
+    "japanese": "テレビによれば明日は雨だそうだ。",
+    "english": "According to the TV, it will rain tomorrow."
+  },
+  {
+    "id": "202022",
+    "japanese": "テレビに映し出されるものは、いわば実社会の反映である。",
+    "english": "What is shown on television is, as it were, a reflection of what society is like."
+  },
+  {
+    "id": "202024",
+    "japanese": "テレビによれば今日は晴れるそうだ。",
+    "english": "According to the TV, it will be fine today."
+  },
+  {
+    "id": "202026",
+    "japanese": "テレビには飽きたよ。",
+    "english": "I'm tired of TV."
+  },
+  {
+    "id": "202025",
+    "japanese": "テレビによって以前の映画人気が奪われた。",
+    "english": "Television has robbed cinema of its former popularity."
+  },
+  {
+    "id": "202027",
+    "japanese": "テレビにいくつかのマイナス面があるのも事実である。",
+    "english": "It is true that television also has some disadvantages."
+  },
+  {
+    "id": "202028",
+    "japanese": "テレビなんかなくてすむ。",
+    "english": "We can do without a television, can't we?"
+  },
+  {
+    "id": "202029",
+    "japanese": "テレビといえば、君が今一番好きな番組は何ですか。",
+    "english": "Speaking of television, what is your favorite show nowadays?"
+  },
+  {
+    "id": "202030",
+    "japanese": "テレビで野球の試合を見ることほど好きなものはない。",
+    "english": "I like nothing so much as to watch baseball games on television."
+  },
+  {
+    "id": "202031",
+    "japanese": "テレビで野球の試合を見ることは楽しい。",
+    "english": "It is a pleasure to watch a baseball game on TV."
+  },
+  {
+    "id": "202032",
+    "japanese": "テレビで野球の試合を見たいですか。",
+    "english": "Do you want to watch the baseball game on TV?"
+  },
+  {
+    "id": "11779883",
+    "japanese": "テレビで野球見ない？",
+    "english": "Do you want to watch the baseball game on TV?"
+  },
+  {
+    "id": "202033",
+    "japanese": "テレビで製品を宣伝する会社が多い。",
+    "english": "Many companies advertise their products on TV."
+  },
+  {
+    "id": "202034",
+    "japanese": "テレビで盛んに新車の宣伝をしている。",
+    "english": "The company is promoting a new car on TV."
+  },
+  {
+    "id": "202035",
+    "japanese": "テレビで古い映画を見た。",
+    "english": "I watched an old movie on TV."
+  },
+  {
+    "id": "9130813",
+    "japanese": "テレビで昔の映画を見たんだ。",
+    "english": "I watched an old movie on TV."
+  },
+  {
+    "id": "202036",
+    "japanese": "テレビで見たことはあるが直接本人に会ったことはない。",
+    "english": "I have seen him on TV but not in the flesh."
+  },
+  {
+    "id": "202037",
+    "japanese": "テレビでフットボールの試合を見るのは楽しかった。",
+    "english": "Watching the football game on television was fun."
+  },
+  {
+    "id": "202041",
+    "japanese": "テレビでそのフットボールの試合を観戦するのは面白かった。",
+    "english": "Watching the football game on television was fun."
+  },
+  {
+    "id": "202038",
+    "japanese": "テレビでは俳優が台詞を思い出せるようにキューカードが主に使われる。",
+    "english": "Cue cards are used primarily on television to help the actors remember their lines."
+  },
+  {
+    "id": "1772502",
+    "japanese": "キューカードは主にテレビで使われ、俳優に台詞を思い出させる役割をする。",
+    "english": "Cue cards are used primarily on television to help the actors remember their lines."
+  },
+  {
+    "id": "202039",
+    "japanese": "テレビではタブー語を言っちゃいけないんだ。",
+    "english": "You can't say four-letter words on TV."
+  },
+  {
+    "id": "202040",
+    "japanese": "テレビでナイターを見るのはどうですか。",
+    "english": "What about watching the night game on TV?"
+  },
+  {
+    "id": "202042",
+    "japanese": "テレビでサッカーの試合を見るのは私にとって面白い。",
+    "english": "I enjoy watching soccer on TV."
+  },
+  {
+    "id": "10937335",
+    "japanese": "テレビでのサッカー観戦は楽しいよ。",
+    "english": "I enjoy watching soccer on TV."
+  },
+  {
+    "id": "202044",
+    "japanese": "テレビそれ自体は悪い物ではないが、多くの人はテレビを見過ぎることが多いということである。",
+    "english": "Although it is not a bad thing in itself, in a lot of cases, many people are watching too much television."
+  },
+  {
+    "id": "202045",
+    "japanese": "テレビが欲しいのですが買う余裕がありません。",
+    "english": "I want a television set, but I can't afford to buy one."
+  },
+  {
+    "id": "202046",
+    "japanese": "テレビが普及したおかげで、諸外国の風景を楽しく眺めることができる。",
+    "english": "The spread of television enables us to enjoy the scenery of foreign countries."
+  },
+  {
+    "id": "202047",
+    "japanese": "テレビがつきません。",
+    "english": "The TV won't turn on."
+  },
+  {
+    "id": "202048",
+    "japanese": "テレビが書物にとって変わるなどということは決してないと思う。",
+    "english": "I don't think TV will ever take the place of books."
+  },
+  {
+    "id": "202049",
+    "japanese": "テレビが社会に与える影響は大きい。",
+    "english": "The influence of TV on society is great."
+  },
+  {
+    "id": "202050",
+    "japanese": "テレビが故障しています。",
+    "english": "The television doesn't work."
+  },
+  {
+    "id": "202051",
+    "japanese": "テレビが故障した。",
+    "english": "My TV has broken down."
+  },
+  {
+    "id": "202053",
+    "japanese": "テレビからの小さい音でさえ、私の集中力を妨げる。",
+    "english": "Even a small sound from the TV interferes with my concentration."
+  },
+  {
+    "id": "202054",
+    "japanese": "テレビがラジオに取って代わった。",
+    "english": "TV has taken the place of radio."
+  },
+  {
+    "id": "202055",
+    "japanese": "テレビがほとんど映画にとって代わった。",
+    "english": "Television has almost taken the place of the movie theater."
+  },
+  {
+    "id": "202056",
+    "japanese": "テレビがなければ、世界はもっと広く感じられるだろうに。",
+    "english": "If it were not for television, the world would feel even larger."
+  },
+  {
+    "id": "202057",
+    "japanese": "テレビがなかったら生活がどんな物になるか想像できますか。",
+    "english": "Can you imagine what life would be like without television?"
+  },
+  {
+    "id": "202058",
+    "japanese": "テレビがつけられた。",
+    "english": "The TV was turned on."
+  },
+  {
+    "id": "9035806",
+    "japanese": "テレビはついていた。",
+    "english": "The TV was turned on."
+  },
+  {
+    "id": "202059",
+    "japanese": "テレビがつかないよ。",
+    "english": "The TV doesn't work."
+  },
+  {
+    "id": "202060",
+    "japanese": "テレビがその間ずっとついていた。",
+    "english": "The TV was on all the time."
+  },
+  {
+    "id": "202061",
+    "japanese": "テレビガイドを見せて下さい。",
+    "english": "Please show me the TV Guide."
+  },
+  {
+    "id": "202062",
+    "japanese": "テレビがあまりにもうるさくて、私は読書に集中できなかった。",
+    "english": "The TV was so noisy that I couldn't concentrate on my reading."
+  },
+  {
+    "id": "202063",
+    "japanese": "テレビアンテナが昨夜のあらしでとれた。",
+    "english": "The TV antenna broke away in last night's storm."
+  },
+  {
+    "id": "202064",
+    "japanese": "テレックスでご返事ください。",
+    "english": "Please answer by telex."
+  },
+  {
+    "id": "202065",
+    "japanese": "デルバートは気違いだと思うよ。",
+    "english": "I think that Delbert is crazy."
+  },
+  {
+    "id": "202066",
+    "japanese": "デリカテッセンから火災が発生し、灰の山を残して全焼した。",
+    "english": "A delicatessen caught fire and burned down, leaving a heap of ashes."
+  },
+  {
+    "id": "202067",
+    "japanese": "テリーはその知らせに大変喜びました。",
+    "english": "Terry was very pleased with the news."
+  },
+  {
+    "id": "202068",
+    "japanese": "テリーに見つからないうちに煙草の火は消した方がいいよ。",
+    "english": "You'd better put your cigarette out before Terry sees it."
+  },
+  {
+    "id": "202069",
+    "japanese": "テリー・テイトさんにお会いしたいのです。",
+    "english": "I would like to see Mr Terry Tate."
+  },
+  {
+    "id": "202070",
+    "japanese": "テラスがいいのですが。",
+    "english": "Could we have a table on the terrace?"
+  },
+  {
+    "id": "202071",
+    "japanese": "でも料理は上手に作ることができる。",
+    "english": "But I am able to cook well."
+  },
+  {
+    "id": "202072",
+    "japanese": "でも名前くらいは知っている。",
+    "english": "But his name is slightly familiar to me."
+  },
+  {
+    "id": "202073",
+    "japanese": "でも僕の心が、僕の指に何をしたらいいのか教えてくれるのだ。",
+    "english": "But my mind tells my fingers what to do."
+  },
+  {
+    "id": "202074",
+    "japanese": "でも彼女、大問題を抱えているのです。",
+    "english": "She has a big problem, though."
+  },
+  {
+    "id": "202075",
+    "japanese": "でも彼は長い学校の休みが好きなんだよ。",
+    "english": "But he likes the long school holidays."
+  },
+  {
+    "id": "202076",
+    "japanese": "でも農場の仕事は楽しかったわ。",
+    "english": "But I enjoyed farm work."
+  },
+  {
+    "id": "202077",
+    "japanese": "でも典型的なサバンナ気候の国で、涼しい気温に恵まれているのです。",
+    "english": "But it's a typical savannah country, and we enjoy cooler temperatures."
+  },
+  {
+    "id": "202078",
+    "japanese": "でも、男性はああいうのは気に入らないようね。",
+    "english": "But maybe guys don't like them."
+  },
+  {
+    "id": "202079",
+    "japanese": "デモ隊は整然と行進した。",
+    "english": "The demonstrators marched in order."
+  },
+  {
+    "id": "202080",
+    "japanese": "でも素敵だわ。",
+    "english": "Oh, but this is great."
+  },
+  {
+    "id": "202081",
+    "japanese": "でも週に２回、夜勤しなくちゃいけないんだ。",
+    "english": "But I have to take night shifts twice a week."
+  },
+  {
+    "id": "202082",
+    "japanese": "でも実際にはすごく強い。",
+    "english": "But it's very strong actually."
+  },
+  {
+    "id": "202083",
+    "japanese": "でも次の日、医者は彼に新年のお祝いには間に合うように退院できる可能性は十分あると言って、元気づけた。",
+    "english": "The following day, however, the doctor consoled him by telling him that his chances of being able to leave hospital in time for New Year celebrations were good."
+  },
+  {
+    "id": "202084",
+    "japanese": "でも私はあまりよくそれらを理解できない。",
+    "english": "But I can't understand them very well."
+  },
+  {
+    "id": "202085",
+    "japanese": "でも最後までいる必要はありませんよ。",
+    "english": "But you don't have to stay to the end."
+  },
+  {
+    "id": "202086",
+    "japanese": "でも今では、病気で弱って寝ているのだった。",
+    "english": "Now she lay weak in bed."
+  },
+  {
+    "id": "202087",
+    "japanese": "でも高いよ。",
+    "english": "It's expensive though."
+  },
+  {
+    "id": "3366998",
+    "japanese": "もっと休みをとったほうがいい。",
+    "english": "I think you should get more rest."
+  },
+  {
+    "id": "202089",
+    "japanese": "でも慣れた方がいい。",
+    "english": "You may as well get used to it."
+  },
+  {
+    "id": "202090",
+    "japanese": "でも家ではトニーと呼んでいるのですよ。",
+    "english": "But we call him Tony at home."
+  },
+  {
+    "id": "202092",
+    "japanese": "でもよ、おとうさんは良い気しねーと思うべさ。",
+    "english": "But Dad won't like it."
+  },
+  {
+    "id": "202091",
+    "japanese": "でもよー、オラのおとうさんは良い気しねーよ、きっと。",
+    "english": "But I don't think Dad would like me to."
+  },
+  {
+    "id": "202093",
+    "japanese": "デモの最中秘密警察が人込みの中を動きまわった。",
+    "english": "Secret police moved among the crowd during the demonstration."
+  },
+  {
+    "id": "202094",
+    "japanese": "でもね、聞きたい時もあるのよ。",
+    "english": "You know, sometimes you need to hear it."
+  },
+  {
+    "id": "202095",
+    "japanese": "でもね、わたしたち全然共通点がないんですもの。",
+    "english": "But we don't have anything in common at all."
+  },
+  {
+    "id": "202096",
+    "japanese": "デモに参加しようと思う。",
+    "english": "I'm going to join a demonstration."
+  },
+  {
+    "id": "9695286",
+    "japanese": "デモに参加するつもりなんだ。",
+    "english": "I'm going to join a demonstration."
+  },
+  {
+    "id": "202097",
+    "japanese": "でもたぶん私が最後でしょう、残念ですが。",
+    "english": "But probably I'll be the last, which is a pity."
+  },
+  {
+    "id": "202098",
+    "japanese": "でもその子は本当に一人で東京に来たんだよ。",
+    "english": "Oh, but he did come to Tokyo alone."
+  },
+  {
+    "id": "202099",
+    "japanese": "でもさ、母を連れて行かなくてはいけないんだ。",
+    "english": "But, I have to take my mother."
+  },
+  {
+    "id": "202100",
+    "japanese": "でもこれから帰るところさ。",
+    "english": "But we're just on our way home."
+  },
+  {
+    "id": "202102",
+    "japanese": "デモが行われている間、社長はノートを取っていた。",
+    "english": "While the demonstration was being made, the president was taking notes."
+  },
+  {
+    "id": "202103",
+    "japanese": "でも１１時半近くですよ。",
+    "english": "But it's almost half past eleven."
+  },
+  {
+    "id": "202104",
+    "japanese": "でも、来なかったらどうするの。",
+    "english": "But what will you do if he doesn't come?"
+  },
+  {
+    "id": "202105",
+    "japanese": "でも、僕は怠けてばかりいたからね。",
+    "english": "But I was always too lazy."
+  },
+  {
+    "id": "202106",
+    "japanese": "でも、彼はギターを弾く時間ならある。",
+    "english": "He can afford the time to play the guitar though."
+  },
+  {
+    "id": "202108",
+    "japanese": "でも、手紙を書いてよね。",
+    "english": "But you will write, won't you?"
+  },
+  {
+    "id": "202109",
+    "japanese": "でも、私はあなたにあげるりんごはありません。",
+    "english": "But I have no apples left to give you."
+  },
+  {
+    "id": "202110",
+    "japanese": "でも、私には何も残ってない、ただの古い切り株です。",
+    "english": "But I have nothing left. I am just an old stump."
+  },
+  {
+    "id": "202111",
+    "japanese": "でも、今度の週末はプールは開いてないと思うけど。",
+    "english": "But I don't think the pool is open this weekend."
+  },
+  {
+    "id": "202112",
+    "japanese": "「でも、君達がここに来るのは夏だけではないか」とトニーが言いました。",
+    "english": "\"But you just come here in the summer!\" said Tony."
+  },
+  {
+    "id": "202113",
+    "japanese": "でも、わたしには恋人がいるの。",
+    "english": "But, I'm going steady."
+  },
+  {
+    "id": "202114",
+    "japanese": "でも、もちろん、ずっと昔のことだけど。",
+    "english": "But of course that was a long time ago."
+  },
+  {
+    "id": "202115",
+    "japanese": "でも、みんな人間です。",
+    "english": "But they are all people."
+  },
+  {
+    "id": "202116",
+    "japanese": "でも、そんなに悪くはなかったよ。",
+    "english": "Well, it wasn't all that bad."
+  },
+  {
+    "id": "12988729",
+    "japanese": "まあ、それほど悪くはなかったよ。",
+    "english": "Well, it wasn't all that bad."
+  },
+  {
+    "id": "202117",
+    "japanese": "でも、それはまるで降ってくる雨を止めようとするものだった。",
+    "english": "But it was like trying to stop the rain from falling."
+  },
+  {
+    "id": "202118",
+    "japanese": "でも、そういうキミはそれを気に入っているのだろう。",
+    "english": "But you like it!"
+  },
+  {
+    "id": "202119",
+    "japanese": "でも、これで１つ貸しだね。",
+    "english": "But you're going to owe me one."
+  },
+  {
+    "id": "202120",
+    "japanese": "でも、ここにいる間に、電池を交換することはできまして？",
+    "english": "But while I am here, do you think you could replace the batteries?"
+  },
+  {
+    "id": "202121",
+    "japanese": "デメリットが多すぎます。",
+    "english": "It has too many disadvantages."
+  },
+  {
+    "id": "202122",
+    "japanese": "テムズ川をさかのぼったことが一度ある。",
+    "english": "I have sailed up the Thames once."
+  },
+  {
+    "id": "202123",
+    "japanese": "テムズ川はロンドンを貫流する川である。",
+    "english": "The Thames is a river that flows through London."
+  },
+  {
+    "id": "202125",
+    "japanese": "デブっている彼女は、猿を抱きかかえていた。",
+    "english": "She was fat, and holding a monkey."
+  },
+  {
+    "id": "202126",
+    "japanese": "デビッドは流暢にフランス語を話すことができる。",
+    "english": "David can speak French fluently."
+  },
+  {
+    "id": "1309471",
+    "japanese": "デイビッドはフランス語がペラペラだ。",
+    "english": "David can speak French fluently."
+  },
+  {
+    "id": "202127",
+    "japanese": "デビッドは働いて自分の金で大学を出た。",
+    "english": "David worked his way through college."
+  },
+  {
+    "id": "202128",
+    "japanese": "デビッドはとても活動的だ。",
+    "english": "David is very active."
+  },
+  {
+    "id": "202129",
+    "japanese": "デビッドはとてもガールフレンドが多いので、名前を全部覚えられない。",
+    "english": "David has so many girlfriends that he can't remember all of their names."
+  },
+  {
+    "id": "202130",
+    "japanese": "デビー！私の声が聞こえるかい？",
+    "english": "Debbie! Can you hear me?"
+  },
+  {
+    "id": "1226196",
+    "japanese": "デビー！聞こえてる？",
+    "english": "Debbie! Can you hear me?"
+  },
+  {
+    "id": "202131",
+    "japanese": "デビーに挨拶したが彼女は完全に私の事を無視した。",
+    "english": "I said hello to Debby but she totally ignored me."
+  },
+  {
+    "id": "202132",
+    "japanese": "デビー、学校は近くなの。",
+    "english": "Debbie, is your school near here?"
+  },
+  {
+    "id": "202133",
+    "japanese": "では明日その事について彼に尋ねてみます。",
+    "english": "I will ask him about it tomorrow, then."
+  },
+  {
+    "id": "202136",
+    "japanese": "では始めましょう。",
+    "english": "Then let us begin."
+  },
+  {
+    "id": "202137",
+    "japanese": "では今晩またね、さようなら。",
+    "english": "See you tonight, then. Cheers!"
+  },
+  {
+    "id": "202138",
+    "japanese": "では候補者たちのそれぞれの長所を論じましょう。",
+    "english": "Let's discuss the respective merits of the candidates."
+  },
+  {
+    "id": "202139",
+    "japanese": "では会議を始めましょうか。",
+    "english": "Shall we start the meeting now?"
+  },
+  {
+    "id": "195390",
+    "japanese": "また明日。",
+    "english": "See you again tomorrow."
+  },
+  {
+    "id": "202140",
+    "japanese": "ではまた明日。",
+    "english": "See you again tomorrow."
+  },
+  {
+    "id": "202142",
+    "japanese": "ではこれで失礼します。",
+    "english": "I am afraid I must be going now."
+  },
+  {
+    "id": "202143",
+    "japanese": "デパートは休日の買い物客でいっぱいだった。",
+    "english": "The department store was crammed with holiday shoppers."
+  },
+  {
+    "id": "202144",
+    "japanese": "デパートはたくさんの物を売っている。",
+    "english": "Department stores sell numerous things."
+  },
+  {
+    "id": "202145",
+    "japanese": "デパートの試食コーナーへ行くと、いろいろな物がただで食べられるよ。",
+    "english": "You can get all kinds of things to eat if you go to the free samples area in a department store."
+  },
+  {
+    "id": "202146",
+    "japanese": "デパートの屋上にアドバルーンが上がっている。",
+    "english": "There is an advertising balloon flying above the department store."
+  },
+  {
+    "id": "202147",
+    "japanese": "デパートで新しい帽子を買った。",
+    "english": "I got a new hat at the department store."
+  },
+  {
+    "id": "202148",
+    "japanese": "デパートではいつでも大きな展覧会を見られる。",
+    "english": "You can see the large exhibition at the department store anytime."
+  },
+  {
+    "id": "202149",
+    "japanese": "デパートでとても感じのいい若い女性が対応してくれた。",
+    "english": "A very pleasant young woman waited on me in the department store."
+  },
+  {
+    "id": "202150",
+    "japanese": "では２時間後にここを出発しよう。",
+    "english": "We start here in two hours, then."
+  },
+  {
+    "id": "202152",
+    "japanese": "では、後で会いましょう。",
+    "english": "Well, see you later."
+  },
+  {
+    "id": "8942279",
+    "japanese": "じゃあ、また。",
+    "english": "Well, see you later."
+  },
+  {
+    "id": "9699354",
+    "japanese": "じゃあ、また後で。",
+    "english": "Well, see you later."
+  },
+  {
+    "id": "202151",
+    "japanese": "では、猫の世話は誰がするの。",
+    "english": "Who will take care of your cat then?"
+  },
+  {
+    "id": "215912",
+    "japanese": "じゃあ、ネコの世話は誰がするの。",
+    "english": "Who will take care of your cat then?"
+  },
+  {
+    "id": "157254",
+    "japanese": "私は現金で支払います。",
+    "english": "I'd like to pay in cash."
+  },
+  {
+    "id": "202153",
+    "japanese": "では、現金で支払います。",
+    "english": "I'd like to pay in cash."
+  },
+  {
+    "id": "202155",
+    "japanese": "では、急いだほうがいいですね。",
+    "english": "We'd better hurry then."
+  },
+  {
+    "id": "202154",
+    "japanese": "では、月曜日の午後にお会いしましょう。",
+    "english": "Let's make it Monday afternoon."
+  },
+  {
+    "id": "202156",
+    "japanese": "では、確認させていただきます。",
+    "english": "Let's see if I've got that right."
+  },
+  {
+    "id": "202157",
+    "japanese": "では、ここでご説明しましょう。",
+    "english": "Well, let me tell you."
+  },
+  {
+    "id": "202158",
+    "japanese": "では、クレジットカードで支払います。",
+    "english": "I'd like to pay with my credit card instead."
+  },
+  {
+    "id": "202159",
+    "japanese": "では、いったい誰ですか。あなたはエリヤですか。",
+    "english": "Then who are you? Are you Elijah?"
+  },
+  {
+    "id": "202160",
+    "japanese": "デネットの著作の中心的主張は、端的に言えば、内的精神状態の存在を否定するということである。",
+    "english": "The main point of Dennett's book, in short, is to deny the existence of inner mental states."
+  },
+  {
+    "id": "202161",
+    "japanese": "テニソンの詩を何か読んだことがありますか。",
+    "english": "Have you ever read any Tennyson poems?"
+  },
+  {
+    "id": "202162",
+    "japanese": "テニスをやりますか。",
+    "english": "Do you play tennis?"
+  },
+  {
+    "id": "202179",
+    "japanese": "テニスをしますか。",
+    "english": "Do you play tennis?"
+  },
+  {
+    "id": "232933",
+    "japanese": "テニスができますか。",
+    "english": "Do you play tennis?"
+  },
+  {
+    "id": "9471582",
+    "japanese": "テニスはするの？",
+    "english": "Do you play tennis?"
+  },
+  {
+    "id": "202163",
+    "japanese": "テニスをする少年もいれば、サッカーをする少年もいる。",
+    "english": "Some boys play tennis and others play soccer."
+  },
+  {
+    "id": "202164",
+    "japanese": "テニスをする事は健康によい。",
+    "english": "Playing tennis is good for your health."
+  },
+  {
+    "id": "202168",
+    "japanese": "テニスをすることは面白い。",
+    "english": "It's fun to play tennis."
+  },
+  {
+    "id": "202173",
+    "japanese": "テニスをするのは楽しい。",
+    "english": "It's fun to play tennis."
+  },
+  {
+    "id": "202176",
+    "japanese": "テニスをするのはおもしろい。",
+    "english": "It's fun to play tennis."
+  },
+  {
+    "id": "202166",
+    "japanese": "テニスをするのはよしましょう。",
+    "english": "Let's not play tennis."
+  },
+  {
+    "id": "9035848",
+    "japanese": "テニスはやめとこうよ。",
+    "english": "Let's not play tennis."
+  },
+  {
+    "id": "202167",
+    "japanese": "テニスをするのはとても面白い。",
+    "english": "Playing tennis is a lot of fun."
+  },
+  {
+    "id": "202175",
+    "japanese": "テニスをするのはたいへん楽しい。",
+    "english": "Playing tennis is a lot of fun."
+  },
+  {
+    "id": "202169",
+    "japanese": "テニスをするのが彼の趣味です。",
+    "english": "Playing tennis is his hobby."
+  },
+  {
+    "id": "202170",
+    "japanese": "テニスをするとなると、彼はいつも私に勝つ。",
+    "english": "When it comes to playing tennis, he always beats me."
+  },
+  {
+    "id": "202171",
+    "japanese": "テニスをすることは私には簡単だ。",
+    "english": "Playing tennis is easy for me."
+  },
+  {
+    "id": "202172",
+    "japanese": "テニスをすることは私にはやさしい。",
+    "english": "It is easy for me to play tennis."
+  },
+  {
+    "id": "202174",
+    "japanese": "テニスをすることはやさしい。",
+    "english": "It is easy to play tennis."
+  },
+  {
+    "id": "10563896",
+    "japanese": "テニスは簡単だよ。",
+    "english": "It is easy to play tennis."
+  },
+  {
+    "id": "202177",
+    "japanese": "テニスをしよう。１０時３０分にコートを予約してあるから。",
+    "english": "Let's play tennis. I've booked a court for 10:30."
+  },
+  {
+    "id": "202178",
+    "japanese": "テニスをしませんか。",
+    "english": "How about playing tennis?"
+  },
+  {
+    "id": "202184",
+    "japanese": "テニスやりませんか。",
+    "english": "How about playing tennis?"
+  },
+  {
+    "id": "10185636",
+    "japanese": "テニスはどうだろう？",
+    "english": "How about playing tennis?"
+  },
+  {
+    "id": "159426",
+    "japanese": "私はテニスをするのが好きです。",
+    "english": "I like to play tennis."
+  },
+  {
+    "id": "159442",
+    "japanese": "私はテニスが好きだ。",
+    "english": "I like to play tennis."
+  },
+  {
+    "id": "202181",
+    "japanese": "「テニスをしましょうか」「ええ」",
+    "english": "\"Let's play tennis.\" \"Yes let's.\""
+  },
+  {
+    "id": "202182",
+    "japanese": "テニスを１日１時間やります。",
+    "english": "I play tennis an hour a day."
+  },
+  {
+    "id": "202183",
+    "japanese": "テニスや野球のようなスポーツがたいへん人気がある。",
+    "english": "Such sports as tennis and baseball are very popular."
+  },
+  {
+    "id": "202185",
+    "japanese": "テニスやピンポンのバックハンドでは手は球を打つ際逆向きになる。",
+    "english": "In tennis and ping-pong backhand the hand is turned backwards in making the stroke."
+  },
+  {
+    "id": "202186",
+    "japanese": "テニスやゴルフのようなスポーツは好きではない。",
+    "english": "I don't like such sports as tennis and golf."
+  },
+  {
+    "id": "1166393",
+    "japanese": "そんなテニスやゴルフみたいなスポーツは好きじゃない。",
+    "english": "I don't like such sports as tennis and golf."
+  },
+  {
+    "id": "202187",
+    "japanese": "テニスは難しい。ボールがすぐあさっての方向に飛んでいってしまう。",
+    "english": "Tennis is difficult. I never know which way the ball is going to fly."
+  },
+  {
+    "id": "202188",
+    "japanese": "デニスは町で一番醜いしかめっ面をすることができる。",
+    "english": "Dennis can make the ugliest face in town."
+  },
+  {
+    "id": "202189",
+    "japanese": "デニスは床に平らになった。",
+    "english": "Dennis lay flat on the floor."
+  },
+  {
+    "id": "202190",
+    "japanese": "デニスは時々乱暴なことをする。",
+    "english": "Dennis can be very wild sometimes."
+  },
+  {
+    "id": "202191",
+    "japanese": "テニスは私の好きなスポーツです。",
+    "english": "Tennis is my favorite sport."
+  },
+  {
+    "id": "202192",
+    "japanese": "テニスは好きでないのですか。",
+    "english": "Aren't you fond of playing tennis?"
+  },
+  {
+    "id": "232515",
+    "japanese": "あなたはテニスが上手ですか。",
+    "english": "Are you good at tennis?"
+  },
+  {
+    "id": "8747270",
+    "japanese": "テニスは得意？",
+    "english": "Are you good at tennis?"
+  },
+  {
+    "id": "202194",
+    "japanese": "テニスは学生の間で大変人気がある。",
+    "english": "Tennis is very popular among students."
+  },
+  {
+    "id": "202195",
+    "japanese": "デニスはウィルソンさんの丸い顔をあざ笑う。",
+    "english": "Dennis laughs at Wilson's round face."
+  },
+  {
+    "id": "202196",
+    "japanese": "テニスは１３世紀にフランスで始まった。",
+    "english": "Tennis began in France in the thirteenth century."
+  },
+  {
+    "id": "202197",
+    "japanese": "テニスの事になると、彼女は誰にも負けない。",
+    "english": "When it comes to tennis, she is second to none."
+  },
+  {
+    "id": "202198",
+    "japanese": "テニスのラケットを固く握った。",
+    "english": "He gripped the tennis racket tightly."
+  },
+  {
+    "id": "202199",
+    "japanese": "テニスのことになると彼女は水を得た魚のようだ。",
+    "english": "She is in her element when it comes to tennis."
+  },
+  {
+    "id": "202200",
+    "japanese": "テニスに首をつっこんでみようか。",
+    "english": "I think I'll go in for tennis."
+  },
+  {
+    "id": "202201",
+    "japanese": "テニスにもあるけど、４大大会って何？",
+    "english": "What are the four major golf tournaments comparable to the ones in tennis?"
+  },
+  {
+    "id": "202202",
+    "japanese": "デニスには粗暴なところがない。",
+    "english": "Dennis doesn't have rough manners."
+  },
+  {
+    "id": "202203",
+    "japanese": "テニスにチャレンジすれば？",
+    "english": "Why don't you give tennis a try?"
+  },
+  {
+    "id": "13020883",
+    "japanese": "テニスをやってみたら？",
+    "english": "Why don't you give tennis a try?"
+  },
+  {
+    "id": "202204",
+    "japanese": "テニスとゴルフが好きですね。",
+    "english": "I like playing tennis and golf."
+  },
+  {
+    "id": "202205",
+    "japanese": "テニスで君に対戦したい。",
+    "english": "I'll take you on at tennis."
+  },
+  {
+    "id": "202207",
+    "japanese": "テニスでは彼にかなうものはいない。",
+    "english": "No one can match him at tennis."
+  },
+  {
+    "id": "202209",
+    "japanese": "テニスでは、彼は私にかなわない。",
+    "english": "He is no match for me in tennis."
+  },
+  {
+    "id": "202208",
+    "japanese": "テニスではとうてい君の相手にはなれない。",
+    "english": "I am no match for you at tennis."
+  },
+  {
+    "id": "202210",
+    "japanese": "テニスでは、アンは誰にも劣らない。",
+    "english": "Ann is second to none in tennis."
+  },
+  {
+    "id": "202211",
+    "japanese": "テニスって難しいよね。打ったボールが色んなところに飛んで行っちゃうんだから。",
+    "english": "Tennis is hard. The ball flies off in all directions when I hit it."
+  },
+  {
+    "id": "159440",
+    "japanese": "私はテニスクラブに所属しています。",
+    "english": "I belong to a tennis club."
+  },
+  {
+    "id": "202213",
+    "japanese": "テニスクラブに属している。",
+    "english": "I belong to a tennis club."
+  },
+  {
+    "id": "202212",
+    "japanese": "テニスが上手ですね。",
+    "english": "You are a good tennis player."
+  },
+  {
+    "id": "202215",
+    "japanese": "テニスがしたいのですが。",
+    "english": "I'd like to play tennis."
+  },
+  {
+    "id": "202214",
+    "japanese": "テニスが好きです。",
+    "english": "I like playing tennis."
+  },
+  {
+    "id": "202216",
+    "japanese": "デトロイトは自動車産業で有名だ。",
+    "english": "Detroit is famous for its car industry."
+  },
+  {
+    "id": "202218",
+    "japanese": "テッド叔父さんはパンダを見せるために、私たちを動物園へ連れて行った。",
+    "english": "Uncle Ted took us to the zoo in order to show us the pandas."
+  },
+  {
+    "id": "202219",
+    "japanese": "テッドは本当にコンピューターに取り付かれているようだね。",
+    "english": "Ted's really got computers on the brain."
+  },
+  {
+    "id": "202220",
+    "japanese": "テッドは長い間彼女を待ちました。",
+    "english": "Ted waited for her for a long time."
+  },
+  {
+    "id": "202221",
+    "japanese": "テッドは大学生活に満足している。",
+    "english": "Ted is satisfied with life in college."
+  },
+  {
+    "id": "202223",
+    "japanese": "テッドは時計の修理が上手い。",
+    "english": "Ted is handy at repairing watches."
+  },
+  {
+    "id": "202222",
+    "japanese": "テッドは卒業旅行に行くことを楽しみにしています。",
+    "english": "Ted is looking forward to going abroad after graduation."
+  },
+  {
+    "id": "202226",
+    "japanese": "テッドはトランペットを吹くのが好きです。",
+    "english": "Ted likes playing the trumpet."
+  },
+  {
+    "id": "202225",
+    "japanese": "テッドは英語を教える能力がない。",
+    "english": "Ted doesn't have the competence to teach English."
+  },
+  {
+    "id": "202224",
+    "japanese": "テッドは奥さんのエリザベスを愛している。",
+    "english": "Ted loves his wife Elizabeth."
+  },
+  {
+    "id": "202227",
+    "japanese": "テッドはついに日本語で考えを伝えることができた。",
+    "english": "Ted was finally able to communicate his thoughts in Japanese."
+  },
+  {
+    "id": "202228",
+    "japanese": "テッドはその野球チームの２番手選手だ。",
+    "english": "Ted is the second pitcher on the baseball team."
+  },
+  {
+    "id": "202229",
+    "japanese": "テッドはその試合に勝つ自信があった。",
+    "english": "Ted was certain of winning the game."
+  },
+  {
+    "id": "202230",
+    "japanese": "テッドの咳は、きっと喫煙のせいだ。",
+    "english": "I'm sure that Ted's cough is due to smoking."
+  },
+  {
+    "id": "202231",
+    "japanese": "テッドから電話がかかったとき、私はちょうど宿題を終えたところだった。",
+    "english": "I had just finished my homework when Ted phoned me."
+  },
+  {
+    "id": "202232",
+    "japanese": "テッドがここにいれば、彼は私たちの部屋をきれいにするのを手伝ってくれるのに。",
+    "english": "If Ted were here, he could help us clean our room."
+  },
+  {
+    "id": "202233",
+    "japanese": "てっきりあなたが我々といっしょに来られるものと思っていました。",
+    "english": "I took it for granted that you would come with us."
+  },
+  {
+    "id": "202235",
+    "japanese": "テスト勉強をあまり一生懸命やらなかった事を後悔している。",
+    "english": "I regret not having studied hard for the test."
+  },
+  {
+    "id": "202236",
+    "japanese": "テストはなんとかなった。",
+    "english": "I just got by on the test."
+  },
+  {
+    "id": "202237",
+    "japanese": "テストはどうだった？",
+    "english": "How was your test?"
+  },
+  {
+    "id": "3699097",
+    "japanese": "テストどうだった？",
+    "english": "How was your test?"
+  },
+  {
+    "id": "4751174",
+    "japanese": "どうだった、テスト？",
+    "english": "How was your test?"
+  },
+  {
+    "id": "4751175",
+    "japanese": "どうだった、テストは？",
+    "english": "How was your test?"
+  },
+  {
+    "id": "202238",
+    "japanese": "テストの勉強、あんまりしなかったようだね。",
+    "english": "Looks like you didn't study much for the test."
+  },
+  {
+    "id": "202239",
+    "japanese": "テストの点が悪かったので、親にガミガミ言われた。",
+    "english": "I didn't do well on the test so my parents chewed me out."
+  },
+  {
+    "id": "202240",
+    "japanese": "テストの後で私達は書いた答えを見せ合った。",
+    "english": "After the exam we compared the answers we'd written."
+  },
+  {
+    "id": "202241",
+    "japanese": "テストの結果を心配するな。",
+    "english": "Don't worry about the result of the test."
+  },
+  {
+    "id": "202242",
+    "japanese": "テストの結果は気にするな。",
+    "english": "Don't worry about the result of your test."
+  },
+  {
+    "id": "202243",
+    "japanese": "テストの結果が心配だ。",
+    "english": "I'm concerned about the result of the exam."
+  },
+  {
+    "id": "202244",
+    "japanese": "テストのために勉強をもっとしておけばよかったなあ。",
+    "english": "I wish I had studied harder for the test."
+  },
+  {
+    "id": "9058049",
+    "japanese": "テスト勉強、もっとやっとけばよかった。",
+    "english": "I wish I had studied harder for the test."
+  },
+  {
+    "id": "9058056",
+    "japanese": "もっとテスト勉強やっておけばよかった。",
+    "english": "I wish I had studied harder for the test."
+  },
+  {
+    "id": "202245",
+    "japanese": "テストで一問も答えられなかった。",
+    "english": "I couldn't answer any questions on the test."
+  },
+  {
+    "id": "202246",
+    "japanese": "あなたなら、テストでもっといい成績がとれるわ。",
+    "english": "You can do better on your tests."
+  },
+  {
+    "id": "202247",
+    "japanese": "テストで３３点しかとれませんでした。",
+    "english": "I scored only 33 points on the test."
+  }
+]

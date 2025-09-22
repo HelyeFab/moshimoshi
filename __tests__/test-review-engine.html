@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Review Engine</title>
+</head>
+<body>
+    <h1>Review Engine IndexedDB Test</h1>
+    <button onclick="testReview()">Start Review Test</button>
+    <div id="status"></div>
+
+    <script>
+        function testReview() {
+            const status = document.getElementById('status');
+            status.innerHTML = 'Please test this in the actual Kanji Browser page at http://localhost:3002/kanji-browser';
+            window.location.href = 'http://localhost:3002/kanji-browser';
+        }
+    </script>
+</body>
+</html>

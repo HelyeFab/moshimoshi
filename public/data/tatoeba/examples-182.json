@@ -1,0 +1,5002 @@
+[
+  {
+    "id": "8866050",
+    "japanese": "お願い、とにかく聞いてよ。",
+    "english": "Please just listen."
+  },
+  {
+    "id": "9975043",
+    "japanese": "大きな声で、お願いします。",
+    "english": "Please speak up."
+  },
+  {
+    "id": "11075514",
+    "japanese": "お願いだから、やめて！",
+    "english": "Please stop it."
+  },
+  {
+    "id": "3507481",
+    "japanese": "私のために祈ってて。",
+    "english": "Pray for me."
+  },
+  {
+    "id": "3507482",
+    "japanese": "元の場所に戻して。",
+    "english": "Put it back."
+  },
+  {
+    "id": "3496871",
+    "japanese": "もう一度読んで。",
+    "english": "Read it again."
+  },
+  {
+    "id": "3496882",
+    "japanese": "鐘を鳴らせ。",
+    "english": "Ring the bell."
+  },
+  {
+    "id": "3496901",
+    "japanese": "サイを振れ。",
+    "english": "Roll the dice."
+  },
+  {
+    "id": "10510925",
+    "japanese": "謝りなさい。",
+    "english": "Say you're sorry."
+  },
+  {
+    "id": "2249879",
+    "japanese": "歯ブラシをくわえたまま走り回ってはいけません。",
+    "english": "You shouldn't run around with a toothbrush in your mouth."
+  },
+  {
+    "id": "2249880",
+    "japanese": "トムはぼんやりと空を見ながら煙草をくわえていた。",
+    "english": "Tom had a cigarette hanging out of his mouth while he vacantly stared up at the sky."
+  },
+  {
+    "id": "2249881",
+    "japanese": "このまま町が衰退していくのを指をくわえて見ているわけにはいかない。",
+    "english": "We can't sit there looking wistfully on as this city falls into decay."
+  },
+  {
+    "id": "8504283",
+    "japanese": "待ってた方がいい？",
+    "english": "Should I wait?"
+  },
+  {
+    "id": "3496939",
+    "japanese": "門を閉じて。",
+    "english": "Shut the gate."
+  },
+  {
+    "id": "9928746",
+    "japanese": "誰か死んでるよ。",
+    "english": "Someone has died."
+  },
+  {
+    "id": "2529055",
+    "japanese": "誰か助けて。",
+    "english": "Somebody help me."
+  },
+  {
+    "id": "10701775",
+    "japanese": "列に並んで。",
+    "english": "Stand in line."
+  },
+  {
+    "id": "8571206",
+    "japanese": "後ろにいてね。",
+    "english": "Stay behind me."
+  },
+  {
+    "id": "3507496",
+    "japanese": "寝てなさい。",
+    "english": "Stay in bed."
+  },
+  {
+    "id": "9344366",
+    "japanese": "もう、しつこいな。",
+    "english": "Stop bothering me."
+  },
+  {
+    "id": "8752695",
+    "japanese": "お風呂に入りなさい。",
+    "english": "Take a bath."
+  },
+  {
+    "id": "11053930",
+    "japanese": "チャンスをつかめ。",
+    "english": "Take a chance."
+  },
+  {
+    "id": "8752765",
+    "japanese": "シャワーしてきて。",
+    "english": "Take a shower."
+  },
+  {
+    "id": "8752766",
+    "japanese": "シャワー浴びてきて。",
+    "english": "Take a shower."
+  },
+  {
+    "id": "3496944",
+    "japanese": "そこに私を連れてって。",
+    "english": "Take me there."
+  },
+  {
+    "id": "12595878",
+    "japanese": "私の車を使って。",
+    "english": "Take my car."
+  },
+  {
+    "id": "10473141",
+    "japanese": "薬を飲みなさい。",
+    "english": "Take your medicine."
+  },
+  {
+    "id": "10473144",
+    "japanese": "お薬、飲んでね。",
+    "english": "Take your medicine."
+  },
+  {
+    "id": "4562177",
+    "japanese": "それはダメだ。",
+    "english": "That isn't good."
+  },
+  {
+    "id": "11287227",
+    "japanese": "それは違うよ。",
+    "english": "That isn't right."
+  },
+  {
+    "id": "12483668",
+    "japanese": "そうだろう。",
+    "english": "That seems right."
+  },
+  {
+    "id": "2349359",
+    "japanese": "役に立つでしょう。",
+    "english": "That should help."
+  },
+  {
+    "id": "2250330",
+    "japanese": "私はめったに徒歩では通勤しない。",
+    "english": "I hardly ever walk to work."
+  },
+  {
+    "id": "2250331",
+    "japanese": "私はめったに徒歩で会社には行かない。",
+    "english": "I hardly ever walk to work."
+  },
+  {
+    "id": "2250334",
+    "japanese": "私はめったに歩いて仕事には行かない。",
+    "english": "I hardly ever walk to work."
+  },
+  {
+    "id": "2250372",
+    "japanese": "私はめったに歩いて通勤はしない。",
+    "english": "I hardly ever walk to work."
+  },
+  {
+    "id": "2250322",
+    "japanese": "そのうち読もうと思って買い揃えた世界文学全集も、結局ほとんど読まないまま本棚に飾ってあり、宝の持ち腐れになっている。",
+    "english": "In the end, the complete collection of world literature I had bought with the intention of reading someday became just a display on the bookcase, remaining mostly unread. What a waste."
+  },
+  {
+    "id": "2250355",
+    "japanese": "そりゃ気の毒だよね。",
+    "english": "That's a pity."
+  },
+  {
+    "id": "10820478",
+    "japanese": "この橋を渡るんじゃない。",
+    "english": "Don't cross this bridge."
+  },
+  {
+    "id": "10820479",
+    "japanese": "この橋は渡らないで。",
+    "english": "Don't cross this bridge."
+  },
+  {
+    "id": "10820480",
+    "japanese": "この橋を通るな。",
+    "english": "Don't cross this bridge."
+  },
+  {
+    "id": "10820483",
+    "japanese": "この橋渡るべからず。",
+    "english": "Don't cross this bridge."
+  },
+  {
+    "id": "3626248",
+    "japanese": "私たちには嘘をつかないで。",
+    "english": "Don't lie to us."
+  },
+  {
+    "id": "2250436",
+    "japanese": "大きくなったらケーキ屋さんになりたい。",
+    "english": "I want to become a cake chef when I get older."
+  },
+  {
+    "id": "10181949",
+    "japanese": "パープルのセーターよりグレーの方が好きです。",
+    "english": "I like the gray sweater more than the purple one."
+  },
+  {
+    "id": "10181950",
+    "japanese": "紫のセーターよりグレーのセーターの方が好きです。",
+    "english": "I like the gray sweater more than the purple one."
+  },
+  {
+    "id": "2250471",
+    "japanese": "気づいてた？",
+    "english": "Did you notice that?"
+  },
+  {
+    "id": "2250547",
+    "japanese": "妻は潔癖症だ。",
+    "english": "My wife is obsessed with cleanliness."
+  },
+  {
+    "id": "2250685",
+    "japanese": "ご飯にする？お風呂にする？それとも私？",
+    "english": "Do you want dinner? Or a bath? Or maybe you want me?"
+  },
+  {
+    "id": "2250738",
+    "japanese": "トムはかつて薬物依存症だった。",
+    "english": "Tom used to be a drug addict."
+  },
+  {
+    "id": "3507506",
+    "japanese": "そういうことだったのか！",
+    "english": "That was it."
+  },
+  {
+    "id": "4898064",
+    "japanese": "あれは間違いだった。",
+    "english": "That was wrong."
+  },
+  {
+    "id": "12344265",
+    "japanese": "それはびっくりね。",
+    "english": "That's a surprise."
+  },
+  {
+    "id": "9979530",
+    "japanese": "朗報だよ。",
+    "english": "That's good news."
+  },
+  {
+    "id": "2269959",
+    "japanese": "私の傘です。",
+    "english": "That's my umbrella."
+  },
+  {
+    "id": "11662082",
+    "japanese": "それは普通じゃないよ。",
+    "english": "That's not normal."
+  },
+  {
+    "id": "7704560",
+    "japanese": "それは可能性の一つです。",
+    "english": "That's one possibility."
+  },
+  {
+    "id": "9847462",
+    "japanese": "私たちの秘密ね。",
+    "english": "That's our secret."
+  },
+  {
+    "id": "3555518",
+    "japanese": "それって、全くもって当然だよ。",
+    "english": "That's perfectly natural."
+  },
+  {
+    "id": "3555519",
+    "japanese": "至極当然のことだ。",
+    "english": "That's perfectly natural."
+  },
+  {
+    "id": "11561461",
+    "japanese": "すごいかっこいい。",
+    "english": "That's really cool."
+  },
+  {
+    "id": "7575322",
+    "japanese": "それは答えだ。",
+    "english": "That's the answer."
+  },
+  {
+    "id": "10006941",
+    "japanese": "それが問題なのよ。",
+    "english": "That's the problem."
+  },
+  {
+    "id": "10006942",
+    "japanese": "それが悩みの種なんだ。",
+    "english": "That's the trouble."
+  },
+  {
+    "id": "11256133",
+    "japanese": "最悪だ。",
+    "english": "That's the worst."
+  },
+  {
+    "id": "10489344",
+    "japanese": "それは彼らの問題だよ。",
+    "english": "That's their problem."
+  },
+  {
+    "id": "4378691",
+    "japanese": "とても助かります。",
+    "english": "That's very helpful."
+  },
+  {
+    "id": "8663415",
+    "japanese": "すごく為になります。",
+    "english": "That's very helpful."
+  },
+  {
+    "id": "8663463",
+    "japanese": "とても参考になります。",
+    "english": "That's very helpful."
+  },
+  {
+    "id": "11946033",
+    "japanese": "そこはすごく重要よ。",
+    "english": "That's very important."
+  },
+  {
+    "id": "10040573",
+    "japanese": "それはとても珍しいわね。",
+    "english": "That's very rare."
+  },
+  {
+    "id": "10040574",
+    "japanese": "それはとても稀少ね。",
+    "english": "That's very rare."
+  },
+  {
+    "id": "2252335",
+    "japanese": "あなたがたは双子ですか？",
+    "english": "Are you twins?"
+  },
+  {
+    "id": "2252367",
+    "japanese": "箱にはりんごが5個入っている。",
+    "english": "There are five apples in the box."
+  },
+  {
+    "id": "2252368",
+    "japanese": "箱の中には5つのりんごが入っている。",
+    "english": "There are five apples in the box."
+  },
+  {
+    "id": "2252468",
+    "japanese": "トムが一番好き、ジョンは二番目に好き。",
+    "english": "I like Tom best, John second best."
+  },
+  {
+    "id": "2252491",
+    "japanese": "私には双子の兄がいる。",
+    "english": "I have a twin brother."
+  },
+  {
+    "id": "2252492",
+    "japanese": "私には双子の弟がいる。",
+    "english": "I have a twin brother."
+  },
+  {
+    "id": "2252513",
+    "japanese": "私には双子の子供がいる。",
+    "english": "I have twins."
+  },
+  {
+    "id": "11561872",
+    "japanese": "只より高いものはない。",
+    "english": "Nothing is as expensive as what one gets for free."
+  },
+  {
+    "id": "2252535",
+    "japanese": "トムとメアリーは双子です。",
+    "english": "Tom and Mary are twins."
+  },
+  {
+    "id": "2252540",
+    "japanese": "トムはメアリーの双子の弟です。",
+    "english": "Tom is Mary's twin brother."
+  },
+  {
+    "id": "2252541",
+    "japanese": "トムはメアリーと双子です。",
+    "english": "Tom is Mary's twin brother."
+  },
+  {
+    "id": "7422003",
+    "japanese": "犬が吠えた。",
+    "english": "The dog barked."
+  },
+  {
+    "id": "12700781",
+    "japanese": "学生たちは帰った。",
+    "english": "The students left."
+  },
+  {
+    "id": "12272808",
+    "japanese": "食べ物がないんです。",
+    "english": "There's no food."
+  },
+  {
+    "id": "8637441",
+    "japanese": "限界はありません。",
+    "english": "There's no limit."
+  },
+  {
+    "id": "2633830",
+    "japanese": "時間がない。",
+    "english": "There's no time."
+  },
+  {
+    "id": "5389416",
+    "japanese": "ここに誰もいません。",
+    "english": "There's nobody here."
+  },
+  {
+    "id": "11726664",
+    "japanese": "何の問題もない。",
+    "english": "There's nothing wrong."
+  },
+  {
+    "id": "11726665",
+    "japanese": "なんも悪くない。",
+    "english": "There's nothing wrong."
+  },
+  {
+    "id": "11572905",
+    "japanese": "もうひとつあります。",
+    "english": "There's one more."
+  },
+  {
+    "id": "9594334",
+    "japanese": "いっぱいあるなぁ。",
+    "english": "There's so much."
+  },
+  {
+    "id": "7577103",
+    "japanese": "そこには誰かがいる。",
+    "english": "There's someone there."
+  },
+  {
+    "id": "2252802",
+    "japanese": "トムに双子のきょうだいがいるって本当？",
+    "english": "Is it true that Tom has a twin?"
+  },
+  {
+    "id": "2981203",
+    "japanese": "単語を2，3個知っているだけ。",
+    "english": "I only know a few words."
+  },
+  {
+    "id": "2252928",
+    "japanese": "春眠暁を覚えず。",
+    "english": "In spring, one sleeps a sleep that knows no dawn."
+  },
+  {
+    "id": "2252947",
+    "japanese": "国破れて、山河あり。",
+    "english": "The country is in ruins, yet still there are mountains and rivers."
+  },
+  {
+    "id": "2253126",
+    "japanese": "春はあけぼの、夏はよる。",
+    "english": "In springtime, the dawn. In summer, the night."
+  },
+  {
+    "id": "2253215",
+    "japanese": "初心、忘るべからず。",
+    "english": "Always keep your mind as open as when you began."
+  },
+  {
+    "id": "10737494",
+    "japanese": "がっしりした体格してるわよ。",
+    "english": "He has a heavy frame."
+  },
+  {
+    "id": "2354085",
+    "japanese": "仕事に行き詰まった。",
+    "english": "I'm stuck in my job."
+  },
+  {
+    "id": "9694205",
+    "japanese": "フランスのワインって好き？",
+    "english": "Do you like French wine?"
+  },
+  {
+    "id": "3957495",
+    "japanese": "明日のことを考えなさい。",
+    "english": "Think about tomorrow."
+  },
+  {
+    "id": "10497503",
+    "japanese": "これ、気持ちいい！",
+    "english": "This feels good."
+  },
+  {
+    "id": "11960615",
+    "japanese": "こちらのは無料です。",
+    "english": "This one's free."
+  },
+  {
+    "id": "11960616",
+    "japanese": "こっちのは、タダよ。",
+    "english": "This one's free."
+  },
+  {
+    "id": "4897938",
+    "japanese": "これには納得がいきます。",
+    "english": "This sounds reasonable."
+  },
+  {
+    "id": "8617925",
+    "japanese": "自分の直感を信じなさいよ。",
+    "english": "Trust your instincts."
+  },
+  {
+    "id": "3491557",
+    "japanese": "やってみて。",
+    "english": "Try it out."
+  },
+  {
+    "id": "3509631",
+    "japanese": "あれ着てみて。",
+    "english": "Try that on."
+  },
+  {
+    "id": "3509632",
+    "japanese": "あれを試着してごらん。",
+    "english": "Try that on."
+  },
+  {
+    "id": "3509628",
+    "japanese": "これ着てみて。",
+    "english": "Try this on."
+  },
+  {
+    "id": "3509630",
+    "japanese": "これを試着してごらん。",
+    "english": "Try this on."
+  },
+  {
+    "id": "8400580",
+    "japanese": "説明してみて。",
+    "english": "Try to explain."
+  },
+  {
+    "id": "10609272",
+    "japanese": "笑ってごらん。",
+    "english": "Try to smile."
+  },
+  {
+    "id": "10609274",
+    "japanese": "笑顔！笑顔！",
+    "english": "Try to smile."
+  },
+  {
+    "id": "10609279",
+    "japanese": "笑ってみて。",
+    "english": "Try to smile."
+  },
+  {
+    "id": "6860386",
+    "japanese": "頭を使え。",
+    "english": "Use your head."
+  },
+  {
+    "id": "2749123",
+    "japanese": "向こうで待っていてね。",
+    "english": "Wait over there."
+  },
+  {
+    "id": "10551962",
+    "japanese": "あそこで待ってて。",
+    "english": "Wait over there."
+  },
+  {
+    "id": "3366798",
+    "japanese": "すぐそこで待ってて。",
+    "english": "Wait right there."
+  },
+  {
+    "id": "9171222",
+    "japanese": "別のところで待ってて。",
+    "english": "Wait somewhere else."
+  },
+  {
+    "id": "9171223",
+    "japanese": "よそで待ってて。",
+    "english": "Wait somewhere else."
+  },
+  {
+    "id": "12101368",
+    "japanese": "子供たちを起こしてよ。",
+    "english": "Wake the kids."
+  },
+  {
+    "id": "8692044",
+    "japanese": "寒かった？",
+    "english": "Was it cold?"
+  },
+  {
+    "id": "8689690",
+    "japanese": "おかしかった？",
+    "english": "Was it funny?"
+  },
+  {
+    "id": "8692045",
+    "japanese": "あれって、役に立った？",
+    "english": "Was that helpful?"
+  },
+  {
+    "id": "10908160",
+    "japanese": "お皿洗って。",
+    "english": "Wash the dishes."
+  },
+  {
+    "id": "3357862",
+    "japanese": "よく見て学べ。",
+    "english": "Watch and learn."
+  },
+  {
+    "id": "10141164",
+    "japanese": "口を慎みなさい。",
+    "english": "Watch your mouth."
+  },
+  {
+    "id": "11890740",
+    "japanese": "新しいアパートに引っ越したんだ。",
+    "english": "I moved into a new apartment."
+  },
+  {
+    "id": "2384252",
+    "japanese": "クリスマスプレゼントをありがとう。",
+    "english": "Thank you for the Christmas gift."
+  },
+  {
+    "id": "2794517",
+    "japanese": "オーストラリアへようこそ。",
+    "english": "Welcome to Australia."
+  },
+  {
+    "id": "8697815",
+    "japanese": "寝てたの？",
+    "english": "Were you asleep?"
+  },
+  {
+    "id": "8701763",
+    "japanese": "目隠しをされてたの？",
+    "english": "Were you blindfolded?"
+  },
+  {
+    "id": "8705973",
+    "japanese": "わくわくしてた？",
+    "english": "Were you excited?"
+  },
+  {
+    "id": "8705959",
+    "japanese": "招待された？",
+    "english": "Were you invited?"
+  },
+  {
+    "id": "8692060",
+    "japanese": "聞いてた？",
+    "english": "Were you listening?"
+  },
+  {
+    "id": "8692351",
+    "japanese": "病気だったの？",
+    "english": "Were you sick?"
+  },
+  {
+    "id": "8728760",
+    "japanese": "見てたの？",
+    "english": "Were you watching?"
+  },
+  {
+    "id": "8706050",
+    "japanese": "心配だった？",
+    "english": "Were you worried?"
+  },
+  {
+    "id": "2261452",
+    "japanese": "やれやれ。",
+    "english": "What a relief!"
+  },
+  {
+    "id": "2261687",
+    "japanese": "ああ、ほっとした。",
+    "english": "What a relief!"
+  },
+  {
+    "id": "2739079",
+    "japanese": "ボストンってどこにあるんですか？",
+    "english": "Where is Boston?"
+  },
+  {
+    "id": "2349345",
+    "japanese": "水は日の光を受けて輝く。",
+    "english": "Water glitters in the sunlight."
+  },
+  {
+    "id": "3480356",
+    "japanese": "ゆっくり、ゆっくり。",
+    "english": "Go slow."
+  },
+  {
+    "id": "3480357",
+    "japanese": "慌てない、慌てない。",
+    "english": "Go slow."
+  },
+  {
+    "id": "11191250",
+    "japanese": "僕のパソコンはどこ？",
+    "english": "Where's my computer?"
+  },
+  {
+    "id": "10157748",
+    "japanese": "パパ、どこ？",
+    "english": "Where's my daddy?"
+  },
+  {
+    "id": "12508607",
+    "japanese": "母はどこですか？",
+    "english": "Where's my mom?"
+  },
+  {
+    "id": "5065473",
+    "japanese": "私の母はどこですか？",
+    "english": "Where's my mother?"
+  },
+  {
+    "id": "10367330",
+    "japanese": "私の指輪、どこいった？",
+    "english": "Where's my ring?"
+  },
+  {
+    "id": "10367331",
+    "japanese": "私の指輪、どこ？",
+    "english": "Where's my ring?"
+  },
+  {
+    "id": "3573632",
+    "japanese": "息子はどこかしら？",
+    "english": "Where's my son?"
+  },
+  {
+    "id": "2466329",
+    "japanese": "病院は何処ですか？",
+    "english": "Where's the hospital?"
+  },
+  {
+    "id": "11563363",
+    "japanese": "あなたの上着はどこ？",
+    "english": "Where's your jacket?"
+  },
+  {
+    "id": "4744266",
+    "japanese": "あの人はいつ行きましたか。",
+    "english": "When did he go?"
+  },
+  {
+    "id": "2254766",
+    "japanese": "夏草や兵どもが夢の跡。",
+    "english": "Summer grasses, all that remain of warriors' dreams."
+  },
+  {
+    "id": "3573653",
+    "japanese": "誰がここに住んでいるの？",
+    "english": "Who lives here?"
+  },
+  {
+    "id": "3573655",
+    "japanese": "誰がこれを書いたの？",
+    "english": "Who wrote this?"
+  },
+  {
+    "id": "3573658",
+    "japanese": "誰だ？あいつ。",
+    "english": "Who's that guy?"
+  },
+  {
+    "id": "10914889",
+    "japanese": "あいつ誰？",
+    "english": "Who's that guy?"
+  },
+  {
+    "id": "7554272",
+    "japanese": "リラックスしていいよ。",
+    "english": "You can relax."
+  },
+  {
+    "id": "8866576",
+    "japanese": "よくできてたよ。",
+    "english": "You did great."
+  },
+  {
+    "id": "3573924",
+    "japanese": "お世辞がお上手ね。",
+    "english": "You flatter me."
+  },
+  {
+    "id": "12508740",
+    "japanese": "ばれちゃった。",
+    "english": "You got me."
+  },
+  {
+    "id": "8864215",
+    "japanese": "怒ってるみたいに見えたけど。",
+    "english": "You looked angry."
+  },
+  {
+    "id": "10623127",
+    "japanese": "もうわかんない。",
+    "english": "You lost me."
+  },
+  {
+    "id": "3366939",
+    "japanese": "食べなきゃダメだ。",
+    "english": "You must eat."
+  },
+  {
+    "id": "12167707",
+    "japanese": "あっ、びっくりした。",
+    "english": "You scared me."
+  },
+  {
+    "id": "7554273",
+    "japanese": "君はリラックスすべきだ。",
+    "english": "You should relax."
+  },
+  {
+    "id": "2718657",
+    "japanese": "電話すればよかったのに。",
+    "english": "You should've called."
+  },
+  {
+    "id": "2718658",
+    "japanese": "電話したらよかったのに。",
+    "english": "You should've called."
+  },
+  {
+    "id": "12047470",
+    "japanese": "盗み聞きは良くないよ。",
+    "english": "You shouldn't eavesdrop."
+  },
+  {
+    "id": "11052493",
+    "japanese": "騙したわね。",
+    "english": "You tricked me."
+  },
+  {
+    "id": "7577098",
+    "japanese": "あなたは病気だった。",
+    "english": "You were sick."
+  },
+  {
+    "id": "5348339",
+    "japanese": "あなたは生き残ります。",
+    "english": "You will survive."
+  },
+  {
+    "id": "12254378",
+    "japanese": "後悔するよ。",
+    "english": "You'll regret it."
+  },
+  {
+    "id": "4900481",
+    "japanese": "みんな君がいてくれたら、って思ってるよ。",
+    "english": "You've been missed."
+  },
+  {
+    "id": "2255557",
+    "japanese": "大人だけでなく、子供までも自動販売機でタバコが買える。",
+    "english": "Not just adults, but even children can buy cigarettes from vending machines."
+  },
+  {
+    "id": "2255565",
+    "japanese": "私はリーさんを通して彼と知り合いになった。",
+    "english": "I met him through Lee."
+  },
+  {
+    "id": "2255570",
+    "japanese": "そんないい人を振ったなんて、いったい何を考えてるの？",
+    "english": "What were you even thinking when you turned down such a good guy?"
+  },
+  {
+    "id": "2255572",
+    "japanese": "いつも熱心に勉強していた彼女が大学をやめたなんて、いったいどうしたんだろう。",
+    "english": "I wonder what happened to make a hardworking student like her drop out of college."
+  },
+  {
+    "id": "12725805",
+    "japanese": "2時に来て。",
+    "english": "Come at two o'clock."
+  },
+  {
+    "id": "8858458",
+    "japanese": "さっさと仕事を終わらせなさいよ。",
+    "english": "Finish your work quickly."
+  },
+  {
+    "id": "2255826",
+    "japanese": "運動不足は健康に悪い。",
+    "english": "A lack of exercise is bad for your health."
+  },
+  {
+    "id": "2255850",
+    "japanese": "私たちはラジオを聞いている。",
+    "english": "We are listening to the radio."
+  },
+  {
+    "id": "2256022",
+    "japanese": "自分を愛するというのは一生続くロマンスの始まりだ。",
+    "english": "To love oneself is the beginning of a life-long romance."
+  },
+  {
+    "id": "2256781",
+    "japanese": "生涯のロマンスは自己愛から始まる。",
+    "english": "To love oneself is the beginning of a life-long romance."
+  },
+  {
+    "id": "2256129",
+    "japanese": "過去を買い戻せるほど裕福なものはいない。",
+    "english": "No man is rich enough to buy back his own past."
+  },
+  {
+    "id": "2256174",
+    "japanese": "人気者になるためには、凡庸でなくてはならない。",
+    "english": "To become popular, you need to be mediocre."
+  },
+  {
+    "id": "2335272",
+    "japanese": "僕は一度テレビに出た。",
+    "english": "I appeared on television once."
+  },
+  {
+    "id": "2335285",
+    "japanese": "僕は一度テレビに出たんだが、誰も僕を信じてくれない。",
+    "english": "I appeared on television once, but nobody believes me."
+  },
+  {
+    "id": "2335288",
+    "japanese": "僕は一度テレビに出る機会があった。",
+    "english": "Once, I had the chance to appear on television."
+  },
+  {
+    "id": "2335293",
+    "japanese": "僕はテレビに出る唯一の機会を失った。",
+    "english": "I lost my only chance to appear on television."
+  },
+  {
+    "id": "2256823",
+    "japanese": "1453年、コンスタンティノープルはオスマン帝国の手に渡った。",
+    "english": "Constantinople fell to the hands of the Ottoman Turks in 1453."
+  },
+  {
+    "id": "4153538",
+    "japanese": "好きなだけ食べていいよ。",
+    "english": "You can eat as much as you want."
+  },
+  {
+    "id": "9995685",
+    "japanese": "それは嘘だよ。",
+    "english": "That's a lie."
+  },
+  {
+    "id": "10939534",
+    "japanese": "それは嘘です。",
+    "english": "That's a lie."
+  },
+  {
+    "id": "8894428",
+    "japanese": "それが私の目標なんだ。",
+    "english": "That's my aim."
+  },
+  {
+    "id": "2257014",
+    "japanese": "何事も一朝一夕にはいかない。",
+    "english": "Things cannot be accomplished overnight."
+  },
+  {
+    "id": "2256980",
+    "japanese": "彼の退屈な話にはいらいらする。",
+    "english": "I get irritated at his boring stories."
+  },
+  {
+    "id": "2256981",
+    "japanese": "昨日の試合ほどスリリングなラグビーの試合は見たことがない。",
+    "english": "I have never seen a rugby match as exciting as yesterday's match."
+  },
+  {
+    "id": "2257015",
+    "japanese": "職人の技は一朝一夕に習得できるものではない。",
+    "english": "Craftsmanship isn't something that can be learned overnight."
+  },
+  {
+    "id": "2257028",
+    "japanese": "玉屋！鍵屋！",
+    "english": "Jeweler! Locksmith!"
+  },
+  {
+    "id": "2257377",
+    "japanese": "ことによっては意外な結末もあり得る。",
+    "english": "Depending on how things go, it's possible there'll be a surprise ending."
+  },
+  {
+    "id": "10908757",
+    "japanese": "それはとても不適当だ。",
+    "english": "That's so inappropriate."
+  },
+  {
+    "id": "10059109",
+    "japanese": "くだらなすぎる。",
+    "english": "That's so silly."
+  },
+  {
+    "id": "10750099",
+    "japanese": "くだらなさすぎる。",
+    "english": "That's so silly."
+  },
+  {
+    "id": "2354373",
+    "japanese": "バカだ。",
+    "english": "That's so stupid."
+  },
+  {
+    "id": "8727010",
+    "japanese": "アートに興味ある？",
+    "english": "Are you interested in art?"
+  },
+  {
+    "id": "3241758",
+    "japanese": "聞きたいことはありますか？",
+    "english": "Do you want to ask me any questions?"
+  },
+  {
+    "id": "3597413",
+    "japanese": "あんまり遠くには行くなよ。",
+    "english": "Don't go too far away."
+  },
+  {
+    "id": "2258289",
+    "japanese": "アドバイスをしたつもりだったが、結果的に彼を怒らせてしまった。",
+    "english": "I just wanted to give him some advice, but in the end I made him angry."
+  },
+  {
+    "id": "9183357",
+    "japanese": "彼はとても狭い部屋で暮らしている。",
+    "english": "He lives in a very small room."
+  },
+  {
+    "id": "9183359",
+    "japanese": "彼はとても小さな部屋に住んでいる。",
+    "english": "He lives in a very small room."
+  },
+  {
+    "id": "9751986",
+    "japanese": "あいつ、イエスマンだよな。",
+    "english": "He's a yes-man."
+  },
+  {
+    "id": "5918687",
+    "japanese": "速く。遅いです。",
+    "english": "Hurry up, it's late."
+  },
+  {
+    "id": "10014825",
+    "japanese": "私はこの本があの本より好きだ。",
+    "english": "I like this book better than that one."
+  },
+  {
+    "id": "12486193",
+    "japanese": "ローテーブルが欲しいな。",
+    "english": "I want a low table."
+  },
+  {
+    "id": "10545188",
+    "japanese": "気分が冴えないな。",
+    "english": "I'm not feeling very well."
+  },
+  {
+    "id": "10651787",
+    "japanese": "貨物船だよ。",
+    "english": "It's a cargo ship."
+  },
+  {
+    "id": "11512170",
+    "japanese": "栗を焼こう。",
+    "english": "Let's roast the chestnuts."
+  },
+  {
+    "id": "3598252",
+    "japanese": "これから言うことをよく聞いて。",
+    "english": "Please pay attention to what I'm saying."
+  },
+  {
+    "id": "8602070",
+    "japanese": "彼女のウエストは細い。",
+    "english": "She has a small waist."
+  },
+  {
+    "id": "9251318",
+    "japanese": "あれ、めっちゃいい車だよ。",
+    "english": "That's a very good car."
+  },
+  {
+    "id": "11604035",
+    "japanese": "この色、しっくりこないね。",
+    "english": "These colors don't match well."
+  },
+  {
+    "id": "11604144",
+    "japanese": "この色合い、しっくりこないな。",
+    "english": "These colors don't match well."
+  },
+  {
+    "id": "8596921",
+    "japanese": "警察に通報するべきだよ。",
+    "english": "We have to notify the police."
+  },
+  {
+    "id": "2976069",
+    "japanese": "教会の鐘の音が聞こえてきた。",
+    "english": "We heard the church bells."
+  },
+  {
+    "id": "10336686",
+    "japanese": "何年もの間、田舎で暮らしていました。",
+    "english": "We lived in the country for many years."
+  },
+  {
+    "id": "10336688",
+    "japanese": "長い間、田舎暮らしをしていました。",
+    "english": "We lived in the country for many years."
+  },
+  {
+    "id": "2259996",
+    "japanese": "うちは門限が厳しい家だった。",
+    "english": "I had a strict curfew at my house."
+  },
+  {
+    "id": "2260037",
+    "japanese": "すみません、頭の回転が遅いもので。",
+    "english": "Sorry, but I'm a little slow-witted."
+  },
+  {
+    "id": "2260045",
+    "japanese": "トムの書く文章はとても訳しにくい。",
+    "english": "Tom's sentences are really hard to translate."
+  },
+  {
+    "id": "2260118",
+    "japanese": "この国の人口は徐々に減少している。",
+    "english": "The population of this country is gradually diminishing."
+  },
+  {
+    "id": "12957148",
+    "japanese": "もっといい方法がある。",
+    "english": "There is a better way."
+  },
+  {
+    "id": "2335327",
+    "japanese": "一ヶ月という時間はあまりにも短い。",
+    "english": "A month is too little time."
+  },
+  {
+    "id": "2349343",
+    "japanese": "彼女は私の唯一の友達だった。",
+    "english": "She was my only friend."
+  },
+  {
+    "id": "11030923",
+    "japanese": "うん。キスしたよ。で？",
+    "english": "Yes, I kissed him. So what?"
+  },
+  {
+    "id": "11724651",
+    "japanese": "「キスしたの？」「うん。したよ」",
+    "english": "\"Did you kiss him?\" \"Yes, I kissed him.\""
+  },
+  {
+    "id": "12286970",
+    "japanese": "命令です！",
+    "english": "That's an order!"
+  },
+  {
+    "id": "11706814",
+    "japanese": "奥様のご職業は何ですか？",
+    "english": "What's your wife's job?"
+  },
+  {
+    "id": "2372738",
+    "japanese": "あらあらあら。",
+    "english": "Well, well, well."
+  },
+  {
+    "id": "2263577",
+    "japanese": "この国ではフランス語とアラビア語が使われている。",
+    "english": "French and Arabic are spoken in this country."
+  },
+  {
+    "id": "2263578",
+    "japanese": "この国ではフランス語とアラビア語が話されている。",
+    "english": "French and Arabic are spoken in this country."
+  },
+  {
+    "id": "3138105",
+    "japanese": "ボストンにはいつまでいるの。",
+    "english": "How long will you be in Boston?"
+  },
+  {
+    "id": "2701348",
+    "japanese": "トムはまだ来てません。",
+    "english": "Tom hasn't arrived yet."
+  },
+  {
+    "id": "9002411",
+    "japanese": "トムはまだ来ていません。",
+    "english": "Tom hasn't arrived yet."
+  },
+  {
+    "id": "2261064",
+    "japanese": "メアリーはまだ来ていない。",
+    "english": "Mary has not arrived yet."
+  },
+  {
+    "id": "10367196",
+    "japanese": "２月は２８日しかありません。",
+    "english": "There are only 28 days in February."
+  },
+  {
+    "id": "2261142",
+    "japanese": "もうちょっとでもお金があれば買ったのに。",
+    "english": "If only I had just a little more money, I'd have bought it."
+  },
+  {
+    "id": "7462002",
+    "japanese": "トムは料理する。",
+    "english": "Tom is cooking."
+  },
+  {
+    "id": "2739755",
+    "japanese": "トム連れてきてもいい？",
+    "english": "Can I bring Tom?"
+  },
+  {
+    "id": "2739757",
+    "japanese": "トムに話してもいい？",
+    "english": "Can I tell Tom?"
+  },
+  {
+    "id": "12593699",
+    "japanese": "トムを連れてきてもいい？",
+    "english": "Can we bring Tom?"
+  },
+  {
+    "id": "11748259",
+    "japanese": "トムと連絡が取れる？",
+    "english": "Can you contact Tom?"
+  },
+  {
+    "id": "11748260",
+    "japanese": "トムと連絡つく？",
+    "english": "Can you contact Tom?"
+  },
+  {
+    "id": "6704237",
+    "japanese": "トムがメアリーを傷つけたの？",
+    "english": "Did Tom hurt Mary?"
+  },
+  {
+    "id": "9250671",
+    "japanese": "トムが君に言ったのか？",
+    "english": "Did Tom tell you?"
+  },
+  {
+    "id": "9250673",
+    "japanese": "トムがお前に伝えたのか？",
+    "english": "Did Tom tell you?"
+  },
+  {
+    "id": "9988873",
+    "japanese": "トムを困らすんじゃない。",
+    "english": "Don't bother Tom."
+  },
+  {
+    "id": "9988874",
+    "japanese": "トムに迷惑をかけるな。",
+    "english": "Don't bother Tom."
+  },
+  {
+    "id": "5072726",
+    "japanese": "トムを心配しないで。",
+    "english": "Don't worry about Tom."
+  },
+  {
+    "id": "9937967",
+    "japanese": "トムのことは気にしないで。",
+    "english": "Don't worry about Tom."
+  },
+  {
+    "id": "2740705",
+    "japanese": "そんなことトムでも知ってるよ。",
+    "english": "Even Tom knows that."
+  },
+  {
+    "id": "8950286",
+    "japanese": "みんなトムのことは知ってるよ。",
+    "english": "Everyone knows about Tom."
+  },
+  {
+    "id": "2261251",
+    "japanese": "良薬は口に苦く、忠言は耳に逆らう。",
+    "english": "Good medicine tastes bitter, good advice is hard to listen to."
+  },
+  {
+    "id": "2261263",
+    "japanese": "胃腸炎になったので、病院へ行きました。",
+    "english": "I got gastroenteritis the other day, so I went to the hospital."
+  },
+  {
+    "id": "2261265",
+    "japanese": "胃腸炎は、ノロウイルスが原因であることが多いです。",
+    "english": "Gastroenteritis is often caused by the norovirus."
+  },
+  {
+    "id": "2261320",
+    "japanese": "ギプスのせいで左手の自由がきかない。",
+    "english": "I can't use my left hand because of the plaster cast."
+  },
+  {
+    "id": "2261603",
+    "japanese": "どんな人がタイプなの？",
+    "english": "What's your type?"
+  },
+  {
+    "id": "7530220",
+    "japanese": "トムにティッシュをあげて。",
+    "english": "Give Tom a tissue."
+  },
+  {
+    "id": "2740707",
+    "japanese": "トムはもう来た？",
+    "english": "Has Tom arrived yet?"
+  },
+  {
+    "id": "3741386",
+    "japanese": "トムのこと許してあげたの？",
+    "english": "Have you forgiven Tom?"
+  },
+  {
+    "id": "8727082",
+    "japanese": "トムを見つけることができた？",
+    "english": "Have you found Tom?"
+  },
+  {
+    "id": "10367627",
+    "japanese": "彼の本名はトムです。",
+    "english": "His real name's Tom."
+  },
+  {
+    "id": "4622541",
+    "japanese": "トムは何歳ですか。",
+    "english": "How old is Tom?"
+  },
+  {
+    "id": "4622542",
+    "japanese": "トムはいくつですか。",
+    "english": "How old is Tom?"
+  },
+  {
+    "id": "2733635",
+    "japanese": "私はトムに賛成です。",
+    "english": "I agree with Tom."
+  },
+  {
+    "id": "10107049",
+    "japanese": "彼のことトムって呼んでるわよ。",
+    "english": "I call him Tom."
+  },
+  {
+    "id": "8986725",
+    "japanese": "トムの番号にかけたよ。",
+    "english": "I dialed Tom's number."
+  },
+  {
+    "id": "4561618",
+    "japanese": "私はさっきトムを見かけた。",
+    "english": "I just saw Tom."
+  },
+  {
+    "id": "8877008",
+    "japanese": "トムに嘘ついてるんだ。",
+    "english": "I lied to Tom."
+  },
+  {
+    "id": "11360298",
+    "japanese": "トムと一緒に住んでるんです。",
+    "english": "I live with Tom."
+  },
+  {
+    "id": "3551974",
+    "japanese": "トムに会わなくては。",
+    "english": "I must see Tom."
+  },
+  {
+    "id": "11127278",
+    "japanese": "トムのことがまだ好きなの。",
+    "english": "I still love Tom."
+  },
+  {
+    "id": "11127279",
+    "japanese": "トムのことをまだ愛してるの。",
+    "english": "I still love Tom."
+  },
+  {
+    "id": "5018821",
+    "japanese": "私はトムを信じ切っている。",
+    "english": "I trust Tom completely."
+  },
+  {
+    "id": "9939458",
+    "japanese": "俺、トムより上手さ。",
+    "english": "I'm better than Tom."
+  },
+  {
+    "id": "4307462",
+    "japanese": "まだトムと付き合ってる。",
+    "english": "I'm still seeing Tom."
+  },
+  {
+    "id": "6590321",
+    "japanese": "本当にトムですか。",
+    "english": "Is it really Tom?"
+  },
+  {
+    "id": "8727057",
+    "japanese": "トムはメアリーと一緒なの？",
+    "english": "Is Tom with Mary?"
+  },
+  {
+    "id": "8746138",
+    "japanese": "トムはクリスチャンなの？",
+    "english": "Is Tom a Christian?"
+  },
+  {
+    "id": "8746141",
+    "japanese": "トムはキリスト教徒なんですか？",
+    "english": "Is Tom a Christian?"
+  },
+  {
+    "id": "7610681",
+    "japanese": "トムは天才ですか？",
+    "english": "Is Tom a genius?"
+  },
+  {
+    "id": "8846728",
+    "japanese": "トムはアルコール依存症なの？",
+    "english": "Is Tom an alcoholic?"
+  },
+  {
+    "id": "8722379",
+    "japanese": "トムは行儀よくしてる？",
+    "english": "Is Tom behaving himself?"
+  },
+  {
+    "id": "8722380",
+    "japanese": "トムはおとなしくしてる？",
+    "english": "Is Tom behaving himself?"
+  },
+  {
+    "id": "8722381",
+    "japanese": "トムって今、手が空いてる？",
+    "english": "Is Tom free now?"
+  },
+  {
+    "id": "8722384",
+    "japanese": "トムはもうここにいるの？",
+    "english": "Is Tom here yet?"
+  },
+  {
+    "id": "8722391",
+    "japanese": "トムもここにいるの？",
+    "english": "Is Tom here, too?"
+  },
+  {
+    "id": "8714279",
+    "japanese": "トムはまだ海外にいるの？",
+    "english": "Is Tom still aboard?"
+  },
+  {
+    "id": "8714278",
+    "japanese": "トムはまだここにいる？",
+    "english": "Is Tom still here?"
+  },
+  {
+    "id": "8810250",
+    "japanese": "トムはまだ眠ってる？",
+    "english": "Is Tom still sleeping?"
+  },
+  {
+    "id": "4488961",
+    "japanese": "トムはまだ起きてるの？",
+    "english": "Is Tom still up?"
+  },
+  {
+    "id": "8836515",
+    "japanese": "それはトムが提案してるんですか？",
+    "english": "Is Tom suggesting that?"
+  },
+  {
+    "id": "3506616",
+    "japanese": "トムを生かしておけ。",
+    "english": "Let Tom live."
+  },
+  {
+    "id": "2349340",
+    "japanese": "トムとメアリーは生き残った。",
+    "english": "Tom and Mary survived."
+  },
+  {
+    "id": "4898068",
+    "japanese": "トムは狂ってる。",
+    "english": "Tom is mad."
+  },
+  {
+    "id": "10298616",
+    "japanese": "ボストンには何時に着きますか。",
+    "english": "What time will we arrive in Boston?"
+  },
+  {
+    "id": "7486215",
+    "japanese": "2時半に着いた。",
+    "english": "I arrived at 2:30."
+  },
+  {
+    "id": "7704564",
+    "japanese": "私は三日前に着きました。",
+    "english": "I arrived three days ago."
+  },
+  {
+    "id": "11545590",
+    "japanese": "着いたばっかりよ。",
+    "english": "I've only just arrived."
+  },
+  {
+    "id": "7486217",
+    "japanese": "トムは2時半に着いた。",
+    "english": "Tom arrived at 2:30."
+  },
+  {
+    "id": "2608703",
+    "japanese": "トムは三分早くついた。",
+    "english": "Tom arrived three minutes early."
+  },
+  {
+    "id": "8537267",
+    "japanese": "トム、着いたよ！",
+    "english": "Tom, we've arrived!"
+  },
+  {
+    "id": "11328060",
+    "japanese": "私達は少し遅れて到着した。",
+    "english": "We arrived a little late."
+  },
+  {
+    "id": "2737684",
+    "japanese": "トムはいつ着きましたか？",
+    "english": "When did Tom arrive?"
+  },
+  {
+    "id": "12022887",
+    "japanese": "ドイツ語、分かるんでしょ？",
+    "english": "You understand German, right?"
+  },
+  {
+    "id": "2263298",
+    "japanese": "何もかも嘘っぽいだった。",
+    "english": "Everything seemed like a lie."
+  },
+  {
+    "id": "2263369",
+    "japanese": "僕がついてるからね。",
+    "english": "I will always be there for you."
+  },
+  {
+    "id": "2263370",
+    "japanese": "いつもそばにいるよ。",
+    "english": "I will always be there for you."
+  },
+  {
+    "id": "11009419",
+    "japanese": "とっとと出てけ！",
+    "english": "Get out of here!"
+  },
+  {
+    "id": "10117490",
+    "japanese": "昨日一緒にいた、あのカッコいい人は誰なの？",
+    "english": "Who's that cute guy I saw you with yesterday?"
+  },
+  {
+    "id": "2263566",
+    "japanese": "ウサギは泳ぐことができますか？",
+    "english": "Can rabbits swim?"
+  },
+  {
+    "id": "6704194",
+    "japanese": "ウサギは泳げる。",
+    "english": "Rabbits can swim."
+  },
+  {
+    "id": "2263568",
+    "japanese": "誰も彼には近寄らなかった。",
+    "english": "No one went near him."
+  },
+  {
+    "id": "2263384",
+    "japanese": "彼は前線に送りこまれた。",
+    "english": "He was sent to the front lines."
+  },
+  {
+    "id": "2263561",
+    "japanese": "彼女はどんな様子だった？",
+    "english": "What did she look like?"
+  },
+  {
+    "id": "2263526",
+    "japanese": "彼はジャンクフード中毒になっている。",
+    "english": "He's addicted to junk food."
+  },
+  {
+    "id": "2263527",
+    "japanese": "「もふもふ」はもこもこふわふわした動物を表すのに使います。",
+    "english": "The Japanese word \"mofumofu\" is used to describe fluffy and light animals."
+  },
+  {
+    "id": "2263528",
+    "japanese": "学校までは歩いて10分で行ける。",
+    "english": "One can walk to school in ten minutes."
+  },
+  {
+    "id": "2263530",
+    "japanese": "また、空気を含ませることにより、もふもふ感が出ます。",
+    "english": "Also, after it is whipped, a fluffy texture emerges."
+  },
+  {
+    "id": "13279835",
+    "japanese": "トムは毛布の下に潜り込んだ。",
+    "english": "Tom snuggled under the blankets."
+  },
+  {
+    "id": "2263559",
+    "japanese": "許容できる文とできない文を明確に線引きするのは決して容易な作業ではない。",
+    "english": "It's by no means an easy task to draw a clear line between an acceptable sentence and an unacceptable one."
+  },
+  {
+    "id": "2263570",
+    "japanese": "この夏はどこかに出かけた？",
+    "english": "Did you go somewhere this summer?"
+  },
+  {
+    "id": "2263707",
+    "japanese": "この夏はどっか行った？",
+    "english": "Did you go somewhere this summer?"
+  },
+  {
+    "id": "2263650",
+    "japanese": "ショウイチは青ざめた。",
+    "english": "Shoichi turned pale."
+  },
+  {
+    "id": "2263651",
+    "japanese": "ショウイチは顔面蒼白になった。",
+    "english": "Shoichi's face turned pale."
+  },
+  {
+    "id": "2263712",
+    "japanese": "トムは高価なワインと安いワインの違いを説明できない。",
+    "english": "Tom can't explain the difference between cheap wine and expensive wine."
+  },
+  {
+    "id": "2263749",
+    "japanese": "井戸はこの広場の中央にある。",
+    "english": "The well is in the middle of this plaza."
+  },
+  {
+    "id": "2263755",
+    "japanese": "天気が良かったら行きます。",
+    "english": "I'll go if the weather's good."
+  },
+  {
+    "id": "2263776",
+    "japanese": "上の階の窓が開いた。",
+    "english": "The upstairs window opened."
+  },
+  {
+    "id": "2263790",
+    "japanese": "この辺りではめったに雪は降らない。",
+    "english": "It rarely snows in this area."
+  },
+  {
+    "id": "2263796",
+    "japanese": "彼は人間よりも動物を愛している。",
+    "english": "He likes animals more than people."
+  },
+  {
+    "id": "2263818",
+    "japanese": "「自由・平等・博愛」はハイチ共和国のスローガンでもある。",
+    "english": "\"Freedom, Equality, Brotherhood\" is also Haiti's motto."
+  },
+  {
+    "id": "2263840",
+    "japanese": "羊の毛はもこもこしている。",
+    "english": "Sheep fur is fluffy."
+  },
+  {
+    "id": "2263845",
+    "japanese": "オーストラリアには美人が多いと思う（当社比）。",
+    "english": "I think there are a lot of beautiful women in Australia (YMMV)."
+  },
+  {
+    "id": "2263879",
+    "japanese": "解決策は思い浮かぶ？",
+    "english": "Does a solution come to mind?"
+  },
+  {
+    "id": "2264007",
+    "japanese": "超軽量新素材の採用により、従来の約半分（当社比）という圧倒的な軽さを実現！",
+    "english": "As a result of new ultra-light materials, our product now only weighs about half as much as before!"
+  },
+  {
+    "id": "8588531",
+    "japanese": "飲み物、ありがとう。",
+    "english": "Thanks for the drink."
+  },
+  {
+    "id": "11365409",
+    "japanese": "俺につけといて。",
+    "english": "Add it to my bill."
+  },
+  {
+    "id": "12946749",
+    "japanese": "スープに水を足して。",
+    "english": "Add water to the soup."
+  },
+  {
+    "id": "10272040",
+    "japanese": "目覚まし時計って、あります？",
+    "english": "Do you sell alarm clocks?"
+  },
+  {
+    "id": "11683430",
+    "japanese": "子どもみたいなことすんな。",
+    "english": "Don't act like a child."
+  },
+  {
+    "id": "8702750",
+    "japanese": "全部でいくつあるの？",
+    "english": "How many are there in all?"
+  },
+  {
+    "id": "11906473",
+    "japanese": "できれば、飛行機で行きたいです。",
+    "english": "I want to go by air if possible."
+  },
+  {
+    "id": "11391184",
+    "japanese": "午後には出発します。",
+    "english": "I'm leaving in the afternoon."
+  },
+  {
+    "id": "10545241",
+    "japanese": "入場料は無料です。",
+    "english": "Admission is free."
+  },
+  {
+    "id": "10545243",
+    "japanese": "入場無料だよ。",
+    "english": "Admission is free."
+  },
+  {
+    "id": "8780117",
+    "japanese": "散歩に行くの？",
+    "english": "Are you going for a walk?"
+  },
+  {
+    "id": "8748171",
+    "japanese": "私の友達のこと言ってるの？",
+    "english": "Are you talking about my friend?"
+  },
+  {
+    "id": "8748172",
+    "japanese": "俺の友達のこと話してるのか？",
+    "english": "Are you talking about my friend?"
+  },
+  {
+    "id": "2298755",
+    "japanese": "やっと、どうにかして彼を見つけた。",
+    "english": "At last, I managed to find him."
+  },
+  {
+    "id": "11165369",
+    "japanese": "リボン結びできる？",
+    "english": "Can you tie a bow?"
+  },
+  {
+    "id": "11165370",
+    "japanese": "蝶々結びできる？",
+    "english": "Can you tie a bow?"
+  },
+  {
+    "id": "11165371",
+    "japanese": "蝶結びできる？",
+    "english": "Can you tie a bow?"
+  },
+  {
+    "id": "9681645",
+    "japanese": "もぅ、止めてよ。くすぐったい！",
+    "english": "Oh stop, that tickles!"
+  },
+  {
+    "id": "10505941",
+    "japanese": "くすぐるのはやめろ！",
+    "english": "Stop tickling me!"
+  },
+  {
+    "id": "2270680",
+    "japanese": "お父様にそっくりですね。",
+    "english": "You're just like your father."
+  },
+  {
+    "id": "2275714",
+    "japanese": "この国では同性婚が合法化されている。",
+    "english": "Same-sex marriage is legal here."
+  },
+  {
+    "id": "2275715",
+    "japanese": "この地域では同性婚が認められている。",
+    "english": "Same-sex marriage is legal here."
+  },
+  {
+    "id": "2275723",
+    "japanese": "この州では同性婚は合法だ。",
+    "english": "Same-sex marriage is legal here."
+  },
+  {
+    "id": "2265731",
+    "japanese": "禁煙したほうがいいと思います。",
+    "english": "I think you should stop smoking."
+  },
+  {
+    "id": "8336029",
+    "japanese": "カップにピルを溶かし入れてください。",
+    "english": "Dissolve the tablet in a glass of water."
+  },
+  {
+    "id": "11604177",
+    "japanese": "長く待たせないでよ。",
+    "english": "Don't make me wait long."
+  },
+  {
+    "id": "10320845",
+    "japanese": "お願いだから、そんなこと言わないで！",
+    "english": "For goodness' sake, don't say that!"
+  },
+  {
+    "id": "2322657",
+    "japanese": "ギリシャは西洋文明の揺籃の地であった。",
+    "english": "Greece was the cradle of western civilization."
+  },
+  {
+    "id": "10264050",
+    "japanese": "あいつ、タフガイぶってるよ。",
+    "english": "He acts like a tough guy."
+  },
+  {
+    "id": "10317754",
+    "japanese": "さよならさえ言わなかった。",
+    "english": "He didn't even say goodbye."
+  },
+  {
+    "id": "10317757",
+    "japanese": "お別れのあいさつもなかった。",
+    "english": "He didn't even say goodbye."
+  },
+  {
+    "id": "8918291",
+    "japanese": "彼は前年に死んだ。",
+    "english": "He died last year."
+  },
+  {
+    "id": "8513281",
+    "japanese": "彼は、欲しいもの全てを手にした。",
+    "english": "He got all he wanted."
+  },
+  {
+    "id": "8513284",
+    "japanese": "彼が望むもの全てを手に入れた。",
+    "english": "He got all he wanted."
+  },
+  {
+    "id": "10682352",
+    "japanese": "この階段は何段あるの？",
+    "english": "How many steps does this staircase have?"
+  },
+  {
+    "id": "10682353",
+    "japanese": "この階段は何段あるんですか？",
+    "english": "How many steps does this staircase have?"
+  },
+  {
+    "id": "11156561",
+    "japanese": "重すぎて、こんなの持てないよ。",
+    "english": "I can't lift this. It's too heavy."
+  },
+  {
+    "id": "11156562",
+    "japanese": "こんなの持ち上げられないって。重すぎるって。",
+    "english": "I can't lift this. It's too heavy."
+  },
+  {
+    "id": "11483542",
+    "japanese": "急いでるんだから、待てません。",
+    "english": "I can't wait because I'm in a hurry."
+  },
+  {
+    "id": "12630149",
+    "japanese": "この帽子の形は好きじゃないんだ。",
+    "english": "I don't like the shape of this hat."
+  },
+  {
+    "id": "9694238",
+    "japanese": "フランス料理が好きなんだ。",
+    "english": "I like French cooking."
+  },
+  {
+    "id": "2267081",
+    "japanese": "りんごが嫌いな子どももいる。",
+    "english": "There are also some children who don't like apples."
+  },
+  {
+    "id": "10488885",
+    "japanese": "サングラスを買いたいな。",
+    "english": "I want to buy some dark glasses."
+  },
+  {
+    "id": "12678421",
+    "japanese": "どうしてもお金が必要なんだ。",
+    "english": "I'm in dire need of money."
+  },
+  {
+    "id": "8731242",
+    "japanese": "明日って祝日だっけ？",
+    "english": "Is tomorrow a holiday?"
+  },
+  {
+    "id": "11995520",
+    "japanese": "明日って、休みだっけ？",
+    "english": "Is tomorrow a holiday?"
+  },
+  {
+    "id": "12016403",
+    "japanese": "昨夜はすごく冷えたね。",
+    "english": "It was very cold last night."
+  },
+  {
+    "id": "6956277",
+    "japanese": "入る前にノックして。",
+    "english": "Knock before entering."
+  },
+  {
+    "id": "12593256",
+    "japanese": "弟は、私より6歳下です。",
+    "english": "My brother's six years younger than I am."
+  },
+  {
+    "id": "13256543",
+    "japanese": "タクシーを呼んでください。",
+    "english": "Please call a taxi."
+  },
+  {
+    "id": "9308454",
+    "japanese": "お金はポケットの中にしまって。",
+    "english": "Put the money in your pocket."
+  },
+  {
+    "id": "11683099",
+    "japanese": "あいつ、いい度胸してるな。",
+    "english": "That guy has a lot of nerve."
+  },
+  {
+    "id": "8537512",
+    "japanese": "車は止まった。",
+    "english": "The automobile stopped."
+  },
+  {
+    "id": "10001993",
+    "japanese": "そのエレベーター、動いてないよ。",
+    "english": "The elevator isn't running."
+  },
+  {
+    "id": "11686087",
+    "japanese": "敵が後方から攻めてきた。",
+    "english": "The enemy attacked from behind."
+  },
+  {
+    "id": "2315122",
+    "japanese": "前途は暗澹としていた。",
+    "english": "The future looked very gloomy."
+  },
+  {
+    "id": "9089088",
+    "japanese": "その家にはダイニング、寝室そして書斎があります。",
+    "english": "The house has a dining room, a bedroom and a study."
+  },
+  {
+    "id": "3655334",
+    "japanese": "家は丘の上にあります。",
+    "english": "The house is on the hill."
+  },
+  {
+    "id": "11395130",
+    "japanese": "新聞にすごくいい写真が載ってたよ。",
+    "english": "The newspaper had very good pictures."
+  },
+  {
+    "id": "2858331",
+    "japanese": "飛行機はまだ離陸していない。",
+    "english": "The plane still hasn't taken off."
+  },
+  {
+    "id": "10108447",
+    "japanese": "計画が形になってきたよ。",
+    "english": "The project's taking shape."
+  },
+  {
+    "id": "11395121",
+    "japanese": "部屋は足の踏み場もなかった。",
+    "english": "The room was a complete mess."
+  },
+  {
+    "id": "2508369",
+    "japanese": "お湯が沸き始めた。",
+    "english": "The water began to boil."
+  },
+  {
+    "id": "2414169",
+    "japanese": "女は二人の男の間に座っていた。",
+    "english": "The woman was sitting between two men."
+  },
+  {
+    "id": "11559510",
+    "japanese": "昨日、五番街で事故がありました。",
+    "english": "There was an accident on Fifth Avenue yesterday."
+  },
+  {
+    "id": "12879012",
+    "japanese": "見つけた箱には何もなかった。",
+    "english": "The box, which I had found was empty."
+  },
+  {
+    "id": "2268891",
+    "japanese": "トムとメアリーは昼の間じゅう樫の木陰で俳句を詠み交わしていた。",
+    "english": "Under the shadow of the oak tree, Tom and Mary recited haiku to each other all day long."
+  },
+  {
+    "id": "2304998",
+    "japanese": "この椅子は座り心地が悪い。",
+    "english": "This chair is uncomfortable."
+  },
+  {
+    "id": "10335372",
+    "japanese": "この魚、骨が多いね。",
+    "english": "This fish has a lot of bones."
+  },
+  {
+    "id": "9819593",
+    "japanese": "それを私に聞いちゃダメ。",
+    "english": "Don't ask me that."
+  },
+  {
+    "id": "9821351",
+    "japanese": "それは私に聞かないで。",
+    "english": "Don't ask me that."
+  },
+  {
+    "id": "10557546",
+    "japanese": "卑怯なまねしないでよ。",
+    "english": "Don't be a coward."
+  },
+  {
+    "id": "2269383",
+    "japanese": "もういいんだ。",
+    "english": "It doesn't matter now."
+  },
+  {
+    "id": "2269394",
+    "japanese": "トム、邪魔しないで。",
+    "english": "Tom, don't interrupt."
+  },
+  {
+    "id": "4213319",
+    "japanese": "待って。行かないでよ。",
+    "english": "Wait. Don't go."
+  },
+  {
+    "id": "2269422",
+    "japanese": "死ね！一番惨い死に方をするがいい！",
+    "english": "Die! In the most cruel way possible!"
+  },
+  {
+    "id": "2269435",
+    "japanese": "世が世なら今頃いい仕事をしているはずだ。",
+    "english": "If the circumstances were better, I'd have a good job by now."
+  },
+  {
+    "id": "8282089",
+    "japanese": "彼女は親の言うことを聞かない。",
+    "english": "She doesn't listen to her parents."
+  },
+  {
+    "id": "2269446",
+    "japanese": "なぜあんな仰々しい着物を身につけてるのかよ。",
+    "english": "Why are you wearing such a flashy kimono?"
+  },
+  {
+    "id": "2269462",
+    "japanese": "何やら仰々しいお客様がいらっしゃるらしい。",
+    "english": "It seems we have an extravagant guest."
+  },
+  {
+    "id": "2269578",
+    "japanese": "私は不可知論者です。",
+    "english": "I'm an agnostic."
+  },
+  {
+    "id": "2269681",
+    "japanese": "おい、君！こっちに来い。",
+    "english": "Hey, you! Come here."
+  },
+  {
+    "id": "2976543",
+    "japanese": "車なら3時間で着くよ。",
+    "english": "We'll arrive in three hours if we drive."
+  },
+  {
+    "id": "3447479",
+    "japanese": "夕食を何時にとりますか？",
+    "english": "What time do you have dinner?"
+  },
+  {
+    "id": "3447514",
+    "japanese": "夕食は何時に召し上がりますか。",
+    "english": "What time do you have dinner?"
+  },
+  {
+    "id": "2354361",
+    "japanese": "どれが君の友だちの居るグループ？",
+    "english": "Which group is your friend in?"
+  },
+  {
+    "id": "3556230",
+    "japanese": "警察に通報するな。",
+    "english": "Don't call the police."
+  },
+  {
+    "id": "8976308",
+    "japanese": "何事も慌ててやらないようにね。",
+    "english": "Don't do anything hasty."
+  },
+  {
+    "id": "11546067",
+    "japanese": "調子に乗るな。",
+    "english": "Don't get carried away."
+  },
+  {
+    "id": "10610189",
+    "japanese": "そう感情的にならないで。",
+    "english": "Don't get so emotional."
+  },
+  {
+    "id": "3588637",
+    "japanese": "それに近づかないで。",
+    "english": "Don't go near that."
+  },
+  {
+    "id": "10197571",
+    "japanese": "期待しないでね。",
+    "english": "Don't hold your breath."
+  },
+  {
+    "id": "6704206",
+    "japanese": "行かせないで。",
+    "english": "Don't make me go."
+  },
+  {
+    "id": "8655544",
+    "japanese": "何も言っちゃダメだよ。わかった？",
+    "english": "Don't say anything, OK?"
+  },
+  {
+    "id": "10006824",
+    "japanese": "二度と言うな。",
+    "english": "Don't say it again."
+  },
+  {
+    "id": "3495499",
+    "japanese": "お支払いは現金になさいますか。",
+    "english": "Will you pay cash?"
+  },
+  {
+    "id": "11541986",
+    "japanese": "住所をはっきり書いてください。",
+    "english": "Write the address clearly."
+  },
+  {
+    "id": "2270737",
+    "japanese": "先生にはベルベル語で話しかけます。",
+    "english": "I speak Berber to my teacher."
+  },
+  {
+    "id": "2270739",
+    "japanese": "アルファベット圏の顔文字はどうして横に倒れているのですか？",
+    "english": "Why are kaomoji from countries using the Latin alphabet turned sideways?"
+  },
+  {
+    "id": "2271255",
+    "japanese": "おかけになってお待ちください。",
+    "english": "Please take a seat and wait."
+  },
+  {
+    "id": "2271258",
+    "japanese": "私はドライな女だと思っといて。",
+    "english": "Think of me as an unemotional woman."
+  },
+  {
+    "id": "2271259",
+    "japanese": "ある朝僕が目覚めると、財布の中のお札が全部二千円札に変わっていた。",
+    "english": "One morning, when I woke up, I found that all the bills in my wallet had changed into two-thousand yen bills."
+  },
+  {
+    "id": "2271260",
+    "japanese": "僕の名前は上下合わせて50画もあるので、書くのがとても面倒だ。",
+    "english": "It's a lot of trouble to write my name, because it takes 50 strokes to write both my first and last names."
+  },
+  {
+    "id": "2271277",
+    "japanese": "トムはメアリーに車を洗わせた。",
+    "english": "Tom made Mary wash his car."
+  },
+  {
+    "id": "2272004",
+    "japanese": "トムは自分の車をメアリーに洗わせた。",
+    "english": "Tom made Mary wash his car."
+  },
+  {
+    "id": "2271332",
+    "japanese": "「トムのこと好きなの？」「好きは好きだよ。でも恋愛対象としては見れないの」",
+    "english": "\"Do you like Tom?\" \"I like him, but I can't see him as a romantic interest.\""
+  },
+  {
+    "id": "12576990",
+    "japanese": "遠回しな言い方するなよ。",
+    "english": "Don't sugarcoat it."
+  },
+  {
+    "id": "12576992",
+    "japanese": "オブラートに包んだ言い方はしないで。",
+    "english": "Don't sugarcoat it."
+  },
+  {
+    "id": "9414953",
+    "japanese": "トムには黙っててね。",
+    "english": "Don't tell Tom anything."
+  },
+  {
+    "id": "11853542",
+    "japanese": "何も知らないの？",
+    "english": "Don't you know anything?"
+  },
+  {
+    "id": "4843030",
+    "japanese": "知らないの？",
+    "english": "Don't you know that?"
+  },
+  {
+    "id": "2740704",
+    "japanese": "トムのこと信頼してないの？",
+    "english": "Don't you trust Tom?"
+  },
+  {
+    "id": "11582989",
+    "japanese": "信じてませんでした。",
+    "english": "I didn't believe it."
+  },
+  {
+    "id": "10483472",
+    "japanese": "そんなことしてません。",
+    "english": "I didn't do that."
+  },
+  {
+    "id": "10483479",
+    "japanese": "トムのことが気に食わなかった。",
+    "english": "I didn't like Tom."
+  },
+  {
+    "id": "10483481",
+    "japanese": "トムのことが気に入らなかった。",
+    "english": "I didn't like Tom."
+  },
+  {
+    "id": "10483482",
+    "japanese": "トムが嫌いでした。",
+    "english": "I didn't like Tom."
+  },
+  {
+    "id": "10287834",
+    "japanese": "そうは思わなかったよ。",
+    "english": "I didn't think so."
+  },
+  {
+    "id": "8513385",
+    "japanese": "もう気にしない。",
+    "english": "I don't care anymore."
+  },
+  {
+    "id": "11277668",
+    "japanese": "否定はしません。",
+    "english": "I don't deny it."
+  },
+  {
+    "id": "10774758",
+    "japanese": "そんなことしないよ。",
+    "english": "I don't do that."
+  },
+  {
+    "id": "9250747",
+    "japanese": "何も感じないよ。",
+    "english": "I don't feel anything."
+  },
+  {
+    "id": "9250748",
+    "japanese": "なんも感じない。",
+    "english": "I don't feel anything."
+  },
+  {
+    "id": "10648855",
+    "japanese": "もうギャンブルはしてないよ。",
+    "english": "I don't gamble anymore."
+  },
+  {
+    "id": "10648856",
+    "japanese": "賭け事はもうしてないよ。",
+    "english": "I don't gamble anymore."
+  },
+  {
+    "id": "5076120",
+    "japanese": "お金はいらない。",
+    "english": "I don't need money."
+  },
+  {
+    "id": "9695668",
+    "japanese": "あまり覚えてないんだ。",
+    "english": "I don't really remember."
+  },
+  {
+    "id": "9696439",
+    "japanese": "あまり記憶にないんだ。",
+    "english": "I don't really remember."
+  },
+  {
+    "id": "11041769",
+    "japanese": "本当に覚えてないよ。",
+    "english": "I really don't remember."
+  },
+  {
+    "id": "10985084",
+    "japanese": "やっぱりわかりません。",
+    "english": "I still don't understand."
+  },
+  {
+    "id": "3266774",
+    "japanese": "難しくはないさ。",
+    "english": "It won't be hard."
+  },
+  {
+    "id": "12751574",
+    "japanese": "うちの奥さんは料理をしないんだ。",
+    "english": "My wife doesn't cook."
+  },
+  {
+    "id": "3357739",
+    "japanese": "彼らはそれをやらなかった。",
+    "english": "They didn't do it."
+  },
+  {
+    "id": "3357740",
+    "japanese": "彼らはそれをしなかった。",
+    "english": "They didn't do it."
+  },
+  {
+    "id": "11380310",
+    "japanese": "私の言うことは信じてもらえないんです。",
+    "english": "They don't believe me."
+  },
+  {
+    "id": "5185672",
+    "japanese": "彼らは私を信じないだろう。",
+    "english": "They won't believe me."
+  },
+  {
+    "id": "2617827",
+    "japanese": "トムは私を信じなかった。",
+    "english": "Tom didn't believe me."
+  },
+  {
+    "id": "2621192",
+    "japanese": "トムは私を信じてくれなかった。",
+    "english": "Tom didn't believe me."
+  },
+  {
+    "id": "2621193",
+    "japanese": "私はトムに信じてもらえなかった。",
+    "english": "Tom didn't believe me."
+  },
+  {
+    "id": "2617840",
+    "japanese": "トムは持って来なかった。",
+    "english": "Tom didn't bring it."
+  },
+  {
+    "id": "9633924",
+    "japanese": "トムはそれは買わなかったよ。",
+    "english": "Tom didn't buy it."
+  },
+  {
+    "id": "9633925",
+    "japanese": "トムはそれを買いはしなかった。",
+    "english": "Tom didn't buy it."
+  },
+  {
+    "id": "11507208",
+    "japanese": "トムは釣りに行かなかったんだ。",
+    "english": "Tom didn't go fishing."
+  },
+  {
+    "id": "2631280",
+    "japanese": "トムには何もない。",
+    "english": "Tom doesn't have anything."
+  },
+  {
+    "id": "2631277",
+    "japanese": "トムには子供がいない。",
+    "english": "Tom doesn't have children."
+  },
+  {
+    "id": "3416345",
+    "japanese": "トムはそれを知りません。",
+    "english": "Tom doesn't know that."
+  },
+  {
+    "id": "11390378",
+    "japanese": "トムはまだ知らないんだ。",
+    "english": "Tom doesn't know yet."
+  },
+  {
+    "id": "2631200",
+    "japanese": "トムはあなたが好きじゃないんだ。",
+    "english": "Tom doesn't like you."
+  },
+  {
+    "id": "8056970",
+    "japanese": "トムはメアリーをクビにしない。",
+    "english": "Tom won't fire Mary."
+  },
+  {
+    "id": "9462512",
+    "japanese": "トムはもう行っちゃったよ。",
+    "english": "Tom has already gone."
+  },
+  {
+    "id": "8868619",
+    "japanese": "トムは洗脳されている。",
+    "english": "Tom has been brainwashed."
+  },
+  {
+    "id": "2654005",
+    "japanese": "トムはずっと勉強をしている。",
+    "english": "Tom has been studying."
+  },
+  {
+    "id": "2631311",
+    "japanese": "トムはまったくお金がない。",
+    "english": "Tom has no money."
+  },
+  {
+    "id": "9551862",
+    "japanese": "トムは赤ちゃんなんだ。",
+    "english": "Tom is a baby."
+  },
+  {
+    "id": "2504606",
+    "japanese": "トムは本の虫だ。",
+    "english": "Tom is a bookworm."
+  },
+  {
+    "id": "8924567",
+    "japanese": "トムはボクサーなんだ。",
+    "english": "Tom is a boxer."
+  },
+  {
+    "id": "9345751",
+    "japanese": "トムはいじめっ子だよ。",
+    "english": "Tom is a bully."
+  },
+  {
+    "id": "10171358",
+    "japanese": "トムはカメラマンだよ。",
+    "english": "Tom is a cameraman."
+  },
+  {
+    "id": "11508668",
+    "japanese": "トムはダンサーなんだ。",
+    "english": "Tom is a dancer."
+  },
+  {
+    "id": "8242544",
+    "japanese": "トムは天才です。",
+    "english": "Tom is a genius."
+  },
+  {
+    "id": "8619736",
+    "japanese": "トムは卒業生です。",
+    "english": "Tom is a graduate."
+  },
+  {
+    "id": "11101242",
+    "japanese": "トムはガキよ。",
+    "english": "Tom is a kid."
+  },
+  {
+    "id": "10575950",
+    "japanese": "トムって、嘘つきなのよ。",
+    "english": "Tom is a liar."
+  },
+  {
+    "id": "9826795",
+    "japanese": "トムはお酒に弱いのよ。",
+    "english": "Tom is a lightweight."
+  },
+  {
+    "id": "9826796",
+    "japanese": "トムってね、下戸なのよ。",
+    "english": "Tom is a lightweight."
+  },
+  {
+    "id": "8962514",
+    "japanese": "トムはマジシャンなんだ。",
+    "english": "Tom is a magician."
+  },
+  {
+    "id": "2749765",
+    "japanese": "トムは詩人だ。",
+    "english": "Tom is a poet."
+  },
+  {
+    "id": "3555495",
+    "japanese": "トムは政治家です。",
+    "english": "Tom is a politician."
+  },
+  {
+    "id": "2485943",
+    "japanese": "トムは精神科医をしている。",
+    "english": "Tom is a psychiatrist."
+  },
+  {
+    "id": "3555496",
+    "japanese": "トムは策略家だ。",
+    "english": "Tom is a schemer."
+  },
+  {
+    "id": "10014742",
+    "japanese": "トムは獣医だよ。",
+    "english": "Tom is a veterinarian."
+  },
+  {
+    "id": "8592124",
+    "japanese": "トムは仕事一筋だ。",
+    "english": "Tom is all business."
+  },
+  {
+    "id": "10219269",
+    "japanese": "トムったら、耳をダンボにしてるわよ。",
+    "english": "Tom is all ears."
+  },
+  {
+    "id": "9963900",
+    "japanese": "トムはいつもここにいます。",
+    "english": "Tom is always here."
+  },
+  {
+    "id": "2337382",
+    "japanese": "トムは大人だ。",
+    "english": "Tom is an adult."
+  },
+  {
+    "id": "10668572",
+    "japanese": "トムはエンジニアです。",
+    "english": "Tom is an engineer."
+  },
+  {
+    "id": "11156555",
+    "japanese": "トムは監視されている。",
+    "english": "Tom is being watched."
+  },
+  {
+    "id": "2690793",
+    "japanese": "トムは全く頼りにならない。",
+    "english": "Tom is completely unreliable."
+  },
+  {
+    "id": "2622333",
+    "japanese": "トムは今泣いている。",
+    "english": "Tom is crying now."
+  },
+  {
+    "id": "2418237",
+    "japanese": "トムは麻薬を売買している。",
+    "english": "Tom is dealing drugs."
+  },
+  {
+    "id": "8858897",
+    "japanese": "トムが私のこと無視してくるの。",
+    "english": "Tom is ignoring me."
+  },
+  {
+    "id": "8858932",
+    "japanese": "トムがシカトしてくるんだよ。",
+    "english": "Tom is ignoring me."
+  },
+  {
+    "id": "10621492",
+    "japanese": "トムは教会にいます。",
+    "english": "Tom is in church."
+  },
+  {
+    "id": "10621494",
+    "japanese": "トムは礼拝中です。",
+    "english": "Tom is in church."
+  },
+  {
+    "id": "2500898",
+    "japanese": "トムは縄跳びをしている。",
+    "english": "Tom is jumping rope."
+  },
+  {
+    "id": "2622301",
+    "japanese": "トムがメアリーにキスをしている。",
+    "english": "Tom is kissing Mary."
+  },
+  {
+    "id": "2499135",
+    "japanese": "トムは気を失っている。",
+    "english": "Tom is losing consciousness."
+  },
+  {
+    "id": "11604171",
+    "japanese": "トムは私の助手です。",
+    "english": "Tom is my assistant."
+  },
+  {
+    "id": "2305871",
+    "japanese": "トムは私の弟です。",
+    "english": "Tom is my brother."
+  },
+  {
+    "id": "2458860",
+    "japanese": "トムは私の父です。",
+    "english": "Tom is my father."
+  },
+  {
+    "id": "11526996",
+    "japanese": "トムは私のお隣さんなの。",
+    "english": "Tom is my neighbor."
+  },
+  {
+    "id": "2626301",
+    "japanese": "トムは多分寝てる。",
+    "english": "Tom is probably asleep."
+  },
+  {
+    "id": "2626302",
+    "japanese": "トムは多分寝ている。",
+    "english": "Tom is probably asleep."
+  },
+  {
+    "id": "2626312",
+    "japanese": "トムは多分眠っている。",
+    "english": "Tom is probably asleep."
+  },
+  {
+    "id": "2626313",
+    "japanese": "トムは多分お腹が空いている。",
+    "english": "Tom is probably hungry."
+  },
+  {
+    "id": "2626305",
+    "japanese": "トムは多分大丈夫。",
+    "english": "Tom is probably OK."
+  },
+  {
+    "id": "5348514",
+    "japanese": "トムはたぶん怖がっています。",
+    "english": "Tom is probably scared."
+  },
+  {
+    "id": "2626300",
+    "japanese": "トムは多分待っている。",
+    "english": "Tom is probably waiting."
+  },
+  {
+    "id": "2626303",
+    "japanese": "トムは多分待ってる。",
+    "english": "Tom is probably waiting."
+  },
+  {
+    "id": "10213423",
+    "japanese": "トム、カンカンよ。",
+    "english": "Tom is really angry."
+  },
+  {
+    "id": "10597010",
+    "japanese": "トムはとても怒っている。",
+    "english": "Tom is really angry."
+  },
+  {
+    "id": "10597011",
+    "japanese": "トムはかんかんに怒っている。",
+    "english": "Tom is really angry."
+  },
+  {
+    "id": "2733637",
+    "japanese": "トムはまだ怒っている。",
+    "english": "Tom is still angry."
+  },
+  {
+    "id": "8935383",
+    "japanese": "トムはまだ外出してるよ。",
+    "english": "Tom is still out."
+  },
+  {
+    "id": "2626295",
+    "japanese": "トムが一番年上。",
+    "english": "Tom is the oldest."
+  },
+  {
+    "id": "2626290",
+    "japanese": "トムが一番強い。",
+    "english": "Tom is the strongest."
+  },
+  {
+    "id": "2626291",
+    "japanese": "トムが最強。",
+    "english": "Tom is the strongest."
+  },
+  {
+    "id": "9431880",
+    "japanese": "トムはもういい年だろ。",
+    "english": "Tom is too old."
+  },
+  {
+    "id": "12346229",
+    "japanese": "トムは創造性に富んでいる。",
+    "english": "Tom is very creative."
+  },
+  {
+    "id": "10286265",
+    "japanese": "トムなら、外で待ってるよ。",
+    "english": "Tom is waiting outside."
+  },
+  {
+    "id": "2628417",
+    "japanese": "トムは服を着ている。",
+    "english": "Tom is wearing clothes."
+  },
+  {
+    "id": "2628409",
+    "japanese": "トムは手袋をつけている。",
+    "english": "Tom is wearing gloves."
+  },
+  {
+    "id": "11603991",
+    "japanese": "トムは手袋をしている。",
+    "english": "Tom is wearing gloves."
+  },
+  {
+    "id": "9525031",
+    "japanese": "トムはね、あなたのお兄さんなのよ。",
+    "english": "Tom is your brother."
+  },
+  {
+    "id": "9525033",
+    "japanese": "トムは君の弟なんだよ。",
+    "english": "Tom is your brother."
+  },
+  {
+    "id": "3418300",
+    "japanese": "トムはあなたの友達です。",
+    "english": "Tom is your friend."
+  },
+  {
+    "id": "8002439",
+    "japanese": "トムは月曜日に出発した。",
+    "english": "Tom left on Monday."
+  },
+  {
+    "id": "8879294",
+    "japanese": "トムは学校をサボったことを後悔している。",
+    "english": "Tom regrets skipping school."
+  },
+  {
+    "id": "11872873",
+    "japanese": "トムはドアを閉めた。",
+    "english": "Tom shut the door."
+  },
+  {
+    "id": "7704570",
+    "japanese": "ここに来なかったらよかった。",
+    "english": "We shouldn't have come."
+  },
+  {
+    "id": "10336896",
+    "japanese": "あまり話しないよ。",
+    "english": "We don't talk much."
+  },
+  {
+    "id": "10336897",
+    "japanese": "あまり話さないよ。",
+    "english": "We don't talk much."
+  },
+  {
+    "id": "3126898",
+    "japanese": "私たちはここに住んでいません。",
+    "english": "We don't live here."
+  },
+  {
+    "id": "9943020",
+    "japanese": "ここには住んでいないのよ。",
+    "english": "We don't live here."
+  },
+  {
+    "id": "10973302",
+    "japanese": "トムんちは、どこだ？",
+    "english": "Where is Tom's house?"
+  },
+  {
+    "id": "10973303",
+    "japanese": "トムの家はどこだろう？",
+    "english": "Where is Tom's house?"
+  },
+  {
+    "id": "5018398",
+    "japanese": "私、なんで死ななかったんだろう？",
+    "english": "Why didn't I die?"
+  },
+  {
+    "id": "11634061",
+    "japanese": "なんで止めなかったの？",
+    "english": "Why didn't you stop?"
+  },
+  {
+    "id": "9964552",
+    "japanese": "座ろうよ。",
+    "english": "Why don't we sit?"
+  },
+  {
+    "id": "9964555",
+    "japanese": "座りませんか？",
+    "english": "Why don't we sit?"
+  },
+  {
+    "id": "3576118",
+    "japanese": "お上がりになりませんか？",
+    "english": "Won't you come in?"
+  },
+  {
+    "id": "3576119",
+    "japanese": "お入りになりませんか？",
+    "english": "Won't you come in?"
+  },
+  {
+    "id": "11913885",
+    "japanese": "日本人ぽくないね。",
+    "english": "You don't look Japanese."
+  },
+  {
+    "id": "3362240",
+    "japanese": "まだ納得していないようだね。",
+    "english": "You don't sound convinced."
+  },
+  {
+    "id": "9444963",
+    "japanese": "私の名前の綴り間違えてるし。",
+    "english": "You've misspelled my name."
+  },
+  {
+    "id": "9124821",
+    "japanese": "ネクタイを直して。",
+    "english": "Adjust your tie."
+  },
+  {
+    "id": "8596758",
+    "japanese": "怒らないでよ。",
+    "english": "Don't fly off the handle."
+  },
+  {
+    "id": "9819594",
+    "japanese": "それについては今聞かないで。",
+    "english": "Don't ask me that now."
+  },
+  {
+    "id": "2279537",
+    "japanese": "大腸は水を吸収する。",
+    "english": "The large intestine absorbs water."
+  },
+  {
+    "id": "10203573",
+    "japanese": "二度とそんなこと言わないで。",
+    "english": "Don't ever say that again."
+  },
+  {
+    "id": "11605851",
+    "japanese": "期待しない方がいいよ。",
+    "english": "Don't get your hopes up."
+  },
+  {
+    "id": "10455153",
+    "japanese": "僕を見捨てないで。",
+    "english": "Don't give up on me."
+  },
+  {
+    "id": "11656870",
+    "japanese": "トムを逃がすなよ。",
+    "english": "Don't let Tom get away."
+  },
+  {
+    "id": "8521935",
+    "japanese": "からかわないで。",
+    "english": "Don't make fun of me."
+  },
+  {
+    "id": "10006827",
+    "japanese": "そんな風に言わないで。",
+    "english": "Don't say it like that."
+  },
+  {
+    "id": "9478060",
+    "japanese": "マスクは外さないように。",
+    "english": "Don't take your mask off."
+  },
+  {
+    "id": "9478063",
+    "japanese": "マスクを外さないで。",
+    "english": "Don't take your mask off."
+  },
+  {
+    "id": "9853680",
+    "japanese": "今、話しかけないで。",
+    "english": "Don't talk to me now."
+  },
+  {
+    "id": "2279523",
+    "japanese": "大腸の長さは1.5メートルぐらいです。",
+    "english": "The large intestine is about 1.5m long."
+  },
+  {
+    "id": "2279529",
+    "japanese": "胃は小腸に繋がっている。",
+    "english": "The stomach connects to the small intestine."
+  },
+  {
+    "id": "2279526",
+    "japanese": "小腸は７メートルくらいだ。",
+    "english": "The small intestine is about seven meters long."
+  },
+  {
+    "id": "2279533",
+    "japanese": "小腸は大きく３つに分けることができる。",
+    "english": "The small intestine consists of three parts."
+  },
+  {
+    "id": "3555497",
+    "japanese": "あの青いボタンに触れてはいけない。",
+    "english": "Don't touch that blue button."
+  },
+  {
+    "id": "10763941",
+    "japanese": "心配すんな。手伝ってやるから。",
+    "english": "Don't worry. I'll help you."
+  },
+  {
+    "id": "9203008",
+    "japanese": "私のこともう愛してないの？",
+    "english": "Don't you love me anymore?"
+  },
+  {
+    "id": "8504257",
+    "japanese": "新聞読まないの？",
+    "english": "Don't you read a newspaper?"
+  },
+  {
+    "id": "8960517",
+    "japanese": "何が起こったか見てないの？",
+    "english": "Don't you see what's happened?"
+  },
+  {
+    "id": "2533653",
+    "japanese": "トムのこと心配じゃないの？",
+    "english": "Don't you worry about Tom?"
+  },
+  {
+    "id": "2275568",
+    "japanese": "この言葉はもう時代遅れだ。",
+    "english": "That word is old fashioned."
+  },
+  {
+    "id": "2275570",
+    "japanese": "この言葉は時代遅れになっている。",
+    "english": "That word is old fashioned."
+  },
+  {
+    "id": "2275612",
+    "japanese": "トムは胃腸が弱い。",
+    "english": "Tom has a weak stomach."
+  },
+  {
+    "id": "8662229",
+    "japanese": "別の女の子にキスしたことある？",
+    "english": "Have you ever kissed another girl?"
+  },
+  {
+    "id": "8662230",
+    "japanese": "他の子とキスしたことある？",
+    "english": "Have you ever kissed another girl?"
+  },
+  {
+    "id": "10335320",
+    "japanese": "他のやつとキスしたことある？",
+    "english": "Have you ever kissed another guy?"
+  },
+  {
+    "id": "10335321",
+    "japanese": "他の男とキスしたことある？",
+    "english": "Have you ever kissed another guy?"
+  },
+  {
+    "id": "8611327",
+    "japanese": "新しい友達を作りたい。",
+    "english": "I want to make new friends."
+  },
+  {
+    "id": "8611334",
+    "japanese": "新しい友達が欲しい。",
+    "english": "I want to make new friends."
+  },
+  {
+    "id": "8611337",
+    "japanese": "新しい友達が欲しかった。",
+    "english": "I wanted to make new friends."
+  },
+  {
+    "id": "8611340",
+    "japanese": "新しい友達を作りたかった。",
+    "english": "I wanted to make new friends."
+  },
+  {
+    "id": "10100100",
+    "japanese": "アイライナー貸してもらえないかな？",
+    "english": "Could I borrow your eyeliner?"
+  },
+  {
+    "id": "8842248",
+    "japanese": "何か必要なものはありますか？",
+    "english": "Is there anything you need?"
+  },
+  {
+    "id": "8794893",
+    "japanese": "トムは車を持ってるのかな？",
+    "english": "Does Tom have a car?"
+  },
+  {
+    "id": "4900276",
+    "japanese": "私はそれを拾い上げなかった。",
+    "english": "I didn't pick it up."
+  },
+  {
+    "id": "4900277",
+    "japanese": "私はそれを引き取らなかった。",
+    "english": "I didn't pick it up."
+  },
+  {
+    "id": "4900278",
+    "japanese": "私はそれを買わなかった。",
+    "english": "I didn't pick it up."
+  },
+  {
+    "id": "8967768",
+    "japanese": "トムにそのことを話さなかった。",
+    "english": "I didn't tell Tom that."
+  },
+  {
+    "id": "2296112",
+    "japanese": "私には生きる価値がない。",
+    "english": "I don't deserve to live."
+  },
+  {
+    "id": "2296113",
+    "japanese": "私は生きるに値しない人間だ。",
+    "english": "I don't deserve to live."
+  },
+  {
+    "id": "10742576",
+    "japanese": "私に生きる資格なんてないのよ。",
+    "english": "I don't deserve to live."
+  },
+  {
+    "id": "4900247",
+    "japanese": "トムなんか好きでもない。",
+    "english": "I don't even like Tom."
+  },
+  {
+    "id": "4900217",
+    "japanese": "しゃべりたい気分じゃないんだ。",
+    "english": "I don't feel like talking."
+  },
+  {
+    "id": "9956822",
+    "japanese": "私、門限ないのよ。",
+    "english": "I don't have a curfew."
+  },
+  {
+    "id": "10089493",
+    "japanese": "まだ持ってないよ。",
+    "english": "I don't have them yet."
+  },
+  {
+    "id": "3875291",
+    "japanese": "私は貴方のような勇気を持っていません。",
+    "english": "I don't have your courage."
+  },
+  {
+    "id": "9752561",
+    "japanese": "何が本当かわかんないんだ。",
+    "english": "I don't know what's real."
+  },
+  {
+    "id": "9752563",
+    "japanese": "何が悪いのか分かんないんだけど。",
+    "english": "I don't know what's wrong."
+  },
+  {
+    "id": "12086417",
+    "japanese": "暑いところは好きじゃないんだ。",
+    "english": "I don't like hot places."
+  },
+  {
+    "id": "5018869",
+    "japanese": "私はもうここには住んでいません。",
+    "english": "I don't live here anymore."
+  },
+  {
+    "id": "11559600",
+    "japanese": "弁護士はいりません。",
+    "english": "I don't need a lawyer."
+  },
+  {
+    "id": "11559601",
+    "japanese": "弁護士は必要ございません。",
+    "english": "I don't need a lawyer."
+  },
+  {
+    "id": "7577147",
+    "japanese": "私はなぜか本当にわからない。",
+    "english": "I don't really know why."
+  },
+  {
+    "id": "11890708",
+    "japanese": "その理由はよく分からないんだけどね。",
+    "english": "I don't really know why."
+  },
+  {
+    "id": "3241754",
+    "japanese": "何も後悔してない。",
+    "english": "I don't regret a thing."
+  },
+  {
+    "id": "10951058",
+    "japanese": "なんの問題もないな。",
+    "english": "I don't see any problem."
+  },
+  {
+    "id": "5816267",
+    "japanese": "私はそれが奇妙だとは思いません。",
+    "english": "I don't think it's odd."
+  },
+  {
+    "id": "5072719",
+    "japanese": "あなたがおかしいとは思わない。",
+    "english": "I don't think you're crazy."
+  },
+  {
+    "id": "11426969",
+    "japanese": "お前の世代は理解できんわ。",
+    "english": "I don't understand your generation."
+  },
+  {
+    "id": "10906877",
+    "japanese": "噛まないことを約束する。",
+    "english": "I promise I won't bite."
+  },
+  {
+    "id": "8649382",
+    "japanese": "冷蔵庫のドアが開きっ放しだった。",
+    "english": "The refrigerator door was open."
+  },
+  {
+    "id": "8649383",
+    "japanese": "冷蔵庫のドアが開いたままだった。",
+    "english": "The refrigerator door was open."
+  },
+  {
+    "id": "2690784",
+    "japanese": "トムはプロの殺し屋だ。",
+    "english": "Tom is a professional killer."
+  },
+  {
+    "id": "8570998",
+    "japanese": "トムはあなたのすぐ後ろよ。",
+    "english": "Tom is right behind you."
+  },
+  {
+    "id": "2690802",
+    "japanese": "トムは癌を患っている。",
+    "english": "Tom is suffering from cancer."
+  },
+  {
+    "id": "9550015",
+    "japanese": "トムはカフェインレスコーヒーしか飲まないよ。",
+    "english": "Tom only drinks decaffeinated coffee."
+  },
+  {
+    "id": "8877758",
+    "japanese": "トムは興味がないんだって。",
+    "english": "Tom says he's not interested."
+  },
+  {
+    "id": "2533623",
+    "japanese": "トムはよく物をなくす。",
+    "english": "Tom tends to lose things."
+  },
+  {
+    "id": "4521144",
+    "japanese": "トムはフランス語を学びたい。",
+    "english": "Tom wants to learn French."
+  },
+  {
+    "id": "8663733",
+    "japanese": "トムは散歩に行った。",
+    "english": "Tom went for a walk."
+  },
+  {
+    "id": "2737642",
+    "japanese": "私たちはいくつかの新しい情報を受け取った。",
+    "english": "We received some new information."
+  },
+  {
+    "id": "3248568",
+    "japanese": "あなたは私の許可は必要ありません。",
+    "english": "You don't need my approval."
+  },
+  {
+    "id": "8619614",
+    "japanese": "彼女に嘘をついたでしょ！",
+    "english": "You lied to her!"
+  },
+  {
+    "id": "10040568",
+    "japanese": "君に嘘なんてつかないよ。",
+    "english": "I won't lie to you."
+  },
+  {
+    "id": "10040570",
+    "japanese": "あなたに嘘をいったりなんかしないわ。",
+    "english": "I won't lie to you."
+  },
+  {
+    "id": "12225600",
+    "japanese": "もう何も言わないよ。",
+    "english": "I won't say another word."
+  },
+  {
+    "id": "2552485",
+    "japanese": "おかしいと感じる、そうじゃない？",
+    "english": "It feels wrong, doesn't it?"
+  },
+  {
+    "id": "2562481",
+    "japanese": "おかしい感じがする、そうじゃない？",
+    "english": "It feels wrong, doesn't it?"
+  },
+  {
+    "id": "11932979",
+    "japanese": "お金はかからないよ。",
+    "english": "It won't cost you anything."
+  },
+  {
+    "id": "8631616",
+    "japanese": "日本は不思議な国だ。",
+    "english": "Japan is a strange country."
+  },
+  {
+    "id": "9997294",
+    "japanese": "日本って変わってるな。",
+    "english": "Japan is weird."
+  },
+  {
+    "id": "8828940",
+    "japanese": "彼は忍者だよ。",
+    "english": "He's a ninja."
+  },
+  {
+    "id": "10169483",
+    "japanese": "日本酒って、日本の昔ながらのお酒だよ。",
+    "english": "Sake is a traditional Japanese alcoholic drink."
+  },
+  {
+    "id": "10169484",
+    "japanese": "日本酒は日本の伝統的なお酒です。",
+    "english": "Sake is a traditional Japanese alcoholic drink."
+  },
+  {
+    "id": "5018727",
+    "japanese": "頼むから口出しさせないでくれないか。",
+    "english": "Please don't let me interfere."
+  },
+  {
+    "id": "6704205",
+    "japanese": "行かせないでください。",
+    "english": "Please don't make me go."
+  },
+  {
+    "id": "11376328",
+    "japanese": "私のことは心配しないでください。",
+    "english": "Please don't worry about me."
+  },
+  {
+    "id": "8855515",
+    "japanese": "何も知らないふりしてよ。",
+    "english": "Pretend you don't know anything."
+  },
+  {
+    "id": "2617833",
+    "japanese": "トムはカメラを持って来ていなかった。",
+    "english": "Tom didn't bring a camera."
+  },
+  {
+    "id": "8631624",
+    "japanese": "彼女のおじさんはスイスに住んでいる。",
+    "english": "Her uncle lives in Switzerland."
+  },
+  {
+    "id": "8631626",
+    "japanese": "彼女の叔父はスイスで暮らしている。",
+    "english": "Her uncle lives in Switzerland."
+  },
+  {
+    "id": "10842089",
+    "japanese": "それって、理に適ってるよね？",
+    "english": "That makes sense, doesn't it?"
+  },
+  {
+    "id": "10367348",
+    "japanese": "ピンとこないな。",
+    "english": "That doesn't ring a bell."
+  },
+  {
+    "id": "10367350",
+    "japanese": "思い当たる節はない。",
+    "english": "That doesn't ring a bell."
+  },
+  {
+    "id": "2277301",
+    "japanese": "それより、今日の家事当番はわたしだったっけ？",
+    "english": "Putting that to one side, was it supposed to be my turn to do the housekeeping today?"
+  },
+  {
+    "id": "2277326",
+    "japanese": "この辺の意地悪婆さんが雷に打たれて頓死したらしい。まさに天罰覿面だとうちの母さんが言う。",
+    "english": "It seems the mean old woman that lived around here was struck by lightning and suddenly died. My mother says it's truly a case of the swiftness of Heaven's vengeance."
+  },
+  {
+    "id": "2277713",
+    "japanese": "東京は物価が高い都市である。",
+    "english": "Tokyo is an expensive city."
+  },
+  {
+    "id": "2277733",
+    "japanese": "一人でも大丈夫さ。",
+    "english": "I'll be okay by myself."
+  },
+  {
+    "id": "2277734",
+    "japanese": "いい加減に目を覚ましてくれ。",
+    "english": "That's enough! Open your eyes and wake up now!"
+  },
+  {
+    "id": "7730034",
+    "japanese": "フランス語はここでは話されていない。",
+    "english": "They don't speak French here."
+  },
+  {
+    "id": "7577153",
+    "japanese": "彼らは夜に働かない。",
+    "english": "They don't work at night."
+  },
+  {
+    "id": "2278659",
+    "japanese": "スポーツに国境はない。",
+    "english": "Sport transcends borders."
+  },
+  {
+    "id": "2278661",
+    "japanese": "スポーツは国境を越える。",
+    "english": "Sport transcends borders."
+  },
+  {
+    "id": "2278687",
+    "japanese": "有りての厭い、亡くての偲び。",
+    "english": "The worth of a thing is best known by the want of it."
+  },
+  {
+    "id": "2278773",
+    "japanese": "このセーターは脱ぎ着が楽だ。",
+    "english": "This sweater is comfortable to take off and put on."
+  },
+  {
+    "id": "2278810",
+    "japanese": "彼の日本語はほぼ完璧だ。",
+    "english": "His Japanese is almost perfect."
+  },
+  {
+    "id": "2278918",
+    "japanese": "トムはいつからここで働いているんですか？",
+    "english": "When did Tom start working here?"
+  },
+  {
+    "id": "2279244",
+    "japanese": "彼の母国語はフランス語だ。",
+    "english": "His native language is French."
+  },
+  {
+    "id": "2385311",
+    "japanese": "トムには関係ないんだ。",
+    "english": "This doesn't concern you, Tom."
+  },
+  {
+    "id": "2617824",
+    "japanese": "トムは貴方の質問に答えなかった。",
+    "english": "Tom didn't answer your question."
+  },
+  {
+    "id": "2617836",
+    "japanese": "トムは彼の鍵を持ってきていなかった。",
+    "english": "Tom didn't bring his keys."
+  },
+  {
+    "id": "8571334",
+    "japanese": "トムはそれほど泣かなかった。",
+    "english": "Tom didn't cry that much."
+  },
+  {
+    "id": "2393535",
+    "japanese": "トムには彼女がいなかった。",
+    "english": "Tom didn't have a girlfriend."
+  },
+  {
+    "id": "2631429",
+    "japanese": "トムは妻が欲しくなかった。",
+    "english": "Tom didn't want a wife."
+  },
+  {
+    "id": "10129073",
+    "japanese": "トムは嫁さんを欲しがってはいなかった。",
+    "english": "Tom didn't want a wife."
+  },
+  {
+    "id": "2631444",
+    "japanese": "トムには役職がない。",
+    "english": "Tom doesn't have an office."
+  },
+  {
+    "id": "2631196",
+    "japanese": "トムは私の言うことを聞かない。",
+    "english": "Tom doesn't listen to me."
+  },
+  {
+    "id": "2281525",
+    "japanese": "気温はマイナス6度です。",
+    "english": "It's six degrees below zero."
+  },
+  {
+    "id": "2281526",
+    "japanese": "気温は氷点下6度です。",
+    "english": "It's six degrees below zero."
+  },
+  {
+    "id": "8727083",
+    "japanese": "誰かが来るのを待ってるの？",
+    "english": "Are you expecting anybody?"
+  },
+  {
+    "id": "2615036",
+    "japanese": "まだ怒ってる？",
+    "english": "Are you still upset?"
+  },
+  {
+    "id": "8722372",
+    "japanese": "歩いて帰るの？",
+    "english": "Are you walking home?"
+  },
+  {
+    "id": "9640832",
+    "japanese": "クッキーは僕の犬なんだ。",
+    "english": "Cookie is my dog."
+  },
+  {
+    "id": "10657601",
+    "japanese": "そんなに心配しないで。",
+    "english": "Don't worry so much."
+  },
+  {
+    "id": "10330106",
+    "japanese": "待つのって、好きじゃないの。",
+    "english": "I don't like waiting."
+  },
+  {
+    "id": "10330139",
+    "japanese": "待つのは好きじゃない。",
+    "english": "I don't like waiting."
+  },
+  {
+    "id": "10330140",
+    "japanese": "待つのは嫌いだ。",
+    "english": "I don't like waiting."
+  },
+  {
+    "id": "10330141",
+    "japanese": "待つのは嫌だ。",
+    "english": "I don't like waiting."
+  },
+  {
+    "id": "12360686",
+    "japanese": "なんか腹減ったな。",
+    "english": "I'm kind of hungry."
+  },
+  {
+    "id": "11561863",
+    "japanese": "それはそこまで悪くなかったよ。",
+    "english": "It wasn't that bad."
+  },
+  {
+    "id": "10330111",
+    "japanese": "席に着きましょう。",
+    "english": "Let's take our seats."
+  },
+  {
+    "id": "3496846",
+    "japanese": "メアリーは実にセクシーだ。",
+    "english": "Mary is a fox."
+  },
+  {
+    "id": "2602897",
+    "japanese": "メアリーは母親です。",
+    "english": "Mary is a mother."
+  },
+  {
+    "id": "10272075",
+    "japanese": "メアリーは僕の彼女だよ。",
+    "english": "Mary is my girlfriend."
+  },
+  {
+    "id": "3321050",
+    "japanese": "メアリーは私の母です。",
+    "english": "Mary is my mother."
+  },
+  {
+    "id": "2552492",
+    "japanese": "手順を説明していただけますか。",
+    "english": "Please explain the procedure."
+  },
+  {
+    "id": "2552498",
+    "japanese": "手続きを説明していただけますか。",
+    "english": "Please explain the procedure."
+  },
+  {
+    "id": "4900248",
+    "japanese": "ちょっとよく知らないんだけど。",
+    "english": "That doesn't sound familiar."
+  },
+  {
+    "id": "8906569",
+    "japanese": "説明するの難しいなあ。",
+    "english": "That's difficult to explain."
+  },
+  {
+    "id": "12508770",
+    "japanese": "説明するのは骨が折れるなぁ。",
+    "english": "That's difficult to explain."
+  },
+  {
+    "id": "2280454",
+    "japanese": "トムは高級ワインと安物ワインの違いが説明できない。",
+    "english": "Tom can't explain the difference between cheap wine and expensive wine."
+  },
+  {
+    "id": "10614657",
+    "japanese": "切手が封筒から剥がれ落ちた。",
+    "english": "The stamp fell off the envelope."
+  },
+  {
+    "id": "2280692",
+    "japanese": "彼は大の旅行好きだ。",
+    "english": "He is a fanatic for taking long trips."
+  },
+  {
+    "id": "2280706",
+    "japanese": "夜遅くに一人で帰るんじゃなかった。",
+    "english": "I shouldn't have gone home late at night by myself."
+  },
+  {
+    "id": "2280712",
+    "japanese": "トムは高校の後輩です。",
+    "english": "Tom and I went to the same high school."
+  },
+  {
+    "id": "2280719",
+    "japanese": "田中さんは大学時代のフェンシング部の先輩です。",
+    "english": "Mx. Tanaka is a senior from the fencing club during my college days."
+  },
+  {
+    "id": "2280797",
+    "japanese": "トムは高校の先輩です。",
+    "english": "Tom and I went to the same high school."
+  },
+  {
+    "id": "2280800",
+    "japanese": "トムは高校時代の友人です。",
+    "english": "Tom and I went to the same high school."
+  },
+  {
+    "id": "2280814",
+    "japanese": "トムは高校の友達です。",
+    "english": "Tom and I went to the same high school."
+  },
+  {
+    "id": "2280822",
+    "japanese": "トムと私は高校が同じです。",
+    "english": "Tom and I went to the same high school."
+  },
+  {
+    "id": "10013084",
+    "japanese": "トムと私は同じ高校に通ってました。",
+    "english": "Tom and I went to the same high school."
+  },
+  {
+    "id": "2280817",
+    "japanese": "トムは高校時代の1つ下の後輩です。",
+    "english": "Tom and I went to the same high school. He was a year behind me."
+  },
+  {
+    "id": "2280820",
+    "japanese": "トムは高校の2コ下の後輩です。",
+    "english": "Tom and I went to the same high school. He was two years below me."
+  },
+  {
+    "id": "2280823",
+    "japanese": "トムとは同じ高校です。",
+    "english": "Tom and I go to the same high school."
+  },
+  {
+    "id": "2280818",
+    "japanese": "トムは高校時代の1コ上の先輩です。",
+    "english": "Tom and I went to the same high school. He was a year ahead of me."
+  },
+  {
+    "id": "2280819",
+    "japanese": "トムは高校の2つ上の先輩です。",
+    "english": "Tom and I went to the same high school. He was two years above me."
+  },
+  {
+    "id": "11724665",
+    "japanese": "「お魚はありますか？」「ありまっせ」",
+    "english": "\"Do you have some fish?\" \"Yes, I do.\""
+  },
+  {
+    "id": "3241747",
+    "japanese": "彼は勉強する前にテレビを見ます。",
+    "english": "He watches television before studying."
+  },
+  {
+    "id": "2281537",
+    "japanese": "己の無知を知るにはいかに多くを知らねばならないか知る者は少ない。",
+    "english": "Few understand how much you need to know to realize how little you actually know."
+  },
+  {
+    "id": "10066168",
+    "japanese": "目をつむっちゃ駄目。",
+    "english": "Don't close your eyes."
+  },
+  {
+    "id": "2281556",
+    "japanese": "自分には何も出来ない。",
+    "english": "I'm not good at anything."
+  },
+  {
+    "id": "10247065",
+    "japanese": "トムは規則を知らない。",
+    "english": "Tom doesn't know the rules."
+  },
+  {
+    "id": "9086354",
+    "japanese": "僕らには選択肢がない。",
+    "english": "We don't have a choice."
+  },
+  {
+    "id": "11748132",
+    "japanese": "ルートビアは取り扱っておりません。",
+    "english": "We don't have root beer."
+  },
+  {
+    "id": "8925846",
+    "japanese": "私たちは歌詞を知らないのです。",
+    "english": "We don't know the lyrics."
+  },
+  {
+    "id": "12191547",
+    "japanese": "ドアには鍵をかけないんだよ。",
+    "english": "We don't lock our doors."
+  },
+  {
+    "id": "10336898",
+    "japanese": "そんなに話しないよ。",
+    "english": "We don't talk a lot."
+  },
+  {
+    "id": "10336899",
+    "japanese": "そこまで話さないよ。",
+    "english": "We don't talk a lot."
+  },
+  {
+    "id": "11438684",
+    "japanese": "なんでトムを止めなかったの？",
+    "english": "Why didn't you stop Tom?"
+  },
+  {
+    "id": "11603872",
+    "japanese": "面白い奴よね。",
+    "english": "He's a funny guy."
+  },
+  {
+    "id": "9159116",
+    "japanese": "彼を失いたくないの。",
+    "english": "I don't want to lose my boyfriend."
+  },
+  {
+    "id": "9159114",
+    "japanese": "彼女を失いたくないんだ。",
+    "english": "I don't want to lose my girlfriend."
+  },
+  {
+    "id": "9159115",
+    "japanese": "女友達を失いたくなんだよ。",
+    "english": "I don't want to lose my girlfriend."
+  },
+  {
+    "id": "2409473",
+    "japanese": "ありのままの私を愛してほしいの。",
+    "english": "I want you to love me for who I am."
+  },
+  {
+    "id": "10328475",
+    "japanese": "あくまで僕の個人的な意見です。",
+    "english": "That's just my opinion."
+  },
+  {
+    "id": "8722375",
+    "japanese": "あれは多すぎる？",
+    "english": "Is that too much?"
+  },
+  {
+    "id": "9641272",
+    "japanese": "怒らせるつもりはなかったんだよ。",
+    "english": "I didn't mean to offend you."
+  },
+  {
+    "id": "4216095",
+    "japanese": "彼は私の友達であるかのようなふりをした。",
+    "english": "He pretended to be my friend."
+  },
+  {
+    "id": "10495499",
+    "japanese": "彼は驚いた様子だった。",
+    "english": "He looked surprised."
+  },
+  {
+    "id": "4216094",
+    "japanese": "トムはメアリーの友達であるかのようなふりをした。",
+    "english": "Tom pretended to be Mary's friend."
+  },
+  {
+    "id": "3875183",
+    "japanese": "話し手はマレーシアからです。",
+    "english": "The speaker is from Malaysia."
+  },
+  {
+    "id": "3588414",
+    "japanese": "おまえ、約束を守らなかったな。",
+    "english": "You didn't keep your word."
+  },
+  {
+    "id": "8797647",
+    "japanese": "答えなくてもいいよ。",
+    "english": "You don't have to answer."
+  },
+  {
+    "id": "8797649",
+    "japanese": "君が答える必要はない。",
+    "english": "You don't have to answer."
+  },
+  {
+    "id": "3271027",
+    "japanese": "あなたは謝る必要がない。",
+    "english": "You don't have to apologize."
+  },
+  {
+    "id": "4842962",
+    "japanese": "謝んなくていいよ。",
+    "english": "You don't have to apologize."
+  },
+  {
+    "id": "4842964",
+    "japanese": "謝らなくていいよ。",
+    "english": "You don't have to apologize."
+  },
+  {
+    "id": "4842966",
+    "japanese": "謝らなくていいですよ。",
+    "english": "You don't have to apologize."
+  },
+  {
+    "id": "8797650",
+    "japanese": "応じなくていいよ。",
+    "english": "You don't have to respond."
+  },
+  {
+    "id": "8797651",
+    "japanese": "君が応じる必要はない。",
+    "english": "You don't have to respond."
+  },
+  {
+    "id": "11488303",
+    "japanese": "あんまり驚いてないみたいだね。",
+    "english": "You don't seem too surprised."
+  },
+  {
+    "id": "3480368",
+    "japanese": "やってはみた。",
+    "english": "I tried."
+  },
+  {
+    "id": "3480369",
+    "japanese": "やってみた。",
+    "english": "I tried."
+  },
+  {
+    "id": "5955880",
+    "japanese": "私はトムです。",
+    "english": "I'm Tom."
+  },
+  {
+    "id": "9453264",
+    "japanese": "それは失敗だった。",
+    "english": "It failed."
+  },
+  {
+    "id": "3488089",
+    "japanese": "動いた！",
+    "english": "It worked."
+  },
+  {
+    "id": "3488093",
+    "japanese": "うまく行った！",
+    "english": "It worked."
+  },
+  {
+    "id": "3506556",
+    "japanese": "見るからに明らかだよ。",
+    "english": "It's obvious."
+  },
+  {
+    "id": "3506555",
+    "japanese": "完璧だ。",
+    "english": "It's perfect."
+  },
+  {
+    "id": "3496793",
+    "japanese": "こりゃひどいわ。",
+    "english": "It's terrible."
+  },
+  {
+    "id": "3496795",
+    "japanese": "それはありそうにないな。",
+    "english": "It's unlikely."
+  },
+  {
+    "id": "2283834",
+    "japanese": "彼はヤブ医者に違いない。",
+    "english": "He must be a quack doctor."
+  },
+  {
+    "id": "2283847",
+    "japanese": "彼は浮気性です。",
+    "english": "He's an unfaithful sort."
+  },
+  {
+    "id": "2288001",
+    "japanese": "正直きみに教師になる素質はないと思うな。",
+    "english": "Honestly, I don't think you have what it takes to become a teacher."
+  },
+  {
+    "id": "2283976",
+    "japanese": "彼女は黒幕としてかかわっていた。",
+    "english": "She figured as a gray eminence."
+  },
+  {
+    "id": "8671032",
+    "japanese": "マスクをつけていますか？",
+    "english": "Are you wearing face mask?"
+  },
+  {
+    "id": "8671035",
+    "japanese": "マスクをしていますか？",
+    "english": "Are you wearing face mask?"
+  },
+  {
+    "id": "10333154",
+    "japanese": "窓とカーテンを閉めなさい。",
+    "english": "Close the windows and curtains."
+  },
+  {
+    "id": "9032425",
+    "japanese": "走るの好きじゃないだよ。",
+    "english": "I don't like to run."
+  },
+  {
+    "id": "9032427",
+    "japanese": "走るの嫌なんだよな。",
+    "english": "I don't like to run."
+  },
+  {
+    "id": "10684006",
+    "japanese": "見かけにだまされないように。",
+    "english": "Don't let appearances fool you."
+  },
+  {
+    "id": "10684018",
+    "japanese": "見かけにだまされないで。",
+    "english": "Don't let appearances fool you."
+  },
+  {
+    "id": "11572799",
+    "japanese": "お前と一緒にいくとか、絶対無理。",
+    "english": "I'll go with you when pigs fly."
+  },
+  {
+    "id": "11573045",
+    "japanese": "あなたと一緒に行くなんて、あり得ない。",
+    "english": "I'll go with you when pigs fly."
+  },
+  {
+    "id": "3367046",
+    "japanese": "キャサリン、もしくは略してキャス。",
+    "english": "Catherine, or Cath for short."
+  },
+  {
+    "id": "2285991",
+    "japanese": "筆記体は読めないので、ブロック体で書いてもらえませんか？",
+    "english": "I can't read cursive, so could you write in block letters, please?"
+  },
+  {
+    "id": "2286002",
+    "japanese": "どなたか Beispiel という言葉を使ったドイツ語の例文を作っていただけないでしょうか？",
+    "english": "Could someone make an example sentence using the German word \"Beispiel\"?"
+  },
+  {
+    "id": "2286953",
+    "japanese": "このチーズは山羊乳で作られている。",
+    "english": "This cheese is made from goat's milk."
+  },
+  {
+    "id": "2286957",
+    "japanese": "このチーズはヤギのミルクで作られている。",
+    "english": "This cheese is made from goat's milk."
+  },
+  {
+    "id": "8508406",
+    "japanese": "結果は気にしてないよ。",
+    "english": "I don't care what the consequences are."
+  },
+  {
+    "id": "2287129",
+    "japanese": "宿題を減らしてほしい。",
+    "english": "I wish there were less homework."
+  },
+  {
+    "id": "9689456",
+    "japanese": "必要な分だけお取りください。",
+    "english": "Take only what you need."
+  },
+  {
+    "id": "2287973",
+    "japanese": "ぶっちゃけお前に教師の素質はないと思う。",
+    "english": "Frankly speaking, I don't think you have what it takes to become a teacher."
+  },
+  {
+    "id": "10336900",
+    "japanese": "そんなに話はしないよね？",
+    "english": "You don't talk much, do you?"
+  },
+  {
+    "id": "2982983",
+    "japanese": "ポケットに何か入れてるでしょ。",
+    "english": "You have something in your pockets, don't you?"
+  },
+  {
+    "id": "9550491",
+    "japanese": "あなたってトムにキスしたんでしょう？",
+    "english": "You kissed Tom, didn't you?"
+  },
+  {
+    "id": "10607393",
+    "japanese": "何か知ってるんでしょ？",
+    "english": "You know something, don't you?"
+  },
+  {
+    "id": "11561621",
+    "japanese": "彼女のこと覚えてるでしょ？",
+    "english": "You remember her, don't you?"
+  },
+  {
+    "id": "8872938",
+    "japanese": "今日って、オーディション受けるんじゃないの？",
+    "english": "Don't you have an audition today?"
+  },
+  {
+    "id": "11491307",
+    "japanese": "これが何か知らないの？",
+    "english": "Don't you know what this is?"
+  },
+  {
+    "id": "10919403",
+    "japanese": "契約書へのサインをお忘れなく。",
+    "english": "Don't forget to sign the contract."
+  },
+  {
+    "id": "11721042",
+    "japanese": "シチューをかき混ぜるの、忘れちゃ駄目よ。",
+    "english": "Don't forget to stir the stew."
+  },
+  {
+    "id": "8872950",
+    "japanese": "トムに自分のメアド教えちゃダメだよ。",
+    "english": "Don't give Tom your email address."
+  },
+  {
+    "id": "6704208",
+    "japanese": "そこへかえさないで。",
+    "english": "Don't make me go back there."
+  },
+  {
+    "id": "8642747",
+    "japanese": "心配しないで。全てうまくいくからね。",
+    "english": "Don't worry. Everything will be fine."
+  },
+  {
+    "id": "2289174",
+    "japanese": "ぶっちゃけトムのことどう思ってる？",
+    "english": "What do you really think about Tom?"
+  },
+  {
+    "id": "2289371",
+    "japanese": "食事が済んだら行きます。",
+    "english": "We'll go after we eat."
+  },
+  {
+    "id": "12670152",
+    "japanese": "ドアは閉めないよ。",
+    "english": "I won't close the door."
+  },
+  {
+    "id": "13028781",
+    "japanese": "昨日はとても寒かったから、家にこもってました。",
+    "english": "Yesterday it was so cold that I stayed home."
+  },
+  {
+    "id": "11053698",
+    "japanese": "昨日はめっちゃ寒かったから、巣ごもりしてました。",
+    "english": "Yesterday it was so cold that I stayed in the house."
+  },
+  {
+    "id": "11053700",
+    "japanese": "昨日はとても寒かったので、家にいました。",
+    "english": "Yesterday it was so cold that I stayed in the house."
+  },
+  {
+    "id": "11053702",
+    "japanese": "昨日はやけに寒かったので、家にこもってました。",
+    "english": "Yesterday it was so cold that I stayed in the house."
+  },
+  {
+    "id": "11178768",
+    "japanese": "お姉さんと間違えちゃった。",
+    "english": "I confused her with her sister."
+  },
+  {
+    "id": "11283928",
+    "japanese": "歩くのが一番いい運動ね。",
+    "english": "Walking is the best exercise."
+  },
+  {
+    "id": "2290242",
+    "japanese": "そのとき、ふと魔がさしてしまったのです。",
+    "english": "In that moment, I felt the devil suddenly strike me."
+  },
+  {
+    "id": "3134838",
+    "japanese": "トムがフランス語話せるとは知らなかったよ。",
+    "english": "I didn't know Tom spoke French."
+  },
+  {
+    "id": "8914586",
+    "japanese": "どういう意味なのか分からなかったんだ。",
+    "english": "I didn't know what it meant."
+  },
+  {
+    "id": "11992613",
+    "japanese": "切手を集めてたなんて、知らなかった。",
+    "english": "I didn't know you collected stamps."
+  },
+  {
+    "id": "11992614",
+    "japanese": "切手収集してたとはな。",
+    "english": "I didn't know you collected stamps."
+  },
+  {
+    "id": "9641273",
+    "japanese": "トムを傷つけるつもりはなかったんだ。",
+    "english": "I didn't mean to hurt Tom."
+  },
+  {
+    "id": "2290597",
+    "japanese": "小切手はＡＢＣ社あてに支払われるように振り出してください。",
+    "english": "Checks should be made payable to the ABC Company."
+  },
+  {
+    "id": "9695980",
+    "japanese": "ドイツ語は全く話せません。",
+    "english": "I can't speak German at all."
+  },
+  {
+    "id": "10746979",
+    "japanese": "運転できるなんて知らなかったよ。",
+    "english": "I didn't know that you could drive."
+  },
+  {
+    "id": "8604859",
+    "japanese": "メアリーとは別れたくなかった。",
+    "english": "I didn't want to split up with Mary."
+  },
+  {
+    "id": "2664558",
+    "japanese": "親にはもう話しました。",
+    "english": "I already told my parents."
+  },
+  {
+    "id": "9041974",
+    "japanese": "トムに自分の部屋を掃除するように言った。",
+    "english": "I asked Tom to clean his room."
+  },
+  {
+    "id": "2305111",
+    "japanese": "彼女は自分のことを話すのが好きだ。",
+    "english": "She likes to talk about herself."
+  },
+  {
+    "id": "12657005",
+    "japanese": "彼女はすべてを私のせいにした。",
+    "english": "She blamed me for everything."
+  },
+  {
+    "id": "3430698",
+    "japanese": "今日は学校に行かない。",
+    "english": "I'm not going to school today."
+  },
+  {
+    "id": "2740720",
+    "japanese": "たしかトムのアイデアだったと思う。",
+    "english": "I assume it was Tom's idea."
+  },
+  {
+    "id": "11582898",
+    "japanese": "これをお探しなのでは？",
+    "english": "I assume this is what you're looking for."
+  },
+  {
+    "id": "11582899",
+    "japanese": "探し物はこれじゃないです？",
+    "english": "I assume this is what you're looking for."
+  },
+  {
+    "id": "2740721",
+    "japanese": "おそらくトムのことを仰ってるんですよね。",
+    "english": "I assume you are talking about Tom."
+  },
+  {
+    "id": "2293335",
+    "japanese": "彼らは一晩中その部屋で私と一緒だった。",
+    "english": "They were in that room with me all night."
+  },
+  {
+    "id": "2293339",
+    "japanese": "カナダでは２０歳未満の飲酒が認められていません。",
+    "english": "It's not legal for people under 20 to drink in Canada."
+  },
+  {
+    "id": "2293350",
+    "japanese": "彼らは私たちに嫉妬している。",
+    "english": "They are jealous of us."
+  },
+  {
+    "id": "9676425",
+    "japanese": "トムは３言語も話します。",
+    "english": "Tom speaks three languages."
+  },
+  {
+    "id": "8645475",
+    "japanese": "私はボストンで生まれた。",
+    "english": "I was born in Boston."
+  },
+  {
+    "id": "8639577",
+    "japanese": "私は車で仕事に行った。",
+    "english": "I went to work by car."
+  },
+  {
+    "id": "2293643",
+    "japanese": "あの長剣は凝った彫刻のしてある鞘に収まった。",
+    "english": "The longsword was sheathed in an intricately engraved scabbard."
+  },
+  {
+    "id": "2293939",
+    "japanese": "彼は帽子を上げた。",
+    "english": "He tipped his hat."
+  },
+  {
+    "id": "2295143",
+    "japanese": "わたしは魔法を信じている。",
+    "english": "I believe in magic."
+  },
+  {
+    "id": "2740722",
+    "japanese": "私はトムの無罪を信じている。",
+    "english": "I believe Tom is innocent."
+  },
+  {
+    "id": "7577120",
+    "japanese": "彼の名前はトムだと信じている。",
+    "english": "I believe his name is Tom."
+  },
+  {
+    "id": "8580380",
+    "japanese": "彼の名前はトムだと思う。",
+    "english": "I believe his name is Tom."
+  },
+  {
+    "id": "10910975",
+    "japanese": "私ならトムを探す手伝いができると思う。",
+    "english": "I believe I can help you find Tom."
+  },
+  {
+    "id": "2740723",
+    "japanese": "トムはきっといい先生になると思うよ。",
+    "english": "I bet Tom would be a good teacher."
+  },
+  {
+    "id": "8930952",
+    "japanese": "素晴らしい父になると思います。",
+    "english": "I bet you'll be a great father."
+  },
+  {
+    "id": "2296143",
+    "japanese": "ランチにしては少し値が張るが、値段に見合った味だ。",
+    "english": "It's a little expensive for lunch, but the taste matches the price."
+  },
+  {
+    "id": "2409532",
+    "japanese": "彼女はタトエバ星から来た宇宙人に拉致された。",
+    "english": "She was abducted by aliens from the planet Tatoeba."
+  },
+  {
+    "id": "2748897",
+    "japanese": "あの子は海辺の貝殻売りだ。",
+    "english": "She sells seashells by the seashore."
+  },
+  {
+    "id": "3068656",
+    "japanese": "彼女は海辺で貝殻を売っています。",
+    "english": "She sells seashells by the seashore."
+  },
+  {
+    "id": "11883281",
+    "japanese": "彼のアイデアなんです。",
+    "english": "It was his idea."
+  },
+  {
+    "id": "2298520",
+    "japanese": "トムは昨夜から水以外何も口にしていない。",
+    "english": "Tom hasn't had anything but water since last night."
+  },
+  {
+    "id": "11058068",
+    "japanese": "これって、何色？",
+    "english": "What color is this?"
+  },
+  {
+    "id": "11058069",
+    "japanese": "これは何色ですか？",
+    "english": "What color is this?"
+  },
+  {
+    "id": "10763934",
+    "japanese": "これは、春先に花をつけるんだ。",
+    "english": "This plant flowers at the beginning of spring."
+  },
+  {
+    "id": "10763936",
+    "japanese": "この植物は、春の初めに花を咲かせます。",
+    "english": "This plant flowers at the beginning of spring."
+  },
+  {
+    "id": "10617870",
+    "japanese": "それは理解できないわ。",
+    "english": "I can't understand it."
+  },
+  {
+    "id": "10309044",
+    "japanese": "彼はメールにざっと目を通した。",
+    "english": "He skimmed the text."
+  },
+  {
+    "id": "10309045",
+    "japanese": "彼はメールをざっと読んだ。",
+    "english": "He skimmed the text."
+  },
+  {
+    "id": "12363053",
+    "japanese": "市場はどこにありますか？",
+    "english": "Where is the market?"
+  },
+  {
+    "id": "10625629",
+    "japanese": "どこのクラスなの？",
+    "english": "Which class are you in?"
+  },
+  {
+    "id": "10625630",
+    "japanese": "何組なの？",
+    "english": "Which class are you in?"
+  },
+  {
+    "id": "2299482",
+    "japanese": "お米は湿気を嫌います。保管にはご注意ください。",
+    "english": "Rice does not like moisture. Be sure to store it well."
+  },
+  {
+    "id": "3114030",
+    "japanese": "私はここにいません。",
+    "english": "I'm not here."
+  },
+  {
+    "id": "2302578",
+    "japanese": "彼は政治談義が好きだ。",
+    "english": "He loves talking about politics."
+  },
+  {
+    "id": "11144527",
+    "japanese": "家を買った。",
+    "english": "I bought a house."
+  },
+  {
+    "id": "11263495",
+    "japanese": "家を買いました。",
+    "english": "I bought a house."
+  },
+  {
+    "id": "9359841",
+    "japanese": "トムにプレゼントを買ったんだ。",
+    "english": "I bought Tom a gift."
+  },
+  {
+    "id": "4054622",
+    "japanese": "あなたにコーヒーを持ってきた。",
+    "english": "I brought you some coffee."
+  },
+  {
+    "id": "10961125",
+    "japanese": "この文が、理解できないのよね。",
+    "english": "I don't understand this sentence."
+  },
+  {
+    "id": "10961128",
+    "japanese": "この文の意味が分かんないんだよな。",
+    "english": "I don't understand this sentence."
+  },
+  {
+    "id": "11853963",
+    "japanese": "ヘブライ語の勉強にハマってます。",
+    "english": "I am obsessed with learning Hebrew."
+  },
+  {
+    "id": "8596398",
+    "japanese": "顧問弁護士に電話しました。",
+    "english": "I called my lawyer."
+  },
+  {
+    "id": "11754684",
+    "japanese": "警察を呼びました。",
+    "english": "I called the cops."
+  },
+  {
+    "id": "3555529",
+    "japanese": "手伝ってもらいたくて、君をここに呼んだんだ。",
+    "english": "I called you here to help me."
+  },
+  {
+    "id": "11195062",
+    "japanese": "バカとアホは違います。",
+    "english": "There's a difference between silly and stupid."
+  },
+  {
+    "id": "11263470",
+    "japanese": "その車は、車線変更を繰り返していた。",
+    "english": "The car kept swerving from lane to lane."
+  },
+  {
+    "id": "11263471",
+    "japanese": "車は車線変更しまくっていた。",
+    "english": "The car kept swerving from lane to lane."
+  },
+  {
+    "id": "8509096",
+    "japanese": "誰かを愛したい。",
+    "english": "I want somebody to love."
+  },
+  {
+    "id": "8509098",
+    "japanese": "誰か好きになりたいな。",
+    "english": "I want somebody to love."
+  },
+  {
+    "id": "2300202",
+    "japanese": "先生にラブレターを書いたら、クラスみんなの前でそれを読みやがった。",
+    "english": "I wrote my teacher a love letter and he read it in front of the whole class."
+  },
+  {
+    "id": "2740724",
+    "japanese": "トムに会いに来ました。",
+    "english": "I came here to see Tom."
+  },
+  {
+    "id": "12142627",
+    "japanese": "ここには、トムと一緒に来ました。",
+    "english": "I came here with Tom."
+  },
+  {
+    "id": "12142628",
+    "japanese": "トムと一緒に来ました。",
+    "english": "I came here with Tom."
+  },
+  {
+    "id": "8623887",
+    "japanese": "花見をしに来ました。",
+    "english": "I came to look at the cherry blossoms."
+  },
+  {
+    "id": "8623889",
+    "japanese": "桜の花を見に来ました。",
+    "english": "I came to look at the cherry blossoms."
+  },
+  {
+    "id": "12440073",
+    "japanese": "挨拶をしに来ました。",
+    "english": "I came to say hi."
+  },
+  {
+    "id": "2353877",
+    "japanese": "ショーを見に来ました。",
+    "english": "I came to see the show."
+  },
+  {
+    "id": "9119454",
+    "japanese": "私たち３つ星ホテルに泊まったの。",
+    "english": "We stayed at a three-star hotel."
+  },
+  {
+    "id": "2815718",
+    "japanese": "『グレート・ギャツビー』は高校の頃に読みました。",
+    "english": "I read The Great Gatsby when I was in high school."
+  },
+  {
+    "id": "2301777",
+    "japanese": "サウナとプールがあります。",
+    "english": "There's a sauna and a pool."
+  },
+  {
+    "id": "10622759",
+    "japanese": "いい子にできるよ。",
+    "english": "I can be good."
+  },
+  {
+    "id": "9533553",
+    "japanese": "トムに電話して欲しいならするよ。",
+    "english": "I can call Tom if you want."
+  },
+  {
+    "id": "3655367",
+    "japanese": "多くの事をすることが出来ます。",
+    "english": "I can do a lot of things."
+  },
+  {
+    "id": "10934574",
+    "japanese": "何でもできるぜ。",
+    "english": "I can do anything."
+  },
+  {
+    "id": "12296775",
+    "japanese": "それ説明できるよ。",
+    "english": "I can explain that."
+  },
+  {
+    "id": "11563424",
+    "japanese": "直せるよ。",
+    "english": "I can fix it."
+  },
+  {
+    "id": "10200015",
+    "japanese": "もしよかったら、お水を一杯お持ちしましょう。",
+    "english": "I can get you a glass of water if you like."
+  },
+  {
+    "id": "2301139",
+    "japanese": "女の心は猫の眼。",
+    "english": "A woman’s heart is as easy to change as a cat’s eyes."
+  },
+  {
+    "id": "2740725",
+    "japanese": "トムの声がする。",
+    "english": "I can hear Tom."
+  },
+  {
+    "id": "2740731",
+    "japanese": "トムの声が聞こえる。",
+    "english": "I can hear Tom."
+  },
+  {
+    "id": "8659830",
+    "japanese": "はっきりと聞こえてます。",
+    "english": "I can hear you loud and clear."
+  },
+  {
+    "id": "8658133",
+    "japanese": "君の声が聞こえる。",
+    "english": "I can hear you."
+  },
+  {
+    "id": "8659828",
+    "japanese": "聞こえてます。",
+    "english": "I can hear you."
+  },
+  {
+    "id": "5903443",
+    "japanese": "私は債務を果たせなくなった。",
+    "english": "I can no longer fulfill my obligations."
+  },
+  {
+    "id": "9640729",
+    "japanese": "あなたがトムを好きじゃない理由、わかるわ。",
+    "english": "I can see why you don't like Tom."
+  },
+  {
+    "id": "9640824",
+    "japanese": "君がトムを好きな理由が分かるよ。",
+    "english": "I can see why you like Tom."
+  },
+  {
+    "id": "9640825",
+    "japanese": "トムのことをどうして好きか、わかるよ。",
+    "english": "I can see why you like Tom."
+  },
+  {
+    "id": "10617545",
+    "japanese": "理解できるよ。",
+    "english": "I can understand it."
+  },
+  {
+    "id": "10617546",
+    "japanese": "それは分かるよ。",
+    "english": "I can understand it."
+  },
+  {
+    "id": "2976534",
+    "japanese": "新婦は白いウエディングドレスに身を包んでいた。",
+    "english": "The bride was wearing a white wedding dress."
+  },
+  {
+    "id": "2305104",
+    "japanese": "また雨だなんて信じられない。",
+    "english": "I can't believe it's raining again."
+  },
+  {
+    "id": "11093663",
+    "japanese": "トムがさよならも言わず出てったなんて、嘘だぁ。",
+    "english": "I can't believe Tom left without saying goodbye."
+  },
+  {
+    "id": "11093664",
+    "japanese": "トムが挨拶もせずに帰ったなんて、信じれない。",
+    "english": "I can't believe Tom left without saying goodbye."
+  },
+  {
+    "id": "10732694",
+    "japanese": "私に嘘をつくだなんて、信じれない。",
+    "english": "I can't believe you lied to me."
+  },
+  {
+    "id": "10805548",
+    "japanese": "あなたがここにいるなんて、嘘みたい。",
+    "english": "I can't believe you're here."
+  },
+  {
+    "id": "8292546",
+    "japanese": "家ではトムと電話出来ない。",
+    "english": "I can't call Tom at home."
+  },
+  {
+    "id": "10185106",
+    "japanese": "二つのことを同時にはできないよ。",
+    "english": "I can't do two things at once."
+  },
+  {
+    "id": "2465578",
+    "japanese": "アルミは金属です。",
+    "english": "Aluminium is a metal."
+  },
+  {
+    "id": "2302787",
+    "japanese": "その話はいいよ。興味ないから。",
+    "english": "Don’t bother explaining. Because I’m not interested."
+  },
+  {
+    "id": "2304888",
+    "japanese": "雨の音を聞くと心が落ち着く。",
+    "english": "I find the sound of the rain relaxing."
+  },
+  {
+    "id": "8914601",
+    "japanese": "ギターはあまりうまく弾けないんだよ。",
+    "english": "I can't play guitar very well."
+  },
+  {
+    "id": "8938015",
+    "japanese": "明日の授業って何時からなの？",
+    "english": "What time does class start for you tomorrow?"
+  },
+  {
+    "id": "3658125",
+    "japanese": "彼女はバレリーナになりたいと夢見ていた。",
+    "english": "She dreamed of becoming a ballerina."
+  },
+  {
+    "id": "10107246",
+    "japanese": "トムの姿はどこにも見えなかった。",
+    "english": "Tom was nowhere to be seen."
+  },
+  {
+    "id": "2982984",
+    "japanese": "それ褒めてんの、馬鹿にしてんの？",
+    "english": "Is it a compliment or an insult?"
+  },
+  {
+    "id": "12049362",
+    "japanese": "罪悪感を覚えた。",
+    "english": "I felt guilty."
+  },
+  {
+    "id": "12049363",
+    "japanese": "罪悪感を感じた。",
+    "english": "I felt guilty."
+  },
+  {
+    "id": "12049366",
+    "japanese": "後ろめたかった。",
+    "english": "I felt guilty."
+  },
+  {
+    "id": "2319336",
+    "japanese": "悲しいことですが、真実です。",
+    "english": "It's sad, but true."
+  },
+  {
+    "id": "9107023",
+    "japanese": "悲しいけど、本当なの。",
+    "english": "It's sad, but true."
+  },
+  {
+    "id": "2349263",
+    "japanese": "私は昨日仕事をしていません。",
+    "english": "I didn't work yesterday."
+  },
+  {
+    "id": "11555185",
+    "japanese": "彼とはクラブで出会ったの。",
+    "english": "I met him at a club."
+  },
+  {
+    "id": "2569601",
+    "japanese": "まだ起きてる？",
+    "english": "You're still up?"
+  },
+  {
+    "id": "10085140",
+    "japanese": "まだ寝てないの？",
+    "english": "You're still awake?"
+  },
+  {
+    "id": "11592471",
+    "japanese": "あんな奴とは、関わるな。",
+    "english": "Don't get involved with that guy."
+  },
+  {
+    "id": "11592488",
+    "japanese": "あんな人に関わっちゃダメよ。",
+    "english": "Don't get involved with that guy."
+  },
+  {
+    "id": "2306803",
+    "japanese": "もっと時間をかけて発表を準備すべきだったと先生に言われた。",
+    "english": "My teacher told me that I should have spent more time preparing my presentation."
+  },
+  {
+    "id": "2307063",
+    "japanese": "あなたは素敵なコックさんですね。",
+    "english": "You're a wonderful cook."
+  },
+  {
+    "id": "10657854",
+    "japanese": "目新しいことにチャレンジするのが大好きでね。",
+    "english": "I love trying new things."
+  },
+  {
+    "id": "12957270",
+    "japanese": "かわいそうに。",
+    "english": "I feel sorry for him."
+  },
+  {
+    "id": "12957271",
+    "japanese": "哀れに思う。",
+    "english": "I feel sorry for him."
+  },
+  {
+    "id": "11512516",
+    "japanese": "通学中に財布をなくしました。",
+    "english": "I lost my wallet on the way to school."
+  },
+  {
+    "id": "11512517",
+    "japanese": "学校に行く途中で財布をなくした。",
+    "english": "I lost my wallet on the way to school."
+  },
+  {
+    "id": "5254856",
+    "japanese": "出発した。",
+    "english": "I left."
+  },
+  {
+    "id": "3143813",
+    "japanese": "お店は一日中開いています。",
+    "english": "The shop is open all day."
+  },
+  {
+    "id": "10463463",
+    "japanese": "メガネを忘れてしまった。",
+    "english": "I have forgotten my glasses."
+  },
+  {
+    "id": "2976615",
+    "japanese": "昨日のこと、謝りに来ました。",
+    "english": "I came to apologize for what happened yesterday."
+  },
+  {
+    "id": "11548126",
+    "japanese": "頭の中で華氏から摂氏に換算しました。",
+    "english": "I converted the temperature from Fahrenheit to Celsius in my head."
+  },
+  {
+    "id": "11548129",
+    "japanese": "頭で華氏から摂氏に変換した。",
+    "english": "I converted the temperature from Fahrenheit to Celsius in my head."
+  },
+  {
+    "id": "8975435",
+    "japanese": "トムは見つからなかったよ。",
+    "english": "I couldn't find Tom."
+  },
+  {
+    "id": "4211974",
+    "japanese": "私は何も言えなかった。",
+    "english": "I couldn't say anything."
+  },
+  {
+    "id": "2983910",
+    "japanese": "トムの顔が見えなかった。",
+    "english": "I couldn't see Tom's face."
+  },
+  {
+    "id": "12018747",
+    "japanese": "昨夜は一睡もできなかった。",
+    "english": "I couldn't sleep at all last night."
+  },
+  {
+    "id": "2332624",
+    "japanese": "私はトムを止めることができなかった。",
+    "english": "I couldn't stop Tom."
+  },
+  {
+    "id": "12779105",
+    "japanese": "私はトムから目を離すことができなかった。",
+    "english": "I couldn't take my eyes off Tom."
+  },
+  {
+    "id": "2518724",
+    "japanese": "トムがなぜ学校をやめたがっているのか、私には理解できなかった。",
+    "english": "I couldn't understand why Tom wanted to quit school."
+  },
+  {
+    "id": "11286114",
+    "japanese": "キツネは他の動物よりずる賢いと言われています。",
+    "english": "People say that the fox is more cunning than other animals."
+  },
+  {
+    "id": "11052152",
+    "japanese": "もう、分かってるって。",
+    "english": "I already know."
+  },
+  {
+    "id": "11052153",
+    "japanese": "もう、知ってるって。",
+    "english": "I already know."
+  },
+  {
+    "id": "11459535",
+    "japanese": "頼られたかったんだよ。",
+    "english": "I was just trying to help."
+  },
+  {
+    "id": "2349326",
+    "japanese": "親愛なる兄弟、姉妹の皆さん。",
+    "english": "Dear brothers and sisters!"
+  },
+  {
+    "id": "10367315",
+    "japanese": "また電話が鳴った。",
+    "english": "My phone rang again."
+  },
+  {
+    "id": "2309936",
+    "japanese": "相変わらず忙しいの？",
+    "english": "Busy as usual?"
+  },
+  {
+    "id": "2310258",
+    "japanese": "そのズボンは大きすぎます。",
+    "english": "Those pants are too big."
+  },
+  {
+    "id": "5078428",
+    "japanese": "私は何が起こったのか知りたかった。",
+    "english": "I wanted to know what happened."
+  },
+  {
+    "id": "10100068",
+    "japanese": "耳にピアス開けたいのよ。",
+    "english": "I want to get my ears pierced."
+  },
+  {
+    "id": "12957293",
+    "japanese": "自分に腹が立った。",
+    "english": "I was angry at myself."
+  },
+  {
+    "id": "9554208",
+    "japanese": "今朝は何を食べたんだい？",
+    "english": "What did you eat this morning?"
+  },
+  {
+    "id": "2312026",
+    "japanese": "すみません、間違えました。",
+    "english": "Sorry, I made a mistake."
+  },
+  {
+    "id": "2312027",
+    "japanese": "ごめん間違えた。",
+    "english": "Sorry, I made a mistake."
+  },
+  {
+    "id": "2312232",
+    "japanese": "すまんミスった。",
+    "english": "Sorry, I made a mistake."
+  },
+  {
+    "id": "5070677",
+    "japanese": "レストランはどこですか？",
+    "english": "Where is the restaurant?"
+  },
+  {
+    "id": "8607027",
+    "japanese": "そのお店はどこ？",
+    "english": "Where is the store?"
+  },
+  {
+    "id": "2312652",
+    "japanese": "トムに会いたかったのだが、彼は不在だった。",
+    "english": "I wanted to see Tom, but he wasn't there."
+  },
+  {
+    "id": "2312658",
+    "japanese": "私たちはトムの家を訪ねたが、あいにく彼は留守だった。",
+    "english": "We went to Tom's house, but unfortunately he wasn't home."
+  },
+  {
+    "id": "2312941",
+    "japanese": "トムは長編小説を読んでいる。",
+    "english": "Tom is reading a long novel."
+  },
+  {
+    "id": "2312943",
+    "japanese": "トムは短編小説を読んでいる。",
+    "english": "Tom is reading a short story."
+  }
+]
