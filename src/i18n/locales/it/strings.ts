@@ -82,6 +82,7 @@ export const strings = {
     logOut: "Disconnetti",
     email: "Email",
     filter: "Filtra",
+    filters: "Filtri",
     actions: "Azioni",
     display: "Visualizzazione",
     password: "Password",
@@ -1176,6 +1177,22 @@ export const strings = {
   },
 
   // Learn Section
+  kana: {
+    study: {
+      skip: "Salta",
+      examples: "Esempi",
+    },
+    combinedPractice: "Pratica combinata",
+
+    filters: {
+      filterByType: "Filtra per tipo",
+      display: "Visualizza",
+      showLearned: "Mostra imparati",
+      showNotStarted: "Mostra non iniziati",
+      scriptType: "Tipo di scrittura",
+    },
+  },
+
   learn: {
     hiragana: "Hiragana",
     katakana: "Katakana",

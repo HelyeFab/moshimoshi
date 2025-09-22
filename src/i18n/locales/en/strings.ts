@@ -26,6 +26,7 @@ export const strings = {
     logOut: "Log out",
     email: "Email",
     filter: "Filter",
+    filters: "Filters",
     actions: "Actions",
     display: "Display",
     password: "Password",
@@ -1527,7 +1528,16 @@ export const strings = {
     hiragana: "Hiragana",
     katakana: "Katakana",
     combined: "Combined Practice",
-    
+    combinedPractice: "Combined Practice",
+
+    filters: {
+      filterByType: "Filter by Type",
+      display: "Display",
+      showLearned: "Show Learned",
+      showNotStarted: "Show Not Started",
+      scriptType: "Script Type",
+    },
+
     navigation: {
       backToGrid: "Back to Characters",
       nextCharacter: "Next Character",
@@ -1559,6 +1569,8 @@ export const strings = {
       unpinFromReview: "Unpin from Review",
       markAsLearned: "Mark as Learned",
       pronunciation: "Pronunciation",
+      skip: "Skip",
+      examples: "Examples",
     },
     
     review: {

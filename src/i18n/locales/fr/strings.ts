@@ -82,6 +82,7 @@ export const strings = {
     logOut: "Déconnexion",
     email: "Email",
     filter: "Filtrer",
+    filters: "Filtres",
     actions: "Actions",
     display: "Affichage",
     password: "Mot de passe",
@@ -871,6 +872,15 @@ export const strings = {
     hiragana: "Hiragana",
     katakana: "Katakana",
     combined: "Pratique combinée",
+    combinedPractice: "Pratique combinée",
+
+    filters: {
+      filterByType: "Filtrer par type",
+      display: "Affichage",
+      showLearned: "Afficher appris",
+      showNotStarted: "Afficher non commencés",
+      scriptType: "Type de script",
+    },
     
     navigation: {
       backToGrid: "Retour aux caractères",
@@ -903,6 +913,8 @@ export const strings = {
       unpinFromReview: "Désépingler de la révision",
       markAsLearned: "Marquer comme appris",
       pronunciation: "Prononciation",
+      skip: "Passer",
+      examples: "Exemples",
     },
     
     review: {

@@ -82,6 +82,7 @@ export const strings = {
     logOut: "ログアウト",
     email: "メールアドレス",
     filter: "フィルター",
+    filters: "フィルター",
     actions: "アクション",
     display: "表示",
     password: "パスワード",
@@ -1041,6 +1042,20 @@ export const strings = {
 
   // Kana Learning System
   kana: {
+    combinedPractice: "両方の練習",
+
+    filters: {
+      filterByType: "種類でフィルター",
+      display: "表示",
+      showLearned: "学習済みを表示",
+      showNotStarted: "未学習を表示",
+      scriptType: "文字の種類",
+    },
+
+    study: {
+      skip: "スキップ",
+      examples: "例文",
+    },
     kanji: {
       study: {
         skip: "スキップ",
