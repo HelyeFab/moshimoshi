@@ -51,6 +51,7 @@ export default function DrawingCanvasWithRecognition({
   strokeColor = '#000000',
   strokeWidth = 3,
   character,
+  characterType = 'kanji',
   autoRecognize = true
 }: DrawingCanvasWithRecognitionProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
