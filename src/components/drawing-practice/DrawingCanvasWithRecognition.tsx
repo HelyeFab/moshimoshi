@@ -167,6 +167,24 @@ export default function DrawingCanvasWithRecognition({
     context.stroke()
   }, [isDrawing, context, getCoordinates])
 
+  // Recognize the drawn character
+  const recognizeCharacter = useCallback(() => {
+    if (!isKanjiCanvasReady) {
+      console.warn('KanjiCanvas not ready')
+      return
+    }
+
+    // Use filtered recognition for better character type handling
+    const result = kanjiCanvasService.recognizeWithFilter(canvasId.current, characterType)
+    setRecognizedCandidates(result.candidates)
+
+    if (onRecognition) {
+      onRecognition(result.candidates, result.confidence)
+    }
+
+    console.log('Recognition result:', result)
+  }, [isKanjiCanvasReady, onRecognition, characterType])
+
   // Stop drawing and trigger recognition
   const stopDrawing = useCallback((e?: MouseEvent | TouchEvent) => {
     if (e) e.preventDefault()
@@ -197,24 +215,6 @@ export default function DrawingCanvasWithRecognition({
 
     setCurrentStroke([])
   }, [isDrawing, currentStroke, strokes, onStrokeComplete, isKanjiCanvasReady, autoRecognize, recognizeCharacter])
-
-  // Recognize the drawn character
-  const recognizeCharacter = useCallback(() => {
-    if (!isKanjiCanvasReady) {
-      console.warn('KanjiCanvas not ready')
-      return
-    }
-
-    // Use filtered recognition for better character type handling
-    const result = kanjiCanvasService.recognizeWithFilter(canvasId.current, characterType)
-    setRecognizedCandidates(result.candidates)
-
-    if (onRecognition) {
-      onRecognition(result.candidates, result.confidence)
-    }
-
-    console.log('Recognition result:', result)
-  }, [isKanjiCanvasReady, onRecognition, characterType])
 
   // Clear canvas
   const clearCanvas = useCallback(() => {
