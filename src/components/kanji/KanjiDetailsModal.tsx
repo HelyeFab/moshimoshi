@@ -7,6 +7,7 @@ import Modal from '@/components/ui/Modal'
 import { LoadingSpinner } from '@/components/ui/Loading'
 import AudioButton from '@/components/ui/AudioButton'
 import StrokeOrderModal from './StrokeOrderModal'
+import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
 import { motion } from 'framer-motion'
 import { useTTS } from '@/hooks/useTTS'
 
@@ -23,6 +24,7 @@ export default function KanjiDetailsModal({
 }: KanjiDetailsModalProps) {
   const [strokeCount, setStrokeCount] = useState<number | null>(null)
   const [showStrokeOrder, setShowStrokeOrder] = useState(false)
+  const [showDrawingPractice, setShowDrawingPractice] = useState(false)
   const [loadingStrokes, setLoadingStrokes] = useState(false)
 
   // TTS hook for audio playback
@@ -115,6 +117,17 @@ export default function KanjiDetailsModal({
                   {strokeCount} strokes
                 </button>
               ) : null}
+              <button
+                onClick={() => setShowDrawingPractice(true)}
+                className="px-3 py-1.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                  />
+                </svg>
+                Practice
+              </button>
             </div>
           </div>
 
@@ -211,6 +224,16 @@ export default function KanjiDetailsModal({
           character={kanji.kanji}
           isOpen={showStrokeOrder}
           onClose={() => setShowStrokeOrder(false)}
+        />
+      )}
+
+      {/* Drawing Practice Modal */}
+      {showDrawingPractice && kanji && (
+        <DrawingPracticeModal
+          character={kanji.kanji}
+          isOpen={showDrawingPractice}
+          onClose={() => setShowDrawingPractice(false)}
+          characterType="kanji"
         />
       )}
     </>
