@@ -196,7 +196,7 @@ export default function DrawingCanvasWithRecognition({
     }
 
     setCurrentStroke([])
-  }, [isDrawing, currentStroke, strokes, onStrokeComplete, isKanjiCanvasReady, autoRecognize])
+  }, [isDrawing, currentStroke, strokes, onStrokeComplete, isKanjiCanvasReady, autoRecognize, recognizeCharacter])
 
   // Recognize the drawn character
   const recognizeCharacter = useCallback(() => {
@@ -205,20 +205,16 @@ export default function DrawingCanvasWithRecognition({
       return
     }
 
-    // Use checkMatch for filtering by character type
-    const result = kanjiCanvasService.checkMatch(canvasId.current, character, characterType)
+    // Use filtered recognition for better character type handling
+    const result = kanjiCanvasService.recognizeWithFilter(canvasId.current, characterType)
     setRecognizedCandidates(result.candidates)
 
     if (onRecognition) {
-      // Create confidence array for the filtered candidates
-      const confidence = result.candidates.map((_, index) =>
-        Math.max(0.3, 1 - (index * 0.15))
-      )
-      onRecognition(result.candidates, confidence)
+      onRecognition(result.candidates, result.confidence)
     }
 
     console.log('Recognition result:', result)
-  }, [isKanjiCanvasReady, onRecognition, character, characterType])
+  }, [isKanjiCanvasReady, onRecognition, characterType])
 
   // Clear canvas
   const clearCanvas = useCallback(() => {

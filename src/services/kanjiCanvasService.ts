@@ -141,6 +141,47 @@ class KanjiCanvasService {
     }
   }
 
+  // Get filtered recognition results based on character type
+  recognizeWithFilter(canvasId: string, characterType?: 'kanji' | 'kana'): RecognitionResult {
+    const result = this.recognize(canvasId)
+
+    if (result.candidates.length === 0 || !characterType) {
+      return result
+    }
+
+    let filteredCandidates = result.candidates
+    let filteredConfidence = result.confidence
+
+    // If kana mode, prioritize kana characters
+    if (characterType === 'kana') {
+      const isKana = (char: string) => {
+        const code = char.charCodeAt(0)
+        // Hiragana: 0x3040-0x309F, Katakana: 0x30A0-0x30FF
+        return (code >= 0x3040 && code <= 0x309F) || (code >= 0x30A0 && code <= 0x30FF)
+      }
+
+      // Separate kana and kanji with their confidence scores
+      const candidatesWithConfidence = filteredCandidates.map((char, index) => ({
+        char,
+        confidence: filteredConfidence[index] || 0.5
+      }))
+
+      const kanaCandidates = candidatesWithConfidence.filter(c => isKana(c.char))
+      const kanjiCandidates = candidatesWithConfidence.filter(c => !isKana(c.char))
+
+      // Prioritize kana, then add some kanji as fallback
+      const combined = [...kanaCandidates, ...kanjiCandidates.slice(0, 2)]
+
+      filteredCandidates = combined.map(c => c.char)
+      filteredConfidence = combined.map(c => c.confidence)
+    }
+
+    return {
+      candidates: filteredCandidates.slice(0, 10), // Return top 10 filtered candidates
+      confidence: filteredConfidence.slice(0, 10)
+    }
+  }
+
   // Check if a character matches the expected one
   checkMatch(canvasId: string, expectedCharacter: string, characterType?: 'kanji' | 'kana'): {
     isMatch: boolean
