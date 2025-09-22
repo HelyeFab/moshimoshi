@@ -45,8 +45,6 @@ export default function DrawingPracticeModal({
   const [isLoading, setIsLoading] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
   const [feedback, setFeedback] = useState<FeedbackData | null>(null)
-  const [attempts, setAttempts] = useState(0)
-  const [bestScore, setBestScore] = useState(0)
   const [showHints, setShowHints] = useState(false)
   const [correctStrokes, setCorrectStrokes] = useState<number>(0)
 
@@ -79,7 +77,6 @@ export default function DrawingPracticeModal({
 
   // Handle drawing submission with real recognition
   const handleDrawingComplete = useCallback((drawingData: DrawingData) => {
-    setAttempts(prev => prev + 1)
 
     // Use real recognition score if available
     let score = 50 // Base score for attempting
@@ -122,14 +119,10 @@ export default function DrawingPracticeModal({
     setFeedback(feedbackData)
     setShowFeedback(true)
 
-    if (score > bestScore) {
-      setBestScore(score)
-    }
-
     if (onComplete && score >= 80) {
       onComplete(score)
     }
-  }, [character, correctStrokes, bestScore, onComplete])
+  }, [character, correctStrokes, onComplete])
 
   // Handle stroke completion
   const handleStrokeComplete = useCallback((stroke: Stroke) => {
@@ -166,21 +159,11 @@ export default function DrawingPracticeModal({
           </div>
         ) : (
           <>
-            {/* Stats bar */}
+            {/* Simplified header with just strokes info and hints toggle */}
             <div className="flex justify-between items-center mb-4">
-              <div className="flex gap-4 text-sm">
-                <div>
-                  <span className="text-gray-500">Attempts:</span>{' '}
-                  <span className="font-semibold">{attempts}</span>
-                </div>
-                <div>
-                  <span className="text-gray-500">Best Score:</span>{' '}
-                  <span className="font-semibold text-primary-600">{bestScore}%</span>
-                </div>
-                <div>
-                  <span className="text-gray-500">Strokes:</span>{' '}
-                  <span className="font-semibold">{correctStrokes}</span>
-                </div>
+              <div className="text-sm">
+                <span className="text-gray-500">Strokes:</span>{' '}
+                <span className="font-semibold">{correctStrokes}</span>
               </div>
 
               <button
