@@ -145,7 +145,12 @@ class KanjiCanvasService {
   recognizeWithFilter(canvasId: string, characterType?: 'kanji' | 'kana'): RecognitionResult {
     const result = this.recognize(canvasId)
 
-    if (result.candidates.length === 0 || !characterType) {
+    if (result.candidates.length === 0) {
+      return result
+    }
+
+    // If no character type specified, return original results
+    if (!characterType || characterType === 'kanji') {
       return result
     }
 
@@ -160,6 +165,9 @@ class KanjiCanvasService {
         return (code >= 0x3040 && code <= 0x309F) || (code >= 0x30A0 && code <= 0x30FF)
       }
 
+      // Log for debugging
+      console.log('Original candidates:', filteredCandidates)
+
       // Separate kana and kanji with their confidence scores
       const candidatesWithConfidence = filteredCandidates.map((char, index) => ({
         char,
@@ -169,8 +177,17 @@ class KanjiCanvasService {
       const kanaCandidates = candidatesWithConfidence.filter(c => isKana(c.char))
       const kanjiCandidates = candidatesWithConfidence.filter(c => !isKana(c.char))
 
-      // Prioritize kana, then add some kanji as fallback
-      const combined = [...kanaCandidates, ...kanjiCandidates.slice(0, 2)]
+      console.log('Kana candidates found:', kanaCandidates.map(c => c.char))
+      console.log('Kanji candidates found:', kanjiCandidates.map(c => c.char).slice(0, 5))
+
+      // For kana mode, ONLY show kana candidates - no kanji at all
+      const combined = kanaCandidates
+
+      if (kanaCandidates.length === 0) {
+        console.warn('No kana candidates found for kana character - recognition may have failed')
+        // Return empty results if no kana found
+        return { candidates: [], confidence: [] }
+      }
 
       filteredCandidates = combined.map(c => c.char)
       filteredConfidence = combined.map(c => c.confidence)
