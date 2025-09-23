@@ -101,13 +101,16 @@ export default function ReviewDashboard() {
     setLoading(true)
     try {
       const [studiedRes, statsRes, queueRes] = await Promise.all([
-        fetch('/api/review/progress/studied'),
+        fetch('/api/review/progress/studied?type=all&limit=500'),
         fetch('/api/review/stats'),
         fetch('/api/review/queue')
       ])
 
       if (studiedRes.ok) {
         const data = await studiedRes.json()
+        console.log('[ReviewDashboard] Loaded data:', data)
+        console.log('[ReviewDashboard] Items count:', data.items?.length)
+        console.log('[ReviewDashboard] First item:', data.items?.[0])
         setStudiedItems(data.items || [])
       }
 
@@ -117,7 +120,7 @@ export default function ReviewDashboard() {
       }
     } catch (error) {
       console.error('Failed to load review data:', error)
-      showToast(t('messages.loadError', 'Failed to load review data'), 'error')
+      showToast(t('reviewDashboard.messages.loadError', 'Failed to load review data'), 'error')
     } finally {
       setLoading(false)
     }
@@ -179,23 +182,23 @@ export default function ReviewDashboard() {
   const tabs = [
     {
       id: 'overview',
-      label: `${t('tabs.overview', 'Overview')}`
+      label: `${t('reviewDashboard.tabs.overview', 'Overview')}`
     },
     {
       id: 'studied',
-      label: `${t('tabs.studied', 'Studied')} (${filteredItems(studiedItems).length})`
+      label: `${t('reviewDashboard.tabs.studied', 'Studied')} (${filteredItems(studiedItems).length})`
     },
     {
       id: 'learned',
-      label: `${t('tabs.learned', 'Learned')} (${filteredItems(learnedItems).length})`
+      label: `${t('reviewDashboard.tabs.learned', 'Learned')} (${filteredItems(learnedItems).length})`
     },
     {
       id: 'queue',
-      label: `${t('tabs.queue', 'Queue')} (${filteredItems(queueItems).length})`
+      label: `${t('reviewDashboard.tabs.queue', 'Queue')} (${filteredItems(queueItems).length})`
     },
     {
       id: 'schedule',
-      label: t('tabs.schedule', 'Schedule')
+      label: t('reviewDashboard.tabs.schedule', 'Schedule')
     }
   ]
 
@@ -203,7 +206,7 @@ export default function ReviewDashboard() {
     return (
       <LoadingOverlay
         isLoading={true}
-        message={t('messages.loading', 'Loading review data...')}
+        message={t('reviewDashboard.messages.loading', 'Loading review data...')}
         showDoshi={true}
       />
     )
@@ -219,11 +222,11 @@ export default function ReviewDashboard() {
             <div className="p-6 bg-white/90 dark:bg-dark-800/90 backdrop-blur rounded-xl shadow-sm">
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <AlertCircle className="w-5 h-5 text-orange-600" />
-                {t('sections.reviewQueue', 'Review Queue')}
+                {t('reviewDashboard.sections.reviewQueue', 'Review Queue')}
               </h2>
               {queueItems.length === 0 ? (
                 <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                  {t('messages.noReviewsDue', 'No reviews due right now. Great job!')}
+                  {t('reviewDashboard.messages.noReviewsDue', 'No reviews due right now. Great job!')}
                 </p>
               ) : (
                 <div className="space-y-2">
@@ -245,7 +248,7 @@ export default function ReviewDashboard() {
                       className="w-full py-2 text-sm text-primary-600 hover:text-primary-700"
                       onClick={() => setActiveTab('queue')}
                     >
-                      {t('actions.viewAll', 'View all')} {queueItems.length} {t('items', 'items')}
+                      {t('reviewDashboard.actions.viewAll', 'View all')} {queueItems.length} {t('items', 'items')}
                       <ChevronRight className="w-4 h-4 inline ml-1" />
                     </button>
                   )}
@@ -257,11 +260,11 @@ export default function ReviewDashboard() {
             <div className="p-6 bg-white/90 dark:bg-dark-800/90 backdrop-blur rounded-xl shadow-sm">
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-purple-600" />
-                {t('sections.upcomingReviews', 'Upcoming Reviews')}
+                {t('reviewDashboard.sections.upcomingReviews', 'Upcoming Reviews')}
               </h2>
               {upcomingItems.length === 0 ? (
                 <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                  {t('messages.noUpcoming', 'No upcoming reviews scheduled')}
+                  {t('reviewDashboard.messages.noUpcoming', 'No upcoming reviews scheduled')}
                 </p>
               ) : (
                 <div className="space-y-2">
@@ -287,7 +290,7 @@ export default function ReviewDashboard() {
               <div className="p-6 bg-white/90 dark:bg-dark-800/90 backdrop-blur rounded-xl shadow-sm">
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <TrendingUp className="w-5 h-5 text-green-600" />
-                  {t('sections.learningProgress', 'Learning Progress')}
+                  {t('reviewDashboard.sections.learningProgress', 'Learning Progress')}
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {['kana', 'kanji', 'vocabulary', 'sentence'].map(type => {
@@ -326,7 +329,7 @@ export default function ReviewDashboard() {
           <div className="p-6 bg-white/90 dark:bg-dark-800/90 backdrop-blur rounded-xl shadow-sm">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-blue-600" />
-              {t('sections.allStudiedItems', 'All Studied Items')}
+              {t('reviewDashboard.sections.allStudiedItems', 'All Studied Items')}
               <span className="px-2 py-1 text-xs bg-gray-200 dark:bg-dark-700 rounded-full">
                 {filteredItems(studiedItems).length}
               </span>
@@ -335,8 +338,8 @@ export default function ReviewDashboard() {
               {filteredItems(studiedItems).length === 0 ? (
                 <p className="text-gray-500 dark:text-gray-400 text-center py-8">
                   {filterType !== 'all'
-                    ? t('messages.noItemsFiltered', 'No items found for this filter')
-                    : t('messages.noStudiedItems', 'You haven\'t studied any items yet')}
+                    ? t('reviewDashboard.messages.noItemsFiltered', 'No items found for this filter')
+                    : t('reviewDashboard.messages.noStudiedItems', 'You haven\'t studied any items yet')}
                 </p>
               ) : (
                 filteredItems(studiedItems).map(item => (
@@ -377,7 +380,7 @@ export default function ReviewDashboard() {
           <div className="p-6 bg-white/90 dark:bg-dark-800/90 backdrop-blur rounded-xl shadow-sm">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-green-600" />
-              {t('sections.learnedItems', 'Learned Items')}
+              {t('reviewDashboard.sections.learnedItems', 'Learned Items')}
               <span className="px-2 py-1 text-xs bg-gray-200 dark:bg-dark-700 rounded-full">
                 {filteredItems(learnedItems).length}
               </span>
@@ -387,7 +390,7 @@ export default function ReviewDashboard() {
               <div>
                 <h3 className="font-medium mb-2 flex items-center gap-2">
                   <Zap className="w-4 h-4 text-purple-600" />
-                  {t('sections.masteredItems', 'Mastered')}
+                  {t('reviewDashboard.sections.masteredItems', 'Mastered')}
                 </h3>
                 <div className="space-y-2 max-h-[400px] overflow-y-auto">
                   {filteredItems(learnedItems.filter(item => item.status === 'mastered')).map(item => (
@@ -410,7 +413,7 @@ export default function ReviewDashboard() {
               <div>
                 <h3 className="font-medium mb-2 flex items-center gap-2">
                   <Brain className="w-4 h-4 text-green-600" />
-                  {t('sections.inReview', 'In Review')}
+                  {t('reviewDashboard.sections.inReview', 'In Review')}
                 </h3>
                 <div className="space-y-2 max-h-[400px] overflow-y-auto">
                   {filteredItems(learnedItems.filter(item => item.status === 'review')).map(item => (
@@ -438,7 +441,7 @@ export default function ReviewDashboard() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 <AlertCircle className="w-5 h-5 text-orange-600" />
-                {t('sections.reviewQueueFull', 'Review Queue - Items Due Now')}
+                {t('reviewDashboard.sections.reviewQueueFull', 'Review Queue - Items Due Now')}
                 <span className="px-2 py-1 text-xs bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-full">
                   {filteredItems(queueItems).length}
                 </span>
@@ -446,7 +449,7 @@ export default function ReviewDashboard() {
               {queueItems.length > 0 && (
                 <Link href="/review">
                   <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-                    {t('actions.startReview', 'Start Review')}
+                    {t('reviewDashboard.actions.startReview', 'Start Review')}
                   </button>
                 </Link>
               )}
@@ -454,7 +457,7 @@ export default function ReviewDashboard() {
             <div className="space-y-2 max-h-[600px] overflow-y-auto">
               {filteredItems(queueItems).length === 0 ? (
                 <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                  {t('messages.queueEmpty', 'Your review queue is empty!')}
+                  {t('reviewDashboard.messages.queueEmpty', 'Your review queue is empty!')}
                 </p>
               ) : (
                 filteredItems(queueItems).map(item => {
@@ -490,7 +493,7 @@ export default function ReviewDashboard() {
           <div className="p-6 bg-white/90 dark:bg-dark-800/90 backdrop-blur rounded-xl shadow-sm">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <Calendar className="w-5 h-5 text-purple-600" />
-              {t('sections.reviewSchedule', 'Review Schedule')}
+              {t('reviewDashboard.sections.reviewSchedule', 'Review Schedule')}
             </h2>
             <div className="space-y-4">
               {/* Today */}
@@ -604,7 +607,7 @@ export default function ReviewDashboard() {
           }`}
           onClick={() => setFilterType('all')}
         >
-          {t('filter.all', 'All')}
+          {t('reviewDashboard.filter.all', 'All')}
         </button>
         <button
           className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -614,7 +617,7 @@ export default function ReviewDashboard() {
           }`}
           onClick={() => setFilterType('kana')}
         >
-          {t('filter.kana', 'Kana')}
+          {t('reviewDashboard.filter.kana', 'Kana')}
         </button>
         <button
           className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -624,7 +627,7 @@ export default function ReviewDashboard() {
           }`}
           onClick={() => setFilterType('kanji')}
         >
-          {t('filter.kanji', 'Kanji')}
+          {t('reviewDashboard.filter.kanji', 'Kanji')}
         </button>
         <button
           className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -634,7 +637,7 @@ export default function ReviewDashboard() {
           }`}
           onClick={() => setFilterType('vocabulary')}
         >
-          {t('filter.vocabulary', 'Vocabulary')}
+          {t('reviewDashboard.filter.vocabulary', 'Vocabulary')}
         </button>
         <button
           className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -644,7 +647,7 @@ export default function ReviewDashboard() {
           }`}
           onClick={() => setFilterType('sentence')}
         >
-          {t('filter.sentences', 'Sentences')}
+          {t('reviewDashboard.filter.sentences', 'Sentences')}
         </button>
 
         <button
@@ -652,7 +655,7 @@ export default function ReviewDashboard() {
           onClick={loadReviewData}
         >
           <RefreshCw className="w-4 h-4" />
-          {t('actions.refresh', 'Refresh')}
+          {t('reviewDashboard.actions.refresh', 'Refresh')}
         </button>
       </div>
 
@@ -662,9 +665,12 @@ export default function ReviewDashboard() {
         defaultTab={activeTab}
         onChange={setActiveTab}
         variant="default"
-      >
+      />
+
+      {/* Tab Content */}
+      <div className="mt-4">
         {renderTabContent()}
-      </Tabs>
+      </div>
     </div>
   )
 }

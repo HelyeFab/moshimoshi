@@ -160,6 +160,15 @@ function useAuthProvider(): Auth {
       // Set initial user data
       const authUser = convertFirebaseUser(firebaseUser)
       setUser(authUser)
+
+      // Store user info for theme/language contexts to access
+      if (typeof window !== 'undefined' && authUser) {
+        localStorage.setItem('auth-user', JSON.stringify({
+          uid: authUser.uid,
+          email: authUser.email
+        }))
+      }
+
       setError(null)
 
       // The session will be fetched in the auth state listener to get isAdmin
@@ -267,6 +276,15 @@ function useAuthProvider(): Auth {
           providerData: data.user.providerData || []
         }
         setUser(authUser)
+
+        // Store user info for theme/language contexts to access
+        if (typeof window !== 'undefined' && authUser) {
+          localStorage.setItem('auth-user', JSON.stringify({
+            uid: authUser.uid,
+            email: authUser.email
+          }))
+        }
+
         setLoading(false)
       } else {
         logger.auth('[useAuthProvider] No authenticated user in session response')
@@ -388,6 +406,12 @@ function useAuthProvider(): Auth {
       // Clear guest status if it exists
       if (typeof window !== 'undefined') {
         sessionStorage.removeItem('isGuestUser')
+
+        // Clear non-user-specific preferences to prevent cross-user contamination
+        localStorage.removeItem('moshimoshi-theme')
+        localStorage.removeItem('moshimoshi-language')
+        localStorage.removeItem('user-preferences')
+        localStorage.removeItem('auth-user')
       }
       setIsGuest(false)
     } catch (err: any) {

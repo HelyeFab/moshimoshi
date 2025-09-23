@@ -203,6 +203,10 @@ export default function SyncStatusMenuItem() {
           await kanaProgressManager['processSyncQueue']();
         }
 
+        // Force sync user preferences
+        const { preferencesManager } = await import('@/utils/preferencesManager');
+        await preferencesManager.forceSyncAll(user.uid);
+
         // Attempt regular sync
         await attemptSync();
 

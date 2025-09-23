@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { reviewLogger } from '@/lib/monitoring/logger'
-import { collection, query, where, getDocs } from 'firebase/firestore'
-import { db } from '@/lib/firebase/config'
+import { adminDb } from '@/lib/firebase/admin'
 
 export async function GET(request: NextRequest) {
   try {
     // Get authenticated session
     const session = await getSession()
-    const userId = session?.userId || 'guest'
+    const userId = session?.uid || 'guest'
     const isPremium = session?.tier?.includes('premium') || false
 
     // For guest/free users, return basic stats (they should use IndexedDB locally)
@@ -54,10 +53,12 @@ export async function GET(request: NextRequest) {
 
 async function aggregateUserStats(userId: string) {
   try {
-    // Fetch progress data from Firebase
-    const progressRef = collection(db, 'progress')
-    const q = query(progressRef, where('userId', '==', userId))
-    const snapshot = await getDocs(q)
+    // Fetch progress data from Firebase - from user's subcollection using Admin SDK
+    const progressRef = adminDb
+      .collection('users')
+      .doc(userId)
+      .collection('progress')
+    const snapshot = await progressRef.get()
 
     let totalStudied = 0
     let totalLearned = 0
@@ -83,57 +84,66 @@ async function aggregateUserStats(userId: string) {
       sentence: { studied: 0, learned: 0, mastered: 0 }
     }
 
+    // Process each content type document
     snapshot.forEach(doc => {
-      const data = doc.data()
-      const contentType = data.contentType || 'vocabulary'
+      const docData = doc.data()
+      const contentType = doc.id // The doc ID is the content type (kana, kanji, etc.)
+      const items = docData?.items || {}
 
-      totalStudied++
-      if (contentBreakdown[contentType]) {
-        contentBreakdown[contentType].studied++
-      }
-
-      // Determine status
-      const status = data.status || 'new'
-      if (status === 'new') {
-        newItems++
-      } else if (status === 'learning') {
-        learningItems++
-      } else if (status === 'review') {
-        totalLearned++
+      // Process each item in the document
+      Object.values(items).forEach((data: any) => {
+        totalStudied++
         if (contentBreakdown[contentType]) {
-          contentBreakdown[contentType].learned++
+          contentBreakdown[contentType].studied++
         }
-      } else if (status === 'mastered') {
-        totalMastered++
-        totalLearned++
-        if (contentBreakdown[contentType]) {
-          contentBreakdown[contentType].mastered++
-          contentBreakdown[contentType].learned++
-        }
-      }
 
-      // Check due dates
-      if (data.nextReviewAt) {
-        const reviewDate = data.nextReviewAt.toDate ? data.nextReviewAt.toDate() : new Date(data.nextReviewAt)
-        if (reviewDate <= now) dueNow++
-        if (reviewDate <= tomorrow) dueToday++
-        if (reviewDate > tomorrow && reviewDate <= new Date(tomorrow.getTime() + 24 * 60 * 60 * 1000)) {
-          dueTomorrow++
+        // Determine status
+        const status = data.status || 'new'
+        if (status === 'new' || status === 'not-started') {
+          newItems++
+        } else if (status === 'learning' || status === 'viewing') {
+          learningItems++
+        } else if (status === 'review') {
+          totalLearned++
+          if (contentBreakdown[contentType]) {
+            contentBreakdown[contentType].learned++
+          }
+        } else if (status === 'mastered' || status === 'completed') {
+          totalMastered++
+          totalLearned++
+          if (contentBreakdown[contentType]) {
+            contentBreakdown[contentType].mastered++
+            contentBreakdown[contentType].learned++
+          }
         }
-        if (reviewDate <= weekEnd) dueThisWeek++
-      }
+
+        // Check due dates from SRS data
+        const srsData = data.srsData
+        if (srsData?.nextReviewAt) {
+          const reviewDate = typeof srsData.nextReviewAt === 'string'
+            ? new Date(srsData.nextReviewAt)
+            : srsData.nextReviewAt
+
+          if (reviewDate <= now) dueNow++
+          if (reviewDate <= tomorrow) dueToday++
+          if (reviewDate > tomorrow && reviewDate <= new Date(tomorrow.getTime() + 24 * 60 * 60 * 1000)) {
+            dueTomorrow++
+          }
+          if (reviewDate <= weekEnd) dueThisWeek++
+        }
+      })
     })
 
     // Fetch streak data
-    const streakDoc = await getDocs(query(
-      collection(db, 'streaks'),
-      where('userId', '==', userId)
-    ))
+    const streakQuery = adminDb
+      .collection('streaks')
+      .where('userId', '==', userId)
+    const streakSnapshot = await streakQuery.get()
 
     let streakDays = 0
     let bestStreak = 0
-    if (!streakDoc.empty) {
-      const streakData = streakDoc.docs[0].data()
+    if (!streakSnapshot.empty) {
+      const streakData = streakSnapshot.docs[0].data()
       streakDays = streakData.currentStreak || 0
       bestStreak = streakData.bestStreak || 0
     }
@@ -141,14 +151,12 @@ async function aggregateUserStats(userId: string) {
     // Calculate today's progress
     const todayStart = new Date(today)
     const todayEnd = new Date(tomorrow)
-    const sessionsRef = collection(db, 'sessions')
-    const todayQuery = query(
-      sessionsRef,
-      where('userId', '==', userId),
-      where('startedAt', '>=', todayStart),
-      where('startedAt', '<', todayEnd)
-    )
-    const todaySessions = await getDocs(todayQuery)
+    const sessionsQuery = adminDb
+      .collection('sessions')
+      .where('userId', '==', userId)
+      .where('startedAt', '>=', todayStart)
+      .where('startedAt', '<', todayEnd)
+    const todaySessions = await sessionsQuery.get()
     let todaysProgress = 0
     todaySessions.forEach(doc => {
       const data = doc.data()

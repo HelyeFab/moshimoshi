@@ -3,6 +3,9 @@
 import { ReviewableContent, KanjiMetadata } from '@/lib/review-engine/core/interfaces'
 import { ReviewMode } from '@/lib/review-engine/core/types'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useKanjiDetails } from '@/hooks/useKanjiDetails'
+import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
+import { Kanji } from '@/types/kanji'
 
 interface KanjiCardProps {
   content: ReviewableContent
@@ -18,14 +21,41 @@ export default function KanjiCard({
   onAudioPlay
 }: KanjiCardProps) {
   const metadata = content.metadata as KanjiMetadata | undefined
+  const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
+
+  // Convert metadata to Kanji format for the modal
+  const handleOpenDetails = () => {
+    const kanjiData: Kanji = {
+      kanji: content.primaryDisplay,
+      meaning: content.primaryAnswer,
+      onyomi: metadata?.onyomi || [],
+      kunyomi: metadata?.kunyomi || [],
+      jlpt: metadata?.jlpt,
+      grade: metadata?.grade,
+      frequency: metadata?.frequency
+    }
+    openKanjiDetails(kanjiData)
+  }
   
   const renderContent = () => {
     switch (mode) {
       case 'recognition':
         return (
           <>
-            <div className="text-9xl font-japanese mb-8 text-center">
+            <div className="text-9xl font-japanese mb-8 text-center relative inline-block">
               {content.primaryDisplay}
+              {/* Info button */}
+              <button
+                onClick={handleOpenDetails}
+                className="absolute -top-2 -right-12 p-2 text-gray-400 hover:text-primary-500 dark:text-gray-500 dark:hover:text-primary-400 transition-all hover:scale-110"
+                title="View full details"
+                aria-label="View kanji details"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
             </div>
             <AnimatePresence>
               {showAnswer && (
@@ -94,10 +124,11 @@ export default function KanjiCard({
   }
   
   return (
-    <div className="flex flex-col items-center justify-center">
-      {renderContent()}
-      
-      {/* Kanji info badges */}
+    <>
+      <div className="flex flex-col items-center justify-center">
+        {renderContent()}
+
+        {/* Kanji info badges */}
       {metadata && (
         <div className="mt-8 flex flex-wrap gap-2 justify-center text-sm">
           {metadata.strokeCount && (
@@ -122,6 +153,14 @@ export default function KanjiCard({
           )}
         </div>
       )}
-    </div>
+      </div>
+
+      {/* Kanji Details Modal */}
+      <KanjiDetailsModal
+        kanji={modalKanji}
+        isOpen={!!modalKanji}
+        onClose={closeKanjiDetails}
+      />
+    </>
   )
 }

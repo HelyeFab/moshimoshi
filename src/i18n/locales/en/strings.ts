@@ -40,6 +40,7 @@ export const strings = {
     guest: "GUEST",
     creating: "Creating...",
     saving: "Saving...",
+    create: "Create",
     upgrade: "Upgrade",
     today: "Today",
     yesterday: "Yesterday",
@@ -260,6 +261,7 @@ export const strings = {
   // Review Dashboard
   reviewDashboard: {
     title: "Review Dashboard",
+    description: "Track your learning progress and upcoming reviews",
     subtitle: "Track your learning progress and upcoming reviews",
     tabs: {
       overview: "Overview",
@@ -274,6 +276,7 @@ export const strings = {
       learningProgress: "Learning Progress",
       allStudiedItems: "All Studied Items",
       learnedItems: "Learned Items",
+      masteredItems: "Mastered",
       mastered: "Mastered",
       inReview: "In Review",
       reviewQueueFull: "Review Queue - Items Due Now",
@@ -302,6 +305,8 @@ export const strings = {
       refresh: "Refresh"
     },
     messages: {
+      loading: "Loading review data...",
+      loadError: "Failed to load review data",
       noReviewsDue: "No reviews due right now. Great job!",
       noUpcoming: "No upcoming reviews scheduled",
       noItemsFiltered: "No items for this filter",
@@ -2363,8 +2368,43 @@ export const strings = {
     tryDifferentSearch: "Try a different search term",
     startSaving: "Start saving words, kanji, and sentences to see them here",
     confirmRemove: "Remove this item from all lists?",
+    removeDialog: {
+      title: "Remove from Favourites",
+      message: "Are you sure you want to remove this item from your favourites?",
+      cancel: "Cancel",
+      confirm: "Remove"
+    },
     reviewedTimes: "Reviewed {count} times",
     manageLists: "Manage my lists",
+  },
+
+  studyLists: {
+    saveToList: "Save to List",
+    noLists: "No lists yet. Create one to get started!",
+    createNewList: "Create New List",
+    newList: "New List",
+    listName: "List Name",
+    listType: "List Type",
+    description: "Description",
+    namePlaceholder: "e.g., JLPT N5 Vocabulary",
+    descriptionPlaceholder: "Brief description of this list...",
+    incompatible: "This item type is not compatible with this list",
+    premiumNotice: "Free users save locally. Premium users sync to cloud.",
+    types: {
+      flashcard: "Flashcard",
+      drillable: "Drillable",
+      sentence: "Sentence"
+    },
+    errors: {
+      nameRequired: "Please enter a list name",
+      selectAtLeast: "Please select at least one list",
+      createFailed: "Failed to create list",
+      saveFailed: "Failed to save item"
+    },
+    success: {
+      listCreated: "List created successfully",
+      itemSaved: "Item saved to list(s)"
+    }
   },
 
   lists: {
@@ -2446,8 +2486,8 @@ export const strings = {
       created: "List created successfully",
       updated: "List updated successfully",
       deleted: "List deleted successfully",
-      itemAdded: "Added to {count} list(s)",
-      itemRemoved: "Removed from {count} list(s)",
+      itemAdded: "Added to {{count}} list(s)",
+      itemRemoved: "Removed from {{count}} list(s)",
       itemUpdated: "Item updated successfully",
     },
     errors: {

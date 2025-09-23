@@ -7,6 +7,7 @@ import { ReviewCountdown } from './ReviewCountdown'
 import { useAuth } from '@/hooks/useAuth'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { useI18n } from '@/i18n/I18nContext'
+import { UserStorageService } from '@/lib/storage/UserStorageService'
 
 interface InAppNotification {
   id: string
@@ -37,9 +38,16 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
   const [notifications, setNotifications] = useState<InAppNotification[]>([])
   const [countdowns, setCountdowns] = useState<Map<string, Date>>(new Map())
   const timersRef = useRef<Map<string, NodeJS.Timeout>>(new Map())
+  const storageRef = useRef<UserStorageService | null>(null)
 
   useEffect(() => {
-    if (!user) return
+    if (!user) {
+      storageRef.current = null
+      return
+    }
+
+    // Initialize user-specific storage
+    storageRef.current = new UserStorageService(user.uid)
 
     // Load persisted countdowns
     loadPersistedCountdowns()
@@ -203,14 +211,16 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
       dueDate: dueDate.toISOString()
     }))
 
-    localStorage.setItem('review_countdowns', JSON.stringify(data))
+    if (storageRef.current) {
+      storageRef.current.setItem('review_countdowns', data)
+    }
   }
 
   const loadPersistedCountdowns = () => {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined' || !storageRef.current) return
 
     try {
-      const stored = localStorage.getItem('review_countdowns')
+      const stored = storageRef.current.getItem<any[]>('review_countdowns')
       if (stored) {
         const data = JSON.parse(stored)
         const now = Date.now()

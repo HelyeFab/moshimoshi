@@ -127,6 +127,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
   const [showSettings, setShowSettings] = useState(false);
   const [showGrammarLegend, setShowGrammarLegend] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [processedPages, setProcessedPages] = useState<Record<number, string>>({});
   const [settings, setSettings] = useState<ReadingSettings>({
     fontSize: 'medium',
     showFurigana: true,
@@ -191,8 +192,41 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
     }
   };
 
+  // Fetch furigana for current page if not already processed
+  useEffect(() => {
+    const fetchFurigana = async () => {
+      // Skip if already processed or if the page already has ruby tags
+      if (processedPages[currentPageIndex] || currentPage.text.includes('<ruby>')) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/furigana', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: currentPage.text })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setProcessedPages(prev => ({
+            ...prev,
+            [currentPageIndex]: data.result || currentPage.text
+          }));
+        }
+      } catch (error) {
+        console.error('Failed to fetch furigana:', error);
+      }
+    };
+
+    fetchFurigana();
+  }, [currentPageIndex, currentPage.text]);
+
   // Process text for display
-  const processedText = processTextWithFurigana(currentPage.text, settings.showFurigana);
+  const processedText = processTextWithFurigana(
+    processedPages[currentPageIndex] || currentPage.text,
+    settings.showFurigana
+  );
 
   // Keyboard navigation
   useEffect(() => {

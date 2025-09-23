@@ -18,6 +18,14 @@ export async function GET(request: NextRequest) {
 
     console.log(`[API Activities] Loading activities for user ${session.uid}`)
 
+    // Check if adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      )
+    }
+
     // Get activities document from Firebase
     const activitiesRef = adminDb
       .collection('users')
@@ -103,6 +111,14 @@ export async function POST(request: NextRequest) {
       currentStreak: body.currentStreak,
       bestStreak: body.bestStreak
     })
+
+    // Check if adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      )
+    }
 
     // Save to Firebase
     const activitiesRef = adminDb

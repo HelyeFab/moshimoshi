@@ -1,17 +1,18 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Volume2, BookOpen, Tag, Bookmark, Plus, ScrollText, Info } from 'lucide-react'
+import { X, Volume2, BookOpen, Tag, Plus, ScrollText, Info } from 'lucide-react'
 import { JapaneseWord, isDrillable, getRecommendedListType } from '@/types/vocabulary'
 import { useState, useEffect, useMemo } from 'react'
 import { useI18n } from '@/i18n/I18nContext'
 import { searchTatoebaExamples, type ExampleSentence } from '@/utils/tatoebaSearch'
 import { useTTS } from '@/hooks/useTTS'
 import { useSubscription } from '@/hooks/useSubscription'
-import SaveItemModal from '@/components/study-lists/SaveItemModal'
-import type { StudyItemType } from '@/types/studyList'
+import { useAuth } from '@/hooks/useAuth'
 import { ConjugationDisplay } from '@/components/conjugation/ConjugationDisplay'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
+import { useKanjiDetails, extractKanjiFromText } from '@/hooks/useKanjiDetails'
+import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 
 interface WordDetailsModalProps {
   word: JapaneseWord | null
@@ -24,14 +25,13 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   const [examples, setExamples] = useState<ExampleSentence[]>([])
   const [loadingExamples, setLoadingExamples] = useState(false)
   const [playingIndex, setPlayingIndex] = useState<number | null>(null)
-  const [showSaveModal, setShowSaveModal] = useState(false)
   const [activeTab, setActiveTab] = useState<'details' | 'conjugations'>('details')
   const { strings, t } = useI18n()
   const { play, isPlaying } = useTTS({ cacheFirst: true })
+  const { user: authUser } = useAuth()
   const { subscription } = useSubscription()
+  const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
 
-  // Determine user plan for SaveItemModal
-  const userPlan = !user ? 'guest' : (subscription?.status === 'active' ? 'premium' : 'free')
 
   // Check if word is conjugatable
   const isConjugatable = useMemo(() => {
@@ -151,7 +151,21 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                       <div className="flex items-center gap-2">
                         <span className="text-4xl font-bold text-gray-900 dark:text-gray-100"
                               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
-                          {word.kanji}
+                          {word.kanji.split('').map((char, idx) => {
+                            const isKanjiChar = /[\u4e00-\u9faf]/.test(char)
+                            return isKanjiChar ? (
+                              <span
+                                key={idx}
+                                className="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors inline-block hover:scale-110"
+                                onClick={() => openKanjiDetails(char)}
+                                title={`View details for ${char}`}
+                              >
+                                {char}
+                              </span>
+                            ) : (
+                              <span key={idx}>{char}</span>
+                            )
+                          })}
                         </span>
                         <button
                           onClick={() => handleSpeak(word.kanji!)}
@@ -213,14 +227,6 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setShowSaveModal(true)}
-                    className="p-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2"
-                    title={t('lists.actions.saveToList')}
-                  >
-                    <Bookmark className="w-5 h-5" />
-                    <span className="text-sm font-medium">{t('lists.actions.save')}</span>
-                  </button>
                   <button
                     onClick={onClose}
                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
@@ -366,25 +372,14 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
         </div>
           </motion.div>
 
-          {/* Save to List Modal */}
-          {word && (
-            <SaveItemModal
-              isOpen={showSaveModal}
-              onClose={() => setShowSaveModal(false)}
-              item={{
-                word: word.kanji || word.kana,
-                reading: word.kana,
-                meaning: word.meaning,
-                type: word.type,
-                jlpt: word.jlpt,
-                tags: word.tags,
-                partsOfSpeech: word.partsOfSpeech,
-              } as any}
-              itemType="word"
-              itemId={word.id || `${word.kanji || word.kana}_${Date.now()}`}
-              userPlan={userPlan}
-            />
-          )}
+
+          {/* Kanji Details Modal */}
+          <KanjiDetailsModal
+            kanji={modalKanji}
+            isOpen={!!modalKanji}
+            onClose={closeKanjiDetails}
+          />
+
         </>
       )}
     </AnimatePresence>

@@ -320,18 +320,12 @@ function determineWordType(pos: string[] | undefined): WordType {
 
   const posStr = pos.join(' ').toLowerCase()
 
-  // Check for irregular verbs
-  if (posStr.includes('irregular') || posStr.includes('suru') || posStr.includes('kuru') ||
-      posStr.includes('vs-i') || posStr.includes('vs-s') || posStr.includes('vs') || posStr.includes('vk')) {
-    return 'Irregular'
-  }
-
-  // Check for other verb types
-  if (posStr.includes('v1') || posStr.includes('ichidan')) {
-    return 'Ichidan'
-  }
-  if (posStr.includes('v5') || posStr.includes('godan')) {
-    return 'Godan'
+  // Check for verbs (any type)
+  if (posStr.includes('v1') || posStr.includes('v5') || posStr.includes('ichidan') ||
+      posStr.includes('godan') || posStr.includes('irregular') || posStr.includes('suru') ||
+      posStr.includes('kuru') || posStr.includes('vs-i') || posStr.includes('vs-s') ||
+      posStr.includes('vs') || posStr.includes('vk') || posStr.includes('verb')) {
+    return 'verb'
   }
 
   // Check for i-adjectives
@@ -391,8 +385,7 @@ function convertJMDictToWord(entry: JMDictWord): JapaneseWord {
     meaning: meanings.join(', '),
     type: wordType,
     jlpt: 'N5' as JLPTLevel, // Would need separate mapping
-    tags: tags,
-    isCommon: isCommon
+    tags: tags
   }
 }
 

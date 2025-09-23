@@ -398,22 +398,24 @@ export default function KanjiStudyMode({
                   )}
                 </div>
 
-                {/* Stroke order button in bottom right */}
+                {/* Stroke order animation button in bottom right */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
                     setShowStrokeOrderModal(true)
                   }}
                   className="absolute bottom-6 right-6 p-3 rounded-xl
-                           bg-purple-100 dark:bg-purple-900/30
-                           hover:bg-purple-200 dark:hover:bg-purple-900/40
-                           border border-purple-200 dark:border-purple-800
+                           bg-blue-100 dark:bg-blue-900/30
+                           hover:bg-blue-200 dark:hover:bg-blue-900/40
+                           border border-blue-200 dark:border-blue-800
                            transition-all transform hover:scale-105 active:scale-95"
-                  title="Stroke Order"
+                  title="Stroke Order Animation"
                 >
-                  <svg className="w-6 h-6 text-purple-700 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-blue-700 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </button>
 

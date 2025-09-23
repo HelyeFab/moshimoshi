@@ -13,6 +13,23 @@ interface I18nContextType {
 const I18nContext = createContext<I18nContextType | undefined>(undefined)
 
 const LANGUAGE_STORAGE_KEY = 'moshimoshi-language'
+const USER_LANGUAGE_STORAGE_KEY = 'moshimoshi-user-language'
+
+// Helper to get current user ID from auth state
+const getCurrentUserId = (): string | null => {
+  if (typeof window === 'undefined') return null
+  // Try to get user ID from session or auth state
+  const authData = localStorage.getItem('auth-user')
+  if (authData) {
+    try {
+      const user = JSON.parse(authData)
+      return user?.uid || null
+    } catch {
+      return null
+    }
+  }
+  return null
+}
 
 interface I18nProviderProps {
   children: React.ReactNode
@@ -23,25 +40,42 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
   const [language, setLanguageState] = useState<Language>(() => {
     // Check localStorage first
     if (typeof window !== 'undefined') {
+      // First try user-specific language
+      const userId = getCurrentUserId()
+      if (userId) {
+        const userKey = `${USER_LANGUAGE_STORAGE_KEY}-${userId}`
+        const userLang = localStorage.getItem(userKey)
+        if (userLang && languages.includes(userLang as Language)) {
+          return userLang as Language
+        }
+      }
+
+      // Fall back to global language
       const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY)
       if (stored && languages.includes(stored as Language)) {
         return stored as Language
       }
-      
+
       // Check browser language
       const browserLang = navigator.language.toLowerCase()
       if (browserLang.startsWith('ja')) {
         return 'ja'
       }
     }
-    
+
     return initialLanguage || defaultLanguage
   })
 
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang)
     if (typeof window !== 'undefined') {
+      // Save both globally and user-specific if user is logged in
       localStorage.setItem(LANGUAGE_STORAGE_KEY, lang)
+      const userId = getCurrentUserId()
+      if (userId) {
+        const userKey = `${USER_LANGUAGE_STORAGE_KEY}-${userId}`
+        localStorage.setItem(userKey, lang)
+      }
       // Update HTML lang attribute
       document.documentElement.lang = lang
     }

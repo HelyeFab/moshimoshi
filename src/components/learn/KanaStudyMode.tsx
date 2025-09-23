@@ -9,6 +9,8 @@ import AudioButton from '@/components/ui/AudioButton'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
+import StrokeOrderModal from '@/components/kanji/StrokeOrderModal'
+import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
 
 interface KanaStudyModeProps {
   character: KanaCharacter
@@ -47,6 +49,8 @@ export default function KanaStudyMode({
   const [hasRecordedActivity, setHasRecordedActivity] = useState(false)
   const [hasTrackedView, setHasTrackedView] = useState(false)
   const [viewStartTime, setViewStartTime] = useState<number>(Date.now())
+  const [showStrokeOrder, setShowStrokeOrder] = useState(false)
+  const [showDrawingPractice, setShowDrawingPractice] = useState(false)
 
   // Track character view when component mounts or character changes
   useEffect(() => {
@@ -1251,31 +1255,48 @@ export default function KanaStudyMode({
                          flex flex-col items-center justify-center p-8
                          hover:scale-[1.02] transition-transform duration-200"
               >
-                {/* Audio Icon - Top Left */}
-                <AudioButton
-                  position="top-left"
-                  size="md"
-                  onPlay={handlePlayAudio}
-                />
-
-                {/* Pin Icon - Top Right */}
+                {/* Stroke Order Animation Button - Top Left */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
-                    onTogglePin()
+                    setShowStrokeOrder(true)
                   }}
-                  className={`absolute top-4 right-4 p-2 rounded-full transition-all
-                            ${progress?.pinned
-                              ? 'text-yellow-500 scale-110'
-                              : 'text-gray-400 hover:text-yellow-500 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'}`}
+                  className="absolute top-4 left-4 p-2 rounded-full bg-blue-100 dark:bg-blue-900/20 hover:bg-blue-200 dark:hover:bg-blue-900/30 text-blue-600 dark:text-blue-400 transition-all"
+                  title="Stroke order animation"
                 >
-                  <svg className="w-6 h-6" fill={progress?.pinned ? 'currentColor' : 'none'}
-                       stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </button>
-                
+
+                {/* Practice Button - Top Right */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowDrawingPractice(true)
+                  }}
+                  className="absolute top-4 right-4 p-2 rounded-full bg-green-100 dark:bg-green-900/20 hover:bg-green-200 dark:hover:bg-green-900/30 text-green-600 dark:text-green-400 transition-all"
+                  title="Practice drawing"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    />
+                  </svg>
+                </button>
+
+                {/* Audio Icon - Bottom Right */}
+                <AudioButton
+                  position="bottom-right"
+                  size="sm"
+                  onPlay={handlePlayAudio}
+                />
+
                 {/* Character Display */}
                 <div className="text-8xl font-japanese font-bold text-gray-800 dark:text-gray-200 mb-4">
                   {displayScript === 'hiragana' ? character.hiragana : character.katakana}
@@ -1301,14 +1322,32 @@ export default function KanaStudyMode({
                   )}
                 </AnimatePresence>
                 
+                {/* Examples Icon - Bottom Left */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowExamples(!showExamples)
+                  }}
+                  className={`absolute bottom-4 left-4 p-2 rounded-full transition-all
+                            ${showExamples
+                              ? 'bg-purple-500 text-white shadow-lg'
+                              : 'bg-gray-100 dark:bg-dark-700 hover:bg-purple-100 dark:hover:bg-purple-900/20 text-gray-600 dark:text-gray-400 hover:text-purple-600'}`}
+                  title="Examples"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </button>
+
                 {/* Pronunciation Note */}
                 {character.pronunciation && (
-                  <div className="absolute bottom-4 left-4 right-4 bg-yellow-100 dark:bg-yellow-900/30 
+                  <div className="absolute bottom-16 left-4 right-4 bg-yellow-100 dark:bg-yellow-900/30
                                 rounded-lg p-2 text-sm text-yellow-800 dark:text-yellow-200">
                     {character.pronunciation}
                   </div>
                 )}
-                
+
                 <p className="absolute bottom-4 text-xs text-gray-400 dark:text-gray-600">
                   {t('kana.study.flipCard')}
                 </p>
@@ -1353,7 +1392,34 @@ export default function KanaStudyMode({
           </AnimatePresence>
         </div>
       </motion.div>
-      
+
+      {/* Example Words Display */}
+      <AnimatePresence>
+        {showExamples && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="w-full max-w-md mt-4 p-4 bg-white dark:bg-dark-800 rounded-xl shadow-lg border border-gray-200 dark:border-dark-700"
+          >
+            <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Example Words</h3>
+            <div className="space-y-2">
+              {getExampleWords().length > 0 ? (
+                getExampleWords().map((example, idx) => (
+                  <div key={idx} className="flex items-center gap-2 text-sm">
+                    <span className="font-japanese text-lg text-gray-800 dark:text-gray-200">{example.word}</span>
+                    <span className="text-gray-500 dark:text-gray-400">({example.reading})</span>
+                    <span className="text-gray-600 dark:text-gray-300">- {example.meaning}</span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic">No examples available</p>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Romaji Toggle */}
       <div className="flex items-center justify-center mt-6">
         <label className="flex items-center gap-2 cursor-pointer">
@@ -1400,23 +1466,6 @@ export default function KanaStudyMode({
           </span>
         </button>
 
-        <button
-          onClick={() => setShowExamples(!showExamples)}
-          className={`px-6 py-3 min-w-[120px] rounded-xl transition-all
-                   transform hover:scale-105 active:scale-95 ${
-            showExamples
-              ? 'bg-purple-500 text-white shadow-lg'
-              : 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600'
-          }`}
-        >
-          <span className="flex items-center justify-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-            {t('kana.study.examples') || 'Examples'}
-          </span>
-        </button>
 
         <button
           onClick={handleMarkAsLearned}
@@ -1465,7 +1514,25 @@ export default function KanaStudyMode({
           </div>
         )}
       </div>
-      
+
+      {/* Modals */}
+      {showStrokeOrder && (
+        <StrokeOrderModal
+          character={displayScript === 'hiragana' ? character.hiragana : character.katakana}
+          isOpen={showStrokeOrder}
+          onClose={() => setShowStrokeOrder(false)}
+        />
+      )}
+
+      {showDrawingPractice && (
+        <DrawingPracticeModal
+          character={displayScript === 'hiragana' ? character.hiragana : character.katakana}
+          isOpen={showDrawingPractice}
+          onClose={() => setShowDrawingPractice(false)}
+          characterType="kana"
+        />
+      )}
+
     </div>
   )
 }

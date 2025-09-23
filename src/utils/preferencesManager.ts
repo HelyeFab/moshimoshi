@@ -1,6 +1,6 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
-import { doc, getDoc, setDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
+import { doc, getDoc, setDoc, serverTimestamp, Timestamp, getFirestore } from 'firebase/firestore';
+import { app } from '@/lib/firebase/config';
 import { User } from 'firebase/auth';
 
 // Define comprehensive preferences interface
@@ -313,11 +313,14 @@ export class PreferencesManager {
 
   // Sync to Firebase
   private async syncToFirebase(userId: string, preferences: UserPreferences): Promise<void> {
-    if (!db) {
-      console.error('[PreferencesManager] Firestore not initialized');
+    // Get Firestore instance when needed
+    if (!app) {
+      console.error('[PreferencesManager] Firebase app not initialized');
       await this.addToSyncQueue(userId, preferences);
       return;
     }
+
+    const db = getFirestore(app);
 
     try {
       console.log('[PreferencesManager] Syncing to Firebase...');
@@ -350,10 +353,13 @@ export class PreferencesManager {
 
   // Get from Firebase
   private async getPreferencesFromFirebase(userId: string): Promise<UserPreferences | null> {
-    if (!db) {
-      console.error('[PreferencesManager] Firestore not initialized');
+    // Get Firestore instance when needed
+    if (!app) {
+      console.error('[PreferencesManager] Firebase app not initialized');
       return null;
     }
+
+    const db = getFirestore(app);
 
     try {
       // Use the userPreferences collection for premium users

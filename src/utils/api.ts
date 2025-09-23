@@ -48,22 +48,13 @@ export {
 export function determineWordType(partsOfSpeech: string[], word?: string): WordType {
   const pos = partsOfSpeech.join(' ').toLowerCase()
 
-  // Check for irregular verbs FIRST (especially する verbs)
-  if (pos.includes('irregular') || pos.includes('suru verb') || pos.includes('kuru verb') ||
-      pos.includes('vs-i') || pos.includes('vs-s') || pos.includes('vs') || pos.includes('vk')) {
-    return 'Irregular'
-  }
-
-  // Also check if the word ends with する
-  if (word && word.endsWith('する')) {
-    return 'Irregular'
-  }
-
-  // Then check for other verb types
-  if (pos.includes('ichidan') || pos.includes('ru verb') || pos.includes('る verb')) {
-    return 'Ichidan'
-  } else if (pos.includes('godan') || pos.includes('u verb') || pos.includes('う verb')) {
-    return 'Godan'
+  // Check for any verb type
+  if (pos.includes('verb') || pos.includes('ichidan') || pos.includes('godan') ||
+      pos.includes('irregular') || pos.includes('suru verb') || pos.includes('kuru verb') ||
+      pos.includes('vs-i') || pos.includes('vs-s') || pos.includes('vs') || pos.includes('vk') ||
+      pos.includes('ru verb') || pos.includes('る verb') || pos.includes('u verb') || pos.includes('う verb') ||
+      (word && word.endsWith('する'))) {
+    return 'verb'
   }
 
   // Check for TRUE i-adjectives only
@@ -97,9 +88,9 @@ export function determineWordType(partsOfSpeech: string[], word?: string): WordT
     return 'particle'
   }
 
-  // Check for conjunctions
-  else if (pos.includes('conjunction')) {
-    return 'conjunction'
+  // Check for expressions (conjunctions are usually expressions)
+  else if (pos.includes('conjunction') || pos.includes('expression')) {
+    return 'expression'
   }
 
   // Default to other

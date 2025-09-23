@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { SessionState } from '../learn/LearnContent'
 import Link from 'next/link'
+import { useUserStorage } from '@/hooks/useUserStorage'
 
 interface SessionCompleteModalProps {
   sessionState: SessionState
@@ -52,10 +53,13 @@ export default function SessionCompleteModal({ sessionState, onClose }: SessionC
     return 'Keep practicing! You\'re building a strong foundation! 🌱'
   }
 
+  // Get user storage hook
+  const { getItem, setItem } = useUserStorage()
+
   // Update overall progress
   const updateOverallProgress = () => {
-    const progressData = localStorage.getItem('kanjiMasteryProgress')
-    const current = progressData ? JSON.parse(progressData) : {
+    const progressData = getItem('kanjiMasteryProgress')
+    const current = progressData || {
       totalStudied: 0,
       totalMastered: 0,
       averageAccuracy: 0,
@@ -81,7 +85,7 @@ export default function SessionCompleteModal({ sessionState, onClose }: SessionC
     }
     current.lastStudyDate = today.toISOString()
 
-    localStorage.setItem('kanjiMasteryProgress', JSON.stringify(current))
+    setItem('kanjiMasteryProgress', current)
   }
 
   updateOverallProgress()

@@ -255,7 +255,7 @@ export class NotificationScheduler {
       case 'achievement':
         return {
           title: `🎉 Achievement Unlocked!`,
-          body: metadata?.message || 'You've reached a new milestone!',
+          body: metadata?.message || 'You\'ve reached a new milestone!',
           data: {
             actionUrl: '/achievements'
           }
@@ -263,7 +263,7 @@ export class NotificationScheduler {
 
       case 'streak_reminder':
         return {
-          title: `🔥 Don't break your streak!`,
+          title: `🔥 Don\'t break your streak!`,
           body: `Complete today's reviews to maintain your ${metadata?.currentStreak || ''} day streak`,
           data: {
             actionUrl: '/review'

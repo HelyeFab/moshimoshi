@@ -434,7 +434,7 @@ function KanjiBrowserContent() {
               onClick={() => handleKanjiClick(kanjiItem)}
               className={`
                 relative w-full aspect-square flex items-center justify-center text-2xl font-medium
-                rounded-lg transition-all overflow-hidden cursor-pointer
+                rounded-lg transition-all cursor-pointer
                 ${borderStyle} ${bgStyle}
                 hover:shadow-lg
               `}
@@ -443,7 +443,7 @@ function KanjiBrowserContent() {
               {/* Pin emoji for selection in study/review modes */}
               {(viewMode === 'study' || viewMode === 'review') && (
                 <button
-                  className="absolute top-1 right-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
+                  className="absolute -top-2 right-0.5 z-50 text-sm sm:text-base md:text-xl transition-all hover:scale-110"
                   onClick={(e) => {
                     e.stopPropagation()
                     toggleSelection(kanjiItem.kanji)

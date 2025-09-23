@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { getDonationAmounts, DONATION_CONFIG } from '@/config/donations';
+import { useI18n } from '@/i18n/I18nContext';
 
 interface BuyMeACoffeeButtonProps {
   variant?: 'inline' | 'floating';
@@ -16,6 +17,7 @@ export default function BuyMeACoffeeButton({ variant = 'inline', className = '' 
   const router = useRouter();
   const { user } = useAuth();
   const { showToast } = useToast();
+  const { strings } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
   const [showAmountSelector, setShowAmountSelector] = useState(false);
   const [customAmount, setCustomAmount] = useState<string>('');
@@ -85,7 +87,7 @@ export default function BuyMeACoffeeButton({ variant = 'inline', className = '' 
           className={`fixed bottom-4 right-4 z-40 flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white font-medium shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-full sm:rounded-xl ${className}`}
         >
           <Coffee className="w-5 h-5" />
-          <span className="hidden sm:inline">Buy me a coffee</span>
+          <span className="hidden sm:inline">{strings.dashboard?.buyMeACoffee || 'Buy me a coffee'}</span>
         </button>
 
         {/* Amount selector popup - Enhanced design */}
@@ -159,7 +161,7 @@ export default function BuyMeACoffeeButton({ variant = 'inline', className = '' 
         className={`w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-dark-700 transition-colors ${className}`}
       >
         <Coffee className="w-4 h-4" />
-        <span>Buy me a coffee</span>
+        <span>{strings.dashboard?.buyMeACoffee || 'Buy me a coffee'}</span>
       </button>
 
       {/* Dropdown modal */}

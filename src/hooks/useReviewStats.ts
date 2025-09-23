@@ -129,10 +129,11 @@ export function useReviewStats() {
         }
       })
 
-      // Calculate streak from localStorage
-      const lastReviewDate = localStorage.getItem('lastReviewDate')
-      const currentStreak = parseInt(localStorage.getItem('currentStreak') || '0')
-      const bestStreak = parseInt(localStorage.getItem('bestStreak') || '0')
+      // Calculate streak from localStorage (user-specific keys)
+      const userIdForStorage = user?.uid || 'guest'
+      const lastReviewDate = localStorage.getItem(`lastReviewDate_${userIdForStorage}`)
+      const currentStreak = parseInt(localStorage.getItem(`currentStreak_${userIdForStorage}`) || '0')
+      const bestStreak = parseInt(localStorage.getItem(`bestStreak_${userIdForStorage}`) || '0')
 
       // Calculate today's progress
       const todaysProgress = sessions.filter((s: any) => {
@@ -201,11 +202,12 @@ export function useReviewStats() {
           dueThisWeek: data.dueThisWeek || 0
         })
 
-        // Also sync to local for offline access
-        if (data.streakDays !== undefined) {
-          localStorage.setItem('currentStreak', data.streakDays.toString())
-          localStorage.setItem('bestStreak', (data.bestStreak || data.streakDays).toString())
-          localStorage.setItem('lastReviewDate', new Date().toISOString())
+        // Also sync to local for offline access (user-specific keys)
+        if (data.streakDays !== undefined && user?.uid) {
+          const userIdForStorage = user.uid
+          localStorage.setItem(`currentStreak_${userIdForStorage}`, data.streakDays.toString())
+          localStorage.setItem(`bestStreak_${userIdForStorage}`, (data.bestStreak || data.streakDays).toString())
+          localStorage.setItem(`lastReviewDate_${userIdForStorage}`, new Date().toISOString())
         }
       } else {
         throw new Error('Failed to fetch cloud stats')

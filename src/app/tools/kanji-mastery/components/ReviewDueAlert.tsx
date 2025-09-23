@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import { useUserStorage } from '@/hooks/useUserStorage'
 
 interface ReviewStats {
   dueCount: number
@@ -18,13 +19,15 @@ export default function ReviewDueAlert() {
     loadReviewStats()
   }, [])
 
+  const { getItem } = useUserStorage()
+
   const loadReviewStats = async () => {
     try {
-      // Load review stats from localStorage/IndexedDB
+      // Load review stats from user-specific storage
       // In production, this would integrate with the review engine
-      const stored = localStorage.getItem('kanjiReviewStats')
+      const stored = getItem('kanjiReviewStats')
       if (stored) {
-        setStats(JSON.parse(stored))
+        setStats(stored)
       } else {
         // Mock data for demonstration
         setStats({

@@ -425,7 +425,7 @@ export default function ArticleReader({ article, onBack }: ArticleReaderProps) {
             style={{ lineHeight: '2', fontFamily: "'Noto Sans JP', sans-serif" }}
           >
             {processedContent.split('\n\n').map((paragraph, index) => (
-              <div key={index} className="mb-4 group relative">
+              <div key={index} className="mb-4 group relative leading-loose sm:leading-normal">
                 <p className="inline">
                   <FuriganaText text={paragraph} showFurigana={settings.showFurigana} />
                 </p>

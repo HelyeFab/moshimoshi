@@ -18,6 +18,7 @@ const sampleMoodboards: Omit<MoodBoard, 'id' | 'createdAt' | 'updatedAt'>[] = [
     description: "Learn kanji for family relationships",
     jlpt: "N5",
     background: "#FFB6C1",
+    isActive: true,
     kanji: [
       {
         char: "父",
@@ -107,6 +108,7 @@ const sampleMoodboards: Omit<MoodBoard, 'id' | 'createdAt' | 'updatedAt'>[] = [
     description: "Learn kanji for different colors",
     jlpt: "N5",
     background: "#87CEEB",
+    isActive: true,
     kanji: [
       {
         char: "赤",
@@ -176,6 +178,7 @@ const sampleMoodboards: Omit<MoodBoard, 'id' | 'createdAt' | 'updatedAt'>[] = [
     description: "Learn kanji related to nature",
     jlpt: "N5",
     background: "#98D98E",
+    isActive: true,
     kanji: [
       {
         char: "山",

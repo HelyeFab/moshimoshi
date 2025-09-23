@@ -6,6 +6,7 @@
 import { ProgressTracker, CategoryProgress } from './progress-tracker';
 import { EventEmitter } from 'events';
 import { reviewLogger } from '@/lib/monitoring/logger';
+import { UserStorageService } from '@/lib/storage/UserStorageService';
 
 export interface StallConfig {
   id: string;
@@ -38,10 +39,16 @@ export class LearningVillageSync extends EventEmitter {
   private stallConfigs: Map<string, StallConfig> = new Map();
   private stallProgress: Map<string, StallProgress> = new Map();
   private syncInterval: number | null = null;
-  
-  constructor(progressTracker: ProgressTracker) {
+  private storage: UserStorageService | null = null;
+  private userId: string | null = null;
+
+  constructor(progressTracker: ProgressTracker, userId?: string) {
     super();
     this.progressTracker = progressTracker;
+    this.userId = userId || null;
+    if (this.userId) {
+      this.storage = new UserStorageService(this.userId);
+    }
     this.initializeStalls();
     this.setupEventListeners();
   }
@@ -409,9 +416,14 @@ export class LearningVillageSync extends EventEmitter {
   }
   
   /**
-   * Save state to localStorage
+   * Save state to user-specific storage
    */
   private saveToLocalStorage(state: VillageState): void {
+    if (!this.storage) {
+      reviewLogger.warn('Cannot save village state: no user storage available');
+      return;
+    }
+
     const serialized = {
       stalls: Array.from(state.stalls.entries()),
       overallProgress: state.overallProgress,
@@ -419,19 +431,24 @@ export class LearningVillageSync extends EventEmitter {
       nextUnlock: state.nextUnlock,
       timestamp: Date.now()
     };
-    
-    localStorage.setItem('learningVillageState', JSON.stringify(serialized));
+
+    this.storage.setItem('learningVillageState', serialized);
   }
   
   /**
-   * Load state from localStorage
+   * Load state from user-specific storage
    */
   loadFromLocalStorage(): void {
-    const saved = localStorage.getItem('learningVillageState');
+    if (!this.storage) {
+      reviewLogger.warn('Cannot load village state: no user storage available');
+      return;
+    }
+
+    const saved = this.storage.getItem<any>('learningVillageState');
     if (!saved) return;
-    
+
     try {
-      const parsed = JSON.parse(saved);
+      const parsed = saved;
       
       // Restore stall progress
       for (const [stallId, progress] of parsed.stalls) {
@@ -444,6 +461,16 @@ export class LearningVillageSync extends EventEmitter {
     } catch (error) {
       reviewLogger.error('Failed to load village state:', error);
     }
+  }
+
+  /**
+   * Set or update the user ID for storage
+   */
+  setUserId(userId: string): void {
+    this.userId = userId;
+    this.storage = new UserStorageService(userId);
+    // Reload state for new user
+    this.loadFromLocalStorage();
   }
   
   /**

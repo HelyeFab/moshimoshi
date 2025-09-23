@@ -14,6 +14,23 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const THEME_STORAGE_KEY = 'moshimoshi-theme';
+const USER_THEME_STORAGE_KEY = 'moshimoshi-user-theme';
+
+// Helper to get current user ID from auth state
+const getCurrentUserId = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  // Try to get user ID from session or auth state
+  const authData = localStorage.getItem('auth-user');
+  if (authData) {
+    try {
+      const user = JSON.parse(authData);
+      return user?.uid || null;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+};
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('dark');
@@ -44,7 +61,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize theme on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+    // First try user-specific theme
+    const userId = getCurrentUserId();
+    let savedTheme: Theme | null = null;
+
+    if (userId) {
+      const userKey = `${USER_THEME_STORAGE_KEY}-${userId}`;
+      savedTheme = localStorage.getItem(userKey) as Theme | null;
+    }
+
+    // Fall back to global theme if no user-specific theme
+    if (!savedTheme) {
+      savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+    }
+
     // Default to 'dark' on first visit instead of 'system'
     const initialTheme = savedTheme || 'dark';
     const resolved = resolveTheme(initialTheme);
@@ -53,18 +83,38 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setResolvedTheme(resolved);
     applyTheme(resolved);
     
-    // Load and apply color palette preference
-    const savedPrefs = localStorage.getItem('user-preferences');
-    if (savedPrefs) {
-      try {
-        const prefs = JSON.parse(savedPrefs);
-        if (prefs.palette) {
-          document.documentElement.setAttribute('data-palette', prefs.palette);
+    // Load and apply color palette preference (user-specific first, then global)
+    const loadPalette = () => {
+      if (userId) {
+        const userPrefs = localStorage.getItem(`user-preferences-${userId}`);
+        if (userPrefs) {
+          try {
+            const prefs = JSON.parse(userPrefs);
+            if (prefs.palette) {
+              document.documentElement.setAttribute('data-palette', prefs.palette);
+              return;
+            }
+          } catch (e) {
+            console.error('Failed to load user palette preference:', e);
+          }
         }
-      } catch (e) {
-        console.error('Failed to load palette preference:', e);
       }
-    }
+
+      // Fall back to global preferences
+      const savedPrefs = localStorage.getItem('user-preferences');
+      if (savedPrefs) {
+        try {
+          const prefs = JSON.parse(savedPrefs);
+          if (prefs.palette) {
+            document.documentElement.setAttribute('data-palette', prefs.palette);
+          }
+        } catch (e) {
+          console.error('Failed to load palette preference:', e);
+        }
+      }
+    };
+
+    loadPalette();
     
     setMounted(true);
   }, []);
@@ -90,10 +140,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Handle theme change
   const setTheme = (newTheme: Theme) => {
     const resolved = resolveTheme(newTheme);
-    
+
     setThemeState(newTheme);
     setResolvedTheme(resolved);
+
+    // Save both globally and user-specific if user is logged in
     localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+    const userId = getCurrentUserId();
+    if (userId) {
+      const userKey = `${USER_THEME_STORAGE_KEY}-${userId}`;
+      localStorage.setItem(userKey, newTheme);
+    }
+
     applyTheme(resolved);
   };
 

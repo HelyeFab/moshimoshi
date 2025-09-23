@@ -344,13 +344,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 </Link>
               ))}
             </nav>
-            <div className="p-3 border-t border-gray-200 dark:border-gray-700">
-              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-2">
-                <p className="text-xs text-yellow-800 dark:text-yellow-200 font-medium">
-                  ⚠️ Admin Mode Active
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       )}
@@ -389,17 +382,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   </Link>
                 ))}
               </nav>
-
-              <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-900">
-                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
-                  <p className="text-xs text-yellow-800 dark:text-yellow-200 font-medium">
-                    ⚠️ Admin Mode Active
-                  </p>
-                  <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
-                    All actions are logged
-                  </p>
-                </div>
-              </div>
             </>
           )}
         </aside>

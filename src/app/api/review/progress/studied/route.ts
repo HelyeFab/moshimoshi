@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { reviewLogger } from '@/lib/monitoring/logger'
-import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore'
-import { db } from '@/lib/firebase/config'
+import { adminDb } from '@/lib/firebase/admin'
 import { UniversalProgressManager } from '@/lib/review-engine/progress/UniversalProgressManager'
 import { SRSIntegration } from '@/lib/review-engine/srs/integration'
 import { ReviewableContentWithSRS } from '@/lib/review-engine/srs/types'
@@ -33,9 +32,17 @@ const srsIntegration = new SRSIntegration()
 
 export async function GET(request: NextRequest) {
   try {
-    // Get authenticated session - but allow guest access with mock data
+    // Get authenticated session
     const session = await getSession()
-    const userId = session?.userId || 'guest'
+    const userId = session?.uid || 'guest'
+
+    console.log('[API /review/progress/studied] Session info:', {
+      hasSession: !!session,
+      userId,
+      sessionUid: session?.uid,
+      sessionEmail: session?.email,
+      tier: session?.tier
+    })
 
     // Get query parameters
     const { searchParams } = new URL(request.url)
@@ -65,56 +72,199 @@ async function fetchUserProgress(
   maxItems: number
 ) {
   try {
-    // For guest users, still return mock data
+    // For guest users, return empty data
     if (userId === 'guest') {
-      return getMockData()
+      return []
     }
 
     // Try to fetch from Firebase for authenticated users
     const items: any[] = []
 
-    // Fetch from multiple content types
+    // Fetch from multiple content types - include legacy names
     const contentTypes = contentType === 'all'
-      ? ['kana', 'kanji', 'vocabulary', 'sentence']
+      ? ['kana', 'hiragana', 'katakana', 'kanji', 'vocabulary', 'sentence']
       : [contentType]
+
+    // Map legacy content types to standard ones
+    const mapContentType = (type: string) => {
+      if (type === 'hiragana' || type === 'katakana') return 'kana'
+      return type
+    }
 
     for (const type of contentTypes) {
       try {
-        // Get progress data from Firebase
-        const progressRef = collection(db, 'progress')
-        const q = query(
-          progressRef,
-          where('userId', '==', userId),
-          where('contentType', '==', type),
-          orderBy('lastReviewedAt', 'desc'),
-          limit(Math.floor(maxItems / contentTypes.length))
-        )
+        // Get progress data from Firebase - from the user's subcollection using Admin SDK
+        console.log(`[API] Fetching progress for user ${userId}, type: ${type}`)
+        const progressRef = adminDb
+          .collection('users')
+          .doc(userId)
+          .collection('progress')
+        const progressSnapshot = await progressRef.get()
 
-        const snapshot = await getDocs(q)
+        console.log(`[API] Found ${progressSnapshot.size} progress documents`)
 
-        snapshot.forEach(doc => {
-          const data = doc.data()
-          const srsData = data.srsData || null
-
-          // Convert Firebase data to ReviewItem format
-          items.push({
-            id: doc.id,
-            contentType: type as 'kana' | 'kanji' | 'vocabulary' | 'sentence',
-            primaryDisplay: data.contentDisplay || data.contentId,
-            secondaryDisplay: data.meaning || data.reading,
-            status: determineStatus(data),
-            lastReviewedAt: data.lastReviewedAt?.toDate() || null,
-            nextReviewAt: srsData?.nextReviewAt || calculateNextReview(data),
-            srsLevel: srsData?.repetitions || 0,
-            accuracy: data.accuracy || 0,
-            reviewCount: data.reviewCount || 0,
-            correctCount: data.correctCount || 0,
-            tags: data.tags || [],
-            source: data.source || getSourceByType(type)
-          })
+        // Find the document for this content type
+        let typeDoc = null
+        progressSnapshot.forEach(doc => {
+          console.log(`[API] Document ID: ${doc.id}`)
+          if (doc.id === type) {
+            typeDoc = doc
+          }
         })
+
+        if (typeDoc) {
+          const docData = typeDoc.data()
+          const itemsObject = docData?.items || {}
+
+          // Check if this is a legacy single-item document (like the user ID document)
+          if (Object.keys(itemsObject).length === 0 && docData) {
+            // Check if the document itself contains progress fields
+            if (docData.status || docData.viewCount !== undefined) {
+              // This is a single progress item stored at document level
+              console.log(`[API] Found legacy single item for ${type}`)
+              const mappedType = mapContentType(type)
+              const srsData = docData.srsData || null
+
+              items.push({
+                id: `${mappedType}_${type}`,
+                contentType: mappedType as 'kana' | 'kanji' | 'vocabulary' | 'sentence',
+                primaryDisplay: docData.contentDisplay || docData.contentId || type,
+                secondaryDisplay: docData.meaning || docData.reading || '',
+                status: determineStatus(docData),
+                lastReviewedAt: docData.lastReviewedAt ? new Date(docData.lastReviewedAt) : null,
+                nextReviewAt: srsData?.nextReviewAt ? new Date(srsData.nextReviewAt) : calculateNextReview(docData),
+                srsLevel: srsData?.repetitions || 0,
+                accuracy: docData.accuracy || 0,
+                reviewCount: docData.reviewCount || docData.viewCount || 0,
+                correctCount: docData.correctCount || 0,
+                tags: docData.tags || [],
+                source: docData.source || getSourceByType(mappedType)
+              })
+            }
+          } else {
+            console.log(`[API] Found ${Object.keys(itemsObject).length} items for ${type}`)
+
+            // Process each item in the progress document
+            Object.entries(itemsObject).forEach(([contentId, data]: [string, any]) => {
+              const mappedType = mapContentType(type)
+              const srsData = data.srsData || null
+
+              // Convert Firebase data to ReviewItem format
+              items.push({
+                id: `${mappedType}_${contentId}`,
+                contentType: mappedType as 'kana' | 'kanji' | 'vocabulary' | 'sentence',
+                primaryDisplay: data.contentDisplay || contentId,
+                secondaryDisplay: data.meaning || data.reading || data.metadata?.meaning || data.metadata?.reading,
+                status: determineStatus(data),
+                lastReviewedAt: data.lastReviewedAt ? new Date(data.lastReviewedAt) : null,
+                nextReviewAt: srsData?.nextReviewAt ? new Date(srsData.nextReviewAt) : calculateNextReview(data),
+                srsLevel: srsData?.repetitions || 0,
+                accuracy: data.accuracy || 0,
+                reviewCount: data.reviewCount || 0,
+                correctCount: data.correctCount || 0,
+                tags: data.tags || data.metadata?.tags || [],
+                source: data.source || data.metadata?.source || getSourceByType(mappedType)
+              })
+            })
+          }
+        }
       } catch (error) {
         reviewLogger.warn(`Failed to fetch ${type} progress from Firebase:`, error)
+      }
+    }
+
+    // Always fetch from kanji_browse_history collection for kanji data
+    if (contentType === 'all' || contentType === 'kanji') {
+      try {
+        console.log('[API] Checking kanji_browse_history...')
+        const kanjiBrowseRef = adminDb
+          .collection('users')
+          .doc(userId)
+          .collection('kanji_browse_history')
+
+        const kanjiBrowseSnapshot = await kanjiBrowseRef.limit(200).get()
+
+        if (!kanjiBrowseSnapshot.empty) {
+          console.log(`[API] Found ${kanjiBrowseSnapshot.size} kanji browse history entries`)
+
+          kanjiBrowseSnapshot.forEach(doc => {
+            const data = doc.data()
+            const kanjiId = data.kanjiId || data.character || doc.id
+
+            // Don't add duplicates
+            const isDuplicate = items.some(item =>
+              item.primaryDisplay === kanjiId && item.contentType === 'kanji'
+            )
+            if (!isDuplicate) {
+              items.push({
+                id: `kanji_${kanjiId}`,
+                contentType: 'kanji' as const,
+                primaryDisplay: kanjiId,
+                secondaryDisplay: data.meaning || '',
+                status: 'learning' as const,
+                lastReviewedAt: data.timestamp?.toDate ? data.timestamp.toDate() : new Date(data.timestamp),
+                nextReviewAt: new Date(),
+                srsLevel: 0,
+                accuracy: 0,
+                reviewCount: 1,
+                correctCount: 0,
+                tags: [],
+                source: data.source || 'Kanji Browser'
+              })
+            }
+          })
+        }
+      } catch (error) {
+        reviewLogger.warn('Failed to fetch kanji_browse_history:', error)
+      }
+    }
+
+    // Also fetch from review history for kana items
+    if (contentType === 'all' || contentType === 'kana') {
+      try {
+        console.log('[API] No progress data found, checking review history...')
+        const historyRef = adminDb
+          .collection('users')
+          .doc(userId)
+          .collection('review_history')
+
+        const historySnapshot = await historyRef.limit(50).get()
+
+        if (!historySnapshot.empty) {
+          console.log(`[API] Found ${historySnapshot.size} review history entries`)
+
+          // Group by content type and ID to get unique items
+          const uniqueItems = new Map<string, any>()
+
+          historySnapshot.forEach(doc => {
+            const data = doc.data()
+            const key = `${data.contentType}_${data.contentId}`
+
+            if (!uniqueItems.has(key)) {
+              const mappedType = mapContentType(data.contentType || 'kana')
+              uniqueItems.set(key, {
+                id: key,
+                contentType: mappedType as 'kana' | 'kanji' | 'vocabulary' | 'sentence',
+                primaryDisplay: data.contentId || data.content || '',
+                secondaryDisplay: data.meaning || data.reading || '',
+                status: 'learning' as const,
+                lastReviewedAt: data.createdAt?.toDate ? data.createdAt.toDate() : null,
+                nextReviewAt: new Date(), // Due now since no SRS data
+                srsLevel: 0,
+                accuracy: data.correct ? 1 : 0,
+                reviewCount: 1,
+                correctCount: data.correct ? 1 : 0,
+                tags: [],
+                source: getSourceByType(mappedType)
+              })
+            }
+          })
+
+          items.push(...uniqueItems.values())
+          console.log(`[API] Constructed ${items.length} items from review history`)
+        }
+      } catch (error) {
+        reviewLogger.warn('Failed to fetch review history:', error)
       }
     }
 
@@ -151,9 +301,10 @@ async function fetchUserProgress(
       }
     }
 
-    // If still no data, return mock data as fallback
+    // Return empty array if no data instead of mock data
     if (items.length === 0) {
-      return getMockData()
+      reviewLogger.info('No progress data found for user:', userId)
+      return []
     }
 
     // Sort by last reviewed date and limit
@@ -167,7 +318,7 @@ async function fetchUserProgress(
 
   } catch (error) {
     reviewLogger.error('Error in fetchUserProgress:', error)
-    return getMockData()
+    return []
   }
 }
 

@@ -17,6 +17,14 @@ export async function GET(request: NextRequest) {
 
     console.log(`[API Achievements] Loading achievements for user ${session.uid}`)
 
+    // Check if adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      )
+    }
+
     // Get achievements document from Firebase
     const achievementsRef = adminDb
       .collection('users')
@@ -83,6 +91,14 @@ export async function POST(request: NextRequest) {
       unlocked: body.unlocked?.length || 0,
       totalPoints: body.totalPoints || 0
     })
+
+    // Check if adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      )
+    }
 
     // Save to Firebase
     const achievementsRef = adminDb

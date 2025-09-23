@@ -59,7 +59,7 @@ function AccountPageContent() {
 
   // Check for checkout success from URL params
   useEffect(() => {
-    if (searchParams.get('checkout') === 'success') {
+    if (searchParams?.get('checkout') === 'success') {
       setShowConfetti(true)
       setShowCongrats(true)
 

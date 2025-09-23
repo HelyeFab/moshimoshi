@@ -3,10 +3,10 @@ import { adminFirestore } from '@/lib/firebase/admin'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { uid: string } }
+  { params }: { params: Promise<{ uid: string }> }
 ) {
   try {
-    const uid = params.uid
+    const { uid } = await params
     console.log('Debug: Checking user with UID:', uid)
 
     // Fetch user document from Firestore using admin SDK

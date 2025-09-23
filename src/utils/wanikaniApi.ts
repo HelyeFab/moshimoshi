@@ -102,9 +102,9 @@ function determineJLPTLevel(level: number): JLPTLevel {
 // Function to determine word type based on parts of speech
 function determineWordType(partsOfSpeech: string[] | undefined, word?: { characters?: string }): WordType {
   if (!partsOfSpeech || partsOfSpeech.length === 0) {
-    // Check if it's a する verb by looking at the word itself
+    // Check if it's a verb by looking at the word itself
     if (word?.characters && word.characters.endsWith('する')) {
-      return 'Irregular'
+      return 'verb'
     }
     return 'other'
   }
@@ -112,23 +112,14 @@ function determineWordType(partsOfSpeech: string[] | undefined, word?: { charact
   const posArray = partsOfSpeech.map(p => p.toLowerCase())
   const pos = posArray.join(' ')
 
-  // Check for irregular verbs FIRST (highest priority - especially する verbs)
-  if (pos.includes('irregular') || pos.includes('suru verb') || pos.includes('kuru verb') ||
-      pos.includes('する verb') || pos.includes('来る verb') || pos.includes('vs-i') ||
-      pos.includes('vs-s') || pos.includes('vs') || pos.includes('vk')) {
-    return 'Irregular'
-  }
-
-  // Also check if the word ends with する (compound suru verbs)
-  if (word?.characters && word.characters.endsWith('する')) {
-    return 'Irregular'
-  }
-
-  // Then check for other verb types
-  else if (pos.includes('ichidan') || pos.includes('ru verb') || pos.includes('る verb')) {
-    return 'Ichidan'
-  } else if (pos.includes('godan') || pos.includes('u verb') || pos.includes('う verb')) {
-    return 'Godan'
+  // Check for any verb type
+  if (pos.includes('verb') || pos.includes('irregular') || pos.includes('suru verb') ||
+      pos.includes('kuru verb') || pos.includes('する verb') || pos.includes('来る verb') ||
+      pos.includes('vs-i') || pos.includes('vs-s') || pos.includes('vs') || pos.includes('vk') ||
+      pos.includes('ichidan') || pos.includes('ru verb') || pos.includes('る verb') ||
+      pos.includes('godan') || pos.includes('u verb') || pos.includes('う verb') ||
+      (word?.characters && word.characters.endsWith('する'))) {
+    return 'verb'
   }
 
   // Check for TRUE i-adjectives only
@@ -157,8 +148,8 @@ function determineWordType(partsOfSpeech: string[] | undefined, word?: { charact
     return 'adverb'
   } else if (pos.includes('particle')) {
     return 'particle'
-  } else if (pos.includes('conjunction')) {
-    return 'conjunction'
+  } else if (pos.includes('conjunction') || pos.includes('expression')) {
+    return 'expression'
   }
 
   return 'other'
@@ -198,8 +189,7 @@ function convertWanikaniToWord(subject: WanikaniSubject): JapaneseWord {
     type: wordType,
     jlpt: jlptLevel,
     tags: [],
-    wanikaniLevel: data.level,
-    slug: data.slug
+    wanikaniLevel: data.level
   }
 }
 
@@ -312,11 +302,7 @@ export async function searchWanikaniVocabulary(query: string, limit = 30): Promi
         continue
       }
 
-      // Check slug match (for exact searches)
-      if (word.slug && word.slug.toLowerCase().includes(queryLower.replace(/\s+/g, '-'))) {
-        results.push(word)
-        continue
-      }
+      // Skip slug check as it's not part of JapaneseWord interface
     }
 
     // Sort results by relevance (exact matches first, then partial matches)

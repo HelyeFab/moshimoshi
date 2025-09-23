@@ -1,5 +1,5 @@
 // Kuromoji service for Japanese morphological analysis
-import kuromoji from '@sglkc/kuromoji';
+// This service now uses the /api/furigana endpoint instead of client-side kuromoji
 
 export interface TokenFeatures {
   word_id: number;
@@ -59,9 +59,6 @@ export const POS_COLORS: Record<string, string> = {
 
 class KuromojiService {
   private static instance: KuromojiService;
-  private tokenizer: any = null;
-  private initPromise: Promise<void> | null = null;
-  private useFallback = false;
 
   private constructor() {}
 
@@ -72,60 +69,10 @@ class KuromojiService {
     return KuromojiService.instance;
   }
 
-  async initialize(): Promise<void> {
-    if (this.tokenizer) {
-      return;
-    }
-
-    if (this.initPromise) {
-      return this.initPromise;
-    }
-
-    this.initPromise = new Promise((resolve, reject) => {
-      const builder = kuromoji.builder({
-        dicPath: '/dict/', // Dictionary files served from public directory
-      });
-
-      builder.build((err: any, tokenizer: any) => {
-        if (err) {
-          console.error('Failed to initialize Kuromoji, using fallback:', err);
-          this.useFallback = true;
-          resolve(); // Resolve anyway, we'll use fallback
-        } else {
-          this.tokenizer = tokenizer;
-          console.log('Kuromoji tokenizer initialized successfully');
-          resolve();
-        }
-      });
-    });
-
-    return this.initPromise;
-  }
-
   async tokenize(text: string): Promise<TokenWithHighlight[]> {
-    if (!this.tokenizer && !this.useFallback) {
-      await this.initialize();
-    }
-
-    if (this.useFallback || !this.tokenizer) {
-      // Fallback: simple character-based tokenization
-      return this.fallbackTokenize(text);
-    }
-
-    try {
-      const tokens = this.tokenizer.tokenize(text) as TokenFeatures[];
-      return tokens.map(token => {
-        const posType = this.getPartOfSpeech(token);
-        return {
-          ...token,
-          highlightClass: `grammar-${posType}`,
-          color: POS_COLORS[posType] || POS_COLORS.other,
-        };
-      });
-    } catch (error) {
-      console.error('Tokenization error:', error);
-      return this.fallbackTokenize(text);
-    }
+    // For now, use fallback tokenization
+    // In the future, this could call a server-side API for proper tokenization
+    return this.fallbackTokenize(text);
   }
 
   private fallbackTokenize(text: string): TokenWithHighlight[] {
@@ -191,25 +138,29 @@ class KuromojiService {
     return `<ruby>${kanji}<rp>(</rp><rt>${hiraganaReading}</rt><rp>)</rp></ruby>`;
   }
 
-  // Process text and add furigana ruby tags
+  // Process text and add furigana ruby tags using the API
   async addFurigana(text: string): Promise<string> {
-    const tokens = await this.tokenize(text);
+    try {
+      // Call the furigana API endpoint
+      const response = await fetch('/api/furigana', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text }),
+      });
 
-    return tokens.map(token => {
-      const { surface_form, reading, pos } = token;
-
-      // Skip punctuation and symbols
-      if (pos === '記号' || pos === '補助記号') {
-        return surface_form;
+      if (!response.ok) {
+        console.error('Furigana API request failed with status:', response.status);
+        return text;
       }
 
-      // Only add furigana if the surface form contains kanji and we have a reading
-      if (this.hasKanji(surface_form) && reading && reading !== surface_form) {
-        return this.generateRubyTag(surface_form, reading);
-      }
-
-      return surface_form;
-    }).join('');
+      const data = await response.json();
+      return data.result || text;
+    } catch (error) {
+      console.error('Failed to fetch furigana:', error);
+      return text;
+    }
   }
 
   // Remove furigana ruby tags from text

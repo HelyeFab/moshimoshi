@@ -21,6 +21,14 @@ export async function POST(request: NextRequest) {
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().split('T')[0]
 
+    // Check if adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      )
+    }
+
     // Reference to the user's activities document
     const activityRef = adminDb
       .collection('users')

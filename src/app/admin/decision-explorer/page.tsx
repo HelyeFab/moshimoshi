@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { auth } from '@/lib/firebase/client';
 
 interface DecisionLog {
   id: string;
@@ -39,10 +40,18 @@ export default function DecisionExplorerPage() {
   const limit = 50;
 
   useEffect(() => {
-    fetchLogs();
-  }, [filters, page]);
+    if (user) {
+      fetchLogs();
+    }
+  }, [filters, page, user]);
 
   const fetchLogs = async () => {
+    if (!user) {
+      setError('Not authenticated');
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -57,9 +66,14 @@ export default function DecisionExplorerPage() {
       if (filters.startDate) params.append('startDate', filters.startDate);
       if (filters.endDate) params.append('endDate', filters.endDate);
 
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        throw new Error('Not authenticated');
+      }
+
       const response = await fetch(`/api/admin/decision-logs?${params}`, {
         headers: {
-          'Authorization': `Bearer ${await user?.getIdToken()}`
+          'Authorization': `Bearer ${token}`
         }
       });
 
@@ -81,10 +95,16 @@ export default function DecisionExplorerPage() {
     if (!confirm('Delete all decision logs older than 30 days?')) return;
 
     try {
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        alert('Not authenticated');
+        return;
+      }
+
       const response = await fetch('/api/admin/decision-logs', {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${await user?.getIdToken()}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ olderThanDays: 30 })

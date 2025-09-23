@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useUserStorage } from '@/hooks/useUserStorage'
 
 interface ProgressData {
   totalStudied: number
@@ -26,13 +27,15 @@ export default function KanjiProgressSummary() {
     loadProgress()
   }, [])
 
+  const { getItem } = useUserStorage()
+
   const loadProgress = async () => {
     try {
-      // Load progress from localStorage for now
+      // Load progress from user-specific storage
       // In production, this would come from the review engine
-      const stored = localStorage.getItem('kanjiMasteryProgress')
+      const stored = getItem('kanjiMasteryProgress')
       if (stored) {
-        setProgress(JSON.parse(stored))
+        setProgress(stored)
       } else {
         // Initialize with default data
         setProgress({

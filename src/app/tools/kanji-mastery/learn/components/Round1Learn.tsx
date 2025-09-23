@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { KanjiWithExamples } from '../LearnContent'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import { useKanjiDetails } from '@/hooks/useKanjiDetails'
+import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 
 interface Round1LearnProps {
   kanji: KanjiWithExamples
@@ -16,6 +18,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
   const [showReadings, setShowReadings] = useState(false)
   const [showExamples, setShowExamples] = useState(false)
   const [showSentences, setShowSentences] = useState(false)
+  const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
 
   const handleContinue = () => {
     // Reset states for next kanji
@@ -54,12 +57,24 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            className="inline-block"
+            className="inline-block relative"
           >
             <div className="text-8xl font-bold text-gray-900 dark:text-gray-100 mb-4"
                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
               {kanji.kanji}
             </div>
+            {/* View Details Button */}
+            <button
+              onClick={() => openKanjiDetails(kanji)}
+              className="absolute -top-2 -right-14 p-2 text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-all hover:scale-110"
+              title="View full details"
+              aria-label="View kanji details"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
           </motion.div>
 
           {/* Meaning */}
@@ -223,6 +238,13 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
           </button>
         </motion.div>
       )}
+
+      {/* Kanji Details Modal */}
+      <KanjiDetailsModal
+        kanji={modalKanji}
+        isOpen={!!modalKanji}
+        onClose={closeKanjiDetails}
+      />
     </motion.div>
   )
 }

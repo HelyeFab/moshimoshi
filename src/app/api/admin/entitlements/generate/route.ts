@@ -18,6 +18,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Check if adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      );
+    }
+
     // Check if user is admin
     const userDoc = await adminDb.collection('users').doc(session.uid).get();
     const userData = userDoc.data();

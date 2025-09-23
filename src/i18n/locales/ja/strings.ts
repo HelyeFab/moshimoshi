@@ -1233,6 +1233,12 @@ export const strings = {
     tryDifferentSearch: "別の検索語を試してください",
     startSaving: "単語、漢字、文章を保存すると、ここに表示されます",
     confirmRemove: "このアイテムをすべてのリストから削除しますか？",
+    removeDialog: {
+      title: "お気に入りから削除",
+      message: "このアイテムをお気に入りから削除してもよろしいですか？",
+      cancel: "キャンセル",
+      confirm: "削除"
+    },
     reviewedTimes: "{count}回復習済み",
     manageLists: "リストを管理",
   },
@@ -1316,8 +1322,8 @@ export const strings = {
       created: "リストが正常に作成されました",
       updated: "リストが正常に更新されました",
       deleted: "リストが正常に削除されました",
-      itemAdded: "{count}個のリストに追加されました",
-      itemRemoved: "{count}個のリストから削除されました",
+      itemAdded: "{{count}}個のリストに追加されました",
+      itemRemoved: "{{count}}個のリストから削除されました",
       itemUpdated: "アイテムが正常に更新されました",
     },
     errors: {

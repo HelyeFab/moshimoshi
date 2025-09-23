@@ -11,6 +11,7 @@ import DoshiMascot from '@/components/ui/DoshiMascot'
 import { motion } from 'framer-motion'
 import KanjiProgressSummary from './components/KanjiProgressSummary'
 import ReviewDueAlert from './components/ReviewDueAlert'
+import { useUserStorage } from '@/hooks/useUserStorage'
 
 interface StudySettings {
   sessionSize: number
@@ -31,14 +32,15 @@ function KanjiMasteryContent() {
   const isReviewMode = searchParams.get('mode') === 'review'
   const returnTo = searchParams.get('returnTo') || '/review-hub'
 
-  // Load saved settings from localStorage
+  // Get user storage hook
+  const { getItem, setItem } = useUserStorage()
+
+  // Load saved settings from user-specific storage
   const [settings, setSettings] = useState<StudySettings>(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('kanjiMasterySettings')
+      const saved = getItem('kanjiMasterySettings')
       if (saved) {
-        try {
-          return JSON.parse(saved)
-        } catch {}
+        return saved
       }
     }
     return {
@@ -56,7 +58,7 @@ function KanjiMasteryContent() {
   // Save settings to localStorage when they change
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('kanjiMasterySettings', JSON.stringify(settings))
+      setItem('kanjiMasterySettings', settings)
     }
   }, [settings])
 

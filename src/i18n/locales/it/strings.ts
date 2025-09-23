@@ -1317,6 +1317,12 @@ export const strings = {
     tryDifferentSearch: "Prova con un altro termine di ricerca",
     startSaving: "Salva parole, kanji e frasi per vederli qui",
     confirmRemove: "Rimuovere questo elemento da tutte le liste?",
+    removeDialog: {
+      title: "Rimuovi dai preferiti",
+      message: "Sei sicuro di voler rimuovere questo elemento dai tuoi preferiti?",
+      cancel: "Annulla",
+      confirm: "Rimuovi"
+    },
     reviewedTimes: "Revisionato {count} volte",
     manageLists: "Gestisci le mie liste",
   },
@@ -1400,8 +1406,8 @@ export const strings = {
       created: "Lista creata con successo",
       updated: "Lista aggiornata con successo",
       deleted: "Lista eliminata con successo",
-      itemAdded: "Aggiunto a {count} lista/e",
-      itemRemoved: "Rimosso da {count} lista/e",
+      itemAdded: "Aggiunto a {{count}} lista/e",
+      itemRemoved: "Rimosso da {{count}} lista/e",
       itemUpdated: "Elemento aggiornato con successo",
     },
     errors: {
