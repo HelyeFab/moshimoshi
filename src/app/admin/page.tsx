@@ -175,7 +175,14 @@ export default function AdminDashboard() {
       {/* Quick Actions - Better Mobile Grid */}
       <div className="bg-white dark:bg-dark-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-3 sm:p-4 lg:p-6">
         <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 dark:text-white mb-3">{strings.admin.sections.quickActions}</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
+          <Link
+            href="/admin/resources"
+            className="flex flex-col items-center gap-1 sm:gap-2 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-center"
+          >
+            <span className="text-2xl sm:text-3xl">📰</span>
+            <span className="text-xs sm:text-sm font-medium">Resources</span>
+          </Link>
           <Link
             href="/admin/moodboards"
             className="flex flex-col items-center gap-1 sm:gap-2 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-center"
@@ -189,6 +196,13 @@ export default function AdminDashboard() {
           >
             <span className="text-2xl sm:text-3xl">👥</span>
             <span className="text-xs sm:text-sm font-medium">{strings.admin.quickActionButtons.users}</span>
+          </Link>
+          <Link
+            href="/admin/blog"
+            className="flex flex-col items-center gap-1 sm:gap-2 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-center"
+          >
+            <span className="text-2xl sm:text-3xl">📝</span>
+            <span className="text-xs sm:text-sm font-medium">{strings.admin.quickActionButtons.blog}</span>
           </Link>
           <Link
             href="/admin/content"

@@ -85,6 +85,10 @@ export const strings = {
     settings: "Settings",
     playAudio: "Play Audio",
     explore: "Explore",
+    import: "Import",
+    export: "Export",
+    success: "Success",
+    error: "Error occurred",
   },
 
   // Moodboards
@@ -263,6 +267,7 @@ export const strings = {
     title: "Review Dashboard",
     description: "Track your learning progress and upcoming reviews",
     subtitle: "Track your learning progress and upcoming reviews",
+    loading: "Loading review dashboard...",
     tabs: {
       overview: "Overview",
       studied: "Studied",
@@ -282,6 +287,13 @@ export const strings = {
       reviewQueueFull: "Review Queue - Items Due Now",
       reviewSchedule: "Review Schedule"
     },
+    upcomingReviews: "Upcoming Reviews",
+    overdue: "Overdue",
+    thisWeek: "This Week",
+    noScheduledReviews: "No scheduled reviews yet. Keep studying to build your review schedule!",
+    interval: "Interval",
+    accuracy: "accuracy",
+    andMore: "...and {count} more items",
     stats: {
       studied: "Studied",
       learned: "Learned",
@@ -299,6 +311,7 @@ export const strings = {
     },
     actions: {
       startReview: "Start Review",
+      reviewOverdue: "Review {{count}} Overdue Items",
       viewAll: "View all",
       viewSchedule: "View full schedule",
       startReviewSession: "Start Review Session",
@@ -320,7 +333,9 @@ export const strings = {
       today: "Today",
       tomorrow: "Tomorrow",
       thisWeek: "This Week",
-      later: "Later"
+      later: "Later",
+      nextReview: "Next review",
+      scheduledReviews: "Scheduled reviews"
     },
     items: "items"
   },
@@ -376,9 +391,8 @@ export const strings = {
       backToDashboard: "← Back to Dashboard",
     },
     welcome: {
-      firstVisit: "Welcome to Moshimoshi! Doshi is excited to learn with you! 🎉",
-      firstVisitMessage: "Welcome to your Japanese learning adventure! Doshi is here to guide you.",
-      returningMessage: "Ready to continue your journey? Your dedication is inspiring!",
+      firstVisit: "Welcome to your Japanese learning adventure! Doshi is here to guide you.",
+      returning: "Ready to continue your journey? Your dedication is inspiring!",
       signoutToast: "Sayonara! See you soon! 👋",
       doshiClick: "Doshi says: がんばって! (Good luck!)",
     },
@@ -584,6 +598,7 @@ export const strings = {
       users: "Users",
       content: "Content",
       analytics: "Analytics",
+      blog: "Blog",
     },
     newsScraping: {
       nhkEasy: "NHK Easy",
@@ -643,6 +658,142 @@ export const strings = {
     userLabels: {
       user: "User",
       minutesAgo: "{{minutes}} min ago",
+    },
+    // Blog Management
+    blog: {
+      title: "Blog Management",
+      description: "Manage your blog posts and content",
+      createNew: "Create New Post",
+      viewBlog: "View Blog",
+      noPosts: "No blog posts yet",
+      createFirst: "Create your first blog post",
+      postsCount: "{{count}} posts",
+      fields: {
+        title: "Title",
+        slug: "URL Slug",
+        content: "Content",
+        excerpt: "Excerpt",
+        author: "Author",
+        status: "Status",
+        publishDate: "Publish Date",
+        publishTime: "Publish Time",
+        tags: "Tags",
+        seoTitle: "SEO Title",
+        seoDescription: "SEO Description",
+        coverImage: "Cover Image",
+        views: "Views",
+        readingTime: "Reading Time",
+      },
+      placeholders: {
+        title: "Enter post title",
+        slug: "url-friendly-slug",
+        content: "Write your content in Markdown...",
+        excerpt: "Brief description for previews and SEO",
+        addTag: "Add tag",
+        seoTitle: "Leave empty to use post title",
+        seoDescription: "Leave empty to use excerpt",
+      },
+      status: {
+        draft: "Draft",
+        published: "Published",
+        scheduled: "Scheduled",
+      },
+      sections: {
+        publishing: "Publishing",
+        tags: "Tags",
+        images: "Images",
+        seo: "SEO",
+      },
+      buttons: {
+        edit: "Edit",
+        preview: "Preview",
+        add: "Add",
+        create: "Create Post",
+        update: "Update Post",
+        delete: "Delete",
+        view: "View",
+        save: "Save",
+      },
+      hints: {
+        markdownSupport: "Supports Markdown formatting",
+      },
+      errors: {
+        imageUploadFailed: "Failed to upload image",
+        saveFailed: "Failed to save post",
+        loadFailed: "Failed to load post",
+        deleteFailed: "Failed to delete post",
+      },
+      success: {
+        created: "Post created successfully",
+        updated: "Post updated successfully",
+        deleted: "Post deleted successfully",
+        published: "Post published successfully",
+        scheduled: "Post scheduled for publishing",
+      },
+      deleteConfirmation: {
+        title: "Delete Blog Post",
+        message: "Are you sure you want to delete this blog post?",
+        itemName: "{{title}}",
+      },
+    },
+    resources: {
+      title: "Resources",
+      description: "Manage blog posts and learning resources",
+      newResource: "New Resource",
+      searchResources: "Search resources...",
+      allStatus: "All Status",
+      published: "Published",
+      draft: "Draft",
+      scheduled: "Scheduled",
+      selected: "selected",
+      deleteSelected: "Delete Selected",
+      clearSelection: "Clear Selection",
+      loadingResources: "Loading resources...",
+      noResourcesFound: "No resources found",
+      noResourcesMatching: "No resources matching your search",
+      selectAll: "Select All",
+      featured: "Featured",
+      uncategorized: "Uncategorized",
+      views: "views",
+      edit: "Edit",
+      view: "View",
+      delete: "Delete",
+      actions: "Actions",
+      status: "Status",
+      category: "Category",
+      updated: "Updated",
+      totalPosts: "Total Posts",
+      totalViews: "Total Views",
+      deleteResource: "Delete Resource",
+      deleteResourceConfirm: "Are you sure you want to delete this resource? This action cannot be undone.",
+      deleteResources: "Delete Resources",
+      deleteResourcesConfirm: "Are you sure you want to delete {count} resources? This action cannot be undone.",
+      error: "Error",
+      failedToDelete: "Failed to delete resource",
+      failedToDeleteSome: "Failed to delete some resources",
+      createResource: "Create Resource",
+      editResource: "Edit Resource",
+      basicInfo: "Basic Information",
+      content: "Content",
+      publishingOptions: "Publishing Options",
+      seo: "SEO",
+      featuredImage: "Featured Image",
+      tags: "Tags",
+      addTag: "Add Tag",
+      removeTag: "Remove Tag",
+      uploadImage: "Upload Image",
+      imageUrl: "Image URL",
+      imageAlt: "Image Alt Text",
+      readingTime: "Reading time",
+      minRead: "min read",
+      quickCreate: "Quick Create from URL",
+      preview: "Preview",
+      cancel: "Cancel",
+      save: "Save",
+      create: "Create",
+      update: "Update",
+      required: "Required",
+      optional: "Optional",
     },
   },
 
@@ -802,6 +953,10 @@ export const strings = {
 
   // Review Dashboard
   review: {
+    // Common review actions
+    skip: "Skip",
+    showAnswer: "Show Answer",
+
     // Review modes (used across all content types)
     modes: {
       recognition: "Recognition",
@@ -1016,6 +1171,90 @@ export const strings = {
         swipeHint: "Swipe to navigate",
       },
     },
+  },
+
+  // Drill Feature
+  drill: {
+    title: "Conjugation Drill",
+    description: "Practice Japanese verb and adjective conjugations",
+
+    // Practice mode section
+    practiceMode: "Practice Mode",
+    randomWords: "Random Words",
+    randomDescription: "Practice with common words",
+    fromLists: "From Lists",
+    listsDescription: "Use your study lists",
+
+    // Word types section
+    wordTypes: "Word Types",
+    allTypes: "All Types",
+    verbsOnly: "Verbs Only",
+    adjectivesOnly: "Adjectives Only",
+
+    // Buttons and actions
+    startDrill: "Start Drill",
+    tryAgain: "Try Again",
+    newDrill: "New Drill",
+    backToSetup: "Back to Setup",
+    seeResults: "See Results",
+    finish: "Finish",
+
+    // Questions and game play
+    question: "Question",
+    questionNumber: "Question {{current}} of {{total}}",
+    conjugateTo: "Conjugate to",
+    correctAnswer: "Correct Answer",
+    yourAnswer: "Your Answer",
+    showAnswer: "Show Answer",
+    rule: "Rule",
+
+    // Results
+    complete: "Drill Complete!",
+    correct: "Correct!",
+    incorrect: "Incorrect",
+    score: "Score",
+    yourScore: "Your Score",
+    accuracy: "Accuracy",
+    results: "Results",
+    excellentPerformance: "Excellent work! You've mastered these conjugations!",
+    goodPerformance: "Good job! You're getting the hang of it!",
+    keepPracticing: "Keep practicing! You'll improve with more drills!",
+
+    // Settings
+    questionsPerSession: "Questions per session",
+    autoAdvance: "Auto-advance to next question",
+    showRules: "Show conjugation rules",
+    hideRules: "Hide rules",
+    remainingToday: "{{count}} drills remaining today",
+
+    // Conjugation forms
+    forms: {
+      present: "Present",
+      past: "Past",
+      negative: "Negative",
+      pastNegative: "Past Negative",
+      polite: "Polite",
+      politePast: "Polite Past",
+      politeNegative: "Polite Negative",
+      politePastNegative: "Polite Past Negative",
+      teForm: "Te Form",
+      potential: "Potential",
+      passive: "Passive",
+      causative: "Causative",
+      conditional: "Conditional",
+      volitional: "Volitional",
+      imperative: "Imperative",
+      taiForm: "Tai Form (want to)",
+      adverbial: "Adverbial",
+    },
+
+    // Messages
+    noQuestions: "No conjugable words found. Please try different settings.",
+    selectLists: "Please select at least one list to practice.",
+    noConjugableWords: "No conjugable words found in selected lists.",
+    dailyLimitReached: "You've reached your daily drill limit.",
+    loadingQuestions: "Loading questions...",
+    of: "of",
   },
 
   // News Feature
@@ -1457,6 +1696,11 @@ export const strings = {
         title: "Mood Boards",
         subtitle: "ムード",
         description: "Learn kanji by themes"
+      },
+      myVideos: {
+        title: "My Videos",
+        subtitle: "ビデオ",
+        description: "Your saved videos"
       }
     },
     progress: {
@@ -2410,6 +2654,23 @@ export const strings = {
   lists: {
     title: "My Lists",
     pageDescription: "Create and manage your custom study lists",
+    createNew: "Create New List",
+    createDescription: "Organize your learning materials",
+    listName: "List Name",
+    listType: "List Type",
+    emoji: "Emoji",
+    color: "Color",
+    changeEmoji: "Change emoji",
+    preview: "Preview",
+    items: "items",
+    namePlaceholder: "My Study List",
+    creating: "Creating...",
+    create: "Create List",
+    created: "List created successfully",
+    addToList: "Add to List",
+    selectList: "Select a list",
+    addedToList: "Added to list",
+    noLists: "No lists yet",
     modal: {
       title: "Create New List",
       createTitle: "Configure Your List",
@@ -2417,6 +2678,21 @@ export const strings = {
       selectType: "Choose the type of list you want to create:",
     },
     types: {
+      word: {
+        name: "Word List",
+        short: "Word",
+        description: "Vocabulary words and kanji",
+      },
+      sentence: {
+        name: "Sentence List",
+        short: "Sentence",
+        description: "Complete sentences for context learning",
+      },
+      verbAdj: {
+        name: "Verbs & Adjectives",
+        short: "Conjugation",
+        description: "Practice verb and adjective forms",
+      },
       flashcard: {
         name: "Flashcard List",
         short: "Flashcard",
@@ -2428,12 +2704,6 @@ export const strings = {
         short: "Practice",
         description: "Practice conjugations for verbs and adjectives",
         accepts: "Accepts: Verbs and Adjectives only",
-      },
-      sentence: {
-        name: "Sentence List",
-        short: "Sentence",
-        description: "Study complete sentences in context",
-        accepts: "Accepts: Sentences only",
       },
     },
     fields: {
@@ -2490,6 +2760,9 @@ export const strings = {
       itemRemoved: "Removed from {{count}} list(s)",
       itemUpdated: "Item updated successfully",
     },
+    confirmDelete: "Delete Item",
+    confirmDeleteMessage: "Are you sure you want to remove this item from the list?",
+    confirmDeleteMultiple: "Are you sure you want to remove {{count}} items from the list?",
     errors: {
       limitReached: "You've reached your list limit. Upgrade to create more.",
       nameRequired: "Please enter a list name",
@@ -2497,6 +2770,8 @@ export const strings = {
       createFailed: "Failed to create list",
       loadFailed: "Failed to load lists",
       saveFailed: "Failed to save item",
+      addFailed: "Failed to add to list",
+      signInRequired: "Please sign in to use lists",
       noListSelected: "Please select at least one list",
       incompatibleType: "This list type cannot accept this item",
     },
@@ -2893,4 +3168,148 @@ export const strings = {
       description: "Identify visual patterns and layouts across different kanji"
     }
   },
+
+  vocabulary: {
+    tabs: {
+      details: "Details",
+      conjugations: "Conjugations"
+    }
+  },
+
+  todos: {
+    title: "My Tasks",
+    addNew: "Add New Todo",
+    noTodos: "No todos yet. Create your first todo!",
+    noActiveTodos: "No active todos",
+    noCompletedTodos: "No completed todos",
+    signInRequired: "Please sign in to manage your todos",
+    errorLoading: "Error loading todos",
+    limitReached: "You've reached your daily todo limit",
+    usage: "{{remaining}} of {{limit}} todos remaining today",
+
+    titleLabel: "Title",
+    titlePlaceholder: "What needs to be done?",
+    descriptionLabel: "Description",
+    descriptionPlaceholder: "Add more details (optional)",
+    priorityLabel: "Priority",
+    dueDateLabel: "Due Date",
+    due: "Due",
+    tagsLabel: "Tags",
+    tagPlaceholder: "Add a tag...",
+    addTag: "Add",
+    creating: "Creating...",
+
+    priority: {
+      low: "Low",
+      medium: "Medium",
+      high: "High"
+    },
+
+    filter: {
+      all: "All",
+      active: "Active",
+      completed: "Completed"
+    },
+
+    sort: {
+      date: "Sort by Date",
+      priority: "Sort by Priority"
+    },
+
+    demoBanner: {
+      title: "Demo Feature",
+      description: "This todo list demonstrates the Moshimoshi architecture including authentication, entitlements, and Firebase integration.",
+      limits: "Daily limits",
+      guestLimit: "Guest users: No access",
+      freeLimit: "Free users: 5 todos per day",
+      premiumLimit: "Premium users: Unlimited todos",
+      signInPrompt: "Sign in to start creating todos!",
+      upgradePrompt: "Upgrade to Premium for unlimited todos!"
+    },
+
+    techDemo: {
+      title: "Technical Demonstration",
+      auth: "Server-side authentication with JWT sessions",
+      entitlements: "Centralized entitlements checking",
+      firebase: "Firebase Firestore for data persistence",
+      subscription: "Subscription tier checking",
+      i18n: "Full internationalization support",
+      darkMode: "Theme-aware styling",
+      responsive: "Mobile-responsive design"
+    },
+
+    form: {
+      titlePlaceholder: "What needs to be done?",
+      descriptionPlaceholder: "Add more details (optional)",
+      addButton: "Create Todo"
+    },
+
+    item: {
+      cancel: "Cancel"
+    }
+  },
+
+  myVideos: {
+    title: "My Practice Videos",
+    subtitle: "Your YouTube practice history",
+    backToHome: "Back to Home",
+    loginRequired: "Sign in to track your practice history",
+    loginDescription: "Sign in to track your practice history and quickly access videos you've watched before.",
+
+    hero: {
+      title: "Your Practice History",
+      syncedDescription: "Synced across all devices",
+      localDescription: "Saved on this device"
+    },
+
+    stats: {
+      videosPracticed: "Videos Practiced",
+      totalSessions: "Total Sessions",
+      practiceTime: "Practice Time"
+    },
+
+    storage: {
+      freeTitle: "Free Account - Local Storage Only",
+      freeDescription: "Your practice history is saved on this device only. Upgrade to Premium to sync across all devices."
+    },
+
+    search: {
+      placeholder: "Search your practice history...",
+      noResults: "No Results Found",
+      noResultsDescription: "No videos match \"{{query}}\". Try a different search term."
+    },
+
+    sort: {
+      mostRecent: "Most Recent",
+      mostPracticed: "Most Practiced"
+    },
+
+    video: {
+      practiceAgain: "Practice Again",
+      practiceCount: "Practiced {{count}}x",
+      duration: "{{minutes}}m",
+      today: "Today",
+      yesterday: "Yesterday",
+      daysAgo: "{{days}} days ago",
+      weeksAgo: "{{weeks}} weeks ago",
+      delete: "Remove from history"
+    },
+
+    empty: {
+      title: "No Practice History Yet",
+      description: "Start practicing with YouTube videos and they'll appear here for quick access.",
+      startPracticing: "Start Practicing"
+    },
+
+    loading: {
+      message: "Loading your practice history..."
+    },
+
+    confirmDelete: {
+      title: "Remove Video",
+      message: "Are you sure you want to remove \"{{title}}\" from your history?",
+      confirm: "Remove",
+      cancel: "Cancel"
+    }
+  }
 }

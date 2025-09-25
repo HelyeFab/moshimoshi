@@ -2,6 +2,8 @@ export const strings = {
   reviewDashboard: {
     title: "復習ダッシュボード",
     description: "学習進捗と復習スケジュールを追跡",
+    subtitle: "学習進捗と復習スケジュールを追跡",
+    loading: "レビューダッシュボードを読み込み中...",
     tabs: {
       overview: "概要",
       studied: "学習済み",
@@ -9,6 +11,10 @@ export const strings = {
       queue: "キュー",
       schedule: "スケジュール"
     },
+    upcomingReviews: "今後の復習",
+    overdue: "期限切れ",
+    thisWeek: "今週",
+    noScheduledReviews: "予定された復習はまだありません。学習を続けて復習スケジュールを作りましょう！",
     sections: {
       reviewQueue: "復習キュー",
       upcomingReviews: "今後の復習",
@@ -35,6 +41,7 @@ export const strings = {
     },
     actions: {
       startReview: "復習を開始",
+      reviewOverdue: "{{count}}件の期限切れアイテムを復習",
       viewAll: "すべて表示",
       refresh: "更新"
     },
@@ -57,7 +64,29 @@ export const strings = {
       kanji: "漢字",
       vocabulary: "単語",
       sentence: "文章"
-    }
+    },
+    schedule: {
+      today: "今日",
+      tomorrow: "明日",
+      thisWeek: "今週",
+      later: "後で",
+      nextReview: "次の復習",
+      scheduledReviews: "予定された復習"
+    },
+    items: "項目"
+  },
+
+  // Review section
+  review: {
+    schedule: {
+      today: "今日",
+      tomorrow: "明日",
+      thisWeek: "今週",
+      later: "後で",
+      nextReview: "次の復習",
+      scheduledReviews: "予定された復習"
+    },
+    items: "項目"
   },
   // Common/Shared
   common: {
@@ -385,6 +414,11 @@ export const strings = {
         title: "マイリスト",
         subtitle: "カスタムリスト",
         description: "カスタムリストを管理"
+      },
+      myVideos: {
+        title: "マイビデオ",
+        subtitle: "ビデオ",
+        description: "保存した動画"
       }
     },
     achievements: {
@@ -574,6 +608,7 @@ export const strings = {
       users: "ユーザー",
       content: "コンテンツ",
       analytics: "分析",
+      blog: "ブログ",
     },
     systemMetrics: {
       database: "データベース",
@@ -599,6 +634,142 @@ export const strings = {
       mainichiShogakusei: "毎日小学生新聞",
       mainichiSchedule: "毎日10:00",
       scrapingArticles: "記事をスクレイピング中...",
+    },
+    resources: {
+      title: "リソース",
+      description: "ブログ記事と学習リソースの管理",
+      newResource: "新規リソース",
+      searchResources: "リソースを検索...",
+      allStatus: "すべてのステータス",
+      published: "公開済み",
+      draft: "下書き",
+      scheduled: "予約投稿",
+      selected: "選択済み",
+      deleteSelected: "選択項目を削除",
+      clearSelection: "選択をクリア",
+      loadingResources: "リソースを読み込み中...",
+      noResourcesFound: "リソースが見つかりません",
+      noResourcesMatching: "検索に一致するリソースがありません",
+      selectAll: "すべて選択",
+      featured: "注目",
+      uncategorized: "未分類",
+      views: "ビュー",
+      edit: "編集",
+      view: "表示",
+      delete: "削除",
+      actions: "アクション",
+      status: "ステータス",
+      category: "カテゴリー",
+      updated: "更新日時",
+      totalPosts: "総投稿数",
+      totalViews: "総ビュー数",
+      deleteResource: "リソースを削除",
+      deleteResourceConfirm: "このリソースを削除してもよろしいですか？この操作は取り消せません。",
+      deleteResources: "リソースを削除",
+      deleteResourcesConfirm: "{count}件のリソースを削除してもよろしいですか？この操作は取り消せません。",
+      error: "エラー",
+      failedToDelete: "リソースの削除に失敗しました",
+      failedToDeleteSome: "一部のリソースの削除に失敗しました",
+      createResource: "リソースを作成",
+      editResource: "リソースを編集",
+      basicInfo: "基本情報",
+      content: "コンテンツ",
+      publishingOptions: "公開オプション",
+      seo: "SEO",
+      featuredImage: "アイキャッチ画像",
+      tags: "タグ",
+      addTag: "タグを追加",
+      removeTag: "タグを削除",
+      uploadImage: "画像をアップロード",
+      imageUrl: "画像URL",
+      imageAlt: "画像の代替テキスト",
+      readingTime: "読了時間",
+      minRead: "分で読めます",
+      quickCreate: "URLから簡単作成",
+      preview: "プレビュー",
+      cancel: "キャンセル",
+      save: "保存",
+      create: "作成",
+      update: "更新",
+      required: "必須",
+      optional: "任意",
+    },
+    // Blog Management
+    blog: {
+      title: "ブログ管理",
+      description: "ブログ投稿とコンテンツの管理",
+      createNew: "新規投稿を作成",
+      viewBlog: "ブログを見る",
+      noPosts: "ブログ投稿はまだありません",
+      createFirst: "最初のブログ投稿を作成",
+      postsCount: "{{count}}件の投稿",
+      fields: {
+        title: "タイトル",
+        slug: "URLスラッグ",
+        content: "コンテンツ",
+        excerpt: "抜粋",
+        author: "著者",
+        status: "ステータス",
+        publishDate: "公開日",
+        publishTime: "公開時間",
+        tags: "タグ",
+        seoTitle: "SEOタイトル",
+        seoDescription: "SEO説明",
+        coverImage: "カバー画像",
+        views: "ビュー",
+        readingTime: "読了時間",
+      },
+      placeholders: {
+        title: "投稿タイトルを入力",
+        slug: "url-friendly-slug",
+        content: "Markdownでコンテンツを書く...",
+        excerpt: "プレビューとSEOのための簡単な説明",
+        addTag: "タグを追加",
+        seoTitle: "空欄の場合は投稿タイトルを使用",
+        seoDescription: "空欄の場合は抜粋を使用",
+      },
+      status: {
+        draft: "下書き",
+        published: "公開済み",
+        scheduled: "予約投稿",
+      },
+      sections: {
+        publishing: "公開設定",
+        tags: "タグ",
+        images: "画像",
+        seo: "SEO",
+      },
+      buttons: {
+        edit: "編集",
+        preview: "プレビュー",
+        add: "追加",
+        create: "投稿を作成",
+        update: "投稿を更新",
+        delete: "削除",
+        view: "表示",
+        save: "保存",
+      },
+      hints: {
+        markdownSupport: "Markdownフォーマットに対応",
+      },
+      errors: {
+        imageUploadFailed: "画像のアップロードに失敗",
+        saveFailed: "投稿の保存に失敗",
+        loadFailed: "投稿の読み込みに失敗",
+        deleteFailed: "投稿の削除に失敗",
+      },
+      success: {
+        created: "投稿が正常に作成されました",
+        updated: "投稿が正常に更新されました",
+        deleted: "投稿が正常に削除されました",
+        published: "投稿が正常に公開されました",
+        scheduled: "投稿の公開予約が設定されました",
+      },
+      deleteConfirmation: {
+        title: "ブログ投稿を削除",
+        message: "このブログ投稿を削除してもよろしいですか？",
+        itemName: "{{title}}",
+      },
     },
   },
 
@@ -753,6 +924,90 @@ export const strings = {
       unknown: "予期しないエラーが発生しました。再試行してください。",
       somethingWrong: "問題が発生しました。再試行してください。",
     },
+  },
+
+  // Drill Feature
+  drill: {
+    title: "活用練習",
+    description: "日本語の動詞と形容詞の活用を練習",
+
+    // Practice mode section
+    practiceMode: "練習モード",
+    randomWords: "ランダム単語",
+    randomDescription: "よく使う単語で練習",
+    fromLists: "リストから",
+    listsDescription: "学習リストを使用",
+
+    // Word types section
+    wordTypes: "単語の種類",
+    allTypes: "全種類",
+    verbsOnly: "動詞のみ",
+    adjectivesOnly: "形容詞のみ",
+
+    // Buttons and actions
+    startDrill: "練習開始",
+    tryAgain: "もう一度",
+    newDrill: "新しい練習",
+    backToSetup: "設定に戻る",
+    seeResults: "結果を見る",
+    finish: "終了",
+
+    // Questions and game play
+    question: "問題",
+    questionNumber: "問題 {{current}} / {{total}}",
+    conjugateTo: "次の形に活用",
+    correctAnswer: "正解",
+    yourAnswer: "あなたの答え",
+    showAnswer: "答えを表示",
+    rule: "規則",
+
+    // Results
+    complete: "練習完了！",
+    correct: "正解！",
+    incorrect: "不正解",
+    score: "スコア",
+    yourScore: "あなたのスコア",
+    accuracy: "正答率",
+    results: "結果",
+    excellentPerformance: "素晴らしい！これらの活用をマスターしました！",
+    goodPerformance: "よくできました！だんだん上達しています！",
+    keepPracticing: "練習を続けましょう！もっと練習すれば上達します！",
+
+    // Settings
+    questionsPerSession: "セッションごとの問題数",
+    autoAdvance: "自動的に次の問題へ",
+    showRules: "活用規則を表示",
+    hideRules: "規則を隠す",
+    remainingToday: "今日の残り練習回数: {{count}}回",
+
+    // Conjugation forms
+    forms: {
+      present: "現在形",
+      past: "過去形",
+      negative: "否定形",
+      pastNegative: "過去否定形",
+      polite: "丁寧形",
+      politePast: "丁寧過去形",
+      politeNegative: "丁寧否定形",
+      politePastNegative: "丁寧過去否定形",
+      teForm: "て形",
+      potential: "可能形",
+      passive: "受身形",
+      causative: "使役形",
+      conditional: "条件形",
+      volitional: "意志形",
+      imperative: "命令形",
+      taiForm: "たい形（願望）",
+      adverbial: "副詞形",
+    },
+
+    // Messages
+    noQuestions: "活用可能な単語が見つかりません。設定を変更してください。",
+    selectLists: "練習するリストを少なくとも1つ選択してください。",
+    noConjugableWords: "選択したリストに活用可能な単語が見つかりません。",
+    dailyLimitReached: "今日の練習制限に達しました。",
+    loadingQuestions: "問題を読み込み中...",
+    of: "の",
   },
 
   // News Feature
@@ -1622,6 +1877,196 @@ export const strings = {
       }
   },
 
+  // Settings Page
+  settings: {
+    title: "設定",
+    subtitle: "学習体験をカスタマイズ",
+    backToDashboard: "← ダッシュボードに戻る",
+    saveButton: "すべての設定を保存",
+    resetButton: "すべての設定をデフォルトに戻す",
+    resetConfirm: "本当にすべての設定をデフォルトに戻しますか？",
+    saveSuccess: "設定が正常に保存されました！",
+    resetSuccess: "設定がデフォルトに戻されました",
+
+    sections: {
+      appearance: {
+        title: "外観",
+        language: {
+          label: "言語 / Language / Langue / Lingua / Sprache / Idioma"
+        },
+        theme: {
+          label: "テーマ",
+          light: "ライト",
+          dark: "ダーク",
+          system: "システム"
+        },
+        colorPalette: {
+          label: "カラーパレット",
+          preview: "プレビュー：",
+          primary: "プライマリー",
+          secondary: "セカンダリー",
+          palettes: {
+            sakura: "さくら",
+            ocean: "海",
+            matcha: "抹茶",
+            sunset: "夕日",
+            lavender: "ラベンダー",
+            monochrome: "モノクロ"
+          }
+        }
+      },
+
+      learning: {
+        title: "学習設定",
+        autoplay: {
+          label: "音声自動再生",
+          description: "単語を表示時に発音を自動再生"
+        },
+        furigana: {
+          label: "ふりがな表示",
+          description: "漢字の上に読み仮名を表示"
+        },
+        romaji: {
+          label: "ローマ字表示",
+          description: "日本語をローマ字で表示"
+        },
+        soundEffects: {
+          label: "効果音",
+          description: "正解/不正解時の音を再生"
+        },
+        hapticFeedback: {
+          label: "触覚フィードバック",
+          description: "モバイルデバイスでの振動フィードバック"
+        }
+      },
+
+      notifications: {
+        title: "通知",
+        dailyReminder: {
+          label: "毎日の学習リマインダー",
+          description: "毎日練習のリマインダーを受け取る"
+        },
+        achievementAlerts: {
+          label: "達成アラート",
+          description: "達成項目のロック解除時に通知"
+        },
+        weeklyProgress: {
+          label: "週間進捗レポート",
+          description: "週間進捗の概要を受け取る"
+        },
+        marketingEmails: {
+          label: "マーケティングメール",
+          description: "新機能とコンテンツの更新情報"
+        },
+        channels: {
+          title: "通知チャネル",
+          browser: {
+            label: "ブラウザ通知",
+            description: "復習期限時のデスクトップ通知"
+          },
+          inApp: {
+            label: "アプリ内通知",
+            description: "アプリ使用中のトースト通知"
+          },
+          push: {
+            label: "プッシュ通知",
+            description: "モバイル通知（アプリインストール必要）"
+          }
+        },
+        timing: {
+          title: "タイミング設定",
+          immediate: {
+            label: "即時復習",
+            description: "10分と30分の復習を通知"
+          },
+          daily: {
+            label: "日次サマリー",
+            description: "期限切れ復習の日次サマリーを取得"
+          }
+        },
+        quietHours: {
+          title: "通知制限時間",
+          enable: "通知制限時間を有効化",
+          description: "指定時間中は通知なし",
+          start: "開始時刻",
+          end: "終了時刻"
+        },
+        saveSuccess: "通知設定が保存されました",
+        saveError: "設定の保存に失敗しました",
+        browserNotSupported: "ブラウザ通知はサポートされていません",
+        browserEnabled: "ブラウザ通知が有効になりました",
+        browserDenied: "ブラウザ通知がブロックされています。ブラウザ設定で有効にしてください。",
+        enableBrowserFirst: "まずブラウザ通知を有効にしてください",
+        blocked: "ブロック済み",
+        testNotification: "テスト通知",
+        test: {
+          title: "テスト通知",
+          body: "これは通知設定のテストです"
+        }
+      },
+
+      privacy: {
+        title: "プライバシー",
+        publicProfile: {
+          label: "公開プロフィール",
+          description: "他のユーザーにプロフィールの閲覧を許可"
+        },
+        showProgress: {
+          label: "進捗を表示",
+          description: "プロフィールに学習進捗を表示"
+        },
+        shareAchievements: {
+          label: "達成項目を共有",
+          description: "友達と達成項目を自動共有"
+        }
+      },
+
+      accessibility: {
+        title: "アクセシビリティ",
+        largeText: {
+          label: "大きな文字",
+          description: "読みやすさのために文字サイズを拡大"
+        },
+        highContrast: {
+          label: "高コントラスト",
+          description: "視認性のために色のコントラストを高める"
+        },
+        reduceMotion: {
+          label: "モーションを減らす",
+          description: "アニメーションとトランジションを最小化"
+        },
+        screenReader: {
+          label: "スクリーンリーダーサポート",
+          description: "スクリーンリーダー互換性に最適化"
+        }
+      },
+
+      legal: {
+        title: "法務＆サポート",
+        privacyPolicy: {
+          label: "プライバシーポリシー",
+          description: "データの取り扱い方法"
+        },
+        termsOfService: {
+          label: "利用規約",
+          description: "当社の利用条件"
+        },
+        credits: {
+          label: "クレジット＆謝辞",
+          description: "オープンソースライブラリとデータソース"
+        },
+        contactUs: {
+          label: "お問い合わせ",
+          description: "ヘルプまたはフィードバックを送信"
+        },
+        emailSupport: {
+          label: "メールサポート",
+          description: "support@moshimoshi.app"
+        }
+      }
+    }
+  },
+
   // Credits Page
   credits: {
     title: "クレジット＆謝辞",
@@ -1705,4 +2150,149 @@ export const strings = {
       description: "異なる漢字間の視覚的パターンとレイアウトを識別"
     }
   },
+
+  vocabulary: {
+    tabs: {
+      details: "詳細",
+      conjugations: "活用"
+    }
+  },
+
+  todos: {
+    title: "マイタスク",
+    addNew: "新しいToDoを追加",
+    noTodos: "ToDoがまだありません。最初のToDoを作成しましょう！",
+    noActiveTodos: "アクティブなToDoがありません",
+    noCompletedTodos: "完了したToDoがありません",
+    signInRequired: "ToDoを管理するにはサインインしてください",
+    errorLoading: "ToDoの読み込みエラー",
+    limitReached: "本日のToDo作成上限に達しました",
+    usage: "本日残り{{remaining}}件（上限{{limit}}件）",
+
+    titleLabel: "タイトル",
+    titlePlaceholder: "何をする必要がありますか？",
+    descriptionLabel: "説明",
+    descriptionPlaceholder: "詳細を追加（任意）",
+    priorityLabel: "優先度",
+    dueDateLabel: "期限",
+    due: "期限",
+    tagsLabel: "タグ",
+    tagPlaceholder: "タグを追加...",
+    addTag: "追加",
+    creating: "作成中...",
+
+    priority: {
+      low: "低",
+      medium: "中",
+      high: "高"
+    },
+
+    filter: {
+      all: "すべて",
+      active: "アクティブ",
+      completed: "完了"
+    },
+
+    sort: {
+      date: "日付順",
+      priority: "優先度順"
+    },
+
+    demoBanner: {
+      title: "デモ機能",
+      description: "このToDoリストは、認証、エンタイトルメント、Firebase統合を含むMoshimoshiアーキテクチャのデモです。",
+      limits: "1日の制限",
+      guestLimit: "ゲストユーザー：アクセス不可",
+      freeLimit: "無料ユーザー：1日5個まで",
+      premiumLimit: "プレミアムユーザー：無制限",
+      signInPrompt: "サインインしてToDoを作成しましょう！",
+      upgradePrompt: "プレミアムにアップグレードして無制限のToDoを利用しましょう！"
+    },
+
+    techDemo: {
+      title: "技術デモンストレーション",
+      auth: "JWTセッションによるサーバーサイド認証",
+      entitlements: "集中型エンタイトルメントチェック",
+      firebase: "Firebase Firestoreでのデータ永続化",
+      subscription: "サブスクリプションティアチェック",
+      i18n: "完全な国際化サポート",
+      darkMode: "テーマ対応スタイリング",
+      responsive: "モバイルレスポンシブデザイン"
+    },
+
+    form: {
+      titlePlaceholder: "何をする必要がありますか？",
+      descriptionPlaceholder: "詳細を追加（オプション）",
+      addButton: "Todoを作成"
+    },
+
+    item: {
+      cancel: "キャンセル"
+    }
+  },
+
+  myVideos: {
+    title: "練習履歴動画",
+    subtitle: "YouTube練習履歴",
+    backToHome: "ホームに戻る",
+    loginRequired: "練習履歴を追跡するにはサインインしてください",
+    loginDescription: "サインインして練習履歴を追跡し、視聴した動画にすばやくアクセスしましょう。",
+
+    hero: {
+      title: "あなたの練習履歴",
+      syncedDescription: "すべてのデバイスで同期",
+      localDescription: "このデバイスに保存"
+    },
+
+    stats: {
+      videosPracticed: "練習した動画",
+      totalSessions: "総セッション数",
+      practiceTime: "練習時間"
+    },
+
+    storage: {
+      freeTitle: "無料アカウント - ローカルストレージのみ",
+      freeDescription: "練習履歴はこのデバイスのみに保存されます。すべてのデバイスで同期するにはプレミアムにアップグレードしてください。"
+    },
+
+    search: {
+      placeholder: "練習履歴を検索...",
+      noResults: "結果が見つかりません",
+      noResultsDescription: "「{{query}}」に一致する動画がありません。別の検索語をお試しください。"
+    },
+
+    sort: {
+      mostRecent: "最新",
+      mostPracticed: "最も練習した"
+    },
+
+    video: {
+      practiceAgain: "もう一度練習",
+      practiceCount: "{{count}}回練習",
+      duration: "{{minutes}}分",
+      today: "今日",
+      yesterday: "昨日",
+      daysAgo: "{{days}}日前",
+      weeksAgo: "{{weeks}}週間前",
+      delete: "履歴から削除"
+    },
+
+    empty: {
+      title: "まだ練習履歴がありません",
+      description: "YouTube動画で練習を始めると、すばやくアクセスできるようにここに表示されます。",
+      startPracticing: "練習を開始"
+    },
+
+    loading: {
+      message: "練習履歴を読み込んでいます..."
+    },
+
+    confirmDelete: {
+      title: "動画を削除",
+      message: "「{{title}}」を履歴から削除してもよろしいですか？",
+      confirm: "削除",
+      cancel: "キャンセル"
+    }
+  }
 }
+

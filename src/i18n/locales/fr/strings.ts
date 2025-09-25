@@ -2,6 +2,8 @@ export const strings = {
   reviewDashboard: {
     title: "Tableau de Révision",
     description: "Suivez votre progression d'apprentissage et votre planning de révision",
+    subtitle: "Suivez votre progression d'apprentissage et votre planning de révision",
+    loading: "Chargement du tableau de bord...",
     tabs: {
       overview: "Aperçu",
       studied: "Étudié",
@@ -9,6 +11,10 @@ export const strings = {
       queue: "File d'attente",
       schedule: "Planning"
     },
+    upcomingReviews: "Révisions à Venir",
+    overdue: "En Retard",
+    thisWeek: "Cette Semaine",
+    noScheduledReviews: "Aucune révision programmée. Continuez à étudier pour construire votre planning de révision !",
     sections: {
       reviewQueue: "File de Révision",
       upcomingReviews: "Révisions à Venir",
@@ -35,6 +41,7 @@ export const strings = {
     },
     actions: {
       startReview: "Commencer la Révision",
+      reviewOverdue: "Réviser {{count}} Éléments en Retard",
       viewAll: "Voir tout",
       refresh: "Actualiser"
     },
@@ -57,7 +64,29 @@ export const strings = {
       kanji: "Kanji",
       vocabulary: "Vocabulaire",
       sentence: "Phrase"
-    }
+    },
+    schedule: {
+      today: "Aujourd'hui",
+      tomorrow: "Demain",
+      thisWeek: "Cette Semaine",
+      later: "Plus tard",
+      nextReview: "Prochaine révision",
+      scheduledReviews: "Révisions programmées"
+    },
+    items: "éléments"
+  },
+
+  // Review section
+  review: {
+    schedule: {
+      today: "Aujourd'hui",
+      tomorrow: "Demain",
+      thisWeek: "Cette Semaine",
+      later: "Plus tard",
+      nextReview: "Prochaine révision",
+      scheduledReviews: "Révisions programmées"
+    },
+    items: "éléments"
   },
   // Common/Shared
   common: {
@@ -196,6 +225,14 @@ export const strings = {
         label: "Temps étudié",
         unit: "heures",
       },
+      progress: {
+        label: "Progression",
+        unit: "%",
+      },
+      achievements: {
+        label: "Succès",
+        unit: "récents",
+      },
     },
     greetings: {
       morning: {
@@ -219,9 +256,8 @@ export const strings = {
       backToDashboard: "← Retour au tableau de bord",
     },
     welcome: {
-      firstVisit: "Bienvenue sur Moshimoshi ! Doshi est ravi d'apprendre avec vous ! 🎉",
-      firstVisitMessage: "Bienvenue dans votre aventure d'apprentissage du japonais ! Doshi est là pour vous guider.",
-      returningMessage: "Prêt à continuer votre voyage ? Votre dévouement est inspirant !",
+      firstVisit: "Bienvenue dans votre aventure d'apprentissage du japonais ! Doshi est là pour vous guider.",
+      returning: "Prêt à continuer votre voyage ? Votre dévouement est inspirant !",
       signoutToast: "Sayonara ! À bientôt ! 👋",
       doshiClick: "Doshi dit : がんばって ! (Bonne chance !)",
     },
@@ -395,6 +431,7 @@ export const strings = {
       users: "Utilisateurs",
       content: "Contenu",
       analytics: "Analytique",
+      blog: "Blog",
     },
     systemMetrics: {
       database: "Base de données",
@@ -420,6 +457,65 @@ export const strings = {
       mainichiShogakusei: "Mainichi Shogakusei",
       mainichiSchedule: "Quotidien à 10h00",
       scrapingArticles: "Récupération des articles...",
+    },
+    resources: {
+      title: "Ressources",
+      description: "Gérer les articles de blog et les ressources d'apprentissage",
+      newResource: "Nouvelle Ressource",
+      searchResources: "Rechercher des ressources...",
+      allStatus: "Tous les statuts",
+      published: "Publié",
+      draft: "Brouillon",
+      scheduled: "Planifié",
+      selected: "sélectionné(s)",
+      deleteSelected: "Supprimer la sélection",
+      clearSelection: "Effacer la sélection",
+      loadingResources: "Chargement des ressources...",
+      noResourcesFound: "Aucune ressource trouvée",
+      noResourcesMatching: "Aucune ressource ne correspond à votre recherche",
+      selectAll: "Tout sélectionner",
+      featured: "En vedette",
+      uncategorized: "Non catégorisé",
+      views: "vues",
+      edit: "Modifier",
+      view: "Voir",
+      delete: "Supprimer",
+      actions: "Actions",
+      status: "Statut",
+      category: "Catégorie",
+      updated: "Mis à jour",
+      totalPosts: "Total des articles",
+      totalViews: "Total des vues",
+      deleteResource: "Supprimer la ressource",
+      deleteResourceConfirm: "Êtes-vous sûr de vouloir supprimer cette ressource ? Cette action ne peut pas être annulée.",
+      deleteResources: "Supprimer les ressources",
+      deleteResourcesConfirm: "Êtes-vous sûr de vouloir supprimer {count} ressources ? Cette action ne peut pas être annulée.",
+      error: "Erreur",
+      failedToDelete: "Échec de la suppression de la ressource",
+      failedToDeleteSome: "Échec de la suppression de certaines ressources",
+      createResource: "Créer une ressource",
+      editResource: "Modifier la ressource",
+      basicInfo: "Informations de base",
+      content: "Contenu",
+      publishingOptions: "Options de publication",
+      seo: "SEO",
+      featuredImage: "Image en vedette",
+      tags: "Tags",
+      addTag: "Ajouter un tag",
+      removeTag: "Supprimer le tag",
+      uploadImage: "Télécharger une image",
+      imageUrl: "URL de l'image",
+      imageAlt: "Texte alternatif de l'image",
+      readingTime: "Temps de lecture",
+      minRead: "min de lecture",
+      quickCreate: "Création rapide à partir d'URL",
+      preview: "Aperçu",
+      cancel: "Annuler",
+      save: "Enregistrer",
+      create: "Créer",
+      update: "Mettre à jour",
+      required: "Requis",
+      optional: "Optionnel",
     },
   },
 
@@ -745,6 +841,11 @@ export const strings = {
         title: "Mes Listes",
         subtitle: "Listes personnelles",
         description: "Gérer les listes personnalisées"
+      },
+      myVideos: {
+        title: "Mes Vidéos",
+        subtitle: "Vidéos",
+        description: "Vos vidéos sauvegardées"
       }
     },
     progress: {
@@ -1796,6 +1897,196 @@ export const strings = {
       }
   },
 
+  // Settings Page
+  settings: {
+    title: "Paramètres",
+    subtitle: "Personnalisez votre expérience d'apprentissage",
+    backToDashboard: "← Retour au Tableau de Bord",
+    saveButton: "Enregistrer Tous les Paramètres",
+    resetButton: "Réinitialiser tous les paramètres par défaut",
+    resetConfirm: "Êtes-vous sûr de vouloir réinitialiser tous les paramètres par défaut?",
+    saveSuccess: "Paramètres enregistrés avec succès!",
+    resetSuccess: "Paramètres réinitialisés par défaut",
+
+    sections: {
+      appearance: {
+        title: "Apparence",
+        language: {
+          label: "Langue / 言語 / Langue / Lingua / Sprache / Idioma"
+        },
+        theme: {
+          label: "Thème",
+          light: "Clair",
+          dark: "Sombre",
+          system: "Système"
+        },
+        colorPalette: {
+          label: "Palette de Couleurs",
+          preview: "Aperçu:",
+          primary: "Primaire",
+          secondary: "Secondaire",
+          palettes: {
+            sakura: "Sakura",
+            ocean: "Océan",
+            matcha: "Matcha",
+            sunset: "Coucher de Soleil",
+            lavender: "Lavande",
+            monochrome: "Mono"
+          }
+        }
+      },
+
+      learning: {
+        title: "Préférences d'Apprentissage",
+        autoplay: {
+          label: "Lecture Audio Automatique",
+          description: "Lire automatiquement la prononciation lors de l'affichage des mots"
+        },
+        furigana: {
+          label: "Afficher Furigana",
+          description: "Afficher les indices de lecture au-dessus des caractères kanji"
+        },
+        romaji: {
+          label: "Afficher Romaji",
+          description: "Afficher le texte japonais romanisé"
+        },
+        soundEffects: {
+          label: "Effets Sonores",
+          description: "Jouer des sons pour les réponses correctes/incorrectes"
+        },
+        hapticFeedback: {
+          label: "Retour Haptique",
+          description: "Retour de vibration sur les appareils mobiles"
+        }
+      },
+
+      notifications: {
+        title: "Notifications",
+        dailyReminder: {
+          label: "Rappel d'Étude Quotidien",
+          description: "Recevez un rappel pour pratiquer chaque jour"
+        },
+        achievementAlerts: {
+          label: "Alertes de Réussite",
+          description: "Célébrez lorsque vous débloquez des réussites"
+        },
+        weeklyProgress: {
+          label: "Rapport Hebdomadaire",
+          description: "Recevez un résumé de vos progrès hebdomadaires"
+        },
+        marketingEmails: {
+          label: "Emails Marketing",
+          description: "Mises à jour sur les nouvelles fonctionnalités et contenus"
+        },
+        channels: {
+          title: "Canaux de Notification",
+          browser: {
+            label: "Notifications du Navigateur",
+            description: "Notifications de bureau lorsque les révisions sont dues"
+          },
+          inApp: {
+            label: "Notifications In-App",
+            description: "Notifications toast pendant l'utilisation de l'application"
+          },
+          push: {
+            label: "Notifications Push",
+            description: "Notifications mobiles (nécessite l'installation de l'app)"
+          }
+        },
+        timing: {
+          title: "Préférences de Timing",
+          immediate: {
+            label: "Révisions Immédiates",
+            description: "Notifier pour les révisions de 10 minutes et 30 minutes"
+          },
+          daily: {
+            label: "Résumé Quotidien",
+            description: "Obtenir un résumé quotidien des révisions dues"
+          }
+        },
+        quietHours: {
+          title: "Heures Silencieuses",
+          enable: "Activer les Heures Silencieuses",
+          description: "Aucune notification pendant les périodes spécifiées",
+          start: "Heure de Début",
+          end: "Heure de Fin"
+        },
+        saveSuccess: "Préférences de notification enregistrées",
+        saveError: "Échec de l'enregistrement des préférences",
+        browserNotSupported: "Notifications du navigateur non prises en charge",
+        browserEnabled: "Notifications du navigateur activées",
+        browserDenied: "Notifications du navigateur bloquées. Veuillez activer dans les paramètres du navigateur.",
+        enableBrowserFirst: "Veuillez d'abord activer les notifications du navigateur",
+        blocked: "Bloqué",
+        testNotification: "Notification de Test",
+        test: {
+          title: "Notification de Test",
+          body: "Ceci est un test de vos paramètres de notification"
+        }
+      },
+
+      privacy: {
+        title: "Confidentialité",
+        publicProfile: {
+          label: "Profil Public",
+          description: "Permettre aux autres de voir votre profil"
+        },
+        showProgress: {
+          label: "Afficher les Progrès",
+          description: "Afficher vos progrès d'apprentissage sur votre profil"
+        },
+        shareAchievements: {
+          label: "Partager les Réussites",
+          description: "Partager automatiquement les réussites avec vos amis"
+        }
+      },
+
+      accessibility: {
+        title: "Accessibilité",
+        largeText: {
+          label: "Texte Large",
+          description: "Augmenter la taille du texte pour une meilleure lisibilité"
+        },
+        highContrast: {
+          label: "Contraste Élevé",
+          description: "Augmenter le contraste des couleurs pour la visibilité"
+        },
+        reduceMotion: {
+          label: "Réduire le Mouvement",
+          description: "Minimiser les animations et les transitions"
+        },
+        screenReader: {
+          label: "Support du Lecteur d'Écran",
+          description: "Optimiser pour la compatibilité avec les lecteurs d'écran"
+        }
+      },
+
+      legal: {
+        title: "Légal et Support",
+        privacyPolicy: {
+          label: "Politique de Confidentialité",
+          description: "Comment nous gérons vos données"
+        },
+        termsOfService: {
+          label: "Conditions de Service",
+          description: "Nos termes et conditions"
+        },
+        credits: {
+          label: "Crédits et Remerciements",
+          description: "Bibliothèques open source et sources de données"
+        },
+        contactUs: {
+          label: "Nous Contacter",
+          description: "Obtenir de l'aide ou envoyer des commentaires"
+        },
+        emailSupport: {
+          label: "Support Email",
+          description: "support@moshimoshi.app"
+        }
+      }
+    }
+  },
+
   // Credits Page
   credits: {
     title: "Crédits et Remerciements",
@@ -1879,4 +2170,234 @@ export const strings = {
       description: "Identifiez les modèles visuels et les dispositions à travers différents kanji"
     }
   },
+
+  vocabulary: {
+    tabs: {
+      details: "Détails",
+      conjugations: "Conjugaisons"
+    }
+  },
+
+  todos: {
+    title: "Mes Tâches",
+    addNew: "Ajouter une Nouvelle Tâche",
+    noTodos: "Aucune tâche pour le moment. Créez votre première tâche!",
+    noActiveTodos: "Aucune tâche active",
+    noCompletedTodos: "Aucune tâche terminée",
+    signInRequired: "Veuillez vous connecter pour gérer vos tâches",
+    errorLoading: "Erreur lors du chargement des tâches",
+    limitReached: "Vous avez atteint votre limite quotidienne de tâches",
+    usage: "{{remaining}} sur {{limit}} tâches restantes aujourd'hui",
+
+    titleLabel: "Titre",
+    titlePlaceholder: "Que faut-il faire?",
+    descriptionLabel: "Description",
+    descriptionPlaceholder: "Ajouter plus de détails (optionnel)",
+    priorityLabel: "Priorité",
+    dueDateLabel: "Date d'échéance",
+    due: "Échéance",
+    tagsLabel: "Étiquettes",
+    tagPlaceholder: "Ajouter une étiquette...",
+    addTag: "Ajouter",
+    creating: "Création...",
+
+    priority: {
+      low: "Faible",
+      medium: "Moyenne",
+      high: "Élevée",
+      label: "Priorité"
+    },
+
+    filter: {
+      all: "Toutes",
+      active: "Actives",
+      completed: "Terminées"
+    },
+
+    sort: {
+      date: "Trier par Date",
+      priority: "Trier par Priorité"
+    },
+
+    demoBanner: {
+      title: "Fonctionnalité de Démonstration",
+      description: "Cette liste de tâches démontre l'architecture Moshimoshi incluant l'authentification, les droits et l'intégration Firebase.",
+      limits: "Limites quotidiennes",
+      guestLimit: "Utilisateurs invités: Pas d'accès",
+      freeLimit: "Utilisateurs gratuits: 5 tâches par jour",
+      premiumLimit: "Utilisateurs Premium: Tâches illimitées",
+      signInPrompt: "Connectez-vous pour commencer à créer des tâches!",
+      upgradePrompt: "Passez à Premium pour des tâches illimitées!"
+    },
+
+    techDemo: {
+      title: "Démonstration Technique",
+      auth: "Authentification côté serveur avec sessions JWT",
+      entitlements: "Vérification centralisée des droits",
+      firebase: "Firebase Firestore pour la persistance des données",
+      subscription: "Vérification du niveau d'abonnement",
+      i18n: "Support complet de l'internationalisation",
+      darkMode: "Style adaptatif au thème",
+      responsive: "Design responsive mobile"
+    },
+
+    form: {
+      titlePlaceholder: "Que faut-il faire?",
+      descriptionPlaceholder: "Ajouter plus de détails (optionnel)",
+      addButton: "Créer la Tâche"
+    },
+
+    item: {
+      cancel: "Annuler"
+    }
+  },
+
+  myVideos: {
+    title: "Mes Vidéos de Pratique",
+    subtitle: "Historique YouTube",
+    backToHome: "Retour à l'accueil",
+    loginRequired: "Connectez-vous pour suivre votre historique",
+    loginDescription: "Connectez-vous pour suivre votre historique de pratique et accéder rapidement aux vidéos que vous avez regardées.",
+
+    hero: {
+      title: "Votre Historique de Pratique",
+      syncedDescription: "Synchronisé sur tous les appareils",
+      localDescription: "Enregistré sur cet appareil"
+    },
+
+    stats: {
+      videosPracticed: "Vidéos Pratiquées",
+      totalSessions: "Sessions Totales",
+      practiceTime: "Temps de Pratique"
+    },
+
+    storage: {
+      freeTitle: "Compte Gratuit - Stockage Local Uniquement",
+      freeDescription: "Votre historique est enregistré uniquement sur cet appareil. Passez à Premium pour synchroniser sur tous vos appareils."
+    },
+
+    search: {
+      placeholder: "Rechercher dans l'historique...",
+      noResults: "Aucun Résultat",
+      noResultsDescription: "Aucune vidéo ne correspond à \"{{query}}\". Essayez un autre terme de recherche."
+    },
+
+    sort: {
+      mostRecent: "Plus Récent",
+      mostPracticed: "Plus Pratiqué"
+    },
+
+    video: {
+      practiceAgain: "Pratiquer à Nouveau",
+      practiceCount: "Pratiqué {{count}}x",
+      duration: "{{minutes}}m",
+      today: "Aujourd'hui",
+      yesterday: "Hier",
+      daysAgo: "Il y a {{days}} jours",
+      weeksAgo: "Il y a {{weeks}} semaines",
+      delete: "Supprimer de l'historique"
+    },
+
+    empty: {
+      title: "Aucun Historique de Pratique",
+      description: "Commencez à pratiquer avec des vidéos YouTube et elles apparaîtront ici pour un accès rapide.",
+      startPracticing: "Commencer à Pratiquer"
+    },
+
+    loading: {
+      message: "Chargement de l'historique..."
+    },
+
+    confirmDelete: {
+      title: "Supprimer la Vidéo",
+      message: "Êtes-vous sûr de vouloir supprimer \"{{title}}\" de votre historique?",
+      confirm: "Supprimer",
+      cancel: "Annuler"
+    }
+  },
+
+  // Drill Feature
+  drill: {
+    title: "Exercice de Conjugaison",
+    description: "Pratiquez les conjugaisons des verbes et adjectifs japonais",
+
+    // Practice mode section
+    practiceMode: "Mode de Pratique",
+    randomWords: "Mots Aléatoires",
+    randomDescription: "Pratiquer avec des mots courants",
+    fromLists: "De Mes Listes",
+    listsDescription: "Utiliser vos listes d'étude",
+
+    // Word types section
+    wordTypes: "Types de Mots",
+    allTypes: "Tous les Types",
+    verbsOnly: "Verbes Seulement",
+    adjectivesOnly: "Adjectifs Seulement",
+
+    // Buttons and actions
+    startDrill: "Commencer l'Exercice",
+    tryAgain: "Réessayer",
+    newDrill: "Nouvel Exercice",
+    backToSetup: "Retour à la Configuration",
+    seeResults: "Voir les Résultats",
+    finish: "Terminer",
+
+    // Questions and game play
+    question: "Question",
+    questionNumber: "Question {{current}} sur {{total}}",
+    conjugateTo: "Conjuguer en",
+    correctAnswer: "Bonne Réponse",
+    yourAnswer: "Votre Réponse",
+    showAnswer: "Afficher la Réponse",
+    rule: "Règle",
+
+    // Results
+    complete: "Exercice Terminé!",
+    correct: "Correct!",
+    incorrect: "Incorrect",
+    score: "Score",
+    yourScore: "Votre Score",
+    accuracy: "Précision",
+    results: "Résultats",
+    excellentPerformance: "Excellent travail! Vous maîtrisez ces conjugaisons!",
+    goodPerformance: "Bon travail! Vous progressez bien!",
+    keepPracticing: "Continuez à pratiquer! Vous vous améliorerez avec plus d'exercices!",
+
+    // Settings
+    questionsPerSession: "Questions par session",
+    autoAdvance: "Avancer automatiquement à la question suivante",
+    showRules: "Afficher les règles de conjugaison",
+    hideRules: "Masquer les règles",
+    remainingToday: "{{count}} exercices restants aujourd'hui",
+
+    // Conjugation forms
+    forms: {
+      present: "Présent",
+      past: "Passé",
+      negative: "Négatif",
+      pastNegative: "Passé Négatif",
+      polite: "Poli",
+      politePast: "Passé Poli",
+      politeNegative: "Négatif Poli",
+      politePastNegative: "Passé Négatif Poli",
+      teForm: "Forme Te",
+      potential: "Potentiel",
+      passive: "Passif",
+      causative: "Causatif",
+      conditional: "Conditionnel",
+      volitional: "Volitif",
+      imperative: "Impératif",
+      taiForm: "Forme Tai (vouloir)",
+      adverbial: "Adverbial",
+    },
+
+    // Messages
+    noQuestions: "Aucun mot conjugable trouvé. Essayez des paramètres différents.",
+    selectLists: "Veuillez sélectionner au moins une liste pour pratiquer.",
+    noConjugableWords: "Aucun mot conjugable trouvé dans les listes sélectionnées.",
+    dailyLimitReached: "Vous avez atteint votre limite quotidienne d'exercices.",
+    loadingQuestions: "Chargement des questions...",
+    of: "de",
+  }
 }
+

@@ -2,6 +2,8 @@ export const strings = {
   reviewDashboard: {
     title: "Wiederholungs-Dashboard",
     description: "Verfolgen Sie Ihren Lernfortschritt und Wiederholungsplan",
+    subtitle: "Verfolgen Sie Ihren Lernfortschritt und Wiederholungsplan",
+    loading: "Lade Überprüfungs-Dashboard...",
     tabs: {
       overview: "Übersicht",
       studied: "Gelernt",
@@ -9,6 +11,10 @@ export const strings = {
       queue: "Warteschlange",
       schedule: "Zeitplan"
     },
+    upcomingReviews: "Anstehende Wiederholungen",
+    overdue: "Überfällig",
+    thisWeek: "Diese Woche",
+    noScheduledReviews: "Noch keine geplanten Wiederholungen. Lernen Sie weiter, um Ihren Wiederholungszeitplan aufzubauen!",
     sections: {
       reviewQueue: "Wiederholungswarteschlange",
       upcomingReviews: "Anstehende Wiederholungen",
@@ -35,6 +41,7 @@ export const strings = {
     },
     actions: {
       startReview: "Wiederholung starten",
+      reviewOverdue: "{{count}} überfällige Elemente wiederholen",
       viewAll: "Alle anzeigen",
       refresh: "Aktualisieren"
     },
@@ -57,7 +64,29 @@ export const strings = {
       kanji: "Kanji",
       vocabulary: "Vokabeln",
       sentence: "Satz"
-    }
+    },
+    schedule: {
+      today: "Heute",
+      tomorrow: "Morgen",
+      thisWeek: "Diese Woche",
+      later: "Später",
+      nextReview: "Nächste Wiederholung",
+      scheduledReviews: "Geplante Wiederholungen"
+    },
+    items: "Elemente"
+  },
+
+  // Review section
+  review: {
+    schedule: {
+      today: "Heute",
+      tomorrow: "Morgen",
+      thisWeek: "Diese Woche",
+      later: "Später",
+      nextReview: "Nächste Wiederholung",
+      scheduledReviews: "Geplante Wiederholungen"
+    },
+    items: "Elemente"
   },
   // Common/Shared
   common: {
@@ -196,6 +225,14 @@ export const strings = {
         label: "Lernzeit",
         unit: "Stunden",
       },
+      progress: {
+        label: "Fortschritt",
+        unit: "%",
+      },
+      achievements: {
+        label: "Erfolge",
+        unit: "kürzlich",
+      },
     },
     greetings: {
       morning: {
@@ -219,9 +256,8 @@ export const strings = {
       backToDashboard: "← Zurück zum Dashboard",
     },
     welcome: {
-      firstVisit: "Willkommen bei Moshimoshi! Doshi freut sich darauf, mit Ihnen zu lernen! 🎉",
-      firstVisitMessage: "Willkommen zu Ihrem Japanisch-Lernabenteuer! Doshi ist hier, um Sie zu führen.",
-      returningMessage: "Bereit, Ihre Reise fortzusetzen? Ihre Hingabe ist inspirierend!",
+      firstVisit: "Willkommen zu Ihrem Japanisch-Lernabenteuer! Doshi ist hier, um Sie zu führen.",
+      returning: "Bereit, Ihre Reise fortzusetzen? Ihre Hingabe ist inspirierend!",
       signoutToast: "Sayonara! Bis bald! 👋",
       doshiClick: "Doshi sagt: がんばって! (Viel Glück!)",
     },
@@ -376,6 +412,11 @@ export const strings = {
         title: "Meine Listen",
         subtitle: "Eigene Listen",
         description: "Eigene Listen verwalten"
+      },
+      myVideos: {
+        title: "Meine Videos",
+        subtitle: "Videos",
+        description: "Ihre gespeicherten Videos"
       }
     },
     achievements: {
@@ -584,6 +625,65 @@ export const strings = {
       mainichiShogakusei: "Mainichi Shogakusei",
       mainichiSchedule: "Täglich um 10:00",
       scrapingArticles: "Artikel werden gesammelt...",
+    },
+    resources: {
+      title: "Ressourcen",
+      description: "Blog-Beiträge und Lernressourcen verwalten",
+      newResource: "Neue Ressource",
+      searchResources: "Ressourcen suchen...",
+      allStatus: "Alle Status",
+      published: "Veröffentlicht",
+      draft: "Entwurf",
+      scheduled: "Geplant",
+      selected: "ausgewählt",
+      deleteSelected: "Auswahl löschen",
+      clearSelection: "Auswahl aufheben",
+      loadingResources: "Ressourcen werden geladen...",
+      noResourcesFound: "Keine Ressourcen gefunden",
+      noResourcesMatching: "Keine Ressourcen entsprechen Ihrer Suche",
+      selectAll: "Alles auswählen",
+      featured: "Hervorgehoben",
+      uncategorized: "Unkategorisiert",
+      views: "Aufrufe",
+      edit: "Bearbeiten",
+      view: "Ansehen",
+      delete: "Löschen",
+      actions: "Aktionen",
+      status: "Status",
+      category: "Kategorie",
+      updated: "Aktualisiert",
+      totalPosts: "Gesamte Beiträge",
+      totalViews: "Gesamte Aufrufe",
+      deleteResource: "Ressource löschen",
+      deleteResourceConfirm: "Sind Sie sicher, dass Sie diese Ressource löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      deleteResources: "Ressourcen löschen",
+      deleteResourcesConfirm: "Sind Sie sicher, dass Sie {count} Ressourcen löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      error: "Fehler",
+      failedToDelete: "Ressource konnte nicht gelöscht werden",
+      failedToDeleteSome: "Einige Ressourcen konnten nicht gelöscht werden",
+      createResource: "Ressource erstellen",
+      editResource: "Ressource bearbeiten",
+      basicInfo: "Grundinformationen",
+      content: "Inhalt",
+      publishingOptions: "Veröffentlichungsoptionen",
+      seo: "SEO",
+      featuredImage: "Vorschaubild",
+      tags: "Tags",
+      addTag: "Tag hinzufügen",
+      removeTag: "Tag entfernen",
+      uploadImage: "Bild hochladen",
+      imageUrl: "Bild-URL",
+      imageAlt: "Alternativtext für Bild",
+      readingTime: "Lesezeit",
+      minRead: "Min. Lesezeit",
+      quickCreate: "Schnellerstellung von URL",
+      preview: "Vorschau",
+      cancel: "Abbrechen",
+      save: "Speichern",
+      create: "Erstellen",
+      update: "Aktualisieren",
+      required: "Erforderlich",
+      optional: "Optional",
     },
   },
 
@@ -1706,6 +1806,196 @@ export const strings = {
       }
   },
 
+  // Settings Page
+  settings: {
+    title: "Einstellungen",
+    subtitle: "Passen Sie Ihre Lernerfahrung an",
+    backToDashboard: "← Zurück zum Dashboard",
+    saveButton: "Alle Einstellungen Speichern",
+    resetButton: "Alle Einstellungen auf Standard zurücksetzen",
+    resetConfirm: "Sind Sie sicher, dass Sie alle Einstellungen auf Standard zurücksetzen möchten?",
+    saveSuccess: "Einstellungen erfolgreich gespeichert!",
+    resetSuccess: "Einstellungen auf Standard zurückgesetzt",
+
+    sections: {
+      appearance: {
+        title: "Darstellung",
+        language: {
+          label: "Sprache / 言語 / Langue / Lingua / Sprache / Idioma"
+        },
+        theme: {
+          label: "Theme",
+          light: "Hell",
+          dark: "Dunkel",
+          system: "System"
+        },
+        colorPalette: {
+          label: "Farbpalette",
+          preview: "Vorschau:",
+          primary: "Primär",
+          secondary: "Sekundär",
+          palettes: {
+            sakura: "Sakura",
+            ocean: "Ozean",
+            matcha: "Matcha",
+            sunset: "Sonnenuntergang",
+            lavender: "Lavendel",
+            monochrome: "Mono"
+          }
+        }
+      },
+
+      learning: {
+        title: "Lerneinstellungen",
+        autoplay: {
+          label: "Audio Automatisch Abspielen",
+          description: "Aussprache automatisch abspielen beim Anzeigen von Wörtern"
+        },
+        furigana: {
+          label: "Furigana Anzeigen",
+          description: "Lesehinweise über Kanji-Zeichen anzeigen"
+        },
+        romaji: {
+          label: "Romaji Anzeigen",
+          description: "Romanisierten japanischen Text anzeigen"
+        },
+        soundEffects: {
+          label: "Soundeffekte",
+          description: "Töne für richtige/falsche Antworten abspielen"
+        },
+        hapticFeedback: {
+          label: "Haptisches Feedback",
+          description: "Vibrationsfeedback auf mobilen Geräten"
+        }
+      },
+
+      notifications: {
+        title: "Benachrichtigungen",
+        dailyReminder: {
+          label: "Tägliche Lernerinnerung",
+          description: "Erhalten Sie eine Erinnerung zum täglichen Üben"
+        },
+        achievementAlerts: {
+          label: "Erfolgsbenachrichtigungen",
+          description: "Feiern Sie, wenn Sie Erfolge freischalten"
+        },
+        weeklyProgress: {
+          label: "Wöchentlicher Fortschrittsbericht",
+          description: "Erhalten Sie eine Zusammenfassung Ihrer wöchentlichen Fortschritte"
+        },
+        marketingEmails: {
+          label: "Marketing-E-Mails",
+          description: "Updates über neue Funktionen und Inhalte"
+        },
+        channels: {
+          title: "Benachrichtigungskanäle",
+          browser: {
+            label: "Browser-Benachrichtigungen",
+            description: "Desktop-Benachrichtigungen wenn Wiederholungen fällig sind"
+          },
+          inApp: {
+            label: "In-App-Benachrichtigungen",
+            description: "Toast-Benachrichtigungen während der App-Nutzung"
+          },
+          push: {
+            label: "Push-Benachrichtigungen",
+            description: "Mobile Benachrichtigungen (erfordert App-Installation)"
+          }
+        },
+        timing: {
+          title: "Zeiteinstellungen",
+          immediate: {
+            label: "Sofortige Wiederholungen",
+            description: "Benachrichtigung für 10-Minuten- und 30-Minuten-Wiederholungen"
+          },
+          daily: {
+            label: "Tägliche Zusammenfassung",
+            description: "Erhalten Sie eine tägliche Zusammenfassung fälliger Wiederholungen"
+          }
+        },
+        quietHours: {
+          title: "Ruhezeiten",
+          enable: "Ruhezeiten Aktivieren",
+          description: "Keine Benachrichtigungen während festgelegter Zeiten",
+          start: "Startzeit",
+          end: "Endzeit"
+        },
+        saveSuccess: "Benachrichtigungseinstellungen gespeichert",
+        saveError: "Fehler beim Speichern der Einstellungen",
+        browserNotSupported: "Browser-Benachrichtigungen nicht unterstützt",
+        browserEnabled: "Browser-Benachrichtigungen aktiviert",
+        browserDenied: "Browser-Benachrichtigungen blockiert. Bitte in Browser-Einstellungen aktivieren.",
+        enableBrowserFirst: "Bitte aktivieren Sie zuerst Browser-Benachrichtigungen",
+        blocked: "Blockiert",
+        testNotification: "Test-Benachrichtigung",
+        test: {
+          title: "Test-Benachrichtigung",
+          body: "Dies ist ein Test Ihrer Benachrichtigungseinstellungen"
+        }
+      },
+
+      privacy: {
+        title: "Datenschutz",
+        publicProfile: {
+          label: "Öffentliches Profil",
+          description: "Anderen erlauben, Ihr Profil anzusehen"
+        },
+        showProgress: {
+          label: "Fortschritt Anzeigen",
+          description: "Ihre Lernfortschritte in Ihrem Profil anzeigen"
+        },
+        shareAchievements: {
+          label: "Erfolge Teilen",
+          description: "Erfolge automatisch mit Freunden teilen"
+        }
+      },
+
+      accessibility: {
+        title: "Barrierefreiheit",
+        largeText: {
+          label: "Großer Text",
+          description: "Textgröße für bessere Lesbarkeit erhöhen"
+        },
+        highContrast: {
+          label: "Hoher Kontrast",
+          description: "Farbkontrast für Sichtbarkeit erhöhen"
+        },
+        reduceMotion: {
+          label: "Bewegung Reduzieren",
+          description: "Animationen und Übergänge minimieren"
+        },
+        screenReader: {
+          label: "Bildschirmleser-Unterstützung",
+          description: "Für Bildschirmleser-Kompatibilität optimieren"
+        }
+      },
+
+      legal: {
+        title: "Rechtliches und Support",
+        privacyPolicy: {
+          label: "Datenschutzerklärung",
+          description: "Wie wir Ihre Daten verwalten"
+        },
+        termsOfService: {
+          label: "Nutzungsbedingungen",
+          description: "Unsere Geschäftsbedingungen"
+        },
+        credits: {
+          label: "Danksagungen und Anerkennungen",
+          description: "Open-Source-Bibliotheken und Datenquellen"
+        },
+        contactUs: {
+          label: "Kontaktieren Sie Uns",
+          description: "Hilfe erhalten oder Feedback senden"
+        },
+        emailSupport: {
+          label: "E-Mail-Support",
+          description: "support@moshimoshi.app"
+        }
+      }
+    }
+  },
+
   // Credits Page
   credits: {
     title: "Danksagungen und Anerkennungen",
@@ -1789,4 +2079,235 @@ export const strings = {
       description: "Identifiziere visuelle Muster und Anordnungen verschiedener Kanji"
     }
   },
+
+  vocabulary: {
+    tabs: {
+      details: "Details",
+      conjugations: "Konjugationen"
+    }
+  },
+
+  todos: {
+    title: "Meine Aufgaben",
+    addNew: "Neue Aufgabe hinzufügen",
+    noTodos: "Noch keine Aufgaben. Erstelle deine erste Aufgabe!",
+    noActiveTodos: "Keine aktiven Aufgaben",
+    noCompletedTodos: "Keine erledigten Aufgaben",
+    signInRequired: "Bitte melde dich an, um deine Aufgaben zu verwalten",
+    errorLoading: "Fehler beim Laden der Aufgaben",
+    limitReached: "Du hast dein tägliches Aufgabenlimit erreicht",
+    usage: "{{remaining}} von {{limit}} Aufgaben heute verbleibend",
+
+    titleLabel: "Titel",
+    titlePlaceholder: "Was muss erledigt werden?",
+    descriptionLabel: "Beschreibung",
+    descriptionPlaceholder: "Weitere Details hinzufügen (optional)",
+    priorityLabel: "Priorität",
+    dueDateLabel: "Fälligkeitsdatum",
+    due: "Fällig",
+    tagsLabel: "Tags",
+    tagPlaceholder: "Tag hinzufügen...",
+    addTag: "Hinzufügen",
+    creating: "Wird erstellt...",
+
+    priority: {
+      low: "Niedrig",
+      medium: "Mittel",
+      high: "Hoch",
+      label: "Priorität"
+    },
+
+    filter: {
+      all: "Alle",
+      active: "Aktiv",
+      completed: "Erledigt"
+    },
+
+    sort: {
+      date: "Nach Datum sortieren",
+      priority: "Nach Priorität sortieren"
+    },
+
+    demoBanner: {
+      title: "Demo-Funktion",
+      description: "Diese Aufgabenliste demonstriert die Moshimoshi-Architektur einschließlich Authentifizierung, Berechtigungen und Firebase-Integration.",
+      limits: "Tägliche Limits",
+      guestLimit: "Gastbenutzer: Kein Zugriff",
+      freeLimit: "Kostenlose Benutzer: 5 Aufgaben pro Tag",
+      premiumLimit: "Premium-Benutzer: Unbegrenzte Aufgaben",
+      signInPrompt: "Melde dich an, um Aufgaben zu erstellen!",
+      upgradePrompt: "Upgrade auf Premium für unbegrenzte Aufgaben!"
+    },
+
+    techDemo: {
+      title: "Technische Demonstration",
+      auth: "Serverseitige Authentifizierung mit JWT-Sitzungen",
+      entitlements: "Zentralisierte Berechtigungsprüfung",
+      firebase: "Firebase Firestore für Datenpersistenz",
+      subscription: "Abonnement-Stufen-Prüfung",
+      i18n: "Vollständige Internationalisierungsunterstützung",
+      darkMode: "Theme-adaptives Styling",
+      responsive: "Mobile-responsives Design"
+    },
+
+    form: {
+      titlePlaceholder: "Was muss erledigt werden?",
+      descriptionPlaceholder: "Weitere Details hinzufügen (optional)",
+      addButton: "Aufgabe erstellen"
+    },
+
+    item: {
+      cancel: "Abbrechen"
+    }
+  },
+
+  myVideos: {
+    title: "Meine Übungsvideos",
+    subtitle: "YouTube-Verlauf",
+    backToHome: "Zurück zur Startseite",
+    loginRequired: "Melden Sie sich an, um Ihren Verlauf zu verfolgen",
+    loginDescription: "Melden Sie sich an, um Ihren Übungsverlauf zu verfolgen und schnell auf angesehene Videos zuzugreifen.",
+
+    hero: {
+      title: "Ihr Übungsverlauf",
+      syncedDescription: "Auf allen Geräten synchronisiert",
+      localDescription: "Auf diesem Gerät gespeichert"
+    },
+
+    stats: {
+      videosPracticed: "Geübte Videos",
+      totalSessions: "Gesamtsitzungen",
+      practiceTime: "Übungszeit"
+    },
+
+    storage: {
+      freeTitle: "Kostenloses Konto - Nur lokale Speicherung",
+      freeDescription: "Ihr Verlauf wird nur auf diesem Gerät gespeichert. Upgraden Sie auf Premium, um auf allen Geräten zu synchronisieren."
+    },
+
+    search: {
+      placeholder: "Verlauf durchsuchen...",
+      noResults: "Keine Ergebnisse",
+      noResultsDescription: "Keine Videos entsprechen \"{{query}}\". Versuchen Sie einen anderen Suchbegriff."
+    },
+
+    sort: {
+      mostRecent: "Neueste",
+      mostPracticed: "Am meisten geübt"
+    },
+
+    video: {
+      practiceAgain: "Erneut üben",
+      practiceCount: "{{count}}x geübt",
+      duration: "{{minutes}}m",
+      today: "Heute",
+      yesterday: "Gestern",
+      daysAgo: "Vor {{days}} Tagen",
+      weeksAgo: "Vor {{weeks}} Wochen",
+      delete: "Aus Verlauf entfernen"
+    },
+
+    empty: {
+      title: "Noch kein Übungsverlauf",
+      description: "Beginnen Sie mit YouTube-Videos zu üben und sie werden hier für schnellen Zugriff angezeigt.",
+      startPracticing: "Mit dem Üben beginnen"
+    },
+
+    loading: {
+      message: "Verlauf wird geladen..."
+    },
+
+    confirmDelete: {
+      title: "Video löschen",
+      message: "Sind Sie sicher, dass Sie \"{{title}}\" aus Ihrem Verlauf entfernen möchten?",
+      confirm: "Entfernen",
+      cancel: "Abbrechen"
+    }
+  }
+,
+
+  // Drill Feature
+  drill: {
+    title: "Konjugationsübung",
+    description: "Üben Sie japanische Verb- und Adjektivkonjugationen",
+
+    // Practice mode section
+    practiceMode: "Übungsmodus",
+    randomWords: "Zufällige Wörter",
+    randomDescription: "Mit häufigen Wörtern üben",
+    fromLists: "Aus Listen",
+    listsDescription: "Ihre Lernlisten verwenden",
+
+    // Word types section
+    wordTypes: "Wortarten",
+    allTypes: "Alle Arten",
+    verbsOnly: "Nur Verben",
+    adjectivesOnly: "Nur Adjektive",
+
+    // Buttons and actions
+    startDrill: "Übung Starten",
+    tryAgain: "Nochmal Versuchen",
+    newDrill: "Neue Übung",
+    backToSetup: "Zurück zu Einstellungen",
+    seeResults: "Ergebnisse Anzeigen",
+    finish: "Beenden",
+
+    // Questions and game play
+    question: "Frage",
+    questionNumber: "Frage {{current}} von {{total}}",
+    conjugateTo: "Konjugieren zu",
+    correctAnswer: "Richtige Antwort",
+    yourAnswer: "Ihre Antwort",
+    showAnswer: "Antwort Zeigen",
+    rule: "Regel",
+
+    // Results
+    complete: "Übung Abgeschlossen!",
+    correct: "Richtig!",
+    incorrect: "Falsch",
+    score: "Punkte",
+    yourScore: "Ihre Punkte",
+    accuracy: "Genauigkeit",
+    results: "Ergebnisse",
+    excellentPerformance: "Ausgezeichnete Arbeit! Sie beherrschen diese Konjugationen!",
+    goodPerformance: "Gute Arbeit! Sie machen Fortschritte!",
+    keepPracticing: "Weiter üben! Sie werden mit mehr Übungen besser!",
+
+    // Settings
+    questionsPerSession: "Fragen pro Sitzung",
+    autoAdvance: "Automatisch zur nächsten Frage",
+    showRules: "Konjugationsregeln anzeigen",
+    hideRules: "Regeln ausblenden",
+    remainingToday: "{{count}} Übungen heute übrig",
+
+    // Conjugation forms
+    forms: {
+      present: "Präsens",
+      past: "Vergangenheit",
+      negative: "Negativ",
+      pastNegative: "Vergangenheit Negativ",
+      polite: "Höflich",
+      politePast: "Höfliche Vergangenheit",
+      politeNegative: "Höflich Negativ",
+      politePastNegative: "Höfliche Vergangenheit Negativ",
+      teForm: "Te-Form",
+      potential: "Potential",
+      passive: "Passiv",
+      causative: "Kausativ",
+      conditional: "Konditional",
+      volitional: "Volitional",
+      imperative: "Imperativ",
+      taiForm: "Tai-Form (wollen)",
+      adverbial: "Adverbial",
+    },
+
+    // Messages
+    noQuestions: "Keine konjugierbaren Wörter gefunden. Versuchen Sie andere Einstellungen.",
+    selectLists: "Bitte wählen Sie mindestens eine Liste zum Üben.",
+    noConjugableWords: "Keine konjugierbaren Wörter in den ausgewählten Listen gefunden.",
+    dailyLimitReached: "Sie haben Ihr tägliches Übungslimit erreicht.",
+    loadingQuestions: "Fragen werden geladen...",
+    of: "von",
+  }
 }
+
