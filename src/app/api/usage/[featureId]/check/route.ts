@@ -1,11 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
-import { verifyIdToken } from '@/lib/firebase/admin';
-import { evaluate } from '@/lib/entitlements/evaluator';
-import { getBucketKey } from '@/lib/entitlements/policy';
-import { getFeature } from '@/lib/features/registry';
+import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
 import type { FeatureId } from '@/types/FeatureId';
-import type { EvalContext, Decision } from '@/types/entitlements';
+import type { EvalContext } from '@/types/entitlements';
+
+// Valid feature IDs - should match the main route
+const VALID_FEATURES: Set<FeatureId> = new Set([
+  'hiragana_practice',
+  'katakana_practice',
+  'kanji_browser',
+  'custom_lists',
+  'save_items',
+  'youtube_shadowing',
+  'media_upload',
+  'stall_layout_customization',
+  'todos',
+  'conjugation_drill'
+]);
 
 export async function GET(
   request: NextRequest,
@@ -13,28 +25,26 @@ export async function GET(
 ) {
   try {
     const { featureId: featureIdParam } = await params;
-    
-    // Verify authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      // Allow guest access with limited quota
-      return handleGuestCheck(featureIdParam as FeatureId);
-    }
+    const featureId = featureIdParam as FeatureId;
 
-    const token = authHeader.substring(7);
-    const decodedToken = await verifyIdToken(token);
-    const userId = decodedToken.uid;
-
-    // Check if adminDb is initialized
-    if (!adminDb) {
+    // Validate feature ID
+    if (!VALID_FEATURES.has(featureId)) {
       return NextResponse.json(
-        { error: 'Database not initialized' },
-        { status: 500 }
+        { error: 'Invalid feature ID' },
+        { status: 400 }
       );
     }
 
-    // Get user data
-    const userDoc = await adminDb.collection('users').doc(userId).get();
+    // Get session using the same auth as rest of app
+    const session = await getSession();
+
+    if (!session) {
+      // Return guest limits
+      return handleGuestCheck(featureId);
+    }
+
+    // Get FRESH user data from Firestore (NEVER trust session.tier)
+    const userDoc = await adminDb.collection('users').doc(session.uid).get();
     if (!userDoc.exists) {
       return NextResponse.json(
         { error: 'User not found' },
@@ -43,45 +53,26 @@ export async function GET(
     }
 
     const userData = userDoc.data()!;
-    const featureId = featureIdParam as FeatureId;
+    const plan = userData?.subscription?.plan || 'free';
 
-    // Get feature definition
-    const feature = getFeature(featureId);
-    if (!feature) {
-      return NextResponse.json(
-        { error: 'Invalid feature ID' },
-        { status: 400 }
-      );
-    }
-
-    // Get current usage
-    const bucketKey = getBucketKey(feature.limitType, new Date());
-    const usageDoc = await adminDb
+    // Get current usage for the feature
+    const nowUtcISO = new Date().toISOString();
+    const bucket = getTodayBucket(nowUtcISO);
+    const usageRef = adminDb
+      .collection('users')
+      .doc(session.uid)
       .collection('usage')
-      .doc(userId)
-      .collection(feature.limitType)
-      .doc(bucketKey)
-      .get();
+      .doc(bucket);
 
-    const usageData = usageDoc.exists ? usageDoc.data()! : {};
-    
-    // Build complete usage record with all FeatureIds
-    const usage: Record<FeatureId, number> = {
-      hiragana_practice: usageData.hiragana_practice || 0,
-      katakana_practice: usageData.katakana_practice || 0
-    };
-
-    // Determine plan - subscription.plan should already be in correct format
-    const planType = userData.subscription?.plan || 'free';
+    const usageDoc = await usageRef.get();
+    const currentUsage = usageDoc.data()?.[featureId] || 0;
 
     // Build evaluation context
     const context: EvalContext = {
-      userId,
-      plan: planType,
-      usage,
-      nowUtcISO: new Date().toISOString(),
-      overrides: userData.entitlementOverrides,
-      tenant: userData.tenant
+      userId: session.uid,
+      plan: plan as any,
+      usage: { [featureId]: currentUsage },
+      nowUtcISO: nowUtcISO
     };
 
     // Evaluate without incrementing
@@ -91,11 +82,9 @@ export async function GET(
     const response = {
       ...decision,
       featureId,
-      currentUsage: usage[featureId],
-      bucketKey,
-      limitType: feature.limitType,
-      featureName: feature.name,
-      plan: planType,
+      currentUsage,
+      bucketKey: bucket,
+      plan,
       resetAtLocal: decision.resetAtUtc ? new Date(decision.resetAtUtc).toLocaleString() : undefined
     };
 
@@ -109,23 +98,12 @@ export async function GET(
   }
 }
 
-async function handleGuestCheck(featureId: FeatureId): Promise<NextResponse> {
-  // For guests, use session storage or return default limits
-  const feature = getFeature(featureId);
-  if (!feature) {
-    return NextResponse.json(
-      { error: 'Invalid feature ID' },
-      { status: 400 }
-    );
-  }
-
+function handleGuestCheck(featureId: FeatureId): NextResponse {
+  // For guests, return default limits
   const context: EvalContext = {
     userId: 'guest',
-    plan: 'guest',
-    usage: {
-      hiragana_practice: 0,
-      katakana_practice: 0
-    }, // Guests start fresh each session
+    plan: 'guest' as any,
+    usage: { [featureId]: 0 },
     nowUtcISO: new Date().toISOString()
   };
 
@@ -135,10 +113,8 @@ async function handleGuestCheck(featureId: FeatureId): Promise<NextResponse> {
     ...decision,
     featureId,
     currentUsage: 0,
-    limitType: feature.limitType,
-    featureName: feature.name,
     plan: 'guest',
     isGuest: true,
-    message: 'Guest access - progress not saved'
+    message: 'Guest access - please sign in to save progress'
   });
 }

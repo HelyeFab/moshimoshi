@@ -31,14 +31,20 @@ export default function Dialog({
   const [isProcessing, setIsProcessing] = React.useState(false);
 
   const handleConfirm = async () => {
-    if (isProcessing) return;
-    
+    console.log('[Dialog.handleConfirm] Starting confirmation');
+    if (isProcessing) {
+      console.log('[Dialog.handleConfirm] Already processing, ignoring');
+      return;
+    }
+
     setIsProcessing(true);
     try {
+      console.log('[Dialog.handleConfirm] Calling onConfirm callback');
       await onConfirm();
+      console.log('[Dialog.handleConfirm] onConfirm completed successfully');
       onClose();
     } catch (error) {
-      console.error('Dialog action failed:', error);
+      console.error('[Dialog.handleConfirm] Dialog action failed:', error);
     } finally {
       setIsProcessing(false);
     }

@@ -146,6 +146,7 @@ export async function getUidByCustomerId(customerId: string): Promise<string | n
 }
 
 export const adminDb = adminFirestore
+export { FieldValue, Timestamp }
 
 // Helper function to verify admin app is initialized
 export function ensureAdminInitialized() {

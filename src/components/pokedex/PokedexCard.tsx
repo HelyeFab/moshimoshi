@@ -81,10 +81,6 @@ export default function PokedexCard({ isPremium = false }: PokedexCardProps) {
         className="relative bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-2xl p-3 shadow-sm hover:shadow-lg transition-all cursor-pointer group"
         onClick={() => setShowPokedex(true)}
       >
-        {/* Background decoration */}
-        <div className="absolute top-2 right-2 opacity-10">
-          <div className="w-20 h-20 rounded-full bg-primary-500" />
-        </div>
 
         {/* Content */}
         <div className="relative">
@@ -108,7 +104,7 @@ export default function PokedexCard({ isPremium = false }: PokedexCardProps) {
               <span className="text-sm text-gray-600 dark:text-gray-400">
                 Pokémon Caught
               </span>
-              <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {caughtCount}
               </span>
             </div>

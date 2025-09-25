@@ -14,6 +14,7 @@ import {
 } from 'firebase/auth'
 import { auth } from '@/lib/firebase/client'
 import logger from '@/lib/logger'
+import { migrateUserStores } from '@/lib/storage/migrate-stores'
 
 // Types
 interface AuthUser {
@@ -134,6 +135,12 @@ function useAuthProvider(): Auth {
   // Send ID token to server to create session
   const createServerSession = useCallback(async (firebaseUser: User) => {
     try {
+      // Clear guest mode when creating a real session
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('isGuestUser')
+      }
+      setIsGuest(false)
+
       const idToken = await firebaseUser.getIdToken()
 
       // Determine which endpoint to use based on the sign-in provider
@@ -167,6 +174,10 @@ function useAuthProvider(): Auth {
           uid: authUser.uid,
           email: authUser.email
         }))
+
+        // SECURITY FIX: Migrate any old non-user-specific store data
+        // This ensures old data is moved to user-specific keys
+        await migrateUserStores(authUser.uid)
       }
 
       setError(null)
@@ -182,13 +193,19 @@ function useAuthProvider(): Auth {
   // Check session from API with caching and deduplication
   const checkSession = useCallback(async (forceRefresh = false) => {
     try {
-      // Check if this is a guest
+      // Check if this is a guest - guest mode takes precedence over authenticated sessions
       const isGuestUser = typeof window !== 'undefined' &&
                          sessionStorage.getItem('isGuestUser') === 'true'
 
       if (isGuestUser) {
+        // Guest mode is active - ignore any existing authenticated session
         setIsGuest(true)
+        setUser(null) // Clear any existing user to ensure guest mode
         setLoading(false)
+        // Clear session cache to prevent authenticated user from leaking through
+        sessionCache.data = null
+        sessionCache.promise = null
+        sessionCache.timestamp = 0
         return null
       }
 
@@ -283,6 +300,10 @@ function useAuthProvider(): Auth {
             uid: authUser.uid,
             email: authUser.email
           }))
+
+          // SECURITY FIX: Migrate any old non-user-specific store data
+          // This ensures old data is moved to user-specific keys
+          await migrateUserStores(authUser.uid)
         }
 
         setLoading(false)
@@ -309,13 +330,18 @@ function useAuthProvider(): Auth {
     setLoading(true)
     setError(null)
 
+    // Clear the session cache to force fresh data
+    sessionCache.data = null
+    sessionCache.promise = null
+    sessionCache.timestamp = 0
+
     // Check current Firebase auth state
     const currentUser = auth.currentUser
     if (currentUser) {
       await createServerSession(currentUser)
     } else {
-      // Use API pattern
-      await checkSession()
+      // Use API pattern with force refresh
+      await checkSession(true)
     }
 
     setLoading(false)
@@ -327,6 +353,12 @@ function useAuthProvider(): Auth {
     setLoading(true)
 
     try {
+      // Clear guest mode before signing in
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('isGuestUser')
+      }
+      setIsGuest(false)
+
       // Use direct Firebase auth
       const credential = await signInWithEmailAndPassword(auth, email, password)
       await createServerSession(credential.user)
@@ -344,6 +376,12 @@ function useAuthProvider(): Auth {
     setLoading(true)
 
     try {
+      // Clear guest mode before signing up
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('isGuestUser')
+      }
+      setIsGuest(false)
+
       // Use direct Firebase auth
       const credential = await createUserWithEmailAndPassword(auth, email, password)
       await createServerSession(credential.user)
@@ -361,6 +399,12 @@ function useAuthProvider(): Auth {
     setLoading(true)
 
     try {
+      // Clear guest mode before signing in with Google
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('isGuestUser')
+      }
+      setIsGuest(false)
+
       // Use direct Firebase auth
       const provider = new GoogleAuthProvider()
 
@@ -412,6 +456,28 @@ function useAuthProvider(): Auth {
         localStorage.removeItem('moshimoshi-language')
         localStorage.removeItem('user-preferences')
         localStorage.removeItem('auth-user')
+
+        // SECURITY FIX: Clean up any non-user-specific store data to prevent leakage
+        // Remove old non-user-specific Zustand stores
+        localStorage.removeItem('streak-storage')
+        localStorage.removeItem('achievement-store')
+        localStorage.removeItem('pin-store')
+
+        // Also clear any user-specific data for the current user
+        // This ensures a clean slate on logout
+        const userPattern = new RegExp(`^moshimoshi_.*_${user?.uid}$`)
+        const keysToRemove: string[] = []
+
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i)
+          if (key && userPattern.test(key)) {
+            keysToRemove.push(key)
+          }
+        }
+
+        keysToRemove.forEach(key => {
+          localStorage.removeItem(key)
+        })
       }
       setIsGuest(false)
     } catch (err: any) {
@@ -468,6 +534,18 @@ function useAuthProvider(): Auth {
 
       // Listen to auth state changes but handle race conditions properly
       unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+        // Check if guest mode is active - it takes precedence
+        const isGuestUser = typeof window !== 'undefined' &&
+                           sessionStorage.getItem('isGuestUser') === 'true'
+
+        if (isGuestUser) {
+          // Don't process auth state changes in guest mode
+          setIsGuest(true)
+          setUser(null)
+          setLoading(false)
+          return
+        }
+
         const authStateKey = firebaseUser ? firebaseUser.uid : 'null'
 
         // Skip if auth state hasn't actually changed

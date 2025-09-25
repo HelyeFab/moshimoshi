@@ -100,7 +100,7 @@ export async function requireAdmin(
  * Check if user has premium access
  */
 export function isPremiumUser(user: SessionUser): boolean {
-  return user.tier === 'premium.monthly' || user.tier === 'premium.yearly'
+  return user.tier === 'premium_monthly' || user.tier === 'premium_yearly'
 }
 
 /**

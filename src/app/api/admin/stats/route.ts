@@ -78,9 +78,9 @@ export async function GET(request: NextRequest) {
       const subData = doc.data();
       if (subData.status === 'active') {
         activeSubscriptions++;
-        if (subData.tier === 'premium.monthly' || subData.plan === 'premium_monthly') {
+        if (subData.tier === 'premium_monthly' || subData.plan === 'premium_monthly') {
           monthlyRevenue += PRICING_CONFIG.monthly.amount;
-        } else if (subData.tier === 'premium.yearly' || subData.plan === 'premium_yearly') {
+        } else if (subData.tier === 'premium_yearly' || subData.plan === 'premium_yearly') {
           monthlyRevenue += MONTHLY_EQUIVALENT_FROM_YEARLY; // Convert yearly to monthly
         }
       }

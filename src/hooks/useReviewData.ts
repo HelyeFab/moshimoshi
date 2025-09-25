@@ -160,31 +160,21 @@ export function useReviewData() {
         setLeeches(leechItems)
       }
 
-      // Generate mock sessions for demo purposes
-      // In production, these would be loaded from IndexedDB
-      const mockSessions: ReviewSession[] = [
-        {
-          id: '1',
-          date: new Date(Date.now() - 24 * 60 * 60 * 1000),
-          duration: 1800,
-          itemsReviewed: 25,
-          accuracy: 0.85,
-          averageResponseTime: 3.2,
-          mode: 'recognition',
-          status: 'completed'
-        },
-        {
-          id: '2',
-          date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-          duration: 1200,
-          itemsReviewed: 15,
-          accuracy: 0.73,
-          averageResponseTime: 4.1,
-          mode: 'recall',
-          status: 'completed'
-        }
-      ]
-      setSessions(mockSessions)
+      // Load real sessions from IndexedDB
+      const sessionHistory = await storage.getUserSessions(userId)
+      const realSessions: ReviewSession[] = sessionHistory
+        .filter((session: any) => session.status === 'completed')
+        .map((session: any) => ({
+          id: session.id,
+          date: new Date(session.completedAt || session.startedAt),
+          duration: session.duration || 0,
+          itemsReviewed: session.items?.length || 0,
+          accuracy: calculateAccuracy(session.items),
+          averageResponseTime: session.averageResponseTime || 0,
+          mode: session.mode || 'recognition',
+          status: session.status || 'completed'
+        }))
+      setSessions(realSessions)
 
       // Check for active session
       if (storedSession?.status === 'active') {
@@ -207,10 +197,11 @@ export function useReviewData() {
   const loadCloudData = async () => {
     try {
       // Fetch from API endpoints that sync with Firebase
-      const [statsRes, queueRes, progressRes] = await Promise.all([
+      const [statsRes, queueRes, progressRes, sessionsRes] = await Promise.all([
         fetch('/api/review/stats'),
         fetch('/api/review/queue'),
-        fetch('/api/review/progress/studied')
+        fetch('/api/review/progress/studied'),
+        fetch('/api/review/user-sessions')
       ])
 
       if (statsRes.ok && queueRes.ok && progressRes.ok) {
@@ -239,6 +230,25 @@ export function useReviewData() {
         const storage = new IndexedDBStorage()
         await storage.initialize()
         await storage.cacheContent(items)
+      }
+
+      // Load real sessions from Firebase
+      if (sessionsRes.ok) {
+        const sessionsData = await sessionsRes.json()
+        if (sessionsData.success && sessionsData.data) {
+          // Set the real sessions from Firebase
+          const realSessions: ReviewSession[] = sessionsData.data.sessions.map((s: any) => ({
+            id: s.id,
+            date: new Date(s.date),
+            duration: s.duration,
+            itemsReviewed: s.itemsReviewed,
+            accuracy: s.accuracy,
+            averageResponseTime: s.averageResponseTime,
+            mode: s.mode,
+            status: s.status
+          }))
+          setSessions(realSessions)
+        }
       }
     } catch (err) {
       logger.error('Failed to load cloud data:', err)

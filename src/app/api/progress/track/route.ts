@@ -38,25 +38,28 @@ export async function POST(request: NextRequest) {
 
     console.log(`[API Progress] User ${session.uid} - Premium: ${isPremium}, Content Type: ${contentType}`)
 
-    // Save to progress subcollection (for all users, not just premium)
-    const progressRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('progress')
-      .doc(contentType)
+    // Save each item as an individual document in progress subcollection
+    const batch = adminDb.batch()
 
-    // Convert items Map to a plain object for Firestore
-    const itemsObject: Record<string, any> = {}
-    for (const [key, value] of items) {
-      itemsObject[key] = value
+    for (const [contentId, progressData] of items) {
+      const progressRef = adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('progress')
+        .doc(contentId) // Use the content ID as the document ID
+
+      // Save with proper structure for scheduled API
+      batch.set(progressRef, {
+        contentId,
+        contentType,
+        ...progressData, // Include all progress data including srsData
+        lastUpdated: FieldValue.serverTimestamp(),
+        userId: session.uid
+      }, { merge: true })
     }
 
-    await progressRef.set({
-      items: itemsObject,
-      lastUpdated: FieldValue.serverTimestamp(),
-      contentType,
-      userId: session.uid
-    }, { merge: true })
+    await batch.commit()
+    console.log(`[API Progress] Saved ${items.length} progress items individually`)
 
     // Save review history if provided and user is premium
     if (reviewHistory && reviewHistory.length > 0 && isPremium) {
@@ -83,7 +86,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: `Progress saved for ${contentType}`,
-      itemsCount: Object.keys(itemsObject).length,
+      itemsCount: items.length,
       isPremium
     })
 

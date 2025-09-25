@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-09-22T15:15:41.380Z
+ * Generated at: 2025-09-25T11:33:10.259Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -98,6 +98,26 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'none',
     notifications: false,
     description: 'Customize the layout of Learning Village stalls by dragging and dropping them to your preferred order'
+  },
+  'todos': {
+    id: 'todos',
+    name: 'Todo List (Demo)',
+    category: 'organization',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: true,
+    description: 'Demo feature: Create and manage personal todo items'
+  },
+  'conjugation_drill': {
+    id: 'conjugation_drill',
+    name: 'Conjugation Drill',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: true,
+    description: 'Practice Japanese verb and adjective conjugations with interactive quizzes'
   }
 };
 

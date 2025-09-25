@@ -38,6 +38,12 @@ export async function pushStreakToFirestore(): Promise<void> {
       return
     }
 
+    // Check if Firestore is available
+    if (!db) {
+      // Firestore not initialized, skipping
+      return
+    }
+
     const { currentStreak, longestStreak, lastActiveDay } = useStreakStore.getState()
 
     // Pushing streak to Firestore
@@ -56,8 +62,18 @@ export async function pushStreakToFirestore(): Promise<void> {
     )
 
     // Successfully pushed streak to Firestore
-  } catch (error) {
-    console.error('[StreakSync] Failed to push streak to Firestore:', error)
+  } catch (error: any) {
+    // Silently handle expected errors
+    const errorString = error?.toString?.() || ''
+    const isExpectedError =
+      error?.code === 'permission-denied' ||
+      error?.code === 'unavailable' ||
+      error?.message?.includes('internal error') ||
+      errorString.includes('Failed to get document')
+
+    if (!isExpectedError) {
+      console.error('[StreakSync] Failed to push streak to Firestore:', error)
+    }
     // Don't throw - we don't want to break the app if sync fails
   }
 }
@@ -71,6 +87,12 @@ export async function loadStreakFromFirestore(): Promise<void> {
     const user = auth.currentUser
     if (!user) {
       // No authenticated user, skipping load
+      return
+    }
+
+    // Check if Firestore is available
+    if (!db) {
+      // Firestore not initialized, skipping
       return
     }
 
@@ -95,8 +117,19 @@ export async function loadStreakFromFirestore(): Promise<void> {
     } else {
       // No streak data found in Firestore
     }
-  } catch (error) {
-    console.error('[StreakSync] Failed to load streak from Firestore:', error)
+  } catch (error: any) {
+    // Silently handle expected errors
+    const errorString = error?.toString?.() || ''
+    const isExpectedError =
+      error?.code === 'permission-denied' ||
+      error?.code === 'unavailable' ||
+      error?.message?.includes('internal error') ||
+      errorString.includes('Failed to get document')
+
+    if (!isExpectedError) {
+      console.error('[StreakSync] Failed to load streak from Firestore:', error)
+    }
+    // For expected errors (permissions, network), just use local data silently
   }
 }
 

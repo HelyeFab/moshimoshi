@@ -152,6 +152,9 @@ export async function POST(request: NextRequest) {
       const userDoc = await adminFirestore!.collection('users').doc(userRecord.uid).get()
       const userData = userDoc.data()
 
+      console.log('[Signin] User document exists:', userDoc.exists)
+      console.log('[Signin] User data subscription:', JSON.stringify(userData?.subscription))
+
       if (!userData) {
         throw new Error('User profile not found')
       }
@@ -287,28 +290,30 @@ export async function POST(request: NextRequest) {
         console.log('[API /auth/signin] Admin claims set:', claimsSet)
       }
 
-      // Determine tier from subscription data
-      let tier = 'free';
-      console.log('[Signin] User subscription data:', userData.subscription);
-      if (userData.subscription) {
-        if (userData.subscription.status === 'active') {
-          if (userData.subscription.plan === 'premium_monthly') {
-            tier = 'premium.monthly';
-            console.log('[Signin] Setting tier to premium.monthly');
-          } else if (userData.subscription.plan === 'premium_yearly') {
-            tier = 'premium.yearly';
-            console.log('[Signin] Setting tier to premium.yearly');
-          }
-        }
-      }
-      console.log('[Signin] Final tier:', tier);
+      // Phase 5: Stop including tier in new sessions (using TierCache instead)
+      // The tier will be fetched from TierCache when needed
+      console.log('[Signin] Creating session WITHOUT embedded tier (Phase 5 migration)');
+      console.log('[Signin] Tier will be fetched from TierCache with 60s TTL');
 
-      // Create session
+      // Warm up the tier cache for this user (pre-fetch for better UX)
+      if (userData?.subscription) {
+        const tier = (userData.subscription.status === 'active' || userData.subscription.status === 'trialing')
+          && userData.subscription.plan
+          ? userData.subscription.plan
+          : 'free';
+        console.log(`[Signin] Pre-warming tier cache with: ${tier}`);
+
+        // Import tierCache for cache warming
+        const { tierCache } = await import('@/lib/auth/tier-cache');
+        await tierCache.setTier(userRecord.uid, tier as any);
+      }
+
+      // Create session WITHOUT tier (Phase 5)
       const session = await createSession(
         {
           uid: userRecord.uid,
           email: userRecord.email || email,
-          tier: tier as any,
+          // tier is intentionally omitted here
           admin: isAdmin,
         },
         {

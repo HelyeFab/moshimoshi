@@ -20,12 +20,9 @@ export const POST = withAdminAuth(async (request: NextRequest, context) => {
       );
     }
 
-    // Validate featureId
-    const validFeatures: FeatureId[] = [
-      'reviews', 'drills', 'customLists', 'flashcards',
-      'analytics', 'export', 'apiAccess', 'premiumContent',
-      'offlineMode', 'themes'
-    ];
+    // Import the actual feature IDs from types
+    const { FEATURE_IDS } = await import('@/types/FeatureId');
+    const validFeatures = FEATURE_IDS;
 
     if (!validFeatures.includes(featureId as FeatureId)) {
       return NextResponse.json(

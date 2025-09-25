@@ -18,8 +18,19 @@ import {
   EntitlementLog 
 } from '@/types/entitlements';
 
-// Valid feature IDs
-const VALID_FEATURES: Set<FeatureId> = new Set(['hiragana_practice', 'katakana_practice']);
+// Valid feature IDs - all features from config/features.v1.json
+const VALID_FEATURES: Set<FeatureId> = new Set([
+  'hiragana_practice',
+  'katakana_practice',
+  'kanji_browser',
+  'custom_lists',
+  'save_items',
+  'youtube_shadowing',
+  'media_upload',
+  'stall_layout_customization',
+  'todos',
+  'conjugation_drill'
+]);
 
 export async function POST(
   request: NextRequest,

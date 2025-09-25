@@ -34,18 +34,19 @@ export interface SessionPayload {
   // User identification
   uid: string
   email: string
-  
+
   // Session metadata
   sid: string          // Session ID
   iat: number         // Issued at
   exp: number         // Expiration
-  
-  // User tier (cached for quick access)
-  tier: 'guest' | 'free' | 'premium.monthly' | 'premium.yearly'
-  
+
+  // User tier (optional - being phased out in favor of TierCache)
+  // Made optional for gradual migration from JWT-embedded to Redis-cached tiers
+  tier?: 'guest' | 'free' | 'premium_monthly' | 'premium_yearly'
+
   // Security
   fingerprint: string  // Browser fingerprint hash
-  
+
   // Admin flag
   admin?: boolean
 }
@@ -97,6 +98,7 @@ export function createSessionToken(
   const now = Math.floor(Date.now() / 1000)
   const exp = Math.floor((Date.now() + duration) / 1000)
 
+  // Build payload, omitting tier if not provided (Phase 5 migration)
   const fullPayload: SessionPayload = {
     ...payload,
     sid: generateSessionId(),

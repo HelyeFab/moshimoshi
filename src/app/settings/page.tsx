@@ -16,6 +16,7 @@ import CollapsibleSection from '@/components/common/CollapsibleSection'
 import { preferencesManager } from '@/utils/preferencesManager'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
+import { ReviewNotificationSettings } from '@/components/notifications/ReviewNotificationSettings'
 
 export default function SettingsPage() {
   const router = useRouter()
@@ -500,7 +501,18 @@ export default function SettingsPage() {
             icon="🔔"
             defaultOpen={false}
           >
-            <div>
+            <div className="space-y-6">
+              {/* Review Notifications (NEW) */}
+              <div className="mb-6">
+                <ReviewNotificationSettings />
+              </div>
+
+              {/* Email Notifications */}
+              <div className="p-4 bg-gray-50 dark:bg-dark-900/50 rounded-xl">
+                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
+                  <span>📧</span>
+                  Email Notifications
+                </h4>
               <SettingToggle
                 label={strings.settings?.sections?.notifications?.dailyReminder?.label || "Daily Study Reminder"}
                 description={strings.settings?.sections?.notifications?.dailyReminder?.description || "Get reminded to practice every day"}
@@ -529,6 +541,7 @@ export default function SettingsPage() {
                 onChange={(value) => setNotifications({ ...notifications, marketingEmails: value })}
                 icon="📧"
               />
+              </div>
             </div>
           </CollapsibleSection>
 

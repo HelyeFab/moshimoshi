@@ -132,7 +132,7 @@ export const updateProfileSchema = z.object({
 export const adminUserUpdateSchema = z.object({
   userId: z.string().min(1, 'User ID is required'),
   updates: z.object({
-    tier: z.enum(['guest', 'free', 'premium.monthly', 'premium.yearly']).optional(),
+    tier: z.enum(['guest', 'free', 'premium_monthly', 'premium_yearly']).optional(),
     userState: z.enum(['active', 'suspended', 'deleted']).optional(),
     admin: z.boolean().optional(),
   }),

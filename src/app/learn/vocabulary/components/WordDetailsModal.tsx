@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Volume2, BookOpen, Tag, Plus, ScrollText, Info } from 'lucide-react'
+import { X, BookOpen, Tag, Plus, ScrollText, Info } from 'lucide-react'
 import { JapaneseWord, isDrillable, getRecommendedListType } from '@/types/vocabulary'
 import { useState, useEffect, useMemo } from 'react'
 import { useI18n } from '@/i18n/I18nContext'
@@ -13,6 +13,8 @@ import { ConjugationDisplay } from '@/components/conjugation/ConjugationDisplay'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 import { useKanjiDetails, extractKanjiFromText } from '@/hooks/useKanjiDetails'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
+import AddToListButton from '@/components/lists/AddToListButton'
+import AudioButton from '@/components/ui/AudioButton'
 
 interface WordDetailsModalProps {
   word: JapaneseWord | null
@@ -24,10 +26,9 @@ interface WordDetailsModalProps {
 export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDetailsModalProps) {
   const [examples, setExamples] = useState<ExampleSentence[]>([])
   const [loadingExamples, setLoadingExamples] = useState(false)
-  const [playingIndex, setPlayingIndex] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState<'details' | 'conjugations'>('details')
   const { strings, t } = useI18n()
-  const { play, isPlaying } = useTTS({ cacheFirst: true })
+  const { play, preload } = useTTS({ cacheFirst: true })
   const { user: authUser } = useAuth()
   const { subscription } = useSubscription()
   const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
@@ -43,6 +44,15 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   useEffect(() => {
     if (word && isOpen) {
       loadExamples()
+
+      // Preload audio for better UX
+      const textsToPreload: string[] = []
+      if (word.kanji) textsToPreload.push(word.kanji)
+      if (word.kana) textsToPreload.push(word.kana)
+
+      if (textsToPreload.length > 0) {
+        preload(textsToPreload, { voice: 'ja-JP', rate: 0.9 })
+      }
     }
   }, [word, isOpen])
 
@@ -92,7 +102,6 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   }
 
   const handleSpeakExample = async (text: string, index: number) => {
-    setPlayingIndex(index)
     try {
       await play(text, {
         voice: 'ja-JP',
@@ -105,10 +114,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
         const utterance = new SpeechSynthesisUtterance(text)
         utterance.lang = 'ja-JP'
         utterance.rate = 0.9
-        utterance.onend = () => setPlayingIndex(null)
         window.speechSynthesis.speak(utterance)
-      } else {
-        setPlayingIndex(null)
       }
     }
   }
@@ -167,17 +173,10 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                             )
                           })}
                         </span>
-                        <button
-                          onClick={() => handleSpeak(word.kanji!)}
-                          className={`p-2 rounded-lg transition-colors ${
-                            isPlaying
-                              ? 'bg-primary-500 text-white'
-                              : 'bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600'
-                          }`}
-                          disabled={isPlaying}
-                        >
-                          <Volume2 className="w-4 h-4" />
-                        </button>
+                        <AudioButton
+                          size="sm"
+                          onPlay={() => handleSpeak(word.kanji!)}
+                        />
                       </div>
                     )}
 
@@ -185,17 +184,10 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                       <span className="text-2xl text-gray-700 dark:text-gray-300">
                         {word.kana}
                       </span>
-                      <button
-                        onClick={() => handleSpeak(word.kana)}
-                        className={`p-2 rounded-lg transition-colors ${
-                          isPlaying
-                            ? 'bg-primary-500 text-white'
-                            : 'bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600'
-                        }`}
-                        disabled={isPlaying}
-                      >
-                        <Volume2 className="w-4 h-4" />
-                      </button>
+                      <AudioButton
+                        size="sm"
+                        onPlay={() => handleSpeak(word.kana)}
+                      />
                     </div>
                   </div>
 
@@ -227,6 +219,17 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                 </div>
 
                 <div className="flex items-center gap-2">
+                  <AddToListButton
+                    content={word.kanji || word.kana}
+                    type={isConjugatable ? 'verbAdj' : 'word'}
+                    metadata={{
+                      reading: word.kana,
+                      meaning: word.meanings?.join(', ') || '',
+                      jlptLevel: word.jlpt ? parseInt(word.jlpt.replace('N', '')) : undefined
+                    }}
+                    variant="bookmark"
+                    size="medium"
+                  />
                   <button
                     onClick={onClose}
                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
@@ -343,17 +346,22 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                               </p>
                             )}
                           </div>
-                          <button
-                            onClick={() => handleSpeakExample(example.japanese, index)}
-                            className={`p-2 rounded-lg transition-colors flex-shrink-0 ${
-                              playingIndex === index
-                                ? 'bg-primary-500 text-white'
-                                : 'bg-gray-100 dark:bg-dark-600 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-500'
-                            }`}
-                            disabled={isPlaying}
-                          >
-                            <Volume2 className="w-4 h-4" />
-                          </button>
+                          <div className="flex items-center gap-1 flex-shrink-0">
+                            <AddToListButton
+                              content={example.japanese}
+                              type="sentence"
+                              metadata={{
+                                meaning: example.english || '',
+                                notes: `Example for ${word.kanji || word.kana}`
+                              }}
+                              variant="bookmark"
+                              size="small"
+                            />
+                            <AudioButton
+                              size="sm"
+                              onPlay={() => handleSpeakExample(example.japanese, index)}
+                            />
+                          </div>
                         </div>
                       </div>
                     ))}

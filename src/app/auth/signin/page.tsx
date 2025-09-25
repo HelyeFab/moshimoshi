@@ -19,6 +19,11 @@ function SignInContent() {
   const [error, setError] = useState('')
   
   useEffect(() => {
+    // Clear any guest mode when on signin page
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('isGuestUser')
+    }
+
     // Show message if redirected from signup
     if (searchParams?.get('signup') === 'success') {
       showToast(strings.auth.signin.messages.signupSuccess, 'success')
@@ -30,6 +35,11 @@ function SignInContent() {
     logger.auth('Sign in attempt', { email })
     setLoading(true)
     setError('')
+
+    // Ensure guest mode is cleared
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('isGuestUser')
+    }
 
     try {
       const response = await fetch('/api/auth/signin', {

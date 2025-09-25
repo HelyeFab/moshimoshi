@@ -62,15 +62,11 @@ export const POST = withAdminAuth(async (request: NextRequest, context) => {
     }
 
     // Validate featureId
-    const validFeatures: FeatureId[] = [
-      'reviews', 'drills', 'customLists', 'flashcards',
-      'analytics', 'export', 'apiAccess', 'premiumContent',
-      'offlineMode', 'themes'
-    ];
+    const { FEATURE_IDS } = await import('@/types/FeatureId');
 
-    if (!validFeatures.includes(featureId as FeatureId)) {
+    if (!FEATURE_IDS.includes(featureId as FeatureId)) {
       return NextResponse.json(
-        { error: `Invalid featureId. Must be one of: ${validFeatures.join(', ')}` },
+        { error: `Invalid featureId. Must be one of: ${FEATURE_IDS.join(', ')}` },
         { status: 400 }
       );
     }
@@ -181,15 +177,11 @@ export const DELETE = withAdminAuth(async (request: NextRequest, context) => {
     }
 
     // Validate featureId
-    const validFeatures: FeatureId[] = [
-      'reviews', 'drills', 'customLists', 'flashcards',
-      'analytics', 'export', 'apiAccess', 'premiumContent',
-      'offlineMode', 'themes'
-    ];
+    const { FEATURE_IDS } = await import('@/types/FeatureId');
 
-    if (!validFeatures.includes(featureId as FeatureId)) {
+    if (!FEATURE_IDS.includes(featureId as FeatureId)) {
       return NextResponse.json(
-        { error: `Invalid featureId. Must be one of: ${validFeatures.join(', ')}` },
+        { error: `Invalid featureId. Must be one of: ${FEATURE_IDS.join(', ')}` },
         { status: 400 }
       );
     }

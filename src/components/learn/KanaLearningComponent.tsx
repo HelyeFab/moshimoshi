@@ -110,6 +110,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   const [selectedCharacters, setSelectedCharacters] = useState<KanaCharacter[]>([])
   const [studyCharacters, setStudyCharacters] = useState<KanaCharacter[]>([]) // Separate state for actual study session
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
+  const [reviewContentPool, setReviewContentPool] = useState<ReviewableContent[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
   const [currentStudyIndex, setCurrentStudyIndex] = useState(0)
@@ -127,6 +128,16 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   const [progress, setProgress] = useState<CharacterProgress>({})
   const [showBothKana, setShowBothKana] = useState(defaultScript === 'hiragana') // Show both for hiragana, single for katakana
   const [displayScript, setDisplayScript] = useState<'hiragana' | 'katakana'>(defaultScript)
+
+  // Helper to get consistent character ID format
+  const getCharacterId = useCallback((charId: string) => {
+    // If already has script prefix, return as-is
+    if (charId.startsWith('hiragana-') || charId.startsWith('katakana-')) {
+      return charId
+    }
+    // Otherwise add the script prefix
+    return `${defaultScript}-${charId}`
+  }, [defaultScript])
 
   // Filter logic
   const filteredKana = useMemo(() => {
@@ -190,6 +201,13 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         // Guest users: clear any existing progress
         setProgress({})
         return
+      }
+
+      // Initialize achievement store with user ID
+      // Use isPremium which is fetched fresh from the subscription endpoint
+      const achievementStore = useAchievementStore.getState()
+      if (!achievementStore.currentUserId || achievementStore.currentUserId !== user.uid) {
+        await achievementStore.initialize(user.uid, isPremium)
       }
 
       // Try to migrate from localStorage first (one-time operation)
@@ -285,6 +303,90 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
 
   // Handle review completion
   const handleReviewComplete = useCallback(async (stats: SessionStatistics) => {
+    const sessionStartTime = Date.now() - (stats.duration || 0)
+    const sessionEndTime = Date.now()
+
+    // Save individual character progress and session data to Firebase
+    if (user && user.uid && isPremium) {
+      // Generate session ID for tracking
+      const sessionId = `review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+      // Prepare character data for session tracking
+      const sessionCharacters = selectedCharacters.map(character => ({
+        id: getCharacterId(character.id),
+        character: character[defaultScript],
+        romaji: character.romaji,
+        script: defaultScript,
+        // These would be more accurate with per-character tracking
+        correct: stats.accuracy >= 80,
+        attempts: 1,
+        responseTime: stats.avgResponseTime || 0
+      }))
+
+      // Save complete session data
+      try {
+        const response = await fetch('/api/sessions/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify({
+            sessionType: 'review',
+            sessionId,
+            characters: sessionCharacters,
+            stats: {
+              totalItems: stats.totalItems,
+              correctItems: stats.correctItems,
+              accuracy: stats.accuracy,
+              avgResponseTime: stats.avgResponseTime,
+              duration: stats.duration
+            },
+            startedAt: new Date(sessionStartTime).toISOString(),
+            completedAt: new Date(sessionEndTime).toISOString()
+          })
+        })
+
+        if (!response.ok) {
+          console.error('[Session Save] Failed to save review session:', response.statusText)
+        } else {
+          console.log('[Session Save] Review session saved successfully:', sessionId)
+        }
+      } catch (error) {
+        console.error('[Session Save] Error saving review session:', error)
+      }
+
+      // Update individual character progress
+      for (const character of selectedCharacters) {
+        // Use proper character ID format with script prefix
+        const characterId = getCharacterId(character.id)
+
+        const currentProgress = progress[characterId] || {
+          status: 'not-started' as ProgressStatus,
+          reviewCount: 0,
+          correctCount: 0,
+          pinned: false,
+          updatedAt: new Date()
+        }
+
+        // Calculate new progress based on review performance
+        // Note: This is simplified - ideally we'd track individual character performance
+        const wasCorrect = stats.accuracy >= 80 // Simplified for now
+
+        const newProgress: Partial<CharacterProgress[string]> = {
+          status: wasCorrect ? 'learned' : 'learning',
+          reviewCount: currentProgress.reviewCount + 1,
+          correctCount: currentProgress.correctCount + (wasCorrect ? 1 : 0),
+          lastReviewed: new Date(),
+          lastReviewSessionId: sessionId,
+          updatedAt: new Date()
+        }
+
+        // Save to Firebase via KanaProgressManager with proper ID
+        await saveProgressUpdate(characterId, newProgress)
+      }
+    }
+
     // Record review session for streak
     await recordActivityAndSync(
       StreakActivity.REVIEW_SESSION,
@@ -295,35 +397,45 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
     setLastSessionStats(stats)
     setViewMode('browse')
 
-    // Update achievements and streak
-    const achievementStore = useAchievementStore.getState()
-    await achievementStore.updateProgress({
-      sessionType: 'kana',
-      itemsReviewed: stats.totalItems,
-      accuracy: stats.accuracy,
-      duration: stats.duration,
-      completedAt: new Date()
-    })
+    // Update achievements and streak only if user is authenticated
+    if (user && user.uid) {
+      const achievementStore = useAchievementStore.getState()
+
+      // Ensure store is initialized with user ID
+      // Use isPremium which is fetched fresh from the subscription endpoint
+      if (!achievementStore.currentUserId || achievementStore.currentUserId !== user.uid) {
+        await achievementStore.initialize(user.uid, isPremium)
+      }
+
+      await achievementStore.updateProgress({
+        sessionType: 'kana',
+        itemsReviewed: stats.totalItems,
+        accuracy: stats.accuracy,
+        duration: stats.duration,
+        completedAt: new Date()
+      })
+    }
 
     showToast(`${t('review.sessionComplete')} - ${t('common.accuracy')}: ${stats.accuracy.toFixed(1)}%`, 'success')
-  }, [showToast, t])
+  }, [showToast, t, user, isPremium, recordActivityAndSync, selectedCharacters, progress, saveProgressUpdate, getCharacterId, defaultScript])
 
   // Toggle character pin status
   const handleTogglePin = useCallback(async (characterId: string) => {
-    const currentPinned = progress[characterId]?.pinned || false
+    const formattedId = getCharacterId(characterId)
+    const currentPinned = progress[formattedId]?.pinned || false
 
     // Update local state immediately for UI responsiveness
     setProgress(prev => ({
       ...prev,
-      [characterId]: {
-        ...prev[characterId],
+      [formattedId]: {
+        ...prev[formattedId],
         pinned: !currentPinned
       }
     }))
 
-    // Save to storage
-    await saveProgressUpdate(characterId, { pinned: !currentPinned })
-  }, [progress, saveProgressUpdate])
+    // Save to storage with proper ID format
+    await saveProgressUpdate(formattedId, { pinned: !currentPinned })
+  }, [progress, saveProgressUpdate, getCharacterId])
 
   // Batch toggle pin status for multiple characters
   const handleTogglePinBatch = useCallback(async (characterIds: string[], pinned: boolean) => {
@@ -331,8 +443,9 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
     setProgress(prev => {
       const updated = { ...prev }
       characterIds.forEach(charId => {
-        if (!updated[charId]) {
-          updated[charId] = {
+        const formattedId = getCharacterId(charId)
+        if (!updated[formattedId]) {
+          updated[formattedId] = {
             status: 'not-started' as ProgressStatus,
             reviewCount: 0,
             correctCount: 0,
@@ -340,25 +453,25 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
             updatedAt: new Date()
           }
         }
-        updated[charId] = {
-          ...updated[charId],
+        updated[formattedId] = {
+          ...updated[formattedId],
           pinned
         }
       })
       return updated
     })
 
-    // Save all updates to storage
+    // Save all updates to storage with proper ID format
     for (const charId of characterIds) {
-      await saveProgressUpdate(charId, { pinned })
+      await saveProgressUpdate(getCharacterId(charId), { pinned })
     }
-  }, [saveProgressUpdate])
+  }, [saveProgressUpdate, getCharacterId])
 
   // Get progress stats
   const progressStats = useMemo(() => {
     const total = filteredKana.length
-    const learned = filteredKana.filter(k => progress[k.id]?.status === 'learned').length
-    const learning = filteredKana.filter(k => progress[k.id]?.status === 'learning').length
+    const learned = filteredKana.filter(k => progress[getCharacterId(k.id)]?.status === 'learned').length
+    const learning = filteredKana.filter(k => progress[getCharacterId(k.id)]?.status === 'learning').length
     const notStarted = total - learned - learning
 
     return {
@@ -369,15 +482,15 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       learnedPercentage: total > 0 ? Math.round((learned / total) * 100) : 0,
       learningPercentage: total > 0 ? Math.round((learning / total) * 100) : 0
     }
-  }, [filteredKana, progress])
+  }, [filteredKana, progress, getCharacterId])
 
   // Count pinned characters that are not already selected
   const pinnedCharacters = useMemo(() => {
     return filteredKana.filter(k =>
-      progress[k.id]?.pinned &&
+      progress[getCharacterId(k.id)]?.pinned &&
       !selectedCharacters.some(sc => sc.id === k.id)
     )
-  }, [filteredKana, progress, selectedCharacters])
+  }, [filteredKana, progress, selectedCharacters, getCharacterId])
 
   // Total count for review/study (selected + pinned)
   const totalForReview = selectedCharacters.length + pinnedCharacters.length
@@ -427,16 +540,33 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
     // Update selected characters to include pinned ones
     setSelectedCharacters(allCharacters)
 
-    // Convert all characters to ReviewableContent
+    // Build a larger pool including all characters from the same rows
+    const rowsIncluded = new Set<string>()
+    allCharacters.forEach(char => {
+      rowsIncluded.add(char.row)
+    })
+
+    // Get all characters from the included rows for the content pool
+    const contentPool: KanaCharacter[] = []
+    filteredKana.forEach(char => {
+      if (rowsIncluded.has(char.row)) {
+        contentPool.push(char)
+      }
+    })
+
+    // Convert characters to ReviewableContent
     const content = convertToReviewableContent(allCharacters)
+    const pool = convertToReviewableContent(contentPool)
+
     setReviewContent(content)
+    setReviewContentPool(pool)
     setViewMode('review')
-  }, [selectedCharacters, pinnedCharacters, showToast, t, convertToReviewableContent])
+  }, [selectedCharacters, pinnedCharacters, filteredKana, showToast, t, convertToReviewableContent])
 
   // Quick review - review only struggling characters
   const handleQuickReview = useCallback(() => {
     const strugglingChars = filteredKana.filter(k => {
-      const p = progress[k.id]
+      const p = progress[getCharacterId(k.id)]
       if (!p) return false
       const accuracy = p.reviewCount > 0 ? p.correctCount / p.reviewCount : 0
       return p.status === 'learning' && accuracy < 0.7
@@ -550,14 +680,16 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         {viewMode === 'study' && studyCharacters.length > 0 && (
           <KanaStudyMode
             character={studyCharacters[currentStudyIndex]}
-            progress={progress[studyCharacters[currentStudyIndex].id] || {}}
+            progress={progress[getCharacterId(studyCharacters[currentStudyIndex].id)] || {}}
             onNext={async () => {
               if (currentStudyIndex < studyCharacters.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
               } else {
-                // End the session
+                // End the session - this will save to Firebase via UniversalProgressManager
                 if (user) {
                   await kanaProgressManagerV2.endKanaSession(isPremium)
+                  // The session is saved automatically by UniversalProgressManager
+                  // No need for duplicate saving here
                 }
 
                 // Record study session for streak
@@ -622,6 +754,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         {viewMode === 'review' && (
           <ReviewEngine
             content={reviewContent}
+            contentPool={reviewContentPool.length > 0 ? reviewContentPool : reviewContent}
             userId={user?.uid || 'anonymous'}
             onComplete={handleReviewComplete}
             onCancel={() => setViewMode('browse')}

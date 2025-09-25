@@ -37,7 +37,7 @@ export interface UserProfile {
   preferredLanguage: 'en' | 'ja'
   studyGoal: 'casual' | 'intermediate' | 'advanced' | 'fluent'
   studyTime: '15min' | '30min' | '45min' | '60min'
-  tier: 'guest' | 'free' | 'premium.monthly' | 'premium.yearly'
+  tier: 'guest' | 'free' | 'premium_monthly' | 'premium_yearly'
   createdAt: Date
   lastActiveAt: Date
   notifications: {

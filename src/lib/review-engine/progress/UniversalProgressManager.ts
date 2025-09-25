@@ -18,6 +18,8 @@ import {
   ReviewHistoryEntry,
   ReviewHistoryBatch
 } from '../core/review-history.types'
+import { getKanaById } from '@/data/kanaData'
+import { xpSystem } from '@/lib/gamification/xp-system'
 
 /**
  * IndexedDB schema for progress storage
@@ -237,6 +239,11 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         isPremium,
         metadata
       )
+    }
+
+    // Track XP for completed reviews
+    if (event === ProgressEvent.COMPLETED) {
+      await this.trackXPForReview(userId, contentType, contentId, metadata)
     }
   }
 
@@ -715,25 +722,36 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   protected updateSessionForEvent(contentId: string, event: ProgressEvent): void {
     if (!this.currentSession) return
 
+    // Get actual content for kana types
+    let actualContent = contentId;
+    const contentType = this.currentSession.contentType;
+
+    if (contentType === 'hiragana' || contentType === 'katakana') {
+      const kanaChar = getKanaById(contentId);
+      if (kanaChar) {
+        actualContent = contentType === 'hiragana' ? kanaChar.hiragana : kanaChar.katakana;
+      }
+    }
+
     switch (event) {
       case ProgressEvent.VIEWED:
-        if (!this.currentSession.itemsViewed.includes(contentId)) {
-          this.currentSession.itemsViewed.push(contentId)
+        if (!this.currentSession.itemsViewed.includes(actualContent)) {
+          this.currentSession.itemsViewed.push(actualContent)
         }
         break
       case ProgressEvent.INTERACTED:
-        if (!this.currentSession.itemsInteracted.includes(contentId)) {
-          this.currentSession.itemsInteracted.push(contentId)
+        if (!this.currentSession.itemsInteracted.includes(actualContent)) {
+          this.currentSession.itemsInteracted.push(actualContent)
         }
         break
       case ProgressEvent.COMPLETED:
-        if (!this.currentSession.itemsCompleted.includes(contentId)) {
-          this.currentSession.itemsCompleted.push(contentId)
+        if (!this.currentSession.itemsCompleted.includes(actualContent)) {
+          this.currentSession.itemsCompleted.push(actualContent)
         }
         break
       case ProgressEvent.SKIPPED:
-        if (!this.currentSession.itemsSkipped.includes(contentId)) {
-          this.currentSession.itemsSkipped.push(contentId)
+        if (!this.currentSession.itemsSkipped.includes(actualContent)) {
+          this.currentSession.itemsSkipped.push(actualContent)
         }
         break
     }
@@ -779,16 +797,44 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       // For premium users, sync to Firebase via API
       if (isPremium) {
         try {
+          // Transform session data to match API expectations
+          const sessionData = {
+            sessionType: 'study', // UniversalProgressManager handles study/practice sessions
+            sessionId: session.sessionId,
+            characters: session.itemsViewed.map(itemId => ({
+              id: itemId,
+              character: itemId, // Will be the actual character for kana
+              romaji: '', // Could be enhanced with actual romaji
+              script: session.contentType,
+              correct: session.itemsCompleted.includes(itemId),
+              attempts: 1,
+              responseTime: 0
+            })),
+            stats: {
+              totalItems: session.totalItems,
+              correctItems: session.itemsCompleted.length,
+              accuracy: session.accuracy || 0,
+              avgResponseTime: 0,
+              duration: session.duration
+            },
+            startedAt: session.startedAt.toISOString(),
+            completedAt: session.endedAt?.toISOString() || new Date().toISOString()
+          }
+
           const response = await fetch('/api/sessions/save', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ session })
+            credentials: 'same-origin',
+            body: JSON.stringify(sessionData)
           })
 
           if (response.ok) {
             session.syncedToCloud = true
+            reviewLogger.info('[UniversalProgressManager] Session synced to cloud:', session.sessionId)
+          } else {
+            reviewLogger.error('[UniversalProgressManager] Failed to sync session, status:', response.status)
           }
         } catch (error) {
           reviewLogger.error('[UniversalProgressManager] Failed to sync session to cloud:', error)
@@ -837,12 +883,24 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     isPremium: boolean,
     metadata?: Partial<ProgressEventMetadata>
   ): Promise<void> {
+    // Get actual content based on content type
+    let actualContent = contentId; // Default to ID if not found
+
+    if (contentType === 'hiragana' || contentType === 'katakana') {
+      // For kana, get the actual character from the ID
+      const kanaChar = getKanaById(contentId);
+      if (kanaChar) {
+        actualContent = contentType === 'hiragana' ? kanaChar.hiragana : kanaChar.katakana;
+      }
+    }
+    // For other content types (kanji, vocabulary), the contentId is likely already the actual content
+
     // Create review history entry
     const entry: ReviewHistoryEntry = {
       userId,
       contentType,
       contentId,
-      content: contentId, // Will be enriched with actual content later
+      content: actualContent, // Now contains the actual character
       timestamp: new Date(),
       sessionId: this.currentSession?.sessionId,
       event,
@@ -947,6 +1005,141 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to query review history:', error)
       return []
+    }
+  }
+
+  /**
+   * Track XP for completed review items
+   */
+  protected async trackXPForReview(
+    userId: string,
+    contentType: string,
+    contentId: string,
+    metadata?: Partial<ProgressEventMetadata>
+  ): Promise<void> {
+    try {
+      // Calculate XP based on review result
+      const correct = metadata?.correct !== false // Default to correct if not specified
+      const responseTime = metadata?.responseTime
+
+      // Base XP values (matching xpCalculator.ts)
+      let baseXP = correct ? 10 : 3
+
+      // Apply content type multiplier
+      const multipliers: Record<string, number> = {
+        hiragana: 1.0,
+        katakana: 1.0,
+        kanji: 1.5,
+        vocabulary: 1.2,
+        sentence: 2.0
+      }
+      const multiplier = multipliers[contentType] || 1.0
+      baseXP = Math.floor(baseXP * multiplier)
+
+      // Speed bonus for fast responses (under 2 seconds)
+      let bonusXP = 0
+      if (correct && responseTime && responseTime < 2000) {
+        bonusXP += 5
+      }
+
+      const totalXP = baseXP + bonusXP
+
+      // Send XP to server
+      const response = await fetch('/api/xp/track', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          eventType: 'review_completed',
+          amount: totalXP,
+          source: `Review: ${contentType}`,
+          metadata: {
+            contentType,
+            contentId,
+            correct,
+            responseTime,
+            sessionId: this.currentSession?.sessionId
+          }
+        })
+      })
+
+      if (!response.ok) {
+        reviewLogger.error('[UniversalProgressManager] Failed to track XP:', await response.text())
+      } else {
+        const result = await response.json()
+        reviewLogger.debug('[UniversalProgressManager] XP tracked successfully:', result)
+
+        // Store XP gained for UI display (to be picked up by review components)
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('xpGained', {
+            detail: {
+              xpGained: totalXP,
+              totalXP: result.data?.totalXP,
+              leveledUp: result.data?.leveledUp,
+              newLevel: result.data?.currentLevel
+            }
+          }))
+        }
+      }
+    } catch (error) {
+      // XP tracking failure shouldn't break the review flow
+      reviewLogger.error('[UniversalProgressManager] Error tracking XP:', error)
+    }
+  }
+
+  /**
+   * Track XP for completed session
+   */
+  async trackSessionXP(sessionSummary: ProgressSessionSummary): Promise<void> {
+    try {
+      if (!sessionSummary || !sessionSummary.userId) return
+
+      const accuracy = sessionSummary.stats?.accuracy || 0
+      const itemsCompleted = sessionSummary.itemsCompleted || 0
+
+      // Base XP for session completion
+      let baseXP = itemsCompleted * 5
+      let bonusXP = 0
+
+      // Perfect session bonus
+      if (accuracy === 100 && itemsCompleted >= 5) {
+        bonusXP += 50
+      } else if (accuracy >= 90 && itemsCompleted >= 5) {
+        bonusXP += 25
+      } else if (accuracy >= 80 && itemsCompleted >= 5) {
+        bonusXP += 10
+      }
+
+      const totalXP = baseXP + bonusXP
+
+      // Send XP to server
+      const response = await fetch('/api/xp/track', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          eventType: accuracy === 100 ? 'perfect_session' : 'review_completed',
+          amount: totalXP,
+          source: `Session completed: ${itemsCompleted} items`,
+          metadata: {
+            sessionId: sessionSummary.sessionId,
+            contentType: sessionSummary.contentType,
+            accuracy,
+            itemsCompleted,
+            duration: sessionSummary.stats?.duration
+          }
+        })
+      })
+
+      if (!response.ok) {
+        reviewLogger.error('[UniversalProgressManager] Failed to track session XP:', await response.text())
+      }
+    } catch (error) {
+      reviewLogger.error('[UniversalProgressManager] Error tracking session XP:', error)
     }
   }
 }

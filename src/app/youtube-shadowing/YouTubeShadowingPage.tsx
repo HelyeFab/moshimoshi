@@ -65,7 +65,7 @@ function YouTubeShadowingContent() {
 
   const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({});
 
-  // Initialize video history service
+  // Initialize video history and practice history services
   useEffect(() => {
     videoHistoryService.initialize(user?.uid);
   }, [user]);
@@ -217,7 +217,7 @@ function YouTubeShadowingContent() {
     }
   };
 
-  const handleTranscriptLoaded = (transcript: TranscriptLine[], videoTitle?: string, videoMetadata?: any) => {
+  const handleTranscriptLoaded = async (transcript: TranscriptLine[], videoTitle?: string, videoMetadata?: any) => {
     if (session) {
       updateSession({
         ...session,
@@ -225,7 +225,42 @@ function YouTubeShadowingContent() {
         ...(videoTitle && { videoTitle }),
         ...(videoMetadata && { videoMetadata })
       });
+
+      // Track practice history when transcript is loaded (session starts)
+      if (session.videoUrl && !session.videoUrl.startsWith('blob:')) {
+        const videoId = extractVideoId(session.videoUrl);
+        if (videoId) {
+          try {
+            // Track practice via API
+            await fetch('/api/practice/track', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                videoUrl: session.videoUrl,
+                videoTitle: videoTitle || videoMetadata?.title || 'Unknown Video',
+                videoId: videoId,
+                thumbnailUrl: videoMetadata?.thumbnails?.high?.url || videoMetadata?.thumbnails?.default?.url,
+                channelName: videoMetadata?.channelTitle,
+                duration: videoMetadata?.duration ? parseDuration(videoMetadata.duration) : undefined,
+                metadata: videoMetadata
+              })
+            });
+          } catch (error) {
+            console.error('Error tracking practice history:', error);
+          }
+        }
+      }
     }
+  };
+
+  // Helper function to parse YouTube duration
+  const parseDuration = (duration: string): number => {
+    const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+    if (!match) return 0;
+    const hours = parseInt(match[1] || '0');
+    const minutes = parseInt(match[2] || '0');
+    const seconds = parseInt(match[3] || '0');
+    return hours * 3600 + minutes * 60 + seconds;
   };
 
   // Stats for the header

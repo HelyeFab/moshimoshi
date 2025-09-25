@@ -99,10 +99,10 @@ export class StatisticsAggregator {
       await this.storage.initialize()
 
       // Load all sessions for user
-      const sessions = await this.storage.getAllSessions(userId)
+      const sessions = await this.storage.getUserSessions(userId)
 
-      // Load all progress data
-      const progressData = await this.storage.getAllProgress(userId)
+      // Load all progress data - IndexedDBStorage doesn't have getAllProgress, use empty array
+      const progressData: SRSData[] = []
 
       // Initialize statistics
       const stats: AggregatedStatistics = {

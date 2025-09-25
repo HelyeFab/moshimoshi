@@ -15,6 +15,9 @@ import {
   PolicyLimits,
   Permission
 } from '@/types/entitlements';
+
+// Re-export types for convenience
+export type { EvalContext, Decision } from '@/types/entitlements';
 import featuresConfig from '../../../config/features.v1.json';
 
 // Policy version from schema
@@ -160,10 +163,14 @@ function getPlanLimit(featureId: FeatureId, plan: PlanType): number {
   if (!feature) return 0;
 
   if (feature.limitType === 'daily') {
-    return LIMITS[plan].daily[featureId] || 0;
+    return LIMITS[plan].daily?.[featureId] ?? 0;
   }
 
-  // For future: handle monthly limits
+  if (feature.limitType === 'monthly') {
+    return LIMITS[plan].monthly?.[featureId] ?? 0;
+  }
+
+  // Default to 0 if limit type not found
   return 0;
 }
 
@@ -207,6 +214,27 @@ export function getTodayBucket(nowUtcISO: string): string {
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
   const day = String(date.getUTCDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+/**
+ * Get bucket key for usage tracking
+ */
+export function getBucketKey(featureId: FeatureId, userId: string, nowUtcISO: string): string {
+  const feature = FEATURES[featureId];
+  if (!feature) {
+    return `${featureId}_unknown`;
+  }
+
+  const date = nowUtcISO.split('T')[0];
+
+  if (feature.limitType === 'daily') {
+    return `${featureId}_${date}`;
+  } else if (feature.limitType === 'monthly') {
+    const [year, month] = date.split('-');
+    return `${featureId}_${year}-${month}`;
+  }
+
+  return featureId;
 }
 
 /**

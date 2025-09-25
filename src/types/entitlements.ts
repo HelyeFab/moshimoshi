@@ -3,7 +3,15 @@
  * Agent 2 Implementation
  */
 
-export type FeatureId = 'hiragana_practice' | 'katakana_practice';
+export type FeatureId =
+  | 'hiragana_practice'
+  | 'katakana_practice'
+  | 'kanji_browser'
+  | 'custom_lists'
+  | 'save_items'
+  | 'youtube_shadowing'
+  | 'media_upload'
+  | 'stall_layout_customization';
 
 export type PlanType = 'guest' | 'free' | 'premium_monthly' | 'premium_yearly';
 
@@ -51,15 +59,19 @@ export interface Decision {
 export interface PolicyLimits {
   guest: {
     daily: Record<FeatureId, number>;
+    monthly?: Record<FeatureId, number>;
   };
   free: {
     daily: Record<FeatureId, number>;
+    monthly?: Record<FeatureId, number>;
   };
   premium_monthly: {
     daily: Record<FeatureId, number>;
+    monthly?: Record<FeatureId, number>;
   };
   premium_yearly: {
     daily: Record<FeatureId, number>;
+    monthly?: Record<FeatureId, number>;
   };
 }
 

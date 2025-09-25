@@ -737,7 +737,7 @@ To add a new storage feature:
 
 ## Related Documentation
 
-- [Review Engine Architecture](/docs/REVIEW_ENGINE_DEEP_DIVE.md)
+- [Review Engine Architecture](/docs/universal-review-engine/REVIEW_ENGINE_DEEP_DIVE.md)
 - [Firebase Setup Guide](/docs/FIREBASE_SETUP.md)
 - [Subscription System](/docs/STRIPE_INTEGRATION.md)
 - [Security Best Practices](/docs/SECURITY.md)

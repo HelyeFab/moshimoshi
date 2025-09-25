@@ -87,15 +87,11 @@ export const GET = withAdminAuth(async (request: NextRequest, context) => {
 
     // Validate featureId if provided
     if (featureId) {
-      const validFeatures: FeatureId[] = [
-        'reviews', 'drills', 'customLists', 'flashcards',
-        'analytics', 'export', 'apiAccess', 'premiumContent',
-        'offlineMode', 'themes'
-      ];
+      const { FEATURE_IDS } = await import('@/types/FeatureId');
 
-      if (!validFeatures.includes(featureId)) {
+      if (!FEATURE_IDS.includes(featureId)) {
         return NextResponse.json(
-          { error: `Invalid featureId. Must be one of: ${validFeatures.join(', ')}` },
+          { error: `Invalid featureId. Must be one of: ${FEATURE_IDS.join(', ')}` },
           { status: 400 }
         );
       }

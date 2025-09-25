@@ -54,12 +54,13 @@ export function useReviewStats() {
       setLoading(true)
       setError(null)
 
-      if (isGuest || !isPremium) {
-        // Load from local storage for free/guest users
-        await loadLocalStats()
-      } else {
-        // Load from cloud for premium users
+      // Always try to load from cloud first for authenticated users
+      // The API will check premium status with FRESH data
+      if (!isGuest && user?.uid) {
         await loadCloudStats()
+      } else {
+        // Load from local storage for guest users only
+        await loadLocalStats()
       }
     } catch (err) {
       logger.error('Failed to load review stats:', err)
@@ -79,7 +80,7 @@ export function useReviewStats() {
       const userId = user?.uid || 'guest'
 
       // Get all sessions from IndexedDB
-      const sessions = await storage.getAllSessions?.(userId) || []
+      const sessions = await storage.getUserSessions(userId)
 
       // Calculate stats from local data
       const now = new Date()

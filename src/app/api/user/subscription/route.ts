@@ -21,8 +21,13 @@ export async function GET(request: NextRequest) {
     // Fetch user document from Firestore using admin SDK (no permission issues)
     const userDoc = await adminFirestore!.collection('users').doc(session.uid).get()
 
+    console.log('[GET /api/user/subscription] User doc exists:', userDoc.exists);
+    console.log('[GET /api/user/subscription] Session uid:', session.uid);
+    console.log('[GET /api/user/subscription] Session tier:', session.tier);
+
     if (!userDoc.exists) {
       // User doesn't have a document yet - return free tier
+      console.log('[GET /api/user/subscription] No user doc, returning free tier');
       return NextResponse.json({
         subscription: {
           plan: 'free',
@@ -36,6 +41,9 @@ export async function GET(request: NextRequest) {
       plan: 'free',
       status: 'active'
     }
+
+    console.log('[GET /api/user/subscription] Raw subscription from DB:', JSON.stringify(subscription));
+    console.log('[GET /api/user/subscription] Plan:', subscription.plan, 'Status:', subscription.status);
 
     // Convert Firestore Timestamp to ISO string for client
     if (subscription.currentPeriodEnd) {

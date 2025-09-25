@@ -1,13 +1,13 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { useTranslation } from '@/hooks/useTranslation';
-import { 
-  Clock, 
-  Sparkles, 
-  BookOpen, 
-  Trophy, 
-  Target, 
+import { useI18n } from '@/i18n/I18nContext';
+import {
+  Clock,
+  Sparkles,
+  BookOpen,
+  Trophy,
+  Target,
   Flame,
   TrendingUp,
   ChevronUp,
@@ -26,15 +26,15 @@ interface StatsCardProps {
   isUrgent?: boolean;
 }
 
-function StatsCard({ 
-  label, 
-  value, 
+function StatsCard({
+  label,
+  value,
   description,
-  change, 
-  icon, 
-  color, 
+  change,
+  icon,
+  color,
   onClick,
-  isUrgent 
+  isUrgent
 }: StatsCardProps) {
   const colorClasses = {
     blue: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800',
@@ -72,7 +72,7 @@ function StatsCard({
           </span>
         </div>
       )}
-      
+
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium opacity-80">{label}</p>
@@ -119,60 +119,78 @@ interface StatsOverviewProps {
 }
 
 export function StatsOverview({ stats }: StatsOverviewProps) {
-  const { t } = useTranslation();
-  
+  const { t, strings } = useI18n();
+
   const goalPercentage = Math.round((stats.todaysProgress / stats.todaysGoal) * 100);
+
+  // Use the strings object directly to ensure we get the right translations
+  const labels = {
+    dueNow: strings.review?.dashboard?.stats?.dueNow || 'Due Now',
+    newItems: strings.review?.dashboard?.stats?.newItems || 'New Items',
+    learningItems: strings.review?.dashboard?.stats?.learningItems || 'Learning',
+    masteredItems: strings.review?.dashboard?.stats?.masteredItems || 'Mastered',
+    todaysGoal: strings.review?.dashboard?.stats?.todaysGoal || "Today's Goal",
+    currentStreak: strings.review?.dashboard?.stats?.currentStreak || 'Current Streak',
+  };
+
+  const descriptions = {
+    dueNow: strings.review?.dashboard?.stats?.dueNowDescription || 'Items ready for review',
+    newItems: strings.review?.dashboard?.stats?.newItemsDescription || 'Items not yet started',
+    learningItems: strings.review?.dashboard?.stats?.learningItemsDescription || 'Items in progress',
+    masteredItems: strings.review?.dashboard?.stats?.masteredItemsDescription || "Items you've mastered",
+    currentStreak: strings.review?.dashboard?.stats?.currentStreakDescription || 'Days in a row',
+  };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
       <StatsCard
-        label={t('review.dashboard.stats.dueNow')}
+        label={labels.dueNow}
         value={stats.dueNow}
-        description={t('review.dashboard.stats.dueNowDescription')}
+        description={descriptions.dueNow}
         icon={<Clock className="h-5 w-5" />}
         color="red"
         isUrgent={stats.dueNow > 0}
         onClick={() => console.log('Start review')}
       />
-      
+
       <StatsCard
-        label={t('review.dashboard.stats.newItems')}
+        label={labels.newItems}
         value={stats.newItems}
-        description={t('review.dashboard.stats.newItemsDescription')}
+        description={descriptions.newItems}
         icon={<Sparkles className="h-5 w-5" />}
         color="blue"
       />
-      
+
       <StatsCard
-        label={t('review.dashboard.stats.learningItems')}
+        label={labels.learningItems}
         value={stats.learningItems}
-        description={t('review.dashboard.stats.learningItemsDescription')}
+        description={descriptions.learningItems}
         icon={<BookOpen className="h-5 w-5" />}
         color="yellow"
         change={5}
       />
-      
+
       <StatsCard
-        label={t('review.dashboard.stats.masteredItems')}
+        label={labels.masteredItems}
         value={stats.masteredItems}
-        description={t('review.dashboard.stats.masteredItemsDescription')}
+        description={descriptions.masteredItems}
         icon={<Trophy className="h-5 w-5" />}
         color="green"
         change={12}
       />
-      
+
       <StatsCard
-        label={t('review.dashboard.stats.todaysGoal')}
+        label={labels.todaysGoal}
         value={`${stats.todaysProgress}/${stats.todaysGoal}`}
         description={`${goalPercentage}% complete`}
         icon={<Target className="h-5 w-5" />}
         color="purple"
       />
-      
+
       <StatsCard
-        label={t('review.dashboard.stats.currentStreak')}
-        value={`${stats.currentStreak} days`}
-        description={t('review.dashboard.stats.currentStreakDescription')}
+        label={labels.currentStreak}
+        value={`${stats.currentStreak || 0} days`}
+        description={descriptions.currentStreak}
         icon={<Flame className="h-5 w-5" />}
         color="orange"
       />

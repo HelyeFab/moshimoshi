@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useErrorToast } from '@/hooks/useErrorToast'
 import { useTranslation } from '@/i18n/I18nContext'
 import { useSubscription } from '@/hooks/useSubscription'
+import { useAuth } from '@/hooks/useAuth'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
 import { InvoiceHistory } from '@/components/subscription/InvoiceHistory'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -43,6 +44,7 @@ function AccountPageContent() {
   const { showToast } = useToast()
   const { showError } = useErrorToast()
   const { subscription, upgradeToPremium, isPremium } = useSubscription()
+  const { refreshSession } = useAuth()
   logger.subscription('[Account Page] Subscription from hook:', subscription)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
@@ -124,16 +126,37 @@ function AccountPageContent() {
   const handleUpdateProfile = async () => {
     setUpdating(true)
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      // Make API call to update profile
+      const response = await fetch('/api/user/profile', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          displayName: displayName.trim()
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || 'Failed to update profile')
+      }
+
+      // Refresh the auth session to get updated user data everywhere
+      await refreshSession()
+
+      // Also refresh the local session to update this page
+      const sessionResponse = await fetch('/api/auth/session')
+      const sessionData = await sessionResponse.json()
+
+      if (sessionData.authenticated && sessionData.user) {
+        setUser(sessionData.user)
+        setDisplayName(sessionData.user.displayName || '')
+      }
 
       showToast(strings.account.toastMessages.profileUpdated, 'success')
       setProfileUpdated(true)
-
-      // Update local state
-      if (user) {
-        setUser({ ...user, displayName })
-      }
     } catch (error) {
       showError(error)
     } finally {
@@ -179,6 +202,9 @@ function AccountPageContent() {
         setUser({ ...user, photoURL: data.photoURL })
       }
 
+      // Refresh the auth session to update navbar and other components
+      await refreshSession()
+
       showToast('Profile photo updated successfully', 'success')
     } catch (error) {
       logger.error('Avatar upload error:', error)
@@ -204,6 +230,9 @@ function AccountPageContent() {
       if (user) {
         setUser({ ...user, photoURL: '' })
       }
+
+      // Refresh the auth session to update navbar and other components
+      await refreshSession()
 
       showToast('Profile photo removed', 'success')
     } catch (error) {

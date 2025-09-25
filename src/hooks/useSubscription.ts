@@ -24,12 +24,12 @@ interface UseSubscriptionReturn {
   subscription: SubscriptionFacts | null;
   isLoading: boolean;
   error: Error | null;
-  
-  // Computed properties
-  isSubscribed: boolean;
-  isPremium: boolean;
-  isFreeTier: boolean;
-  canUpgrade: boolean;
+
+  // Computed properties - undefined while loading
+  isSubscribed: boolean | undefined;
+  isPremium: boolean | undefined;
+  isFreeTier: boolean | undefined;
+  canUpgrade: boolean | undefined;
   daysUntilRenewal: number | null;
   
   // Actions
@@ -164,11 +164,12 @@ export function useSubscription(): UseSubscriptionReturn {
     }
   }, [showToast, refreshSubscription, t]);
 
-  // Computed properties
-  const isSubscribed = subscription?.plan !== 'free' && subscription?.status === 'active';
-  const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly';
-  const isFreeTier = !isSubscribed;
-  const canUpgrade = !isPremium || subscription?.cancelAtPeriodEnd === true;
+  // Computed properties - handle loading state properly
+  // When loading, these should be undefined/null rather than false
+  const isSubscribed = isLoading ? undefined : (subscription?.plan !== 'free' && subscription?.status === 'active');
+  const isPremium = isLoading ? undefined : (subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly');
+  const isFreeTier = isLoading ? undefined : !isSubscribed;
+  const canUpgrade = isLoading ? undefined : (!isPremium || subscription?.cancelAtPeriodEnd === true);
   
   const daysUntilRenewal = useCallback(() => {
     if (!subscription?.currentPeriodEnd) return null;

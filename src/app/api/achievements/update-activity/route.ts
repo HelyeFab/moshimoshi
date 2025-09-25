@@ -16,6 +16,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // CRITICAL: Fetch fresh user data from Firestore - NEVER trust session.tier
+    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const userData = userDoc.data()
+
+    // Determine actual tier from fresh data
+    const plan = userData?.subscription?.plan || 'free'
+    const isPremium = plan.startsWith('premium')
+
+    console.log(`[API] User ${session.uid} - Session tier: ${session.tier}, Actual plan: ${plan}, isPremium: ${isPremium}`)
+
     const { sessionType, itemsReviewed, accuracy, duration } = await request.json()
 
     // Get today's date in YYYY-MM-DD format

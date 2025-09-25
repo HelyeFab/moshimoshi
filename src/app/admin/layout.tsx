@@ -128,6 +128,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: '📊' },
+    { href: '/admin/resources', label: 'Resources', icon: '📚' },
     { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
     { href: '/admin/entitlements', label: 'Entitlements', icon: '🔐' },
     { href: '/admin/decision-explorer', label: 'Decision Logs', icon: '🔎' },

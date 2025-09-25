@@ -3,9 +3,9 @@
 
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
-import { 
-  createSessionToken, 
-  verifySessionToken, 
+import {
+  createSessionToken,
+  verifySessionToken,
   generateFingerprint,
   isTokenNearExpiration,
   SessionPayload,
@@ -13,6 +13,7 @@ import {
   decodeSessionToken,
 } from './jwt'
 import { redis } from '@/lib/redis/client'
+import { tierCache } from './tier-cache'
 
 const SESSION_COOKIE_NAME = 'session'
 const SESSION_COOKIE_OPTIONS = {
@@ -25,7 +26,7 @@ const SESSION_COOKIE_OPTIONS = {
 export interface SessionUser {
   uid: string
   email: string
-  tier: 'guest' | 'free' | 'premium.monthly' | 'premium.yearly'
+  tier?: 'guest' | 'free' | 'premium_monthly' | 'premium_yearly'  // Made optional for Phase 5
   admin?: boolean
   sessionId: string
   emailVerified?: boolean
@@ -45,11 +46,12 @@ export async function createSession(
   userData: {
     uid: string
     email: string
-    tier: 'guest' | 'free' | 'premium.monthly' | 'premium.yearly'
+    tier?: 'guest' | 'free' | 'premium_monthly' | 'premium_yearly'  // Made optional for Phase 5
     admin?: boolean
   },
   options: CreateSessionOptions = {}
 ): Promise<SessionUser> {
+  console.log('[createSession] Creating session', userData.tier ? `with tier: ${userData.tier}` : 'WITHOUT tier (Phase 5)', 'for uid:', userData.uid);
   try {
     const {
       duration = options.rememberMe ? 7 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000, // 7 days or 1 hour
@@ -59,16 +61,21 @@ export async function createSession(
 
     // Generate session token
     const fingerprint = generateFingerprint(userAgent, ipAddress)
-    const sessionToken = createSessionToken(
-      {
-        uid: userData.uid,
-        email: userData.email,
-        tier: userData.tier,
-        fingerprint,
-        admin: userData.admin,
-      },
-      duration
-    )
+
+    // Build token payload, conditionally including tier
+    const tokenPayload: any = {
+      uid: userData.uid,
+      email: userData.email,
+      fingerprint,
+      admin: userData.admin,
+    }
+
+    // Only include tier if provided (Phase 5 migration)
+    if (userData.tier) {
+      tokenPayload.tier = userData.tier
+    }
+
+    const sessionToken = createSessionToken(tokenPayload, duration)
 
     // Decode to get session ID for caching
     const decoded = decodeSessionToken(sessionToken)
@@ -78,12 +85,18 @@ export async function createSession(
 
     // Cache session in Redis for fast validation
     const sessionCacheKey = `session:${decoded.sid}`
-    await redis.setex(sessionCacheKey, Math.floor(duration / 1000), JSON.stringify({
+    const cacheData: any = {
       uid: userData.uid,
-      tier: userData.tier,
       valid: true,
       fingerprint,
-    }))
+    }
+
+    // Only include tier in cache if provided
+    if (userData.tier) {
+      cacheData.tier = userData.tier
+    }
+
+    await redis.setex(sessionCacheKey, Math.floor(duration / 1000), JSON.stringify(cacheData))
 
     // Set HTTP-only cookie
     const cookieStore = await cookies()
@@ -95,7 +108,7 @@ export async function createSession(
     const sessionUser: SessionUser = {
       uid: userData.uid,
       email: userData.email,
-      tier: userData.tier,
+      tier: userData.tier,  // May be undefined (Phase 5)
       admin: userData.admin,
       sessionId: decoded.sid,
     }
@@ -395,4 +408,61 @@ export function clearSessionCookie(response: NextResponse): void {
     ...SESSION_COOKIE_OPTIONS,
     maxAge: 0,
   })
+}
+
+/**
+ * Get tier for a session - Hybrid approach
+ *
+ * This is the migration helper that enables gradual transition from
+ * JWT-embedded tiers to Redis-cached tiers.
+ *
+ * Priority:
+ * 1. Try TierCache (60-second TTL)
+ * 2. Fall back to session.tier if cache fails (backward compatibility)
+ * 3. Default to 'free' if both fail
+ *
+ * @param session - The session user object
+ * @returns The user's current tier
+ */
+export async function getTierForSession(
+  session: SessionUser | null
+): Promise<'guest' | 'free' | 'premium_monthly' | 'premium_yearly'> {
+  // No session means guest
+  if (!session) {
+    console.log('[getTierForSession] No session, returning guest')
+    return 'guest'
+  }
+
+  try {
+    // Try to get tier from cache (60-second TTL)
+    const cachedTier = await tierCache.getUserTier(session.uid)
+    console.log(`[getTierForSession] Got tier from cache for ${session.uid}: ${cachedTier}`)
+    return cachedTier
+  } catch (error) {
+    console.error('[getTierForSession] TierCache error, falling back to session.tier:', error)
+
+    // Fall back to session.tier for backward compatibility
+    // This ensures old JWT tokens with embedded tier continue working
+    if (session.tier) {
+      console.log(`[getTierForSession] Using fallback session.tier for ${session.uid}: ${session.tier}`)
+      return session.tier
+    }
+
+    // Ultimate fallback
+    console.log(`[getTierForSession] No tier available for ${session.uid}, defaulting to free`)
+    return 'free'
+  }
+}
+
+/**
+ * Invalidate tier cache for a user
+ * Call this when subscription changes via Stripe webhook or manual update
+ */
+export async function invalidateTierCache(userId: string): Promise<void> {
+  try {
+    await tierCache.invalidate(userId)
+    console.log(`[invalidateTierCache] Invalidated tier cache for user ${userId}`)
+  } catch (error) {
+    console.error(`[invalidateTierCache] Error invalidating tier cache for ${userId}:`, error)
+  }
 }

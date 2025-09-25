@@ -179,6 +179,17 @@ export default function SyncStatusMenuItem() {
 
       // For premium users, force sync all data to Firebase
       if (user && isPremium) {
+        // Sync user lists to Firebase
+        try {
+          const { listManager } = await import('@/lib/lists/ListManager');
+          const syncedCount = await listManager.syncLocalListsToServer(user.uid);
+          if (syncedCount > 0) {
+            logger.info(`Synced ${syncedCount} lists to Firebase`);
+          }
+        } catch (error) {
+          logger.error('Failed to sync lists', error);
+        }
+
         // Check if manager is loaded (client-side only)
         if (kanaProgressManager) {
           const hiraganaProgress = await kanaProgressManager.getProgress('hiragana', user, isPremium);

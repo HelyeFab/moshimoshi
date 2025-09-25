@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  ReviewableContent 
+import {
+  ReviewableContent,
+  SRSData,
+  ReviewableContentWithSRS
 } from '@/lib/review-engine/core/interfaces'
-import { 
+import {
   ReviewMode
 } from '@/lib/review-engine/core/types'
 import {
@@ -25,6 +27,7 @@ import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
 import { IndexedDBStorage } from '@/lib/review-engine/offline/indexed-db'
 import { SyncQueue } from '@/lib/review-engine/offline/sync-queue'
 import { useI18n } from '@/i18n/I18nContext'
+import { SRSAlgorithm, ReviewResult } from '@/lib/review-engine/srs/algorithm'
 
 interface ReviewEngineProps {
   content: ReviewableContent[]
@@ -60,41 +63,65 @@ export default function ReviewEngine({
   
   const storageRef = useRef<IndexedDBStorage | null>(null)
   const syncQueueRef = useRef<SyncQueue | null>(null)
+  const srsAlgorithm = useRef(new SRSAlgorithm())
+  const hasInitialized = useRef(false)
   const { playSound, vibrate, playAudio } = useReviewEngine(config)
-  
+
   // Initialize session and offline storage
   useEffect(() => {
-    initializeSession()
-    
+    // Only initialize once when we have content
+    if (content && content.length > 0 && !hasInitialized.current) {
+      hasInitialized.current = true
+      initializeSession()
+    }
+
     // Listen for online/offline changes
     const handleOnline = () => setIsOffline(false)
     const handleOffline = () => setIsOffline(true)
-    
+
     window.addEventListener('online', handleOnline)
     window.addEventListener('offline', handleOffline)
-    
+
     return () => {
       window.removeEventListener('online', handleOnline)
       window.removeEventListener('offline', handleOffline)
-      
-      // Save session state before unmount
-      if (session?.status === 'active') {
-        saveSessionState()
+
+      // Save session state before unmount (access session directly)
+      if (session?.status === 'active' && storageRef.current) {
+        storageRef.current.saveSession({
+          ...session,
+          lastActivityAt: new Date()
+        }).catch(error => {
+          console.warn('[ReviewEngine] Failed to save session state on unmount:', error)
+        })
       }
     }
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content]) // Only depend on content to avoid infinite loops
   
   const initializeSession = async () => {
     try {
       setIsLoading(true)
-      
-      // Initialize offline storage (always enabled)
-      storageRef.current = new IndexedDBStorage()
-      await storageRef.current.initialize()
-      
-      // Cache content for offline access
-      await storageRef.current.cacheContent(content)
-      
+
+
+      // Content should already be validated by the useEffect check
+      if (!content || content.length === 0) {
+        console.error('[ReviewEngine] initializeSession called without content!')
+        setError('No content available for review')
+        return
+      }
+
+      // Try to initialize offline storage, but don't fail if it doesn't work
+      try {
+        storageRef.current = new IndexedDBStorage()
+        await storageRef.current.initialize()
+        // Cache content for offline access
+        await storageRef.current.cacheContent(content)
+      } catch (dbError) {
+        console.warn('[ReviewEngine] IndexedDB initialization failed, continuing without offline storage:', dbError)
+        // Continue without offline storage
+      }
+
       // Create session
       const newSession: ReviewSession = {
         id: generateSessionId(),
@@ -132,10 +159,15 @@ export default function ReviewEngine({
       
       setSession(newSession)
       setCurrentItem(newSession.items[0])
-      
-      // Save session to offline storage
+
+      // Save session to offline storage if available
       if (storageRef.current) {
-        await storageRef.current.saveSession(newSession)
+        try {
+          await storageRef.current.saveSession(newSession)
+        } catch (saveError) {
+          console.warn('[ReviewEngine] Failed to save session to offline storage:', saveError)
+          // Continue without saving to offline storage
+        }
       }
     } catch (err: any) {
       setError(err.message || 'Failed to initialize session')
@@ -144,27 +176,15 @@ export default function ReviewEngine({
     }
   }
   
-  const saveSessionState = async () => {
-    if (!session || !storageRef.current) return
-    
-    try {
-      await storageRef.current.saveSession({
-        ...session,
-        lastActivityAt: new Date()
-      })
-    } catch (error) {
-      console.error('Failed to save session state:', error)
-    }
-  }
   
   // Handle answer submission
   const handleAnswer = useCallback(async (answer: string, confidence?: 1 | 2 | 3 | 4 | 5) => {
     if (!session || !currentItem || showAnswer) return
-    
+
     try {
       // Validate answer (simplified - would use adapter in real implementation)
       const correct = answer.toLowerCase() === currentItem.content.primaryAnswer.toLowerCase()
-      
+
       // Record attempt
       // Update attempt count
       currentItem.attempts += 1
@@ -173,21 +193,112 @@ export default function ReviewEngine({
       currentItem.confidence = confidence
       currentItem.answeredAt = new Date()
       currentItem.responseTime = Date.now() - (currentItem.presentedAt ? currentItem.presentedAt.getTime() : Date.now())
-      
+
+      // Calculate next review date using SRS algorithm
+      const reviewResult: ReviewResult = {
+        correct,
+        responseTime: currentItem.responseTime || 0,
+        confidence,
+        hintsUsed: currentItem.hintsUsed,
+        attemptCount: currentItem.attempts
+      }
+
+      // Create content with existing SRS data (if any) for calculation
+      const contentWithSRS: ReviewableContentWithSRS = {
+        ...currentItem.content,
+        srsData: currentItem.easeFactor ? {
+          interval: currentItem.nextInterval || 0,
+          easeFactor: currentItem.easeFactor || 2.5,
+          repetitions: 0,
+          lastReviewedAt: new Date(),
+          nextReviewAt: new Date(),
+          status: 'learning',
+          reviewCount: 1,
+          correctCount: correct ? 1 : 0,
+          streak: correct ? 1 : 0,
+          bestStreak: correct ? 1 : 0
+        } : undefined
+      }
+
+      // Calculate next review
+      const updatedSRS = srsAlgorithm.current.calculateNextReview(contentWithSRS, reviewResult)
+
+      // Store the updated SRS data with the item
+      currentItem.nextInterval = updatedSRS.interval
+      currentItem.easeFactor = updatedSRS.easeFactor
+
+      console.log('[ReviewEngine] SRS updated:', {
+        itemId: currentItem.content.id,
+        correct,
+        nextReviewAt: updatedSRS.nextReviewAt,
+        interval: updatedSRS.interval,
+        status: updatedSRS.status,
+        easeFactor: updatedSRS.easeFactor
+      })
+
+      // Store SRS data for persistence
+      try {
+        // Save to localStorage for immediate persistence
+        const progressKey = `srs_${userId}_${currentItem.content.id}`
+        localStorage.setItem(progressKey, JSON.stringify(updatedSRS))
+
+        // Save to Firebase via simple SRS API
+        fetch('/api/srs/update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            itemId: currentItem.content.id,
+            srsData: {
+              ...updatedSRS,
+              contentType: currentItem.content.contentType || 'kana',
+              character: currentItem.content.primaryDisplay, // Store actual Japanese character
+              romaji: currentItem.content.primaryAnswer, // Store romaji for reference
+              lastReviewedAt: new Date().toISOString()
+            }
+          })
+        }).then(response => {
+          if (response.ok) {
+            console.log('[ReviewEngine] SRS data saved successfully')
+          }
+        }).catch(error => {
+          console.warn('[ReviewEngine] Failed to save SRS data:', error)
+        })
+      } catch (error) {
+        console.warn('[ReviewEngine] Failed to save SRS data:', error)
+      }
+
       // Update session
       const updatedSession = {
         ...session,
         lastActivityAt: new Date()
       }
       setSession(updatedSession)
-      
+
       // Save to offline storage
       if (storageRef.current) {
-        await storageRef.current.saveSession(updatedSession)
+        try {
+          await storageRef.current.saveSession(updatedSession)
+        } catch (error) {
+          console.warn('[ReviewEngine] Failed to save session update:', error)
+        }
       }
-      
+
+      // Dispatch event for notification system
+      if (correct && updatedSRS.nextReviewAt) {
+        window.dispatchEvent(new CustomEvent('reviewEngine:itemAnswered', {
+          detail: {
+            item: currentItem.content,
+            correct,
+            nextReviewAt: updatedSRS.nextReviewAt,
+            srsData: updatedSRS
+          }
+        }))
+      }
+
       setShowAnswer(true)
-      
+
       // Play feedback sound
       if (correct) {
         playSound('correct')
@@ -225,7 +336,11 @@ export default function ReviewEngine({
       
       // Save to offline storage
       if (storageRef.current) {
-        await storageRef.current.saveSession(updatedSession)
+        try {
+          await storageRef.current.saveSession(updatedSession)
+        } catch (error) {
+          console.warn('[ReviewEngine] Failed to save session update:', error)
+        }
       }
     } else {
       // Session complete
@@ -270,8 +385,12 @@ export default function ReviewEngine({
 
     // Save to offline storage
     if (storageRef.current) {
-      await storageRef.current.saveSession(completedSession)
-      await storageRef.current.saveStatistics(session.id, stats)
+      try {
+        await storageRef.current.saveSession(completedSession)
+        await storageRef.current.saveStatistics(session.id, stats)
+      } catch (error) {
+        console.warn('[ReviewEngine] Failed to save completed session:', error)
+      }
     }
 
     // Record daily activity for streak tracking (both study and review sessions)
@@ -286,7 +405,8 @@ export default function ReviewEngine({
       console.error('Failed to record daily activity:', error)
     }
 
-    onComplete(stats)
+    // Don't call onComplete immediately - let the user see the summary first
+    setStatistics(stats)
   }
   
   const calculateStatistics = (session: ReviewSession): SessionStatistics => {
@@ -452,7 +572,14 @@ export default function ReviewEngine({
   
   // Render session summary
   if (statistics) {
-    return <SessionSummary statistics={statistics} onClose={onCancel} />
+    return (
+      <SessionSummary
+        statistics={statistics}
+        onClose={() => {
+          onComplete(statistics)
+        }}
+      />
+    )
   }
   
   // Render review interface

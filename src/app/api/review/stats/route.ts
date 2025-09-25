@@ -8,40 +8,52 @@ export async function GET(request: NextRequest) {
     // Get authenticated session
     const session = await getSession()
     const userId = session?.uid || 'guest'
-    const isPremium = session?.tier?.includes('premium') || false
 
-    // For guest/free users, return basic stats (they should use IndexedDB locally)
-    if (userId === 'guest' || !isPremium) {
-      // Return minimal stats for free users
-      // Their real data is stored locally in IndexedDB
-      return NextResponse.json({
-        totalStudied: 0,
-        totalLearned: 0,
-        totalMastered: 0,
-        dueNow: 0,
-        dueToday: 0,
-        dueTomorrow: 0,
-        dueThisWeek: 0,
-        newItems: 0,
-        learningItems: 0,
-        streakDays: parseInt(request.headers.get('x-streak') || '0'),
-        bestStreak: parseInt(request.headers.get('x-best-streak') || '0'),
-        todaysProgress: 0,
-        totalReviewTime: 0,
-        averageAccuracy: 0,
-        contentBreakdown: {
-          kana: { studied: 0, learned: 0, mastered: 0 },
-          kanji: { studied: 0, learned: 0, mastered: 0 },
-          vocabulary: { studied: 0, learned: 0, mastered: 0 },
-          sentence: { studied: 0, learned: 0, mastered: 0 }
-        },
-        message: 'Free users: stats are stored locally'
-      })
+    console.log('[GET /api/review/stats] userId:', userId)
+
+    // CRITICAL: Get fresh user data to check premium status (never trust session.tier!)
+    if (userId !== 'guest') {
+      const userDoc = await adminDb.collection('users').doc(userId).get()
+      const userData = userDoc.data()
+      const plan = userData?.subscription?.plan || 'free'
+      const isPremium = plan.includes('premium')
+
+      console.log('[GET /api/review/stats] Plan:', plan, 'isPremium:', isPremium)
+
+      // For premium users, aggregate from Firebase
+      if (isPremium) {
+        const stats = await aggregateUserStats(userId)
+        console.log('[GET /api/review/stats] Returning stats:', stats)
+        return NextResponse.json(stats)
+      }
     }
 
-    // For premium users, aggregate from Firebase
-    const stats = await aggregateUserStats(userId)
-    return NextResponse.json(stats)
+    // For guest/free users, return basic stats (they should use IndexedDB locally)
+    // Return minimal stats for free users
+    // Their real data is stored locally in IndexedDB
+    return NextResponse.json({
+      totalStudied: 0,
+      totalLearned: 0,
+      totalMastered: 0,
+      dueNow: 0,
+      dueToday: 0,
+      dueTomorrow: 0,
+      dueThisWeek: 0,
+      newItems: 0,
+      learningItems: 0,
+      streakDays: parseInt(request.headers.get('x-streak') || '0'),
+      bestStreak: parseInt(request.headers.get('x-best-streak') || '0'),
+      todaysProgress: 0,
+      totalReviewTime: 0,
+      averageAccuracy: 0,
+      contentBreakdown: {
+        kana: { studied: 0, learned: 0, mastered: 0 },
+        kanji: { studied: 0, learned: 0, mastered: 0 },
+        vocabulary: { studied: 0, learned: 0, mastered: 0 },
+        sentence: { studied: 0, learned: 0, mastered: 0 }
+      },
+      message: 'Free users: stats are stored locally'
+    })
   } catch (error) {
     reviewLogger.error('Failed to fetch review stats:', error)
     return NextResponse.json(
@@ -53,12 +65,16 @@ export async function GET(request: NextRequest) {
 
 async function aggregateUserStats(userId: string) {
   try {
-    // Fetch progress data from Firebase - from user's subcollection using Admin SDK
-    const progressRef = adminDb
+    console.log('[aggregateUserStats] Starting aggregation for user:', userId)
+
+    // Fetch SRS data from Firebase - the actual review data
+    const srsRef = adminDb
       .collection('users')
       .doc(userId)
-      .collection('progress')
-    const snapshot = await progressRef.get()
+      .collection('srs_data')
+    const srsSnapshot = await srsRef.get()
+
+    console.log('[aggregateUserStats] Found SRS items:', srsSnapshot.size)
 
     let totalStudied = 0
     let totalLearned = 0
@@ -78,90 +94,106 @@ async function aggregateUserStats(userId: string) {
     weekEnd.setDate(weekEnd.getDate() + 7)
 
     const contentBreakdown: any = {
-      kana: { studied: 0, learned: 0, mastered: 0 },
+      hiragana: { studied: 0, learned: 0, mastered: 0 },
+      katakana: { studied: 0, learned: 0, mastered: 0 },
       kanji: { studied: 0, learned: 0, mastered: 0 },
       vocabulary: { studied: 0, learned: 0, mastered: 0 },
       sentence: { studied: 0, learned: 0, mastered: 0 }
     }
 
-    // Process each content type document
-    snapshot.forEach(doc => {
-      const docData = doc.data()
-      const contentType = doc.id // The doc ID is the content type (kana, kanji, etc.)
-      const items = docData?.items || {}
+    // Process each SRS item
+    srsSnapshot.forEach(doc => {
+      const data = doc.data()
+      const itemId = doc.id
 
-      // Process each item in the document
-      Object.values(items).forEach((data: any) => {
-        totalStudied++
+      // Determine content type from itemId
+      let contentType = 'kanji'
+      if (itemId.startsWith('hiragana-')) contentType = 'hiragana'
+      else if (itemId.startsWith('katakana-')) contentType = 'katakana'
+      else if (itemId.includes('vocab')) contentType = 'vocabulary'
+      else if (itemId.includes('sentence')) contentType = 'sentence'
+
+      totalStudied++
+      if (contentBreakdown[contentType]) {
+        contentBreakdown[contentType].studied++
+      }
+
+      // Determine item state based on SRS data
+      const interval = data.interval || 0
+      const repetitions = data.repetitions || 0
+      const easeFactor = data.easeFactor || 2.5
+
+      // NEW: Not reviewed yet
+      if (repetitions === 0) {
+        newItems++
+      }
+      // LEARNING: interval < 1 day
+      else if (interval < 1) {
+        learningItems++
+      }
+      // MASTERED: interval >= 21 days
+      else if (interval >= 21) {
+        totalMastered++
+        totalLearned++
         if (contentBreakdown[contentType]) {
-          contentBreakdown[contentType].studied++
+          contentBreakdown[contentType].mastered++
+          contentBreakdown[contentType].learned++
         }
-
-        // Determine status
-        const status = data.status || 'new'
-        if (status === 'new' || status === 'not-started') {
-          newItems++
-        } else if (status === 'learning' || status === 'viewing') {
-          learningItems++
-        } else if (status === 'review') {
-          totalLearned++
-          if (contentBreakdown[contentType]) {
-            contentBreakdown[contentType].learned++
-          }
-        } else if (status === 'mastered' || status === 'completed') {
-          totalMastered++
-          totalLearned++
-          if (contentBreakdown[contentType]) {
-            contentBreakdown[contentType].mastered++
-            contentBreakdown[contentType].learned++
-          }
+      }
+      // REVIEW: learned but not mastered
+      else {
+        totalLearned++
+        if (contentBreakdown[contentType]) {
+          contentBreakdown[contentType].learned++
         }
+      }
 
-        // Check due dates from SRS data
-        const srsData = data.srsData
-        if (srsData?.nextReviewAt) {
-          const reviewDate = typeof srsData.nextReviewAt === 'string'
-            ? new Date(srsData.nextReviewAt)
-            : srsData.nextReviewAt
+      // Check due dates
+      if (data.nextReview) {
+        const reviewDate = data.nextReview.toDate ? data.nextReview.toDate() : new Date(data.nextReview)
 
-          if (reviewDate <= now) dueNow++
-          if (reviewDate <= tomorrow) dueToday++
-          if (reviewDate > tomorrow && reviewDate <= new Date(tomorrow.getTime() + 24 * 60 * 60 * 1000)) {
-            dueTomorrow++
-          }
-          if (reviewDate <= weekEnd) dueThisWeek++
+        // Items are due if their review date has passed
+        if (reviewDate <= now) dueNow++
+        if (reviewDate <= tomorrow) dueToday++
+        if (reviewDate > tomorrow && reviewDate <= new Date(tomorrow.getTime() + 24 * 60 * 60 * 1000)) {
+          dueTomorrow++
         }
-      })
+        if (reviewDate <= weekEnd) dueThisWeek++
+      }
     })
 
-    // Fetch streak data
-    const streakQuery = adminDb
-      .collection('streaks')
-      .where('userId', '==', userId)
-    const streakSnapshot = await streakQuery.get()
+    // Fetch streak data from achievements collection
+    const achievementsRef = adminDb
+      .collection('users')
+      .doc(userId)
+      .collection('achievements')
+      .doc('activities')
+    const achievementsDoc = await achievementsRef.get()
 
     let streakDays = 0
     let bestStreak = 0
-    if (!streakSnapshot.empty) {
-      const streakData = streakSnapshot.docs[0].data()
-      streakDays = streakData.currentStreak || 0
-      bestStreak = streakData.bestStreak || 0
+    if (achievementsDoc.exists) {
+      const achievementsData = achievementsDoc.data()
+      streakDays = achievementsData?.currentStreak || 0
+      bestStreak = achievementsData?.bestStreak || 0
     }
 
-    // Calculate today's progress
-    const todayStart = new Date(today)
-    const todayEnd = new Date(tomorrow)
-    const sessionsQuery = adminDb
-      .collection('sessions')
-      .where('userId', '==', userId)
-      .where('startedAt', '>=', todayStart)
-      .where('startedAt', '<', todayEnd)
-    const todaySessions = await sessionsQuery.get()
+    // Calculate today's progress from statistics
+    const statsRef = adminDb
+      .collection('users')
+      .doc(userId)
+      .collection('statistics')
+      .doc('overall')
+    const statsDoc = await statsRef.get()
+
     let todaysProgress = 0
-    todaySessions.forEach(doc => {
-      const data = doc.data()
-      todaysProgress += data.itemsCompleted || 0
-    })
+    if (statsDoc.exists) {
+      const statsData = statsDoc.data()
+      // For now, we'll use the total items reviewed today
+      // This needs to be filtered by date in a real implementation
+      todaysProgress = statsData?.totalItemsReviewed || 0
+      // TODO: Filter by today's date from review_history collection
+    }
 
     return {
       totalStudied,

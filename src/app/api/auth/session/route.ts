@@ -2,7 +2,7 @@
 // Returns current user session status and information
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getSession } from '@/lib/auth/session'
+import { getSession, getTierForSession } from '@/lib/auth/session'
 import { adminFirestore } from '@/lib/firebase/admin'
 import { getSecurityHeaders } from '@/lib/auth/validation'
 import { checkSessionRateLimit, getRateLimitHeaders } from '@/lib/auth/rateLimit'
@@ -117,14 +117,18 @@ export async function GET(request: NextRequest) {
     } catch (error) {
       console.error('Error calculating session expiration:', error)
     }
-    
+
+    // Get tier using hybrid approach (cache or session)
+    const currentTier = await getTierForSession(session)
+    console.log(`[API /auth/session] Tier for ${session.uid}: ${currentTier} (was: ${session.tier})`)
+
     return NextResponse.json(
       {
         authenticated: true,
         user: {
           uid: session.uid,
           email: session.email,
-          tier: session.tier,
+          tier: currentTier,  // Using hybrid approach tier instead of session.tier
           displayName: userProfile?.displayName || null,
           photoURL: userProfile?.photoURL || null,
           emailVerified: userProfile?.emailVerified || false,

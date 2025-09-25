@@ -281,7 +281,7 @@ describe('Review API Middleware', () => {
           user: { 
             uid: 'premium-user', 
             email: 'premium@example.com',
-            tier: 'premium.monthly'
+            tier: 'premium_monthly'
           },
         });
 
@@ -294,7 +294,7 @@ describe('Review API Middleware', () => {
         const result = await requirePremium(request);
 
         expect(result.user).toBeDefined();
-        expect(result.user.tier).toBe('premium.monthly');
+        expect(result.user.tier).toBe('premium_monthly');
         expect(result.response).toBeUndefined();
       });
 
@@ -330,8 +330,8 @@ describe('Review API Middleware', () => {
 
     describe('isPremiumUser()', () => {
       it('should identify premium users correctly', () => {
-        expect(isPremiumUser({ tier: 'premium.monthly' } as any)).toBe(true);
-        expect(isPremiumUser({ tier: 'premium.yearly' } as any)).toBe(true);
+        expect(isPremiumUser({ tier: 'premium_monthly' } as any)).toBe(true);
+        expect(isPremiumUser({ tier: 'premium_yearly' } as any)).toBe(true);
         expect(isPremiumUser({ tier: 'free' } as any)).toBe(false);
         expect(isPremiumUser({ tier: 'trial' } as any)).toBe(false);
       });
@@ -483,7 +483,7 @@ describe('Review API Middleware', () => {
         const request = ApiRouteTestHelper.createMockNextRequest({
           method: 'GET',
           url: 'http://localhost:3000/api/test',
-          headers: { 'X-User-Tier': 'premium.monthly' },
+          headers: { 'X-User-Tier': 'premium_monthly' },
         });
 
         const result = await rateLimitByUser(request, 'premium-user', 'pin', 2);
@@ -531,7 +531,7 @@ describe('Review API Middleware', () => {
         const request = ApiRouteTestHelper.createMockNextRequest({
           method: 'GET',
           url: 'http://localhost:3000/api/test',
-          headers: { 'X-User-Tier': 'premium.yearly' },
+          headers: { 'X-User-Tier': 'premium_yearly' },
         });
 
         const result = await rateLimitByUser(request, 'premium-user', 'pin', 2);

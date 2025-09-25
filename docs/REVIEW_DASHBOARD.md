@@ -211,6 +211,6 @@ curl http://localhost:3000/api/review/stats
 
 ## Related Documentation
 
-- [Review Engine Documentation](/docs/REVIEW_ENGINE_DEEP_DIVE.md)
+- [Review Engine Documentation](/docs/universal-review-engine/REVIEW_ENGINE_DEEP_DIVE.md)
 - [SRS Algorithm Documentation](/src/lib/review-engine/srs/README.md)
 - [Progress Tracking Documentation](/docs/universal-progress-tracking.md)

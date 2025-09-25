@@ -54,9 +54,9 @@ function FloatingLantern({ delay = 0, color = '#ef4444' }) {
   return (
     <motion.div
       className="absolute pointer-events-none"
-      initial={{ y: 100, opacity: 0 }}
+      initial={{ y: '120vh', opacity: 0 }}
       animate={{
-        y: -800,
+        y: '-20vh',
         opacity: [0, 1, 1, 0],
       }}
       transition={{
@@ -81,6 +81,36 @@ function FloatingLantern({ delay = 0, color = '#ef4444' }) {
   )
 }
 
+// Twinkling light component
+function TwinklingLight({ delay = 0, x = '50%', y = '50%', color = '#fbbf24' }) {
+  return (
+    <motion.div
+      className="absolute pointer-events-none"
+      style={{ left: x, top: y }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{
+        opacity: [0, 1, 0.3, 1, 0],
+        scale: [0, 1.2, 0.8, 1.5, 0],
+      }}
+      transition={{
+        duration: 2 + Math.random() * 2,
+        delay: delay + Math.random() * 0.5,
+        repeat: Infinity,
+        repeatDelay: Math.random() * 3,
+        ease: 'easeInOut',
+      }}
+    >
+      <div
+        className="w-2 h-2 rounded-full"
+        style={{
+          background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+          boxShadow: `0 0 10px ${color}, 0 0 20px ${color}80, 0 0 30px ${color}40`,
+        }}
+      />
+    </motion.div>
+  )
+}
+
 // Chinese lantern emoji component
 function ChineseLantern({ delay = 0, size = 'medium' }) {
   const sizes = {
@@ -93,17 +123,22 @@ function ChineseLantern({ delay = 0, size = 'medium' }) {
   const duration = 25 + Math.random() * 10 // Varying speeds
   const horizontalDrift = Math.random() * 30 - 15 // Drift left or right
 
+  // Start from very bottom of the Learning Village (after all 5 rows)
+  // Using vh units for better responsiveness
+  const startY = '120vh'  // Start 120% of viewport height (well below all content)
+  const endY = '-20vh'    // End above the viewport
+
   return (
     <motion.div
       className={`absolute pointer-events-none ${sizes[size]}`}
       initial={{
-        y: 800,
+        y: startY,
         x: 0,
         opacity: 0,
         rotate: -10
       }}
       animate={{
-        y: -200,
+        y: endY,
         x: horizontalDrift,
         opacity: [0, 1, 1, 1, 0],
         rotate: 10
@@ -375,6 +410,21 @@ export default function LearningVillage() {
       stallImage: getRandomStallImage(),
     },
     {
+      id: 'my-lists',
+      title: strings.lists?.title || 'My Lists',
+      subtitle: strings.lists?.pageDescription || 'リスト',
+      description: strings.lists?.pageDescription || 'Create and manage custom study lists',
+      href: '/lists',
+      icon: '📋',
+      stallType: 'scroll',
+      color: 'from-cyan-400 to-teal-600',
+      glow: 'shadow-cyan-500/50',
+      doshiMood: 'happy' as const,
+      progress: 0,
+      lanternColor: '#06b6d4',
+      stallImage: getRandomStallImage(),
+    },
+    {
       id: 'kanji-browser',
       title: strings.dashboard?.cards?.kanjiBrowser?.title || 'Kanji Browser',
       subtitle: strings.dashboard?.cards?.kanjiBrowser?.subtitle || '漢字辞典',
@@ -530,7 +580,7 @@ export default function LearningVillage() {
       title: strings.dashboard?.cards?.myVideos?.title || 'My Videos',
       subtitle: strings.dashboard?.cards?.myVideos?.subtitle || 'ビデオ',
       description: strings.dashboard?.cards?.myVideos?.description || 'Your saved videos',
-      href: '/tools/my-videos',
+      href: '/my-videos',
       icon: '🎬',
       stallType: 'theater',
       color: 'from-rose-400 to-pink-600',
@@ -615,6 +665,22 @@ export default function LearningVillage() {
       doshiMood: 'happy' as const,
       progress: 0,
       lanternColor: '#9333ea',
+      stallImage: getRandomStallImage(),
+    },
+    // === PRODUCTIVITY ===
+    {
+      id: 'todos',
+      title: strings.todos?.title || 'Task Manager',
+      subtitle: 'タスク管理',
+      description: 'Organize your study tasks and goals',
+      href: '/todos',
+      icon: '✅',
+      stallType: 'utility',
+      color: 'from-purple-400 to-indigo-600',
+      glow: 'shadow-purple-500/50',
+      doshiMood: 'thinking' as const,
+      progress: 0,
+      lanternColor: '#a855f7',
       stallImage: getRandomStallImage(),
     },
   ], [strings])
@@ -725,29 +791,29 @@ export default function LearningVillage() {
             ))}
           </div>
         )}
+      </div>
 
-        {/* Floating lanterns */}
-        <div className="absolute inset-0 overflow-hidden">
-          {stalls.slice(0, 5).map((stall, i) => (
-            <FloatingLantern
-              key={`lantern-${i}`}
-              delay={i * 4}
-              color={stall.lanternColor}
-            />
-          ))}
+      {/* Floating lanterns - moved to main container level */}
+      <div className="absolute inset-0 h-full overflow-hidden pointer-events-none">
+        {stalls.slice(0, 5).map((stall, i) => (
+          <FloatingLantern
+            key={`lantern-${i}`}
+            delay={i * 4}
+            color={stall.lanternColor}
+          />
+        ))}
 
-          {/* Chinese lantern emojis of different sizes */}
-          <ChineseLantern delay={0} size="small" />
-          <ChineseLantern delay={3} size="large" />
-          <ChineseLantern delay={6} size="medium" />
-          <ChineseLantern delay={9} size="xlarge" />
-          <ChineseLantern delay={12} size="small" />
-          <ChineseLantern delay={15} size="medium" />
-          <ChineseLantern delay={18} size="large" />
-          <ChineseLantern delay={21} size="small" />
-          <ChineseLantern delay={24} size="medium" />
-          <ChineseLantern delay={27} size="xlarge" />
-        </div>
+        {/* Chinese lantern emojis of different sizes */}
+        <ChineseLantern delay={0} size="small" />
+        <ChineseLantern delay={3} size="large" />
+        <ChineseLantern delay={6} size="medium" />
+        <ChineseLantern delay={9} size="xlarge" />
+        <ChineseLantern delay={12} size="small" />
+        <ChineseLantern delay={15} size="medium" />
+        <ChineseLantern delay={18} size="large" />
+        <ChineseLantern delay={21} size="small" />
+        <ChineseLantern delay={24} size="medium" />
+        <ChineseLantern delay={27} size="xlarge" />
       </div>
 
       {/* Festival grounds */}
@@ -763,6 +829,20 @@ export default function LearningVillage() {
           <div className="mb-6">
             {/* Japanese Title */}
             <div className="relative mb-6">
+              {/* Twinkling lights around the title */}
+              <TwinklingLight delay={0} x="10%" y="20%" color="#fbbf24" />
+              <TwinklingLight delay={0.3} x="15%" y="60%" color="#f59e0b" />
+              <TwinklingLight delay={0.6} x="85%" y="25%" color="#fbbf24" />
+              <TwinklingLight delay={0.9} x="90%" y="70%" color="#f59e0b" />
+              <TwinklingLight delay={1.2} x="5%" y="40%" color="#fcd34d" />
+              <TwinklingLight delay={1.5} x="95%" y="45%" color="#fcd34d" />
+              <TwinklingLight delay={1.8} x="12%" y="80%" color="#fbbf24" />
+              <TwinklingLight delay={2.1} x="88%" y="85%" color="#f59e0b" />
+              <TwinklingLight delay={2.4} x="20%" y="15%" color="#fcd34d" />
+              <TwinklingLight delay={2.7} x="80%" y="10%" color="#fbbf24" />
+              <TwinklingLight delay={3.0} x="25%" y="90%" color="#f59e0b" />
+              <TwinklingLight delay={3.3} x="75%" y="95%" color="#fcd34d" />
+
               <motion.div
                 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 relative"
                 initial={{ opacity: 0, y: 20 }}

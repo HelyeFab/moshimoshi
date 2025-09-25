@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { motion } from 'framer-motion'
 
@@ -19,13 +19,12 @@ export default function MultipleChoiceInput({
   disabled,
   showAnswer
 }: MultipleChoiceInputProps) {
-  const [options, setOptions] = useState<string[]>([])
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  
-  useEffect(() => {
+
+  // Generate options using useMemo to prevent reshuffling on every render
+  const options = useMemo(() => {
     // Generate options from the content pool
     const correctAnswer = content.primaryAnswer
-
 
     // Collect all valid answers for this content (to avoid using them as distractors)
     const validAnswers = new Set([correctAnswer])
@@ -85,24 +84,62 @@ export default function MultipleChoiceInput({
           const distractor = genericKanjiDistractors.splice(randomIndex, 1)[0]
           wrongAnswers.push(distractor)
         }
+      } else if (content.contentType === 'kana') {
+        // For kana in recognition mode, we need romaji options (not kana characters)
+        // The correct answer is already the romaji (e.g., 'i' for い)
+        const genericRomajiDistractors = [
+          'a', 'i', 'u', 'e', 'o', 'ka', 'ki', 'ku', 'ke', 'ko',
+          'sa', 'shi', 'su', 'se', 'so', 'ta', 'chi', 'tsu', 'te', 'to',
+          'na', 'ni', 'nu', 'ne', 'no', 'ha', 'hi', 'fu', 'he', 'ho',
+          'ma', 'mi', 'mu', 'me', 'mo', 'ya', 'yu', 'yo', 'ra', 'ri',
+          'ru', 're', 'ro', 'wa', 'wo', 'n',
+          'ga', 'gi', 'gu', 'ge', 'go', 'za', 'ji', 'zu', 'ze', 'zo',
+          'da', 'di', 'du', 'de', 'do', 'ba', 'bi', 'bu', 'be', 'bo',
+          'pa', 'pi', 'pu', 'pe', 'po'
+        ]
+
+        // Filter out the correct answer and any existing wrong answers
+        const availableDistractors = genericRomajiDistractors.filter(d =>
+          !validAnswers.has(d) && !wrongAnswers.includes(d)
+        )
+
+        while (wrongAnswers.length < 3 && availableDistractors.length > 0) {
+          const randomIndex = Math.floor(Math.random() * availableDistractors.length)
+          const distractor = availableDistractors.splice(randomIndex, 1)[0]
+          wrongAnswers.push(distractor)
+        }
       }
     }
     
-    // If we STILL don't have enough options (shouldn't happen in normal use)
-    // Log a warning instead of using dummy data
+    // If we STILL don't have enough options (rare edge case)
+    // This can happen with very small selections - not a problem since we have fallbacks
     if (wrongAnswers.length < 3) {
-      console.warn(`Not enough content in pool to generate 4 options. Have ${wrongAnswers.length + 1} options.`)
+      // Only log in development mode to avoid console spam
+      if (process.env.NODE_ENV === 'development') {
+        console.debug(`Using fallback distractors. Pool size insufficient for 4 unique options.`)
+      }
     }
     
     // Combine correct answer with wrong answers and shuffle
     const allOptions = [correctAnswer, ...wrongAnswers]
       .slice(0, 4)  // Ensure we have at most 4 options
-      .sort(() => Math.random() - 0.5)  // Shuffle
 
+    // Shuffle using a stable random based on content ID to prevent re-shuffling
+    // Use a simple deterministic shuffle based on the content ID
+    const seed = content.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    const shuffled = [...allOptions].sort((a, b) => {
+      const hashA = (a.charCodeAt(0) + seed) % 100
+      const hashB = (b.charCodeAt(0) + seed) % 100
+      return hashA - hashB
+    })
 
-    setOptions(allOptions)
+    return shuffled
+  }, [content.id, content.primaryAnswer, content.alternativeAnswers, contentPool])
+
+  // Reset selected option when content changes
+  useEffect(() => {
     setSelectedOption(null)
-  }, [content, contentPool])
+  }, [content.id])
   
   const handleSelect = (option: string) => {
     if (disabled) return

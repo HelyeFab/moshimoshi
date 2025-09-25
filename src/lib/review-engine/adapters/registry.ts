@@ -9,6 +9,7 @@ import { VocabularyAdapter } from './vocabulary.adapter';
 import { SentenceAdapter } from './sentence.adapter';
 import { CustomContentAdapter } from './custom.adapter';
 import { MoodBoardAdapter } from './MoodBoardAdapter';
+import { UserListAdapter } from './UserListAdapter';
 import { ContentTypeConfig } from '../core/types';
 import { reviewLogger } from '@/lib/monitoring/logger';
 
@@ -35,6 +36,7 @@ export class AdapterRegistry {
     this.adapters.set('sentence', new SentenceAdapter(config.sentence));
     this.adapters.set('custom', new CustomContentAdapter(config.custom || this.getDefaultCustomConfig()));
     this.adapters.set('moodboard', new MoodBoardAdapter());
+    // Note: UserListAdapter is created dynamically per list
     
     this.initialized = true;
   }
@@ -106,7 +108,18 @@ export class AdapterRegistry {
   static hasAdapter(type: string): boolean {
     return this.adapters.has(type);
   }
-  
+
+  /**
+   * Create a UserListAdapter for a specific list
+   */
+  static createUserListAdapter(list: any): UserListAdapter {
+    if (!this.initialized) {
+      throw new Error('AdapterRegistry not initialized. Call initialize() first.');
+    }
+
+    return new UserListAdapter(list);
+  }
+
   /**
    * Reset the registry (mainly for testing)
    */

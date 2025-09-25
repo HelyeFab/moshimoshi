@@ -2,7 +2,7 @@
  * Utility functions for determining user tier from subscription data
  */
 
-export type UserTier = 'guest' | 'free' | 'premium.monthly' | 'premium.yearly' | 'premium_monthly' | 'premium_yearly';
+export type UserTier = 'guest' | 'free' | 'premium_monthly' | 'premium_yearly';
 
 /**
  * Derives the user's tier from their subscription data
@@ -15,13 +15,8 @@ export function getUserTier(userData: any): UserTier {
   // Check if user has an active subscription
   if (userData?.subscription?.status === 'active' && userData?.subscription?.plan) {
     // Return the subscription plan as the tier
-    // Handle both dot notation (premium.monthly) and underscore notation (premium_monthly)
     const plan = userData.subscription.plan;
     if (plan === 'premium_monthly' || plan === 'premium_yearly') {
-      return plan;
-    }
-    // Convert underscore to dot notation if needed for consistency
-    if (plan === 'premium.monthly' || plan === 'premium.yearly') {
       return plan;
     }
   }
@@ -42,19 +37,18 @@ export function getUserTier(userData: any): UserTier {
  */
 export function isPremiumUser(userData: any): boolean {
   const tier = getUserTier(userData);
-  return tier === 'premium.monthly' ||
-         tier === 'premium.yearly' ||
-         tier === 'premium_monthly' ||
-         tier === 'premium_yearly';
+  return tier === 'premium_monthly' || tier === 'premium_yearly';
 }
 
 /**
- * Normalizes tier format to use underscores (for database consistency)
- * @param tier - The tier in any format
- * @returns The tier with underscores
+ * Validates tier format (all tiers now use underscores)
+ * @param tier - The tier to validate
+ * @returns The validated tier
  */
-export function normalizeTier(tier: UserTier): UserTier {
-  if (tier === 'premium.monthly') return 'premium_monthly';
-  if (tier === 'premium.yearly') return 'premium_yearly';
-  return tier;
+export function validateTier(tier: string): UserTier {
+  const validTiers: UserTier[] = ['guest', 'free', 'premium_monthly', 'premium_yearly'];
+  if (validTiers.includes(tier as UserTier)) {
+    return tier as UserTier;
+  }
+  return 'free'; // Default to free for invalid tiers
 }

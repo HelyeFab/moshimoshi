@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
+import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
+import { EvalContext } from '@/types/entitlements';
 
 /**
  * POST /api/kanji/add-to-review
@@ -24,8 +26,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check daily limit for kanji_browser feature
-    const today = new Date().toISOString().split('T')[0];
+    // Get user data and current usage for entitlement check
+    const userDoc = await adminDb.collection('users').doc(session.uid).get();
+    const userData = userDoc.data();
+    const subscription = userData?.subscription;
+
+    const today = getTodayBucket(new Date().toISOString());
     const usageRef = adminDb
       .collection('users')
       .doc(session.uid)
@@ -35,29 +41,25 @@ export async function POST(request: NextRequest) {
     const usageDoc = await usageRef.get();
     const currentUsage = usageDoc.data()?.kanji_browser || 0;
 
-    // Get user's subscription tier
-    const userDoc = await adminDb.collection('users').doc(session.uid).get();
-    const userData = userDoc.data();
-    const subscription = userData?.subscription;
+    // Build evaluation context and check entitlements
+    const evalContext: EvalContext = {
+      userId: session.uid,
+      plan: subscription?.plan || 'free',
+      usage: { kanji_browser: currentUsage },
+      nowUtcISO: new Date().toISOString()
+    };
 
-    // Determine limits based on tier
-    let dailyLimit = 5; // Free tier default
-    if (subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly') {
-      dailyLimit = 10; // Premium limit
-    } else if (!userData) {
-      dailyLimit = 0; // Guest users can't add to review
-    }
+    const decision = evaluate('kanji_browser', evalContext);
 
     // Check if adding these kanji would exceed the limit
-    if (currentUsage + kanjiIds.length > dailyLimit) {
-      const remaining = Math.max(0, dailyLimit - currentUsage);
+    if (!decision.allow || (decision.remaining !== -1 && kanjiIds.length > decision.remaining)) {
       return NextResponse.json(
         {
-          error: 'Daily limit exceeded',
-          limit: dailyLimit,
+          error: decision.reason === 'limit_reached' ? 'Daily limit exceeded' : 'Access denied',
+          limit: decision.limit,
           current: currentUsage,
           requested: kanjiIds.length,
-          remaining
+          remaining: decision.remaining === -1 ? 'unlimited' : decision.remaining
         },
         { status: 429 }
       );
@@ -131,13 +133,21 @@ export async function POST(request: NextRequest) {
         lastUpdated: timestamp
       }, { merge: true });
 
+    // Re-evaluate after update to get new remaining count
+    const newUsage = currentUsage + kanjiIds.length;
+    const newContext: EvalContext = {
+      ...evalContext,
+      usage: { kanji_browser: newUsage }
+    };
+    const newDecision = evaluate('kanji_browser', newContext);
+
     return NextResponse.json({
       success: true,
       message: `Added ${kanjiIds.length} kanji to review queue`,
       added: kanjiIds.length,
-      dailyUsage: currentUsage + kanjiIds.length,
-      dailyLimit,
-      remaining: dailyLimit - (currentUsage + kanjiIds.length)
+      dailyUsage: newUsage,
+      dailyLimit: decision.limit === -1 ? 'unlimited' : decision.limit,
+      remaining: newDecision.remaining === -1 ? 'unlimited' : newDecision.remaining
     });
 
   } catch (error) {

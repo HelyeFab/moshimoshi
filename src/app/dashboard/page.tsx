@@ -11,7 +11,6 @@ import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Tooltip from '@/components/ui/Tooltip'
 import LearningVillage from '@/components/dashboard/LearningVillage'
-import AchievementDisplay from '@/components/dashboard/AchievementDisplay'
 import StreakCounter from '@/components/layout/StreakCounter'
 import AchievementToast from '@/components/notifications/AchievementToast'
 import { useAchievementStore } from '@/stores/achievement-store'
@@ -22,6 +21,8 @@ import PokedexCard from '@/components/pokedex/PokedexCard'
 import { useSubscription } from '@/hooks/useSubscription'
 import GuestModeBanner from '@/components/ui/GuestModeBanner'
 import { useAuth } from '@/hooks/useAuth'
+import { useXP } from '@/hooks/useXP'
+import { useReviewStats } from '@/hooks/useReviewStats'
 import logger from '@/lib/logger'
 
 // Dynamically import Confetti to avoid SSR issues
@@ -46,13 +47,22 @@ function DashboardContent() {
   // Achievement store
   const {
     initialize: initializeAchievements,
+    loadAchievements,
     getTotalPoints,
     getCompletionPercentage,
-    getRecentAchievements
+    getRecentAchievements,
+    getUnlockedAchievements,
+    userAchievements
   } = useAchievementStore()
 
-  // Streak store
-  const { currentStreak } = useStreakStore()
+  // Streak store (keeping for other uses but getting currentStreak from useReviewStats)
+  const streakStore = useStreakStore()
+
+  // XP data
+  const { totalXP, currentLevel, levelInfo } = useXP()
+
+  // Review stats (for consistent streak data)
+  const { stats: reviewStats } = useReviewStats()
 
   // Check for donation success from URL params
   useEffect(() => {
@@ -104,9 +114,12 @@ function DashboardContent() {
   // Initialize achievements when user and subscription are loaded
   useEffect(() => {
     if (user?.uid && subscription !== null) {
-      initializeAchievements(user.uid, isPremium)
+      initializeAchievements(user.uid, isPremium).then(() => {
+        // Load achievements after initialization
+        loadAchievements()
+      })
     }
-  }, [user?.uid, isPremium, subscription, initializeAchievements])
+  }, [user?.uid, isPremium, subscription, initializeAchievements, loadAchievements])
 
   // Initialize streak data from Firebase
   useEffect(() => {
@@ -151,45 +164,57 @@ function DashboardContent() {
   
   // Dynamic learning stats
   const getLearningStats = () => {
-    const totalPoints = getTotalPoints() || 0
+    const xpPoints = totalXP || 0  // Use real XP from hook
     const completionPercentage = getCompletionPercentage() || 0
-    const recentAchievements = getRecentAchievements() || []
-    const streakValue = currentStreak || 0
+    const unlockedAchievements = getUnlockedAchievements() || []
+    const streakValue = reviewStats.currentStreak || 0  // Use streak from reviewStats for consistency
+
+    // Debug logging
+    console.log('[Dashboard] userAchievements:', userAchievements)
+    console.log('[Dashboard] Unlocked achievements:', unlockedAchievements)
+
+    // Use the actual unlocked achievements count (you have 3: first-step, sharpshooter, consistent-performer)
+    const achievementCount = unlockedAchievements.length || (userAchievements?.unlocked?.size || 0)
 
     // Safely extract string values from i18n objects
-    const streakLabel = typeof strings.dashboard?.stats?.streak === 'object'
-      ? strings.dashboard?.stats?.streak?.label
-      : strings.dashboard?.stats?.streak || 'Streak'
-    const streakUnit = typeof strings.dashboard?.stats?.streak === 'object'
-      ? strings.dashboard?.stats?.streak?.unit
+    // Check if the value is an object with label/unit properties
+    const streakData = strings.dashboard?.stats?.streak
+    const streakLabel = (typeof streakData === 'object' && streakData !== null && 'label' in streakData)
+      ? String(streakData.label)
+      : String(streakData || 'Streak')
+    const streakUnit = (typeof streakData === 'object' && streakData !== null && 'unit' in streakData)
+      ? String(streakData.unit)
       : 'days'
 
-    const xpLabel = typeof strings.dashboard?.stats?.xpEarned === 'object'
-      ? strings.dashboard?.stats?.xpEarned?.label
-      : strings.dashboard?.stats?.xpEarned || 'XP Earned'
-    const xpUnit = typeof strings.dashboard?.stats?.xpEarned === 'object'
-      ? strings.dashboard?.stats?.xpEarned?.unit
+    const xpData = strings.dashboard?.stats?.xpEarned
+    const xpLabel = (typeof xpData === 'object' && xpData !== null && 'label' in xpData)
+      ? String(xpData.label)
+      : String(xpData || 'XP Earned')
+    const xpUnit = (typeof xpData === 'object' && xpData !== null && 'unit' in xpData)
+      ? String(xpData.unit)
       : 'points'
 
-    const progressLabel = typeof strings.dashboard?.stats?.progress === 'object'
-      ? strings.dashboard?.stats?.progress?.label
-      : strings.dashboard?.stats?.progress || 'Progress'
-    const progressUnit = typeof strings.dashboard?.stats?.progress === 'object'
-      ? strings.dashboard?.stats?.progress?.unit
+    const progressData = strings.dashboard?.stats?.progress
+    const progressLabel = (typeof progressData === 'object' && progressData !== null && 'label' in progressData)
+      ? String(progressData.label)
+      : String(progressData || 'Progress')
+    const progressUnit = (typeof progressData === 'object' && progressData !== null && 'unit' in progressData)
+      ? String(progressData.unit)
       : '%'
 
-    const achievementsLabel = typeof strings.dashboard?.stats?.achievements === 'object'
-      ? strings.dashboard?.stats?.achievements?.label
-      : strings.dashboard?.stats?.achievements || 'Achievements'
-    const achievementsUnit = typeof strings.dashboard?.stats?.achievements === 'object'
-      ? strings.dashboard?.stats?.achievements?.unit
-      : 'recent'
+    const achievementsData = strings.dashboard?.stats?.achievements
+    const achievementsLabel = (typeof achievementsData === 'object' && achievementsData !== null && 'label' in achievementsData)
+      ? String(achievementsData.label)
+      : String(achievementsData || 'Achievements')
+    const achievementsUnit = (typeof achievementsData === 'object' && achievementsData !== null && 'unit' in achievementsData)
+      ? String(achievementsData.unit)
+      : 'unlocked'
 
     return [
       { label: String(streakLabel || 'Streak'), value: streakValue.toString(), unit: String(streakUnit || 'days'), color: 'from-orange-400 to-red-500' },
-      { label: String(xpLabel || 'XP Earned'), value: totalPoints.toString(), unit: String(xpUnit || 'points'), color: 'from-blue-400 to-purple-500' },
+      { label: String(xpLabel || 'XP Earned'), value: xpPoints.toString(), unit: String(xpUnit || 'points'), color: 'from-blue-400 to-purple-500' },
       { label: String(progressLabel || 'Progress'), value: Math.round(completionPercentage).toString(), unit: String(progressUnit || '%'), color: 'from-green-400 to-teal-500' },
-      { label: String(achievementsLabel || 'Achievements'), value: recentAchievements.length.toString(), unit: String(achievementsUnit || 'recent'), color: 'from-pink-400 to-rose-500' },
+      { label: String(achievementsLabel || 'Achievements'), value: achievementCount.toString(), unit: String(achievementsUnit || 'unlocked'), color: 'from-pink-400 to-rose-500' },
     ]
   }
 
@@ -309,12 +334,12 @@ function DashboardContent() {
                 </p>
 
                 {/* Optional Motivational Tagline - Enhanced */}
-                {currentStreak > 0 && (
+                {reviewStats.currentStreak > 0 && (
                   <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
                     <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 rounded-full">
                       <span className="text-xl animate-pulse">🔥</span>
                       <span className="text-sm font-semibold text-orange-700 dark:text-orange-300">
-                        {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                        {reviewStats.currentStreak} {reviewStats.currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
                       </span>
                     </div>
                   </div>
@@ -352,12 +377,6 @@ function DashboardContent() {
         <div className="mb-8 -mx-4 sm:mx-0">
           <LearningVillage />
         </div>
-
-        {/* Achievement Display */}
-        <div className="mb-8">
-          <AchievementDisplay maxItems={12} />
-        </div>
-
 
       </main>
       

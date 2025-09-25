@@ -231,7 +231,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user tier for session creation
-    let userTier: 'guest' | 'free' | 'premium.monthly' | 'premium.yearly' = 'free'
+    let userTier: 'guest' | 'free' | 'premium_monthly' | 'premium_yearly' = 'free'
     try {
       const userDoc = await adminFirestore!
         .collection('users')

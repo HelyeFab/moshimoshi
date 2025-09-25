@@ -20,6 +20,7 @@ export default function HomePage() {
   const [isHovered, setIsHovered] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [showDoshiModal, setShowDoshiModal] = useState(false)
+  const [showAuthConflictModal, setShowAuthConflictModal] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -96,13 +97,19 @@ export default function HomePage() {
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-12 sm:mb-16 px-4">
             <button
-              onClick={() => {
-                // Simply mark as guest and navigate to dashboard
-                if (typeof window !== 'undefined') {
-                  sessionStorage.setItem('isGuestUser', 'true');
+              onClick={async () => {
+                // Check if user is already authenticated
+                if (user) {
+                  // User is already signed in, show conflict modal
+                  setShowAuthConflictModal(true)
+                } else {
+                  // No authenticated user, proceed to guest mode
+                  if (typeof window !== 'undefined') {
+                    sessionStorage.setItem('isGuestUser', 'true');
+                  }
+                  showToast('Welcome! Exploring as a guest...', 'info');
+                  router.push('/dashboard');
                 }
-                showToast('Welcome! Exploring as a guest...', 'info');
-                router.push('/dashboard');
               }}
               className="group px-6 py-4 sm:px-8 sm:py-5 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl sm:rounded-2xl hover:from-primary-600 hover:to-primary-700 transition-all font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-center cursor-pointer"
             >
@@ -269,6 +276,63 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* Authentication Conflict Modal */}
+      <Drawer
+        isOpen={showAuthConflictModal}
+        onClose={() => setShowAuthConflictModal(false)}
+        title="Already Signed In"
+        position="bottom"
+        size="medium"
+      >
+        <div className="px-6 py-6">
+          <div className="text-center space-y-4">
+            <DoshiMascot size="medium" variant="animated" priority />
+            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              You're already signed in as {user?.displayName || user?.email?.split('@')[0] || 'User'}!
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Would you like to continue to your dashboard, or sign out to try guest mode?
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+              <button
+                onClick={() => {
+                  setShowAuthConflictModal(false)
+                  router.push('/dashboard')
+                }}
+                className="px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-xl font-medium transition-all"
+              >
+                Go to My Dashboard
+              </button>
+              <button
+                onClick={async () => {
+                  setShowAuthConflictModal(false)
+                  showToast('Signing out...', 'info')
+                  try {
+                    // Sign out first
+                    await fetch('/api/auth/logout', { method: 'POST' })
+                    // Clear session cache
+                    setUser(null)
+                    // Set guest mode
+                    if (typeof window !== 'undefined') {
+                      sessionStorage.setItem('isGuestUser', 'true')
+                    }
+                    // Navigate to dashboard as guest
+                    showToast('Welcome! Exploring as a guest...', 'info')
+                    router.push('/dashboard')
+                  } catch (error) {
+                    console.error('Sign out error:', error)
+                    showToast('Failed to sign out. Please try again.', 'error')
+                  }
+                }}
+                className="px-6 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded-xl font-medium transition-all"
+              >
+                Sign Out & Try Guest Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      </Drawer>
 
       {/* About Doshi Modal */}
       <Drawer

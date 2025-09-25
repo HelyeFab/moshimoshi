@@ -1,6 +1,7 @@
 'use client';
 
 import { useSubscription } from '@/hooks/useSubscription';
+import { useSessionRefresh } from '@/hooks/useSessionRefresh';
 import { useI18n } from '@/i18n/I18nContext';
 import { formatDistanceToNow } from 'date-fns';
 import {
@@ -8,10 +9,13 @@ import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   XCircleIcon,
-  ClockIcon
+  ClockIcon,
+  ArrowPathIcon
 } from '@heroicons/react/24/outline';
 import { LoadingSpinner } from '@/components/ui/Loading';
 import DoshiMascot from '@/components/ui/DoshiMascot';
+import { useState, useEffect } from 'react';
+import { useToast } from '@/components/ui/Toast';
 
 interface SubscriptionStatusProps {
   compact?: boolean;
@@ -28,6 +32,38 @@ export function SubscriptionStatus({ compact = false, showActions = true }: Subs
     manageBilling,
     upgradeToPremium
   } = useSubscription();
+  const { refreshSession, isRefreshing } = useSessionRefresh();
+  const { showToast } = useToast();
+  const [sessionMismatch, setSessionMismatch] = useState(false);
+
+  // Check for session mismatch on mount
+  useEffect(() => {
+    if (!isLoading && subscription) {
+      checkSessionStatus();
+    }
+  }, [isLoading, subscription]);
+
+  const checkSessionStatus = async () => {
+    try {
+      const response = await fetch('/api/auth/session-check');
+      if (response.ok) {
+        const data = await response.json();
+        setSessionMismatch(data.needsRefresh);
+      }
+    } catch (error) {
+      console.error('Failed to check session status:', error);
+    }
+  };
+
+  const handleRefreshSession = async () => {
+    try {
+      await refreshSession();
+      setSessionMismatch(false);
+      showToast(t('subscription.sessionRefreshed'), 'success');
+    } catch (error) {
+      showToast(t('subscription.sessionRefreshFailed'), 'error');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -164,6 +200,37 @@ export function SubscriptionStatus({ compact = false, showActions = true }: Subs
               </div>
             )}
           </div>
+
+          {/* Session mismatch warning */}
+          {sessionMismatch && (
+            <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+              <div className="flex items-start">
+                <ExclamationTriangleIcon className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+                <div className="ml-3 flex-1">
+                  <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                    {t('subscription.sessionOutOfSync')}
+                  </p>
+                  <button
+                    onClick={handleRefreshSession}
+                    disabled={isRefreshing}
+                    className="mt-2 inline-flex items-center px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-50 text-white text-sm rounded-lg font-medium transition-colors"
+                  >
+                    {isRefreshing ? (
+                      <>
+                        <ArrowPathIcon className="h-4 w-4 mr-1.5 animate-spin" />
+                        {t('subscription.refreshing')}
+                      </>
+                    ) : (
+                      <>
+                        <ArrowPathIcon className="h-4 w-4 mr-1.5" />
+                        {t('subscription.refreshSession')}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Actions */}
           {showActions && (

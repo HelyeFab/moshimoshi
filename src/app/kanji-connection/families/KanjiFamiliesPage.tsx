@@ -115,99 +115,101 @@ export default function KanjiFamiliesPage() {
       <Navbar user={user} showUserMenu={true} />
 
       {/* Header */}
-      <header className="px-4 pt-24 pb-4 md:pt-24">
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => router.back()}
-              className="p-2 rounded-lg hover:bg-muted dark:hover:bg-dark-700 transition-colors"
-              aria-label="Go back"
-            >
-              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
-            <h1 className="text-xl font-bold text-foreground dark:text-dark-50 flex-1">
-              {t('kanjiConnection.families.title')}
-            </h1>
-
-            <div className="flex gap-2 bg-muted dark:bg-dark-700 rounded-lg p-1">
+      <header className="pt-24 pb-4 md:pt-24">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-3">
               <button
-                onClick={() => setViewMode('grid')}
-                className={`px-3 py-1 rounded ${
-                  viewMode === 'grid'
-                    ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
-                    : 'text-muted-foreground dark:text-dark-400'
-                }`}
+                onClick={() => router.back()}
+                className="p-2 rounded-lg hover:bg-muted dark:hover:bg-dark-700 transition-colors"
+                aria-label="Go back"
               >
-                Grid
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`px-3 py-1 rounded ${
-                  viewMode === 'list'
-                    ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
-                    : 'text-muted-foreground dark:text-dark-400'
-                }`}
-              >
-                List
-              </button>
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="flex items-center gap-3 flex-wrap sm:ml-11">
-            <div className="relative">
-              <button
-                onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                className="px-4 py-2 bg-muted dark:bg-dark-700 rounded-lg text-sm flex items-center gap-2 hover:bg-muted/80 dark:hover:bg-dark-600"
-              >
-                <span className="text-muted-foreground dark:text-dark-400">Category:</span>
-                <span className="text-foreground dark:text-dark-50">{selectedCategory === 'all' ? 'All' : selectedCategory}</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
 
-              {showCategoryDropdown && (
-                <div className="absolute top-full left-0 mt-2 bg-background dark:bg-dark-800 border border-border dark:border-dark-700 rounded-lg shadow-lg z-10">
-                  <button
-                    onClick={() => {
-                      setSelectedCategory('all');
-                      setShowCategoryDropdown(false);
-                    }}
-                    className="block w-full text-left px-4 py-2 hover:bg-muted dark:hover:bg-dark-700"
-                  >
-                    All Categories
-                  </button>
-                  {Object.keys(familiesByCategory).map(cat => (
-                    <button
-                      key={cat}
-                      onClick={() => {
-                        setSelectedCategory(cat);
-                        setShowCategoryDropdown(false);
-                      }}
-                      className="block w-full text-left px-4 py-2 hover:bg-muted dark:hover:bg-dark-700 capitalize"
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <h1 className="text-xl font-bold text-foreground dark:text-dark-50 flex-1">
+                {t('kanjiConnection.families.title')}
+              </h1>
+
+              <div className="flex gap-2 bg-muted dark:bg-dark-700 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`px-3 py-1 rounded ${
+                    viewMode === 'grid'
+                      ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
+                      : 'text-muted-foreground dark:text-dark-400'
+                  }`}
+                >
+                  Grid
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-3 py-1 rounded ${
+                    viewMode === 'list'
+                      ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
+                      : 'text-muted-foreground dark:text-dark-400'
+                  }`}
+                >
+                  List
+                </button>
+              </div>
             </div>
 
-            {selectedFamily && (
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={showCrossFamilies}
-                  onChange={(e) => setShowCrossFamilies(e.target.checked)}
-                  className="rounded"
-                />
-                <span className="text-muted-foreground dark:text-dark-400">Show cross-families</span>
-              </label>
-            )}
+            {/* Filters */}
+            <div className="flex items-center gap-3 flex-wrap sm:ml-11">
+              <div className="relative">
+                <button
+                  onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+                  className="px-4 py-2 bg-muted dark:bg-dark-700 rounded-lg text-sm flex items-center gap-2 hover:bg-muted/80 dark:hover:bg-dark-600"
+                >
+                  <span className="text-muted-foreground dark:text-dark-400">Category:</span>
+                  <span className="text-foreground dark:text-dark-50">{selectedCategory === 'all' ? 'All' : selectedCategory}</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {showCategoryDropdown && (
+                  <div className="absolute top-full left-0 mt-2 bg-background dark:bg-dark-800 border border-border dark:border-dark-700 rounded-lg shadow-lg z-10">
+                    <button
+                      onClick={() => {
+                        setSelectedCategory('all');
+                        setShowCategoryDropdown(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 hover:bg-muted dark:hover:bg-dark-700"
+                    >
+                      All Categories
+                    </button>
+                    {Object.keys(familiesByCategory).map(cat => (
+                      <button
+                        key={cat}
+                        onClick={() => {
+                          setSelectedCategory(cat);
+                          setShowCategoryDropdown(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 hover:bg-muted dark:hover:bg-dark-700 capitalize"
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {selectedFamily && (
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={showCrossFamilies}
+                    onChange={(e) => setShowCrossFamilies(e.target.checked)}
+                    className="rounded"
+                  />
+                  <span className="text-muted-foreground dark:text-dark-400">Show cross-families</span>
+                </label>
+              )}
+            </div>
           </div>
         </div>
       </header>

@@ -12,7 +12,7 @@ interface LearningPageHeaderProps {
   description: string
   subtitle?: string
 
-  // Statistics
+  // Statistics (OPTIONAL PROP #1 - controls progress bar display)
   stats?: {
     total: number
     learned: number
@@ -22,9 +22,10 @@ interface LearningPageHeaderProps {
     }
   }
 
-  // Mode controls
-  mode: ViewMode
-  onModeChange: (mode: ViewMode) => void
+  // Mode controls (OPTIONAL PROP #2 & #3 - controls mode selector and action buttons)
+  // Both mode and onModeChange must be provided together to show the mode selector
+  mode?: ViewMode
+  onModeChange?: (mode: ViewMode) => void
 
   // Selection controls
   selectionMode?: boolean
@@ -44,6 +45,21 @@ interface LearningPageHeaderProps {
   className?: string
 }
 
+/**
+ * LearningPageHeader Component
+ *
+ * THE 3 OPTIONAL PROPS FOR SIMPLIFIED USAGE:
+ * 1. stats - When omitted, hides the progress bar
+ * 2. mode - When omitted (along with onModeChange), hides the mode selector (browse/study/review)
+ * 3. onModeChange - When omitted (along with mode), hides the mode selector and all action buttons
+ *
+ * Example for simple header (like My Lists page):
+ * <LearningPageHeader
+ *   title="My Lists"
+ *   description="Manage your custom lists"
+ *   mascot="doshi"
+ * />
+ */
 export default function LearningPageHeader({
   title,
   description,
@@ -145,24 +161,25 @@ export default function LearningPageHeader({
           )}
         </div>
 
-        {/* Action Bar */}
-        <div className="space-y-4">
-          {/* Mode Selector */}
-          <div className="flex bg-gray-100 dark:bg-dark-800 rounded-lg p-1">
-            {(['browse', 'study', 'review'] as ViewMode[]).map((viewMode) => (
-              <button
-                key={viewMode}
-                onClick={() => onModeChange(viewMode)}
-                className={`flex-1 px-4 py-2 rounded-md font-medium transition-all capitalize ${
-                  mode === viewMode
-                    ? 'bg-gray-50 dark:bg-dark-700 text-primary-600 dark:text-primary-400 shadow-sm'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-                }`}
-              >
-                {viewMode}
-              </button>
-            ))}
-          </div>
+        {/* Action Bar - Only show if mode is provided */}
+        {mode && onModeChange && (
+          <div className="space-y-4">
+            {/* Mode Selector */}
+            <div className="flex bg-gray-100 dark:bg-dark-800 rounded-lg p-1">
+              {(['browse', 'study', 'review'] as ViewMode[]).map((viewMode) => (
+                <button
+                  key={viewMode}
+                  onClick={() => onModeChange(viewMode)}
+                  className={`flex-1 px-4 py-2 rounded-md font-medium transition-all capitalize ${
+                    mode === viewMode
+                      ? 'bg-gray-50 dark:bg-dark-700 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                  }`}
+                >
+                  {viewMode}
+                </button>
+              ))}
+            </div>
 
           {/* Actions based on mode */}
           {mode === 'browse' && (
@@ -268,8 +285,8 @@ export default function LearningPageHeader({
               )}
             </div>
           )}
-
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useStreakStore } from '@/stores/streakStore'
 import { loadStreakFromFirestore, subscribeToStreakFromFirestore } from '@/lib/sync/streakSync'
 import { useSubscription } from '@/hooks/useSubscription'
+import { useReviewStats } from '@/hooks/useReviewStats'
 import { auth } from '@/lib/firebase/client'
 import Tooltip from '@/components/ui/Tooltip'
 
@@ -23,9 +24,15 @@ const StreakCounter = ({
   onClick,
   userId
 }: StreakCounterProps) => {
-  const { currentStreak, longestStreak, lastActiveDay, isStreakActive, getDaysSinceLastActivity } = useStreakStore()
+  // Use the same source of truth as dashboard and review-dashboard
+  const { stats } = useReviewStats()
+  const { lastActiveDay, isStreakActive, getDaysSinceLastActivity } = useStreakStore()
   const { subscription, isPremium } = useSubscription()
   const [showMilestone, setShowMilestone] = useState(false)
+
+  // Use stats from useReviewStats for consistency across the app
+  const currentStreak = stats.currentStreak || 0
+  const longestStreak = stats.bestStreak || currentStreak || 0
   const [previousStreak, setPreviousStreak] = useState(currentStreak)
 
   // Load and subscribe to Firebase streak data for premium users
