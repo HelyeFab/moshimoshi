@@ -99,6 +99,7 @@ export const strings = {
     save: "保存",
     delete: "削除",
     edit: "編集",
+    remove: "Remove",
     back: "戻る",
     next: "次へ",
     previous: "前へ",
@@ -415,10 +416,47 @@ export const strings = {
         subtitle: "カスタムリスト",
         description: "カスタムリストを管理"
       },
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
+  },
+
       myVideos: {
         title: "マイビデオ",
         subtitle: "ビデオ",
         description: "保存した動画"
+      },
+      flashcards: {
+        title: "フラッシュカード",
+        subtitle: "カード",
+        description: "復習セッション"
       }
     },
     achievements: {
@@ -1779,6 +1817,225 @@ export const strings = {
     }
   },
 
+  flashcards: {
+    title: "フラッシュカード",
+    pageTitle: "フラッシュカードデッキ",
+    pageDescription: "カスタムフラッシュカードデッキを作成して学習",
+
+    // Empty state
+    noDecksYet: "まだデッキがありません",
+    noDecksDescription: "最初のフラッシュカードデッキを作成して学習の旅を始めましょう",
+    createFirstDeck: "最初のデッキを作成",
+
+    // Deck management
+    createDeck: "新しいデッキを作成",
+    editDeck: "デッキを編集",
+    deleteDeck: "デッキを削除",
+    deckName: "デッキ名",
+    deckDescription: "説明",
+    deckSettings: "デッキ設定",
+    totalCards: "{{count}}枚のカード",
+    lastStudied: "最終学習: {{date}}",
+    neverStudied: "未学習",
+
+    // Card management
+    addCard: "カードを追加",
+    editCard: "カードを編集",
+    deleteCard: "カードを削除",
+    frontSide: "表面",
+    backSide: "裏面",
+    cardNotes: "メモ（任意）",
+    cardTags: "タグ",
+    cardDifficulty: "難易度",
+
+    // Study modes
+    studyMode: "学習モード",
+    classic: "クラシック",
+    match: "マッチング",
+    speed: "スピードラウンド",
+    write: "書き取り練習",
+    voice: "音声練習",
+
+    // Study session
+    startStudying: "学習を開始",
+    resumeStudying: "学習を再開",
+    flipCard: "カードを裏返す",
+    showAnswer: "答えを表示",
+    nextCard: "次のカード",
+    previousCard: "前のカード",
+    markCorrect: "知っていた",
+    markIncorrect: "知らなかった",
+    difficulty: {
+      again: "もう一度",
+      hard: "難しい",
+      good: "良い",
+      easy: "簡単"
+    },
+
+    // Progress
+    progress: "進捗",
+    cardsStudied: "学習済みカード",
+    accuracy: "正答率",
+    streak: "現在の連続記録",
+    masteryLevel: "習得度",
+    dueForReview: "復習予定",
+    due: "due",
+    newCards: "新しいカード",
+    learningCards: "学習中",
+    reviewCards: "復習",
+
+    // Statistics
+    stats: {
+      title: "統計",
+      todayStudied: "今日の学習",
+      totalStudied: "総学習数",
+      averageAccuracy: "平均正答率",
+      studyStreak: "学習連続日数",
+      timeSpent: "学習時間",
+      heatmap: "学習ヒートマップ",
+      retention: "定着率"
+    },
+
+    // Customization
+    customize: {
+      title: "カードをカスタマイズ",
+      cardStyle: "カードスタイル",
+      minimal: "ミニマル",
+      decorated: "装飾付き",
+      themed: "テーマ付き",
+      animationSpeed: "アニメーション速度",
+      slow: "遅い",
+      normal: "通常",
+      fast: "速い",
+      soundEffects: "効果音",
+      hapticFeedback: "触覚フィードバック",
+      autoPlay: "自動音声再生",
+      studyDirection: "学習方向",
+      frontToBack: "表→裏",
+      backToFront: "裏→表",
+      mixed: "ミックス",
+      sessionLength: "セッションごとのカード数"
+    },
+
+    // Import/Export
+    import: {
+      title: "デッキをインポート",
+      selectFile: "ファイルを選択",
+      supportedFormats: "対応形式: CSV, JSON, Anki (.apkg)",
+      fromList: "リストから作成",
+      selectList: "リストを選択",
+      importing: "インポート中...",
+      success: "{{count}}枚のカードをインポート",
+      error: "デッキのインポートに失敗"
+    },
+
+    export: {
+      title: "デッキをエクスポート",
+      format: "エクスポート形式",
+      csv: "CSV",
+      json: "JSON",
+      anki: "Ankiパッケージ",
+      includeProgress: "進捗データを含める",
+      exporting: "エクスポート中...",
+      success: "デッキのエクスポート完了"
+    },
+
+    // Empty states
+    empty: {
+      noDecks: "フラッシュカードデッキがありません",
+      createFirst: "最初のデッキを作成して学習を始めましょう",
+      noCards: "このデッキにはカードがありません",
+      addFirst: "最初のカードを追加してください",
+      noDue: "復習予定のカードがありません",
+      allCaughtUp: "全て完了！後でまた来てください。",
+      studyNew: "新しいカードを学習",
+      noDecksYet: "デッキがありません",
+      noDecksDescription: "最初のフラッシュカードデッキを作成して学習を始めましょう",
+      createFirstDeck: "最初のデッキを作成"
+    },
+
+    // Errors and limits
+    errors: {
+      loadFailed: "デッキの読み込みに失敗",
+      saveFailed: "デッキの保存に失敗",
+      deleteFailed: "デッキの削除に失敗",
+      limitReached: "デッキの上限に達しました",
+      upgradeRequired: "さらにデッキを作成するにはアップグレードが必要",
+      offlineOnly: "オフラインモード - ローカルに保存",
+      syncFailed: "クラウド同期に失敗"
+    },
+
+    limits: {
+      guest: "フラッシュカードを作成するにはサインインしてください",
+      freeLimit: "無料版: {{current}}/{{max}}デッキ",
+      dailyLimit: "1日の上限: {{current}}/{{max}}復習",
+      unlimited: "無制限のデッキ"
+    },
+
+    // Tooltips
+    tooltips: {
+      srs: "最適な学習のための間隔反復を使用",
+      mastery: "90%以上の正答率で21日以上継続学習",
+      streak: "毎日学習して連続記録を維持",
+      difficulty: "このカードの理解度を評価",
+      leech: "このカードは追加練習が必要"
+    },
+
+    // Confirmations
+    confirmDelete: {
+      title: "デッキを削除",
+      message: "「{{name}}」を削除してもよろしいですか？この操作は元に戻せません。",
+      deck: "デッキ「{{name}}」を削除しますか？元に戻せません。",
+      card: "このカードを削除しますか？元に戻せません。",
+      progress: "進捗をリセットしますか？全ての統計がクリアされます。"
+    },
+
+    // Success messages
+    success: {
+      deckCreated: "デッキを作成しました",
+      deckUpdated: "デッキを更新しました",
+      deckDeleted: "デッキを削除しました",
+      cardAdded: "カードをデッキに追加",
+      cardUpdated: "カードを更新しました",
+      cardDeleted: "カードをデッキから削除",
+      progressSaved: "進捗を保存しました",
+      imported: "デッキをインポートしました",
+      exported: "デッキをエクスポートしました"
+    },
+
+    // 統計
+    showStats: "統計を表示",
+    hideStats: "統計を隠す",
+    stats: {
+      mastered: "習得済み",
+      accuracy: "正確度",
+      streak: "現在の連続記録",
+      studyTime: "学習時間",
+      learningProgress: "学習進捗",
+      deckPerformance: "デッキのパフォーマンス",
+      insights: "学習インサイト",
+      velocity: "学習速度",
+      cardsPerHour: "カード/時間",
+      todayGoal: "今日の進捗",
+      bestStreak: "最長連続記録",
+      dueNow: "復習待ち",
+      days: "日",
+      total: "総カード数",
+      learning: "学習中",
+      complete: "完了",
+      progress: "進捗",
+      averageAccuracy: "平均正確度",
+      hoursMinutes: "{{hours}}時間{{minutes}}分",
+      minutes: "{{minutes}}分",
+      period: {
+        day: "今日",
+        week: "今週",
+        month: "今月",
+        all: "全期間"
+      }
+    }
+  },
+
   conjugation: {
       title: "活用",
       showConjugations: "活用を表示",
@@ -2301,6 +2558,38 @@ export const strings = {
     item: {
       cancel: "キャンセル"
     }
+  },
+
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
   },
 
   myVideos: {

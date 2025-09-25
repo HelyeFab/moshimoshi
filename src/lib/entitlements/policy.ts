@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-09-25T14:55:00.772Z
+ * Generated at: 2025-09-25T19:04:52.656Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -31,7 +31,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
     "monthly": {
       "custom_lists": 0,
       "save_items": 0,
-      "todos": 0
+      "todos": 0,
+      "flashcard_decks": 0
     }
   },
   "free": {
@@ -47,7 +48,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
     "monthly": {
       "custom_lists": 10,
       "save_items": 50,
-      "todos": 100
+      "todos": 100,
+      "flashcard_decks": 10
     }
   },
   "premium_monthly": {
@@ -63,7 +65,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
     "monthly": {
       "custom_lists": -1,
       "save_items": -1,
-      "todos": -1
+      "todos": -1,
+      "flashcard_decks": -1
     }
   },
   "premium_yearly": {
@@ -79,7 +82,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
     "monthly": {
       "custom_lists": -1,
       "save_items": -1,
-      "todos": -1
+      "todos": -1,
+      "flashcard_decks": -1
     }
   }
 };

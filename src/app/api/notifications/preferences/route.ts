@@ -9,6 +9,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/app/api/review/_middleware/auth'
 import { adminDb } from '@/lib/firebase/admin'
 import admin from 'firebase-admin'
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
+import { getSession } from '@/lib/auth/session'
 
 interface NotificationPreferences {
   userId: string
@@ -62,22 +64,29 @@ export async function GET(request: NextRequest) {
     if (authError) return authError
 
     const userId = user.id
+    const session = await getSession()
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    // Get preferences from database
-    const prefsDoc = await adminDb
-      .collection('notifications_preferences')
-      .doc(userId)
-      .get()
+    const decision = await getStorageDecision(session)
 
-    if (prefsDoc.exists) {
+    // Only get from Firebase for premium users
+    let prefsDoc = null
+    if (decision.shouldWriteToFirebase) {
+      prefsDoc = await adminDb
+        .collection('notifications_preferences')
+        .doc(userId)
+        .get()
+    }
+
+    if (prefsDoc?.exists) {
       const data = prefsDoc.data()
 
       // Convert Firestore timestamps to dates
-      return NextResponse.json({
+      return createStorageResponse({
         ...data,
         created_at: data?.created_at?.toDate(),
         updated_at: data?.updated_at?.toDate()
-      })
+      }, decision)
     }
 
     // Return default preferences if none exist
@@ -122,17 +131,19 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Save default preferences
-    await adminDb
-      .collection('notifications_preferences')
-      .doc(userId)
-      .set({
-        ...defaultPreferences,
-        created_at: admin.firestore.FieldValue.serverTimestamp(),
-        updated_at: admin.firestore.FieldValue.serverTimestamp()
-      })
+    // Only save to Firebase for premium users
+    if (decision.shouldWriteToFirebase) {
+      await adminDb
+        .collection('notifications_preferences')
+        .doc(userId)
+        .set({
+          ...defaultPreferences,
+          created_at: admin.firestore.FieldValue.serverTimestamp(),
+          updated_at: admin.firestore.FieldValue.serverTimestamp()
+        })
+    }
 
-    return NextResponse.json(defaultPreferences)
+    return createStorageResponse(defaultPreferences, decision)
 
   } catch (error) {
     console.error('Failed to get notification preferences:', error)
@@ -152,73 +163,81 @@ export async function PUT(request: NextRequest) {
     if (authError) return authError
 
     const userId = user.id
+    const session = await getSession()
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    const decision = await getStorageDecision(session)
     const body = await request.json()
 
     // Validate preferences structure
     const validatedPreferences = validatePreferences(body)
 
-    // Update preferences in database
-    const docRef = adminDb.collection('notifications_preferences').doc(userId)
+    // Only update in Firebase for premium users
+    if (decision.shouldWriteToFirebase) {
+      const docRef = adminDb.collection('notifications_preferences').doc(userId)
 
-    await docRef.set({
-      ...validatedPreferences,
-      userId,
-      updated_at: admin.firestore.FieldValue.serverTimestamp()
-    }, { merge: true })
+      await docRef.set({
+        ...validatedPreferences,
+        userId,
+        updated_at: admin.firestore.FieldValue.serverTimestamp()
+      }, { merge: true })
+    }
 
-    // If browser notifications are being enabled, check permission status
-    if (validatedPreferences.channels?.browser) {
+    // If browser notifications are being enabled, check permission status (premium only)
+    if (decision.shouldWriteToFirebase && validatedPreferences.channels?.browser) {
       const tokenDoc = await adminDb
         .collection('notifications_tokens')
         .doc(userId)
         .get()
 
       if (!tokenDoc.exists || tokenDoc.data()?.browser_permission !== 'granted') {
-        return NextResponse.json({
+        return createStorageResponse({
           success: true,
           message: 'Preferences updated',
           requiresPermission: true,
           permissionType: 'browser'
-        })
+        }, decision)
       }
     }
 
-    // If push notifications are being enabled, check FCM token
-    if (validatedPreferences.channels?.push) {
+    // If push notifications are being enabled, check FCM token (premium only)
+    if (decision.shouldWriteToFirebase && validatedPreferences.channels?.push) {
       const tokenDoc = await adminDb
         .collection('notifications_tokens')
         .doc(userId)
         .get()
 
       if (!tokenDoc.exists || !tokenDoc.data()?.fcm_token) {
-        return NextResponse.json({
+        return createStorageResponse({
           success: true,
           message: 'Preferences updated',
           requiresSetup: true,
           setupType: 'push'
-        })
+        }, decision)
       }
     }
 
-    // Log preference change
-    await adminDb.collection('analytics_events').add({
-      userId,
-      event: 'preferences_updated',
-      category: 'notifications',
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
-      properties: {
-        channels_enabled: Object.entries(validatedPreferences.channels || {})
-          .filter(([_, enabled]) => enabled)
-          .map(([channel]) => channel),
-        quiet_hours_enabled: validatedPreferences.quiet_hours?.enabled,
-        batching_enabled: validatedPreferences.batching?.enabled
-      }
-    })
+    // Log preference change (premium only)
+    if (decision.shouldWriteToFirebase) {
+      await adminDb.collection('analytics_events').add({
+        userId,
+        event: 'preferences_updated',
+        category: 'notifications',
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        properties: {
+          channels_enabled: Object.entries(validatedPreferences.channels || {})
+            .filter(([_, enabled]) => enabled)
+            .map(([channel]) => channel),
+          quiet_hours_enabled: validatedPreferences.quiet_hours?.enabled,
+          batching_enabled: validatedPreferences.batching?.enabled
+        }
+      })
+    }
 
-    return NextResponse.json({
+    return createStorageResponse({
       success: true,
-      message: 'Notification preferences updated successfully'
-    })
+      message: decision.shouldWriteToFirebase ? 'Notification preferences updated successfully' : 'Preferences saved locally'
+    }, decision)
 
   } catch (error) {
     console.error('Failed to update notification preferences:', error)
@@ -246,6 +265,10 @@ export async function POST(request: NextRequest) {
     if (authError) return authError
 
     const userId = user.id
+    const session = await getSession()
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    const decision = await getStorageDecision(session)
     const body = await request.json()
     const { setting, value } = body
 

@@ -32,87 +32,62 @@ export class LeaderboardService {
   }
 
   /**
-   * Aggregate user data from multiple Firebase collections
+   * Get user data from lightweight leaderboard stats
+   * (This replaces the heavy aggregation approach)
    */
-  async aggregateUserData(userId: string): Promise<LeaderboardAggregationData | null> {
+  async getUserLeaderboardData(userId: string): Promise<LeaderboardAggregationData | null> {
     try {
-      logger.info('[LeaderboardService] Aggregating data for user:', userId)
+      logger.info('[LeaderboardService] Getting leaderboard data for user:', userId)
 
-      // Fetch all data in parallel for performance
-      const [
-        userDoc,
-        activitiesDoc,
-        xpDoc,
-        achievementsDoc,
-        preferencesDoc
-      ] = await Promise.all([
-        adminDb.collection('users').doc(userId).get(),
-        adminDb.collection('users').doc(userId).collection('achievements').doc('activities').get(),
-        adminDb.collection('users').doc(userId).collection('stats').doc('xp').get(),
-        adminDb.collection('users').doc(userId).collection('achievements').doc('data').get(),
-        adminDb.collection('users').doc(userId).collection('preferences').doc('settings').get()
-      ])
-
-      if (!userDoc.exists) {
-        logger.warn('[LeaderboardService] User not found:', userId)
+      // Check if user has opted out
+      const optOutDoc = await adminDb.collection('leaderboard_optouts').doc(userId).get()
+      if (optOutDoc.exists) {
+        logger.info(`[LeaderboardService] User ${userId} has opted out of leaderboard`)
         return null
       }
 
-      const userData = userDoc.data()
-      const activitiesData = activitiesDoc.data() || {}
-      const xpData = xpDoc.data() || {}
-      const achievementsData = achievementsDoc.data() || {}
-      const preferencesData = preferencesDoc.data() || {}
-
-      // Count achievement rarities and calculate total points
-      const achievementsUnlocked = achievementsData.unlocked || {}
-
-      // Calculate total achievement points from unlocked achievements
-      // This ensures we're always using the real calculated value
-      let calculatedTotalPoints = 0
-      if (achievementsData.unlocked && Array.isArray(achievementsData.unlocked)) {
-        // If unlocked is an array of achievement IDs, we need to look up their point values
-        // For now, use the stored totalPoints, but this should be calculated from actual achievements
-        calculatedTotalPoints = achievementsData.totalPoints || 0
-      } else {
-        // Use the stored totalPoints value which should be calculated by the achievement system
-        calculatedTotalPoints = achievementsData.totalPoints || 0
+      // Get user's leaderboard stats
+      const statsDoc = await adminDb.collection('leaderboard_stats').doc(userId).get()
+      if (!statsDoc.exists) {
+        logger.warn(`[LeaderboardService] No leaderboard stats for user ${userId}`)
+        return null
       }
 
+      const data = statsDoc.data()
       return {
         userId,
-        displayName: userData?.displayName || 'Anonymous',
-        photoURL: userData?.photoURL,
-
-        // Streak data
-        currentStreak: activitiesData.currentStreak || 0,
-        bestStreak: activitiesData.bestStreak || activitiesData.longestStreak || 0,
-        lastActivity: activitiesData.lastActivity || Date.now(),
-
-        // XP data
-        totalXP: xpData.totalXP || 0,
-        currentLevel: xpData.currentLevel || 1,
-        weeklyXP: xpData.weeklyXP || 0,
-        monthlyXP: xpData.monthlyXP || 0,
-
-        // Achievement data
-        achievementsUnlocked,
-        totalPoints: calculatedTotalPoints,
-
-        // Subscription
-        subscription: userData?.subscription,
-
-        // Privacy preferences (default to showing on leaderboard unless opted out)
+        displayName: data.displayName || 'Anonymous',
+        photoURL: data.photoURL,
+        currentStreak: data.currentStreak || 0,
+        bestStreak: data.bestStreak || data.currentStreak || 0,
+        lastActivity: data.lastActivityDate?.toMillis() || Date.now(),
+        totalXP: data.totalXP || 0,
+        currentLevel: data.level || 1,
+        weeklyXP: data.weeklyXP || 0,
+        monthlyXP: data.monthlyXP || 0,
+        achievementsUnlocked: {},
+        totalPoints: data.achievementPoints || 0,
+        subscription: data.subscription,
         privacy: {
-          publicProfile: preferencesData.publicProfile ?? false,
-          hideFromLeaderboard: preferencesData.hideFromLeaderboard ?? false, // Opt-out model
-          useAnonymousName: preferencesData.useAnonymousName ?? false
+          publicProfile: true,
+          hideFromLeaderboard: false,
+          useAnonymousName: false
         }
       }
     } catch (error) {
-      logger.error('[LeaderboardService] Error aggregating user data:', error)
+      logger.error('[LeaderboardService] Error getting user leaderboard data:', error)
       return null
     }
+  }
+
+  /**
+   * DEPRECATED: Heavy aggregation from multiple collections
+   * Kept for backward compatibility but should not be used
+   */
+  async aggregateUserData(userId: string): Promise<LeaderboardAggregationData | null> {
+    // This method is deprecated in favor of getUserLeaderboardData
+    // which uses the lightweight leaderboard_stats collection
+    return this.getUserLeaderboardData(userId)
   }
 
   /**
@@ -122,26 +97,57 @@ export class LeaderboardService {
     try {
       logger.info('[LeaderboardService] Building leaderboard for timeframe:', timeframe)
 
-      // Get all users who have opted into leaderboard
-      const usersSnapshot = await adminDb.collection('users').get()
+      // Get all users from the lightweight leaderboard_stats collection
+      // This contains only public achievement data for ALL users (free and premium)
+      const [statsSnapshot, optOutsSnapshot] = await Promise.all([
+        adminDb.collection('leaderboard_stats')
+          .orderBy('totalXP', 'desc')
+          .limit(limit * 2) // Get extra in case of opt-outs
+          .get(),
+        adminDb.collection('leaderboard_optouts').get()
+      ])
+
+      // Create a set of opted-out users for quick lookup
+      const optedOutUsers = new Set(optOutsSnapshot.docs.map(doc => doc.id))
+
+      // Filter out opted-out users and build the leaderboard
       const aggregatedData: LeaderboardAggregationData[] = []
 
-      // Aggregate data for all users in parallel batches
-      const batchSize = 10
-      const userIds = usersSnapshot.docs.map(doc => doc.id)
+      for (const doc of statsSnapshot.docs) {
+        const userId = doc.id
+        const data = doc.data()
 
-      for (let i = 0; i < userIds.length; i += batchSize) {
-        const batch = userIds.slice(i, i + batchSize)
-        const batchData = await Promise.all(
-          batch.map(userId => this.aggregateUserData(userId))
-        )
+        // Skip if user has opted out
+        if (optedOutUsers.has(userId)) {
+          continue
+        }
 
-        // Filter out null results and users who have explicitly opted out
-        const validData = batchData.filter(
-          data => data && !data.privacy?.hideFromLeaderboard // Include everyone except those who opted out
-        ) as LeaderboardAggregationData[]
+        // Build aggregated data from lightweight stats
+        aggregatedData.push({
+          userId,
+          displayName: data.displayName || 'Anonymous',
+          photoURL: data.photoURL,
+          currentStreak: data.currentStreak || 0,
+          bestStreak: data.bestStreak || data.currentStreak || 0,
+          lastActivity: data.lastActivityDate?.toMillis() || Date.now(),
+          totalXP: data.totalXP || 0,
+          currentLevel: data.level || 1,
+          weeklyXP: data.weeklyXP || 0,
+          monthlyXP: data.monthlyXP || 0,
+          achievementsUnlocked: {},
+          totalPoints: data.achievementPoints || 0,
+          subscription: data.subscription,
+          privacy: {
+            publicProfile: true,
+            hideFromLeaderboard: false,
+            useAnonymousName: false
+          }
+        })
 
-        aggregatedData.push(...validData)
+        // Stop if we have enough entries
+        if (aggregatedData.length >= limit) {
+          break
+        }
       }
 
       // Calculate scores based on timeframe

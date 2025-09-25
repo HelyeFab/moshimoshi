@@ -64,6 +64,14 @@ const nextConfig: NextConfig = {
         net: false,
         tls: false,
         child_process: false,
+        dns: false,
+        crypto: false,
+        path: false,
+        stream: false,
+        os: false,
+        zlib: false,
+        http: false,
+        https: false,
       };
 
       // Enable service worker support
@@ -71,7 +79,15 @@ const nextConfig: NextConfig = {
         ...config.resolve.alias,
         'worker-loader': false,
       };
+
+      // Ignore OpenTelemetry modules that use Node.js specific features
+      config.externals = [...(config.externals || []), '@opentelemetry/instrumentation'];
     }
+
+    // Handle dynamic requires in OpenTelemetry
+    config.module = config.module || {};
+    config.module.exprContextCritical = false;
+
     return config;
   },
   experimental: {

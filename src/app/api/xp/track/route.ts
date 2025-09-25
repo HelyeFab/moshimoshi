@@ -4,6 +4,7 @@ import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { xpSystem } from '@/lib/gamification/xp-system'
 import { z } from 'zod'
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 
 /**
  * XP Tracking API
@@ -66,8 +67,11 @@ export async function POST(request: NextRequest) {
     const idempotencyKey = xpData.metadata?.idempotencyKey ||
                           (xpData.sessionId ? `session_${xpData.sessionId}` : null)
 
-    if (idempotencyKey) {
-      // Check if this XP has already been awarded
+    // Check storage decision early to know if we should check Firebase
+    const storageDecision = await getStorageDecision(session)
+
+    if (idempotencyKey && storageDecision.shouldWriteToFirebase) {
+      // For premium users, check Firebase for duplicate XP
       const existingXP = await adminDb
         .collection('users')
         .doc(session.uid)
@@ -79,24 +83,26 @@ export async function POST(request: NextRequest) {
       if (!existingXP.empty) {
         // XP already awarded, return existing data
         const existing = existingXP.docs[0].data()
-        return NextResponse.json({
-          success: true,
-          data: {
-            xpGained: 0, // No new XP gained
-            totalXP: existing.newTotalXP || 0,
-            currentLevel: existing.currentLevel || 1,
-            leveledUp: false,
-            duplicate: true,
-            message: 'XP already awarded for this action'
-          }
-        }, { status: 200 })
+        return createStorageResponse({
+          xpGained: 0, // No new XP gained
+          totalXP: existing.newTotalXP || 0,
+          currentLevel: existing.currentLevel || 1,
+          leveledUp: false,
+          duplicate: true,
+          message: 'XP already awarded for this action'
+        }, storageDecision)
       }
     }
+    // For free users, idempotency will be checked client-side in IndexedDB
 
-    // 4. CRITICAL: Get FRESH user data (NEVER use session.tier!)
+    // 4. Get user data (for premium users from Firebase, for free users use defaults)
     const userRef = adminDb.collection('users').doc(session.uid)
-    const userDoc = await userRef.get()
-    const userData = userDoc.data()
+    let userData: any = {}
+
+    if (storageDecision.shouldWriteToFirebase) {
+      const userDoc = await userRef.get()
+      userData = userDoc.data() || {}
+    }
 
     // Get current XP state from Firebase progress
     const currentProgress = userData?.progress || {
@@ -126,100 +132,103 @@ export async function POST(request: NextRequest) {
     // Get level info for response
     const userLevel = xpSystem.getUserLevel(newTotalXP)
 
-    // 6. Create XP event record with enhanced tracking
+    // 6. Create XP event record
     const xpEvent = {
       type: xpData.eventType,
       xpGained: xpToAward,
       source: xpData.source,
-      timestamp: FieldValue.serverTimestamp(),
+      timestamp: Date.now(),
       metadata: xpData.metadata || {},
       sessionId: xpData.sessionId,
       contentType: xpData.contentType,
-      // Enhanced tracking
       idempotencyKey: idempotencyKey,
       feature: xpData.metadata?.feature || 'unknown',
       clientTimestamp: xpData.metadata?.timestamp || Date.now(),
-      plan: userData?.subscription?.plan || 'free',
+      plan: storageDecision.plan,
       multiplierApplied: xpData.amount !== xpToAward ? xpSystem.getXPMultiplier(currentProgress.currentLevel) : 1.0
     }
 
-    // 7. Update Firebase with atomic batch operation
-    const batch = adminDb.batch()
+    // 7. Only update Firebase for premium users
+    if (storageDecision.shouldWriteToFirebase) {
+      console.log(`[Storage] Premium user ${session.uid} - writing XP to Firebase`)
 
-    // Update user's progress
-    batch.update(userRef, {
-      'progress.totalXp': newTotalXP,
-      'progress.currentLevel': newLevel,
-      'progress.lastXpGain': xpToAward,
-      'progress.updatedAt': FieldValue.serverTimestamp(),
-      ...(leveledUp && { 'progress.lastLevelUp': FieldValue.serverTimestamp() })
-    })
+      const batch = adminDb.batch()
 
-    // Add XP event to history (subcollection for detailed tracking)
-    const xpHistoryRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('xp_history')
-      .doc()
+      // Update user's progress in Firebase
+      batch.update(userRef, {
+        'progress.totalXp': newTotalXP,
+        'progress.currentLevel': newLevel,
+        'progress.lastXpGain': xpToAward,
+        'progress.updatedAt': FieldValue.serverTimestamp(),
+        ...(leveledUp && { 'progress.lastLevelUp': FieldValue.serverTimestamp() })
+      })
 
-    batch.set(xpHistoryRef, {
-      ...xpEvent,
-      userId: session.uid,
-      oldTotalXP,
-      newTotalXP,
-      leveledUp,
-      currentLevel: newLevel
-    })
-
-    // Note: xp_events collection has been deprecated in favor of xp_history
-    // which provides better tracking and idempotency support
-
-    // If level up, add bonus XP event
-    if (leveledUp) {
-      const levelUpBonus = newLevel * 10
-      const bonusRef = adminDb
+      // Add XP event to history
+      const xpHistoryRef = adminDb
         .collection('users')
         .doc(session.uid)
         .collection('xp_history')
         .doc()
 
-      batch.set(bonusRef, {
-        type: 'achievement_unlocked',
-        xpGained: levelUpBonus,
-        source: `Level ${newLevel} reached!`,
+      batch.set(xpHistoryRef, {
+        ...xpEvent,
         timestamp: FieldValue.serverTimestamp(),
-        metadata: { levelUp: true, newLevel },
         userId: session.uid,
-        idempotencyKey: `levelup_${newLevel}_${session.uid}`,
-        feature: 'levels',
+        oldTotalXP,
+        newTotalXP,
+        leveledUp,
         currentLevel: newLevel
       })
 
-      // Update total with bonus
-      batch.update(userRef, {
-        'progress.totalXp': FieldValue.increment(levelUpBonus)
+      // If level up, add bonus XP event
+      if (leveledUp) {
+        const levelUpBonus = newLevel * 10
+        const bonusRef = adminDb
+          .collection('users')
+          .doc(session.uid)
+          .collection('xp_history')
+          .doc()
+
+        batch.set(bonusRef, {
+          type: 'achievement_unlocked',
+          xpGained: levelUpBonus,
+          source: `Level ${newLevel} reached!`,
+          timestamp: FieldValue.serverTimestamp(),
+          metadata: { levelUp: true, newLevel },
+          userId: session.uid,
+          idempotencyKey: `levelup_${newLevel}_${session.uid}`,
+          feature: 'levels',
+          currentLevel: newLevel
+        })
+
+        // Update total with bonus
+        batch.update(userRef, {
+          'progress.totalXp': FieldValue.increment(levelUpBonus)
+        })
+      }
+
+      // Commit the batch
+      await batch.commit()
+    } else {
+      console.log(`[Storage] Free user ${session.uid} - XP will be tracked locally only`)
+      // Free users: XP is tracked in IndexedDB on client side
+    }
+
+    // 8. Return response with storage location
+    const responseData = {
+      xpGained: xpToAward,
+      totalXP: newTotalXP + (leveledUp ? newLevel * 10 : 0),
+      currentLevel: newLevel,
+      leveledUp,
+      levelInfo: userLevel,
+      ...(leveledUp && {
+        levelUpBonus: newLevel * 10,
+        newLevelTitle: xpSystem.getUserLevel(newTotalXP).title,
+        levelBadge: xpSystem.getLevelBadge(newLevel)
       })
     }
 
-    // Commit the batch
-    await batch.commit()
-
-    // 8. Return response with XP state
-    return NextResponse.json({
-      success: true,
-      data: {
-        xpGained: xpToAward,
-        totalXP: newTotalXP + (leveledUp ? newLevel * 10 : 0),
-        currentLevel: newLevel,
-        leveledUp,
-        levelInfo: userLevel,
-        ...(leveledUp && {
-          levelUpBonus: newLevel * 10,
-          newLevelTitle: xpSystem.getUserLevel(newTotalXP).title,
-          levelBadge: xpSystem.getLevelBadge(newLevel)
-        })
-      }
-    }, { status: 200 })
+    return createStorageResponse(responseData, storageDecision)
 
   } catch (error: any) {
     console.error('Error tracking XP:', error)
@@ -247,47 +256,54 @@ export async function GET(request: NextRequest) {
     // Authentication
     const session = await requireAuth()
 
-    // Get user data from Firebase
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
-    const userData = userDoc.data()
+    // Check storage decision
+    const storageDecision = await getStorageDecision(session)
 
-    const progress = userData?.progress || {
+    let progress = {
       totalXp: 0,
       currentLevel: 1,
       lastXpGain: 0,
       updatedAt: null
     }
 
+    let recentXPEvents: any[] = []
+
+    // Only read from Firebase for premium users
+    if (storageDecision.shouldWriteToFirebase) {
+      const userDoc = await adminDb.collection('users').doc(session.uid).get()
+      const userData = userDoc.data()
+
+      progress = userData?.progress || progress
+
+      // Get recent XP history from Firebase
+      const historySnapshot = await adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('xp_history')
+        .orderBy('timestamp', 'desc')
+        .limit(10)
+        .get()
+
+      recentXPEvents = historySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+    }
+    // Free users will load XP data from IndexedDB on client side
+
     // Get level info
     const userLevel = xpSystem.getUserLevel(progress.totalXp)
 
-    // Get recent XP history
-    const historySnapshot = await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('xp_history')
-      .orderBy('timestamp', 'desc')
-      .limit(10)
-      .get()
-
-    const recentXPEvents = historySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }))
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        totalXP: progress.totalXp,
-        currentLevel: progress.currentLevel,
-        lastXPGain: progress.lastXpGain,
-        levelInfo: userLevel,
-        levelBadge: xpSystem.getLevelBadge(progress.currentLevel),
-        levelColor: xpSystem.getLevelColor(progress.currentLevel),
-        recentEvents: recentXPEvents,
-        updatedAt: progress.updatedAt
-      }
-    })
+    return createStorageResponse({
+      totalXP: progress.totalXp,
+      currentLevel: progress.currentLevel,
+      lastXPGain: progress.lastXpGain,
+      levelInfo: userLevel,
+      levelBadge: xpSystem.getLevelBadge(progress.currentLevel),
+      levelColor: xpSystem.getLevelColor(progress.currentLevel),
+      recentEvents: recentXPEvents,
+      updatedAt: progress.updatedAt
+    }, storageDecision)
 
   } catch (error: any) {
     console.error('Error fetching XP status:', error)

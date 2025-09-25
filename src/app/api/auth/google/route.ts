@@ -6,6 +6,7 @@ import { adminAuth, adminFirestore, ensureAdminInitialized, ensureUserProfile, s
 import { createSession } from '@/lib/auth/session'
 import { getSecurityHeaders } from '@/lib/auth/validation'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
+import { getUserTier } from '@/lib/auth/tier-utils'
 
 export async function POST(request: NextRequest) {
   console.log('[API /auth/google] Request received')
@@ -130,9 +131,12 @@ export async function POST(request: NextRequest) {
     }
     
     // Get user data for session
-    const userData = isNewUser ? 
-      { uid, email, displayName, tier: 'free', emailVerified: true } :
-      userDoc.data() || { uid, email, displayName, tier: 'free', emailVerified: true }
+    const userData = isNewUser ?
+      { uid, email, displayName, emailVerified: true } :
+      userDoc.data() || { uid, email, displayName, emailVerified: true }
+
+    // Determine user tier from subscription data
+    const userTier = getUserTier(userData)
     
     // Check if user is admin using Firebase isAdmin field
     const isAdmin = await isAdminUser(uid)
@@ -158,7 +162,7 @@ export async function POST(request: NextRequest) {
       sessionToken = await createSessionToken({
         uid,
         email: userData.email || email,
-        tier: userData.tier || 'free',
+        tier: userTier,
         fingerprint,
         admin: isAdmin,
       }, 7 * 24 * 60 * 60 * 1000) // 7 days for Google auth
@@ -171,11 +175,11 @@ export async function POST(request: NextRequest) {
           const sessionCacheKey = `session:${decoded.sid}`
           await redis.setex(sessionCacheKey, 60 * 60 * 24 * 7, JSON.stringify({
             uid,
-            tier: userData.tier || 'free',
+            tier: userTier,
             valid: true,
             fingerprint: decoded.fingerprint,
           }))
-          console.log('[API /auth/google] Session cached in Redis')
+          console.log(`[API /auth/google] Session cached in Redis with tier: ${userTier}`)
         } catch (redisError) {
           console.error('[API /auth/google] Redis error (continuing anyway):', redisError)
           // Continue even if Redis fails - the JWT is still valid
@@ -223,7 +227,7 @@ export async function POST(request: NextRequest) {
           email,
           displayName,
           photoURL,
-          tier: userData.tier || 'free',
+          tier: userTier,
           emailVerified: true,
         },
         isNewUser,

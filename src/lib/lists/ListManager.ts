@@ -46,21 +46,29 @@ class ListManager {
   async getLists(userId: string, isPremium: boolean): Promise<UserList[]> {
     const db = await this.initDB();
 
-    // Premium users: Try server first, sync to IndexedDB
-    if (isPremium) {
-      try {
-        console.log('[ListManager.getLists] Premium user - fetching from server:', userId);
-        const response = await fetch('/api/lists', {
-          method: 'GET',
-          credentials: 'include'
-        });
+    // Try to fetch from server to check storage location
+    try {
+      console.log('[ListManager.getLists] Checking server for lists:', userId);
+      const response = await fetch('/api/lists', {
+        method: 'GET',
+        credentials: 'include'
+      });
 
-        if (response.ok) {
-          const { lists } = await response.json();
-          console.log('[ListManager.getLists] Server returned', lists?.length || 0, 'lists');
+      if (response.ok) {
+        const data = await response.json();
+        const { lists, storage } = data;
+
+        // Check storage location from response
+        if (storage?.location === 'local') {
+          // Free user - use IndexedDB only
+          console.log('[ListManager.getLists] Free user - using local IndexedDB only');
+          const localLists = await db.getAllFromIndex('lists', 'userId', userId);
+          return localLists.sort((a, b) => b.updatedAt - a.updatedAt);
+        } else if (storage?.location === 'both' || storage?.syncEnabled) {
+          // Premium user - sync from Firebase to IndexedDB
+          console.log('[ListManager.getLists] Premium user - syncing', lists?.length || 0, 'lists from Firebase');
 
           // Clear and sync all lists from server for premium users
-          // This ensures server is source of truth for premium users
           const tx = db.transaction('lists', 'readwrite');
           // Clear existing lists for this user
           const existingLists = await tx.store.index('userId').getAllKeys(userId);
@@ -74,18 +82,17 @@ class ListManager {
             }
           }
           await tx.done;
-          console.log('[ListManager.getLists] Synced', lists?.length || 0, 'lists to IndexedDB');
+          console.log('[ListManager.getLists] Synced to IndexedDB');
 
           return lists || [];
         }
-      } catch (error) {
-        console.error('Failed to fetch lists from server:', error);
-        // Fall through to use IndexedDB for offline premium users
       }
+    } catch (error) {
+      console.error('Failed to fetch lists from server:', error);
     }
 
-    // Free users or offline premium users: Use IndexedDB only
-    console.log('[ListManager.getLists] Using IndexedDB only (free user or offline)');
+    // Fallback: Use IndexedDB for offline access
+    console.log('[ListManager.getLists] Using IndexedDB (offline or error)');
     const lists = await db.getAllFromIndex('lists', 'userId', userId);
     return lists.sort((a, b) => b.updatedAt - a.updatedAt);
   }
@@ -125,8 +132,7 @@ class ListManager {
       }
     };
 
-    // ALL authenticated users: Save to server (which saves to Firebase)
-    // Both free and premium users get lists saved to Firebase
+    // Call server API - it will decide storage based on user's plan
     console.log('[ListManager.createList] userId:', userId, 'isPremium:', isPremium);
     console.log('[ListManager.createList] Calling server API to create list');
     try {
@@ -138,12 +144,25 @@ class ListManager {
       });
 
       if (response.ok) {
-        const { list: serverList } = await response.json();
-        console.log('[ListManager.createList] Successfully created list on server:', serverList.id);
-        // Use server's list (has server-generated ID)
-        await db.put('lists', serverList);
+        const data = await response.json();
+        const { data: serverList, storage } = data;
+
+        console.log('[ListManager.createList] Server response - storage location:', storage?.location);
+
+        // Always save to IndexedDB for local access
+        // Premium users: This is synced with Firebase
+        // Free users: This is their only storage
+        const listToStore = serverList || list;
+        await db.put('lists', listToStore);
         this.notifyListeners('lists-changed');
-        return serverList;
+
+        if (storage?.location === 'local') {
+          console.log('[ListManager.createList] Free user - list saved to IndexedDB only');
+        } else if (storage?.location === 'both') {
+          console.log('[ListManager.createList] Premium user - list saved to both IndexedDB and Firebase');
+        }
+
+        return listToStore;
       } else {
         const error = await response.text();
         console.error('[ListManager.createList] Server rejected list creation:', response.status, error);

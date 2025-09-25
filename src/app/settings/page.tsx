@@ -27,6 +27,7 @@ export default function SettingsPage() {
   const { isPremium } = useSubscription()
   const [loading, setLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
+  const [updatingLeaderboard, setUpdatingLeaderboard] = useState(false)
   
   // Settings state
   const [notifications, setNotifications] = useState({
@@ -85,6 +86,19 @@ export default function SettingsPage() {
       // Always set theme if it exists in preferences, don't skip 'system'
       if (preferences.theme) setTheme(preferences.theme)
       if (preferences.language) setLanguage(preferences.language)
+
+      // Also check leaderboard opt-out status from dedicated API
+      if (user) {
+        try {
+          const response = await fetch('/api/leaderboard/opt-out')
+          if (response.ok) {
+            const data = await response.json()
+            setPrivacy(prev => ({ ...prev, hideFromLeaderboard: data.optedOut }))
+          }
+        } catch (error) {
+          console.error('[Settings] Failed to check leaderboard opt-out:', error)
+        }
+      }
 
       console.log('[Settings] Loaded preferences:', {
         userType: !user ? 'guest' : isPremium ? 'premium' : 'free',
@@ -578,8 +592,40 @@ export default function SettingsPage() {
                 label={strings.settings?.sections?.privacy?.hideFromLeaderboard?.label || "Hide from Leaderboard"}
                 description={strings.settings?.sections?.privacy?.hideFromLeaderboard?.description || "Opt out of appearing in public leaderboard rankings"}
                 enabled={privacy.hideFromLeaderboard}
-                onChange={(value) => setPrivacy({ ...privacy, hideFromLeaderboard: value })}
+                onChange={async (value) => {
+                  // Update local state optimistically
+                  setPrivacy({ ...privacy, hideFromLeaderboard: value })
+
+                  // Call the dedicated leaderboard opt-out API (works for ALL users)
+                  if (user) {
+                    setUpdatingLeaderboard(true)
+                    try {
+                      const response = await fetch('/api/leaderboard/opt-out', {
+                        method: value ? 'POST' : 'DELETE',
+                        headers: { 'Content-Type': 'application/json' }
+                      })
+
+                      if (!response.ok) {
+                        // Revert on failure
+                        setPrivacy({ ...privacy, hideFromLeaderboard: !value })
+                        showToast('Failed to update leaderboard preference', 'error')
+                      } else {
+                        showToast(
+                          value ? 'You have been removed from the leaderboard' : 'You have been added back to the leaderboard',
+                          'success'
+                        )
+                      }
+                    } catch (error) {
+                      console.error('[Settings] Failed to update leaderboard opt-out:', error)
+                      setPrivacy({ ...privacy, hideFromLeaderboard: !value })
+                      showToast('Failed to update leaderboard preference', 'error')
+                    } finally {
+                      setUpdatingLeaderboard(false)
+                    }
+                  }
+                }}
                 icon="🏆"
+                disabled={updatingLeaderboard}
               />
             </div>
           </CollapsibleSection>

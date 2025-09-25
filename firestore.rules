@@ -347,6 +347,30 @@ service cloud.firestore {
          get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
     }
 
+    // Flashcard Decks - Premium users can sync their flashcard decks
+    match /users/{userId}/flashcardDecks/{deckId} {
+      // Users can read their own flashcard decks
+      allow read: if isOwner(userId);
+
+      // Only premium users can create flashcard decks in Firebase
+      allow create: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['name', 'userId', 'createdAt', 'updatedAt']) &&
+        request.resource.data.userId == userId;
+
+      // Only premium users can update their flashcard decks
+      allow update: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.userId == userId;
+
+      // Allow premium users to delete their decks
+      allow delete: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+    }
+
     // Audit logs - write-only for system, read-only for admins
     match /audit_logs/{logId} {
       allow read: if isAdmin();

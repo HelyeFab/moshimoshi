@@ -7,7 +7,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useFeature } from '@/hooks/useFeature'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useSubscription } from '@/hooks/useSubscription'
 import { Todo, CreateTodoInput, UpdateTodoInput, TodosApiResponse, TodoApiResponse } from '@/types/todos'
+import { todoStorage } from '@/lib/todos/TodoStorage'
 
 interface UseTodosReturn {
   todos: Todo[]
@@ -24,6 +26,7 @@ interface UseTodosReturn {
 
 export function useTodos(): UseTodosReturn {
   const { user, isAuthenticated } = useAuth()
+  const { isPremium } = useSubscription()
   const { checkAndTrack, checkOnly, remaining, limit } = useFeature('todos')
   const { showToast } = useToast()
 
@@ -31,9 +34,9 @@ export function useTodos(): UseTodosReturn {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch todos from server
+  // Fetch todos from server or local storage
   const fetchTodos = useCallback(async () => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !user) {
       setTodos([])
       setLoading(false)
       return
@@ -43,6 +46,7 @@ export function useTodos(): UseTodosReturn {
       setLoading(true)
       setError(null)
 
+      // Try to fetch from server first
       const response = await fetch('/api/todos', {
         method: 'GET',
         credentials: 'include',
@@ -52,19 +56,32 @@ export function useTodos(): UseTodosReturn {
         throw new Error('Failed to fetch todos')
       }
 
-      const data: TodosApiResponse = await response.json()
+      const data: TodosApiResponse & { storage?: { location: string } } = await response.json()
 
-      if (data.success && data.data) {
+      if (data.storage?.location === 'local') {
+        // Free user - load from IndexedDB
+        console.log('[useTodos] Free user - loading from IndexedDB')
+        const localTodos = await todoStorage.getTodos(user.id)
+        setTodos(localTodos)
+      } else if (data.success && data.data) {
+        // Premium user - sync from Firebase
+        console.log('[useTodos] Premium user - syncing from Firebase')
+        await todoStorage.syncFromServer(data.data, user.id, 'both')
         setTodos(data.data)
       }
     } catch (err: any) {
       console.error('Error fetching todos:', err)
+      // Fallback to local storage on error
+      if (user) {
+        const localTodos = await todoStorage.getTodos(user.id)
+        setTodos(localTodos)
+        console.log('[useTodos] Using cached todos from IndexedDB')
+      }
       setError(err.message)
-      showToast('Failed to load todos', 'error')
     } finally {
       setLoading(false)
     }
-  }, [isAuthenticated, showToast])
+  }, [isAuthenticated, user])
 
   // Create a new todo
   const createTodo = useCallback(async (input: CreateTodoInput): Promise<Todo | null> => {
@@ -93,7 +110,7 @@ export function useTodos(): UseTodosReturn {
         body: JSON.stringify(input),
       })
 
-      const data: TodoApiResponse = await response.json()
+      const data: TodoApiResponse & { storage?: { location: string } } = await response.json()
 
       if (response.status === 429) {
         showToast(data.error?.message || 'Daily todo limit reached', 'warning')
@@ -105,12 +122,21 @@ export function useTodos(): UseTodosReturn {
       }
 
       if (data.success && data.data) {
+        // Save to IndexedDB regardless of storage location
+        await todoStorage.saveTodo(data.data)
         setTodos(prev => [data.data!, ...prev])
         showToast('Todo created successfully', 'success')
 
         // Show usage if available
         if (data.usage) {
           showToast(`${data.usage.remaining} todos remaining today`, 'info')
+        }
+
+        // Log storage location
+        if (data.storage?.location === 'local') {
+          console.log('[useTodos] Free user - todo saved locally only')
+        } else if (data.storage?.location === 'both') {
+          console.log('[useTodos] Premium user - todo synced to cloud')
         }
 
         return data.data
@@ -144,9 +170,20 @@ export function useTodos(): UseTodosReturn {
         throw new Error('Failed to update todo')
       }
 
-      const data: TodoApiResponse = await response.json()
+      const data: TodoApiResponse & { storage?: { location: string } } = await response.json()
 
-      if (data.success && data.data) {
+      if (data.storage?.location === 'local') {
+        // Free user - update locally only
+        await todoStorage.updateTodo(id, input)
+        const todo = todos.find(t => t.id === id)
+        if (todo) {
+          const updated = { ...todo, ...input, updatedAt: new Date() }
+          setTodos(prev => prev.map(t => t.id === id ? updated : t))
+          return updated
+        }
+      } else if (data.success && data.data) {
+        // Premium user - sync from server
+        await todoStorage.saveTodo(data.data)
         setTodos(prev => prev.map(todo =>
           todo.id === id ? data.data! : todo
         ))
@@ -181,12 +218,24 @@ export function useTodos(): UseTodosReturn {
         credentials: 'include',
       })
 
+      const data = await response.json()
+
       if (!response.ok) {
         throw new Error('Failed to delete todo')
       }
 
+      // Delete from IndexedDB
+      await todoStorage.deleteTodo(id)
       setTodos(prev => prev.filter(todo => todo.id !== id))
       showToast('Todo deleted successfully', 'success')
+
+      // Log storage handling
+      if (data.storage?.location === 'local') {
+        console.log('[useTodos] Free user - deleted locally')
+      } else {
+        console.log('[useTodos] Premium user - deleted from cloud')
+      }
+
       return true
     } catch (err: any) {
       console.error('Error deleting todo:', err)

@@ -1,5 +1,5 @@
 // Todo API Routes
-// Handles todo CRUD operations with entitlements checking
+// Handles todo CRUD operations with entitlements checking and dual storage
 
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
@@ -8,6 +8,7 @@ import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator'
 import { EvalContext } from '@/types/entitlements'
 import { z } from 'zod'
 import { CreateTodoInput, UpdateTodoInput, Todo } from '@/types/todos'
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 
 // Validation schemas
 const CreateTodoSchema = z.object({
@@ -28,36 +29,43 @@ const UpdateTodoSchema = z.object({
 /**
  * GET /api/todos
  * Get all todos for the authenticated user
+ * Note: GET is read-only, available for all authenticated users
  */
 export async function GET(request: NextRequest) {
   try {
     // 1. Authenticate
     const session = await requireAuth()
 
-    // 2. Get user's todos from Firestore
-    const todosSnapshot = await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('todos')
-      .orderBy('createdAt', 'desc')
-      .get()
+    // 2. Check storage decision for this user
+    const storageDecision = await getStorageDecision(session)
 
-    const todos: Todo[] = todosSnapshot.docs.map(doc => ({
-      id: doc.id,
-      userId: session.uid,
-      title: doc.data().title,
-      description: doc.data().description,
-      completed: doc.data().completed || false,
-      priority: doc.data().priority || 'medium',
-      dueDate: doc.data().dueDate?.toDate() || null,
-      createdAt: doc.data().createdAt?.toDate() || new Date(),
-      updatedAt: doc.data().updatedAt?.toDate() || new Date(),
-    }))
+    // 3. Get todos based on user tier
+    let todos: Todo[] = []
 
-    return NextResponse.json({
-      success: true,
-      data: todos,
-    })
+    if (storageDecision.shouldWriteToFirebase) {
+      // Premium users: read from Firebase
+      const todosSnapshot = await adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('todos')
+        .orderBy('createdAt', 'desc')
+        .get()
+
+      todos = todosSnapshot.docs.map(doc => ({
+        id: doc.id,
+        userId: session.uid,
+        title: doc.data().title,
+        description: doc.data().description,
+        completed: doc.data().completed || false,
+        priority: doc.data().priority || 'medium',
+        dueDate: doc.data().dueDate?.toDate() || null,
+        createdAt: doc.data().createdAt?.toDate() || new Date(),
+        updatedAt: doc.data().updatedAt?.toDate() || new Date(),
+      }))
+    }
+    // Free users will load from IndexedDB on client side
+
+    return createStorageResponse(todos, storageDecision)
   } catch (error: any) {
     console.error('Error fetching todos:', error)
 
@@ -149,15 +157,11 @@ export async function POST(request: NextRequest) {
       }, { status: 429 })
     }
 
-    // 7. Create todo with atomic usage update
-    const batch = adminDb.batch()
+    // 7. Check storage decision (premium vs free)
+    const storageDecision = await getStorageDecision(session)
 
-    // Create the todo
-    const todoRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('todos')
-      .doc()
+    // Generate a consistent ID for both storage types
+    const todoId = adminDb.collection('_').doc().id
 
     const todoData = {
       title: todoInput.title,
@@ -169,20 +173,38 @@ export async function POST(request: NextRequest) {
       updatedAt: Timestamp.now(),
     }
 
-    batch.set(todoRef, todoData)
+    // Only write to Firebase for premium users
+    if (storageDecision.shouldWriteToFirebase) {
+      console.log(`[Storage] Premium user ${session.uid} - writing todo to Firebase`)
 
-    // Update usage tracking
-    batch.set(usageRef, {
-      todos: currentUsage + 1,
-      lastUpdated: Timestamp.now()
-    }, { merge: true })
+      const batch = adminDb.batch()
 
-    // Commit the batch
-    await batch.commit()
+      // Create the todo in Firebase
+      const todoRef = adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('todos')
+        .doc(todoId)
 
-    // 8. Return the created todo
+      batch.set(todoRef, todoData)
+
+      // Update usage tracking in Firebase
+      batch.set(usageRef, {
+        todos: currentUsage + 1,
+        lastUpdated: Timestamp.now()
+      }, { merge: true })
+
+      // Commit the batch
+      await batch.commit()
+    } else {
+      console.log(`[Storage] Free user ${session.uid} - todo will be stored locally only`)
+      // Free users: usage is still tracked locally for entitlements
+      // But the todo itself is NOT written to Firebase
+    }
+
+    // 8. Return the created todo with storage location
     const newTodo: Todo = {
-      id: todoRef.id,
+      id: todoId,
       userId: session.uid,
       title: todoData.title,
       description: todoData.description,
@@ -193,15 +215,13 @@ export async function POST(request: NextRequest) {
       updatedAt: todoData.updatedAt.toDate(),
     }
 
-    return NextResponse.json({
-      success: true,
-      data: newTodo,
+    return createStorageResponse(newTodo, storageDecision, {
       usage: {
         current: currentUsage + 1,
         limit: decision.limit,
         remaining: decision.remaining - 1
       }
-    }, { status: 201 })
+    })
 
   } catch (error: any) {
     console.error('Error creating todo:', error)

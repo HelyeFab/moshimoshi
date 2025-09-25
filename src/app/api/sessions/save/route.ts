@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,18 +16,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get fresh user data from Firestore
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
-    const userData = userDoc.data()
-    const plan = userData?.subscription?.plan || 'free'
-    const isPremium = plan.startsWith('premium')
+    // Check storage decision
+    const decision = await getStorageDecision(session)
 
-    // Only save to Firebase for premium users
-    if (!isPremium) {
-      return NextResponse.json(
-        { message: 'Session tracking only available for premium users' },
-        { status: 200 }
-      )
+    // For free users, return success with local storage indicator
+    if (!decision.shouldWriteToFirebase) {
+      console.log(`[Sessions API] Free user - should store locally: ${session.uid}`)
+      return NextResponse.json({
+        success: true,
+        message: 'Session should be saved locally',
+        storage: {
+          location: 'local',
+          syncEnabled: false
+        }
+      })
     }
 
     const {
@@ -88,11 +91,13 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Sessions API] Saved ${sessionType} session ${sessionId} for user ${session.uid}`)
 
-    return NextResponse.json({
-      success: true,
-      sessionId,
-      message: `${sessionType} session saved successfully`
-    })
+    return createStorageResponse(
+      {
+        sessionId,
+        message: `${sessionType} session saved successfully`
+      },
+      decision
+    )
 
   } catch (error) {
     console.error('Error saving session:', error)

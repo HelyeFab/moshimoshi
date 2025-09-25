@@ -10,6 +10,13 @@ import { kanjiService } from '@/services/kanjiService'
 import { Kanji } from '@/types/kanji'
 import { kanjiEnrichmentService } from '@/services/kanjiEnrichmentService'
 import SessionCompleteModal from '../components/SessionCompleteModal'
+import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
+import { KanjiMasteryProgressManager } from '@/lib/review-engine/progress/KanjiMasteryProgressManager'
+import { recordActivityAndSync } from '@/lib/sync/streakSync'
+import { StreakActivity } from '@/stores/streakStore'
+import { useXP } from '@/hooks/useXP'
+import { useAchievementStore } from '@/stores/achievement-store'
 
 // Import round components
 import Round1Learn from './components/Round1Learn'
@@ -55,6 +62,10 @@ export default function LearnContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showToast } = useToast()
+  const { user } = useAuth()
+  const { subscription } = useSubscription()
+  const { trackXP } = useXP()
+  const { updateProgress } = useAchievementStore()
 
   // Session parameters
   const sessionSize = parseInt(searchParams.get('size') || '5')
@@ -217,7 +228,17 @@ export default function LearnContent() {
     return kanjiEnrichmentService.enrichKanjiList(kanji)
   }
 
-  const handleRound1Complete = () => {
+  const handleRound1Complete = async () => {
+    // Track round completion for streak
+    if (user) {
+      const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
+      await recordActivityAndSync(
+        StreakActivity.KANJI_MASTERY_ROUND,
+        isPremium || false,
+        Date.now()
+      )
+    }
+
     const progress = sessionState.progress.get(sessionState.kanji[sessionState.currentIndex].kanji)
     if (progress) {
       progress.round1Completed = true
@@ -239,7 +260,25 @@ export default function LearnContent() {
     }
   }
 
-  const handleRound2Complete = (results: any) => {
+  const handleRound2Complete = async (results: any) => {
+    // Track round completion
+    if (user) {
+      const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
+      await recordActivityAndSync(
+        StreakActivity.KANJI_MASTERY_ROUND,
+        isPremium || false,
+        Date.now()
+      )
+
+      // Award XP for round 2 completion
+      const correctCount = results.filter((r: any) => r.correct).length
+      const xp = 10 + (correctCount * 5) // Base 10 + 5 per correct
+      await trackXP('kanji_round_2', xp, 'Kanji Round 2', {
+        correct: correctCount,
+        total: results.length
+      })
+    }
+
     const kanji = sessionState.kanji[sessionState.currentIndex]
     const progress = sessionState.progress.get(kanji.kanji)
 
@@ -269,7 +308,23 @@ export default function LearnContent() {
     }
   }
 
-  const handleRound3Complete = (rating: number) => {
+  const handleRound3Complete = async (rating: number) => {
+    // Track round completion
+    if (user) {
+      const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
+      await recordActivityAndSync(
+        StreakActivity.KANJI_MASTERY_ROUND,
+        isPremium || false,
+        Date.now()
+      )
+
+      // Award XP based on self-assessment
+      const xp = rating * 3 // 3-15 XP based on rating
+      await trackXP('kanji_round_3', xp, 'Kanji Round 3', {
+        rating
+      })
+    }
+
     const kanji = sessionState.kanji[sessionState.currentIndex]
     const progress = sessionState.progress.get(kanji.kanji)
 
@@ -311,8 +366,114 @@ export default function LearnContent() {
     return nextDate.toISOString()
   }
 
-  const handleSessionComplete = () => {
-    router.push('/tools/kanji-mastery')
+  const handleSessionComplete = async () => {
+    try {
+      // Determine user tier
+      const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly' || false
+
+      // Initialize progress manager
+      const progressManager = new KanjiMasteryProgressManager()
+
+      // Convert progress map to proper format
+      const progressMap = new Map<string, KanjiProgress>()
+      sessionState.progress.forEach((value, key) => {
+        progressMap.set(key, {
+          kanjiId: key,
+          round1Completed: value.round1Completed || false,
+          round2Results: value.round2Results || [],
+          round2Accuracy: (value.round2Accuracy || 0) / 100, // Convert percentage to decimal
+          round3Rating: value.round3Rating || 3
+        })
+      })
+
+      // Update sessionState with proper progress format
+      const updatedSessionState = {
+        ...sessionState,
+        progress: progressMap
+      }
+
+      // Track session with the progress manager
+      const session = await progressManager.trackSession(
+        updatedSessionState,
+        user,
+        isPremium
+      )
+
+      // Calculate and award XP
+      const xp = progressManager.calculateSessionXP(updatedSessionState, session.sessionStats)
+      if (user) {
+        await trackXP('kanji_mastery', xp, 'Kanji Mastery Session', {
+          sessionId: session.sessionId,
+          kanjiCount: session.kanji.length,
+          accuracy: session.sessionStats.averageAccuracy
+        })
+      }
+
+      // Update streak for authenticated users
+      if (user) {
+        await recordActivityAndSync(
+          StreakActivity.KANJI_MASTERY_SESSION,
+          isPremium,
+          Date.now()
+        )
+      }
+
+      // Check achievements
+      if (user) {
+        // Track basic progress
+        await updateProgress({
+          type: 'kanji_mastery',
+          kanjiMasterySessions: 1,
+          kanjiMastered: session.sessionStats.totalKanji,
+          kanjiPerfectSession: session.sessionStats.averageAccuracy === 1,
+          kanjiSpeedSession: session.sessionStats.timeSpentSeconds < 600 && session.kanji.length === 5,
+          perfectReadings: session.kanji.filter(k => k.rounds.round2Accuracy === 1).length,
+          exampleSentencesMastered: session.kanji.length * 2 // Rough estimate
+        })
+      }
+
+      // Save session to API (respects user tiers)
+      if (user) {
+        try {
+          const response = await fetch('/api/kanji-mastery/session', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(session)
+          })
+
+          const result = await response.json()
+          if (result.success) {
+            showToast({
+              title: 'Session Complete!',
+              description: `+${xp} XP earned! ${result.message}`,
+              variant: 'success'
+            })
+          }
+        } catch (error) {
+          console.error('Error saving session:', error)
+          // Continue even if API fails
+        }
+      } else {
+        showToast({
+          title: 'Session Complete!',
+          description: 'Sign in to save your progress and earn XP!',
+          variant: 'info'
+        })
+      }
+
+      // Navigate back to main page
+      router.push('/tools/kanji-mastery')
+    } catch (error) {
+      console.error('Error completing session:', error)
+      showToast({
+        title: 'Error',
+        description: 'Failed to save session progress',
+        variant: 'error'
+      })
+      router.push('/tools/kanji-mastery')
+    }
   }
 
   if (loading) {

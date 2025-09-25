@@ -13,6 +13,7 @@ import type { FeatureId } from '@/types/FeatureId';
 import type { DrillSession, DrillQuestion, JapaneseWord } from '@/types/drill';
 import { WordUtils } from '@/lib/drill/word-utils';
 import { QuestionGenerator } from '@/lib/drill/question-generator';
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
 
 /**
  * GET /api/drill/session
@@ -25,18 +26,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check user's plan
-    const userDoc = await adminDb!.collection('users').doc(session.uid).get();
-    const userData = userDoc.data();
-    const plan = userData?.subscription?.plan || 'free';
+    // Check storage decision
+    const decision = await getStorageDecision(session);
 
     // Free users don't have Firebase access - return empty
-    if (plan !== 'premium_monthly' && plan !== 'premium_yearly') {
+    if (!decision.shouldWriteToFirebase) {
       return NextResponse.json({
         success: true,
         data: {
           sessions: [],
-          message: 'Drill history is stored locally for free users'
+          storage: {
+            location: 'local',
+            message: 'Drill history is stored locally for free users'
+          }
         }
       });
     }
@@ -230,14 +232,19 @@ export async function POST(request: NextRequest) {
       wordTypeFilter
     };
 
+    // Check storage decision
+    const storageDecision = await getStorageDecision(session);
+
     // Only save to Firebase for premium users
-    if (plan === 'premium_monthly' || plan === 'premium_yearly') {
+    if (storageDecision.shouldWriteToFirebase) {
+      console.log('[Drill API] Premium user - saving to Firebase:', session.uid);
       await adminDb!
         .collection('drill_sessions')
         .doc(sessionId)
         .set(drillSession);
+    } else {
+      console.log('[Drill API] Free user - session will be stored locally:', session.uid);
     }
-    // Free users will store locally via client-side IndexedDB
 
     // Increment usage
     await usageRef.set({

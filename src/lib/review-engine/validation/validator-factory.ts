@@ -8,8 +8,9 @@ import { KanjiValidator } from './kanji-validator';
 import { VocabularyValidator } from './vocabulary-validator';
 import { SentenceValidator } from './sentence-validator';
 import { CustomValidator } from './custom-validator';
+import { KanjiMasteryValidator } from './KanjiMasteryValidator';
 
-export type ValidatorType = 'kana' | 'kanji' | 'vocabulary' | 'sentence' | 'custom';
+export type ValidatorType = 'kana' | 'kanji' | 'vocabulary' | 'sentence' | 'custom' | 'kanji_mastery';
 
 export class ValidatorFactory {
   private static validators: Map<string, BaseValidator> = new Map();
@@ -40,19 +41,22 @@ export class ValidatorFactory {
     switch (type) {
       case 'kana':
         return new KanaValidator(options);
-      
+
       case 'kanji':
         return new KanjiValidator(options);
-      
+
       case 'vocabulary':
         return new VocabularyValidator(options);
-      
+
       case 'sentence':
         return new SentenceValidator(options);
-      
+
       case 'custom':
         return new CustomValidator(options);
-      
+
+      case 'kanji_mastery':
+        return new KanjiMasteryValidator(options);
+
       default:
         // Default to custom validator for unknown types
         return new CustomValidator(options);

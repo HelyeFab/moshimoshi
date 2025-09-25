@@ -182,6 +182,11 @@ export function getKanaByRow(row: string): KanaCharacter[] {
   return kanaData.filter(k => k.row === row);
 }
 
+// Helper function to get kana by ID
+export function getKanaById(id: string): KanaCharacter | undefined {
+  return kanaData.find(k => k.id === id);
+}
+
 // Helper function to play kana audio
 // Create a single audio element that we'll reuse
 let audioElement: HTMLAudioElement | null = null;

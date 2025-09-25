@@ -133,6 +133,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/entitlements', label: 'Entitlements', icon: '🔐' },
     { href: '/admin/decision-explorer', label: 'Decision Logs', icon: '🔎' },
     { href: '/admin/monitoring', label: 'Monitoring', icon: '📈' },
+    { href: '/admin/firebase-monitoring', label: 'Firebase Monitor', icon: '🔥' },
     { href: '/admin/moodboards', label: 'Moodboards', icon: '🎨' },
   ];
 
@@ -145,14 +146,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-850 w-full">
-      {/* Top Navigation Bar - Mobile Optimized */}
+      {/* Top Navigation Bar - Desktop Optimized */}
       <header className="sticky top-0 z-50 bg-white dark:bg-dark-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between px-3 sm:px-4 lg:px-6 h-14 sm:h-16">
-          <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center justify-between px-3 sm:px-4 lg:px-8 h-14 sm:h-16">
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
             {/* Desktop Sidebar Toggle */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="hidden lg:block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="hidden lg:block p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               aria-label="Toggle sidebar"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,42 +175,52 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </button>
 
             {/* Logo and Title */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 lg:gap-3">
               <span className="text-lg sm:text-xl lg:text-2xl">🛡️</span>
-              <h1 className="text-sm sm:text-base lg:text-lg font-bold text-gray-900 dark:text-white">
+              <h1 className="text-sm sm:text-base lg:text-xl font-bold text-gray-900 dark:text-white">
                 Admin Panel
               </h1>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Theme Toggle */}
-            <div className="hidden sm:block">
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
+            {/* Theme Toggle - Desktop */}
+            <div className="hidden lg:block">
               <ThemeToggle />
             </div>
 
-            {/* Desktop User Info */}
-            <div className="hidden lg:flex items-center gap-2">
-              <span className="text-xl">👤</span>
-              <div className="text-right">
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  Admin
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 max-w-[150px] truncate">
-                  {user?.email}
-                </p>
+            {/* Theme Toggle - Tablet */}
+            <div className="hidden sm:block lg:hidden">
+              <ThemeToggle />
+            </div>
+
+            {/* Desktop User Menu - Simplified */}
+            <div className="hidden lg:flex items-center gap-3">
+              <div className="flex items-center gap-3 px-3 py-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <span className="text-lg">👤</span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Admin</span>
               </div>
+
+              <div className="h-6 w-px bg-gray-300 dark:bg-gray-600"></div>
+
               <Link
                 href="/dashboard"
-                className="px-3 py-1.5 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                title="App Dashboard"
               >
-                Dashboard
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
               </Link>
+
               <Link
                 href="/"
-                className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                title="Exit Admin"
               >
-                Exit Admin
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
               </Link>
             </div>
 
@@ -363,28 +374,32 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           ref={sidebarRef}
           className={`hidden lg:block ${
             sidebarOpen ? 'w-64' : 'w-16'
-          } transition-all duration-300 overflow-hidden bg-white dark:bg-dark-900 border-r border-gray-200 dark:border-gray-700 flex-shrink-0`}
+          } transition-all duration-300 bg-white dark:bg-dark-900 border-r border-gray-200 dark:border-gray-700 flex-shrink-0`}
         >
-          {sidebarOpen && (
-            <>
-              <nav className="p-4 space-y-1">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${
-                      isActiveRoute(item.href)
-                        ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                    }`}
-                  >
-                    <span className="text-xl">{item.icon}</span>
-                    <span className="text-sm font-medium whitespace-nowrap">{item.label}</span>
-                  </Link>
-                ))}
-              </nav>
-            </>
-          )}
+          <nav className={`${sidebarOpen ? 'p-4' : 'p-2'} space-y-1`}>
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center ${sidebarOpen ? 'gap-3 px-4' : 'justify-center px-2'} py-2.5 rounded-lg transition-all duration-200 group relative ${
+                  isActiveRoute(item.href)
+                    ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+                title={!sidebarOpen ? item.label : undefined}
+              >
+                <span className="text-xl flex-shrink-0">{item.icon}</span>
+                {sidebarOpen && (
+                  <span className="text-sm font-medium whitespace-nowrap">{item.label}</span>
+                )}
+                {!sidebarOpen && (
+                  <div className="absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                    {item.label}
+                  </div>
+                )}
+              </Link>
+            ))}
+          </nav>
         </aside>
 
         {/* Main Content */}

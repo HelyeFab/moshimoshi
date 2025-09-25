@@ -12,6 +12,7 @@ export const strings = {
     saveChanges: "Save Changes",
     delete: "Delete",
     edit: "Edit",
+    remove: "Remove",
     back: "Back",
     dismiss: "Dismiss",
     enable: "Enable",
@@ -1814,6 +1815,11 @@ export const strings = {
         title: "My Videos",
         subtitle: "ビデオ",
         description: "Your saved videos"
+      },
+      flashcards: {
+        title: "Flashcards",
+        subtitle: "フラッシュカード",
+        description: "Create and study flashcard decks"
       }
     },
     progress: {
@@ -3012,6 +3018,225 @@ export const strings = {
     }
   },
 
+  flashcards: {
+    title: "Flashcards",
+    pageTitle: "Flashcard Decks",
+    pageDescription: "Create and study custom flashcard decks",
+
+    // Empty state
+    noDecksYet: "No decks yet",
+    noDecksDescription: "Start by creating your first flashcard deck to begin your learning journey",
+    createFirstDeck: "Create Your First Deck",
+
+    // Deck management
+    createDeck: "Create New Deck",
+    editDeck: "Edit Deck",
+    deleteDeck: "Delete Deck",
+    deckName: "Deck Name",
+    deckDescription: "Description",
+    deckSettings: "Deck Settings",
+    totalCards: "{{count}} cards",
+    lastStudied: "Last studied: {{date}}",
+    neverStudied: "Never studied",
+
+    // Card management
+    addCard: "Add Card",
+    editCard: "Edit Card",
+    deleteCard: "Delete Card",
+    frontSide: "Front Side",
+    backSide: "Back Side",
+    cardNotes: "Notes (optional)",
+    cardTags: "Tags",
+    cardDifficulty: "Difficulty",
+
+    // Study modes
+    studyMode: "Study Mode",
+    classic: "Classic",
+    match: "Match",
+    speed: "Speed Round",
+    write: "Writing Practice",
+    voice: "Voice Practice",
+
+    // Study session
+    startStudying: "Start Studying",
+    resumeStudying: "Resume Study",
+    flipCard: "Flip Card",
+    showAnswer: "Show Answer",
+    nextCard: "Next Card",
+    previousCard: "Previous Card",
+    markCorrect: "I knew it",
+    markIncorrect: "I didn't know",
+    difficulty: {
+      again: "Again",
+      hard: "Hard",
+      good: "Good",
+      easy: "Easy"
+    },
+
+    // Progress
+    progress: "Progress",
+    cardsStudied: "Cards studied",
+    accuracy: "Accuracy",
+    streak: "Current streak",
+    masteryLevel: "Mastery",
+    dueForReview: "Due for review",
+    due: "due",
+    newCards: "New cards",
+    learningCards: "Learning",
+    reviewCards: "Review",
+
+    // Statistics
+    stats: {
+      title: "Statistics",
+      todayStudied: "Studied today",
+      totalStudied: "Total studied",
+      averageAccuracy: "Average accuracy",
+      studyStreak: "Study streak",
+      timeSpent: "Time spent",
+      heatmap: "Study Heatmap",
+      retention: "Retention rate"
+    },
+
+    // Customization
+    customize: {
+      title: "Customize Cards",
+      cardStyle: "Card Style",
+      minimal: "Minimal",
+      decorated: "Decorated",
+      themed: "Themed",
+      animationSpeed: "Animation Speed",
+      slow: "Slow",
+      normal: "Normal",
+      fast: "Fast",
+      soundEffects: "Sound Effects",
+      hapticFeedback: "Haptic Feedback",
+      autoPlay: "Auto-play Audio",
+      studyDirection: "Study Direction",
+      frontToBack: "Front → Back",
+      backToFront: "Back → Front",
+      mixed: "Mixed",
+      sessionLength: "Cards per session"
+    },
+
+    // Import/Export
+    import: {
+      title: "Import Deck",
+      selectFile: "Select File",
+      supportedFormats: "Supported: CSV, JSON, Anki (.apkg)",
+      fromList: "Create from List",
+      selectList: "Select a list",
+      importing: "Importing...",
+      success: "Imported {{count}} cards",
+      error: "Failed to import deck"
+    },
+
+    export: {
+      title: "Export Deck",
+      format: "Export Format",
+      csv: "CSV",
+      json: "JSON",
+      anki: "Anki Package",
+      includeProgress: "Include progress data",
+      exporting: "Exporting...",
+      success: "Deck exported successfully"
+    },
+
+    // Empty states
+    empty: {
+      noDecks: "No flashcard decks yet",
+      createFirst: "Create your first deck to start studying",
+      noCards: "This deck has no cards",
+      addFirst: "Add your first card to get started",
+      noDue: "No cards due for review",
+      allCaughtUp: "You're all caught up! Come back later.",
+      studyNew: "Study new cards",
+      noDecksYet: "No decks yet",
+      noDecksDescription: "Start by creating your first flashcard deck to begin your learning journey",
+      createFirstDeck: "Create Your First Deck"
+    },
+
+    // Errors and limits
+    errors: {
+      loadFailed: "Failed to load decks",
+      saveFailed: "Failed to save deck",
+      deleteFailed: "Failed to delete deck",
+      limitReached: "You've reached your deck limit",
+      upgradeRequired: "Upgrade to create more decks",
+      offlineOnly: "Offline mode - changes saved locally",
+      syncFailed: "Failed to sync with cloud"
+    },
+
+    limits: {
+      guest: "Sign in to create flashcard decks",
+      freeLimit: "Free: {{current}}/{{max}} decks",
+      dailyLimit: "Daily limit: {{current}}/{{max}} reviews",
+      unlimited: "Unlimited decks"
+    },
+
+    // Tooltips
+    tooltips: {
+      srs: "Uses spaced repetition for optimal learning",
+      mastery: "Study consistently for 21+ days with 90% accuracy",
+      streak: "Study every day to maintain your streak",
+      difficulty: "Rate how well you knew this card",
+      leech: "This card needs extra practice"
+    },
+
+    // Confirmations
+    confirmDelete: {
+      title: "Delete Deck",
+      message: "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+      deck: "Delete deck \"{{name}}\"? This cannot be undone.",
+      card: "Delete this card? This cannot be undone.",
+      progress: "Reset progress? All statistics will be cleared."
+    },
+
+    // Success messages
+    success: {
+      deckCreated: "Deck created successfully",
+      deckUpdated: "Deck updated successfully",
+      deckDeleted: "Deck deleted successfully",
+      cardAdded: "Card added to deck",
+      cardUpdated: "Card updated successfully",
+      cardDeleted: "Card removed from deck",
+      progressSaved: "Progress saved",
+      imported: "Deck imported successfully",
+      exported: "Deck exported successfully"
+    },
+
+    // Statistics
+    showStats: "Show Statistics",
+    hideStats: "Hide Statistics",
+    stats: {
+      mastered: "Mastered",
+      accuracy: "Accuracy",
+      streak: "Current Streak",
+      studyTime: "Study Time",
+      learningProgress: "Learning Progress",
+      deckPerformance: "Deck Performance",
+      insights: "Study Insights",
+      velocity: "Learning Speed",
+      cardsPerHour: "cards/hour",
+      todayGoal: "Today's Progress",
+      bestStreak: "Best Streak",
+      dueNow: "Due Now",
+      days: "days",
+      total: "Total Cards",
+      learning: "Learning",
+      complete: "Complete",
+      progress: "Progress",
+      averageAccuracy: "Average Accuracy",
+      hoursMinutes: "{{hours}}h {{minutes}}m",
+      minutes: "{{minutes}} minutes",
+      period: {
+        day: "Today",
+        week: "This Week",
+        month: "This Month",
+        all: "All Time"
+      }
+    }
+  },
+
   conjugation: {
       title: "Conjugation",
       showConjugations: "Show Conjugations",
@@ -3360,6 +3585,38 @@ export const strings = {
     item: {
       cancel: "Cancel"
     }
+  },
+
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
   },
 
   myVideos: {

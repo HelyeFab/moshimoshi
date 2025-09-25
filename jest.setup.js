@@ -76,6 +76,14 @@ jest.mock('firebase/auth', () => ({
   User: jest.fn()
 }));
 
+// Mock getSession from auth/session
+jest.mock('@/lib/auth/session', () => ({
+  getSession: jest.fn(() => Promise.resolve({
+    uid: 'test-user-123',
+    email: 'test@example.com',
+  })),
+}));
+
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -89,6 +97,62 @@ jest.mock('next/navigation', () => ({
   }),
   usePathname: () => '/',
   useSearchParams: () => new URLSearchParams(),
+}));
+
+// Mock Next.js server modules
+global.Request = class Request {
+  constructor(input, init) {
+    this.url = typeof input === 'string' ? input : input.url;
+    this.method = init?.method || 'GET';
+    this.headers = new Map();
+    if (init?.headers) {
+      Object.entries(init.headers).forEach(([key, value]) => {
+        this.headers.set(key, value);
+      });
+    }
+    this.body = init?.body;
+  }
+
+  json() {
+    return Promise.resolve(this.body ? JSON.parse(this.body) : {});
+  }
+
+  text() {
+    return Promise.resolve(this.body || '');
+  }
+};
+
+global.Response = class Response {
+  constructor(body, init) {
+    this.body = body;
+    this.status = init?.status || 200;
+    this.statusText = init?.statusText || 'OK';
+    this.headers = new Map();
+    if (init?.headers) {
+      Object.entries(init.headers).forEach(([key, value]) => {
+        this.headers.set(key, value);
+      });
+    }
+  }
+
+  json() {
+    return Promise.resolve(typeof this.body === 'string' ? JSON.parse(this.body) : this.body);
+  }
+
+  text() {
+    return Promise.resolve(typeof this.body === 'string' ? this.body : JSON.stringify(this.body));
+  }
+};
+
+jest.mock('next/server', () => ({
+  NextRequest: global.Request,
+  NextResponse: {
+    json: (data, init) => {
+      const response = new global.Response(JSON.stringify(data), init);
+      response.body = JSON.stringify(data);
+      return response;
+    },
+  },
 }));
 
 // Suppress console errors in tests (optional)

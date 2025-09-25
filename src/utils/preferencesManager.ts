@@ -32,6 +32,7 @@ export interface UserPreferences {
     publicProfile: boolean;
     showProgress: boolean;
     shareAchievements: boolean;
+    hideFromLeaderboard: boolean;
   };
 
   // Accessibility
@@ -109,6 +110,7 @@ export class PreferencesManager {
       publicProfile: false,
       showProgress: true,
       shareAchievements: false,
+      hideFromLeaderboard: false,
     },
     accessibility: {
       largeText: false,

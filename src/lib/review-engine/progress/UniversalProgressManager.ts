@@ -32,6 +32,7 @@ interface ProgressDBSchema extends DBSchema {
       userId: string
       contentType: string
       contentId: string
+      compositeKey: string // Format: "userId:contentType:contentId"
       data: ReviewProgressData
       updatedAt: Date
       syncedAt?: Date
@@ -39,7 +40,7 @@ interface ProgressDBSchema extends DBSchema {
     indexes: {
       'by-user': string
       'by-content-type': string
-      'by-composite': [string, string, string] // [userId, contentType, contentId]
+      'by-composite-key': string // Composite key string
       'by-sync': Date
     }
   }
@@ -112,7 +113,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
             if (db.objectStoreNames.contains('progress')) {
               const progressStore = transaction.objectStore('progress')
 
-              // Delete old composite index if it exists
+              // Delete old composite index if it exists (from version 1)
               if (progressStore.indexNames.contains('by-composite')) {
                 progressStore.deleteIndex('by-composite')
               }
@@ -335,12 +336,15 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     progress: T,
     isPremium: boolean
   ): Promise<void> {
-    // Always save to IndexedDB first
+    // Always save to IndexedDB first (for all authenticated users)
     await this.saveToIndexedDB(userId, contentType, contentId, progress)
 
-    // For premium users, queue Firebase sync
+    // ONLY premium users sync to Firebase
     if (isPremium) {
+      reviewLogger.info('[UniversalProgressManager] Premium user - queuing Firebase sync')
       this.queueFirebaseSync(userId, contentType, contentId, progress)
+    } else {
+      reviewLogger.debug('[UniversalProgressManager] Free user - saved to IndexedDB only')
     }
   }
 
@@ -451,14 +455,15 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   }
 
   /**
-   * Sync to Firebase via server API
+   * Sync to Firebase via server API (Premium users only)
    */
   protected async syncToFirebase(
     userId: string,
     contentType: string,
     items: Map<string, T>
   ): Promise<void> {
-
+    // This method should only be called for premium users
+    // The API will verify premium status server-side
     try {
       // Convert Map to array for API
       const itemsArray = Array.from(items.entries())
@@ -483,11 +488,15 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
       const result = await response.json()
 
-      reviewLogger.info('[UniversalProgressManager] Synced to Firebase via API:', {
-        contentType,
-        itemsCount: result.itemsCount,
-        isPremium: result.isPremium
-      })
+      // Check if data was actually saved to Firebase
+      if (result.storage?.location === 'local') {
+        reviewLogger.info('[UniversalProgressManager] Free user - API stored locally only')
+      } else if (result.storage?.location === 'both') {
+        reviewLogger.info('[UniversalProgressManager] Premium user - synced to Firebase:', {
+          contentType,
+          itemsCount: result.itemsCount
+        })
+      }
 
       // Clear review history queue after successful sync
       if (reviewHistory.length > 0) {
@@ -560,18 +569,21 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     // Guest users: no storage
     if (!userId) return progressMap
 
-    // Load from IndexedDB
+    // Load from IndexedDB (for all authenticated users)
     const localData = await this.loadFromIndexedDB(userId, contentType)
 
-    // Premium users: merge with Firebase
+    // ONLY premium users load from Firebase
     if (isPremium && navigator.onLine) {
       try {
+        reviewLogger.info('[UniversalProgressManager] Premium user - loading from Firebase')
         const cloudData = await this.loadFromFirebase(userId, contentType)
         return this.mergeProgress(localData, cloudData)
       } catch (error) {
         reviewLogger.error('[UniversalProgressManager] Failed to load from Firebase:', error)
         return localData
       }
+    } else {
+      reviewLogger.debug('[UniversalProgressManager] Free user - using IndexedDB data only')
     }
 
     return localData
@@ -589,13 +601,15 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
     try {
       const tx = this.db.transaction('progress', 'readonly')
-      const index = tx.store.index('by-composite')
+      const index = tx.store.index('by-composite-key')
       const records = []
 
       // Get all records for this user and content type
+      // The composite key format is "userId:contentType:contentId"
+      const prefix = `${userId}:${contentType}:`
       let cursor = await index.openCursor(IDBKeyRange.bound(
-        [userId, contentType, ''],
-        [userId, contentType, '\uffff']
+        prefix,
+        prefix + '\uffff'
       ))
 
       while (cursor) {
@@ -794,9 +808,11 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         data: session
       })
 
-      // For premium users, sync to Firebase via API
+      // ONLY premium users sync to Firebase
       if (isPremium) {
         try {
+          reviewLogger.info('[UniversalProgressManager] Premium user - syncing session to Firebase')
+
           // Transform session data to match API expectations
           const sessionData = {
             sessionType: 'study', // UniversalProgressManager handles study/practice sessions
@@ -831,14 +847,21 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
           })
 
           if (response.ok) {
-            session.syncedToCloud = true
-            reviewLogger.info('[UniversalProgressManager] Session synced to cloud:', session.sessionId)
+            const result = await response.json()
+            if (result.storage?.location === 'both') {
+              session.syncedToCloud = true
+              reviewLogger.info('[UniversalProgressManager] Premium user - session synced to cloud:', session.sessionId)
+            } else {
+              reviewLogger.info('[UniversalProgressManager] Free user - session saved locally only')
+            }
           } else {
             reviewLogger.error('[UniversalProgressManager] Failed to sync session, status:', response.status)
           }
         } catch (error) {
           reviewLogger.error('[UniversalProgressManager] Failed to sync session to cloud:', error)
         }
+      } else {
+        reviewLogger.info('[UniversalProgressManager] Free user - session saved to IndexedDB only')
       }
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to save session:', error)
@@ -873,7 +896,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   }
 
   /**
-   * Track event in review history
+   * Track event in review history (Premium users only)
    */
   protected async trackReviewHistory(
     userId: string,
@@ -883,6 +906,11 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     isPremium: boolean,
     metadata?: Partial<ProgressEventMetadata>
   ): Promise<void> {
+    // Only track review history for premium users
+    if (!isPremium) {
+      reviewLogger.debug('[UniversalProgressManager] Free user - skipping review history tracking')
+      return
+    }
     // Get actual content based on content type
     let actualContent = contentId; // Default to ID if not found
 

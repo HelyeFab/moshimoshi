@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
 
 /**
  * GET /api/kanji/bookmarks
@@ -61,11 +62,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check bookmark limits based on tier
-    const userDoc = await adminDb.collection('users').doc(session.uid).get();
-    const userData = userDoc.data();
-    const isPremium = userData?.subscription?.plan === 'premium_monthly' ||
-                      userData?.subscription?.plan === 'premium_yearly';
+    // Get storage decision - checks fresh premium status
+    const decision = await getStorageDecision(session);
+    const isPremium = decision.isPremium;
 
     // Count existing bookmarks
     const bookmarksSnapshot = await adminDb
@@ -89,39 +88,42 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Add bookmark
+    // Add bookmark (only write to Firebase for premium users)
     const timestamp = FieldValue.serverTimestamp();
-    await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('kanji_bookmarks')
-      .doc(kanjiId)
-      .set({
-        character,
-        bookmarkedAt: timestamp,
-        tags: tags || [],
-        notes: notes || '',
-        priority: priority || 'medium',
-        addedToReview: false,
-        lastViewed: timestamp
-      });
 
-    // Update achievement tracking
-    await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('achievements')
-      .doc('data')
-      .set({
-        kanjiBookmarked: FieldValue.increment(1),
-        lastUpdated: timestamp
-      }, { merge: true });
+    if (decision.shouldWriteToFirebase) {
+      await adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('kanji_bookmarks')
+        .doc(kanjiId)
+        .set({
+          character,
+          bookmarkedAt: timestamp,
+          tags: tags || [],
+          notes: notes || '',
+          priority: priority || 'medium',
+          addedToReview: false,
+          lastViewed: timestamp
+        });
 
-    return NextResponse.json({
+      // Update achievement tracking
+      await adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('achievements')
+        .doc('data')
+        .set({
+          kanjiBookmarked: FieldValue.increment(1),
+          lastUpdated: timestamp
+        }, { merge: true });
+    }
+
+    return createStorageResponse({
       success: true,
-      message: 'Kanji bookmarked successfully',
+      message: decision.shouldWriteToFirebase ? 'Kanji bookmarked successfully' : 'Bookmark saved locally',
       bookmarkCount: currentCount + 1
-    });
+    }, decision);
 
   } catch (error) {
     console.error('[Bookmark POST] Error:', error);
@@ -153,29 +155,34 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Delete bookmark
-    await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('kanji_bookmarks')
-      .doc(kanjiId)
-      .delete();
+    // Get storage decision
+    const decision = await getStorageDecision(session);
 
-    // Update achievement tracking
-    await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('achievements')
-      .doc('data')
-      .set({
-        kanjiBookmarked: FieldValue.increment(-1),
-        lastUpdated: FieldValue.serverTimestamp()
-      }, { merge: true });
+    // Delete bookmark (only from Firebase for premium users)
+    if (decision.shouldWriteToFirebase) {
+      await adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('kanji_bookmarks')
+        .doc(kanjiId)
+        .delete();
 
-    return NextResponse.json({
+      // Update achievement tracking
+      await adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('achievements')
+        .doc('data')
+        .set({
+          kanjiBookmarked: FieldValue.increment(-1),
+          lastUpdated: FieldValue.serverTimestamp()
+        }, { merge: true });
+    }
+
+    return createStorageResponse({
       success: true,
-      message: 'Bookmark removed successfully'
-    });
+      message: decision.shouldWriteToFirebase ? 'Bookmark removed successfully' : 'Bookmark removed locally'
+    }, decision);
 
   } catch (error) {
     console.error('[Bookmark DELETE] Error:', error);

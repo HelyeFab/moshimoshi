@@ -10,6 +10,9 @@ import { SentenceAdapter } from './sentence.adapter';
 import { CustomContentAdapter } from './custom.adapter';
 import { MoodBoardAdapter } from './MoodBoardAdapter';
 import { UserListAdapter } from './UserListAdapter';
+import { KanjiMasteryAdapter } from './KanjiMasteryAdapter';
+import { AnkiAdapter } from './AnkiAdapter';
+import { FlashcardAdapter } from './FlashcardAdapter';
 import { ContentTypeConfig } from '../core/types';
 import { reviewLogger } from '@/lib/monitoring/logger';
 
@@ -36,6 +39,8 @@ export class AdapterRegistry {
     this.adapters.set('sentence', new SentenceAdapter(config.sentence));
     this.adapters.set('custom', new CustomContentAdapter(config.custom || this.getDefaultCustomConfig()));
     this.adapters.set('moodboard', new MoodBoardAdapter());
+    this.adapters.set('kanji_mastery', new KanjiMasteryAdapter());
+    this.adapters.set('anki-card', new AnkiAdapter());
     // Note: UserListAdapter is created dynamically per list
     
     this.initialized = true;
@@ -118,6 +123,17 @@ export class AdapterRegistry {
     }
 
     return new UserListAdapter(list);
+  }
+
+  /**
+   * Create a FlashcardAdapter for a specific deck
+   */
+  static createFlashcardAdapter(deck: any): FlashcardAdapter {
+    if (!this.initialized) {
+      throw new Error('AdapterRegistry not initialized. Call initialize() first.');
+    }
+
+    return new FlashcardAdapter(deck);
   }
 
   /**

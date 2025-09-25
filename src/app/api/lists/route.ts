@@ -7,6 +7,7 @@ import { DEFAULT_LIST_EMOJIS } from '@/types/userLists';
 import { evaluate } from '@/lib/entitlements/evaluator';
 import { getBucketKey } from '@/lib/entitlements/policy';
 import { EvalContext } from '@/types/entitlements';
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
 
 // GET /api/lists - Fetch all lists for current user
 export async function GET(request: NextRequest) {
@@ -16,18 +17,28 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Get fresh user data from Firestore (don't trust session tier)
-    const userDoc = await adminDb.collection('users').doc(session.uid).get();
-    const userData = userDoc.data();
-    const plan = userData?.subscription?.plan || 'free';
+    // Check storage decision
+    const decision = await getStorageDecision(session);
 
-    // Guest users (no user doc) don't have lists
-    if (!userData || plan === 'guest') {
-      return NextResponse.json({ lists: [] });
+    // Guest users don't have lists
+    if (decision.plan === 'guest') {
+      return NextResponse.json({ lists: [], storage: { location: 'none' } });
     }
 
-    // For free and premium users, fetch from Firebase
-    console.log('[GET /api/lists] Fetching lists for user:', session.uid, 'with plan:', plan);
+    // Only fetch from Firebase for premium users
+    // Free users should fetch from their local IndexedDB (handled client-side)
+    if (!decision.shouldWriteToFirebase) {
+      console.log('[GET /api/lists] Free user - should use local storage:', session.uid);
+      return NextResponse.json({
+        lists: [],
+        storage: {
+          location: 'local',
+          message: 'Free users should fetch from IndexedDB'
+        }
+      });
+    }
+
+    console.log('[GET /api/lists] Premium user - fetching from Firebase:', session.uid);
 
     const listsRef = adminDb.collection('users').doc(session.uid).collection('lists');
     const snapshot = await listsRef.orderBy('updatedAt', 'desc').get();
@@ -39,7 +50,13 @@ export async function GET(request: NextRequest) {
 
     console.log('[GET /api/lists] Found', lists.length, 'lists in Firebase for user:', session.uid);
 
-    return NextResponse.json({ lists });
+    return NextResponse.json({
+      lists,
+      storage: {
+        location: decision.storageLocation,
+        syncEnabled: decision.shouldWriteToFirebase
+      }
+    });
   } catch (error) {
     console.error('Error fetching lists:', error);
     return NextResponse.json(
@@ -114,17 +131,17 @@ export async function POST(request: NextRequest) {
     };
 
     // Check entitlements
-    const decision = evaluate('custom_lists', evalContext);
+    const evalDecision = evaluate('custom_lists', evalContext);
 
-    if (!decision.allow) {
+    if (!evalDecision.allow) {
       return NextResponse.json(
         {
-          error: decision.reason === 'limit_reached'
-            ? `Monthly list creation limit reached (${decision.limit} lists)`
+          error: evalDecision.reason === 'limit_reached'
+            ? `Monthly list creation limit reached (${evalDecision.limit} lists)`
             : 'Cannot create more lists',
-          limit: decision.limit,
+          limit: evalDecision.limit,
           current: monthlyUsage,
-          remaining: decision.remaining
+          remaining: evalDecision.remaining
         },
         { status: 429 }
       );
@@ -175,33 +192,48 @@ export async function POST(request: NextRequest) {
       }
     };
 
-    // Save to Firebase for all authenticated users
-    console.log('[POST /api/lists] Creating list for user:', session.uid, 'with plan:', plan);
+    // Check storage decision
+    const decision = await getStorageDecision(session);
 
-    const batch = adminDb.batch();
+    // Only save to Firebase for premium users
+    if (decision.shouldWriteToFirebase) {
+      console.log('[POST /api/lists] Premium user - saving to Firebase:', session.uid);
 
-    // Save the list
-    const listsRef = adminDb.collection('users').doc(session.uid).collection('lists');
-    batch.set(listsRef.doc(listId), newList);
+      const batch = adminDb.batch();
 
-    // Update usage tracking
-    batch.set(usageRef, {
-      custom_lists: (monthlyUsage || 0) + 1,
-      lastUpdated: new Date()
-    }, { merge: true });
+      // Save the list
+      const listsRef = adminDb.collection('users').doc(session.uid).collection('lists');
+      batch.set(listsRef.doc(listId), newList);
 
-    await batch.commit();
-    console.log('[POST /api/lists] Successfully created list and updated usage');
+      // Update usage tracking
+      batch.set(usageRef, {
+        custom_lists: (monthlyUsage || 0) + 1,
+        lastUpdated: new Date()
+      }, { merge: true });
 
-    // Return the created list with updated usage info
-    return NextResponse.json({
-      list: newList,
-      usage: {
-        current: monthlyUsage + 1,
-        limit: decision.limit === -1 ? 'unlimited' : decision.limit,
-        remaining: decision.remaining === -1 ? 'unlimited' : Math.max(0, decision.remaining - 1)
+      await batch.commit();
+      console.log('[POST /api/lists] Successfully saved to Firebase and updated usage');
+    } else {
+      console.log('[POST /api/lists] Free user - returning list for local storage:', session.uid);
+      // Still update usage tracking for free users
+      await usageRef.set({
+        custom_lists: (monthlyUsage || 0) + 1,
+        lastUpdated: new Date()
+      }, { merge: true });
+    }
+
+    // Return the created list with storage and usage info
+    return createStorageResponse(
+      newList,
+      decision,
+      {
+        usage: {
+          current: monthlyUsage + 1,
+          limit: evalDecision.limit === -1 ? 'unlimited' : evalDecision.limit,
+          remaining: evalDecision.remaining === -1 ? 'unlimited' : Math.max(0, evalDecision.remaining - 1)
+        }
       }
-    });
+    );
   } catch (error) {
     console.error('Error creating list:', error);
     console.error('Error details:', error instanceof Error ? error.message : 'Unknown error');

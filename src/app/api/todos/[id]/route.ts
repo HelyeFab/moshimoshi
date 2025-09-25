@@ -6,6 +6,7 @@ import { requireAuth } from '@/lib/auth/session'
 import { adminDb, Timestamp } from '@/lib/firebase/admin'
 import { z } from 'zod'
 import { Todo } from '@/types/todos'
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 
 // Validation schema for updates
 const UpdateTodoSchema = z.object({
@@ -22,18 +23,37 @@ const UpdateTodoSchema = z.object({
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // 1. Authenticate
     const session = await requireAuth()
 
-    // 2. Get the todo
+    // 2. Check storage decision
+    const decision = await getStorageDecision(session)
+
+    // For free users, return not found (they should use local storage)
+    if (!decision.shouldWriteToFirebase) {
+      return NextResponse.json(
+        {
+          error: {
+            code: 'LOCAL_STORAGE',
+            message: 'Free users should use local storage'
+          },
+          storage: { location: 'local' }
+        },
+        { status: 200 }
+      )
+    }
+
+    // 3. Get the todo from Firebase (premium only)
     const todoDoc = await adminDb
       .collection('users')
       .doc(session.uid)
       .collection('todos')
-      .doc(params.id)
+      .doc(id)
       .get()
 
     if (!todoDoc.exists) {
@@ -83,13 +103,25 @@ export async function GET(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // 1. Authenticate
     const session = await requireAuth()
 
-    // 2. Parse and validate request body
+    // 2. Check storage decision
+    const decision = await getStorageDecision(session)
+
+    // For free users, return success without Firebase update
+    if (!decision.shouldWriteToFirebase) {
+      console.log(`[Storage] Free user ${session.uid} - todo update will be handled locally`)
+      // Return empty data - client will handle local update
+      return createStorageResponse({ id, message: 'Update locally' }, decision)
+    }
+
+    // 3. Parse and validate request body
     const body = await request.json()
     const validationResult = UpdateTodoSchema.safeParse(body)
 
@@ -108,12 +140,12 @@ export async function PATCH(
 
     const updates = validationResult.data
 
-    // 3. Check if todo exists and belongs to user
+    // 4. Check if todo exists and belongs to user
     const todoRef = adminDb
       .collection('users')
       .doc(session.uid)
       .collection('todos')
-      .doc(params.id)
+      .doc(id)
 
     const todoDoc = await todoRef.get()
 
@@ -124,7 +156,7 @@ export async function PATCH(
       )
     }
 
-    // 4. Build update object
+    // 5. Build update object
     const updateData: any = {
       updatedAt: Timestamp.now()
     }
@@ -145,10 +177,11 @@ export async function PATCH(
       updateData.dueDate = updates.dueDate ? Timestamp.fromDate(new Date(updates.dueDate)) : null
     }
 
-    // 5. Update the todo
+    // 6. Update the todo (premium only)
+    console.log(`[Storage] Premium user ${session.uid} - updating todo in Firebase`)
     await todoRef.update(updateData)
 
-    // 6. Get updated todo
+    // 7. Get updated todo
     const updatedDoc = await todoRef.get()
     const updatedData = updatedDoc.data()
 
@@ -164,10 +197,7 @@ export async function PATCH(
       updatedAt: updatedData!.updatedAt?.toDate() || new Date(),
     }
 
-    return NextResponse.json({
-      success: true,
-      data: todo,
-    })
+    return createStorageResponse(todo, decision)
 
   } catch (error: any) {
     console.error('Error updating todo:', error)
@@ -192,18 +222,29 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // 1. Authenticate
     const session = await requireAuth()
 
-    // 2. Check if todo exists and belongs to user
+    // 2. Check storage decision
+    const storageDecision = await getStorageDecision(session)
+
+    // For free users, return success without Firebase deletion
+    if (!storageDecision.shouldWriteToFirebase) {
+      console.log(`[Storage] Free user ${session.uid} - todo deletion will be handled locally`)
+      return createStorageResponse({ id, message: 'Delete from local storage' }, storageDecision)
+    }
+
+    // 3. Check if todo exists and belongs to user
     const todoRef = adminDb
       .collection('users')
       .doc(session.uid)
       .collection('todos')
-      .doc(params.id)
+      .doc(id)
 
     const todoDoc = await todoRef.get()
 
@@ -214,13 +255,11 @@ export async function DELETE(
       )
     }
 
-    // 3. Delete the todo
+    // 4. Delete the todo (premium only)
+    console.log(`[Storage] Premium user ${session.uid} - deleting todo from Firebase`)
     await todoRef.delete()
 
-    return NextResponse.json({
-      success: true,
-      message: 'Todo deleted successfully',
-    })
+    return createStorageResponse({ id, message: 'Todo deleted successfully' }, storageDecision)
 
   } catch (error: any) {
     console.error('Error deleting todo:', error)

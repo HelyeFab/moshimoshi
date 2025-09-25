@@ -1,5 +1,3 @@
-import * as Sentry from '@sentry/nextjs';
-
 // Universal logger interface
 interface Logger {
   error(message: string, meta?: any): void;
@@ -11,16 +9,38 @@ interface Logger {
 
 // Client-side logger - uses console to avoid circular dependency
 class ClientLogger implements Logger {
+  private sentryClient: any = null;
+
+  constructor() {
+    // Only load Sentry on client side if available
+    if (typeof window !== 'undefined') {
+      this.initSentry();
+    }
+  }
+
+  private async initSentry() {
+    try {
+      // Dynamic import to avoid bundling issues
+      const SentryModule = await import('@sentry/nextjs');
+      this.sentryClient = SentryModule;
+    } catch (error) {
+      // Sentry not available, continue without it
+      console.debug('Sentry not available for logging');
+    }
+  }
+
   error(message: string, meta?: any) {
     // Use console directly to avoid circular dependency
     if (process.env.NODE_ENV === 'development') {
       console.error(message, meta);
     }
-    // Send errors to Sentry
-    Sentry.captureException(new Error(message), {
-      level: 'error',
-      extra: meta
-    });
+    // Send errors to Sentry if available
+    if (this.sentryClient) {
+      this.sentryClient.captureException(new Error(message), {
+        level: 'error',
+        extra: meta
+      });
+    }
   }
 
   warn(message: string, meta?: any) {
@@ -28,11 +48,13 @@ class ClientLogger implements Logger {
     if (process.env.NODE_ENV === 'development') {
       console.warn(message, meta);
     }
-    // Send warnings to Sentry
-    Sentry.captureMessage(message, {
-      level: 'warning',
-      extra: meta
-    });
+    // Send warnings to Sentry if available
+    if (this.sentryClient) {
+      this.sentryClient.captureMessage(message, {
+        level: 'warning',
+        extra: meta
+      });
+    }
   }
 
   info(message: string, meta?: any) {
@@ -61,10 +83,12 @@ class ClientLogger implements Logger {
 class ServerLogger implements Logger {
   private winston: any = null;
   private logger: any = null;
+  private sentryServer: any = null;
 
   constructor() {
     if (typeof window === 'undefined') {
       this.loadWinston();
+      this.loadSentry();
     }
   }
 
@@ -76,6 +100,17 @@ class ServerLogger implements Logger {
       this.initializeWinston();
     } catch (error) {
       console.warn('Winston not available, falling back to console logging');
+    }
+  }
+
+  private async loadSentry() {
+    try {
+      // Dynamic import to avoid bundling issues
+      const SentryModule = await import('@sentry/nextjs');
+      this.sentryServer = SentryModule;
+    } catch (error) {
+      // Sentry not available, continue without it
+      console.debug('Sentry not available for server logging');
     }
   }
 
@@ -116,12 +151,14 @@ class ServerLogger implements Logger {
     } else {
       console.error(message, meta);
     }
-    
-    // Send to Sentry
-    Sentry.captureException(new Error(message), {
-      level: 'error',
-      extra: meta
-    });
+
+    // Send to Sentry if available
+    if (this.sentryServer) {
+      this.sentryServer.captureException(new Error(message), {
+        level: 'error',
+        extra: meta
+      });
+    }
   }
 
   warn(message: string, meta?: any) {
@@ -130,12 +167,14 @@ class ServerLogger implements Logger {
     } else {
       console.warn(message, meta);
     }
-    
-    // Send to Sentry
-    Sentry.captureMessage(message, {
-      level: 'warning',
-      extra: meta
-    });
+
+    // Send to Sentry if available
+    if (this.sentryServer) {
+      this.sentryServer.captureMessage(message, {
+        level: 'warning',
+        extra: meta
+      });
+    }
   }
 
   info(message: string, meta?: any) {

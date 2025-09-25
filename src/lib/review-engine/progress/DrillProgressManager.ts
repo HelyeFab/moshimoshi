@@ -69,7 +69,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
 
     if (!existingProgress) {
       const initialData: DrillProgressData = {
-        status: ProgressStatus.NOT_STARTED,
+        status: 'not-started',
         lastReviewedAt: null,
         reviewCount: 0,
         correctCount: 0,
@@ -107,7 +107,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     // Get current progress
     const currentProgress = await this.getProgress('drill', 'overall', userId, isPremium)
     const drillData = currentProgress as DrillProgressData || {
-      status: ProgressStatus.IN_PROGRESS,
+      status: 'learning',
       lastReviewedAt: null,
       reviewCount: 0,
       correctCount: 0,
@@ -154,11 +154,11 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
 
     // Update status based on total drills
     if (drillData.totalDrills >= 100) {
-      drillData.status = ProgressStatus.MASTERED
+      drillData.status = 'mastered'
     } else if (drillData.totalDrills >= 50) {
-      drillData.status = ProgressStatus.FAMILIAR
+      drillData.status = 'learned'
     } else if (drillData.totalDrills >= 10) {
-      drillData.status = ProgressStatus.LEARNING
+      drillData.status = 'learning'
     }
 
     // Save updated progress
@@ -268,7 +268,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
   async resetDrillProgress(userId: string): Promise<void> {
     await this.initDB()
     await this.saveProgress('drill', 'overall', userId, {
-      status: ProgressStatus.NOT_STARTED,
+      status: 'not-started',
       lastReviewedAt: null,
       reviewCount: 0,
       correctCount: 0,

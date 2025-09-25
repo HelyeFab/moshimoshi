@@ -1,0 +1,407 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========================================
+    // HELPER FUNCTIONS
+    // ========================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        request.auth.token.admin == true;
+    }
+
+    // CRITICAL: Check if user is premium
+    // This is the key function for dual storage enforcement
+    function isPremiumUser(userId) {
+      return isAuthenticated() &&
+        isOwner(userId) &&
+        exists(/databases/$(database)/documents/users/$(userId)) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.status == 'active') &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_lifetime');
+    }
+
+    function hasValidTimestamp() {
+      return request.resource.data.keys().hasAll(['createdAt', 'updatedAt']) &&
+        request.resource.data.createdAt is timestamp &&
+        request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidVersion() {
+      return request.resource.data.version == resource.data.version + 1;
+    }
+
+    // ========================================
+    // USER PROFILE & SUBSCRIPTION
+    // ========================================
+
+    // User profiles - everyone can read their own, only server can modify subscription
+    match /users/{userId} {
+      // Allow users to read their own profile
+      allow read: if isOwner(userId) || isAdmin();
+
+      // Allow user creation
+      allow create: if isOwner(userId);
+
+      // Allow updates but protect subscription facts
+      allow update: if isOwner(userId) &&
+        // Users cannot modify their subscription facts directly
+        (!request.resource.data.diff(resource.data).affectedKeys()
+          .hasAny(['subscription', 'stripeCustomerId', 'subscription.status', 'subscription.plan']));
+
+      allow delete: if false; // Users should be soft-deleted
+    }
+
+    // ========================================
+    // DUAL STORAGE PROTECTED COLLECTIONS
+    // These collections should ONLY be written to by premium users
+    // Free users use IndexedDB locally
+    // ========================================
+
+    // TODOS - Premium users only for cloud sync
+    match /users/{userId}/todos/{todoId} {
+      allow read: if isPremiumUser(userId);
+
+      // Only premium users can create todos in Firebase
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      // Only premium users can update todos
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      // Only premium users can delete todos
+      allow delete: if isPremiumUser(userId);
+    }
+
+    // XP History - Premium users only
+    match /users/{userId}/xp_history/{historyId} {
+      allow read: if isPremiumUser(userId);
+
+      // Only premium users can write XP history
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow update: if false; // XP history is immutable
+      allow delete: if false; // XP history should never be deleted
+    }
+
+    // Achievement data - Premium users only
+    match /users/{userId}/achievements/{achievementId} {
+      allow read: if isPremiumUser(userId);
+
+      // Only premium users can sync achievements
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.keys().hasAll(['lastUpdated']);
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.keys().hasAll(['lastUpdated']);
+
+      allow delete: if false; // Achievements should not be deleted
+    }
+
+    // Study Lists - Premium users only
+    match /users/{userId}/studyLists/{listId} {
+      allow read: if isPremiumUser(userId);
+
+      // Only premium users can sync lists to cloud
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.keys().hasAll(['name', 'type', 'createdAt', 'updatedAt', 'version']);
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.version == resource.data.version + 1;
+
+      allow delete: if isPremiumUser(userId);
+    }
+
+    // User Lists (new lists) - Premium users only
+    match /users/{userId}/lists/{listId} {
+      allow read: if isPremiumUser(userId);
+
+      // Only premium users can create lists in Firebase
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow delete: if isPremiumUser(userId);
+    }
+
+    // Drill Sessions - Premium users only
+    match /users/{userId}/drill_sessions/{sessionId} {
+      allow read: if isPremiumUser(userId);
+
+      // Only premium users can save drill sessions to cloud
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow delete: if false; // Session history should not be deleted
+    }
+
+    // Review Sessions - Premium users only
+    match /users/{userId}/review_sessions/{sessionId} {
+      allow read: if isPremiumUser(userId);
+
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow delete: if false;
+    }
+
+    // Progress tracking - Premium users only
+    match /users/{userId}/progress/{contentType} {
+      allow read: if isPremiumUser(userId);
+
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow delete: if false; // Progress should not be deleted
+    }
+
+    // Review history - Premium users only
+    match /users/{userId}/review_history/{entryId} {
+      allow read: if isPremiumUser(userId);
+
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.keys().hasAll(['contentType', 'contentId', 'event', 'timestamp']);
+
+      allow update: if false; // Review history is immutable
+      allow delete: if false; // Review history should never be deleted
+    }
+
+    // Saved Items - Premium users only
+    match /users/{userId}/savedItems/{itemId} {
+      allow read: if isPremiumUser(userId);
+
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.keys().hasAll(['itemType', 'content', 'savedAt', 'lastModified', 'version']);
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.version == resource.data.version + 1;
+
+      allow delete: if isPremiumUser(userId);
+    }
+
+    // User Preferences - Premium users only for cloud sync
+    match /userPreferences/{userId} {
+      allow read: if isPremiumUser(userId);
+
+      allow create: if isPremiumUser(userId);
+
+      allow update: if isPremiumUser(userId);
+
+      allow delete: if false; // Preferences should not be deleted
+    }
+
+    // Pokemon data - Premium users only
+    match /pokemon/{userId} {
+      allow read: if isPremiumUser(userId);
+
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.keys().hasAll(['userId', 'caught', 'totalCaught']);
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == resource.data.userId;
+
+      allow delete: if false; // Pokemon data should not be deleted
+    }
+
+    // Flashcard Decks - Premium users only
+    match /users/{userId}/flashcardDecks/{deckId} {
+      allow read: if isPremiumUser(userId);
+
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow update: if isPremiumUser(userId) &&
+        request.resource.data.userId == userId;
+
+      allow delete: if isPremiumUser(userId);
+    }
+
+    // Video History - Premium users only
+    match /userVideoHistory/{userId} {
+      allow read: if isPremiumUser(userId);
+
+      allow create: if isPremiumUser(userId) &&
+        request.resource.data.keys().hasAll(['videoIds', 'lastUpdated']);
+
+      allow update: if isPremiumUser(userId);
+
+      allow delete: if false; // History should not be deleted
+    }
+
+    // ========================================
+    // PUBLIC ACHIEVEMENT & LEADERBOARD DATA
+    // ========================================
+
+    // Leaderboard stats - MINIMAL PUBLIC DATA (all authenticated users)
+    // This stores only what's needed for the leaderboard feature
+    // Justified because:
+    // 1. Leaderboard is a public/social feature
+    // 2. Minimal data (~200 bytes per user)
+    // 3. Infrequent updates (session completion, level up, daily streak)
+    // 4. Creates community engagement
+    match /leaderboard_stats/{userId} {
+      allow read: if true; // Public leaderboard data
+      allow write: if isOwner(userId) &&
+        request.resource.data.keys().hasAll(['userId', 'totalXP']) &&
+        request.resource.data.userId == userId; // Prevent spoofing
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // ========================================
+    // PRIVACY & OPT-OUT COLLECTIONS
+    // ========================================
+
+    // Leaderboard opt-outs - PRIVACY FEATURE (all authenticated users)
+    // This is NOT a premium feature - it's a privacy/GDPR requirement
+    match /leaderboard_optouts/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId); // All authenticated users can opt-out
+      allow delete: if isOwner(userId); // All authenticated users can opt back in
+    }
+
+    // ========================================
+    // MONITORING & ADMIN COLLECTIONS
+    // ========================================
+
+    // Monitoring violations - Admin only
+    match /monitoring_violations/{violationId} {
+      allow read: if isAdmin();
+      allow write: if false; // Only server can write
+    }
+
+    // Usage tracking - Read for owner, write server-only
+    match /users/{userId}/usage/{document} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if false; // Only server can write usage data
+    }
+
+    // ========================================
+    // PUBLIC CONTENT (Available to all)
+    // ========================================
+
+    // Content collections (public read for learning materials)
+    match /content/hiragana/{document} {
+      allow read: if true; // Public content
+      allow write: if isAdmin();
+    }
+
+    match /content/katakana/{document} {
+      allow read: if true; // Public content
+      allow write: if isAdmin();
+    }
+
+    // MoodBoards - public read, admin write
+    match /moodBoards/{boardId} {
+      allow read: if true; // Public content for all users
+      allow write: if isAdmin();
+    }
+
+    // Stories - public read for published stories
+    match /stories/{storyId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Transcript Cache - Available to all authenticated users
+    match /transcriptCache/{cacheId} {
+      allow read: if isAuthenticated();
+
+      allow create: if isAuthenticated() &&
+        request.resource.data.keys().hasAll(['contentId', 'contentType', 'transcript', 'language']);
+
+      allow update: if isAuthenticated();
+      allow delete: if false;
+    }
+
+    // Articles - Public read for published articles
+    match /articles/{articleId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Videos - Public read for all cached video metadata
+    match /videos/{videoId} {
+      allow read: if true; // Public content
+      allow write: if isAdmin();
+    }
+
+    // Video Transcripts - Public read for all users
+    match /videoTranscripts/{transcriptId} {
+      allow read: if true; // Public content
+      allow write: if isAdmin();
+    }
+
+    // ========================================
+    // SERVER-ONLY COLLECTIONS
+    // ========================================
+
+    // Stripe customer mapping
+    match /stripe_customers/{document} {
+      allow read: if false; // Only server
+      allow write: if false; // Only server
+    }
+
+    // Processed events for idempotency
+    match /processed_events/{eventId} {
+      allow read: if false; // Only server
+      allow write: if false; // Only server
+    }
+
+    // Stripe event logs
+    match /stripe_events/{eventId} {
+      allow read: if isAdmin();
+      allow write: if false; // Only server
+    }
+
+    // Audit logs
+    match /audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false; // Only server
+    }
+
+    // API Usage logs
+    match /apiUsageLogs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // ========================================
+    // DEFAULT DENY ALL
+    // ========================================
+
+    // Default deny all - CRITICAL for security
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

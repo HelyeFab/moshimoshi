@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 
 // GET endpoint to retrieve user's achievement data
 export async function GET(request: NextRequest) {
@@ -17,6 +18,26 @@ export async function GET(request: NextRequest) {
 
     console.log(`[API Achievements] Loading achievements for user ${session.uid}`)
 
+    // Check storage decision
+    const decision = await getStorageDecision(session)
+
+    // For free users, return empty data with local storage indicator
+    if (!decision.shouldWriteToFirebase) {
+      console.log(`[API Achievements] Free user - should use local storage: ${session.uid}`)
+      return NextResponse.json({
+        unlocked: [],
+        totalPoints: 0,
+        totalXp: 0,
+        currentLevel: 1,
+        lessonsCompleted: 0,
+        statistics: {},
+        storage: {
+          location: 'local',
+          message: 'Free users should fetch from IndexedDB'
+        }
+      })
+    }
+
     // Check if adminDb is initialized
     if (!adminDb) {
       return NextResponse.json(
@@ -25,7 +46,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Get achievements document from Firebase
+    // Get achievements document from Firebase (premium only)
     const achievementsRef = adminDb
       .collection('users')
       .doc(session.uid)
@@ -53,7 +74,7 @@ export async function GET(request: NextRequest) {
       totalPoints: data?.totalPoints || 0
     })
 
-    // Return the achievements data
+    // Return the achievements data with storage info
     return NextResponse.json({
       unlocked: data?.unlocked || [],
       totalPoints: data?.totalPoints || 0,
@@ -61,7 +82,11 @@ export async function GET(request: NextRequest) {
       currentLevel: data?.currentLevel || 1,
       lessonsCompleted: data?.lessonsCompleted || 0,
       statistics: data?.statistics || {},
-      lastUpdated: data?.lastUpdated
+      lastUpdated: data?.lastUpdated,
+      storage: {
+        location: decision.storageLocation,
+        syncEnabled: decision.shouldWriteToFirebase
+      }
     })
 
   } catch (error) {
@@ -92,30 +117,40 @@ export async function POST(request: NextRequest) {
       totalPoints: body.totalPoints || 0
     })
 
-    // Check if adminDb is initialized
-    if (!adminDb) {
-      return NextResponse.json(
-        { error: 'Database not initialized' },
-        { status: 500 }
-      )
+    // Check storage decision
+    const decision = await getStorageDecision(session)
+
+    // Only save to Firebase for premium users
+    if (decision.shouldWriteToFirebase) {
+      console.log(`[API Achievements] Premium user - saving to Firebase: ${session.uid}`)
+
+      // Check if adminDb is initialized
+      if (!adminDb) {
+        return NextResponse.json(
+          { error: 'Database not initialized' },
+          { status: 500 }
+        )
+      }
+
+      // Save to Firebase
+      const achievementsRef = adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('achievements')
+        .doc('data')
+
+      await achievementsRef.set({
+        ...body,
+        lastUpdated: new Date().toISOString()
+      }, { merge: true })
+    } else {
+      console.log(`[API Achievements] Free user - returning for local storage: ${session.uid}`)
     }
 
-    // Save to Firebase
-    const achievementsRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('achievements')
-      .doc('data')
-
-    await achievementsRef.set({
-      ...body,
-      lastUpdated: new Date().toISOString()
-    }, { merge: true })
-
-    return NextResponse.json({
-      success: true,
-      message: 'Achievements saved successfully'
-    })
+    return createStorageResponse(
+      { message: 'Achievements saved successfully' },
+      decision
+    )
 
   } catch (error) {
     console.error('[API Achievements] Error saving achievements:', error)

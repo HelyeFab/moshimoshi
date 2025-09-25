@@ -590,6 +590,21 @@ export default function LearningVillage() {
       lanternColor: '#f43f5e',
       stallImage: getRandomStallImage(),
     },
+    {
+      id: 'flashcards',
+      title: strings.dashboard?.cards?.flashcards?.title || 'Flashcards',
+      subtitle: strings.dashboard?.cards?.flashcards?.subtitle || 'フラッシュカード',
+      description: strings.dashboard?.cards?.flashcards?.description || 'Create and study flashcard decks',
+      href: '/flashcards',
+      icon: '🎴',
+      stallType: 'cards',
+      color: 'from-violet-400 to-purple-600',
+      glow: 'shadow-violet-500/50',
+      doshiMood: 'excited' as const,
+      progress: 0,
+      lanternColor: '#8b5cf6',
+      stallImage: getRandomStallImage(),
+    },
     // === GAMES & REVIEW ===
     {
       id: 'games',

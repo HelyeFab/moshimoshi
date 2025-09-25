@@ -248,6 +248,49 @@
       }
     },
     {
+      "id": "flashcard_decks",
+      "name": "Flashcard Decks",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "monthly",
+      "notifications": false,
+      "description": "Create and study custom flashcard decks with spaced repetition",
+      "metadata": {
+        "contentType": "mixed",
+        "difficulty": "all",
+        "estimatedDuration": "10-20 minutes",
+        "producesReviewable": true,
+        "countsForStreak": true,
+        "givesXp": true,
+        "hasCloudSync": true,
+        "supportedImports": ["csv", "json", "anki", "list"],
+        "supportedExports": ["csv", "json"],
+        "features": {
+          "srsAlgorithm": true,
+          "customization": true,
+          "statistics": true,
+          "animations": true,
+          "audioSupport": true
+        },
+        "maxDecksPerUser": {
+          "guest": 0,
+          "free": 10,
+          "premium": -1
+        },
+        "maxCardsPerDeck": {
+          "guest": 0,
+          "free": 100,
+          "premium": -1
+        },
+        "dailyReviewLimit": {
+          "guest": 0,
+          "free": 50,
+          "premium": -1
+        }
+      }
+    },
+    {
       "id": "conjugation_drill",
       "name": "Conjugation Drill",
       "category": "learning",
@@ -286,7 +329,8 @@
       "monthly": {
         "custom_lists": 0,
         "save_items": 0,
-        "todos": 0
+        "todos": 0,
+        "flashcard_decks": 0
       }
     },
     "free": {
@@ -302,7 +346,8 @@
       "monthly": {
         "custom_lists": 10,
         "save_items": 50,
-        "todos": 100
+        "todos": 100,
+        "flashcard_decks": 10
       }
     },
     "premium_monthly": {
@@ -318,7 +363,8 @@
       "monthly": {
         "custom_lists": -1,
         "save_items": -1,
-        "todos": -1
+        "todos": -1,
+        "flashcard_decks": -1
       }
     },
     "premium_yearly": {
@@ -334,7 +380,8 @@
       "monthly": {
         "custom_lists": -1,
         "save_items": -1,
-        "todos": -1
+        "todos": -1,
+        "flashcard_decks": -1
       }
     }
   },

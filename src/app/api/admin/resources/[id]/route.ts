@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
-import { getServerSession } from '@/lib/auth/session';
+import { getSession } from '@/lib/auth/session';
 import {
   ResourceFormData,
   ResourcePost
@@ -13,17 +13,19 @@ import {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // Check authentication
-    const session = await getServerSession();
+    const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Get the resource
-    const docRef = adminDb.collection('resources').doc(params.id);
+    const docRef = adminDb.collection('resources').doc(id);
     const doc = await docRef.get();
 
     if (!doc.exists) {
@@ -44,11 +46,13 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // Check authentication and admin status
-    const session = await getServerSession();
+    const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -70,7 +74,7 @@ export async function PUT(
     }
 
     // Get existing resource
-    const docRef = adminDb.collection('resources').doc(params.id);
+    const docRef = adminDb.collection('resources').doc(id);
     const doc = await docRef.get();
 
     if (!doc.exists) {
@@ -93,7 +97,7 @@ export async function PUT(
         .where('slug', '==', updates.slug)
         .get();
 
-      if (!slugQuery.empty && slugQuery.docs[0].id !== params.id) {
+      if (!slugQuery.empty && slugQuery.docs[0].id !== id) {
         return NextResponse.json(
           { error: 'A resource with this slug already exists' },
           { status: 400 }
@@ -118,11 +122,13 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // Check authentication and admin status
-    const session = await getServerSession();
+    const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -135,7 +141,7 @@ export async function DELETE(
     }
 
     // Delete the resource
-    const docRef = adminDb.collection('resources').doc(params.id);
+    const docRef = adminDb.collection('resources').doc(id);
     const doc = await docRef.get();
 
     if (!doc.exists) {

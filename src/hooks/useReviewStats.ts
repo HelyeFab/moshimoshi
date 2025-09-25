@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { useSubscription } from '@/hooks/useSubscription'
+import { useStorageDecision } from '@/hooks/useStorageDecision'
 import { IndexedDBStorage } from '@/lib/review-engine/offline/indexed-db'
 import logger from '@/lib/logger'
 
@@ -25,7 +25,7 @@ interface ReviewStats {
 
 export function useReviewStats() {
   const { user, isGuest } = useAuth()
-  const { isPremium } = useSubscription()
+  const { handleStorageResponse } = useStorageDecision()
   const [stats, setStats] = useState<ReviewStats>({
     dueNow: 0,
     newItems: 0,
@@ -47,26 +47,58 @@ export function useReviewStats() {
 
   useEffect(() => {
     loadStats()
-  }, [user, isPremium])
+  }, [user])
 
   const loadStats = async () => {
     try {
       setLoading(true)
       setError(null)
 
-      // Always try to load from cloud first for authenticated users
-      // The API will check premium status with FRESH data
-      if (!isGuest && user?.uid) {
-        await loadCloudStats()
-      } else {
-        // Load from local storage for guest users only
+      if (isGuest) {
+        // Guest users only use local stats
+        await loadLocalStats()
+        return
+      }
+
+      // For authenticated users, check API response for storage location
+      try {
+        const response = await fetch('/api/review/stats')
+        if (!response.ok) throw new Error('Failed to fetch stats')
+
+        const data = await response.json()
+        const storageDecision = handleStorageResponse(data)
+
+        if (storageDecision.storageLocation === 'local') {
+          // Free user - load from local IndexedDB
+          console.log('[ReviewStats] Free user - loading from local storage')
+          await loadLocalStats()
+        } else if (storageDecision.storageLocation === 'both') {
+          // Premium user - use cloud data
+          console.log('[ReviewStats] Premium user - using cloud stats')
+          setStats({
+            dueNow: data.dueNow || 0,
+            newItems: data.newItems || 0,
+            learningItems: data.learningItems || 0,
+            masteredItems: data.totalMastered || 0,
+            todaysGoal: 30,
+            todaysProgress: data.todaysProgress || 0,
+            currentStreak: data.streakDays || 0,
+            bestStreak: data.bestStreak || data.streakDays || 0,
+            totalStudied: data.totalStudied || 0,
+            totalLearned: data.totalLearned || 0,
+            totalMastered: data.totalMastered || 0,
+            dueToday: data.dueToday || 0,
+            dueTomorrow: data.dueTomorrow || 0,
+            dueThisWeek: data.dueThisWeek || 0
+          })
+        }
+      } catch (apiError) {
+        logger.error('API error, falling back to local stats:', apiError)
         await loadLocalStats()
       }
     } catch (err) {
       logger.error('Failed to load review stats:', err)
       setError('Failed to load stats')
-      // Fallback to local stats
-      await loadLocalStats()
     } finally {
       setLoading(false)
     }

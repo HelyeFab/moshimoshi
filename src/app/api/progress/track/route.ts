@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 
 interface ProgressItem {
   contentId: string
@@ -30,39 +31,43 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user is premium
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
-    const userData = userDoc.exists ? userDoc.data() : null
-    const isPremium = userData?.subscription?.plan === 'premium_monthly' ||
-                      userData?.subscription?.plan === 'premium_yearly'
+    // Check storage decision
+    const decision = await getStorageDecision(session)
 
-    console.log(`[API Progress] User ${session.uid} - Premium: ${isPremium}, Content Type: ${contentType}`)
+    console.log(`[API Progress] User ${session.uid} - Premium: ${decision.isPremium}, Content Type: ${contentType}`)
 
-    // Save each item as an individual document in progress subcollection
-    const batch = adminDb.batch()
+    // Only save to Firebase for premium users
+    if (decision.shouldWriteToFirebase) {
+      console.log(`[API Progress] Premium user - saving to Firebase`)
 
-    for (const [contentId, progressData] of items) {
-      const progressRef = adminDb
-        .collection('users')
-        .doc(session.uid)
-        .collection('progress')
-        .doc(contentId) // Use the content ID as the document ID
+      // Save each item as an individual document in progress subcollection
+      const batch = adminDb.batch()
 
-      // Save with proper structure for scheduled API
-      batch.set(progressRef, {
-        contentId,
-        contentType,
-        ...progressData, // Include all progress data including srsData
-        lastUpdated: FieldValue.serverTimestamp(),
-        userId: session.uid
-      }, { merge: true })
+      for (const [contentId, progressData] of items) {
+        const progressRef = adminDb
+          .collection('users')
+          .doc(session.uid)
+          .collection('progress')
+          .doc(contentId) // Use the content ID as the document ID
+
+        // Save with proper structure for scheduled API
+        batch.set(progressRef, {
+          contentId,
+          contentType,
+          ...progressData, // Include all progress data including srsData
+          lastUpdated: FieldValue.serverTimestamp(),
+          userId: session.uid
+        }, { merge: true })
+      }
+
+      await batch.commit()
+      console.log(`[API Progress] Saved ${items.length} progress items to Firebase`)
+    } else {
+      console.log(`[API Progress] Free user - skipping Firebase save, data should be stored locally`)
     }
 
-    await batch.commit()
-    console.log(`[API Progress] Saved ${items.length} progress items individually`)
-
     // Save review history if provided and user is premium
-    if (reviewHistory && reviewHistory.length > 0 && isPremium) {
+    if (reviewHistory && reviewHistory.length > 0 && decision.isPremium) {
       const batch = adminDb.batch()
 
       for (const entry of reviewHistory) {
@@ -83,12 +88,13 @@ export async function POST(request: NextRequest) {
       console.log(`[API Progress] Saved ${reviewHistory.length} review history entries`)
     }
 
-    return NextResponse.json({
-      success: true,
-      message: `Progress saved for ${contentType}`,
-      itemsCount: items.length,
-      isPremium
-    })
+    return createStorageResponse(
+      {
+        message: `Progress saved for ${contentType}`,
+        itemsCount: items.length
+      },
+      decision
+    )
 
   } catch (error) {
     console.error('[API Progress] Error saving progress:', error)
@@ -121,7 +127,23 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Get progress from Firestore
+    // Check storage decision
+    const decision = await getStorageDecision(session)
+
+    // For free users, return empty with local storage indicator
+    if (!decision.shouldWriteToFirebase) {
+      console.log(`[GET /api/progress] Free user - should use local storage: ${session.uid}`)
+      return NextResponse.json({
+        items: {},
+        contentType,
+        storage: {
+          location: 'local',
+          message: 'Free users should fetch from IndexedDB'
+        }
+      })
+    }
+
+    // Get progress from Firestore (premium only)
     const progressRef = adminDb
       .collection('users')
       .doc(session.uid)
@@ -142,7 +164,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       items: data?.items || {},
       contentType,
-      lastUpdated: data?.lastUpdated?.toDate?.() || null
+      lastUpdated: data?.lastUpdated?.toDate?.() || null,
+      storage: {
+        location: decision.storageLocation,
+        syncEnabled: decision.shouldWriteToFirebase
+      }
     })
 
   } catch (error) {

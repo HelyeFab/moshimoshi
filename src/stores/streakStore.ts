@@ -18,6 +18,8 @@ export enum StreakActivity {
   REVIEW_SESSION = 'review_session',
   STUDY_SESSION = 'study_session',
   DRILL_COMPLETION = 'drill_completion',
+  KANJI_MASTERY_SESSION = 'kanji_mastery_session',
+  KANJI_MASTERY_ROUND = 'kanji_mastery_round',
   // Future activities can be added here:
   // QUIZ_COMPLETION = 'quiz_completion',
   // LESSON_COMPLETION = 'lesson_completion',
@@ -31,6 +33,8 @@ export const STREAK_ELIGIBLE_ACTIVITIES: Set<StreakActivity> = new Set([
   StreakActivity.REVIEW_SESSION,
   StreakActivity.STUDY_SESSION,
   StreakActivity.DRILL_COMPLETION,
+  StreakActivity.KANJI_MASTERY_SESSION,
+  StreakActivity.KANJI_MASTERY_ROUND,
 ])
 
 interface StreakState {

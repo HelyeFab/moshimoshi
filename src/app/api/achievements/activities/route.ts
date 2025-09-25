@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 import { cleanNestedDates, calculateStreakFromDates } from '@/utils/streakCalculator'
+import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 
 // GET endpoint to retrieve user's achievement activities (streak data)
 export async function GET(request: NextRequest) {
@@ -18,6 +19,24 @@ export async function GET(request: NextRequest) {
 
     console.log(`[API Activities] Loading activities for user ${session.uid}`)
 
+    // Check storage decision
+    const decision = await getStorageDecision(session)
+
+    // For free users, return empty data with local storage indicator
+    if (!decision.shouldWriteToFirebase) {
+      console.log(`[API Activities] Free user - should use local storage: ${session.uid}`)
+      return NextResponse.json({
+        dates: {},
+        currentStreak: 0,
+        bestStreak: 0,
+        lastActivity: 0,
+        storage: {
+          location: 'local',
+          message: 'Free users should fetch from IndexedDB'
+        }
+      })
+    }
+
     // Check if adminDb is initialized
     if (!adminDb) {
       return NextResponse.json(
@@ -26,7 +45,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Get activities document from Firebase
+    // Get activities document from Firebase (premium only)
     const activitiesRef = adminDb
       .collection('users')
       .doc(session.uid)
@@ -74,14 +93,18 @@ export async function GET(request: NextRequest) {
       dateCount: Object.keys(cleanDates).length
     })
 
-    // Return the cleaned activities data
+    // Return the cleaned activities data with storage info
     return NextResponse.json({
       dates: cleanDates,
       currentStreak: streakResult.currentStreak,
       bestStreak: streakResult.bestStreak,
       lastActivity: rawData?.lastActivity || 0,
       isActiveToday: streakResult.isActiveToday,
-      lastActivityDate: streakResult.lastActivityDate
+      lastActivityDate: streakResult.lastActivityDate,
+      storage: {
+        location: decision.storageLocation,
+        syncEnabled: decision.shouldWriteToFirebase
+      }
     })
 
   } catch (error) {
@@ -112,27 +135,37 @@ export async function POST(request: NextRequest) {
       bestStreak: body.bestStreak
     })
 
-    // Check if adminDb is initialized
-    if (!adminDb) {
-      return NextResponse.json(
-        { error: 'Database not initialized' },
-        { status: 500 }
-      )
+    // Check storage decision
+    const decision = await getStorageDecision(session)
+
+    // Only save to Firebase for premium users
+    if (decision.shouldWriteToFirebase) {
+      console.log(`[API Activities] Premium user - saving to Firebase: ${session.uid}`)
+
+      // Check if adminDb is initialized
+      if (!adminDb) {
+        return NextResponse.json(
+          { error: 'Database not initialized' },
+          { status: 500 }
+        )
+      }
+
+      // Save to Firebase
+      const activitiesRef = adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('achievements')
+        .doc('activities')
+
+      await activitiesRef.set(body, { merge: true })
+    } else {
+      console.log(`[API Activities] Free user - returning for local storage: ${session.uid}`)
     }
 
-    // Save to Firebase
-    const activitiesRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('achievements')
-      .doc('activities')
-
-    await activitiesRef.set(body, { merge: true })
-
-    return NextResponse.json({
-      success: true,
-      message: 'Activities saved successfully'
-    })
+    return createStorageResponse(
+      { message: 'Activities saved successfully' },
+      decision
+    )
 
   } catch (error) {
     console.error('[API Activities] Error saving activities:', error)

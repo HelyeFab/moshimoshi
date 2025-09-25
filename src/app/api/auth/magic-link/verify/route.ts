@@ -7,6 +7,7 @@ import { createSession } from '@/lib/auth/session'
 import { getSecurityHeaders } from '@/lib/auth/validation'
 import { logAuditEvent, AuditEvent, logAuthAttempt } from '@/lib/auth/audit'
 import { verifyEmailVerificationToken } from '@/lib/auth/jwt'
+import { getUserTier } from '@/lib/auth/tier-utils'
 import { redis, RedisKeys } from '@/lib/redis/client'
 
 export async function GET(request: NextRequest) {
@@ -215,12 +216,15 @@ export async function GET(request: NextRequest) {
         console.log('[API /auth/magic-link] Admin claims set:', claimsSet)
       }
 
+      // Determine user tier from subscription data
+      const userTier = getUserTier(userData)
+
       // Create session
       const session = await createSession(
         {
           uid: userId,
           email: userRecord.email || email,
-          tier: userData.tier || 'free',
+          tier: userTier,
           admin: isAdmin,
         },
         {

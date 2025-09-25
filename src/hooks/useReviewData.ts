@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { useSubscription } from '@/hooks/useSubscription'
+import { useStorageDecision } from '@/hooks/useStorageDecision'
 import { IndexedDBStorage } from '@/lib/review-engine/offline/indexed-db'
 import logger from '@/lib/logger'
 
@@ -68,7 +68,7 @@ interface CurrentSession {
 
 export function useReviewData() {
   const { user, isGuest } = useAuth()
-  const { isPremium } = useSubscription()
+  const { handleStorageResponse, shouldSaveToIndexedDB } = useStorageDecision()
   const [srsItems, setSrsItems] = useState<ReviewItem[]>([])
   const [queueItems, setQueueItems] = useState<any[]>([])
   const [sessions, setSessions] = useState<ReviewSession[]>([])
@@ -79,25 +79,47 @@ export function useReviewData() {
 
   useEffect(() => {
     loadReviewData()
-  }, [user, isPremium])
+  }, [user])
 
   const loadReviewData = async () => {
     try {
       setLoading(true)
       setError(null)
 
-      // For guests and free users, use local IndexedDB
-      if (isGuest || !isPremium) {
+      if (isGuest) {
+        // Guest users only use local data
         await loadLocalData()
-      } else {
-        // Premium users get cloud-synced data
-        await loadCloudData()
+        return
+      }
+
+      // For authenticated users, check API response for storage location
+      try {
+        const response = await fetch('/api/review/stats')
+        if (!response.ok) throw new Error('Failed to fetch review stats')
+
+        const data = await response.json()
+        const storageDecision = handleStorageResponse(data)
+
+        if (storageDecision.storageLocation === 'local') {
+          // Free user - load from local IndexedDB only
+          console.log('[ReviewData] Free user - loading from IndexedDB')
+          await loadLocalData()
+        } else if (storageDecision.storageLocation === 'both') {
+          // Premium user - load from cloud and cache locally
+          console.log('[ReviewData] Premium user - loading from cloud')
+          await loadCloudData()
+          // Cache to IndexedDB for offline access
+          if (shouldSaveToIndexedDB(storageDecision.storageLocation)) {
+            await cacheDataLocally()
+          }
+        }
+      } catch (apiError) {
+        logger.error('API error, falling back to local data:', apiError)
+        await loadLocalData()
       }
     } catch (err) {
       logger.error('Failed to load review data:', err)
       setError('Failed to load review data')
-      // Fallback to local data on error
-      await loadLocalData()
     } finally {
       setLoading(false)
     }
@@ -196,7 +218,7 @@ export function useReviewData() {
 
   const loadCloudData = async () => {
     try {
-      // Fetch from API endpoints that sync with Firebase
+      // Fetch from API endpoints - they will return storage location
       const [statsRes, queueRes, progressRes, sessionsRes] = await Promise.all([
         fetch('/api/review/stats'),
         fetch('/api/review/queue'),
@@ -205,8 +227,19 @@ export function useReviewData() {
       ])
 
       if (statsRes.ok && queueRes.ok && progressRes.ok) {
+        const statsData = await statsRes.json()
         const progressData = await progressRes.json()
         const queueData = await queueRes.json()
+
+        // Check storage location from response
+        const storageDecision = handleStorageResponse(statsData)
+
+        if (storageDecision.storageLocation !== 'both') {
+          // If not premium, should not be loading cloud data
+          console.warn('[ReviewData] Non-premium user attempted cloud load')
+          await loadLocalData()
+          return
+        }
 
         // Transform API data to our format
         const items: ReviewItem[] = progressData.items?.map((item: any) => ({
@@ -225,11 +258,6 @@ export function useReviewData() {
 
         setSrsItems(items)
         setQueueItems(queueData.items || [])
-
-        // Also sync to local for offline access
-        const storage = new IndexedDBStorage()
-        await storage.initialize()
-        await storage.cacheContent(items)
       }
 
       // Load real sessions from Firebase
@@ -279,6 +307,16 @@ export function useReviewData() {
       else break
     }
     return streak
+  }
+
+  const cacheDataLocally = async () => {
+    try {
+      const storage = new IndexedDBStorage()
+      await storage.initialize()
+      await storage.cacheContent(srsItems)
+    } catch (err) {
+      logger.error('Failed to cache data locally:', err)
+    }
   }
 
   return {

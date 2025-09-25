@@ -99,6 +99,7 @@ export const strings = {
     save: "Guardar",
     delete: "Eliminar",
     edit: "Editar",
+    remove: "Remove",
     back: "Atrás",
     next: "Siguiente",
     previous: "Anterior",
@@ -413,10 +414,47 @@ export const strings = {
         subtitle: "Listas personales",
         description: "Gestionar listas personalizadas"
       },
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
+  },
+
       myVideos: {
         title: "Mis Videos",
         subtitle: "Videos",
         description: "Tus videos guardados"
+      },
+      flashcards: {
+        title: "Tarjetas Flash",
+        subtitle: "Tarjetas",
+        description: "Crear y estudiar mazos de tarjetas"
       }
     },
     achievements: {
@@ -1688,6 +1726,221 @@ export const strings = {
     }
   },
 
+  flashcards: {
+    title: "Tarjetas de Memoria",
+    pageTitle: "Mazos de Tarjetas",
+    pageDescription: "Crea y estudia mazos de tarjetas personalizados",
+
+    // Empty state
+    noDecksYet: "Aún no hay mazos",
+    noDecksDescription: "Comienza tu viaje de aprendizaje creando tu primer mazo de tarjetas",
+    createFirstDeck: "Crear Tu Primer Mazo",
+
+    // Deck management
+    createDeck: "Crear Nuevo Mazo",
+    editDeck: "Editar Mazo",
+    deleteDeck: "Eliminar Mazo",
+    deckName: "Nombre del Mazo",
+    deckDescription: "Descripción",
+    deckSettings: "Configuración del Mazo",
+    totalCards: "{{count}} tarjetas",
+    lastStudied: "Último estudio: {{date}}",
+    neverStudied: "Nunca estudiado",
+
+    // Card management
+    addCard: "Añadir Tarjeta",
+    editCard: "Editar Tarjeta",
+    deleteCard: "Eliminar Tarjeta",
+    frontSide: "Anverso",
+    backSide: "Reverso",
+    cardNotes: "Notas (opcional)",
+    cardTags: "Etiquetas",
+    cardDifficulty: "Dificultad",
+
+    // Study modes
+    studyMode: "Modo de Estudio",
+    classic: "Clásico",
+    match: "Emparejar",
+    speed: "Velocidad",
+    write: "Escritura",
+    voice: "Voz",
+
+    // Study session
+    startStudying: "Comenzar Estudio",
+    resumeStudying: "Reanudar Estudio",
+    flipCard: "Voltear Tarjeta",
+    showAnswer: "Mostrar Respuesta",
+    nextCard: "Siguiente Tarjeta",
+    previousCard: "Tarjeta Anterior",
+    markCorrect: "Lo sabía",
+    markIncorrect: "No lo sabía",
+    difficulty: {
+      again: "Otra vez",
+      hard: "Difícil",
+      good: "Bien",
+      easy: "Fácil"
+    },
+
+    // Progress
+    progress: "Progreso",
+    cardsStudied: "Tarjetas estudiadas",
+    accuracy: "Precisión",
+    streak: "Racha actual",
+    masteryLevel: "Maestría",
+    dueForReview: "Para revisar",
+    due: "due",
+    newCards: "Tarjetas nuevas",
+    learningCards: "Aprendiendo",
+    reviewCards: "Revisar",
+
+    // Statistics
+    stats: {
+      title: "Estadísticas",
+      todayStudied: "Estudiado hoy",
+      totalStudied: "Total estudiado",
+      averageAccuracy: "Precisión promedio",
+      studyStreak: "Racha de estudio",
+      timeSpent: "Tiempo invertido",
+      heatmap: "Mapa de calor",
+      retention: "Tasa de retención"
+    },
+
+    // Customization
+    customize: {
+      title: "Personalizar Tarjetas",
+      cardStyle: "Estilo de Tarjeta",
+      minimal: "Minimalista",
+      decorated: "Decorado",
+      themed: "Temático",
+      animationSpeed: "Velocidad de Animación",
+      slow: "Lenta",
+      normal: "Normal",
+      fast: "Rápida",
+      soundEffects: "Efectos de Sonido",
+      hapticFeedback: "Retroalimentación Háptica",
+      autoPlay: "Reproducción Auto",
+      studyDirection: "Dirección de Estudio",
+      frontToBack: "Anverso → Reverso",
+      backToFront: "Reverso → Anverso",
+      mixed: "Mixto",
+      sessionLength: "Tarjetas por sesión"
+    },
+
+    // Import/Export
+    import: {
+      title: "Importar Mazo",
+      selectFile: "Seleccionar Archivo",
+      supportedFormats: "Soportado: CSV, JSON, Anki (.apkg)",
+      fromList: "Crear desde Lista",
+      selectList: "Seleccionar una lista",
+      importing: "Importando...",
+      success: "{{count}} tarjetas importadas",
+      error: "Error al importar"
+    },
+
+    export: {
+      title: "Exportar Mazo",
+      format: "Formato de Exportación",
+      csv: "CSV",
+      json: "JSON",
+      anki: "Paquete Anki",
+      includeProgress: "Incluir datos de progreso",
+      exporting: "Exportando...",
+      success: "Mazo exportado con éxito"
+    },
+
+    // Empty states
+    empty: {
+      noDecks: "Sin mazos de tarjetas",
+      createFirst: "Crea tu primer mazo para empezar",
+      noCards: "Este mazo no tiene tarjetas",
+      addFirst: "Añade tu primera tarjeta",
+      noDue: "Sin tarjetas para revisar",
+      allCaughtUp: "¡Todo listo! Vuelve más tarde.",
+      studyNew: "Estudiar tarjetas nuevas"
+    },
+
+    // Errors and limits
+    errors: {
+      loadFailed: "Error al cargar",
+      saveFailed: "Error al guardar",
+      deleteFailed: "Error al eliminar",
+      limitReached: "Límite de mazos alcanzado",
+      upgradeRequired: "Actualización requerida",
+      offlineOnly: "Modo sin conexión",
+      syncFailed: "Error de sincronización"
+    },
+
+    limits: {
+      guest: "Inicia sesión para crear mazos",
+      freeLimit: "Gratis: {{current}}/{{max}} mazos",
+      dailyLimit: "Límite diario: {{current}}/{{max}}",
+      unlimited: "Mazos ilimitados"
+    },
+
+    // Tooltips
+    tooltips: {
+      srs: "Usa repetición espaciada",
+      mastery: "Estudia 21+ días con 90% precisión",
+      streak: "Estudia cada día",
+      difficulty: "Evalúa tu conocimiento",
+      leech: "Esta tarjeta necesita más práctica"
+    },
+
+    // Confirmations
+    confirmDelete: {
+      title: "Eliminar Mazo",
+      message: "¿Estás seguro de que quieres eliminar \"{{name}}\"? Esta acción no se puede deshacer.",
+      deck: "¿Eliminar mazo \"{{name}}\"? Irreversible.",
+      card: "¿Eliminar esta tarjeta? Irreversible.",
+      progress: "¿Reiniciar progreso?"
+    },
+
+    // Success messages
+    success: {
+      deckCreated: "Mazo creado",
+      deckUpdated: "Mazo actualizado",
+      deckDeleted: "Mazo eliminado",
+      cardAdded: "Tarjeta añadida",
+      cardUpdated: "Tarjeta actualizada",
+      cardDeleted: "Tarjeta eliminada",
+      progressSaved: "Progreso guardado",
+      imported: "Mazo importado",
+      exported: "Mazo exportado"
+    },
+
+    // Statistics
+    showStats: "Mostrar estadísticas",
+    hideStats: "Ocultar estadísticas",
+    stats: {
+      mastered: "Dominado",
+      accuracy: "Precisión",
+      streak: "Racha actual",
+      studyTime: "Tiempo de estudio",
+      learningProgress: "Progreso de aprendizaje",
+      deckPerformance: "Rendimiento de mazos",
+      insights: "Perspectivas de estudio",
+      velocity: "Velocidad de aprendizaje",
+      cardsPerHour: "tarjetas/hora",
+      todayGoal: "Progreso de hoy",
+      bestStreak: "Mejor racha",
+      dueNow: "Para revisar",
+      days: "días",
+      total: "Total de tarjetas",
+      learning: "Aprendiendo",
+      complete: "Completo",
+      progress: "Progreso",
+      averageAccuracy: "Precisión promedio",
+      hoursMinutes: "{{hours}}h {{minutes}}m",
+      minutes: "{{minutes}} minutos",
+      period: {
+        day: "Hoy",
+        week: "Esta semana",
+        month: "Este mes",
+        all: "Todo el tiempo"
+      }
+    }
+  },
   conjugation: {
       title: "Conjugación",
       showConjugations: "Mostrar Conjugaciones",
@@ -2211,6 +2464,38 @@ export const strings = {
     item: {
       cancel: "Cancelar"
     }
+  },
+
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
   },
 
   myVideos: {

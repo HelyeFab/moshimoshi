@@ -1,10 +1,10 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-09-25T14:55:00.772Z
+ * Generated at: 2025-09-25T19:04:52.655Z
  */
 
-export type FeatureId = 'hiragana_practice' | 'katakana_practice' | 'kanji_browser' | 'custom_lists' | 'save_items' | 'youtube_shadowing' | 'media_upload' | 'stall_layout_customization' | 'todos' | 'conjugation_drill';
+export type FeatureId = 'hiragana_practice' | 'katakana_practice' | 'kanji_browser' | 'custom_lists' | 'save_items' | 'youtube_shadowing' | 'media_upload' | 'stall_layout_customization' | 'todos' | 'flashcard_decks' | 'conjugation_drill';
 
 export const FEATURE_IDS = [
   'hiragana_practice',
@@ -16,6 +16,7 @@ export const FEATURE_IDS = [
   'media_upload',
   'stall_layout_customization',
   'todos',
+  'flashcard_decks',
   'conjugation_drill'
 ] as const;
 

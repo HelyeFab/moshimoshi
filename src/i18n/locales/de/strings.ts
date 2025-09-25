@@ -99,6 +99,7 @@ export const strings = {
     save: "Speichern",
     delete: "Löschen",
     edit: "Bearbeiten",
+    remove: "Remove",
     back: "Zurück",
     next: "Weiter",
     previous: "Zurück",
@@ -413,10 +414,47 @@ export const strings = {
         subtitle: "Eigene Listen",
         description: "Eigene Listen verwalten"
       },
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
+  },
+
       myVideos: {
         title: "Meine Videos",
         subtitle: "Videos",
         description: "Ihre gespeicherten Videos"
+      },
+      flashcards: {
+        title: "Lernkarten",
+        subtitle: "Karten",
+        description: "Erstellen und studieren Sie Kartendecks"
       }
     },
     achievements: {
@@ -1688,6 +1726,224 @@ export const strings = {
     }
   },
 
+  flashcards: {
+    title: "Lernkarten",
+    pageTitle: "Lernkarten-Stapel",
+    pageDescription: "Erstellen und lernen Sie mit benutzerdefinierten Lernkarten",
+
+    // Empty state
+    noDecksYet: "Noch keine Stapel",
+    noDecksDescription: "Beginnen Sie Ihre Lernreise, indem Sie Ihren ersten Lernkartenstapel erstellen",
+    createFirstDeck: "Ersten Stapel Erstellen",
+
+    // Deck management
+    createDeck: "Neuen Stapel erstellen",
+    editDeck: "Stapel bearbeiten",
+    deleteDeck: "Stapel löschen",
+    deckName: "Stapelname",
+    deckDescription: "Beschreibung",
+    deckSettings: "Stapeleinstellungen",
+    totalCards: "{{count}} Karten",
+    lastStudied: "Zuletzt gelernt: {{date}}",
+    neverStudied: "Nie gelernt",
+
+    // Card management
+    addCard: "Karte hinzufügen",
+    editCard: "Karte bearbeiten",
+    deleteCard: "Karte löschen",
+    frontSide: "Vorderseite",
+    backSide: "Rückseite",
+    cardNotes: "Notizen (optional)",
+    cardTags: "Tags",
+    cardDifficulty: "Schwierigkeit",
+
+    // Study modes
+    studyMode: "Lernmodus",
+    classic: "Klassisch",
+    match: "Zuordnung",
+    speed: "Geschwindigkeit",
+    write: "Schreiben",
+    voice: "Sprache",
+
+    // Study session
+    startStudying: "Lernen beginnen",
+    resumeStudying: "Lernen fortsetzen",
+    flipCard: "Karte umdrehen",
+    showAnswer: "Antwort zeigen",
+    nextCard: "Nächste Karte",
+    previousCard: "Vorherige Karte",
+    markCorrect: "Ich wusste es",
+    markIncorrect: "Ich wusste es nicht",
+    difficulty: {
+      again: "Nochmal",
+      hard: "Schwer",
+      good: "Gut",
+      easy: "Einfach"
+    },
+
+    // Progress
+    progress: "Fortschritt",
+    cardsStudied: "Gelernte Karten",
+    accuracy: "Genauigkeit",
+    streak: "Aktuelle Serie",
+    masteryLevel: "Beherrschung",
+    dueForReview: "Zur Überprüfung",
+    due: "due",
+    newCards: "Neue Karten",
+    learningCards: "Am Lernen",
+    reviewCards: "Überprüfen",
+
+    // Statistics
+    stats: {
+      title: "Statistiken",
+      todayStudied: "Heute gelernt",
+      totalStudied: "Gesamt gelernt",
+      averageAccuracy: "Durchschnittliche Genauigkeit",
+      studyStreak: "Lernserie",
+      timeSpent: "Verbrachte Zeit",
+      heatmap: "Lern-Heatmap",
+      retention: "Behaltensrate"
+    },
+
+    // Customization
+    customize: {
+      title: "Karten anpassen",
+      cardStyle: "Kartenstil",
+      minimal: "Minimal",
+      decorated: "Dekoriert",
+      themed: "Thematisch",
+      animationSpeed: "Animationsgeschwindigkeit",
+      slow: "Langsam",
+      normal: "Normal",
+      fast: "Schnell",
+      soundEffects: "Soundeffekte",
+      hapticFeedback: "Haptisches Feedback",
+      autoPlay: "Auto-Wiedergabe",
+      studyDirection: "Lernrichtung",
+      frontToBack: "Vorne → Hinten",
+      backToFront: "Hinten → Vorne",
+      mixed: "Gemischt",
+      sessionLength: "Karten pro Sitzung"
+    },
+
+    // Import/Export
+    import: {
+      title: "Stapel importieren",
+      selectFile: "Datei auswählen",
+      supportedFormats: "Unterstützt: CSV, JSON, Anki (.apkg)",
+      fromList: "Aus Liste erstellen",
+      selectList: "Liste auswählen",
+      importing: "Importiere...",
+      success: "{{count}} Karten importiert",
+      error: "Import fehlgeschlagen"
+    },
+
+    export: {
+      title: "Stapel exportieren",
+      format: "Export-Format",
+      csv: "CSV",
+      json: "JSON",
+      anki: "Anki-Paket",
+      includeProgress: "Fortschrittsdaten einbeziehen",
+      exporting: "Exportiere...",
+      success: "Stapel erfolgreich exportiert"
+    },
+
+    // Empty states
+    empty: {
+      noDecks: "Keine Lernkarten-Stapel",
+      createFirst: "Erstellen Sie Ihren ersten Stapel",
+      noCards: "Dieser Stapel hat keine Karten",
+      addFirst: "Fügen Sie Ihre erste Karte hinzu",
+      noDue: "Keine Karten zur Überprüfung",
+      allCaughtUp: "Alles erledigt! Kommen Sie später wieder.",
+      studyNew: "Neue Karten lernen",
+      noDecksYet: "Noch keine Stapel",
+      noDecksDescription: "Beginnen Sie mit der Erstellung Ihres ersten Lernkartenstapels, um Ihre Lernreise zu beginnen",
+      createFirstDeck: "Erstellen Sie Ihren ersten Stapel"
+    },
+
+    // Errors and limits
+    errors: {
+      loadFailed: "Laden fehlgeschlagen",
+      saveFailed: "Speichern fehlgeschlagen",
+      deleteFailed: "Löschen fehlgeschlagen",
+      limitReached: "Stapellimit erreicht",
+      upgradeRequired: "Upgrade erforderlich",
+      offlineOnly: "Offline-Modus",
+      syncFailed: "Synchronisation fehlgeschlagen"
+    },
+
+    limits: {
+      guest: "Anmelden zum Erstellen von Stapeln",
+      freeLimit: "Kostenlos: {{current}}/{{max}} Stapel",
+      dailyLimit: "Tageslimit: {{current}}/{{max}}",
+      unlimited: "Unbegrenzte Stapel"
+    },
+
+    // Tooltips
+    tooltips: {
+      srs: "Verwendet verteilte Wiederholung",
+      mastery: "21+ Tage mit 90% Genauigkeit lernen",
+      streak: "Jeden Tag lernen",
+      difficulty: "Bewerten Sie Ihr Wissen",
+      leech: "Diese Karte braucht mehr Übung"
+    },
+
+    // Confirmations
+    confirmDelete: {
+      title: "Stapel löschen",
+      message: "Sind Sie sicher, dass Sie \"{{name}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      deck: "Stapel \"{{name}}\" löschen? Unwiderruflich.",
+      card: "Diese Karte löschen? Unwiderruflich.",
+      progress: "Fortschritt zurücksetzen?"
+    },
+
+    // Success messages
+    success: {
+      deckCreated: "Stapel erstellt",
+      deckUpdated: "Stapel aktualisiert",
+      deckDeleted: "Stapel gelöscht",
+      cardAdded: "Karte hinzugefügt",
+      cardUpdated: "Karte aktualisiert",
+      cardDeleted: "Karte entfernt",
+      progressSaved: "Fortschritt gespeichert",
+      imported: "Stapel importiert",
+      exported: "Stapel exportiert"
+    },
+
+    // Statistics
+    showStats: "Statistiken anzeigen",
+    hideStats: "Statistiken ausblenden",
+    stats: {
+      mastered: "Gemeistert",
+      accuracy: "Genauigkeit",
+      streak: "Aktuelle Serie",
+      studyTime: "Lernzeit",
+      learningProgress: "Lernfortschritt",
+      deckPerformance: "Stapelleistung",
+      insights: "Lerneinblicke",
+      velocity: "Lerngeschwindigkeit",
+      cardsPerHour: "Karten/Stunde",
+      todayGoal: "Heutiger Fortschritt",
+      bestStreak: "Beste Serie",
+      dueNow: "Jetzt fällig",
+      days: "Tage",
+      total: "Gesamtkarten",
+      learning: "Lernend",
+      complete: "Vollständig",
+      progress: "Fortschritt",
+      averageAccuracy: "Durchschnittliche Genauigkeit",
+      hoursMinutes: "{{hours}}h {{minutes}}m",
+      minutes: "{{minutes}} Minuten",
+      period: {
+        day: "Heute",
+        week: "Diese Woche",
+        month: "Diesen Monat",
+        all: "Gesamtzeit"
+      }
+    }
+  },
   conjugation: {
       title: "Konjugation",
       showConjugations: "Konjugationen anzeigen",
@@ -2211,6 +2467,38 @@ export const strings = {
     item: {
       cancel: "Abbrechen"
     }
+  },
+
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
   },
 
   myVideos: {

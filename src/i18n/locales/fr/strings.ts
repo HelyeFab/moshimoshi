@@ -99,6 +99,7 @@ export const strings = {
     save: "Enregistrer",
     delete: "Supprimer",
     edit: "Modifier",
+    remove: "Remove",
     back: "Retour",
     next: "Suivant",
     previous: "Précédent",
@@ -842,10 +843,47 @@ export const strings = {
         subtitle: "Listes personnelles",
         description: "Gérer les listes personnalisées"
       },
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
+  },
+
       myVideos: {
         title: "Mes Vidéos",
         subtitle: "Vidéos",
         description: "Vos vidéos sauvegardées"
+      },
+      flashcards: {
+        title: "Cartes Flash",
+        subtitle: "Cartes",
+        description: "Créer et étudier des paquets de cartes"
       }
     },
     progress: {
@@ -1785,6 +1823,224 @@ export const strings = {
     }
   },
 
+  flashcards: {
+    title: "Cartes Flash",
+    pageTitle: "Paquets de Cartes Flash",
+    pageDescription: "Créez et étudiez des paquets de cartes flash personnalisés",
+
+    // Empty state
+    noDecksYet: "Aucun paquet pour le moment",
+    noDecksDescription: "Commencez par créer votre premier paquet de cartes flash pour débuter votre parcours d'apprentissage",
+    createFirstDeck: "Créer Votre Premier Paquet",
+
+    // Deck management
+    createDeck: "Créer un Nouveau Paquet",
+    editDeck: "Modifier le Paquet",
+    deleteDeck: "Supprimer le Paquet",
+    deckName: "Nom du Paquet",
+    deckDescription: "Description",
+    deckSettings: "Paramètres du Paquet",
+    totalCards: "{{count}} cartes",
+    lastStudied: "Dernière étude: {{date}}",
+    neverStudied: "Jamais étudié",
+
+    // Card management
+    addCard: "Ajouter une Carte",
+    editCard: "Modifier la Carte",
+    deleteCard: "Supprimer la Carte",
+    frontSide: "Recto",
+    backSide: "Verso",
+    cardNotes: "Notes (optionnel)",
+    cardTags: "Étiquettes",
+    cardDifficulty: "Difficulté",
+
+    // Study modes
+    studyMode: "Mode d'Étude",
+    classic: "Classique",
+    match: "Correspondance",
+    speed: "Vitesse",
+    write: "Écriture",
+    voice: "Voix",
+
+    // Study session
+    startStudying: "Commencer l'Étude",
+    resumeStudying: "Reprendre l'Étude",
+    flipCard: "Retourner la Carte",
+    showAnswer: "Afficher la Réponse",
+    nextCard: "Carte Suivante",
+    previousCard: "Carte Précédente",
+    markCorrect: "Je le savais",
+    markIncorrect: "Je ne le savais pas",
+    difficulty: {
+      again: "Encore",
+      hard: "Difficile",
+      good: "Bien",
+      easy: "Facile"
+    },
+
+    // Progress
+    progress: "Progrès",
+    cardsStudied: "Cartes étudiées",
+    accuracy: "Précision",
+    streak: "Série actuelle",
+    masteryLevel: "Maîtrise",
+    dueForReview: "À réviser",
+    due: "due",
+    newCards: "Nouvelles cartes",
+    learningCards: "En apprentissage",
+    reviewCards: "À réviser",
+
+    // Statistics
+    stats: {
+      title: "Statistiques",
+      todayStudied: "Étudié aujourd'hui",
+      totalStudied: "Total étudié",
+      averageAccuracy: "Précision moyenne",
+      studyStreak: "Série d'étude",
+      timeSpent: "Temps passé",
+      heatmap: "Carte de chaleur",
+      retention: "Taux de rétention"
+    },
+
+    // Customization
+    customize: {
+      title: "Personnaliser les Cartes",
+      cardStyle: "Style de Carte",
+      minimal: "Minimal",
+      decorated: "Décoré",
+      themed: "Thématique",
+      animationSpeed: "Vitesse d'Animation",
+      slow: "Lent",
+      normal: "Normal",
+      fast: "Rapide",
+      soundEffects: "Effets Sonores",
+      hapticFeedback: "Retour Haptique",
+      autoPlay: "Lecture Auto",
+      studyDirection: "Direction d'Étude",
+      frontToBack: "Recto → Verso",
+      backToFront: "Verso → Recto",
+      mixed: "Mixte",
+      sessionLength: "Cartes par session"
+    },
+
+    // Import/Export
+    import: {
+      title: "Importer un Paquet",
+      selectFile: "Sélectionner un Fichier",
+      supportedFormats: "Supporté: CSV, JSON, Anki (.apkg)",
+      fromList: "Créer depuis une Liste",
+      selectList: "Sélectionner une liste",
+      importing: "Importation...",
+      success: "{{count}} cartes importées",
+      error: "Échec de l'importation"
+    },
+
+    export: {
+      title: "Exporter le Paquet",
+      format: "Format d'Export",
+      csv: "CSV",
+      json: "JSON",
+      anki: "Paquet Anki",
+      includeProgress: "Inclure les données de progression",
+      exporting: "Exportation...",
+      success: "Paquet exporté avec succès"
+    },
+
+    // Empty states
+    empty: {
+      noDecks: "Aucun paquet de cartes flash",
+      createFirst: "Créez votre premier paquet pour commencer",
+      noCards: "Ce paquet n'a pas de cartes",
+      addFirst: "Ajoutez votre première carte",
+      noDue: "Aucune carte à réviser",
+      allCaughtUp: "Tout est fait! Revenez plus tard.",
+      studyNew: "Étudier de nouvelles cartes",
+      noDecksYet: "Aucun paquet",
+      noDecksDescription: "Commencez par créer votre premier paquet de cartes flash pour commencer votre apprentissage",
+      createFirstDeck: "Créer votre premier paquet"
+    },
+
+    // Errors and limits
+    errors: {
+      loadFailed: "Échec du chargement",
+      saveFailed: "Échec de la sauvegarde",
+      deleteFailed: "Échec de la suppression",
+      limitReached: "Limite de paquets atteinte",
+      upgradeRequired: "Mise à niveau requise",
+      offlineOnly: "Mode hors ligne",
+      syncFailed: "Échec de la synchronisation"
+    },
+
+    limits: {
+      guest: "Connectez-vous pour créer des paquets",
+      freeLimit: "Gratuit: {{current}}/{{max}} paquets",
+      dailyLimit: "Limite quotidienne: {{current}}/{{max}}",
+      unlimited: "Paquets illimités"
+    },
+
+    // Tooltips
+    tooltips: {
+      srs: "Utilise la répétition espacée",
+      mastery: "Étudier 21+ jours avec 90% de précision",
+      streak: "Étudiez chaque jour",
+      difficulty: "Évaluez votre connaissance",
+      leech: "Cette carte nécessite plus de pratique"
+    },
+
+    // Confirmations
+    confirmDelete: {
+      title: "Supprimer le Paquet",
+      message: "Êtes-vous sûr de vouloir supprimer \"{{name}}\"? Cette action ne peut pas être annulée.",
+      deck: "Supprimer le paquet \"{{name}}\"? Irréversible.",
+      card: "Supprimer cette carte? Irréversible.",
+      progress: "Réinitialiser le progrès?"
+    },
+
+    // Success messages
+    success: {
+      deckCreated: "Paquet créé",
+      deckUpdated: "Paquet mis à jour",
+      deckDeleted: "Paquet supprimé",
+      cardAdded: "Carte ajoutée",
+      cardUpdated: "Carte mise à jour",
+      cardDeleted: "Carte supprimée",
+      progressSaved: "Progrès sauvegardé",
+      imported: "Paquet importé",
+      exported: "Paquet exporté"
+    },
+
+    // Statistics
+    showStats: "Afficher les statistiques",
+    hideStats: "Masquer les statistiques",
+    stats: {
+      mastered: "Maîtrisé",
+      accuracy: "Précision",
+      streak: "Série actuelle",
+      studyTime: "Temps d'étude",
+      learningProgress: "Progrès d'apprentissage",
+      deckPerformance: "Performance des paquets",
+      insights: "Aperçus d'étude",
+      velocity: "Vitesse d'apprentissage",
+      cardsPerHour: "cartes/heure",
+      todayGoal: "Progrès d'aujourd'hui",
+      bestStreak: "Meilleure série",
+      dueNow: "À réviser",
+      days: "jours",
+      total: "Total des cartes",
+      learning: "En apprentissage",
+      complete: "Terminé",
+      progress: "Progrès",
+      averageAccuracy: "Précision moyenne",
+      hoursMinutes: "{{hours}}h {{minutes}}m",
+      minutes: "{{minutes}} minutes",
+      period: {
+        day: "Aujourd'hui",
+        week: "Cette semaine",
+        month: "Ce mois",
+        all: "Tout le temps"
+      }
+    }
+  },
   conjugation: {
       title: "Conjugaison",
       showConjugations: "Afficher les conjugaisons",
@@ -2308,6 +2564,38 @@ export const strings = {
     item: {
       cancel: "Annuler"
     }
+  },
+
+  // Anki Import
+  anki: {
+    importTitle: "Import Anki Deck",
+    importSuccess: "Import Successful!",
+    import: "Import",
+    importing: "Importing...",
+    cardsImported: "{{count}} cards imported successfully",
+    dropFile: "Drop your .apkg file here",
+    orBrowse: "or click to browse",
+    maxFileSize: "Maximum file size: 200MB",
+    invalidFile: "Please select a valid .apkg file",
+    importFailed: "Failed to import deck",
+    processing: "Processing...",
+    description: "Import your Anki decks and review them using the Universal Review Engine",
+    importButton: "Import Anki Deck (.apkg)",
+    mediaCache: "Media Cache",
+    clearCache: "Clear Cache",
+    confirmClearCache: "Are you sure you want to clear all cached media files?",
+    importedDecks: "Imported Decks",
+    removeDeck: "Remove deck",
+    sampleCards: "Sample Cards",
+    front: "Front",
+    back: "Back",
+    startReview: "Start Review Session",
+    noDecksYet: "No decks imported yet",
+    noDecksDescription: "Click the button above to import your first Anki deck",
+    cards: "cards",
+    mediaFiles: "media files",
+    filesCount: "{{count}} files",
+    sizeInMB: "{{size}} MB"
   },
 
   myVideos: {

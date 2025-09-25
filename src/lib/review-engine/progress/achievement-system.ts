@@ -510,6 +510,174 @@ export class AchievementSystem extends EventEmitter {
           type: 'conditional',
           condition: (stats) => stats.drillSpeedRun === true
         }
+      },
+
+      // Kanji Mastery Achievements
+      {
+        id: 'kanji-explorer',
+        name: 'Kanji Explorer',
+        description: 'Complete your first Kanji Mastery session',
+        icon: '🗾',
+        category: 'progress',
+        rarity: 'common',
+        points: 10,
+        criteria: {
+          type: 'simple',
+          condition: (stats) => stats.kanjiMasterySessions >= 1
+        }
+      },
+      {
+        id: 'kanji-scholar',
+        name: 'Kanji Scholar',
+        description: 'Master 50 kanji characters',
+        icon: '📚',
+        category: 'progress',
+        rarity: 'uncommon',
+        points: 30,
+        criteria: {
+          type: 'progressive',
+          current: (stats) => stats.kanjiMastered || 0,
+          target: 50,
+          condition: (stats) => stats.kanjiMastered >= 50
+        }
+      },
+      {
+        id: 'kanji-sensei',
+        name: 'Kanji Sensei',
+        description: 'Master 200 kanji characters',
+        icon: '👨‍🏫',
+        category: 'progress',
+        rarity: 'rare',
+        points: 50,
+        criteria: {
+          type: 'progressive',
+          current: (stats) => stats.kanjiMastered || 0,
+          target: 200,
+          condition: (stats) => stats.kanjiMastered >= 200
+        }
+      },
+      {
+        id: 'jlpt-n5-ready',
+        name: 'JLPT N5 Ready',
+        description: 'Complete all N5 level kanji',
+        icon: '🎌',
+        category: 'mastery',
+        rarity: 'uncommon',
+        points: 40,
+        criteria: {
+          type: 'conditional',
+          condition: (stats) => stats.jlptN5Complete === true
+        }
+      },
+      {
+        id: 'jlpt-n4-ready',
+        name: 'JLPT N4 Ready',
+        description: 'Complete all N4 level kanji',
+        icon: '🗻',
+        category: 'mastery',
+        rarity: 'rare',
+        points: 60,
+        criteria: {
+          type: 'conditional',
+          condition: (stats) => stats.jlptN4Complete === true
+        }
+      },
+      {
+        id: 'jlpt-n3-ready',
+        name: 'JLPT N3 Ready',
+        description: 'Complete all N3 level kanji',
+        icon: '🏯',
+        category: 'mastery',
+        rarity: 'epic',
+        points: 80,
+        criteria: {
+          type: 'conditional',
+          condition: (stats) => stats.jlptN3Complete === true
+        }
+      },
+      {
+        id: 'kanji-round-master',
+        name: 'Round Master',
+        description: 'Achieve 100% accuracy in all 3 rounds',
+        icon: '🎯',
+        category: 'accuracy',
+        rarity: 'rare',
+        points: 45,
+        criteria: {
+          type: 'conditional',
+          condition: (stats) => stats.kanjiPerfectSession === true
+        }
+      },
+      {
+        id: 'kanji-speed-learner',
+        name: 'Speed Learner',
+        description: 'Complete a 5-kanji session in under 10 minutes',
+        icon: '🚀',
+        category: 'speed',
+        rarity: 'uncommon',
+        points: 25,
+        criteria: {
+          type: 'conditional',
+          condition: (stats) => stats.kanjiSpeedSession === true
+        }
+      },
+      {
+        id: 'kanji-consistency-king',
+        name: 'Consistency King',
+        description: '7-day Kanji Mastery streak',
+        icon: '👑',
+        category: 'consistency',
+        rarity: 'rare',
+        points: 40,
+        criteria: {
+          type: 'simple',
+          condition: (stats) => stats.kanjiMasteryStreak >= 7
+        }
+      },
+      {
+        id: 'example-expert',
+        name: 'Example Expert',
+        description: 'Master 100 example sentences',
+        icon: '📝',
+        category: 'mastery',
+        rarity: 'uncommon',
+        points: 30,
+        criteria: {
+          type: 'progressive',
+          current: (stats) => stats.exampleSentencesMastered || 0,
+          target: 100,
+          condition: (stats) => stats.exampleSentencesMastered >= 100
+        }
+      },
+      {
+        id: 'reading-wizard',
+        name: 'Reading Wizard',
+        description: 'Perfect on\'yomi and kun\'yomi in 50 kanji',
+        icon: '🧙‍♂️',
+        category: 'accuracy',
+        rarity: 'rare',
+        points: 40,
+        criteria: {
+          type: 'progressive',
+          current: (stats) => stats.perfectReadings || 0,
+          target: 50,
+          condition: (stats) => stats.perfectReadings >= 50
+        }
+      },
+      {
+        id: 'writing-champion',
+        name: 'Writing Champion',
+        description: 'Perfect kanji writing for 100 characters',
+        icon: '✍️',
+        category: 'accuracy',
+        rarity: 'epic',
+        points: 60,
+        criteria: {
+          type: 'progressive',
+          current: (stats) => stats.perfectWriting || 0,
+          target: 100,
+          condition: (stats) => stats.perfectWriting >= 100
+        }
       }
     ];
     

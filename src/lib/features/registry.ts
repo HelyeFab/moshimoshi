@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-09-25T14:55:00.772Z
+ * Generated at: 2025-09-25T19:04:52.656Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -108,6 +108,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'monthly',
     notifications: false,
     description: 'Create and manage personal todo lists for your Japanese learning goals'
+  },
+  'flashcard_decks': {
+    id: 'flashcard_decks',
+    name: 'Flashcard Decks',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'monthly',
+    notifications: false,
+    description: 'Create and study custom flashcard decks with spaced repetition'
   },
   'conjugation_drill': {
     id: 'conjugation_drill',
