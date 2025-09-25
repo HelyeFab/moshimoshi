@@ -1044,7 +1044,8 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
       const totalXP = baseXP + bonusXP
 
-      // Send XP to server
+      // Send XP to server with enhanced tracking
+      const sessionId = this.currentSession?.sessionId || `review_${Date.now()}`
       const response = await fetch('/api/xp/track', {
         method: 'POST',
         headers: {
@@ -1054,13 +1055,23 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         body: JSON.stringify({
           eventType: 'review_completed',
           amount: totalXP,
-          source: `Review: ${contentType}`,
+          source: `Review: ${contentType} - ${contentId}`,
           metadata: {
+            // Required tracking fields
+            idempotencyKey: `review_${sessionId}_${contentId}`,
+            feature: 'review',
+
+            // Review details
             contentType,
             contentId,
             correct,
             responseTime,
-            sessionId: this.currentSession?.sessionId
+            sessionId,
+
+            // Performance metrics
+            baseXP,
+            bonusXP,
+            multiplier
           }
         })
       })
@@ -1114,7 +1125,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
       const totalXP = baseXP + bonusXP
 
-      // Send XP to server
+      // Send XP to server with enhanced tracking
       const response = await fetch('/api/xp/track', {
         method: 'POST',
         headers: {
@@ -1124,13 +1135,23 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         body: JSON.stringify({
           eventType: accuracy === 100 ? 'perfect_session' : 'review_completed',
           amount: totalXP,
-          source: `Session completed: ${itemsCompleted} items`,
+          source: `Session completed: ${itemsCompleted} items (${sessionSummary.contentType})`,
           metadata: {
+            // Required tracking fields
+            idempotencyKey: `session_${sessionSummary.sessionId}`,
+            feature: sessionSummary.contentType || 'review',
+
+            // Session details
             sessionId: sessionSummary.sessionId,
             contentType: sessionSummary.contentType,
             accuracy,
             itemsCompleted,
-            duration: sessionSummary.stats?.duration
+            duration: sessionSummary.stats?.duration,
+
+            // Performance breakdown
+            baseXP,
+            bonusXP,
+            perfectBonus: accuracy === 100 ? 50 : 0
           }
         })
       })

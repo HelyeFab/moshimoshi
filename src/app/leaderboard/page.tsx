@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/hooks/useAuth'
 import Navbar from '@/components/layout/Navbar'
@@ -12,11 +12,51 @@ import { Trophy, Medal, Award, Target, Zap, Star, Users, Clock } from 'lucide-re
 
 type TimeFrame = 'daily' | 'weekly' | 'monthly' | 'allTime'
 
+interface UserStats {
+  rank: number
+  totalPoints: number
+  currentStreak: number
+}
+
 export default function LeaderboardPage() {
   const { user } = useAuth()
   const { t, strings } = useI18n()
   const [timeframe, setTimeframe] = useState<TimeFrame>('allTime')
   const [activeTab, setActiveTab] = useState<'global' | 'friends'>('global')
+  const [userStats, setUserStats] = useState<UserStats | null>(null)
+  const [isLoadingStats, setIsLoadingStats] = useState(true)
+
+  // Fetch user stats when user or timeframe changes
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      if (!user?.uid) {
+        setIsLoadingStats(false)
+        return
+      }
+
+      setIsLoadingStats(true)
+      try {
+        // Fetch user's leaderboard position and stats
+        const response = await fetch(`/api/leaderboard/user/${user.uid}?timeframe=${timeframe}`)
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success && data.entry) {
+            setUserStats({
+              rank: data.entry.rank,
+              totalPoints: data.entry.totalPoints,
+              currentStreak: data.entry.currentStreak || 0
+            })
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch user stats:', error)
+      } finally {
+        setIsLoadingStats(false)
+      }
+    }
+
+    fetchUserStats()
+  }, [user?.uid, timeframe])
 
   const timeframeOptions: { value: TimeFrame; label: string; icon: JSX.Element }[] = [
     {
@@ -43,14 +83,14 @@ export default function LeaderboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-dark-900 dark:via-dark-800 dark:to-dark-900">
-      <Navbar />
+      <Navbar user={user} showUserMenu={true} />
 
       <div className="container mx-auto px-4 py-8">
         {/* Header with animated background */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8 relative overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 p-8 text-white shadow-xl"
+          className="mb-4 sm:mb-6 md:mb-8 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 p-4 sm:p-6 md:p-8 text-white shadow-xl"
         >
           {/* Dark overlay for better text contrast */}
           <div className="absolute inset-0 bg-black/10"></div>
@@ -85,57 +125,63 @@ export default function LeaderboardPage() {
 
           {/* Content */}
           <div className="relative z-10">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                <Trophy className="w-8 h-8" />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-4">
+              <div className="p-2 sm:p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Trophy className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">
                   {strings.leaderboard?.title || 'Leaderboard'}
                 </h1>
-                <p className="text-lg opacity-90">
+                <p className="text-sm sm:text-base md:text-lg opacity-90">
                   {strings.leaderboard?.description || 'Compete with learners worldwide'}
                 </p>
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-4 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mt-4 sm:mt-6">
               <motion.div
-                className="bg-white/10 backdrop-blur-sm rounded-lg p-3"
+                className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-3"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="flex items-center gap-2">
-                  <Medal className="w-5 h-5 text-yellow-300" />
-                  <div>
-                    <div className="text-2xl font-bold">--</div>
-                    <div className="text-sm opacity-75">{strings.leaderboard?.yourRank || 'Your Rank'}</div>
+                <div className="flex items-center justify-between sm:justify-start sm:gap-2">
+                  <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
+                  <div className="text-right sm:text-left">
+                    <div className="text-xl sm:text-2xl font-bold">
+                      {isLoadingStats ? '...' : userStats?.rank || '--'}
+                    </div>
+                    <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.yourRank || 'Your Rank'}</div>
                   </div>
                 </div>
               </motion.div>
 
               <motion.div
-                className="bg-white/10 backdrop-blur-sm rounded-lg p-3"
+                className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-3"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-300" />
-                  <div>
-                    <div className="text-2xl font-bold">--</div>
-                    <div className="text-sm opacity-75">{strings.leaderboard?.totalPoints || 'Total Points'}</div>
+                <div className="flex items-center justify-between sm:justify-start sm:gap-2">
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
+                  <div className="text-right sm:text-left">
+                    <div className="text-xl sm:text-2xl font-bold">
+                      {isLoadingStats ? '...' : userStats?.totalPoints?.toLocaleString() || '--'}
+                    </div>
+                    <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.achievementPoints || 'Achievement Pts'}</div>
                   </div>
                 </div>
               </motion.div>
 
               <motion.div
-                className="bg-white/10 backdrop-blur-sm rounded-lg p-3"
+                className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-3"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-yellow-300" />
-                  <div>
-                    <div className="text-2xl font-bold">--</div>
-                    <div className="text-sm opacity-75">{strings.leaderboard?.streak || 'Streak Days'}</div>
+                <div className="flex items-center justify-between sm:justify-start sm:gap-2">
+                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
+                  <div className="text-right sm:text-left">
+                    <div className="text-xl sm:text-2xl font-bold">
+                      {isLoadingStats ? '...' : userStats?.currentStreak || '0'}
+                    </div>
+                    <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.streak || 'Streak Days'}</div>
                   </div>
                 </div>
               </motion.div>
@@ -144,7 +190,7 @@ export default function LeaderboardPage() {
         </motion.div>
 
         {/* Tab Selection */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex flex-col sm:flex-row gap-2 mb-4 sm:mb-6">
           <Button
             variant={activeTab === 'global' ? 'default' : 'outline'}
             onClick={() => setActiveTab('global')}
@@ -168,18 +214,18 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Time Frame Selection */}
-        <Card className="mb-6 p-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <Card className="mb-4 sm:mb-6 p-3 sm:p-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">
               {strings.leaderboard?.timeFrame || 'Time Frame'}
             </h3>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {timeframeOptions.map((option) => (
                 <motion.button
                   key={option.value}
                   onClick={() => setTimeframe(option.value)}
                   className={`
-                    px-4 py-2 rounded-lg flex items-center gap-2 transition-all
+                    px-3 py-2 sm:px-4 rounded-lg flex items-center gap-1 sm:gap-2 transition-all text-xs sm:text-sm
                     ${timeframe === option.value
                       ? 'bg-primary-500 text-white shadow-lg'
                       : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
@@ -189,7 +235,8 @@ export default function LeaderboardPage() {
                   whileTap={{ scale: 0.95 }}
                 >
                   {option.icon}
-                  <span className="font-medium">{option.label}</span>
+                  <span className="font-medium hidden sm:inline">{option.label}</span>
+                  <span className="font-medium sm:hidden">{option.value === 'allTime' ? 'All' : option.value.charAt(0).toUpperCase() + option.value.slice(1, 3)}</span>
                 </motion.button>
               ))}
             </div>
@@ -231,44 +278,44 @@ export default function LeaderboardPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4"
+          className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
         >
-          <Card className="p-4 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 border-yellow-200 dark:border-yellow-800">
-            <div className="flex items-start gap-3">
-              <Trophy className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-1" />
+          <Card className="p-3 sm:p-4 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 border-yellow-200 dark:border-yellow-800">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 dark:text-yellow-400 mt-1 flex-shrink-0" />
               <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                <h4 className="font-semibold text-sm sm:text-base text-gray-900 dark:text-gray-100 mb-1">
                   {strings.leaderboard?.howToClimb || 'How to Climb'}
                 </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   {strings.leaderboard?.climbDescription || 'Complete lessons, unlock achievements, and maintain streaks to earn points.'}
                 </p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-800">
-            <div className="flex items-start gap-3">
-              <Medal className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1" />
+          <Card className="p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-800">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 mt-1 flex-shrink-0" />
               <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                <h4 className="font-semibold text-sm sm:text-base text-gray-900 dark:text-gray-100 mb-1">
                   {strings.leaderboard?.rewards || 'Rewards'}
                 </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   {strings.leaderboard?.rewardsDescription || 'Top performers unlock special badges and exclusive content.'}
                 </p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-800">
-            <div className="flex items-start gap-3">
-              <Star className="w-5 h-5 text-green-600 dark:text-green-400 mt-1" />
+          <Card className="p-3 sm:p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-800">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <Star className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 mt-1 flex-shrink-0" />
               <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                <h4 className="font-semibold text-sm sm:text-base text-gray-900 dark:text-gray-100 mb-1">
                   {strings.leaderboard?.fairPlay || 'Fair Play'}
                 </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   {strings.leaderboard?.fairPlayDescription || 'Rankings reset periodically to give everyone a chance to shine.'}
                 </p>
               </div>

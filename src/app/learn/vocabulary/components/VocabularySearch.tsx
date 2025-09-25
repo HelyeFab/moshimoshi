@@ -47,27 +47,29 @@ export default function VocabularySearch({
       className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-6"
     >
       <form onSubmit={handleSubmit}>
-        <div className="relative">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            placeholder={strings.reviewPrompts?.vocabulary?.searchPlaceholder || 'Search by kanji, kana, romaji, or English meaning...'}
-            className="w-full px-4 py-3 pl-12 bg-gray-50 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
-            disabled={searching}
-          />
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          
+        <div className="flex flex-col sm:flex-row gap-2">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              placeholder={strings.reviewPrompts?.vocabulary?.searchPlaceholder || 'Search by kanji, kana, romaji, or English meaning...'}
+              className="w-full px-4 py-3 pl-12 pr-4 bg-gray-50 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 text-sm sm:text-base"
+              disabled={searching}
+            />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          </div>
+
           <button
             type="submit"
             disabled={searching || !inputValue.trim()}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 px-4 py-1.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap font-medium"
           >
             {searching ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>{strings.reviewPrompts?.vocabulary?.searching || 'Searching...'}</span>
+                <span className="hidden sm:inline">{strings.reviewPrompts?.vocabulary?.searching || 'Searching...'}</span>
               </div>
             ) : (
               strings.reviewPrompts?.vocabulary?.searchButton || 'Search'
@@ -76,21 +78,24 @@ export default function VocabularySearch({
         </div>
       </form>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        <span className="text-xs text-gray-600 dark:text-gray-400">{strings.reviewPrompts?.vocabulary?.searchQuickSearch || 'Quick search:'}</span>
-        {['食べる', '飲む', '行く', '見る', '話す', 'water', 'eat', 'study'].map((term) => (
-          <button
-            key={term}
-            onClick={() => {
-              setInputValue(term)
-              setSearchTerm(term)
-              onSearch(term)
-            }}
-            className="px-3 py-1 text-xs bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
-          >
-            {term}
-          </button>
-        ))}
+      <div className="mt-4">
+        <span className="block sm:inline text-xs text-gray-600 dark:text-gray-400 mb-2 sm:mb-0 sm:mr-2">{strings.reviewPrompts?.vocabulary?.searchQuickSearch || 'Quick search:'}</span>
+        <div className="flex flex-wrap gap-2 mt-2 sm:mt-0 sm:inline-flex">
+          {['食べる', '飲む', '行く', '見る', '話す', 'water', 'eat', 'study'].map((term) => (
+            <button
+              key={term}
+              onClick={() => {
+                setInputValue(term)
+                setSearchTerm(term)
+                onSearch(term)
+              }}
+              disabled={searching}
+              className="px-3 py-1.5 text-xs bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {term}
+            </button>
+          ))}
+        </div>
       </div>
     </motion.div>
   )

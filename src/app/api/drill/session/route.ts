@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession, requireAuth } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
+import { FieldValue } from 'firebase-admin/firestore';
 import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator';
 import type { EvalContext } from '@/lib/entitlements/evaluator';
 import type { FeatureId } from '@/types/FeatureId';
@@ -24,10 +25,26 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Check user's plan
+    const userDoc = await adminDb!.collection('users').doc(session.uid).get();
+    const userData = userDoc.data();
+    const plan = userData?.subscription?.plan || 'free';
+
+    // Free users don't have Firebase access - return empty
+    if (plan !== 'premium_monthly' && plan !== 'premium_yearly') {
+      return NextResponse.json({
+        success: true,
+        data: {
+          sessions: [],
+          message: 'Drill history is stored locally for free users'
+        }
+      });
+    }
+
     const sessionId = request.nextUrl.searchParams.get('sessionId');
 
     if (sessionId) {
-      // Get specific session
+      // Get specific session (premium only)
       const sessionDoc = await adminDb!
         .collection('drill_sessions')
         .doc(sessionId)
@@ -50,7 +67,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Get user's recent sessions
+    // Get user's recent sessions (premium only)
     const recentSessions = await adminDb!
       .collection('drill_sessions')
       .where('userId', '==', session.uid)
@@ -85,7 +102,7 @@ export async function POST(request: NextRequest) {
     const session = await requireAuth();
 
     const body = await request.json();
-    const { mode, wordTypeFilter, selectedLists } = body;
+    const { mode, wordTypeFilter, selectedLists, questionsCount } = body;
 
     // Get fresh user data for entitlements
     const userDoc = await adminDb!.collection('users').doc(session.uid).get();
@@ -148,7 +165,8 @@ export async function POST(request: NextRequest) {
       // Use fallback words for now (would normally fetch from a word API)
       const practiceWords = WordUtils.getCommonPracticeWords();
       const filteredWords = WordUtils.filterByType(practiceWords, wordTypeFilter);
-      const questionsPerSession = getQuestionsPerSession(plan);
+      // Use custom question count if provided, otherwise use plan defaults
+      const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
       questions = QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession);
     } else if (mode === 'lists' && selectedLists?.length > 0) {
       // Fetch words from user's lists
@@ -183,7 +201,8 @@ export async function POST(request: NextRequest) {
 
       if (listWords.length > 0) {
         const filteredWords = WordUtils.filterByType(listWords, wordTypeFilter);
-        const questionsPerSession = getQuestionsPerSession(plan);
+        // Use custom question count if provided, otherwise use plan defaults
+        const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
         questions = QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession);
       }
     }
@@ -211,11 +230,14 @@ export async function POST(request: NextRequest) {
       wordTypeFilter
     };
 
-    // Save session
-    await adminDb!
-      .collection('drill_sessions')
-      .doc(sessionId)
-      .set(drillSession);
+    // Only save to Firebase for premium users
+    if (plan === 'premium_monthly' || plan === 'premium_yearly') {
+      await adminDb!
+        .collection('drill_sessions')
+        .doc(sessionId)
+        .set(drillSession);
+    }
+    // Free users will store locally via client-side IndexedDB
 
     // Increment usage
     await usageRef.set({
@@ -306,12 +328,91 @@ export async function PUT(request: NextRequest) {
 
     if (action === 'complete') {
       // Mark session as complete
-      sessionData.completedAt = new Date().toISOString();
-      await sessionRef.update({ completedAt: sessionData.completedAt });
+      const completedAt = new Date().toISOString();
+      const finalScore = body.finalScore || sessionData.score;
+      const accuracy = body.accuracy || (finalScore / sessionData.questions.length) * 100;
+
+      // Get user's plan to determine storage
+      const userDoc = await adminDb!.collection('users').doc(session.uid).get();
+      const userData = userDoc.data();
+      const plan = userData?.subscription?.plan || 'free';
+
+      // Only update Firebase for premium users
+      if (plan === 'premium_monthly' || plan === 'premium_yearly') {
+        // Update session with completion data
+        await sessionRef.update({
+          completedAt,
+          score: finalScore,
+          accuracy
+        });
+
+        // Update user's drill statistics
+        const userRef = adminDb!.collection('users').doc(session.uid);
+        const batch = adminDb!.batch();
+
+        // Update drill statistics
+        batch.update(userRef, {
+          'drillStats.totalSessions': FieldValue.increment(1),
+          'drillStats.totalQuestions': FieldValue.increment(sessionData.questions.length),
+          'drillStats.totalCorrect': FieldValue.increment(finalScore),
+          'drillStats.lastSessionAt': completedAt,
+          'drillStats.updatedAt': FieldValue.serverTimestamp()
+        });
+
+        // Track drill session in user's progress
+        batch.update(userRef, {
+          'progress.drillSessions': FieldValue.increment(1),
+          'progress.lastDrillAt': completedAt
+        });
+
+        // Add to drill history subcollection for detailed tracking
+        const historyRef = userRef.collection('drill_history').doc();
+        batch.set(historyRef, {
+          sessionId,
+          completedAt,
+          score: finalScore,
+          totalQuestions: sessionData.questions.length,
+          accuracy,
+          mode: sessionData.mode,
+          wordTypeFilter: sessionData.wordTypeFilter,
+          timestamp: FieldValue.serverTimestamp()
+        });
+
+        // If perfect score, track it
+        if (accuracy === 100) {
+          batch.update(userRef, {
+            'drillStats.perfectSessions': FieldValue.increment(1)
+          });
+        }
+
+        // Update best accuracy if this is a new record
+        const currentBestAccuracy = userData?.drillStats?.bestAccuracy || 0;
+        if (accuracy > currentBestAccuracy) {
+          batch.update(userRef, {
+            'drillStats.bestAccuracy': accuracy
+          });
+        }
+
+        // Commit all updates
+        await batch.commit();
+      }
+      // Free users: stats are handled client-side in IndexedDB
 
       return NextResponse.json({
         success: true,
-        data: { session: sessionData }
+        data: {
+          session: {
+            ...sessionData,
+            completedAt,
+            score: finalScore,
+            accuracy
+          },
+          stats: {
+            accuracy,
+            questionsAnswered: sessionData.questions.length,
+            correctAnswers: finalScore
+          }
+        }
       });
     }
 

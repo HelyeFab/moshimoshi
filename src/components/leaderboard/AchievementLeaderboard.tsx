@@ -10,22 +10,32 @@ import Image from 'next/image'
 export interface LeaderboardEntry {
   rank: number
   userId: string
-  username: string
+  username?: string
   displayName: string
-  avatar?: string
+  photoURL?: string
+  avatar?: string // Deprecated, use photoURL
   totalPoints: number
+  totalXP: number
+  currentLevel: number
+  level?: number // Deprecated, use currentLevel
+  xp?: number // Deprecated, use totalXP
+  currentStreak: number
+  bestStreak: number
+  streak?: number // Deprecated, use currentStreak
   achievementCount: number
-  level: number
-  xp: number
-  streak: number
-  rarity: {
+  achievementRarity: {
     legendary: number
     epic: number
     rare: number
     uncommon: number
     common: number
   }
+  rarity?: any // Deprecated, use achievementRarity
   isCurrentUser?: boolean
+  isPublic?: boolean
+  isAnonymous?: boolean
+  lastActive?: number
+  subscription?: string
   change?: 'up' | 'down' | 'same' // Position change from last period
   changeAmount?: number
 }
@@ -113,75 +123,85 @@ const LeaderboardRow = ({ entry, index }: { entry: LeaderboardEntry, index: numb
       `}
     >
       <div
-        className="p-4 cursor-pointer"
+        className="p-3 sm:p-4 cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center justify-between">
           {/* Left Section: Rank & User Info */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <RankBadge rank={entry.rank} />
 
             <ChangeIndicator change={entry.change} amount={entry.changeAmount} />
 
             {/* Avatar */}
             <div className="relative">
-              {entry.avatar ? (
+              {(entry.photoURL || entry.avatar) ? (
                 <Image
-                  src={entry.avatar}
+                  src={entry.photoURL || entry.avatar || ''}
                   alt={entry.displayName}
                   width={40}
                   height={40}
-                  className="rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
-                  {entry.displayName[0].toUpperCase()}
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-sm">
+                  {entry.displayName[0]?.toUpperCase() || '?'}
                 </div>
               )}
 
               {/* Level Badge */}
-              <div className="absolute -bottom-1 -right-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                {entry.level}
+              <div className="absolute -bottom-1 -right-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-[10px] sm:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center font-bold">
+                {entry.currentLevel || entry.level || 1}
               </div>
             </div>
 
-            {/* Name & Username */}
-            <div>
-              <div className="font-semibold text-gray-900 dark:text-gray-100">
+            {/* Name & Username - Hide username on mobile */}
+            <div className="min-w-0 flex-1 sm:flex-initial">
+              <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-gray-100 truncate">
                 {entry.displayName}
-                {entry.isCurrentUser && <span className="ml-2 text-xs text-primary-500">(You)</span>}
+                {entry.isCurrentUser && <span className="ml-1 sm:ml-2 text-[10px] sm:text-xs text-primary-500">(You)</span>}
               </div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
+              <div className="hidden sm:block text-xs text-gray-500 dark:text-gray-400">
                 @{entry.username}
               </div>
             </div>
           </div>
 
-          {/* Right Section: Stats */}
-          <div className="flex items-center space-x-6">
-            {/* Achievements */}
-            <div className="text-center">
+          {/* Right Section: Stats - Compact on mobile */}
+          <div className="flex items-center space-x-2 sm:space-x-6">
+            {/* Combined Achievements & Points on mobile, separate on desktop */}
+            <div className="sm:hidden text-center">
+              <div className="text-sm font-bold text-primary-600 dark:text-primary-400">
+                {entry.totalPoints.toLocaleString()}
+              </div>
+              <div className="text-[10px] text-gray-500">
+                {entry.achievementCount} 🏆
+              </div>
+            </div>
+
+            {/* Desktop: Separate columns */}
+            <div className="hidden sm:block text-center">
               <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
                 {entry.achievementCount}
               </div>
               <div className="text-xs text-gray-500">Achievements</div>
             </div>
 
-            {/* Points */}
-            <div className="text-center">
+            <div className="hidden sm:block text-center">
               <div className="text-lg font-bold text-primary-600 dark:text-primary-400">
                 {entry.totalPoints.toLocaleString()}
               </div>
               <div className="text-xs text-gray-500">Points</div>
             </div>
 
-            {/* Streak */}
-            {entry.streak > 0 && (
+            {/* Streak - Compact on mobile */}
+            {(entry.currentStreak || entry.streak || 0) > 0 && (
               <div className="text-center">
-                <div className="text-lg font-bold text-orange-500 flex items-center">
-                  🔥 {entry.streak}
+                <div className="text-sm sm:text-lg font-bold text-orange-500 flex items-center justify-center">
+                  <span className="text-xs sm:text-base">🔥</span>
+                  <span className="ml-0.5">{entry.currentStreak || entry.streak}</span>
                 </div>
-                <div className="text-xs text-gray-500">Streak</div>
+                <div className="text-[10px] sm:text-xs text-gray-500 hidden sm:block">Streak</div>
               </div>
             )}
           </div>
@@ -195,47 +215,47 @@ const LeaderboardRow = ({ entry, index }: { entry: LeaderboardEntry, index: numb
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700"
+              className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700"
             >
-              <div className="grid grid-cols-5 gap-4 text-center">
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-4 text-center">
                 <div>
-                  <div className="text-2xl mb-1">🏆</div>
-                  <div className="text-xs text-gray-500">Legendary</div>
-                  <div className="font-bold">{entry.rarity.legendary}</div>
+                  <div className="text-lg sm:text-2xl mb-1">🏆</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500">Legendary</div>
+                  <div className="text-xs sm:text-base font-bold">{(entry.achievementRarity || entry.rarity)?.legendary || 0}</div>
                 </div>
                 <div>
-                  <div className="text-2xl mb-1">💎</div>
-                  <div className="text-xs text-gray-500">Epic</div>
-                  <div className="font-bold">{entry.rarity.epic}</div>
+                  <div className="text-lg sm:text-2xl mb-1">💎</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500">Epic</div>
+                  <div className="text-xs sm:text-base font-bold">{(entry.achievementRarity || entry.rarity)?.epic || 0}</div>
                 </div>
                 <div>
-                  <div className="text-2xl mb-1">💙</div>
-                  <div className="text-xs text-gray-500">Rare</div>
-                  <div className="font-bold">{entry.rarity.rare}</div>
+                  <div className="text-lg sm:text-2xl mb-1">💙</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500">Rare</div>
+                  <div className="text-xs sm:text-base font-bold">{(entry.achievementRarity || entry.rarity)?.rare || 0}</div>
                 </div>
-                <div>
-                  <div className="text-2xl mb-1">💚</div>
-                  <div className="text-xs text-gray-500">Uncommon</div>
-                  <div className="font-bold">{entry.rarity.uncommon}</div>
+                <div className="hidden sm:block">
+                  <div className="text-lg sm:text-2xl mb-1">💚</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500">Uncommon</div>
+                  <div className="text-xs sm:text-base font-bold">{(entry.achievementRarity || entry.rarity)?.uncommon || 0}</div>
                 </div>
-                <div>
-                  <div className="text-2xl mb-1">⚪</div>
-                  <div className="text-xs text-gray-500">Common</div>
-                  <div className="font-bold">{entry.rarity.common}</div>
+                <div className="hidden sm:block">
+                  <div className="text-lg sm:text-2xl mb-1">⚪</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500">Common</div>
+                  <div className="text-xs sm:text-base font-bold">{(entry.achievementRarity || entry.rarity)?.common || 0}</div>
                 </div>
               </div>
 
               {/* XP Progress Bar */}
-              <div className="mt-4">
-                <div className="flex justify-between text-xs text-gray-500 mb-1">
-                  <span>Level {entry.level}</span>
-                  <span>{entry.xp} XP</span>
+              <div className="mt-3 sm:mt-4">
+                <div className="flex justify-between text-[10px] sm:text-xs text-gray-500 mb-1">
+                  <span>Level {entry.currentLevel || entry.level || 1}</span>
+                  <span>{entry.totalXP || entry.xp || 0} XP</span>
                 </div>
                 <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-to-r from-primary-400 to-primary-600"
                     initial={{ width: 0 }}
-                    animate={{ width: `${(entry.xp % 1000) / 10}%` }}
+                    animate={{ width: `${((entry.totalXP || entry.xp || 0) % 1000) / 10}%` }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                   />
                 </div>
@@ -269,7 +289,7 @@ export default function AchievementLeaderboard({
     setIsLoading(true)
 
     try {
-      // This would be an API call in production
+      // Fetch leaderboard data
       const response = await fetch(`/api/leaderboard?timeframe=${selectedTimeframe}&limit=${limit}`)
       const data = await response.json()
 
@@ -372,10 +392,10 @@ export default function AchievementLeaderboard({
 
   if (isLoading) {
     return (
-      <Card className="p-6">
-        <div className="animate-pulse space-y-4">
+      <Card className="p-3 sm:p-4 md:p-6">
+        <div className="animate-pulse space-y-2 sm:space-y-4">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-16 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+            <div key={i} className="h-12 sm:h-16 bg-gray-200 dark:bg-gray-700 rounded-lg" />
           ))}
         </div>
       </Card>
@@ -383,23 +403,25 @@ export default function AchievementLeaderboard({
   }
 
   return (
-    <Card className="p-6">
+    <Card className="p-3 sm:p-4 md:p-6">
       {/* Header */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+      <div className="mb-4 sm:mb-6">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           {strings.leaderboard?.title || 'Achievement Leaderboard'}
         </h2>
 
         {/* Timeframe Selector */}
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-1 sm:gap-2">
           {timeframes.map((tf) => (
             <Button
               key={tf.value}
               variant={selectedTimeframe === tf.value ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedTimeframe(tf.value as typeof timeframe)}
+              className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
             >
-              {tf.label}
+              <span className="sm:hidden">{tf.value === 'allTime' ? 'All' : tf.value.charAt(0).toUpperCase() + tf.value.slice(1, 3)}</span>
+              <span className="hidden sm:inline">{tf.label}</span>
             </Button>
           ))}
         </div>
@@ -414,8 +436,8 @@ export default function AchievementLeaderboard({
 
       {/* Current User Position (if not in top list) */}
       {showCurrentUserAlways && currentUserEntry && !leaderboard.find(e => e.isCurrentUser) && (
-        <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-          <div className="text-sm text-gray-500 mb-2">Your Position</div>
+        <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="text-xs sm:text-sm text-gray-500 mb-2">{strings.leaderboard?.yourPosition || 'Your Position'}</div>
           <LeaderboardRow entry={currentUserEntry} index={0} />
         </div>
       )}

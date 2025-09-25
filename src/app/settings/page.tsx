@@ -48,6 +48,7 @@ export default function SettingsPage() {
     publicProfile: false,
     showProgress: true,
     shareAchievements: false,
+    hideFromLeaderboard: false, // Opt-out instead of opt-in
   })
 
   const [accessibility, setAccessibility] = useState({
@@ -572,6 +573,13 @@ export default function SettingsPage() {
                 enabled={privacy.shareAchievements}
                 onChange={(value) => setPrivacy({ ...privacy, shareAchievements: value })}
                 icon="🎖️"
+              />
+              <SettingToggle
+                label={strings.settings?.sections?.privacy?.hideFromLeaderboard?.label || "Hide from Leaderboard"}
+                description={strings.settings?.sections?.privacy?.hideFromLeaderboard?.description || "Opt out of appearing in public leaderboard rankings"}
+                enabled={privacy.hideFromLeaderboard}
+                onChange={(value) => setPrivacy({ ...privacy, hideFromLeaderboard: value })}
+                icon="🏆"
               />
             </div>
           </CollapsibleSection>

@@ -930,6 +930,8 @@ export const strings = {
   drill: {
     title: "活用練習",
     description: "日本語の動詞と形容詞の活用を練習",
+    loading: "練習を読み込み中...",
+    settings: "練習設定",
 
     // Practice mode section
     practiceMode: "練習モード",
@@ -937,10 +939,14 @@ export const strings = {
     randomDescription: "よく使う単語で練習",
     fromLists: "リストから",
     listsDescription: "学習リストを使用",
+    myLists: "マイリスト",
 
     // Word types section
     wordTypes: "単語の種類",
+    wordTypeFilter: "単語タイプフィルター",
     allTypes: "全種類",
+    verbs: "動詞",
+    adjectives: "形容詞",
     verbsOnly: "動詞のみ",
     adjectivesOnly: "形容詞のみ",
 
@@ -949,7 +955,10 @@ export const strings = {
     tryAgain: "もう一度",
     newDrill: "新しい練習",
     backToSetup: "設定に戻る",
+    backToDashboard: "ダッシュボードに戻る",
     seeResults: "結果を見る",
+    showResults: "結果を表示",
+    nextQuestion: "次の問題",
     finish: "終了",
 
     // Questions and game play
@@ -979,6 +988,11 @@ export const strings = {
     showRules: "活用規則を表示",
     hideRules: "規則を隠す",
     remainingToday: "今日の残り練習回数: {{count}}回",
+    upgradeForMore: "プレミアムにアップグレードしてセッションごとの問題数を増やす",
+
+    // Messages
+    limitReached: "今日の練習制限に達しました",
+    startError: "練習を開始できませんでした。もう一度お試しください。",
 
     // Conjugation forms
     forms: {
@@ -1200,7 +1214,60 @@ export const strings = {
       cta: {
         viewPricing: "料金を見る",
         learnMore: "詳細を見る",
+        upgradeToPremium: "プレミアムにアップグレード",
       },
+      inline: {
+        title: "プレミアム機能をアンロック",
+        subtitle: "すべての機能への無制限アクセス",
+        featureLimit: "{{feature}}の制限に達しました",
+      },
+      plans: {
+        monthly: {
+          name: "プレミアム月額",
+          interval: "月",
+        },
+        yearly: {
+          name: "プレミアム年額",
+          interval: "年",
+          savings: "25%お得",
+        },
+      },
+      features: {
+        unlimited: "無制限の練習セッション",
+        advancedStats: "高度な進歩分析",
+        prioritySupport: "優先カスタマーサポート",
+        offlineMode: "完全オフラインモード",
+        earlyAccess: "新機能への早期アクセス",
+      },
+      badges: {
+        popular: "最も人気",
+      },
+      currentUsage: "現在の使用量",
+      loading: "価格オプションを読み込み中...",
+      upgradeNow: "今すぐアップグレード",
+      maybeLater: "後で",
+      processing: "処理中...",
+      premiumNote: "プレミアムで日本語の学習を加速させた何千人もの学習者に加わりましょう",
+      securePayment: "Stripeによる安全な決済",
+    },
+    guest: {
+      title: "無料アカウントを作成",
+      subtitle: "サインアップしてパーソナライズされた学習をアンロック",
+      featureRequiresAccount: "{{feature}}にはアカウントが必要です",
+      benefits: {
+        progressTracking: "進捗を追跡",
+        progressTrackingDesc: "学習履歴と達成を保存",
+        cloudSync: "クラウド同期",
+        cloudSyncDesc: "すべてのデバイスでデータにアクセス",
+        unlockFeatures: "より多くの機能",
+        unlockFeaturesDesc: "追加の学習ツールをアンロック",
+        dailyLimits: "より高い制限",
+        dailyLimitsDesc: "より多くの毎日の練習セッション",
+      },
+      freeAccountNote: "完全無料 - クレジットカード不要",
+      createAccount: "無料アカウントを作成",
+      signIn: "サインイン",
+      continueAsGuest: "ゲストとして続行",
     },
   },
 
@@ -1210,6 +1277,11 @@ export const strings = {
     subtitle: "無制限の練習で日本語マスターを加速",
     loading: "料金を読み込み中...",
     billing: {
+      monthly: "月額",
+      yearly: "年額",
+      savePercent: "{{percent}}%お得",
+    },
+    billingToggle: {
       monthly: "月額",
       yearly: "年額",
       savePercent: "{{percent}}%お得",

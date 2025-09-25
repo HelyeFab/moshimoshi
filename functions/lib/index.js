@@ -47,7 +47,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
+exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
@@ -60,6 +60,10 @@ const stripeMapping_1 = require("./mapping/stripeMapping");
 const webhook_1 = require("./webhook");
 // Import public endpoints handlers
 const endpoints_1 = require("./endpoints");
+// Import scheduled leaderboard functions
+const leaderboard_1 = require("./scheduled/leaderboard");
+Object.defineProperty(exports, "updateLeaderboardSnapshots", { enumerable: true, get: function () { return leaderboard_1.updateLeaderboardSnapshots; } });
+Object.defineProperty(exports, "updateLeaderboardManually", { enumerable: true, get: function () { return leaderboard_1.updateLeaderboardManually; } });
 // Initialize Firebase Admin only if not already initialized
 if (!admin.apps.length) {
     admin.initializeApp();

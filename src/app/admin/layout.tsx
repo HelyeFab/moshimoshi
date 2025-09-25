@@ -144,7 +144,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-850">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-850 w-full">
       {/* Top Navigation Bar - Mobile Optimized */}
       <header className="sticky top-0 z-50 bg-white dark:bg-dark-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between px-3 sm:px-4 lg:px-6 h-14 sm:h-16">
@@ -321,22 +321,22 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       {/* Mobile Navigation Dropdown */}
       {showMobileNav && (
-        <div className="lg:hidden fixed inset-x-0 top-14 sm:top-16 z-40" ref={mobileNavRef}>
-          <div className="bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-gray-700 shadow-lg max-h-[calc(100vh-56px)] sm:max-h-[calc(100vh-64px)] overflow-y-auto">
-            <nav className="p-2">
+        <div className="lg:hidden fixed inset-x-0 top-14 sm:top-16 bottom-0 z-40 overflow-hidden" ref={mobileNavRef}>
+          <div className="bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-gray-700 shadow-lg h-full overflow-y-auto">
+            <nav className="p-4">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setShowMobileNav(false)}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors mb-1 ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors mb-2 ${
                     isActiveRoute(item.href)
                       ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                 >
-                  <span className="text-lg">{item.icon}</span>
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="text-base font-medium">{item.label}</span>
                   {isActiveRoute(item.href) && (
                     <svg className="w-4 h-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -352,17 +352,17 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Mobile Backdrop */}
       {showMobileNav && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-25 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
           onClick={() => setShowMobileNav(false)}
         />
       )}
 
-      <div className="flex relative">
+      <div className="flex relative min-h-screen">
         {/* Desktop Sidebar */}
         <aside
           ref={sidebarRef}
           className={`hidden lg:block ${
-            sidebarOpen ? 'w-64' : 'w-0'
+            sidebarOpen ? 'w-64' : 'w-16'
           } transition-all duration-300 overflow-hidden bg-white dark:bg-dark-900 border-r border-gray-200 dark:border-gray-700 flex-shrink-0`}
         >
           {sidebarOpen && (
@@ -388,11 +388,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 min-w-0 overflow-x-hidden">
-          <div className="p-4 sm:p-6 lg:p-8">
-            <div className="max-w-7xl mx-auto">
-              {children}
-            </div>
+        <main className="flex-1 w-full min-w-0">
+          <div className="w-full p-4 sm:p-6 lg:p-8">
+            {children}
           </div>
         </main>
       </div>

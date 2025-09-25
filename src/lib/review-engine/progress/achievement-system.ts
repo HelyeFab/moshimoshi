@@ -368,6 +368,148 @@ export class AchievementSystem extends EventEmitter {
           type: 'conditional',
           condition: (stats) => stats.comebackAfterBreak === true
         }
+      },
+
+      // Drill-specific Achievements
+      {
+        id: 'conjugation-novice',
+        name: 'Conjugation Novice',
+        description: 'Complete your first drill session',
+        icon: '✏️',
+        category: 'progress',
+        rarity: 'common',
+        points: 10,
+        criteria: {
+          type: 'simple',
+          condition: (stats) => stats.drillsCompleted >= 1
+        }
+      },
+      {
+        id: 'verb-wizard',
+        name: 'Verb Wizard',
+        description: 'Complete 50 drill sessions',
+        icon: '🧙',
+        category: 'progress',
+        rarity: 'rare',
+        points: 50,
+        criteria: {
+          type: 'progressive',
+          condition: (stats) => stats.drillsCompleted >= 50,
+          progressCalculation: (stats) => Math.min(stats.drillsCompleted || 0, 50),
+          requirement: 50
+        }
+      },
+      {
+        id: 'conjugation-master',
+        name: 'Conjugation Master',
+        description: 'Achieve 100% accuracy in a drill session',
+        icon: '🎯',
+        category: 'accuracy',
+        rarity: 'uncommon',
+        points: 25,
+        criteria: {
+          type: 'conditional',
+          condition: (stats) => stats.drillPerfectSession === true
+        }
+      },
+      {
+        id: 'drill-perfectionist',
+        name: 'Drill Perfectionist',
+        description: 'Get 10 perfect drill sessions',
+        icon: '💎',
+        category: 'accuracy',
+        rarity: 'epic',
+        points: 75,
+        criteria: {
+          type: 'progressive',
+          condition: (stats) => stats.perfectDrills >= 10,
+          progressCalculation: (stats) => Math.min(stats.perfectDrills || 0, 10),
+          requirement: 10
+        }
+      },
+      {
+        id: 'daily-driller',
+        name: 'Daily Driller',
+        description: 'Complete drills 7 days in a row',
+        icon: '📅',
+        category: 'streak',
+        rarity: 'uncommon',
+        points: 30,
+        criteria: {
+          type: 'simple',
+          condition: (stats) => stats.drillStreak >= 7
+        }
+      },
+      {
+        id: 'conjugation-champion',
+        name: 'Conjugation Champion',
+        description: 'Complete 100 drill sessions',
+        icon: '🏆',
+        category: 'progress',
+        rarity: 'epic',
+        points: 100,
+        criteria: {
+          type: 'progressive',
+          condition: (stats) => stats.drillsCompleted >= 100,
+          progressCalculation: (stats) => Math.min(stats.drillsCompleted || 0, 100),
+          requirement: 100
+        }
+      },
+      {
+        id: 'drill-accuracy-ace',
+        name: 'Accuracy Ace',
+        description: 'Maintain 85% average accuracy across 20 drill sessions',
+        icon: '🎖️',
+        category: 'accuracy',
+        rarity: 'rare',
+        points: 40,
+        criteria: {
+          type: 'conditional',
+          condition: (stats) => stats.drillsCompleted >= 20 && stats.drillAverageAccuracy >= 85
+        }
+      },
+      {
+        id: 'adjective-adept',
+        name: 'Adjective Adept',
+        description: 'Practice 50 different adjectives in drills',
+        icon: '🌈',
+        category: 'progress',
+        rarity: 'uncommon',
+        points: 25,
+        criteria: {
+          type: 'progressive',
+          condition: (stats) => stats.uniqueAdjectivesDrilled >= 50,
+          progressCalculation: (stats) => Math.min(stats.uniqueAdjectivesDrilled || 0, 50),
+          requirement: 50
+        }
+      },
+      {
+        id: 'verb-variety',
+        name: 'Verb Variety',
+        description: 'Practice 100 different verbs in drills',
+        icon: '🔤',
+        category: 'progress',
+        rarity: 'rare',
+        points: 35,
+        criteria: {
+          type: 'progressive',
+          condition: (stats) => stats.uniqueVerbsDrilled >= 100,
+          progressCalculation: (stats) => Math.min(stats.uniqueVerbsDrilled || 0, 100),
+          requirement: 100
+        }
+      },
+      {
+        id: 'speed-driller',
+        name: 'Speed Driller',
+        description: 'Complete a 20-question drill in under 2 minutes',
+        icon: '⚡',
+        category: 'speed',
+        rarity: 'rare',
+        points: 35,
+        criteria: {
+          type: 'conditional',
+          condition: (stats) => stats.drillSpeedRun === true
+        }
       }
     ];
     
@@ -518,6 +660,15 @@ export class AchievementSystem extends EventEmitter {
       lastSessionTime: aggregatedStats.lastActivity?.getTime() || Date.now(),
       weekendSessions: aggregatedStats.weekendSessions,
       comebackAfterBreak: aggregatedStats.daysSinceLastActivity >= 7,
+      // Drill-specific statistics
+      drillsCompleted: aggregatedStats.drillsCompleted || 0,
+      perfectDrills: aggregatedStats.perfectDrills || 0,
+      drillPerfectSession: aggregatedStats.lastDrillAccuracy === 100,
+      drillStreak: aggregatedStats.drillStreak || 0,
+      drillAverageAccuracy: aggregatedStats.drillAverageAccuracy || 0,
+      uniqueVerbsDrilled: aggregatedStats.uniqueVerbsDrilled || 0,
+      uniqueAdjectivesDrilled: aggregatedStats.uniqueAdjectivesDrilled || 0,
+      drillSpeedRun: aggregatedStats.drillSpeedRun || false,
       // Additional stats from aggregator
       speedRun50: aggregatedStats.speedRun50,
       speedRun50Time: aggregatedStats.speedRun50Time,

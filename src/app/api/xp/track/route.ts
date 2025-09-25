@@ -19,7 +19,11 @@ const TrackXPSchema = z.object({
     'streak_bonus',
     'perfect_session',
     'speed_bonus',
-    'daily_bonus'
+    'daily_bonus',
+    'drill_completed',
+    'lesson_completed',
+    'quiz_completed',
+    'milestone_reached'
   ]),
   amount: z.number().min(0).max(1000),
   source: z.string(),
@@ -58,7 +62,38 @@ export async function POST(request: NextRequest) {
 
     const xpData = validationResult.data
 
-    // 3. CRITICAL: Get FRESH user data (NEVER use session.tier!)
+    // 3. Check for idempotency key to prevent duplicates
+    const idempotencyKey = xpData.metadata?.idempotencyKey ||
+                          (xpData.sessionId ? `session_${xpData.sessionId}` : null)
+
+    if (idempotencyKey) {
+      // Check if this XP has already been awarded
+      const existingXP = await adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('xp_history')
+        .where('idempotencyKey', '==', idempotencyKey)
+        .limit(1)
+        .get()
+
+      if (!existingXP.empty) {
+        // XP already awarded, return existing data
+        const existing = existingXP.docs[0].data()
+        return NextResponse.json({
+          success: true,
+          data: {
+            xpGained: 0, // No new XP gained
+            totalXP: existing.newTotalXP || 0,
+            currentLevel: existing.currentLevel || 1,
+            leveledUp: false,
+            duplicate: true,
+            message: 'XP already awarded for this action'
+          }
+        }, { status: 200 })
+      }
+    }
+
+    // 4. CRITICAL: Get FRESH user data (NEVER use session.tier!)
     const userRef = adminDb.collection('users').doc(session.uid)
     const userDoc = await userRef.get()
     const userData = userDoc.data()
@@ -91,7 +126,7 @@ export async function POST(request: NextRequest) {
     // Get level info for response
     const userLevel = xpSystem.getUserLevel(newTotalXP)
 
-    // 6. Create XP event record
+    // 6. Create XP event record with enhanced tracking
     const xpEvent = {
       type: xpData.eventType,
       xpGained: xpToAward,
@@ -99,7 +134,13 @@ export async function POST(request: NextRequest) {
       timestamp: FieldValue.serverTimestamp(),
       metadata: xpData.metadata || {},
       sessionId: xpData.sessionId,
-      contentType: xpData.contentType
+      contentType: xpData.contentType,
+      // Enhanced tracking
+      idempotencyKey: idempotencyKey,
+      feature: xpData.metadata?.feature || 'unknown',
+      clientTimestamp: xpData.metadata?.timestamp || Date.now(),
+      plan: userData?.subscription?.plan || 'free',
+      multiplierApplied: xpData.amount !== xpToAward ? xpSystem.getXPMultiplier(currentProgress.currentLevel) : 1.0
     }
 
     // 7. Update Firebase with atomic batch operation
@@ -126,23 +167,12 @@ export async function POST(request: NextRequest) {
       userId: session.uid,
       oldTotalXP,
       newTotalXP,
-      leveledUp
+      leveledUp,
+      currentLevel: newLevel
     })
 
-    // Also add to xp_events for backwards compatibility
-    const xpEventsRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('xp_events')
-      .doc()
-
-    batch.set(xpEventsRef, {
-      type: xpData.eventType,
-      xp: xpToAward,
-      timestamp: FieldValue.serverTimestamp(),
-      source: xpData.source,
-      metadata: xpData.metadata || {}
-    })
+    // Note: xp_events collection has been deprecated in favor of xp_history
+    // which provides better tracking and idempotency support
 
     // If level up, add bonus XP event
     if (leveledUp) {
@@ -159,22 +189,10 @@ export async function POST(request: NextRequest) {
         source: `Level ${newLevel} reached!`,
         timestamp: FieldValue.serverTimestamp(),
         metadata: { levelUp: true, newLevel },
-        userId: session.uid
-      })
-
-      // Also add to xp_events for backwards compatibility
-      const bonusEventsRef = adminDb
-        .collection('users')
-        .doc(session.uid)
-        .collection('xp_events')
-        .doc()
-
-      batch.set(bonusEventsRef, {
-        type: 'achievement_unlocked',
-        xp: levelUpBonus,
-        timestamp: FieldValue.serverTimestamp(),
-        source: `Level ${newLevel} reached!`,
-        metadata: { levelUp: true, newLevel }
+        userId: session.uid,
+        idempotencyKey: `levelup_${newLevel}_${session.uid}`,
+        feature: 'levels',
+        currentLevel: newLevel
       })
 
       // Update total with bonus

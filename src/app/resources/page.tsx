@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useI18n } from '@/i18n/I18nContext';
 import { formatDistanceToNow } from 'date-fns';
 import Navbar from '@/components/layout/Navbar';
+import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import Dropdown from '@/components/ui/Dropdown';
 
@@ -82,13 +83,10 @@ export default function ResourcesPage() {
     <div className="min-h-screen bg-gradient-to-br from-background-light via-soft-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
       <Navbar user={user} showUserMenu={true} />
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white py-16">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">{strings.resources?.title || 'Learning Resources'}</h1>
-          <p className="text-xl opacity-90">{strings.resources?.subtitle || 'Discover guides, tutorials, and articles to enhance your Japanese learning journey'}</p>
-        </div>
-      </div>
+      <LearningPageHeader
+        title={strings.resources?.title || 'Learning Resources'}
+        description={strings.resources?.subtitle || 'Discover guides, tutorials, and articles to enhance your Japanese learning journey'}
+      />
 
       {/* Search and Filters */}
       <div className="container mx-auto px-4 py-8">

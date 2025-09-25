@@ -48,13 +48,20 @@ export async function pushStreakToFirestore(): Promise<void> {
 
     // Pushing streak to Firestore
 
-    // Use the path structure from the guide: users/{uid}/progress/streak
+    // Use the CORRECT path that the API reads from: users/{uid}/achievements/activities
+    // This ensures consistency with existing data
+    const dates: Record<string, boolean> = {}
+    if (lastActiveDay) {
+      dates[lastActiveDay] = true
+    }
+
     await setDoc(
-      doc(db, 'users', user.uid, 'progress', 'streak'),
+      doc(db, 'users', user.uid, 'achievements', 'activities'),
       {
         currentStreak,
-        longestStreak,
-        lastActiveDay,
+        bestStreak: longestStreak,
+        lastActivity: Date.now(),
+        dates,
         updatedAt: serverTimestamp(),
         userId: user.uid,
       },
@@ -96,20 +103,29 @@ export async function loadStreakFromFirestore(): Promise<void> {
       return
     }
 
-    // Loading streak from Firestore
+    // Loading streak from Firestore from CORRECT location
 
-    const streakDoc = await getDoc(doc(db, 'users', user.uid, 'progress', 'streak'))
+    const streakDoc = await getDoc(doc(db, 'users', user.uid, 'achievements', 'activities'))
 
     if (streakDoc.exists()) {
-      const data = streakDoc.data() as FirestoreStreakData
+      const data = streakDoc.data()
 
       // Loaded streak data from Firestore
 
+      // Extract the last active day from dates object
+      let lastActiveDay: string | null = null
+      if (data.dates) {
+        const dateKeys = Object.keys(data.dates).filter(key => data.dates[key] === true).sort()
+        if (dateKeys.length > 0) {
+          lastActiveDay = dateKeys[dateKeys.length - 1]
+        }
+      }
+
       // Update local store with Firestore data
       useStreakStore.getState().setStreakData({
-        currentStreak: data.currentStreak,
-        longestStreak: data.longestStreak,
-        lastActiveDay: data.lastActiveDay,
+        currentStreak: data.currentStreak || 0,
+        longestStreak: data.bestStreak || data.longestStreak || 0,
+        lastActiveDay,
       })
 
       // Check if streak needs to be reset due to inactivity
@@ -145,9 +161,9 @@ export function subscribeToStreakFromFirestore(): Unsubscribe | null {
       return null
     }
 
-    // Subscribing to Firestore streak updates
+    // Subscribing to Firestore streak updates from CORRECT location
 
-    const streakDoc = doc(db, 'users', user.uid, 'progress', 'streak')
+    const streakDoc = doc(db, 'users', user.uid, 'achievements', 'activities')
 
     // Create a wrapped unsubscribe function that handles cleanup
     let isUnsubscribed = false
@@ -159,22 +175,33 @@ export function subscribeToStreakFromFirestore(): Unsubscribe | null {
         if (isUnsubscribed) return
 
         if (snap.exists()) {
-          const data = snap.data() as FirestoreStreakData
+          const data = snap.data()
           const localState = useStreakStore.getState()
+
+          // Extract the last active day from dates object
+          let lastActiveDay: string | null = null
+          if (data.dates) {
+            const dateKeys = Object.keys(data.dates).filter(key => data.dates[key] === true).sort()
+            if (dateKeys.length > 0) {
+              lastActiveDay = dateKeys[dateKeys.length - 1]
+            }
+          }
+
+          const longestStreak = data.bestStreak || data.longestStreak || 0
 
           // Only update if Firestore data is different from local
           // This prevents infinite sync loops
           if (
             data.currentStreak !== localState.currentStreak ||
-            data.longestStreak !== localState.longestStreak ||
-            data.lastActiveDay !== localState.lastActiveDay
+            longestStreak !== localState.longestStreak ||
+            lastActiveDay !== localState.lastActiveDay
           ) {
             // Received streak update from Firestore
 
             useStreakStore.getState().setStreakData({
-              currentStreak: data.currentStreak,
-              longestStreak: data.longestStreak,
-              lastActiveDay: data.lastActiveDay,
+              currentStreak: data.currentStreak || 0,
+              longestStreak,
+              lastActiveDay,
             })
 
             // Check if streak needs to be reset due to inactivity
@@ -247,89 +274,11 @@ export async function recordActivityAndSync(
 }
 
 /**
- * Migrate streak data from old structure to new
- * This will be called once for existing users
+ * No migration needed anymore - we're using achievements/activities as the single source of truth
+ * This function is kept for backwards compatibility but does nothing
  */
 export async function migrateStreakData(userId: string): Promise<void> {
-  try {
-    // Starting streak migration
-
-    // Try to load from old location: users/{uid}/achievements/activities
-    const oldDoc = await getDoc(doc(db, 'users', userId, 'achievements', 'activities'))
-
-    if (!oldDoc.exists()) {
-      // No old streak data to migrate
-      return
-    }
-
-    const oldData = oldDoc.data()
-    // Found old streak data
-
-    // Extract dates and calculate last active day
-    const dates = oldData.dates || {}
-    const dateKeys = Object.keys(dates)
-      .filter(key => key.match(/^\d{4}-\d{2}-\d{2}$/) && dates[key] === true)
-      .sort()
-
-    let lastActiveDay: string | null = null
-    let currentStreak = 0
-
-    if (dateKeys.length > 0) {
-      // Get the most recent active day
-      lastActiveDay = dateKeys[dateKeys.length - 1]
-
-      // Count consecutive days backwards from the most recent
-      const today = format(new Date(), 'yyyy-MM-dd')
-      let checkDate = lastActiveDay
-
-      // If last active was today or yesterday, calculate the streak
-      const daysSinceActive = Math.floor(
-        (new Date(today).getTime() - new Date(lastActiveDay).getTime()) / (1000 * 60 * 60 * 24)
-      )
-
-      if (daysSinceActive <= 1) {
-        // Count backwards from lastActiveDay
-        for (let i = dateKeys.length - 1; i >= 0; i--) {
-          if (dateKeys[i] === checkDate) {
-            currentStreak++
-            // Move to previous day
-            const prevDate = new Date(checkDate)
-            prevDate.setDate(prevDate.getDate() - 1)
-            checkDate = format(prevDate, 'yyyy-MM-dd')
-          } else {
-            break
-          }
-        }
-      }
-    }
-
-    const longestStreak = Math.max(oldData.bestStreak || 0, currentStreak)
-
-    // Save to new location
-    await setDoc(
-      doc(db, 'users', userId, 'progress', 'streak'),
-      {
-        currentStreak,
-        longestStreak,
-        lastActiveDay,
-        updatedAt: serverTimestamp(),
-        userId,
-        migratedAt: serverTimestamp(),
-        migratedFrom: 'achievements/activities',
-      }
-    )
-
-    // Migration complete
-
-    // Update local store if this is the current user
-    if (auth.currentUser?.uid === userId) {
-      useStreakStore.getState().setStreakData({
-        currentStreak,
-        longestStreak,
-        lastActiveDay,
-      })
-    }
-  } catch (error) {
-    console.error('[StreakSync] Migration failed:', error)
-  }
+  // No migration needed - achievements/activities is already the correct location
+  console.log('[StreakSync] No migration needed, using achievements/activities as source of truth')
+  return
 }

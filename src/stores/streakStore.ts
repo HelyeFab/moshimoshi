@@ -17,6 +17,7 @@ import { virtualClock } from '@/lib/time/virtualClock'
 export enum StreakActivity {
   REVIEW_SESSION = 'review_session',
   STUDY_SESSION = 'study_session',
+  DRILL_COMPLETION = 'drill_completion',
   // Future activities can be added here:
   // QUIZ_COMPLETION = 'quiz_completion',
   // LESSON_COMPLETION = 'lesson_completion',
@@ -29,6 +30,7 @@ export enum StreakActivity {
 export const STREAK_ELIGIBLE_ACTIVITIES: Set<StreakActivity> = new Set([
   StreakActivity.REVIEW_SESSION,
   StreakActivity.STUDY_SESSION,
+  StreakActivity.DRILL_COMPLETION,
 ])
 
 interface StreakState {

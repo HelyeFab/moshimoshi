@@ -1144,6 +1144,58 @@ export const strings = {
         viewPricing: "Vedi prezzi",
         upgradeToPremium: "Aggiorna a Premium",
       },
+      inline: {
+        title: "Sblocca funzioni Premium",
+        subtitle: "Accesso illimitato a tutte le funzioni",
+        featureLimit: "Hai raggiunto il limite per {{feature}}",
+      },
+      plans: {
+        monthly: {
+          name: "Premium Mensile",
+          interval: "mese",
+        },
+        yearly: {
+          name: "Premium Annuale",
+          interval: "anno",
+          savings: "Risparmia il 25%",
+        },
+      },
+      features: {
+        unlimited: "Sessioni di pratica illimitate",
+        advancedStats: "Analisi avanzate dei progressi",
+        prioritySupport: "Supporto clienti prioritario",
+        offlineMode: "Modalità offline completa",
+        earlyAccess: "Accesso anticipato alle nuove funzioni",
+      },
+      badges: {
+        popular: "Più popolare",
+      },
+      currentUsage: "Utilizzo attuale",
+      loading: "Caricamento opzioni di prezzo...",
+      upgradeNow: "Aggiorna ora",
+      maybeLater: "Forse più tardi",
+      processing: "Elaborazione...",
+      premiumNote: "Unisciti a migliaia di studenti che hanno accelerato il loro percorso giapponese con Premium",
+      securePayment: "Pagamento sicuro tramite Stripe",
+    },
+    guest: {
+      title: "Crea il tuo account gratuito",
+      subtitle: "Iscriviti per sbloccare l'apprendimento personalizzato",
+      featureRequiresAccount: "{{feature}} richiede un account",
+      benefits: {
+        progressTracking: "Traccia i tuoi progressi",
+        progressTrackingDesc: "Salva la tua cronologia di apprendimento e i traguardi",
+        cloudSync: "Sincronizzazione cloud",
+        cloudSyncDesc: "Accedi ai tuoi dati su tutti i dispositivi",
+        unlockFeatures: "Più funzioni",
+        unlockFeaturesDesc: "Sblocca strumenti di apprendimento aggiuntivi",
+        dailyLimits: "Limiti più alti",
+        dailyLimitsDesc: "Ottieni più sessioni di pratica giornaliere",
+      },
+      freeAccountNote: "È completamente gratuito - nessuna carta di credito richiesta",
+      createAccount: "Crea account gratuito",
+      signIn: "Accedi",
+      continueAsGuest: "Continua come ospite",
     },
     messages: {
       limitReached: "Limite giornaliero raggiunto. Riprova domani.",
@@ -2190,6 +2242,8 @@ export const strings = {
   drill: {
     title: "Esercizio di Coniugazione",
     description: "Pratica le coniugazioni di verbi e aggettivi giapponesi",
+    loading: "Caricamento esercizio...",
+    settings: "Impostazioni Esercizio",
 
     // Practice mode section
     practiceMode: "Modalità Pratica",
@@ -2197,10 +2251,14 @@ export const strings = {
     randomDescription: "Pratica con parole comuni",
     fromLists: "Dalle Liste",
     listsDescription: "Usa le tue liste di studio",
+    myLists: "Le Mie Liste",
 
     // Word types section
     wordTypes: "Tipi di Parole",
+    wordTypeFilter: "Filtro Tipo Parola",
     allTypes: "Tutti i Tipi",
+    verbs: "Verbi",
+    adjectives: "Aggettivi",
     verbsOnly: "Solo Verbi",
     adjectivesOnly: "Solo Aggettivi",
 
@@ -2209,7 +2267,10 @@ export const strings = {
     tryAgain: "Riprova",
     newDrill: "Nuovo Esercizio",
     backToSetup: "Torna alle Impostazioni",
+    backToDashboard: "Torna alla Dashboard",
     seeResults: "Vedi Risultati",
+    showResults: "Mostra Risultati",
+    nextQuestion: "Prossima Domanda",
     finish: "Fine",
 
     // Questions and game play
@@ -2239,6 +2300,11 @@ export const strings = {
     showRules: "Mostra regole di coniugazione",
     hideRules: "Nascondi regole",
     remainingToday: "{{count}} esercizi rimanenti oggi",
+    upgradeForMore: "Passa a Premium per più domande per sessione",
+
+    // Messages
+    limitReached: "Limite giornaliero di esercizi raggiunto",
+    startError: "Impossibile avviare l'esercizio. Riprova.",
 
     // Conjugation forms
     forms: {

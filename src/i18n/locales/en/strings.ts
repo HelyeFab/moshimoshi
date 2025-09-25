@@ -1177,6 +1177,8 @@ export const strings = {
   drill: {
     title: "Conjugation Drill",
     description: "Practice Japanese verb and adjective conjugations",
+    loading: "Loading drill...",
+    settings: "Drill Settings",
 
     // Practice mode section
     practiceMode: "Practice Mode",
@@ -1184,10 +1186,14 @@ export const strings = {
     randomDescription: "Practice with common words",
     fromLists: "From Lists",
     listsDescription: "Use your study lists",
+    myLists: "My Lists",
 
     // Word types section
     wordTypes: "Word Types",
+    wordTypeFilter: "Word Type Filter",
     allTypes: "All Types",
+    verbs: "Verbs",
+    adjectives: "Adjectives",
     verbsOnly: "Verbs Only",
     adjectivesOnly: "Adjectives Only",
 
@@ -1196,7 +1202,10 @@ export const strings = {
     tryAgain: "Try Again",
     newDrill: "New Drill",
     backToSetup: "Back to Setup",
+    backToDashboard: "Back to Dashboard",
     seeResults: "See Results",
+    showResults: "Show Results",
+    nextQuestion: "Next Question",
     finish: "Finish",
 
     // Questions and game play
@@ -1226,6 +1235,11 @@ export const strings = {
     showRules: "Show conjugation rules",
     hideRules: "Hide rules",
     remainingToday: "{{count}} drills remaining today",
+    upgradeForMore: "Upgrade to Premium for more questions per session",
+
+    // Messages
+    limitReached: "Daily drill limit reached",
+    startError: "Failed to start drill. Please try again.",
 
     // Conjugation forms
     forms: {
@@ -1253,6 +1267,8 @@ export const strings = {
     selectLists: "Please select at least one list to practice.",
     noConjugableWords: "No conjugable words found in selected lists.",
     dailyLimitReached: "You've reached your daily drill limit.",
+    limitReached: "You've reached your daily drill limit. Please try again tomorrow.",
+    unlimited: "Unlimited drills available",
     loadingQuestions: "Loading questions...",
     of: "of",
   },
@@ -1450,15 +1466,71 @@ export const strings = {
         viewPricing: "View Pricing",
         upgradeToPremium: "Upgrade to Premium",
       },
+      inline: {
+        title: "Unlock Premium Features",
+        subtitle: "Get unlimited access to all features",
+        featureLimit: "You've reached your limit for {{feature}}",
+      },
+      plans: {
+        monthly: {
+          name: "Premium Monthly",
+          interval: "month",
+        },
+        yearly: {
+          name: "Premium Yearly",
+          interval: "year",
+          savings: "Save 25%",
+        },
+      },
+      features: {
+        unlimited: "Unlimited practice sessions",
+        advancedStats: "Advanced progress analytics",
+        prioritySupport: "Priority customer support",
+        offlineMode: "Full offline mode",
+        earlyAccess: "Early access to new features",
+      },
+      badges: {
+        popular: "Most Popular",
+      },
+      currentUsage: "Current Usage",
+      loading: "Loading pricing options...",
+      upgradeNow: "Upgrade Now",
+      maybeLater: "Maybe Later",
+      processing: "Processing...",
+      premiumNote: "Join thousands of learners who've accelerated their Japanese journey with Premium",
+      securePayment: "Secure payment powered by Stripe",
+    },
+    guest: {
+      title: "Create Your Free Account",
+      subtitle: "Sign up to unlock personalized learning",
+      featureRequiresAccount: "{{feature}} requires an account",
+      benefits: {
+        progressTracking: "Track Your Progress",
+        progressTrackingDesc: "Save your learning history and achievements",
+        cloudSync: "Cloud Sync",
+        cloudSyncDesc: "Access your data across all devices",
+        unlockFeatures: "More Features",
+        unlockFeaturesDesc: "Unlock additional learning tools",
+        dailyLimits: "Higher Limits",
+        dailyLimitsDesc: "Get more daily practice sessions",
+      },
+      freeAccountNote: "It's completely free - no credit card required",
+      createAccount: "Create Free Account",
+      signIn: "Sign In",
+      continueAsGuest: "Continue as Guest",
     },
     messages: {
       limitReached: "Daily limit reached. Please try again tomorrow.",
+      limitReachedWithTime: "You've reached your daily limit for {{feature}}. Resets {{time}}.",
       signUpForMore: "Sign up for free to get 5 daily practices",
       upgradeForUnlimited: "Upgrade to Premium for unlimited practice",
       getUnlimitedAccess: "Get unlimited access with Premium",
       authenticationRequired: "Authentication required",
       featureLimitReached: "Feature limit reached",
+      featureUnavailable: "This feature is currently unavailable",
       upgradeRequired: "Upgrade to premium for unlimited access",
+      runningLow: "You have {{count}} {{feature}} session(s) remaining today",
+      checkFailed: "Failed to check feature availability",
     },
   },
 
@@ -1466,12 +1538,35 @@ export const strings = {
   pricing: {
     title: "Choose Your Learning Journey",
     subtitle: "Unlock unlimited practice and accelerate your Japanese mastery",
+    loading: "Loading pricing options...",
     mostPopular: "Most Popular",
+    badges: {
+      mostPopular: "Most Popular",
+      currentPlan: "Current Plan"
+    },
+    billing: {
+      monthly: "Monthly",
+      yearly: "Yearly",
+      savePercent: "Save {{percent}}%"
+    },
     billingToggle: {
       monthly: "Monthly",
       yearly: "Yearly",
       savePercent: "Save {{percent}}%",
     },
+    buttons: {
+      signUpFree: "Sign Up Free",
+      startFreeTrial: "Start Free Trial",
+      currentPlan: "Current Plan",
+      downgrade: "Downgrade",
+      upgradeNow: "Upgrade Now",
+      processing: "Processing..."
+    },
+    messages: {
+      alreadyFree: "You're already on the free plan",
+      alreadySubscribed: "You're already subscribed to this plan"
+    },
+    manageBilling: "Manage Billing",
     features: {
       title: "What's Included",
       free: {
@@ -1496,6 +1591,18 @@ export const strings = {
     },
     faq: {
       title: "Frequently Asked Questions",
+      cancel: {
+        question: "Can I cancel anytime?",
+        answer: "Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your billing period."
+      },
+      trial: {
+        question: "Is there a free trial?",
+        answer: "New users get 7 days of Premium features for free. No credit card required."
+      },
+      switch: {
+        question: "Can I change my plan?",
+        answer: "Yes, you can upgrade or downgrade your plan at any time from your account settings."
+      },
       canICancel: {
         question: "Can I cancel anytime?",
         answer: "Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your billing period.",
@@ -1512,6 +1619,12 @@ export const strings = {
         question: "Can I change my plan?",
         answer: "Yes, you can upgrade or downgrade your plan at any time from your account settings.",
       },
+    },
+    trust: {
+      activeLearners: "Active Learners",
+      successRate: "Success Rate",
+      support: "Support",
+      moneyBack: "Money Back Guarantee"
     },
     trustBadges: {
       secure: "Secure Payment",

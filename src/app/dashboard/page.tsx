@@ -23,6 +23,7 @@ import GuestModeBanner from '@/components/ui/GuestModeBanner'
 import { useAuth } from '@/hooks/useAuth'
 import { useXP } from '@/hooks/useXP'
 import { useReviewStats } from '@/hooks/useReviewStats'
+import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
 
 // Dynamically import Confetti to avoid SSR issues
@@ -63,6 +64,10 @@ function DashboardContent() {
 
   // Review stats (for consistent streak data)
   const { stats: reviewStats } = useReviewStats()
+
+  // Drill stats
+  const [drillStats, setDrillStats] = useState<any>(null)
+  const [loadingDrillStats, setLoadingDrillStats] = useState(false)
 
   // Check for donation success from URL params
   useEffect(() => {
@@ -133,6 +138,26 @@ function DashboardContent() {
     // Don't set up subscription here - it's handled by StreakCounter component
   }, [user?.uid, isPremium, subscription])
 
+  // Load drill stats
+  useEffect(() => {
+    const loadDrillStats = async () => {
+      if (!user?.uid) return
+
+      setLoadingDrillStats(true)
+      try {
+        const drillManager = DrillProgressManager.getInstance()
+        const stats = await drillManager.getDrillStats(user.uid, isPremium || false)
+        setDrillStats(stats)
+      } catch (error) {
+        logger.error('[Dashboard] Failed to load drill stats:', error)
+      } finally {
+        setLoadingDrillStats(false)
+      }
+    }
+
+    loadDrillStats()
+  }, [user?.uid, isPremium])
+
 
 
 
@@ -169,9 +194,6 @@ function DashboardContent() {
     const unlockedAchievements = getUnlockedAchievements() || []
     const streakValue = reviewStats.currentStreak || 0  // Use streak from reviewStats for consistency
 
-    // Debug logging
-    console.log('[Dashboard] userAchievements:', userAchievements)
-    console.log('[Dashboard] Unlocked achievements:', unlockedAchievements)
 
     // Use the actual unlocked achievements count (you have 3: first-step, sharpshooter, consistent-performer)
     const achievementCount = unlockedAchievements.length || (userAchievements?.unlocked?.size || 0)
@@ -210,11 +232,17 @@ function DashboardContent() {
       ? String(achievementsData.unit)
       : 'unlocked'
 
+    // Calculate drill accuracy if stats available
+    const drillAccuracy = drillStats ? Math.round(drillStats.accuracy || 0) : 0
+    const drillCount = drillStats?.totalDrills || 0
+
     return [
       { label: String(streakLabel || 'Streak'), value: streakValue.toString(), unit: String(streakUnit || 'days'), color: 'from-orange-400 to-red-500' },
       { label: String(xpLabel || 'XP Earned'), value: xpPoints.toString(), unit: String(xpUnit || 'points'), color: 'from-blue-400 to-purple-500' },
       { label: String(progressLabel || 'Progress'), value: Math.round(completionPercentage).toString(), unit: String(progressUnit || '%'), color: 'from-green-400 to-teal-500' },
       { label: String(achievementsLabel || 'Achievements'), value: achievementCount.toString(), unit: String(achievementsUnit || 'unlocked'), color: 'from-pink-400 to-rose-500' },
+      { label: strings.drill?.stats?.totalDrills || 'Drills', value: drillCount.toString(), unit: strings.drill?.stats?.drillsUnit || 'completed', color: 'from-indigo-400 to-blue-500' },
+      { label: strings.drill?.stats?.accuracy || 'Drill Accuracy', value: drillAccuracy.toString(), unit: '%', color: 'from-teal-400 to-green-500' },
     ]
   }
 
@@ -348,19 +376,19 @@ function DashboardContent() {
             </div>
           </div>
 
-          {/* Stats Grid - 2x2 grid in 1 column on desktop */}
-          <div className="lg:col-span-1 grid grid-cols-2 gap-4 h-full">
-            {learningStats.map((stat, index) => (
+          {/* Stats Grid - 2x3 grid in 1 column on desktop */}
+          <div className="lg:col-span-1 grid grid-cols-2 gap-3 h-full">
+            {learningStats.slice(0, 6).map((stat, index) => (
               <div
                 key={stat.label}
-                className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center"
+                className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className={`text-2xl lg:text-3xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                <div className={`text-xl lg:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
                   {stat.value}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">{String(stat.unit || '')}</div>
-                <div className="text-xs lg:text-sm font-medium text-gray-700 dark:text-gray-300 mt-1">
+                <div className="text-xs font-medium text-gray-700 dark:text-gray-300 mt-1">
                   {String(stat.label || '')}
                 </div>
               </div>

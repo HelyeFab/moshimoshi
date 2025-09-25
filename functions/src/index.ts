@@ -15,6 +15,8 @@ import { toPlan, isValidPriceId } from './mapping/stripeMapping';
 import { stripeWebhook as webhookHandler } from './webhook';
 // Import public endpoints handlers
 import { createCheckoutSession as checkoutHandler, createBillingPortalSession as portalHandler } from './endpoints';
+// Import scheduled leaderboard functions
+import { updateLeaderboardSnapshots, updateLeaderboardManually } from './scheduled/leaderboard';
 
 // Initialize Firebase Admin only if not already initialized
 if (!admin.apps.length) {
@@ -463,11 +465,16 @@ const legacyCreatePortalSession = functions.https.onCall(async (data, context) =
 /**
  * Export helper functions for other agents to use
  */
-export { 
+export {
   getUserByStripeCustomerId,
   updateSubscriptionFacts,
-  removeSubscriptionFacts 
+  removeSubscriptionFacts
 };
+
+/**
+ * Export leaderboard functions
+ */
+export { updateLeaderboardSnapshots, updateLeaderboardManually };
 
 /**
  * Re-export handler functions for testing

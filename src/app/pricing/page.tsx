@@ -79,12 +79,8 @@ export default function PricingPage() {
     return subscription?.plan === planId && subscription?.status === 'active';
   };
 
-  // Filter plans based on billing interval
-  const displayedPlans = PRICING_PLANS.filter(plan => {
-    if (plan.id === 'free') return true;
-    if (billingInterval === 'month') return plan.id === 'premium_monthly';
-    return plan.id === 'premium_yearly';
-  });
+  // Show all three plans: Free, Premium Monthly, Premium Yearly
+  const displayedPlans = PRICING_PLANS;
 
   if (isLoading) {
     return (

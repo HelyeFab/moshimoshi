@@ -1,0 +1,414 @@
+# XP Integration Guide for Moshimoshi Features
+
+## Overview
+This document provides the definitive guide for integrating XP (Experience Points) into new and existing features. All XP awards MUST go through the centralized system to maintain a single source of truth.
+
+## Core Principles
+1. **Single Source of Truth**: All XP flows through `/api/xp/track`
+2. **Idempotency**: Each XP award must have a unique identifier
+3. **Source Tracking**: Every XP award must identify its origin
+4. **User Context**: XP can only be awarded to authenticated users
+
+## XP Award Types
+
+### Standard Event Types
+```typescript
+type XPEventType =
+  | 'review_completed'      // Review session finished
+  | 'drill_completed'        // Drill session finished
+  | 'achievement_unlocked'   // Achievement earned
+  | 'streak_bonus'          // Streak milestone reached
+  | 'perfect_session'       // 100% accuracy session
+  | 'speed_bonus'           // Fast completion bonus
+  | 'daily_bonus'           // Daily activity bonus
+  | 'lesson_completed'      // Lesson finished
+  | 'quiz_completed'        // Quiz finished
+  | 'milestone_reached'     // Learning milestone
+```
+
+## Integration Guide
+
+### 1. Basic XP Award (Client-Side)
+
+**Use the `useXP` hook for all client-side XP awards:**
+
+```typescript
+import { useXP } from '@/hooks/useXP'
+
+export function YourFeatureComponent() {
+  const { trackXP } = useXP()
+
+  const handleFeatureComplete = async () => {
+    // Award XP with idempotency key
+    await trackXP(
+      'lesson_completed',        // Event type
+      50,                        // XP amount
+      'Japanese Basics Lesson',  // Human-readable source
+      {
+        // Required: Idempotency key (use session/activity ID)
+        idempotencyKey: `lesson_${lessonId}_${timestamp}`,
+
+        // Required: Feature that awarded XP
+        feature: 'lessons',
+
+        // Optional: Additional metadata
+        lessonId: lessonId,
+        duration: completionTime,
+        accuracy: accuracyPercentage
+      }
+    )
+  }
+}
+```
+
+### 2. Session-Based XP (Review/Drill/Quiz)
+
+**For session-based activities, include session context:**
+
+```typescript
+const completeSession = async () => {
+  const sessionId = session.id // Your session ID
+  const accuracy = calculateAccuracy()
+
+  // Calculate XP based on performance
+  let xpAmount = 25 // Base XP
+
+  if (accuracy === 100) {
+    xpAmount += 50 // Perfect bonus
+  } else if (accuracy >= 90) {
+    xpAmount += 30
+  } else if (accuracy >= 80) {
+    xpAmount += 20
+  } else if (accuracy >= 70) {
+    xpAmount += 10
+  }
+
+  // Award with session context
+  await trackXP(
+    'review_completed',
+    xpAmount,
+    'Kanji Review Session',
+    {
+      idempotencyKey: `session_${sessionId}`,
+      feature: 'review',
+      sessionId: sessionId,
+      contentType: 'kanji',
+      itemsReviewed: 20,
+      correctAnswers: 18,
+      accuracy: accuracy,
+      duration: sessionDuration
+    }
+  )
+}
+```
+
+### 3. Achievement XP
+
+**When unlocking achievements:**
+
+```typescript
+const unlockAchievement = async (achievement: Achievement) => {
+  // Use achievement ID as idempotency key
+  await trackXP(
+    'achievement_unlocked',
+    achievement.xpReward,
+    achievement.name,
+    {
+      idempotencyKey: `achievement_${achievement.id}_${userId}`,
+      feature: 'achievements',
+      achievementId: achievement.id,
+      achievementCategory: achievement.category,
+      rarity: achievement.rarity
+    }
+  )
+}
+```
+
+### 4. Streak Bonus XP
+
+```typescript
+const awardStreakBonus = async (streakDays: number) => {
+  const xpAmount = calculateStreakBonus(streakDays)
+
+  await trackXP(
+    'streak_bonus',
+    xpAmount,
+    `${streakDays} Day Streak`,
+    {
+      idempotencyKey: `streak_${streakDays}_${dateString}`,
+      feature: 'streaks',
+      streakDays: streakDays,
+      milestone: getStreakMilestone(streakDays)
+    }
+  )
+}
+
+function calculateStreakBonus(days: number): number {
+  if (days < 3) return 0
+  if (days < 7) return 10
+  if (days < 14) return 25
+  if (days < 30) return 50
+  if (days < 60) return 75
+  if (days < 100) return 100
+  return 150
+}
+```
+
+### 5. Server-Side XP Award
+
+**For server-side features, call the API directly:**
+
+```typescript
+// In API route or server function
+import { adminDb } from '@/lib/firebase/admin'
+import { FieldValue } from 'firebase-admin/firestore'
+
+async function awardXPServerSide(
+  userId: string,
+  xpData: {
+    eventType: string
+    amount: number
+    source: string
+    metadata: any
+  }
+) {
+  // Check for idempotency
+  const idempotencyKey = xpData.metadata.idempotencyKey
+  if (!idempotencyKey) {
+    throw new Error('Idempotency key required')
+  }
+
+  // Check if already processed
+  const existingEntry = await adminDb
+    .collection('users')
+    .doc(userId)
+    .collection('xp_history')
+    .where('idempotencyKey', '==', idempotencyKey)
+    .limit(1)
+    .get()
+
+  if (!existingEntry.empty) {
+    console.log(`XP already awarded for key: ${idempotencyKey}`)
+    return existingEntry.docs[0].data()
+  }
+
+  // Award new XP
+  const batch = adminDb.batch()
+  const userRef = adminDb.collection('users').doc(userId)
+
+  // Update total XP
+  batch.update(userRef, {
+    'progress.totalXp': FieldValue.increment(xpData.amount),
+    'progress.lastXpGain': xpData.amount,
+    'progress.updatedAt': FieldValue.serverTimestamp()
+  })
+
+  // Add to history with idempotency key
+  const historyRef = userRef.collection('xp_history').doc()
+  batch.set(historyRef, {
+    ...xpData,
+    idempotencyKey: idempotencyKey,
+    timestamp: FieldValue.serverTimestamp(),
+    userId: userId
+  })
+
+  await batch.commit()
+  return { success: true, xpAwarded: xpData.amount }
+}
+```
+
+## XP Calculation Guidelines
+
+### Base XP Values
+```typescript
+const XP_VALUES = {
+  // Session completion
+  SESSION_BASE: 25,
+
+  // Accuracy bonuses
+  PERFECT_BONUS: 50,    // 100% accuracy
+  EXCELLENT_BONUS: 30,  // 90-99% accuracy
+  GOOD_BONUS: 20,       // 80-89% accuracy
+  FAIR_BONUS: 10,       // 70-79% accuracy
+
+  // Speed bonuses
+  LIGHTNING_SPEED: 30,  // <2s avg response
+  FAST_SPEED: 20,       // 2-3s avg response
+  NORMAL_SPEED: 10,     // 3-5s avg response
+
+  // Achievement XP (by rarity)
+  COMMON_ACHIEVEMENT: 25,
+  UNCOMMON_ACHIEVEMENT: 50,
+  RARE_ACHIEVEMENT: 100,
+  EPIC_ACHIEVEMENT: 200,
+  LEGENDARY_ACHIEVEMENT: 500,
+
+  // Special bonuses
+  DAILY_LOGIN: 10,
+  WEEKLY_GOAL: 100,
+  MONTHLY_CHALLENGE: 500
+}
+```
+
+### XP Multipliers (Premium Users)
+```typescript
+function getXPMultiplier(userLevel: number, isPremium: boolean): number {
+  let multiplier = 1.0
+
+  // Premium base bonus
+  if (isPremium) {
+    multiplier = 1.1 // 10% bonus for premium
+  }
+
+  // Level-based multipliers (stacks with premium)
+  if (userLevel >= 20) multiplier *= 1.1
+  if (userLevel >= 40) multiplier *= 1.1  // Total 1.2x
+  if (userLevel >= 70) multiplier *= 1.1  // Total 1.3x
+
+  return multiplier
+}
+```
+
+## Required Metadata Fields
+
+Every XP award MUST include:
+
+```typescript
+interface RequiredXPMetadata {
+  idempotencyKey: string  // Unique identifier for this XP award
+  feature: string         // Feature that awarded XP (e.g., 'drill', 'review', 'lessons')
+  timestamp?: number      // When the XP was earned (auto-added if not provided)
+}
+```
+
+## Testing XP Integration
+
+```typescript
+// Test helper for XP integration
+export async function testXPAward() {
+  const { trackXP } = useXP()
+
+  // Test idempotency
+  const testKey = `test_${Date.now()}`
+
+  // First award should succeed
+  const result1 = await trackXP(
+    'review_completed',
+    100,
+    'Test Review',
+    {
+      idempotencyKey: testKey,
+      feature: 'test'
+    }
+  )
+
+  // Second award with same key should be ignored
+  const result2 = await trackXP(
+    'review_completed',
+    100,
+    'Test Review',
+    {
+      idempotencyKey: testKey,
+      feature: 'test'
+    }
+  )
+
+  // Verify only one award was processed
+  console.assert(result1.xpAwarded === 100)
+  console.assert(result2.xpAwarded === 0) // Should be 0 or undefined
+}
+```
+
+## Common Mistakes to Avoid
+
+### ❌ DON'T: Award XP without idempotency key
+```typescript
+// BAD - Can result in duplicate XP
+await trackXP('review_completed', 50, 'Review', {})
+```
+
+### ✅ DO: Always include idempotency key
+```typescript
+// GOOD - Prevents duplicates
+await trackXP('review_completed', 50, 'Review', {
+  idempotencyKey: `review_${sessionId}`,
+  feature: 'review'
+})
+```
+
+### ❌ DON'T: Calculate XP in multiple places
+```typescript
+// BAD - Inconsistent XP calculations
+const xp = accuracy > 90 ? 100 : 50 // Don't do this everywhere
+```
+
+### ✅ DO: Use centralized calculation
+```typescript
+// GOOD - Use the XPSystem class
+import { xpSystem } from '@/lib/gamification/xp-system'
+const xp = xpSystem.calculateSessionXP(session)
+```
+
+### ❌ DON'T: Store XP in multiple locations
+```typescript
+// BAD - Multiple sources of truth
+localStorage.setItem('userXP', totalXP)
+updateDatabase('xp', totalXP)
+setState(totalXP)
+```
+
+### ✅ DO: Use single API endpoint
+```typescript
+// GOOD - Single source of truth
+await trackXP(...) // This handles everything
+```
+
+## Debugging XP Issues
+
+### Check XP History
+```typescript
+// Get user's XP history from Firebase
+const history = await adminDb
+  .collection('users')
+  .doc(userId)
+  .collection('xp_history')
+  .orderBy('timestamp', 'desc')
+  .limit(20)
+  .get()
+
+history.docs.forEach(doc => {
+  const data = doc.data()
+  console.log({
+    source: data.source,
+    feature: data.feature,
+    amount: data.xpGained,
+    idempotencyKey: data.idempotencyKey,
+    timestamp: data.timestamp
+  })
+})
+```
+
+### Monitor XP Events
+```typescript
+// Listen for XP events in development
+if (process.env.NODE_ENV === 'development') {
+  window.addEventListener('xpGained', (event: CustomEvent) => {
+    console.log('XP Gained:', {
+      amount: event.detail.xpGained,
+      total: event.detail.totalXP,
+      source: event.detail.source,
+      feature: event.detail.metadata?.feature
+    })
+  })
+}
+```
+
+## Summary
+
+1. **Always use `useXP().trackXP()`** for client-side XP awards
+2. **Always include `idempotencyKey`** to prevent duplicates
+3. **Always specify `feature`** for tracking and debugging
+4. **Never store XP** outside the centralized system
+5. **Never calculate XP** without using the standard formulas
+
+By following this guide, all new features will properly integrate with the XP system while maintaining data integrity and preventing duplicate awards.

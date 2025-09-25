@@ -5,6 +5,50 @@ import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { xpSystem, UserLevel } from '@/lib/gamification/xp-system'
 
+// Helper function to infer feature from event type
+function inferFeatureFromType(type: string): string {
+  const featureMap: Record<string, string> = {
+    review_completed: 'review',
+    drill_completed: 'drill',
+    achievement_unlocked: 'achievements',
+    streak_bonus: 'streaks',
+    perfect_session: 'review',
+    speed_bonus: 'review',
+    daily_bonus: 'daily',
+    lesson_completed: 'lessons',
+    quiz_completed: 'quiz',
+    milestone_reached: 'milestones'
+  }
+  return featureMap[type] || 'unknown'
+}
+
+// Helper function to generate idempotency key
+function generateIdempotencyKey(type: string, source: string, metadata?: any): string {
+  // If sessionId exists, use it
+  if (metadata?.sessionId) {
+    return `${type}_${metadata.sessionId}`
+  }
+
+  // If specific ID exists (achievementId, lessonId, etc.), use it
+  if (metadata?.achievementId) {
+    return `achievement_${metadata.achievementId}`
+  }
+  if (metadata?.lessonId) {
+    return `lesson_${metadata.lessonId}`
+  }
+  if (metadata?.drillId) {
+    return `drill_${metadata.drillId}`
+  }
+
+  // Fallback: create key from type, timestamp, and a hash of the source
+  const timestamp = metadata?.timestamp || Date.now()
+  const sourceHash = source.split('').reduce((hash, char) => {
+    return ((hash << 5) - hash) + char.charCodeAt(0)
+  }, 0).toString(36)
+
+  return `${type}_${timestamp}_${sourceHash}`
+}
+
 interface UseXPReturn {
   totalXP: number
   currentLevel: number
@@ -84,7 +128,7 @@ export function useXP(): UseXPReturn {
     }
   }, [isAuthenticated, user?.uid])
 
-  // Track XP gain
+  // Track XP gain with idempotency and feature tracking
   const trackXP = useCallback(async (
     type: string,
     amount: number,
@@ -92,7 +136,19 @@ export function useXP(): UseXPReturn {
     metadata?: any
   ) => {
     if (!isAuthenticated) {
+      console.warn('[useXP] Cannot track XP - user not authenticated')
       return
+    }
+
+    // Ensure metadata includes required fields
+    const enhancedMetadata = {
+      ...metadata,
+      // Add timestamp if not provided
+      timestamp: metadata?.timestamp || Date.now(),
+      // Add feature if not provided (try to infer from type)
+      feature: metadata?.feature || inferFeatureFromType(type),
+      // Ensure idempotency key exists
+      idempotencyKey: metadata?.idempotencyKey || generateIdempotencyKey(type, source, metadata)
     }
 
     try {
@@ -106,7 +162,7 @@ export function useXP(): UseXPReturn {
           eventType: type as any,
           amount,
           source,
-          metadata
+          metadata: enhancedMetadata
         })
       })
 

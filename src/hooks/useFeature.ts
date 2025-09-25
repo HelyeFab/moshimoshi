@@ -176,6 +176,12 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
           switch (decision.reason) {
             case 'limit_reached':
               const resetIn = formatResetTime(decision.resetAtUtc);
+              // Only show upgrade action if not already premium
+              const toastAction = !isPremium ? {
+                label: t('subscription.actions.upgrade'),
+                onClick: () => router.push('/pricing')
+              } : undefined;
+
               showToast(
                 t('entitlements.messages.limitReachedWithTime', {
                   feature: featureId.replace('_', ' '),
@@ -183,10 +189,7 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
                 }),
                 'warning',
                 5000,
-                {
-                  label: t('subscription.actions.upgrade'),
-                  onClick: () => router.push('/pricing')
-                }
+                toastAction
               );
               break;
             case 'no_permission':

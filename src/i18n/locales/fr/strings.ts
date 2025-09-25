@@ -1206,7 +1206,60 @@ export const strings = {
       cta: {
         viewPricing: "Voir les tarifs",
         learnMore: "En savoir plus",
+        upgradeToPremium: "Passer à Premium",
       },
+      inline: {
+        title: "Débloquer les fonctionnalités Premium",
+        subtitle: "Accès illimité à toutes les fonctionnalités",
+        featureLimit: "Vous avez atteint votre limite pour {{feature}}",
+      },
+      plans: {
+        monthly: {
+          name: "Premium Mensuel",
+          interval: "mois",
+        },
+        yearly: {
+          name: "Premium Annuel",
+          interval: "an",
+          savings: "Économisez 25%",
+        },
+      },
+      features: {
+        unlimited: "Sessions de pratique illimitées",
+        advancedStats: "Analyses de progression avancées",
+        prioritySupport: "Support client prioritaire",
+        offlineMode: "Mode hors ligne complet",
+        earlyAccess: "Accès anticipé aux nouvelles fonctionnalités",
+      },
+      badges: {
+        popular: "Le plus populaire",
+      },
+      currentUsage: "Utilisation actuelle",
+      loading: "Chargement des options de prix...",
+      upgradeNow: "Mettre à niveau maintenant",
+      maybeLater: "Peut-être plus tard",
+      processing: "Traitement...",
+      premiumNote: "Rejoignez des milliers d'apprenants qui ont accéléré leur parcours japonais avec Premium",
+      securePayment: "Paiement sécurisé par Stripe",
+    },
+    guest: {
+      title: "Créez votre compte gratuit",
+      subtitle: "Inscrivez-vous pour débloquer l'apprentissage personnalisé",
+      featureRequiresAccount: "{{feature}} nécessite un compte",
+      benefits: {
+        progressTracking: "Suivez vos progrès",
+        progressTrackingDesc: "Enregistrez votre historique d'apprentissage et vos réalisations",
+        cloudSync: "Synchronisation cloud",
+        cloudSyncDesc: "Accédez à vos données sur tous les appareils",
+        unlockFeatures: "Plus de fonctionnalités",
+        unlockFeaturesDesc: "Débloquez des outils d'apprentissage supplémentaires",
+        dailyLimits: "Limites plus élevées",
+        dailyLimitsDesc: "Obtenez plus de sessions de pratique quotidiennes",
+      },
+      freeAccountNote: "C'est totalement gratuit - aucune carte de crédit requise",
+      createAccount: "Créer un compte gratuit",
+      signIn: "Se connecter",
+      continueAsGuest: "Continuer en tant qu'invité",
     },
   },
 
@@ -1216,6 +1269,11 @@ export const strings = {
     subtitle: "Débloquez une pratique illimitée et accélérez votre maîtrise du japonais",
     loading: "Chargement des tarifs...",
     billing: {
+      monthly: "Mensuel",
+      yearly: "Annuel",
+      savePercent: "Économisez {{percent}}%",
+    },
+    billingToggle: {
       monthly: "Mensuel",
       yearly: "Annuel",
       savePercent: "Économisez {{percent}}%",
@@ -2320,6 +2378,8 @@ export const strings = {
   drill: {
     title: "Exercice de Conjugaison",
     description: "Pratiquez les conjugaisons des verbes et adjectifs japonais",
+    loading: "Chargement de l'exercice...",
+    settings: "Paramètres de l'exercice",
 
     // Practice mode section
     practiceMode: "Mode de Pratique",
@@ -2327,10 +2387,14 @@ export const strings = {
     randomDescription: "Pratiquer avec des mots courants",
     fromLists: "De Mes Listes",
     listsDescription: "Utiliser vos listes d'étude",
+    myLists: "Mes Listes",
 
     // Word types section
     wordTypes: "Types de Mots",
+    wordTypeFilter: "Filtre de Type de Mot",
     allTypes: "Tous les Types",
+    verbs: "Verbes",
+    adjectives: "Adjectifs",
     verbsOnly: "Verbes Seulement",
     adjectivesOnly: "Adjectifs Seulement",
 
@@ -2339,7 +2403,10 @@ export const strings = {
     tryAgain: "Réessayer",
     newDrill: "Nouvel Exercice",
     backToSetup: "Retour à la Configuration",
+    backToDashboard: "Retour au Tableau de Bord",
     seeResults: "Voir les Résultats",
+    showResults: "Afficher les Résultats",
+    nextQuestion: "Question Suivante",
     finish: "Terminer",
 
     // Questions and game play
@@ -2369,6 +2436,11 @@ export const strings = {
     showRules: "Afficher les règles de conjugaison",
     hideRules: "Masquer les règles",
     remainingToday: "{{count}} exercices restants aujourd'hui",
+    upgradeForMore: "Passez à Premium pour plus de questions par session",
+
+    // Messages
+    limitReached: "Limite quotidienne d'exercices atteinte",
+    startError: "Impossible de démarrer l'exercice. Veuillez réessayer.",
 
     // Conjugation forms
     forms: {

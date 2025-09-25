@@ -6,7 +6,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { adminAuth, adminDb } from '@/lib/firebase/admin';
+import { adminDb } from '@/lib/firebase/admin';
+import { getSession } from '@/lib/auth/session';
 import { evaluate, getTodayBucket, getBucketKey } from '@/lib/entitlements/evaluator';
 import type { EvalContext } from '@/lib/entitlements/evaluator';
 import { FeatureId } from '@/types/FeatureId';
@@ -28,50 +29,26 @@ export async function POST(
       );
     }
 
-    // 2. Get auth token from header
-    const authHeader = request.headers.get('authorization');
+    // 2. Get session and user data
+    const session = await getSession();
     let userId: string | null = null;
     let plan: string = 'guest';
 
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.substring(7);
-      try {
-        const decodedToken = await adminAuth.verifyIdToken(token);
-        userId = decodedToken.uid;
-      } catch (error) {
-        console.error('Token verification failed:', error);
-      }
-    }
+    if (session) {
+      userId = session.uid;
 
-    // If no auth, try to get from cookies/session
-    if (!userId) {
-      const cookieHeader = request.headers.get('cookie');
-      if (cookieHeader) {
-        // Try to extract session from cookie
-        const sessionMatch = cookieHeader.match(/session=([^;]+)/);
-        if (sessionMatch) {
-          try {
-            // Verify session token
-            const sessionToken = sessionMatch[1];
-            const decodedToken = await adminAuth.verifyIdToken(sessionToken);
-            userId = decodedToken.uid;
-          } catch (error) {
-            // Session invalid, treat as guest
-            console.debug('Session verification failed, treating as guest');
-          }
+      // 3. Get fresh user data from Firestore (don't trust session.tier)
+      if (adminDb) {
+        try {
+          const userDoc = await adminDb.collection('users').doc(userId).get();
+          const userData = userDoc.data();
+          plan = userData?.subscription?.plan || 'free';
+
+          console.log(`[increment] User ${userId} has plan: ${plan}`);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          plan = 'free';
         }
-      }
-    }
-
-    // 3. Get user plan if authenticated
-    if (userId && adminDb) {
-      try {
-        const userDoc = await adminDb.collection('users').doc(userId).get();
-        const userData = userDoc.data();
-        plan = userData?.subscription?.plan || 'free';
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        plan = 'free';
       }
     }
 

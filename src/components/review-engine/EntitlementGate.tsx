@@ -4,7 +4,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useFeature } from '@/hooks/useFeature';
+import { useAuth } from '@/hooks/useAuth';
+import { useSubscription } from '@/hooks/useSubscription';
 import { LimitDisplay, LimitReachedModal, UpgradePrompt } from '@/components/entitlements/LimitDisplay';
+import { GuestLoginModal } from '@/components/entitlements/GuestLoginModal';
+import { InlineUpgradeModal } from '@/components/entitlements/InlineUpgradeModal';
 import type { FeatureId } from '@/types/FeatureId';
 import type { Decision } from '@/hooks/useFeature';
 import { LoadingSpinner } from '@/components/ui/Loading';
@@ -29,8 +33,12 @@ export function EntitlementGate({
   showUpgradePrompt = true,
   loadingMessage = 'Checking access...'
 }: EntitlementGateProps) {
+  const { user } = useAuth();
+  const { isFreeTier } = useSubscription();
   const { checkOnly, remaining, isLoading, lastDecision } = useFeature(featureId);
   const [showLimitModal, setShowLimitModal] = useState(false);
+  const [showGuestModal, setShowGuestModal] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -43,7 +51,16 @@ export function EntitlementGate({
           onAccessGranted?.(decision);
         } else {
           onAccessDenied?.();
-          if (decision.reason === 'limit_reached') {
+
+          // Determine which modal to show based on user state
+          if (!user) {
+            // Guest users - show login prompt
+            setShowGuestModal(true);
+          } else if (isFreeTier && decision.reason === 'limit_reached') {
+            // Free users hitting limits - show upgrade modal
+            setShowUpgradeModal(true);
+          } else if (decision.reason === 'limit_reached') {
+            // Premium users hitting limits (rare) - show limit modal
             setShowLimitModal(true);
           }
         }
@@ -101,6 +118,20 @@ export function EntitlementGate({
             <UpgradePrompt className="max-w-lg" />
           )}
         </div>
+
+        <GuestLoginModal
+          isOpen={showGuestModal}
+          onClose={() => setShowGuestModal(false)}
+          featureName={featureId.replace('_practice', '').replace('_', ' ')}
+        />
+
+        <InlineUpgradeModal
+          isOpen={showUpgradeModal}
+          onClose={() => setShowUpgradeModal(false)}
+          featureName={featureId.replace('_practice', '').replace('_', ' ')}
+          currentLimit={lastDecision?.limit}
+          currentUsage={lastDecision?.usageBefore}
+        />
 
         <LimitReachedModal
           isOpen={showLimitModal}

@@ -222,13 +222,13 @@ function VocabularyContent() {
       {/* Navbar */}
       <Navbar user={user} showUserMenu={true} />
 
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-4 py-4 sm:py-8 max-w-6xl">
         {/* Page Title */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
             {strings.reviewPrompts?.vocabulary?.searchTitle || 'Vocabulary Search'}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             {strings.reviewPrompts?.vocabulary?.searchDescription || 'Search Japanese words with meanings and examples'}
           </p>
         </div>
@@ -241,14 +241,14 @@ function VocabularyContent() {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
                   {strings.reviewPrompts?.vocabulary?.searchSource || 'Search Source:'}
                 </span>
                 <div className="flex gap-2">
                   <button
                     onClick={() => setSearchSource('jmdict')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                       searchSource === 'jmdict'
                         ? 'bg-primary-500 text-white'
                         : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
@@ -258,7 +258,7 @@ function VocabularyContent() {
                   </button>
                   <button
                     onClick={() => setSearchSource('wanikani')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                       searchSource === 'wanikani'
                         ? 'bg-primary-500 text-white'
                         : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
@@ -301,10 +301,10 @@ function VocabularyContent() {
                 animate={{ opacity: 1 }}
                 className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-6"
               >
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                   {(strings.reviewPrompts?.vocabulary?.searchResultsCount || 'Search Results ({{count}})').replace('{{count}}', searchResults.length.toString())}
                 </h2>
-                <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                <div className="space-y-3 max-h-[400px] sm:max-h-[600px] overflow-y-auto">
                   {searchResults.map((word, index) => (
                     <motion.div
                       key={`${word.id}-${index}`}
@@ -312,27 +312,27 @@ function VocabularyContent() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
                       onClick={() => handleWordClick(word)}
-                      className="p-4 bg-gray-50 dark:bg-dark-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
+                      className="p-3 sm:p-4 bg-gray-50 dark:bg-dark-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
                     >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                             {word.kanji && (
-                              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100"
+                              <span className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100"
                                     style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
                                 {word.kanji}
                               </span>
                             )}
-                            <span className="text-lg text-gray-700 dark:text-gray-300">
+                            <span className="text-base sm:text-lg text-gray-700 dark:text-gray-300">
                               {word.kana}
                             </span>
                             {word.jlpt && (
-                              <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs rounded">
+                              <span className="px-2 py-0.5 sm:py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs rounded">
                                 {word.jlpt}
                               </span>
                             )}
                           </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
                             {word.meaning}
                           </p>
                           {word.type && (
@@ -341,8 +341,8 @@ function VocabularyContent() {
                             </span>
                           )}
                         </div>
-                        <button className="text-primary-500 hover:text-primary-600">
-                          →
+                        <button className="text-primary-500 hover:text-primary-600 flex-shrink-0 ml-2">
+                          <span className="text-lg sm:text-xl">→</span>
                         </button>
                       </div>
                     </motion.div>
@@ -352,14 +352,23 @@ function VocabularyContent() {
             )}
           </div>
 
-          {/* Sidebar with Search History */}
-          <div className="space-y-6">
+          {/* Sidebar with Search History - Hidden on mobile, shown in accordion on small screens */}
+          <div className="hidden lg:block space-y-6">
             <SearchHistory
               history={searchHistory}
               onHistoryClick={handleSearchHistoryClick}
               onClear={clearSearchHistory}
             />
           </div>
+        </div>
+
+        {/* Mobile Search History - Shown below main content on mobile */}
+        <div className="lg:hidden mt-6">
+          <SearchHistory
+            history={searchHistory}
+            onHistoryClick={handleSearchHistoryClick}
+            onClear={clearSearchHistory}
+          />
         </div>
       </div>
 

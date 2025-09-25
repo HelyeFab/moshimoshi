@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-09-25T11:33:10.259Z
+ * Generated at: 2025-09-25T14:55:00.772Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -22,64 +22,64 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
     "daily": {
       "hiragana_practice": 3,
       "katakana_practice": 3,
-      "kanji_browser": 0,
+      "kanji_browser": 5,
       "youtube_shadowing": 0,
       "media_upload": 0,
-      "todos": 0,
-      "conjugation_drill": 10
+      "stall_layout_customization": 0,
+      "conjugation_drill": 0
     },
     "monthly": {
       "custom_lists": 0,
       "save_items": 0,
-      "stall_layout_customization": 0
+      "todos": 0
     }
   },
   "free": {
     "daily": {
       "hiragana_practice": 5,
       "katakana_practice": 5,
-      "kanji_browser": 5,
+      "kanji_browser": 10,
       "youtube_shadowing": 3,
       "media_upload": 2,
-      "todos": 5,
-      "conjugation_drill": 20
+      "stall_layout_customization": 1,
+      "conjugation_drill": 5
     },
     "monthly": {
       "custom_lists": 10,
       "save_items": 50,
-      "stall_layout_customization": 1
+      "todos": 100
     }
   },
   "premium_monthly": {
     "daily": {
       "hiragana_practice": -1,
       "katakana_practice": -1,
-      "kanji_browser": 10,
+      "kanji_browser": -1,
       "youtube_shadowing": 20,
       "media_upload": -1,
-      "todos": -1,
+      "stall_layout_customization": -1,
       "conjugation_drill": -1
     },
     "monthly": {
       "custom_lists": -1,
       "save_items": -1,
-      "stall_layout_customization": -1
+      "todos": -1
     }
   },
   "premium_yearly": {
     "daily": {
       "hiragana_practice": -1,
       "katakana_practice": -1,
-      "kanji_browser": 10,
+      "kanji_browser": -1,
       "youtube_shadowing": 20,
       "media_upload": -1,
-      "todos": -1,
+      "stall_layout_customization": -1,
       "conjugation_drill": -1
     },
     "monthly": {
       "custom_lists": -1,
       "save_items": -1,
-      "stall_layout_customization": -1
+      "todos": -1
     }
   }
 };
