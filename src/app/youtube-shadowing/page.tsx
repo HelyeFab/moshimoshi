@@ -488,64 +488,6 @@ function YouTubeShadowingContent() {
                   transition={{ delay: 0.2 }}
                   className="space-y-6"
                 >
-                  {/* Player Controls */}
-                  <div className="bg-gray-50 dark:bg-dark-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-dark-700">
-                    <div className="flex flex-wrap gap-3">
-                      <button
-                        onClick={() => setShowVideo(!showVideo)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                          showVideo
-                            ? 'bg-primary-500 text-white hover:bg-primary-600'
-                            : 'bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600'
-                        }`}
-                      >
-                        {showVideo ? '🎬 ' : '🚫 '} Video
-                      </button>
-
-                      <button
-                        onClick={() => setShowFurigana(!showFurigana)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                          showFurigana
-                            ? 'bg-primary-500 text-white hover:bg-primary-600'
-                            : 'bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600'
-                        }`}
-                      >
-                        {showFurigana ? 'あ ' : '🚫 '} Furigana
-                      </button>
-
-                      <button
-                        onClick={() => setShowGrammar(!showGrammar)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                          showGrammar
-                            ? 'bg-primary-500 text-white hover:bg-primary-600'
-                            : 'bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600'
-                        }`}
-                      >
-                        {showGrammar ? '📝 ' : '🚫 '} Grammar
-                      </button>
-
-                      {showGrammar && (
-                        <select
-                          value={grammarMode}
-                          onChange={(e) => setGrammarMode(e.target.value as any)}
-                          className="px-4 py-2 rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-dark-600 text-gray-700 dark:text-gray-300"
-                        >
-                          <option value="none">No Highlighting</option>
-                          <option value="content">Content Words</option>
-                          <option value="grammar">Grammar Words</option>
-                          <option value="all">All Words</option>
-                        </select>
-                      )}
-
-                      <button
-                        onClick={() => setSession(prev => prev ? { ...prev, currentLineIndex: 0 } : null)}
-                        className="px-4 py-2 rounded-lg font-medium bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors"
-                      >
-                        ↺ Reset
-                      </button>
-                    </div>
-                  </div>
-
                   {/* Enhanced Shadowing Player */}
                   <EnhancedShadowingPlayer
                     session={session}

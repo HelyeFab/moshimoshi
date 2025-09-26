@@ -939,9 +939,21 @@ export default function EnhancedShadowingPlayer({
 
   return (
     <div className={cn("space-y-4", className)}>
+      {/* Video Title Bar */}
+      {(session.videoTitle || session.videoMetadata?.title) && (
+        <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 shadow-sm border border-primary-200/50 dark:border-primary-700/30">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">🎬</span>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {session.videoTitle || session.videoMetadata?.title || 'Loading...'}
+            </h2>
+          </div>
+        </div>
+      )}
+
       {/* Video/Audio Display */}
       {isYouTubeMode && showVideo && displayMode === 'video' && (
-        <div className="bg-card rounded-lg shadow-sm border border-border p-4">
+        <div className="bg-card rounded-lg shadow-sm border border-gray-300/50 dark:border-dark-700/50 p-4">
           <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden">
             <div id="enhanced-youtube-player" className="absolute inset-0" />
             {!isYouTubeReady && (
@@ -955,7 +967,7 @@ export default function EnhancedShadowingPlayer({
 
       {/* Local Video Display */}
       {isLocalVideo && showVideo && displayMode === 'video' && session.videoUrl && session.videoUrl.startsWith('blob:') && !videoError && (
-        <div className="bg-card rounded-lg shadow-sm border border-border p-4">
+        <div className="bg-card rounded-lg shadow-sm border border-gray-300/50 dark:border-dark-700/50 p-4">
           <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden">
             <video
               ref={localVideoRef}
@@ -996,7 +1008,7 @@ export default function EnhancedShadowingPlayer({
 
       {/* Fallback Video Player with Native Controls */}
       {isLocalVideo && showVideo && displayMode === 'video' && session.videoUrl && session.videoUrl.startsWith('blob:') && videoError && (
-        <div className="bg-card rounded-lg shadow-sm border border-border p-4">
+        <div className="bg-card rounded-lg shadow-sm border border-gray-300/50 dark:border-dark-700/50 p-4">
           <div className="bg-warning/10 border border-warning/20 rounded-lg p-3 mb-4">
             <p className="text-sm text-warning-foreground">
               Using browser's native video player. Some shadowing features may be limited.
@@ -1033,7 +1045,7 @@ export default function EnhancedShadowingPlayer({
               onClick={() => setShowSettings(false)}
             />
 
-            <div className="absolute right-0 top-full mt-2 w-80 bg-gray-50 dark:bg-dark-800 rounded-lg shadow-xl border border-gray-200 dark:border-dark-700 p-4 z-50 max-h-[80vh] overflow-y-auto">
+            <div className="absolute right-0 top-full mt-2 w-80 bg-gray-50 dark:bg-dark-800 rounded-lg shadow-xl border border-gray-300/30 dark:border-dark-700/30 p-4 z-50 max-h-[80vh] overflow-y-auto">
               <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
                 <Settings className="w-4 h-4" />
                 Settings
@@ -1106,7 +1118,7 @@ export default function EnhancedShadowingPlayer({
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-gray-200 dark:border-dark-700 pt-4">
+                <div className="border-t border-gray-300/30 dark:border-dark-700/30 pt-4">
                   <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Display Options</h4>
                   
                   {/* Furigana Toggle */}
@@ -1294,7 +1306,7 @@ export default function EnhancedShadowingPlayer({
       </div>
         
       {/* Current Line Display */}
-      <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+      <div className="bg-card rounded-lg shadow-sm border border-gray-300/50 dark:border-dark-700/50 p-6">
         {/* AI Icon row - TODO: Add AI explanation feature when available */}
         {/* {currentLine?.text && (
           <div className="flex justify-start mb-4">
@@ -1393,7 +1405,7 @@ export default function EnhancedShadowingPlayer({
       </div>
 
       {/* Transcript List */}
-      <div className="bg-card rounded-lg shadow-sm border border-border">
+      <div className="bg-card rounded-lg shadow-sm border border-gray-300/50 dark:border-dark-700/50">
         <div className="p-4 border-b flex items-center justify-between">
           <h3 className="font-semibold">Full Transcript</h3>
           {userIsScrolling && (
