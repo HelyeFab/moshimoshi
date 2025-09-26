@@ -643,14 +643,36 @@ export async function POST(request: NextRequest) {
       // Continue to next fallback method
     }
 
-    // No captions found
+    // No captions found - check why
 
-    // Provide more specific error message if we hit rate limits
+    // Check if API keys are configured
+    const missingApis = [];
+    if (!process.env.SUPA_YOUTUBE_API_KEY) {
+      missingApis.push('SupaData API');
+    }
+    if (!process.env.YOUTUBE_API_KEY && !process.env.GOOGLE_API_KEY) {
+      missingApis.push('YouTube/Google API');
+    }
+
+    // Provide more specific error message
     let errorMessage = 'This video does not have Japanese captions available. Try uploading the audio for AI transcription.';
     let errorCode = 'NO_CAPTIONS';
+    let suggestions = [
+      'Try uploading the audio file directly for AI transcription',
+      'Check if the video has Japanese captions enabled on YouTube',
+      'Try a different video with Japanese subtitles'
+    ];
 
     // Check if we have a specific error to report
-    if (hitRateLimit) {
+    if (missingApis.length > 0) {
+      errorMessage = `API keys not configured: ${missingApis.join(', ')}. Please add the required API keys to enable transcript extraction.`;
+      errorCode = 'MISSING_API_KEYS';
+      suggestions = [
+        `Add ${missingApis.join(' and ')} keys to .env.local`,
+        'SupaData API provides fallback transcript extraction when YouTube captions are unavailable',
+        'See documentation for how to obtain these API keys'
+      ];
+    } else if (hitRateLimit) {
       errorMessage = 'Our transcript service has reached its monthly limit. Please try again later or upload the audio directly for AI transcription.';
       errorCode = 'RATE_LIMIT';
     }
@@ -661,12 +683,7 @@ export async function POST(request: NextRequest) {
       message: errorMessage,
       videoTitle: videoMetadata?.title,
       videoMetadata: videoMetadata,
-      suggestions: [
-        'Try uploading the audio file directly for AI transcription',
-        'Check if the video has Japanese captions enabled on YouTube',
-        'Try a different video with Japanese subtitles',
-        'Connect your YouTube account for better caption access'
-      ]
+      suggestions: suggestions
     });
 
   } catch (error) {

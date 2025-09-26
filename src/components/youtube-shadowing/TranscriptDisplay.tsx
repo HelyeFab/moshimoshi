@@ -165,7 +165,17 @@ export default function TranscriptDisplay({
             data.videoMetadata
           );
         } else {
-          throw new Error(data.message || strings.youtubeShadowing.errors.transcriptFailed);
+          // Show error with suggestions from API
+          const errorMessage = data.message || strings.youtubeShadowing.errors.transcriptFailed;
+          const suggestions = data.suggestions || [];
+
+          // Create a more helpful error message
+          let fullError = errorMessage;
+          if (suggestions.length > 0) {
+            fullError += '\n\n' + t('common.suggestions') + ':\n• ' + suggestions.join('\n• ');
+          }
+
+          throw new Error(fullError);
         }
       } else {
         // For uploaded files, we'd need additional processing

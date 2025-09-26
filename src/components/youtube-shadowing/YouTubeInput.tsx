@@ -84,7 +84,7 @@ export default function YouTubeInput({ onSubmit, isLoading }: YouTubeInputProps)
             placeholder={strings.youtubeShadowing.input.placeholder}
             className="w-full px-4 py-3 pl-12 pr-12 border border-gray-300 dark:border-dark-600 rounded-lg
                      focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none
-                     transition-colors bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100
+                     transition-colors bg-gray-50 dark:bg-dark-800 text-gray-900 dark:text-gray-100
                      placeholder-gray-400 dark:placeholder-gray-500"
             disabled={isLoading}
           />

@@ -14,7 +14,8 @@ import YouTubeInput from '@/components/youtube-shadowing/YouTubeInput';
 import FileUploader from '@/components/youtube-shadowing/FileUploader';
 import AudioExtractor from '@/components/youtube-shadowing/AudioExtractor';
 import TranscriptDisplay from '@/components/youtube-shadowing/TranscriptDisplay';
-import SimplePlayer from '@/components/youtube-shadowing/SimplePlayer';
+import EnhancedShadowingPlayer from '@/components/youtube-shadowing/EnhancedShadowingPlayer';
+import EditableTranscriptReader from '@/components/youtube-shadowing/EditableTranscriptReader';
 import { videoHistoryService } from '@/services/videoHistory';
 
 export interface TranscriptLine {
@@ -49,7 +50,7 @@ export interface ShadowingSession {
 function YouTubeShadowingContent() {
   const { t, strings } = useI18n();
   const { user, isGuest } = useAuth();
-  const { hasAccess, checkAccess } = useSubscription();
+  const { isPremium, isFreeTier } = useSubscription();
   const searchParams = useSearchParams();
 
   const [session, setSession] = useState<ShadowingSession | null>(null);
@@ -59,6 +60,7 @@ function YouTubeShadowingContent() {
   const [showGrammar, setShowGrammar] = useState(false);
   const [grammarMode, setGrammarMode] = useState<'none' | 'all' | 'content' | 'grammar'>('content');
   const [showShadowingMode, setShowShadowingMode] = useState(true);
+  const [showVideo, setShowVideo] = useState(true);
   const [isVideoFree, setIsVideoFree] = useState(false);
   const [inputMode, setInputMode] = useState<'youtube' | 'upload'>('youtube');
   const [viewMode, setViewMode] = useState<'input' | 'player'>('input');
@@ -120,14 +122,8 @@ function YouTubeShadowingContent() {
     setError(null);
 
     try {
-      // Check access for YouTube shadowing feature
-      const canAccess = await checkAccess('youtube_shadowing');
-
-      if (!canAccess) {
-        setError(t('common.subscriptionRequired'));
-        setIsLoading(false);
-        return;
-      }
+      // YouTube feature is available to all users
+      // No access check needed for YouTube videos
 
       // Extract video ID from URL
       const videoId = extractVideoId(url);
@@ -158,10 +154,8 @@ function YouTubeShadowingContent() {
     setError(null);
 
     try {
-      // Check access for file upload feature
-      const canAccess = await checkAccess('media_upload');
-
-      if (!canAccess) {
+      // Check access for file upload feature (premium only)
+      if (!isPremium && !isGuest) {
         setError(t('common.subscriptionRequired'));
         setIsLoading(false);
         return;
@@ -492,14 +486,97 @@ function YouTubeShadowingContent() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
+                  className="space-y-6"
                 >
-                  <SimplePlayer
-                    videoUrl={session.videoUrl}
-                    audioUrl={session.audioUrl}
+                  {/* Player Controls */}
+                  <div className="bg-gray-50 dark:bg-dark-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-dark-700">
+                    <div className="flex flex-wrap gap-3">
+                      <button
+                        onClick={() => setShowVideo(!showVideo)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                          showVideo
+                            ? 'bg-primary-500 text-white hover:bg-primary-600'
+                            : 'bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600'
+                        }`}
+                      >
+                        {showVideo ? '🎬 ' : '🚫 '} Video
+                      </button>
+
+                      <button
+                        onClick={() => setShowFurigana(!showFurigana)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                          showFurigana
+                            ? 'bg-primary-500 text-white hover:bg-primary-600'
+                            : 'bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600'
+                        }`}
+                      >
+                        {showFurigana ? 'あ ' : '🚫 '} Furigana
+                      </button>
+
+                      <button
+                        onClick={() => setShowGrammar(!showGrammar)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                          showGrammar
+                            ? 'bg-primary-500 text-white hover:bg-primary-600'
+                            : 'bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600'
+                        }`}
+                      >
+                        {showGrammar ? '📝 ' : '🚫 '} Grammar
+                      </button>
+
+                      {showGrammar && (
+                        <select
+                          value={grammarMode}
+                          onChange={(e) => setGrammarMode(e.target.value as any)}
+                          className="px-4 py-2 rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-dark-600 text-gray-700 dark:text-gray-300"
+                        >
+                          <option value="none">No Highlighting</option>
+                          <option value="content">Content Words</option>
+                          <option value="grammar">Grammar Words</option>
+                          <option value="all">All Words</option>
+                        </select>
+                      )}
+
+                      <button
+                        onClick={() => setSession(prev => prev ? { ...prev, currentLineIndex: 0 } : null)}
+                        className="px-4 py-2 rounded-lg font-medium bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors"
+                      >
+                        ↺ Reset
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Enhanced Shadowing Player */}
+                  <EnhancedShadowingPlayer
+                    session={session}
+                    onLineChange={(index) => {
+                      setSession(prev => prev ? { ...prev, currentLineIndex: index } : null);
+                    }}
+                    showVideo={showVideo}
+                    showFurigana={showFurigana}
+                    onToggleFurigana={() => setShowFurigana(!showFurigana)}
+                    showGrammar={showGrammar}
+                    onToggleGrammar={() => setShowGrammar(!showGrammar)}
+                    grammarMode={grammarMode}
+                    onGrammarModeChange={setGrammarMode}
+                  />
+
+                  {/* Editable Transcript Reader */}
+                  <EditableTranscriptReader
                     transcript={session.transcript}
+                    currentLineIndex={session.currentLineIndex}
+                    onLineClick={(index) => {
+                      setSession(prev => prev ? { ...prev, currentLineIndex: index } : null);
+                    }}
+                    showFurigana={showFurigana}
+                    showGrammar={showGrammar}
+                    contentId={extractVideoId(session.videoUrl) || ''}
+                    contentType="youtube"
+                    videoUrl={session.videoUrl}
                     videoTitle={session.videoTitle}
-                    isYouTube={!session.fileInfo}
-                    fileInfo={session.fileInfo}
+                    onTranscriptRegenerated={(newTranscript) => {
+                      setSession(prev => prev ? { ...prev, transcript: newTranscript } : null);
+                    }}
                   />
                 </motion.div>
               )}

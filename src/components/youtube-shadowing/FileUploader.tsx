@@ -178,7 +178,7 @@ export default function FileUploader({ onFileSelect, isLoading, maxSizeMB = 100 
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200
+          className="p-3 bg-red-100 dark:bg-red-900/20 border border-red-200
                    dark:border-red-800 rounded-lg"
         >
           <p className="text-sm text-red-800 dark:text-red-200">

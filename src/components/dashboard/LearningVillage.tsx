@@ -580,7 +580,7 @@ export default function LearningVillage() {
       title: strings.dashboard?.cards?.myVideos?.title || 'My Videos',
       subtitle: strings.dashboard?.cards?.myVideos?.subtitle || 'ビデオ',
       description: strings.dashboard?.cards?.myVideos?.description || 'Your saved videos',
-      href: '/my-videos',
+      href: '/tools/my-videos',
       icon: '🎬',
       stallType: 'theater',
       color: 'from-rose-400 to-pink-600',

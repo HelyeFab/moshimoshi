@@ -14,7 +14,7 @@ import YouTubeInput from '@/components/youtube-shadowing/YouTubeInput';
 import FileUploader from '@/components/youtube-shadowing/FileUploader';
 import AudioExtractor from '@/components/youtube-shadowing/AudioExtractor';
 import TranscriptDisplay from '@/components/youtube-shadowing/TranscriptDisplay';
-import SimplePlayer from '@/components/youtube-shadowing/SimplePlayer';
+import ShadowingPlayer from '@/components/youtube-shadowing/ShadowingPlayer';
 import { videoHistoryService } from '@/services/videoHistory';
 
 export interface TranscriptLine {
@@ -528,7 +528,7 @@ function YouTubeShadowingContent() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <SimplePlayer
+                  <ShadowingPlayer
                     videoUrl={session.videoUrl}
                     audioUrl={session.audioUrl}
                     transcript={session.transcript}
