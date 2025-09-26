@@ -3,7 +3,7 @@
  * Manages session history, analytics, and learning insights
  */
 
-import { openDB, IDBPDatabase } from 'idb';
+import type { IDBPDatabase } from 'idb';
 import type { SessionStats, FlashcardDeck } from '@/types/flashcards';
 
 interface SessionDB {
@@ -55,6 +55,9 @@ export class FlashcardSessionManager {
   // Initialize the session database
   private async initDB(): Promise<IDBPDatabase<SessionDB>> {
     if (this.db) return this.db;
+
+    // Dynamic import to avoid build issues
+    const { openDB } = await import('idb');
 
     this.db = await openDB<SessionDB>('FlashcardSessionDB', 1, {
       upgrade(db) {

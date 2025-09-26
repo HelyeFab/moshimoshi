@@ -217,11 +217,14 @@ export function FlashcardViewer({
             )}
           >
             {card.front.media && card.front.media.type === 'image' && (
-              <img
-                src={card.front.media.url}
-                alt={card.front.media.alt || ''}
-                className="max-w-full max-h-32 mb-4 rounded-lg"
-              />
+              <div className="mb-4">
+                <img
+                  src={card.front.media.url}
+                  alt={card.front.media.alt || ''}
+                  className="max-w-full max-h-48 rounded-lg shadow-lg object-contain"
+                  loading="lazy"
+                />
+              </div>
             )}
 
             <h2 className={cn(
@@ -325,11 +328,14 @@ export function FlashcardViewer({
             )}
           >
             {card.back.media && card.back.media.type === 'image' && (
-              <img
-                src={card.back.media.url}
-                alt={card.back.media.alt || ''}
-                className="max-w-full max-h-32 mb-4 rounded-lg"
-              />
+              <div className="mb-4">
+                <img
+                  src={card.back.media.url}
+                  alt={card.back.media.alt || ''}
+                  className="max-w-full max-h-48 rounded-lg shadow-lg object-contain"
+                  loading="lazy"
+                />
+              </div>
             )}
 
             <h2 className={cn(

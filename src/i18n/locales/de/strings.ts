@@ -137,6 +137,13 @@ export const strings = {
     explore: "Erkunden",
   },
 
+  // PWA
+  pwa: {
+    updateAvailable: "Update verfügbar",
+    updateDescription: "Eine neue Version der App ist verfügbar. Jetzt aktualisieren, um die neuesten Funktionen zu erhalten.",
+    updateNow: "Jetzt aktualisieren",
+  },
+
   // Landing Page
   landing: {
     header: {
@@ -2703,6 +2710,73 @@ export const strings = {
     dailyLimitReached: "Sie haben Ihr tägliches Übungslimit erreicht.",
     loadingQuestions: "Fragen werden geladen...",
     of: "von",
+  },
+
+  // PWA (Progressive Web App)
+  pwa: {
+    install: {
+      title: "Moshimoshi installieren",
+      description: "Installieren Sie die App für ein besseres Erlebnis",
+      button: "App installieren",
+      later: "Später",
+      benefits: {
+        offline: "Greifen Sie offline auf Ihre Lektionen zu",
+        faster: "Schnellere Ladezeiten",
+        notifications: "Erhalten Sie Wiederholungserinnerungen"
+      },
+      ios: {
+        instructions: "So installieren Sie auf iOS:",
+        step1: "Tippen Sie auf die Teilen-Schaltfläche",
+        step2: "Scrollen Sie nach unten und tippen Sie auf \"Zum Home-Bildschirm\"",
+        step3: "Tippen Sie auf \"Hinzufügen\" zum Installieren"
+      }
+    },
+    notifications: {
+      permission: {
+        title: "Benachrichtigungen aktivieren",
+        description: "Erhalten Sie Erinnerungen, wenn Wiederholungen fällig sind",
+        allow: "Benachrichtigungen erlauben",
+        deny: "Jetzt nicht",
+        blocked: "Benachrichtigungen sind blockiert. Bitte aktivieren Sie sie in Ihren Browsereinstellungen.",
+        unsupported: "Benachrichtigungen werden in Ihrem Browser nicht unterstützt"
+      },
+      quietHours: {
+        title: "Ruhezeiten",
+        description: "Keine Benachrichtigungen während dieser Zeiten senden",
+        start: "Startzeit",
+        end: "Endzeit",
+        enabled: "Ruhezeiten aktiviert",
+        disabled: "Ruhezeiten deaktiviert"
+      },
+      test: {
+        title: "Testbenachrichtigung",
+        body: "Dies ist ein Test Ihrer Benachrichtigungseinstellungen",
+        button: "Test senden"
+      }
+    },
+    badge: {
+      reviewsDue: "{{count}} Wiederholungen fällig",
+      clearBadge: "Badge löschen"
+    },
+    share: {
+      title: "Zu Moshimoshi hinzufügen",
+      description: "Wählen Sie, wo Sie diesen Inhalt speichern möchten",
+      addToList: "Zur Liste hinzufügen",
+      createNew: "Neue Liste erstellen",
+      selectList: "Liste auswählen",
+      success: "Inhalt erfolgreich hinzugefügt",
+      error: "Inhalt konnte nicht hinzugefügt werden"
+    },
+    mediaSession: {
+      playing: "Wiedergabe",
+      paused: "Pausiert",
+      playbackRate: "Wiedergabegeschwindigkeit"
+    },
+    offline: {
+      title: "Sie sind offline",
+      description: "Einige Funktionen können ohne Internetverbindung eingeschränkt sein",
+      cached: "Zwischengespeicherte Inhalte anzeigen",
+      retry: "Verbindung erneut versuchen"
+    }
   }
 }
-

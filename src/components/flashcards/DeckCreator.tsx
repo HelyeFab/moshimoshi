@@ -9,6 +9,8 @@ import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import { DECK_COLORS, SUGGESTED_DECK_EMOJIS } from '@/types/flashcards';
 import { AnkiImportModal } from '@/components/anki/AnkiImportModal';
+import { VirtualCardList } from './VirtualCardList';
+import { ImageUpload } from './ImageUpload';
 import { listManager } from '@/lib/lists/ListManager';
 import { useRouter } from 'next/navigation';
 
@@ -55,7 +57,13 @@ export function DeckCreator({
     back: card.back.text,
     notes: card.metadata?.notes || ''
   })) || []);
-  const [currentCard, setCurrentCard] = useState({ front: '', back: '', notes: '' });
+  const [currentCard, setCurrentCard] = useState<{
+    front: string;
+    back: string;
+    notes: string;
+    frontImage?: { type: 'image'; url: string; alt?: string };
+    backImage?: { type: 'image'; url: string; alt?: string };
+  }>({ front: '', back: '', notes: '' });
   const [selectedListId, setSelectedListId] = useState<string>('');
 
   // If editing, skip source selection and go straight to details
@@ -149,7 +157,22 @@ export function DeckCreator({
 
   const addCard = () => {
     if (currentCard.front && currentCard.back) {
-      setCards([...cards, currentCard]);
+      const newCard: FlashcardContent = {
+        id: `card-${Date.now()}-${Math.random()}`,
+        front: {
+          text: currentCard.front,
+          media: currentCard.frontImage
+        },
+        back: {
+          text: currentCard.back,
+          media: currentCard.backImage
+        },
+        metadata: { status: 'new', createdAt: Date.now() }
+      };
+      if (currentCard.notes) {
+        (newCard as any).notes = currentCard.notes;
+      }
+      setCards([...cards, newCard]);
       setCurrentCard({ front: '', back: '', notes: '' });
     }
   };
@@ -522,21 +545,54 @@ export function DeckCreator({
                     {/* Add New Card Form */}
                     <div className="p-4 bg-gray-50 dark:bg-dark-850 rounded-lg">
                       <h3 className="font-semibold mb-4">{t('flashcards.addCard')}</h3>
-                      <div className="space-y-3">
-                        <input
-                          type="text"
-                          value={currentCard.front}
-                          onChange={(e) => setCurrentCard({ ...currentCard, front: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700"
-                          placeholder={t('flashcards.frontSide')}
-                        />
-                        <input
-                          type="text"
-                          value={currentCard.back}
-                          onChange={(e) => setCurrentCard({ ...currentCard, back: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700"
-                          placeholder={t('flashcards.backSide')}
-                        />
+                      <div className="space-y-4">
+                        {/* Front Side */}
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {t('flashcards.frontSide')}
+                          </label>
+                          <input
+                            type="text"
+                            value={currentCard.front}
+                            onChange={(e) => setCurrentCard({ ...currentCard, front: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700"
+                            placeholder={t('flashcards.frontSide')}
+                          />
+                          <ImageUpload
+                            currentImage={currentCard.frontImage ? { url: currentCard.frontImage.url, alt: currentCard.frontImage.alt } : undefined}
+                            onImageAdded={(imageData) => setCurrentCard({ ...currentCard, frontImage: imageData })}
+                            onImageRemoved={() => {
+                              const { frontImage, ...rest } = currentCard;
+                              setCurrentCard(rest);
+                            }}
+                            maxSizeMB={1}
+                          />
+                        </div>
+
+                        {/* Back Side */}
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {t('flashcards.backSide')}
+                          </label>
+                          <input
+                            type="text"
+                            value={currentCard.back}
+                            onChange={(e) => setCurrentCard({ ...currentCard, back: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700"
+                            placeholder={t('flashcards.backSide')}
+                          />
+                          <ImageUpload
+                            currentImage={currentCard.backImage ? { url: currentCard.backImage.url, alt: currentCard.backImage.alt } : undefined}
+                            onImageAdded={(imageData) => setCurrentCard({ ...currentCard, backImage: imageData })}
+                            onImageRemoved={() => {
+                              const { backImage, ...rest } = currentCard;
+                              setCurrentCard(rest);
+                            }}
+                            maxSizeMB={1}
+                          />
+                        </div>
+
+                        {/* Notes */}
                         <input
                           type="text"
                           value={currentCard.notes}
@@ -555,34 +611,21 @@ export function DeckCreator({
                       </div>
                     </div>
 
-                    {/* Card List */}
-                    <div className="space-y-2 max-h-64 overflow-y-auto">
-                      {cards.length === 0 && (
-                        <p className="text-center text-gray-500 dark:text-gray-400 py-8">
-                          {t('flashcards.empty.noCards')}
-                        </p>
-                      )}
-                      {cards.map((card, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center justify-between p-3 bg-white dark:bg-dark-700 border border-gray-200 dark:border-gray-600 rounded-lg"
-                        >
-                          <div className="flex-1">
-                            <p className="font-medium text-sm">{card.front}</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">{card.back}</p>
-                            {card.notes && (
-                              <p className="text-xs text-gray-500 dark:text-gray-500 italic">{card.notes}</p>
-                            )}
-                          </div>
-                          <button
-                            onClick={() => removeCard(index)}
-                            className="p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
+                    {/* Card List with Virtual Scrolling */}
+                    {cards.length === 0 ? (
+                      <p className="text-center text-gray-500 dark:text-gray-400 py-8">
+                        {t('flashcards.empty.noCards')}
+                      </p>
+                    ) : (
+                      <VirtualCardList
+                        cards={cards}
+                        onRemove={removeCard}
+                        containerHeight={256} // Equivalent to max-h-64
+                        itemHeight={80}
+                        showStats={false}
+                        className="border border-gray-200 dark:border-gray-700 rounded-lg"
+                      />
+                    )}
 
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       {t('flashcards.totalCards', { count: cards.length })}

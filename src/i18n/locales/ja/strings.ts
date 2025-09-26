@@ -138,6 +138,13 @@ export const strings = {
     explore: "探索",
   },
 
+  // PWA
+  pwa: {
+    updateAvailable: "アップデートが利用可能",
+    updateDescription: "アプリの新しいバージョンが利用可能です。最新の機能を利用するために今すぐアップデートしてください。",
+    updateNow: "今すぐアップデート",
+  },
+
   // Landing Page
   landing: {
     header: {
@@ -2694,6 +2701,74 @@ export const strings = {
       message: "「{{title}}」を履歴から削除してもよろしいですか？",
       confirm: "削除",
       cancel: "キャンセル"
+    }
+  },
+
+  // PWA (Progressive Web App)
+  pwa: {
+    install: {
+      title: "Moshimoshiをインストール",
+      description: "より良い体験のためにアプリをインストールしてください",
+      button: "アプリをインストール",
+      later: "後で",
+      benefits: {
+        offline: "オフラインでレッスンにアクセス",
+        faster: "読み込み時間の短縮",
+        notifications: "復習リマインダーを受け取る"
+      },
+      ios: {
+        instructions: "iOSでのインストール方法:",
+        step1: "共有ボタンをタップ",
+        step2: "下にスクロールして「ホーム画面に追加」をタップ",
+        step3: "「追加」をタップしてインストール"
+      }
+    },
+    notifications: {
+      permission: {
+        title: "通知を有効にする",
+        description: "復習期限になったらリマインダーを受け取る",
+        allow: "通知を許可",
+        deny: "今はしない",
+        blocked: "通知がブロックされています。ブラウザの設定で有効にしてください。",
+        unsupported: "お使いのブラウザでは通知がサポートされていません"
+      },
+      quietHours: {
+        title: "静音時間",
+        description: "この時間帯は通知を送信しません",
+        start: "開始時間",
+        end: "終了時間",
+        enabled: "静音時間有効",
+        disabled: "静音時間無効"
+      },
+      test: {
+        title: "テスト通知",
+        body: "通知設定のテストです",
+        button: "テストを送信"
+      }
+    },
+    badge: {
+      reviewsDue: "{{count}}件の復習があります",
+      clearBadge: "バッジをクリア"
+    },
+    share: {
+      title: "Moshimoshiに追加",
+      description: "コンテンツの保存先を選択してください",
+      addToList: "リストに追加",
+      createNew: "新しいリストを作成",
+      selectList: "リストを選択",
+      success: "コンテンツが正常に追加されました",
+      error: "コンテンツの追加に失敗しました"
+    },
+    mediaSession: {
+      playing: "再生中",
+      paused: "一時停止",
+      playbackRate: "再生速度"
+    },
+    offline: {
+      title: "オフラインです",
+      description: "インターネット接続がないため、一部の機能が制限される場合があります",
+      cached: "キャッシュされたコンテンツを表示しています",
+      retry: "接続を再試行"
     }
   }
 }

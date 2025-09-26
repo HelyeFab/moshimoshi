@@ -95,6 +95,13 @@ export const strings = {
     error: "Error occurred",
   },
 
+  // PWA
+  pwa: {
+    updateAvailable: "Update available",
+    updateDescription: "A new version of the app is available. Update now for the latest features.",
+    updateNow: "Update Now",
+  },
+
   // Moodboards
   moodboards: {
     title: "Kanji Mood Boards",
@@ -3722,6 +3729,74 @@ export const strings = {
       message: "Are you sure you want to remove \"{{title}}\" from your history?",
       confirm: "Remove",
       cancel: "Cancel"
+    }
+  },
+
+  // PWA (Progressive Web App)
+  pwa: {
+    install: {
+      title: "Install Moshimoshi",
+      description: "Install the app for a better experience",
+      button: "Install App",
+      later: "Not Now",
+      benefits: {
+        offline: "Access your lessons offline",
+        faster: "Faster loading times",
+        notifications: "Get review reminders"
+      },
+      ios: {
+        instructions: "How to install on iOS:",
+        step1: "Tap the Share button",
+        step2: "Scroll down and tap \"Add to Home Screen\"",
+        step3: "Tap \"Add\" to install"
+      }
+    },
+    notifications: {
+      permission: {
+        title: "Enable Notifications",
+        description: "Get reminders when reviews are due",
+        allow: "Allow Notifications",
+        deny: "Not Now",
+        blocked: "Notifications are blocked. Please enable them in your browser settings.",
+        unsupported: "Notifications are not supported in your browser"
+      },
+      quietHours: {
+        title: "Quiet Hours",
+        description: "Don't send notifications during these times",
+        start: "Start Time",
+        end: "End Time",
+        enabled: "Quiet Hours Enabled",
+        disabled: "Quiet Hours Disabled"
+      },
+      test: {
+        title: "Test Notification",
+        body: "This is a test of your notification settings",
+        button: "Send Test"
+      }
+    },
+    badge: {
+      reviewsDue: "{{count}} reviews due",
+      clearBadge: "Clear badge"
+    },
+    share: {
+      title: "Add to Moshimoshi",
+      description: "Choose where to save this content",
+      addToList: "Add to List",
+      createNew: "Create New List",
+      selectList: "Select a list",
+      success: "Content added successfully",
+      error: "Failed to add content"
+    },
+    mediaSession: {
+      playing: "Playing",
+      paused: "Paused",
+      playbackRate: "Playback Speed"
+    },
+    offline: {
+      title: "You're Offline",
+      description: "Some features may be limited without an internet connection",
+      cached: "Viewing cached content",
+      retry: "Retry Connection"
     }
   }
 }

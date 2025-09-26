@@ -7,8 +7,13 @@ import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { DeckGrid } from '@/components/flashcards/DeckGrid';
 import { DeckCreator } from '@/components/flashcards/DeckCreator';
 import { StudySession } from '@/components/flashcards/StudySession';
-import { SessionSettingsModal } from '@/components/flashcards/SessionSettingsModal';
+import { StudyModeSelector } from '@/components/flashcards/StudyModeSelector';
 import { StatsDashboard } from '@/components/flashcards/StatsDashboard';
+import { StudyRecommendations } from '@/components/flashcards/StudyRecommendations';
+import { DailyGoals } from '@/components/flashcards/DailyGoals';
+import { AchievementDisplay, AchievementNotification } from '@/components/flashcards/AchievementDisplay';
+import { achievementManager, type Achievement } from '@/lib/flashcards/AchievementManager';
+import { ComebackMessage, checkForComeback } from '@/components/flashcards/ComebackMessage';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import Dialog from '@/components/ui/Dialog';
 import { useI18n } from '@/i18n/I18nContext';
@@ -19,7 +24,9 @@ import { flashcardManager, FlashcardManager } from '@/lib/flashcards/FlashcardMa
 import { listManager } from '@/lib/lists/ListManager';
 import { storageManager } from '@/lib/flashcards/StorageManager';
 import { migrationManager } from '@/lib/flashcards/MigrationManager';
-import type { FlashcardDeck, CreateDeckRequest, SessionSummary, DeckSettings } from '@/types/flashcards';
+import { sessionManager } from '@/lib/flashcards/SessionManager';
+import type { FlashcardDeck, CreateDeckRequest, SessionSummary, DeckSettings, SessionStats } from '@/types/flashcards';
+import type { StudyRecommendation, LearningInsights } from '@/lib/flashcards/SessionManager';
 import type { UserList } from '@/types/userLists';
 import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -46,7 +53,13 @@ export default function FlashcardsPage() {
   const [showMigration, setShowMigration] = useState(false);
   const [migrationProgress, setMigrationProgress] = useState<any>(null);
   const [deckToStudy, setDeckToStudy] = useState<FlashcardDeck | null>(null);
-  const [showSessionSettings, setShowSessionSettings] = useState(false);
+  const [showModeSelector, setShowModeSelector] = useState(false);
+  const [recommendations, setRecommendations] = useState<StudyRecommendation[]>([]);
+  const [insights, setInsights] = useState<LearningInsights | null>(null);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [showAchievements, setShowAchievements] = useState(false);
+  const [newAchievement, setNewAchievement] = useState<Achievement | null>(null);
+  const [comebackInfo, setComebackInfo] = useState<{ daysAway: number; lastStudyDate: Date } | null>(null);
 
   // Prevent race conditions
   const loadingRef = useRef(false);
@@ -63,6 +76,27 @@ export default function FlashcardsPage() {
 
   useEffect(() => {
     loadData();
+
+    // Check for comeback
+    if (user) {
+      checkForComeback(user.uid).then(comeback => {
+        if (comeback && comeback.daysAway >= 3) {
+          setComebackInfo({
+            daysAway: comeback.daysAway,
+            lastStudyDate: comeback.lastStudyDate
+          });
+
+          // Unlock comeback achievement if eligible
+          if (comeback.isComeback) {
+            const achievement = achievementManager.unlockAchievement(user.uid, 'comeback_kid');
+            if (achievement) {
+              // Show achievement after comeback message closes
+              setTimeout(() => setNewAchievement(achievement), 11000);
+            }
+          }
+        }
+      });
+    }
 
     // Check for plan upgrade and migration needs
     if (user && isPremium) {
@@ -121,6 +155,25 @@ export default function FlashcardsPage() {
       }
 
       setUserLists(lists);
+
+      // Load learning insights and recommendations
+      if (userDecks.length > 0) {
+        // Get learning insights
+        const userInsights = await sessionManager.getLearningInsights(user.uid);
+        setInsights(userInsights);
+
+        // Get study recommendations
+        const studyRecs = await sessionManager.getStudyRecommendations(user.uid, userDecks);
+        setRecommendations(studyRecs);
+
+        // Calculate current streak
+        const streak = await sessionManager.calculateStreak(user.uid);
+        setCurrentStreak(streak);
+
+        // Load recent sessions
+        const recentSessions = await sessionManager.getUserSessions(user.uid, 10);
+        setSessions(recentSessions);
+      }
     } catch (error: any) {
       if (error.name !== 'AbortError') {
         console.error('Failed to load flashcard data:', error);
@@ -324,47 +377,27 @@ export default function FlashcardsPage() {
       // TODO: Check actual daily usage
     }
 
-    // Show the session settings modal instead of starting directly
+    // Show the study mode selector instead of session settings
     setDeckToStudy(deck);
-    setShowSessionSettings(true);
+    setShowModeSelector(true);
   };
 
-  const handleStartSession = (settings: Partial<DeckSettings>) => {
-    if (!deckToStudy) return;
+  const handleStartSession = (selectedCards: any[], mode: string) => {
+    if (!deckToStudy || selectedCards.length === 0) return;
 
-    // Get session length from the provided settings
-    const sessionLength = settings.sessionLength || deckToStudy.settings?.sessionLength || 20;
-    const reviewMode = settings.reviewMode || deckToStudy.settings?.reviewMode || 'sequential';
-
-    // Select cards for the session
-    let sessionCards = [...deckToStudy.cards];
-
-    // Apply review mode logic
-    if (reviewMode === 'random') {
-      // Shuffle cards for random mode
-      sessionCards = sessionCards.sort(() => Math.random() - 0.5);
-    } else if (reviewMode === 'srs') {
-      // For SRS mode, prioritize cards that need review
-      // TODO: Implement proper SRS card prioritization based on due dates
-      // For now, just use the first cards
-    }
-    // 'sequential' mode uses cards in their original order
-
-    // Limit to session length
-    sessionCards = sessionCards.slice(0, Math.min(sessionLength, deckToStudy.cards.length));
-
-    // Set the deck with only the selected cards for this session
+    // Set the deck with the selected cards for this session
     setStudyingDeck({
       ...deckToStudy,
-      cards: sessionCards,
+      cards: selectedCards,
       settings: {
         ...deckToStudy.settings,
-        ...settings
+        reviewMode: mode === 'speed' ? 'speed' : mode === 'cramming' ? 'cramming' : 'srs',
+        sessionLength: selectedCards.length
       }
     });
 
     // Close the modal
-    setShowSessionSettings(false);
+    setShowModeSelector(false);
     setDeckToStudy(null);
   };
 
@@ -396,25 +429,47 @@ export default function FlashcardsPage() {
   const handleSessionComplete = async (summary: SessionSummary) => {
     setStudyingDeck(null);
 
+    // Check for unlocked achievements
+    if ((summary as any).unlockedAchievements?.length > 0) {
+      // Show the first achievement notification
+      setNewAchievement((summary as any).unlockedAchievements[0]);
+
+      // Show all achievements after a delay if there are multiple
+      if ((summary as any).unlockedAchievements.length > 1) {
+        let delay = 6000;
+        (summary as any).unlockedAchievements.slice(1).forEach((achievement: Achievement) => {
+          setTimeout(() => setNewAchievement(achievement), delay);
+          delay += 6000;
+        });
+      }
+    }
+
     // Update user stats with XP if user is logged in
     if (user && summary.xpEarned && summary.xpEarned > 0) {
       try {
-        // Import UserStatsService dynamically to avoid circular deps
-        const { userStatsService } = await import('@/lib/services/UserStatsService');
-
-        // Update XP and streak
-        await userStatsService.updateXP(user.uid, summary.xpEarned, 'flashcard_session');
-
-        // Update session stats
-        await userStatsService.updateSessionStats(user.uid, {
-          type: 'flashcard',
-          accuracy: summary.accuracy,
-          itemsReviewed: summary.cardsStudied
+        // Update stats via API route
+        const response = await fetch('/api/user-stats/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            xpGained: summary.xpEarned,
+            source: 'flashcard_session',
+            sessionData: {
+              type: 'flashcard',
+              accuracy: summary.accuracy,
+              itemsReviewed: summary.cardsStudied
+            }
+          })
         });
 
-        // Show success message with XP earned
-        const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')} - +${summary.xpEarned} XP!`;
-        showToast(message, 'success');
+        if (response.ok) {
+          // Show success message with XP earned
+          const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')} - +${summary.xpEarned} XP!`;
+          showToast(message, 'success');
+        } else {
+          throw new Error('Failed to update stats');
+        }
       } catch (error) {
         console.error('Failed to update user stats:', error);
         // Still show success without XP
@@ -572,8 +627,50 @@ export default function FlashcardsPage() {
           </div>
         </div>
 
-        {/* Toggle Stats View */}
-        <div className="flex justify-end mb-4">
+        {/* Daily Goals (show for logged in users) */}
+        {user && (
+          <div className="mb-8">
+            <DailyGoals
+              userId={user.uid}
+              isPremium={isPremium}
+              onGoalComplete={(goalType) => {
+                // Could trigger achievements here
+                console.log('Goal completed:', goalType);
+              }}
+            />
+          </div>
+        )}
+
+        {/* Study Recommendations (show only if user has decks and recommendations) */}
+        {user && recommendations.length > 0 && (
+          <div className="mb-8">
+            <StudyRecommendations
+              recommendations={recommendations}
+              insights={insights}
+              currentStreak={currentStreak}
+              onSelectDeck={(deckId) => {
+                const deck = decks.find(d => d.id === deckId);
+                if (deck) handleStudyDeck(deck);
+              }}
+            />
+          </div>
+        )}
+
+        {/* Action Buttons Row */}
+        <div className="flex justify-between mb-4">
+          {/* Achievements Button */}
+          {user && (
+            <button
+              onClick={() => setShowAchievements(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:opacity-90 transition-opacity"
+            >
+              <Trophy className="w-5 h-5" />
+              {t('flashcards.achievements.viewAll')}
+            </button>
+          )}
+
+          {/* Toggle Stats View */}
+          <div className="flex justify-end flex-1">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -583,6 +680,7 @@ export default function FlashcardsPage() {
             <BarChart3 className="w-5 h-5" />
             {showStats ? t('flashcards.hideStats') : t('flashcards.showStats')}
           </motion.button>
+          </div>
         </div>
 
         {/* Statistics Dashboard or Cards */}
@@ -701,7 +799,7 @@ export default function FlashcardsPage() {
           onSyncDeck={handleSyncDeck}
           onSessionSettings={(deck) => {
             setDeckToStudy(deck);
-            setShowSessionSettings(true);
+            setShowModeSelector(true);
           }}
           showStats={true}
           gridCols={3}
@@ -737,16 +835,49 @@ export default function FlashcardsPage() {
           type="danger"
         />
 
-        {/* Session Settings Modal */}
+        {/* Study Mode Selector Modal */}
         {deckToStudy && (
-          <SessionSettingsModal
-            isOpen={showSessionSettings}
+          <StudyModeSelector
+            isOpen={showModeSelector}
             deck={deckToStudy}
             onClose={() => {
-              setShowSessionSettings(false);
+              setShowModeSelector(false);
               setDeckToStudy(null);
             }}
             onStartSession={handleStartSession}
+          />
+        )}
+
+        {/* Achievement Display Modal */}
+        {showAchievements && user && (
+          <AchievementDisplay
+            userId={user.uid}
+            currentStats={{
+              streak: currentStreak,
+              totalCardsReviewed: decks.reduce((sum, d) => sum + (d.stats.totalCards || 0), 0),
+              totalMasteredCards: decks.reduce((sum, d) => sum + (d.stats.masteredCards || 0), 0),
+              averageAccuracy: averageAccuracy,
+              totalDecksCreated: decks.length,
+              totalMinutesStudied: sessions.reduce((sum, s) => sum + Math.floor((s as any).duration / 60000), 0)
+            }}
+            onClose={() => setShowAchievements(false)}
+          />
+        )}
+
+        {/* Achievement Notification */}
+        {newAchievement && (
+          <AchievementNotification
+            achievement={newAchievement}
+            onClose={() => setNewAchievement(null)}
+          />
+        )}
+
+        {/* Comeback Message */}
+        {comebackInfo && (
+          <ComebackMessage
+            daysAway={comebackInfo.daysAway}
+            lastStudyDate={comebackInfo.lastStudyDate}
+            onClose={() => setComebackInfo(null)}
           />
         )}
       </div>

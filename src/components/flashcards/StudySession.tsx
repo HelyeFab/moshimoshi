@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trophy, Target, Zap, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { X, Trophy, Target, Zap, Clock, CheckCircle, XCircle, Pause, Play, Timer } from 'lucide-react';
 import type { FlashcardDeck, FlashcardContent, SessionSummary, SessionStats } from '@/types/flashcards';
 import { FlashcardViewer } from './FlashcardViewer';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
 import { flashcardManager } from '@/lib/flashcards/FlashcardManager';
+import { achievementManager } from '@/lib/flashcards/AchievementManager';
+import { sessionManager } from '@/lib/flashcards/SessionManager';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 
@@ -40,6 +42,9 @@ export function StudySession({
   const [skippedCount, setSkippedCount] = useState(0);
   const [responses, setResponses] = useState<Map<string, { correct: boolean; difficulty?: string; responseTime: number }>>(new Map());
   const [startTime] = useState(Date.now());
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [pausedTime, setPausedTime] = useState(0);
   const [streakCount, setStreakCount] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [totalResponseTime, setTotalResponseTime] = useState(0);
@@ -54,6 +59,7 @@ export function StudySession({
 
   // Cleanup refs for timers
   const timeoutRefs = useRef<Set<NodeJS.Timeout>>(new Set());
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isUnmounted = useRef(false);
 
   const currentCard = sessionCards[currentIndex];
@@ -156,6 +162,25 @@ export function StudySession({
     }
   }, [currentCard, currentIndex, sessionCards.length, cardStartTime, deck.id, user, isPremium, celebrate, onCardUpdated]);
 
+  // Timer effect
+  useEffect(() => {
+    if (!isPaused) {
+      timerIntervalRef.current = setInterval(() => {
+        setElapsedTime(Date.now() - startTime - pausedTime);
+      }, 1000);
+    } else {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
+    }
+
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
+    };
+  }, [isPaused, startTime, pausedTime]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -163,6 +188,9 @@ export function StudySession({
       // Clear all timers
       timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
       timeoutRefs.current.clear();
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
     };
   }, []);
 
@@ -181,7 +209,7 @@ export function StudySession({
   }, [currentIndex]);
 
   const completeSession = useCallback(async () => {
-    const sessionTime = Date.now() - startTime;
+    const sessionTime = Date.now() - startTime - pausedTime;
     const cardsActuallyStudied = responses.size;
     const accuracy = cardsActuallyStudied > 0 ? correctCount / cardsActuallyStudied : 0;
 
@@ -256,13 +284,67 @@ export function StudySession({
       } catch (error) {
         console.error('Failed to save session stats:', error);
       }
+
+      // Check for achievements
+      const newAchievements = achievementManager.checkSessionAchievements(user.uid, sessionStats);
+
+      // Check comeback achievement
+      const lastSession = await sessionManager.getUserSessions(user.uid, 1);
+      if (lastSession.length > 0) {
+        const daysSinceLastSession = Math.floor((Date.now() - lastSession[0].timestamp) / (1000 * 60 * 60 * 24));
+        if (daysSinceLastSession >= 7) {
+          const comebackAchievement = achievementManager.unlockAchievement(user.uid, 'comeback_kid');
+          if (comebackAchievement) {
+            newAchievements.push(comebackAchievement);
+          }
+        }
+      }
+
+      // Check marathon achievement (60+ minutes in a day)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const todaySessions = await sessionManager.getUserSessions(user.uid, undefined, today, tomorrow);
+      const totalMinutesToday = todaySessions.reduce((sum, s) => sum + Math.floor(s.duration / 60000), 0);
+      if (totalMinutesToday >= 60) {
+        const marathonAchievement = achievementManager.unlockAchievement(user.uid, 'marathon');
+        if (marathonAchievement) {
+          newAchievements.push(marathonAchievement);
+        }
+      }
+
+      // Check progress-based achievements
+      const allDecks = await flashcardManager.getDecks(user.uid, isPremium || false);
+      const totalCardsReviewed = allDecks.reduce((sum, d) => sum + (d.stats.totalCards || 0), 0);
+      const totalMasteredCards = allDecks.reduce((sum, d) => sum + (d.stats.masteredCards || 0), 0);
+      const streak = await sessionManager.calculateStreak(user.uid);
+
+      const progressAchievements = await achievementManager.checkProgressAchievements(
+        user.uid,
+        {
+          streak,
+          totalCardsReviewed,
+          totalMasteredCards,
+          averageAccuracy: accuracy,
+          totalDecksCreated: allDecks.length,
+          totalMinutesStudied: totalMinutesToday
+        }
+      );
+
+      newAchievements.push(...progressAchievements);
+
+      // Add achievements to summary
+      if (newAchievements.length > 0) {
+        (summary as any).unlockedAchievements = newAchievements;
+      }
     }
 
     onComplete(summary);
   }, [deck, sessionCards, responses, correctCount, incorrectCount, skippedCount,
       newCardsStudied, learningCardsStudied, reviewCardsStudied,
       streakCount, bestStreak, totalResponseTime, fastestResponseTime, slowestResponseTime,
-      startTime, mode, user, isPremium, celebrate, onComplete]);
+      startTime, pausedTime, mode, user, isPremium, celebrate, onComplete]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -279,6 +361,13 @@ export function StudySession({
   if (!currentCard) {
     return null;
   }
+
+  // Format time helper
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
@@ -298,7 +387,27 @@ export function StudySession({
             </div>
 
             {/* Stats */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 sm:gap-6">
+              {/* Timer */}
+              <div className="flex items-center gap-2">
+                <Timer className="w-5 h-5 text-blue-500" />
+                <span className="font-mono font-medium text-gray-700 dark:text-gray-300">
+                  {formatTime(Math.floor(elapsedTime / 1000))}
+                </span>
+                <button
+                  onClick={() => {
+                    if (isPaused) {
+                      setPausedTime(prev => prev + (Date.now() - (startTime + elapsedTime)));
+                    }
+                    setIsPaused(!isPaused);
+                  }}
+                  className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-colors"
+                  aria-label={isPaused ? t('common.resume') : t('common.pause')}
+                >
+                  {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+                </button>
+              </div>
+
               {/* Streak */}
               {streakCount > 0 && (
                 <motion.div

@@ -7,6 +7,8 @@
     "dev": "concurrently \"next dev\" \"npm run notebooklm:watch\"",
     "dev:simple": "next dev",
     "build": "next build",
+    "build:sw": "node scripts/inject-precache.js",
+    "build:prod": "next build && npm run build:sw",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",

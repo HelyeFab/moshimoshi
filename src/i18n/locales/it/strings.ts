@@ -168,6 +168,13 @@ export const strings = {
     explore: "Esplora",
   },
 
+  // PWA
+  pwa: {
+    updateAvailable: "Aggiornamento disponibile",
+    updateDescription: "È disponibile una nuova versione dell'app. Aggiorna ora per le ultime funzionalità.",
+    updateNow: "Aggiorna ora",
+  },
+
   // Landing Page
   landing: {
     header: {
@@ -2663,6 +2670,73 @@ export const strings = {
     dailyLimitReached: "Hai raggiunto il limite giornaliero di esercizi.",
     loadingQuestions: "Caricamento domande...",
     of: "di",
+  },
+
+  // PWA (Progressive Web App)
+  pwa: {
+    install: {
+      title: "Installa Moshimoshi",
+      description: "Installa l'app per un'esperienza migliore",
+      button: "Installa App",
+      later: "Più tardi",
+      benefits: {
+        offline: "Accedi alle tue lezioni offline",
+        faster: "Tempi di caricamento più veloci",
+        notifications: "Ricevi promemoria per le revisioni"
+      },
+      ios: {
+        instructions: "Come installare su iOS:",
+        step1: "Tocca il pulsante Condividi",
+        step2: "Scorri e tocca \"Aggiungi a Home\"",
+        step3: "Tocca \"Aggiungi\" per installare"
+      }
+    },
+    notifications: {
+      permission: {
+        title: "Abilita le notifiche",
+        description: "Ricevi promemoria quando le revisioni sono dovute",
+        allow: "Consenti notifiche",
+        deny: "Non ora",
+        blocked: "Le notifiche sono bloccate. Abilitale nelle impostazioni del browser.",
+        unsupported: "Le notifiche non sono supportate nel tuo browser"
+      },
+      quietHours: {
+        title: "Ore silenziose",
+        description: "Non inviare notifiche durante questi orari",
+        start: "Ora di inizio",
+        end: "Ora di fine",
+        enabled: "Ore silenziose abilitate",
+        disabled: "Ore silenziose disabilitate"
+      },
+      test: {
+        title: "Notifica di prova",
+        body: "Questo è un test delle tue impostazioni di notifica",
+        button: "Invia test"
+      }
+    },
+    badge: {
+      reviewsDue: "{{count}} revisioni in attesa",
+      clearBadge: "Cancella badge"
+    },
+    share: {
+      title: "Aggiungi a Moshimoshi",
+      description: "Scegli dove salvare questo contenuto",
+      addToList: "Aggiungi alla lista",
+      createNew: "Crea nuova lista",
+      selectList: "Seleziona una lista",
+      success: "Contenuto aggiunto con successo",
+      error: "Impossibile aggiungere il contenuto"
+    },
+    mediaSession: {
+      playing: "In riproduzione",
+      paused: "In pausa",
+      playbackRate: "Velocità di riproduzione"
+    },
+    offline: {
+      title: "Sei offline",
+      description: "Alcune funzionalità potrebbero essere limitate senza connessione internet",
+      cached: "Visualizzazione contenuto in cache",
+      retry: "Riprova connessione"
+    }
   }
 }
-
