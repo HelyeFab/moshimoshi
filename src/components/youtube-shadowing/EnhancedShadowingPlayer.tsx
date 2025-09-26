@@ -1028,21 +1028,21 @@ export default function EnhancedShadowingPlayer({
         {/* Settings Dropdown Modal */}
         {showSettings && (
           <>
-            <div 
-              className="fixed inset-0 z-40" 
+            <div
+              className="fixed inset-0 z-40 bg-black/20"
               onClick={() => setShowSettings(false)}
             />
-            
-            <div className="absolute right-0 top-full mt-2 w-80 bg-card rounded-lg shadow-lg border border-border p-4 z-50 max-h-[80vh] overflow-y-auto">
-              <h3 className="font-medium text-foreground mb-4 flex items-center gap-2">
+
+            <div className="absolute right-0 top-full mt-2 w-80 bg-gray-50 dark:bg-dark-800 rounded-lg shadow-xl border border-gray-200 dark:border-dark-700 p-4 z-50 max-h-[80vh] overflow-y-auto">
+              <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
                 <Settings className="w-4 h-4" />
                 Settings
               </h3>
-              
+
               <div className="space-y-4">
                 {/* Repeat Count */}
                 <div>
-                  <label className="text-sm font-medium text-foreground block mb-2">
+                  <label className="text-sm font-medium text-gray-900 dark:text-gray-100 block mb-2">
                     Repeat Count: {repeatCount}
                   </label>
                   <input
@@ -1062,7 +1062,7 @@ export default function EnhancedShadowingPlayer({
 
                 {/* Pause Between Repeats */}
                 <div>
-                  <label className="text-sm font-medium text-foreground block mb-2">
+                  <label className="text-sm font-medium text-gray-900 dark:text-gray-100 block mb-2">
                     Pause Between Repeats: {pauseBetweenRepeats / 1000}s
                   </label>
                   <input
@@ -1083,8 +1083,8 @@ export default function EnhancedShadowingPlayer({
                 {/* Continuous Play Toggle */}
                 <div className="flex items-center justify-between">
                   <div className="flex-1 pr-3">
-                    <label className="text-sm font-medium text-foreground block">Continuous Play</label>
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <label className="text-sm font-medium text-gray-900 dark:text-gray-100 block">Continuous Play</label>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                       Auto-advance after completing repeats
                     </p>
                   </div>
@@ -1092,7 +1092,7 @@ export default function EnhancedShadowingPlayer({
                     onClick={() => setContinuousPlay(!continuousPlay)}
                     className={cn(
                       "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
-                      continuousPlay ? "bg-primary" : "bg-muted"
+                      continuousPlay ? "bg-primary-500" : "bg-gray-300 dark:bg-dark-600"
                     )}
                     role="switch"
                     aria-checked={continuousPlay}
@@ -1106,21 +1106,21 @@ export default function EnhancedShadowingPlayer({
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-border pt-4">
-                  <h4 className="text-sm font-medium text-foreground mb-3">Display Options</h4>
+                <div className="border-t border-gray-200 dark:border-dark-700 pt-4">
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Display Options</h4>
                   
                   {/* Furigana Toggle */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex-1 pr-3">
-                      <label className="text-sm font-medium text-foreground block">Furigana</label>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <label className="text-sm font-medium text-gray-900 dark:text-gray-100 block">Furigana</label>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                         Show reading hints above kanji
                       </p>
                     </div>
                     <button
                       onClick={() => onToggleFurigana?.()}
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        showFurigana ? 'bg-primary' : 'bg-muted'
+                        showFurigana ? 'bg-primary-500' : 'bg-gray-300 dark:bg-dark-600'
                       }`}
                       role="switch"
                       aria-checked={showFurigana}
@@ -1137,8 +1137,8 @@ export default function EnhancedShadowingPlayer({
                   {/* Grammar Highlighting Toggle */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex-1 pr-3">
-                      <label className="text-sm font-medium text-foreground block">Grammar Colors</label>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <label className="text-sm font-medium text-gray-900 dark:text-gray-100 block">Grammar Colors</label>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                         Highlight parts of speech with colors
                       </p>
                     </div>
@@ -1217,10 +1217,10 @@ export default function EnhancedShadowingPlayer({
                   {hasFormattedTranscript && (
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex-1 pr-3">
-                        <label className="text-sm font-medium text-foreground block">
+                        <label className="text-sm font-medium text-gray-900 dark:text-gray-100 block">
                           {useFormattedTranscript ? '✨ AI-Optimized' : '📝 Raw Transcript'}
                         </label>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                           {useFormattedTranscript 
                             ? 'Using AI-improved line breaks' 
                             : 'Using original YouTube captions'}
