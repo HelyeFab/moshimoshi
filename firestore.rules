@@ -448,6 +448,34 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // YouTube Shadowing - User Edited Transcripts (Premium users can edit/save transcripts)
+    match /userEditedTranscripts/{documentId} {
+      // Premium users can read their own edited transcripts
+      allow read: if isAuthenticated() &&
+        (resource.data.userId == request.auth.uid ||
+         request.auth.uid == resource.data.userId);
+
+      // Premium users can create their own edited transcripts
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['userId', 'contentId', 'contentType', 'transcript']);
+
+      // Premium users can update their own edited transcripts
+      allow update: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
+
+      // Premium users can delete their own edited transcripts
+      allow delete: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;
