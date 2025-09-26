@@ -91,6 +91,7 @@ export interface DeckStats {
 
 // Request/Response types for API
 export interface CreateDeckRequest {
+  id?: string; // Optional ID for syncing existing decks
   name: string;
   description?: string;
   emoji?: string;

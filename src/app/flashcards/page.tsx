@@ -14,7 +14,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import { flashcardManager } from '@/lib/flashcards/FlashcardManager';
+import { flashcardManager, FlashcardManager } from '@/lib/flashcards/FlashcardManager';
 import { listManager } from '@/lib/lists/ListManager';
 import type { FlashcardDeck, CreateDeckRequest, SessionSummary } from '@/types/flashcards';
 import type { UserList } from '@/types/userLists';
@@ -41,7 +41,7 @@ export default function FlashcardsPage() {
 
   // Calculate user tier using proper subscription hook
   const userTier = subscription?.plan || (user ? 'free' : 'guest');
-  const limits = flashcardManager.getDeckLimits(userTier);
+  const limits = FlashcardManager.getDeckLimits(userTier);
 
   // Debug logging
   console.log('[FlashcardsPage] User:', user);
@@ -181,6 +181,31 @@ export default function FlashcardsPage() {
     }
 
     setStudyingDeck(deck);
+  };
+
+  const handleSyncDeck = async (deck: FlashcardDeck) => {
+    if (!user || !isPremium) {
+      showToast(t('flashcards.errors.syncRequiresPremium'), 'error');
+      return;
+    }
+
+    try {
+      showToast(t('flashcards.syncing'), 'info');
+
+      // Save the deck to Firebase
+      const success = await flashcardManager.syncDeckToFirebase(deck, user.uid);
+
+      if (success) {
+        showToast(t('flashcards.success.syncComplete'), 'success');
+        // Reload to ensure we have the latest data
+        await loadData();
+      } else {
+        showToast(t('flashcards.errors.syncFailed'), 'error');
+      }
+    } catch (error) {
+      console.error('Failed to sync deck:', error);
+      showToast(t('flashcards.errors.syncFailed'), 'error');
+    }
   };
 
   const handleSessionComplete = (summary: SessionSummary) => {
@@ -361,8 +386,10 @@ export default function FlashcardsPage() {
           onDeleteDeck={handleDeleteDeck}
           onExportDeck={handleExportDeck}
           onStudyDeck={handleStudyDeck}
+          onSyncDeck={handleSyncDeck}
           showStats={true}
           gridCols={3}
+          isPremium={isPremium}
         />
 
         {/* Deck Creator Modal */}

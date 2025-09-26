@@ -269,7 +269,7 @@ export function DeckGrid({
                       e.stopPropagation();
                       onSyncDeck(deck);
                     }}
-                    className="absolute bottom-3 right-3 p-2 rounded-full bg-primary-500 hover:bg-primary-600 text-white shadow-md hover:shadow-lg transition-all group/sync"
+                    className="absolute bottom-3 right-3 p-2 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-gray-700 dark:text-gray-200 shadow-md hover:shadow-lg transition-all group/sync"
                     aria-label="Sync to Firebase"
                     title="Sync to Firebase"
                   >

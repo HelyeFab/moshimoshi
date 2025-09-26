@@ -110,7 +110,8 @@ export async function POST(request: NextRequest) {
 
     // Create the deck
     const now = Date.now();
-    const deckId = uuidv4();
+    // Use provided ID if exists (for syncing), otherwise generate new one
+    const deckId = body.id || uuidv4();
 
     const newDeck: FlashcardDeck = {
       id: deckId,

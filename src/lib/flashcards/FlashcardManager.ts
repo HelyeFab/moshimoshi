@@ -26,7 +26,7 @@ interface FlashcardDB {
   };
 }
 
-class FlashcardManager {
+export class FlashcardManager {
   private db: IDBPDatabase<FlashcardDB> | null = null;
   private syncTimer: NodeJS.Timeout | null = null;
   private listeners: Map<string, Set<() => void>> = new Map();
@@ -637,6 +637,84 @@ class FlashcardManager {
   // Notify listeners
   private notifyListeners(event: string): void {
     this.listeners.get(event)?.forEach(callback => callback());
+  }
+
+  // Sync a deck to Firebase (for premium users)
+  async syncDeckToFirebase(deck: FlashcardDeck, userId: string): Promise<boolean> {
+    try {
+      console.log('[FlashcardManager.syncDeckToFirebase] Syncing deck to Firebase:', deck.id);
+
+      // First, check if the deck exists in Firebase
+      const checkResponse = await fetch(`/api/flashcards/decks/${deck.id}`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      let response;
+
+      if (checkResponse.ok) {
+        // Deck exists, update it
+        console.log('[FlashcardManager.syncDeckToFirebase] Deck exists, updating...');
+
+        const updateRequest: UpdateDeckRequest = {
+          name: deck.name,
+          description: deck.description,
+          emoji: deck.emoji,
+          color: deck.color,
+          cardStyle: deck.cardStyle,
+          settings: deck.settings,
+          cards: deck.cards
+        };
+
+        response = await fetch(`/api/flashcards/decks/${deck.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(updateRequest)
+        });
+      } else if (checkResponse.status === 404) {
+        // Deck doesn't exist, create it
+        console.log('[FlashcardManager.syncDeckToFirebase] Deck not found, creating new...');
+
+        const createRequest: CreateDeckRequest = {
+          id: deck.id, // IMPORTANT: Pass the existing deck ID to prevent duplication
+          name: deck.name,
+          description: deck.description,
+          emoji: deck.emoji,
+          color: deck.color,
+          cardStyle: deck.cardStyle,
+          settings: deck.settings,
+          initialCards: deck.cards,
+          sourceListId: deck.sourceListId
+        };
+
+        response = await fetch('/api/flashcards/decks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(createRequest)
+        });
+      } else {
+        console.error('[FlashcardManager.syncDeckToFirebase] Failed to check deck existence');
+        return false;
+      }
+
+      if (response.ok) {
+        console.log('[FlashcardManager.syncDeckToFirebase] Deck synced successfully');
+        // Update local IndexedDB as well
+        const db = await this.initDB();
+        await db.put('decks', deck);
+        this.notifyListeners('decks-changed');
+        return true;
+      } else {
+        const error = await response.json();
+        console.error('[FlashcardManager.syncDeckToFirebase] Sync failed:', error);
+        return false;
+      }
+    } catch (error) {
+      console.error('[FlashcardManager.syncDeckToFirebase] Error syncing deck:', error);
+      return false;
+    }
   }
 
   // Get deck limits for user tier
