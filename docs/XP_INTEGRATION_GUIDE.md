@@ -1,10 +1,12 @@
 # XP Integration Guide for Moshimoshi Features
 
+> ⚠️ **UPDATE (2025-01-26)**: This document has been updated to use the new unified stats system. For details, see [User Stats Migration Documentation](/docs/user-stats-migration/README.md).
+
 ## Overview
-This document provides the definitive guide for integrating XP (Experience Points) into new and existing features. All XP awards MUST go through the centralized system to maintain a single source of truth.
+This document provides the definitive guide for integrating XP (Experience Points) into new and existing features. All XP awards MUST go through the unified stats system to maintain a single source of truth.
 
 ## Core Principles
-1. **Single Source of Truth**: All XP flows through `/api/xp/track`
+1. **Single Source of Truth**: All XP flows through `/api/stats/unified` endpoint
 2. **Idempotency**: Each XP award must have a unique identifier
 3. **Source Tracking**: Every XP award must identify its origin
 4. **User Context**: XP can only be awarded to authenticated users
@@ -30,21 +32,20 @@ type XPEventType =
 
 ### 1. Basic XP Award (Client-Side)
 
-**Use the `useXP` hook for all client-side XP awards:**
+**Use the `useUserStats` hook for all client-side XP awards:**
 
 ```typescript
-import { useXP } from '@/hooks/useXP'
+import { useUserStats } from '@/hooks/useUserStats'
 
 export function YourFeatureComponent() {
-  const { trackXP } = useXP()
+  const { addXP } = useUserStats()
 
   const handleFeatureComplete = async () => {
-    // Award XP with idempotency key
-    await trackXP(
-      'lesson_completed',        // Event type
-      50,                        // XP amount
-      'Japanese Basics Lesson',  // Human-readable source
-      {
+    // Award XP through unified stats
+    await addXP(50, {
+      source: 'Japanese Basics Lesson',
+      eventType: 'lesson_completed',
+      metadata: {
         // Required: Idempotency key (use session/activity ID)
         idempotencyKey: `lesson_${lessonId}_${timestamp}`,
 
@@ -56,7 +57,7 @@ export function YourFeatureComponent() {
         duration: completionTime,
         accuracy: accuracyPercentage
       }
-    )
+    })
   }
 }
 ```
@@ -83,12 +84,13 @@ const completeSession = async () => {
     xpAmount += 10
   }
 
-  // Award with session context
-  await trackXP(
-    'review_completed',
-    xpAmount,
-    'Kanji Review Session',
-    {
+  // Award with session context using unified stats
+  const { addXP } = useUserStats()
+
+  await addXP(xpAmount, {
+    source: 'Kanji Review Session',
+    eventType: 'review_completed',
+    metadata: {
       idempotencyKey: `session_${sessionId}`,
       feature: 'review',
       sessionId: sessionId,
@@ -98,7 +100,7 @@ const completeSession = async () => {
       accuracy: accuracy,
       duration: sessionDuration
     }
-  )
+  })
 }
 ```
 
@@ -108,19 +110,20 @@ const completeSession = async () => {
 
 ```typescript
 const unlockAchievement = async (achievement: Achievement) => {
+  const { addXP } = useUserStats()
+
   // Use achievement ID as idempotency key
-  await trackXP(
-    'achievement_unlocked',
-    achievement.xpReward,
-    achievement.name,
-    {
+  await addXP(achievement.xpReward, {
+    source: achievement.name,
+    eventType: 'achievement_unlocked',
+    metadata: {
       idempotencyKey: `achievement_${achievement.id}_${userId}`,
       feature: 'achievements',
       achievementId: achievement.id,
       achievementCategory: achievement.category,
       rarity: achievement.rarity
     }
-  )
+  })
 }
 ```
 
@@ -128,19 +131,19 @@ const unlockAchievement = async (achievement: Achievement) => {
 
 ```typescript
 const awardStreakBonus = async (streakDays: number) => {
+  const { addXP } = useUserStats()
   const xpAmount = calculateStreakBonus(streakDays)
 
-  await trackXP(
-    'streak_bonus',
-    xpAmount,
-    `${streakDays} Day Streak`,
-    {
+  await addXP(xpAmount, {
+    source: `${streakDays} Day Streak`,
+    eventType: 'streak_bonus',
+    metadata: {
       idempotencyKey: `streak_${streakDays}_${dateString}`,
       feature: 'streaks',
       streakDays: streakDays,
       milestone: getStreakMilestone(streakDays)
     }
-  )
+  })
 }
 
 function calculateStreakBonus(days: number): number {
@@ -156,13 +159,10 @@ function calculateStreakBonus(days: number): number {
 
 ### 5. Server-Side XP Award
 
-**For server-side features, call the API directly:**
+**For server-side features, use the unified API or UserStatsService:**
 
 ```typescript
-// In API route or server function
-import { adminDb } from '@/lib/firebase/admin'
-import { FieldValue } from 'firebase-admin/firestore'
-
+// Option 1: Call unified API endpoint
 async function awardXPServerSide(
   userId: string,
   xpData: {
@@ -172,48 +172,42 @@ async function awardXPServerSide(
     metadata: any
   }
 ) {
-  // Check for idempotency
-  const idempotencyKey = xpData.metadata.idempotencyKey
-  if (!idempotencyKey) {
-    throw new Error('Idempotency key required')
-  }
-
-  // Check if already processed
-  const existingEntry = await adminDb
-    .collection('users')
-    .doc(userId)
-    .collection('xp_history')
-    .where('idempotencyKey', '==', idempotencyKey)
-    .limit(1)
-    .get()
-
-  if (!existingEntry.empty) {
-    console.log(`XP already awarded for key: ${idempotencyKey}`)
-    return existingEntry.docs[0].data()
-  }
-
-  // Award new XP
-  const batch = adminDb.batch()
-  const userRef = adminDb.collection('users').doc(userId)
-
-  // Update total XP
-  batch.update(userRef, {
-    'progress.totalXp': FieldValue.increment(xpData.amount),
-    'progress.lastXpGain': xpData.amount,
-    'progress.updatedAt': FieldValue.serverTimestamp()
+  const response = await fetch(`${baseUrl}/api/stats/unified`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // Include auth headers as needed
+    },
+    body: JSON.stringify({
+      type: 'xp',
+      data: {
+        add: xpData.amount,
+        source: xpData.source,
+        metadata: xpData.metadata
+      }
+    })
   })
 
-  // Add to history with idempotency key
-  const historyRef = userRef.collection('xp_history').doc()
-  batch.set(historyRef, {
-    ...xpData,
-    idempotencyKey: idempotencyKey,
-    timestamp: FieldValue.serverTimestamp(),
-    userId: userId
-  })
+  if (!response.ok) {
+    throw new Error('Failed to award XP')
+  }
 
-  await batch.commit()
-  return { success: true, xpAwarded: xpData.amount }
+  return await response.json()
+}
+
+// Option 2: Use UserStatsService directly (server-side only)
+import { UserStatsService } from '@/lib/services/UserStatsService'
+
+async function awardXPDirectly(userId: string, amount: number, metadata: any) {
+  const service = UserStatsService.getInstance()
+
+  // Check idempotency if needed
+  const stats = await service.getUserStats(userId)
+
+  // Add XP through the service
+  await service.addXP(userId, amount, metadata)
+
+  return { success: true, xpAwarded: amount }
 }
 ```
 
@@ -286,32 +280,30 @@ interface RequiredXPMetadata {
 ```typescript
 // Test helper for XP integration
 export async function testXPAward() {
-  const { trackXP } = useXP()
+  const { addXP } = useUserStats()
 
   // Test idempotency
   const testKey = `test_${Date.now()}`
 
   // First award should succeed
-  const result1 = await trackXP(
-    'review_completed',
-    100,
-    'Test Review',
-    {
+  const result1 = await addXP(100, {
+    source: 'Test Review',
+    eventType: 'review_completed',
+    metadata: {
       idempotencyKey: testKey,
       feature: 'test'
     }
-  )
+  })
 
   // Second award with same key should be ignored
-  const result2 = await trackXP(
-    'review_completed',
-    100,
-    'Test Review',
-    {
+  const result2 = await addXP(100, {
+    source: 'Test Review',
+    eventType: 'review_completed',
+    metadata: {
       idempotencyKey: testKey,
       feature: 'test'
     }
-  )
+  })
 
   // Verify only one award was processed
   console.assert(result1.xpAwarded === 100)
@@ -324,15 +316,19 @@ export async function testXPAward() {
 ### ❌ DON'T: Award XP without idempotency key
 ```typescript
 // BAD - Can result in duplicate XP
-await trackXP('review_completed', 50, 'Review', {})
+await addXP(50, { source: 'Review' })
 ```
 
 ### ✅ DO: Always include idempotency key
 ```typescript
 // GOOD - Prevents duplicates
-await trackXP('review_completed', 50, 'Review', {
-  idempotencyKey: `review_${sessionId}`,
-  feature: 'review'
+await addXP(50, {
+  source: 'Review',
+  eventType: 'review_completed',
+  metadata: {
+    idempotencyKey: `review_${sessionId}`,
+    feature: 'review'
+  }
 })
 ```
 
@@ -357,35 +353,32 @@ updateDatabase('xp', totalXP)
 setState(totalXP)
 ```
 
-### ✅ DO: Use single API endpoint
+### ✅ DO: Use unified stats system
 ```typescript
 // GOOD - Single source of truth
-await trackXP(...) // This handles everything
+await addXP(...) // This goes through unified stats
 ```
 
 ## Debugging XP Issues
 
 ### Check XP History
 ```typescript
-// Get user's XP history from Firebase
-const history = await adminDb
-  .collection('users')
-  .doc(userId)
-  .collection('xp_history')
-  .orderBy('timestamp', 'desc')
-  .limit(20)
-  .get()
+// Get user's XP from unified stats
+import { UserStatsService } from '@/lib/services/UserStatsService'
 
-history.docs.forEach(doc => {
-  const data = doc.data()
-  console.log({
-    source: data.source,
-    feature: data.feature,
-    amount: data.xpGained,
-    idempotencyKey: data.idempotencyKey,
-    timestamp: data.timestamp
-  })
+const service = UserStatsService.getInstance()
+const stats = await service.getUserStats(userId)
+
+console.log({
+  totalXP: stats.xp.total,
+  currentLevel: stats.xp.level,
+  weeklyXP: stats.xp.weeklyXP,
+  monthlyXP: stats.xp.monthlyXP,
+  lastUpdated: stats.metadata.lastUpdated
 })
+
+// For detailed history, check the XP events in your app logs
+// or implement a separate audit log if needed
 ```
 
 ### Monitor XP Events
@@ -405,10 +398,11 @@ if (process.env.NODE_ENV === 'development') {
 
 ## Summary
 
-1. **Always use `useXP().trackXP()`** for client-side XP awards
-2. **Always include `idempotencyKey`** to prevent duplicates
-3. **Always specify `feature`** for tracking and debugging
-4. **Never store XP** outside the centralized system
+1. **Always use `useUserStats().addXP()`** for client-side XP awards
+2. **Always include `idempotencyKey`** in metadata to prevent duplicates
+3. **Always specify `feature`** in metadata for tracking and debugging
+4. **Never store XP** outside the unified stats system
 5. **Never calculate XP** without using the standard formulas
+6. **Use `/api/stats/unified`** for all server-side XP operations
 
 By following this guide, all new features will properly integrate with the XP system while maintaining data integrity and preventing duplicate awards.

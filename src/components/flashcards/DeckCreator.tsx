@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Upload, FileText, Package, Sparkles, ChevronRight, Save, Trash2 } from 'lucide-react';
+import { X, Plus, Upload, FileText, Package, Sparkles, ChevronRight, Save, Trash2, List } from 'lucide-react';
 import type { CreateDeckRequest, FlashcardContent, CardSide, CardStyle } from '@/types/flashcards';
 import type { UserList } from '@/types/userLists';
 import { useI18n } from '@/i18n/I18nContext';
@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { DECK_COLORS, SUGGESTED_DECK_EMOJIS } from '@/types/flashcards';
 import { AnkiImportModal } from '@/components/anki/AnkiImportModal';
 import { listManager } from '@/lib/lists/ListManager';
+import { useRouter } from 'next/navigation';
 
 interface DeckCreatorProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ export function DeckCreator({
   editDeck
 }: DeckCreatorProps) {
   const { t } = useI18n();
+  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [step, setStep] = useState<'source' | 'details' | 'cards'>('source');
@@ -45,6 +47,7 @@ export function DeckCreator({
   const [selectedEmoji, setSelectedEmoji] = useState(editDeck?.emoji || '🎴');
   const [selectedColor, setSelectedColor] = useState<string>(editDeck?.color || 'primary');
   const [cardStyle, setCardStyle] = useState<CardStyle>(editDeck?.cardStyle || 'minimal');
+  const [sessionLength, setSessionLength] = useState<number>(editDeck?.settings?.sessionLength || 20);
 
   // Cards - initialize with editDeck cards if editing
   const [cards, setCards] = useState<Array<{ front: string; back: string; notes?: string }>>(editDeck?.cards?.map((card: any) => ({
@@ -63,12 +66,18 @@ export function DeckCreator({
   }, [editDeck, isOpen]);
 
   const handleImportSource = (source: ImportSource) => {
+    // Redirect free users to pricing for premium features
+    if ((source === 'anki' || source === 'csv') && !isPremium) {
+      router.push('/pricing');
+      return;
+    }
+
     setImportSource(source);
     if (source === 'anki') {
       setShowAnkiImport(true);
     } else if (source === 'scratch') {
       setStep('details');
-    } else if (source === 'list' && userLists.length > 0) {
+    } else if (source === 'list') {
       setStep('details');
     } else if (source === 'csv') {
       fileInputRef.current?.click();
@@ -165,7 +174,7 @@ export function DeckCreator({
         animationSpeed: 'normal',
         soundEffects: true,
         hapticFeedback: true,
-        sessionLength: 20,
+        sessionLength: sessionLength,
         reviewMode: 'srs'
       },
       sourceListId: importSource === 'list' ? selectedListId : undefined,
@@ -188,6 +197,7 @@ export function DeckCreator({
     setSelectedEmoji('🎴');
     setSelectedColor('primary');
     setCardStyle('minimal');
+    setSessionLength(20);
     setCards([]);
     setCurrentCard({ front: '', back: '', notes: '' });
     setSelectedListId('');
@@ -277,37 +287,61 @@ export function DeckCreator({
 
                     <button
                       onClick={() => handleImportSource('anki')}
-                      className="p-4 sm:p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600 transition-all group flex flex-col items-center text-center"
+                      className={cn(
+                        "p-4 sm:p-6 rounded-xl border-2 transition-all group flex flex-col items-center text-center relative",
+                        !isPremium
+                          ? "border-gray-200 dark:border-gray-700 opacity-75 hover:border-orange-400 dark:hover:border-orange-600"
+                          : "border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600"
+                      )}
                     >
-                      <Package className="w-6 sm:w-8 h-6 sm:h-8 text-blue-500 mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
-                      <h3 className="font-semibold mb-1 text-sm sm:text-base">Anki</h3>
+                      <Package className={cn(
+                        "w-6 sm:w-8 h-6 sm:h-8 mb-2 sm:mb-3 group-hover:scale-110 transition-transform",
+                        isPremium ? "text-blue-500" : "text-gray-400 dark:text-gray-600"
+                      )} />
+                      <h3 className="font-semibold mb-1 text-sm sm:text-base">{t('flashcards.import.ankiTitle')}</h3>
                       <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                         {t('flashcards.import.supportedFormats')}
                       </p>
+                      {!isPremium && (
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mt-1">
+                          {t('common.premiumOnly')}
+                        </span>
+                      )}
                     </button>
 
-                    {userLists.length > 0 && (
-                      <button
-                        onClick={() => handleImportSource('list')}
-                        className="p-4 sm:p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600 transition-all group flex flex-col items-center text-center"
-                      >
-                        <FileText className="w-6 sm:w-8 h-6 sm:h-8 text-green-500 mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
-                        <h3 className="font-semibold mb-1 text-sm sm:text-base">{t('flashcards.import.fromList')}</h3>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                          {userLists.length} {t('lists.title')}
-                        </p>
-                      </button>
-                    )}
+                    <button
+                      onClick={() => handleImportSource('list')}
+                      className="p-4 sm:p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600 transition-all group flex flex-col items-center text-center"
+                    >
+                      <List className="w-6 sm:w-8 h-6 sm:h-8 text-green-500 mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
+                      <h3 className="font-semibold mb-1 text-sm sm:text-base">{t('flashcards.import.fromList')}</h3>
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                        {userLists.length > 0 ? `${userLists.length} ${t('lists.title')}` : t('flashcards.import.yourLists')}
+                      </p>
+                    </button>
 
                     <button
                       onClick={() => handleImportSource('csv')}
-                      className="p-4 sm:p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600 transition-all group flex flex-col items-center text-center"
+                      className={cn(
+                        "p-4 sm:p-6 rounded-xl border-2 transition-all group flex flex-col items-center text-center relative",
+                        !isPremium
+                          ? "border-gray-200 dark:border-gray-700 opacity-75 hover:border-orange-400 dark:hover:border-orange-600"
+                          : "border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600"
+                      )}
                     >
-                      <Upload className="w-6 sm:w-8 h-6 sm:h-8 text-purple-500 mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
-                      <h3 className="font-semibold mb-1 text-sm sm:text-base">CSV</h3>
+                      <Upload className={cn(
+                        "w-6 sm:w-8 h-6 sm:h-8 mb-2 sm:mb-3 group-hover:scale-110 transition-transform",
+                        isPremium ? "text-purple-500" : "text-gray-400 dark:text-gray-600"
+                      )} />
+                      <h3 className="font-semibold mb-1 text-sm sm:text-base">{t('flashcards.import.csvTitle')}</h3>
                       <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                         {t('flashcards.import.csv')}
                       </p>
+                      {!isPremium && (
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mt-1">
+                          {t('common.premiumOnly')}
+                        </span>
+                      )}
                     </button>
                   </div>
                 )}
@@ -413,8 +447,44 @@ export function DeckCreator({
                       </div>
                     </div>
 
+                    {/* Session Length */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        {t('flashcards.settings.sessionLength')}
+                      </label>
+                      <div className="flex items-center gap-4">
+                        <input
+                          type="range"
+                          min="5"
+                          max="100"
+                          value={sessionLength}
+                          onChange={(e) => setSessionLength(Number(e.target.value))}
+                          className="flex-1"
+                        />
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="number"
+                            min="5"
+                            max="100"
+                            value={sessionLength}
+                            onChange={(e) => {
+                              const value = Math.max(5, Math.min(100, Number(e.target.value)));
+                              setSessionLength(value);
+                            }}
+                            className="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 text-center focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                          />
+                          <span className="text-sm text-gray-600 dark:text-gray-400">
+                            {t('flashcards.cards')}
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {t('flashcards.settings.sessionLengthHint')}
+                      </p>
+                    </div>
+
                     {/* List Selection (if importing from list) */}
-                    {importSource === 'list' && userLists.length > 0 && (
+                    {importSource === 'list' && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           {t('flashcards.import.selectList')}
@@ -425,12 +495,23 @@ export function DeckCreator({
                           className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         >
                           <option value="">{t('flashcards.import.selectList')}</option>
-                          {userLists.map(list => (
-                            <option key={list.id} value={list.id}>
-                              {list.emoji} {list.name} ({list.items.length} items)
+                          {userLists.length > 0 ? (
+                            userLists.map(list => (
+                              <option key={list.id} value={list.id}>
+                                {list.emoji} {list.name} ({list.items.length} items)
+                              </option>
+                            ))
+                          ) : (
+                            <option value="" disabled>
+                              {t('flashcards.import.noLists')}
                             </option>
-                          ))}
+                          )}
                         </select>
+                        {userLists.length === 0 && (
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                            {t('flashcards.import.createListFirst')}
+                          </p>
+                        )}
                       </div>
                     )}
                   </div>

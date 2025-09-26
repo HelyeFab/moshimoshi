@@ -1,0 +1,38 @@
+{
+  "accessibility": {
+    "reduceMotion": false,
+    "highContrast": false,
+    "largeText": false,
+    "screenReader": false
+  },
+  "privacy": {
+    "showProgress": true,
+    "publicProfile": false,
+    "shareAchievements": false
+  },
+  "palette": "sakura",
+  "learning": {
+    "furigana": true,
+    "hapticFeedback": true,
+    "romaji": false,
+    "autoplay": true,
+    "soundEffects": true
+  },
+  "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
+  "notifications": {
+    "achievementAlerts": true,
+    "weeklyProgress": false,
+    "dailyReminder": true,
+    "marketingEmails": false
+  },
+  "theme": "light",
+  "language": "en",
+  "syncedAt": {
+    "_seconds": 1758731080,
+    "_nanoseconds": 711000000
+  },
+  "updatedAt": {
+    "_seconds": 1758731080,
+    "_nanoseconds": 711000000
+  }
+}

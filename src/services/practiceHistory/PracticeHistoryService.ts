@@ -2,6 +2,23 @@ import { PracticeHistoryItem } from './types';
 import { IndexedDBPracticeHistoryStorage } from './IndexedDBStorage';
 import { FirebasePracticeHistoryStorage } from './FirebaseStorage';
 
+/**
+ * Practice History Service
+ *
+ * IMPORTANT: INTENTIONAL DUAL STORAGE EXCEPTION
+ *
+ * This service writes to Firebase for ALL authenticated users (both free and premium),
+ * not just premium users. This is an INTENTIONAL DESIGN DECISION, not a violation of
+ * the dual storage pattern.
+ *
+ * Reasons for Firebase writes for all users:
+ * 1. Practice history data contributes to the global leaderboard feature
+ * 2. All users need to participate in the leaderboard for fair competition
+ * 3. This is similar to the leaderboard_stats collection pattern
+ * 4. The data volume is minimal and acceptable for the leaderboard feature
+ *
+ * This exception is approved and necessary for the competitive features of the app.
+ */
 export class PracticeHistoryService {
   private indexedDBStorage: IndexedDBPracticeHistoryStorage;
   private firebaseStorage: FirebasePracticeHistoryStorage | null = null;
@@ -29,7 +46,8 @@ export class PracticeHistoryService {
     // Initialize IndexedDB for all users
     await this.indexedDBStorage.init();
 
-    // Initialize Firebase for all authenticated users (free and premium)
+    // Initialize Firebase for ALL authenticated users (both free and premium)
+    // NOTE: This is intentional for leaderboard participation - see class documentation
     if (userId) {
       this.userId = userId;
       this.firebaseStorage = new FirebasePracticeHistoryStorage(userId);

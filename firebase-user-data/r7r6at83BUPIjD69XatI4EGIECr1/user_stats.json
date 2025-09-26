@@ -1,0 +1,67 @@
+{
+  "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
+  "email": "emmanuelfabiani23@gmail.com",
+  "displayName": "Beano",
+  "photoURL": "https://storage.googleapis.com/moshimoshi-de237.firebasestorage.app/avatars/r7r6at83BUPIjD69XatI4EGIECr1_1758796117421.jpeg",
+  "tier": "premium",
+  "streak": {
+    "current": 1,
+    "best": 1,
+    "dates": {
+      "2025-09-23": true,
+      "2025-09-25": true
+    },
+    "lastActivityDate": "2025-09-25",
+    "isActiveToday": false,
+    "streakAtRisk": false
+  },
+  "xp": {
+    "total": 0,
+    "level": 1,
+    "levelTitle": "Beginner",
+    "weeklyXP": 0,
+    "monthlyXP": 0,
+    "xpToNextLevel": 100,
+    "xpGainedToday": 0
+  },
+  "achievements": {
+    "totalPoints": 75,
+    "unlockedCount": 3,
+    "unlockedIds": [
+      "first-step",
+      "sharpshooter",
+      "consistent-performer"
+    ],
+    "completionPercentage": 15,
+    "byCategory": {}
+  },
+  "sessions": {
+    "totalSessions": 8,
+    "totalItemsReviewed": 28,
+    "averageAccuracy": 0,
+    "totalStudyTimeMinutes": 0,
+    "todaySessions": 0,
+    "weekSessions": 0,
+    "monthSessions": 0
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "syncStatus": "synced",
+    "dataHealth": "healthy",
+    "migratedFrom": [
+      "users",
+      "leaderboard_stats",
+      "achievements",
+      "statistics"
+    ],
+    "migrationDate": "2025-09-26T11:00:07.707Z",
+    "createdAt": {
+      "_seconds": 1758884407,
+      "_nanoseconds": 752000000
+    },
+    "lastUpdated": {
+      "_seconds": 1758884407,
+      "_nanoseconds": 752000000
+    }
+  }
+}

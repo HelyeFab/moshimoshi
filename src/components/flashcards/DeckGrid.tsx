@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw, Settings, Settings2, ChevronDown, MoreVertical, Sliders } from 'lucide-react';
 import type { FlashcardDeck } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
@@ -17,6 +17,7 @@ interface DeckGridProps {
   onExportDeck?: (deck: FlashcardDeck) => void;
   onStudyDeck?: (deck: FlashcardDeck) => void;
   onSyncDeck?: (deck: FlashcardDeck) => void;
+  onSessionSettings?: (deck: FlashcardDeck) => void;
   showStats?: boolean;
   gridCols?: 2 | 3 | 4;
   isPremium?: boolean;
@@ -31,11 +32,25 @@ export function DeckGrid({
   onExportDeck,
   onStudyDeck,
   onSyncDeck,
+  onSessionSettings,
   showStats = true,
   gridCols = 3,
   isPremium = false
 }: DeckGridProps) {
   const { t } = useI18n();
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (openMenuId !== null) {
+        setOpenMenuId(null);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openMenuId]);
 
   const getColorClasses = (color: string) => {
     const colors: Record<string, string> = {
@@ -52,9 +67,14 @@ export function DeckGrid({
   const getDueCount = (deck: FlashcardDeck) => {
     // Calculate cards due for review
     const now = Date.now();
-    return deck.cards.filter(card =>
-      card.metadata?.nextReview && card.metadata.nextReview <= now
-    ).length;
+    return deck.cards.filter(card => {
+      // New cards are always due
+      if (!card.metadata?.status || card.metadata.status === 'new') {
+        return true;
+      }
+      // Check if card's next review time has passed
+      return card.metadata?.nextReview && card.metadata.nextReview <= now;
+    }).length;
   };
 
   const containerVariants = {
@@ -152,44 +172,122 @@ export function DeckGrid({
               )}>
                 <span className="text-4xl">{deck.emoji}</span>
 
-                {/* Action Buttons */}
-                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {onStudyDeck && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onStudyDeck(deck); }}
-                      className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors"
-                      aria-label={t('flashcards.startStudying')}
-                    >
-                      <Play className="w-4 h-4 text-white" />
-                    </button>
-                  )}
-                  {onEditDeck && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onEditDeck(deck); }}
-                      className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors"
-                      aria-label={t('flashcards.editDeck')}
-                    >
-                      <Edit2 className="w-4 h-4 text-white" />
-                    </button>
-                  )}
-                  {onExportDeck && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onExportDeck(deck); }}
-                      className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors"
-                      aria-label={t('flashcards.export.title')}
-                    >
-                      <Download className="w-4 h-4 text-white" />
-                    </button>
-                  )}
-                  {onDeleteDeck && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onDeleteDeck(deck); }}
-                      className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors"
-                      aria-label={t('flashcards.deleteDeck')}
-                    >
-                      <Trash2 className="w-4 h-4 text-white" />
-                    </button>
-                  )}
+                {/* Settings Menu Button - Always Visible */}
+                <div className="absolute top-2 right-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenMenuId(openMenuId === deck.id ? null : deck.id);
+                    }}
+                    className="p-2 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors"
+                    aria-label={t('common.settings')}
+                  >
+                    <Settings className="w-4 h-4 text-white" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  <AnimatePresence>
+                    {openMenuId === deck.id && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 mt-2 w-56 rounded-lg bg-white dark:bg-dark-800 shadow-xl border border-gray-200 dark:border-dark-700 py-2 z-50"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {/* Study Options */}
+                        {onStudyDeck && (
+                          <button
+                            onClick={() => {
+                              onStudyDeck(deck);
+                              setOpenMenuId(null);
+                            }}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
+                          >
+                            <Play className="w-4 h-4" />
+                            {t('flashcards.startStudying')}
+                          </button>
+                        )}
+
+                        {onSessionSettings && (
+                          <button
+                            onClick={() => {
+                              onSessionSettings(deck);
+                              setOpenMenuId(null);
+                            }}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
+                          >
+                            <Sliders className="w-4 h-4" />
+                            {t('flashcards.settings.quickSettings')}
+                          </button>
+                        )}
+
+                        <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
+
+                        {/* Management Options */}
+                        {onEditDeck && (
+                          <button
+                            onClick={() => {
+                              onEditDeck(deck);
+                              setOpenMenuId(null);
+                            }}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                            {t('flashcards.editDeck')}
+                          </button>
+                        )}
+
+                        {onExportDeck && (
+                          <button
+                            onClick={() => {
+                              onExportDeck(deck);
+                              setOpenMenuId(null);
+                            }}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
+                          >
+                            <Download className="w-4 h-4" />
+                            {t('flashcards.export.title')}
+                          </button>
+                        )}
+
+                        {/* Premium Sync Option */}
+                        {isPremium && onSyncDeck && (
+                          <>
+                            <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
+                            <button
+                              onClick={() => {
+                                onSyncDeck(deck);
+                                setOpenMenuId(null);
+                              }}
+                              className="w-full px-4 py-2 text-left text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors flex items-center gap-3"
+                            >
+                              <RefreshCw className="w-4 h-4" />
+                              {t('flashcards.syncToCloud')}
+                            </button>
+                          </>
+                        )}
+
+                        {/* Delete Option */}
+                        {onDeleteDeck && (
+                          <>
+                            <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
+                            <button
+                              onClick={() => {
+                                onDeleteDeck(deck);
+                                setOpenMenuId(null);
+                              }}
+                              className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-3"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                              {t('flashcards.deleteDeck')}
+                            </button>
+                          </>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Due Badge */}
@@ -262,20 +360,6 @@ export function DeckGrid({
                   )}
                 </div>
 
-                {/* Sync Button for Premium Users */}
-                {isPremium && onSyncDeck && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSyncDeck(deck);
-                    }}
-                    className="absolute bottom-3 right-3 p-2 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-gray-700 dark:text-gray-200 shadow-md hover:shadow-lg transition-all group/sync"
-                    aria-label="Sync to Firebase"
-                    title="Sync to Firebase"
-                  >
-                    <RefreshCw className="w-4 h-4 group-hover/sync:rotate-180 transition-transform duration-500" />
-                  </button>
-                )}
               </div>
             </div>
           </motion.div>

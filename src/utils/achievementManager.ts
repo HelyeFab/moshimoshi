@@ -217,9 +217,8 @@ class AchievementManager extends EventEmitter {
       this.syncStatus.pendingChanges = false
       this.emit('sync.status', this.syncStatus)
 
-      const endpoint = docType === 'data'
-        ? '/api/achievements/data'
-        : '/api/achievements/activities'
+      // Use unified API for all stats
+      const endpoint = '/api/stats/unified'
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -227,10 +226,29 @@ class AchievementManager extends EventEmitter {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({
-          ...data,
-          lastUpdated: new Date().toISOString()
-        })
+        body: JSON.stringify(
+          docType === 'data' ? {
+            type: 'achievement',
+            data: {
+              unlockedIds: data.unlocked || [],
+              totalPoints: data.totalPoints || 0,
+              statistics: data.statistics || {},
+              xp: {
+                total: data.totalXp || 0,
+                level: data.currentLevel || 1
+              },
+              sessionsCompleted: data.lessonsCompleted || 0
+            }
+          } : {
+            type: 'streak',
+            data: {
+              dates: data.dates || {},
+              current: data.currentStreak || 0,
+              best: data.bestStreak || 0,
+              lastActivityTimestamp: data.lastActivity || Date.now()
+            }
+          }
+        )
       })
 
       if (!response.ok) {
@@ -263,9 +281,8 @@ class AchievementManager extends EventEmitter {
     docType: 'data' | 'activities'
   ): Promise<AchievementData | ActivityData | null> {
     try {
-      const endpoint = docType === 'data'
-        ? '/api/achievements/data'
-        : '/api/achievements/activities'
+      // Use unified API for all stats
+      const endpoint = '/api/stats/unified'
 
       logger.api(`Fetching from ${endpoint}`)
 
@@ -296,7 +313,25 @@ class AchievementManager extends EventEmitter {
         return null
       }
 
-      return data as AchievementData | ActivityData
+      // Transform unified API response to legacy format
+      const transformedData = docType === 'data' ? {
+        unlocked: data.stats?.achievements?.unlockedIds || [],
+        totalPoints: data.stats?.achievements?.totalPoints || 0,
+        totalXp: data.stats?.xp?.total || 0,
+        currentLevel: data.stats?.xp?.level || 1,
+        lessonsCompleted: data.stats?.sessions?.totalSessions || 0,
+        statistics: data.stats?.achievements?.statistics || {},
+        lastUpdated: data.stats?.metadata?.lastUpdated
+      } : {
+        dates: data.stats?.streak?.dates || {},
+        currentStreak: data.stats?.streak?.current || 0,
+        bestStreak: data.stats?.streak?.best || 0,
+        lastActivity: data.stats?.streak?.lastActivityTimestamp || 0,
+        isActiveToday: data.stats?.streak?.isActiveToday || false,
+        lastActivityDate: data.stats?.streak?.lastActivityDate
+      }
+
+      return transformedData as AchievementData | ActivityData
     } catch (error) {
       console.error('[AchievementManager] Error loading from Firebase:', error)
       throw error

@@ -38,6 +38,7 @@ export const strings = {
     retry: "Retry",
     free: "FREE",
     premium: "PREMIUM",
+    premiumOnly: "Premium Only",
     guest: "GUEST",
     creating: "Creating...",
     saving: "Saving...",
@@ -48,6 +49,8 @@ export const strings = {
     theme: "Theme",
     complete: "Complete",
     completed: "Completed",
+    correct: "Correct",
+    incorrect: "Incorrect",
     search: "Search",
     allLevels: "All Levels",
     newest: "Newest",
@@ -3125,9 +3128,17 @@ export const strings = {
       supportedFormats: "Supported: CSV, JSON, Anki (.apkg)",
       fromList: "Create from List",
       selectList: "Select a list",
+      yourLists: "Your lists",
+      noLists: "No lists available",
+      createListFirst: "Create a list first to import it as a deck",
       importing: "Importing...",
       success: "Imported {{count}} cards",
-      error: "Failed to import deck"
+      error: "Failed to import deck",
+      anki: "Anki Import",
+      ankiTitle: "Anki",
+      csv: "Import CSV file",
+      csvTitle: "CSV",
+      csvDescription: "Import CSV file"
     },
 
     export: {
@@ -3173,6 +3184,9 @@ export const strings = {
       unlimited: "Unlimited decks"
     },
 
+    // Sync
+    syncToCloud: "Sync to Cloud",
+
     // Tooltips
     tooltips: {
       srs: "Uses spaced repetition for optimal learning",
@@ -3203,6 +3217,34 @@ export const strings = {
       imported: "Deck imported successfully",
       exported: "Deck exported successfully"
     },
+
+    // Session Settings
+    settings: {
+      sessionLength: "Cards per Session",
+      sessionLengthHint: "Choose how many cards to study in this session",
+      quickSettings: "Quick Settings",
+      reviewMode: "Review Mode",
+      sequential: "Sequential",
+      random: "Random",
+      smart: "Smart",
+      studyDirection: "Study Direction",
+      frontToBack: "Front → Back",
+      frontToBackDesc: "Show front side first",
+      backToFront: "Back → Front",
+      backToFrontDesc: "Show back side first",
+      mixed: "Mixed",
+      mixedDesc: "Random direction for each card",
+      usingAllCards: "Using all available cards"
+    },
+
+    // Actions
+    actions: {
+      syncAll: "Sync All",
+      exportAll: "Export All"
+    },
+
+    // Study Session
+    startSession: "Start Session",
 
     // Statistics
     showStats: "Show Statistics",

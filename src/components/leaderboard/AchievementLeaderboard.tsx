@@ -38,6 +38,7 @@ export interface LeaderboardEntry {
   subscription?: string
   change?: 'up' | 'down' | 'same' // Position change from last period
   changeAmount?: number
+  totalScore?: number // Combined score used for ranking
 }
 
 interface LeaderboardProps {
@@ -126,8 +127,8 @@ const LeaderboardRow = ({ entry, index }: { entry: LeaderboardEntry, index: numb
         className="p-3 sm:p-4 cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex items-center justify-between">
-          {/* Left Section: Rank & User Info */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+          {/* Top Row on mobile, Left Section on desktop: Rank & User Info */}
           <div className="flex items-center space-x-2 sm:space-x-4">
             <RankBadge rank={entry.rank} />
 
@@ -167,19 +168,9 @@ const LeaderboardRow = ({ entry, index }: { entry: LeaderboardEntry, index: numb
             </div>
           </div>
 
-          {/* Right Section: Stats - Compact on mobile */}
-          <div className="flex items-center space-x-2 sm:space-x-6">
-            {/* Combined Achievements & Points on mobile, separate on desktop */}
-            <div className="sm:hidden text-center">
-              <div className="text-sm font-bold text-primary-600 dark:text-primary-400">
-                {entry.totalPoints.toLocaleString()}
-              </div>
-              <div className="text-[10px] text-gray-500">
-                {entry.achievementCount} 🏆
-              </div>
-            </div>
-
-            {/* Desktop: Separate columns */}
+          {/* Bottom Row on mobile, Right Section on desktop: Stats Grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-3 ml-auto w-full sm:w-auto sm:max-w-[320px]">
+            {/* Achievements - Hidden on mobile */}
             <div className="hidden sm:block text-center">
               <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
                 {entry.achievementCount}
@@ -187,23 +178,42 @@ const LeaderboardRow = ({ entry, index }: { entry: LeaderboardEntry, index: numb
               <div className="text-xs text-gray-500">Achievements</div>
             </div>
 
-            <div className="hidden sm:block text-center">
-              <div className="text-lg font-bold text-primary-600 dark:text-primary-400">
-                {entry.totalPoints.toLocaleString()}
+            {/* Points */}
+            <div className="text-center">
+              <div className="text-sm sm:text-lg font-bold text-primary-600 dark:text-primary-400">
+                {entry.totalPoints}
               </div>
-              <div className="text-xs text-gray-500">Points</div>
+              <div className="text-[10px] sm:text-xs text-gray-500">
+                <span className="hidden sm:inline">Points</span>
+                <span className="sm:hidden">Pts</span>
+              </div>
             </div>
 
-            {/* Streak - Compact on mobile */}
-            {(entry.currentStreak || entry.streak || 0) > 0 && (
-              <div className="text-center">
-                <div className="text-sm sm:text-lg font-bold text-orange-500 flex items-center justify-center">
-                  <span className="text-xs sm:text-base">🔥</span>
-                  <span className="ml-0.5">{entry.currentStreak || entry.streak}</span>
-                </div>
-                <div className="text-[10px] sm:text-xs text-gray-500 hidden sm:block">Streak</div>
+            {/* Streak - Always show for alignment */}
+            <div className="text-center">
+              <div className="text-sm sm:text-lg font-bold text-orange-500">
+                {(entry.currentStreak || entry.bestStreak || entry.streak || 0) > 0 ? (
+                  <>
+                    <span className="text-xs sm:text-base">🔥</span>
+                    <span>{entry.currentStreak || entry.bestStreak || entry.streak}</span>
+                  </>
+                ) : (
+                  <span className="text-gray-400 dark:text-gray-600">0</span>
+                )}
               </div>
-            )}
+              <div className="text-[10px] sm:text-xs text-gray-500">
+                <span className="hidden sm:inline">{entry.currentStreak > 0 ? 'Streak' : 'Best'}</span>
+                <span className="sm:hidden">Str</span>
+              </div>
+            </div>
+
+            {/* Total Score */}
+            <div className="text-center">
+              <div className="text-sm sm:text-lg font-bold text-purple-600 dark:text-purple-400">
+                {entry.totalScore || (entry.totalPoints + entry.totalXP + ((entry.bestStreak || 0) * 3))}
+              </div>
+              <div className="text-[10px] sm:text-xs text-gray-500">Score</div>
+            </div>
           </div>
         </div>
 

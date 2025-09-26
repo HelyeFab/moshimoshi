@@ -24,7 +24,16 @@ export async function GET(request: NextRequest) {
       if (isPremium) {
         const stats = await aggregateUserStats(userId)
         console.log('[GET /api/review/stats] Returning stats:', stats)
-        return NextResponse.json(stats)
+
+        // Include storage metadata for the client to know where data comes from
+        return NextResponse.json({
+          ...stats,
+          storage: {
+            location: 'both',  // Premium users use both local and cloud
+            syncEnabled: true,
+            plan: 'premium'
+          }
+        })
       }
     }
 
@@ -52,7 +61,12 @@ export async function GET(request: NextRequest) {
         vocabulary: { studied: 0, learned: 0, mastered: 0 },
         sentence: { studied: 0, learned: 0, mastered: 0 }
       },
-      message: 'Free users: stats are stored locally'
+      message: 'Free users: stats are stored locally',
+      storage: {
+        location: 'local',  // Free users use local storage only
+        syncEnabled: false,
+        plan: 'free'
+      }
     })
   } catch (error) {
     reviewLogger.error('Failed to fetch review stats:', error)
@@ -162,40 +176,40 @@ async function aggregateUserStats(userId: string) {
       }
     })
 
-    // Fetch streak data from achievements collection
-    const achievementsRef = adminDb
-      .collection('users')
-      .doc(userId)
-      .collection('achievements')
-      .doc('activities')
-    const achievementsDoc = await achievementsRef.get()
+    // Fetch user stats from unified collection
+    const userStatsRef = adminDb.collection('user_stats').doc(userId)
+    const userStatsDoc = await userStatsRef.get()
 
     let streakDays = 0
     let bestStreak = 0
-    if (achievementsDoc.exists) {
-      const achievementsData = achievementsDoc.data()
-      streakDays = achievementsData?.currentStreak || 0
-      bestStreak = achievementsData?.bestStreak || 0
-    }
-
-    // Calculate today's progress from statistics
-    const statsRef = adminDb
-      .collection('users')
-      .doc(userId)
-      .collection('statistics')
-      .doc('overall')
-    const statsDoc = await statsRef.get()
-
     let todaysProgress = 0
-    if (statsDoc.exists) {
-      const statsData = statsDoc.data()
-      // For now, we'll use the total items reviewed today
-      // This needs to be filtered by date in a real implementation
-      todaysProgress = statsData?.totalItemsReviewed || 0
-      // TODO: Filter by today's date from review_history collection
+    let totalReviewTime = 0
+    let averageAccuracy = 0.85
+
+    if (userStatsDoc.exists) {
+      const statsData = userStatsDoc.data()
+
+      // Get streak data from unified stats
+      streakDays = statsData?.streak?.current || 0
+      bestStreak = statsData?.streak?.best || 0
+
+      // Get session stats
+      todaysProgress = statsData?.sessions?.todaySessions || 0
+      totalReviewTime = statsData?.sessions?.totalStudyTimeMinutes || 0
+      averageAccuracy = (statsData?.sessions?.averageAccuracy || 85) / 100
+
+      console.log('[aggregateUserStats] Fetched from user_stats:', {
+        streakDays,
+        bestStreak,
+        todaysProgress,
+        totalReviewTime,
+        averageAccuracy
+      })
+    } else {
+      console.log('[aggregateUserStats] No user_stats document found for user:', userId)
     }
 
-    return {
+    const result = {
       totalStudied,
       totalLearned,
       totalMastered,
@@ -209,10 +223,18 @@ async function aggregateUserStats(userId: string) {
       bestStreak,
       todaysProgress,
       todaysGoal: 30,
-      totalReviewTime: 0, // Would need to aggregate from sessions
-      averageAccuracy: 0.85, // Would need to calculate from sessions
+      totalReviewTime,
+      averageAccuracy,
       contentBreakdown
     }
+
+    console.log('[aggregateUserStats] Returning stats:', {
+      streakDays: result.streakDays,
+      bestStreak: result.bestStreak,
+      totalStudied: result.totalStudied
+    })
+
+    return result
   } catch (error) {
     reviewLogger.error('Failed to aggregate stats from Firebase:', error)
     // Return default stats on error

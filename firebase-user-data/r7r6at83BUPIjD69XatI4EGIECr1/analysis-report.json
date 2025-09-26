@@ -1,0 +1,84 @@
+{
+  "summary": {
+    "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
+    "totalCollections": 8,
+    "downloadDate": "2025-09-26T12:02:42.166Z"
+  },
+  "collections": {
+    "users": {
+      "size": "201.18 KB",
+      "fields": 16,
+      "subcollections": 13
+    },
+    "leaderboard_stats": {
+      "size": "0.48 KB",
+      "fields": 13,
+      "subcollections": 0
+    },
+    "user_stats": {
+      "size": "1.13 KB",
+      "fields": 10,
+      "subcollections": 0
+    },
+    "userPreferences": {
+      "size": "0.59 KB",
+      "fields": 10,
+      "subcollections": 0
+    },
+    "pokemon": {
+      "size": "1.39 KB",
+      "fields": 6,
+      "subcollections": 0
+    },
+    "usage": {
+      "size": "0.07 KB",
+      "fields": 2,
+      "subcollections": 0
+    },
+    "drill_sessions_by_userId": {
+      "size": "3.09 KB",
+      "fields": 1,
+      "subcollections": 0
+    },
+    "logs_by_userId": {
+      "size": "0.20 KB",
+      "fields": 1,
+      "subcollections": 0
+    }
+  },
+  "duplicateData": [
+    {
+      "type": "streak",
+      "sources": [
+        "leaderboard_stats",
+        "users/achievements/activities",
+        "user_stats (NEW UNIFIED)"
+      ],
+      "recommendation": "Migrate to user_stats only"
+    },
+    {
+      "type": "xp",
+      "sources": [
+        "leaderboard_stats",
+        "users/achievements/data",
+        "user_stats (NEW UNIFIED)"
+      ],
+      "recommendation": "Migrate to user_stats only"
+    },
+    {
+      "type": "achievements",
+      "sources": [
+        "leaderboard_stats",
+        "users/achievements/data",
+        "user_stats (NEW UNIFIED)"
+      ],
+      "recommendation": "Migrate to user_stats only"
+    }
+  ],
+  "recommendations": [
+    "✅ user_stats collection exists - ready for migration",
+    "🗑️ Can remove leaderboard_stats after migration",
+    "🗑️ Can remove users/achievements subcollection after migration",
+    "🗑️ Can remove users/statistics subcollection after migration"
+  ]
+}

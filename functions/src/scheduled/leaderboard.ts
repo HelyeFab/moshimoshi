@@ -1,6 +1,8 @@
 /**
  * Scheduled Cloud Function for Leaderboard Updates
  * Runs hourly to pre-compute leaderboard snapshots for better performance
+ *
+ * UPDATED: Now reads from unified user_stats collection instead of scattered collections
  */
 
 import * as functions from 'firebase-functions';
@@ -84,19 +86,18 @@ async function buildLeaderboard(
           return null;
         }
 
-        // Fetch user's stats in parallel
-        const [activitiesDoc, xpDoc, achievementsDoc] = await Promise.all([
-          db.collection('users').doc(userId).collection('achievements').doc('activities').get(),
-          db.collection('users').doc(userId).collection('stats').doc('xp').get(),
-          db.collection('users').doc(userId).collection('achievements').doc('data').get()
-        ]);
+        // Fetch user's stats from unified collection
+        const userStatsDoc = await db.collection('user_stats').doc(userId).get();
 
-        const activitiesData = activitiesDoc.data() || {};
-        const xpData = xpDoc.data() || {};
-        const achievementsData = achievementsDoc.data() || {};
+        if (!userStatsDoc.exists) {
+          // User has no stats yet
+          return null;
+        }
 
-        // Count achievements by rarity (simplified)
-        const achievementCount = Object.keys(achievementsData.unlocked || {}).length;
+        const statsData = userStatsDoc.data() || {};
+
+        // Count achievements from unified stats
+        const achievementCount = statsData.achievements?.unlockedCount || 0;
         const rarityCount = {
           legendary: Math.floor(achievementCount * 0.02),
           epic: Math.floor(achievementCount * 0.08),
@@ -109,20 +110,20 @@ async function buildLeaderboard(
           userId,
           displayName: preferences.useAnonymousName
             ? `Anonymous Learner ${userId.slice(-4)}`
-            : userData.displayName || 'Anonymous',
-          photoURL: preferences.useAnonymousName ? undefined : userData.photoURL,
-          currentStreak: activitiesData.currentStreak || 0,
-          bestStreak: activitiesData.bestStreak || activitiesData.longestStreak || 0,
-          lastActivity: activitiesData.lastActivity || Date.now(),
-          totalXP: xpData.totalXP || 0,
-          currentLevel: xpData.currentLevel || 1,
-          weeklyXP: xpData.weeklyXP || 0,
-          monthlyXP: xpData.monthlyXP || 0,
-          achievementsUnlocked: achievementsData.unlocked || {},
-          totalPoints: achievementsData.totalPoints || 0,
+            : statsData.displayName || userData.displayName || 'Anonymous',
+          photoURL: preferences.useAnonymousName ? undefined : statsData.photoURL || userData.photoURL,
+          currentStreak: statsData.streak?.current || 0,
+          bestStreak: statsData.streak?.best || 0,
+          lastActivity: statsData.streak?.lastActivityTimestamp || Date.now(),
+          totalXP: statsData.xp?.total || 0,
+          currentLevel: statsData.xp?.level || 1,
+          weeklyXP: statsData.xp?.weeklyXP || 0,
+          monthlyXP: statsData.xp?.monthlyXP || 0,
+          achievementsUnlocked: statsData.achievements?.unlockedIds || [],
+          totalPoints: statsData.achievements?.totalPoints || 0,
           achievementCount,
           achievementRarity: rarityCount,
-          subscription: userData.subscription?.plan || 'free',
+          subscription: statsData.tier || userData.subscription?.plan || 'free',
           isPublic: true
         };
       });

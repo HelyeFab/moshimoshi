@@ -1,0 +1,223 @@
+{
+  "drill_r7r6at83BUPIjD69XatI4EGIECr1_1758809038817": {
+    "id": "drill_r7r6at83BUPIjD69XatI4EGIECr1_1758809038817",
+    "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
+    "questions": [
+      {
+        "id": "4-pastNegative-1758809038816-tt929vd61",
+        "word": {
+          "id": "4",
+          "kanji": "寝る",
+          "kana": "ねる",
+          "meaning": "to sleep",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "pastNegative",
+        "stem": "寝る_____",
+        "correctAnswer": "寝なかった",
+        "options": [
+          "寝た",
+          "寝させる",
+          "寝なかった",
+          "寝れば"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "10-teForm-1758809038817-ufuyl1s92",
+        "word": {
+          "id": "10",
+          "kanji": "飲む",
+          "kana": "のむ",
+          "meaning": "to drink",
+          "type": "Godan",
+          "jlpt": "N5"
+        },
+        "targetForm": "teForm",
+        "stem": "飲む_____",
+        "correctAnswer": "飲んで",
+        "options": [
+          "飲んで",
+          "飲まなくて",
+          "飲みたくない",
+          "飲まない"
+        ],
+        "rule": "Change ending based on verb group and add て/で"
+      },
+      {
+        "id": "5-teForm-1758809038816-65ds7k8n1",
+        "word": {
+          "id": "5",
+          "kanji": "教える",
+          "kana": "おしえる",
+          "meaning": "to teach",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "teForm",
+        "stem": "教える_____",
+        "correctAnswer": "教えて",
+        "options": [
+          "教えて",
+          "教えられる",
+          "教えました",
+          "教えた"
+        ],
+        "rule": "Remove る and add て"
+      },
+      {
+        "id": "3-politePastNegative-1758809038816-w1fhc9fh7",
+        "word": {
+          "id": "3",
+          "kanji": "起きる",
+          "kana": "おきる",
+          "meaning": "to wake up",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "politePastNegative",
+        "stem": "起きる_____",
+        "correctAnswer": "起きませんでした",
+        "options": [
+          "起きませんでした",
+          "起きたい",
+          "起きて",
+          "起きよう"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "9-pastNegative-1758809038817-tkeim4v1g",
+        "word": {
+          "id": "9",
+          "kanji": "聞く",
+          "kana": "きく",
+          "meaning": "to listen",
+          "type": "Godan",
+          "jlpt": "N5"
+        },
+        "targetForm": "pastNegative",
+        "stem": "聞く_____",
+        "correctAnswer": "聞かなかった",
+        "options": [
+          "聞きたくない",
+          "聞かなかった",
+          "聞きます",
+          "聞か"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "7-causative-1758809038816-5pqte0q43",
+        "word": {
+          "id": "7",
+          "kanji": "書く",
+          "kana": "かく",
+          "meaning": "to write",
+          "type": "Godan",
+          "jlpt": "N5"
+        },
+        "targetForm": "causative",
+        "stem": "書く_____",
+        "correctAnswer": "書かせる",
+        "options": [
+          "書かせる",
+          "書いたら",
+          "書きたくない",
+          "書きました"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "8-causative-1758809038816-klelomud8",
+        "word": {
+          "id": "8",
+          "kanji": "話す",
+          "kana": "はなす",
+          "meaning": "to speak",
+          "type": "Godan",
+          "jlpt": "N5"
+        },
+        "targetForm": "causative",
+        "stem": "話す_____",
+        "correctAnswer": "話させる",
+        "options": [
+          "話したい",
+          "話します",
+          "話させる",
+          "話せば"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "1-present-1758809038815-nrsqkjp73",
+        "word": {
+          "id": "1",
+          "kanji": "食べる",
+          "kana": "たべる",
+          "meaning": "to eat",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "present",
+        "stem": "食べる_____",
+        "correctAnswer": "食べる",
+        "options": [
+          "食べれば",
+          "食べる",
+          "食べたら",
+          "食べた"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "6-polite-1758809038816-lhpuqbqzk",
+        "word": {
+          "id": "6",
+          "kanji": "読む",
+          "kana": "よむ",
+          "meaning": "to read",
+          "type": "Godan",
+          "jlpt": "N5"
+        },
+        "targetForm": "polite",
+        "stem": "読む_____",
+        "correctAnswer": "読みます",
+        "options": [
+          "読みます",
+          "読め",
+          "読まなくて",
+          "読みませんでした"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "2-volitional-1758809038816-epv5xo7ju",
+        "word": {
+          "id": "2",
+          "kanji": "見る",
+          "kana": "みる",
+          "meaning": "to see",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "volitional",
+        "stem": "見る_____",
+        "correctAnswer": "見よう",
+        "options": [
+          "見た",
+          "見させない",
+          "見なかった",
+          "見よう"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      }
+    ],
+    "currentQuestionIndex": 0,
+    "score": 0,
+    "startedAt": "2025-09-25T14:03:58.744Z",
+    "mode": "random",
+    "wordTypeFilter": "all"
+  }
+}

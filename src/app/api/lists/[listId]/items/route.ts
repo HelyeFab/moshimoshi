@@ -2,7 +2,36 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import { v4 as uuidv4 } from 'uuid';
-import type { ListItem } from '@/types/userLists';
+import type { ListItem, ListType } from '@/types/userLists';
+
+/**
+ * Normalize content for duplicate comparison based on list type
+ */
+function normalizeForComparison(content: string, type: ListType): string {
+  let normalized = content.trim().toLowerCase();
+
+  if (type === 'sentence') {
+    // Remove common punctuation and normalize spaces for sentences
+    normalized = normalized
+      .replace(/[。、！？.,!?\s]+/g, ' ') // Replace punctuation and spaces with single space
+      .trim()
+      .replace(/\s+/g, ' '); // Ensure only single spaces
+  }
+
+  return normalized;
+}
+
+/**
+ * Check if content already exists in the list
+ */
+function isDuplicate(newContent: string, existingItems: ListItem[], type: ListType): boolean {
+  const normalizedNew = normalizeForComparison(newContent, type);
+
+  return existingItems.some(item => {
+    const normalizedExisting = normalizeForComparison(item.content, type);
+    return normalizedNew === normalizedExisting;
+  });
+}
 
 /**
  * POST /api/lists/[listId]/items
@@ -46,12 +75,25 @@ export async function POST(
     }
 
     const list = listDoc.data();
+    const currentItems = list?.items || [];
+    const listType = list?.type || 'word';
+
+    // Check for duplicate content
+    if (isDuplicate(content, currentItems, listType)) {
+      return NextResponse.json(
+        {
+          error: 'This item already exists in the list',
+          code: 'DUPLICATE_ITEM'
+        },
+        { status: 409 } // 409 Conflict
+      );
+    }
 
     // Create the new item
     const newItem: ListItem = {
       id: uuidv4(),
       content,
-      type: list?.type || 'word',
+      type: listType,
       metadata: {
         ...metadata,
         addedAt: Date.now()
@@ -59,7 +101,6 @@ export async function POST(
     };
 
     // Add item to the list
-    const currentItems = list?.items || [];
     currentItems.push(newItem);
 
     // Update the list with the new item
@@ -197,6 +238,23 @@ export async function PUT(
 
     const list = listDoc.data();
     const currentItems = list?.items || [];
+    const listType = list?.type || 'word';
+
+    // If content is being updated, check for duplicates
+    if (content !== undefined) {
+      // Get all items except the one being updated
+      const otherItems = currentItems.filter((item: ListItem) => item.id !== itemId);
+
+      if (isDuplicate(content, otherItems, listType)) {
+        return NextResponse.json(
+          {
+            error: 'An item with this content already exists in the list',
+            code: 'DUPLICATE_ITEM'
+          },
+          { status: 409 } // 409 Conflict
+        );
+      }
+    }
 
     // Find and update the item
     let itemFound = false;

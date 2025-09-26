@@ -3,6 +3,21 @@
  * /api/notifications/preferences
  *
  * Manages user notification preferences
+ *
+ * IMPORTANT: INTENTIONAL DUAL STORAGE EXCEPTION
+ *
+ * This route writes notification preferences to Firebase for ALL authenticated users
+ * (both free and premium), not just premium users. This is an INTENTIONAL DESIGN
+ * DECISION, not a violation of the dual storage pattern.
+ *
+ * Reasons for Firebase writes for all users:
+ * 1. Preferences include leaderboard opt-out settings (privacy feature)
+ * 2. All users must be able to control their privacy settings
+ * 3. Opt-out preferences need to be centrally stored for the leaderboard to respect them
+ * 4. This is a privacy feature that benefits all users equally
+ *
+ * The POST and DELETE methods intentionally bypass storage helper checks because
+ * these privacy controls must be available to all users.
  */
 
 import { NextRequest, NextResponse } from 'next/server'

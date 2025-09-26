@@ -8,7 +8,7 @@ import AchievementLeaderboard from '@/components/leaderboard/AchievementLeaderbo
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/i18n/I18nContext'
-import { Trophy, Medal, Award, Target, Zap, Star, Users, Clock } from 'lucide-react'
+import { Trophy, Medal, Award, Target, Zap, Star, Users, Clock, Info, Calculator, Shield, TrendingUp } from 'lucide-react'
 
 type TimeFrame = 'daily' | 'weekly' | 'monthly' | 'allTime'
 
@@ -25,6 +25,7 @@ export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<'global' | 'friends'>('global')
   const [userStats, setUserStats] = useState<UserStats | null>(null)
   const [isLoadingStats, setIsLoadingStats] = useState(true)
+  const [showTransparency, setShowTransparency] = useState(false)
 
   // Fetch user stats when user or timeframe changes
   useEffect(() => {
@@ -272,6 +273,121 @@ export default function LeaderboardPage() {
             </Card>
           )}
         </motion.div>
+
+        {/* Transparency Button */}
+        <div className="mt-4 flex justify-center">
+          <Button
+            variant="outline"
+            onClick={() => setShowTransparency(!showTransparency)}
+            className="flex items-center gap-2"
+          >
+            <Info className="w-4 h-4" />
+            {showTransparency ? 'Hide' : 'Show'} How Stats Are Calculated
+          </Button>
+        </div>
+
+        {/* Transparency Section */}
+        {showTransparency && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-6"
+          >
+            <Card className="p-6 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 border-2 border-blue-200 dark:border-blue-800">
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
+                    <Calculator className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                    How Leaderboard Stats Are Calculated
+                  </h3>
+                </div>
+
+                {/* Points Calculation */}
+                <div className="space-y-4">
+                  <div className="border-l-4 border-yellow-500 pl-4">
+                    <h4 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                      <Trophy className="w-5 h-5 text-yellow-600" />
+                      Achievement Points
+                    </h4>
+                    <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                      <li>• <strong>Common achievements:</strong> 10 points each</li>
+                      <li>• <strong>Uncommon achievements:</strong> 25 points each</li>
+                      <li>• <strong>Rare achievements:</strong> 50 points each</li>
+                      <li>• <strong>Epic achievements:</strong> 100 points each</li>
+                      <li>• <strong>Legendary achievements:</strong> 250 points each</li>
+                    </ul>
+                  </div>
+
+                  <div className="border-l-4 border-green-500 pl-4">
+                    <h4 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5 text-green-600" />
+                      XP (Experience Points)
+                    </h4>
+                    <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                      <li>• <strong>Lesson completion:</strong> 10-50 XP based on difficulty</li>
+                      <li>• <strong>Perfect score bonus:</strong> +20% XP</li>
+                      <li>• <strong>Speed bonus:</strong> +10% XP for fast completion</li>
+                      <li>• <strong>Daily practice:</strong> 5-15 XP per item reviewed</li>
+                      <li>• <strong>First try bonus:</strong> +5 XP for correct first attempt</li>
+                    </ul>
+                  </div>
+
+                  <div className="border-l-4 border-purple-500 pl-4">
+                    <h4 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                      <Zap className="w-5 h-5 text-purple-600" />
+                      Streak Calculation
+                    </h4>
+                    <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                      <li>• <strong>Daily streak:</strong> Practice at least once per day</li>
+                      <li>• <strong>Reset time:</strong> Midnight in your timezone</li>
+                      <li>• <strong>Grace period:</strong> None - must practice every day</li>
+                      <li>• <strong>Streak bonus:</strong> +1 point per day in current streak</li>
+                      <li>• <strong>Milestone bonuses:</strong> Extra points at 7, 30, 100 days</li>
+                    </ul>
+                  </div>
+
+                  <div className="border-l-4 border-red-500 pl-4">
+                    <h4 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-red-600" />
+                      Time-Based Rankings
+                    </h4>
+                    <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                      <li>• <strong>Daily:</strong> Points earned in the last 24 hours</li>
+                      <li>• <strong>Weekly:</strong> Points from the last 7 days</li>
+                      <li>• <strong>Monthly:</strong> Points from the last 30 days</li>
+                      <li>• <strong>All Time:</strong> Total accumulated points</li>
+                      <li>• <strong>Updates:</strong> Real-time with 1-minute rate limiting</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Data Storage Info */}
+                <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-950/20 rounded-lg border border-amber-200 dark:border-amber-800">
+                  <div className="flex items-start gap-3">
+                    <Shield className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-1 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                        Fair Play & Data Storage
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        All users can participate in the leaderboard regardless of their subscription tier:
+                      </p>
+                      <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                        <li>• <strong>Free users:</strong> Stats stored locally and synced to leaderboard</li>
+                        <li>• <strong>Premium users:</strong> Full cloud sync with backup</li>
+                        <li>• <strong>Privacy:</strong> You can opt-out of the leaderboard anytime</li>
+                        <li>• <strong>Updates:</strong> Stats update after significant changes (50+ XP or daily events)</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+        )}
 
         {/* Info Section */}
         <motion.div

@@ -27,8 +27,7 @@ service cloud.firestore {
         exists(/databases/$(database)/documents/users/$(userId)) &&
         (get(/databases/$(database)/documents/users/$(userId)).data.subscription.status == 'active') &&
         (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_lifetime');
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
     }
 
     function hasValidTimestamp() {

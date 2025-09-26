@@ -153,6 +153,7 @@ export const strings = {
     with: "con",
     free: "GRATIS",
     premium: "PREMIUM",
+    premiumOnly: "Solo Premium",
     guest: "OSPITE",
     creating: "Creazione...",
     saving: "Salvataggio...",
@@ -160,6 +161,10 @@ export const strings = {
     today: "Oggi",
     yesterday: "Ieri",
     theme: "Tema",
+    complete: "Completo",
+    completed: "Completato",
+    correct: "Corretto",
+    incorrect: "Sbagliato",
     explore: "Esplora",
   },
 
@@ -1796,7 +1801,15 @@ export const strings = {
       selectList: "Seleziona una lista",
       importing: "Importazione...",
       success: "{{count}} carte importate",
-      error: "Importazione fallita"
+      error: "Importazione fallita",
+      yourLists: "Le tue liste",
+      noLists: "Nessuna lista disponibile",
+      createListFirst: "Crea prima una lista per importarla come mazzo",
+      anki: "Importazione Anki",
+      ankiTitle: "Anki",
+      csv: "Importa file CSV",
+      csvTitle: "CSV",
+      csvDescription: "Importa file CSV"
     },
 
     export: {
@@ -1872,6 +1885,34 @@ export const strings = {
       imported: "Mazzo importato",
       exported: "Mazzo esportato"
     },
+
+    // Session Settings
+    settings: {
+      sessionLength: "Carte per sessione",
+      sessionLengthHint: "Scegli quante carte studiare in questa sessione",
+      quickSettings: "Impostazioni rapide",
+      reviewMode: "Modalità di ripasso",
+      sequential: "Sequenziale",
+      random: "Casuale",
+      smart: "Intelligente",
+      studyDirection: "Direzione di studio",
+      frontToBack: "Fronte → Retro",
+      frontToBackDesc: "Mostra prima il lato frontale",
+      backToFront: "Retro → Fronte",
+      backToFrontDesc: "Mostra prima il lato posteriore",
+      mixed: "Misto",
+      mixedDesc: "Direzione casuale per ogni carta",
+      usingAllCards: "Utilizzo di tutte le carte disponibili"
+    },
+
+    // Actions
+    actions: {
+      syncAll: "Sincronizza tutto",
+      exportAll: "Esporta tutto"
+    },
+
+    // Study Session
+    startSession: "Inizia sessione",
 
     // Statistics
     showStats: "Mostra statistiche",

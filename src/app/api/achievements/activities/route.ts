@@ -1,114 +1,53 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
-import { cleanNestedDates, calculateStreakFromDates } from '@/utils/streakCalculator'
-import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
+/**
+ * DEPRECATED: Redirects to unified stats API
+ *
+ * This endpoint is kept for backward compatibility.
+ * All new code should use /api/stats/unified instead.
+ */
 
-// GET endpoint to retrieve user's achievement activities (streak data)
+import { NextRequest, NextResponse } from 'next/server'
+import logger from '@/lib/logger'
+
 export async function GET(request: NextRequest) {
   try {
-    // Get the authenticated user from session
-    const session = await getSession()
+    logger.warn('[DEPRECATED] /api/achievements/activities GET called - redirecting to /api/stats/unified')
 
-    if (!session?.uid) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    console.log(`[API Activities] Loading activities for user ${session.uid}`)
-
-    // Check storage decision
-    const decision = await getStorageDecision(session)
-
-    // For free users, return empty data with local storage indicator
-    if (!decision.shouldWriteToFirebase) {
-      console.log(`[API Activities] Free user - should use local storage: ${session.uid}`)
-      return NextResponse.json({
-        dates: {},
-        currentStreak: 0,
-        bestStreak: 0,
-        lastActivity: 0,
-        storage: {
-          location: 'local',
-          message: 'Free users should fetch from IndexedDB'
-        }
-      })
-    }
-
-    // Check if adminDb is initialized
-    if (!adminDb) {
-      return NextResponse.json(
-        { error: 'Database not initialized' },
-        { status: 500 }
-      )
-    }
-
-    // Get activities document from Firebase (premium only)
-    const activitiesRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('achievements')
-      .doc('activities')
-
-    const activitiesDoc = await activitiesRef.get()
-
-    if (!activitiesDoc.exists) {
-      console.log(`[API Activities] No activities found for user ${session.uid}, returning defaults`)
-      // Return default activities if not found
-      return NextResponse.json({
-        dates: {},
-        currentStreak: 0,
-        bestStreak: 0,
-        lastActivity: 0
-      })
-    }
-
-    const rawData = activitiesDoc.data()
-
-    // Clean up any nested structure issues using centralized function
-    const cleanDates = cleanNestedDates(rawData)
-
-    // Also check for dates directly at the root level (the corruption issue)
-    Object.entries(rawData).forEach(([key, value]) => {
-      // Check for keys like "dates.2025-09-17" at root level
-      if (key.startsWith('dates.') && key.match(/dates\.\d{4}-\d{2}-\d{2}$/)) {
-        const dateOnly = key.replace('dates.', '')
-        cleanDates[dateOnly] = true
-        console.log(`[API Activities GET] Found corrupted date at root: ${key}, extracting: ${dateOnly}`)
+    // Forward to unified API
+    const baseUrl = request.nextUrl.origin
+    const response = await fetch(`${baseUrl}/api/stats/unified`, {
+      method: 'GET',
+      headers: {
+        // Forward cookies for authentication
+        'Cookie': request.headers.get('cookie') || '',
       }
     })
 
-    // Get existing best streak from data
-    const existingBestStreak = rawData?.bestStreak || 0
+    if (!response.ok) {
+      const error = await response.text()
+      logger.error('[DEPRECATED API] Unified API call failed:', error)
+      return NextResponse.json(
+        { error: 'Failed to fetch stats' },
+        { status: response.status }
+      )
+    }
 
-    // Calculate current streak using centralized function
-    const streakResult = calculateStreakFromDates(cleanDates, existingBestStreak)
+    const data = await response.json()
 
-    console.log(`[API Activities] Returning cleaned data for user ${session.uid}:`, {
-      currentStreak: streakResult.currentStreak,
-      bestStreak: streakResult.bestStreak,
-      isActiveToday: streakResult.isActiveToday,
-      dateCount: Object.keys(cleanDates).length
-    })
+    // Transform response to old format for backward compatibility
+    const legacyResponse = {
+      dates: data.stats?.streak?.dates || {},
+      currentStreak: data.stats?.streak?.current || 0,
+      bestStreak: data.stats?.streak?.best || 0,
+      lastActivity: data.stats?.streak?.lastActivityTimestamp || 0,
+      isActiveToday: data.stats?.streak?.isActiveToday || false,
+      lastActivityDate: data.stats?.streak?.lastActivityDate,
+      storage: data.storage
+    }
 
-    // Return the cleaned activities data with storage info
-    return NextResponse.json({
-      dates: cleanDates,
-      currentStreak: streakResult.currentStreak,
-      bestStreak: streakResult.bestStreak,
-      lastActivity: rawData?.lastActivity || 0,
-      isActiveToday: streakResult.isActiveToday,
-      lastActivityDate: streakResult.lastActivityDate,
-      storage: {
-        location: decision.storageLocation,
-        syncEnabled: decision.shouldWriteToFirebase
-      }
-    })
+    return NextResponse.json(legacyResponse)
 
   } catch (error) {
-    console.error('[API Activities] Error loading activities:', error)
+    logger.error('[DEPRECATED API] Error in activities:', error)
     return NextResponse.json(
       { error: 'Failed to load activities' },
       { status: 500 }
@@ -116,59 +55,57 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST endpoint to save activities
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSession()
+    logger.warn('[DEPRECATED] /api/achievements/activities POST called - redirecting to /api/stats/unified')
 
-    if (!session?.uid) {
+    // Parse the request body
+    const body = await request.json()
+    const { dates, currentStreak, bestStreak, lastActivity } = body
+
+    // Transform to unified API format
+    const unifiedBody = {
+      type: 'streak',
+      data: {
+        dates: dates || {},
+        current: currentStreak || 0,
+        best: bestStreak || 0,
+        lastActivityTimestamp: lastActivity || Date.now()
+      }
+    }
+
+    // Forward to unified API
+    const baseUrl = request.nextUrl.origin
+    const response = await fetch(`${baseUrl}/api/stats/unified`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Forward cookies for authentication
+        'Cookie': request.headers.get('cookie') || '',
+      },
+      body: JSON.stringify(unifiedBody)
+    })
+
+    if (!response.ok) {
+      const error = await response.text()
+      logger.error('[DEPRECATED API] Unified API call failed:', error)
       return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
+        { error: 'Failed to update stats' },
+        { status: response.status }
       )
     }
 
-    const body = await request.json()
+    const data = await response.json()
 
-    console.log(`[API Activities] Saving activities for user ${session.uid}:`, {
-      currentStreak: body.currentStreak,
-      bestStreak: body.bestStreak
+    // Return success with storage info
+    return NextResponse.json({
+      message: 'Activities saved successfully',
+      success: true,
+      storage: data.storage
     })
 
-    // Check storage decision
-    const decision = await getStorageDecision(session)
-
-    // Only save to Firebase for premium users
-    if (decision.shouldWriteToFirebase) {
-      console.log(`[API Activities] Premium user - saving to Firebase: ${session.uid}`)
-
-      // Check if adminDb is initialized
-      if (!adminDb) {
-        return NextResponse.json(
-          { error: 'Database not initialized' },
-          { status: 500 }
-        )
-      }
-
-      // Save to Firebase
-      const activitiesRef = adminDb
-        .collection('users')
-        .doc(session.uid)
-        .collection('achievements')
-        .doc('activities')
-
-      await activitiesRef.set(body, { merge: true })
-    } else {
-      console.log(`[API Activities] Free user - returning for local storage: ${session.uid}`)
-    }
-
-    return createStorageResponse(
-      { message: 'Activities saved successfully' },
-      decision
-    )
-
   } catch (error) {
-    console.error('[API Activities] Error saving activities:', error)
+    logger.error('[DEPRECATED API] Error in activities:', error)
     return NextResponse.json(
       { error: 'Failed to save activities' },
       { status: 500 }

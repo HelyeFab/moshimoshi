@@ -1,13 +1,16 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trophy, Target, Zap, Clock, CheckCircle, XCircle } from 'lucide-react';
-import type { FlashcardDeck, FlashcardContent, SessionSummary } from '@/types/flashcards';
+import type { FlashcardDeck, FlashcardContent, SessionSummary, SessionStats } from '@/types/flashcards';
 import { FlashcardViewer } from './FlashcardViewer';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
+import { flashcardManager } from '@/lib/flashcards/FlashcardManager';
+import { useAuth } from '@/hooks/useAuth';
+import { useSubscription } from '@/hooks/useSubscription';
 
 interface StudySessionProps {
   deck: FlashcardDeck;
@@ -15,6 +18,7 @@ interface StudySessionProps {
   mode?: 'classic' | 'speed' | 'match';
   onComplete: (summary: SessionSummary) => void;
   onExit: () => void;
+  onCardUpdated?: (card: FlashcardContent) => void;
 }
 
 export function StudySession({
@@ -22,18 +26,35 @@ export function StudySession({
   cards,
   mode = 'classic',
   onComplete,
-  onExit
+  onExit,
+  onCardUpdated
 }: StudySessionProps) {
   const { t } = useI18n();
+  const { user } = useAuth();
+  const { isPremium } = useSubscription();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sessionCards, setSessionCards] = useState(cards);
   const [correctCount, setCorrectCount] = useState(0);
-  const [responses, setResponses] = useState<Map<string, boolean>>(new Map());
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [skippedCount, setSkippedCount] = useState(0);
+  const [responses, setResponses] = useState<Map<string, { correct: boolean; difficulty?: string; responseTime: number }>>(new Map());
   const [startTime] = useState(Date.now());
   const [streakCount, setStreakCount] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [totalResponseTime, setTotalResponseTime] = useState(0);
+  const [fastestResponseTime, setFastestResponseTime] = useState(Number.MAX_VALUE);
+  const [slowestResponseTime, setSlowestResponseTime] = useState(0);
   const [cardStartTime, setCardStartTime] = useState(Date.now());
+
+  // Track card types
+  const [newCardsStudied, setNewCardsStudied] = useState(0);
+  const [learningCardsStudied, setLearningCardsStudied] = useState(0);
+  const [reviewCardsStudied, setReviewCardsStudied] = useState(0);
+
+  // Cleanup refs for timers
+  const timeoutRefs = useRef<Set<NodeJS.Timeout>>(new Set());
+  const isUnmounted = useRef(false);
 
   const currentCard = sessionCards[currentIndex];
   const progress = ((currentIndex + 1) / sessionCards.length) * 100;
@@ -48,11 +69,36 @@ export function StudySession({
     });
   }, []);
 
-  const handleResponse = useCallback((correct: boolean, difficulty?: 'again' | 'hard' | 'good' | 'easy') => {
+  const handleResponse = useCallback(async (correct: boolean, difficulty?: 'again' | 'hard' | 'good' | 'easy') => {
     const responseTime = Date.now() - cardStartTime;
-    setTotalResponseTime(prev => prev + responseTime);
-    setResponses(prev => new Map(prev).set(currentCard.id, correct));
 
+    // Track response metrics
+    setTotalResponseTime(prev => prev + responseTime);
+    setFastestResponseTime(prev => Math.min(prev, responseTime));
+    setSlowestResponseTime(prev => Math.max(prev, responseTime));
+
+    setResponses(prev => new Map(prev).set(currentCard.id, {
+      correct,
+      difficulty: difficulty || (correct ? 'good' : 'again'),
+      responseTime
+    }));
+
+    // Track card type
+    const cardStatus = currentCard.metadata?.status || 'new';
+    switch (cardStatus) {
+      case 'new':
+        setNewCardsStudied(prev => prev + 1);
+        break;
+      case 'learning':
+        setLearningCardsStudied(prev => prev + 1);
+        break;
+      case 'review':
+      case 'mastered':
+        setReviewCardsStudied(prev => prev + 1);
+        break;
+    }
+
+    // Update counts
     if (correct) {
       setCorrectCount(prev => prev + 1);
       setStreakCount(prev => {
@@ -60,29 +106,65 @@ export function StudySession({
         setBestStreak(current => Math.max(current, newStreak));
 
         // Celebrate streaks
-        if (newStreak === 5) {
-          celebrate();
-        } else if (newStreak === 10) {
+        if (newStreak === 5 || newStreak === 10 || newStreak === 20) {
           celebrate();
         }
 
         return newStreak;
       });
     } else {
+      setIncorrectCount(prev => prev + 1);
       setStreakCount(0);
+    }
+
+    // Update card with SRS algorithm if user is logged in
+    if (user && difficulty) {
+      try {
+        const updatedCard = await flashcardManager.updateCardAfterReview(
+          deck.id,
+          currentCard.id,
+          difficulty,
+          responseTime,
+          user.uid,
+          isPremium || false
+        );
+
+        if (updatedCard) {
+          // Update the card in our session
+          setSessionCards(prev => prev.map(card =>
+            card.id === updatedCard.id ? updatedCard : card
+          ));
+          onCardUpdated?.(updatedCard);
+        }
+      } catch (error) {
+        console.error('Failed to update card with SRS:', error);
+      }
     }
 
     // Move to next card or complete
     if (currentIndex < sessionCards.length - 1) {
-      setTimeout(() => {
-        setCurrentIndex(prev => prev + 1);
-        setCardStartTime(Date.now());
+      const timeout = setTimeout(() => {
+        if (!isUnmounted.current) {
+          setCurrentIndex(prev => prev + 1);
+          setCardStartTime(Date.now());
+        }
       }, 500);
+      timeoutRefs.current.add(timeout);
     } else {
       // Session complete
       completeSession();
     }
-  }, [currentCard, currentIndex, sessionCards.length, cardStartTime, celebrate]);
+  }, [currentCard, currentIndex, sessionCards.length, cardStartTime, deck.id, user, isPremium, celebrate, onCardUpdated]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isUnmounted.current = true;
+      // Clear all timers
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current.clear();
+    };
+  }, []);
 
   const handleNext = useCallback(() => {
     if (currentIndex < sessionCards.length - 1) {
@@ -98,30 +180,89 @@ export function StudySession({
     }
   }, [currentIndex]);
 
-  const completeSession = useCallback(() => {
+  const completeSession = useCallback(async () => {
     const sessionTime = Date.now() - startTime;
-    const accuracy = correctCount / sessionCards.length;
+    const cardsActuallyStudied = responses.size;
+    const accuracy = cardsActuallyStudied > 0 ? correctCount / cardsActuallyStudied : 0;
 
     // Big celebration for good performance
     if (accuracy >= 0.8) {
       celebrate();
     }
 
+    // Calculate XP with enhanced formula
+    const baseXP = correctCount * 10;
+    const streakBonus = bestStreak * 5;
+    const perfectBonus = accuracy === 1 ? 50 : 0;
+    const speedBonus = Math.floor(Array.from(responses.values()).filter(r => r.responseTime < 3000).length * 2);
+    const totalXP = baseXP + streakBonus + perfectBonus + speedBonus;
+
     const summary: SessionSummary = {
       sessionId: `session-${Date.now()}`,
       deckId: deck.id,
-      cardsStudied: sessionCards.length,
+      cardsStudied: cardsActuallyStudied,
       correctAnswers: correctCount,
       accuracy,
-      averageResponseTime: totalResponseTime / sessionCards.length,
-      newCardsLearned: sessionCards.filter(c => !c.metadata?.lastReviewed).length,
-      cardsReviewed: sessionCards.filter(c => c.metadata?.lastReviewed).length,
-      streakMaintained: streakCount > 0,
-      xpEarned: Math.round(correctCount * 10 + bestStreak * 5)
+      averageResponseTime: cardsActuallyStudied > 0 ? totalResponseTime / cardsActuallyStudied : 0,
+      newCardsLearned: newCardsStudied,
+      cardsReviewed: learningCardsStudied + reviewCardsStudied,
+      streakMaintained: bestStreak >= deck.stats.currentStreak,
+      xpEarned: totalXP
     };
 
+    // Create detailed session stats for persistence
+    if (user) {
+      const sessionStats: SessionStats = {
+        id: summary.sessionId,
+        userId: user.uid,
+        deckId: deck.id,
+        deckName: deck.name,
+        timestamp: startTime,
+        duration: sessionTime,
+
+        // Performance Metrics
+        cardsStudied: cardsActuallyStudied,
+        cardsCorrect: correctCount,
+        cardsIncorrect: incorrectCount,
+        cardsSkipped: skippedCount,
+        accuracy,
+
+        // Card Type Breakdown
+        newCards: newCardsStudied,
+        learningCards: learningCardsStudied,
+        reviewCards: reviewCardsStudied,
+
+        // Response Metrics
+        averageResponseTime: cardsActuallyStudied > 0 ? totalResponseTime / cardsActuallyStudied : 0,
+        fastestResponseTime: fastestResponseTime === Number.MAX_VALUE ? 0 : fastestResponseTime,
+        slowestResponseTime,
+
+        // Progress Metrics
+        xpEarned: totalXP,
+        streakSnapshot: deck.stats.currentStreak,
+        perfectSession: accuracy === 1,
+
+        // Study Mode
+        mode,
+        settings: {
+          sessionLength: deck.settings.sessionLength,
+          reviewMode: deck.settings.reviewMode
+        }
+      };
+
+      // Save session stats
+      try {
+        await flashcardManager.saveSessionStats(sessionStats, user.uid, isPremium || false);
+      } catch (error) {
+        console.error('Failed to save session stats:', error);
+      }
+    }
+
     onComplete(summary);
-  }, [deck.id, sessionCards, correctCount, streakCount, bestStreak, totalResponseTime, startTime, celebrate, onComplete]);
+  }, [deck, sessionCards, responses, correctCount, incorrectCount, skippedCount,
+      newCardsStudied, learningCardsStudied, reviewCardsStudied,
+      streakCount, bestStreak, totalResponseTime, fastestResponseTime, slowestResponseTime,
+      startTime, mode, user, isPremium, celebrate, onComplete]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -235,7 +376,7 @@ export function StudySession({
               exit={{ opacity: 0, scale: 0.8, y: -20 }}
               className="mt-8 flex justify-center"
             >
-              {responses.get(currentCard.id) ? (
+              {responses.get(currentCard.id)?.correct ? (
                 <div className="flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full">
                   <CheckCircle className="w-5 h-5" />
                   <span className="font-medium">{t('common.correct')}</span>

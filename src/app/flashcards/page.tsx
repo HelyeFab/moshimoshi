@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { DeckGrid } from '@/components/flashcards/DeckGrid';
 import { DeckCreator } from '@/components/flashcards/DeckCreator';
 import { StudySession } from '@/components/flashcards/StudySession';
+import { SessionSettingsModal } from '@/components/flashcards/SessionSettingsModal';
 import { StatsDashboard } from '@/components/flashcards/StatsDashboard';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import Dialog from '@/components/ui/Dialog';
@@ -16,10 +17,13 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { flashcardManager, FlashcardManager } from '@/lib/flashcards/FlashcardManager';
 import { listManager } from '@/lib/lists/ListManager';
-import type { FlashcardDeck, CreateDeckRequest, SessionSummary } from '@/types/flashcards';
+import { storageManager } from '@/lib/flashcards/StorageManager';
+import { migrationManager } from '@/lib/flashcards/MigrationManager';
+import type { FlashcardDeck, CreateDeckRequest, SessionSummary, DeckSettings } from '@/types/flashcards';
 import type { UserList } from '@/types/userLists';
 import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 export default function FlashcardsPage() {
   const { t } = useI18n();
@@ -38,6 +42,15 @@ export default function FlashcardsPage() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [sessions, setSessions] = useState<any[]>([]);
+  const [storageInfo, setStorageInfo] = useState<any>(null);
+  const [showMigration, setShowMigration] = useState(false);
+  const [migrationProgress, setMigrationProgress] = useState<any>(null);
+  const [deckToStudy, setDeckToStudy] = useState<FlashcardDeck | null>(null);
+  const [showSessionSettings, setShowSessionSettings] = useState(false);
+
+  // Prevent race conditions
+  const loadingRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Calculate user tier using proper subscription hook
   const userTier = subscription?.plan || (user ? 'free' : 'guest');
@@ -50,7 +63,22 @@ export default function FlashcardsPage() {
 
   useEffect(() => {
     loadData();
-  }, [user]);
+
+    // Check for plan upgrade and migration needs
+    if (user && isPremium) {
+      checkForMigration();
+    }
+
+    // Monitor storage status
+    checkStorageStatus();
+
+    // Cleanup on unmount
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, [user, isPremium]);
 
   const loadData = async () => {
     if (!user) {
@@ -58,21 +86,126 @@ export default function FlashcardsPage() {
       return;
     }
 
+    // Prevent concurrent loads
+    if (loadingRef.current) {
+      return;
+    }
+
+    // Cancel any existing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    loadingRef.current = true;
+    abortControllerRef.current = new AbortController();
+
     try {
       setLoading(true);
 
       // Load flashcard decks
       const userDecks = await flashcardManager.getDecks(user.uid, isPremium);
+
+      // Check if request was aborted
+      if (abortControllerRef.current?.signal.aborted) {
+        return;
+      }
+
       setDecks(userDecks);
 
       // Load user lists for import option
       const lists = await listManager.getLists(user.uid, isPremium);
+
+      // Check if request was aborted
+      if (abortControllerRef.current?.signal.aborted) {
+        return;
+      }
+
       setUserLists(lists);
-    } catch (error) {
-      console.error('Failed to load flashcard data:', error);
-      showToast(t('flashcards.errors.loadFailed'), 'error');
+    } catch (error: any) {
+      if (error.name !== 'AbortError') {
+        console.error('Failed to load flashcard data:', error);
+        showToast(t('flashcards.errors.loadFailed'), 'error');
+      }
     } finally {
       setLoading(false);
+      loadingRef.current = false;
+    }
+  };
+
+  const checkStorageStatus = async () => {
+    try {
+      const info = await storageManager.getStorageInfo();
+      setStorageInfo(info);
+
+      // Set up storage warnings
+      storageManager.onWarning((warning) => {
+        showToast(warning.message, warning.level === 'critical' ? 'error' : 'info');
+      });
+    } catch (error) {
+      console.error('Failed to check storage status:', error);
+    }
+  };
+
+  const checkForMigration = async () => {
+    if (!user || !isPremium) return;
+
+    try {
+      const needsMigration = await migrationManager.checkForUpgrade(user.uid, userTier);
+      if (needsMigration) {
+        setShowMigration(true);
+      }
+    } catch (error) {
+      console.error('Failed to check for migration:', error);
+    }
+  };
+
+  const handleBulkSync = async () => {
+    if (!user || !isPremium) {
+      showToast(t('flashcards.errors.syncRequiresPremium'), 'error');
+      return;
+    }
+
+    setShowMigration(false);
+    setMigrationProgress({ status: 'preparing' });
+
+    try {
+      // Set up progress monitoring
+      migrationManager.onProgress((progress) => {
+        setMigrationProgress(progress);
+      });
+
+      const result = await migrationManager.migrateAllDecks(user.uid);
+
+      if (result.success) {
+        showToast(t('flashcards.success.allSynced'), 'success');
+        await loadData(); // Reload decks
+      } else {
+        showToast(t('flashcards.errors.syncFailed'), 'error');
+      }
+    } catch (error) {
+      console.error('Bulk sync failed:', error);
+      showToast(t('flashcards.errors.syncFailed'), 'error');
+    } finally {
+      setMigrationProgress(null);
+    }
+  };
+
+  const handleExportAll = async () => {
+    if (!user) return;
+
+    try {
+      const jsonData = await migrationManager.exportAllDecks(user.uid);
+      const blob = new Blob([jsonData], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `all-decks-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(t('flashcards.success.allExported'), 'success');
+    } catch (error) {
+      console.error('Export failed:', error);
+      showToast(t('flashcards.errors.exportFailed'), 'error');
     }
   };
 
@@ -98,9 +231,20 @@ export default function FlashcardsPage() {
       }
     } catch (error: any) {
       console.error('Failed to create deck:', error);
-      // Show specific error message if available
-      const errorMessage = error?.message || t('flashcards.errors.saveFailed');
-      showToast(errorMessage, 'error');
+
+      // Handle specific error types
+      if (error.name === 'QuotaExceededError' || error.message?.includes('QuotaExceededError')) {
+        showToast(t('flashcards.errors.storageQuotaExceeded'), 'error');
+        // Show storage cleanup suggestions
+        const suggestions = await storageManager.getCleanupSuggestions();
+        if (suggestions.length > 0) {
+          showToast(suggestions[0], 'info');
+        }
+      } else {
+        // Show specific error message if available
+        const errorMessage = error?.message || t('flashcards.errors.saveFailed');
+        showToast(errorMessage, 'error');
+      }
     }
   };
 
@@ -180,7 +324,48 @@ export default function FlashcardsPage() {
       // TODO: Check actual daily usage
     }
 
-    setStudyingDeck(deck);
+    // Show the session settings modal instead of starting directly
+    setDeckToStudy(deck);
+    setShowSessionSettings(true);
+  };
+
+  const handleStartSession = (settings: Partial<DeckSettings>) => {
+    if (!deckToStudy) return;
+
+    // Get session length from the provided settings
+    const sessionLength = settings.sessionLength || deckToStudy.settings?.sessionLength || 20;
+    const reviewMode = settings.reviewMode || deckToStudy.settings?.reviewMode || 'sequential';
+
+    // Select cards for the session
+    let sessionCards = [...deckToStudy.cards];
+
+    // Apply review mode logic
+    if (reviewMode === 'random') {
+      // Shuffle cards for random mode
+      sessionCards = sessionCards.sort(() => Math.random() - 0.5);
+    } else if (reviewMode === 'srs') {
+      // For SRS mode, prioritize cards that need review
+      // TODO: Implement proper SRS card prioritization based on due dates
+      // For now, just use the first cards
+    }
+    // 'sequential' mode uses cards in their original order
+
+    // Limit to session length
+    sessionCards = sessionCards.slice(0, Math.min(sessionLength, deckToStudy.cards.length));
+
+    // Set the deck with only the selected cards for this session
+    setStudyingDeck({
+      ...deckToStudy,
+      cards: sessionCards,
+      settings: {
+        ...deckToStudy.settings,
+        ...settings
+      }
+    });
+
+    // Close the modal
+    setShowSessionSettings(false);
+    setDeckToStudy(null);
   };
 
   const handleSyncDeck = async (deck: FlashcardDeck) => {
@@ -208,12 +393,39 @@ export default function FlashcardsPage() {
     }
   };
 
-  const handleSessionComplete = (summary: SessionSummary) => {
+  const handleSessionComplete = async (summary: SessionSummary) => {
     setStudyingDeck(null);
 
-    // Show success message with stats
-    const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')}`;
-    showToast(message, 'success');
+    // Update user stats with XP if user is logged in
+    if (user && summary.xpEarned && summary.xpEarned > 0) {
+      try {
+        // Import UserStatsService dynamically to avoid circular deps
+        const { userStatsService } = await import('@/lib/services/UserStatsService');
+
+        // Update XP and streak
+        await userStatsService.updateXP(user.uid, summary.xpEarned, 'flashcard_session');
+
+        // Update session stats
+        await userStatsService.updateSessionStats(user.uid, {
+          type: 'flashcard',
+          accuracy: summary.accuracy,
+          itemsReviewed: summary.cardsStudied
+        });
+
+        // Show success message with XP earned
+        const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')} - +${summary.xpEarned} XP!`;
+        showToast(message, 'success');
+      } catch (error) {
+        console.error('Failed to update user stats:', error);
+        // Still show success without XP
+        const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')}`;
+        showToast(message, 'success');
+      }
+    } else {
+      // Show success message without XP for guests
+      const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')}`;
+      showToast(message, 'success');
+    }
 
     // Reload decks to update stats
     loadData();
@@ -259,6 +471,106 @@ export default function FlashcardsPage() {
       />
 
       <div className="container mx-auto px-4 py-8">
+
+        {/* Migration Banner for New Premium Users */}
+        {showMigration && isPremium && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg shadow-lg"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-bold mb-1">{t('flashcards.migration.title')}</h3>
+                <p className="text-sm opacity-90">{t('flashcards.migration.description')}</p>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleBulkSync}
+                  className="px-4 py-2 bg-white text-purple-600 rounded-lg font-medium hover:bg-gray-100"
+                >
+                  {t('flashcards.migration.syncNow')}
+                </button>
+                <button
+                  onClick={() => setShowMigration(false)}
+                  className="px-3 py-2 bg-white/20 rounded-lg hover:bg-white/30"
+                >
+                  {t('common.later')}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Migration Progress */}
+        {migrationProgress && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mb-6 p-4 bg-gray-100 dark:bg-dark-800 rounded-lg"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
+              <span className="font-medium">{t('flashcards.migration.inProgress')}</span>
+            </div>
+            {migrationProgress.currentDeck && (
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {t('flashcards.migration.syncingDeck', { deck: migrationProgress.currentDeck })}
+              </p>
+            )}
+            <div className="mt-2 w-full bg-gray-200 dark:bg-dark-700 rounded-full h-2">
+              <div
+                className="bg-primary-500 h-2 rounded-full transition-all"
+                style={{
+                  width: `${migrationProgress.total > 0
+                    ? (migrationProgress.completed / migrationProgress.total) * 100
+                    : 0}%`
+                }}
+              />
+            </div>
+          </motion.div>
+        )}
+
+        {/* Storage Info and Actions Bar */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          {/* Storage Info */}
+          {storageInfo && !isPremium && (
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              <span>{t('flashcards.storage.using')}:</span>
+              <span className="font-medium">
+                {storageManager.formatBytes(storageInfo.usage)} / {storageManager.formatBytes(storageInfo.quota)}
+              </span>
+              <span className={cn(
+                "px-2 py-1 rounded-full text-xs",
+                storageInfo.percentage > 90 ? "bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300" :
+                storageInfo.percentage > 70 ? "bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-300" :
+                "bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300"
+              )}>
+                {Math.round(storageInfo.percentage)}%
+              </span>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            {isPremium && decks.length > 0 && (
+              <button
+                onClick={handleBulkSync}
+                className="px-3 py-1.5 text-sm bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:opacity-90"
+              >
+                {t('flashcards.actions.syncAll')}
+              </button>
+            )}
+            {decks.length > 0 && (
+              <button
+                onClick={handleExportAll}
+                className="px-3 py-1.5 text-sm bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-dark-600"
+              >
+                {t('flashcards.actions.exportAll')}
+              </button>
+            )}
+          </div>
+        </div>
 
         {/* Toggle Stats View */}
         <div className="flex justify-end mb-4">
@@ -387,6 +699,10 @@ export default function FlashcardsPage() {
           onExportDeck={handleExportDeck}
           onStudyDeck={handleStudyDeck}
           onSyncDeck={handleSyncDeck}
+          onSessionSettings={(deck) => {
+            setDeckToStudy(deck);
+            setShowSessionSettings(true);
+          }}
           showStats={true}
           gridCols={3}
           isPremium={isPremium}
@@ -420,6 +736,19 @@ export default function FlashcardsPage() {
           cancelText={t('common.cancel')}
           type="danger"
         />
+
+        {/* Session Settings Modal */}
+        {deckToStudy && (
+          <SessionSettingsModal
+            isOpen={showSessionSettings}
+            deck={deckToStudy}
+            onClose={() => {
+              setShowSessionSettings(false);
+              setDeckToStudy(null);
+            }}
+            onStartSession={handleStartSession}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,9 +1,18 @@
 'use client'
 
+/**
+ * DEPRECATED: This hook is maintained for backward compatibility.
+ * New code should use useUserStats() instead.
+ *
+ * This file now acts as a wrapper around useUserStats to maintain
+ * compatibility with existing components that use useXP.
+ */
+
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { xpSystem, UserLevel } from '@/lib/gamification/xp-system'
+import logger from '@/lib/logger'
 
 // Helper function to infer feature from event type
 function inferFeatureFromType(type: string): string {
@@ -62,73 +71,47 @@ interface UseXPReturn {
 }
 
 /**
- * Hook for managing XP state and tracking
- * Follows patterns from FEATURE_IMPLEMENTATION.md
+ * DEPRECATED: Wrapper around useUserStats for backward compatibility
+ *
+ * @deprecated Use useUserStats() instead
  */
 export function useXP(): UseXPReturn {
   const { user, isAuthenticated } = useAuth()
   const { showToast } = useToast()
 
-  // Initialize from localStorage if available
-  const getInitialXP = () => {
-    if (typeof window !== 'undefined' && user?.uid) {
-      const stored = localStorage.getItem(`xp_${user.uid}`)
-      return stored ? parseInt(stored, 10) : 0
-    }
-    return 0
-  }
-
-  const [totalXP, setTotalXP] = useState(getInitialXP)
-  const [currentLevel, setCurrentLevel] = useState(() => xpSystem.getLevelFromXP(getInitialXP()))
-  const [levelInfo, setLevelInfo] = useState<UserLevel | null>(() => xpSystem.getUserLevel(getInitialXP()))
-  const [loading, setLoading] = useState(true)
+  // TEMPORARY FIX: Don't use useUserStats to avoid circular dependency
+  // This should be replaced with direct useUserStats usage in components
+  const [totalXP, setTotalXP] = useState(0)
+  const [currentLevel, setCurrentLevel] = useState(1)
+  const [levelInfo, setLevelInfo] = useState<UserLevel | null>(null)
+  const [loading, setLoading] = useState(true) // Start with loading true
   const [error, setError] = useState<string | null>(null)
+  const [hasInitialized, setHasInitialized] = useState(false)
 
-  // Fetch XP status from server
-  const fetchXPStatus = useCallback(async () => {
-    if (!isAuthenticated) {
-      setLoading(false)
-      return
+  // Log deprecation warning in development
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      logger.warn('[useXP] This hook is deprecated. Please use useUserStats() instead.')
     }
+  }, [])
 
-    try {
-      setLoading(true)
-      setError(null)
-
-      const response = await fetch('/api/xp/track', {
-        method: 'GET',
-        credentials: 'include'
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch XP status')
-      }
-
-      const data = await response.json()
-
-      if (data.success && data.data) {
-        setTotalXP(data.data.totalXP || 0)
-        setCurrentLevel(data.data.currentLevel || 1)
-        setLevelInfo(data.data.levelInfo || xpSystem.getUserLevel(data.data.totalXP || 0))
-      }
-    } catch (err: any) {
-      console.error('Error fetching XP status:', err)
-      setError(err.message)
-
-      // Fallback to localStorage if server fails
-      const localXP = localStorage.getItem(`xp_${user?.uid}`)
-      if (localXP) {
-        const xp = parseInt(localXP)
+  // Initialize from localStorage if available
+  useEffect(() => {
+    if (typeof window !== 'undefined' && user?.uid && !hasInitialized) {
+      const stored = localStorage.getItem(`xp_${user.uid}`)
+      if (stored) {
+        const xp = parseInt(stored, 10)
         setTotalXP(xp)
         setCurrentLevel(xpSystem.getLevelFromXP(xp))
         setLevelInfo(xpSystem.getUserLevel(xp))
+        setHasInitialized(true)
+        setLoading(false) // Got data from localStorage
       }
-    } finally {
-      setLoading(false)
+      // If no localStorage data, wait for refreshXP to complete
     }
-  }, [isAuthenticated, user?.uid])
+  }, [user?.uid, hasInitialized])
 
-  // Track XP gain with idempotency and feature tracking
+  // Track XP gain - redirect to unified stats API
   const trackXP = useCallback(async (
     type: string,
     amount: number,
@@ -140,29 +123,35 @@ export function useXP(): UseXPReturn {
       return
     }
 
+    logger.info('[useXP] Redirecting to unified stats API', {
+      type,
+      amount,
+      source
+    })
+
     // Ensure metadata includes required fields
     const enhancedMetadata = {
       ...metadata,
-      // Add timestamp if not provided
       timestamp: metadata?.timestamp || Date.now(),
-      // Add feature if not provided (try to infer from type)
       feature: metadata?.feature || inferFeatureFromType(type),
-      // Ensure idempotency key exists
       idempotencyKey: metadata?.idempotencyKey || generateIdempotencyKey(type, source, metadata)
     }
 
     try {
-      const response = await fetch('/api/xp/track', {
+      // Call unified stats API directly
+      const response = await fetch('/api/stats/unified', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify({
-          eventType: type as any,
-          amount,
-          source,
-          metadata: enhancedMetadata
+          type: 'xp',
+          data: {
+            add: amount,
+            source,
+            metadata: enhancedMetadata
+          }
         })
       })
 
@@ -172,53 +161,75 @@ export function useXP(): UseXPReturn {
 
       const data = await response.json()
 
-      if (data.success && data.data) {
+      if (data.stats?.xp) {
         // Update local state
-        setTotalXP(data.data.totalXP)
-        setCurrentLevel(data.data.currentLevel)
-        setLevelInfo(data.data.levelInfo)
+        setTotalXP(data.stats.xp.total)
+        setCurrentLevel(data.stats.xp.level)
+        setLevelInfo(xpSystem.getUserLevel(data.stats.xp.total))
 
-        // Store in localStorage as backup
-        localStorage.setItem(`xp_${user?.uid}`, data.data.totalXP.toString())
+        // Store in localStorage
+        if (user?.uid) {
+          localStorage.setItem(`xp_${user.uid}`, data.stats.xp.total.toString())
+        }
 
-        // Show level up toast if applicable
-        if (data.data.leveledUp) {
+        // Check if leveled up
+        if (data.stats.xp.level > currentLevel) {
           showToast(
-            `🎉 Level ${data.data.currentLevel}! ${data.data.newLevelTitle}`,
+            `🎉 Level ${data.stats.xp.level}! ${xpSystem.getUserLevel(data.stats.xp.total).title}`,
             'success'
           )
         }
       }
     } catch (err: any) {
-      console.error('Error tracking XP:', err)
+      console.error('[useXP] Error tracking XP:', err)
+      setError(err.message)
       // Silently fail - XP tracking shouldn't break the app
     }
-  }, [isAuthenticated, user?.uid, showToast])
+  }, [isAuthenticated, user?.uid, currentLevel, showToast])
 
-  // Refresh XP status
+  // Refresh XP from unified API
   const refreshXP = useCallback(async () => {
-    await fetchXPStatus()
-  }, [fetchXPStatus])
+    if (!isAuthenticated) {
+      setLoading(false)
+      return
+    }
 
-  // Load XP on mount and auth change
-  useEffect(() => {
-    fetchXPStatus()
-  }, [fetchXPStatus])
+    try {
+      setLoading(true)
+      const response = await fetch('/api/stats/unified', {
+        method: 'GET',
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch XP')
+      }
+
+      const data = await response.json()
+
+      if (data.stats?.xp) {
+        setTotalXP(data.stats.xp.total || 0)
+        setCurrentLevel(data.stats.xp.level || 1)
+        setLevelInfo(xpSystem.getUserLevel(data.stats.xp.total || 0))
+        setHasInitialized(true)
+
+        // Store in localStorage
+        if (user?.uid) {
+          localStorage.setItem(`xp_${user.uid}`, (data.stats.xp.total || 0).toString())
+        }
+      }
+    } catch (err: any) {
+      console.error('[useXP] Error refreshing XP:', err)
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [isAuthenticated, user?.uid])
 
   // Listen for XP gain events for real-time updates
   useEffect(() => {
     const handleXPGained = (event: CustomEvent) => {
-      const { xpGained, totalXP: newTotalXP, currentLevel: newLevel, leveledUp, newLevelTitle } = event.detail
-
-      // Update state with new values
-      setTotalXP(newTotalXP)
-      setCurrentLevel(newLevel)
-      setLevelInfo(xpSystem.getUserLevel(newTotalXP))
-
-      // Store in localStorage
-      if (user?.uid) {
-        localStorage.setItem(`xp_${user.uid}`, newTotalXP.toString())
-      }
+      const { leveledUp, newLevelTitle, currentLevel: newLevel } = event.detail
 
       // Show level up notification if needed
       if (leveledUp && newLevelTitle) {
@@ -228,11 +239,18 @@ export function useXP(): UseXPReturn {
 
     window.addEventListener('xpGained', handleXPGained as EventListener)
     return () => window.removeEventListener('xpGained', handleXPGained as EventListener)
-  }, [user?.uid, showToast])
+  }, [showToast])
 
   // Calculate derived values
   const xpToNextLevel = levelInfo?.xpToNextLevel || 100
   const progressPercentage = levelInfo?.progressPercentage || 0
+
+  // Fetch initial XP when authenticated
+  useEffect(() => {
+    if (isAuthenticated && user?.uid && !hasInitialized) {
+      refreshXP()
+    }
+  }, [isAuthenticated, user?.uid, hasInitialized, refreshXP]) // Trigger when authentication is confirmed
 
   return {
     totalXP,

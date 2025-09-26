@@ -109,9 +109,16 @@ export default function AddToListButton({
           setShowMenu(false);
         }, 1500);
       }
-    } catch (error) {
-      console.error('Error adding to list:', error);
-      showToast(t('lists.errors.addFailed'), 'error');
+    } catch (error: any) {
+      // Check if it's a duplicate error - this is expected validation, not an error
+      if (error.message?.includes('already exists')) {
+        console.log('Item already exists in list:', content);
+        showToast(t('lists.errors.duplicateItem') || 'This item already exists in the list', 'warning');
+      } else {
+        // Only log actual errors
+        console.error('Error adding to list:', error);
+        showToast(t('lists.errors.addFailed'), 'error');
+      }
     }
   };
 

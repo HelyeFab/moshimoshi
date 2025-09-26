@@ -1,4 +1,4 @@
-import type { UserList, ListItem, CreateListRequest, AddItemRequest, UpdateListRequest } from '@/types/userLists';
+import type { UserList, ListItem, CreateListRequest, AddItemRequest, UpdateListRequest, ListType } from '@/types/userLists';
 import { openDB, IDBPDatabase } from 'idb';
 
 interface ListManagerDB {
@@ -16,6 +16,35 @@ class ListManager {
   private db: IDBPDatabase<ListManagerDB> | null = null;
   private syncTimer: NodeJS.Timeout | null = null;
   private listeners: Map<string, Set<() => void>> = new Map();
+
+  /**
+   * Normalize content for duplicate comparison based on list type
+   */
+  private normalizeForComparison(content: string, type: ListType): string {
+    let normalized = content.trim().toLowerCase();
+
+    if (type === 'sentence') {
+      // Remove common punctuation and normalize spaces for sentences
+      normalized = normalized
+        .replace(/[。、！？.,!?\s]+/g, ' ') // Replace punctuation and spaces with single space
+        .trim()
+        .replace(/\s+/g, ' '); // Ensure only single spaces
+    }
+
+    return normalized;
+  }
+
+  /**
+   * Check if content already exists in the list
+   */
+  private isDuplicate(newContent: string, existingItems: ListItem[], type: ListType): boolean {
+    const normalizedNew = this.normalizeForComparison(newContent, type);
+
+    return existingItems.some(item => {
+      const normalizedExisting = this.normalizeForComparison(item.content, type);
+      return normalizedNew === normalizedExisting;
+    });
+  }
 
   // Initialize IndexedDB
   private async initDB(): Promise<IDBPDatabase<ListManagerDB>> {
@@ -183,11 +212,22 @@ class ListManager {
   async addItemToList(listId: string, content: string, metadata: any, userId: string, isPremium: boolean): Promise<ListItem | null> {
     const db = await this.initDB();
 
+    // Get the list first to check for duplicates
+    const list = await db.get('lists', listId);
+    if (!list || list.userId !== userId) {
+      throw new Error('List not found or unauthorized');
+    }
+
+    // Check for duplicate content
+    if (this.isDuplicate(content, list.items, list.type)) {
+      throw new Error('This item already exists in the list');
+    }
+
     // Create the item
     const newItem: ListItem = {
       id: crypto.randomUUID(),
       content,
-      type: 'word', // Will be set based on list type
+      type: list.type,
       metadata: {
         ...metadata,
         addedAt: Date.now()
@@ -208,34 +248,35 @@ class ListManager {
           const { item } = await response.json();
 
           // Update local IndexedDB
-          const list = await db.get('lists', listId);
-          if (list) {
-            list.items.push(item);
-            list.updatedAt = Date.now();
-            await db.put('lists', list);
-            this.notifyListeners(`list-${listId}`);
-          }
+          list.items.push(item);
+          list.updatedAt = Date.now();
+          await db.put('lists', list);
+          this.notifyListeners(`list-${listId}`);
 
           return item;
+        } else if (response.status === 409) {
+          // Duplicate detected on server
+          const error = await response.json();
+          throw new Error(error.error || 'This item already exists in the list');
         }
-      } catch (error) {
+      } catch (error: any) {
+        // If it's a duplicate error, re-throw it (this is expected validation)
+        if (error.message?.includes('already exists')) {
+          throw error;
+        }
+        // Only log non-duplicate errors
         console.error('Failed to add item on server:', error);
         // Fall through for offline premium users
       }
     }
 
     // Free users or offline: Update IndexedDB only
-    const list = await db.get('lists', listId);
-    if (list && list.userId === userId) {
-      newItem.type = list.type;
-      list.items.push(newItem);
-      list.updatedAt = Date.now();
-      await db.put('lists', list);
-      this.notifyListeners(`list-${listId}`);
-      return newItem;
-    }
-
-    return null;
+    // (We've already checked for duplicates above)
+    list.items.push(newItem);
+    list.updatedAt = Date.now();
+    await db.put('lists', list);
+    this.notifyListeners(`list-${listId}`);
+    return newItem;
   }
 
   // Sync local lists to Firebase (for when session is corrected)

@@ -273,22 +273,28 @@ export default function ListDetailPage() {
 
                   {/* Content */}
                   <div className="flex-1">
-                    <div className="font-medium text-gray-900 dark:text-gray-100 text-lg">
-                      {item.content}
+                    <div className="flex items-start gap-3">
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-900 dark:text-gray-100 text-lg">
+                          {item.content}
+                        </div>
+                        {item.metadata?.reading && (
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            {item.metadata.reading}
+                          </div>
+                        )}
+                      </div>
+                      {item.metadata?.meaning && (
+                        <div className="flex-1 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
+                          <div className="text-sm font-medium text-primary-700 dark:text-primary-300">
+                            → {item.metadata.meaning}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    {item.metadata?.reading && (
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        {item.metadata.reading}
-                      </div>
-                    )}
-                    {item.metadata?.meaning && (
-                      <div className="text-sm text-gray-600 dark:text-gray-300">
-                        {item.metadata.meaning}
-                      </div>
-                    )}
                     {item.metadata?.notes && (
-                      <div className="text-sm text-gray-500 dark:text-gray-400 italic">
-                        {item.metadata.notes}
+                      <div className="text-sm text-gray-500 dark:text-gray-400 italic mt-1">
+                        📝 {item.metadata.notes}
                       </div>
                     )}
                   </div>

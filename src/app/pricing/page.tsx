@@ -84,7 +84,7 @@ export default function PricingPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-white dark:from-dark-900 dark:to-dark-800">
         <div className="text-center">
           <DoshiMascot size="large" />
           <p className="mt-4 text-gray-600 dark:text-gray-400">{t('pricing.loading')}</p>

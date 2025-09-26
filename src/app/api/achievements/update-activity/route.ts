@@ -1,131 +1,68 @@
+/**
+ * DEPRECATED: Redirects to unified stats API
+ *
+ * This endpoint is kept for backward compatibility.
+ * All new code should use /api/stats/unified instead.
+ */
+
 import { NextRequest, NextResponse } from 'next/server'
-import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
-import { FieldValue } from 'firebase-admin/firestore'
-import { calculateStreakFromDates, cleanNestedDates } from '@/utils/streakCalculator'
+import logger from '@/lib/logger'
 
 export async function POST(request: NextRequest) {
   try {
-    // Get the authenticated user from session
-    const session = await getSession()
+    logger.warn('[DEPRECATED] /api/achievements/update-activity called - redirecting to /api/stats/unified')
 
-    if (!session?.uid) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+    // Parse the request body
+    const body = await request.json()
+    const { sessionType, itemsReviewed, accuracy, duration } = body
+
+    // Transform to unified API format
+    const unifiedBody = {
+      type: 'session',
+      data: {
+        type: sessionType,
+        itemsReviewed: itemsReviewed || 0,
+        accuracy: accuracy || 0,
+        duration: duration || 0
+      }
     }
 
-    // CRITICAL: Fetch fresh user data from Firestore - NEVER trust session.tier
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
-    const userData = userDoc.data()
-
-    // Determine actual tier from fresh data
-    const plan = userData?.subscription?.plan || 'free'
-    const isPremium = plan.startsWith('premium')
-
-    console.log(`[API] User ${session.uid} - Session tier: ${session.tier}, Actual plan: ${plan}, isPremium: ${isPremium}`)
-
-    const { sessionType, itemsReviewed, accuracy, duration } = await request.json()
-
-    // Get today's date in YYYY-MM-DD format
-    const today = new Date().toISOString().split('T')[0]
-
-    // Check if adminDb is initialized
-    if (!adminDb) {
-      return NextResponse.json(
-        { error: 'Database not initialized' },
-        { status: 500 }
-      )
-    }
-
-    // Reference to the user's activities document
-    const activityRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('achievements')
-      .doc('activities')
-
-    // Get current activities data
-    const activityDoc = await activityRef.get()
-    const rawData = activityDoc.exists ? activityDoc.data() : null
-
-    // Clean up any nested structure issues using the centralized function
-    // This handles dates at root level (dates.2025-09-17) and nested structures
-    const cleanDates = rawData ? cleanNestedDates(rawData) : {}
-
-    // Also check for dates directly at the root level (the corruption issue)
-    if (rawData) {
-      Object.entries(rawData).forEach(([key, value]) => {
-        // Check for keys like "dates.2025-09-17" at root level
-        if (key.startsWith('dates.') && key.match(/dates\.\d{4}-\d{2}-\d{2}$/)) {
-          const dateOnly = key.replace('dates.', '')
-          cleanDates[dateOnly] = true
-          console.log(`[API] Found corrupted date at root: ${key}, extracting: ${dateOnly}`)
-        }
-      })
-    }
-
-    // Get existing best streak to preserve it
-    const existingBestStreak = rawData?.bestStreak || 0
-
-    // Mark today as active
-    cleanDates[today] = true
-    const lastActivity = Date.now()
-
-    // Calculate streak using the centralized function
-    const streakResult = calculateStreakFromDates(cleanDates, existingBestStreak)
-
-    // Prepare clean data structure for Firebase
-    // IMPORTANT: We use set() without merge to ensure clean structure
-    const cleanData = {
-      dates: cleanDates,
-      currentStreak: streakResult.currentStreak,
-      bestStreak: streakResult.bestStreak,
-      lastActivity: lastActivity,
-      lastUpdated: FieldValue.serverTimestamp()
-    }
-
-    // Update the document with clean structure
-    // Using set() without merge prevents nested structure issues
-    await activityRef.set(cleanData)
-
-    console.log(`[API] Updated activity for user ${session.uid}:`, {
-      currentStreak: streakResult.currentStreak,
-      bestStreak: streakResult.bestStreak,
-      isActiveToday: streakResult.isActiveToday,
-      dateCount: Object.keys(cleanDates).length,
-      today
+    // Forward to unified API
+    const baseUrl = request.nextUrl.origin
+    const response = await fetch(`${baseUrl}/api/stats/unified`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Forward cookies for authentication
+        'Cookie': request.headers.get('cookie') || '',
+      },
+      body: JSON.stringify(unifiedBody)
     })
 
-    // Also update session statistics if needed
-    if (sessionType) {
-      const statsRef = adminDb
-        .collection('users')
-        .doc(session.uid)
-        .collection('statistics')
-        .doc('overall')
-
-      await statsRef.set({
-        lastSessionType: sessionType,
-        lastSessionDate: FieldValue.serverTimestamp(),
-        totalSessions: FieldValue.increment(1),
-        totalItemsReviewed: FieldValue.increment(itemsReviewed || 0),
-        lastAccuracy: accuracy || 0,
-        lastUpdated: FieldValue.serverTimestamp()
-      }, { merge: true })
+    if (!response.ok) {
+      const error = await response.text()
+      logger.error('[DEPRECATED API] Unified API call failed:', error)
+      return NextResponse.json(
+        { error: 'Failed to update stats' },
+        { status: response.status }
+      )
     }
 
-    return NextResponse.json({
+    const data = await response.json()
+
+    // Transform response to old format for backward compatibility
+    const legacyResponse = {
       success: true,
-      currentStreak: streakResult.currentStreak,
-      bestStreak: streakResult.bestStreak,
-      isActiveToday: streakResult.isActiveToday,
-      today: today
-    })
+      currentStreak: data.stats?.streak?.current || 0,
+      bestStreak: data.stats?.streak?.best || 0,
+      today: data.stats?.streak?.lastActivityDate || new Date().toISOString().split('T')[0],
+      isActiveToday: data.stats?.streak?.isActiveToday || false
+    }
+
+    return NextResponse.json(legacyResponse)
 
   } catch (error) {
-    console.error('Error updating activity:', error)
+    logger.error('[DEPRECATED API] Error in update-activity:', error)
     return NextResponse.json(
       { error: 'Failed to update activity' },
       { status: 500 }

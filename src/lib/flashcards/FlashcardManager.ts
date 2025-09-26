@@ -8,22 +8,19 @@ import type {
   ImportDeckRequest,
   ExportDeckRequest,
   DeckStats,
-  CardSide
+  CardSide,
+  SessionStats
 } from '@/types/flashcards';
 import type { UserList, ListItem } from '@/types/userLists';
 import type { AnkiDeck } from '@/lib/anki/importer';
 import { openDB, IDBPDatabase } from 'idb';
 import { v4 as uuidv4 } from 'uuid';
+import { syncManager } from './SyncManager';
+import { storageManager } from './StorageManager';
+import { FlashcardSRSHelper } from './SRSHelper';
 
 interface FlashcardDB {
   decks: FlashcardDeck;
-  syncQueue: {
-    id: string;
-    action: 'create' | 'update' | 'delete' | 'addCard' | 'removeCard' | 'updateCard';
-    data: any;
-    timestamp: number;
-    retryCount: number;
-  };
 }
 
 export class FlashcardManager {
@@ -35,25 +32,29 @@ export class FlashcardManager {
   private async initDB(): Promise<IDBPDatabase<FlashcardDB>> {
     if (this.db) return this.db;
 
-    this.db = await openDB<FlashcardDB>('FlashcardDB', 1, {
-      upgrade(db) {
-        // Decks store
-        if (!db.objectStoreNames.contains('decks')) {
-          const decksStore = db.createObjectStore('decks', { keyPath: 'id' });
-          decksStore.createIndex('userId', 'userId');
-          decksStore.createIndex('updatedAt', 'updatedAt');
-          decksStore.createIndex('sourceListId', 'sourceListId');
-        }
+    // Initialize storage manager first
+    await storageManager.initialize();
 
-        // Sync queue for premium users
-        if (!db.objectStoreNames.contains('syncQueue')) {
-          const syncStore = db.createObjectStore('syncQueue', { keyPath: 'id' });
-          syncStore.createIndex('timestamp', 'timestamp');
-        }
-      }
-    });
+    try {
+      this.db = await openDB<FlashcardDB>('FlashcardDB', 1, {
+        upgrade(db) {
+          // Decks store
+          if (!db.objectStoreNames.contains('decks')) {
+            const decksStore = db.createObjectStore('decks', { keyPath: 'id' });
+            decksStore.createIndex('userId', 'userId');
+            decksStore.createIndex('updatedAt', 'updatedAt');
+            decksStore.createIndex('sourceListId', 'sourceListId');
+          }
 
-    return this.db;
+          // Note: Sync queue moved to SyncManager
+        }
+      });
+
+      return this.db;
+    } catch (error) {
+      const handled = storageManager.handleStorageError(error);
+      throw new Error(handled.message);
+    }
   }
 
   // Get all decks for a user
@@ -118,6 +119,20 @@ export class FlashcardManager {
   async createDeck(request: CreateDeckRequest, userId: string, isPremium: boolean): Promise<FlashcardDeck | null> {
     const db = await this.initDB();
     const now = Date.now();
+
+    // Check storage quota before creating deck
+    const estimatedSize = storageManager.calculateDeckSize({
+      ...request,
+      cards: request.initialCards || [],
+      userId
+    });
+
+    const hasSpace = await storageManager.hasEnoughSpace(estimatedSize);
+    if (!hasSpace) {
+      const error = new Error('QuotaExceededError: Insufficient storage space');
+      error.name = 'QuotaExceededError';
+      throw error;
+    }
 
     const deck: FlashcardDeck = {
       id: uuidv4(),
@@ -197,21 +212,50 @@ export class FlashcardManager {
             throw new Error(errorMessage);
           }
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Failed to create deck on server:', error);
+
+        // Queue for retry
+        await syncManager.queueOperation({
+          action: 'create',
+          deckId: deck.id,
+          data: request,
+          userId
+        });
+
+        // Still save locally for offline access
+        await db.put('decks', deck);
+        this.notifyListeners('decks-changed');
+        return deck;
       }
     } else {
       console.log('[FlashcardManager.createDeck] Guest user - saving to IndexedDB only');
     }
 
     // For free users and guests: Save to IndexedDB only
-    await db.put('decks', deck);
-    this.notifyListeners('decks-changed');
+    try {
+      await db.put('decks', deck);
+      this.notifyListeners('decks-changed');
+    } catch (error) {
+      const handled = storageManager.handleStorageError(error);
+      throw new Error(handled.message);
+    }
+
+    // Queue for future sync if user upgrades
+    if (userId !== 'guest') {
+      await syncManager.queueOperation({
+        action: 'create',
+        deckId: deck.id,
+        data: deck,
+        userId
+      });
+    }
+
     return deck;
   }
 
-  // Update existing deck
-  async updateDeck(deckId: string, request: CreateDeckRequest, userId: string, isPremium: boolean): Promise<FlashcardDeck | null> {
+  // Update existing deck (renamed to avoid collision)
+  async updateFullDeck(deckId: string, request: CreateDeckRequest, userId: string, isPremium: boolean): Promise<FlashcardDeck | null> {
     const db = await this.initDB();
     const now = Date.now();
 
@@ -292,7 +336,7 @@ export class FlashcardManager {
       case 'list':
         // Import from existing UserList
         if (request.sourceListId) {
-          cards = await this.convertListToCards(request.sourceListId, userId);
+          cards = await this.convertListToCards(request.sourceListId, userId, isPremium);
         }
         break;
 
@@ -346,10 +390,45 @@ export class FlashcardManager {
   }
 
   // Convert UserList to flashcards
-  private async convertListToCards(listId: string, userId: string): Promise<FlashcardContent[]> {
-    // This would integrate with ListManager to get the list
-    // For now, return empty array
-    return [];
+  private async convertListToCards(listId: string, userId: string, isPremium: boolean = false): Promise<FlashcardContent[]> {
+    try {
+      // Import ListManager to get the list
+      const { listManager } = await import('@/lib/lists/ListManager');
+
+      // Get all user lists
+      const lists = await listManager.getLists(userId, isPremium);
+
+      // Find the specific list
+      const list = lists.find(l => l.id === listId);
+      if (!list) {
+        console.error('List not found:', listId);
+        return [];
+      }
+
+      // Convert list items to flashcards
+      return list.items.map(item => ({
+        id: uuidv4(),
+        front: {
+          text: item.content,  // The word/sentence/verb
+          subtext: item.metadata?.reading || undefined  // Reading (for kanji)
+        },
+        back: {
+          text: item.metadata?.meaning || item.content,  // MEANING goes on the back!
+          subtext: item.metadata?.notes || undefined  // Any notes
+        },
+        metadata: {
+          tags: item.metadata?.tags || [list.type],
+          difficulty: 0.5,  // Default difficulty
+          jlptLevel: item.metadata?.jlptLevel,
+          source: `list:${list.name}`,
+          originalListId: listId,
+          itemId: item.id
+        }
+      }));
+    } catch (error) {
+      console.error('Error converting list to flashcards:', error);
+      return [];
+    }
   }
 
   // Convert Anki cards to flashcards
@@ -729,6 +808,194 @@ export class FlashcardManager {
         return { maxDecks: -1, dailyReviews: -1 }; // Unlimited
       default:
         return { maxDecks: 10, dailyReviews: 50 };
+    }
+  }
+
+  // Get cards due for review from a specific deck
+  async getDueCards(deckId: string, userId: string, limit?: number): Promise<FlashcardContent[]> {
+    const db = await this.initDB();
+    const deck = await this.getDeck(deckId, userId);
+
+    if (!deck) return [];
+
+    // Initialize SRS metadata for cards that don't have it
+    const cardsWithSRS = deck.cards.map(card => {
+      if (!card.metadata?.status) {
+        return FlashcardSRSHelper.initializeCardSRS(card);
+      }
+      return card;
+    });
+
+    // Get due cards
+    let dueCards = FlashcardSRSHelper.getDueCards(cardsWithSRS);
+
+    // Sort by priority
+    dueCards = FlashcardSRSHelper.sortByPriority(dueCards);
+
+    // Apply daily limit for free users
+    if (limit && limit > 0) {
+      dueCards = dueCards.slice(0, limit);
+    }
+
+    return dueCards;
+  }
+
+  // Get all due cards across all decks for a user
+  async getAllDueCards(userId: string, isPremium: boolean): Promise<{ deckId: string; cards: FlashcardContent[] }[]> {
+    const decks = await this.getDecks(userId, isPremium);
+    const limits = FlashcardManager.getDeckLimits(isPremium ? 'premium_yearly' : 'free');
+    const dailyLimit = limits.dailyReviews === -1 ? undefined : limits.dailyReviews;
+
+    const allDueCards: { deckId: string; cards: FlashcardContent[] }[] = [];
+    let totalCards = 0;
+
+    for (const deck of decks) {
+      // Calculate remaining limit
+      const remainingLimit = dailyLimit ? Math.max(0, dailyLimit - totalCards) : undefined;
+
+      if (remainingLimit === 0) break;
+
+      const dueCards = await this.getDueCards(deck.id, userId, remainingLimit);
+
+      if (dueCards.length > 0) {
+        allDueCards.push({
+          deckId: deck.id,
+          cards: dueCards
+        });
+        totalCards += dueCards.length;
+      }
+    }
+
+    return allDueCards;
+  }
+
+  // Update a card after review with SRS algorithm
+  async updateCardAfterReview(
+    deckId: string,
+    cardId: string,
+    difficulty: 'again' | 'hard' | 'good' | 'easy',
+    responseTime: number,
+    userId: string,
+    isPremium: boolean
+  ): Promise<FlashcardContent | null> {
+    const db = await this.initDB();
+    const deck = await this.getDeck(deckId, userId);
+
+    if (!deck) return null;
+
+    // Find the card
+    const cardIndex = deck.cards.findIndex(c => c.id === cardId);
+    if (cardIndex === -1) return null;
+
+    // Update card with SRS algorithm
+    const updatedCard = await FlashcardSRSHelper.updateCardAfterReview(
+      deck.cards[cardIndex],
+      difficulty,
+      responseTime
+    );
+
+    // Update deck
+    deck.cards[cardIndex] = updatedCard;
+    deck.updatedAt = Date.now();
+
+    // Update deck stats based on card progress
+    this.updateDeckStatsFromCard(deck, updatedCard, difficulty !== 'again');
+
+    // Save to server ONLY for premium users
+    if (isPremium && userId !== 'guest') {
+      try {
+        const response = await fetch(`/api/flashcards/decks/${deckId}/cards/${cardId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            metadata: updatedCard.metadata
+          })
+        });
+
+        if (response.ok) {
+          await db.put('decks', deck);
+          this.notifyListeners(`deck-${deckId}`);
+          return updatedCard;
+        }
+      } catch (error) {
+        console.error('Failed to update card on server:', error);
+      }
+    }
+
+    // Save to IndexedDB
+    await db.put('decks', deck);
+    this.notifyListeners(`deck-${deckId}`);
+    return updatedCard;
+  }
+
+  // Update deck stats based on card review
+  private updateDeckStatsFromCard(deck: FlashcardDeck, card: FlashcardContent, wasCorrect: boolean): void {
+    // Update card type counts
+    if (card.metadata?.status) {
+      const oldStatus = deck.cards.find(c => c.id === card.id)?.metadata?.status;
+
+      if (oldStatus !== card.metadata.status) {
+        // Update counts when status changes
+        switch (oldStatus) {
+          case 'new': deck.stats.newCards = Math.max(0, deck.stats.newCards - 1); break;
+          case 'learning': deck.stats.learningCards = Math.max(0, deck.stats.learningCards - 1); break;
+          case 'review': deck.stats.reviewCards = Math.max(0, deck.stats.reviewCards - 1); break;
+          case 'mastered': deck.stats.masteredCards = Math.max(0, deck.stats.masteredCards - 1); break;
+        }
+
+        switch (card.metadata.status) {
+          case 'new': deck.stats.newCards++; break;
+          case 'learning': deck.stats.learningCards++; break;
+          case 'review': deck.stats.reviewCards++; break;
+          case 'mastered': deck.stats.masteredCards++; break;
+        }
+      }
+    }
+
+    // Update studied count
+    deck.stats.totalStudied++;
+    deck.stats.lastStudied = Date.now();
+
+    // Update accuracy (running average)
+    const totalReviews = deck.stats.totalStudied;
+    const currentAccuracy = deck.stats.averageAccuracy;
+    deck.stats.averageAccuracy = ((currentAccuracy * (totalReviews - 1)) + (wasCorrect ? 1 : 0)) / totalReviews;
+  }
+
+  // Save session statistics
+  async saveSessionStats(session: SessionStats, userId: string, isPremium: boolean): Promise<void> {
+    const db = await this.initDB();
+
+    // Update deck stats with session data
+    const deck = await this.getDeck(session.deckId, userId);
+    if (deck) {
+      // Update cumulative stats
+      deck.stats.totalTimeSpent += session.duration;
+
+      // Update heatmap data
+      const dateKey = new Date(session.timestamp).toISOString().split('T')[0];
+      if (!deck.stats.heatmapData) {
+        deck.stats.heatmapData = {};
+      }
+      deck.stats.heatmapData[dateKey] = (deck.stats.heatmapData[dateKey] || 0) + session.cardsStudied;
+
+      // Save updated deck
+      await db.put('decks', deck);
+    }
+
+    // For premium users, also save to Firebase
+    if (isPremium && userId !== 'guest') {
+      try {
+        await fetch('/api/flashcards/sessions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(session)
+        });
+      } catch (error) {
+        console.error('Failed to save session to server:', error);
+      }
     }
   }
 }

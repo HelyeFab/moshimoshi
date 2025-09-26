@@ -72,6 +72,7 @@ const nextConfig: NextConfig = {
         zlib: false,
         http: false,
         https: false,
+        http2: false,
       };
 
       // Enable service worker support

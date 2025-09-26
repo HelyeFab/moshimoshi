@@ -122,6 +122,7 @@ export const strings = {
     with: "avec",
     free: "GRATUIT",
     premium: "PREMIUM",
+    premiumOnly: "Premium Uniquement",
     guest: "INVITÉ",
     creating: "Création...",
     saving: "Enregistrement...",
@@ -129,6 +130,10 @@ export const strings = {
     today: "Aujourd'hui",
     yesterday: "Hier",
     theme: "Thème",
+    complete: "Terminé",
+    completed: "Terminé",
+    correct: "Correct",
+    incorrect: "Incorrect",
     explore: "Explorer",
   },
 
@@ -1932,7 +1937,15 @@ export const strings = {
       selectList: "Sélectionner une liste",
       importing: "Importation...",
       success: "{{count}} cartes importées",
-      error: "Échec de l'importation"
+      error: "Échec de l'importation",
+      yourLists: "Vos listes",
+      noLists: "Aucune liste disponible",
+      createListFirst: "Créez d'abord une liste pour l'importer comme paquet",
+      anki: "Importation Anki",
+      ankiTitle: "Anki",
+      csv: "Importer un fichier CSV",
+      csvTitle: "CSV",
+      csvDescription: "Importer un fichier CSV"
     },
 
     export: {
@@ -2008,6 +2021,34 @@ export const strings = {
       imported: "Paquet importé",
       exported: "Paquet exporté"
     },
+
+    // Session Settings
+    settings: {
+      sessionLength: "Cartes par session",
+      sessionLengthHint: "Choisissez le nombre de cartes à étudier dans cette session",
+      quickSettings: "Paramètres rapides",
+      reviewMode: "Mode de révision",
+      sequential: "Séquentiel",
+      random: "Aléatoire",
+      smart: "Intelligent",
+      studyDirection: "Direction d'étude",
+      frontToBack: "Recto → Verso",
+      frontToBackDesc: "Montrer le recto en premier",
+      backToFront: "Verso → Recto",
+      backToFrontDesc: "Montrer le verso en premier",
+      mixed: "Mélangé",
+      mixedDesc: "Direction aléatoire pour chaque carte",
+      usingAllCards: "Utilisation de toutes les cartes disponibles"
+    },
+
+    // Actions
+    actions: {
+      syncAll: "Tout synchroniser",
+      exportAll: "Tout exporter"
+    },
+
+    // Study Session
+    startSession: "Démarrer la session",
 
     // Statistics
     showStats: "Afficher les statistiques",

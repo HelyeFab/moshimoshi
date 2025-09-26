@@ -28,17 +28,39 @@ export interface FlashcardContent {
   front: CardSide;
   back: CardSide;
   metadata?: {
-    difficulty?: number; // 0-1
+    // SRS Core Data
+    status?: CardStatus; // 'new' | 'learning' | 'review' | 'mastered'
+    interval?: number; // Days until next review
+    easeFactor?: number; // Difficulty multiplier (default 2.5)
+    repetitions?: number; // Number of successful reviews
+    lapses?: number; // Number of times forgotten
+
+    // Review Tracking
+    lastReviewed?: number; // Timestamp of last review
+    nextReview?: number; // Timestamp when due for review
+    reviewCount?: number; // Total number of reviews
+    correctCount?: number; // Number of correct reviews
+
+    // Performance Metrics
+    averageResponseTime?: number; // Average response time in ms
+    lastResponseTime?: number; // Last response time in ms
+    streak?: number; // Current correct answer streak
+    bestStreak?: number; // Best streak achieved
+
+    // Learning Progress
+    learningStep?: number; // Current step in learning phase (0-based)
+    graduatedAt?: number; // When card graduated from learning
+
+    // Content Metadata
+    difficulty?: number; // User-perceived difficulty (0-1)
     tags?: string[];
     notes?: string;
     audioUrl?: string;
     imageUrl?: string;
-    lastReviewed?: number;
-    nextReview?: number;
-    reviewCount?: number;
-    correctCount?: number;
-    srsLevel?: number;
-    easeFactor?: number;
+
+    // Additional tracking
+    createdAt?: number; // When card was added to deck
+    modifiedAt?: number; // Last content modification
   };
 }
 
@@ -162,6 +184,45 @@ export interface SessionSummary {
   streakMaintained: boolean;
   xpEarned?: number;
   achievements?: string[];
+}
+
+// Session History for persistence and analytics
+export interface SessionStats {
+  id: string;
+  userId: string;
+  deckId: string;
+  deckName: string;
+  timestamp: number; // Session start time
+  duration: number; // Session duration in ms
+
+  // Performance Metrics
+  cardsStudied: number;
+  cardsCorrect: number;
+  cardsIncorrect: number;
+  cardsSkipped: number;
+  accuracy: number; // 0-1
+
+  // Card Type Breakdown
+  newCards: number;
+  learningCards: number;
+  reviewCards: number;
+
+  // Response Metrics
+  averageResponseTime: number; // ms
+  fastestResponseTime: number;
+  slowestResponseTime: number;
+
+  // Progress Metrics
+  xpEarned: number;
+  streakSnapshot: number; // Streak at time of session
+  perfectSession: boolean; // 100% accuracy
+
+  // Study Mode
+  mode?: StudyMode;
+  settings?: {
+    sessionLength: number;
+    reviewMode: string;
+  };
 }
 
 // Import/Export types

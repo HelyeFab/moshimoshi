@@ -320,31 +320,39 @@ export const useAchievementStore = create<AchievementStore>()(
           }
 
           try {
-            // Call server API to update activities - this handles auth and Firebase properly
-            const response = await fetch('/api/achievements/update-activity', {
+            // Call unified stats API - single source of truth for all stats
+            const response = await fetch('/api/stats/unified', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                sessionType: sessionStats.sessionType,
-                itemsReviewed: sessionStats.itemsReviewed || 0,
-                accuracy: sessionStats.accuracy || 0,
-                duration: sessionStats.duration || 0
+                type: 'session',
+                data: {
+                  type: sessionStats.sessionType,
+                  itemsReviewed: sessionStats.itemsReviewed || 0,
+                  accuracy: sessionStats.accuracy || 0,
+                  duration: sessionStats.duration || 0
+                }
               })
             })
 
             if (!response.ok) {
-              console.error('[Achievement] Failed to update activity via API:', response.statusText)
+              console.error('[Achievement] Failed to update stats via unified API:', response.statusText)
               // Continue with local update as fallback
             } else {
               const data = await response.json()
-              logger.achievement('Activity updated via API', { streak: data.currentStreak, best: data.bestStreak, today: data.today })
+              logger.achievement('Stats updated via unified API', {
+                streak: data.stats?.streak?.current,
+                best: data.stats?.streak?.best,
+                xp: data.stats?.xp?.total,
+                level: data.stats?.xp?.level
+              })
 
-              // Update local state with server response
+              // Update local state with server response from unified stats
               set({
-                currentStreak: data.currentStreak,
-                bestStreak: data.bestStreak,
+                currentStreak: data.stats?.streak?.current || 0,
+                bestStreak: data.stats?.streak?.best || 0,
                 lastStreakUpdate: nowDate()
               })
 

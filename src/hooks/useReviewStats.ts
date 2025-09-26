@@ -75,7 +75,13 @@ export function useReviewStats() {
         } else if (storageDecision.storageLocation === 'both') {
           // Premium user - use cloud data
           console.log('[ReviewStats] Premium user - using cloud stats')
-          setStats({
+          console.log('[ReviewStats] API data received:', {
+            streakDays: data.streakDays,
+            bestStreak: data.bestStreak,
+            totalStudied: data.totalStudied
+          })
+
+          const newStats = {
             dueNow: data.dueNow || 0,
             newItems: data.newItems || 0,
             learningItems: data.learningItems || 0,
@@ -90,7 +96,14 @@ export function useReviewStats() {
             dueToday: data.dueToday || 0,
             dueTomorrow: data.dueTomorrow || 0,
             dueThisWeek: data.dueThisWeek || 0
+          }
+
+          console.log('[ReviewStats] Setting stats:', {
+            currentStreak: newStats.currentStreak,
+            bestStreak: newStats.bestStreak
           })
+
+          setStats(newStats)
         }
       } catch (apiError) {
         logger.error('API error, falling back to local stats:', apiError)

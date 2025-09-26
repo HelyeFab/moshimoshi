@@ -6,42 +6,66 @@ The leaderboard system provides competitive rankings for users based on their ac
 
 ## Architecture
 
-### Data Sources (Single Source of Truth)
+> ⚠️ **UPDATE (2025-01-26)**: This document has been updated to reflect the new unified stats system. For migration details, see [User Stats Migration Documentation](/docs/user-stats-migration/README.md).
 
-1. **Streak Data**: `users/{uid}/achievements/activities`
-   - currentStreak
-   - bestStreak
-   - lastActivity
+### Data Source (Single Source of Truth)
 
-2. **XP Data**: `users/{uid}/stats/xp`
-   - totalXP
-   - currentLevel
-   - weeklyXP
-   - monthlyXP
+**All user statistics now come from the unified `user_stats` collection:**
 
-3. **Achievements**: `users/{uid}/achievements/data`
-   - unlocked achievements
-   - totalPoints
-   - rarity counts
+**Collection**: `user_stats/{userId}`
+```javascript
+{
+  // User Profile
+  displayName: string,
+  photoURL: string,
+  tier: 'free' | 'premium',
 
-4. **User Profile**: `users/{uid}`
-   - displayName
-   - photoURL
-   - subscription plan
+  // Streak Data
+  streak: {
+    current: number,
+    best: number,
+    dates: { [date]: boolean },
+    lastActivityDate: string
+  },
 
-5. **Privacy Settings**: `users/{uid}/preferences/settings`
-   - hideFromLeaderboard (false by default)
-   - useAnonymousName
+  // XP Data
+  xp: {
+    total: number,
+    level: number,
+    weeklyXP: number,
+    monthlyXP: number
+  },
+
+  // Achievements
+  achievements: {
+    totalPoints: number,
+    unlockedIds: string[],
+    unlockedCount: number
+  },
+
+  // Session Stats
+  sessions: {
+    totalSessions: number,
+    averageAccuracy: number
+  }
+}
+```
+
+**Privacy Settings**: Still in `users/{uid}/preferences/settings`
+- hideFromLeaderboard (false by default)
+- useAnonymousName
 
 ## Components
 
 ### 1. LeaderboardService (`/src/lib/leaderboard/LeaderboardService.ts`)
-- Aggregates user data from multiple Firebase collections
+- Reads user data from the single `user_stats` collection
 - Calculates rankings based on composite scoring
 - Handles caching with Redis and Firestore
+- No longer needs complex aggregation from multiple sources
 
 ### 2. Cloud Function (`/functions/src/scheduled/leaderboard.ts`)
 - Runs hourly to pre-compute leaderboard snapshots
+- Reads from unified `user_stats` collection
 - Stores snapshots in `leaderboard_snapshots` collection
 - Maintains historical data for trend analysis
 
@@ -60,24 +84,26 @@ The leaderboard system provides competitive rankings for users based on their ac
 
 ## Scoring Algorithm
 
+> **Note**: These formulas remain the same, but data now comes from the `user_stats` collection fields
+
 ### All-Time Ranking
 ```
-Score = totalPoints + totalXP + (bestStreak × 3)
+Score = achievements.totalPoints + xp.total + (streak.best × 3)
 ```
 
 ### Monthly Ranking
 ```
-Score = totalPoints + monthlyXP + (currentStreak × 2)
+Score = achievements.totalPoints + xp.monthlyXP + (streak.current × 2)
 ```
 
 ### Weekly Ranking
 ```
-Score = totalPoints + weeklyXP + (currentStreak × 5)
+Score = achievements.totalPoints + xp.weeklyXP + (streak.current × 5)
 ```
 
 ### Daily Ranking
 ```
-Score = totalPoints + dailyXP + (currentStreak × 10)
+Score = achievements.totalPoints + dailyXP + (streak.current × 10)
 ```
 
 ## Privacy Model (Opt-Out)
@@ -220,5 +246,5 @@ curl http://localhost:3000/api/leaderboard/user/USER_ID?timeframe=weekly
 
 ---
 
-Last Updated: 2025-01-25
+Last Updated: 2025-01-26 (Migrated to Unified Stats System)
 Author: Claude & Beano

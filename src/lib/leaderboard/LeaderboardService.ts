@@ -46,10 +46,10 @@ export class LeaderboardService {
         return null
       }
 
-      // Get user's leaderboard stats
-      const statsDoc = await adminDb.collection('leaderboard_stats').doc(userId).get()
+      // Get user's stats from unified collection
+      const statsDoc = await adminDb.collection('user_stats').doc(userId).get()
       if (!statsDoc.exists) {
-        logger.warn(`[LeaderboardService] No leaderboard stats for user ${userId}`)
+        logger.warn(`[LeaderboardService] No user stats for user ${userId}`)
         return null
       }
 
@@ -58,16 +58,16 @@ export class LeaderboardService {
         userId,
         displayName: data.displayName || 'Anonymous',
         photoURL: data.photoURL,
-        currentStreak: data.currentStreak || 0,
-        bestStreak: data.bestStreak || data.currentStreak || 0,
-        lastActivity: data.lastActivityDate?.toMillis() || Date.now(),
-        totalXP: data.totalXP || 0,
-        currentLevel: data.level || 1,
-        weeklyXP: data.weeklyXP || 0,
-        monthlyXP: data.monthlyXP || 0,
+        currentStreak: data.streak?.current || 0,
+        bestStreak: data.streak?.best || 0,
+        lastActivity: data.streak?.lastActivityDate ? new Date(data.streak.lastActivityDate).getTime() : Date.now(),
+        totalXP: data.xp?.total || 0,
+        currentLevel: data.xp?.level || 1,
+        weeklyXP: data.xp?.weeklyXP || 0,
+        monthlyXP: data.xp?.monthlyXP || 0,
         achievementsUnlocked: {},
-        totalPoints: data.achievementPoints || 0,
-        subscription: data.subscription,
+        totalPoints: data.achievements?.totalPoints || 0,
+        subscription: data.tier === 'premium' ? { status: 'active' } : null,
         privacy: {
           publicProfile: true,
           hideFromLeaderboard: false,
@@ -97,11 +97,11 @@ export class LeaderboardService {
     try {
       logger.info('[LeaderboardService] Building leaderboard for timeframe:', timeframe)
 
-      // Get all users from the lightweight leaderboard_stats collection
-      // This contains only public achievement data for ALL users (free and premium)
+      // Get all users from the unified user_stats collection
+      // This contains all user statistics in a single source of truth
       const [statsSnapshot, optOutsSnapshot] = await Promise.all([
-        adminDb.collection('leaderboard_stats')
-          .orderBy('totalXP', 'desc')
+        adminDb.collection('user_stats')
+          .orderBy('xp.total', 'desc')
           .limit(limit * 2) // Get extra in case of opt-outs
           .get(),
         adminDb.collection('leaderboard_optouts').get()
@@ -122,21 +122,21 @@ export class LeaderboardService {
           continue
         }
 
-        // Build aggregated data from lightweight stats
+        // Build aggregated data from unified stats
         aggregatedData.push({
           userId,
           displayName: data.displayName || 'Anonymous',
           photoURL: data.photoURL,
-          currentStreak: data.currentStreak || 0,
-          bestStreak: data.bestStreak || data.currentStreak || 0,
-          lastActivity: data.lastActivityDate?.toMillis() || Date.now(),
-          totalXP: data.totalXP || 0,
-          currentLevel: data.level || 1,
-          weeklyXP: data.weeklyXP || 0,
-          monthlyXP: data.monthlyXP || 0,
-          achievementsUnlocked: {},
-          totalPoints: data.achievementPoints || 0,
-          subscription: data.subscription,
+          currentStreak: data.streak?.current || 0,
+          bestStreak: data.streak?.best || 0,
+          lastActivity: data.streak?.lastActivityDate ? new Date(data.streak.lastActivityDate).getTime() : Date.now(),
+          totalXP: data.xp?.total || 0,
+          currentLevel: data.xp?.level || 1,
+          weeklyXP: data.xp?.weeklyXP || 0,
+          monthlyXP: data.xp?.monthlyXP || 0,
+          achievementsUnlocked: data.achievements?.unlockedIds || [],
+          totalPoints: data.achievements?.totalPoints || 0,
+          subscription: data.tier === 'premium' ? { status: 'active' } : null,
           privacy: {
             publicProfile: true,
             hideFromLeaderboard: false,
@@ -186,7 +186,8 @@ export class LeaderboardService {
 
         // Note: In a real implementation, you'd look up achievement definitions
         // to determine rarity. For now, we'll use a simple heuristic
-        const achievementCount = Object.keys(data.achievementsUnlocked).length
+        const achievementCount = data.achievements?.unlockedCount ||
+                                 (Array.isArray(data.achievementsUnlocked) ? data.achievementsUnlocked.length : 0)
         rarityCount.common = Math.floor(achievementCount * 0.4)
         rarityCount.uncommon = Math.floor(achievementCount * 0.3)
         rarityCount.rare = Math.floor(achievementCount * 0.2)
@@ -210,7 +211,8 @@ export class LeaderboardService {
           lastActive: data.lastActivity,
           subscription: data.subscription?.plan as any,
           isPublic: true,
-          isAnonymous: data.privacy?.useAnonymousName || false
+          isAnonymous: data.privacy?.useAnonymousName || false,
+          totalScore: score // Include the calculated score
         }
 
         return { entry, score }

@@ -8,7 +8,6 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import { motion } from 'framer-motion'
 import { kanjiService } from '@/services/kanjiService'
 import { Kanji } from '@/types/kanji'
-import { kanjiEnrichmentService } from '@/services/kanjiEnrichmentService'
 import SessionCompleteModal from '../components/SessionCompleteModal'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
@@ -224,8 +223,9 @@ export default function LearnContent() {
   }
 
   const enrichKanjiData = async (kanji: KanjiWithExamples[]): Promise<KanjiWithExamples[]> => {
-    // Use the real enrichment service for vocabulary and sentences
-    return kanjiEnrichmentService.enrichKanjiList(kanji)
+    // The KanjiDetailsModal handles enrichment internally using fetchTatoebaSentences
+    // No need to pre-enrich here as it was causing fs module errors in browser
+    return kanji
   }
 
   const handleRound1Complete = async () => {

@@ -394,7 +394,7 @@ export function UpcomingReviews({ className }: UpcomingReviewsProps) {
           </div>
           <div className="text-center px-2 py-1 rounded bg-blue-100 dark:bg-blue-900/20">
             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.dueTomorrow}</div>
-            <div className="text-xs text-blue-600 dark:text-blue-400">{t('review.schedule.tomorrow')}</div>
+            <div className="text-xs text-blue-600 dark:text-blue-400">{t('reviewDashboard.schedule.tomorrow')}</div>
           </div>
           <div className="text-center px-2 py-1 rounded bg-green-100 dark:bg-green-900/20">
             <div className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.dueThisWeek}</div>

@@ -410,23 +410,26 @@ export class ProgressTracker extends EventEmitter {
     }
 
     try {
-      // Call the API to update activity and streak
-      const response = await fetch('/api/achievements/update-activity', {
+      // Call the unified stats API to update activity and streak
+      const response = await fetch('/api/stats/unified', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          sessionType: sessionType,
-          itemsReviewed: 0, // Will be updated by actual session stats
-          accuracy: 0,
-          duration: 0
+          type: 'session',
+          data: {
+            type: sessionType,
+            itemsReviewed: 0, // Will be updated by actual session stats
+            accuracy: 0,
+            duration: 0
+          }
         })
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log(`[ProgressTracker] Activity recorded - streak: ${data.currentStreak}`);
+        console.log(`[ProgressTracker] Activity recorded via unified API - streak: ${data.stats?.streak?.current}`);
 
         // Also update localStorage for immediate access
         const today = new Date().toISOString().split('T')[0];

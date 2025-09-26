@@ -1,0 +1,109 @@
+{
+  "totalCaught": 12,
+  "caught": [
+    25,
+    1,
+    4,
+    7,
+    133,
+    150,
+    151,
+    6,
+    9,
+    94,
+    143,
+    149
+  ],
+  "catchHistory": [
+    {
+      "pokemonId": 25,
+      "caughtAt": "2025-09-15T09:18:33.098Z",
+      "source": "reward",
+      "jlptLevel": 5,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 1,
+      "caughtAt": "2025-09-14T09:18:33.098Z",
+      "source": "game",
+      "jlptLevel": 3,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 4,
+      "caughtAt": "2025-09-13T09:18:33.098Z",
+      "source": "game",
+      "jlptLevel": 5,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 7,
+      "caughtAt": "2025-09-12T09:18:33.098Z",
+      "source": "game",
+      "jlptLevel": 4,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 133,
+      "caughtAt": "2025-09-11T09:18:33.098Z",
+      "source": "reward",
+      "jlptLevel": 1,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 150,
+      "caughtAt": "2025-09-10T09:18:33.098Z",
+      "source": "achievement",
+      "jlptLevel": 5,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 151,
+      "caughtAt": "2025-09-09T09:18:33.098Z",
+      "source": "achievement",
+      "jlptLevel": 3,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 6,
+      "caughtAt": "2025-09-08T09:18:33.098Z",
+      "source": "game",
+      "jlptLevel": 3,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 9,
+      "caughtAt": "2025-09-07T09:18:33.098Z",
+      "source": "game",
+      "jlptLevel": 5,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 94,
+      "caughtAt": "2025-09-06T09:18:33.098Z",
+      "source": "game",
+      "jlptLevel": 1,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 143,
+      "caughtAt": "2025-09-05T09:18:33.098Z",
+      "source": "reward",
+      "jlptLevel": 3,
+      "kanjiIds": []
+    },
+    {
+      "pokemonId": 149,
+      "caughtAt": "2025-09-04T09:18:33.098Z",
+      "source": "game",
+      "jlptLevel": 1,
+      "kanjiIds": []
+    }
+  ],
+  "lastCaught": {
+    "date": "2025-09-15T09:18:33.098Z",
+    "id": 149
+  },
+  "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
+  "updatedAt": "2025-09-15T09:18:33.098Z"
+}

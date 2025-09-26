@@ -1,96 +1,54 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
-import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
+/**
+ * DEPRECATED: Redirects to unified stats API
+ *
+ * This endpoint is kept for backward compatibility.
+ * All new code should use /api/stats/unified instead.
+ */
 
-// GET endpoint to retrieve user's achievement data
+import { NextRequest, NextResponse } from 'next/server'
+import logger from '@/lib/logger'
+
 export async function GET(request: NextRequest) {
   try {
-    // Get the authenticated user from session
-    const session = await getSession()
+    logger.warn('[DEPRECATED] /api/achievements/data GET called - redirecting to /api/stats/unified')
 
-    if (!session?.uid) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    console.log(`[API Achievements] Loading achievements for user ${session.uid}`)
-
-    // Check storage decision
-    const decision = await getStorageDecision(session)
-
-    // For free users, return empty data with local storage indicator
-    if (!decision.shouldWriteToFirebase) {
-      console.log(`[API Achievements] Free user - should use local storage: ${session.uid}`)
-      return NextResponse.json({
-        unlocked: [],
-        totalPoints: 0,
-        totalXp: 0,
-        currentLevel: 1,
-        lessonsCompleted: 0,
-        statistics: {},
-        storage: {
-          location: 'local',
-          message: 'Free users should fetch from IndexedDB'
-        }
-      })
-    }
-
-    // Check if adminDb is initialized
-    if (!adminDb) {
-      return NextResponse.json(
-        { error: 'Database not initialized' },
-        { status: 500 }
-      )
-    }
-
-    // Get achievements document from Firebase (premium only)
-    const achievementsRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('achievements')
-      .doc('data')
-
-    const achievementsDoc = await achievementsRef.get()
-
-    if (!achievementsDoc.exists) {
-      console.log(`[API Achievements] No achievements found for user ${session.uid}, returning defaults`)
-      // Return default achievements if not found
-      return NextResponse.json({
-        unlocked: [],
-        totalPoints: 0,
-        totalXp: 0,
-        currentLevel: 1,
-        lessonsCompleted: 0,
-        statistics: {}
-      })
-    }
-
-    const data = achievementsDoc.data()
-    console.log(`[API Achievements] Found achievements for user ${session.uid}:`, {
-      unlocked: data?.unlocked?.length || 0,
-      totalPoints: data?.totalPoints || 0
-    })
-
-    // Return the achievements data with storage info
-    return NextResponse.json({
-      unlocked: data?.unlocked || [],
-      totalPoints: data?.totalPoints || 0,
-      totalXp: data?.totalXp || 0,
-      currentLevel: data?.currentLevel || 1,
-      lessonsCompleted: data?.lessonsCompleted || 0,
-      statistics: data?.statistics || {},
-      lastUpdated: data?.lastUpdated,
-      storage: {
-        location: decision.storageLocation,
-        syncEnabled: decision.shouldWriteToFirebase
+    // Forward to unified API
+    const baseUrl = request.nextUrl.origin
+    const response = await fetch(`${baseUrl}/api/stats/unified`, {
+      method: 'GET',
+      headers: {
+        // Forward cookies for authentication
+        'Cookie': request.headers.get('cookie') || '',
       }
     })
 
+    if (!response.ok) {
+      const error = await response.text()
+      logger.error('[DEPRECATED API] Unified API call failed:', error)
+      return NextResponse.json(
+        { error: 'Failed to fetch stats' },
+        { status: response.status }
+      )
+    }
+
+    const data = await response.json()
+
+    // Transform response to old format for backward compatibility
+    const legacyResponse = {
+      unlocked: data.stats?.achievements?.unlockedIds || [],
+      totalPoints: data.stats?.achievements?.totalPoints || 0,
+      totalXp: data.stats?.xp?.total || 0,
+      currentLevel: data.stats?.xp?.level || 1,
+      lessonsCompleted: data.stats?.sessions?.totalSessions || 0,
+      statistics: data.stats?.achievements?.statistics || {},
+      lastUpdated: data.stats?.metadata?.lastUpdated,
+      storage: data.storage
+    }
+
+    return NextResponse.json(legacyResponse)
+
   } catch (error) {
-    console.error('[API Achievements] Error loading achievements:', error)
+    logger.error('[DEPRECATED API] Error in achievements data:', error)
     return NextResponse.json(
       { error: 'Failed to load achievements' },
       { status: 500 }
@@ -98,62 +56,62 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST endpoint to save achievements
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSession()
+    logger.warn('[DEPRECATED] /api/achievements/data POST called - redirecting to /api/stats/unified')
 
-    if (!session?.uid) {
+    // Parse the request body
+    const body = await request.json()
+    const { unlocked, totalPoints, totalXp, currentLevel, lessonsCompleted, statistics } = body
+
+    // Transform to unified API format
+    const unifiedBody = {
+      type: 'achievement',
+      data: {
+        unlockedIds: unlocked || [],
+        totalPoints: totalPoints || 0,
+        statistics: statistics || {},
+        // Include XP and level updates
+        xp: {
+          total: totalXp || 0,
+          level: currentLevel || 1
+        },
+        sessionsCompleted: lessonsCompleted || 0
+      }
+    }
+
+    // Forward to unified API
+    const baseUrl = request.nextUrl.origin
+    const response = await fetch(`${baseUrl}/api/stats/unified`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Forward cookies for authentication
+        'Cookie': request.headers.get('cookie') || '',
+      },
+      body: JSON.stringify(unifiedBody)
+    })
+
+    if (!response.ok) {
+      const error = await response.text()
+      logger.error('[DEPRECATED API] Unified API call failed:', error)
       return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
+        { error: 'Failed to update stats' },
+        { status: response.status }
       )
     }
 
-    const body = await request.json()
+    const data = await response.json()
 
-    console.log(`[API Achievements] Saving achievements for user ${session.uid}:`, {
-      unlocked: body.unlocked?.length || 0,
-      totalPoints: body.totalPoints || 0
+    // Return success with storage info
+    return NextResponse.json({
+      message: 'Achievements saved successfully',
+      success: true,
+      storage: data.storage
     })
 
-    // Check storage decision
-    const decision = await getStorageDecision(session)
-
-    // Only save to Firebase for premium users
-    if (decision.shouldWriteToFirebase) {
-      console.log(`[API Achievements] Premium user - saving to Firebase: ${session.uid}`)
-
-      // Check if adminDb is initialized
-      if (!adminDb) {
-        return NextResponse.json(
-          { error: 'Database not initialized' },
-          { status: 500 }
-        )
-      }
-
-      // Save to Firebase
-      const achievementsRef = adminDb
-        .collection('users')
-        .doc(session.uid)
-        .collection('achievements')
-        .doc('data')
-
-      await achievementsRef.set({
-        ...body,
-        lastUpdated: new Date().toISOString()
-      }, { merge: true })
-    } else {
-      console.log(`[API Achievements] Free user - returning for local storage: ${session.uid}`)
-    }
-
-    return createStorageResponse(
-      { message: 'Achievements saved successfully' },
-      decision
-    )
-
   } catch (error) {
-    console.error('[API Achievements] Error saving achievements:', error)
+    logger.error('[DEPRECATED API] Error in achievements data:', error)
     return NextResponse.json(
       { error: 'Failed to save achievements' },
       { status: 500 }

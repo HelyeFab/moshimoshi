@@ -123,6 +123,7 @@ export const strings = {
     retry: "再試行",
     free: "無料",
     premium: "プレミアム",
+    premiumOnly: "プレミアム限定",
     guest: "ゲスト",
     creating: "作成中...",
     saving: "保存中...",
@@ -130,6 +131,10 @@ export const strings = {
     today: "今日",
     yesterday: "昨日",
     theme: "テーマ",
+    complete: "完了",
+    completed: "完了済み",
+    correct: "正解",
+    incorrect: "不正解",
     explore: "探索",
   },
 
@@ -1926,7 +1931,15 @@ export const strings = {
       selectList: "リストを選択",
       importing: "インポート中...",
       success: "{{count}}枚のカードをインポート",
-      error: "デッキのインポートに失敗"
+      error: "デッキのインポートに失敗",
+      yourLists: "あなたのリスト",
+      noLists: "利用可能なリストがありません",
+      createListFirst: "デッキとしてインポートするには、まずリストを作成してください",
+      anki: "Ankiインポート",
+      ankiTitle: "Anki",
+      csv: "CSVファイルをインポート",
+      csvTitle: "CSV",
+      csvDescription: "CSVファイルをインポート"
     },
 
     export: {
@@ -2002,6 +2015,34 @@ export const strings = {
       imported: "デッキをインポートしました",
       exported: "デッキをエクスポートしました"
     },
+
+    // セッション設定
+    settings: {
+      sessionLength: "セッション毎のカード数",
+      sessionLengthHint: "このセッションで学習するカード数を選択",
+      quickSettings: "クイック設定",
+      reviewMode: "復習モード",
+      sequential: "順番通り",
+      random: "ランダム",
+      smart: "スマート",
+      studyDirection: "学習方向",
+      frontToBack: "表 → 裏",
+      frontToBackDesc: "表面を最初に表示",
+      backToFront: "裏 → 表",
+      backToFrontDesc: "裏面を最初に表示",
+      mixed: "ミックス",
+      mixedDesc: "各カードでランダムな方向",
+      usingAllCards: "すべてのカードを使用"
+    },
+
+    // アクション
+    actions: {
+      syncAll: "すべて同期",
+      exportAll: "すべてエクスポート"
+    },
+
+    // 学習セッション
+    startSession: "セッションを開始",
 
     // 統計
     showStats: "統計を表示",

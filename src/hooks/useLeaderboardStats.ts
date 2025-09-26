@@ -1,6 +1,9 @@
 /**
  * Hook for updating leaderboard stats
  *
+ * UPDATED: Now uses the unified stats API (/api/stats/unified)
+ * instead of the deprecated /api/leaderboard/update-stats endpoint.
+ *
  * This hook manages updates to the minimal public leaderboard data.
  * It ensures updates are batched and throttled to avoid excessive writes.
  *
@@ -47,10 +50,13 @@ export function useLeaderboardStats() {
 
       try {
         setIsUpdating(true)
-        const response = await fetch('/api/leaderboard/update-stats', {
+        const response = await fetch('/api/stats/unified', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ totalXP: xp })
+          body: JSON.stringify({
+            type: 'xp',
+            data: { total: xp }
+          })
         })
 
         if (!response.ok) {
@@ -89,10 +95,13 @@ export function useLeaderboardStats() {
 
     try {
       setIsUpdating(true)
-      const response = await fetch('/api/leaderboard/update-stats', {
+      const response = await fetch('/api/stats/unified', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentStreak: streak })
+        body: JSON.stringify({
+          type: 'streak',
+          data: { current: streak }
+        })
       })
 
       if (!response.ok) {
@@ -116,10 +125,13 @@ export function useLeaderboardStats() {
 
     try {
       setIsUpdating(true)
-      const response = await fetch('/api/leaderboard/update-stats', {
+      const response = await fetch('/api/stats/unified', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ level })
+        body: JSON.stringify({
+          type: 'xp',
+          data: { level }
+        })
       })
 
       if (!response.ok) {
@@ -150,10 +162,13 @@ export function useLeaderboardStats() {
       if (displayName !== undefined) updates.displayName = displayName
       if (photoURL !== undefined) updates.photoURL = photoURL
 
-      const response = await fetch('/api/leaderboard/update-stats', {
+      const response = await fetch('/api/stats/unified', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates)
+        body: JSON.stringify({
+          type: 'profile',
+          data: updates
+        })
       })
 
       if (!response.ok) {
@@ -186,11 +201,50 @@ export function useLeaderboardStats() {
         forceUpdate: options.forceUpdate
       }
 
-      const response = await fetch('/api/leaderboard/update-stats', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
+      // Transform stats to unified API format
+      const updates: any[] = []
+      if (stats.totalXP !== undefined || stats.level !== undefined) {
+        updates.push({
+          type: 'xp',
+          data: {
+            total: stats.totalXP,
+            level: stats.level
+          }
+        })
+      }
+      if (stats.currentStreak !== undefined) {
+        updates.push({
+          type: 'streak',
+          data: { current: stats.currentStreak }
+        })
+      }
+      if (stats.displayName !== undefined || stats.photoURL !== undefined) {
+        updates.push({
+          type: 'profile',
+          data: {
+            displayName: stats.displayName,
+            photoURL: stats.photoURL
+          }
+        })
+      }
+
+      // Process updates
+      for (const update of updates) {
+        const response = await fetch('/api/stats/unified', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(update)
+        })
+
+        if (!response.ok) {
+          const error = await response.json()
+          if (error.message?.includes('cooldown')) {
+            logger.info('[LeaderboardStats] Update on cooldown')
+            continue
+          }
+          throw new Error(error.message || 'Failed to update stats')
+        }
+      }
 
       if (!response.ok) {
         const error = await response.json()
@@ -221,7 +275,7 @@ export function useLeaderboardStats() {
     if (!user?.uid) return null
 
     try {
-      const response = await fetch('/api/leaderboard/update-stats')
+      const response = await fetch('/api/stats/unified')
       if (!response.ok) {
         throw new Error('Failed to get stats')
       }

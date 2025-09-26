@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { KanjiWithExamples, KanjiProgress } from '../LearnContent'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import { useKanjiDetails } from '@/hooks/useKanjiDetails'
+import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 
 interface Round3EvaluateProps {
   kanji: KanjiWithExamples
@@ -15,6 +17,7 @@ interface Round3EvaluateProps {
 
 export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progress, onComplete }: Round3EvaluateProps) {
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
+  const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
 
   const handleRatingSelect = (rating: number) => {
     setSelectedRating(rating)
@@ -72,9 +75,23 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
       <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           {/* Kanji Display */}
-          <div className="text-7xl font-bold text-gray-900 dark:text-gray-100 mb-4"
-               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
-            {kanji.kanji}
+          <div className="relative inline-block">
+            <div className="text-7xl font-bold text-gray-900 dark:text-gray-100 mb-4"
+                 style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+              {kanji.kanji}
+            </div>
+            {/* View Details Button */}
+            <button
+              onClick={() => openKanjiDetails(kanji)}
+              className="absolute -top-2 -right-14 p-2 text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-all hover:scale-110"
+              title="View full details"
+              aria-label="View kanji details"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
           </div>
 
           {/* Meaning */}
@@ -175,6 +192,13 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
           </p>
         </div>
       </div>
+
+      {/* Kanji Details Modal */}
+      <KanjiDetailsModal
+        kanji={modalKanji}
+        isOpen={!!modalKanji}
+        onClose={closeKanjiDetails}
+      />
     </motion.div>
   )
 }

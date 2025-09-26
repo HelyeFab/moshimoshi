@@ -43,6 +43,11 @@ export async function getStorageDecision(session: { uid: string }): Promise<Stor
     const plan = userData?.subscription?.plan || 'free'
 
     // Check if user has active premium subscription
+    // NOTE: Moshimoshi only has TWO valid premium plans:
+    // - premium_monthly
+    // - premium_yearly
+    // Any references to premium_annual, premium_lifetime, etc. in tests or elsewhere
+    // are outdated and should be cleaned up. This implementation is correct.
     const isPremium = (
       userData?.subscription?.status === 'active' &&
       (plan === 'premium_monthly' || plan === 'premium_yearly')

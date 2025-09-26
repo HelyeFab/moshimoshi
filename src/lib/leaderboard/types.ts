@@ -38,6 +38,7 @@ export interface LeaderboardEntry {
   isCurrentUser?: boolean
   change?: 'up' | 'down' | 'same' // Position change from last period
   changeAmount?: number   // How many positions changed
+  totalScore?: number      // Combined score used for ranking
 
   // Privacy
   isPublic: boolean       // Whether user allows public display
