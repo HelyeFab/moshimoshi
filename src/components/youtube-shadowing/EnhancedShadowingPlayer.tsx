@@ -1295,8 +1295,8 @@ export default function EnhancedShadowingPlayer({
         
       {/* Current Line Display */}
       <div className="bg-card rounded-lg shadow-sm border border-border p-6">
-        {/* AI Icon row */}
-        {currentLine?.text && (
+        {/* AI Icon row - TODO: Add AI explanation feature when available */}
+        {/* {currentLine?.text && (
           <div className="flex justify-start mb-4">
             <AIExplanationTrigger
               text={cleanRomaji(currentLine.text)}
@@ -1304,7 +1304,7 @@ export default function EnhancedShadowingPlayer({
               size="lg"
             />
           </div>
-        )}
+        )} */}
         
         <div className="text-center mb-6">
           <div className="py-8 px-4">
