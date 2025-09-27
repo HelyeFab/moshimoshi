@@ -5,18 +5,19 @@
 
 export const PRICING_CONFIG = {
   monthly: {
-    amount: Number(process.env.NEXT_PUBLIC_STRIPE_MONTHLY_AMOUNT || '9.99'),
+    amount: Number(process.env.NEXT_PUBLIC_STRIPE_MONTHLY_AMOUNT || '8.99'),
     priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY || '',
-    displayAmount: process.env.NEXT_PUBLIC_STRIPE_MONTHLY_AMOUNT || '9.99',
+    displayAmount: process.env.NEXT_PUBLIC_STRIPE_MONTHLY_AMOUNT || '8.99',
   },
   yearly: {
     amount: Number(process.env.NEXT_PUBLIC_STRIPE_YEARLY_AMOUNT || '99.99'),
     priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY || '',
     displayAmount: process.env.NEXT_PUBLIC_STRIPE_YEARLY_AMOUNT || '99.99',
   },
-  currency: process.env.NEXT_PUBLIC_STRIPE_CURRENCY || 'USD',
+  currency: process.env.NEXT_PUBLIC_STRIPE_CURRENCY || 'GBP',
   currencySymbol: process.env.NEXT_PUBLIC_STRIPE_CURRENCY === 'GBP' ? '£' :
-                  process.env.NEXT_PUBLIC_STRIPE_CURRENCY === 'EUR' ? '€' : '$',
+                  process.env.NEXT_PUBLIC_STRIPE_CURRENCY === 'EUR' ? '€' :
+                  process.env.NEXT_PUBLIC_STRIPE_CURRENCY === 'USD' ? '$' : '£',
 } as const;
 
 // Computed values
