@@ -54,7 +54,13 @@ export class UserEditedTranscriptsManager {
       }
 
       return docSnap.data() as UserEditedTranscript;
-    } catch (error) {
+    } catch (error: any) {
+      // Suppress permission errors - this is expected when document doesn't exist
+      // Firebase returns permission-denied instead of not-found for security
+      if (error.code === 'permission-denied' || error.message?.includes('Missing or insufficient permissions')) {
+        // Silently return null - this is expected behavior
+        return null;
+      }
       console.error('Error getting user edited transcript:', error);
       return null;
     }

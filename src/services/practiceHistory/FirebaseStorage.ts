@@ -1,4 +1,4 @@
-import { adminDb } from '@/lib/firebase/admin';
+import { adminFirestore as adminDb } from '@/lib/firebase/admin';
 import { PracticeHistoryItem, PracticeHistoryStorage } from './types';
 import { Timestamp } from 'firebase-admin/firestore';
 

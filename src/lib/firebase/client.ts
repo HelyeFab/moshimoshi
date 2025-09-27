@@ -25,9 +25,12 @@ try {
       tabManager: persistentMultipleTabManager()
     }),
     experimentalForceLongPolling: false, // Disable long polling to reduce network errors
-    experimentalAutoDetectLongPolling: false
+    experimentalAutoDetectLongPolling: false,
+    // Add settings to handle WebChannel errors better
+    ignoreUndefinedProperties: true
   })
 } catch (error) {
+  console.warn('Firestore enhanced features unavailable, using standard initialization')
   // Fallback to regular initialization if enhanced features fail
   firestore = getFirestore(app)
 }

@@ -2,6 +2,10 @@
  * Video History Service
  * Tracks which YouTube videos a user has already accessed
  * to allow unlimited repeat practice without counting against limits
+ *
+ * PREMIUM-ONLY FIREBASE STORAGE
+ * Free users track video IDs locally only
+ * Premium users get Firebase sync for cross-device access
  */
 
 import { firestore as db } from '@/lib/firebase/client';
@@ -17,12 +21,16 @@ interface VideoHistoryData {
 class VideoHistoryService {
   private memoryCache: Set<string> = new Set();
   private userId: string | null = null;
+  private isPremium: boolean = false;
 
   /**
    * Initialize the service for a user
+   * @param userId - User ID if authenticated
+   * @param isPremium - Whether the user has premium subscription
    */
-  async initialize(userId?: string) {
+  async initialize(userId?: string, isPremium: boolean = false) {
     this.userId = userId || null;
+    this.isPremium = isPremium;
     await this.loadHistory();
   }
 
@@ -31,8 +39,8 @@ class VideoHistoryService {
    */
   private async loadHistory() {
     try {
-      if (this.userId && db) {
-        // Authenticated user - load from Firestore
+      // Premium users: load from Firestore
+      if (this.userId && this.isPremium && db) {
         const docRef = doc(db, 'userVideoHistory', this.userId);
         const docSnap = await getDoc(docRef);
 
@@ -40,16 +48,28 @@ class VideoHistoryService {
           const data = docSnap.data() as VideoHistoryData;
           this.memoryCache = new Set(data.videoIds || []);
         }
-      } else {
-        // Guest user - load from localStorage
+      }
+
+      // All users (including premium): also load from localStorage
+      // This ensures data is available even if Firebase is down
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (stored) {
+        const data: VideoHistoryData = JSON.parse(stored);
+        // Merge with any Firebase data
+        data.videoIds?.forEach(id => this.memoryCache.add(id));
+      }
+    } catch (error) {
+      console.error('Error loading video history:', error);
+      // Fall back to localStorage only
+      try {
         const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
         if (stored) {
           const data: VideoHistoryData = JSON.parse(stored);
           this.memoryCache = new Set(data.videoIds || []);
         }
+      } catch (localError) {
+        console.error('Error loading from localStorage:', localError);
       }
-    } catch (error) {
-      console.error('Error loading video history:', error);
     }
   }
 
@@ -68,9 +88,20 @@ class VideoHistoryService {
 
     this.memoryCache.add(videoId);
 
+    // Always save to localStorage for all users
     try {
-      if (this.userId && db) {
-        // Authenticated user - save to Firestore
+      const data: VideoHistoryData = {
+        videoIds: Array.from(this.memoryCache),
+        lastUpdated: new Date().toISOString()
+      };
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+    } catch (error) {
+      console.error('Error saving to localStorage:', error);
+    }
+
+    // Premium users: also save to Firestore for sync
+    if (this.userId && this.isPremium && db) {
+      try {
         const docRef = doc(db, 'userVideoHistory', this.userId);
         const docSnap = await getDoc(docRef);
 
@@ -83,20 +114,14 @@ class VideoHistoryService {
         } else {
           // Create new document
           await setDoc(docRef, {
-            videoIds: [videoId],
+            videoIds: Array.from(this.memoryCache),
             lastUpdated: new Date().toISOString()
           });
         }
-      } else {
-        // Guest user - save to localStorage
-        const data: VideoHistoryData = {
-          videoIds: Array.from(this.memoryCache),
-          lastUpdated: new Date().toISOString()
-        };
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+        console.log(`[VideoHistory] Saved to Firebase for premium user`);
+      } catch (error) {
+        console.error('[VideoHistory] Failed to save to Firebase, but local save succeeded:', error);
       }
-    } catch (error) {
-      console.error('Error saving video to history:', error);
     }
   }
 
@@ -178,18 +203,24 @@ class VideoHistoryService {
   async clearHistory() {
     this.memoryCache.clear();
 
+    // Always clear localStorage
     try {
-      if (this.userId && db) {
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+    } catch (error) {
+      console.error('Error clearing localStorage:', error);
+    }
+
+    // Premium users: also clear Firebase
+    if (this.userId && this.isPremium && db) {
+      try {
         const docRef = doc(db, 'userVideoHistory', this.userId);
         await setDoc(docRef, {
           videoIds: [],
           lastUpdated: new Date().toISOString()
         });
-      } else {
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      } catch (error) {
+        console.error('Error clearing Firebase history:', error);
       }
-    } catch (error) {
-      console.error('Error clearing video history:', error);
     }
   }
 }

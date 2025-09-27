@@ -25,12 +25,13 @@ export class PracticeHistoryService {
   private isInitialized = false;
   private userType: 'guest' | 'free' | 'premium' = 'guest';
   private userId?: string;
+  private useLeaderboardException: boolean = true;
 
   constructor() {
     this.indexedDBStorage = new IndexedDBPracticeHistoryStorage();
   }
 
-  async initialize(userId?: string, isPremium?: boolean): Promise<void> {
+  async initialize(userId?: string, isPremium?: boolean, useLeaderboardException: boolean = true): Promise<void> {
     // If already initialized with Firebase, don't reinitialize
     if (this.isInitialized && this.firebaseStorage && this.userId === userId) {
       return;
@@ -43,18 +44,37 @@ export class PracticeHistoryService {
 
     if (this.isInitialized) return;
 
+    // Store the leaderboard exception flag
+    this.useLeaderboardException = useLeaderboardException;
+
     // Initialize IndexedDB for all users
     await this.indexedDBStorage.init();
 
-    // Initialize Firebase for ALL authenticated users (both free and premium)
-    // NOTE: This is intentional for leaderboard participation - see class documentation
+    // Firebase initialization depends on the leaderboard exception
     if (userId) {
       this.userId = userId;
-      this.firebaseStorage = new FirebasePracticeHistoryStorage(userId);
       this.userType = isPremium ? 'premium' : 'free';
 
-      // Sync local data to Firebase on first login
-      await this.syncLocalToFirebase();
+      // Initialize Firebase based on the exception flag
+      if (useLeaderboardException) {
+        // Leaderboard mode: ALL authenticated users get Firebase
+        this.firebaseStorage = new FirebasePracticeHistoryStorage(userId);
+        console.log(`[PracticeHistory] Leaderboard mode - Firebase enabled for user ${userId}`);
+      } else {
+        // Standard mode: Only premium users get Firebase
+        if (isPremium) {
+          this.firebaseStorage = new FirebasePracticeHistoryStorage(userId);
+          console.log(`[PracticeHistory] Standard mode - Firebase enabled for premium user ${userId}`);
+        } else {
+          this.firebaseStorage = null;
+          console.log(`[PracticeHistory] Standard mode - Local storage only for free user ${userId}`);
+        }
+      }
+
+      // Sync local data to Firebase if Firebase is initialized
+      if (this.firebaseStorage) {
+        await this.syncLocalToFirebase();
+      }
     } else {
       this.userType = 'guest';
       this.firebaseStorage = null;

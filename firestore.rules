@@ -448,12 +448,63 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // YouTube Shadowing - Full Video History with Metadata (Premium Only)
+    match /userYouTubeHistory/{docId} {
+      // Premium users can read their own video history
+      allow read: if isAuthenticated() &&
+        request.auth.uid == resource.data.userId &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
+
+      // Premium users can create their own video history entries
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['userId', 'videoId', 'videoUrl', 'videoTitle']);
+
+      // Premium users can update their own video history entries
+      allow update: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
+
+      // Premium users can delete their own video history entries
+      allow delete: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
+    }
+
+    // Practice Statistics for Leaderboard (All authenticated users)
+    match /userPracticeHistory/{docId} {
+      // All authenticated users can read their own practice stats
+      allow read: if isAuthenticated() &&
+        request.auth.uid == resource.data.userId;
+
+      // All authenticated users can write their practice stats (for leaderboard)
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.keys().hasAll(['userId', 'videoId', 'lastPracticed', 'practiceCount']);
+
+      // All authenticated users can update their practice stats
+      allow update: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Users can delete their own practice stats
+      allow delete: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+    }
+
     // YouTube Shadowing - User Edited Transcripts (Premium users can edit/save transcripts)
     match /userEditedTranscripts/{documentId} {
       // Premium users can read their own edited transcripts
       allow read: if isAuthenticated() &&
-        (resource.data.userId == request.auth.uid ||
-         request.auth.uid == resource.data.userId);
+        resource.data.userId == request.auth.uid &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
 
       // Premium users can create their own edited transcripts
       allow create: if isAuthenticated() &&

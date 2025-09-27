@@ -69,8 +69,8 @@ function YouTubeShadowingContent() {
 
   // Initialize video history service
   useEffect(() => {
-    videoHistoryService.initialize(user?.uid);
-  }, [user]);
+    videoHistoryService.initialize(user?.uid, isPremium);
+  }, [user, isPremium]);
 
   // Handle URL parameters (e.g., from My Videos)
   useEffect(() => {

@@ -49,7 +49,7 @@ export interface ShadowingSession {
 function YouTubeShadowingContent() {
   const { t, strings } = useI18n();
   const { user, isGuest } = useAuth();
-  const { hasAccess, checkAccess } = useSubscription();
+  const { hasAccess, checkAccess, isPremium } = useSubscription();
   const searchParams = useSearchParams();
 
   const [session, setSession] = useState<ShadowingSession | null>(null);
@@ -67,8 +67,8 @@ function YouTubeShadowingContent() {
 
   // Initialize video history and practice history services
   useEffect(() => {
-    videoHistoryService.initialize(user?.uid);
-  }, [user]);
+    videoHistoryService.initialize(user?.uid, isPremium);
+  }, [user, isPremium]);
 
   // Handle URL parameters (e.g., from My Videos)
   useEffect(() => {
