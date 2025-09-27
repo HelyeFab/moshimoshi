@@ -420,7 +420,7 @@ export class AIService {
   }> {
     try {
       // Check OpenAI connection
-      const openaiConnected = !!process.env.OPENAI_API_KEY;
+      const openaiConnected = !!(process.env.OPEN_AI_API_KEY || process.env.OPENAI_API_KEY);
 
       // Check cache connection
       const cacheConnected = await this.cacheManager.healthCheck();

@@ -39,7 +39,7 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
    * Initialize OpenAI client
    */
   private initializeOpenAI(): void {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.OPEN_AI_API_KEY || process.env.OPENAI_API_KEY;
     if (!apiKey) {
       throw new AIServiceError(
         'OpenAI API key not configured',

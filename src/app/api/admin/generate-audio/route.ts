@@ -14,9 +14,9 @@ export const maxDuration = 60;
 // Initialize OpenAI client (singleton)
 let openaiClient: OpenAI | null = null;
 function getOpenAIClient() {
-  if (!openaiClient && process.env.OPENAI_API_KEY) {
+  if (!openaiClient && (process.env.OPEN_AI_API_KEY || process.env.OPENAI_API_KEY)) {
     openaiClient = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: process.env.OPEN_AI_API_KEY || process.env.OPENAI_API_KEY,
       timeout: 30000,
       maxRetries: 2,
     });
