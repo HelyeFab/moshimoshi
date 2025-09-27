@@ -78,4 +78,4 @@ ui-debug.log
 aggregated-docs.md
 notebooklm-docs.md
 .notebooklm-sync-state.json
-notebooklm-backups/
+notebooklm-backups/.env.vercel.prod*

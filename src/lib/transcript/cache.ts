@@ -94,7 +94,7 @@ class TranscriptCacheService {
         return false;
       }
 
-      const entry: TranscriptCacheEntry = {
+      const entry: any = {
         id: params.contentId,
         contentId: params.contentId,
         contentType: params.contentType,
@@ -102,14 +102,16 @@ class TranscriptCacheService {
         language: params.language || 'ja',
         createdAt: new Date(),
         lastAccessed: new Date(),
-        accessCount: 1,
-        videoUrl: params.videoUrl,
-        videoTitle: params.videoTitle,
-        duration: params.duration,
-        createdBy: params.createdBy,
-        formattedTranscript: params.formattedTranscript,
-        metadata: params.metadata
+        accessCount: 1
       };
+
+      // Add optional fields only if they exist
+      if (params.videoUrl) entry.videoUrl = params.videoUrl;
+      if (params.videoTitle) entry.videoTitle = params.videoTitle;
+      if (params.duration !== undefined) entry.duration = params.duration;
+      if (params.createdBy) entry.createdBy = params.createdBy;
+      if (params.formattedTranscript) entry.formattedTranscript = params.formattedTranscript;
+      if (params.metadata) entry.metadata = params.metadata;
 
       await db.collection(this.collection).doc(params.contentId).set(entry);
 

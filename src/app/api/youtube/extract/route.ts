@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ytdl from '@distube/ytdl-core';
 import axios from 'axios';
-// Don't use TranscriptCacheManager in API routes - use Admin SDK directly
 import { getSubtitles } from 'youtube-captions-scraper';
 import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin';
 import { AIService } from '@/lib/ai/AIService';
 import { TranscriptProcessRequest } from '@/lib/ai/types';
+import { transcriptCache } from '@/lib/transcript/cache';
 
 // Initialize AI Service
 const aiService = AIService.getInstance();
@@ -72,72 +72,8 @@ function extractVideoIdFromUrl(url: string): string | null {
   }
 }
 
-// Server-side get cached transcript using Admin SDK
-async function getCachedTranscriptServer(contentId: string): Promise<any | null> {
-  try {
-    const docRef = db.collection('transcriptCache').doc(contentId);
-    const docSnap = await docRef.get();
-
-    if (docSnap.exists) {
-      const data = docSnap.data();
-
-      // Update access count and timestamp
-      await docRef.update({
-        lastAccessed: Timestamp.now(),
-        accessCount: (data?.accessCount || 0) + 1
-      }).catch(err => console.error('Failed to update access count:', err));
-
-      return data;
-    }
-
-    return null;
-  } catch (error) {
-    console.error('Error getting cached transcript (server-side):', error);
-    return null;
-  }
-}
-
-// Server-side transcript caching using Admin SDK
-async function cacheTranscriptServer(params: {
-  contentId: string;
-  contentType: 'youtube' | 'audio' | 'video';
-  transcript: TranscriptLine[];
-  formattedTranscript?: TranscriptLine[];
-  language: string;
-  videoUrl?: string;
-  videoTitle?: string;
-  duration?: number;
-  createdBy?: string;
-  metadata?: any;
-}): Promise<boolean> {
-  try {
-    const transcriptDoc: any = {
-      id: params.contentId,
-      contentId: params.contentId,
-      contentType: params.contentType,
-      transcript: params.transcript,
-      language: params.language || 'ja',
-      createdAt: Timestamp.now(),
-      lastAccessed: Timestamp.now(),
-      accessCount: 1,
-    };
-
-    if (params.formattedTranscript) transcriptDoc.formattedTranscript = params.formattedTranscript;
-    if (params.videoUrl) transcriptDoc.videoUrl = params.videoUrl;
-    if (params.videoTitle) transcriptDoc.videoTitle = params.videoTitle;
-    if (params.duration) transcriptDoc.duration = params.duration;
-    if (params.createdBy) transcriptDoc.createdBy = params.createdBy;
-    if (params.metadata) transcriptDoc.metadata = params.metadata;
-
-    await db.collection('transcriptCache').doc(params.contentId).set(transcriptDoc, { merge: false });
-
-    console.log('✅ Transcript cached successfully (server-side):', params.contentId);
-    return true;
-  } catch (error) {
-    console.error('❌ Error caching transcript (server-side):', error);
-    return false;
-  }
-}
+// Note: Using the new transcriptCache service from /lib/transcript/cache.ts
+// The old inline functions have been removed in favor of the singleton service
 
 // Helper function to format transcript with AI
 async function formatTranscriptWithAI(
@@ -276,7 +212,7 @@ async function extractWithYouTubeTranscriptIO(
       // Save to cache only for authenticated users
       if (isAuthenticated) {
         try {
-          await cacheTranscriptServer({
+          await transcriptCache.set({
             contentId,
             contentType: 'youtube',
             videoUrl: url,
@@ -312,7 +248,7 @@ async function extractWithYouTubeTranscriptIO(
 
       // Only cache if we have the AI-processed version
       if (formattedTranscript && formattedTranscript.length > 0) {
-        await cacheTranscriptServer({
+        await transcriptCache.set({
           contentId,
           contentType: 'youtube',
           transcript: formattedTranscript, // Use AI-processed version as main transcript
@@ -420,7 +356,7 @@ export async function POST(request: NextRequest) {
     // Skip cache if force regenerate is requested
     if (!forceRegenerate) {
 
-      const cachedTranscript = await getCachedTranscriptServer(contentId);
+      const cachedTranscript = await transcriptCache.get(contentId);
 
       if (cachedTranscript && cachedTranscript.transcript.length > 0) {
 
@@ -583,7 +519,7 @@ export async function POST(request: NextRequest) {
               console.log('=== Saving to transcript cache (authenticated user) ===');
 
               try {
-                await cacheTranscriptServer({
+                await transcriptCache.set({
                   contentId,
                   contentType: 'youtube',
                   videoUrl: url,
@@ -619,7 +555,7 @@ export async function POST(request: NextRequest) {
 
             // Only cache if we have the AI-processed version
             if (formattedTranscript && formattedTranscript.length > 0) {
-              await cacheTranscriptServer({
+              await transcriptCache.set({
                 contentId,
                 contentType: 'youtube',
                 transcript: formattedTranscript, // Use AI-processed version as main transcript
@@ -718,7 +654,7 @@ export async function POST(request: NextRequest) {
         if (isAuthenticated) {
 
           try {
-            await cacheTranscriptServer({
+            await transcriptCache.set({
               contentId,
               contentType: 'youtube',
               videoUrl: url,
