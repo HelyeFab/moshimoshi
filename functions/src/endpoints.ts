@@ -8,7 +8,8 @@
  * @module endpoints
  */
 
-import * as functions from 'firebase-functions';
+import { onRequest, HttpsFunction } from 'firebase-functions/v2/https';
+import { Request, Response } from 'firebase-functions/v1';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStripe } from './stripeClient';
@@ -45,9 +46,9 @@ async function requireAuth(req: any): Promise<string> {
  * - cancelUrl: URL to redirect on cancel
  * - idempotencyKey: Client-generated unique key
  */
-export const createCheckoutSession = functions
-  .region('europe-west1')
-  .https.onRequest(async (req: functions.https.Request, res: functions.Response): Promise<void> => {
+export const createCheckoutSession: HttpsFunction = onRequest(
+  { region: 'europe-west1', cors: true },
+  async (req: Request, res: Response): Promise<void> => {
     // CORS headers
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -173,9 +174,9 @@ export const createCheckoutSession = functions
  * - Firebase Auth bearer token
  * - returnUrl: URL to return to after portal session
  */
-export const createBillingPortalSession = functions
-  .region('europe-west1')
-  .https.onRequest(async (req: functions.https.Request, res: functions.Response): Promise<void> => {
+export const createBillingPortalSession: HttpsFunction = onRequest(
+  { region: 'europe-west1', cors: true },
+  async (req: Request, res: Response): Promise<void> => {
     // CORS headers
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');

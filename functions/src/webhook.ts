@@ -7,7 +7,8 @@
  * @module webhook
  */
 
-import * as functions from 'firebase-functions';
+import { HttpsFunction, onRequest } from 'firebase-functions/v2/https';
+import { defineSecret } from 'firebase-functions/params';
 import { getStripe } from './stripeClient';
 import {
   wasProcessed,
@@ -19,6 +20,10 @@ import { applySubscriptionEvent } from './handlers/subscriptions';
 import { applyInvoiceEvent } from './handlers/invoices';
 import Stripe from 'stripe';
 
+// Define secrets for webhook
+const stripeSecretKey = defineSecret('STRIPE_SECRET_KEY');
+const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
+
 /**
  * Main Stripe webhook handler
  *
@@ -29,8 +34,13 @@ import Stripe from 'stripe';
  * - Idempotent processing
  * - Proper error handling for retries
  */
-export const stripeWebhook = functions.region('europe-west1').https.onRequest(
-  async (req: functions.https.Request, res: functions.Response) => {
+export const stripeWebhook: HttpsFunction = onRequest(
+  {
+    region: 'europe-west1',
+    maxInstances: 100,
+    secrets: [stripeSecretKey, stripeWebhookSecret]
+  },
+  async (req, res) => {
     // Only accept POST requests
     if (req.method !== 'POST') {
       res.set('Allow', 'POST');
@@ -59,31 +69,20 @@ export const stripeWebhook = functions.region('europe-west1').https.onRequest(
     let event: Stripe.Event;
 
     try {
-      // Get webhook secrets from environment config
-      const testSecret = functions.config().stripe?.webhook_secret_test;
-      const prodSecret = functions.config().stripe?.webhook_secret_prod;
+      // Get webhook secret from environment
+      const webhookSecret = stripeWebhookSecret.value();
 
-      if (!testSecret || !prodSecret) {
-        console.error('Webhook secrets not configured in environment');
+      if (!webhookSecret) {
+        console.error('Webhook secret not configured');
         res.status(500).send('Configuration error');
         return;
       }
 
-      // Try test secret first
-      try {
-        event = stripe.webhooks.constructEvent(rawBody, sig, testSecret);
-        if (process.env.NODE_ENV !== 'production') {
-          console.log('Webhook verified with TEST secret');
-        }
-      } catch (testErr) {
-        // If test fails, try production secret
-        event = stripe.webhooks.constructEvent(rawBody, sig, prodSecret);
-        if (process.env.NODE_ENV !== 'production') {
-          console.log('Webhook verified with PRODUCTION secret');
-        }
-      }
+      // Verify webhook signature
+      event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
+      console.log('Webhook signature verified successfully');
     } catch (err: any) {
-      console.error('Webhook signature verification failed for both secrets:', err.message);
+      console.error('Webhook signature verification failed:', err.message);
       res.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
@@ -201,8 +200,9 @@ export const stripeWebhook = functions.region('europe-west1').https.onRequest(
  * Health check endpoint for webhook
  * Useful for monitoring and debugging
  */
-export const webhookHealth = functions.region('europe-west1').https.onRequest(
-  async (req: functions.https.Request, res: functions.Response) => {
+export const webhookHealth: HttpsFunction = onRequest(
+  { region: 'europe-west1' },
+  async (req, res) => {
     if (req.method !== 'GET') {
       res.status(405).send('Method Not Allowed');
       return;
@@ -219,7 +219,7 @@ export const webhookHealth = functions.region('europe-west1').https.onRequest(
         hasStripeClient: !!stripe,
         testWebhookConfigured: true,
         prodWebhookConfigured: true,
-        apiVersion: '2024-06-20',
+        apiVersion: '2025-08-27.basil',
       });
     } catch (error: any) {
       res.status(500).json({

@@ -7,47 +7,18 @@
  *
  * @module webhook
  */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.webhookHealth = exports.stripeWebhook = void 0;
-const functions = __importStar(require("firebase-functions"));
+const https_1 = require("firebase-functions/v2/https");
+const params_1 = require("firebase-functions/params");
 const stripeClient_1 = require("./stripeClient");
 const firestore_1 = require("./firestore");
 const checkout_1 = require("./handlers/checkout");
 const subscriptions_1 = require("./handlers/subscriptions");
 const invoices_1 = require("./handlers/invoices");
+// Define secrets for webhook
+const stripeSecretKey = (0, params_1.defineSecret)('STRIPE_SECRET_KEY');
+const stripeWebhookSecret = (0, params_1.defineSecret)('STRIPE_WEBHOOK_SECRET');
 /**
  * Main Stripe webhook handler
  *
@@ -58,8 +29,11 @@ const invoices_1 = require("./handlers/invoices");
  * - Idempotent processing
  * - Proper error handling for retries
  */
-exports.stripeWebhook = functions.region('europe-west1').https.onRequest(async (req, res) => {
-    var _a, _b;
+exports.stripeWebhook = (0, https_1.onRequest)({
+    region: 'europe-west1',
+    maxInstances: 100,
+    secrets: [stripeSecretKey, stripeWebhookSecret]
+}, async (req, res) => {
     // Only accept POST requests
     if (req.method !== 'POST') {
         res.set('Allow', 'POST');
@@ -84,31 +58,19 @@ exports.stripeWebhook = functions.region('europe-west1').https.onRequest(async (
     const stripe = (0, stripeClient_1.getStripe)();
     let event;
     try {
-        // Get webhook secrets from environment config
-        const testSecret = (_a = functions.config().stripe) === null || _a === void 0 ? void 0 : _a.webhook_secret_test;
-        const prodSecret = (_b = functions.config().stripe) === null || _b === void 0 ? void 0 : _b.webhook_secret_prod;
-        if (!testSecret || !prodSecret) {
-            console.error('Webhook secrets not configured in environment');
+        // Get webhook secret from environment
+        const webhookSecret = stripeWebhookSecret.value();
+        if (!webhookSecret) {
+            console.error('Webhook secret not configured');
             res.status(500).send('Configuration error');
             return;
         }
-        // Try test secret first
-        try {
-            event = stripe.webhooks.constructEvent(rawBody, sig, testSecret);
-            if (process.env.NODE_ENV !== 'production') {
-                console.log('Webhook verified with TEST secret');
-            }
-        }
-        catch (testErr) {
-            // If test fails, try production secret
-            event = stripe.webhooks.constructEvent(rawBody, sig, prodSecret);
-            if (process.env.NODE_ENV !== 'production') {
-                console.log('Webhook verified with PRODUCTION secret');
-            }
-        }
+        // Verify webhook signature
+        event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
+        console.log('Webhook signature verified successfully');
     }
     catch (err) {
-        console.error('Webhook signature verification failed for both secrets:', err.message);
+        console.error('Webhook signature verification failed:', err.message);
         res.status(400).send(`Webhook Error: ${err.message}`);
         return;
     }
@@ -213,7 +175,7 @@ exports.stripeWebhook = functions.region('europe-west1').https.onRequest(async (
  * Health check endpoint for webhook
  * Useful for monitoring and debugging
  */
-exports.webhookHealth = functions.region('europe-west1').https.onRequest(async (req, res) => {
+exports.webhookHealth = (0, https_1.onRequest)({ region: 'europe-west1' }, async (req, res) => {
     if (req.method !== 'GET') {
         res.status(405).send('Method Not Allowed');
         return;
@@ -228,7 +190,7 @@ exports.webhookHealth = functions.region('europe-west1').https.onRequest(async (
             hasStripeClient: !!stripe,
             testWebhookConfigured: true,
             prodWebhookConfigured: true,
-            apiVersion: '2024-06-20',
+            apiVersion: '2025-08-27.basil',
         });
     }
     catch (error) {

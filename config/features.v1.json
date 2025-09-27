@@ -156,7 +156,7 @@
         "maxVideosPerDay": {
           "guest": 0,
           "free": 3,
-          "premium": -1
+          "premium": 20
         }
       }
     },

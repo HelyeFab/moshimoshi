@@ -198,107 +198,107 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
           transition-all duration-300 cursor-pointer
           group
         `}>
-          {/* Animated gradient background */}
-          <div className={`
+      {/* Animated gradient background */}
+      <div className={`
             absolute inset-0 opacity-0 group-hover:opacity-100
             bg-gradient-to-br ${stall.color}
             transition-opacity duration-500
           `} />
 
-          {/* Lantern glow effect */}
-          <div
-            className="absolute -top-4 -right-4 w-24 h-24 rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500"
-            style={{
-              background: `radial-gradient(circle, ${stall.lanternColor}40 0%, transparent 70%)`,
-              filter: `blur(20px)`,
-            }}
-          />
+      {/* Lantern glow effect */}
+      <div
+        className="absolute -top-4 -right-4 w-24 h-24 rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500"
+        style={{
+          background: `radial-gradient(circle, ${stall.lanternColor}40 0%, transparent 70%)`,
+          filter: `blur(20px)`,
+        }}
+      />
 
-          <Image
-            src={stall.stallImage}
-            alt="Stall Image"
-            width={48}
-            height={48}
-            className="absolute top-2 right-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-          />
+      <Image
+        src={stall.stallImage}
+        alt="Stall Image"
+        width={48}
+        height={48}
+        className="absolute top-2 right-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+      />
 
-          {/* Content */}
-          <div className="relative p-6 space-y-4">
-            {/* Header with icon */}
-            <div className="flex items-center gap-3">
-              <span className="text-3xl filter drop-shadow-lg group-hover:animate-bounce">
-                {stall.icon}
-              </span>
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-white transition-colors leading-tight">
-                  {/* Split title if it contains multiple words */}
-                  {stall.title.split(' ').length > 1 ? (
-                    <>
-                      {stall.title.split(' ').map((word, index) => (
-                        <span key={index} className="block">
-                          {word}
-                        </span>
-                      ))}
-                    </>
-                  ) : (
-                    stall.title
-                  )}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-white/90 transition-colors">
-                  {stall.subtitle}
-                </p>
-              </div>
-            </div>
-
-            {/* Description */}
-            <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors">
-              {stall.description}
+      {/* Content */}
+      <div className="relative p-6 space-y-4">
+        {/* Header with icon */}
+        <div className="flex items-center gap-3">
+          <span className="text-3xl filter drop-shadow-lg group-hover:animate-bounce">
+            {stall.icon}
+          </span>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-white transition-colors leading-tight">
+              {/* Split title if it contains multiple words */}
+              {stall.title.split(' ').length > 1 ? (
+                <>
+                  {stall.title.split(' ').map((word, index) => (
+                    <span key={index} className="block">
+                      {word}
+                    </span>
+                  ))}
+                </>
+              ) : (
+                stall.title
+              )}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-white/90 transition-colors">
+              {stall.subtitle}
             </p>
-
-            {/* Progress bar */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs">
-                <span className="text-gray-600 dark:text-gray-400 group-hover:text-white/80 transition-colors">
-                  {strings.dashboard?.stats?.progress || 'Progress'}
-                </span>
-                <span className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-white transition-colors">
-                  {stall.progress}%
-                </span>
-              </div>
-              <div className="h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
-                <motion.div
-                  className={`h-full bg-gradient-to-r ${stall.color} rounded-full`}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${stall.progress}%` }}
-                  transition={{ delay: index * 0.05 + 0.3, duration: 1, ease: 'easeOut' }}
-                />
-              </div>
-            </div>
-
-            {/* Hover indicator */}
-            <motion.div
-              className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-              animate={{ x: isHovered ? [0, 5, 0] : 0 }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-            >
-              <span className="text-white text-sm">→</span>
-            </motion.div>
-
-            {/* Drag Handle for Edit Mode */}
-            {isEditMode && (
-              <div
-                className="absolute top-4 left-4 cursor-grab active:cursor-grabbing"
-                {...dragListeners}
-              >
-                <div className="flex flex-col gap-1 p-2 bg-white/80 dark:bg-dark-700/80 rounded-lg shadow-md">
-                  <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
-                  <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
-                  <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
-                </div>
-              </div>
-            )}
           </div>
         </div>
+
+        {/* Description */}
+        <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors">
+          {stall.description}
+        </p>
+
+        {/* Progress bar */}
+        <div className="space-y-1">
+          <div className="flex justify-between text-xs">
+            <span className="text-gray-600 dark:text-gray-400 group-hover:text-white/80 transition-colors">
+              {strings.dashboard?.stats?.progress || 'Progress'}
+            </span>
+            <span className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-white transition-colors">
+              {stall.progress}%
+            </span>
+          </div>
+          <div className="h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
+            <motion.div
+              className={`h-full bg-gradient-to-r ${stall.color} rounded-full`}
+              initial={{ width: 0 }}
+              animate={{ width: `${stall.progress}%` }}
+              transition={{ delay: index * 0.05 + 0.3, duration: 1, ease: 'easeOut' }}
+            />
+          </div>
+        </div>
+
+        {/* Hover indicator */}
+        <motion.div
+          className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          animate={{ x: isHovered ? [0, 5, 0] : 0 }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+        >
+          <span className="text-white text-sm">→</span>
+        </motion.div>
+
+        {/* Drag Handle for Edit Mode */}
+        {isEditMode && (
+          <div
+            className="absolute top-4 left-4 cursor-grab active:cursor-grabbing"
+            {...dragListeners}
+          >
+            <div className="flex flex-col gap-1 p-2 bg-white/80 dark:bg-dark-700/80 rounded-lg shadow-md">
+              <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
+              <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
+              <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   )
 
   if (isEditMode) {
@@ -558,6 +558,21 @@ export default function LearningVillage() {
       doshiMood: 'happy' as const,
       progress: 0,
       lanternColor: '#ec4899',
+      stallImage: getRandomStallImage(),
+    },
+    {
+      id: 'popular-videos',
+      title: strings.dashboard?.cards?.popularVideos?.title || 'Trending Videos',
+      subtitle: strings.dashboard?.cards?.popularVideos?.subtitle || '人気動画',
+      description: strings.dashboard?.cards?.popularVideos?.description || 'Most watched by the community',
+      href: '/popular-videos',
+      icon: '🔥',
+      stallType: 'cinema',
+      color: 'from-red-500 to-orange-600',
+      glow: 'shadow-orange-500/50',
+      doshiMood: 'excited' as const,
+      progress: 0,
+      lanternColor: '#f97316',
       stallImage: getRandomStallImage(),
     },
     {
@@ -884,23 +899,29 @@ export default function LearningVillage() {
                   stiffness: 100
                 }}
               >
-                <motion.span
-                  className="inline-block bg-gradient-to-r from-primary-400 via-pink-500 to-primary-600 bg-clip-text text-transparent animate-gradient bg-300%"
-                  animate={{
-                    backgroundPosition: ["0%", "100%", "0%"],
-                  }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                  style={{
-                    backgroundSize: "300%",
-                    textShadow: "0 0 10px rgba(244, 63, 94, 0.2)"
-                  }}
-                >
-                  学習村
-                </motion.span>
+                <span className="relative inline-block">
+                  {/* White stroke layer behind */}
+                  <span className="absolute inset-0 text-white [-webkit-text-stroke:_0.25px_white]" aria-hidden="true">
+                    学習村
+                  </span>
+                  {/* Gradient text on top */}
+                  <motion.span
+                    className="relative inline-block bg-gradient-to-r from-primary-400 via-pink-500 to-primary-600 bg-clip-text text-transparent animate-gradient bg-300%"
+                    animate={{
+                      backgroundPosition: ["0%", "100%", "0%"],
+                    }}
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                    style={{
+                      backgroundSize: "300%",
+                    }}
+                  >
+                    学習村
+                  </motion.span>
+                </span>
               </motion.h2>
             </div>
 
@@ -990,11 +1011,10 @@ export default function LearningVillage() {
           <div className="flex items-center gap-4">
             <button
               onClick={toggleEditMode}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                isEditMode
-                  ? 'bg-primary-500 text-white shadow-lg'
-                  : 'bg-white/70 dark:bg-dark-800/70 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-dark-700'
-              }`}
+              className={`px-4 py-2 rounded-lg font-medium transition-all ${isEditMode
+                ? 'bg-primary-500 text-white shadow-lg'
+                : 'bg-white/70 dark:bg-dark-800/70 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-dark-700'
+                }`}
             >
               {isEditMode ? (
                 <>

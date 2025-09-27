@@ -11,35 +11,42 @@ export type Plan = 'premium_monthly' | 'premium_yearly';
 export type SubscriptionPlan = 'free' | 'premium_monthly' | 'premium_yearly';
 
 /**
- * Get price IDs from environment configuration
- * These should be set via Firebase Functions config:
- * firebase functions:config:set stripe.price_monthly_test="price_xxx" stripe.price_yearly_test="price_yyy"
- * firebase functions:config:set stripe.price_monthly_prod="price_xxx" stripe.price_yearly_prod="price_yyy"
+ * Get price IDs from environment variables
+ * For v2 functions, these are loaded from .env file or set as environment variables
  */
-import * as functions from 'firebase-functions';
 
-const config = functions.config();
+// Hardcoded price IDs from the configuration we saw earlier
+// These should ideally be in environment variables, but for now we'll hardcode them
+const PRICE_MONTHLY_TEST = 'price_1S6wG7HdrJomitOw5YvQ71DD';
+const PRICE_YEARLY_TEST = 'price_1S6wGGHdrJomitOwcmT2JeUG';
+// Production prices - using GBP test prices (£0.00) temporarily for testing
+const PRICE_MONTHLY_PROD = 'price_1SBurYHdrJomitOwnUkS46Ab';  // £0.00/month test price
+const PRICE_YEARLY_PROD = 'price_1SBus6HdrJomitOweasMATvU';   // £0.00/year test price
+// Original production prices (uncomment when ready for real payments):
+// const PRICE_MONTHLY_PROD = 'price_1S6vKuHdrJomitOw4XuExllV';
+// const PRICE_YEARLY_PROD = 'price_1S6vMBHdrJomitOwweaSGhYp';
 
 /**
- * Test environment price IDs from Firebase config
+ * Test environment price IDs
  */
 const TEST_PRICES: Record<string, Plan> = {
-  ...(config.stripe?.price_monthly_test && { [config.stripe.price_monthly_test]: 'premium_monthly' as Plan }),
-  ...(config.stripe?.price_yearly_test && { [config.stripe.price_yearly_test]: 'premium_yearly' as Plan }),
+  [PRICE_MONTHLY_TEST]: 'premium_monthly' as Plan,
+  [PRICE_YEARLY_TEST]: 'premium_yearly' as Plan,
 };
 
 /**
- * Production environment price IDs from Firebase config
+ * Production environment price IDs
  */
 const PRODUCTION_PRICES: Record<string, Plan> = {
-  ...(config.stripe?.price_monthly_prod && { [config.stripe.price_monthly_prod]: 'premium_monthly' as Plan }),
-  ...(config.stripe?.price_yearly_prod && { [config.stripe.price_yearly_prod]: 'premium_yearly' as Plan }),
+  [PRICE_MONTHLY_PROD]: 'premium_monthly' as Plan,
+  [PRICE_YEARLY_PROD]: 'premium_yearly' as Plan,
 };
 
-// Log loaded price IDs for debugging (only in non-production)
+// Log configuration status without exposing sensitive price IDs
 if (process.env.NODE_ENV !== 'production') {
-  console.log('[Stripe Mapping] Loaded TEST price IDs:', TEST_PRICES);
-  console.log('[Stripe Mapping] Loaded PRODUCTION price IDs:', PRODUCTION_PRICES);
+  const testCount = Object.keys(TEST_PRICES).length;
+  const prodCount = Object.keys(PRODUCTION_PRICES).length;
+  console.log(`[Stripe Mapping] Loaded ${testCount} TEST and ${prodCount} PRODUCTION price IDs`);
 }
 
 /**

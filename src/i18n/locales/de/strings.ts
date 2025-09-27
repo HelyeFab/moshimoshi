@@ -135,6 +135,9 @@ export const strings = {
     correct: "Richtig",
     incorrect: "Falsch",
     explore: "Erkunden",
+    days: "Tage",
+    minutes: "Minuten",
+    cards: "Karten",
   },
 
   // PWA
@@ -426,37 +429,37 @@ export const strings = {
         subtitle: "Eigene Listen",
         description: "Eigene Listen verwalten"
       },
-  // Anki Import
-  anki: {
-    importTitle: "Import Anki Deck",
-    importSuccess: "Import Successful!",
-    import: "Import",
-    importing: "Importing...",
-    cardsImported: "{{count}} cards imported successfully",
-    dropFile: "Drop your .apkg file here",
-    orBrowse: "or click to browse",
-    maxFileSize: "Maximum file size: 200MB",
-    invalidFile: "Please select a valid .apkg file",
-    importFailed: "Failed to import deck",
-    processing: "Processing...",
-    description: "Import your Anki decks and review them using the Universal Review Engine",
-    importButton: "Import Anki Deck (.apkg)",
-    mediaCache: "Media Cache",
-    clearCache: "Clear Cache",
-    confirmClearCache: "Are you sure you want to clear all cached media files?",
-    importedDecks: "Imported Decks",
-    removeDeck: "Remove deck",
-    sampleCards: "Sample Cards",
-    front: "Front",
-    back: "Back",
-    startReview: "Start Review Session",
-    noDecksYet: "No decks imported yet",
-    noDecksDescription: "Click the button above to import your first Anki deck",
-    cards: "cards",
-    mediaFiles: "media files",
-    filesCount: "{{count}} files",
-    sizeInMB: "{{size}} MB"
-  },
+      // Anki Import
+      anki: {
+        importTitle: "Import Anki Deck",
+        importSuccess: "Import Successful!",
+        import: "Import",
+        importing: "Importing...",
+        cardsImported: "{{count}} cards imported successfully",
+        dropFile: "Drop your .apkg file here",
+        orBrowse: "or click to browse",
+        maxFileSize: "Maximum file size: 200MB",
+        invalidFile: "Please select a valid .apkg file",
+        importFailed: "Failed to import deck",
+        processing: "Processing...",
+        description: "Import your Anki decks and review them using the Universal Review Engine",
+        importButton: "Import Anki Deck (.apkg)",
+        mediaCache: "Media Cache",
+        clearCache: "Clear Cache",
+        confirmClearCache: "Are you sure you want to clear all cached media files?",
+        importedDecks: "Imported Decks",
+        removeDeck: "Remove deck",
+        sampleCards: "Sample Cards",
+        front: "Front",
+        back: "Back",
+        startReview: "Start Review Session",
+        noDecksYet: "No decks imported yet",
+        noDecksDescription: "Click the button above to import your first Anki deck",
+        cards: "cards",
+        mediaFiles: "media files",
+        filesCount: "{{count}} files",
+        sizeInMB: "{{size}} MB"
+      },
 
       myVideos: {
         title: "Meine Videos",
@@ -960,7 +963,7 @@ export const strings = {
     hiragana: "Hiragana",
     katakana: "Katakana",
     combined: "Kombinierte Übung",
-    
+
     navigation: {
       backToGrid: "Zurück zu Zeichen",
       nextCharacter: "Nächstes Zeichen",
@@ -969,7 +972,7 @@ export const strings = {
       startReview: "Wiederholung beginnen",
       viewAll: "Alle anzeigen",
     },
-    
+
     categories: {
       all: "Alle Zeichen",
       vowels: "Vokale",
@@ -979,7 +982,7 @@ export const strings = {
       digraphs: "Digraphen",
       special: "Spezial",
     },
-    
+
     study: {
       studyMode: "Lernmodus",
       flipCard: "Zum Umdrehen tippen",
@@ -993,11 +996,11 @@ export const strings = {
       markAsLearned: "Als gelernt markieren",
       pronunciation: "Aussprache",
     },
-    
+
     review: {
       reviewMode: "Wiederholungsmodus",
       recognition: "Erkennung",
-      recall: "Abruf", 
+      recall: "Abruf",
       listening: "Hören",
       selectAnswer: "Wählen Sie die richtige Antwort",
       typeAnswer: "Antwort eingeben",
@@ -1012,7 +1015,7 @@ export const strings = {
       timeSpent: "Benötigte Zeit",
       itemsReviewed: "Überprüfte Elemente",
     },
-    
+
     progress: {
       learned: "Gelernt",
       learning: "Am Lernen",
@@ -1024,7 +1027,7 @@ export const strings = {
       lastReviewed: "Zuletzt wiederholt",
       nextReview: "Nächste Wiederholung",
     },
-    
+
     filters: {
       showAll: "Alle anzeigen",
       showLearned: "Gelernte anzeigen",
@@ -1035,14 +1038,14 @@ export const strings = {
       difficulty: "Schwierigkeit",
       progress: "Fortschritt",
     },
-    
+
     tooltips: {
       clickToStudy: "Klicken, um dieses Zeichen zu studieren",
       rightClickToPin: "Rechtsklick zum Anheften für Wiederholung",
       dragToReorder: "Zum Neuordnen ziehen",
       progressInfo: "Sie haben {{learned}} von {{total}} Zeichen gelernt",
     },
-    
+
     messages: {
       loadingCharacters: "Zeichen werden geladen...",
       noCharactersFound: "Keine Zeichen gefunden",
@@ -1456,7 +1459,7 @@ export const strings = {
       noResultsFound: "Keine Ergebnisse gefunden. Versuchen Sie einen anderen Suchbegriff.",
       searchFailed: "Suche fehlgeschlagen. Bitte versuchen Sie es erneut.",
       searchHistoryCleared: "Suchverlauf gelöscht",
-        loadingCache: "WaniKani-Vokabeldatenbank wird zum ersten Mal geladen... Dies kann einen Moment dauern.",
+      loadingCache: "WaniKani-Vokabeldatenbank wird zum ersten Mal geladen... Dies kann einen Moment dauern.",
       wordMeaning: "Bedeutung",
       wordRomaji: "Romaji",
       wordTags: "Tags",
@@ -1539,6 +1542,11 @@ export const strings = {
       selectType: "Wählen Sie den Listentyp, den Sie erstellen möchten:",
     },
     types: {
+      // Simple type names for UI
+      word: "Wort",
+      sentence: "Satz",
+      verbAdj: "Verb/Adjektiv",
+
       flashcard: {
         name: "Karteikarten-Liste",
         short: "Karteikarten",
@@ -1901,265 +1909,320 @@ export const strings = {
       unlimited: "Unbegrenzte Stapel"
     },
 
-    // Tooltips
-    tooltips: {
-      srs: "Verwendet verteilte Wiederholung",
-      mastery: "21+ Tage mit 90% Genauigkeit lernen",
-      streak: "Jeden Tag lernen",
-      difficulty: "Bewerten Sie Ihr Wissen",
-      leech: "Diese Karte braucht mehr Übung"
-    },
+    // Missing translations for flashcards page
+    optimalSettings: "Optimale Einstellungen",
+    sessionLength: "Sitzungsdauer",
+    studyTime: "Lernzeit",
+    learningInsights: "Lerneinblicke",
+    recommendedStudy: "Empfohlenes Lernen",
+    currentStreak: "Aktuelle Serie",
+    retentionRate: "Behaltensrate",
+    cardsPerDay: "Karten pro Tag",
+    bestStudyTime: "Beste Lernzeit",
 
-    // Confirmations
-    confirmDelete: {
-      title: "Stapel löschen",
-      message: "Sind Sie sicher, dass Sie \"{{name}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
-      deck: "Stapel \"{{name}}\" löschen? Unwiderruflich.",
-      card: "Diese Karte löschen? Unwiderruflich.",
-      progress: "Fortschritt zurücksetzen?"
-    },
-
-    // Success messages
-    success: {
-      deckCreated: "Stapel erstellt",
-      deckUpdated: "Stapel aktualisiert",
-      deckDeleted: "Stapel gelöscht",
-      cardAdded: "Karte hinzugefügt",
-      cardUpdated: "Karte aktualisiert",
-      cardDeleted: "Karte entfernt",
-      progressSaved: "Fortschritt gespeichert",
-      imported: "Stapel importiert",
-      exported: "Stapel exportiert"
-    },
-
-    // Session Settings
-    settings: {
-      sessionLength: "Karten pro Sitzung",
-      sessionLengthHint: "Wählen Sie, wie viele Karten Sie in dieser Sitzung lernen möchten",
-      quickSettings: "Schnelleinstellungen",
-      reviewMode: "Überprüfungsmodus",
-      sequential: "Sequenziell",
-      random: "Zufällig",
-      smart: "Intelligent",
-      studyDirection: "Lernrichtung",
-      frontToBack: "Vorderseite → Rückseite",
-      frontToBackDesc: "Vorderseite zuerst anzeigen",
-      backToFront: "Rückseite → Vorderseite",
-      backToFrontDesc: "Rückseite zuerst anzeigen",
-      mixed: "Gemischt",
-      mixedDesc: "Zufällige Richtung für jede Karte",
-      usingAllCards: "Verwendung aller verfügbaren Karten"
-    },
-
-    // Actions
-    actions: {
-      syncAll: "Alles synchronisieren",
-      exportAll: "Alles exportieren"
-    },
-
-    // Study Session
-    startSession: "Sitzung starten",
-
-    // Statistics
-    showStats: "Statistiken anzeigen",
-    hideStats: "Statistiken ausblenden",
-    stats: {
-      mastered: "Gemeistert",
+    achievements: {
+      viewAll: "Alle Erfolge anzeigen",
+      title: "Erfolge",
+      unlocked: "Freigeschaltet",
+      progress: "{{unlocked}}/{{total}} freigeschaltet",
+      totalXP: "Gesamt-XP",
+      streak: "Serie",
+      mastery: "Beherrschung",
+      speed: "Geschwindigkeit",
       accuracy: "Genauigkeit",
-      streak: "Aktuelle Serie",
-      studyTime: "Lernzeit",
-      learningProgress: "Lernfortschritt",
-      deckPerformance: "Stapelleistung",
-      insights: "Lerneinblicke",
-      velocity: "Lerngeschwindigkeit",
-      cardsPerHour: "Karten/Stunde",
-      todayGoal: "Heutiger Fortschritt",
-      bestStreak: "Beste Serie",
-      dueNow: "Jetzt fällig",
-      days: "Tage",
-      total: "Gesamtkarten",
-      learning: "Lernend",
-      complete: "Vollständig",
-      progress: "Fortschritt",
-      averageAccuracy: "Durchschnittliche Genauigkeit",
-      hoursMinutes: "{{hours}}h {{minutes}}m",
-      minutes: "{{minutes}} Minuten",
-      period: {
-        day: "Heute",
-        week: "Diese Woche",
-        month: "Diesen Monat",
-        all: "Gesamtzeit"
-      }
+      volume: "Volumen",
+      special: "Besonders"
+    },
+
+    dailyGoals: {
+      title: "Tagesziele",
+      progress: "{{percentage}}% abgeschlossen",
+      cards: "Karten",
+      time: "Zeit",
+      decks: "Stapel",
+      accuracy: "Genauigkeit",
+      congratulations: "Herzlichen Glückwunsch!",
+      keepItUp: "Weiter so!",
+      allComplete: "Alle Ziele erreicht!",
+      customizeGoals: "Ziele anpassen",
+      cardsPerDay: "Karten pro Tag",
+      minutesPerDay: "Minuten pro Tag",
+      decksPerDay: "Stapel pro Tag",
+      accuracyTarget: "Genauigkeitsziel"
+    },
+
+    urgency: {
+      low: "Niedrige Priorität",
+      medium: "Mittlere Priorität",
+      high: "Hohe Priorität",
+      critical: "Kritisch"
+    },
+
+    // Additional missing translations
+    minutes: "Minuten",
+    cards: "Karten",
+    unlimited: "Unbegrenzte Stapel"
+  },
+
+  // Tooltips
+  tooltips: {
+    srs: "Verwendet verteilte Wiederholung",
+    mastery: "21+ Tage mit 90% Genauigkeit lernen",
+    streak: "Jeden Tag lernen",
+    difficulty: "Bewerten Sie Ihr Wissen",
+    leech: "Diese Karte braucht mehr Übung"
+  },
+
+  // Confirmations
+  confirmDelete: {
+    title: "Stapel löschen",
+    message: "Sind Sie sicher, dass Sie \"{{name}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    deck: "Stapel \"{{name}}\" löschen? Unwiderruflich.",
+    card: "Diese Karte löschen? Unwiderruflich.",
+    progress: "Fortschritt zurücksetzen?"
+  },
+
+  // Success messages
+  success: {
+    deckCreated: "Stapel erstellt",
+    deckUpdated: "Stapel aktualisiert",
+    deckDeleted: "Stapel gelöscht",
+    cardAdded: "Karte hinzugefügt",
+    cardUpdated: "Karte aktualisiert",
+    cardDeleted: "Karte entfernt",
+    progressSaved: "Fortschritt gespeichert",
+    imported: "Stapel importiert",
+    exported: "Stapel exportiert"
+  },
+
+  // Session Settings
+  settings: {
+    sessionLength: "Karten pro Sitzung",
+    sessionLengthHint: "Wählen Sie, wie viele Karten Sie in dieser Sitzung lernen möchten",
+    quickSettings: "Schnelleinstellungen",
+    reviewMode: "Überprüfungsmodus",
+    sequential: "Sequenziell",
+    random: "Zufällig",
+    smart: "Intelligent",
+    studyDirection: "Lernrichtung",
+    frontToBack: "Vorderseite → Rückseite",
+    frontToBackDesc: "Vorderseite zuerst anzeigen",
+    backToFront: "Rückseite → Vorderseite",
+    backToFrontDesc: "Rückseite zuerst anzeigen",
+    mixed: "Gemischt",
+    mixedDesc: "Zufällige Richtung für jede Karte",
+    usingAllCards: "Verwendung aller verfügbaren Karten"
+  },
+
+  // Actions
+  actions: {
+    syncAll: "Alles synchronisieren",
+    exportAll: "Alles exportieren"
+  },
+
+  // Study Session
+  startSession: "Sitzung starten",
+
+  // Statistics
+  showStats: "Statistiken anzeigen",
+  hideStats: "Statistiken ausblenden",
+  stats: {
+    mastered: "Gemeistert",
+    accuracy: "Genauigkeit",
+    streak: "Aktuelle Serie",
+    studyTime: "Lernzeit",
+    learningProgress: "Lernfortschritt",
+    deckPerformance: "Stapelleistung",
+    insights: "Lerneinblicke",
+    velocity: "Lerngeschwindigkeit",
+    cardsPerHour: "Karten/Stunde",
+    todayGoal: "Heutiger Fortschritt",
+    bestStreak: "Beste Serie",
+    dueNow: "Jetzt fällig",
+    days: "Tage",
+    total: "Gesamtkarten",
+    learning: "Lernend",
+    complete: "Vollständig",
+    progress: "Fortschritt",
+    averageAccuracy: "Durchschnittliche Genauigkeit",
+    hoursMinutes: "{{hours}}h {{minutes}}m",
+    minutes: "{{minutes}} Minuten",
+    period: {
+      day: "Heute",
+      week: "Diese Woche",
+      month: "Diesen Monat",
+      all: "Gesamtzeit"
     }
   },
+
   conjugation: {
-      title: "Konjugation",
+    title: "Konjugation",
+    showConjugations: "Konjugationen anzeigen",
+    hideConjugations: "Konjugationen ausblenden",
+    expandAll: "Alle ausklappen",
+    collapseAll: "Alle einklappen",
+    groups: {
+      stems: "Stämme",
+      basicForms: "Grundformen",
+      politeForms: "Höflichkeitsformen",
+      conditionalForms: "Konditionalformen",
+      volitionalForms: "Volitionalformen",
+      imperativeForms: "Imperativformen",
+      potentialForms: "Potentialformen",
+      passiveForms: "Passivformen",
+      causativeForms: "Kausativformen",
+      causativePassiveForms: "Kausativ-Passivformen",
+      desiderativeForms: "Desiderativformen (たい)",
+      progressiveForms: "Progressivformen",
+      requestForms: "Bitten-Formen",
+      colloquialForms: "Umgangssprache-Formen",
+      formalForms: "Formelle/Klassische Formen",
+      presumptiveForms: "Vermutungsformen",
+      plainform: "Grundform",
+      politeform: "Höflichkeitsform",
+      taiformwantto: "Tai-Form (wollen)",
+      "taiform(wantto)": "Tai-Form (wollen)",
+      imperativeforms: "Befehlsformen",
+      provisionalform: "Provisorische Form",
+      conditionalform: "Konditionalform",
+      alternativeform: "Alternative Form",
+      potentialplainform: "Potentialform (einfach)",
+      potentialpoliteform: "Potentialform (höflich)",
+      passiveplainform: "Passivform (einfach)",
+      passivepoliteform: "Passivform (höflich)",
+      causativeplainform: "Kausativform (einfach)",
+      causativepoliteform: "Kausativform (höflich)",
+      causativepassiveplainform: "Kausativ-Passivform (einfach)",
+      causativepassivepoliteform: "Kausativ-Passivform (höflich)",
+      colloquialform: "Umgangssprache",
+      formalform: "Formelle Form",
+      classicalformnu: "Klassische Form (nu)",
+      "classicalform(nu)": "Klassische Form (nu)",
+      classicalformzaru: "Klassische Form (zaru)",
+      "classicalform(zaru)": "Klassische Form (zaru)",
+      // Adjektiv-spezifische Gruppen
+      basicforms: "Grundformen",
+      politeforms: "Höfliche Formen",
+      conditionalforms: "Konditionalformen",
+      presumptiveforms: "Vermutungsformen"
+    },
+    forms: {
+      // Stämme
+      masuStem: "Masu-Stamm",
+      negativeStem: "Negativ-Stamm",
+      teForm: "Te-Form",
+      negativeTeForm: "Negative Te-Form",
+      adverbialNegative: "Adverbiales Negativ",
+      // Grundformen
+      present: "Präsens/Wörterbuchform",
+      past: "Vergangenheit",
+      negative: "Negativ",
+      pastNegative: "Vergangenheit negativ",
+      // Höflichkeitsformen
+      polite: "Höflich",
+      politePast: "Höflich Vergangenheit",
+      politeNegative: "Höflich negativ",
+      politePastNegative: "Höflich Vergangenheit negativ",
+      politeVolitional: "Höflich volitional",
+      // Konditional
+      provisional: "Falls/Wenn (ば)",
+      provisionalNegative: "Falls nicht (ば)",
+      conditional: "Falls/Wenn (たら)",
+      conditionalNegative: "Falls nicht (たら)",
+      // Volitional
+      volitional: "Lass uns/Sollen",
+      volitionalNegative: "Lass uns nicht",
+      // Imperativ
+      imperativePlain: "Befehl",
+      imperativePolite: "Bitte tu",
+      imperativeNegative: "Tu nicht",
+      // Potential
+      potential: "Kann tun",
+      potentialNegative: "Kann nicht tun",
+      potentialPast: "Konnte tun",
+      potentialPastNegative: "Konnte nicht tun",
+      // Passiv
+      passive: "Wird getan",
+      passiveNegative: "Wird nicht getan",
+      passivePast: "Wurde getan",
+      passivePastNegative: "Wurde nicht getan",
+      // Kausativ
+      causative: "Machen/Lassen tun",
+      causativeNegative: "Nicht machen/lassen tun",
+      causativePast: "Machte/Ließ tun",
+      causativePastNegative: "Machte/Ließ nicht tun",
+      // Kausativ-Passiv
+      causativePassive: "Dazu gebracht werden zu tun",
+      causativePassiveNegative: "Nicht dazu gebracht werden zu tun",
+      // Desiderativ
+      taiForm: "Wollen",
+      taiFormNegative: "Nicht wollen",
+      taiFormPast: "Wollte",
+      taiFormPastNegative: "Wollte nicht",
+      // Progressiv
+      progressive: "Ist dabei zu tun",
+      progressiveNegative: "Ist nicht dabei zu tun",
+      progressivePast: "War dabei zu tun",
+      progressivePastNegative: "War nicht dabei zu tun",
+      // Bitten
+      request: "Bitte tu",
+      requestNegative: "Bitte tu nicht",
+      // Umgangssprache
+      colloquialNegative: "Nicht (umgangssprachlich)",
+      // Formell
+      formalNegative: "Nicht (formell)",
+      classicalNegative: "Nicht (klassisch)",
+      // Vermutung
+      presumptive: "Wahrscheinlich",
+      presumptiveNegative: "Wahrscheinlich nicht"
+    },
+    wordTypes: {
+      ichidan: "Ichidan-Verb",
+      godan: "Godan-Verb",
+      irregular: "Unregelmäßiges Verb",
+      iadjective: "i-Adjektiv",
+      naadjective: "na-Adjektiv"
+    },
+    messages: {
+      notConjugatable: "Dieses Wort kann nicht konjugiert werden",
+      lowConfidence: "Konjugationstyp mit geringem Vertrauen erkannt",
+      specialCase: "Dieses Wort hat spezielle Konjugationsregeln"
+    },
+    // Übungsseite
+    practiceTitle: "Konjugationsübung",
+    practiceDescription: "Meistere japanische Verb- und Adjektivkonjugationen",
+    searchPlaceholder: "Nach einem Verb oder Adjektiv suchen...",
+    searchButton: "Suchen",
+    clearSearch: "Löschen",
+    searchResults: "Suchergebnisse",
+    noSearchResults: "Keine konjugierbaren Wörter gefunden",
+    filters: {
+      all: "Alle",
+      verbs: "Nur Verben",
+      adjectives: "Nur Adjektive"
+    },
+    actions: {
+      shuffle: "Mischen",
+      loadNew: "Neue Wörter laden",
+      selectForReview: "Für Wiederholung auswählen",
       showConjugations: "Konjugationen anzeigen",
-      hideConjugations: "Konjugationen ausblenden",
-      expandAll: "Alle ausklappen",
-      collapseAll: "Alle einklappen",
-      groups: {
-        stems: "Stämme",
-        basicForms: "Grundformen",
-        politeForms: "Höflichkeitsformen",
-        conditionalForms: "Konditionalformen",
-        volitionalForms: "Volitionalformen",
-        imperativeForms: "Imperativformen",
-        potentialForms: "Potentialformen",
-        passiveForms: "Passivformen",
-        causativeForms: "Kausativformen",
-        causativePassiveForms: "Kausativ-Passivformen",
-        desiderativeForms: "Desiderativformen (たい)",
-        progressiveForms: "Progressivformen",
-        requestForms: "Bitten-Formen",
-        colloquialForms: "Umgangssprache-Formen",
-        formalForms: "Formelle/Klassische Formen",
-        presumptiveForms: "Vermutungsformen",
-        plainform: "Grundform",
-        politeform: "Höflichkeitsform",
-        taiformwantto: "Tai-Form (wollen)",
-        "taiform(wantto)": "Tai-Form (wollen)",
-        imperativeforms: "Befehlsformen",
-        provisionalform: "Provisorische Form",
-        conditionalform: "Konditionalform",
-        alternativeform: "Alternative Form",
-        potentialplainform: "Potentialform (einfach)",
-        potentialpoliteform: "Potentialform (höflich)",
-        passiveplainform: "Passivform (einfach)",
-        passivepoliteform: "Passivform (höflich)",
-        causativeplainform: "Kausativform (einfach)",
-        causativepoliteform: "Kausativform (höflich)",
-        causativepassiveplainform: "Kausativ-Passivform (einfach)",
-        causativepassivepoliteform: "Kausativ-Passivform (höflich)",
-        colloquialform: "Umgangssprache",
-        formalform: "Formelle Form",
-        classicalformnu: "Klassische Form (nu)",
-        "classicalform(nu)": "Klassische Form (nu)",
-        classicalformzaru: "Klassische Form (zaru)",
-        "classicalform(zaru)": "Klassische Form (zaru)",
-        // Adjektiv-spezifische Gruppen
-        basicforms: "Grundformen",
-        politeforms: "Höfliche Formen",
-        conditionalforms: "Konditionalformen",
-        presumptiveforms: "Vermutungsformen"
-      },
-      forms: {
-        // Stämme
-        masuStem: "Masu-Stamm",
-        negativeStem: "Negativ-Stamm",
-        teForm: "Te-Form",
-        negativeTeForm: "Negative Te-Form",
-        adverbialNegative: "Adverbiales Negativ",
-        // Grundformen
-        present: "Präsens/Wörterbuchform",
-        past: "Vergangenheit",
-        negative: "Negativ",
-        pastNegative: "Vergangenheit negativ",
-        // Höflichkeitsformen
-        polite: "Höflich",
-        politePast: "Höflich Vergangenheit",
-        politeNegative: "Höflich negativ",
-        politePastNegative: "Höflich Vergangenheit negativ",
-        politeVolitional: "Höflich volitional",
-        // Konditional
-        provisional: "Falls/Wenn (ば)",
-        provisionalNegative: "Falls nicht (ば)",
-        conditional: "Falls/Wenn (たら)",
-        conditionalNegative: "Falls nicht (たら)",
-        // Volitional
-        volitional: "Lass uns/Sollen",
-        volitionalNegative: "Lass uns nicht",
-        // Imperativ
-        imperativePlain: "Befehl",
-        imperativePolite: "Bitte tu",
-        imperativeNegative: "Tu nicht",
-        // Potential
-        potential: "Kann tun",
-        potentialNegative: "Kann nicht tun",
-        potentialPast: "Konnte tun",
-        potentialPastNegative: "Konnte nicht tun",
-        // Passiv
-        passive: "Wird getan",
-        passiveNegative: "Wird nicht getan",
-        passivePast: "Wurde getan",
-        passivePastNegative: "Wurde nicht getan",
-        // Kausativ
-        causative: "Machen/Lassen tun",
-        causativeNegative: "Nicht machen/lassen tun",
-        causativePast: "Machte/Ließ tun",
-        causativePastNegative: "Machte/Ließ nicht tun",
-        // Kausativ-Passiv
-        causativePassive: "Dazu gebracht werden zu tun",
-        causativePassiveNegative: "Nicht dazu gebracht werden zu tun",
-        // Desiderativ
-        taiForm: "Wollen",
-        taiFormNegative: "Nicht wollen",
-        taiFormPast: "Wollte",
-        taiFormPastNegative: "Wollte nicht",
-        // Progressiv
-        progressive: "Ist dabei zu tun",
-        progressiveNegative: "Ist nicht dabei zu tun",
-        progressivePast: "War dabei zu tun",
-        progressivePastNegative: "War nicht dabei zu tun",
-        // Bitten
-        request: "Bitte tu",
-        requestNegative: "Bitte tu nicht",
-        // Umgangssprache
-        colloquialNegative: "Nicht (umgangssprachlich)",
-        // Formell
-        formalNegative: "Nicht (formell)",
-        classicalNegative: "Nicht (klassisch)",
-        // Vermutung
-        presumptive: "Wahrscheinlich",
-        presumptiveNegative: "Wahrscheinlich nicht"
-      },
-      wordTypes: {
-        ichidan: "Ichidan-Verb",
-        godan: "Godan-Verb",
-        irregular: "Unregelmäßiges Verb",
-        iadjective: "i-Adjektiv",
-        naadjective: "na-Adjektiv"
-      },
-      messages: {
-        notConjugatable: "Dieses Wort kann nicht konjugiert werden",
-        lowConfidence: "Konjugationstyp mit geringem Vertrauen erkannt",
-        specialCase: "Dieses Wort hat spezielle Konjugationsregeln"
-      },
-      // Übungsseite
-      practiceTitle: "Konjugationsübung",
-      practiceDescription: "Meistere japanische Verb- und Adjektivkonjugationen",
-      searchPlaceholder: "Nach einem Verb oder Adjektiv suchen...",
-      searchButton: "Suchen",
-      clearSearch: "Löschen",
-      searchResults: "Suchergebnisse",
-      noSearchResults: "Keine konjugierbaren Wörter gefunden",
-      filters: {
-        all: "Alle",
-        verbs: "Nur Verben",
-        adjectives: "Nur Adjektive"
-      },
-      actions: {
-        shuffle: "Mischen",
-        loadNew: "Neue Wörter laden",
-        selectForReview: "Für Wiederholung auswählen",
-        showConjugations: "Konjugationen anzeigen",
-        hideConjugations: "Konjugationen ausblenden"
-      },
-      settings: "Einstellungen",
-      stats: {
-        verbs: "Verben",
-        adjectives: "Adjektive"
-      },
-      studyMode: {
-        title: "Konjugationen studieren",
-        description: "Lerne japanische Verb- und Adjektivkonjugationen mit interaktiven Beispielen",
-        startStudying: "Studium beginnen"
-      },
-      reviewMode: {
-        practiceConjugation: "Diese Konjugation üben",
-        complete: "Wiederholung abschließen",
-        noWords: "Keine Wörter für Wiederholung ausgewählt"
-      }
+      hideConjugations: "Konjugationen ausblenden"
+    },
+    settings: "Einstellungen",
+    stats: {
+      verbs: "Verben",
+      adjectives: "Adjektive"
+    },
+    studyMode: {
+      title: "Konjugationen studieren",
+      description: "Lerne japanische Verb- und Adjektivkonjugationen mit interaktiven Beispielen",
+      startStudying: "Studium beginnen"
+    },
+    reviewMode: {
+      practiceConjugation: "Diese Konjugation üben",
+      complete: "Wiederholung abschließen",
+      noWords: "Keine Wörter für Wiederholung ausgewählt"
+    }
   },
 
   // Settings Page
@@ -2611,8 +2674,7 @@ export const strings = {
       confirm: "Entfernen",
       cancel: "Abbrechen"
     }
-  }
-,
+  },
 
   // Drill Feature
   drill: {

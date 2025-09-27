@@ -45,13 +45,14 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
-const functions = __importStar(require("firebase-functions"));
+const https_1 = require("firebase-functions/v2/https");
+const scheduler_1 = require("firebase-functions/v2/scheduler");
+const params_1 = require("firebase-functions/params");
 const admin = __importStar(require("firebase-admin"));
 const stripe_1 = __importDefault(require("stripe"));
 // Updated import to match new Agent 3 mapping module
@@ -69,12 +70,23 @@ if (!admin.apps.length) {
     admin.initializeApp();
 }
 const db = admin.firestore();
-// Initialize Stripe with secret key from environment
-const stripe = new stripe_1.default(((_a = functions.config().stripe) === null || _a === void 0 ? void 0 : _a.secret_key) || process.env.STRIPE_SECRET_KEY || '', {
-    apiVersion: '2025-08-27.basil',
-});
-// Webhook endpoint secret for validating Stripe signatures
-const endpointSecret = ((_b = functions.config().stripe) === null || _b === void 0 ? void 0 : _b.webhook_secret) || process.env.STRIPE_WEBHOOK_SECRET || '';
+// Define secrets for Stripe configuration
+const stripeSecretKey = (0, params_1.defineSecret)('STRIPE_SECRET_KEY');
+const stripeWebhookSecret = (0, params_1.defineSecret)('STRIPE_WEBHOOK_SECRET');
+// Initialize Stripe lazily when needed
+let stripe = null;
+function getStripe() {
+    if (!stripe) {
+        stripe = new stripe_1.default(stripeSecretKey.value(), {
+            apiVersion: '2025-08-27.basil',
+        });
+    }
+    return stripe;
+}
+// Get webhook secret when needed
+function getWebhookSecret() {
+    return stripeWebhookSecret.value();
+}
 /**
  * Helper to get Firebase user by Stripe customer ID
  */
@@ -125,7 +137,7 @@ async function updateSubscriptionFacts(userId, subscription, eventType) {
         stripeCustomerId: subscription.customer,
         stripeSubscriptionId: subscription.id,
         stripePriceId: priceId,
-        currentPeriodEnd: admin.firestore.Timestamp.fromDate(new Date(subscription.current_period_end * 1000)),
+        currentPeriodEnd: subscription.current_period_end ? admin.firestore.Timestamp.fromDate(new Date(subscription.current_period_end * 1000)) : null,
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
         metadata: {
             source: 'stripe',
@@ -175,108 +187,29 @@ async function removeSubscriptionFacts(userId, reason) {
  * This replaces the inline implementation with the production-grade handler
  */
 exports.stripeWebhook = webhook_1.stripeWebhook;
-/**
- * Legacy webhook handler (deprecated - kept for reference)
- * @deprecated Use the new webhook handler from ./webhook.ts
- */
-const legacyStripeWebhook = functions.https.onRequest(async (req, res) => {
-    // Only accept POST requests
-    if (req.method !== 'POST') {
-        res.status(405).send('Method Not Allowed');
-        return;
-    }
-    // Get the raw body for signature verification
-    const rawBody = req.rawBody;
-    if (!rawBody) {
-        console.error('No raw body in request');
-        res.status(400).send('Bad Request: No body');
-        return;
-    }
-    // Verify webhook signature
-    const signature = req.headers['stripe-signature'];
-    if (!signature || !endpointSecret) {
-        console.error('Missing signature or endpoint secret');
-        res.status(401).send('Unauthorized');
-        return;
-    }
-    let event;
-    try {
-        event = stripe.webhooks.constructEvent(rawBody, signature, endpointSecret);
-    }
-    catch (err) {
-        console.error('Webhook signature verification failed:', err);
-        res.status(401).send('Webhook signature verification failed');
-        return;
-    }
-    // Handle different event types
-    try {
-        switch (event.type) {
-            case 'customer.subscription.created':
-            case 'customer.subscription.updated': {
-                const subscription = event.data.object;
-                const customerId = subscription.customer;
-                // Find user by Stripe customer ID
-                const userId = await getUserByStripeCustomerId(customerId);
-                if (!userId) {
-                    console.error(`No user found for customer ${customerId}`);
-                    res.status(404).send('User not found');
-                    return;
-                }
-                // Update subscription facts
-                await updateSubscriptionFacts(userId, subscription, event.type);
-                break;
-            }
-            case 'customer.subscription.deleted': {
-                const subscription = event.data.object;
-                const customerId = subscription.customer;
-                // Find user by Stripe customer ID
-                const userId = await getUserByStripeCustomerId(customerId);
-                if (!userId) {
-                    console.error(`No user found for customer ${customerId}`);
-                    res.status(404).send('User not found');
-                    return;
-                }
-                // Remove subscription facts
-                await removeSubscriptionFacts(userId, 'subscription_deleted');
-                break;
-            }
-            case 'customer.subscription.trial_will_end': {
-                // Handle trial ending soon (optional: send notification)
-                const subscription = event.data.object;
-                console.log(`Trial ending soon for subscription ${subscription.id}`);
-                // Could trigger an email notification here
-                break;
-            }
-            default:
-                console.log(`Unhandled event type: ${event.type}`);
-        }
-        // Acknowledge receipt of the event
-        res.status(200).json({ received: true });
-    }
-    catch (error) {
-        console.error('Error processing webhook:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
+// Legacy webhook handler removed - using new handler from ./webhook.ts
 /**
  * HTTP callable function to link a Stripe customer to a Firebase user
  * Called after successful checkout session
  */
-exports.linkStripeCustomer = functions.https.onCall(async (data, context) => {
+exports.linkStripeCustomer = (0, https_1.onCall)({
+    region: 'europe-west1',
+    secrets: [stripeSecretKey]
+}, async (request) => {
     // Verify user is authenticated
-    if (!context.auth) {
-        throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
+    if (!request.auth) {
+        throw new https_1.HttpsError('unauthenticated', 'User must be authenticated');
     }
-    const { customerId, checkoutSessionId } = data;
-    const userId = context.auth.uid;
+    const { customerId, checkoutSessionId } = request.data;
+    const userId = request.auth.uid;
     if (!customerId || !checkoutSessionId) {
-        throw new functions.https.HttpsError('invalid-argument', 'Missing required parameters');
+        throw new https_1.HttpsError('invalid-argument', 'Missing required parameters');
     }
     try {
         // Verify the checkout session with Stripe
-        const session = await stripe.checkout.sessions.retrieve(checkoutSessionId);
+        const session = await getStripe().checkout.sessions.retrieve(checkoutSessionId);
         if (session.customer !== customerId) {
-            throw new functions.https.HttpsError('invalid-argument', 'Customer ID mismatch');
+            throw new https_1.HttpsError('invalid-argument', 'Customer ID mismatch');
         }
         // Update user document with Stripe customer ID
         await db.collection('users').doc(userId).update({
@@ -288,16 +221,19 @@ exports.linkStripeCustomer = functions.https.onCall(async (data, context) => {
     }
     catch (error) {
         console.error('Error linking Stripe customer:', error);
-        throw new functions.https.HttpsError('internal', 'Failed to link customer');
+        throw new https_1.HttpsError('internal', 'Failed to link customer');
     }
 });
 /**
  * Scheduled function to check and update subscription statuses
  * Runs daily to catch any missed webhook events
  */
-exports.syncSubscriptionStatus = functions.pubsub
-    .schedule('every 24 hours')
-    .onRun(async (context) => {
+exports.syncSubscriptionStatus = (0, scheduler_1.onSchedule)({
+    schedule: 'every 24 hours',
+    timeZone: 'UTC',
+    region: 'europe-west1',
+    secrets: [stripeSecretKey]
+}, async (event) => {
     var _a;
     console.log('Starting subscription status sync');
     // Get all users with active subscriptions
@@ -313,7 +249,7 @@ exports.syncSubscriptionStatus = functions.pubsub
             continue;
         try {
             // Fetch current status from Stripe
-            const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+            const subscription = await getStripe().subscriptions.retrieve(subscriptionId);
             // Update if status changed
             if (subscription.status !== 'active') {
                 await updateSubscriptionFacts(doc.id, subscription, 'sync_update');
@@ -332,105 +268,11 @@ exports.syncSubscriptionStatus = functions.pubsub
  * Export the production-grade checkout session creator
  */
 exports.createCheckoutSession = endpoints_1.createCheckoutSession;
-/**
- * Legacy checkout session creator (deprecated)
- * @deprecated Use the new handler from ./endpoints.ts
- */
-const legacyCreateCheckoutSession = functions.https.onCall(async (data, context) => {
-    var _a, _b, _c;
-    // Verify user is authenticated
-    if (!context.auth) {
-        throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
-    }
-    const { priceId, successUrl, cancelUrl } = data;
-    const userId = context.auth.uid;
-    if (!priceId || !(0, stripeMapping_1.isValidPriceId)(priceId)) {
-        throw new functions.https.HttpsError('invalid-argument', 'Invalid price ID');
-    }
-    try {
-        // Get or create Stripe customer
-        const userDoc = await db.collection('users').doc(userId).get();
-        const userData = userDoc.data();
-        let customerId = (_a = userData === null || userData === void 0 ? void 0 : userData.subscription) === null || _a === void 0 ? void 0 : _a.stripeCustomerId;
-        if (!customerId) {
-            // Create new Stripe customer
-            const customer = await stripe.customers.create({
-                metadata: {
-                    firebaseUserId: userId,
-                },
-            });
-            customerId = customer.id;
-            // Save customer ID to user document
-            await db.collection('users').doc(userId).update({
-                'subscription.stripeCustomerId': customerId,
-                updatedAt: admin.firestore.Timestamp.now(),
-            });
-        }
-        // Create checkout session
-        const session = await stripe.checkout.sessions.create({
-            customer: customerId,
-            payment_method_types: ['card'],
-            line_items: [
-                {
-                    price: priceId,
-                    quantity: 1,
-                },
-            ],
-            mode: 'subscription',
-            success_url: successUrl || `${(_b = functions.config().app) === null || _b === void 0 ? void 0 : _b.url}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: cancelUrl || `${(_c = functions.config().app) === null || _c === void 0 ? void 0 : _c.url}/pricing`,
-            metadata: {
-                firebaseUserId: userId,
-            },
-        });
-        return {
-            sessionId: session.id,
-            url: session.url,
-        };
-    }
-    catch (error) {
-        console.error('Error creating checkout session:', error);
-        throw new functions.https.HttpsError('internal', 'Failed to create checkout session');
-    }
-});
+// Legacy checkout session creator removed - using new handler from ./endpoints.ts
 /**
  * Export the production-grade billing portal session creator
  */
 exports.createBillingPortalSession = endpoints_1.createBillingPortalSession;
-/**
- * Legacy portal session creator (deprecated)
- * @deprecated Use the new handler from ./endpoints.ts
- */
-const legacyCreatePortalSession = functions.https.onCall(async (data, context) => {
-    var _a, _b;
-    // Verify user is authenticated
-    if (!context.auth) {
-        throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
-    }
-    const { returnUrl } = data;
-    const userId = context.auth.uid;
-    try {
-        // Get user's Stripe customer ID
-        const userDoc = await db.collection('users').doc(userId).get();
-        const userData = userDoc.data();
-        const customerId = (_a = userData === null || userData === void 0 ? void 0 : userData.subscription) === null || _a === void 0 ? void 0 : _a.stripeCustomerId;
-        if (!customerId) {
-            throw new functions.https.HttpsError('not-found', 'No subscription found');
-        }
-        // Create portal session
-        const session = await stripe.billingPortal.sessions.create({
-            customer: customerId,
-            return_url: returnUrl || `${(_b = functions.config().app) === null || _b === void 0 ? void 0 : _b.url}/account`,
-        });
-        return {
-            url: session.url,
-        };
-    }
-    catch (error) {
-        console.error('Error creating portal session:', error);
-        throw new functions.https.HttpsError('internal', 'Failed to create portal session');
-    }
-});
 /**
  * Re-export handler functions for testing
  */

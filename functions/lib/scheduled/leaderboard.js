@@ -2,6 +2,8 @@
 /**
  * Scheduled Cloud Function for Leaderboard Updates
  * Runs hourly to pre-compute leaderboard snapshots for better performance
+ *
+ * UPDATED: Now reads from unified user_stats collection instead of scattered collections
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -38,7 +40,8 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = void 0;
-const functions = __importStar(require("firebase-functions"));
+const scheduler_1 = require("firebase-functions/v2/scheduler");
+const https_1 = require("firebase-functions/v2/https");
 const admin = __importStar(require("firebase-admin"));
 // Initialize admin if not already done
 if (!admin.apps.length) {
@@ -60,7 +63,7 @@ async function buildLeaderboard(timeframe, limit = 100) {
         for (let i = 0; i < userDocs.length; i += batchSize) {
             const batch = userDocs.slice(i, i + batchSize);
             const batchPromises = batch.map(async (userDoc) => {
-                var _a;
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
                 const userId = userDoc.id;
                 const userData = userDoc.data();
                 // Check if user has opted out
@@ -75,17 +78,15 @@ async function buildLeaderboard(timeframe, limit = 100) {
                 if (preferences.hideFromLeaderboard === true) {
                     return null;
                 }
-                // Fetch user's stats in parallel
-                const [activitiesDoc, xpDoc, achievementsDoc] = await Promise.all([
-                    db.collection('users').doc(userId).collection('achievements').doc('activities').get(),
-                    db.collection('users').doc(userId).collection('stats').doc('xp').get(),
-                    db.collection('users').doc(userId).collection('achievements').doc('data').get()
-                ]);
-                const activitiesData = activitiesDoc.data() || {};
-                const xpData = xpDoc.data() || {};
-                const achievementsData = achievementsDoc.data() || {};
-                // Count achievements by rarity (simplified)
-                const achievementCount = Object.keys(achievementsData.unlocked || {}).length;
+                // Fetch user's stats from unified collection
+                const userStatsDoc = await db.collection('user_stats').doc(userId).get();
+                if (!userStatsDoc.exists) {
+                    // User has no stats yet
+                    return null;
+                }
+                const statsData = userStatsDoc.data() || {};
+                // Count achievements from unified stats
+                const achievementCount = ((_a = statsData.achievements) === null || _a === void 0 ? void 0 : _a.unlockedCount) || 0;
                 const rarityCount = {
                     legendary: Math.floor(achievementCount * 0.02),
                     epic: Math.floor(achievementCount * 0.08),
@@ -97,20 +98,20 @@ async function buildLeaderboard(timeframe, limit = 100) {
                     userId,
                     displayName: preferences.useAnonymousName
                         ? `Anonymous Learner ${userId.slice(-4)}`
-                        : userData.displayName || 'Anonymous',
-                    photoURL: preferences.useAnonymousName ? undefined : userData.photoURL,
-                    currentStreak: activitiesData.currentStreak || 0,
-                    bestStreak: activitiesData.bestStreak || activitiesData.longestStreak || 0,
-                    lastActivity: activitiesData.lastActivity || Date.now(),
-                    totalXP: xpData.totalXP || 0,
-                    currentLevel: xpData.currentLevel || 1,
-                    weeklyXP: xpData.weeklyXP || 0,
-                    monthlyXP: xpData.monthlyXP || 0,
-                    achievementsUnlocked: achievementsData.unlocked || {},
-                    totalPoints: achievementsData.totalPoints || 0,
+                        : statsData.displayName || userData.displayName || 'Anonymous',
+                    photoURL: preferences.useAnonymousName ? undefined : statsData.photoURL || userData.photoURL,
+                    currentStreak: ((_b = statsData.streak) === null || _b === void 0 ? void 0 : _b.current) || 0,
+                    bestStreak: ((_c = statsData.streak) === null || _c === void 0 ? void 0 : _c.best) || 0,
+                    lastActivity: ((_d = statsData.streak) === null || _d === void 0 ? void 0 : _d.lastActivityTimestamp) || Date.now(),
+                    totalXP: ((_e = statsData.xp) === null || _e === void 0 ? void 0 : _e.total) || 0,
+                    currentLevel: ((_f = statsData.xp) === null || _f === void 0 ? void 0 : _f.level) || 1,
+                    weeklyXP: ((_g = statsData.xp) === null || _g === void 0 ? void 0 : _g.weeklyXP) || 0,
+                    monthlyXP: ((_h = statsData.xp) === null || _h === void 0 ? void 0 : _h.monthlyXP) || 0,
+                    achievementsUnlocked: ((_j = statsData.achievements) === null || _j === void 0 ? void 0 : _j.unlockedIds) || [],
+                    totalPoints: ((_k = statsData.achievements) === null || _k === void 0 ? void 0 : _k.totalPoints) || 0,
                     achievementCount,
                     achievementRarity: rarityCount,
-                    subscription: ((_a = userData.subscription) === null || _a === void 0 ? void 0 : _a.plan) || 'free',
+                    subscription: statsData.tier || ((_l = userData.subscription) === null || _l === void 0 ? void 0 : _l.plan) || 'free',
                     isPublic: true
                 };
             });
@@ -190,15 +191,13 @@ async function buildLeaderboard(timeframe, limit = 100) {
  * Scheduled function to update leaderboard snapshots
  * Runs every hour
  */
-exports.updateLeaderboardSnapshots = functions
-    .runWith({
-    timeoutSeconds: 300, // 5 minutes timeout
-    memory: '512MB'
-})
-    .pubsub
-    .schedule('every 1 hours')
-    .timeZone('UTC')
-    .onRun(async (context) => {
+exports.updateLeaderboardSnapshots = (0, scheduler_1.onSchedule)({
+    schedule: 'every 1 hours',
+    timeZone: 'UTC',
+    region: 'europe-west1',
+    timeoutSeconds: 300,
+    memory: '512MiB'
+}, async (event) => {
     console.log('[Leaderboard] Starting scheduled update');
     try {
         // Build snapshots for all timeframes in parallel
@@ -231,19 +230,15 @@ exports.updateLeaderboardSnapshots = functions
 /**
  * HTTP trigger to manually update leaderboard (for testing)
  */
-exports.updateLeaderboardManually = functions
-    .runWith({
+exports.updateLeaderboardManually = (0, https_1.onCall)({
+    region: 'europe-west1',
     timeoutSeconds: 300,
-    memory: '512MB'
-})
-    .https
-    .onRequest(async (req, res) => {
-    var _a, _b, _c;
-    // Simple authentication check
-    const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
-    if (token !== ((_b = functions.config().admin) === null || _b === void 0 ? void 0 : _b.token)) {
-        res.status(403).json({ error: 'Unauthorized' });
-        return;
+    memory: '512MiB'
+}, async (request) => {
+    var _a;
+    // Authentication check
+    if (!request.auth) {
+        throw new https_1.HttpsError('unauthenticated', 'User must be authenticated');
     }
     try {
         console.log('[Leaderboard] Manual update triggered');
@@ -260,18 +255,18 @@ exports.updateLeaderboardManually = functions
         batch.set(db.collection('leaderboard_snapshots').doc('monthly-latest'), monthlySnapshot);
         batch.set(db.collection('leaderboard_snapshots').doc('allTime-latest'), allTimeSnapshot);
         await batch.commit();
-        res.json({
+        return {
             success: true,
             message: 'Leaderboard updated successfully',
             stats: {
                 totalPlayers: allTimeSnapshot.totalPlayers,
-                topPlayer: ((_c = allTimeSnapshot.entries[0]) === null || _c === void 0 ? void 0 : _c.displayName) || 'N/A'
+                topPlayer: ((_a = allTimeSnapshot.entries[0]) === null || _a === void 0 ? void 0 : _a.displayName) || 'N/A'
             }
-        });
+        };
     }
     catch (error) {
         console.error('[Leaderboard] Manual update failed:', error);
-        res.status(500).json({ error: error.message });
+        throw new https_1.HttpsError('internal', error.message);
     }
 });
 //# sourceMappingURL=leaderboard.js.map

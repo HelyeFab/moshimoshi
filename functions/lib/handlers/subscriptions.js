@@ -14,6 +14,37 @@ exports.daysUntilSubscriptionEnd = daysUntilSubscriptionEnd;
 exports.debugSubscription = debugSubscription;
 const stripeMapping_1 = require("../mapping/stripeMapping");
 const firestore_1 = require("../firestore");
+// Node.js 20+ has native fetch support
+/**
+ * Helper to invalidate session tier cache via Next.js API
+ * This ensures users see updated subscription immediately
+ */
+async function invalidateSessionTierCache(customerId) {
+    try {
+        // Get the app URL from environment
+        const appUrl = process.env.APP_URL || 'https://moshimoshi.vercel.app';
+        const endpoint = `${appUrl}/api/auth/invalidate-tier-cache`;
+        console.log(`Calling tier cache invalidation for customer ${customerId}`);
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ stripeCustomerId: customerId }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Tier cache invalidated successfully:', result);
+        }
+        else {
+            console.error('Failed to invalidate tier cache:', response.status, response.statusText);
+        }
+    }
+    catch (error) {
+        // Don't fail the webhook if cache invalidation fails
+        console.error('Error invalidating tier cache:', error);
+    }
+}
 /**
  * Main subscription event handler
  * Routes to specific handlers based on event type
@@ -68,6 +99,8 @@ async function handleSubscriptionCreated(subscription, customerId) {
     try {
         await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Created subscription for customer ${customerId}:`, facts);
+        // Invalidate session tier cache so user sees update immediately
+        await invalidateSessionTierCache(customerId);
     }
     catch (error) {
         console.error(`Failed to create subscription for customer ${customerId}:`, error);
@@ -98,6 +131,8 @@ async function handleSubscriptionUpdated(subscription, customerId) {
     try {
         await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Updated subscription for customer ${customerId}:`, facts);
+        // Invalidate session tier cache so user sees update immediately
+        await invalidateSessionTierCache(customerId);
     }
     catch (error) {
         console.error(`Failed to update subscription for customer ${customerId}:`, error);
@@ -125,6 +160,8 @@ async function handleSubscriptionDeleted(subscription, customerId) {
     try {
         await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Deleted subscription for customer ${customerId}, reverted to free plan`);
+        // Invalidate session tier cache so user sees update immediately
+        await invalidateSessionTierCache(customerId);
     }
     catch (error) {
         console.error(`Failed to delete subscription for customer ${customerId}:`, error);

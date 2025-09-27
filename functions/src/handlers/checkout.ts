@@ -9,21 +9,51 @@
 
 import Stripe from 'stripe';
 import { toPlan, DEFAULT_PAID_PLAN } from '../mapping/stripeMapping';
-import { 
-  mapUidToCustomer, 
+import {
+  mapUidToCustomer,
   upsertUserSubscriptionByCustomerId,
   logStripeEvent,
-  getUidByCustomerId 
+  getUidByCustomerId
 } from '../firestore';
+// Node.js 20+ has native fetch support
+
+/**
+ * Helper to invalidate session tier cache via Next.js API
+ */
+async function invalidateSessionTierCache(customerId: string): Promise<void> {
+  try {
+    const appUrl = process.env.APP_URL || 'https://moshimoshi.vercel.app';
+    const endpoint = `${appUrl}/api/auth/invalidate-tier-cache`;
+
+    console.log(`Calling tier cache invalidation for customer ${customerId}`);
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ stripeCustomerId: customerId }),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Tier cache invalidated successfully:', result);
+    } else {
+      console.error('Failed to invalidate tier cache:', response.status, response.statusText);
+    }
+  } catch (error) {
+    console.error('Error invalidating tier cache:', error);
+  }
+}
 
 /**
  * Processes a checkout.session.completed event
- * 
+ *
  * This handler:
  * 1. Extracts customer and uid information
  * 2. Creates uid <-> customer mapping if needed
  * 3. Updates user subscription facts based on the purchased plan
- * 
+ *
  * @param event - The Stripe webhook event
  * @throws Error if critical data is missing (but handler above catches it)
  */
@@ -111,6 +141,9 @@ async function handleSubscriptionCheckout(
   try {
     await upsertUserSubscriptionByCustomerId(customerId, subscriptionFacts);
     console.log(`Updated subscription for customer ${customerId}:`, subscriptionFacts);
+
+    // Invalidate session tier cache so user sees update immediately
+    await invalidateSessionTierCache(customerId);
   } catch (error) {
     console.error(`Failed to update subscription for customer ${customerId}:`, error);
     throw error; // Re-throw to prevent marking as processed

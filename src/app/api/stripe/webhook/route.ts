@@ -1,3 +1,13 @@
+/**
+ * DEPRECATED: This webhook handler is disabled to prevent duplicate processing.
+ * All webhook events are now processed by the Firebase Functions webhook handler.
+ *
+ * Production webhook URL: https://europe-west1-moshimoshi-de237.cloudfunctions.net/stripeWebhook
+ *
+ * This file is kept for reference and local development only.
+ * To re-enable for local testing, uncomment the function body.
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { adminFirestore } from '@/lib/firebase/admin';
@@ -5,10 +15,21 @@ import { toPlan } from '@/lib/stripe/mapping';
 import { getInvoiceFooter } from '@/lib/stripe/invoice-messages';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-04-30.basil' as any,
+  apiVersion: '2025-08-27.basil' as any, // Updated to match Firebase Functions
 });
 
 export async function POST(request: NextRequest) {
+  // WEBHOOK HANDLER DISABLED - Using Firebase Functions instead
+  console.log('[Webhook] Next.js webhook handler called but DISABLED - redirecting to Firebase Functions');
+  return NextResponse.json(
+    {
+      message: 'Webhook handler disabled. Please use Firebase Functions webhook.',
+      firebaseFunctionsUrl: 'https://europe-west1-moshimoshi-de237.cloudfunctions.net/stripeWebhook'
+    },
+    { status: 200 } // Return 200 to prevent Stripe retries
+  );
+
+  /* ORIGINAL IMPLEMENTATION PRESERVED FOR REFERENCE:
   console.log('[Webhook] ========== WEBHOOK REQUEST RECEIVED ==========');
 
   const body = await request.text();
@@ -335,6 +356,7 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+  */
 }
 
 // Disable body parsing to get raw body for signature verification

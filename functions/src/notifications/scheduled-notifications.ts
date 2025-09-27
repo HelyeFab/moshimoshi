@@ -3,7 +3,7 @@
  * These replace Vercel cron jobs to avoid plan limitations
  */
 
-import * as functions from 'firebase-functions';
+import { onSchedule, ScheduledEvent } from 'firebase-functions/v2/scheduler';
 import * as admin from 'firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
 
@@ -18,11 +18,13 @@ const db = admin.firestore();
  * Daily Reminder - Runs every day at 12:00 PM UTC
  * Sends daily study reminders to users who have enabled them
  */
-export const dailyReminderNotification = functions
-  .pubsub
-  .schedule('0 12 * * *')
-  .timeZone('UTC')
-  .onRun(async (context) => {
+export const dailyReminderNotification = onSchedule(
+  {
+    schedule: '0 12 * * *',
+    timeZone: 'UTC',
+    region: 'europe-west1'
+  },
+  async (event: ScheduledEvent) => {
     console.log('Running daily reminder notification job');
 
     try {
@@ -126,11 +128,13 @@ export const dailyReminderNotification = functions
  * Weekly Progress Report - Runs every Sunday at 6:00 PM UTC
  * Sends weekly progress summaries to users
  */
-export const weeklyProgressNotification = functions
-  .pubsub
-  .schedule('0 18 * * 0')
-  .timeZone('UTC')
-  .onRun(async (context) => {
+export const weeklyProgressNotification = onSchedule(
+  {
+    schedule: '0 18 * * 0',
+    timeZone: 'UTC',
+    region: 'europe-west1'
+  },
+  async (event: ScheduledEvent) => {
     console.log('Running weekly progress notification job');
 
     try {
@@ -278,11 +282,13 @@ export const weeklyProgressNotification = functions
  * News Scraping - Watanoc (Daily at 2:00 PM UTC)
  * Moved from Vercel to Firebase due to cron limitations
  */
-export const scrapeWatanocNews = functions
-  .pubsub
-  .schedule('0 14 * * *')
-  .timeZone('UTC')
-  .onRun(async (context) => {
+export const scrapeWatanocNews = onSchedule(
+  {
+    schedule: '0 14 * * *',
+    timeZone: 'UTC',
+    region: 'europe-west1'
+  },
+  async (event: ScheduledEvent) => {
     console.log('Running Watanoc news scraping job');
 
     try {

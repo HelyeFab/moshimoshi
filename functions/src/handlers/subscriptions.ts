@@ -9,16 +9,49 @@
 
 import Stripe from 'stripe';
 import { toPlan, DEFAULT_PAID_PLAN } from '../mapping/stripeMapping';
-import { 
+import {
   upsertUserSubscriptionByCustomerId,
   logStripeEvent,
-  getUidByCustomerId 
+  getUidByCustomerId
 } from '../firestore';
+// Node.js 20+ has native fetch support
+
+/**
+ * Helper to invalidate session tier cache via Next.js API
+ * This ensures users see updated subscription immediately
+ */
+async function invalidateSessionTierCache(customerId: string): Promise<void> {
+  try {
+    // Get the app URL from environment
+    const appUrl = process.env.APP_URL || 'https://moshimoshi.vercel.app';
+    const endpoint = `${appUrl}/api/auth/invalidate-tier-cache`;
+
+    console.log(`Calling tier cache invalidation for customer ${customerId}`);
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ stripeCustomerId: customerId }),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Tier cache invalidated successfully:', result);
+    } else {
+      console.error('Failed to invalidate tier cache:', response.status, response.statusText);
+    }
+  } catch (error) {
+    // Don't fail the webhook if cache invalidation fails
+    console.error('Error invalidating tier cache:', error);
+  }
+}
 
 /**
  * Main subscription event handler
  * Routes to specific handlers based on event type
- * 
+ *
  * @param event - The Stripe webhook event
  */
 export async function applySubscriptionEvent(event: Stripe.Event): Promise<void> {
@@ -79,6 +112,9 @@ async function handleSubscriptionCreated(
   try {
     await upsertUserSubscriptionByCustomerId(customerId, facts);
     console.log(`Created subscription for customer ${customerId}:`, facts);
+
+    // Invalidate session tier cache so user sees update immediately
+    await invalidateSessionTierCache(customerId);
   } catch (error) {
     console.error(`Failed to create subscription for customer ${customerId}:`, error);
     throw error;
@@ -114,6 +150,9 @@ async function handleSubscriptionUpdated(
   try {
     await upsertUserSubscriptionByCustomerId(customerId, facts);
     console.log(`Updated subscription for customer ${customerId}:`, facts);
+
+    // Invalidate session tier cache so user sees update immediately
+    await invalidateSessionTierCache(customerId);
   } catch (error) {
     console.error(`Failed to update subscription for customer ${customerId}:`, error);
     throw error;
@@ -146,6 +185,9 @@ async function handleSubscriptionDeleted(
   try {
     await upsertUserSubscriptionByCustomerId(customerId, facts);
     console.log(`Deleted subscription for customer ${customerId}, reverted to free plan`);
+
+    // Invalidate session tier cache so user sees update immediately
+    await invalidateSessionTierCache(customerId);
   } catch (error) {
     console.error(`Failed to delete subscription for customer ${customerId}:`, error);
     throw error;

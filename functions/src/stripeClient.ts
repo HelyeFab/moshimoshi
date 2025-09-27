@@ -8,7 +8,6 @@
  */
 
 import Stripe from 'stripe';
-import * as functions from 'firebase-functions';
 
 /**
  * Singleton Stripe instance
@@ -23,13 +22,14 @@ function initializeStripe(): Stripe {
     return stripe;
   }
 
-  const key = functions.config().stripe?.secret_key || process.env.STRIPE_SECRET_KEY || '';
+  // In v2 functions, secrets are passed via environment variables
+  const key = process.env.STRIPE_SECRET_KEY || '';
   if (!key) {
     throw new Error('STRIPE_SECRET_KEY is not configured');
   }
 
   stripe = new Stripe(key, {
-    apiVersion: '2023-10-16' as any, // Pin to specific API version for consistency
+    apiVersion: '2025-08-27.basil' as any, // Standardized API version across all implementations
     typescript: true,
     maxNetworkRetries: 2, // Automatic retries for network failures
     timeout: 20000, // 20 second timeout
@@ -78,7 +78,7 @@ export async function verifyStripeConnection(): Promise<boolean> {
  * @returns Dashboard URL
  */
 export function getStripeDashboardUrl(objectId: string): string {
-  const key = functions.config().stripe?.secret_key || process.env.STRIPE_SECRET_KEY || '';
+  const key = process.env.STRIPE_SECRET_KEY || '';
   const isTestMode = key.startsWith('sk_test_');
   const baseUrl = 'https://dashboard.stripe.com';
   const modePrefix = isTestMode ? '/test' : '';

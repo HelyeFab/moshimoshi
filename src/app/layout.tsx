@@ -42,18 +42,18 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: suppressFirestoreErrors }} />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <ThemeProvider>
-          <I18nProvider>
-            <AuthProvider>
-              <ToastProvider defaultPosition="top-right">
+        <AuthProvider>
+          <ToastProvider defaultPosition="top-right">
+            <I18nProvider>
+              <ThemeProvider>
                 <ServiceWorkerProvider>
                   {children}
                   {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
                 </ServiceWorkerProvider>
-              </ToastProvider>
-            </AuthProvider>
-          </I18nProvider>
-        </ThemeProvider>
+              </ThemeProvider>
+            </I18nProvider>
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   )

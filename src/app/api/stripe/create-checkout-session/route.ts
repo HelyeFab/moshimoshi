@@ -7,12 +7,12 @@ import type { CheckoutSessionRequest } from '@/lib/stripe/types';
 
 export async function POST(request: NextRequest) {
   try {
-    // Log environment check
+    // Log environment check (without exposing sensitive data)
     console.log('[Checkout API] Environment check:', {
       NODE_ENV: process.env.NODE_ENV,
       hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
       hasFirebaseAdmin: !!auth,
-      keyPrefix: process.env.STRIPE_SECRET_KEY?.substring(0, 7), // Log key prefix for debugging
+      isTestMode: process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_'),
     });
 
     // Get session from cookies instead of Firebase token
@@ -33,12 +33,10 @@ export async function POST(request: NextRequest) {
     const { priceId, successUrl, cancelUrl, idempotencyKey } = body;
 
     console.log('[Checkout API] Request received:', {
-      priceId,
-      successUrl,
-      cancelUrl,
+      hasSuccessUrl: !!successUrl,
+      hasCancelUrl: !!cancelUrl,
       hasIdempotencyKey: !!idempotencyKey,
-      uid: uid,
-      email: email,
+      hasUserSession: !!uid,
     });
 
     if (!priceId || !successUrl || !cancelUrl || !idempotencyKey) {

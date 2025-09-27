@@ -1,6 +1,9 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { useSubscription } from '@/hooks/useSubscription';
+import { preferencesManager } from '@/utils/preferencesManager';
 
 type Theme = 'light' | 'dark' | 'system';
 type ResolvedTheme = 'light' | 'dark';
@@ -36,6 +39,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('dark');
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('dark');
   const [mounted, setMounted] = useState(false);
+  const { user } = useAuth();
+  const { isPremium } = useSubscription();
 
   // Get system preference
   const getSystemTheme = (): ResolvedTheme => {
@@ -59,72 +64,90 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.style.colorScheme = resolvedTheme;
   };
 
-  // Initialize theme on mount
+  // Initialize theme and palette on mount
   useEffect(() => {
-    // First try user-specific theme
-    const userId = getCurrentUserId();
-    let savedTheme: Theme | null = null;
+    const initializeThemeAndPalette = async () => {
+      // Initialize theme first (synchronous)
+      const userId = getCurrentUserId();
+      let savedTheme: Theme | null = null;
 
-    if (userId) {
-      const userKey = `${USER_THEME_STORAGE_KEY}-${userId}`;
-      savedTheme = localStorage.getItem(userKey) as Theme | null;
-    }
-
-    // Fall back to global theme if no user-specific theme
-    if (!savedTheme) {
-      savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-    }
-
-    // Default to 'dark' on first visit instead of 'system'
-    const initialTheme = savedTheme || 'dark';
-    const resolved = resolveTheme(initialTheme);
-
-    setThemeState(initialTheme);
-    setResolvedTheme(resolved);
-    applyTheme(resolved);
-    
-    // Load and apply color palette preference (user-specific first, then global)
-    const loadPalette = () => {
       if (userId) {
-        const userPrefs = localStorage.getItem(`user-preferences-${userId}`);
-        if (userPrefs) {
-          try {
-            const prefs = JSON.parse(userPrefs);
-            if (prefs.palette) {
-              document.documentElement.setAttribute('data-palette', prefs.palette);
-              return;
-            }
-          } catch (e) {
-            console.error('Failed to load user palette preference:', e);
-          }
-        }
+        const userKey = `${USER_THEME_STORAGE_KEY}-${userId}`;
+        savedTheme = localStorage.getItem(userKey) as Theme | null;
       }
 
-      // Fall back to global preferences
-      const savedPrefs = localStorage.getItem('user-preferences');
-      if (savedPrefs) {
-        try {
-          const prefs = JSON.parse(savedPrefs);
-          if (prefs.palette) {
-            document.documentElement.setAttribute('data-palette', prefs.palette);
-          }
-        } catch (e) {
-          console.error('Failed to load palette preference:', e);
-        }
+      // Fall back to global theme if no user-specific theme
+      if (!savedTheme) {
+        savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
       }
+
+      // Default to 'dark' on first visit instead of 'system'
+      const initialTheme = savedTheme || 'dark';
+      const resolved = resolveTheme(initialTheme);
+
+      setThemeState(initialTheme);
+      setResolvedTheme(resolved);
+      applyTheme(resolved);
+
+      // Load palette using preferencesManager (respects user tier)
+      try {
+        const preferences = await preferencesManager.getPreferences(user, isPremium);
+        if (preferences.palette) {
+          document.documentElement.setAttribute('data-palette', preferences.palette);
+          console.log('[ThemeContext] Applied palette from preferences:', preferences.palette);
+        } else {
+          // Fallback to default palette
+          document.documentElement.setAttribute('data-palette', 'sakura');
+          console.log('[ThemeContext] Applied default palette: sakura');
+        }
+      } catch (error) {
+        console.error('[ThemeContext] Failed to load palette from preferences:', error);
+        // Fallback to localStorage for backward compatibility
+        const loadPaletteFallback = () => {
+          if (userId) {
+            const userPrefs = localStorage.getItem(`user-preferences-${userId}`);
+            if (userPrefs) {
+              try {
+                const prefs = JSON.parse(userPrefs);
+                if (prefs.palette) {
+                  document.documentElement.setAttribute('data-palette', prefs.palette);
+                  return;
+                }
+              } catch (e) {
+                console.error('Failed to load user palette preference:', e);
+              }
+            }
+          }
+
+          // Fall back to global preferences
+          const savedPrefs = localStorage.getItem('user-preferences');
+          if (savedPrefs) {
+            try {
+              const prefs = JSON.parse(savedPrefs);
+              if (prefs.palette) {
+                document.documentElement.setAttribute('data-palette', prefs.palette);
+              }
+            } catch (e) {
+              console.error('Failed to load palette preference:', e);
+            }
+          }
+        };
+
+        loadPaletteFallback();
+      }
+
+      setMounted(true);
     };
 
-    loadPalette();
-    
-    setMounted(true);
-  }, []);
+    initializeThemeAndPalette();
+  }, [user, isPremium]); // Re-run when user or premium status changes
 
   // Listen for system theme changes
   useEffect(() => {
     if (!mounted) return;
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleChange = () => {
       if (theme === 'system') {
         const newResolved = getSystemTheme();

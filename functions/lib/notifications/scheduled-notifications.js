@@ -38,7 +38,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.scrapeWatanocNews = exports.weeklyProgressNotification = exports.dailyReminderNotification = void 0;
-const functions = __importStar(require("firebase-functions"));
+const scheduler_1 = require("firebase-functions/v2/scheduler");
 const admin = __importStar(require("firebase-admin"));
 const firestore_1 = require("firebase-admin/firestore");
 // Initialize if not already initialized
@@ -50,11 +50,11 @@ const db = admin.firestore();
  * Daily Reminder - Runs every day at 12:00 PM UTC
  * Sends daily study reminders to users who have enabled them
  */
-exports.dailyReminderNotification = functions
-    .pubsub
-    .schedule('0 12 * * *')
-    .timeZone('UTC')
-    .onRun(async (context) => {
+exports.dailyReminderNotification = (0, scheduler_1.onSchedule)({
+    schedule: '0 12 * * *',
+    timeZone: 'UTC',
+    region: 'europe-west1'
+}, async (event) => {
     console.log('Running daily reminder notification job');
     try {
         // Get users with daily reminders enabled
@@ -145,11 +145,11 @@ exports.dailyReminderNotification = functions
  * Weekly Progress Report - Runs every Sunday at 6:00 PM UTC
  * Sends weekly progress summaries to users
  */
-exports.weeklyProgressNotification = functions
-    .pubsub
-    .schedule('0 18 * * 0')
-    .timeZone('UTC')
-    .onRun(async (context) => {
+exports.weeklyProgressNotification = (0, scheduler_1.onSchedule)({
+    schedule: '0 18 * * 0',
+    timeZone: 'UTC',
+    region: 'europe-west1'
+}, async (event) => {
     console.log('Running weekly progress notification job');
     try {
         // Get users with weekly summaries enabled
@@ -279,11 +279,11 @@ exports.weeklyProgressNotification = functions
  * News Scraping - Watanoc (Daily at 2:00 PM UTC)
  * Moved from Vercel to Firebase due to cron limitations
  */
-exports.scrapeWatanocNews = functions
-    .pubsub
-    .schedule('0 14 * * *')
-    .timeZone('UTC')
-    .onRun(async (context) => {
+exports.scrapeWatanocNews = (0, scheduler_1.onSchedule)({
+    schedule: '0 14 * * *',
+    timeZone: 'UTC',
+    region: 'europe-west1'
+}, async (event) => {
     console.log('Running Watanoc news scraping job');
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/news/scrape?source=watanoc`, {

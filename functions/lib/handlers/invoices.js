@@ -248,7 +248,7 @@ async function logPaymentFailure(invoice) {
  * @returns true if this is a subscription invoice
  */
 function isSubscriptionInvoice(invoice) {
-    return invoice.subscription !== null;
+    return invoice.subscription !== null && invoice.subscription !== undefined;
 }
 /**
  * Calculates the subscription period from an invoice
@@ -273,7 +273,7 @@ function debugInvoice(invoice) {
     console.log('=== Invoice Debug ===');
     console.log('ID:', invoice.id);
     console.log('Customer:', invoice.customer);
-    console.log('Subscription:', invoice.subscription);
+    console.log('Subscription:', invoice.subscription || 'none');
     console.log('Status:', invoice.status);
     console.log('Amount Due:', invoice.amount_due / 100, invoice.currency.toUpperCase());
     console.log('Amount Paid:', invoice.amount_paid / 100, invoice.currency.toUpperCase());

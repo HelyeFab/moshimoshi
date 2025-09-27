@@ -10,13 +10,7 @@ const PRICE_IDS = {
   yearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY!,
 } as const;
 
-// Log the actual values for debugging
-console.log('[Stripe Mapping] Loaded price IDs:', {
-  monthly: PRICE_IDS.monthly,
-  yearly: PRICE_IDS.yearly
-});
-
-// Validate that price IDs are configured
+// Validate that price IDs are configured (without logging sensitive values)
 if (!PRICE_IDS.monthly || !PRICE_IDS.yearly) {
   console.error('[Stripe Mapping] Missing price IDs in environment variables!');
   console.error('Please set NEXT_PUBLIC_STRIPE_PRICE_MONTHLY and NEXT_PUBLIC_STRIPE_PRICE_YEARLY');
@@ -28,21 +22,14 @@ if (!PRICE_IDS.monthly || !PRICE_IDS.yearly) {
 export function toPlan(priceId: string | null | undefined): SubscriptionPlan {
   if (!priceId) return 'free';
 
-  console.log('[Stripe Mapping] toPlan called with:', priceId);
-  console.log('[Stripe Mapping] Comparing against:', {
-    monthly: PRICE_IDS.monthly,
-    yearly: PRICE_IDS.yearly
-  });
-
   switch (priceId) {
     case PRICE_IDS.monthly:
-      console.log('[Stripe Mapping] Matched monthly price');
       return 'premium_monthly';
     case PRICE_IDS.yearly:
-      console.log('[Stripe Mapping] Matched yearly price');
       return 'premium_yearly';
     default:
-      console.warn(`Unknown price ID: ${priceId}`);
+      // Log only that an unknown price was encountered, not the actual ID
+      console.warn('[Stripe Mapping] Encountered unknown price ID');
       return 'free';
   }
 }

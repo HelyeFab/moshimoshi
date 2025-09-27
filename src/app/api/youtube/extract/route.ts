@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ytdl from '@distube/ytdl-core';
 import axios from 'axios';
-import { TranscriptCacheManager } from '@/utils/transcriptCache';
+// Don't use TranscriptCacheManager in API routes - use Admin SDK directly
 import { getSubtitles } from 'youtube-captions-scraper';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { firestore as db } from '@/lib/firebase/client';
+import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin';
 import { AIService } from '@/lib/ai/AIService';
 import { TranscriptProcessRequest } from '@/lib/ai/types';
 
@@ -25,15 +24,13 @@ interface TranscriptLine {
 // Helper function to log API usage
 async function logApiUsage(api: string, success: boolean, error?: string, metadata?: any) {
   try {
-    if (db) {
-      await addDoc(collection(db, 'apiUsageLogs'), {
-        api,
-        success,
-        error,
-        metadata,
-        timestamp: serverTimestamp()
-      });
-    }
+    await db.collection('apiUsageLogs').add({
+      api,
+      success,
+      error,
+      metadata,
+      timestamp: Timestamp.now()
+    });
   } catch (err) {
     console.error('Failed to log API usage:', err);
   }
@@ -72,6 +69,73 @@ function extractVideoIdFromUrl(url: string): string | null {
     }
 
     return null;
+  }
+}
+
+// Server-side get cached transcript using Admin SDK
+async function getCachedTranscriptServer(contentId: string): Promise<any | null> {
+  try {
+    const docRef = db.collection('transcriptCache').doc(contentId);
+    const docSnap = await docRef.get();
+
+    if (docSnap.exists) {
+      const data = docSnap.data();
+
+      // Update access count and timestamp
+      await docRef.update({
+        lastAccessed: Timestamp.now(),
+        accessCount: (data?.accessCount || 0) + 1
+      }).catch(err => console.error('Failed to update access count:', err));
+
+      return data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Error getting cached transcript (server-side):', error);
+    return null;
+  }
+}
+
+// Server-side transcript caching using Admin SDK
+async function cacheTranscriptServer(params: {
+  contentId: string;
+  contentType: 'youtube' | 'audio' | 'video';
+  transcript: TranscriptLine[];
+  formattedTranscript?: TranscriptLine[];
+  language: string;
+  videoUrl?: string;
+  videoTitle?: string;
+  duration?: number;
+  createdBy?: string;
+  metadata?: any;
+}): Promise<boolean> {
+  try {
+    const transcriptDoc: any = {
+      id: params.contentId,
+      contentId: params.contentId,
+      contentType: params.contentType,
+      transcript: params.transcript,
+      language: params.language || 'ja',
+      createdAt: Timestamp.now(),
+      lastAccessed: Timestamp.now(),
+      accessCount: 1,
+    };
+
+    if (params.formattedTranscript) transcriptDoc.formattedTranscript = params.formattedTranscript;
+    if (params.videoUrl) transcriptDoc.videoUrl = params.videoUrl;
+    if (params.videoTitle) transcriptDoc.videoTitle = params.videoTitle;
+    if (params.duration) transcriptDoc.duration = params.duration;
+    if (params.createdBy) transcriptDoc.createdBy = params.createdBy;
+    if (params.metadata) transcriptDoc.metadata = params.metadata;
+
+    await db.collection('transcriptCache').doc(params.contentId).set(transcriptDoc, { merge: false });
+
+    console.log('✅ Transcript cached successfully (server-side):', params.contentId);
+    return true;
+  } catch (error) {
+    console.error('❌ Error caching transcript (server-side):', error);
+    return false;
   }
 }
 
@@ -212,7 +276,7 @@ async function extractWithYouTubeTranscriptIO(
       // Save to cache only for authenticated users
       if (isAuthenticated) {
         try {
-          await TranscriptCacheManager.saveTranscriptToCache({
+          await cacheTranscriptServer({
             contentId,
             contentType: 'youtube',
             videoUrl: url,
@@ -245,6 +309,32 @@ async function extractWithYouTubeTranscriptIO(
       }
 
       await logApiUsage('youtube-transcript-io', true, undefined, { videoId });
+
+      // Only cache if we have the AI-processed version
+      if (formattedTranscript && formattedTranscript.length > 0) {
+        await cacheTranscriptServer({
+          contentId,
+          contentType: 'youtube',
+          transcript: formattedTranscript, // Use AI-processed version as main transcript
+          formattedTranscript: formattedTranscript,
+          language: response.data.language || 'ja',
+          videoUrl: url,
+          videoTitle: videoMetadata?.title || response.data.title || 'Unknown',
+          metadata: {
+            youtubeVideoId: videoId,
+            channelName: videoMetadata?.channelTitle,
+            uploadDate: videoMetadata?.publishedAt,
+            thumbnailUrl: videoMetadata?.thumbnails?.high?.url,
+            thumbnails: videoMetadata?.thumbnails,
+            description: videoMetadata?.description,
+            wasFormatted: true,
+            formattingModel: 'gpt-3.5-turbo'
+          }
+        });
+        console.log('✅ Cached AI-processed transcript for:', videoId);
+      } else {
+        console.log('⏭️ Skipping cache - no AI-processed transcript available');
+      }
 
       return NextResponse.json({
         success: true,
@@ -321,16 +411,16 @@ export async function POST(request: NextRequest) {
       cookiePreview: cookies ? cookies.substring(0, 100) + '...' : 'none'
     });
 
+    // Extract video ID for YouTube API calls (need this BEFORE creating contentId)
+    const videoId = extractVideoIdFromUrl(url);
+
     // Check cache FIRST before making any API calls
-    const contentId = TranscriptCacheManager.generateContentId({
-      type: 'youtube',
-      videoUrl: url
-    });
+    const contentId = `youtube_${videoId}`;
 
     // Skip cache if force regenerate is requested
     if (!forceRegenerate) {
 
-      const cachedTranscript = await TranscriptCacheManager.getCachedTranscript(contentId);
+      const cachedTranscript = await getCachedTranscriptServer(contentId);
 
       if (cachedTranscript && cachedTranscript.transcript.length > 0) {
 
@@ -347,9 +437,6 @@ export async function POST(request: NextRequest) {
       });
       }
     }
-
-    // Extract video ID for YouTube API calls
-    const videoId = extractVideoIdFromUrl(url);
     let videoMetadata = null;
     let hitRateLimit = false; // Track if we hit rate limits
 
@@ -496,7 +583,7 @@ export async function POST(request: NextRequest) {
               console.log('=== Saving to transcript cache (authenticated user) ===');
 
               try {
-                await TranscriptCacheManager.saveTranscriptToCache({
+                await cacheTranscriptServer({
                   contentId,
                   contentType: 'youtube',
                   videoUrl: url,
@@ -529,6 +616,32 @@ export async function POST(request: NextRequest) {
               videoMetadata?.title || supaResponse.data.title,
               contentId
             );
+
+            // Only cache if we have the AI-processed version
+            if (formattedTranscript && formattedTranscript.length > 0) {
+              await cacheTranscriptServer({
+                contentId,
+                contentType: 'youtube',
+                transcript: formattedTranscript, // Use AI-processed version as main transcript
+                formattedTranscript: formattedTranscript,
+                language: 'ja',
+                videoUrl: url,
+                videoTitle: videoMetadata?.title || supaResponse.data.title || 'Unknown',
+                metadata: {
+                  youtubeVideoId: videoId,
+                  channelName: videoMetadata?.channelTitle,
+                  uploadDate: videoMetadata?.publishedAt,
+                  thumbnailUrl: videoMetadata?.thumbnails?.high?.url,
+                  thumbnails: videoMetadata?.thumbnails,
+                  description: videoMetadata?.description,
+                  wasFormatted: true,
+                  formattingModel: 'gpt-3.5-turbo'
+                }
+              });
+              console.log('✅ Cached AI-processed transcript for:', videoId);
+            } else {
+              console.log('⏭️ Skipping cache - no AI-processed transcript available');
+            }
 
             return NextResponse.json({
               success: true,
@@ -605,7 +718,7 @@ export async function POST(request: NextRequest) {
         if (isAuthenticated) {
 
           try {
-            await TranscriptCacheManager.saveTranscriptToCache({
+            await cacheTranscriptServer({
               contentId,
               contentType: 'youtube',
               videoUrl: url,

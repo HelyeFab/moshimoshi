@@ -93,6 +93,9 @@ export const strings = {
     export: "Export",
     success: "Success",
     error: "Error occurred",
+    days: "days",
+    minutes: "minutes",
+    cards: "cards",
   },
 
   // PWA
@@ -1005,7 +1008,7 @@ export const strings = {
       title: "Review Dashboard",
       subtitle: "Track your progress and manage your review sessions",
       loading: "Loading review dashboard...",
-      
+
       stats: {
         dueNow: "Due Now",
         dueNowDescription: "Items ready for review",
@@ -1020,7 +1023,7 @@ export const strings = {
         currentStreak: "Current Streak",
         currentStreakDescription: "Days in a row",
       },
-      
+
       quickActions: {
         title: "Quick Actions",
         startDaily: "Start Daily Review",
@@ -1036,7 +1039,7 @@ export const strings = {
         settings: "Review Settings",
         settingsDescription: "Configure preferences",
       },
-      
+
       queue: {
         title: "Review Queue",
         empty: "No items in queue",
@@ -1063,7 +1066,7 @@ export const strings = {
         selectItems: "Select Items",
         bulkActions: "Bulk Actions",
       },
-      
+
       activity: {
         title: "Recent Activity",
         today: "Today",
@@ -1078,7 +1081,7 @@ export const strings = {
         },
         loadMore: "Load More",
       },
-      
+
       progress: {
         heatmap: {
           title: "Activity Heatmap",
@@ -1100,7 +1103,7 @@ export const strings = {
           remaining: "{{count}} items remaining",
         },
       },
-      
+
       gamification: {
         streak: {
           current: "{{count}} day streak",
@@ -1170,7 +1173,7 @@ export const strings = {
           },
         },
       },
-      
+
       mobile: {
         tabLabels: {
           dashboard: "Dashboard",
@@ -1550,6 +1553,8 @@ export const strings = {
     title: "Choose Your Learning Journey",
     subtitle: "Unlock unlimited practice and accelerate your Japanese mastery",
     loading: "Loading pricing options...",
+    videoLimitReached: "You've reached your daily video limit! Upgrade to watch more videos.",
+    videoLimitBanner: "Ready to watch unlimited videos? Upgrade to Premium for 20 videos per day!",
     mostPopular: "Most Popular",
     badges: {
       mostPopular: "Most Popular",
@@ -1796,6 +1801,11 @@ export const strings = {
         subtitle: "YouTube",
         description: "Practice with YouTube"
       },
+      popularVideos: {
+        title: "Trending Videos",
+        subtitle: "人気動画",
+        description: "Most watched by the community"
+      },
       stories: {
         title: "Stories",
         subtitle: "物語",
@@ -1924,7 +1934,7 @@ export const strings = {
       startReview: "Start Review",
       viewAll: "View All",
     },
-    
+
     categories: {
       all: "All Characters",
       vowels: "Vowels",
@@ -1934,7 +1944,7 @@ export const strings = {
       digraphs: "Digraphs",
       special: "Special",
     },
-    
+
     study: {
       studyMode: "Study Mode",
       flipCard: "Tap to flip",
@@ -1950,11 +1960,11 @@ export const strings = {
       skip: "Skip",
       examples: "Examples",
     },
-    
+
     review: {
       reviewMode: "Review Mode",
       recognition: "Recognition",
-      recall: "Recall", 
+      recall: "Recall",
       listening: "Listening",
       writing: "Writing",
       speaking: "Speaking",
@@ -1977,7 +1987,7 @@ export const strings = {
       exitTooltip: "Exit (Esc)",
       nextTooltip: "Next (Space)",
       skipTooltip: "Skip (S)",
-      
+
       // Session Summary
       summary: {
         grade: "Grade",
@@ -1994,7 +2004,7 @@ export const strings = {
         goodEffort: "Good effort! Keep practicing! 📚",
         dontGiveUp: "Don't give up! Every session makes you stronger! 🚀",
       },
-      
+
       // Progress
       preparingSession: "Preparing your review session...",
       errorOccurred: "Oops! Something went wrong",
@@ -2017,7 +2027,7 @@ export const strings = {
       typeYourAnswer: "Type your answer...",
       submit: "Submit",
       submitEnter: "Submit (Enter)",
-      
+
       // Multiple choice
       optionPrefix: {
         a: "A",
@@ -2025,11 +2035,11 @@ export const strings = {
         c: "C",
         d: "D",
       },
-      
+
       // Writing input
       clear: "Clear",
       showStrokeOrder: "Show Stroke Order",
-      
+
       // Speech input
       tapToSpeak: "Tap to speak",
       speechListening: "Listening...",
@@ -2037,7 +2047,7 @@ export const strings = {
       expected: "Expected:",
       speakClearly: "Speak clearly in Japanese. The microphone will stop automatically when you pause.",
       speechNotSupported: "Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.",
-      
+
       // Content specific
       kana: {
         writeFor: "Write the {{script}} for:",
@@ -2046,7 +2056,7 @@ export const strings = {
         handakuten: "Handakuten",
         combination: "Combination",
       },
-      
+
       kanji: {
         writeKanjiFor: "Write the kanji for:",
         writeThisKanji: "Write this kanji:",
@@ -2065,7 +2075,7 @@ export const strings = {
           noExamples: "No examples available"
         }
       },
-      
+
       vocabulary: {
         // Review engine strings
         writeJapaneseFor: "Write the Japanese for:",
@@ -2121,7 +2131,7 @@ export const strings = {
         wordExampleSentencesComingSoon: "Example sentences coming soon!",
         noExamplesFound: "No examples found for this word",
       },
-      
+
       sentence: {
         translateToJapanese: "Translate to Japanese:",
         listenAndUnderstand: "Listen and understand the sentence",
@@ -2130,7 +2140,7 @@ export const strings = {
         intermediate: "intermediate",
         advanced: "advanced",
       },
-      
+
       custom: {
         write: "Write:",
         say: "Say:",
@@ -2138,7 +2148,7 @@ export const strings = {
         noAudioAvailable: "No audio available for this content",
       },
     },
-    
+
     progress: {
       learned: "Learned",
       learning: "Learning",
@@ -2150,7 +2160,7 @@ export const strings = {
       lastReviewed: "Last Reviewed",
       nextReview: "Next Review",
     },
-    
+
     filters: {
       showAll: "Show All",
       showLearned: "Show Learned",
@@ -2162,14 +2172,14 @@ export const strings = {
       difficulty: "Difficulty",
       progress: "Progress",
     },
-    
+
     tooltips: {
       clickToStudy: "Click to study this character",
       rightClickToPin: "Right-click to pin for review",
       dragToReorder: "Drag to reorder",
       progressInfo: "You've learned {{learned}} out of {{total}} characters",
     },
-    
+
     messages: {
       loadingCharacters: "Loading characters...",
       noCharactersFound: "No characters found",
@@ -2183,31 +2193,31 @@ export const strings = {
     },
 
     // Profile
-  profile: {
-    title: "Profile",
-    achievements: {
-      title: "Achievement Badges",
-      totalPoints: "Total Points",
-      legendary: "Legendary",
-      epic: "Epic",
-      rare: "Rare",
-      uncommon: "Uncommon",
-      common: "Common",
-      complete: "Complete"
+    profile: {
+      title: "Profile",
+      achievements: {
+        title: "Achievement Badges",
+        totalPoints: "Total Points",
+        legendary: "Legendary",
+        epic: "Epic",
+        rare: "Rare",
+        uncommon: "Uncommon",
+        common: "Common",
+        complete: "Complete"
+      },
+      level: {
+        title: "Level Progress",
+        level: "Level",
+        xp: "XP",
+        totalXP: "Total XP",
+        nextLevel: "Next Level",
+        perks: "Level Perks",
+        progression: "Level Progression",
+        xpMultiplier: "XP Multiplier"
+      }
     },
-    level: {
-      title: "Level Progress",
-      level: "Level",
-      xp: "XP",
-      totalXP: "Total XP",
-      nextLevel: "Next Level",
-      perks: "Level Perks",
-      progression: "Level Progression",
-      xpMultiplier: "XP Multiplier"
-    }
-  },
 
-  // Privacy Policy
+    // Privacy Policy
     privacy: {
       title: "Privacy Policy",
       lastUpdated: "Last updated: January 2025",
@@ -2807,17 +2817,23 @@ export const strings = {
       selectType: "Choose the type of list you want to create:",
     },
     types: {
-      word: {
+      // Simple type names for UI
+      word: "Word",
+      sentence: "Sentence",
+      verbAdj: "Verb/Adjective",
+
+      // Detailed type objects
+      wordList: {
         name: "Word List",
         short: "Word",
         description: "Vocabulary words and kanji",
       },
-      sentence: {
+      sentenceList: {
         name: "Sentence List",
         short: "Sentence",
         description: "Complete sentences for context learning",
       },
-      verbAdj: {
+      verbAdjList: {
         name: "Verbs & Adjectives",
         short: "Conjugation",
         description: "Practice verb and adjective forms",
@@ -3191,6 +3207,114 @@ export const strings = {
       unlimited: "Unlimited decks"
     },
 
+    // Daily Goals
+    dailyGoals: {
+      title: "Daily Goals",
+      progress: "{{percentage}}% complete",
+      allComplete: "All goals completed!",
+      cards: "Cards",
+      time: "Time",
+      decks: "Decks",
+      accuracy: "Accuracy",
+      congratulations: "Congratulations!",
+      keepItUp: "Keep up the great work!",
+      customizeGoals: "Customize Goals",
+      cardsPerDay: "Cards per day",
+      minutesPerDay: "Minutes per day",
+      decksPerDay: "Decks per day",
+      accuracyTarget: "Accuracy target"
+    },
+
+    // Achievements
+    achievements: {
+      title: "Achievements",
+      unlocked: "Unlocked",
+      progress: "{{unlocked}}/{{total}} unlocked",
+      totalXP: "Total XP",
+      streak: "Streak",
+      mastery: "Mastery",
+      speed: "Speed",
+      accuracy: "Accuracy",
+      volume: "Volume",
+      special: "Special",
+      viewAll: "View All"
+    },
+
+    // Learning Insights
+    learningInsights: "Learning Insights",
+    currentStreak: "Current Streak",
+    retentionRate: "Retention Rate",
+    cardsPerDay: "Cards per Day",
+    bestStudyTime: "Best Study Time",
+
+    // Optimal Settings
+    optimalSettings: "Optimal Settings",
+    sessionLength: "Session Length",
+    studyTime: "Study Time",
+
+    // Recommended Study
+    recommendedStudy: "Recommended Study",
+
+    // Urgency levels
+    urgency: {
+      low: "Low Priority",
+      medium: "Medium Priority",
+      high: "High Priority",
+      critical: "Critical"
+    },
+
+    // Additional missing translations
+    minutes: "minutes",
+    cards: "cards",
+
+    // Missing translations for flashcards page
+    optimalSettings: "Optimal Settings",
+    sessionLength: "Session Length",
+    studyTime: "Study Time",
+    learningInsights: "Learning Insights",
+    recommendedStudy: "Recommended Study",
+    currentStreak: "Current Streak",
+    retentionRate: "Retention Rate",
+    cardsPerDay: "Cards Per Day",
+    bestStudyTime: "Best Study Time",
+
+    achievements: {
+      viewAll: "View All Achievements",
+      title: "Achievements",
+      unlocked: "Unlocked",
+      progress: "{{unlocked}}/{{total}} unlocked",
+      totalXP: "Total XP",
+      streak: "Streak",
+      mastery: "Mastery",
+      speed: "Speed",
+      accuracy: "Accuracy",
+      volume: "Volume",
+      special: "Special"
+    },
+
+    dailyGoals: {
+      title: "Daily Goals",
+      progress: "{{percentage}}% complete",
+      cards: "Cards",
+      time: "Time",
+      decks: "Decks",
+      accuracy: "Accuracy",
+      congratulations: "Congratulations!",
+      keepItUp: "Keep up the great work!",
+      allComplete: "All goals completed!",
+      customizeGoals: "Customize Goals",
+      cardsPerDay: "Cards per day",
+      minutesPerDay: "Minutes per day",
+      decksPerDay: "Decks per day",
+      accuracyTarget: "Accuracy target"
+    },
+
+    urgency: {
+      low: "Low",
+      medium: "Medium",
+      high: "High"
+    },
+
     // Sync
     syncToCloud: "Sync to Cloud",
 
@@ -3287,189 +3411,189 @@ export const strings = {
   },
 
   conjugation: {
-      title: "Conjugation",
+    title: "Conjugation",
+    showConjugations: "Show Conjugations",
+    hideConjugations: "Hide Conjugations",
+    expandAll: "Expand All",
+    collapseAll: "Collapse All",
+    groups: {
+      stems: "Stems",
+      plainform: "Plain Form",
+      politeform: "Polite Form",
+      taiformwantto: "Tai Form (Want to)",
+      "taiform(wantto)": "Tai Form (Want to)",
+      imperativeforms: "Imperative Forms",
+      provisionalform: "Provisional Form",
+      conditionalform: "Conditional Form",
+      alternativeform: "Alternative Form",
+      potentialplainform: "Potential Plain Form",
+      potentialpoliteform: "Potential Polite Form",
+      passiveplainform: "Passive Plain Form",
+      passivepoliteform: "Passive Polite Form",
+      causativeplainform: "Causative Plain Form",
+      causativepoliteform: "Causative Polite Form",
+      causativepassiveplainform: "Causative Passive Plain Form",
+      causativepassivepoliteform: "Causative Passive Polite Form",
+      colloquialform: "Colloquial Form",
+      formalform: "Formal Form",
+      classicalformnu: "Classical Form (nu)",
+      "classicalform(nu)": "Classical Form (nu)",
+      classicalformzaru: "Classical Form (zaru)",
+      "classicalform(zaru)": "Classical Form (zaru)",
+      // Adjective-specific groups (used by ADJECTIVE_CONJUGATION_STRUCTURE)
+      basicforms: "Basic Forms",
+      politeforms: "Polite Forms",
+      conditionalforms: "Conditional Forms",
+      presumptiveforms: "Presumptive Forms",
+      // Legacy keys (kept for compatibility)
+      basicForms: "Basic Forms",
+      politeForms: "Polite Forms",
+      conditionalForms: "Conditional Forms",
+      volitionalForms: "Volitional Forms",
+      imperativeForms: "Imperative Forms",
+      potentialForms: "Potential Forms",
+      passiveForms: "Passive Forms",
+      causativeForms: "Causative Forms",
+      causativePassiveForms: "Causative-Passive Forms",
+      desiderativeForms: "Desiderative Forms (たい)",
+      progressiveForms: "Progressive Forms",
+      requestForms: "Request Forms",
+      colloquialForms: "Colloquial Forms",
+      formalForms: "Formal/Classical Forms",
+      presumptiveForms: "Presumptive Forms"
+    },
+    forms: {
+      // Stems
+      masuStem: "Masu stem",
+      negativeStem: "Negative stem",
+      teForm: "Te-form",
+      negativeTeForm: "Negative te-form",
+      adverbialNegative: "Adverbial negative",
+
+      // Basic Forms
+      present: "Present/Dictionary",
+      past: "Past",
+      negative: "Negative",
+      pastNegative: "Past negative",
+
+      // Polite Forms
+      polite: "Polite",
+      politePast: "Polite past",
+      politeNegative: "Polite negative",
+      politePastNegative: "Polite past negative",
+      politeVolitional: "Polite volitional",
+
+      // Conditional
+      provisional: "If/When (ば)",
+      provisionalNegative: "If not (ば)",
+      conditional: "If/When (たら)",
+      conditionalNegative: "If not (たら)",
+
+      // Volitional
+      volitional: "Let's/Shall",
+      volitionalNegative: "Let's not",
+
+      // Imperative
+      imperativePlain: "Command",
+      imperativePolite: "Please do",
+      imperativeNegative: "Don't",
+
+      // Potential
+      potential: "Can do",
+      potentialNegative: "Cannot do",
+      potentialPast: "Could do",
+      potentialPastNegative: "Could not do",
+
+      // Passive
+      passive: "Is done",
+      passiveNegative: "Is not done",
+      passivePast: "Was done",
+      passivePastNegative: "Was not done",
+
+      // Causative
+      causative: "Make/Let do",
+      causativeNegative: "Not make/let do",
+      causativePast: "Made/Let do",
+      causativePastNegative: "Did not make/let do",
+
+      // Causative-Passive
+      causativePassive: "Be made to do",
+      causativePassiveNegative: "Not be made to do",
+
+      // Desiderative
+      taiForm: "Want to",
+      taiFormNegative: "Don't want to",
+      taiFormPast: "Wanted to",
+      taiFormPastNegative: "Didn't want to",
+
+      // Progressive
+      progressive: "Is doing",
+      progressiveNegative: "Is not doing",
+      progressivePast: "Was doing",
+      progressivePastNegative: "Was not doing",
+
+      // Request
+      request: "Please do",
+      requestNegative: "Please don't",
+
+      // Colloquial
+      colloquialNegative: "Not (casual)",
+
+      // Formal
+      formalNegative: "Not (formal)",
+      classicalNegative: "Not (classical)",
+
+      // Presumptive
+      presumptive: "Probably",
+      presumptiveNegative: "Probably not"
+    },
+    wordTypes: {
+      ichidan: "Ichidan verb",
+      godan: "Godan verb",
+      irregular: "Irregular verb",
+      iadjective: "i-adjective",
+      naadjective: "na-adjective"
+    },
+    messages: {
+      notConjugatable: "This word cannot be conjugated",
+      lowConfidence: "Conjugation type detected with low confidence",
+      specialCase: "This word has special conjugation rules"
+    },
+    // Practice page
+    practiceTitle: "Conjugation Practice",
+    practiceDescription: "Master Japanese verb and adjective conjugations",
+    searchPlaceholder: "Search for a verb or adjective...",
+    searchButton: "Search",
+    clearSearch: "Clear",
+    searchResults: "Search results",
+    noSearchResults: "No conjugatable words found",
+    filters: {
+      all: "All",
+      verbs: "Verbs Only",
+      adjectives: "Adjectives Only"
+    },
+    actions: {
+      shuffle: "Shuffle",
+      loadNew: "Load New Words",
+      selectForReview: "Select for review",
       showConjugations: "Show Conjugations",
-      hideConjugations: "Hide Conjugations",
-      expandAll: "Expand All",
-      collapseAll: "Collapse All",
-      groups: {
-        stems: "Stems",
-        plainform: "Plain Form",
-        politeform: "Polite Form",
-        taiformwantto: "Tai Form (Want to)",
-        "taiform(wantto)": "Tai Form (Want to)",
-        imperativeforms: "Imperative Forms",
-        provisionalform: "Provisional Form",
-        conditionalform: "Conditional Form",
-        alternativeform: "Alternative Form",
-        potentialplainform: "Potential Plain Form",
-        potentialpoliteform: "Potential Polite Form",
-        passiveplainform: "Passive Plain Form",
-        passivepoliteform: "Passive Polite Form",
-        causativeplainform: "Causative Plain Form",
-        causativepoliteform: "Causative Polite Form",
-        causativepassiveplainform: "Causative Passive Plain Form",
-        causativepassivepoliteform: "Causative Passive Polite Form",
-        colloquialform: "Colloquial Form",
-        formalform: "Formal Form",
-        classicalformnu: "Classical Form (nu)",
-        "classicalform(nu)": "Classical Form (nu)",
-        classicalformzaru: "Classical Form (zaru)",
-        "classicalform(zaru)": "Classical Form (zaru)",
-        // Adjective-specific groups (used by ADJECTIVE_CONJUGATION_STRUCTURE)
-        basicforms: "Basic Forms",
-        politeforms: "Polite Forms",
-        conditionalforms: "Conditional Forms",
-        presumptiveforms: "Presumptive Forms",
-        // Legacy keys (kept for compatibility)
-        basicForms: "Basic Forms",
-        politeForms: "Polite Forms",
-        conditionalForms: "Conditional Forms",
-        volitionalForms: "Volitional Forms",
-        imperativeForms: "Imperative Forms",
-        potentialForms: "Potential Forms",
-        passiveForms: "Passive Forms",
-        causativeForms: "Causative Forms",
-        causativePassiveForms: "Causative-Passive Forms",
-        desiderativeForms: "Desiderative Forms (たい)",
-        progressiveForms: "Progressive Forms",
-        requestForms: "Request Forms",
-        colloquialForms: "Colloquial Forms",
-        formalForms: "Formal/Classical Forms",
-        presumptiveForms: "Presumptive Forms"
-      },
-      forms: {
-        // Stems
-        masuStem: "Masu stem",
-        negativeStem: "Negative stem",
-        teForm: "Te-form",
-        negativeTeForm: "Negative te-form",
-        adverbialNegative: "Adverbial negative",
-
-        // Basic Forms
-        present: "Present/Dictionary",
-        past: "Past",
-        negative: "Negative",
-        pastNegative: "Past negative",
-
-        // Polite Forms
-        polite: "Polite",
-        politePast: "Polite past",
-        politeNegative: "Polite negative",
-        politePastNegative: "Polite past negative",
-        politeVolitional: "Polite volitional",
-
-        // Conditional
-        provisional: "If/When (ば)",
-        provisionalNegative: "If not (ば)",
-        conditional: "If/When (たら)",
-        conditionalNegative: "If not (たら)",
-
-        // Volitional
-        volitional: "Let's/Shall",
-        volitionalNegative: "Let's not",
-
-        // Imperative
-        imperativePlain: "Command",
-        imperativePolite: "Please do",
-        imperativeNegative: "Don't",
-
-        // Potential
-        potential: "Can do",
-        potentialNegative: "Cannot do",
-        potentialPast: "Could do",
-        potentialPastNegative: "Could not do",
-
-        // Passive
-        passive: "Is done",
-        passiveNegative: "Is not done",
-        passivePast: "Was done",
-        passivePastNegative: "Was not done",
-
-        // Causative
-        causative: "Make/Let do",
-        causativeNegative: "Not make/let do",
-        causativePast: "Made/Let do",
-        causativePastNegative: "Did not make/let do",
-
-        // Causative-Passive
-        causativePassive: "Be made to do",
-        causativePassiveNegative: "Not be made to do",
-
-        // Desiderative
-        taiForm: "Want to",
-        taiFormNegative: "Don't want to",
-        taiFormPast: "Wanted to",
-        taiFormPastNegative: "Didn't want to",
-
-        // Progressive
-        progressive: "Is doing",
-        progressiveNegative: "Is not doing",
-        progressivePast: "Was doing",
-        progressivePastNegative: "Was not doing",
-
-        // Request
-        request: "Please do",
-        requestNegative: "Please don't",
-
-        // Colloquial
-        colloquialNegative: "Not (casual)",
-
-        // Formal
-        formalNegative: "Not (formal)",
-        classicalNegative: "Not (classical)",
-
-        // Presumptive
-        presumptive: "Probably",
-        presumptiveNegative: "Probably not"
-      },
-      wordTypes: {
-        ichidan: "Ichidan verb",
-        godan: "Godan verb",
-        irregular: "Irregular verb",
-        iadjective: "i-adjective",
-        naadjective: "na-adjective"
-      },
-      messages: {
-        notConjugatable: "This word cannot be conjugated",
-        lowConfidence: "Conjugation type detected with low confidence",
-        specialCase: "This word has special conjugation rules"
-      },
-      // Practice page
-      practiceTitle: "Conjugation Practice",
-      practiceDescription: "Master Japanese verb and adjective conjugations",
-      searchPlaceholder: "Search for a verb or adjective...",
-      searchButton: "Search",
-      clearSearch: "Clear",
-      searchResults: "Search results",
-      noSearchResults: "No conjugatable words found",
-      filters: {
-        all: "All",
-        verbs: "Verbs Only",
-        adjectives: "Adjectives Only"
-      },
-      actions: {
-        shuffle: "Shuffle",
-        loadNew: "Load New Words",
-        selectForReview: "Select for review",
-        showConjugations: "Show Conjugations",
-        hideConjugations: "Hide Conjugations"
-      },
-      settings: "Settings",
-      stats: {
-        verbs: "Verbs",
-        adjectives: "Adjectives"
-      },
-      studyMode: {
-        title: "Study Conjugations",
-        description: "Learn how to conjugate Japanese verbs and adjectives with interactive examples",
-        startStudying: "Start Studying"
-      },
-      reviewMode: {
-        practiceConjugation: "Practice this conjugation",
-        complete: "Complete Review",
-        noWords: "No words selected for review"
-      }
+      hideConjugations: "Hide Conjugations"
+    },
+    settings: "Settings",
+    stats: {
+      verbs: "Verbs",
+      adjectives: "Adjectives"
+    },
+    studyMode: {
+      title: "Study Conjugations",
+      description: "Learn how to conjugate Japanese verbs and adjectives with interactive examples",
+      startStudying: "Start Studying"
+    },
+    reviewMode: {
+      practiceConjugation: "Practice this conjugation",
+      complete: "Complete Review",
+      noWords: "No words selected for review"
+    }
   },
 
   // Credits Page
@@ -3666,6 +3790,44 @@ export const strings = {
     mediaFiles: "media files",
     filesCount: "{{count}} files",
     sizeInMB: "{{size}} MB"
+  },
+
+  // Popular Videos Page
+  popularVideos: {
+    title: "Trending Videos",
+    subtitle: "See what the community is watching",
+    quotaStatus: "Today's videos: {{used}}/{{limit}}",
+    quotaRemaining: "{{count}} videos left today",
+    noQuota: "Daily limit reached! Come back tomorrow 🌅",
+    watchedBy: "{{count}} learners",
+    trending: "Trending",
+    suggested: "Suggested",
+    starter: "Great for beginners",
+    rank: "#{{rank}}",
+    loading: "Loading awesome videos...",
+    empty: "Be a pioneer! Watch videos to populate this list",
+    error: "Failed to load popular videos",
+
+    // Quota exceeded messages for premium
+    quotaExceeded: {
+      speedLearner: {
+        title: "Whoa there, Speed Learner! 🚀",
+        message: "You've watched 20 videos today! Even Doshi needs a break. Your brain is probably doing the cha-cha with all that Japanese. Come back tomorrow for more!"
+      },
+      achievement: {
+        title: "Achievement Unlocked: Video Marathon! 🏃‍♂️",
+        message: "20 videos in one day? You're like the Usain Bolt of Japanese learning! Time to let those neurons cool down. See you tomorrow, champ!"
+      },
+      bufferOverflow: {
+        title: "Buffer Overflow! 🤯",
+        message: "Your brain.exe has stopped responding after 20 videos. Please restart tomorrow for optimal performance. (Translation: You're amazing, but even machines need rest!)"
+      },
+      senpaiNoticed: {
+        title: "Senpai Noticed You... Need a Break! 👀",
+        message: "20 videos conquered! You're officially a shadowing superhero. But every hero needs rest. Your videos will be waiting tomorrow!"
+      },
+      button: "Got it! 😴"
+    }
   },
 
   myVideos: {

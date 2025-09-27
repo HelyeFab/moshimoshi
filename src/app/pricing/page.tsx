@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useI18n } from '@/i18n/I18nContext';
@@ -12,14 +12,25 @@ import DoshiMascot from '@/components/ui/DoshiMascot';
 import { useToast } from '@/components/ui/Toast';
 import Navbar from '@/components/layout/Navbar';
 
-export default function PricingPage() {
+function PricingContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { t } = useI18n();
   const { user } = useAuth();
   const { subscription, isLoading, upgradeToPremium, manageBilling } = useSubscription();
   const { showToast } = useToast();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [billingInterval, setBillingInterval] = useState<'month' | 'year'>('month');
+  const [showVideoLimitBanner, setShowVideoLimitBanner] = useState(false);
+
+  // Check if user came from video limit
+  useEffect(() => {
+    if (searchParams.get('reason') === 'video_limit') {
+      setShowVideoLimitBanner(true);
+      // Show a toast message
+      showToast(t('pricing.videoLimitReached'), 'info', 5000);
+    }
+  }, [searchParams, showToast, t]);
 
   const handleSelectPlan = async (plan: PricingPlan) => {
     // Free plan - just need to sign up
@@ -97,6 +108,19 @@ export default function PricingPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Navbar */}
       <Navbar user={user} showUserMenu={true} />
+
+      {/* Video Limit Banner */}
+      {showVideoLimitBanner && (
+        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 px-6">
+          <div className="max-w-7xl mx-auto flex items-center justify-center gap-4">
+            <span className="text-2xl">🎬</span>
+            <p className="text-lg font-medium">
+              {t('pricing.videoLimitBanner')}
+            </p>
+            <span className="text-2xl">🚀</span>
+          </div>
+        </div>
+      )}
 
       {/* Header */}
       <div className="pt-8 pb-8 px-4 sm:px-6 lg:px-8">
@@ -277,5 +301,13 @@ export default function PricingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PricingPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PricingContent />
+    </Suspense>
   );
 }

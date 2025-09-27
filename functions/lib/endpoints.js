@@ -8,42 +8,9 @@
  *
  * @module endpoints
  */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createBillingPortalSession = exports.createCheckoutSession = void 0;
-const functions = __importStar(require("firebase-functions"));
+const https_1 = require("firebase-functions/v2/https");
 const auth_1 = require("firebase-admin/auth");
 const firestore_1 = require("firebase-admin/firestore");
 const stripeClient_1 = require("./stripeClient");
@@ -75,9 +42,7 @@ async function requireAuth(req) {
  * - cancelUrl: URL to redirect on cancel
  * - idempotencyKey: Client-generated unique key
  */
-exports.createCheckoutSession = functions
-    .region('europe-west1')
-    .https.onRequest(async (req, res) => {
+exports.createCheckoutSession = (0, https_1.onRequest)({ region: 'europe-west1', cors: true }, async (req, res) => {
     var _a;
     // CORS headers
     res.set('Access-Control-Allow-Origin', '*');
@@ -187,9 +152,7 @@ exports.createCheckoutSession = functions
  * - Firebase Auth bearer token
  * - returnUrl: URL to return to after portal session
  */
-exports.createBillingPortalSession = functions
-    .region('europe-west1')
-    .https.onRequest(async (req, res) => {
+exports.createBillingPortalSession = (0, https_1.onRequest)({ region: 'europe-west1', cors: true }, async (req, res) => {
     var _a;
     // CORS headers
     res.set('Access-Control-Allow-Origin', '*');

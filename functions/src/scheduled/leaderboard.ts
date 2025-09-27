@@ -5,7 +5,8 @@
  * UPDATED: Now reads from unified user_stats collection instead of scattered collections
  */
 
-import * as functions from 'firebase-functions';
+import { onSchedule, ScheduledEvent } from 'firebase-functions/v2/scheduler';
+import { onCall, CallableRequest, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 
 // Initialize admin if not already done
@@ -211,15 +212,15 @@ async function buildLeaderboard(
  * Scheduled function to update leaderboard snapshots
  * Runs every hour
  */
-export const updateLeaderboardSnapshots = functions
-  .runWith({
-    timeoutSeconds: 300, // 5 minutes timeout
-    memory: '512MB'
-  })
-  .pubsub
-  .schedule('every 1 hours')
-  .timeZone('UTC')
-  .onRun(async (context) => {
+export const updateLeaderboardSnapshots = onSchedule(
+  {
+    schedule: 'every 1 hours',
+    timeZone: 'UTC',
+    region: 'europe-west1',
+    timeoutSeconds: 300,
+    memory: '512MiB'
+  },
+  async (event: ScheduledEvent) => {
     console.log('[Leaderboard] Starting scheduled update');
 
     try {
@@ -277,18 +278,16 @@ export const updateLeaderboardSnapshots = functions
 /**
  * HTTP trigger to manually update leaderboard (for testing)
  */
-export const updateLeaderboardManually = functions
-  .runWith({
+export const updateLeaderboardManually = onCall(
+  {
+    region: 'europe-west1',
     timeoutSeconds: 300,
-    memory: '512MB'
-  })
-  .https
-  .onRequest(async (req, res) => {
-    // Simple authentication check
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (token !== functions.config().admin?.token) {
-      res.status(403).json({ error: 'Unauthorized' });
-      return;
+    memory: '512MiB'
+  },
+  async (request: CallableRequest) => {
+    // Authentication check
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'User must be authenticated');
     }
 
     try {
@@ -309,16 +308,16 @@ export const updateLeaderboardManually = functions
       batch.set(db.collection('leaderboard_snapshots').doc('allTime-latest'), allTimeSnapshot);
       await batch.commit();
 
-      res.json({
+      return {
         success: true,
         message: 'Leaderboard updated successfully',
         stats: {
           totalPlayers: allTimeSnapshot.totalPlayers,
           topPlayer: allTimeSnapshot.entries[0]?.displayName || 'N/A'
         }
-      });
+      };
     } catch (error: any) {
       console.error('[Leaderboard] Manual update failed:', error);
-      res.status(500).json({ error: error.message });
+      throw new HttpsError('internal', error.message);
     }
   });

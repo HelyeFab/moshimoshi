@@ -13,6 +13,34 @@ exports.isValidCheckoutSession = isValidCheckoutSession;
 exports.debugCheckoutSession = debugCheckoutSession;
 const stripeMapping_1 = require("../mapping/stripeMapping");
 const firestore_1 = require("../firestore");
+// Node.js 20+ has native fetch support
+/**
+ * Helper to invalidate session tier cache via Next.js API
+ */
+async function invalidateSessionTierCache(customerId) {
+    try {
+        const appUrl = process.env.APP_URL || 'https://moshimoshi.vercel.app';
+        const endpoint = `${appUrl}/api/auth/invalidate-tier-cache`;
+        console.log(`Calling tier cache invalidation for customer ${customerId}`);
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ stripeCustomerId: customerId }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Tier cache invalidated successfully:', result);
+        }
+        else {
+            console.error('Failed to invalidate tier cache:', response.status, response.statusText);
+        }
+    }
+    catch (error) {
+        console.error('Error invalidating tier cache:', error);
+    }
+}
 /**
  * Processes a checkout.session.completed event
  *
@@ -96,6 +124,8 @@ async function handleSubscriptionCheckout(session, customerId) {
     try {
         await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, subscriptionFacts);
         console.log(`Updated subscription for customer ${customerId}:`, subscriptionFacts);
+        // Invalidate session tier cache so user sees update immediately
+        await invalidateSessionTierCache(customerId);
     }
     catch (error) {
         console.error(`Failed to update subscription for customer ${customerId}:`, error);

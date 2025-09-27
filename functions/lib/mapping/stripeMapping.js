@@ -7,40 +7,6 @@
  *
  * @module stripeMapping
  */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DEFAULT_PAID_PLAN = exports.DEFAULT_PLAN = exports.PRICE_TO_PLAN = void 0;
 exports.toPlan = toPlan;
@@ -50,25 +16,38 @@ exports.getPriceIdsForPlan = getPriceIdsForPlan;
 exports.isTestPrice = isTestPrice;
 exports.isLegacyPrice = isLegacyPrice;
 /**
- * Get price IDs from environment configuration
- * These should be set via Firebase Functions config:
- * firebase functions:config:set stripe.price_monthly_test="price_xxx" stripe.price_yearly_test="price_yyy"
- * firebase functions:config:set stripe.price_monthly_prod="price_xxx" stripe.price_yearly_prod="price_yyy"
+ * Get price IDs from environment variables
+ * For v2 functions, these are loaded from .env file or set as environment variables
  */
-const functions = __importStar(require("firebase-functions"));
-const config = functions.config();
+// Hardcoded price IDs from the configuration we saw earlier
+// These should ideally be in environment variables, but for now we'll hardcode them
+const PRICE_MONTHLY_TEST = 'price_1S6wG7HdrJomitOw5YvQ71DD';
+const PRICE_YEARLY_TEST = 'price_1S6wGGHdrJomitOwcmT2JeUG';
+// Production prices - using GBP test prices (£0.00) temporarily for testing
+const PRICE_MONTHLY_PROD = 'price_1SBurYHdrJomitOwnUkS46Ab'; // £0.00/month test price
+const PRICE_YEARLY_PROD = 'price_1SBus6HdrJomitOweasMATvU'; // £0.00/year test price
+// Original production prices (uncomment when ready for real payments):
+// const PRICE_MONTHLY_PROD = 'price_1S6vKuHdrJomitOw4XuExllV';
+// const PRICE_YEARLY_PROD = 'price_1S6vMBHdrJomitOwweaSGhYp';
 /**
- * Test environment price IDs from Firebase config
+ * Test environment price IDs
  */
-const TEST_PRICES = Object.assign(Object.assign({}, (((_a = config.stripe) === null || _a === void 0 ? void 0 : _a.price_monthly_test) && { [config.stripe.price_monthly_test]: 'premium_monthly' })), (((_b = config.stripe) === null || _b === void 0 ? void 0 : _b.price_yearly_test) && { [config.stripe.price_yearly_test]: 'premium_yearly' }));
+const TEST_PRICES = {
+    [PRICE_MONTHLY_TEST]: 'premium_monthly',
+    [PRICE_YEARLY_TEST]: 'premium_yearly',
+};
 /**
- * Production environment price IDs from Firebase config
+ * Production environment price IDs
  */
-const PRODUCTION_PRICES = Object.assign(Object.assign({}, (((_c = config.stripe) === null || _c === void 0 ? void 0 : _c.price_monthly_prod) && { [config.stripe.price_monthly_prod]: 'premium_monthly' })), (((_d = config.stripe) === null || _d === void 0 ? void 0 : _d.price_yearly_prod) && { [config.stripe.price_yearly_prod]: 'premium_yearly' }));
-// Log loaded price IDs for debugging (only in non-production)
+const PRODUCTION_PRICES = {
+    [PRICE_MONTHLY_PROD]: 'premium_monthly',
+    [PRICE_YEARLY_PROD]: 'premium_yearly',
+};
+// Log configuration status without exposing sensitive price IDs
 if (process.env.NODE_ENV !== 'production') {
-    console.log('[Stripe Mapping] Loaded TEST price IDs:', TEST_PRICES);
-    console.log('[Stripe Mapping] Loaded PRODUCTION price IDs:', PRODUCTION_PRICES);
+    const testCount = Object.keys(TEST_PRICES).length;
+    const prodCount = Object.keys(PRODUCTION_PRICES).length;
+    console.log(`[Stripe Mapping] Loaded ${testCount} TEST and ${prodCount} PRODUCTION price IDs`);
 }
 /**
  * Combined mapping for both test and production

@@ -136,6 +136,9 @@ export const strings = {
     correct: "正解",
     incorrect: "不正解",
     explore: "探索",
+    days: "日",
+    minutes: "分",
+    cards: "カード",
   },
 
   // PWA
@@ -428,37 +431,37 @@ export const strings = {
         subtitle: "カスタムリスト",
         description: "カスタムリストを管理"
       },
-  // Anki Import
-  anki: {
-    importTitle: "Import Anki Deck",
-    importSuccess: "Import Successful!",
-    import: "Import",
-    importing: "Importing...",
-    cardsImported: "{{count}} cards imported successfully",
-    dropFile: "Drop your .apkg file here",
-    orBrowse: "or click to browse",
-    maxFileSize: "Maximum file size: 200MB",
-    invalidFile: "Please select a valid .apkg file",
-    importFailed: "Failed to import deck",
-    processing: "Processing...",
-    description: "Import your Anki decks and review them using the Universal Review Engine",
-    importButton: "Import Anki Deck (.apkg)",
-    mediaCache: "Media Cache",
-    clearCache: "Clear Cache",
-    confirmClearCache: "Are you sure you want to clear all cached media files?",
-    importedDecks: "Imported Decks",
-    removeDeck: "Remove deck",
-    sampleCards: "Sample Cards",
-    front: "Front",
-    back: "Back",
-    startReview: "Start Review Session",
-    noDecksYet: "No decks imported yet",
-    noDecksDescription: "Click the button above to import your first Anki deck",
-    cards: "cards",
-    mediaFiles: "media files",
-    filesCount: "{{count}} files",
-    sizeInMB: "{{size}} MB"
-  },
+      // Anki Import
+      anki: {
+        importTitle: "Import Anki Deck",
+        importSuccess: "Import Successful!",
+        import: "Import",
+        importing: "Importing...",
+        cardsImported: "{{count}} cards imported successfully",
+        dropFile: "Drop your .apkg file here",
+        orBrowse: "or click to browse",
+        maxFileSize: "Maximum file size: 200MB",
+        invalidFile: "Please select a valid .apkg file",
+        importFailed: "Failed to import deck",
+        processing: "Processing...",
+        description: "Import your Anki decks and review them using the Universal Review Engine",
+        importButton: "Import Anki Deck (.apkg)",
+        mediaCache: "Media Cache",
+        clearCache: "Clear Cache",
+        confirmClearCache: "Are you sure you want to clear all cached media files?",
+        importedDecks: "Imported Decks",
+        removeDeck: "Remove deck",
+        sampleCards: "Sample Cards",
+        front: "Front",
+        back: "Back",
+        startReview: "Start Review Session",
+        noDecksYet: "No decks imported yet",
+        noDecksDescription: "Click the button above to import your first Anki deck",
+        cards: "cards",
+        mediaFiles: "media files",
+        filesCount: "{{count}} files",
+        sizeInMB: "{{size}} MB"
+      },
 
       myVideos: {
         title: "マイビデオ",
@@ -1545,7 +1548,7 @@ export const strings = {
       noResultsFound: "結果が見つかりません。別の検索語をお試しください。",
       searchFailed: "検索に失敗しました。もう一度お試しください。",
       searchHistoryCleared: "検索履歴がクリアされました",
-        loadingCache: "WaniKaniの語彙データベースを初めて読み込んでいます... しばらくお待ちください。",
+      loadingCache: "WaniKaniの語彙データベースを初めて読み込んでいます... しばらくお待ちください。",
 
       // Word details modal
       wordMeaning: "意味",
@@ -1553,7 +1556,7 @@ export const strings = {
       wordTags: "タグ",
       wordExampleSentences: "例文",
       wordExampleSentencesComingSoon: "例文は近日公開予定です！",
-        noExamplesFound: "この単語の例文が見つかりませんでした",
+      noExamplesFound: "この単語の例文が見つかりませんでした",
 
       // Practice page
       practiceTitle: "活用練習",
@@ -1630,6 +1633,11 @@ export const strings = {
       selectType: "作成したいリストの種類を選択してください：",
     },
     types: {
+      // Simple type names for UI
+      word: "単語",
+      sentence: "文章",
+      verbAdj: "動詞・形容詞",
+
       flashcard: {
         name: "フラッシュカードリスト",
         short: "フラッシュカード",
@@ -1992,6 +2000,107 @@ export const strings = {
       unlimited: "無制限のデッキ"
     },
 
+    // Daily Goals
+    dailyGoals: {
+      title: "デイリーゴール",
+      progress: "{{percentage}}%完了",
+      allComplete: "すべてのゴール達成！",
+      cards: "カード",
+      time: "時間",
+      decks: "デッキ",
+      accuracy: "正答率",
+      congratulations: "おめでとうございます！",
+      keepItUp: "その調子で頑張って！",
+      customizeGoals: "ゴールをカスタマイズ",
+      cardsPerDay: "1日のカード数",
+      minutesPerDay: "1日の分数",
+      decksPerDay: "1日のデッキ数",
+      accuracyTarget: "正答率目標"
+    },
+
+    // Achievements
+    achievements: {
+      title: "実績",
+      unlocked: "解除済み",
+      progress: "{{unlocked}}/{{total}} 解除済み",
+      totalXP: "総XP",
+      streak: "連続記録",
+      mastery: "習得",
+      speed: "スピード",
+      accuracy: "正答率",
+      volume: "ボリューム",
+      special: "特別",
+      viewAll: "すべて表示"
+    },
+
+    // Learning Insights
+    learningInsights: "学習インサイト",
+    currentStreak: "現在の連続記録",
+    retentionRate: "定着率",
+    cardsPerDay: "1日のカード数",
+    bestStudyTime: "最適学習時間",
+
+    // Optimal Settings
+    optimalSettings: "最適設定",
+    sessionLength: "セッション長",
+    studyTime: "学習時間",
+
+    // Recommended Study
+    recommendedStudy: "推奨学習",
+
+    // Urgency levels
+    urgency: {
+      low: "低優先度",
+      medium: "中優先度",
+      high: "高優先度",
+      critical: "緊急"
+    },
+
+    // Additional missing translations
+    minutes: "分",
+    cards: "カード",
+    currentStreak: "現在の連続記録",
+    retentionRate: "定着率",
+    cardsPerDay: "1日のカード数",
+    bestStudyTime: "最適学習時間",
+
+    achievements: {
+      viewAll: "すべての実績を表示",
+      title: "実績",
+      unlocked: "解除済み",
+      progress: "{{unlocked}}/{{total}} 解除済み",
+      totalXP: "総XP",
+      streak: "連続記録",
+      mastery: "習得",
+      speed: "スピード",
+      accuracy: "正確性",
+      volume: "ボリューム",
+      special: "特別"
+    },
+
+    dailyGoals: {
+      title: "デイリーゴール",
+      progress: "{{percentage}}% 完了",
+      cards: "カード",
+      time: "時間",
+      decks: "デッキ",
+      accuracy: "正答率",
+      congratulations: "おめでとうございます！",
+      keepItUp: "その調子で頑張って！",
+      allComplete: "すべてのゴール達成！",
+      customizeGoals: "ゴールをカスタマイズ",
+      cardsPerDay: "1日のカード数",
+      minutesPerDay: "1日の分数",
+      decksPerDay: "1日のデッキ数",
+      accuracyTarget: "正答率目標"
+    },
+
+    urgency: {
+      low: "低",
+      medium: "中",
+      high: "高"
+    },
+
     // Tooltips
     tooltips: {
       srs: "最適な学習のための間隔反復を使用",
@@ -2085,173 +2194,173 @@ export const strings = {
   },
 
   conjugation: {
-      title: "活用",
+    title: "活用",
+    showConjugations: "活用を表示",
+    hideConjugations: "活用を非表示",
+    expandAll: "すべて展開",
+    collapseAll: "すべて折りたたみ",
+    groups: {
+      stems: "語幹",
+      basicForms: "基本形",
+      politeForms: "丁寧形",
+      conditionalForms: "条件形",
+      volitionalForms: "意志形",
+      imperativeForms: "命令形",
+      potentialForms: "可能形",
+      passiveForms: "受身形",
+      causativeForms: "使役形",
+      causativePassiveForms: "使役受身形",
+      desiderativeForms: "希望形（たい）",
+      progressiveForms: "進行形",
+      requestForms: "依頼形",
+      colloquialForms: "口語形",
+      formalForms: "改まった形・古典形",
+      presumptiveForms: "推量形",
+      plainform: "普通形",
+      politeform: "丁寧形",
+      taiformwantto: "たい形（願望）",
+      "taiform(wantto)": "たい形（願望）",
+      imperativeforms: "命令形",
+      provisionalform: "仮定形（ば）",
+      conditionalform: "条件形（たら）",
+      alternativeform: "たり形",
+      potentialplainform: "可能形（普通）",
+      potentialpoliteform: "可能形（丁寧）",
+      passiveplainform: "受身形（普通）",
+      passivepoliteform: "受身形（丁寧）",
+      causativeplainform: "使役形（普通）",
+      causativepoliteform: "使役形（丁寧）",
+      causativepassiveplainform: "使役受身形（普通）",
+      causativepassivepoliteform: "使役受身形（丁寧）",
+      colloquialform: "口語形",
+      formalform: "文語形",
+      classicalformnu: "古典形（ぬ）",
+      "classicalform(nu)": "古典形（ぬ）",
+      classicalformzaru: "古典形（ざる）",
+      "classicalform(zaru)": "古典形（ざる）",
+      // 形容詞専用グループ
+      basicforms: "基本形",
+      politeforms: "丁寧形",
+      conditionalforms: "条件形",
+      presumptiveforms: "推量形"
+    },
+    forms: {
+      // 語幹
+      masuStem: "ます語幹",
+      negativeStem: "否定語幹",
+      teForm: "て形",
+      negativeTeForm: "否定て形",
+      adverbialNegative: "副詞的否定",
+      // 基本形
+      present: "現在形・辞書形",
+      past: "過去形",
+      negative: "否定形",
+      pastNegative: "過去否定形",
+      // 丁寧形
+      polite: "丁寧形",
+      politePast: "丁寧過去形",
+      politeNegative: "丁寧否定形",
+      politePastNegative: "丁寧過去否定形",
+      politeVolitional: "丁寧意志形",
+      // 条件形
+      provisional: "仮定形（ば）",
+      provisionalNegative: "否定仮定形（ば）",
+      conditional: "条件形（たら）",
+      conditionalNegative: "否定条件形（たら）",
+      // 意志形
+      volitional: "意志形",
+      volitionalNegative: "否定意志形",
+      // 命令形
+      imperativePlain: "命令形",
+      imperativePolite: "丁寧な依頼",
+      imperativeNegative: "禁止形",
+      // 可能形
+      potential: "可能形",
+      potentialNegative: "不可能形",
+      potentialPast: "可能過去形",
+      potentialPastNegative: "不可能過去形",
+      // 受身形
+      passive: "受身形",
+      passiveNegative: "受身否定形",
+      passivePast: "受身過去形",
+      passivePastNegative: "受身過去否定形",
+      // 使役形
+      causative: "使役形",
+      causativeNegative: "使役否定形",
+      causativePast: "使役過去形",
+      causativePastNegative: "使役過去否定形",
+      // 使役受身形
+      causativePassive: "使役受身形",
+      causativePassiveNegative: "使役受身否定形",
+      // 希望形
+      taiForm: "たい形",
+      taiFormNegative: "たくない形",
+      taiFormPast: "たかった形",
+      taiFormPastNegative: "たくなかった形",
+      // 進行形
+      progressive: "進行形",
+      progressiveNegative: "進行否定形",
+      progressivePast: "進行過去形",
+      progressivePastNegative: "進行過去否定形",
+      // 依頼形
+      request: "依頼形",
+      requestNegative: "否定依頼形",
+      // 口語形
+      colloquialNegative: "口語否定形",
+      // 改まった形
+      formalNegative: "改まった否定形",
+      classicalNegative: "古典否定形",
+      // 推量形
+      presumptive: "推量形",
+      presumptiveNegative: "否定推量形"
+    },
+    wordTypes: {
+      ichidan: "一段動詞",
+      godan: "五段動詞",
+      irregular: "不規則動詞",
+      iadjective: "い形容詞",
+      naadjective: "な形容詞"
+    },
+    messages: {
+      notConjugatable: "この単語は活用できません",
+      lowConfidence: "活用タイプの判定確度が低いです",
+      specialCase: "この単語は特別な活用規則があります"
+    },
+    // 練習ページ
+    practiceTitle: "活用練習",
+    practiceDescription: "日本語の動詞と形容詞の活用をマスター",
+    searchPlaceholder: "動詞や形容詞を検索...",
+    searchButton: "検索",
+    clearSearch: "クリア",
+    searchResults: "検索結果",
+    noSearchResults: "活用できる単語が見つかりませんでした",
+    filters: {
+      all: "すべて",
+      verbs: "動詞のみ",
+      adjectives: "形容詞のみ"
+    },
+    actions: {
+      shuffle: "シャッフル",
+      loadNew: "新しい単語を読み込む",
+      selectForReview: "復習用に選択",
       showConjugations: "活用を表示",
-      hideConjugations: "活用を非表示",
-      expandAll: "すべて展開",
-      collapseAll: "すべて折りたたみ",
-      groups: {
-        stems: "語幹",
-        basicForms: "基本形",
-        politeForms: "丁寧形",
-        conditionalForms: "条件形",
-        volitionalForms: "意志形",
-        imperativeForms: "命令形",
-        potentialForms: "可能形",
-        passiveForms: "受身形",
-        causativeForms: "使役形",
-        causativePassiveForms: "使役受身形",
-        desiderativeForms: "希望形（たい）",
-        progressiveForms: "進行形",
-        requestForms: "依頼形",
-        colloquialForms: "口語形",
-        formalForms: "改まった形・古典形",
-        presumptiveForms: "推量形",
-        plainform: "普通形",
-        politeform: "丁寧形",
-        taiformwantto: "たい形（願望）",
-        "taiform(wantto)": "たい形（願望）",
-        imperativeforms: "命令形",
-        provisionalform: "仮定形（ば）",
-        conditionalform: "条件形（たら）",
-        alternativeform: "たり形",
-        potentialplainform: "可能形（普通）",
-        potentialpoliteform: "可能形（丁寧）",
-        passiveplainform: "受身形（普通）",
-        passivepoliteform: "受身形（丁寧）",
-        causativeplainform: "使役形（普通）",
-        causativepoliteform: "使役形（丁寧）",
-        causativepassiveplainform: "使役受身形（普通）",
-        causativepassivepoliteform: "使役受身形（丁寧）",
-        colloquialform: "口語形",
-        formalform: "文語形",
-        classicalformnu: "古典形（ぬ）",
-        "classicalform(nu)": "古典形（ぬ）",
-        classicalformzaru: "古典形（ざる）",
-        "classicalform(zaru)": "古典形（ざる）",
-        // 形容詞専用グループ
-        basicforms: "基本形",
-        politeforms: "丁寧形",
-        conditionalforms: "条件形",
-        presumptiveforms: "推量形"
-      },
-      forms: {
-        // 語幹
-        masuStem: "ます語幹",
-        negativeStem: "否定語幹",
-        teForm: "て形",
-        negativeTeForm: "否定て形",
-        adverbialNegative: "副詞的否定",
-        // 基本形
-        present: "現在形・辞書形",
-        past: "過去形",
-        negative: "否定形",
-        pastNegative: "過去否定形",
-        // 丁寧形
-        polite: "丁寧形",
-        politePast: "丁寧過去形",
-        politeNegative: "丁寧否定形",
-        politePastNegative: "丁寧過去否定形",
-        politeVolitional: "丁寧意志形",
-        // 条件形
-        provisional: "仮定形（ば）",
-        provisionalNegative: "否定仮定形（ば）",
-        conditional: "条件形（たら）",
-        conditionalNegative: "否定条件形（たら）",
-        // 意志形
-        volitional: "意志形",
-        volitionalNegative: "否定意志形",
-        // 命令形
-        imperativePlain: "命令形",
-        imperativePolite: "丁寧な依頼",
-        imperativeNegative: "禁止形",
-        // 可能形
-        potential: "可能形",
-        potentialNegative: "不可能形",
-        potentialPast: "可能過去形",
-        potentialPastNegative: "不可能過去形",
-        // 受身形
-        passive: "受身形",
-        passiveNegative: "受身否定形",
-        passivePast: "受身過去形",
-        passivePastNegative: "受身過去否定形",
-        // 使役形
-        causative: "使役形",
-        causativeNegative: "使役否定形",
-        causativePast: "使役過去形",
-        causativePastNegative: "使役過去否定形",
-        // 使役受身形
-        causativePassive: "使役受身形",
-        causativePassiveNegative: "使役受身否定形",
-        // 希望形
-        taiForm: "たい形",
-        taiFormNegative: "たくない形",
-        taiFormPast: "たかった形",
-        taiFormPastNegative: "たくなかった形",
-        // 進行形
-        progressive: "進行形",
-        progressiveNegative: "進行否定形",
-        progressivePast: "進行過去形",
-        progressivePastNegative: "進行過去否定形",
-        // 依頼形
-        request: "依頼形",
-        requestNegative: "否定依頼形",
-        // 口語形
-        colloquialNegative: "口語否定形",
-        // 改まった形
-        formalNegative: "改まった否定形",
-        classicalNegative: "古典否定形",
-        // 推量形
-        presumptive: "推量形",
-        presumptiveNegative: "否定推量形"
-      },
-      wordTypes: {
-        ichidan: "一段動詞",
-        godan: "五段動詞",
-        irregular: "不規則動詞",
-        iadjective: "い形容詞",
-        naadjective: "な形容詞"
-      },
-      messages: {
-        notConjugatable: "この単語は活用できません",
-        lowConfidence: "活用タイプの判定確度が低いです",
-        specialCase: "この単語は特別な活用規則があります"
-      },
-      // 練習ページ
-      practiceTitle: "活用練習",
-      practiceDescription: "日本語の動詞と形容詞の活用をマスター",
-      searchPlaceholder: "動詞や形容詞を検索...",
-      searchButton: "検索",
-      clearSearch: "クリア",
-      searchResults: "検索結果",
-      noSearchResults: "活用できる単語が見つかりませんでした",
-      filters: {
-        all: "すべて",
-        verbs: "動詞のみ",
-        adjectives: "形容詞のみ"
-      },
-      actions: {
-        shuffle: "シャッフル",
-        loadNew: "新しい単語を読み込む",
-        selectForReview: "復習用に選択",
-        showConjugations: "活用を表示",
-        hideConjugations: "活用を非表示"
-      },
-      settings: "設定",
-      stats: {
-        verbs: "動詞",
-        adjectives: "形容詞"
-      },
-      studyMode: {
-        title: "活用を学習",
-        description: "インタラクティブな例で日本語の動詞と形容詞の活用を学ぶ",
-        startStudying: "学習を開始"
-      },
-      reviewMode: {
-        practiceConjugation: "この活用を練習",
-        complete: "復習を完了",
-        noWords: "復習用の単語が選択されていません"
-      }
+      hideConjugations: "活用を非表示"
+    },
+    settings: "設定",
+    stats: {
+      verbs: "動詞",
+      adjectives: "形容詞"
+    },
+    studyMode: {
+      title: "活用を学習",
+      description: "インタラクティブな例で日本語の動詞と形容詞の活用を学ぶ",
+      startStudying: "学習を開始"
+    },
+    reviewMode: {
+      practiceConjugation: "この活用を練習",
+      complete: "復習を完了",
+      noWords: "復習用の単語が選択されていません"
+    }
   },
 
   // Settings Page

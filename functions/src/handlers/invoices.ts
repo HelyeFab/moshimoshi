@@ -287,7 +287,7 @@ async function logPaymentFailure(invoice: Stripe.Invoice): Promise<void> {
  * @returns true if this is a subscription invoice
  */
 export function isSubscriptionInvoice(invoice: Stripe.Invoice): boolean {
-  return invoice.subscription !== null;
+  return (invoice as any).subscription !== null && (invoice as any).subscription !== undefined;
 }
 
 /**
@@ -314,7 +314,7 @@ export function debugInvoice(invoice: Stripe.Invoice): void {
   console.log('=== Invoice Debug ===');
   console.log('ID:', invoice.id);
   console.log('Customer:', invoice.customer);
-  console.log('Subscription:', invoice.subscription);
+  console.log('Subscription:', (invoice as any).subscription || 'none');
   console.log('Status:', invoice.status);
   console.log('Amount Due:', invoice.amount_due / 100, invoice.currency.toUpperCase());
   console.log('Amount Paid:', invoice.amount_paid / 100, invoice.currency.toUpperCase());

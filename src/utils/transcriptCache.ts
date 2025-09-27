@@ -215,6 +215,142 @@ export class TranscriptCacheManager {
   }
 
   /**
+   * Cache a new transcript to Firestore
+   * This is the main method for saving transcripts after they're fetched
+   */
+  static async cacheTranscript(params: {
+    contentId: string;
+    contentType: 'youtube' | 'audio' | 'video';
+    transcript: TranscriptLine[];
+    formattedTranscript?: TranscriptLine[];
+    language: string;
+    videoUrl?: string;
+    videoTitle?: string;
+    duration?: number;
+    createdBy?: string;
+    metadata?: {
+      youtubeVideoId?: string;
+      channelName?: string;
+      channelTitle?: string;
+      uploadDate?: string;
+      publishedAt?: string;
+      thumbnailUrl?: string;
+      thumbnails?: any;
+      description?: string;
+      formattedAt?: Timestamp;
+      formattingModel?: string;
+      wasFormatted?: boolean;
+    };
+  }): Promise<boolean> {
+    // Check if Firebase is initialized (client-side check)
+    if (!db) {
+      console.warn('🔥 Firebase not initialized, skipping transcript cache');
+      return false;
+    }
+
+    try {
+      // Validate required fields
+      if (!params.contentId || !params.transcript || params.transcript.length === 0) {
+        console.warn('⚠️ Invalid transcript data, skipping cache:', {
+          hasContentId: !!params.contentId,
+          transcriptLength: params.transcript?.length || 0
+        });
+        return false;
+      }
+
+      const { contentId, ...data } = params;
+
+      // Prepare the document data with proper typing
+      const transcriptDoc: Partial<CachedTranscript> = {
+        id: contentId,
+        contentId,
+        contentType: data.contentType,
+        transcript: data.transcript,
+        language: data.language || 'ja', // Default to Japanese
+        createdAt: serverTimestamp() as Timestamp,
+        lastAccessed: serverTimestamp() as Timestamp,
+        accessCount: 1, // Start at 1 since it's being accessed now
+      };
+
+      // Add optional fields if they exist
+      if (data.formattedTranscript && data.formattedTranscript.length > 0) {
+        transcriptDoc.formattedTranscript = data.formattedTranscript;
+      }
+
+      if (data.videoUrl) {
+        transcriptDoc.videoUrl = data.videoUrl;
+      }
+
+      if (data.videoTitle) {
+        transcriptDoc.videoTitle = data.videoTitle;
+      }
+
+      if (data.duration) {
+        transcriptDoc.duration = data.duration;
+      }
+
+      if (data.createdBy) {
+        transcriptDoc.createdBy = data.createdBy;
+      }
+
+      // Build metadata object if we have any metadata fields
+      if (data.metadata) {
+        const metadata: any = {};
+
+        // Copy over YouTube-specific metadata
+        if (data.metadata.youtubeVideoId) metadata.youtubeVideoId = data.metadata.youtubeVideoId;
+        if (data.metadata.channelName) metadata.channelName = data.metadata.channelName;
+        if (data.metadata.channelTitle) metadata.channelName = data.metadata.channelTitle; // Map channelTitle to channelName
+        if (data.metadata.uploadDate) metadata.uploadDate = data.metadata.uploadDate;
+        if (data.metadata.publishedAt) metadata.uploadDate = data.metadata.publishedAt; // Map publishedAt to uploadDate
+        if (data.metadata.thumbnailUrl) metadata.thumbnailUrl = data.metadata.thumbnailUrl;
+        if (data.metadata.thumbnails) {
+          // Extract the highest quality thumbnail URL
+          const thumb = data.metadata.thumbnails;
+          metadata.thumbnailUrl = thumb.maxres?.url || thumb.high?.url || thumb.medium?.url || thumb.default?.url;
+        }
+
+        // AI formatting metadata
+        if (data.metadata.formattedAt) metadata.formattedAt = data.metadata.formattedAt;
+        if (data.metadata.formattingModel) metadata.formattingModel = data.metadata.formattingModel;
+        if (data.metadata.wasFormatted !== undefined) metadata.wasFormatted = data.metadata.wasFormatted;
+
+        // Only add metadata if we have at least one field
+        if (Object.keys(metadata).length > 0) {
+          transcriptDoc.metadata = metadata;
+        }
+      }
+
+      // Save to Firestore
+      const docRef = doc(db, this.COLLECTION_NAME, contentId);
+      await setDoc(docRef, transcriptDoc, { merge: false }); // Don't merge, fully replace
+
+      console.log('✅ Transcript cached successfully:', {
+        contentId,
+        transcriptLength: data.transcript.length,
+        hasFormatted: !!data.formattedTranscript,
+        language: data.language,
+        videoTitle: data.videoTitle?.substring(0, 50) // Log first 50 chars of title
+      });
+
+      return true;
+    } catch (error) {
+      console.error('❌ Error caching transcript:', error);
+
+      // Log more details about the error for debugging
+      if (error instanceof Error) {
+        console.error('Error details:', {
+          message: error.message,
+          name: error.name,
+          stack: error.stack?.split('\n')[0]
+        });
+      }
+
+      return false;
+    }
+  }
+
+  /**
    * Update formatted transcript in cache
    */
   static async updateFormattedTranscript(
