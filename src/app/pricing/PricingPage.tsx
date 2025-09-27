@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useI18n } from '@/i18n/I18nContext';
 import { PRICING_PLANS, PricingPlan } from '@/lib/stripe/types';
+import { PRICING_CONFIG } from '@/config/pricing';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { LoadingButton } from '@/components/ui/Loading';
 import DoshiMascot from '@/components/ui/DoshiMascot';
@@ -175,7 +176,7 @@ export default function PricingPage() {
                   </p>
                   <div className="mt-6">
                     <span className="text-4xl font-bold text-gray-900 dark:text-white">
-                      {plan.currency === 'GBP' ? '£' : plan.currency === 'EUR' ? '€' : '$'}{plan.price}
+                      {PRICING_CONFIG.currencySymbol}{plan.price}
                     </span>
                     <span className="text-gray-600 dark:text-gray-400">/{plan.interval}</span>
                   </div>
