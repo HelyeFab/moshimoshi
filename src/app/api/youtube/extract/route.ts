@@ -6,6 +6,7 @@ import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin';
 import { AIService } from '@/lib/ai/AIService';
 import { TranscriptProcessRequest } from '@/lib/ai/types';
 import { transcriptCache } from '@/lib/transcript/cache';
+import { validateSession } from '@/lib/auth/session';
 
 // Initialize AI Service
 const aiService = AIService.getInstance();
@@ -74,6 +75,52 @@ function extractVideoIdFromUrl(url: string): string | null {
 
 // Note: Using the new transcriptCache service from /lib/transcript/cache.ts
 // The old inline functions have been removed in favor of the singleton service
+
+// Helper function to save video to user's YouTube history
+async function saveToYouTubeHistory(
+  userId: string,
+  videoId: string,
+  videoTitle: string,
+  videoUrl: string,
+  transcript: any[],
+  metadata: any
+): Promise<void> {
+  try {
+    const docId = `${userId}_${videoId}`;
+    const docRef = db.collection('userYouTubeHistory').doc(docId);
+
+    // Check if document exists
+    const doc = await docRef.get();
+
+    if (doc.exists) {
+      // Update existing record
+      await docRef.update({
+        lastWatched: Timestamp.now(),
+        watchCount: (doc.data()?.watchCount || 0) + 1,
+        transcript: transcript, // Update transcript if it's better
+        metadata: metadata || doc.data()?.metadata
+      });
+      console.log('✅ Updated YouTube history for video:', videoId);
+    } else {
+      // Create new record
+      await docRef.set({
+        userId,
+        videoId,
+        videoTitle,
+        videoUrl,
+        transcript,
+        metadata,
+        firstWatched: Timestamp.now(),
+        lastWatched: Timestamp.now(),
+        watchCount: 1,
+        createdAt: Timestamp.now()
+      });
+      console.log('✅ Created new YouTube history entry for video:', videoId);
+    }
+  } catch (error) {
+    console.error('❌ Error saving to YouTube history:', error);
+  }
+}
 
 // Helper function to format transcript with AI
 async function formatTranscriptWithAI(
@@ -330,21 +377,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if user is authenticated by looking for auth headers or cookies
-    const authHeader = request.headers.get('authorization');
-    const cookies = request.headers.get('cookie');
-    const hasAuthCookie = cookies?.includes('authToken') ||
-                          cookies?.includes('__session') ||
-                          cookies?.includes('next-auth') ||
-                          cookies?.includes('session');
-    const isAuthenticated = !!(authHeader || hasAuthCookie);
+    // Validate session to get user information
+    const session = await validateSession(request);
+    const isAuthenticated = !!session;
+    const userId = session?.userId;
 
-    console.log('🔐 [AUTH] Authentication check:', {
-      hasAuthHeader: !!authHeader,
-      hasCookies: !!cookies,
-      hasAuthCookie,
+    console.log('🔐 [AUTH] Session validation:', {
       isAuthenticated,
-      cookiePreview: cookies ? cookies.substring(0, 100) + '...' : 'none'
+      userId: userId || 'anonymous',
+      userEmail: session?.email || 'none'
     });
 
     // Extract video ID for YouTube API calls (need this BEFORE creating contentId)
@@ -359,6 +400,17 @@ export async function POST(request: NextRequest) {
       const cachedTranscript = await transcriptCache.get(contentId);
 
       if (cachedTranscript && cachedTranscript.transcript.length > 0) {
+        // Save to YouTube history even for cached videos (to update watch count)
+        if (userId) {
+          await saveToYouTubeHistory(
+            userId,
+            videoId,
+            cachedTranscript.videoTitle || 'Unknown',
+            url,
+            cachedTranscript.formattedTranscript || cachedTranscript.transcript,
+            cachedTranscript.metadata || {}
+          );
+        }
 
         return NextResponse.json({
         success: true,
@@ -577,6 +629,23 @@ export async function POST(request: NextRequest) {
               console.log('✅ Cached AI-processed transcript for:', videoId);
             } else {
               console.log('⏭️ Skipping cache - no AI-processed transcript available');
+            }
+
+            // Save to YouTube history if user is authenticated
+            if (userId) {
+              await saveToYouTubeHistory(
+                userId,
+                videoId,
+                videoMetadata?.title || supaResponse.data.title || 'Unknown',
+                url,
+                formattedTranscript || transcript,
+                {
+                  channelTitle: videoMetadata?.channelTitle,
+                  thumbnails: videoMetadata?.thumbnails,
+                  duration: videoMetadata?.duration,
+                  publishedAt: videoMetadata?.publishedAt
+                }
+              );
             }
 
             return NextResponse.json({

@@ -60,7 +60,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     name: 'Free',
     description: 'Get started with basic features',
     price: 0,
-    currency: 'USD',
+    currency: PRICING_CONFIG.currency,
     interval: 'month',
     features: [
       '5 Hiragana practice sessions per day',
@@ -75,7 +75,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     name: 'Premium Monthly',
     description: 'Full access with monthly billing',
     price: PRICING_CONFIG.monthly.amount,
-    currency: 'USD',
+    currency: PRICING_CONFIG.currency,
     interval: 'month',
     features: [
       'Unlimited Hiragana practice',
@@ -94,7 +94,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     name: 'Premium Yearly',
     description: 'Best value with annual billing',
     price: PRICING_CONFIG.yearly.amount,
-    currency: 'USD',
+    currency: PRICING_CONFIG.currency,
     interval: 'year',
     features: [
       'Everything in Premium Monthly',

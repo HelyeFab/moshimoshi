@@ -175,7 +175,7 @@ export default function PricingPage() {
                   </p>
                   <div className="mt-6">
                     <span className="text-4xl font-bold text-gray-900 dark:text-white">
-                      ${plan.price}
+                      {plan.currency === 'GBP' ? '£' : plan.currency === 'EUR' ? '€' : '$'}{plan.price}
                     </span>
                     <span className="text-gray-600 dark:text-gray-400">/{plan.interval}</span>
                   </div>
