@@ -112,20 +112,9 @@ export function InvoiceHistory({ customerId }: InvoiceHistoryProps) {
     )
   }
 
+  // Don't render anything if there are no invoices to show
   if (!customerId || invoices.length === 0) {
-    return (
-      <div className="bg-soft-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-          {t('subscription.invoice.title')}
-        </h2>
-        <div className="text-center py-8">
-          <DoshiMascot size="small" />
-          <p className="mt-4 text-gray-600 dark:text-gray-400">
-            {t('subscription.invoice.noInvoices')}
-          </p>
-        </div>
-      </div>
-    )
+    return null
   }
 
   return (

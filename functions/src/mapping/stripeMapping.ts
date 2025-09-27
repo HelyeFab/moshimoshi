@@ -19,12 +19,9 @@ export type SubscriptionPlan = 'free' | 'premium_monthly' | 'premium_yearly';
 // These should ideally be in environment variables, but for now we'll hardcode them
 const PRICE_MONTHLY_TEST = 'price_1S6wG7HdrJomitOw5YvQ71DD';
 const PRICE_YEARLY_TEST = 'price_1S6wGGHdrJomitOwcmT2JeUG';
-// Production prices - using GBP test prices (£0.00) temporarily for testing
-const PRICE_MONTHLY_PROD = 'price_1SBurYHdrJomitOwnUkS46Ab';  // £0.00/month test price
-const PRICE_YEARLY_PROD = 'price_1SBus6HdrJomitOweasMATvU';   // £0.00/year test price
-// Original production prices (uncomment when ready for real payments):
-// const PRICE_MONTHLY_PROD = 'price_1S6vKuHdrJomitOw4XuExllV';
-// const PRICE_YEARLY_PROD = 'price_1S6vMBHdrJomitOwweaSGhYp';
+// Production price IDs - GBP real prices
+const PRICE_MONTHLY_PROD = 'price_1S6vKuHdrJomitOw4XuExllV';  // £8.99/month
+const PRICE_YEARLY_PROD = 'price_1S6vMBHdrJomitOwweaSGhYp';   // £99.99/year
 
 /**
  * Test environment price IDs
