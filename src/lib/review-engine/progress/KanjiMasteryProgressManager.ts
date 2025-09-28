@@ -99,47 +99,33 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
   }
 
   calculateSessionXP(sessionState: SessionState, sessionStats: any): number {
-    let xp = 0
+    // Use centralized XP config
+    const { xpConfigService } = require('@/lib/services/XPConfigService')
 
-    // Base XP for completing session
-    xp += 20
-
-    // XP per kanji learned
-    xp += sessionStats.totalKanji * 10
-
-    // Bonus for perfect kanji
-    xp += sessionStats.perfectKanji * 15
-
-    // Accuracy bonus
-    if (sessionStats.averageAccuracy >= 0.9) {
-      xp += 50 // Excellent accuracy bonus
-    } else if (sessionStats.averageAccuracy >= 0.8) {
-      xp += 30 // Good accuracy bonus
-    } else if (sessionStats.averageAccuracy >= 0.7) {
-      xp += 15 // Decent accuracy bonus
-    }
-
-    // Speed bonus (under 10 minutes for 5 kanji)
+    // Calculate speed multiplier
     const expectedTimePerKanji = 120 // 2 minutes per kanji
     const expectedTime = sessionStats.totalKanji * expectedTimePerKanji
+    const speedMultiplier = sessionStats.timeSpentSeconds / expectedTime
 
-    if (sessionStats.timeSpentSeconds < expectedTime * 0.75) {
-      xp += 25 // Fast learner bonus
-    }
-
-    // Review pile cleared bonus
-    if (sessionStats.reviewAgainCount === 0) {
-      xp += 30 // No review needed bonus
-    }
-
-    // Round completion XP
+    // Count rounds completed
+    let roundsCompleted = 0
     sessionState.progress.forEach((progress) => {
-      if (progress.round1Completed) xp += 5
-      xp += Math.round(progress.round2Accuracy * 10) // 0-10 XP based on accuracy
-      xp += (progress.round3Rating || 0) * 3 // 0-15 XP based on self-rating
+      if (progress.round1Completed) roundsCompleted++
+      if (progress.round2Accuracy > 0) roundsCompleted++
+      if (progress.round3Rating) roundsCompleted++
     })
 
-    return xp
+    // Use config service to calculate XP
+    const xpCalculation = xpConfigService.calculateKanjiMasteryXP(
+      sessionStats.totalKanji,
+      sessionStats.perfectKanji,
+      sessionStats.averageAccuracy,
+      speedMultiplier,
+      sessionStats.reviewAgainCount === 0,
+      Math.round(roundsCompleted / sessionState.progress.size) // Average rounds per kanji
+    )
+
+    return xpCalculation.cappedXP
   }
 
   private prepareKanjiData(sessionState: SessionState) {

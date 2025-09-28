@@ -82,7 +82,7 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
   protected async callOpenAI(
     systemPrompt: string,
     userPrompt: string,
-    config?: Partial<AIServiceConfig>
+    config?: Partial<AIServiceConfig> & { responseFormat?: 'json' | 'text' }
   ): Promise<{
     content: string;
     usage: TokenUsage;
@@ -97,18 +97,26 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
 
     const startTime = Date.now();
     const mergedConfig = { ...this.defaultConfig, ...this.context.config, ...config };
+    const responseFormat = config?.responseFormat || 'json';
 
     try {
-      const completion = await this.openai.chat.completions.create({
-        model: this.context.model,
+      const completionParams: any = {
+        model: this.context.model || 'gpt-4o-mini', // Fallback to gpt-4o-mini if undefined
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
         temperature: mergedConfig.temperature,
-        max_tokens: mergedConfig.maxTokens,
-        response_format: { type: 'json_object' } // Most of our responses are JSON
-      });
+        max_tokens: mergedConfig.maxTokens
+      };
+
+      // Only add response_format for non-transcript tasks
+      // Transcript processing needs flexibility
+      if (responseFormat === 'json' && !systemPrompt.includes('shadowing')) {
+        completionParams.response_format = { type: 'json_object' };
+      }
+
+      const completion = await this.openai.chat.completions.create(completionParams);
 
       const response = completion.choices[0]?.message?.content;
       if (!response) {
@@ -117,6 +125,16 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
           'EMPTY_RESPONSE',
           500
         );
+      }
+
+      // Validate JSON response if expected
+      if (responseFormat === 'json' || response.trim().startsWith('[') || response.trim().startsWith('{')) {
+        try {
+          JSON.parse(response);
+        } catch (parseError) {
+          console.error('AI returned invalid JSON:', response.substring(0, 200));
+          // Don't throw here, let the processor handle it
+        }
       }
 
       const usage = this.calculateUsage(completion.usage);

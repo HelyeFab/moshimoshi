@@ -182,10 +182,10 @@ export async function GET(req: NextRequest) {
             videoId: data.videoId,
             videoUrl: data.videoUrl,
             videoTitle: data.videoTitle,
-            lastWatched: data.lastWatched?.toDate() || new Date(),
-            firstWatched: data.firstWatched?.toDate() || new Date(),
-            watchCount: data.watchCount || 1,
-            totalWatchTime: data.totalWatchTime,
+            lastPracticed: data.lastWatched?.toDate() || new Date(),
+            firstPracticed: data.firstWatched?.toDate() || new Date(),
+            practiceCount: data.watchCount || 1,
+            totalPracticeTime: data.totalWatchTime || 0,
             duration: data.duration,
             thumbnailUrl: data.thumbnailUrl,
             channelName: data.channelName,
@@ -193,20 +193,26 @@ export async function GET(req: NextRequest) {
           };
         });
 
-        // Sort videos by lastWatched if we couldn't do it in the query
-        if (!videos[0]?.lastWatched) {
-          videos.sort((a, b) => new Date(b.lastWatched).getTime() - new Date(a.lastWatched).getTime());
-        }
+        // Sort videos by lastPracticed if we couldn't do it in the query
+        videos.sort((a, b) => new Date(b.lastPracticed).getTime() - new Date(a.lastPracticed).getTime());
       } catch (error) {
         console.error('Error fetching YouTube history from Firebase:', error);
       }
     }
+
+    // Calculate aggregate statistics
+    const stats = {
+      totalVideos: videos.length,
+      totalPracticeCount: videos.reduce((sum, v) => sum + (v.practiceCount || 0), 0),
+      totalPracticeTime: videos.reduce((sum, v) => sum + (v.totalPracticeTime || 0), 0)
+    };
 
     return NextResponse.json({
       success: true,
       items: videos,
       userTier,
       count: videos.length,
+      stats,
       storage: {
         location: storageDecision?.storageLocation || 'local',
         isPremium: storageDecision?.isPremium || false

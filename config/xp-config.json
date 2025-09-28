@@ -1,0 +1,207 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-28",
+  "minXPForStreak": 10,
+  "antiCheat": {
+    "enabled": true,
+    "globalDailyLimit": 5000,
+    "suspiciousThreshold": 1000
+  },
+  "activities": {
+    "drill": {
+      "id": "drill",
+      "name": "Drill Practice",
+      "description": "Quick practice drills for vocabulary and kanji",
+      "enabled": true,
+      "baseXP": 25,
+      "bonuses": {
+        "perfect": { "threshold": 100, "xp": 50 },
+        "high": { "threshold": 90, "xp": 30 },
+        "good": { "threshold": 80, "xp": 20 },
+        "decent": { "threshold": 70, "xp": 10 }
+      },
+      "maxPerSession": 75,
+      "cooldownMinutes": 0,
+      "countsForStreak": true
+    },
+    "flashcards": {
+      "id": "flashcards",
+      "name": "Flashcard Session",
+      "description": "Spaced repetition flashcard reviews",
+      "enabled": true,
+      "baseXP": 0,
+      "rewards": {
+        "perCorrect": 10,
+        "streakBonus": 5,
+        "perfectBonus": 50,
+        "speedBonusPerCard": 2,
+        "speedThresholdMs": 3000
+      },
+      "maxPerSession": 500,
+      "cooldownMinutes": 5,
+      "countsForStreak": true
+    },
+    "kanji_mastery": {
+      "id": "kanji_mastery",
+      "name": "Kanji Mastery",
+      "description": "Deep kanji learning with multiple rounds",
+      "enabled": true,
+      "baseXP": 20,
+      "rewards": {
+        "perKanji": 10,
+        "perfectKanjiBonus": 15,
+        "excellentAccuracyBonus": 50,
+        "goodAccuracyBonus": 30,
+        "decentAccuracyBonus": 15,
+        "speedBonus": 25,
+        "noReviewBonus": 30,
+        "roundCompletionBase": 5
+      },
+      "thresholds": {
+        "excellentAccuracy": 0.9,
+        "goodAccuracy": 0.8,
+        "decentAccuracy": 0.7,
+        "speedMultiplier": 0.75
+      },
+      "maxPerSession": 300,
+      "cooldownMinutes": 10,
+      "countsForStreak": true
+    },
+    "word_learning": {
+      "id": "word_learning",
+      "name": "Word Learning",
+      "description": "Learn new vocabulary through contextual practice",
+      "enabled": false,
+      "baseXP": 15,
+      "rewards": {
+        "perWord": 8,
+        "phaseCompletion": 10,
+        "allPhasesBonus": 25
+      },
+      "maxPerSession": 150,
+      "cooldownMinutes": 5,
+      "countsForStreak": true
+    },
+    "kana_practice": {
+      "id": "kana_practice",
+      "name": "Kana Practice",
+      "description": "Practice hiragana and katakana characters",
+      "enabled": false,
+      "baseXP": 5,
+      "rewards": {
+        "perCorrect": 5,
+        "speedBonus": 2,
+        "perfectSessionBonus": 30
+      },
+      "maxPerSession": 100,
+      "cooldownMinutes": 0,
+      "countsForStreak": true
+    },
+    "kanji_connection": {
+      "id": "kanji_connection",
+      "name": "Kanji Connection Game",
+      "description": "Connect related kanji in an interactive game",
+      "enabled": false,
+      "baseXP": 20,
+      "rewards": {
+        "perConnection": 5,
+        "speedBonus": 15,
+        "perfectBonus": 40,
+        "difficultyMultiplier": 1.5
+      },
+      "maxPerSession": 200,
+      "cooldownMinutes": 5,
+      "countsForStreak": true
+    },
+    "youtube_shadowing": {
+      "id": "youtube_shadowing",
+      "name": "YouTube Shadowing",
+      "description": "Practice pronunciation with YouTube videos",
+      "enabled": false,
+      "baseXP": 15,
+      "rewards": {
+        "perMinute": 2,
+        "completionBonus": 20,
+        "dailyStreakBonus": 10
+      },
+      "maxPerSession": 100,
+      "cooldownMinutes": 10,
+      "countsForStreak": true
+    },
+    "vocabulary": {
+      "id": "vocabulary",
+      "name": "Vocabulary Study",
+      "description": "Study vocabulary lists and word groups",
+      "enabled": false,
+      "baseXP": 10,
+      "rewards": {
+        "perWord": 7,
+        "masteryBonus": 15,
+        "groupCompletionBonus": 25
+      },
+      "maxPerSession": 150,
+      "cooldownMinutes": 5,
+      "countsForStreak": true
+    },
+    "story_reading": {
+      "id": "story_reading",
+      "name": "Story Reading",
+      "description": "Read Japanese stories with comprehension",
+      "enabled": false,
+      "baseXP": 25,
+      "rewards": {
+        "completionBonus": 30,
+        "comprehensionBonus": 20,
+        "vocabularyBonus": 15
+      },
+      "maxPerSession": 100,
+      "cooldownMinutes": 15,
+      "countsForStreak": true
+    },
+    "news_reading": {
+      "id": "news_reading",
+      "name": "News Article Reading",
+      "description": "Read real Japanese news articles",
+      "enabled": false,
+      "baseXP": 20,
+      "rewards": {
+        "completionBonus": 25,
+        "comprehensionQuizBonus": 20,
+        "dailyReadingBonus": 10
+      },
+      "maxPerSession": 100,
+      "cooldownMinutes": 10,
+      "countsForStreak": true
+    },
+    "conjugation_practice": {
+      "id": "conjugation_practice",
+      "name": "Conjugation Practice",
+      "description": "Practice verb and adjective conjugations",
+      "enabled": false,
+      "baseXP": 12,
+      "rewards": {
+        "perCorrect": 6,
+        "streakBonus": 4,
+        "perfectBonus": 35
+      },
+      "maxPerSession": 120,
+      "cooldownMinutes": 5,
+      "countsForStreak": true
+    },
+    "review_session": {
+      "id": "review_session",
+      "name": "Review Session",
+      "description": "General spaced repetition review",
+      "enabled": false,
+      "baseXP": 15,
+      "rewards": {
+        "perItem": 5,
+        "accuracyBonus": 25,
+        "consistencyBonus": 20
+      },
+      "maxPerSession": 200,
+      "cooldownMinutes": 10,
+      "countsForStreak": true
+    }
+  }
+}

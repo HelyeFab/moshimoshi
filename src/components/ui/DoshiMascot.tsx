@@ -50,22 +50,40 @@ export default function DoshiMascot({
   const [animationData, setAnimationData] = useState<any>(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [loadError, setLoadError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const dimension = sizeMap[size];
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor;
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+      const isSmallScreen = window.innerWidth <= 768;
+      setIsMobile(isMobileDevice || isSmallScreen);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Determine whether to use animation
   useEffect(() => {
     if (variant === 'static') {
       setShouldAnimate(false);
     } else if (variant === 'animated') {
-      setShouldAnimate(true);
+      // On mobile, only animate for larger sizes to prevent performance issues
+      setShouldAnimate(!isMobile || (size === 'large' || size === 'xlarge'));
     } else {
-      // Auto mode: use animation for medium and larger sizes
+      // Auto mode: use animation for medium and larger sizes, but be more conservative on mobile
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const isLargeEnough = size === 'medium' || size === 'large' || size === 'xlarge';
+      const isLargeEnough = isMobile
+        ? (size === 'large' || size === 'xlarge')
+        : (size === 'medium' || size === 'large' || size === 'xlarge');
       setShouldAnimate(!prefersReducedMotion && isLargeEnough);
     }
-  }, [variant, size]);
+  }, [variant, size, isMobile]);
 
   // Load animation data if needed
   useEffect(() => {
@@ -94,7 +112,14 @@ export default function DoshiMascot({
       height: dimension,
       // Prevent layout shifts and improve rendering
       contain: 'layout style paint',
-      willChange: shouldAnimate ? 'transform' : 'auto',
+      willChange: shouldAnimate && !isMobile ? 'transform' : 'auto',
+      // Mobile-specific optimizations
+      ...(isMobile && shouldAnimate ? {
+        WebkitTransform: 'translate3d(0,0,0)',
+        transform: 'translate3d(0,0,0)',
+        WebkitBackfaceVisibility: 'hidden',
+        backfaceVisibility: 'hidden',
+      } : {}),
     },
     role: onClick ? 'button' : undefined,
     tabIndex: onClick ? 0 : undefined,
@@ -119,19 +144,31 @@ export default function DoshiMascot({
           style={{
             width: '100%',
             height: '100%',
-            // Prevent tearing with GPU acceleration
-            transform: 'translateZ(0)',
+            // Mobile-optimized styles to prevent tearing
+            transform: isMobile ? 'translate3d(0,0,0)' : 'translateZ(0)',
             backfaceVisibility: 'hidden',
             perspective: 1000,
+            WebkitTransform: 'translate3d(0,0,0)',
+            WebkitBackfaceVisibility: 'hidden',
+            // Disable pointer events to improve performance
+            pointerEvents: onClick ? 'auto' : 'none',
           }}
+          renderer={isMobile ? 'canvas' : 'svg'}
           rendererSettings={{
             preserveAspectRatio: 'xMidYMid meet',
-            // Use canvas renderer for better performance
-            // SVG can cause tearing on some browsers
-            viewBoxOnly: true,
-            progressiveLoad: true,
-            hideOnTransparent: false,
-            className: 'lottie-animation'
+            // Force canvas renderer on mobile for better performance
+            // Canvas renderer prevents the tearing issues on mobile
+            ...(isMobile ? {
+              context: undefined,
+              clearCanvas: false,
+              progressiveLoad: false,
+              hideOnTransparent: true,
+            } : {
+              viewBoxOnly: true,
+              progressiveLoad: true,
+              hideOnTransparent: false,
+              className: 'lottie-animation'
+            })
           }}
         />
       ) : (

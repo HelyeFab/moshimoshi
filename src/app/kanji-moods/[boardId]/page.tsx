@@ -106,9 +106,9 @@ export default function MoodBoardDetailPage() {
 
       const response = await fetch('/api/admin/generate-story-from-moodboard', {
         method: 'POST',
+        credentials: 'include', // Send session cookie
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await user.getIdToken()}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           moodboardId: boardId,

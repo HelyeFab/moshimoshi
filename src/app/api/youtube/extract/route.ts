@@ -6,7 +6,7 @@ import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin';
 import { AIService } from '@/lib/ai/AIService';
 import { TranscriptProcessRequest } from '@/lib/ai/types';
 import { transcriptCache } from '@/lib/transcript/cache';
-import { validateSession } from '@/lib/auth/session';
+import { getSession } from '@/lib/auth/session';
 
 // Initialize AI Service
 const aiService = AIService.getInstance();
@@ -28,8 +28,8 @@ async function logApiUsage(api: string, success: boolean, error?: string, metada
     await db.collection('apiUsageLogs').add({
       api,
       success,
-      error,
-      metadata,
+      error: error || null, // Firestore doesn't allow undefined values
+      metadata: metadata || null,
       timestamp: Timestamp.now()
     });
   } catch (err) {
@@ -137,13 +137,13 @@ async function formatTranscriptWithAI(
 
     console.log('🤖 [AI] Starting AI formatting for', transcript.length, 'segments');
 
-    // Prepare request for unified AI service
-    const request: TranscriptProcessRequest = {
+    // Use the improved processTranscript method directly
+    const response = await aiService.processTranscript({
       content: {
         transcript: transcript.map(seg => ({
-          text: seg.text,
-          startTime: seg.startTime,
-          endTime: seg.endTime
+          text: seg.text || '',
+          startTime: seg.startTime || 0,
+          endTime: seg.endTime || 0
         })),
         videoTitle,
         language: 'ja'
@@ -151,19 +151,8 @@ async function formatTranscriptWithAI(
       splitForShadowing: true,
       maxSegmentLength: 20,
       addFurigana: false
-    };
-
-    // Call unified AI service
-    const response = await aiService.process({
-      task: 'clean_transcript',
-      content: request,
-      config: {
-        jlptLevel: 'N4' // Default level
-      },
-      metadata: {
-        source: 'youtube-extract',
-        contentId
-      }
+    }, {
+      jlptLevel: 'N4'
     });
 
     if (!response.success || !response.data) {
@@ -171,14 +160,44 @@ async function formatTranscriptWithAI(
       return null;
     }
 
-    // Convert back to the expected format
-    const formattedTranscript = response.data.segments.map(seg => ({
-      id: seg.id,
-      text: seg.text,
-      startTime: seg.startTime,
-      endTime: seg.endTime,
-      words: [seg.text]
-    }));
+    // Validate segments before processing
+    const segments = response.data.segments || [];
+    const validSegments = segments.filter(seg =>
+      seg &&
+      seg.text &&
+      typeof seg.text === 'string' &&
+      seg.text.trim().length > 0
+    );
+
+    if (validSegments.length === 0) {
+      console.error('❌ [AI] No valid segments in response');
+      return null;
+    }
+
+    // Calculate proper timing if needed
+    const totalDuration = transcript[transcript.length - 1].endTime - transcript[0].startTime;
+    const fullText = transcript.map(line => line.text || '').join('');
+    const avgTimePerChar = fullText.length > 0 ? totalDuration / fullText.length : 3;
+    let currentTime = transcript[0].startTime || 0;
+
+    // Convert to the expected format with proper timing
+    const formattedTranscript = validSegments.map((seg, index) => {
+      const duration = seg.text.length * avgTimePerChar;
+      const result = {
+        id: seg.id || `seg_${index + 1}`,
+        text: seg.text,
+        startTime: seg.startTime !== undefined ? seg.startTime : currentTime,
+        endTime: seg.endTime !== undefined ? seg.endTime : currentTime + duration,
+        words: [seg.text]
+      };
+
+      // Update currentTime for next segment if we're calculating
+      if (seg.startTime === undefined) {
+        currentTime += duration;
+      }
+
+      return result;
+    });
 
     // Log statistics
     const lengths = formattedTranscript.map(s => s.text.length);
@@ -187,8 +206,13 @@ async function formatTranscriptWithAI(
 
     console.log(`✅ [AI] Successfully formatted ${formattedTranscript.length} segments`);
     console.log(`📊 [AI] Avg length: ${avgLength.toFixed(1)} chars, Long segments (>20): ${longSegments}/${formattedTranscript.length}`);
+
     if (response.cached) {
       console.log(`💾 [AI] Response was cached`);
+    }
+
+    if (response.usage) {
+      console.log(`💰 [AI] Cost: $${response.usage.estimatedCost.toFixed(4)} | Tokens: ${response.usage.totalTokens}`);
     }
 
     if (longSegments > 0) {
@@ -197,8 +221,14 @@ async function formatTranscriptWithAI(
 
     return formattedTranscript;
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ [AI] Error formatting transcript:', error);
+    console.error('❌ [AI] Error details:', {
+      name: error?.name || 'Unknown',
+      message: error?.message || String(error),
+      code: error?.code,
+      details: error?.details
+    });
     return null;
   }
 }
@@ -377,15 +407,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate session to get user information
-    const session = await validateSession(request);
-    const isAuthenticated = !!session;
-    const userId = session?.userId;
+    // Get session to get user information
+    let session = null;
+    let isAuthenticated = false;
+    let userId = 'anonymous';
+
+    try {
+      session = await getSession();
+      console.log('🔐 [DEBUG] Raw session:', session);
+      isAuthenticated = !!session;
+      userId = session?.uid || 'anonymous';
+    } catch (sessionError) {
+      console.error('🔐 [ERROR] Failed to get session:', sessionError);
+      // Continue without authentication - allow anonymous access
+      isAuthenticated = false;
+      userId = 'anonymous';
+    }
 
     console.log('🔐 [AUTH] Session validation:', {
       isAuthenticated,
-      userId: userId || 'anonymous',
-      userEmail: session?.email || 'none'
+      userId,
+      userEmail: session?.email || 'none',
+      tier: session?.tier,
+      sessionData: session
     });
 
     // Extract video ID for YouTube API calls (need this BEFORE creating contentId)
@@ -401,7 +445,7 @@ export async function POST(request: NextRequest) {
 
       if (cachedTranscript && cachedTranscript.transcript.length > 0) {
         // Save to YouTube history even for cached videos (to update watch count)
-        if (userId) {
+        if (isAuthenticated && userId && userId !== 'anonymous') {
           await saveToYouTubeHistory(
             userId,
             videoId,
@@ -557,9 +601,14 @@ export async function POST(request: NextRequest) {
         console.log('SupaData response data keys:', Object.keys(supaResponse.data || {}));
 
           // Check if Japanese subtitles are available
-          if (supaResponse.data.lang !== 'ja' && !supaResponse.data.availableLangs?.includes('ja')) {
+          const hasJapanese = supaResponse.data.lang === 'ja' ||
+                             supaResponse.data.lang?.startsWith('ja') ||
+                             supaResponse.data.availableLangs?.some(lang => lang.startsWith('ja'));
 
-            throw new Error('No Japanese subtitles available');
+          if (!hasJapanese) {
+            console.warn('⚠️ No Japanese subtitles available, using available language:', supaResponse.data.lang);
+            // Continue with available language instead of throwing error
+            // Many Japanese learning videos might have English subtitles
           }
 
           // Parse SupaData response to our format
@@ -598,12 +647,18 @@ export async function POST(request: NextRequest) {
             // Format transcript with AI for Japanese content
             // TEMPORARILY: Always try formatting for testing
             let formattedTranscript = null;
-            console.log('🤖 [EXTRACT] Attempting AI formatting (TESTING MODE - always format)');
-            formattedTranscript = await formatTranscriptWithAI(
-              transcript,
-              videoMetadata?.title || supaResponse.data.title,
-              contentId
-            );
+            const isJapaneseContent = hasJapanese ||
+                                     videoMetadata?.title?.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/) ||
+                                     transcript.some(t => t.text?.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/));
+
+            if (isJapaneseContent || true) { // Always format for testing
+              console.log('🤖 [EXTRACT] Attempting AI formatting (language:', supaResponse.data.lang, ')');
+              formattedTranscript = await formatTranscriptWithAI(
+                transcript,
+                videoMetadata?.title || supaResponse.data.title,
+                contentId
+              );
+            }
 
             // Only cache if we have the AI-processed version
             if (formattedTranscript && formattedTranscript.length > 0) {
@@ -632,7 +687,7 @@ export async function POST(request: NextRequest) {
             }
 
             // Save to YouTube history if user is authenticated
-            if (userId) {
+            if (isAuthenticated && userId && userId !== 'anonymous') {
               await saveToYouTubeHistory(
                 userId,
                 videoId,
@@ -652,12 +707,13 @@ export async function POST(request: NextRequest) {
               success: true,
               transcript,
               formattedTranscript,
-              language: 'ja',
+              language: supaResponse.data.lang || 'ja',
               isAutoGenerated: false, // SupaData provides quality transcripts
               videoTitle: videoMetadata?.title || supaResponse.data.title || 'Unknown',
               videoMetadata: videoMetadata,
               method: 'supadata-ai',
-              hasFormattedVersion: !!formattedTranscript
+              hasFormattedVersion: !!formattedTranscript,
+              availableLanguages: supaResponse.data.availableLangs || [supaResponse.data.lang]
             });
           }
       } else if (lastError) {

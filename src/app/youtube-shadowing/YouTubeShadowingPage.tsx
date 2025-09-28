@@ -64,6 +64,9 @@ function YouTubeShadowingContent() {
   const [viewMode, setViewMode] = useState<'input' | 'player'>('input');
 
   const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({});
+  const sessionStartTimeRef = useRef<number | null>(null);
+  const lastSaveTimeRef = useRef<number | null>(null);
+  const autoSaveIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize video history and practice history services
   useEffect(() => {
@@ -80,19 +83,61 @@ function YouTubeShadowingContent() {
     }
   }, [searchParams]);
 
-  // Cleanup blob URLs when component unmounts or session changes
+  // Cleanup and save on unmount
   useEffect(() => {
+    // Save practice time when page unloads
+    const handleBeforeUnload = () => {
+      savePracticeTime(true);
+    };
+
+    // Save when tab visibility changes (user switches tabs)
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        savePracticeTime(true);
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
+      // Save practice time on unmount
+      savePracticeTime(true);
+
+      // Clear auto-save interval
+      if (autoSaveIntervalRef.current) {
+        clearInterval(autoSaveIntervalRef.current);
+        autoSaveIntervalRef.current = null;
+      }
+
+      // Cleanup blob URLs
       if (previousUrlsRef.current.videoUrl?.startsWith('blob:')) {
         URL.revokeObjectURL(previousUrlsRef.current.videoUrl);
       }
       if (previousUrlsRef.current.audioUrl?.startsWith('blob:')) {
         URL.revokeObjectURL(previousUrlsRef.current.audioUrl);
       }
+
+      // Remove event listeners
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [session]); // Add session dependency to track changes
 
   const updateSession = (newSession: ShadowingSession | null) => {
+    // Save practice time for the previous session before switching
+    if (session && newSession && session.videoUrl !== newSession.videoUrl) {
+      savePracticeTime(true);
+      // Reset timer for new session
+      sessionStartTimeRef.current = null;
+      lastSaveTimeRef.current = null;
+      // Clear auto-save interval
+      if (autoSaveIntervalRef.current) {
+        clearInterval(autoSaveIntervalRef.current);
+        autoSaveIntervalRef.current = null;
+      }
+    }
+
     // Cleanup previous blob URLs
     if (session?.videoUrl?.startsWith('blob:') && session.videoUrl !== newSession?.videoUrl) {
       URL.revokeObjectURL(session.videoUrl);
@@ -207,6 +252,46 @@ function YouTubeShadowingContent() {
     return null;
   };
 
+  // Save practice time to backend
+  const savePracticeTime = async (finalSave: boolean = false) => {
+    if (!session || !sessionStartTimeRef.current) return;
+
+    const currentTime = Date.now();
+    const practiceTimeInSeconds = Math.floor((currentTime - sessionStartTimeRef.current) / 1000);
+
+    // Skip if less than 5 seconds (avoid accidental tracking)
+    if (practiceTimeInSeconds < 5 && !finalSave) return;
+
+    // Skip if we saved recently (within 10 seconds) unless it's final save
+    if (!finalSave && lastSaveTimeRef.current && (currentTime - lastSaveTimeRef.current) < 10000) {
+      return;
+    }
+
+    const videoId = extractVideoId(session.videoUrl);
+    if (!videoId || session.videoUrl.startsWith('blob:')) return;
+
+    try {
+      await fetch('/api/practice/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          videoUrl: session.videoUrl,
+          videoTitle: session.videoTitle || session.videoMetadata?.title || 'Unknown Video',
+          videoId: videoId,
+          thumbnailUrl: session.videoMetadata?.thumbnails?.high?.url || session.videoMetadata?.thumbnails?.default?.url,
+          channelName: session.videoMetadata?.channelTitle,
+          duration: session.videoMetadata?.duration ? parseDuration(session.videoMetadata.duration) : undefined,
+          practiceTime: practiceTimeInSeconds,
+          metadata: session.videoMetadata
+        })
+      });
+
+      lastSaveTimeRef.current = currentTime;
+    } catch (error) {
+      console.error('Error saving practice time:', error);
+    }
+  };
+
   const handleAudioExtracted = (audioUrl: string, title?: string) => {
     if (session) {
       updateSession({
@@ -226,12 +311,25 @@ function YouTubeShadowingContent() {
         ...(videoMetadata && { videoMetadata })
       });
 
-      // Track practice history when transcript is loaded (session starts)
+      // Start tracking session time
+      sessionStartTimeRef.current = Date.now();
+      lastSaveTimeRef.current = null;
+
+      // Clear any existing auto-save interval
+      if (autoSaveIntervalRef.current) {
+        clearInterval(autoSaveIntervalRef.current);
+      }
+
+      // Set up auto-save every 30 seconds for long sessions
+      autoSaveIntervalRef.current = setInterval(() => {
+        savePracticeTime(false);
+      }, 30000);
+
+      // Initial track without practice time (just to register the video)
       if (session.videoUrl && !session.videoUrl.startsWith('blob:')) {
         const videoId = extractVideoId(session.videoUrl);
         if (videoId) {
           try {
-            // Track practice via API
             await fetch('/api/practice/track', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -242,6 +340,7 @@ function YouTubeShadowingContent() {
                 thumbnailUrl: videoMetadata?.thumbnails?.high?.url || videoMetadata?.thumbnails?.default?.url,
                 channelName: videoMetadata?.channelTitle,
                 duration: videoMetadata?.duration ? parseDuration(videoMetadata.duration) : undefined,
+                practiceTime: 0, // Start with 0, will update later
                 metadata: videoMetadata
               })
             });

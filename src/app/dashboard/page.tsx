@@ -4,9 +4,12 @@ import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useI18n } from '@/i18n/I18nContext'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Tooltip from '@/components/ui/Tooltip'
@@ -41,6 +44,7 @@ function DashboardContent() {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [hasCheckedFirstVisit, setHasCheckedFirstVisit] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
+  const [isWelcomeExpanded, setIsWelcomeExpanded] = useState(false)
 
   // Subscription state
   const { subscription, isPremium } = useSubscription()
@@ -303,101 +307,365 @@ function DashboardContent() {
           <GuestModeBanner className="mb-6" />
         )}
 
-        {/* Welcome Section and Stats in Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Welcome Section with Doshi - Takes 2 columns on desktop */}
-          <div className="lg:col-span-2 bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 dark:border-dark-700/30">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-              <DoshiMascot
-                size="large"
-                variant="animated"
-                onClick={() => showToast('Doshi says: がんばって! (Good luck!)', 'success')}
-                className="flex-shrink-0 hover:scale-105 transition-transform duration-300"
-                priority={true}
-              />
+        {/* Welcome Section - Mobile Collapsible, Desktop Full */}
+        <div className="mb-8">
+          {/* Mobile Version - Collapsible */}
+          <div className="sm:hidden">
+            <div className="bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 dark:border-dark-700/30 relative">
+              {/* Compact Doshi Card with Moshimoshi Logo */}
+              <div className="relative p-6 flex items-center justify-center gap-4">
+                <DoshiMascot
+                  size="medium"
+                  variant="animated"
+                  onClick={() => showToast('Doshi says: がんばって! (Good luck!)', 'success')}
+                  className="hover:scale-105 transition-transform duration-300"
+                  priority={true}
+                />
+                <MoshimoshiLogo size="small" animated={true} />
 
-              <div className="flex-1 text-center sm:text-left space-y-3">
-                {/* Japanese Greeting with Furigana-style Translation */}
-                <div className="inline-flex flex-col items-center sm:items-start">
-                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium mb-1 tracking-wider">
-                    {greeting.translation}
-                  </span>
-                  <span className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent animate-gradient tracking-tight leading-none">
-                    {greeting.text}
-                  </span>
-                </div>
-
-                {/* User Name with San - Improved Typography */}
-                <h1 className="flex items-baseline justify-center sm:justify-start flex-wrap">
-                  <span className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
-                    {(() => {
-                      const name = user?.displayName || user?.email?.split('@')[0] || 'Learner';
-                      // Properly capitalize each word
-                      return name.split(' ').map(word => {
-                        if (word.length === 0) return '';
-                        // Handle special cases like "O'Connor" or "McDonald"
-                        if (word.includes("'")) {
-                          const parts = word.split("'");
-                          return parts.map(part =>
-                            part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
-                          ).join("'");
-                        }
-                        if (word.toLowerCase().startsWith('mc')) {
-                          return 'Mc' + word.charAt(2).toUpperCase() + word.slice(3).toLowerCase();
-                        }
-                        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-                      }).join(' ');
-                    })()}
-                  </span>
-                  <span className="text-2xl sm:text-3xl font-medium text-gray-600 dark:text-gray-400 ml-2">
-                    さん
-                  </span>
-                </h1>
-
-                {/* Welcome Message */}
-                <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-light">
-                  {isFirstVisit
-                    ? strings.dashboard?.welcome?.firstVisit || "Welcome to your Japanese learning adventure! Doshi is here to guide you."
-                    : strings.dashboard?.welcome?.returning || "Ready to continue your journey? Your dedication is inspiring!"}
-                </p>
-
-                {/* Optional Motivational Tagline - Enhanced */}
-                {reviewStats.currentStreak > 0 && (
-                  <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 rounded-full">
-                      <span className="text-xl animate-pulse">🔥</span>
-                      <span className="text-sm font-semibold text-orange-700 dark:text-orange-300">
-                        {reviewStats.currentStreak} {reviewStats.currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
-                      </span>
-                    </div>
-                  </div>
-                )}
+                {/* Expand/Collapse Button - Bottom Right */}
+                <button
+                  onClick={() => setIsWelcomeExpanded(!isWelcomeExpanded)}
+                  className="absolute bottom-2 right-4 p-2 bg-white/50 dark:bg-dark-700/50 backdrop-blur rounded-full shadow-md hover:bg-white/70 dark:hover:bg-dark-700/70 transition-all"
+                  aria-label={isWelcomeExpanded ? "Collapse" : "Expand"}
+                >
+                  <motion.div
+                    animate={{ rotate: isWelcomeExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                  </motion.div>
+                </button>
               </div>
+
+              {/* Expandable Content with Animation */}
+              <AnimatePresence mode="wait">
+                {isWelcomeExpanded && (
+                  <motion.div
+                    initial={{
+                      height: 0,
+                      opacity: 0,
+                      scale: 0.95
+                    }}
+                    animate={{
+                      height: 'auto',
+                      opacity: 1,
+                      scale: 1,
+                      transition: {
+                        height: {
+                          type: "spring",
+                          damping: 20,
+                          stiffness: 100,
+                          duration: 1.2
+                        },
+                        opacity: {
+                          duration: 0.8,
+                          ease: "easeOut"
+                        },
+                        scale: {
+                          type: "spring",
+                          damping: 15,
+                          stiffness: 150,
+                          delay: 0.2
+                        }
+                      }
+                    }}
+                    exit={{
+                      height: 0,
+                      opacity: 0,
+                      scale: 0.95,
+                      transition: {
+                        height: {
+                          type: "spring",
+                          damping: 25,
+                          stiffness: 300,
+                          duration: 0.4
+                        },
+                        opacity: {
+                          duration: 0.2,
+                          ease: "easeIn"
+                        },
+                        scale: {
+                          duration: 0.2
+                        }
+                      }
+                    }}
+                    className="overflow-hidden"
+                  >
+                    <motion.div
+                      className="px-6 pb-6 space-y-4"
+                      initial="hidden"
+                      animate="visible"
+                      variants={{
+                        visible: {
+                          transition: {
+                            staggerChildren: 0.15,
+                            delayChildren: 0.4
+                          }
+                        },
+                        hidden: {}
+                      }}
+                    >
+                      {/* Greeting Section */}
+                      <motion.div
+                        className="text-center space-y-2"
+                        variants={{
+                          hidden: { y: 20, opacity: 0 },
+                          visible: {
+                            y: 0,
+                            opacity: 1,
+                            transition: {
+                              type: "spring",
+                              damping: 18,
+                              stiffness: 150,
+                              duration: 0.8
+                            }
+                          }
+                        }}
+                      >
+                        <div className="inline-flex flex-col items-center">
+                          <span className="text-xs text-gray-500 dark:text-gray-400 font-medium mb-1 tracking-wider">
+                            {greeting.translation}
+                          </span>
+                          <span className="text-4xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent animate-gradient tracking-tight leading-none">
+                            {greeting.text}
+                          </span>
+                        </div>
+
+                        <h1 className="flex items-baseline justify-center flex-wrap">
+                          <span className="text-2xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+                            {(() => {
+                              const name = user?.displayName || user?.email?.split('@')[0] || 'Learner';
+                              return name.split(' ').map(word => {
+                                if (word.length === 0) return '';
+                                if (word.includes("'")) {
+                                  const parts = word.split("'");
+                                  return parts.map(part =>
+                                    part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+                                  ).join("'");
+                                }
+                                if (word.toLowerCase().startsWith('mc')) {
+                                  return 'Mc' + word.charAt(2).toUpperCase() + word.slice(3).toLowerCase();
+                                }
+                                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                              }).join(' ');
+                            })()}
+                          </span>
+                          <span className="text-xl font-medium text-gray-600 dark:text-gray-400 ml-2">
+                            さん
+                          </span>
+                        </h1>
+                      </motion.div>
+
+                      {/* Streak Badge */}
+                      {reviewStats.currentStreak > 0 && (
+                        <motion.div
+                          className="flex justify-center"
+                          variants={{
+                            hidden: { scale: 0, opacity: 0 },
+                            visible: {
+                              scale: 1,
+                              opacity: 1,
+                              transition: {
+                                type: "spring",
+                                damping: 12,
+                                stiffness: 150,
+                                bounce: 0.4,
+                                duration: 1
+                              }
+                            }
+                          }}
+                        >
+                          <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 rounded-full">
+                            <span className="text-lg animate-pulse">🔥</span>
+                            <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
+                              {reviewStats.currentStreak} {reviewStats.currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                            </span>
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* Stats Grid - First 4 stats for mobile */}
+                      <motion.div
+                        className="grid grid-cols-2 gap-3"
+                        variants={{
+                          hidden: { opacity: 0 },
+                          visible: {
+                            opacity: 1,
+                            transition: {
+                              staggerChildren: 0.12,
+                              delayChildren: 0.1
+                            }
+                          }
+                        }}
+                      >
+                        {learningStats.slice(0, 4).map((stat, index) => (
+                          <motion.div
+                            key={stat.label}
+                            className="bg-white/50 dark:bg-dark-700/50 backdrop-blur-sm rounded-xl p-3 shadow-md"
+                            variants={{
+                              hidden: {
+                                opacity: 0,
+                                y: 20,
+                                scale: 0.8
+                              },
+                              visible: {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                transition: {
+                                  type: "spring",
+                                  damping: 15,
+                                  stiffness: 120,
+                                  duration: 0.8
+                                }
+                              }
+                            }}
+                            whileHover={{
+                              scale: 1.05,
+                              transition: { duration: 0.2 }
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                              {stat.value}
+                            </div>
+                            <div className="text-xs text-gray-500 dark:text-gray-400">{String(stat.unit || '')}</div>
+                            <div className="text-xs font-medium text-gray-700 dark:text-gray-300 mt-1">
+                              {String(stat.label || '')}
+                            </div>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+
+                      {/* Pokedex Card in Expandable Section */}
+                      <motion.div
+                        variants={{
+                          hidden: {
+                            opacity: 0,
+                            y: 30,
+                            scale: 0.9,
+                            rotateX: -15
+                          },
+                          visible: {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            rotateX: 0,
+                            transition: {
+                              type: "spring",
+                              damping: 14,
+                              stiffness: 100,
+                              delay: 0.3,
+                              duration: 1
+                            }
+                          }
+                        }}
+                        style={{ transformPerspective: 1000 }}
+                      >
+                        <PokedexCard isPremium={false} />
+                      </motion.div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
-          {/* Stats Grid - 2x3 grid in 1 column on desktop */}
-          <div className="lg:col-span-1 grid grid-cols-2 gap-3 h-full">
-            {learningStats.slice(0, 6).map((stat, index) => (
-              <div
-                key={stat.label}
-                className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className={`text-xl lg:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                  {stat.value}
-                </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">{String(stat.unit || '')}</div>
-                <div className="text-xs font-medium text-gray-700 dark:text-gray-300 mt-1">
-                  {String(stat.label || '')}
+          {/* Desktop Version - Original Layout */}
+          <div className="hidden sm:grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Welcome Section with Doshi - Takes 2 columns on desktop */}
+            <div className="lg:col-span-2 bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 dark:border-dark-700/30">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                <DoshiMascot
+                  size="large"
+                  variant="animated"
+                  onClick={() => showToast('Doshi says: がんばって! (Good luck!)', 'success')}
+                  className="flex-shrink-0 hover:scale-105 transition-transform duration-300"
+                  priority={true}
+                />
+
+                <div className="flex-1 text-center sm:text-left space-y-3">
+                  {/* Japanese Greeting with Furigana-style Translation */}
+                  <div className="inline-flex flex-col items-center sm:items-start">
+                    <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium mb-1 tracking-wider">
+                      {greeting.translation}
+                    </span>
+                    <span className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent animate-gradient tracking-tight leading-none">
+                      {greeting.text}
+                    </span>
+                  </div>
+
+                  {/* User Name with San - Improved Typography */}
+                  <h1 className="flex items-baseline justify-center sm:justify-start flex-wrap">
+                    <span className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+                      {(() => {
+                        const name = user?.displayName || user?.email?.split('@')[0] || 'Learner';
+                        return name.split(' ').map(word => {
+                          if (word.length === 0) return '';
+                          if (word.includes("'")) {
+                            const parts = word.split("'");
+                            return parts.map(part =>
+                              part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+                            ).join("'");
+                          }
+                          if (word.toLowerCase().startsWith('mc')) {
+                            return 'Mc' + word.charAt(2).toUpperCase() + word.slice(3).toLowerCase();
+                          }
+                          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                        }).join(' ');
+                      })()}
+                    </span>
+                    <span className="text-2xl sm:text-3xl font-medium text-gray-600 dark:text-gray-400 ml-2">
+                      さん
+                    </span>
+                  </h1>
+
+                  {/* Welcome Message */}
+                  <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-light">
+                    {isFirstVisit
+                      ? strings.dashboard?.welcome?.firstVisit || "Welcome to your Japanese learning adventure! Doshi is here to guide you."
+                      : strings.dashboard?.welcome?.returning || "Ready to continue your journey? Your dedication is inspiring!"}
+                  </p>
+
+                  {/* Optional Motivational Tagline - Enhanced */}
+                  {reviewStats.currentStreak > 0 && (
+                    <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 rounded-full">
+                        <span className="text-xl animate-pulse">🔥</span>
+                        <span className="text-sm font-semibold text-orange-700 dark:text-orange-300">
+                          {reviewStats.currentStreak} {reviewStats.currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Stats Grid - 2x3 grid in 1 column on desktop */}
+            <div className="lg:col-span-1 grid grid-cols-2 gap-3 h-full">
+              {learningStats.slice(0, 6).map((stat, index) => (
+                <div
+                  key={stat.label}
+                  className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className={`text-xl lg:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">{String(stat.unit || '')}</div>
+                  <div className="text-xs font-medium text-gray-700 dark:text-gray-300 mt-1">
+                    {String(stat.label || '')}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Pokedex Card - Shows only if Pokemon caught */}
-        <div className="mb-8">
+        {/* Pokedex Card - Desktop only (mobile shows in expandable welcome) */}
+        <div className="hidden sm:block mb-8">
           <PokedexCard isPremium={false} />
         </div>
 

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "/home/beano/.nvm/versions/node/v22.14.0/bin/npx",
+      "args": ["-y", "@upstash/context7-mcp", "--api-key", "ctx7sk-dcfaf474-bd14-4e0e-be5e-f6e81e90d0b9"]
+    },
+    "memory-man": {
+      "command": "/home/beano/DevProjects/python/MCP_SERVERS/memory-man/venv/bin/python",
+      "args": [
+        "/home/beano/DevProjects/python/MCP_SERVERS/memory-man/src/memory_man/server_wrapper.py"
+      ]
+    }
+  }
+}
+
+

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import ArticleReader from '@/components/ArticleReader';
+import EnhancedArticleReader from '@/components/news/EnhancedArticleReader';
 import Navbar from '@/components/layout/Navbar';
 import { useI18n } from '@/i18n/I18nContext';
 
@@ -42,12 +42,12 @@ export default function NewsArticlePage() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/news/articles?id=${params.id}`);
+      const response = await fetch(`/api/news/article/${params.id}`);
       if (!response.ok) throw new Error('Failed to fetch article');
 
       const data = await response.json();
-      if (data.data && data.data.length > 0) {
-        setArticle(data.data[0]);
+      if (data.success && data.article) {
+        setArticle(data.article);
       } else {
         throw new Error('Article not found');
       }
@@ -108,7 +108,7 @@ export default function NewsArticlePage() {
         href: '/news',
         label: t('news.backToNews', 'Back to news list')
       }} />
-      <ArticleReader article={article} onBack={handleBack} />
+      <EnhancedArticleReader article={article} onBack={handleBack} />
     </div>
   );
 }

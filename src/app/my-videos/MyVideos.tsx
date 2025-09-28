@@ -26,6 +26,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useFeature } from '@/hooks/useFeature';
+import { useSubscription } from '@/hooks/useSubscription';
 import { PracticeHistoryItem } from '@/services/practiceHistory/types';
 import Navbar from '@/components/layout/Navbar';
 import { useToast } from '@/components/ui/Toast/ToastContext';
@@ -35,6 +36,7 @@ export default function MyVideos() {
   const { t, strings } = useI18n();
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
+  const { isPremium, isFreeTier } = useSubscription();
   const { checkAndTrack, remaining } = useFeature('media_upload');
   const { showToast } = useToast();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,6 +49,15 @@ export default function MyVideos() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'recent' | 'mostPracticed'>('recent');
   const [userTier, setUserTier] = useState<string>('guest');
+  const [stats, setStats] = useState<{
+    totalVideos: number;
+    totalPracticeCount: number;
+    totalPracticeTime: number;
+  }>({
+    totalVideos: 0,
+    totalPracticeCount: 0,
+    totalPracticeTime: 0
+  });
   const [showFilters, setShowFilters] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<{
     isOpen: boolean;
@@ -69,16 +80,71 @@ export default function MyVideos() {
     try {
       setIsLoading(true);
 
-      // Fetch videos from API
-      const response = await fetch(`/api/practice/track?limit=100&sortBy=${sortBy}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch videos');
-      }
+      // Use subscription hook to check premium status
+      if (!user || isFreeTier) {
+        // For free users and guests, load from IndexedDB/localStorage
+        try {
+          // Dynamically import only the IndexedDB storage which is browser-safe
+          const { IndexedDBPracticeHistoryStorage } = await import('@/services/practiceHistory/IndexedDBStorage');
+          const storage = new IndexedDBPracticeHistoryStorage();
+          await storage.init();
 
-      const data = await response.json();
-      setVideos(data.items || []);
-      setFilteredVideos(data.items || []);
-      setUserTier(data.userTier || 'guest');
+          const localVideos = await storage.getAllItems();
+
+          // Sort videos based on sortBy
+          if (sortBy === 'recent') {
+            localVideos.sort((a, b) => new Date(b.lastPracticed).getTime() - new Date(a.lastPracticed).getTime());
+          } else if (sortBy === 'mostPracticed') {
+            localVideos.sort((a, b) => b.practiceCount - a.practiceCount);
+          }
+
+          setVideos(localVideos);
+          setFilteredVideos(localVideos);
+          setUserTier(user ? 'free' : 'guest');
+
+          // Calculate stats from local data
+          setStats({
+            totalVideos: localVideos.length,
+            totalPracticeCount: localVideos.reduce((sum, v) => sum + (v.practiceCount || 0), 0),
+            totalPracticeTime: localVideos.reduce((sum, v) => sum + (v.totalPracticeTime || 0), 0)
+          });
+        } catch (localError) {
+          console.error('Error loading local videos:', localError);
+          // Fallback to empty state
+          setVideos([]);
+          setFilteredVideos([]);
+          setUserTier(user ? 'free' : 'guest');
+          setStats({
+            totalVideos: 0,
+            totalPracticeCount: 0,
+            totalPracticeTime: 0
+          });
+        }
+      } else {
+        // For premium users, fetch from API (Firebase)
+        const response = await fetch(`/api/practice/track?limit=100&sortBy=${sortBy}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch videos');
+        }
+
+        const data = await response.json();
+        setVideos(data.items || []);
+        setFilteredVideos(data.items || []);
+        setUserTier(data.userTier || 'guest');
+
+        // Use stats from API if available, otherwise calculate from items
+        if (data.stats) {
+          setStats(data.stats);
+        } else {
+          // Fallback calculation for older API or localStorage data
+          const items = data.items || [];
+          setStats({
+            totalVideos: items.length,
+            totalPracticeCount: items.reduce((sum: number, v: any) => sum + (v.practiceCount || 0), 0),
+            totalPracticeTime: items.reduce((sum: number, v: any) => sum + (v.totalPracticeTime || 0), 0)
+          });
+        }
+      }
     } catch (error) {
       console.error('Error loading videos:', error);
       showToast(t('common.error'), 'error');
@@ -125,20 +191,37 @@ export default function MyVideos() {
     setDeleteConfirm(prev => ({ ...prev, isDeleting: true }));
 
     try {
-      // Call API to delete video
-      const response = await fetch('/api/practice/track', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ videoId: deleteConfirm.video.videoId })
-      });
+      const deletedVideo = deleteConfirm.video!;
 
-      if (!response.ok) {
-        throw new Error('Failed to delete video');
+      if (!user || isFreeTier) {
+        // For free users, delete from IndexedDB/localStorage
+        const { IndexedDBPracticeHistoryStorage } = await import('@/services/practiceHistory/IndexedDBStorage');
+        const storage = new IndexedDBPracticeHistoryStorage();
+        await storage.init();
+        await storage.removeItem(deletedVideo.videoId);
+      } else {
+        // For premium users, call API to delete video
+        const response = await fetch('/api/practice/track', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ videoId: deletedVideo.videoId })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete video');
+        }
       }
 
       // Update local state
-      setVideos(prev => prev.filter(v => v.videoId !== deleteConfirm.video!.videoId));
-      setFilteredVideos(prev => prev.filter(v => v.videoId !== deleteConfirm.video!.videoId));
+      setVideos(prev => prev.filter(v => v.videoId !== deletedVideo.videoId));
+      setFilteredVideos(prev => prev.filter(v => v.videoId !== deletedVideo.videoId));
+
+      // Update stats
+      setStats(prev => ({
+        totalVideos: prev.totalVideos - 1,
+        totalPracticeCount: prev.totalPracticeCount - (deletedVideo.practiceCount || 0),
+        totalPracticeTime: prev.totalPracticeTime - (deletedVideo.totalPracticeTime || 0)
+      }));
       setDeleteConfirm({ isOpen: false, video: null, isDeleting: false });
       showToast(t('common.success'), 'success');
     } catch (error) {
@@ -168,9 +251,7 @@ export default function MyVideos() {
     return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
   };
 
-  // Calculate stats
-  const totalPracticeTime = videos.reduce((sum, v) => sum + (v.totalPracticeTime || 0), 0);
-  const totalPracticeCount = videos.reduce((sum, v) => sum + v.practiceCount, 0);
+  // Stats are now managed in state from API response
 
   // Show login required for guests
   if (!authLoading && !user) {
@@ -296,7 +377,7 @@ export default function MyVideos() {
                   </span>
                 </div>
                 <p className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                  {videos.length}
+                  {stats.totalVideos}
                 </p>
                 <div className="mt-2 h-1 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full opacity-50" />
               </div>
@@ -318,7 +399,7 @@ export default function MyVideos() {
                   </span>
                 </div>
                 <p className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                  {totalPracticeCount}
+                  {stats.totalPracticeCount}
                 </p>
                 <div className="mt-2 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full opacity-50" />
               </div>
@@ -340,7 +421,7 @@ export default function MyVideos() {
                   </span>
                 </div>
                 <p className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                  {Math.round(totalPracticeTime / 60)}
+                  {Math.round(stats.totalPracticeTime / 60)}
                   <span className="text-lg ml-1 opacity-70">min</span>
                 </p>
                 <div className="mt-2 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full opacity-50" />

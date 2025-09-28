@@ -6,6 +6,7 @@ import { scrapeMainichiNews } from '@/utils/scrapers/mainichi-news';
 import { scrapeMainichiShogakusei } from '@/utils/scrapers/mainichi-shogakusei';
 import { db } from '@/lib/firebase/admin';
 import { Timestamp, FieldValue } from 'firebase-admin/firestore';
+import { quickValidate, filterArticles, checkDuplicates } from '@/utils/article-validation';
 
 // Simple in-memory cache to prevent too frequent scraping
 const scrapeCache = new Map<string, { data: any; timestamp: number }>();
@@ -16,6 +17,9 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const source = searchParams.get('source') || 'nhk-easy';
     const force = searchParams.get('force') === 'true';
+
+    // Check for internal request header (from Firebase functions)
+    const isInternal = request.headers.get('X-Internal-Request') === 'true';
 
     // Check cache if not forcing
     if (!force) {
@@ -60,27 +64,65 @@ export async function GET(request: NextRequest) {
         );
     }
 
-    // Store in Firestore
-    if (articles.length > 0 && db) {
-      try {
-        const batch = db.batch();
+    // Validate and filter articles
+    let validArticles = articles;
 
-        for (const article of articles) {
-          const docRef = db.collection('news_articles').doc(article.id);
-          batch.set(docRef, {
-            ...article,
-            publishDate: Timestamp.fromDate(article.publishDate),
-            createdAt: FieldValue.serverTimestamp(),
-            lastUpdated: FieldValue.serverTimestamp(),
-          }, { merge: true });
-        }
+    if (articles.length > 0) {
+      // Remove duplicates
+      validArticles = checkDuplicates(articles);
 
-        await batch.commit();
-        console.log(`✅ Stored ${articles.length} articles in Firestore`);
-      } catch (error) {
-        console.error('❌ Failed to store in Firestore:', error);
-        // Continue even if storage fails
+      // Filter out invalid articles
+      const { valid, rejected } = filterArticles(validArticles.map(a => ({
+        title: a.title,
+        content: a.content,
+        url: a.url,
+        source: a.source,
+        publishDate: a.publishDate
+      })));
+
+      if (rejected.length > 0) {
+        console.log(`⚠️ Rejected ${rejected.length} invalid articles from ${scraperName}`);
       }
+
+      // Store valid articles in Firestore
+      if (valid.length > 0 && db) {
+        try {
+          const batch = db.batch();
+          const processedIds = [];
+
+          for (const article of articles.filter(a =>
+            valid.some(v => v.url === a.url)
+          )) {
+            const docRef = db.collection('news_articles').doc(article.id);
+            // Clean up undefined values
+            const articleData: any = {
+              ...article,
+              publishDate: Timestamp.fromDate(article.publishDate),
+              createdAt: FieldValue.serverTimestamp(),
+              lastUpdated: FieldValue.serverTimestamp(),
+              validated: true,
+              visible: true // Mark as visible after validation
+            };
+            // Remove undefined fields
+            Object.keys(articleData).forEach(key => {
+              if (articleData[key] === undefined) {
+                delete articleData[key];
+              }
+            });
+            batch.set(docRef, articleData, { merge: true });
+            processedIds.push(article.id);
+          }
+
+          await batch.commit();
+          console.log(`✅ Stored ${processedIds.length} validated articles in Firestore`);
+        } catch (error) {
+          console.error('❌ Failed to store in Firestore:', error);
+          // Continue even if storage fails
+        }
+      }
+
+      // Update articles to only include valid ones
+      articles = articles.filter(a => valid.some(v => v.url === a.url));
     }
 
     const result = {

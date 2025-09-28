@@ -39,25 +39,71 @@ export class TranscriptProcessor extends BaseProcessor<TranscriptProcessRequest,
     const systemPrompt = this.getSystemPrompt(config, processingType);
     const userPrompt = this.getUserPrompt(request, config, processingType);
 
-    // Call OpenAI
-    const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt);
+    let retries = 0;
+    const maxRetries = 2;
+    let lastError: any = null;
 
-    // Parse response based on processing type
-    const processed = this.parseResponse(content, processingType);
+    while (retries <= maxRetries) {
+      try {
+        // Call OpenAI with flexible format for transcripts
+        const { content, usage } = await this.callOpenAI(
+          systemPrompt,
+          userPrompt,
+          { responseFormat: processingType === 'shadowing' ? 'text' : 'json' }
+        );
 
-    // Enhance processed transcript
-    const enhanced = this.enhanceTranscript(processed, request, config);
+        // Parse response based on processing type
+        const processed = this.parseResponse(content, processingType);
 
-    return {
-      data: enhanced,
-      usage,
-      metadata: {
-        processingType,
-        segmentCount: enhanced.segments.length,
-        language: request.content.language || 'ja',
-        videoTitle: request.content.videoTitle
+        // Validate we have valid segments
+        if (!processed.segments || processed.segments.length === 0) {
+          throw new AIServiceError(
+            'No valid segments generated',
+            'NO_SEGMENTS',
+            500
+          );
+        }
+
+        // Validate all segments have text
+        const invalidSegments = processed.segments.filter(s => !s || !s.text);
+        if (invalidSegments.length > 0) {
+          console.warn(`Found ${invalidSegments.length} invalid segments, filtering out`);
+          processed.segments = processed.segments.filter(s => s && s.text);
+        }
+
+        // Enhance processed transcript
+        const enhanced = this.enhanceTranscript(processed, request, config);
+
+        return {
+          data: enhanced,
+          usage,
+          metadata: {
+            processingType,
+            segmentCount: enhanced.segments.length,
+            language: request.content.language || 'ja',
+            videoTitle: request.content.videoTitle,
+            retries
+          }
+        };
+      } catch (error) {
+        lastError = error;
+        retries++;
+
+        if (retries <= maxRetries) {
+          console.log(`🔄 Retrying transcript processing (attempt ${retries + 1}/${maxRetries + 1})...`);
+          // Add slight delay before retry
+          await new Promise(resolve => setTimeout(resolve, 1000 * retries));
+        }
       }
-    };
+    }
+
+    // All retries failed
+    throw new AIServiceError(
+      `Failed to process transcript after ${maxRetries + 1} attempts: ${lastError?.message || 'Unknown error'}`,
+      'PROCESSING_FAILED',
+      500,
+      { originalError: lastError }
+    );
   }
 
   /**
@@ -129,9 +175,12 @@ CRITICAL RULES:
    - After て-form (して、見て、食べて)
    - After connectors (から、けど、が、のに、ので)
    - Between clauses
-5. Return ONLY a JSON array of strings
+5. Return ONLY a JSON array of strings (not objects, just strings)
+6. Each string must contain actual Japanese text, not empty
 
-Example output: ["昨日友達と", "映画を見て", "楽しかったです"]`;
+Example output: ["昨日友達と", "映画を見て", "楽しかったです"]
+
+IMPORTANT: Return a simple array of strings, NOT an array of objects.`;
 
       case 'error_correction':
         return `You are an expert in Japanese transcription. Fix errors in auto-generated transcripts while maintaining the original meaning and natural flow.
@@ -239,35 +288,90 @@ Return processed segments with vocabulary in JSON format.`;
     try {
       parsed = JSON.parse(response);
     } catch (error) {
+      console.error('Failed to parse AI response as JSON:', response.substring(0, 200));
       throw new AIServiceError(
-        'Failed to parse AI response',
+        'Failed to parse AI response as JSON',
         'PARSE_ERROR',
-        500
+        500,
+        { response: response.substring(0, 500) }
       );
     }
 
     // Handle different response formats
-    if (processingType === 'shadowing' && Array.isArray(parsed)) {
-      // Convert array of strings to segments
+    if (processingType === 'shadowing') {
+      // Handle both array of strings and array of objects
+      if (Array.isArray(parsed)) {
+        return {
+          segments: parsed.map((item, index) => {
+            // Ensure we always have a text string
+            let text = '';
+            if (typeof item === 'string') {
+              text = item;
+            } else if (item && typeof item === 'object') {
+              text = item.text || item.segment || item.content || '';
+            }
+
+            // Validate text is not empty
+            if (!text || text.trim().length === 0) {
+              console.warn(`Segment ${index + 1} has empty text, skipping`);
+              return null;
+            }
+
+            return {
+              id: `seg_${index + 1}`,
+              text: text,
+              textWithFurigana: text,
+              startTime: index * 3, // Estimate 3 seconds per segment
+              endTime: (index + 1) * 3,
+              difficulty: this.calculateDifficulty(text),
+              keyVocabulary: []
+            };
+          }).filter(seg => seg !== null) as any[], // Remove null segments
+          vocabulary: []
+        };
+      } else if (parsed.segments && Array.isArray(parsed.segments)) {
+        // Handle object with segments array
+        return this.parseResponse(JSON.stringify(parsed.segments), processingType);
+      } else {
+        throw new AIServiceError(
+          'Invalid response format for shadowing',
+          'INVALID_FORMAT',
+          500,
+          { parsed }
+        );
+      }
+    }
+
+    // Standard format - ensure segments have text
+    const segments = (parsed.segments || parsed || []);
+    if (Array.isArray(segments)) {
+      const validSegments = segments.map((seg, index) => {
+        if (typeof seg === 'string') {
+          return {
+            id: `seg_${index + 1}`,
+            text: seg,
+            startTime: index * 3,
+            endTime: (index + 1) * 3
+          };
+        } else if (seg && seg.text) {
+          return {
+            ...seg,
+            id: seg.id || `seg_${index + 1}`
+          };
+        }
+        return null;
+      }).filter(seg => seg !== null);
+
       return {
-        segments: parsed.map((text, index) => ({
-          id: `seg_${index + 1}`,
-          text: typeof text === 'string' ? text : text.text,
-          textWithFurigana: typeof text === 'string' ? text : text.furigana,
-          startTime: index * 3, // Estimate 3 seconds per segment
-          endTime: (index + 1) * 3,
-          difficulty: this.calculateDifficulty(text),
-          keyVocabulary: []
-        })),
-        vocabulary: []
+        segments: validSegments,
+        summary: parsed.summary,
+        keyPoints: parsed.keyPoints,
+        vocabulary: parsed.vocabulary || []
       };
     }
 
-    // Standard format
     return {
-      segments: parsed.segments || parsed,
-      summary: parsed.summary,
-      keyPoints: parsed.keyPoints,
+      segments: [],
       vocabulary: parsed.vocabulary || []
     };
   }
@@ -287,7 +391,7 @@ Return processed segments with vocabulary in JSON format.`;
       textWithFurigana: seg.textWithFurigana || (request.addFurigana ? this.addFurigana(seg.text) : seg.text),
       startTime: seg.startTime !== undefined ? seg.startTime : index * 3,
       endTime: seg.endTime !== undefined ? seg.endTime : (index + 1) * 3,
-      difficulty: seg.difficulty || this.calculateDifficulty(seg.text),
+      difficulty: seg.difficulty || this.calculateDifficulty(seg.text || ''),
       keyVocabulary: seg.keyVocabulary || []
     }));
 
@@ -302,15 +406,28 @@ Return processed segments with vocabulary in JSON format.`;
     }
 
     // Calculate statistics
-    const totalText = transcript.segments.map(s => s.text).join('');
-    const avgSegmentLength = totalText.length / transcript.segments.length;
+    const totalText = transcript.segments
+      .filter(s => s && s.text)
+      .map(s => s.text)
+      .join('');
+    const avgSegmentLength = transcript.segments.length > 0
+      ? totalText.length / transcript.segments.length
+      : 0;
 
     // Check segment lengths for shadowing
     if (request.splitForShadowing) {
       const maxLength = request.maxSegmentLength || 20;
-      const longSegments = transcript.segments.filter(s => s.text.length > maxLength);
+      // Filter out segments with undefined text before checking length
+      const validSegments = transcript.segments.filter(s => s && s.text);
+      const longSegments = validSegments.filter(s => s.text.length > maxLength);
       if (longSegments.length > 0) {
         console.warn(`Warning: ${longSegments.length} segments exceed ${maxLength} characters`);
+      }
+
+      // Also warn if we have invalid segments
+      const invalidCount = transcript.segments.length - validSegments.length;
+      if (invalidCount > 0) {
+        console.warn(`⚠️ [AI] ${invalidCount} segments have undefined or empty text`);
       }
     }
 
@@ -320,9 +437,16 @@ Return processed segments with vocabulary in JSON format.`;
   /**
    * Calculate difficulty level of text
    */
-  private calculateDifficulty(text: string): number {
+  private calculateDifficulty(text: string | any): number {
+    // Handle various input types safely
     if (typeof text !== 'string') {
-      text = text.text || '';
+      // If it's an object with a text property, use that
+      if (text && typeof text === 'object' && 'text' in text) {
+        text = text.text || '';
+      } else {
+        // Otherwise default to empty string
+        text = '';
+      }
     }
 
     // Simple difficulty calculation based on:

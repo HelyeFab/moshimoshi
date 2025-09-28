@@ -192,15 +192,22 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
   const cardContent = (
     <div className={`
           relative overflow-hidden rounded-2xl
-          bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm
-          border-2 border-transparent hover:border-primary-400 dark:hover:border-primary-500
+          bg-white/5 dark:bg-dark-800/5 backdrop-blur-md
+          border border-white/40 dark:border-white/20
+          hover:border-primary-400/80 dark:hover:border-primary-500/80
           shadow-xl hover:shadow-2xl ${stall.glow}
           transition-all duration-300 cursor-pointer
           group
+          before:absolute before:inset-0
+          before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-transparent
+          before:pointer-events-none
+          after:absolute after:inset-0
+          after:shadow-inner after:rounded-2xl
+          after:pointer-events-none
         `}>
       {/* Animated gradient background */}
       <div className={`
-            absolute inset-0 opacity-0 group-hover:opacity-100
+            absolute inset-0 opacity-0 group-hover:opacity-20
             bg-gradient-to-br ${stall.color}
             transition-opacity duration-500
           `} />
@@ -219,8 +226,11 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
         alt="Stall Image"
         width={48}
         height={48}
-        className="absolute top-2 right-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute top-2 right-2 opacity-60 group-hover:opacity-80 transition-opacity duration-300"
       />
+
+      {/* Content background for better readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-white/5 dark:from-black/20 dark:to-black/10 pointer-events-none" />
 
       {/* Content */}
       <div className="relative p-6 space-y-4">
@@ -230,7 +240,7 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
             {stall.icon}
           </span>
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-white transition-colors leading-tight">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight">
               {/* Split title if it contains multiple words */}
               {stall.title.split(' ').length > 1 ? (
                 <>
@@ -244,7 +254,7 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
                 stall.title
               )}
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-white/90 transition-colors">
+            <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors font-medium">
               {stall.subtitle}
             </p>
           </div>
@@ -254,26 +264,6 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
         <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors">
           {stall.description}
         </p>
-
-        {/* Progress bar */}
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-600 dark:text-gray-400 group-hover:text-white/80 transition-colors">
-              {strings.dashboard?.stats?.progress || 'Progress'}
-            </span>
-            <span className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-white transition-colors">
-              {stall.progress}%
-            </span>
-          </div>
-          <div className="h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
-            <motion.div
-              className={`h-full bg-gradient-to-r ${stall.color} rounded-full`}
-              initial={{ width: 0 }}
-              animate={{ width: `${stall.progress}%` }}
-              transition={{ delay: index * 0.05 + 0.3, duration: 1, ease: 'easeOut' }}
-            />
-          </div>
-        </div>
 
         {/* Hover indicator */}
         <motion.div
@@ -290,10 +280,10 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
             className="absolute top-4 left-4 cursor-grab active:cursor-grabbing"
             {...dragListeners}
           >
-            <div className="flex flex-col gap-1 p-2 bg-white/80 dark:bg-dark-700/80 rounded-lg shadow-md">
-              <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
-              <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
-              <span className="block w-4 h-0.5 bg-gray-400 dark:bg-gray-500"></span>
+            <div className="flex flex-col gap-1 p-2 bg-white/50 dark:bg-dark-700/50 backdrop-blur-md rounded-lg shadow-md border border-white/30 dark:border-white/10">
+              <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-400"></span>
+              <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-400"></span>
+              <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-400"></span>
             </div>
           </div>
         )}
@@ -580,7 +570,7 @@ export default function LearningVillage() {
       title: strings.dashboard?.cards?.youtubeSeries?.title || 'YouTube Series',
       subtitle: strings.dashboard?.cards?.youtubeSeries?.subtitle || 'シリーズ',
       description: strings.dashboard?.cards?.youtubeSeries?.description || 'Track YouTube channels',
-      href: '/tools/youtube-series',
+      href: '/youtube-series',
       icon: '📺',
       stallType: 'cards',
       color: 'from-amber-400 to-yellow-600',
@@ -595,7 +585,7 @@ export default function LearningVillage() {
       title: strings.dashboard?.cards?.myVideos?.title || 'My Videos',
       subtitle: strings.dashboard?.cards?.myVideos?.subtitle || 'ビデオ',
       description: strings.dashboard?.cards?.myVideos?.description || 'Your saved videos',
-      href: '/tools/my-videos',
+      href: '/my-videos',
       icon: '🎬',
       stallType: 'theater',
       color: 'from-rose-400 to-pink-600',
@@ -794,6 +784,76 @@ export default function LearningVillage() {
 
   return (
     <div className="relative overflow-hidden">
+      {/* Bottom glow effect */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary-500/30 via-primary-400/10 to-transparent blur-xl pointer-events-none z-20" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-primary-400/20 to-transparent blur-md pointer-events-none z-20" />
+
+      {/* Floating lanterns distributed throughout the height */}
+      <div className="absolute inset-0 pointer-events-none z-10">
+        {/* Lanterns starting from different heights for continuous flow */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={`distributed-lantern-${i}`}
+            className="absolute text-3xl"
+            initial={{
+              bottom: `${(i * 25) % 100}%`,
+              left: `${10 + (i * 11)}%`,
+              opacity: 0,
+              scale: 0.5,
+            }}
+            animate={{
+              bottom: [`${(i * 25) % 100}%`, `${((i * 25) % 100) + 120}%`],
+              opacity: [0, 1, 1, 1, 0],
+              scale: [0.5, 1, 1, 1, 0.8],
+              x: [0, Math.sin(i) * 20, Math.sin(i) * -15, Math.sin(i) * 25],
+            }}
+            transition={{
+              duration: 45 + (i * 2),
+              delay: i * 3,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            style={{
+              filter: 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.5))',
+            }}
+          >
+            🏮
+          </motion.div>
+        ))}
+
+        {/* Additional lanterns from bottom for glow area effect */}
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={`bottom-glow-lantern-${i}`}
+            className="absolute text-4xl"
+            initial={{
+              bottom: -50,
+              left: `${30 + (i * 20)}%`,
+              opacity: 0,
+              scale: 0.3,
+            }}
+            animate={{
+              bottom: [-50, window.innerHeight * 1.2],
+              opacity: [0, 0.8, 1, 0.9, 0],
+              scale: [0.3, 1.2, 1, 1, 0.5],
+              x: [0, Math.cos(i) * -20, Math.cos(i) * 30, Math.cos(i) * -25],
+              rotate: [-10, 10, -5, 8, -10],
+            }}
+            transition={{
+              duration: 55 + (i * 3),
+              delay: i * 7 + 2,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            style={{
+              filter: 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.6))',
+            }}
+          >
+            🏮
+          </motion.div>
+        ))}
+      </div>
+
       {/* Animated sky background */}
       <div
         className={`absolute inset-0 bg-gradient-to-b ${skyGradient[timeOfDay]} transition-all duration-1000 rounded-2xl`}
@@ -972,7 +1032,7 @@ export default function LearningVillage() {
 
           {/* Description with fade-in words */}
           <motion.p
-            className="text-lg md:text-xl text-gray-100 dark:text-gray-300 font-light max-w-2xl mx-auto"
+            className="hidden sm:block text-lg md:text-xl text-gray-100 dark:text-gray-300 font-light max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
@@ -980,9 +1040,9 @@ export default function LearningVillage() {
             {strings.dashboard?.learningVillage?.subtitle || 'Choose your path to Japanese mastery'}
           </motion.p>
 
-          {/* Doshi guide */}
+          {/* Doshi guide - Hidden on mobile */}
           <motion.div
-            className="inline-block mt-6"
+            className="hidden sm:inline-block mt-6"
             animate={{
               y: [0, -10, 0],
             }}

@@ -42,9 +42,9 @@ export default function GenerateKanjiMoodboardModal({
     try {
       const response = await fetch('/api/admin/generate-kanji-moodboard', {
         method: 'POST',
+        credentials: 'include', // Send session cookie
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await user.getIdToken()}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           theme,

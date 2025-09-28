@@ -1,16 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import Navbar from '@/components/layout/Navbar';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import MoodBoardManager from '@/components/admin/MoodBoardManager';
 import GenerateKanjiMoodboardModal from '@/components/admin/GenerateKanjiMoodboardModal';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import { doc, getDoc } from 'firebase/firestore';
-import { firestore as db } from '@/lib/firebase/client';
 import { useMoodBoards } from '@/hooks/useMoodBoards';
 
 // Helper function to adjust color brightness
@@ -32,62 +28,12 @@ function adjustColor(color: string, amount: number): string {
 }
 
 export default function AdminMoodboardsPage() {
-  const { user, loading: authLoading } = useAuth();
+  const { user } = useAuth();
   const { t } = useI18n();
-  const router = useRouter();
   const { showToast } = useToast();
 
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [checkingAdmin, setCheckingAdmin] = useState(true);
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const { createMoodBoard } = useMoodBoards();
-
-  // Check admin status
-  useEffect(() => {
-    const checkAdminStatus = async () => {
-      if (!user) {
-        setCheckingAdmin(false);
-        return;
-      }
-
-      try {
-        // Check if user is admin
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        const userData = userDoc.data();
-        const adminStatus = userData?.role === 'admin' || userData?.isAdmin === true;
-
-        setIsAdmin(adminStatus);
-
-        if (!adminStatus) {
-          showToast(
-            `${t('error.unauthorized')}: ${t('admin.requiresAdmin')}`,
-            'error'
-          );
-          router.push('/dashboard');
-        }
-      } catch (error) {
-        console.error('Error checking admin status:', error);
-        showToast(
-          `${t('error.somethingWentWrong')}: ${t('admin.errorCheckingStatus')}`,
-          'error'
-        );
-        router.push('/dashboard');
-      } finally {
-        setCheckingAdmin(false);
-      }
-    };
-
-    if (!authLoading) {
-      checkAdminStatus();
-    }
-  }, [user, authLoading, router, showToast, t]);
-
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/auth/signin');
-    }
-  }, [user, authLoading, router]);
 
   const handleMoodboardGenerated = async (data: any) => {
     try {
@@ -124,13 +70,12 @@ export default function AdminMoodboardsPage() {
         try {
           const storyResponse = await fetch('/api/admin/generate-story-from-moodboard', {
             method: 'POST',
+            credentials: 'include', // Send session cookie
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${await user!.getIdToken()}`
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              moodBoardId: moodboardId,
-              moodBoard: moodboard
+              moodboardId: moodboardId
             })
           });
 
@@ -153,13 +98,8 @@ export default function AdminMoodboardsPage() {
     }
   };
 
-  if (authLoading || checkingAdmin) {
-    return <LoadingOverlay />;
-  }
-
-  if (!user || !isAdmin) {
-    return null;
-  }
+  // The admin layout handles authentication and admin checks
+  // No need to check again here
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">

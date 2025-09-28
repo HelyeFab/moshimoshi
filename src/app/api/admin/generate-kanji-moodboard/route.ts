@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AIService } from '@/lib/ai/AIService';
 import { MoodboardGenerationRequest } from '@/lib/ai/types';
+import { validateSession } from '@/lib/auth/session';
+import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 
 interface GenerateMoodboardRequest {
   theme: string;
@@ -18,10 +20,23 @@ const aiService = AIService.getInstance();
 
 export async function POST(request: NextRequest) {
   try {
-    // Check for admin authentication
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    // Ensure Firebase Admin is initialized
+    ensureAdminInitialized();
+
+    // Validate session from cookie
+    const session = await validateSession(request);
+    if (!session.valid || !session.payload) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check if user is admin from Firebase
+    const userDoc = await adminFirestore!.collection('users').doc(session.payload.uid).get();
+    const userData = userDoc?.data();
+    if (!userData?.isAdmin) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Admin access required' },
+        { status: 403 }
+      );
     }
 
     const body: GenerateMoodboardRequest = await request.json();

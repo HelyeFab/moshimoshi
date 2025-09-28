@@ -286,13 +286,32 @@ export class UserStatsService {
 
   /**
    * Update XP and calculate level
+   * Automatically updates streak if XP >= 10 and hasn't been updated today
    */
   async updateXP(userId: string, xpGained: number, source: string): Promise<UserStats> {
-    return this.updateUserStats(userId, {
+    // Import XP config service to check minimum XP for streak
+    const { xpConfigService } = await import('./XPConfigService')
+    const minXPForStreak = xpConfigService.getMinXPForStreak()
+
+    // First update XP
+    const updatedStats = await this.updateUserStats(userId, {
       type: 'xp',
       data: { xpGained, source },
       timestamp: Date.now()
     })
+
+    // Check if we should update streak
+    // Only if XP gained is >= minimum and streak hasn't been updated today
+    const today = new Date().toISOString().split('T')[0]
+    const lastActivity = updatedStats.streak.lastActivityDate
+
+    if (xpGained >= minXPForStreak && lastActivity !== today) {
+      // Update streak (this will only mark today as active, won't double count)
+      logger.info(`[UserStatsService] Auto-updating streak for user ${userId} due to ${xpGained} XP earned`)
+      return this.updateStreak(userId, today)
+    }
+
+    return updatedStats
   }
 
   /**

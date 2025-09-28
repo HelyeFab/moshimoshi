@@ -82,10 +82,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/resources', label: 'Resources', icon: '📚' },
     { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
     { href: '/admin/entitlements', label: 'Entitlements', icon: '🔐' },
+    { href: '/admin/xp-config', label: 'XP Config', icon: '⚡' },
     { href: '/admin/decision-explorer', label: 'Decision Logs', icon: '🔎' },
     { href: '/admin/monitoring', label: 'Monitoring', icon: '📈' },
     { href: '/admin/firebase-monitoring', label: 'Firebase Monitor', icon: '🔥' },
     { href: '/admin/moodboards', label: 'Moodboards', icon: '🎨' },
+    { href: '/admin/youtube-series', label: 'YouTube Series', icon: '📹' },
   ];
 
   const isActiveRoute = (href: string) => {

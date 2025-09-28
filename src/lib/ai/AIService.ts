@@ -34,28 +34,35 @@ import { MoodboardProcessor } from './processors/MoodboardProcessor';
 import { MultiStepStoryProcessor } from './processors/MultiStepStoryProcessor';
 // import { ArticleProcessor } from './processors/ArticleProcessor';
 
-import { CacheManager } from './cache/CacheManager';
+import { PersistentCacheManager } from './cache/PersistentCacheManager';
 import { UsageTracker } from './utils/UsageTracker';
 
 export class AIService {
   private static instance: AIService;
-  private cacheManager: CacheManager;
+  private cacheManager: PersistentCacheManager;
   private usageTracker: UsageTracker;
   private defaultConfig: AIServiceConfig;
 
   private constructor() {
-    this.cacheManager = new CacheManager();
+    this.cacheManager = new PersistentCacheManager();
     this.usageTracker = new UsageTracker();
     this.defaultConfig = {
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o-mini' as AIModel, // Force single model
       temperature: 0.7,
       maxTokens: 4000,
       timeout: 30000,
       maxRetries: 2,
       stream: false,
       cacheResults: true,
-      cacheDuration: 3600
+      cacheDuration: 7200 // 2 hours default
     };
+
+    // Schedule periodic cleanup
+    if (typeof setInterval !== 'undefined') {
+      setInterval(() => {
+        this.cacheManager.cleanupExpiredFirestore();
+      }, 30 * 60 * 1000); // Every 30 minutes
+    }
   }
 
   /**
@@ -136,24 +143,63 @@ export class AIService {
       };
 
     } catch (error) {
-      console.error('AI Service Error:', error);
+      const processingTime = Date.now() - startTime;
+
+      // Enhanced error logging
+      console.error('❌ AI Service Error:', {
+        task: request.task,
+        error: error instanceof Error ? error.message : String(error),
+        code: error instanceof AIServiceError ? error.code : 'UNKNOWN',
+        processingTime: `${processingTime}ms`
+      });
 
       if (error instanceof AIServiceError) {
+        // Track failed requests
+        await this.usageTracker.track({
+          task: request.task,
+          model: model || 'gpt-4o-mini',
+          usage: { promptTokens: 0, completionTokens: 0, totalTokens: 0, estimatedCost: 0 },
+          userId: request.metadata?.userId,
+          timestamp: new Date()
+        });
+
         return {
           success: false,
           error: error.message,
-          processingTime: Date.now() - startTime,
+          processingTime,
           metadata: {
             errorCode: error.code,
-            errorDetails: error.details
+            errorDetails: error.details,
+            task: request.task,
+            modelUsed: model
           }
         };
       }
 
+      // Map common errors to specific codes
+      let errorCode = 'UNKNOWN_ERROR';
+      let errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+
+      if (errorMessage.includes('Rate limit')) {
+        errorCode = 'RATE_LIMIT';
+      } else if (errorMessage.includes('timeout') || errorMessage.includes('Timeout')) {
+        errorCode = 'TIMEOUT';
+      } else if (errorMessage.includes('Invalid API key') || errorMessage.includes('401')) {
+        errorCode = 'AUTH_FAILED';
+      } else if (errorMessage.includes('parse') || errorMessage.includes('JSON')) {
+        errorCode = 'PARSE_ERROR';
+      }
+
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
-        processingTime: Date.now() - startTime
+        error: errorMessage,
+        processingTime,
+        metadata: {
+          errorCode,
+          task: request.task,
+          modelUsed: model,
+          originalError: process.env.NODE_ENV === 'development' ? String(error) : undefined
+        }
       };
     }
   }
@@ -208,30 +254,8 @@ export class AIService {
    * Select optimal model based on task and configuration
    */
   private selectModel(request: AIRequest): AIModel {
-    // If model explicitly specified, use it
-    if (request.config?.model) {
-      return request.config.model;
-    }
-
-    // Task-specific model selection
-    const taskModelMap: Record<AITaskType, AIModel> = {
-      'generate_review_questions': 'gpt-4o-mini',
-      'explain_grammar': 'gpt-4o-mini',
-      'clean_transcript': 'gpt-4o-mini',
-      'process_article': 'gpt-4o-mini',
-      'generate_story': 'gpt-4o-mini',
-      'generate_moodboard': 'gpt-4o-mini',
-      'analyze_content': 'gpt-4o',
-      'suggest_improvements': 'gpt-4o',
-      'translate_content': 'gpt-4o-mini',
-      'simplify_text': 'gpt-4o-mini',
-      'generate_quiz': 'gpt-4o-mini',
-      'create_flashcards': 'gpt-3.5-turbo',
-      'fix_transcript': 'gpt-4o-mini',
-      'extract_vocabulary': 'gpt-3.5-turbo'
-    };
-
-    return taskModelMap[request.task] || 'gpt-4o-mini';
+    // ALWAYS use gpt-4o-mini for all tasks - single fixed model
+    return 'gpt-4o-mini';
   }
 
   /**
@@ -307,17 +331,43 @@ export class AIService {
   }
 
   /**
-   * Cache the result
+   * Cache the result with intelligent duration
    */
   private async cacheResult(request: AIRequest, result: any): Promise<void> {
     const cacheKey = this.generateCacheKey(request);
-    const duration = request.config?.cacheDuration || this.defaultConfig.cacheDuration || 3600;
+
+    // Intelligent cache duration based on task type
+    let duration = request.config?.cacheDuration;
+    if (!duration) {
+      switch (request.task) {
+        case 'clean_transcript':
+        case 'fix_transcript':
+          duration = 86400; // 24 hours for transcripts
+          break;
+        case 'explain_grammar':
+          duration = 604800; // 7 days for grammar (rarely changes)
+          break;
+        case 'generate_story':
+        case 'generate_moodboard':
+          duration = 43200; // 12 hours for generated content
+          break;
+        case 'generate_review_questions':
+        case 'generate_quiz':
+          duration = 3600; // 1 hour for dynamic content
+          break;
+        default:
+          duration = this.defaultConfig.cacheDuration || 7200;
+      }
+    }
 
     await this.cacheManager.set(cacheKey, result, duration, {
       task: request.task,
       model: result.model || this.defaultConfig.model,
-      userId: request.metadata?.userId
+      userId: request.metadata?.userId,
+      cost: result.usage?.estimatedCost || 0
     });
+
+    console.log(`💾 Cached for ${duration}s: ${request.task}`);
   }
 
   /**

@@ -218,12 +218,16 @@ export function StudySession({
       celebrate();
     }
 
-    // Calculate XP with enhanced formula
-    const baseXP = correctCount * 10;
-    const streakBonus = bestStreak * 5;
-    const perfectBonus = accuracy === 1 ? 50 : 0;
-    const speedBonus = Math.floor(Array.from(responses.values()).filter(r => r.responseTime < 3000).length * 2);
-    const totalXP = baseXP + streakBonus + perfectBonus + speedBonus;
+    // Calculate XP using centralized config
+    const { xpConfigService } = await import('@/lib/services/XPConfigService');
+    const fastCards = Array.from(responses.values()).filter(r => r.responseTime < 3000).length;
+    const xpCalculation = xpConfigService.calculateFlashcardsXP(
+      correctCount,
+      bestStreak,
+      accuracy === 1,
+      fastCards
+    );
+    const totalXP = xpCalculation.cappedXP;
 
     const summary: SessionSummary = {
       sessionId: `session-${Date.now()}`,

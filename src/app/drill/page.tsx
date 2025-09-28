@@ -215,26 +215,20 @@ export default function DrillPage() {
         Date.now()
       );
 
-      // 5. Award XP based on performance
-      let xpAmount = 25; // Base XP
-      if (accuracy === 100) {
-        xpAmount += 50; // Perfect bonus = 75 total
-      } else if (accuracy >= 90) {
-        xpAmount += 30; // = 55 total
-      } else if (accuracy >= 80) {
-        xpAmount += 20; // = 45 total
-      } else if (accuracy >= 70) {
-        xpAmount += 10; // = 35 total
-      }
+      // 5. Award XP based on performance using centralized config
+      const { xpConfigService } = await import('@/lib/services/XPConfigService');
+      const xpCalculation = xpConfigService.calculateDrillXP(accuracy);
+      const xpAmount = xpCalculation.cappedXP;
 
       // 6. Track XP with idempotency and feature tracking
-      await trackXP(
-        'drill_completed',
-        xpAmount,
-        `Drill Session - ${session.mode}`,
-        {
-          // Required fields for proper tracking
-          idempotencyKey: `drill_${session.id}`,
+      if (xpCalculation.cappedXP > 0) {
+        await trackXP(
+          'drill_completed',
+          xpAmount,
+          `Drill Session - ${session.mode}`,
+          {
+            // Required fields for proper tracking
+            idempotencyKey: `drill_${session.id}`,
           feature: 'drill',
 
           // Session details
@@ -246,6 +240,7 @@ export default function DrillPage() {
           wordTypeFilter: session.wordTypeFilter
         }
       );
+      } // Close the if statement for XP tracking
 
       // 7. Update achievements
       await updateProgress({

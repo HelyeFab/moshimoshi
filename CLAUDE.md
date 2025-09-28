@@ -279,6 +279,31 @@ window.speechSynthesis.speak(utterance)
 - **SpeakerIcon**: Integrated with useTTS hook
 - **TTSText**: Text with inline speaker icon
 
+## Session Management in API Routes
+**IMPORTANT: Use consistent session management pattern across all API routes**
+
+### Getting User Session
+```typescript
+// CORRECT - Use getSession() for user authentication
+import { getSession } from '@/lib/auth/session'
+
+const session = await getSession()
+const userId = session?.uid || 'anonymous'
+const userEmail = session?.email
+const userTier = session?.tier
+
+// WRONG - Don't use validateSession() for getting user data
+// validateSession() is for middleware, returns SessionValidation object
+// getSession() is for API routes, returns SessionUser object
+```
+
+### Key Points
+- **getSession()**: Returns `SessionUser` object with `uid`, `email`, `tier`, etc.
+- **validateSession()**: Returns `SessionValidation` object for middleware use
+- Always use `session?.uid` to get the actual user ID
+- Fallback to 'anonymous' for non-authenticated users
+- This pattern ensures consistency across all API routes
+
 ## Common Components Usage
 **MANDATORY: Use existing components instead of creating new ones**
 

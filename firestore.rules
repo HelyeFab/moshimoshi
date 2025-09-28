@@ -527,6 +527,36 @@ service cloud.firestore {
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
     }
 
+    // YouTube Channels - Public read, admin write
+    match /youtubeChannels/{channelId} {
+      // Anyone can read YouTube channels (for public series page)
+      allow read: if true;
+
+      // Only admins can manage channels
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // YouTube Video Resources - Public read, admin write
+    match /youtubeVideoResources/{videoId} {
+      // Anyone can read YouTube videos (for public series page)
+      allow read: if true;
+
+      // Only admins can manage videos
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // YouTube Import Logs - Admin only
+    match /youtubeImportLogs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if false; // Logs should not be deleted
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

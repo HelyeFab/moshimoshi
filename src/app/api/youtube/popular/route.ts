@@ -44,6 +44,12 @@ const CURATED_STARTER_VIDEOS = [
 let cachedVideos: any = null;
 let cacheExpiry: Date | null = null;
 
+// Export function to clear cache
+export function clearPopularVideosCache() {
+  cachedVideos = null;
+  cacheExpiry = null;
+}
+
 async function aggregatePopularVideos(minViewers: number = 3) {
   try {
     // Get all videos from userYouTubeHistory

@@ -319,3 +319,12 @@ export * from './mapping/stripeMapping';
  * These replace Vercel cron jobs to avoid plan limitations
  */
 export * from './notifications/scheduled-notifications';
+
+/**
+ * Export scheduled news scraper functions
+ * Automatically fetches news from multiple Japanese sources daily
+ */
+export {
+  scheduledNewsScraperFunction,
+  manualNewsScraperFunction
+} from './scheduled/newsScheduler';
