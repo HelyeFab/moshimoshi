@@ -29,7 +29,7 @@ interface NewsArticle {
 // Loading skeleton component
 function ArticleCardSkeleton() {
   return (
-    <div className="bg-card dark:bg-dark-850 rounded-lg shadow-sm border border-border dark:border-dark-700 p-4 animate-pulse">
+    <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-100 dark:border-dark-700 p-4 animate-pulse">
       <div className="flex gap-4">
         <div className="w-20 h-20 bg-gray-200 dark:bg-dark-700 rounded-lg flex-shrink-0"></div>
         <div className="flex-1 space-y-2">
@@ -58,11 +58,11 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
 
   const getDifficultyColor = (difficulty: string) => {
     const colors: Record<string, string> = {
-      N5: 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800',
-      N4: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800',
-      N3: 'bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800',
-      N2: 'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800',
-      N1: 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800'
+      N5: 'bg-success-100 text-success-700 border-success-200 dark:bg-success-900/20 dark:text-success-400 dark:border-success-800',
+      N4: 'bg-info-100 text-info-700 border-info-200 dark:bg-info-900/20 dark:text-info-400 dark:border-info-800',
+      N3: 'bg-warning-100 text-warning-700 border-warning-200 dark:bg-warning-900/20 dark:text-warning-400 dark:border-warning-800',
+      N2: 'bg-accent-100 text-accent-700 border-accent-200 dark:bg-accent-900/20 dark:text-accent-400 dark:border-accent-800',
+      N1: 'bg-danger-100 text-danger-700 border-danger-200 dark:bg-danger-900/20 dark:text-danger-400 dark:border-danger-800'
     };
     return colors[difficulty] || colors.N3;
   };
@@ -80,7 +80,7 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
 
   return (
     <article
-      className="bg-card dark:bg-dark-850 rounded-lg shadow-sm border border-border dark:border-dark-700 p-4 hover:shadow-md dark:hover:shadow-dark-900/50 transition-all cursor-pointer hover:border-primary-300 dark:hover:border-primary-600"
+      className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4 hover:shadow-md dark:hover:shadow-dark-900/50 transition-all cursor-pointer hover:border-primary-300 dark:hover:border-primary-600"
       onClick={() => onClick(article)}
     >
       <div className="flex gap-4">
@@ -95,12 +95,12 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-foreground dark:text-gray-100 line-clamp-2 mb-1">
+          <h3 className="font-medium text-foreground dark:text-dark-100 line-clamp-2 mb-1">
             {article.title}
           </h3>
 
           {article.summary && (
-            <p className="text-sm text-muted-foreground dark:text-gray-400 line-clamp-2 mb-3">
+            <p className="text-sm text-muted-foreground dark:text-dark-400 line-clamp-2 mb-3">
               {article.summary}
             </p>
           )}
@@ -110,7 +110,7 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
               {article.difficulty}
             </span>
 
-            <span className="text-xs text-muted-foreground dark:text-gray-500 flex items-center gap-1">
+            <span className="text-xs text-muted-foreground dark:text-dark-500 flex items-center gap-1">
               <span className="text-xs">📖</span>
               {article.metadata?.readingTime || Math.ceil((article.metadata?.wordCount || 500) / 300)}
               {t('news.readingTime')}
@@ -122,7 +122,7 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
               </span>
             )}
 
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-muted-foreground dark:text-dark-500">
               {formatDate(article.publishDate)}
             </span>
           </div>
@@ -155,7 +155,7 @@ function FilterBar({
   const sources = ['All', 'NHK Easy', 'Todaii', 'Watanoc', 'Mainichi News', 'Mainichi Shogakusei'];
 
   return (
-    <div className="bg-card dark:bg-dark-850 rounded-lg shadow-sm border border-border dark:border-dark-700 p-4 mb-4">
+    <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4 mb-4">
       <div className="flex items-center justify-between mb-3">
         <button
           onClick={() => setShowFilters(!showFilters)}
@@ -164,10 +164,10 @@ function FilterBar({
           <svg className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
-          {t('news.filters.title', 'Filters')}
+          {t('news.filters.title')}
           {(selectedLevel !== 'All' || selectedSource !== 'All') && (
             <span className="ml-1 px-2 py-0.5 bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 rounded-full text-xs">
-              {t('news.filters.applied', 'Applied')}
+              {t('news.filters.applied')}
             </span>
           )}
         </button>
@@ -175,17 +175,17 @@ function FilterBar({
         <button
           onClick={onRefresh}
           disabled={isLoading}
-          className="px-3 py-1.5 bg-primary-600 text-white rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-700 transition-colors"
+          className="px-3 py-1.5 bg-primary-500 text-white rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-600 transition-colors"
         >
-          {isLoading ? t('news.loading', 'Loading...') : t('news.refresh', 'Refresh')}
+          {isLoading ? t('news.loading') : t('news.refresh')}
         </button>
       </div>
 
       {showFilters && (
-        <div className="space-y-3 pt-3 border-t border-border dark:border-dark-700">
+        <div className="space-y-3 pt-3 border-t border-gray-200 dark:border-dark-700">
           {/* Level filter */}
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-2 block">{t('news.filters.level', 'Level')}</label>
+            <label className="text-xs font-medium text-muted-foreground mb-2 block">{t('news.filters.level')}</label>
             <div className="flex flex-wrap gap-2">
               {levels.map(level => (
                 <button
@@ -193,8 +193,8 @@ function FilterBar({
                   onClick={() => onLevelChange(level)}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                     selectedLevel === level
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-soft-white dark:bg-dark-700 text-muted-foreground hover:bg-gray-100 dark:hover:bg-dark-600'
                   }`}
                 >
                   {level}
@@ -205,7 +205,7 @@ function FilterBar({
 
           {/* Source filter */}
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-2 block">{t('news.filters.source', 'Source')}</label>
+            <label className="text-xs font-medium text-muted-foreground mb-2 block">{t('news.filters.source')}</label>
             <div className="flex flex-wrap gap-2">
               {sources.map(source => (
                 <button
@@ -213,8 +213,8 @@ function FilterBar({
                   onClick={() => onSourceChange(source)}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                     selectedSource === source
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-soft-white dark:bg-dark-700 text-muted-foreground hover:bg-gray-100 dark:hover:bg-dark-600'
                   }`}
                 >
                   {source}
@@ -239,6 +239,7 @@ const pageStructuredData = {
 export default function NewsPage() {
   const router = useRouter();
   const { t } = useI18n();
+  const { user, loading: authLoading } = useAuth();
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
@@ -294,7 +295,7 @@ export default function NewsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -303,21 +304,16 @@ export default function NewsPage() {
       />
 
       {/* Navbar */}
-      <Navbar
-        backLink={{
-          href: '/dashboard',
-          label: t('common.backToDashboard', 'Back to Dashboard')
-        }}
-      />
+      <Navbar user={user} showUserMenu={true} />
 
       {/* Page Header */}
       <header className="px-4 pt-6 pb-4">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold text-foreground">
-            {t('news.title', 'Japanese News')}
+          <h1 className="text-2xl font-bold text-foreground dark:text-dark-100">
+            {t('news.title')}
           </h1>
-          <p className="text-muted-foreground mt-1">
-            {t('news.subtitle', 'Read Japanese articles by level')}
+          <p className="text-muted-foreground dark:text-dark-400 mt-1">
+            {t('news.subtitle')}
           </p>
         </div>
       </header>
@@ -344,21 +340,21 @@ export default function NewsPage() {
             </>
           ) : error ? (
             // Error state
-            <div className="bg-card dark:bg-dark-850 rounded-lg shadow-sm border border-border dark:border-dark-700 p-8 text-center">
-              <p className="text-destructive mb-4">{error}</p>
+            <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-8 text-center">
+              <p className="text-danger-600 dark:text-danger-400 mb-4">{error}</p>
               <button
                 onClick={loadArticles}
-                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
               >
-                {t('common.retry', 'Retry')}
+                {t('common.retry')}
               </button>
             </div>
           ) : filteredArticles.length === 0 ? (
             // Empty state
-            <div className="bg-card dark:bg-dark-850 rounded-lg shadow-sm border border-border dark:border-dark-700 p-8 text-center">
+            <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-8 text-center">
               <div className="text-4xl mb-4">📰</div>
-              <p className="text-muted-foreground mb-2">{t('news.noArticles', 'No articles found')}</p>
-              <p className="text-sm text-muted-foreground/80">{t('news.noArticlesHint', 'Try changing filters or check back later')}</p>
+              <p className="text-muted-foreground dark:text-dark-400 mb-2">{t('news.noArticles')}</p>
+              <p className="text-sm text-muted-foreground/70 dark:text-dark-500">{t('news.noArticlesHint')}</p>
             </div>
           ) : (
             // Articles
@@ -376,9 +372,9 @@ export default function NewsPage() {
         {!loading && filteredArticles.length >= 20 && (
           <div className="mt-6 text-center">
             <button
-              className="px-6 py-2 bg-card dark:bg-dark-850 border border-border dark:border-dark-700 rounded-lg text-foreground hover:bg-muted transition-colors"
+              className="px-6 py-2 bg-soft-white dark:bg-dark-850 border border-gray-100 dark:border-dark-700 rounded-lg text-foreground dark:text-dark-100 hover:bg-gray-50 dark:hover:bg-dark-800 transition-colors"
             >
-              {t('common.loadMore', 'Load More')}
+              {t('common.loadMore')}
             </button>
           </div>
         )}

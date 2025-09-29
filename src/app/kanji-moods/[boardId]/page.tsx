@@ -126,12 +126,12 @@ export default function MoodBoardDetailPage() {
 
       // Save the story to Firebase
       const { createStory } = await import('@/hooks/useStories').then(m => ({ createStory: m.useStories().createStory }));
-      const storyId = await createStory(story);
+      await createStory(story);
 
       showToast('Story generated successfully!', 'success');
 
-      // Navigate to the story
-      router.push(`/stories/${storyId}`);
+      // Navigate to the story using the slug
+      router.push(`/stories/${story.slug}`);
     } catch (error) {
       console.error('Error generating story:', error);
       showToast('Failed to generate story', 'error');

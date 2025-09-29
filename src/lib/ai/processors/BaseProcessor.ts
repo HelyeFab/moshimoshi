@@ -110,9 +110,10 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
         max_tokens: mergedConfig.maxTokens
       };
 
-      // Only add response_format for non-transcript tasks
-      // Transcript processing needs flexibility
-      if (responseFormat === 'json' && !systemPrompt.includes('shadowing')) {
+      // Only add response_format for models that support it
+      // GPT-4 doesn't support json_object response format
+      const supportsJsonFormat = ['gpt-4o', 'gpt-4o-mini', 'gpt-3.5-turbo'].includes(this.context.model);
+      if (responseFormat === 'json' && supportsJsonFormat && !systemPrompt.includes('shadowing')) {
         completionParams.response_format = { type: 'json_object' };
       }
 
@@ -372,15 +373,7 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
   ): AIModel {
     if (preferredModel) return preferredModel;
 
-    switch (complexity) {
-      case 'low':
-        return 'gpt-3.5-turbo';
-      case 'medium':
-        return 'gpt-4o-mini';
-      case 'high':
-        return 'gpt-4o';
-      default:
-        return 'gpt-4o-mini';
-    }
+    // Always use GPT-4o-mini for single model approach - cost efficient
+    return 'gpt-4o-mini';
   }
 }

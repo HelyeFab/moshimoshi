@@ -1,4 +1,30 @@
 export const strings = {
+  // Shadowing Feature
+  shadowing: {
+    title: "Shadowing Practice",
+    noSentence: "No sentence to play",
+    playbackError: "Failed to play audio",
+    voice: "Voice",
+    male: "Male",
+    female: "Female",
+    speed: "Speed",
+    repeatCount: "Repeat Count",
+    pauseDuration: "Pause Duration",
+    showFurigana: "Show Furigana",
+    furiganaDescription: "Display reading assistance above kanji",
+    sentenceProgress: "Sentence {{current}} of {{total}}",
+    repeatProgress: "Repeat {{current}}/{{total}}",
+    saveSentence: "Save sentence to study list",
+    noSentenceAvailable: "No sentence available",
+    repeatProgressLabel: "Repeat Progress:",
+    sentenceProgressLabel: "Sentence Progress:",
+    allSentences: "All Sentences",
+    sentenceSaved: "Sentence saved successfully",
+    saveFailed: "Failed to save sentence",
+    instructions1: "Listen to each sentence and repeat it during the pause.",
+    instructions2: "Adjust settings to match your learning pace."
+  },
+
   // Common/Shared
   common: {
     brand: "Moshimoshi",
@@ -160,6 +186,15 @@ export const strings = {
     lookupDictionary: "Click to look up in dictionary",
     showTranslation: "Show Translation",
     grammarLegend: "Grammar Legend",
+    takeQuiz: "Take Quiz",
+    finish: "Finish",
+    quiz: {
+      title: "Story Quiz",
+      yourScore: "Your Score",
+      excellent: "Excellent!",
+      good: "Good Job!",
+      keepPracticing: "Keep Practicing!",
+    },
   },
 
   // Stories Page
@@ -1408,6 +1443,111 @@ export const strings = {
       loadFailed: "Failed to load article",
       notFound: "Article not found",
       goBack: "Go back to news list"
+    }
+  },
+
+  // Reading Feature
+  reading: {
+    settings: {
+      title: "Reading Settings",
+      description: "Font size, furigana, etc.",
+      fontSize: "Text Size",
+      size: {
+        small: "S",
+        medium: "M",
+        large: "L",
+        xlarge: "XL"
+      },
+      showFurigana: "Show Furigana",
+      highlightVocabulary: "Highlight Vocabulary",
+      highlightMode: "Highlight Mode",
+      mode: {
+        all: "All Words",
+        content: "Content Words",
+        grammar: "Grammar",
+        none: "None"
+      }
+    },
+    menu: {
+      options: "Options",
+      shadowingMode: "Shadowing Practice Mode",
+      shadowingDescription: "Practice speaking along",
+      showTranslation: "Show English Translation",
+      hideTranslation: "Hide Translation",
+      translationDescription: "View article in English"
+    },
+    vocabulary: {
+      loading: "Loading...",
+      notFound: "Word not found",
+      searching: "Searching...",
+      reading: "Reading",
+      meaning: "Meaning",
+      saveToList: "Save to list",
+      wordSaved: "Word saved to study list",
+      wordSaveFailed: "Failed to save word",
+      wordLookupError: "Failed to lookup word"
+    },
+    grammar: {
+      legend: "Grammar Color Guide"
+    },
+    content: {
+      processing: "Processing content..."
+    },
+    metadata: {
+      minutes: "min",
+      readingTime: "Reading time",
+      imageAlt: "Article image for",
+      viewOriginal: "View original article",
+      estimatedTime: "About {{minutes}} min"
+    },
+    translation: {
+      title: "English Translation",
+      loading: "Translating article...",
+      disclaimer: "Note: This is an automated translation and may not be 100% accurate.",
+      translationError: "Failed to load translation"
+    },
+    article: {
+      playAudio: "Play article audio",
+      options: "Options",
+      shadowingMode: "Shadowing Practice Mode",
+      shadowingModeDesc: "Practice speaking along with audio",
+      addBookmark: "Bookmark Article",
+      removeBookmark: "Remove Bookmark",
+      saveForLater: "Save for later",
+      showTranslation: "Show English Translation",
+      hideTranslation: "Hide Translation",
+      viewInEnglish: "View article in English",
+      readingSettings: "Reading Settings",
+      readingSettingsDesc: "Font size, furigana, etc.",
+      textSize: "Text Size",
+      showFurigana: "Show Furigana",
+      highlightVocabulary: "Highlight Vocabulary",
+      highlightMode: "Highlight Mode",
+      grammarGuide: "Grammar Color Guide",
+      englishTranslation: "English Translation",
+      translatingArticle: "Translating article...",
+      translationNote: "Note: This is an automated translation and may not be 100% accurate.",
+      viewOriginal: "View original article",
+      imageAlt: "Article image for {{title}}",
+      estimatedTime: "About {{minutes}} min",
+      readingTime: "Reading time: {{minutes}} min",
+      bookmarkAdded: "Article bookmarked",
+      bookmarkRemoved: "Bookmark removed",
+      bookmarkError: "Failed to update bookmark",
+      ttsError: "Failed to play audio",
+      searching: "Searching...",
+      wordSaved: "Word saved to study list",
+      wordSaveFailed: "Failed to save word",
+      wordLookupError: "Failed to lookup word",
+      reading: "Reading",
+      meaning: "Meaning",
+      saveToList: "Save to List"
+    },
+    highlightMode: {
+      all: "All Words",
+      content: "Content Words",
+      grammar: "Grammar",
+      none: "None"
     }
   },
 
@@ -4063,6 +4203,234 @@ export const strings = {
       description: "Some features may be limited without an internet connection",
       cached: "Viewing cached content",
       retry: "Retry Connection"
+    }
+  },
+
+  // Games Section
+  games: {
+    title: "Games Stall",
+    subtitle: "Learn Japanese through fun and interactive games",
+    welcomeMessage: "Let's play some games!",
+    play: "Play",
+    comingSoon: "Coming Soon",
+    selectLists: "Select Word Lists",
+    selectListsFirst: "Select at least one list",
+    startGame: "Start Game",
+    noLists: "No word lists found. Create some word lists first!",
+    wordsAvailable: "words available",
+    playAudio: "Play Audio",
+    submit: "Submit",
+    shuffle: "Shuffle",
+    score: "Score",
+    question: "Question",
+    nextQuestion: "Next Question",
+    endGame: "End Game",
+    gameOver: "Game Over!",
+    correct: "Correct!",
+    incorrect: "Not quite!",
+    correctAnswer: "Correct answer",
+    accuracy: "Accuracy",
+    playAgain: "Play Again",
+    stats: {
+      totalGames: "Total Games",
+      correct: "Correct",
+      accuracy: "Accuracy"
+    },
+
+    // Matching Game
+    matching: {
+      title: "Matching Game",
+      description: "Match Japanese words with their meanings",
+      moves: "Moves",
+      pairs: "Pairs",
+      instructions: {
+        title: "How to Play",
+        description: "Match Japanese words with their readings or meanings by flipping cards"
+      }
+    },
+
+    // Victory Screen
+    victory: {
+      title: "Congratulations!",
+      moves: "Moves",
+      time: "Time",
+      perfect: "Perfect Game! No mistakes!",
+      back: "Back to Games",
+      playAgain: "Play Again"
+    },
+
+    // Word Assembly
+    wordAssembly: {
+      title: "Word Assembly",
+      description: "Build kana readings from audio",
+      needMoreWords: "Need at least 2 words with readings to play!",
+      clickToAdd: "Click kana segments below to build the word",
+      buildKana: "Build the Kana Reading"
+    },
+
+    // Kanji Simon
+    kanjiSimon: {
+      title: "Kanji Simon",
+      description: "Test your memory with kanji readings",
+      subtitle: "Test your memory with kanji readings",
+      howToPlay: "How to Play",
+      step1Title: "Watch Pattern",
+      step1Desc: "Kanji segments light up in sequence",
+      step2Title: "Memorize",
+      step2Desc: "Remember the order of readings",
+      step3Title: "Repeat",
+      step3Desc: "Click segments in the same order",
+      step4Title: "Level Up",
+      step4Desc: "Sequences get longer as you progress",
+      startButton: "Choose Board & Start",
+      selectBoard: "Select a Mood Board",
+      noBoardsTitle: "No Mood Boards Available",
+      noBoardsDesc: "There are no active mood boards with kanji to practice.",
+      startPractice: "Start Practice",
+      boardNotFound: "Board not found",
+      noKanjiInBoard: "This board has no kanji",
+      gameComplete: "Game Complete!",
+      score: "Score",
+      correct: "Correct",
+      accuracy: "Accuracy",
+      playAgain: "Play Again",
+      round: "Round",
+      startGame: "Start Game",
+      getReady: "Get ready to watch!",
+      watchCarefully: "Watch carefully!",
+      itemOf: "Item",
+      of: "of",
+      yourTurn: "YOUR TURN!",
+      clickMore: "Click",
+      more: "more",
+      kanji: "Kanji"
+    },
+
+    // Reading Routes
+    readingRoutes: {
+      title: "Reading Routes",
+      description: "Navigate kanji readings in context!",
+      subtitle: "Choose the correct reading path for each kanji",
+      howToPlay: "How to Play",
+      startGame: "Start Reading Routes",
+      score: "Score",
+      accuracy: "Accuracy",
+      correct: "Correct",
+      gameOver: "Game Over!",
+      playAgain: "Play Again",
+      exit: "Exit"
+    },
+
+    // Kanji Quest
+    kanjiQuest: {
+      title: "Kanji Quest",
+      description: "Battle and catch Pokémon by mastering kanji!",
+      selectOpponents: "Select Your Kanji Opponents!",
+      selectInstructions: "Choose 3-8 kanji to battle",
+      selectKanjiPrompt: "Please select 3-8 kanji",
+      startBattle: "Start Battle",
+      notEnoughKanji: "Not enough kanji available for this level!",
+      tutorial: {
+        title: "Welcome to Kanji Quest!",
+        subtitle: "Catch 'em all... but with Kanji!",
+        step1: {
+          title: "Select Your Kanji Opponents!",
+          description: "Choose 3-8 kanji to battle against. Each kanji will be encountered multiple times until you defeat them by mastering all their readings and meanings!"
+        },
+        step2: {
+          title: "Wild Encounters!",
+          description: "Kanji appear randomly like wild Pokémon! Each kanji needs to be defeated by answering questions about their readings and meanings.",
+          onyomi: "On'yomi reading (if it has one)",
+          kunyomi: "Kun'yomi reading (if it has one)",
+          meaning: "Meaning (all kanji have this!)"
+        },
+        step3: {
+          title: "Battle & Learn!",
+          description: "Answer questions correctly to defeat the kanji! Wrong answers mean the kanji fights back and damages your HP. Master all aspects of every kanji to win!"
+        },
+        step4: {
+          title: "Catch Pokémon!",
+          description: "Defeat all kanji to catch a Pokémon! Build your collection as you master more kanji. Can you catch them all?"
+        },
+        startButton: "Let's Play!"
+      }
+    },
+
+    // Stroke Order Practice
+    strokeOrder: {
+      title: "Master Kanji Stroke Order",
+      description: "Learn to write kanji correctly by practicing stroke order. Click strokes in the right sequence to build muscle memory.",
+      howToPlay: "How to Play",
+      howToPlayTitle: "How to Play Stroke Order Practice",
+      instructions: "Master kanji by learning the correct stroke order. Click each stroke in the right sequence to build muscle memory and improve your writing skills.",
+      practiceSets: "Practice Sets",
+      gamesPlayed: "games played",
+      kanjiPracticed: "kanji practiced",
+      kanjiProgress: "Kanji",
+      progress: "Progress",
+      strokes: "strokes",
+      stroke: "stroke",
+      completed: "completed",
+      highScore: "High Score",
+      score: "Score",
+      time: "Time",
+      combo: "Combo",
+      accuracy: "Accuracy",
+      maxCombo: "Max Combo",
+      difficulty: "Difficulty",
+      hint: "Hint",
+      inputMode: "Input Mode",
+      clickMode: "Click",
+      drawMode: "Draw",
+      tips: "Tips",
+      tipTopBottom: "Start from top to bottom",
+      tipLeftRight: "Left to right for horizontal strokes",
+      tipOutsideInside: "Outside before inside",
+      tipCloseLast: "Close frames last",
+      restartSet: "Restart Set",
+      gameOver: "Game Complete!",
+      finalScore: "Final Score",
+      timeTaken: "Time",
+      newAchievements: "New Achievements!",
+      backToSets: "Back to Sets",
+      playAgain: "Play Again",
+      step1Title: "See the Kanji",
+      step1Desc: "A kanji appears with numbered stroke guides showing the correct order",
+      step2Title: "Click Strokes in Order",
+      step2Desc: "Click each stroke in the correct sequence. Start with stroke 1, then 2, and so on.",
+      step3Title: "Get Instant Feedback",
+      step3Desc: "Correct strokes turn green and animate. Wrong strokes flash red - try again!",
+      step4Title: "Earn Points & Progress",
+      step4Desc: "Score points for speed and accuracy. Track your progress and beat your high scores!",
+      proTips: "Pro Tips",
+      tip1: "Take your time to memorize the stroke order before clicking",
+      tip2: "Pay attention to stroke direction - it matters!",
+      tip3: "Practice regularly to build muscle memory",
+      tip4: "Try different difficulty levels as you improve",
+      gotIt: "Got it, let's practice!",
+      ranks: {
+        perfect: "Perfect!",
+        excellent: "Excellent!",
+        good: "Good Job!",
+        nice: "Nice Try!",
+        keepPracticing: "Keep Practicing!"
+      },
+      achievements: {
+        thousandPoints: "Thousand Points!",
+        thousandPointsDesc: "Scored over 1000 points",
+        masterScorer: "Master Scorer!",
+        masterScorerDesc: "Scored over 5000 points",
+        perfectAccuracy: "Perfect Precision!",
+        perfectAccuracyDesc: "95% or higher accuracy",
+        comboMaster: "Combo Master!",
+        comboMasterDesc: "10+ combo streak"
+      }
+    },
+
+    // Word Builder
+    wordBuilder: {
+      title: "Word Builder",
+      description: "Build words from components"
     }
   }
 }

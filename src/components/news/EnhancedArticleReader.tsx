@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
-import AudioButton from '@/components/ui/AudioButton';
 import { SpeakerIcon } from '@heroicons/react/24/outline';
 import { PlayIcon, PauseIcon } from '@heroicons/react/24/solid';
 
@@ -134,7 +133,7 @@ function VocabularyPopup({
 
   return (
     <div
-      className="absolute z-50 bg-card dark:bg-dark-850 border border-border dark:border-dark-700 rounded-lg shadow-xl p-4 max-w-sm"
+      className="absolute z-50 bg-soft-white dark:bg-dark-850 border border-gray-200 dark:border-dark-700 rounded-lg shadow-xl p-4 max-w-sm"
       style={{
         left: Math.min(position.x, window.innerWidth - 320),
         top: position.y + 10,
@@ -152,31 +151,31 @@ function VocabularyPopup({
 
       {loading ? (
         <div className="text-muted-foreground">
-          {t('common.loading', 'Loading...')}
+          {t('common.loading')}
         </div>
       ) : wordData ? (
         <div className="space-y-3">
           <div>
-            <div className="text-sm text-muted-foreground">{t('vocabulary.reading', 'Reading')}</div>
+            <div className="text-sm text-muted-foreground">{t('vocabulary.reading')}</div>
             <div className="font-medium">{wordData.reading}</div>
           </div>
           <div>
-            <div className="text-sm text-muted-foreground">{t('vocabulary.meaning', 'Meaning')}</div>
+            <div className="text-sm text-muted-foreground">{t('vocabulary.meaning')}</div>
             <div>{wordData.meaning}</div>
           </div>
           <div className="flex gap-2">
             <span className="px-2 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded text-xs">
               {wordData.type}
             </span>
-            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-xs">
+            <span className="px-2 py-1 bg-soft-white dark:bg-dark-800 text-muted-foreground dark:text-dark-300 rounded text-xs">
               {wordData.level}
             </span>
           </div>
           <button
             onClick={() => onSaveToList(wordData)}
-            className="w-full mt-2 px-3 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 transition-colors"
+            className="w-full mt-2 px-3 py-2 bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors"
           >
-            {t('vocabulary.saveToList', 'Save to Study List')}
+            {t('vocabulary.saveToList')}
           </button>
         </div>
       ) : null}
@@ -197,16 +196,16 @@ function SettingsPanel({
   const { t } = useI18n();
 
   return (
-    <div className="absolute top-12 right-0 z-50 bg-card dark:bg-dark-850 rounded-lg shadow-lg border border-border dark:border-dark-700 p-4 w-72">
+    <div className="absolute top-12 right-0 z-50 bg-soft-white dark:bg-dark-850 rounded-lg shadow-lg border border-gray-200 dark:border-dark-700 p-4 w-72">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-medium text-foreground">{t('news.reader.settings', 'Reading Settings')}</h3>
+        <h3 className="font-medium text-foreground">{t('news.reader.settings')}</h3>
         <button onClick={onClose} className="text-xl hover:text-foreground">×</button>
       </div>
 
       {/* Font Size */}
       <div className="mb-4">
         <label className="text-sm font-medium mb-2 block">
-          {t('news.reader.fontSize', 'Text Size')}
+          {t('news.reader.fontSize')}
         </label>
         <div className="grid grid-cols-4 gap-1">
           {(['small', 'medium', 'large', 'xlarge'] as const).map((size) => (
@@ -215,8 +214,8 @@ function SettingsPanel({
               onClick={() => onSettingsChange({ ...settings, fontSize: size })}
               className={`py-1 px-2 rounded text-sm transition-colors ${
                 settings.fontSize === size
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-muted hover:bg-muted/80'
+                  ? 'bg-primary-500 text-white'
+                  : 'bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600'
               }`}
             >
               {size.charAt(0).toUpperCase()}
@@ -228,7 +227,7 @@ function SettingsPanel({
       {/* Toggle Options */}
       <div className="space-y-3">
         <label className="flex items-center justify-between">
-          <span className="text-sm">{t('news.reader.showFurigana', 'Show Furigana')}</span>
+          <span className="text-sm">{t('news.reader.showFurigana')}</span>
           <input
             type="checkbox"
             checked={settings.showFurigana}
@@ -238,7 +237,7 @@ function SettingsPanel({
         </label>
 
         <label className="flex items-center justify-between">
-          <span className="text-sm">{t('news.reader.highlightGrammar', 'Grammar Highlighting')}</span>
+          <span className="text-sm">{t('news.reader.highlightGrammar')}</span>
           <input
             type="checkbox"
             checked={settings.highlightGrammar}
@@ -248,7 +247,7 @@ function SettingsPanel({
         </label>
 
         <label className="flex items-center justify-between">
-          <span className="text-sm">{t('news.reader.showTranslation', 'Show Translation')}</span>
+          <span className="text-sm">{t('news.reader.showTranslation')}</span>
           <input
             type="checkbox"
             checked={settings.showTranslation}
@@ -258,7 +257,7 @@ function SettingsPanel({
         </label>
 
         <label className="flex items-center justify-between">
-          <span className="text-sm">{t('news.reader.shadowingMode', 'Shadowing Mode')}</span>
+          <span className="text-sm">{t('news.reader.shadowingMode')}</span>
           <input
             type="checkbox"
             checked={settings.shadowingMode}
@@ -271,7 +270,7 @@ function SettingsPanel({
       {/* Audio Speed */}
       <div className="mt-4">
         <label className="text-sm font-medium mb-2 block">
-          {t('news.reader.audioSpeed', 'Audio Speed')}: {settings.audioSpeed}x
+          {t('news.reader.audioSpeed')}: {settings.audioSpeed}x
         </label>
         <input
           type="range"
@@ -327,28 +326,28 @@ function ShadowingMode({
 
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-      <div className="bg-card dark:bg-dark-850 rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto p-6">
+      <div className="bg-soft-white dark:bg-dark-850 rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">{t('news.reader.shadowingMode', 'Shadowing Practice')}</h2>
+          <h2 className="text-2xl font-bold">{t('news.reader.shadowingMode')}</h2>
           <button onClick={onClose} className="text-2xl hover:text-foreground">×</button>
         </div>
 
         {/* Progress */}
         <div className="mb-6">
           <div className="flex justify-between text-sm mb-2">
-            <span>{t('common.sentence', 'Sentence')} {currentIndex + 1} / {sentences.length}</span>
+            <span>{t('common.sentence')} {currentIndex + 1} / {sentences.length}</span>
             <span>{Math.round(((currentIndex + 1) / sentences.length) * 100)}%</span>
           </div>
-          <div className="h-2 bg-muted rounded-full overflow-hidden">
+          <div className="h-2 bg-gray-100 dark:bg-dark-700 rounded-full overflow-hidden">
             <div
-              className="h-full bg-primary-600 transition-all duration-300"
+              className="h-full bg-primary-500 transition-all duration-300"
               style={{ width: `${((currentIndex + 1) / sentences.length) * 100}%` }}
             />
           </div>
         </div>
 
         {/* Current Sentence */}
-        <div className="mb-6 p-6 bg-muted/50 rounded-lg">
+        <div className="mb-6 p-6 bg-soft-white/50 dark:bg-dark-800/50 rounded-lg">
           <p className="text-2xl leading-relaxed japanese-text">
             {sentences[currentIndex]}
           </p>
@@ -358,7 +357,7 @@ function ShadowingMode({
         <div className="space-y-4">
           {/* Repeat Count */}
           <div className="flex items-center justify-center gap-4">
-            <span className="text-sm">{t('news.reader.repeatCount', 'Repeat')}:</span>
+            <span className="text-sm">{t('news.reader.repeatCount')}:</span>
             <div className="flex gap-2">
               {[1, 2, 3, 5].map(count => (
                 <button
@@ -381,25 +380,25 @@ function ShadowingMode({
             <button
               onClick={handlePrevious}
               disabled={currentIndex === 0}
-              className="p-2 rounded-lg bg-muted hover:bg-muted/80 disabled:opacity-50"
+              className="p-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 disabled:opacity-50"
             >
-              ← {t('common.previous', 'Previous')}
+              ← {t('common.previous')}
             </button>
 
             <button
               onClick={handlePlay}
               disabled={isPlaying}
-              className="px-6 py-3 rounded-lg bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 flex items-center gap-2"
+              className="px-6 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 disabled:opacity-50 flex items-center gap-2"
             >
               {isPlaying ? (
                 <>
                   <PauseIcon className="w-5 h-5" />
-                  {t('common.playing', 'Playing...')}
+                  {t('common.playing')}
                 </>
               ) : (
                 <>
                   <PlayIcon className="w-5 h-5" />
-                  {t('common.play', 'Play')}
+                  {t('common.play')}
                 </>
               )}
             </button>
@@ -407,9 +406,9 @@ function ShadowingMode({
             <button
               onClick={handleNext}
               disabled={currentIndex === sentences.length - 1}
-              className="p-2 rounded-lg bg-muted hover:bg-muted/80 disabled:opacity-50"
+              className="p-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 disabled:opacity-50"
             >
-              {t('common.next', 'Next')} →
+              {t('common.next')} →
             </button>
           </div>
         </div>
@@ -515,21 +514,21 @@ export default function EnhancedArticleReader({
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-card dark:bg-dark-850 border-b border-border dark:border-dark-700">
+      <div className="sticky top-0 z-40 bg-soft-white dark:bg-dark-850 border-b border-gray-200 dark:border-dark-700">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <button
               onClick={onBack}
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
             >
-              ← {t('common.back', 'Back')}
+              ← {t('common.back')}
             </button>
 
             <div className="flex items-center gap-4">
               {/* Audio Controls */}
               <button
                 onClick={playArticle}
-                className="p-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors"
+                className="p-2 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors"
               >
                 <SpeakerIcon className="w-5 h-5" />
               </button>
@@ -537,16 +536,16 @@ export default function EnhancedArticleReader({
               {/* Shadowing Mode */}
               <button
                 onClick={() => setShowShadowing(true)}
-                className="px-3 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+                className="px-3 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 transition-colors"
               >
-                {t('news.reader.shadowing', 'Shadowing')}
+                {t('news.reader.shadowing')}
               </button>
 
               {/* Settings */}
               <div className="relative">
                 <button
                   onClick={() => setShowSettings(!showSettings)}
-                  className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors"
+                  className="p-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
                 >
                   ⚙️
                 </button>
@@ -571,7 +570,7 @@ export default function EnhancedArticleReader({
             <span className="px-2 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded">
               {article.source}
             </span>
-            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">
+            <span className="px-2 py-1 bg-soft-white dark:bg-dark-800 rounded">
               {article.difficulty}
             </span>
             <span>{publishDate}</span>
@@ -594,7 +593,7 @@ export default function EnhancedArticleReader({
           )}
 
           {article.summary && (
-            <div className="p-4 bg-muted/50 rounded-lg mb-6">
+            <div className="p-4 bg-soft-white/50 dark:bg-dark-800/50 rounded-lg mb-6">
               <p className="text-muted-foreground">{article.summary}</p>
             </div>
           )}
@@ -604,7 +603,7 @@ export default function EnhancedArticleReader({
         <div className="space-y-6 mb-12">
           {loadingFurigana ? (
             <div className="text-center py-8 text-muted-foreground">
-              {t('common.loading', 'Loading furigana...')}
+              {t('common.loading')}
             </div>
           ) : (
             <>
@@ -620,7 +619,7 @@ export default function EnhancedArticleReader({
                   {/* Paragraph audio button */}
                   <button
                     onClick={() => playParagraph(paragraph)}
-                    className="absolute -left-10 top-0 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-primary-600 text-white"
+                    className="absolute -left-10 top-0 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-primary-500 text-white"
                   >
                     <SpeakerIcon className="w-4 h-4" />
                   </button>
@@ -632,8 +631,8 @@ export default function EnhancedArticleReader({
 
         {/* Translation Section */}
         {settings.showTranslation && (
-          <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-            <h3 className="font-medium mb-2">{t('news.reader.translation', 'Translation')}</h3>
+          <div className="mt-8 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
+            <h3 className="font-medium mb-2">{t('news.reader.translation')}</h3>
             <p className="text-muted-foreground">
               {/* Translation would go here */}
               [Translation feature coming soon]
@@ -647,7 +646,7 @@ export default function EnhancedArticleReader({
             {article.tags?.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm"
+                className="px-3 py-1 bg-soft-white dark:bg-dark-700 text-muted-foreground dark:text-dark-400 rounded-full text-sm"
               >
                 #{tag}
               </span>
@@ -660,9 +659,9 @@ export default function EnhancedArticleReader({
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary-600 hover:text-primary-700 text-sm"
+                className="text-primary-500 hover:text-primary-600 text-sm"
               >
-                {t('news.reader.viewOriginal', 'View original article')} →
+                {t('news.reader.viewOriginal')} →
               </a>
             </div>
           )}

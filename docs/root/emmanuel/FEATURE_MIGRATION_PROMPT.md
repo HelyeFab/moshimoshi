@@ -1,11 +1,24 @@
 # Feature Migration Prompt - Doshi Sensei to Target Project
 
 ## Mission
-Extract the specified feature from the doshi-sensei codebase as a pure, standalone functionality module, removing ALL access control, authentication, entitlement, and usage tracking layers.
+
+Ultrathink
+
+FEATURE: 
+GAMES  Stroke Order Practice 
+
+Extract the specified feature above from the doshi-sensei codebase 
+
+/home/beano/DevProjects/next_js/doshi-sensei
+
+as a pure, standalone functionality module, removing ALL access control, authentication, entitlement, and usage tracking layers.
+
+In moshimoshi the feature should be part of the games stall.
 
 ## Core Principles
 
 ### KEEP (✅)
+
 - Core feature UI components and their styling
 - Business logic and algorithms
 - Data processing and transformation functions
@@ -20,6 +33,7 @@ Extract the specified feature from the doshi-sensei codebase as a pure, standalo
 - Feature configuration that affects functionality (not access)
 
 ### REMOVE (❌)
+
 - All `useAuth()` and `useUser()` hooks and their checks
 - All `checkFeatureAccess()` and similar permission checks
 - All Firebase Analytics tracking (`logEvent`, `incrementStat`, etc.)
@@ -38,12 +52,14 @@ Extract the specified feature from the doshi-sensei codebase as a pure, standalo
 ## Migration Steps
 
 ### Step 1: Analyze Dependencies
+
 1. Map all imports and dependencies for the feature
 2. Identify which are core to functionality vs. access control
 3. List third-party libraries that must be carried over
 4. Note any shared utilities that need to be extracted
 
 ### Step 2: Extract Core Components
+
 1. Copy the main feature component(s)
 2. Remove all conditional rendering based on user tier
 3. Remove all usage tracking calls
@@ -51,6 +67,7 @@ Extract the specified feature from the doshi-sensei codebase as a pure, standalo
 5. Remove upgrade prompts and limit warnings
 
 ### Step 3: Clean Business Logic
+
 1. Remove all early returns based on user permissions
 2. Remove usage increment calls
 3. Remove limit checks from loops and operations
@@ -58,18 +75,21 @@ Extract the specified feature from the doshi-sensei codebase as a pure, standalo
 5. Remove premium-only feature branches
 
 ### Step 4: Simplify Data Access
+
 1. Remove user-scoped data filtering (unless functionally required)
 2. Remove permission checks on data operations
 3. Keep core CRUD operations intact
 4. Preserve data validation that's about data integrity (not access)
 
 ### Step 5: Update Types and Interfaces
+
 1. Remove auth-related fields from interfaces
 2. Remove user tier enums and types
 3. Keep functional types and data structures
 4. Simplify props by removing permission-related ones
 
 ### Step 6: Handle External Services
+
 1. Keep API keys and service configurations as environment variables
 2. Remove API call limits based on user tier
 3. Keep rate limiting that's about service stability
@@ -78,24 +98,25 @@ Extract the specified feature from the doshi-sensei codebase as a pure, standalo
 ## Code Transformation Examples
 
 ### Before (with access control):
+
 ```typescript
 const SearchComponent = () => {
   const { user, isGuest } = useAuth();
   const { checkFeatureAccess } = useFeatureAccess();
-  
+
   const handleSearch = async (query: string) => {
     if (!checkFeatureAccess('word_search')) {
       showUpgradePrompt();
       return;
     }
-    
+
     await incrementUsage('word_search');
-    
+
     if (isGuest && dailySearches >= 10) {
       alert('Daily limit reached. Please sign up!');
       return;
     }
-    
+
     const results = await searchWords(query);
     logEvent('word_search_performed', { query, resultCount: results.length });
     return results;
@@ -104,6 +125,7 @@ const SearchComponent = () => {
 ```
 
 ### After (pure functionality):
+
 ```typescript
 const SearchComponent = () => {
   const handleSearch = async (query: string) => {
@@ -116,24 +138,28 @@ const SearchComponent = () => {
 ## Feature-Specific Considerations
 
 ### For API-based features:
+
 - Keep the API integration logic
 - Remove per-user API quotas
 - Keep service-level rate limiting
 - Preserve API key management
 
 ### For data-heavy features:
+
 - Keep data loading and caching logic
 - Remove user-specific data filtering (unless functional)
 - Preserve performance optimizations
 - Keep pagination/virtualization
 
 ### For interactive features:
+
 - Keep all interaction logic
 - Remove interaction limits
 - Preserve state management
 - Keep animation and transitions
 
 ### For AI/ML features:
+
 - Keep model integration
 - Remove usage quotas
 - Preserve prompt engineering
@@ -174,4 +200,5 @@ const SearchComponent = () => {
 5. Core functionality matches original (minus restrictions)
 
 ## Note to Agent
+
 Focus ONLY on extracting the pure feature. The target application will handle its own authentication, authorization, and usage tracking. Your job is to provide clean, unrestricted functionality that can be wrapped with any access control system.

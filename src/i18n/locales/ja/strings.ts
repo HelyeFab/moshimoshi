@@ -1194,6 +1194,63 @@ export const strings = {
     }
   },
 
+  // Reading Feature
+  reading: {
+    settings: {
+      title: "読書設定",
+      description: "フォントサイズ、ふりがななど",
+      fontSize: "文字サイズ",
+      size: {
+        small: "小",
+        medium: "中",
+        large: "大",
+        xlarge: "特大"
+      },
+      showFurigana: "ふりがなを表示",
+      highlightVocabulary: "語彙をハイライト",
+      highlightMode: "ハイライトモード",
+      mode: {
+        all: "すべての単語",
+        content: "内容語",
+        grammar: "文法語",
+        none: "なし"
+      }
+    },
+    menu: {
+      options: "オプション",
+      shadowingMode: "シャドーイング練習モード",
+      shadowingDescription: "一緒に話す練習",
+      showTranslation: "英語翻訳を表示",
+      hideTranslation: "翻訳を隠す",
+      translationDescription: "記事を英語で表示"
+    },
+    vocabulary: {
+      loading: "読み込み中...",
+      notFound: "単語が見つかりません",
+      searching: "検索中...",
+      reading: "読み方",
+      meaning: "意味",
+      saveToList: "リストに保存"
+    },
+    grammar: {
+      legend: "文法色分けガイド"
+    },
+    content: {
+      processing: "コンテンツを処理中..."
+    },
+    metadata: {
+      minutes: "分",
+      readingTime: "読書時間",
+      imageAlt: "記事の画像",
+      viewOriginal: "元の記事を見る"
+    },
+    translation: {
+      title: "英語翻訳",
+      loading: "記事を翻訳中...",
+      disclaimer: "注：これは自動翻訳で、100%正確ではない場合があります。"
+    }
+  },
+
   // Subscription Management
   subscription: {
     status: {
@@ -2982,6 +3039,169 @@ export const strings = {
       description: "インターネット接続がないため、一部の機能が制限される場合があります",
       cached: "キャッシュされたコンテンツを表示しています",
       retry: "接続を再試行"
+    }
+  },
+
+  // Stories
+  stories: {
+    title: "物語",
+    description: "インタラクティブな日本語物語で学習",
+    createNew: "新規作成",
+    generateAI: "AI生成",
+    published: "公開済み",
+    draft: "下書き",
+    viewStory: "物語を見る",
+    editStory: "編集",
+    deleteStory: "削除",
+    confirmDelete: "この物語を削除してもよろしいですか？",
+    emptyState: "まだ物語がありません",
+    createFirst: "最初の物語を作成してください",
+    jlptLevel: "JLPTレベル",
+    theme: "テーマ",
+    pageCount: "{{count}}ページ",
+    quizQuestions: "{{count}}問",
+    takeQuiz: "クイズを受ける",
+    finish: "終了",
+    quiz: {
+      title: "物語クイズ",
+      yourScore: "あなたのスコア",
+      excellent: "素晴らしい！",
+      good: "よくできました！",
+      keepPracticing: "練習を続けましょう！"
+    }
+  },
+
+  // Games
+  games: {
+    title: "ゲームコーナー",
+    subtitle: "楽しく遊びながら日本語を学ぼう",
+    welcomeMessage: "一緒にゲームをしよう！",
+    play: "プレイ",
+    comingSoon: "近日公開",
+    selectLists: "単語リストを選択",
+    selectListsFirst: "少なくとも1つのリストを選択してください",
+    startGame: "ゲーム開始",
+    noLists: "単語リストがありません。まず単語リストを作成してください！",
+    wordsAvailable: "個の単語",
+    playAudio: "音声再生",
+    submit: "送信",
+    shuffle: "シャッフル",
+    score: "スコア",
+    question: "問題",
+    nextQuestion: "次の問題",
+    endGame: "ゲーム終了",
+    gameOver: "ゲームオーバー！",
+    correct: "正解！",
+    incorrect: "惜しい！",
+    correctAnswer: "正解",
+    accuracy: "正確率",
+    playAgain: "もう一度プレイ",
+    stats: {
+      totalGames: "総ゲーム数",
+      correct: "正解",
+      accuracy: "正確率"
+    },
+
+    // Word Assembly
+    wordAssembly: {
+      title: "単語組み立て",
+      description: "音声から仮名を組み立てる",
+      needMoreWords: "プレイするには読みがある単語が2つ以上必要です！",
+      clickToAdd: "下の仮名をクリックして単語を組み立ててください",
+      buildKana: "仮名の読みを組み立てる"
+    },
+
+    // Matching Game
+    matching: {
+      title: "マッチングゲーム",
+      description: "日本語の単語と意味をマッチさせる",
+      moves: "手数",
+      pairs: "ペア",
+      instructions: {
+        title: "遊び方",
+        description: "カードをめくって日本語の単語と読み方または意味をマッチさせてください"
+      }
+    },
+
+    // Victory Screen
+    victory: {
+      title: "おめでとうございます！",
+      moves: "手数",
+      time: "時間",
+      perfect: "完璧なゲーム！ミスなし！",
+      back: "ゲームに戻る",
+      playAgain: "もう一度プレイ"
+    },
+
+    // Kanji Simon
+    kanjiSimon: {
+      title: "漢字サイモン",
+      description: "漢字の読みで記憶力をテスト",
+      subtitle: "漢字の読み方で記憶力をテスト",
+      howToPlay: "遊び方",
+      step1Title: "パターンを見る",
+      step1Desc: "漢字のセグメントが順番に光ります",
+      step2Title: "覚える",
+      step2Desc: "読み方の順番を記憶",
+      step3Title: "繰り返す",
+      step3Desc: "同じ順番でセグメントをクリック",
+      step4Title: "レベルアップ",
+      step4Desc: "進むにつれてシーケンスが長くなります",
+      startButton: "ボードを選んで開始",
+      selectBoard: "ムードボードを選択",
+      noBoardsTitle: "ムードボードがありません",
+      noBoardsDesc: "練習用の漢字を含むアクティブなムードボードがありません。",
+      startPractice: "練習を開始",
+      boardNotFound: "ボードが見つかりません",
+      noKanjiInBoard: "このボードには漢字がありません",
+      gameComplete: "ゲーム完了！",
+      score: "スコア",
+      correct: "正解",
+      accuracy: "正確率",
+      playAgain: "もう一度",
+      round: "ラウンド",
+      startGame: "ゲーム開始",
+      getReady: "準備してください！",
+      watchCarefully: "よく見て！",
+      itemOf: "アイテム",
+      of: "/",
+      yourTurn: "あなたの番！",
+      clickMore: "クリック",
+      more: "回",
+      kanji: "漢字"
+    },
+
+    // Kana Drop
+    kanaDrop: {
+      title: "かなドロップ",
+      description: "落ちてくるかな文字をキャッチしてポイントを獲得！"
+    },
+
+    // Reading Routes
+    readingRoutes: {
+      title: "読み方ルート",
+      description: "文脈で漢字の読み方をナビゲート！",
+      subtitle: "各漢字の正しい読み方パスを選んでください",
+      howToPlay: "遊び方",
+      startGame: "読み方ルートを開始",
+      score: "スコア",
+      accuracy: "正確度",
+      correct: "正解",
+      gameOver: "ゲームオーバー！",
+      playAgain: "もう一度プレイ",
+      exit: "終了"
+    },
+
+    // Kanji Quest
+    kanjiQuest: {
+      title: "漢字クエスト",
+      description: "漢字をマスターしてポケモンをバトル＆キャッチ！"
+    },
+
+    // Word Builder
+    wordBuilder: {
+      title: "単語ビルダー",
+      description: "コンポーネントから単語を作る"
     }
   }
 }

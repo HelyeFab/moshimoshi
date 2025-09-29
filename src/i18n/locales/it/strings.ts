@@ -2914,5 +2914,34 @@ export const strings = {
       cached: "Visualizzazione contenuto in cache",
       retry: "Riprova connessione"
     }
+  },
+
+  // Stories
+  stories: {
+    title: "Storie",
+    description: "Impara con storie interattive in giapponese",
+    createNew: "Crea Nuova",
+    generateAI: "Genera con IA",
+    published: "Pubblicato",
+    draft: "Bozza",
+    viewStory: "Visualizza Storia",
+    editStory: "Modifica",
+    deleteStory: "Elimina",
+    confirmDelete: "Sei sicuro di voler eliminare questa storia?",
+    emptyState: "Nessuna storia ancora",
+    createFirst: "Crea la tua prima storia per iniziare",
+    jlptLevel: "Livello JLPT",
+    theme: "Tema",
+    pageCount: "{{count}} pagine",
+    quizQuestions: "{{count}} domande",
+    takeQuiz: "Fai il Quiz",
+    finish: "Finisci",
+    quiz: {
+      title: "Quiz della Storia",
+      yourScore: "Il Tuo Punteggio",
+      excellent: "Eccellente!",
+      good: "Ottimo Lavoro!",
+      keepPracticing: "Continua a Praticare!"
+    }
   }
 }

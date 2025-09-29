@@ -175,7 +175,7 @@ CRITICAL RULES:
    - After て-form (して、見て、食べて)
    - After connectors (から、けど、が、のに、ので)
    - Between clauses
-5. Return ONLY a JSON array of strings (not objects, just strings)
+5. Return a json array of strings (not objects, just strings)
 6. Each string must contain actual Japanese text, not empty
 
 Example output: ["昨日友達と", "映画を見て", "楽しかったです"]

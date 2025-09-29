@@ -176,7 +176,7 @@ Ensure questions:
 4. Are appropriate for ${jlptLevel} learners
 5. Have clear, unambiguous correct answers
 
-Return ONLY a valid JSON array of question objects.`;
+Return your response as a valid json array of question objects.`;
   }
 
   /**

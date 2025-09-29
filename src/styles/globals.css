@@ -13,6 +13,37 @@
 
 /* 3D Transform Utilities for Flashcards */
 @layer utilities {
+  /* Japanese aesthetic color utilities */
+  .text-japanese-sakura { color: var(--color-japanese-sakura); }
+  .text-japanese-sakuraDark { color: var(--color-japanese-sakuraDark); }
+  .text-japanese-sumi { color: var(--color-japanese-sumi); }
+  .text-japanese-mizu { color: var(--color-japanese-mizu); }
+  .text-japanese-mizuDark { color: var(--color-japanese-mizuDark); }
+  .text-japanese-matcha { color: var(--color-japanese-matcha); }
+  .text-japanese-matchaDark { color: var(--color-japanese-matchaDark); }
+  .text-japanese-zen { color: var(--color-japanese-zen); }
+  .text-japanese-zenDark { color: var(--color-japanese-zenDark); }
+
+  .bg-japanese-sakura { background-color: var(--color-japanese-sakura); }
+  .bg-japanese-sakuraDark { background-color: var(--color-japanese-sakuraDark); }
+  .bg-japanese-sumi { background-color: var(--color-japanese-sumi); }
+  .bg-japanese-mizu { background-color: var(--color-japanese-mizu); }
+  .bg-japanese-mizuDark { background-color: var(--color-japanese-mizuDark); }
+  .bg-japanese-matcha { background-color: var(--color-japanese-matcha); }
+  .bg-japanese-matchaDark { background-color: var(--color-japanese-matchaDark); }
+  .bg-japanese-zen { background-color: var(--color-japanese-zen); }
+  .bg-japanese-zenDark { background-color: var(--color-japanese-zenDark); }
+
+  .fill-japanese-sakura { fill: var(--color-japanese-sakura); }
+  .fill-japanese-sakuraDark { fill: var(--color-japanese-sakuraDark); }
+  .fill-japanese-sumi { fill: var(--color-japanese-sumi); }
+  .fill-japanese-mizu { fill: var(--color-japanese-mizu); }
+  .fill-japanese-mizuDark { fill: var(--color-japanese-mizuDark); }
+  .fill-japanese-matcha { fill: var(--color-japanese-matcha); }
+  .fill-japanese-matchaDark { fill: var(--color-japanese-matchaDark); }
+  .fill-japanese-zen { fill: var(--color-japanese-zen); }
+  .fill-japanese-zenDark { fill: var(--color-japanese-zenDark); }
+
   .perspective-1000 {
     perspective: 1000px;
   }

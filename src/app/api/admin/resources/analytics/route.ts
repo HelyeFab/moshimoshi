@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
-import { getServerSession } from '@/lib/auth/session';
+import { getSession } from '@/lib/auth/session';
 
 export async function GET(req: NextRequest) {
   try {
     // Check authentication and admin status
-    const session = await getServerSession();
+    const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

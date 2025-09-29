@@ -117,7 +117,7 @@ Rules:
 7. IMPORTANT: Each kanji character must be unique - no duplicates allowed
 8. IMPORTANT: The majority of kanji should be from the ${jlptLevel} level
 
-Return ONLY valid JSON in this exact format:
+Return your response as valid json in this exact format:
 {
   "title": "Theme Name in English",
   "description": "Brief description of the theme",
@@ -179,12 +179,27 @@ IMPORTANT:
    * Parse AI response
    */
   parseResponse(response: string): GeneratedMoodboard {
-    const parsed = this.parseJSON<GeneratedMoodboard>(response);
+    let parsed: any;
+    try {
+      parsed = this.parseJSON<GeneratedMoodboard>(response);
+    } catch (error) {
+      console.error('Failed to parse moodboard response:', response.substring(0, 500));
+      throw error;
+    }
+
+    // Log what we got for debugging
+    console.log('Parsed moodboard response:', {
+      hasTitle: !!parsed.title,
+      hasKanjiList: !!parsed.kanjiList,
+      kanjiListIsArray: Array.isArray(parsed.kanjiList),
+      kanjiCount: parsed.kanjiList?.length || 0
+    });
 
     // Validate required fields
     if (!parsed.title || !parsed.kanjiList) {
+      console.error('Missing fields. Parsed object:', JSON.stringify(parsed, null, 2).substring(0, 500));
       throw new AIServiceError(
-        'Invalid moodboard format: missing required fields',
+        `Invalid moodboard format: missing required fields (title: ${!!parsed.title}, kanjiList: ${!!parsed.kanjiList})`,
         'INVALID_RESPONSE_FORMAT',
         500
       );

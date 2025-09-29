@@ -7,6 +7,8 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useStories } from '@/hooks/useStories';
 import Navbar from '@/components/layout/Navbar';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import LearningPageHeader from '@/components/learn/LearningPageHeader';
+import { Select } from '@/components/ui/Select';
 import { Story, JLPTLevel } from '@/types/story';
 
 interface FilterState {
@@ -83,8 +85,8 @@ export default function StoriesPage() {
     return progress?.completed || false;
   };
 
-  const handleStoryClick = (storyId: string) => {
-    router.push(`/stories/${storyId}`);
+  const handleStoryClick = (slug: string) => {
+    router.push(`/stories/${slug}`);
   };
 
   if (loading) {
@@ -108,26 +110,11 @@ export default function StoriesPage() {
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       <Navbar user={user} showUserMenu={true} />
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white py-12 px-4">
-        <div className="container mx-auto">
-          <h1 className="text-4xl font-bold mb-4">{t('stories.title')}</h1>
-          <p className="text-lg opacity-90 max-w-2xl">
-            {t('stories.description')}
-          </p>
-          <div className="mt-6 flex flex-wrap gap-4 text-sm">
-            <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-              📚 {stories.length} {t('stories.totalStories')}
-            </div>
-            <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-              ✅ {Array.from(userProgress.values()).filter(p => p.completed).length} {t('stories.completed')}
-            </div>
-            <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-              📖 {Array.from(userProgress.values()).filter(p => !p.completed && p.progress > 0).length} {t('stories.inProgress')}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* LearningPageHeader with only required props */}
+      <LearningPageHeader
+        title={t('stories.title')}
+        description={t('stories.description')}
+      />
 
       {/* Filters */}
       <div className="container mx-auto px-4 py-6">
@@ -145,41 +132,42 @@ export default function StoriesPage() {
             </div>
 
             {/* JLPT Level */}
-            <select
+            <Select
               value={filters.jlptLevel}
-              onChange={(e) => setFilters(prev => ({ ...prev, jlptLevel: e.target.value as any }))}
-              className="px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
-            >
-              <option value="all">{t('common.allLevels')}</option>
-              <option value="N5">N5 - {t('levels.beginner')}</option>
-              <option value="N4">N4 - {t('levels.elementary')}</option>
-              <option value="N3">N3 - {t('levels.intermediate')}</option>
-              <option value="N2">N2 - {t('levels.upperIntermediate')}</option>
-              <option value="N1">N1 - {t('levels.advanced')}</option>
-            </select>
+              onChange={(value) => setFilters(prev => ({ ...prev, jlptLevel: value as any }))}
+              options={[
+                { value: 'all', label: t('common.allLevels') },
+                { value: 'N5', label: `N5 - ${t('levels.beginner')}` },
+                { value: 'N4', label: `N4 - ${t('levels.elementary')}` },
+                { value: 'N3', label: `N3 - ${t('levels.intermediate')}` },
+                { value: 'N2', label: `N2 - ${t('levels.upperIntermediate')}` },
+                { value: 'N1', label: `N1 - ${t('levels.advanced')}` }
+              ]}
+              placeholder={t('common.selectLevel')}
+            />
 
             {/* Theme */}
-            <select
+            <Select
               value={filters.theme}
-              onChange={(e) => setFilters(prev => ({ ...prev, theme: e.target.value }))}
-              className="px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
-            >
-              <option value="all">{t('stories.allThemes')}</option>
-              {themes.map(theme => (
-                <option key={theme} value={theme}>{theme}</option>
-              ))}
-            </select>
+              onChange={(value) => setFilters(prev => ({ ...prev, theme: value }))}
+              options={[
+                { value: 'all', label: t('stories.allThemes') },
+                ...themes.map(theme => ({ value: theme, label: theme }))
+              ]}
+              placeholder={t('stories.selectTheme')}
+            />
 
             {/* Sort */}
-            <select
+            <Select
               value={filters.sortBy}
-              onChange={(e) => setFilters(prev => ({ ...prev, sortBy: e.target.value as any }))}
-              className="px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
-            >
-              <option value="newest">{t('common.newest')}</option>
-              <option value="popular">{t('common.popular')}</option>
-              <option value="progress">{t('stories.byProgress')}</option>
-            </select>
+              onChange={(value) => setFilters(prev => ({ ...prev, sortBy: value as any }))}
+              options={[
+                { value: 'newest', label: t('common.newest') },
+                { value: 'popular', label: t('common.popular') },
+                { value: 'progress', label: t('stories.byProgress') }
+              ]}
+              placeholder={t('common.sortBy')}
+            />
           </div>
         </div>
 
@@ -192,7 +180,7 @@ export default function StoriesPage() {
             return (
               <div
                 key={story.id}
-                onClick={() => handleStoryClick(story.id)}
+                onClick={() => handleStoryClick(story.slug)}
                 className="bg-white dark:bg-dark-800 rounded-lg shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1 cursor-pointer border border-gray-200 dark:border-dark-700 overflow-hidden"
               >
                 {/* Cover Image */}

@@ -33,18 +33,9 @@ export function GrammarHighlightedText({
 
   // Initialize Kuromoji once
   useEffect(() => {
-    const initKuromoji = async () => {
-      try {
-        const kuromojiService = KuromojiService.getInstance();
-        await kuromojiService.initialize();
-        setIsKuromojiReady(true);
-      } catch (err) {
-        console.error('Failed to initialize Kuromoji:', err);
-        setError('Failed to initialize grammar analyzer');
-      }
-    };
-
-    initKuromoji();
+    // KuromojiService is a singleton that doesn't need initialization
+    // It uses the /api/furigana endpoint internally
+    setIsKuromojiReady(true);
   }, []);
 
   useEffect(() => {

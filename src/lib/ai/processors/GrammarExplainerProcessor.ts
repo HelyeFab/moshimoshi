@@ -161,7 +161,7 @@ Make explanations clear and accessible for language learners.`;
 - Include common mistakes to avoid
 - Note the formality level of the pattern
 
-Return ONLY a valid JSON object as specified.`;
+Return your response as a valid json object as specified.`;
 
     return prompt;
   }

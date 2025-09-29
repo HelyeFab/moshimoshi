@@ -1,20 +1,27 @@
-export type JLPTLevel = 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
+import { JLPTLevel } from './aiStory';
 
 export interface StoryPage {
   pageNumber: number;
-  imageUrl: string;
+  imageUrl?: string;
   imageAlt?: string;
   text: string; // Japanese text with ruby tags for furigana
+  textWithFurigana?: string; // Alternative furigana format
   translation: string; // English translation
   audioUrl?: string; // Optional audio narration
+  vocabularyNotes?: Record<string, string>; // key: word, value: definition
+  grammarNotes?: Record<string, string>; // key: pattern, value: explanation
 }
 
 export interface StoryQuizQuestion {
   id: string;
   question: string;
+  questionJa?: string; // Japanese version of the question
   options: string[];
   correctIndex: number;
   explanation?: string;
+  explanationJa?: string; // Japanese explanation
+  difficulty?: number; // 1-5
+  tags?: string[];
 }
 
 export interface Story {
@@ -25,9 +32,9 @@ export interface Story {
   jlptLevel: JLPTLevel;
   theme: string;
   tags: string[];
-  coverImageUrl: string;
+  coverImageUrl?: string;
   pages: StoryPage[];
-  quiz: StoryQuizQuestion[];
+  quiz?: StoryQuizQuestion[];
 
   // Metadata
   authorId: string;
@@ -50,6 +57,12 @@ export interface Story {
   moodBoardId?: string;
   moodBoardTitle?: string;
   moodBoardKanji?: string[];
+
+  // AI Generation Metadata
+  isAIGenerated?: boolean;
+  aiModel?: string;
+  generationPrompt?: string;
+  characterSheet?: any; // AI character sheet data
 }
 
 // Enhanced Story Progress
@@ -110,7 +123,17 @@ export const STORY_THEMES = [
   'Mystery',
   'Slice of Life',
   'Historical',
-  'Comedy'
+  'Comedy',
+  'Nature',
+  'Travel',
+  'Food',
+  'Family',
+  'Friendship',
+  'Sports',
+  'Music',
+  'Art',
+  'Technology',
+  'Festivals'
 ] as const;
 
 export type StoryTheme = typeof STORY_THEMES[number];
@@ -143,6 +166,9 @@ export interface ReadingSettings {
   highlightVocabulary: boolean;
   highlightMode: 'none' | 'all' | 'content' | 'grammar';
   darkMode: boolean;
+  autoPlay?: boolean;
+  playbackSpeed?: number; // 0.5 to 2.0
+  showTranslation?: boolean;
 }
 
 // Selected Word for dictionary lookup

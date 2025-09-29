@@ -1186,6 +1186,63 @@ export const strings = {
     },
   },
 
+  // Reading Feature
+  reading: {
+    settings: {
+      title: "Paramètres de lecture",
+      description: "Taille de police, furigana, etc.",
+      fontSize: "Taille du texte",
+      size: {
+        small: "P",
+        medium: "M",
+        large: "G",
+        xlarge: "TG"
+      },
+      showFurigana: "Afficher les furigana",
+      highlightVocabulary: "Surligner le vocabulaire",
+      highlightMode: "Mode de surlignage",
+      mode: {
+        all: "Tous les mots",
+        content: "Mots de contenu",
+        grammar: "Grammaire",
+        none: "Aucun"
+      }
+    },
+    menu: {
+      options: "Options",
+      shadowingMode: "Mode Pratique d'Écoute",
+      shadowingDescription: "Pratiquer en parlant",
+      showTranslation: "Afficher la traduction anglaise",
+      hideTranslation: "Masquer la traduction",
+      translationDescription: "Voir l'article en anglais"
+    },
+    vocabulary: {
+      loading: "Chargement...",
+      notFound: "Mot non trouvé",
+      searching: "Recherche...",
+      reading: "Lecture",
+      meaning: "Signification",
+      saveToList: "Enregistrer dans la liste"
+    },
+    grammar: {
+      legend: "Guide des couleurs grammaticales"
+    },
+    content: {
+      processing: "Traitement du contenu..."
+    },
+    metadata: {
+      minutes: "min",
+      readingTime: "Temps de lecture",
+      imageAlt: "Image de l'article pour",
+      viewOriginal: "Voir l'article original"
+    },
+    translation: {
+      title: "Traduction anglaise",
+      loading: "Traduction de l'article...",
+      disclaimer: "Note: Ceci est une traduction automatique et peut ne pas être 100% précise."
+    }
+  },
+
   // Subscription Management
   subscription: {
     status: {
@@ -3093,6 +3150,35 @@ export const strings = {
       description: "Certaines fonctionnalités peuvent être limitées sans connexion internet",
       cached: "Affichage du contenu en cache",
       retry: "Réessayer la connexion"
+    }
+  },
+
+  // Stories
+  stories: {
+    title: "Histoires",
+    description: "Apprenez avec des histoires interactives en japonais",
+    createNew: "Créer Nouvelle",
+    generateAI: "Générer avec IA",
+    published: "Publié",
+    draft: "Brouillon",
+    viewStory: "Voir l'Histoire",
+    editStory: "Modifier",
+    deleteStory: "Supprimer",
+    confirmDelete: "Êtes-vous sûr de vouloir supprimer cette histoire?",
+    emptyState: "Pas encore d'histoires",
+    createFirst: "Créez votre première histoire pour commencer",
+    jlptLevel: "Niveau JLPT",
+    theme: "Thème",
+    pageCount: "{{count}} pages",
+    quizQuestions: "{{count}} questions",
+    takeQuiz: "Faire le Quiz",
+    finish: "Terminer",
+    quiz: {
+      title: "Quiz d'Histoire",
+      yourScore: "Votre Score",
+      excellent: "Excellent!",
+      good: "Bon Travail!",
+      keepPracticing: "Continuez à Pratiquer!"
     }
   }
 }

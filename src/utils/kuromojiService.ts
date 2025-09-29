@@ -70,33 +70,144 @@ class KuromojiService {
   }
 
   async tokenize(text: string): Promise<TokenWithHighlight[]> {
-    // For now, use fallback tokenization
-    // In the future, this could call a server-side API for proper tokenization
+    try {
+      // Call the furigana API which uses kuromoji for tokenization
+      const response = await fetch('/api/furigana/tokenize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+
+      if (!response.ok) {
+        // If API fails, use fallback
+        return this.fallbackTokenize(text);
+      }
+
+      const data = await response.json();
+      if (data.tokens) {
+        // Map the API tokens to our format with highlighting
+        return data.tokens.map((token: any) => {
+          const englishPos = POS_MAPPING[token.pos] || 'other';
+          return {
+            ...token,
+            highlightClass: `pos-${englishPos}`,
+            color: POS_COLORS[englishPos],
+          } as TokenWithHighlight;
+        });
+      }
+    } catch (error) {
+      console.error('Tokenization API error:', error);
+    }
+
+    // If all else fails, use fallback
     return this.fallbackTokenize(text);
   }
 
   private fallbackTokenize(text: string): TokenWithHighlight[] {
-    // Simple fallback that splits by common Japanese punctuation and spaces
-    const segments = text.split(/([。、！？\s]+)/);
-    return segments
-      .filter(segment => segment.length > 0)
-      .map((segment, index) => ({
-        word_id: index,
-        word_type: 'KNOWN',
-        word_position: index,
-        surface_form: segment,
-        pos: '名詞',
-        pos_detail_1: '一般',
-        pos_detail_2: '*',
-        pos_detail_3: '*',
-        conjugated_type: '*',
-        conjugated_form: '*',
-        basic_form: segment,
-        reading: segment,
-        pronunciation: segment,
-        highlightClass: 'grammar-noun',
-        color: POS_COLORS.noun,
-      }));
+    // Use Intl.Segmenter if available for better word segmentation
+    if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+      const segmenter = new Intl.Segmenter('ja', { granularity: 'word' });
+      const segments = Array.from(segmenter.segment(text));
+      return segments.map((segment, index) => this.createToken(segment.segment, index));
+    }
+
+    // Otherwise use regex-based tokenization
+    const tokens: TokenWithHighlight[] = [];
+
+    // Pattern to match Japanese words and particles
+    const pattern = /[\u3040-\u309F]+|[\u30A0-\u30FF]+|[\u4E00-\u9FAF]+|[ぁ-んァ-ヶー一-龯]+|[。、！？]+|[a-zA-Z0-9]+/g;
+    const matches = text.match(pattern) || [];
+
+    let lastIndex = 0;
+
+    for (let i = 0; i < matches.length; i++) {
+      const match = matches[i];
+      const index = text.indexOf(match, lastIndex);
+
+      // Add any spaces or other characters before this match
+      if (index > lastIndex) {
+        const between = text.substring(lastIndex, index);
+        if (between.trim()) {
+          tokens.push(this.createToken(between, tokens.length));
+        }
+      }
+
+      tokens.push(this.createToken(match, tokens.length));
+      lastIndex = index + match.length;
+    }
+
+    // Add any remaining text
+    if (lastIndex < text.length) {
+      const remaining = text.substring(lastIndex);
+      if (remaining.trim()) {
+        tokens.push(this.createToken(remaining, tokens.length));
+      }
+    }
+
+    return tokens.length > 0 ? tokens : [this.createToken(text, 0)];
+  }
+
+  private createToken(text: string, index: number): TokenWithHighlight {
+    // Simple heuristic-based POS tagging
+    let pos = 'その他'; // Other
+
+    // Check for punctuation
+    if (/^[。、！？]$/.test(text)) {
+      pos = '記号';
+    }
+    // Check for particles
+    else if (/^[はがをにでとへからまでよりもやねのか]$/.test(text)) {
+      pos = '助詞';
+    }
+    // Check for hiragana-only (likely verb endings or particles)
+    else if (/^[\u3040-\u309F]+$/.test(text)) {
+      if (text.length > 2 && /[うくぐすつぬぶむるる]$/.test(text)) {
+        pos = '動詞'; // Likely a verb
+      } else if (text.length <= 2) {
+        pos = '助詞'; // Likely a particle
+      } else {
+        pos = '副詞'; // Possibly adverb
+      }
+    }
+    // Check for katakana (likely noun)
+    else if (/^[\u30A0-\u30FF]+$/.test(text)) {
+      pos = '名詞';
+    }
+    // Check for kanji (likely noun or verb stem)
+    else if (/[\u4E00-\u9FAF]/.test(text)) {
+      // Check for common verb patterns with okurigana
+      if (/[\u4E00-\u9FAF]+[うくぐすつぬぶむるる]$/.test(text)) {
+        pos = '動詞';
+      } else if (/[\u4E00-\u9FAF]+[いき]$/.test(text)) {
+        pos = '形容詞';
+      } else {
+        pos = '名詞'; // Default to noun
+      }
+    }
+    // Check for i-adjectives
+    else if (/[いきしちにひみりぎじぢびぴ]$/.test(text)) {
+      pos = '形容詞';
+    }
+
+    const englishPos = POS_MAPPING[pos] || 'other';
+
+    return {
+      word_id: index,
+      word_type: 'KNOWN',
+      word_position: index,
+      surface_form: text,
+      pos: pos,
+      pos_detail_1: '一般',
+      pos_detail_2: '*',
+      pos_detail_3: '*',
+      conjugated_type: '*',
+      conjugated_form: '*',
+      basic_form: text,
+      reading: text,
+      pronunciation: text,
+      highlightClass: `pos-${englishPos}`,
+      color: POS_COLORS[englishPos],
+    };
   }
 
   getPartOfSpeech(token: TokenFeatures): string {

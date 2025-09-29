@@ -9,7 +9,7 @@ import { JLPTLevel } from '@/types/aiStory';
 // Core Types
 // ============================================
 
-export type AIModel = 'gpt-4o-mini' | 'gpt-4o' | 'gpt-3.5-turbo';
+export type AIModel = 'gpt-4' | 'gpt-4o-mini' | 'gpt-4o' | 'gpt-3.5-turbo';
 
 export type AITaskType =
   | 'generate_review_questions'
@@ -352,6 +352,11 @@ export interface ModelPricing {
 }
 
 export const MODEL_PRICING: Record<AIModel, ModelPricing> = {
+  'gpt-4': {
+    model: 'gpt-4',
+    inputCostPer1k: 0.03,
+    outputCostPer1k: 0.06
+  },
   'gpt-4o-mini': {
     model: 'gpt-4o-mini',
     inputCostPer1k: 0.00015,

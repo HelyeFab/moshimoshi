@@ -83,8 +83,8 @@ export default function StoriesPage() {
     return progress?.completed || false;
   };
 
-  const handleStoryClick = (storyId: string) => {
-    router.push(`/stories/${storyId}`);
+  const handleStoryClick = (slug: string) => {
+    router.push(`/stories/${slug}`);
   };
 
   if (loading) {
@@ -192,7 +192,7 @@ export default function StoriesPage() {
             return (
               <div
                 key={story.id}
-                onClick={() => handleStoryClick(story.id)}
+                onClick={() => handleStoryClick(story.slug)}
                 className="bg-white dark:bg-dark-800 rounded-lg shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1 cursor-pointer border border-gray-200 dark:border-dark-700 overflow-hidden"
               >
                 {/* Cover Image */}

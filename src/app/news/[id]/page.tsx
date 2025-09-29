@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import EnhancedArticleReader from '@/components/news/EnhancedArticleReader';
+import EnhancedArticleReader from '@/components/news/EnhancedArticleReaderFinal';
 import Navbar from '@/components/layout/Navbar';
 import { useI18n } from '@/i18n/I18nContext';
+import { useAuth } from '@/hooks/useAuth';
 
 interface NewsArticle {
   id: string;
@@ -29,6 +30,7 @@ export default function NewsArticlePage() {
   const params = useParams();
   const router = useRouter();
   const { t } = useI18n();
+  const { user } = useAuth();
   const [article, setArticle] = useState<NewsArticle | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -53,7 +55,7 @@ export default function NewsArticlePage() {
       }
     } catch (err) {
       console.error('Failed to load article:', err);
-      setError(t('news.error.loadFailed', 'Failed to load article'));
+      setError(t('news.error.loadFailed'));
     } finally {
       setLoading(false);
     }
@@ -65,15 +67,12 @@ export default function NewsArticlePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navbar backLink={{
-          href: '/news',
-          label: t('news.backToNews', 'Back to news list')
-        }} />
+      <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
+        <Navbar user={user} showUserMenu={true} />
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600 mx-auto mb-4"></div>
-            <p className="text-muted-foreground">{t('news.loading', 'Loading...')}</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500 mx-auto mb-4"></div>
+            <p className="text-muted-foreground dark:text-dark-400">{t('news.loading')}</p>
           </div>
         </div>
       </div>
@@ -82,19 +81,16 @@ export default function NewsArticlePage() {
 
   if (error || !article) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navbar backLink={{
-          href: '/news',
-          label: t('news.backToNews', 'Back to news list')
-        }} />
+      <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
+        <Navbar user={user} showUserMenu={true} />
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <p className="text-destructive mb-4">{error || t('news.error.articleNotFound', 'Article not found')}</p>
+            <p className="text-danger-600 dark:text-danger-400 mb-4">{error || t('news.error.articleNotFound')}</p>
             <button
               onClick={handleBack}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+              className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
             >
-              {t('news.backToNews', 'Back to news list')}
+              {t('news.backToNews')}
             </button>
           </div>
         </div>
@@ -103,11 +99,8 @@ export default function NewsArticlePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar backLink={{
-        href: '/news',
-        label: t('news.backToNews', 'Back to news list')
-      }} />
+    <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
+      <Navbar user={user} showUserMenu={true} />
       <EnhancedArticleReader article={article} onBack={handleBack} />
     </div>
   );

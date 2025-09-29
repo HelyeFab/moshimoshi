@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb, FieldValue } from '@/lib/firebase/admin';
 import { cookies } from 'next/headers';
-import { getServerSession } from '@/lib/auth/session';
+import { getSession } from '@/lib/auth/session';
 
 export async function GET(
   req: NextRequest,
@@ -84,7 +84,7 @@ export async function GET(
 async function trackUniqueView(resourceId: string, req: NextRequest) {
   try {
     // Get user identifier (logged in user ID or anonymous session)
-    const session = await getServerSession();
+    const session = await getSession();
     const userId = session?.uid || null;
 
     // Get IP address for additional uniqueness (in production, this would come from headers)

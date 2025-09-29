@@ -47,7 +47,7 @@ export class AIService {
     this.cacheManager = new PersistentCacheManager();
     this.usageTracker = new UsageTracker();
     this.defaultConfig = {
-      model: 'gpt-4o-mini' as AIModel, // Force single model
+      model: 'gpt-4o-mini' as AIModel, // Single model - GPT-4o-mini for cost efficiency
       temperature: 0.7,
       maxTokens: 4000,
       timeout: 30000,
@@ -144,6 +144,7 @@ export class AIService {
 
     } catch (error) {
       const processingTime = Date.now() - startTime;
+      const model = this.selectModel(request);
 
       // Enhanced error logging
       console.error('❌ AI Service Error:', {
@@ -254,7 +255,7 @@ export class AIService {
    * Select optimal model based on task and configuration
    */
   private selectModel(request: AIRequest): AIModel {
-    // ALWAYS use gpt-4o-mini for all tasks - single fixed model
+    // ALWAYS use gpt-4o-mini for all tasks - single model for cost efficiency
     return 'gpt-4o-mini';
   }
 

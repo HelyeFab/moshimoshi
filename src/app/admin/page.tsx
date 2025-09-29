@@ -222,6 +222,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
           {[
             { href: '/admin/resources', icon: '📚', label: 'Resources' },
+            { href: '/admin/stories', icon: '📖', label: 'Stories' },
             { href: '/admin/moodboards', icon: '🎨', label: strings.admin?.quickActionButtons?.moodBoards || 'Moodboards' },
             { href: '/admin/subscriptions', icon: '💳', label: strings.admin?.quickActionButtons?.subscriptions || 'Subscriptions' },
             { href: '/admin/blog', icon: '📝', label: strings.admin?.quickActionButtons?.blog || 'Blog' },

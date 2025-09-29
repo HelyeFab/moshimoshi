@@ -14,6 +14,8 @@ import {
   ReviewQuestion
 } from '../types';
 import { PromptManager } from '../config/PromptManager';
+import { AICharacterSheet, AIStoryOutline } from '@/types/ai-story';
+import { JLPTLevel } from '@/types/aiStory';
 
 export class StoryProcessor extends BaseProcessor<StoryGenerationRequest, GeneratedStory> {
   private promptManager: PromptManager;
@@ -114,7 +116,7 @@ Content Guidelines:
 - Culturally respectful
 - Age-appropriate for all learners
 
-Return ONLY valid JSON in the specified format.`;
+Return your response as valid json in the specified format.`;
   }
 
   /**
