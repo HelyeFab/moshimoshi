@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     const unifiedBody = {
       type: 'xp',
       data: {
-        add: amount || 0,
+        amount: amount || 0,  // Fixed: unified API expects 'amount', not 'add'
         source: source || eventType,
         eventType,
         metadata: {
