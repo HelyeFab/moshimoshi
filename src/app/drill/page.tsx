@@ -6,14 +6,11 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useFeature } from '@/hooks/useFeature';
 import { useSubscription } from '@/hooks/useSubscription';
-import { useXP } from '@/hooks/useXP';
+import { useUserStats } from '@/hooks/useUserStats';
 import Navbar from '@/components/layout/Navbar';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { useToast } from '@/components/ui/Toast';
-import { recordActivityAndSync } from '@/lib/sync/streakSync';
-import { StreakActivity } from '@/stores/streakStore';
-import { useAchievementStore } from '@/stores/achievement-store';
 import type { DrillSession, DrillQuestion, DrillSettings } from '@/types/drill';
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
 import type { DrillSessionData } from '@/lib/review-engine/progress/DrillProgressManager';
@@ -25,8 +22,7 @@ export default function DrillPage() {
   const { subscription } = useSubscription();
   const { checkAndTrack, remaining } = useFeature('conjugation_drill');
   const { showToast } = useToast();
-  const { trackXP } = useXP();
-  const { updateProgress } = useAchievementStore();
+  const { addXP, recordSession } = useUserStats();
   const drillManager = DrillProgressManager.getInstance();
 
   // Debug logging
@@ -208,46 +204,25 @@ export default function DrillPage() {
       // - Achievement event emission
       await drillManager.trackDrillSession(sessionData, user, isPremium);
 
-      // 4. Track activity for streak
-      await recordActivityAndSync(
-        StreakActivity.DRILL_COMPLETION,
-        isPremium,
-        Date.now()
-      );
-
-      // 5. Award XP based on performance using centralized config
+      // 4. Calculate XP based on performance using centralized config
       const { xpConfigService } = await import('@/lib/services/XPConfigService');
       const xpCalculation = xpConfigService.calculateDrillXP(accuracy);
       const xpAmount = xpCalculation.cappedXP;
 
-      // 6. Track XP with idempotency and feature tracking
-      if (xpCalculation.cappedXP > 0) {
-        await trackXP(
-          'drill_completed',
-          xpAmount,
-          `Drill Session - ${session.mode}`,
-          {
-            // Required fields for proper tracking
-            idempotencyKey: `drill_${session.id}`,
-          feature: 'drill',
+      // 5. Award XP (non-blocking)
+      if (xpAmount > 0) {
+        addXP(xpAmount, 'drill_completed').catch(err => {
+          console.error('Failed to add XP:', err)
+        })
+      }
 
-          // Session details
-          sessionId: session.id,
-          accuracy,
-          questionsCount: session.questions.length,
-          score: score,
-          mode: session.mode,
-          wordTypeFilter: session.wordTypeFilter
-        }
-      );
-      } // Close the if statement for XP tracking
-
-      // 7. Update achievements
-      await updateProgress({
-        sessionType: 'drill',
+      // 6. Record session completion (includes XP and auto-updates streak if XP >= 10)
+      await recordSession({
+        type: 'drill',
         itemsReviewed: session.questions.length,
         accuracy,
-        duration: Date.now() - new Date(session.startedAt).getTime()
+        duration: Date.now() - new Date(session.startedAt).getTime(),
+        xpEarned: xpAmount  // Pass XP to determine streak update
       });
 
       // 8. Show success message with stats
