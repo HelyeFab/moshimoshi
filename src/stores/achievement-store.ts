@@ -12,6 +12,7 @@ import logger from '@/lib/logger'
 import { achievementManager } from '@/utils/achievementManager'
 import { now, nowDate, startOfToday } from '@/lib/time/dateProvider'
 import { calculateStreakFromDates, cleanNestedDates } from '@/utils/streakCalculator'
+import { createUserStorage } from '@/lib/storage/zustand-user-storage'
 
 /**
  * Achievement store state interface
@@ -411,12 +412,9 @@ export const useAchievementStore = create<AchievementStore>()(
             // Save updated activity data locally
             localStorage.setItem(`activities_${userId}`, JSON.stringify(activityData))
 
-            // Try to save to Firebase if premium (but don't block on it)
-            if (isPremium) {
-              achievementManager.saveActivities(userId, activityData, isPremium).catch(err => {
-                console.warn('[Achievement] Failed to save to Firebase:', err)
-              })
-            }
+            // Note: Firebase sync is handled by the unified API call above (line 325)
+            // This fallback path is for offline/API-unavailable scenarios only
+            // No need to call achievementManager.saveActivities() here to avoid double-write
 
             // Update local state
             set({
@@ -578,6 +576,7 @@ export const useAchievementStore = create<AchievementStore>()(
       }),
       {
         name: 'achievement-store',
+        storage: createUserStorage('achievement-store'),
         partialize: (state) => ({
           // Only persist essential data
           currentUserId: state.currentUserId,
