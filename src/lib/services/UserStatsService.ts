@@ -15,6 +15,7 @@ import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue, Timestamp } from 'firebase-admin/firestore'
 import { calculateStreakFromDates, cleanNestedDates, checkStreakRisk } from '@/utils/streakCalculator'
 import logger from '@/lib/logger'
+import { leaderboardMaterializer } from '@/lib/leaderboard/LeaderboardMaterializer'
 
 // ============================================
 // Type Definitions
@@ -277,11 +278,18 @@ export class UserStatsService {
   async updateStreak(userId: string, activityDate?: string): Promise<UserStats> {
     const today = activityDate || new Date().toISOString().split('T')[0]
 
-    return this.updateUserStats(userId, {
+    const updatedStats = await this.updateUserStats(userId, {
       type: 'streak',
       data: { activityDate: today },
       timestamp: Date.now()
     })
+
+    // Sync to leaderboard (async, non-blocking)
+    this.syncToLeaderboard(userId, 'streak_update').catch(err => {
+      logger.error(`[UserStatsService] Failed to sync streak to leaderboard for ${userId}:`, err)
+    })
+
+    return updatedStats
   }
 
   /**
@@ -300,16 +308,14 @@ export class UserStatsService {
       timestamp: Date.now()
     })
 
-    // Check if we should update streak
-    // Only if XP gained is >= minimum and streak hasn't been updated today
-    const today = new Date().toISOString().split('T')[0]
-    const lastActivity = updatedStats.streak.lastActivityDate
+    // Sync to leaderboard (async, non-blocking)
+    this.syncToLeaderboard(userId, 'xp_update').catch(err => {
+      logger.error(`[UserStatsService] Failed to sync XP to leaderboard for ${userId}:`, err)
+    })
 
-    if (xpGained >= minXPForStreak && lastActivity !== today) {
-      // Update streak (this will only mark today as active, won't double count)
-      logger.info(`[UserStatsService] Auto-updating streak for user ${userId} due to ${xpGained} XP earned`)
-      return this.updateStreak(userId, today)
-    }
+    // Note: Auto-streak removed - streaks are now updated explicitly by session completion
+    // This ensures streak updates only when user completes a session with 10+ XP
+    // See recordSession() method for streak update logic
 
     return updatedStats
   }
@@ -322,15 +328,24 @@ export class UserStatsService {
     achievementId: string,
     points: number
   ): Promise<UserStats> {
-    return this.updateUserStats(userId, {
+    const updatedStats = await this.updateUserStats(userId, {
       type: 'achievement',
       data: { achievementId, points },
       timestamp: Date.now()
     })
+
+    // Sync to leaderboard (async, non-blocking)
+    this.syncToLeaderboard(userId, 'achievement_unlock').catch(err => {
+      logger.error(`[UserStatsService] Failed to sync achievement to leaderboard for ${userId}:`, err)
+    })
+
+    return updatedStats
   }
 
   /**
    * Record session completion
+   *
+   * Note: Sessions with 10+ XP will automatically update streak
    */
   async recordSession(
     userId: string,
@@ -339,13 +354,34 @@ export class UserStatsService {
       itemsReviewed: number
       accuracy: number
       duration: number
+      xpEarned?: number  // Optional: XP earned in this session
     }
   ): Promise<UserStats> {
-    return this.updateUserStats(userId, {
+    // Record the session first
+    const updatedStats = await this.updateUserStats(userId, {
       type: 'session',
       data: sessionData,
       timestamp: Date.now()
     })
+
+    // Check if streak should be updated based on XP threshold
+    // Get minimum XP required for streak from config
+    const xpConfig = await import('@/lib/services/XPConfigService')
+    const minXPForStreak = xpConfig.XPConfigService.getMinXPForStreak()
+
+    const xpEarned = sessionData.xpEarned || 0
+    const today = new Date().toISOString().split('T')[0]
+    const lastActivity = updatedStats.streak.lastActivityDate
+
+    // Update streak if:
+    // 1. User earned 10+ XP in this session
+    // 2. Streak hasn't been updated today yet
+    if (xpEarned >= minXPForStreak && lastActivity !== today) {
+      logger.info(`[UserStatsService] Updating streak for user ${userId} - session with ${xpEarned} XP`)
+      return this.updateStreak(userId, today)
+    }
+
+    return updatedStats
   }
 
   // ============================================
@@ -359,33 +395,18 @@ export class UserStatsService {
     logger.warn(`[UserStatsService] Repairing stats for user ${userId}`)
 
     try {
-      // Fetch data from all sources
-      const [leaderboardStats, achievementsData, activitiesData, sessionsData] = await Promise.all([
+      // Fetch data from user_stats and leaderboard_stats only (no legacy sources)
+      const [leaderboardStats, sessionsData] = await Promise.all([
         adminDb.collection('leaderboard_stats').doc(userId).get(),
-        adminDb.collection('users').doc(userId).collection('achievements').doc('data').get(),
-        adminDb.collection('users').doc(userId).collection('achievements').doc('activities').get(),
         adminDb.collection('users').doc(userId).collection('statistics').doc('overall').get()
       ])
 
-      // Extract and clean dates
-      let cleanDates: Record<string, boolean> = {}
-      if (activitiesData.exists) {
-        const rawData = activitiesData.data()
-        cleanDates = cleanNestedDates(rawData)
-
-        // Also check for corrupted root-level dates
-        Object.keys(rawData || {}).forEach(key => {
-          if (key.startsWith('dates.') && key.match(/dates\.\d{4}-\d{2}-\d{2}$/)) {
-            const dateOnly = key.replace('dates.', '')
-            cleanDates[dateOnly] = true
-          }
-        })
-      }
+      // Use existing dates from current data or empty object
+      const cleanDates: Record<string, boolean> = currentData?.streak?.dates || {}
 
       // Calculate correct streak
       const existingBest = currentData?.streak?.best ||
-                          leaderboardStats.data()?.bestStreak ||
-                          activitiesData.data()?.bestStreak || 0
+                          leaderboardStats.data()?.bestStreak || 0
 
       const streakResult = calculateStreakFromDates(cleanDates, existingBest)
       const riskInfo = checkStreakRisk(cleanDates)
@@ -405,24 +426,24 @@ export class UserStatsService {
         },
 
         xp: {
-          total: achievementsData.data()?.totalXp || leaderboardStats.data()?.totalXP || 0,
-          level: achievementsData.data()?.currentLevel || leaderboardStats.data()?.level || 1,
-          levelTitle: this.getLevelTitle(achievementsData.data()?.currentLevel || 1),
-          weeklyXP: leaderboardStats.data()?.weeklyXP || 0,
-          monthlyXP: leaderboardStats.data()?.monthlyXP || 0,
+          total: currentData?.xp?.total || leaderboardStats.data()?.totalXP || 0,
+          level: currentData?.xp?.level || leaderboardStats.data()?.level || 1,
+          levelTitle: this.getLevelTitle(currentData?.xp?.level || 1),
+          weeklyXP: currentData?.xp?.weeklyXP || leaderboardStats.data()?.weeklyXP || 0,
+          monthlyXP: currentData?.xp?.monthlyXP || leaderboardStats.data()?.monthlyXP || 0,
           xpToNextLevel: this.calculateXPToNextLevel(
-            achievementsData.data()?.totalXp || 0,
-            achievementsData.data()?.currentLevel || 1
+            currentData?.xp?.total || 0,
+            currentData?.xp?.level || 1
           ),
-          xpGainedToday: 0
+          xpGainedToday: currentData?.xp?.xpGainedToday || 0
         },
 
         achievements: {
-          totalPoints: achievementsData.data()?.totalPoints || leaderboardStats.data()?.achievementPoints || 0,
-          unlockedCount: achievementsData.data()?.unlocked?.length || 0,
-          unlockedIds: achievementsData.data()?.unlocked || [],
-          completionPercentage: achievementsData.data()?.statistics?.percentageComplete || 0,
-          byCategory: achievementsData.data()?.statistics?.byCategory || {}
+          totalPoints: currentData?.achievements?.totalPoints || leaderboardStats.data()?.totalPoints || 0,
+          unlockedCount: currentData?.achievements?.unlockedCount || 0,
+          unlockedIds: currentData?.achievements?.unlockedIds || [],
+          completionPercentage: currentData?.achievements?.completionPercentage || 0,
+          byCategory: currentData?.achievements?.byCategory || {}
         },
 
         sessions: {
@@ -679,6 +700,30 @@ export class UserStatsService {
       averageStreak: totalUsers > 0 ? (totalStreakDays / totalUsers).toFixed(1) : 0,
       premiumUsers,
       freeUsers: totalUsers - premiumUsers
+    }
+  }
+
+  // ============================================
+  // Leaderboard Sync Integration
+  // ============================================
+
+  /**
+   * Sync user stats to leaderboard_stats (materialized view)
+   *
+   * This method is called after streak, XP, or achievement updates.
+   * It queues the sync with debouncing to prevent excessive writes.
+   *
+   * @private Internal use only - called by update methods
+   */
+  private async syncToLeaderboard(userId: string, trigger: string): Promise<void> {
+    logger.debug(`[UserStatsService] Triggering leaderboard sync for ${userId} (trigger: ${trigger})`)
+
+    try {
+      // Queue the sync (with debouncing)
+      await leaderboardMaterializer.syncUserToLeaderboard(userId, false)
+    } catch (error) {
+      // Log but don't throw - sync failures shouldn't break user operations
+      logger.error(`[UserStatsService] Leaderboard sync failed for ${userId}:`, error)
     }
   }
 }

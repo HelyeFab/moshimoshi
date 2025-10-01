@@ -10,6 +10,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { userStatsService } from '@/lib/services/UserStatsService'
+import { adminDb } from '@/lib/firebase/admin'
+import { FieldValue } from 'firebase-admin/firestore'
 import logger from '@/lib/logger'
 
 /**
@@ -69,11 +71,48 @@ export async function POST(request: NextRequest) {
 
     switch (type) {
       case 'streak':
-        // Update streak (daily activity)
-        updatedStats = await userStatsService.updateStreak(
-          session.uid,
-          data?.activityDate
-        )
+        // Handle full streak data from achievementManager
+        if (data?.dates && (data?.current !== undefined || data?.best !== undefined)) {
+          // Full streak sync from achievementManager
+          logger.info('[Unified Stats API] Syncing full streak data', {
+            userId: session.uid,
+            current: data.current,
+            best: data.best,
+            datesCount: Object.keys(data.dates || {}).length
+          })
+
+          // Get current stats first
+          const currentStats = await userStatsService.getUserStats(session.uid)
+
+          // Update with full streak data
+          currentStats.streak = {
+            ...currentStats.streak,
+            dates: data.dates || {},
+            current: data.current || 0,
+            best: Math.max(data.best || 0, currentStats.streak.best || 0),
+            lastActivityTimestamp: data.lastActivityTimestamp || Date.now(),
+            lastActivityDate: new Date(data.lastActivityTimestamp || Date.now()).toISOString().split('T')[0],
+            isActiveToday: false // Will be calculated
+          }
+
+          // Save directly to Firebase for premium users
+          const userDoc = await adminDb.collection('users').doc(session.uid).get()
+          const userData = userDoc.data()
+          const plan = userData?.subscription?.plan
+
+          if (plan === 'premium_monthly' || plan === 'premium_yearly') {
+            // Save to user_stats collection (single source of truth)
+            await adminDb.collection('user_stats').doc(session.uid).set(currentStats, { merge: true })
+          }
+
+          updatedStats = currentStats
+        } else {
+          // Simple activity date update
+          updatedStats = await userStatsService.updateStreak(
+            session.uid,
+            data?.activityDate
+          )
+        }
         break
 
       case 'xp':
@@ -118,11 +157,12 @@ export async function POST(request: NextRequest) {
           type: data.type,
           itemsReviewed: data.itemsReviewed || 0,
           accuracy: data.accuracy || 0,
-          duration: data.duration || 0
+          duration: data.duration || 0,
+          xpEarned: data.xpEarned || 0  // Pass XP earned to determine streak update
         })
 
-        // Also update streak for session completion
-        await userStatsService.updateStreak(session.uid)
+        // Note: Streak update is now handled inside recordSession() based on XP threshold
+        // No need to call updateStreak() here anymore
         break
 
       case 'profile':
