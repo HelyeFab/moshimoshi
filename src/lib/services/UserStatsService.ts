@@ -505,8 +505,10 @@ export class UserStatsService {
 
         const riskInfo = checkStreakRisk(updated.streak.dates)
 
+        // IMPORTANT: Explicitly reconstruct streak object to prevent spreading corruption
+        // Do NOT use ...updated.streak as it preserves corrupted nested data in dates map
         updated.streak = {
-          ...updated.streak,
+          dates: updated.streak.dates,  // Keep existing dates map (should only contain YYYY-MM-DD: true)
           current: streakResult.currentStreak,
           best: streakResult.bestStreak,
           lastActivityDate: streakResult.lastActivityDate,

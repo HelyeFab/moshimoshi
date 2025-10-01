@@ -32,12 +32,18 @@ export async function GET(request: NextRequest) {
 
     logger.info(`[Admin] Checking stats consistency (limit: ${limit})`)
 
+    // Get actual counts from Firebase
+    const userStatsSnapshot = await adminDb.collection('user_stats').get()
+    const actualUserCount = userStatsSnapshot.size
+
     // Run consistency check
     const inconsistencies = await leaderboardMaterializer.checkConsistency({ limit })
 
-    // Calculate summary
+    // Calculate summary with real counts
+    const consistentUsers = actualUserCount - inconsistencies.length
     const summary = {
-      totalUsers: limit,
+      totalUsers: actualUserCount,
+      consistentUsers,
       inconsistentUsers: inconsistencies.length,
       highSeverity: inconsistencies.filter(i => i.severity === 'high').length,
       mediumSeverity: inconsistencies.filter(i => i.severity === 'medium').length,
