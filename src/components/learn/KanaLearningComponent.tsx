@@ -7,7 +7,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
-import { useAchievementStore } from '@/stores/achievement-store'
+import { useUserStats } from '@/hooks/useUserStats'
 import { kanaProgressManager, type CharacterProgress as ManagerProgress } from '@/utils/kanaProgressManager'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
 import { kanaData, getBasicKana, playKanaAudio, type KanaCharacter } from '@/data/kanaData'
@@ -19,8 +19,8 @@ import KanaDetailsModal from '@/components/learn/KanaDetailsModal'
 import { KanaAdapter } from '@/lib/review-engine/adapters/kana.adapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-import { recordActivityAndSync } from '@/lib/sync/streakSync'
-import { StreakActivity } from '@/stores/streakStore'
+// Removed: recordActivityAndSync and StreakActivity
+// Streaks are now automatically updated via XP tracking in UserStatsService
 
 // Dynamically import components that use animations or client-side features
 const KanaGrid = dynamic(() => import('@/components/learn/KanaGrid'), {
@@ -60,8 +60,9 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   const { showToast } = useToast()
   const { user } = useAuth()
   const { isPremium } = useSubscription()
+  const { recordSession } = useUserStats()
 
-  
+
   // Initialize kana adapter for converting to ReviewableContent
   const kanaAdapter = useMemo(() => new KanaAdapter({
     contentType: 'kana',
@@ -203,12 +204,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         return
       }
 
-      // Initialize achievement store with user ID
-      // Use isPremium which is fetched fresh from the subscription endpoint
-      const achievementStore = useAchievementStore.getState()
-      if (!achievementStore.currentUserId || achievementStore.currentUserId !== user.uid) {
-        await achievementStore.initialize(user.uid, isPremium)
-      }
+      // Note: Achievement store initialization removed - now using unified stats system via useUserStats hook
 
       // Try to migrate from localStorage first (one-time operation)
       const migrationKey = `kana-progress-${defaultScript}-${user.uid}-migrated`
@@ -387,37 +383,33 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       }
     }
 
-    // Record review session for streak
-    await recordActivityAndSync(
-      StreakActivity.REVIEW_SESSION,
-      isPremium,
-      Date.now()
-    )
+    // NOTE: Streak tracking removed - now handled automatically via XP system
+    // when XP >= 10 and activity has countsForStreak=true in xp-config.json
 
     setLastSessionStats(stats)
     setViewMode('browse')
 
-    // Update achievements and streak only if user is authenticated
+    // Record session completion (includes streak update if XP >= 10)
     if (user && user.uid) {
-      const achievementStore = useAchievementStore.getState()
+      try {
+        // Calculate XP earned (kana learning typically awards XP per character)
+        const xpPerCharacter = 5 // From xp-config.json: kana_practice.rewards.perCorrect
+        const xpEarned = Math.floor(stats.accuracy / 100 * stats.totalItems * xpPerCharacter)
 
-      // Ensure store is initialized with user ID
-      // Use isPremium which is fetched fresh from the subscription endpoint
-      if (!achievementStore.currentUserId || achievementStore.currentUserId !== user.uid) {
-        await achievementStore.initialize(user.uid, isPremium)
+        await recordSession({
+          type: 'kana',
+          itemsReviewed: stats.totalItems,
+          accuracy: stats.accuracy,
+          duration: stats.duration,
+          xpEarned  // Pass XP to determine streak update
+        })
+      } catch (err) {
+        console.error('Failed to record kana session:', err)
       }
-
-      await achievementStore.updateProgress({
-        sessionType: 'kana',
-        itemsReviewed: stats.totalItems,
-        accuracy: stats.accuracy,
-        duration: stats.duration,
-        completedAt: new Date()
-      })
     }
 
     showToast(`${t('review.sessionComplete')} - ${t('common.accuracy')}: ${stats.accuracy.toFixed(1)}%`, 'success')
-  }, [showToast, t, user, isPremium, recordActivityAndSync, selectedCharacters, progress, saveProgressUpdate, getCharacterId, defaultScript])
+  }, [showToast, t, user, isPremium, selectedCharacters, progress, saveProgressUpdate, getCharacterId, defaultScript])
 
   // Toggle character pin status
   const handleTogglePin = useCallback(async (characterId: string) => {
@@ -692,22 +684,18 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
                   // No need for duplicate saving here
                 }
 
-                // Record study session for streak
-                await recordActivityAndSync(
-                  StreakActivity.STUDY_SESSION,
-                  isPremium,
-                  Date.now()
-                )
-
-                // Update achievements and streak for study session
-                const achievementStore = useAchievementStore.getState()
-                await achievementStore.updateProgress({
-                  sessionType: 'kana_study',
-                  itemsReviewed: studyCharacters.length,
-                  accuracy: 100, // Study mode is practice, assume completion is success
-                  duration: 0, // Duration tracking could be added if needed
-                  completedAt: new Date()
-                })
+                // Record study session (minimal tracking, no streak impact since study mode)
+                try {
+                  await recordSession({
+                    type: 'kana_study',
+                    itemsReviewed: studyCharacters.length,
+                    accuracy: 100, // Study mode is practice
+                    duration: 0,
+                    xpEarned: 0  // No XP for study mode (just practice)
+                  })
+                } catch (err) {
+                  console.error('Failed to record study session:', err)
+                }
 
                 // Reached the end - show completion feedback
                 showToast(t('learn.studySessionComplete'), 'success')
