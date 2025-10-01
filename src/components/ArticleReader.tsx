@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useI18n } from '@/i18n/I18nContext';
-import { useTTS } from '@/hooks/useTTS';
-import AudioButton from '@/components/ui/AudioButton';
+import SpeakerIcon from '@/components/ui/SpeakerIcon';
 
 interface NewsArticle {
   id: string;
@@ -139,7 +138,6 @@ function VocabularyPopup({
   onClose: () => void;
 }) {
   const { t } = useI18n();
-  const { play: playTTS } = useTTS();
   const [loading, setLoading] = useState(true);
   const [definition, setDefinition] = useState<any>(null);
 
@@ -168,15 +166,10 @@ function VocabularyPopup({
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center gap-2">
           <h3 className="font-medium text-foreground">{word}</h3>
-          <AudioButton
-            onPlay={async () => {
-              await playTTS(word, {
-                voice: 'ja-JP',
-                rate: 0.8, // Slower for individual words
-              });
-            }}
+          <SpeakerIcon
+            text={word}
             size="sm"
-            position="inline"
+            options={{ voice: 'ja-JP', speed: 0.8 }}
           />
         </div>
         <button
@@ -217,7 +210,6 @@ function VocabularyPopup({
 
 export default function ArticleReader({ article, onBack }: ArticleReaderProps) {
   const { t } = useI18n();
-  const { play: playTTS, stop: stopTTS, playing: isPlaying } = useTTS();
   const [settings, setSettings] = useState<ReadingSettings>({
     fontSize: 'medium',
     showFurigana: true,
@@ -289,6 +281,13 @@ export default function ArticleReader({ article, onBack }: ArticleReaderProps) {
     }
   };
 
+  const cleanTextForTTS = (text: string) => {
+    // Remove ruby tags
+    const cleanText = text.replace(/<ruby>(.*?)<rt>.*?<\/rt><\/ruby>/g, '$1');
+    // Remove all HTML tags
+    return cleanText.replace(/<[^>]*>/g, '');
+  };
+
   const formatDate = (date: string | Date) => {
     const d = new Date(date);
     return d.toLocaleDateString('ja-JP', {
@@ -315,26 +314,10 @@ export default function ArticleReader({ article, onBack }: ArticleReaderProps) {
             </button>
 
             {/* TTS Button */}
-            <AudioButton
-              onPlay={async () => {
-                // Stop if already playing
-                if (isPlaying) {
-                  stopTTS();
-                  return;
-                }
-
-                // Get clean text without ruby tags
-                const cleanText = processedContent.replace(/<ruby>(.*?)<rt>.*?<\/rt><\/ruby>/g, '$1');
-                const plainText = cleanText.replace(/<[^>]*>/g, ''); // Remove all HTML tags
-
-                // Play the article content
-                await playTTS(plainText, {
-                  voice: 'ja-JP',
-                  rate: 0.9, // Slightly slower for better comprehension
-                });
-              }}
+            <SpeakerIcon
+              text={cleanTextForTTS(processedContent)}
               size="md"
-              position="inline"
+              options={{ voice: 'ja-JP', speed: 0.9 }}
             />
           </div>
 
@@ -371,15 +354,10 @@ export default function ArticleReader({ article, onBack }: ArticleReaderProps) {
               {article.title}
             </h1>
             {/* TTS for Title */}
-            <AudioButton
-              onPlay={async () => {
-                await playTTS(article.title, {
-                  voice: 'ja-JP',
-                  rate: 0.9,
-                });
-              }}
+            <SpeakerIcon
+              text={article.title}
               size="sm"
-              position="inline"
+              options={{ voice: 'ja-JP', speed: 0.9 }}
             />
           </div>
 
@@ -431,18 +409,10 @@ export default function ArticleReader({ article, onBack }: ArticleReaderProps) {
                 </p>
                 {/* Per-paragraph TTS button - shown on hover */}
                 <div className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <AudioButton
-                    onPlay={async () => {
-                      // Clean paragraph text
-                      const cleanPara = paragraph.replace(/<ruby>(.*?)<rt>.*?<\/rt><\/ruby>/g, '$1');
-                      const plainPara = cleanPara.replace(/<[^>]*>/g, '');
-                      await playTTS(plainPara, {
-                        voice: 'ja-JP',
-                        rate: 0.9,
-                      });
-                    }}
+                  <SpeakerIcon
+                    text={cleanTextForTTS(paragraph)}
                     size="sm"
-                    position="inline"
+                    options={{ voice: 'ja-JP', speed: 0.9 }}
                   />
                 </div>
               </div>

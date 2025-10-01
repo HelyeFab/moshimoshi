@@ -6,7 +6,6 @@ import { JapaneseWord, isDrillable, getRecommendedListType } from '@/types/vocab
 import { useState, useEffect, useMemo } from 'react'
 import { useI18n } from '@/i18n/I18nContext'
 import { searchTatoebaExamples, type ExampleSentence } from '@/utils/tatoebaSearch'
-import { useTTS } from '@/hooks/useTTS'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useAuth } from '@/hooks/useAuth'
 import { ConjugationDisplay } from '@/components/conjugation/ConjugationDisplay'
@@ -14,7 +13,7 @@ import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 import { useKanjiDetails, extractKanjiFromText } from '@/hooks/useKanjiDetails'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import AddToListButton from '@/components/lists/AddToListButton'
-import AudioButton from '@/components/ui/AudioButton'
+import SpeakerIcon from '@/components/ui/SpeakerIcon'
 
 interface WordDetailsModalProps {
   word: JapaneseWord | null
@@ -28,7 +27,6 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   const [loadingExamples, setLoadingExamples] = useState(false)
   const [activeTab, setActiveTab] = useState<'details' | 'conjugations'>('details')
   const { strings, t } = useI18n()
-  const { play, preload } = useTTS({ cacheFirst: true })
   const { user: authUser } = useAuth()
   const { subscription } = useSubscription()
   const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
@@ -44,15 +42,6 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   useEffect(() => {
     if (word && isOpen) {
       loadExamples()
-
-      // Preload audio for better UX
-      const textsToPreload: string[] = []
-      if (word.kanji) textsToPreload.push(word.kanji)
-      if (word.kana) textsToPreload.push(word.kana)
-
-      if (textsToPreload.length > 0) {
-        preload(textsToPreload, { voice: 'ja-JP', rate: 0.9 })
-      }
     }
   }, [word, isOpen])
 
@@ -82,42 +71,6 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   }
 
   if (!word) return null
-
-  const handleSpeak = async (text: string) => {
-    try {
-      await play(text, {
-        voice: 'ja-JP',
-        rate: 0.9
-      })
-    } catch (error) {
-      console.error('TTS failed, falling back to browser speech:', error)
-      // Fallback to browser speech synthesis
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text)
-        utterance.lang = 'ja-JP'
-        utterance.rate = 0.9
-        window.speechSynthesis.speak(utterance)
-      }
-    }
-  }
-
-  const handleSpeakExample = async (text: string, index: number) => {
-    try {
-      await play(text, {
-        voice: 'ja-JP',
-        rate: 0.9
-      })
-    } catch (error) {
-      console.error('TTS failed, falling back to browser speech:', error)
-      // Fallback to browser speech synthesis
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text)
-        utterance.lang = 'ja-JP'
-        utterance.rate = 0.9
-        window.speechSynthesis.speak(utterance)
-      }
-    }
-  }
 
   const getTypeColor = (type: string) => {
     switch (type) {
@@ -173,9 +126,10 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                             )
                           })}
                         </span>
-                        <AudioButton
+                        <SpeakerIcon
+                          text={word.kanji!}
                           size="sm"
-                          onPlay={() => handleSpeak(word.kanji!)}
+                          options={{ voice: 'ja-JP', speed: 0.9 }}
                         />
                       </div>
                     )}
@@ -184,9 +138,10 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                       <span className="text-2xl text-gray-700 dark:text-gray-300">
                         {word.kana}
                       </span>
-                      <AudioButton
+                      <SpeakerIcon
+                        text={word.kana}
                         size="sm"
-                        onPlay={() => handleSpeak(word.kana)}
+                        options={{ voice: 'ja-JP', speed: 0.9 }}
                       />
                     </div>
                   </div>
@@ -357,9 +312,10 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                               variant="bookmark"
                               size="small"
                             />
-                            <AudioButton
+                            <SpeakerIcon
+                              text={example.japanese}
                               size="sm"
-                              onPlay={() => handleSpeakExample(example.japanese, index)}
+                              options={{ voice: 'ja-JP', speed: 0.9 }}
                             />
                           </div>
                         </div>

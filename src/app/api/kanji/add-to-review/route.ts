@@ -122,16 +122,8 @@ export async function POST(request: NextRequest) {
 
     await batch.commit();
 
-    // Track achievement progress
-    await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('achievements')
-      .doc('data')
-      .set({
-        kanjiAddedToReview: FieldValue.increment(kanjiIds.length),
-        lastUpdated: timestamp
-      }, { merge: true });
+    // Note: Kanji add-to-review counts are tracked in user_stats through other means
+    // No need for separate achievement tracking here
 
     // Re-evaluate after update to get new remaining count
     const newUsage = currentUsage + kanjiIds.length;

@@ -3,6 +3,7 @@ import { LeaderboardService } from '@/lib/leaderboard/LeaderboardService'
 import { TimeFrame } from '@/lib/leaderboard/types'
 import { getSession } from '@/lib/auth/session'
 import logger from '@/lib/logger'
+import { userStatsService } from '@/lib/services/UserStatsService'
 
 export async function GET(
   request: NextRequest,
@@ -35,44 +36,42 @@ export async function GET(
       )
     }
 
-    // Initialize leaderboard service
-    const leaderboardService = LeaderboardService.getInstance()
-
     try {
-      // Get user's leaderboard stats
-      const userStats = await leaderboardService.getUserStats(userId, timeframe)
+      // CRITICAL: Get stats from user_stats (SINGLE SOURCE OF TRUTH)
+      const userStats = await userStatsService.getUserStats(userId)
 
       if (!userStats) {
-        // User not found or hasn't opted into leaderboard
         return NextResponse.json(
           {
             success: false,
             error: {
               code: 'USER_NOT_FOUND',
-              message: 'User not found in leaderboard',
+              message: 'User not found',
             },
           },
           { status: 404 }
         )
       }
 
-      // Also get the user's actual entry data if they're in top entries
+      // Initialize leaderboard service to get rank
+      const leaderboardService = LeaderboardService.getInstance()
       const snapshot = await leaderboardService.getLeaderboard({ timeframe })
       const userEntry = snapshot.entries.find(e => e.userId === userId)
 
+      // Build response from user_stats (source of truth)
       return NextResponse.json(
         {
           success: true,
           entry: userEntry || {
-            rank: userStats.globalRank,
+            rank: 0, // Rank not yet calculated
             userId,
-            displayName: 'You',
-            totalPoints: 0, // Would need to fetch from user data
-            achievementCount: 0,
-            currentLevel: 1,
-            totalXP: 0,
-            currentStreak: 0,
-            bestStreak: 0,
+            displayName: userStats.displayName || 'You',
+            totalPoints: userStats.achievements.totalPoints,
+            achievementCount: userStats.achievements.unlockedCount,
+            currentLevel: userStats.xp.level,
+            totalXP: userStats.xp.total,
+            currentStreak: userStats.streak.current, // FROM user_stats (SOURCE OF TRUTH)
+            bestStreak: userStats.streak.best,       // FROM user_stats (SOURCE OF TRUTH)
             achievementRarity: {
               legendary: 0,
               epic: 0,
@@ -84,7 +83,12 @@ export async function GET(
             lastActive: Date.now(),
             isPublic: false
           },
-          stats: userStats,
+          stats: {
+            globalRank: userEntry?.rank || 0,
+            totalPoints: userStats.achievements.totalPoints,
+            currentStreak: userStats.streak.current,
+            bestStreak: userStats.streak.best
+          },
           timeframe,
         },
         { status: 200 }

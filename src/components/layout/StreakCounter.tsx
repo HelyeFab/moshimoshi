@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useStreakStore } from '@/stores/streakStore'
-import { loadStreakFromFirestore, subscribeToStreakFromFirestore } from '@/lib/sync/streakSync'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useReviewStats } from '@/hooks/useReviewStats'
-import { auth } from '@/lib/firebase/client'
 import Tooltip from '@/components/ui/Tooltip'
+import { differenceInDays, parseISO, startOfDay } from 'date-fns'
 
 interface StreakCounterProps {
   showLabel?: boolean
@@ -24,87 +22,24 @@ const StreakCounter = ({
   onClick,
   userId
 }: StreakCounterProps) => {
-  // Use the same source of truth as dashboard and review-dashboard
+  // Use useReviewStats as single source of truth for streak data
   const { stats } = useReviewStats()
-  const { lastActiveDay, isStreakActive, getDaysSinceLastActivity } = useStreakStore()
   const { subscription, isPremium } = useSubscription()
   const [showMilestone, setShowMilestone] = useState(false)
 
-  // Use stats from useReviewStats for consistency across the app
+  // Get streak data from unified stats
   const currentStreak = stats.currentStreak || 0
   const longestStreak = stats.bestStreak || currentStreak || 0
   const [previousStreak, setPreviousStreak] = useState(currentStreak)
 
-  // Load and subscribe to Firebase streak data for premium users
-  useEffect(() => {
-    // Skip if no user, subscription loading, or user is guest
-    if (!userId || userId === 'guest' || subscription === null) return
+  // Helper function to calculate days since last activity (from stats)
+  const getDaysSinceLastActivity = (): number | null => {
+    // We would need lastActivityDate from stats - for now return null
+    // This could be enhanced by adding lastActivityDate to ReviewStats interface
+    return null
+  }
 
-    // Only set up sync for premium users
-    if (!isPremium) return
-
-    let unsubscribe: (() => void) | null = null
-    let mounted = true
-    let retryCount = 0
-    const maxRetries = 3
-    let retryTimeout: NodeJS.Timeout | null = null
-
-    const setupSubscription = async () => {
-      if (!mounted) return
-
-      try {
-        // Load initial data from Firebase
-        await loadStreakFromFirestore()
-
-        // Only subscribe if still mounted and we have auth
-        if (mounted && auth.currentUser) {
-          // Clean up any existing subscription
-          if (unsubscribe) {
-            unsubscribe()
-            unsubscribe = null
-          }
-
-          unsubscribe = subscribeToStreakFromFirestore()
-
-          // Reset retry count on successful subscription
-          retryCount = 0
-        }
-      } catch (error) {
-        // Implement exponential backoff for retries
-        if (retryCount < maxRetries && mounted) {
-          retryCount++
-          const delay = Math.min(1000 * Math.pow(2, retryCount), 10000) // Max 10 seconds
-
-          retryTimeout = setTimeout(() => {
-            if (mounted) {
-              setupSubscription()
-            }
-          }, delay)
-        }
-        // Silently handle errors - streak will work locally
-      }
-    }
-
-    // Initial delay to ensure auth is ready
-    const timer = setTimeout(setupSubscription, 500)
-
-    return () => {
-      mounted = false
-      clearTimeout(timer)
-      if (retryTimeout) {
-        clearTimeout(retryTimeout)
-      }
-      if (unsubscribe) {
-        unsubscribe()
-      }
-    }
-  }, [userId, isPremium, subscription])
-
-  // Track when streak values change for animations
-  useEffect(() => {
-    // This effect is for triggering animations when streak changes
-    // No console logging needed in production
-  }, [currentStreak, longestStreak, lastActiveDay])
+  const lastActiveDay = null // Would need to be added to ReviewStats if needed
   
   // Track streak changes for animations
   useEffect(() => {

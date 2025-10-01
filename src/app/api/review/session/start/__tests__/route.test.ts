@@ -187,7 +187,7 @@ describe('Session Start API', () => {
   });
 
   describe('Rate Limiting Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -262,7 +262,7 @@ describe('Session Start API', () => {
   });
 
   describe('Input Validation Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -338,7 +338,7 @@ describe('Session Start API', () => {
   });
 
   describe('Business Logic Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -668,7 +668,7 @@ describe('Session Start API', () => {
   });
 
   describe('Error Handling Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });

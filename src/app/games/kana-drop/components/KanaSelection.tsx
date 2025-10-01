@@ -141,11 +141,10 @@ export default function KanaSelection({ onStartGame, onCancel }: KanaSelectionPr
 
       {/* Kana Grid */}
       <div className="flex-1 overflow-y-auto px-4">
-        <div className="max-w-3xl mx-auto space-y-4">
+        <div className="w-full space-y-4 flex flex-col items-center">
           {Object.entries(kanaByRow).map(([rowName, rowKana]) => (
-            <div key={rowName}>
-              <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
-                {rowKana.map(kana => {
+            <div key={rowName} className="flex flex-wrap justify-center gap-2 max-w-full">
+              {rowKana.map(kana => {
                   const isSelected = selectedIds.has(`${kana.id}-${chartType}`);
                   return (
                     <motion.button
@@ -177,7 +176,6 @@ export default function KanaSelection({ onStartGame, onCancel }: KanaSelectionPr
                     </motion.button>
                   );
                 })}
-              </div>
             </div>
           ))}
         </div>

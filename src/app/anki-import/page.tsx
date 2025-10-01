@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
+import PageHeader from '@/components/layout/PageHeader';
 import { AnkiImportModal } from '@/components/anki/AnkiImportModal';
 import { useAnkiImport } from '@/hooks/useAnkiImport';
 import { AnkiDeck } from '@/lib/anki/importer';
@@ -48,16 +49,13 @@ export default function AnkiImportPage() {
     <div className="min-h-screen bg-gradient-to-br from-background-light to-primary-50 dark:from-dark-850 dark:to-dark-900">
       <Navbar showUserMenu={true} />
 
+      <PageHeader
+        title={t('anki.importTitle')}
+        description={t('anki.description')}
+        mascot="none"
+      />
+
       <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4 text-text-primary dark:text-dark-text-primary">
-            {t('anki.importTitle')}
-          </h1>
-          <p className="text-lg text-text-secondary dark:text-dark-text-secondary">
-            {t('anki.description')}
-          </p>
-        </div>
 
         {/* Import Button */}
         <div className="flex justify-center mb-8">

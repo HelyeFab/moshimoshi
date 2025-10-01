@@ -29,14 +29,10 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
   const { t } = useI18n();
   const { user } = useAuth();
   const { showToast } = useToast();
-  const { play: playTTS, preload, isPlaying: ttsIsPlaying, stop: stopTTS } = useTTS({
-    cacheFirst: true
-  });
 
   // State
   const [sentences, setSentences] = useState<SentenceData[]>([]);
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [voice, setVoice] = useState<'male' | 'female'>('female');
@@ -53,7 +49,38 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
   // Refs
   const repeatTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const currentRepeatRef = useRef<number>(0);
-  const isPlayingRef = useRef<boolean>(false);
+
+  // Handle audio playback completion
+  const handleAudioEnd = useCallback(() => {
+    const currentRepeatValue = currentRepeatRef.current;
+
+    if (currentRepeatValue < repeatCount - 1) {
+      // More repeats to go
+      const nextRepeat = currentRepeatValue + 1;
+      currentRepeatRef.current = nextRepeat;
+      setCurrentRepeat(nextRepeat);
+
+      // Pause before repeating
+      repeatTimeoutRef.current = setTimeout(() => {
+        playCurrentSentence();
+      }, pauseBetweenRepeats);
+    } else {
+      // Done with repeats, reset
+      currentRepeatRef.current = 0;
+      setCurrentRepeat(0);
+    }
+  }, [repeatCount, pauseBetweenRepeats]);
+
+  // Initialize useTTS with proper callbacks
+  const { play: playTTS, preload, playing: isPlaying, stop: stopTTS } = useTTS({
+    cacheFirst: true,
+    onEnd: handleAudioEnd,
+    onError: (err) => {
+      console.error('[Shadowing] TTS error:', err);
+      setError(err.message || t('shadowing.playbackError'));
+      setIsLoading(false);
+    }
+  });
 
   // Parse sentences on mount
   useEffect(() => {
@@ -64,15 +91,14 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
       // Preload first few sentences
       if (parsedSentences.length > 0) {
         const preloadCount = Math.min(3, parsedSentences.length);
-        for (let i = 0; i < preloadCount; i++) {
-          preload(parsedSentences[i].text, {
-            voice: voice === 'female' ? 'ja-JP-Standard-A' : 'ja-JP-Standard-D',
-            rate: playbackSpeed
-          });
-        }
+        const textsToPreload = parsedSentences.slice(0, preloadCount).map(s => s.text);
+        preload(textsToPreload, {
+          voice: voice === 'female' ? 'ja-JP-Standard-A' : 'ja-JP-Standard-D',
+          speed: playbackSpeed
+        });
       }
     }
-  }, [content]);
+  }, [content, preload, voice, playbackSpeed]);
 
   // Cleanup
   useEffect(() => {
@@ -112,7 +138,7 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
   };
 
   // Play current sentence
-  const playCurrentSentence = async () => {
+  const playCurrentSentence = useCallback(async () => {
     if (currentSentenceIndex >= sentences.length || !sentences[currentSentenceIndex]) {
       setError(t('shadowing.noSentence'));
       return;
@@ -121,54 +147,21 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
     const sentence = sentences[currentSentenceIndex];
     setIsLoading(true);
     setError(null);
-    setIsPlaying(true);
-    isPlayingRef.current = true;
 
     try {
-      // Use TTS hook to play
+      // Use TTS hook to play - onEnd callback will handle completion
       await playTTS(sentence.text, {
         voice: voice === 'female' ? 'ja-JP-Standard-A' : 'ja-JP-Standard-D',
-        rate: playbackSpeed
+        speed: playbackSpeed
       });
-
-      // Handle repeat logic
-      const handlePlaybackComplete = () => {
-        const currentRepeatValue = currentRepeatRef.current;
-
-        if (currentRepeatValue < repeatCount - 1) {
-          // More repeats to go
-          const nextRepeat = currentRepeatValue + 1;
-          currentRepeatRef.current = nextRepeat;
-          setCurrentRepeat(nextRepeat);
-
-          // Pause before repeating
-          repeatTimeoutRef.current = setTimeout(() => {
-            if (isPlayingRef.current) {
-              playCurrentSentence();
-            }
-          }, pauseBetweenRepeats);
-        } else {
-          // Done with repeats, reset
-          currentRepeatRef.current = 0;
-          setCurrentRepeat(0);
-          setIsPlaying(false);
-          isPlayingRef.current = false;
-        }
-      };
-
-      // Wait a bit for the audio to finish (estimate based on text length)
-      const estimatedDuration = sentence.text.length * 100; // rough estimate
-      setTimeout(handlePlaybackComplete, estimatedDuration);
 
       setIsLoading(false);
     } catch (err) {
       console.error('[Shadowing] Error playing sentence:', err);
       setError(err instanceof Error ? err.message : t('shadowing.playbackError'));
-      setIsPlaying(false);
-      isPlayingRef.current = false;
       setIsLoading(false);
     }
-  };
+  }, [currentSentenceIndex, sentences, playTTS, voice, playbackSpeed, t]);
 
   // Control functions
   const play = () => {
@@ -182,8 +175,6 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
 
   const pause = () => {
     stopTTS();
-    setIsPlaying(false);
-    isPlayingRef.current = false;
     if (repeatTimeoutRef.current) {
       clearTimeout(repeatTimeoutRef.current);
     }
@@ -196,8 +187,6 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
       repeatTimeoutRef.current = null;
     }
     currentRepeatRef.current = 0;
-    setIsPlaying(false);
-    isPlayingRef.current = false;
     setCurrentRepeat(0);
     setIsLoading(false);
   };
@@ -212,9 +201,9 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
 
       // Preload next sentence
       if (sentences[newIndex]) {
-        preload(sentences[newIndex].text, {
+        preload([sentences[newIndex].text], {
           voice: voice === 'female' ? 'ja-JP-Standard-A' : 'ja-JP-Standard-D',
-          rate: playbackSpeed
+          speed: playbackSpeed
         });
       }
     }

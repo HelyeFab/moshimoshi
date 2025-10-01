@@ -235,7 +235,7 @@ export default function EnhancedShadowingPlayer({
     const currentLine = transcript[currentLineIndex];
     if (currentLine) {
       try {
-        await playTTS(currentLine.text, { voice: 'ja-JP', rate: playbackRate });
+        await playTTS(currentLine.text, { voice: 'ja-JP', speed: playbackRate });
       } catch (error) {
         console.error('TTS playback failed:', error);
       }

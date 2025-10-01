@@ -6,18 +6,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const firestore_1 = require("../firestore");
 const firestore_2 = require("firebase-admin/firestore");
-// Mock Firestore
-jest.mock('firebase-admin/firestore', () => ({
-    getFirestore: jest.fn(() => mockDb),
-    Timestamp: {
-        now: jest.fn(() => ({ toMillis: () => Date.now() })),
-        fromMillis: jest.fn(ms => ({ toMillis: () => ms }))
-    },
-    FieldValue: {
-        delete: jest.fn(() => 'DELETE_FIELD')
-    }
-}));
-// Mock database structure
+
+// Mock database structure - MUST be defined before jest.mock
 const mockDb = {
     collection: jest.fn(() => mockCollection),
     batch: jest.fn(() => mockBatch),
@@ -58,6 +48,22 @@ const mockBatch = {
     delete: jest.fn(),
     commit: jest.fn()
 };
+const mockQuery = {
+    get: jest.fn()
+};
+
+// Now mock the firebase-admin/firestore module
+jest.mock('firebase-admin/firestore', () => ({
+    getFirestore: jest.fn(() => mockDb),
+    Timestamp: {
+        now: jest.fn(() => ({ toMillis: () => Date.now() })),
+        fromMillis: jest.fn(ms => ({ toMillis: () => ms }))
+    },
+    FieldValue: {
+        delete: jest.fn(() => 'DELETE_FIELD')
+    }
+}));
+
 describe('Firestore Helpers', () => {
     beforeEach(() => {
         jest.clearAllMocks();

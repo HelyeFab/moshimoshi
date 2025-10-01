@@ -557,6 +557,25 @@ service cloud.firestore {
       allow delete: if false; // Logs should not be deleted
     }
 
+    // AI Story Drafts - Admin only (for story generation)
+    match /ai_story_drafts/{draftId} {
+      // Only admins can read drafts
+      allow read: if isAdmin();
+
+      // Only server (via Admin SDK) can write - client should not write directly
+      allow write: if false;
+    }
+
+    // User Stats - Unified stats collection for all users
+    match /user_stats/{userId} {
+      // Users can read their own stats
+      allow read: if isOwner(userId);
+
+      // Only server (via Admin SDK) should write to prevent data corruption
+      // Client writes should go through API endpoints
+      allow write: if false;
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

@@ -20,8 +20,8 @@ import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-import { recordActivityAndSync } from '@/lib/sync/streakSync'
-import { StreakActivity } from '@/stores/streakStore'
+// Removed: recordActivityAndSync and StreakActivity
+// Streaks are now automatically updated via XP tracking in UserStatsService
 
 // Dynamically import ReviewEngine for review mode
 const ReviewEngine = dynamic(() => import('@/components/review-engine/ReviewEngine'), {
@@ -362,12 +362,8 @@ function KanjiBrowserContent() {
   }
 
   const handleReviewComplete = async (stats: SessionStatistics) => {
-    // Record review session for streak
-    await recordActivityAndSync(
-      StreakActivity.REVIEW_SESSION,
-      isPremium,
-      Date.now()
-    )
+    // NOTE: Streak tracking removed - now handled automatically via XP system
+    // when XP >= 10 and activity has countsForStreak=true in xp-config.json
 
     setLastSessionStats(stats)
     setReviewContent([]) // Clear review content
@@ -515,12 +511,8 @@ function KanjiBrowserContent() {
               if (currentStudyIndex < selectedKanjiData.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
               } else {
-                // Record study session for streak
-                await recordActivityAndSync(
-                  StreakActivity.STUDY_SESSION,
-                  isPremium,
-                  Date.now()
-                )
+                // NOTE: Streak tracking removed - now handled automatically via XP system
+                // when XP >= 10 and activity has countsForStreak=true in xp-config.json
 
                 showToast('Study session complete!', 'success')
                 setViewMode('browse')

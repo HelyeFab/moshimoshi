@@ -5,11 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Kanji } from '@/types/kanji'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
-import AudioButton from '@/components/ui/AudioButton'
+import SpeakerIcon from '@/components/ui/SpeakerIcon'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useKanjiBrowser } from '@/hooks/useKanjiBrowser'
-import { useTTS } from '@/hooks/useTTS'
 import ExamplesModal from './ExamplesModal'
 import StrokeOrderModal from './StrokeOrderModal'
 
@@ -37,7 +36,6 @@ export default function KanjiStudyMode({
   const [isFlipped, setIsFlipped] = useState(false)
   const [hasTrackedView, setHasTrackedView] = useState(false)
   const { browseKanji } = useKanjiBrowser()
-  const { play, preload, isLoading: ttsLoading } = useTTS({ cacheFirst: true })
 
   // Modal states
   const [showExamplesModal, setShowExamplesModal] = useState(false)
@@ -86,56 +84,10 @@ export default function KanjiStudyMode({
     setShowMeaning(false)
     setShowOnyomi(false)
     setShowKunyomi(false)
-
-    // Preload TTS for kanji and readings using the proper TTS system
-    const textsToPreload: string[] = [kanji.kanji]
-    if (kanji.onyomi) textsToPreload.push(...kanji.onyomi.filter(r => r))
-    if (kanji.kunyomi) textsToPreload.push(...kanji.kunyomi.filter(r => r))
-
-    // Preload all audio using the app's TTS system (expects array)
-    if (textsToPreload.length > 0) {
-      preload(textsToPreload, {
-        voice: 'ja-JP',
-        rate: 0.9,
-        pitch: 1.0
-      })
-    }
   }, [kanji.kanji])
 
-  const handlePlayAudio = async (text: string) => {
-    try {
-      // Use the app's proper TTS system (will use cache first, then API)
-      await play(text, {
-        voice: 'ja-JP',
-        rate: 0.9,
-        pitch: 1.0,
-        volume: 1.0
-      })
-    } catch (error) {
-      console.error('TTS playback failed:', error)
-
-      // Fallback to browser speech synthesis if TTS API fails
-      if (window.speechSynthesis) {
-        try {
-          window.speechSynthesis.cancel()
-          const utterance = new SpeechSynthesisUtterance(text)
-          utterance.lang = 'ja-JP'
-          utterance.rate = 0.9
-
-          const voices = window.speechSynthesis.getVoices()
-          const jpVoice = voices.find(voice => voice.lang.startsWith('ja'))
-          if (jpVoice) utterance.voice = jpVoice
-
-          window.speechSynthesis.speak(utterance)
-        } catch (fallbackError) {
-          console.error('Fallback audio also failed:', fallbackError)
-          showToast('Audio not available', 'warning')
-        }
-      } else {
-        showToast('Audio not available', 'warning')
-      }
-    }
-  }
+  // This function is kept only for browser fallback in Kana mode
+  // For Kanji TTS, we now use SpeakerIcon component directly
 
   const handleSkip = () => {
     onNext()
@@ -192,9 +144,10 @@ export default function KanjiStudyMode({
               >
                 {/* Audio Icon for character - Top Left */}
                 <div className="absolute top-4 left-4">
-                  <AudioButton
+                  <SpeakerIcon
+                    text={kanji.kanji}
                     size="sm"
-                    onPlay={() => handlePlayAudio(kanji.kanji)}
+                    options={{ voice: 'ja-JP', speed: 0.9 }}
                   />
                 </div>
 
@@ -306,19 +259,10 @@ export default function KanjiStudyMode({
                           <div className="flex flex-wrap gap-2 justify-center items-center">
                             {kanji.onyomi.filter(r => r).map((reading, idx) => (
                               <div key={idx} className="flex items-center gap-2">
-                                <AudioButton
+                                <SpeakerIcon
+                                  text={reading}
                                   size="sm"
-                                  onPlay={() => {
-                                    // Reset timer when playing audio
-                                    if (onyomiTimerRef.current) {
-                                      clearTimeout(onyomiTimerRef.current)
-                                      onyomiTimerRef.current = setTimeout(() => {
-                                        setShowOnyomi(false)
-                                        onyomiTimerRef.current = null
-                                      }, 5000)
-                                    }
-                                    handlePlayAudio(reading)
-                                  }}
+                                  options={{ voice: 'ja-JP', speed: 0.9 }}
                                 />
                                 <span className="text-lg font-semibold text-blue-700 dark:text-blue-400">
                                   {reading}
@@ -368,19 +312,10 @@ export default function KanjiStudyMode({
                           <div className="flex flex-wrap gap-2 justify-center items-center">
                             {kanji.kunyomi.filter(r => r).map((reading, idx) => (
                               <div key={idx} className="flex items-center gap-2">
-                                <AudioButton
+                                <SpeakerIcon
+                                  text={reading}
                                   size="sm"
-                                  onPlay={() => {
-                                    // Reset timer when playing audio
-                                    if (kunyomiTimerRef.current) {
-                                      clearTimeout(kunyomiTimerRef.current)
-                                      kunyomiTimerRef.current = setTimeout(() => {
-                                        setShowKunyomi(false)
-                                        kunyomiTimerRef.current = null
-                                      }, 5000)
-                                    }
-                                    handlePlayAudio(reading)
-                                  }}
+                                  options={{ voice: 'ja-JP', speed: 0.9 }}
                                 />
                                 <span className="text-lg font-semibold text-green-700 dark:text-green-400">
                                   {reading}

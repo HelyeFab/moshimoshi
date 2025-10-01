@@ -17,12 +17,23 @@ if (typeof window !== 'undefined') {
 }
 import { achievementManager } from '@/utils/achievementManager';
 
+interface SyncProgress {
+  service: string;
+  status: 'pending' | 'syncing' | 'completed' | 'error';
+  count?: number;
+  error?: string;
+}
+
 interface SyncStatus {
   isOnline: boolean;
   syncState: 'synced' | 'syncing' | 'offline' | 'error';
   pendingCount: number;
   lastSyncTime?: Date;
   hasErrors: boolean;
+  progress?: SyncProgress[];
+  currentService?: string;
+  completedServices?: number;
+  totalServices?: number;
 }
 
 export default function SyncStatusMenuItem() {
@@ -171,65 +182,205 @@ export default function SyncStatusMenuItem() {
     }
   }, [syncStatus.isOnline]);
 
-  const handleManualSync = async () => {
-    setIsManualSyncing(true);
-
+  const handleRefreshPublicContent = async () => {
     try {
       setSyncStatus(prev => ({ ...prev, syncState: 'syncing' }));
 
+      // Trigger a router refresh to reload all data
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
+
+      showToast('Content refreshed!', 'success');
+    } catch (error) {
+      logger.error('Failed to refresh content', error);
+      showToast('Failed to refresh content', 'error');
+    }
+  };
+
+  const handleManualSync = async () => {
+    setIsManualSyncing(true);
+
+    // Initialize progress tracking
+    const services: SyncProgress[] = [
+      { service: 'Lists', status: 'pending' },
+      { service: 'Kana Progress', status: 'pending' },
+      { service: 'Achievements', status: 'pending' },
+      { service: 'Streak', status: 'pending' },
+      { service: 'Preferences', status: 'pending' },
+      { service: 'Pokemon', status: 'pending' },
+      { service: 'Video History', status: 'pending' },
+      { service: 'Practice History', status: 'pending' },
+      { service: 'Review Data', status: 'pending' },
+    ];
+
+    const updateProgress = (serviceName: string, status: SyncProgress['status'], count?: number, error?: string) => {
+      setSyncStatus(prev => {
+        const newProgress = [...services];
+        const index = newProgress.findIndex(s => s.service === serviceName);
+        if (index !== -1) {
+          newProgress[index] = { service: serviceName, status, count, error };
+        }
+        const completed = newProgress.filter(s => s.status === 'completed' || s.status === 'error').length;
+        return {
+          ...prev,
+          progress: newProgress,
+          currentService: status === 'syncing' ? serviceName : prev.currentService,
+          completedServices: completed,
+          totalServices: services.length
+        };
+      });
+    };
+
+    try {
+      setSyncStatus(prev => ({
+        ...prev,
+        syncState: 'syncing',
+        progress: services,
+        completedServices: 0,
+        totalServices: services.length
+      }));
+
       // For premium users, force sync all data to Firebase
       if (user && isPremium) {
-        // Sync user lists to Firebase
+        // 1. Sync user lists
         try {
+          updateProgress('Lists', 'syncing');
           const { listManager } = await import('@/lib/lists/ListManager');
           const syncedCount = await listManager.syncLocalListsToServer(user.uid);
-          if (syncedCount > 0) {
-            logger.info(`Synced ${syncedCount} lists to Firebase`);
-          }
-        } catch (error) {
+          updateProgress('Lists', 'completed', syncedCount);
+          logger.info(`Synced ${syncedCount} lists to Firebase`);
+        } catch (error: any) {
           logger.error('Failed to sync lists', error);
+          updateProgress('Lists', 'error', undefined, error.message);
         }
 
-        // Check if manager is loaded (client-side only)
-        if (kanaProgressManager) {
-          const hiraganaProgress = await kanaProgressManager.getProgress('hiragana', user, isPremium);
-          const katakanaProgress = await kanaProgressManager.getProgress('katakana', user, isPremium);
+        // 2. Sync kana progress
+        try {
+          updateProgress('Kana Progress', 'syncing');
+          if (kanaProgressManager) {
+            const hiraganaProgress = await kanaProgressManager.getProgress('hiragana', user, isPremium);
+            const katakanaProgress = await kanaProgressManager.getProgress('katakana', user, isPremium);
 
-          // Force sync achievements and activities
+            let totalSynced = 0;
+            if (Object.keys(hiraganaProgress).length > 0) {
+              await kanaProgressManager['syncToFirebase'](user.uid, 'hiragana', hiraganaProgress);
+              totalSynced += Object.keys(hiraganaProgress).length;
+            }
+            if (Object.keys(katakanaProgress).length > 0) {
+              await kanaProgressManager['syncToFirebase'](user.uid, 'katakana', katakanaProgress);
+              totalSynced += Object.keys(katakanaProgress).length;
+            }
+
+            // Process any pending sync queue items
+            await kanaProgressManager['processSyncQueue']();
+            updateProgress('Kana Progress', 'completed', totalSynced);
+          } else {
+            updateProgress('Kana Progress', 'completed', 0);
+          }
+        } catch (error: any) {
+          logger.error('Failed to sync kana progress', error);
+          updateProgress('Kana Progress', 'error', undefined, error.message);
+        }
+
+        // 3. Sync achievements
+        try {
+          updateProgress('Achievements', 'syncing');
           await achievementManager.forceSyncAll(user.uid, true);
+          updateProgress('Achievements', 'completed');
+        } catch (error: any) {
+          logger.error('Failed to sync achievements', error);
+          updateProgress('Achievements', 'error', undefined, error.message);
+        }
 
-          // Force sync streak data to Firebase
+        // 4. Sync streak data
+        try {
+          updateProgress('Streak', 'syncing');
           const { pushStreakToFirestore } = await import('@/lib/sync/streakSync');
           await pushStreakToFirestore();
-
-          // Sync kana progress to Firebase
-          if (Object.keys(hiraganaProgress).length > 0) {
-            await kanaProgressManager['syncToFirebase'](user.uid, 'hiragana', hiraganaProgress);
-          }
-          if (Object.keys(katakanaProgress).length > 0) {
-            await kanaProgressManager['syncToFirebase'](user.uid, 'katakana', katakanaProgress);
-          }
-
-          // Process any pending sync queue items
-          await kanaProgressManager['processSyncQueue']();
+          updateProgress('Streak', 'completed');
+        } catch (error: any) {
+          logger.error('Failed to sync streak', error);
+          updateProgress('Streak', 'error', undefined, error.message);
         }
 
-        // Force sync user preferences
-        const { preferencesManager } = await import('@/utils/preferencesManager');
-        await preferencesManager.forceSyncAll(user.uid);
+        // 5. Sync user preferences
+        try {
+          updateProgress('Preferences', 'syncing');
+          const { preferencesManager } = await import('@/utils/preferencesManager');
+          await preferencesManager.forceSyncAll(user.uid);
+          updateProgress('Preferences', 'completed');
+        } catch (error: any) {
+          logger.error('Failed to sync preferences', error);
+          updateProgress('Preferences', 'error', undefined, error.message);
+        }
 
-        // Attempt regular sync
-        await attemptSync();
+        // 6. Sync Pokemon
+        try {
+          updateProgress('Pokemon', 'syncing');
+          const { pokemonManager } = await import('@/utils/pokemonManager');
+          await pokemonManager.forceSyncToCloud(user.uid, user.email);
+          updateProgress('Pokemon', 'completed');
+        } catch (error: any) {
+          logger.error('Failed to sync Pokemon', error);
+          updateProgress('Pokemon', 'error', undefined, error.message);
+        }
+
+        // 7. Sync Video History (via API)
+        try {
+          updateProgress('Video History', 'syncing');
+          const response = await fetch('/api/sync/video-history', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+          });
+          if (!response.ok) throw new Error('Video history sync failed');
+          updateProgress('Video History', 'completed');
+        } catch (error: any) {
+          logger.error('Failed to sync video history', error);
+          updateProgress('Video History', 'error', undefined, error.message);
+        }
+
+        // 8. Sync Practice History (via API)
+        try {
+          updateProgress('Practice History', 'syncing');
+          const response = await fetch('/api/sync/practice-history', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+          });
+          if (!response.ok) throw new Error('Practice history sync failed');
+          updateProgress('Practice History', 'completed');
+        } catch (error: any) {
+          logger.error('Failed to sync practice history', error);
+          updateProgress('Practice History', 'error', undefined, error.message);
+        }
+
+        // 9. Sync review data
+        try {
+          updateProgress('Review Data', 'syncing');
+          await attemptSync();
+          updateProgress('Review Data', 'completed');
+        } catch (error: any) {
+          logger.error('Failed to sync review data', error);
+          updateProgress('Review Data', 'error', undefined, error.message);
+        }
+
+        const hasErrors = services.some(s => s.status === 'error');
+        const completedCount = services.filter(s => s.status === 'completed').length;
 
         setSyncStatus(prev => ({
           ...prev,
-          syncState: 'synced',
+          syncState: hasErrors ? 'error' : 'synced',
           lastSyncTime: new Date(),
           pendingCount: 0,
-          hasErrors: false
+          hasErrors,
+          currentService: undefined
         }));
 
-        showToast('All data synced successfully', 'success');
+        if (hasErrors) {
+          showToast(`Synced ${completedCount}/${services.length} services. Some failed.`, 'warning');
+        } else {
+          showToast(`All ${services.length} services synced successfully!`, 'success');
+        }
       } else {
         showToast('Manual sync requires premium subscription', 'info');
       }
@@ -238,7 +389,8 @@ export default function SyncStatusMenuItem() {
       setSyncStatus(prev => ({
         ...prev,
         syncState: 'error',
-        hasErrors: true
+        hasErrors: true,
+        currentService: undefined
       }));
       showToast('Sync failed. Will retry automatically.', 'error');
     } finally {
@@ -268,6 +420,9 @@ export default function SyncStatusMenuItem() {
       case 'synced':
         return 'Synced';
       case 'syncing':
+        if (syncStatus.currentService) {
+          return `${syncStatus.currentService}... (${syncStatus.completedServices}/${syncStatus.totalServices})`;
+        }
         return `Syncing (${syncStatus.pendingCount})`;
       case 'error':
         return 'Sync Error';
@@ -342,8 +497,45 @@ export default function SyncStatusMenuItem() {
               </div>
             </div>
 
+            {/* Sync progress */}
+            {syncStatus.syncState === 'syncing' && syncStatus.progress && (
+              <div className="mt-3 space-y-1">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">
+                    Syncing {syncStatus.completedServices}/{syncStatus.totalServices} services
+                  </span>
+                </div>
+                {syncStatus.progress.map((item) => (
+                  <div key={item.service} className="flex items-center justify-between gap-2">
+                    <span className="text-gray-600 dark:text-gray-400 truncate flex-1">
+                      {item.service}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      {item.status === 'completed' && (
+                        <>
+                          <CheckCircle className="w-3 h-3 text-green-500" />
+                          {item.count !== undefined && (
+                            <span className="text-green-600 dark:text-green-400">{item.count}</span>
+                          )}
+                        </>
+                      )}
+                      {item.status === 'syncing' && (
+                        <Loader2 className="w-3 h-3 text-yellow-500 animate-spin" />
+                      )}
+                      {item.status === 'error' && (
+                        <AlertTriangle className="w-3 h-3 text-red-500" title={item.error} />
+                      )}
+                      {item.status === 'pending' && (
+                        <div className="w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Pending items */}
-            {syncStatus.pendingCount > 0 && (
+            {syncStatus.pendingCount > 0 && !syncStatus.progress && (
               <div className="flex items-center justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Pending</span>
                 <span className="text-yellow-600 dark:text-yellow-400">
@@ -353,7 +545,7 @@ export default function SyncStatusMenuItem() {
             )}
 
             {/* Last sync */}
-            {syncStatus.lastSyncTime && (
+            {syncStatus.lastSyncTime && !syncStatus.progress && (
               <div className="flex items-center justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Last sync</span>
                 <span className="text-gray-600 dark:text-gray-300">
@@ -363,7 +555,7 @@ export default function SyncStatusMenuItem() {
             )}
 
             {/* Sync errors */}
-            {syncStatus.hasErrors && (
+            {syncStatus.hasErrors && !syncStatus.progress && (
               <div className="mt-2 p-2 bg-red-50 dark:bg-red-900/20 rounded">
                 <p className="text-red-600 dark:text-red-400 text-xs">
                   Sync issues detected. Will retry automatically.
@@ -379,6 +571,21 @@ export default function SyncStatusMenuItem() {
                 </p>
               </div>
             )}
+
+            {/* Public content refresh - available to all users */}
+            <div className="mt-3 pt-3 border-t border-gray-200 dark:border-dark-700">
+              <button
+                onClick={handleRefreshPublicContent}
+                disabled={!syncStatus.isOnline}
+                className="w-full px-3 py-2 text-xs font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 rounded hover:bg-primary-100 dark:hover:bg-primary-900/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+              >
+                <RefreshCw className="w-3 h-3" />
+                <span>Refresh Content</span>
+              </button>
+              <p className="mt-1 text-gray-500 dark:text-gray-400 text-xs text-center">
+                Check for new stories & articles
+              </p>
+            </div>
           </div>
         </div>
       )}

@@ -1,49 +1,98 @@
 'use client';
 
-import { useI18n } from '@/i18n/I18nContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import { GameState } from '../types';
+import { useStrings } from '@/contexts/LanguageContext';
 
 interface GameStatsProps {
-  score: number;
-  correctClicks: number;
-  wrongClicks: number;
-  distractorClicks: number;
+  gameState: GameState;
+  showFeedback?: {
+    type: 'correct' | 'wrong' | 'distractor';
+    x: number;
+    y: number;
+  } | null;
 }
 
-export default function GameStats({
-  score,
-  correctClicks,
-  wrongClicks,
-  distractorClicks
-}: GameStatsProps) {
-  const { t } = useI18n();
-
-  const totalClicks = correctClicks + wrongClicks + distractorClicks;
-  const accuracy = totalClicks > 0
-    ? Math.round((correctClicks / totalClicks) * 100)
+export default function GameStats({ gameState, showFeedback }: GameStatsProps) {
+  const accuracy = gameState.clicks.correct + gameState.clicks.wrong + gameState.clicks.distractor > 0
+    ? Math.round((gameState.clicks.correct / (gameState.clicks.correct + gameState.clicks.wrong + gameState.clicks.distractor)) * 100)
     : 0;
 
   return (
-    <div className="absolute top-4 left-4 z-20">
-      <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-lg p-4 shadow-lg border border-gray-200 dark:border-gray-700">
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between gap-4">
-            <span className="text-gray-600 dark:text-gray-400">{t('games.score')}:</span>
-            <span className="font-bold text-gray-900 dark:text-white">{score}</span>
+    <>
+      {/* Score and Stats - Combined in top left to avoid overlap */}
+      <div className="absolute top-4 left-4 space-y-2 pointer-events-none" style={{ zIndex: 15 }}>
+        <motion.div
+          className="bg-background/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border-2 border-border"
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 0.3 }}
+          key={gameState.score}
+        >
+          <div className="text-2xl font-bold text-foreground">
+            SCORE: {gameState.score}
           </div>
-          <div className="flex justify-between gap-4">
-            <span className="text-gray-600 dark:text-gray-400">{t('games.accuracy')}:</span>
-            <span className="font-bold text-gray-900 dark:text-white">{accuracy}%</span>
+          <div className="text-xs text-muted-foreground">
+            Accuracy: {accuracy}%
           </div>
-          <div className="flex justify-between gap-4">
-            <span className="text-green-600 dark:text-green-400">✓</span>
-            <span className="font-semibold text-green-600 dark:text-green-400">{correctClicks}</span>
-          </div>
-          <div className="flex justify-between gap-4">
-            <span className="text-red-600 dark:text-red-400">✗</span>
-            <span className="font-semibold text-red-600 dark:text-red-400">{wrongClicks}</span>
+        </motion.div>
+
+        <div className="bg-background/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-border">
+          <div className="text-xs text-muted-foreground">Speed</div>
+          <div className="text-sm font-semibold text-foreground">
+            {Math.round(gameState.gameSpeed * 100)}%
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Feedback Animations */}
+      <AnimatePresence>
+        {showFeedback && (
+          <motion.div
+            key={`feedback-${Date.now()}`}
+            initial={{ opacity: 1, scale: 0.5, y: 0 }}
+            animate={{ opacity: 0, scale: 1.5, y: -30 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="absolute pointer-events-none z-30"
+            style={{
+              left: `${showFeedback.x}%`,
+              top: `${showFeedback.y}%`,
+              transform: 'translate(-50%, -50%)'
+            }}
+          >
+            {showFeedback.type === 'correct' && (
+              <div className="text-4xl font-bold text-green-500">
+                +5 ✨
+              </div>
+            )}
+            {showFeedback.type === 'wrong' && (
+              <div className="text-3xl font-bold text-red-500">
+                -10 ❌
+              </div>
+            )}
+            {showFeedback.type === 'distractor' && (
+              <div className="text-3xl font-bold text-orange-500">
+                -5 💥
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Progress Bar to 100 */}
+      <div className="absolute bottom-20 left-4 right-4 pointer-events-none" style={{ zIndex: 15 }}>
+        <div className="bg-background/80 backdrop-blur-sm rounded-full h-2 overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-primary to-accent"
+            initial={{ width: 0 }}
+            animate={{ width: `${Math.min(gameState.score, 100)}%` }}
+            transition={{ type: "spring", damping: 20 }}
+          />
+        </div>
+        <div className="text-center mt-1 text-xs text-muted-foreground">
+          {100 - gameState.score} points to victory!
+        </div>
+      </div>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import { ToastProvider } from '@/components/ui/Toast/ToastContext'
 import { I18nProvider } from '@/i18n/I18nContext'
 import { AuthProvider } from '@/hooks/useAuth' // Compatibility wrapper - not actually needed but keeps layout consistent
 import { ServiceWorkerProvider } from '@/components/pwa/ServiceWorkerProvider'
+import { DataSyncProvider } from '@/components/sync/DataSyncProvider'
 import { themeInitScript } from '@/lib/theme/theme-script'
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors'
 import '@/styles/globals.css'
@@ -47,8 +48,10 @@ export default function RootLayout({
             <I18nProvider>
               <ThemeProvider>
                 <ServiceWorkerProvider>
-                  {children}
-                  {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
+                  <DataSyncProvider>
+                    {children}
+                    {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
+                  </DataSyncProvider>
                 </ServiceWorkerProvider>
               </ThemeProvider>
             </I18nProvider>

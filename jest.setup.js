@@ -22,6 +22,16 @@ require('core-js/stable/structured-clone');
 // Use fake-indexeddb for testing
 require('fake-indexeddb/auto');
 
+// Mock global fetch for Node.js environment
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    ok: true,
+    status: 200,
+    json: () => Promise.resolve({}),
+    text: () => Promise.resolve(''),
+  })
+);
+
 // Mock localStorage with actual storage
 const localStorageMock = (() => {
   let store = {};

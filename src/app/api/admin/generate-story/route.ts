@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { checkAdminRole } from '@/lib/firebase/auth-admin';
+import { getSession, isAdmin } from '@/lib/auth/session';
 import { JLPTLevel } from '@/types/aiStory';
 import { getFirestore } from 'firebase-admin/firestore';
 import { initAdmin } from '@/lib/firebase/admin';
@@ -19,10 +19,16 @@ export const maxDuration = 60;
 export async function POST(request: NextRequest) {
   try {
     // Verify admin authentication
-    const authHeader = request.headers.get('authorization');
-    const authResult = await checkAdminRole(authHeader);
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
 
-    if (!authResult.isAdmin) {
+    const isAdminUser = await isAdmin();
+    if (!isAdminUser) {
       return NextResponse.json(
         { error: 'Admin access required' },
         { status: 403 }
@@ -49,7 +55,7 @@ export async function POST(request: NextRequest) {
         config: { jlptLevel },
         metadata: {
           source: 'admin-story-generator',
-          userId: authResult.userId,
+          userId: session.uid,
           step: 'character_sheet'
         }
       });
@@ -59,13 +65,13 @@ export async function POST(request: NextRequest) {
       }
 
       // Save to Firestore for later steps
-      const draftId = `draft_${Date.now()}_${authResult.userId}`;
+      const draftId = `draft_${Date.now()}_${session.uid}`;
       await db.collection('ai_story_drafts').doc(draftId).set({
         characterSheet: response.data,
         theme,
         jlptLevel,
         pageCount,
-        userId: authResult.userId,
+        userId: session.uid,
         createdAt: new Date(),
         status: 'character_created'
       });
@@ -109,7 +115,7 @@ export async function POST(request: NextRequest) {
         config: { jlptLevel },
         metadata: {
           source: 'admin-story-generator',
-          userId: authResult.userId,
+          userId: session.uid,
           step: 'outline',
           draftId
         }
@@ -165,7 +171,7 @@ export async function POST(request: NextRequest) {
         config: { jlptLevel },
         metadata: {
           source: 'admin-story-generator',
-          userId: authResult.userId,
+          userId: session.uid,
           step: 'generate_page',
           draftId,
           pageNumber
@@ -224,7 +230,7 @@ export async function POST(request: NextRequest) {
         config: { jlptLevel },
         metadata: {
           source: 'admin-story-generator',
-          userId: authResult.userId,
+          userId: session.uid,
           step: 'generate_quiz',
           draftId
         }
@@ -250,8 +256,238 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Step 5: Generate Character Model Sheet
+    if (step === 'generate_model_sheet') {
+      const { draftId } = stepData;
+
+      const draftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
+      if (!draftDoc.exists) {
+        return NextResponse.json({ error: 'Draft not found' }, { status: 404 });
+      }
+
+      const draft = draftDoc.data();
+      const { characterSheet } = draft as any;
+
+      // Generate model sheet prompt
+      const aiRequest: MultiStepStoryRequest = {
+        step: 'generate_model_sheet',
+        characterSheet,
+        draftId
+      };
+
+      const response = await aiService.process({
+        task: 'generate_story_multistep',
+        content: aiRequest,
+        metadata: {
+          source: 'admin-story-generator',
+          userId: session.uid,
+          step: 'generate_model_sheet',
+          draftId
+        }
+      });
+
+      if (!response.success || !response.data) {
+        throw new Error(response.error || 'Failed to generate model sheet prompt');
+      }
+
+      const { prompt, characterId } = response.data;
+
+      // Generate the actual image using ImageProcessor
+      const imageResponse = await aiService.process({
+        task: 'generate_character_model_sheet',
+        content: {
+          character: characterSheet.mainCharacter,
+          visualStyle: characterSheet.visualStyle
+        },
+        metadata: {
+          userId: session.uid,
+          draftId
+        }
+      });
+
+      if (!imageResponse.success || !imageResponse.data) {
+        throw new Error(imageResponse.error || 'Failed to generate model sheet image');
+      }
+
+      const { imageUrl, characterProfile, sessionId } = imageResponse.data;
+
+      // Store image in Firebase Storage
+      const storagePath = `stories/${draftId}/model-sheet-${Date.now()}.jpg`;
+      const storageResponse = await aiService.process({
+        task: 'store_image',
+        content: {
+          imageUrl,
+          storagePath,
+          metadata: {
+            storyId: draftId,
+            type: 'model_sheet',
+            characterId
+          }
+        }
+      });
+
+      if (!storageResponse.success) {
+        console.error('Failed to store model sheet:', storageResponse.error);
+        // Continue anyway with temporary URL
+      }
+
+      const finalImageUrl = storageResponse.data?.url || imageUrl;
+
+      // Update draft with model sheet info
+      await db.collection('ai_story_drafts').doc(draftId).update({
+        modelSheet: {
+          imageUrl: finalImageUrl,
+          prompt,
+          characterProfile,
+          sessionId,
+          characterId
+        },
+        characterProfile,
+        sessionId,
+        updatedAt: new Date()
+      });
+
+      return NextResponse.json({
+        success: true,
+        draftId,
+        data: {
+          imageUrl: finalImageUrl,
+          characterProfile,
+          sessionId,
+          characterId
+        },
+        usage: {
+          ...response.usage,
+          imageCost: imageResponse.usage?.estimatedCost || 0
+        }
+      });
+    }
+
+    // Step 6: Generate Page Image
+    if (step === 'generate_page_image') {
+      const { draftId, pageNumber } = stepData;
+
+      const draftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
+      if (!draftDoc.exists) {
+        return NextResponse.json({ error: 'Draft not found' }, { status: 404 });
+      }
+
+      const draft = draftDoc.data();
+      const { pages, characterSheet, characterProfile, sessionId } = draft as any;
+      const page = pages?.[pageNumber - 1];
+
+      if (!page) {
+        return NextResponse.json({ error: 'Page not found' }, { status: 404 });
+      }
+
+      // Generate enhanced image prompt
+      const aiRequest: MultiStepStoryRequest = {
+        step: 'generate_page_image',
+        pageNumber,
+        pageText: page.text,
+        pageTranslation: page.translation,
+        characterSheet,
+        characterProfile,
+        sessionId,
+        draftId
+      };
+
+      const response = await aiService.process({
+        task: 'generate_story_multistep',
+        content: aiRequest,
+        metadata: {
+          source: 'admin-story-generator',
+          userId: session.uid,
+          step: 'generate_page_image',
+          draftId,
+          pageNumber
+        }
+      });
+
+      if (!response.success || !response.data) {
+        throw new Error(response.error || 'Failed to generate image prompt');
+      }
+
+      const { imagePrompt } = response.data;
+
+      // Generate the actual image
+      const imageResponse = await aiService.process({
+        task: 'generate_image',
+        content: {
+          prompt: imagePrompt,
+          characterProfile,
+          sessionId,
+          size: '1024x1024',
+          quality: 'standard',
+          style: 'vivid'
+        },
+        metadata: {
+          userId: session.uid,
+          draftId,
+          pageNumber
+        }
+      });
+
+      if (!imageResponse.success || !imageResponse.data) {
+        throw new Error(imageResponse.error || 'Failed to generate page image');
+      }
+
+      const { imageUrl, revisedPrompt } = imageResponse.data;
+
+      // Store image in Firebase Storage
+      const storagePath = `stories/${draftId}/pages/page-${pageNumber}-${Date.now()}.jpg`;
+      const storageResponse = await aiService.process({
+        task: 'store_image',
+        content: {
+          imageUrl,
+          storagePath,
+          metadata: {
+            storyId: draftId,
+            pageNumber,
+            type: 'page_image'
+          }
+        }
+      });
+
+      if (!storageResponse.success) {
+        console.error('Failed to store page image:', storageResponse.error);
+        // Continue with temporary URL
+      }
+
+      const finalImageUrl = storageResponse.data?.url || imageUrl;
+
+      // Update page with image
+      pages[pageNumber - 1] = {
+        ...page,
+        imageUrl: finalImageUrl,
+        imagePrompt,
+        revisedPrompt
+      };
+
+      await db.collection('ai_story_drafts').doc(draftId).update({
+        pages,
+        [`pageStatus.${pageNumber}`]: 'image_generated',
+        updatedAt: new Date()
+      });
+
+      return NextResponse.json({
+        success: true,
+        draftId,
+        data: {
+          imageUrl: finalImageUrl,
+          imagePrompt,
+          revisedPrompt,
+          pageNumber
+        },
+        usage: {
+          ...response.usage,
+          imageCost: imageResponse.usage?.estimatedCost || 0
+        }
+      });
+    }
+
     return NextResponse.json({
-      error: 'Invalid step parameter. Valid steps: character_sheet, outline, generate_page, generate_quiz'
+      error: 'Invalid step parameter. Valid steps: character_sheet, outline, generate_page, generate_quiz, generate_model_sheet, generate_page_image'
     }, { status: 400 });
 
   } catch (error) {

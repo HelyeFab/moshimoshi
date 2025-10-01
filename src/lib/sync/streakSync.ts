@@ -27,237 +27,55 @@ interface FirestoreStreakData {
 }
 
 /**
- * Push local streak data to Firestore
+ * @deprecated Push local streak data to Firestore
+ *
+ * DISABLED: This function has been disabled to prevent overwriting user_stats.
+ * Streaks are now managed server-side via UserStatsService only.
+ *
  * Called after each streak update for premium users
  */
 export async function pushStreakToFirestore(): Promise<void> {
-  try {
-    const user = auth.currentUser
-    if (!user) {
-      // No authenticated user, skipping push
-      return
-    }
-
-    // Check if Firestore is available
-    if (!db) {
-      // Firestore not initialized, skipping
-      return
-    }
-
-    const { currentStreak, longestStreak, lastActiveDay } = useStreakStore.getState()
-
-    // Pushing streak to Firestore
-
-    // Use the CORRECT path that the API reads from: users/{uid}/achievements/activities
-    // This ensures consistency with existing data
-    const dates: Record<string, boolean> = {}
-    if (lastActiveDay) {
-      dates[lastActiveDay] = true
-    }
-
-    await setDoc(
-      doc(db, 'users', user.uid, 'achievements', 'activities'),
-      {
-        currentStreak,
-        bestStreak: longestStreak,
-        lastActivity: Date.now(),
-        dates,
-        updatedAt: serverTimestamp(),
-        userId: user.uid,
-      },
-      { merge: true }
-    )
-
-    // Successfully pushed streak to Firestore
-  } catch (error: any) {
-    // Silently handle expected errors
-    const errorString = error?.toString?.() || ''
-    const isExpectedError =
-      error?.code === 'permission-denied' ||
-      error?.code === 'unavailable' ||
-      error?.message?.includes('internal error') ||
-      errorString.includes('Failed to get document')
-
-    if (!isExpectedError) {
-      console.error('[StreakSync] Failed to push streak to Firestore:', error)
-    }
-    // Don't throw - we don't want to break the app if sync fails
-  }
+  // ❌ DISABLED: Do not push from client - UserStatsService handles all streak updates
+  console.warn('[StreakSync] pushStreakToFirestore is disabled - streaks are managed by UserStatsService')
+  return
 }
 
 /**
- * Load streak data from Firestore
+ * @deprecated Load streak data from Firestore
+ *
+ * DISABLED: This function has been disabled. Streaks are now read via useReviewStats().
+ * The client should never directly read or write streak data to/from Firestore.
+ * All streak management is handled server-side via UserStatsService.
+ *
  * Called on app initialization for premium users
  */
 export async function loadStreakFromFirestore(): Promise<void> {
-  try {
-    const user = auth.currentUser
-    if (!user) {
-      // No authenticated user, skipping load
-      return
-    }
-
-    // Check if Firestore is available
-    if (!db) {
-      // Firestore not initialized, skipping
-      return
-    }
-
-    // Loading streak from Firestore from CORRECT location
-
-    const streakDoc = await getDoc(doc(db, 'users', user.uid, 'achievements', 'activities'))
-
-    if (streakDoc.exists()) {
-      const data = streakDoc.data()
-
-      // Loaded streak data from Firestore
-
-      // Extract the last active day from dates object
-      let lastActiveDay: string | null = null
-      if (data.dates) {
-        const dateKeys = Object.keys(data.dates).filter(key => data.dates[key] === true).sort()
-        if (dateKeys.length > 0) {
-          lastActiveDay = dateKeys[dateKeys.length - 1]
-        }
-      }
-
-      // Update local store with Firestore data
-      useStreakStore.getState().setStreakData({
-        currentStreak: data.currentStreak || 0,
-        longestStreak: data.bestStreak || data.longestStreak || 0,
-        lastActiveDay,
-      })
-
-      // Check if streak needs to be reset due to inactivity
-      useStreakStore.getState().checkAndUpdateStreak()
-    } else {
-      // No streak data found in Firestore
-    }
-  } catch (error: any) {
-    // Silently handle expected errors
-    const errorString = error?.toString?.() || ''
-    const isExpectedError =
-      error?.code === 'permission-denied' ||
-      error?.code === 'unavailable' ||
-      error?.message?.includes('internal error') ||
-      errorString.includes('Failed to get document')
-
-    if (!isExpectedError) {
-      console.error('[StreakSync] Failed to load streak from Firestore:', error)
-    }
-    // For expected errors (permissions, network), just use local data silently
-  }
+  // ❌ DISABLED: Do not load from client - useReviewStats handles all streak reads via API
+  console.warn('[StreakSync] loadStreakFromFirestore is disabled - use useReviewStats instead')
+  return
 }
 
 /**
- * Subscribe to real-time streak updates from Firestore
+ * @deprecated Subscribe to real-time streak updates from Firestore
+ *
+ * DISABLED: This function has been disabled. Streaks are now read via useReviewStats().
+ * Real-time updates are not needed as the dashboard refetches data periodically.
+ *
  * Enables cross-device sync for premium users
  */
 export function subscribeToStreakFromFirestore(): Unsubscribe | null {
-  try {
-    const user = auth.currentUser
-    if (!user) {
-      // No authenticated user, skipping subscription
-      return null
-    }
-
-    // Subscribing to Firestore streak updates from CORRECT location
-
-    const streakDoc = doc(db, 'users', user.uid, 'achievements', 'activities')
-
-    // Create a wrapped unsubscribe function that handles cleanup
-    let isUnsubscribed = false
-
-    const unsubscribe = onSnapshot(
-      streakDoc,
-      (snap) => {
-        // Skip if we've already unsubscribed
-        if (isUnsubscribed) return
-
-        if (snap.exists()) {
-          const data = snap.data()
-          const localState = useStreakStore.getState()
-
-          // Extract the last active day from dates object
-          let lastActiveDay: string | null = null
-          if (data.dates) {
-            const dateKeys = Object.keys(data.dates).filter(key => data.dates[key] === true).sort()
-            if (dateKeys.length > 0) {
-              lastActiveDay = dateKeys[dateKeys.length - 1]
-            }
-          }
-
-          const longestStreak = data.bestStreak || data.longestStreak || 0
-
-          // Only update if Firestore data is different from local
-          // This prevents infinite sync loops
-          if (
-            data.currentStreak !== localState.currentStreak ||
-            longestStreak !== localState.longestStreak ||
-            lastActiveDay !== localState.lastActiveDay
-          ) {
-            // Received streak update from Firestore
-
-            useStreakStore.getState().setStreakData({
-              currentStreak: data.currentStreak || 0,
-              longestStreak,
-              lastActiveDay,
-            })
-
-            // Check if streak needs to be reset due to inactivity
-            useStreakStore.getState().checkAndUpdateStreak()
-          }
-        }
-      },
-      (error: any) => {
-        // Skip if we've already unsubscribed
-        if (isUnsubscribed) return
-
-        // Silently ignore network-related errors
-        const ignoredErrors = [
-          'unavailable',
-          'permission-denied',
-          'ERR_NETWORK_CHANGED',
-          'ERR_ABORTED',
-          'network-request-failed',
-          'NETWORK_ERROR'
-        ]
-
-        // Check for network errors in various formats
-        const errorString = error?.toString?.() || ''
-        const isNetworkError =
-          ignoredErrors.some(err =>
-            error?.code?.includes?.(err) ||
-            error?.message?.includes?.(err) ||
-            errorString.includes(err)
-          ) ||
-          // Additional check for network errors
-          error?.code === 'failed-precondition' ||
-          error?.code === 'unavailable' ||
-          // Check for Firestore's internal network errors
-          errorString.includes('Failed to get document because the client is offline')
-
-        // Only log non-network errors in development
-        if (!isNetworkError && process.env.NODE_ENV === 'development') {
-          console.error('[StreakSync] Firestore subscription error:', error)
-        }
-      }
-    )
-
-    // Return a wrapped unsubscribe function
-    return () => {
-      isUnsubscribed = true
-      unsubscribe()
-    }
-  } catch (error) {
-    console.error('[StreakSync] Failed to subscribe to Firestore:', error)
-    return null
-  }
+  // ❌ DISABLED: Do not subscribe from client - useReviewStats handles all streak reads
+  console.warn('[StreakSync] subscribeToStreakFromFirestore is disabled - use useReviewStats instead')
+  return null
 }
 
 /**
- * Record an activity and sync to Firestore if premium
- * Convenience wrapper that handles both local update and sync
+ * @deprecated Manual streak recording is no longer needed.
+ * Streaks are now automatically updated when XP is tracked via UserStatsService.
+ * Any activity earning 10+ XP with countsForStreak=true in xp-config.json
+ * will automatically update the streak.
+ *
+ * This function is kept for backward compatibility but should not be used in new code.
  */
 export async function recordActivityAndSync(
   activity: StreakActivity,

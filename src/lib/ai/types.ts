@@ -19,6 +19,10 @@ export type AITaskType =
   | 'generate_story'
   | 'generate_story_multistep'
   | 'generate_moodboard'
+  | 'generate_image'
+  | 'generate_character_model_sheet'
+  | 'enhance_image_prompt'
+  | 'store_image'
   | 'analyze_content'
   | 'suggest_improvements'
   | 'translate_content'
@@ -276,6 +280,106 @@ export interface GeneratedMoodboard {
     }>;
     tags?: string[];
   }>;
+}
+
+// Image Generation
+export interface ImageGenerationRequest {
+  prompt: string;
+  characterProfile?: CharacterProfile;
+  sessionId?: string;
+  size?: '1024x1024' | '1792x1024' | '1024x1792';
+  quality?: 'standard' | 'hd';
+  style?: 'vivid' | 'natural';
+  model?: 'dall-e-3' | 'dall-e-2';
+}
+
+export interface GeneratedImage {
+  imageUrl: string;
+  revisedPrompt?: string;
+  provider: 'openai' | 'stability' | 'midjourney';
+  metadata?: {
+    prompt: string;
+    model: string;
+    size: string;
+    quality: string;
+  };
+}
+
+// Character Model Sheet
+export interface CharacterModelSheetRequest {
+  character: {
+    name: string;
+    nameJa: string;
+    description: string;
+    visualDescription: string;
+  };
+  visualStyle: string;
+}
+
+export interface GeneratedModelSheet {
+  imageUrl: string;
+  characterProfile: CharacterProfile;
+  sessionId: string;
+  revisedPrompt?: string;
+}
+
+// Character Profile for Consistency
+export interface CharacterProfile {
+  characterId: string;
+  gender: 'male' | 'female' | 'non-binary';
+  apparentAge: string;
+  hairStyle: string;
+  hairColor: string;
+  eyeColor: string;
+  skinTone: string;
+  facialFeatures: string;
+  bodyBuild: string;
+  height: string;
+  primaryOutfit: string;
+  outfitColors: string;
+  accessories?: string;
+  artStyle: string;
+  styleModifiers: string[];
+}
+
+// Image Prompt Enhancement
+export interface ImagePromptEnhancementRequest {
+  basePrompt: string;
+  pageText?: string;
+  pageTranslation?: string;
+  characterName?: string;
+  characterDescription?: string;
+  setting?: string;
+  theme?: string;
+}
+
+export interface EnhancedImagePrompt {
+  enhancedPrompt: string;
+  originalPrompt: string;
+  metadata?: {
+    characterIncluded: boolean;
+    settingIncluded: boolean;
+    visualStyleApplied: boolean;
+  };
+}
+
+// Image Storage
+export interface ImageStorageRequest {
+  imageUrl: string;
+  storagePath: string;
+  metadata?: {
+    storyId?: string;
+    pageNumber?: number;
+    characterId?: string;
+    generatedAt?: string;
+  };
+}
+
+export interface StoredImage {
+  url: string;
+  path: string;
+  expiresAt?: string;
+  metadata?: Record<string, any>;
 }
 
 // ============================================

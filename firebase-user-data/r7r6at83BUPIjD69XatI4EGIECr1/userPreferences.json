@@ -5,12 +5,6 @@
     "largeText": false,
     "screenReader": false
   },
-  "privacy": {
-    "showProgress": true,
-    "publicProfile": false,
-    "shareAchievements": false
-  },
-  "palette": "sakura",
   "learning": {
     "furigana": true,
     "hapticFeedback": true,
@@ -25,14 +19,21 @@
     "dailyReminder": true,
     "marketingEmails": false
   },
-  "theme": "light",
   "language": "en",
+  "privacy": {
+    "showProgress": true,
+    "publicProfile": false,
+    "shareAchievements": false,
+    "hideFromLeaderboard": false
+  },
+  "theme": "dark",
+  "palette": "sakura",
   "syncedAt": {
-    "_seconds": 1758731080,
-    "_nanoseconds": 711000000
+    "_seconds": 1759073235,
+    "_nanoseconds": 50000000
   },
   "updatedAt": {
-    "_seconds": 1758731080,
-    "_nanoseconds": 711000000
+    "_seconds": 1759073235,
+    "_nanoseconds": 50000000
   }
 }

@@ -49,7 +49,8 @@ export default function KanaDropGame({ initialSelectedKana = [], onClose }: Kana
       setShowKanaSelection(false);
       setShowHowToPlay(true);
     }
-  }, [initialSelectedKana]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   // Cleanup audio when component unmounts
   useEffect(() => {
@@ -99,13 +100,12 @@ export default function KanaDropGame({ initialSelectedKana = [], onClose }: Kana
   const startCountdown = useCallback(() => {
     setShowHowToPlay(false);
     setCountdown(3);
-    playSound('countdown');
+    // Removed countdown sound - out of sync
 
     const countdownInterval = setInterval(() => {
       setCountdown(prev => {
         if (prev === null || prev <= 1) {
           clearInterval(countdownInterval);
-          stopAllSounds();
           playSound('start');
           setGameState(prev => ({
             ...prev,
@@ -117,7 +117,7 @@ export default function KanaDropGame({ initialSelectedKana = [], onClose }: Kana
         return prev - 1;
       });
     }, 1000);
-  }, [playSound, stopAllSounds]);
+  }, [playSound]);
 
   // Handle kana selection
   const handleKanaSelected = (kana: KanaChar[]) => {

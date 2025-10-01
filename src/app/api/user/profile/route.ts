@@ -25,6 +25,12 @@ const ProfileUpdateSchema = z.object({
     profileVisible: z.boolean().optional(),
     progressVisible: z.boolean().optional(),
   }).optional(),
+  preferences: z.object({
+    theme: z.enum(['light', 'dark', 'system']).optional(),
+    language: z.enum(['en', 'ja', 'fr', 'it', 'de', 'es']).optional(),
+    palette: z.string().optional(),
+    dailyGoalMinutes: z.number().optional(),
+  }).optional(),
 })
 
 export interface UserProfile {
@@ -55,6 +61,12 @@ export interface UserProfile {
     lessonsCompleted: number
     streakDays: number
     lastStudyDate: Date | null
+  }
+  preferences?: {
+    theme?: 'light' | 'dark' | 'system'
+    language?: 'en' | 'ja' | 'fr' | 'it' | 'de' | 'es'
+    palette?: string
+    dailyGoalMinutes?: number
   }
 }
 
@@ -107,7 +119,7 @@ export async function GET(request: NextRequest) {
       preferredLanguage: profileData?.preferredLanguage || 'en',
       studyGoal: profileData?.studyGoal || 'casual',
       studyTime: profileData?.studyTime || '30min',
-      tier: session.tier,
+      tier: session.tier || 'free',
       createdAt: profileData?.createdAt?.toDate() || new Date(),
       lastActiveAt: profileData?.lastActiveAt?.toDate() || new Date(),
       notifications: {
@@ -126,6 +138,12 @@ export async function GET(request: NextRequest) {
         streakDays: profileData?.stats?.streakDays || 0,
         lastStudyDate: profileData?.stats?.lastStudyDate?.toDate() || null,
       },
+      preferences: profileData?.preferences ? {
+        theme: profileData.preferences.theme,
+        language: profileData.preferences.language,
+        palette: profileData.preferences.palette,
+        dailyGoalMinutes: profileData.preferences.dailyGoalMinutes,
+      } : undefined,
     }
 
     // Cache the profile
@@ -218,6 +236,20 @@ export async function PATCH(request: NextRequest) {
     if (updates.privacy !== undefined) {
       updateData['privacy.profileVisible'] = updates.privacy.profileVisible
       updateData['privacy.progressVisible'] = updates.privacy.progressVisible
+    }
+    if (updates.preferences !== undefined) {
+      if (updates.preferences.theme !== undefined) {
+        updateData['preferences.theme'] = updates.preferences.theme
+      }
+      if (updates.preferences.language !== undefined) {
+        updateData['preferences.language'] = updates.preferences.language
+      }
+      if (updates.preferences.palette !== undefined) {
+        updateData['preferences.palette'] = updates.preferences.palette
+      }
+      if (updates.preferences.dailyGoalMinutes !== undefined) {
+        updateData['preferences.dailyGoalMinutes'] = updates.preferences.dailyGoalMinutes
+      }
     }
 
     // Update profile in Firestore

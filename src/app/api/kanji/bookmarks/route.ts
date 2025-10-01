@@ -107,16 +107,8 @@ export async function POST(request: NextRequest) {
           lastViewed: timestamp
         });
 
-      // Update achievement tracking
-      await adminDb
-        .collection('users')
-        .doc(session.uid)
-        .collection('achievements')
-        .doc('data')
-        .set({
-          kanjiBookmarked: FieldValue.increment(1),
-          lastUpdated: timestamp
-        }, { merge: true });
+      // Note: Bookmark counts are tracked in user_stats through other means
+      // No need for separate achievement tracking here
     }
 
     return createStorageResponse({
@@ -167,16 +159,8 @@ export async function DELETE(request: NextRequest) {
         .doc(kanjiId)
         .delete();
 
-      // Update achievement tracking
-      await adminDb
-        .collection('users')
-        .doc(session.uid)
-        .collection('achievements')
-        .doc('data')
-        .set({
-          kanjiBookmarked: FieldValue.increment(-1),
-          lastUpdated: FieldValue.serverTimestamp()
-        }, { merge: true });
+      // Note: Bookmark counts are tracked in user_stats through other means
+      // No need for separate achievement tracking here
     }
 
     return createStorageResponse({

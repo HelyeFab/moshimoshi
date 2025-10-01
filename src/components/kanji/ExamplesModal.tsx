@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import Modal from '@/components/ui/Modal'
-import AudioButton from '@/components/ui/AudioButton'
-import { useTTS } from '@/hooks/useTTS'
+import SpeakerIcon from '@/components/ui/SpeakerIcon'
 import { useI18n } from '@/i18n/I18nContext'
 
 interface Example {
@@ -26,20 +25,6 @@ export default function ExamplesModal({
   onClose
 }: ExamplesModalProps) {
   const { strings } = useI18n()
-  const { play } = useTTS({ cacheFirst: true })
-
-  const handlePlayAudio = async (text: string) => {
-    try {
-      await play(text, {
-        voice: 'ja-JP',
-        rate: 0.9,
-        pitch: 1.0,
-        volume: 1.0
-      })
-    } catch (error) {
-      console.error('TTS playback failed:', error)
-    }
-  }
 
   return (
     <Modal
@@ -67,9 +52,10 @@ export default function ExamplesModal({
                             style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
                         {example.word}
                       </span>
-                      <AudioButton
+                      <SpeakerIcon
+                        text={example.word}
                         size="sm"
-                        onPlay={() => handlePlayAudio(example.word)}
+                        options={{ voice: 'ja-JP', speed: 0.9 }}
                       />
                     </div>
 

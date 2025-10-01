@@ -59,72 +59,25 @@
   "displayName": "Beano",
   "photoURL": "https://storage.googleapis.com/moshimoshi-de237.firebasestorage.app/avatars/r7r6at83BUPIjD69XatI4EGIECr1_1758796117421.jpeg",
   "lastLoginAt": {
-    "_seconds": 1758882856,
-    "_nanoseconds": 845000000
+    "_seconds": 1759224502,
+    "_nanoseconds": 832000000
   },
   "adminUpdatedAt": {
-    "_seconds": 1758882857,
-    "_nanoseconds": 511000000
+    "_seconds": 1759224503,
+    "_nanoseconds": 614000000
   },
   "updatedAt": {
-    "_seconds": 1758882857,
-    "_nanoseconds": 511000000
+    "_seconds": 1759224503,
+    "_nanoseconds": 614000000
   },
   "_subcollections": {
     "achievements": {
       "activities": {
-        "bestStreak": 1,
-        "dates.2025-09-25": true,
-        "currentStreak": 0,
-        "lastUpdated": "2025-09-25T23:51:59.020Z",
-        "dates": {
-          "2025-09-23": true,
-          "currentStreak": 1,
-          "bestStreak": 1,
-          "lastActivityDate": "2025-09-25",
-          "dates": {
-            "2025-09-25": true,
-            "2025-09-23": true
-          },
-          "lastActivity": {
-            "_nanoseconds": 288000000,
-            "_seconds": 1758842738
-          },
-          "storage": {
-            "syncEnabled": true,
-            "location": "both"
-          },
-          "isActiveToday": true
-        },
-        "lastActivity": 1758844319361,
-        "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
-        "updatedAt": {
-          "_seconds": 1758844319,
-          "_nanoseconds": 500000000
+        "dates.2025-09-27": true,
+        "lastActivity": {
+          "_seconds": 1758986430,
+          "_nanoseconds": 514000000
         }
-      },
-      "data": {
-        "currentLevel": 1,
-        "totalXp": 0,
-        "lessonsCompleted": 0,
-        "unlocked": [
-          "first-step",
-          "sharpshooter",
-          "consistent-performer"
-        ],
-        "statistics": {
-          "unlockedCount": 3,
-          "percentageComplete": 15,
-          "byCategory": {},
-          "byRarity": {},
-          "totalAchievements": 20
-        },
-        "lastRecalculated": {
-          "_seconds": 1758817429,
-          "_nanoseconds": 645000000
-        },
-        "totalPoints": 75,
-        "lastUpdated": "2025-09-25T23:51:58.864Z"
       }
     },
     "flashcardDecks": {
@@ -18056,7 +18009,7 @@
           "totalTimeSpent": 0
         },
         "createdAt": 1758844015665,
-        "updatedAt": 1758846079575
+        "updatedAt": 1758897731787
       }
     },
     "kanji_browse_history": {
@@ -18102,6 +18055,17 @@
         "timestamp": {
           "_seconds": 1758842094,
           "_nanoseconds": 88000000
+        }
+      },
+      "II2YdHRvXzGNL0Xiq8gK": {
+        "kanjiId": "国",
+        "character": "国",
+        "source": "browse",
+        "sessionId": "gl2tyg",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1758986429,
+          "_nanoseconds": 683000000
         }
       },
       "JzUNdzLKADRUqN8iCxri": {
@@ -18214,6 +18178,17 @@
           "_nanoseconds": 548000000
         }
       },
+      "o24QYDQN16gCtET58ulS": {
+        "kanjiId": "国",
+        "character": "国",
+        "source": "browse",
+        "sessionId": "gl2tyg",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1758986429,
+          "_nanoseconds": 990000000
+        }
+      },
       "o99skBw7DYXjipVFGqKf": {
         "kanjiId": "年",
         "character": "年",
@@ -18256,6 +18231,23 @@
         "timestamp": {
           "_seconds": 1758842186,
           "_nanoseconds": 844000000
+        }
+      }
+    },
+    "lists": {
+      "b8a07c41-930c-4869-abac-8f699d3b300b": {
+        "id": "b8a07c41-930c-4869-abac-8f699d3b300b",
+        "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
+        "name": "test-1",
+        "type": "word",
+        "emoji": "📖",
+        "color": "sunset",
+        "items": [],
+        "createdAt": 1758971555853,
+        "updatedAt": 1758971555853,
+        "settings": {
+          "reviewEnabled": true,
+          "sortOrder": "dateAdded"
         }
       }
     },
@@ -18420,15 +18412,20 @@
           "_seconds": 1758842615,
           "_nanoseconds": 254000000
         },
-        "lastUpdated": {
-          "_seconds": 1758842738,
-          "_nanoseconds": 194000000
-        },
         "items.大.lastBrowsed": {
           "_seconds": 1758842738,
           "_nanoseconds": 194000000
         },
-        "items.大.browseCount": 2
+        "items.大.browseCount": 2,
+        "lastUpdated": {
+          "_seconds": 1758986429,
+          "_nanoseconds": 990000000
+        },
+        "items.国.browseCount": 2,
+        "items.国.lastBrowsed": {
+          "_seconds": 1758986429,
+          "_nanoseconds": 990000000
+        }
       }
     },
     "review_history": {
@@ -18772,22 +18769,6 @@
         }
       }
     },
-    "statistics": {
-      "overall": {
-        "lastAccuracy": 100,
-        "lastSessionType": "kana_study",
-        "lastUpdated": {
-          "_seconds": 1758656593,
-          "_nanoseconds": 446000000
-        },
-        "totalSessions": 8,
-        "totalItemsReviewed": 28,
-        "lastSessionDate": {
-          "_seconds": 1758656593,
-          "_nanoseconds": 446000000
-        }
-      }
-    },
     "study_sessions": {
       "session_1758656584660_m0gwzy04n": {
         "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
@@ -18842,6 +18823,13 @@
       }
     },
     "usage": {
+      "2025-09": {
+        "lastUpdated": {
+          "_seconds": 1758971555,
+          "_nanoseconds": 920000000
+        },
+        "custom_lists": 1
+      },
       "2025-09-25": {
         "flashcard_decks": {
           "created": 2

@@ -17,14 +17,13 @@ import LearningVillage from '@/components/dashboard/LearningVillage'
 import StreakCounter from '@/components/layout/StreakCounter'
 import AchievementToast from '@/components/notifications/AchievementToast'
 import { useAchievementStore } from '@/stores/achievement-store'
-import { useStreakStore } from '@/stores/streakStore'
-import { loadStreakFromFirestore, subscribeToStreakFromFirestore } from '@/lib/sync/streakSync'
+// Removed: useStreakStore and streakSync - now using useReviewStats as single source of truth
 import BuyMeACoffeeButton from '@/components/common/BuyMeACoffeeButton'
 import PokedexCard from '@/components/pokedex/PokedexCard'
 import { useSubscription } from '@/hooks/useSubscription'
 import GuestModeBanner from '@/components/ui/GuestModeBanner'
 import { useAuth } from '@/hooks/useAuth'
-import { useXP } from '@/hooks/useXP'
+import { useUserStats } from '@/hooks/useUserStats'
 import { useReviewStats } from '@/hooks/useReviewStats'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
@@ -60,11 +59,13 @@ function DashboardContent() {
     userAchievements
   } = useAchievementStore()
 
-  // Streak store (keeping for other uses but getting currentStreak from useReviewStats)
-  const streakStore = useStreakStore()
+  // Removed: streakStore - now using useReviewStats only
 
-  // XP data
-  const { totalXP, currentLevel, levelInfo } = useXP()
+  // User stats (XP, level, achievements)
+  const { xp, stats: userStatsData } = useUserStats()
+  const totalXP = xp?.total || 0
+  const currentLevel = xp?.level || 1
+  const levelInfo = userStatsData?.xp || null
 
   // Review stats (for consistent streak data)
   const { stats: reviewStats } = useReviewStats()
@@ -130,17 +131,7 @@ function DashboardContent() {
     }
   }, [user?.uid, isPremium, subscription, initializeAchievements, loadAchievements])
 
-  // Initialize streak data from Firebase
-  useEffect(() => {
-    if (!user?.uid || subscription === null) return
-
-    // Load initial streak data
-    if (isPremium) {
-      loadStreakFromFirestore()
-    }
-
-    // Don't set up subscription here - it's handled by StreakCounter component
-  }, [user?.uid, isPremium, subscription])
+  // Removed: Streak sync - now handled by useReviewStats (single source of truth)
 
   // Load drill stats
   useEffect(() => {

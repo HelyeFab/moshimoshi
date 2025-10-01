@@ -66,13 +66,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/tools/kanji-mastery`,
+      url: `${baseUrl}/kanji-mastery`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/tools/textbook-vocabulary`,
+      url: `${baseUrl}/textbook-vocabulary`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,

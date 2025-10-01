@@ -80,13 +80,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: '📊' },
     { href: '/admin/resources', label: 'Resources', icon: '📚' },
+    { href: '/admin/stories', label: 'Stories', icon: '📖' },
+    { href: '/admin/moodboards', label: 'Moodboards', icon: '🎨' },
     { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
+    { href: '/admin/blog', label: 'Blog', icon: '📝' },
+    { href: '/admin/monitoring', label: 'Monitoring', icon: '📊' },
+    { href: '/admin/stats-consistency', label: 'Stats Monitor', icon: '🔍' },
     { href: '/admin/entitlements', label: 'Entitlements', icon: '🔐' },
     { href: '/admin/xp-config', label: 'XP Config', icon: '⚡' },
     { href: '/admin/decision-explorer', label: 'Decision Logs', icon: '🔎' },
-    { href: '/admin/monitoring', label: 'Monitoring', icon: '📈' },
     { href: '/admin/firebase-monitoring', label: 'Firebase Monitor', icon: '🔥' },
-    { href: '/admin/moodboards', label: 'Moodboards', icon: '🎨' },
     { href: '/admin/youtube-series', label: 'YouTube Series', icon: '📹' },
   ];
 
@@ -108,11 +111,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center ${sidebarOpen ? 'gap-3 px-4' : 'justify-center'} py-2.5 rounded-lg transition-colors group relative ${
-                isActiveRoute(item.href)
+              className={`flex items-center ${sidebarOpen ? 'gap-3 px-4' : 'justify-center'} py-2.5 rounded-lg transition-colors group relative ${isActiveRoute(item.href)
                   ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-800'
-              }`}
+                }`}
               title={!sidebarOpen ? item.label : undefined}
             >
               <span className="text-xl flex-shrink-0">{item.icon}</span>
@@ -223,11 +225,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                               <Link
                                 href={item.href}
                                 onClick={() => setShowMobileMenu(false)}
-                                className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
-                                  isActiveRoute(item.href)
+                                className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${isActiveRoute(item.href)
                                     ? 'bg-gray-50 text-primary-600'
                                     : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
-                                }`}
+                                  }`}
                               >
                                 <span className="text-xl">{item.icon}</span>
                                 {item.label}

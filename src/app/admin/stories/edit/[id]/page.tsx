@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { storyService } from '@/lib/services/StoryService';
 import Navbar from '@/components/layout/Navbar';
-import { Story } from '@/types/story';
+import { Story, StoryQuizQuestion } from '@/types/story';
 import { JLPTLevel } from '@/types/aiStory';
 import { STORY_THEMES } from '@/types/story';
 import { ChevronLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
@@ -19,13 +19,25 @@ interface PageData {
   imageUrl?: string;
 }
 
+interface QuizQuestionData {
+  id: string;
+  question: string;
+  questionJa?: string;
+  options: string[];
+  correctIndex: number;
+  explanation?: string;
+  explanationJa?: string;
+}
+
 export default function EditStoryPage() {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const { user } = useAuth();
   const { showToast } = useToast();
 
   const storyId = params.id as string;
+  const isDraft = searchParams.get('draft') === 'true';
 
   const [loading, setLoading] = useState(true);
   const [story, setStory] = useState<Story | null>(null);
@@ -38,20 +50,53 @@ export default function EditStoryPage() {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
   const [status, setStatus] = useState<'draft' | 'published' | 'archived'>('draft');
+  const [quiz, setQuiz] = useState<QuizQuestionData[]>([]);
   const [isSaving, setIsSaving] = useState(false);
 
   // Load story data
   useEffect(() => {
     const loadStory = async () => {
       try {
-        const storyData = await storyService.getStory(storyId);
-        if (!storyData) {
-          showToast({
-            message: 'Story not found',
-            type: 'error'
-          });
-          router.push('/admin/stories');
-          return;
+        let storyData;
+
+        if (isDraft) {
+          // Load from drafts collection via API
+          const response = await fetch(`/api/admin/stories/drafts/${storyId}`);
+          if (!response.ok) {
+            showToast('Draft not found', 'error');
+            router.push('/admin/stories');
+            return;
+          }
+
+          const { draft } = await response.json();
+
+          // Convert draft to story format for editing
+          storyData = {
+            id: draft.id,
+            title: draft.characterSheet?.storyTitle || 'Untitled',
+            titleJa: draft.characterSheet?.storyTitleJa || '無題',
+            description: draft.characterSheet?.summary || '',
+            theme: draft.theme || 'adventure',
+            jlptLevel: draft.jlptLevel || 'N5',
+            pages: draft.pages || [],
+            quiz: draft.quiz || [],
+            status: 'draft' as const,
+            tags: [],
+            slug: draft.id,
+            authorId: draft.userId || '',
+            viewCount: 0,
+            completionCount: 0,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          };
+        } else {
+          // Load from stories collection
+          storyData = await storyService.getStory(storyId);
+          if (!storyData) {
+            showToast('Story not found', 'error');
+            router.push('/admin/stories');
+            return;
+          }
         }
 
         setStory(storyData);
@@ -69,12 +114,20 @@ export default function EditStoryPage() {
           translation: page.translation,
           imageUrl: page.imageUrl || ''
         })));
+
+        // Load quiz data
+        setQuiz((storyData.quiz || []).map(q => ({
+          id: q.id,
+          question: q.question,
+          questionJa: q.questionJa || '',
+          options: q.options,
+          correctIndex: q.correctIndex,
+          explanation: q.explanation || '',
+          explanationJa: q.explanationJa || ''
+        })));
       } catch (error) {
         console.error('Error loading story:', error);
-        showToast({
-          message: 'Failed to load story',
-          type: 'error'
-        });
+        showToast('Failed to load story', 'error');
         router.push('/admin/stories');
       } finally {
         setLoading(false);
@@ -84,7 +137,7 @@ export default function EditStoryPage() {
     if (storyId) {
       loadStory();
     }
-  }, [storyId, router, showToast]);
+  }, [storyId, isDraft, router, showToast]);
 
   const handleAddPage = () => {
     setPages([...pages, { text: '', translation: '', imageUrl: '' }]);
@@ -113,20 +166,46 @@ export default function EditStoryPage() {
     setTags(tags.filter(t => t !== tag));
   };
 
+  // Quiz handlers
+  const handleAddQuiz = () => {
+    const newQuestion: QuizQuestionData = {
+      id: `quiz-${Date.now()}`,
+      question: '',
+      questionJa: '',
+      options: ['', '', '', ''],
+      correctIndex: 0,
+      explanation: '',
+      explanationJa: ''
+    };
+    setQuiz([...quiz, newQuestion]);
+  };
+
+  const handleRemoveQuiz = (index: number) => {
+    setQuiz(quiz.filter((_, i) => i !== index));
+  };
+
+  const handleQuizChange = (index: number, field: keyof QuizQuestionData, value: any) => {
+    const newQuiz = [...quiz];
+    newQuiz[index] = { ...newQuiz[index], [field]: value };
+    setQuiz(newQuiz);
+  };
+
+  const handleQuizOptionChange = (quizIndex: number, optionIndex: number, value: string) => {
+    const newQuiz = [...quiz];
+    const options = [...newQuiz[quizIndex].options];
+    options[optionIndex] = value;
+    newQuiz[quizIndex] = { ...newQuiz[quizIndex], options };
+    setQuiz(newQuiz);
+  };
+
   const handleSave = async () => {
     if (!title || !titleJa || !description) {
-      showToast({
-        message: 'Please fill in all required fields',
-        type: 'error'
-      });
+      showToast('Please fill in all required fields', 'error');
       return;
     }
 
     if (pages.some(p => !p.text || !p.translation)) {
-      showToast({
-        message: 'All pages must have Japanese text and translation',
-        type: 'error'
-      });
+      showToast('All pages must have Japanese text and translation', 'error');
       return;
     }
 
@@ -151,22 +230,15 @@ export default function EditStoryPage() {
         tags,
         pages: formattedPages,
         status,
-        // Preserve quiz if it exists
-        quiz: story?.quiz || []
+        quiz: quiz as StoryQuizQuestion[]
       });
 
-      showToast({
-        message: 'Story updated successfully!',
-        type: 'success'
-      });
+      showToast('Story updated successfully!', 'success');
 
       router.push('/admin/stories');
     } catch (error) {
       console.error('Error updating story:', error);
-      showToast({
-        message: 'Failed to update story',
-        type: 'error'
-      });
+      showToast('Failed to update story', 'error');
     } finally {
       setIsSaving(false);
     }
@@ -179,17 +251,11 @@ export default function EditStoryPage() {
 
     try {
       await storyService.deleteStory(storyId);
-      showToast({
-        message: 'Story deleted successfully',
-        type: 'success'
-      });
+      showToast('Story deleted successfully', 'success');
       router.push('/admin/stories');
     } catch (error) {
       console.error('Error deleting story:', error);
-      showToast({
-        message: 'Failed to delete story',
-        type: 'error'
-      });
+      showToast('Failed to delete story', 'error');
     }
   };
 
@@ -202,7 +268,7 @@ export default function EditStoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light to-background-dark">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
       <Navbar user={user} showUserMenu={true} />
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -210,7 +276,7 @@ export default function EditStoryPage() {
         <div className="mb-8">
           <Link
             href="/admin/stories"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 mb-4"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 mb-4 transition-colors"
           >
             <ChevronLeftIcon className="w-4 h-4" />
             Back to Stories
@@ -221,7 +287,7 @@ export default function EditStoryPage() {
             </h1>
             <button
               onClick={handleDelete}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
             >
               Delete Story
             </button>
@@ -229,16 +295,16 @@ export default function EditStoryPage() {
         </div>
 
         {/* Form */}
-        <div className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-lg space-y-6">
+        <div className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-dark-700 space-y-6">
           {/* Status */}
-          <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div className="p-4 bg-gray-50 dark:bg-dark-800 rounded-lg border border-gray-200 dark:border-dark-700">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Status
             </label>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as any)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
             >
               <option value="draft">Draft</option>
               <option value="published">Published</option>
@@ -444,6 +510,146 @@ export default function EditStoryPage() {
             </div>
           </div>
 
+          {/* Quiz Section */}
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Quiz Questions
+              </h2>
+              <button
+                onClick={handleAddQuiz}
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+              >
+                <PlusIcon className="w-4 h-4" />
+                Add Question
+              </button>
+            </div>
+
+            {quiz.length === 0 ? (
+              <div className="p-8 text-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
+                <p className="text-gray-500 dark:text-gray-400 mb-2">No quiz questions yet</p>
+                <button
+                  onClick={handleAddQuiz}
+                  className="text-purple-600 dark:text-purple-400 hover:underline"
+                >
+                  Add your first question
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {quiz.map((question, qIndex) => (
+                  <div
+                    key={question.id}
+                    className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-dark-800"
+                  >
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="font-medium text-gray-900 dark:text-white">
+                        Question {qIndex + 1}
+                      </h3>
+                      <button
+                        onClick={() => handleRemoveQuiz(qIndex)}
+                        className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
+                      >
+                        <TrashIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      {/* Question Text */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Question (English)
+                          </label>
+                          <input
+                            type="text"
+                            value={question.question}
+                            onChange={(e) => handleQuizChange(qIndex, 'question', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
+                            placeholder="Enter question in English"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Question (Japanese)
+                          </label>
+                          <input
+                            type="text"
+                            value={question.questionJa}
+                            onChange={(e) => handleQuizChange(qIndex, 'questionJa', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
+                            placeholder="Enter question in Japanese"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Options */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Answer Options
+                        </label>
+                        <div className="space-y-2">
+                          {question.options.map((option, oIndex) => (
+                            <div key={oIndex} className="flex items-center gap-2">
+                              <input
+                                type="radio"
+                                name={`correct-${qIndex}`}
+                                checked={question.correctIndex === oIndex}
+                                onChange={() => handleQuizChange(qIndex, 'correctIndex', oIndex)}
+                                className="w-4 h-4 text-green-600"
+                              />
+                              <span className="text-sm text-gray-600 dark:text-gray-400 w-8">
+                                {String.fromCharCode(65 + oIndex)}.
+                              </span>
+                              <input
+                                type="text"
+                                value={option}
+                                onChange={(e) => handleQuizOptionChange(qIndex, oIndex, e.target.value)}
+                                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
+                                placeholder={`Option ${String.fromCharCode(65 + oIndex)}`}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                          Select the radio button next to the correct answer
+                        </p>
+                      </div>
+
+                      {/* Explanations */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Explanation (English)
+                          </label>
+                          <textarea
+                            value={question.explanation}
+                            onChange={(e) => handleQuizChange(qIndex, 'explanation', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
+                            rows={2}
+                            placeholder="Optional explanation"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Explanation (Japanese)
+                          </label>
+                          <textarea
+                            value={question.explanationJa}
+                            onChange={(e) => handleQuizChange(qIndex, 'explanationJa', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
+                            rows={2}
+                            placeholder="Optional explanation in Japanese"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* Stats Display */}
           {story && (
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -459,7 +665,7 @@ export default function EditStoryPage() {
                 </div>
                 <div>
                   <span className="text-gray-600 dark:text-gray-400">Quiz Questions:</span>
-                  <span className="ml-2 font-medium text-gray-900 dark:text-white">{story.quiz?.length || 0}</span>
+                  <span className="ml-2 font-medium text-gray-900 dark:text-white">{quiz.length}</span>
                 </div>
               </div>
             </div>

@@ -20,6 +20,7 @@ export function useAdmin() {
     user: null,
   });
 
+  // This is a comment
   useEffect(() => {
     async function checkAdminStatus() {
       try {

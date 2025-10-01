@@ -39,29 +39,19 @@ export class StatsAdapter {
    */
   async checkMigrationStatus(userId: string): Promise<MigrationStatus> {
     try {
-      const [userStatsDoc, leaderboardDoc, achievementsDoc, statsDoc] = await Promise.all([
+      const [userStatsDoc, leaderboardDoc] = await Promise.all([
         adminDb.collection('user_stats').doc(userId).get(),
-        adminDb.collection('leaderboard_stats').doc(userId).get(),
-        adminDb.collection('users').doc(userId).collection('achievements').doc('data').get(),
-        adminDb.collection('users').doc(userId).collection('statistics').doc('overall').get()
+        adminDb.collection('leaderboard_stats').doc(userId).get()
       ])
 
       const status: MigrationStatus = {
         hasUserStats: userStatsDoc.exists,
         hasLeaderboardStats: leaderboardDoc.exists,
-        hasAchievements: achievementsDoc.exists,
-        hasStatistics: statsDoc.exists,
-        isFullyMigrated: false,
-        needsMigration: false
+        hasAchievements: false, // Legacy - no longer checked
+        hasStatistics: false, // Legacy - no longer checked
+        isFullyMigrated: userStatsDoc.exists,
+        needsMigration: false // All data should be in user_stats now
       }
-
-      // Check if fully migrated
-      status.isFullyMigrated = status.hasUserStats &&
-                               (!status.hasLeaderboardStats && !status.hasAchievements && !status.hasStatistics)
-
-      // Check if needs migration
-      status.needsMigration = !status.hasUserStats &&
-                             (status.hasLeaderboardStats || status.hasAchievements || status.hasStatistics)
 
       logger.info(`[StatsAdapter] Migration status for ${userId}:`, status)
       return status

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useI18n } from '@/i18n/I18nContext';
 import Navbar from '@/components/layout/Navbar';
+import PageHeader from '@/components/layout/PageHeader';
 import { useAuth } from '@/hooks/useAuth';
 
 interface NewsArticle {
@@ -307,16 +308,11 @@ export default function NewsPage() {
       <Navbar user={user} showUserMenu={true} />
 
       {/* Page Header */}
-      <header className="px-4 pt-6 pb-4">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold text-foreground dark:text-dark-100">
-            {t('news.title')}
-          </h1>
-          <p className="text-muted-foreground dark:text-dark-400 mt-1">
-            {t('news.subtitle')}
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        title={t('news.title')}
+        description={t('news.subtitle')}
+        mascot="doshi"
+      />
 
       <div className="px-4 pb-20 max-w-7xl mx-auto">
         {/* Filter Bar */}

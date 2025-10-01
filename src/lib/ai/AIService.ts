@@ -23,7 +23,15 @@ import {
   StoryGenerationRequest,
   GeneratedStory,
   MoodboardGenerationRequest,
-  GeneratedMoodboard
+  GeneratedMoodboard,
+  ImageGenerationRequest,
+  GeneratedImage,
+  CharacterModelSheetRequest,
+  GeneratedModelSheet,
+  ImagePromptEnhancementRequest,
+  EnhancedImagePrompt,
+  ImageStorageRequest,
+  StoredImage
 } from './types';
 
 import { ReviewQuestionProcessor } from './processors/ReviewQuestionProcessor';
@@ -32,6 +40,8 @@ import { TranscriptProcessor } from './processors/TranscriptProcessor';
 import { StoryProcessor } from './processors/StoryProcessor';
 import { MoodboardProcessor } from './processors/MoodboardProcessor';
 import { MultiStepStoryProcessor } from './processors/MultiStepStoryProcessor';
+import { ImageProcessor } from './processors/ImageProcessor';
+import { ImageStorageProcessor } from './processors/ImageStorageProcessor';
 // import { ArticleProcessor } from './processors/ArticleProcessor';
 
 import { PersistentCacheManager } from './cache/PersistentCacheManager';
@@ -223,7 +233,12 @@ export class AIService {
       'clean_transcript',
       'process_article',
       'generate_story',
+      'generate_story_multistep',
       'generate_moodboard',
+      'generate_image',
+      'generate_character_model_sheet',
+      'enhance_image_prompt',
+      'store_image',
       'analyze_content',
       'suggest_improvements',
       'translate_content',
@@ -304,6 +319,34 @@ export class AIService {
         const multiStepProcessor = new MultiStepStoryProcessor(context);
         return await multiStepProcessor.process(
           request.content,
+          request.config
+        );
+
+      case 'generate_image':
+        const imageProcessor = new ImageProcessor(context);
+        return await imageProcessor.process(
+          request.content as ImageGenerationRequest,
+          request.config
+        );
+
+      case 'generate_character_model_sheet':
+        const modelSheetProcessor = new ImageProcessor(context);
+        return await modelSheetProcessor.generateModelSheet(
+          request.content as CharacterModelSheetRequest,
+          request.config
+        );
+
+      case 'enhance_image_prompt':
+        const promptEnhancer = new ImageProcessor(context);
+        return await promptEnhancer.enhancePrompt(
+          request.content as ImagePromptEnhancementRequest,
+          request.config
+        );
+
+      case 'store_image':
+        const storageProcessor = new ImageStorageProcessor(context);
+        return await storageProcessor.process(
+          request.content as ImageStorageRequest,
           request.config
         );
 

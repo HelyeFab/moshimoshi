@@ -3198,6 +3198,46 @@ export const strings = {
       description: "漢字をマスターしてポケモンをバトル＆キャッチ！"
     },
 
+    // Sentence Scramble
+    sentenceScramble: {
+      title: "文章スクランブル",
+      description: "日本語の文章を並び替えて文法をテスト！",
+      selectSentences: "文章を選択",
+      selectDescription: "最大10個の文章を選んで練習",
+      difficulty: {
+        easy: "簡単",
+        medium: "普通",
+        hard: "難しい"
+      },
+      startGame: "ゲーム開始",
+      howToPlay: "遊び方",
+      step1Title: "文章を覚える",
+      step1Desc: "元の文章をよく見て覚えてください",
+      step2Title: "文章を組み立てる",
+      step2Desc: "単語ブロックを正しい順番でクリック",
+      step3Title: "時間に挑戦",
+      step3Desc: "各文章は20秒以内に完成させよう",
+      start: "プレイ開始",
+      sentenceOf: "文章 {{current}} / {{total}}",
+      skipReading: "スクランブルへ",
+      getReady: "準備！",
+      yourSentence: "あなたの文章",
+      availableBlocks: "使用可能なブロック",
+      clickBlocks: "下のブロックをクリックして文章を組み立てる",
+      submitAnswer: "回答を提出",
+      attempts: "試行回数",
+      correct: "正解！",
+      incorrect: "もう少し",
+      original: "元の文章",
+      gameComplete: "ゲーム完了！",
+      greatJob: "チャレンジを完了しました！",
+      score: "スコア",
+      totalSentences: "文章数",
+      accuracy: "正確率",
+      time: "時間",
+      playAgain: "もう一度"
+    },
+
     // Word Builder
     wordBuilder: {
       title: "単語ビルダー",

@@ -7,6 +7,7 @@ import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { PinnedItem, PinOptions, PinStatistics, BulkPinResult } from '@/lib/review-engine/pinning/types'
 import { pinManager } from '@/lib/review-engine/pinning/pin-manager'
+import { createUserStorage } from '@/lib/storage/zustand-user-storage'
 
 /**
  * Pin store state interface
@@ -583,6 +584,7 @@ export const usePinStore = create<PinStore>()(
       }),
       {
         name: 'pin-store',
+        storage: createUserStorage('pin-store'),
         partialize: (state) => ({
           // Only persist essential data
           currentUserId: state.currentUserId,

@@ -10,6 +10,7 @@ import { AIStoryDraft, AIGenerationProgress, AICharacterSheet } from '@/types/ai
 import { storyService } from '@/lib/services/StoryService';
 import Navbar from '@/components/layout/Navbar';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import RegenerateImageModal from '@/components/admin/RegenerateImageModal';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function GenerateStoryPage() {
@@ -36,6 +37,27 @@ export default function GenerateStoryPage() {
   const [characterProfile, setCharacterProfile] = useState<any>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
 
+  // Regeneration modal state
+  const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
+  const [selectedPageNumber, setSelectedPageNumber] = useState<number | undefined>();
+
+  const handleOpenRegenerateModal = (imageUrl: string, pageNumber?: number) => {
+    setSelectedImageUrl(imageUrl);
+    setSelectedPageNumber(pageNumber);
+    setIsRegenerateModalOpen(true);
+  };
+
+  const handleImageRegenerated = async (newImageUrl: string) => {
+    // Reload draft to get updated data
+    if (draftId) {
+      const draft = await storyService.getAIDraft(draftId);
+      if (draft) {
+        setStoryDraft(draft);
+      }
+    }
+  };
+
   // Check admin access
   useEffect(() => {
     if (!sessionLoading && (!user || !user.isAdmin)) {
@@ -55,10 +77,7 @@ export default function GenerateStoryPage() {
     }
 
     if (!user?.uid) {
-      showToast({
-        message: 'Authentication required',
-        type: 'error'
-      });
+      showToast('Authentication required', 'error');
       return;
     }
 
@@ -179,45 +198,125 @@ export default function GenerateStoryPage() {
         }
       }
 
-      // Step 5: Generate images if requested
+      // Step 5: Generate character model sheet if images requested
       if (generateImages) {
-        setGenerationProgress({
-          step: 'images',
-          currentPage: 0,
-          totalPages: pageCount,
-          message: 'Generating story illustrations...',
-          progress: 80
-        });
+        try {
+          setGenerationProgress({
+            step: 'images',
+            message: 'Creating character model sheet for consistency...',
+            progress: 70
+          });
 
-        // TODO: Add image generation for each page
-        // This would call an image generation API for each page
-        // For now, we'll skip actual image generation
+          const modelSheetResponse = await fetch('/api/admin/generate-story', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+              step: 'generate_model_sheet',
+              draftId: newDraftId
+            })
+          });
+
+          if (!modelSheetResponse.ok) {
+            console.error('Model sheet generation failed, continuing without images...');
+          } else {
+            const modelSheetData = await modelSheetResponse.json();
+            console.log('✅ Model sheet generated:', modelSheetData.data);
+
+            // Step 6: Generate images for each page
+            for (let pageNum = 1; pageNum <= pageCount; pageNum++) {
+              try {
+                setGenerationProgress({
+                  step: 'images',
+                  currentPage: pageNum,
+                  totalPages: pageCount,
+                  message: `Generating illustration for page ${pageNum} of ${pageCount}...`,
+                  progress: 70 + (pageNum / pageCount) * 25
+                });
+
+                const imageResponse = await fetch('/api/admin/generate-story', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  credentials: 'include',
+                  body: JSON.stringify({
+                    step: 'generate_page_image',
+                    draftId: newDraftId,
+                    pageNumber: pageNum
+                  })
+                });
+
+                if (!imageResponse.ok) {
+                  console.error(`Image generation failed for page ${pageNum}`);
+                } else {
+                  const imageData = await imageResponse.json();
+                  console.log(`✅ Image generated for page ${pageNum}:`, imageData.data);
+                }
+              } catch (imageError) {
+                console.error(`Error generating image for page ${pageNum}:`, imageError);
+                // Continue with next page even if this one fails
+              }
+            }
+          }
+        } catch (imageError) {
+          console.error('Image generation error:', imageError);
+          showToast('Story generated, but image generation failed. You can add images later.', 'warning');
+        }
       }
 
       setGenerationProgress({
         step: 'complete',
-        message: 'Story generation complete!',
-        progress: 100
+        message: 'Story generation complete! Publishing...',
+        progress: 95
       });
 
-      // Load the completed draft
-      const draft = await storyService.getAIDraft(newDraftId);
-      if (draft) {
-        setStoryDraft(draft);
-        setCurrentStep('review');
+      // Automatically publish the story to make it visible in admin list
+      try {
+        const publishResponse = await fetch('/api/admin/stories/publish-draft', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({ draftId: newDraftId })
+        });
+
+        if (!publishResponse.ok) {
+          throw new Error('Failed to publish story');
+        }
+
+        const { storyId } = await publishResponse.json();
+        console.log('✅ Story published:', storyId);
+
+        setGenerationProgress({
+          step: 'complete',
+          message: 'Story published successfully!',
+          progress: 100
+        });
+
+        showToast('Story generated and published successfully!', 'success');
+
+        // Redirect to stories page after a short delay
+        setTimeout(() => {
+          router.push('/admin/stories');
+        }, 2000);
+
+      } catch (publishError) {
+        console.error('Error publishing story:', publishError);
+        showToast('Story generated but failed to publish. You can publish it manually.', 'warning');
+
+        // Still redirect to stories page
+        setTimeout(() => {
+          router.push('/admin/stories');
+        }, 2000);
       }
-
-      showToast({
-        message: 'Story generated successfully!',
-        type: 'success'
-      });
 
     } catch (error) {
       console.error('Story generation error:', error);
-      showToast({
-        message: error instanceof Error ? error.message : 'Failed to generate story',
-        type: 'error'
-      });
+      showToast(error instanceof Error ? error.message : 'Failed to generate story', 'error');
       setCurrentStep('setup');
     } finally {
       setIsGenerating(false);
@@ -254,18 +353,12 @@ export default function GenerateStoryPage() {
       // Update draft status
       await storyService.updateAIDraftStatus(draftId, 'published');
 
-      showToast({
-        message: 'Story published successfully!',
-        type: 'success'
-      });
+      showToast('Story published successfully!', 'success');
 
       router.push('/admin/stories');
     } catch (error) {
       console.error('Error publishing story:', error);
-      showToast({
-        message: 'Failed to publish story',
-        type: 'error'
-      });
+      showToast('Failed to publish story', 'error');
     }
   };
 
@@ -275,18 +368,12 @@ export default function GenerateStoryPage() {
     try {
       await storyService.updateAIDraftStatus(draftId, 'draft');
 
-      showToast({
-        message: 'Draft saved successfully!',
-        type: 'success'
-      });
+      showToast('Draft saved successfully!', 'success');
 
       router.push('/admin/stories');
     } catch (error) {
       console.error('Error saving draft:', error);
-      showToast({
-        message: 'Failed to save draft',
-        type: 'error'
-      });
+      showToast('Failed to save draft', 'error');
     }
   };
 
@@ -299,7 +386,7 @@ export default function GenerateStoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light to-background-dark">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
       <Navbar user={user} showUserMenu={true} />
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -312,7 +399,7 @@ export default function GenerateStoryPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-lg space-y-6"
+            className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-dark-700 space-y-6"
           >
             {/* Theme Selection */}
             <div>
@@ -322,7 +409,7 @@ export default function GenerateStoryPage() {
               <select
                 value={theme}
                 onChange={(e) => setTheme(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               >
                 <option value="">Select a theme...</option>
                 {STORY_THEMES.map(t => (
@@ -337,7 +424,7 @@ export default function GenerateStoryPage() {
                   value={customTheme}
                   onChange={(e) => setCustomTheme(e.target.value)}
                   placeholder="Enter your custom theme..."
-                  className="mt-2 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                  className="mt-2 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
                 />
               )}
             </div>
@@ -350,7 +437,7 @@ export default function GenerateStoryPage() {
               <select
                 value={jlptLevel}
                 onChange={(e) => setJlptLevel(e.target.value as JLPTLevel)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               >
                 <option value="N5">N5 (Beginner)</option>
                 <option value="N4">N4 (Elementary)</option>
@@ -370,8 +457,22 @@ export default function GenerateStoryPage() {
                 min="3"
                 max="20"
                 value={pageCount}
-                onChange={(e) => setPageCount(parseInt(e.target.value) || 5)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                onChange={(e) => {
+                  const num = parseInt(e.target.value);
+                  if (!isNaN(num)) {
+                    setPageCount(num);
+                  }
+                }}
+                onBlur={(e) => {
+                  // When user leaves the field, enforce min/max
+                  const num = parseInt(e.target.value);
+                  if (isNaN(num) || num < 3) {
+                    setPageCount(3);
+                  } else if (num > 20) {
+                    setPageCount(20);
+                  }
+                }}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Recommended: 3-10 pages for optimal generation
@@ -409,7 +510,7 @@ export default function GenerateStoryPage() {
             <button
               onClick={handleGenerate}
               disabled={!theme && !customTheme}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-all"
+              className="w-full py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-all shadow-sm"
             >
               Generate Story
             </button>
@@ -519,25 +620,50 @@ export default function GenerateStoryPage() {
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                   Character Design
                 </h3>
-                <div className="space-y-3 text-sm">
-                  <div>
-                    <span className="font-medium text-gray-600 dark:text-gray-400">
-                      Main Character:
-                    </span>
-                    <span className="ml-2 text-gray-900 dark:text-gray-100">
-                      {storyDraft.characterSheet.mainCharacter.name} ({storyDraft.characterSheet.mainCharacter.nameJa})
-                    </span>
-                  </div>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    {storyDraft.characterSheet.mainCharacter.description}
-                  </p>
-                  <div>
-                    <span className="font-medium text-gray-600 dark:text-gray-400">
-                      Visual Style:
-                    </span>
-                    <span className="ml-2 text-gray-900 dark:text-gray-100">
-                      {storyDraft.characterSheet.visualStyle}
-                    </span>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* Character Model Sheet */}
+                  {(storyDraft as any).modelSheet?.imageUrl && (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                          Character Model Sheet
+                        </p>
+                        <button
+                          onClick={() => handleOpenRegenerateModal((storyDraft as any).modelSheet.imageUrl)}
+                          className="text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-900/50 rounded transition-colors"
+                        >
+                          Regenerate
+                        </button>
+                      </div>
+                      <img
+                        src={(storyDraft as any).modelSheet.imageUrl}
+                        alt="Character Model Sheet"
+                        className="w-full h-auto rounded-lg border border-gray-200 dark:border-gray-700"
+                      />
+                    </div>
+                  )}
+
+                  {/* Character Details */}
+                  <div className="space-y-3 text-sm">
+                    <div>
+                      <span className="font-medium text-gray-600 dark:text-gray-400">
+                        Main Character:
+                      </span>
+                      <span className="ml-2 text-gray-900 dark:text-gray-100">
+                        {storyDraft.characterSheet.mainCharacter.name} ({storyDraft.characterSheet.mainCharacter.nameJa})
+                      </span>
+                    </div>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      {storyDraft.characterSheet.mainCharacter.description}
+                    </p>
+                    <div>
+                      <span className="font-medium text-gray-600 dark:text-gray-400">
+                        Visual Style:
+                      </span>
+                      <span className="ml-2 text-gray-900 dark:text-gray-100">
+                        {storyDraft.characterSheet.visualStyle}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -548,12 +674,30 @@ export default function GenerateStoryPage() {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 Story Pages Preview
               </h3>
-              <div className="space-y-4 max-h-96 overflow-y-auto">
+              <div className="space-y-6 max-h-96 overflow-y-auto">
                 {storyDraft.pages.slice(0, 3).map((page, index) => (
-                  <div key={index} className="border-l-4 border-primary-500 pl-4">
-                    <p className="font-medium text-gray-900 dark:text-white mb-1">
+                  <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                    <p className="font-medium text-gray-900 dark:text-white mb-2">
                       Page {page.pageNumber}
                     </p>
+
+                    {/* Page Image */}
+                    {(page as any).imageUrl && (
+                      <div className="mb-3 relative group">
+                        <img
+                          src={(page as any).imageUrl}
+                          alt={`Page ${page.pageNumber}`}
+                          className="w-full h-auto rounded-lg border border-gray-200 dark:border-gray-700"
+                        />
+                        <button
+                          onClick={() => handleOpenRegenerateModal((page as any).imageUrl, page.pageNumber)}
+                          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity px-3 py-1 bg-white/90 dark:bg-dark-900/90 text-primary-600 dark:text-primary-400 hover:bg-white dark:hover:bg-dark-900 rounded-lg shadow-lg text-sm font-medium"
+                        >
+                          Regenerate
+                        </button>
+                      </div>
+                    )}
+
                     <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
                       {page.text.substring(0, 150)}...
                     </p>
@@ -574,13 +718,13 @@ export default function GenerateStoryPage() {
             <div className="flex gap-4">
               <button
                 onClick={handlePublish}
-                className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition-colors"
+                className="flex-1 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
               >
                 Publish Story
               </button>
               <button
                 onClick={handleSaveDraft}
-                className="flex-1 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium transition-colors"
+                className="flex-1 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors"
               >
                 Save as Draft
               </button>
@@ -590,7 +734,7 @@ export default function GenerateStoryPage() {
                   setStoryDraft(null);
                   setDraftId(null);
                 }}
-                className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition-colors"
+                className="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
               >
                 Start Over
               </button>
@@ -598,6 +742,18 @@ export default function GenerateStoryPage() {
           </motion.div>
         )}
       </div>
+
+      {/* Regenerate Image Modal */}
+      {draftId && (
+        <RegenerateImageModal
+          isOpen={isRegenerateModalOpen}
+          onClose={() => setIsRegenerateModalOpen(false)}
+          currentImageUrl={selectedImageUrl}
+          pageNumber={selectedPageNumber}
+          draftId={draftId}
+          onImageRegenerated={handleImageRegenerated}
+        />
+      )}
     </div>
   );
 }

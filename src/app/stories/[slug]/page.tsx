@@ -29,20 +29,14 @@ export default function StoryDetailPage() {
         }
 
         if (!storyData) {
-          showToast({
-            message: 'Story not found',
-            type: 'error'
-          });
+          showToast('Story not found', 'error');
           router.push('/stories');
           return;
         }
 
         // Only show published stories to non-admin users
         if (storyData.status !== 'published') {
-          showToast({
-            message: 'This story is not available',
-            type: 'error'
-          });
+          showToast('This story is not available', 'error');
           router.push('/stories');
           return;
         }
@@ -50,10 +44,7 @@ export default function StoryDetailPage() {
         setStory(storyData);
       } catch (error) {
         console.error('Error loading story:', error);
-        showToast({
-          message: 'Failed to load story',
-          type: 'error'
-        });
+        showToast('Failed to load story', 'error');
         router.push('/stories');
       } finally {
         setLoading(false);
@@ -66,10 +57,7 @@ export default function StoryDetailPage() {
   }, [slug, router, showToast]);
 
   const handleComplete = () => {
-    showToast({
-      message: 'Congratulations on completing the story!',
-      type: 'success'
-    });
+    showToast('Congratulations on completing the story!', 'success');
     router.push('/stories');
   };
 

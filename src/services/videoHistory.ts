@@ -198,6 +198,39 @@ class VideoHistoryService {
   }
 
   /**
+   * Force sync all local video history to Firebase
+   * Used by manual sync button for premium users
+   */
+  async forceSyncToFirebase(): Promise<void> {
+    if (!this.userId || !this.isPremium || !db) {
+      console.log('[VideoHistory] Skipping force sync - not premium user or no Firebase');
+      return;
+    }
+
+    try {
+      console.log('[VideoHistory] Force syncing all local history to Firebase...');
+
+      const allVideoIds = Array.from(this.memoryCache);
+
+      if (allVideoIds.length === 0) {
+        console.log('[VideoHistory] No videos to sync');
+        return;
+      }
+
+      const docRef = doc(db, 'userVideoHistory', this.userId);
+      await setDoc(docRef, {
+        videoIds: allVideoIds,
+        lastUpdated: new Date().toISOString()
+      }, { merge: false }); // Replace instead of merge to ensure consistency
+
+      console.log(`[VideoHistory] Successfully synced ${allVideoIds.length} videos to Firebase`);
+    } catch (error) {
+      console.error('[VideoHistory] Force sync failed:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Clear all video history (for testing/debugging)
    */
   async clearHistory() {

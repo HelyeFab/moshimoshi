@@ -4427,6 +4427,46 @@ export const strings = {
       }
     },
 
+    // Sentence Scramble
+    sentenceScramble: {
+      title: "Sentence Scramble",
+      description: "Unscramble Japanese sentences to test your grammar!",
+      selectSentences: "Select Sentences",
+      selectDescription: "Choose up to 10 sentences to practice",
+      difficulty: {
+        easy: "Easy",
+        medium: "Medium",
+        hard: "Hard"
+      },
+      startGame: "Start Game",
+      howToPlay: "How to Play",
+      step1Title: "Watch the Sentence",
+      step1Desc: "Study the original sentence carefully",
+      step2Title: "Rebuild the Sentence",
+      step2Desc: "Click word blocks in the correct order",
+      step3Title: "Beat the Clock",
+      step3Desc: "You have 20 seconds per sentence",
+      start: "Start Playing",
+      sentenceOf: "Sentence {{current}} of {{total}}",
+      skipReading: "Skip to Scramble",
+      getReady: "Get Ready!",
+      yourSentence: "Your Sentence",
+      availableBlocks: "Available Blocks",
+      clickBlocks: "Click the blocks below to rebuild the sentence",
+      submitAnswer: "Submit Answer",
+      attempts: "Attempts",
+      correct: "Correct!",
+      incorrect: "Not quite right",
+      original: "Original",
+      gameComplete: "Game Complete!",
+      greatJob: "Great job completing the challenge!",
+      score: "Score",
+      totalSentences: "Sentences",
+      accuracy: "Accuracy",
+      time: "Time",
+      playAgain: "Play Again"
+    },
+
     // Word Builder
     wordBuilder: {
       title: "Word Builder",

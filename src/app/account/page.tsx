@@ -22,7 +22,7 @@ import { PRICING_CONFIG } from '@/config/pricing'
 import { PremiumBadge } from '@/components/common/PremiumBadge'
 import dynamic from 'next/dynamic'
 import { useAchievementStore } from '@/stores/achievement-store'
-import { useStreakStore } from '@/stores/streakStore'
+import { useReviewStats } from '@/hooks/useReviewStats'
 import logger from '@/lib/logger'
 
 // Dynamically import Confetti to avoid SSR issues
@@ -61,7 +61,10 @@ function AccountPageContent() {
     getUnlockedAchievements
   } = useAchievementStore()
 
-  const { currentStreak, bestStreak, getDaysActive } = useStreakStore()
+  // Use unified stats from useReviewStats (single source of truth)
+  const { stats: reviewStats } = useReviewStats()
+  const currentStreak = reviewStats.currentStreak || 0
+  const bestStreak = reviewStats.bestStreak || 0
   const [updating, setUpdating] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [displayName, setDisplayName] = useState('')

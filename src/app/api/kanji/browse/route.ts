@@ -186,17 +186,8 @@ export async function POST(request: NextRequest) {
 
       await batch.commit();
 
-      // Update user's daily activity for streak tracking
-      const today = new Date().toISOString().split('T')[0];
-      await adminDb
-        .collection('users')
-        .doc(session.uid)
-        .collection('achievements')
-        .doc('activities')
-        .set({
-          [`dates.${today}`]: true,
-          lastActivity: timestamp
-        }, { merge: true });
+      // Note: Daily activity tracking is handled by user_stats through other means
+      // No need for separate achievements tracking here
 
       return NextResponse.json({
         success: true,

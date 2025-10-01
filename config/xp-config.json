@@ -86,7 +86,7 @@
       "id": "kana_practice",
       "name": "Kana Practice",
       "description": "Practice hiragana and katakana characters",
-      "enabled": false,
+      "enabled": true,
       "baseXP": 5,
       "rewards": {
         "perCorrect": 5,
@@ -192,7 +192,7 @@
       "id": "review_session",
       "name": "Review Session",
       "description": "General spaced repetition review",
-      "enabled": false,
+      "enabled": true,
       "baseXP": 15,
       "rewards": {
         "perItem": 5,

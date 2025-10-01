@@ -4,6 +4,9 @@ import { validateSession } from '@/lib/auth/session';
 import fs from 'fs/promises';
 import path from 'path';
 
+// Force dynamic rendering to prevent build-time evaluation
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     // Ensure Firebase Admin is initialized

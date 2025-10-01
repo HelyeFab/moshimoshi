@@ -218,6 +218,31 @@ export class PracticeHistoryService {
     }
   }
 
+  // Force sync all local practice history to Firebase
+  // Used by manual sync button for premium users
+  async forceSyncToFirebase(): Promise<void> {
+    if (!this.firebaseStorage) {
+      console.log('[PracticeHistory] Skipping force sync - no Firebase storage configured');
+      return;
+    }
+
+    try {
+      console.log('[PracticeHistory] Force syncing all local history to Firebase...');
+      const localItems = await this.indexedDBStorage.getAllItems();
+
+      if (localItems.length === 0) {
+        console.log('[PracticeHistory] No practice items to sync');
+        return;
+      }
+
+      await this.firebaseStorage.syncFromLocal(localItems);
+      console.log(`[PracticeHistory] Successfully synced ${localItems.length} practice items to Firebase`);
+    } catch (error) {
+      console.error('[PracticeHistory] Force sync failed:', error);
+      throw error;
+    }
+  }
+
   // Get service status
   getStatus(): {
     initialized: boolean;

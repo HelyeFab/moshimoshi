@@ -122,7 +122,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Rate Limiting Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       
@@ -176,7 +176,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Query Parameter Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       
@@ -295,7 +295,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Caching Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       
 
@@ -392,7 +392,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Premium vs Free User Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
 
       // Create 60 items to test limits
       const manyItems = Array.from({ length: 60 }, (_, i) => ({
@@ -505,7 +505,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Queue Generation Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -629,7 +629,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Response Format Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       
@@ -758,7 +758,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Error Handling Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -839,7 +839,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Performance Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       

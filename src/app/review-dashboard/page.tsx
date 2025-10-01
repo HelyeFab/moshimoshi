@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import { useReviewData } from '@/hooks/useReviewData';
 import { useReviewStats } from '@/hooks/useReviewStats';
-import { useXP } from '@/hooks/useXP';
+import { useUserStats } from '@/hooks/useUserStats';
 import { StatsOverview } from '@/components/review/dashboard/StatsOverview';
 import { RecentActivity } from '@/components/review/dashboard/RecentActivity';
 import { ProgressHeatmap } from '@/components/review/charts/ProgressHeatmap';
@@ -40,14 +40,12 @@ export default function ReviewDashboard() {
     error: statsError
   } = useReviewStats();
 
-  // Use real XP data
-  const {
-    totalXP,
-    currentLevel,
-    levelInfo,
-    progressPercentage,
-    loading: xpLoading
-  } = useXP();
+  // Use real XP data from unified stats
+  const { xp, isLoading: xpLoading } = useUserStats();
+  const totalXP = xp?.total || 0;
+  const currentLevel = xp?.level || 1;
+  const levelInfo = null; // levelInfo not used in this component
+  const progressPercentage = xp?.progressToNext || 0;
 
   // Combined loading state
   const loading = dataLoading || statsLoading || xpLoading;

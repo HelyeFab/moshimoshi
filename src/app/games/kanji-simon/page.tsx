@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
+import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import KanjiSimonBoardSelection from './components/KanjiSimonBoardSelection';
@@ -24,40 +25,16 @@ export default function KanjiSimonPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background-light/90 to-primary-100/20 dark:from-dark-850 dark:via-dark-900 dark:to-primary-900/10">
-      <Navbar user={user} showUserMenu={true} backLink="/games" />
+      <Navbar user={user} showUserMenu={true} backLink={{ href: '/games', label: t('common.back') }} />
+
+      <LearningPageHeader
+        title={strings.games?.kanjiSimon?.title || 'Kanji Simon'}
+        description={strings.games?.kanjiSimon?.subtitle || 'Test your memory with kanji readings'}
+      />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <main className="max-w-7xl mx-auto mb-32 md:mb-8 pb-safe">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="inline-block mb-4"
-            >
-              <div className="text-6xl">🧠</div>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 dark:from-primary-400 dark:to-secondary-400 bg-clip-text text-transparent mb-4"
-            >
-              {strings.games?.kanjiSimon?.title || 'Kanji Simon'}
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-lg text-muted-foreground max-w-2xl mx-auto"
-            >
-              {strings.games?.kanjiSimon?.subtitle || 'Test your memory with kanji readings'}
-            </motion.p>
-          </div>
 
           {/* Instructions Card */}
           {showInstructions && (

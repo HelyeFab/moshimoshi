@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { storyService } from '@/lib/services/StoryService';
-import Navbar from '@/components/layout/Navbar';
 import { JLPTLevel } from '@/types/aiStory';
 import { STORY_THEMES } from '@/types/story';
 import { ChevronLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
@@ -131,15 +130,13 @@ export default function NewStoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light to-background-dark">
-      <Navbar user={user} showUserMenu={true} />
-
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="mb-8">
           <Link
             href="/admin/stories"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 mb-4"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 mb-4 transition-colors"
           >
             <ChevronLeftIcon className="w-4 h-4" />
             Back to Stories
@@ -150,7 +147,7 @@ export default function NewStoryPage() {
         </div>
 
         {/* Form */}
-        <div className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-lg space-y-6">
+        <div className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-dark-700 space-y-6">
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -161,7 +158,7 @@ export default function NewStoryPage() {
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
                 placeholder="Enter English title"
               />
             </div>
@@ -174,7 +171,7 @@ export default function NewStoryPage() {
                 type="text"
                 value={titleJa}
                 onChange={(e) => setTitleJa(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
                 placeholder="Enter Japanese title with furigana"
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -190,7 +187,7 @@ export default function NewStoryPage() {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               rows={3}
               placeholder="Brief description of the story"
             />
@@ -204,7 +201,7 @@ export default function NewStoryPage() {
               <select
                 value={theme}
                 onChange={(e) => setTheme(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               >
                 {STORY_THEMES.map(t => (
                   <option key={t} value={t}>{t}</option>
@@ -219,7 +216,7 @@ export default function NewStoryPage() {
               <select
                 value={jlptLevel}
                 onChange={(e) => setJlptLevel(e.target.value as JLPTLevel)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               >
                 <option value="N5">N5 (Beginner)</option>
                 <option value="N4">N4 (Elementary)</option>
@@ -241,12 +238,12 @@ export default function NewStoryPage() {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
                 placeholder="Add a tag"
               />
               <button
                 onClick={handleAddTag}
-                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors"
               >
                 Add
               </button>
@@ -255,12 +252,12 @@ export default function NewStoryPage() {
               {tags.map(tag => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm"
                 >
                   {tag}
                   <button
                     onClick={() => handleRemoveTag(tag)}
-                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    className="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-200 transition-colors"
                   >
                     ✕
                   </button>
@@ -277,7 +274,7 @@ export default function NewStoryPage() {
               </h2>
               <button
                 onClick={handleAddPage}
-                className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors"
               >
                 <PlusIcon className="w-4 h-4" />
                 Add Page
@@ -288,7 +285,7 @@ export default function NewStoryPage() {
               {pages.map((page, index) => (
                 <div
                   key={index}
-                  className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+                  className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-dark-800"
                 >
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="font-medium text-gray-900 dark:text-white">
@@ -297,7 +294,7 @@ export default function NewStoryPage() {
                     {pages.length > 1 && (
                       <button
                         onClick={() => handleRemovePage(index)}
-                        className="text-red-600 hover:text-red-700"
+                        className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
                       >
                         <TrashIcon className="w-4 h-4" />
                       </button>
@@ -312,7 +309,7 @@ export default function NewStoryPage() {
                       <textarea
                         value={page.text}
                         onChange={(e) => handlePageChange(index, 'text', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
                         rows={4}
                         placeholder="Enter Japanese text with ruby tags for furigana"
                       />
@@ -325,7 +322,7 @@ export default function NewStoryPage() {
                       <textarea
                         value={page.translation}
                         onChange={(e) => handlePageChange(index, 'translation', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
                         rows={3}
                         placeholder="Enter English translation"
                       />
@@ -339,7 +336,7 @@ export default function NewStoryPage() {
                         type="text"
                         value={page.imageUrl}
                         onChange={(e) => handlePageChange(index, 'imageUrl', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
                         placeholder="https://example.com/image.jpg"
                       />
                     </div>
@@ -353,7 +350,7 @@ export default function NewStoryPage() {
           <div className="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
             <button
               onClick={() => router.push('/admin/stories')}
-              className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+              className="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
             >
               Cancel
             </button>
@@ -361,14 +358,14 @@ export default function NewStoryPage() {
               <button
                 onClick={() => handleSave('draft')}
                 disabled={isSaving}
-                className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50"
+                className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Save as Draft
               </button>
               <button
                 onClick={() => handleSave('published')}
                 disabled={isSaving}
-                className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                className="px-6 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Publish Story
               </button>

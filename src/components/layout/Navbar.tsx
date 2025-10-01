@@ -167,7 +167,7 @@ export default function Navbar({ user, showUserMenu = true, backLink }: NavbarPr
                       </div>
                     )}
                     {isPremium && (
-                      <div className="absolute -top-2 -right-2">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                         <PremiumBadge size="xs" />
                       </div>
                     )}

@@ -1,27 +1,22 @@
 {
   "summary": {
     "userId": "r7r6at83BUPIjD69XatI4EGIECr1",
-    "totalCollections": 8,
-    "downloadDate": "2025-09-26T12:02:42.166Z"
+    "totalCollections": 7,
+    "downloadDate": "2025-09-30T10:12:09.222Z"
   },
   "collections": {
     "users": {
-      "size": "201.18 KB",
+      "size": "201.02 KB",
       "fields": 16,
       "subcollections": 13
     },
-    "leaderboard_stats": {
-      "size": "0.48 KB",
-      "fields": 13,
-      "subcollections": 0
-    },
     "user_stats": {
-      "size": "1.13 KB",
+      "size": "1.26 KB",
       "fields": 10,
       "subcollections": 0
     },
     "userPreferences": {
-      "size": "0.59 KB",
+      "size": "0.62 KB",
       "fields": 10,
       "subcollections": 0
     },
@@ -46,39 +41,9 @@
       "subcollections": 0
     }
   },
-  "duplicateData": [
-    {
-      "type": "streak",
-      "sources": [
-        "leaderboard_stats",
-        "users/achievements/activities",
-        "user_stats (NEW UNIFIED)"
-      ],
-      "recommendation": "Migrate to user_stats only"
-    },
-    {
-      "type": "xp",
-      "sources": [
-        "leaderboard_stats",
-        "users/achievements/data",
-        "user_stats (NEW UNIFIED)"
-      ],
-      "recommendation": "Migrate to user_stats only"
-    },
-    {
-      "type": "achievements",
-      "sources": [
-        "leaderboard_stats",
-        "users/achievements/data",
-        "user_stats (NEW UNIFIED)"
-      ],
-      "recommendation": "Migrate to user_stats only"
-    }
-  ],
+  "duplicateData": [],
   "recommendations": [
     "✅ user_stats collection exists - ready for migration",
-    "🗑️ Can remove leaderboard_stats after migration",
-    "🗑️ Can remove users/achievements subcollection after migration",
-    "🗑️ Can remove users/statistics subcollection after migration"
+    "🗑️ Can remove users/achievements subcollection after migration"
   ]
 }

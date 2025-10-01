@@ -5,11 +5,10 @@ import { Kanji } from '@/types/kanji'
 import { kanjiService } from '@/services/kanjiService'
 import Modal from '@/components/ui/Modal'
 import { LoadingSpinner } from '@/components/ui/Loading'
-import AudioButton from '@/components/ui/AudioButton'
+import SpeakerIcon from '@/components/ui/SpeakerIcon'
 import StrokeOrderModal from './StrokeOrderModal'
 import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTTS } from '@/hooks/useTTS'
 import { fetchTatoebaSentences, TatoebaSentence } from '@/utils/tatoeba-client'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
@@ -42,11 +41,6 @@ export default function KanjiDetailsModal({
   const { subscription } = useSubscription()
   const userPlan = !user ? 'guest' : (subscription?.status === 'active' ? 'premium' : 'free')
 
-  // TTS hook for audio playback
-  const { play, preload } = useTTS({
-    cacheFirst: true // Prioritize cached audio
-  })
-
   // Reset to overview tab when modal opens
   useEffect(() => {
     if (isOpen) {
@@ -54,19 +48,11 @@ export default function KanjiDetailsModal({
     }
   }, [isOpen])
 
-  // Fetch stroke count, example sentences, and preload audio when modal opens
+  // Fetch stroke count and example sentences when modal opens
   useEffect(() => {
     if (isOpen && kanji?.kanji) {
       fetchStrokeCount(kanji.kanji)
       fetchExamples(kanji.kanji)
-
-      // Preload all readings for better UX
-      const readingsToPreload: string[] = []
-      if (kanji.onyomi) readingsToPreload.push(...kanji.onyomi)
-      if (kanji.kunyomi) readingsToPreload.push(...kanji.kunyomi)
-      if (readingsToPreload.length > 0) {
-        preload(readingsToPreload, { voice: 'ja-JP' })
-      }
     }
   }, [isOpen, kanji?.kanji])
 
@@ -269,7 +255,7 @@ export default function KanjiDetailsModal({
                         {kanji.onyomi.map((reading, index) => (
                           <div key={index} className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2">
                             <span className="text-base font-medium text-gray-900 dark:text-gray-100">{reading}</span>
-                            <AudioButton size="sm" onPlay={() => play(reading, { voice: 'ja-JP' })} />
+                            <SpeakerIcon text={reading} size="sm" options={{ voice: 'ja-JP' }} />
                           </div>
                         ))}
                       </div>
@@ -289,7 +275,7 @@ export default function KanjiDetailsModal({
                         {kanji.kunyomi.map((reading, index) => (
                           <div key={index} className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2">
                             <span className="text-base font-medium text-gray-900 dark:text-gray-100">{reading}</span>
-                            <AudioButton size="sm" onPlay={() => play(reading, { voice: 'ja-JP' })} />
+                            <SpeakerIcon text={reading} size="sm" options={{ voice: 'ja-JP' }} />
                           </div>
                         ))}
                       </div>
@@ -359,9 +345,10 @@ export default function KanjiDetailsModal({
 
                             {/* Actions */}
                             <div className="flex items-center gap-2 pt-2">
-                              <AudioButton
+                              <SpeakerIcon
+                                text={sentence.japanese}
                                 size="sm"
-                                onPlay={() => play(sentence.japanese, { voice: 'ja-JP', rate: 0.9 })}
+                                options={{ voice: 'ja-JP', speed: 0.9 }}
                               />
                               <AddToListButton
                                 content={sentence.japanese}

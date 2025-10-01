@@ -1,5 +1,5 @@
 import { UniversalProgressManager } from './UniversalProgressManager'
-import { SessionState, KanjiProgress } from '@/app/tools/kanji-mastery/learn/LearnContent'
+import { SessionState, KanjiProgress } from '@/app/kanji-mastery/learn/LearnContent'
 import { User } from '@/types/auth'
 
 export interface KanjiMasterySession {
