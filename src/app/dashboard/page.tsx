@@ -19,6 +19,7 @@ import PokedexCard from '@/components/pokedex/PokedexCard'
 import { useSubscription } from '@/hooks/useSubscription'
 import GuestModeBanner from '@/components/ui/GuestModeBanner'
 import { useAuth } from '@/hooks/useAuth'
+import { useGamification } from '@/hooks/useGamification'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
 
@@ -42,9 +43,17 @@ function DashboardContent() {
   // Subscription state
   const { subscription, isPremium } = useSubscription()
 
-  // Gamification removed - using static values
-  const totalXP = 0
-  const currentLevel = 1
+  // Gamification data from hook
+  const {
+    totalXP,
+    currentLevel,
+    currentStreak,
+    bestStreak,
+    unlockedAchievements,
+    sessionCount,
+    loading: gamificationLoading,
+    isEnabled: gamificationEnabled
+  } = useGamification()
 
   // Drill stats
   const [drillStats, setDrillStats] = useState<any>(null)
@@ -582,12 +591,12 @@ function DashboardContent() {
                   </p>
 
                   {/* Optional Motivational Tagline - Enhanced */}
-                  {reviewStats.currentStreak > 0 && (
+                  {gamificationEnabled && currentStreak > 0 && (
                     <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
                       <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 rounded-full">
                         <span className="text-xl animate-pulse">🔥</span>
                         <span className="text-sm font-semibold text-orange-700 dark:text-orange-300">
-                          {reviewStats.currentStreak} {reviewStats.currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                          {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
                         </span>
                       </div>
                     </div>
