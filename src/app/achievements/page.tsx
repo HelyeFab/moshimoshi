@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
+import { useGamification } from '@/hooks/useGamification'
 import { useI18n } from '@/i18n/I18nContext'
 import Navbar from '@/components/layout/Navbar'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { cn } from '@/utils/cn'
-import { MOCK_ACHIEVEMENTS, getMockAchievementStats, getMockAchievementsByCategory, getMockUnlockedAchievements } from '@/mocks/achievements.mock'
+import achievementsConfig from '@/config/gamification/achievements.json'
 
 // Achievement rarity colors
 const rarityColors = {
@@ -28,10 +29,42 @@ export default function AchievementsPage() {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState<AchievementCategory>('all')
 
-  // Get mock data
-  const stats = getMockAchievementStats()
-  const filteredAchievements = getMockAchievementsByCategory(selectedCategory)
-  const unlockedAchievements = getMockUnlockedAchievements()
+  // Get real gamification data
+  const {
+    unlockedAchievements,
+    loading: gamificationLoading,
+    isEnabled: gamificationEnabled
+  } = useGamification()
+
+  // Load achievements from config and map unlock status
+  const allAchievements = useMemo(() => {
+    return achievementsConfig.achievements.map(achievement => ({
+      ...achievement,
+      unlocked: unlockedAchievements.includes(achievement.id)
+    }))
+  }, [unlockedAchievements])
+
+  // Filter by category
+  const filteredAchievements = useMemo(() => {
+    if (selectedCategory === 'all') return allAchievements
+    return allAchievements.filter(a => a.category === selectedCategory)
+  }, [allAchievements, selectedCategory])
+
+  // Calculate real stats
+  const stats = useMemo(() => {
+    const unlockedList = allAchievements.filter(a => a.unlocked)
+    return {
+      unlockedCount: unlockedList.length,
+      totalCount: allAchievements.length,
+      totalPoints: unlockedList.reduce((sum, a) => sum + a.points, 0),
+      completionPercentage: Math.round((unlockedList.length / allAchievements.length) * 100)
+    }
+  }, [allAchievements])
+
+  // Get unlocked achievements list for separate section
+  const unlockedAchievementsList = useMemo(() => {
+    return allAchievements.filter(a => a.unlocked)
+  }, [allAchievements])
 
   // Categories for filter buttons
   const categories: { value: AchievementCategory; label: string }[] = [
@@ -43,11 +76,11 @@ export default function AchievementsPage() {
     { value: 'special', label: 'Special' }
   ]
 
-  if (authLoading) {
+  if (authLoading || gamificationLoading) {
     return (
       <LoadingOverlay
         isLoading={true}
-        message="Loading achievements..."
+        message={strings.common?.loading || "Loading achievements..."}
         showDoshi={true}
         fullScreen={true}
       />
@@ -72,13 +105,22 @@ export default function AchievementsPage() {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
+        {/* Gamification Disabled Message */}
+        {!gamificationEnabled && (
+          <div className="mb-8 text-center bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800 p-6">
+            <p className="text-lg text-gray-700 dark:text-gray-300">
+              Gamification system is currently disabled.
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+              Enable it in your environment configuration to track achievements.
+            </p>
+          </div>
+        )}
+
         {/* Stats Summary */}
         <div className="mb-8 text-center">
           <p className="text-lg text-gray-600 dark:text-gray-400">
             {stats.unlockedCount}/{stats.totalCount} unlocked • {stats.totalPoints} points • {stats.completionPercentage}% complete
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
-            (Mock data - gamification system removed)
           </p>
         </div>
 
@@ -156,19 +198,19 @@ export default function AchievementsPage() {
         </div>
 
         {/* Your Unlocked Achievements Section */}
-        {unlockedAchievements.length > 0 && (
+        {gamificationEnabled && unlockedAchievementsList.length > 0 && (
           <div className="mt-12">
             <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
               Your Unlocked Achievements
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {unlockedAchievements.map(achievement => (
+              {unlockedAchievementsList.map(achievement => (
                 <div
                   key={achievement.id}
                   className={cn(
                     'p-4 rounded-xl border-2 flex items-center gap-4',
-                    rarityColors[achievement.rarity]
+                    rarityColors[achievement.rarity as keyof typeof rarityColors]
                   )}
                 >
                   <div className="text-4xl">{achievement.icon}</div>
