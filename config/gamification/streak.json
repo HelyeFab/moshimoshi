@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "minXPForStreak": 10,
+  "gracePeriodHours": 24,
+  "resetTime": "00:00",
+  "timezone": "UTC",
+  "streakFreeze": {
+    "enabled": true,
+    "requiresPremium": true,
+    "maxFreezes": 3,
+    "freezeDurationDays": 1,
+    "description": "Allow premium users to freeze streak for 1 day"
+  },
+  "notifications": {
+    "enabled": true,
+    "reminderHours": [20, 22],
+    "description": "Remind at 8pm and 10pm if no activity"
+  }
+}

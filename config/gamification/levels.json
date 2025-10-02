@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "formula": "floor(totalXP / xpPerLevel)",
+  "xpPerLevel": 1000,
+  "maxLevel": 100,
+  "levelRewards": [
+    {
+      "level": 5,
+      "reward": "badge_novice",
+      "title": "Novice"
+    },
+    {
+      "level": 10,
+      "reward": "badge_apprentice",
+      "title": "Apprentice"
+    },
+    {
+      "level": 25,
+      "reward": "badge_intermediate",
+      "title": "Intermediate"
+    },
+    {
+      "level": 50,
+      "reward": "badge_advanced",
+      "title": "Advanced"
+    },
+    {
+      "level": 75,
+      "reward": "badge_expert",
+      "title": "Expert"
+    },
+    {
+      "level": 100,
+      "reward": "badge_master",
+      "title": "Master"
+    }
+  ],
+  "xpTable": [
+    {
+      "level": 1,
+      "xpRequired": 0
+    },
+    {
+      "level": 2,
+      "xpRequired": 1000
+    },
+    {
+      "level": 3,
+      "xpRequired": 2000
+    },
+    {
+      "level": 5,
+      "xpRequired": 4000
+    },
+    {
+      "level": 10,
+      "xpRequired": 9000
+    },
+    {
+      "level": 25,
+      "xpRequired": 24000
+    },
+    {
+      "level": 50,
+      "xpRequired": 49000
+    },
+    {
+      "level": 100,
+      "xpRequired": 99000
+    }
+  ]
+}

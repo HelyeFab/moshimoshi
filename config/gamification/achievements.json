@@ -1,0 +1,145 @@
+{
+  "version": "1.0.0",
+  "achievements": [
+    {
+      "id": "first_session",
+      "name": "First Session",
+      "description": "Complete your first review session",
+      "icon": "🎯",
+      "category": "progress",
+      "points": 10,
+      "rarity": "common",
+      "condition": {
+        "type": "session_count",
+        "operator": ">=",
+        "value": 1
+      }
+    },
+    {
+      "id": "week_warrior",
+      "name": "Week Warrior",
+      "description": "Maintain a 7-day streak",
+      "icon": "🔥",
+      "category": "streak",
+      "points": 50,
+      "rarity": "uncommon",
+      "condition": {
+        "type": "streak",
+        "operator": ">=",
+        "value": 7
+      }
+    },
+    {
+      "id": "centurion",
+      "name": "Centurion",
+      "description": "Complete 100 review sessions",
+      "icon": "💯",
+      "category": "progress",
+      "points": 100,
+      "rarity": "rare",
+      "condition": {
+        "type": "session_count",
+        "operator": ">=",
+        "value": 100
+      }
+    },
+    {
+      "id": "perfect_ten",
+      "name": "Perfect Ten",
+      "description": "Get 10 correct answers in a row",
+      "icon": "⭐",
+      "category": "accuracy",
+      "points": 30,
+      "rarity": "uncommon",
+      "condition": {
+        "type": "best_streak",
+        "operator": ">=",
+        "value": 10
+      }
+    },
+    {
+      "id": "speed_demon",
+      "name": "Speed Demon",
+      "description": "Complete 50 reviews under 3 seconds each",
+      "icon": "⚡",
+      "category": "speed",
+      "points": 75,
+      "rarity": "rare",
+      "condition": {
+        "type": "speed_reviews",
+        "operator": ">=",
+        "value": 50
+      }
+    },
+    {
+      "id": "dedicated",
+      "name": "Dedicated Learner",
+      "description": "Maintain a 30-day streak",
+      "icon": "🏆",
+      "category": "streak",
+      "points": 150,
+      "rarity": "epic",
+      "condition": {
+        "type": "streak",
+        "operator": ">=",
+        "value": 30
+      }
+    },
+    {
+      "id": "kanji_novice",
+      "name": "Kanji Novice",
+      "description": "Learn 10 kanji characters",
+      "icon": "📚",
+      "category": "progress",
+      "points": 25,
+      "rarity": "common",
+      "condition": {
+        "type": "kanji_learned",
+        "operator": ">=",
+        "value": 10
+      }
+    },
+    {
+      "id": "level_10",
+      "name": "Rising Star",
+      "description": "Reach level 10",
+      "icon": "🌟",
+      "category": "progress",
+      "points": 100,
+      "rarity": "rare",
+      "condition": {
+        "type": "level",
+        "operator": ">=",
+        "value": 10
+      }
+    },
+    {
+      "id": "early_bird",
+      "name": "Early Bird",
+      "description": "Study before 6 AM",
+      "icon": "🌅",
+      "category": "special",
+      "points": 20,
+      "rarity": "uncommon",
+      "condition": {
+        "type": "time_of_day",
+        "operator": "<",
+        "value": 6
+      }
+    },
+    {
+      "id": "night_owl",
+      "name": "Night Owl",
+      "description": "Study after 10 PM",
+      "icon": "🦉",
+      "category": "special",
+      "points": 20,
+      "rarity": "uncommon",
+      "condition": {
+        "type": "time_of_day",
+        "operator": ">=",
+        "value": 22
+      }
+    }
+  ]
+}
