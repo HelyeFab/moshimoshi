@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/hooks/useAuth'
+import { useGamification } from '@/hooks/useGamification'
 import Navbar from '@/components/layout/Navbar'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -18,9 +19,26 @@ export default function LeaderboardPage() {
   const [timeframe, setTimeframe] = useState<TimeFrame>('allTime')
   const [activeTab, setActiveTab] = useState<'global' | 'friends'>('global')
 
-  // Use mock data
+  // Get real gamification data for current user
+  const {
+    totalXP,
+    currentLevel,
+    currentStreak,
+    isEnabled: gamificationEnabled
+  } = useGamification()
+
+  // Use mock data for leaderboard (no server-side rankings yet)
   const leaderboardData = getMockLeaderboard(50)
-  const userStats = MOCK_CURRENT_USER_STATS
+
+  // Update user stats with real data if gamification is enabled
+  const userStats = gamificationEnabled
+    ? {
+        rank: MOCK_CURRENT_USER_STATS.rank, // Keep mock rank
+        score: totalXP, // Real XP
+        streak: currentStreak, // Real streak
+        level: currentLevel // Real level
+      }
+    : MOCK_CURRENT_USER_STATS // Fall back to mock when disabled
 
   const timeframeOptions: { value: TimeFrame; label: string; icon: JSX.Element }[] = [
     {
@@ -288,9 +306,17 @@ export default function LeaderboardPage() {
           <div className="flex items-start gap-3">
             <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
             <div>
+              <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                Mock Leaderboard Data
+              </p>
               <p className="text-sm text-gray-700 dark:text-gray-300">
-                This leaderboard displays mock data only. The gamification system has been removed from the application.
-                All scores, streaks, and rankings shown here are for display purposes only.
+                This leaderboard displays mock data for demonstration purposes.
+                Real competitive leaderboards coming soon!
+                {gamificationEnabled && (
+                  <span className="block mt-1 text-green-600 dark:text-green-400">
+                    ✓ Your personal stats (XP: {totalXP}, Level: {currentLevel}, Streak: {currentStreak}) are real.
+                  </span>
+                )}
               </p>
             </div>
           </div>

@@ -25,10 +25,12 @@ interface GamificationState {
   sessionCount: number
 
   // Metadata
+  userId: string | null
   lastSyncedAt: Date | null
   isDirty: boolean // Has unsaved changes
 
   // Actions
+  setUserId: (userId: string) => void
   awardXP: (amount: number) => void
   incrementStreak: () => void
   resetStreak: () => void
@@ -36,7 +38,7 @@ interface GamificationState {
   updateAchievementProgress: (id: string, progress: number) => void
   incrementSessionCount: () => void
   syncToFirebase: () => Promise<void>
-  loadFromIndexedDB: () => Promise<void>
+  loadFromIndexedDB: (userId: string) => Promise<void>
   saveToIndexedDB: () => Promise<void>
   reset: () => void
 }
@@ -51,17 +53,25 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
   unlockedAchievements: [],
   achievementProgress: {},
   sessionCount: 0,
+  userId: null,
   lastSyncedAt: null,
   isDirty: false,
 
   // Actions
 
   /**
+   * Set the user ID for IndexedDB operations
+   */
+  setUserId: (userId) => {
+    set({ userId })
+  },
+
+  /**
    * Award XP and recalculate level
    */
   awardXP: (amount) => {
     // Feature flag check
-    if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION) {
+    if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
       return
     }
 
@@ -87,7 +97,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
    */
   incrementStreak: () => {
     // Feature flag check
-    if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION) {
+    if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
       return
     }
 
@@ -109,7 +119,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
    */
   resetStreak: () => {
     // Feature flag check
-    if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION) {
+    if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
       return
     }
 
@@ -126,7 +136,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
    */
   unlockAchievement: (id) => {
     // Feature flag check
-    if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION) {
+    if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
       return
     }
 
@@ -150,7 +160,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
    */
   updateAchievementProgress: (id, progress) => {
     // Feature flag check
-    if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION) {
+    if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
       return
     }
 
@@ -170,7 +180,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
    */
   incrementSessionCount: () => {
     // Feature flag check
-    if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION) {
+    if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
       return
     }
 
@@ -194,13 +204,19 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
   /**
    * Load state from IndexedDB
    */
-  loadFromIndexedDB: async () => {
+  loadFromIndexedDB: async (userId) => {
     try {
       // Only run in browser
       if (typeof window === 'undefined') return
 
-      // Get userId from somewhere (TODO: integrate with auth)
-      const userId = 'current-user' // Placeholder
+      // Validate userId
+      if (!userId) {
+        console.warn('[Gamification State] No userId provided to loadFromIndexedDB')
+        return
+      }
+
+      // Store userId for future saves
+      set({ userId })
 
       const data = await indexedDBStore.load(userId)
 
@@ -233,11 +249,14 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
 
       const state = get()
 
-      // Get userId from somewhere (TODO: integrate with auth)
-      const userId = 'current-user' // Placeholder
+      // Validate userId
+      if (!state.userId) {
+        console.warn('[Gamification State] No userId set, skipping IndexedDB save')
+        return
+      }
 
-      await indexedDBStore.save(userId, {
-        userId,
+      await indexedDBStore.save(state.userId, {
+        userId: state.userId,
         totalXP: state.totalXP,
         currentStreak: state.currentStreak,
         bestStreak: state.bestStreak,

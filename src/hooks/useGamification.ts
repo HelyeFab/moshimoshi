@@ -60,7 +60,7 @@ export function useGamification(): GamificationData {
     }
 
     // Don't load if user is not authenticated
-    if (!user) {
+    if (!user?.uid) {
       setLoading(false)
       return
     }
@@ -68,7 +68,7 @@ export function useGamification(): GamificationData {
     // Load from IndexedDB on mount
     async function loadData() {
       try {
-        await store.loadFromIndexedDB()
+        await store.loadFromIndexedDB(user.uid)
         setLoading(false)
       } catch (err) {
         console.error('[useGamification] Failed to load data:', err)
@@ -78,7 +78,7 @@ export function useGamification(): GamificationData {
     }
 
     loadData()
-  }, [isEnabled, user, store])
+  }, [isEnabled, user?.uid, store])
 
   // If feature flag is OFF, return safe defaults
   if (!isEnabled) {

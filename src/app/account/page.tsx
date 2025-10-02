@@ -8,6 +8,7 @@ import { useErrorToast } from '@/hooks/useErrorToast'
 import { useTranslation } from '@/i18n/I18nContext'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useAuth } from '@/hooks/useAuth'
+import { useGamification } from '@/hooks/useGamification'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
 import { InvoiceHistory } from '@/components/subscription/InvoiceHistory'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -47,10 +48,17 @@ function AccountPageContent() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Gamification removed - using static values for display
-  const currentStreak = 0
-  const bestStreak = 0
-  const completionPercentage = 0
+  // Real gamification data from hook
+  const {
+    totalXP,
+    currentLevel,
+    currentStreak,
+    bestStreak,
+    unlockedAchievements,
+    sessionCount,
+    loading: gamificationLoading,
+    isEnabled: gamificationEnabled
+  } = useGamification()
 
   const [updating, setUpdating] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -106,7 +114,7 @@ function AccountPageContent() {
     }
 
     checkSession()
-  }, [router, initializeAchievements, isPremium])
+  }, [router, isPremium])
 
   const handleUpdateProfile = async () => {
     setUpdating(true)
@@ -436,62 +444,74 @@ function AccountPageContent() {
             </div>
           </Section>
 
-          {/* Account Stats (Hidden for Guests) */}
-          {!user?.isGuest && user?.tier !== 'guest' && (
+          {/* Account Stats (Only show if gamification enabled and not guest) */}
+          {gamificationEnabled && !user?.isGuest && user?.tier !== 'guest' && (
             <Section
               variant="glass"
               title={strings.account.sections.accountStatistics}
             >
+              {gamificationLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mx-auto"></div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    {strings.common?.loading || 'Loading stats...'}
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                        {totalXP}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.xpEarned || 'XP Earned'}</div>
+                    </div>
+                    <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                        {sessionCount}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.lessonsCompleted || 'Sessions Completed'}</div>
+                    </div>
+                    <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                        {unlockedAchievements.length}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.achievements}</div>
+                    </div>
+                    <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                        {currentStreak}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.dayStreak}</div>
+                    </div>
+                  </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                  {getTotalXp ? getTotalXp() : 0}
-                </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.xpEarned || 'XP Earned'}</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                  {getTotalLessonsCompleted ? getTotalLessonsCompleted() : 0}
-                </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.lessonsCompleted || 'Lessons Completed'}</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                  {getUnlockedAchievements ? getUnlockedAchievements().length : 0}
-                </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.achievements}</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                  {currentStreak || 0}
-                </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.dayStreak}</div>
-              </div>
-            </div>
-
-            {/* Additional Stats Row */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-              <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
-                  {bestStreak || 0}
-                </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.bestStreak || 'Best Streak'}</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-900/20 dark:to-teal-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">
-                  {completionPercentage}%
-                </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.completion || 'Completion'}</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                  {getCurrentLevel ? getCurrentLevel() : 'Beginner'}
-                </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.level || 'Level'}</div>
-              </div>
-            </div>
-          </Section>
+                  {/* Additional Stats Row */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                    <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                        {bestStreak}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.bestStreak || 'Best Streak'}</div>
+                    </div>
+                    <div className="text-center p-4 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-900/20 dark:to-teal-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">
+                        {unlockedAchievements.length > 0
+                          ? Math.round((unlockedAchievements.length / 10) * 100)
+                          : 0}%
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.completion || 'Completion'}</div>
+                    </div>
+                    <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                        {currentLevel}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.level || 'Level'}</div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </Section>
           )}
 
           {/* Subscription Section */}
