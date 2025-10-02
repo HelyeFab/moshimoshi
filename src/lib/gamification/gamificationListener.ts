@@ -54,6 +54,10 @@ export class GamificationListener extends EventEmitter {
 
     this.userId = userId
 
+    // Set userId in store for IndexedDB operations
+    const store = useGamificationStore.getState()
+    store.setUserId(userId)
+
     // 2. Subscribe to URE events (read-only, never modify URE)
     reviewEngineEmitter.on(
       ReviewEventType.SESSION_COMPLETED,
@@ -96,7 +100,9 @@ export class GamificationListener extends EventEmitter {
       }
 
       // 5. Check achievement conditions
-      const unlockedAchievements = await this.checkAchievements(statistics, store)
+      // CRITICAL: Get fresh store reference AFTER state updates
+      const freshStore = useGamificationStore.getState()
+      const unlockedAchievements = await this.checkAchievements(statistics, freshStore)
 
       // 6. Emit gamification events for UI
       this.emit('xp.awarded', {
