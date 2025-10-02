@@ -9,7 +9,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
 import { flashcardManager } from '@/lib/flashcards/FlashcardManager';
-import { achievementManager } from '@/lib/flashcards/AchievementManager';
+// Gamification removed - no achievements
 import { sessionManager } from '@/lib/flashcards/SessionManager';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';

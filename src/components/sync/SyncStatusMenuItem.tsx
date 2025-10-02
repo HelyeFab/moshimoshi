@@ -15,7 +15,7 @@ if (typeof window !== 'undefined') {
     kanaProgressManager = module.kanaProgressManager;
   });
 }
-import { achievementManager } from '@/utils/achievementManager';
+// Gamification removed - no achievement manager
 
 interface SyncStatus {
   isOnline: boolean;
@@ -196,11 +196,12 @@ export default function SyncStatusMenuItem() {
           const katakanaProgress = await kanaProgressManager.getProgress('katakana', user, isPremium);
 
           // Force sync achievements and activities
-          await achievementManager.forceSyncAll(user.uid, true);
+          // Gamification removed - no achievement sync
+          // await achievementManager.forceSyncAll(user.uid, true);
 
-          // Force sync streak data to Firebase
-          const { pushStreakToFirestore } = await import('@/lib/sync/streakSync');
-          await pushStreakToFirestore();
+          // Gamification removed - streakSync disabled
+          // const { pushStreakToFirestore } = await import('@/lib/sync/streakSync');
+          // await pushStreakToFirestore();
 
           // Sync kana progress to Firebase
           if (Object.keys(hiraganaProgress).length > 0) {

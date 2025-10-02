@@ -14,7 +14,7 @@ import {
 } from 'firebase/auth'
 import { auth } from '@/lib/firebase/client'
 import logger from '@/lib/logger'
-import { migrateUserStores } from '@/lib/storage/migrate-stores'
+import { migrateUserStores, cleanupNonUserSpecificStores } from '@/lib/storage/migrate-stores'
 
 // Types
 interface AuthUser {
@@ -459,9 +459,7 @@ function useAuthProvider(): Auth {
 
         // SECURITY FIX: Clean up any non-user-specific store data to prevent leakage
         // Remove old non-user-specific Zustand stores
-        localStorage.removeItem('streak-storage')
-        localStorage.removeItem('achievement-store')
-        localStorage.removeItem('pin-store')
+        cleanupNonUserSpecificStores()
 
         // Also clear any user-specific data for the current user
         // This ensures a clean slate on logout

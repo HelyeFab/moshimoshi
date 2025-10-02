@@ -12,10 +12,7 @@ import SessionCompleteModal from '../components/SessionCompleteModal'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { KanjiMasteryProgressManager } from '@/lib/review-engine/progress/KanjiMasteryProgressManager'
-import { recordActivityAndSync } from '@/lib/sync/streakSync'
-import { StreakActivity } from '@/stores/streakStore'
-import { useXP } from '@/hooks/useXP'
-import { useAchievementStore } from '@/stores/achievement-store'
+// Gamification removed
 
 // Import round components
 import Round1Learn from './components/Round1Learn'
@@ -63,8 +60,7 @@ export default function LearnContent() {
   const { showToast } = useToast()
   const { user } = useAuth()
   const { subscription } = useSubscription()
-  const { trackXP } = useXP()
-  const { updateProgress } = useAchievementStore()
+  // Gamification removed - no XP or achievements
 
   // Session parameters
   const sessionSize = parseInt(searchParams.get('size') || '5')
@@ -229,15 +225,15 @@ export default function LearnContent() {
   }
 
   const handleRound1Complete = async () => {
-    // Track round completion for streak
-    if (user) {
-      const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
-      await recordActivityAndSync(
-        StreakActivity.KANJI_MASTERY_ROUND,
-        isPremium || false,
-        Date.now()
-      )
-    }
+    // Gamification removed - recordActivityAndSync disabled
+    // if (user) {
+    //   const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
+    //   await recordActivityAndSync(
+    //     StreakActivity.KANJI_MASTERY_ROUND,
+    //     isPremium || false,
+    //     Date.now()
+    //   )
+    // }
 
     const progress = sessionState.progress.get(sessionState.kanji[sessionState.currentIndex].kanji)
     if (progress) {
@@ -261,23 +257,23 @@ export default function LearnContent() {
   }
 
   const handleRound2Complete = async (results: any) => {
-    // Track round completion
-    if (user) {
-      const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
-      await recordActivityAndSync(
-        StreakActivity.KANJI_MASTERY_ROUND,
-        isPremium || false,
-        Date.now()
-      )
-
-      // Award XP for round 2 completion
-      const correctCount = results.filter((r: any) => r.correct).length
-      const xp = 10 + (correctCount * 5) // Base 10 + 5 per correct
-      await trackXP('kanji_round_2', xp, 'Kanji Round 2', {
-        correct: correctCount,
-        total: results.length
-      })
-    }
+    // Gamification removed - recordActivityAndSync and XP tracking disabled
+    // if (user) {
+    //   const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
+    //   await recordActivityAndSync(
+    //     StreakActivity.KANJI_MASTERY_ROUND,
+    //     isPremium || false,
+    //     Date.now()
+    //   )
+    //
+    //   // Award XP for round 2 completion
+    //   const correctCount = results.filter((r: any) => r.correct).length
+    //   const xp = 10 + (correctCount * 5) // Base 10 + 5 per correct
+    //   await trackXP('kanji_round_2', xp, 'Kanji Round 2', {
+    //     correct: correctCount,
+    //     total: results.length
+    //   })
+    // }
 
     const kanji = sessionState.kanji[sessionState.currentIndex]
     const progress = sessionState.progress.get(kanji.kanji)
@@ -309,21 +305,21 @@ export default function LearnContent() {
   }
 
   const handleRound3Complete = async (rating: number) => {
-    // Track round completion
-    if (user) {
-      const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
-      await recordActivityAndSync(
-        StreakActivity.KANJI_MASTERY_ROUND,
-        isPremium || false,
-        Date.now()
-      )
-
-      // Award XP based on self-assessment
-      const xp = rating * 3 // 3-15 XP based on rating
-      await trackXP('kanji_round_3', xp, 'Kanji Round 3', {
-        rating
-      })
-    }
+    // Gamification removed - recordActivityAndSync and XP tracking disabled
+    // if (user) {
+    //   const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
+    //   await recordActivityAndSync(
+    //     StreakActivity.KANJI_MASTERY_ROUND,
+    //     isPremium || false,
+    //     Date.now()
+    //   )
+    //
+    //   // Award XP based on self-assessment
+    //   const xp = rating * 3 // 3-15 XP based on rating
+    //   await trackXP('kanji_round_3', xp, 'Kanji Round 3', {
+    //     rating
+    //   })
+    // }
 
     const kanji = sessionState.kanji[sessionState.currentIndex]
     const progress = sessionState.progress.get(kanji.kanji)
@@ -409,14 +405,14 @@ export default function LearnContent() {
         })
       }
 
-      // Update streak for authenticated users
-      if (user) {
-        await recordActivityAndSync(
-          StreakActivity.KANJI_MASTERY_SESSION,
-          isPremium,
-          Date.now()
-        )
-      }
+      // Gamification removed - recordActivityAndSync disabled
+      // if (user) {
+      //   await recordActivityAndSync(
+      //     StreakActivity.KANJI_MASTERY_SESSION,
+      //     isPremium,
+      //     Date.now()
+      //   )
+      // }
 
       // Check achievements
       if (user) {

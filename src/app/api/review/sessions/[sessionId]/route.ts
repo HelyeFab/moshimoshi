@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession, authOptions } from '@/lib/auth';
 import { adminFirestore as db } from '@/lib/firebase/admin';
 import { ReviewSession } from '@/lib/review-engine/core/session.types';
+import { PlanType } from '@/types/entitlements';
 
 // GET /api/review/sessions/[sessionId] - Get session details
 export async function GET(
@@ -127,7 +128,7 @@ export async function PATCH(
     }
     
     const reviewSession = doc.data() as ReviewSession;
-    
+
     // Verify ownership
     if (reviewSession.userId !== userId) {
       return NextResponse.json(
@@ -135,7 +136,21 @@ export async function PATCH(
         { status: 403 }
       );
     }
-    
+
+    // SECURITY: Check entitlement on session updates
+    // Guest users cannot persist session updates to Firebase
+    const userTier = (session.user as any).tier || 'free';
+    if (userTier === 'guest') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'GUEST_NO_PERSISTENCE',
+          message: 'Guest users cannot save session progress. Sign up to save your progress.'
+        },
+        { status: 403 }
+      );
+    }
+
     // Validate status transitions
     if (updates.status) {
       const validTransitions: Record<string, string[]> = {

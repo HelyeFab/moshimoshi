@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import ThemeToggle from '@/components/ui/ThemeToggle'
-import StreakCounter from '@/components/layout/StreakCounter'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useSubscription } from '@/hooks/useSubscription'
@@ -105,11 +104,6 @@ export default function Navbar({ user, showUserMenu = true, backLink }: NavbarPr
           </Link>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* Streak Counter - only show for authenticated users */}
-            {user && user.uid && !isMobile && (
-              <StreakCounter variant="compact" size="sm" showLabel={false} userId={user.uid} />
-            )}
-
             {/* Theme Toggle - only show on desktop */}
             {!isMobile && <ThemeToggle />}
 
@@ -167,7 +161,7 @@ export default function Navbar({ user, showUserMenu = true, backLink }: NavbarPr
                       </div>
                     )}
                     {isPremium && (
-                      <div className="absolute -top-2 -right-2">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                         <PremiumBadge size="xs" />
                       </div>
                     )}

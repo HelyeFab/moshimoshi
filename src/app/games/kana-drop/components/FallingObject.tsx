@@ -1,81 +1,95 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { FallingObject as FallingObjectType, GAME_CONSTANTS } from '../types';
+import { useEffect, useRef } from 'react';
+import { FallingObject as FallingObjectType } from '../types';
 
 interface FallingObjectProps {
   object: FallingObjectType;
   fallDuration: number;
-  onReachBottom: (object: FallingObjectType) => void;
+  onReachBottom: (objectId: string) => void;
   onClick: (object: FallingObjectType) => void;
-  isClickable: boolean;
-  isPaused?: boolean;
 }
 
 export default function FallingObject({
   object,
   fallDuration,
   onReachBottom,
-  onClick,
-  isClickable,
-  isPaused = false
+  onClick
 }: FallingObjectProps) {
-  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
-    if (isClickable) {
-      onClick(object);
-    }
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  // Set up CSS animation and handle completion
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    // Start animation after a tiny delay to ensure CSS transition triggers
+    requestAnimationFrame(() => {
+      element.style.transform = `translateX(-50%) translateY(100vh)`;
+    });
+
+    // Handle animation completion
+    const handleTransitionEnd = (e: TransitionEvent) => {
+      if (e.propertyName === 'transform') {
+        console.log('[FallingObject] Animation complete:', object.id);
+        onReachBottom(object.id);
+      }
+    };
+
+    element.addEventListener('transitionend', handleTransitionEnd);
+
+    return () => {
+      element.removeEventListener('transitionend', handleTransitionEnd);
+    };
+  }, [object.id, onReachBottom]);
+
+  const handleClick = () => {
+    onClick(object);
   };
 
   return (
-    <motion.div
-      key={object.id}
-      initial={{ y: -GAME_CONSTANTS.OBJECT_SIZE, x: `${object.x}%` }}
-      animate={{ y: isPaused ? undefined : '100vh' }}
-      exit={{ opacity: 0, scale: 0 }}
-      transition={{
-        duration: fallDuration / 1000, // Convert to seconds
-        ease: 'linear'
-      }}
-      onAnimationComplete={() => !isPaused && onReachBottom(object)}
-      className="absolute touch-none"
+    <div
+      ref={elementRef}
+      className="absolute cursor-pointer"
       style={{
         left: `${object.x}%`,
+        top: '-80px',
         transform: 'translateX(-50%)',
-        cursor: isClickable ? 'pointer' : 'default',
+        transition: `transform ${fallDuration / 1000}s linear`,
         zIndex: 10,
-        pointerEvents: isClickable ? 'auto' : 'none',
-        WebkitTapHighlightColor: 'transparent'
       }}
       onClick={handleClick}
       onTouchStart={handleClick}
-      onPointerDown={handleClick}
     >
       {(object.type === 'kana' || object.type === 'wrong-kana') ? (
         <div className="relative group">
-          {/* Invisible click area for better mobile tapping */}
+          {/* Larger click area for mobile */}
           <div className="absolute -inset-4 rounded-lg" />
-          <div className="text-5xl font-bold text-gray-900 dark:text-white select-none p-2 rounded-lg bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm border-2 border-primary-400/20 shadow-lg hover:shadow-xl transition-shadow">
+
+          <div className="text-5xl font-bold text-gray-900 dark:text-white select-none p-2 rounded-lg bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm border-2 border-primary-300 dark:border-primary-600 shadow-lg hover:shadow-xl hover:scale-110 transition-all japanese-text">
             {object.content}
           </div>
+
           {/* Subtle glow effect on hover */}
-          <div className="absolute inset-0 rounded-lg bg-primary-400/20 scale-0 group-hover:scale-110 transition-transform" />
+          <div className="absolute inset-0 rounded-lg bg-primary-200/30 scale-0 group-hover:scale-110 transition-transform" />
         </div>
       ) : (
-        <div className="relative w-16 h-16 opacity-70 hover:opacity-100 transition-opacity">
-          {/* Invisible click area for better mobile tapping */}
+        <div className="relative w-16 h-16 opacity-80 hover:opacity-100 hover:scale-110 transition-all">
+          {/* Larger click area for mobile */}
           <div className="absolute -inset-4 rounded-lg" />
+
           <img
             src={object.content}
             alt="distractor"
             className="w-full h-full object-contain drop-shadow-md"
             draggable={false}
             onError={(e) => {
-              // Hide broken images instead of showing broken icon
+              // Hide broken images
               (e.target as HTMLImageElement).style.display = 'none';
             }}
           />
         </div>
       )}
-    </motion.div>
+    </div>
   );
 }

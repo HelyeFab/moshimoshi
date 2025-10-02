@@ -21,8 +21,6 @@ import Section from '@/components/ui/Section'
 import { PRICING_CONFIG } from '@/config/pricing'
 import { PremiumBadge } from '@/components/common/PremiumBadge'
 import dynamic from 'next/dynamic'
-import { useAchievementStore } from '@/stores/achievement-store'
-import { useStreakStore } from '@/stores/streakStore'
 import logger from '@/lib/logger'
 
 // Dynamically import Confetti to avoid SSR issues
@@ -49,19 +47,11 @@ function AccountPageContent() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Achievement and streak stores for real statistics
-  const {
-    initialize: initializeAchievements,
-    getTotalPoints,
-    getCompletionPercentage,
-    getRecentAchievements,
-    getTotalLessonsCompleted,
-    getCurrentLevel,
-    getTotalXp,
-    getUnlockedAchievements
-  } = useAchievementStore()
+  // Gamification removed - using static values for display
+  const currentStreak = 0
+  const bestStreak = 0
+  const completionPercentage = 0
 
-  const { currentStreak, bestStreak, getDaysActive } = useStreakStore()
   const [updating, setUpdating] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [displayName, setDisplayName] = useState('')
@@ -104,11 +94,6 @@ function AccountPageContent() {
         if (data.authenticated) {
           setUser(data.user)
           setDisplayName(data.user.displayName || '')
-
-          // Initialize achievement store with user data
-          if (data.user?.uid) {
-            await initializeAchievements(data.user.uid, isPremium)
-          }
         } else {
           router.push('/auth/signin')
         }
@@ -495,7 +480,7 @@ function AccountPageContent() {
               </div>
               <div className="text-center p-4 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-900/20 dark:to-teal-900/20 rounded-lg">
                 <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">
-                  {Math.round(getCompletionPercentage ? getCompletionPercentage() : 0)}%
+                  {completionPercentage}%
                 </div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.completion || 'Completion'}</div>
               </div>

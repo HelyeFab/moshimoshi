@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTTS } from '@/hooks/useTTS'
-import { ListManager } from '@/lib/lists/ListManager'
+import { listManager } from '@/lib/lists/ListManager'
 import { UserList, ListItem } from '@/types/userLists'
 import {
   AssemblyQuestion,
@@ -46,7 +46,6 @@ export default function WordAssemblyGame({ onBack }: WordAssemblyGameProps) {
 
   const loadUserLists = async () => {
     try {
-      const listManager = new ListManager()
       const lists = await listManager.getLists('', false) // Get lists without user ID check
       // Filter for word lists only
       const wordLists = lists.filter(list => list.type === 'word' && list.items.length > 0)

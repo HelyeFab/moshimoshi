@@ -7,7 +7,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
-import { useAchievementStore } from '@/stores/achievement-store'
+// Gamification removed
 import { kanaProgressManager, type CharacterProgress as ManagerProgress } from '@/utils/kanaProgressManager'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
 import { kanaData, getBasicKana, playKanaAudio, type KanaCharacter } from '@/data/kanaData'
@@ -19,8 +19,7 @@ import KanaDetailsModal from '@/components/learn/KanaDetailsModal'
 import { KanaAdapter } from '@/lib/review-engine/adapters/kana.adapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-import { recordActivityAndSync } from '@/lib/sync/streakSync'
-import { StreakActivity } from '@/stores/streakStore'
+// Gamification removed
 
 // Dynamically import components that use animations or client-side features
 const KanaGrid = dynamic(() => import('@/components/learn/KanaGrid'), {
@@ -387,12 +386,12 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       }
     }
 
-    // Record review session for streak
-    await recordActivityAndSync(
-      StreakActivity.REVIEW_SESSION,
-      isPremium,
-      Date.now()
-    )
+    // Gamification removed - recordActivityAndSync disabled
+    // await recordActivityAndSync(
+    //   StreakActivity.REVIEW_SESSION,
+    //   isPremium,
+    //   Date.now()
+    // )
 
     setLastSessionStats(stats)
     setViewMode('browse')
@@ -417,7 +416,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
     }
 
     showToast(`${t('review.sessionComplete')} - ${t('common.accuracy')}: ${stats.accuracy.toFixed(1)}%`, 'success')
-  }, [showToast, t, user, isPremium, recordActivityAndSync, selectedCharacters, progress, saveProgressUpdate, getCharacterId, defaultScript])
+  }, [showToast, t, user, isPremium, selectedCharacters, progress, saveProgressUpdate, getCharacterId, defaultScript])
 
   // Toggle character pin status
   const handleTogglePin = useCallback(async (characterId: string) => {
@@ -692,22 +691,22 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
                   // No need for duplicate saving here
                 }
 
-                // Record study session for streak
-                await recordActivityAndSync(
-                  StreakActivity.STUDY_SESSION,
-                  isPremium,
-                  Date.now()
-                )
+                // Gamification removed - recordActivityAndSync disabled
+                // await recordActivityAndSync(
+                //   StreakActivity.STUDY_SESSION,
+                //   isPremium,
+                //   Date.now()
+                // )
 
-                // Update achievements and streak for study session
-                const achievementStore = useAchievementStore.getState()
-                await achievementStore.updateProgress({
-                  sessionType: 'kana_study',
-                  itemsReviewed: studyCharacters.length,
-                  accuracy: 100, // Study mode is practice, assume completion is success
-                  duration: 0, // Duration tracking could be added if needed
-                  completedAt: new Date()
-                })
+                // Gamification removed - achievementStore disabled
+                // const achievementStore = useAchievementStore.getState()
+                // await achievementStore.updateProgress({
+                //   sessionType: 'kana_study',
+                //   itemsReviewed: studyCharacters.length,
+                //   accuracy: 100, // Study mode is practice, assume completion is success
+                //   duration: 0, // Duration tracking could be added if needed
+                //   completedAt: new Date()
+                // })
 
                 // Reached the end - show completion feedback
                 showToast(t('learn.studySessionComplete'), 'success')

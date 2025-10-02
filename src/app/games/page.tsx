@@ -4,9 +4,10 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
+import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
-import DoshiMascot from '@/components/ui/DoshiMascot'
+import { useAuth } from '@/hooks/useAuth'
 import MatchingGame from '@/components/games/MatchingGame'
 import WordAssemblyGame from '@/components/games/WordAssembly/WordAssemblyGame'
 import KanjiQuest from '@/components/games/kanji-quest/KanjiQuest'
@@ -15,6 +16,7 @@ import { JapaneseWord } from '@/types/vocabulary'
 export default function GamesPage() {
   const { t, strings } = useI18n()
   const { resolvedTheme } = useTheme()
+  const { user, loading } = useAuth()
   const router = useRouter()
   const [selectedGame, setSelectedGame] = useState<string | null>(null)
   const [gameWords, setGameWords] = useState<JapaneseWord[]>([])
@@ -34,20 +36,13 @@ export default function GamesPage() {
   ]
 
   const games = [
+    // Kana Games (Beginner)
     {
       id: 'kana-drop',
       title: strings.games?.kanaDrop?.title || 'Kana Drop',
       description: strings.games?.kanaDrop?.description || 'Catch falling kana characters to score points!',
       icon: '🎯',
       color: 'from-cyan-400 to-teal-600',
-      available: true,
-    },
-    {
-      id: 'reading-routes',
-      title: strings.games?.readingRoutes?.title || 'Reading Routes',
-      description: strings.games?.readingRoutes?.description || 'Navigate kanji readings in context!',
-      icon: '🛣️',
-      color: 'from-indigo-400 to-purple-600',
       available: true,
     },
     {
@@ -58,12 +53,21 @@ export default function GamesPage() {
       color: 'from-purple-400 to-violet-600',
       available: true,
     },
+    // Kanji Games (Intermediate)
     {
-      id: 'matching',
-      title: strings.games?.matching?.title || 'Matching Game',
-      description: strings.games?.matching?.description || 'Match Japanese words with their meanings',
-      icon: '🎯',
-      color: 'from-blue-400 to-indigo-600',
+      id: 'stroke-order',
+      title: strings.games?.strokeOrder?.title || 'Stroke Order Practice',
+      description: strings.games?.strokeOrder?.description || 'Learn to write kanji with correct stroke order',
+      icon: '✍️',
+      color: 'from-amber-400 to-orange-600',
+      available: true,
+    },
+    {
+      id: 'reading-routes',
+      title: strings.games?.readingRoutes?.title || 'Reading Routes',
+      description: strings.games?.readingRoutes?.description || 'Navigate kanji readings in context!',
+      icon: '🛣️',
+      color: 'from-indigo-400 to-purple-600',
       available: true,
     },
     {
@@ -82,27 +86,29 @@ export default function GamesPage() {
       color: 'from-red-400 to-red-600',
       available: true,
     },
+    // Vocabulary & Grammar Games (Advanced)
     {
-      id: 'stroke-order',
-      title: strings.games?.strokeOrder?.title || 'Stroke Order Practice',
-      description: strings.games?.strokeOrder?.description || 'Learn to write kanji with correct stroke order',
-      icon: '✍️',
-      color: 'from-amber-400 to-orange-600',
+      id: 'matching',
+      title: strings.games?.matching?.title || 'Matching Game',
+      description: strings.games?.matching?.description || 'Match Japanese words with their meanings',
+      icon: '🃏',
+      color: 'from-blue-400 to-indigo-600',
       available: true,
     },
     {
-      id: 'word-builder',
-      title: strings.games?.wordBuilder?.title || 'Word Builder',
-      description: strings.games?.wordBuilder?.description || 'Build words from components',
-      icon: '🏗️',
-      color: 'from-green-400 to-emerald-600',
-      available: false,
-      comingSoon: true,
+      id: 'sentence-scramble',
+      title: strings.games?.sentenceScramble?.title || 'Sentence Scramble',
+      description: strings.games?.sentenceScramble?.description || 'Unscramble Japanese sentences to test your grammar!',
+      icon: '🧩',
+      color: 'from-pink-400 to-rose-600',
+      available: true,
     },
   ]
 
   const handlePlayGame = (gameId: string) => {
-    if (gameId === 'kana-drop') {
+    if (gameId === 'sentence-scramble') {
+      router.push('/games/sentence-scramble')
+    } else if (gameId === 'kana-drop') {
       router.push('/games/kana-drop')
     } else if (gameId === 'reading-routes') {
       router.push('/games/reading-routes')
@@ -127,27 +133,15 @@ export default function GamesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar showUserMenu={true} />
+      <Navbar user={user} showUserMenu={true} />
 
-      {/* Header */}
+      <LearningPageHeader
+        title={strings.games?.title || 'Games Stall'}
+        description={strings.games?.subtitle || 'Learn Japanese through fun and interactive games'}
+      />
+
+      {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-foreground mb-4"
-          >
-            {strings.games?.title || 'Games Stall'}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-muted-foreground"
-          >
-            {strings.games?.subtitle || 'Learn Japanese through fun and interactive games'}
-          </motion.p>
-        </div>
 
         {/* Games Grid */}
         {!selectedGame && (
@@ -209,17 +203,6 @@ export default function GamesPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
-        )}
-
-        {/* Doshi Mascot */}
-        {!selectedGame && (
-          <div className="fixed bottom-4 right-4 z-20">
-            <DoshiMascot
-              mood="excited"
-              message={strings.games?.welcomeMessage || "Let's play some games!"}
-              size="small"
-            />
           </div>
         )}
       </div>

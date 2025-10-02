@@ -340,12 +340,12 @@ export default function SyncStatusIndicator() {
         const hiraganaProgress = await kanaProgressManager.getProgress('hiragana', user, isPremium);
         const katakanaProgress = await kanaProgressManager.getProgress('katakana', user, isPremium);
 
-        // Force sync achievements and activities
-        await achievementManager.forceSyncAll(user.uid, true);
+        // Gamification removed - achievementManager disabled
+        // await achievementManager.forceSyncAll(user.uid, true);
 
-        // Force sync streak data to Firebase
-        const { pushStreakToFirestore } = await import('@/lib/sync/streakSync');
-        await pushStreakToFirestore();
+        // Gamification removed - streakSync disabled
+        // const { pushStreakToFirestore } = await import('@/lib/sync/streakSync');
+        // await pushStreakToFirestore();
 
         // This will trigger immediate sync to Firebase
         if (Object.keys(hiraganaProgress).length > 0) {

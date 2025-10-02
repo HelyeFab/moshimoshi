@@ -4,9 +4,11 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
+import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import ReadingRoutesGame from './components/ReadingRoutesGame'
 import type { MoodBoard } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
+import { useAuth } from '@/hooks/useAuth'
 
 // Demo mood board data for the game
 const demoMoodBoard: MoodBoard = {
@@ -114,7 +116,8 @@ const demoMoodBoard: MoodBoard = {
 
 export default function ReadingRoutesPage() {
   const router = useRouter()
-  const { strings } = useI18n()
+  const { strings, t } = useI18n()
+  const { user } = useAuth()
   const [gameStarted, setGameStarted] = useState(false)
 
   const handleStartGame = () => {
@@ -132,7 +135,7 @@ export default function ReadingRoutesPage() {
   if (gameStarted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-        <Navbar showUserMenu={true} />
+        <Navbar user={user} showUserMenu={true} />
         <ReadingRoutesGame
           board={demoMoodBoard}
           onComplete={handleGameComplete}
@@ -143,37 +146,14 @@ export default function ReadingRoutesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar showUserMenu={true} />
+      <Navbar user={user} showUserMenu={true} backLink={{ href: '/games', label: t('common.back') }} />
+
+      <LearningPageHeader
+        title={strings.games?.readingRoutes?.title || 'Reading Routes'}
+        description={strings.games?.readingRoutes?.description || "Navigate through kanji readings in context!"}
+      />
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Back Button */}
-        <motion.button
-          onClick={handleBack}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="mb-6 flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-        >
-          <span>←</span>
-          <span>{strings.common?.back || 'Back to Games'}</span>
-        </motion.button>
-
-        <div className="text-center mb-8">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent"
-          >
-            🛣️ {strings.games?.readingRoutes?.title || 'Reading Routes'}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-gray-600 dark:text-gray-400 mb-6"
-          >
-            {strings.games?.readingRoutes?.description || "Navigate through kanji readings in context! Choose the correct reading path for each kanji based on how it's used."}
-          </motion.p>
-        </div>
 
         {/* Game Preview */}
         <motion.div

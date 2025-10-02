@@ -108,7 +108,7 @@ export function Avatar({
       )}
 
       {(badge || showPremiumBadge) && (
-        <div className="absolute -top-2 -right-2">
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           {showPremiumBadge ? <PremiumBadge size={size === 'xs' ? 'xs' : size === 'sm' ? 'sm' : 'md'} /> : badge}
         </div>
       )}

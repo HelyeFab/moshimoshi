@@ -246,8 +246,17 @@ class StoryService {
   async saveStoryProgress(progress: StoryProgress): Promise<void> {
     try {
       const progressRef = doc(db, this.PROGRESS_COLLECTION, `${progress.userId}_${progress.storyId}`);
+
+      // Filter out undefined values to avoid Firestore errors
+      const cleanProgress: Record<string, any> = {};
+      Object.entries(progress).forEach(([key, value]) => {
+        if (value !== undefined) {
+          cleanProgress[key] = value;
+        }
+      });
+
       await setDoc(progressRef, {
-        ...progress,
+        ...cleanProgress,
         updatedAt: serverTimestamp()
       }, { merge: true });
     } catch (error) {

@@ -119,7 +119,7 @@ function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsPanelPro
             }`}
           >
             <span
-              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-transform ${
+              className={`inline-block h-5 w-5 transform rounded-full bg-soft-white dark:bg-gray-200 shadow-sm transition-transform ${
                 settings.showFurigana ? 'translate-x-6' : 'translate-x-0.5'
               }`}
             />
@@ -255,20 +255,19 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
       const isCompleted = currentPageIndex === story.pages.length - 1;
 
       // Track story completion only once when reaching the last page
+      // BUT DO NOT call onComplete here - let the user finish the quiz first
       if (isCompleted && !hasTrackedCompletion) {
-        console.log('📚 Tracking story completion:', {
+        console.log('📚 User reached last page:', {
           storyId: story.id,
           title: story.title,
           currentPage: currentPageIndex + 1,
-          totalPages: story.pages.length
+          totalPages: story.pages.length,
+          hasQuiz: !!(story.quiz && story.quiz.length > 0)
         });
 
         setHasTrackedCompletion(true);
 
-        // Call the onComplete callback if provided
-        if (onComplete) {
-          onComplete();
-        }
+        // DO NOT call onComplete here - it will be called after quiz or when clicking next
       }
 
       // Save to Firebase
@@ -338,16 +337,10 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
       // Simple word saving - could be enhanced with actual study list integration
       setSavedWords(prev => new Set(prev).add(selectedWord.word));
       setSelectedWord(null);
-      showToast({
-        message: t('common.saved') + ': ' + selectedWord.word,
-        type: 'success'
-      });
+      showToast(t('common.saved') + ': ' + selectedWord.word, 'success');
     } catch (error) {
       console.error('Error saving word:', error);
-      showToast({
-        message: 'Error saving word',
-        type: 'error'
-      });
+      showToast('Error saving word', 'error');
     }
   };
 
@@ -357,16 +350,10 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
     setBookmarkLoading(true);
     try {
       setIsBookmarked(!isBookmarked);
-      showToast({
-        message: isBookmarked ? 'Bookmark removed' : 'Story bookmarked',
-        type: 'success'
-      });
+      showToast(isBookmarked ? 'Bookmark removed' : 'Story bookmarked', 'success');
     } catch (error) {
       console.error('Error toggling bookmark:', error);
-      showToast({
-        message: 'Error updating bookmark',
-        type: 'error'
-      });
+      showToast('Error updating bookmark', 'error');
     } finally {
       setBookmarkLoading(false);
     }
@@ -497,8 +484,9 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
   if (showQuiz) {
     return (
-      <div className="max-w-4xl mx-auto p-4">
-        <div className="bg-soft-white dark:bg-dark-850 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
+        <div className="max-w-4xl mx-auto p-4">
+          <div className="bg-soft-white dark:bg-dark-850 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold mb-6">{t('story.quiz.title')}</h2>
 
           {quizScore === null ? (
@@ -508,7 +496,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                   <p className="font-medium">{qIndex + 1}. {question.question}</p>
                   <div className="space-y-2">
                     {question.options.map((option, oIndex) => (
-                      <label key={oIndex} className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer">
+                      <label key={oIndex} className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 cursor-pointer transition-colors">
                         <input
                           type="radio"
                           name={`question-${qIndex}`}
@@ -526,7 +514,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
               <div className="flex justify-between mt-8">
                 <button
                   onClick={() => setShowQuiz(false)}
-                  className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg"
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 rounded-lg transition-colors"
                 >
                   {t('common.back')}
                 </button>
@@ -553,11 +541,11 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                 {story.quiz.map((question, index) => (
                   <div key={question.id} className="text-left p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
                     <p className="font-medium mb-2">{question.question}</p>
-                    <p className={quizAnswers[index] === question.correctIndex ? 'text-green-600' : 'text-red-600'}>
+                    <p className={quizAnswers[index] === question.correctIndex ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
                       Your answer: {question.options[quizAnswers[index]]}
                     </p>
                     {quizAnswers[index] !== question.correctIndex && (
-                      <p className="text-green-600">
+                      <p className="text-green-600 dark:text-green-400">
                         Correct: {question.options[question.correctIndex]}
                       </p>
                     )}
@@ -576,6 +564,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
               </button>
             </div>
           )}
+          </div>
         </div>
       </div>
     );
@@ -583,7 +572,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
   return (
     <>
-      <div className="container mx-auto px-4 py-6 min-h-screen pb-24 md:pb-8">
+      <div className="container mx-auto px-4 py-6 min-h-screen pb-24 md:pb-8 bg-gray-50 dark:bg-dark-900">
         <div className="max-w-6xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
@@ -735,8 +724,9 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                     {/* Audio Player - using TTS directly */}
                     <div className="space-y-2 mb-6">
                       <button
-                        onClick={() => playTTS(cleanTextForTTS(currentPage.text))}
-                        className="flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 hover:bg-primary-200 dark:hover:bg-primary-900/50 rounded-lg transition-colors"
+                        onClick={() => play(cleanTextForTTS(currentPage.text), { voice: 'ja-JP', rate: 0.9 })}
+                        disabled={isPlaying || isCacheLoading}
+                        className="flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 hover:bg-primary-200 dark:hover:bg-primary-900/50 rounded-lg transition-colors disabled:opacity-50"
                       >
                         <SpeakerWaveIcon className="w-5 h-5" />
                         {t('story.reader.playAudio')}
@@ -842,7 +832,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                   <button
                     onClick={() => handlePageChange('prev')}
                     disabled={currentPageIndex === 0}
-                    className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg disabled:opacity-50"
+                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 rounded-lg disabled:opacity-50 transition-colors"
                   >
                     {t('common.previous')}
                   </button>

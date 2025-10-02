@@ -18,8 +18,10 @@ export interface KanjiMasterySession {
     finalScore: number
     nextReviewDate: string
   }>
+  /** @deprecated XP calculation moved to external gamification service */
   totalXP: number
   streakContribution: boolean
+  /** @deprecated Achievement tracking moved to external gamification service */
   achievements: string[]
   sessionStats: {
     totalKanji: number
@@ -48,9 +50,6 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     // Calculate session statistics
     const sessionStats = this.calculateSessionStats(sessionState, timeSpentSeconds)
 
-    // Calculate XP based on performance
-    const totalXP = this.calculateSessionXP(sessionState, sessionStats)
-
     // Prepare session data
     const session: KanjiMasterySession = {
       sessionId: sessionState.sessionId,
@@ -58,9 +57,9 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
       startTime: sessionState.startTime,
       endTime,
       kanji: this.prepareKanjiData(sessionState),
-      totalXP,
+      totalXP: 0, // Deprecated: XP calculation moved to external gamification service
       streakContribution: true,
-      achievements: [],
+      achievements: [], // Deprecated: Achievement tracking moved to external service
       sessionStats
     }
 
@@ -98,34 +97,14 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     }
   }
 
-  calculateSessionXP(sessionState: SessionState, sessionStats: any): number {
-    // Use centralized XP config
-    const { xpConfigService } = require('@/lib/services/XPConfigService')
-
-    // Calculate speed multiplier
-    const expectedTimePerKanji = 120 // 2 minutes per kanji
-    const expectedTime = sessionStats.totalKanji * expectedTimePerKanji
-    const speedMultiplier = sessionStats.timeSpentSeconds / expectedTime
-
-    // Count rounds completed
-    let roundsCompleted = 0
-    sessionState.progress.forEach((progress) => {
-      if (progress.round1Completed) roundsCompleted++
-      if (progress.round2Accuracy > 0) roundsCompleted++
-      if (progress.round3Rating) roundsCompleted++
-    })
-
-    // Use config service to calculate XP
-    const xpCalculation = xpConfigService.calculateKanjiMasteryXP(
-      sessionStats.totalKanji,
-      sessionStats.perfectKanji,
-      sessionStats.averageAccuracy,
-      speedMultiplier,
-      sessionStats.reviewAgainCount === 0,
-      Math.round(roundsCompleted / sessionState.progress.size) // Average rounds per kanji
-    )
-
-    return xpCalculation.cappedXP
+  /**
+   * @deprecated XP calculation has been moved to external gamification service.
+   * External services should listen to session completion events and calculate XP independently.
+   * This method remains for backward compatibility but always returns 0.
+   * TODO: Remove this method in next major version after external gamification service is fully integrated.
+   */
+  calculateSessionXP(_sessionState: SessionState, _sessionStats: any): number {
+    return 0
   }
 
   private prepareKanjiData(sessionState: SessionState) {

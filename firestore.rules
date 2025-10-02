@@ -277,27 +277,6 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // Achievement data - Premium users can sync their achievements
-    match /users/{userId}/achievements/{document} {
-      // Users can read their own achievements
-      allow read: if isOwner(userId);
-
-      // Only premium users can write (sync) their achievements
-      // Check subscription in the user document, not in auth token
-      // Accept both premium_monthly and premium_yearly
-      allow create: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['lastUpdated']);
-
-      allow update: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['lastUpdated']);
-
-      // Achievements should not be deleted
-      allow delete: if false;
-    }
 
     // Study Lists - Premium users can sync their custom lists
     match /users/{userId}/studyLists/{listId} {
@@ -477,26 +456,6 @@ service cloud.firestore {
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
     }
 
-    // Practice Statistics for Leaderboard (All authenticated users)
-    match /userPracticeHistory/{docId} {
-      // All authenticated users can read their own practice stats
-      allow read: if isAuthenticated() &&
-        request.auth.uid == resource.data.userId;
-
-      // All authenticated users can write their practice stats (for leaderboard)
-      allow create: if isAuthenticated() &&
-        request.resource.data.userId == request.auth.uid &&
-        request.resource.data.keys().hasAll(['userId', 'videoId', 'lastPracticed', 'practiceCount']);
-
-      // All authenticated users can update their practice stats
-      allow update: if isAuthenticated() &&
-        resource.data.userId == request.auth.uid &&
-        request.resource.data.userId == request.auth.uid;
-
-      // Users can delete their own practice stats
-      allow delete: if isAuthenticated() &&
-        resource.data.userId == request.auth.uid;
-    }
 
     // YouTube Shadowing - User Edited Transcripts (Premium users can edit/save transcripts)
     match /userEditedTranscripts/{documentId} {
@@ -556,6 +515,16 @@ service cloud.firestore {
       allow update: if isAdmin();
       allow delete: if false; // Logs should not be deleted
     }
+
+    // AI Story Drafts - Admin only (for story generation)
+    match /ai_story_drafts/{draftId} {
+      // Only admins can read drafts
+      allow read: if isAdmin();
+
+      // Only server (via Admin SDK) can write - client should not write directly
+      allow write: if false;
+    }
+
 
     // Default deny all
     match /{document=**} {

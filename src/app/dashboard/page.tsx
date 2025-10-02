@@ -14,18 +14,11 @@ import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Tooltip from '@/components/ui/Tooltip'
 import LearningVillage from '@/components/dashboard/LearningVillage'
-import StreakCounter from '@/components/layout/StreakCounter'
-import AchievementToast from '@/components/notifications/AchievementToast'
-import { useAchievementStore } from '@/stores/achievement-store'
-import { useStreakStore } from '@/stores/streakStore'
-import { loadStreakFromFirestore, subscribeToStreakFromFirestore } from '@/lib/sync/streakSync'
 import BuyMeACoffeeButton from '@/components/common/BuyMeACoffeeButton'
 import PokedexCard from '@/components/pokedex/PokedexCard'
 import { useSubscription } from '@/hooks/useSubscription'
 import GuestModeBanner from '@/components/ui/GuestModeBanner'
 import { useAuth } from '@/hooks/useAuth'
-import { useXP } from '@/hooks/useXP'
-import { useReviewStats } from '@/hooks/useReviewStats'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
 
@@ -49,25 +42,9 @@ function DashboardContent() {
   // Subscription state
   const { subscription, isPremium } = useSubscription()
 
-  // Achievement store
-  const {
-    initialize: initializeAchievements,
-    loadAchievements,
-    getTotalPoints,
-    getCompletionPercentage,
-    getRecentAchievements,
-    getUnlockedAchievements,
-    userAchievements
-  } = useAchievementStore()
-
-  // Streak store (keeping for other uses but getting currentStreak from useReviewStats)
-  const streakStore = useStreakStore()
-
-  // XP data
-  const { totalXP, currentLevel, levelInfo } = useXP()
-
-  // Review stats (for consistent streak data)
-  const { stats: reviewStats } = useReviewStats()
+  // Gamification removed - using static values
+  const totalXP = 0
+  const currentLevel = 1
 
   // Drill stats
   const [drillStats, setDrillStats] = useState<any>(null)
@@ -120,27 +97,7 @@ function DashboardContent() {
     return () => clearInterval(timer)
   }, [])
   
-  // Initialize achievements when user and subscription are loaded
-  useEffect(() => {
-    if (user?.uid && subscription !== null) {
-      initializeAchievements(user.uid, isPremium).then(() => {
-        // Load achievements after initialization
-        loadAchievements()
-      })
-    }
-  }, [user?.uid, isPremium, subscription, initializeAchievements, loadAchievements])
-
-  // Initialize streak data from Firebase
-  useEffect(() => {
-    if (!user?.uid || subscription === null) return
-
-    // Load initial streak data
-    if (isPremium) {
-      loadStreakFromFirestore()
-    }
-
-    // Don't set up subscription here - it's handled by StreakCounter component
-  }, [user?.uid, isPremium, subscription])
+  // Gamification removed - no need to initialize achievements
 
   // Load drill stats
   useEffect(() => {
@@ -191,16 +148,12 @@ function DashboardContent() {
 
   const greeting = getGreeting()
   
-  // Dynamic learning stats
+  // Dynamic learning stats (gamification removed - using static values)
   const getLearningStats = () => {
-    const xpPoints = totalXP || 0  // Use real XP from hook
-    const completionPercentage = getCompletionPercentage() || 0
-    const unlockedAchievements = getUnlockedAchievements() || []
-    const streakValue = reviewStats.currentStreak || 0  // Use streak from reviewStats for consistency
-
-
-    // Use the actual unlocked achievements count (you have 3: first-step, sharpshooter, consistent-performer)
-    const achievementCount = unlockedAchievements.length || (userAchievements?.unlocked?.size || 0)
+    const xpPoints = 0
+    const completionPercentage = 0
+    const streakValue = 0
+    const achievementCount = 0
 
     // Safely extract string values from i18n objects
     // Check if the value is an object with label/unit properties
@@ -677,7 +630,6 @@ function DashboardContent() {
       </main>
       
       {/* Achievement Toast Notifications */}
-      <AchievementToast />
       {/* Buy Me a Coffee Button - Floating (Optional) */}
       {!isGuest && user && (
         <BuyMeACoffeeButton variant="floating" />

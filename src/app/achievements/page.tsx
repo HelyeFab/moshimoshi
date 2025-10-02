@@ -1,39 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
-import { useAchievementStore } from '@/stores/achievement-store'
 import Navbar from '@/components/layout/Navbar'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
-import { Trophy, Target, Flame, Zap, Star, Award, TrendingUp, Clock, BookOpen, Sparkles } from 'lucide-react'
 import { cn } from '@/utils/cn'
-
-// Achievement icons mapping
-const achievementIcons: Record<string, any> = {
-  'first-step': '🏃',
-  'sharpshooter': '🎯',
-  'consistent-performer': '🎯',
-  'speed-demon': '⚡',
-  'perfectionist': '💯',
-  'night-owl': '🦉',
-  'early-bird': '🌅',
-  'marathon-runner': '🏃‍♂️',
-  'quick-learner': '📚',
-  'master-reviewer': '🎓',
-  'streak-warrior': '🔥',
-  'accuracy-ace': '🎯',
-  'vocabulary-victor': '📖',
-  'kanji-conqueror': '🉐',
-  'hiragana-hero': 'あ',
-  'katakana-king': 'カ',
-  'daily-devotee': '📅',
-  'weekend-warrior': '⚔️',
-  'study-sensei': '🧘',
-  'review-rookie': '🌱'
-}
+import { MOCK_ACHIEVEMENTS, getMockAchievementStats, getMockAchievementsByCategory, getMockUnlockedAchievements } from '@/mocks/achievements.mock'
 
 // Achievement rarity colors
 const rarityColors = {
@@ -53,57 +28,10 @@ export default function AchievementsPage() {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState<AchievementCategory>('all')
 
-  // Achievement store
-  const {
-    achievements,
-    userAchievements,
-    isInitialized,
-    isLoading,
-    initialize: initializeAchievements,
-    loadAchievements,
-    getUnlockedAchievements,
-    getTotalPoints,
-    getCompletionPercentage
-  } = useAchievementStore()
-
-  // Initialize achievements
-  useEffect(() => {
-    if (user?.uid && !isInitialized) {
-      initializeAchievements(user.uid, true).then(() => {
-        loadAchievements()
-      })
-    }
-  }, [user?.uid, isInitialized, initializeAchievements, loadAchievements])
-
-  // Get unlocked achievement IDs
-  const unlockedIds = userAchievements?.unlocked || new Set<string>()
-  const unlockedCount = unlockedIds.size
-  const totalPoints = getTotalPoints()
-  const completionPercentage = Math.round(getCompletionPercentage())
-
-  // Define all achievements (this would normally come from the achievement system)
-  const allAchievements = [
-    // Row 1
-    { id: 'first-step', name: 'First Step', icon: '🏃', points: 10, category: 'progress', rarity: 'common' },
-    { id: 'study-starter', name: 'Study Starter', icon: '📚', points: 25, category: 'progress', rarity: 'uncommon' },
-    { id: 'sharpshooter', name: 'Sharpshooter', icon: '🎯', points: 50, category: 'accuracy', rarity: 'rare' },
-    { id: 'daily-devotee', name: 'Daily Devotee', icon: '🇯🇵', points: 30, category: 'streak', rarity: 'uncommon' },
-    { id: 'quick-learner', name: 'Quick Learner', icon: '📘', points: 30, category: 'speed', rarity: 'uncommon' },
-    { id: 'kanji-novice', name: 'Kanji Novice', icon: '月', points: 20, category: 'progress', rarity: 'common' },
-    { id: 'vocab-builder', name: 'Vocab Builder', icon: '📝', points: 50, category: 'progress', rarity: 'rare' },
-    { id: 'streak-starter', name: 'Streak Starter', icon: '🔥', points: 20, category: 'streak', rarity: 'common' },
-
-    // Row 2
-    { id: 'speed-demon', name: 'Speed Demon', icon: '⚡', points: 50, category: 'speed', rarity: 'rare' },
-    { id: 'perfectionist', name: 'Perfectionist', icon: '💯', points: 100, category: 'accuracy', rarity: 'epic' },
-    { id: 'consistent-performer', name: 'Consistent', icon: '🎯', points: 15, category: 'accuracy', rarity: 'common' },
-    { id: 'review-master', name: 'Review Master', icon: '⭐', points: 30, category: 'special', rarity: 'uncommon' }
-  ]
-
-  // Filter achievements by category
-  const filteredAchievements = selectedCategory === 'all'
-    ? allAchievements
-    : allAchievements.filter(a => a.category === selectedCategory)
+  // Get mock data
+  const stats = getMockAchievementStats()
+  const filteredAchievements = getMockAchievementsByCategory(selectedCategory)
+  const unlockedAchievements = getMockUnlockedAchievements()
 
   // Categories for filter buttons
   const categories: { value: AchievementCategory; label: string }[] = [
@@ -115,7 +43,7 @@ export default function AchievementsPage() {
     { value: 'special', label: 'Special' }
   ]
 
-  if (authLoading || isLoading) {
+  if (authLoading) {
     return (
       <LoadingOverlay
         isLoading={true}
@@ -135,7 +63,7 @@ export default function AchievementsPage() {
         backLink="/dashboard"
       />
 
-      {/* Learning Page Header - WITHOUT the 3 optional props */}
+      {/* Learning Page Header */}
       <LearningPageHeader
         title="Achievements"
         description="Track your progress and unlock rewards"
@@ -147,7 +75,10 @@ export default function AchievementsPage() {
         {/* Stats Summary */}
         <div className="mb-8 text-center">
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            {unlockedCount}/20 unlocked • {totalPoints} points • {completionPercentage}% complete
+            {stats.unlockedCount}/{stats.totalCount} unlocked • {stats.totalPoints} points • {stats.completionPercentage}% complete
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
+            (Mock data - gamification system removed)
           </p>
         </div>
 
@@ -173,7 +104,7 @@ export default function AchievementsPage() {
         <div className="bg-gray-900/50 dark:bg-dark-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 dark:border-dark-600">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
             {filteredAchievements.map(achievement => {
-              const isUnlocked = unlockedIds.has(achievement.id)
+              const isUnlocked = achievement.unlocked
 
               return (
                 <div
@@ -182,7 +113,7 @@ export default function AchievementsPage() {
                     'relative group cursor-pointer transition-all duration-300',
                     'rounded-xl p-4 border-2',
                     isUnlocked
-                      ? cn(rarityColors[achievement.rarity as keyof typeof rarityColors], 'scale-100 opacity-100')
+                      ? cn(rarityColors[achievement.rarity], 'scale-100 opacity-100')
                       : 'border-gray-600 bg-gray-800/50 opacity-50 grayscale hover:opacity-70'
                   )}
                 >
@@ -213,6 +144,7 @@ export default function AchievementsPage() {
                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
                     <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap">
                       <div className="font-bold">{achievement.name}</div>
+                      <div className="text-gray-400">{achievement.description}</div>
                       <div className="text-gray-400">{achievement.points} points</div>
                     </div>
                     <div className="w-2 h-2 bg-gray-900 transform rotate-45 absolute left-1/2 -translate-x-1/2 -bottom-1"></div>
@@ -224,22 +156,19 @@ export default function AchievementsPage() {
         </div>
 
         {/* Your Unlocked Achievements Section */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-            Your Unlocked Achievements
-          </h2>
+        {unlockedAchievements.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+              Your Unlocked Achievements
+            </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {['first-step', 'sharpshooter', 'consistent-performer'].map(achievementId => {
-              const achievement = allAchievements.find(a => a.id === achievementId)
-              if (!achievement) return null
-
-              return (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {unlockedAchievements.map(achievement => (
                 <div
                   key={achievement.id}
                   className={cn(
                     'p-4 rounded-xl border-2 flex items-center gap-4',
-                    rarityColors[achievement.rarity as keyof typeof rarityColors]
+                    rarityColors[achievement.rarity]
                   )}
                 >
                   <div className="text-4xl">{achievement.icon}</div>
@@ -248,14 +177,17 @@ export default function AchievementsPage() {
                       {achievement.name}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {achievement.description}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                       {achievement.points} points • {achievement.category}
                     </p>
                   </div>
                 </div>
-              )
-            })}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

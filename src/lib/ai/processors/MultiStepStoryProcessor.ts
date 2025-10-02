@@ -14,7 +14,7 @@ import {
 
 // Multi-step story generation types
 export interface MultiStepStoryRequest {
-  step: 'character_sheet' | 'outline' | 'generate_page' | 'generate_quiz';
+  step: 'character_sheet' | 'outline' | 'generate_page' | 'generate_quiz' | 'generate_model_sheet' | 'generate_page_image' | 'store_page_image';
   theme?: string;
   jlptLevel?: string;
   pageCount?: number;
@@ -23,6 +23,13 @@ export interface MultiStepStoryRequest {
   characterSheet?: any;
   outline?: any;
   pages?: any[];
+  pageText?: string;
+  pageTranslation?: string;
+  imageUrl?: string;
+  storagePath?: string;
+  characterProfile?: any;
+  modelSheetUrl?: string;
+  sessionId?: string;
 }
 
 export interface CharacterSheet {
@@ -121,6 +128,12 @@ IMPORTANT CONTENT GUIDELINES:
         return this.generatePage(request, config);
       case 'generate_quiz':
         return this.generateQuiz(request, config);
+      case 'generate_model_sheet':
+        return this.generateModelSheet(request, config);
+      case 'generate_page_image':
+        return this.generatePageImage(request, config);
+      case 'store_page_image':
+        return this.storePageImage(request, config);
       default:
         throw new AIServiceError(
           `Invalid step: ${request.step}`,
@@ -468,5 +481,153 @@ Response format (JSON only):
       N1: 5
     };
     return levelMap[jlptLevel] || 3;
+  }
+
+  /**
+   * Generate character model sheet
+   */
+  private async generateModelSheet(
+    request: MultiStepStoryRequest,
+    config?: TaskConfig
+  ): Promise<ProcessorResult<any>> {
+    if (!request.characterSheet) {
+      throw new AIServiceError(
+        'Character sheet is required for model sheet generation',
+        'VALIDATION_ERROR',
+        400
+      );
+    }
+
+    const visualStyle = request.characterSheet.visualStyle || 'anime illustration style';
+
+    const systemPrompt = `You are an expert at creating detailed character model sheets for consistent visual representation.`;
+
+    const userPrompt = `Create a comprehensive DALL-E 3 prompt for a character model sheet:
+
+Character: ${request.characterSheet.mainCharacter.name}
+Visual Description: ${request.characterSheet.mainCharacter.visualDescription}
+Description: ${request.characterSheet.mainCharacter.description}
+Visual Style: ${visualStyle}
+
+Create a prompt that will generate a character model sheet showing:
+- Front view of the character
+- Side view
+- Various facial expressions
+- Full body and close-up views
+- Consistent design elements
+
+The prompt should be detailed and ensure visual consistency. Return ONLY the DALL-E prompt, no explanations.`;
+
+    const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt, { responseFormat: 'text' });
+    const modelSheetPrompt = content.trim();
+
+    return {
+      data: {
+        prompt: modelSheetPrompt,
+        characterId: `${request.characterSheet.mainCharacter.name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+        characterSheet: request.characterSheet
+      },
+      usage,
+      metadata: {
+        step: 'generate_model_sheet'
+      }
+    };
+  }
+
+  /**
+   * Generate page image
+   */
+  private async generatePageImage(
+    request: MultiStepStoryRequest,
+    config?: TaskConfig
+  ): Promise<ProcessorResult<any>> {
+    if (!request.pageText) {
+      throw new AIServiceError(
+        'Page text is required for image generation',
+        'VALIDATION_ERROR',
+        400
+      );
+    }
+
+    const characterName = request.characterSheet?.mainCharacter?.name || '';
+    const characterDesc = request.characterSheet?.mainCharacter?.visualDescription || '';
+    const setting = request.characterSheet?.setting?.location || '';
+    const visualStyle = request.characterSheet?.visualStyle || 'anime illustration style';
+
+    const systemPrompt = `You are an expert at creating detailed image prompts for children's story illustrations.
+Create prompts that:
+1. Include the character's full description
+2. Describe the specific action or scene
+3. Include setting and atmosphere details
+4. Are vivid and age-appropriate
+
+Return ONLY the image prompt, no explanations.`;
+
+    const userPrompt = `Story text: ${request.pageText}
+Translation: ${request.pageTranslation || 'N/A'}
+Character: ${characterName} (${characterDesc})
+Setting: ${setting}
+Visual Style: ${visualStyle}
+Page: ${request.pageNumber}
+
+Create a detailed DALL-E 3 prompt for this story page.`;
+
+    const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt, { responseFormat: 'text' });
+    const imagePrompt = content.trim();
+
+    // Build consistency prompt
+    let finalPrompt = imagePrompt;
+    if (request.characterProfile && request.sessionId) {
+      const profile = request.characterProfile;
+      finalPrompt = `[CHARACTER REF: ${profile.characterId}-${request.sessionId}] ${visualStyle}. Character: ${characterDesc}. Scene: ${imagePrompt}. Maintain exact character appearance.`;
+    }
+
+    return {
+      data: {
+        imagePrompt: finalPrompt,
+        enhancedPrompt: imagePrompt,
+        pageNumber: request.pageNumber
+      },
+      usage,
+      metadata: {
+        step: 'generate_page_image',
+        pageNumber: request.pageNumber
+      }
+    };
+  }
+
+  /**
+   * Store page image
+   */
+  private async storePageImage(
+    request: MultiStepStoryRequest,
+    config?: TaskConfig
+  ): Promise<ProcessorResult<any>> {
+    if (!request.imageUrl || !request.storagePath) {
+      throw new AIServiceError(
+        'Image URL and storage path are required',
+        'VALIDATION_ERROR',
+        400
+      );
+    }
+
+    return {
+      data: {
+        imageUrl: request.imageUrl,
+        storagePath: request.storagePath,
+        pageNumber: request.pageNumber,
+        draftId: request.draftId
+      },
+      usage: {
+        promptTokens: 0,
+        completionTokens: 0,
+        totalTokens: 0,
+        estimatedCost: 0
+      },
+      metadata: {
+        step: 'store_page_image',
+        pageNumber: request.pageNumber
+      }
+    };
   }
 }

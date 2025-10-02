@@ -8,10 +8,10 @@ interface PremiumBadgeProps {
 
 export function PremiumBadge({ size = 'md', className = '' }: PremiumBadgeProps) {
   const sizeClasses = {
-    xs: 'w-5 h-5',
-    sm: 'w-6 h-6',
-    md: 'w-8 h-8',
-    lg: 'w-10 h-10'
+    xs: 'w-3 h-3',
+    sm: 'w-4 h-4',
+    md: 'w-5 h-5',
+    lg: 'w-6 h-6'
   };
 
   return (
@@ -23,7 +23,7 @@ export function PremiumBadge({ size = 'md', className = '' }: PremiumBadgeProps)
       `}
     >
       <Image
-        src="/ui/flat-icons/premium.png"
+        src="/ui/flat-icons/ui/crown.png"
         alt="Premium"
         width={40}
         height={40}

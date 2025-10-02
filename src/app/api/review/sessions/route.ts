@@ -9,6 +9,9 @@ import { adminFirestore as db } from '@/lib/firebase/admin';
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces';
 import { ReviewSession } from '@/lib/review-engine/core/session.types';
 import { v4 as uuidv4 } from 'uuid';
+import { validateSessionEntitlement, formatEntitlementError } from '@/lib/review-engine/api/session-entitlement-validator';
+import { PlanType } from '@/types/entitlements';
+import { checkRateLimit } from '@/lib/review-engine/api/rate-limiter';
 
 // GET /api/review/sessions - List user sessions
 export async function GET(request: NextRequest) {
@@ -118,9 +121,52 @@ export async function POST(request: NextRequest) {
     
     const userId = session.user.id;
     const body = await request.json();
-    
+
+    // Get user tier from session (set during auth)
+    const userTier = (session.user as any).tier || 'free';
+
+    // SECURITY: Rate limiting
+    const rateLimit = checkRateLimit(userId, userTier as PlanType);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'RATE_LIMIT_EXCEEDED',
+          message: `Too many requests. Please try again in ${rateLimit.retryAfter} seconds.`,
+          details: {
+            limit: rateLimit.limit,
+            remaining: rateLimit.remaining,
+            resetAt: rateLimit.resetAt,
+            retryAfter: rateLimit.retryAfter
+          }
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimit.limit.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.resetAt.toString(),
+            'Retry-After': (rateLimit.retryAfter || 60).toString()
+          }
+        }
+      );
+    }
+
     // Validate request body
-    const { content, mode, config, source = 'manual' } = body;
+    const { content, mode, config, source = 'manual', idempotencyKey } = body;
+
+    // SECURITY: Idempotency check to prevent duplicate session creation
+    if (idempotencyKey) {
+      const existingSession = await checkIdempotency(userId, idempotencyKey);
+      if (existingSession) {
+        return NextResponse.json({
+          success: true,
+          data: existingSession,
+          timestamp: Date.now(),
+          idempotent: true
+        });
+      }
+    }
     
     if (!content || !Array.isArray(content) || content.length === 0) {
       return NextResponse.json(
@@ -143,7 +189,25 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
+    // SECURITY: Validate entitlement before creating session
+    const entitlementCheck = await validateSessionEntitlement(
+      userId,
+      userTier as PlanType,
+      content
+    );
+
+    if (!entitlementCheck.allowed) {
+      const errorResponse = formatEntitlementError(entitlementCheck);
+      return NextResponse.json(
+        {
+          success: false,
+          ...errorResponse
+        },
+        { status: 403 }
+      );
+    }
+
     // Create session ID
     const sessionId = uuidv4();
     const now = new Date();
@@ -167,6 +231,14 @@ export async function POST(request: NextRequest) {
       lastActivityAt: now,
       config: config || {},
       source,
+      metadata: {
+        entitlement: {
+          featureId: entitlementCheck.featureId,
+          decision: entitlementCheck.decision,
+          checkedAt: new Date().toISOString(),
+          tier: userTier
+        }
+      },
       stats: {
         sessionId,
         totalItems: content.length,
@@ -199,12 +271,17 @@ export async function POST(request: NextRequest) {
       );
     }
     await db.collection('reviewSessions').doc(sessionId).set(reviewSession);
-    
+
+    // Save idempotency key if provided
+    if (idempotencyKey) {
+      await saveIdempotencyKey(userId, idempotencyKey, sessionId);
+    }
+
     // Cache in Redis for quick access
     await cacheSession(sessionId, reviewSession);
-    
+
     // Log session creation
-    await logActivity(userId, 'session_created', { sessionId, mode });
+    await logActivity(userId, 'session_created', { sessionId, mode, idempotencyKey });
     
     return NextResponse.json({
       success: true,
@@ -258,5 +335,45 @@ async function logActivity(
     }
   } catch (error) {
     console.error('Failed to log activity:', error);
+  }
+}
+
+// Helper: Check idempotency key
+async function checkIdempotency(
+  userId: string,
+  idempotencyKey: string
+): Promise<ReviewSession | null> {
+  try {
+    const { redis } = await import('@/lib/redis/client');
+    const key = `idempotency:${userId}:${idempotencyKey}`;
+    const sessionId = await redis.get(key);
+
+    if (sessionId && db) {
+      const doc = await db.collection('reviewSessions').doc(sessionId).get();
+      if (doc.exists) {
+        return { id: doc.id, ...doc.data() } as ReviewSession;
+      }
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Failed to check idempotency:', error);
+    return null;
+  }
+}
+
+// Helper: Save idempotency key
+async function saveIdempotencyKey(
+  userId: string,
+  idempotencyKey: string,
+  sessionId: string
+): Promise<void> {
+  try {
+    const { redis } = await import('@/lib/redis/client');
+    const key = `idempotency:${userId}:${idempotencyKey}`;
+    // Store for 24 hours
+    await redis.setex(key, 86400, sessionId);
+  } catch (error) {
+    console.error('Failed to save idempotency key:', error);
   }
 }

@@ -1,6 +1,4 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
-import { doc, getDoc, setDoc, serverTimestamp, Timestamp, getFirestore } from 'firebase/firestore';
-import { app } from '@/lib/firebase/config';
 import { User } from 'firebase/auth';
 
 // Define comprehensive preferences interface
@@ -234,7 +232,7 @@ export class PreferencesManager {
     // Premium users: Try to merge with Firebase data
     if (isPremium && navigator.onLine) {
       try {
-        const cloudPrefs = await this.getPreferencesFromFirebase(user.uid);
+        const cloudPrefs = await this.getPreferencesFromFirebase();
         if (cloudPrefs) {
           // Merge: use most recent data
           const merged = this.mergePreferences(localPrefs, cloudPrefs);
@@ -313,30 +311,29 @@ export class PreferencesManager {
     }, this.SYNC_DELAY);
   }
 
-  // Sync to Firebase
+  // Sync to Firebase via API
   private async syncToFirebase(userId: string, preferences: UserPreferences): Promise<void> {
-    // Get Firestore instance when needed
-    if (!app) {
-      console.error('[PreferencesManager] Firebase app not initialized');
-      await this.addToSyncQueue(userId, preferences);
-      return;
-    }
-
-    const db = getFirestore(app);
-
     try {
       console.log('[PreferencesManager] Syncing to Firebase...');
 
-      // Use the userPreferences collection for premium users
-      // This matches the Firestore rules (lines 250-266)
-      const prefsRef = doc(db, 'userPreferences', userId);
+      // Use API route instead of direct Firestore access
+      const response = await fetch('/api/user/profile', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          preferences: {
+            theme: preferences.theme,
+            language: preferences.language,
+            palette: preferences.palette,
+          },
+        }),
+      });
 
-      await setDoc(prefsRef, {
-        ...preferences,
-        userId,
-        syncedAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      }, { merge: true });
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+      }
 
       // Update local sync timestamp
       preferences.syncedAt = new Date();
@@ -353,35 +350,31 @@ export class PreferencesManager {
     }
   }
 
-  // Get from Firebase
-  private async getPreferencesFromFirebase(userId: string): Promise<UserPreferences | null> {
-    // Get Firestore instance when needed
-    if (!app) {
-      console.error('[PreferencesManager] Firebase app not initialized');
-      return null;
-    }
-
-    const db = getFirestore(app);
-
+  // Get from Firebase via API
+  private async getPreferencesFromFirebase(): Promise<UserPreferences | null> {
     try {
-      // Use the userPreferences collection for premium users
-      // This matches the Firestore rules (lines 250-266)
-      const prefsRef = doc(db, 'userPreferences', userId);
-      const snapshot = await getDoc(prefsRef);
+      // Use API route instead of direct Firestore access
+      const response = await fetch('/api/user/profile');
 
-      if (snapshot.exists()) {
-        const data = snapshot.data();
+      if (!response.ok) {
+        console.error('[PreferencesManager] API request failed:', response.status);
+        return null;
+      }
 
-        // Convert Firestore timestamps
+      const { data } = await response.json();
+
+      // Extract preferences from profile data
+      if (data?.preferences) {
         return {
-          ...data,
-          updatedAt: data.updatedAt instanceof Timestamp
-            ? data.updatedAt.toDate()
-            : new Date(data.updatedAt),
-          syncedAt: data.syncedAt instanceof Timestamp
-            ? data.syncedAt.toDate()
-            : data.syncedAt ? new Date(data.syncedAt) : undefined
-        } as UserPreferences;
+          theme: data.preferences.theme || this.DEFAULT_PREFERENCES.theme,
+          language: data.preferences.language || this.DEFAULT_PREFERENCES.language,
+          palette: data.preferences.palette || this.DEFAULT_PREFERENCES.palette,
+          notifications: this.DEFAULT_PREFERENCES.notifications,
+          learning: this.DEFAULT_PREFERENCES.learning,
+          privacy: this.DEFAULT_PREFERENCES.privacy,
+          accessibility: this.DEFAULT_PREFERENCES.accessibility,
+          updatedAt: new Date(),
+        };
       }
 
       return null;

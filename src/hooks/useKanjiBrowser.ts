@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import { useAchievementStore } from '@/stores/achievement-store';
+// Gamification removed;
 
 interface KanjiItem {
   id: string;
@@ -39,7 +39,8 @@ export function useKanjiBrowser() {
   const { user } = useAuth();
   const { isPremium } = useSubscription();
   const { showToast } = useToast();
-  const achievementStore = useAchievementStore();
+  // Gamification removed
+  // const achievementStore = useAchievementStore();
 
   const [session, setSession] = useState<BrowseSession | null>(null);
   const [kanji, setKanji] = useState<KanjiItem[]>([]);
@@ -139,18 +140,18 @@ export function useKanjiBrowser() {
       setSession(updatedSession);
       sessionStorage.setItem('kanji_browse_session', JSON.stringify(updatedSession));
 
-      // Update achievement progress (browsing counts for streak)
-      if (kanjiIds.length >= 5) {
-        await achievementStore.updateProgress({
-          sessionType: 'browse',
-          itemsBrowsed: kanjiIds.length
-        });
-      }
+      // Gamification removed - achievement progress disabled
+      // if (kanjiIds.length >= 5) {
+      //   await achievementStore.updateProgress({
+      //     sessionType: 'browse',
+      //     itemsBrowsed: kanjiIds.length
+      //   });
+      // }
 
     } catch (error) {
       console.error('Failed to track browse event:', error);
     }
-  }, [user, session, achievementStore]);
+  }, [user, session]);
 
   // Browse a specific kanji (detailed view)
   const browseKanji = useCallback(async (kanjiId: string, character?: string) => {

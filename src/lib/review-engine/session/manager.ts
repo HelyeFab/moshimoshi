@@ -361,9 +361,6 @@ export class SessionManager extends EventEmitter {
     // Track analytics
     await this.analytics.trackSessionComplete(this.session, this.statistics!);
 
-    // Check for achievements
-    await this.checkAchievements();
-
     const stats = this.statistics!;
 
     // Clear session
@@ -731,33 +728,10 @@ export class SessionManager extends EventEmitter {
   
   private finalizeStatistics(): void {
     if (!this.statistics || !this.session) return;
-    
+
     this.statistics.totalTime = this.session.endedAt!.getTime() - this.session.startedAt.getTime();
   }
-  
-  private async checkAchievements(): Promise<void> {
-    // Check for various achievements
-    if (this.statistics!.accuracy === 100 && this.statistics!.totalItems >= 10) {
-      this.emitEvent(ReviewEventType.ACHIEVEMENT_UNLOCKED, {
-        achievementId: 'perfect_session',
-        achievementName: 'Perfect Session',
-        description: 'Complete a session with 100% accuracy',
-        category: 'accuracy',
-        points: 100
-      });
-    }
-    
-    if (this.statistics!.bestStreak >= 20) {
-      this.emitEvent(ReviewEventType.ACHIEVEMENT_UNLOCKED, {
-        achievementId: 'streak_master',
-        achievementName: 'Streak Master',
-        description: 'Achieve a 20+ answer streak',
-        category: 'streak',
-        points: 50
-      });
-    }
-  }
-  
+
   private generateSessionId(): string {
     return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }

@@ -27,7 +27,12 @@ export enum ReviewEventType {
   // Progress events
   PROGRESS_UPDATED = 'progress.updated',
   STREAK_UPDATED = 'streak.updated',
+
+  // Deprecated: Achievement events (for external gamification system only)
+  // URE no longer emits these - external achievement listeners consume SESSION_COMPLETED
+  /** @deprecated Use external achievement service listening to SESSION_COMPLETED */
   ACHIEVEMENT_UNLOCKED = 'achievement.unlocked',
+  /** @deprecated Use external achievement service listening to PROGRESS_UPDATED */
   MILESTONE_REACHED = 'milestone.reached',
   
   // Sync events

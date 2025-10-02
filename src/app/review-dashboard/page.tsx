@@ -5,13 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import { useReviewData } from '@/hooks/useReviewData';
-import { useReviewStats } from '@/hooks/useReviewStats';
-import { useXP } from '@/hooks/useXP';
 import { StatsOverview } from '@/components/review/dashboard/StatsOverview';
 import { RecentActivity } from '@/components/review/dashboard/RecentActivity';
 import { ProgressHeatmap } from '@/components/review/charts/ProgressHeatmap';
-import { StreakDisplay } from '@/components/review/gamification/StreakDisplay';
-import { LevelDisplay } from '@/components/review/gamification/LevelDisplay';
 import { UpcomingReviews } from '@/components/review/dashboard/UpcomingReviews';
 import { LoadingOverlay } from '@/components/ui/Loading';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
@@ -34,23 +30,16 @@ export default function ReviewDashboard() {
     error: dataError
   } = useReviewData();
 
-  const {
-    stats,
-    loading: statsLoading,
-    error: statsError
-  } = useReviewStats();
-
-  // Use real XP data
-  const {
-    totalXP,
-    currentLevel,
-    levelInfo,
-    progressPercentage,
-    loading: xpLoading
-  } = useXP();
+  // Gamification removed - all hooks disabled, using stub values
+  const stats = { currentStreak: 0, bestStreak: 0 };
+  const statsLoading2 = false;
+  const statsError2 = null;
+  const xpLoading2 = false;
+  const totalXP = 0;
+  const levelInfo = null;
 
   // Combined loading state
-  const loading = dataLoading || statsLoading || xpLoading;
+  const loading = dataLoading || statsLoading2 || xpLoading2;
 
   // Fetch real activity data from API
   const [heatmapData, setHeatmapData] = useState<any[]>([]);
@@ -167,11 +156,7 @@ export default function ReviewDashboard() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Streak Display - Now at the top of main content for all screen sizes */}
         <div className="mb-6">
-          <StreakDisplay
-            currentStreak={stats.currentStreak}
-            bestStreak={stats.bestStreak}
-            lastReviewDate={new Date()}
-          />
+          {/* Gamification removed - StreakDisplay hidden */}
         </div>
 
         {/* Stats Overview */}
@@ -194,13 +179,7 @@ export default function ReviewDashboard() {
 
           {/* Right Column - Activity and Gamification */}
           <div className="space-y-8">
-            {/* Level Display - Using real XP data */}
-            <LevelDisplay
-              currentLevel={currentLevel}
-              currentXP={totalXP}
-              requiredXP={levelInfo?.xpToNextLevel || 150}
-              title={levelInfo?.title || 'Beginner'}
-            />
+            {/* Gamification removed - LevelDisplay hidden */}
 
             {/* Recent Activity */}
             <RecentActivity activities={realActivities.length > 0 ? realActivities : activities} />

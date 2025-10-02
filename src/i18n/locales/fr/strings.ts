@@ -3153,6 +3153,55 @@ export const strings = {
     }
   },
 
+  // Games
+  games: {
+    title: "Salle de Jeux",
+    subtitle: "Apprenez le japonais avec des jeux amusants",
+    welcomeMessage: "Jouons ensemble!",
+    play: "Jouer",
+    comingSoon: "Bientôt disponible",
+
+    // Sentence Scramble
+    sentenceScramble: {
+      title: "Mélange de Phrases",
+      description: "Déchiffrez des phrases japonaises pour tester votre grammaire!",
+      selectSentences: "Sélectionner des Phrases",
+      selectDescription: "Choisissez jusqu'à 10 phrases pour pratiquer",
+      difficulty: {
+        easy: "Facile",
+        medium: "Moyen",
+        hard: "Difficile"
+      },
+      startGame: "Commencer le Jeu",
+      howToPlay: "Comment Jouer",
+      step1Title: "Regardez la Phrase",
+      step1Desc: "Étudiez attentivement la phrase originale",
+      step2Title: "Reconstruire la Phrase",
+      step2Desc: "Cliquez sur les blocs de mots dans le bon ordre",
+      step3Title: "Battre le Chrono",
+      step3Desc: "Vous avez 20 secondes par phrase",
+      start: "Commencer à Jouer",
+      sentenceOf: "Phrase {{current}} sur {{total}}",
+      skipReading: "Passer au Mélange",
+      getReady: "Préparez-vous!",
+      yourSentence: "Votre Phrase",
+      availableBlocks: "Blocs Disponibles",
+      clickBlocks: "Cliquez sur les blocs ci-dessous pour reconstruire la phrase",
+      submitAnswer: "Soumettre la Réponse",
+      attempts: "Tentatives",
+      correct: "Correct!",
+      incorrect: "Pas tout à fait",
+      original: "Original",
+      gameComplete: "Jeu Terminé!",
+      greatJob: "Excellent travail!",
+      score: "Score",
+      totalSentences: "Phrases",
+      accuracy: "Précision",
+      time: "Temps",
+      playAgain: "Rejouer"
+    }
+  },
+
   // Stories
   stories: {
     title: "Histoires",

@@ -1,6 +1,6 @@
 import { Kanji, JLPTLevel } from '@/types/kanji'
 import { GameKanji } from '../types'
-import kanjiService from '@/services/kanjiService'
+import { kanjiService } from '@/services/kanjiService'
 
 // Convert Kanji to GameKanji format
 function convertToGameKanji(kanji: Kanji, index: number): GameKanji {

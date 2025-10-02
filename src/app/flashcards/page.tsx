@@ -11,8 +11,6 @@ import { StudyModeSelector } from '@/components/flashcards/StudyModeSelector';
 import { StatsDashboard } from '@/components/flashcards/StatsDashboard';
 import { StudyRecommendations } from '@/components/flashcards/StudyRecommendations';
 import { DailyGoals } from '@/components/flashcards/DailyGoals';
-import { AchievementDisplay, AchievementNotification } from '@/components/flashcards/AchievementDisplay';
-import { achievementManager, type Achievement } from '@/lib/flashcards/AchievementManager';
 import { ComebackMessage, checkForComeback } from '@/components/flashcards/ComebackMessage';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import Dialog from '@/components/ui/Dialog';
@@ -57,7 +55,7 @@ export default function FlashcardsPage() {
   const [recommendations, setRecommendations] = useState<StudyRecommendation[]>([]);
   const [insights, setInsights] = useState<LearningInsights | null>(null);
   const [currentStreak, setCurrentStreak] = useState(0);
-  const [showAchievements, setShowAchievements] = useState(false);
+  // Gamification removed - no achievements
   const [newAchievement, setNewAchievement] = useState<Achievement | null>(null);
   const [comebackInfo, setComebackInfo] = useState<{ daysAway: number; lastStudyDate: Date } | null>(null);
 
@@ -88,7 +86,7 @@ export default function FlashcardsPage() {
 
           // Unlock comeback achievement if eligible
           if (comeback.isComeback) {
-            const achievement = achievementManager.unlockAchievement(user.uid, 'comeback_kid');
+            // Gamification removed - no achievement unlock
             if (achievement) {
               // Show achievement after comeback message closes
               setTimeout(() => setNewAchievement(achievement), 11000);
@@ -848,21 +846,7 @@ export default function FlashcardsPage() {
           />
         )}
 
-        {/* Achievement Display Modal */}
-        {showAchievements && user && (
-          <AchievementDisplay
-            userId={user.uid}
-            currentStats={{
-              streak: currentStreak,
-              totalCardsReviewed: decks.reduce((sum, d) => sum + (d.stats.totalCards || 0), 0),
-              totalMasteredCards: decks.reduce((sum, d) => sum + (d.stats.masteredCards || 0), 0),
-              averageAccuracy: averageAccuracy,
-              totalDecksCreated: decks.length,
-              totalMinutesStudied: sessions.reduce((sum, s) => sum + Math.floor((s as any).duration / 60000), 0)
-            }}
-            onClose={() => setShowAchievements(false)}
-          />
-        )}
+        {/* Gamification removed - achievement display removed */}
 
         {/* Achievement Notification */}
         {newAchievement && (

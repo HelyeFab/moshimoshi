@@ -4,8 +4,10 @@ import React, { useState, useEffect } from 'react'
 import { Brain, Trophy, Star, Zap } from 'lucide-react'
 import StrokeOrderGame from './components/StrokeOrderGame'
 import { useI18n } from '@/i18n/I18nContext'
+import { useAuth } from '@/hooks/useAuth'
 import Modal from '@/components/ui/Modal'
 import Navbar from '@/components/layout/Navbar'
+import LearningPageHeader from '@/components/learn/LearningPageHeader'
 
 const PRACTICE_SETS = [
   {
@@ -52,6 +54,7 @@ export default function StrokeOrderPracticePage() {
   const [progress, setProgress] = useState<StrokeOrderProgress | null>(null)
   const [showInstructions, setShowInstructions] = useState(false)
   const { t, strings } = useI18n()
+  const { user } = useAuth()
 
   useEffect(() => {
     loadProgress()
@@ -92,44 +95,36 @@ export default function StrokeOrderPracticePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar showUserMenu={true} />
+      <Navbar user={user} showUserMenu={true} backLink={{ href: '/games', label: t('common.back') }} />
+
+      <LearningPageHeader
+        title={strings.games?.strokeOrder?.title || 'Master Kanji Stroke Order'}
+        description={strings.games?.strokeOrder?.description || 'Learn to write kanji correctly by practicing stroke order.'}
+      />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <main className="max-w-7xl mx-auto mb-32 md:mb-8 pb-safe">
 
-          {/* Hero Section */}
-          <div className="mb-12">
-            <div className="text-center max-w-3xl mx-auto">
-              <div className="relative inline-block mb-6">
-                <div className="text-7xl animate-pulse">✍️</div>
-                <div className="absolute -inset-4 bg-gradient-to-r from-primary-500/20 via-primary-600/20 to-primary-700/20 blur-2xl rounded-full opacity-60"></div>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-400 dark:to-primary-600 bg-clip-text text-transparent mb-6">
-                {strings.games?.strokeOrder?.title || 'Master Kanji Stroke Order'}
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6 max-w-2xl mx-auto">
-                {strings.games?.strokeOrder?.description || 'Learn to write kanji correctly by practicing stroke order. Click strokes in the right sequence to build muscle memory.'}
-              </p>
-
-              {progress && progress.totalGamesPlayed > 0 && (
-                <div className="flex gap-4 justify-center">
-                  <div className="flex items-center gap-2">
-                    <Trophy className="h-4 w-4 text-yellow-500" />
-                    <span className="text-sm text-muted-foreground">
-                      {progress.totalGamesPlayed} {strings.games?.strokeOrder?.gamesPlayed || 'games played'}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-primary-500" />
-                    <span className="text-sm text-muted-foreground">
-                      {progress.totalKanjiPracticed} {strings.games?.strokeOrder?.kanjiPracticed || 'kanji practiced'}
-                    </span>
-                  </div>
+          {/* Stats Section */}
+          {progress && progress.totalGamesPlayed > 0 && (
+            <div className="mb-12">
+              <div className="flex gap-4 justify-center">
+                <div className="flex items-center gap-2">
+                  <Trophy className="h-4 w-4 text-yellow-500" />
+                  <span className="text-sm text-muted-foreground">
+                    {progress.totalGamesPlayed} {strings.games?.strokeOrder?.gamesPlayed || 'games played'}
+                  </span>
                 </div>
-              )}
+                <div className="flex items-center gap-2">
+                  <Star className="h-4 w-4 text-primary-500" />
+                  <span className="text-sm text-muted-foreground">
+                    {progress.totalKanjiPracticed} {strings.games?.strokeOrder?.kanjiPracticed || 'kanji practiced'}
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Instructions Button */}
           <div className="mb-8 text-center">

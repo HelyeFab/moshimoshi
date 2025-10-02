@@ -19,7 +19,6 @@ import {
   ReviewHistoryBatch
 } from '../core/review-history.types'
 import { getKanaById } from '@/data/kanaData'
-import { xpSystem } from '@/lib/gamification/xp-system'
 
 /**
  * IndexedDB schema for progress storage

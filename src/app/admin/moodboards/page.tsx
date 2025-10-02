@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
-import Navbar from '@/components/layout/Navbar';
 import MoodBoardManager from '@/components/admin/MoodBoardManager';
 import GenerateKanjiMoodboardModal from '@/components/admin/GenerateKanjiMoodboardModal';
 import { useToast } from '@/components/ui/Toast/ToastContext';
@@ -102,9 +101,7 @@ export default function AdminMoodboardsPage() {
   // No need to check again here
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
+    <div className="space-y-6">
       <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="mb-8">
