@@ -186,7 +186,7 @@ export default function AdminResourcesPage() {
   };
 
   if (adminLoading || !isAdmin) {
-    return <div className="min-h-screen flex items-center justify-center">{strings.loading.general}</div>;
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
   return (

@@ -193,12 +193,48 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
   },
 
   /**
-   * Sync to Firebase (premium only) - TODO: Implement
+   * Sync to Firebase (premium only)
    */
   syncToFirebase: async () => {
-    // TODO: Implement Firebase sync for premium users
-    // For now, just mark as synced
-    set({ lastSyncedAt: new Date(), isDirty: false })
+    try {
+      // Only run in browser
+      if (typeof window === 'undefined') return
+
+      const state = get()
+
+      // Validate userId
+      if (!state.userId) {
+        console.warn('[Gamification State] No userId set, skipping Firebase sync')
+        return
+      }
+
+      // Call sync API
+      const response = await fetch('/api/gamification/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          totalXP: state.totalXP,
+          currentStreak: state.currentStreak,
+          bestStreak: state.bestStreak,
+          lastActivityDate: state.lastActivityDate?.toISOString() || null,
+          unlockedAchievements: state.unlockedAchievements,
+          achievementProgress: state.achievementProgress,
+          sessionCount: state.sessionCount
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error(`Firebase sync failed: ${response.statusText}`)
+      }
+
+      const result = await response.json()
+      console.log('[Gamification State] Synced to Firebase:', result)
+
+      set({ lastSyncedAt: new Date(), isDirty: false })
+    } catch (error) {
+      console.error('[Gamification State] Failed to sync to Firebase:', error)
+      // Don't throw - let it retry later
+    }
   },
 
   /**

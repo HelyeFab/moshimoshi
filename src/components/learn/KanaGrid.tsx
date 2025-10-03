@@ -101,43 +101,59 @@ const KanaGrid = memo(function KanaGrid({
   const handleRowSelect = (rowKey: string, checked: boolean) => {
     const newSelectedRows = new Set(selectedRows)
     const rowChars = charactersByRow.get(rowKey) || []
-    
-    if (onTogglePinBatch) {
-      // Use batch operation if available
-      const characterIds = rowChars
-        .filter(char => checked ? !progress[char.id]?.pinned : progress[char.id]?.pinned)
-        .map(char => char.id)
-      
-      if (characterIds.length > 0) {
-        onTogglePinBatch(characterIds, checked)
+
+    // In study/review modes, toggle selection instead of pinning
+    if (viewMode === 'study' || viewMode === 'review') {
+      if (onToggleSelection) {
+        // Toggle selection for all characters in the row
+        rowChars.forEach(char => {
+          const isSelected = selectedCharacters.some(c => c.id === char.id)
+          if (checked && !isSelected) {
+            onToggleSelection(char)
+          } else if (!checked && isSelected) {
+            onToggleSelection(char)
+          }
+        })
       }
     } else {
-      // Fallback to individual operations
-      if (checked) {
-        newSelectedRows.add(rowKey)
-        // Pin all characters in this row
-        rowChars.forEach(char => {
-          if (!progress[char.id]?.pinned) {
-            onTogglePin(char.id)
-          }
-        })
+      // In browse mode, toggle pinning
+      if (onTogglePinBatch) {
+        // Use batch operation if available
+        const characterIds = rowChars
+          .filter(char => checked ? !progress[char.id]?.pinned : progress[char.id]?.pinned)
+          .map(char => char.id)
+
+        if (characterIds.length > 0) {
+          onTogglePinBatch(characterIds, checked)
+        }
       } else {
-        newSelectedRows.delete(rowKey)
-        // Unpin all characters in this row
-        rowChars.forEach(char => {
-          if (progress[char.id]?.pinned) {
-            onTogglePin(char.id)
-          }
-        })
+        // Fallback to individual operations
+        if (checked) {
+          newSelectedRows.add(rowKey)
+          // Pin all characters in this row
+          rowChars.forEach(char => {
+            if (!progress[char.id]?.pinned) {
+              onTogglePin(char.id)
+            }
+          })
+        } else {
+          newSelectedRows.delete(rowKey)
+          // Unpin all characters in this row
+          rowChars.forEach(char => {
+            if (progress[char.id]?.pinned) {
+              onTogglePin(char.id)
+            }
+          })
+        }
       }
     }
-    
+
     if (checked) {
       newSelectedRows.add(rowKey)
     } else {
       newSelectedRows.delete(rowKey)
     }
-    
+
     setSelectedRows(newSelectedRows)
   }
   
@@ -153,110 +169,143 @@ const KanaGrid = memo(function KanaGrid({
   // This keeps the UI consistent across the app
   
   return (
-    <div className="w-full flex justify-center">
-      <div className="space-y-6 p-2 sm:p-4 max-w-5xl w-full mx-auto">
+    <div className="space-y-6">
       {Array.from(charactersByRow.entries()).map(([rowKey, rowChars]) => {
-        // Check if all characters in row are pinned
-        const allPinned = rowChars.every(char => progress[char.id]?.pinned)
-        const somePinned = rowChars.some(char => progress[char.id]?.pinned) && !allPinned
-        
+        // In study/review modes, check selection status; in browse mode, check pinned status
+        const isSelectionMode = viewMode === 'study' || viewMode === 'review'
+
+        const allSelected = isSelectionMode
+          ? rowChars.every(char => selectedCharacters.some(c => c.id === char.id))
+          : rowChars.every(char => progress[char.id]?.pinned)
+
+        const someSelected = isSelectionMode
+          ? rowChars.some(char => selectedCharacters.some(c => c.id === char.id)) && !allSelected
+          : rowChars.some(char => progress[char.id]?.pinned) && !allSelected
+
         return (
-          <div key={rowKey} className="space-y-3">
-            {/* Row Header with Checkbox */}
-            <div className="flex items-center gap-3">
-              <Checkbox
-                checked={allPinned}
-                indeterminate={somePinned}
-                onChange={(checked) => handleRowSelect(rowKey, checked)}
-                label={getRowLabel(rowKey)}
-                description={`${rowChars.length} characters`}
-                size="medium"
-              />
-              {allPinned && (
+          <motion.div
+            key={rowKey}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg"
+          >
+            {/* Row Header with Checkbox (only in study/review modes) */}
+            <div className="px-6 py-4 flex items-center justify-between border-b border-gray-200 dark:border-dark-700">
+              {isSelectionMode ? (
+                <div className="flex items-center gap-3">
+                  <Checkbox
+                    checked={allSelected}
+                    indeterminate={someSelected}
+                    onChange={(checked) => handleRowSelect(rowKey, checked)}
+                    label={getRowLabel(rowKey)}
+                    description={`${rowChars.length} characters`}
+                    size="medium"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    {getRowLabel(rowKey)}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {rowChars.length} characters
+                  </p>
+                </div>
+              )}
+              {allSelected && isSelectionMode && (
                 <span className="text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full">
-                  📌 Pinned for review
+                  ✓ Selected
                 </span>
               )}
             </div>
-            
-            {/* Characters in this row */}
-            <div className="grid grid-cols-5 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-5 gap-3 sm:gap-4 ml-0 sm:ml-8 justify-center">
-              <AnimatePresence mode="popLayout">
-                {rowChars.map((char, index) => (
-          <motion.div
-            key={char.id}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.01 }}
-            whileHover={{ scale: 1.1, zIndex: 10 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative"
-          >
-            <div
-              onClick={() => onCharacterSelect(char)}
-              className={`
-                relative w-full aspect-square flex items-center justify-center
-                rounded-xl transition-all cursor-pointer
-                ${getCharacterStyles(char.id)}
-                hover:shadow-lg dark:hover:shadow-dark-700/50
-              `}
-            >
-              {/* Pin emoji for selection in study/review modes */}
-              {(viewMode === 'study' || viewMode === 'review') && (
-                <button
-                  className="absolute -top-2 right-0.5 z-50 text-sm sm:text-base md:text-xl transition-all hover:scale-110"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    if (onToggleSelection) {
-                      onToggleSelection(char)
-                    }
-                  }}
-                  aria-label={selectedCharacters.some(c => c.id === char.id) ? "Unpin" : "Pin"}
-                >
-                  <span className={selectedCharacters.some(c => c.id === char.id) ? "" : "opacity-30 grayscale"}>
-                    📌
-                  </span>
-                </button>
-              )}
 
-              <div className="text-center">
-                <div className="text-lg sm:text-2xl md:text-3xl font-japanese font-bold text-gray-800 dark:text-gray-200 mb-1">
-                  {showBothKana ? (
-                    <div className="flex flex-col">
-                      <span>{displayScript === 'hiragana' ? char.hiragana : char.katakana}</span>
-                      <span className="text-sm sm:text-lg md:text-xl opacity-70">
-                        {displayScript === 'hiragana' ? char.katakana : char.hiragana}
-                      </span>
-                    </div>
-                  ) : (
-                    displayScript === 'hiragana' ? char.hiragana : char.katakana
-                  )}
-                </div>
+            {/* Characters in this row - centered grid with 5 columns */}
+            <div className="px-6 pb-6 pt-4 flex justify-center">
+              <div className="grid grid-cols-5 gap-2 w-fit">
+                {rowChars.map((char, index) => {
+                  const isSelected = selectedCharacters.some(c => c.id === char.id)
+                  const borderStyle = 'border-2 border-gray-200 dark:border-dark-700'
+                  const bgStyle = 'bg-white dark:bg-dark-800'
 
-                {/* Show romaji on hover */}
-                <AnimatePresence>
-                  {hoveredId === char.id && (
+                  return (
                     <motion.div
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      className="absolute bottom-1 left-0 right-0 text-xs font-medium text-primary-600 dark:text-primary-400"
+                      key={char.id}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.01 }}
+                      whileHover={{ scale: 1.1, zIndex: 10 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="relative"
                     >
-                      {char.romaji}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                      <div
+                        onClick={() => onCharacterSelect(char)}
+                        onMouseEnter={() => setHoveredId(char.id)}
+                        onMouseLeave={() => setHoveredId(null)}
+                        className={`
+                          relative w-full aspect-square flex items-center justify-center text-2xl font-medium
+                          rounded-lg transition-all cursor-pointer
+                          ${borderStyle} ${bgStyle}
+                          hover:shadow-lg
+                        `}
+                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif', minWidth: '64px' }}
+                      >
+                        {/* Pin emoji for selection in study/review modes */}
+                        {(viewMode === 'study' || viewMode === 'review') && (
+                          <button
+                            type="button"
+                            className="absolute -top-2 right-1.5 z-20 text-base sm:text-xl transition-all hover:scale-110"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              if (onToggleSelection) {
+                                onToggleSelection(char)
+                              }
+                            }}
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onTouchStart={(e) => e.stopPropagation()}
+                            aria-label={isSelected ? "Unpin" : "Pin"}
+                          >
+                            <span className={isSelected ? "" : "opacity-30 grayscale"}>
+                              📌
+                            </span>
+                          </button>
+                        )}
 
+                        <span className="text-gray-900 dark:text-gray-100">
+                          {showBothKana ? (
+                            <div className="flex flex-col items-center">
+                              <span>{displayScript === 'hiragana' ? char.hiragana : char.katakana}</span>
+                              <span className="text-sm opacity-70">
+                                {displayScript === 'hiragana' ? char.katakana : char.hiragana}
+                              </span>
+                            </div>
+                          ) : (
+                            displayScript === 'hiragana' ? char.hiragana : char.katakana
+                          )}
+                        </span>
+
+                        {/* Show romaji on hover - positioned at bottom */}
+                        <AnimatePresence>
+                          {hoveredId === char.id && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -5 }}
+                              className="absolute bottom-1 left-0 right-0 text-xs font-medium text-primary-600 dark:text-primary-400"
+                            >
+                              {char.romaji}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
             </div>
           </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          </div>
         )
       })}
-      </div>
     </div>
   )
 })

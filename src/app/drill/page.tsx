@@ -7,12 +7,21 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFeature } from '@/hooks/useFeature';
 import { useSubscription } from '@/hooks/useSubscription';
 import Navbar from '@/components/layout/Navbar';
-import LearningPageHeader from '@/components/learn/LearningPageHeader';
+import PageHeader from '@/components/layout/PageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { useToast } from '@/components/ui/Toast';
 import type { DrillSession, DrillQuestion, DrillSettings } from '@/types/drill';
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
 import type { DrillSessionData } from '@/lib/review-engine/progress/DrillProgressManager';
+import { ReviewEventType } from '@/lib/review-engine/core/events';
+import { EventEmitter } from 'events';
+import { gamificationListener } from '@/lib/gamification/gamificationListener';
+
+// Global URE event emitter for gamification integration
+const ureEventEmitter = new EventEmitter();
+
+// Flag to ensure gamification listener is only initialized once
+let gamificationListenerInitialized = false;
 
 export default function DrillPage() {
   const { t, strings } = useI18n();
@@ -21,7 +30,6 @@ export default function DrillPage() {
   const { subscription } = useSubscription();
   const { checkAndTrack, remaining } = useFeature('conjugation_drill');
   const { showToast } = useToast();
-  // Gamification removed - no XP or session recording
   const drillManager = DrillProgressManager.getInstance();
 
   // Debug logging
@@ -34,6 +42,15 @@ export default function DrillPage() {
   useEffect(() => {
     if (user?.uid) {
       drillManager.initializeDrillProgress(user.uid);
+    }
+  }, [user?.uid]);
+
+  // Initialize gamification listener (once per user session)
+  useEffect(() => {
+    if (user?.uid && !gamificationListenerInitialized) {
+      console.log('[Drill Page] Initializing gamification listener for user:', user.uid);
+      gamificationListener.initialize(user.uid, ureEventEmitter);
+      gamificationListenerInitialized = true;
     }
   }, [user?.uid]);
 
@@ -203,31 +220,36 @@ export default function DrillPage() {
       // - Achievement event emission
       await drillManager.trackDrillSession(sessionData, user, isPremium);
 
-      // 4. Calculate XP based on performance using centralized config
-      const { xpConfigService } = await import('@/lib/services/XPConfigService');
-      const xpCalculation = xpConfigService.calculateDrillXP(accuracy);
-      const xpAmount = xpCalculation.cappedXP;
+      // 4. Emit URE SESSION_COMPLETED event for gamification system
+      // This awards XP, checks achievements, updates streak, increments sessionCount
+      const sessionDuration = new Date().getTime() - new Date(session.startedAt).getTime();
+      const averageResponseTime = sessionDuration / session.questions.length;
 
-      // 5. Award XP (non-blocking)
-      if (xpAmount > 0) {
-        addXP(xpAmount, 'drill_completed').catch(err => {
-          console.error('Failed to add XP:', err)
-        })
-      }
-
-      // 6. Record session completion (includes XP and auto-updates streak if XP >= 10)
-      await recordSession({
-        type: 'drill',
-        itemsReviewed: session.questions.length,
-        accuracy,
-        duration: Date.now() - new Date(session.startedAt).getTime(),
-        xpEarned: xpAmount  // Pass XP to determine streak update
+      ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+        data: {
+          sessionId: session.id,
+          statistics: {
+            correctItems: score,
+            accuracy: accuracy,
+            averageResponseTime: averageResponseTime,
+            bestStreak: score // For drills, we can use score as a simple streak measure
+          },
+          duration: sessionDuration
+        }
       });
 
-      // 8. Show success message with stats
+      console.log('[Drill Page] Emitted SESSION_COMPLETED event for gamification:', {
+        sessionId: session.id,
+        correctItems: score,
+        accuracy: accuracy,
+        averageResponseTime: averageResponseTime,
+        duration: sessionDuration
+      });
+
+      // 5. Show success message with stats
       const stats = await drillManager.getDrillStats(user.uid, isPremium);
       showToast(
-        `${t('drill.complete')} - ${t('common.accuracy')}: ${accuracy.toFixed(1)}% (+${xpAmount} XP) | Total Drills: ${stats?.totalDrills || 1}`,
+        `${t('drill.complete')} - ${t('common.accuracy')}: ${accuracy.toFixed(1)}% | Total Drills: ${stats?.totalDrills || 1}`,
         'success'
       );
 
@@ -271,9 +293,10 @@ export default function DrillPage() {
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
       <Navbar user={user} showUserMenu={true} />
 
-      <LearningPageHeader
+      <PageHeader
         title={t('drill.title')}
         description={t('drill.description')}
+        mascot="doshi"
       />
 
       <div className="container mx-auto px-4 py-8">

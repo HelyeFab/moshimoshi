@@ -153,7 +153,11 @@ export default function Modal({
         )}
 
         {/* Content */}
-        <div className={`${noPadding ? '' : 'p-4 sm:p-6'} max-h-[calc(100vh-10rem)] overflow-y-auto rounded-b-2xl`}>
+        <div className={`${noPadding ? '' : 'p-4 sm:p-6'} max-h-[calc(100vh-10rem)] overflow-y-auto rounded-b-2xl scrollbar-hide`}
+             style={{
+               scrollbarWidth: 'none',
+               msOverflowStyle: 'none'
+             }}>
           {children}
         </div>
       </div>

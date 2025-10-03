@@ -9,6 +9,7 @@ import { useTranslation } from '@/i18n/I18nContext'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
+import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
 import { InvoiceHistory } from '@/components/subscription/InvoiceHistory'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -59,6 +60,9 @@ function AccountPageContent() {
     loading: gamificationLoading,
     isEnabled: gamificationEnabled
   } = useGamification()
+
+  // Learning progress from drill mastery
+  const { overall: learningProgress, categories } = useLearningProgress()
 
   const [updating, setUpdating] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -496,17 +500,25 @@ function AccountPageContent() {
                     </div>
                     <div className="text-center p-4 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-900/20 dark:to-teal-900/20 rounded-lg">
                       <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">
+                        {Math.round(learningProgress.progressPercentage)}%
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.learningProgress || 'Learning Progress'}</div>
+                      {categories.drills && (
+                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                          {categories.drills.totalDrills} drills • {categories.drills.accuracy}% accuracy
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
                         {unlockedAchievements.length > 0
                           ? Math.round((unlockedAchievements.length / 10) * 100)
                           : 0}%
                       </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.completion || 'Completion'}</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                        {currentLevel}
+                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.achievementCompletion || 'Achievement Completion'}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                        {unlockedAchievements.length} of 10 unlocked
                       </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.level || 'Level'}</div>
                     </div>
                   </div>
                 </>

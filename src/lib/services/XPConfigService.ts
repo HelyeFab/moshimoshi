@@ -331,9 +331,12 @@ class XPConfigService {
 
   /**
    * Get minimum XP required for streak update
+   * Now reads from gamification streak config (single source of truth)
    */
   getMinXPForStreak(): number {
-    return this.config.minXPForStreak || 10
+    // Read from gamification streak config to ensure consistency
+    const streakConfig = require('@/config/gamification/streak.json')
+    return streakConfig.minXPForStreak || 10
   }
 
   /**

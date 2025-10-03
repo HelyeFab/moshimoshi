@@ -42,17 +42,14 @@ export default function AdminStoriesPage() {
         fetch('/api/admin/stories/drafts?limit=100')
       ]);
 
-      if (!storiesResponse.ok || !draftsResponse.ok) {
-        throw new Error('Failed to fetch stories');
-      }
-
-      const storiesData = await storiesResponse.json();
-      const draftsData = await draftsResponse.json();
+      // Handle responses gracefully - if endpoints don't exist or return errors, use empty arrays
+      const storiesData = storiesResponse.ok ? await storiesResponse.json() : { stories: [] };
+      const draftsData = draftsResponse.ok ? await draftsResponse.json() : { drafts: [] };
 
       // Combine stories and drafts, marking drafts with status: 'draft'
       const allStories = [
-        ...storiesData.stories,
-        ...draftsData.drafts.map((draft: any) => ({
+        ...(storiesData.stories || []),
+        ...(draftsData.drafts || []).map((draft: any) => ({
           id: draft.id,
           title: draft.characterSheet?.storyTitle || 'Untitled',
           titleJa: draft.characterSheet?.storyTitleJa || '無題',
@@ -68,6 +65,11 @@ export default function AdminStoriesPage() {
       ];
 
       setStories(allStories);
+
+      // Only show error if both endpoints failed
+      if (!storiesResponse.ok && !draftsResponse.ok) {
+        console.warn('Stories API endpoints returned errors - showing empty state');
+      }
     } catch (error) {
       console.error('Error loading stories:', error);
       showToast('Failed to load stories', 'error');

@@ -1,5 +1,7 @@
-import { JLPTLevel } from './aiStory';
+import { JLPTLevel } from './kanji';
 import { StoryPage } from './story';
+
+export type { JLPTLevel };
 
 export interface AICharacterSheet {
   mainCharacter: {

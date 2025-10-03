@@ -7,6 +7,8 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import { useI18n } from '@/i18n/I18nContext'
 import { motion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
+import PageHeader from '@/components/layout/PageHeader'
+import Modal from '@/components/ui/Modal'
 import VocabularySearch from './components/VocabularySearch'
 import WordDetailsModal from './components/WordDetailsModal'
 import SearchHistory from './components/SearchHistory'
@@ -40,6 +42,8 @@ function VocabularyContent() {
   }>>([])
   const [searchSource, setSearchSource] = useState<'wanikani' | 'jmdict'>('jmdict')
   const [isLoadingCache, setIsLoadingCache] = useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [itemToDelete, setItemToDelete] = useState<{ term: string; timestamp: Date } | null>(null)
 
   // Check session on mount
   useEffect(() => {
@@ -100,7 +104,8 @@ function VocabularyContent() {
       setSearchHistory(history)
     }
 
-    if (user !== undefined) {
+    // Only load history if user is actually logged in
+    if (user && user.uid) {
       loadHistory()
     }
   }, [user, isPremium])
@@ -121,6 +126,8 @@ function VocabularyContent() {
     setSearching(true)
     try {
       let results: JapaneseWord[] = []
+      let usedFallback = false
+      let actualSource: 'wanikani' | 'jmdict' = searchSource // Track actual source used
 
       if (searchSource === 'wanikani') {
         try {
@@ -138,41 +145,66 @@ function VocabularyContent() {
             localStorage.setItem('wanikani_cache_populated', 'true')
             setIsLoadingCache(false)
           }
+
+          // Fallback to JMDict if no results
+          if (results.length === 0) {
+            showToast(strings.reviewPrompts?.vocabulary?.fallbackToJMDict || 'No results from WaniKani, trying JMDict...', 'info')
+            results = await searchJMdictWords(term, 30)
+            actualSource = 'jmdict' // Update actual source
+            usedFallback = true
+          }
         } catch (wanikaniError: any) {
           setIsLoadingCache(false)
-          // If WaniKani fails (403 = invalid API key), fall back to JMdict
           console.error('WaniKani search failed:', wanikaniError)
 
-          // Check if it's mock data error
-          if (wanikaniError?.message?.includes('mock data')) {
-            showToast(strings.reviewPrompts?.vocabulary?.wanikaniMockData || 'WaniKani API configuration error', 'error')
-            // Don't auto-switch, let user decide
-            results = []
-          } else if (wanikaniError?.response?.status === 403 || wanikaniError?.response?.status === 401) {
-            showToast(strings.reviewPrompts?.vocabulary?.wanikaniInvalidKey || 'WaniKani API key invalid', 'error')
-            results = []
-          } else if (wanikaniError?.response?.status === 503) {
-            showToast(strings.reviewPrompts?.vocabulary?.wanikaniServiceDown || 'WaniKani service unavailable', 'warning')
-            results = []
-          } else {
-            // For other errors, offer to fall back
-            showToast(strings.reviewPrompts?.vocabulary?.wanikaniSearchFailed || 'WaniKani search failed', 'warning')
-            setSearchSource('jmdict')
-            // Fall back to JMdict
-            results = await searchJMdictWords(term, 30)
-          }
+          // Always fallback to JMDict on error
+          showToast(strings.reviewPrompts?.vocabulary?.fallbackToJMDict || 'WaniKani unavailable, trying JMDict...', 'info')
+          results = await searchJMdictWords(term, 30)
+          actualSource = 'jmdict' // Update actual source
+          usedFallback = true
         }
       } else {
-        results = await searchJMdictWords(term, 30)
+        // Using JMDict as primary
+        try {
+          results = await searchJMdictWords(term, 30)
+
+          // Fallback to WaniKani if no results
+          if (results.length === 0) {
+            showToast(strings.reviewPrompts?.vocabulary?.fallbackToWaniKani || 'No results from JMDict, trying WaniKani...', 'info')
+            try {
+              results = await searchWords(term, 30)
+              actualSource = 'wanikani' // Update actual source
+              usedFallback = true
+            } catch (wanikaniError) {
+              console.error('WaniKani fallback failed:', wanikaniError)
+              // If WaniKani fallback also fails, results stay empty
+            }
+          }
+        } catch (jmdictError) {
+          console.error('JMDict search failed:', jmdictError)
+
+          // Fallback to WaniKani on error
+          showToast(strings.reviewPrompts?.vocabulary?.fallbackToWaniKani || 'JMDict unavailable, trying WaniKani...', 'info')
+          try {
+            results = await searchWords(term, 30)
+            actualSource = 'wanikani' // Update actual source
+            usedFallback = true
+          } catch (wanikaniError) {
+            console.error('WaniKani fallback failed:', wanikaniError)
+            // Both failed, show error
+            showToast(strings.reviewPrompts?.vocabulary?.searchFailed || 'Failed to search. Please try again.', 'error')
+          }
+        }
       }
 
       setSearchResults(results)
 
       // Save search using the manager (handles localStorage and Firebase for premium)
+      // Use actualSource to record which provider really returned the results
       await vocabularyHistoryManager.saveSearch(
         term,
         results.length,
-        searchSource,
+        actualSource,
         user,
         isPremium
       )
@@ -181,7 +213,7 @@ function VocabularyContent() {
       const updatedHistory = await vocabularyHistoryManager.loadHistory(user, isPremium)
       setSearchHistory(updatedHistory)
 
-      if (results.length === 0) {
+      if (results.length === 0 && !usedFallback) {
         showToast(strings.reviewPrompts?.vocabulary?.noResultsFound || 'No results found. Try a different search term.', 'info')
       }
     } catch (error) {
@@ -217,21 +249,49 @@ function VocabularyContent() {
     showToast(strings.reviewPrompts?.vocabulary?.searchHistoryCleared || 'Search history cleared', 'success')
   }
 
+  const handleDeleteHistoryItem = (term: string, timestamp: Date) => {
+    setItemToDelete({ term, timestamp })
+    setDeleteConfirmOpen(true)
+  }
+
+  const confirmDeleteHistoryItem = async () => {
+    if (!itemToDelete) return
+
+    try {
+      await vocabularyHistoryManager.deleteHistoryEntry(
+        itemToDelete.term,
+        itemToDelete.timestamp,
+        user,
+        isPremium
+      )
+
+      // Reload history to show the updated list
+      const updatedHistory = await vocabularyHistoryManager.loadHistory(user, isPremium)
+      setSearchHistory(updatedHistory)
+
+      showToast(strings.reviewPrompts?.vocabulary?.searchEntryDeleted || 'Search entry deleted', 'success')
+    } catch (error) {
+      console.error('Failed to delete search entry:', error)
+      showToast(strings.reviewPrompts?.vocabulary?.searchEntryDeleteFailed || 'Failed to delete entry', 'error')
+    } finally {
+      setDeleteConfirmOpen(false)
+      setItemToDelete(null)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
       {/* Navbar */}
       <Navbar user={user} showUserMenu={true} />
 
+      {/* Page Header */}
+      <PageHeader
+        title={strings.reviewPrompts?.vocabulary?.searchTitle || 'Vocabulary Search'}
+        description={strings.reviewPrompts?.vocabulary?.searchDescription || 'Search Japanese words with meanings and examples'}
+        mascot="doshi"
+      />
+
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-6xl">
-        {/* Page Title */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-            {strings.reviewPrompts?.vocabulary?.searchTitle || 'Vocabulary Search'}
-          </h1>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-            {strings.reviewPrompts?.vocabulary?.searchDescription || 'Search Japanese words with meanings and examples'}
-          </p>
-        </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Search Area */}
           <div className="lg:col-span-2 space-y-6">
@@ -358,6 +418,7 @@ function VocabularyContent() {
               history={searchHistory}
               onHistoryClick={handleSearchHistoryClick}
               onClear={clearSearchHistory}
+              onDeleteItem={handleDeleteHistoryItem}
             />
           </div>
         </div>
@@ -368,6 +429,7 @@ function VocabularyContent() {
             history={searchHistory}
             onHistoryClick={handleSearchHistoryClick}
             onClear={clearSearchHistory}
+            onDeleteItem={handleDeleteHistoryItem}
           />
         </div>
       </div>
@@ -381,6 +443,41 @@ function VocabularyContent() {
           user={user}
         />
       )}
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        isOpen={deleteConfirmOpen}
+        onClose={() => setDeleteConfirmOpen(false)}
+        title={strings.reviewPrompts?.vocabulary?.confirmDeleteTitle || 'Delete Search Entry'}
+        size="sm"
+      >
+        <div className="space-y-4">
+          <p className="text-gray-700 dark:text-gray-300">
+            {strings.reviewPrompts?.vocabulary?.confirmDeleteMessage || 'Are you sure you want to delete this search entry?'}
+          </p>
+          {itemToDelete && (
+            <div className="p-3 bg-gray-100 dark:bg-dark-700 rounded-lg">
+              <p className="font-medium text-gray-900 dark:text-gray-100">
+                {itemToDelete.term}
+              </p>
+            </div>
+          )}
+          <div className="flex gap-3 justify-end">
+            <button
+              onClick={() => setDeleteConfirmOpen(false)}
+              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
+            >
+              {strings.common?.cancel || 'Cancel'}
+            </button>
+            <button
+              onClick={confirmDeleteHistoryItem}
+              className="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded-lg transition-colors"
+            >
+              {strings.common?.delete || 'Delete'}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }

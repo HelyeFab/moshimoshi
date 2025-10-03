@@ -389,7 +389,7 @@ export default function LearningVillage() {
       title: strings.dashboard?.cards?.vocabulary?.title || 'Vocabulary',
       subtitle: strings.dashboard?.cards?.vocabulary?.subtitle || '単語',
       description: strings.dashboard?.cards?.vocabulary?.description || 'Build your word power',
-      href: '/learn/vocabulary',
+      href: '/vocabulary',
       icon: '📚',
       stallType: 'library',
       color: 'from-purple-400 to-violet-600',

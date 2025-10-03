@@ -190,18 +190,24 @@ export default function SyncStatusMenuItem() {
           logger.error('Failed to sync lists', error);
         }
 
+        // Sync gamification data (XP, achievements, streaks) - NEW GAMIFICATION SYSTEM
+        try {
+          const { useGamificationStore } = await import('@/state/userGamification');
+          const gamificationStore = useGamificationStore.getState();
+
+          // Only sync if gamification is enabled
+          if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true' && gamificationStore.userId) {
+            await gamificationStore.syncToFirebase();
+            logger.info('Synced gamification data to Firebase');
+          }
+        } catch (error) {
+          logger.error('Failed to sync gamification data', error);
+        }
+
         // Check if manager is loaded (client-side only)
         if (kanaProgressManager) {
           const hiraganaProgress = await kanaProgressManager.getProgress('hiragana', user, isPremium);
           const katakanaProgress = await kanaProgressManager.getProgress('katakana', user, isPremium);
-
-          // Force sync achievements and activities
-          // Gamification removed - no achievement sync
-          // await achievementManager.forceSyncAll(user.uid, true);
-
-          // Gamification removed - streakSync disabled
-          // const { pushStreakToFirestore } = await import('@/lib/sync/streakSync');
-          // await pushStreakToFirestore();
 
           // Sync kana progress to Firebase
           if (Object.keys(hiraganaProgress).length > 0) {
@@ -219,8 +225,8 @@ export default function SyncStatusMenuItem() {
         const { preferencesManager } = await import('@/utils/preferencesManager');
         await preferencesManager.forceSyncAll(user.uid);
 
-        // Attempt regular sync
-        await attemptSync();
+        // Old URE sync endpoint removed - each system now syncs individually above
+        // await attemptSync(); // This called /api/review/sync which doesn't exist
 
         setSyncStatus(prev => ({
           ...prev,

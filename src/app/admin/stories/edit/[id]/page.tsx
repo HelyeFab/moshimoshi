@@ -7,7 +7,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext';
 import { storyService } from '@/lib/services/StoryService';
 import Navbar from '@/components/layout/Navbar';
 import { Story, StoryQuizQuestion } from '@/types/story';
-import { JLPTLevel } from '@/types/aiStory';
+import { JLPTLevel } from '@/types/ai-story';
 import { STORY_THEMES } from '@/types/story';
 import { ChevronLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';

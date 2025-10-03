@@ -197,7 +197,11 @@ export default function KanjiDetailsModal({
         </div>
 
         {/* Tab Content */}
-        <div className="overflow-y-auto max-h-[50vh] p-6">
+        <div className="overflow-y-auto max-h-[50vh] p-6 scrollbar-hide"
+             style={{
+               scrollbarWidth: 'none',
+               msOverflowStyle: 'none'
+             }}>
           {/* Tab-specific Content */}
           <AnimatePresence mode="wait">
             <motion.div

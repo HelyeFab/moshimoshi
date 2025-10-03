@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { storyService } from '@/lib/services/StoryService';
-import { JLPTLevel } from '@/types/aiStory';
+import { JLPTLevel } from '@/types/ai-story';
 import { STORY_THEMES } from '@/types/story';
 import { ChevronLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -62,18 +62,12 @@ export default function NewStoryPage() {
 
   const handleSave = async (status: 'draft' | 'published') => {
     if (!title || !titleJa || !description) {
-      showToast({
-        message: 'Please fill in all required fields',
-        type: 'error'
-      });
+      showToast('Please fill in all required fields', 'error');
       return;
     }
 
     if (pages.some(p => !p.text || !p.translation)) {
-      showToast({
-        message: 'All pages must have Japanese text and translation',
-        type: 'error'
-      });
+      showToast('All pages must have Japanese text and translation', 'error');
       return;
     }
 
@@ -108,18 +102,12 @@ export default function NewStoryPage() {
         isAIGenerated: false
       });
 
-      showToast({
-        message: `Story ${status === 'published' ? 'published' : 'saved as draft'} successfully!`,
-        type: 'success'
-      });
+      showToast(`Story ${status === 'published' ? 'published' : 'saved as draft'} successfully!`, 'success');
 
       router.push('/admin/stories');
     } catch (error) {
       console.error('Error saving story:', error);
-      showToast({
-        message: 'Failed to save story',
-        type: 'error'
-      });
+      showToast('Failed to save story', 'error');
     } finally {
       setIsSaving(false);
     }

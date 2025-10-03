@@ -37,6 +37,7 @@ export const strings = {
     saving: "Saving...",
     saveChanges: "Save Changes",
     delete: "Delete",
+    deleting: "Deleting...",
     edit: "Edit",
     remove: "Remove",
     back: "Back",
@@ -67,7 +68,6 @@ export const strings = {
     premiumOnly: "Premium Only",
     guest: "GUEST",
     creating: "Creating...",
-    saving: "Saving...",
     create: "Create",
     upgrade: "Upgrade",
     today: "Today",
@@ -85,6 +85,7 @@ export const strings = {
     description: "Description",
     popular: "Popular",
     learned: "Learned",
+    notLearned: "Not Learned",
     grid: "Grid",
     study: "Study",
     list: "List",
@@ -96,22 +97,13 @@ export const strings = {
     confirmDelete: "Confirm Delete",
     add: "Add",
     done: "Done",
-    saving: "Saving...",
     generating: "Generating...",
     created: "Created",
     kanji: "Kanji",
-    learned: "Learned",
-    notLearned: "Not Learned",
     level: "Level",
     progress: "Progress",
     all: "All",
-    title: "Title",
     kanjiCount: "Kanji Count",
-    grid: "Grid",
-    list: "List",
-    study: "Study",
-    card: "Card",
-    resetProgress: "Reset Progress",
     settings: "Settings",
     playAudio: "Play Audio",
     explore: "Explore",
@@ -162,7 +154,7 @@ export const strings = {
   // Story Reader
   story: {
     readingSettings: "Reading Settings",
-    fontSize: "Font Size",
+    fontSizeLabel: "Font Size",
     fontSize: {
       small: "Small",
       medium: "Medium",
@@ -171,7 +163,7 @@ export const strings = {
     },
     showFurigana: "Show Furigana",
     toggleFurigana: "Toggle furigana display",
-    highlightMode: "Highlight Mode",
+    highlightModeLabel: "Highlight Mode",
     highlightMode: {
       none: "None",
       all: "All Words",
@@ -476,6 +468,132 @@ export const strings = {
       modeTitle: "Developer Mode",
       authTestLink: "→ Auth Test Page",
     },
+    statModals: {
+      close: "Got it!",
+      formulaLabel: "Formula",
+      breakdownLabel: "Breakdown",
+      streak: {
+        title: "Daily Streak",
+        description: "Your streak shows how many consecutive days you've practiced Japanese with meaningful engagement.",
+        formula: "Consecutive days with ≥10 XP earned",
+        whatItMeans: "Each day you earn at least 10 XP (completing 1+ correct answers in a drill), your streak increases by 1. Multiple sessions in the same day don't increase your streak further.",
+        howToImprove: "Practice every day! Even a short 5-minute session counts. Set a daily reminder and make Japanese practice part of your routine.",
+        breakdown: {
+          current: "Current streak",
+          longest: "Longest streak (all-time)",
+          lastActive: "Last activity",
+          minXP: "Minimum XP needed per day"
+        },
+        goalNote: "Build a 7-day streak to develop a strong learning habit!"
+      },
+      xpEarned: {
+        title: "XP Earned",
+        description: "Experience Points (XP) measure your learning activity and achievement. XP is earned through practice sessions with accuracy and speed bonuses.",
+        formula: "Base XP + Accuracy Bonus + Speed Bonus + Streak Bonus",
+        whatItMeans: "Every correct answer earns base XP (10 points). High accuracy (≥90%) and fast responses can double your XP through bonuses!",
+        howToImprove: "Focus on accuracy first, then speed! Complete full drill sessions, maintain high accuracy, and build streaks to maximize XP.",
+        breakdown: {
+          total: "Total XP earned",
+          currentLevel: "Current level",
+          nextLevel: "XP to next level",
+          dailyCap: "Daily XP cap"
+        },
+        bonuses: {
+          accuracy: "Accuracy bonus (≥90%): 2x XP",
+          speed: "Speed bonus (<2s avg): +10 XP",
+          streak: "Streak bonus (≥5): +3 XP per item"
+        },
+        goalNote: "Daily XP is capped at 500 to encourage balanced, sustainable practice."
+      },
+      achievementProgress: {
+        title: "Achievement Progress",
+        description: "Track your journey by unlocking achievements as you learn and practice Japanese.",
+        formula: "(Unlocked / Total) × 100",
+        whatItMeans: "This percentage shows how many achievements you've earned out of the total available.",
+        howToImprove: "Complete drills, maintain daily streaks, and practice regularly to unlock more achievements.",
+        breakdown: {
+          unlocked: "Unlocked achievements",
+          total: "Total available",
+          completion: "Completion rate"
+        }
+      },
+      achievements: {
+        title: "Achievements Unlocked",
+        description: "Achievements are rewards for reaching milestones in your learning journey. Each achievement represents a specific accomplishment.",
+        formula: "Count of unlocked achievements",
+        whatItMeans: "The total number of achievements you've earned through your practice and dedication.",
+        howToImprove: "Keep practicing! Complete drills, maintain streaks, reach accuracy goals, and practice at different times to unlock all 10 achievements.",
+        breakdown: {
+          unlocked: "Currently unlocked",
+          available: "Total available",
+          earnMore: "How to earn more"
+        },
+        tips: "Try Early Bird (practice before 6 AM) or Night Owl (practice after 10 PM) for easy achievements!"
+      },
+      drillsCompleted: {
+        title: "Drills Completed",
+        description: "Every drill session you complete helps build your Japanese conjugation skills. Quality matters more than quantity!",
+        formula: "Total finished drill sessions",
+        whatItMeans: "The number of complete drill sessions you've finished, regardless of score.",
+        howToImprove: "Practice regularly! Each session counts toward your total and helps build muscle memory for conjugations.",
+        breakdown: {
+          total: "Total drills",
+          perfect: "Perfect drills (100%)",
+          types: "Practice types"
+        }
+      },
+      drillAccuracy: {
+        title: "Drill Accuracy",
+        description: "Your accuracy reflects how well you understand Japanese verb conjugations across all your practice sessions.",
+        formula: "(Correct answers / Total answers) × 100",
+        whatItMeans: "The percentage of questions you've answered correctly across ALL drills. It's calculated cumulatively, so recent improvements will gradually raise your overall score.",
+        example: "Example: If you got 12 correct out of 15 total answers, your accuracy is 80%.",
+        howToImprove: "Focus on understanding patterns! Review conjugation rules, take your time with each question, and practice consistently.",
+        breakdown: {
+          current: "Current accuracy",
+          total: "Total drills completed",
+          goal: "Goal accuracy"
+        },
+        goalNote: "Aim for 80% or higher to show strong understanding!"
+      },
+      drillMastery: {
+        title: "Drill Mastery Score",
+        description: "Mastery is a comprehensive quality score (0-100) that measures not just how much you practice, but how well you practice.",
+        formula: "4-factor weighted calculation",
+        whatItMeans: "This score combines volume, accuracy, consistency, and perfect drill ratio to give you a complete picture of your mastery level.",
+        factors: "The four factors",
+        howToImprove: "Balance is key! Practice regularly (volume), focus on accuracy, aim for perfect sessions, and maintain consistency.",
+        breakdown: {
+          volume: "Volume (30 pts max)",
+          volumeDetail: "Based on total drills completed",
+          accuracy: "Accuracy (40 pts max)",
+          accuracyDetail: "Based on your % correct",
+          perfectRatio: "Perfect Ratio (20 pts)",
+          perfectDetail: "100% accurate sessions",
+          consistency: "Consistency (10 pts)",
+          consistencyDetail: "Regular practice pattern",
+          total: "Total Mastery Score"
+        },
+        masterLevels: {
+          beginner: "0-30: Beginner - Keep practicing!",
+          developing: "31-60: Developing - You're improving!",
+          proficient: "61-80: Proficient - Great work!",
+          expert: "81-100: Expert - Outstanding!"
+        }
+      },
+      learningProgress: {
+        title: "Learning Progress",
+        description: "Your overall progress across all learning categories (drills, kana, kanji, vocabulary).",
+        formula: "(Items mastered / Items started) × 100",
+        whatItMeans: "This shows the quality of your learning, not just quantity. Only items you've actually practiced count toward your progress.",
+        howToImprove: "Master what you've started! Focus on bringing incomplete items to mastery before starting new ones.",
+        breakdown: {
+          percentage: "Overall progress",
+          categoriesStarted: "Categories active",
+          itemsMastered: "Items mastered"
+        }
+      }
+    }
   },
 
   // Auth Pages
@@ -737,29 +855,6 @@ export const strings = {
         totalProcessed: "{{total}} videos processed",
       },
     },
-    sections: {
-      quickActions: "Quick Actions",
-      recentUsers: "Recent Users",
-      systemStatus: "System Status",
-    },
-    quickActionButtons: {
-      addLesson: "Add Lesson",
-      sendEmail: "Send Email",
-      exportData: "Export Data",
-      settings: "Settings",
-    },
-    systemMetrics: {
-      database: "Database",
-      operational: "Operational",
-      apiResponseTime: "API Response Time",
-      cacheHitRate: "Cache Hit Rate",
-      errorRate: "Error Rate",
-      uptime: "Uptime",
-    },
-    userLabels: {
-      user: "User",
-      minutesAgo: "{{minutes}} min ago",
-    },
     // Blog Management
     blog: {
       title: "Blog Management",
@@ -930,6 +1025,11 @@ export const strings = {
       wordsLearned: "Words Learned",
       achievements: "Achievements",
       dayStreak: "Day Streak",
+      xpEarned: "XP Earned",
+      lessonsCompleted: "Sessions Completed",
+      bestStreak: "Best Streak",
+      learningProgress: "Learning Progress",
+      achievementCompletion: "Achievement Completion",
     },
     subscription: {
       premium: "PREMIUM",
@@ -943,6 +1043,8 @@ export const strings = {
       upgradeToPremium: "Upgrade to Premium",
       currentPlan: "Current Plan",
       upgradeText: "Upgrade to unlock unlimited practice sessions and premium features",
+      congratulations: "Congratulations!",
+      welcomePremium: "Welcome to Premium! Enjoy all the amazing features.",
     },
     dangerZone: {
       description: "Delete your account and all associated data. This action cannot be undone.",
@@ -1235,7 +1337,7 @@ export const strings = {
           weekly: "This Week",
           monthly: "This Month",
           allTime: "All Time",
-          rank: "Rank",
+          rankLabel: "Rank",
           player: "Player",
           achievements: "Achievements",
           points: "Points",
@@ -3070,6 +3172,8 @@ export const strings = {
       addItems: "Add Items",
       review: "Review",
       manage: "Manage List",
+      exportJson: "Export as JSON",
+      exportCsv: "Export as CSV",
     },
     deleteDialog: {
       title: "Delete List",
@@ -3111,6 +3215,17 @@ export const strings = {
       signInRequired: "Please sign in to use lists",
       noListSelected: "Please select at least one list",
       incompatibleType: "This list type cannot accept this item",
+    },
+    importModal: {
+      title: "Import List",
+      format: "Format",
+      data: "Data",
+      formatText: "Plain Text (one per line)",
+      formatCsv: "CSV",
+      formatJson: "JSON",
+      dataPlaceholder: "Paste your data here",
+      dataPlaceholderText: "One item per line",
+      import: "Import",
     },
     empty: {
       noLists: "You haven't created any lists yet",

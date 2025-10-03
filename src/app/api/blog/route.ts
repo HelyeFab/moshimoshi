@@ -23,10 +23,17 @@ export async function GET(request: NextRequest) {
       .orderBy('publishDate', 'desc')
       .get()
 
-    const posts = postsSnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }))
+    const posts = postsSnapshot.docs.map(doc => {
+      const data = doc.data()
+      return {
+        id: doc.id,
+        ...data,
+        // Convert Firestore Timestamps to ISO strings for JSON serialization
+        publishDate: data.publishDate instanceof Timestamp ? data.publishDate.toDate().toISOString() : data.publishDate,
+        createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
+        updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toDate().toISOString() : data.updatedAt,
+      }
+    })
 
     return NextResponse.json({
       success: true,
@@ -118,9 +125,17 @@ export async function POST(request: NextRequest) {
       .doc(postId)
       .set(blogPost)
 
+    // Convert Timestamps to ISO strings for response
+    const responseData = {
+      ...blogPost,
+      publishDate: blogPost.publishDate instanceof Timestamp ? blogPost.publishDate.toDate().toISOString() : blogPost.publishDate,
+      createdAt: blogPost.createdAt instanceof Timestamp ? blogPost.createdAt.toDate().toISOString() : blogPost.createdAt,
+      updatedAt: blogPost.updatedAt instanceof Timestamp ? blogPost.updatedAt.toDate().toISOString() : blogPost.updatedAt,
+    }
+
     return NextResponse.json({
       success: true,
-      data: blogPost
+      data: responseData
     }, { status: 201 })
 
   } catch (error: any) {
@@ -228,9 +243,14 @@ export async function PATCH(request: NextRequest) {
 
     // Get updated post
     const updatedDoc = await postRef.get()
+    const data = updatedDoc.data()
     const updatedPost = {
       id: updatedDoc.id,
-      ...updatedDoc.data()
+      ...data,
+      // Convert Firestore Timestamps to ISO strings for JSON serialization
+      publishDate: data?.publishDate instanceof Timestamp ? data.publishDate.toDate().toISOString() : data?.publishDate,
+      createdAt: data?.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data?.createdAt,
+      updatedAt: data?.updatedAt instanceof Timestamp ? data.updatedAt.toDate().toISOString() : data?.updatedAt,
     }
 
     return NextResponse.json({

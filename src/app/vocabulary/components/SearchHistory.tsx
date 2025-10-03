@@ -1,6 +1,6 @@
 'use client'
 
-import { Clock, X } from 'lucide-react'
+import { Clock, X, Trash2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 
@@ -12,10 +12,19 @@ interface SearchHistoryProps {
   }>
   onHistoryClick: (term: string) => void
   onClear: () => void
+  onDeleteItem?: (term: string, timestamp: Date) => void
 }
 
-export default function SearchHistory({ history, onHistoryClick, onClear }: SearchHistoryProps) {
+export default function SearchHistory({ history, onHistoryClick, onClear, onDeleteItem }: SearchHistoryProps) {
   const { strings } = useI18n()
+
+  const handleDelete = (e: React.MouseEvent, term: string, timestamp: Date) => {
+    e.stopPropagation() // Prevent triggering the history click
+    if (onDeleteItem) {
+      onDeleteItem(term, timestamp)
+    }
+  }
+
   if (history.length === 0) {
     return (
       <motion.div
@@ -69,28 +78,41 @@ export default function SearchHistory({ history, onHistoryClick, onClear }: Sear
 
       <div className="space-y-2 max-h-96 overflow-y-auto">
         {history.map((item, index) => (
-          <motion.button
+          <motion.div
             key={`${item.term}-${index}`}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.02 }}
-            onClick={() => onHistoryClick(item.term)}
-            className="w-full p-3 bg-gray-50 dark:bg-dark-700 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors text-left group"
+            className="relative group"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <p className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400">
-                  {item.term}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {(strings.reviewPrompts?.vocabulary?.searchHistoryResults || '{{count}} results').replace('{{count}}', item.resultCount.toString())} • {formatTime(item.timestamp)}
-                </p>
+            <button
+              onClick={() => onHistoryClick(item.term)}
+              className="w-full p-3 bg-gray-50 dark:bg-dark-700 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors text-left"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex-1 pr-8">
+                  <p className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+                    {item.term}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {(strings.reviewPrompts?.vocabulary?.searchHistoryResults || '{{count}} results').replace('{{count}}', item.resultCount.toString())} • {formatTime(item.timestamp)}
+                  </p>
+                </div>
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                  →
+                </div>
               </div>
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                →
-              </div>
-            </div>
-          </motion.button>
+            </button>
+            {onDeleteItem && (
+              <button
+                onClick={(e) => handleDelete(e, item.term, item.timestamp)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
+                aria-label="Delete this search"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
+          </motion.div>
         ))}
       </div>
     </motion.div>

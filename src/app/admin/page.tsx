@@ -229,6 +229,7 @@ export default function AdminDashboard() {
             { href: '/admin/monitoring', icon: '📊', label: strings.admin?.quickActionButtons?.monitoring || 'Monitoring' },
             { href: '/admin/entitlements', icon: '🔐', label: strings.admin?.quickActionButtons?.entitlements || 'Entitlements' },
             { href: '/admin/xp-config', icon: '⚡', label: 'XP Config' },
+            { href: '/admin/gamification-xp-config', icon: '🎮', label: 'Gamification XP' },
           ].map((action, index) => (
             <motion.div
               key={action.href}

@@ -55,8 +55,6 @@ export default function FlashcardsPage() {
   const [recommendations, setRecommendations] = useState<StudyRecommendation[]>([]);
   const [insights, setInsights] = useState<LearningInsights | null>(null);
   const [currentStreak, setCurrentStreak] = useState(0);
-  // Gamification removed - no achievements
-  const [newAchievement, setNewAchievement] = useState<Achievement | null>(null);
   const [comebackInfo, setComebackInfo] = useState<{ daysAway: number; lastStudyDate: Date } | null>(null);
 
   // Prevent race conditions
@@ -84,14 +82,7 @@ export default function FlashcardsPage() {
             lastStudyDate: comeback.lastStudyDate
           });
 
-          // Unlock comeback achievement if eligible
-          if (comeback.isComeback) {
-            // Gamification removed - no achievement unlock
-            if (achievement) {
-              // Show achievement after comeback message closes
-              setTimeout(() => setNewAchievement(achievement), 11000);
-            }
-          }
+          // Comeback detected - welcome back message will show
         }
       });
     }
@@ -427,21 +418,6 @@ export default function FlashcardsPage() {
   const handleSessionComplete = async (summary: SessionSummary) => {
     setStudyingDeck(null);
 
-    // Check for unlocked achievements
-    if ((summary as any).unlockedAchievements?.length > 0) {
-      // Show the first achievement notification
-      setNewAchievement((summary as any).unlockedAchievements[0]);
-
-      // Show all achievements after a delay if there are multiple
-      if ((summary as any).unlockedAchievements.length > 1) {
-        let delay = 6000;
-        (summary as any).unlockedAchievements.slice(1).forEach((achievement: Achievement) => {
-          setTimeout(() => setNewAchievement(achievement), delay);
-          delay += 6000;
-        });
-      }
-    }
-
     // Update user stats with XP if user is logged in
     if (user && summary.xpEarned && summary.xpEarned > 0) {
       try {
@@ -632,7 +608,6 @@ export default function FlashcardsPage() {
               userId={user.uid}
               isPremium={isPremium}
               onGoalComplete={(goalType) => {
-                // Could trigger achievements here
                 console.log('Goal completed:', goalType);
               }}
             />
@@ -655,20 +630,7 @@ export default function FlashcardsPage() {
         )}
 
         {/* Action Buttons Row */}
-        <div className="flex justify-between mb-4">
-          {/* Achievements Button */}
-          {user && (
-            <button
-              onClick={() => setShowAchievements(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:opacity-90 transition-opacity"
-            >
-              <Trophy className="w-5 h-5" />
-              {t('flashcards.achievements.viewAll')}
-            </button>
-          )}
-
-          {/* Toggle Stats View */}
-          <div className="flex justify-end flex-1">
+        <div className="flex justify-end mb-4">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -678,7 +640,6 @@ export default function FlashcardsPage() {
             <BarChart3 className="w-5 h-5" />
             {showStats ? t('flashcards.hideStats') : t('flashcards.showStats')}
           </motion.button>
-          </div>
         </div>
 
         {/* Statistics Dashboard or Cards */}
@@ -843,16 +804,6 @@ export default function FlashcardsPage() {
               setDeckToStudy(null);
             }}
             onStartSession={handleStartSession}
-          />
-        )}
-
-        {/* Gamification removed - achievement display removed */}
-
-        {/* Achievement Notification */}
-        {newAchievement && (
-          <AchievementNotification
-            achievement={newAchievement}
-            onClose={() => setNewAchievement(null)}
           />
         )}
 

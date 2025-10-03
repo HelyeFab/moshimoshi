@@ -51,7 +51,7 @@ export default function MyListsPage() {
     setIsLoading(true);
     try {
       console.log('[MyListsPage] Loading lists with isPremium:', isPremium);
-      const userLists = await listManager.getLists(user.uid, isPremium);
+      const userLists = await listManager.getLists(user.uid, isPremium || false);
       setLists(userLists);
     } catch (error) {
       console.error('Error loading lists:', error);
@@ -326,7 +326,7 @@ export default function MyListsPage() {
                           handleExportList(list, 'json');
                         }}
                         className="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
-                        title="Export as JSON"
+                        title={t('lists.actions.exportJson')}
                       >
                         📤
                       </button>
@@ -336,7 +336,7 @@ export default function MyListsPage() {
                           handleExportList(list, 'csv');
                         }}
                         className="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
-                        title="Export as CSV"
+                        title={t('lists.actions.exportCsv')}
                       >
                         📊
                       </button>
@@ -371,13 +371,13 @@ export default function MyListsPage() {
       <Modal
         isOpen={showImportModal}
         onClose={() => setShowImportModal(false)}
-        title={t('common.import')}
+        title={t('lists.importModal.title')}
         size="lg"
       >
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Format
+              {t('lists.importModal.format')}
             </label>
             <select
               value={importFormat}
@@ -385,20 +385,20 @@ export default function MyListsPage() {
               className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-600
                 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100"
             >
-              <option value="text">Plain Text (one per line)</option>
-              <option value="csv">CSV</option>
-              <option value="json">JSON</option>
+              <option value="text">{t('lists.importModal.formatText')}</option>
+              <option value="csv">{t('lists.importModal.formatCsv')}</option>
+              <option value="json">{t('lists.importModal.formatJson')}</option>
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Data
+              {t('lists.importModal.data')}
             </label>
             <textarea
               value={importData}
               onChange={(e) => setImportData(e.target.value)}
-              placeholder={importFormat === 'text' ? 'One item per line' : 'Paste your data here'}
+              placeholder={importFormat === 'text' ? t('lists.importModal.dataPlaceholderText') : t('lists.importModal.dataPlaceholder')}
               className="w-full h-48 px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-600
                 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 resize-none"
             />
@@ -418,7 +418,7 @@ export default function MyListsPage() {
               className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600
                 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              Import
+              {t('lists.importModal.import')}
             </button>
           </div>
         </div>

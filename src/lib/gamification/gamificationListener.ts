@@ -86,17 +86,38 @@ export class GamificationListener extends EventEmitter {
 
       // 1. Calculate XP with bonuses (config-driven)
       const xpResult = this.calculateXP(statistics)
+      console.log('[Gamification] XP Calculation:', {
+        correctItems: statistics.correctItems,
+        baseXP: xpResult.baseXP,
+        bonuses: xpResult.bonuses,
+        totalXP: xpResult.totalXP,
+        cappedXP: xpResult.cappedXP
+      })
 
       // 2. Award XP to user
       const store = useGamificationStore.getState()
+      console.log('[Gamification] Before XP award - Total XP:', store.totalXP)
       store.awardXP(xpResult.cappedXP)
+      console.log('[Gamification] After XP award - Total XP:', useGamificationStore.getState().totalXP)
 
       // 3. Increment session count (for achievements)
       store.incrementSessionCount()
 
       // 4. Check streak eligibility (≥10 XP from config)
+      // Only increment streak if it's a new day (to prevent multiple sessions same day counting as multiple streaks)
       if (xpResult.cappedXP >= streakConfig.minXPForStreak) {
-        store.incrementStreak()
+        const today = new Date().toDateString()
+        const lastActivityDay = store.lastActivityDate ? new Date(store.lastActivityDate).toDateString() : null
+
+        if (today !== lastActivityDay) {
+          // New day! Increment streak
+          store.incrementStreak()
+        }
+        // Same day as last activity - don't increment streak, but update lastActivityDate
+        else {
+          // Just update the activity timestamp without incrementing streak
+          store.awardXP(0) // This updates lastActivityDate without adding XP
+        }
       }
 
       // 5. Check achievement conditions

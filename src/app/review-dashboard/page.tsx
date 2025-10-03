@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import { useReviewData } from '@/hooks/useReviewData';
+import { useGamification } from '@/hooks/useGamification';
 import { StatsOverview } from '@/components/review/dashboard/StatsOverview';
 import { RecentActivity } from '@/components/review/dashboard/RecentActivity';
 import { ProgressHeatmap } from '@/components/review/charts/ProgressHeatmap';
@@ -30,16 +31,23 @@ export default function ReviewDashboard() {
     error: dataError
   } = useReviewData();
 
-  // Gamification removed - all hooks disabled, using stub values
-  const stats = { currentStreak: 0, bestStreak: 0 };
-  const statsLoading2 = false;
-  const statsError2 = null;
-  const xpLoading2 = false;
-  const totalXP = 0;
-  const levelInfo = null;
+  // Real gamification data
+  const {
+    totalXP,
+    currentLevel,
+    currentStreak,
+    bestStreak,
+    unlockedAchievements,
+    sessionCount,
+    loading: gamificationLoading,
+    isEnabled: gamificationEnabled
+  } = useGamification();
+
+  const stats = { currentStreak, bestStreak };
+  const levelInfo = gamificationEnabled ? { level: currentLevel, xp: totalXP } : null;
 
   // Combined loading state
-  const loading = dataLoading || statsLoading2 || xpLoading2;
+  const loading = dataLoading || gamificationLoading;
 
   // Fetch real activity data from API
   const [heatmapData, setHeatmapData] = useState<any[]>([]);

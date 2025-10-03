@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
 import { useI18n } from '@/i18n/I18nContext'
 import Navbar from '@/components/layout/Navbar'
-import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import PageHeader from '@/components/layout/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { cn } from '@/utils/cn'
 import achievementsConfig from '@/config/gamification/achievements.json'
@@ -96,8 +96,8 @@ export default function AchievementsPage() {
         backLink="/dashboard"
       />
 
-      {/* Learning Page Header */}
-      <LearningPageHeader
+      {/* Page Header */}
+      <PageHeader
         title="Achievements"
         description="Track your progress and unlock rewards"
         mascot="doshi"

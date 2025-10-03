@@ -15,16 +15,16 @@ import BuyMeACoffeeButton from '@/components/common/BuyMeACoffeeButton'
 interface NavbarProps {
   user?: {
     uid?: string
-    email?: string
+    email?: string | null
     displayName?: string | null
     photoURL?: string | null
     isAdmin?: boolean
-  }
+  } | null
   showUserMenu?: boolean
   backLink?: {
     href: string
     label: string
-  }
+  } | string
 }
 
 export default function Navbar({ user, showUserMenu = true, backLink }: NavbarProps) {

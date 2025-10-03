@@ -165,7 +165,8 @@ export async function POST(request: NextRequest) {
 
 /**
  * DELETE /api/vocabulary/history
- * Clear all search history for a user
+ * Clear all search history OR delete a single item
+ * Query params: ?id={entryId} for single deletion
  */
 export async function DELETE(request: NextRequest) {
   try {
@@ -184,6 +185,90 @@ export async function DELETE(request: NextRequest) {
     const isPremium = userData?.subscription?.plan === 'premium_monthly' ||
                       userData?.subscription?.plan === 'premium_yearly'
 
+    // Get query parameters
+    const url = new URL(request.url)
+    const entryId = url.searchParams.get('id')
+    const term = url.searchParams.get('term')
+    const timestampStr = url.searchParams.get('timestamp')
+
+    // Single item deletion
+    if (entryId || (term && timestampStr)) {
+      if (!isPremium) {
+        // Free users: just return success (deletion happens client-side)
+        return NextResponse.json({
+          success: true,
+          message: 'Local entry deleted'
+        })
+      }
+
+      // Premium users: delete from Firebase
+      if (entryId) {
+        // Delete by ID
+        const docRef = adminDb
+          .collection('users')
+          .doc(session.uid)
+          .collection('searched_words')
+          .doc(entryId)
+
+        const doc = await docRef.get()
+        if (!doc.exists) {
+          return NextResponse.json(
+            { error: 'Entry not found' },
+            { status: 404 }
+          )
+        }
+
+        await docRef.delete()
+
+        reviewLogger.info(`[API] Deleted search history entry ${entryId} for user ${session.uid}`)
+
+        return NextResponse.json({
+          success: true,
+          message: 'Search entry deleted'
+        })
+      } else {
+        // Delete by term and timestamp
+        const timestamp = new Date(parseInt(timestampStr!))
+
+        // Find the matching document
+        const querySnapshot = await adminDb
+          .collection('users')
+          .doc(session.uid)
+          .collection('searched_words')
+          .where('term', '==', term)
+          .get()
+
+        // Find exact match by timestamp
+        let foundDoc = null
+        for (const doc of querySnapshot.docs) {
+          const data = doc.data()
+          const docTimestamp = data.timestamp?.toDate()
+          if (docTimestamp && Math.abs(docTimestamp.getTime() - timestamp.getTime()) < 1000) {
+            // Within 1 second tolerance
+            foundDoc = doc
+            break
+          }
+        }
+
+        if (!foundDoc) {
+          return NextResponse.json(
+            { error: 'Entry not found' },
+            { status: 404 }
+          )
+        }
+
+        await foundDoc.ref.delete()
+
+        reviewLogger.info(`[API] Deleted search history entry "${term}" for user ${session.uid}`)
+
+        return NextResponse.json({
+          success: true,
+          message: 'Search entry deleted'
+        })
+      }
+    }
+
+    // Clear all history
     if (!isPremium) {
       // Free users can still clear their local history
       // Just return success without Firebase operations

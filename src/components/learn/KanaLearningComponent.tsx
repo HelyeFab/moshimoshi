@@ -19,7 +19,15 @@ import KanaDetailsModal from '@/components/learn/KanaDetailsModal'
 import { KanaAdapter } from '@/lib/review-engine/adapters/kana.adapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-// Gamification removed
+import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { EventEmitter } from 'events'
+import { gamificationListener } from '@/lib/gamification/gamificationListener'
+
+// Global URE event emitter for gamification integration
+const ureEventEmitter = new EventEmitter()
+
+// Flag to ensure listener is only initialized once
+let listenerInitialized = false
 
 // Dynamically import components that use animations or client-side features
 const KanaGrid = dynamic(() => import('@/components/learn/KanaGrid'), {
@@ -193,6 +201,15 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
     return filtered
   }, [displayScript, selectedCategory, filter, searchQuery])
 
+  // Initialize gamification listener (once per user session)
+  useEffect(() => {
+    if (user?.uid && !listenerInitialized) {
+      console.log('[Kana Review] Initializing gamification listener for user:', user.uid)
+      gamificationListener.initialize(user.uid, ureEventEmitter)
+      listenerInitialized = true
+    }
+  }, [user?.uid])
+
   // Load progress from KanaProgressManager
   useEffect(() => {
     const loadProgress = async () => {
@@ -202,12 +219,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         return
       }
 
-      // Initialize achievement store with user ID
-      // Use isPremium which is fetched fresh from the subscription endpoint
-      const achievementStore = useAchievementStore.getState()
-      if (!achievementStore.currentUserId || achievementStore.currentUserId !== user.uid) {
-        await achievementStore.initialize(user.uid, isPremium)
-      }
+      // Achievement store initialization removed (degamified)
+      // Kana progress is now managed independently
 
       // Try to migrate from localStorage first (one-time operation)
       const migrationKey = `kana-progress-${defaultScript}-${user.uid}-migrated`
@@ -302,6 +315,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
 
   // Handle review completion
   const handleReviewComplete = useCallback(async (stats: SessionStatistics) => {
+    console.log('[Kana Review] handleReviewComplete called with stats:', stats)
+
     const sessionStartTime = Date.now() - (stats.duration || 0)
     const sessionEndTime = Date.now()
 
@@ -386,34 +401,38 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       }
     }
 
-    // Gamification removed - recordActivityAndSync disabled
-    // await recordActivityAndSync(
-    //   StreakActivity.REVIEW_SESSION,
-    //   isPremium,
-    //   Date.now()
-    // )
+    // Emit URE SESSION_COMPLETED event for gamification system
+    console.log('[Kana Review] About to emit SESSION_COMPLETED event...')
+    console.log('[Kana Review] ureEventEmitter:', ureEventEmitter)
+    console.log('[Kana Review] ReviewEventType.SESSION_COMPLETED:', ReviewEventType.SESSION_COMPLETED)
+    console.log('[Kana Review] Listener count:', ureEventEmitter.listenerCount(ReviewEventType.SESSION_COMPLETED))
+
+    const sessionId = `kana_review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+    ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+      data: {
+        sessionId,
+        statistics: {
+          correctItems: stats.correctItems,
+          accuracy: stats.accuracy,
+          averageResponseTime: stats.averageResponseTime || 0,
+          bestStreak: stats.bestStreak || 0
+        },
+        duration: stats.duration || 0
+      }
+    })
+
+    console.log('[Kana Review] Emitted SESSION_COMPLETED event for gamification:', {
+      sessionId,
+      correctItems: stats.correctItems,
+      accuracy: stats.accuracy,
+      averageResponseTime: stats.averageResponseTime,
+      bestStreak: stats.bestStreak,
+      duration: stats.duration
+    })
 
     setLastSessionStats(stats)
     setViewMode('browse')
-
-    // Update achievements and streak only if user is authenticated
-    if (user && user.uid) {
-      const achievementStore = useAchievementStore.getState()
-
-      // Ensure store is initialized with user ID
-      // Use isPremium which is fetched fresh from the subscription endpoint
-      if (!achievementStore.currentUserId || achievementStore.currentUserId !== user.uid) {
-        await achievementStore.initialize(user.uid, isPremium)
-      }
-
-      await achievementStore.updateProgress({
-        sessionType: 'kana',
-        itemsReviewed: stats.totalItems,
-        accuracy: stats.accuracy,
-        duration: stats.duration,
-        completedAt: new Date()
-      })
-    }
 
     showToast(`${t('review.sessionComplete')} - ${t('common.accuracy')}: ${stats.accuracy.toFixed(1)}%`, 'success')
   }, [showToast, t, user, isPremium, selectedCharacters, progress, saveProgressUpdate, getCharacterId, defaultScript])

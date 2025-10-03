@@ -141,6 +141,38 @@ export class VocabularyHistoryManager {
   }
 
   /**
+   * Delete a single search history entry
+   */
+  async deleteHistoryEntry(
+    term: string,
+    timestamp: Date,
+    user: any | null,
+    isPremium: boolean
+  ): Promise<void> {
+    // Delete from localStorage
+    if (typeof window !== 'undefined') {
+      try {
+        const existing = this.loadFromLocalStorage()
+        const filtered = existing.filter(
+          entry => !(entry.term === term && entry.timestamp.getTime() === timestamp.getTime())
+        )
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(filtered))
+      } catch (error) {
+        reviewLogger.error('[VocabularyHistory] Failed to delete from localStorage:', error)
+      }
+    }
+
+    // Premium users: Also delete from Firebase
+    if (user && isPremium) {
+      try {
+        await this.deleteFirebaseEntry(term, timestamp)
+      } catch (error) {
+        reviewLogger.error('[VocabularyHistory] Failed to delete from Firebase:', error)
+      }
+    }
+  }
+
+  /**
    * Save to localStorage
    */
   private saveToLocalStorage(entry: SearchHistoryEntry): void {
@@ -271,6 +303,28 @@ export class VocabularyHistoryManager {
       reviewLogger.info('[VocabularyHistory] Firebase history cleared')
     } catch (error) {
       reviewLogger.error('[VocabularyHistory] Failed to clear Firebase history:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Delete a single entry from Firebase via API
+   */
+  private async deleteFirebaseEntry(term: string, timestamp: Date): Promise<void> {
+    try {
+      // We need to find the Firebase document ID for this entry
+      // We'll pass the term and timestamp to find it server-side
+      const response = await fetch(`/api/vocabulary/history?term=${encodeURIComponent(term)}&timestamp=${timestamp.getTime()}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete: ${response.status}`)
+      }
+
+      reviewLogger.info(`[VocabularyHistory] Firebase entry deleted: ${term}`)
+    } catch (error) {
+      reviewLogger.error('[VocabularyHistory] Failed to delete Firebase entry:', error)
       throw error
     }
   }

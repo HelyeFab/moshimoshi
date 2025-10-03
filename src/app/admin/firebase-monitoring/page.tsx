@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
-import Navbar from '@/components/layout/Navbar'
 import { FirebaseUsageChart } from './components/FirebaseUsageChart'
 import { TierBreakdown } from './components/TierBreakdown'
 import { CostProjection } from './components/CostProjection'
@@ -101,7 +100,6 @@ export default function FirebaseMonitoringDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light to-primary-50 dark:from-dark-850 dark:to-dark-900">
-        <Navbar user={user} showUserMenu={true} />
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
@@ -114,7 +112,6 @@ export default function FirebaseMonitoringDashboard() {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light to-primary-50 dark:from-dark-850 dark:to-dark-900">
-        <Navbar user={user} showUserMenu={true} />
         <div className="container mx-auto px-4 py-8">
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
             <div className="flex items-center">
@@ -129,8 +126,6 @@ export default function FirebaseMonitoringDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-primary-50 dark:from-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">

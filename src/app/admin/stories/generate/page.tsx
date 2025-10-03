@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import { JLPTLevel } from '@/types/aiStory';
+import { JLPTLevel } from '@/types/ai-story';
 import { STORY_THEMES } from '@/types/story';
 import { AIStoryDraft, AIGenerationProgress, AICharacterSheet } from '@/types/ai-story';
 import { storyService } from '@/lib/services/StoryService';
@@ -69,10 +69,7 @@ export default function GenerateStoryPage() {
     const finalTheme = theme === 'custom' ? customTheme : theme;
 
     if (!finalTheme) {
-      showToast({
-        message: 'Please select or enter a theme',
-        type: 'error'
-      });
+      showToast('Please select or enter a theme', 'error');
       return;
     }
 

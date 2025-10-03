@@ -23,9 +23,9 @@ interface LearningPageHeaderProps {
     }
   }
 
-  // Mode controls
-  mode: ViewMode
-  onModeChange: (mode: ViewMode) => void
+  // Mode controls (optional for pages that don't need mode switching)
+  mode?: ViewMode
+  onModeChange?: (mode: ViewMode) => void
 
   // Selection controls
   selectionMode?: boolean
@@ -197,26 +197,28 @@ export default function LearningPageHeader({
 
         {/* Action Bar */}
         <div className="space-y-4">
-          {/* Mode Selector */}
-          <div className={`flex rounded-lg p-1 ${isLightTheme ? 'bg-white/20 backdrop-blur-sm' : 'bg-gray-100 dark:bg-dark-800'}`}>
-            {(['browse', 'study', 'review'] as ViewMode[]).map((viewMode) => (
-              <button
-                key={viewMode}
-                onClick={() => onModeChange(viewMode)}
-                className={`flex-1 px-4 py-2 rounded-md font-medium transition-all capitalize ${
-                  mode === viewMode
-                    ? isLightTheme
-                      ? 'bg-white/90 text-primary-600 shadow-sm'
-                      : 'bg-gray-50 dark:bg-dark-700 text-primary-600 dark:text-primary-400 shadow-sm'
-                    : isLightTheme
-                      ? 'text-white/90 hover:text-white hover:bg-white/10'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-                }`}
-              >
-                {viewMode}
-              </button>
-            ))}
-          </div>
+          {/* Mode Selector - only show if mode is provided */}
+          {mode && onModeChange && (
+            <div className={`flex rounded-lg p-1 ${isLightTheme ? 'bg-white/20 backdrop-blur-sm' : 'bg-gray-100 dark:bg-dark-800'}`}>
+              {(['browse', 'study', 'review'] as ViewMode[]).map((viewMode) => (
+                <button
+                  key={viewMode}
+                  onClick={() => onModeChange(viewMode)}
+                  className={`flex-1 px-4 py-2 rounded-md font-medium transition-all capitalize ${
+                    mode === viewMode
+                      ? isLightTheme
+                        ? 'bg-white/90 text-primary-600 shadow-sm'
+                        : 'bg-gray-50 dark:bg-dark-700 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : isLightTheme
+                        ? 'text-white/90 hover:text-white hover:bg-white/10'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                  }`}
+                >
+                  {viewMode}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Actions based on mode */}
           {mode === 'browse' && (

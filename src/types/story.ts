@@ -1,4 +1,4 @@
-import { JLPTLevel } from './aiStory';
+import { JLPTLevel } from './kanji';
 
 export interface StoryPage {
   pageNumber: number;

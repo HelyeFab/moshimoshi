@@ -352,11 +352,23 @@ export class SessionManager extends EventEmitter {
     }
 
     // Emit completion event
-    this.emitEvent(ReviewEventType.SESSION_COMPLETED, {
+    const eventPayload = {
       sessionId: this.session.id,
       statistics: this.statistics!,
       duration: this.session.endedAt.getTime() - this.session.startedAt.getTime()
-    } as SessionCompletedPayload);
+    } as SessionCompletedPayload;
+
+    // Log for gamification debugging
+    console.log('[URE] SESSION_COMPLETED event emitted → Gamification system should award XP:', {
+      sessionId: eventPayload.sessionId,
+      correctItems: eventPayload.statistics.correctItems,
+      accuracy: eventPayload.statistics.accuracy,
+      averageResponseTime: eventPayload.statistics.averageResponseTime,
+      bestStreak: eventPayload.statistics.bestStreak,
+      duration: eventPayload.duration
+    });
+
+    this.emitEvent(ReviewEventType.SESSION_COMPLETED, eventPayload);
 
     // Track analytics
     await this.analytics.trackSessionComplete(this.session, this.statistics!);

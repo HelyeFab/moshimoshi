@@ -151,46 +151,9 @@ describe('Progress Tracking E2E Flow', () => {
       expect(body.items.length).toBeGreaterThan(0)
     })
 
-    it('should handle achievement updates through the system', async () => {
-      // Import achievement store
-      const { useAchievementStore } = require('@/stores/achievement-store')
-      const achievementStore = useAchievementStore.getState()
-
-      // Mock achievement API
-      (fetch as jest.Mock).mockImplementation((url) => {
-        if (url.includes('/api/achievements/update-activity')) {
-          return Promise.resolve({
-            ok: true,
-            json: async () => ({
-              success: true,
-              currentStreak: 5,
-              bestStreak: 10,
-              message: 'Activity updated'
-            })
-          })
-        }
-        return Promise.resolve({
-          ok: true,
-          json: async () => ({ success: true })
-        })
-      })
-
-      // Track activity
-      await achievementStore.updateProgress(
-        'hiragana',
-        10, // items reviewed
-        80, // accuracy
-        300000 // 5 minutes
-      )
-
-      // Verify achievement API was called
-      expect(fetch).toHaveBeenCalledWith(
-        '/api/achievements/update-activity',
-        expect.objectContaining({
-          method: 'POST',
-          body: expect.stringContaining('hiragana')
-        })
-      )
+    it.skip('should handle achievement updates through the system (DEPRECATED - degamified)', async () => {
+      // This test is skipped as achievement system was removed during degamification
+      // Achievement tracking is now handled by the new gamification system
     })
 
     it('should handle offline to online transition', async () => {

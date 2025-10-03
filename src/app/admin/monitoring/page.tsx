@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, Activity, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { RefreshCw, Activity, AlertTriangle, CheckCircle, XCircle, Database, Download, Clock, Shield } from 'lucide-react';
 
 interface HealthStatus {
   status: 'healthy' | 'degraded' | 'unhealthy';
@@ -43,11 +43,43 @@ interface DashboardData {
   };
 }
 
+interface BackupStatus {
+  pitr: {
+    enabled: boolean;
+    earliestRestoreTime: string | null;
+    retentionDays: number;
+    status: string;
+  };
+  backups: {
+    total: number;
+    successful: number;
+    failed: number;
+    inProgress: number;
+    lastSuccessful: {
+      id: string;
+      timestamp: string;
+      type: string;
+    } | null;
+    lastFailed: {
+      id: string;
+      timestamp: string;
+      error: string;
+    } | null;
+  };
+  health: {
+    status: string;
+    message: string;
+  };
+}
+
 export default function MonitoringDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
+  const [backupStatus, setBackupStatus] = useState<BackupStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
+  const [backupLoading, setBackupLoading] = useState(false);
+  const [backupMessage, setBackupMessage] = useState<string | null>(null);
 
   const fetchMetrics = async () => {
     try {
@@ -65,11 +97,66 @@ export default function MonitoringDashboard() {
     }
   };
 
+  const fetchBackupStatus = async () => {
+    try {
+      const response = await fetch('/api/admin/backup/status');
+      if (!response.ok) {
+        console.error('Failed to fetch backup status');
+        return;
+      }
+      const result = await response.json();
+      if (result.success) {
+        setBackupStatus(result.status);
+      }
+    } catch (err) {
+      console.error('Error fetching backup status:', err);
+    }
+  };
+
+  const triggerBackup = async () => {
+    setBackupLoading(true);
+    setBackupMessage(null);
+
+    try {
+      const response = await fetch('/api/admin/backup/trigger', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reason: 'Manual backup from monitoring dashboard',
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setBackupMessage('✅ Backup initiated successfully! This may take several minutes.');
+        // Refresh backup status after 2 seconds
+        setTimeout(() => {
+          fetchBackupStatus();
+        }, 2000);
+      } else {
+        setBackupMessage(`❌ Backup failed: ${result.message || 'Unknown error'}`);
+      }
+    } catch (err) {
+      setBackupMessage(`❌ Error: ${err instanceof Error ? err.message : 'Failed to trigger backup'}`);
+    } finally {
+      setBackupLoading(false);
+      // Clear message after 10 seconds
+      setTimeout(() => setBackupMessage(null), 10000);
+    }
+  };
+
   useEffect(() => {
     fetchMetrics();
-    
+    fetchBackupStatus();
+
     if (autoRefresh) {
-      const interval = setInterval(fetchMetrics, 5000); // Refresh every 5 seconds
+      const interval = setInterval(() => {
+        fetchMetrics();
+        fetchBackupStatus();
+      }, 5000); // Refresh every 5 seconds
       return () => clearInterval(interval);
     }
   }, [autoRefresh]);
@@ -334,6 +421,120 @@ export default function MonitoringDashboard() {
                 </p>
               </div>
             </div>
+          </Card>
+
+          {/* Database Backup & Protection */}
+          <Card className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Database className="w-5 h-5" />
+                <h2 className="text-xl font-semibold">Database Backup & Protection</h2>
+              </div>
+              <Button
+                onClick={triggerBackup}
+                disabled={backupLoading}
+                variant="default"
+                className="flex items-center gap-2"
+              >
+                <Download className={`w-4 h-4 ${backupLoading ? 'animate-spin' : ''}`} />
+                {backupLoading ? 'Creating Backup...' : 'Backup Now'}
+              </Button>
+            </div>
+
+            {backupMessage && (
+              <div className={`mb-4 p-3 rounded-lg text-sm ${
+                backupMessage.startsWith('✅')
+                  ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+                  : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+              }`}>
+                {backupMessage}
+              </div>
+            )}
+
+            {backupStatus && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* PITR Status */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Shield className="w-4 h-4" />
+                    <h3 className="font-semibold">Point-in-Time Recovery</h3>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                      <span className="text-sm text-muted-foreground">Status</span>
+                      <span className={`font-semibold flex items-center gap-1 ${
+                        backupStatus.pitr.enabled ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                      }`}>
+                        {backupStatus.pitr.enabled ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+                        {backupStatus.pitr.enabled ? 'ENABLED' : 'DISABLED'}
+                      </span>
+                    </div>
+                    {backupStatus.pitr.enabled && (
+                      <>
+                        <div className="flex justify-between items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                          <span className="text-sm text-muted-foreground">Retention</span>
+                          <span className="font-semibold">{backupStatus.pitr.retentionDays} days</span>
+                        </div>
+                        {backupStatus.pitr.earliestRestoreTime && (
+                          <div className="flex justify-between items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                            <span className="text-sm text-muted-foreground">Earliest Restore</span>
+                            <span className="text-xs font-medium">
+                              {new Date(backupStatus.pitr.earliestRestoreTime).toLocaleDateString()}
+                            </span>
+                          </div>
+                        )}
+                      </>
+                    )}
+                    {!backupStatus.pitr.enabled && (
+                      <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                        <p className="text-xs text-red-800 dark:text-red-200 font-medium">
+                          ⚠️ CRITICAL: Enable PITR immediately for disaster recovery
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Backup Statistics */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Clock className="w-4 h-4" />
+                    <h3 className="font-semibold">Backup History</h3>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                      <span className="text-sm text-muted-foreground">Total Backups</span>
+                      <span className="font-semibold">{backupStatus.backups.total}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                      <span className="text-sm text-muted-foreground">Successful</span>
+                      <span className="font-semibold text-green-600 dark:text-green-400">
+                        {backupStatus.backups.successful}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                      <span className="text-sm text-muted-foreground">Failed</span>
+                      <span className="font-semibold text-red-600 dark:text-red-400">
+                        {backupStatus.backups.failed}
+                      </span>
+                    </div>
+                    {backupStatus.backups.lastSuccessful && (
+                      <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                        <p className="text-xs text-green-800 dark:text-green-200">
+                          Last successful: {new Date(backupStatus.backups.lastSuccessful.timestamp).toLocaleString()}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {!backupStatus && (
+              <div className="text-center py-8 text-muted-foreground">
+                Loading backup status...
+              </div>
+            )}
           </Card>
         </>
       )}

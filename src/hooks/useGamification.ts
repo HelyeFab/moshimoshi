@@ -32,6 +32,7 @@ export interface GamificationData {
   bestStreak: number
   unlockedAchievements: string[]
   sessionCount: number
+  lastActivityDate: Date | null
   loading: boolean
   error: Error | null
   isEnabled: boolean
@@ -78,7 +79,8 @@ export function useGamification(): GamificationData {
     }
 
     loadData()
-  }, [isEnabled, user?.uid, store])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEnabled, user?.uid]) // store is stable, don't include in deps
 
   // If feature flag is OFF, return safe defaults
   if (!isEnabled) {
@@ -89,6 +91,7 @@ export function useGamification(): GamificationData {
       bestStreak: 0,
       unlockedAchievements: [],
       sessionCount: 0,
+      lastActivityDate: null,
       loading: false,
       error: null,
       isEnabled: false
@@ -103,6 +106,7 @@ export function useGamification(): GamificationData {
     bestStreak: store.bestStreak,
     unlockedAchievements: store.unlockedAchievements,
     sessionCount: store.sessionCount,
+    lastActivityDate: store.lastActivityDate,
     loading,
     error,
     isEnabled: true

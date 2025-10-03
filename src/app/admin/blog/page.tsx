@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteBlogPost, getAllBlogPosts } from '@/services/blogService';
 import Link from 'next/link';
-import { Timestamp } from 'firebase/firestore';
 import { useI18n } from '@/i18n/I18nContext';
 
 interface BlogPost {
@@ -15,7 +14,7 @@ interface BlogPost {
   author: string;
   tags: string[];
   status: 'draft' | 'published' | 'scheduled';
-  publishDate: Date | string | Timestamp;
+  publishDate: string; // API returns ISO string
   readingTime?: string;
   views?: number;
   cover?: string;
@@ -49,24 +48,10 @@ export default function AdminBlogPage() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const firestorePosts = await getAllBlogPosts(true);
+      const posts = await getAllBlogPosts(true);
 
-      // Format Firestore posts
-      const formattedPosts = firestorePosts.map(post => ({
-        ...post,
-        publishDate: post.publishDate instanceof Timestamp
-          ? post.publishDate.toDate().toISOString()
-          : post.publishDate,
-      }));
-
-      // Sort by date
-      formattedPosts.sort((a, b) => {
-        const dateA = typeof a.publishDate === 'string' ? new Date(a.publishDate) : a.publishDate;
-        const dateB = typeof b.publishDate === 'string' ? new Date(b.publishDate) : b.publishDate;
-        return dateB.getTime() - dateA.getTime();
-      });
-
-      setPosts(formattedPosts);
+      // API already returns ISO strings sorted by publishDate desc
+      setPosts(posts);
     } catch (error) {
       console.error('Error fetching posts:', error);
     } finally {
@@ -105,8 +90,8 @@ export default function AdminBlogPage() {
     });
   };
 
-  const formatDate = (date: Date | string) => {
-    const d = typeof date === 'string' ? new Date(date) : date;
+  const formatDate = (date: string) => {
+    const d = new Date(date);
     return d.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -240,7 +225,7 @@ export default function AdminBlogPage() {
 
                       {/* Meta info */}
                       <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                        <p>{strings.admin.blog.fields.author}: {post.author}</p>
+                        <p>{t('admin.blog.fields.author')}: {post.author}</p>
                         <p>{formatDate(post.publishDate)}</p>
                         <p>{post.views || 0} {t('admin.blog.fields.views')}</p>
                       </div>

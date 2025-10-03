@@ -96,6 +96,14 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     user: any,
     isPremium: boolean
   ): Promise<void> {
+    console.log('[DrillProgressManager] trackDrillSession called:', {
+      sessionId: session.sessionId,
+      userId: user?.uid,
+      questions: session.questions,
+      correctAnswers: session.correctAnswers,
+      accuracy: session.accuracy
+    })
+
     if (!user?.uid) {
       reviewLogger.debug('[DrillProgressManager] No user - skipping tracking')
       return
@@ -105,21 +113,41 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     await this.initDB()
 
     // Get current progress
-    const currentProgress = await this.getProgress('drill', 'overall', userId, isPremium)
-    const drillData = currentProgress as DrillProgressData || {
-      status: 'learning',
-      lastReviewedAt: null,
-      reviewCount: 0,
-      correctCount: 0,
-      accuracy: 0,
-      drillType: 'conjugation',
-      verbsStudied: new Set(),
-      adjectivesStudied: new Set(),
-      totalDrills: 0,
-      perfectDrills: 0,
-      averageAccuracy: 0,
-      bestStreak: 0,
-      conjugationTypes: new Map()
+    const progressMap = await this.getProgress(userId, 'drill', isPremium)
+    console.log('[DrillProgressManager] Loaded progress map:', progressMap)
+    const currentProgress = progressMap?.get('overall')
+    console.log('[DrillProgressManager] Current drill data:', currentProgress)
+
+    // Initialize with defaults or convert loaded data
+    let drillData: DrillProgressData
+
+    if (currentProgress) {
+      // Convert serialized data back to proper types
+      const raw = currentProgress as any
+      drillData = {
+        ...raw,
+        // Convert arrays/objects back to Set/Map
+        verbsStudied: new Set(raw.verbsStudied || []),
+        adjectivesStudied: new Set(raw.adjectivesStudied || []),
+        conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {}))
+      } as DrillProgressData
+    } else {
+      // Create initial data
+      drillData = {
+        status: 'learning',
+        lastReviewedAt: null,
+        reviewCount: 0,
+        correctCount: 0,
+        accuracy: 0,
+        drillType: 'conjugation',
+        verbsStudied: new Set(),
+        adjectivesStudied: new Set(),
+        totalDrills: 0,
+        perfectDrills: 0,
+        averageAccuracy: 0,
+        bestStreak: 0,
+        conjugationTypes: new Map()
+      } as DrillProgressData
     }
 
     // Update drill statistics
@@ -161,8 +189,21 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       drillData.status = 'learning'
     }
 
+    // Convert Sets and Maps to serializable formats before saving
+    const serializableData = {
+      ...drillData,
+      verbsStudied: Array.from(drillData.verbsStudied),
+      adjectivesStudied: Array.from(drillData.adjectivesStudied),
+      conjugationTypes: Object.fromEntries(drillData.conjugationTypes)
+    }
+
+    console.log('[DrillProgressManager] Saving drill data:', serializableData)
+
     // Save updated progress
-    await this.saveProgress('drill', 'overall', userId, drillData, isPremium)
+    // saveProgress(userId, contentType, contentId, progress, isPremium)
+    await this.saveProgress(userId, 'drill', 'overall', serializableData as any, isPremium)
+
+    console.log('[DrillProgressManager] Drill data saved successfully')
 
     // Track individual session for history
     await this.trackProgress(
@@ -179,14 +220,8 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       }
     )
 
-    // Emit events for achievements
-    this.emit('drill.session.completed', {
-      userId,
-      session,
-      totalDrills: drillData.totalDrills,
-      perfectDrills: drillData.perfectDrills,
-      averageAccuracy: drillData.averageAccuracy
-    })
+    // Note: Gamification events are emitted by the drill page component
+    // No need to emit here since we're using URE event system
 
     reviewLogger.info('[DrillProgressManager] Drill session tracked', {
       userId,
@@ -201,8 +236,24 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
    */
   async getDrillStats(userId: string, isPremium: boolean): Promise<DrillProgressData | null> {
     await this.initDB()
-    const progress = await this.getProgress('drill', 'overall', userId, isPremium)
-    return progress as DrillProgressData
+    // getProgress returns a Map<contentId, progress>
+    // For drills, we store everything under contentId='overall'
+    const progressMap = await this.getProgress(userId, 'drill', isPremium)
+
+    if (!progressMap || progressMap.size === 0) return null
+
+    // Get the 'overall' drill stats from the map
+    const progress = progressMap.get('overall')
+    if (!progress) return null
+
+    // Convert serialized data back to proper types
+    const raw = progress as any
+    return {
+      ...raw,
+      verbsStudied: new Set(raw.verbsStudied || []),
+      adjectivesStudied: new Set(raw.adjectivesStudied || []),
+      conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {}))
+    } as DrillProgressData
   }
 
   /**

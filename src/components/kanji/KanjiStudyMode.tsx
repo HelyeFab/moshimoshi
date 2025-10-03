@@ -198,6 +198,27 @@ export default function KanjiStudyMode({
                   />
                 </div>
 
+                {/* Stroke order animation button - Top Right */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowStrokeOrderModal(true)
+                  }}
+                  className="absolute top-4 right-4 p-2.5 rounded-full
+                           bg-red-50 dark:bg-red-900/20
+                           hover:bg-red-100 dark:hover:bg-red-900/30
+                           transition-all transform hover:scale-110 active:scale-95
+                           text-red-500 dark:text-red-400 z-10"
+                  title="Watch stroke order"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+
                 {/* Kanji Display */}
                 <div className="text-8xl font-bold text-gray-800 dark:text-gray-200 mb-4"
                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
@@ -219,7 +240,11 @@ export default function KanjiStudyMode({
                 className="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100
                          dark:from-primary-900/20 dark:to-primary-800/20
                          rounded-2xl shadow-2xl border-2 border-primary-200 dark:border-primary-700
-                         p-8 overflow-y-auto"
+                         p-8 overflow-y-auto scrollbar-hide"
+                style={{
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none'
+                }}
               >
                 {/* Kanji in top-right corner */}
                 <div className="absolute top-6 right-6 text-5xl font-bold text-gray-800 dark:text-gray-200"
@@ -277,7 +302,7 @@ export default function KanjiStudyMode({
                   {kanji.onyomi && kanji.onyomi.length > 0 && kanji.onyomi[0] !== '' && (
                     <div className="space-y-2">
                       <div className="text-sm text-gray-600 dark:text-gray-400">On'yomi</div>
-                      <button
+                      <div
                         onClick={(e) => {
                           e.stopPropagation()
 
@@ -300,7 +325,7 @@ export default function KanjiStudyMode({
                         className="w-full px-4 py-3 rounded-xl bg-blue-100 dark:bg-blue-900/30
                                  hover:bg-blue-200 dark:hover:bg-blue-900/40
                                  transition-all transform active:scale-95
-                                 border border-blue-200 dark:border-blue-800"
+                                 border border-blue-200 dark:border-blue-800 cursor-pointer"
                       >
                         {showOnyomi ? (
                           <div className="flex flex-wrap gap-2 justify-center items-center">
@@ -308,7 +333,8 @@ export default function KanjiStudyMode({
                               <div key={idx} className="flex items-center gap-2">
                                 <AudioButton
                                   size="sm"
-                                  onPlay={() => {
+                                  onPlay={(e) => {
+                                    e?.stopPropagation()
                                     // Reset timer when playing audio
                                     if (onyomiTimerRef.current) {
                                       clearTimeout(onyomiTimerRef.current)
@@ -331,7 +357,7 @@ export default function KanjiStudyMode({
                             Tap to reveal
                           </span>
                         )}
-                      </button>
+                      </div>
                     </div>
                   )}
 
@@ -339,7 +365,7 @@ export default function KanjiStudyMode({
                   {kanji.kunyomi && kanji.kunyomi.length > 0 && kanji.kunyomi[0] !== '' && (
                     <div className="space-y-2">
                       <div className="text-sm text-gray-600 dark:text-gray-400">Kun'yomi</div>
-                      <button
+                      <div
                         onClick={(e) => {
                           e.stopPropagation()
 
@@ -362,7 +388,7 @@ export default function KanjiStudyMode({
                         className="w-full px-4 py-3 rounded-xl bg-green-100 dark:bg-green-900/30
                                  hover:bg-green-200 dark:hover:bg-green-900/40
                                  transition-all transform active:scale-95
-                                 border border-green-200 dark:border-green-800"
+                                 border border-green-200 dark:border-green-800 cursor-pointer"
                       >
                         {showKunyomi ? (
                           <div className="flex flex-wrap gap-2 justify-center items-center">
@@ -370,7 +396,8 @@ export default function KanjiStudyMode({
                               <div key={idx} className="flex items-center gap-2">
                                 <AudioButton
                                   size="sm"
-                                  onPlay={() => {
+                                  onPlay={(e) => {
+                                    e?.stopPropagation()
                                     // Reset timer when playing audio
                                     if (kunyomiTimerRef.current) {
                                       clearTimeout(kunyomiTimerRef.current)
@@ -393,31 +420,10 @@ export default function KanjiStudyMode({
                             Tap to reveal
                           </span>
                         )}
-                      </button>
+                      </div>
                     </div>
                   )}
                 </div>
-
-                {/* Stroke order animation button in bottom right */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setShowStrokeOrderModal(true)
-                  }}
-                  className="absolute bottom-6 right-6 p-3 rounded-xl
-                           bg-blue-100 dark:bg-blue-900/30
-                           hover:bg-blue-200 dark:hover:bg-blue-900/40
-                           border border-blue-200 dark:border-blue-800
-                           transition-all transform hover:scale-105 active:scale-95"
-                  title="Stroke Order Animation"
-                >
-                  <svg className="w-6 h-6 text-blue-700 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </button>
 
                 <p className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 dark:text-gray-600">
                   Tap to flip

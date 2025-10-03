@@ -20,8 +20,10 @@ import { useSubscription } from '@/hooks/useSubscription'
 import GuestModeBanner from '@/components/ui/GuestModeBanner'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
+import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
+import Modal from '@/components/ui/Modal'
 
 // Dynamically import Confetti to avoid SSR issues
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false })
@@ -51,13 +53,189 @@ function DashboardContent() {
     bestStreak,
     unlockedAchievements,
     sessionCount,
+    lastActivityDate,
     loading: gamificationLoading,
     isEnabled: gamificationEnabled
   } = useGamification()
 
+  // Learning progress from drill mastery (Bunpro multi-track approach)
+  const { overall: learningProgress, categories: learningCategories, loading: learningProgressLoading } = useLearningProgress()
+
+  // Debug: Log learning progress
+  useEffect(() => {
+    if (!learningProgressLoading) {
+      console.log('[Dashboard] Learning Progress:', {
+        progressPercentage: learningProgress.progressPercentage,
+        categoriesStarted: learningProgress.categoriesStarted,
+        drillCategory: learningCategories.drills
+      })
+    }
+  }, [learningProgressLoading, learningProgress, learningCategories])
+
   // Drill stats
   const [drillStats, setDrillStats] = useState<any>(null)
   const [loadingDrillStats, setLoadingDrillStats] = useState(false)
+
+  // Modal for stat details
+  const [selectedStat, setSelectedStat] = useState<string | null>(null)
+  const [isStatModalOpen, setIsStatModalOpen] = useState(false)
+
+  // Calculate drill-related stats (needed in both getStatBreakdown and getLearningStats)
+  const drillAccuracy = drillStats ? Math.round(drillStats.accuracy || 0) : 0
+  const drillCount = drillStats?.totalDrills || 0
+  const drillMastery = learningProgress?.progressPercentage
+    ? Math.round(learningProgress.progressPercentage)
+    : 0
+
+  // Helper function to get stat calculation breakdown
+  const getStatBreakdown = (statLabel: string) => {
+    switch (statLabel) {
+      case strings.dashboard?.stats?.streak || 'Current Streak':
+        const streakModal = strings.dashboard?.statModals?.streak
+        const lastActivityFormatted = lastActivityDate
+          ? new Date(lastActivityDate).toLocaleDateString()
+          : 'Never'
+        return {
+          title: streakModal?.title || 'Daily Streak',
+          description: streakModal?.description || 'Your streak shows how many consecutive days you\'ve practiced Japanese',
+          formula: streakModal?.formula || 'Consecutive days with ≥10 XP earned',
+          whatItMeans: streakModal?.whatItMeans,
+          howToImprove: streakModal?.howToImprove,
+          goalNote: streakModal?.goalNote,
+          breakdown: [
+            { label: streakModal?.breakdown?.current || 'Current streak', value: `${currentStreak} ${currentStreak === 1 ? 'day' : 'days'}` },
+            { label: streakModal?.breakdown?.longest || 'Longest streak', value: `${bestStreak} ${bestStreak === 1 ? 'day' : 'days'}` },
+            { label: streakModal?.breakdown?.lastActive || 'Last activity', value: lastActivityFormatted },
+            { label: streakModal?.breakdown?.minXP || 'Min XP per day', value: '10 XP' }
+          ]
+        }
+
+      case strings.dashboard?.stats?.xpEarned || 'XP Earned':
+        const xpModal = strings.dashboard?.statModals?.xpEarned
+        const currentLevel = Math.floor(totalXP / 100) + 1
+        const xpToNextLevel = (currentLevel * 100) - totalXP
+        return {
+          title: xpModal?.title || 'XP Earned',
+          description: xpModal?.description || 'Experience Points measure your learning activity and achievement',
+          formula: xpModal?.formula || 'Base XP + Bonuses',
+          whatItMeans: xpModal?.whatItMeans,
+          howToImprove: xpModal?.howToImprove,
+          goalNote: xpModal?.goalNote,
+          bonuses: xpModal?.bonuses,
+          breakdown: [
+            { label: xpModal?.breakdown?.total || 'Total XP', value: `${totalXP} XP` },
+            { label: xpModal?.breakdown?.currentLevel || 'Current level', value: `Level ${currentLevel}` },
+            { label: xpModal?.breakdown?.nextLevel || 'XP to next level', value: `${xpToNextLevel} XP` },
+            { label: xpModal?.breakdown?.dailyCap || 'Daily cap', value: '500 XP' }
+          ]
+        }
+
+      case strings.dashboard?.stats?.progress || 'Progress':
+        const achievementCompletion = gamificationEnabled && unlockedAchievements.length > 0
+          ? Math.round((unlockedAchievements.length / 10) * 100)
+          : 0
+        const progressModal = strings.dashboard?.statModals?.achievementProgress
+        return {
+          title: progressModal?.title || 'Achievement Progress',
+          description: progressModal?.description || 'Track your journey by unlocking achievements',
+          formula: progressModal?.formula || '(Unlocked / Total) × 100',
+          whatItMeans: progressModal?.whatItMeans,
+          howToImprove: progressModal?.howToImprove,
+          breakdown: [
+            { label: progressModal?.breakdown?.unlocked || 'Unlocked achievements', value: `${unlockedAchievements.length}` },
+            { label: progressModal?.breakdown?.total || 'Total available', value: '10' },
+            { label: progressModal?.breakdown?.completion || 'Completion rate', value: `${achievementCompletion}%` }
+          ]
+        }
+
+      case strings.dashboard?.stats?.achievements || 'Achievements':
+        const achievementsModal = strings.dashboard?.statModals?.achievements
+        return {
+          title: achievementsModal?.title || 'Achievements Unlocked',
+          description: achievementsModal?.description || 'Achievements are rewards for reaching milestones',
+          formula: achievementsModal?.formula || 'Count of unlocked achievements',
+          whatItMeans: achievementsModal?.whatItMeans,
+          howToImprove: achievementsModal?.howToImprove,
+          tips: achievementsModal?.tips,
+          breakdown: [
+            { label: achievementsModal?.breakdown?.unlocked || 'Unlocked', value: `${unlockedAchievements.length}` },
+            { label: achievementsModal?.breakdown?.available || 'Available', value: '10 total' },
+            { label: achievementsModal?.breakdown?.earnMore || 'How to earn more', value: 'Complete drills, maintain streaks, practice regularly' }
+          ]
+        }
+
+      case strings.drill?.stats?.totalDrills || 'Drills':
+      case strings.dashboard?.stats?.drillsCompleted || 'Drills Completed':
+        const drillsModal = strings.dashboard?.statModals?.drillsCompleted
+        const perfectDrills = learningCategories.drills?.totalDrills ? Math.round((learningCategories.drills.totalDrills * drillAccuracy) / 100) : 0
+        return {
+          title: drillsModal?.title || 'Drills Completed',
+          description: drillsModal?.description || 'Every drill session helps build your conjugation skills',
+          formula: drillsModal?.formula || 'Total finished drill sessions',
+          whatItMeans: drillsModal?.whatItMeans,
+          howToImprove: drillsModal?.howToImprove,
+          breakdown: [
+            { label: drillsModal?.breakdown?.total || 'Total drills', value: `${drillCount}` },
+            { label: drillsModal?.breakdown?.perfect || 'Perfect drills', value: `${perfectDrills}` },
+            { label: drillsModal?.breakdown?.types || 'Types', value: 'Conjugation practice' }
+          ]
+        }
+
+      case strings.dashboard?.stats?.drillAccuracy || 'Drill Accuracy':
+        const accuracyModal = strings.dashboard?.statModals?.drillAccuracy
+        return {
+          title: accuracyModal?.title || 'Drill Accuracy',
+          description: accuracyModal?.description || 'Your accuracy reflects how well you understand conjugations',
+          formula: accuracyModal?.formula || '(Correct / Total) × 100',
+          whatItMeans: accuracyModal?.whatItMeans,
+          example: accuracyModal?.example,
+          howToImprove: accuracyModal?.howToImprove,
+          goalNote: accuracyModal?.goalNote,
+          breakdown: [
+            { label: accuracyModal?.breakdown?.current || 'Current accuracy', value: `${drillAccuracy}%` },
+            { label: accuracyModal?.breakdown?.total || 'Total drills', value: `${drillCount}` },
+            { label: accuracyModal?.breakdown?.goal || 'Goal', value: '80% or higher' }
+          ]
+        }
+
+      case strings.drill?.stats?.mastery || 'Drill Mastery':
+        const masteryModal = strings.dashboard?.statModals?.drillMastery
+        return {
+          title: masteryModal?.title || 'Drill Mastery Score',
+          description: masteryModal?.description || 'Comprehensive quality score (0-100)',
+          formula: masteryModal?.formula || '4-factor weighted calculation',
+          whatItMeans: masteryModal?.whatItMeans,
+          factors: masteryModal?.factors,
+          howToImprove: masteryModal?.howToImprove,
+          masterLevels: masteryModal?.masterLevels,
+          breakdown: learningCategories.drills ? [
+            {
+              label: masteryModal?.breakdown?.volume || 'Volume (30 pts)',
+              value: `${Math.min(30, (learningCategories.drills.totalDrills || 0) * 0.3).toFixed(1)} pts`,
+              detail: `${learningCategories.drills.totalDrills} ${masteryModal?.breakdown?.volumeDetail || 'drills completed'}`
+            },
+            {
+              label: masteryModal?.breakdown?.accuracy || 'Accuracy (40 pts)',
+              value: `${((drillAccuracy / 100) * 40).toFixed(1)} pts`,
+              detail: `${drillAccuracy}% ${masteryModal?.breakdown?.accuracyDetail || 'average accuracy'}`
+            },
+            {
+              label: masteryModal?.breakdown?.perfectRatio || 'Perfect Ratio (20 pts)',
+              value: `${((learningCategories.drills.totalDrills || 0) > 0 ? ((learningCategories.drills.totalDrills || 0) * (drillAccuracy / 100) / (learningCategories.drills.totalDrills || 1)) * 20 : 0).toFixed(1)} pts`,
+              detail: masteryModal?.breakdown?.perfectDetail || '100% accurate sessions'
+            },
+            {
+              label: masteryModal?.breakdown?.total || 'Total Score',
+              value: `${drillMastery}/100`,
+              detail: 'Overall mastery level'
+            }
+          ] : []
+        }
+
+      default:
+        return null
+    }
+  }
 
   // Check for donation success from URL params
   useEffect(() => {
@@ -117,6 +295,7 @@ function DashboardContent() {
       try {
         const drillManager = DrillProgressManager.getInstance()
         const stats = await drillManager.getDrillStats(user.uid, isPremium || false)
+        console.log('[Dashboard] Loaded drill stats:', stats)
         setDrillStats(stats)
       } catch (error) {
         logger.error('[Dashboard] Failed to load drill stats:', error)
@@ -157,12 +336,16 @@ function DashboardContent() {
 
   const greeting = getGreeting()
   
-  // Dynamic learning stats (gamification removed - using static values)
+  // Dynamic learning stats from gamification system
   const getLearningStats = () => {
-    const xpPoints = 0
-    const completionPercentage = 0
-    const streakValue = 0
-    const achievementCount = 0
+    // Use real gamification data if enabled, otherwise use zeros
+    const xpPoints = gamificationEnabled ? totalXP : 0
+    // Learning Progress = Achievement completion % (same as account page)
+    const completionPercentage = gamificationEnabled && unlockedAchievements.length > 0
+      ? Math.round((unlockedAchievements.length / 10) * 100)
+      : 0
+    const streakValue = gamificationEnabled ? currentStreak : 0
+    const achievementCount = gamificationEnabled ? unlockedAchievements.length : 0
 
     // Safely extract string values from i18n objects
     // Check if the value is an object with label/unit properties
@@ -198,9 +381,12 @@ function DashboardContent() {
       ? String(achievementsData.unit)
       : 'unlocked'
 
-    // Calculate drill accuracy if stats available
-    const drillAccuracy = drillStats ? Math.round(drillStats.accuracy || 0) : 0
-    const drillCount = drillStats?.totalDrills || 0
+    console.log('[Dashboard] Stats card values:', {
+      drillCount,
+      drillAccuracy,
+      drillMastery,
+      learningProgressPercentage: learningProgress?.progressPercentage
+    })
 
     return [
       { label: String(streakLabel || 'Streak'), value: streakValue.toString(), unit: String(streakUnit || 'days'), color: 'from-orange-400 to-red-500' },
@@ -209,6 +395,7 @@ function DashboardContent() {
       { label: String(achievementsLabel || 'Achievements'), value: achievementCount.toString(), unit: String(achievementsUnit || 'unlocked'), color: 'from-pink-400 to-rose-500' },
       { label: strings.drill?.stats?.totalDrills || 'Drills', value: drillCount.toString(), unit: strings.drill?.stats?.drillsUnit || 'completed', color: 'from-indigo-400 to-blue-500' },
       { label: strings.drill?.stats?.accuracy || 'Drill Accuracy', value: drillAccuracy.toString(), unit: '%', color: 'from-teal-400 to-green-500' },
+      { label: strings.drill?.stats?.mastery || 'Drill Mastery', value: drillMastery.toString(), unit: '%', color: 'from-purple-400 to-indigo-500' },
     ]
   }
 
@@ -461,10 +648,10 @@ function DashboardContent() {
                           }
                         }}
                       >
-                        {learningStats.slice(0, 4).map((stat, index) => (
+                        {learningStats.map((stat, index) => (
                           <motion.div
                             key={stat.label}
-                            className="bg-white/50 dark:bg-dark-700/50 backdrop-blur-sm rounded-xl p-3 shadow-md"
+                            className="bg-white/50 dark:bg-dark-700/50 backdrop-blur-sm rounded-xl p-3 shadow-md cursor-pointer"
                             variants={{
                               hidden: {
                                 opacity: 0,
@@ -488,6 +675,10 @@ function DashboardContent() {
                               transition: { duration: 0.2 }
                             }}
                             whileTap={{ scale: 0.95 }}
+                            onClick={() => {
+                              setSelectedStat(stat.label)
+                              setIsStatModalOpen(true)
+                            }}
                           >
                             <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
                               {stat.value}
@@ -605,11 +796,15 @@ function DashboardContent() {
               </div>
             </div>
 
-            {/* Stats Grid - 2x3 grid in 1 column on desktop */}
+            {/* Stats Grid - 2x4 grid (7 cards: 2 rows of 3, 1 row of 1) in 1 column on desktop */}
             <div className="lg:col-span-1 grid grid-cols-2 gap-3 h-full">
-              {learningStats.slice(0, 6).map((stat, index) => (
+              {learningStats.map((stat, index) => (
                 <div
                   key={stat.label}
+                  onClick={() => {
+                    setSelectedStat(stat.label)
+                    setIsStatModalOpen(true)
+                  }}
                   className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
@@ -637,12 +832,167 @@ function DashboardContent() {
         </div>
 
       </main>
-      
+
       {/* Achievement Toast Notifications */}
       {/* Buy Me a Coffee Button - Floating (Optional) */}
       {!isGuest && user && (
         <BuyMeACoffeeButton variant="floating" />
       )}
+
+      {/* Stat Details Modal */}
+      <Modal
+        isOpen={isStatModalOpen}
+        onClose={() => {
+          setIsStatModalOpen(false)
+          setSelectedStat(null)
+        }}
+        title={selectedStat ? getStatBreakdown(selectedStat)?.title : ''}
+        size="md"
+      >
+        {selectedStat && getStatBreakdown(selectedStat) && (
+          <div className="space-y-5">
+            {/* Description */}
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+              {getStatBreakdown(selectedStat)?.description}
+            </p>
+
+            {/* Formula */}
+            <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 border border-primary-100 dark:border-primary-900/30">
+              <h3 className="text-sm font-semibold text-primary-700 dark:text-primary-300 mb-2 flex items-center gap-2">
+                📐 {strings.dashboard?.statModals?.formulaLabel || 'Formula'}
+              </h3>
+              <p className="text-sm text-gray-700 dark:text-gray-300 font-mono bg-white dark:bg-dark-800 px-3 py-2 rounded">
+                {getStatBreakdown(selectedStat)?.formula}
+              </p>
+            </div>
+
+            {/* What It Means */}
+            {getStatBreakdown(selectedStat)?.whatItMeans && (
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-900/30">
+                <h3 className="text-sm font-semibold text-blue-700 dark:text-blue-300 mb-2 flex items-center gap-2">
+                  💡 What it means
+                </h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {getStatBreakdown(selectedStat)?.whatItMeans}
+                </p>
+              </div>
+            )}
+
+            {/* Example (for accuracy) */}
+            {getStatBreakdown(selectedStat)?.example && (
+              <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 border border-amber-100 dark:border-amber-900/30">
+                <h3 className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-2">
+                  📝 Example
+                </h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  {getStatBreakdown(selectedStat)?.example}
+                </p>
+              </div>
+            )}
+
+            {/* Breakdown */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                📊 {strings.dashboard?.statModals?.breakdownLabel || 'Breakdown'}
+              </h3>
+              {getStatBreakdown(selectedStat)?.breakdown.map((item: any, idx: number) => (
+                <div
+                  key={idx}
+                  className="flex justify-between items-start p-3 bg-gray-50 dark:bg-dark-700 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
+                >
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {item.label}
+                    </p>
+                    {item.detail && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {item.detail}
+                      </p>
+                    )}
+                  </div>
+                  <p className="text-sm font-bold text-primary-600 dark:text-primary-400 ml-4">
+                    {item.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* XP Bonuses (for XP stat) */}
+            {getStatBreakdown(selectedStat)?.bonuses && (
+              <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 border border-amber-100 dark:border-amber-900/30">
+                <h3 className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-3 flex items-center gap-2">
+                  ⚡ Available Bonuses
+                </h3>
+                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                  <p>• {getStatBreakdown(selectedStat)?.bonuses?.accuracy}</p>
+                  <p>• {getStatBreakdown(selectedStat)?.bonuses?.speed}</p>
+                  <p>• {getStatBreakdown(selectedStat)?.bonuses?.streak}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Mastery Levels (for mastery stat) */}
+            {getStatBreakdown(selectedStat)?.masterLevels && (
+              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-100 dark:border-purple-900/30">
+                <h3 className="text-sm font-semibold text-purple-700 dark:text-purple-300 mb-3 flex items-center gap-2">
+                  🏆 Mastery Levels
+                </h3>
+                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                  <p>• {getStatBreakdown(selectedStat)?.masterLevels?.beginner}</p>
+                  <p>• {getStatBreakdown(selectedStat)?.masterLevels?.developing}</p>
+                  <p>• {getStatBreakdown(selectedStat)?.masterLevels?.proficient}</p>
+                  <p>• {getStatBreakdown(selectedStat)?.masterLevels?.expert}</p>
+                </div>
+              </div>
+            )}
+
+            {/* How to Improve */}
+            {getStatBreakdown(selectedStat)?.howToImprove && (
+              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-100 dark:border-green-900/30">
+                <h3 className="text-sm font-semibold text-green-700 dark:text-green-300 mb-2 flex items-center gap-2">
+                  🎯 How to improve
+                </h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {getStatBreakdown(selectedStat)?.howToImprove}
+                </p>
+              </div>
+            )}
+
+            {/* Tips (for achievements) */}
+            {getStatBreakdown(selectedStat)?.tips && (
+              <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-4 border border-indigo-100 dark:border-indigo-900/30">
+                <h3 className="text-sm font-semibold text-indigo-700 dark:text-indigo-300 mb-2 flex items-center gap-2">
+                  💫 Pro tip
+                </h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  {getStatBreakdown(selectedStat)?.tips}
+                </p>
+              </div>
+            )}
+
+            {/* Goal Note (for accuracy) */}
+            {getStatBreakdown(selectedStat)?.goalNote && (
+              <div className="bg-teal-50 dark:bg-teal-900/20 rounded-lg p-3 border border-teal-100 dark:border-teal-900/30">
+                <p className="text-sm text-teal-700 dark:text-teal-300 font-medium">
+                  🎓 {getStatBreakdown(selectedStat)?.goalNote}
+                </p>
+              </div>
+            )}
+
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => {
+                  setIsStatModalOpen(false)
+                  setSelectedStat(null)
+                }}
+                className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors"
+              >
+                {strings.dashboard?.statModals?.close || 'Got it!'}
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   )
 }
