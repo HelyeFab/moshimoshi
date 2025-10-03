@@ -42,10 +42,8 @@ export default function SyncStatusMenuItem() {
   useEffect(() => {
     const handleOnline = () => {
       setSyncStatus(prev => ({ ...prev, isOnline: true }));
-      // Auto-sync when coming back online
-      if (user && isPremium) {
-        attemptSync();
-      }
+      // No auto-sync here - removed broken attemptSync() call
+      // Background sync handled by dashboard auto-sync hook
     };
 
     const handleOffline = () => {
@@ -68,17 +66,17 @@ export default function SyncStatusMenuItem() {
     };
   }, [user, isPremium]);
 
-  // Check sync queue from IndexedDB periodically
+  // Check sync queue from IndexedDB periodically - now aggregates all queues
   useEffect(() => {
     const checkSyncQueue = async () => {
       try {
-        const db = await openIndexedDB();
-        const pendingItems = await getPendingItems(db);
+        const { SyncOrchestrator } = await import('@/lib/sync/syncOrchestrator');
+        const totalPending = await SyncOrchestrator.getPendingCount();
 
         setSyncStatus(prev => ({
           ...prev,
-          pendingCount: pendingItems.length,
-          syncState: pendingItems.length > 0 ? 'syncing' : 'synced'
+          pendingCount: totalPending,
+          syncState: totalPending > 0 ? 'syncing' : 'synced'
         }));
       } catch (error) {
         logger.error('Failed to check sync queue', error);
@@ -91,85 +89,10 @@ export default function SyncStatusMenuItem() {
     return () => clearInterval(interval);
   }, []);
 
-  const openIndexedDB = async () => {
-    return new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open('moshimoshi-offline', 1);
+  // Removed: openIndexedDB and getPendingItems - now handled by SyncOrchestrator
 
-      request.onupgradeneeded = (event) => {
-        const db = (event.target as IDBOpenDBRequest).result;
-
-        if (!db.objectStoreNames.contains('syncQueue')) {
-          db.createObjectStore('syncQueue', { keyPath: 'id' });
-        }
-        if (!db.objectStoreNames.contains('deadLetterQueue')) {
-          db.createObjectStore('deadLetterQueue', { keyPath: 'id' });
-        }
-      };
-
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-  };
-
-  const getPendingItems = async (db: IDBDatabase): Promise<any[]> => {
-    return new Promise((resolve) => {
-      try {
-        if (!db.objectStoreNames.contains('syncQueue')) {
-          resolve([]);
-          return;
-        }
-
-        const transaction = db.transaction(['syncQueue'], 'readonly');
-        const store = transaction.objectStore('syncQueue');
-        const request = store.getAll();
-
-        request.onsuccess = () => {
-          const items = request.result || [];
-          resolve(items.filter(item => item.status !== 'failed'));
-        };
-
-        request.onerror = () => resolve([]);
-      } catch (error) {
-        logger.error('Error accessing syncQueue', error);
-        resolve([]);
-      }
-    });
-  };
-
-  const attemptSync = useCallback(async () => {
-    if (!syncStatus.isOnline) {
-      return;
-    }
-
-    try {
-      setSyncStatus(prev => ({ ...prev, syncState: 'syncing' }));
-
-      // Sync review data
-      const response = await fetch('/api/review/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: [] }) // Will be populated from sync queue
-      });
-
-      if (response.ok) {
-        setSyncStatus(prev => ({
-          ...prev,
-          syncState: 'synced',
-          lastSyncTime: new Date(),
-          pendingCount: 0,
-          hasErrors: false
-        }));
-      } else {
-        throw new Error('Sync failed');
-      }
-    } catch (error) {
-      setSyncStatus(prev => ({
-        ...prev,
-        syncState: 'error',
-        hasErrors: true
-      }));
-    }
-  }, [syncStatus.isOnline]);
+  // Removed: Old attemptSync() function that called non-existent /api/review/sync
+  // All sync logic now handled by SyncOrchestrator in handleManualSync()
 
   const handleManualSync = async () => {
     setIsManualSyncing(true);
@@ -179,64 +102,37 @@ export default function SyncStatusMenuItem() {
 
       // For premium users, force sync all data to Firebase
       if (user && isPremium) {
-        // Sync user lists to Firebase
-        try {
-          const { listManager } = await import('@/lib/lists/ListManager');
-          const syncedCount = await listManager.syncLocalListsToServer(user.uid);
-          if (syncedCount > 0) {
-            logger.info(`Synced ${syncedCount} lists to Firebase`);
-          }
-        } catch (error) {
-          logger.error('Failed to sync lists', error);
+        // Use centralized sync orchestrator
+        const { SyncOrchestrator } = await import('@/lib/sync/syncOrchestrator');
+        const result = await SyncOrchestrator.syncAll(user, isPremium);
+
+        // Count successes and failures
+        const failedSystems = Object.values(result.results)
+          .filter(r => !r.success)
+          .map(r => r.system);
+
+        if (result.overallSuccess) {
+          setSyncStatus(prev => ({
+            ...prev,
+            syncState: 'synced',
+            lastSyncTime: new Date(),
+            pendingCount: 0,
+            hasErrors: false
+          }));
+          showToast('All data synced successfully', 'success');
+        } else {
+          // Partial failure
+          setSyncStatus(prev => ({
+            ...prev,
+            syncState: 'error',
+            lastSyncTime: new Date(),
+            hasErrors: true
+          }));
+
+          const failedList = failedSystems.join(', ');
+          showToast(`Sync partially failed: ${failedList}. Will retry automatically.`, 'error');
+          logger.error('Partial sync failure:', failedSystems);
         }
-
-        // Sync gamification data (XP, achievements, streaks) - NEW GAMIFICATION SYSTEM
-        try {
-          const { useGamificationStore } = await import('@/state/userGamification');
-          const gamificationStore = useGamificationStore.getState();
-
-          // Only sync if gamification is enabled
-          if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true' && gamificationStore.userId) {
-            await gamificationStore.syncToFirebase();
-            logger.info('Synced gamification data to Firebase');
-          }
-        } catch (error) {
-          logger.error('Failed to sync gamification data', error);
-        }
-
-        // Check if manager is loaded (client-side only)
-        if (kanaProgressManager) {
-          const hiraganaProgress = await kanaProgressManager.getProgress('hiragana', user, isPremium);
-          const katakanaProgress = await kanaProgressManager.getProgress('katakana', user, isPremium);
-
-          // Sync kana progress to Firebase
-          if (Object.keys(hiraganaProgress).length > 0) {
-            await kanaProgressManager['syncToFirebase'](user.uid, 'hiragana', hiraganaProgress);
-          }
-          if (Object.keys(katakanaProgress).length > 0) {
-            await kanaProgressManager['syncToFirebase'](user.uid, 'katakana', katakanaProgress);
-          }
-
-          // Process any pending sync queue items
-          await kanaProgressManager['processSyncQueue']();
-        }
-
-        // Force sync user preferences
-        const { preferencesManager } = await import('@/utils/preferencesManager');
-        await preferencesManager.forceSyncAll(user.uid);
-
-        // Old URE sync endpoint removed - each system now syncs individually above
-        // await attemptSync(); // This called /api/review/sync which doesn't exist
-
-        setSyncStatus(prev => ({
-          ...prev,
-          syncState: 'synced',
-          lastSyncTime: new Date(),
-          pendingCount: 0,
-          hasErrors: false
-        }));
-
-        showToast('All data synced successfully', 'success');
       } else {
         showToast('Manual sync requires premium subscription', 'info');
       }

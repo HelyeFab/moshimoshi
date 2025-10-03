@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 @import 'tailwindcss';
 @import './palettes.css';
+@import './fonts.css';
 
 /* Configure dark mode for Tailwind v4 */
 @supports (color: oklch(0 0 0)) {
@@ -114,7 +115,7 @@
   --color-surface-darkHover: #374151;
   
   /* Font family */
-  --font-family-japanese: 'Noto Sans JP', sans-serif;
+  --font-family-japanese: 'Mulish', 'Noto Sans JP', sans-serif;
   
   /* Animations */
   --animate-fade-in: fadeIn 0.5s ease-in-out;

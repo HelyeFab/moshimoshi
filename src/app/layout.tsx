@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/lib/theme/ThemeContext'
 import { ToastProvider } from '@/components/ui/Toast/ToastContext'
 // import { ContentProtectionProvider } from '@/components/providers/ContentProtectionProvider'
@@ -11,8 +10,6 @@ import { themeInitScript } from '@/lib/theme/theme-script'
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors'
 import '@/styles/globals.css'
 import TimeMachineButton from '@/components/dev/TimeMachineButton'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Moshimoshi - Learn Japanese',
@@ -42,7 +39,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script dangerouslySetInnerHTML={{ __html: suppressFirestoreErrors }} />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <AuthProvider>
           <ToastProvider defaultPosition="top-right">
             <I18nProvider>

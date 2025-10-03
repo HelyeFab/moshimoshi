@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
+import { Timestamp } from 'firebase-admin/firestore'
 
 // GET /api/blog/slug/[slug] - Get a blog post by slug
 export async function GET(
@@ -25,9 +26,14 @@ export async function GET(
     }
 
     const postDoc = postsSnapshot.docs[0]
+    const data = postDoc.data()
     const post = {
       id: postDoc.id,
-      ...postDoc.data()
+      ...data,
+      // Convert Firestore Timestamps to ISO strings for JSON serialization
+      publishDate: data.publishDate instanceof Timestamp ? data.publishDate.toDate().toISOString() : data.publishDate,
+      createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
+      updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toDate().toISOString() : data.updatedAt,
     }
 
     // Check if user can view this post

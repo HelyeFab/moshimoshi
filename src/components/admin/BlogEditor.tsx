@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { BlogPost } from '@/services/blogService';
 import { Timestamp } from 'firebase/firestore';
 import { useI18n } from '@/i18n/I18nContext';
+import { RichTextEditor } from '@/components/ui/RichTextEditor';
+import { ImageUploader } from '@/components/admin/ImageUploader';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 interface BlogEditorProps {
   post?: BlogPost;
@@ -13,7 +16,7 @@ interface BlogEditorProps {
 }
 
 export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEditorProps) {
-  const { t, strings } = useI18n();
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -32,8 +35,6 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
   });
 
   const [tagInput, setTagInput] = useState('');
-  const [preview, setPreview] = useState(false);
-  const [uploadingImage, setUploadingImage] = useState(false);
 
   useEffect(() => {
     if (post) {
@@ -77,6 +78,18 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
     }
   };
 
+  const handleContentChange = (html: string) => {
+    setFormData(prev => ({ ...prev, content: html }));
+  };
+
+  const handleCoverChange = (url: string) => {
+    setFormData(prev => ({
+      ...prev,
+      cover: url,
+      ogImage: url || prev.ogImage, // Auto-set OG image if not set
+    }));
+  };
+
   const handleAddTag = () => {
     if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
       setFormData(prev => ({
@@ -92,27 +105,6 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
       ...prev,
       tags: prev.tags.filter(t => t !== tag),
     }));
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'cover' | 'ogImage') => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setUploadingImage(true);
-      // For now, we'll just use a placeholder URL
-      // TODO: Implement proper image upload service
-      const url = URL.createObjectURL(file);
-      setFormData(prev => ({
-        ...prev,
-        [field]: url,
-      }));
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      alert(t('admin.blog.errors.imageUploadFailed'));
-    } finally {
-      setUploadingImage(false);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -143,12 +135,12 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content */}
+        {/* Main Content - Left Column (2/3) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Title */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <label htmlFor="title" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-              {t('admin.blog.fields.title')} *
+              {t('admin.blog.fields.title') || 'Title'} *
             </label>
             <input
               id="title"
@@ -158,14 +150,14 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               onChange={handleChange}
               required
               className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-              placeholder={t('admin.blog.placeholders.title')}
+              placeholder="Enter post title"
             />
           </div>
 
           {/* Slug */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <label htmlFor="slug" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-              {t('admin.blog.fields.slug')} *
+              {t('admin.blog.fields.slug') || 'URL Slug'} *
             </label>
             <div className="flex items-center gap-2">
               <span className="text-gray-500 dark:text-gray-400">/blog/</span>
@@ -177,52 +169,28 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 onChange={handleChange}
                 required
                 className="flex-1 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                placeholder={t('admin.blog.placeholders.slug')}
+                placeholder="url-friendly-slug"
               />
             </div>
           </div>
 
-          {/* Content */}
+          {/* Rich Text Editor */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-            <div className="flex justify-between items-center mb-2">
-              <label htmlFor="content" className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                {t('admin.blog.fields.content')} * (Markdown)
-              </label>
-              <button
-                type="button"
-                onClick={() => setPreview(!preview)}
-                className="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
-              >
-                {preview ? t('admin.blog.buttons.edit') : t('admin.blog.buttons.preview')}
-              </button>
-            </div>
-            {preview ? (
-              <div className="prose prose-sm dark:prose-invert max-w-none bg-gray-50 dark:bg-dark-900 rounded-lg p-4 min-h-[400px]">
-                <div dangerouslySetInnerHTML={{
-                  __html: formData.content.replace(/\n/g, '<br />')
-                }} />
-              </div>
-            ) : (
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                required
-                rows={20}
-                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 font-mono text-sm"
-                placeholder={t('admin.blog.placeholders.content')}
-              />
-            )}
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-              {t('admin.blog.hints.markdownSupport')}
-            </p>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+              {t('admin.blog.fields.content') || 'Content'} *
+            </label>
+            <RichTextEditor
+              content={formData.content}
+              onChange={handleContentChange}
+              placeholder="Start writing your blog post..."
+              minHeight="500px"
+            />
           </div>
 
           {/* Excerpt */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <label htmlFor="excerpt" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-              {t('admin.blog.fields.excerpt')}
+              {t('admin.blog.fields.excerpt') || 'Excerpt'}
             </label>
             <textarea
               id="excerpt"
@@ -231,131 +199,133 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               onChange={handleChange}
               rows={3}
               className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-              placeholder={t('admin.blog.placeholders.excerpt')}
+              placeholder="Brief description for previews and SEO"
+            />
+          </div>
+
+          {/* Cover Image */}
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+            <ImageUploader
+              value={formData.cover}
+              onChange={handleCoverChange}
+              label={t('admin.blog.fields.coverImage') || 'Cover Image'}
+              helpText="This image will be displayed at the top of your blog post. Recommended size: 1920x1080px"
             />
           </div>
         </div>
 
-        {/* Sidebar */}
+        {/* Sidebar - Right Column (1/3) */}
         <div className="space-y-6">
           {/* Publishing */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-            <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-4">{t('admin.blog.sections.publishing')}</h3>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">
+              {t('admin.blog.sections.publishing') || 'Publishing'}
+            </h3>
 
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="status" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  {t('admin.blog.fields.status')}
-                </label>
-                <select
-                  id="status"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
-                  <option value="draft">{t('admin.blog.status.draft')}</option>
-                  <option value="published">{t('admin.blog.status.published')}</option>
-                  <option value="scheduled">{t('admin.blog.status.scheduled')}</option>
-                </select>
-              </div>
+            {/* Status */}
+            <div className="mb-4">
+              <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                {t('admin.blog.fields.status') || 'Status'}
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              >
+                <option value="draft">{t('admin.blog.status.draft') || 'Draft'}</option>
+                <option value="published">{t('admin.blog.status.published') || 'Published'}</option>
+                <option value="scheduled">{t('admin.blog.status.scheduled') || 'Scheduled'}</option>
+              </select>
+            </div>
 
-              {formData.status === 'scheduled' && (
-                <>
-                  <div>
-                    <label htmlFor="publishDate" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      {t('admin.blog.fields.publishDate')}
-                    </label>
-                    <input
-                      id="publishDate"
-                      type="date"
-                      name="publishDate"
-                      value={formData.publishDate}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="publishTime" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      {t('admin.blog.fields.publishTime')}
-                    </label>
-                    <input
-                      id="publishTime"
-                      type="time"
-                      name="publishTime"
-                      value={formData.publishTime}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    />
-                  </div>
-                </>
-              )}
+            {/* Publish Date */}
+            <div className="mb-4">
+              <label htmlFor="publishDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                {t('admin.blog.fields.publishDate') || 'Publish Date'}
+              </label>
+              <input
+                id="publishDate"
+                type="date"
+                name="publishDate"
+                value={formData.publishDate}
+                onChange={handleChange}
+                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
 
-              <div>
-                <label htmlFor="author" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  {t('admin.blog.fields.author')}
-                </label>
-                <input
-                  id="author"
-                  type="text"
-                  name="author"
-                  value={formData.author}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
-              </div>
+            {/* Publish Time */}
+            <div>
+              <label htmlFor="publishTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                {t('admin.blog.fields.publishTime') || 'Publish Time'}
+              </label>
+              <input
+                id="publishTime"
+                type="time"
+                name="publishTime"
+                value={formData.publishTime}
+                onChange={handleChange}
+                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
             </div>
           </div>
 
           {/* Tags */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-            <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-4">{t('admin.blog.sections.tags')}</h3>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">
+              {t('admin.blog.sections.tags') || 'Tags'}
+            </h3>
 
             <div className="flex gap-2 mb-3">
               <input
                 type="text"
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
-                className="flex-1 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                placeholder={t('admin.blog.placeholders.addTag')}
+                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                placeholder="Add a tag"
+                className="flex-1 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
               <button
                 type="button"
                 onClick={handleAddTag}
-                className="px-3 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
+                className="px-3 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-sm"
               >
-                {t('admin.blog.buttons.add')}
+                {t('admin.blog.buttons.add') || 'Add'}
               </button>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              {formData.tags.map(tag => (
-                <span
-                  key={tag}
-                  className="px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm flex items-center gap-1"
-                >
-                  {tag}
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveTag(tag)}
-                    className="text-primary-500 hover:text-primary-700"
+            {formData.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {formData.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm"
                   >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTag(tag)}
+                      className="hover:text-primary-900 dark:hover:text-primary-100"
+                    >
+                      <XMarkIcon className="w-4 h-4" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* SEO */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-            <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-4">{t('admin.blog.sections.seo')}</h3>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">
+              {t('admin.blog.sections.seo') || 'SEO'}
+            </h3>
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="seoTitle" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  {t('admin.blog.fields.seoTitle')}
+                <label htmlFor="seoTitle" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {t('admin.blog.fields.seoTitle') || 'SEO Title'}
                 </label>
                 <input
                   id="seoTitle"
@@ -363,14 +333,14 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                   name="seoTitle"
                   value={formData.seoTitle}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder={t('admin.blog.placeholders.seoTitle')}
+                  className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="Leave empty to use post title"
                 />
               </div>
 
               <div>
-                <label htmlFor="seoDescription" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  {t('admin.blog.fields.seoDescription')}
+                <label htmlFor="seoDescription" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {t('admin.blog.fields.seoDescription') || 'SEO Description'}
                 </label>
                 <textarea
                   id="seoDescription"
@@ -378,8 +348,8 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                   value={formData.seoDescription}
                   onChange={handleChange}
                   rows={3}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder={t('admin.blog.placeholders.seoDescription')}
+                  className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="Leave empty to use excerpt"
                 />
               </div>
             </div>
@@ -387,21 +357,22 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
         </div>
       </div>
 
-      {/* Actions */}
+      {/* Action Buttons */}
       <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
         <button
           type="button"
           onClick={onCancel}
-          className="px-6 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+          disabled={saving}
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
         >
-          {t('common.cancel')}
+          {t('common.cancel') || 'Cancel'}
         </button>
         <button
           type="submit"
-          disabled={saving || uploadingImage}
-          className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
+          disabled={saving}
+          className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
         >
-          {saving ? t('common.saving') : post ? t('admin.blog.buttons.update') : t('admin.blog.buttons.create')}
+          {saving ? (t('common.saving') || 'Saving...') : (post ? (t('admin.blog.buttons.update') || 'Update Post') : (t('admin.blog.buttons.create') || 'Create Post'))}
         </button>
       </div>
     </form>

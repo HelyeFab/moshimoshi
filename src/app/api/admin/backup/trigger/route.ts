@@ -45,7 +45,8 @@ export async function POST(request: NextRequest) {
     const timestamp = new Date().toISOString()
 
     // 4. Prepare backup configuration
-    const bucketName = process.env.FIREBASE_STORAGE_BUCKET || 'moshimoshi-de237.firebasestorage.app'
+    // Use EU bucket since Firestore is in EU region (eur3)
+    const bucketName = 'moshimoshi-de237-backups'
     const exportPath = `gs://${bucketName}/backups/manual/${backupId}`
 
     console.log(`[Backup] Starting manual backup: ${backupId}`)

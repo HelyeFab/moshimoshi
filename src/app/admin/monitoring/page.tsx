@@ -72,14 +72,53 @@ interface BackupStatus {
   };
 }
 
+interface QuotaData {
+  quota: {
+    reads: {
+      used: number;
+      limit: number;
+      percentage: number;
+      remaining: number;
+    };
+    writes: {
+      used: number;
+      limit: number;
+      percentage: number;
+      remaining: number;
+    };
+    deletes: {
+      used: number;
+      limit: number;
+      percentage: number;
+      remaining: number;
+    };
+    storage: {
+      used: number;
+      limit: number;
+      percentage: number;
+      remaining: number;
+      unit: string;
+    };
+  };
+  status: 'healthy' | 'warning' | 'critical';
+  billingPlan: string;
+  alerts: Array<{
+    type: string;
+    severity: string;
+    message: string;
+  }>;
+}
+
 export default function MonitoringDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [backupStatus, setBackupStatus] = useState<BackupStatus | null>(null);
+  const [quotaData, setQuotaData] = useState<QuotaData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [backupLoading, setBackupLoading] = useState(false);
   const [backupMessage, setBackupMessage] = useState<string | null>(null);
+  const [checkingStatus, setCheckingStatus] = useState(false);
 
   const fetchMetrics = async () => {
     try {
@@ -110,6 +149,22 @@ export default function MonitoringDashboard() {
       }
     } catch (err) {
       console.error('Error fetching backup status:', err);
+    }
+  };
+
+  const fetchQuotaData = async () => {
+    try {
+      const response = await fetch('/api/admin/monitoring/quota');
+      if (!response.ok) {
+        console.error('Failed to fetch quota data');
+        return;
+      }
+      const result = await response.json();
+      if (result.success) {
+        setQuotaData(result);
+      }
+    } catch (err) {
+      console.error('Error fetching quota data:', err);
     }
   };
 
@@ -148,14 +203,43 @@ export default function MonitoringDashboard() {
     }
   };
 
+  const checkBackupStatus = async () => {
+    setCheckingStatus(true);
+
+    try {
+      const response = await fetch('/api/admin/backup/check-status', {
+        method: 'POST',
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setBackupMessage(`✅ Checked ${result.checked} backups, updated ${result.updated} to completed`);
+        // Refresh backup status
+        setTimeout(() => {
+          fetchBackupStatus();
+        }, 1000);
+      } else {
+        setBackupMessage(`❌ Status check failed: ${result.error || 'Unknown error'}`);
+      }
+    } catch (err) {
+      setBackupMessage(`❌ Error: ${err instanceof Error ? err.message : 'Failed to check status'}`);
+    } finally {
+      setCheckingStatus(false);
+      setTimeout(() => setBackupMessage(null), 5000);
+    }
+  };
+
   useEffect(() => {
     fetchMetrics();
     fetchBackupStatus();
+    fetchQuotaData();
 
     if (autoRefresh) {
       const interval = setInterval(() => {
         fetchMetrics();
         fetchBackupStatus();
+        fetchQuotaData();
       }, 5000); // Refresh every 5 seconds
       return () => clearInterval(interval);
     }
@@ -430,15 +514,26 @@ export default function MonitoringDashboard() {
                 <Database className="w-5 h-5" />
                 <h2 className="text-xl font-semibold">Database Backup & Protection</h2>
               </div>
-              <Button
-                onClick={triggerBackup}
-                disabled={backupLoading}
-                variant="default"
-                className="flex items-center gap-2"
-              >
-                <Download className={`w-4 h-4 ${backupLoading ? 'animate-spin' : ''}`} />
-                {backupLoading ? 'Creating Backup...' : 'Backup Now'}
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  onClick={checkBackupStatus}
+                  disabled={checkingStatus}
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
+                  <RefreshCw className={`w-4 h-4 ${checkingStatus ? 'animate-spin' : ''}`} />
+                  {checkingStatus ? 'Checking...' : 'Check Status'}
+                </Button>
+                <Button
+                  onClick={triggerBackup}
+                  disabled={backupLoading}
+                  variant="default"
+                  className="flex items-center gap-2"
+                >
+                  <Download className={`w-4 h-4 ${backupLoading ? 'animate-spin' : ''}`} />
+                  {backupLoading ? 'Creating Backup...' : 'Backup Now'}
+                </Button>
+              </div>
             </div>
 
             {backupMessage && (
@@ -533,6 +628,163 @@ export default function MonitoringDashboard() {
             {!backupStatus && (
               <div className="text-center py-8 text-muted-foreground">
                 Loading backup status...
+              </div>
+            )}
+          </Card>
+
+          {/* Firebase Quota Monitoring */}
+          <Card className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Database className="w-5 h-5" />
+                <h2 className="text-xl font-semibold">Firebase Quota Usage</h2>
+              </div>
+              {quotaData && (
+                <div className={`flex items-center gap-2 ${
+                  quotaData.status === 'healthy' ? 'text-green-600 dark:text-green-400' :
+                  quotaData.status === 'warning' ? 'text-yellow-600 dark:text-yellow-400' :
+                  'text-red-600 dark:text-red-400'
+                }`}>
+                  {quotaData.status === 'healthy' && <CheckCircle className="w-5 h-5" />}
+                  {quotaData.status === 'warning' && <AlertTriangle className="w-5 h-5" />}
+                  {quotaData.status === 'critical' && <XCircle className="w-5 h-5" />}
+                  <span className="font-medium uppercase">{quotaData.status}</span>
+                </div>
+              )}
+            </div>
+
+            {quotaData ? (
+              <>
+                {/* Quota Metrics Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                  {/* Reads */}
+                  <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <p className="text-sm text-muted-foreground mb-1">Reads</p>
+                    <p className={`text-2xl font-bold mb-1 ${
+                      quotaData.quota.reads.percentage > 80 ? 'text-red-600 dark:text-red-400' :
+                      quotaData.quota.reads.percentage > 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-green-600 dark:text-green-400'
+                    }`}>
+                      {quotaData.quota.reads.percentage}%
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {quotaData.quota.reads.used.toLocaleString()} / {quotaData.quota.reads.limit.toLocaleString()}
+                    </p>
+                    <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div
+                        className={`h-2 rounded-full transition-all ${
+                          quotaData.quota.reads.percentage > 80 ? 'bg-red-600' :
+                          quotaData.quota.reads.percentage > 60 ? 'bg-yellow-600' :
+                          'bg-green-600'
+                        }`}
+                        style={{ width: `${Math.min(quotaData.quota.reads.percentage, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Writes */}
+                  <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <p className="text-sm text-muted-foreground mb-1">Writes</p>
+                    <p className={`text-2xl font-bold mb-1 ${
+                      quotaData.quota.writes.percentage > 80 ? 'text-red-600 dark:text-red-400' :
+                      quotaData.quota.writes.percentage > 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-green-600 dark:text-green-400'
+                    }`}>
+                      {quotaData.quota.writes.percentage}%
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {quotaData.quota.writes.used.toLocaleString()} / {quotaData.quota.writes.limit.toLocaleString()}
+                    </p>
+                    <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div
+                        className={`h-2 rounded-full transition-all ${
+                          quotaData.quota.writes.percentage > 80 ? 'bg-red-600' :
+                          quotaData.quota.writes.percentage > 60 ? 'bg-yellow-600' :
+                          'bg-green-600'
+                        }`}
+                        style={{ width: `${Math.min(quotaData.quota.writes.percentage, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Deletes */}
+                  <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <p className="text-sm text-muted-foreground mb-1">Deletes</p>
+                    <p className={`text-2xl font-bold mb-1 ${
+                      quotaData.quota.deletes.percentage > 80 ? 'text-red-600 dark:text-red-400' :
+                      quotaData.quota.deletes.percentage > 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-green-600 dark:text-green-400'
+                    }`}>
+                      {quotaData.quota.deletes.percentage}%
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {quotaData.quota.deletes.used.toLocaleString()} / {quotaData.quota.deletes.limit.toLocaleString()}
+                    </p>
+                    <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div
+                        className={`h-2 rounded-full transition-all ${
+                          quotaData.quota.deletes.percentage > 80 ? 'bg-red-600' :
+                          quotaData.quota.deletes.percentage > 60 ? 'bg-yellow-600' :
+                          'bg-green-600'
+                        }`}
+                        style={{ width: `${Math.min(quotaData.quota.deletes.percentage, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Storage */}
+                  <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <p className="text-sm text-muted-foreground mb-1">Storage</p>
+                    <p className={`text-2xl font-bold mb-1 ${
+                      quotaData.quota.storage.percentage > 80 ? 'text-red-600 dark:text-red-400' :
+                      quotaData.quota.storage.percentage > 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-green-600 dark:text-green-400'
+                    }`}>
+                      {quotaData.quota.storage.percentage}%
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {quotaData.quota.storage.used}{quotaData.quota.storage.unit} / {quotaData.quota.storage.limit}{quotaData.quota.storage.unit}
+                    </p>
+                    <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div
+                        className={`h-2 rounded-full transition-all ${
+                          quotaData.quota.storage.percentage > 80 ? 'bg-red-600' :
+                          quotaData.quota.storage.percentage > 60 ? 'bg-yellow-600' :
+                          'bg-green-600'
+                        }`}
+                        style={{ width: `${Math.min(quotaData.quota.storage.percentage, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Billing Plan & Alerts */}
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                    <p className="text-xs text-blue-800 dark:text-blue-200">
+                      <strong>Plan:</strong> {quotaData.billingPlan === 'free' ? 'Free (Spark)' : 'Blaze (Pay-as-you-go)'}
+                    </p>
+                  </div>
+
+                  {quotaData.alerts && quotaData.alerts.length > 0 && (
+                    <div className="flex-1 p-3 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+                      <p className="font-medium text-yellow-800 dark:text-yellow-200 text-xs mb-1">Active Alerts:</p>
+                      <ul className="list-disc list-inside text-xs text-yellow-700 dark:text-yellow-300">
+                        {quotaData.alerts.map((alert, i) => (
+                          <li key={i}>{alert.message}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                <p className="text-xs text-muted-foreground mt-3 italic">
+                  Note: Usage estimates are based on typical patterns. Enable real-time tracking for accurate data.
+                </p>
+              </>
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                Loading quota data...
               </div>
             )}
           </Card>

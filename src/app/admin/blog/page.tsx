@@ -65,7 +65,7 @@ export default function AdminBlogPage() {
     setIsDeleting(true);
     try {
       await deleteBlogPost(deleteModal.postId);
-      setSuccessMessage(t('admin.blog.success.deleted'));
+      setSuccessMessage(t('admin.blog.success.deleted') || 'Blog post deleted successfully');
       await fetchPosts();
 
       // Close modal
@@ -75,7 +75,7 @@ export default function AdminBlogPage() {
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
       console.error('Error deleting post:', error);
-      setSuccessMessage(t('admin.blog.errors.deleteFailed'));
+      setSuccessMessage(t('admin.blog.errors.deleteFailed') || 'Failed to delete blog post');
       setTimeout(() => setSuccessMessage(null), 3000);
     } finally {
       setIsDeleting(false);
@@ -120,10 +120,10 @@ export default function AdminBlogPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-dark-850 rounded-lg p-6 max-w-md w-full">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-              {t('admin.blog.deleteConfirmation.title')}
+              {t('admin.blog.deleteConfirmation.title') || 'Delete Blog Post'}
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              {t('admin.blog.deleteConfirmation.message')}
+              {t('admin.blog.deleteConfirmation.message') || 'Are you sure you want to delete this blog post? This action cannot be undone.'}
             </p>
             <p className="text-sm font-medium text-gray-900 dark:text-white mb-6">
               "{deleteModal.postTitle}"
@@ -140,7 +140,7 @@ export default function AdminBlogPage() {
                 disabled={isDeleting}
                 className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
               >
-                {isDeleting ? t('common.deleting') : t('admin.blog.buttons.delete')}
+                {isDeleting ? (t('common.deleting') || 'Deleting...') : (t('admin.blog.buttons.delete') || 'Delete')}
               </button>
             </div>
           </div>
@@ -160,10 +160,10 @@ export default function AdminBlogPage() {
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {t('admin.blog.title')}
+                {t('admin.blog.title') || 'Blog Management'}
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
-                {t('admin.blog.description')}
+                {t('admin.blog.description') || 'Create and manage blog posts'}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 lg:gap-3">
@@ -171,14 +171,14 @@ export default function AdminBlogPage() {
                 onClick={() => router.push('/admin/blog/new')}
                 className="w-full sm:w-auto px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
               >
-                {t('admin.blog.createNew')}
+                {t('admin.blog.createNew') || 'Create New Post'}
               </button>
               <Link
                 href="/blog"
                 target="_blank"
                 className="w-full sm:w-auto px-4 py-2 bg-white dark:bg-dark-850 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-center"
               >
-                {t('admin.blog.viewBlog')} →
+                {t('admin.blog.viewBlog') || 'View Blog'} →
               </Link>
             </div>
           </div>
@@ -193,16 +193,16 @@ export default function AdminBlogPage() {
             <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-12 text-center">
               <div className="text-6xl mb-4">📝</div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                {t('admin.blog.noPosts')}
+                {t('admin.blog.noPosts') || 'No blog posts yet'}
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                {t('admin.blog.createFirst')}
+                {t('admin.blog.createFirst') || 'Create your first blog post to get started'}
               </p>
               <button
                 onClick={() => router.push('/admin/blog/new')}
                 className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
               >
-                {t('admin.blog.createNew')}
+                {t('admin.blog.createNew') || 'Create New Post'}
               </button>
             </div>
           ) : (
@@ -225,9 +225,9 @@ export default function AdminBlogPage() {
 
                       {/* Meta info */}
                       <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                        <p>{t('admin.blog.fields.author')}: {post.author}</p>
+                        <p>{t('admin.blog.fields.author') || 'Author'}: {post.author}</p>
                         <p>{formatDate(post.publishDate)}</p>
-                        <p>{post.views || 0} {t('admin.blog.fields.views')}</p>
+                        <p>{post.views || 0} {t('admin.blog.fields.views') || 'views'}</p>
                       </div>
 
                       {/* Actions */}
@@ -237,19 +237,19 @@ export default function AdminBlogPage() {
                           target="_blank"
                           className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                         >
-                          {t('admin.blog.buttons.view')}
+                          {t('admin.blog.buttons.view') || 'View'}
                         </Link>
                         <button
                           onClick={() => router.push(`/admin/blog/${post.id}/edit`)}
                           className="px-3 py-1.5 text-sm bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
                         >
-                          {t('admin.blog.buttons.edit')}
+                          {t('admin.blog.buttons.edit') || 'Edit'}
                         </button>
                         <button
                           onClick={() => openDeleteModal(post.id, post.title)}
                           className="px-3 py-1.5 text-sm bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
                         >
-                          {t('admin.blog.buttons.delete')}
+                          {t('admin.blog.buttons.delete') || 'Delete'}
                         </button>
                       </div>
                     </div>
@@ -264,22 +264,22 @@ export default function AdminBlogPage() {
                     <thead className="bg-gray-50 dark:bg-dark-900">
                       <tr>
                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {t('admin.blog.fields.title')}
+                          {t('admin.blog.fields.title') || 'Title'}
                         </th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {t('admin.blog.fields.status')}
+                          {t('admin.blog.fields.status') || 'Status'}
                         </th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {t('admin.blog.fields.author')}
+                          {t('admin.blog.fields.author') || 'Author'}
                         </th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {t('admin.blog.fields.publishDate')}
+                          {t('admin.blog.fields.publishDate') || 'Publish Date'}
                         </th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {t('admin.blog.fields.views')}
+                          {t('admin.blog.fields.views') || 'Views'}
                         </th>
                         <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {t('common.actions')}
+                          {t('common.actions') || 'Actions'}
                         </th>
                       </tr>
                     </thead>
@@ -311,19 +311,19 @@ export default function AdminBlogPage() {
                                 target="_blank"
                                 className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                               >
-                                {t('admin.blog.buttons.view')}
+                                {t('admin.blog.buttons.view') || 'View'}
                               </Link>
                               <button
                                 onClick={() => router.push(`/admin/blog/${post.id}/edit`)}
                                 className="px-3 py-1 text-sm bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
                               >
-                                {t('admin.blog.buttons.edit')}
+                                {t('admin.blog.buttons.edit') || 'Edit'}
                               </button>
                               <button
                                 onClick={() => openDeleteModal(post.id, post.title)}
                                 className="px-3 py-1 text-sm bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
                               >
-                                {t('admin.blog.buttons.delete')}
+                                {t('admin.blog.buttons.delete') || 'Delete'}
                               </button>
                             </div>
                           </td>

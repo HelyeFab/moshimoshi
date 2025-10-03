@@ -21,6 +21,7 @@ import GuestModeBanner from '@/components/ui/GuestModeBanner'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
+import { useAutoSync } from '@/hooks/useAutoSync'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
 import Modal from '@/components/ui/Modal'
@@ -44,6 +45,9 @@ function DashboardContent() {
 
   // Subscription state
   const { subscription, isPremium } = useSubscription()
+
+  // Background auto-sync on dashboard load (throttled to 5 min)
+  useAutoSync()
 
   // Gamification data from hook
   const {
