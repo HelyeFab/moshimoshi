@@ -20,7 +20,7 @@ const LAST_SYNC_KEY = 'moshimoshi:last-auto-sync';
  */
 export function useAutoSync() {
   const { user } = useAuth();
-  const { isPremium } = useSubscription();
+  const { isPremium, isLoading: subscriptionLoading } = useSubscription();
   const hasAttemptedSync = useRef(false);
 
   useEffect(() => {
@@ -29,6 +29,12 @@ export function useAutoSync() {
 
     // Only sync for authenticated users
     if (!user) return;
+
+    // Wait for subscription to load before syncing
+    if (subscriptionLoading) {
+      logger.info('[AutoSync] Waiting for subscription to load...');
+      return;
+    }
 
     const performAutoSync = async () => {
       try {
@@ -73,7 +79,7 @@ export function useAutoSync() {
 
     // Execute sync
     performAutoSync();
-  }, [user, isPremium]);
+  }, [user, isPremium, subscriptionLoading]);
 
   // This hook has no return value - it's fire-and-forget
 }

@@ -9,6 +9,9 @@
 import { create } from 'zustand'
 import { indexedDBStore } from '@/lib/gamification/indexedDBStore'
 
+// Global flag to prevent duplicate Firebase loads
+let isLoadingFromFirebase = false
+
 interface GamificationState {
   // Core Stats
   totalXP: number
@@ -244,14 +247,26 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
    */
   loadFromFirebase: async () => {
     try {
+      // Prevent duplicate simultaneous loads
+      if (isLoadingFromFirebase) {
+        console.log('[Gamification State] Already loading from Firebase, skipping duplicate call')
+        return
+      }
+
+      isLoadingFromFirebase = true
+
       // Only run in browser
-      if (typeof window === 'undefined') return
+      if (typeof window === 'undefined') {
+        isLoadingFromFirebase = false
+        return
+      }
 
       const state = get()
 
       // Validate userId
       if (!state.userId) {
         console.warn('[Gamification State] No userId set, skipping Firebase load')
+        isLoadingFromFirebase = false
         return
       }
 
@@ -301,6 +316,8 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
     } catch (error) {
       console.error('[Gamification State] Failed to load from Firebase:', error)
       // Don't throw - allow fallback to IndexedDB
+    } finally {
+      isLoadingFromFirebase = false
     }
   },
 

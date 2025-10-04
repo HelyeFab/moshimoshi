@@ -56,25 +56,18 @@ export class SyncOrchestrator {
       results.results.lists.success = true;
     }
 
-    // 2. Sync Gamification Data (BIDIRECTIONAL)
+    // 2. Sync Gamification Data (UPLOAD ONLY)
+    // NOTE: Download is handled by useGamification hook on component mount
+    // This prevents duplicate Firebase fetches
     try {
       const { useGamificationStore } = await import('@/state/userGamification');
       const gamificationStore = useGamificationStore.getState();
 
       if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true' && gamificationStore.userId) {
-        // Premium users: Bidirectional sync (download THEN upload)
+        // Premium users: Upload local changes to Firebase
         if (isPremium) {
-          logger.info('[SyncOrchestrator] Premium user - bidirectional gamification sync');
+          logger.info('[SyncOrchestrator] Premium user - uploading gamification changes');
 
-          // Step 1: Download latest from Firebase first
-          try {
-            await gamificationStore.loadFromFirebase();
-            logger.info('[SyncOrchestrator] ✅ Downloaded gamification data from Firebase');
-          } catch (downloadError) {
-            logger.warn('[SyncOrchestrator] Firebase download failed, using local data:', downloadError);
-          }
-
-          // Step 2: Upload local changes to Firebase
           await gamificationStore.syncToFirebase();
           logger.info('[SyncOrchestrator] ✅ Uploaded gamification data to Firebase');
         } else {
