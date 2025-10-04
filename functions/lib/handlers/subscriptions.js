@@ -16,33 +16,74 @@ const stripeMapping_1 = require("../mapping/stripeMapping");
 const firestore_1 = require("../firestore");
 // Node.js 20+ has native fetch support
 /**
- * Helper to invalidate session tier cache via Next.js API
- * This ensures users see updated subscription immediately
+ * Helper to invalidate ALL user caches via Next.js API
+ * Comprehensive cache invalidation ensures users see updated subscription immediately
+ *
+ * Invalidates:
+ * - Tier cache (60s TTL)
+ * - Session cache (1hr TTL)
+ * - Stats cache (1hr TTL)
+ * - Queue cache (30min TTL)
+ * - Entitlements cache (10min TTL)
+ * - Profile cache (15min TTL)
+ *
+ * @param customerId - Stripe customer ID
+ * @param reason - Why cache is being invalidated (for audit logs)
  */
-async function invalidateSessionTierCache(customerId) {
-    try {
-        // Get the app URL from environment
-        const appUrl = process.env.APP_URL || 'https://moshimoshi.vercel.app';
-        const endpoint = `${appUrl}/api/auth/invalidate-tier-cache`;
-        console.log(`Calling tier cache invalidation for customer ${customerId}`);
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ stripeCustomerId: customerId }),
-        });
-        if (response.ok) {
-            const result = await response.json();
-            console.log('Tier cache invalidated successfully:', result);
+async function invalidateAllUserCaches(customerId, reason = 'stripe_webhook') {
+    const maxRetries = 3;
+    const retryDelay = 1000; // 1 second
+    const appUrl = process.env.APP_URL || 'https://moshimoshi.vercel.app';
+    const endpoint = `${appUrl}/api/auth/invalidate-all-caches`;
+    console.log(`[Webhook] Invalidating ALL caches for customer ${customerId}, reason: ${reason}`);
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    stripeCustomerId: customerId,
+                    reason: reason
+                }),
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log(`[Webhook] ✅ Cache invalidation successful (attempt ${attempt + 1}/${maxRetries}):`, {
+                    cachesClearedCount: result.cachesClearedCount,
+                    cacheTypes: result.cacheTypes,
+                    userId: result.userId
+                });
+                return; // Success - exit retry loop
+            }
+            else {
+                const errorText = await response.text();
+                console.error(`[Webhook] ❌ Cache invalidation failed (attempt ${attempt + 1}/${maxRetries}):`, {
+                    status: response.status,
+                    statusText: response.statusText,
+                    error: errorText
+                });
+                // If this is the last attempt, log final failure
+                if (attempt === maxRetries - 1) {
+                    console.error(`[Webhook] ⚠️  Cache invalidation failed after ${maxRetries} attempts`);
+                    console.error(`[Webhook] User may experience cache staleness for up to 1 hour`);
+                    console.error(`[Webhook] Client polling will eventually sync correct tier from Firestore`);
+                    return; // Don't fail webhook, just log error
+                }
+                // Wait before retrying
+                await new Promise(resolve => setTimeout(resolve, retryDelay * (attempt + 1)));
+            }
         }
-        else {
-            console.error('Failed to invalidate tier cache:', response.status, response.statusText);
+        catch (error) {
+            console.error(`[Webhook] ❌ Cache invalidation error (attempt ${attempt + 1}/${maxRetries}):`, error);
+            if (attempt === maxRetries - 1) {
+                console.error(`[Webhook] ⚠️  Cache invalidation failed after ${maxRetries} attempts due to errors`);
+                return; // Don't fail webhook
+            }
+            // Wait before retrying
+            await new Promise(resolve => setTimeout(resolve, retryDelay * (attempt + 1)));
         }
-    }
-    catch (error) {
-        // Don't fail the webhook if cache invalidation fails
-        console.error('Error invalidating tier cache:', error);
     }
 }
 /**
@@ -99,8 +140,8 @@ async function handleSubscriptionCreated(subscription, customerId) {
     try {
         await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Created subscription for customer ${customerId}:`, facts);
-        // Invalidate session tier cache so user sees update immediately
-        await invalidateSessionTierCache(customerId);
+        // Invalidate ALL user caches so user sees update immediately
+        await invalidateAllUserCaches(customerId, 'stripe_subscription_created');
     }
     catch (error) {
         console.error(`Failed to create subscription for customer ${customerId}:`, error);
@@ -131,8 +172,8 @@ async function handleSubscriptionUpdated(subscription, customerId) {
     try {
         await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Updated subscription for customer ${customerId}:`, facts);
-        // Invalidate session tier cache so user sees update immediately
-        await invalidateSessionTierCache(customerId);
+        // Invalidate ALL user caches so user sees update immediately
+        await invalidateAllUserCaches(customerId, 'stripe_subscription_updated');
     }
     catch (error) {
         console.error(`Failed to update subscription for customer ${customerId}:`, error);
@@ -160,8 +201,8 @@ async function handleSubscriptionDeleted(subscription, customerId) {
     try {
         await (0, firestore_1.upsertUserSubscriptionByCustomerId)(customerId, facts);
         console.log(`Deleted subscription for customer ${customerId}, reverted to free plan`);
-        // Invalidate session tier cache so user sees update immediately
-        await invalidateSessionTierCache(customerId);
+        // Invalidate ALL user caches so user sees update immediately (critical for security)
+        await invalidateAllUserCaches(customerId, 'stripe_subscription_deleted');
     }
     catch (error) {
         console.error(`Failed to delete subscription for customer ${customerId}:`, error);

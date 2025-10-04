@@ -140,6 +140,26 @@ async function handleSubscriptionCheckout(session, customerId) {
  * @param customerId - The Stripe customer ID
  */
 async function handlePaymentCheckout(session, customerId) {
+    var _a;
+    // Detect and log admin test payments (easter egg £0.00 checkouts)
+    if (((_a = session.metadata) === null || _a === void 0 ? void 0 : _a.admin_test) === 'true') {
+        console.log('========================================');
+        console.log('🥚 ADMIN TEST PAYMENT DETECTED');
+        console.log('========================================');
+        console.log(`Session ID: ${session.id}`);
+        console.log(`Test ID: ${session.metadata.test_id}`);
+        console.log(`Test Type: ${session.metadata.test_type}`);
+        console.log(`Test Timestamp: ${session.metadata.test_timestamp}`);
+        console.log(`User ID: ${session.metadata.uid}`);
+        console.log(`Customer ID: ${customerId}`);
+        console.log(`Payment Status: ${session.payment_status}`);
+        console.log(`Amount Total: ${session.amount_total || 0}`);
+        console.log('✅ Admin test payment webhook processed successfully');
+        console.log('Note: No database changes made - this is a test only');
+        console.log('========================================');
+        // Early return - no database changes for admin tests
+        return;
+    }
     // Future: Handle one-time purchases, credits, etc.
     console.log(`Payment checkout completed for customer ${customerId}`);
     // Example: Could store purchase history, grant temporary access, etc.
