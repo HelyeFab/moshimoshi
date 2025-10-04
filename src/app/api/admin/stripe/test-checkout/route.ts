@@ -25,7 +25,13 @@ const EASTER_EGG_PRICE_ID = 'price_1SDlJJHdrJomitOwnRmWRKhI';
 async function isUserAdmin(uid: string): Promise<boolean> {
   try {
     console.log('[isUserAdmin] Checking admin status for uid:', uid);
-    const userDoc = await adminFirestore!.collection('users').doc(uid).get();
+
+    if (!adminFirestore) {
+      console.error('[isUserAdmin] adminFirestore is not initialized!');
+      return false;
+    }
+
+    const userDoc = await adminFirestore.collection('users').doc(uid).get();
 
     if (!userDoc.exists) {
       console.log('[isUserAdmin] User document does not exist');
@@ -48,12 +54,16 @@ async function isUserAdmin(uid: string): Promise<boolean> {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('[Admin Test Checkout] Request received');
+    console.log('[Admin Test Checkout] ========== REQUEST START ==========');
+    console.log('[Admin Test Checkout] Environment:', process.env.NODE_ENV);
+    console.log('[Admin Test Checkout] adminFirestore available:', !!adminFirestore);
 
     // 1. AUTHENTICATION - Admin only (same pattern as admin/subscriptions/upgrade)
     const session = await getSession();
+    console.log('[Admin Test Checkout] Session:', session ? 'exists' : 'null', session?.uid);
 
     if (!session?.uid) {
+      console.log('[Admin Test Checkout] No session or uid');
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -61,7 +71,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify admin privileges using Firestore check
+    console.log('[Admin Test Checkout] Checking admin privileges...');
     const isAdmin = await isUserAdmin(session.uid);
+    console.log('[Admin Test Checkout] isAdmin result:', isAdmin);
+
     if (!isAdmin) {
       console.warn(`[Admin Test Checkout] Non-admin user ${session.uid} attempted to access endpoint`);
       return NextResponse.json(
@@ -189,14 +202,25 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('[Admin Test Checkout] Error:', error);
+    console.error('[Admin Test Checkout] ========== ERROR ==========');
+    console.error('[Admin Test Checkout] Error message:', error.message);
+    console.error('[Admin Test Checkout] Error stack:', error.stack);
+    console.error('[Admin Test Checkout] Full error:', error);
 
+    // Always return valid JSON, even on error
     return NextResponse.json(
       {
         error: error.message || 'Failed to create test checkout',
-        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        errorType: error.constructor.name,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
       },
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
     );
   }
 }
