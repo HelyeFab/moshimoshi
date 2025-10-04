@@ -119,15 +119,15 @@ export function CommentItem({ comment, currentUserId, isAdmin, onUpdate, onDelet
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="font-semibold text-gray-900 dark:text-gray-100">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
+          <span className="font-semibold text-gray-900 dark:text-gray-100 truncate">
             {comment.userDisplayName}
           </span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-sm text-gray-500 dark:text-gray-400 flex-shrink-0">
             {formatDate(comment.createdAt)}
           </span>
           {comment.isEdited && (
-            <span className="text-xs text-gray-400 dark:text-gray-500">(edited)</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">(edited)</span>
           )}
         </div>
 

@@ -105,6 +105,16 @@ export async function POST(
     const userDoc = await adminDb.collection('users').doc(session.uid).get();
     const userData = userDoc.data();
 
+    // Create a friendly display name
+    let displayName = userData?.displayName;
+    if (!displayName && session.email) {
+      // Use the part before @ in the email as fallback
+      displayName = session.email.split('@')[0];
+    }
+    if (!displayName) {
+      displayName = 'Anonymous User';
+    }
+
     // Create comment
     const commentId = nanoid();
     const now = Timestamp.now();
@@ -113,7 +123,7 @@ export async function POST(
       id: commentId,
       postId: postId,
       userId: session.uid,
-      userDisplayName: userData?.displayName || session.email || 'Anonymous',
+      userDisplayName: displayName,
       userPhotoURL: userData?.photoURL || null,
       userEmail: session.email,
       content: sanitizedContent,
