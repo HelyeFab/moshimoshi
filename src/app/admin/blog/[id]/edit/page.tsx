@@ -1,26 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { BlogEditor } from '@/components/admin/BlogEditor';
 import { getBlogPostById, saveBlogPost, BlogPost } from '@/services/blogService';
 import { useI18n } from '@/i18n/I18nContext';
 
-export default function EditBlogPostPage({ params }: { params: { id: string } }) {
+export default function EditBlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { t } = useI18n();
+  const { id } = use(params);
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    fetchPost();
-  }, [params.id]);
-
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       setLoading(true);
-      const fetchedPost = await getBlogPostById(params.id);
+      const fetchedPost = await getBlogPostById(id);
       if (fetchedPost) {
         setPost(fetchedPost);
       } else {
@@ -40,7 +37,11 @@ export default function EditBlogPostPage({ params }: { params: { id: string } })
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, t, router]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
 
   const handleSave = async (postData: any) => {
     try {
@@ -52,7 +53,7 @@ export default function EditBlogPostPage({ params }: { params: { id: string } })
         publishDate: postData.publishDate || new Date().toISOString(),
       };
 
-      await saveBlogPost(updatedPost, params.id);
+      await saveBlogPost(updatedPost, id);
 
       // Show success message and redirect
       const statusMessage = postData.status === 'draft'

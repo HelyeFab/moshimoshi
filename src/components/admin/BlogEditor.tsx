@@ -6,7 +6,9 @@ import { Timestamp } from 'firebase/firestore';
 import { useI18n } from '@/i18n/I18nContext';
 import { RichTextEditor } from '@/components/ui/RichTextEditor';
 import { ImageUploader } from '@/components/admin/ImageUploader';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline';
+import matter from 'gray-matter';
+import { marked } from 'marked';
 
 interface BlogEditorProps {
   post?: BlogPost;
@@ -35,12 +37,26 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
   });
 
   const [tagInput, setTagInput] = useState('');
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [markdownInput, setMarkdownInput] = useState('');
+  const [importError, setImportError] = useState('');
 
   useEffect(() => {
     if (post) {
-      const publishDate = post.publishDate instanceof Timestamp
-        ? post.publishDate.toDate()
-        : new Date(post.publishDate);
+      let publishDate: Date;
+
+      if (post.publishDate instanceof Timestamp) {
+        publishDate = post.publishDate.toDate();
+      } else if (post.publishDate) {
+        publishDate = new Date(post.publishDate);
+      } else {
+        publishDate = new Date();
+      }
+
+      // Validate the date - if invalid, use current date
+      if (isNaN(publishDate.getTime())) {
+        publishDate = new Date();
+      }
 
       setFormData({
         title: post.title || '',
@@ -107,6 +123,49 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
     }));
   };
 
+  const handleImportMarkdown = async () => {
+    try {
+      setImportError('');
+
+      // Parse frontmatter
+      const { data: frontmatter, content } = matter(markdownInput);
+
+      // Convert markdown to HTML
+      const htmlContent = await marked(content);
+
+      // Parse publish date
+      let publishDateTime = new Date();
+      if (frontmatter.date) {
+        publishDateTime = new Date(frontmatter.date);
+      }
+
+      // Map frontmatter to form data
+      setFormData({
+        title: frontmatter.title || '',
+        slug: frontmatter.slug || '',
+        content: htmlContent,
+        excerpt: frontmatter.excerpt || '',
+        author: frontmatter.author || 'Moshimoshi Team',
+        tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
+        status: (frontmatter.status as 'draft' | 'published' | 'scheduled') || 'draft',
+        publishDate: publishDateTime.toISOString().split('T')[0],
+        publishTime: publishDateTime.toTimeString().slice(0, 5),
+        seoTitle: frontmatter.seo?.title || frontmatter.seoTitle || '',
+        seoDescription: frontmatter.seo?.description || frontmatter.seoDescription || '',
+        cover: frontmatter.cover_image || frontmatter.cover || '',
+        ogImage: frontmatter.og_image || frontmatter.ogImage || frontmatter.cover_image || frontmatter.cover || '',
+        canonical: frontmatter.canonical || '',
+      });
+
+      // Close modal and clear input
+      setShowImportModal(false);
+      setMarkdownInput('');
+    } catch (error) {
+      console.error('Error parsing markdown:', error);
+      setImportError('Failed to parse markdown. Please check the format and try again.');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -134,13 +193,89 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Import Modal */}
+      {showImportModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-dark-850 rounded-lg p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Import from Markdown
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Paste your markdown with frontmatter below
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowImportModal(false);
+                  setMarkdownInput('');
+                  setImportError('');
+                }}
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                <XMarkIcon className="w-6 h-6" />
+              </button>
+            </div>
+
+            {importError && (
+              <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-lg text-sm">
+                {importError}
+              </div>
+            )}
+
+            <textarea
+              value={markdownInput}
+              onChange={(e) => setMarkdownInput(e.target.value)}
+              placeholder="---&#10;title: Your Blog Title&#10;slug: your-blog-slug&#10;date: 2025-10-04&#10;tags:&#10;  - Tag1&#10;  - Tag2&#10;excerpt: Your excerpt here&#10;cover_image: /path/to/image.jpg&#10;seo:&#10;  title: SEO Title&#10;  description: SEO Description&#10;---&#10;&#10;# Your Content Here&#10;&#10;Write your blog post content..."
+              className="w-full h-96 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            />
+
+            <div className="flex gap-3 justify-end mt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowImportModal(false);
+                  setMarkdownInput('');
+                  setImportError('');
+                }}
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleImportMarkdown}
+                disabled={!markdownInput.trim()}
+                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Import
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Import Button */}
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={() => setShowImportModal(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <DocumentArrowDownIcon className="w-5 h-5" />
+          Import from Markdown
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Content - Left Column (2/3) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Title */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <label htmlFor="title" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-              {t('admin.blog.fields.title') || 'Title'} *
+              Title *
             </label>
             <input
               id="title"
@@ -157,7 +292,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
           {/* Slug */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <label htmlFor="slug" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-              {t('admin.blog.fields.slug') || 'URL Slug'} *
+              URL Slug *
             </label>
             <div className="flex items-center gap-2">
               <span className="text-gray-500 dark:text-gray-400">/blog/</span>
@@ -177,7 +312,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
           {/* Rich Text Editor */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-              {t('admin.blog.fields.content') || 'Content'} *
+              Content *
             </label>
             <RichTextEditor
               content={formData.content}
@@ -190,7 +325,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
           {/* Excerpt */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <label htmlFor="excerpt" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-              {t('admin.blog.fields.excerpt') || 'Excerpt'}
+              Excerpt
             </label>
             <textarea
               id="excerpt"
@@ -208,7 +343,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
             <ImageUploader
               value={formData.cover}
               onChange={handleCoverChange}
-              label={t('admin.blog.fields.coverImage') || 'Cover Image'}
+              label="Cover Image"
               helpText="This image will be displayed at the top of your blog post. Recommended size: 1920x1080px"
             />
           </div>
@@ -219,13 +354,29 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
           {/* Publishing */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">
-              {t('admin.blog.sections.publishing') || 'Publishing'}
+              Publishing
             </h3>
+
+            {/* Author */}
+            <div className="mb-4">
+              <label htmlFor="author" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Author
+              </label>
+              <input
+                id="author"
+                type="text"
+                name="author"
+                value={formData.author}
+                onChange={handleChange}
+                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="Moshimoshi Team"
+              />
+            </div>
 
             {/* Status */}
             <div className="mb-4">
               <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {t('admin.blog.fields.status') || 'Status'}
+                Status
               </label>
               <select
                 id="status"
@@ -234,16 +385,16 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 onChange={handleChange}
                 className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
-                <option value="draft">{t('admin.blog.status.draft') || 'Draft'}</option>
-                <option value="published">{t('admin.blog.status.published') || 'Published'}</option>
-                <option value="scheduled">{t('admin.blog.status.scheduled') || 'Scheduled'}</option>
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+                <option value="scheduled">Scheduled</option>
               </select>
             </div>
 
             {/* Publish Date */}
             <div className="mb-4">
               <label htmlFor="publishDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {t('admin.blog.fields.publishDate') || 'Publish Date'}
+                Publish Date
               </label>
               <input
                 id="publishDate"
@@ -258,7 +409,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
             {/* Publish Time */}
             <div>
               <label htmlFor="publishTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {t('admin.blog.fields.publishTime') || 'Publish Time'}
+                Publish Time
               </label>
               <input
                 id="publishTime"
@@ -277,43 +428,45 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               {t('admin.blog.sections.tags') || 'Tags'}
             </h3>
 
-            <div className="flex gap-2 mb-3">
-              <input
-                type="text"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
-                placeholder="Add a tag"
-                className="flex-1 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
-              <button
-                type="button"
-                onClick={handleAddTag}
-                className="px-3 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-sm"
-              >
-                {t('admin.blog.buttons.add') || 'Add'}
-              </button>
-            </div>
-
-            {formData.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {formData.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveTag(tag)}
-                      className="hover:text-primary-900 dark:hover:text-primary-100"
-                    >
-                      <XMarkIcon className="w-4 h-4" />
-                    </button>
-                  </span>
-                ))}
+            <div className="space-y-3">
+              <div className="flex gap-2 items-stretch">
+                <input
+                  type="text"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                  placeholder="Add a tag"
+                  className="flex-1 min-w-0 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddTag}
+                  className="flex-shrink-0 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-sm font-medium"
+                >
+                  Add
+                </button>
               </div>
-            )}
+
+              {formData.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {formData.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveTag(tag)}
+                        className="hover:text-primary-900 dark:hover:text-primary-100 transition-colors"
+                      >
+                        <XMarkIcon className="w-4 h-4" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* SEO */}

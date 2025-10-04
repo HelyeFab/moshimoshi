@@ -89,6 +89,9 @@ export async function POST(request: NextRequest) {
     const userDoc = await adminDb.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
 
+    // Determine author name - use from body if provided, otherwise use user display name or email
+    const authorName = body.author || userData?.displayName || userData?.email || session.email || 'Moshimoshi Team'
+
     // Build the blog post object, only including defined fields
     const blogPost: any = {
       id: postId,
@@ -96,7 +99,7 @@ export async function POST(request: NextRequest) {
       slug: slug,
       content: body.content,
       excerpt: body.excerpt || '',
-      author: session.uid,
+      author: authorName,
       authorEmail: session.email,
       tags: body.tags || [],
       status: body.status || 'draft',
@@ -225,6 +228,7 @@ export async function PATCH(request: NextRequest) {
     if (updates.excerpt !== undefined) updatedData.excerpt = updates.excerpt
     if (updates.status !== undefined) updatedData.status = updates.status
     if (updates.tags !== undefined) updatedData.tags = updates.tags
+    if (updates.author !== undefined) updatedData.author = updates.author
 
     // Handle publishDate
     if (updates.publishDate !== undefined) {
