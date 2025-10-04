@@ -114,33 +114,53 @@ export async function POST(request: NextRequest) {
     // 4. GET OR CREATE CUSTOMER
     const uid = session.uid;
     const email = session.email;
-    let customerId = await getCustomerIdByUid(uid);
+    console.log('[Admin Test Checkout] Getting customer for uid:', uid);
+
+    let customerId: string | null = null;
+
+    try {
+      customerId = await getCustomerIdByUid(uid);
+      console.log('[Admin Test Checkout] getCustomerIdByUid result:', customerId);
+    } catch (error: any) {
+      console.error('[Admin Test Checkout] Error getting customer ID:', error);
+      throw new Error(`Failed to get customer ID: ${error.message}`);
+    }
 
     // Verify customer exists in Stripe
     if (customerId) {
       try {
+        console.log('[Admin Test Checkout] Verifying customer exists in Stripe:', customerId);
         await stripe.customers.retrieve(customerId);
-        console.log(`[Admin Test Checkout] Existing customer: ${customerId}`);
+        console.log(`[Admin Test Checkout] ✅ Existing customer verified: ${customerId}`);
       } catch (error: any) {
-        console.log(`[Admin Test Checkout] Customer not found, creating new one`);
+        console.log(`[Admin Test Checkout] Customer not found in Stripe, will create new one`);
         customerId = null;
       }
     }
 
     // Create customer if needed
     if (!customerId) {
-      const customer = await stripe.customers.create({
-        metadata: {
-          uid,
-          admin_test: 'true',
-          created_via: 'easter_egg_test'
-        },
-        email: email,
-        name: 'Admin Test User',
-      });
-      customerId = customer.id;
-      await mapUidToCustomer(uid, customerId);
-      console.log(`[Admin Test Checkout] ✅ New customer created: ${customerId}`);
+      try {
+        console.log('[Admin Test Checkout] Creating new Stripe customer...');
+        const customer = await stripe.customers.create({
+          metadata: {
+            uid,
+            admin_test: 'true',
+            created_via: 'easter_egg_test'
+          },
+          email: email,
+          name: 'Admin Test User',
+        });
+        customerId = customer.id;
+        console.log(`[Admin Test Checkout] ✅ New customer created: ${customerId}`);
+
+        console.log('[Admin Test Checkout] Mapping uid to customer...');
+        await mapUidToCustomer(uid, customerId);
+        console.log(`[Admin Test Checkout] ✅ Customer mapped successfully`);
+      } catch (error: any) {
+        console.error('[Admin Test Checkout] Error creating customer:', error);
+        throw new Error(`Failed to create Stripe customer: ${error.message}`);
+      }
     }
 
     // 5. PARSE REQUEST

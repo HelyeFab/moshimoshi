@@ -6,6 +6,37 @@ import { getPublishedBlogPosts } from "@/services/blogService";
 import type { BlogPost } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog - Japanese Learning Stories & Insights | Moshimoshi",
+  description: "Discover the latest in Japanese language learning, cultural insights, and product updates from the Moshimoshi team. Expert tips, tutorials, and guides for mastering Japanese.",
+  keywords: ["Japanese learning", "Japanese language blog", "Japanese culture", "language learning tips", "JLPT", "Japanese grammar", "Japanese vocabulary"],
+  openGraph: {
+    title: "Blog - Japanese Learning Stories & Insights | Moshimoshi",
+    description: "Discover the latest in Japanese language learning, cultural insights, and product updates from the Moshimoshi team.",
+    type: "website",
+    url: "https://moshimoshi.app/blog",
+    siteName: "Moshimoshi",
+    images: [
+      {
+        url: "/og-blog.png",
+        width: 1200,
+        height: 630,
+        alt: "Moshimoshi Blog",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog - Japanese Learning Stories & Insights | Moshimoshi",
+    description: "Discover the latest in Japanese language learning, cultural insights, and product updates.",
+    images: ["/og-blog.png"],
+  },
+  alternates: {
+    canonical: "https://moshimoshi.app/blog",
+  },
+};
 
 export default function BlogPage() {
   const router = useRouter();

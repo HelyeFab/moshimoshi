@@ -6,6 +6,66 @@ import { getBlogPostBySlug } from "@/services/blogService";
 import type { BlogPost } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
 import DOMPurify from "isomorphic-dompurify";
+import type { Metadata } from "next";
+
+// Generate dynamic metadata for SEO
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  try {
+    const post = await getBlogPostBySlug(params.slug);
+
+    if (!post) {
+      return {
+        title: "Post Not Found | Moshimoshi Blog",
+        description: "The blog post you're looking for could not be found.",
+      };
+    }
+
+    const publishDate = post.publishDate ? new Date(post.publishDate).toISOString() : new Date().toISOString();
+    const updatedDate = post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate;
+
+    return {
+      title: post.seoTitle || `${post.title} | Moshimoshi Blog`,
+      description: post.seoDescription || post.excerpt || post.title,
+      keywords: post.tags || [],
+      authors: [{ name: post.author || "Moshimoshi Team" }],
+      openGraph: {
+        title: post.seoTitle || post.title,
+        description: post.seoDescription || post.excerpt || "",
+        type: "article",
+        url: `https://moshimoshi.app/blog/${post.slug}`,
+        siteName: "Moshimoshi",
+        images: [
+          {
+            url: post.ogImage || post.cover || "/og-blog.png",
+            width: 1200,
+            height: 630,
+            alt: post.title,
+          },
+        ],
+        publishedTime: publishDate,
+        modifiedTime: updatedDate,
+        authors: [post.author || "Moshimoshi Team"],
+        tags: post.tags || [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: post.seoTitle || post.title,
+        description: post.seoDescription || post.excerpt || "",
+        images: [post.ogImage || post.cover || "/og-blog.png"],
+        creator: "@MoshimoshiApp",
+      },
+      alternates: {
+        canonical: post.canonical || `https://moshimoshi.app/blog/${post.slug}`,
+      },
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Blog Post | Moshimoshi",
+      description: "Read the latest from Moshimoshi blog.",
+    };
+  }
+}
 
 export default function BlogPostPage() {
   const params = useParams();
@@ -129,8 +189,48 @@ export default function BlogPostPage() {
     }
   };
 
+  // Generate JSON-LD structured data for rich search results
+  const jsonLd = post ? {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt || "",
+    "image": post.cover || "",
+    "datePublished": post.publishDate ? new Date(post.publishDate).toISOString() : "",
+    "dateModified": post.updatedAt ? new Date(post.updatedAt).toISOString() : "",
+    "author": {
+      "@type": "Person",
+      "name": post.author || "Moshimoshi Team",
+      "image": post.authorImage || "",
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Moshimoshi",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://moshimoshi.app/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://moshimoshi.app/blog/${post.slug}`
+    },
+    "keywords": post.tags?.join(", ") || "",
+    "articleSection": post.tags?.[0] || "Japanese Learning",
+    "wordCount": post.content ? post.content.split(/\s+/).length : 0,
+    "timeRequired": post.readingTime || "",
+  } : null;
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-background-light to-japanese-mizu/20 dark:from-dark-850 dark:to-dark-900 overflow-hidden">
+      {/* JSON-LD Structured Data */}
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+
       {/* Decorative elements - hidden on mobile for better performance */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none hidden sm:block">
         <div className="absolute top-20 left-10 w-32 h-32 bg-japanese-sakura/30 dark:bg-japanese-sakuraDark/20 rounded-full blur-3xl animate-pulse" />
