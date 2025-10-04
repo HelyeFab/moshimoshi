@@ -45,7 +45,7 @@ export interface LeaderboardResponse {
 }
 
 export interface UserRankResponse {
-  rank: number;
+  rank: number | null;
   totalPlayers: number;
   entry?: LeaderboardEntry;
 }

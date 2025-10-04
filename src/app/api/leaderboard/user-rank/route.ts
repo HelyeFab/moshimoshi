@@ -72,17 +72,14 @@ export async function GET(request: NextRequest) {
         },
       });
     } else {
-      // User not in top 100 - estimate rank
-      // They are ranked somewhere after the last entry
-      const estimatedRank = snapshot.entries.length + 1;
-
+      // User not in top 100 - return null rank to indicate unranked
       const response: UserRankResponse = {
-        rank: estimatedRank,
+        rank: null,
         totalPlayers: snapshot.totalPlayers,
         entry: undefined
       };
 
-      console.log(`[User Rank API] User not in top 100, estimated rank: ${estimatedRank}+`);
+      console.log(`[User Rank API] User not in top 100, showing as unranked`);
 
       return NextResponse.json(response, {
         headers: {

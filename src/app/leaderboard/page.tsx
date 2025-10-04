@@ -21,7 +21,7 @@ export default function LeaderboardPage() {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([])
   const [pagination, setPagination] = useState<LeaderboardResponse['pagination'] | null>(null)
   const [metadata, setMetadata] = useState<LeaderboardResponse['metadata'] | null>(null)
-  const [userRank, setUserRank] = useState<number | null>(null)
+  const [userRankData, setUserRankData] = useState<UserRankResponse | null>(null)
 
   // Get real gamification data for current user
   const {
@@ -61,7 +61,7 @@ export default function LeaderboardPage() {
         const response = await fetch('/api/leaderboard/user-rank')
         if (response.ok) {
           const data: UserRankResponse = await response.json()
-          setUserRank(data.rank)
+          setUserRankData(data)
         }
       } catch (error) {
         console.error('[Leaderboard] Error fetching user rank:', error)
@@ -137,7 +137,7 @@ export default function LeaderboardPage() {
                   <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
                   <div className="text-right sm:text-left">
                     <div className="text-xl sm:text-2xl font-bold">
-                      {userRank ? `#${userRank}` : user ? '...' : 'N/A'}
+                      {!user ? 'N/A' : !userRankData ? '...' : userRankData.rank !== null ? `#${userRankData.rank}` : totalXP === 0 ? 'Unranked' : '100+'}
                     </div>
                     <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.yourRank || 'Your Rank'}</div>
                   </div>
