@@ -1746,6 +1746,15 @@ export const strings = {
       daysRemaining: "{{days}} days remaining",
       willEndOn: "Your subscription has been canceled and will remain active until {{date}}. You'll still have full access to all premium features until then.",
     },
+    checkout: {
+      success: "🎉 Welcome to Premium! Your subscription is being activated...",
+      canceled: "Checkout canceled. You can upgrade anytime from your account settings.",
+    },
+    errors: {
+      checkoutFailed: "Failed to start checkout. Please try again.",
+      billingPortalFailed: "Failed to open billing portal. Please try again.",
+      cancelFailed: "Failed to cancel subscription. Please try again.",
+    },
   },
 
   // Entitlements & Limits

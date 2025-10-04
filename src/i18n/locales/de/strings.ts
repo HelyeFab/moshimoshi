@@ -1198,12 +1198,19 @@ export const strings = {
       daysRemaining: "{{days}} Tage verbleibend",
       willEndOn: "Ihr Abonnement endet am {{date}}",
     },
+    checkout: {
+      success: "🎉 Willkommen bei Premium! Ihr Abonnement wird aktiviert...",
+      canceled: "Zahlung abgebrochen. Sie können jederzeit über Ihre Kontoeinstellungen upgraden.",
+    },
     errors: {
       paymentFailed: "Zahlung fehlgeschlagen. Versuchen Sie es mit einer anderen Zahlungsmethode.",
       subscriptionNotFound: "Abonnement nicht gefunden.",
       alreadySubscribed: "Sie haben diesen Plan bereits abonniert.",
       invalidPlan: "Ungültiger Plan ausgewählt.",
       processingError: "Verarbeitungsfehler. Versuchen Sie es später erneut.",
+      checkoutFailed: "Zahlung konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
+      billingPortalFailed: "Abrechnungsportal konnte nicht geöffnet werden. Bitte versuchen Sie es erneut.",
+      cancelFailed: "Abonnement konnte nicht gekündigt werden. Bitte versuchen Sie es erneut.",
     },
   },
 

@@ -209,7 +209,8 @@ export function useSubscription(): UseSubscriptionReturn {
         setCheckoutStatus({ completed: false, success: false });
       }, 3000);
     }
-  }, [showToast, refreshSubscription, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showToast, t]);
 
   // Computed properties - handle loading state properly
   // When loading, these should be undefined/null rather than false

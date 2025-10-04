@@ -1295,6 +1295,15 @@ export const strings = {
       daysRemaining: "残り{{days}}日",
       willEndOn: "{{date}}に終了予定",
     },
+    checkout: {
+      success: "🎉 プレミアムへようこそ！サブスクリプションを有効化しています...",
+      canceled: "チェックアウトがキャンセルされました。アカウント設定からいつでもアップグレードできます。",
+    },
+    errors: {
+      checkoutFailed: "チェックアウトの開始に失敗しました。もう一度お試しください。",
+      billingPortalFailed: "請求ポータルを開けませんでした。もう一度お試しください。",
+      cancelFailed: "サブスクリプションのキャンセルに失敗しました。もう一度お試しください。",
+    },
     billing: {
       monthly: "月額",
       yearly: "年額",

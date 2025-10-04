@@ -1287,6 +1287,15 @@ export const strings = {
       daysRemaining: "{{days}} jours restants",
       willEndOn: "Se terminera le {{date}}",
     },
+    checkout: {
+      success: "🎉 Bienvenue chez Premium ! Votre abonnement est en cours d'activation...",
+      canceled: "Paiement annulé. Vous pouvez mettre à niveau à tout moment depuis les paramètres de votre compte.",
+    },
+    errors: {
+      checkoutFailed: "Impossible de démarrer le paiement. Veuillez réessayer.",
+      billingPortalFailed: "Impossible d'ouvrir le portail de facturation. Veuillez réessayer.",
+      cancelFailed: "Impossible d'annuler l'abonnement. Veuillez réessayer.",
+    },
     billing: {
       monthly: "Mensuel",
       yearly: "Annuel",

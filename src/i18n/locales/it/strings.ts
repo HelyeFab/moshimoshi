@@ -1214,12 +1214,19 @@ export const strings = {
       daysRemaining: "{{days}} giorni rimanenti",
       willEndOn: "Il tuo abbonamento terminerà il {{date}}",
     },
+    checkout: {
+      success: "🎉 Benvenuto in Premium! Il tuo abbonamento si sta attivando...",
+      canceled: "Pagamento annullato. Puoi fare l'upgrade in qualsiasi momento dalle impostazioni del tuo account.",
+    },
     errors: {
       paymentFailed: "Pagamento fallito. Riprova con un metodo di pagamento diverso.",
       subscriptionNotFound: "Abbonamento non trovato.",
       alreadySubscribed: "Sei già abbonato a questo piano.",
       invalidPlan: "Piano non valido selezionato.",
       processingError: "Errore durante l'elaborazione. Riprova più tardi.",
+      checkoutFailed: "Impossibile avviare il pagamento. Riprova.",
+      billingPortalFailed: "Impossibile aprire il portale di fatturazione. Riprova.",
+      cancelFailed: "Impossibile annullare l'abbonamento. Riprova.",
     },
   },
 
