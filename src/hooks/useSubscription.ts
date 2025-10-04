@@ -156,7 +156,12 @@ export function useSubscription(): UseSubscriptionReturn {
 
     if (status.completed) {
       if (status.success) {
-        showToast(t('subscription.checkout.success'), 'success', 5000);
+        // Only show toast once per checkout session (prevent duplicates from multiple hook instances)
+        const toastShownKey = `checkout-toast-shown-${status.completed}`;
+        if (!sessionStorage.getItem(toastShownKey)) {
+          sessionStorage.setItem(toastShownKey, 'true');
+          showToast(t('subscription.checkout.success'), 'success', 5000);
+        }
 
         // Improved polling: Check if subscription updated and stop early if successful
         // This prevents unnecessary API calls if webhook completes quickly
