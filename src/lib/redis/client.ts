@@ -7,9 +7,37 @@ import { Redis } from '@upstash/redis'
 const UPSTASH_REDIS_REST_URL = process.env.UPSTASH_REDIS_REST_URL?.trim()
 const UPSTASH_REDIS_REST_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN?.trim()
 
-if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
-  console.warn('⚠️  Redis not configured. Some features may not work properly.')
-  console.warn('Please add UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN to your .env.local')
+// CRITICAL: In production, Redis is REQUIRED for session management, tier caching, and rate limiting
+// Fail fast if not configured to prevent silent degradation and Stripe checkout issues
+if (process.env.NODE_ENV === 'production') {
+  if (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes('mock')) {
+    console.error('🔴 CRITICAL: Redis (Upstash) is not configured in production')
+    console.error('Required environment variables:')
+    console.error('  - UPSTASH_REDIS_REST_URL')
+    console.error('  - UPSTASH_REDIS_REST_TOKEN')
+    console.error('')
+    console.error('Redis is required for:')
+    console.error('  - Session authentication (including Stripe checkout)')
+    console.error('  - Tier caching (premium subscription detection)')
+    console.error('  - Rate limiting (security)')
+    console.error('  - User stats caching (performance)')
+    throw new Error('Redis configuration required in production. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN environment variables.')
+  }
+
+  if (!UPSTASH_REDIS_REST_TOKEN) {
+    console.error('🔴 CRITICAL: UPSTASH_REDIS_REST_TOKEN is missing in production')
+    throw new Error('Redis token required in production. Set UPSTASH_REDIS_REST_TOKEN environment variable.')
+  }
+}
+
+// Development/Test: Warn if not configured but allow mock fallback
+if (process.env.NODE_ENV !== 'production') {
+  if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
+    console.warn('⚠️  Redis not configured. Using mock Redis for development.')
+    console.warn('To use real Redis, add to your .env.local:')
+    console.warn('  UPSTASH_REDIS_REST_URL=your_url_here')
+    console.warn('  UPSTASH_REDIS_REST_TOKEN=your_token_here')
+  }
 }
 
 // Create Redis instance or mock for development
@@ -69,6 +97,16 @@ export const redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes
     automaticDeserialization: false, // Keep as strings for consistent JSON handling
   })
 
+// Log Redis client status on initialization
+if (redis === null || typeof redis === 'object' && 'get' in redis && redis.get.constructor.name === 'AsyncFunction') {
+  // Mock Redis
+  console.log('[Redis] 🔶 Using MOCK Redis client (development mode)')
+} else {
+  // Real Redis
+  console.log('[Redis] ✅ Using REAL Upstash Redis client')
+  console.log(`[Redis] 🔗 Connected to: ${UPSTASH_REDIS_REST_URL?.slice(0, 30)}...`)
+}
+
 // Redis key prefixes for different data types
 export const RedisKeys = {
   // Session management
@@ -93,7 +131,8 @@ export const RedisKeys = {
   // Application data
   lessonProgress: (userId: string, lessonId: string) => `progress:${userId}:${lessonId}`,
   userStats: (userId: string) => `stats:${userId}`,
-  
+  reviewQueue: (userId: string) => `queue:${userId}`,
+
   // Admin operations
   adminAudit: (action: string, timestamp: string) => `audit:${action}:${timestamp}`,
 }
