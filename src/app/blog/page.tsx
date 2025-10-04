@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getPaginatedBlogPosts } from "@/services/blogService";
 import type { BlogPost, PaginatedBlogResponse } from "@/services/blogService";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import Head from "next/head";
 import { NewsletterForm } from "@/components/blog/NewsletterForm";
 
-export default function BlogPage() {
+function BlogContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -514,5 +514,26 @@ export default function BlogPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function BlogPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+        <Navbar showUserMenu={true} />
+        <div className="max-w-7xl mx-auto px-4 py-20 text-center relative z-10">
+          <div className="relative mb-6">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200 dark:border-primary-800 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary-500 mx-auto absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+          </div>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            Loading blog posts...
+          </p>
+        </div>
+      </main>
+    }>
+      <BlogContent />
+    </Suspense>
   );
 }
