@@ -13,23 +13,29 @@ export async function GET(
   try {
     const postId = params.id;
 
-    // Get all comments for this post (including soft-deleted ones are excluded via query)
+    // Get all comments for this post and filter/sort client-side to avoid index requirement
     const commentsSnapshot = await adminDb
       .collection('blogComments')
       .where('postId', '==', postId)
-      .where('deletedAt', '==', null)
-      .orderBy('createdAt', 'desc')
       .get();
 
-    const comments = commentsSnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        ...data,
-        createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
-        updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toDate().toISOString() : data.updatedAt,
-      };
-    });
+    const comments = commentsSnapshot.docs
+      .map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
+          updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toDate().toISOString() : data.updatedAt,
+        };
+      })
+      .filter((comment) => !comment.deletedAt) // Filter out deleted comments
+      .sort((a, b) => {
+        // Sort by createdAt descending
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        return dateB - dateA;
+      });
 
     return NextResponse.json({
       success: true,
