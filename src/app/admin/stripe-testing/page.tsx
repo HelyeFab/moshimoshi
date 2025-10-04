@@ -3,16 +3,38 @@
 import { useState, useEffect } from 'react'
 import { useAdmin } from '@/hooks/useAdmin'
 import { useToast } from '@/components/ui/Toast'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import StripeEventMonitor from '@/components/admin/StripeEventMonitor'
 
 export default function StripeTestingPage() {
   const { isAdmin, isLoading: adminLoading } = useAdmin()
   const { showToast } = useToast()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [testing, setTesting] = useState<string | null>(null)
   const [testResults, setTestResults] = useState<any[]>([])
   const [cleaning, setCleaning] = useState(false)
+
+  // Handle redirect back from Stripe checkout
+  useEffect(() => {
+    const testStatus = searchParams.get('test')
+
+    if (testStatus === 'success') {
+      showToast('✅ Checkout completed! Payment processed successfully. Check the Event Monitor below for webhook events.', 'success')
+      setTestResults(prev => [{
+        type: 'checkout',
+        timestamp: new Date().toISOString(),
+        status: 'success',
+        data: { message: 'Checkout completed, webhook processing in progress...' }
+      }, ...prev])
+
+      // Clean up URL
+      router.replace('/admin/stripe-testing', { scroll: false })
+    } else if (testStatus === 'canceled') {
+      showToast('Checkout canceled', 'error')
+      router.replace('/admin/stripe-testing', { scroll: false })
+    }
+  }, [searchParams, showToast, router])
 
   useEffect(() => {
     if (!adminLoading && !isAdmin) {
