@@ -221,7 +221,7 @@ export default function StripeTestingPage() {
               Stripe Production Testing
             </h1>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1">
-              Test Stripe integration in production with £0.00 Easter Egg checkout
+              Test complete Stripe subscription flow in production with £0.00/month Easter Egg subscription
             </p>
             <div className="mt-2 flex flex-wrap gap-2 text-xs">
               <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 rounded-full">
@@ -295,29 +295,27 @@ export default function StripeTestingPage() {
           </div>
 
           {/* Test 2: Renewal Simulation */}
-          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-800/30 opacity-60">
+          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xl">2️⃣</span>
                   <h3 className="font-semibold text-gray-900 dark:text-white">Test Renewal Simulation</h3>
-                  <span className="px-2 py-0.5 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded text-xs font-medium">
-                    Requires Subscription
+                  <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded text-xs font-medium">
+                    98% Coverage
                   </span>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 ml-7">
                   Simulates subscription renewal → Triggers invoice.payment_succeeded → Tests recurring billing
                 </p>
-                <div className="text-xs text-orange-600 dark:text-orange-400 ml-7 mt-2 flex items-start gap-1">
-                  <span>⚠️</span>
-                  <span>Easter egg test uses one-time payment. Renewal requires an active subscription (monthly/yearly plan).</span>
+                <div className="text-xs text-gray-500 dark:text-gray-500 ml-7 mt-1">
+                  Coverage: Invoice handling, payment processing, renewal updates
                 </div>
               </div>
               <button
                 onClick={runRenewalTest}
-                disabled={true}
-                className="px-4 py-2 bg-gray-400 text-white rounded-lg cursor-not-allowed transition-colors text-sm font-medium whitespace-nowrap flex items-center gap-2"
-                title="Requires an active subscription"
+                disabled={testing !== null || cleaning}
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium whitespace-nowrap flex items-center gap-2"
               >
                 {testing === 'renewal' ? (
                   <>
@@ -330,29 +328,24 @@ export default function StripeTestingPage() {
           </div>
 
           {/* Test 3: Cancellation */}
-          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-800/30 opacity-60">
+          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xl">3️⃣</span>
                   <h3 className="font-semibold text-gray-900 dark:text-white">Test Cancellation Flow</h3>
-                  <span className="px-2 py-0.5 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded text-xs font-medium">
-                    Requires Subscription
-                  </span>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 ml-7">
                   Cancels subscription → Triggers customer.subscription.deleted → Reverts to free tier
                 </p>
-                <div className="text-xs text-orange-600 dark:text-orange-400 ml-7 mt-2 flex items-start gap-1">
-                  <span>⚠️</span>
-                  <span>Easter egg test uses one-time payment. Cancellation requires an active subscription (monthly/yearly plan).</span>
+                <div className="text-xs text-gray-500 dark:text-gray-500 ml-7 mt-1">
+                  Coverage: Cancellation handling, downgrade logic, cache clearing
                 </div>
               </div>
               <button
                 onClick={runCancelTest}
-                disabled={true}
-                className="px-4 py-2 bg-gray-400 text-white rounded-lg cursor-not-allowed transition-colors text-sm font-medium whitespace-nowrap flex items-center gap-2"
-                title="Requires an active subscription"
+                disabled={testing !== null || cleaning}
+                className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium whitespace-nowrap flex items-center gap-2"
               >
                 {testing === 'cancel' ? (
                   <>

@@ -18,8 +18,8 @@ import { getSession } from '@/lib/auth/session';
 import { getStripe } from '@/lib/stripe/server';
 import { getCustomerIdByUid, mapUidToCustomer, adminFirestore } from '@/lib/firebase/admin';
 
-// Easter egg price ID (£0.00 one-time payment)
-const EASTER_EGG_PRICE_ID = 'price_1SDlJJHdrJomitOwnRmWRKhI';
+// Easter egg price ID (£0.00 monthly subscription)
+const EASTER_EGG_PRICE_ID = 'price_1SEXlIHdrJomitOw956pZB3q';
 
 // Helper function to check if user is admin (same as other admin endpoints)
 async function isUserAdmin(uid: string): Promise<boolean> {
@@ -232,7 +232,7 @@ async function handleTestCheckout(request: NextRequest) {
     try {
       checkoutSession = await stripe.checkout.sessions.create(
         {
-          mode: 'payment', // One-time payment (not subscription)
+          mode: 'subscription', // Monthly subscription (£0.00)
           customer: customerId,
           line_items: [
             {
@@ -247,7 +247,8 @@ async function handleTestCheckout(request: NextRequest) {
             admin_test: 'true',
             test_id: testId,
             test_timestamp: new Date().toISOString(),
-            test_type: 'easter_egg_checkout',
+            test_type: 'easter_egg_subscription',
+            price_id: EASTER_EGG_PRICE_ID,
           },
           // Don't allow promotion codes for tests
           allow_promotion_codes: false,

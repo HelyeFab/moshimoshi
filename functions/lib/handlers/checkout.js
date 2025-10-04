@@ -53,7 +53,7 @@ async function invalidateSessionTierCache(customerId) {
  * @throws Error if critical data is missing (but handler above catches it)
  */
 async function applyCheckoutCompleted(event) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     const session = event.data.object;
     // Log the event with additional context
     await (0, firestore_1.logStripeEvent)(event, {
@@ -82,6 +82,32 @@ async function applyCheckoutCompleted(event) {
         if (!existingUid) {
             console.warn(`No uid found for customer ${customerId} in checkout`);
             // Continue anyway - subscription facts can still be stored
+        }
+    }
+    // Detect and log admin test checkouts (both payment and subscription modes)
+    if (((_d = session.metadata) === null || _d === void 0 ? void 0 : _d.admin_test) === 'true') {
+        console.log('========================================');
+        console.log('🥚 ADMIN TEST CHECKOUT DETECTED');
+        console.log('========================================');
+        console.log(`Session ID: ${session.id}`);
+        console.log(`Test ID: ${session.metadata.test_id}`);
+        console.log(`Test Type: ${session.metadata.test_type}`);
+        console.log(`Test Timestamp: ${session.metadata.test_timestamp}`);
+        console.log(`User ID: ${session.metadata.uid}`);
+        console.log(`Customer ID: ${customerId}`);
+        console.log(`Mode: ${session.mode}`);
+        console.log(`Payment Status: ${session.payment_status}`);
+        console.log(`Subscription ID: ${session.subscription || 'N/A'}`);
+        console.log('========================================');
+        // Continue processing for subscription mode tests (they create real subscriptions)
+        if (session.mode === 'subscription') {
+            console.log('✅ Admin test subscription - processing normally to create real subscription');
+        }
+        else {
+            // For payment mode tests, just log and exit
+            console.log('✅ Admin test payment - logging only, no database changes');
+            console.log('========================================');
+            return;
         }
     }
     // Handle subscription checkout

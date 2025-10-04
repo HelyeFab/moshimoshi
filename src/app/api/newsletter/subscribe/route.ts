@@ -98,7 +98,12 @@ export async function POST(request: NextRequest) {
 
     console.log('📧 Creating new newsletter subscriber:', { email: normalizedEmail, source, emailHash });
     await subscriberRef.set(subscriber);
+
+    // Verify the write
+    const verifyDoc = await subscriberRef.get();
     console.log('✅ Newsletter subscriber created successfully');
+    console.log('📊 Document exists:', verifyDoc.exists);
+    console.log('📊 Document data:', verifyDoc.data());
 
     return NextResponse.json({
       success: true,

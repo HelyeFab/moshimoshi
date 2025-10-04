@@ -92,11 +92,38 @@ export async function applyCheckoutCompleted(event: Stripe.Event): Promise<void>
     }
   }
 
+  // Detect and log admin test checkouts (both payment and subscription modes)
+  if (session.metadata?.admin_test === 'true') {
+    console.log('========================================');
+    console.log('🥚 ADMIN TEST CHECKOUT DETECTED');
+    console.log('========================================');
+    console.log(`Session ID: ${session.id}`);
+    console.log(`Test ID: ${session.metadata.test_id}`);
+    console.log(`Test Type: ${session.metadata.test_type}`);
+    console.log(`Test Timestamp: ${session.metadata.test_timestamp}`);
+    console.log(`User ID: ${session.metadata.uid}`);
+    console.log(`Customer ID: ${customerId}`);
+    console.log(`Mode: ${session.mode}`);
+    console.log(`Payment Status: ${session.payment_status}`);
+    console.log(`Subscription ID: ${session.subscription || 'N/A'}`);
+    console.log('========================================');
+
+    // Continue processing for subscription mode tests (they create real subscriptions)
+    if (session.mode === 'subscription') {
+      console.log('✅ Admin test subscription - processing normally to create real subscription');
+    } else {
+      // For payment mode tests, just log and exit
+      console.log('✅ Admin test payment - logging only, no database changes');
+      console.log('========================================');
+      return;
+    }
+  }
+
   // Handle subscription checkout
   if (session.mode === 'subscription') {
     await handleSubscriptionCheckout(session, customerId);
   }
-  
+
   // Handle one-time payment checkout (future enhancement)
   if (session.mode === 'payment') {
     await handlePaymentCheckout(session, customerId);
