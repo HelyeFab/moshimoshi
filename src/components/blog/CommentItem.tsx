@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { Comment } from '@/services/commentService';
 import { updateComment, deleteComment } from '@/services/commentService';
+import Modal from '@/components/ui/Modal';
 
 interface CommentItemProps {
   comment: Comment;
@@ -17,6 +18,7 @@ export function CommentItem({ comment, currentUserId, isAdmin, onUpdate, onDelet
   const [editContent, setEditContent] = useState(comment.content);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const isOwner = currentUserId === comment.userId;
   const canEdit = isOwner;
@@ -85,12 +87,13 @@ export function CommentItem({ comment, currentUserId, isAdmin, onUpdate, onDelet
     }
   };
 
-  const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this comment?')) {
-      return;
-    }
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
+  };
 
+  const handleConfirmDelete = async () => {
     setIsSubmitting(true);
+    setShowDeleteModal(false);
     try {
       await deleteComment(comment.id);
       onDelete(comment.id);
@@ -178,7 +181,7 @@ export function CommentItem({ comment, currentUserId, isAdmin, onUpdate, onDelet
                 )}
                 {canDelete && (
                   <button
-                    onClick={handleDelete}
+                    onClick={handleDeleteClick}
                     disabled={isSubmitting}
                     className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium disabled:opacity-50"
                   >
@@ -192,6 +195,34 @@ export function CommentItem({ comment, currentUserId, isAdmin, onUpdate, onDelet
           </>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title="Delete Comment"
+        size="sm"
+      >
+        <div className="space-y-4">
+          <p className="text-gray-700 dark:text-gray-300">
+            Are you sure you want to delete this comment? This action cannot be undone.
+          </p>
+          <div className="flex gap-3 justify-end">
+            <button
+              onClick={() => setShowDeleteModal(false)}
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleConfirmDelete}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
