@@ -7,6 +7,7 @@ import type { BlogPost } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
 import DOMPurify from "isomorphic-dompurify";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import { CommentSection } from "@/components/blog/CommentSection";
 import Head from "next/head";
 
 export default function BlogPostPage() {
@@ -16,6 +17,27 @@ export default function BlogPostPage() {
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<{ uid: string; admin?: boolean } | null>(null);
+
+  // Fetch current user session
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch('/api/auth/session', { credentials: 'include' });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.user) {
+            setCurrentUser({ uid: data.user.uid, admin: data.user.admin });
+          }
+        }
+      } catch (err) {
+        // Not logged in, that's fine
+        console.log('User not authenticated');
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -289,6 +311,15 @@ export default function BlogPostPage() {
             }}
           />
         </div>
+
+        {/* Comments Section */}
+        {post && (
+          <CommentSection
+            postId={post.id}
+            currentUserId={currentUser?.uid}
+            isAdmin={currentUser?.admin}
+          />
+        )}
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}

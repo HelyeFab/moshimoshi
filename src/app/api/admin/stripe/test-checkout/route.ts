@@ -53,14 +53,46 @@ async function isUserAdmin(uid: string): Promise<boolean> {
 }
 
 export async function POST(request: NextRequest) {
+  // Outer safety wrapper - ensures we ALWAYS return valid JSON
+  try {
+    console.log('[Admin Test Checkout] ========== FUNCTION ENTERED ==========');
+
+    return await handleTestCheckout(request);
+  } catch (outerError: any) {
+    console.error('[Admin Test Checkout] OUTER ERROR HANDLER:', outerError);
+    return NextResponse.json(
+      {
+        error: 'Unexpected server error',
+        message: outerError.message,
+        type: outerError.constructor?.name,
+        stack: process.env.NODE_ENV === 'development' ? outerError.stack : undefined,
+      },
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
+}
+
+async function handleTestCheckout(request: NextRequest) {
   try {
     console.log('[Admin Test Checkout] ========== REQUEST START ==========');
     console.log('[Admin Test Checkout] Environment:', process.env.NODE_ENV);
     console.log('[Admin Test Checkout] adminFirestore available:', !!adminFirestore);
 
     // 1. AUTHENTICATION - Admin only (same pattern as admin/subscriptions/upgrade)
-    const session = await getSession();
-    console.log('[Admin Test Checkout] Session:', session ? 'exists' : 'null', session?.uid);
+    let session;
+    try {
+      session = await getSession();
+      console.log('[Admin Test Checkout] Session retrieved:', session ? 'exists' : 'null', session?.uid);
+    } catch (sessionError: any) {
+      console.error('[Admin Test Checkout] getSession() failed:', sessionError);
+      return NextResponse.json(
+        { error: 'Session error', details: sessionError.message },
+        { status: 500 }
+      );
+    }
 
     if (!session?.uid) {
       console.log('[Admin Test Checkout] No session or uid');
@@ -98,13 +130,26 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. VALIDATE EASTER EGG PRICE
+    console.log('[Admin Test Checkout] Getting Stripe instance...');
     const stripe = getStripe();
-    const price = await stripe.prices.retrieve(EASTER_EGG_PRICE_ID);
+    console.log('[Admin Test Checkout] Stripe instance obtained, retrieving price...');
+
+    let price;
+    try {
+      price = await stripe.prices.retrieve(EASTER_EGG_PRICE_ID);
+      console.log('[Admin Test Checkout] Price retrieved:', price.id, 'amount:', price.unit_amount);
+    } catch (priceError: any) {
+      console.error('[Admin Test Checkout] Failed to retrieve price:', priceError);
+      return NextResponse.json(
+        { error: 'Failed to retrieve easter egg price', details: priceError.message },
+        { status: 500 }
+      );
+    }
 
     if (!price || price.unit_amount !== 0) {
-      console.error('[Admin Test Checkout] Invalid price configuration');
+      console.error('[Admin Test Checkout] Invalid price configuration:', price);
       return NextResponse.json(
-        { error: 'Easter egg price misconfigured' },
+        { error: 'Easter egg price misconfigured', priceData: { id: price?.id, amount: price?.unit_amount } },
         { status: 500 }
       );
     }
@@ -172,32 +217,43 @@ export async function POST(request: NextRequest) {
 
     // 6. CREATE CHECKOUT SESSION
     const testId = `test_${Date.now()}`;
-    const checkoutSession = await stripe.checkout.sessions.create(
-      {
-        mode: 'payment', // One-time payment (not subscription)
-        customer: customerId,
-        line_items: [
-          {
-            price: EASTER_EGG_PRICE_ID,
-            quantity: 1,
+    console.log('[Admin Test Checkout] Creating checkout session...');
+
+    let checkoutSession;
+    try {
+      checkoutSession = await stripe.checkout.sessions.create(
+        {
+          mode: 'payment', // One-time payment (not subscription)
+          customer: customerId,
+          line_items: [
+            {
+              price: EASTER_EGG_PRICE_ID,
+              quantity: 1,
+            },
+          ],
+          success_url: successUrl,
+          cancel_url: cancelUrl,
+          metadata: {
+            uid,
+            admin_test: 'true',
+            test_id: testId,
+            test_timestamp: new Date().toISOString(),
+            test_type: 'easter_egg_checkout',
           },
-        ],
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-        metadata: {
-          uid,
-          admin_test: 'true',
-          test_id: testId,
-          test_timestamp: new Date().toISOString(),
-          test_type: 'easter_egg_checkout',
+          // Don't allow promotion codes for tests
+          allow_promotion_codes: false,
         },
-        // Don't allow promotion codes for tests
-        allow_promotion_codes: false,
-      },
-      {
-        idempotencyKey: `admin_test_${uid}_${testId}`,
-      }
-    );
+        {
+          idempotencyKey: `admin_test_${uid}_${testId}`,
+        }
+      );
+    } catch (checkoutError: any) {
+      console.error('[Admin Test Checkout] Failed to create checkout session:', checkoutError);
+      return NextResponse.json(
+        { error: 'Failed to create checkout session', details: checkoutError.message },
+        { status: 500 }
+      );
+    }
 
     console.log(`[Admin Test Checkout] ✅ Checkout session created: ${checkoutSession.id}`);
     console.log(`[Admin Test Checkout] Test ID: ${testId}`);
