@@ -188,6 +188,268 @@ If you didn't request this email, you can safely ignore it.
 }
 
 /**
+ * Send email verification email
+ */
+export async function sendVerificationEmail(email: string, verificationLink: string, name?: string): Promise<void> {
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Verify Your Email - Moshimoshi</title>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+          }
+          .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+          .logo {
+            text-align: center;
+            margin-bottom: 30px;
+          }
+          .button {
+            display: inline-block;
+            padding: 14px 30px;
+            background-color: #ec4899;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+          }
+          .button:hover {
+            background-color: #db2777;
+          }
+          .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+          }
+          .warning {
+            background-color: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 20px 0;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="logo">
+            <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+              <div style="width: 48px; height: 48px; background-color: #ec4899; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold;">
+                も
+              </div>
+              <span style="font-size: 28px; font-weight: bold; color: #111;">
+                Moshimoshi
+              </span>
+            </div>
+          </div>
+
+          <h2>Verify your email address</h2>
+
+          <p>Hi ${name || 'there'}!</p>
+
+          <p>Thanks for signing up for Moshimoshi! Please verify your email address to complete your registration and start your Japanese learning journey.</p>
+
+          <div style="text-align: center;">
+            <a href="${verificationLink}" class="button">Verify Email Address</a>
+          </div>
+
+          <p style="font-size: 14px; color: #666;">Or copy and paste this link into your browser:</p>
+          <p style="font-size: 12px; word-break: break-all; background: #f5f5f5; padding: 10px; border-radius: 4px;">
+            ${verificationLink}
+          </p>
+
+          <div class="warning">
+            ℹ️ This link will expire in 24 hours. If you didn't create an account, you can safely ignore this email.
+          </div>
+
+          <div class="footer">
+            <p>© 2024 Moshimoshi - Learn Japanese with AI</p>
+            <p>
+              <a href="https://moshimoshi.app/privacy" style="color: #ec4899; text-decoration: none;">Privacy Policy</a> •
+              <a href="https://moshimoshi.app/terms" style="color: #ec4899; text-decoration: none;">Terms of Service</a>
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `
+
+  const text = `
+🌸 Moshimoshi - Verify Your Email Address
+
+Hi ${name || 'there'}!
+
+Thanks for signing up for Moshimoshi! Please verify your email address to complete your registration.
+
+Click this link to verify:
+${verificationLink}
+
+This link will expire in 24 hours.
+
+If you didn't create an account, you can safely ignore this email.
+
+© 2024 Moshimoshi - Learn Japanese with AI
+  `
+
+  await sendEmail({
+    to: email,
+    subject: 'Verify your email - Moshimoshi',
+    text,
+    html,
+  })
+}
+
+/**
+ * Send newsletter verification email
+ */
+export async function sendNewsletterVerificationEmail(email: string, verificationLink: string): Promise<void> {
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirm Newsletter Subscription - Moshimoshi</title>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+          }
+          .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+          .logo {
+            text-align: center;
+            margin-bottom: 30px;
+          }
+          .button {
+            display: inline-block;
+            padding: 14px 30px;
+            background-color: #ec4899;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+          }
+          .button:hover {
+            background-color: #db2777;
+          }
+          .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+          }
+          .warning {
+            background-color: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 20px 0;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="logo">
+            <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+              <div style="width: 48px; height: 48px; background-color: #ec4899; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold;">
+                も
+              </div>
+              <span style="font-size: 28px; font-weight: bold; color: #111;">
+                Moshimoshi
+              </span>
+            </div>
+          </div>
+
+          <h2>Confirm your newsletter subscription</h2>
+
+          <p>Hi there!</p>
+
+          <p>Thanks for subscribing to the Moshimoshi newsletter! Please confirm your subscription to start receiving our latest updates, Japanese learning tips, and exclusive content.</p>
+
+          <div style="text-align: center;">
+            <a href="${verificationLink}" class="button">Confirm Subscription</a>
+          </div>
+
+          <p style="font-size: 14px; color: #666;">Or copy and paste this link into your browser:</p>
+          <p style="font-size: 12px; word-break: break-all; background: #f5f5f5; padding: 10px; border-radius: 4px;">
+            ${verificationLink}
+          </p>
+
+          <div class="warning">
+            ℹ️ This link will expire in 24 hours. If you didn't subscribe to our newsletter, you can safely ignore this email.
+          </div>
+
+          <div class="footer">
+            <p>© 2024 Moshimoshi - Learn Japanese with AI</p>
+            <p>
+              <a href="https://moshimoshi.app/privacy" style="color: #ec4899; text-decoration: none;">Privacy Policy</a> •
+              <a href="https://moshimoshi.app/terms" style="color: #ec4899; text-decoration: none;">Terms of Service</a>
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `
+
+  const text = `
+🌸 Moshimoshi - Confirm Newsletter Subscription
+
+Hi there!
+
+Thanks for subscribing to the Moshimoshi newsletter! Please confirm your subscription to start receiving our updates.
+
+Click this link to confirm:
+${verificationLink}
+
+This link will expire in 24 hours.
+
+If you didn't subscribe to our newsletter, you can safely ignore this email.
+
+© 2024 Moshimoshi - Learn Japanese with AI
+  `
+
+  await sendEmail({
+    to: email,
+    subject: 'Confirm your newsletter subscription - Moshimoshi',
+    text,
+    html,
+  })
+}
+
+/**
  * Send welcome email
  */
 export async function sendWelcomeEmail(email: string, name?: string): Promise<void> {

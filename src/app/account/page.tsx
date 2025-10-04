@@ -71,6 +71,7 @@ function AccountPageContent() {
   const [showConfetti, setShowConfetti] = useState(false)
   const [showCongrats, setShowCongrats] = useState(false)
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
+  const [resendingVerification, setResendingVerification] = useState(false)
 
   // Get pricing from configuration
   const monthlyPrice = PRICING_CONFIG.monthly.displayAmount
@@ -237,6 +238,41 @@ function AccountPageContent() {
       showError(error)
     } finally {
       setUploadingAvatar(false)
+    }
+  }
+
+  const handleResendVerification = async () => {
+    setResendingVerification(true)
+    try {
+      const response = await fetch('/api/auth/email/send-verification', {
+        method: 'POST',
+        credentials: 'include',
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        if (data.alreadyVerified) {
+          showToast('Your email is already verified!', 'success')
+          // Refresh session to update email verification status
+          await refreshSession()
+          // Refresh user data
+          const userResponse = await fetch('/api/user/profile')
+          if (userResponse.ok) {
+            const userData = await userResponse.json()
+            setUser(userData)
+          }
+        } else {
+          showToast('Verification email sent! Please check your inbox.', 'success')
+        }
+      } else {
+        showError(new Error(data.error?.message || 'Failed to send verification email'))
+      }
+    } catch (error) {
+      logger.error('Email verification error:', error)
+      showError(error)
+    } finally {
+      setResendingVerification(false)
     }
   }
 
@@ -429,8 +465,12 @@ function AccountPageContent() {
                       {strings.account.profileFields.verified}
                     </span>
                   ) : (
-                    <button className="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600 transition-colors">
-                      {strings.account.profileFields.verify}
+                    <button
+                      onClick={handleResendVerification}
+                      disabled={resendingVerification}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {resendingVerification ? 'Sending...' : strings.account.profileFields.verify}
                     </button>
                   )}
                 </div>

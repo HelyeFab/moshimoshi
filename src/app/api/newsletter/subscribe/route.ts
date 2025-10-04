@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
 import crypto from 'crypto';
+import { createNewsletterVerificationToken } from '@/lib/auth/jwt';
+import { redis, RedisKeys } from '@/lib/redis/client';
+import { sendNewsletterVerificationEmail } from '@/lib/email/resend';
 
 // Email validation regex
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,18 +56,67 @@ export async function POST(request: NextRequest) {
     if (subscriberDoc.exists) {
       const data = subscriberDoc.data();
 
-      // If previously unsubscribed, resubscribe
+      // If previously unsubscribed, resend verification
       if (data?.status === 'unsubscribed') {
+        // Generate new verification token
+        const verificationToken = createNewsletterVerificationToken(normalizedEmail, 24 * 60 * 60 * 1000); // 24 hours
+
+        // Store in Redis
+        const verificationKey = RedisKeys.emailVerification(verificationToken);
+        await redis.setex(
+          verificationKey,
+          86400, // 24 hours
+          JSON.stringify({
+            email: normalizedEmail,
+            source,
+            type: 'newsletter',
+          })
+        );
+
+        // Update subscriber to pending
         await subscriberRef.update({
-          status: 'active',
+          status: 'pending',
           subscribedAt: now,
           source: source,
           unsubscribedAt: null,
         });
 
+        // Send verification email
+        const verificationUrl = `${request.nextUrl.origin}/newsletter/verify?token=${verificationToken}`;
+        await sendNewsletterVerificationEmail(normalizedEmail, verificationUrl);
+
         return NextResponse.json({
           success: true,
-          message: 'Welcome back! You have been resubscribed to our newsletter.',
+          message: 'Please check your email to confirm your subscription.',
+          requiresVerification: true,
+        });
+      }
+
+      // If pending, resend verification email
+      if (data?.status === 'pending') {
+        // Generate new verification token
+        const verificationToken = createNewsletterVerificationToken(normalizedEmail, 24 * 60 * 60 * 1000);
+
+        // Store in Redis
+        const verificationKey = RedisKeys.emailVerification(verificationToken);
+        await redis.setex(
+          verificationKey,
+          86400,
+          JSON.stringify({
+            email: normalizedEmail,
+            source,
+            type: 'newsletter',
+          })
+        );
+
+        // Send verification email
+        const verificationUrl = `${request.nextUrl.origin}/newsletter/verify?token=${verificationToken}`;
+        await sendNewsletterVerificationEmail(normalizedEmail, verificationUrl);
+
+        return NextResponse.json({
+          success: true,
+          message: 'Verification email resent! Please check your inbox.',
+          requiresVerification: true,
         });
       }
 
@@ -87,27 +139,44 @@ export async function POST(request: NextRequest) {
       // No session - guest subscription is fine
     }
 
-    // Create new subscriber
+    // Generate verification token
+    const verificationToken = createNewsletterVerificationToken(normalizedEmail, 24 * 60 * 60 * 1000); // 24 hours
+
+    // Store verification data in Redis
+    const verificationKey = RedisKeys.emailVerification(verificationToken);
+    await redis.setex(
+      verificationKey,
+      86400, // 24 hours
+      JSON.stringify({
+        email: normalizedEmail,
+        source,
+        type: 'newsletter',
+      })
+    );
+
+    // Create new subscriber with pending status
     const subscriber = {
       email: normalizedEmail,
       subscribedAt: now,
-      status: 'active',
+      status: 'pending', // Changed from 'active' to 'pending'
       source: source,
       ...(userId && { userId }), // Only add userId if it exists
     };
 
-    console.log('📧 Creating new newsletter subscriber:', { email: normalizedEmail, source, emailHash });
+    console.log('📧 Creating new newsletter subscriber (pending):', { email: normalizedEmail, source, emailHash });
     await subscriberRef.set(subscriber);
 
-    // Verify the write
-    const verifyDoc = await subscriberRef.get();
-    console.log('✅ Newsletter subscriber created successfully');
-    console.log('📊 Document exists:', verifyDoc.exists);
-    console.log('📊 Document data:', verifyDoc.data());
+    // Send verification email
+    const verificationUrl = `${request.nextUrl.origin}/newsletter/verify?token=${verificationToken}`;
+    await sendNewsletterVerificationEmail(normalizedEmail, verificationUrl);
+
+    console.log('✅ Newsletter subscriber created (pending verification)');
+    console.log('📧 Verification email sent to:', normalizedEmail);
 
     return NextResponse.json({
       success: true,
-      message: 'Thank you for subscribing! You will receive our latest updates.',
+      message: 'Almost done! Please check your email to confirm your subscription.',
+      requiresVerification: true,
     }, { status: 201 });
 
   } catch (error: any) {

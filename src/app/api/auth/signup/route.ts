@@ -8,6 +8,9 @@ import { createSession } from '@/lib/auth/session'
 import { signUpSchema, getSecurityHeaders, formatZodErrors } from '@/lib/auth/validation'
 import { checkSignupRateLimit, getRateLimitHeaders } from '@/lib/auth/rateLimit'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
+import { createEmailVerificationToken } from '@/lib/auth/jwt'
+import { sendVerificationEmail } from '@/lib/email/resend'
+import { redis, RedisKeys, CacheTTL } from '@/lib/redis/client'
 import { z } from 'zod'
 
 export async function POST(request: NextRequest) {
@@ -79,7 +82,7 @@ export async function POST(request: NextRequest) {
         email,
         password,
         displayName: displayName || email.split('@')[0],
-        emailVerified: true, // Set to true since we're not sending verification emails yet
+        emailVerified: false, // Changed: Now send verification emails
       })
 
       // Create user profile in Firestore with complete schema
@@ -88,12 +91,45 @@ export async function POST(request: NextRequest) {
       // Update with authentication-specific fields using merge
       await adminFirestore!.collection('users').doc(userRecord.uid).set({
         displayName: displayName || email.split('@')[0],
-        emailVerified: true,
+        emailVerified: false, // Changed: Will be set to true after email verification
         authProvider: 'email',
         updatedAt: FieldValue.serverTimestamp(),
       }, { merge: true })
 
-      // Create session
+      // Generate and send verification email
+      const verificationToken = createEmailVerificationToken(
+        email,
+        userRecord.uid,
+        CacheTTL.EMAIL_VERIFICATION * 1000 // Convert to ms
+      )
+
+      // Store verification token in Redis
+      const verificationKey = RedisKeys.emailVerification(verificationToken)
+      await redis.setex(
+        verificationKey,
+        CacheTTL.EMAIL_VERIFICATION,
+        JSON.stringify({
+          userId: userRecord.uid,
+          email,
+          createdAt: new Date().toISOString(),
+          ipAddress,
+          userAgent,
+        })
+      )
+
+      // Build verification URL
+      const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/api/auth/email/verify?token=${verificationToken}`
+
+      // Send verification email (don't fail signup if email fails)
+      try {
+        await sendVerificationEmail(email, verificationUrl, displayName || email.split('@')[0])
+        console.log('[API /auth/signup] Verification email sent to:', email)
+      } catch (emailError) {
+        console.error('[API /auth/signup] Failed to send verification email:', emailError)
+        // Continue with signup even if email fails - user can request new verification email
+      }
+
+      // Create session (allow login even if email not verified yet)
       await createSession(
         {
           uid: userRecord.uid,
@@ -131,9 +167,10 @@ export async function POST(request: NextRequest) {
             uid: userRecord.uid,
             email,
             tier: 'free',
-            emailVerified: true,
+            emailVerified: false, // Changed: Email verification required
           },
-          requiresVerification: false, // Not requiring verification since we're not sending emails yet
+          requiresVerification: true, // Changed: Now requiring email verification
+          message: 'Account created successfully. Please check your email to verify your account.',
         },
         { 
           status: 201,

@@ -6,6 +6,7 @@ import { I18nProvider } from '@/i18n/I18nContext'
 import { AuthProvider } from '@/hooks/useAuth' // Compatibility wrapper - not actually needed but keeps layout consistent
 import { ServiceWorkerProvider } from '@/components/pwa/ServiceWorkerProvider'
 import CelebrationProvider from '@/components/gamification/CelebrationProvider'
+import { EmailVerificationBanner } from '@/components/EmailVerificationBanner'
 import { themeInitScript } from '@/lib/theme/theme-script'
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors'
 import '@/styles/globals.css'
@@ -46,6 +47,7 @@ export default function RootLayout({
               <ThemeProvider>
                 <ServiceWorkerProvider>
                   <CelebrationProvider>
+                    <EmailVerificationBanner />
                     {children}
                     {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
                   </CelebrationProvider>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
@@ -8,16 +8,20 @@ import Navbar from '@/components/layout/Navbar'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/i18n/I18nContext'
-import { Trophy, Medal, Award, Target, Zap, Star, Users, Clock, Info } from 'lucide-react'
-import { MOCK_LEADERBOARD, MOCK_CURRENT_USER_STATS, getMockLeaderboard, getMockTopN } from '@/mocks/leaderboard.mock'
-
-type TimeFrame = 'daily' | 'weekly' | 'monthly' | 'allTime'
+import { Trophy, Medal, Zap, Star, Users, ChevronLeft, ChevronRight } from 'lucide-react'
+import { LoadingOverlay } from '@/components/ui/Loading'
+import type { LeaderboardEntry, LeaderboardResponse, UserRankResponse } from '@/lib/leaderboard/types'
 
 export default function LeaderboardPage() {
   const { user } = useAuth()
   const { t, strings } = useI18n()
-  const [timeframe, setTimeframe] = useState<TimeFrame>('allTime')
   const [activeTab, setActiveTab] = useState<'global' | 'friends'>('global')
+  const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(true)
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([])
+  const [pagination, setPagination] = useState<LeaderboardResponse['pagination'] | null>(null)
+  const [metadata, setMetadata] = useState<LeaderboardResponse['metadata'] | null>(null)
+  const [userRank, setUserRank] = useState<number | null>(null)
 
   // Get real gamification data for current user
   const {
@@ -27,41 +31,44 @@ export default function LeaderboardPage() {
     isEnabled: gamificationEnabled
   } = useGamification()
 
-  // Use mock data for leaderboard (no server-side rankings yet)
-  const leaderboardData = getMockLeaderboard(50)
-
-  // Update user stats with real data if gamification is enabled
-  const userStats = gamificationEnabled
-    ? {
-        rank: MOCK_CURRENT_USER_STATS.rank, // Keep mock rank
-        score: totalXP, // Real XP
-        streak: currentStreak, // Real streak
-        level: currentLevel // Real level
+  // Fetch leaderboard data
+  useEffect(() => {
+    async function fetchLeaderboard() {
+      setLoading(true)
+      try {
+        const response = await fetch(`/api/leaderboard?page=${page}&limit=20`)
+        if (!response.ok) {
+          throw new Error('Failed to fetch leaderboard')
+        }
+        const data: LeaderboardResponse = await response.json()
+        setLeaderboardData(data.entries)
+        setPagination(data.pagination)
+        setMetadata(data.metadata)
+      } catch (error) {
+        console.error('[Leaderboard] Error fetching data:', error)
+      } finally {
+        setLoading(false)
       }
-    : MOCK_CURRENT_USER_STATS // Fall back to mock when disabled
+    }
+    fetchLeaderboard()
+  }, [page])
 
-  const timeframeOptions: { value: TimeFrame; label: string; icon: JSX.Element }[] = [
-    {
-      value: 'daily',
-      label: strings.leaderboard?.daily || 'Today',
-      icon: <Clock className="w-4 h-4" />
-    },
-    {
-      value: 'weekly',
-      label: strings.leaderboard?.weekly || 'This Week',
-      icon: <Target className="w-4 h-4" />
-    },
-    {
-      value: 'monthly',
-      label: strings.leaderboard?.monthly || 'This Month',
-      icon: <Award className="w-4 h-4" />
-    },
-    {
-      value: 'allTime',
-      label: strings.leaderboard?.allTime || 'All Time',
-      icon: <Trophy className="w-4 h-4" />
-    },
-  ]
+  // Fetch user rank if authenticated
+  useEffect(() => {
+    async function fetchUserRank() {
+      if (!user?.uid) return
+      try {
+        const response = await fetch('/api/leaderboard/user-rank')
+        if (response.ok) {
+          const data: UserRankResponse = await response.json()
+          setUserRank(data.rank)
+        }
+      } catch (error) {
+        console.error('[Leaderboard] Error fetching user rank:', error)
+      }
+    }
+    fetchUserRank()
+  }, [user?.uid])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-dark-900 dark:via-dark-800 dark:to-dark-900">
@@ -115,7 +122,7 @@ export default function LeaderboardPage() {
                   {strings.leaderboard?.title || 'Leaderboard'}
                 </h1>
                 <p className="text-sm sm:text-base md:text-lg opacity-90">
-                  (Mock data - gamification system removed)
+                  Top 100 learners • Updates daily at midnight UTC
                 </p>
               </div>
             </div>
@@ -130,7 +137,7 @@ export default function LeaderboardPage() {
                   <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
                   <div className="text-right sm:text-left">
                     <div className="text-xl sm:text-2xl font-bold">
-                      {userStats.rank}
+                      {userRank ? `#${userRank}` : user ? '...' : 'N/A'}
                     </div>
                     <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.yourRank || 'Your Rank'}</div>
                   </div>
@@ -145,9 +152,9 @@ export default function LeaderboardPage() {
                   <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
                   <div className="text-right sm:text-left">
                     <div className="text-xl sm:text-2xl font-bold">
-                      {userStats.score}
+                      {totalXP}
                     </div>
-                    <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.achievementPoints || 'Points'}</div>
+                    <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.totalXP || 'Total XP'}</div>
                   </div>
                 </div>
               </motion.div>
@@ -160,7 +167,7 @@ export default function LeaderboardPage() {
                   <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
                   <div className="text-right sm:text-left">
                     <div className="text-xl sm:text-2xl font-bold">
-                      {userStats.streak}
+                      {currentStreak}
                     </div>
                     <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.streak || 'Streak'}</div>
                   </div>
@@ -194,132 +201,127 @@ export default function LeaderboardPage() {
           </Button>
         </div>
 
-        {/* Time Frame Selection */}
-        <Card className="mb-4 sm:mb-6 p-3 sm:p-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">
-              {strings.leaderboard?.timeFrame || 'Time Frame'}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {timeframeOptions.map((option) => (
-                <motion.button
-                  key={option.value}
-                  onClick={() => setTimeframe(option.value)}
-                  className={`
-                    px-3 py-2 sm:px-4 rounded-lg flex items-center gap-1 sm:gap-2 transition-all text-xs sm:text-sm
-                    ${timeframe === option.value
-                      ? 'bg-primary-500 text-white shadow-lg'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                    }
-                  `}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {option.icon}
-                  <span className="font-medium hidden sm:inline">{option.label}</span>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-        </Card>
-
         {/* Main Leaderboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          {activeTab === 'global' && (
-            <Card className="overflow-hidden">
-              <div className="p-6">
-                <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-                  Top 50 Learners
-                </h2>
-                <div className="space-y-2">
-                  {leaderboardData.map((entry, index) => {
-                    const isCurrentUser = entry.userId === user?.uid
-                    const isTopThree = index < 3
-                    const medalColors = ['text-yellow-500', 'text-gray-400', 'text-orange-600']
+        <div className="relative min-h-[400px]">
+          {loading ? (
+            <LoadingOverlay
+              isLoading={true}
+              message={strings.common?.loading || "Loading leaderboard..."}
+              showDoshi={true}
+              fullScreen={false}
+            />
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+            {activeTab === 'global' && (
+              <Card className="overflow-hidden">
+                <div className="p-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                      {pagination ? `Showing ${leaderboardData.length} of Top ${pagination.total}` : 'Leaderboard'}
+                    </h2>
+                    {metadata && (
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        {metadata.totalPlayers} total players
+                      </span>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    {leaderboardData.map((entry) => {
+                      const isCurrentUser = entry.userId === user?.uid
+                      const isTopThree = entry.rank <= 3
+                      const medalColors = ['text-yellow-500', 'text-gray-400', 'text-orange-600']
 
-                    return (
-                      <div
-                        key={entry.userId}
-                        className={`
-                          flex items-center gap-4 p-3 rounded-lg transition-all
-                          ${isCurrentUser
-                            ? 'bg-primary-100 dark:bg-primary-900/30 border-2 border-primary-500'
-                            : 'bg-gray-50 dark:bg-dark-800 hover:bg-gray-100 dark:hover:bg-dark-700'
-                          }
-                        `}
-                      >
-                        <div className="w-12 text-center">
-                          {isTopThree ? (
-                            <Medal className={`w-6 h-6 mx-auto ${medalColors[index]}`} />
-                          ) : (
-                            <span className="text-gray-600 dark:text-gray-400 font-semibold">
-                              #{entry.rank}
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex-1">
-                          <div className="font-semibold text-gray-900 dark:text-gray-100">
-                            {entry.displayName}
-                            {isCurrentUser && (
-                              <span className="ml-2 text-xs bg-primary-500 text-white px-2 py-1 rounded-full">
-                                You
+                      return (
+                        <div
+                          key={entry.userId}
+                          className={`
+                            flex items-center gap-4 p-3 rounded-lg transition-all
+                            ${isCurrentUser
+                              ? 'bg-primary-100 dark:bg-primary-900/30 border-2 border-primary-500'
+                              : 'bg-gray-50 dark:bg-dark-800 hover:bg-gray-100 dark:hover:bg-dark-700'
+                            }
+                          `}
+                        >
+                          <div className="w-12 text-center">
+                            {isTopThree ? (
+                              <Medal className={`w-6 h-6 mx-auto ${medalColors[entry.rank - 1]}`} />
+                            ) : (
+                              <span className="text-gray-600 dark:text-gray-400 font-semibold">
+                                #{entry.rank}
                               </span>
                             )}
                           </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            {entry.score} points • Level {entry.level}
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900 dark:text-gray-100">
+                              {entry.displayName}
+                              {isCurrentUser && (
+                                <span className="ml-2 text-xs bg-primary-500 text-white px-2 py-1 rounded-full">
+                                  You
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              {entry.totalXP} XP • Level {entry.currentLevel}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Zap className="w-4 h-4 text-orange-500" />
+                            <span className="text-sm font-semibold">{entry.currentStreak}</span>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Zap className="w-4 h-4 text-orange-500" />
-                          <span className="text-sm font-semibold">{entry.streak}</span>
-                        </div>
-                      </div>
-                    )
-                  })}
+                      )
+                    })}
+                  </div>
+
+                  {/* Pagination Controls */}
+                  {pagination && pagination.totalPages > 1 && (
+                    <div className="flex justify-center items-center gap-4 mt-6 pt-6 border-t border-gray-200 dark:border-dark-700">
+                      <Button
+                        variant="outline"
+                        onClick={() => setPage(p => Math.max(1, p - 1))}
+                        disabled={page === 1}
+                        className="flex items-center gap-2"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                        Previous
+                      </Button>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Page {pagination.page} of {pagination.totalPages}
+                      </span>
+                      <Button
+                        variant="outline"
+                        onClick={() => setPage(p => p + 1)}
+                        disabled={!pagination.hasMore}
+                        className="flex items-center gap-2"
+                      >
+                        Next
+                        <ChevronRight className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </Card>
-          )}
+              </Card>
+            )}
 
-          {activeTab === 'friends' && (
-            <Card className="p-12 text-center">
-              <div className="max-w-md mx-auto">
-                <Users className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">
-                  {strings.leaderboard?.friendsComingSoon || 'Friends Leaderboard Coming Soon'}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {strings.leaderboard?.friendsDescription || 'Connect with friends and compete together in your learning journey.'}
-                </p>
-              </div>
-            </Card>
+            {activeTab === 'friends' && (
+              <Card className="p-12 text-center">
+                <div className="max-w-md mx-auto">
+                  <Users className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">
+                    {strings.leaderboard?.friendsComingSoon || 'Friends Leaderboard Coming Soon'}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {strings.leaderboard?.friendsDescription || 'Connect with friends and compete together in your learning journey.'}
+                  </p>
+                </div>
+              </Card>
+            )}
+            </motion.div>
           )}
-        </motion.div>
-
-        {/* Info Message */}
-        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-          <div className="flex items-start gap-3">
-            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
-                Mock Leaderboard Data
-              </p>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
-                This leaderboard displays mock data for demonstration purposes.
-                Real competitive leaderboards coming soon!
-                {gamificationEnabled && (
-                  <span className="block mt-1 text-green-600 dark:text-green-400">
-                    ✓ Your personal stats (XP: {totalXP}, Level: {currentLevel}, Streak: {currentStreak}) are real.
-                  </span>
-                )}
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

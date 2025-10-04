@@ -89,6 +89,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/stats-consistency', label: 'Stats Monitor', icon: '🔍' },
     { href: '/admin/entitlements', label: 'Entitlements', icon: '🔐' },
     { href: '/admin/xp-config', label: 'XP Config', icon: '⚡' },
+    { href: '/admin/leaderboard', label: 'Leaderboard', icon: '🏆' },
     { href: '/admin/decision-explorer', label: 'Decision Logs', icon: '🔎' },
     { href: '/admin/firebase-monitoring', label: 'Firebase Monitor', icon: '🔥' },
     { href: '/admin/youtube-series', label: 'YouTube Series', icon: '📹' },

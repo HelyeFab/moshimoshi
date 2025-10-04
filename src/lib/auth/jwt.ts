@@ -302,6 +302,49 @@ export function verifyEmailVerificationToken(token: string): {
 }
 
 /**
+ * Create newsletter verification token
+ */
+export function createNewsletterVerificationToken(
+  email: string,
+  duration: number = 24 * 60 * 60 * 1000 // 24 hours
+): string {
+  const payload = {
+    type: 'newsletter_verification',
+    email,
+    iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor((Date.now() + duration) / 1000),
+  }
+
+  return jwt.sign(payload, getJWTSecret(), {
+    ...JWT_SIGN_OPTIONS,
+    expiresIn: Math.floor(duration / 1000),
+  })
+}
+
+/**
+ * Verify newsletter verification token
+ */
+export function verifyNewsletterVerificationToken(token: string): {
+  valid: boolean;
+  email?: string;
+} {
+  try {
+    const decoded = jwt.verify(token, getJWTSecret(), JWT_VERIFY_OPTIONS) as any
+
+    if (decoded.type !== 'newsletter_verification' || !decoded.email) {
+      return { valid: false }
+    }
+
+    return {
+      valid: true,
+      email: decoded.email,
+    }
+  } catch (error) {
+    return { valid: false }
+  }
+}
+
+/**
  * Extract user ID from any token type (without full verification)
  */
 export function extractUserId(token: string): string | null {
