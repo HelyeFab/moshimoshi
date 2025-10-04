@@ -7,7 +7,11 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const limitParam = searchParams.get('limit')
-    const maxPosts = limitParam ? parseInt(limitParam, 10) : 100
+    const pageParam = searchParams.get('page')
+
+    const limit = limitParam ? parseInt(limitParam, 10) : 12 // Default 12 posts per page
+    const page = pageParam ? parseInt(pageParam, 10) : 1
+    const offset = (page - 1) * limit
 
     // Get all posts and filter client-side (avoids compound index requirement)
     const now = Timestamp.now()
@@ -16,7 +20,7 @@ export async function GET(request: NextRequest) {
       .get()
 
     // Filter for published posts and sort client-side
-    const posts = postsSnapshot.docs
+    const allPublishedPosts = postsSnapshot.docs
       .map(doc => {
         const data = doc.data()
         return {
@@ -34,11 +38,22 @@ export async function GET(request: NextRequest) {
         const dateB = new Date(b.publishDate).getTime()
         return dateB - dateA
       })
-      .slice(0, maxPosts)
+
+    const totalPosts = allPublishedPosts.length
+    const totalPages = Math.ceil(totalPosts / limit)
+    const posts = allPublishedPosts.slice(offset, offset + limit)
 
     return NextResponse.json({
       success: true,
-      data: posts
+      data: posts,
+      pagination: {
+        page,
+        limit,
+        totalPosts,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
+      }
     })
   } catch (error: any) {
     console.error('Error fetching public blog posts:', error)

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { getPublishedBlogPosts } from "@/services/blogService";
-import type { BlogPost } from "@/services/blogService";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getPaginatedBlogPosts } from "@/services/blogService";
+import type { BlogPost, PaginatedBlogResponse } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
 import Link from "next/link";
 import Head from "next/head";
@@ -11,19 +11,33 @@ import { NewsletterForm } from "@/components/blog/NewsletterForm";
 
 export default function BlogPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState<PaginatedBlogResponse['pagination'] | null>(null);
+
+  useEffect(() => {
+    const pageParam = searchParams.get('page');
+    if (pageParam) {
+      const page = parseInt(pageParam, 10);
+      if (!isNaN(page) && page > 0) {
+        setCurrentPage(page);
+      }
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
         console.log("Fetching published blog posts...");
-        const publishedPosts = await getPublishedBlogPosts();
-        console.log("Fetched posts:", publishedPosts);
-        console.log("Number of posts:", publishedPosts.length);
-        setPosts(publishedPosts);
+        const response = await getPaginatedBlogPosts(currentPage, 12);
+        console.log("Fetched posts:", response.posts);
+        console.log("Pagination:", response.pagination);
+        setPosts(response.posts);
+        setPagination(response.pagination);
       } catch (error) {
         console.error("Error fetching blog posts:", error);
       } finally {
@@ -32,7 +46,7 @@ export default function BlogPage() {
     };
 
     fetchPosts();
-  }, []);
+  }, [currentPage]);
 
   const formatDate = (date: string | Date | any) => {
     if (!date) return "Unknown date";
@@ -153,6 +167,12 @@ export default function BlogPage() {
   };
 
   const featuredPost = getFeaturedPost(posts);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    router.push(`/blog?page=${newPage}`, { scroll: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
@@ -403,6 +423,80 @@ export default function BlogPage() {
                 ))}
               </div>
             </div>
+
+            {/* Pagination */}
+            {pagination && pagination.totalPages > 1 && (
+              <div className="mb-16">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  {/* Previous Button */}
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={!pagination.hasPreviousPage}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-surface-dark text-gray-900 dark:text-gray-100 rounded-xl shadow-md hover:shadow-lg border-2 border-transparent hover:border-primary-400 dark:hover:border-primary-500 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md disabled:hover:border-transparent"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span>Previous</span>
+                  </button>
+
+                  {/* Page Numbers */}
+                  <div className="flex items-center gap-2">
+                    {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((pageNum) => {
+                      // Show first page, last page, current page, and pages around current
+                      const showPage =
+                        pageNum === 1 ||
+                        pageNum === pagination.totalPages ||
+                        (pageNum >= currentPage - 1 && pageNum <= currentPage + 1);
+
+                      const showEllipsisBefore = pageNum === currentPage - 2 && currentPage > 3;
+                      const showEllipsisAfter = pageNum === currentPage + 2 && currentPage < pagination.totalPages - 2;
+
+                      if (!showPage && !showEllipsisBefore && !showEllipsisAfter) return null;
+
+                      if (showEllipsisBefore || showEllipsisAfter) {
+                        return (
+                          <span key={pageNum} className="px-2 text-gray-400 dark:text-gray-600">
+                            ...
+                          </span>
+                        );
+                      }
+
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => handlePageChange(pageNum)}
+                          className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg font-medium transition-all ${
+                            currentPage === pageNum
+                              ? 'bg-gradient-to-r from-primary-500 to-japanese-sakura text-white shadow-lg scale-105'
+                              : 'bg-white dark:bg-surface-dark text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700'
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Next Button */}
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={!pagination.hasNextPage}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-surface-dark text-gray-900 dark:text-gray-100 rounded-xl shadow-md hover:shadow-lg border-2 border-transparent hover:border-primary-400 dark:hover:border-primary-500 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md disabled:hover:border-transparent"
+                  >
+                    <span>Next</span>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Page Info */}
+                <div className="text-center mt-4 text-sm text-gray-500 dark:text-gray-400">
+                  Page {pagination.page} of {pagination.totalPages} · {pagination.totalPosts} total posts
+                </div>
+              </div>
+            )}
 
             {/* Newsletter Signup */}
             <div className="bg-gradient-to-r from-japanese-sakura/10 via-white to-japanese-matcha/10 dark:from-japanese-sakuraDark/10 dark:via-surface-dark dark:to-japanese-matchaDark/10 rounded-3xl p-8 md:p-12 text-center border border-gray-100 dark:border-gray-700 shadow-xl">

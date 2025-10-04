@@ -208,12 +208,21 @@ async function handleTestCheckout(request: NextRequest) {
       }
     }
 
-    // 5. PARSE REQUEST
-    const body = await request.json();
+    // 5. PARSE REQUEST (handle empty body gracefully)
+    let body = {};
+    try {
+      const text = await request.text();
+      if (text) {
+        body = JSON.parse(text);
+      }
+    } catch (parseError) {
+      console.log('[Admin Test Checkout] No body or invalid JSON, using defaults');
+    }
+
     const {
       successUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.vercel.app'}/admin/stripe-testing?test=success`,
       cancelUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.vercel.app'}/admin/stripe-testing?test=canceled`
-    } = body;
+    } = body as any;
 
     // 6. CREATE CHECKOUT SESSION
     const testId = `test_${Date.now()}`;

@@ -8,6 +8,8 @@ import Navbar from "@/components/layout/Navbar";
 import DOMPurify from "isomorphic-dompurify";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { CommentSection } from "@/components/blog/CommentSection";
+import { ShareButtons } from "@/components/blog/ShareButtons";
+import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import Head from "next/head";
 
 export default function BlogPostPage() {
@@ -194,6 +196,9 @@ export default function BlogPostPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-background-light to-japanese-mizu/20 dark:from-dark-850 dark:to-dark-900 overflow-hidden">
+      {/* Reading Progress Bar */}
+      <ReadingProgress />
+
       {/* JSON-LD Structured Data */}
       {jsonLd && (
         <script
@@ -311,6 +316,17 @@ export default function BlogPostPage() {
             }}
           />
         </div>
+
+        {/* Share Buttons */}
+        {post && (
+          <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+            <ShareButtons
+              url={`https://moshimoshi.app/blog/${post.slug}`}
+              title={post.title}
+              description={post.excerpt}
+            />
+          </div>
+        )}
 
         {/* Comments Section */}
         {post && (

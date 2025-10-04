@@ -88,6 +88,18 @@ export async function getAllBlogPosts(includeScheduled = true): Promise<BlogPost
   }
 }
 
+export interface PaginatedBlogResponse {
+  posts: BlogPost[];
+  pagination: {
+    page: number;
+    limit: number;
+    totalPosts: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+}
+
 // Get published blog posts (public view)
 export async function getPublishedBlogPosts(maxPosts?: number): Promise<BlogPost[]> {
   try {
@@ -105,6 +117,30 @@ export async function getPublishedBlogPosts(maxPosts?: number): Promise<BlogPost
     return data.data as BlogPost[];
   } catch (error) {
     console.error('Error fetching published blog posts:', error);
+    throw error;
+  }
+}
+
+// Get paginated published blog posts (public view)
+export async function getPaginatedBlogPosts(page = 1, limit = 12): Promise<PaginatedBlogResponse> {
+  try {
+    const url = `/api/blog/public?page=${page}&limit=${limit}`;
+    const response = await fetch(url, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error?.message || 'Failed to fetch blog posts');
+    }
+
+    const data = await response.json();
+    return {
+      posts: data.data as BlogPost[],
+      pagination: data.pagination,
+    };
+  } catch (error) {
+    console.error('Error fetching paginated blog posts:', error);
     throw error;
   }
 }
