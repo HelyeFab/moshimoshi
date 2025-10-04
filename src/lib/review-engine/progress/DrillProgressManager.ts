@@ -236,8 +236,37 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
    */
   async getDrillStats(userId: string, isPremium: boolean): Promise<DrillProgressData | null> {
     await this.initDB()
-    // getProgress returns a Map<contentId, progress>
-    // For drills, we store everything under contentId='overall'
+
+    // Premium users: Load from Firebase first for cross-device sync
+    // This ensures stats are consistent across devices
+    if (isPremium) {
+      try {
+        console.log('[DrillProgressManager] Premium user - loading drill stats from Firebase')
+        const cloudData = await this.loadFromFirebase(userId, 'drill')
+
+        if (cloudData && cloudData.size > 0) {
+          const progress = cloudData.get('overall')
+          if (progress) {
+            console.log('[DrillProgressManager] ✅ Loaded drill stats from Firebase:', progress)
+
+            // Convert serialized data back to proper types
+            const raw = progress as any
+            return {
+              ...raw,
+              verbsStudied: new Set(raw.verbsStudied || []),
+              adjectivesStudied: new Set(raw.adjectivesStudied || []),
+              conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {}))
+            } as DrillProgressData
+          }
+        }
+
+        console.log('[DrillProgressManager] No Firebase drill data, falling back to IndexedDB')
+      } catch (error) {
+        console.warn('[DrillProgressManager] Firebase load failed, using IndexedDB fallback:', error)
+      }
+    }
+
+    // Free users OR Firebase fallback: Load from IndexedDB
     const progressMap = await this.getProgress(userId, 'drill', isPremium)
 
     if (!progressMap || progressMap.size === 0) return null

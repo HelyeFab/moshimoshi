@@ -24,6 +24,7 @@
 import { useEffect, useState } from 'react'
 import { useGamificationStore } from '@/state/userGamification'
 import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
 
 export interface GamificationData {
   totalXP: number
@@ -46,6 +47,7 @@ export interface GamificationData {
  */
 export function useGamification(): GamificationData {
   const { user } = useAuth()
+  const { isPremium, isLoading: subscriptionLoading } = useSubscription()
   const store = useGamificationStore()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -66,10 +68,35 @@ export function useGamification(): GamificationData {
       return
     }
 
-    // Load from IndexedDB on mount
+    // Wait for subscription status to load
+    if (subscriptionLoading) {
+      return
+    }
+
+    // Load data with priority: Firebase (premium) > IndexedDB > defaults
     async function loadData() {
       try {
-        await store.loadFromIndexedDB(user.uid)
+        // Set userId first for all operations
+        store.setUserId(user.uid)
+
+        // Premium users: Try Firebase first, fallback to IndexedDB
+        if (isPremium) {
+          console.log('[useGamification] Premium user - loading from Firebase first')
+          try {
+            await store.loadFromFirebase()
+            console.log('[useGamification] ✅ Successfully loaded from Firebase')
+          } catch (firebaseError) {
+            console.warn('[useGamification] Firebase load failed, trying IndexedDB fallback:', firebaseError)
+            await store.loadFromIndexedDB(user.uid)
+            console.log('[useGamification] ✅ Loaded from IndexedDB (fallback)')
+          }
+        } else {
+          // Free users: IndexedDB only
+          console.log('[useGamification] Free user - loading from IndexedDB')
+          await store.loadFromIndexedDB(user.uid)
+          console.log('[useGamification] ✅ Loaded from IndexedDB')
+        }
+
         setLoading(false)
       } catch (err) {
         console.error('[useGamification] Failed to load data:', err)
@@ -80,7 +107,7 @@ export function useGamification(): GamificationData {
 
     loadData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEnabled, user?.uid]) // store is stable, don't include in deps
+  }, [isEnabled, user?.uid, isPremium, subscriptionLoading]) // store is stable, don't include in deps
 
   // If feature flag is OFF, return safe defaults
   if (!isEnabled) {

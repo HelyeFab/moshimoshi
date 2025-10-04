@@ -38,6 +38,7 @@ interface GamificationState {
   updateAchievementProgress: (id: string, progress: number) => void
   incrementSessionCount: () => void
   syncToFirebase: () => Promise<void>
+  loadFromFirebase: () => Promise<void>
   loadFromIndexedDB: (userId: string) => Promise<void>
   saveToIndexedDB: () => Promise<void>
   reset: () => void
@@ -234,6 +235,72 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
     } catch (error) {
       console.error('[Gamification State] Failed to sync to Firebase:', error)
       // Don't throw - let it retry later
+    }
+  },
+
+  /**
+   * Load state from Firebase (premium users only)
+   * Downloads cloud data and caches it to IndexedDB
+   */
+  loadFromFirebase: async () => {
+    try {
+      // Only run in browser
+      if (typeof window === 'undefined') return
+
+      const state = get()
+
+      // Validate userId
+      if (!state.userId) {
+        console.warn('[Gamification State] No userId set, skipping Firebase load')
+        return
+      }
+
+      console.log('[Gamification State] Loading from Firebase for user:', state.userId)
+
+      // Call load API
+      const response = await fetch('/api/gamification/load', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+      if (!response.ok) {
+        throw new Error(`Firebase load failed: ${response.statusText}`)
+      }
+
+      const result = await response.json()
+
+      if (result.success && result.data) {
+        const data = result.data
+
+        // Update Zustand state with Firebase data
+        set({
+          totalXP: data.totalXP,
+          // Recalculate level from XP
+          currentLevel: Math.max(1, Math.floor(data.totalXP / 1000)),
+          currentStreak: data.currentStreak,
+          bestStreak: data.bestStreak,
+          lastActivityDate: data.lastActivityDate ? new Date(data.lastActivityDate) : null,
+          unlockedAchievements: data.unlockedAchievements || [],
+          achievementProgress: data.achievementProgress || {},
+          sessionCount: data.sessionCount || 0,
+          isDirty: false,
+          lastSyncedAt: new Date()
+        })
+
+        // Cache Firebase data to IndexedDB for offline access
+        await get().saveToIndexedDB()
+
+        console.log('[Gamification State] Loaded from Firebase and cached to IndexedDB:', {
+          totalXP: data.totalXP,
+          currentStreak: data.currentStreak,
+          sessionCount: data.sessionCount
+        })
+      } else {
+        console.log('[Gamification State] No Firebase data found, will use IndexedDB or defaults')
+      }
+    } catch (error) {
+      console.error('[Gamification State] Failed to load from Firebase:', error)
+      // Don't throw - allow fallback to IndexedDB
     }
   },
 
