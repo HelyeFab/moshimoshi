@@ -7,6 +7,7 @@ import type { BlogPost } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
 import Link from "next/link";
 import Head from "next/head";
+import { NewsletterForm } from "@/components/blog/NewsletterForm";
 
 export default function BlogPage() {
   const router = useRouter();
@@ -413,16 +414,7 @@ export default function BlogPage() {
                 Get the latest insights on Japanese language learning, cultural
                 tips, and product updates delivered to your inbox.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-6 py-4 rounded-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-surface-dark text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                />
-                <button className="px-8 py-4 bg-gradient-to-r from-primary-500 to-japanese-sakura text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                  Subscribe
-                </button>
-              </div>
+              <NewsletterForm source="blog" />
             </div>
           </>
         )}
