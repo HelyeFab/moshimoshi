@@ -117,24 +117,35 @@ export function useSubscription(): UseSubscriptionReturn {
   }, []);
 
   // Refresh subscription data (called after successful checkout)
-  const refreshSubscription = useCallback(async () => {
+  const refreshSubscription = useCallback(async (): Promise<boolean> => {
     try {
       const response = await fetch('/api/user/subscription');
       const data = await response.json();
 
       if (data.subscription) {
         const sub = data.subscription;
-        setSubscription({
+        const updatedSub = {
           ...sub,
           currentPeriodEnd: sub.currentPeriodEnd ? new Date(sub.currentPeriodEnd) : undefined,
           metadata: sub.metadata ? {
             ...sub.metadata,
             updatedAt: sub.metadata.updatedAt ? new Date(sub.metadata.updatedAt) : undefined
           } : undefined
-        });
+        };
+
+        setSubscription(updatedSub);
+
+        // Return true if subscription is now premium (so we can stop polling)
+        const isPremiumNow = updatedSub.plan === 'premium_monthly' || updatedSub.plan === 'premium_yearly';
+        if (isPremiumNow && updatedSub.status === 'active') {
+          logger.subscription('✅ Premium subscription detected - webhook processed successfully');
+          return true; // Subscription updated, can stop polling
+        }
       }
+      return false; // No update yet
     } catch (err) {
       logger.error('Failed to refresh subscription:', err);
+      return false;
     }
   }, []);
 
@@ -146,12 +157,48 @@ export function useSubscription(): UseSubscriptionReturn {
     if (status.completed) {
       if (status.success) {
         showToast(t('subscription.checkout.success'), 'success', 5000);
-        // Refresh subscription data after successful payment
-        // Poll a few times to catch webhook updates
-        refreshSubscription();
-        setTimeout(refreshSubscription, 2000);
-        setTimeout(refreshSubscription, 5000);
-        setTimeout(refreshSubscription, 10000);
+
+        // Improved polling: Check if subscription updated and stop early if successful
+        // This prevents unnecessary API calls if webhook completes quickly
+        let pollingStopped = false;
+
+        // Poll immediately
+        refreshSubscription().then((updated) => {
+          if (updated) pollingStopped = true;
+        });
+
+        // Poll at 2s (only if not already updated)
+        setTimeout(async () => {
+          if (pollingStopped) return;
+          const updated = await refreshSubscription();
+          if (updated) pollingStopped = true;
+        }, 2000);
+
+        // Poll at 5s (only if not already updated)
+        setTimeout(async () => {
+          if (pollingStopped) return;
+          const updated = await refreshSubscription();
+          if (updated) pollingStopped = true;
+        }, 5000);
+
+        // Poll at 10s (only if not already updated)
+        setTimeout(async () => {
+          if (pollingStopped) return;
+          const updated = await refreshSubscription();
+          if (updated) pollingStopped = true;
+        }, 10000);
+
+        // SAFETY NET: One final poll at 15s for slow webhooks
+        // This gives webhook extra time without degrading UX
+        setTimeout(async () => {
+          if (pollingStopped) return;
+          const updated = await refreshSubscription();
+          if (updated) {
+            logger.subscription('Subscription updated after extended wait');
+          } else {
+            logger.subscription('Webhook may still be processing - user may need to refresh');
+          }
+        }, 15000);
       } else {
         showToast(t('subscription.checkout.canceled'), 'info');
       }
