@@ -66,3 +66,6 @@ aggregated-docs.md
 notebooklm-docs.md
 .notebooklm-sync-state.json
 notebooklm-backups/
+
+# Database files with potential secrets
+data/memories.db

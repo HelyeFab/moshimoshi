@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { getBlogPostBySlug } from '@/services/blogService';
-import type { BlogPost } from '@/services/blogService';
-import Navbar from '@/components/layout/Navbar';
-import DOMPurify from 'isomorphic-dompurify';
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { getBlogPostBySlug } from "@/services/blogService";
+import type { BlogPost } from "@/services/blogService";
+import Navbar from "@/components/layout/Navbar";
+import DOMPurify from "isomorphic-dompurify";
 
 export default function BlogPostPage() {
   const params = useParams();
@@ -23,14 +23,14 @@ export default function BlogPostPage() {
         const fetchedPost = await getBlogPostBySlug(slug);
 
         if (!fetchedPost) {
-          setError('Blog post not found');
+          setError("Blog post not found");
           return;
         }
 
         setPost(fetchedPost);
       } catch (err) {
-        console.error('Error fetching blog post:', err);
-        setError('Failed to load blog post');
+        console.error("Error fetching blog post:", err);
+        setError("Failed to load blog post");
       } finally {
         setLoading(false);
       }
@@ -41,16 +41,21 @@ export default function BlogPostPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-background-light to-japanese-mizu/20 dark:from-dark-850 dark:to-dark-900 overflow-hidden">
-        <div className="fixed inset-0 overflow-hidden pointer-events-none hidden sm:block">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-japanese-sakura/30 dark:bg-japanese-sakuraDark/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-60 right-20 w-40 h-40 bg-japanese-matcha/30 dark:bg-japanese-matchaDark/20 rounded-full blur-3xl animate-pulse delay-700" />
-          <div className="absolute bottom-40 left-1/3 w-36 h-36 bg-japanese-zen/30 dark:bg-japanese-zenDark/20 rounded-full blur-3xl animate-pulse delay-1000" />
+      <main className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-40 h-40 bg-japanese-sakura/20 dark:bg-japanese-sakuraDark/15 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-60 right-20 w-48 h-48 bg-japanese-matcha/20 dark:bg-japanese-matchaDark/15 rounded-full blur-3xl animate-pulse delay-700" />
+          <div className="absolute bottom-40 left-1/3 w-44 h-44 bg-japanese-zen/20 dark:bg-japanese-zenDark/15 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
         <Navbar showUserMenu={true} />
-        <div className="max-w-4xl mx-auto px-4 py-16 text-center relative z-10">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto"></div>
-          <p className="text-gray-600 dark:text-gray-400 mt-4">Loading...</p>
+        <div className="max-w-4xl mx-auto px-4 py-20 text-center relative z-10">
+          <div className="relative mb-6">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200 dark:border-primary-800 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary-500 mx-auto absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+          </div>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            Loading your story...
+          </p>
         </div>
       </main>
     );
@@ -58,26 +63,28 @@ export default function BlogPostPage() {
 
   if (error || !post) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-background-light to-japanese-mizu/20 dark:from-dark-850 dark:to-dark-900 overflow-hidden">
-        <div className="fixed inset-0 overflow-hidden pointer-events-none hidden sm:block">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-japanese-sakura/30 dark:bg-japanese-sakuraDark/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-60 right-20 w-40 h-40 bg-japanese-matcha/30 dark:bg-japanese-matchaDark/20 rounded-full blur-3xl animate-pulse delay-700" />
-          <div className="absolute bottom-40 left-1/3 w-36 h-36 bg-japanese-zen/30 dark:bg-japanese-zenDark/20 rounded-full blur-3xl animate-pulse delay-1000" />
+      <main className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-40 h-40 bg-japanese-sakura/20 dark:bg-japanese-sakuraDark/15 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-60 right-20 w-48 h-48 bg-japanese-matcha/20 dark:bg-japanese-matchaDark/15 rounded-full blur-3xl animate-pulse delay-700" />
+          <div className="absolute bottom-40 left-1/3 w-44 h-44 bg-japanese-zen/20 dark:bg-japanese-zenDark/15 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
         <Navbar showUserMenu={true} />
-        <div className="max-w-4xl mx-auto px-4 py-16 text-center relative z-10">
-          <div className="text-6xl mb-4">📝</div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-            {error || 'Blog post not found'}
+        <div className="max-w-4xl mx-auto px-4 py-20 text-center relative z-10">
+          <div className="text-8xl mb-6">🔍</div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            {error || "Story not found"}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            The blog post you're looking for doesn't exist or has been removed.
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+            The story you're looking for seems to have wandered off. Let's get
+            you back to our collection.
           </p>
           <button
-            onClick={() => router.push('/blog')}
-            className="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all font-medium shadow-lg hover:shadow-xl"
+            onClick={() => router.push("/blog")}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-japanese-sakura text-white rounded-full hover:from-primary-600 hover:to-japanese-sakuraDark transition-all font-medium shadow-lg hover:shadow-xl hover:scale-105"
           >
-            Back to Blog
+            <span>←</span>
+            <span>Explore All Stories</span>
           </button>
         </div>
       </main>
@@ -85,40 +92,40 @@ export default function BlogPostPage() {
   }
 
   const formatDate = (date: string | Date | any) => {
-    if (!date) return 'Unknown date';
+    if (!date) return "Unknown date";
 
     try {
       let dateObj: Date;
 
       // Handle different date formats
-      if (typeof date === 'string') {
+      if (typeof date === "string") {
         dateObj = new Date(date);
       } else if (date instanceof Date) {
         dateObj = date;
       } else if (date._seconds !== undefined) {
         // Firestore Timestamp format
         dateObj = new Date(date._seconds * 1000);
-      } else if (typeof date === 'object' && date.toDate) {
+      } else if (typeof date === "object" && date.toDate) {
         // Firestore Timestamp with toDate method
         dateObj = date.toDate();
       } else {
-        console.error('Unknown date format:', date);
-        return 'Invalid date';
+        console.error("Unknown date format:", date);
+        return "Invalid date";
       }
 
       // Check if date is valid
       if (isNaN(dateObj.getTime())) {
-        return 'Invalid date';
+        return "Invalid date";
       }
 
-      return dateObj.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+      return dateObj.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       });
     } catch (error) {
-      console.error('Error formatting date:', error, date);
-      return 'Invalid date';
+      console.error("Error formatting date:", error, date);
+      return "Invalid date";
     }
   };
 
@@ -208,9 +215,28 @@ export default function BlogPostPage() {
             className="bg-white dark:bg-surface-dark rounded-2xl shadow-md p-6 sm:p-8 text-gray-800 dark:text-gray-200 leading-relaxed"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(post.content, {
-                ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 's', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'code', 'pre', 'blockquote'],
-                ALLOWED_ATTR: ['href', 'target', 'rel', 'class']
-              })
+                ALLOWED_TAGS: [
+                  "p",
+                  "br",
+                  "strong",
+                  "em",
+                  "s",
+                  "h1",
+                  "h2",
+                  "h3",
+                  "h4",
+                  "h5",
+                  "h6",
+                  "ul",
+                  "ol",
+                  "li",
+                  "a",
+                  "code",
+                  "pre",
+                  "blockquote",
+                ],
+                ALLOWED_ATTR: ["href", "target", "rel", "class"],
+              }),
             }}
           />
         </div>
@@ -218,7 +244,7 @@ export default function BlogPostPage() {
         {/* Footer */}
         <footer className="pt-8 border-t border-gray-200 dark:border-gray-700">
           <button
-            onClick={() => router.push('/blog')}
+            onClick={() => router.push("/blog")}
             className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-surface-dark text-gray-900 dark:text-gray-100 rounded-xl shadow-md hover:shadow-lg border-2 border-transparent hover:border-primary-400 dark:hover:border-primary-500 transition-all font-medium"
           >
             ← Back to all posts
