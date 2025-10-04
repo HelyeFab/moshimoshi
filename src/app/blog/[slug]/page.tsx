@@ -2,75 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getBlogPostBySlug } from "@/services/blogService";
+import { getBlogPostBySlug, getRelatedPosts } from "@/services/blogService";
 import type { BlogPost } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
 import DOMPurify from "isomorphic-dompurify";
-import type { Metadata } from "next";
-
-// Generate dynamic metadata for SEO
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  try {
-    const post = await getBlogPostBySlug(params.slug);
-
-    if (!post) {
-      return {
-        title: "Post Not Found | Moshimoshi Blog",
-        description: "The blog post you're looking for could not be found.",
-      };
-    }
-
-    const publishDate = post.publishDate ? new Date(post.publishDate).toISOString() : new Date().toISOString();
-    const updatedDate = post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate;
-
-    return {
-      title: post.seoTitle || `${post.title} | Moshimoshi Blog`,
-      description: post.seoDescription || post.excerpt || post.title,
-      keywords: post.tags || [],
-      authors: [{ name: post.author || "Moshimoshi Team" }],
-      openGraph: {
-        title: post.seoTitle || post.title,
-        description: post.seoDescription || post.excerpt || "",
-        type: "article",
-        url: `https://moshimoshi.app/blog/${post.slug}`,
-        siteName: "Moshimoshi",
-        images: [
-          {
-            url: post.ogImage || post.cover || "/og-blog.png",
-            width: 1200,
-            height: 630,
-            alt: post.title,
-          },
-        ],
-        publishedTime: publishDate,
-        modifiedTime: updatedDate,
-        authors: [post.author || "Moshimoshi Team"],
-        tags: post.tags || [],
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: post.seoTitle || post.title,
-        description: post.seoDescription || post.excerpt || "",
-        images: [post.ogImage || post.cover || "/og-blog.png"],
-        creator: "@MoshimoshiApp",
-      },
-      alternates: {
-        canonical: post.canonical || `https://moshimoshi.app/blog/${post.slug}`,
-      },
-    };
-  } catch (error) {
-    console.error("Error generating metadata:", error);
-    return {
-      title: "Blog Post | Moshimoshi",
-      description: "Read the latest from Moshimoshi blog.",
-    };
-  }
-}
+import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import Head from "next/head";
 
 export default function BlogPostPage() {
   const params = useParams();
   const router = useRouter();
   const [post, setPost] = useState<BlogPost | null>(null);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -88,6 +31,12 @@ export default function BlogPostPage() {
         }
 
         setPost(fetchedPost);
+
+        // Fetch related posts
+        if (fetchedPost && fetchedPost.tags && fetchedPost.tags.length > 0) {
+          const related = await getRelatedPosts(slug, fetchedPost.tags, 3);
+          setRelatedPosts(related);
+        }
       } catch (err) {
         console.error("Error fetching blog post:", err);
         setError("Failed to load blog post");
@@ -341,8 +290,11 @@ export default function BlogPostPage() {
           />
         </div>
 
+        {/* Related Posts */}
+        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+
         {/* Footer */}
-        <footer className="pt-8 border-t border-gray-200 dark:border-gray-700">
+        <footer className="pt-8 border-t border-gray-200 dark:border-gray-700 mt-12">
           <button
             onClick={() => router.push("/blog")}
             className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-surface-dark text-gray-900 dark:text-gray-100 rounded-xl shadow-md hover:shadow-lg border-2 border-transparent hover:border-primary-400 dark:hover:border-primary-500 transition-all font-medium"
