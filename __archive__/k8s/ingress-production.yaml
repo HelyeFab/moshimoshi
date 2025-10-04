@@ -1,0 +1,101 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: moshimoshi-ingress
+  namespace: production
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/limit-rps: "50"
+    nginx.ingress.kubernetes.io/limit-connections: "25"
+    # Blue-Green traffic split configuration
+    nginx.ingress.kubernetes.io/canary: "false"
+    nginx.ingress.kubernetes.io/canary-weight: "0"
+spec:
+  tls:
+  - hosts:
+    - moshimoshi.app
+    - www.moshimoshi.app
+    secretName: moshimoshi-tls
+  rules:
+  - host: moshimoshi.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: moshimoshi-active  # Points to active service (blue or green)
+            port:
+              number: 80
+  - host: www.moshimoshi.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: moshimoshi-active
+            port:
+              number: 80
+---
+# Canary Ingress for gradual rollout
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: moshimoshi-ingress-canary
+  namespace: production
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "10"  # Start with 10% traffic
+spec:
+  tls:
+  - hosts:
+    - moshimoshi.app
+    - www.moshimoshi.app
+    secretName: moshimoshi-tls
+  rules:
+  - host: moshimoshi.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: moshimoshi-blue  # New version
+            port:
+              number: 80
+  - host: www.moshimoshi.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: moshimoshi-blue
+            port:
+              number: 80
+---
+# Active Service Selector (switches between blue and green)
+apiVersion: v1
+kind: Service
+metadata:
+  name: moshimoshi-active
+  namespace: production
+spec:
+  type: ClusterIP
+  selector:
+    app: moshimoshi
+    version: green  # Currently pointing to green (will switch to blue after validation)
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP

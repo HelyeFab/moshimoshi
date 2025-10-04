@@ -1,0 +1,188 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 120
+      arrivalRate: 1
+      rampTo: 10
+      name: "Warm up"
+    - duration: 300
+      arrivalRate: 10
+      rampTo: 50
+      name: "Ramp up load"
+    - duration: 600
+      arrivalRate: 50
+      name: "Sustained load"
+    - duration: 300
+      arrivalRate: 50
+      rampTo: 100
+      name: "Peak load"
+    - duration: 120
+      arrivalRate: 100
+      rampTo: 1
+      name: "Cool down"
+  
+  plugins:
+    ensure:
+      thresholds:
+        - http.response_time.p95: 500
+        - http.response_time.p99: 1000
+        - http.codes.2xx: 90
+    
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+  
+  processor: "./artillery-processor.js"
+  
+  variables:
+    testUsers:
+      - email: "testuser1@test.com"
+        password: "TestPassword123!"
+      - email: "testuser2@test.com"
+        password: "TestPassword123!"
+      - email: "testuser3@test.com"
+        password: "TestPassword123!"
+
+scenarios:
+  - name: "Review Session Flow"
+    weight: 60
+    flow:
+      # Login
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomElement(testUsers).email }}"
+            password: "{{ $randomElement(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Get review queue
+      - get:
+          url: "/api/review/queue?limit=20"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          capture:
+            - json: "$.items[0].id"
+              as: "firstItemId"
+            - json: "$.items"
+              as: "queueItems"
+          expect:
+            - statusCode: 200
+            - contentType: json
+            - hasProperty: items
+      
+      # Start session
+      - post:
+          url: "/api/review/session/start"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            type: "daily"
+            itemIds: "{{ queueItems }}"
+            settings:
+              shuffleOrder: true
+              allowRetry: true
+          capture:
+            - json: "$.sessionId"
+              as: "sessionId"
+          expect:
+            - statusCode: 200
+      
+      # Submit answers (loop 10 times)
+      - loop:
+        - post:
+            url: "/api/review/session/{{ sessionId }}/answer"
+            headers:
+              Authorization: "Bearer {{ authToken }}"
+            json:
+              itemId: "{{ $randomElement(queueItems).id }}"
+              correct: "{{ $randomBoolean() }}"
+              responseTime: "{{ $randomNumber(1000, 5000) }}"
+              confidence: "{{ $randomNumber(1, 5) }}"
+            expect:
+              - statusCode: 200
+        count: 10
+      
+      # Complete session
+      - post:
+          url: "/api/review/session/{{ sessionId }}/complete"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            feedback: "Test session completed"
+            rating: 5
+          expect:
+            - statusCode: 200
+            - hasProperty: summary
+
+  - name: "Pin Management Flow"
+    weight: 20
+    flow:
+      # Login
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomElement(testUsers).email }}"
+            password: "{{ $randomElement(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Pin content
+      - post:
+          url: "/api/review/pin"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            contentType: "kanji"
+            contentId: "kanji-{{ $randomNumber(1, 1000) }}"
+            priority: "{{ $randomElement(['low', 'normal', 'high']) }}"
+          expect:
+            - statusCode: 200
+      
+      # Bulk pin
+      - post:
+          url: "/api/review/pin/bulk"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            items:
+              - contentType: "kana"
+                contentId: "kana-{{ $randomNumber(1, 100) }}"
+              - contentType: "vocabulary"
+                contentId: "vocab-{{ $randomNumber(1, 500) }}"
+            priority: "normal"
+            releaseSchedule: "gradual"
+          expect:
+            - statusCode: 200
+
+  - name: "Statistics Check"
+    weight: 20
+    flow:
+      # Login
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomElement(testUsers).email }}"
+            password: "{{ $randomElement(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Get stats
+      - get:
+          url: "/api/review/stats?period=week"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: overview
+      
+      # Get heatmap
+      - get:
+          url: "/api/review/stats/heatmap?days=30"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: data

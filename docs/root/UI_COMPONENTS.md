@@ -7,10 +7,9 @@ Moshimoshi includes a comprehensive set of mobile-first UI components designed f
 
 ### Core Layout Components
 1. **PageContainer** - Page wrapper with gradients and patterns
-2. **Section** - Content sections with consistent styling
+2. **Section** - Content sections with consistent styling  
 3. **PageHeader** - Page titles with Doshi mascot support
-4. **Navbar** - Unified navigation bar used across all pages
-5. **LearningPageHeader** - Special header for learning pages with mode controls
+4. **Navbar** - Navigation bar with user menu
 
 ### Data Display
 5. **StatCard** - Statistics and metrics display cards

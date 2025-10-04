@@ -245,109 +245,26 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // User preferences - top-level collection for stall layout and other preferences
-    // Premium users can sync their preferences to cloud
-    match /userPreferences/{userId} {
-      // Users can read their own preferences
+    // Achievement data - Premium users can sync their achievements
+    match /users/{userId}/achievements/{document} {
+      // Users can read their own achievements
       allow read: if isOwner(userId);
 
-      // Only premium users can write their preferences to cloud
+      // Only premium users can write (sync) their achievements
+      // Check subscription in the user document, not in auth token
+      // Accept both premium_monthly and premium_yearly
       allow create: if isOwner(userId) &&
         (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['lastUpdated']);
 
-      // Only premium users can update their preferences
       allow update: if isOwner(userId) &&
         (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['lastUpdated']);
 
-      // Preferences should not be deleted
+      // Achievements should not be deleted
       allow delete: if false;
-    }
-
-    // Vocabulary search history - Premium users can sync their search history
-    match /users/{userId}/searched_words/{entryId} {
-      // Only the user can read their own search history
-      allow read: if isOwner(userId);
-
-      // Server-side only writes (via Admin SDK)
-      // Client cannot directly write to prevent abuse
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
-    }
-
-
-    // Study Lists - Premium users can sync their custom lists
-    match /users/{userId}/studyLists/{listId} {
-      // Users can read their own lists
-      allow read: if isOwner(userId);
-
-      // Only premium users can write (sync) their lists to cloud
-      allow create: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['name', 'type', 'createdAt', 'updatedAt', 'version']) &&
-        request.resource.data.userId == userId;
-
-      allow update: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.userId == userId &&
-        request.resource.data.version == resource.data.version + 1;
-
-      // Allow soft delete (setting deleted flag)
-      allow delete: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
-    }
-
-    // Saved Study Items - Premium users can sync their saved items
-    match /users/{userId}/savedItems/{itemId} {
-      // Users can read their own saved items
-      allow read: if isOwner(userId);
-
-      // Only premium users can write (sync) their saved items
-      allow create: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['itemType', 'content', 'savedAt', 'lastModified', 'version']) &&
-        request.resource.data.userId == userId;
-
-      allow update: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.userId == userId &&
-        request.resource.data.version == resource.data.version + 1;
-
-      // Allow deletion of saved items
-      allow delete: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
-    }
-
-    // Flashcard Decks - Premium users can sync their flashcard decks
-    match /users/{userId}/flashcardDecks/{deckId} {
-      // Users can read their own flashcard decks
-      allow read: if isOwner(userId);
-
-      // Only premium users can create flashcard decks in Firebase
-      allow create: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['name', 'userId', 'createdAt', 'updatedAt']) &&
-        request.resource.data.userId == userId;
-
-      // Only premium users can update their flashcard decks
-      allow update: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.userId == userId;
-
-      // Allow premium users to delete their decks
-      allow delete: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
     }
 
     // Audit logs - write-only for system, read-only for admins
@@ -355,176 +272,6 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow write: if false; // Only server-side writes
     }
-
-    // MoodBoards - public read, admin write
-    match /moodBoards/{boardId} {
-      allow read: if true; // Public content for all users
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
-    }
-
-    // Stories - public read for published stories, admin write
-    match /stories/{storyId} {
-      allow read: if resource.data.status == 'published' || isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
-    }
-
-    // Story progress - users can track their own progress
-    match /storyProgress/{progressId} {
-      allow read: if isOwner(resource.data.userId);
-
-      allow create: if isOwner(request.resource.data.userId) &&
-        request.resource.data.keys().hasAll(['userId', 'storyId', 'currentPage', 'lastReadAt']);
-
-      allow update: if isOwner(resource.data.userId) &&
-        request.resource.data.userId == resource.data.userId;
-
-      allow delete: if false; // Progress should not be deleted
-    }
-
-    // YouTube Shadowing - Video History (tracks which videos user has accessed)
-    // Only premium users can track their video history for unlimited repeat access
-    match /userVideoHistory/{userId} {
-      allow read: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
-
-      allow create: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['videoIds', 'lastUpdated']);
-
-      allow update: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
-
-      allow delete: if false; // History should not be deleted
-    }
-
-    // YouTube Shadowing - Transcript Cache (stores transcripts for reuse)
-    match /transcriptCache/{cacheId} {
-      // Anyone authenticated can read cached transcripts
-      allow read: if isAuthenticated();
-
-      // Only authenticated users can create cache entries
-      allow create: if isAuthenticated() &&
-        request.resource.data.keys().hasAll(['contentId', 'contentType', 'transcript', 'language']);
-
-      // Cache entries can be updated by authenticated users
-      allow update: if isAuthenticated();
-
-      allow delete: if false; // Cache should not be deleted by users
-    }
-
-    // YouTube Shadowing - API Usage Logs (for monitoring)
-    match /apiUsageLogs/{logId} {
-      allow read: if isAdmin();
-      allow create: if isAuthenticated(); // Allow authenticated users to log API usage
-      allow update: if false;
-      allow delete: if false;
-    }
-
-    // YouTube Shadowing - Full Video History with Metadata (Premium Only)
-    match /userYouTubeHistory/{docId} {
-      // Premium users can read their own video history
-      allow read: if isAuthenticated() &&
-        request.auth.uid == resource.data.userId &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
-
-      // Premium users can create their own video history entries
-      allow create: if isAuthenticated() &&
-        request.resource.data.userId == request.auth.uid &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['userId', 'videoId', 'videoUrl', 'videoTitle']);
-
-      // Premium users can update their own video history entries
-      allow update: if isAuthenticated() &&
-        resource.data.userId == request.auth.uid &&
-        request.resource.data.userId == request.auth.uid &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
-
-      // Premium users can delete their own video history entries
-      allow delete: if isAuthenticated() &&
-        resource.data.userId == request.auth.uid &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
-    }
-
-
-    // YouTube Shadowing - User Edited Transcripts (Premium users can edit/save transcripts)
-    match /userEditedTranscripts/{documentId} {
-      // Premium users can read their own edited transcripts
-      allow read: if isAuthenticated() &&
-        resource.data.userId == request.auth.uid &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
-
-      // Premium users can create their own edited transcripts
-      allow create: if isAuthenticated() &&
-        request.resource.data.userId == request.auth.uid &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['userId', 'contentId', 'contentType', 'transcript']);
-
-      // Premium users can update their own edited transcripts
-      allow update: if isAuthenticated() &&
-        resource.data.userId == request.auth.uid &&
-        request.resource.data.userId == request.auth.uid &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
-
-      // Premium users can delete their own edited transcripts
-      allow delete: if isAuthenticated() &&
-        resource.data.userId == request.auth.uid &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly');
-    }
-
-    // YouTube Channels - Public read, admin write
-    match /youtubeChannels/{channelId} {
-      // Anyone can read YouTube channels (for public series page)
-      allow read: if true;
-
-      // Only admins can manage channels
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
-    }
-
-    // YouTube Video Resources - Public read, admin write
-    match /youtubeVideoResources/{videoId} {
-      // Anyone can read YouTube videos (for public series page)
-      allow read: if true;
-
-      // Only admins can manage videos
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
-    }
-
-    // YouTube Import Logs - Admin only
-    match /youtubeImportLogs/{logId} {
-      allow read: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if false; // Logs should not be deleted
-    }
-
-    // AI Story Drafts - Admin only (for story generation)
-    match /ai_story_drafts/{draftId} {
-      // Only admins can read drafts
-      allow read: if isAdmin();
-
-      // Only server (via Admin SDK) can write - client should not write directly
-      allow write: if false;
-    }
-
 
     // Default deny all
     match /{document=**} {

@@ -1,0 +1,882 @@
+openapi: 3.1.0
+info:
+  title: Moshimoshi Review Engine API
+  description: |
+    Universal Review Engine API for managing spaced repetition learning, content pinning, 
+    and review sessions. Supports offline-first architecture with sync capabilities.
+  version: 1.0.0
+  contact:
+    name: Moshimoshi Development Team
+    email: api@moshimoshi.app
+  license:
+    name: Proprietary
+    
+servers:
+  - url: https://api.moshimoshi.app/api/review/v1
+    description: Production server
+  - url: https://staging-api.moshimoshi.app/api/review/v1
+    description: Staging server
+  - url: http://localhost:3000/api/review/v1
+    description: Development server
+
+security:
+  - bearerAuth: []
+  - sessionCookie: []
+
+tags:
+  - name: Queue
+    description: Review queue management
+  - name: Session
+    description: Review session operations
+  - name: Pin
+    description: Content pinning management
+  - name: Statistics
+    description: User statistics and progress
+  - name: Sets
+    description: Review set management
+
+paths:
+  /queue:
+    get:
+      tags:
+        - Queue
+      summary: Get review queue
+      description: Retrieves the user's review queue based on SRS algorithm and pinned items
+      operationId: getReviewQueue
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of items to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: contentType
+          in: query
+          description: Filter by content type
+          schema:
+            type: string
+            enum: [kana, kanji, vocabulary, sentence, custom]
+        - name: includeNew
+          in: query
+          description: Include new items in queue
+          schema:
+            type: boolean
+            default: true
+        - name: includeDue
+          in: query
+          description: Include due items in queue
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Review queue retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueueResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+          
+  /queue/custom:
+    post:
+      tags:
+        - Queue
+      summary: Create custom queue
+      description: Generate a custom review queue with specific filters
+      operationId: createCustomQueue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomQueueRequest'
+      responses:
+        '200':
+          description: Custom queue created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueueResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+          
+  /queue/preview:
+    get:
+      tags:
+        - Queue
+      summary: Preview upcoming reviews
+      description: Get a forecast of upcoming reviews for planning
+      operationId: previewQueue
+      parameters:
+        - name: days
+          in: query
+          description: Number of days to forecast
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 30
+            default: 7
+      responses:
+        '200':
+          description: Queue preview retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueuePreviewResponse'
+                
+  /session/start:
+    post:
+      tags:
+        - Session
+      summary: Start review session
+      description: Initialize a new review session with specified items
+      operationId: startSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartSessionRequest'
+      responses:
+        '201':
+          description: Session started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+          
+  /sessions/{sessionId}:
+    get:
+      tags:
+        - Session
+      summary: Get session status
+      description: Retrieve current session state and progress
+      operationId: getSession
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
+      responses:
+        '200':
+          description: Session retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+          
+    post:
+      tags:
+        - Session
+      summary: Submit answer
+      description: Submit an answer for the current review item
+      operationId: submitAnswer
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitAnswerRequest'
+      responses:
+        '200':
+          description: Answer processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnswerResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+          
+  /pin:
+    post:
+      tags:
+        - Pin
+      summary: Pin content
+      description: Pin a single content item for focused review
+      operationId: pinContent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PinRequest'
+      responses:
+        '201':
+          description: Content pinned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PinResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Content already pinned
+          
+    delete:
+      tags:
+        - Pin
+      summary: Unpin content
+      description: Remove pinned status from content items
+      operationId: unpinContent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - itemIds
+              properties:
+                itemIds:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+      responses:
+        '200':
+          description: Content unpinned successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+          
+  /pin/bulk:
+    post:
+      tags:
+        - Pin
+      summary: Bulk pin content
+      description: Pin multiple content items at once
+      operationId: bulkPinContent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkPinRequest'
+      responses:
+        '201':
+          description: Content bulk pinned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkPinResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '413':
+          description: Request entity too large (max 1000 items)
+          
+  /pin/check:
+    get:
+      tags:
+        - Pin
+      summary: Check pin status
+      description: Check if content items are pinned
+      operationId: checkPinStatus
+      parameters:
+        - name: contentType
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [kana, kanji, vocabulary, sentence, custom]
+        - name: contentIds
+          in: query
+          required: true
+          schema:
+            type: string
+            description: Comma-separated content IDs
+      responses:
+        '200':
+          description: Pin status retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pinned:
+                    type: object
+                    additionalProperties:
+                      type: boolean
+                      
+  /stats:
+    get:
+      tags:
+        - Statistics
+      summary: Get user statistics
+      description: Retrieve comprehensive user review statistics
+      operationId: getUserStats
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month, year, all]
+            default: week
+        - name: detailed
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsResponse'
+                
+  /stats/heatmap:
+    get:
+      tags:
+        - Statistics
+      summary: Get activity heatmap
+      description: Retrieve review activity heatmap data
+      operationId: getHeatmap
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 30
+            maximum: 365
+            default: 365
+      responses:
+        '200':
+          description: Heatmap data retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeatmapResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: session
+      
+  parameters:
+    sessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique session identifier
+      schema:
+        type: string
+        format: uuid
+        
+  schemas:
+    ReviewableContent:
+      type: object
+      required:
+        - id
+        - contentType
+        - primaryDisplay
+        - primaryAnswer
+      properties:
+        id:
+          type: string
+        contentType:
+          type: string
+          enum: [kana, kanji, vocabulary, sentence, custom]
+        primaryDisplay:
+          type: string
+        secondaryDisplay:
+          type: string
+        tertiaryDisplay:
+          type: string
+        primaryAnswer:
+          type: string
+        alternativeAnswers:
+          type: array
+          items:
+            type: string
+        audioUrl:
+          type: string
+          format: uri
+        imageUrl:
+          type: string
+          format: uri
+        difficulty:
+          type: number
+          minimum: 0
+          maximum: 1
+        tags:
+          type: array
+          items:
+            type: string
+        supportedModes:
+          type: array
+          items:
+            type: string
+            enum: [recognition, recall, listening]
+        srsData:
+          $ref: '#/components/schemas/SRSData'
+        pinned:
+          type: boolean
+          
+    SRSData:
+      type: object
+      properties:
+        interval:
+          type: integer
+          description: Days until next review
+        easeFactor:
+          type: number
+          minimum: 1.3
+          maximum: 2.5
+        repetitions:
+          type: integer
+        lastReviewedAt:
+          type: string
+          format: date-time
+        nextReviewAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [new, learning, review, mastered]
+          
+    QueueResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewableContent'
+        stats:
+          type: object
+          properties:
+            total:
+              type: integer
+            new:
+              type: integer
+            learning:
+              type: integer
+            due:
+              type: integer
+            overdue:
+              type: integer
+        nextReviewIn:
+          type: integer
+          description: Minutes until next review
+          
+    CustomQueueRequest:
+      type: object
+      properties:
+        filters:
+          type: object
+          properties:
+            contentTypes:
+              type: array
+              items:
+                type: string
+            tags:
+              type: array
+              items:
+                type: string
+            difficulty:
+              type: object
+              properties:
+                min:
+                  type: number
+                max:
+                  type: number
+            status:
+              type: array
+              items:
+                type: string
+                enum: [new, learning, review, mastered]
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+        order:
+          type: string
+          enum: [srs_priority, difficulty, random, sequential]
+          
+    QueuePreviewResponse:
+      type: object
+      properties:
+        schedule:
+          type: object
+          additionalProperties:
+            type: integer
+          description: Date (YYYY-MM-DD) to review count mapping
+        totalItems:
+          type: integer
+        overdueItems:
+          type: integer
+          
+    StartSessionRequest:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum: [daily, quick, custom, test]
+        itemIds:
+          type: array
+          items:
+            type: string
+        settings:
+          type: object
+          properties:
+            timeLimit:
+              type: integer
+              description: Session time limit in minutes
+            shuffleItems:
+              type: boolean
+            showProgress:
+              type: boolean
+            mode:
+              type: string
+              enum: [recognition, recall, listening, mixed]
+              
+    SessionResponse:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [active, paused, completed, abandoned]
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewableContent'
+        currentIndex:
+          type: integer
+        totalItems:
+          type: integer
+        progress:
+          type: object
+          properties:
+            completed:
+              type: integer
+            correct:
+              type: integer
+            incorrect:
+              type: integer
+            accuracy:
+              type: number
+            streak:
+              type: integer
+        estimatedTime:
+          type: integer
+          description: Estimated minutes remaining
+        startedAt:
+          type: string
+          format: date-time
+          
+    SubmitAnswerRequest:
+      type: object
+      required:
+        - itemId
+        - answer
+        - responseTime
+      properties:
+        itemId:
+          type: string
+        answer:
+          type: string
+        responseTime:
+          type: integer
+          description: Response time in milliseconds
+        confidence:
+          type: integer
+          minimum: 1
+          maximum: 5
+        hintsUsed:
+          type: integer
+          
+    AnswerResponse:
+      type: object
+      properties:
+        correct:
+          type: boolean
+        expectedAnswer:
+          type: string
+        feedback:
+          type: string
+        itemUpdate:
+          $ref: '#/components/schemas/SRSData'
+        sessionProgress:
+          type: object
+          properties:
+            current:
+              type: integer
+            total:
+              type: integer
+            accuracy:
+              type: number
+            streak:
+              type: integer
+            
+    PinRequest:
+      type: object
+      required:
+        - contentType
+        - contentId
+      properties:
+        contentType:
+          type: string
+          enum: [kana, kanji, vocabulary, sentence, custom]
+        contentId:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        priority:
+          type: string
+          enum: [low, normal, high]
+          default: normal
+          
+    PinResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        itemsAdded:
+          type: integer
+        reviewItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewableContent'
+        stats:
+          type: object
+          properties:
+            totalPinned:
+              type: integer
+            byContentType:
+              type: object
+              additionalProperties:
+                type: integer
+                
+    BulkPinRequest:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              contentType:
+                type: string
+              contentId:
+                type: string
+          maxItems: 1000
+        tags:
+          type: array
+          items:
+            type: string
+        priority:
+          type: string
+          enum: [low, normal, high]
+        releaseSchedule:
+          type: string
+          enum: [immediate, gradual]
+        dailyLimit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          
+    BulkPinResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        itemsAdded:
+          type: integer
+        itemsFailed:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              contentId:
+                type: string
+              error:
+                type: string
+        stats:
+          type: object
+          properties:
+            totalPinned:
+              type: integer
+            scheduledRelease:
+              type: object
+              additionalProperties:
+                type: integer
+                
+    StatsResponse:
+      type: object
+      properties:
+        overview:
+          type: object
+          properties:
+            totalReviews:
+              type: integer
+            totalItems:
+              type: integer
+            averageAccuracy:
+              type: number
+            currentStreak:
+              type: integer
+            bestStreak:
+              type: integer
+        current:
+          type: object
+          properties:
+            dueToday:
+              type: integer
+            newToday:
+              type: integer
+            completedToday:
+              type: integer
+        progress:
+          type: object
+          properties:
+            new:
+              type: integer
+            learning:
+              type: integer
+            review:
+              type: integer
+            mastered:
+              type: integer
+        byContentType:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              total:
+                type: integer
+              mastered:
+                type: integer
+              accuracy:
+                type: number
+        recentActivity:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              reviews:
+                type: integer
+              accuracy:
+                type: number
+              timeSpent:
+                type: integer
+                
+    HeatmapResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              count:
+                type: integer
+              level:
+                type: integer
+                minimum: 0
+                maximum: 4
+                description: Activity level (0=none, 4=high)
+        summary:
+          type: object
+          properties:
+            totalDays:
+              type: integer
+            activeDays:
+              type: integer
+            longestStreak:
+              type: integer
+            currentStreak:
+              type: integer
+            
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            timestamp:
+              type: string
+              format: date-time
+            requestId:
+              type: string
+              
+  responses:
+    BadRequest:
+      description: Bad request - Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+            
+    Unauthorized:
+      description: Unauthorized - Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+            
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+            
+    RateLimited:
+      description: Rate limit exceeded
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

@@ -1,0 +1,57 @@
+{
+  "summary": {
+    "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+    "totalCollections": 5,
+    "downloadDate": "2025-10-04T09:42:25.046Z"
+  },
+  "collections": {
+    "users": {
+      "size": "30.08 KB",
+      "fields": 15,
+      "subcollections": 10
+    },
+    "leaderboard_stats": {
+      "size": "0.34 KB",
+      "fields": 13,
+      "subcollections": 0
+    },
+    "user_stats": {
+      "size": "0.96 KB",
+      "fields": 11,
+      "subcollections": 0
+    },
+    "usage": {
+      "size": "0.07 KB",
+      "fields": 2,
+      "subcollections": 0
+    },
+    "drill_sessions_by_userId": {
+      "size": "11.70 KB",
+      "fields": 7,
+      "subcollections": 0
+    }
+  },
+  "duplicateData": [
+    {
+      "type": "streak",
+      "sources": [
+        "leaderboard_stats",
+        "user_stats (NEW UNIFIED)"
+      ],
+      "recommendation": "Migrate to user_stats only"
+    },
+    {
+      "type": "xp",
+      "sources": [
+        "leaderboard_stats",
+        "user_stats (NEW UNIFIED)"
+      ],
+      "recommendation": "Migrate to user_stats only"
+    }
+  ],
+  "recommendations": [
+    "✅ user_stats collection exists - ready for migration",
+    "🗑️ Can remove leaderboard_stats after migration",
+    "🗑️ Can remove users/achievements subcollection after migration"
+  ]
+}

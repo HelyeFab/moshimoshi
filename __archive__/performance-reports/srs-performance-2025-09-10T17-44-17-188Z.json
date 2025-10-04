@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-09-10T17:44:17.179Z",
+  "testConfiguration": {
+    "testSize": 10000,
+    "iterations": 3,
+    "totalOperations": 30000
+  },
+  "performance": {
+    "timings": {
+      "count": 30000,
+      "mean": 0.006273416033333369,
+      "min": 0.005527000000000726,
+      "max": 0.8612690000000214,
+      "p50": 0.006018000000011625,
+      "p95": 0.006990000000001828,
+      "p99": 0.009039000000001352
+    },
+    "targetP95": 10,
+    "targetMean": 5,
+    "actualP95": 0.006990000000001828,
+    "actualMean": 0.006273416033333369
+  },
+  "evaluation": {
+    "p95Passed": true,
+    "meanPassed": true,
+    "overallPassed": true
+  },
+  "distribution": {
+    "under1ms": 30000,
+    "under5ms": 30000,
+    "under10ms": 30000,
+    "over10ms": 0
+  },
+  "recommendations": []
+}

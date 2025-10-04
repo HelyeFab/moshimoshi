@@ -255,7 +255,6 @@ These enable:
 5. **Use semantic color naming** for consistency
 6. **Apply transitions** for smooth theme changes
 7. **Consider colorblind users** when choosing palettes
-8. **Use soft whites** (`bg-soft-white` #eef6fd) instead of pure white for reduced eye strain
 
 ## Accessibility
 

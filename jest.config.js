@@ -8,7 +8,6 @@ const customJestConfig = {
   testEnvironment: 'jsdom',
 
   moduleNameMapper: {
-    '^@/config/(.*)$': '<rootDir>/config/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
 

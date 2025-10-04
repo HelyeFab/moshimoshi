@@ -1,0 +1,1722 @@
+{
+  "profileVersion": 1,
+  "locale": "en",
+  "createdAt": {
+    "_seconds": 1759413599,
+    "_nanoseconds": 92000000
+  },
+  "profile": {
+    "displayName": "emmanuelfabiani23",
+    "avatarUrl": null
+  },
+  "preferences": {
+    "language": "en",
+    "theme": "dark",
+    "dailyGoalMinutes": 10,
+    "notifications": {
+      "email": true,
+      "push": false
+    }
+  },
+  "userState": "active",
+  "email": "emmanuelfabiani23@gmail.com",
+  "emailVerified": false,
+  "isAdmin": true,
+  "subscription": {
+    "status": "active",
+    "stripeSubscriptionId": "sub_1SDn7DHdrJomitOwMRBd7C7O",
+    "metadata": {
+      "createdAt": {
+        "_seconds": 1759413599,
+        "_nanoseconds": 92000000
+      },
+      "reason": "Admin Testing",
+      "updatedBy": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+      "discountType": "100% off coupon",
+      "source": "admin",
+      "stripeCouponId": "admin_1759413854_8onZzl",
+      "updatedAt": {
+        "_seconds": 1759413856,
+        "_nanoseconds": 237000000
+      }
+    },
+    "currentPeriodEnd": null,
+    "cancelAtPeriodEnd": false,
+    "stripeCustomerId": "cus_TA7L4xrtceCGXn",
+    "plan": "premium_yearly",
+    "stripePriceId": "price_1S6vMBHdrJomitOwweaSGhYp"
+  },
+  "stripeCustomerId": "cus_TA7L4xrtceCGXn",
+  "lastActivity": {
+    "vocabularySearch": {
+      "_seconds": 1759509374,
+      "_nanoseconds": 613000000
+    }
+  },
+  "lastLoginAt": {
+    "_seconds": 1759558687,
+    "_nanoseconds": 105000000
+  },
+  "adminUpdatedAt": {
+    "_seconds": 1759558688,
+    "_nanoseconds": 55000000
+  },
+  "updatedAt": {
+    "_seconds": 1759558688,
+    "_nanoseconds": 55000000
+  },
+  "_subcollections": {
+    "achievements": {
+      "activities": {
+        "dates.2025-10-03": true,
+        "lastActivity": {
+          "_seconds": 1759508713,
+          "_nanoseconds": 786000000
+        }
+      }
+    },
+    "kanji_browse_history": {
+      "3NJ0g08hnkmlHNFQIpMC": {
+        "kanjiId": "年",
+        "character": "年",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507104,
+          "_nanoseconds": 995000000
+        }
+      },
+      "3fYfm7Dqz84xGz4P4kFT": {
+        "kanjiId": "大",
+        "character": "大",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507707,
+          "_nanoseconds": 277000000
+        }
+      },
+      "58Sl7OJvTUCE4kmQdoFs": {
+        "kanjiId": "日",
+        "character": "日",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507175,
+          "_nanoseconds": 600000000
+        }
+      },
+      "5VjD8ggNtalazDJNYlXS": {
+        "kanjiId": "大",
+        "character": "大",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507087,
+          "_nanoseconds": 179000000
+        }
+      },
+      "8hpgXFSmQEDYNz8YzfFX": {
+        "kanjiId": "人",
+        "character": "人",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759506642,
+          "_nanoseconds": 996000000
+        }
+      },
+      "8qAoXszfPAjixQ7RZ7yB": {
+        "kanjiId": "一",
+        "character": "一",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507842,
+          "_nanoseconds": 154000000
+        }
+      },
+      "AWa5rRmkSFJ4p6Yeuty0": {
+        "kanjiId": "日",
+        "character": "日",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507756,
+          "_nanoseconds": 470000000
+        }
+      },
+      "BPQXGxAPqpQkL8YYYYN6": {
+        "kanjiId": "大",
+        "character": "大",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507626,
+          "_nanoseconds": 975000000
+        }
+      },
+      "FzAoLUnrTRcFCHeRXvXL": {
+        "kanjiId": "月",
+        "character": "月",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759506632,
+          "_nanoseconds": 79000000
+        }
+      },
+      "IocatPXK38pG6mjFt9yx": {
+        "kanjiId": "年",
+        "character": "年",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507105,
+          "_nanoseconds": 95000000
+        }
+      },
+      "OEM5GARRylSnwCP2mwmG": {
+        "kanjiId": "一",
+        "character": "一",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507842,
+          "_nanoseconds": 178000000
+        }
+      },
+      "S1vBekKEpmk0y0A1BPtc": {
+        "kanjiId": "年",
+        "character": "年",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759508007,
+          "_nanoseconds": 999000000
+        }
+      },
+      "WLs78Cl9vXETuQAnuHvm": {
+        "kanjiId": "大",
+        "character": "大",
+        "source": "browse",
+        "sessionId": "orn2nq",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759508713,
+          "_nanoseconds": 649000000
+        }
+      },
+      "b9kFx2K2EUvaH8HbwfkT": {
+        "kanjiId": "日",
+        "character": "日",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507175,
+          "_nanoseconds": 620000000
+        }
+      },
+      "g8OIeOxy7U5vtnJituZe": {
+        "kanjiId": "大",
+        "character": "大",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507626,
+          "_nanoseconds": 982000000
+        }
+      },
+      "hVaQWiotgpmJvzWErh9a": {
+        "kanjiId": "人",
+        "character": "人",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759506641,
+          "_nanoseconds": 905000000
+        }
+      },
+      "lCGoQYR7DkajxJPm7nwI": {
+        "kanjiId": "日",
+        "character": "日",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507756,
+          "_nanoseconds": 396000000
+        }
+      },
+      "sXPHdSdh4LihS8TdARyN": {
+        "kanjiId": "大",
+        "character": "大",
+        "source": "browse",
+        "sessionId": "orn2nq",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759508713,
+          "_nanoseconds": 679000000
+        }
+      },
+      "xmfU4UpqspYTHNFX9jTs": {
+        "kanjiId": "大",
+        "character": "大",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507707,
+          "_nanoseconds": 143000000
+        }
+      },
+      "zzugs10oLMyfLUH3WKyt": {
+        "kanjiId": "大",
+        "character": "大",
+        "source": "browse",
+        "sessionId": "ycmmcrd",
+        "deviceType": "desktop",
+        "timestamp": {
+          "_seconds": 1759507087,
+          "_nanoseconds": 164000000
+        }
+      }
+    },
+    "lists": {
+      "a6225b55-b1d0-453a-9be4-54809f9b76c6": {
+        "id": "a6225b55-b1d0-453a-9be4-54809f9b76c6",
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "name": "list-1",
+        "type": "word",
+        "emoji": "🧠",
+        "color": "ocean",
+        "createdAt": 1759506918452,
+        "settings": {
+          "reviewEnabled": true,
+          "sortOrder": "dateAdded"
+        },
+        "items": [
+          {
+            "id": "7aaf3c89-70b8-4e57-9e15-0a31b2fdaadd",
+            "content": "傘",
+            "type": "word",
+            "metadata": {
+              "reading": "かさ",
+              "meaning": "",
+              "jlptLevel": 5,
+              "addedAt": 1759509352699
+            }
+          },
+          {
+            "id": "df28d728-c40e-4f6c-869a-fdb0093a5042",
+            "content": "バイク",
+            "type": "word",
+            "metadata": {
+              "reading": "バイク",
+              "meaning": "",
+              "jlptLevel": 5,
+              "addedAt": 1759509366438
+            }
+          }
+        ],
+        "updatedAt": 1759509405751
+      }
+    },
+    "progress": {
+      "8onZzlQg3tQxkw8pinSF9ow4Q6j2": {
+        "correctCount": null,
+        "verbsStudied": [],
+        "contentId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "accuracy": null,
+        "adjectivesStudied": [],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "totalDrills": null,
+        "reviewCount": null,
+        "averageAccuracy": null,
+        "contentType": "overall",
+        "lastUpdated": {
+          "_seconds": 1759499532,
+          "_nanoseconds": 396000000
+        },
+        "lastReviewedAt": "2025-10-03T13:52:11.412Z",
+        "conjugationTypes": {
+          "taiForm": 1,
+          "causative": 1,
+          "pastNegative": 1,
+          "politePast": 1,
+          "potential": 1,
+          "negative": 1,
+          "conditional": 1,
+          "politeNegative": 1
+        }
+      },
+      "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499278931": {
+        "flaggedForReview": false,
+        "pinned": false,
+        "correctCount": 0,
+        "bookmarked": false,
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499278931",
+        "accuracy": 0,
+        "streak": 0,
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "incorrectCount": 1,
+        "createdAt": "2025-10-03T13:48:48.752Z",
+        "lastUpdated": {
+          "_seconds": 1759499329,
+          "_nanoseconds": 757000000
+        },
+        "bestStreak": 0,
+        "viewCount": 0,
+        "interactionCount": 0,
+        "contentType": "drill",
+        "status": "not-started",
+        "updatedAt": "2025-10-03T13:48:48.752Z"
+      },
+      "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499492673": {
+        "flaggedForReview": false,
+        "pinned": false,
+        "correctCount": 0,
+        "bookmarked": false,
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499492673",
+        "accuracy": 0,
+        "streak": 0,
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "incorrectCount": 1,
+        "createdAt": "2025-10-03T13:52:11.747Z",
+        "lastUpdated": {
+          "_seconds": 1759499532,
+          "_nanoseconds": 736000000
+        },
+        "bestStreak": 0,
+        "viewCount": 0,
+        "interactionCount": 0,
+        "contentType": "drill",
+        "status": "not-started",
+        "updatedAt": "2025-10-03T13:52:11.747Z"
+      },
+      "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759500529250": {
+        "flaggedForReview": false,
+        "pinned": false,
+        "correctCount": 0,
+        "bookmarked": false,
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759500529250",
+        "accuracy": 0,
+        "streak": 0,
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "incorrectCount": 1,
+        "createdAt": "2025-10-03T14:09:19.338Z",
+        "lastUpdated": {
+          "_seconds": 1759500560,
+          "_nanoseconds": 1000000
+        },
+        "bestStreak": 0,
+        "viewCount": 0,
+        "interactionCount": 0,
+        "contentType": "drill",
+        "status": "not-started",
+        "updatedAt": "2025-10-03T14:09:19.338Z"
+      },
+      "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759502197774": {
+        "flaggedForReview": false,
+        "pinned": false,
+        "correctCount": 0,
+        "bookmarked": false,
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759502197774",
+        "accuracy": 0,
+        "streak": 0,
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "incorrectCount": 1,
+        "createdAt": "2025-10-03T14:37:22.543Z",
+        "lastUpdated": {
+          "_seconds": 1759502243,
+          "_nanoseconds": 221000000
+        },
+        "bestStreak": 0,
+        "viewCount": 0,
+        "interactionCount": 0,
+        "contentType": "drill",
+        "status": "not-started",
+        "updatedAt": "2025-10-03T14:37:22.543Z"
+      },
+      "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503053694": {
+        "flaggedForReview": false,
+        "pinned": false,
+        "correctCount": 0,
+        "bookmarked": false,
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503053694",
+        "accuracy": 0,
+        "streak": 0,
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "incorrectCount": 1,
+        "createdAt": "2025-10-03T14:51:34.036Z",
+        "lastUpdated": {
+          "_seconds": 1759503094,
+          "_nanoseconds": 732000000
+        },
+        "bestStreak": 0,
+        "viewCount": 0,
+        "interactionCount": 0,
+        "contentType": "drill",
+        "status": "not-started",
+        "updatedAt": "2025-10-03T14:51:34.036Z"
+      },
+      "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503254472": {
+        "flaggedForReview": false,
+        "pinned": false,
+        "correctCount": 0,
+        "bookmarked": false,
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503254472",
+        "accuracy": 0,
+        "streak": 0,
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "incorrectCount": 1,
+        "createdAt": "2025-10-03T14:54:54.639Z",
+        "lastUpdated": {
+          "_seconds": 1759503295,
+          "_nanoseconds": 337000000
+        },
+        "bestStreak": 0,
+        "viewCount": 0,
+        "interactionCount": 0,
+        "contentType": "drill",
+        "status": "not-started",
+        "updatedAt": "2025-10-03T14:54:54.639Z"
+      },
+      "hiragana": {
+        "totalLearned": 3,
+        "lastSync": {
+          "_seconds": 1759417252,
+          "_nanoseconds": 133000000
+        },
+        "flaggedForReview": false,
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "createdAt": "2025-10-02T19:27:03.313Z",
+        "viewCount": 0,
+        "correctCount": 0,
+        "interactionCount": 0,
+        "contentId": "hiragana",
+        "characters": {
+          "a": {
+            "status": "learned",
+            "reviewCount": 1,
+            "updatedAt": {
+              "_seconds": 1759433219,
+              "_nanoseconds": 785000000
+            },
+            "correctCount": 1,
+            "pinned": false
+          },
+          "u": {
+            "pinned": false,
+            "updatedAt": {
+              "_seconds": 1759433224,
+              "_nanoseconds": 493000000
+            },
+            "status": "learned",
+            "correctCount": 1,
+            "reviewCount": 1
+          },
+          "hiragana-u": {
+            "pinned": true,
+            "status": "not-started",
+            "correctCount": 0,
+            "reviewCount": 0,
+            "updatedAt": {
+              "_seconds": 1759498113,
+              "_nanoseconds": 543000000
+            }
+          },
+          "go": {
+            "status": "learned",
+            "updatedAt": {
+              "_seconds": 1759417255,
+              "_nanoseconds": 698000000
+            },
+            "correctCount": 1,
+            "pinned": false,
+            "reviewCount": 1
+          },
+          "hiragana-a": {
+            "status": "not-started",
+            "updatedAt": {
+              "_seconds": 1759498113,
+              "_nanoseconds": 537000000
+            },
+            "pinned": true,
+            "reviewCount": 0,
+            "correctCount": 0
+          },
+          "hiragana-o": {
+            "pinned": true,
+            "correctCount": 0,
+            "reviewCount": 0,
+            "status": "not-started",
+            "updatedAt": {
+              "_seconds": 1759498113,
+              "_nanoseconds": 546000000
+            }
+          },
+          "hiragana-e": {
+            "pinned": true,
+            "reviewCount": 0,
+            "correctCount": 0,
+            "updatedAt": {
+              "_seconds": 1759498113,
+              "_nanoseconds": 546000000
+            },
+            "status": "not-started"
+          },
+          "hiragana-i": {
+            "correctCount": 0,
+            "pinned": true,
+            "status": "not-started",
+            "updatedAt": {
+              "_seconds": 1759498113,
+              "_nanoseconds": 542000000
+            },
+            "reviewCount": 0
+          }
+        },
+        "accuracy": 0,
+        "status": "not-started",
+        "lastUpdated": {
+          "_seconds": 1759433224,
+          "_nanoseconds": 152000000
+        },
+        "pinned": false,
+        "script": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "streak": 0,
+        "totalCharacters": 8,
+        "bookmarked": false,
+        "incorrectCount": 0,
+        "bestStreak": 0,
+        "updatedAt": {
+          "_seconds": 1759558702,
+          "_nanoseconds": 799000000
+        }
+      },
+      "kanji": {
+        "items.月.lastBrowsed": {
+          "_seconds": 1759506632,
+          "_nanoseconds": 79000000
+        },
+        "items.月.browseCount": 1,
+        "items.人.browseCount": 2,
+        "items.人.lastBrowsed": {
+          "_seconds": 1759506642,
+          "_nanoseconds": 996000000
+        },
+        "items.日.browseCount": 4,
+        "items.日.lastBrowsed": {
+          "_seconds": 1759507756,
+          "_nanoseconds": 470000000
+        },
+        "items.一.lastBrowsed": {
+          "_seconds": 1759507842,
+          "_nanoseconds": 178000000
+        },
+        "items.一.browseCount": 2,
+        "items.年.browseCount": 3,
+        "items.年.lastBrowsed": {
+          "_seconds": 1759508007,
+          "_nanoseconds": 999000000
+        },
+        "lastUpdated": {
+          "_seconds": 1759508713,
+          "_nanoseconds": 679000000
+        },
+        "items.大.lastBrowsed": {
+          "_seconds": 1759508713,
+          "_nanoseconds": 679000000
+        },
+        "items.大.browseCount": 8
+      },
+      "katakana": {
+        "script": "katakana",
+        "lastSync": {
+          "_seconds": 1759433409,
+          "_nanoseconds": 448000000
+        },
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "characters": {
+          "katakana-ta": {
+            "pinned": true,
+            "status": "not-started",
+            "correctCount": 0,
+            "updatedAt": {
+              "_seconds": 1759517583,
+              "_nanoseconds": 759000000
+            },
+            "reviewCount": 0
+          },
+          "katakana-tsu": {
+            "pinned": true,
+            "reviewCount": 0,
+            "status": "not-started",
+            "correctCount": 0,
+            "updatedAt": {
+              "_seconds": 1759517583,
+              "_nanoseconds": 768000000
+            }
+          },
+          "katakana-u": {
+            "status": "learning",
+            "correctCount": 0,
+            "pinned": false,
+            "updatedAt": {
+              "_seconds": 1759433408,
+              "_nanoseconds": 725000000
+            },
+            "reviewCount": 1,
+            "lastReviewed": {
+              "_seconds": 1759433408,
+              "_nanoseconds": 724000000
+            }
+          },
+          "katakana-chi": {
+            "status": "not-started",
+            "updatedAt": {
+              "_seconds": 1759517583,
+              "_nanoseconds": 764000000
+            },
+            "reviewCount": 0,
+            "correctCount": 0,
+            "pinned": true
+          },
+          "katakana-i": {
+            "correctCount": 0,
+            "pinned": false,
+            "lastReviewed": {
+              "_seconds": 1759433408,
+              "_nanoseconds": 725000000
+            },
+            "reviewCount": 1,
+            "status": "learning",
+            "updatedAt": {
+              "_seconds": 1759433408,
+              "_nanoseconds": 725000000
+            }
+          },
+          "katakana-a": {
+            "status": "learning",
+            "lastReviewed": {
+              "_seconds": 1759433408,
+              "_nanoseconds": 726000000
+            },
+            "updatedAt": {
+              "_seconds": 1759433408,
+              "_nanoseconds": 726000000
+            },
+            "pinned": false,
+            "correctCount": 0,
+            "reviewCount": 1
+          },
+          "katakana-to": {
+            "pinned": true,
+            "status": "not-started",
+            "updatedAt": {
+              "_seconds": 1759517583,
+              "_nanoseconds": 772000000
+            },
+            "correctCount": 0,
+            "reviewCount": 0
+          },
+          "katakana-te": {
+            "correctCount": 0,
+            "pinned": true,
+            "reviewCount": 0,
+            "status": "not-started",
+            "updatedAt": {
+              "_seconds": 1759517583,
+              "_nanoseconds": 769000000
+            }
+          }
+        },
+        "totalLearned": 0,
+        "totalCharacters": 8,
+        "updatedAt": {
+          "_seconds": 1759558703,
+          "_nanoseconds": 0
+        }
+      },
+      "overall": {
+        "drillType": "conjugation",
+        "verbsStudied": [],
+        "contentId": "overall",
+        "accuracy": 80,
+        "perfectDrills": 0,
+        "adjectivesStudied": [],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "bestStreak": 0,
+        "averageAccuracy": 80,
+        "contentType": "drill",
+        "status": "learning",
+        "lastUpdated": {
+          "_seconds": 1759503295,
+          "_nanoseconds": 337000000
+        },
+        "totalDrills": 3,
+        "correctCount": 12,
+        "reviewCount": 15,
+        "lastReviewedAt": "2025-10-03T14:54:54.291Z",
+        "conjugationTypes": {
+          "taiForm": 1,
+          "politePastNegative": 1,
+          "teForm": 1,
+          "politeNegative": 1,
+          "potential": 1,
+          "causative": 1,
+          "past": 1,
+          "conditional": 1,
+          "present": 1,
+          "passive": 1,
+          "negative": 1,
+          "volitional": 2,
+          "pastNegative": 1
+        }
+      }
+    },
+    "review_history": {
+      "1kR4YVXd9NFR5US8S1dx": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "u",
+        "content": "う",
+        "timestamp": "2025-10-02T19:27:04.493Z",
+        "sessionId": "session_1759433216769_98b3j0awa",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759433225,
+          "_nanoseconds": 782000000
+        }
+      },
+      "3wYT7KoEEhYgot25buIw": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "i",
+        "content": "い",
+        "timestamp": "2025-10-02T15:35:38.819Z",
+        "sessionId": "session_1759419332167_v0wyb37g3",
+        "event": "viewed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759419339,
+          "_nanoseconds": 652000000
+        }
+      },
+      "4KzQw0yLk7b1zAyizM14": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "drill",
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503254472",
+        "content": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503254472",
+        "timestamp": "2025-10-03T14:54:54.641Z",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759503295,
+          "_nanoseconds": 447000000
+        }
+      },
+      "8BZ16AsX71Ez0lWKWI4J": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "drill",
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499278931",
+        "content": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499278931",
+        "timestamp": "2025-10-03T13:48:48.752Z",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759499329,
+          "_nanoseconds": 505000000
+        }
+      },
+      "8UevntmZwIs9cDAFRENj": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "drill",
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759502197774",
+        "content": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759502197774",
+        "timestamp": "2025-10-03T14:37:22.543Z",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759502243,
+          "_nanoseconds": 309000000
+        }
+      },
+      "AVYASAuwvqqDE9Mr7obS": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "a",
+        "content": "あ",
+        "timestamp": "2025-10-02T19:26:59.786Z",
+        "sessionId": "session_1759433216769_98b3j0awa",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759433221,
+          "_nanoseconds": 390000000
+        }
+      },
+      "B0a9RgVxUMGfHIROYKZy": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "a",
+        "content": "あ",
+        "timestamp": "2025-10-02T19:03:56.723Z",
+        "sessionId": "session_1759431833840_lxdjy75g8",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759431839,
+          "_nanoseconds": 870000000
+        }
+      },
+      "ODSr2IXBpxwbaSqb9Cm0": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "u",
+        "content": "う",
+        "timestamp": "2025-10-02T15:35:42.825Z",
+        "sessionId": "session_1759419332167_v0wyb37g3",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759419343,
+          "_nanoseconds": 608000000
+        }
+      },
+      "U6tNGWmrwpQsu3fQHMCk": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "a",
+        "content": "あ",
+        "timestamp": "2025-10-02T19:26:59.786Z",
+        "sessionId": "session_1759433216769_98b3j0awa",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759433220,
+          "_nanoseconds": 825000000
+        }
+      },
+      "Wc1R5tsJdfpOi9uv0s5n": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "u",
+        "content": "う",
+        "timestamp": "2025-10-02T15:35:41.454Z",
+        "sessionId": "session_1759419332167_v0wyb37g3",
+        "event": "viewed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759419342,
+          "_nanoseconds": 215000000
+        }
+      },
+      "aQavG1cMQNr0F7FNWdBx": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "go",
+        "content": "ご",
+        "timestamp": "2025-10-02T15:00:55.699Z",
+        "sessionId": "session_1759417244699_bwixwy9u2",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759417256,
+          "_nanoseconds": 486000000
+        }
+      },
+      "b9P3LKB8lmxreMINL3pv": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "a",
+        "content": "あ",
+        "timestamp": "2025-10-02T19:03:58.779Z",
+        "sessionId": "session_1759431833840_lxdjy75g8",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759431840,
+          "_nanoseconds": 838000000
+        }
+      },
+      "c1rta7OKMQWKEvUHucGF": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "i",
+        "content": "い",
+        "timestamp": "2025-10-02T19:03:58.955Z",
+        "sessionId": "session_1759431833840_lxdjy75g8",
+        "event": "viewed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759431840,
+          "_nanoseconds": 838000000
+        }
+      },
+      "iUG25HhuGKi7BtoHvubF": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "a",
+        "content": "あ",
+        "timestamp": "2025-10-02T15:00:51.376Z",
+        "sessionId": "session_1759417244699_bwixwy9u2",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759417252,
+          "_nanoseconds": 469000000
+        }
+      },
+      "ksVQyj0jzozTbK4JvefM": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "a",
+        "content": "あ",
+        "timestamp": "2025-10-02T15:35:37.454Z",
+        "sessionId": "session_1759419332167_v0wyb37g3",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759419338,
+          "_nanoseconds": 362000000
+        }
+      },
+      "nMzebimuC13DytiviN8n": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "drill",
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759500529250",
+        "content": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759500529250",
+        "timestamp": "2025-10-03T14:09:19.338Z",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759500560,
+          "_nanoseconds": 101000000
+        }
+      },
+      "o3T4K6YiX8biKg8cWAR7": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "a",
+        "content": "あ",
+        "timestamp": "2025-10-02T19:03:56.723Z",
+        "sessionId": "session_1759431833840_lxdjy75g8",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "correct": true,
+        "createdAt": {
+          "_seconds": 1759431840,
+          "_nanoseconds": 838000000
+        }
+      },
+      "pEyrlA5QnvuXlU5X67aB": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "u",
+        "content": "う",
+        "timestamp": "2025-10-02T19:27:03.313Z",
+        "sessionId": "session_1759433216769_98b3j0awa",
+        "event": "viewed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759433224,
+          "_nanoseconds": 296000000
+        }
+      },
+      "pJepMiTLlH67JdhN0o0J": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "i",
+        "content": "い",
+        "timestamp": "2025-10-02T19:27:00.316Z",
+        "sessionId": "session_1759433216769_98b3j0awa",
+        "event": "viewed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759433221,
+          "_nanoseconds": 390000000
+        }
+      },
+      "qdllKF6LsMbP453d4yGQ": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "i",
+        "content": "い",
+        "timestamp": "2025-10-02T19:16:44.369Z",
+        "sessionId": "session_1759432601068_qtviiblvc",
+        "event": "viewed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759432605,
+          "_nanoseconds": 343000000
+        }
+      },
+      "ucwuZAs2tdgTGFKb2ReS": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "go",
+        "content": "ご",
+        "timestamp": "2025-10-02T15:00:52.732Z",
+        "sessionId": "session_1759417244699_bwixwy9u2",
+        "event": "viewed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759417253,
+          "_nanoseconds": 544000000
+        }
+      },
+      "xCD5ANiQjAQqCh1Mbb99": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "drill",
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499492673",
+        "content": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499492673",
+        "timestamp": "2025-10-03T13:52:11.749Z",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759499532,
+          "_nanoseconds": 492000000
+        }
+      },
+      "xnIQ8lsfiHUXXhWSQ0V6": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "drill",
+        "contentId": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503053694",
+        "content": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503053694",
+        "timestamp": "2025-10-03T14:51:34.038Z",
+        "event": "completed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759503094,
+          "_nanoseconds": 821000000
+        }
+      },
+      "zLdxDQRPiaE49YJ54loG": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "contentType": "hiragana",
+        "contentId": "e",
+        "content": "え",
+        "timestamp": "2025-10-02T15:37:37.516Z",
+        "sessionId": "session_1759419454766_4cfaytxd4",
+        "event": "viewed",
+        "isPremium": true,
+        "deviceType": "desktop",
+        "appVersion": "1.0.0",
+        "createdAt": {
+          "_seconds": 1759419458,
+          "_nanoseconds": 358000000
+        }
+      }
+    },
+    "review_sessions": {
+      "review_1759433407872_u7sec0cay": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "sessionId": "review_1759433407872_u7sec0cay",
+        "sessionType": "review",
+        "script": "katakana",
+        "characters": [
+          {
+            "id": "katakana-u",
+            "character": "ウ",
+            "romaji": "u",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "katakana-i",
+            "character": "イ",
+            "romaji": "i",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "katakana-a",
+            "character": "ア",
+            "romaji": "a",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          }
+        ],
+        "stats": {
+          "totalItems": 3,
+          "correctItems": 2,
+          "accuracy": 66.66666666666666,
+          "avgResponseTime": 0,
+          "duration": 0
+        },
+        "startedAt": {
+          "_seconds": 1759433407,
+          "_nanoseconds": 872000000
+        },
+        "completedAt": {
+          "_seconds": 1759433407,
+          "_nanoseconds": 872000000
+        },
+        "createdAt": {
+          "_seconds": 1759433408,
+          "_nanoseconds": 643000000
+        }
+      }
+    },
+    "searched_words": {
+      "0tJUmxdX5GMcjhUdcqiq": {
+        "term": "bike",
+        "timestamp": {
+          "_seconds": 1759504923,
+          "_nanoseconds": 632000000
+        },
+        "resultCount": 7,
+        "searchSource": "jmdict",
+        "deviceType": "desktop",
+        "clickedResults": [],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "syncedAt": {
+          "_seconds": 1759504924,
+          "_nanoseconds": 844000000
+        }
+      },
+      "3URqbK8Ey3mFkkCf4cPG": {
+        "term": "bike",
+        "timestamp": {
+          "_seconds": 1759509358,
+          "_nanoseconds": 608000000
+        },
+        "resultCount": 7,
+        "searchSource": "jmdict",
+        "deviceType": "desktop",
+        "clickedResults": [
+          null
+        ],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "syncedAt": {
+          "_seconds": 1759509362,
+          "_nanoseconds": 552000000
+        }
+      },
+      "8yonOBzcSroNAjrXTLaI": {
+        "term": "book",
+        "timestamp": {
+          "_seconds": 1759509373,
+          "_nanoseconds": 376000000
+        },
+        "resultCount": 30,
+        "searchSource": "jmdict",
+        "deviceType": "desktop",
+        "clickedResults": [],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "syncedAt": {
+          "_seconds": 1759509374,
+          "_nanoseconds": 542000000
+        }
+      },
+      "EOP3sTZSvS9k0SySxnrc": {
+        "term": "umbrella",
+        "timestamp": {
+          "_seconds": 1759506877,
+          "_nanoseconds": 804000000
+        },
+        "resultCount": 8,
+        "searchSource": "wanikani",
+        "deviceType": "desktop",
+        "clickedResults": [],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "syncedAt": {
+          "_seconds": 1759506878,
+          "_nanoseconds": 998000000
+        }
+      },
+      "OwuVi9D8WGIURiMH8WlM": {
+        "term": "umbrella",
+        "timestamp": {
+          "_seconds": 1759506877,
+          "_nanoseconds": 804000000
+        },
+        "resultCount": 8,
+        "searchSource": "wanikani",
+        "deviceType": "desktop",
+        "clickedResults": [
+          null
+        ],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "syncedAt": {
+          "_seconds": 1759506887,
+          "_nanoseconds": 12000000
+        }
+      },
+      "QXfVVSw9eEu9pP3Ko25f": {
+        "term": "umbrella",
+        "timestamp": {
+          "_seconds": 1759506877,
+          "_nanoseconds": 804000000
+        },
+        "resultCount": 8,
+        "searchSource": "wanikani",
+        "deviceType": "desktop",
+        "clickedResults": [
+          null,
+          null
+        ],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "syncedAt": {
+          "_seconds": 1759509346,
+          "_nanoseconds": 503000000
+        }
+      },
+      "hFYYv6SK08eVv915YY0h": {
+        "term": "bike",
+        "timestamp": {
+          "_seconds": 1759504923,
+          "_nanoseconds": 632000000
+        },
+        "resultCount": 7,
+        "searchSource": "jmdict",
+        "deviceType": "desktop",
+        "clickedResults": [
+          null
+        ],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "syncedAt": {
+          "_seconds": 1759504926,
+          "_nanoseconds": 234000000
+        }
+      },
+      "rCnxesaYeumYG9bjR0zl": {
+        "term": "bike",
+        "timestamp": {
+          "_seconds": 1759509358,
+          "_nanoseconds": 608000000
+        },
+        "resultCount": 7,
+        "searchSource": "jmdict",
+        "deviceType": "desktop",
+        "clickedResults": [],
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "syncedAt": {
+          "_seconds": 1759509359,
+          "_nanoseconds": 778000000
+        }
+      }
+    },
+    "srs_data": {
+      "a": {
+        "easeFactor": 2.5,
+        "romaji": "a",
+        "itemId": "a",
+        "reviewCount": 1,
+        "contentType": "kana",
+        "character": "ア",
+        "bestStreak": 0,
+        "correctCount": 0,
+        "lastReviewedAt": "2025-10-02T19:29:38.621Z",
+        "nextReviewAt": "2025-10-02T19:34:41.020Z",
+        "interval": 0.0035,
+        "streak": 0,
+        "repetitions": 0,
+        "status": "new",
+        "updatedAt": {
+          "_seconds": 1759433378,
+          "_nanoseconds": 724000000
+        }
+      },
+      "i": {
+        "easeFactor": 2.5,
+        "correctCount": 1,
+        "romaji": "i",
+        "streak": 1,
+        "repetitions": 1,
+        "itemId": "i",
+        "bestStreak": 1,
+        "reviewCount": 1,
+        "interval": 0.0069,
+        "contentType": "kana",
+        "status": "learning",
+        "character": "イ",
+        "lastReviewedAt": "2025-10-02T19:29:35.509Z",
+        "nextReviewAt": "2025-10-02T19:39:31.669Z",
+        "updatedAt": {
+          "_seconds": 1759433375,
+          "_nanoseconds": 616000000
+        }
+      },
+      "u": {
+        "easeFactor": 2.5,
+        "correctCount": 1,
+        "romaji": "u",
+        "streak": 1,
+        "repetitions": 1,
+        "itemId": "u",
+        "character": "ウ",
+        "bestStreak": 1,
+        "reviewCount": 1,
+        "contentType": "kana",
+        "status": "learning",
+        "lastReviewedAt": "2025-10-02T19:29:31.004Z",
+        "nextReviewAt": "2025-10-02T19:40:26.780Z",
+        "interval": 0.00759,
+        "updatedAt": {
+          "_seconds": 1759433371,
+          "_nanoseconds": 915000000
+        }
+      }
+    },
+    "study_sessions": {
+      "session_1759417244699_bwixwy9u2": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "sessionId": "session_1759417244699_bwixwy9u2",
+        "sessionType": "study",
+        "script": "hiragana",
+        "characters": [
+          {
+            "id": "あ",
+            "character": "あ",
+            "romaji": "",
+            "correct": true,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "ご",
+            "character": "ご",
+            "romaji": "",
+            "correct": true,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          }
+        ],
+        "stats": {
+          "totalItems": 2,
+          "correctItems": 2,
+          "accuracy": 0,
+          "avgResponseTime": 0,
+          "duration": 15313
+        },
+        "startedAt": {
+          "_seconds": 1759417244,
+          "_nanoseconds": 699000000
+        },
+        "completedAt": {
+          "_seconds": 1759417260,
+          "_nanoseconds": 12000000
+        },
+        "createdAt": {
+          "_seconds": 1759417260,
+          "_nanoseconds": 935000000
+        }
+      },
+      "session_1759419332167_v0wyb37g3": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "sessionId": "session_1759419332167_v0wyb37g3",
+        "sessionType": "study",
+        "script": "hiragana",
+        "characters": [
+          {
+            "id": "あ",
+            "character": "あ",
+            "romaji": "",
+            "correct": true,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "い",
+            "character": "い",
+            "romaji": "",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "う",
+            "character": "う",
+            "romaji": "",
+            "correct": true,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          }
+        ],
+        "stats": {
+          "totalItems": 3,
+          "correctItems": 2,
+          "accuracy": 0,
+          "avgResponseTime": 0,
+          "duration": 14433
+        },
+        "startedAt": {
+          "_seconds": 1759419332,
+          "_nanoseconds": 167000000
+        },
+        "completedAt": {
+          "_seconds": 1759419346,
+          "_nanoseconds": 600000000
+        },
+        "createdAt": {
+          "_seconds": 1759419347,
+          "_nanoseconds": 199000000
+        }
+      },
+      "session_1759419454766_4cfaytxd4": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "sessionId": "session_1759419454766_4cfaytxd4",
+        "sessionType": "study",
+        "script": "hiragana",
+        "characters": [
+          {
+            "id": "う",
+            "character": "う",
+            "romaji": "",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "え",
+            "character": "え",
+            "romaji": "",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "お",
+            "character": "お",
+            "romaji": "",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          }
+        ],
+        "stats": {
+          "totalItems": 3,
+          "correctItems": 0,
+          "accuracy": 0,
+          "avgResponseTime": 0,
+          "duration": 4088
+        },
+        "startedAt": {
+          "_seconds": 1759419454,
+          "_nanoseconds": 766000000
+        },
+        "completedAt": {
+          "_seconds": 1759419458,
+          "_nanoseconds": 854000000
+        },
+        "createdAt": {
+          "_seconds": 1759419459,
+          "_nanoseconds": 579000000
+        }
+      },
+      "session_1759432601068_qtviiblvc": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "sessionId": "session_1759432601068_qtviiblvc",
+        "sessionType": "study",
+        "script": "hiragana",
+        "characters": [
+          {
+            "id": "あ",
+            "character": "あ",
+            "romaji": "",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "い",
+            "character": "い",
+            "romaji": "",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          }
+        ],
+        "stats": {
+          "totalItems": 2,
+          "correctItems": 0,
+          "accuracy": 0,
+          "avgResponseTime": 0,
+          "duration": 5120
+        },
+        "startedAt": {
+          "_seconds": 1759432601,
+          "_nanoseconds": 68000000
+        },
+        "completedAt": {
+          "_seconds": 1759432606,
+          "_nanoseconds": 188000000
+        },
+        "createdAt": {
+          "_seconds": 1759432607,
+          "_nanoseconds": 662000000
+        }
+      },
+      "session_1759433216769_98b3j0awa": {
+        "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+        "sessionId": "session_1759433216769_98b3j0awa",
+        "sessionType": "study",
+        "script": "hiragana",
+        "characters": [
+          {
+            "id": "あ",
+            "character": "あ",
+            "romaji": "",
+            "correct": true,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "い",
+            "character": "い",
+            "romaji": "",
+            "correct": false,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          },
+          {
+            "id": "う",
+            "character": "う",
+            "romaji": "",
+            "correct": true,
+            "attempts": 1,
+            "responseTime": null,
+            "srsData": null,
+            "nextReviewAt": null
+          }
+        ],
+        "stats": {
+          "totalItems": 3,
+          "correctItems": 2,
+          "accuracy": 0,
+          "avgResponseTime": 0,
+          "duration": 8226
+        },
+        "startedAt": {
+          "_seconds": 1759433216,
+          "_nanoseconds": 769000000
+        },
+        "completedAt": {
+          "_seconds": 1759433224,
+          "_nanoseconds": 995000000
+        },
+        "createdAt": {
+          "_seconds": 1759433225,
+          "_nanoseconds": 759000000
+        }
+      }
+    },
+    "usage": {
+      "2025-10": {
+        "lastUpdated": {
+          "_seconds": 1759506918,
+          "_nanoseconds": 517000000
+        },
+        "custom_lists": 1
+      }
+    }
+  }
+}

@@ -25,10 +25,6 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env.vercel
-.env.vercel-check
-.env.production
-.env.development
 .env.local
 .env.production
 .env.development
@@ -40,15 +36,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# archives and test results
-__archive__/
-coverage/
-test-results/
-.bfg-report/
-..bfg-report/
-*.lcov
-*.html
 
 # PWA
 public/workbox-*
@@ -78,4 +65,4 @@ ui-debug.log
 aggregated-docs.md
 notebooklm-docs.md
 .notebooklm-sync-state.json
-notebooklm-backups/.env.vercel.prod*
+notebooklm-backups/

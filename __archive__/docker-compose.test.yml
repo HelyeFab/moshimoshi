@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Test database - Firestore emulator
+  firestore-emulator:
+    image: andreysenov/firebase-tools:latest
+    ports:
+      - "8080:8080"
+      - "4000:4000"
+      - "9099:9099"
+    command: firebase emulators:start --only firestore,auth --project moshimoshi-test
+    volumes:
+      - ./firebase.json:/firebase.json
+      - ./firestore.rules:/firestore.rules
+      - ./.firebaserc:/.firebaserc
+    environment:
+      - FIRESTORE_EMULATOR_HOST=localhost:8080
+      - FIREBASE_AUTH_EMULATOR_HOST=localhost:9099
+
+  # Redis for testing
+  redis-test:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-test-data:/data
+    command: redis-server --appendonly yes
+
+  # Test runner container
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    depends_on:
+      - firestore-emulator
+      - redis-test
+    environment:
+      - NODE_ENV=test
+      - FIRESTORE_EMULATOR_HOST=firestore-emulator:8080
+      - FIREBASE_AUTH_EMULATOR_HOST=firestore-emulator:9099
+      - UPSTASH_REDIS_REST_URL=http://redis-test:6379
+      - CI=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - test-results:/app/test-results
+    command: npm run test:ci
+
+volumes:
+  redis-test-data:
+  test-results:

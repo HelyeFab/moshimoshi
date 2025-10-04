@@ -1,0 +1,814 @@
+{
+  "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759498970181": {
+    "id": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759498970181",
+    "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+    "questions": [
+      {
+        "id": "1-present-1759498970181-c6c7puq2x",
+        "word": {
+          "id": "1",
+          "kanji": "食べる",
+          "kana": "たべる",
+          "meaning": "to eat",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "present",
+        "stem": "食べる_____",
+        "correctAnswer": "食べる",
+        "options": [
+          "食べな",
+          "食べて",
+          "食べる",
+          "食べます"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "3-politeNegative-1759498970181-2db3got7i",
+        "word": {
+          "id": "3",
+          "kanji": "起きる",
+          "kana": "おきる",
+          "meaning": "to wake up",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "politeNegative",
+        "stem": "起きる_____",
+        "correctAnswer": "起きません",
+        "options": [
+          "起きて",
+          "起きな",
+          "起きません",
+          "起きてください"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "4-polite-1759498970181-uj6914gi6",
+        "word": {
+          "id": "4",
+          "kanji": "寝る",
+          "kana": "ねる",
+          "meaning": "to sleep",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "polite",
+        "stem": "寝る_____",
+        "correctAnswer": "寝ます",
+        "options": [
+          "寝ません",
+          "寝ます",
+          "寝な",
+          "寝ました"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "5-polite-1759498970181-8nl02t1u8",
+        "word": {
+          "id": "5",
+          "kanji": "教える",
+          "kana": "おしえる",
+          "meaning": "to teach",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "polite",
+        "stem": "教える_____",
+        "correctAnswer": "教えます",
+        "options": [
+          "教えてください",
+          "教えます",
+          "教えませんでした",
+          "教えさせる"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "2-taiForm-1759498970181-ta2247f2a",
+        "word": {
+          "id": "2",
+          "kanji": "見る",
+          "kana": "みる",
+          "meaning": "to see",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "taiForm",
+        "stem": "見る_____",
+        "correctAnswer": "見たい",
+        "options": [
+          "見たい",
+          "見よう",
+          "見なかった",
+          "見れば"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      }
+    ],
+    "currentQuestionIndex": 0,
+    "score": 0,
+    "startedAt": "2025-10-03T13:42:50.088Z",
+    "mode": "random",
+    "wordTypeFilter": "verbs"
+  },
+  "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499278931": {
+    "id": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499278931",
+    "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+    "questions": [
+      {
+        "id": "2-pastNegative-1759499278931-0hbie8t8a",
+        "word": {
+          "id": "2",
+          "kanji": "見る",
+          "kana": "みる",
+          "meaning": "to see",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "pastNegative",
+        "stem": "見る_____",
+        "correctAnswer": "見なかった",
+        "options": [
+          "見よう",
+          "見な",
+          "見なかった",
+          "見ません"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "3-taiForm-1759499278931-3w3g163o0",
+        "word": {
+          "id": "3",
+          "kanji": "起きる",
+          "kana": "おきる",
+          "meaning": "to wake up",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "taiForm",
+        "stem": "起きる_____",
+        "correctAnswer": "起きたい",
+        "options": [
+          "起きたい",
+          "起きられない",
+          "起きな",
+          "起きさせない"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "5-causative-1759499278931-mlmg9l4qg",
+        "word": {
+          "id": "5",
+          "kanji": "教える",
+          "kana": "おしえる",
+          "meaning": "to teach",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "causative",
+        "stem": "教える_____",
+        "correctAnswer": "教えさせる",
+        "options": [
+          "教えなくて",
+          "教えよう",
+          "教えさせる",
+          "教えたくない"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "1-politePast-1759499278931-8hmb9ekon",
+        "word": {
+          "id": "1",
+          "kanji": "食べる",
+          "kana": "たべる",
+          "meaning": "to eat",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "politePast",
+        "stem": "食べる_____",
+        "correctAnswer": "食べました",
+        "options": [
+          "食べません",
+          "食べました",
+          "食べられる",
+          "食べな"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "4-potential-1759499278931-ytucqutrx",
+        "word": {
+          "id": "4",
+          "kanji": "寝る",
+          "kana": "ねる",
+          "meaning": "to sleep",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "potential",
+        "stem": "寝る_____",
+        "correctAnswer": "寝られる",
+        "options": [
+          "寝",
+          "寝て",
+          "寝られる",
+          "寝ろ"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      }
+    ],
+    "currentQuestionIndex": 0,
+    "score": 0,
+    "startedAt": "2025-10-03T13:47:58.848Z",
+    "mode": "random",
+    "wordTypeFilter": "verbs"
+  },
+  "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499492673": {
+    "id": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759499492673",
+    "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+    "questions": [
+      {
+        "id": "5-conditional-1759499492673-0p3rwrs50",
+        "word": {
+          "id": "5",
+          "kanji": "教える",
+          "kana": "おしえる",
+          "meaning": "to teach",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "conditional",
+        "stem": "教える_____",
+        "correctAnswer": "教えたら",
+        "options": [
+          "教えました",
+          "教えれば",
+          "教えませんでした",
+          "教えたら"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "3-politePast-1759499492672-p3n9tz70n",
+        "word": {
+          "id": "3",
+          "kanji": "起きる",
+          "kana": "おきる",
+          "meaning": "to wake up",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "politePast",
+        "stem": "起きる_____",
+        "correctAnswer": "起きました",
+        "options": [
+          "起きよう",
+          "起きました",
+          "起きませんでした",
+          "起きろ"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "1-taiForm-1759499492672-5agwru13a",
+        "word": {
+          "id": "1",
+          "kanji": "食べる",
+          "kana": "たべる",
+          "meaning": "to eat",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "taiForm",
+        "stem": "食べる_____",
+        "correctAnswer": "食べたい",
+        "options": [
+          "食べたい",
+          "食べなくて",
+          "食べ",
+          "食べる"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "4-negative-1759499492672-zx7k44iwp",
+        "word": {
+          "id": "4",
+          "kanji": "寝る",
+          "kana": "ねる",
+          "meaning": "to sleep",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "negative",
+        "stem": "寝る_____",
+        "correctAnswer": "寝ない",
+        "options": [
+          "寝な",
+          "寝",
+          "寝ない",
+          "寝ろ"
+        ],
+        "rule": "Remove る and add ない"
+      },
+      {
+        "id": "2-politeNegative-1759499492672-rlji4euc0",
+        "word": {
+          "id": "2",
+          "kanji": "見る",
+          "kana": "みる",
+          "meaning": "to see",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "politeNegative",
+        "stem": "見る_____",
+        "correctAnswer": "見ません",
+        "options": [
+          "見たい",
+          "見なかった",
+          "見ない",
+          "見ません"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      }
+    ],
+    "currentQuestionIndex": 0,
+    "score": 0,
+    "startedAt": "2025-10-03T13:51:32.613Z",
+    "mode": "random",
+    "wordTypeFilter": "all"
+  },
+  "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759500529250": {
+    "id": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759500529250",
+    "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+    "questions": [
+      {
+        "id": "3-potential-1759500529250-w3v2jd1uz",
+        "word": {
+          "id": "3",
+          "kanji": "起きる",
+          "kana": "おきる",
+          "meaning": "to wake up",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "potential",
+        "stem": "起きる_____",
+        "correctAnswer": "起きられる",
+        "options": [
+          "起きさせる",
+          "起きなくて",
+          "起きられる",
+          "起きる"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "4-politeNegative-1759500529250-5k1p9puiq",
+        "word": {
+          "id": "4",
+          "kanji": "寝る",
+          "kana": "ねる",
+          "meaning": "to sleep",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "politeNegative",
+        "stem": "寝る_____",
+        "correctAnswer": "寝ません",
+        "options": [
+          "寝ません",
+          "寝てください",
+          "寝させる",
+          "寝る"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "5-teForm-1759500529250-3ltnb988v",
+        "word": {
+          "id": "5",
+          "kanji": "教える",
+          "kana": "おしえる",
+          "meaning": "to teach",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "teForm",
+        "stem": "教える_____",
+        "correctAnswer": "教えて",
+        "options": [
+          "教えよう",
+          "教えられる",
+          "教えれば",
+          "教えて"
+        ],
+        "rule": "Remove る and add て"
+      },
+      {
+        "id": "1-politePastNegative-1759500529250-m91eviqvp",
+        "word": {
+          "id": "1",
+          "kanji": "食べる",
+          "kana": "たべる",
+          "meaning": "to eat",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "politePastNegative",
+        "stem": "食べる_____",
+        "correctAnswer": "食べませんでした",
+        "options": [
+          "食べられる",
+          "食べろ",
+          "食べな",
+          "食べませんでした"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "2-taiForm-1759500529250-l6r4oelj4",
+        "word": {
+          "id": "2",
+          "kanji": "見る",
+          "kana": "みる",
+          "meaning": "to see",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "taiForm",
+        "stem": "見る_____",
+        "correctAnswer": "見たい",
+        "options": [
+          "見ました",
+          "見させる",
+          "見な",
+          "見たい"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      }
+    ],
+    "currentQuestionIndex": 0,
+    "score": 0,
+    "startedAt": "2025-10-03T14:08:49.175Z",
+    "mode": "random",
+    "wordTypeFilter": "verbs"
+  },
+  "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759502197774": {
+    "id": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759502197774",
+    "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+    "questions": [
+      {
+        "id": "1-causative-1759502197774-2ts6n9oxe",
+        "word": {
+          "id": "1",
+          "kanji": "食べる",
+          "kana": "たべる",
+          "meaning": "to eat",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "causative",
+        "stem": "食べる_____",
+        "correctAnswer": "食べさせる",
+        "options": [
+          "食べな",
+          "食べます",
+          "食べた",
+          "食べさせる"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "5-politePastNegative-1759502197774-wu8luevj3",
+        "word": {
+          "id": "5",
+          "kanji": "教える",
+          "kana": "おしえる",
+          "meaning": "to teach",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "politePastNegative",
+        "stem": "教える_____",
+        "correctAnswer": "教えませんでした",
+        "options": [
+          "教えませんでした",
+          "教えられない",
+          "教える",
+          "教えれば"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "3-causative-1759502197774-fyv8rxaon",
+        "word": {
+          "id": "3",
+          "kanji": "起きる",
+          "kana": "おきる",
+          "meaning": "to wake up",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "causative",
+        "stem": "起きる_____",
+        "correctAnswer": "起きさせる",
+        "options": [
+          "起きさせる",
+          "起きない",
+          "起きれば",
+          "起きたくない"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "4-past-1759502197774-9kiigi8qm",
+        "word": {
+          "id": "4",
+          "kanji": "寝る",
+          "kana": "ねる",
+          "meaning": "to sleep",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "past",
+        "stem": "寝る_____",
+        "correctAnswer": "寝た",
+        "options": [
+          "寝た",
+          "寝てください",
+          "寝ろ",
+          "寝ませんでした"
+        ],
+        "rule": "Remove る and add た"
+      },
+      {
+        "id": "2-volitional-1759502197774-uzsoot0ke",
+        "word": {
+          "id": "2",
+          "kanji": "見る",
+          "kana": "みる",
+          "meaning": "to see",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "volitional",
+        "stem": "見る_____",
+        "correctAnswer": "見よう",
+        "options": [
+          "見よう",
+          "見させる",
+          "見",
+          "見ます"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      }
+    ],
+    "currentQuestionIndex": 0,
+    "score": 0,
+    "startedAt": "2025-10-03T14:36:37.710Z",
+    "mode": "random",
+    "wordTypeFilter": "verbs"
+  },
+  "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503053694": {
+    "id": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503053694",
+    "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+    "questions": [
+      {
+        "id": "2-conditional-1759503053693-xsp9ad28w",
+        "word": {
+          "id": "2",
+          "kanji": "見る",
+          "kana": "みる",
+          "meaning": "to see",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "conditional",
+        "stem": "見る_____",
+        "correctAnswer": "見たら",
+        "options": [
+          "見ませんでした",
+          "見た",
+          "見たら",
+          "見ます"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "1-conditional-1759503053693-77g9c96iy",
+        "word": {
+          "id": "1",
+          "kanji": "食べる",
+          "kana": "たべる",
+          "meaning": "to eat",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "conditional",
+        "stem": "食べる_____",
+        "correctAnswer": "食べたら",
+        "options": [
+          "食べれば",
+          "食べてください",
+          "食べたら",
+          "食べない"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "4-teForm-1759503053694-wkm016cvq",
+        "word": {
+          "id": "4",
+          "kanji": "寝る",
+          "kana": "ねる",
+          "meaning": "to sleep",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "teForm",
+        "stem": "寝る_____",
+        "correctAnswer": "寝て",
+        "options": [
+          "寝させない",
+          "寝ろ",
+          "寝ませんでした",
+          "寝て"
+        ],
+        "rule": "Remove る and add て"
+      },
+      {
+        "id": "3-present-1759503053694-oh2pd3wi1",
+        "word": {
+          "id": "3",
+          "kanji": "起きる",
+          "kana": "おきる",
+          "meaning": "to wake up",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "present",
+        "stem": "起きる_____",
+        "correctAnswer": "起きる",
+        "options": [
+          "起き",
+          "起きさせない",
+          "起きられる",
+          "起きる"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "5-passive-1759503053694-ll48g0x9i",
+        "word": {
+          "id": "5",
+          "kanji": "教える",
+          "kana": "おしえる",
+          "meaning": "to teach",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "passive",
+        "stem": "教える_____",
+        "correctAnswer": "教えられる",
+        "options": [
+          "教えられる",
+          "教えて",
+          "教えよう",
+          "教えませんでした"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      }
+    ],
+    "currentQuestionIndex": 0,
+    "score": 0,
+    "startedAt": "2025-10-03T14:50:53.607Z",
+    "mode": "random",
+    "wordTypeFilter": "verbs"
+  },
+  "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503254472": {
+    "id": "drill_8onZzlQg3tQxkw8pinSF9ow4Q6j2_1759503254472",
+    "userId": "8onZzlQg3tQxkw8pinSF9ow4Q6j2",
+    "questions": [
+      {
+        "id": "4-negative-1759503254472-svd5p8n07",
+        "word": {
+          "id": "4",
+          "kanji": "寝る",
+          "kana": "ねる",
+          "meaning": "to sleep",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "negative",
+        "stem": "寝る_____",
+        "correctAnswer": "寝ない",
+        "options": [
+          "寝なかった",
+          "寝ない",
+          "寝させる",
+          "寝"
+        ],
+        "rule": "Remove る and add ない"
+      },
+      {
+        "id": "5-negative-1759503254472-h4c2p987h",
+        "word": {
+          "id": "5",
+          "kanji": "教える",
+          "kana": "おしえる",
+          "meaning": "to teach",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "negative",
+        "stem": "教える_____",
+        "correctAnswer": "教えない",
+        "options": [
+          "教えませんでした",
+          "教えたい",
+          "教える",
+          "教えない"
+        ],
+        "rule": "Remove る and add ない"
+      },
+      {
+        "id": "3-negative-1759503254472-0f9cmxyoc",
+        "word": {
+          "id": "3",
+          "kanji": "起きる",
+          "kana": "おきる",
+          "meaning": "to wake up",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "negative",
+        "stem": "起きる_____",
+        "correctAnswer": "起きない",
+        "options": [
+          "起きたい",
+          "起きない",
+          "起きて",
+          "起きなかった"
+        ],
+        "rule": "Remove る and add ない"
+      },
+      {
+        "id": "1-volitional-1759503254472-h818y018o",
+        "word": {
+          "id": "1",
+          "kanji": "食べる",
+          "kana": "たべる",
+          "meaning": "to eat",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "volitional",
+        "stem": "食べる_____",
+        "correctAnswer": "食べよう",
+        "options": [
+          "食べられない",
+          "食べよう",
+          "食べたい",
+          "食べたら"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      },
+      {
+        "id": "2-pastNegative-1759503254472-shcx2y6ny",
+        "word": {
+          "id": "2",
+          "kanji": "見る",
+          "kana": "みる",
+          "meaning": "to see",
+          "type": "Ichidan",
+          "jlpt": "N5"
+        },
+        "targetForm": "pastNegative",
+        "stem": "見る_____",
+        "correctAnswer": "見なかった",
+        "options": [
+          "見ます",
+          "見たい",
+          "見たら",
+          "見なかった"
+        ],
+        "rule": "Apply appropriate conjugation rule"
+      }
+    ],
+    "currentQuestionIndex": 0,
+    "score": 0,
+    "startedAt": "2025-10-03T14:54:14.413Z",
+    "mode": "random",
+    "wordTypeFilter": "verbs"
+  }
+}

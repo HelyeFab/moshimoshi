@@ -17,44 +17,6 @@ const nextConfig: NextConfig = {
     // Temporarily ignore TypeScript errors during builds to allow deployment
     ignoreBuildErrors: true,
   },
-  // PWA Configuration
-  headers: async () => [
-    {
-      source: '/sw.js',
-      headers: [
-        {
-          key: 'Service-Worker-Allowed',
-          value: '/',
-        },
-      ],
-    },
-    {
-      source: '/firebase-messaging-sw.js',
-      headers: [
-        {
-          key: 'Service-Worker-Allowed',
-          value: '/',
-        },
-      ],
-    },
-    {
-      source: '/(.*)',
-      headers: [
-        {
-          key: 'X-Content-Type-Options',
-          value: 'nosniff',
-        },
-        {
-          key: 'X-Frame-Options',
-          value: 'DENY',
-        },
-        {
-          key: 'X-XSS-Protection',
-          value: '1; mode=block',
-        },
-      ],
-    },
-  ],
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // Don't resolve 'fs' module on the client to prevent this error
@@ -64,31 +26,8 @@ const nextConfig: NextConfig = {
         net: false,
         tls: false,
         child_process: false,
-        dns: false,
-        crypto: false,
-        path: false,
-        stream: false,
-        os: false,
-        zlib: false,
-        http: false,
-        https: false,
-        http2: false,
       };
-
-      // Enable service worker support
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        'worker-loader': false,
-      };
-
-      // Ignore OpenTelemetry modules that use Node.js specific features
-      config.externals = [...(config.externals || []), '@opentelemetry/instrumentation'];
     }
-
-    // Handle dynamic requires in OpenTelemetry
-    config.module = config.module || {};
-    config.module.exprContextCritical = false;
-
     return config;
   },
   experimental: {
