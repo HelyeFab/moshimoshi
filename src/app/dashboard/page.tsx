@@ -611,7 +611,7 @@ function DashboardContent() {
                       </motion.div>
 
                       {/* Streak Badge */}
-                      {reviewStats.currentStreak > 0 && (
+                      {currentStreak > 0 && (
                         <motion.div
                           className="flex justify-center"
                           variants={{
@@ -632,7 +632,7 @@ function DashboardContent() {
                           <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 rounded-full">
                             <span className="text-lg animate-pulse">🔥</span>
                             <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
-                              {reviewStats.currentStreak} {reviewStats.currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                              {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
                             </span>
                           </div>
                         </motion.div>
