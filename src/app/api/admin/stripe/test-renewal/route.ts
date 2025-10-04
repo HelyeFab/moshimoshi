@@ -81,46 +81,45 @@ export async function POST(request: NextRequest) {
     console.log(`[Admin Test Renewal] Found subscription: ${subscription.id}`);
     console.log(`[Admin Test Renewal] Status: ${subscription.status}`);
 
-    // 3. CREATE A TEST INVOICE
+    // 3. CREATE AN INVOICE ITEM (not attached to invoice yet)
+    // This simulates adding a charge for the next billing cycle
+    const invoiceItem = await stripe.invoiceItems.create({
+      customer: customerId,
+      amount: 0, // £0.00 for testing
+      currency: 'gbp',
+      description: 'Subscription Renewal Simulation (Admin Test)',
+      metadata: {
+        admin_test: 'true',
+        test_type: 'renewal_simulation',
+        subscription_id: subscription.id,
+      },
+    });
+
+    console.log(`[Admin Test Renewal] Created invoice item: ${invoiceItem.id}`);
+
+    // 4. CREATE A NEW INVOICE that picks up the pending item
     // This simulates what happens during a renewal
     const invoice = await stripe.invoices.create({
       customer: customerId,
-      subscription: subscription.id,
-      auto_advance: false, // Don't auto-finalize
+      auto_advance: false, // Don't auto-finalize yet
       description: 'Admin Test - Simulated Renewal',
       metadata: {
         admin_test: 'true',
         test_type: 'renewal_simulation',
         test_timestamp: new Date().toISOString(),
+        subscription_id: subscription.id,
       },
     });
 
-    console.log(`[Admin Test Renewal] Created test invoice: ${invoice.id}`);
+    console.log(`[Admin Test Renewal] Created invoice: ${invoice.id}`);
 
-    // 4. ADD INVOICE ITEM (simulating subscription charge)
-    await stripe.invoiceItems.create({
-      customer: customerId,
-      invoice: invoice.id,
-      amount: 0, // £0.00 for testing
-      currency: 'gbp',
-      description: 'Subscription Renewal (Test)',
-    });
-
-    // 5. FINALIZE AND PAY THE INVOICE
-    // This triggers the invoice.payment_succeeded webhook
-    const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id, {
-      auto_advance: true, // Automatically attempt payment
-    });
+    // 5. FINALIZE THE INVOICE
+    // This triggers invoice.finalized webhook
+    const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);
 
     console.log(`[Admin Test Renewal] Finalized invoice: ${finalizedInvoice.id}`);
 
-    // If invoice has payment_intent, confirm it
-    if (finalizedInvoice.payment_intent) {
-      // For test invoices with £0, payment should succeed automatically
-      console.log(`[Admin Test Renewal] Payment intent: ${finalizedInvoice.payment_intent}`);
-    }
-
-    // 6. MANUALLY PAY THE INVOICE (ensures webhook fires)
+    // 6. PAY THE INVOICE (triggers invoice.payment_succeeded webhook)
     const paidInvoice = await stripe.invoices.pay(invoice.id);
 
     console.log(`[Admin Test Renewal] ✅ Invoice paid successfully`);
