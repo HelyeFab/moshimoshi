@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { XCircle, AlertTriangle, Mail, Home } from 'lucide-react'
@@ -34,7 +35,7 @@ const ERROR_MESSAGES: Record<string, { title: string; description: string; actio
   },
 }
 
-export default function NewsletterVerifyErrorPage() {
+function ErrorContent() {
   const searchParams = useSearchParams()
   const errorCode = searchParams.get('code') || 'INTERNAL_ERROR'
   const error = ERROR_MESSAGES[errorCode] || ERROR_MESSAGES.INTERNAL_ERROR
@@ -127,5 +128,19 @@ export default function NewsletterVerifyErrorPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function NewsletterVerifyErrorPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-white"></div>
+        </div>
+      </div>
+    }>
+      <ErrorContent />
+    </Suspense>
   )
 }
