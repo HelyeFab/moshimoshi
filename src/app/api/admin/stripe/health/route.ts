@@ -36,6 +36,25 @@ export async function GET(request: NextRequest) {
       available: !!adminFirestore
     };
 
+    // 2b. Admin status check (if session exists)
+    if (checks.checks.session.status === 'OK' && checks.checks.session.uid) {
+      try {
+        const userDoc = await adminFirestore!.collection('users').doc(checks.checks.session.uid).get();
+        const userData = userDoc.data();
+        checks.checks.adminStatus = {
+          status: 'OK',
+          userExists: userDoc.exists,
+          isAdmin: userData?.isAdmin === true,
+          hasAdminField: userData ? ('isAdmin' in userData) : false
+        };
+      } catch (error: any) {
+        checks.checks.adminStatus = {
+          status: 'ERROR',
+          error: error.message
+        };
+      }
+    }
+
     // 3. Stripe env vars check
     checks.checks.stripe = {
       secretKey: process.env.STRIPE_SECRET_KEY ? 'PRESENT' : 'MISSING',
