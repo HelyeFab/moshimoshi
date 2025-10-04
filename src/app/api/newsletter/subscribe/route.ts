@@ -96,7 +96,9 @@ export async function POST(request: NextRequest) {
       ...(userId && { userId }), // Only add userId if it exists
     };
 
+    console.log('📧 Creating new newsletter subscriber:', { email: normalizedEmail, source, emailHash });
     await subscriberRef.set(subscriber);
+    console.log('✅ Newsletter subscriber created successfully');
 
     return NextResponse.json({
       success: true,
