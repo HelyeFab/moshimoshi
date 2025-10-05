@@ -220,12 +220,23 @@ const KanaGrid = memo(function KanaGrid({
             </div>
 
             {/* Characters in this row - centered grid with 5 columns */}
-            <div className="pb-6 pt-4">
+            <div className="px-2 pb-6 pt-4">
               <div className="grid grid-cols-5 gap-3 sm:gap-2 w-full">
                 {rowChars.map((char, index) => {
                   const isSelected = selectedCharacters.some(c => c.id === char.id)
-                  const borderStyle = 'border-2 border-gray-200 dark:border-dark-700'
-                  const bgStyle = 'bg-white dark:bg-dark-800'
+                  const charProgress = progress[char.id]
+                  const isLearned = charProgress?.status === 'learned'
+                  const isLearning = charProgress?.status === 'learning'
+
+                  // Dynamic styling based on progress
+                  const borderStyle = isLearned
+                    ? 'border-2 border-green-500 dark:border-green-400'
+                    : isLearning
+                    ? 'border-2 border-yellow-500 dark:border-yellow-400'
+                    : 'border-2 border-gray-200 dark:border-dark-700'
+                  const bgStyle = isLearned
+                    ? 'bg-green-50 dark:bg-green-900/20'
+                    : 'bg-white dark:bg-dark-800'
 
                   return (
                     <motion.div
@@ -242,12 +253,12 @@ const KanaGrid = memo(function KanaGrid({
                         onMouseEnter={() => setHoveredId(char.id)}
                         onMouseLeave={() => setHoveredId(null)}
                         className={`
-                          relative w-full aspect-square flex items-center justify-center text-2xl font-medium
+                          relative w-full aspect-square flex items-center justify-center text-xl sm:text-2xl font-medium
                           rounded-lg transition-all cursor-pointer
                           ${borderStyle} ${bgStyle}
                           hover:shadow-lg
                         `}
-                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif', minWidth: '64px' }}
+                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif', minWidth: '56px' }}
                       >
                         {/* Pin emoji for selection in study/review modes */}
                         {(viewMode === 'study' || viewMode === 'review') && (

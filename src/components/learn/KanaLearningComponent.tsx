@@ -122,6 +122,10 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
   const [currentStudyIndex, setCurrentStudyIndex] = useState(0)
   const [modalCharacter, setModalCharacter] = useState<KanaCharacter | null>(null)
+
+  // Study session tracking for gamification
+  const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0)
+  const [studyCharactersLearned, setStudyCharactersLearned] = useState<number>(0)
   
   // Filter state
   const [filter, setFilter] = useState<FilterType>('all')
@@ -515,15 +519,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
 
   // Start study mode
   const handleStartStudy = useCallback(async () => {
-    // Combine selected and pinned characters (removing duplicates)
-    const allCharacters = [...selectedCharacters]
-    pinnedCharacters.forEach(pc => {
-      if (!allCharacters.some(c => c.id === pc.id)) {
-        allCharacters.push(pc)
-      }
-    })
-
-    if (allCharacters.length === 0) {
+    // Only use explicitly selected characters for study mode
+    if (selectedCharacters.length === 0) {
       showToast(t('learn.selectCharacters'), 'warning')
       return
     }
@@ -534,11 +531,15 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       await kanaProgressManagerV2.startKanaSession(script, user)
     }
 
-    // Set the study characters (separate from selection)
-    setStudyCharacters(allCharacters)
+    // Track study session start time for gamification
+    setStudySessionStartTime(Date.now())
+    setStudyCharactersLearned(0)
+
+    // Set the study characters (only selected, not pinned)
+    setStudyCharacters(selectedCharacters)
     setCurrentStudyIndex(0) // Reset index when starting study
     setViewMode('study')
-  }, [selectedCharacters, pinnedCharacters, showToast, t, user, displayScript])
+  }, [selectedCharacters, showToast, t, user, displayScript])
 
   // Start review mode
   const handleStartReview = useCallback(() => {
@@ -710,22 +711,34 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
                   // No need for duplicate saving here
                 }
 
-                // Gamification removed - recordActivityAndSync disabled
-                // await recordActivityAndSync(
-                //   StreakActivity.STUDY_SESSION,
-                //   isPremium,
-                //   Date.now()
-                // )
+                // Emit URE SESSION_COMPLETED event for NEW gamification system
+                const sessionDuration = Date.now() - studySessionStartTime
+                const totalCharacters = studyCharacters.length
+                const averageTimePerCharacter = totalCharacters > 0 ? sessionDuration / totalCharacters : 0
+                const accuracy = totalCharacters > 0 ? (studyCharactersLearned / totalCharacters) * 100 : 0
 
-                // Gamification removed - achievementStore disabled
-                // const achievementStore = useAchievementStore.getState()
-                // await achievementStore.updateProgress({
-                //   sessionType: 'kana_study',
-                //   itemsReviewed: studyCharacters.length,
-                //   accuracy: 100, // Study mode is practice, assume completion is success
-                //   duration: 0, // Duration tracking could be added if needed
-                //   completedAt: new Date()
-                // })
+                const sessionId = `kana_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+                ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+                  data: {
+                    sessionId,
+                    statistics: {
+                      correctItems: studyCharactersLearned,
+                      accuracy: accuracy,
+                      averageResponseTime: averageTimePerCharacter,
+                      bestStreak: studyCharactersLearned // Use learned count as streak for study mode
+                    },
+                    duration: sessionDuration
+                  }
+                })
+
+                console.log('[Kana Study] Emitted SESSION_COMPLETED event for gamification:', {
+                  sessionId,
+                  correctItems: studyCharactersLearned,
+                  totalCharacters,
+                  accuracy,
+                  duration: sessionDuration
+                })
 
                 // Reached the end - show completion feedback
                 showToast(t('learn.studySessionComplete'), 'success')
@@ -734,6 +747,9 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
                 setCurrentStudyIndex(0)
                 setStudyCharacters([])  // Clear study characters
                 setSelectedCharacters([]) // Clear selection
+                // Reset study session tracking
+                setStudySessionStartTime(0)
+                setStudyCharactersLearned(0)
               }
             }}
             onPrevious={() => {
@@ -750,8 +766,16 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               setCurrentStudyIndex(0) // Reset index when going back
               setStudyCharacters([])  // Clear study characters
               setSelectedCharacters([]) // Clear selection
+              // Reset study session tracking
+              setStudySessionStartTime(0)
+              setStudyCharactersLearned(0)
             }}
             onUpdateProgress={async (characterId, updates) => {
+              // Track if character was marked as learned for gamification
+              if (updates.status === 'learned') {
+                setStudyCharactersLearned(prev => prev + 1)
+              }
+
               // Update local state immediately
               setProgress(prev => ({
                 ...prev,
@@ -761,10 +785,10 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               // Save to storage
               await saveProgressUpdate(characterId, updates)
             }}
-            onTogglePin={() => handleTogglePin(selectedCharacters[currentStudyIndex].id)}
+            onTogglePin={() => handleTogglePin(studyCharacters[currentStudyIndex].id)}
             showBothKana={showBothKana}
             currentIndex={currentStudyIndex + 1}
-            totalCharacters={selectedCharacters.length}
+            totalCharacters={studyCharacters.length}
             displayScript={displayScript}
           />
         )}

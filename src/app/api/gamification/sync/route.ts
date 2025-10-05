@@ -22,9 +22,44 @@ export async function POST(request: NextRequest) {
       sessionCount
     } = body
 
-    // Update user's gamification data in user_stats collection
+    // CRITICAL SAFETY CHECK: Prevent overwriting real data with zeros
+    // This protects against race condition bugs where client syncs before loading data
     const userStatsRef = adminDb.collection('user_stats').doc(userId)
+    const existingDoc = await userStatsRef.get()
 
+    if (existingDoc.exists) {
+      const existingData = existingDoc.data()
+      const existingXP = existingData?.xp?.total || 0
+      const existingStreak = existingData?.streak?.current || 0
+      const existingBestStreak = existingData?.streak?.best || 0
+      const existingSessions = existingData?.sessions?.totalSessions || 0
+
+      // Check if we're about to overwrite real data with zeros
+      const incomingLooksEmpty =
+        (totalXP || 0) === 0 &&
+        (currentStreak || 0) === 0 &&
+        (sessionCount || 0) === 0
+
+      const existingHasData =
+        existingXP > 0 ||
+        existingStreak > 0 ||
+        existingBestStreak > 0 ||
+        existingSessions > 0
+
+      if (incomingLooksEmpty && existingHasData) {
+        console.error('[Gamification Sync] BLOCKED: Attempted to overwrite real data with zeros!', {
+          userId,
+          existing: { xp: existingXP, streak: existingStreak, sessions: existingSessions },
+          incoming: { xp: totalXP, streak: currentStreak, sessions: sessionCount }
+        })
+        return NextResponse.json({
+          error: 'Cannot overwrite existing stats with zero values. This likely indicates a race condition bug.',
+          details: 'Client attempted to sync before loading data from Firebase'
+        }, { status: 400 })
+      }
+    }
+
+    // Update user's gamification data in user_stats collection
     await userStatsRef.set({
       xp: {
         total: totalXP || 0,

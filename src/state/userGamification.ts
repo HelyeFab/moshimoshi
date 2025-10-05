@@ -31,6 +31,7 @@ interface GamificationState {
   userId: string | null
   lastSyncedAt: Date | null
   isDirty: boolean // Has unsaved changes
+  isLoaded: boolean // Has data been loaded from Firebase/IndexedDB
 
   // Actions
   setUserId: (userId: string) => void
@@ -60,6 +61,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
   userId: null,
   lastSyncedAt: null,
   isDirty: false,
+  isLoaded: false,
 
   // Actions
 
@@ -212,6 +214,38 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
         return
       }
 
+      // CRITICAL: Don't sync if data hasn't been loaded yet (prevents race condition)
+      if (!state.isLoaded) {
+        console.warn('[Gamification State] Data not loaded yet, skipping Firebase sync to prevent overwriting real data')
+        return
+      }
+
+      // Don't sync if there are no changes (optimization + safety)
+      if (!state.isDirty) {
+        console.log('[Gamification State] No changes to sync, skipping Firebase upload')
+        return
+      }
+
+      // Detect uninitialized data (all zeros) - likely a bug if trying to sync this
+      const looksUninitialized =
+        state.totalXP === 0 &&
+        state.currentStreak === 0 &&
+        state.bestStreak === 0 &&
+        state.sessionCount === 0 &&
+        state.unlockedAchievements.length === 0
+
+      if (looksUninitialized && state.lastSyncedAt === null) {
+        console.error('[Gamification State] Refusing to sync uninitialized data (all zeros). This prevents data loss!')
+        console.error('[Gamification State] Current state:', {
+          totalXP: state.totalXP,
+          currentStreak: state.currentStreak,
+          sessionCount: state.sessionCount,
+          isLoaded: state.isLoaded,
+          isDirty: state.isDirty
+        })
+        return
+      }
+
       // Call sync API
       const response = await fetch('/api/gamification/sync', {
         method: 'POST',
@@ -299,6 +333,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
           achievementProgress: data.achievementProgress || {},
           sessionCount: data.sessionCount || 0,
           isDirty: false,
+          isLoaded: true,
           lastSyncedAt: new Date()
         })
 
@@ -312,6 +347,8 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
         })
       } else {
         console.log('[Gamification State] No Firebase data found, will use IndexedDB or defaults')
+        // Mark as loaded even if no data found (prevents sync race condition)
+        set({ isLoaded: true })
       }
     } catch (error) {
       console.error('[Gamification State] Failed to load from Firebase:', error)
@@ -351,8 +388,12 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
           unlockedAchievements: data.unlockedAchievements,
           achievementProgress: data.achievementProgress,
           sessionCount: data.sessionCount || 0,
-          isDirty: false
+          isDirty: false,
+          isLoaded: true
         })
+      } else {
+        // Mark as loaded even if no data found (prevents sync race condition)
+        set({ isLoaded: true })
       }
     } catch (error) {
       console.error('[Gamification State] Failed to load from IndexedDB:', error)
@@ -406,7 +447,8 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
       achievementProgress: {},
       sessionCount: 0,
       lastSyncedAt: null,
-      isDirty: false
+      isDirty: false,
+      isLoaded: false
     })
   }
 }))

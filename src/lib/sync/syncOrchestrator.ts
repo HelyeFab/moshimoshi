@@ -66,16 +66,23 @@ export class SyncOrchestrator {
       if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true' && gamificationStore.userId) {
         // Premium users: Upload local changes to Firebase
         if (isPremium) {
-          logger.info('[SyncOrchestrator] Premium user - uploading gamification changes');
+          // CRITICAL: Only sync if data has been loaded (prevents race condition)
+          if (!gamificationStore.isLoaded) {
+            logger.warn('[SyncOrchestrator] Gamification data not loaded yet, skipping sync to prevent data loss');
+            logger.warn('[SyncOrchestrator] This is normal on first load - will sync on next cycle');
+            results.results.gamification.success = true; // Not a failure, just skipped
+          } else {
+            logger.info('[SyncOrchestrator] Premium user - uploading gamification changes');
 
-          await gamificationStore.syncToFirebase();
-          logger.info('[SyncOrchestrator] ✅ Uploaded gamification data to Firebase');
+            await gamificationStore.syncToFirebase();
+            logger.info('[SyncOrchestrator] ✅ Uploaded gamification data to Firebase');
+            results.results.gamification.success = true;
+          }
         } else {
           // Free users: No Firebase sync
           logger.info('[SyncOrchestrator] Free user - skipping Firebase gamification sync');
+          results.results.gamification.success = true;
         }
-
-        results.results.gamification.success = true;
       } else {
         // Gamification disabled or no user
         results.results.gamification.success = true;
