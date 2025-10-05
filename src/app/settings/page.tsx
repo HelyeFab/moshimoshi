@@ -132,6 +132,25 @@ export default function SettingsPage() {
       // Apply color palette to document
       document.documentElement.setAttribute('data-palette', selectedPalette)
 
+      // Apply accessibility settings to document
+      if (accessibility.largeText) {
+        document.documentElement.classList.add('text-large')
+      } else {
+        document.documentElement.classList.remove('text-large')
+      }
+
+      if (accessibility.reduceMotion) {
+        document.documentElement.classList.add('reduce-motion')
+      } else {
+        document.documentElement.classList.remove('reduce-motion')
+      }
+
+      if (accessibility.highContrast) {
+        document.documentElement.classList.add('high-contrast')
+      } else {
+        document.documentElement.classList.remove('high-contrast')
+      }
+
       // Show appropriate message based on user tier
       let message = strings.settings?.saveSuccess || 'Settings saved successfully!'
       if (!user) {

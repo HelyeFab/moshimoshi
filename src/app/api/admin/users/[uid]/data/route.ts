@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAdminAuth } from '@/lib/admin/adminAuth';
 import { adminDb } from '@/lib/firebase/admin';
-import { formatAllTimestamps } from '@/lib/utils/date-formatters';
 
 /**
  * GET /api/admin/users/[uid]/data
@@ -227,26 +226,23 @@ export const GET = withAdminAuth(async (
       userData.entitlement_decisions = [];
     }
 
-    // Format all timestamps in the response
-    const formattedData = formatAllTimestamps(userData);
-
-    // Add summary statistics
-    formattedData.summary = {
-      totalCollections: Object.keys(formattedData.subcollections || {}).length,
-      drillSessionsCount: formattedData.drill_sessions_count || 0,
-      reviewSessionsCount: formattedData.review_sessions_count || 0,
-      recentActivityCount: formattedData.recent_activity?.length || 0,
-      hasUserStats: !!formattedData.user_stats,
-      hasLeaderboardStats: !!formattedData.leaderboard_stats,
-      accountStatus: formattedData.users?.userState || 'unknown',
-      subscription: formattedData.users?.subscription?.plan || 'guest',
-      isAdmin: formattedData.users?.isAdmin || false,
-      emailVerified: formattedData.users?.emailVerified || false
+    // Add summary statistics (keep data structure intact, just add metadata)
+    userData.summary = {
+      totalCollections: Object.keys(userData.subcollections || {}).length,
+      drillSessionsCount: userData.drill_sessions_count || 0,
+      reviewSessionsCount: userData.review_sessions_count || 0,
+      recentActivityCount: userData.recent_activity?.length || 0,
+      hasUserStats: !!userData.user_stats,
+      hasLeaderboardStats: !!userData.leaderboard_stats,
+      accountStatus: userData.users?.userState || 'unknown',
+      subscription: userData.users?.subscription?.plan || 'guest',
+      isAdmin: userData.users?.isAdmin || false,
+      emailVerified: userData.users?.emailVerified || false
     };
 
     return NextResponse.json({
       success: true,
-      data: formattedData
+      data: userData
     });
 
   } catch (error) {

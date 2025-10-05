@@ -419,25 +419,74 @@ export default function UserLookupPage() {
 }
 
 // Helper Components
+// Helper function to format Firebase timestamps
+function formatFirebaseTimestamp(value: any): string {
+  if (!value) return 'N/A';
+
+  // Check if it's a Firebase timestamp
+  if (typeof value === 'object' && '_seconds' in value && '_nanoseconds' in value) {
+    const date = new Date(value._seconds * 1000);
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }).format(date);
+  }
+
+  // Check if it's an ISO string
+  if (typeof value === 'string' && value.includes('T')) {
+    try {
+      const date = new Date(value);
+      if (!isNaN(date.getTime())) {
+        return new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        }).format(date);
+      }
+    } catch {
+      return String(value);
+    }
+  }
+
+  return String(value);
+}
+
 function DataSection({ title, data }: { title: string; data: any }) {
   return (
     <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
       <h4 className="font-semibold text-gray-900 dark:text-white mb-3">{title}</h4>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {Object.entries(data).map(([key, value]) => (
-          <div key={key}>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{key}</p>
-            <p className="text-sm font-medium text-gray-900 dark:text-white break-all">
-              {typeof value === 'object' && value !== null && 'formatted' in value
-                ? value.formatted
-                : value === null || value === undefined
-                ? 'N/A'
-                : typeof value === 'boolean'
-                ? value ? 'Yes' : 'No'
-                : String(value)}
-            </p>
-          </div>
-        ))}
+        {Object.entries(data).map(([key, value]) => {
+          let displayValue: string;
+
+          if (value === null || value === undefined) {
+            displayValue = 'N/A';
+          } else if (typeof value === 'boolean') {
+            displayValue = value ? 'Yes' : 'No';
+          } else if (typeof value === 'object' && '_seconds' in value) {
+            displayValue = formatFirebaseTimestamp(value);
+          } else if (typeof value === 'object') {
+            displayValue = JSON.stringify(value);
+          } else {
+            displayValue = String(value);
+          }
+
+          return (
+            <div key={key}>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{key}</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white break-all">
+                {displayValue}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
