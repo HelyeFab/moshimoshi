@@ -381,7 +381,7 @@ export default function DrillPage() {
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'all' }))}
-                    className={`px-4 py-2 rounded-lg border transition-colors ${
+                    className={`px-2 sm:px-4 py-2 rounded-lg border transition-colors text-sm sm:text-base ${
                       settings.wordTypeFilter === 'all'
                         ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
                         : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
@@ -391,7 +391,7 @@ export default function DrillPage() {
                   </button>
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'verbs' }))}
-                    className={`px-4 py-2 rounded-lg border transition-colors ${
+                    className={`px-2 sm:px-4 py-2 rounded-lg border transition-colors text-sm sm:text-base ${
                       settings.wordTypeFilter === 'verbs'
                         ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
                         : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
@@ -401,7 +401,7 @@ export default function DrillPage() {
                   </button>
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'adjectives' }))}
-                    className={`px-4 py-2 rounded-lg border transition-colors ${
+                    className={`px-2 sm:px-4 py-2 rounded-lg border transition-colors text-sm sm:text-base ${
                       settings.wordTypeFilter === 'adjectives'
                         ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
                         : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'

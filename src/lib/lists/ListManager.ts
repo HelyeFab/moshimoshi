@@ -211,13 +211,18 @@ class ListManager {
       hasFirstItem: !!request.firstItem
     });
 
+    // Log the exact request being sent
+    const requestBody = JSON.stringify(request);
+    console.log('[ListManager.createList] Request body:', requestBody);
+    console.log('[ListManager.createList] Request size:', requestBody.length, 'bytes');
+
     try {
       const startTime = Date.now();
       const response = await fetch('/api/lists', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(request)
+        body: requestBody
       });
 
       const responseTime = Date.now() - startTime;
@@ -250,11 +255,30 @@ class ListManager {
 
         return listToStore;
       } else {
-        const error = await response.text();
+        // Try to get error as JSON first, fall back to text
+        let errorDetails;
+        const contentType = response.headers.get('content-type');
+
+        try {
+          if (contentType?.includes('application/json')) {
+            errorDetails = await response.json();
+          } else {
+            errorDetails = await response.text();
+          }
+        } catch (e) {
+          errorDetails = 'Could not parse error response';
+        }
+
         console.error('[ListManager.createList] ✗ Server rejected list creation:', {
           status: response.status,
-          error
+          statusText: response.statusText,
+          contentType,
+          errorDetails,
+          url: response.url
         });
+
+        // Throw error with details for better error handling
+        throw new Error(`Server rejected list creation: ${response.status} - ${JSON.stringify(errorDetails)}`);
       }
     } catch (error) {
       console.error('[ListManager.createList] ✗ Failed to create list on server:', error);
