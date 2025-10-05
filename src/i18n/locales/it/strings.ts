@@ -1562,10 +1562,21 @@ export const strings = {
       selectType: "Scegli il tipo di lista che vuoi creare:",
     },
     types: {
-      // Simple type names for UI
-      word: "Parola",
-      sentence: "Frase",
-      verbAdj: "Verbo/Aggettivo",
+      word: {
+        name: "Lista di parole",
+        short: "Parola",
+        description: "Vocabolario e kanji",
+      },
+      sentence: {
+        name: "Lista frasi",
+        short: "Frase",
+        description: "Studia frasi complete nel contesto",
+      },
+      verbAdj: {
+        name: "Verbi e aggettivi",
+        short: "Verbo/Agg",
+        description: "Pratica forme verbali e aggettivali",
+      },
 
       flashcard: {
         name: "Lista flashcard",
@@ -1578,12 +1589,6 @@ export const strings = {
         short: "Pratica",
         description: "Pratica coniugazioni per verbi e aggettivi",
         accepts: "Accetta: Solo verbi e aggettivi",
-      },
-      sentence: {
-        name: "Lista frasi",
-        short: "Frasi",
-        description: "Studia frasi complete nel contesto",
-        accepts: "Accetta: Solo frasi",
       },
     },
     fields: {

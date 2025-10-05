@@ -1751,10 +1751,21 @@ export const strings = {
       selectType: "作成したいリストの種類を選択してください：",
     },
     types: {
-      // Simple type names for UI
-      word: "単語",
-      sentence: "文章",
-      verbAdj: "動詞・形容詞",
+      word: {
+        name: "単語リスト",
+        short: "単語",
+        description: "語彙と漢字",
+      },
+      sentence: {
+        name: "文章リスト",
+        short: "文章",
+        description: "文脈で完全な文章を学習",
+      },
+      verbAdj: {
+        name: "動詞・形容詞",
+        short: "動詞/形容詞",
+        description: "動詞と形容詞の活用を練習",
+      },
 
       flashcard: {
         name: "フラッシュカードリスト",
@@ -1767,12 +1778,6 @@ export const strings = {
         short: "練習",
         description: "動詞と形容詞の活用を練習",
         accepts: "対応: 動詞と形容詞のみ",
-      },
-      sentence: {
-        name: "文章リスト",
-        short: "文章",
-        description: "文脈で完全な文章を学習",
-        accepts: "対応: 文章のみ",
       },
     },
     fields: {

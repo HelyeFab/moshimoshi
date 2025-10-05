@@ -1601,10 +1601,21 @@ export const strings = {
       selectType: "Wählen Sie den Listentyp, den Sie erstellen möchten:",
     },
     types: {
-      // Simple type names for UI
-      word: "Wort",
-      sentence: "Satz",
-      verbAdj: "Verb/Adjektiv",
+      word: {
+        name: "Wortliste",
+        short: "Wort",
+        description: "Vokabeln und Kanji",
+      },
+      sentence: {
+        name: "Satzliste",
+        short: "Satz",
+        description: "Vollständige Sätze im Kontext lernen",
+      },
+      verbAdj: {
+        name: "Verben und Adjektive",
+        short: "Verb/Adj",
+        description: "Verb- und Adjektivformen üben",
+      },
 
       flashcard: {
         name: "Karteikarten-Liste",
@@ -1617,12 +1628,6 @@ export const strings = {
         short: "Übung",
         description: "Konjugationen für Verben und Adjektive üben",
         accepts: "Akzeptiert: Nur Verben und Adjektive",
-      },
-      sentence: {
-        name: "Satzliste",
-        short: "Sätze",
-        description: "Vollständige Sätze im Kontext lernen",
-        accepts: "Akzeptiert: Nur Sätze",
       },
     },
     fields: {

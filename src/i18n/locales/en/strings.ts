@@ -3121,12 +3121,24 @@ export const strings = {
       selectType: "Choose the type of list you want to create:",
     },
     types: {
-      // Simple type names for UI
-      word: "Word",
-      sentence: "Sentence",
-      verbAdj: "Verb/Adjective",
+      // Main type objects
+      word: {
+        name: "Word List",
+        short: "Word",
+        description: "Vocabulary words and kanji",
+      },
+      sentence: {
+        name: "Sentence List",
+        short: "Sentence",
+        description: "Complete sentences for context learning",
+      },
+      verbAdj: {
+        name: "Verbs & Adjectives",
+        short: "Verb/Adj",
+        description: "Practice verb and adjective forms",
+      },
 
-      // Detailed type objects
+      // Legacy detailed type objects
       wordList: {
         name: "Word List",
         short: "Word",

@@ -1757,10 +1757,21 @@ export const strings = {
       selectType: "Choisissez le type de liste que vous voulez créer :",
     },
     types: {
-      // Simple type names for UI
-      word: "Mot",
-      sentence: "Phrase",
-      verbAdj: "Verbe/Adjectif",
+      word: {
+        name: "Liste de mots",
+        short: "Mot",
+        description: "Vocabulaire et kanji",
+      },
+      sentence: {
+        name: "Liste de phrases",
+        short: "Phrase",
+        description: "Étudier des phrases complètes en contexte",
+      },
+      verbAdj: {
+        name: "Verbes et adjectifs",
+        short: "Verbe/Adj",
+        description: "Pratiquer les formes verbales et adjectivales",
+      },
 
       flashcard: {
         name: "Liste de cartes mémoire",
@@ -1773,12 +1784,6 @@ export const strings = {
         short: "Pratique",
         description: "Pratiquer les conjugaisons des verbes et adjectifs",
         accepts: "Accepte : Verbes et adjectifs uniquement",
-      },
-      sentence: {
-        name: "Liste de phrases",
-        short: "Phrases",
-        description: "Étudier des phrases complètes en contexte",
-        accepts: "Accepte : Phrases uniquement",
       },
     },
     fields: {

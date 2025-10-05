@@ -11,8 +11,29 @@ import type { UserList, ListItem } from '@/types/userLists';
 import { motion, AnimatePresence } from 'framer-motion';
 import DoshiMascot from '@/components/ui/DoshiMascot';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import { useTTS } from '@/hooks/useTTS';
 import Dialog from '@/components/ui/Dialog';
+import SpeakerIcon from '@/components/ui/SpeakerIcon';
+import { Trash2 } from 'lucide-react';
+import LearningPageHeader from '@/components/learn/LearningPageHeader';
+import { ReviewEventType } from '@/lib/review-engine/core/events';
+import { EventEmitter } from 'events';
+import { gamificationListener } from '@/lib/gamification/gamificationListener';
+import { UserListAdapter } from '@/lib/review-engine/adapters/UserListAdapter';
+import dynamic from 'next/dynamic';
+import { LoadingOverlay } from '@/components/ui/Loading';
+
+// Module-level event emitter for gamification
+const ureEventEmitter = new EventEmitter();
+let gamificationListenerInitialized = false;
+
+// Dynamic import for ReviewEngine to avoid SSR issues
+const ReviewEngine = dynamic(
+  () => import('@/components/review-engine/ReviewEngine'),
+  {
+    loading: () => <LoadingOverlay isVisible={true} />,
+    ssr: false,
+  }
+);
 
 export default function ListDetailPage() {
   const { t } = useI18n();
@@ -21,13 +42,12 @@ export default function ListDetailPage() {
   const router = useRouter();
   const params = useParams();
   const { showToast } = useToast();
-  const { play: playTTS } = useTTS();
+  // TTS is handled by SpeakerIcon component
 
   const listId = params.listId as string;
 
   const [list, setList] = useState<UserList | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
   const [showAddModal, setShowAddModal] = useState(false);
   const [newItemContent, setNewItemContent] = useState('');
   const [newItemMetadata, setNewItemMetadata] = useState({
@@ -36,7 +56,29 @@ export default function ListDetailPage() {
     notes: ''
   });
   const [deletingItem, setDeletingItem] = useState<string | null>(null);
-  const [deletingMultiple, setDeletingMultiple] = useState(false);
+
+  // View mode state
+  type ViewMode = 'browse' | 'study' | 'review';
+  const [viewMode, setViewMode] = useState<ViewMode>('browse');
+
+  // Selection state for study/review modes
+  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
+
+  // Review session state
+  const [reviewContent, setReviewContent] = useState<any[]>([]);
+  const [reviewContentPool, setReviewContentPool] = useState<any[]>([]);
+  const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0);
+  const [currentStudyIndex, setCurrentStudyIndex] = useState(0);
+  const [selectedItemsData, setSelectedItemsData] = useState<ListItem[]>([]);
+
+  // Initialize gamification listener (once per user session)
+  useEffect(() => {
+    if (user?.uid && !gamificationListenerInitialized) {
+      console.log('[User Lists] Initializing gamification listener for user:', user.uid);
+      gamificationListener.initialize(user.uid, ureEventEmitter);
+      gamificationListenerInitialized = true;
+    }
+  }, [user?.uid]);
 
   useEffect(() => {
     if (!authLoading && user) {
@@ -105,40 +147,105 @@ export default function ListDetailPage() {
     }
   };
 
-  const handleRemoveSelected = async () => {
-    if (!user || !list || selectedItems.size === 0) return;
-
-    try {
-      const count = selectedItems.size;
-      for (const itemId of selectedItems) {
-        await listManager.removeItemFromList(list.id, itemId, user.uid, isPremium);
+  // Selection handlers
+  const toggleSelection = (itemId: string) => {
+    setSelectedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(itemId)) {
+        newSet.delete(itemId);
+      } else {
+        newSet.add(itemId);
       }
-      await loadList();
-      setSelectedItems(new Set());
-      setDeletingMultiple(false);
-      showToast(t('lists.success.itemRemoved', { count }), 'success');
-    } catch (error) {
-      console.error('Error removing items:', error);
-      showToast(t('common.error'), 'error');
-    }
+      return newSet;
+    });
   };
 
-  const handlePlayAudio = async (content: string) => {
-    try {
-      await playTTS(content, { voice: 'ja-JP', rate: 0.9 });
-    } catch (error) {
-      console.error('Error playing audio:', error);
-    }
+  const handleSelectAll = () => {
+    if (!list) return;
+    const allIds = list.items.map(item => item.id);
+    setSelectedItems(new Set(allIds));
   };
 
-  const handleStartReview = () => {
-    if (!list || list.items.length === 0) {
-      showToast(t('lists.empty.noItems'), 'error');
+  const handleClearSelection = () => {
+    setSelectedItems(new Set());
+  };
+
+  // Study mode handler
+  const handleStartStudy = () => {
+    if (!list || selectedItems.size === 0) {
+      showToast('Please select items to study', 'warning');
       return;
     }
 
-    // Navigate to review page with list ID
-    router.push(`/review?listId=${list.id}`);
+    const itemsArray = list.items.filter(item => selectedItems.has(item.id));
+
+    if (itemsArray.length === 0) {
+      showToast('Could not find selected items', 'error');
+      return;
+    }
+
+    // Track study session start time for gamification
+    setStudySessionStartTime(Date.now());
+    setSelectedItemsData(itemsArray);
+    setCurrentStudyIndex(0);
+    setViewMode('study');
+  };
+
+  // Review mode handler
+  const handleStartReview = () => {
+    if (!list || selectedItems.size === 0) {
+      showToast('Please select items to review', 'warning');
+      return;
+    }
+
+    // Initialize adapter with current list
+    const adapter = new UserListAdapter(list);
+
+    // Get selected items
+    const itemsArray = list.items.filter(item => selectedItems.has(item.id));
+
+    // Transform to reviewable content
+    const content = itemsArray.map(item => adapter.transform(item));
+
+    // Use all list items as pool for distractors
+    const poolContent = list.items.map(item => adapter.transform(item));
+
+    setReviewContent(content);
+    setReviewContentPool(poolContent);
+  };
+
+  // Review session completion handler
+  const handleReviewComplete = async (stats: any) => {
+    // Emit URE SESSION_COMPLETED event for gamification
+    const sessionId = `list_review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+      data: {
+        sessionId,
+        statistics: {
+          correctItems: stats.correctItems,
+          accuracy: stats.accuracy,
+          averageResponseTime: stats.averageResponseTime || 0,
+          bestStreak: stats.bestStreak || 0
+        },
+        duration: stats.duration || 0
+      }
+    });
+
+    console.log('[User Lists] Emitted SESSION_COMPLETED event for gamification:', {
+      sessionId,
+      correctItems: stats.correctItems,
+      accuracy: stats.accuracy,
+      averageResponseTime: stats.averageResponseTime,
+      bestStreak: stats.bestStreak,
+      duration: stats.duration
+    });
+
+    setReviewContent([]);
+    setReviewContentPool([]);
+    setViewMode('browse');
+    setSelectedItems(new Set());
+    showToast(`Review complete! Accuracy: ${stats.accuracy.toFixed(1)}%`, 'success');
   };
 
   const getColorClasses = (color: string) => {
@@ -172,60 +279,212 @@ export default function ListDetailPage() {
     return null;
   }
 
+  // Active study session
+  if (selectedItemsData.length > 0 && selectedItemsData[currentStudyIndex]) {
+    const currentItem = selectedItemsData[currentStudyIndex];
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
+        dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+        <Navbar user={user} showUserMenu={true} backLink="/lists" />
+        <LearningPageHeader
+          title={list.name}
+          description={t(`lists.types.${list.type}.description`)}
+          subtitle={`Studying ${selectedItems.size} items`}
+          stats={{
+            total: list.items.length,
+            learned: 0
+          }}
+          mode={viewMode}
+          onModeChange={setViewMode}
+          mascot="doshi"
+        />
+        <main className="container mx-auto px-4 py-8">
+          {/* Simple study card */}
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white dark:bg-dark-800 rounded-2xl p-8 shadow-lg">
+              <div className="text-center mb-6">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  {currentStudyIndex + 1} / {selectedItemsData.length}
+                </span>
+              </div>
+
+              <div className="text-center mb-8">
+                <div className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                  {currentItem.content}
+                </div>
+                {currentItem.metadata?.reading && (
+                  <div className="text-lg text-gray-600 dark:text-gray-400 mb-2">
+                    {currentItem.metadata.reading}
+                  </div>
+                )}
+                {currentItem.metadata?.meaning && (
+                  <div className="text-xl text-primary-600 dark:text-primary-400 mb-4">
+                    {currentItem.metadata.meaning}
+                  </div>
+                )}
+                {currentItem.metadata?.notes && (
+                  <div className="text-sm text-gray-500 dark:text-gray-400 italic mt-4 p-4 bg-gray-50 dark:bg-dark-700 rounded-lg">
+                    📝 {currentItem.metadata.notes}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={() => {
+                    if (currentStudyIndex > 0) {
+                      setCurrentStudyIndex(currentStudyIndex - 1);
+                    }
+                  }}
+                  disabled={currentStudyIndex === 0}
+                  className="px-6 py-3 rounded-lg bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => {
+                    if (currentStudyIndex < selectedItemsData.length - 1) {
+                      setCurrentStudyIndex(currentStudyIndex + 1);
+                    } else {
+                      // Emit SESSION_COMPLETED event for gamification
+                      const sessionDuration = Date.now() - studySessionStartTime;
+                      const totalItems = selectedItemsData.length;
+                      const averageTimePerItem = totalItems > 0 ? sessionDuration / totalItems : 0;
+
+                      const sessionId = `list_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+                      ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+                        data: {
+                          sessionId,
+                          statistics: {
+                            correctItems: totalItems,
+                            accuracy: 100,
+                            averageResponseTime: averageTimePerItem,
+                            bestStreak: totalItems
+                          },
+                          duration: sessionDuration
+                        }
+                      });
+
+                      console.log('[User Lists Study] Emitted SESSION_COMPLETED event for gamification:', {
+                        sessionId,
+                        correctItems: totalItems,
+                        accuracy: 100,
+                        duration: sessionDuration
+                      });
+
+                      showToast('Study session complete!', 'success');
+                      setViewMode('browse');
+                      setCurrentStudyIndex(0);
+                      setSelectedItemsData([]);
+                      setSelectedItems(new Set());
+                      setStudySessionStartTime(0);
+                    }
+                  }}
+                  className="px-6 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-all"
+                >
+                  {currentStudyIndex < selectedItemsData.length - 1 ? 'Next' : 'Complete'}
+                </button>
+              </div>
+
+              <button
+                onClick={() => {
+                  setViewMode('browse');
+                  setCurrentStudyIndex(0);
+                  setSelectedItemsData([]);
+                }}
+                className="mt-4 w-full px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all"
+              >
+                Back to Browse
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // Active review session
+  if (reviewContent.length > 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
+        dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+        <Navbar user={user} showUserMenu={true} backLink="/lists" />
+        <LearningPageHeader
+          title={list.name}
+          description={t(`lists.types.${list.type}.description`)}
+          subtitle={`Reviewing ${selectedItems.size} items`}
+          stats={{
+            total: list.items.length,
+            learned: 0
+          }}
+          mode={viewMode}
+          onModeChange={setViewMode}
+          mascot="doshi"
+        />
+        <main className="container mx-auto px-4 py-8">
+          <ReviewEngine
+            content={reviewContent}
+            contentPool={reviewContentPool}
+            mode="recall"
+            onComplete={handleReviewComplete}
+            onCancel={() => {
+              setReviewContent([]);
+              setReviewContentPool([]);
+              setViewMode('browse');
+              setSelectedItems(new Set());
+            }}
+            userId={user?.uid || 'guest'}
+          />
+        </main>
+      </div>
+    );
+  }
+
+  // Main browse/selection view
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
       dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
       <Navbar user={user} showUserMenu={true} backLink="/lists" />
+      <LearningPageHeader
+        title={list.name}
+        description={t(`lists.types.${list.type}.description`)}
+        subtitle={
+          viewMode === 'browse'
+            ? `${list.items.length} items in this list`
+            : viewMode === 'study'
+            ? 'Select items to study'
+            : 'Select items to review'
+        }
+        stats={{
+          total: list.items.length,
+          learned: 0
+        }}
+        mode={viewMode}
+        onModeChange={setViewMode}
+        selectedCount={selectedItems.size}
+        onSelectAll={viewMode !== 'browse' ? handleSelectAll : undefined}
+        onClearSelection={viewMode !== 'browse' ? handleClearSelection : undefined}
+        onStartStudy={viewMode === 'study' ? handleStartStudy : undefined}
+        onStartReview={viewMode === 'review' ? handleStartReview : undefined}
+        mascot="doshi"
+      />
 
       <div className="container mx-auto px-4 py-8">
-        {/* List header */}
-        <div className={`${getColorClasses(list.color)} rounded-2xl p-6 text-white mb-6 shadow-lg`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span className="text-5xl">{list.emoji}</span>
-              <div>
-                <h1 className="text-2xl font-bold">{list.name}</h1>
-                <p className="opacity-90">
-                  {t(`lists.types.${list.type}.short`)} • {list.items.length} {t('lists.items')}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={handleStartReview}
-                className="px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30
-                  transition-all font-medium flex items-center gap-2"
-              >
-                <span>🎯</span>
-                {t('lists.actions.review')}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Actions bar */}
-        <div className="flex flex-wrap gap-3 mb-6">
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600
-              transition-all font-medium flex items-center gap-2"
-          >
-            <span>➕</span>
-            {t('lists.actions.addItems')}
-          </button>
-
-          {selectedItems.size > 0 && (
+        {/* Actions bar - only show add button in browse mode */}
+        {viewMode === 'browse' && (
+          <div className="flex flex-wrap gap-3 mb-6">
             <button
-              onClick={() => setDeletingMultiple(true)}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600
+              onClick={() => setShowAddModal(true)}
+              className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600
                 transition-all font-medium flex items-center gap-2"
             >
-              <span>🗑️</span>
-              Remove {selectedItems.size} items
+              <span>➕</span>
+              {t('lists.actions.addItems')}
             </button>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Items list */}
         {list.items.length === 0 ? (
@@ -245,81 +504,86 @@ export default function ListDetailPage() {
         ) : (
           <div className="bg-white dark:bg-dark-800 rounded-xl shadow-sm">
             <AnimatePresence>
-              {list.items.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ delay: index * 0.05 }}
-                  className={`p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-dark-700
-                    transition-all ${index > 0 ? 'border-t border-gray-100 dark:border-dark-700' : ''}`}
-                >
-                  {/* Checkbox */}
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.has(item.id)}
-                    onChange={(e) => {
-                      const newSelected = new Set(selectedItems);
-                      if (e.target.checked) {
-                        newSelected.add(item.id);
-                      } else {
-                        newSelected.delete(item.id);
-                      }
-                      setSelectedItems(newSelected);
-                    }}
-                    className="w-5 h-5 text-primary-500 rounded"
-                  />
+              {list.items.map((item, index) => {
+                const isSelected = selectedItems.has(item.id);
 
-                  {/* Content */}
-                  <div className="flex-1">
-                    <div className="flex items-start gap-3">
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900 dark:text-gray-100 text-lg">
-                          {item.content}
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ delay: index * 0.05 }}
+                    className={`p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-dark-700
+                      transition-all ${index > 0 ? 'border-t border-gray-100 dark:border-dark-700' : ''}`}
+                  >
+                    {/* Pin for selection in study/review modes */}
+                    {(viewMode === 'study' || viewMode === 'review') && (
+                      <button
+                        className="text-xl transition-all hover:scale-110"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleSelection(item.id);
+                        }}
+                        aria-label={isSelected ? "Unpin" : "Pin"}
+                      >
+                        <span className={isSelected ? "" : "opacity-30 grayscale"}>
+                          📌
+                        </span>
+                      </button>
+                    )}
+
+                    {/* Content */}
+                    <div className="flex-1">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-1">
+                          <div className="font-medium text-gray-900 dark:text-gray-100 text-lg">
+                            {item.content}
+                          </div>
+                          {item.metadata?.reading && (
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              {item.metadata.reading}
+                            </div>
+                          )}
                         </div>
-                        {item.metadata?.reading && (
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            {item.metadata.reading}
+                        {item.metadata?.meaning && (
+                          <div className="flex-1 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
+                            <div className="text-sm font-medium text-primary-700 dark:text-primary-300">
+                              → {item.metadata.meaning}
+                            </div>
                           </div>
                         )}
                       </div>
-                      {item.metadata?.meaning && (
-                        <div className="flex-1 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
-                          <div className="text-sm font-medium text-primary-700 dark:text-primary-300">
-                            → {item.metadata.meaning}
-                          </div>
+                      {item.metadata?.notes && (
+                        <div className="text-sm text-gray-500 dark:text-gray-400 italic mt-1">
+                          📝 {item.metadata.notes}
                         </div>
                       )}
                     </div>
-                    {item.metadata?.notes && (
-                      <div className="text-sm text-gray-500 dark:text-gray-400 italic mt-1">
-                        📝 {item.metadata.notes}
+
+                    {/* Actions - only show in browse mode */}
+                    {viewMode === 'browse' && (
+                      <div className="flex gap-2 items-center">
+                        <SpeakerIcon
+                          text={item.content}
+                          size="sm"
+                          variant="ghost"
+                          options={{ voice: 'ja-JP', speed: 0.9 }}
+                        />
+                        <button
+                          onClick={() => setDeletingItem(item.id)}
+                          className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20
+                            transition-all text-red-500"
+                          title={t('common.delete')}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     )}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handlePlayAudio(item.content)}
-                      className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600
-                        transition-all text-gray-600 dark:text-gray-400"
-                      title={t('common.playAudio')}
-                    >
-                      🔊
-                    </button>
-                    <button
-                      onClick={() => setDeletingItem(item.id)}
-                      className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20
-                        transition-all text-red-500"
-                      title={t('common.delete')}
-                    >
-                      ❌
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </div>
         )}
@@ -440,18 +704,6 @@ export default function ListDetailPage() {
             handleRemoveItem(deletingItem);
           }
         }}
-        variant="danger"
-      />
-
-      {/* Delete multiple items confirmation dialog */}
-      <Dialog
-        isOpen={deletingMultiple}
-        onClose={() => setDeletingMultiple(false)}
-        title={t('lists.confirmDelete')}
-        message={t('lists.confirmDeleteMultiple', { count: selectedItems.size })}
-        confirmLabel={t('common.delete')}
-        cancelLabel={t('common.cancel')}
-        onConfirm={handleRemoveSelected}
         variant="danger"
       />
     </div>

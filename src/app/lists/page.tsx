@@ -16,6 +16,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext';
 import Dialog from '@/components/ui/Dialog';
 import Modal from '@/components/ui/Modal';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
+import { Pencil, FileJson, FileSpreadsheet, Trash2 } from 'lucide-react';
 
 export default function MyListsPage() {
   const { t, strings } = useI18n();
@@ -286,25 +287,25 @@ export default function MyListsPage() {
                   whileHover={{ scale: 1.02 }}
                   className="relative group"
                 >
-                  <div className={`${getColorClasses(list.color)} rounded-2xl p-6 text-white
-                    shadow-lg hover:shadow-xl transition-all cursor-pointer`}
+                  <div className={`${getColorClasses(list.color)} rounded-2xl p-5 sm:p-6 text-white
+                    shadow-lg hover:shadow-xl transition-all cursor-pointer min-h-[180px] flex flex-col`}
                     onClick={() => router.push(`/lists/${list.id}`)}
                   >
-                    {/* List emoji and name */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <span className="text-4xl">{list.emoji}</span>
-                        <div>
-                          <h3 className="font-bold text-lg">{list.name}</h3>
-                          <p className="text-sm opacity-90">
-                            {t(`lists.types.${list.type}.short`)} • {list.items.length} {t('lists.items')}
-                          </p>
-                        </div>
+                    {/* Emoji and name stacked vertically on the left */}
+                    <div className="mb-4 pr-20">
+                      <div className="mb-3">
+                        <span className="text-4xl leading-none">{list.emoji}</span>
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-lg sm:text-xl mb-2 break-words leading-tight">{list.name}</h3>
+                        <p className="text-xs sm:text-sm opacity-90">
+                          {t(`lists.types.${list.type}.short`)} • {list.items.length} {t('lists.items')}
+                        </p>
                       </div>
                     </div>
 
-                    {/* Quick stats */}
-                    <div className="flex gap-4 text-sm opacity-90">
+                    {/* Quick stats at bottom */}
+                    <div className="text-xs sm:text-sm opacity-90 mt-auto">
                       <span>{new Date(list.updatedAt).toLocaleDateString()}</span>
                     </div>
 
@@ -318,7 +319,7 @@ export default function MyListsPage() {
                         className="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
                         title={t('lists.actions.edit')}
                       >
-                        ✏️
+                        <Pencil className="w-4 h-4" />
                       </button>
                       <button
                         onClick={(e) => {
@@ -328,7 +329,7 @@ export default function MyListsPage() {
                         className="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
                         title={t('lists.actions.exportJson')}
                       >
-                        📤
+                        <FileJson className="w-4 h-4" />
                       </button>
                       <button
                         onClick={(e) => {
@@ -338,7 +339,7 @@ export default function MyListsPage() {
                         className="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
                         title={t('lists.actions.exportCsv')}
                       >
-                        📊
+                        <FileSpreadsheet className="w-4 h-4" />
                       </button>
                       <button
                         onClick={(e) => {
@@ -348,7 +349,7 @@ export default function MyListsPage() {
                         className="p-1.5 bg-red-500/20 rounded-lg hover:bg-red-500/30 transition-all"
                         title={t('common.delete')}
                       >
-                        🗑️
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
