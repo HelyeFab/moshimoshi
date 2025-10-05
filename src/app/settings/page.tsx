@@ -81,7 +81,20 @@ export default function SettingsPage() {
       if (preferences.notifications) setNotifications(preferences.notifications)
       if (preferences.learning) setLearning(preferences.learning)
       if (preferences.privacy) setPrivacy(preferences.privacy)
-      if (preferences.accessibility) setAccessibility(preferences.accessibility)
+      if (preferences.accessibility) {
+        setAccessibility(preferences.accessibility)
+
+        // Apply accessibility settings immediately
+        if (preferences.accessibility.largeText) {
+          document.documentElement.classList.add('text-large')
+        }
+        if (preferences.accessibility.reduceMotion) {
+          document.documentElement.classList.add('reduce-motion')
+        }
+        if (preferences.accessibility.highContrast) {
+          document.documentElement.classList.add('high-contrast')
+        }
+      }
       if (preferences.palette) setSelectedPalette(preferences.palette)
       // Always set theme if it exists in preferences, don't skip 'system'
       if (preferences.theme) setTheme(preferences.theme)

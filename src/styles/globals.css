@@ -344,3 +344,71 @@ button, input, select, textarea {
 .animate-fade-in {
   animation: fade-in 0.2s ease-out;
 }
+
+/* ============================================
+   Accessibility Settings
+   ============================================ */
+
+/* Large Text Mode - Increases all font sizes by 25% */
+html.text-large {
+  font-size: 140.625%; /* 22.5px on mobile instead of 18px */
+}
+
+@media (min-width: 768px) {
+  html.text-large {
+    font-size: 156.25%; /* 25px on desktop instead of 20px */
+  }
+}
+
+/* Reduce Motion - Disables all animations and transitions */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* High Contrast Mode - Increases contrast for better visibility */
+html.high-contrast {
+  /* Increase text contrast */
+  --color-dark-900: #000000;
+  --color-dark-50: #ffffff;
+
+  /* Stronger borders */
+  --border-opacity: 1;
+}
+
+html.high-contrast * {
+  /* Force stronger border colors */
+  border-color: currentColor !important;
+  border-opacity: 0.5;
+}
+
+html.high-contrast .dark {
+  /* Dark mode high contrast adjustments */
+  --color-dark-850: #000000;
+  --color-dark-800: #111111;
+  --color-dark-700: #1a1a1a;
+}
+
+html.high-contrast button,
+html.high-contrast a {
+  /* Ensure interactive elements have strong contrast */
+  font-weight: 600;
+}
+
+html.high-contrast .text-gray-600,
+html.high-contrast .text-gray-500,
+html.high-contrast .text-gray-400 {
+  /* Make gray text darker for better contrast */
+  color: #333333 !important;
+}
+
+html.high-contrast.dark .text-gray-600,
+html.high-contrast.dark .text-gray-500,
+html.high-contrast.dark .text-gray-400 {
+  /* Make gray text lighter in dark mode */
+  color: #eeeeee !important;
+}

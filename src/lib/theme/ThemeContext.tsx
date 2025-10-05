@@ -89,7 +89,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setResolvedTheme(resolved);
       applyTheme(resolved);
 
-      // Load palette using preferencesManager (respects user tier)
+      // Load palette and accessibility settings using preferencesManager (respects user tier)
       try {
         const preferences = await preferencesManager.getPreferences(user, isPremium);
         if (preferences.palette) {
@@ -100,8 +100,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           document.documentElement.setAttribute('data-palette', 'sakura');
           console.log('[ThemeContext] Applied default palette: sakura');
         }
+
+        // Apply accessibility settings
+        if (preferences.accessibility) {
+          if (preferences.accessibility.largeText) {
+            document.documentElement.classList.add('text-large');
+          }
+          if (preferences.accessibility.reduceMotion) {
+            document.documentElement.classList.add('reduce-motion');
+          }
+          if (preferences.accessibility.highContrast) {
+            document.documentElement.classList.add('high-contrast');
+          }
+          console.log('[ThemeContext] Applied accessibility preferences:', preferences.accessibility);
+        }
       } catch (error) {
-        console.error('[ThemeContext] Failed to load palette from preferences:', error);
+        console.error('[ThemeContext] Failed to load preferences:', error);
         // Fallback to localStorage for backward compatibility
         const loadPaletteFallback = () => {
           if (userId) {
