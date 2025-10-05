@@ -1,6 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
