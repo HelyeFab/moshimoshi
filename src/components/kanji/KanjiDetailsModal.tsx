@@ -43,7 +43,7 @@ export default function KanjiDetailsModal({
   const userPlan = !user ? 'guest' : (subscription?.status === 'active' ? 'premium' : 'free')
 
   // TTS hook for audio playback
-  const { play, preload } = useTTS({
+  const { play, preload, loading, playing } = useTTS({
     cacheFirst: true // Prioritize cached audio
   })
 
@@ -273,7 +273,12 @@ export default function KanjiDetailsModal({
                         {kanji.onyomi.map((reading, index) => (
                           <div key={index} className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2">
                             <span className="text-base font-medium text-gray-900 dark:text-gray-100">{reading}</span>
-                            <AudioButton size="sm" onPlay={() => play(reading, { voice: 'ja-JP' })} />
+                            <AudioButton
+                              size="sm"
+                              onPlay={() => play(reading, { voice: 'ja-JP' })}
+                              loading={loading}
+                              playing={playing}
+                            />
                           </div>
                         ))}
                       </div>
@@ -293,7 +298,12 @@ export default function KanjiDetailsModal({
                         {kanji.kunyomi.map((reading, index) => (
                           <div key={index} className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2">
                             <span className="text-base font-medium text-gray-900 dark:text-gray-100">{reading}</span>
-                            <AudioButton size="sm" onPlay={() => play(reading, { voice: 'ja-JP' })} />
+                            <AudioButton
+                              size="sm"
+                              onPlay={() => play(reading, { voice: 'ja-JP' })}
+                              loading={loading}
+                              playing={playing}
+                            />
                           </div>
                         ))}
                       </div>
@@ -366,6 +376,8 @@ export default function KanjiDetailsModal({
                               <AudioButton
                                 size="sm"
                                 onPlay={() => play(sentence.japanese, { voice: 'ja-JP', rate: 0.9 })}
+                                loading={loading}
+                                playing={playing}
                               />
                               <AddToListButton
                                 content={sentence.japanese}

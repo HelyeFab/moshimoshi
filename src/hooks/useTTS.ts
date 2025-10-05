@@ -83,16 +83,26 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text,
-          language: ttsOptions?.voice === 'ja-JP' ? 'ja' : 'en',
+          language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
           voice: ttsOptions?.voice,
-          speed: ttsOptions?.rate || 1.0,
+          speed: ttsOptions?.speed || ttsOptions?.rate || 1.0,
           pitch: ttsOptions?.pitch || 0
         }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error?.message || 'TTS synthesis failed');
+        let errorMessage = 'TTS synthesis failed';
+        let errorDetails = null;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error?.message || errorData.message || errorMessage;
+          errorDetails = errorData;
+        } catch (e) {
+          // If parsing fails, use response status
+          errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`;
+        }
+        console.error('TTS API Error:', { status: response.status, errorDetails, requestBody: { text: text.substring(0, 50) + '...' } });
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();

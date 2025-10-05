@@ -727,8 +727,8 @@ export default function LearningVillage() {
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 250,
-        tolerance: 5,
+        delay: 150,        // Reduced from 250ms for faster response
+        tolerance: 10,     // Increased from 5px for more forgiveness
       },
     }),
     useSensor(KeyboardSensor, {

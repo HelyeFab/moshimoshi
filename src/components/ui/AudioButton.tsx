@@ -9,6 +9,8 @@ interface AudioButtonProps {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'inline'
   className?: string
   disabled?: boolean
+  loading?: boolean  // External loading state (e.g., from useTTS)
+  playing?: boolean  // External playing state (e.g., from useTTS)
 }
 
 /**
@@ -20,22 +22,34 @@ export default function AudioButton({
   size = 'md',
   position = 'inline',
   className = '',
-  disabled = false
+  disabled = false,
+  loading: externalLoading,
+  playing: externalPlaying
 }: AudioButtonProps) {
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [internalPlaying, setInternalPlaying] = useState(false)
+
+  // Use external state if provided, otherwise use internal state
+  const isLoading = externalLoading ?? false
+  const isPlaying = externalPlaying ?? internalPlaying
 
   const handleClick = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (disabled || isPlaying) return
+    if (disabled || isLoading || isPlaying) return
 
-    setIsPlaying(true)
+    // Only use internal state if external state not provided
+    if (externalPlaying === undefined) {
+      setInternalPlaying(true)
+    }
+
     try {
       await onPlay()
     } catch (error) {
       console.error('Audio playback failed:', error)
     } finally {
-      // Keep the animation for a bit before resetting
-      setTimeout(() => setIsPlaying(false), 500)
+      // Keep the animation for a bit before resetting (only for internal state)
+      if (externalPlaying === undefined) {
+        setTimeout(() => setInternalPlaying(false), 500)
+      }
     }
   }
 
@@ -62,29 +76,54 @@ export default function AudioButton({
   return (
     <motion.button
       onClick={handleClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       whileTap={{ scale: 0.95 }}
       className={`
         ${positionClasses[position]}
         ${sizeClasses[size]}
         rounded-full transition-all duration-200
-        ${isPlaying
+        ${isLoading
+          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500 dark:text-blue-400 border-2 border-blue-300 dark:border-blue-700'
+          : isPlaying
           ? 'bg-blue-500 text-white scale-110 shadow-lg'
           : 'text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:text-gray-500 dark:hover:text-blue-400 dark:hover:bg-blue-900/20'
         }
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         ${className}
       `}
-      aria-label={isPlaying ? 'Playing audio' : 'Play audio'}
-      title={isPlaying ? 'Playing...' : 'Play audio'}
+      aria-label={isLoading ? 'Loading audio...' : isPlaying ? 'Playing audio' : 'Play audio'}
+      title={isLoading ? 'Loading...' : isPlaying ? 'Playing...' : 'Play audio'}
     >
-      <svg
-        className={`${iconSizes[size]} ${isPlaying ? 'animate-pulse' : ''}`}
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        {isPlaying ? (
+      {isLoading ? (
+        // Loading spinner
+        <svg
+          className={`${iconSizes[size]} animate-spin`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          />
+        </svg>
+      ) : (
+        <svg
+          className={`${iconSizes[size]} ${isPlaying ? 'animate-pulse' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          {isPlaying ? (
           <>
             <path
               strokeLinecap="round"
@@ -111,7 +150,8 @@ export default function AudioButton({
             d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
           />
         )}
-      </svg>
+        </svg>
+      )}
     </motion.button>
   )
 }

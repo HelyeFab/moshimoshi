@@ -14,6 +14,7 @@ interface SpeakerIconProps {
   onPlay?: () => void;
   onEnd?: () => void;
   showLoadingState?: boolean;
+  showLoadingText?: boolean;  // Show "Loading..." text with spinner
 }
 
 export default function SpeakerIcon({
@@ -26,6 +27,7 @@ export default function SpeakerIcon({
   onPlay,
   onEnd,
   showLoadingState = true,
+  showLoadingText = false,
 }: SpeakerIconProps) {
   const { play, playing, loading, stop } = useTTS({
     onPlay,
@@ -43,10 +45,17 @@ export default function SpeakerIcon({
   };
 
   const sizeClasses = {
-    xs: 'w-4 h-4 p-0.5',
-    sm: 'w-6 h-6 p-1',
-    md: 'w-8 h-8 p-1.5',
-    lg: 'w-10 h-10 p-2',
+    xs: 'w-6 h-6 p-1',
+    sm: 'w-8 h-8 p-1.5',
+    md: 'w-10 h-10 p-2',
+    lg: 'w-12 h-12 p-2.5',
+  };
+
+  const iconSizes = {
+    xs: 'w-4 h-4',
+    sm: 'w-5 h-5',
+    md: 'w-6 h-6',
+    lg: 'w-7 h-7',
   };
 
   const variantClasses = {
@@ -59,6 +68,7 @@ export default function SpeakerIcon({
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       disabled={disabled || isLoading}
       className={`
@@ -68,36 +78,46 @@ export default function SpeakerIcon({
         ${variantClasses[variant]}
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         ${playing ? 'animate-pulse' : ''}
+        ${isLoading ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700' : ''}
         ${className}
       `}
-      aria-label={playing ? 'Stop audio' : 'Play audio'}
-      title={playing ? 'Stop' : 'Play'}
+      aria-label={isLoading ? 'Loading audio...' : playing ? 'Stop audio' : 'Play audio'}
+      title={isLoading ? 'Loading...' : playing ? 'Stop' : 'Play'}
     >
       {isLoading ? (
-        // Loading spinner
-        <svg
-          className="animate-spin"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
+        // Enhanced loading spinner with better visibility
+        <div className="flex items-center gap-1 justify-center w-full h-full">
+          <svg
+            className={`${iconSizes[size]} animate-spin text-blue-600 dark:text-blue-400 flex-shrink-0`}
+            fill="none"
+            viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
+            strokeWidth="2.5"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          {showLoadingText && size !== 'xs' && size !== 'sm' && (
+            <span className="text-xs text-blue-600 dark:text-blue-400 font-medium whitespace-nowrap">
+              Loading...
+            </span>
+          )}
+        </div>
       ) : playing ? (
         // Stop icon
         <svg
+          className={`${iconSizes[size]}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -108,6 +128,7 @@ export default function SpeakerIcon({
       ) : (
         // Speaker icon
         <svg
+          className={`${iconSizes[size]}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

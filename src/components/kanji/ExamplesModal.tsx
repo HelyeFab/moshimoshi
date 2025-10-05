@@ -26,7 +26,7 @@ export default function ExamplesModal({
   onClose
 }: ExamplesModalProps) {
   const { strings } = useI18n()
-  const { play } = useTTS({ cacheFirst: true })
+  const { play, loading, playing } = useTTS({ cacheFirst: true })
 
   const handlePlayAudio = async (text: string) => {
     try {
@@ -70,6 +70,8 @@ export default function ExamplesModal({
                       <AudioButton
                         size="sm"
                         onPlay={() => handlePlayAudio(example.word)}
+                        loading={loading}
+                        playing={playing}
                       />
                     </div>
 
