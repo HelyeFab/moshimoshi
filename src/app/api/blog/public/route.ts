@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       .collection('blogPosts')
       .get()
 
-    // Filter for published posts and sort client-side
+    // Filter for published posts and scheduled posts that have reached their publish date
     const allPublishedPosts = postsSnapshot.docs
       .map(doc => {
         const data = doc.data()
@@ -32,7 +32,20 @@ export async function GET(request: NextRequest) {
           updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toDate().toISOString() : data.updatedAt,
         }
       })
-      .filter(post => post.status === 'published')
+      .filter(post => {
+        // Show published posts
+        if (post.status === 'published') return true
+
+        // Show scheduled posts that have reached their publish date
+        if (post.status === 'scheduled') {
+          const publishDate = new Date(post.publishDate)
+          const nowDate = now.toDate()
+          return publishDate <= nowDate
+        }
+
+        // Hide drafts
+        return false
+      })
       .sort((a, b) => {
         const dateA = new Date(a.publishDate).getTime()
         const dateB = new Date(b.publishDate).getTime()

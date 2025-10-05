@@ -37,15 +37,18 @@ export async function GET(
     }
 
     // Check if user can view this post
-    if (post.status !== 'published' && !session?.admin) {
+    const isPublished = post.status === 'published'
+    const isScheduledAndLive = post.status === 'scheduled' && new Date(post.publishDate) <= new Date()
+
+    if (!isPublished && !isScheduledAndLive && !session?.admin) {
       return NextResponse.json(
         { error: { code: 'FORBIDDEN', message: 'Access denied' } },
         { status: 403 }
       )
     }
 
-    // Increment views for published posts
-    if (post.status === 'published') {
+    // Increment views for published or live scheduled posts
+    if (isPublished || isScheduledAndLive) {
       await postDoc.ref.update({
         views: (post.views || 0) + 1
       })
