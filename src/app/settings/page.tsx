@@ -624,13 +624,6 @@ export default function SettingsPage() {
                 onChange={(value) => setAccessibility({ ...accessibility, reduceMotion: value })}
                 icon="🎬"
               />
-              <SettingToggle
-                label={strings.settings?.sections?.accessibility?.screenReader?.label || "Screen Reader Support"}
-                description={strings.settings?.sections?.accessibility?.screenReader?.description || "Optimize for screen reader compatibility"}
-                enabled={accessibility.screenReader}
-                onChange={(value) => setAccessibility({ ...accessibility, screenReader: value })}
-                icon="🔊"
-              />
             </div>
           </CollapsibleSection>
 
