@@ -114,7 +114,14 @@ export default function CreateListModal({
 
       if (list) {
         console.log('[CreateListModal] List created successfully:', list.id);
-        showToast(t('lists.created'), 'success');
+
+        // Show different messages based on user type
+        if (isPremium) {
+          showToast('List created! Syncing with cloud...', 'success');
+        } else {
+          showToast(t('lists.created'), 'success');
+        }
+
         onCreated?.(list.id);
         onClose();
         resetForm();

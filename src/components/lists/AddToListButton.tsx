@@ -122,8 +122,12 @@ export default function AddToListButton({
     }
   };
 
-  const handleListCreated = (listId: string) => {
-    loadUserLists();
+  const handleListCreated = async (listId: string) => {
+    // Wait a bit for Firebase to commit the write before reloading
+    // This prevents race conditions where the list isn't returned yet
+    console.log('[AddToListButton] List created, waiting 500ms before reload...');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await loadUserLists();
     onAdded?.(listId);
   };
 

@@ -771,6 +771,9 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               setStudyCharactersLearned(0)
             }}
             onUpdateProgress={async (characterId, updates) => {
+              // Ensure we use the prefixed character ID for consistency
+              const prefixedId = getCharacterId(characterId)
+
               // Track if character was marked as learned for gamification
               if (updates.status === 'learned') {
                 setStudyCharactersLearned(prev => prev + 1)
@@ -779,11 +782,11 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               // Update local state immediately
               setProgress(prev => ({
                 ...prev,
-                [characterId]: { ...prev[characterId], ...updates }
+                [prefixedId]: { ...prev[prefixedId], ...updates }
               }))
 
               // Save to storage
-              await saveProgressUpdate(characterId, updates)
+              await saveProgressUpdate(prefixedId, updates)
             }}
             onTogglePin={() => handleTogglePin(studyCharacters[currentStudyIndex].id)}
             showBothKana={showBothKana}

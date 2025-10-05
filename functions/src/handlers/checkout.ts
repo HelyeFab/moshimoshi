@@ -18,31 +18,43 @@ import {
 // Node.js 20+ has native fetch support
 
 /**
- * Helper to invalidate session tier cache via Next.js API
+ * Helper to invalidate ALL user caches via Next.js API
+ * Comprehensive invalidation ensures users see updated subscription immediately
+ *
+ * Invalidates:
+ * - Tier cache (30s TTL)
+ * - Session cache (1hr TTL)
+ * - Stats cache (1hr TTL)
+ * - Queue cache (30min TTL)
+ * - Entitlements cache (10min TTL)
+ * - Profile cache (15min TTL)
  */
-async function invalidateSessionTierCache(customerId: string): Promise<void> {
+async function invalidateAllUserCaches(customerId: string): Promise<void> {
   try {
     const appUrl = process.env.APP_URL || 'https://moshimoshi.vercel.app';
-    const endpoint = `${appUrl}/api/auth/invalidate-tier-cache`;
+    const endpoint = `${appUrl}/api/auth/invalidate-all-caches`;
 
-    console.log(`Calling tier cache invalidation for customer ${customerId}`);
+    console.log(`Calling comprehensive cache invalidation for customer ${customerId}`);
 
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ stripeCustomerId: customerId }),
+      body: JSON.stringify({
+        stripeCustomerId: customerId,
+        reason: 'stripe_checkout_completed'
+      }),
     });
 
     if (response.ok) {
       const result = await response.json();
-      console.log('Tier cache invalidated successfully:', result);
+      console.log('All caches invalidated successfully:', result);
     } else {
-      console.error('Failed to invalidate tier cache:', response.status, response.statusText);
+      console.error('Failed to invalidate caches:', response.status, response.statusText);
     }
   } catch (error) {
-    console.error('Error invalidating tier cache:', error);
+    console.error('Error invalidating caches:', error);
   }
 }
 
@@ -169,8 +181,8 @@ async function handleSubscriptionCheckout(
     await upsertUserSubscriptionByCustomerId(customerId, subscriptionFacts);
     console.log(`Updated subscription for customer ${customerId}:`, subscriptionFacts);
 
-    // Invalidate session tier cache so user sees update immediately
-    await invalidateSessionTierCache(customerId);
+    // Invalidate all user caches so user sees premium features immediately
+    await invalidateAllUserCaches(customerId);
   } catch (error) {
     console.error(`Failed to update subscription for customer ${customerId}:`, error);
     throw error; // Re-throw to prevent marking as processed

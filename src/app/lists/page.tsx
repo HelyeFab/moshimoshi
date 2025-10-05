@@ -362,8 +362,11 @@ export default function MyListsPage() {
       <CreateListModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
-        onCreated={() => {
-          loadLists();
+        onCreated={async () => {
+          // Wait a bit for Firebase to commit the write before reloading
+          console.log('[MyListsPage] List created, waiting 500ms before reload...');
+          await new Promise(resolve => setTimeout(resolve, 500));
+          await loadLists();
         }}
       />
 

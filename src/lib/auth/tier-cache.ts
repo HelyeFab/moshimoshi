@@ -18,7 +18,7 @@ import { adminDb } from '@/lib/firebase/admin'
  * - Graceful fallback to Firestore on cache miss
  */
 class TierCacheService {
-  private readonly TTL = 60; // 60 seconds cache TTL
+  private readonly TTL = 30; // 30 seconds cache TTL - faster tier change reflection
 
   /**
    * Get user tier with caching

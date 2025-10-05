@@ -94,26 +94,66 @@ class ListManager {
           const localLists = await db.getAllFromIndex('lists', 'userId', userId);
           return localLists.sort((a, b) => b.updatedAt - a.updatedAt);
         } else if (storage?.location === 'both' || storage?.syncEnabled) {
-          // Premium user - sync from Firebase to IndexedDB
-          console.log('[ListManager.getLists] Premium user - syncing', lists?.length || 0, 'lists from Firebase');
+          // Premium user - MERGE server lists with local lists (never delete all!)
+          console.log('[ListManager.getLists] Premium user - received', lists?.length || 0, 'lists from Firebase');
 
-          // Clear and sync all lists from server for premium users
-          const tx = db.transaction('lists', 'readwrite');
-          // Clear existing lists for this user
-          const existingLists = await tx.store.index('userId').getAllKeys(userId);
-          for (const key of existingLists) {
-            await tx.store.delete(key);
+          // Get current local lists
+          const localLists = await db.getAllFromIndex('lists', 'userId', userId);
+          console.log('[ListManager.getLists] Found', localLists.length, 'lists in local IndexedDB');
+
+          // Create a map of server lists by ID for efficient lookup
+          const serverListsMap = new Map<string, UserList>();
+          (lists || []).forEach(list => serverListsMap.set(list.id, list));
+
+          // Create a map of local lists by ID
+          const localListsMap = new Map<string, UserList>();
+          localLists.forEach(list => localListsMap.set(list.id, list));
+
+          // Merge logic: keep the most recent version of each list
+          const mergedLists: UserList[] = [];
+          const processedIds = new Set<string>();
+
+          // Process server lists (these are the source of truth if they exist)
+          for (const serverList of (lists || [])) {
+            const localList = localListsMap.get(serverList.id);
+
+            if (!localList || serverList.updatedAt >= localList.updatedAt) {
+              // Server version is newer or local doesn't exist - use server version
+              mergedLists.push(serverList);
+              console.log('[ListManager.getLists] Using server version of list:', serverList.name);
+            } else {
+              // Local version is newer (might have just been created)
+              mergedLists.push(localList);
+              console.log('[ListManager.getLists] Using local version of list (newer):', localList.name);
+            }
+            processedIds.add(serverList.id);
           }
-          // Add server lists
-          if (lists && lists.length > 0) {
-            for (const list of lists) {
-              await tx.store.put(list);
+
+          // Add any local-only lists that don't exist on server yet
+          // (These might be newly created and haven't synced yet)
+          for (const localList of localLists) {
+            if (!processedIds.has(localList.id)) {
+              mergedLists.push(localList);
+              console.log('[ListManager.getLists] Keeping local-only list (not on server yet):', localList.name);
             }
           }
-          await tx.done;
-          console.log('[ListManager.getLists] Synced to IndexedDB');
 
-          return lists || [];
+          // Save merged lists back to IndexedDB
+          const tx = db.transaction('lists', 'readwrite');
+          // Clear all lists for this user
+          const existingKeys = await tx.store.index('userId').getAllKeys(userId);
+          for (const key of existingKeys) {
+            await tx.store.delete(key);
+          }
+          // Add merged lists
+          for (const list of mergedLists) {
+            await tx.store.put(list);
+          }
+          await tx.done;
+
+          console.log('[ListManager.getLists] Merged and synced', mergedLists.length, 'lists to IndexedDB');
+
+          return mergedLists.sort((a, b) => b.updatedAt - a.updatedAt);
         }
       }
     } catch (error) {
@@ -162,9 +202,17 @@ class ListManager {
     };
 
     // Call server API - it will decide storage based on user's plan
-    console.log('[ListManager.createList] userId:', userId, 'isPremium:', isPremium);
-    console.log('[ListManager.createList] Calling server API to create list');
+    console.log('[ListManager.createList] Creating list:', {
+      listId: list.id,
+      name: request.name,
+      type: request.type,
+      userId,
+      isPremium,
+      hasFirstItem: !!request.firstItem
+    });
+
     try {
+      const startTime = Date.now();
       const response = await fetch('/api/lists', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -172,37 +220,49 @@ class ListManager {
         body: JSON.stringify(request)
       });
 
+      const responseTime = Date.now() - startTime;
+      console.log('[ListManager.createList] Server responded in', responseTime, 'ms - status:', response.status);
+
       if (response.ok) {
         const data = await response.json();
         const { data: serverList, storage } = data;
 
-        console.log('[ListManager.createList] Server response - storage location:', storage?.location);
+        console.log('[ListManager.createList] Server response:', {
+          storageLocation: storage?.location,
+          syncEnabled: storage?.syncEnabled,
+          hasServerList: !!serverList,
+          serverListId: serverList?.id
+        });
 
         // Always save to IndexedDB for local access
         // Premium users: This is synced with Firebase
         // Free users: This is their only storage
         const listToStore = serverList || list;
         await db.put('lists', listToStore);
+        console.log('[ListManager.createList] Saved to IndexedDB:', listToStore.id);
         this.notifyListeners('lists-changed');
 
         if (storage?.location === 'local') {
-          console.log('[ListManager.createList] Free user - list saved to IndexedDB only');
+          console.log('[ListManager.createList] ✓ Free user - list saved to IndexedDB only');
         } else if (storage?.location === 'both') {
-          console.log('[ListManager.createList] Premium user - list saved to both IndexedDB and Firebase');
+          console.log('[ListManager.createList] ✓ Premium user - list saved to both IndexedDB and Firebase');
         }
 
         return listToStore;
       } else {
         const error = await response.text();
-        console.error('[ListManager.createList] Server rejected list creation:', response.status, error);
+        console.error('[ListManager.createList] ✗ Server rejected list creation:', {
+          status: response.status,
+          error
+        });
       }
     } catch (error) {
-      console.error('Failed to create list on server:', error);
+      console.error('[ListManager.createList] ✗ Failed to create list on server:', error);
       // Fall through to local storage for offline users
     }
 
     // Fallback: Save to IndexedDB only if server fails
-    console.log('[ListManager.createList] Server failed, saving to IndexedDB only');
+    console.log('[ListManager.createList] ⚠ Server failed, saving to IndexedDB only (offline mode)');
     await db.put('lists', list);
     this.notifyListeners('lists-changed');
     return list;
