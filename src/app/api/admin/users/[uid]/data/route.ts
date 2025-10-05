@@ -10,10 +10,13 @@ import { formatAllTimestamps } from '@/lib/utils/date-formatters';
  */
 export const GET = withAdminAuth(async (
   request: NextRequest,
-  context: { params: { uid: string }, user: any }
+  context: any
 ) => {
   try {
-    const { uid } = context.params;
+    // Extract uid from URL path
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const uid = pathParts[pathParts.length - 2]; // /api/admin/users/[uid]/data
 
     if (!uid) {
       return NextResponse.json(
@@ -32,7 +35,7 @@ export const GET = withAdminAuth(async (
     const userData: any = {
       userId: uid,
       retrievedAt: new Date().toISOString(),
-      retrievedBy: context.user.uid
+      retrievedBy: context?.user?.uid || 'unknown'
     };
 
     // 1. Main user document

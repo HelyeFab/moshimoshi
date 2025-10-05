@@ -2294,6 +2294,7 @@ export const strings = {
     resetConfirm: "Sind Sie sicher, dass Sie alle Einstellungen auf Standard zurücksetzen möchten?",
     saveSuccess: "Einstellungen erfolgreich gespeichert!",
     resetSuccess: "Einstellungen auf Standard zurückgesetzt",
+    reviewNotifications: "Wiederholungs-Benachrichtigungen",
 
     sections: {
       appearance: {

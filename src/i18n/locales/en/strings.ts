@@ -2806,6 +2806,7 @@ export const strings = {
       resetConfirm: "Are you sure you want to reset all settings to default?",
       saveSuccess: "Settings saved successfully!",
       resetSuccess: "Settings reset to default",
+      reviewNotifications: "Review Notifications",
 
       sections: {
         appearance: {

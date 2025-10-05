@@ -2503,6 +2503,7 @@ export const strings = {
     resetConfirm: "Êtes-vous sûr de vouloir réinitialiser tous les paramètres par défaut?",
     saveSuccess: "Paramètres enregistrés avec succès!",
     resetSuccess: "Paramètres réinitialisés par défaut",
+    reviewNotifications: "Notifications de Révision",
 
     sections: {
       appearance: {

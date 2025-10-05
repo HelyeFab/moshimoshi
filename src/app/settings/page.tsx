@@ -523,27 +523,6 @@ export default function SettingsPage() {
           >
             <div>
               <SettingToggle
-                label={strings.settings?.sections?.privacy?.publicProfile?.label || "Public Profile"}
-                description={strings.settings?.sections?.privacy?.publicProfile?.description || "Allow others to view your profile"}
-                enabled={privacy.publicProfile}
-                onChange={(value) => setPrivacy({ ...privacy, publicProfile: value })}
-                icon="👤"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.privacy?.showProgress?.label || "Show Progress"}
-                description={strings.settings?.sections?.privacy?.showProgress?.description || "Display your learning progress on your profile"}
-                enabled={privacy.showProgress}
-                onChange={(value) => setPrivacy({ ...privacy, showProgress: value })}
-                icon="📈"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.privacy?.shareAchievements?.label || "Share Achievements"}
-                description={strings.settings?.sections?.privacy?.shareAchievements?.description || "Automatically share achievements with friends"}
-                enabled={privacy.shareAchievements}
-                onChange={(value) => setPrivacy({ ...privacy, shareAchievements: value })}
-                icon="🎖️"
-              />
-              <SettingToggle
                 label={strings.settings?.sections?.privacy?.hideFromLeaderboard?.label || "Hide from Leaderboard"}
                 description={strings.settings?.sections?.privacy?.hideFromLeaderboard?.description || "Opt out of appearing in public leaderboard rankings"}
                 enabled={privacy.hideFromLeaderboard}

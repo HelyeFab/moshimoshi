@@ -2491,6 +2491,7 @@ export const strings = {
     resetConfirm: "本当にすべての設定をデフォルトに戻しますか？",
     saveSuccess: "設定が正常に保存されました！",
     resetSuccess: "設定がデフォルトに戻されました",
+    reviewNotifications: "復習通知",
 
     sections: {
       appearance: {
