@@ -313,6 +313,11 @@ export const strings = {
       afternoon: "Buenas tardes",
       evening: "Buenas noches"
     },
+    villageHeader: {
+      welcomeTo: "BIENVENIDO A LA",
+      learningVillage: "VILLA DE APRENDIZAJE",
+      editLayout: "Editar Diseño"
+    },
     learningVillage: {
       title: "Bienvenido a la Villa de Aprendizaje",
       subtitle: "Elige tu camino hacia el dominio del japonés",
@@ -1454,6 +1459,22 @@ export const strings = {
       showLearned: "Mostrar aprendidos",
       showNotStarted: "Mostrar no iniciados",
       scriptType: "Tipo de escritura",
+    },
+
+    selectAllInRow: "Seleccionar todos los {{count}} caracteres en esta fila",
+
+    browse: {
+      browseAll: "Explorar todos los {{count}} caracteres organizados por tipo",
+      selectToStudy: "Seleccionar caracteres para estudiar",
+      selectToReview: "Seleccionar caracteres para repasar",
+      searchPlaceholder: "Buscar kana por romaji, carácter...",
+      searchResults: "Resultados de búsqueda",
+      resultsFound: "{{count}} encontrados",
+      noResultsFound: "No se encontraron caracteres que coincidan con \"{{query}}\"",
+      charactersLabel: "caracteres",
+      basicLabel: "básico",
+      dakutenLabel: "dakuten",
+      digraphsLabel: "dígrafos",
     },
   },
 

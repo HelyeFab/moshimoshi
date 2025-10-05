@@ -79,9 +79,12 @@ export class GamificationListener extends EventEmitter {
     if (!this.isEnabled) return
 
     try {
-      const payload = event.data as SessionCompletedPayload
+      // Event emitter passes the data object directly as the event parameter
+      // The event structure is: { data: { sessionId, statistics, duration } }
+      const payload = event.data || event as SessionCompletedPayload
       const { sessionId, statistics, duration } = payload
 
+      console.log('[Gamification] Received event:', event)
       console.log('[Gamification] Processing session:', sessionId, statistics)
 
       // 1. Calculate XP with bonuses (config-driven)
@@ -142,6 +145,15 @@ export class GamificationListener extends EventEmitter {
         sessionId,
         xp: xpResult.cappedXP,
         achievements: unlockedAchievements.length
+      })
+
+      // 7. Sync to Firebase for premium users (async, don't block UI)
+      // This ensures gamification data persists across devices for premium users
+      // Free users will continue using IndexedDB only (offline-first)
+      const finalStore = useGamificationStore.getState()
+      finalStore.syncToFirebase().catch(err => {
+        console.error('[Gamification] Failed to sync to Firebase (will retry later):', err)
+        // Don't throw - IndexedDB save already succeeded, Firebase is just backup for premium
       })
     } catch (error) {
       console.error('[Gamification] Error handling session completion:', error)

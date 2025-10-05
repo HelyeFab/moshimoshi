@@ -799,6 +799,11 @@ export const strings = {
       achievements: "Succès",
       recent: "récent"
     },
+    villageHeader: {
+      welcomeTo: "BIENVENUE AU",
+      learningVillage: "VILLAGE D'APPRENTISSAGE",
+      editLayout: "Modifier la Disposition"
+    },
     learningVillage: {
       title: "Bienvenue au Village d'Apprentissage",
       subtitle: "Choisissez votre chemin vers la maîtrise du japonais",
@@ -1105,6 +1110,22 @@ export const strings = {
       handakuten: "Handakuten",
       digraphs: "Digraphes",
       special: "Spécial",
+    },
+
+    selectAllInRow: "Sélectionner tous les {{count}} caractères dans cette ligne",
+
+    browse: {
+      browseAll: "Parcourir tous les {{count}} caractères organisés par type",
+      selectToStudy: "Sélectionner des caractères à étudier",
+      selectToReview: "Sélectionner des caractères à réviser",
+      searchPlaceholder: "Rechercher des kana par romaji, caractère...",
+      searchResults: "Résultats de recherche",
+      resultsFound: "{{count}} trouvés",
+      noResultsFound: "Aucun caractère trouvé correspondant à \"{{query}}\"",
+      charactersLabel: "caractères",
+      basicLabel: "basique",
+      dakutenLabel: "dakuten",
+      digraphsLabel: "digraphes",
     },
 
     study: {

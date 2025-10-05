@@ -464,7 +464,9 @@ function DashboardContent() {
         <div className="mb-8">
           {/* Mobile Version - Collapsible */}
           <div className="sm:hidden">
-            <div className="bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 dark:border-dark-700/30 relative">
+            <div className={`bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 dark:border-dark-700/30 relative transition-all duration-300 ${
+              isWelcomeExpanded ? '' : 'border-l-4 border-l-primary-500 dark:border-l-primary-400'
+            }`}>
               {/* Compact Doshi Card with Moshimoshi Logo */}
               <div className="relative p-6 flex items-center justify-center gap-4">
                 <DoshiMascot
@@ -732,7 +734,7 @@ function DashboardContent() {
           {/* Desktop Version - Original Layout */}
           <div className="hidden sm:grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Welcome Section with Doshi - Takes 2 columns on desktop */}
-            <div className="lg:col-span-2 bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 dark:border-dark-700/30">
+            <div className="lg:col-span-2 bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 dark:border-dark-700/30 border-l-4 border-l-primary-500 dark:border-l-primary-400">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                 <DoshiMascot
                   size="large"

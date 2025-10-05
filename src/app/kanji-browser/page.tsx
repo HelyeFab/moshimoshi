@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense, useMemo, useCallback } from 'react'
+import { useState, useEffect, Suspense, useMemo, useCallback, useRef } from 'react'
 import { Kanji, JLPTLevel, KanjiByLevel } from '@/types/kanji'
 import { kanjiService } from '@/services/kanjiService'
 import { useI18n } from '@/i18n/I18nContext'
@@ -69,6 +69,15 @@ function KanjiBrowserContent() {
   const [selectedKanjiData, setSelectedKanjiData] = useState<Kanji[]>([])
   const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0)
   const [studySessionCorrectCount, setStudySessionCorrectCount] = useState(0)
+
+  // Refs for scrolling to level sections
+  const levelRefs = useRef<Record<JLPTLevel, HTMLDivElement | null>>({
+    N5: null,
+    N4: null,
+    N3: null,
+    N2: null,
+    N1: null
+  })
 
   // Use the kanji browser hook for review system integration
   const {
@@ -426,6 +435,21 @@ function KanjiBrowserContent() {
     })
   }
 
+  const scrollToLevel = (level: JLPTLevel) => {
+    const levelElement = levelRefs.current[level]
+    if (levelElement) {
+      // Expand the level if it's not already expanded
+      if (!expandedLevels.has(level)) {
+        setExpandedLevels(prev => new Set([...prev, level]))
+      }
+
+      // Scroll to the element with offset for navbar
+      const yOffset = -100 // Offset for navbar
+      const y = levelElement.getBoundingClientRect().top + window.pageYOffset + yOffset
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+  }
+
   const renderKanjiGrid = (kanji: Kanji[]) => (
     <div className="grid grid-cols-3 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 mt-4">
       {kanji.map((kanjiItem, index) => {
@@ -745,8 +769,9 @@ function KanjiBrowserContent() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg cursor-pointer"
-              onClick={() => toggleLevel(level as JLPTLevel)}
+              onClick={() => scrollToLevel(level as JLPTLevel)}
             >
               <div className={`w-8 h-8 ${info.color} rounded-full mx-auto mb-2 flex items-center justify-center text-white text-sm font-bold`}>
                 {level.replace('N', '')}
@@ -771,6 +796,7 @@ function KanjiBrowserContent() {
             return (
               <motion.div
                 key={level}
+                ref={(el) => { levelRefs.current[level] = el }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg"

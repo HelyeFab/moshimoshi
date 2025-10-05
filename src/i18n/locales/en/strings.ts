@@ -1973,6 +1973,11 @@ export const strings = {
       achievements: "Achievements",
       recent: "recent"
     },
+    villageHeader: {
+      welcomeTo: "WELCOME TO THE",
+      learningVillage: "LEARNING VILLAGE",
+      editLayout: "Edit Layout"
+    },
     learningVillage: {
       title: "Welcome to the Learning Village",
       subtitle: "Choose your path to Japanese mastery",
@@ -2246,6 +2251,22 @@ export const strings = {
       handakuten: "Handakuten",
       digraphs: "Digraphs",
       special: "Special",
+    },
+
+    selectAllInRow: "Select all {{count}} characters in this row",
+
+    browse: {
+      browseAll: "Browse all {{count}} characters organized by type",
+      selectToStudy: "Select characters to study",
+      selectToReview: "Select characters to review",
+      searchPlaceholder: "Search kana by romaji, character...",
+      searchResults: "Search Results",
+      resultsFound: "{{count}} found",
+      noResultsFound: "No characters found matching \"{{query}}\"",
+      charactersLabel: "characters",
+      basicLabel: "basic",
+      dakutenLabel: "dakuten",
+      digraphsLabel: "digraphs",
     },
 
     study: {

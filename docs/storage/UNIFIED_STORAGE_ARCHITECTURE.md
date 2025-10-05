@@ -33,11 +33,11 @@ The platform uses **4 storage layers** working together:
 
 ### User Types & Storage Strategy
 
-| User Type | Memory | Redis Cache | IndexedDB | Firebase | Cross-Device Sync |
-|-----------|--------|-------------|-----------|----------|-------------------|
-| **Guest** | ✅ Session only | ❌ | ❌ | ❌ | ❌ |
-| **Free** | ✅ Session state | ✅ Session + Stats | ✅ All data | ❌ | ❌ |
-| **Premium** | ✅ Session state | ✅ Session + Stats + Tier | ✅ All data (cache) | ✅ Cloud backup | ✅ |
+| User Type   | Memory           | Redis Cache               | IndexedDB           | Firebase        | Cross-Device Sync |
+| ----------- | ---------------- | ------------------------- | ------------------- | --------------- | ----------------- |
+| **Guest**   | ✅ Session only  | ❌                        | ❌                  | ❌              | ❌                |
+| **Free**    | ✅ Session state | ✅ Session + Stats        | ✅ All data         | ❌              | ❌                |
+| **Premium** | ✅ Session state | ✅ Session + Stats + Tier | ✅ All data (cache) | ✅ Cloud backup | ✅                |
 
 ### Complete Storage Flow Diagram
 
@@ -97,13 +97,14 @@ Redis (Upstash) provides high-performance caching for session management, tier l
 
 #### 1. Session Management
 
-| Key Pattern | TTL | Data Structure | Purpose |
-|-------------|-----|----------------|---------|
-| `session:{sessionId}` | 1 hour | JSON | JWT validation cache |
-| `blacklist:{sessionId}` | Remaining JWT TTL | String | Revoked sessions |
-| `user_sessions:{userId}` | Persistent | Set | Active session tracking |
+| Key Pattern              | TTL               | Data Structure | Purpose                 |
+| ------------------------ | ----------------- | -------------- | ----------------------- |
+| `session:{sessionId}`    | 1 hour            | JSON           | JWT validation cache    |
+| `blacklist:{sessionId}`  | Remaining JWT TTL | String         | Revoked sessions        |
+| `user_sessions:{userId}` | Persistent        | Set            | Active session tracking |
 
 **Session Cache Structure:**
+
 ```typescript
 {
   uid: string
@@ -118,11 +119,12 @@ Redis (Upstash) provides high-performance caching for session management, tier l
 
 #### 2. Tier Caching ⚠️ CRITICAL FOR PREMIUM
 
-| Key | TTL | Data | File Reference |
-|-----|-----|------|----------------|
+| Key             | TTL            | Data   | File Reference               |
+| --------------- | -------------- | ------ | ---------------------------- |
 | `tier:{userId}` | **60 seconds** | String | `src/lib/auth/tier-cache.ts` |
 
 **Tier Cache Flow:**
+
 ```typescript
 getTierForSession(userId) {
   1. Check Redis cache (tier:{userId})
@@ -137,6 +139,7 @@ getTierForSession(userId) {
 ```
 
 **Invalidation Triggers:**
+
 - Stripe webhook subscription update → `tierCache.invalidate(userId)`
 - Manual admin tier changes
 - User subscription cancellation
@@ -145,31 +148,32 @@ getTierForSession(userId) {
 
 #### 3. Statistics Caching (All Users)
 
-| Cache Type | Key Pattern | TTL | Fields |
-|------------|-------------|-----|--------|
-| **User Stats** | `stats:{userId}` | 1 hour | 20+ fields (hash) |
-| **Streak** | `streak:{userId}` | 30 min | current, best, lastReview |
-| **Progress** | `progress:{userId}` | 15 min | new, learning, mastered, dueToday |
-| **Review Queue** | `queue:{userId}` | 30 min | Prioritized review items |
+| Cache Type       | Key Pattern         | TTL    | Fields                            |
+| ---------------- | ------------------- | ------ | --------------------------------- |
+| **User Stats**   | `stats:{userId}`    | 1 hour | 20+ fields (hash)                 |
+| **Streak**       | `streak:{userId}`   | 30 min | current, best, lastReview         |
+| **Progress**     | `progress:{userId}` | 15 min | new, learning, mastered, dueToday |
+| **Review Queue** | `queue:{userId}`    | 30 min | Prioritized review items          |
 
 **Stats Hash Structure:**
+
 ```typescript
 {
-  totalPinned: "42"
-  newItems: "15"
-  learningItems: "10"
-  masteredItems: "17"
-  dueToday: "8"
-  streak: "7"
-  bestStreak: "14"
-  accuracy7d: "85.5"
-  accuracy30d: "82.3"
-  accuracyAllTime: "84.1"
-  totalReviews: "1250"
-  reviewsToday: "12"
-  reviewsThisWeek: "84"
-  reviewsThisMonth: "342"
-  totalTimeSpent: "18240"  // seconds
+  totalPinned: "42";
+  newItems: "15";
+  learningItems: "10";
+  masteredItems: "17";
+  dueToday: "8";
+  streak: "7";
+  bestStreak: "14";
+  accuracy7d: "85.5";
+  accuracy30d: "82.3";
+  accuracyAllTime: "84.1";
+  totalReviews: "1250";
+  reviewsToday: "12";
+  reviewsThisWeek: "84";
+  reviewsThisMonth: "342";
+  totalTimeSpent: "18240"; // seconds
   // ... more fields
 }
 ```
@@ -178,12 +182,13 @@ getTierForSession(userId) {
 
 #### 4. Rate Limiting
 
-| Key Pattern | TTL | Purpose |
-|-------------|-----|---------|
-| `ratelimit:{endpoint}:{identifier}` | 60s | Per-minute request limits |
-| `auth_attempts:{identifier}` | 15min | Failed login tracking |
+| Key Pattern                         | TTL   | Purpose                   |
+| ----------------------------------- | ----- | ------------------------- |
+| `ratelimit:{endpoint}:{identifier}` | 60s   | Per-minute request limits |
+| `auth_attempts:{identifier}`        | 15min | Failed login tracking     |
 
 **Implementation:**
+
 ```typescript
 async checkRateLimit(userId, endpoint) {
   const key = `ratelimit:${endpoint}:${userId}`
@@ -199,12 +204,14 @@ async checkRateLimit(userId, endpoint) {
 **File:** `src/lib/redis/warming/warmer.ts`
 
 **Warm-up Triggers:**
+
 - User login → Warm session + tier + stats
 - Dashboard load → Warm queue + sets
 - Scheduled (nightly) → Tomorrow's review queues
 - Premium users prioritized
 
 **Batch Warmup:**
+
 ```typescript
 await cacheWarmer.batchWarmUsers(userIds, parallelism: 5)
 ```
@@ -236,12 +243,12 @@ leaderboard:{metric}:{period} // Leaderboard data
 
 ### Redis Performance Metrics
 
-| Operation | Latency | Cache Hit Rate | Cost Savings |
-|-----------|---------|----------------|--------------|
-| Session validation | 5-10ms | 95% | ~1M Firestore reads/day |
-| Tier lookup | 5-10ms | 90% | ~500K Firestore reads/day |
-| Stats retrieval | 10-15ms | 80% | Prevents expensive aggregations |
-| Rate limit check | 5ms | 100% | N/A |
+| Operation          | Latency | Cache Hit Rate | Cost Savings                    |
+| ------------------ | ------- | -------------- | ------------------------------- |
+| Session validation | 5-10ms  | 95%            | ~1M Firestore reads/day         |
+| Tier lookup        | 5-10ms  | 90%            | ~500K Firestore reads/day       |
+| Stats retrieval    | 10-15ms | 80%            | Prevents expensive aggregations |
+| Rate limit check   | 5ms     | 100%           | N/A                             |
 
 **Monthly Cost:** ~$10 Upstash → **Saves ~$500/month** in Firestore reads
 
@@ -252,22 +259,25 @@ leaderboard:{metric}:{period} // Leaderboard data
 ### Three-Layer Detection System
 
 **1. Client-Side Hook** (`useSubscription.ts`)
+
 ```typescript
-const { isPremium } = useSubscription()
+const { isPremium } = useSubscription();
 // Fetches from /api/user/subscription
 // Polls after checkout: immediate, 2s, 5s, 10s
 ```
 
 **2. Server-Side Tier Cache** (`tier-cache.ts`)
+
 ```typescript
-const tier = await tierCache.getUserTier(userId)
+const tier = await tierCache.getUserTier(userId);
 // 60-second Redis cache
 // Fallback to Firestore on miss
 ```
 
 **3. Storage Decision (Critical Path)** (`storage-helper.ts`)
+
 ```typescript
-const decision = await getStorageDecision(session)
+const decision = await getStorageDecision(session);
 // ALWAYS fetches fresh from Firestore
 // Bypasses tier cache for security
 // Returns: { shouldWriteToFirebase, storageLocation, isPremium }
@@ -275,10 +285,10 @@ const decision = await getStorageDecision(session)
 
 ### Why Three Different Sources?
 
-| Source | TTL | Use Case | Priority |
-|--------|-----|----------|----------|
-| **Client Hook** | Session | UI display, feature access | Low |
-| **Tier Cache** | 60s | Fast tier lookups | Medium |
+| Source               | TTL       | Use Case                     | Priority     |
+| -------------------- | --------- | ---------------------------- | ------------ |
+| **Client Hook**      | Session   | UI display, feature access   | Low          |
+| **Tier Cache**       | 60s       | Fast tier lookups            | Medium       |
 | **Storage Decision** | Real-time | Firebase write authorization | **CRITICAL** |
 
 **Trade-off:** Storage decisions are 100% accurate but cost ~100ms per request. Tier cache is 90% accurate but only ~10ms.
@@ -305,7 +315,7 @@ const decision = await getStorageDecision(session)
 ### Valid Premium Plans
 
 ```typescript
-const PREMIUM_PLANS = ['premium_monthly', 'premium_yearly']
+const PREMIUM_PLANS = ["premium_monthly", "premium_yearly"];
 // Any other plan (including 'free', null, undefined) = Free tier
 ```
 
@@ -334,10 +344,10 @@ class FeatureProgressManager {
   }
 
   // Core methods
-  async saveProgress(data, user, isPremium): Promise<void>
-  async getProgress(user, isPremium): Promise<Data>
-  async syncToFirebase(userId, data): Promise<void>
-  async migrateFromLocalStorage(user, isPremium): Promise<boolean>
+  async saveProgress(data, user, isPremium): Promise<void>;
+  async getProgress(user, isPremium): Promise<Data>;
+  async syncToFirebase(userId, data): Promise<void>;
+  async migrateFromLocalStorage(user, isPremium): Promise<boolean>;
 }
 ```
 
@@ -357,9 +367,9 @@ interface ProgressDBSchema extends DBSchema {
       updatedAt: Date;
     };
     indexes: {
-      'by-user': string;
-      'by-updated': Date;
-      'by-composite': [string, string]; // [userId, itemId]
+      "by-user": string;
+      "by-updated": Date;
+      "by-composite": [string, string]; // [userId, itemId]
     };
   };
 }
@@ -390,13 +400,13 @@ Failed Firebase syncs are queued for retry:
 ```typescript
 interface SyncQueueItem {
   id?: number;
-  type: 'progress-update';
+  type: "progress-update";
   feature: string;
   userId: string;
   data: any;
   timestamp: number;
   retryCount: number;
-  status: 'pending' | 'syncing' | 'completed' | 'failed';
+  status: "pending" | "syncing" | "completed" | "failed";
 }
 ```
 
@@ -420,9 +430,9 @@ src/
 ### Usage in Component
 
 ```typescript
-import { kanaProgressManager } from '@/utils/kanaProgressManager';
-import { useSubscription } from '@/hooks/useSubscription';
-import { useAuth } from '@/hooks/useAuth';
+import { kanaProgressManager } from "@/utils/kanaProgressManager";
+import { useSubscription } from "@/hooks/useSubscription";
+import { useAuth } from "@/hooks/useAuth";
 
 function LearningComponent() {
   const { user } = useAuth();
@@ -438,14 +448,14 @@ function LearningComponent() {
 
       // Migrate old data if needed
       await kanaProgressManager.migrateFromLocalStorage(
-        'hiragana',
+        "hiragana",
         user,
         isPremium
       );
 
       // Load from appropriate storage
       const data = await kanaProgressManager.getProgress(
-        'hiragana',
+        "hiragana",
         user,
         isPremium
       );
@@ -461,7 +471,7 @@ function LearningComponent() {
     if (!user) return; // Guest: no save
 
     await kanaProgressManager.saveProgress(
-      'hiragana',
+      "hiragana",
       charId,
       update,
       user,
@@ -482,11 +492,11 @@ function LearningComponent() {
 Create `/src/utils/{feature}ProgressManager.ts`:
 
 ```typescript
-import { openDB, DBSchema, IDBPDatabase } from 'idb';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { firestore as db } from '@/lib/firebase/client';
-import { User } from 'firebase/auth';
-import { reviewLogger } from '@/lib/monitoring/logger';
+import { openDB, DBSchema, IDBPDatabase } from "idb";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { firestore as db } from "@/lib/firebase/client";
+import { User } from "firebase/auth";
+import { reviewLogger } from "@/lib/monitoring/logger";
 
 // Define your progress interface
 export interface FeatureProgress {
@@ -508,8 +518,8 @@ interface FeatureDBSchema extends DBSchema {
       progress: FeatureProgress;
     };
     indexes: {
-      'by-user': string;
-      'by-composite': [string, string];
+      "by-user": string;
+      "by-composite": [string, string];
     };
   };
 }
@@ -621,9 +631,9 @@ match /users/{userId}/progress/{feature} {
 #### 5. Integrate in Your Component
 
 ```typescript
-import { featureProgressManager } from '@/utils/featureProgressManager';
-import { useSubscription } from '@/hooks/useSubscription';
-import { useAuth } from '@/hooks/useAuth';
+import { featureProgressManager } from "@/utils/featureProgressManager";
+import { useSubscription } from "@/hooks/useSubscription";
+import { useAuth } from "@/hooks/useAuth";
 
 export function FeatureComponent() {
   const { user } = useAuth();
@@ -633,10 +643,7 @@ export function FeatureComponent() {
   // Load on mount
   useEffect(() => {
     const load = async () => {
-      const data = await featureProgressManager.getProgress(
-        user,
-        isPremium
-      );
+      const data = await featureProgressManager.getProgress(user, isPremium);
       setProgress(data);
     };
     load();
@@ -644,12 +651,7 @@ export function FeatureComponent() {
 
   // Save updates
   const updateItem = async (itemId, update) => {
-    await featureProgressManager.saveProgress(
-      itemId,
-      update,
-      user,
-      isPremium
-    );
+    await featureProgressManager.saveProgress(itemId, update, user, isPremium);
   };
 }
 ```
@@ -661,9 +663,11 @@ export function FeatureComponent() {
 ### Core Manager Methods
 
 #### `saveProgress(itemId, progress, user, isPremium)`
+
 Saves progress for a specific item.
 
 **Parameters:**
+
 - `itemId`: Unique identifier for the item
 - `progress`: Progress data object
 - `user`: Firebase User object or null
@@ -672,18 +676,22 @@ Saves progress for a specific item.
 **Returns:** `Promise<void>`
 
 #### `getProgress(user, isPremium)`
+
 Retrieves all progress for the user.
 
 **Parameters:**
+
 - `user`: Firebase User object or null
 - `isPremium`: Boolean indicating premium status
 
 **Returns:** `Promise<Record<string, Progress>>`
 
 #### `migrateFromLocalStorage(key, user, isPremium)`
+
 Migrates existing localStorage data to new storage.
 
 **Parameters:**
+
 - `key`: localStorage key to migrate from
 - `user`: Firebase User object
 - `isPremium`: Boolean indicating premium status
@@ -691,9 +699,11 @@ Migrates existing localStorage data to new storage.
 **Returns:** `Promise<boolean>` - Success status
 
 #### `clearProgress(userId)`
+
 Clears all progress for a user (testing/cleanup).
 
 **Parameters:**
+
 - `userId`: User ID to clear
 
 **Returns:** `Promise<void>`
@@ -701,25 +711,27 @@ Clears all progress for a user (testing/cleanup).
 ### Utility Hooks
 
 #### `useSubscription()`
+
 Returns subscription status and helper methods.
 
 ```typescript
 const {
-  isPremium,      // boolean
-  isFreeTier,     // boolean
-  subscription,   // SubscriptionFacts | null
-  isLoading      // boolean
+  isPremium, // boolean
+  isFreeTier, // boolean
+  subscription, // SubscriptionFacts | null
+  isLoading, // boolean
 } = useSubscription();
 ```
 
 #### `useAuth()`
+
 Returns current user authentication state.
 
 ```typescript
 const {
-  user,          // User | null
-  isLoading,     // boolean
-  error         // Error | null
+  user, // User | null
+  isLoading, // boolean
+  error, // Error | null
 } = useAuth();
 ```
 
@@ -780,7 +792,7 @@ try {
   const cloud = await this.loadFromFirebase(userId);
   return this.mergeProgress(local, cloud);
 } catch (error) {
-  reviewLogger.error('Firebase load failed:', error);
+  reviewLogger.error("Firebase load failed:", error);
   // Fallback to local data
   return local;
 }
@@ -842,7 +854,7 @@ await saveProgressBatch(items);
 
 ```typescript
 if (!window.indexedDB) {
-  console.warn('IndexedDB not available');
+  console.warn("IndexedDB not available");
   // Use in-memory storage
 }
 ```
@@ -877,7 +889,7 @@ interface VersionedProgress {
 
 ```typescript
 const MAX_MIGRATION_ATTEMPTS = 3;
-let attempts = parseInt(localStorage.getItem(`${key}-attempts`) || '0');
+let attempts = parseInt(localStorage.getItem(`${key}-attempts`) || "0");
 
 if (attempts < MAX_MIGRATION_ATTEMPTS) {
   // Try migration again
@@ -890,11 +902,11 @@ Enable verbose logging:
 
 ```typescript
 // In browser console
-localStorage.setItem('debug:storage', 'true');
+localStorage.setItem("debug:storage", "true");
 
 // In your manager
-if (localStorage.getItem('debug:storage')) {
-  console.log('[Storage]', operation, data);
+if (localStorage.getItem("debug:storage")) {
+  console.log("[Storage]", operation, data);
 }
 ```
 
@@ -922,7 +934,7 @@ Always validate data before storage:
 ```typescript
 function validateProgress(data: any): boolean {
   return (
-    typeof data.score === 'number' &&
+    typeof data.score === "number" &&
     data.score >= 0 &&
     data.score <= 100 &&
     data.updatedAt instanceof Date
@@ -965,23 +977,23 @@ function checkRateLimit(userId: string): boolean {
 
 ### Storage Layer Latencies
 
-| Operation | Guest | Free | Premium | Notes |
-|-----------|-------|------|---------|-------|
-| **Read** | 0ms (memory) | 5-10ms (IndexedDB) | 5-10ms (IndexedDB cache) | Premium uses IndexedDB as cache |
-| **Write** | N/A | <10ms (IndexedDB) | <10ms (IDB) + 500ms (Firebase debounced) | Firebase writes don't block user |
-| **Session Validation** | N/A | 5-10ms (Redis) | 5-10ms (Redis) | 20x faster than Firestore |
-| **Tier Lookup** | N/A | 5-10ms (Redis 90% hit) | 5-10ms (Redis 90% hit) | Fresh Firestore: ~100-200ms |
-| **Stats Retrieval** | N/A | 10-15ms (Redis hash) | 10-15ms (Redis hash) | Prevents expensive aggregations |
-| **Sync Operation** | N/A | N/A | 100ms-2s | Depends on queue size |
+| Operation              | Guest        | Free                   | Premium                                  | Notes                            |
+| ---------------------- | ------------ | ---------------------- | ---------------------------------------- | -------------------------------- |
+| **Read**               | 0ms (memory) | 5-10ms (IndexedDB)     | 5-10ms (IndexedDB cache)                 | Premium uses IndexedDB as cache  |
+| **Write**              | N/A          | <10ms (IndexedDB)      | <10ms (IDB) + 500ms (Firebase debounced) | Firebase writes don't block user |
+| **Session Validation** | N/A          | 5-10ms (Redis)         | 5-10ms (Redis)                           | 20x faster than Firestore        |
+| **Tier Lookup**        | N/A          | 5-10ms (Redis 90% hit) | 5-10ms (Redis 90% hit)                   | Fresh Firestore: ~100-200ms      |
+| **Stats Retrieval**    | N/A          | 10-15ms (Redis hash)   | 10-15ms (Redis hash)                     | Prevents expensive aggregations  |
+| **Sync Operation**     | N/A          | N/A                    | 100ms-2s                                 | Depends on queue size            |
 
 ### Cache Hit Rates
 
-| Cache Type | Hit Rate | Miss Cost | Benefit |
-|------------|----------|-----------|---------|
-| Redis Session | 95% | 100-200ms Firestore | 20x faster auth |
-| Redis Tier | 90% | 100-200ms Firestore | Prevents tier lag |
-| Redis Stats | 80% | 1-5s aggregation | Prevents expensive queries |
-| IndexedDB | 99.9% | Network fetch | Offline capability |
+| Cache Type    | Hit Rate | Miss Cost           | Benefit                    |
+| ------------- | -------- | ------------------- | -------------------------- |
+| Redis Session | 95%      | 100-200ms Firestore | 20x faster auth            |
+| Redis Tier    | 90%      | 100-200ms Firestore | Prevents tier lag          |
+| Redis Stats   | 80%      | 1-5s aggregation    | Prevents expensive queries |
+| IndexedDB     | 99.9%    | Network fetch       | Offline capability         |
 
 ### Bottlenecks
 
@@ -1007,11 +1019,13 @@ function checkRateLimit(userId: string): boolean {
 #### 1. Tier Cache Inconsistency (Medium Priority)
 
 **Problem:** Three different tier sources can return different values:
+
 - Redis `tierCache` - 60s TTL
 - Session JWT token - 1 hour TTL
 - Firestore fresh fetch - Real-time
 
 **Scenario:**
+
 ```
 Time 0:00 - User upgrades to premium
 Time 0:01 - Stripe webhook invalidates tierCache
@@ -1024,19 +1038,22 @@ Time 0:02 - User makes request
 **Impact:** Confusing user experience during tier transition window (max 60 seconds)
 
 **Recommendation:**
+
 ```typescript
 // Option 1: Reduce tier cache TTL to 30s
 const TTL = 30; // Faster reflection
 
 // Option 2: Invalidate session cache on tier change
 async function onSubscriptionUpdate(userId) {
-  await tierCache.invalidate(userId)
-  await invalidateAllUserSessions(userId) // Add this
+  await tierCache.invalidate(userId);
+  await invalidateAllUserSessions(userId); // Add this
 }
 
 // Option 3: Use Firestore realtime listeners
-firestore.collection('users').doc(userId)
-  .onSnapshot(doc => updateTierCache(doc.data().subscription))
+firestore
+  .collection("users")
+  .doc(userId)
+  .onSnapshot((doc) => updateTierCache(doc.data().subscription));
 ```
 
 #### 2. Redis Not Used for Storage Decisions (Performance)
@@ -1044,12 +1061,14 @@ firestore.collection('users').doc(userId)
 **Problem:** `getStorageDecision()` always fetches fresh from Firestore, bypassing tier cache.
 
 **File:** `src/lib/api/storage-helper.ts:41-43`
+
 ```typescript
-const userDoc = await adminDb.collection('users').doc(session.uid).get()
+const userDoc = await adminDb.collection("users").doc(session.uid).get();
 // NOT using: await tierCache.getUserTier(userId)
 ```
 
 **Impact:**
+
 - Extra Firestore read on every write operation (~100-200ms)
 - Premium users: Multiple Firestore reads per action
 - ~500K additional Firestore reads/day
@@ -1057,16 +1076,17 @@ const userDoc = await adminDb.collection('users').doc(session.uid).get()
 **Why It's This Way:** Intentional - storage authorization too critical for caching
 
 **Recommendation:**
+
 ```typescript
 // Use tierCache for reads, fresh fetch for writes
 async function getStorageDecisionOptimized(session, isWriteOperation) {
   if (isWriteOperation) {
     // Critical path: always fresh
-    return await getStorageDecisionFresh(session)
+    return await getStorageDecisionFresh(session);
   } else {
     // Read path: use cache
-    const tier = await tierCache.getUserTier(session.uid)
-    return { isPremium: tier.includes('premium') }
+    const tier = await tierCache.getUserTier(session.uid);
+    return { isPremium: tier.includes("premium") };
   }
 }
 ```
@@ -1076,11 +1096,13 @@ async function getStorageDecisionOptimized(session, isWriteOperation) {
 **Problem:** Only `tierCache` is invalidated on subscription changes. Other caches persist stale data.
 
 **Missing Invalidations:**
+
 - Session cache not cleared on tier change
 - Stats cache shows old limits after upgrade
 - Queue cache persists after subscription change
 
 **Example Bug:**
+
 ```
 1. Free user reaches daily limit (cached in Redis stats)
 2. Upgrades to premium
@@ -1090,6 +1112,7 @@ async function getStorageDecisionOptimized(session, isWriteOperation) {
 ```
 
 **Recommendation:**
+
 ```typescript
 // Comprehensive invalidation on tier change
 async function invalidateUserCachesOnTierChange(userId: string) {
@@ -1099,7 +1122,7 @@ async function invalidateUserCachesOnTierChange(userId: string) {
     queueCache.invalidate(userId),
     markSessionsForTierRefresh(userId),
     // Optionally: Force client refresh via WebSocket
-  ])
+  ]);
 }
 ```
 
@@ -1108,6 +1131,7 @@ async function invalidateUserCachesOnTierChange(userId: string) {
 **Problem:** Free users make API calls that return empty data
 
 **File:** `src/app/api/todos/route.ts:45-65`
+
 ```typescript
 if (storageDecision.shouldWriteToFirebase) {
   // Premium: read from Firebase
@@ -1120,12 +1144,13 @@ if (storageDecision.shouldWriteToFirebase) {
 **Impact:** Unnecessary network requests, API route processing
 
 **Recommendation:**
+
 ```typescript
 // Client-side: Skip API for free users
 if (!isPremium) {
-  return await loadFromIndexedDB() // Direct local read
+  return await loadFromIndexedDB(); // Direct local read
 } else {
-  return await fetch('/api/todos') // Server fetch
+  return await fetch("/api/todos"); // Server fetch
 }
 ```
 
@@ -1134,35 +1159,39 @@ if (!isPremium) {
 **Problem:** Silent fallback to mock Redis if env vars not set
 
 **File:** `src/lib/redis/client.ts:16-65`
+
 ```typescript
-export const redis = (!UPSTASH_REDIS_REST_URL ||
-                      UPSTASH_REDIS_REST_URL.includes('mock')) ?
-  mockRedis : realRedis
+export const redis =
+  !UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes("mock")
+    ? mockRedis
+    : realRedis;
 ```
 
 **Impact in Production:**
+
 - No session caching → Every request hits Firestore
 - No tier caching → Massive performance degradation
 - No rate limiting → Security risk
 - Silent failure (hard to detect)
 
 **Recommendation:**
+
 ```typescript
 // Fail fast in production
-if (process.env.NODE_ENV === 'production' && !UPSTASH_REDIS_REST_URL) {
-  throw new Error('CRITICAL: Redis configuration required in production')
+if (process.env.NODE_ENV === "production" && !UPSTASH_REDIS_REST_URL) {
+  throw new Error("CRITICAL: Redis configuration required in production");
 }
 ```
 
 ### Recommendations Summary
 
-| Issue | Priority | Effort | Impact |
-|-------|----------|--------|--------|
-| Tier cache inconsistency | Medium | Low | Better UX |
-| Redis for non-critical reads | High | Medium | 30% latency reduction |
-| Comprehensive cache invalidation | Low | Low | Prevent stale data bugs |
-| Client-side skip for free users | Medium | Low | 10% API load reduction |
-| Fail fast on missing Redis | Critical | Trivial | Prevent production issues |
+| Issue                            | Priority | Effort  | Impact                    |
+| -------------------------------- | -------- | ------- | ------------------------- |
+| Tier cache inconsistency         | Medium   | Low     | Better UX                 |
+| Redis for non-critical reads     | High     | Medium  | 30% latency reduction     |
+| Comprehensive cache invalidation | Low      | Low     | Prevent stale data bugs   |
+| Client-side skip for free users  | Medium   | Low     | 10% API load reduction    |
+| Fail fast on missing Redis       | Critical | Trivial | Prevent production issues |
 
 ---
 
@@ -1171,18 +1200,22 @@ if (process.env.NODE_ENV === 'production' && !UPSTASH_REDIS_REST_URL) {
 ### Planned Features
 
 1. **Bulk Operations API**
+
    - Batch save/load for performance
    - Transaction support
 
 2. **Versioning System**
+
    - Schema migrations
    - Backward compatibility
 
 3. **Analytics Integration**
+
    - Progress tracking metrics
    - Usage patterns
 
 4. **Export/Import**
+
    - User data portability
    - GDPR compliance
 
@@ -1203,7 +1236,7 @@ To add a new storage feature:
 
 ## Related Documentation
 
-- [Review Engine Architecture](/docs/REVIEW_ENGINE_DEEP_DIVE.md)
+- [Review Engine Architecture](/docs/root/REVIEW_ENGINE_DEEP_DIVE.md)
 - [Firebase Setup Guide](/docs/FIREBASE_SETUP.md)
 - [Subscription System](/docs/STRIPE_INTEGRATION.md)
 - [Security Best Practices](/docs/SECURITY.md)
@@ -1234,16 +1267,17 @@ User Action
 
 ## Storage Layer Summary
 
-| Layer | Users | Purpose | Performance | Cost |
-|-------|-------|---------|-------------|------|
-| **Redis** | Free + Premium | Session, tier, stats caching | 5-10ms | ~$10/month → Saves $500/month |
-| **IndexedDB** | Free + Premium | Local persistence, offline | <10ms | Free (browser) |
-| **Firebase** | Premium only | Cloud backup, cross-device | 100-500ms | Pay-per-use |
-| **Memory** | Guest only | Session-only state | 0ms | Free |
+| Layer         | Users          | Purpose                      | Performance | Cost                          |
+| ------------- | -------------- | ---------------------------- | ----------- | ----------------------------- |
+| **Redis**     | Free + Premium | Session, tier, stats caching | 5-10ms      | ~$10/month → Saves $500/month |
+| **IndexedDB** | Free + Premium | Local persistence, offline   | <10ms       | Free (browser)                |
+| **Firebase**  | Premium only   | Cloud backup, cross-device   | 100-500ms   | Pay-per-use                   |
+| **Memory**    | Guest only     | Session-only state           | 0ms         | Free                          |
 
 ## File Reference Map
 
 ### Core Storage Files
+
 - `src/lib/redis/client.ts` - Redis connection and utilities
 - `src/lib/redis/caches/` - Stats, queue, content caches
 - `src/lib/auth/session.ts` - Session management (Redis + JWT)
@@ -1254,6 +1288,7 @@ User Action
 - `src/hooks/useStorageDecision.ts` - Client-side storage handling
 
 ### Feature-Specific Managers
+
 - `src/utils/kanaProgressManager.ts` - Kana learning progress
 - `src/lib/flashcards/StorageManager.ts` - Flashcard decks
 - `src/lib/gamification/indexedDBStore.ts` - XP, streaks, achievements
@@ -1261,13 +1296,14 @@ User Action
 - `src/utils/preferencesManager.ts` - User preferences
 
 ### API Routes
+
 - `src/app/api/todos/route.ts` - Example dual-storage API
 - `src/app/api/user/subscription/route.ts` - Subscription status endpoint
 
 ---
 
-*Last Updated: January 2025*
-*Version: 2.0.0 - Complete 4-Tier Architecture (Redis + IndexedDB + Firebase + Memory)*
+_Last Updated: January 2025_
+_Version: 2.0.0 - Complete 4-Tier Architecture (Redis + IndexedDB + Firebase + Memory)_
 
 **Document maintained by:** Storage Architecture Team
 **Contact for questions:** See [CLAUDE.md](../../CLAUDE.md) for project context

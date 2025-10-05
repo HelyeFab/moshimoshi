@@ -1,27 +1,28 @@
 'use client'
 
-import { useState, useEffect, useMemo, useCallback } from 'react'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation'
-import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
+import { useI18n } from '@/i18n/I18nContext'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
 // Gamification removed
-import { kanaProgressManager, type CharacterProgress as ManagerProgress } from '@/utils/kanaProgressManager'
-import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
-import { kanaData, getBasicKana, playKanaAudio, type KanaCharacter } from '@/data/kanaData'
-import KanaFilters from '@/components/learn/KanaFilters'
 import Navbar from '@/components/layout/Navbar'
+import KanaDetailsModal from '@/components/learn/KanaDetailsModal'
+import KanaFilters from '@/components/learn/KanaFilters'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
-import KanaDetailsModal from '@/components/learn/KanaDetailsModal'
+import { getBasicKana, kanaData, type KanaCharacter } from '@/data/kanaData'
+import { gamificationListener } from '@/lib/gamification/gamificationListener'
 import { KanaAdapter } from '@/lib/review-engine/adapters/kana.adapter'
+import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { kanaProgressManager, type CharacterProgress as ManagerProgress } from '@/utils/kanaProgressManager'
+import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
 import { EventEmitter } from 'events'
-import { gamificationListener } from '@/lib/gamification/gamificationListener'
 
 // Global URE event emitter for gamification integration
 const ureEventEmitter = new EventEmitter()
@@ -68,13 +69,13 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   const { user } = useAuth()
   const { isPremium } = useSubscription()
 
-  
+
   // Initialize kana adapter for converting to ReviewableContent
   const kanaAdapter = useMemo(() => new KanaAdapter({
     contentType: 'kana',
     availableModes: [
-      { 
-        mode: 'recognition' as const, 
+      {
+        mode: 'recognition' as const,
         showPrimary: true,
         showSecondary: false,
         showTertiary: false,
@@ -83,7 +84,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         optionCount: 4,
         allowHints: true
       },
-      { 
+      {
         mode: 'recall' as const,
         showPrimary: true,
         showSecondary: false,
@@ -92,7 +93,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         inputType: 'text' as const,
         allowHints: true
       },
-      { 
+      {
         mode: 'listening' as const,
         showPrimary: false,
         showSecondary: false,
@@ -106,7 +107,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
     validationStrategy: 'fuzzy' as const,
     features: { displayScript: defaultScript }
   }), [defaultScript])
-  
+
   // Convert KanaCharacter to ReviewableContent format
   const convertToReviewableContent = useCallback((characters: KanaCharacter[]): ReviewableContent[] => {
     return characters.map(char => kanaAdapter.transform(char))
@@ -126,12 +127,12 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   // Study session tracking for gamification
   const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0)
   const [studyCharactersLearned, setStudyCharactersLearned] = useState<number>(0)
-  
+
   // Filter state
   const [filter, setFilter] = useState<FilterType>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<'basic' | 'dakuten' | 'digraph' | 'all'>('all')
-  
+
   // UI preferences
   const [showRomaji, setShowRomaji] = useState(true)
   const [showMnemonics, setShowMnemonics] = useState(false)
@@ -164,7 +165,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
           filtered = getBasicKana()
           break
         case 'dakuten':
-          filtered = sourceData.filter(k => k.type === 'dakuten' || k.type === 'handakuten')
+          // Dakuten (゛) and Handakuten (゜) characters are in rows g, z, d, b, p
+          filtered = sourceData.filter(k => ['g', 'z', 'd', 'b', 'p'].includes(k.row))
           break
         case 'digraph':
           filtered = sourceData.filter(k => k.type === 'digraph')
@@ -181,9 +183,11 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
           case 'consonant':
             return k.type === 'consonant'
           case 'dakuten':
-            return k.type === 'dakuten'
+            // Dakuten characters are in rows g, z, d, b
+            return ['g', 'z', 'd', 'b'].includes(k.row)
           case 'handakuten':
-            return k.type === 'handakuten'
+            // Handakuten characters are in row p
+            return k.row === 'p'
           case 'digraph':
             return k.type === 'digraph'
           default:
@@ -663,9 +667,10 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
     showToast(t('learn.selectionCleared'), 'success')
   }, [progress, saveProgressUpdate, showToast, t])
 
+  // Main browse view (when not in active session)
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
         <LoadingOverlay isLoading={isLoading} />
 
       {/* Header */}
@@ -675,7 +680,13 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         description={defaultScript === 'katakana'
           ? 'Master the Japanese Katakana writing system'
           : 'Master the Japanese Hiragana writing system'}
-        subtitle={`Learn all ${filteredKana.length} characters through interactive practice`}
+        subtitle={
+          viewMode === 'browse'
+            ? t('kana.browse.browseAll', { count: filteredKana.length })
+            : viewMode === 'study'
+            ? t('kana.browse.selectToStudy')
+            : t('kana.browse.selectToReview')
+        }
         stats={{
           total: progressStats.total,
           learned: progressStats.learned
@@ -690,31 +701,166 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
           }
         }}
         selectedCount={selectedCharacters.length}
-        onSelectAll={handleSelectAll}
-        onClearSelection={handleDeselectAll}
-        onStartStudy={handleStartStudy}
-        onStartReview={handleStartReview}
+        onSelectAll={viewMode !== 'browse' ? handleSelectAll : undefined}
+        onClearSelection={viewMode !== 'browse' ? handleDeselectAll : undefined}
+        onStartStudy={viewMode === 'study' ? () => {
+          if (selectedCharacters.length === 0) {
+            showToast(t('learn.selectCharacters'), 'warning')
+            return
+          }
+          handleStartStudy()
+        } : undefined}
+        onStartReview={viewMode === 'review' ? () => {
+          if (selectedCharacters.length === 0) {
+            showToast(t('learn.selectCharacters'), 'warning')
+            return
+          }
+          handleStartReview()
+        } : undefined}
       />
-      
-      {/* Main content */}
-      <main className="container mx-auto px-4 py-8">
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8 max-w-7xl">
+
+        {/* Search Bar */}
         {(viewMode === 'browse' ||
           (viewMode === 'study' && studyCharacters.length === 0) ||
           (viewMode === 'review' && reviewContent.length === 0)) && (
-          <>
-            <KanaFilters
-              filterType={filter}
-              onFilterChange={setFilter}
-              showLearned={false}
-              onShowLearnedChange={() => {}}
-              showNotStarted={true}
-              onShowNotStartedChange={() => {}}
-              showBothKana={showBothKana}
-              onShowBothKanaChange={setShowBothKana}
-              displayScript={displayScript}
-              onDisplayScriptChange={setDisplayScript}
-            />
+          <div className="mb-8">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder={t('kana.browse.searchPlaceholder')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-3 pr-12 rounded-xl bg-white dark:bg-dark-800 border-2 border-gray-200 dark:border-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
+              />
+              <div className="absolute top-1/2 right-3 -translate-y-1/2">
+                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        )}
 
+        {/* Search Results */}
+        {searchQuery.trim() && (viewMode === 'browse' ||
+          (viewMode === 'study' && studyCharacters.length === 0) ||
+          (viewMode === 'review' && reviewContent.length === 0)) && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-6 shadow-lg"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+              {t('kana.browse.searchResults')}
+              <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                ({t('kana.browse.resultsFound', { count: filteredKana.length })})
+              </span>
+            </h3>
+            {filteredKana.length > 0 ? (
+              <KanaGrid
+                characters={filteredKana}
+                progress={progress}
+                selectedCharacters={selectedCharacters}
+                onCharacterSelect={handleCharacterSelect}
+                onTogglePin={handleTogglePin}
+                onTogglePinBatch={handleTogglePinBatch}
+                onToggleSelection={handleToggleSelection}
+                showBothKana={showBothKana}
+                displayScript={displayScript}
+                viewMode={viewMode}
+                getCharacterId={getCharacterId}
+              />
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                {t('kana.browse.noResultsFound', { query: searchQuery })}
+              </p>
+            )}
+          </motion.div>
+        )}
+
+        {/* Quick Stats */}
+        {!searchQuery.trim() && (viewMode === 'browse' ||
+          (viewMode === 'study' && studyCharacters.length === 0) ||
+          (viewMode === 'review' && reviewContent.length === 0)) && (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.05 }}
+              className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg cursor-pointer"
+              onClick={() => setSelectedCategory('all')}
+            >
+              <div className="w-8 h-8 bg-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white text-[10px] font-bold">
+                ALL
+              </div>
+              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {kanaData.length}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {t('kana.browse.charactersLabel')}
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.05 }}
+              className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg cursor-pointer"
+              onClick={() => setSelectedCategory('basic')}
+            >
+              <div className="w-8 h-8 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white text-sm font-bold">
+                基
+              </div>
+              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {getBasicKana().length}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {t('kana.browse.basicLabel')}
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.05 }}
+              className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg cursor-pointer"
+              onClick={() => setSelectedCategory('dakuten')}
+            >
+              <div className="w-8 h-8 bg-yellow-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white text-lg font-bold">
+                が
+              </div>
+              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {kanaData.filter(k => ['g', 'z', 'd', 'b', 'p'].includes(k.row)).length}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {t('kana.browse.dakutenLabel')}
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.05 }}
+              className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg cursor-pointer"
+              onClick={() => setSelectedCategory('digraph')}
+            >
+              <div className="w-8 h-8 bg-purple-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white text-sm font-bold">
+                拗
+              </div>
+              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {kanaData.filter(k => k.type === 'digraph').length}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {t('kana.browse.digraphsLabel')}
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Kana Grid - Only show when not searching */}
+        {!searchQuery.trim() && (viewMode === 'browse' ||
+          (viewMode === 'study' && studyCharacters.length === 0) ||
+          (viewMode === 'review' && reviewContent.length === 0)) && (
             <KanaGrid
               characters={filteredKana}
               progress={progress}
@@ -726,15 +872,16 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               showBothKana={showBothKana}
               displayScript={displayScript}
               viewMode={viewMode}
+              getCharacterId={getCharacterId}
             />
-          </>
         )}
 
         {viewMode === 'study' && studyCharacters.length > 0 && (
-          <KanaStudyMode
-            character={studyCharacters[currentStudyIndex]}
-            progress={progress[getCharacterId(studyCharacters[currentStudyIndex].id)] || {}}
-            onNext={async () => {
+          <div className="flex justify-center py-8">
+            <KanaStudyMode
+                character={studyCharacters[currentStudyIndex]}
+                progress={progress[getCharacterId(studyCharacters[currentStudyIndex].id)] || {}}
+                onNext={async () => {
               if (currentStudyIndex < studyCharacters.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
               } else {
@@ -828,16 +975,19 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
             totalCharacters={studyCharacters.length}
             displayScript={displayScript}
           />
+          </div>
         )}
-        
+
         {viewMode === 'review' && (
-          <ReviewEngine
-            content={reviewContent}
-            contentPool={reviewContentPool.length > 0 ? reviewContentPool : reviewContent}
-            userId={user?.uid || 'anonymous'}
-            onComplete={handleReviewComplete}
-            onCancel={() => setViewMode('browse')}
-          />
+          <div className="flex justify-center py-8">
+            <ReviewEngine
+              content={reviewContent}
+              contentPool={reviewContentPool.length > 0 ? reviewContentPool : reviewContent}
+              userId={user?.uid || 'anonymous'}
+              onComplete={handleReviewComplete}
+              onCancel={() => setViewMode('browse')}
+            />
+          </div>
         )}
       </main>
 

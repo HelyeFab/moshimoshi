@@ -315,6 +315,11 @@ export const strings = {
       afternoon: "こんにちは",
       evening: "こんばんは"
     },
+    villageHeader: {
+      welcomeTo: "ようこそ",
+      learningVillage: "学習の村へ",
+      editLayout: "レイアウト編集"
+    },
     learningVillage: {
       title: "学習の村へようこそ",
       subtitle: "日本語マスターへの道を選びましょう",
@@ -1548,6 +1553,22 @@ export const strings = {
       showLearned: "学習済みを表示",
       showNotStarted: "未学習を表示",
       scriptType: "文字の種類",
+    },
+
+    selectAllInRow: "この行の{{count}}文字をすべて選択",
+
+    browse: {
+      browseAll: "{{count}}文字をタイプ別に閲覧",
+      selectToStudy: "学習する文字を選択",
+      selectToReview: "復習する文字を選択",
+      searchPlaceholder: "ローマ字、文字で検索...",
+      searchResults: "検索結果",
+      resultsFound: "{{count}}件見つかりました",
+      noResultsFound: "「{{query}}」に一致する文字が見つかりません",
+      charactersLabel: "文字",
+      basicLabel: "基本",
+      dakutenLabel: "濁音",
+      digraphsLabel: "拗音",
     },
 
     study: {

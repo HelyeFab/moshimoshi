@@ -70,7 +70,7 @@ export default function KanaFilters({
   ]
 
   return (
-    <div className="bg-white dark:bg-dark-800 rounded-xl shadow-sm p-4 mb-6 max-w-5xl mx-auto">
+    <div className="bg-white dark:bg-dark-800 rounded-xl shadow-sm p-4 mb-6">
       {/* Mobile Layout - Simplified */}
       <div className="sm:hidden flex flex-col gap-3">
         {/* Category Filter */}

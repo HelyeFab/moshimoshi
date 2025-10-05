@@ -37,8 +37,10 @@ interface I18nProviderProps {
 }
 
 export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
-  const [language, setLanguageState] = useState<Language>(() => {
-    // Check localStorage first
+  const [language, setLanguageState] = useState<Language>(initialLanguage || defaultLanguage)
+
+  // Hydrate language from localStorage after mount to avoid SSR mismatch
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       // First try user-specific language
       const userId = getCurrentUserId()
@@ -46,25 +48,25 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
         const userKey = `${USER_LANGUAGE_STORAGE_KEY}-${userId}`
         const userLang = localStorage.getItem(userKey)
         if (userLang && languages.includes(userLang as Language)) {
-          return userLang as Language
+          setLanguageState(userLang as Language)
+          return
         }
       }
 
       // Fall back to global language
       const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY)
       if (stored && languages.includes(stored as Language)) {
-        return stored as Language
+        setLanguageState(stored as Language)
+        return
       }
 
       // Check browser language
       const browserLang = navigator.language.toLowerCase()
       if (browserLang.startsWith('ja')) {
-        return 'ja'
+        setLanguageState('ja')
       }
     }
-
-    return initialLanguage || defaultLanguage
-  })
+  }, [])
 
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang)

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { KanaCharacter, playKanaAudio } from '@/data/kanaData'
 import { useI18n } from '@/i18n/I18nContext'
 import Checkbox from '@/components/ui/Checkbox'
+import { LoadingSpinner } from '@/components/ui/Loading'
 
 interface KanaGridProps {
   characters: KanaCharacter[]
@@ -17,6 +18,7 @@ interface KanaGridProps {
   showBothKana: boolean
   displayScript?: 'hiragana' | 'katakana'
   viewMode?: 'browse' | 'study' | 'review'
+  getCharacterId?: (charId: string) => string
 }
 
 const KanaGrid = memo(function KanaGrid({
@@ -29,11 +31,13 @@ const KanaGrid = memo(function KanaGrid({
   onToggleSelection,
   showBothKana,
   displayScript = 'hiragana',
-  viewMode = 'browse'
+  viewMode = 'browse',
+  getCharacterId = (id) => id
 }: KanaGridProps) {
   const { t } = useI18n()
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set())
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set(['vowel', 'k'])) // Start with vowels and k-row expanded
   
   // Group characters by row
   const charactersByRow = useMemo(() => {
@@ -64,38 +68,50 @@ const KanaGrid = memo(function KanaGrid({
     return rows
   }, [characters])
   
-  // Get row labels
-  const getRowLabel = (rowKey: string): string => {
-    const labels: Record<string, string> = {
-      'vowel': 'Vowels (あ row)',
-      'k': 'K-row (か row)',
-      'g': 'G-row (が row)',
-      's': 'S-row (さ row)',
-      'z': 'Z-row (ざ row)',
-      't': 'T-row (た row)',
-      'd': 'D-row (だ row)',
-      'n': 'N-row (な row)',
-      'h': 'H-row (は row)',
-      'b': 'B-row (ば row)',
-      'p': 'P-row (ぱ row)',
-      'm': 'M-row (ま row)',
-      'y': 'Y-row (や row)',
-      'r': 'R-row (ら row)',
-      'w': 'W-row (わ row)',
-      'n-single': 'N (ん)',
-      'k-digraph': 'KY-digraphs (きゃ)',
-      's-digraph': 'SH-digraphs (しゃ)',
-      'c-digraph': 'CH-digraphs (ちゃ)',
-      'n-digraph': 'NY-digraphs (にゃ)',
-      'h-digraph': 'HY-digraphs (ひゃ)',
-      'm-digraph': 'MY-digraphs (みゃ)',
-      'r-digraph': 'RY-digraphs (りゃ)',
-      'g-digraph': 'GY-digraphs (ぎゃ)',
-      'j-digraph': 'J-digraphs (じゃ)',
-      'b-digraph': 'BY-digraphs (びゃ)',
-      'p-digraph': 'PY-digraphs (ぴゃ)',
+  // Get row labels and info
+  const getRowInfo = (rowKey: string) => {
+    const info: Record<string, { name: string; color: string; description: string }> = {
+      'vowel': { name: 'Vowels', color: 'bg-purple-500', description: 'あ い う え お' },
+      'k': { name: 'K-row', color: 'bg-blue-500', description: 'か き く け こ' },
+      'g': { name: 'G-row', color: 'bg-indigo-500', description: 'が ぎ ぐ げ ご' },
+      's': { name: 'S-row', color: 'bg-cyan-500', description: 'さ し す せ そ' },
+      'z': { name: 'Z-row', color: 'bg-teal-500', description: 'ざ じ ず ぜ ぞ' },
+      't': { name: 'T-row', color: 'bg-green-500', description: 'た ち つ て と' },
+      'd': { name: 'D-row', color: 'bg-lime-500', description: 'だ ぢ づ で ど' },
+      'n': { name: 'N-row', color: 'bg-yellow-500', description: 'な に ぬ ね の' },
+      'h': { name: 'H-row', color: 'bg-amber-500', description: 'は ひ ふ へ ほ' },
+      'b': { name: 'B-row', color: 'bg-orange-500', description: 'ば び ぶ べ ぼ' },
+      'p': { name: 'P-row', color: 'bg-red-500', description: 'ぱ ぴ ぷ ぺ ぽ' },
+      'm': { name: 'M-row', color: 'bg-pink-500', description: 'ま み む め も' },
+      'y': { name: 'Y-row', color: 'bg-rose-500', description: 'や ゆ よ' },
+      'r': { name: 'R-row', color: 'bg-fuchsia-500', description: 'ら り る れ ろ' },
+      'w': { name: 'W-row', color: 'bg-violet-500', description: 'わ を' },
+      'n-single': { name: 'N', color: 'bg-slate-500', description: 'ん' },
+      'k-digraph': { name: 'KY-digraphs', color: 'bg-blue-600', description: 'きゃ きゅ きょ' },
+      's-digraph': { name: 'SH-digraphs', color: 'bg-cyan-600', description: 'しゃ しゅ しょ' },
+      'c-digraph': { name: 'CH-digraphs', color: 'bg-green-600', description: 'ちゃ ちゅ ちょ' },
+      'n-digraph': { name: 'NY-digraphs', color: 'bg-yellow-600', description: 'にゃ にゅ にょ' },
+      'h-digraph': { name: 'HY-digraphs', color: 'bg-amber-600', description: 'ひゃ ひゅ ひょ' },
+      'm-digraph': { name: 'MY-digraphs', color: 'bg-pink-600', description: 'みゃ みゅ みょ' },
+      'r-digraph': { name: 'RY-digraphs', color: 'bg-fuchsia-600', description: 'りゃ りゅ りょ' },
+      'g-digraph': { name: 'GY-digraphs', color: 'bg-indigo-600', description: 'ぎゃ ぎゅ ぎょ' },
+      'j-digraph': { name: 'J-digraphs', color: 'bg-teal-600', description: 'じゃ じゅ じょ' },
+      'b-digraph': { name: 'BY-digraphs', color: 'bg-orange-600', description: 'びゃ びゅ びょ' },
+      'p-digraph': { name: 'PY-digraphs', color: 'bg-red-600', description: 'ぴゃ ぴゅ ぴょ' },
     }
-    return labels[rowKey] || rowKey.toUpperCase()
+    return info[rowKey] || { name: rowKey.toUpperCase(), color: 'bg-gray-500', description: '' }
+  }
+
+  const toggleRow = (rowKey: string) => {
+    setExpandedRows(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(rowKey)) {
+        newSet.delete(rowKey)
+      } else {
+        newSet.add(rowKey)
+      }
+      return newSet
+    })
   }
   
   const handleRowSelect = (rowKey: string, checked: boolean) => {
@@ -120,7 +136,7 @@ const KanaGrid = memo(function KanaGrid({
       if (onTogglePinBatch) {
         // Use batch operation if available
         const characterIds = rowChars
-          .filter(char => checked ? !progress[char.id]?.pinned : progress[char.id]?.pinned)
+          .filter(char => checked ? !progress[getCharacterId(char.id)]?.pinned : progress[getCharacterId(char.id)]?.pinned)
           .map(char => char.id)
 
         if (characterIds.length > 0) {
@@ -132,7 +148,7 @@ const KanaGrid = memo(function KanaGrid({
           newSelectedRows.add(rowKey)
           // Pin all characters in this row
           rowChars.forEach(char => {
-            if (!progress[char.id]?.pinned) {
+            if (!progress[getCharacterId(char.id)]?.pinned) {
               onTogglePin(char.id)
             }
           })
@@ -140,7 +156,7 @@ const KanaGrid = memo(function KanaGrid({
           newSelectedRows.delete(rowKey)
           // Unpin all characters in this row
           rowChars.forEach(char => {
-            if (progress[char.id]?.pinned) {
+            if (progress[getCharacterId(char.id)]?.pinned) {
               onTogglePin(char.id)
             }
           })
@@ -169,18 +185,20 @@ const KanaGrid = memo(function KanaGrid({
   // This keeps the UI consistent across the app
   
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {Array.from(charactersByRow.entries()).map(([rowKey, rowChars]) => {
         // In study/review modes, check selection status; in browse mode, check pinned status
         const isSelectionMode = viewMode === 'study' || viewMode === 'review'
+        const isExpanded = expandedRows.has(rowKey)
+        const rowInfo = getRowInfo(rowKey)
 
         const allSelected = isSelectionMode
           ? rowChars.every(char => selectedCharacters.some(c => c.id === char.id))
-          : rowChars.every(char => progress[char.id]?.pinned)
+          : rowChars.every(char => progress[getCharacterId(char.id)]?.pinned)
 
         const someSelected = isSelectionMode
           ? rowChars.some(char => selectedCharacters.some(c => c.id === char.id)) && !allSelected
-          : rowChars.some(char => progress[char.id]?.pinned) && !allSelected
+          : rowChars.some(char => progress[getCharacterId(char.id)]?.pinned) && !allSelected
 
         return (
           <motion.div
@@ -189,131 +207,112 @@ const KanaGrid = memo(function KanaGrid({
             animate={{ opacity: 1, y: 0 }}
             className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg"
           >
-            {/* Row Header with Checkbox (only in study/review modes) */}
-            <div className="px-6 py-4 flex items-center justify-between border-b border-gray-200 dark:border-dark-700">
-              {isSelectionMode ? (
+            <button
+              onClick={() => toggleRow(rowKey)}
+              className="w-full px-6 py-4 text-left hover:bg-gray-50 dark:hover:bg-dark-700/50 transition-colors"
+            >
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Checkbox
-                    checked={allSelected}
-                    indeterminate={someSelected}
-                    onChange={(checked) => handleRowSelect(rowKey, checked)}
-                    label={getRowLabel(rowKey)}
-                    description={`${rowChars.length} characters`}
-                    size="medium"
-                  />
+                  <div className={`w-8 h-8 ${rowInfo.color} rounded-full flex items-center justify-center text-white text-sm font-bold`}>
+                    {rowChars[0]?.[displayScript].charAt(0) || '?'}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                      {rowInfo.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {rowInfo.description} • {rowChars.length} characters
+                    </p>
+                  </div>
                 </div>
-              ) : (
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    {getRowLabel(rowKey)}
-                  </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {rowChars.length} characters
-                  </p>
-                </div>
-              )}
-              {allSelected && isSelectionMode && (
-                <span className="text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full">
-                  ✓ Selected
-                </span>
-              )}
-            </div>
-
-            {/* Characters in this row - centered grid with 5 columns */}
-            <div className="px-2 pb-6 pt-4">
-              <div className="grid grid-cols-5 gap-3 sm:gap-2 w-full">
-                {rowChars.map((char, index) => {
-                  const isSelected = selectedCharacters.some(c => c.id === char.id)
-                  const charProgress = progress[char.id]
-                  const isLearned = charProgress?.status === 'learned'
-                  const isLearning = charProgress?.status === 'learning'
-
-                  // Dynamic styling based on progress
-                  const borderStyle = isLearned
-                    ? 'border-2 border-green-500 dark:border-green-400'
-                    : isLearning
-                    ? 'border-2 border-yellow-500 dark:border-yellow-400'
-                    : 'border-2 border-gray-200 dark:border-dark-700'
-                  const bgStyle = isLearned
-                    ? 'bg-green-50 dark:bg-green-900/20'
-                    : 'bg-white dark:bg-dark-800'
-
-                  return (
-                    <motion.div
-                      key={char.id}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.01 }}
-                      whileHover={{ scale: 1.1, zIndex: 10 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="relative"
-                    >
-                      <div
-                        onClick={() => onCharacterSelect(char)}
-                        onMouseEnter={() => setHoveredId(char.id)}
-                        onMouseLeave={() => setHoveredId(null)}
-                        className={`
-                          relative w-full aspect-square flex items-center justify-center text-xl sm:text-2xl font-medium
-                          rounded-lg transition-all cursor-pointer
-                          ${borderStyle} ${bgStyle}
-                          hover:shadow-lg
-                        `}
-                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif', minWidth: '56px' }}
-                      >
-                        {/* Pin emoji for selection in study/review modes */}
-                        {(viewMode === 'study' || viewMode === 'review') && (
-                          <button
-                            type="button"
-                            className="absolute -top-2 right-1.5 z-20 text-base sm:text-xl transition-all hover:scale-110"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              if (onToggleSelection) {
-                                onToggleSelection(char)
-                              }
-                            }}
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onTouchStart={(e) => e.stopPropagation()}
-                            aria-label={isSelected ? "Unpin" : "Pin"}
-                          >
-                            <span className={isSelected ? "" : "opacity-30 grayscale"}>
-                              📌
-                            </span>
-                          </button>
-                        )}
-
-                        <span className="text-gray-900 dark:text-gray-100">
-                          {showBothKana ? (
-                            <div className="flex flex-col items-center">
-                              <span>{displayScript === 'hiragana' ? char.hiragana : char.katakana}</span>
-                              <span className="text-sm opacity-70">
-                                {displayScript === 'hiragana' ? char.katakana : char.hiragana}
-                              </span>
-                            </div>
-                          ) : (
-                            displayScript === 'hiragana' ? char.hiragana : char.katakana
-                          )}
-                        </span>
-
-                        {/* Show romaji on hover - positioned at bottom */}
-                        <AnimatePresence>
-                          {hoveredId === char.id && (
-                            <motion.div
-                              initial={{ opacity: 0, y: -5 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -5 }}
-                              className="absolute bottom-1 left-0 right-0 text-xs font-medium text-primary-600 dark:text-primary-400"
-                            >
-                              {char.romaji}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </motion.div>
-                  )
-                })}
+                <svg
+                  className={`w-5 h-5 text-gray-400 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </div>
-            </div>
+            </button>
+
+            {isExpanded && (
+              <div className="px-6 pb-6">
+                {/* Row checkbox for selection - always show in study/review modes */}
+                {(viewMode === 'study' || viewMode === 'review') && (
+                  <div className="mb-4 mt-2">
+                    <Checkbox
+                      checked={allSelected}
+                      indeterminate={someSelected}
+                      onChange={(checked) => handleRowSelect(rowKey, checked)}
+                      label={t('kana.selectAllInRow', { count: rowChars.length })}
+                      size="small"
+                    />
+                  </div>
+                )}
+
+                {/* Characters grid - Kanji browser style */}
+                <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 mt-4">
+                  {rowChars.map((char, index) => {
+                    const isSelected = selectedCharacters.some(c => c.id === char.id)
+                    const charProgress = progress[getCharacterId(char.id)]
+                    const isLearned = charProgress?.status === 'learned'
+                    const isLearning = charProgress?.status === 'learning'
+
+                    // Simple styling - matching Kanji browser
+                    const borderStyle = 'border-2 border-gray-200 dark:border-dark-700'
+                    const bgStyle = 'bg-white dark:bg-dark-800'
+
+                    return (
+                      <motion.div
+                        key={char.id}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: index * 0.01 }}
+                        whileHover={{ scale: 1.1, zIndex: 10 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="relative"
+                      >
+                        <div
+                          onClick={() => onCharacterSelect(char)}
+                          onMouseEnter={() => setHoveredId(char.id)}
+                          onMouseLeave={() => setHoveredId(null)}
+                          className={`
+                            relative w-full aspect-square flex items-center justify-center text-2xl font-medium
+                            rounded-lg transition-all cursor-pointer
+                            ${borderStyle} ${bgStyle}
+                            hover:shadow-lg
+                          `}
+                          style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                        >
+                          {/* Pin emoji for selection in study/review modes */}
+                          {(viewMode === 'study' || viewMode === 'review') && (
+                            <button
+                              className="absolute -top-2 right-0.5 z-50 text-sm sm:text-base md:text-xl transition-all hover:scale-110"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                if (onToggleSelection) {
+                                  onToggleSelection(char)
+                                }
+                              }}
+                              aria-label={isSelected ? "Unpin" : "Pin"}
+                            >
+                              <span className={isSelected ? "" : "opacity-30 grayscale"}>
+                                📌
+                              </span>
+                            </button>
+                          )}
+
+                          <span className="text-gray-900 dark:text-gray-100">
+                            {displayScript === 'hiragana' ? char.hiragana : char.katakana}
+                          </span>
+                        </div>
+                      </motion.div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
           </motion.div>
         )
       })}

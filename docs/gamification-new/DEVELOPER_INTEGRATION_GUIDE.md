@@ -1694,6 +1694,353 @@ store.saveToIndexedDB()
 
 ---
 
+## 📊 Progress Tracking Pattern (Learned Item Highlighting)
+
+### Overview
+This pattern enables visual progress tracking for learning features (Kana, Kanji, Vocabulary, Custom Lists). When items are marked as "learned", they:
+- ✅ Display with green background/border in the UI
+- ✅ Update the total learned count (e.g., "13/106 learned")
+- ✅ Persist progress across sessions (IndexedDB + Firebase for premium)
+
+### The Core Pattern (from Kana Implementation)
+
+**Key Components:**
+1. **Progress State** with status tracking
+2. **Prefixed ID System** for multi-script support
+3. **Visual Styling** based on learning status
+4. **Progress Statistics** calculation
+
+### Implementation Checklist
+
+#### 1. **Set Up Progress State**
+```typescript
+interface ItemProgress {
+  [itemId: string]: {
+    status: 'not-started' | 'learning' | 'learned'
+    reviewCount: number
+    correctCount: number
+    lastReviewed?: Date
+    pinned?: boolean
+    updatedAt?: Date
+  }
+}
+
+const [progress, setProgress] = useState<ItemProgress>({})
+```
+
+#### 2. **Create ID Formatting Helper**
+```typescript
+// For features with multiple scripts/variants (like Kana: hiragana/katakana)
+const getItemId = useCallback((rawId: string) => {
+  if (rawId.startsWith('hiragana-') || rawId.startsWith('katakana-')) {
+    return rawId // Already prefixed
+  }
+  return `${currentScript}-${rawId}` // Add prefix
+}, [currentScript])
+
+// For single-type features (Kanji, Vocabulary)
+const getItemId = useCallback((rawId: string) => {
+  if (rawId.startsWith('kanji-')) return rawId
+  return `kanji-${rawId}`
+}, [])
+```
+
+#### 3. **Load Progress from Storage**
+```typescript
+useEffect(() => {
+  const loadProgress = async () => {
+    if (!user) {
+      setProgress({})
+      return
+    }
+
+    // Load from appropriate manager (KanaProgressManager, KanjiProgressManager, etc.)
+    const savedProgress = await progressManager.getProgress(
+      contentType, // 'hiragana', 'kanji', 'vocabulary', etc.
+      user,
+      isPremium
+    )
+
+    const formattedProgress: ItemProgress = {}
+    for (const [itemId, data] of Object.entries(savedProgress)) {
+      formattedProgress[itemId] = {
+        status: data.status,
+        reviewCount: data.reviewCount,
+        correctCount: data.correctCount,
+        lastReviewed: data.lastReviewed,
+        pinned: data.pinned,
+        updatedAt: data.updatedAt
+      }
+    }
+    setProgress(formattedProgress)
+  }
+
+  loadProgress()
+}, [user, isPremium, contentType])
+```
+
+#### 4. **Update Progress During Study**
+```typescript
+const handleUpdateProgress = async (itemId: string, updates: Partial<ItemProgress[string]>) => {
+  if (!user) return
+
+  const prefixedId = getItemId(itemId)
+
+  // Update local state immediately (optimistic update)
+  setProgress(prev => ({
+    ...prev,
+    [prefixedId]: { ...prev[prefixedId], ...updates }
+  }))
+
+  // Save to storage (IndexedDB + Firebase for premium)
+  await progressManager.saveProgress(
+    contentType,
+    prefixedId,
+    updates,
+    user,
+    isPremium
+  )
+}
+```
+
+#### 5. **Apply Visual Styling in Grid/List Component**
+```typescript
+// In your grid/list component
+const GridItem = ({ item, progress, getItemId }) => {
+  const itemProgress = progress[getItemId(item.id)]
+  const isLearned = itemProgress?.status === 'learned'
+  const isLearning = itemProgress?.status === 'learning'
+
+  const borderStyle = isLearned
+    ? 'border-2 border-green-500 dark:border-green-400'
+    : isLearning
+    ? 'border-2 border-yellow-500 dark:border-yellow-400'
+    : 'border-2 border-gray-200 dark:border-dark-700'
+
+  const bgStyle = isLearned
+    ? 'bg-green-50 dark:bg-green-900/20'
+    : 'bg-white dark:bg-dark-800'
+
+  return (
+    <div className={`${borderStyle} ${bgStyle} ...other-classes`}>
+      {/* Item content */}
+    </div>
+  )
+}
+```
+
+#### 6. **Pass ID Helper to Child Components**
+```typescript
+// CRITICAL: Pass the getItemId helper to avoid ID mismatch bugs
+<ItemGrid
+  items={items}
+  progress={progress}
+  getItemId={getItemId}  // ← Essential!
+  onUpdateProgress={handleUpdateProgress}
+/>
+```
+
+#### 7. **Calculate Progress Statistics**
+```typescript
+const progressStats = useMemo(() => {
+  const total = items.length
+  const learned = items.filter(item =>
+    progress[getItemId(item.id)]?.status === 'learned'
+  ).length
+  const learning = items.filter(item =>
+    progress[getItemId(item.id)]?.status === 'learning'
+  ).length
+
+  return {
+    total,
+    learned,
+    learning,
+    notStarted: total - learned - learning,
+    learnedPercentage: total > 0 ? Math.round((learned / total) * 100) : 0
+  }
+}, [items, progress, getItemId])
+```
+
+### Feature-Specific Examples
+
+#### 🔤 Kanji Browser
+```typescript
+// ID Format: 'kanji-愛', 'kanji-日'
+const getItemId = (rawId: string) => {
+  if (rawId.startsWith('kanji-')) return rawId
+  return `kanji-${rawId}`
+}
+
+// Progress Manager
+import { KanjiProgressManager } from '@/lib/progress/KanjiProgressManager'
+const kanjiProgress = await KanjiProgressManager.getProgress(user, isPremium)
+```
+
+#### 📚 Textbook Vocabulary
+```typescript
+// ID Format: 'vocab-textbook1-chapter1-word1'
+const getItemId = (textbook: string, chapter: number, wordId: string) => {
+  return `vocab-${textbook}-chapter${chapter}-${wordId}`
+}
+
+// Progress Manager
+import { VocabularyProgressManager } from '@/lib/progress/VocabularyProgressManager'
+const vocabProgress = await VocabularyProgressManager.getProgress(
+  textbook,
+  chapter,
+  user,
+  isPremium
+)
+```
+
+#### 📝 Custom Lists
+```typescript
+// ID Format: 'list-{listId}-item-{itemId}'
+const getItemId = (listId: string, itemId: string) => {
+  return `list-${listId}-item-${itemId}`
+}
+
+// Progress Manager
+import { CustomListProgressManager } from '@/lib/progress/CustomListProgressManager'
+const listProgress = await CustomListProgressManager.getProgress(
+  listId,
+  user,
+  isPremium
+)
+```
+
+### Common Pitfalls & Solutions
+
+#### ❌ **Pitfall 1: ID Mismatch (Progress Never Shows)**
+**Problem**: Grid looks up `progress[item.id]` but progress is stored with prefixed ID
+```typescript
+// BAD: ID mismatch
+const itemData = kanaData.find(k => k.id === 'a') // Returns { id: 'a', ... }
+const itemProgress = progress['a'] // undefined! (stored as 'hiragana-a')
+```
+
+**Solution**: Always use the ID helper
+```typescript
+// GOOD: Consistent ID lookup
+const itemProgress = progress[getItemId(item.id)] // Works!
+```
+
+#### ❌ **Pitfall 2: Progress Updates Don't Persist**
+**Problem**: Updating local state but not saving to storage
+```typescript
+// BAD: Only updates UI, lost on refresh
+setProgress(prev => ({ ...prev, [id]: updates }))
+```
+
+**Solution**: Always save to storage after state update
+```typescript
+// GOOD: Persists across sessions
+setProgress(prev => ({ ...prev, [id]: updates }))
+await progressManager.saveProgress(contentType, id, updates, user, isPremium)
+```
+
+#### ❌ **Pitfall 3: Premium Users Lose Progress on Refresh**
+**Problem**: Progress saved to IndexedDB but not synced to Firebase
+```typescript
+// BAD: Only saves locally
+await progressManager.saveToIndexedDB(progress)
+```
+
+**Solution**: Use manager methods that handle Firebase sync for premium users
+```typescript
+// GOOD: Automatically syncs to Firebase for premium users
+await progressManager.saveProgress(contentType, id, updates, user, isPremium)
+```
+
+### Testing Checklist
+- [ ] Item shows green background/border when marked as learned
+- [ ] Progress count updates correctly (e.g., "14/106" after marking one more)
+- [ ] Progress persists after page refresh
+- [ ] Progress persists after logout/login (premium users)
+- [ ] Multiple scripts/variants use separate progress (e.g., hiragana vs katakana)
+- [ ] No console errors about undefined progress
+- [ ] Works for both free (IndexedDB) and premium (Firebase) users
+
+---
+
+## 🔍 Troubleshooting: Firebase Sync for Premium Users
+
+### Issue: XP Not Persisting After Refresh (Premium Users Only)
+
+**Symptoms**:
+- XP is awarded during session (console shows increase: 116 → 126)
+- After page refresh, XP reverts to old value (back to 116)
+- Only affects premium users (free users work fine with IndexedDB)
+
+**Root Cause**:
+Premium users load gamification data from Firebase on page load (`useGamification` hook), but XP changes are only saved to IndexedDB, not synced back to Firebase. This creates a one-way data flow:
+
+```
+1. Page loads → Reads from Firebase (116 XP)
+2. Complete session → Saves to IndexedDB only (126 XP)
+3. Page refreshes → Reads from Firebase again (116 XP) ❌
+```
+
+**Current Architecture**:
+- `useGamification` hook (lines 76-98):
+  - Premium users: Load from Firebase first, fallback to IndexedDB
+  - Free users: Load from IndexedDB only
+- `gamificationListener` (line 98):
+  - Awards XP → calls `store.saveToIndexedDB()` only
+  - Does NOT call `store.syncToFirebase()`
+- `/api/gamification/sync` endpoint:
+  - Currently has NO premium user check
+  - Allows any authenticated user to sync to Firebase
+
+**Solution Required**:
+
+1. **Add premium check to sync API** (`/src/app/api/gamification/sync/route.ts`):
+   ```typescript
+   // Add after line 12:
+   if (!isPremiumUser(session?.tier)) {
+     return NextResponse.json(
+       { error: 'Firebase sync only available for premium users' },
+       { status: 403 }
+     )
+   }
+   ```
+
+2. **Add Firebase sync after session completion** (`gamificationListener.ts` line ~150):
+   ```typescript
+   // After session processed:
+   const finalStore = useGamificationStore.getState()
+   finalStore.syncToFirebase().catch(err => {
+     console.error('[Gamification] Firebase sync failed:', err)
+   })
+   ```
+
+**Verified Integrations** (as of 2025-10-05):
+- ✅ Kana Study Mode: Emits SESSION_COMPLETED correctly
+- ✅ Kana Review Mode: Emits SESSION_COMPLETED correctly
+- ✅ Drill Sessions: Emits SESSION_COMPLETED correctly
+- ✅ Event listener: Receives events and awards XP
+- ✅ IndexedDB: Saves successfully
+- ❌ Firebase sync: Missing for premium users
+
+**Console Logs to Verify Issue**:
+```
+[Gamification] Before XP award - Total XP: 116
+[Gamification] After XP award - Total XP: 126  ← XP awarded!
+[IndexedDB] Saved data for user: 8onZzlQg... ← Saved to IndexedDB
+[Gamification State] Loaded from Firebase: {totalXP: 116, ...} ← Old data after refresh!
+```
+
+**Pattern to Follow**:
+The app uses `isPremiumUser(session?.tier)` helper function from `/src/app/api/review/_middleware/auth.ts` (line 102) to check premium status in API routes:
+
+```typescript
+function isPremiumUser(tier?: string): boolean {
+  return tier === 'premium_monthly' || tier === 'premium_yearly'
+}
+```
+
+---
+
 ## 📞 Support
 
 **Questions?** Check:

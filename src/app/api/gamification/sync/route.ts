@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 
+/**
+ * Helper function to check if user has premium access
+ * Follows the same pattern as /src/app/api/review/_middleware/auth.ts
+ */
+function isPremiumUser(tier?: string): boolean {
+  return tier === 'premium_monthly' || tier === 'premium_yearly'
+}
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getSession()
@@ -9,6 +17,18 @@ export async function POST(request: NextRequest) {
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // CRITICAL: Only premium users can sync gamification data to Firebase
+    // Free users use IndexedDB only (offline-first)
+    if (!isPremiumUser(session?.tier)) {
+      return NextResponse.json(
+        {
+          error: 'Premium subscription required',
+          message: 'Firebase sync is only available for premium users. Free users use local storage only.'
+        },
+        { status: 403 }
+      )
     }
 
     const body = await request.json()

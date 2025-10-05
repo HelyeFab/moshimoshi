@@ -313,6 +313,11 @@ export const strings = {
       afternoon: "Guten Tag",
       evening: "Guten Abend"
     },
+    villageHeader: {
+      welcomeTo: "WILLKOMMEN IM",
+      learningVillage: "LERNDORF",
+      editLayout: "Layout Bearbeiten"
+    },
     learningVillage: {
       title: "Willkommen im Lerndorf",
       subtitle: "Wählen Sie Ihren Weg zur Japanisch-Meisterschaft",
@@ -1454,6 +1459,22 @@ export const strings = {
       showLearned: "Gelernte anzeigen",
       showNotStarted: "Nicht begonnene anzeigen",
       scriptType: "Schriftart",
+    },
+
+    selectAllInRow: "Alle {{count}} Zeichen in dieser Reihe auswählen",
+
+    browse: {
+      browseAll: "Alle {{count}} Zeichen nach Typ organisiert durchsuchen",
+      selectToStudy: "Zeichen zum Lernen auswählen",
+      selectToReview: "Zeichen zum Wiederholen auswählen",
+      searchPlaceholder: "Kana nach Romaji, Zeichen suchen...",
+      searchResults: "Suchergebnisse",
+      resultsFound: "{{count}} gefunden",
+      noResultsFound: "Keine Zeichen gefunden, die \"{{query}}\" entsprechen",
+      charactersLabel: "Zeichen",
+      basicLabel: "Basis",
+      dakutenLabel: "Dakuten",
+      digraphsLabel: "Digraphen",
     },
   },
 
