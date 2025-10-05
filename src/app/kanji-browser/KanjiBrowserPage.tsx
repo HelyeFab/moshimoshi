@@ -20,9 +20,15 @@ import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-// Gamification removed
-// import { recordActivityAndSync } from '@/lib/sync/streakSync'
-// import { StreakActivity } from '@/stores/streakStore'
+import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { EventEmitter } from 'events'
+import { gamificationListener } from '@/lib/gamification/gamificationListener'
+
+// Global URE event emitter for gamification integration
+const ureEventEmitter = new EventEmitter()
+
+// Flag to ensure gamification listener is only initialized once
+let gamificationListenerInitialized = false
 
 // Dynamically import ReviewEngine for review mode
 const ReviewEngine = dynamic(() => import('@/components/review-engine/ReviewEngine'), {
@@ -62,6 +68,9 @@ function KanjiBrowserContent() {
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
   const [currentStudyIndex, setCurrentStudyIndex] = useState(0)
   const [selectedKanjiData, setSelectedKanjiData] = useState<Kanji[]>([])
+
+  // Study session tracking for gamification
+  const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0)
 
   // Use the kanji browser hook for review system integration
   const {
@@ -158,6 +167,15 @@ function KanjiBrowserContent() {
       count: 1200
     }
   }
+
+  // Initialize gamification listener (once per user session)
+  useEffect(() => {
+    if (user?.uid && !gamificationListenerInitialized) {
+      console.log('[Kanji Browser] Initializing gamification listener for user:', user.uid)
+      gamificationListener.initialize(user.uid, ureEventEmitter)
+      gamificationListenerInitialized = true
+    }
+  }, [user?.uid])
 
   // Track browse session when viewing kanji
   useEffect(() => {
@@ -357,18 +375,39 @@ function KanjiBrowserContent() {
       return
     }
 
+    // Track study session start time for gamification
+    setStudySessionStartTime(Date.now())
+
     setSelectedKanjiData(kanjiDataArray)
     setCurrentStudyIndex(0)
     setViewMode('study')
   }
 
   const handleReviewComplete = async (stats: SessionStatistics) => {
-    // Gamification removed - recordActivityAndSync disabled
-    // await recordActivityAndSync(
-    //   StreakActivity.REVIEW_SESSION,
-    //   isPremium,
-    //   Date.now()
-    // )
+    // Emit URE SESSION_COMPLETED event for NEW gamification system
+    const sessionId = `kanji_review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+    ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+      data: {
+        sessionId,
+        statistics: {
+          correctItems: stats.correctItems,
+          accuracy: stats.accuracy,
+          averageResponseTime: stats.averageResponseTime || 0,
+          bestStreak: stats.bestStreak || 0
+        },
+        duration: stats.duration || 0
+      }
+    })
+
+    console.log('[Kanji Browser] Emitted SESSION_COMPLETED event for gamification:', {
+      sessionId,
+      correctItems: stats.correctItems,
+      accuracy: stats.accuracy,
+      averageResponseTime: stats.averageResponseTime,
+      bestStreak: stats.bestStreak,
+      duration: stats.duration
+    })
 
     setLastSessionStats(stats)
     setReviewContent([]) // Clear review content
@@ -516,17 +555,39 @@ function KanjiBrowserContent() {
               if (currentStudyIndex < selectedKanjiData.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
               } else {
-                // Gamification removed - recordActivityAndSync disabled
-                // await recordActivityAndSync(
-                //   StreakActivity.STUDY_SESSION,
-                //   isPremium,
-                //   Date.now()
-                // )
+                // Emit URE SESSION_COMPLETED event for NEW gamification system
+                const sessionDuration = Date.now() - studySessionStartTime
+                const totalKanji = selectedKanjiData.length
+                const averageTimePerKanji = totalKanji > 0 ? sessionDuration / totalKanji : 0
+
+                const sessionId = `kanji_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+                ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+                  data: {
+                    sessionId,
+                    statistics: {
+                      correctItems: totalKanji, // Study mode: all viewed kanji count as completed
+                      accuracy: 100, // Study mode is learning, assume 100% completion
+                      averageResponseTime: averageTimePerKanji,
+                      bestStreak: totalKanji // Use total count as streak for study mode
+                    },
+                    duration: sessionDuration
+                  }
+                })
+
+                console.log('[Kanji Study] Emitted SESSION_COMPLETED event for gamification:', {
+                  sessionId,
+                  correctItems: totalKanji,
+                  accuracy: 100,
+                  duration: sessionDuration
+                })
 
                 showToast('Study session complete!', 'success')
                 setViewMode('browse')
                 setCurrentStudyIndex(0)
                 setSelectedKanjiData([])
+                // Reset study session tracking
+                setStudySessionStartTime(0)
               }
             }}
             onPrevious={() => {
