@@ -143,7 +143,10 @@ export default function LearningPageHeader({
               </h1>
               {stats && (
                 <p className={`text-sm mt-1 ${descriptionClasses}`}>
-                  {stats.learned}/{stats.total} ({progressPercentage}%)
+                  <span className={stats.learned > 0 ? (isLightTheme ? 'text-green-100 font-semibold' : 'text-green-500 dark:text-green-400 font-semibold') : ''}>
+                    {stats.learned}
+                  </span>
+                  /{stats.total} ({progressPercentage}%)
                 </p>
               )}
             </div>
@@ -177,9 +180,13 @@ export default function LearningPageHeader({
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercentage}%` }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className={isLightTheme
-                    ? 'h-full bg-white/90'
-                    : 'h-full bg-gradient-to-r from-primary-400 to-primary-600'
+                  className={stats.learned > 0
+                    ? (isLightTheme
+                      ? 'h-full bg-gradient-to-r from-green-200 to-green-100'
+                      : 'h-full bg-gradient-to-r from-green-500 to-green-400')
+                    : (isLightTheme
+                      ? 'h-full bg-white/90'
+                      : 'h-full bg-gradient-to-r from-primary-400 to-primary-600')
                   }
                 />
               </div>
@@ -508,7 +515,10 @@ export default function LearningPageHeader({
                       {t('common.progress')}:
                     </span>
                     <span className={`font-medium ${isLightTheme ? 'text-white' : 'text-primary-600 dark:text-primary-400'}`}>
-                      {stats.learned}/{stats.total} ({progressPercentage}%)
+                      <span className={stats.learned > 0 ? (isLightTheme ? 'text-green-100 font-bold' : 'text-green-600 dark:text-green-400 font-bold') : ''}>
+                        {stats.learned}
+                      </span>
+                      /{stats.total} ({progressPercentage}%)
                     </span>
                   </div>
 
@@ -540,9 +550,13 @@ export default function LearningPageHeader({
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercentage}%` }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className={isLightTheme
-                    ? 'h-full bg-white/90'
-                    : 'h-full bg-gradient-to-r from-primary-400 to-primary-600'
+                  className={stats.learned > 0
+                    ? (isLightTheme
+                      ? 'h-full bg-gradient-to-r from-green-200 to-green-100'
+                      : 'h-full bg-gradient-to-r from-green-500 to-green-400')
+                    : (isLightTheme
+                      ? 'h-full bg-white/90'
+                      : 'h-full bg-gradient-to-r from-primary-400 to-primary-600')
                   }
                 />
               </div>

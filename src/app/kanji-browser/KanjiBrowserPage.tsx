@@ -72,6 +72,10 @@ function KanjiBrowserContent() {
   // Study session tracking for gamification
   const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0)
 
+  // Progress tracking for visual indicators
+  const [kanjiProgress, setKanjiProgress] = useState<Record<string, { status?: string; browseCount?: number }>>({})
+  const [learnedCount, setLearnedCount] = useState<number>(0)
+
   // Use the kanji browser hook for review system integration
   const {
     session,
@@ -175,6 +179,35 @@ function KanjiBrowserContent() {
       gamificationListener.initialize(user.uid, ureEventEmitter)
       gamificationListenerInitialized = true
     }
+  }, [user?.uid])
+
+  // Load kanji progress for visual indicators
+  useEffect(() => {
+    const loadKanjiProgress = async () => {
+      if (!user?.uid) {
+        setKanjiProgress({})
+        setLearnedCount(0)
+        return
+      }
+
+      try {
+        const response = await fetch('/api/kanji/progress')
+        if (response.ok) {
+          const data = await response.json()
+          setKanjiProgress(data.progress || {})
+
+          // Count learned kanji (those with browseCount > 5 are considered learned)
+          const learned = Object.values(data.progress || {}).filter(
+            (p: any) => p.browseCount && p.browseCount > 5
+          ).length
+          setLearnedCount(learned)
+        }
+      } catch (error) {
+        console.error('[Kanji Browser] Failed to load progress:', error)
+      }
+    }
+
+    loadKanjiProgress()
   }, [user?.uid])
 
   // Track browse session when viewing kanji
@@ -421,13 +454,12 @@ function KanjiBrowserContent() {
   const progressStats = useMemo(() => {
     const stats = getBrowseStats()
     const total = Object.values(kanjiData).flat().length
-    const learned = 0 // TODO: Track learned kanji
     return {
       total,
-      learned,
-      learnedPercentage: total > 0 ? Math.round((learned / total) * 100) : 0
+      learned: learnedCount,
+      learnedPercentage: total > 0 ? Math.round((learnedCount / total) * 100) : 0
     }
-  }, [kanjiData, getBrowseStats])
+  }, [kanjiData, learnedCount, getBrowseStats])
 
   const handleToggleBookmark = async (kanjiChar: string) => {
     if (!user) {
@@ -453,10 +485,16 @@ function KanjiBrowserContent() {
     <div className="grid grid-cols-3 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 mt-4">
       {kanji.map((kanjiItem, index) => {
         const isSelected = selectedKanji.has(kanjiItem.kanji)
+        const progress = kanjiProgress[kanjiItem.kanji]
+        const isLearned = progress?.browseCount && progress.browseCount > 5
 
-        // Simple styling - no special selection state since we use pin emoji
-        const borderStyle = 'border-2 border-gray-200 dark:border-dark-700'
-        const bgStyle = 'bg-white dark:bg-dark-800'
+        // Dynamic styling based on progress - green for learned kanji
+        const borderStyle = isLearned
+          ? 'border-2 border-green-500 dark:border-green-400'
+          : 'border-2 border-gray-200 dark:border-dark-700'
+        const bgStyle = isLearned
+          ? 'bg-green-50 dark:bg-green-900/20'
+          : 'bg-white dark:bg-dark-800'
 
         return (
           <motion.div
