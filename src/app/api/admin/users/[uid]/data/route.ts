@@ -16,7 +16,10 @@ export const GET = withAdminAuth(async (
     // Extract uid from URL path
     const url = new URL(request.url);
     const pathParts = url.pathname.split('/');
-    const uidOrEmail = pathParts[pathParts.length - 2]; // /api/admin/users/[uid]/data
+    const encodedUidOrEmail = pathParts[pathParts.length - 2]; // /api/admin/users/[uid]/data
+
+    // Decode URL parameter (handles %40 -> @ etc)
+    const uidOrEmail = decodeURIComponent(encodedUidOrEmail);
 
     if (!uidOrEmail) {
       return NextResponse.json(

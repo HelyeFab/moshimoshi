@@ -168,14 +168,16 @@ export function ReviewNotificationSettings() {
       {/* Settings Toggles */}
       <div className="space-y-4">
         {/* Enable/Disable Notifications */}
-        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-700 rounded-xl">
-          <div className="flex items-center gap-3">
-            {notificationsEnabled ? (
-              <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            ) : (
-              <BellOff className="w-5 h-5 text-gray-400 dark:text-gray-500" />
-            )}
-            <div>
+        <div className="flex items-center justify-between gap-3 p-4 bg-gray-50 dark:bg-dark-700 rounded-xl">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="flex-shrink-0">
+              {notificationsEnabled ? (
+                <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              ) : (
+                <BellOff className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+              )}
+            </div>
+            <div className="min-w-0">
               <p className="font-medium text-gray-900 dark:text-gray-100">
                 Review Reminders
               </p>
@@ -187,7 +189,7 @@ export function ReviewNotificationSettings() {
           <button
             onClick={handleToggleNotifications}
             className={cn(
-              'relative w-12 h-6 rounded-full transition-colors',
+              'relative w-12 h-6 rounded-full transition-colors flex-shrink-0',
               notificationsEnabled
                 ? 'bg-gradient-to-r from-blue-500 to-purple-500'
                 : 'bg-gray-300 dark:bg-gray-600'
@@ -202,14 +204,16 @@ export function ReviewNotificationSettings() {
         </div>
 
         {/* Sound Toggle */}
-        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-700 rounded-xl">
-          <div className="flex items-center gap-3">
-            {soundEnabled ? (
-              <Volume2 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            ) : (
-              <VolumeX className="w-5 h-5 text-gray-400 dark:text-gray-500" />
-            )}
-            <div>
+        <div className="flex items-center justify-between gap-3 p-4 bg-gray-50 dark:bg-dark-700 rounded-xl">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="flex-shrink-0">
+              {soundEnabled ? (
+                <Volume2 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              ) : (
+                <VolumeX className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+              )}
+            </div>
+            <div className="min-w-0">
               <p className="font-medium text-gray-900 dark:text-gray-100">
                 Notification Sounds
               </p>
@@ -221,7 +225,7 @@ export function ReviewNotificationSettings() {
           <button
             onClick={handleToggleSound}
             className={cn(
-              'relative w-12 h-6 rounded-full transition-colors',
+              'relative w-12 h-6 rounded-full transition-colors flex-shrink-0',
               soundEnabled
                 ? 'bg-gradient-to-r from-blue-500 to-purple-500'
                 : 'bg-gray-300 dark:bg-gray-600'
