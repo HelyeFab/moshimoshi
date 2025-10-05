@@ -235,20 +235,54 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       // Load progress from KanaProgressManager (IndexedDB + Firebase for premium)
       const savedProgress = await kanaProgressManager.getProgress(defaultScript, user, isPremium)
 
-      // Convert to component's expected format
-      const formattedProgress: CharacterProgress = {}
-      for (const [charId, progress] of Object.entries(savedProgress)) {
-        formattedProgress[charId] = {
-          status: progress.status,
-          reviewCount: progress.reviewCount,
-          correctCount: progress.correctCount,
-          lastReviewed: progress.lastReviewed,
-          pinned: progress.pinned,
-          updatedAt: progress.updatedAt
+      // Migrate non-prefixed IDs to prefixed format (one-time fix for existing data)
+      const prefixMigrationKey = `kana-progress-prefix-migration-${defaultScript}-${user.uid}`
+      if (!localStorage.getItem(prefixMigrationKey)) {
+        for (const [charId, progressData] of Object.entries(savedProgress)) {
+          // If ID doesn't have script prefix, migrate it
+          if (!charId.startsWith('hiragana-') && !charId.startsWith('katakana-')) {
+            const prefixedId = `${defaultScript}-${charId}`
+            // Save with correct prefixed ID
+            await kanaProgressManager.saveProgress(
+              defaultScript,
+              prefixedId,
+              progressData,
+              user,
+              isPremium
+            )
+          }
         }
-      }
+        localStorage.setItem(prefixMigrationKey, 'true')
 
-      setProgress(formattedProgress)
+        // Reload progress after migration
+        const migratedProgress = await kanaProgressManager.getProgress(defaultScript, user, isPremium)
+        const formattedProgress: CharacterProgress = {}
+        for (const [charId, progress] of Object.entries(migratedProgress)) {
+          formattedProgress[charId] = {
+            status: progress.status,
+            reviewCount: progress.reviewCount,
+            correctCount: progress.correctCount,
+            lastReviewed: progress.lastReviewed,
+            pinned: progress.pinned,
+            updatedAt: progress.updatedAt
+          }
+        }
+        setProgress(formattedProgress)
+      } else {
+        // No migration needed, use loaded progress
+        const formattedProgress: CharacterProgress = {}
+        for (const [charId, progress] of Object.entries(savedProgress)) {
+          formattedProgress[charId] = {
+            status: progress.status,
+            reviewCount: progress.reviewCount,
+            correctCount: progress.correctCount,
+            lastReviewed: progress.lastReviewed,
+            pinned: progress.pinned,
+            updatedAt: progress.updatedAt
+          }
+        }
+        setProgress(formattedProgress)
+      }
     }
 
     loadProgress()
