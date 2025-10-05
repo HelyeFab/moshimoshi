@@ -17,6 +17,8 @@ import { preferencesManager } from '@/utils/preferencesManager'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { ReviewNotificationSettings } from '@/components/notifications/ReviewNotificationSettings'
+import { Select } from '@/components/ui/Select'
+import Dialog from '@/components/ui/Dialog'
 
 export default function SettingsPage() {
   const router = useRouter()
@@ -28,6 +30,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [updatingLeaderboard, setUpdatingLeaderboard] = useState(false)
+  const [showResetDialog, setShowResetDialog] = useState(false)
   
   // Settings state
   const [notifications, setNotifications] = useState({
@@ -228,7 +231,7 @@ export default function SettingsPage() {
             variant="animated"
           />
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            <h1 className="text-3xl font-bold text-primary-600 dark:text-primary-400">
               {strings.settings?.title || 'Settings'}
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -242,7 +245,7 @@ export default function SettingsPage() {
           <CollapsibleSection
             title={strings.settings?.sections?.appearance?.title || 'Appearance'}
             icon="🎨"
-            defaultOpen={true}
+            defaultOpen={false}
             badge={
               <Tooltip content="Customize how Moshimoshi looks">
                 <DoshiMascot size="xsmall" />
@@ -251,44 +254,19 @@ export default function SettingsPage() {
           >
             <div className="space-y-6">
               {/* Language Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                  {strings.settings?.sections?.appearance?.language?.label || 'Language / 言語 / Langue / Lingua / Sprache / Idioma'}
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {languages.map((lang) => {
-                    const flagEmojis: Record<typeof lang, string> = {
-                      en: '🇬🇧',
-                      ja: '🇯🇵',
-                      fr: '🇫🇷',
-                      it: '🇮🇹',
-                      de: '🇩🇪',
-                      es: '🇪🇸',
-                    }
-                    
-                    return (
-                      <button
-                        key={lang}
-                        onClick={() => setLanguage(lang)}
-                        className={`p-3 rounded-lg border-2 transition-all ${
-                          language === lang
-                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                            : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center gap-2">
-                          <span className="text-2xl">
-                            {flagEmojis[lang]}
-                          </span>
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {languageNames[lang]}
-                          </span>
-                        </div>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
+              <Select
+                label={strings.settings?.sections?.appearance?.language?.label || 'Language / 言語 / Langue / Lingua / Sprache / Idioma'}
+                value={language}
+                onChange={(val) => setLanguage(val as any)}
+                options={[
+                  { value: 'en', label: languageNames.en, icon: <span>🇬🇧</span> },
+                  { value: 'ja', label: languageNames.ja, icon: <span>🇯🇵</span> },
+                  { value: 'fr', label: languageNames.fr, icon: <span>🇫🇷</span> },
+                  { value: 'it', label: languageNames.it, icon: <span>🇮🇹</span> },
+                  { value: 'de', label: languageNames.de, icon: <span>🇩🇪</span> },
+                  { value: 'es', label: languageNames.es, icon: <span>🇪🇸</span> },
+                ]}
+              />
 
               {/* Theme Selection */}
               <div>
@@ -322,176 +300,62 @@ export default function SettingsPage() {
               </div>
 
               {/* Color Palette Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                  {strings.settings?.sections?.appearance?.colorPalette?.label || 'Color Palette'}
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {/* Sakura (Default Red/Pink) */}
-                  <button
-                    onClick={() => {
-                      setSelectedPalette('sakura');
-                      document.documentElement.setAttribute('data-palette', 'sakura');
-                    }}
-                    className={`p-3 rounded-lg border-2 transition-all ${
-                      selectedPalette === 'sakura'
-                        ? 'border-primary-500 shadow-lg scale-105'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                    }`}
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="flex gap-1">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-red-400 to-pink-500" />
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-pink-300 to-rose-400" />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                        Sakura 🌸
-                      </span>
-                    </div>
-                  </button>
+              <Select
+                label={strings.settings?.sections?.appearance?.colorPalette?.label || 'Color Palette'}
+                value={selectedPalette}
+                onChange={(val) => {
+                  setSelectedPalette(val);
+                  document.documentElement.setAttribute('data-palette', val);
+                }}
+                options={[
+                  { value: 'sakura', label: 'Sakura', icon: <span>🌸</span> },
+                  { value: 'ocean', label: 'Ocean', icon: <span>🌊</span> },
+                  { value: 'matcha', label: 'Matcha', icon: <span>🍵</span> },
+                  { value: 'sunset', label: 'Sunset', icon: <span>🌅</span> },
+                  { value: 'lavender', label: 'Lavender', icon: <span>💜</span> },
+                  { value: 'monochrome', label: 'Monochrome', icon: <span>⚫</span> },
+                  { value: 'midnight', label: 'Midnight', icon: <span>🌙</span> },
+                  { value: 'cherry', label: 'Cherry', icon: <span>🍒</span> },
+                  { value: 'jade', label: 'Jade', icon: <span>💎</span> },
+                  { value: 'amber', label: 'Amber', icon: <span>✨</span> },
+                ]}
+              />
 
-                  {/* Ocean (Blue/Teal) */}
-                  <button
-                    onClick={() => {
-                      setSelectedPalette('ocean');
-                      document.documentElement.setAttribute('data-palette', 'ocean');
-                    }}
-                    className={`p-3 rounded-lg border-2 transition-all ${
-                      selectedPalette === 'ocean'
-                        ? 'border-blue-500 shadow-lg scale-105'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                    }`}
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="flex gap-1">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-cyan-500" />
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-teal-300 to-blue-400" />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                        Ocean 🌊
-                      </span>
-                    </div>
+              {/* Palette Preview */}
+              <div className="mt-4 p-3 bg-gray-50 dark:bg-dark-900/50 rounded-lg">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">{strings.settings?.sections?.appearance?.colorPalette?.preview || 'Preview:'}</p>
+                <div className="flex items-center gap-2">
+                  <button className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                    selectedPalette === 'sakura' ? 'bg-red-500 text-white' :
+                    selectedPalette === 'ocean' ? 'bg-blue-500 text-white' :
+                    selectedPalette === 'matcha' ? 'bg-green-500 text-white' :
+                    selectedPalette === 'sunset' ? 'bg-orange-500 text-white' :
+                    selectedPalette === 'lavender' ? 'bg-purple-500 text-white' :
+                    selectedPalette === 'monochrome' ? 'bg-gray-500 text-white' :
+                    selectedPalette === 'midnight' ? 'bg-indigo-600 text-white' :
+                    selectedPalette === 'cherry' ? 'bg-pink-400 text-white' :
+                    selectedPalette === 'jade' ? 'bg-emerald-500 text-white' :
+                    selectedPalette === 'amber' ? 'bg-amber-500 text-white' :
+                    'bg-gray-500 text-white'
+                  }`}>
+                    Primary
                   </button>
-
-                  {/* Matcha (Green) */}
-                  <button
-                    onClick={() => {
-                      setSelectedPalette('matcha');
-                      document.documentElement.setAttribute('data-palette', 'matcha');
-                    }}
-                    className={`p-3 rounded-lg border-2 transition-all ${
-                      selectedPalette === 'matcha'
-                        ? 'border-green-500 shadow-lg scale-105'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                    }`}
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="flex gap-1">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-green-400 to-emerald-500" />
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-lime-300 to-green-400" />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                        Matcha 🍵
-                      </span>
-                    </div>
+                  <button className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                    selectedPalette === 'sakura' ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400' :
+                    selectedPalette === 'ocean' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400' :
+                    selectedPalette === 'matcha' ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' :
+                    selectedPalette === 'sunset' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400' :
+                    selectedPalette === 'lavender' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/20 dark:text-purple-400' :
+                    selectedPalette === 'monochrome' ? 'bg-gray-100 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400' :
+                    selectedPalette === 'midnight' ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400' :
+                    selectedPalette === 'cherry' ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400' :
+                    selectedPalette === 'jade' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' :
+                    selectedPalette === 'amber' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400' :
+                    'bg-gray-100 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400'
+                  }`}>
+                    Secondary
                   </button>
-
-                  {/* Sunset (Orange/Yellow) */}
-                  <button
-                    onClick={() => {
-                      setSelectedPalette('sunset');
-                      document.documentElement.setAttribute('data-palette', 'sunset');
-                    }}
-                    className={`p-3 rounded-lg border-2 transition-all ${
-                      selectedPalette === 'sunset'
-                        ? 'border-orange-500 shadow-lg scale-105'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                    }`}
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="flex gap-1">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-red-500" />
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-300 to-orange-400" />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                        Sunset 🌅
-                      </span>
-                    </div>
-                  </button>
-
-                  {/* Lavender (Purple) */}
-                  <button
-                    onClick={() => {
-                      setSelectedPalette('lavender');
-                      document.documentElement.setAttribute('data-palette', 'lavender');
-                    }}
-                    className={`p-3 rounded-lg border-2 transition-all ${
-                      selectedPalette === 'lavender'
-                        ? 'border-purple-500 shadow-lg scale-105'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                    }`}
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="flex gap-1">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-indigo-500" />
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-violet-300 to-purple-400" />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                        Lavender 💜
-                      </span>
-                    </div>
-                  </button>
-
-                  {/* Monochrome (Gray) */}
-                  <button
-                    onClick={() => {
-                      setSelectedPalette('monochrome');
-                      document.documentElement.setAttribute('data-palette', 'monochrome');
-                    }}
-                    className={`p-3 rounded-lg border-2 transition-all ${
-                      selectedPalette === 'monochrome'
-                        ? 'border-gray-600 shadow-lg scale-105'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                    }`}
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="flex gap-1">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-400 to-gray-600" />
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-300 to-gray-500" />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                        Mono ⚫
-                      </span>
-                    </div>
-                  </button>
-                </div>
-                
-                {/* Palette Preview */}
-                <div className="mt-4 p-3 bg-gray-50 dark:bg-dark-900/50 rounded-lg">
-                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">{strings.settings?.sections?.appearance?.colorPalette?.preview || 'Preview:'}</p>
-                  <div className="flex items-center gap-2">
-                    <button className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                      selectedPalette === 'sakura' ? 'bg-red-500 text-white' :
-                      selectedPalette === 'ocean' ? 'bg-blue-500 text-white' :
-                      selectedPalette === 'matcha' ? 'bg-green-500 text-white' :
-                      selectedPalette === 'sunset' ? 'bg-orange-500 text-white' :
-                      selectedPalette === 'lavender' ? 'bg-purple-500 text-white' :
-                      'bg-gray-500 text-white'
-                    }`}>
-                      Primary
-                    </button>
-                    <button className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                      selectedPalette === 'sakura' ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400' :
-                      selectedPalette === 'ocean' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400' :
-                      selectedPalette === 'matcha' ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' :
-                      selectedPalette === 'sunset' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400' :
-                      selectedPalette === 'lavender' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/20 dark:text-purple-400' :
-                      'bg-gray-100 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400'
-                    }`}>
-                      Secondary
-                    </button>
-                    <DoshiMascot size="xsmall" />
-                  </div>
+                  <DoshiMascot size="xsmall" />
                 </div>
               </div>
             </div>
@@ -711,7 +575,7 @@ export default function SettingsPage() {
             <button
               onClick={savePreferences}
               disabled={isSaving}
-              className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               <span>
                 {isSaving
@@ -738,13 +602,7 @@ export default function SettingsPage() {
           {/* Reset Section */}
           <div className="text-center py-4">
             <button
-              onClick={() => {
-                if (confirm(strings.settings?.resetConfirm || 'Are you sure you want to reset all settings to default?')) {
-                  localStorage.removeItem('user-preferences')
-                  showToast(strings.settings?.resetSuccess || 'Settings reset to default', 'info')
-                  router.refresh()
-                }
-              }}
+              onClick={() => setShowResetDialog(true)}
               className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
             >
               {strings.settings?.resetButton || 'Reset all settings to default'}
@@ -752,6 +610,22 @@ export default function SettingsPage() {
           </div>
         </div>
       </main>
+
+      {/* Reset Confirmation Dialog */}
+      <Dialog
+        isOpen={showResetDialog}
+        onClose={() => setShowResetDialog(false)}
+        onConfirm={() => {
+          localStorage.removeItem('user-preferences')
+          showToast(strings.settings?.resetSuccess || 'Settings reset to default', 'info')
+          router.refresh()
+        }}
+        title={strings.settings?.resetConfirm || 'Reset Settings?'}
+        message={strings.settings?.resetConfirm || 'Are you sure you want to reset all settings to default?'}
+        confirmText="OK"
+        cancelText="Cancel"
+        type="warning"
+      />
     </div>
   )
 }

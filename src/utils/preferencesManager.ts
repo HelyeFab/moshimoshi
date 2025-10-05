@@ -332,6 +332,12 @@ export class PreferencesManager {
       });
 
       if (!response.ok) {
+        // Handle rate limiting gracefully
+        if (response.status === 429) {
+          console.warn('[PreferencesManager] Rate limited - will retry later');
+          await this.addToSyncQueue(userId, preferences);
+          return;
+        }
         throw new Error(`API request failed: ${response.status}`);
       }
 
@@ -345,7 +351,7 @@ export class PreferencesManager {
       await this.processSyncQueue(userId);
     } catch (error) {
       console.error('[PreferencesManager] Failed to sync to Firebase:', error);
-      // Add to sync queue for retry
+      // Add to sync queue for retry (if not already added)
       await this.addToSyncQueue(userId, preferences);
     }
   }
@@ -428,30 +434,39 @@ export class PreferencesManager {
     if (!this.db) return;
 
     try {
-      const tx = this.db.transaction('syncQueue', 'readwrite');
-      const index = tx.store.index('by-user');
+      // First, read all pending items in a single transaction
+      const readTx = this.db.transaction('syncQueue', 'readonly');
+      const index = readTx.store.index('by-user');
       const items = await index.getAll(userId);
+      await readTx.done;
 
+      // Process each item separately (to avoid transaction timeout during async operations)
       for (const item of items) {
         if (item.status === 'pending' && item.retryCount < 3) {
-          // Try to sync
-          item.status = 'syncing';
-          await tx.store.put(item);
-
           try {
+            // Mark as syncing in a separate transaction
+            const updateTx1 = this.db.transaction('syncQueue', 'readwrite');
+            item.status = 'syncing';
+            await updateTx1.store.put(item);
+            await updateTx1.done;
+
+            // Perform the actual sync (this can take time)
             await this.syncToFirebase(item.userId, item.preferences);
-            // Success - remove from queue
-            await tx.store.delete(item.id!);
+
+            // Success - remove from queue in a separate transaction
+            const deleteTx = this.db.transaction('syncQueue', 'readwrite');
+            await deleteTx.store.delete(item.id!);
+            await deleteTx.done;
           } catch (error) {
-            // Failed - update retry count
+            // Failed - update retry count in a separate transaction
+            const updateTx2 = this.db.transaction('syncQueue', 'readwrite');
             item.status = 'pending';
             item.retryCount++;
-            await tx.store.put(item);
+            await updateTx2.store.put(item);
+            await updateTx2.done;
           }
         }
       }
-
-      await tx.done;
     } catch (error) {
       console.error('[PreferencesManager] Failed to process sync queue:', error);
     }

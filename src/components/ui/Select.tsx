@@ -174,7 +174,7 @@ export function Select({
         </button>
 
         {isOpen && (
-          <div className="absolute z-50 w-full mt-1 bg-white dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-60 overflow-auto">
+          <div className="absolute z-[9999] w-full mt-1 bg-white dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-60 overflow-auto">
             {searchable && (
               <div className="p-2 border-b border-gray-200 dark:border-dark-700">
                 <input
@@ -187,7 +187,7 @@ export function Select({
                 />
               </div>
             )}
-            
+
             {filteredOptions.length === 0 ? (
               <div className="px-4 py-3 text-sm text-gray-500 dark:text-dark-400">
                 No options found
@@ -201,8 +201,8 @@ export function Select({
                   disabled={option.disabled}
                   className={`
                     w-full px-4 py-2 text-left flex items-center gap-2
-                    ${option.value === value 
-                      ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' 
+                    ${option.value === value
+                      ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
                       : 'hover:bg-gray-50 dark:hover:bg-dark-800'
                     }
                     ${option.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
@@ -361,7 +361,7 @@ export function MultiSelect({
         </div>
 
         {isOpen && (
-          <div className="absolute z-50 w-full mt-1 bg-white dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-60 overflow-auto">
+          <div className="absolute z-[9999] w-full mt-1 bg-white dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-60 overflow-auto">
             {searchable && (
               <div className="p-2 border-b border-gray-200 dark:border-dark-700">
                 <input

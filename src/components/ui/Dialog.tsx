@@ -62,10 +62,10 @@ export default function Dialog({
 
   const getButtonStyles = () => {
     const styles = {
-      info: 'bg-blue-500 hover:bg-blue-600 focus:ring-blue-500',
+      info: 'bg-primary-500 hover:bg-primary-600 focus:ring-primary-500',
       warning: 'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-500',
       danger: 'bg-red-500 hover:bg-red-600 focus:ring-red-500',
-      success: 'bg-green-500 hover:bg-green-600 focus:ring-green-500',
+      success: 'bg-primary-500 hover:bg-primary-600 focus:ring-primary-500',
     };
     return styles[type];
   };

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import useSWR from 'swr';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firestore as db } from '@/lib/firebase/client';
@@ -31,110 +32,121 @@ interface UseSubscriptionReturn {
   isFreeTier: boolean | undefined;
   canUpgrade: boolean | undefined;
   daysUntilRenewal: number | null;
-  
+
   // Actions
   upgradeToPremium: (plan: 'premium_monthly' | 'premium_yearly') => Promise<void>;
   manageBilling: () => Promise<void>;
   cancelSubscription: () => Promise<void>;
-  
+
   // Checkout status
   checkoutStatus: ReturnType<typeof checkCheckoutStatus>;
   clearCheckoutStatus: () => void;
 }
 
 /**
+ * SWR fetcher for subscription data
+ * Handles API errors gracefully and defaults to free tier
+ */
+const subscriptionFetcher = async (url: string): Promise<SubscriptionFacts> => {
+  try {
+    const response = await fetch(url);
+
+    // Handle non-authenticated or missing endpoint
+    if (response.status === 404 || response.status === 401) {
+      logger.subscription('Subscription endpoint not found or unauthorized, defaulting to free tier');
+      return {
+        plan: 'free',
+        status: 'active'
+      };
+    }
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch subscription: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.subscription) {
+      // Convert date strings to Date objects if needed
+      const sub = data.subscription;
+      return {
+        ...sub,
+        currentPeriodEnd: sub.currentPeriodEnd ? new Date(sub.currentPeriodEnd) : undefined,
+        metadata: sub.metadata ? {
+          ...sub.metadata,
+          updatedAt: sub.metadata.updatedAt ? new Date(sub.metadata.updatedAt) : undefined
+        } : undefined
+      };
+    }
+
+    // Default to free tier if no subscription data
+    return {
+      plan: 'free',
+      status: 'active'
+    };
+  } catch (err) {
+    logger.error('Failed to fetch subscription:', err);
+    // Default to free tier on error
+    return {
+      plan: 'free',
+      status: 'active'
+    };
+  }
+};
+
+/**
  * Hook for managing user subscription state and actions
+ * Uses SWR for client-side caching and automatic revalidation
  */
 export function useSubscription(): UseSubscriptionReturn {
   const { user } = useAuth();
   const { showToast } = useToast();
   const { t } = useI18n();
-  const [subscription, setSubscription] = useState<SubscriptionFacts | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
   const [checkoutStatus, setCheckoutStatus] = useState(() => checkCheckoutStatus());
 
-  // Fetch subscription data from API endpoint (uses session auth)
-  useEffect(() => {
-    const fetchSubscription = async () => {
-      try {
-        const response = await fetch('/api/user/subscription');
+  // SWR configuration optimized for subscription data
+  const { data: subscription, error, isLoading, mutate } = useSWR<SubscriptionFacts>(
+    '/api/user/subscription',
+    subscriptionFetcher,
+    {
+      // Don't refetch on window focus (prevents unnecessary API calls)
+      revalidateOnFocus: false,
 
-        // Check if response is ok before trying to parse JSON
-        if (!response.ok) {
-          // If 404, the endpoint doesn't exist or user is not authenticated
-          if (response.status === 404 || response.status === 401) {
-            logger.subscription('Subscription endpoint not found or unauthorized, defaulting to free tier');
-            setSubscription({
-              plan: 'free',
-              status: 'active'
-            });
-            setError(null);
-            return;
-          }
-          throw new Error(`Failed to fetch subscription: ${response.status}`);
-        }
+      // Refetch on network reconnect (user might have just subscribed offline)
+      revalidateOnReconnect: true,
 
-        const data = await response.json();
+      // Dedupe requests within 30 seconds (matches server tier cache TTL)
+      dedupingInterval: 30000,
 
-        if (data.subscription) {
-          // Convert date strings to Date objects if needed
-          const sub = data.subscription;
-          setSubscription({
-            ...sub,
-            currentPeriodEnd: sub.currentPeriodEnd ? new Date(sub.currentPeriodEnd) : undefined,
-            metadata: sub.metadata ? {
-              ...sub.metadata,
-              updatedAt: sub.metadata.updatedAt ? new Date(sub.metadata.updatedAt) : undefined
-            } : undefined
-          });
-        } else {
-          setSubscription({
-            plan: 'free',
-            status: 'active'
-          });
-        }
-        setError(null);
-      } catch (err) {
-        logger.error('Failed to fetch subscription:', err);
-        // Default to free tier on error
-        setSubscription({
-          plan: 'free',
-          status: 'active'
-        });
-        setError(err as Error);
-      } finally {
-        setIsLoading(false);
+      // Background refresh every 30 seconds (keeps data fresh, matches server cache)
+      refreshInterval: 30000,
+
+      // Keep previous data while revalidating (prevents loading flicker)
+      keepPreviousData: true,
+
+      // Show cached data immediately, fetch in background
+      revalidateIfStale: true,
+
+      // Retry on error with exponential backoff
+      errorRetryCount: 3,
+      errorRetryInterval: 5000,
+
+      // Fallback data while loading (prevents undefined issues)
+      fallbackData: {
+        plan: 'free',
+        status: 'active'
       }
-    };
-
-    // Initial fetch
-    fetchSubscription();
-
-    // Only poll after successful payment (not constantly)
-    // We'll trigger a refresh when needed instead of constant polling
-    // This prevents the constant 404 errors
-  }, []);
+    }
+  );
 
   // Refresh subscription data (called after successful checkout)
+  // Uses SWR's mutate to force revalidation
   const refreshSubscription = useCallback(async (): Promise<boolean> => {
     try {
-      const response = await fetch('/api/user/subscription');
-      const data = await response.json();
+      // Force SWR to revalidate by mutating the cache
+      const updatedSub = await mutate();
 
-      if (data.subscription) {
-        const sub = data.subscription;
-        const updatedSub = {
-          ...sub,
-          currentPeriodEnd: sub.currentPeriodEnd ? new Date(sub.currentPeriodEnd) : undefined,
-          metadata: sub.metadata ? {
-            ...sub.metadata,
-            updatedAt: sub.metadata.updatedAt ? new Date(sub.metadata.updatedAt) : undefined
-          } : undefined
-        };
-
-        setSubscription(updatedSub);
-
+      if (updatedSub) {
         // Return true if subscription is now premium (so we can stop polling)
         const isPremiumNow = updatedSub.plan === 'premium_monthly' || updatedSub.plan === 'premium_yearly';
         if (isPremiumNow && updatedSub.status === 'active') {
@@ -147,7 +159,7 @@ export function useSubscription(): UseSubscriptionReturn {
       logger.error('Failed to refresh subscription:', err);
       return false;
     }
-  }, []);
+  }, [mutate]);
 
   // Check for checkout completion on mount and URL changes
   useEffect(() => {
@@ -219,6 +231,7 @@ export function useSubscription(): UseSubscriptionReturn {
 
   // Computed properties - handle loading state properly
   // When loading, these should be undefined/null rather than false
+  // Note: SWR provides fallbackData, so subscription is never null during initial load
   const isSubscribed = isLoading ? undefined : (subscription?.plan !== 'free' && subscription?.status === 'active');
   const isPremium = isLoading ? undefined : (subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly');
   const isFreeTier = isLoading ? undefined : !isSubscribed;
@@ -284,9 +297,9 @@ export function useSubscription(): UseSubscriptionReturn {
   }, []);
 
   return {
-    subscription,
+    subscription: subscription || null,
     isLoading,
-    error,
+    error: error || null,
     isSubscribed,
     isPremium,
     isFreeTier,

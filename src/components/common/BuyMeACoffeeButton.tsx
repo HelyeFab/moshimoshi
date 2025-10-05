@@ -84,7 +84,7 @@ export default function BuyMeACoffeeButton({ variant = 'inline', className = '' 
         <button
           onClick={() => setShowAmountSelector(!showAmountSelector)}
           disabled={isLoading}
-          className={`fixed bottom-4 right-4 z-40 flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white font-medium shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-full sm:rounded-xl ${className}`}
+          className={`fixed bottom-4 right-4 z-40 flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-full sm:rounded-xl ${className}`}
         >
           <Coffee className="w-5 h-5" />
           <span className="hidden sm:inline">{strings.dashboard?.buyMeACoffee || 'Buy me a coffee'}</span>
@@ -140,7 +140,7 @@ export default function BuyMeACoffeeButton({ variant = 'inline', className = '' 
                 <button
                   onClick={handleCustomAmount}
                   disabled={isLoading || !customAmount}
-                  className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Send
                 </button>

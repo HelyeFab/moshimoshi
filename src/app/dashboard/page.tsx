@@ -655,7 +655,7 @@ function DashboardContent() {
                         {learningStats.map((stat, index) => (
                           <motion.div
                             key={stat.label}
-                            className="bg-white/50 dark:bg-dark-700/50 backdrop-blur-sm rounded-xl p-3 shadow-md cursor-pointer"
+                            className="bg-white/50 dark:bg-dark-700/50 backdrop-blur-sm rounded-xl p-3 shadow-md cursor-pointer border-l-4 border-primary-500 dark:border-primary-400"
                             variants={{
                               hidden: {
                                 opacity: 0,
@@ -809,7 +809,7 @@ function DashboardContent() {
                     setSelectedStat(stat.label)
                     setIsStatModalOpen(true)
                   }}
-                  className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center"
+                  className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center border-l-4 border-primary-500 dark:border-primary-400"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className={`text-xl lg:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
