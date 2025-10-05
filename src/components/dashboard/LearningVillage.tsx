@@ -687,6 +687,21 @@ export default function LearningVillage() {
       lanternColor: '#9333ea',
       stallImage: getRandomStallImage(),
     },
+    {
+      id: 'blog',
+      title: strings.dashboard?.cards?.blog?.title || 'Blog',
+      subtitle: strings.dashboard?.cards?.blog?.subtitle || 'ブログ',
+      description: strings.dashboard?.cards?.blog?.description || 'Read articles and updates',
+      href: '/blog',
+      icon: '✍️',
+      stallType: 'scroll',
+      color: 'from-teal-400 to-cyan-600',
+      glow: 'shadow-teal-500/50',
+      doshiMood: 'happy' as const,
+      progress: 0,
+      lanternColor: '#14b8a6',
+      stallImage: getRandomStallImage(),
+    },
     // === PRODUCTIVITY ===
     {
       id: 'todos',
@@ -1070,6 +1085,7 @@ export default function LearningVillage() {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-4">
             <button
+              type="button"
               onClick={toggleEditMode}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${isEditMode
                 ? 'bg-primary-500 text-white shadow-lg'
@@ -1092,6 +1108,7 @@ export default function LearningVillage() {
             {isEditMode && (
               <>
                 <button
+                  type="button"
                   onClick={resetToDefault}
                   className="px-4 py-2 rounded-lg font-medium bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/30 transition-all"
                 >

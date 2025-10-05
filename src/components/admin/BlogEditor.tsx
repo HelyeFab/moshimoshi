@@ -195,8 +195,8 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-dark-850 rounded-lg p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white dark:bg-dark-850 rounded-lg p-4 sm:p-6 max-w-4xl w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -229,10 +229,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               value={markdownInput}
               onChange={(e) => setMarkdownInput(e.target.value)}
               placeholder="---&#10;title: Your Blog Title&#10;slug: your-blog-slug&#10;date: 2025-10-04&#10;tags:&#10;  - Tag1&#10;  - Tag2&#10;excerpt: Your excerpt here&#10;cover_image: /path/to/image.jpg&#10;seo:&#10;  title: SEO Title&#10;  description: SEO Description&#10;---&#10;&#10;# Your Content Here&#10;&#10;Write your blog post content..."
-              className="w-full h-96 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full h-64 sm:h-96 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 font-mono text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
             />
 
-            <div className="flex gap-3 justify-end mt-4">
+            <div className="flex flex-col-reverse sm:flex-row gap-3 justify-end mt-4">
               <button
                 type="button"
                 onClick={() => {
@@ -240,7 +240,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                   setMarkdownInput('');
                   setImportError('');
                 }}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                className="w-full sm:w-auto px-6 py-2.5 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
               >
                 Cancel
               </button>
@@ -248,7 +248,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 type="button"
                 onClick={handleImportMarkdown}
                 disabled={!markdownInput.trim()}
-                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-6 py-2.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
               >
                 Import
               </button>
@@ -262,18 +262,19 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
         <button
           type="button"
           onClick={() => setShowImportModal(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm font-medium"
         >
           <DocumentArrowDownIcon className="w-5 h-5" />
-          Import from Markdown
+          <span className="hidden sm:inline">Import from Markdown</span>
+          <span className="sm:hidden">Import</span>
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content - Left Column (2/3) */}
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 md:gap-6">
+        {/* Main Content - Takes more space on xl screens */}
+        <div className="xl:col-span-8 space-y-4 md:space-y-6">
           {/* Title */}
-          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
             <label htmlFor="title" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
               Title *
             </label>
@@ -284,18 +285,18 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               value={formData.title}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 text-base md:text-sm break-words"
               placeholder="Enter post title"
             />
           </div>
 
           {/* Slug */}
-          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
             <label htmlFor="slug" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
               URL Slug *
             </label>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500 dark:text-gray-400">/blog/</span>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base whitespace-nowrap">/blog/</span>
               <input
                 id="slug"
                 type="text"
@@ -303,14 +304,14 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 value={formData.slug}
                 onChange={handleChange}
                 required
-                className="flex-1 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="flex-1 min-w-0 px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 text-base md:text-sm break-all"
                 placeholder="url-friendly-slug"
               />
             </div>
           </div>
 
           {/* Rich Text Editor */}
-          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
             <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
               Content *
             </label>
@@ -318,12 +319,12 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               content={formData.content}
               onChange={handleContentChange}
               placeholder="Start writing your blog post..."
-              minHeight="500px"
+              minHeight="600px"
             />
           </div>
 
           {/* Excerpt */}
-          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
             <label htmlFor="excerpt" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
               Excerpt
             </label>
@@ -332,14 +333,14 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               name="excerpt"
               value={formData.excerpt}
               onChange={handleChange}
-              rows={3}
-              className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              rows={4}
+              className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 text-base md:text-sm resize-y"
               placeholder="Brief description for previews and SEO"
             />
           </div>
 
           {/* Cover Image */}
-          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
             <ImageUploader
               value={formData.cover}
               onChange={handleCoverChange}
@@ -349,10 +350,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
           </div>
         </div>
 
-        {/* Sidebar - Right Column (1/3) */}
-        <div className="space-y-6">
+        {/* Sidebar - Takes less space on xl screens */}
+        <div className="xl:col-span-4 space-y-4 md:space-y-6">
           {/* Publishing */}
-          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
             <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">
               Publishing
             </h3>
@@ -368,7 +369,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 name="author"
                 value={formData.author}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="Moshimoshi Team"
               />
             </div>
@@ -383,7 +384,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
@@ -402,7 +403,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 name="publishDate"
                 value={formData.publishDate}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
 
@@ -417,13 +418,13 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 name="publishTime"
                 value={formData.publishTime}
                 onChange={handleChange}
-                className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
           </div>
 
           {/* Tags */}
-          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
             <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">
               {t('admin.blog.sections.tags') || 'Tags'}
             </h3>
@@ -436,12 +437,12 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
                   placeholder="Add a tag"
-                  className="flex-1 min-w-0 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="flex-1 min-w-0 px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
                 <button
                   type="button"
                   onClick={handleAddTag}
-                  className="flex-shrink-0 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-sm font-medium"
+                  className="flex-shrink-0 px-3 sm:px-4 py-2.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-sm font-medium whitespace-nowrap"
                 >
                   Add
                 </button>
@@ -470,7 +471,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
           </div>
 
           {/* SEO */}
-          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
             <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">
               {t('admin.blog.sections.seo') || 'SEO'}
             </h3>
@@ -486,7 +487,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                   name="seoTitle"
                   value={formData.seoTitle}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                   placeholder="Leave empty to use post title"
                 />
               </div>
@@ -500,8 +501,8 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                   name="seoDescription"
                   value={formData.seoDescription}
                   onChange={handleChange}
-                  rows={3}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  rows={4}
+                  className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 resize-y"
                   placeholder="Leave empty to use excerpt"
                 />
               </div>
@@ -511,19 +512,19 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row justify-end gap-3 pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-gray-50 dark:bg-dark-900 pb-4 -mx-2 sm:-mx-4 lg:-mx-6 px-2 sm:px-4 lg:px-6">
         <button
           type="button"
           onClick={onCancel}
           disabled={saving}
-          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
+          className="w-full sm:w-auto px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50 font-medium"
         >
           {t('common.cancel') || 'Cancel'}
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
+          className="w-full sm:w-auto px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 font-medium"
         >
           {saving ? (t('common.saving') || 'Saving...') : (post ? (t('admin.blog.buttons.update') || 'Update Post') : (t('admin.blog.buttons.create') || 'Create Post'))}
         </button>

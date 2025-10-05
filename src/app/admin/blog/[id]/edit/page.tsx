@@ -80,8 +80,8 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-dark-900 py-8">
-        <div className="max-w-7xl mx-auto px-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-900 py-4 sm:py-8">
+        <div className="max-w-[1600px] mx-auto px-2 sm:px-4 lg:px-6">
           <div className="flex justify-center items-center min-h-[400px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
           </div>
@@ -95,13 +95,13 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-900 py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-900 py-4 sm:py-8">
+      <div className="max-w-[1600px] mx-auto px-2 sm:px-4 lg:px-6">
+        <div className="mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white break-words">
             {t('admin.blog.buttons.edit')}
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1">
             {t('admin.blog.description')}
           </p>
         </div>
