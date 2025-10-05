@@ -16,11 +16,11 @@ export const GET = withAdminAuth(async (
     // Extract uid from URL path
     const url = new URL(request.url);
     const pathParts = url.pathname.split('/');
-    const uid = pathParts[pathParts.length - 2]; // /api/admin/users/[uid]/data
+    const uidOrEmail = pathParts[pathParts.length - 2]; // /api/admin/users/[uid]/data
 
-    if (!uid) {
+    if (!uidOrEmail) {
       return NextResponse.json(
-        { error: 'User ID is required' },
+        { error: 'User ID or email is required' },
         { status: 400 }
       );
     }
@@ -30,6 +30,34 @@ export const GET = withAdminAuth(async (
         { error: 'Firebase Admin not initialized' },
         { status: 500 }
       );
+    }
+
+    // Check if input is an email or UID
+    let uid = uidOrEmail;
+    if (uidOrEmail.includes('@')) {
+      // It's an email, need to look up the UID
+      try {
+        const usersSnapshot = await adminDb
+          .collection('users')
+          .where('email', '==', uidOrEmail)
+          .limit(1)
+          .get();
+
+        if (usersSnapshot.empty) {
+          return NextResponse.json(
+            { error: `User not found with email: ${uidOrEmail}` },
+            { status: 404 }
+          );
+        }
+
+        uid = usersSnapshot.docs[0].id;
+      } catch (error) {
+        console.error('Error looking up user by email:', error);
+        return NextResponse.json(
+          { error: 'Failed to lookup user by email' },
+          { status: 500 }
+        );
+      }
     }
 
     const userData: any = {
@@ -45,7 +73,7 @@ export const GET = withAdminAuth(async (
         userData.users = userDoc.data();
       } else {
         return NextResponse.json(
-          { error: 'User not found' },
+          { error: `User not found with UID: ${uid}` },
           { status: 404 }
         );
       }

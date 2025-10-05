@@ -2264,6 +2264,7 @@ export const strings = {
     resetConfirm: "Sei sicuro di voler ripristinare tutte le impostazioni ai valori predefiniti?",
     saveSuccess: "Impostazioni salvate con successo!",
     resetSuccess: "Impostazioni ripristinate ai valori predefiniti",
+    reviewNotifications: "Notifiche di Ripasso",
 
     sections: {
       appearance: {
