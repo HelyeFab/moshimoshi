@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useI18n } from '@/i18n/I18nContext';
+import { useAuth } from '@/hooks/useAuth';
+import { auth } from '@/lib/firebase/client';
 
 interface UserData {
   userId: string;
@@ -31,6 +33,7 @@ interface UserData {
 
 export default function UserLookupPage() {
   const { strings } = useI18n();
+  const { user } = useAuth();
   const [searchInput, setSearchInput] = useState('');
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -44,13 +47,26 @@ export default function UserLookupPage() {
       return;
     }
 
+    if (!user) {
+      setError('You must be logged in to search user data');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setUserData(null);
 
     try {
+      // Get Firebase ID token for authentication
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        throw new Error('Authentication token not available');
+      }
+
       const response = await fetch(`/api/admin/users/${encodeURIComponent(searchInput.trim())}/data`, {
-        credentials: 'include'
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (!response.ok) {
