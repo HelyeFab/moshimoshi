@@ -380,22 +380,22 @@ function AccountPageContent() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {strings.account.profileFields.emailAddress}
                 </label>
-                <div className="relative">
+                <div className="space-y-2">
                   <input
                     type="email"
                     value={user?.email || ''}
                     disabled
-                    className="w-full px-4 py-2 pr-20 bg-gray-100 dark:bg-dark-900/50 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 cursor-not-allowed"
+                    className="w-full px-4 py-2 bg-gray-100 dark:bg-dark-900/50 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 cursor-not-allowed"
                   />
                   {user?.emailVerified ? (
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-green-600 dark:text-green-400 text-sm font-medium">
+                    <div className="flex items-center gap-1 text-green-600 dark:text-green-400 text-sm font-medium">
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       {strings.account.profileFields.verified}
-                    </span>
+                    </div>
                   ) : (
-                    <button className="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600 transition-colors">
+                    <button className="px-3 py-1 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600 transition-colors">
                       {strings.account.profileFields.verify}
                     </button>
                   )}
@@ -413,34 +413,6 @@ function AccountPageContent() {
               </LoadingButton>
             </div>
           </Section>
-
-          {/* Account Stats (Hidden for Guests) */}
-          {!user?.isGuest && user?.tier !== 'guest' && (
-            <Section
-              variant="glass"
-              title={strings.account.sections.accountStatistics}
-            >
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">127</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.daysActive}</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-green-600 dark:text-green-400">456</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.wordsLearned}</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">89</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.achievements}</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">23</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.dayStreak}</div>
-              </div>
-            </div>
-          </Section>
-          )}
 
           {/* Subscription Section */}
           <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-6">

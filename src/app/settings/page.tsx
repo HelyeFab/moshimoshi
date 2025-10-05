@@ -465,51 +465,6 @@ export default function SettingsPage() {
             </div>
           </CollapsibleSection>
 
-          {/* Learning Preferences */}
-          <CollapsibleSection
-            title={strings.settings?.sections?.learning?.title || 'Learning Preferences'}
-            icon="📚"
-            defaultOpen={false}
-          >
-            <div>
-              <SettingToggle
-                label={strings.settings?.sections?.learning?.autoplay?.label || "Auto-play Audio"}
-                description={strings.settings?.sections?.learning?.autoplay?.description || "Automatically play pronunciation when viewing words"}
-                enabled={learning.autoplay}
-                onChange={(value) => setLearning({ ...learning, autoplay: value })}
-                icon="🔊"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.learning?.furigana?.label || "Show Furigana"}
-                description={strings.settings?.sections?.learning?.furigana?.description || "Display reading hints above kanji characters"}
-                enabled={learning.furigana}
-                onChange={(value) => setLearning({ ...learning, furigana: value })}
-                icon="🈷️"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.learning?.romaji?.label || "Show Romaji"}
-                description={strings.settings?.sections?.learning?.romaji?.description || "Display romanized Japanese text"}
-                enabled={learning.romaji}
-                onChange={(value) => setLearning({ ...learning, romaji: value })}
-                icon="🔤"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.learning?.soundEffects?.label || "Sound Effects"}
-                description={strings.settings?.sections?.learning?.soundEffects?.description || "Play sounds for correct/incorrect answers"}
-                enabled={learning.soundEffects}
-                onChange={(value) => setLearning({ ...learning, soundEffects: value })}
-                icon="🎵"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.learning?.hapticFeedback?.label || "Haptic Feedback"}
-                description={strings.settings?.sections?.learning?.hapticFeedback?.description || "Vibration feedback on mobile devices"}
-                enabled={learning.hapticFeedback}
-                onChange={(value) => setLearning({ ...learning, hapticFeedback: value })}
-                icon="📳"
-              />
-            </div>
-          </CollapsibleSection>
-
           {/* Notifications */}
           <CollapsibleSection
             title={strings.settings?.sections?.notifications?.title || 'Notifications'}

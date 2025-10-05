@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAdminAuth } from '@/lib/admin/adminAuth';
-import { adminFirestore } from '@/lib/firebase/admin';
+import { adminDb } from '@/lib/firebase/admin';
 import { formatAllTimestamps } from '@/lib/utils/date-formatters';
 
 /**
@@ -22,7 +22,7 @@ export const GET = withAdminAuth(async (
       );
     }
 
-    if (!adminFirestore) {
+    if (!adminDb) {
       return NextResponse.json(
         { error: 'Firebase Admin not initialized' },
         { status: 500 }
@@ -37,7 +37,7 @@ export const GET = withAdminAuth(async (
 
     // 1. Main user document
     try {
-      const userDoc = await adminFirestore.collection('users').doc(uid).get();
+      const userDoc = await adminDb.collection('users').doc(uid).get();
       if (userDoc.exists) {
         userData.users = userDoc.data();
       } else {
@@ -55,7 +55,7 @@ export const GET = withAdminAuth(async (
 
     // 2. User stats (unified)
     try {
-      const userStatsDoc = await adminFirestore.collection('user_stats').doc(uid).get();
+      const userStatsDoc = await adminDb.collection('user_stats').doc(uid).get();
       userData.user_stats = userStatsDoc.exists ? userStatsDoc.data() : null;
     } catch (error) {
       console.error('Error fetching user_stats:', error);
@@ -64,7 +64,7 @@ export const GET = withAdminAuth(async (
 
     // 3. Leaderboard stats
     try {
-      const leaderboardDoc = await adminFirestore.collection('leaderboard_stats').doc(uid).get();
+      const leaderboardDoc = await adminDb.collection('leaderboard_stats').doc(uid).get();
       userData.leaderboard_stats = leaderboardDoc.exists ? leaderboardDoc.data() : null;
     } catch (error) {
       console.error('Error fetching leaderboard_stats:', error);
@@ -73,7 +73,7 @@ export const GET = withAdminAuth(async (
 
     // 4. Usage data
     try {
-      const usageDoc = await adminFirestore.collection('usage').doc(uid).get();
+      const usageDoc = await adminDb.collection('usage').doc(uid).get();
       userData.usage = usageDoc.exists ? usageDoc.data() : null;
     } catch (error) {
       console.error('Error fetching usage:', error);
@@ -82,7 +82,7 @@ export const GET = withAdminAuth(async (
 
     // 5. Drill sessions
     try {
-      const drillSnapshot = await adminFirestore
+      const drillSnapshot = await adminDb
         .collection('drill_sessions_by_userId')
         .where('userId', '==', uid)
         .orderBy('timestamp', 'desc')
@@ -102,7 +102,7 @@ export const GET = withAdminAuth(async (
 
     // 6. Review sessions
     try {
-      const reviewSnapshot = await adminFirestore
+      const reviewSnapshot = await adminDb
         .collection('users')
         .doc(uid)
         .collection('review_sessions')
@@ -136,7 +136,7 @@ export const GET = withAdminAuth(async (
 
     for (const collectionName of subcollections) {
       try {
-        const snapshot = await adminFirestore
+        const snapshot = await adminDb
           .collection('users')
           .doc(uid)
           .collection(collectionName)
@@ -157,7 +157,7 @@ export const GET = withAdminAuth(async (
 
     // 8. Recent activity
     try {
-      const activitySnapshot = await adminFirestore
+      const activitySnapshot = await adminDb
         .collection('userActivity')
         .where('userId', '==', uid)
         .orderBy('timestamp', 'desc')
@@ -175,7 +175,7 @@ export const GET = withAdminAuth(async (
 
     // 9. Entitlement decisions
     try {
-      const decisionsSnapshot = await adminFirestore
+      const decisionsSnapshot = await adminDb
         .collection('logs')
         .doc('entitlements')
         .collection('entries')
