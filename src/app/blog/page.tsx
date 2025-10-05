@@ -17,6 +17,7 @@ function BlogContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [pagination, setPagination] = useState<PaginatedBlogResponse['pagination'] | null>(null);
+  const [showCategories, setShowCategories] = useState(false);
 
   useEffect(() => {
     const pageParam = searchParams.get('page');
@@ -98,75 +99,8 @@ function BlogContent() {
       ? posts
       : posts.filter((post) => post.tags?.includes(selectedCategory));
 
-  // Smart featured post selection algorithm
-  const getFeaturedPost = (posts: BlogPost[]): BlogPost | null => {
-    if (posts.length === 0) return null;
-
-    // Calculate a "featured score" for each post
-    const scoredPosts = posts.map((post) => {
-      let score = 0;
-
-      // Recency factor (newer posts get higher scores)
-      const publishDate = new Date(post.publishDate || Date.now());
-      const daysSincePublish =
-        (Date.now() - publishDate.getTime()) / (1000 * 60 * 60 * 24);
-      const recencyScore = Math.max(0, 100 - daysSincePublish * 2); // Decreases over time
-      score += recencyScore * 0.3; // 30% weight
-
-      // View count factor (if available)
-      if (post.views && post.views > 0) {
-        const viewScore = Math.min(100, post.views / 10); // Cap at 100, 1 point per 10 views
-        score += viewScore * 0.4; // 40% weight
-      }
-
-      // Content quality indicators
-      if (post.excerpt && post.excerpt.length > 100) score += 15; // Good excerpt
-      if (post.cover) score += 10; // Has cover image
-      if (post.tags && post.tags.length >= 2) score += 10; // Well-tagged
-      if (post.readingTime) score += 5; // Has reading time
-
-      // Content length factor (longer posts often indicate more comprehensive content)
-      if (post.content) {
-        const contentLength = post.content.length;
-        if (contentLength > 2000) score += 15; // Comprehensive content
-        else if (contentLength > 1000) score += 10; // Good length
-        else if (contentLength > 500) score += 5; // Decent length
-      }
-
-      // Title quality (avoid very short or very long titles)
-      if (post.title) {
-        const titleLength = post.title.length;
-        if (titleLength >= 30 && titleLength <= 80) score += 10; // Optimal title length
-      }
-
-      // Boost for posts with certain high-value tags
-      const highValueTags = [
-        "tutorial",
-        "guide",
-        "beginner",
-        "advanced",
-        "tips",
-        "culture",
-        "grammar",
-      ];
-      if (post.tags) {
-        const hasHighValueTag = post.tags.some((tag) =>
-          highValueTags.some((hvTag) =>
-            tag.toLowerCase().includes(hvTag.toLowerCase())
-          )
-        );
-        if (hasHighValueTag) score += 20;
-      }
-
-      return { ...post, featuredScore: score };
-    });
-
-    // Sort by score and return the highest scoring post
-    scoredPosts.sort((a, b) => b.featuredScore - a.featuredScore);
-    return scoredPosts[0];
-  };
-
-  const featuredPost = getFeaturedPost(posts);
+  // Get featured post - simple and clear!
+  const featuredPost = posts.find(post => post.isFeatured) || null;
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -262,46 +196,65 @@ function BlogContent() {
           </div>
         ) : (
           <>
-            {/* Category Filter - Enhanced */}
+            {/* Category Filter - Enhanced with Collapse */}
             {categories.length > 1 && (
               <div className="mb-16">
                 <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                    Explore Topics
-                  </h2>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <button
+                    type="button"
+                    onClick={() => setShowCategories(!showCategories)}
+                    className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors group"
+                  >
+                    <span>Explore Topics</span>
+                    <svg
+                      className={`w-6 h-6 transition-transform duration-300 ${showCategories ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <p className="text-gray-600 dark:text-gray-400 mt-2">
                     Filter by your interests
                   </p>
                 </div>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {categories.map((category, idx) => {
-                    const categoryCount = category === "all"
-                      ? posts.length
-                      : posts.filter(p => p.tags?.includes(category)).length;
 
-                    return (
-                      <button
-                        key={category}
-                        onClick={() => setSelectedCategory(category)}
-                        className={`group px-6 py-3 rounded-full font-medium transition-all relative overflow-hidden ${
-                          selectedCategory === category
-                            ? "bg-gradient-to-r from-primary-500 to-japanese-sakura text-white shadow-lg scale-105"
-                            : "bg-white/80 dark:bg-surface-dark/80 text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-500"
-                        }`}
-                      >
-                        <span className="relative z-10 flex items-center gap-2">
-                          {category === "all" ? "🌟 All Posts" : `#${category}`}
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${
+                {/* Collapsible Categories */}
+                <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                  showCategories ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                }`}>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {categories.map((category, idx) => {
+                      const categoryCount = category === "all"
+                        ? posts.length
+                        : posts.filter(p => p.tags?.includes(category)).length;
+
+                      return (
+                        <button
+                          type="button"
+                          key={category}
+                          onClick={() => setSelectedCategory(category)}
+                          className={`group px-6 py-3 rounded-full font-medium transition-all relative overflow-hidden ${
                             selectedCategory === category
-                              ? "bg-white/20"
-                              : "bg-gray-200 dark:bg-gray-700"
-                          }`}>
-                            {categoryCount}
+                              ? "bg-gradient-to-r from-primary-500 to-japanese-sakura text-white shadow-lg scale-105"
+                              : "bg-white/80 dark:bg-surface-dark/80 text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-500"
+                          }`}
+                        >
+                          <span className="relative z-10 flex items-center gap-2">
+                            {category === "all" ? "🌟 All Posts" : `#${category}`}
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${
+                              selectedCategory === category
+                                ? "bg-white/20"
+                                : "bg-gray-200 dark:bg-gray-700"
+                            }`}>
+                              {categoryCount}
+                            </span>
                           </span>
-                        </span>
-                      </button>
-                    );
-                  })}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
@@ -636,6 +589,32 @@ function BlogContent() {
               </p>
               <NewsletterForm source="blog" />
             </div>
+
+            {/* Footer - Contact Section */}
+            <footer className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="text-center sm:text-left">
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Have questions or feedback?
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                    We'd love to hear from you
+                  </p>
+                </div>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-japanese-sakura text-white rounded-full hover:from-primary-600 hover:to-japanese-sakuraDark transition-all font-medium shadow-lg hover:shadow-xl hover:scale-105"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span>Get in Touch</span>
+                </Link>
+              </div>
+              <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
+                <p>© {new Date().getFullYear()} Moshimoshi. All rights reserved.</p>
+              </div>
+            </footer>
           </>
         )}
       </div>

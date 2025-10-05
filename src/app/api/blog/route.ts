@@ -121,6 +121,7 @@ export async function POST(request: NextRequest) {
     if (body.seoDescription) blogPost.seoDescription = body.seoDescription
     if (body.ogImage) blogPost.ogImage = body.ogImage
     if (body.canonical) blogPost.canonical = body.canonical
+    if (body.isFeatured !== undefined) blogPost.isFeatured = body.isFeatured
 
     // Save to Firestore
     await adminDb
@@ -242,6 +243,7 @@ export async function PATCH(request: NextRequest) {
     if (updates.seoDescription !== undefined) updatedData.seoDescription = updates.seoDescription
     if (updates.ogImage !== undefined) updatedData.ogImage = updates.ogImage
     if (updates.canonical !== undefined) updatedData.canonical = updates.canonical
+    if (updates.isFeatured !== undefined) updatedData.isFeatured = updates.isFeatured
 
     await postRef.update(updatedData)
 

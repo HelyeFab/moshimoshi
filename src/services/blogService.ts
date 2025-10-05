@@ -20,6 +20,7 @@ export interface BlogPost {
   canonical?: string;
   readingTime?: string;
   views?: number;
+  isFeatured?: boolean;
 }
 
 

@@ -113,6 +113,7 @@ export default function BlogPostPage() {
             you back to our collection.
           </p>
           <button
+            type="button"
             onClick={() => router.push("/blog")}
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-japanese-sakura text-white rounded-full hover:from-primary-600 hover:to-japanese-sakuraDark transition-all font-medium shadow-lg hover:shadow-xl hover:scale-105"
           >
@@ -217,6 +218,23 @@ export default function BlogPostPage() {
       <Navbar showUserMenu={true} />
 
       <article className="max-w-4xl mx-auto px-4 py-8 sm:py-12 relative z-10">
+        {/* Back Button */}
+        <button
+          type="button"
+          onClick={() => router.push("/blog")}
+          className="group inline-flex items-center gap-2 mb-6 sm:mb-8 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        >
+          <svg
+            className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:-translate-x-1 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="font-medium">Back to Blog</span>
+        </button>
+
         {/* Cover Image */}
         {post.cover && (
           <div className="mb-8 sm:mb-12 rounded-2xl overflow-hidden shadow-2xl">
@@ -343,6 +361,7 @@ export default function BlogPostPage() {
         {/* Footer */}
         <footer className="pt-8 border-t border-gray-200 dark:border-gray-700 mt-12">
           <button
+            type="button"
             onClick={() => router.push("/blog")}
             className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-surface-dark text-gray-900 dark:text-gray-100 rounded-xl shadow-md hover:shadow-lg border-2 border-transparent hover:border-primary-400 dark:hover:border-primary-500 transition-all font-medium"
           >
