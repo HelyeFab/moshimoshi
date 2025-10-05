@@ -220,8 +220,8 @@ const KanaGrid = memo(function KanaGrid({
             </div>
 
             {/* Characters in this row - centered grid with 5 columns */}
-            <div className="px-6 pb-6 pt-4 flex justify-center">
-              <div className="grid grid-cols-5 gap-2 w-fit">
+            <div className="pb-6 pt-4">
+              <div className="grid grid-cols-5 gap-3 sm:gap-2 w-full">
                 {rowChars.map((char, index) => {
                   const isSelected = selectedCharacters.some(c => c.id === char.id)
                   const borderStyle = 'border-2 border-gray-200 dark:border-dark-700'

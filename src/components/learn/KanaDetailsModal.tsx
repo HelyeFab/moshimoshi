@@ -72,9 +72,9 @@ export default function KanaDetailsModal({
         size="lg"
         showCloseButton={true}
       >
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Large Kana Display */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <motion.div
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -82,15 +82,15 @@ export default function KanaDetailsModal({
               className="inline-block"
             >
               <div
-                className="text-8xl sm:text-9xl font-bold text-gray-900 dark:text-gray-100 mb-4 font-japanese"
+                className="text-7xl sm:text-8xl md:text-9xl font-bold text-gray-900 dark:text-gray-100 mb-4 font-japanese"
               >
                 {currentChar}
               </div>
             </motion.div>
 
             {/* Alternate Script and Stroke Count */}
-            <div className="flex items-center justify-center gap-3">
-              <span className="px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+              <span className="px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm sm:text-base">
                 {alternateChar}
               </span>
               {loadingStrokes ? (
@@ -100,9 +100,9 @@ export default function KanaDetailsModal({
               ) : strokeCount !== null ? (
                 <button
                   onClick={() => setShowStrokeOrder(true)}
-                  className="px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors flex items-center gap-2"
+                  className="px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base whitespace-nowrap"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
                     />
@@ -115,10 +115,10 @@ export default function KanaDetailsModal({
               ) : null}
               <button
                 onClick={() => setShowDrawingPractice(true)}
-                className="px-3 py-1.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+                className="px-3 py-1.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base whitespace-nowrap"
                 title="Practice drawing"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                   />
@@ -127,10 +127,10 @@ export default function KanaDetailsModal({
               </button>
               <button
                 onClick={handlePlayAudio}
-                className="px-3 py-1.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2"
+                className="px-3 py-1.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base whitespace-nowrap"
                 title="Play audio"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
                   />
@@ -141,24 +141,24 @@ export default function KanaDetailsModal({
           </div>
 
           {/* Character Information */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Romaji */}
             <div>
               <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                 Romaji
               </h3>
-              <div className="text-xl font-medium text-gray-900 dark:text-gray-100">
+              <div className="text-lg sm:text-xl font-medium text-gray-900 dark:text-gray-100">
                 {character.romaji}
               </div>
             </div>
 
             {/* Type Information */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Type
                 </h3>
-                <div className="px-3 py-1 inline-block bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-lg">
+                <div className="px-3 py-1.5 inline-block bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-lg text-sm">
                   {character.type === 'vowel' && 'Vowel'}
                   {character.type === 'consonant' && 'Consonant'}
                   {character.type === 'dakuten' && 'Dakuten'}
@@ -170,7 +170,7 @@ export default function KanaDetailsModal({
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Position
                 </h3>
-                <div className="text-base text-gray-700 dark:text-gray-300">
+                <div className="text-sm text-gray-700 dark:text-gray-300">
                   {character.row} row ({character.column} column)
                 </div>
               </div>
@@ -196,7 +196,7 @@ export default function KanaDetailsModal({
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Mnemonic Helper
                 </h3>
-                <div className="text-base text-gray-700 dark:text-gray-300">
+                <div className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   {character.mnemonicWord}
                 </div>
               </div>
