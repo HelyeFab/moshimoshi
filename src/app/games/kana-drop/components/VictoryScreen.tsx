@@ -31,13 +31,15 @@ export default function VictoryScreen({ stats, onPlayAgain, onSelectNewKana, onC
       animate={{ opacity: 1, scale: 1 }}
       className="fixed inset-0 flex items-center justify-center z-50 bg-background/80 backdrop-blur-sm"
     >
-      <Confetti
-        width={windowSize.width}
-        height={windowSize.height}
-        recycle={false}
-        numberOfPieces={200}
-        gravity={0.2}
-      />
+      <div className="fixed inset-0 pointer-events-none z-[9999]">
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          recycle={false}
+          numberOfPieces={200}
+          gravity={0.2}
+        />
+      </div>
 
       <motion.div
         initial={{ y: 50 }}

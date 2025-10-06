@@ -120,11 +120,11 @@ export async function POST(
       const bucketKey = getTodayBucket(nowUtcISO);
       
       const usageRef = adminDb!
-        .collection('usage')
+        .collection('users')
         .doc(userId)
-        .collection('daily')
+        .collection('usage')
         .doc(bucketKey);
-      
+
       const usageDoc = await transaction.get(usageRef);
       const usageData = usageDoc.exists 
         ? (usageDoc.data() as UsageBucket)
@@ -275,12 +275,12 @@ export async function GET(
     const bucketKey = getTodayBucket(nowUtcISO);
     
     const usageDoc = await adminDb!
-      .collection('usage')
+      .collection('users')
       .doc(userId)
-      .collection('daily')
+      .collection('usage')
       .doc(bucketKey)
       .get();
-    
+
     const usageData = usageDoc.exists 
       ? (usageDoc.data() as UsageBucket)
       : { userId, date: bucketKey, counts: {}, updatedAt: nowUtcISO };

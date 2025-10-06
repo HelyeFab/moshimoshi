@@ -308,6 +308,132 @@ export const strings = {
       modeTitle: "Mode développeur",
       authTestLink: "→ Page de test d'authentification",
     },
+    statModals: {
+      close: "Compris !",
+      formulaLabel: "Formule",
+      breakdownLabel: "Détails",
+      streak: {
+        title: "Série Quotidienne",
+        description: "Votre série montre combien de jours consécutifs vous avez pratiqué le japonais avec un engagement significatif.",
+        formula: "Jours consécutifs avec ≥10 XP gagnés",
+        whatItMeans: "Chaque jour où vous gagnez au moins 10 XP (en complétant 1+ réponses correctes dans un exercice), votre série augmente de 1. Plusieurs sessions le même jour n'augmentent pas davantage votre série.",
+        howToImprove: "Pratiquez tous les jours ! Même une courte session de 5 minutes compte. Définissez un rappel quotidien et faites de la pratique du japonais une partie de votre routine.",
+        breakdown: {
+          current: "Série actuelle",
+          longest: "Série la plus longue (tous temps)",
+          lastActive: "Dernière activité",
+          minXP: "XP minimum nécessaire par jour"
+        },
+        goalNote: "Construisez une série de 7 jours pour développer une forte habitude d'apprentissage !"
+      },
+      xpEarned: {
+        title: "XP Gagnés",
+        description: "Les Points d'Expérience (XP) mesurent votre activité d'apprentissage et vos réalisations. Les XP sont gagnés grâce aux sessions de pratique avec des bonus de précision et de vitesse.",
+        formula: "XP de base + Bonus de Précision + Bonus de Vitesse + Bonus de Série",
+        whatItMeans: "Chaque réponse correcte rapporte des XP de base (10 points). Une haute précision (≥90%) et des réponses rapides peuvent doubler vos XP grâce aux bonus !",
+        howToImprove: "Concentrez-vous d'abord sur la précision, puis sur la vitesse ! Complétez des sessions d'exercices complètes, maintenez une haute précision et construisez des séries pour maximiser les XP.",
+        breakdown: {
+          total: "Total XP gagnés",
+          currentLevel: "Niveau actuel",
+          nextLevel: "XP jusqu'au prochain niveau",
+          dailyCap: "Plafond XP quotidien"
+        },
+        bonuses: {
+          accuracy: "Bonus de précision (≥90%) : 2x XP",
+          speed: "Bonus de vitesse (<2s moy) : +10 XP",
+          streak: "Bonus de série (≥5) : +3 XP par élément"
+        },
+        goalNote: "Les XP quotidiens sont plafonnés à 500 pour encourager une pratique équilibrée et durable."
+      },
+      achievementProgress: {
+        title: "Progression des Succès",
+        description: "Suivez votre parcours en débloquant des succès au fur et à mesure que vous apprenez et pratiquez le japonais.",
+        formula: "(Débloqués / Total) × 100",
+        whatItMeans: "Ce pourcentage montre combien de succès vous avez gagnés sur le total disponible.",
+        howToImprove: "Complétez des exercices, maintenez des séries quotidiennes et pratiquez régulièrement pour débloquer plus de succès.",
+        breakdown: {
+          unlocked: "Succès débloqués",
+          total: "Total disponible",
+          completion: "Taux de complétion"
+        }
+      },
+      achievements: {
+        title: "Succès Débloqués",
+        description: "Les succès sont des récompenses pour avoir atteint des jalons dans votre parcours d'apprentissage. Chaque succès représente une réalisation spécifique.",
+        formula: "Nombre de succès débloqués",
+        whatItMeans: "Le nombre total de succès que vous avez gagnés grâce à votre pratique et votre dévouement.",
+        howToImprove: "Continuez à pratiquer ! Complétez des exercices, maintenez des séries, atteignez des objectifs de précision et pratiquez à différents moments pour débloquer les 10 succès.",
+        breakdown: {
+          unlocked: "Actuellement débloqués",
+          available: "Total disponible",
+          earnMore: "Comment en gagner plus"
+        },
+        tips: "Essayez Lève-tôt (pratiquez avant 6h du matin) ou Noctambule (pratiquez après 22h) pour des succès faciles !"
+      },
+      drillsCompleted: {
+        title: "Exercices Complétés",
+        description: "Chaque session d'exercice que vous complétez aide à développer vos compétences de conjugaison japonaise. La qualité compte plus que la quantité !",
+        formula: "Total des sessions d'exercices terminées",
+        whatItMeans: "Le nombre de sessions d'exercices complètes que vous avez terminées, quel que soit le score.",
+        howToImprove: "Pratiquez régulièrement ! Chaque session compte pour votre total et aide à construire la mémoire musculaire des conjugaisons.",
+        breakdown: {
+          total: "Total des exercices",
+          perfect: "Exercices parfaits (100%)",
+          types: "Types de pratique"
+        }
+      },
+      drillAccuracy: {
+        title: "Précision des Exercices",
+        description: "Votre précision reflète à quel point vous comprenez les conjugaisons verbales japonaises dans toutes vos sessions de pratique.",
+        formula: "(Réponses correctes / Total des réponses) × 100",
+        whatItMeans: "Le pourcentage de questions auxquelles vous avez répondu correctement dans TOUS les exercices. Il est calculé de manière cumulative, donc les améliorations récentes augmenteront progressivement votre score global.",
+        example: "Exemple : Si vous avez eu 12 réponses correctes sur 15 au total, votre précision est de 80%.",
+        howToImprove: "Concentrez-vous sur la compréhension des modèles ! Révisez les règles de conjugaison, prenez votre temps avec chaque question et pratiquez de manière cohérente.",
+        breakdown: {
+          current: "Précision actuelle",
+          total: "Total des exercices complétés",
+          goal: "Objectif de précision"
+        },
+        goalNote: "Visez 80% ou plus pour montrer une compréhension solide !"
+      },
+      drillMastery: {
+        title: "Score de Maîtrise des Exercices",
+        description: "La maîtrise est un score de qualité complet (0-100) qui mesure non seulement combien vous pratiquez, mais à quel point vous pratiquez bien.",
+        formula: "Calcul pondéré à 4 facteurs",
+        whatItMeans: "Ce score combine le volume, la précision, la cohérence et le ratio d'exercices parfaits pour vous donner une image complète de votre niveau de maîtrise.",
+        factors: "Les quatre facteurs",
+        howToImprove: "L'équilibre est la clé ! Pratiquez régulièrement (volume), concentrez-vous sur la précision, visez des sessions parfaites et maintenez la cohérence.",
+        breakdown: {
+          volume: "Volume (max 30 pts)",
+          volumeDetail: "Basé sur le total des exercices complétés",
+          accuracy: "Précision (max 40 pts)",
+          accuracyDetail: "Basé sur votre % correct",
+          perfectRatio: "Ratio Parfait (20 pts)",
+          perfectDetail: "Sessions 100% précises",
+          consistency: "Cohérence (10 pts)",
+          consistencyDetail: "Modèle de pratique régulier",
+          total: "Score de Maîtrise Total"
+        },
+        masterLevels: {
+          beginner: "0-30 : Débutant - Continuez à pratiquer !",
+          developing: "31-60 : En développement - Vous progressez !",
+          proficient: "61-80 : Compétent - Excellent travail !",
+          expert: "81-100 : Expert - Exceptionnel !"
+        }
+      },
+      learningProgress: {
+        title: "Progression d'Apprentissage",
+        description: "Votre progression globale dans toutes les catégories d'apprentissage (exercices, kana, kanji, vocabulaire).",
+        formula: "(Éléments maîtrisés / Éléments commencés) × 100",
+        whatItMeans: "Cela montre la qualité de votre apprentissage, pas seulement la quantité. Seuls les éléments que vous avez réellement pratiqués comptent pour votre progression.",
+        howToImprove: "Maîtrisez ce que vous avez commencé ! Concentrez-vous sur l'achèvement des éléments incomplets avant d'en commencer de nouveaux.",
+        breakdown: {
+          percentage: "Progression globale",
+          categoriesStarted: "Catégories actives",
+          itemsMastered: "Éléments maîtrisés"
+        }
+      }
+    }
   },
 
   // Auth Pages
@@ -607,6 +733,11 @@ export const strings = {
       verified: "Vérifié",
       verify: "Vérifier",
     },
+    validation: {
+      displayNameRequired: "Le nom d'affichage ne peut pas être vide",
+      displayNameTooLong: "Le nom d'affichage doit contenir 50 caractères ou moins",
+      displayNameInvalid: "Le nom d'affichage contient des caractères non valides",
+    },
     buttons: {
       saveChanges: "Enregistrer les modifications",
       updating: "Mise à jour...",
@@ -904,6 +1035,36 @@ export const strings = {
         title: "Cartes mémoire",
         subtitle: "カード",
         description: "Sessions de révision rapide"
+      },
+      drill: {
+        title: "Exercices",
+        subtitle: "ドリル",
+        description: "Exercices rapides"
+      },
+      youtubeSeries: {
+        title: "Séries YouTube",
+        subtitle: "シリーズ",
+        description: "Suivre les chaînes YouTube"
+      },
+      blog: {
+        title: "Blog",
+        subtitle: "ブログ",
+        description: "Lire des articles et mises à jour"
+      },
+      resources: {
+        title: "Ressources",
+        subtitle: "リソース",
+        description: "Ressources d'apprentissage"
+      },
+      achievements: {
+        title: "Réalisations",
+        subtitle: "成果",
+        description: "Suivre vos progrès"
+      },
+      todos: {
+        title: "Gestionnaire de Tâches",
+        subtitle: "タスク管理",
+        description: "Organisez vos tâches et objectifs d'étude"
       },
       favourites: {
         title: "Mes Favoris",

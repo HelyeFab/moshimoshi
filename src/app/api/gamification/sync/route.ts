@@ -47,8 +47,9 @@ export async function POST(request: NextRequest) {
     const userStatsRef = adminDb.collection('user_stats').doc(userId)
     const existingDoc = await userStatsRef.get()
 
+    let existingData: any = {}
     if (existingDoc.exists) {
-      const existingData = existingDoc.data()
+      existingData = existingDoc.data() || {}
       const existingXP = existingData?.xp?.total || 0
       const existingStreak = existingData?.streak?.current || 0
       const existingBestStreak = existingData?.streak?.best || 0
@@ -79,17 +80,61 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Calculate time-based metrics
+    const now = new Date()
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const weekStart = new Date(todayStart)
+    weekStart.setDate(weekStart.getDate() - 7)
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+
+    // Get existing time-based data or initialize
+    const existingXPData = existingData?.xp || {}
+    const existingSessionData = existingData?.sessions || {}
+
+    // Detect if this is a new session (totalSessions increased)
+    const oldSessionCount = existingSessionData?.totalSessions || 0
+    const newSessionDetected = (sessionCount || 0) > oldSessionCount
+
+    // Calculate XP gained since last sync
+    const oldTotalXP = existingXPData?.total || 0
+    const newTotalXP = totalXP || 0
+    const xpGainedThisSync = Math.max(0, newTotalXP - oldTotalXP)
+
+    // Reset daily/weekly/monthly counters if time period changed
+    const lastUpdated = existingData?.metadata?.lastUpdated
+      ? new Date(existingData.metadata.lastUpdated)
+      : new Date(0)
+
+    const isSameDay = isToday(lastUpdated)
+    const isSameWeek = lastUpdated >= weekStart
+    const isSameMonth = lastUpdated.getMonth() === now.getMonth() && lastUpdated.getFullYear() === now.getFullYear()
+
+    // Update time-based XP counters
+    const xpGainedToday = isSameDay ? (existingXPData.xpGainedToday || 0) + xpGainedThisSync : xpGainedThisSync
+    const weeklyXP = isSameWeek ? (existingXPData.weeklyXP || 0) + xpGainedThisSync : xpGainedThisSync
+    const monthlyXP = isSameMonth ? (existingXPData.monthlyXP || 0) + xpGainedThisSync : xpGainedThisSync
+
+    // Update time-based session counters
+    const sessionIncrement = newSessionDetected ? 1 : 0
+    const todaySessions = isSameDay ? (existingSessionData.todaySessions || 0) + sessionIncrement : sessionIncrement
+    const weekSessions = isSameWeek ? (existingSessionData.weekSessions || 0) + sessionIncrement : sessionIncrement
+    const monthSessions = isSameMonth ? (existingSessionData.monthSessions || 0) + sessionIncrement : sessionIncrement
+
     // Update user's gamification data in user_stats collection
     await userStatsRef.set({
       xp: {
-        total: totalXP || 0,
-        level: Math.max(1, Math.floor((totalXP || 0) / 1000)),
-        levelTitle: getLevelTitle(Math.max(1, Math.floor((totalXP || 0) / 1000))),
-        xpToNextLevel: 1000 - ((totalXP || 0) % 1000)
+        total: newTotalXP,
+        level: Math.max(1, Math.floor(newTotalXP / 1000)),
+        levelTitle: getLevelTitle(Math.max(1, Math.floor(newTotalXP / 1000))),
+        xpToNextLevel: 1000 - (newTotalXP % 1000),
+        xpGainedToday,
+        weeklyXP,
+        monthlyXP
       },
       streak: {
         current: currentStreak || 0,
         best: bestStreak || 0
+        // REMOVED: nested dates object (legacy schema cleanup)
       },
       dates: {
         lastActivityDate: lastActivityDate || null,
@@ -101,7 +146,14 @@ export async function POST(request: NextRequest) {
         completionPercentage: Math.round(((unlockedAchievements || []).length / 10) * 100)
       },
       sessions: {
-        totalSessions: sessionCount || 0
+        totalSessions: sessionCount || 0,
+        todaySessions,
+        weekSessions,
+        monthSessions,
+        // Preserve other session fields or set defaults
+        averageAccuracy: existingSessionData.averageAccuracy || 0,
+        totalStudyTimeMinutes: existingSessionData.totalStudyTimeMinutes || 0,
+        totalItemsReviewed: existingSessionData.totalItemsReviewed || 0
       },
       metadata: {
         lastUpdated: new Date().toISOString(),

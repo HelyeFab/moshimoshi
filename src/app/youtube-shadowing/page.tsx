@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, Suspense } from 'react';
+import { useState, useRef, useEffect, useCallback, Suspense } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 import Navbar from '@/components/layout/Navbar';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
@@ -66,6 +66,11 @@ function YouTubeShadowingContent() {
   const [viewMode, setViewMode] = useState<'input' | 'player'>('input');
 
   const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({});
+
+  // Stabilize onLineChange callback to prevent infinite re-subscriptions
+  const handleLineChange = useCallback((index: number) => {
+    setSession(prev => prev ? { ...prev, currentLineIndex: index } : null);
+  }, []);
 
   // Initialize video history service
   useEffect(() => {
@@ -491,9 +496,7 @@ function YouTubeShadowingContent() {
                   {/* Enhanced Shadowing Player */}
                   <EnhancedShadowingPlayer
                     session={session}
-                    onLineChange={(index) => {
-                      setSession(prev => prev ? { ...prev, currentLineIndex: index } : null);
-                    }}
+                    onLineChange={handleLineChange}
                     showVideo={showVideo}
                     showFurigana={showFurigana}
                     onToggleFurigana={() => setShowFurigana(!showFurigana)}
@@ -507,9 +510,7 @@ function YouTubeShadowingContent() {
                   <EditableTranscriptReader
                     transcript={session.transcript}
                     currentLineIndex={session.currentLineIndex}
-                    onLineClick={(index) => {
-                      setSession(prev => prev ? { ...prev, currentLineIndex: index } : null);
-                    }}
+                    onLineClick={handleLineChange}
                     showFurigana={showFurigana}
                     showGrammar={showGrammar}
                     contentId={extractVideoId(session.videoUrl) || ''}

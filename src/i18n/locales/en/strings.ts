@@ -1013,6 +1013,11 @@ export const strings = {
       verified: "Verified",
       verify: "Verify",
     },
+    validation: {
+      displayNameRequired: "Display name cannot be empty",
+      displayNameTooLong: "Display name must be 50 characters or less",
+      displayNameInvalid: "Display name contains invalid characters",
+    },
     buttons: {
       saveChanges: "Save Changes",
       updating: "Updating...",
@@ -2148,6 +2153,36 @@ export const strings = {
         title: "Flashcards",
         subtitle: "フラッシュカード",
         description: "Create and study flashcard decks"
+      },
+      drill: {
+        title: "Drill",
+        subtitle: "ドリル",
+        description: "Quick drill exercises"
+      },
+      youtubeSeries: {
+        title: "YouTube Series",
+        subtitle: "シリーズ",
+        description: "Track YouTube channels"
+      },
+      blog: {
+        title: "Blog",
+        subtitle: "ブログ",
+        description: "Read articles and updates"
+      },
+      resources: {
+        title: "Resources",
+        subtitle: "リソース",
+        description: "Learning resources"
+      },
+      achievements: {
+        title: "Achievements",
+        subtitle: "成果",
+        description: "Track your progress"
+      },
+      todos: {
+        title: "Task Manager",
+        subtitle: "タスク管理",
+        description: "Organize your study tasks and goals"
       }
     },
     progress: {

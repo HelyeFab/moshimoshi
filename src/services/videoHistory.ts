@@ -41,7 +41,7 @@ class VideoHistoryService {
     try {
       // Premium users: load from Firestore
       if (this.userId && this.isPremium && db) {
-        const docRef = doc(db, 'userVideoHistory', this.userId);
+        const docRef = doc(db, 'users', this.userId, 'videoHistory', 'data');
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -102,7 +102,7 @@ class VideoHistoryService {
     // Premium users: also save to Firestore for sync
     if (this.userId && this.isPremium && db) {
       try {
-        const docRef = doc(db, 'userVideoHistory', this.userId);
+        const docRef = doc(db, 'users', this.userId, 'videoHistory', 'data');
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -159,7 +159,7 @@ class VideoHistoryService {
 
       if (db) {
         // Get existing user history
-        const docRef = doc(db, 'userVideoHistory', userId);
+        const docRef = doc(db, 'users', userId, 'videoHistory', 'data');
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -217,7 +217,7 @@ class VideoHistoryService {
         return;
       }
 
-      const docRef = doc(db, 'userVideoHistory', this.userId);
+      const docRef = doc(db, 'users', this.userId, 'videoHistory', 'data');
       await setDoc(docRef, {
         videoIds: allVideoIds,
         lastUpdated: new Date().toISOString()
@@ -246,7 +246,7 @@ class VideoHistoryService {
     // Premium users: also clear Firebase
     if (this.userId && this.isPremium && db) {
       try {
-        const docRef = doc(db, 'userVideoHistory', this.userId);
+        const docRef = doc(db, 'users', this.userId, 'videoHistory', 'data');
         await setDoc(docRef, {
           videoIds: [],
           lastUpdated: new Date().toISOString()

@@ -23,9 +23,9 @@ export async function getUsageBucket(
   date: string
 ): Promise<UsageBucket> {
   const bucketRef = adminDb
-    .collection('usage')
+    .collection('users')
     .doc(userId)
-    .collection('daily')
+    .collection('usage')
     .doc(date);
 
   const doc = await bucketRef.get();
@@ -57,9 +57,9 @@ export function incrementUsage(
   date: string
 ): void {
   const bucketRef = adminDb
-    .collection('usage')
+    .collection('users')
     .doc(userId)
-    .collection('daily')
+    .collection('usage')
     .doc(date);
 
   transaction.update(bucketRef, {
@@ -111,9 +111,9 @@ export async function cleanupOldUsageBuckets(
   const cutoffString = getTodayBucket(cutoffDate.toISOString());
 
   const bucketsRef = adminDb
-    .collection('usage')
+    .collection('users')
     .doc(userId)
-    .collection('daily');
+    .collection('usage');
 
   const oldBuckets = await bucketsRef
     .where('date', '<', cutoffString)
@@ -142,9 +142,9 @@ export async function getUsageHistory(
   days: number = 7
 ): Promise<UsageBucket[]> {
   const bucketsRef = adminDb
-    .collection('usage')
+    .collection('users')
     .doc(userId)
-    .collection('daily');
+    .collection('usage');
 
   const snapshot = await bucketsRef
     .orderBy('date', 'desc')
@@ -255,9 +255,9 @@ export async function resetFeatureUsage(
 ): Promise<void> {
   const today = getTodayBucket(new Date().toISOString());
   const bucketRef = adminDb
-    .collection('usage')
+    .collection('users')
     .doc(userId)
-    .collection('daily')
+    .collection('usage')
     .doc(today);
 
   await bucketRef.update({

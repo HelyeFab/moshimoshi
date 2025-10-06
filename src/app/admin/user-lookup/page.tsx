@@ -318,10 +318,8 @@ export default function UserLookupPage() {
                         data={{
                           'Current Streak': userData.user_stats.streak?.current,
                           'Best Streak': userData.user_stats.streak?.best,
-                          'Last Activity Date': userData.user_stats.dates?.lastActivityDate || userData.user_stats.streak?.lastActivityDate,
-                          'Is Active Today': userData.user_stats.streak?.isActiveToday,
-                          'Streak At Risk': userData.user_stats.streak?.streakAtRisk,
-                          'Hours Remaining Today': userData.user_stats.streak?.hoursRemainingToday
+                          'Last Activity Date': userData.user_stats.dates?.lastActivityDate,
+                          'Is Active Today': userData.user_stats.dates?.isActiveToday
                         }}
                       />
 

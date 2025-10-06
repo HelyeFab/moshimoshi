@@ -230,13 +230,15 @@ function AccountPageContent() {
     <PageContainer gradient="default" showPattern={true}>
       {/* Confetti for successful checkout */}
       {showConfetti && (
-        <Confetti
-          width={typeof window !== 'undefined' ? window.innerWidth : 0}
-          height={typeof window !== 'undefined' ? window.innerHeight : 0}
-          recycle={false}
-          numberOfPieces={500}
-          gravity={0.2}
-        />
+        <div className="fixed inset-0 pointer-events-none z-[9999]">
+          <Confetti
+            width={typeof window !== 'undefined' ? window.innerWidth : 0}
+            height={typeof window !== 'undefined' ? window.innerHeight : 0}
+            recycle={false}
+            numberOfPieces={500}
+            gravity={0.2}
+          />
+        </div>
       )}
 
       {/* Congratulations message */}

@@ -308,6 +308,132 @@ export const strings = {
       modeTitle: "Entwicklermodus",
       authTestLink: "→ Auth-Testseite",
     },
+    statModals: {
+      close: "Verstanden!",
+      formulaLabel: "Formel",
+      breakdownLabel: "Aufschlüsselung",
+      streak: {
+        title: "Tägliche Serie",
+        description: "Ihre Serie zeigt, an wie vielen aufeinanderfolgenden Tagen Sie mit bedeutendem Engagement Japanisch geübt haben.",
+        formula: "Aufeinanderfolgende Tage mit ≥10 XP verdient",
+        whatItMeans: "Jeden Tag, an dem Sie mindestens 10 XP verdienen (durch Vervollständigen von 1+ richtigen Antworten in einer Übung), erhöht sich Ihre Serie um 1. Mehrere Sitzungen am selben Tag erhöhen Ihre Serie nicht weiter.",
+        howToImprove: "Üben Sie jeden Tag! Selbst eine kurze 5-Minuten-Sitzung zählt. Setzen Sie eine tägliche Erinnerung und machen Sie das Japanisch-Üben zu einem Teil Ihrer Routine.",
+        breakdown: {
+          current: "Aktuelle Serie",
+          longest: "Längste Serie (aller Zeiten)",
+          lastActive: "Letzte Aktivität",
+          minXP: "Mindest-XP pro Tag erforderlich"
+        },
+        goalNote: "Bauen Sie eine 7-Tage-Serie auf, um eine starke Lerngewohnheit zu entwickeln!"
+      },
+      xpEarned: {
+        title: "Verdiente XP",
+        description: "Erfahrungspunkte (XP) messen Ihre Lernaktivität und Leistung. XP werden durch Übungssitzungen mit Genauigkeits- und Geschwindigkeitsboni verdient.",
+        formula: "Basis-XP + Genauigkeitsbonus + Geschwindigkeitsbonus + Serienbonus",
+        whatItMeans: "Jede richtige Antwort bringt Basis-XP (10 Punkte). Hohe Genauigkeit (≥90%) und schnelle Antworten können Ihre XP durch Boni verdoppeln!",
+        howToImprove: "Konzentrieren Sie sich zuerst auf Genauigkeit, dann auf Geschwindigkeit! Vervollständigen Sie ganze Übungssitzungen, halten Sie hohe Genauigkeit und bauen Sie Serien auf, um XP zu maximieren.",
+        breakdown: {
+          total: "Gesamt verdiente XP",
+          currentLevel: "Aktuelles Level",
+          nextLevel: "XP bis zum nächsten Level",
+          dailyCap: "Tägliche XP-Obergrenze"
+        },
+        bonuses: {
+          accuracy: "Genauigkeitsbonus (≥90%): 2x XP",
+          speed: "Geschwindigkeitsbonus (<2s Durchschn.): +10 XP",
+          streak: "Serienbonus (≥5): +3 XP pro Element"
+        },
+        goalNote: "Tägliche XP sind auf 500 begrenzt, um ausgewogene, nachhaltige Praxis zu fördern."
+      },
+      achievementProgress: {
+        title: "Erfolgsfortschritt",
+        description: "Verfolgen Sie Ihre Reise, indem Sie Erfolge freischalten, während Sie Japanisch lernen und üben.",
+        formula: "(Freigeschaltet / Gesamt) × 100",
+        whatItMeans: "Dieser Prozentsatz zeigt, wie viele Erfolge Sie von den insgesamt verfügbaren verdient haben.",
+        howToImprove: "Vervollständigen Sie Übungen, halten Sie tägliche Serien und üben Sie regelmäßig, um mehr Erfolge freizuschalten.",
+        breakdown: {
+          unlocked: "Freigeschaltete Erfolge",
+          total: "Gesamt verfügbar",
+          completion: "Abschlussrate"
+        }
+      },
+      achievements: {
+        title: "Freigeschaltete Erfolge",
+        description: "Erfolge sind Belohnungen für das Erreichen von Meilensteinen in Ihrer Lernreise. Jeder Erfolg repräsentiert eine bestimmte Leistung.",
+        formula: "Anzahl freigeschalteter Erfolge",
+        whatItMeans: "Die Gesamtzahl der Erfolge, die Sie durch Ihre Praxis und Hingabe verdient haben.",
+        howToImprove: "Üben Sie weiter! Vervollständigen Sie Übungen, halten Sie Serien, erreichen Sie Genauigkeitsziele und üben Sie zu verschiedenen Zeiten, um alle 10 Erfolge freizuschalten.",
+        breakdown: {
+          unlocked: "Aktuell freigeschaltet",
+          available: "Gesamt verfügbar",
+          earnMore: "Wie man mehr verdient"
+        },
+        tips: "Versuchen Sie Frühaufsteher (üben vor 6 Uhr morgens) oder Nachteule (üben nach 22 Uhr) für einfache Erfolge!"
+      },
+      drillsCompleted: {
+        title: "Abgeschlossene Übungen",
+        description: "Jede Übungssitzung, die Sie abschließen, hilft beim Aufbau Ihrer japanischen Konjugationsfähigkeiten. Qualität zählt mehr als Quantität!",
+        formula: "Gesamt abgeschlossene Übungssitzungen",
+        whatItMeans: "Die Anzahl der vollständigen Übungssitzungen, die Sie beendet haben, unabhängig vom Ergebnis.",
+        howToImprove: "Üben Sie regelmäßig! Jede Sitzung zählt zu Ihrem Gesamtergebnis und hilft beim Aufbau des Muskelgedächtnisses für Konjugationen.",
+        breakdown: {
+          total: "Gesamt Übungen",
+          perfect: "Perfekte Übungen (100%)",
+          types: "Übungstypen"
+        }
+      },
+      drillAccuracy: {
+        title: "Übungsgenauigkeit",
+        description: "Ihre Genauigkeit spiegelt wider, wie gut Sie japanische Verbkonjugationen in allen Ihren Übungssitzungen verstehen.",
+        formula: "(Richtige Antworten / Gesamtantworten) × 100",
+        whatItMeans: "Der Prozentsatz der Fragen, die Sie in ALLEN Übungen richtig beantwortet haben. Es wird kumulativ berechnet, sodass aktuelle Verbesserungen Ihren Gesamtscore allmählich erhöhen werden.",
+        example: "Beispiel: Wenn Sie 12 von insgesamt 15 Antworten richtig hatten, beträgt Ihre Genauigkeit 80%.",
+        howToImprove: "Konzentrieren Sie sich auf das Verstehen von Mustern! Überprüfen Sie Konjugationsregeln, nehmen Sie sich Zeit für jede Frage und üben Sie konsequent.",
+        breakdown: {
+          current: "Aktuelle Genauigkeit",
+          total: "Gesamt abgeschlossene Übungen",
+          goal: "Zielgenauigkeit"
+        },
+        goalNote: "Streben Sie 80% oder mehr an, um starkes Verständnis zu zeigen!"
+      },
+      drillMastery: {
+        title: "Übungsmeisterschafts-Score",
+        description: "Meisterschaft ist ein umfassender Qualitätsscore (0-100), der nicht nur misst, wie viel Sie üben, sondern wie gut Sie üben.",
+        formula: "4-Faktoren-gewichtete Berechnung",
+        whatItMeans: "Dieser Score kombiniert Volumen, Genauigkeit, Konsistenz und perfekte Übungsquote, um Ihnen ein vollständiges Bild Ihres Meisterschaftsniveaus zu geben.",
+        factors: "Die vier Faktoren",
+        howToImprove: "Balance ist der Schlüssel! Üben Sie regelmäßig (Volumen), konzentrieren Sie sich auf Genauigkeit, streben Sie perfekte Sitzungen an und wahren Sie Konsistenz.",
+        breakdown: {
+          volume: "Volumen (max 30 Pkt)",
+          volumeDetail: "Basierend auf gesamt abgeschlossenen Übungen",
+          accuracy: "Genauigkeit (max 40 Pkt)",
+          accuracyDetail: "Basierend auf Ihrem % korrekt",
+          perfectRatio: "Perfekte Quote (20 Pkt)",
+          perfectDetail: "100% genaue Sitzungen",
+          consistency: "Konsistenz (10 Pkt)",
+          consistencyDetail: "Regelmäßiges Übungsmuster",
+          total: "Gesamt Meisterschafts-Score"
+        },
+        masterLevels: {
+          beginner: "0-30: Anfänger - Üben Sie weiter!",
+          developing: "31-60: In Entwicklung - Sie verbessern sich!",
+          proficient: "61-80: Kompetent - Großartige Arbeit!",
+          expert: "81-100: Experte - Herausragend!"
+        }
+      },
+      learningProgress: {
+        title: "Lernfortschritt",
+        description: "Ihr Gesamtfortschritt über alle Lernkategorien (Übungen, Kana, Kanji, Vokabular).",
+        formula: "(Gemeisterte Elemente / Begonnene Elemente) × 100",
+        whatItMeans: "Dies zeigt die Qualität Ihres Lernens, nicht nur die Quantität. Nur Elemente, die Sie tatsächlich geübt haben, zählen zu Ihrem Fortschritt.",
+        howToImprove: "Meistern Sie, was Sie begonnen haben! Konzentrieren Sie sich darauf, unvollständige Elemente zur Meisterschaft zu bringen, bevor Sie neue beginnen.",
+        breakdown: {
+          percentage: "Gesamtfortschritt",
+          categoriesStarted: "Aktive Kategorien",
+          itemsMastered: "Gemeisterte Elemente"
+        }
+      }
+    },
     greeting: {
       morning: "Guten Morgen",
       afternoon: "Guten Tag",
@@ -423,6 +549,36 @@ export const strings = {
         title: "Flashcards",
         subtitle: "カード",
         description: "Schnelle Wiederholungssessions"
+      },
+      drill: {
+        title: "Übungen",
+        subtitle: "ドリル",
+        description: "Schnelle Übungseinheiten"
+      },
+      youtubeSeries: {
+        title: "YouTube-Serien",
+        subtitle: "シリーズ",
+        description: "YouTube-Kanäle verfolgen"
+      },
+      blog: {
+        title: "Blog",
+        subtitle: "ブログ",
+        description: "Artikel und Updates lesen"
+      },
+      resources: {
+        title: "Ressourcen",
+        subtitle: "リソース",
+        description: "Lernressourcen"
+      },
+      achievements: {
+        title: "Erfolge",
+        subtitle: "成果",
+        description: "Fortschritt verfolgen"
+      },
+      todos: {
+        title: "Aufgabenverwaltung",
+        subtitle: "タスク管理",
+        description: "Lernaufgaben und -ziele organisieren"
       },
       favourites: {
         title: "Meine Favoriten",
@@ -816,6 +972,11 @@ export const strings = {
       emailAddress: "E-Mail-Adresse",
       verified: "Verifiziert",
       verify: "Verifizieren",
+    },
+    validation: {
+      displayNameRequired: "Anzeigename darf nicht leer sein",
+      displayNameTooLong: "Anzeigename darf maximal 50 Zeichen lang sein",
+      displayNameInvalid: "Anzeigename enthält ungültige Zeichen",
     },
     buttons: {
       saveChanges: "Änderungen speichern",

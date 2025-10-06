@@ -326,6 +326,132 @@ export const strings = {
       modeTitle: "Modalità sviluppatore",
       authTestLink: "→ Pagina test autenticazione",
     },
+    statModals: {
+      close: "Capito!",
+      formulaLabel: "Formula",
+      breakdownLabel: "Dettagli",
+      streak: {
+        title: "Serie Giornaliera",
+        description: "La tua serie mostra quanti giorni consecutivi hai praticato il giapponese con impegno significativo.",
+        formula: "Giorni consecutivi con ≥10 XP guadagnati",
+        whatItMeans: "Ogni giorno in cui guadagni almeno 10 XP (completando 1+ risposte corrette in un esercizio), la tua serie aumenta di 1. Più sessioni nello stesso giorno non aumentano ulteriormente la tua serie.",
+        howToImprove: "Pratica ogni giorno! Anche una breve sessione di 5 minuti conta. Imposta un promemoria quotidiano e rendi la pratica del giapponese parte della tua routine.",
+        breakdown: {
+          current: "Serie attuale",
+          longest: "Serie più lunga (di sempre)",
+          lastActive: "Ultima attività",
+          minXP: "XP minimo richiesto al giorno"
+        },
+        goalNote: "Costruisci una serie di 7 giorni per sviluppare una forte abitudine di apprendimento!"
+      },
+      xpEarned: {
+        title: "XP Guadagnati",
+        description: "I Punti Esperienza (XP) misurano la tua attività di apprendimento e i tuoi risultati. Gli XP sono guadagnati attraverso sessioni di pratica con bonus di precisione e velocità.",
+        formula: "XP base + Bonus Precisione + Bonus Velocità + Bonus Serie",
+        whatItMeans: "Ogni risposta corretta guadagna XP base (10 punti). Alta precisione (≥90%) e risposte rapide possono raddoppiare i tuoi XP attraverso i bonus!",
+        howToImprove: "Concentrati prima sulla precisione, poi sulla velocità! Completa sessioni di esercizi complete, mantieni alta precisione e costruisci serie per massimizzare gli XP.",
+        breakdown: {
+          total: "XP totali guadagnati",
+          currentLevel: "Livello attuale",
+          nextLevel: "XP al prossimo livello",
+          dailyCap: "Limite XP giornaliero"
+        },
+        bonuses: {
+          accuracy: "Bonus precisione (≥90%): 2x XP",
+          speed: "Bonus velocità (<2s media): +10 XP",
+          streak: "Bonus serie (≥5): +3 XP per elemento"
+        },
+        goalNote: "Gli XP giornalieri sono limitati a 500 per incoraggiare una pratica equilibrata e sostenibile."
+      },
+      achievementProgress: {
+        title: "Progresso Risultati",
+        description: "Traccia il tuo viaggio sbloccando risultati mentre impari e pratichi il giapponese.",
+        formula: "(Sbloccati / Totale) × 100",
+        whatItMeans: "Questa percentuale mostra quanti risultati hai guadagnato sul totale disponibile.",
+        howToImprove: "Completa esercizi, mantieni serie giornaliere e pratica regolarmente per sbloccare più risultati.",
+        breakdown: {
+          unlocked: "Risultati sbloccati",
+          total: "Totale disponibile",
+          completion: "Tasso di completamento"
+        }
+      },
+      achievements: {
+        title: "Risultati Sbloccati",
+        description: "I risultati sono ricompense per aver raggiunto traguardi nel tuo percorso di apprendimento. Ogni risultato rappresenta un risultato specifico.",
+        formula: "Conteggio dei risultati sbloccati",
+        whatItMeans: "Il numero totale di risultati che hai guadagnato attraverso la tua pratica e dedizione.",
+        howToImprove: "Continua a praticare! Completa esercizi, mantieni serie, raggiungi obiettivi di precisione e pratica in momenti diversi per sbloccare tutti i 10 risultati.",
+        breakdown: {
+          unlocked: "Attualmente sbloccati",
+          available: "Totale disponibile",
+          earnMore: "Come guadagnarne di più"
+        },
+        tips: "Prova Mattiniero (pratica prima delle 6 del mattino) o Nottambulo (pratica dopo le 22) per risultati facili!"
+      },
+      drillsCompleted: {
+        title: "Esercizi Completati",
+        description: "Ogni sessione di esercizi che completi aiuta a costruire le tue abilità di coniugazione giapponese. La qualità conta più della quantità!",
+        formula: "Totale sessioni di esercizi completate",
+        whatItMeans: "Il numero di sessioni di esercizi complete che hai terminato, indipendentemente dal punteggio.",
+        howToImprove: "Pratica regolarmente! Ogni sessione conta per il tuo totale e aiuta a costruire la memoria muscolare per le coniugazioni.",
+        breakdown: {
+          total: "Esercizi totali",
+          perfect: "Esercizi perfetti (100%)",
+          types: "Tipi di pratica"
+        }
+      },
+      drillAccuracy: {
+        title: "Precisione Esercizi",
+        description: "La tua precisione riflette quanto bene comprendi le coniugazioni verbali giapponesi in tutte le tue sessioni di pratica.",
+        formula: "(Risposte corrette / Risposte totali) × 100",
+        whatItMeans: "La percentuale di domande a cui hai risposto correttamente in TUTTI gli esercizi. È calcolata cumulativamente, quindi i miglioramenti recenti aumenteranno gradualmente il tuo punteggio complessivo.",
+        example: "Esempio: Se hai ottenuto 12 risposte corrette su 15 totali, la tua precisione è 80%.",
+        howToImprove: "Concentrati sulla comprensione dei modelli! Rivedi le regole di coniugazione, prenditi il tuo tempo con ogni domanda e pratica costantemente.",
+        breakdown: {
+          current: "Precisione attuale",
+          total: "Esercizi totali completati",
+          goal: "Obiettivo di precisione"
+        },
+        goalNote: "Punta a 80% o più per mostrare una forte comprensione!"
+      },
+      drillMastery: {
+        title: "Punteggio Padronanza Esercizi",
+        description: "La padronanza è un punteggio di qualità completo (0-100) che misura non solo quanto pratichi, ma quanto bene pratichi.",
+        formula: "Calcolo ponderato a 4 fattori",
+        whatItMeans: "Questo punteggio combina volume, precisione, coerenza e rapporto di esercizi perfetti per darti un quadro completo del tuo livello di padronanza.",
+        factors: "I quattro fattori",
+        howToImprove: "L'equilibrio è la chiave! Pratica regolarmente (volume), concentrati sulla precisione, punta a sessioni perfette e mantieni la coerenza.",
+        breakdown: {
+          volume: "Volume (max 30 pts)",
+          volumeDetail: "Basato su esercizi totali completati",
+          accuracy: "Precisione (max 40 pts)",
+          accuracyDetail: "Basato sulla tua % corretta",
+          perfectRatio: "Rapporto Perfetto (20 pts)",
+          perfectDetail: "Sessioni 100% precise",
+          consistency: "Coerenza (10 pts)",
+          consistencyDetail: "Modello di pratica regolare",
+          total: "Punteggio Padronanza Totale"
+        },
+        masterLevels: {
+          beginner: "0-30: Principiante - Continua a praticare!",
+          developing: "31-60: In sviluppo - Stai migliorando!",
+          proficient: "61-80: Competente - Ottimo lavoro!",
+          expert: "81-100: Esperto - Eccezionale!"
+        }
+      },
+      learningProgress: {
+        title: "Progresso di Apprendimento",
+        description: "Il tuo progresso complessivo in tutte le categorie di apprendimento (esercizi, kana, kanji, vocabulario).",
+        formula: "(Elementi padroneggiati / Elementi iniziati) × 100",
+        whatItMeans: "Questo mostra la qualità del tuo apprendimento, non solo la quantità. Solo gli elementi che hai effettivamente praticato contano per il tuo progresso.",
+        howToImprove: "Padroneggia ciò che hai iniziato! Concentrati sul portare gli elementi incompleti alla padronanza prima di iniziarne di nuovi.",
+        breakdown: {
+          percentage: "Progresso complessivo",
+          categoriesStarted: "Categorie attive",
+          itemsMastered: "Elementi padroneggiati"
+        }
+      }
+    },
     villageHeader: {
       welcomeTo: "BENVENUTO AL",
       learningVillage: "VILLAGGIO DELL'APPRENDIMENTO",
@@ -436,6 +562,36 @@ export const strings = {
         title: "Flashcards",
         subtitle: "カード",
         description: "Sessioni di ripasso veloce"
+      },
+      drill: {
+        title: "Esercizi",
+        subtitle: "ドリル",
+        description: "Esercizi rapidi"
+      },
+      youtubeSeries: {
+        title: "Serie YouTube",
+        subtitle: "シリーズ",
+        description: "Segui canali YouTube"
+      },
+      blog: {
+        title: "Blog",
+        subtitle: "ブログ",
+        description: "Leggi articoli e aggiornamenti"
+      },
+      resources: {
+        title: "Risorse",
+        subtitle: "リソース",
+        description: "Risorse di apprendimento"
+      },
+      achievements: {
+        title: "Risultati",
+        subtitle: "成果",
+        description: "Traccia i tuoi progressi"
+      },
+      todos: {
+        title: "Gestione Attività",
+        subtitle: "タスク管理",
+        description: "Organizza i tuoi compiti e obiettivi di studio"
       },
       favourites: {
         title: "I Miei Preferiti",
@@ -829,6 +985,11 @@ export const strings = {
       emailAddress: "Indirizzo email",
       verified: "Verificato",
       verify: "Verifica",
+    },
+    validation: {
+      displayNameRequired: "Il nome visualizzato non può essere vuoto",
+      displayNameTooLong: "Il nome visualizzato deve essere di massimo 50 caratteri",
+      displayNameInvalid: "Il nome visualizzato contiene caratteri non validi",
     },
     buttons: {
       saveChanges: "Salva modifiche",

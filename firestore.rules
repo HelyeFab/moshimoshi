@@ -120,8 +120,9 @@ service cloud.firestore {
       allow delete: if false; // Users should be soft-deleted
     }
     
-    // Usage collection - track feature usage (Entitlements v2)
-    match /usage/{userId}/daily/{date} {
+    // Usage tracking - Read for owner, write server-only
+    // Supports both flat dates (2025-10-06) and monthly buckets (2025-10)
+    match /users/{userId}/usage/{document=**} {
       allow read: if isOwner(userId) || isAdmin();
       allow write: if false; // Only server can write usage data
     }
@@ -265,6 +266,62 @@ service cloud.firestore {
 
       // Achievements should not be deleted
       allow delete: if false;
+    }
+
+    // Video history - Premium users can sync video history for cross-device access
+    match /users/{userId}/videoHistory/{document} {
+      // Users can read their own video history
+      allow read: if isOwner(userId);
+
+      // Only premium users can write (sync) their video history
+      allow create: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+
+      allow update: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+
+      // Video history should not be deleted
+      allow delete: if false;
+    }
+
+    // Custom learning lists - Users can manage their own lists
+    match /users/{userId}/lists/{listId} {
+      // Users can read their own lists
+      allow read: if isOwner(userId);
+
+      // Users can create lists with required fields
+      allow create: if isOwner(userId) &&
+        request.resource.data.keys().hasAll(['name', 'userId', 'items', 'createdAt', 'updatedAt']);
+
+      // Users can update their own lists
+      allow update: if isOwner(userId) &&
+        request.resource.data.userId == resource.data.userId;
+
+      // Users can delete their own lists
+      allow delete: if isOwner(userId);
+    }
+
+    // Flashcard decks - Premium users can sync flashcard decks
+    match /users/{userId}/flashcardDecks/{deckId} {
+      // Users can read their own flashcard decks
+      allow read: if isOwner(userId);
+
+      // Only premium users can create flashcard decks in Firebase
+      allow create: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['name', 'userId', 'createdAt', 'updatedAt']);
+
+      // Only premium users can update flashcard decks
+      allow update: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.userId == resource.data.userId;
+
+      // Users can delete their own decks
+      allow delete: if isOwner(userId);
     }
 
     // Audit logs - write-only for system, read-only for admins

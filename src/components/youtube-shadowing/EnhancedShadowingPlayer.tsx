@@ -83,7 +83,16 @@ export default function EnhancedShadowingPlayer({
   const transcriptContainerRef = useRef<HTMLDivElement>(null);
   const [userIsScrolling, setUserIsScrolling] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
+  // Store onLineChange in ref to prevent re-subscriptions while keeping latest reference
+  const onLineChangeRef = useRef(onLineChange);
+  useEffect(() => {
+    onLineChangeRef.current = onLineChange;
+  }, [onLineChange]);
+
+  // Track previous time to avoid unnecessary updates
+  const prevTimeRef = useRef(0);
+
   // Auto-Repeat State
   const [abRepeat, setAbRepeat] = useState<ABRepeatConfig>({
     startTime: 0,
@@ -429,9 +438,13 @@ export default function EnhancedShadowingPlayer({
     if (!isYouTubeReady && !audioRef.current && !localVideoRef.current) return;
     
     let lastSegmentId: string | null = null;
-    
+
     const unsubscribe = timeManagerRef.current.onTimeUpdate((time) => {
-      setCurrentTime(time);
+      // Only update if time changed significantly (avoid micro-updates)
+      if (Math.abs(time - prevTimeRef.current) >= 0.01) {
+        prevTimeRef.current = time;
+        setCurrentTime(time);
+      }
       
       // Update active segment
       const activeSegment = timeManagerRef.current.findActiveSegment(segments, time);
@@ -450,11 +463,11 @@ export default function EnhancedShadowingPlayer({
           lastSegmentId = activeSegment.id;
           setActiveSegmentId(activeSegment.id);
           setCurrentSegmentIndex(segmentIndex);
-          
+
           if (!isInRepeatMode && !isPausingForRepeat) {
-            onLineChange(segmentIndex);
+            onLineChangeRef.current(segmentIndex);
           }
-          
+
           // Only auto-scroll if user isn't manually scrolling
           if (!userIsScrolling) {
             scrollToActiveSegment(activeSegment.id);
@@ -464,7 +477,7 @@ export default function EnhancedShadowingPlayer({
     });
     
     return () => unsubscribe();
-  }, [isYouTubeReady, segments, abRepeat, isInRepeatMode, isPausingForRepeat, onLineChange, userIsScrolling]);
+  }, [isYouTubeReady, segments, isInRepeatMode, isPausingForRepeat, userIsScrolling]);
 
   const scrollToActiveSegment = useCallback((segmentId: string) => {
     if (!transcriptContainerRef.current) return;

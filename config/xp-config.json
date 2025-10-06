@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2025-01-28",
+  "lastUpdated": "2025-10-06",
   "antiCheat": {
     "enabled": true,
     "globalDailyLimit": 5000,
@@ -14,10 +14,22 @@
       "enabled": true,
       "baseXP": 25,
       "bonuses": {
-        "perfect": { "threshold": 100, "xp": 50 },
-        "high": { "threshold": 90, "xp": 30 },
-        "good": { "threshold": 80, "xp": 20 },
-        "decent": { "threshold": 70, "xp": 10 }
+        "perfect": {
+          "threshold": 100,
+          "xp": 50
+        },
+        "high": {
+          "threshold": 90,
+          "xp": 30
+        },
+        "good": {
+          "threshold": 80,
+          "xp": 20
+        },
+        "decent": {
+          "threshold": 70,
+          "xp": 10
+        }
       },
       "maxPerSession": 75,
       "cooldownMinutes": 0,
@@ -116,7 +128,7 @@
       "id": "youtube_shadowing",
       "name": "YouTube Shadowing",
       "description": "Practice pronunciation with YouTube videos",
-      "enabled": false,
+      "enabled": true,
       "baseXP": 15,
       "rewards": {
         "perMinute": 2,

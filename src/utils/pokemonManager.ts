@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs, getFirestore } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs, getFirestore, collectionGroup } from 'firebase/firestore';
 import { db as configDb, app } from '@/lib/firebase/config';
 import { pokemonStorage } from './pokemonStorage';
 import { User } from 'firebase/auth';
@@ -25,7 +25,7 @@ interface UserPokedex {
 }
 
 class PokemonManager {
-  private readonly COLLECTION_NAME = 'pokemon';
+  private readonly SUBCOLLECTION_NAME = 'pokemon';
   private db: any = null;
 
   // Get Firestore instance (lazy initialization)
@@ -91,7 +91,7 @@ class PokemonManager {
     }
 
     try {
-      const userPokedexRef = doc(db, this.COLLECTION_NAME, userId);
+      const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data');
       const userPokedexDoc = await getDoc(userPokedexRef);
 
       if (userPokedexDoc.exists()) {
@@ -182,7 +182,7 @@ class PokemonManager {
         return [];
       }
 
-      const userPokedexRef = doc(db, this.COLLECTION_NAME, userId);
+      const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data');
       const userPokedexDoc = await getDoc(userPokedexRef);
 
       if (userPokedexDoc.exists()) {
@@ -232,7 +232,10 @@ class PokemonManager {
 
     // For premium users, try to get additional stats from cloud
     try {
-      const userPokedexRef = doc(db, this.COLLECTION_NAME, user.uid);
+      const db = this.getDb();
+      if (!db) return { totalCaught: caughtPokemon.length };
+
+      const userPokedexRef = doc(db, 'users', user.uid, this.SUBCOLLECTION_NAME, 'data');
       const userPokedexDoc = await getDoc(userPokedexRef);
 
       if (userPokedexDoc.exists()) {
@@ -291,7 +294,10 @@ class PokemonManager {
       logger.pokemon(`Force sync - ${localPokemon.length} Pokemon to sync`);
 
       if (localPokemon.length > 0) {
-        const userPokedexRef = doc(db, this.COLLECTION_NAME, userId);
+        const db = this.getDb();
+        if (!db) throw new Error('Firestore not initialized');
+
+        const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data');
 
         const updateData: UserPokedex = {
           userId,
@@ -319,15 +325,19 @@ class PokemonManager {
     totalUsers: number;
   }> {
     try {
-      const pokemonCollection = collection(db, this.COLLECTION_NAME);
-      const snapshot = await getDocs(pokemonCollection);
+      const db = this.getDb();
+      if (!db) throw new Error('Firestore not initialized');
+
+      // Use collectionGroup to query across all users' pokemon subcollections
+      const pokemonQuery = collectionGroup(db, this.SUBCOLLECTION_NAME);
+      const snapshot = await getDocs(pokemonQuery);
 
       const pokemonCounts = new Map<number, number>();
       let totalUsers = 0;
 
-      snapshot.forEach((doc) => {
+      snapshot.forEach((docSnap) => {
         totalUsers++;
-        const data = doc.data() as UserPokedex;
+        const data = docSnap.data() as UserPokedex;
         (data.caught || []).forEach((pokemonId) => {
           pokemonCounts.set(pokemonId, (pokemonCounts.get(pokemonId) || 0) + 1);
         });

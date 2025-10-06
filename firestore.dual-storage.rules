@@ -206,26 +206,25 @@ service cloud.firestore {
       allow delete: if isPremiumUser(userId);
     }
 
-    // User Preferences - Premium users only for cloud sync
-    match /userPreferences/{userId} {
+    // Village Layout (subcollection) - Premium users only for cloud sync
+    // Stores learning village stall order customization
+    match /users/{userId}/villageLayout/{document} {
       allow read: if isPremiumUser(userId);
 
       allow create: if isPremiumUser(userId);
 
       allow update: if isPremiumUser(userId);
 
-      allow delete: if false; // Preferences should not be deleted
+      allow delete: if false; // Layout preferences should not be deleted
     }
 
-    // Pokemon data - Premium users only
-    match /pokemon/{userId} {
+    // Pokemon data (subcollection) - Premium users only
+    match /users/{userId}/pokemon/{document} {
       allow read: if isPremiumUser(userId);
 
-      allow create: if isPremiumUser(userId) &&
-        request.resource.data.keys().hasAll(['userId', 'caught', 'totalCaught']);
+      allow create: if isPremiumUser(userId);
 
-      allow update: if isPremiumUser(userId) &&
-        request.resource.data.userId == resource.data.userId;
+      allow update: if isPremiumUser(userId);
 
       allow delete: if false; // Pokemon data should not be deleted
     }
@@ -243,12 +242,11 @@ service cloud.firestore {
       allow delete: if isPremiumUser(userId);
     }
 
-    // Video History - Premium users only
-    match /userVideoHistory/{userId} {
+    // Video History (subcollection) - Premium users only
+    match /users/{userId}/videoHistory/{document} {
       allow read: if isPremiumUser(userId);
 
-      allow create: if isPremiumUser(userId) &&
-        request.resource.data.keys().hasAll(['videoIds', 'lastUpdated']);
+      allow create: if isPremiumUser(userId);
 
       allow update: if isPremiumUser(userId);
 
@@ -297,7 +295,8 @@ service cloud.firestore {
     }
 
     // Usage tracking - Read for owner, write server-only
-    match /users/{userId}/usage/{document} {
+    // Supports both flat dates (2025-10-06) and monthly buckets (2025-10)
+    match /users/{userId}/usage/{document=**} {
       allow read: if isOwner(userId) || isAdmin();
       allow write: if false; // Only server can write usage data
     }

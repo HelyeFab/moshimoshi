@@ -330,16 +330,16 @@ export async function getUserDailyUsage(uid: string, featureId: string, date?: D
     
     // Get usage document
     const usageDoc = await adminFirestore
-      .collection('usage')
+      .collection('users')
       .doc(uid)
-      .collection('daily')
+      .collection('usage')
       .doc(dateStr)
       .get()
-    
+
     if (!usageDoc.exists) {
       return 0
     }
-    
+
     const usage = usageDoc.data()
     return usage?.[featureId] || 0
   } catch (error) {

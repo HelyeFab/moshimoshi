@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-09-25T19:04:52.656Z
+ * Generated at: 2025-10-06T16:18:55.741Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -57,17 +57,17 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'monthly',
     notifications: false,
-    description: 'Create and manage custom study lists for words, kanji, and sentences'
+    description: 'Create and manage custom learning lists for vocabulary, kanji, and sentences'
   },
-  'save_items': {
-    id: 'save_items',
-    name: 'Save Items to Lists',
-    category: 'organization',
+  'conjugation_drill': {
+    id: 'conjugation_drill',
+    name: 'Conjugation Drill',
+    category: 'learning',
     lifecycle: 'active',
     permission: Permission.DO_PRACTICE,
-    limitType: 'monthly',
-    notifications: false,
-    description: 'Save vocabulary words, kanji, and sentences to your custom lists'
+    limitType: 'daily',
+    notifications: true,
+    description: 'Practice Japanese verb and adjective conjugations with interactive drills'
   },
   'youtube_shadowing': {
     id: 'youtube_shadowing',
@@ -89,15 +89,15 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: false,
     description: 'Upload and practice with your own video/audio files for shadowing practice'
   },
-  'stall_layout_customization': {
-    id: 'stall_layout_customization',
-    name: 'Learning Village Layout Customization',
-    category: 'personalization',
+  'save_items': {
+    id: 'save_items',
+    name: 'Save Items',
+    category: 'organization',
     lifecycle: 'active',
     permission: Permission.DO_PRACTICE,
-    limitType: 'none',
+    limitType: 'monthly',
     notifications: false,
-    description: 'Customize the layout of Learning Village stalls by dragging and dropping them to your preferred order'
+    description: 'Save vocabulary, kanji, and other items to your personal collection'
   },
   'todos': {
     id: 'todos',
@@ -107,7 +107,7 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'monthly',
     notifications: false,
-    description: 'Create and manage personal todo lists for your Japanese learning goals'
+    description: 'Create and manage learning todo lists and goals'
   },
   'flashcard_decks': {
     id: 'flashcard_decks',
@@ -117,17 +117,17 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'monthly',
     notifications: false,
-    description: 'Create and study custom flashcard decks with spaced repetition'
+    description: 'Create custom flashcard decks for spaced repetition practice'
   },
-  'conjugation_drill': {
-    id: 'conjugation_drill',
-    name: 'Conjugation Drill',
-    category: 'learning',
+  'stall_layout_customization': {
+    id: 'stall_layout_customization',
+    name: 'Learning Village Layout Customization',
+    category: 'personalization',
     lifecycle: 'active',
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
-    notifications: true,
-    description: 'Practice Japanese verb and adjective conjugations with interactive drills'
+    notifications: false,
+    description: 'Customize the layout of Learning Village stalls by dragging and dropping them to your preferred order'
   }
 };
 

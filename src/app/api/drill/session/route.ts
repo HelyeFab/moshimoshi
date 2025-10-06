@@ -116,10 +116,10 @@ export async function POST(request: NextRequest) {
     const bucketKey = getBucketKey('conjugation_drill' as FeatureId, session.uid, nowUtc);
 
     // Get current usage
-    const usageRef = adminDb!.collection('usage').doc(session.uid);
+    const usageRef = adminDb!.collection('users').doc(session.uid).collection('usage').doc(bucketKey);
     const usageDoc = await usageRef.get();
     const usageData = usageDoc.data() || {};
-    const currentUsage = usageData[bucketKey] || 0;
+    const currentUsage = usageData['conjugation_drill'] || 0;
 
     // Build full usage object (evaluator expects all features)
     const usage: Record<string, number> = {

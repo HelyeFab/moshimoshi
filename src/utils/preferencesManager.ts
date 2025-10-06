@@ -327,6 +327,10 @@ export class PreferencesManager {
             theme: preferences.theme,
             language: preferences.language,
             palette: preferences.palette,
+            notifications: preferences.notifications,
+            learning: preferences.learning,
+            privacy: preferences.privacy,
+            accessibility: preferences.accessibility,
           },
         }),
       });
@@ -375,10 +379,10 @@ export class PreferencesManager {
           theme: data.preferences.theme || this.DEFAULT_PREFERENCES.theme,
           language: data.preferences.language || this.DEFAULT_PREFERENCES.language,
           palette: data.preferences.palette || this.DEFAULT_PREFERENCES.palette,
-          notifications: this.DEFAULT_PREFERENCES.notifications,
-          learning: this.DEFAULT_PREFERENCES.learning,
-          privacy: this.DEFAULT_PREFERENCES.privacy,
-          accessibility: this.DEFAULT_PREFERENCES.accessibility,
+          notifications: data.preferences.notifications || this.DEFAULT_PREFERENCES.notifications,
+          learning: data.preferences.learning || this.DEFAULT_PREFERENCES.learning,
+          privacy: data.preferences.privacy || this.DEFAULT_PREFERENCES.privacy,
+          accessibility: data.preferences.accessibility || this.DEFAULT_PREFERENCES.accessibility,
           updatedAt: new Date(),
         };
       }

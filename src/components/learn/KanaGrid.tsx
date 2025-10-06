@@ -259,9 +259,18 @@ const KanaGrid = memo(function KanaGrid({
                     const isLearned = charProgress?.status === 'learned'
                     const isLearning = charProgress?.status === 'learning'
 
-                    // Simple styling - matching Kanji browser
-                    const borderStyle = 'border-2 border-gray-200 dark:border-dark-700'
-                    const bgStyle = 'bg-white dark:bg-dark-800'
+                    // Conditional styling based on learning progress
+                    const borderStyle = isLearned
+                      ? 'border-2 border-green-500 dark:border-green-400'
+                      : isLearning
+                      ? 'border-2 border-yellow-500 dark:border-yellow-400'
+                      : 'border-2 border-gray-200 dark:border-dark-700'
+
+                    const bgStyle = isLearned
+                      ? 'bg-green-50 dark:bg-green-900/20'
+                      : isLearning
+                      ? 'bg-yellow-50 dark:bg-yellow-900/20'
+                      : 'bg-white dark:bg-dark-800'
 
                     return (
                       <motion.div

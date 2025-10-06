@@ -59,10 +59,10 @@ export async function POST(
 
     if (userId && adminDb) {
       try {
-        const usageRef = adminDb.collection('usage').doc(userId);
+        const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
         const usageDoc = await usageRef.get();
         const usageData = usageDoc.data() || {};
-        currentUsage = usageData[bucketKey] || 0;
+        currentUsage = usageData[featureId] || 0;
       } catch (error) {
         console.error('Error fetching usage:', error);
       }
@@ -81,9 +81,9 @@ export async function POST(
     // 6. If allowed, increment usage
     if (decision.allow && userId && adminDb) {
       try {
-        const usageRef = adminDb.collection('usage').doc(userId);
+        const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
         await usageRef.set({
-          [bucketKey]: currentUsage + 1,
+          [featureId]: currentUsage + 1,
           lastUpdated: nowUtc
         }, { merge: true });
 

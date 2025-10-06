@@ -705,9 +705,9 @@ export default function LearningVillage() {
     // === PRODUCTIVITY ===
     {
       id: 'todos',
-      title: strings.todos?.title || 'Task Manager',
-      subtitle: 'タスク管理',
-      description: 'Organize your study tasks and goals',
+      title: strings.dashboard?.cards?.todos?.title || 'Task Manager',
+      subtitle: strings.dashboard?.cards?.todos?.subtitle || 'タスク管理',
+      description: strings.dashboard?.cards?.todos?.description || 'Organize your study tasks and goals',
       href: '/todos',
       icon: '✅',
       stallType: 'utility',

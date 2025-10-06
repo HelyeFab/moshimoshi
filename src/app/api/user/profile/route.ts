@@ -25,6 +25,37 @@ const ProfileUpdateSchema = z.object({
     profileVisible: z.boolean().optional(),
     progressVisible: z.boolean().optional(),
   }).optional(),
+  // Extended preferences for full sync
+  preferences: z.object({
+    theme: z.enum(['light', 'dark', 'system']).optional(),
+    language: z.enum(['en', 'ja', 'fr', 'it', 'de', 'es']).optional(),
+    palette: z.string().optional(),
+    notifications: z.object({
+      dailyReminder: z.boolean().optional(),
+      achievementAlerts: z.boolean().optional(),
+      weeklyProgress: z.boolean().optional(),
+      marketingEmails: z.boolean().optional(),
+    }).optional(),
+    learning: z.object({
+      autoplay: z.boolean().optional(),
+      furigana: z.boolean().optional(),
+      romaji: z.boolean().optional(),
+      soundEffects: z.boolean().optional(),
+      hapticFeedback: z.boolean().optional(),
+    }).optional(),
+    privacy: z.object({
+      publicProfile: z.boolean().optional(),
+      showProgress: z.boolean().optional(),
+      shareAchievements: z.boolean().optional(),
+      hideFromLeaderboard: z.boolean().optional(),
+    }).optional(),
+    accessibility: z.object({
+      largeText: z.boolean().optional(),
+      highContrast: z.boolean().optional(),
+      reduceMotion: z.boolean().optional(),
+      screenReader: z.boolean().optional(),
+    }).optional(),
+  }).optional(),
 })
 
 export interface UserProfile {
@@ -55,6 +86,36 @@ export interface UserProfile {
     lessonsCompleted: number
     streakDays: number
     lastStudyDate: Date | null
+  }
+  preferences?: {
+    theme?: 'light' | 'dark' | 'system'
+    language?: 'en' | 'ja' | 'fr' | 'it' | 'de' | 'es'
+    palette?: string
+    notifications?: {
+      dailyReminder?: boolean
+      achievementAlerts?: boolean
+      weeklyProgress?: boolean
+      marketingEmails?: boolean
+    }
+    learning?: {
+      autoplay?: boolean
+      furigana?: boolean
+      romaji?: boolean
+      soundEffects?: boolean
+      hapticFeedback?: boolean
+    }
+    privacy?: {
+      publicProfile?: boolean
+      showProgress?: boolean
+      shareAchievements?: boolean
+      hideFromLeaderboard?: boolean
+    }
+    accessibility?: {
+      largeText?: boolean
+      highContrast?: boolean
+      reduceMotion?: boolean
+      screenReader?: boolean
+    }
   }
 }
 
@@ -126,6 +187,7 @@ export async function GET(request: NextRequest) {
         streakDays: profileData?.stats?.streakDays || 0,
         lastStudyDate: profileData?.stats?.lastStudyDate?.toDate() || null,
       },
+      preferences: profileData?.preferences || undefined,
     }
 
     // Cache the profile
@@ -218,6 +280,10 @@ export async function PATCH(request: NextRequest) {
     if (updates.privacy !== undefined) {
       updateData['privacy.profileVisible'] = updates.privacy.profileVisible
       updateData['privacy.progressVisible'] = updates.privacy.progressVisible
+    }
+    if (updates.preferences !== undefined) {
+      // Store the full preferences object
+      updateData.preferences = updates.preferences
     }
 
     // Update profile in Firestore

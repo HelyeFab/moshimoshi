@@ -106,8 +106,11 @@ export const GET = withAdminAuth(async (
 
     // 4. Usage data
     try {
-      const usageDoc = await adminDb.collection('usage').doc(uid).get();
-      userData.usage = usageDoc.exists ? usageDoc.data() : null;
+      const usageSnapshot = await adminDb.collection('users').doc(uid).collection('usage').get();
+      userData.usage = {};
+      usageSnapshot.forEach(doc => {
+        userData.usage[doc.id] = doc.data();
+      });
     } catch (error) {
       console.error('Error fetching usage:', error);
       userData.usage = null;

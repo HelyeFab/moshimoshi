@@ -310,6 +310,132 @@ export const strings = {
       modeTitle: "開発者モード",
       authTestLink: "→ 認証テストページ",
     },
+    statModals: {
+      close: "了解！",
+      formulaLabel: "計算式",
+      breakdownLabel: "詳細",
+      streak: {
+        title: "連続記録",
+        description: "連続記録は、意義のある学習で日本語を練習した連続日数を示します。",
+        formula: "10 XP以上を獲得した連続日数",
+        whatItMeans: "毎日少なくとも10 XPを獲得する（ドリルで1つ以上の正解）と、連続記録が1増えます。同じ日に複数のセッションを行っても、連続記録はそれ以上増えません。",
+        howToImprove: "毎日練習しましょう！短い5分のセッションでもカウントされます。毎日のリマインダーを設定し、日本語の練習を日課にしましょう。",
+        breakdown: {
+          current: "現在の連続記録",
+          longest: "最長連続記録（全期間）",
+          lastActive: "最終活動日",
+          minXP: "1日あたりの最低XP"
+        },
+        goalNote: "7日間の連続記録を築いて強力な学習習慣を身につけましょう！"
+      },
+      xpEarned: {
+        title: "獲得XP",
+        description: "経験値（XP）は学習活動と達成度を測定します。XPは正確さとスピードボーナスで練習セッションを通じて獲得されます。",
+        formula: "基本XP + 正確性ボーナス + スピードボーナス + 連続記録ボーナス",
+        whatItMeans: "正解するごとに基本XPを獲得します（10ポイント）。高精度（≥90%）と速い応答でボーナスによりXPが2倍になります！",
+        howToImprove: "まず正確さに集中し、次にスピード！完全なドリルセッションを完了し、高精度を維持し、連続記録を築いてXPを最大化しましょう。",
+        breakdown: {
+          total: "合計獲得XP",
+          currentLevel: "現在のレベル",
+          nextLevel: "次のレベルまでのXP",
+          dailyCap: "1日のXP上限"
+        },
+        bonuses: {
+          accuracy: "正確性ボーナス（≥90%）：2倍XP",
+          speed: "スピードボーナス（平均<2秒）：+10 XP",
+          streak: "連続記録ボーナス（≥5）：アイテムごとに+3 XP"
+        },
+        goalNote: "1日のXPは500に制限されており、バランスの取れた持続可能な練習を促進します。"
+      },
+      achievementProgress: {
+        title: "実績の進捗",
+        description: "日本語を学習し練習しながら実績をアンロックして、あなたの旅を追跡します。",
+        formula: "（アンロック済み / 合計）× 100",
+        whatItMeans: "このパーセンテージは、利用可能な実績のうち、どれだけ獲得したかを示します。",
+        howToImprove: "ドリルを完了し、毎日の連続記録を維持し、定期的に練習してより多くの実績をアンロックしましょう。",
+        breakdown: {
+          unlocked: "アンロック済み実績",
+          total: "利用可能な合計",
+          completion: "完了率"
+        }
+      },
+      achievements: {
+        title: "アンロック済み実績",
+        description: "実績は学習の旅でマイルストーンに到達したことへの報酬です。各実績は特定の達成を表します。",
+        formula: "アンロック済み実績の数",
+        whatItMeans: "練習と献身を通じて獲得した実績の総数。",
+        howToImprove: "練習を続けましょう！ドリルを完了し、連続記録を維持し、正確性目標に到達し、さまざまな時間に練習して10個すべての実績をアンロックしましょう。",
+        breakdown: {
+          unlocked: "現在アンロック済み",
+          available: "利用可能な合計",
+          earnMore: "さらに獲得する方法"
+        },
+        tips: "簡単な実績として、Early Bird（午前6時前に練習）またはNight Owl（午後10時以降に練習）を試してみてください！"
+      },
+      drillsCompleted: {
+        title: "完了したドリル",
+        description: "完了した各ドリルセッションは、日本語の活用スキルを構築するのに役立ちます。量より質が重要です！",
+        formula: "完了したドリルセッションの合計",
+        whatItMeans: "スコアに関係なく、完了したドリルセッションの数。",
+        howToImprove: "定期的に練習しましょう！各セッションは合計にカウントされ、活用の筋肉記憶を構築するのに役立ちます。",
+        breakdown: {
+          total: "合計ドリル",
+          perfect: "完璧なドリル（100%）",
+          types: "練習タイプ"
+        }
+      },
+      drillAccuracy: {
+        title: "ドリルの正確性",
+        description: "正確性は、すべての練習セッションで日本語の動詞活用をどれだけ理解しているかを反映します。",
+        formula: "（正解数 / 合計回答数）× 100",
+        whatItMeans: "すべてのドリルで正しく答えた質問のパーセンテージ。累積的に計算されるため、最近の改善により全体的なスコアが徐々に上昇します。",
+        example: "例：合計15問中12問正解した場合、正確性は80%です。",
+        howToImprove: "パターンの理解に集中しましょう！活用ルールを復習し、各質問に時間をかけ、一貫して練習しましょう。",
+        breakdown: {
+          current: "現在の正確性",
+          total: "完了したドリルの合計",
+          goal: "目標正確性"
+        },
+        goalNote: "強い理解を示すために80%以上を目指しましょう！"
+      },
+      drillMastery: {
+        title: "ドリルマスタリースコア",
+        description: "マスタリーは、どれだけ練習したかだけでなく、どれだけよく練習したかを測定する包括的な品質スコア（0-100）です。",
+        formula: "4要素加重計算",
+        whatItMeans: "このスコアは、量、正確性、一貫性、完璧なドリル比率を組み合わせて、マスタリーレベルの完全な全体像を提供します。",
+        factors: "4つの要素",
+        howToImprove: "バランスが重要です！定期的に練習し（量）、正確性に集中し、完璧なセッションを目指し、一貫性を維持しましょう。",
+        breakdown: {
+          volume: "量（最大30ポイント）",
+          volumeDetail: "完了したドリルの合計に基づく",
+          accuracy: "正確性（最大40ポイント）",
+          accuracyDetail: "正解率に基づく",
+          perfectRatio: "完璧比率（20ポイント）",
+          perfectDetail: "100%正確なセッション",
+          consistency: "一貫性（10ポイント）",
+          consistencyDetail: "定期的な練習パターン",
+          total: "合計マスタリースコア"
+        },
+        masterLevels: {
+          beginner: "0-30：初心者 - 練習を続けましょう！",
+          developing: "31-60：発展中 - 上達しています！",
+          proficient: "61-80：熟練 - 素晴らしい！",
+          expert: "81-100：エキスパート - 素晴らしい！"
+        }
+      },
+      learningProgress: {
+        title: "学習進捗",
+        description: "すべての学習カテゴリ（ドリル、仮名、漢字、語彙）にわたる全体的な進捗。",
+        formula: "（マスターしたアイテム / 開始したアイテム）× 100",
+        whatItMeans: "これは単に量ではなく、学習の質を示します。実際に練習したアイテムのみが進捗にカウントされます。",
+        howToImprove: "始めたものをマスターしましょう！新しいものを始める前に、未完了のアイテムをマスタリーに持っていくことに集中しましょう。",
+        breakdown: {
+          percentage: "全体的な進捗",
+          categoriesStarted: "アクティブなカテゴリ",
+          itemsMastered: "マスターしたアイテム"
+        }
+      }
+    },
     greeting: {
       morning: "おはようございます",
       afternoon: "こんにちは",
@@ -425,6 +551,36 @@ export const strings = {
         title: "Flashcards",
         subtitle: "カード",
         description: "復習セッション"
+      },
+      drill: {
+        title: "Drill",
+        subtitle: "ドリル",
+        description: "クイックドリル練習"
+      },
+      youtubeSeries: {
+        title: "YouTube Series",
+        subtitle: "シリーズ",
+        description: "YouTubeチャンネルを追跡"
+      },
+      blog: {
+        title: "Blog",
+        subtitle: "ブログ",
+        description: "記事と更新を読む"
+      },
+      resources: {
+        title: "Resources",
+        subtitle: "リソース",
+        description: "学習リソース"
+      },
+      achievements: {
+        title: "Achievements",
+        subtitle: "成果",
+        description: "進捗を追跡"
+      },
+      todos: {
+        title: "Task Manager",
+        subtitle: "タスク管理",
+        description: "学習タスクと目標を整理"
       },
       favourites: {
         title: "お気に入り",
@@ -902,6 +1058,11 @@ export const strings = {
       emailAddress: "メールアドレス",
       verified: "認証済み",
       verify: "認証",
+    },
+    validation: {
+      displayNameRequired: "表示名を入力してください",
+      displayNameTooLong: "表示名は50文字以内で入力してください",
+      displayNameInvalid: "表示名に無効な文字が含まれています",
     },
     buttons: {
       saveChanges: "変更を保存",

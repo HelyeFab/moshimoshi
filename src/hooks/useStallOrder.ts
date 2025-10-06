@@ -34,7 +34,7 @@ interface StallOrderState {
 }
 
 const STORAGE_KEY = 'moshimoshi-stall-order'
-const FIREBASE_COLLECTION = 'userPreferences'
+const FIREBASE_SUBCOLLECTION = 'villageLayout'
 
 export function useStallOrder(initialStalls: StallItem[]) {
   const { user } = useAuth()
@@ -57,7 +57,7 @@ export function useStallOrder(initialStalls: StallItem[]) {
       // Try Firebase first for premium users
       if (user?.uid && isPremium) {
         logger.debug('[useStallOrder] Loading from Firebase for premium user')
-        const docRef = doc(firestore, FIREBASE_COLLECTION, user.uid)
+        const docRef = doc(firestore, 'users', user.uid, FIREBASE_SUBCOLLECTION, 'data')
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {
@@ -113,7 +113,7 @@ export function useStallOrder(initialStalls: StallItem[]) {
       // Save to Firebase for premium users
       if (user?.uid && isPremium) {
         logger.debug('[useStallOrder] Saving to Firebase')
-        const docRef = doc(firestore, FIREBASE_COLLECTION, user.uid)
+        const docRef = doc(firestore, 'users', user.uid, FIREBASE_SUBCOLLECTION, 'data')
         await setDoc(docRef, {
           stallOrder: order,
           lastUpdated: timestamp
@@ -210,7 +210,7 @@ export function useStallOrder(initialStalls: StallItem[]) {
 
     // Clear from Firebase if premium
     if (user?.uid && isPremium) {
-      const docRef = doc(firestore, FIREBASE_COLLECTION, user.uid)
+      const docRef = doc(firestore, 'users', user.uid, FIREBASE_SUBCOLLECTION, 'data')
       setDoc(docRef, {
         stallOrder: null,
         lastUpdated: new Date()

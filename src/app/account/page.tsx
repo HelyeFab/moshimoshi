@@ -22,6 +22,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import Section from '@/components/ui/Section'
 import { PRICING_CONFIG } from '@/config/pricing'
 import { PremiumBadge } from '@/components/common/PremiumBadge'
+import { Input } from '@/components/ui/Input'
 import dynamic from 'next/dynamic'
 import logger from '@/lib/logger'
 
@@ -121,9 +122,26 @@ function AccountPageContent() {
     checkSession()
   }, [router, isPremium])
 
+  const [displayNameError, setDisplayNameError] = useState<string>('')
+
   const handleUpdateProfile = async () => {
     setUpdating(true)
+    setDisplayNameError('')
+
     try {
+      // Validate display name on client side
+      const trimmedName = displayName.trim()
+      if (trimmedName.length === 0) {
+        setDisplayNameError(strings.account.validation.displayNameRequired)
+        setUpdating(false)
+        return
+      }
+      if (trimmedName.length > 50) {
+        setDisplayNameError(strings.account.validation.displayNameTooLong)
+        setUpdating(false)
+        return
+      }
+
       // Make API call to update profile
       const response = await fetch('/api/user/profile', {
         method: 'PATCH',
@@ -131,13 +149,17 @@ function AccountPageContent() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          displayName: displayName.trim()
+          displayName: trimmedName
         }),
       })
 
       const data = await response.json()
 
       if (!response.ok) {
+        // Show validation error from server
+        if (data.error?.code === 'VALIDATION_ERROR') {
+          setDisplayNameError(data.error.message)
+        }
         throw new Error(data.error?.message || 'Failed to update profile')
       }
 
@@ -300,13 +322,15 @@ function AccountPageContent() {
     <PageContainer gradient="default" showPattern={true}>
       {/* Confetti for successful checkout */}
       {showConfetti && (
-        <Confetti
-          width={typeof window !== 'undefined' ? window.innerWidth : 0}
-          height={typeof window !== 'undefined' ? window.innerHeight : 0}
-          recycle={false}
-          numberOfPieces={500}
-          gravity={0.2}
-        />
+        <div className="fixed inset-0 pointer-events-none z-[9999]">
+          <Confetti
+            width={typeof window !== 'undefined' ? window.innerWidth : 0}
+            height={typeof window !== 'undefined' ? window.innerHeight : 0}
+            recycle={false}
+            numberOfPieces={500}
+            gravity={0.2}
+          />
+        </div>
       )}
 
       {/* Congratulations message */}
@@ -432,18 +456,19 @@ function AccountPageContent() {
               </div>
 
               {/* Display Name */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  {strings.account.profileFields.displayName}
-                </label>
-                <input
-                  type="text"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder={strings.account.profileFields.namePlaceholder}
-                  className="w-full px-4 py-2 bg-white dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 text-gray-900 dark:text-gray-100"
-                />
-              </div>
+              <Input
+                label={strings.account.profileFields.displayName}
+                type="text"
+                value={displayName}
+                onChange={(e) => {
+                  setDisplayName(e.target.value)
+                  // Clear error when user types
+                  if (displayNameError) setDisplayNameError('')
+                }}
+                placeholder={strings.account.profileFields.namePlaceholder}
+                error={displayNameError}
+                maxLength={50}
+              />
 
               {/* Email */}
               <div>

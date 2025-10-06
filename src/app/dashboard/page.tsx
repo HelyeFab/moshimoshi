@@ -433,13 +433,15 @@ function DashboardContent() {
     <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800 transition-colors duration-500">
       {/* Confetti for successful donation */}
       {showConfetti && (
-        <Confetti
-          width={typeof window !== 'undefined' ? window.innerWidth : 0}
-          height={typeof window !== 'undefined' ? window.innerHeight : 0}
-          recycle={false}
-          numberOfPieces={200}
-          gravity={0.1}
-        />
+        <div className="fixed inset-0 pointer-events-none z-[9999]">
+          <Confetti
+            width={typeof window !== 'undefined' ? window.innerWidth : 0}
+            height={typeof window !== 'undefined' ? window.innerHeight : 0}
+            recycle={false}
+            numberOfPieces={200}
+            gravity={0.1}
+          />
+        </div>
       )}
 
       {/* Animated background pattern */}

@@ -45,9 +45,6 @@ async function downloadUserData(userId) {
     'users',
     'leaderboard_stats',
     'user_stats',
-    'userPreferences',
-    'pokemon',
-    'usage',
     'drill_sessions',
     'logs',
     'leaderboard_optouts'

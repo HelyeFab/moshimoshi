@@ -79,14 +79,16 @@ export default function CelebrationScreen({
         <>
           {/* Confetti */}
           {showConfetti && (
-            <Confetti
-              width={width}
-              height={height}
-              recycle={false}
-              numberOfPieces={500}
-              gravity={0.3}
-              colors={['#FFD700', '#FF6B9D', '#4ECDC4', '#95E1D3', '#F38181', '#AA96DA']}
-            />
+            <div className="fixed inset-0 pointer-events-none z-[9999]">
+              <Confetti
+                width={width}
+                height={height}
+                recycle={false}
+                numberOfPieces={500}
+                gravity={0.3}
+                colors={['#FFD700', '#FF6B9D', '#4ECDC4', '#95E1D3', '#F38181', '#AA96DA']}
+              />
+            </div>
           )}
 
           {/* Celebration Modal */}
