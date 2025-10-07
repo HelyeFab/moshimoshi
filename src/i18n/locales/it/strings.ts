@@ -330,6 +330,10 @@ export const strings = {
       close: "Capito!",
       formulaLabel: "Formula",
       breakdownLabel: "Dettagli",
+      howToImproveLabel: "Come migliorare",
+      availableBonusesLabel: "Bonus disponibili",
+      masteryLevelsLabel: "Livelli di padronanza",
+      proTipLabel: "Consiglio da professionista",
       streak: {
         title: "Serie Giornaliera",
         description: "La tua serie mostra quanti giorni consecutivi hai praticato il giapponese con impegno significativo.",
@@ -450,6 +454,47 @@ export const strings = {
           categoriesStarted: "Categorie attive",
           itemsMastered: "Elementi padroneggiati"
         }
+      },
+      videosPracticed: {
+        title: "Video Praticati",
+        description: "Il numero totale di video YouTube unici a cui hai avuto accesso per la pratica dello shadowing.",
+        formula: "Conteggio dei video unici caricati",
+        whatItMeans: "Ogni nuovo video che carichi per la pratica dello shadowing conta per questo totale. Rivedere lo stesso video non aumenta il conteggio.",
+        howToImprove: "Esplora video diversi per praticare con vari parlanti, argomenti e modelli di discorso!",
+        breakdown: {
+          total: "Totale video consultati",
+          thisWeek: "Video questa settimana",
+          quotaInfo: "Informazioni sulla quota"
+        },
+        goalNote: "Praticare con contenuti diversi migliora la tua comprensione all'ascolto!"
+      },
+      videosRemaining: {
+        title: "Video Rimanenti",
+        description: "Il numero di nuovi video che puoi caricare oggi in base alla tua quota giornaliera.",
+        formula: "Limite giornaliero − Video caricati oggi",
+        whatItMeans: "La tua quota giornaliera si azzera a mezzanotte UTC. I video precedentemente consultati possono essere praticati illimitatamente senza usare la quota.",
+        howToImprove: "Passa a Premium per 20 video al giorno, o rivedi i tuoi video preferiti per una pratica illimitata gratuita!",
+        breakdown: {
+          remaining: "Rimanenti oggi",
+          limit: "Limite giornaliero",
+          used: "Usati oggi",
+          resetTime: "Si azzera alle"
+        },
+        goalNote: "Gli utenti gratuiti ottengono 3 nuovi video al giorno, gli utenti Premium ne ottengono 20!"
+      },
+      watchTime: {
+        title: "Tempo di Visione",
+        description: "Il tempo totale che hai trascorso praticando attivamente con i video di shadowing di YouTube.",
+        formula: "Somma di tutte le durate delle sessioni di pratica",
+        whatItMeans: "Il tempo viene tracciato durante le sessioni di pratica effettive. Questo misura il tuo impegno costante con la pratica dello shadowing.",
+        howToImprove: "Pratica regolarmente! Anche 10-15 minuti al giorno costruiscono forti abilità di ascolto e pronuncia.",
+        breakdown: {
+          total: "Tempo di visione totale",
+          thisWeek: "Questa settimana",
+          thisMonth: "Questo mese",
+          avgPerSession: "Media per sessione"
+        },
+        goalNote: "Mira ad almeno 30 minuti di pratica dello shadowing a settimana!"
       }
     },
     villageHeader: {

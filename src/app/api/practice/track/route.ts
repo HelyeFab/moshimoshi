@@ -5,9 +5,11 @@ import { adminFirestore as adminDb } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
 
 export async function POST(req: NextRequest) {
+  console.log('[Practice Track] ========== POST REQUEST RECEIVED ==========');
   try {
     // Get session
     const session = await getSession();
+    console.log('[Practice Track] Session:', session ? `User ${session.uid}` : 'No session');
 
     // Check storage decision for premium status
     let storageDecision = null;

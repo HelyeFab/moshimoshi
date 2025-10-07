@@ -248,22 +248,35 @@ function YouTubeShadowingContent() {
 
   // Save practice time to backend
   const savePracticeTime = async (finalSave: boolean = false) => {
-    if (!session || !sessionStartTimeRef.current) return;
+    console.log('[CLIENT] savePracticeTime called', { finalSave, hasSession: !!session, hasStartTime: !!sessionStartTimeRef.current });
+    if (!session || !sessionStartTimeRef.current) {
+      console.log('[CLIENT] Early return - no session or start time');
+      return;
+    }
 
     const currentTime = Date.now();
     const practiceTimeInSeconds = Math.floor((currentTime - sessionStartTimeRef.current) / 1000);
+    console.log('[CLIENT] Practice time:', practiceTimeInSeconds, 'seconds');
 
     // Skip if less than 5 seconds (avoid accidental tracking)
-    if (practiceTimeInSeconds < 5 && !finalSave) return;
+    if (practiceTimeInSeconds < 5 && !finalSave) {
+      console.log('[CLIENT] Skipping - less than 5 seconds');
+      return;
+    }
 
     // Skip if we saved recently (within 10 seconds) unless it's final save
     if (!finalSave && lastSaveTimeRef.current && (currentTime - lastSaveTimeRef.current) < 10000) {
+      console.log('[CLIENT] Skipping - saved recently');
       return;
     }
 
     const videoId = extractVideoId(session.videoUrl);
-    if (!videoId || session.videoUrl.startsWith('blob:')) return;
+    if (!videoId || session.videoUrl.startsWith('blob:')) {
+      console.log('[CLIENT] Skipping - no videoId or blob URL');
+      return;
+    }
 
+    console.log('[CLIENT] Making practice track request...', { videoId, practiceTime: practiceTimeInSeconds });
     try {
       await fetch('/api/practice/track', {
         method: 'POST',
@@ -297,7 +310,14 @@ function YouTubeShadowingContent() {
   };
 
   const handleTranscriptLoaded = async (transcript: TranscriptLine[], videoTitle?: string, videoMetadata?: any) => {
+    console.log('[CLIENT] ========== handleTranscriptLoaded called ==========', {
+      transcriptLength: transcript.length,
+      hasSession: !!session,
+      videoTitle,
+      hasMetadata: !!videoMetadata
+    });
     if (session) {
+      console.log('[CLIENT] Session exists, setting up practice tracking');
       updateSession({
         ...session,
         transcript,
@@ -311,19 +331,29 @@ function YouTubeShadowingContent() {
 
       // Clear any existing auto-save interval
       if (autoSaveIntervalRef.current) {
+        console.log('[CLIENT] Clearing existing auto-save interval');
         clearInterval(autoSaveIntervalRef.current);
       }
 
       // Set up auto-save every 30 seconds for long sessions
+      console.log('[CLIENT] Setting up auto-save interval (every 30 seconds)');
       autoSaveIntervalRef.current = setInterval(() => {
+        console.log('[CLIENT] Auto-save interval triggered');
         savePracticeTime(false);
       }, 30000);
+      console.log('[CLIENT] Auto-save interval created:', !!autoSaveIntervalRef.current);
 
       // Initial track without practice time (just to register the video)
+      console.log('[CLIENT] Checking if should make initial track call:', {
+        hasVideoUrl: !!session.videoUrl,
+        isNotBlob: !session.videoUrl?.startsWith('blob:')
+      });
       if (session.videoUrl && !session.videoUrl.startsWith('blob:')) {
         const videoId = extractVideoId(session.videoUrl);
+        console.log('[CLIENT] Extracted videoId:', videoId);
         if (videoId) {
           try {
+            console.log('[CLIENT] Making initial practice track call (practiceTime: 0)');
             await fetch('/api/practice/track', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },

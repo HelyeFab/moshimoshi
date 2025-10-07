@@ -312,6 +312,10 @@ export const strings = {
       close: "Verstanden!",
       formulaLabel: "Formel",
       breakdownLabel: "Aufschlüsselung",
+      howToImproveLabel: "Wie man sich verbessert",
+      availableBonusesLabel: "Verfügbare Boni",
+      masteryLevelsLabel: "Meisterschaftsstufen",
+      proTipLabel: "Profi-Tipp",
       streak: {
         title: "Tägliche Serie",
         description: "Ihre Serie zeigt, an wie vielen aufeinanderfolgenden Tagen Sie mit bedeutendem Engagement Japanisch geübt haben.",
@@ -432,6 +436,47 @@ export const strings = {
           categoriesStarted: "Aktive Kategorien",
           itemsMastered: "Gemeisterte Elemente"
         }
+      },
+      videosPracticed: {
+        title: "Geübte Videos",
+        description: "Die Gesamtzahl der eindeutigen YouTube-Videos, auf die Sie für Shadowing-Übungen zugegriffen haben.",
+        formula: "Anzahl der geladenen eindeutigen Videos",
+        whatItMeans: "Jedes neue Video, das Sie für Shadowing-Übungen laden, zählt zu dieser Gesamtzahl. Das erneute Ansehen desselben Videos erhöht die Anzahl nicht.",
+        howToImprove: "Erkunden Sie verschiedene Videos, um mit verschiedenen Sprechern, Themen und Sprachmustern zu üben!",
+        breakdown: {
+          total: "Insgesamt aufgerufene Videos",
+          thisWeek: "Videos diese Woche",
+          quotaInfo: "Kontingent-Informationen"
+        },
+        goalNote: "Das Üben mit vielfältigen Inhalten verbessert Ihr Hörverständnis!"
+      },
+      videosRemaining: {
+        title: "Verbleibende Videos",
+        description: "Die Anzahl neuer Videos, die Sie heute basierend auf Ihrem täglichen Kontingent laden können.",
+        formula: "Tageslimit − Heute geladene Videos",
+        whatItMeans: "Ihr tägliches Kontingent wird um Mitternacht UTC zurückgesetzt. Zuvor aufgerufene Videos können unbegrenzt ohne Kontingentverbrauch geübt werden.",
+        howToImprove: "Upgraden Sie auf Premium für 20 Videos pro Tag, oder besuchen Sie Ihre Lieblingsvideos für unbegrenzte kostenlose Übung erneut!",
+        breakdown: {
+          remaining: "Verbleibend heute",
+          limit: "Tageslimit",
+          used: "Heute verwendet",
+          resetTime: "Zurücksetzen um"
+        },
+        goalNote: "Kostenlose Benutzer erhalten täglich 3 neue Videos, Premium-Benutzer erhalten 20!"
+      },
+      watchTime: {
+        title: "Wiedergabezeit",
+        description: "Die Gesamtzeit, die Sie aktiv mit YouTube-Shadowing-Videos geübt haben.",
+        formula: "Summe aller Übungssitzungsdauern",
+        whatItMeans: "Die Zeit wird während tatsächlicher Übungssitzungen verfolgt. Dies misst Ihr konsequentes Engagement bei der Shadowing-Übung.",
+        howToImprove: "Üben Sie regelmäßig! Schon 10-15 Minuten täglich bauen starke Hör- und Aussprachefähigkeiten auf.",
+        breakdown: {
+          total: "Gesamte Wiedergabezeit",
+          thisWeek: "Diese Woche",
+          thisMonth: "Diesen Monat",
+          avgPerSession: "Durchschnitt pro Sitzung"
+        },
+        goalNote: "Streben Sie mindestens 30 Minuten Shadowing-Übung pro Woche an!"
       }
     },
     greeting: {

@@ -132,8 +132,23 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
       // Parse frontmatter
       const { data: frontmatter, content } = matter(markdownInput);
 
+      // Configure marked with table support
+      const markedOptions = {
+        gfm: true, // GitHub Flavored Markdown
+        tables: true,
+        breaks: true,
+        pedantic: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false
+      };
+
       // Convert markdown to HTML
-      const htmlContent = await marked(content);
+      const htmlContent = marked(content, markedOptions);
+      
+      // Debug: Log the converted HTML to see if tables are preserved
+      console.log('Converted HTML:', htmlContent);
+      console.log('Original markdown content:', content);
 
       // Parse publish date
       let publishDateTime = new Date();
@@ -232,7 +247,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
             <textarea
               value={markdownInput}
               onChange={(e) => setMarkdownInput(e.target.value)}
-              placeholder="---&#10;title: Your Blog Title&#10;slug: your-blog-slug&#10;date: 2025-10-04&#10;tags:&#10;  - Tag1&#10;  - Tag2&#10;excerpt: Your excerpt here&#10;cover_image: /path/to/image.jpg&#10;seo:&#10;  title: SEO Title&#10;  description: SEO Description&#10;---&#10;&#10;# Your Content Here&#10;&#10;Write your blog post content..."
+              placeholder="---&#10;title: Your Blog Title&#10;slug: your-blog-slug&#10;date: 2025-10-04&#10;tags:&#10;  - Tag1&#10;  - Tag2&#10;excerpt: Your excerpt here&#10;cover_image: /path/to/image.jpg&#10;seo:&#10;  title: SEO Title&#10;  description: SEO Description&#10;---&#10;&#10;# Your Content Here&#10;&#10;Write your blog post content...&#10;&#10;| Column 1 | Column 2 | Column 3 |&#10;|----------|----------|----------|&#10;| Data 1   | Data 2   | Data 3   |&#10;| Data 4   | Data 5   | Data 6   |"
               className="w-full h-64 sm:h-96 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 font-mono text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
             />
 

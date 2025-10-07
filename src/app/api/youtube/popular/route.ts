@@ -163,6 +163,29 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    // Calculate user-specific stats (even for cached response)
+    let userStats = {
+      totalVideos: 0,
+      totalPracticeTime: 0
+    };
+
+    if (session) {
+      try {
+        const userPracticeSnapshot = await adminDb
+          .collection('userPracticeHistory')
+          .where('userId', '==', session.uid)
+          .where('contentType', '==', 'youtube')
+          .get();
+
+        userStats.totalVideos = userPracticeSnapshot.size;
+        userStats.totalPracticeTime = userPracticeSnapshot.docs.reduce((total, doc) => {
+          return total + (doc.data().totalPracticeTime || 0);
+        }, 0);
+      } catch (err) {
+        console.error('[Popular API] Error fetching user stats:', err);
+      }
+    }
+
     // Check cache first
     if (cachedVideos && cacheExpiry && cacheExpiry > new Date()) {
       return NextResponse.json({
@@ -173,6 +196,7 @@ export async function GET(req: NextRequest) {
           limit: quotaLimit,
           remaining: Math.max(0, quotaLimit - quotaUsed)
         },
+        stats: userStats,
         cached: true
       });
     }
@@ -211,6 +235,7 @@ export async function GET(req: NextRequest) {
         limit: quotaLimit,
         remaining: Math.max(0, quotaLimit - quotaUsed)
       },
+      stats: userStats,
       cached: false
     });
   } catch (error: any) {

@@ -472,6 +472,10 @@ export const strings = {
       close: "Got it!",
       formulaLabel: "Formula",
       breakdownLabel: "Breakdown",
+      howToImproveLabel: "How to improve",
+      availableBonusesLabel: "Available Bonuses",
+      masteryLevelsLabel: "Mastery Levels",
+      proTipLabel: "Pro tip",
       streak: {
         title: "Daily Streak",
         description: "Your streak shows how many consecutive days you've practiced Japanese with meaningful engagement.",
@@ -592,6 +596,47 @@ export const strings = {
           categoriesStarted: "Categories active",
           itemsMastered: "Items mastered"
         }
+      },
+      videosPracticed: {
+        title: "Videos Practiced",
+        description: "The total number of unique YouTube videos you've accessed for shadowing practice.",
+        formula: "Count of unique videos loaded",
+        whatItMeans: "Each new video you load for shadowing practice counts toward this total. Revisiting the same video doesn't increase the count.",
+        howToImprove: "Explore different videos to practice with various speakers, topics, and speech patterns!",
+        breakdown: {
+          total: "Total videos accessed",
+          thisWeek: "Videos this week",
+          quotaInfo: "Quota information"
+        },
+        goalNote: "Practicing with diverse content improves your listening comprehension!"
+      },
+      videosRemaining: {
+        title: "Videos Remaining",
+        description: "The number of new videos you can load today based on your daily quota.",
+        formula: "Daily limit − Videos loaded today",
+        whatItMeans: "Your daily quota resets at midnight UTC. Previously accessed videos can be practiced unlimited times without using quota.",
+        howToImprove: "Upgrade to Premium for 20 videos per day, or revisit your favorite videos for free unlimited practice!",
+        breakdown: {
+          remaining: "Remaining today",
+          limit: "Daily limit",
+          used: "Used today",
+          resetTime: "Resets at"
+        },
+        goalNote: "Free users get 3 new videos daily, Premium users get 20!"
+      },
+      watchTime: {
+        title: "Watch Time",
+        description: "The total time you've spent actively practicing with YouTube shadowing videos.",
+        formula: "Sum of all practice session durations",
+        whatItMeans: "Time is tracked during actual practice sessions. This measures your consistent engagement with shadowing practice.",
+        howToImprove: "Practice regularly! Even 10-15 minutes daily builds strong listening and pronunciation skills.",
+        breakdown: {
+          total: "Total watch time",
+          thisWeek: "This week",
+          thisMonth: "This month",
+          avgPerSession: "Average per session"
+        },
+        goalNote: "Aim for at least 30 minutes of shadowing practice per week!"
       }
     }
   },

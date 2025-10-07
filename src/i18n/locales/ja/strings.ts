@@ -314,6 +314,10 @@ export const strings = {
       close: "了解！",
       formulaLabel: "計算式",
       breakdownLabel: "詳細",
+      howToImproveLabel: "改善方法",
+      availableBonusesLabel: "利用可能なボーナス",
+      masteryLevelsLabel: "習熟度レベル",
+      proTipLabel: "プロのヒント",
       streak: {
         title: "連続記録",
         description: "連続記録は、意義のある学習で日本語を練習した連続日数を示します。",
@@ -434,6 +438,47 @@ export const strings = {
           categoriesStarted: "アクティブなカテゴリ",
           itemsMastered: "マスターしたアイテム"
         }
+      },
+      videosPracticed: {
+        title: "練習した動画",
+        description: "シャドーイング練習のためにアクセスしたユニークなYouTube動画の総数。",
+        formula: "読み込んだユニークな動画の数",
+        whatItMeans: "シャドーイング練習のために読み込んだ新しい動画はすべてこの合計にカウントされます。同じ動画を再訪してもカウントは増えません。",
+        howToImprove: "さまざまな話者、トピック、話し方のパターンで練習するために、いろいろな動画を探してみましょう！",
+        breakdown: {
+          total: "アクセスした動画の総数",
+          thisWeek: "今週の動画",
+          quotaInfo: "割り当て情報"
+        },
+        goalNote: "多様なコンテンツで練習することでリスニング力が向上します！"
+      },
+      videosRemaining: {
+        title: "残りの動画",
+        description: "1日の割り当てに基づいて今日読み込める新しい動画の数。",
+        formula: "1日の制限 − 今日読み込んだ動画",
+        whatItMeans: "1日の割り当ては午前0時（UTC）にリセットされます。以前にアクセスした動画は割り当てを使用せずに無制限に練習できます。",
+        howToImprove: "プレミアムにアップグレードすると1日20本の動画が利用でき、お気に入りの動画は無料で無制限に練習できます！",
+        breakdown: {
+          remaining: "今日の残り",
+          limit: "1日の制限",
+          used: "今日使用した",
+          resetTime: "リセット時刻"
+        },
+        goalNote: "無料ユーザーは1日3本の新しい動画、プレミアムユーザーは20本が利用できます！"
+      },
+      watchTime: {
+        title: "視聴時間",
+        description: "YouTubeのシャドーイング動画で実際に練習した合計時間。",
+        formula: "すべての練習セッションの時間の合計",
+        whatItMeans: "時間は実際の練習セッション中に追跡されます。これはシャドーイング練習への一貫した取り組みを測定します。",
+        howToImprove: "定期的に練習しましょう！1日10〜15分でも、強力なリスニングスキルと発音スキルを構築できます。",
+        breakdown: {
+          total: "合計視聴時間",
+          thisWeek: "今週",
+          thisMonth: "今月",
+          avgPerSession: "セッションあたりの平均"
+        },
+        goalNote: "週に少なくとも30分のシャドーイング練習を目標にしましょう！"
       }
     },
     greeting: {

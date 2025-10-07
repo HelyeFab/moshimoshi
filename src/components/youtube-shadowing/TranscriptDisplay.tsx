@@ -141,8 +141,14 @@ export default function TranscriptDisplay({
           // Use AI-formatted transcript if available, otherwise raw
           const transcriptToUse = cachedTranscript.formattedTranscript || cachedTranscript.transcript;
 
+          console.log('[CLIENT] TranscriptDisplay: About to call onTranscriptLoaded (cached)', {
+            transcriptLength: transcriptToUse.length,
+            videoTitle: cachedTranscript.videoTitle,
+            hasMetadata: !!enrichedMetadata
+          });
           setStatus('completed');
           onTranscriptLoaded(transcriptToUse, cachedTranscript.videoTitle, enrichedMetadata);
+          console.log('[CLIENT] TranscriptDisplay: onTranscriptLoaded called (cached)');
           return;
         }
       }
@@ -158,12 +164,19 @@ export default function TranscriptDisplay({
         const data = await response.json();
 
         if (response.ok && data.success) {
+          console.log('[CLIENT] TranscriptDisplay: About to call onTranscriptLoaded (API)', {
+            hasFormattedTranscript: !!data.formattedTranscript,
+            transcriptLength: (data.formattedTranscript || data.transcript)?.length,
+            videoTitle: data.videoTitle,
+            hasMetadata: !!data.videoMetadata
+          });
           setStatus('completed');
           onTranscriptLoaded(
             data.formattedTranscript || data.transcript,
             data.videoTitle,
             data.videoMetadata
           );
+          console.log('[CLIENT] TranscriptDisplay: onTranscriptLoaded called (API)');
         } else {
           // Handle quota exceeded error (status 429)
           if (response.status === 429 && data.error === 'QUOTA_EXCEEDED') {

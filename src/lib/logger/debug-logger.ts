@@ -12,32 +12,53 @@
 
 import createDebug from 'debug'
 
+// Ensure createDebug is available
+if (!createDebug || typeof createDebug !== 'function') {
+  console.error('Debug package not properly loaded')
+}
+
+// Safe debug creation function
+const safeCreateDebug = (namespace: string) => {
+  try {
+    return createDebug(namespace)
+  } catch (error) {
+    console.warn(`Failed to create debug instance for ${namespace}:`, error)
+    return () => {} // Return no-op function
+  }
+}
+
 // Create namespaced debug instances
 const debug = {
-  streak: createDebug('app:streak'),
-  pokemon: createDebug('app:pokemon'),
-  auth: createDebug('app:auth'),
-  review: createDebug('app:review'),
-  achievement: createDebug('app:achievement'),
-  sync: createDebug('app:sync'),
-  kanji: createDebug('app:kanji'),
-  kana: createDebug('app:kana'),
-  api: createDebug('app:api'),
-  db: createDebug('app:db'),
-  performance: createDebug('app:performance'),
-  error: createDebug('app:error'),
-  subscription: createDebug('app:subscription'),
-  race: createDebug('app:race'),  // For race condition monitoring
-  warning: createDebug('app:warning')  // For important warnings
+  streak: safeCreateDebug('app:streak'),
+  pokemon: safeCreateDebug('app:pokemon'),
+  auth: safeCreateDebug('app:auth'),
+  review: safeCreateDebug('app:review'),
+  achievement: safeCreateDebug('app:achievement'),
+  sync: safeCreateDebug('app:sync'),
+  kanji: safeCreateDebug('app:kanji'),
+  kana: safeCreateDebug('app:kana'),
+  api: safeCreateDebug('app:api'),
+  db: safeCreateDebug('app:db'),
+  performance: safeCreateDebug('app:performance'),
+  error: safeCreateDebug('app:error'),
+  subscription: safeCreateDebug('app:subscription'),
+  race: safeCreateDebug('app:race'),  // For race condition monitoring
+  warning: safeCreateDebug('app:warning')  // For important warnings
 }
 
 // Enable colors in browser
-if (typeof window !== 'undefined') {
-  createDebug.enable(localStorage.debug || '')
+if (typeof window !== 'undefined' && createDebug && createDebug.enable) {
+  try {
+    createDebug.enable(localStorage.debug || '')
 
-  // Add color support
-  createDebug.formatters.c = (v) => {
-    return `color: ${v}`
+    // Add color support
+    if (createDebug.formatters) {
+      createDebug.formatters.c = (v) => {
+        return `color: ${v}`
+      }
+    }
+  } catch (error) {
+    console.warn('Failed to enable debug logging:', error)
   }
 }
 
@@ -45,7 +66,7 @@ if (typeof window !== 'undefined') {
 export const debugLog: any = (namespace?: string) => {
   // If called with namespace, create a new debug instance
   if (namespace) {
-    return createDebug(namespace);
+    return safeCreateDebug(namespace);
   }
   // Otherwise return the default api logger
   return debug.api;
@@ -134,24 +155,40 @@ Object.assign(debugLog, {
 
   // Helper to enable debugging in browser
   enable: (namespaces: string) => {
-    if (typeof window !== 'undefined') {
-      localStorage.debug = namespaces
-      createDebug.enable(namespaces)
-      console.log(`✅ Debug enabled for: ${namespaces}`)
-    } else {
-      process.env.DEBUG = namespaces
-      createDebug.enable(namespaces)
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.debug = namespaces
+        if (createDebug && createDebug.enable) {
+          createDebug.enable(namespaces)
+        }
+        console.log(`✅ Debug enabled for: ${namespaces}`)
+      } else {
+        process.env.DEBUG = namespaces
+        if (createDebug && createDebug.enable) {
+          createDebug.enable(namespaces)
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to enable debug logging:', error)
     }
   },
 
   disable: () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('debug')
-      createDebug.disable()
-      console.log('🚫 Debug logging disabled')
-    } else {
-      delete process.env.DEBUG
-      createDebug.disable()
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('debug')
+        if (createDebug && createDebug.disable) {
+          createDebug.disable()
+        }
+        console.log('🚫 Debug logging disabled')
+      } else {
+        delete process.env.DEBUG
+        if (createDebug && createDebug.disable) {
+          createDebug.disable()
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to disable debug logging:', error)
     }
   },
 

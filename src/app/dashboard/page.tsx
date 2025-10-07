@@ -22,6 +22,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { useAutoSync } from '@/hooks/useAutoSync'
+import { useYouTubeStats } from '@/hooks/useYouTubeStats'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
 import Modal from '@/components/ui/Modal'
@@ -64,6 +65,9 @@ function DashboardContent() {
 
   // Learning progress from drill mastery (Bunpro multi-track approach)
   const { overall: learningProgress, categories: learningCategories, loading: learningProgressLoading } = useLearningProgress()
+
+  // YouTube shadowing stats
+  const { stats: youtubeStats, loading: youtubeStatsLoading } = useYouTubeStats()
 
   // Debug: Log learning progress
   useEffect(() => {
@@ -236,6 +240,57 @@ function DashboardContent() {
           ] : []
         }
 
+      case 'Videos Practiced':
+        const videosModal = strings.dashboard?.statModals?.videosPracticed
+        return {
+          title: videosModal?.title || 'Videos Practiced',
+          description: videosModal?.description || 'Total unique videos accessed for shadowing',
+          formula: videosModal?.formula || 'Count of unique videos loaded',
+          whatItMeans: videosModal?.whatItMeans,
+          howToImprove: videosModal?.howToImprove,
+          goalNote: videosModal?.goalNote,
+          breakdown: [
+            { label: videosModal?.breakdown?.total || 'Total videos accessed', value: `${youtubeStats?.videosPracticed || 0}` },
+            { label: videosModal?.breakdown?.quotaInfo || 'Quota limit', value: `${youtubeStats?.quotaLimit || 0} per day` }
+          ]
+        }
+
+      case 'Videos Remaining':
+        const remainingModal = strings.dashboard?.statModals?.videosRemaining
+        return {
+          title: remainingModal?.title || 'Videos Remaining',
+          description: remainingModal?.description || 'New videos available today',
+          formula: remainingModal?.formula || 'Daily limit − Videos loaded today',
+          whatItMeans: remainingModal?.whatItMeans,
+          howToImprove: remainingModal?.howToImprove,
+          goalNote: remainingModal?.goalNote,
+          breakdown: [
+            { label: remainingModal?.breakdown?.remaining || 'Remaining today', value: `${youtubeStats?.videosRemaining || 0}` },
+            { label: remainingModal?.breakdown?.limit || 'Daily limit', value: `${youtubeStats?.quotaLimit || 0}` },
+            { label: remainingModal?.breakdown?.used || 'Used today', value: `${youtubeStats?.quotaUsed || 0}` },
+            { label: remainingModal?.breakdown?.resetTime || 'Resets at', value: 'Midnight UTC' }
+          ]
+        }
+
+      case 'Watch Time':
+        const watchModal = strings.dashboard?.statModals?.watchTime
+        const totalMinutes = Math.round((youtubeStats?.watchTime || 0) / 60)
+        const hours = Math.floor(totalMinutes / 60)
+        const minutes = totalMinutes % 60
+        const timeDisplay = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
+        return {
+          title: watchModal?.title || 'Watch Time',
+          description: watchModal?.description || 'Total shadowing practice time',
+          formula: watchModal?.formula || 'Sum of all practice durations',
+          whatItMeans: watchModal?.whatItMeans,
+          howToImprove: watchModal?.howToImprove,
+          goalNote: watchModal?.goalNote,
+          breakdown: [
+            { label: watchModal?.breakdown?.total || 'Total watch time', value: timeDisplay },
+            { label: watchModal?.breakdown?.total || 'In minutes', value: `${totalMinutes} min` }
+          ]
+        }
+
       default:
         return null
     }
@@ -392,11 +447,17 @@ function DashboardContent() {
       learningProgressPercentage: learningProgress?.progressPercentage
     })
 
+    // Format watch time (seconds to minutes)
+    const watchTimeMinutes = Math.round((youtubeStats?.watchTime || 0) / 60);
+
     return [
       { label: String(streakLabel || 'Streak'), value: streakValue.toString(), unit: String(streakUnit || 'days'), color: 'from-orange-400 to-red-500' },
       { label: String(xpLabel || 'XP Earned'), value: xpPoints.toString(), unit: String(xpUnit || 'points'), color: 'from-blue-400 to-purple-500' },
       { label: String(progressLabel || 'Progress'), value: Math.round(completionPercentage).toString(), unit: String(progressUnit || '%'), color: 'from-green-400 to-teal-500' },
       { label: String(achievementsLabel || 'Achievements'), value: achievementCount.toString(), unit: String(achievementsUnit || 'unlocked'), color: 'from-pink-400 to-rose-500' },
+      { label: 'Videos Practiced', value: (youtubeStats?.videosPracticed || 0).toString(), unit: 'videos', color: 'from-red-400 to-pink-500' },
+      { label: 'Videos Remaining', value: (youtubeStats?.videosRemaining || 0).toString(), unit: 'today', color: 'from-green-400 to-teal-500' },
+      { label: 'Watch Time', value: watchTimeMinutes.toString(), unit: 'minutes', color: 'from-purple-400 to-indigo-500' },
       { label: strings.drill?.stats?.totalDrills || 'Drills', value: drillCount.toString(), unit: strings.drill?.stats?.drillsUnit || 'completed', color: 'from-indigo-400 to-blue-500' },
       { label: strings.drill?.stats?.accuracy || 'Drill Accuracy', value: drillAccuracy.toString(), unit: '%', color: 'from-teal-400 to-green-500' },
       { label: strings.drill?.stats?.mastery || 'Drill Mastery', value: drillMastery.toString(), unit: '%', color: 'from-purple-400 to-indigo-500' },
@@ -733,33 +794,33 @@ function DashboardContent() {
             </div>
           </div>
 
-          {/* Desktop Version - Original Layout */}
-          <div className="hidden sm:grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Welcome Section with Doshi - Takes 2 columns on desktop */}
-            <div className="lg:col-span-2 bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 dark:border-dark-700/30 border-l-4 border-l-primary-500 dark:border-l-primary-400">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          {/* Desktop Version - Side by Side Layout */}
+          <div className="hidden sm:grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Welcome Section with Doshi - Takes 1 column on desktop */}
+            <div className="lg:col-span-1 bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/20 dark:border-dark-700/30 border-l-4 border-l-primary-500 dark:border-l-primary-400">
+              <div className="flex flex-col items-center gap-4">
                 <DoshiMascot
-                  size="large"
+                  size="medium"
                   variant="animated"
                   onClick={() => showToast('Doshi says: がんばって! (Good luck!)', 'success')}
                   className="flex-shrink-0 hover:scale-105 transition-transform duration-300"
                   priority={true}
                 />
 
-                <div className="flex-1 text-center sm:text-left space-y-3">
+                <div className="flex-1 text-center space-y-2">
                   {/* Japanese Greeting with Furigana-style Translation */}
-                  <div className="inline-flex flex-col items-center sm:items-start">
-                    <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium mb-1 tracking-wider">
+                  <div className="inline-flex flex-col items-center">
+                    <span className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1 tracking-wider">
                       {greeting.translation}
                     </span>
-                    <span className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent animate-gradient tracking-tight leading-none">
+                    <span className="text-4xl lg:text-5xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent animate-gradient tracking-tight leading-none">
                       {greeting.text}
                     </span>
                   </div>
 
                   {/* User Name with San - Improved Typography */}
-                  <h1 className="flex items-baseline justify-center sm:justify-start flex-wrap">
-                    <span className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+                  <h1 className="flex items-baseline justify-center flex-wrap">
+                    <span className="text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
                       {(() => {
                         const name = user?.displayName || user?.email?.split('@')[0] || 'Learner';
                         return name.split(' ').map(word => {
@@ -777,13 +838,13 @@ function DashboardContent() {
                         }).join(' ');
                       })()}
                     </span>
-                    <span className="text-2xl sm:text-3xl font-medium text-gray-600 dark:text-gray-400 ml-2">
+                    <span className="text-xl lg:text-2xl font-medium text-gray-600 dark:text-gray-400 ml-2">
                       さん
                     </span>
                   </h1>
 
                   {/* Welcome Message */}
-                  <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-light">
+                  <p className="text-sm lg:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-light">
                     {isFirstVisit
                       ? strings.dashboard?.welcome?.firstVisit || "Welcome to your Japanese learning adventure! Doshi is here to guide you."
                       : strings.dashboard?.welcome?.returning || "Ready to continue your journey? Your dedication is inspiring!"}
@@ -791,11 +852,11 @@ function DashboardContent() {
 
                   {/* Optional Motivational Tagline - Enhanced */}
                   {gamificationEnabled && currentStreak > 0 && (
-                    <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
-                      <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 rounded-full">
-                        <span className="text-xl animate-pulse">🔥</span>
-                        <span className="text-sm font-semibold text-orange-700 dark:text-orange-300">
-                          {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                    <div className="flex items-center justify-center gap-3 pt-1">
+                      <div className="flex items-center gap-2 px-2 py-1 bg-orange-100 dark:bg-orange-900/20 rounded-full">
+                        <span className="text-base animate-pulse">🔥</span>
+                        <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
+                          {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak
                         </span>
                       </div>
                     </div>
@@ -804,8 +865,8 @@ function DashboardContent() {
               </div>
             </div>
 
-            {/* Stats Grid - 2x4 grid (7 cards: 2 rows of 3, 1 row of 1) in 1 column on desktop */}
-            <div className="lg:col-span-1 grid grid-cols-2 gap-3 h-full">
+            {/* Stats Grid - 3 columns, takes 3 columns on desktop */}
+            <div className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-4">
               {learningStats.map((stat, index) => (
                 <div
                   key={stat.label}
@@ -813,10 +874,10 @@ function DashboardContent() {
                     setSelectedStat(stat.label)
                     setIsStatModalOpen(true)
                   }}
-                  className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center border-l-4 border-primary-500 dark:border-primary-400"
+                  className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center border-l-4 border-primary-500 dark:border-primary-400"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className={`text-xl lg:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                  <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
                     {stat.value}
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">{String(stat.unit || '')}</div>
@@ -929,7 +990,7 @@ function DashboardContent() {
             {getStatBreakdown(selectedStat)?.bonuses && (
               <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 border border-amber-100 dark:border-amber-900/30">
                 <h3 className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-3 flex items-center gap-2">
-                  ⚡ Available Bonuses
+                  ⚡ {strings.dashboard?.statModals?.availableBonusesLabel || 'Available Bonuses'}
                 </h3>
                 <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                   <p>• {getStatBreakdown(selectedStat)?.bonuses?.accuracy}</p>
@@ -943,7 +1004,7 @@ function DashboardContent() {
             {getStatBreakdown(selectedStat)?.masterLevels && (
               <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-100 dark:border-purple-900/30">
                 <h3 className="text-sm font-semibold text-purple-700 dark:text-purple-300 mb-3 flex items-center gap-2">
-                  🏆 Mastery Levels
+                  🏆 {strings.dashboard?.statModals?.masteryLevelsLabel || 'Mastery Levels'}
                 </h3>
                 <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                   <p>• {getStatBreakdown(selectedStat)?.masterLevels?.beginner}</p>
@@ -958,7 +1019,7 @@ function DashboardContent() {
             {getStatBreakdown(selectedStat)?.howToImprove && (
               <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-100 dark:border-green-900/30">
                 <h3 className="text-sm font-semibold text-green-700 dark:text-green-300 mb-2 flex items-center gap-2">
-                  🎯 How to improve
+                  🎯 {strings.dashboard?.statModals?.howToImproveLabel || 'How to improve'}
                 </h3>
                 <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                   {getStatBreakdown(selectedStat)?.howToImprove}
@@ -970,7 +1031,7 @@ function DashboardContent() {
             {getStatBreakdown(selectedStat)?.tips && (
               <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-4 border border-indigo-100 dark:border-indigo-900/30">
                 <h3 className="text-sm font-semibold text-indigo-700 dark:text-indigo-300 mb-2 flex items-center gap-2">
-                  💫 Pro tip
+                  💫 {strings.dashboard?.statModals?.proTipLabel || 'Pro tip'}
                 </h3>
                 <p className="text-sm text-gray-700 dark:text-gray-300">
                   {getStatBreakdown(selectedStat)?.tips}

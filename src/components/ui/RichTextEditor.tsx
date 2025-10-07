@@ -6,6 +6,7 @@ import Link from '@tiptap/extension-link';
 import CodeBlock from '@tiptap/extension-code-block';
 import Blockquote from '@tiptap/extension-blockquote';
 import Heading from '@tiptap/extension-heading';
+import { Table, TableRow, TableHeader, TableCell } from '@tiptap/extension-table';
 import {
   BoldIcon,
   ItalicIcon,
@@ -15,6 +16,7 @@ import {
   H1Icon,
   H2Icon,
   H3Icon,
+  TableCellsIcon,
 } from '@heroicons/react/24/outline';
 import { useEffect } from 'react';
 
@@ -58,11 +60,17 @@ export function RichTextEditor({
           class: 'border-l-4 border-primary-500 pl-4 italic text-gray-700 dark:text-gray-300',
         },
       }),
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow.configure({}),
+      TableHeader.configure({}),
+      TableCell.configure({}),
     ],
     content,
     editorProps: {
       attributes: {
-        class: `prose prose-lg dark:prose-invert max-w-none focus:outline-none ${minHeight ? `min-h-[${minHeight}]` : ''}`,
+        class: `blog-editor max-w-none focus:outline-none ${minHeight ? `min-h-[${minHeight}]` : ''}`,
         style: minHeight ? `min-height: ${minHeight}` : '',
       },
     },
@@ -115,6 +123,38 @@ export function RichTextEditor({
     if (url) {
       editor.chain().focus().setLink({ href: url }).run();
     }
+  };
+
+  const addTable = () => {
+    editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+  };
+
+  const deleteTable = () => {
+    editor.chain().focus().deleteTable().run();
+  };
+
+  const addColumnBefore = () => {
+    editor.chain().focus().addColumnBefore().run();
+  };
+
+  const addColumnAfter = () => {
+    editor.chain().focus().addColumnAfter().run();
+  };
+
+  const deleteColumn = () => {
+    editor.chain().focus().deleteColumn().run();
+  };
+
+  const addRowBefore = () => {
+    editor.chain().focus().addRowBefore().run();
+  };
+
+  const addRowAfter = () => {
+    editor.chain().focus().addRowAfter().run();
+  };
+
+  const deleteRow = () => {
+    editor.chain().focus().deleteRow().run();
   };
 
   return (
@@ -215,7 +255,7 @@ export function RichTextEditor({
         </div>
 
         {/* Link */}
-        <div className="flex gap-1">
+        <div className="flex gap-1 border-r border-gray-300 dark:border-gray-600 pr-2">
           <ToolbarButton
             onClick={addLink}
             active={editor.isActive('link')}
@@ -230,6 +270,63 @@ export function RichTextEditor({
             >
               <span className="text-xs">✕</span>
             </ToolbarButton>
+          )}
+        </div>
+
+        {/* Table */}
+        <div className="flex gap-1">
+          <ToolbarButton
+            onClick={addTable}
+            disabled={editor.isActive('table')}
+            title="Insert Table"
+          >
+            <TableCellsIcon className="w-5 h-5" />
+          </ToolbarButton>
+          {editor.isActive('table') && (
+            <>
+              <ToolbarButton
+                onClick={addColumnBefore}
+                title="Add Column Before"
+              >
+                <span className="text-xs">+C</span>
+              </ToolbarButton>
+              <ToolbarButton
+                onClick={addColumnAfter}
+                title="Add Column After"
+              >
+                <span className="text-xs">C+</span>
+              </ToolbarButton>
+              <ToolbarButton
+                onClick={deleteColumn}
+                title="Delete Column"
+              >
+                <span className="text-xs">-C</span>
+              </ToolbarButton>
+              <ToolbarButton
+                onClick={addRowBefore}
+                title="Add Row Before"
+              >
+                <span className="text-xs">+R</span>
+              </ToolbarButton>
+              <ToolbarButton
+                onClick={addRowAfter}
+                title="Add Row After"
+              >
+                <span className="text-xs">R+</span>
+              </ToolbarButton>
+              <ToolbarButton
+                onClick={deleteRow}
+                title="Delete Row"
+              >
+                <span className="text-xs">-R</span>
+              </ToolbarButton>
+              <ToolbarButton
+                onClick={deleteTable}
+                title="Delete Table"
+              >
+                <span className="text-xs">-T</span>
+              </ToolbarButton>
+            </>
           )}
         </div>
       </div>

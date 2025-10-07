@@ -11,6 +11,7 @@ import { CommentSection } from "@/components/blog/CommentSection";
 import { ShareButtons } from "@/components/blog/ShareButtons";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import Head from "next/head";
+import "@/styles/blog-content.css";
 
 export default function BlogPostPage() {
   const params = useParams();
@@ -304,9 +305,9 @@ export default function BlogPostPage() {
         )}
 
         {/* Content */}
-        <div className="prose prose-lg dark:prose-invert max-w-none mb-12 sm:mb-16">
+        <div className="max-w-none mb-12 sm:mb-16">
           <div
-            className="bg-white dark:bg-surface-dark rounded-2xl shadow-md p-6 sm:p-8 text-gray-800 dark:text-gray-200 leading-relaxed"
+            className="bg-white dark:bg-surface-dark rounded-2xl shadow-lg p-6 sm:p-8 lg:p-12"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(post.content, {
                 ALLOWED_TAGS: [
@@ -328,10 +329,25 @@ export default function BlogPostPage() {
                   "code",
                   "pre",
                   "blockquote",
+                  "table",
+                  "thead",
+                  "tbody",
+                  "tr",
+                  "th",
+                  "td",
+                  "div",
+                  "span",
                 ],
-                ALLOWED_ATTR: ["href", "target", "rel", "class"],
+                ALLOWED_ATTR: ["href", "target", "rel", "class", "style"],
               }),
             }}
+            style={{
+              // Enhanced typography and spacing
+              fontSize: '18px',
+              lineHeight: '1.7',
+              color: '#1f2937',
+            }}
+            className="blog-content"
           />
         </div>
 
