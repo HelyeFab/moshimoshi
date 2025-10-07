@@ -7,6 +7,8 @@ import { AIService } from '@/lib/ai/AIService';
 import { TranscriptProcessRequest } from '@/lib/ai/types';
 import { transcriptCache } from '@/lib/transcript/cache';
 import { getSession } from '@/lib/auth/session';
+import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
+import type { EvalContext } from '@/types/entitlements';
 
 // Initialize AI Service
 const aiService = AIService.getInstance();
@@ -119,6 +121,151 @@ async function saveToYouTubeHistory(
     }
   } catch (error) {
     console.error('❌ Error saving to YouTube history:', error);
+  }
+}
+
+// Helper function to check if video has been accessed before (any day)
+async function checkIfRepeatVideo(userId: string, videoId: string): Promise<boolean> {
+  try {
+    const docId = `${userId}_${videoId}`;
+    const docRef = db.collection('userPracticeHistory').doc(docId);
+    const doc = await docRef.get();
+    return doc.exists;
+  } catch (error) {
+    console.error('❌ Error checking repeat video:', error);
+    return false; // Assume not repeat on error (safer)
+  }
+}
+
+// Helper function to determine if video should count toward quota
+// Returns true if this is a NEW video (never accessed before)
+// Returns false if this is a REPEAT video (unlimited practice)
+async function shouldCountTowardQuota(userId: string, videoId: string): Promise<boolean> {
+  try {
+    const docId = `${userId}_${videoId}`;
+    const docRef = db.collection('userPracticeHistory').doc(docId);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      // New video, count toward quota
+      console.log(`[Quota] New video ${videoId} for user ${userId} - will count toward quota`);
+      return true;
+    }
+
+    // Repeat video, don't count (unlimited practice)
+    console.log(`[Quota] Repeat video ${videoId} for user ${userId} - free unlimited practice`);
+    return false;
+  } catch (error) {
+    console.error('❌ Error checking quota requirement:', error);
+    return true; // Assume should count on error (safer for quota limits)
+  }
+}
+
+// Helper function to create practice history on first video access
+// This tracks when user first loaded the video (for quota counting)
+async function createPracticeHistoryOnFirstAccess(
+  userId: string,
+  videoId: string
+): Promise<void> {
+  try {
+    const docId = `${userId}_${videoId}`;
+    const docRef = db.collection('userPracticeHistory').doc(docId);
+
+    // Double-check it doesn't exist (race condition protection)
+    const doc = await docRef.get();
+    if (doc.exists) {
+      console.log(`[Quota] Practice history already exists for ${videoId}, skipping creation`);
+      return;
+    }
+
+    // Create the document
+    await docRef.set({
+      userId,
+      videoId: `youtube_${videoId}`,
+      contentType: 'youtube',
+      firstAccessed: Timestamp.now(), // NEW FIELD - when video was first loaded
+      firstPracticed: null, // Will be set by /api/practice/track when user watches 30s
+      lastPracticed: null, // Will be set by /api/practice/track
+      practiceCount: 0, // Will be incremented by /api/practice/track
+      totalPracticeTime: 0, // Will be updated by /api/practice/track
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now()
+    });
+
+    console.log(`[Quota] ✅ Created userPracticeHistory for ${videoId} - counted toward quota`);
+  } catch (error) {
+    console.error('❌ Error creating practice history on first access:', error);
+    throw error; // Propagate error to prevent quota bypass
+  }
+}
+
+// Helper function to check user's quota and verify they can access a new video
+async function checkAndIncrementQuota(userId: string, videoId: string, userPlan: string): Promise<{ allowed: boolean; message?: string; quotaInfo?: any }> {
+  try {
+    // Check if this is a repeat video (should not count toward quota)
+    const shouldCount = await shouldCountTowardQuota(userId, videoId);
+
+    if (!shouldCount) {
+      // Repeat video - unlimited practice, skip quota check
+      console.log(`[Quota] Repeat video - allowing unlimited practice`);
+      return { allowed: true };
+    }
+
+    // New video - count how many videos user has accessed today
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayTimestamp = Timestamp.fromDate(today);
+
+    // Query userPracticeHistory for videos accessed today
+    const practiceSnapshot = await db
+      .collection('userPracticeHistory')
+      .where('userId', '==', userId)
+      .get();
+
+    // Count docs with firstAccessed >= today (filtering in memory)
+    const todayCount = practiceSnapshot.docs.filter(doc => {
+      const data = doc.data();
+      return data.contentType === 'youtube' &&
+             data.firstAccessed &&
+             data.firstAccessed.seconds >= todayTimestamp.seconds;
+    }).length;
+
+    // Get quota limit for user's plan
+    const limits: Record<string, number> = {
+      'guest': 0,
+      'free': 3,
+      'premium_monthly': 20,
+      'premium_yearly': 20
+    };
+
+    const limit = limits[userPlan] || 0;
+
+    console.log(`[Quota] Current usage: ${todayCount}/${limit} for plan ${userPlan}`);
+
+    if (todayCount >= limit) {
+      // Quota exhausted
+      console.log(`[Quota] ❌ Quota exhausted for user ${userId}`);
+      return {
+        allowed: false,
+        message: 'Daily video limit reached',
+        quotaInfo: {
+          used: todayCount,
+          limit,
+          remaining: 0,
+          resetAt: new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString()
+        }
+      };
+    }
+
+    // Quota available - create practice history to increment quota
+    console.log(`[Quota] ✅ Quota available, creating userPracticeHistory`);
+    await createPracticeHistoryOnFirstAccess(userId, videoId);
+
+    return { allowed: true };
+  } catch (error) {
+    console.error('❌ Error checking and incrementing quota:', error);
+    // Allow access on error (fail open for better UX)
+    return { allowed: true };
   }
 }
 
@@ -434,6 +581,36 @@ export async function POST(request: NextRequest) {
 
     // Extract video ID for YouTube API calls (need this BEFORE creating contentId)
     const videoId = extractVideoIdFromUrl(url);
+
+    // CHECK QUOTA for authenticated users BEFORE extracting transcript
+    // This ensures new videos count toward quota even if transcript is cached
+    if (isAuthenticated && userId && userId !== 'anonymous') {
+      // Get user's plan from Firestore
+      let userPlan = 'free';
+      try {
+        const userDoc = await db.collection('users').doc(userId).get();
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          userPlan = userData?.subscription?.plan || 'free';
+        }
+      } catch (error) {
+        console.error('[Quota] Error fetching user plan:', error);
+        // Continue with 'free' as default
+      }
+
+      // Check and increment quota
+      const quotaCheck = await checkAndIncrementQuota(userId, videoId, userPlan);
+
+      if (!quotaCheck.allowed) {
+        // Quota exhausted - return error
+        return NextResponse.json({
+          success: false,
+          error: 'QUOTA_EXCEEDED',
+          message: quotaCheck.message || 'Daily video limit reached',
+          quotaInfo: quotaCheck.quotaInfo
+        }, { status: 429 }); // 429 Too Many Requests
+      }
+    }
 
     // Check cache FIRST before making any API calls
     const contentId = `youtube_${videoId}`;

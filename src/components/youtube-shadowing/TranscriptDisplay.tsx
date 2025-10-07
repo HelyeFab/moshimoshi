@@ -165,6 +165,22 @@ export default function TranscriptDisplay({
             data.videoMetadata
           );
         } else {
+          // Handle quota exceeded error (status 429)
+          if (response.status === 429 && data.error === 'QUOTA_EXCEEDED') {
+            const quotaInfo = data.quotaInfo || {};
+            setStatus('error');
+            setError(
+              `Daily video limit reached (${quotaInfo.used}/${quotaInfo.limit}). ` +
+              `Upgrade to Premium for more videos or try again tomorrow!`
+            );
+
+            // Optional: Redirect to pricing after a delay
+            setTimeout(() => {
+              window.location.href = '/pricing?reason=quota_exceeded';
+            }, 3000);
+            return;
+          }
+
           // Show error with suggestions from API
           const errorMessage = data.message || strings.youtubeShadowing.errors.transcriptFailed;
           const suggestions = data.suggestions || [];

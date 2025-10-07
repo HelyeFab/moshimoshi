@@ -92,27 +92,47 @@ export async function POST(req: NextRequest) {
 
         if (statsDocSnap.exists) {
           const existingStats = statsDocSnap.data();
-          await statsDocRef.update({
+
+          // Prepare update data
+          const updateData: any = {
             userId: session.uid,
             lastPracticed: Timestamp.now(),
             practiceCount: (existingStats?.practiceCount || 0) + 1,
             totalPracticeTime: (existingStats?.totalPracticeTime || 0) + (practiceTime || 0),
             updatedAt: Timestamp.now()
-          });
+          };
+
+          // Set firstPracticed if this is the first time watching for 30+ seconds
+          if (!existingStats?.firstPracticed) {
+            updateData.firstPracticed = Timestamp.now();
+            console.log(`[Practice Track] Setting firstPracticed for ${statsDocId}`);
+          }
+
+          // MIGRATION: Set firstAccessed if missing (lazy migration for old docs)
+          if (!existingStats?.firstAccessed && existingStats?.firstPracticed) {
+            updateData.firstAccessed = existingStats.firstPracticed;
+            console.log(`[Practice Track] [MIGRATION] Setting firstAccessed from firstPracticed for ${statsDocId}`);
+          }
+
+          await statsDocRef.update(updateData);
           console.log(`[Practice Track] ✅ Updated userPracticeHistory for ${statsDocId}`);
         } else {
+          // LEGACY FALLBACK: Create doc if it doesn't exist
+          // This should rarely happen now since /api/youtube/extract creates the doc
+          console.log(`[Practice Track] ⚠️  [LEGACY] Creating userPracticeHistory (should have been created by /api/youtube/extract)`);
           await statsDocRef.set({
             userId: session.uid,
             videoId: `youtube_${videoId}`,
             contentType: 'youtube',
-            lastPracticed: Timestamp.now(),
+            firstAccessed: Timestamp.now(), // NEW FIELD
             firstPracticed: Timestamp.now(),
+            lastPracticed: Timestamp.now(),
             practiceCount: 1,
             totalPracticeTime: practiceTime || 0,
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now()
           });
-          console.log(`[Practice Track] ✅ Created NEW userPracticeHistory for ${statsDocId}`);
+          console.log(`[Practice Track] ✅ Created userPracticeHistory (legacy fallback) for ${statsDocId}`);
         }
       } catch (error) {
         console.error('[Practice Track] ❌ Error saving practice stats to Firebase:', error);

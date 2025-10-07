@@ -157,8 +157,8 @@ export async function GET(req: NextRequest) {
         quotaUsed = practiceSnapshot.docs.filter(doc => {
           const data = doc.data();
           return data.contentType === 'youtube' &&
-                 data.lastPracticed &&
-                 data.lastPracticed.seconds >= todayTimestamp.seconds;
+                 data.firstAccessed &&
+                 data.firstAccessed.seconds >= todayTimestamp.seconds;
         }).length;
       }
     }
