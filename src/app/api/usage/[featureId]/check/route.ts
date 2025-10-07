@@ -3,21 +3,11 @@ import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
 import type { FeatureId } from '@/types/FeatureId';
+import { FEATURE_IDS } from '@/types/FeatureId';
 import type { EvalContext } from '@/types/entitlements';
 
 // Valid feature IDs - should match the main route
-const VALID_FEATURES: Set<FeatureId> = new Set([
-  'hiragana_practice',
-  'katakana_practice',
-  'kanji_browser',
-  'custom_lists',
-  'save_items',
-  'youtube_shadowing',
-  'media_upload',
-  'stall_layout_customization',
-  'todos',
-  'conjugation_drill'
-]);
+const VALID_FEATURES: Set<FeatureId> = new Set(FEATURE_IDS);
 
 export async function GET(
   request: NextRequest,

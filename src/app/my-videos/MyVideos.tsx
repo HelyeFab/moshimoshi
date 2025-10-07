@@ -10,7 +10,6 @@ import {
   Search,
   Loader2,
   History,
-  TrendingUp,
   User,
   ChevronLeft,
   Calendar,
@@ -27,6 +26,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useFeature } from '@/hooks/useFeature';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useYouTubeStats } from '@/hooks/useYouTubeStats';
 import { PracticeHistoryItem } from '@/services/practiceHistory/types';
 import Navbar from '@/components/layout/Navbar';
 import { useToast } from '@/components/ui/Toast/ToastContext';
@@ -39,6 +39,7 @@ export default function MyVideos() {
   const { isPremium, isFreeTier } = useSubscription();
   const { checkAndTrack, remaining } = useFeature('media_upload');
   const { showToast } = useToast();
+  const { stats: youtubeStats, loading: youtubeStatsLoading } = useYouTubeStats();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const parallaxY = useTransform(scrollY, [0, 300], [0, -50]);
@@ -49,15 +50,6 @@ export default function MyVideos() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'recent' | 'mostPracticed'>('recent');
   const [userTier, setUserTier] = useState<string>('guest');
-  const [stats, setStats] = useState<{
-    totalVideos: number;
-    totalPracticeCount: number;
-    totalPracticeTime: number;
-  }>({
-    totalVideos: 0,
-    totalPracticeCount: 0,
-    totalPracticeTime: 0
-  });
   const [showFilters, setShowFilters] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<{
     isOpen: boolean;
@@ -71,7 +63,7 @@ export default function MyVideos() {
 
   // Redirect non-premium users to pricing page
   useEffect(() => {
-    if (!authLoading && !isPremium) {
+    if (!authLoading && isPremium === false) {
       router.push('/pricing?reason=my_videos_premium_only');
     }
   }, [authLoading, isPremium, router]);
@@ -108,24 +100,12 @@ export default function MyVideos() {
           setVideos(localVideos);
           setFilteredVideos(localVideos);
           setUserTier(user ? 'free' : 'guest');
-
-          // Calculate stats from local data
-          setStats({
-            totalVideos: localVideos.length,
-            totalPracticeCount: localVideos.reduce((sum, v) => sum + (v.practiceCount || 0), 0),
-            totalPracticeTime: localVideos.reduce((sum, v) => sum + (v.totalPracticeTime || 0), 0)
-          });
         } catch (localError) {
           console.error('Error loading local videos:', localError);
           // Fallback to empty state
           setVideos([]);
           setFilteredVideos([]);
           setUserTier(user ? 'free' : 'guest');
-          setStats({
-            totalVideos: 0,
-            totalPracticeCount: 0,
-            totalPracticeTime: 0
-          });
         }
       } else {
         // For premium users, fetch from API (Firebase)
@@ -138,19 +118,6 @@ export default function MyVideos() {
         setVideos(data.items || []);
         setFilteredVideos(data.items || []);
         setUserTier(data.userTier || 'guest');
-
-        // Use stats from API if available, otherwise calculate from items
-        if (data.stats) {
-          setStats(data.stats);
-        } else {
-          // Fallback calculation for older API or localStorage data
-          const items = data.items || [];
-          setStats({
-            totalVideos: items.length,
-            totalPracticeCount: items.reduce((sum: number, v: any) => sum + (v.practiceCount || 0), 0),
-            totalPracticeTime: items.reduce((sum: number, v: any) => sum + (v.totalPracticeTime || 0), 0)
-          });
-        }
       }
     } catch (error) {
       console.error('Error loading videos:', error);
@@ -223,12 +190,6 @@ export default function MyVideos() {
       setVideos(prev => prev.filter(v => v.videoId !== deletedVideo.videoId));
       setFilteredVideos(prev => prev.filter(v => v.videoId !== deletedVideo.videoId));
 
-      // Update stats
-      setStats(prev => ({
-        totalVideos: prev.totalVideos - 1,
-        totalPracticeCount: prev.totalPracticeCount - (deletedVideo.practiceCount || 0),
-        totalPracticeTime: prev.totalPracticeTime - (deletedVideo.totalPracticeTime || 0)
-      }));
       setDeleteConfirm({ isOpen: false, video: null, isDeleting: false });
       showToast(t('common.success'), 'success');
     } catch (error) {
@@ -256,6 +217,19 @@ export default function MyVideos() {
 
   const getYouTubeThumbnail = (videoId: string) => {
     return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+  };
+
+  const formatTime = (seconds: number): { value: string; unit: string } => {
+    const minutes = Math.round(seconds / 60);
+    if (minutes >= 60) {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      return {
+        value: remainingMinutes > 0 ? `${hours}:${remainingMinutes.toString().padStart(2, '0')}` : `${hours}`,
+        unit: 'hrs'
+      };
+    }
+    return { value: minutes.toString(), unit: 'min' };
   };
 
   // Stats are now managed in state from API response
@@ -367,7 +341,7 @@ export default function MyVideos() {
           </motion.div>
 
           {/* Enhanced Stats Cards with Glassmorphism */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -384,7 +358,7 @@ export default function MyVideos() {
                   </span>
                 </div>
                 <p className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                  {stats.totalVideos}
+                  {youtubeStats.videosPracticed}
                 </p>
                 <div className="mt-2 h-1 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full opacity-50" />
               </div>
@@ -397,28 +371,6 @@ export default function MyVideos() {
               transition={{ delay: 0.2 }}
               className="relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-green-600 rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
-              <div className="relative bg-white/70 dark:bg-dark-800/70 backdrop-blur-xl rounded-3xl p-6 shadow-xl border border-white/20 dark:border-white/10">
-                <div className="flex items-center justify-between mb-2">
-                  <TrendingUp className="w-10 h-10 text-green-500" />
-                  <span className="text-xs font-medium text-green-600 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">
-                    {strings.myVideos?.stats?.totalSessions || 'Total Practice'}
-                  </span>
-                </div>
-                <p className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                  {stats.totalPracticeCount}
-                </p>
-                <div className="mt-2 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full opacity-50" />
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.02, y: -5 }}
-              transition={{ delay: 0.3 }}
-              className="relative group"
-            >
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
               <div className="relative bg-white/70 dark:bg-dark-800/70 backdrop-blur-xl rounded-3xl p-6 shadow-xl border border-white/20 dark:border-white/10">
                 <div className="flex items-center justify-between mb-2">
@@ -428,8 +380,8 @@ export default function MyVideos() {
                   </span>
                 </div>
                 <p className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                  {Math.round(stats.totalPracticeTime / 60)}
-                  <span className="text-lg ml-1 opacity-70">min</span>
+                  {formatTime(youtubeStats.watchTime).value}
+                  <span className="text-lg ml-1 opacity-70">{formatTime(youtubeStats.watchTime).unit}</span>
                 </p>
                 <div className="mt-2 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full opacity-50" />
               </div>
@@ -439,7 +391,7 @@ export default function MyVideos() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               whileHover={{ scale: 1.02, y: -5 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.3 }}
               className="relative group"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
@@ -641,7 +593,7 @@ export default function MyVideos() {
                             transition={{ delay: index * 0.05 + 0.2 }}
                             className="bg-black/70 backdrop-blur-xl text-white px-3 py-1.5 rounded-full text-sm font-bold flex items-center gap-1"
                           >
-                            <TrendingUp className="w-3.5 h-3.5" />
+                            <BarChart3 className="w-3.5 h-3.5" />
                             {video.practiceCount}x
                           </motion.div>
 
@@ -653,7 +605,8 @@ export default function MyVideos() {
                               className="bg-white/90 dark:bg-dark-900/90 backdrop-blur-xl text-primary-700 dark:text-primary-300 px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1"
                             >
                               <Timer className="w-3.5 h-3.5" />
-                              {Math.round(video.totalPracticeTime / 60)}m
+                              {formatTime(video.totalPracticeTime).value}
+                              {formatTime(video.totalPracticeTime).unit === 'hrs' ? 'h' : 'm'}
                             </motion.div>
                           )}
                         </div>

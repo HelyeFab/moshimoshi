@@ -118,6 +118,21 @@
       }
     },
     {
+      "id": "grammar_explanations",
+      "name": "Grammar Explanations",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Get AI-powered grammar explanations for Japanese sentences",
+      "metadata": {
+        "contentType": "grammar",
+        "difficulty": "intermediate",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
       "id": "youtube_shadowing",
       "name": "YouTube Shadowing",
       "category": "learning",
@@ -221,6 +236,7 @@
         "katakana_practice": 3,
         "kanji_browser": 0,
         "conjugation_drill": 0,
+        "grammar_explanations": 0,
         "youtube_shadowing": 0,
         "media_upload": 0,
         "stall_layout_customization": 0
@@ -238,6 +254,7 @@
         "katakana_practice": 5,
         "kanji_browser": 5,
         "conjugation_drill": 5,
+        "grammar_explanations": 3,
         "youtube_shadowing": 3,
         "media_upload": 2,
         "stall_layout_customization": 1
@@ -255,6 +272,7 @@
         "katakana_practice": -1,
         "kanji_browser": -1,
         "conjugation_drill": -1,
+        "grammar_explanations": -1,
         "youtube_shadowing": 20,
         "media_upload": -1,
         "stall_layout_customization": -1
@@ -272,6 +290,7 @@
         "katakana_practice": -1,
         "kanji_browser": -1,
         "conjugation_drill": -1,
+        "grammar_explanations": -1,
         "youtube_shadowing": 20,
         "media_upload": -1,
         "stall_layout_customization": -1

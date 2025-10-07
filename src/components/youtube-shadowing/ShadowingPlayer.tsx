@@ -10,6 +10,7 @@ export interface TranscriptLine {
   startTime: number;
   endTime: number;
   words?: string[];
+  translation?: string;
 }
 
 interface SimplePlayerProps {

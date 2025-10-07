@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback, Suspense } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 import Navbar from '@/components/layout/Navbar';
-import LearningPageHeader from '@/components/learn/LearningPageHeader';
+import PageHeader from '@/components/layout/PageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
@@ -232,17 +232,65 @@ function YouTubeShadowingContent() {
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background dark:from-dark-850 dark:to-dark-900">
       <Navbar user={user} showUserMenu={true} />
 
-      <LearningPageHeader
-        title={t('youtubeShadowing.title')}
+      <PageHeader
+        title={
+          session?.videoTitle
+            ? session.videoTitle.split(' ').slice(0, 3).join(' ') + (session.videoTitle.split(' ').length > 3 ? '...' : '')
+            : session?.videoMetadata?.title
+              ? session.videoMetadata.title.split(' ').slice(0, 3).join(' ') + (session.videoMetadata.title.split(' ').length > 3 ? '...' : '')
+              : t('youtubeShadowing.title')
+        }
         description={t('youtubeShadowing.description')}
-        mode={viewMode}
-        onModeChange={setViewMode}
-        stats={stats}
-        customModes={[
-          { value: 'input', label: t('youtubeShadowing.modes.input'), icon: '🎬' },
-          { value: 'player', label: t('youtubeShadowing.modes.player'), icon: '▶️' }
-        ]}
-      />
+      >
+        {/* Mobile-only content in collapsible section */}
+        {session && session.transcript.length > 0 && (
+          <div className="mt-3 space-y-3">
+            {/* Video Info Card - Mobile version */}
+            {(session.videoTitle || session.videoMetadata) && (
+              <div className="bg-gradient-to-r from-primary-600 to-primary-500 rounded-lg p-4 text-white shadow-sm">
+                {isVideoFree && (
+                  <div className="mb-2 inline-flex items-center gap-1 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                    <span>✨</span> {t('youtubeShadowing.freeAccess')}
+                  </div>
+                )}
+                <div className="flex items-center gap-3">
+                  {session.videoMetadata?.thumbnails?.medium ? (
+                    <img
+                      src={session.videoMetadata.thumbnails.medium.url}
+                      alt={session.videoTitle || 'Video thumbnail'}
+                      className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="text-3xl flex-shrink-0">🎬</div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base font-bold mb-1 truncate">
+                      {session.videoTitle || session.videoMetadata?.title || t('youtubeShadowing.loadingTitle')}
+                    </h3>
+                    {session.videoMetadata?.channelTitle && (
+                      <p className="text-sm opacity-90">
+                        {t('youtubeShadowing.by')} {session.videoMetadata.channelTitle}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Video Title Bar - Mobile version (simpler fallback) */}
+            {!session.videoMetadata && session.videoTitle && (
+              <div className="bg-primary-600/90 dark:bg-primary-700/90 rounded-lg p-3 shadow-sm">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">🎬</span>
+                  <h3 className="text-sm font-semibold text-white">
+                    {session.videoTitle}
+                  </h3>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </PageHeader>
 
       {isLoading && <LoadingOverlay message={t('common.loading')} />}
 
@@ -411,12 +459,12 @@ function YouTubeShadowingContent() {
               exit={{ opacity: 0, y: -20 }}
               className="max-w-5xl mx-auto"
             >
-              {/* Video Info Card */}
+              {/* Video Info Card - Hidden on mobile (shown in PageHeader collapsible) */}
               {(session.videoTitle || session.videoMetadata) && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-gradient-to-r from-primary-600 to-primary-500 rounded-2xl p-6 mb-6 text-white relative"
+                  className="hidden sm:block bg-gradient-to-r from-primary-600 to-primary-500 rounded-2xl p-6 mb-6 text-white relative"
                 >
                   {isVideoFree && (
                     <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">

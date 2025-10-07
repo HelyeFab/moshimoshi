@@ -2187,6 +2187,56 @@ export const strings = {
     }
   },
 
+  // Shadowing Feature
+  shadowing: {
+    title: "シャドーイング練習",
+    noSentence: "再生可能な文がありません",
+    playbackError: "音声再生に失敗しました",
+    voice: "声",
+    male: "男性",
+    female: "女性",
+    speed: "速度",
+    repeatCount: "リピート回数",
+    pauseDuration: "休止時間",
+    showFurigana: "ふりがなを表示",
+    furiganaDescription: "漢字に読み仮名を表示",
+    sentenceProgress: "文 {{current}}/{{total}}",
+    repeatProgress: "リピート {{current}}/{{total}}",
+    saveSentence: "文を学習リストに保存",
+    noSentenceAvailable: "利用可能な文がありません",
+    repeatProgressLabel: "リピート進捗:",
+    sentenceProgressLabel: "文進捗:",
+    allSentences: "すべての文",
+    sentenceSaved: "文が正常に保存されました",
+    saveFailed: "文の保存に失敗しました",
+    instructions1: "各文を聴いて、休止中に繰り返してください。",
+    instructions2: "学習ペースに合わせて設定を調整してください。",
+
+    // Floating Navbar (Mobile)
+    floatingNavbar: {
+      message: "文法を説明",
+      repeat: "リピート",
+      play: "再生",
+      pause: "一時停止",
+      settings: "設定"
+    }
+  },
+
+  aiGrammar: {
+    title: "文法説明",
+    trigger: "文法を説明",
+    targetSentence: "対象の文",
+    analyzing: "文法を分析しています...",
+    errorTitle: "説明を生成できませんでした",
+    error: "文法説明の生成中に問題が発生しました。もう一度お試しください。",
+    cachedLabel: "キャッシュから取得",
+    structureLabel: "構造",
+    examplesLabel: "例文",
+    mistakesLabel: "よくある間違い",
+    relatedLabel: "関連パターン",
+    formalityLabel: "丁寧さ"
+  },
+
   flashcards: {
     title: "フラッシュカード",
     pageTitle: "フラッシュカードデッキ",
@@ -3487,4 +3537,3 @@ export const strings = {
     }
   }
 }
-

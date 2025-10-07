@@ -14,6 +14,8 @@ export type AIModel = 'gpt-4' | 'gpt-4o-mini' | 'gpt-4o' | 'gpt-3.5-turbo';
 export type AITaskType =
   | 'generate_review_questions'
   | 'explain_grammar'
+  | 'explain_grammar_sentence'
+  | 'explain_word'
   | 'clean_transcript'
   | 'process_article'
   | 'generate_story'
@@ -136,6 +138,14 @@ export interface GrammarExplanationRequest {
   compareWith?: string[]; // Similar patterns to compare
 }
 
+export interface GrammarSentenceExplanationRequest {
+  sentence: string;
+  context?: string;
+  title?: string;
+  surroundingSentences?: string[];
+  focusQuestion?: string;
+}
+
 export interface GrammarExplanation {
   pattern: string;
   patternRomaji?: string;
@@ -151,6 +161,77 @@ export interface GrammarExplanation {
   relatedPatterns?: string[];
   jlptLevel?: JLPTLevel;
   formality?: 'casual' | 'formal' | 'both';
+}
+
+// Word Explanation
+export interface WordExplanationRequest {
+  word: string;
+  context?: string;
+}
+
+export interface KanjiBreakdown {
+  kanji: string;
+  meaning: string;
+  kunYomi: string[];
+  onYomi: string[];
+}
+
+export interface ConjugationTable {
+  dictionary: string;
+  present?: string;
+  past?: string;
+  negative?: string;
+  teForm?: string;
+  potential?: string;
+  passive?: string;
+  causative?: string;
+  imperative?: string;
+  volitional?: string;
+}
+
+export interface PitchAccent {
+  pattern: string;
+  notation: string;
+}
+
+export interface RelatedWords {
+  synonyms?: string[];
+  antonyms?: string[];
+  compounds?: string[];
+  relatedExpressions?: string[];
+}
+
+export interface WordExplanation {
+  word: string;
+  reading: string;
+  romaji: string;
+  meaning: string;
+  partOfSpeech: string;
+
+  // Kanji breakdown
+  kanjiBreakdown?: KanjiBreakdown[];
+
+  // Conjugation (for verbs/adjectives)
+  conjugation?: ConjugationTable;
+
+  // Pitch accent
+  pitchAccent?: PitchAccent;
+
+  // Related words
+  relatedWords?: RelatedWords;
+
+  // Usage
+  jlptLevel?: JLPTLevel;
+  formality: 'casual' | 'formal' | 'neutral' | 'both';
+  usageNotes?: string;
+
+  // Examples
+  examples: Array<{
+    japanese: string;
+    furigana: string;
+    translation: string;
+    notes?: string;
+  }>;
 }
 
 // Transcript Processing
@@ -169,6 +250,7 @@ export interface TranscriptProcessRequest {
   addFurigana?: boolean;
   fixErrors?: boolean;
   improveNaturalness?: boolean;
+  includeTranslations?: boolean;
 }
 
 export interface ProcessedTranscript {
@@ -180,6 +262,7 @@ export interface ProcessedTranscript {
     endTime: number;
     difficulty?: number;
     keyVocabulary?: string[];
+    translation?: string;
   }>;
   summary?: string;
   keyPoints?: string[];

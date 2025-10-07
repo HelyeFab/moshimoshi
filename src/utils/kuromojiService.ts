@@ -40,21 +40,21 @@ const POS_MAPPING: Record<string, string> = {
   'その他': 'other',        // Other
 };
 
-// Color scheme for different parts of speech
+// Color scheme for different parts of speech (balanced for both themes)
 export const POS_COLORS: Record<string, string> = {
-  noun: '#3b82f6',       // Blue
-  verb: '#ef4444',       // Red
-  adjective: '#10b981',  // Green
-  adverb: '#f59e0b',     // Amber
-  particle: '#8b5cf6',   // Purple
-  auxiliary: '#ec4899',  // Pink
-  conjunction: '#06b6d4', // Cyan
-  interjection: '#f97316', // Orange
-  adnominal: '#6366f1',  // Indigo
-  prefix: '#84cc16',     // Lime
-  symbol: '#6b7280',     // Gray
-  filler: '#a78bfa',     // Light purple
-  other: '#9ca3af',      // Light gray
+  noun: '#3b82f6',       // Blue - balanced (blue-500)
+  verb: '#cc1d2b',       // Red - balanced (red-500)
+  adjective: '#10b981',  // Green - balanced (green-500)
+  adverb: '#f59e0b',     // Amber - balanced (amber-500)
+  particle: '#8b5cf6',   // Purple - balanced (purple-500)
+  auxiliary: '#ec4899',  // Pink - balanced (pink-500)
+  conjunction: '#06b6d4', // Cyan - balanced (cyan-500)
+  interjection: '#f97316', // Orange - balanced (orange-500)
+  adnominal: '#6366f1',  // Indigo - balanced (indigo-500)
+  prefix: '#84cc16',     // Lime - balanced (lime-500)
+  symbol: '#6b7280',     // Gray (gray-500)
+  filler: '#a78bfa',     // Light purple - balanced (purple-400)
+  other: '#9ca3af',      // Light gray (gray-400)
 };
 
 class KuromojiService {

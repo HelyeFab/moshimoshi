@@ -162,6 +162,7 @@ export class TranscriptProcessor extends BaseProcessor<TranscriptProcessRequest,
    */
   getSystemPrompt(config?: TaskConfig, processingType?: string): string {
     const jlptLevel = config?.jlptLevel || 'N5';
+    const includeTranslations = !!config?.includeTranslations;
 
     switch (processingType) {
       case 'shadowing':
@@ -175,12 +176,21 @@ CRITICAL RULES:
    - After て-form (して、見て、食べて)
    - After connectors (から、けど、が、のに、ので)
    - Between clauses
-5. Return a json array of strings (not objects, just strings)
-6. Each string must contain actual Japanese text, not empty
+5. Return a JSON array ${includeTranslations ? 'of objects with "text" and "translation" fields' : 'of strings (segment text only)'}
+6. Each item must contain actual Japanese text, not empty
 
-Example output: ["昨日友達と", "映画を見て", "楽しかったです"]
+${includeTranslations
+          ? `Example output:
+[
+  {"text": "昨日友達と", "translation": "Yesterday with my friend"},
+  {"text": "映画を見て", "translation": "we watched a movie"},
+  {"text": "楽しかったです", "translation": "and it was fun."}
+]`
+          : `Example output: ["昨日友達と", "映画を見て", "楽しかったです"]`}
 
-IMPORTANT: Return a simple array of strings, NOT an array of objects.`;
+IMPORTANT: ${includeTranslations
+          ? 'Return a simple array of objects, each containing "text" (Japanese) and "translation" (natural English). Do not include any commentary outside the JSON array.'
+          : 'Return a simple array of strings. Do not include any commentary outside the JSON array.'}`;
 
       case 'error_correction':
         return `You are an expert in Japanese transcription. Fix errors in auto-generated transcripts while maintaining the original meaning and natural flow.
@@ -192,7 +202,7 @@ Focus on:
 4. Maintaining the speaker's intent
 5. Preserving colloquialisms where appropriate
 
-Return corrected segments in JSON format.`;
+Return corrected segments in JSON format${includeTranslations ? ' and include an English translation ("translation" field) for each segment.' : '.'}`;
 
       case 'naturalization':
         return `You are a Japanese language expert. Improve the naturalness of this transcript while preserving the original meaning.
@@ -204,7 +214,7 @@ Tasks:
 4. Ensure proper politeness levels
 5. Maintain conversational tone
 
-Return improved segments in JSON format.`;
+Return improved segments in JSON format${includeTranslations ? ' and provide an English translation for each segment in a "translation" field.' : '.'}`;
 
       default:
         return `You are a Japanese language processing expert. Process this transcript for ${jlptLevel} level learners.
@@ -214,8 +224,8 @@ Provide:
 2. Identify key vocabulary
 3. Note important grammar patterns
 4. Prepare for educational use
-
-Return processed segments in JSON format.`;
+${includeTranslations ? '5. Provide a natural English translation for each segment ("translation" field)\n' : ''}
+Return processed segments in JSON format${includeTranslations ? ' and include the "translation" field where applicable.' : '.'}`;
     }
   }
 
@@ -229,6 +239,7 @@ Return processed segments in JSON format.`;
   ): string {
     const { transcript, videoTitle, language } = request.content;
     const fullText = transcript.map(seg => seg.text).join('');
+    const includeTranslations = !!config?.includeTranslations;
 
     let prompt = '';
 
@@ -244,11 +255,15 @@ Requirements:
 - Break at natural speech points
 - Keep grammatical units together
 ${request.addFurigana ? '- Add furigana using ruby tags' : ''}
+${includeTranslations ? '- Provide a natural English translation for each segment' : ''}
 
-Return as JSON array of segment objects.`;
+Return as JSON array of ${includeTranslations ? 'objects with "text" and "translation" fields.' : 'segment strings.'}`;
         break;
 
       case 'error_correction':
+        const translationHint = includeTranslations
+          ? 'Provide a natural English translation for each segment.\n'
+          : '';
         prompt = `Fix transcription errors in this Japanese text:
 
 ${fullText}
@@ -256,7 +271,7 @@ ${fullText}
 ${videoTitle ? `Context: Video about "${videoTitle}"` : ''}
 
 Correct errors while maintaining natural Japanese.
-Return corrected segments in JSON format.`;
+${translationHint}Return corrected segments in JSON format${includeTranslations ? ' including "translation".' : '.'}`;
         break;
 
       default:
@@ -272,8 +287,9 @@ Tasks:
 ${request.splitForShadowing ? '- Split for shadowing practice' : ''}
 ${request.addFurigana ? '- Add furigana' : ''}
 ${request.fixErrors ? '- Fix transcription errors' : ''}
+${includeTranslations ? '- Provide a natural English translation for each segment' : ''}
 
-Return processed segments with vocabulary in JSON format.`;
+Return processed segments with vocabulary in JSON format${includeTranslations ? ' and include each translation in a "translation" field.' : '.'}`;
     }
 
     return prompt;
@@ -305,10 +321,18 @@ Return processed segments with vocabulary in JSON format.`;
           segments: parsed.map((item, index) => {
             // Ensure we always have a text string
             let text = '';
+            let translation: string | undefined;
             if (typeof item === 'string') {
               text = item;
             } else if (item && typeof item === 'object') {
               text = item.text || item.segment || item.content || '';
+              translation =
+                item.translation ||
+                item.englishTranslation ||
+                item.translation_en ||
+                item.english ||
+                item.translationEn ||
+                item.translationText;
             }
 
             // Validate text is not empty
@@ -324,7 +348,8 @@ Return processed segments with vocabulary in JSON format.`;
               startTime: index * 3, // Estimate 3 seconds per segment
               endTime: (index + 1) * 3,
               difficulty: this.calculateDifficulty(text),
-              keyVocabulary: []
+              keyVocabulary: [],
+              translation
             };
           }).filter(seg => seg !== null) as any[], // Remove null segments
           vocabulary: []
@@ -392,7 +417,8 @@ Return processed segments with vocabulary in JSON format.`;
       startTime: seg.startTime !== undefined ? seg.startTime : index * 3,
       endTime: seg.endTime !== undefined ? seg.endTime : (index + 1) * 3,
       difficulty: seg.difficulty || this.calculateDifficulty(seg.text || ''),
-      keyVocabulary: seg.keyVocabulary || []
+      keyVocabulary: seg.keyVocabulary || [],
+      translation: seg.translation
     }));
 
     // Add summary if missing

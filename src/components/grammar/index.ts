@@ -1,0 +1,1 @@
+export { GrammarExplanationTrigger } from './GrammarExplanationTrigger';

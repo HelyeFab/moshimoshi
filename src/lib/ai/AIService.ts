@@ -16,6 +16,7 @@ import {
   ReviewQuestion,
   GrammarExplanationRequest,
   GrammarExplanation,
+  GrammarSentenceExplanationRequest,
   TranscriptProcessRequest,
   ProcessedTranscript,
   ArticleProcessRequest,
@@ -36,6 +37,7 @@ import {
 
 import { ReviewQuestionProcessor } from './processors/ReviewQuestionProcessor';
 import { GrammarExplainerProcessor } from './processors/GrammarExplainerProcessor';
+import { GrammarSentenceProcessor } from './processors/GrammarSentenceProcessor';
 import { TranscriptProcessor } from './processors/TranscriptProcessor';
 import { StoryProcessor } from './processors/StoryProcessor';
 import { MoodboardProcessor } from './processors/MoodboardProcessor';
@@ -230,6 +232,7 @@ export class AIService {
     const validTasks: AITaskType[] = [
       'generate_review_questions',
       'explain_grammar',
+      'explain_grammar_sentence',
       'clean_transcript',
       'process_article',
       'generate_story',
@@ -290,6 +293,13 @@ export class AIService {
         const grammarProcessor = new GrammarExplainerProcessor(context);
         return await grammarProcessor.process(
           request.content as GrammarExplanationRequest,
+          request.config
+        );
+
+      case 'explain_grammar_sentence':
+        const grammarSentenceProcessor = new GrammarSentenceProcessor(context);
+        return await grammarSentenceProcessor.process(
+          request.content as GrammarSentenceExplanationRequest,
           request.config
         );
 
@@ -460,6 +470,46 @@ export class AIService {
       task: 'explain_grammar',
       content: { content: text } as GrammarExplanationRequest,
       config
+    });
+  }
+
+  async explainGrammarSentence(
+    request: GrammarSentenceExplanationRequest,
+    config?: TaskConfig
+  ): Promise<AIResponse<GrammarExplanation>> {
+    return this.process({
+      task: 'explain_grammar_sentence',
+      content: request,
+      config
+    });
+  }
+
+  async processTranscript(
+    request: TranscriptProcessRequest,
+    config?: TaskConfig
+  ): Promise<AIResponse<ProcessedTranscript>> {
+    const task: AITaskType =
+      request.fixErrors || request.improveNaturalness ? 'fix_transcript' : 'clean_transcript';
+
+    const mergedConfig: TaskConfig | undefined =
+      request.includeTranslations !== undefined || config
+        ? {
+            ...(config || {}),
+            ...(request.includeTranslations !== undefined
+              ? { includeTranslations: request.includeTranslations }
+              : {})
+          }
+        : undefined;
+
+    const requestWithDefaults =
+      request.includeTranslations === undefined && mergedConfig?.includeTranslations !== undefined
+        ? { ...request, includeTranslations: mergedConfig.includeTranslations as boolean }
+        : request;
+
+    return this.process<ProcessedTranscript>({
+      task,
+      content: requestWithDefaults,
+      config: mergedConfig
     });
   }
 

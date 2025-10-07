@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import Navbar from '@/components/layout/Navbar';
-import LearningPageHeader from '@/components/learn/LearningPageHeader';
+import PageHeader from '@/components/layout/PageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import DoshiMascot from '@/components/ui/DoshiMascot';
 import {
@@ -380,7 +380,7 @@ export default function PopularVideosPage() {
       <Navbar user={user || undefined} showUserMenu={true} />
 
       {/* LearningPageHeader with ONLY required props - NO optional props */}
-      <LearningPageHeader
+      <PageHeader
         title={t('popularVideos.title')}
         description={t('popularVideos.subtitle')}
       />
@@ -436,7 +436,7 @@ export default function PopularVideosPage() {
         {/* Empty State */}
         {!isLoading && !error && videos.length === 0 && (
           <div className="text-center py-20">
-            <DoshiMascot size="large" mood="thinking" />
+            <DoshiMascot size="large" />
             <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mt-6">
               {t('popularVideos.empty')}
             </h3>
@@ -446,7 +446,7 @@ export default function PopularVideosPage() {
         {/* Error State */}
         {error && (
           <div className="text-center py-20">
-            <DoshiMascot size="large" mood="sad" />
+            <DoshiMascot size="large" />
             <h3 className="text-xl font-semibold text-red-600 dark:text-red-400 mt-6">
               {error}
             </h3>
@@ -463,7 +463,7 @@ export default function PopularVideosPage() {
             className="bg-white dark:bg-dark-800 rounded-2xl p-8 max-w-md w-full shadow-2xl"
           >
             <div className="text-center">
-              <DoshiMascot size="large" mood={quotaMessage.doshiMood} />
+              <DoshiMascot size="large" />
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-4 mb-2">
                 {t(quotaMessage.title)}
               </h2>

@@ -3477,11 +3477,35 @@ export const strings = {
 
     // Floating Navbar (Mobile)
     floatingNavbar: {
-      message: "Expliquer la grammaire",
+      message: "Message",
       repeat: "Répéter",
       play: "Lire",
       pause: "Pause",
       settings: "Paramètres"
+    }
+  },
+    createNew: "Créer Nouvelle",
+    generateAI: "Générer avec IA",
+    published: "Publié",
+    draft: "Brouillon",
+    viewStory: "Voir l'Histoire",
+    editStory: "Modifier",
+    deleteStory: "Supprimer",
+    confirmDelete: "Êtes-vous sûr de vouloir supprimer cette histoire?",
+    emptyState: "Pas encore d'histoires",
+    createFirst: "Créez votre première histoire pour commencer",
+    jlptLevel: "Niveau JLPT",
+    theme: "Thème",
+    pageCount: "{{count}} pages",
+    quizQuestions: "{{count}} questions",
+    takeQuiz: "Faire le Quiz",
+    finish: "Terminer",
+    quiz: {
+      title: "Quiz d'Histoire",
+      yourScore: "Votre Score",
+      excellent: "Excellent!",
+      good: "Bon Travail!",
+      keepPracticing: "Continuez à Pratiquer!"
     }
   },
 
@@ -3512,26 +3536,11 @@ export const strings = {
 
     // Floating Navbar (Mobile)
     floatingNavbar: {
-      message: "Expliquer la grammaire",
+      message: "Message",
       repeat: "Répéter",
       play: "Lire",
       pause: "Pause",
       settings: "Paramètres"
     }
-  },
-
-  aiGrammar: {
-    title: "Explication grammaticale",
-    trigger: "Expliquer la grammaire",
-    targetSentence: "Phrase cible",
-    analyzing: "Analyse de la grammaire...",
-    errorTitle: "Impossible de générer l'explication",
-    error: "Une erreur est survenue lors de la génération de l'explication grammaticale. Veuillez réessayer.",
-    cachedLabel: "Chargé depuis le cache",
-    structureLabel: "Structure",
-    examplesLabel: "Exemples",
-    mistakesLabel: "Erreurs courantes",
-    relatedLabel: "Schémas associés",
-    formalityLabel: "Formalité"
   }
 }

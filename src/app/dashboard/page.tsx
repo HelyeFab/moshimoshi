@@ -447,8 +447,14 @@ function DashboardContent() {
       learningProgressPercentage: learningProgress?.progressPercentage
     })
 
-    // Format watch time (seconds to minutes)
+    // Format watch time (seconds to minutes or hours)
     const watchTimeMinutes = Math.round((youtubeStats?.watchTime || 0) / 60);
+    const watchTimeHours = Math.floor(watchTimeMinutes / 60);
+    const watchTimeRemainingMinutes = watchTimeMinutes % 60;
+    const watchTimeValue = watchTimeMinutes >= 60
+      ? (watchTimeRemainingMinutes > 0 ? `${watchTimeHours}:${watchTimeRemainingMinutes.toString().padStart(2, '0')}` : `${watchTimeHours}`)
+      : watchTimeMinutes.toString();
+    const watchTimeUnit = watchTimeMinutes >= 60 ? 'hrs' : 'min';
 
     return [
       { label: String(streakLabel || 'Streak'), value: streakValue.toString(), unit: String(streakUnit || 'days'), color: 'from-orange-400 to-red-500' },
@@ -457,7 +463,7 @@ function DashboardContent() {
       { label: String(achievementsLabel || 'Achievements'), value: achievementCount.toString(), unit: String(achievementsUnit || 'unlocked'), color: 'from-pink-400 to-rose-500' },
       { label: 'Videos Practiced', value: (youtubeStats?.videosPracticed || 0).toString(), unit: 'videos', color: 'from-red-400 to-pink-500' },
       { label: 'Videos Remaining', value: (youtubeStats?.videosRemaining || 0).toString(), unit: 'today', color: 'from-green-400 to-teal-500' },
-      { label: 'Watch Time', value: watchTimeMinutes.toString(), unit: 'minutes', color: 'from-purple-400 to-indigo-500' },
+      { label: 'Watch Time', value: watchTimeValue, unit: watchTimeUnit, color: 'from-purple-400 to-indigo-500' },
       { label: strings.drill?.stats?.totalDrills || 'Drills', value: drillCount.toString(), unit: strings.drill?.stats?.drillsUnit || 'completed', color: 'from-indigo-400 to-blue-500' },
       { label: strings.drill?.stats?.accuracy || 'Drill Accuracy', value: drillAccuracy.toString(), unit: '%', color: 'from-teal-400 to-green-500' },
       { label: strings.drill?.stats?.mastery || 'Drill Mastery', value: drillMastery.toString(), unit: '%', color: 'from-purple-400 to-indigo-500' },

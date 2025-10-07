@@ -13,10 +13,11 @@ import { useToast } from '@/components/ui/Toast/ToastContext';
 import { generateFuriganaWithCache } from '@/utils/furigana';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GrammarHighlightedText, GrammarLegend } from '@/components/reading/GrammarHighlightedText';
-import { 
-  PrecisionTimeManager, TimeSegment, ABRepeatConfig 
+import {
+  PrecisionTimeManager, TimeSegment, ABRepeatConfig
 } from '@/utils/precisionTimeManager';
 import { cn } from '@/lib/utils';
+import FloatingNavbar from './FloatingNavbar';
 
 declare global {
   interface Window {
@@ -952,9 +953,9 @@ export default function EnhancedShadowingPlayer({
 
   return (
     <div className={cn("space-y-4", className)}>
-      {/* Video Title Bar */}
+      {/* Video Title Bar - Hidden on mobile (shown in PageHeader collapsible) */}
       {(session.videoTitle || session.videoMetadata?.title) && (
-        <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 shadow-sm border border-primary-200/50 dark:border-primary-700/30">
+        <div className="hidden sm:block bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 shadow-sm border border-primary-200/50 dark:border-primary-700/30">
           <div className="flex items-center gap-3">
             <span className="text-2xl">🎬</span>
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
@@ -1038,8 +1039,54 @@ export default function EnhancedShadowingPlayer({
         </div>
       )}
 
-      {/* Settings Button */}
-      <div className="flex justify-end mb-2 relative">
+      {/* Playback Controls - Immediately after video */}
+      <div className="rounded-lg shadow-sm border border-gray-300/50 dark:border-gray-700/50 p-3 sm:p-4 bg-white dark:bg-[#a0aace]">
+        {/* Playback Controls */}
+        <div className="flex items-center justify-center gap-2 sm:gap-4 mb-3 sm:mb-4">
+          <button
+            onClick={handlePrevious}
+            disabled={session.currentLineIndex === 0}
+            className="p-1.5 sm:p-2 rounded-lg hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            aria-label="Previous line"
+          >
+            <SkipBack className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+
+          <button
+            onClick={handlePlayPause}
+            className="p-2 sm:p-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+          >
+            {isPlaying ? <Pause className="w-5 h-5 sm:w-6 sm:h-6" /> : <Play className="w-5 h-5 sm:w-6 sm:h-6" />}
+          </button>
+
+          <button
+            onClick={handleNext}
+            disabled={session.currentLineIndex === activeTranscript.length - 1}
+            className="p-1.5 sm:p-2 rounded-lg hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            aria-label="Next line"
+          >
+            <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="space-y-0.5 sm:space-y-1">
+          <div className="flex justify-between text-[10px] sm:text-xs text-gray-700 dark:text-white">
+            <span>{timeManagerRef.current.formatTime(currentTime)}</span>
+            <span>{timeManagerRef.current.formatTime(duration)}</span>
+          </div>
+          <div className="relative h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className="absolute left-0 top-0 h-full bg-blue-500 transition-all duration-100"
+              style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Settings Button - Desktop Only */}
+      <div className="hidden sm:flex justify-end mb-2 relative">
         <button
           onClick={() => setShowSettings(!showSettings)}
           className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted hover:bg-muted/80 transition-all group"
@@ -1317,9 +1364,9 @@ export default function EnhancedShadowingPlayer({
           </>
         )}
       </div>
-        
+
       {/* Current Line Display */}
-      <div className="bg-card rounded-lg shadow-sm border border-gray-300/50 dark:border-dark-700/50 p-6">
+      <div className="rounded-lg shadow-sm border border-gray-300/50 dark:border-gray-700/50 p-3 sm:p-6 bg-white dark:bg-[#a0aace]">
         {/* AI Icon row - TODO: Add AI explanation feature when available */}
         {/* {currentLine?.text && (
           <div className="flex justify-start mb-4">
@@ -1330,35 +1377,35 @@ export default function EnhancedShadowingPlayer({
             />
           </div>
         )} */}
-        
-        <div className="text-center mb-6">
-          <div className="py-8 px-4">
+
+        <div className="text-center">
+          <div className="py-4 px-2 sm:py-8 sm:px-4">
             {showGrammar ? (
-              <div className="text-2xl font-medium text-foreground">
+              <div className="text-lg sm:text-2xl font-medium text-gray-900 leading-relaxed">
                 <GrammarHighlightedText
                   text={cleanRomaji(currentLine?.text || '')}
                   highlightMode={grammarMode}
                   showFurigana={showFurigana}
-                  className="text-2xl"
+                  className="text-lg sm:text-2xl"
                 />
               </div>
             ) : (
-              <p 
-                className="text-2xl font-medium text-foreground japanese-text"
-                dangerouslySetInnerHTML={{ 
-                  __html: showFurigana 
-                    ? currentLineFurigana 
+              <p
+                className="text-lg sm:text-2xl font-medium text-gray-900 japanese-text leading-relaxed"
+                dangerouslySetInnerHTML={{
+                  __html: showFurigana
+                    ? currentLineFurigana
                     : cleanRomaji(currentLine?.text || '')
                 }}
               />
             )}
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-gray-600">
             Line {session.currentLineIndex + 1} of {activeTranscript.length}
           </p>
           {hasFormattedTranscript && (
-            <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-opacity-20"
-                 style={{ 
+            <div className="mt-1 inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-opacity-20"
+                 style={{
                    backgroundColor: useFormattedTranscript ? 'rgb(168 85 247 / 0.1)' : 'rgb(251 191 36 / 0.1)',
                    color: useFormattedTranscript ? 'rgb(168 85 247)' : 'rgb(245 158 11)'
                  }}>
@@ -1366,124 +1413,44 @@ export default function EnhancedShadowingPlayer({
             </div>
           )}
           {repeatCount > 1 && (
-            <p className="text-sm text-primary mt-2">
+            <p className="text-xs sm:text-sm text-primary mt-2">
               Repeat {activeRepeatNumber} of {repeatCount}
             </p>
           )}
         </div>
-
-        {/* Playback Controls */}
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <button
-            onClick={handlePrevious}
-            disabled={session.currentLineIndex === 0}
-            className="p-2 rounded-lg hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            aria-label="Previous line"
-          >
-            <SkipBack className="w-5 h-5" />
-          </button>
-
-          <button
-            onClick={handlePlayPause}
-            className="p-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
-            aria-label={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
-          </button>
-
-          <button
-            onClick={handleNext}
-            disabled={session.currentLineIndex === activeTranscript.length - 1}
-            className="p-2 rounded-lg hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            aria-label="Next line"
-          >
-            <SkipForward className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="space-y-1 mb-4">
-          <div className="flex justify-between text-xs text-gray-500">
-            <span>{timeManagerRef.current.formatTime(currentTime)}</span>
-            <span>{timeManagerRef.current.formatTime(duration)}</span>
-          </div>
-          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              className="absolute left-0 top-0 h-full bg-blue-500 transition-all duration-100"
-              style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
-            />
-          </div>
-        </div>
-
       </div>
-
-      {/* Transcript List */}
-      <div className="bg-card rounded-lg shadow-sm border border-gray-300/50 dark:border-dark-700/50">
-        <div className="p-4 border-b flex items-center justify-between">
-          <h3 className="font-semibold">Full Transcript</h3>
-          {userIsScrolling && (
-            <span className="text-xs text-muted-foreground bg-yellow-100 px-2 py-1 rounded">
-              Auto-scroll paused
-            </span>
-          )}
-        </div>
-        
-        <div 
-          ref={transcriptContainerRef}
-          className="max-h-96 overflow-y-auto p-4 space-y-2"
-          onScroll={() => {
-            // User is manually scrolling
-            setUserIsScrolling(true);
-            
-            // Clear any existing timeout
-            if (scrollTimeoutRef.current) {
-              clearTimeout(scrollTimeoutRef.current);
-            }
-            
-            // Re-enable auto-scroll after 3 seconds of no scrolling
-            scrollTimeoutRef.current = setTimeout(() => {
-              setUserIsScrolling(false);
-            }, 3000);
-          }}
-        >
-          {segments.map((segment, index) => (
-            <motion.div
-              key={segment.id}
-              id={`segment-${segment.id}`}
-              onClick={() => handleSegmentClick(segment, index)}
-              className={cn(
-                "p-3 rounded-lg cursor-pointer transition-all",
-                activeSegmentId === segment.id 
-                  ? "bg-blue-50 border-l-4 border-blue-500" 
-                  : "hover:bg-gray-50"
-              )}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <div className="flex items-start gap-3">
-                <span className="text-xs text-gray-500 mt-1">
-                  {timeManagerRef.current.formatTime(segment.startTime)}
-                </span>
-                <div className={cn(
-                  "flex-1 leading-relaxed transition-all",
-                  activeSegmentId === segment.id ? "text-gray-900 font-medium" : "text-gray-700"
-                )}>
-                  {showGrammar ? (
-                    <GrammarHighlightedText
-                      text={cleanRomaji(segment.text)}
-                      highlightMode={grammarMode}
-                      showFurigana={showFurigana}
-                      className="text-base"
-                    />
-                  ) : (
-                    <p>{cleanRomaji(segment.text)}</p>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
+      {/* Floating Navbar - Mobile Only */}
+      <div className="sm:hidden">
+        <FloatingNavbar
+          isPlaying={isPlaying}
+          onPlayPause={handlePlayPause}
+          onRepeatCountChange={(count) => setRepeatCount(count)}
+          repeatCount={repeatCount}
+          showFurigana={showFurigana}
+          onToggleFurigana={onToggleFurigana}
+          continuousPlay={continuousPlay}
+          onToggleContinuousPlay={() => setContinuousPlay(!continuousPlay)}
+          displayMode={displayMode}
+          onDisplayModeChange={setDisplayMode}
+          showVideo={showVideo}
+          isYouTubeMode={isYouTubeMode}
+          isLocalVideo={isLocalVideo}
+          grammarSentence={currentLine?.text || ''}
+          grammarContext={
+            session.videoTitle && session.videoMetadata?.description
+              ? `${session.videoTitle} — ${session.videoMetadata.description.slice(0, 240)}`
+              : session.videoTitle || undefined
+          }
+          grammarSurrounding={[
+            ...(activeTranscript.slice(Math.max(0, session.currentLineIndex - 2), session.currentLineIndex).map((line: TranscriptLine) => line?.text).filter(Boolean)),
+            ...(activeTranscript.slice(session.currentLineIndex + 1, session.currentLineIndex + 3).map((line: TranscriptLine) => line?.text).filter(Boolean))
+          ]}
+          grammarTitle={session.videoTitle}
+          showGrammar={showGrammar}
+          onToggleGrammar={onToggleGrammar}
+          grammarMode={grammarMode}
+          onGrammarModeChange={onGrammarModeChange}
+        />
       </div>
     </div>
   );

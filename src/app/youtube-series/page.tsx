@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { YouTubeChannel } from '@/types/youtube-series';
 import { formatDistanceToNow } from 'date-fns';
 import Navbar from '@/components/layout/Navbar';
-import LearningPageHeader from '@/components/learn/LearningPageHeader';
+import PageHeader from '@/components/layout/PageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import {
   Youtube,
@@ -136,7 +136,7 @@ export default function YouTubeSeriesPage() {
     <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       <Navbar user={user} showUserMenu={true} />
 
-      <LearningPageHeader
+      <PageHeader
         title={strings.youtubeSeries.title}
         description={strings.youtubeSeries.description}
       />
@@ -308,18 +308,18 @@ export default function YouTubeSeriesPage() {
 
                   {/* Stats */}
                   <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400 mb-3">
-                    {channel.subscriberCount > 0 && (
-                      <span className="flex items-center gap-1">
-                        <Users className="w-3 h-3" />
-                        {formatNumber(channel.subscriberCount)} subscribers
-                      </span>
-                    )}
-                    {channel.videoCount > 0 && (
-                      <span className="flex items-center gap-1">
-                        <Video className="w-3 h-3" />
-                        {formatNumber(channel.videoCount)} videos
-                      </span>
-                    )}
+                     {channel.subscriberCount && channel.subscriberCount > 0 && (
+                       <span className="flex items-center gap-1">
+                         <Users className="w-3 h-3" />
+                         {formatNumber(channel.subscriberCount)} subscribers
+                       </span>
+                     )}
+                     {channel.videoCount && channel.videoCount > 0 && (
+                       <span className="flex items-center gap-1">
+                         <Video className="w-3 h-3" />
+                         {formatNumber(channel.videoCount!)} videos
+                       </span>
+                     )}
                   </div>
 
                   {/* Tags */}

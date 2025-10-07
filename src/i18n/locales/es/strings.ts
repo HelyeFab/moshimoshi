@@ -3068,10 +3068,59 @@ export const strings = {
       confirm: "Eliminar",
       cancel: "Cancelar"
     }
-  }
-  ,
+   },
 
-  // Drill Feature
+   // Shadowing Feature
+   shadowing: {
+     title: "Ejercicio de Shadowing",
+     noSentence: "No hay oración para reproducir",
+     playbackError: "Error en la reproducción de audio",
+     voice: "Voz",
+     male: "Hombre",
+     female: "Mujer",
+     speed: "Velocidad",
+     repeatCount: "Número de Repeticiones",
+     pauseDuration: "Pausa entre Repeticiones",
+     showFurigana: "Mostrar Furigana",
+     furiganaDescription: "Mostrar pistas de lectura sobre caracteres kanji",
+     sentenceProgress: "Oración {{current}} de {{total}}",
+     repeatProgress: "Repetición {{current}}/{{total}}",
+     saveSentence: "Guardar oración en lista de estudio",
+     noSentenceAvailable: "No hay oración disponible",
+     repeatProgressLabel: "Progreso de Repeticiones:",
+     sentenceProgressLabel: "Progreso de Oraciones:",
+     allSentences: "Todas las Oraciones",
+     sentenceSaved: "Oración guardada exitosamente",
+     saveFailed: "Error al guardar la oración",
+     instructions1: "Escucha cada oración y repítela durante la pausa.",
+     instructions2: "Ajusta la configuración según tu ritmo de aprendizaje.",
+
+     // Floating Navbar (Mobile)
+    floatingNavbar: {
+      message: "Explicar gramática",
+      repeat: "Repetir",
+      play: "Reproducir",
+      pause: "Pausa",
+      settings: "Configuración"
+    }
+  },
+
+  aiGrammar: {
+    title: "Explicación gramatical",
+    trigger: "Explicar gramática",
+    targetSentence: "Frase objetivo",
+    analyzing: "Analizando la gramática...",
+    errorTitle: "No se pudo generar la explicación",
+    error: "Se produjo un error al generar la explicación gramatical. Inténtalo de nuevo.",
+    cachedLabel: "Cargado desde caché",
+    structureLabel: "Estructura",
+    examplesLabel: "Ejemplos",
+    mistakesLabel: "Errores comunes",
+    relatedLabel: "Patrones relacionados",
+    formalityLabel: "Formalidad"
+  },
+
+   // Drill Feature
   drill: {
     title: "Ejercicio de Conjugación",
     description: "Practica las conjugaciones de verbos y adjetivos japoneses",

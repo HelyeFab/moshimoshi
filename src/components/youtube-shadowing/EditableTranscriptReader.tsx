@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { TranscriptLine } from '@/app/tools/youtube-shadowing/YouTubeShadowing';
+import { TranscriptLine } from '@/types/youtubeShadowing';
 import { GrammarHighlightedText, GrammarLegend } from '@/components/reading/GrammarHighlightedText';
 import { generateFuriganaWithCache } from '@/utils/furigana';
+import { GraduationCap, PencilRuler } from 'lucide-react';
 // TODO: Import search words and word types from proper location
 // import { searchWords } from '@/utils/api';
 // import { JapaneseWord } from '@/types';
@@ -31,6 +32,7 @@ interface EditableTranscriptReaderProps {
   currentLineIndex: number;
   onLineClick: (index: number) => void;
   showFurigana: boolean;
+  showTranslations: boolean;
   showGrammar: boolean;
   onWordClick?: (word: string) => void;
   contentId: string;
@@ -45,6 +47,7 @@ export default function EditableTranscriptReader({
   currentLineIndex,
   onLineClick,
   showFurigana,
+  showTranslations,
   showGrammar,
   onWordClick,
   contentId,
@@ -70,6 +73,8 @@ export default function EditableTranscriptReader({
   const [saving, setSaving] = useState(false);
   const [hasEdits, setHasEdits] = useState(false);
   const [showSaveConfirm, setShowSaveConfirm] = useState(false);
+  const [showLegend, setShowLegend] = useState(false);
+  const [showEditTools, setShowEditTools] = useState(false);
   const editRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   // Load user's edited transcript if available
@@ -355,7 +360,7 @@ export default function EditableTranscriptReader({
       </AnimatePresence>
 
       {/* Edit Controls */}
-      {isPremium && (
+      {isPremium && showEditTools && (
         <div className="bg-card rounded-lg shadow-sm border border-border p-4">
           {!editMode ? (
             /* Normal Mode - Centered buttons */
@@ -367,12 +372,12 @@ export default function EditableTranscriptReader({
                 >
                   Edit Transcript
                 </button>
-                
-                {/* Regenerate Button - Now visible outside edit mode for YouTube videos */}
-                {videoUrl && (
+
+                {/* Regenerate Button - Premium only, visible outside edit mode for YouTube videos */}
+                {videoUrl && isPremium && (
                   <button
                     onClick={() => setShowRegenerateModal(true)}
-                    className="flex-1 max-w-xs px-4 py-2 rounded-lg bg-amber-500 text-white hover:bg-amber-600 font-medium flex items-center justify-center gap-2"
+                    className="flex-1 max-w-xs px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 font-medium flex items-center justify-center gap-2"
                     title="Clear cached transcript and regenerate with improved formatting"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -436,30 +441,51 @@ export default function EditableTranscriptReader({
         </div>
       )}
 
-      {/* Grammar Legend */}
-      {showGrammar && !editMode && (
-        <div className="bg-card rounded-lg shadow-sm border border-border p-4 mb-4">
-          <GrammarLegend />
-        </div>
-      )}
 
       {/* Transcript Lines */}
-      <div className="bg-card rounded-lg shadow-sm border border-border relative">
+      <div className="rounded-lg shadow-sm border border-gray-300/50 dark:border-gray-700/50 relative bg-white dark:bg-[#a0aace]">
         {/* Transcript header with count */}
-        <div className="px-4 py-3 border-b border-border bg-muted/30">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-foreground">
-              Full Transcript
-            </h3>
-            <span className="text-sm text-muted-foreground">
-              {processedTranscript.length} lines
-            </span>
+        <div className="px-4 py-3 border-b border-gray-300">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowLegend(!showLegend)}
+                className="hover:bg-gray-100 dark:hover:bg-gray-700 rounded p-1 transition-colors"
+                aria-label="Toggle grammar legend"
+              >
+                <GraduationCap className={`w-4 h-4 transition-colors ${showLegend ? 'text-primary' : 'text-gray-900 dark:text-gray-100'}`} />
+              </button>
+              <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                Full Transcript
+              </h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600 dark:text-white">
+                {processedTranscript.length} lines
+              </span>
+              {isPremium && (
+                <button
+                  onClick={() => setShowEditTools(!showEditTools)}
+                  className="hover:bg-gray-100 dark:hover:bg-gray-700 rounded p-1 transition-colors"
+                  aria-label="Toggle edit tools"
+                >
+                  <PencilRuler className={`w-4 h-4 transition-colors ${showEditTools ? 'text-primary' : 'text-gray-900 dark:text-gray-100'}`} />
+                </button>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Grammar Legend - toggleable */}
+        {showGrammar && !editMode && showLegend && (
+          <div className="px-4 py-3 border-b border-gray-300 dark:border-gray-700">
+            <GrammarLegend />
+          </div>
+        )}
         
         {/* Scrollable transcript content with custom scrollbar */}
         <div className="max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent hover:scrollbar-thumb-primary/40 transition-colors">
-          <div className="divide-y divide-border">
+          <div className="space-y-1">
             {processedTranscript.map((item, index) => (
             <div
               key={item.original.id}
@@ -467,19 +493,18 @@ export default function EditableTranscriptReader({
                 !editMode ? 'cursor-pointer' : ''
               } transition-all ${
                 index === currentLineIndex && !editMode
-                  ? 'bg-primary/10 border-l-4 border-primary'
+                  ? 'bg-primary/10 border-l-4 border-primary-500'
                   : 'hover:bg-muted/50'
               }`}
               onClick={() => !editMode && onLineClick(index)}
             >
-              <div className="flex items-start gap-3">
-                {/* Timestamp */}
-                <span className="text-sm text-muted-foreground font-mono flex-shrink-0">
-                  {formatTimestamp(item.original.startTime)}
-                </span>
+              {/* Timestamp - Top Right Corner */}
+              <span className="absolute top-2 right-2 text-[10px] text-gray-500 font-mono">
+                {formatTimestamp(item.original.startTime)}
+              </span>
 
-                {/* Text Content */}
-                <div className="flex-1">
+              {/* Text Content */}
+              <div className="pr-16">
                   {editMode ? (
                     <div>
                       <div
@@ -513,15 +538,17 @@ export default function EditableTranscriptReader({
                     </div>
                   ) : showGrammar ? (
                     <GrammarHighlightedText
-                      text={showFurigana ? item.withFurigana : item.original.text}
+                      text={item.original.text}
                       onWordClick={handleWordClick}
                       highlightMode="all"
+                      showFurigana={showFurigana}
                     />
                   ) : (
-                    <p 
-                      className="text-foreground japanese-text text-lg leading-relaxed"
-                      dangerouslySetInnerHTML={{ 
-                        __html: showFurigana ? item.withFurigana : item.original.text 
+                    <p
+                      className="text-gray-900 japanese-text text-lg leading-loose"
+                      style={{ color: '#111827' }}
+                      dangerouslySetInnerHTML={{
+                        __html: showFurigana ? item.withFurigana : item.original.text
                       }}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -536,15 +563,19 @@ export default function EditableTranscriptReader({
                       }}
                     />
                   )}
+                  {showTranslations && item.original.translation && (
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      {item.original.translation}
+                    </p>
+                  )}
                 </div>
 
-                {/* Play indicator */}
-                {index === currentLineIndex && !editMode && (
-                  <div className="flex-shrink-0">
-                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                  </div>
-                )}
-              </div>
+              {/* Play indicator */}
+              {index === currentLineIndex && !editMode && (
+                <div className="absolute left-2 top-1/2 transform -translate-y-1/2">
+                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                </div>
+              )}
             </div>
           ))}
           </div>

@@ -120,7 +120,7 @@ export function GrammarHighlightedText({
               className={`cursor-pointer hover:bg-primary/20 transition-colors rounded px-2 py-0.5 mx-2 my-2 inline-block relative min-w-[2.5em] text-center ${isHighlighted ? `grammar-${posType}` : ''
                 }`}
               style={{
-                ...(isHighlighted ? { backgroundColor: `${token.color}20` } : {}),
+                ...(isHighlighted ? { backgroundColor: `${token.color}60`, color: '#111827' } : {}),
                 paddingTop: showFurigana ? '1em' : undefined,
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
@@ -136,12 +136,13 @@ export function GrammarHighlightedText({
                   left: '0',
                   fontSize: '0.7em',
                   lineHeight: 1,
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  fontWeight: 'normal'
                 }}
               >
                 {hiraganaReading}
               </span>
-              {token.surface_form}
+              <span style={{ fontWeight: 'bold' }}>{token.surface_form}</span>
             </span>
           );
         } else {
@@ -151,10 +152,11 @@ export function GrammarHighlightedText({
               key={index}
               className={`cursor-pointer hover:bg-primary/20 transition-colors rounded px-2 py-0.5 mx-2 my-1 inline-block min-w-[2.5em] text-center ${isHighlighted ? `grammar-${posType}` : ''}`}
               style={{
-                ...(isHighlighted ? { backgroundColor: `${token.color}20` } : {}),
+                ...(isHighlighted ? { backgroundColor: `${token.color}50`, color: '#111827' } : {}),
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
-                overflowWrap: 'normal'
+                overflowWrap: 'normal',
+                fontWeight: 'bold'
               }}
               onClick={(e) => handleWordClick(token, e)}
               data-pos={posType}
@@ -182,10 +184,10 @@ export function GrammarLegend() {
   return (
     <div className="flex flex-wrap gap-3 md:gap-3 text-xs md:text-sm">
       {categories.map(cat => (
-        <div key={cat.type} className="flex items-center gap-1 px-2 py-1 md:px-0 md:py-0 bg-background/50 md:bg-transparent rounded-md">
+        <div key={cat.type} className="flex items-center gap-1 px-2 py-1 md:px-0 md:py-0 bg-white dark:bg-[#a0aace] rounded-md">
           <div
             className="w-3 h-3 md:w-4 md:h-4 rounded"
-            style={{ backgroundColor: cat.color }}
+            style={{ backgroundColor: `${cat.color}50` }}
           />
           <span className="text-muted-foreground">{cat.label}</span>
         </div>

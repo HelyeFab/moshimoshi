@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, Suspense } from 'react';
+import { useState, useRef, useEffect, useCallback, Suspense } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 import Navbar from '@/components/layout/Navbar';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
@@ -14,7 +14,8 @@ import YouTubeInput from '@/components/youtube-shadowing/YouTubeInput';
 import FileUploader from '@/components/youtube-shadowing/FileUploader';
 import AudioExtractor from '@/components/youtube-shadowing/AudioExtractor';
 import TranscriptDisplay from '@/components/youtube-shadowing/TranscriptDisplay';
-import ShadowingPlayer from '@/components/youtube-shadowing/ShadowingPlayer';
+import EnhancedShadowingPlayer from '@/components/youtube-shadowing/EnhancedShadowingPlayer';
+import EditableTranscriptReader from '@/components/youtube-shadowing/EditableTranscriptReader';
 
 export interface TranscriptLine {
   id: string;
@@ -59,14 +60,27 @@ function YouTubeShadowingContent() {
   const [showGrammar, setShowGrammar] = useState(false);
   const [grammarMode, setGrammarMode] = useState<'none' | 'all' | 'content' | 'grammar'>('content');
   const [showShadowingMode, setShowShadowingMode] = useState(true);
+  const [showVideo, setShowVideo] = useState(true);
   const [isVideoFree, setIsVideoFree] = useState(false);
   const [inputMode, setInputMode] = useState<'youtube' | 'upload'>('youtube');
   const [viewMode, setViewMode] = useState<'input' | 'player'>('input');
 
   const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({});
+  const sessionRef = useRef<ShadowingSession | null>(null);
+
+  // Practice tracking refs
   const sessionStartTimeRef = useRef<number | null>(null);
   const lastSaveTimeRef = useRef<number | null>(null);
   const autoSaveIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    sessionRef.current = session;
+  }, [session]);
+
+  // Stabilize onLineChange callback to prevent infinite re-subscriptions
+  const handleLineChange = useCallback((index: number) => {
+    setSession(prev => prev ? { ...prev, currentLineIndex: index } : null);
+  }, []);
 
   // Handle URL parameters (e.g., from My Videos)
   useEffect(() => {
@@ -78,61 +92,19 @@ function YouTubeShadowingContent() {
     }
   }, [searchParams]);
 
-  // Cleanup and save on unmount
+  // Cleanup blob URLs when component unmounts or session changes
   useEffect(() => {
-    // Save practice time when page unloads
-    const handleBeforeUnload = () => {
-      savePracticeTime(true);
-    };
-
-    // Save when tab visibility changes (user switches tabs)
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        savePracticeTime(true);
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
     return () => {
-      // Save practice time on unmount
-      savePracticeTime(true);
-
-      // Clear auto-save interval
-      if (autoSaveIntervalRef.current) {
-        clearInterval(autoSaveIntervalRef.current);
-        autoSaveIntervalRef.current = null;
-      }
-
-      // Cleanup blob URLs
       if (previousUrlsRef.current.videoUrl?.startsWith('blob:')) {
         URL.revokeObjectURL(previousUrlsRef.current.videoUrl);
       }
       if (previousUrlsRef.current.audioUrl?.startsWith('blob:')) {
         URL.revokeObjectURL(previousUrlsRef.current.audioUrl);
       }
-
-      // Remove event listeners
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [session]); // Add session dependency to track changes
+  }, []);
 
   const updateSession = (newSession: ShadowingSession | null) => {
-    // Save practice time for the previous session before switching
-    if (session && newSession && session.videoUrl !== newSession.videoUrl) {
-      savePracticeTime(true);
-      // Reset timer for new session
-      sessionStartTimeRef.current = null;
-      lastSaveTimeRef.current = null;
-      // Clear auto-save interval
-      if (autoSaveIntervalRef.current) {
-        clearInterval(autoSaveIntervalRef.current);
-        autoSaveIntervalRef.current = null;
-      }
-    }
-
     // Cleanup previous blob URLs
     if (session?.videoUrl?.startsWith('blob:') && session.videoUrl !== newSession?.videoUrl) {
       URL.revokeObjectURL(session.videoUrl);
@@ -160,14 +132,8 @@ function YouTubeShadowingContent() {
     setError(null);
 
     try {
-      // Check access for YouTube shadowing feature
-      const canAccess = await checkAccess('youtube_shadowing');
-
-      if (!canAccess) {
-        setError(t('common.subscriptionRequired'));
-        setIsLoading(false);
-        return;
-      }
+      // YouTube feature is available to all users
+      // No access check needed for YouTube videos
 
       // Extract video ID from URL
       const videoId = extractVideoId(url);
@@ -198,10 +164,8 @@ function YouTubeShadowingContent() {
     setError(null);
 
     try {
-      // Check access for file upload feature
-      const canAccess = await checkAccess('media_upload');
-
-      if (!canAccess) {
+      // Check access for file upload feature (premium only)
+      if (!isPremium && !isGuest) {
         setError(t('common.subscriptionRequired'));
         setIsLoading(false);
         return;
@@ -247,64 +211,6 @@ function YouTubeShadowingContent() {
     return null;
   };
 
-  // Save practice time to backend
-  const savePracticeTime = async (finalSave: boolean = false) => {
-    console.log('[CLIENT] savePracticeTime called', { finalSave, hasSession: !!session, hasStartTime: !!sessionStartTimeRef.current });
-    if (!session || !sessionStartTimeRef.current) {
-      console.log('[CLIENT] Early return - no session or start time');
-      return;
-    }
-
-    const currentTime = Date.now();
-    // FIX: Calculate time since LAST SAVE, not since session start
-    // This prevents cumulative time inflation bug
-    const lastSaveTime = lastSaveTimeRef.current || sessionStartTimeRef.current;
-    const practiceTimeInSeconds = Math.floor((currentTime - lastSaveTime) / 1000);
-    console.log('[CLIENT] Practice time since last save:', practiceTimeInSeconds, 'seconds');
-
-    // Skip if less than 5 seconds (avoid accidental tracking)
-    if (practiceTimeInSeconds < 5 && !finalSave) {
-      console.log('[CLIENT] Skipping - less than 5 seconds');
-      return;
-    }
-
-    // Skip if we saved recently (within 10 seconds) unless it's final save
-    if (!finalSave && lastSaveTimeRef.current && (currentTime - lastSaveTimeRef.current) < 10000) {
-      console.log('[CLIENT] Skipping - saved recently');
-      return;
-    }
-
-    const videoId = extractVideoId(session.videoUrl);
-    if (!videoId || session.videoUrl.startsWith('blob:')) {
-      console.log('[CLIENT] Skipping - no videoId or blob URL');
-      return;
-    }
-
-    console.log('[CLIENT] Making practice track request...', { videoId, practiceTime: practiceTimeInSeconds });
-    try {
-      await fetch('/api/practice/track', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          videoUrl: session.videoUrl,
-          videoTitle: session.videoTitle || session.videoMetadata?.title || 'Unknown Video',
-          videoId: videoId,
-          thumbnailUrl: session.videoMetadata?.thumbnails?.high?.url || session.videoMetadata?.thumbnails?.default?.url,
-          channelName: session.videoMetadata?.channelTitle,
-          duration: session.videoMetadata?.duration ? parseDuration(session.videoMetadata.duration) : undefined,
-          practiceTime: practiceTimeInSeconds,
-          metadata: session.videoMetadata
-        })
-      });
-
-      // Update last save time after successful save
-      lastSaveTimeRef.current = currentTime;
-      console.log('[CLIENT] Practice time saved successfully');
-    } catch (error) {
-      console.error('Error saving practice time:', error);
-    }
-  };
-
   const handleAudioExtracted = (audioUrl: string, title?: string) => {
     if (session) {
       updateSession({
@@ -315,81 +221,15 @@ function YouTubeShadowingContent() {
     }
   };
 
-  const handleTranscriptLoaded = async (transcript: TranscriptLine[], videoTitle?: string, videoMetadata?: any) => {
-    console.log('[CLIENT] ========== handleTranscriptLoaded called ==========', {
-      transcriptLength: transcript.length,
-      hasSession: !!session,
-      videoTitle,
-      hasMetadata: !!videoMetadata
-    });
+  const handleTranscriptLoaded = (transcript: TranscriptLine[], videoTitle?: string, videoMetadata?: any) => {
     if (session) {
-      console.log('[CLIENT] Session exists, setting up practice tracking');
       updateSession({
         ...session,
         transcript,
         ...(videoTitle && { videoTitle }),
         ...(videoMetadata && { videoMetadata })
       });
-
-      // Start tracking session time
-      sessionStartTimeRef.current = Date.now();
-      lastSaveTimeRef.current = null;
-
-      // Clear any existing auto-save interval
-      if (autoSaveIntervalRef.current) {
-        console.log('[CLIENT] Clearing existing auto-save interval');
-        clearInterval(autoSaveIntervalRef.current);
-      }
-
-      // Set up auto-save every 30 seconds for long sessions
-      console.log('[CLIENT] Setting up auto-save interval (every 30 seconds)');
-      autoSaveIntervalRef.current = setInterval(() => {
-        console.log('[CLIENT] Auto-save interval triggered');
-        savePracticeTime(false);
-      }, 30000);
-      console.log('[CLIENT] Auto-save interval created:', !!autoSaveIntervalRef.current);
-
-      // Initial track without practice time (just to register the video)
-      console.log('[CLIENT] Checking if should make initial track call:', {
-        hasVideoUrl: !!session.videoUrl,
-        isNotBlob: !session.videoUrl?.startsWith('blob:')
-      });
-      if (session.videoUrl && !session.videoUrl.startsWith('blob:')) {
-        const videoId = extractVideoId(session.videoUrl);
-        console.log('[CLIENT] Extracted videoId:', videoId);
-        if (videoId) {
-          try {
-            console.log('[CLIENT] Making initial practice track call (practiceTime: 0)');
-            await fetch('/api/practice/track', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                videoUrl: session.videoUrl,
-                videoTitle: videoTitle || videoMetadata?.title || 'Unknown Video',
-                videoId: videoId,
-                thumbnailUrl: videoMetadata?.thumbnails?.high?.url || videoMetadata?.thumbnails?.default?.url,
-                channelName: videoMetadata?.channelTitle,
-                duration: videoMetadata?.duration ? parseDuration(videoMetadata.duration) : undefined,
-                practiceTime: 0, // Start with 0, will update later
-                metadata: videoMetadata
-              })
-            });
-          } catch (error) {
-            console.error('Error tracking practice history:', error);
-          }
-        }
-      }
     }
-  };
-
-  // Helper function to parse YouTube duration
-  const parseDuration = (duration: string): number => {
-    const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-    if (!match) return 0;
-    const hours = parseInt(match[1] || '0');
-    const minutes = parseInt(match[2] || '0');
-    const seconds = parseInt(match[3] || '0');
-    return hours * 3600 + minutes * 60 + seconds;
   };
 
   // Stats for the header
@@ -656,14 +496,35 @@ function YouTubeShadowingContent() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
+                  className="space-y-6"
                 >
-                  <ShadowingPlayer
-                    videoUrl={session.videoUrl}
-                    audioUrl={session.audioUrl}
+                  {/* Enhanced Shadowing Player */}
+                  <EnhancedShadowingPlayer
+                    session={session}
+                    onLineChange={handleLineChange}
+                    showVideo={showVideo}
+                    showFurigana={showFurigana}
+                    onToggleFurigana={() => setShowFurigana(!showFurigana)}
+                    showGrammar={showGrammar}
+                    onToggleGrammar={() => setShowGrammar(!showGrammar)}
+                    grammarMode={grammarMode}
+                    onGrammarModeChange={setGrammarMode}
+                  />
+
+                  {/* Editable Transcript Reader */}
+                  <EditableTranscriptReader
                     transcript={session.transcript}
+                    currentLineIndex={session.currentLineIndex}
+                    onLineClick={handleLineChange}
+                    showFurigana={showFurigana}
+                    showGrammar={showGrammar}
+                    contentId={extractVideoId(session.videoUrl) || ''}
+                    contentType="youtube"
+                    videoUrl={session.videoUrl}
                     videoTitle={session.videoTitle}
-                    isYouTube={!session.fileInfo}
-                    fileInfo={session.fileInfo}
+                    onTranscriptRegenerated={(newTranscript) => {
+                      setSession(prev => prev ? { ...prev, transcript: newTranscript } : null);
+                    }}
                   />
                 </motion.div>
               )}

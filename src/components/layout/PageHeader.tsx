@@ -22,7 +22,8 @@ export default function PageHeader({
   description,
   subtitle,
   mascot = 'doshi',
-  className = ''
+  className = '',
+  children
 }: PageHeaderProps) {
   const { resolvedTheme } = useTheme()
   const [isExpanded, setIsExpanded] = useState(false)
@@ -79,13 +80,6 @@ export default function PageHeader({
         {/* Compact Header */}
         <div className="relative">
           <div className="flex items-center gap-4">
-            {mascot === 'doshi' && (
-              <DoshiMascot
-                size="medium"
-                variant="animated"
-                className="flex-shrink-0"
-              />
-            )}
             <div className="flex-1">
               <h1 className={`text-2xl font-bold ${titleClasses}`}>
                 {title}
@@ -177,6 +171,8 @@ export default function PageHeader({
                     {subtitle}
                   </p>
                 )}
+                {/* Render children if provided */}
+                {children}
               </div>
             </motion.div>
           )}

@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-10-06T16:18:55.741Z
+ * Generated at: 2025-10-07T13:27:25.395Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -68,6 +68,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'daily',
     notifications: true,
     description: 'Practice Japanese verb and adjective conjugations with interactive drills'
+  },
+  'grammar_explanations': {
+    id: 'grammar_explanations',
+    name: 'Grammar Explanations',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Get AI-powered grammar explanations for Japanese sentences'
   },
   'youtube_shadowing': {
     id: 'youtube_shadowing',

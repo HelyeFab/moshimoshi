@@ -7,6 +7,7 @@ interface TranscriptLine {
   startTime: number;
   endTime: number;
   words?: string[];
+  translation?: string;
 }
 
 export async function POST(request: NextRequest) {

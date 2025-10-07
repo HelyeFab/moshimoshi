@@ -3148,6 +3148,55 @@ export const strings = {
       paused: "In pausa",
       playbackRate: "Velocità di riproduzione"
     },
+
+  // Shadowing Feature
+  shadowing: {
+    title: "Esercizio di Shadowing",
+    noSentence: "Nessuna frase da riprodurre",
+    playbackError: "Errore nella riproduzione audio",
+    voice: "Voce",
+    male: "Uomo",
+    female: "Donna",
+    speed: "Velocità",
+    repeatCount: "Numero di Ripetizioni",
+    pauseDuration: "Pausa tra Ripetizioni",
+    showFurigana: "Mostra Furigana",
+    furiganaDescription: "Mostra suggerimenti di lettura sopra i kanji",
+    sentenceProgress: "Frase {{current}} di {{total}}",
+    repeatProgress: "Ripetizione {{current}}/{{total}}",
+    saveSentence: "Salva frase nella lista di studio",
+    noSentenceAvailable: "Nessuna frase disponibile",
+    repeatProgressLabel: "Progresso Ripetizioni:",
+    sentenceProgressLabel: "Progresso Frasi:",
+    allSentences: "Tutte le Frasi",
+    sentenceSaved: "Frase salvata con successo",
+    saveFailed: "Impossibile salvare la frase",
+    instructions1: "Ascolta ogni frase e ripetila durante la pausa.",
+    instructions2: "Regola le impostazioni secondo il tuo ritmo di apprendimento.",
+
+    // Floating Navbar (Mobile)
+    floatingNavbar: {
+      message: "Spiega la grammatica",
+      repeat: "Ripeti",
+      play: "Riproduci",
+      pause: "Pausa",
+      settings: "Impostazioni"
+    }
+  },
+  aiGrammar: {
+    title: "Spiegazione grammaticale",
+    trigger: "Spiega la grammatica",
+    targetSentence: "Frase di riferimento",
+    analyzing: "Analisi della grammatica in corso...",
+    errorTitle: "Impossibile generare la spiegazione",
+    error: "Si è verificato un errore durante la generazione della spiegazione grammaticale. Riprova.",
+    cachedLabel: "Caricato dalla cache",
+    structureLabel: "Struttura",
+    examplesLabel: "Esempi",
+    mistakesLabel: "Errori comuni",
+    relatedLabel: "Schemi correlati",
+    formalityLabel: "Formalità"
+  },
     offline: {
       title: "Sei offline",
       description: "Alcune funzionalità potrebbero essere limitate senza connessione internet",

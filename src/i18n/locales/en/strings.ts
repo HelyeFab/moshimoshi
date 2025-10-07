@@ -22,7 +22,37 @@ export const strings = {
     sentenceSaved: "Sentence saved successfully",
     saveFailed: "Failed to save sentence",
     instructions1: "Listen to each sentence and repeat it during the pause.",
-    instructions2: "Adjust settings to match your learning pace."
+    instructions2: "Adjust settings to match your learning pace.",
+
+    // Floating Navbar (Mobile)
+    floatingNavbar: {
+      message: "Explain Grammar",
+      repeat: "Repeat",
+      play: "Play",
+      pause: "Pause",
+      settings: "Settings",
+      repeatCount: "Repeat Count",
+      quickSettings: "Quick Settings",
+      furigana: "Furigana",
+      translations: "Translations",
+      continuousPlay: "Continuous Play",
+      displayMode: "Display Mode"
+    }
+  },
+
+  aiGrammar: {
+    title: "Grammar Explanation",
+    trigger: "Explain Grammar",
+    targetSentence: "Target sentence",
+    analyzing: "Analyzing grammar...",
+    errorTitle: "Could not generate explanation",
+    error: "Something went wrong while generating the grammar explanation. Please try again.",
+    cachedLabel: "Loaded from cache",
+    structureLabel: "Structure",
+    examplesLabel: "Examples",
+    mistakesLabel: "Common mistakes",
+    relatedLabel: "Related patterns",
+    formalityLabel: "Formality"
   },
 
   // Common/Shared

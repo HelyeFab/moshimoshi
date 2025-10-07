@@ -3213,5 +3213,55 @@ export const strings = {
       good: "Gute Arbeit!",
       keepPracticing: "Weiter üben!"
     }
+  },
+
+  // Shadowing Feature
+  shadowing: {
+    title: "Shadowing-Übung",
+    noSentence: "Kein Satz zum Abspielen",
+    playbackError: "Audiowiedergabe fehlgeschlagen",
+    voice: "Stimme",
+    male: "Mann",
+    female: "Frau",
+    speed: "Geschwindigkeit",
+    repeatCount: "Wiederholungsanzahl",
+    pauseDuration: "Pause zwischen Wiederholungen",
+    showFurigana: "Furigana anzeigen",
+    furiganaDescription: "Lesehilfen über Kanji-Zeichen anzeigen",
+    sentenceProgress: "Satz {{current}} von {{total}}",
+    repeatProgress: "Wiederholung {{current}}/{{total}}",
+    saveSentence: "Satz in Studienliste speichern",
+    noSentenceAvailable: "Kein Satz verfügbar",
+    repeatProgressLabel: "Wiederholungsfortschritt:",
+    sentenceProgressLabel: "Satzfortschritt:",
+    allSentences: "Alle Sätze",
+    sentenceSaved: "Satz erfolgreich gespeichert",
+    saveFailed: "Satz konnte nicht gespeichert werden",
+    instructions1: "Hören Sie jeden Satz und wiederholen Sie ihn während der Pause.",
+    instructions2: "Passen Sie die Einstellungen an Ihr Lerntempo an.",
+
+    // Floating Navbar (Mobile)
+    floatingNavbar: {
+      message: "Grammatik erklären",
+      repeat: "Wiederholen",
+      play: "Abspielen",
+      pause: "Pause",
+      settings: "Einstellungen"
+    }
+  },
+
+  aiGrammar: {
+    title: "Grammatikerklärung",
+    trigger: "Grammatik erklären",
+    targetSentence: "Zielsatz",
+    analyzing: "Grammatik wird analysiert...",
+    errorTitle: "Erklärung konnte nicht erstellt werden",
+    error: "Beim Erstellen der Grammatikerklärung ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+    cachedLabel: "Aus dem Cache geladen",
+    structureLabel: "Struktur",
+    examplesLabel: "Beispiele",
+    mistakesLabel: "Häufige Fehler",
+    relatedLabel: "Verwandte Muster",
+    formalityLabel: "Formell"
   }
 }

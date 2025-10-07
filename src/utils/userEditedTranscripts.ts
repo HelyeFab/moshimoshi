@@ -9,7 +9,7 @@ import {
   deleteDoc
 } from 'firebase/firestore';
 import { firestore as db } from '@/lib/firebase/client';
-import { TranscriptLine } from '@/app/tools/youtube-shadowing/YouTubeShadowing';
+import { TranscriptLine } from '@/types/youtubeShadowing';
 
 interface UserEditedTranscript {
   id: string; // {userId}_{contentId}
