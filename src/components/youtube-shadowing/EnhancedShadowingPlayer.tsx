@@ -369,7 +369,7 @@ export default function EnhancedShadowingPlayer({
 
   // Initialize audio element
   useEffect(() => {
-    if (!isYouTubeMode && !isLocalVideo && session.audioUrl && !audioRef.current) {
+    if (!isYouTubeMode && !isLocalVideo && session.audioUrl && session.audioUrl !== 'youtube-player' && !audioRef.current) {
       const audio = new Audio(session.audioUrl);
       audio.playbackRate = playbackSpeed;
       audio.volume = volume;

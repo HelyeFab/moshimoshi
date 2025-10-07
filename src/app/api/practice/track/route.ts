@@ -87,6 +87,7 @@ export async function POST(req: NextRequest) {
       const statsDocRef = adminDb.collection('userPracticeHistory').doc(statsDocId);
 
       try {
+        console.log(`[Practice Track] Saving to userPracticeHistory: ${statsDocId}`);
         const statsDocSnap = await statsDocRef.get();
 
         if (statsDocSnap.exists) {
@@ -98,6 +99,7 @@ export async function POST(req: NextRequest) {
             totalPracticeTime: (existingStats?.totalPracticeTime || 0) + (practiceTime || 0),
             updatedAt: Timestamp.now()
           });
+          console.log(`[Practice Track] ✅ Updated userPracticeHistory for ${statsDocId}`);
         } else {
           await statsDocRef.set({
             userId: session.uid,
@@ -110,10 +112,18 @@ export async function POST(req: NextRequest) {
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now()
           });
+          console.log(`[Practice Track] ✅ Created NEW userPracticeHistory for ${statsDocId}`);
         }
       } catch (error) {
-        console.error('Error saving practice stats to Firebase:', error);
+        console.error('[Practice Track] ❌ Error saving practice stats to Firebase:', error);
+        console.error('[Practice Track] Error details:', {
+          message: error.message,
+          code: error.code,
+          stack: error.stack?.split('\n')[0]
+        });
       }
+    } else {
+      console.log(`[Practice Track] Skipping userPracticeHistory - session: ${!!session}, adminDb: ${!!adminDb}`);
     }
 
     return NextResponse.json({

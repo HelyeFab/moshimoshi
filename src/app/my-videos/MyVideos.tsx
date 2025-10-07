@@ -69,12 +69,19 @@ export default function MyVideos() {
     isDeleting: false
   });
 
+  // Redirect non-premium users to pricing page
+  useEffect(() => {
+    if (!authLoading && !isPremium) {
+      router.push('/pricing?reason=my_videos_premium_only');
+    }
+  }, [authLoading, isPremium, router]);
+
   // Load videos from API
   useEffect(() => {
-    if (!authLoading) {
+    if (!authLoading && isPremium) {
       loadVideos();
     }
-  }, [user, authLoading, sortBy]);
+  }, [user, authLoading, sortBy, isPremium]);
 
   const loadVideos = async () => {
     try {

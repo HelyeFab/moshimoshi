@@ -198,11 +198,8 @@ export class TranscriptCacheManager {
       if (docSnap.exists()) {
         const data = docSnap.data() as CachedTranscript;
 
-        // Update access count and timestamp
-        await updateDoc(docRef, {
-          lastAccessed: serverTimestamp(),
-          accessCount: increment(1)
-        }).catch(err => console.error('Failed to update access count:', err));
+        // Access count updates happen server-side in /lib/transcript/cache.ts
+        // Client-side reads are read-only per Firestore rules
 
         return data;
       }

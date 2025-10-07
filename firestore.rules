@@ -330,6 +330,83 @@ service cloud.firestore {
       allow write: if false; // Only server-side writes
     }
 
+    // YouTube History - Premium users can sync their video history
+    // Document ID format: {userId}_{videoId}
+    match /userYouTubeHistory/{docId} {
+      // Users can read their own video history
+      allow read: if isAuthenticated() &&
+        docId.matches('^' + request.auth.uid + '_.*$');
+
+      // Only premium users can write (sync) their video history
+      allow create: if isAuthenticated() &&
+        docId.matches('^' + request.auth.uid + '_.*$') &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly') &&
+        request.resource.data.keys().hasAll(['userId', 'videoId', 'videoUrl', 'videoTitle']) &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow update: if isAuthenticated() &&
+        docId.matches('^' + request.auth.uid + '_.*$') &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly') &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow delete: if isAuthenticated() &&
+        docId.matches('^' + request.auth.uid + '_.*$') &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Practice History - All authenticated users can track practice stats
+    // Document ID format: {userId}_{videoId}
+    match /userPracticeHistory/{docId} {
+      // Users can read their own practice history
+      allow read: if isAuthenticated() &&
+        docId.matches('^' + request.auth.uid + '_.*$');
+
+      // All authenticated users can write practice history
+      allow create: if isAuthenticated() &&
+        docId.matches('^' + request.auth.uid + '_.*$') &&
+        request.resource.data.keys().hasAll(['userId', 'videoId', 'contentType']) &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.contentType == 'youtube';
+
+      allow update: if isAuthenticated() &&
+        docId.matches('^' + request.auth.uid + '_.*$') &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow delete: if isAuthenticated() &&
+        docId.matches('^' + request.auth.uid + '_.*$') &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Video History - Lightweight tracking of which videos user has accessed
+    // Document ID: {userId}
+    match /userVideoHistory/{userId} {
+      // Users can read their own video history
+      allow read: if isOwner(userId);
+
+      // All authenticated users can create/update their video history
+      allow create: if isOwner(userId) &&
+        request.resource.data.keys().hasAll(['videoIds', 'lastUpdated']);
+
+      allow update: if isOwner(userId);
+
+      allow delete: if isOwner(userId);
+    }
+
+    // Transcript Cache - Shared cache to save API costs
+    // All authenticated users can READ (to check if transcript exists)
+    // Only server can WRITE (to prevent abuse/spam)
+    match /transcriptCache/{contentId} {
+      // All authenticated users can read cached transcripts
+      allow read: if isAuthenticated();
+
+      // Only server can write (via Admin SDK)
+      allow write: if false;
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;
