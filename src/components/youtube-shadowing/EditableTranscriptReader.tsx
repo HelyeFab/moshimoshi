@@ -170,7 +170,6 @@ export default function EditableTranscriptReader({
     const cleanWord = word.replace(/<[^>]*>/g, '');
     if (!cleanWord || cleanWord.length === 0) return;
 
-    console.log('📖 Explaining word:', cleanWord);
     setIsWordModalOpen(true);
     await explainWord(cleanWord);
 

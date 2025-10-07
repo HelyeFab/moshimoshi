@@ -31,7 +31,6 @@ export async function getCachedWordExplanation(word: string): Promise<WordExplan
     const doc = await db.collection(COLLECTION).doc(docId).get();
 
     if (!doc.exists) {
-      console.log(`[WordCache] Cache miss for word: "${word}"`);
       return null;
     }
 
@@ -43,7 +42,6 @@ export async function getCachedWordExplanation(word: string): Promise<WordExplan
       accessCount: data.accessCount + 1
     });
 
-    console.log(`[WordCache] ✅ Cache HIT for word: "${word}" (access count: ${data.accessCount + 1})`);
     return data.explanation;
   } catch (error) {
     console.error('[WordCache] ❌ Failed to read cache:', error);
@@ -77,11 +75,6 @@ export async function setCachedWordExplanation(
     };
 
     await db.collection(COLLECTION).doc(docId).set(entry, { merge: true });
-
-    console.log(`[WordCache] ✅ Cached explanation for word: "${word}"`);
-    console.log(`[WordCache] Document ID: ${docId}`);
-    console.log(`[WordCache] Meaning: ${explanation.meaning}`);
-    console.log(`[WordCache] Part of Speech: ${explanation.partOfSpeech}`);
   } catch (error) {
     console.error('[WordCache] ❌ Failed to write cache:', error);
     console.error('[WordCache] Word:', word);
