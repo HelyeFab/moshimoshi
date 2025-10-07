@@ -17,6 +17,8 @@ import {
   GrammarExplanationRequest,
   GrammarExplanation,
   GrammarSentenceExplanationRequest,
+  WordExplanationRequest,
+  WordExplanation,
   TranscriptProcessRequest,
   ProcessedTranscript,
   ArticleProcessRequest,
@@ -38,6 +40,7 @@ import {
 import { ReviewQuestionProcessor } from './processors/ReviewQuestionProcessor';
 import { GrammarExplainerProcessor } from './processors/GrammarExplainerProcessor';
 import { GrammarSentenceProcessor } from './processors/GrammarSentenceProcessor';
+import { WordExplainerProcessor } from './processors/WordExplainerProcessor';
 import { TranscriptProcessor } from './processors/TranscriptProcessor';
 import { StoryProcessor } from './processors/StoryProcessor';
 import { MoodboardProcessor } from './processors/MoodboardProcessor';
@@ -233,6 +236,7 @@ export class AIService {
       'generate_review_questions',
       'explain_grammar',
       'explain_grammar_sentence',
+      'explain_word',
       'clean_transcript',
       'process_article',
       'generate_story',
@@ -300,6 +304,13 @@ export class AIService {
         const grammarSentenceProcessor = new GrammarSentenceProcessor(context);
         return await grammarSentenceProcessor.process(
           request.content as GrammarSentenceExplanationRequest,
+          request.config
+        );
+
+      case 'explain_word':
+        const wordProcessor = new WordExplainerProcessor(context);
+        return await wordProcessor.process(
+          request.content as WordExplanationRequest,
           request.config
         );
 
@@ -399,7 +410,8 @@ export class AIService {
           duration = 86400; // 24 hours for transcripts
           break;
         case 'explain_grammar':
-          duration = 604800; // 7 days for grammar (rarely changes)
+        case 'explain_word':
+          duration = 604800; // 7 days for grammar/word (rarely changes)
           break;
         case 'generate_story':
         case 'generate_moodboard':
@@ -479,6 +491,17 @@ export class AIService {
   ): Promise<AIResponse<GrammarExplanation>> {
     return this.process({
       task: 'explain_grammar_sentence',
+      content: request,
+      config
+    });
+  }
+
+  async explainWord(
+    request: WordExplanationRequest,
+    config?: TaskConfig
+  ): Promise<AIResponse<WordExplanation>> {
+    return this.process({
+      task: 'explain_word',
       content: request,
       config
     });

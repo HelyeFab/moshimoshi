@@ -26,6 +26,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 // TODO: Import or create RegenerateTranscript component
 // import RegenerateTranscript from './RegenerateTranscript';
 import { TranscriptCacheManager } from '@/utils/transcriptCache';
+import WordExplanationModal from '@/components/word/WordExplanationModal';
+import { useWordExplanation } from '@/hooks/useWordExplanation';
+import { useToast } from '@/components/ui/Toast/ToastContext';
 
 interface EditableTranscriptReaderProps {
   transcript: TranscriptLine[];
@@ -59,23 +62,36 @@ export default function EditableTranscriptReader({
   const { user } = useAuth();
   const { t, strings } = useI18n();
   const { isPremium } = useSubscription();
+  const { showToast } = useToast();
   const [editMode, setEditMode] = useState(false);
   const [editedTranscript, setEditedTranscript] = useState<TranscriptLine[]>([]);
   const [processedTranscript, setProcessedTranscript] = useState<Array<{
     original: TranscriptLine;
     withFurigana: string;
   }>>([]);
-  const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [showRegenerateModal, setShowRegenerateModal] = useState(false);
-  const [wordDefinitions, setWordDefinitions] = useState<JapaneseWord[]>([]);
-  const [showWordModal, setShowWordModal] = useState(false);
-  const [loadingWord, setLoadingWord] = useState(false);
   const [saving, setSaving] = useState(false);
   const [hasEdits, setHasEdits] = useState(false);
   const [showSaveConfirm, setShowSaveConfirm] = useState(false);
   const [showLegend, setShowLegend] = useState(false);
   const [showEditTools, setShowEditTools] = useState(false);
   const editRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // Word explanation state
+  const [isWordModalOpen, setIsWordModalOpen] = useState(false);
+
+  const {
+    explainWord,
+    loading: wordLoading,
+    error: wordError,
+    explanation: wordExplanation,
+    currentWord,
+    reset: resetWordExplanation
+  } = useWordExplanation({
+    onError: (error) => {
+      showToast(error, 'error');
+    }
+  });
 
   // Load user's edited transcript if available
   useEffect(() => {
@@ -150,29 +166,22 @@ export default function EditableTranscriptReader({
 
   const handleWordClick = async (word: string) => {
     if (editMode) return; // Disable word lookup in edit mode
-    
+
     const cleanWord = word.replace(/<[^>]*>/g, '');
     if (!cleanWord || cleanWord.length === 0) return;
 
-    setSelectedWord(cleanWord);
-    setLoadingWord(true);
-    setShowWordModal(true);
-
-    try {
-      // TODO: Implement word search
-      // const results = await searchWords(cleanWord);
-      const results: JapaneseWord[] = [];
-      setWordDefinitions(results);
-    } catch (error) {
-      console.error('Failed to look up word:', error);
-      setWordDefinitions([]);
-    } finally {
-      setLoadingWord(false);
-    }
+    console.log('📖 Explaining word:', cleanWord);
+    setIsWordModalOpen(true);
+    await explainWord(cleanWord);
 
     if (onWordClick) {
       onWordClick(cleanWord);
     }
+  };
+
+  const handleCloseWordModal = () => {
+    setIsWordModalOpen(false);
+    resetWordExplanation();
   };
 
   const formatTimestamp = (seconds: number): string => {
@@ -638,29 +647,15 @@ export default function EditableTranscriptReader({
         )}
       </AnimatePresence>
 
-      {/* Word Lookup Modal - TODO: Implement */}
-      {showWordModal && selectedWord && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-card rounded-lg p-6 max-w-lg w-full">
-            <h3 className="text-lg font-semibold mb-4">{selectedWord}</h3>
-            {loadingWord ? (
-              <p>Loading...</p>
-            ) : (
-              <p className="text-muted-foreground">Word lookup not implemented yet</p>
-            )}
-            <button
-              onClick={() => {
-                setShowWordModal(false);
-                setSelectedWord(null);
-                setWordDefinitions([]);
-              }}
-              className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Word Explanation Modal */}
+      <WordExplanationModal
+        isOpen={isWordModalOpen}
+        onClose={handleCloseWordModal}
+        word={currentWord}
+        explanation={wordExplanation}
+        loading={wordLoading}
+        error={wordError}
+      />
 
       {/* Regenerate Transcript Modal - TODO: Implement */}
       {showRegenerateModal && videoUrl && (
