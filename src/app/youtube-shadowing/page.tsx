@@ -16,7 +16,6 @@ import AudioExtractor from '@/components/youtube-shadowing/AudioExtractor';
 import TranscriptDisplay from '@/components/youtube-shadowing/TranscriptDisplay';
 import EnhancedShadowingPlayer from '@/components/youtube-shadowing/EnhancedShadowingPlayer';
 import EditableTranscriptReader from '@/components/youtube-shadowing/EditableTranscriptReader';
-import { videoHistoryService } from '@/services/videoHistory';
 
 export interface TranscriptLine {
   id: string;
@@ -71,11 +70,6 @@ function YouTubeShadowingContent() {
   const handleLineChange = useCallback((index: number) => {
     setSession(prev => prev ? { ...prev, currentLineIndex: index } : null);
   }, []);
-
-  // Initialize video history service
-  useEffect(() => {
-    videoHistoryService.initialize(user?.uid, isPremium);
-  }, [user, isPremium]);
 
   // Handle URL parameters (e.g., from My Videos)
   useEffect(() => {

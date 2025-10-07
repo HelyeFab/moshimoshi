@@ -15,7 +15,6 @@ import FileUploader from '@/components/youtube-shadowing/FileUploader';
 import AudioExtractor from '@/components/youtube-shadowing/AudioExtractor';
 import TranscriptDisplay from '@/components/youtube-shadowing/TranscriptDisplay';
 import ShadowingPlayer from '@/components/youtube-shadowing/ShadowingPlayer';
-import { videoHistoryService } from '@/services/videoHistory';
 
 export interface TranscriptLine {
   id: string;
@@ -67,11 +66,6 @@ function YouTubeShadowingContent() {
   const sessionStartTimeRef = useRef<number | null>(null);
   const lastSaveTimeRef = useRef<number | null>(null);
   const autoSaveIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Initialize video history and practice history services
-  useEffect(() => {
-    videoHistoryService.initialize(user?.uid, isPremium);
-  }, [user, isPremium]);
 
   // Handle URL parameters (e.g., from My Videos)
   useEffect(() => {
