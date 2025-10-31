@@ -441,15 +441,12 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
         return
       }
 
-      // Call sync API
+      // Call sync API (streak is synced separately via incrementStreak)
       const response = await fetch('/api/gamification/sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           totalXP: state.totalXP,
-          // ❌ DO NOT SYNC STREAK - it's handled by incrementStreak() only
-          // currentStreak: state.currentStreak,
-          // bestStreak: state.bestStreak,
           lastActivityDate: state.lastActivityDate?.toISOString() || null,
           unlockedAchievements: state.unlockedAchievements,
           achievementProgress: state.achievementProgress,

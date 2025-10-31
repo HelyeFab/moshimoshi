@@ -34,9 +34,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const {
       totalXP,
-      // ❌ STREAK IS NO LONGER SYNCED HERE - use /api/gamification/streak/increment instead
-      // currentStreak,
-      // bestStreak,
       lastActivityDate,
       unlockedAchievements,
       achievementProgress,
@@ -52,7 +49,7 @@ export async function POST(request: NextRequest) {
     if (incomingLooksEmpty) {
       console.error('[Gamification Sync] BLOCKED: Attempted to sync with empty data!', {
         userId,
-        incoming: { xp: totalXP, streak: currentStreak, sessions: sessionCount }
+        incoming: { xp: totalXP, sessions: sessionCount }
       })
       return NextResponse.json({
         error: 'Cannot sync empty data. This likely indicates a race condition bug.',
@@ -60,25 +57,14 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Calculate time-based metrics
-    const now = new Date()
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    const weekStart = new Date(todayStart)
-    weekStart.setDate(weekStart.getDate() - 7)
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
-
-    // DELEGATE TO STREAK SERVICE (single writer pattern)
-    // NOTE: STREAK fields are NOT synced here - they go through /api/gamification/streak/increment
+    // Delegate to streak service (single writer pattern)
     const result = await applyMergedStatsTransaction(userId, {
       xp: {
         total: totalXP || 0,
         level: Math.max(1, Math.floor((totalXP || 0) / 1000)),
         levelTitle: getLevelTitle(Math.max(1, Math.floor((totalXP || 0) / 1000))),
         xpToNextLevel: 1000 - ((totalXP || 0) % 1000)
-        // xpGainedToday, weeklyXP, monthlyXP are calculated by service
       },
-      // ❌ DO NOT SYNC STREAK - it's handled by incrementStreak() only to avoid race conditions
-      // streak: { current, best },
       dates: {
         lastActivityDate: lastActivityDate || null,
         isActiveToday: !!lastActivityDate && isToday(new Date(lastActivityDate))
@@ -90,7 +76,6 @@ export async function POST(request: NextRequest) {
       },
       sessions: {
         totalSessions: sessionCount || 0
-        // todaySessions, weekSessions, monthSessions calculated by service
       }
     })
 
