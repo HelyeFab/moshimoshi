@@ -466,3 +466,185 @@ export async function resetStreak(
     };
   }
 }
+
+// ============================================================================
+// Unified API Entry Points (for sync & migration routes)
+// ============================================================================
+
+/**
+ * Merged gamification stats for unified API endpoints
+ * Used by /api/gamification/sync and /api/gamification/migration/upload
+ */
+export interface MergedGamificationStats {
+  xp?: {
+    total?: number;
+    level?: number;
+    levelTitle?: string;
+    xpToNextLevel?: number;
+    xpGainedToday?: number;
+    weeklyXP?: number;
+    monthlyXP?: number;
+  };
+  streak?: {
+    current?: number;
+    best?: number;
+  };
+  dates?: {
+    lastActivityDate?: string | null;
+    isActiveToday?: boolean;
+  };
+  sessions?: {
+    totalSessions?: number;
+    todaySessions?: number;
+    weekSessions?: number;
+    monthSessions?: number;
+    averageAccuracy?: number;
+    totalStudyTimeMinutes?: number;
+    totalItemsReviewed?: number;
+  };
+  achievements?: {
+    unlockedIds?: string[];
+    unlockedCount?: number;
+    completionPercentage?: number;
+  };
+}
+
+/**
+ * Result of applying merged stats transaction
+ */
+export interface ApplyMergedStatsResult {
+  success: boolean;
+  streakData?: {
+    current: number;
+    best: number;
+  };
+  xpData?: {
+    total: number;
+    level: number;
+  };
+  error?: string;
+}
+
+/**
+ * Apply merged gamification stats with transactional streak handling
+ *
+ * This is the SINGLE entry point for sync and migration routes.
+ * All streak writes MUST go through this transaction to maintain consistency.
+ *
+ * @param userId - User ID
+ * @param incoming - Merged stats from API routes
+ * @param db - Optional Firestore instance (for testing)
+ * @returns Result with updated streak and XP data
+ */
+export async function applyMergedStatsTransaction(
+  userId: string,
+  incoming: MergedGamificationStats,
+  db?: Firestore
+): Promise<ApplyMergedStatsResult> {
+  const firestore = db || getFirestore();
+  const userStatsRef = getUserStatsRef(userId, firestore);
+
+  try {
+    const result = await firestore.runTransaction(async (transaction: Transaction) => {
+      const doc = await transaction.get(userStatsRef);
+      const existingData = doc.exists ? (doc.data() as any) : {};
+
+      // Merge non-streak fields first
+      const merged: any = { ...existingData };
+
+      // XP merge
+      if (incoming.xp) {
+        merged.xp = {
+          ...(existingData.xp ?? {}),
+          ...incoming.xp
+        };
+      }
+
+      // Sessions merge
+      if (incoming.sessions) {
+        merged.sessions = {
+          ...(existingData.sessions ?? {}),
+          ...incoming.sessions
+        };
+      }
+
+      // Achievements merge
+      if (incoming.achievements) {
+        merged.achievements = {
+          ...(existingData.achievements ?? {}),
+          ...incoming.achievements
+        };
+      }
+
+      // CRITICAL: Streak merge uses max strategy to prevent data loss
+      // This maintains the invariant: best >= current
+      const incomingCurrent = incoming.streak?.current ?? 0;
+      const incomingBest = incoming.streak?.best ?? 0;
+      const existingCurrent = existingData.currentStreak ?? existingData.streak?.current ?? 0;
+      const existingBest = existingData.bestStreak ?? existingData.streak?.best ?? 0;
+
+      const newCurrent = Math.max(incomingCurrent, existingCurrent);
+      const newBest = Math.max(incomingBest, existingBest, newCurrent);
+
+      // Write to BOTH legacy flat format AND new nested format for compatibility
+      merged.currentStreak = newCurrent;
+      merged.bestStreak = newBest;
+      merged.streak = {
+        current: newCurrent,
+        best: newBest
+      };
+
+      // Dates merge
+      if (incoming.dates) {
+        const lastActivityDate = incoming.dates.lastActivityDate ?? existingData.lastActivityDate;
+        const isActiveToday = typeof incoming.dates.isActiveToday === 'boolean'
+          ? incoming.dates.isActiveToday
+          : (existingData.dates?.isActiveToday ?? false);
+
+        merged.lastActivityDate = lastActivityDate;
+        merged.dates = {
+          ...(existingData.dates ?? {}),
+          lastActivityDate,
+          isActiveToday
+        };
+      }
+
+      // Update version for conflict detection
+      merged.version = (existingData.version || 0) + 1;
+      merged.updatedAt = Timestamp.now();
+
+      // Metadata
+      if (!merged.metadata) {
+        merged.metadata = {};
+      }
+      merged.metadata.lastUpdated = new Date().toISOString();
+      merged.metadata.syncStatus = 'synced';
+      merged.metadata.schemaVersion = 2;
+
+      transaction.set(userStatsRef, merged, { merge: true });
+
+      return {
+        streakData: {
+          current: newCurrent,
+          best: newBest
+        },
+        xpData: {
+          total: merged.xp?.total ?? 0,
+          level: merged.xp?.level ?? 1
+        }
+      };
+    });
+
+    return {
+      success: true,
+      ...result
+    };
+
+  } catch (error: any) {
+    console.error('[StreakService] Failed to apply merged stats:', error);
+    return {
+      success: false,
+      error: error.message || 'Unknown error'
+    };
+  }
+}

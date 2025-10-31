@@ -16,7 +16,8 @@ import {
   calculateDaysDifference,
   isWithinGracePeriod,
   checkStreakEligibility,
-  calculateNewStreakValues
+  calculateNewStreakValues,
+  applyMergedStatsTransaction
 } from '../streakService';
 
 describe('streakService - Pure Functions', () => {
@@ -747,6 +748,194 @@ describe('streakService - Firebase Transactions', () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toContain('not found');
+    });
+  });
+
+  describe('applyMergedStatsTransaction', () => {
+    it('should merge stats with max strategy for streak values', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({
+        currentStreak: 5,
+        bestStreak: 10,
+        streak: { current: 5, best: 10 },
+        xp: { total: 1000 },
+        version: 1
+      });
+
+      const result = await applyMergedStatsTransaction('testUser123', {
+        streak: { current: 3, best: 8 }, // Lower values
+        xp: { total: 1200 } // Higher value
+      }, mockFirestore);
+
+      expect(result.success).toBe(true);
+      expect(result.streakData).toEqual({
+        current: 5, // Max(3, 5) = 5
+        best: 10    // Max(8, 10, 5) = 10
+      });
+      expect(result.xpData?.total).toBe(1200);
+      expect(mockTransaction.set).toHaveBeenCalled();
+    });
+
+    it('should maintain invariant: best >= current', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({
+        currentStreak: 2,
+        bestStreak: 5,
+        version: 1
+      });
+
+      const result = await applyMergedStatsTransaction('testUser123', {
+        streak: { current: 15, best: 10 } // Current > best (invalid)
+      }, mockFirestore);
+
+      expect(result.success).toBe(true);
+      expect(result.streakData).toEqual({
+        current: 15,
+        best: 15    // Corrected to Math.max(10, 15) = 15
+      });
+    });
+
+    it('should write to both flat and nested schema for compatibility', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({ version: 1 });
+
+      await applyMergedStatsTransaction('testUser123', {
+        streak: { current: 7, best: 10 }
+      }, mockFirestore);
+
+      const callArgs = mockTransaction.set.mock.calls[0][1];
+      expect(callArgs.currentStreak).toBe(7);  // Flat format
+      expect(callArgs.bestStreak).toBe(10);    // Flat format
+      expect(callArgs.streak).toEqual({ current: 7, best: 10 }); // Nested format
+    });
+
+    it('should merge XP data correctly', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({
+        xp: { total: 500, level: 1 },
+        version: 1
+      });
+
+      await applyMergedStatsTransaction('testUser123', {
+        xp: { total: 1500, level: 2, xpGainedToday: 100 }
+      }, mockFirestore);
+
+      const callArgs = mockTransaction.set.mock.calls[0][1];
+      expect(callArgs.xp.total).toBe(1500);
+      expect(callArgs.xp.level).toBe(2);
+      expect(callArgs.xp.xpGainedToday).toBe(100);
+    });
+
+    it('should merge sessions data correctly', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({
+        sessions: { totalSessions: 10, averageAccuracy: 85 },
+        version: 1
+      });
+
+      await applyMergedStatsTransaction('testUser123', {
+        sessions: { totalSessions: 15, todaySessions: 2 }
+      }, mockFirestore);
+
+      const callArgs = mockTransaction.set.mock.calls[0][1];
+      expect(callArgs.sessions.totalSessions).toBe(15);
+      expect(callArgs.sessions.averageAccuracy).toBe(85); // Preserved
+      expect(callArgs.sessions.todaySessions).toBe(2);
+    });
+
+    it('should merge achievements data correctly', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({
+        achievements: { unlockedIds: ['ach1', 'ach2'] },
+        version: 1
+      });
+
+      await applyMergedStatsTransaction('testUser123', {
+        achievements: { unlockedIds: ['ach1', 'ach2', 'ach3'], unlockedCount: 3 }
+      }, mockFirestore);
+
+      const callArgs = mockTransaction.set.mock.calls[0][1];
+      expect(callArgs.achievements.unlockedIds).toEqual(['ach1', 'ach2', 'ach3']);
+      expect(callArgs.achievements.unlockedCount).toBe(3);
+    });
+
+    it('should merge dates data correctly', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({
+        dates: { lastActivityDate: '2025-01-01' },
+        version: 1
+      });
+
+      await applyMergedStatsTransaction('testUser123', {
+        dates: { lastActivityDate: '2025-01-15', isActiveToday: true }
+      }, mockFirestore);
+
+      const callArgs = mockTransaction.set.mock.calls[0][1];
+      expect(callArgs.dates.lastActivityDate).toBe('2025-01-15');
+      expect(callArgs.dates.isActiveToday).toBe(true);
+      expect(callArgs.lastActivityDate).toBe('2025-01-15'); // Also flat format
+    });
+
+    it('should increment version for conflict detection', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({ version: 5 });
+
+      await applyMergedStatsTransaction('testUser123', {
+        streak: { current: 1, best: 1 }
+      }, mockFirestore);
+
+      const callArgs = mockTransaction.set.mock.calls[0][1];
+      expect(callArgs.version).toBe(6); // 5 + 1
+    });
+
+    it('should initialize version to 1 if missing', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({}); // No version field
+
+      await applyMergedStatsTransaction('testUser123', {
+        streak: { current: 1, best: 1 }
+      }, mockFirestore);
+
+      const callArgs = mockTransaction.set.mock.calls[0][1];
+      expect(callArgs.version).toBe(1); // 0 + 1
+    });
+
+    it('should handle new user (no existing document)', async () => {
+      mockDocSnapshot.exists = false;
+
+      const result = await applyMergedStatsTransaction('testUser123', {
+        streak: { current: 1, best: 1 },
+        xp: { total: 100 }
+      }, mockFirestore);
+
+      expect(result.success).toBe(true);
+      expect(result.streakData).toEqual({ current: 1, best: 1 });
+      expect(mockTransaction.set).toHaveBeenCalled();
+    });
+
+    it('should update metadata fields', async () => {
+      mockDocSnapshot.exists = true;
+      mockDocSnapshot.data.mockReturnValue({ version: 1 });
+
+      await applyMergedStatsTransaction('testUser123', {
+        streak: { current: 1, best: 1 }
+      }, mockFirestore);
+
+      const callArgs = mockTransaction.set.mock.calls[0][1];
+      expect(callArgs.metadata.syncStatus).toBe('synced');
+      expect(callArgs.metadata.schemaVersion).toBe(2);
+      expect(callArgs.metadata.lastUpdated).toBeDefined();
+    });
+
+    it('should handle transaction errors gracefully', async () => {
+      mockTransaction.get.mockRejectedValue(new Error('Network error'));
+
+      const result = await applyMergedStatsTransaction('testUser123', {
+        streak: { current: 1, best: 1 }
+      }, mockFirestore);
+
+      expect(result.success).toBe(false);
+      expect(result.error).toContain('Network error');
     });
   });
 });

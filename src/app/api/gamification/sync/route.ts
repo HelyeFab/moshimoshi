@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { applyMergedStatsTransaction } from '@/lib/gamification/services/streakService'
 
 /**
  * Helper function to check if user has premium access
@@ -44,40 +44,20 @@ export async function POST(request: NextRequest) {
 
     // CRITICAL SAFETY CHECK: Prevent overwriting real data with zeros
     // This protects against race condition bugs where client syncs before loading data
-    const userStatsRef = adminDb.collection('user_stats').doc(userId)
-    const existingDoc = await userStatsRef.get()
+    const incomingLooksEmpty =
+      (totalXP || 0) === 0 &&
+      (currentStreak || 0) === 0 &&
+      (sessionCount || 0) === 0
 
-    let existingData: any = {}
-    if (existingDoc.exists) {
-      existingData = existingDoc.data() || {}
-      const existingXP = existingData?.xp?.total || 0
-      const existingStreak = existingData?.streak?.current || 0
-      const existingBestStreak = existingData?.streak?.best || 0
-      const existingSessions = existingData?.sessions?.totalSessions || 0
-
-      // Check if we're about to overwrite real data with zeros
-      const incomingLooksEmpty =
-        (totalXP || 0) === 0 &&
-        (currentStreak || 0) === 0 &&
-        (sessionCount || 0) === 0
-
-      const existingHasData =
-        existingXP > 0 ||
-        existingStreak > 0 ||
-        existingBestStreak > 0 ||
-        existingSessions > 0
-
-      if (incomingLooksEmpty && existingHasData) {
-        console.error('[Gamification Sync] BLOCKED: Attempted to overwrite real data with zeros!', {
-          userId,
-          existing: { xp: existingXP, streak: existingStreak, sessions: existingSessions },
-          incoming: { xp: totalXP, streak: currentStreak, sessions: sessionCount }
-        })
-        return NextResponse.json({
-          error: 'Cannot overwrite existing stats with zero values. This likely indicates a race condition bug.',
-          details: 'Client attempted to sync before loading data from Firebase'
-        }, { status: 400 })
-      }
+    if (incomingLooksEmpty) {
+      console.error('[Gamification Sync] BLOCKED: Attempted to sync with empty data!', {
+        userId,
+        incoming: { xp: totalXP, streak: currentStreak, sessions: sessionCount }
+      })
+      return NextResponse.json({
+        error: 'Cannot sync empty data. This likely indicates a race condition bug.',
+        details: 'Client attempted to sync before loading data from Firebase'
+      }, { status: 400 })
     }
 
     // Calculate time-based metrics
@@ -87,54 +67,21 @@ export async function POST(request: NextRequest) {
     weekStart.setDate(weekStart.getDate() - 7)
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
 
-    // Get existing time-based data or initialize
-    const existingXPData = existingData?.xp || {}
-    const existingSessionData = existingData?.sessions || {}
-
-    // Detect if this is a new session (totalSessions increased)
-    const oldSessionCount = existingSessionData?.totalSessions || 0
-    const newSessionDetected = (sessionCount || 0) > oldSessionCount
-
-    // Calculate XP gained since last sync
-    const oldTotalXP = existingXPData?.total || 0
-    const newTotalXP = totalXP || 0
-    const xpGainedThisSync = Math.max(0, newTotalXP - oldTotalXP)
-
-    // Reset daily/weekly/monthly counters if time period changed
-    const lastUpdated = existingData?.metadata?.lastUpdated
-      ? new Date(existingData.metadata.lastUpdated)
-      : new Date(0)
-
-    const isSameDay = isToday(lastUpdated)
-    const isSameWeek = lastUpdated >= weekStart
-    const isSameMonth = lastUpdated.getMonth() === now.getMonth() && lastUpdated.getFullYear() === now.getFullYear()
-
-    // Update time-based XP counters
-    const xpGainedToday = isSameDay ? (existingXPData.xpGainedToday || 0) + xpGainedThisSync : xpGainedThisSync
-    const weeklyXP = isSameWeek ? (existingXPData.weeklyXP || 0) + xpGainedThisSync : xpGainedThisSync
-    const monthlyXP = isSameMonth ? (existingXPData.monthlyXP || 0) + xpGainedThisSync : xpGainedThisSync
-
-    // Update time-based session counters
-    const sessionIncrement = newSessionDetected ? 1 : 0
-    const todaySessions = isSameDay ? (existingSessionData.todaySessions || 0) + sessionIncrement : sessionIncrement
-    const weekSessions = isSameWeek ? (existingSessionData.weekSessions || 0) + sessionIncrement : sessionIncrement
-    const monthSessions = isSameMonth ? (existingSessionData.monthSessions || 0) + sessionIncrement : sessionIncrement
-
-    // Update user's gamification data in user_stats collection
-    await userStatsRef.set({
+    // DELEGATE TO STREAK SERVICE (single writer pattern)
+    // All streak writes MUST go through transactional service
+    const result = await applyMergedStatsTransaction(userId, {
       xp: {
-        total: newTotalXP,
-        level: Math.max(1, Math.floor(newTotalXP / 1000)),
-        levelTitle: getLevelTitle(Math.max(1, Math.floor(newTotalXP / 1000))),
-        xpToNextLevel: 1000 - (newTotalXP % 1000),
-        xpGainedToday,
-        weeklyXP,
-        monthlyXP
+        total: totalXP || 0,
+        level: Math.max(1, Math.floor((totalXP || 0) / 1000)),
+        levelTitle: getLevelTitle(Math.max(1, Math.floor((totalXP || 0) / 1000))),
+        xpToNextLevel: 1000 - ((totalXP || 0) % 1000),
+        xpGainedToday: 0, // Calculated by service from existing data
+        weeklyXP: 0, // Calculated by service from existing data
+        monthlyXP: 0 // Calculated by service from existing data
       },
       streak: {
         current: currentStreak || 0,
         best: bestStreak || 0
-        // REMOVED: nested dates object (legacy schema cleanup)
       },
       dates: {
         lastActivityDate: lastActivityDate || null,
@@ -147,25 +94,27 @@ export async function POST(request: NextRequest) {
       },
       sessions: {
         totalSessions: sessionCount || 0,
-        todaySessions,
-        weekSessions,
-        monthSessions,
-        // Preserve other session fields or set defaults
-        averageAccuracy: existingSessionData.averageAccuracy || 0,
-        totalStudyTimeMinutes: existingSessionData.totalStudyTimeMinutes || 0,
-        totalItemsReviewed: existingSessionData.totalItemsReviewed || 0
-      },
-      metadata: {
-        lastUpdated: new Date().toISOString(),
-        syncStatus: 'synced',
-        dataHealth: 'healthy',
-        schemaVersion: 2
+        todaySessions: 0, // Calculated by service
+        weekSessions: 0, // Calculated by service
+        monthSessions: 0, // Calculated by service
+        averageAccuracy: 0,
+        totalStudyTimeMinutes: 0,
+        totalItemsReviewed: 0
       }
-    }, { merge: true })
+    })
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: 'Failed to sync gamification data', details: result.error },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json({
       success: true,
-      syncedAt: new Date().toISOString()
+      syncedAt: new Date().toISOString(),
+      streak: result.streakData,
+      xp: result.xpData
     })
   } catch (error: any) {
     console.error('[Gamification Sync] Error:', error)

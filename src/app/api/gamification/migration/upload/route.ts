@@ -9,8 +9,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';
-import { getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { getStreakData } from '@/lib/gamification/services/streakService';
+import { applyMergedStatsTransaction } from '@/lib/gamification/services/streakService';
 
 interface MigrationData {
   currentStreak: number;
@@ -73,67 +72,52 @@ export async function POST(req: NextRequest) {
       totalXP: migrationData.totalXP
     });
 
-    // Get existing Firebase data
-    const existingData = await getStreakData(userId);
-
-    console.log('[Migration API] Existing Firebase data:', existingData ? {
-      currentStreak: existingData.currentStreak,
-      bestStreak: existingData.bestStreak,
-      totalXP: existingData.totalXP
-    } : 'No existing data');
-
-    // Merge data (take maximum values)
-    const mergedData = {
-      currentStreak: Math.max(
-        migrationData.currentStreak || 0,
-        existingData?.currentStreak || 0
-      ),
-      bestStreak: Math.max(
-        migrationData.bestStreak || 0,
-        existingData?.bestStreak || 0
-      ),
-      totalXP: Math.max(
-        migrationData.totalXP || 0,
-        existingData?.totalXP || 0
-      ),
-      sessionCount: Math.max(
-        migrationData.sessionCount || 0,
-        0 // Firebase doesn't have sessionCount yet in old schema
-      ),
-      lastActivityDate: getMostRecentDate(
-        migrationData.lastActivityDate,
-        existingData?.lastActivityDate
-      ),
-      unlockedAchievements: mergeArrays(
-        migrationData.unlockedAchievements || [],
-        [] // Firebase doesn't have achievements yet in old schema
-      ),
-      achievementProgress: mergeProgress(
-        migrationData.achievementProgress || {},
-        {}
-      ),
-      freezesRemaining: existingData?.freezesRemaining || 3,
-      version: (existingData?.version || 0) + 1,
-      updatedAt: Timestamp.now()
-    };
-
-    console.log('[Migration API] Merged data:', {
-      currentStreak: mergedData.currentStreak,
-      bestStreak: mergedData.bestStreak,
-      totalXP: mergedData.totalXP
+    // DELEGATE TO STREAK SERVICE (single writer pattern)
+    // All streak writes MUST go through transactional service
+    // The service handles merging with existing data using max strategy
+    const result = await applyMergedStatsTransaction(userId, {
+      xp: {
+        total: migrationData.totalXP || 0,
+        level: Math.max(1, Math.floor((migrationData.totalXP || 0) / 1000)),
+        levelTitle: getLevelTitle(Math.max(1, Math.floor((migrationData.totalXP || 0) / 1000))),
+        xpToNextLevel: 1000 - ((migrationData.totalXP || 0) % 1000)
+      },
+      streak: {
+        current: migrationData.currentStreak || 0,
+        best: migrationData.bestStreak || 0
+      },
+      dates: {
+        lastActivityDate: migrationData.lastActivityDate || null,
+        isActiveToday: false
+      },
+      achievements: {
+        unlockedIds: migrationData.unlockedAchievements || [],
+        unlockedCount: (migrationData.unlockedAchievements || []).length,
+        completionPercentage: 0
+      },
+      sessions: {
+        totalSessions: migrationData.sessionCount || 0
+      }
     });
 
-    // Write to Firebase
-    const db = getFirestore();
-    const userStatsRef = db.collection('user_stats').doc(userId);
+    if (!result.success) {
+      console.error('[Migration API] Failed:', result.error);
+      return NextResponse.json(
+        {
+          success: false,
+          error: result.error || 'Migration failed'
+        },
+        { status: 500 }
+      );
+    }
 
-    await userStatsRef.set(mergedData, { merge: true });
-
-    console.log('[Migration API] Successfully wrote to Firebase');
+    console.log('[Migration API] Successfully migrated via transaction');
+    console.log('[Migration API] Final streak data:', result.streakData);
 
     return NextResponse.json({
       success: true,
-      data: mergedData,
+      streak: result.streakData,
+      xp: result.xpData,
       message: 'Migration successful'
     });
 
@@ -172,40 +156,13 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * Helper: Get the most recent date
+ * Helper: Get level title based on level number
  */
-function getMostRecentDate(date1: string | null, date2: string | null): string {
-  if (!date1 && !date2) {
-    return new Date().toISOString();
-  }
-  if (!date1) return date2!;
-  if (!date2) return date1;
-
-  const d1 = new Date(date1);
-  const d2 = new Date(date2);
-
-  return d1 > d2 ? date1 : date2;
-}
-
-/**
- * Helper: Merge two arrays (unique values)
- */
-function mergeArrays<T>(arr1: T[], arr2: T[]): T[] {
-  return Array.from(new Set([...arr1, ...arr2]));
-}
-
-/**
- * Helper: Merge achievement progress (take maximum)
- */
-function mergeProgress(
-  progress1: Record<string, number>,
-  progress2: Record<string, number>
-): Record<string, number> {
-  const merged: Record<string, number> = { ...progress1 };
-
-  for (const [key, value] of Object.entries(progress2)) {
-    merged[key] = Math.max(merged[key] || 0, value);
-  }
-
-  return merged;
+function getLevelTitle(level: number): string {
+  if (level < 5) return 'Beginner';
+  if (level < 10) return 'Novice';
+  if (level < 25) return 'Intermediate';
+  if (level < 50) return 'Advanced';
+  if (level < 75) return 'Expert';
+  return 'Master';
 }
