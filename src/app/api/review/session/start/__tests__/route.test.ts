@@ -56,14 +56,23 @@ jest.mock('msw/node', () => ({
     use: jest.fn(),
   })),
 }));
-jest.mock('../../_middleware/validation', () => {
+jest.mock('../../../_middleware/validation', () => {
   const validationResponses: Array<{ data: any; response?: Response }> = [];
-  let defaultData: any = { type: 'daily' };
-  const validateBody = jest.fn(async () => {
+  let defaultData: any = null;
+  const validateBody = jest.fn(async (request: Request) => {
     if (validationResponses.length > 0) {
       return validationResponses.shift()!;
     }
-    return { data: defaultData, response: undefined };
+    if (defaultData !== null) {
+      return { data: defaultData, response: undefined };
+    }
+    try {
+      const cloned = request.clone();
+      const parsed = await cloned.json();
+      return { data: parsed, response: undefined };
+    } catch (error) {
+      return { data: {}, response: undefined };
+    }
   });
   return {
     validateBody,
@@ -76,18 +85,27 @@ jest.mock('../../_middleware/validation', () => {
     },
     __resetValidationState: () => {
       validationResponses.length = 0;
-      defaultData = { type: 'daily' };
+      defaultData = null;
       validateBody.mockClear();
-      validateBody.mockImplementation(async () => {
+      validateBody.mockImplementation(async (request: Request) => {
         if (validationResponses.length > 0) {
           return validationResponses.shift()!;
         }
-        return { data: defaultData, response: undefined };
+        if (defaultData !== null) {
+          return { data: defaultData, response: undefined };
+        }
+        try {
+          const cloned = request.clone();
+          const parsed = await cloned.json();
+          return { data: parsed, response: undefined };
+        } catch (error) {
+          return { data: {}, response: undefined };
+        }
       });
     },
   };
 });
-jest.mock('../../_middleware/rateLimit', () => {
+jest.mock('../../../_middleware/rateLimit', () => {
   const responses: Array<{ success: boolean; response?: Response }> = [];
   let defaultResult: { success: boolean; response?: Response } = { success: true, response: undefined };
   const rateLimitByUser = jest.fn(async () => {
@@ -117,7 +135,7 @@ jest.mock('../../_middleware/rateLimit', () => {
     },
   };
 });
-jest.mock('../../_middleware/auth', () => {
+jest.mock('../../../_middleware/auth', () => {
   const state: {
     user: any;
     premium?: boolean;
@@ -190,9 +208,9 @@ import * as sessionManagerModule from '@/lib/review-engine/session/manager';
 import * as pinManagerModule from '@/lib/review-engine/pinning/pin-manager';
 import * as queueGeneratorModule from '@/lib/review-engine/queue/queue-generator';
 import * as redisModule from '@/lib/redis/client';
-import * as authMiddleware from '../../_middleware/auth';
-import * as rateLimitMiddleware from '../../_middleware/rateLimit';
-import * as validationMiddleware from '../../_middleware/validation';
+import * as authMiddleware from '../../../_middleware/auth';
+import * as rateLimitMiddleware from '../../../_middleware/rateLimit';
+import * as validationMiddleware from '../../../_middleware/validation';
 import { NextResponse } from 'next/server';
 
 const mockSessionManager = sessionManagerModule as jest.Mocked<typeof sessionManagerModule>;
@@ -215,6 +233,34 @@ const resetValidationStateHook = (validationMiddleware as any).__resetValidation
 const originalMockAuthUser = ApiRouteTestHelper.mockAuthUser.bind(ApiRouteTestHelper);
 const originalMockPremiumUser = ApiRouteTestHelper.mockPremiumUser.bind(ApiRouteTestHelper);
 
+function setRateLimitDefault(result: { success: boolean; response?: NextResponse }) {
+  setRateLimitDefaultHook(result);
+}
+
+function enqueueRateLimitResponse(result: { success: boolean; response?: NextResponse }) {
+  enqueueRateLimitResponseHook(result);
+}
+
+function resetRateLimitState() {
+  resetRateLimitStateHook();
+}
+
+function setValidationDefault(data: any) {
+  setValidationDefaultHook(data);
+}
+
+function enqueueValidationResponse(data: any, response?: NextResponse) {
+  enqueueValidationResponseHook(data, response);
+}
+
+function resetValidationState() {
+  resetValidationStateHook();
+}
+
+function resetAuthState() {
+  resetAuthStateHook();
+}
+
 const DEFAULT_FREE_USER = {
   uid: 'test-user',
   email: 'test-user@test.com',
@@ -223,8 +269,83 @@ const DEFAULT_FREE_USER = {
   sessionId: 'test-user-session',
 };
 
+type MockQueueItem = {
+  id: string;
+  contentType: string;
+  primaryDisplay: string;
+  primaryAnswer: string;
+  difficulty?: number;
+  tags?: string[];
+};
+
+const DEFAULT_QUEUE_ITEMS: MockQueueItem[] = [
+  {
+    id: 'item1',
+    contentType: 'kana',
+    primaryDisplay: 'あ',
+    primaryAnswer: 'a',
+    difficulty: 0.5,
+    tags: [],
+  },
+];
+
+function toPinnedItem(item: MockQueueItem) {
+  return {
+    id: item.id,
+    contentType: item.contentType,
+    status: 'new',
+    primaryDisplay: item.primaryDisplay,
+    primaryAnswer: item.primaryAnswer,
+    difficulty: item.difficulty ?? 0.5,
+    tags: item.tags ?? [],
+    pinnedAt: new Date(),
+    queuePriority: 'normal',
+    nextReviewAt: new Date(),
+  };
+}
+
+function configureSessionSuccess(options: {
+  queueItems?: MockQueueItem[];
+  pinnedItems?: any[];
+  sessionSource?: string;
+  sessionItems?: Array<{ content: { id: string; contentType: string }; status: string }>;
+} = {}) {
+  const queueItems = options.queueItems ?? DEFAULT_QUEUE_ITEMS;
+  const pinnedItems = options.pinnedItems ?? queueItems.map(toPinnedItem);
+  const sessionItems =
+    options.sessionItems ??
+    queueItems.map(item => ({
+      content: { id: item.id, contentType: item.contentType },
+      status: 'pending',
+    }));
+
+  mockPinManager.PinManager.prototype.getPinnedItems.mockResolvedValue(pinnedItems);
+  mockQueueGenerator.QueueGenerator.prototype.generateQueue.mockResolvedValue({
+    items: queueItems,
+    stats: {
+      total: queueItems.length,
+      new: queueItems.length,
+      learning: 0,
+      mastered: 0,
+      due: queueItems.length,
+      nextReviewIn: null,
+    },
+  });
+  mockQueueGenerator.QueueGenerator.prototype.applyDailyLimits.mockImplementation(items => items);
+  mockQueueGenerator.QueueGenerator.prototype.shuffleForVariety.mockImplementation(items => items);
+  mockSessionManager.SessionManager.prototype.startSession.mockResolvedValue({
+    id: 'session123',
+    status: 'active',
+    startedAt: new Date(),
+    currentIndex: 0,
+    items: sessionItems,
+    mode: 'recognition',
+    source: options.sessionSource ?? 'daily',
+  });
+}
+
 function setAuthState(state: { user?: any; premium?: boolean; response?: NextResponse }) {
-  (authMiddleware as any).__setAuthState(state);
+  setAuthStateHook(state);
 }
 
 async function applyMockAuthUser(
@@ -249,7 +370,6 @@ async function applyMockAuthUser(
   return userWithSession;
 }
 
-const originalMockAuthUser = ApiRouteTestHelper.mockAuthUser.bind(ApiRouteTestHelper);
 (ApiRouteTestHelper as any).mockAuthUser = async function mockAuthUserOverride(
   uid: string = 'test-user',
   customClaims: any = {}
@@ -257,25 +377,11 @@ const originalMockAuthUser = ApiRouteTestHelper.mockAuthUser.bind(ApiRouteTestHe
   return applyMockAuthUser(uid, customClaims, false);
 };
 
-const originalMockPremiumUser = ApiRouteTestHelper.mockPremiumUser.bind(ApiRouteTestHelper);
 (ApiRouteTestHelper as any).mockPremiumUser = async function mockPremiumUserOverride(
   uid: string = 'premium-user'
 ) {
   return applyMockAuthUser(uid, { subscription: { tier: 'premium_yearly', status: 'active' } }, true);
 };
-
-async function authenticateUser({
-  uid,
-  premium,
-}: {
-  uid: string;
-  premium: boolean;
-}) {
-  if (premium) {
-    return (ApiRouteTestHelper as any).mockPremiumUser(uid);
-  }
-  return (ApiRouteTestHelper as any).mockAuthUser(uid);
-}
 
 function setUnauthenticated() {
   setAuthState({
@@ -293,8 +399,26 @@ function resetMiddlewareState() {
   resetRateLimitState();
   resetValidationState();
   setRateLimitDefault({ success: true, response: undefined });
-  setValidationDefault({ type: 'daily' });
+  setValidationDefault(null);
   setAuthState({ user: DEFAULT_FREE_USER, premium: false, response: undefined });
+  mockRedis.get.mockReset();
+  mockRedis.set.mockReset?.();
+  mockRedis.del.mockReset?.();
+  mockRedis.setex.mockReset?.();
+  mockRedis.exists.mockReset?.();
+  mockRedis.incr.mockReset?.();
+  mockRedis.expire?.mockReset?.();
+  mockRedis.get.mockResolvedValue(null);
+  mockRedis.exists.mockResolvedValue(0);
+  mockRedis.incr.mockResolvedValue(1);
+  mockRedis.set.mockResolvedValue('OK');
+  mockRedis.setex.mockResolvedValue('OK');
+  mockRedis.del.mockResolvedValue(1);
+  mockPinManager.PinManager.prototype.getPinnedItems.mockReset();
+  mockQueueGenerator.QueueGenerator.prototype.generateQueue.mockReset();
+  mockQueueGenerator.QueueGenerator.prototype.applyDailyLimits.mockReset();
+  mockQueueGenerator.QueueGenerator.prototype.shuffleForVariety.mockReset();
+  mockSessionManager.SessionManager.prototype.startSession.mockReset();
 }
 
 function queueRateLimitResponses(limit: number, limitedResponse?: NextResponse) {
@@ -325,11 +449,10 @@ function pushValidationErrors(count: number, buildMessage: (index: number) => st
 }
 
 async function authenticateUser({ premium = false, uid }: { premium?: boolean; uid: string }) {
-  const user = premium
-    ? await ApiRouteTestHelper.mockPremiumUser(uid)
-    : await ApiRouteTestHelper.mockAuthUser(uid);
-  setAuthState({ user, premium });
-  return user;
+  if (premium) {
+    return (ApiRouteTestHelper as any).mockPremiumUser(uid);
+  }
+  return (ApiRouteTestHelper as any).mockAuthUser(uid);
 }
 
 function setUnauthenticated() {
@@ -382,51 +505,7 @@ describe('Session Start API', () => {
       await ApiRouteTestHelper.mockRedisData({});
       setValidationDefault({ type: 'daily' });
       
-      // Mock pinned items
-      mockPinManager.PinManager.prototype.getPinnedItems.mockResolvedValue([
-        {
-          id: 'item1',
-          contentType: 'kana',
-          primaryDisplay: 'あ',
-          primaryAnswer: 'a',
-          difficulty: 0.5,
-          tags: [],
-          status: 'new',
-        },
-      ]);
-
-      // Mock queue generator
-      mockQueueGenerator.QueueGenerator.prototype.generateQueue.mockResolvedValue({
-        items: [
-          {
-            id: 'item1',
-            contentType: 'kana',
-            primaryDisplay: 'あ',
-            primaryAnswer: 'a',
-            difficulty: 0.5,
-            tags: [],
-          },
-        ],
-      });
-
-      // Mock session manager
-      mockSessionManager.SessionManager.prototype.startSession.mockResolvedValue({
-        id: 'session123',
-        status: 'active',
-        startedAt: new Date(),
-        currentIndex: 0,
-        items: [
-          {
-            content: {
-              id: 'item1',
-              contentType: 'kana',
-            },
-            status: 'pending',
-          },
-        ],
-        mode: 'recognition',
-        source: 'daily',
-      });
+      configureSessionSuccess({ sessionSource: 'daily' });
 
       const request = ApiRouteTestHelper.createMockNextRequest({
         method: 'POST',
@@ -445,54 +524,7 @@ describe('Session Start API', () => {
 
     it('should accept authenticated premium users', async () => {
       await authenticateUser({ premium: true, uid: 'premium-user' });
-      
-      // Mock no active session
-      await ApiRouteTestHelper.mockRedisData({});
-      setValidationDefault({ type: 'daily' });
-      
-      // Mock dependencies similar to free user test
-      mockPinManager.PinManager.prototype.getPinnedItems.mockResolvedValue([
-        {
-          id: 'item1',
-          contentType: 'kana',
-          primaryDisplay: 'あ',
-          primaryAnswer: 'a',
-          difficulty: 0.5,
-          tags: [],
-          status: 'new',
-        },
-      ]);
-
-      mockQueueGenerator.QueueGenerator.prototype.generateQueue.mockResolvedValue({
-        items: [
-          {
-            id: 'item1',
-            contentType: 'kana',
-            primaryDisplay: 'あ',
-            primaryAnswer: 'a',
-            difficulty: 0.5,
-            tags: [],
-          },
-        ],
-      });
-
-      mockSessionManager.SessionManager.prototype.startSession.mockResolvedValue({
-        id: 'session123',
-        status: 'active',
-        startedAt: new Date(),
-        currentIndex: 0,
-        items: [
-          {
-            content: {
-              id: 'item1',
-              contentType: 'kana',
-            },
-            status: 'pending',
-          },
-        ],
-        mode: 'recognition',
-        source: 'daily',
-      });
+      configureSessionSuccess({ sessionSource: 'daily' });
 
       const request = ApiRouteTestHelper.createMockNextRequest({
         method: 'POST',
@@ -511,25 +543,10 @@ describe('Session Start API', () => {
   });
 
   describe('Rate Limiting Tests', () => {
-    beforeEach(async () => {
-      await ApiRouteTestHelper.mockAuthUser('test-user');
-      await ApiRouteTestHelper.mockRedisData({});
-    });
-
     it('should enforce rate limits for free users', async () => {
-      let requestCount = 0;
-      
-      mockRedis.get.mockImplementation((key: string) => {
-        if (key.includes('rateLimit:sessionStart:test-user')) {
-          return Promise.resolve(requestCount.toString());
-        }
-        return Promise.resolve(null);
-      });
-
-      mockRedis.incr.mockImplementation(() => {
-        requestCount++;
-        return Promise.resolve(requestCount);
-      });
+      await authenticateUser({ uid: 'test-user', premium: false });
+      configureSessionSuccess({ sessionSource: 'daily' });
+      queueRateLimitResponses(1);
 
       const makeRequest = async () => {
         const request = ApiRouteTestHelper.createMockNextRequest({
@@ -541,26 +558,13 @@ describe('Session Start API', () => {
         return POST(request).then(ApiRouteTestHelper.parseResponse);
       };
 
-      // Test rate limit for free users (1 request per minute)
       await RateLimitTestHelper.testRateLimit(makeRequest, 1, 60000);
     });
 
     it('should allow higher rate limits for premium users', async () => {
-      await ApiRouteTestHelper.mockPremiumUser('premium-user');
-      
-      let requestCount = 0;
-      
-      mockRedis.get.mockImplementation((key: string) => {
-        if (key.includes('rateLimit:sessionStart:premium-user')) {
-          return Promise.resolve(requestCount.toString());
-        }
-        return Promise.resolve(null);
-      });
-
-      mockRedis.incr.mockImplementation(() => {
-        requestCount++;
-        return Promise.resolve(requestCount);
-      });
+      await authenticateUser({ uid: 'premium-user', premium: true });
+      configureSessionSuccess({ sessionSource: 'daily' });
+      queueRateLimitResponses(2);
 
       const makeRequest = async () => {
         const request = ApiRouteTestHelper.createMockNextRequest({
@@ -587,7 +591,7 @@ describe('Session Start API', () => {
 
   describe('Input Validation Tests', () => {
     beforeEach(async () => {
-      await ApiRouteTestHelper.mockAuthUser('test-user');
+      await authenticateUser({ uid: 'test-user', premium: false });
       await ApiRouteTestHelper.mockRedisData({});
     });
 
@@ -608,6 +612,7 @@ describe('Session Start API', () => {
         { input: { type: null }, expectedError: 'type is required' },
       ];
 
+      pushValidationErrors(invalidInputs.length, index => invalidInputs[index].expectedError);
       await ValidationTestHelper.testInvalidInputs(makeRequest, invalidInputs);
     });
 
@@ -637,6 +642,7 @@ describe('Session Start API', () => {
         },
       ];
 
+      pushValidationErrors(invalidInputs.length, index => invalidInputs[index].expectedError);
       await ValidationTestHelper.testInvalidInputs(makeRequest, invalidInputs);
     });
 
@@ -657,6 +663,7 @@ describe('Session Start API', () => {
         { input: { itemIds: [] }, expectedError: 'itemIds cannot be empty' },
       ];
 
+      pushValidationErrors(invalidInputs.length, index => invalidInputs[index].expectedError);
       await ValidationTestHelper.testInvalidInputs(makeRequest, invalidInputs);
     });
   });
@@ -688,7 +695,11 @@ describe('Session Start API', () => {
       const result = await ApiRouteTestHelper.parseResponse(response);
 
       ApiRouteTestHelper.expectErrorResponse(result, 409, 'CONFLICT');
-      expect(result.data.error.message).toContain('active session already exists');
+      const errorMessage =
+        typeof result.data.error === 'string'
+          ? result.data.error
+          : result.data.error?.message ?? '';
+      expect(errorMessage).toContain('active session already exists');
     });
 
     it('should handle daily session type correctly', async () => {
@@ -915,7 +926,11 @@ describe('Session Start API', () => {
       const result = await ApiRouteTestHelper.parseResponse(response);
 
       ApiRouteTestHelper.expectErrorResponse(result, 400, 'INVALID_STATE');
-      expect(result.data.error.message).toContain('No items available for review');
+      const errorMessage =
+        typeof result.data.error === 'string'
+          ? result.data.error
+          : result.data.error?.message ?? '';
+      expect(errorMessage).toContain('No items available for review');
     });
 
     it('should enforce item limits for free vs premium users', async () => {

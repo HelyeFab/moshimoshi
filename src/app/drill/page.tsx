@@ -13,15 +13,6 @@ import { useToast } from '@/components/ui/Toast';
 import type { DrillSession, DrillQuestion, DrillSettings } from '@/types/drill';
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
 import type { DrillSessionData } from '@/lib/review-engine/progress/DrillProgressManager';
-import { ReviewEventType } from '@/lib/review-engine/core/events';
-import { EventEmitter } from 'events';
-import { gamificationListener } from '@/lib/gamification/gamificationListener';
-
-// Global URE event emitter for gamification integration
-const ureEventEmitter = new EventEmitter();
-
-// Flag to ensure gamification listener is only initialized once
-let gamificationListenerInitialized = false;
 
 export default function DrillPage() {
   const { t, strings } = useI18n();
@@ -42,15 +33,6 @@ export default function DrillPage() {
   useEffect(() => {
     if (user?.uid) {
       drillManager.initializeDrillProgress(user.uid);
-    }
-  }, [user?.uid]);
-
-  // Initialize gamification listener (once per user session)
-  useEffect(() => {
-    if (user?.uid && !gamificationListenerInitialized) {
-      console.log('[Drill Page] Initializing gamification listener for user:', user.uid);
-      gamificationListener.initialize(user.uid, ureEventEmitter);
-      gamificationListenerInitialized = true;
     }
   }, [user?.uid]);
 
@@ -215,38 +197,14 @@ export default function DrillPage() {
 
       // 3. Track drill session using DrillProgressManager
       // This automatically handles:
+      // - Calling /api/drill/session with action='complete'
+      // - Updating Firebase drill_sessions collection
+      // - Recording gamification (XP + streak) via coordinator
       // - IndexedDB storage for all users
       // - Firebase sync for premium users
-      // - Achievement event emission
       await drillManager.trackDrillSession(sessionData, user, isPremium);
 
-      // 4. Emit URE SESSION_COMPLETED event for gamification system
-      // This awards XP, checks achievements, updates streak, increments sessionCount
-      const sessionDuration = new Date().getTime() - new Date(session.startedAt).getTime();
-      const averageResponseTime = sessionDuration / session.questions.length;
-
-      ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
-        data: {
-          sessionId: session.id,
-          statistics: {
-            correctItems: score,
-            accuracy: accuracy,
-            averageResponseTime: averageResponseTime,
-            bestStreak: score // For drills, we can use score as a simple streak measure
-          },
-          duration: sessionDuration
-        }
-      });
-
-      console.log('[Drill Page] Emitted SESSION_COMPLETED event for gamification:', {
-        sessionId: session.id,
-        correctItems: score,
-        accuracy: accuracy,
-        averageResponseTime: averageResponseTime,
-        duration: sessionDuration
-      });
-
-      // 5. Show success message with stats
+      // 4. Show success message with stats
       const stats = await drillManager.getDrillStats(user.uid, isPremium);
       showToast(
         `${t('drill.complete')} - ${t('common.accuracy')}: ${accuracy.toFixed(1)}% | Total Drills: ${stats?.totalDrills || 1}`,

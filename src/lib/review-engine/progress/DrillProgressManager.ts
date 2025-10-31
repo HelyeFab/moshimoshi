@@ -112,6 +112,40 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     const userId = user.uid
     await this.initDB()
 
+    // 🔥 FIX: Call the API to properly complete the drill session
+    // This updates Firebase drill_sessions collection and triggers gamification (XP + streak)
+    try {
+      const response = await fetch('/api/drill/session', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: session.sessionId,
+          action: 'complete',
+          finalScore: session.correctAnswers,
+          accuracy: session.accuracy
+        })
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        console.log('[DrillProgressManager] ✅ Drill session completed via API:', result.data)
+
+        // Log gamification results if present
+        if (result.data?.gamification) {
+          console.log('[DrillProgressManager] 🎉 Gamification results:', {
+            xpEarned: result.data.gamification.xpEarned,
+            streakIncremented: result.data.gamification.streakIncremented,
+            currentStreak: result.data.gamification.currentStreak
+          })
+        }
+      } else {
+        console.error('[DrillProgressManager] Failed to complete drill via API:', await response.text())
+      }
+    } catch (error) {
+      console.error('[DrillProgressManager] Error calling drill completion API:', error)
+      // Continue with local tracking even if API fails
+    }
+
     // Get current progress
     const progressMap = await this.getProgress(userId, 'drill', isPremium)
     console.log('[DrillProgressManager] Loaded progress map:', progressMap)
