@@ -6,7 +6,12 @@ import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/layout/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ConjugationDisplay } from '@/components/conjugation/ConjugationDisplay'
-import { getRandomConjugatableWords, preloadConjugatableWords } from '@/utils/jmdictLocalSearch'
+import {
+  getConjugatableWordsPractice,
+  preloadConjugatableWords,
+  getRecentlyUsedWords,
+  saveRecentlyUsedWords
+} from '@/utils/jmdictLocalSearch'
 import { JapaneseWord } from '@/types/vocabulary'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
@@ -16,6 +21,7 @@ import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 
 type ViewMode = 'browse' | 'study' | 'review'
 type WordFilter = 'all' | 'verbs' | 'adjectives'
+type JLPTLevel = 'N5' | 'N4' | 'N3+'
 
 export default function ConjugationPracticePage() {
   const router = useRouter()
@@ -27,6 +33,7 @@ export default function ConjugationPracticePage() {
   const [practiceWords, setPracticeWords] = useState<JapaneseWord[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [wordFilter, setWordFilter] = useState<WordFilter>('all')
+  const [jlptLevels, setJlptLevels] = useState<JLPTLevel[]>(['N5', 'N4']) // Default N5+N4
   const [showConjugations, setShowConjugations] = useState(true)
   const [selectionMode, setSelectionMode] = useState(false)
   const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set())
@@ -42,18 +49,49 @@ export default function ConjugationPracticePage() {
     preloadConjugatableWords().catch(console.error)
   }, [])
 
-  // Load practice words
+  // Load practice words when filter or JLPT levels change
   useEffect(() => {
     loadPracticeWords()
-  }, [wordFilter])
+  }, [wordFilter, jlptLevels])
 
   const loadPracticeWords = async () => {
     setLoading(true)
     try {
-      const words = await getRandomConjugatableWords(wordFilter, 20)
+      // Get recently used words to exclude for variety
+      const recentWords = getRecentlyUsedWords()
+
+      // Calculate difficulty mix based on selected JLPT levels
+      const difficultyMix = {
+        N5: jlptLevels.includes('N5') ? 0.6 : 0,
+        N4: jlptLevels.includes('N4') ? 0.4 : 0,
+        'N3+': jlptLevels.includes('N3+') ? 1.0 : 0
+      }
+
+      // Normalize mix if needed
+      const total = difficultyMix.N5 + difficultyMix.N4 + difficultyMix['N3+']
+      if (total > 0) {
+        difficultyMix.N5 /= total
+        difficultyMix.N4 /= total
+        difficultyMix['N3+'] /= total
+      }
+
+      // Use the improved selection algorithm
+      const words = await getConjugatableWordsPractice({
+        type: wordFilter,
+        jlptLevels: jlptLevels,
+        limit: 20,
+        excludeRecent: recentWords,
+        difficultyMix
+      })
+
       setPracticeWords(words)
       setCurrentIndex(0)
       setSelectedWords(new Set())
+
+      // Save these words to recent history to avoid repetition
+      const wordIds = words.map(w => w.id)
+      const updatedRecent = [...recentWords, ...wordIds]
+      saveRecentlyUsedWords(updatedRecent)
     } catch (error) {
       console.error('Failed to load practice words:', error)
     } finally {
@@ -135,6 +173,13 @@ export default function ConjugationPracticePage() {
     setIsSearching(false)
     setSearchResults([])
     loadPracticeWords() // Reload random words
+  }
+
+  const handleClearHistory = () => {
+    // Clear recent words history
+    saveRecentlyUsedWords([])
+    // Reload to get fresh words
+    loadPracticeWords()
   }
 
   const stats = useMemo(() => ({
@@ -276,7 +321,7 @@ export default function ConjugationPracticePage() {
                 {/* Filter Section */}
                 <div className="border-b border-gray-200 dark:border-dark-700 p-2">
                   <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1">
-                    {t('common.filter')}
+                    Word Type
                   </div>
                   <button
                     onClick={() => {
@@ -313,6 +358,35 @@ export default function ConjugationPracticePage() {
                   </button>
                 </div>
 
+                {/* JLPT Level Section - NEW! */}
+                <div className="border-b border-gray-200 dark:border-dark-700 p-2">
+                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1">
+                    JLPT Levels
+                  </div>
+                  <div className="px-2 py-1 space-y-1">
+                    {(['N5', 'N4', 'N3+'] as JLPTLevel[]).map(level => (
+                      <label key={level} className="flex items-center gap-2 cursor-pointer py-1 px-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700">
+                        <input
+                          type="checkbox"
+                          checked={jlptLevels.includes(level)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setJlptLevels([...jlptLevels, level])
+                            } else {
+                              setJlptLevels(jlptLevels.filter(l => l !== level))
+                            }
+                          }}
+                          className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{level}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="mt-2 px-2 text-xs text-gray-500 dark:text-gray-400">
+                    {jlptLevels.length === 0 ? '⚠️ Select at least one level' : `✓ ${jlptLevels.join(', ')} selected`}
+                  </div>
+                </div>
+
                 {/* Actions Section */}
                 <div className="border-b border-gray-200 dark:border-dark-700 p-2">
                   <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1">
@@ -337,6 +411,16 @@ export default function ConjugationPracticePage() {
                   >
                     <RefreshCw className="w-4 h-4 inline mr-2" />
                     {t('conjugation.actions.loadNew')}
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleClearHistory()
+                      setShowSettingsDropdown(false)
+                    }}
+                    className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors text-orange-600 dark:text-orange-400"
+                  >
+                    <X className="w-4 h-4 inline mr-2" />
+                    Clear History (Get Fresh Words)
                   </button>
                 </div>
 

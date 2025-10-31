@@ -1,4 +1,208 @@
 export const strings = {
+  // Landing Page
+  landing: {
+    hero: {
+      headline: "Padroneggia il giapponese con strumenti di apprendimento rivoluzionari",
+      subheadline: "L'unica piattaforma che combina shadowing YouTube, connessioni kanji intelligenti, importazione Anki con un clic e integrazione completa dei libri di testo",
+      ctaPrimary: "Inizia gratis",
+      ctaSecondary: "Guarda demo",
+      carousel: {
+        shadowing: {
+          title: "Shadowing YouTube",
+          description: "Padroneggia la pronuncia nativa con contenuti giapponesi autentici",
+          badge: "Più popolare"
+        },
+        kanji: {
+          title: "Sistema di connessione kanji",
+          description: "Comprendi 2.136 kanji attraverso modelli visivi e famiglie",
+          badge: "Esclusivo di Moshimoshi"
+        },
+        anki: {
+          title: "Importazione Anki con un clic",
+          description: "Migra i tuoi mazzi Anki istantaneamente - nessuna perdita di dati",
+          badge: "Migrazione perfetta"
+        },
+        textbooks: {
+          title: "Integrazione completa dei libri di testo",
+          description: "Tutto il vocabolario da Genki, Minna no Nihongo e altro",
+          badge: "Potenza accademica"
+        }
+      }
+    },
+    features: {
+      shadowing: {
+        title: "Shadowing YouTube: Impara dal contenuto nativo",
+        subtitle: "L'arma segreta che gli studenti di giapponese non conoscono",
+        description: "Pratica shadowing con video YouTube giapponesi autentici, drama e podcast. Il nostro sistema alimentato da IA scompone il contenuto in blocchi di apprendimento perfetti con tempi di pausa regolabili.",
+        benefits: {
+          benefit1: "Pratica con vera pronuncia nativa",
+          benefit2: "Velocità di riproduzione regolabile (0.5x - 2x)",
+          benefit3: "Pausa automatica per pratica di shadowing",
+          benefit4: "Traccia i progressi su tutti i video"
+        },
+        cta: "Prova shadowing ora"
+      },
+      kanji: {
+        title: "Sistema di connessione kanji: Rivoluzione dell'apprendimento visivo",
+        subtitle: "Vedi i modelli che nessun altro ti mostra",
+        description: "Il nostro sistema unico connette tutti i 2.136 kanji jōyō attraverso famiglie fonetiche, radicali semantici e modelli visivi. Impara i kanji in gruppi connessi invece di caratteri isolati.",
+        benefits: {
+          benefit1: "214 radicali con scomposizione dei componenti",
+          benefit2: "Raggruppamento per famiglie fonetiche",
+          benefit3: "Visualizzazione di rete interattiva",
+          benefit4: "Tecniche di memoria per ogni modello"
+        },
+        cta: "Esplora connessioni kanji"
+      },
+      anki: {
+        title: "Importazione Anki con un clic: Mantieni i tuoi progressi",
+        subtitle: "Cambia senza perdere migliaia di ore di lavoro",
+        description: "Importa tutti i tuoi mazzi Anki con cronologia SRS completa, programmazione delle carte e note personalizzate. Il nostro sistema di migrazione intelligente preserva tutto migliorando la tua esperienza di apprendimento.",
+        benefits: {
+          benefit1: "100% della cronologia SRS preservata",
+          benefit2: "Carte personalizzate importate perfettamente",
+          benefit3: "Tag e struttura del mazzo mantenuti",
+          benefit4: "Potenziato con funzionalità alimentate da IA"
+        },
+        cta: "Importa i miei mazzi Anki"
+      },
+      textbooks: {
+        title: "Vocabolario dei libri di testo: Eccellenza accademica",
+        subtitle: "Ogni parola dai libri che già usi",
+        description: "Vocabolario completo da Genki I & II, Minna no Nihongo, Tobira e altro. Organizzato per lezione con frasi di esempio, audio e revisione SRS.",
+        textbookList: "Genki • Minna no Nihongo • Tobira • Japanese from Zero • Marugoto",
+        benefits: {
+          benefit1: "Organizzato per libro di testo e lezione",
+          benefit2: "Audio nativo per ogni parola",
+          benefit3: "Frasi di esempio con contesto",
+          benefit4: "Sincronizzazione con il tuo programma di corso"
+        },
+        cta: "Sfoglia vocabolario dei libri di testo"
+      }
+    },
+    comparison: {
+      title: "Perché Moshimoshi batte la concorrenza",
+      subtitle: "L'unica piattaforma costruita per studenti seri",
+      tableHeaders: {
+        feature: "Caratteristica",
+        moshimoshi: "Moshimoshi",
+        anki: "Anki",
+        wanikani: "WaniKani",
+        duolingo: "Duolingo"
+      },
+      features: {
+        shadowing: "Shadowing YouTube",
+        kanjiSystem: "Sistema kanji visivo",
+        ankiImport: "Importazione Anki",
+        textbooks: "Integrazione libri di testo",
+        customCards: "Flashcard personalizzate",
+        offline: "Modalità offline",
+        gamification: "Gamification",
+        community: "Funzionalità community"
+      },
+      values: {
+        yes: "✓",
+        no: "✗",
+        limited: "Limitato"
+      }
+    },
+    socialProof: {
+      title: "Amato dagli studenti di giapponese in tutto il mondo",
+      subtitle: "Dai principianti ai candidati JLPT N1",
+      testimonials: {
+        testimonial1: {
+          quote: "Ho migrato da Anki dopo 3 anni. L'importazione è stata impeccabile e la funzione di shadowing ha migliorato drammaticamente la mia pronuncia.",
+          author: "Sarah Chen",
+          role: "Studente JLPT N2",
+          context: "Migrato da Anki"
+        },
+        testimonial2: {
+          quote: "Il sistema di connessione kanji ha finalmente fatto scattare i kanji per me. Vedere le famiglie e i modelli ha cambiato tutto.",
+          author: "Marcus Rodriguez",
+          role: "Studente universitario di giapponese",
+          context: "Utente connessione kanji"
+        },
+        testimonial3: {
+          quote: "Come studente di Genki, avere tutto il vocabolario organizzato per lezione con audio è un game-changer per i miei studi.",
+          author: "Emma Thompson",
+          role: "Studente autodidatta",
+          context: "Utente integrazione libri di testo"
+        },
+        testimonial4: {
+          quote: "Lo shadowing con contenuto YouTube autentico batte qualsiasi libro di testo. I miei amici giapponesi non possono credere che sia autodidatta.",
+          author: "Kenji Yamamoto",
+          role: "Professionista aziendale",
+          context: "Utente shadowing YouTube"
+        }
+      },
+      stats: {
+        cards: "Oltre un milione di flashcard create",
+        kanji: "Copertura completa dei kanji jōyō",
+        textbooks: "Libri di testo principali integrati",
+        languages: "Lingue dell'interfaccia"
+      }
+    },
+    faq: {
+      title: "Domande frequenti",
+      subtitle: "Tutto quello che devi sapere",
+      questions: {
+        q1: {
+          question: "Posso davvero importare tutti i miei mazzi Anki?",
+          answer: "Sì! Il nostro strumento di importazione gestisce file .apkg e preserva la tua cronologia SRS completa, programmazione, tag e formati di carte personalizzati. La maggior parte delle importazioni si completa in meno di 60 secondi."
+        },
+        q2: {
+          question: "Cosa rende unico il sistema di connessione kanji?",
+          answer: "A differenza di altre app che insegnano i kanji in modo isolato, ti mostriamo famiglie fonetiche, modelli semantici e relazioni visive. Ad esempio, tutti i kanji con il componente 青 (blu/verde) sono raggruppati e insegnati insieme ai loro modelli di pronuncia."
+        },
+        q3: {
+          question: "Lo shadowing YouTube è disponibile per tutti i video?",
+          answer: "Supportiamo qualsiasi video YouTube con sottotitoli giapponesi. La nostra IA scompone il contenuto in segmenti apprendibili con tempi di pausa regolabili per la pratica di shadowing."
+        },
+        q4: {
+          question: "Quali libri di testo supportate?",
+          answer: "Abbiamo copertura vocabolario completa per Genki I & II, Minna no Nihongo I & II, Tobira, Japanese from Zero e Marugoto. Ogni voce include audio, frasi di esempio e organizzazione per lezione."
+        },
+        q5: {
+          question: "Posso usare Moshimoshi offline?",
+          answer: "Sì! Tutte le tue flashcard, dati kanji e vocabolario dei libri di testo funzionano offline. Le revisioni si sincronizzano automaticamente quando torni online."
+        },
+        q6: {
+          question: "In cosa differisce da Duolingo o WaniKani?",
+          answer: "Moshimoshi combina la personalizzazione di Anki, la profondità dei kanji di WaniKani e funzionalità uniche come shadowing YouTube e integrazione libri di testo - tutto su una piattaforma. Siamo costruiti per studenti seri che vogliono strumenti completi."
+        }
+      }
+    },
+    finalCta: {
+      title: "Pronto a trasformare il tuo apprendimento del giapponese?",
+      subtitle: "Unisciti a migliaia di studenti che raggiungono la fluenza più velocemente",
+      features: "Il livello gratuito include funzionalità principali • Nessuna carta di credito richiesta • Aggiorna in qualsiasi momento",
+      ctaPrimary: "Inizia gratis",
+      ctaSecondary: "Vedi prezzi"
+    },
+    footer: {
+      tagline: "La piattaforma completa di apprendimento del giapponese per studenti seri",
+      sections: {
+        product: "Prodotto",
+        features: "Funzionalità",
+        company: "Azienda",
+        support: "Supporto"
+      },
+      links: {
+        shadowing: "Shadowing YouTube",
+        kanji: "Connessione kanji",
+        anki: "Importazione Anki",
+        textbooks: "Vocabolario libri di testo",
+        pricing: "Prezzi",
+        blog: "Blog",
+        about: "Chi siamo",
+        contact: "Contatto",
+        privacy: "Privacy",
+        terms: "Termini"
+      },
+      copyright: "© 2025 Moshimoshi. Tutti i diritti riservati."
+    }
+  },
+
   reviewDashboard: {
     title: "Pannello di Revisione",
     description: "Traccia i tuoi progressi di apprendimento e il programma di revisione",
@@ -3045,6 +3249,12 @@ export const strings = {
     excellentPerformance: "Ottimo lavoro! Hai padroneggiato queste coniugazioni!",
     goodPerformance: "Buon lavoro! Stai migliorando!",
     keepPracticing: "Continua a praticare! Migliorerai con più esercizi!",
+
+    // Progress stats
+    yourProgress: "I Tuoi Progressi",
+    totalDrills: "Esercizi Totali",
+    perfectDrills: "Perfetto",
+    wordsStudied: "Parole",
 
     // Settings
     questionsPerSession: "Domande per sessione",

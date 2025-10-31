@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "minXPForStreak": 150,
+  "minXPForStreak": 25,
   "gracePeriodHours": 24,
   "resetTime": "00:00",
   "timezone": "UTC",

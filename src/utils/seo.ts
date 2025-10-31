@@ -8,14 +8,17 @@ interface SEOPageConfig {
   image?: string;
   type?: 'website' | 'article';
   structuredData?: any;
+  noIndex?: boolean; // For pages we don't want indexed
 }
 
-const siteConfig = {
+export const siteConfig = {
   name: 'Moshimoshi',
   url: 'https://moshimoshi.app',
   description: 'The ultimate Japanese learning platform: Master verb conjugations, study kanji through JLPT levels and mood boards, practice with Jisho/WaniKani vocabulary, import Anki decks, read news articles and AI stories, practice YouTube shadowing, play learning games, access grammar resources, and build fluency with our comprehensive suite of interactive tools.',
   image: '/moshimoshi-logo.png',
   twitter: '@moshimoshiapp',
+  locale: 'en_US',
+  author: 'Moshimoshi Team',
 };
 
 export function generatePageMetadata(config: SEOPageConfig): Metadata {
@@ -26,6 +29,7 @@ export function generatePageMetadata(config: SEOPageConfig): Metadata {
     path = '',
     image = siteConfig.image,
     type = 'website',
+    noIndex = false,
   } = config;
 
   const url = `${siteConfig.url}${path}`;
@@ -35,9 +39,22 @@ export function generatePageMetadata(config: SEOPageConfig): Metadata {
     title: fullTitle,
     description,
     keywords: keywords.length > 0 ? keywords : undefined,
-    authors: [{ name: 'Moshimoshi Team' }],
+    authors: [{ name: siteConfig.author }],
     creator: siteConfig.name,
     publisher: siteConfig.name,
+    robots: noIndex ? {
+      index: false,
+      follow: false,
+    } : {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     formatDetection: {
       email: false,
       address: false,
@@ -56,7 +73,7 @@ export function generatePageMetadata(config: SEOPageConfig): Metadata {
           alt: `${siteConfig.name} - Japanese Learning App`,
         },
       ],
-      locale: 'en_US',
+      locale: siteConfig.locale,
       type,
     },
     twitter: {

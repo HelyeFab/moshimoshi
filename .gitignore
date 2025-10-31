@@ -68,4 +68,4 @@ notebooklm-docs.md
 notebooklm-backups/
 
 # Database files with potential secrets
-data/memories.db
+data/memories.dbfirebase-admin-key.json

@@ -1,4 +1,208 @@
 export const strings = {
+  // Landing Page
+  landing: {
+    hero: {
+      headline: "革命的な学習ツールで日本語をマスター",
+      subheadline: "YouTubeシャドーイング、インテリジェントな漢字コネクション、ワンクリックAnkiインポート、完全な教科書統合を組み合わせた唯一のプラットフォーム",
+      ctaPrimary: "無料で学習を始める",
+      ctaSecondary: "デモを見る",
+      carousel: {
+        shadowing: {
+          title: "YouTubeシャドーイング",
+          description: "本物の日本語コンテンツでネイティブの発音をマスター",
+          badge: "最も人気"
+        },
+        kanji: {
+          title: "漢字コネクションシステム",
+          description: "視覚的パターンとファミリーを通じて2,136の漢字を理解",
+          badge: "Moshimoshi独自"
+        },
+        anki: {
+          title: "ワンクリックAnkiインポート",
+          description: "Ankiデッキを即座に移行 - データ損失なし",
+          badge: "シームレスな移行"
+        },
+        textbooks: {
+          title: "完全な教科書統合",
+          description: "げんき、みんなの日本語などのすべての語彙",
+          badge: "アカデミックパワー"
+        }
+      }
+    },
+    features: {
+      shadowing: {
+        title: "YouTubeシャドーイング：ネイティブコンテンツから学ぶ",
+        subtitle: "日本語学習者が知らない秘密兵器",
+        description: "本物の日本語YouTubeビデオ、ドラマ、ポッドキャストとシャドーイング。AI搭載システムが調整可能なポーズ時間で完璧な学習チャンクにコンテンツを分割します。",
+        benefits: {
+          benefit1: "本物のネイティブ発音で練習",
+          benefit2: "調整可能な再生速度（0.5倍 - 2倍）",
+          benefit3: "シャドーイング練習用の自動一時停止",
+          benefit4: "すべての動画の進捗を追跡"
+        },
+        cta: "今すぐシャドーイングを試す"
+      },
+      kanji: {
+        title: "漢字コネクションシステム：視覚学習革命",
+        subtitle: "他の誰も見せないパターンを見る",
+        description: "私たちの独自のシステムは、音韻ファミリー、意味的な部首、視覚的パターンを通じて2,136のすべての常用漢字を接続します。孤立した文字ではなく、接続されたクラスターで漢字を学びます。",
+        benefits: {
+          benefit1: "コンポーネント分解付き214部首",
+          benefit2: "音韻ファミリーグループ化",
+          benefit3: "インタラクティブなネットワーク可視化",
+          benefit4: "各パターンの記憶技術"
+        },
+        cta: "漢字コネクションを探索"
+      },
+      anki: {
+        title: "ワンクリックAnkiインポート：進捗を保持",
+        subtitle: "何千時間もの作業を失うことなく切り替え",
+        description: "完全なSRS履歴、カードスケジューリング、カスタムノートを含むすべてのAnkiデッキをインポート。インテリジェント移行システムは、学習体験をアップグレードしながらすべてを保存します。",
+        benefits: {
+          benefit1: "100％のSRS履歴が保持される",
+          benefit2: "カスタムカードが完璧にインポートされる",
+          benefit3: "タグとデッキ構造が維持される",
+          benefit4: "AI搭載機能で強化"
+        },
+        cta: "Ankiデッキをインポート"
+      },
+      textbooks: {
+        title: "教科書語彙：アカデミックエクセレンス",
+        subtitle: "すでに使用している本のすべての単語",
+        description: "げんきI＆II、みんなの日本語、とびら、その他からの完全な語彙。例文、音声、SRSレビュー付きでレッスン別に整理。",
+        textbookList: "げんき • みんなの日本語 • とびら • Japanese from Zero • まるごと",
+        benefits: {
+          benefit1: "教科書とレッスン別に整理",
+          benefit2: "すべての単語のネイティブ音声",
+          benefit3: "文脈を含む例文",
+          benefit4: "クラススケジュールと同期"
+        },
+        cta: "教科書語彙を閲覧"
+      }
+    },
+    comparison: {
+      title: "MoshimoshiがCompetitionを打ち負かす理由",
+      subtitle: "真剣な学習者向けに構築された唯一のプラットフォーム",
+      tableHeaders: {
+        feature: "機能",
+        moshimoshi: "Moshimoshi",
+        anki: "Anki",
+        wanikani: "WaniKani",
+        duolingo: "Duolingo"
+      },
+      features: {
+        shadowing: "YouTubeシャドーイング",
+        kanjiSystem: "視覚的漢字システム",
+        ankiImport: "Ankiインポート",
+        textbooks: "教科書統合",
+        customCards: "カスタムフラッシュカード",
+        offline: "オフラインモード",
+        gamification: "ゲーミフィケーション",
+        community: "コミュニティ機能"
+      },
+      values: {
+        yes: "✓",
+        no: "✗",
+        limited: "制限付き"
+      }
+    },
+    socialProof: {
+      title: "世界中の日本語学習者に愛されている",
+      subtitle: "初心者からJLPT N1受験者まで",
+      testimonials: {
+        testimonial1: {
+          quote: "3年後にAnkiから移行しました。インポートは完璧で、シャドーイング機能が私の発音を劇的に改善しました。",
+          author: "Sarah Chen",
+          role: "JLPT N2学生",
+          context: "Ankiから移行"
+        },
+        testimonial2: {
+          quote: "漢字コネクションシステムが漢字を理解させてくれました。ファミリーとパターンを見ることがすべてを変えました。",
+          author: "Marcus Rodriguez",
+          role: "大学日本語専攻",
+          context: "漢字コネクションユーザー"
+        },
+        testimonial3: {
+          quote: "げんきの学生として、レッスン別に音声付きで整理されたすべての語彙は、私の勉強にとってゲームチェンジャーです。",
+          author: "Emma Thompson",
+          role: "独学学習者",
+          context: "教科書統合ユーザー"
+        },
+        testimonial4: {
+          quote: "本物のYouTubeコンテンツでシャドーイングすることは、どんな教科書にも勝ります。日本人の友達は私が独学だとは信じられません。",
+          author: "Kenji Yamamoto",
+          role: "ビジネスプロフェッショナル",
+          context: "YouTubeシャドーイングユーザー"
+        }
+      },
+      stats: {
+        cards: "100万以上のフラッシュカード作成",
+        kanji: "完全な常用漢字カバレッジ",
+        textbooks: "統合された主要教科書",
+        languages: "インターフェース言語"
+      }
+    },
+    faq: {
+      title: "よくある質問",
+      subtitle: "知る必要があるすべて",
+      questions: {
+        q1: {
+          question: "本当にすべてのAnkiデッキをインポートできますか？",
+          answer: "はい！インポートツールは.apkgファイルを処理し、完全なSRS履歴、スケジューリング、タグ、カスタムカードフォーマットを保持します。ほとんどのインポートは60秒以内に完了します。"
+        },
+        q2: {
+          question: "漢字コネクションシステムがユニークな理由は？",
+          answer: "孤立して漢字を教える他のアプリとは異なり、音韻ファミリー、意味的パターン、視覚的関係を示します。たとえば、青（青/緑）コンポーネントを持つすべての漢字は、その発音パターンと一緒にグループ化され教えられます。"
+        },
+        q3: {
+          question: "YouTubeシャドーイングはすべてのビデオで利用できますか？",
+          answer: "日本語キャプション付きのYouTubeビデオをサポートします。AIがシャドーイング練習のための調整可能なポーズ時間で学習可能なセグメントにコンテンツを分割します。"
+        },
+        q4: {
+          question: "どの教科書をサポートしていますか？",
+          answer: "げんきI＆II、みんなの日本語I＆II、とびら、Japanese from Zero、まるごとの完全な語彙カバレッジがあります。各エントリには音声、例文、レッスン構成が含まれています。"
+        },
+        q5: {
+          question: "Moshimoshiをオフラインで使用できますか？",
+          answer: "はい！すべてのフラッシュカード、漢字データ、教科書語彙はオフラインで動作します。レビューはオンラインに戻ったときに自動的に同期されます。"
+        },
+        q6: {
+          question: "DuolingoやWaniKaniとどう違いますか？",
+          answer: "Moshimoshiは、Ankiのカスタマイズ性、WaniKaniの漢字の深さ、YouTubeシャドーイングや教科書統合などのユニークな機能をすべて1つのプラットフォームに組み合わせています。包括的なツールを求める真剣な学習者向けに構築されています。"
+        }
+      }
+    },
+    finalCta: {
+      title: "日本語学習を変革する準備はできましたか？",
+      subtitle: "何千人もの学習者がより速く流暢さを達成しています",
+      features: "無料ティアにはコア機能が含まれます • クレジットカード不要 • いつでもアップグレード",
+      ctaPrimary: "無料で学習を始める",
+      ctaSecondary: "価格を見る"
+    },
+    footer: {
+      tagline: "真剣な学生のための包括的な日本語学習プラットフォーム",
+      sections: {
+        product: "製品",
+        features: "機能",
+        company: "会社",
+        support: "サポート"
+      },
+      links: {
+        shadowing: "YouTubeシャドーイング",
+        kanji: "漢字コネクション",
+        anki: "Ankiインポート",
+        textbooks: "教科書語彙",
+        pricing: "価格",
+        blog: "ブログ",
+        about: "概要",
+        contact: "お問い合わせ",
+        privacy: "プライバシー",
+        terms: "利用規約"
+      },
+      copyright: "© 2025 Moshimoshi. All rights reserved."
+    }
+  },
+
   reviewDashboard: {
     title: "復習ダッシュボード",
     description: "学習進捗と復習スケジュールを追跡",
@@ -1297,6 +1501,12 @@ export const strings = {
     excellentPerformance: "素晴らしい！これらの活用をマスターしました！",
     goodPerformance: "よくできました！だんだん上達しています！",
     keepPracticing: "練習を続けましょう！もっと練習すれば上達します！",
+
+    // Progress stats
+    yourProgress: "あなたの進捗",
+    totalDrills: "総練習回数",
+    perfectDrills: "完璧",
+    wordsStudied: "単語",
 
     // Settings
     questionsPerSession: "セッションごとの問題数",

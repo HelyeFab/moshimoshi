@@ -105,8 +105,9 @@ export function useSubscription(): UseSubscriptionReturn {
   const [checkoutStatus, setCheckoutStatus] = useState(() => checkCheckoutStatus());
 
   // SWR configuration optimized for subscription data
+  // Only fetch if user is authenticated (prevents 401 errors on landing page)
   const { data: subscription, error, isLoading, mutate } = useSWR<SubscriptionFacts>(
-    '/api/user/subscription',
+    user ? '/api/user/subscription' : null,
     subscriptionFetcher,
     {
       // Don't refetch on window focus (prevents unnecessary API calls)

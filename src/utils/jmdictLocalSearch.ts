@@ -1,4 +1,5 @@
 import { JapaneseWord, WordType, JLPTLevel } from '@/types/vocabulary'
+import { getJLPTLevel, isN5Word, isN4Word } from '@/data/jlpt-conjugatable-words'
 
 interface JMDictGloss {
   lang: string
@@ -692,4 +693,221 @@ export async function getRandomConjugatableWords(
   }
 
   return selected
+}
+
+/**
+ * IMPROVED: Get conjugatable words with JLPT awareness and better variety
+ *
+ * This replaces the biased selection in getRandomConjugatableWords with:
+ * 1. JLPT-level classification
+ * 2. Stratified sampling across difficulty tiers
+ * 3. True random selection (no quadratic bias)
+ * 4. Larger pool size (500 instead of 60)
+ * 5. Support for excluding recently seen words
+ */
+export async function getConjugatableWordsPractice(options: {
+  type: 'all' | 'verbs' | 'adjectives'
+  jlptLevels?: ('N5' | 'N4' | 'N3+')[]
+  limit?: number
+  excludeRecent?: string[]
+  difficultyMix?: {
+    N5: number  // 0-1 proportion
+    N4: number
+    'N3+': number
+  }
+}): Promise<JapaneseWord[]> {
+  const {
+    type,
+    jlptLevels = ['N5', 'N4'], // Default to N5+N4 as requested
+    limit = 20,
+    excludeRecent = [],
+    difficultyMix = { N5: 0.6, N4: 0.4, 'N3+': 0 } // 60% N5, 40% N4 by default
+  } = options
+
+  // Load JMDict data (but DON'T use the biased cache!)
+  await loadJMdictData()
+  if (!jmdictData) return []
+
+  // Build fresh pool directly from JMDict to avoid biased cache
+  const pool: JapaneseWord[] = []
+
+  for (const word of jmdictData.words) {
+    const pos = word.sense?.[0]?.partOfSpeech || []
+    const posStr = pos.join(' ').toLowerCase()
+
+    const isVerb = posStr.includes('v1') || posStr.includes('v5') ||
+                   posStr.includes('vs') || posStr.includes('vk') ||
+                   posStr.includes('irregular')
+    const isAdjective = posStr.includes('adj-i') || posStr.includes('adj-na')
+
+    // Filter by type
+    if (type === 'verbs' && !isVerb) continue
+    if (type === 'adjectives' && !isAdjective) continue
+    if (type !== 'all' && !isVerb && !isAdjective) continue
+
+    // Convert to our format
+    const kanji = word.kanji?.[0]?.text || ''
+    const kana = word.kana?.[0]?.text || ''
+    const meanings: string[] = []
+
+    if (word.sense) {
+      for (const sense of word.sense) {
+        if (sense.gloss) {
+          for (const gloss of sense.gloss) {
+            if (gloss.lang === 'eng' || !gloss.lang) {
+              meanings.push(gloss.text)
+            }
+          }
+        }
+      }
+    }
+
+    const converted: JapaneseWord = {
+      id: `jmdict-${word.id}`,
+      kanji: kanji,
+      kana: kana,
+      romaji: '',
+      meaning: meanings.join(', '),
+      type: isVerb ? 'verb' : (posStr.includes('adj-i') ? 'i-adjective' : 'na-adjective'),
+      jlpt: 'N5' as any,
+      tags: [],
+      partsOfSpeech: pos
+    }
+
+    pool.push(converted)
+  }
+
+  if (pool.length === 0) {
+    return []
+  }
+
+  // Step 1: Classify words by JLPT level and filter by requested levels
+  interface ClassifiedWord extends JapaneseWord {
+    jlptLevel: 'N5' | 'N4' | 'N3+'
+    conjugationType: 'verb' | 'i-adjective' | 'na-adjective'
+  }
+
+  const classifiedWords: ClassifiedWord[] = pool.map(word => {
+    const kanji = word.kanji || ''
+    const kana = word.kana || ''
+
+    // Determine conjugation type
+    let conjugationType: 'verb' | 'i-adjective' | 'na-adjective' = 'verb'
+    if (word.type === 'i-adjective') {
+      conjugationType = 'i-adjective'
+    } else if (word.type === 'na-adjective') {
+      conjugationType = 'na-adjective'
+    }
+
+    // Get JLPT level using our curated lists
+    const jlptLevel = getJLPTLevel(kanji, kana, conjugationType)
+
+    return {
+      ...word,
+      jlptLevel,
+      conjugationType
+    }
+  })
+
+  // Filter by requested JLPT levels
+  const filteredByLevel = classifiedWords.filter(w => jlptLevels.includes(w.jlptLevel))
+
+  // Step 2: Exclude recently seen words
+  const excludeSet = new Set(excludeRecent)
+  const availableWords = filteredByLevel.filter(w => !excludeSet.has(w.id))
+
+  if (availableWords.length === 0) {
+    console.warn('No words available after filtering. Returning empty array.')
+    return []
+  }
+
+  // Step 3: Separate into JLPT tiers
+  const tiers: Record<'N5' | 'N4' | 'N3+', ClassifiedWord[]> = {
+    'N5': [],
+    'N4': [],
+    'N3+': []
+  }
+
+  availableWords.forEach(word => {
+    tiers[word.jlptLevel].push(word)
+  })
+
+  // Step 4: Stratified sampling - take from each tier based on difficultyMix
+  const selected: JapaneseWord[] = []
+  const targetCounts = {
+    N5: Math.round(limit * difficultyMix.N5),
+    N4: Math.round(limit * difficultyMix.N4),
+    'N3+': Math.round(limit * difficultyMix['N3+'])
+  }
+
+  // Adjust if rounding caused total to not equal limit
+  const totalTarget = targetCounts.N5 + targetCounts.N4 + targetCounts['N3+']
+  if (totalTarget < limit) {
+    // Add extras to most common tier
+    if (jlptLevels.includes('N5') && tiers.N5.length > 0) {
+      targetCounts.N5 += (limit - totalTarget)
+    } else if (jlptLevels.includes('N4') && tiers.N4.length > 0) {
+      targetCounts.N4 += (limit - totalTarget)
+    } else {
+      targetCounts['N3+'] += (limit - totalTarget)
+    }
+  }
+
+  // Sample from each tier with TRUE random selection (no bias!)
+  for (const level of ['N5', 'N4', 'N3+'] as const) {
+    const tierWords = tiers[level]
+    const targetCount = Math.min(targetCounts[level], tierWords.length)
+
+    // Use LARGER POOL (500 words instead of 60) to increase variety
+    const poolSize = Math.min(500, tierWords.length)
+    const tierPool = tierWords.slice(0, poolSize)
+
+    // TRUE RANDOM shuffle using Fisher-Yates
+    const shuffled = [...tierPool]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    }
+
+    // Take the first N after shuffle
+    selected.push(...shuffled.slice(0, targetCount))
+  }
+
+  // Step 5: Final shuffle of selected words
+  for (let i = selected.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [selected[i], selected[j]] = [selected[j], selected[i]]
+  }
+
+  return selected.slice(0, limit)
+}
+
+/**
+ * Helper: Get recently used word IDs from localStorage
+ */
+export function getRecentlyUsedWords(storageKey: string = 'conjugation-recent-words'): string[] {
+  if (typeof window === 'undefined') return []
+
+  try {
+    const stored = localStorage.getItem(storageKey)
+    return stored ? JSON.parse(stored) : []
+  } catch (error) {
+    console.error('Failed to load recent words:', error)
+    return []
+  }
+}
+
+/**
+ * Helper: Save recently used word IDs to localStorage
+ */
+export function saveRecentlyUsedWords(wordIds: string[], storageKey: string = 'conjugation-recent-words', maxHistory: number = 100): void {
+  if (typeof window === 'undefined') return
+
+  try {
+    // Keep only the most recent N words
+    const recentWords = wordIds.slice(-maxHistory)
+    localStorage.setItem(storageKey, JSON.stringify(recentWords))
+  } catch (error) {
+    console.error('Failed to save recent words:', error)
+  }
 }

@@ -114,7 +114,8 @@ export class GamificationListener extends EventEmitter {
 
         if (today !== lastActivityDay) {
           // New day! Increment streak
-          store.incrementStreak()
+          // Note: incrementStreak is now async in Firebase-first mode
+          await store.incrementStreak()
         }
         // Same day as last activity - don't increment streak, but update lastActivityDate
         else {
