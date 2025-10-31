@@ -12,6 +12,7 @@ import {
   setupApiTest,
   teardownApiTest,
   resetApiMocks,
+  RateLimitTestHelper,
 } from '@/lib/review-engine/__tests__/test-utils/api-test-setup';
 
 // Mock dependencies
@@ -22,6 +23,49 @@ jest.mock('@/lib/review-engine/pinning/pin-manager');
 jest.mock('@/lib/review-engine/queue/queue-generator');
 jest.mock('@/lib/auth/session');
 jest.mock('@/lib/redis/client');
+jest.mock('@/lib/monitoring/logger', () => ({
+  reviewLogger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+  },
+  serverLogger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+  },
+}));
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid'),
+}));
+jest.mock('msw', () => ({
+  rest: {
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
+  },
+}));
+jest.mock('msw/node', () => ({
+  setupServer: jest.fn(() => ({
+    listen: jest.fn(),
+    close: jest.fn(),
+    resetHandlers: jest.fn(),
+    use: jest.fn(),
+  })),
+}));
+jest.mock('@/lib/auth', () => {
+  const actual = jest.requireActual('@/lib/auth');
+  return {
+    ...actual,
+    validateSessionFromRequest: jest.fn(async () => ({
+      valid: false,
+      reason: 'unauthenticated',
+    })),
+  };
+});
 
 // Import mocked modules
 import * as sessionManagerModule from '@/lib/review-engine/session/manager';
@@ -121,7 +165,7 @@ describe('Session Start API', () => {
     });
 
     it('should accept authenticated premium users', async () => {
-      const user = ApiRouteTestHelper.mockPremiumUser('premium-user');
+      await ApiRouteTestHelper.mockPremiumUser('premium-user');
       
       // Mock no active session
       await ApiRouteTestHelper.mockRedisData({});
@@ -187,7 +231,7 @@ describe('Session Start API', () => {
   });
 
   describe('Rate Limiting Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -222,7 +266,7 @@ describe('Session Start API', () => {
     });
 
     it('should allow higher rate limits for premium users', async () => {
-      ApiRouteTestHelper.mockPremiumUser('premium-user');
+      await ApiRouteTestHelper.mockPremiumUser('premium-user');
       
       let requestCount = 0;
       
@@ -262,7 +306,7 @@ describe('Session Start API', () => {
   });
 
   describe('Input Validation Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -338,7 +382,7 @@ describe('Session Start API', () => {
   });
 
   describe('Business Logic Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -637,7 +681,7 @@ describe('Session Start API', () => {
       expect(freeResult.data.data.session.totalItems).toBeLessThanOrEqual(50);
 
       // Test premium user (should be limited to 100 items)
-      ApiRouteTestHelper.mockPremiumUser('premium-user');
+      await ApiRouteTestHelper.mockPremiumUser('premium-user');
 
       mockSessionManager.SessionManager.prototype.startSession.mockResolvedValue({
         id: 'unlimited-session',
@@ -668,7 +712,7 @@ describe('Session Start API', () => {
   });
 
   describe('Error Handling Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -744,7 +788,7 @@ describe('Session Start API', () => {
   });
 
   describe('Performance Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       

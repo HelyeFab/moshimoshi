@@ -17,6 +17,49 @@ import {
 jest.mock('@/lib/review-engine/pinning/pin-manager');
 jest.mock('@/lib/auth/session');
 jest.mock('@/lib/redis/client');
+jest.mock('@/lib/monitoring/logger', () => ({
+  reviewLogger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+  },
+  serverLogger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+  },
+}));
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid'),
+}));
+jest.mock('msw', () => ({
+  rest: {
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
+  },
+}));
+jest.mock('msw/node', () => ({
+  setupServer: jest.fn(() => ({
+    listen: jest.fn(),
+    close: jest.fn(),
+    resetHandlers: jest.fn(),
+    use: jest.fn(),
+  })),
+}));
+jest.mock('@/lib/auth', () => {
+  const actual = jest.requireActual('@/lib/auth');
+  return {
+    ...actual,
+    validateSessionFromRequest: jest.fn(async () => ({
+      valid: false,
+      reason: 'unauthenticated',
+    })),
+  };
+});
 
 // Import mocked modules
 import * as pinManagerModule from '@/lib/review-engine/pinning/pin-manager';
@@ -86,7 +129,7 @@ describe('Pin Management API', () => {
     });
 
     describe('Rate Limiting Tests', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         await ApiRouteTestHelper.mockAuthUser('test-user');
         
         mockPinManager.PinManager.prototype.pin.mockResolvedValue({
@@ -145,7 +188,7 @@ describe('Pin Management API', () => {
     });
 
     describe('Input Validation Tests', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         await ApiRouteTestHelper.mockAuthUser('test-user');
       });
 
@@ -247,7 +290,7 @@ describe('Pin Management API', () => {
     });
 
     describe('Pin Business Logic Tests', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         await ApiRouteTestHelper.mockAuthUser('test-user');
       });
 
@@ -424,7 +467,7 @@ describe('Pin Management API', () => {
     });
 
     describe('Input Validation Tests', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         await ApiRouteTestHelper.mockAuthUser('test-user');
       });
 
@@ -477,7 +520,7 @@ describe('Pin Management API', () => {
     });
 
     describe('Unpin Business Logic Tests', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         await ApiRouteTestHelper.mockAuthUser('test-user');
       });
 
@@ -607,7 +650,7 @@ describe('Pin Management API', () => {
   });
 
   describe('Error Handling Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       ApiRouteTestHelper.mockAuthUser('test-user');
     });
 
@@ -704,7 +747,7 @@ describe('Pin Management API', () => {
   });
 
   describe('Performance Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       ApiRouteTestHelper.mockAuthUser('test-user');
       
       const mockPinManager = require('@/lib/review-engine/pinning/pin-manager');

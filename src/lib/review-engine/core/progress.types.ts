@@ -1,7 +1,12 @@
 /**
  * Universal Progress Tracking Types
  * Item-agnostic progress tracking for all content types
+ *
+ * FIXED: Now uses ISO string types for dates and includes versioning
  */
+
+import type { ISODateString, ISODateTimeString } from '@/lib/types/shared/timestamp.types'
+import type { Versioned } from '@/lib/types/shared/versioned.types'
 
 /**
  * Progress events that can occur during learning
@@ -31,7 +36,7 @@ export type ProgressStatus =
 export interface ProgressEventMetadata {
   // Event context
   eventType: ProgressEvent
-  timestamp: Date
+  timestamp: ISODateTimeString // FIXED: ISO datetime string
   sessionId?: string
 
   // Interaction details
@@ -47,8 +52,9 @@ export interface ProgressEventMetadata {
 
 /**
  * Universal progress data that extends ReviewableContent
+ * FIXED: Now includes versioning and uses ISO strings
  */
-export interface ReviewProgressData {
+export interface ReviewProgressData extends Versioned {
   // Content identification (from ReviewableContent)
   contentId: string
   contentType: string  // 'kana', 'kanji', 'word', 'sentence'
@@ -58,15 +64,15 @@ export interface ReviewProgressData {
 
   // View tracking
   viewCount: number
-  firstViewedAt?: Date
-  lastViewedAt?: Date
-  totalViewTime?: number // milliseconds
+  firstViewedAt: ISODateTimeString | null // FIXED: ISO datetime string
+  lastViewedAt: ISODateTimeString | null // FIXED: ISO datetime string
+  totalViewTime: number // milliseconds
 
   // Interaction tracking
   interactionCount: number
   correctCount: number
   incorrectCount: number
-  lastInteractedAt?: Date
+  lastInteractedAt: ISODateTimeString | null // FIXED: ISO datetime string
 
   // Learning metrics
   accuracy: number // 0-100 percentage
@@ -74,10 +80,10 @@ export interface ReviewProgressData {
   bestStreak: number
 
   // SRS integration (optional, depends on content)
-  srsLevel?: number
-  nextReviewDate?: Date
-  easeFactor?: number
-  interval?: number // days
+  srsLevel: number | null
+  nextReviewDate: ISODateString | null // FIXED: ISO date string
+  easeFactor: number | null
+  interval: number | null // days
 
   // User flags
   pinned: boolean
@@ -85,9 +91,12 @@ export interface ReviewProgressData {
   flaggedForReview: boolean
 
   // Metadata
-  createdAt: Date
-  updatedAt: Date
-  syncedAt?: Date // Last Firebase sync
+  createdAt: ISODateTimeString // FIXED: ISO datetime string
+  updatedAt: ISODateTimeString // FIXED: ISO datetime string (from Versioned)
+  syncedAt: ISODateTimeString | null // FIXED: ISO datetime string
+
+  // Versioning (from Versioned)
+  version: number
 }
 
 /**
@@ -99,8 +108,8 @@ export interface ProgressSessionSummary {
   contentType: string
 
   // Session info
-  startedAt: Date
-  endedAt?: Date
+  startedAt: ISODateTimeString // FIXED: ISO datetime string
+  endedAt: ISODateTimeString | null // FIXED: ISO datetime string
   duration: number // milliseconds
 
   // Items
@@ -111,8 +120,8 @@ export interface ProgressSessionSummary {
 
   // Metrics
   totalItems: number
-  completionRate: number // percentage
-  accuracy: number       // percentage
+  completionRate: number // percentage (0-100)
+  accuracy: number       // percentage (0-100)
   averageResponseTime: number // milliseconds
 
   // Status

@@ -1,7 +1,12 @@
 /**
  * Drill Feature Types
  * Clean types for the conjugation drill feature
+ *
+ * FIXED: Now uses ISO string types for dates and includes versioning
  */
+
+import type { ISODateTimeString } from '@/lib/types/shared/timestamp.types'
+import type { Versioned } from '@/lib/types/shared/versioned.types'
 
 // Word Types for Japanese
 export type WordType =
@@ -98,16 +103,18 @@ export interface DrillQuestion {
 }
 
 // Drill Session Types
-export interface DrillSession {
+export interface DrillSession extends Versioned {
   id: string;
   userId?: string; // Optional for client-side, required server-side
   questions: DrillQuestion[];
   currentQuestionIndex: number;
   score: number;
-  startedAt: string;
-  completedAt?: string;
+  startedAt: ISODateTimeString; // FIXED: Type-safe ISO datetime
+  completedAt?: ISODateTimeString; // FIXED: Type-safe ISO datetime
   mode: DrillMode;
   wordTypeFilter: WordTypeFilter;
+  version: number; // From Versioned
+  updatedAt: ISODateTimeString; // From Versioned
 }
 
 export type DrillMode = 'random' | 'lists' | 'review';
@@ -139,8 +146,8 @@ export interface WordList {
   description?: string;
   wordIds: string[];
   words?: JapaneseWord[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: ISODateTimeString; // FIXED: Type-safe ISO datetime
+  updatedAt: ISODateTimeString; // FIXED: Type-safe ISO datetime
   color?: string;
   isConjugable?: boolean;
 }

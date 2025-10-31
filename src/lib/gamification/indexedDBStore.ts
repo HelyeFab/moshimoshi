@@ -2,9 +2,13 @@
  * IndexedDB Store for Gamification Data
  * Provides local persistence for all users (free tier)
  *
+ * FIXED: Now uses proper type-safe ISO strings
+ *
  * Database: "moshimoshi_gamification" v1
  * Store: "userGamification" (keyPath: userId)
  */
+
+import type { ISODateString, ISODateTimeString } from '@/lib/types/shared/timestamp.types'
 
 const DB_NAME = 'moshimoshi_gamification'
 const DB_VERSION = 1
@@ -15,11 +19,11 @@ export interface GamificationData {
   totalXP: number
   currentStreak: number
   bestStreak: number
-  lastActivityDate: string | null
+  lastActivityDate: ISODateString | null // FIXED: Type-safe ISO date
   unlockedAchievements: string[]
   achievementProgress: Record<string, number>
   sessionCount: number
-  lastSyncedAt: string | null
+  lastSyncedAt: ISODateTimeString | null // FIXED: Type-safe ISO datetime
   version: number
 }
 

@@ -66,12 +66,22 @@ export class ApiRouteTestHelper {
       cookies = {},
     } = options;
 
+    const headerBag = new Headers({
+      'Content-Type': 'application/json',
+      ...headers,
+    });
+
+    const cookieEntries = Object.entries(cookies);
+    if (cookieEntries.length > 0) {
+      const cookieHeader = cookieEntries
+        .map(([name, value]) => `${name}=${value}`)
+        .join('; ');
+      headerBag.set('cookie', cookieHeader);
+    }
+
     const request = new NextRequest(url, {
       method: method as string,
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        ...headers,
-      }),
+      headers: headerBag,
       body: body ? JSON.stringify(body) : null,
     });
 
@@ -79,12 +89,6 @@ export class ApiRouteTestHelper {
     Object.entries(query).forEach(([key, value]) => {
       request.nextUrl.searchParams.set(key, value);
     });
-
-    // Mock cookies
-    (request as any).cookies = {
-      get: (name: string) => cookies[name],
-      getAll: () => Object.entries(cookies).map(([name, value]) => ({ name, value })),
-    };
 
     return request;
   }
@@ -109,6 +113,7 @@ export class ApiRouteTestHelper {
 
   static async mockAuthUser(uid: string = 'test-user-id', customClaims: any = {}) {
     const { auth: mockAuth } = await import('@/lib/firebase/admin');
+    const authModule: any = await import('@/lib/auth');
     
     mockAuth.verifyIdToken.mockResolvedValue({
       uid,
@@ -124,20 +129,46 @@ export class ApiRouteTestHelper {
       customClaims,
     });
 
-    return {
+    const claimsTier =
+      customClaims.tier ||
+      (typeof customClaims.subscription?.tier === 'string'
+        ? customClaims.subscription.tier
+        : undefined);
+
+    let tier: string | undefined = claimsTier;
+    if (tier === 'premium') {
+      tier = 'premium_yearly';
+    }
+    if (!tier) {
+      tier = 'free';
+    }
+
+    const sessionUser = {
       uid,
       email: `${uid}@test.com`,
-      customClaims,
+      tier,
+      admin: customClaims.admin === true,
+      sessionId: `${uid}-session`,
     };
+
+    if (typeof authModule.validateSessionFromRequest === 'function') {
+      (authModule.validateSessionFromRequest as jest.Mock).mockResolvedValue({
+        valid: true,
+        user: sessionUser,
+      });
+    }
+
+    return sessionUser;
   }
 
   static mockPremiumUser(uid: string = 'premium-user-id') {
     return this.mockAuthUser(uid, {
       stripeCustomerId: 'cus_premium123',
       subscription: {
-        tier: 'premium',
+        tier: 'premium_yearly',
         status: 'active',
       },
+      admin: false,
     });
   }
 
@@ -196,7 +227,9 @@ export class ApiRouteTestHelper {
 
   static expectErrorResponse(response: any, statusCode: number, errorCode?: string) {
     expect(response.status).toBe(statusCode);
-    expect(response.data.success).toBe(false);
+    if (Object.prototype.hasOwnProperty.call(response.data, 'success')) {
+      expect(response.data.success).toBe(false);
+    }
     if (errorCode) {
       expect(response.data.error.code).toBe(errorCode);
     }

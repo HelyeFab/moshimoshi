@@ -18,6 +18,49 @@ jest.mock('@/lib/review-engine/pinning/pin-manager');
 jest.mock('@/lib/review-engine/queue/queue-generator');
 jest.mock('@/lib/auth/session');
 jest.mock('@/lib/redis/client');
+jest.mock('@/lib/monitoring/logger', () => ({
+  reviewLogger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+  },
+  serverLogger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+  },
+}));
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid'),
+}));
+jest.mock('msw', () => ({
+  rest: {
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
+  },
+}));
+jest.mock('msw/node', () => ({
+  setupServer: jest.fn(() => ({
+    listen: jest.fn(),
+    close: jest.fn(),
+    resetHandlers: jest.fn(),
+    use: jest.fn(),
+  })),
+}));
+jest.mock('@/lib/auth', () => {
+  const actual = jest.requireActual('@/lib/auth');
+  return {
+    ...actual,
+    validateSessionFromRequest: jest.fn(async () => ({
+      valid: false,
+      reason: 'unauthenticated',
+    })),
+  };
+});
 
 // Import mocked modules
 import * as pinManagerModule from '@/lib/review-engine/pinning/pin-manager';
@@ -122,7 +165,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Rate Limiting Tests', () => {
-    beforeEach(() => {
+  beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       
@@ -176,7 +219,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Query Parameter Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       
@@ -295,7 +338,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Caching Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       
 
@@ -392,7 +435,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Premium vs Free User Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
 
       // Create 60 items to test limits
       const manyItems = Array.from({ length: 60 }, (_, i) => ({
@@ -440,7 +483,7 @@ describe('Review Queue API', () => {
     });
 
     it('should allow larger queue size for premium users', async () => {
-      ApiRouteTestHelper.mockPremiumUser('premium-user');
+      await ApiRouteTestHelper.mockPremiumUser('premium-user');
 
       const request = ApiRouteTestHelper.createMockNextRequest({
         method: 'GET',
@@ -488,7 +531,7 @@ describe('Review Queue API', () => {
       expect(freeResult.data.data.stats.dailyNewRemaining).toBe(5); // 10 - 5 = 5 remaining
 
       // Test premium user
-      ApiRouteTestHelper.mockPremiumUser('premium-user');
+      await ApiRouteTestHelper.mockPremiumUser('premium-user');
 
       const premiumRequest = ApiRouteTestHelper.createMockNextRequest({
         method: 'GET',
@@ -505,7 +548,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Queue Generation Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -629,7 +672,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Response Format Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       
@@ -758,7 +801,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Error Handling Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
     });
@@ -839,7 +882,7 @@ describe('Review Queue API', () => {
   });
 
   describe('Performance Tests', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       await ApiRouteTestHelper.mockAuthUser('test-user');
       await ApiRouteTestHelper.mockRedisData({});
       

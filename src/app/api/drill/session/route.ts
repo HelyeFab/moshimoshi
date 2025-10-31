@@ -14,6 +14,9 @@ import type { DrillSession, DrillQuestion, JapaneseWord } from '@/types/drill';
 import { WordUtils } from '@/lib/drill/word-utils';
 import { QuestionGenerator } from '@/lib/drill/question-generator';
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
+import { recordDrillCompletion } from '@/lib/gamification/services/gamification-coordinator';
+import { Accuracy } from '@/lib/statistics/accuracy';
+import { DrillSessionCompleteRequestSchema } from '@/lib/schemas/drill.schema';
 
 /**
  * GET /api/drill/session
@@ -334,23 +337,32 @@ export async function PUT(request: NextRequest) {
     }
 
     if (action === 'complete') {
+      // Validate request
+      const validated = DrillSessionCompleteRequestSchema.parse(body);
+
       // Mark session as complete
       const completedAt = new Date().toISOString();
-      const finalScore = body.finalScore || sessionData.score;
-      const accuracy = body.accuracy || (finalScore / sessionData.questions.length) * 100;
+      const finalScore = validated.finalScore || sessionData.score;
+      const rawAccuracy = validated.accuracy || (finalScore / sessionData.questions.length) * 100;
+
+      // FIXED: Normalize accuracy to 0-100
+      const accuracy = Accuracy.normalize(rawAccuracy);
 
       // Get user's plan to determine storage
       const userDoc = await adminDb!.collection('users').doc(session.uid).get();
       const userData = userDoc.data();
       const plan = userData?.subscription?.plan || 'free';
+      const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly';
 
       // Only update Firebase for premium users
-      if (plan === 'premium_monthly' || plan === 'premium_yearly') {
-        // Update session with completion data
+      if (isPremium) {
+        // Update session with completion data and version
         await sessionRef.update({
           completedAt,
           score: finalScore,
-          accuracy
+          accuracy,
+          version: FieldValue.increment(1), // FIXED: Version tracking
+          updatedAt: completedAt
         });
 
         // Update user's drill statistics
@@ -405,6 +417,30 @@ export async function PUT(request: NextRequest) {
       }
       // Free users: stats are handled client-side in IndexedDB
 
+      // FIXED: Issue #6 - Record gamification (XP + streak) using coordinator
+      let gamificationResult = null;
+      if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
+        try {
+          gamificationResult = await recordDrillCompletion({
+            userId: session.uid,
+            sessionId,
+            score: finalScore,
+            totalQuestions: sessionData.questions.length,
+            accuracy,
+            isPremium
+          });
+
+          console.log('[Drill API] Gamification updated:', {
+            xpEarned: gamificationResult.xpEarned,
+            streakIncremented: gamificationResult.streakIncremented,
+            currentStreak: gamificationResult.currentStreak
+          });
+        } catch (error) {
+          console.error('[Drill API] Failed to update gamification:', error);
+          // Don't fail the whole request if gamification fails
+        }
+      }
+
       return NextResponse.json({
         success: true,
         data: {
@@ -415,10 +451,18 @@ export async function PUT(request: NextRequest) {
             accuracy
           },
           stats: {
-            accuracy,
+            accuracy: Accuracy.format(accuracy), // FIXED: Format for display
             questionsAnswered: sessionData.questions.length,
             correctAnswers: finalScore
-          }
+          },
+          // NEW: Return gamification results
+          gamification: gamificationResult ? {
+            xpEarned: gamificationResult.xpEarned,
+            newLevel: gamificationResult.newLevel,
+            streakIncremented: gamificationResult.streakIncremented,
+            currentStreak: gamificationResult.currentStreak,
+            achievementsUnlocked: gamificationResult.achievementsUnlocked
+          } : null
         }
       });
     }
