@@ -1,10 +1,10 @@
 /**
- * Verification script for the new streak system
+ * Verification script for the legacy streak system
  * Checks that everything is properly set up
  */
 
 const admin = require('firebase-admin')
-const serviceAccount = require('../moshimoshi-service-account.json')
+const serviceAccount = require('../../moshimoshi-service-account.json')
 
 // Initialize Firebase Admin
 admin.initializeApp({
@@ -25,7 +25,6 @@ async function verifyStreakSystem() {
   }
 
   try {
-    // Get all users
     const usersSnapshot = await db.collection('users').get()
     checks.users = usersSnapshot.size
 
@@ -36,7 +35,6 @@ async function verifyStreakSystem() {
       console.log(`\nUser: ${userData.displayName || userData.email || userId}`)
       console.log('━'.repeat(40))
 
-      // Check old location
       const oldDoc = await db
         .collection('users')
         .doc(userId)
@@ -51,7 +49,6 @@ async function verifyStreakSystem() {
         console.log('○ No old data')
       }
 
-      // Check new location
       const newDoc = await db
         .collection('users')
         .doc(userId)
@@ -63,8 +60,8 @@ async function verifyStreakSystem() {
         checks.newData++
         const data = newDoc.data()
         console.log('✓ New data exists at: progress/streak')
-        console.log(`  - Current Streak: ${data.currentStreak} days`)
-        console.log(`  - Longest Streak: ${data.longestStreak} days`)
+        console.log(`  - Current Streak: ${data.currentStreak || 0} days`)
+        console.log(`  - Longest Streak: ${data.longestStreak || 0} days`)
         console.log(`  - Last Active: ${data.lastActiveDay || 'Never'}`)
 
         if (data.migratedAt) {
@@ -72,7 +69,6 @@ async function verifyStreakSystem() {
           console.log('  - Migration Status: ✓ Migrated')
         }
 
-        // Verify streak calculation
         if (data.lastActiveDay) {
           const today = new Date().toISOString().split('T')[0]
           const daysSince = Math.floor(
@@ -91,7 +87,6 @@ async function verifyStreakSystem() {
       }
     }
 
-    // Summary
     console.log('\n' + '='.repeat(50))
     console.log('\n📊 VERIFICATION SUMMARY:')
     console.log(`  Total Users: ${checks.users}`)
@@ -106,12 +101,10 @@ async function verifyStreakSystem() {
       console.log('\n✅ All checks passed!')
     }
 
-    // Test the new structure
     console.log('\n' + '='.repeat(50))
     console.log('\n🧪 TESTING NEW STRUCTURE:')
 
-    // Simulate updating a streak
-    const testUserId = 'r7r6at83BUPIjD69XatI4EGIECr1' // Your user ID
+    const testUserId = 'r7r6at83BUPIjD69XatI4EGIECr1'
     const testDoc = await db
       .collection('users')
       .doc(testUserId)
@@ -122,7 +115,6 @@ async function verifyStreakSystem() {
     if (testDoc.exists) {
       console.log('\n✓ Can read from new structure')
 
-      // Test write (without actually changing data)
       const currentData = testDoc.data()
       await db
         .collection('users')
@@ -147,5 +139,4 @@ async function verifyStreakSystem() {
   process.exit(0)
 }
 
-// Run verification
 verifyStreakSystem()

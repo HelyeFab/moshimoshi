@@ -55,13 +55,7 @@ export async function GET(req: NextRequest) {
       success: true,
       hasMigrated,
       hasVersion,
-      firebaseData: firebaseData ? {
-        currentStreak: firebaseData.currentStreak,
-        bestStreak: firebaseData.bestStreak,
-        totalXP: firebaseData.totalXP,
-        version: firebaseData.version,
-        lastActivityDate: firebaseData.lastActivityDate
-      } : null
+      streak: firebaseData ?? null
     });
 
   } catch (error: any) {

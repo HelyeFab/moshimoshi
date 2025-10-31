@@ -2,7 +2,7 @@ const admin = require('firebase-admin');
 const path = require('path');
 
 // Initialize Firebase Admin with service account
-const serviceAccount = require('../moshimoshi-service-account.json');
+const serviceAccount = require('../../moshimoshi-service-account.json');
 
 if (!admin.apps.length) {
   admin.initializeApp({

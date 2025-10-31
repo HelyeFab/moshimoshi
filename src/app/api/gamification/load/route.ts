@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
+import { getStreakData } from '@/lib/gamification/services/streakService'
 
 /**
  * GET /api/gamification/load
@@ -35,27 +36,25 @@ export async function GET(request: NextRequest) {
     }
 
     const data = userStatsDoc.data()
+    const streak = await getStreakData(userId, adminDb)
 
-    // Normalize data structure
     const normalizedData = {
-      totalXP: data?.xp?.total || 0,
-      currentStreak: data?.streak?.current || 0,
-      bestStreak: data?.streak?.best || 0,
-      lastActivityDate: data?.dates?.lastActivityDate || null,
-      unlockedAchievements: data?.achievements?.unlockedIds || [],
-      achievementProgress: {}, // Not currently stored in user_stats
-      sessionCount: data?.sessions?.totalSessions || 0,
+      totalXP: data?.xp?.total ?? 0,
+      streak,
+      unlockedAchievements: data?.achievements?.unlockedIds ?? [],
+      achievementProgress: data?.achievements?.progress ?? {},
+      sessionCount: data?.sessions?.totalSessions ?? 0,
       metadata: {
-        lastUpdated: data?.metadata?.lastUpdated || null,
-        syncStatus: data?.metadata?.syncStatus || 'unknown',
-        schemaVersion: data?.metadata?.schemaVersion || 1
+        lastUpdated: data?.metadata?.lastUpdated ?? null,
+        syncStatus: data?.metadata?.syncStatus ?? 'unknown',
+        schemaVersion: data?.metadata?.schemaVersion ?? 1
       }
     }
 
     console.log('[Gamification Load] Successfully loaded data:', {
       userId,
       totalXP: normalizedData.totalXP,
-      currentStreak: normalizedData.currentStreak,
+      current: normalizedData.streak?.current ?? 0,
       sessionCount: normalizedData.sessionCount
     })
 

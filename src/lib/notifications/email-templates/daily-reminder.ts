@@ -5,7 +5,11 @@
 import { baseEmailTemplate, baseTextTemplate, EmailTemplateProps } from './base-template'
 
 export interface DailyReminderData extends EmailTemplateProps {
-  currentStreak: number
+  streak?: {
+    current: number
+    best?: number
+  }
+  currentStreak?: number
   totalReviews: number
   dueReviews: number
   lastStudyDate?: Date
@@ -13,8 +17,9 @@ export interface DailyReminderData extends EmailTemplateProps {
 }
 
 export const dailyReminderHtml = (data: DailyReminderData) => {
-  const streakEmoji = data.currentStreak > 0 ? '🔥' : '💪'
-  const encouragement = getEncouragementMessage(data.currentStreak, data.dueReviews)
+  const currentStreak = data.streak?.current ?? data.currentStreak ?? 0
+  const streakEmoji = currentStreak > 0 ? '🔥' : '💪'
+  const encouragement = getEncouragementMessage(currentStreak, data.dueReviews)
 
   const content = `
     <div style="text-align: center; margin-bottom: 30px;">
@@ -31,10 +36,10 @@ export const dailyReminderHtml = (data: DailyReminderData) => {
       <tr>
         <td width="48%" style="background: linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%); padding: 20px; border-radius: 8px; text-align: center;">
           <p style="color: #831843; font-size: 14px; margin: 0 0 5px 0; font-weight: 600;">
-            Current Streak
+           Current Streak
           </p>
           <p style="color: #be185d; font-size: 32px; margin: 0; font-weight: bold;">
-            ${streakEmoji} ${data.currentStreak} days
+            ${streakEmoji} ${currentStreak} days
           </p>
         </td>
         <td width="4%"></td>
@@ -91,7 +96,8 @@ export const dailyReminderHtml = (data: DailyReminderData) => {
 }
 
 export const dailyReminderText = (data: DailyReminderData) => {
-  const encouragement = getEncouragementMessage(data.currentStreak, data.dueReviews)
+  const currentStreak = data.streak?.current ?? data.currentStreak ?? 0
+  const encouragement = getEncouragementMessage(currentStreak, data.dueReviews)
 
   const content = `
 Hello ${data.userName}!
@@ -99,7 +105,7 @@ Hello ${data.userName}!
 ${encouragement}
 
 YOUR STATS:
-- Current Streak: ${data.currentStreak} days
+- Current Streak: ${currentStreak} days
 - Reviews Due: ${data.dueReviews}
 - Total Reviews: ${data.totalReviews}
 ${data.lastStudyDate ? `- Last Study: ${formatRelativeTime(data.lastStudyDate)}` : ''}

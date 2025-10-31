@@ -177,10 +177,9 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
         const result = await response.json()
 
         if (result.success && result.data) {
-          // Update with server data (may differ if conflict resolved)
           set({
-            currentStreak: result.data.currentStreak,
-            bestStreak: result.data.bestStreak,
+            currentStreak: result.data.current,
+            bestStreak: result.data.best,
             lastActivityDate: result.data.lastActivityDate ? new Date(result.data.lastActivityDate) : new Date(),
             version: result.data.version,
             isSyncing: false,
@@ -287,9 +286,9 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
         const result = await response.json()
 
         if (result.success && result.data) {
-          // Update with server data
           set({
-            currentStreak: result.data.currentStreak,
+            currentStreak: result.data.current,
+            bestStreak: result.data.best ?? state.bestStreak,
             lastActivityDate: result.data.lastActivityDate ? new Date(result.data.lastActivityDate) : new Date(),
             version: result.data.version,
             isSyncing: false,
@@ -513,30 +512,33 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
 
       if (result.success && result.data) {
         const data = result.data
+        const streak = data.streak || {
+          current: 0,
+          best: 0,
+          lastActivityDate: null,
+          version: 1
+        }
 
-        // Update Zustand state with Firebase data
         set({
           totalXP: data.totalXP,
-          // Recalculate level from XP
           currentLevel: Math.max(1, Math.floor(data.totalXP / 1000)),
-          currentStreak: data.currentStreak,
-          bestStreak: data.bestStreak,
-          lastActivityDate: data.lastActivityDate ? new Date(data.lastActivityDate) : null,
+          currentStreak: streak.current ?? 0,
+          bestStreak: streak.best ?? 0,
+          lastActivityDate: streak.lastActivityDate ? new Date(streak.lastActivityDate) : null,
           unlockedAchievements: data.unlockedAchievements || [],
           achievementProgress: data.achievementProgress || {},
           sessionCount: data.sessionCount || 0,
-          version: data.version || 1, // Include version for conflict detection
+          version: streak.version ?? 1,
           isDirty: false,
           isLoaded: true,
           lastSyncedAt: new Date()
         })
 
-        // Cache Firebase data to IndexedDB for offline access
         await get().saveToIndexedDB()
 
         console.log('[Gamification State] Loaded from Firebase and cached to IndexedDB:', {
           totalXP: data.totalXP,
-          currentStreak: data.currentStreak,
+          current: streak.current ?? 0,
           sessionCount: data.sessionCount
         })
       } else {
@@ -582,6 +584,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
           unlockedAchievements: data.unlockedAchievements,
           achievementProgress: data.achievementProgress,
           sessionCount: data.sessionCount || 0,
+          version: data.version || 1,
           isDirty: false,
           isLoaded: true
         })
@@ -620,7 +623,7 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
         achievementProgress: state.achievementProgress,
         sessionCount: state.sessionCount,
         lastSyncedAt: state.lastSyncedAt?.toISOString() || null,
-        version: 1
+        version: state.version ?? 1
       })
     } catch (error) {
       console.error('[Gamification State] Failed to save to IndexedDB:', error)

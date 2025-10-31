@@ -85,9 +85,13 @@ export async function POST(req: NextRequest) {
     // Return success
     return NextResponse.json({
       success: true,
-      data: {
-        currentStreak: 0,
-        lastActivityDate: new Date().toISOString()
+      data: result.data && {
+        current: result.data.current,
+        best: result.data.best,
+        lastActivityDate: result.data.lastActivityDate,
+        freezesRemaining: result.data.freezesRemaining,
+        version: result.data.version,
+        updatedAt: result.data.updatedAt
       }
     });
 

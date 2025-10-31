@@ -5,7 +5,7 @@
   "resetTime": "00:00",
   "timezone": "UTC",
   "streakFreeze": {
-    "enabled": true,
+    "enabled": false,
     "requiresPremium": true,
     "maxFreezes": 3,
     "freezeDurationDays": 1,

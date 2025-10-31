@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "ci:guard:streak": "bash scripts/ci-guard-streak-validations.sh",
+    "ci:guard:streak": "bash scripts/ci-guard-streak-validations.sh && bash scripts/guard_streak_writes.sh",
     "test": "jest --passWithNoTests",
     "test:unit": "jest --testPathIgnorePatterns=e2e --passWithNoTests",
     "test:review": "jest --config=jest.config.review-engine.js",

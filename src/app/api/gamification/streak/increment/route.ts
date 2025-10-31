@@ -79,11 +79,10 @@ export async function POST(req: NextRequest) {
     const isPremium = decodedToken.stripeRole === 'premium' || false;
 
     // Call streak service
-    const result = await updateStreakTransaction(
-      userId,
-      xpEarned,
-      isPremium
-    );
+    const result = await updateStreakTransaction(userId, xpEarned, {
+      isPremium,
+      expectedVersion: typeof version === 'number' ? version : undefined
+    });
 
     if (!result.success) {
       return NextResponse.json(
@@ -102,14 +101,13 @@ export async function POST(req: NextRequest) {
     // Return success with streak data
     return NextResponse.json({
       success: true,
-      data: {
-        currentStreak: result.data!.currentStreak,
-        bestStreak: result.data!.bestStreak,
-        lastActivityDate: result.data!.lastActivityDate,
-        totalXP: result.data!.totalXP,
-        freezesRemaining: result.data!.freezesRemaining,
-        version: result.data!.version,
-        updatedAt: result.data!.updatedAt
+      data: result.data && {
+        current: result.data.current,
+        best: result.data.best,
+        lastActivityDate: result.data.lastActivityDate,
+        freezesRemaining: result.data.freezesRemaining,
+        version: result.data.version,
+        updatedAt: result.data.updatedAt
       },
       streakIncremented: result.streakIncremented,
       newRecordSet: result.newRecordSet
