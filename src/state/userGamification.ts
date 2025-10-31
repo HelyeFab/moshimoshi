@@ -447,8 +447,9 @@ export const useGamificationStore = create<GamificationState>((set, get) => ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           totalXP: state.totalXP,
-          currentStreak: state.currentStreak,
-          bestStreak: state.bestStreak,
+          // ❌ DO NOT SYNC STREAK - it's handled by incrementStreak() only
+          // currentStreak: state.currentStreak,
+          // bestStreak: state.bestStreak,
           lastActivityDate: state.lastActivityDate?.toISOString() || null,
           unlockedAchievements: state.unlockedAchievements,
           achievementProgress: state.achievementProgress,

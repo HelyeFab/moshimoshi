@@ -1,7 +1,7 @@
 # 🎌 Moshimoshi Project Documentation
 
-> Auto-generated on 2025-10-31T11:43:37.230Z
-> Total documents: 216
+> Auto-generated on 2025-10-31T16:06:28.963Z
+> Total documents: 218
 
 ---
 
@@ -11,6 +11,7 @@
 ## 📁 Root
 - [DOCUMENTATION_INDEX.md](#documentation_index-md)
 - [DOCUMENT_MAP.md](#document_map-md)
+- [FIREBASE_COLLECTIONS_API_MAPPING.md](#firebase_collections_api_mapping-md)
 - [INDEX.md](#index-md)
 - [LANDING_PAGE_DESIGN_SPEC.md](#landing_page_design_spec-md)
 - [QUICK_REFERENCE.md](#quick_reference-md)
@@ -49,6 +50,9 @@
 
 ## 📁 components
 - [KANJI_DETAILS_MODAL.md](#components-kanji_details_modal-md)
+
+## 📁 deprecations
+- [2025-10-31-streak_validations-removed.md](#deprecations-2025-10-31-streak_validations-removed-md)
 
 ## 📁 firebase
 - [DUAL_STORAGE_IMPLEMENTATION.md](#firebase-dual_storage_implementation-md)
@@ -317,7 +321,7 @@
 # 📄 DOCUMENTATION_INDEX.md
 
 > **File Path:** `DOCUMENTATION_INDEX.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi Documentation Index
 
@@ -434,7 +438,7 @@ Maintained by: Development Team
 # 📄 DOCUMENT_MAP.md
 
 > **File Path:** `DOCUMENT_MAP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🗺️ Document Map - Visual Hierarchy
 
@@ -579,12 +583,534 @@ Related Docs ────→ Additional context
 
 ---
 
+<a id="firebase_collections_api_mapping-md"></a>
+
+# 📄 FIREBASE_COLLECTIONS_API_MAPPING.md
+
+> **File Path:** `FIREBASE_COLLECTIONS_API_MAPPING.md`
+> **Last Synced:** 2025-10-31T16:06:28.964Z
+
+# Firebase Collections API Mapping
+
+**Generated:** 2025-10-31
+**Collections Analyzed:** `streak_validations`, `user_stats`, `users`
+
+---
+
+## Executive Summary
+
+This document maps all API endpoints that interact with the three Firebase collections: `streak_validations`, `user_stats`, and `users`.
+
+**Key Finding:** The `streak_validations` collection is **NOT actively used** in the current codebase.
+
+---
+
+## API Endpoint to Collection Mapping
+
+| Collection | API Endpoint | CRUD Operations | Feature/Purpose |
+|------------|-------------|-----------------|-----------------|
+| **user_stats** | `/api/gamification/sync` (POST) | CREATE, UPDATE | Syncs gamification data to Firebase for premium users; updates XP, streak, achievements, sessions with time-based metrics |
+| **user_stats** | `/api/gamification/load` (GET) | READ | Loads gamification data from Firebase for premium users; downloads data to IndexedDB for cross-device sync |
+| **user_stats** | `/api/gamification/migration/upload` (POST) | CREATE, UPDATE | Migrates streak data from IndexedDB to Firebase; merges data by taking maximum values |
+| **user_stats** | `/api/review/stats` (GET) | READ | Aggregates review statistics for premium users; reads streak and session data |
+| **user_stats** | `/api/admin/users/[uid]/data` (GET) | READ | Admin endpoint to retrieve comprehensive user data including stats |
+| **user_stats** | `/api/admin/stats-consistency` (GET) | READ | Admin endpoint to analyze user statistics for outliers and inconsistencies |
+| **user_stats** | `/api/admin/leaderboard/trigger` (POST) | READ | Fetches user_stats for leaderboard generation; orders by XP total |
+| **user_stats** | `/lib/gamification/services/streakService.ts` | CREATE, READ, UPDATE | Core streak service using Firebase transactions; atomic streak updates with version-based conflict detection |
+| **users** | `/api/auth/signup` (POST) | CREATE, UPDATE | Creates new user account; initializes user profile with default schema |
+| **users** | `/api/auth/signin` (POST) | READ, UPDATE | Authenticates user; reads profile, updates lastLoginAt |
+| **users** | `/api/auth/google` (POST) | CREATE, READ, UPDATE | Google OAuth authentication; creates/updates user profile |
+| **users** | `/api/user/profile` (GET) | READ | Retrieves user profile with preferences and settings |
+| **users** | `/api/user/profile` (PATCH) | UPDATE | Updates user profile fields (displayName, preferences, notifications, privacy) |
+| **users** | `/api/user/delete-account` (POST) | UPDATE | Soft deletes user account; marks user as deleted with 30-day retention |
+| **users** | `/api/user/delete-account` (DELETE) | UPDATE | Cancels account deletion; restores user account |
+| **users** | `/api/admin/users/[uid]` (GET) | READ | Admin endpoint to get detailed user information |
+| **users** | `/api/admin/users/[uid]` (PATCH) | UPDATE | Admin endpoint to update user profile (plan, custom claims, disabled status) |
+| **users** | `/api/admin/users/[uid]/data` (GET) | READ | Admin endpoint to fetch comprehensive user data from all collections |
+| **users** | `/api/admin/set-admin` (POST) | UPDATE | Grants/revokes admin privileges; updates isAdmin field |
+| **users** | `/api/admin/stats-consistency` (GET) | READ | Fetches user documents for admin consistency checking |
+| **users** | `/api/review/stats` (GET) | READ | Reads user document to check premium status for stats aggregation |
+| **users** | `/functions/src/firestore.ts` | CREATE, UPDATE | Firebase Functions Stripe webhook handler; updates subscription facts |
+| **users** | `/functions/src/webhook.ts` | UPDATE | Stripe webhook receiver; routes events to handlers that update user subscription |
+| **streak_validations** | *None found* | *Not used* | **Collection not actively used in codebase** |
+
+---
+
+## Detailed Collection Analysis
+
+### 1. `user_stats` Collection
+
+**Purpose:** Stores unified gamification statistics including XP, levels, streaks, achievements, and session data.
+
+**Primary Features:**
+- Gamification sync (premium users only)
+- Streak management (transactional updates)
+- Leaderboard generation
+- Admin analytics and monitoring
+
+**Schema Structure:**
+```typescript
+{
+  xp: {
+    total: number,
+    level: number,
+    levelTitle: string,
+    xpToNextLevel: number,
+    xpGainedToday: number,
+    weeklyXP: number,
+    monthlyXP: number
+  },
+  streak: {
+    current: number,
+    best: number
+  },
+  dates: {
+    lastActivityDate: string,
+    isActiveToday: boolean
+  },
+  achievements: {
+    unlockedIds: string[],
+    unlockedCount: number,
+    completionPercentage: number
+  },
+  sessions: {
+    totalSessions: number,
+    todaySessions: number,
+    weekSessions: number,
+    monthSessions: number,
+    averageAccuracy: number,
+    totalStudyTimeMinutes: number,
+    totalItemsReviewed: number
+  },
+  metadata: {
+    lastUpdated: string,
+    syncStatus: 'synced' | 'pending' | 'conflict',
+    dataHealth: 'healthy' | 'warning' | 'error',
+    schemaVersion: number
+  }
+}
+```
+
+**API Interactions:**
+
+#### Create/Update Operations
+- **`/api/gamification/sync`** - Primary sync endpoint for premium users
+  - Validates incoming data for safety (prevents zero overwrites)
+  - Updates all gamification fields atomically
+  - Returns sync status and timestamp
+
+- **`/api/gamification/migration/upload`** - Migration endpoint
+  - Uploads local IndexedDB data to Firebase
+  - Merges by taking maximum values (preserves best data)
+  - Used during premium upgrade process
+
+- **`/lib/gamification/services/streakService.ts`** - Service layer
+  - Uses Firebase transactions for atomic updates
+  - Implements version-based conflict detection
+  - Handles streak increment/reset logic
+
+#### Read Operations
+- **`/api/gamification/load`** - Downloads stats to IndexedDB
+- **`/api/review/stats`** - Aggregates review statistics
+- **`/api/admin/users/[uid]/data`** - Admin data retrieval
+- **`/api/admin/stats-consistency`** - Admin consistency checking
+- **`/api/admin/leaderboard/trigger`** - Leaderboard generation
+
+---
+
+### 2. `users` Collection
+
+**Purpose:** Main user profile collection storing authentication, subscription, preferences, and profile data.
+
+**Primary Features:**
+- User authentication (signup, signin, OAuth)
+- Profile management
+- Subscription management (via Stripe webhooks)
+- Admin user management
+- Account deletion (soft delete with 30-day retention)
+
+**Schema Structure:**
+```typescript
+{
+  // Core Identity
+  email: string,
+  displayName: string,
+  photoURL: string,
+  emailVerified: boolean,
+  isAdmin: boolean,
+
+  // Study Preferences
+  preferredLanguage: string,
+  studyGoal: string,
+  studyTime: string,
+
+  // Subscription
+  subscription: {
+    plan: 'free' | 'basic' | 'premium',
+    status: 'active' | 'canceled' | 'past_due' | 'incomplete',
+    stripeCustomerId: string,
+    stripeSubscriptionId: string,
+    stripePriceId: string,
+    currentPeriodEnd: Timestamp,
+    cancelAtPeriodEnd: boolean
+  },
+
+  // Notifications
+  notifications: {
+    email: boolean,
+    push: boolean,
+    studyReminders: boolean,
+    weeklyProgress: boolean
+  },
+
+  // Privacy
+  privacy: {
+    profileVisible: boolean,
+    progressVisible: boolean
+  },
+
+  // Preferences (nested structure)
+  preferences: {
+    theme: string,
+    language: string,
+    palette: string,
+    notifications: object,
+    learning: object,
+    privacy: object,
+    accessibility: object
+  },
+
+  // Timestamps
+  createdAt: Timestamp,
+  lastLoginAt: Timestamp,
+  updatedAt: Timestamp,
+
+  // Deletion (soft delete)
+  deletedAt?: Timestamp,
+  deletionScheduledFor?: Timestamp
+}
+```
+
+**API Interactions:**
+
+#### Create Operations
+- **`/api/auth/signup`** - Creates new user account
+  - Initializes user profile with default schema
+  - Sets up preferences, notifications, privacy settings
+  - Creates Firebase Auth user and Firestore document
+
+- **`/api/auth/google`** - OAuth user creation
+  - Creates user if doesn't exist
+  - Syncs Google profile data
+
+#### Read Operations
+- **`/api/auth/signin`** - Authentication
+- **`/api/user/profile`** - Profile retrieval
+- **`/api/admin/users/[uid]`** - Admin user lookup
+- **`/api/admin/users/[uid]/data`** - Comprehensive data export
+- **`/api/admin/stats-consistency`** - Admin analytics
+- **`/api/review/stats`** - Premium status check
+
+#### Update Operations
+- **`/api/auth/signin`** - Updates lastLoginAt on login
+- **`/api/auth/google`** - Updates profile from Google data
+- **`/api/user/profile` (PATCH)** - Profile updates
+  - displayName, photoURL
+  - preferences (all nested fields)
+  - notifications settings
+  - privacy settings
+
+- **`/api/user/delete-account` (POST)** - Soft delete
+  - Sets deletedAt timestamp
+  - Sets deletionScheduledFor (30 days)
+  - Maintains data integrity during retention period
+
+- **`/api/user/delete-account` (DELETE)** - Cancel deletion
+  - Removes deletedAt and deletionScheduledFor
+  - Restores account
+
+- **`/api/admin/users/[uid]` (PATCH)** - Admin updates
+  - Change subscription plan
+  - Update custom claims
+  - Enable/disable account
+
+- **`/api/admin/set-admin`** - Admin privilege management
+  - Sets isAdmin field
+  - Updates Firebase custom claims
+
+- **`/functions/src/firestore.ts`** - Stripe webhook handler
+  - Updates subscription status
+  - Syncs Stripe subscription data
+  - Handles payment events
+
+---
+
+### 3. `streak_validations` Collection
+
+**Status:** ⚠️ **NOT IN USE**
+
+**Analysis:**
+- No API endpoints interact with this collection
+- Not referenced in any service layer code
+- Not found in current streak implementation
+- Likely a legacy or planned feature that was never implemented
+
+**Possible Historical Context:**
+- May have been used in an older version of the streak system
+- Could have been planned for storing streak validation logs
+- Replaced by current streak system in `user_stats.streak`
+
+**Recommendation:**
+- Consider removing from Firestore security rules if unused
+- Document decision in architecture docs
+- Archive or delete collection if confirmed unused
+
+---
+
+## Architecture Patterns
+
+### 1. Premium vs Free Tier Data Storage
+
+**Premium Users:**
+- Data synced to Firebase (`user_stats` and `users`)
+- Cross-device synchronization enabled
+- Access to leaderboard features
+- Data backed up in Firebase
+
+**Free Users:**
+- Data stored locally in IndexedDB only
+- No cross-device sync
+- Not included in leaderboard
+- Data migrations available on upgrade
+
+### 2. Streak Management System
+
+**Implementation:** `/lib/gamification/services/streakService.ts`
+
+**Key Features:**
+- Firebase transactions for atomic updates
+- Version-based conflict detection
+- Optimistic UI updates
+- Fallback to local storage on failure
+
+**Operations:**
+- `incrementStreak()` - Increments streak with transaction
+- `resetStreak()` - Resets streak with transaction
+- Uses `user_stats.streak` field, NOT `streak_validations`
+
+### 3. Subscription Management
+
+**Primary Handler:** Firebase Functions (`/functions/src/webhook.ts`)
+
+**Webhook Flow:**
+1. Stripe sends webhook to Firebase Functions
+2. Functions verify webhook signature
+3. Event routed to appropriate handler
+4. Handler updates `users` collection subscription fields
+5. Client picks up changes via Firestore listeners
+
+**Next.js Endpoint:**
+- `/api/stripe/webhook` is **DISABLED**
+- All Stripe events must go through Firebase Functions
+- Documented in codebase comments
+
+### 4. Admin Operations
+
+**Access Pattern:**
+- All admin endpoints check `isAdmin` field in `users` collection
+- Comprehensive read access to user data
+- Limited write access (profile, subscription, admin status)
+
+**Admin Endpoints:**
+- `/api/admin/users/[uid]` - User management
+- `/api/admin/stats-consistency` - Analytics
+- `/api/admin/leaderboard/trigger` - Manual leaderboard rebuild
+- `/api/admin/set-admin` - Admin privilege management
+
+### 5. Data Safety Measures
+
+**Gamification Sync:**
+- Validates incoming data before writes
+- Prevents overwriting real data with zeros
+- Checks for data health before operations
+- Uses transactions for critical updates
+
+**Account Deletion:**
+- Soft delete with 30-day retention
+- `deletedAt` and `deletionScheduledFor` timestamps
+- Cancellation possible during retention period
+- Final deletion handled by scheduled function
+
+**Conflict Resolution:**
+- Version-based conflict detection
+- Last-write-wins for most updates
+- Max-value strategy for migrations
+- Transaction-based for critical data (streaks)
+
+---
+
+## Security Considerations
+
+### Firestore Security Rules
+
+**Expected Rules:**
+
+```javascript
+// user_stats collection
+match /user_stats/{userId} {
+  allow read: if request.auth != null && request.auth.uid == userId;
+  allow write: if request.auth != null && request.auth.uid == userId;
+}
+
+// users collection
+match /users/{userId} {
+  allow read: if request.auth != null && (
+    request.auth.uid == userId ||
+    get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
+  );
+  allow write: if request.auth != null && request.auth.uid == userId;
+  allow update: if request.auth != null &&
+    get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+}
+
+// streak_validations - explicitly denied (removed 2025-10-31)
+match /streak_validations/{document} {
+  allow read, write: if false; // Explicit deny to prevent reintroduction
+}
+```
+
+### API Authentication
+
+**All endpoints require:**
+- Valid Firebase session token
+- User must be authenticated
+- Admin endpoints require `isAdmin: true`
+
+**Rate Limiting:**
+- Implemented at API route level
+- Protects against abuse
+- Different limits for free vs premium users
+
+---
+
+## Migration History
+
+### User Stats Migration (2024)
+- Migrated from separate collections to unified `user_stats`
+- Combined XP, streak, achievements into single document
+- Documented in `/docs/user-stats-migration/`
+
+### Streak System V2 (2025-10-30)
+- Version-based conflict detection added
+- Transaction-based updates implemented
+- Documented in `/docs/STREAK_MIGRATION_GUIDE_2025-10-30.md`
+
+---
+
+## Testing Endpoints
+
+**Scripts for Testing:**
+- `/scripts/test-review-api.js` - Tests review/stats API
+- `/scripts/check-user-stats.js` - Validates user_stats structure
+- `/scripts/verify-test-users.ts` - Verifies test user data
+- `/scripts/test-sync-logic.js` - Tests gamification sync
+
+**Admin Test Endpoints:**
+- `/api/admin/stats-consistency` - Check data consistency
+- `/api/admin/users/[uid]/data` - Inspect user data
+
+---
+
+## Quick Reference
+
+### Most Commonly Used Endpoints
+
+**User Management:**
+- `POST /api/auth/signup` - Create user
+- `POST /api/auth/signin` - Login user
+- `GET /api/user/profile` - Get profile
+- `PATCH /api/user/profile` - Update profile
+
+**Gamification:**
+- `POST /api/gamification/sync` - Sync stats to Firebase
+- `GET /api/gamification/load` - Load stats from Firebase
+
+**Admin:**
+- `GET /api/admin/users/[uid]/data` - Get all user data
+- `POST /api/admin/set-admin` - Grant admin access
+
+### File Locations
+
+**API Routes:**
+- Authentication: `/src/app/api/auth/`
+- User Management: `/src/app/api/user/`
+- Gamification: `/src/app/api/gamification/`
+- Admin: `/src/app/api/admin/`
+
+**Services:**
+- Streak Service: `/src/lib/gamification/services/streakService.ts`
+- Firebase Admin: `/src/lib/firebase/admin.ts`
+
+**Firebase Functions:**
+- Webhook Handler: `/functions/src/webhook.ts`
+- Firestore Triggers: `/functions/src/firestore.ts`
+
+---
+
+## Recommendations
+
+1. **Remove `streak_validations` Collection**
+   - No active usage found
+   - Consider archiving or deleting
+   - Update Firestore security rules
+   - Document decision
+
+2. **Document Streak System**
+   - Current implementation is transaction-based
+   - Uses `user_stats.streak`, not separate collection
+   - Version-based conflict detection documented
+
+3. **Consolidate Documentation**
+   - Multiple migration guides exist
+   - Create single source of truth
+   - Reference this document for API mappings
+
+4. **Add Monitoring**
+   - Track API endpoint usage
+   - Monitor sync success rates
+   - Alert on data consistency issues
+   - Track subscription webhook reliability
+
+5. **Improve Testing**
+   - Add integration tests for API endpoints
+   - Test transaction-based streak updates
+   - Verify data consistency across collections
+   - Test subscription webhook flows
+
+---
+
+## Related Documentation
+
+- `/docs/firebase-collections/user-stats.md` - User stats schema
+- `/docs/firebase-collections/API_TO_COLLECTION_MAP.md` - Collection mapping
+- `/docs/STREAK_MIGRATION_GUIDE_2025-10-30.md` - Streak system v2
+- `/docs/user-stats-migration/` - User stats migration docs
+- `/functions/README.md` - Firebase Functions setup
+
+---
+
+**Last Updated:** 2025-10-31
+**Maintained By:** Development Team
+**Status:** ✅ Complete and Verified
+
+---
+
 <a id="index-md"></a>
 
 # 📄 INDEX.md
 
 > **File Path:** `INDEX.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 📚 Markdown Brain Index
 
@@ -721,7 +1247,7 @@ _Auto-generated by update-index.py_
 # 📄 LANDING_PAGE_DESIGN_SPEC.md
 
 > **File Path:** `LANDING_PAGE_DESIGN_SPEC.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # LANDING PAGE DESIGN SPEC (SOLO)
 ## Single Optimized Landing Overview - Moshimoshi Japanese Learning Platform
@@ -4092,7 +4618,7 @@ gap-12 // 48px
 # 📄 QUICK_REFERENCE.md
 
 > **File Path:** `QUICK_REFERENCE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # ⚡ Quick Reference Guide
 
@@ -4252,7 +4778,7 @@ Check [DEVELOPMENT_LOG.md](root/DEVELOPMENT_LOG.md) for latest changes
 # 📄 SEO_MASTER_GUIDE.md
 
 > **File Path:** `SEO_MASTER_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi SEO Master Guide
 ## Complete Implementation & Strategy Document
@@ -6113,7 +6639,7 @@ A comprehensive SEO foundation optimizing 265+ pages across 62 layout files with
 # 📄 STREAK_MIGRATION_GUIDE_2025-10-30.md
 
 > **File Path:** `STREAK_MIGRATION_GUIDE_2025-10-30.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Streak System Migration Guide
 
@@ -6914,7 +7440,7 @@ scripts/
 # 📄 STREAK_MIGRATION_IMPLEMENTATION_2025-10-30.md
 
 > **File Path:** `STREAK_MIGRATION_IMPLEMENTATION_2025-10-30.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Streak System Migration - Implementation Log
 
@@ -7766,7 +8292,7 @@ If critical issues arise:
 # 📄 STREAK_SYSTEM_COMPREHENSIVE_ANALYSIS_2025-10-30.md
 
 > **File Path:** `STREAK_SYSTEM_COMPREHENSIVE_ANALYSIS_2025-10-30.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🔥 Comprehensive Streak System Analysis - Moshimoshi
 
@@ -9749,7 +10275,7 @@ The streak system in Moshimoshi is a **sophisticated, multi-layered architecture
 # 📄 STREAK_SYSTEM_INDEX_2025-10-30.md
 
 > **File Path:** `STREAK_SYSTEM_INDEX_2025-10-30.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Streak System Documentation Index
 
@@ -10101,7 +10627,7 @@ For complete details of what was executed today:
 # 📄 YOUTUBE_API_SETUP.md
 
 > **File Path:** `YOUTUBE_API_SETUP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # YouTube Shadowing Feature - API Configuration
 
@@ -10237,7 +10763,7 @@ To test the YouTube extraction system:
 # 📄 ACHIEVEMENT_SYSTEM_GUIDE.md
 
 > **File Path:** `achievements/ACHIEVEMENT_SYSTEM_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Achievement System Documentation
 
@@ -10652,7 +11178,7 @@ Maintainer: Moshimoshi Development Team
 # 📄 ADMIN_ACCESS_MANAGEMENT.md
 
 > **File Path:** `admin/ADMIN_ACCESS_MANAGEMENT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Admin Access Management
 
@@ -10802,7 +11328,7 @@ When deploying to production:
 # 📄 ADMIN_DASHBOARD_SPEC.md
 
 > **File Path:** `admin/ADMIN_DASHBOARD_SPEC.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Admin Dashboard Specification
 
@@ -11258,7 +11784,7 @@ ADMIN_SESSION_DURATION=8h  # Admin session timeout
 # 📄 SUBSCRIPTION_MANAGEMENT.md
 
 > **File Path:** `admin/SUBSCRIPTION_MANAGEMENT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Admin Subscription Management Guide
 
@@ -11461,7 +11987,7 @@ Features:
 # 📄 AI_MIGRATION_SUMMARY.md
 
 > **File Path:** `ai/AI_MIGRATION_SUMMARY.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # AI Service Migration Summary
 
@@ -11729,7 +12255,7 @@ Last Updated: January 22, 2025
 # 📄 AI_SERVICE_GUIDE.md
 
 > **File Path:** `ai/AI_SERVICE_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Unified AI Service Implementation Guide
 
@@ -12145,7 +12671,7 @@ Version: 1.0.0
 # 📄 01-architecture-overview.md
 
 > **File Path:** `authentication/01-architecture-overview.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Authentication Architecture Overview
 
@@ -12431,7 +12957,7 @@ interface AuthError {
 # 📄 02-user-profile-structure.md
 
 > **File Path:** `authentication/02-user-profile-structure.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # User Profile Structure
 
@@ -12895,7 +13421,7 @@ async function exportUserData(userId: string): Promise<UserDataExport> {
 # 📄 03-authentication-flows.md
 
 > **File Path:** `authentication/03-authentication-flows.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Authentication Flows
 
@@ -13646,7 +14172,7 @@ async function validateSession(token: string): Promise<SessionValidation> {
 # 📄 04-api-reference.md
 
 > **File Path:** `authentication/04-api-reference.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # API Reference
 
@@ -14328,7 +14854,7 @@ curl -X GET https://moshimoshi.app/api/user/profile \
 # 📄 05-security-guidelines.md
 
 > **File Path:** `authentication/05-security-guidelines.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Security Guidelines
 
@@ -15037,7 +15563,7 @@ async function detectSuspiciousActivity(
 # 📄 AUTH_MIGRATION_PLAN.md
 
 > **File Path:** `authentication/AUTH_MIGRATION_PLAN.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Authentication Migration Plan
 
@@ -15207,7 +15733,7 @@ Total estimated time: 2-3 days
 # 📄 CURRENT_STATE.md
 
 > **File Path:** `authentication/CURRENT_STATE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Current Authentication State Analysis
 
@@ -15412,7 +15938,7 @@ These hooks were modified to accept `user` as a parameter:
 # 📄 MIGRATION_GUIDE.md
 
 > **File Path:** `authentication/MIGRATION_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Authentication Migration Guide
 
@@ -15651,7 +16177,7 @@ Migration Status: 95% Complete (Testing remaining)
 # 📄 README.md
 
 > **File Path:** `authentication/README.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Authentication & User Management Documentation
 
@@ -15757,7 +16283,7 @@ For questions about the authentication system:
 # 📄 launch-announcement.md
 
 > **File Path:** `communications/launch-announcement.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Launch Communications Package
 
@@ -16035,7 +16561,7 @@ Track these during launch:
 # 📄 KANJI_DETAILS_MODAL.md
 
 > **File Path:** `components/KANJI_DETAILS_MODAL.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # KanjiDetailsModal Usage Guide
 
@@ -16324,12 +16850,49 @@ Author: Moshimoshi Development Team
 
 ---
 
+<a id="deprecations-2025-10-31-streak_validations-removed-md"></a>
+
+# 📄 2025-10-31-streak_validations-removed.md
+
+> **File Path:** `deprecations/2025-10-31-streak_validations-removed.md`
+> **Last Synced:** 2025-10-31T16:06:28.964Z
+
+# Deprecation: Remove `streak_validations` Firestore Collection
+
+- Date: 2025-10-31
+- Status: Removed from codebase; blocked in security rules
+- Affected: None (no runtime references)
+
+## Rationale
+- `streak_validations` was an unused legacy audit bucket.
+- All streak logic is persisted transactionally in `user_stats.streak` via `src/lib/gamification/services/streakService.ts`.
+- Removing the collection reduces schema surface area and prevents accidental writes.
+
+## Changes
+- Removed all runtime references (none existed in `src/` or `functions/`).
+- Added explicit deny rule blocks to:
+  - `firestore.rules`
+  - `firestore.dual-storage.rules`
+- Added CI guard: `scripts/ci-guard-streak-validations.sh` and `npm run ci:guard:streak` to fail builds if the collection name appears in runtime code.
+- Updated documentation to reflect removal:
+  - `docs/FIREBASE_COLLECTIONS_API_MAPPING.md`
+  - `user-phoenix/FIREBASE_COLLECTIONS_API_MAPPING.md`
+  - `user-phoenix/FIREBASE_COLLECTIONS_ANALYSIS.md`
+  - `user-phoenix/streak_user_stats_users_summary.md`
+
+## What Stays The Same
+- Streak logic remains in `user_stats.streak` with transactional updates in `streakService.ts`.
+- No API behavior changes. Endpoints continue to use `user_stats` and `users` only.
+
+
+---
+
 <a id="firebase-collections-admin_dashboard_monitoring-md"></a>
 
 # 📄 ADMIN_DASHBOARD_MONITORING.md
 
 > **File Path:** `firebase-collections/ADMIN_DASHBOARD_MONITORING.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Admin Dashboard Monitoring & Backup Strategy
 
@@ -17199,7 +17762,7 @@ export async function POST(req: Request) {
 # 📄 API_TO_COLLECTION_MAP.md
 
 > **File Path:** `firebase-collections/API_TO_COLLECTION_MAP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # API Routes to Firebase Collections Mapping
 
@@ -17724,7 +18287,7 @@ Complete mapping of all 154 API routes to the Firebase collections they read fro
 # 📄 PREFERENCES_REFACTOR.md
 
 > **File Path:** `firebase-collections/PREFERENCES_REFACTOR.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # User Preferences Refactor
 
@@ -17958,7 +18521,7 @@ Last Updated: 2025-10-06
 # 📄 README.md
 
 > **File Path:** `firebase-collections/README.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Firebase Collections Documentation
 
@@ -18328,7 +18891,7 @@ See individual collection documentation for specific query examples and required
 # 📄 SCHEMA_MIGRATION.md
 
 > **File Path:** `firebase-collections/SCHEMA_MIGRATION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Firebase Schema Migration: Flat → Nested Structure
 
@@ -18581,7 +19144,7 @@ They work! See `pokemonManager.ts` line 332 for example of using `collectionGrou
 # 📄 USAGE_MIGRATION.md
 
 > **File Path:** `firebase-collections/USAGE_MIGRATION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Usage Collection Migration: Complete Documentation
 
@@ -18943,7 +19506,7 @@ A: Cleaned up by `scripts/cleanup-legacy-usage.js` (already run successfully).
 # 📄 blog-and-resources.md
 
 > **File Path:** `firebase-collections/blog-and-resources.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Blog and Resources - Firebase Collections
 
@@ -19561,7 +20124,7 @@ Collection: news
 # 📄 drill-sessions.md
 
 > **File Path:** `firebase-collections/drill-sessions.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Drill Sessions - Firebase Collections
 
@@ -19878,7 +20441,7 @@ After drill completion:
 # 📄 flashcards.md
 
 > **File Path:** `firebase-collections/flashcards.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Flashcards - Firebase Collections
 
@@ -20504,7 +21067,7 @@ const taggedCards = await adminDb
 # 📄 lists.md
 
 > **File Path:** `firebase-collections/lists.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Custom Lists - Firebase Collections
 
@@ -21086,7 +21649,7 @@ interface IndexedDBList {
 # 📄 notifications.md
 
 > **File Path:** `firebase-collections/notifications.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Notifications - Firebase Collections
 
@@ -21669,7 +22232,7 @@ const isUnsubscribed = unsubscribeDoc.exists
 # 📄 progress.md
 
 > **File Path:** `firebase-collections/progress.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Progress Feature - Firebase Collections
 
@@ -21868,7 +22431,7 @@ const drillProgress = await db
 # 📄 review-history.md
 
 > **File Path:** `firebase-collections/review-history.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review History - Firebase Collections
 
@@ -22071,7 +22634,7 @@ Collection: users/{userId}/review_history
 # 📄 sessions.md
 
 > **File Path:** `firebase-collections/sessions.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Sessions - Firebase Collections
 
@@ -22372,7 +22935,7 @@ Sessions are used for:
 # 📄 srs-data.md
 
 > **File Path:** `firebase-collections/srs-data.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # SRS Data - Firebase Collections
 
@@ -22682,7 +23245,7 @@ Leeches require:
 # 📄 stripe.md
 
 > **File Path:** `firebase-collections/stripe.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Stripe Integration - Firebase Collections
 
@@ -23179,7 +23742,7 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 # 📄 system.md
 
 > **File Path:** `firebase-collections/system.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # System Collections - Firebase Collections
 
@@ -23834,7 +24397,7 @@ Collection: youtube_series
 # 📄 usage.md
 
 > **File Path:** `firebase-collections/usage.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Usage Tracking - Firebase Collections
 
@@ -24244,7 +24807,7 @@ const drillCount = usageDoc.data()?.[drillKey] || 0
 # 📄 user-stats.md
 
 > **File Path:** `firebase-collections/user-stats.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # User Stats - Firebase Collections
 
@@ -24554,7 +25117,7 @@ Stats are updated when:
 # 📄 vocabulary.md
 
 > **File Path:** `firebase-collections/vocabulary.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Vocabulary Feature - Firebase Collections
 
@@ -24745,7 +25308,7 @@ await batch.commit()
 # 📄 DUAL_STORAGE_IMPLEMENTATION.md
 
 > **File Path:** `firebase/DUAL_STORAGE_IMPLEMENTATION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Dual Storage Implementation Guide
 
@@ -24962,7 +25525,7 @@ Author: System Architecture Team
 # 📄 FIREBASE_ARCHITECTURE.md
 
 > **File Path:** `firebase/FIREBASE_ARCHITECTURE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Firebase Architecture Documentation
 
@@ -25618,7 +26181,7 @@ This architecture follows the same pattern as Stripe webhook integration, ensuri
 # 📄 FIREBASE_COLLECTIONS_MAP.md
 
 > **File Path:** `firebase/FIREBASE_COLLECTIONS_MAP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Firebase Collections Map
 
@@ -26028,7 +26591,7 @@ All collections follow the security rule pattern:
 # 📄 TEST_REPORT.md
 
 > **File Path:** `firebase/TEST_REPORT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine Test Report
 
@@ -26205,7 +26768,7 @@ The system is ready for production use with the new server-side Firebase Admin S
 # 📄 ENTITLEMENTS_CONFIGURATION.md
 
 > **File Path:** `flashcards/ENTITLEMENTS_CONFIGURATION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Flashcard Entitlements Configuration
 
@@ -26469,7 +27032,7 @@ Author: Claude (Flashcard System Specialist)
 # 📄 FLASHCARD_BUGS_AND_FIXES.md
 
 > **File Path:** `flashcards/FLASHCARD_BUGS_AND_FIXES.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Flashcard System - Bug Tracker & Fixes
 
@@ -26645,7 +27208,7 @@ Next Review: After implementing Phase 2 fixes
 # 📄 FLASHCARD_FEATURE_DIAGRAM.md
 
 > **File Path:** `flashcards/FLASHCARD_FEATURE_DIAGRAM.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Flashcard System - Interactive Feature Diagram
 
@@ -27025,7 +27588,7 @@ Interactive Version: Can be viewed with any Mermaid renderer
 # 📄 FLASHCARD_SYSTEM_DOCUMENTATION.md
 
 > **File Path:** `flashcards/FLASHCARD_SYSTEM_DOCUMENTATION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Flashcard System Documentation
 
@@ -27325,7 +27888,7 @@ Author: Claude (Flashcard System Specialist)
 # 📄 FLASHCARD_SYSTEM_REPORT.md
 
 > **File Path:** `flashcards/FLASHCARD_SYSTEM_REPORT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Flashcard System - Complete Implementation Report
 
@@ -27942,7 +28505,7 @@ The remaining 15% consists primarily of advanced premium features and mobile opt
 # 📄 README.md
 
 > **File Path:** `flashcards/README.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Flashcard System Documentation
 
@@ -28105,7 +28668,7 @@ Maintained by: Claude (Flashcard System Specialist)
 # 📄 STATS_VERIFICATION.md
 
 > **File Path:** `flashcards/STATS_VERIFICATION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Flashcard System - Stats Verification Report
 
@@ -28576,7 +29139,7 @@ The system maintains data integrity through:
 # 📄 ACHIEVEMENT_SYSTEM_AUDIT_REPORT.md
 
 > **File Path:** `gamification-new/ACHIEVEMENT_SYSTEM_AUDIT_REPORT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🏆 Achievement System Audit Report
 
@@ -28946,7 +29509,7 @@ The achievement system is **production-ready and healthy**. The 2 incomplete con
 # 📄 CONFIG_LOCATION_FIX.md
 
 > **File Path:** `gamification-new/CONFIG_LOCATION_FIX.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Config Location Fix
 
@@ -28995,7 +29558,7 @@ The old `/config/gamification/` directory has been removed. All gamification con
 # 📄 DEGAMIFICATION_INVENTORY.md
 
 > **File Path:** `gamification-new/DEGAMIFICATION_INVENTORY.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Degamification Inventory
 
@@ -29693,7 +30256,7 @@ If gamification needs to be restored:
 # 📄 DEVELOPER_INTEGRATION_GUIDE.md
 
 > **File Path:** `gamification-new/DEVELOPER_INTEGRATION_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🎮 Gamification System - Developer Integration Guide
 
@@ -31763,7 +32326,7 @@ function isPremiumUser(tier?: string): boolean {
 # 📄 LEARNING_PROGRESS_SYSTEM.md
 
 > **File Path:** `gamification-new/LEARNING_PROGRESS_SYSTEM.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 📊 Learning Progress System - Technical Documentation
 
@@ -32453,7 +33016,7 @@ The Learning Progress System provides a **personalized, meaningful, and expandab
 # 📄 STREAK_FIX_SAME_DAY.md
 
 > **File Path:** `gamification-new/STREAK_FIX_SAME_DAY.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Streak Calculation Fix - Same Day Sessions
 
@@ -32685,7 +33248,7 @@ Where:
 # 📄 AGENT-1-BRIEFING.md
 
 > **File Path:** `gamification-new/archive/AGENT-1-BRIEFING.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 📋 Agent 1 (Gamification Core) - Mission Briefing
 
@@ -33763,7 +34326,7 @@ Good luck! 🚀
 # 📄 AGENT-1-COMPLETION-REPORT.md
 
 > **File Path:** `gamification-new/archive/AGENT-1-COMPLETION-REPORT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # ✅ Agent 1 (Core) - Completion Report
 
@@ -34321,7 +34884,7 @@ Agent 1 has **successfully completed** all Phase 2 deliverables with **exception
 # 📄 AGENT-2-BRIEFING.md
 
 > **File Path:** `gamification-new/archive/AGENT-2-BRIEFING.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 📋 Agent 2 (Config & Rules) - Mission Briefing
 
@@ -34941,7 +35504,7 @@ Good luck! 🚀
 # 📄 AGENT-2-COMPLETION-REPORT.md
 
 > **File Path:** `gamification-new/archive/AGENT-2-COMPLETION-REPORT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # ✅ Agent 2 (Config & Rules) - Completion Report
 
@@ -35320,7 +35883,7 @@ Agent 2 has **successfully completed** all Phase 1 deliverables with **exception
 # 📄 AGENT-3-BRIEFING.md
 
 > **File Path:** `gamification-new/archive/AGENT-3-BRIEFING.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 📋 Agent 3 (UI Integration) - Mission Briefing
 
@@ -36164,7 +36727,7 @@ Good luck! 🚀
 # 📄 AGENT-3-COMPLETION-REPORT.md
 
 > **File Path:** `gamification-new/archive/AGENT-3-COMPLETION-REPORT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # ✅ Agent 3 (UI Integration) - Completion Report
 
@@ -36719,7 +37282,7 @@ Agent 3 has **successfully completed** all Phase 3 deliverables with **excellent
 # 📄 AGENT-3-HANDOFF.md
 
 > **File Path:** `gamification-new/archive/AGENT-3-HANDOFF.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🎉 Agent 3 Handoff: Core Complete
 
@@ -37070,7 +37633,7 @@ config/
 # 📄 AGENT-3-TO-AGENT-4-HANDOFF.md
 
 > **File Path:** `gamification-new/archive/AGENT-3-TO-AGENT-4-HANDOFF.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Agent 3 → Agent 4 Handoff: UI Integration Complete
 
@@ -37238,7 +37801,7 @@ $ npm run build
 # 📄 AGENT-4-BRIEFING.md
 
 > **File Path:** `gamification-new/archive/AGENT-4-BRIEFING.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 📋 Agent 4 (QA & Observability) - Mission Briefing
 
@@ -38455,7 +39018,7 @@ Good luck! 🧪
 # 📄 AGENT-4-COMPLETION-REPORT.md
 
 > **File Path:** `gamification-new/archive/AGENT-4-COMPLETION-REPORT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # ✅ Agent 4 (QA & Observability) - Completion Report
 
@@ -38950,7 +39513,7 @@ Agent 4 has **successfully completed** all Phase 4 deliverables with **exception
 # 📄 AGENT-COORDINATION.md
 
 > **File Path:** `gamification-new/archive/AGENT-COORDINATION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🤝 Agent Coordination Guide
 
@@ -39643,7 +40206,7 @@ By participating in this project, all agents agree to:
 # 📄 ARCHITECTURE-OVERVIEW.md
 
 > **File Path:** `gamification-new/archive/ARCHITECTURE-OVERVIEW.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🏗️ Gamification System Architecture Overview
 
@@ -40400,7 +40963,7 @@ if (!isEnabled) {
 # 📄 Agent1-Gamification-Core.md
 
 > **File Path:** `gamification-new/archive/Agent1-Gamification-Core.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 👤 Agent 1 — Gamification Core
 
@@ -40430,7 +40993,7 @@ if (!isEnabled) {
 # 📄 Agent2-Config-Rules.md
 
 > **File Path:** `gamification-new/archive/Agent2-Config-Rules.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 👤 Agent 2 — Config & Rules
 
@@ -40462,7 +41025,7 @@ if (!isEnabled) {
 # 📄 Agent3-UI-Integration.md
 
 > **File Path:** `gamification-new/archive/Agent3-UI-Integration.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 👤 Agent 3 — UI Integration
 
@@ -40493,7 +41056,7 @@ if (!isEnabled) {
 # 📄 Agent4-QA-Observability.md
 
 > **File Path:** `gamification-new/archive/Agent4-QA-Observability.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 👤 Agent 4 — QA & Observability
 
@@ -40525,7 +41088,7 @@ if (!isEnabled) {
 # 📄 Agent5-Supervisor.md
 
 > **File Path:** `gamification-new/archive/Agent5-Supervisor.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 👤 Agent 5 — Supervisor
 
@@ -40560,7 +41123,7 @@ if (!isEnabled) {
 # 📄 CRITICAL-BUG-FIX-001.md
 
 > **File Path:** `gamification-new/archive/CRITICAL-BUG-FIX-001.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🚨 CRITICAL BUG FIX #001 - Achievement Timing Race Condition
 
@@ -40973,7 +41536,7 @@ Fixed by: Agent 5 (Supervisor)
 # 📄 IMPLEMENTATION-ROADMAP.md
 
 > **File Path:** `gamification-new/archive/IMPLEMENTATION-ROADMAP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🗺️ Gamification Implementation Roadmap
 
@@ -42095,7 +42658,7 @@ If issues detected:
 # 📄 LAUNCH-CHECKLIST.md
 
 > **File Path:** `gamification-new/archive/LAUNCH-CHECKLIST.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # ✅ Gamification Launch Checklist
 
@@ -42644,7 +43207,7 @@ Good luck team! 🍀
 # 📄 MOCK_TO_REAL_DATA_INTEGRATION_GUIDE.md
 
 > **File Path:** `gamification-new/archive/MOCK_TO_REAL_DATA_INTEGRATION_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Mock to Real Data Integration Guide
 
@@ -43381,7 +43944,7 @@ migrateAchievements()
 # 📄 QA-MATRIX.md
 
 > **File Path:** `gamification-new/archive/QA-MATRIX.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 📋 Gamification QA Matrix
 
@@ -43905,7 +44468,7 @@ This matrix tracks all deliverables across the 5-agent architecture. Each delive
 # 📄 SUPERVISOR-FINAL-APPROVAL.md
 
 > **File Path:** `gamification-new/archive/SUPERVISOR-FINAL-APPROVAL.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🏆 SUPERVISOR FINAL APPROVAL - Gamification System
 
@@ -44446,7 +45009,7 @@ The **Moshimoshi Gamification System** has been successfully implemented with **
 # 📄 UI-INTEGRATION-AUDIT.md
 
 > **File Path:** `gamification-new/archive/UI-INTEGRATION-AUDIT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # ✅ UI Integration Audit - Gamification System
 
@@ -44782,7 +45345,7 @@ All UI components are **correctly integrated** with the gamification system. The
 # 📄 CACHE_TROUBLESHOOTING_RESOLUTION.md
 
 > **File Path:** `grammar-explanation/CACHE_TROUBLESHOOTING_RESOLUTION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Grammar Explanation Cache - Troubleshooting Resolution
 
@@ -45234,7 +45797,7 @@ export const cleanupGrammarCache = functions.pubsub
 # 📄 GRAMMAR_EXPLANATION_TRIGGER.md
 
 > **File Path:** `grammar-explanation/GRAMMAR_EXPLANATION_TRIGGER.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # GrammarExplanationTrigger Component - Complete Integration Guide
 
@@ -47707,7 +48270,7 @@ export async function setCachedExplanation(
 # 📄 LOGGER_COMMANDS.md
 
 > **File Path:** `logger/LOGGER_COMMANDS.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 
 ● How to Enable Logs - Step by Step Guide
@@ -47798,7 +48361,7 @@ export async function setCachedExplanation(
 # 📄 LOGGER_USAGE_EXAMPLES.md
 
 > **File Path:** `logger/LOGGER_USAGE_EXAMPLES.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Logger Usage Examples
 
@@ -48003,7 +48566,7 @@ LOG_LEVEL=error      # Only log errors
 # 📄 LOGGING_BEST_PRACTICES.md
 
 > **File Path:** `logger/LOGGING_BEST_PRACTICES.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Modern Logging Best Practices for Web Applications
 
@@ -48326,7 +48889,7 @@ This approach makes your app professional, maintainable, and production-ready!
 # 📄 NOTIFICATION_SYSTEM.md
 
 > **File Path:** `notifications/NOTIFICATION_SYSTEM.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Notification System Documentation
 
@@ -48647,7 +49210,7 @@ For issues or questions:
 # 📄 PRODUCTION_DEPLOYMENT_RUNBOOK.md
 
 > **File Path:** `pre-production/PRODUCTION_DEPLOYMENT_RUNBOOK.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Production Deployment Runbook
 
@@ -48987,7 +49550,7 @@ kubectl exec -it -n production deployment/moshimoshi-blue -- /bin/sh
 # 📄 STRIPE_FIXES_2025.md
 
 > **File Path:** `pre-production/STRIPE_FIXES_2025.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Stripe Integration Fixes - January 2025
 
@@ -49202,7 +49765,7 @@ Author: Claude
 # 📄 STRIPE_PRODUCTION_CHECKLIST.md
 
 > **File Path:** `pre-production/STRIPE_PRODUCTION_CHECKLIST.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Stripe Production Checklist
 
@@ -49261,7 +49824,7 @@ Author: Claude
 # 📄 STRIPE_WEBHOOK_DEV_SETUP.md
 
 > **File Path:** `pre-production/STRIPE_WEBHOOK_DEV_SETUP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Stripe Webhook Development Setup Guide
 
@@ -49440,7 +50003,7 @@ Last Updated: September 14, 2025
 # 📄 PERMISSIONS_UX_PATTERNS.md
 
 > **File Path:** `pwa/PERMISSIONS_UX_PATTERNS.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # PWA Permissions UX Patterns - Moshimoshi
 
@@ -49744,7 +50307,7 @@ Author: Agent 2 - UX & Web APIs
 # 📄 PWA_CACHE_POLICY.md
 
 > **File Path:** `pwa/PWA_CACHE_POLICY.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # PWA Cache Policy - Moshimoshi
 
@@ -49945,7 +50508,7 @@ Version: 1.0.0
 # 📄 PWA_PRODUCTION_GUIDE.md
 
 > **File Path:** `pwa/PWA_PRODUCTION_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🚀 PWA Production Guide - Moshimoshi
 
@@ -50285,7 +50848,7 @@ localStorage.setItem('debug:sw', 'true')  # Enable SW logging
 # 📄 moshimoshi-agent1-foundation.md
 
 > **File Path:** `pwa/moshimoshi-agent1-foundation.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🧩 Agent 1 — PWA Foundation
 
@@ -50313,7 +50876,7 @@ localStorage.setItem('debug:sw', 'true')  # Enable SW logging
 # 📄 moshimoshi-agent2-ux-apis.md
 
 > **File Path:** `pwa/moshimoshi-agent2-ux-apis.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🧩 Agent 2 — UX & Web APIs
 
@@ -50341,7 +50904,7 @@ localStorage.setItem('debug:sw', 'true')  # Enable SW logging
 # 📄 moshimoshi-agent3-data-sync.md
 
 > **File Path:** `pwa/moshimoshi-agent3-data-sync.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🧩 Agent 3 — Data & Sync
 
@@ -50368,7 +50931,7 @@ localStorage.setItem('debug:sw', 'true')  # Enable SW logging
 # 📄 moshimoshi-pwa-mvp.md
 
 > **File Path:** `pwa/moshimoshi-pwa-mvp.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # moshimoshi — PWA MVP (Strict, Lean, Cutting‑Edge) 🥷
 
@@ -50838,7 +51401,7 @@ NEXT_PUBLIC_FEATURE_PERIODIC_SYNC=false
 # 📄 moshimoshi-shared-interfaces.md
 
 > **File Path:** `pwa/moshimoshi-shared-interfaces.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🤝 Shared Interfaces & Contracts — moshimoshi PWA
 
@@ -50994,7 +51557,7 @@ type PushToken = {
 # 📄 OAUTH_CONSENT_SCREEN_SETUP.md
 
 > **File Path:** `release/OAUTH_CONSENT_SCREEN_SETUP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # OAuth Consent Screen Setup Guide for Moshimoshi
 
@@ -51189,7 +51752,7 @@ For help: support@moshimoshi.app
 # 📄 PRODUCTION_DEPLOYMENT_RUNBOOK.md
 
 > **File Path:** `release/PRODUCTION_DEPLOYMENT_RUNBOOK.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Production Deployment Runbook
 
@@ -51529,7 +52092,7 @@ kubectl exec -it -n production deployment/moshimoshi-blue -- /bin/sh
 # 📄 QUICK_REFERENCE.md
 
 > **File Path:** `release/QUICK_REFERENCE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # ⚡ Quick Reference Guide
 
@@ -51689,7 +52252,7 @@ Check [DEVELOPMENT_LOG.md](root/DEVELOPMENT_LOG.md) for latest changes
 # 📄 STRIPE_PRODUCTION_CHECKLIST.md
 
 > **File Path:** `release/STRIPE_PRODUCTION_CHECKLIST.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Stripe Production Checklist
 
@@ -51748,7 +52311,7 @@ Check [DEVELOPMENT_LOG.md](root/DEVELOPMENT_LOG.md) for latest changes
 # 📄 STRIPE_WEBHOOK_DEV_SETUP.md
 
 > **File Path:** `release/STRIPE_WEBHOOK_DEV_SETUP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Stripe Webhook Development Setup Guide
 
@@ -51927,7 +52490,7 @@ Last Updated: September 14, 2025
 # 📄 deployment-runbook.md
 
 > **File Path:** `release/deployment-runbook.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Deployment Runbook - Moshimoshi v1.0.0
 
@@ -52257,7 +52820,7 @@ kubectl get events --sort-by='.lastTimestamp'
 # 📄 rollback-procedures.md
 
 > **File Path:** `release/rollback-procedures.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Rollback Procedures - Moshimoshi v1.0.0
 
@@ -52616,7 +53179,7 @@ To avoid future rollbacks:
 # 📄 support-documentation.md
 
 > **File Path:** `release/support-documentation.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Support Documentation - Moshimoshi v1.0.0
 
@@ -53023,7 +53586,7 @@ A: Yes, Settings → Data → Export Data (JSON format)
 # 📄 00-overview.md
 
 > **File Path:** `release/universal-review-engine/00-overview.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine - Overview
 
@@ -53217,7 +53780,7 @@ Each module should expose:
 # 📄 01-core-interfaces.md
 
 > **File Path:** `release/universal-review-engine/01-core-interfaces.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 1: Core Interfaces
 
@@ -53676,7 +54239,7 @@ describe('Core Interfaces', () => {
 # 📄 02-content-adapters.md
 
 > **File Path:** `release/universal-review-engine/02-content-adapters.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 2: Content Adapters
 
@@ -54329,7 +54892,7 @@ describe('KanaAdapter', () => {
 # 📄 03-session-management.md
 
 > **File Path:** `release/universal-review-engine/03-session-management.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 3: Session Management
 
@@ -55062,7 +55625,7 @@ describe('SessionManager', () => {
 # 📄 04-offline-sync.md
 
 > **File Path:** `release/universal-review-engine/04-offline-sync.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 4: Offline Sync System
 
@@ -55555,7 +56118,7 @@ describe('Offline Sync System', () => {
 # 📄 05-ui-components.md
 
 > **File Path:** `release/universal-review-engine/05-ui-components.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 5: UI Components
 
@@ -56051,7 +56614,7 @@ describe('ReviewEngine', () => {
 # 📄 06-validation-system.md
 
 > **File Path:** `release/universal-review-engine/06-validation-system.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 6: Validation System
 
@@ -56692,7 +57255,7 @@ describe('Validation System', () => {
 # 📄 07-progress-integration.md
 
 > **File Path:** `release/universal-review-engine/07-progress-integration.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 7: Progress Integration
 
@@ -57289,7 +57852,7 @@ describe('Progress Integration', () => {
 # 📄 08-api-integration.md
 
 > **File Path:** `release/universal-review-engine/08-api-integration.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 8: API Integration
 
@@ -58026,7 +58589,7 @@ See [API.md](./API.md) for complete endpoint documentation with request/response
 # 📄 NOTIFICATION_SYSTEM_MVP.md
 
 > **File Path:** `release/universal-review-engine/NOTIFICATION_SYSTEM_MVP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi Notification System MVP Specification
 ## Complete Implementation Plan for 4 Parallel Agents
@@ -60610,7 +61173,7 @@ This MVP specification provides a complete implementation plan for the Moshimosh
 # 📄 README.md
 
 > **File Path:** `release/universal-review-engine/README.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine Documentation
 
@@ -61417,7 +61980,7 @@ Copyright © 2024 Moshimoshi. All rights reserved.
 # 📄 REVIEW_DASHBOARD.md
 
 > **File Path:** `release/universal-review-engine/REVIEW_DASHBOARD.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Dashboard Documentation
 
@@ -61672,7 +62235,7 @@ curl http://localhost:3000/api/review/stats
 # 📄 REVIEW_ENGINE_DEEP_DIVE.md
 
 > **File Path:** `release/universal-review-engine/REVIEW_ENGINE_DEEP_DIVE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine - Complete Technical Deep Dive
 
@@ -62692,7 +63255,7 @@ This document represents the complete technical implementation of the Universal 
 # 📄 REVIEW_ENGINE_INTEGRATION_HANDBOOK.md
 
 > **File Path:** `release/universal-review-engine/REVIEW_ENGINE_INTEGRATION_HANDBOOK.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine Integration Handbook 🚀
 
@@ -63394,7 +63957,7 @@ Good luck with your implementation! 🚀
 # 📄 REVIEW_ENGINE_PRACTICAL_GUIDE.md
 
 > **File Path:** `release/universal-review-engine/REVIEW_ENGINE_PRACTICAL_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine - Practical Implementation Guide
 
@@ -64172,7 +64735,7 @@ This practical guide provides ready-to-use code snippets and solutions for commo
 # 📄 review-engine-a11y-audit.md
 
 > **File Path:** `release/universal-review-engine/accessibility/review-engine-a11y-audit.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Engine Accessibility Audit Framework
 
@@ -64694,7 +65257,7 @@ export const collectA11yMetrics = () => ({
 # 📄 cohesive-system-architecture.md
 
 > **File Path:** `release/universal-review-engine/cohesive-system-architecture.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Cohesive Review System Architecture
 
@@ -65124,7 +65687,7 @@ The reorganized approach creates a truly cohesive system where:
 # 📄 database-optimization-strategies.md
 
 > **File Path:** `release/universal-review-engine/database-optimization-strategies.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Database Optimization Strategies for Review Engine
 
@@ -65595,7 +66158,7 @@ const features = {
 # 📄 distractor-generation.md
 
 > **File Path:** `release/universal-review-engine/distractor-generation.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Distractor Generation System
 
@@ -66008,7 +66571,7 @@ The distractor generation system is a critical component of the Universal Review
 # 📄 multi-agent-milestones.md
 
 > **File Path:** `release/universal-review-engine/multi-agent-milestones.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Multi-Agent Implementation Milestones
 ## Universal Review Engine with Pin & Practice System
@@ -67316,7 +67879,7 @@ This document provides everything needed for 7 specialized agents to work in par
 # 📄 offline-sync-analysis.md
 
 > **File Path:** `release/universal-review-engine/offline-sync-analysis.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Offline Sync Complexity Analysis & Simplification Plan
 
@@ -67612,7 +68175,7 @@ The simplified approach better matches user behavior (single device at a time) w
 # 📄 review-engine-runbooks.md
 
 > **File Path:** `release/universal-review-engine/operations/review-engine-runbooks.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Engine Production Runbooks
 
@@ -68167,7 +68730,7 @@ REDIS_URL=redis://staging-redis.moshimoshi.app:6379
 # 📄 performance-baselines.md
 
 > **File Path:** `release/universal-review-engine/performance-baselines.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Engine Performance Baselines
 
@@ -68364,7 +68927,7 @@ npm run monitor:performance
 # 📄 support-documentation.md
 
 > **File Path:** `release/universal-review-engine/release/support-documentation.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Support Documentation - Moshimoshi v1.0.0
 
@@ -68771,7 +69334,7 @@ A: Yes, Settings → Data → Export Data (JSON format)
 # 📄 v1.0.0-release-notes.md
 
 > **File Path:** `release/universal-review-engine/release/v1.0.0-release-notes.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Release Notes - Moshimoshi v1.0.0
 
@@ -68918,7 +69481,7 @@ If issues are encountered, refer to the [Rollback Procedures](./rollback-procedu
 # 📄 review-system-merge-analysis.md
 
 > **File Path:** `release/universal-review-engine/review-system-merge-analysis.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review System Merge Analysis
 ## Combining Universal Content Adapters with Pin & Practice SRS
@@ -69278,7 +69841,7 @@ This allows you to test the core value proposition (spaced repetition with manua
 # 📄 review-engine-security-audit.md
 
 > **File Path:** `release/universal-review-engine/security/review-engine-security-audit.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Engine Security Audit
 
@@ -69580,7 +70143,7 @@ Scheduled for: 2025-10-10 (Monthly)
 # 📄 week2-security-fixes.md
 
 > **File Path:** `release/universal-review-engine/security/week2-security-fixes.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Week 2 Security Implementation Plan
 
@@ -70404,7 +70967,7 @@ describe('API Security Tests', () => {
 # 📄 knowledge-base-index.md
 
 > **File Path:** `release/universal-review-engine/support/knowledge-base-index.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi Knowledge Base
 
@@ -70547,7 +71110,7 @@ Can't find what you're looking for?
 # 📄 user-faq.md
 
 > **File Path:** `release/universal-review-engine/support/user-faq.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi - Frequently Asked Questions (FAQ)
 
@@ -70829,7 +71392,7 @@ Remember: consistent daily practice is key!
 # 📄 v1.0.0-release-notes.md
 
 > **File Path:** `release/v1.0.0-release-notes.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Release Notes - Moshimoshi v1.0.0
 
@@ -70976,7 +71539,7 @@ If issues are encountered, refer to the [Rollback Procedures](./rollback-procedu
 # 📄 post-launch-analysis.md
 
 > **File Path:** `reports/post-launch-analysis.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Post-Launch Analysis Report - Moshimoshi v1.0.0
 
@@ -71308,7 +71871,7 @@ The Moshimoshi v1.0.0 launch exceeded expectations across all key metrics. The p
 # 📄 DATA_RESOURCES.md
 
 > **File Path:** `root/DATA_RESOURCES.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Japanese Learning Data Resources
 
@@ -71578,7 +72141,7 @@ For data updates or corrections:
 # 📄 DEVELOPMENT_LOG.md
 
 > **File Path:** `root/DEVELOPMENT_LOG.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi Development Log
 
@@ -72090,7 +72653,7 @@ npm run type-check # TypeScript validation
 # 📄 ERROR_HANDLING.md
 
 > **File Path:** `root/ERROR_HANDLING.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Error Handling System
 
@@ -72239,7 +72802,7 @@ const errorMessageMap: Record<ErrorCode, UserMessage> = {
 # 📄 REVIEW_ENGINE_DEEP_DIVE.md
 
 > **File Path:** `root/REVIEW_ENGINE_DEEP_DIVE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine - Complete Technical Deep Dive
 
@@ -73259,7 +73822,7 @@ This document represents the complete technical implementation of the Universal 
 # 📄 REVIEW_ENGINE_INTEGRATION_HANDBOOK.md
 
 > **File Path:** `root/REVIEW_ENGINE_INTEGRATION_HANDBOOK.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine Integration Handbook 🚀
 
@@ -73961,7 +74524,7 @@ Good luck with your implementation! 🚀
 # 📄 REVIEW_ENGINE_PRACTICAL_GUIDE.md
 
 > **File Path:** `root/REVIEW_ENGINE_PRACTICAL_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine - Practical Implementation Guide
 
@@ -74739,7 +75302,7 @@ This practical guide provides ready-to-use code snippets and solutions for commo
 # 📄 STREAK_TESTING_GUIDE.md
 
 > **File Path:** `root/STREAK_TESTING_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Streak Testing Guide - Complete Step-by-Step Instructions
 
@@ -74917,7 +75480,7 @@ localStorage.removeItem('kana-progress-katakana-' + 'YOUR_USER_ID')
 # 📄 THEME_SYSTEM.md
 
 > **File Path:** `root/THEME_SYSTEM.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Theme System Documentation
 
@@ -75279,7 +75842,7 @@ getComputedStyle(document.documentElement)
 # 📄 UI_COMPONENTS.md
 
 > **File Path:** `root/UI_COMPONENTS.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # UI Components Documentation
 
@@ -76043,7 +76606,7 @@ Remember: All components are designed to work seamlessly with the Moshimoshi lea
 # 📄 1) Test Plan (Staging Firestore + Stripe Test Mode).md
 
 > **File Path:** `root/emmanuel/1) Test Plan (Staging Firestore + Stripe Test Mode).md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 1) Test Plan (Staging Firestore + Stripe Test Mode)
 
@@ -76164,7 +76727,7 @@ Copy it to `.env.local` (for client) and to your **Firebase Functions config** (
 # 📄 BACKUP_SYSTEM.md
 
 > **File Path:** `root/emmanuel/BACKUP_SYSTEM.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Firebase Backup & Disaster Recovery System
 
@@ -76640,7 +77203,7 @@ gcloud projects add-iam-policy-binding moshimoshi-de237 \
 # 📄 DoshiSensei — Final Readiness Checklist 🚀.md
 
 > **File Path:** `root/emmanuel/DoshiSensei — Final Readiness Checklist 🚀.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 🚀 — you now have:
 
@@ -76998,7 +77561,7 @@ After **entitlements + schema + review engine + Stripe**, the big pillars still 
 # 📄 DoshiSensei — Stripe Integration (Production-Grade, Zero-Surprises).md
 
 > **File Path:** `root/emmanuel/DoshiSensei — Stripe Integration (Production-Grade, Zero-Surprises).md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # DoshiSensei — Stripe Integration (Production-Grade, Zero-Surprises)
 
@@ -77932,7 +78495,7 @@ E2E tests pass in staging.
 # 📄 FEATURE_MIGRATION_PROMPT.md
 
 > **File Path:** `root/emmanuel/FEATURE_MIGRATION_PROMPT.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Feature Migration Prompt - Doshi Sensei to Target Project
 
@@ -78119,7 +78682,7 @@ Focus ONLY on extracting the pure feature. The target application will handle it
 # 📄 MEMO.md
 
 > **File Path:** `root/emmanuel/MEMO.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
   
   🎯 Commands
@@ -78144,7 +78707,7 @@ ESLINT been disabled temporarily
 # 📄 OAUTH_CONSENT_SCREEN_SETUP.md
 
 > **File Path:** `root/emmanuel/OAUTH_CONSENT_SCREEN_SETUP.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # OAuth Consent Screen Setup Guide for Moshimoshi
 
@@ -78339,7 +78902,7 @@ For help: support@moshimoshi.app
 # 📄 REVIEW_DASHBOARD.md
 
 > **File Path:** `root/emmanuel/REVIEW_DASHBOARD.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Dashboard Documentation
 
@@ -78565,7 +79128,7 @@ curl http://localhost:3000/api/review/stats
 # 📄 SEO_IMPROVEMENT_GUIDE.md
 
 > **File Path:** `root/emmanuel/SEO_IMPROVEMENT_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # SEO Improvement Guide for Moshimoshi
 
@@ -79290,7 +79853,7 @@ Focus on providing genuine value to Japanese learners, and search rankings will 
 # 📄 doshi-entitlements-v2-master-hiragana-katakana.md
 
 > **File Path:** `root/emmanuel/doshi-entitlements-v2-master-hiragana-katakana.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # DoshiSensei — Entitlements & Subscriptions (v2) — **Master Spec**
 **Version:** 2025-09-11  
@@ -79563,7 +80126,7 @@ if (await checkAndTrack({ showUI: true })) {
 # 📄 incident-response-playbook.md
 
 > **File Path:** `root/emmanuel/incident-response-playbook.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Incident Response Playbook
 
@@ -79999,7 +80562,7 @@ Remember: In an incident, speed matters but accuracy matters more. Take a breath
 # 📄 streak-system-guide.md
 
 > **File Path:** `root/my_temp_commands/streak-system-guide.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # 🔥 Streak System Implementation Guide
 
@@ -80245,7 +80808,7 @@ When verifying this feature, an AI agent should:
 # 📄 PREFERENCES_STORAGE_IMPLEMENTATION.md
 
 > **File Path:** `storage/PREFERENCES_STORAGE_IMPLEMENTATION.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Preferences Storage Implementation Guide
 
@@ -81038,7 +81601,7 @@ await preferencesManager.applyTemplate('beginner-friendly');
 # 📄 UNIFIED_STORAGE_ARCHITECTURE.md
 
 > **File Path:** `storage/UNIFIED_STORAGE_ARCHITECTURE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Unified Storage Architecture
 
@@ -82358,7 +82921,7 @@ _Version: 2.0.0 - Complete 4-Tier Architecture (Redis + IndexedDB + Firebase + M
 # 📄 FAQ.md
 
 > **File Path:** `support/FAQ.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi - Frequently Asked Questions (FAQ)
 
@@ -82640,7 +83203,7 @@ Remember: consistent daily practice is key!
 # 📄 index.md
 
 > **File Path:** `support/knowledge-base/index.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi Knowledge Base
 
@@ -82783,7 +83346,7 @@ Can't find what you're looking for?
 # 📄 support-team-guide.md
 
 > **File Path:** `support/training/support-team-guide.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Support Team Training Guide - Moshimoshi Launch
 
@@ -83083,7 +83646,7 @@ After your shift:
 # 📄 COMPONETS_LIST.md
 
 > **File Path:** `time-machine/COMPONETS_LIST.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Time Machine Components List
 
@@ -83199,7 +83762,7 @@ Last Updated: 2025-01-19
 # 📄 PRODUCTION_ROLLBACK.md
 
 > **File Path:** `time-machine/PRODUCTION_ROLLBACK.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Production Rollback Guide
 
@@ -83478,7 +84041,7 @@ Version: 1.0.0
 # 📄 TIME_MACHINE_GUIDE.md
 
 > **File Path:** `time-machine/TIME_MACHINE_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Time Machine Testing Tool
 
@@ -83824,7 +84387,7 @@ Version: 1.0.0
 # 📄 TTS_API_REFERENCE.md
 
 > **File Path:** `tts/TTS_API_REFERENCE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # TTS API Reference
 
@@ -84326,7 +84889,7 @@ TTS_DEBUG=false                   # Enable debug logging
 # 📄 TTS_ARCHITECTURE.md
 
 > **File Path:** `tts/TTS_ARCHITECTURE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # TTS (Text-to-Speech) System Architecture
 
@@ -84633,7 +85196,7 @@ Response: {
 # 📄 TTS_IMPLEMENTATION_GUIDE.md
 
 > **File Path:** `tts/TTS_IMPLEMENTATION_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # TTS Implementation Guide
 
@@ -85091,7 +85654,7 @@ function Flashcard({ front, back }) {
 # 📄 00-overview.md
 
 > **File Path:** `universal-review-engine/00-overview.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine - Overview
 
@@ -85285,7 +85848,7 @@ Each module should expose:
 # 📄 01-core-interfaces.md
 
 > **File Path:** `universal-review-engine/01-core-interfaces.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 1: Core Interfaces
 
@@ -85744,7 +86307,7 @@ describe('Core Interfaces', () => {
 # 📄 02-content-adapters.md
 
 > **File Path:** `universal-review-engine/02-content-adapters.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 2: Content Adapters
 
@@ -86397,7 +86960,7 @@ describe('KanaAdapter', () => {
 # 📄 03-session-management.md
 
 > **File Path:** `universal-review-engine/03-session-management.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 3: Session Management
 
@@ -87130,7 +87693,7 @@ describe('SessionManager', () => {
 # 📄 04-offline-sync.md
 
 > **File Path:** `universal-review-engine/04-offline-sync.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 4: Offline Sync System
 
@@ -87623,7 +88186,7 @@ describe('Offline Sync System', () => {
 # 📄 05-ui-components.md
 
 > **File Path:** `universal-review-engine/05-ui-components.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 5: UI Components
 
@@ -88119,7 +88682,7 @@ describe('ReviewEngine', () => {
 # 📄 06-validation-system.md
 
 > **File Path:** `universal-review-engine/06-validation-system.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 6: Validation System
 
@@ -88760,7 +89323,7 @@ describe('Validation System', () => {
 # 📄 07-progress-integration.md
 
 > **File Path:** `universal-review-engine/07-progress-integration.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 7: Progress Integration
 
@@ -89357,7 +89920,7 @@ describe('Progress Integration', () => {
 # 📄 08-api-integration.md
 
 > **File Path:** `universal-review-engine/08-api-integration.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Module 8: API Integration
 
@@ -90094,7 +90657,7 @@ See [API.md](./API.md) for complete endpoint documentation with request/response
 # 📄 README.md
 
 > **File Path:** `universal-review-engine/README.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Universal Review Engine Documentation
 
@@ -90901,7 +91464,7 @@ Copyright © 2024 Moshimoshi. All rights reserved.
 # 📄 review-engine-a11y-audit.md
 
 > **File Path:** `universal-review-engine/accessibility/review-engine-a11y-audit.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Engine Accessibility Audit Framework
 
@@ -91423,7 +91986,7 @@ export const collectA11yMetrics = () => ({
 # 📄 cohesive-system-architecture.md
 
 > **File Path:** `universal-review-engine/cohesive-system-architecture.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Cohesive Review System Architecture
 
@@ -91853,7 +92416,7 @@ The reorganized approach creates a truly cohesive system where:
 # 📄 database-optimization-strategies.md
 
 > **File Path:** `universal-review-engine/database-optimization-strategies.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Database Optimization Strategies for Review Engine
 
@@ -92324,7 +92887,7 @@ const features = {
 # 📄 multi-agent-milestones.md
 
 > **File Path:** `universal-review-engine/multi-agent-milestones.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Multi-Agent Implementation Milestones
 ## Universal Review Engine with Pin & Practice System
@@ -93632,7 +94195,7 @@ This document provides everything needed for 7 specialized agents to work in par
 # 📄 offline-sync-analysis.md
 
 > **File Path:** `universal-review-engine/offline-sync-analysis.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Offline Sync Complexity Analysis & Simplification Plan
 
@@ -93928,7 +94491,7 @@ The simplified approach better matches user behavior (single device at a time) w
 # 📄 review-engine-runbooks.md
 
 > **File Path:** `universal-review-engine/operations/review-engine-runbooks.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Engine Production Runbooks
 
@@ -94483,7 +95046,7 @@ REDIS_URL=redis://staging-redis.moshimoshi.app:6379
 # 📄 performance-baselines.md
 
 > **File Path:** `universal-review-engine/performance-baselines.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Engine Performance Baselines
 
@@ -94680,7 +95243,7 @@ npm run monitor:performance
 # 📄 support-documentation.md
 
 > **File Path:** `universal-review-engine/release/support-documentation.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Support Documentation - Moshimoshi v1.0.0
 
@@ -95087,7 +95650,7 @@ A: Yes, Settings → Data → Export Data (JSON format)
 # 📄 v1.0.0-release-notes.md
 
 > **File Path:** `universal-review-engine/release/v1.0.0-release-notes.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Release Notes - Moshimoshi v1.0.0
 
@@ -95234,7 +95797,7 @@ If issues are encountered, refer to the [Rollback Procedures](./rollback-procedu
 # 📄 review-system-merge-analysis.md
 
 > **File Path:** `universal-review-engine/review-system-merge-analysis.md`
-> **Last Synced:** 2025-10-31T11:43:37.231Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review System Merge Analysis
 ## Combining Universal Content Adapters with Pin & Practice SRS
@@ -95594,7 +96157,7 @@ This allows you to test the core value proposition (spaced repetition with manua
 # 📄 review-engine-security-audit.md
 
 > **File Path:** `universal-review-engine/security/review-engine-security-audit.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Review Engine Security Audit
 
@@ -95896,7 +96459,7 @@ Scheduled for: 2025-10-10 (Monthly)
 # 📄 week2-security-fixes.md
 
 > **File Path:** `universal-review-engine/security/week2-security-fixes.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Week 2 Security Implementation Plan
 
@@ -96720,7 +97283,7 @@ describe('API Security Tests', () => {
 # 📄 knowledge-base-index.md
 
 > **File Path:** `universal-review-engine/support/knowledge-base-index.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi Knowledge Base
 
@@ -96863,7 +97426,7 @@ Can't find what you're looking for?
 # 📄 user-faq.md
 
 > **File Path:** `universal-review-engine/support/user-faq.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Moshimoshi - Frequently Asked Questions (FAQ)
 
@@ -97145,7 +97708,7 @@ Remember: consistent daily practice is key!
 # 📄 API_REFERENCE.md
 
 > **File Path:** `user-stats-migration/API_REFERENCE.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # User Stats API Reference
 
@@ -97403,7 +97966,7 @@ interface UserStats {
 # 📄 ARCHITECTURE.md
 
 > **File Path:** `user-stats-migration/ARCHITECTURE.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # User Stats System Architecture
 
@@ -97663,7 +98226,7 @@ Old Collections              →  Unified Collection
 # 📄 DOCUMENT_ASSESSMENT.md
 
 > **File Path:** `user-stats-migration/DOCUMENT_ASSESSMENT.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Assessment of Existing Documentation
 
@@ -97808,7 +98371,7 @@ const response = await fetch(`${baseUrl}/api/stats/unified`, {
 # 📄 MIGRATION_GUIDE.md
 
 > **File Path:** `user-stats-migration/MIGRATION_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # User Stats Migration Guide
 
@@ -98030,7 +98593,7 @@ For migration support, check logs in Firebase Console or contact the development
 # 📄 MIGRATION_SUMMARY.md
 
 > **File Path:** `user-stats-migration/MIGRATION_SUMMARY.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Unified Stats Migration - Summary
 
@@ -98160,7 +98723,7 @@ The migration ensures that streak tracking and all statistics are now reliable w
 # 📄 README.md
 
 > **File Path:** `user-stats-migration/README.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # User Stats Migration Documentation
 
@@ -98228,7 +98791,7 @@ For issues or questions about the unified stats system, check the detailed docum
 # 📄 INTEGRATION_EXAMPLE.md
 
 > **File Path:** `word-explanation/INTEGRATION_EXAMPLE.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Word Explanation Integration Example
 
@@ -98580,7 +99143,7 @@ Check browser console for:
 # 📄 README.md
 
 > **File Path:** `word-explanation/README.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Word Explanation Feature
 
@@ -98829,7 +99392,7 @@ For questions or issues:
 # 📄 TESTING_GUIDE.md
 
 > **File Path:** `word-explanation/TESTING_GUIDE.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Word Explanation Feature - Testing Guide
 
@@ -99340,7 +99903,7 @@ const testWords = {
 # 📄 WORD_EXPLANATION_FEATURE.md
 
 > **File Path:** `word-explanation/WORD_EXPLANATION_FEATURE.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Word Explanation Feature - Complete Documentation
 
@@ -100035,7 +100598,7 @@ npm run dev
 # 📄 IMPLEMENTATION_SUMMARY.md
 
 > **File Path:** `youtube-quota-system/IMPLEMENTATION_SUMMARY.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # YouTube Quota System - Implementation Summary
 
@@ -100311,7 +100874,7 @@ The quota system now prevents abuse while encouraging consistent practice!
 # 📄 README.md
 
 > **File Path:** `youtube-quota-system/README.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # YouTube Quota System
 
@@ -100568,7 +101131,7 @@ For issues or questions:
 # 📄 TESTING.md
 
 > **File Path:** `youtube-quota-system/TESTING.md`
-> **Last Synced:** 2025-10-31T11:43:37.232Z
+> **Last Synced:** 2025-10-31T16:06:28.964Z
 
 # Quota System Testing Guide
 
@@ -100834,7 +101397,7 @@ The quota system now follows industry standards and prevents quota bypass!
 
 ---
 
-*Generated by docs-aggregator.js at 2025-10-31T11:43:37.232Z*
+*Generated by docs-aggregator.js at 2025-10-31T16:06:28.964Z*
 *Source: ./docs*
 
 
@@ -100842,17 +101405,13 @@ The quota system now follows industry standards and prevents quota bypass!
 
 # 📋 Change Summary
 
-**Sync Time:** 2025-10-31T11:43:37.240Z
+**Sync Time:** 2025-10-31T16:06:28.972Z
 
-## ➕ Added Files (1)
-- STREAK_MIGRATION_IMPLEMENTATION_2025-10-30.md
-
-## 📝 Modified Files (3)
-- STREAK_MIGRATION_GUIDE_2025-10-30.md
-- STREAK_SYSTEM_COMPREHENSIVE_ANALYSIS_2025-10-30.md
-- STREAK_SYSTEM_INDEX_2025-10-30.md
+## ➕ Added Files (2)
+- FIREBASE_COLLECTIONS_API_MAPPING.md
+- deprecations/2025-10-31-streak_validations-removed.md
 
 ## 📊 Statistics
-- Total files: 216
-- Unchanged files: 212
-- Total changes: 4
+- Total files: 218
+- Unchanged files: 216
+- Total changes: 2

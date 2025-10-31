@@ -578,21 +578,25 @@ export async function applyMergedStatsTransaction(
 
       // CRITICAL: Streak merge uses max strategy to prevent data loss
       // This maintains the invariant: best >= current
-      const incomingCurrent = incoming.streak?.current ?? 0;
-      const incomingBest = incoming.streak?.best ?? 0;
-      const existingCurrent = existingData.currentStreak ?? existingData.streak?.current ?? 0;
-      const existingBest = existingData.bestStreak ?? existingData.streak?.best ?? 0;
+      // NOTE: If streak is not provided, preserve existing values (don't overwrite!)
+      if (incoming.streak !== undefined) {
+        const incomingCurrent = incoming.streak?.current ?? 0;
+        const incomingBest = incoming.streak?.best ?? 0;
+        const existingCurrent = existingData.currentStreak ?? existingData.streak?.current ?? 0;
+        const existingBest = existingData.bestStreak ?? existingData.streak?.best ?? 0;
 
-      const newCurrent = Math.max(incomingCurrent, existingCurrent);
-      const newBest = Math.max(incomingBest, existingBest, newCurrent);
+        const newCurrent = Math.max(incomingCurrent, existingCurrent);
+        const newBest = Math.max(incomingBest, existingBest, newCurrent);
 
-      // Write to BOTH legacy flat format AND new nested format for compatibility
-      merged.currentStreak = newCurrent;
-      merged.bestStreak = newBest;
-      merged.streak = {
-        current: newCurrent,
-        best: newBest
-      };
+        // Write to BOTH legacy flat format AND new nested format for compatibility
+        merged.currentStreak = newCurrent;
+        merged.bestStreak = newBest;
+        merged.streak = {
+          current: newCurrent,
+          best: newBest
+        };
+      }
+      // else: preserve existing streak values (don't touch them)
 
       // Dates merge
       if (incoming.dates) {
