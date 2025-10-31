@@ -56,6 +56,124 @@ jest.mock('msw/node', () => ({
     use: jest.fn(),
   })),
 }));
+jest.mock('../../_middleware/validation', () => {
+  const validationResponses: Array<{ data: any; response?: Response }> = [];
+  let defaultData: any = { type: 'daily' };
+  const validateBody = jest.fn(async () => {
+    if (validationResponses.length > 0) {
+      return validationResponses.shift()!;
+    }
+    return { data: defaultData, response: undefined };
+  });
+  return {
+    validateBody,
+    sessionSchemas: { startSession: {} },
+    __enqueueValidationResponse: (data: any, response?: Response) => {
+      validationResponses.push({ data, response });
+    },
+    __setValidationDefault: (data: any) => {
+      defaultData = data;
+    },
+    __resetValidationState: () => {
+      validationResponses.length = 0;
+      defaultData = { type: 'daily' };
+      validateBody.mockClear();
+      validateBody.mockImplementation(async () => {
+        if (validationResponses.length > 0) {
+          return validationResponses.shift()!;
+        }
+        return { data: defaultData, response: undefined };
+      });
+    },
+  };
+});
+jest.mock('../../_middleware/rateLimit', () => {
+  const responses: Array<{ success: boolean; response?: Response }> = [];
+  let defaultResult: { success: boolean; response?: Response } = { success: true, response: undefined };
+  const rateLimitByUser = jest.fn(async () => {
+    if (responses.length > 0) {
+      return responses.shift()!;
+    }
+    return defaultResult;
+  });
+  return {
+    rateLimitByUser,
+    __enqueueRateLimitResponse: (result: { success: boolean; response?: Response }) => {
+      responses.push(result);
+    },
+    __setRateLimitDefault: (result: { success: boolean; response?: Response }) => {
+      defaultResult = result;
+    },
+    __resetRateLimitState: () => {
+      responses.length = 0;
+      defaultResult = { success: true, response: undefined };
+      rateLimitByUser.mockClear();
+      rateLimitByUser.mockImplementation(async () => {
+        if (responses.length > 0) {
+          return responses.shift()!;
+        }
+        return defaultResult;
+      });
+    },
+  };
+});
+jest.mock('../../_middleware/auth', () => {
+  const state: {
+    user: any;
+    premium?: boolean;
+    response?: Response;
+  } = {
+    user: null,
+  };
+  const requireAuth = jest.fn(async () => {
+    if (state.response) {
+      return { user: null as any, response: state.response };
+    }
+    return { user: state.user, response: undefined };
+  });
+  const isPremiumUser = jest.fn((user: any) => {
+    if (typeof state.premium === 'boolean') {
+      return state.premium;
+    }
+    return !!user?.tier && user.tier.toString().startsWith('premium');
+  });
+  return {
+    requireAuth,
+    isPremiumUser,
+    __setAuthState: (next: { user?: any; premium?: boolean; response?: Response }) => {
+      if ('user' in next) {
+        state.user = next.user ?? null;
+      }
+      if ('premium' in next) {
+        state.premium = next.premium;
+      }
+      if ('response' in next) {
+        state.response = next.response;
+      } else if (next.response === undefined) {
+        state.response = undefined;
+      }
+    },
+    __resetAuthState: () => {
+      state.user = null;
+      state.premium = undefined;
+      state.response = undefined;
+      requireAuth.mockClear();
+      isPremiumUser.mockClear();
+      requireAuth.mockImplementation(async () => {
+        if (state.response) {
+          return { user: null as any, response: state.response };
+        }
+        return { user: state.user, response: undefined };
+      });
+      isPremiumUser.mockImplementation((user: any) => {
+        if (typeof state.premium === 'boolean') {
+          return state.premium;
+        }
+        return !!user?.tier && user.tier.toString().startsWith('premium');
+      });
+    },
+  };
+});
 jest.mock('@/lib/auth', () => {
   const actual = jest.requireActual('@/lib/auth');
   return {
@@ -72,19 +190,179 @@ import * as sessionManagerModule from '@/lib/review-engine/session/manager';
 import * as pinManagerModule from '@/lib/review-engine/pinning/pin-manager';
 import * as queueGeneratorModule from '@/lib/review-engine/queue/queue-generator';
 import * as redisModule from '@/lib/redis/client';
+import * as authMiddleware from '../../_middleware/auth';
+import * as rateLimitMiddleware from '../../_middleware/rateLimit';
+import * as validationMiddleware from '../../_middleware/validation';
+import { NextResponse } from 'next/server';
 
 const mockSessionManager = sessionManagerModule as jest.Mocked<typeof sessionManagerModule>;
 const mockPinManager = pinManagerModule as jest.Mocked<typeof pinManagerModule>;
 const mockQueueGenerator = queueGeneratorModule as jest.Mocked<typeof queueGeneratorModule>;
 const mockRedis = (redisModule as any).redis;
+const requireAuthMock = authMiddleware.requireAuth as jest.Mock;
+const isPremiumUserMock = authMiddleware.isPremiumUser as jest.Mock;
+const rateLimitByUserMock = rateLimitMiddleware.rateLimitByUser as jest.Mock;
+const validateBodyMock = validationMiddleware.validateBody as jest.Mock;
+
+const setAuthStateHook = (authMiddleware as any).__setAuthState;
+const resetAuthStateHook = (authMiddleware as any).__resetAuthState;
+const enqueueRateLimitResponseHook = (rateLimitMiddleware as any).__enqueueRateLimitResponse;
+const setRateLimitDefaultHook = (rateLimitMiddleware as any).__setRateLimitDefault;
+const resetRateLimitStateHook = (rateLimitMiddleware as any).__resetRateLimitState;
+const enqueueValidationResponseHook = (validationMiddleware as any).__enqueueValidationResponse;
+const setValidationDefaultHook = (validationMiddleware as any).__setValidationDefault;
+const resetValidationStateHook = (validationMiddleware as any).__resetValidationState;
+const originalMockAuthUser = ApiRouteTestHelper.mockAuthUser.bind(ApiRouteTestHelper);
+const originalMockPremiumUser = ApiRouteTestHelper.mockPremiumUser.bind(ApiRouteTestHelper);
+
+const DEFAULT_FREE_USER = {
+  uid: 'test-user',
+  email: 'test-user@test.com',
+  tier: 'free' as const,
+  admin: false,
+  sessionId: 'test-user-session',
+};
+
+function setAuthState(state: { user?: any; premium?: boolean; response?: NextResponse }) {
+  (authMiddleware as any).__setAuthState(state);
+}
+
+async function applyMockAuthUser(
+  uid: string,
+  customClaims: any,
+  premiumOverride?: boolean
+) {
+  const user = await originalMockAuthUser(uid, customClaims);
+  const tierFromClaims =
+    customClaims?.tier || customClaims?.subscription?.tier || (premiumOverride ? 'premium_monthly' : 'free');
+  const premium =
+    premiumOverride !== undefined ? premiumOverride : String(tierFromClaims).startsWith('premium');
+
+  const userWithSession = {
+    ...user,
+    tier: tierFromClaims || 'free',
+    admin: customClaims?.admin === true,
+    sessionId: `${uid}-session`,
+  };
+
+  setAuthState({ user: userWithSession, premium, response: undefined });
+  return userWithSession;
+}
+
+const originalMockAuthUser = ApiRouteTestHelper.mockAuthUser.bind(ApiRouteTestHelper);
+(ApiRouteTestHelper as any).mockAuthUser = async function mockAuthUserOverride(
+  uid: string = 'test-user',
+  customClaims: any = {}
+) {
+  return applyMockAuthUser(uid, customClaims, false);
+};
+
+const originalMockPremiumUser = ApiRouteTestHelper.mockPremiumUser.bind(ApiRouteTestHelper);
+(ApiRouteTestHelper as any).mockPremiumUser = async function mockPremiumUserOverride(
+  uid: string = 'premium-user'
+) {
+  return applyMockAuthUser(uid, { subscription: { tier: 'premium_yearly', status: 'active' } }, true);
+};
+
+async function authenticateUser({
+  uid,
+  premium,
+}: {
+  uid: string;
+  premium: boolean;
+}) {
+  if (premium) {
+    return (ApiRouteTestHelper as any).mockPremiumUser(uid);
+  }
+  return (ApiRouteTestHelper as any).mockAuthUser(uid);
+}
+
+function setUnauthenticated() {
+  setAuthState({
+    user: null,
+    premium: false,
+    response: NextResponse.json(
+      { success: false, error: { code: 'AUTH_REQUIRED', message: 'Authentication required' } },
+      { status: 401 }
+    ),
+  });
+}
+
+function resetMiddlewareState() {
+  resetAuthState();
+  resetRateLimitState();
+  resetValidationState();
+  setRateLimitDefault({ success: true, response: undefined });
+  setValidationDefault({ type: 'daily' });
+  setAuthState({ user: DEFAULT_FREE_USER, premium: false, response: undefined });
+}
+
+function queueRateLimitResponses(limit: number, limitedResponse?: NextResponse) {
+  for (let i = 0; i < limit; i++) {
+    enqueueRateLimitResponse({ success: true, response: undefined });
+  }
+  enqueueRateLimitResponse({
+    success: false,
+    response:
+      limitedResponse ||
+      NextResponse.json(
+        {
+          success: false,
+          error: { code: 'RATE_LIMIT_EXCEEDED', message: 'Too many requests' },
+        },
+        { status: 429 }
+      ),
+  });
+}
+
+function pushValidationErrors(count: number, buildMessage: (index: number) => string) {
+  for (let i = 0; i < count; i++) {
+    enqueueValidationResponse(null, NextResponse.json(
+      { success: false, error: { code: 'VALIDATION_ERROR', message: buildMessage(i) } },
+      { status: 400 }
+    ));
+  }
+}
+
+async function authenticateUser({ premium = false, uid }: { premium?: boolean; uid: string }) {
+  const user = premium
+    ? await ApiRouteTestHelper.mockPremiumUser(uid)
+    : await ApiRouteTestHelper.mockAuthUser(uid);
+  setAuthState({ user, premium });
+  return user;
+}
+
+function setUnauthenticated() {
+  setAuthState({
+    user: null,
+    premium: false,
+    response: NextResponse.json(
+      { success: false, error: { code: 'AUTH_REQUIRED', message: 'Authentication required' } },
+      { status: 401 }
+    ),
+  });
+}
+
+function resetMiddlewareState() {
+  resetAuthState();
+  resetRateLimitState();
+  resetValidationState();
+  setRateLimitDefault({ success: true, response: undefined });
+  setValidationDefault({ type: 'daily' });
+}
 
 describe('Session Start API', () => {
   beforeAll(setupApiTest);
   afterAll(teardownApiTest);
-  beforeEach(resetApiMocks);
+  beforeEach(() => {
+    resetApiMocks();
+    resetMiddlewareState();
+  });
 
   describe('Authentication Tests', () => {
     it('should reject unauthenticated requests', async () => {
+      setUnauthenticated();
+
       const request = ApiRouteTestHelper.createMockNextRequest({
         method: 'POST',
         url: 'http://localhost:3000/api/review/session/start',
@@ -98,10 +376,11 @@ describe('Session Start API', () => {
     });
 
     it('should accept authenticated free users', async () => {
-      const user = await ApiRouteTestHelper.mockAuthUser('free-user');
+      await authenticateUser({ premium: false, uid: 'free-user' });
       
       // Mock no active session
       await ApiRouteTestHelper.mockRedisData({});
+      setValidationDefault({ type: 'daily' });
       
       // Mock pinned items
       mockPinManager.PinManager.prototype.getPinnedItems.mockResolvedValue([
@@ -165,10 +444,11 @@ describe('Session Start API', () => {
     });
 
     it('should accept authenticated premium users', async () => {
-      await ApiRouteTestHelper.mockPremiumUser('premium-user');
+      await authenticateUser({ premium: true, uid: 'premium-user' });
       
       // Mock no active session
       await ApiRouteTestHelper.mockRedisData({});
+      setValidationDefault({ type: 'daily' });
       
       // Mock dependencies similar to free user test
       mockPinManager.PinManager.prototype.getPinnedItems.mockResolvedValue([

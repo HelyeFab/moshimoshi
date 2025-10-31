@@ -9,9 +9,10 @@
  * - Store timestamps as ISO 8601 strings for datetime values
  * - Never use JavaScript Date objects in state or storage
  * - Always convert to/from Firestore Timestamp at boundaries
+ *
+ * Note: This file is safe for both client and server code.
+ * Firestore Timestamp handling is done via type-only imports.
  */
-
-import { Timestamp } from 'firebase-admin/firestore'
 
 /**
  * ISO date string in format: yyyy-mm-dd
@@ -26,9 +27,13 @@ export type ISODateString = string
 export type ISODateTimeString = string
 
 /**
- * Firestore timestamp type
+ * Firestore timestamp type (generic interface)
+ * Can be from firebase-admin or firebase client SDK
  */
-export type FirestoreTimestamp = Timestamp
+export interface FirestoreTimestamp {
+  toDate(): Date
+  toMillis(): number
+}
 
 /**
  * Date serialization utilities
@@ -39,10 +44,11 @@ export const DateSerializer = {
    * Convert Date or Timestamp to ISO date string (yyyy-mm-dd)
    * Used for: lastActivityDate, date-based comparisons
    */
-  toISODate: (date: Date | Timestamp | null): ISODateString | null => {
+  toISODate: (date: Date | FirestoreTimestamp | null): ISODateString | null => {
     if (!date) return null
 
-    const jsDate = date instanceof Timestamp ? date.toDate() : date
+    // Check if it's a Firestore Timestamp (has toDate method)
+    const jsDate = date instanceof Date ? date : (date as FirestoreTimestamp).toDate()
     return jsDate.toISOString().split('T')[0]
   },
 
@@ -76,19 +82,10 @@ export const DateSerializer = {
   },
 
   /**
-   * Convert Date to Firestore Timestamp
-   * Used for: writing to Firestore
-   */
-  toTimestamp: (date: Date | null): Timestamp | null => {
-    if (!date) return null
-    return Timestamp.fromDate(date)
-  },
-
-  /**
    * Convert Firestore Timestamp to JavaScript Date
    * Used for: reading from Firestore
    */
-  fromTimestamp: (ts: Timestamp | null): Date | null => {
+  fromTimestamp: (ts: FirestoreTimestamp | null): Date | null => {
     if (!ts) return null
     return ts.toDate()
   },
