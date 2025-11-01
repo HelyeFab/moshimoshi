@@ -140,14 +140,6 @@ export async function POST(request: NextRequest) {
 
     reviewLogger.info(`[API] Saved search "${entry.term}" for user ${session.uid}`)
 
-    // Also update user's last activity
-    await adminDb
-      .collection('users')
-      .doc(session.uid)
-      .update({
-        'lastActivity.vocabularySearch': FieldValue.serverTimestamp()
-      })
-
     return NextResponse.json({
       success: true,
       id: docRef.id,

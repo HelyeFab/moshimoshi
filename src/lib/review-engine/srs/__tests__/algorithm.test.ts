@@ -81,7 +81,6 @@ describe('SRSAlgorithm', () => {
     it('should cap interval at maximum', () => {
       const result: ReviewResult = {
         correct: true,
-        responseTime: 2000,
         confidence: 5
       }
       
@@ -107,8 +106,9 @@ describe('SRSAlgorithm', () => {
   describe('Ease Factor Adjustments', () => {
     it('should adjust ease factor based on quality', () => {
       // Quality 5 (perfect) should increase ease factor
-      let newEF = algorithm.calculateEaseFactor(2.5, 5)
-      expect(newEF).toBeGreaterThan(2.5)
+      let newEF = algorithm.calculateEaseFactor(2.3, 5)
+      expect(newEF).toBeGreaterThan(2.3)
+      expect(newEF).toBeLessThanOrEqual(DEFAULT_SRS_CONFIG.maxEaseFactor)
       
       // Quality 3 (okay) should slightly decrease ease factor
       newEF = algorithm.calculateEaseFactor(2.5, 3)

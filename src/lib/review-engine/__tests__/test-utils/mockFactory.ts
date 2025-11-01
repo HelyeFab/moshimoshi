@@ -442,22 +442,20 @@ export class MockFactory {
   }
 }
 
-// Export individual creation functions for convenience
-export const {
-  createReviewableContent,
-  createBulkContent,
-  createReviewSession,
-  createReviewSessionItem,
-  createSessionStatistics,
-  createSRSData,
-  createValidationResult,
-  createReviewEvent,
-  createProgressUpdate,
-  createAchievement,
-  createPinOptions,
-  createContentTypeConfig,
-  createReviewModeConfig,
-  createTestScenario,
-  createApiResponse,
-  createUser
-} = MockFactory;
+// Export individual creation functions bound to the factory context
+export const createReviewableContent = MockFactory.createReviewableContent.bind(MockFactory);
+export const createBulkContent = MockFactory.createBulkContent.bind(MockFactory);
+export const createReviewSession = MockFactory.createReviewSession.bind(MockFactory);
+export const createReviewSessionItem = MockFactory.createReviewSessionItem.bind(MockFactory);
+export const createSessionStatistics = MockFactory.createSessionStatistics.bind(MockFactory);
+export const createSRSData = MockFactory.createSRSData.bind(MockFactory);
+export const createValidationResult = MockFactory.createValidationResult.bind(MockFactory);
+export const createReviewEvent = MockFactory.createReviewEvent.bind(MockFactory);
+export const createProgressUpdate = MockFactory.createProgressUpdate.bind(MockFactory);
+export const createAchievement = MockFactory.createAchievement.bind(MockFactory);
+export const createPinOptions = MockFactory.createPinOptions.bind(MockFactory);
+export const createContentTypeConfig = MockFactory.createContentTypeConfig.bind(MockFactory);
+export const createReviewModeConfig = MockFactory.createReviewModeConfig.bind(MockFactory);
+export const createTestScenario = MockFactory.createTestScenario.bind(MockFactory);
+export const createApiResponse = MockFactory.createApiResponse.bind(MockFactory);
+export const createUser = MockFactory.createUser.bind(MockFactory);

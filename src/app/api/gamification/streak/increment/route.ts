@@ -5,8 +5,6 @@
  *
  * Uses Firebase transactions to increment streak atomically.
  * Implements version-based conflict detection.
- *
- * Feature flag: NEXT_PUBLIC_STREAK_FIREBASE_FIRST
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -32,17 +30,6 @@ import { updateStreakTransaction } from '@/lib/gamification/services/streakServi
  */
 export async function POST(req: NextRequest) {
   try {
-    // Check feature flag
-    if (process.env.NEXT_PUBLIC_STREAK_FIREBASE_FIRST !== 'true') {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Firebase-first streak system not enabled'
-        },
-        { status: 403 }
-      );
-    }
-
     // Get auth token from request
     const authHeader = req.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {

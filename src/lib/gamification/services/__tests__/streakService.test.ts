@@ -24,6 +24,30 @@ jest.mock('firebase-admin/firestore', () => {
   }
 })
 
+const mockStreakConfig = {
+  version: '1.0.0',
+  minXPForStreak: 25,
+  gracePeriodHours: 24,
+  resetTime: '00:00',
+  timezone: 'UTC',
+  streakFreeze: {
+    enabled: true,
+    requiresPremium: true,
+    maxFreezes: 3,
+    freezeDurationDays: 1,
+    description: 'mock'
+  },
+  notifications: {
+    enabled: true,
+    reminderHours: [20, 22],
+    description: 'mock'
+  }
+}
+
+jest.mock('@/config/gamification/streakConfig', () => ({
+  getStreakConfig: jest.fn(() => mockStreakConfig)
+}))
+
 import { Timestamp } from 'firebase-admin/firestore'
 
 import {
@@ -34,8 +58,10 @@ import {
   checkStreakEligibility,
   calculateNewStreakValues,
   updateStreakTransaction,
+  updateStreakWithinTransaction,
   getStreakData,
-  applyMergedStatsTransaction
+  applyMergedStatsTransaction,
+  useStreakFreeze
 } from '../streakService'
 
 const today = '2025-01-15'
@@ -48,6 +74,14 @@ beforeAll(() => {
 
 afterAll(() => {
   Date.prototype.toISOString = originalDateToISOString
+})
+
+beforeEach(() => {
+  mockStreakConfig.streakFreeze.enabled = true
+  mockStreakConfig.streakFreeze.requiresPremium = true
+  mockStreakConfig.streakFreeze.maxFreezes = 3
+  mockStreakConfig.minXPForStreak = 25
+  mockStreakConfig.gracePeriodHours = 24
 })
 
 describe('pure streak helpers', () => {
@@ -240,6 +274,43 @@ describe('updateStreakTransaction', () => {
     expect(result.success).toBe(false)
     expect(result.conflictDetected).toBe(true)
   })
+
+  it('updates streak within existing transaction without extra reads', async () => {
+    const yesterday = '2025-01-14'
+    const existing = {
+      streak: {
+        current: 5,
+        best: 7,
+        freezesRemaining: 2,
+        version: 3,
+        updatedAt: Timestamp.now()
+      },
+      dates: {
+        lastActivityDate: yesterday,
+        isActiveToday: false
+      }
+    }
+    const { firestore, transaction, snapshot } = createMockFirestore(existing)
+
+    transaction.get.mockClear()
+
+    const result = await updateStreakWithinTransaction(transaction, 'test-user', 40, {
+      isPremium: true,
+      db: firestore,
+      prefetchedDoc: snapshot
+    })
+
+    expect(transaction.get).not.toHaveBeenCalled()
+    expect(result.success).toBe(true)
+    expect(result.data?.current).toBe(6)
+    expect(transaction.set).toHaveBeenCalledWith(
+      expect.any(Object),
+      expect.objectContaining({
+        streak: expect.objectContaining({ current: 6, version: 4 })
+      }),
+      { merge: true }
+    )
+  })
 })
 
 describe('getStreakData', () => {
@@ -287,6 +358,64 @@ describe('applyMergedStatsTransaction', () => {
       expect.objectContaining({
         streak: expect.objectContaining({ current: 4, best: 6 }),
         xp: expect.objectContaining({ total: 550 })
+      }),
+      { merge: true }
+    )
+  })
+})
+
+describe('useStreakFreeze', () => {
+  it('returns error when feature is disabled', async () => {
+    mockStreakConfig.streakFreeze.enabled = false
+    const result = await useStreakFreeze('user', true)
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('disabled')
+  })
+
+  it('requires premium subscription when configured', async () => {
+    const existing = {
+      streak: {
+        current: 4,
+        best: 6,
+        freezesRemaining: 1,
+        version: 2,
+        updatedAt: Timestamp.now()
+      },
+      dates: {
+        lastActivityDate: '2025-01-10',
+        isActiveToday: false
+      }
+    }
+
+    const { firestore } = createMockFirestore(existing)
+    const result = await useStreakFreeze('user', false, firestore)
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('premium')
+  })
+
+  it('decrements freeze count for premium users', async () => {
+    const existing = {
+      streak: {
+        current: 4,
+        best: 6,
+        freezesRemaining: 2,
+        version: 3,
+        updatedAt: Timestamp.now()
+      },
+      dates: {
+        lastActivityDate: '2025-01-10',
+        isActiveToday: false
+      }
+    }
+
+    const { firestore, transaction } = createMockFirestore(existing)
+    const result = await useStreakFreeze('user', true, firestore)
+
+    expect(result.success).toBe(true)
+    expect(transaction.set).toHaveBeenCalledWith(
+      expect.any(Object),
+      expect.objectContaining({
+        streak: expect.objectContaining({ freezesRemaining: 1 })
       }),
       { merge: true }
     )

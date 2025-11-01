@@ -17,6 +17,21 @@ export const strings = {
           description: "視覚的パターンとファミリーを通じて2,136の漢字を理解",
           badge: "Moshimoshi独自"
         },
+        conjugation: {
+          title: "活用エンジン",
+          description: "100以上の活用形 - 市場で最も包括的",
+          badge: "文法マスター"
+        },
+        news: {
+          title: "日本語ニュース記事",
+          description: "AIサポート付きで時事問題から学ぶ",
+          badge: "リアルコンテンツ"
+        },
+        stories: {
+          title: "AI生成ストーリー",
+          description: "あなたのレベルに合わせたパーソナライズされたストーリー",
+          badge: "適応型学習"
+        },
         anki: {
           title: "ワンクリックAnkiインポート",
           description: "Ankiデッキを即座に移行 - データ損失なし",
@@ -54,6 +69,18 @@ export const strings = {
         },
         cta: "漢字コネクションを探索"
       },
+      conjugation: {
+        title: "日本語活用をマスター",
+        subtitle: "100以上の活用形 - 市場で最も包括的",
+        description: "高度な活用エンジンは、完璧な精度ですべての動詞、形容詞、コピュラ形式をカバーします。スマートな品詞検出、重み付けされた難易度ドリル、クリーンなアーキテクチャが文法練習を簡単にします。",
+        benefits: {
+          benefit1: "100以上の活用形（利用可能な最も包括的）",
+          benefit2: "日本語文法ルールの正確な実装",
+          benefit3: "信頼度スコア付きスマート品詞検出",
+          benefit4: "重み付けされた難易度で優れたドリル統合"
+        },
+        cta: "活用を練習"
+      },
       anki: {
         title: "ワンクリックAnkiインポート：進捗を保持",
         subtitle: "何千時間もの作業を失うことなく切り替え",
@@ -78,6 +105,32 @@ export const strings = {
           benefit4: "クラススケジュールと同期"
         },
         cta: "教科書語彙を閲覧"
+      },
+
+      news: {
+        title: "本物の日本語ニュース記事",
+        subtitle: "本物の時事問題から学ぶ",
+        description: "組み込みの理解サポート付きで本物の日本語ニュース記事を読む。AIが複雑な文を分解し、語彙のヒントを提供し、読書進捗を追跡します。",
+        benefits: {
+          benefit1: "毎日更新される本物のニュースコンテンツ",
+          benefit2: "AI搭載の文分解と分析",
+          benefit3: "SRS統合を備えた即座の語彙検索",
+          benefit4: "読書進捗追跡と統計"
+        },
+        cta: "ニュース記事を読む"
+      },
+
+      stories: {
+        title: "AI生成ストーリー",
+        subtitle: "あなたのレベルに合わせたパーソナライズされたストーリー",
+        description: "語彙レベルと興味に合わせてAI生成されたストーリーで読書練習。各ストーリーにはふりがな、語彙リスト、理解度チェック問題が含まれます。",
+        benefits: {
+          benefit1: "あなたの正確なレベルで生成されたストーリー",
+          benefit2: "ふりがなと語彙サポート",
+          benefit3: "理解度チェック問題とクイズ",
+          benefit4: "未知の単語をSRSレビューに直接保存"
+        },
+        cta: "AIストーリーを探索"
       }
     },
     comparison: {

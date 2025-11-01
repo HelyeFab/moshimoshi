@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminFirestore } from '@/lib/firebase/admin'
 import logger from '@/lib/logger'
-import fs from 'fs/promises'
-import path from 'path'
-
-const CONFIG_PATH = path.join(process.cwd(), 'src', 'config', 'gamification', 'streak.json')
+import { ZodError } from 'zod'
+import { getStreakConfig, writeStreakConfig } from '@/config/gamification/streakConfig'
 
 /**
  * GET - Load streak configuration
@@ -35,9 +33,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Read config file
-    const configData = await fs.readFile(CONFIG_PATH, 'utf-8')
-    const config = JSON.parse(configData)
+    const config = getStreakConfig()
 
     return NextResponse.json({
       success: true,
@@ -77,7 +73,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { config } = body
+    const { config } = body ?? {}
 
     if (!config) {
       return NextResponse.json(
@@ -86,28 +82,27 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate minXPForStreak
-    if (typeof config.minXPForStreak !== 'number' || config.minXPForStreak < 0) {
-      return NextResponse.json(
-        { error: 'minXPForStreak must be a positive number' },
-        { status: 400 }
-      )
-    }
-
-    // Save config file
-    await fs.writeFile(
-      CONFIG_PATH,
-      JSON.stringify(config, null, 2),
-      'utf-8'
-    )
+    const updatedConfig = writeStreakConfig(config)
 
     logger.info('[Streak Config API] Configuration saved by admin:', session.email)
 
     return NextResponse.json({
       success: true,
-      message: 'Streak configuration saved successfully'
+      message: 'Streak configuration saved successfully',
+      config: updatedConfig
     })
   } catch (error) {
+    if (error instanceof ZodError) {
+      logger.warn('[Streak Config API] Validation error:', error.errors)
+      return NextResponse.json(
+        {
+          error: 'Invalid configuration payload',
+          details: error.errors
+        },
+        { status: 400 }
+      )
+    }
+
     logger.error('[Streak Config API] Error saving config:', error)
     return NextResponse.json(
       { error: 'Failed to save configuration' },

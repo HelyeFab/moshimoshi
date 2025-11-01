@@ -189,12 +189,6 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      // Update last activity time
-      await adminFirestore!.collection('users').doc(session.uid).update({
-        lastActivityAt: new Date(),
-        updatedAt: new Date(),
-      })
-
       // Log successful session refresh
       await logAuditEvent(
         AuditEvent.SESSION_REFRESH,

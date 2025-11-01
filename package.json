@@ -14,6 +14,7 @@
     "test": "jest --passWithNoTests",
     "test:unit": "jest --testPathIgnorePatterns=e2e --passWithNoTests",
     "test:review": "jest --config=jest.config.review-engine.js",
+    "test:review:api": "jest --config=jest.config.review-api.js",
     "test:review:watch": "jest --config=jest.config.review-engine.js --watch",
     "test:review:coverage": "jest --config=jest.config.review-engine.js --coverage",
     "test:review:perf": "jest --config=jest.config.review-engine.js --testMatch='**/*.perf.test.ts'",

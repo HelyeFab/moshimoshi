@@ -1,5 +1,7 @@
 import { JapaneseWord, WordType, JLPTLevel } from '@/types/vocabulary'
 import { getJLPTLevel, isN5Word, isN4Word } from '@/data/jlpt-conjugatable-words'
+import * as fs from 'fs'
+import * as path from 'path'
 
 interface JMDictGloss {
   lang: string
@@ -53,17 +55,30 @@ let conjugatableWordsCache: {
 
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes cache
 
-// Load JMDict data
+// Load JMDict data - works both server-side and client-side
 export async function loadJMdictData(): Promise<void> {
   if (jmdictData) return
   if (loadPromise) return loadPromise
 
   loadPromise = (async () => {
     try {
-      const response = await fetch('/data/dictionary/jmdict-eng-common.json')
-      const data = await response.json()
-      jmdictData = data
-      console.log(`Loaded ${jmdictData.words.length} JMDict entries`)
+      // Detect if we're running server-side or client-side
+      const isServer = typeof window === 'undefined'
+
+      if (isServer) {
+        // Server-side: use fs.readFile
+        const filePath = path.join(process.cwd(), 'public', 'data', 'dictionary', 'jmdict-eng-common.json')
+        const fileContent = fs.readFileSync(filePath, 'utf-8')
+        const data = JSON.parse(fileContent)
+        jmdictData = data
+        console.log(`[Server] Loaded ${jmdictData?.words?.length ?? 0} JMDict entries from filesystem`)
+      } else {
+        // Client-side: use fetch
+        const response = await fetch('/data/dictionary/jmdict-eng-common.json')
+        const data = await response.json()
+        jmdictData = data
+        console.log(`[Client] Loaded ${jmdictData?.words?.length ?? 0} JMDict entries via fetch`)
+      }
     } catch (error) {
       console.error('Failed to load JMDict:', error)
       jmdictData = { words: [] }

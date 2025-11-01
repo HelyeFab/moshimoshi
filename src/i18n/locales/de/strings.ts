@@ -17,6 +17,21 @@ export const strings = {
           description: "Verstehen Sie 2.136 Kanji durch visuelle Muster und Familien",
           badge: "Einzigartig für Moshimoshi"
         },
+        conjugation: {
+          title: "Konjugations-Engine",
+          description: "Über 100 Konjugationsformen - das umfassendste auf dem Markt",
+          badge: "Grammatikbeherrschung"
+        },
+        news: {
+          title: "Japanische Nachrichtenartikel",
+          description: "Lernen Sie von aktuellen Ereignissen mit KI-Unterstützung",
+          badge: "Echter Inhalt"
+        },
+        stories: {
+          title: "KI-generierte Geschichten",
+          description: "Personalisierte Geschichten auf Ihr Niveau zugeschnitten",
+          badge: "Adaptives Lernen"
+        },
         anki: {
           title: "Ein-Klick-Anki-Import",
           description: "Migrieren Sie Ihre Anki-Decks sofort - kein Datenverlust",
@@ -54,6 +69,18 @@ export const strings = {
         },
         cta: "Kanji-Verbindungen erkunden"
       },
+      conjugation: {
+        title: "Meistern Sie japanische Konjugation",
+        subtitle: "Über 100 Konjugationsformen - das umfassendste auf dem Markt",
+        description: "Unsere fortschrittliche Konjugations-Engine deckt jede Verb-, Adjektiv- und Kopula-Form mit perfekter Genauigkeit ab. Intelligente Worttypenerkennung, gewichtete Schwierigkeitsübungen und saubere Architektur machen Grammatikpraxis mühelos.",
+        benefits: {
+          benefit1: "Über 100 Konjugationsformen (die umfassendsten verfügbaren)",
+          benefit2: "Präzise Implementierung japanischer Grammatikregeln",
+          benefit3: "Intelligente Worttypenerkennung mit Konfidenzbewertung",
+          benefit4: "Hervorragende Übungsintegration mit gewichteter Schwierigkeit"
+        },
+        cta: "Konjugation üben"
+      },
       anki: {
         title: "Ein-Klick-Anki-Import: Behalten Sie Ihren Fortschritt",
         subtitle: "Wechseln Sie ohne Tausende Stunden Arbeit zu verlieren",
@@ -78,6 +105,32 @@ export const strings = {
           benefit4: "Synchronisierung mit Ihrem Kursplan"
         },
         cta: "Lehrbuchvokabular durchsuchen"
+      },
+
+      news: {
+        title: "Echte japanische Nachrichtenartikel",
+        subtitle: "Lernen Sie von authentischen aktuellen Ereignissen",
+        description: "Lesen Sie echte japanische Nachrichtenartikel mit integrierter Verständnisunterstützung. Unsere KI zerlegt komplexe Sätze, bietet Vokabelhinweise und verfolgt Ihren Lesefortschritt.",
+        benefits: {
+          benefit1: "Täglich aktualisierte authentische Nachrichteninhalte",
+          benefit2: "KI-gestützte Satzzerlegung und -analyse",
+          benefit3: "Sofortige Vokabelsuche mit SRS-Integration",
+          benefit4: "Lesefortschrittsverfolgung und Statistiken"
+        },
+        cta: "Nachrichtenartikel lesen"
+      },
+
+      stories: {
+        title: "KI-generierte Geschichten",
+        subtitle: "Personalisierte Geschichten für Ihr Niveau",
+        description: "Üben Sie das Lesen mit KI-generierten Geschichten, die auf Ihr Vokabularniveau und Ihre Interessen zugeschnitten sind. Jede Geschichte enthält Furigana, Vokabellisten und Verständnisfragen.",
+        benefits: {
+          benefit1: "Geschichten auf Ihrem genauen Niveau generiert",
+          benefit2: "Furigana- und Vokabelunterstützung",
+          benefit3: "Verständnisfragen und Quizze",
+          benefit4: "Speichern Sie unbekannte Wörter direkt in der SRS-Überprüfung"
+        },
+        cta: "KI-Geschichten erkunden"
       }
     },
     comparison: {

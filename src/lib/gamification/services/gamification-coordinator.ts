@@ -1,20 +1,43 @@
 /**
  * Gamification Coordinator
  *
- * Fixes Issue #6: Missing streak on drill completion
+ * Firebase-First Unified Architecture - Server-Side Coordinator
  *
- * Single entry point for all gamification operations.
- * Ensures atomic updates across XP, streaks, and achievements.
- * Connects drills/reviews to streak system.
+ * Single entry point for ALL gamification operations from server-side.
+ * Ensures atomic updates across XP, streaks, and achievements using Firestore transactions.
+ *
+ * ## Two Integration Pathways:
+ *
+ * ### 1. Review (URE) Completions:
+ * ```
+ * URE → gamificationListener (client) → POST /api/review/session/complete
+ *     → recordReviewCompletion() → Firestore transaction
+ * ```
+ *
+ * ### 2. Drill Completions:
+ * ```
+ * Client → PUT /api/drill/session → recordDrillCompletion()
+ *     → Firestore transaction
+ * ```
+ *
+ * Both pathways use:
+ * - Atomic Firestore transactions
+ * - updateStreakWithinTransaction() (reuses parent transaction - NO NESTING!)
+ * - Document prefetching optimization
+ * - Graceful degradation (streak failures don't crash XP updates)
+ *
+ * @see updateStreakWithinTransaction in streakService.ts:563
  */
 
 import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
-import { updateStreakTransaction } from './streakService'
+import { getStreakConfig } from '@/config/gamification/streakConfig'
+import { updateStreakWithinTransaction, type StreakUpdateResult } from './streakService'
 import { Accuracy } from '@/lib/statistics/accuracy'
 
-// Minimum XP required to count toward streak
-const MIN_XP_FOR_STREAK = 25
+function getMinXpForStreak(): number {
+  return getStreakConfig().minXPForStreak
+}
 
 /**
  * Calculate XP earned from drill performance
@@ -119,62 +142,64 @@ export async function recordDrillCompletion(params: {
 
     // Initialize if doesn't exist
     if (!statsDoc.exists) {
-      transaction.set(userStatsRef, {
-        xp: { total: 0, level: 1 },
-        streak: {
-          current: 0,
-          best: 0,
-          freezesRemaining: isPremium ? 3 : 0,
-          version: 1,
-          updatedAt: FieldValue.serverTimestamp()
+      transaction.set(
+        userStatsRef,
+        {
+          xp: { total: 0, level: 1 },
+          sessions: { totalSessions: 0 },
+          achievements: {
+            unlockedIds: [],
+            progress: {}
+          },
+          metadata: {
+            lastUpdated: new Date().toISOString(),
+            syncStatus: 'synced',
+            schemaVersion: 2
+          }
         },
-        dates: {
-          lastActivityDate: null,
-          isActiveToday: false
-        },
-        sessions: { totalSessions: 0 },
-        achievements: {
-          unlockedIds: [],
-          progress: {}
-        },
-        metadata: {
-          lastUpdated: new Date().toISOString(),
-          syncStatus: 'synced',
-          schemaVersion: 2
-        }
-      })
+        { merge: true }
+      )
     }
 
     const currentStats = statsDoc.data() || {}
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
+    const nowIso = new Date().toISOString()
 
     // Update XP
     transaction.update(userStatsRef, {
       'xp.total': newTotalXP,
       'xp.level': newLevel,
       'sessions.totalSessions': FieldValue.increment(1),
-      'metadata.lastUpdated': new Date().toISOString()
+      'metadata.lastUpdated': nowIso
     })
 
     // Update streak if XP threshold met
-    let streakResult = {
-      streakIncremented: false,
-      data: {
-        current: currentStats.streak?.current || 0,
-        best: currentStats.streak?.best || 0
-      }
-    }
+    let streakResult: StreakUpdateResult | null = null
+    const minXpForStreak = getMinXpForStreak()
 
-    if (xpEarned >= MIN_XP_FOR_STREAK) {
+    if (xpEarned >= minXpForStreak) {
       try {
-        streakResult = await updateStreakTransaction(
+        const result = await updateStreakWithinTransaction(
           transaction,
           userId,
           xpEarned,
-          { isPremium }
+          {
+            isPremium,
+            db: adminDb!,
+            prefetchedDoc: statsDoc
+          }
         )
+
+        if (!result.success) {
+          console.error(
+            '[Gamification Coordinator] Streak update returned failure:',
+            result.error
+          )
+        } else {
+          streakResult = result
+        }
       } catch (error) {
         console.error('[Gamification Coordinator] Failed to update streak:', error)
         // Don't fail the whole transaction if streak update fails
@@ -208,13 +233,20 @@ export async function recordDrillCompletion(params: {
       }
     }
 
+    const fallbackStreak = {
+      current: currentStats.streak?.current || 0,
+      best: currentStats.streak?.best || 0
+    }
+    const streakData = streakResult?.data ?? fallbackStreak
+    const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
+
     return {
       xpEarned,
       newTotalXP,
       newLevel,
-      streakIncremented: streakResult.streakIncremented,
-      currentStreak: streakResult.data.current,
-      bestStreak: streakResult.data.best,
+      streakIncremented,
+      currentStreak: streakData.current,
+      bestStreak: streakData.best,
       achievementsUnlocked: achievements
     }
   })
@@ -247,74 +279,83 @@ export async function recordReviewCompletion(params: {
 
     // Initialize if doesn't exist
     if (!statsDoc.exists) {
-      transaction.set(userStatsRef, {
-        xp: { total: 0, level: 1 },
-        streak: {
-          current: 0,
-          best: 0,
-          freezesRemaining: isPremium ? 3 : 0,
-          version: 1,
-          updatedAt: FieldValue.serverTimestamp()
+      transaction.set(
+        userStatsRef,
+        {
+          xp: { total: 0, level: 1 },
+          sessions: { totalSessions: 0 },
+          achievements: {
+            unlockedIds: [],
+            progress: {}
+          },
+          metadata: {
+            lastUpdated: new Date().toISOString(),
+            syncStatus: 'synced',
+            schemaVersion: 2
+          }
         },
-        dates: {
-          lastActivityDate: null,
-          isActiveToday: false
-        },
-        sessions: { totalSessions: 0 },
-        achievements: {
-          unlockedIds: [],
-          progress: {}
-        },
-        metadata: {
-          lastUpdated: new Date().toISOString(),
-          syncStatus: 'synced',
-          schemaVersion: 2
-        }
-      })
+        { merge: true }
+      )
     }
 
     const currentStats = statsDoc.data() || {}
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
+    const nowIso = new Date().toISOString()
 
     // Update XP
     transaction.update(userStatsRef, {
       'xp.total': newTotalXP,
       'xp.level': newLevel,
       'sessions.totalSessions': FieldValue.increment(1),
-      'metadata.lastUpdated': new Date().toISOString()
+      'metadata.lastUpdated': nowIso
     })
 
     // Update streak if XP threshold met
-    let streakResult = {
-      streakIncremented: false,
-      data: {
-        current: currentStats.streak?.current || 0,
-        best: currentStats.streak?.best || 0
-      }
-    }
+    let streakResult: StreakUpdateResult | null = null
+    const minXpForStreak = getMinXpForStreak()
 
-    if (xpEarned >= MIN_XP_FOR_STREAK) {
+    if (xpEarned >= minXpForStreak) {
       try {
-        streakResult = await updateStreakTransaction(
+        const result = await updateStreakWithinTransaction(
           transaction,
           userId,
           xpEarned,
-          { isPremium }
+          {
+            isPremium,
+            db: adminDb!,
+            prefetchedDoc: statsDoc
+          }
         )
+
+        if (!result.success) {
+          console.error(
+            '[Gamification Coordinator] Streak update returned failure:',
+            result.error
+          )
+        } else {
+          streakResult = result
+        }
       } catch (error) {
         console.error('[Gamification Coordinator] Failed to update streak:', error)
       }
     }
 
+    const fallbackStreak = {
+      current: currentStats.streak?.current || 0,
+      best: currentStats.streak?.best || 0
+    }
+    const streakData = streakResult?.data ?? fallbackStreak
+    const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
+
     return {
       xpEarned,
       newTotalXP,
       newLevel,
-      streakIncremented: streakResult.streakIncremented,
-      currentStreak: streakResult.data.current,
-      bestStreak: streakResult.data.best,
+      streakIncremented,
+      currentStreak: streakData.current,
+      bestStreak: streakData.best,
       achievementsUnlocked: []
     }
   })

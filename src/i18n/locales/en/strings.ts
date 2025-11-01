@@ -20,6 +20,21 @@ export const strings = {
           description: "Understand 2,136 kanji through visual patterns and families",
           badge: "Unique to Moshimoshi"
         },
+        conjugation: {
+          title: "Conjugation Engine",
+          description: "100+ conjugation forms - most comprehensive in the market",
+          badge: "Grammar Mastery"
+        },
+        news: {
+          title: "Japanese News Articles",
+          description: "Learn from authentic current events with AI support",
+          badge: "Real Content"
+        },
+        stories: {
+          title: "AI-Generated Stories",
+          description: "Personalized stories tailored to your level",
+          badge: "Adaptive Learning"
+        },
         anki: {
           title: "One-Click Anki Import",
           description: "Migrate your Anki decks instantly - no data loss",
@@ -61,6 +76,19 @@ export const strings = {
         cta: "Explore Kanji Connections"
       },
 
+      conjugation: {
+        title: "Master Japanese Conjugation",
+        subtitle: "100+ conjugation forms - the most comprehensive in the market",
+        description: "Our advanced conjugation engine covers every verb, adjective, and copula form with perfect accuracy. Smart word type detection, weighted difficulty drills, and clean architecture make grammar practice effortless.",
+        benefits: {
+          benefit1: "100+ conjugation forms (most comprehensive available)",
+          benefit2: "Accurate implementation of Japanese grammar rules",
+          benefit3: "Smart word type detection with confidence scoring",
+          benefit4: "Excellent drill integration with weighted difficulty"
+        },
+        cta: "Practice Conjugation"
+      },
+
       anki: {
         title: "One-Click Anki Import: Keep Your Progress",
         subtitle: "Switch without losing thousands of hours of work",
@@ -86,6 +114,32 @@ export const strings = {
           benefit4: "Sync with your class schedule"
         },
         cta: "Browse Textbook Vocabulary"
+      },
+
+      news: {
+        title: "Real Japanese News Articles",
+        subtitle: "Learn from authentic current events",
+        description: "Read real Japanese news articles with built-in comprehension support. Our AI breaks down complex sentences, provides vocabulary hints, and tracks your reading progress.",
+        benefits: {
+          benefit1: "Daily updated authentic news content",
+          benefit2: "AI-powered sentence breakdown and analysis",
+          benefit3: "Instant vocabulary lookup with SRS integration",
+          benefit4: "Reading progress tracking and statistics"
+        },
+        cta: "Read News Articles"
+      },
+
+      stories: {
+        title: "AI-Generated Stories",
+        subtitle: "Personalized stories for your level",
+        description: "Practice reading with AI-generated stories tailored to your vocabulary level and interests. Each story includes furigana, vocabulary lists, and comprehension questions.",
+        benefits: {
+          benefit1: "Stories generated at your exact level",
+          benefit2: "Furigana and vocabulary support",
+          benefit3: "Comprehension questions and quizzes",
+          benefit4: "Save unknown words directly to SRS review"
+        },
+        cta: "Explore AI Stories"
       }
     },
 

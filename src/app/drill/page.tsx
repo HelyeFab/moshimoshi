@@ -53,7 +53,9 @@ export default function DrillPage() {
     showRules: true,
     wordTypeFilter: 'all',
     drillMode: 'random',
-    selectedLists: []
+    selectedLists: [],
+    jlptLevels: ['N5', 'N4'], // Default to N5 + N4
+    conjugationForms: [] // Empty = all forms
   });
 
   // Question count limits based on user plan
@@ -115,7 +117,9 @@ export default function DrillPage() {
           mode: settings.drillMode,
           wordTypeFilter: settings.wordTypeFilter,
           selectedLists: settings.selectedLists,
-          questionsCount: settings.questionsPerSession // Pass the user-selected count
+          questionsCount: settings.questionsPerSession,
+          jlptLevels: settings.jlptLevels,
+          conjugationForms: settings.conjugationForms?.length > 0 ? settings.conjugationForms : undefined
         })
       });
 
@@ -367,6 +371,122 @@ export default function DrillPage() {
                   >
                     {t('drill.adjectives')}
                   </button>
+                </div>
+              </div>
+
+              {/* JLPT Level Selector */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
+                  JLPT Levels <span className="text-xs text-muted-foreground">(Select one or more)</span>
+                </label>
+                <div className="flex gap-2 flex-wrap">
+                  {(['N5', 'N4', 'N3', 'N2', 'N1'] as const).map(level => (
+                    <button
+                      key={level}
+                      onClick={() => {
+                        setSettings(prev => {
+                          const current = prev.jlptLevels || [];
+                          const isSelected = current.includes(level);
+                          if (isSelected) {
+                            // Deselect - but keep at least one selected
+                            const newLevels = current.filter(l => l !== level);
+                            return { ...prev, jlptLevels: newLevels.length > 0 ? newLevels : [level] };
+                          } else {
+                            // Select
+                            return { ...prev, jlptLevels: [...current, level] };
+                          }
+                        });
+                      }}
+                      className={`px-4 py-2 rounded-lg border transition-colors font-medium ${
+                        settings.jlptLevels?.includes(level)
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                      }`}
+                    >
+                      {level}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Conjugation Forms Selector */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
+                  Conjugation Forms <span className="text-xs text-muted-foreground">(Leave empty for all forms)</span>
+                </label>
+                <div className="space-y-2">
+                  {/* Quick presets */}
+                  <div className="flex gap-2 flex-wrap">
+                    <button
+                      onClick={() => setSettings(prev => ({ ...prev, conjugationForms: [] }))}
+                      className={`px-3 py-1.5 rounded-lg border text-sm transition-colors ${
+                        settings.conjugationForms?.length === 0
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                      }`}
+                    >
+                      All Forms
+                    </button>
+                    <button
+                      onClick={() => setSettings(prev => ({
+                        ...prev,
+                        conjugationForms: ['present', 'past', 'negative', 'pastNegative']
+                      }))}
+                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                    >
+                      Basic Only
+                    </button>
+                    <button
+                      onClick={() => setSettings(prev => ({
+                        ...prev,
+                        conjugationForms: ['polite', 'politePast', 'politeNegative', 'politePastNegative']
+                      }))}
+                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                    >
+                      Polite Only
+                    </button>
+                    <button
+                      onClick={() => setSettings(prev => ({
+                        ...prev,
+                        conjugationForms: ['teForm', 'negativeTeForm', 'naiDeForm']
+                      }))}
+                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                    >
+                      Te-Forms
+                    </button>
+                    <button
+                      onClick={() => setSettings(prev => ({
+                        ...prev,
+                        conjugationForms: ['potential', 'potentialNegative', 'potentialPast', 'potentialPastNegative']
+                      }))}
+                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                    >
+                      Potential
+                    </button>
+                    <button
+                      onClick={() => setSettings(prev => ({
+                        ...prev,
+                        conjugationForms: ['passive', 'passiveNegative', 'passivePast', 'passivePastNegative']
+                      }))}
+                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                    >
+                      Passive
+                    </button>
+                    <button
+                      onClick={() => setSettings(prev => ({
+                        ...prev,
+                        conjugationForms: ['causative', 'causativeNegative', 'causativePast', 'causativePastNegative']
+                      }))}
+                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                    >
+                      Causative
+                    </button>
+                  </div>
+                  {settings.conjugationForms && settings.conjugationForms.length > 0 && (
+                    <div className="text-xs text-primary-600 dark:text-primary-400">
+                      Selected: {settings.conjugationForms.length} form{settings.conjugationForms.length !== 1 ? 's' : ''}
+                    </div>
+                  )}
                 </div>
               </div>
 

@@ -17,6 +17,7 @@ import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-hel
 import { recordDrillCompletion } from '@/lib/gamification/services/gamification-coordinator';
 import { Accuracy } from '@/lib/statistics/accuracy';
 import { DrillSessionCompleteRequestSchema } from '@/lib/schemas/drill.schema';
+import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch';
 
 /**
  * GET /api/drill/session
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
     const session = await requireAuth();
 
     const body = await request.json();
-    const { mode, wordTypeFilter, selectedLists, questionsCount } = body;
+    const { mode, wordTypeFilter, selectedLists, questionsCount, jlptLevels, conjugationForms } = body;
 
     // Get fresh user data for entitlements
     const userDoc = await adminDb!.collection('users').doc(session.uid).get();
@@ -167,12 +168,48 @@ export async function POST(request: NextRequest) {
     let questions: DrillQuestion[] = [];
 
     if (mode === 'random') {
-      // Use fallback words for now (would normally fetch from a word API)
-      const practiceWords = WordUtils.getCommonPracticeWords();
-      const filteredWords = WordUtils.filterByType(practiceWords, wordTypeFilter);
-      // Use custom question count if provided, otherwise use plan defaults
-      const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
-      questions = QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession);
+      // NEW: Use JMDict with JLPT filtering for 1000+ words
+      const rawJlptLevels = jlptLevels && jlptLevels.length > 0 ? jlptLevels : ['N5', 'N4'];
+
+      // Convert JLPT levels to format expected by getConjugatableWordsPractice
+      // It only accepts 'N5', 'N4', or 'N3+' (where N3+ includes N3, N2, N1)
+      const jlptFilter: ('N5' | 'N4' | 'N3+')[] = [];
+      if (rawJlptLevels.includes('N5')) jlptFilter.push('N5');
+      if (rawJlptLevels.includes('N4')) jlptFilter.push('N4');
+      if (rawJlptLevels.includes('N3') || rawJlptLevels.includes('N2') || rawJlptLevels.includes('N1')) {
+        jlptFilter.push('N3+');
+      }
+      // If no valid levels, default to N5 + N4
+      if (jlptFilter.length === 0) {
+        jlptFilter.push('N5', 'N4');
+      }
+
+      // Determine word type for jmdictLocalSearch
+      let searchType: 'all' | 'verbs' | 'adjectives' = 'all';
+      if (wordTypeFilter === 'verbs') searchType = 'verbs';
+      else if (wordTypeFilter === 'adjectives') searchType = 'adjectives';
+
+      // Get words from JMDict with JLPT filtering
+      console.log('[Drill API] Requesting words:', { searchType, jlptFilter, limit: 50 });
+      const practiceWords = await getConjugatableWordsPractice({
+        type: searchType,
+        jlptLevels: jlptFilter,
+        limit: 50, // Get more words for variety
+      });
+      console.log('[Drill API] JMDict returned', practiceWords.length, 'words');
+
+      if (practiceWords.length === 0) {
+        // Fallback to old system if JMDict fails
+        console.warn('[Drill API] JMDict returned no words, using fallback');
+        const fallbackWords = WordUtils.getCommonPracticeWords();
+        const filteredWords = WordUtils.filterByType(fallbackWords, wordTypeFilter);
+        const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
+        questions = QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession, conjugationForms);
+      } else {
+        // Use custom question count if provided, otherwise use plan defaults
+        const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
+        questions = QuestionGenerator.generateQuestions(practiceWords, 3, questionsPerSession, conjugationForms);
+      }
     } else if (mode === 'lists' && selectedLists?.length > 0) {
       // Fetch words from user's lists
       const listWords: JapaneseWord[] = [];
@@ -208,7 +245,7 @@ export async function POST(request: NextRequest) {
         const filteredWords = WordUtils.filterByType(listWords, wordTypeFilter);
         // Use custom question count if provided, otherwise use plan defaults
         const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
-        questions = QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession);
+        questions = QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession, conjugationForms);
       }
     }
 
@@ -232,7 +269,9 @@ export async function POST(request: NextRequest) {
       score: 0,
       startedAt: nowUtc,
       mode,
-      wordTypeFilter
+      wordTypeFilter,
+      version: 1,
+      updatedAt: nowUtc
     };
 
     // Check storage decision
@@ -365,28 +404,14 @@ export async function PUT(request: NextRequest) {
           updatedAt: completedAt
         });
 
-        // Update user's drill statistics
-        const userRef = adminDb!.collection('users').doc(session.uid);
-        const batch = adminDb!.batch();
-
-        // Update drill statistics
-        batch.update(userRef, {
-          'drillStats.totalSessions': FieldValue.increment(1),
-          'drillStats.totalQuestions': FieldValue.increment(sessionData.questions.length),
-          'drillStats.totalCorrect': FieldValue.increment(finalScore),
-          'drillStats.lastSessionAt': completedAt,
-          'drillStats.updatedAt': FieldValue.serverTimestamp()
-        });
-
-        // Track drill session in user's progress
-        batch.update(userRef, {
-          'progress.drillSessions': FieldValue.increment(1),
-          'progress.lastDrillAt': completedAt
-        });
-
         // Add to drill history subcollection for detailed tracking
-        const historyRef = userRef.collection('drill_history').doc();
-        batch.set(historyRef, {
+        const historyRef = adminDb!
+          .collection('users')
+          .doc(session.uid)
+          .collection('drill_history')
+          .doc();
+
+        await historyRef.set({
           sessionId,
           completedAt,
           score: finalScore,
@@ -394,26 +419,9 @@ export async function PUT(request: NextRequest) {
           accuracy,
           mode: sessionData.mode,
           wordTypeFilter: sessionData.wordTypeFilter,
-          timestamp: FieldValue.serverTimestamp()
+          timestamp: FieldValue.serverTimestamp(),
+          perfectSession: accuracy === 100
         });
-
-        // If perfect score, track it
-        if (accuracy === 100) {
-          batch.update(userRef, {
-            'drillStats.perfectSessions': FieldValue.increment(1)
-          });
-        }
-
-        // Update best accuracy if this is a new record
-        const currentBestAccuracy = userData?.drillStats?.bestAccuracy || 0;
-        if (accuracy > currentBestAccuracy) {
-          batch.update(userRef, {
-            'drillStats.bestAccuracy': accuracy
-          });
-        }
-
-        // Commit all updates
-        await batch.commit();
       }
       // Free users: stats are handled client-side in IndexedDB
 

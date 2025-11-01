@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useTranslation } from '@/i18n/I18nContext'
 import { strings as enStrings } from '@/i18n/locales/en/strings'
 import Logo from '@/components/ui/Logo'
@@ -20,6 +21,9 @@ import {
   AcademicCapIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  LanguageIcon,
+  NewspaperIcon,
+  DocumentTextIcon,
 } from '@heroicons/react/24/outline'
 
 export default function HomePage() {
@@ -38,7 +42,7 @@ export default function HomePage() {
   // Auto-rotate carousel every 5 seconds - MUST be before any conditional returns
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 4)
+      setCurrentSlide((prev) => (prev + 1) % 7)
     }, 5000)
     return () => clearInterval(timer)
   }, [])
@@ -64,6 +68,21 @@ export default function HomePage() {
       icon: <SparklesIcon className="w-12 h-12" />,
       ...landingStrings.hero.carousel.kanji,
       color: 'from-purple-500 to-pink-500',
+    },
+    {
+      icon: <LanguageIcon className="w-12 h-12" />,
+      ...landingStrings.hero.carousel.conjugation,
+      color: 'from-indigo-500 to-blue-500',
+    },
+    {
+      icon: <NewspaperIcon className="w-12 h-12" />,
+      ...landingStrings.hero.carousel.news,
+      color: 'from-teal-500 to-cyan-500',
+    },
+    {
+      icon: <DocumentTextIcon className="w-12 h-12" />,
+      ...landingStrings.hero.carousel.stories,
+      color: 'from-violet-500 to-fuchsia-500',
     },
     {
       icon: <CloudArrowUpIcon className="w-12 h-12" />,
@@ -350,6 +369,132 @@ export default function HomePage() {
                 >
                   {landingStrings.features.kanji.cta}
                 </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Conjugation Engine Section */}
+      <section className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {landingStrings.features.conjugation.title}
+              </h2>
+              <p className="text-lg md:text-xl text-indigo-600 dark:text-indigo-400 mb-6">
+                {landingStrings.features.conjugation.subtitle}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
+                {landingStrings.features.conjugation.description}
+              </p>
+              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
+                {Object.values(landingStrings.features.conjugation.benefits).map(
+                  (benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
+                    </li>
+                  )
+                )}
+              </ul>
+              <div className="flex justify-center lg:justify-start">
+                <Button
+                  onClick={() => router.push('/drill')}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
+                >
+                  {landingStrings.features.conjugation.cta}
+                </Button>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="aspect-video bg-gradient-to-br from-indigo-500 to-blue-500 rounded-2xl shadow-2xl flex items-center justify-center">
+                <LanguageIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* News Articles Section */}
+      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="aspect-square bg-gradient-to-br from-teal-500 to-cyan-500 rounded-2xl shadow-2xl flex items-center justify-center">
+                <NewspaperIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {landingStrings.features.news.title}
+              </h2>
+              <p className="text-lg md:text-xl text-teal-600 dark:text-teal-400 mb-6">
+                {landingStrings.features.news.subtitle}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
+                {landingStrings.features.news.description}
+              </p>
+              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
+                {Object.values(landingStrings.features.news.benefits).map(
+                  (benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
+                    </li>
+                  )
+                )}
+              </ul>
+              <div className="flex justify-center lg:justify-start">
+                <Button
+                  onClick={() => router.push('/news')}
+                  className="bg-teal-600 hover:bg-teal-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
+                >
+                  {landingStrings.features.news.cta}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Stories Section */}
+      <section className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {landingStrings.features.stories.title}
+              </h2>
+              <p className="text-lg md:text-xl text-violet-600 dark:text-violet-400 mb-6">
+                {landingStrings.features.stories.subtitle}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
+                {landingStrings.features.stories.description}
+              </p>
+              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
+                {Object.values(landingStrings.features.stories.benefits).map(
+                  (benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
+                    </li>
+                  )
+                )}
+              </ul>
+              <div className="flex justify-center lg:justify-start">
+                <Button
+                  onClick={() => router.push('/stories')}
+                  className="bg-violet-600 hover:bg-violet-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
+                >
+                  {landingStrings.features.stories.cta}
+                </Button>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="aspect-video bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl shadow-2xl flex items-center justify-center">
+                <DocumentTextIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
               </div>
             </div>
           </div>
@@ -740,9 +885,9 @@ export default function HomePage() {
                   </a>
                 </li>
                 <li>
-                  <a href="/textbook-vocabulary" className="hover:text-white">
+                  <Link href="/textbook-vocabulary" className="hover:text-white">
                     {landingStrings.footer.links.textbooks}
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -752,19 +897,19 @@ export default function HomePage() {
               </h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a href="/pricing" className="hover:text-white">
+                  <Link href="/pricing" className="hover:text-white">
                     {landingStrings.footer.links.pricing}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/blog" className="hover:text-white">
+                  <Link href="/blog" className="hover:text-white">
                     {landingStrings.footer.links.blog}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/contact" className="hover:text-white">
+                  <Link href="/contact" className="hover:text-white">
                     {landingStrings.footer.links.contact}
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -774,9 +919,9 @@ export default function HomePage() {
               </h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a href="/privacy" className="hover:text-white">
+                  <Link href="/privacy" className="hover:text-white">
                     {landingStrings.footer.links.privacy}
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a href="/terms" className="hover:text-white">

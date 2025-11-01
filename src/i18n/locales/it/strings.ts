@@ -17,6 +17,21 @@ export const strings = {
           description: "Comprendi 2.136 kanji attraverso modelli visivi e famiglie",
           badge: "Esclusivo di Moshimoshi"
         },
+        conjugation: {
+          title: "Motore di coniugazione",
+          description: "Oltre 100 forme di coniugazione - il più completo sul mercato",
+          badge: "Padronanza della grammatica"
+        },
+        news: {
+          title: "Articoli di notizie giapponesi",
+          description: "Impara da eventi attuali con supporto IA",
+          badge: "Contenuto reale"
+        },
+        stories: {
+          title: "Storie generate da IA",
+          description: "Storie personalizzate adattate al tuo livello",
+          badge: "Apprendimento adattivo"
+        },
         anki: {
           title: "Importazione Anki con un clic",
           description: "Migra i tuoi mazzi Anki istantaneamente - nessuna perdita di dati",
@@ -54,6 +69,18 @@ export const strings = {
         },
         cta: "Esplora connessioni kanji"
       },
+      conjugation: {
+        title: "Padroneggia la coniugazione giapponese",
+        subtitle: "Oltre 100 forme di coniugazione - il più completo sul mercato",
+        description: "Il nostro motore di coniugazione avanzato copre ogni forma di verbo, aggettivo e copula con perfetta precisione. Rilevamento intelligente del tipo di parola, esercizi con difficoltà ponderata e architettura pulita rendono la pratica grammaticale semplice.",
+        benefits: {
+          benefit1: "Oltre 100 forme di coniugazione (le più complete disponibili)",
+          benefit2: "Implementazione accurata delle regole grammaticali giapponesi",
+          benefit3: "Rilevamento intelligente del tipo di parola con punteggio di confidenza",
+          benefit4: "Eccellente integrazione di esercizi con difficoltà ponderata"
+        },
+        cta: "Pratica la coniugazione"
+      },
       anki: {
         title: "Importazione Anki con un clic: Mantieni i tuoi progressi",
         subtitle: "Cambia senza perdere migliaia di ore di lavoro",
@@ -78,6 +105,32 @@ export const strings = {
           benefit4: "Sincronizzazione con il tuo programma di corso"
         },
         cta: "Sfoglia vocabolario dei libri di testo"
+      },
+
+      news: {
+        title: "Articoli di notizie giapponesi reali",
+        subtitle: "Impara da eventi attuali autentici",
+        description: "Leggi veri articoli di notizie giapponesi con supporto di comprensione integrato. La nostra IA scompone frasi complesse, fornisce suggerimenti di vocabolario e traccia i tuoi progressi di lettura.",
+        benefits: {
+          benefit1: "Contenuto di notizie autentiche aggiornato quotidianamente",
+          benefit2: "Scomposizione e analisi di frasi alimentate da IA",
+          benefit3: "Ricerca istantanea di vocabolario con integrazione SRS",
+          benefit4: "Monitoraggio dei progressi di lettura e statistiche"
+        },
+        cta: "Leggi articoli di notizie"
+      },
+
+      stories: {
+        title: "Storie generate da IA",
+        subtitle: "Storie personalizzate per il tuo livello",
+        description: "Pratica la lettura con storie generate da IA adattate al tuo livello di vocabolario e interessi. Ogni storia include furigana, liste di vocabolario e domande di comprensione.",
+        benefits: {
+          benefit1: "Storie generate al tuo livello esatto",
+          benefit2: "Supporto furigana e vocabolario",
+          benefit3: "Domande e quiz di comprensione",
+          benefit4: "Salva parole sconosciute direttamente nella revisione SRS"
+        },
+        cta: "Esplora storie IA"
       }
     },
     comparison: {

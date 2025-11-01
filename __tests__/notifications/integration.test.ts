@@ -403,7 +403,7 @@ describe('Notification System Integration', () => {
       [
         { token: dailyToken, type: 'daily_reminder' },
         { token: weeklyToken, type: 'weekly_progress' },
-        { token: achievementToken, type: 'achievement_alerts' },
+        { token: achievementToken, type: 'achievement_alerts' }
       ].forEach(({ token, type }) => {
         const decoded = Buffer.from(token, 'base64').toString('utf-8')
         const parts = decoded.split(':')

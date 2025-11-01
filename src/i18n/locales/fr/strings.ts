@@ -17,6 +17,21 @@ export const strings = {
           description: "Comprenez 2 136 kanji à travers les modèles visuels et les familles",
           badge: "Unique à Moshimoshi"
         },
+        conjugation: {
+          title: "Moteur de conjugaison",
+          description: "Plus de 100 formes de conjugaison - le plus complet du marché",
+          badge: "Maîtrise de la grammaire"
+        },
+        news: {
+          title: "Articles de presse japonais",
+          description: "Apprenez à partir d'événements actuels avec support IA",
+          badge: "Contenu réel"
+        },
+        stories: {
+          title: "Histoires générées par IA",
+          description: "Histoires personnalisées adaptées à votre niveau",
+          badge: "Apprentissage adaptatif"
+        },
         anki: {
           title: "Import Anki en un clic",
           description: "Migrez vos decks Anki instantanément - aucune perte de données",
@@ -54,6 +69,18 @@ export const strings = {
         },
         cta: "Explorer les connexions kanji"
       },
+      conjugation: {
+        title: "Maîtrisez la conjugaison japonaise",
+        subtitle: "Plus de 100 formes de conjugaison - le plus complet du marché",
+        description: "Notre moteur de conjugaison avancé couvre chaque forme de verbe, d'adjectif et de copule avec une précision parfaite. Détection intelligente du type de mot, exercices de difficulté pondérée et architecture propre rendent la pratique grammaticale sans effort.",
+        benefits: {
+          benefit1: "Plus de 100 formes de conjugaison (les plus complètes disponibles)",
+          benefit2: "Implémentation précise des règles grammaticales japonaises",
+          benefit3: "Détection intelligente du type de mot avec score de confiance",
+          benefit4: "Excellente intégration d'exercices avec difficulté pondérée"
+        },
+        cta: "Pratiquer la conjugaison"
+      },
       anki: {
         title: "Import Anki en un clic : Conservez vos progrès",
         subtitle: "Changez sans perdre des milliers d'heures de travail",
@@ -78,6 +105,32 @@ export const strings = {
           benefit4: "Synchronisation avec votre emploi du temps de cours"
         },
         cta: "Parcourir le vocabulaire des manuels"
+      },
+
+      news: {
+        title: "Articles de presse japonais réels",
+        subtitle: "Apprenez à partir d'événements actuels authentiques",
+        description: "Lisez de vrais articles de presse japonais avec support de compréhension intégré. Notre IA décompose les phrases complexes, fournit des indices de vocabulaire et suit vos progrès de lecture.",
+        benefits: {
+          benefit1: "Contenu d'actualité authentique mis à jour quotidiennement",
+          benefit2: "Décomposition et analyse de phrases alimentées par IA",
+          benefit3: "Recherche instantanée de vocabulaire avec intégration SRS",
+          benefit4: "Suivi et statistiques des progrès de lecture"
+        },
+        cta: "Lire des articles de presse"
+      },
+
+      stories: {
+        title: "Histoires générées par IA",
+        subtitle: "Histoires personnalisées pour votre niveau",
+        description: "Pratiquez la lecture avec des histoires générées par IA adaptées à votre niveau de vocabulaire et à vos intérêts. Chaque histoire inclut furigana, listes de vocabulaire et questions de compréhension.",
+        benefits: {
+          benefit1: "Histoires générées à votre niveau exact",
+          benefit2: "Support furigana et vocabulaire",
+          benefit3: "Questions et quiz de compréhension",
+          benefit4: "Enregistrez les mots inconnus directement dans la révision SRS"
+        },
+        cta: "Explorer les histoires IA"
       }
     },
     comparison: {

@@ -2,18 +2,12 @@
  * Gamification State Management
  * Zustand store with Firebase-first architecture and optimistic updates
  *
- * FIXES APPLIED:
- * - Issue #1: Date types now use ISO strings instead of Date objects
- * - Issue #3: Version tracking enabled in both modes
- * - Issue #4: Mutation queue prevents race conditions
- * - Hydration safety: No operations until hasHydrated = true
- *
  * Architecture:
  * - Firebase as single source of truth (matches URE pattern)
  * - Optimistic UI updates for instant feedback
- * - Background sync with automatic retry
  * - Version-based conflict detection
- * - Mutation queue for atomic operations
+ * - Mutation queue for non-streak operations
+ * - Streak operations use dedicated API endpoints with transactions
  *
  * State includes: XP, level, streaks, achievements, session tracking
  * Middleware: Feature flag checks, optimistic updates, hydration tracking
@@ -27,13 +21,6 @@ import { VersionConflictError } from '@/lib/types/shared/versioned.types'
 
 // Global flag to prevent duplicate Firebase loads
 let isLoadingFromFirebase = false
-// Global flag for feature flag check
-let useFirebaseFirst = false
-
-// Check feature flag on load (client-side only)
-if (typeof window !== 'undefined') {
-  useFirebaseFirst = process.env.NEXT_PUBLIC_STREAK_FIREBASE_FIRST === 'true'
-}
 
 /**
  * Mutation queue for preventing race conditions
@@ -188,17 +175,13 @@ export const useGamificationStore = create<GamificationState>()(
       },
 
       /**
-       * Increment streak counter
-       * FIXED: Version tracking in legacy mode, uses ISO strings
+       * Increment streak counter by 1 (on successful daily activity)
        *
-       * Firebase-first mode (new):
-       * - Optimistic UI update (instant feedback)
-       * - Background Firebase transaction
-       * - Conflict detection and resolution
-       *
-       * Legacy mode (old):
-       * - Update Zustand + IndexedDB with version check
-       * - Conflict detection on version mismatch
+       * Firebase-first architecture:
+       * - Optimistic UI update for instant feedback
+       * - POST to /api/gamification/streak/increment with transaction
+       * - Version-based conflict detection
+       * - Reverts on failure with IndexedDB fallback
        */
       incrementStreak: async () => {
         // Feature flag check
@@ -214,124 +197,89 @@ export const useGamificationStore = create<GamificationState>()(
           return
         }
 
-        // Firebase-first mode (feature flag gated)
-        if (useFirebaseFirst) {
-          // Optimistic UI update (instant feedback)
-          const optimisticNewStreak = state.currentStreak + 1
-          set({
-            currentStreak: optimisticNewStreak,
-            bestStreak: Math.max(optimisticNewStreak, state.bestStreak),
-            lastActivityDate: DateSerializer.getCurrentDateUTC(), // FIXED: ISO string
-            isSyncing: true
+        // Optimistic UI update (instant feedback)
+        const optimisticNewStreak = state.currentStreak + 1
+        set({
+          currentStreak: optimisticNewStreak,
+          bestStreak: Math.max(optimisticNewStreak, state.bestStreak),
+          lastActivityDate: DateSerializer.getCurrentDateUTC(),
+          isSyncing: true
+        })
+
+        try {
+          // Get Firebase auth token
+          const { getAuth } = await import('firebase/auth');
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          if (!user) {
+            throw new Error('User not authenticated');
+          }
+
+          const idToken = await user.getIdToken();
+
+          // Call transactional API endpoint
+          const response = await fetch('/api/gamification/streak/increment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({
+              version: state.version
+            })
           })
 
-          try {
-            // Get Firebase auth token
-            const { getAuth } = await import('firebase/auth');
-            const auth = getAuth();
-            const user = auth.currentUser;
+          if (!response.ok) {
+            throw new Error(`Failed to increment streak: ${response.statusText}`)
+          }
 
-            if (!user) {
-              throw new Error('User not authenticated');
-            }
+          const result = await response.json()
 
-            const idToken = await user.getIdToken();
-
-            // Call new transactional API endpoint
-            const response = await fetch('/api/gamification/streak/increment', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${idToken}`
-              },
-              body: JSON.stringify({
-                version: state.version
-              })
-            })
-
-            if (!response.ok) {
-              throw new Error(`Failed to increment streak: ${response.statusText}`)
-            }
-
-            const result = await response.json()
-
-            if (result.success && result.data) {
-              set({
-                currentStreak: result.data.current,
-                bestStreak: result.data.best,
-                lastActivityDate: result.data.lastActivityDate, // Already ISO string
-                version: result.data.version,
-                isSyncing: false,
-                isDirty: false
-              })
-
-              console.log('[Gamification Store] Streak incremented via Firebase:', result.data)
-            } else if (result.conflictDetected) {
-              // Conflict detected - reload from server
-              console.warn('[Gamification Store] Conflict detected, reloading from Firebase')
-              await get().loadFromFirebase()
-            } else {
-              throw new Error('Invalid response from streak increment API')
-            }
-
-          } catch (error) {
-            console.error('[Gamification Store] Failed to increment streak via Firebase:', error)
-
-            // Revert optimistic update on error
+          if (result.success && result.data) {
             set({
-              currentStreak: state.currentStreak,
-              bestStreak: state.bestStreak,
-              lastActivityDate: state.lastActivityDate,
+              currentStreak: result.data.current,
+              bestStreak: result.data.best,
+              lastActivityDate: result.data.lastActivityDate,
+              version: result.data.version,
               isSyncing: false,
-              isDirty: true
+              isDirty: false
             })
 
-            // Fall back to IndexedDB save
-            await get().saveToIndexedDB()
+            console.log('[Gamification Store] Streak incremented via Firebase:', result.data)
+          } else if (result.conflictDetected) {
+            // Conflict detected - reload from server
+            console.warn('[Gamification Store] Conflict detected, reloading from Firebase')
+            await get().loadFromFirebase()
+          } else {
+            throw new Error('Invalid response from streak increment API')
           }
 
-          return
+        } catch (error) {
+          console.error('[Gamification Store] Failed to increment streak via Firebase:', error)
+
+          // Revert optimistic update on error
+          set({
+            currentStreak: state.currentStreak,
+            bestStreak: state.bestStreak,
+            lastActivityDate: state.lastActivityDate,
+            isSyncing: false,
+            isDirty: true
+          })
+
+          // Fall back to IndexedDB save
+          await get().saveToIndexedDB()
         }
-
-        // Legacy mode (FIXED: Now has version tracking)
-        const currentVersion = state.version
-        const newStreak = state.currentStreak + 1
-
-        set({
-          currentStreak: newStreak,
-          bestStreak: Math.max(newStreak, state.bestStreak),
-          lastActivityDate: DateSerializer.getCurrentDateUTC(), // FIXED: ISO string
-          version: currentVersion + 1, // NEW: Version tracking in legacy mode
-          isDirty: true
-        })
-
-        // Queue mutation
-        queueMutation(async () => {
-          try {
-            await get().saveToIndexedDB()
-
-            // Auto-sync if online
-            if (typeof window !== 'undefined' && navigator.onLine) {
-              await get().syncToFirebase()
-            }
-          } catch (error) {
-            if (error instanceof VersionConflictError) {
-              // Version conflict - reload from IndexedDB
-              console.warn('[Gamification Store] Version conflict in legacy mode, reloading')
-              const userId = get().userId
-              if (userId) {
-                await get().loadFromIndexedDB(userId)
-              }
-            } else {
-              throw error
-            }
-          }
-        })
       },
 
       /**
-       * Reset streak to 0 (on missed day)
-       * FIXED: Version tracking in legacy mode, uses ISO strings
+       * Reset streak to 0 (on missed day without freeze)
+       *
+       * Firebase-first architecture:
+       * - Optimistic UI update
+       * - POST to /api/gamification/streak/reset with transaction
+       * - Version-based conflict detection
+       * - Reverts on failure with IndexedDB fallback
        */
       resetStreak: async () => {
         // Feature flag check
@@ -347,94 +295,76 @@ export const useGamificationStore = create<GamificationState>()(
           return
         }
 
-        // Firebase-first mode (feature flag gated)
-        if (useFirebaseFirst) {
-          // Optimistic UI update
-          set({
-            currentStreak: 0,
-            lastActivityDate: DateSerializer.getCurrentDateUTC(), // FIXED: ISO string
-            isSyncing: true
-          })
-
-          try {
-            // Get Firebase auth token
-            const { getAuth } = await import('firebase/auth');
-            const auth = getAuth();
-            const user = auth.currentUser;
-
-            if (!user) {
-              throw new Error('User not authenticated');
-            }
-
-            const idToken = await user.getIdToken();
-
-            // Call new transactional API endpoint
-            const response = await fetch('/api/gamification/streak/reset', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${idToken}`
-              },
-              body: JSON.stringify({
-                version: state.version
-              })
-            })
-
-            if (!response.ok) {
-              throw new Error(`Failed to reset streak: ${response.statusText}`)
-            }
-
-            const result = await response.json()
-
-            if (result.success && result.data) {
-              set({
-                currentStreak: result.data.current,
-                bestStreak: result.data.best ?? state.bestStreak,
-                lastActivityDate: result.data.lastActivityDate, // Already ISO string
-                version: result.data.version,
-                isSyncing: false,
-                isDirty: false
-              })
-
-              console.log('[Gamification Store] Streak reset via Firebase:', result.data)
-            } else if (result.conflictDetected) {
-              // Conflict detected - reload from server
-              console.warn('[Gamification Store] Conflict detected, reloading from Firebase')
-              await get().loadFromFirebase()
-            } else {
-              throw new Error('Invalid response from streak reset API')
-            }
-
-          } catch (error) {
-            console.error('[Gamification Store] Failed to reset streak via Firebase:', error)
-
-            // Revert optimistic update on error
-            set({
-              currentStreak: state.currentStreak,
-              lastActivityDate: state.lastActivityDate,
-              isSyncing: false,
-              isDirty: true
-            })
-
-            // Fall back to IndexedDB save
-            await get().saveToIndexedDB()
-          }
-
-          return
-        }
-
-        // Legacy mode (FIXED: Now has version tracking)
+        // Optimistic UI update
         set({
           currentStreak: 0,
-          lastActivityDate: DateSerializer.getCurrentDateUTC(), // FIXED: ISO string
-          version: state.version + 1, // NEW: Version tracking
-          isDirty: true
+          lastActivityDate: DateSerializer.getCurrentDateUTC(),
+          isSyncing: true
         })
 
-        // Queue mutation
-        queueMutation(async () => {
+        try {
+          // Get Firebase auth token
+          const { getAuth } = await import('firebase/auth');
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          if (!user) {
+            throw new Error('User not authenticated');
+          }
+
+          const idToken = await user.getIdToken();
+
+          // Call transactional API endpoint
+          const response = await fetch('/api/gamification/streak/reset', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({
+              version: state.version
+            })
+          })
+
+          if (!response.ok) {
+            throw new Error(`Failed to reset streak: ${response.statusText}`)
+          }
+
+          const result = await response.json()
+
+          if (result.success && result.data) {
+            set({
+              currentStreak: result.data.current,
+              bestStreak: result.data.best ?? state.bestStreak,
+              lastActivityDate: result.data.lastActivityDate,
+              version: result.data.version,
+              isSyncing: false,
+              isDirty: false
+            })
+
+            console.log('[Gamification Store] Streak reset via Firebase:', result.data)
+          } else if (result.conflictDetected) {
+            // Conflict detected - reload from server
+            console.warn('[Gamification Store] Conflict detected, reloading from Firebase')
+            await get().loadFromFirebase()
+          } else {
+            throw new Error('Invalid response from streak reset API')
+          }
+
+        } catch (error) {
+          console.error('[Gamification Store] Failed to reset streak via Firebase:', error)
+
+          // Revert optimistic update on error
+          set({
+            currentStreak: state.currentStreak,
+            lastActivityDate: state.lastActivityDate,
+            isSyncing: false,
+            isDirty: true
+          })
+
+          // Fall back to IndexedDB save
           await get().saveToIndexedDB()
-        })
+        }
       },
 
       /**

@@ -2,12 +2,17 @@
  * Gamification Listener Service
  * Event-driven gamification system that listens to URE events
  *
- * CRITICAL: This service maintains clean separation from the Universal Review Engine (URE)
+ * Firebase-First Unified Architecture:
  * - URE emits: SESSION_COMPLETED, ITEM_ANSWERED, PROGRESS_UPDATED
  * - This service listens to those events (read-only)
- * - Calculates XP based on config-driven rules
- * - Checks and unlocks achievements
+ * - Calls server-side API: POST /api/review/session/complete
+ * - Server uses gamification-coordinator for atomic transactions
+ * - Updates Zustand store with server response
+ * - Firebase is single source of truth
  * - ZERO modifications to URE code
+ *
+ * Pathway:
+ * URE → gamificationListener → API → coordinator → Firebase → Zustand store
  */
 
 import { EventEmitter } from 'events'
@@ -73,7 +78,14 @@ export class GamificationListener extends EventEmitter {
   }
 
   /**
-   * Handle session completion - main XP calculation logic
+   * Handle URE session completion - Firebase-first unified pathway
+   *
+   * Architecture:
+   * - URE emits SESSION_COMPLETED event
+   * - Calls POST /api/review/session/complete
+   * - Server uses gamification-coordinator for atomic transaction
+   * - Updates Zustand store with server response
+   * - Firebase is single source of truth
    */
   private async handleSessionCompleted(event: any): Promise<void> {
     if (!this.isEnabled) return
@@ -87,74 +99,104 @@ export class GamificationListener extends EventEmitter {
       console.log('[Gamification] Received event:', event)
       console.log('[Gamification] Processing session:', sessionId, statistics)
 
-      // 1. Calculate XP with bonuses (config-driven)
-      const xpResult = this.calculateXP(statistics)
-      console.log('[Gamification] XP Calculation:', {
-        correctItems: statistics.correctItems,
-        baseXP: xpResult.baseXP,
-        bonuses: xpResult.bonuses,
-        totalXP: xpResult.totalXP,
-        cappedXP: xpResult.cappedXP
-      })
+      // NEW: Firebase-first unified pathway
+      // Call server-side API for atomic gamification update
+      const { getAuth } = await import('firebase/auth');
+      const auth = getAuth();
+      const user = auth.currentUser;
 
-      // 2. Award XP to user
-      const store = useGamificationStore.getState()
-      console.log('[Gamification] Before XP award - Total XP:', store.totalXP)
-      store.awardXP(xpResult.cappedXP)
-      console.log('[Gamification] After XP award - Total XP:', useGamificationStore.getState().totalXP)
-
-      // 3. Increment session count (for achievements)
-      store.incrementSessionCount()
-
-      // 4. Check streak eligibility (≥10 XP from config)
-      // Only increment streak if it's a new day (to prevent multiple sessions same day counting as multiple streaks)
-      if (xpResult.cappedXP >= streakConfig.minXPForStreak) {
-        const today = new Date().toDateString()
-        const lastActivityDay = store.lastActivityDate ? new Date(store.lastActivityDate).toDateString() : null
-
-        if (today !== lastActivityDay) {
-          // New day! Increment streak
-          // Note: incrementStreak is now async in Firebase-first mode
-          await store.incrementStreak()
-        }
-        // Same day as last activity - don't increment streak, but update lastActivityDate
-        else {
-          // Just update the activity timestamp without incrementing streak
-          store.awardXP(0) // This updates lastActivityDate without adding XP
-        }
+      if (!user) {
+        console.error('[Gamification] User not authenticated, skipping gamification');
+        return;
       }
 
-      // 5. Check achievement conditions
-      // CRITICAL: Get fresh store reference AFTER state updates
-      const freshStore = useGamificationStore.getState()
-      const unlockedAchievements = await this.checkAchievements(statistics, freshStore)
+      const idToken = await user.getIdToken();
 
-      // 6. Emit gamification events for UI
+      // Calculate metrics from statistics
+      const itemsReviewed = statistics.totalItems || 0;
+      const correctCount = statistics.correctItems || 0;
+      const accuracy = itemsReviewed > 0 ? (correctCount / itemsReviewed) * 100 : 0;
+
+      console.log('[Gamification] Calling server API with:', {
+        sessionId,
+        itemsReviewed,
+        correctCount,
+        accuracy
+      });
+
+      // Call server-side API
+      const response = await fetch('/api/review/session/complete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
+        body: JSON.stringify({
+          sessionId,
+          itemsReviewed,
+          correctCount,
+          accuracy
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Gamification API failed: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      if (!result.success || !result.gamification) {
+        throw new Error('Invalid gamification response');
+      }
+
+      const gam = result.gamification;
+
+      console.log('[Gamification] Server response:', gam);
+
+      // Update Zustand store with server response (Firebase is source of truth)
+      const store = useGamificationStore.getState();
+      store.set({
+        totalXP: gam.newTotalXP,
+        currentLevel: gam.newLevel,
+        currentStreak: gam.currentStreak,
+        bestStreak: gam.bestStreak,
+        sessionCount: store.sessionCount + 1,
+        isDirty: false,
+        lastSyncedAt: new Date().toISOString()
+      });
+
+      // Handle achievement unlocks if any
+      if (gam.achievementsUnlocked && gam.achievementsUnlocked.length > 0) {
+        gam.achievementsUnlocked.forEach((achievementId: string) => {
+          store.unlockAchievement(achievementId);
+        });
+      }
+
+      // Emit gamification events for UI
       this.emit('xp.awarded', {
         sessionId,
-        xp: xpResult.cappedXP,
-        breakdown: xpResult.bonuses
-      })
+        xp: gam.xpEarned,
+        breakdown: { total: gam.xpEarned }
+      });
 
-      if (unlockedAchievements.length > 0) {
-        unlockedAchievements.forEach(achievement => {
-          this.emit('achievement.unlocked', achievement)
-        })
+      if (gam.streakIncremented) {
+        this.emit('streak.incremented', {
+          current: gam.currentStreak,
+          best: gam.bestStreak
+        });
       }
 
-      console.log('[Gamification] Session processed:', {
-        sessionId,
-        xp: xpResult.cappedXP,
-        achievements: unlockedAchievements.length
-      })
+      if (gam.achievementsUnlocked && gam.achievementsUnlocked.length > 0) {
+        gam.achievementsUnlocked.forEach((achievementId: string) => {
+          this.emit('achievement.unlocked', { id: achievementId });
+        });
+      }
 
-      // 7. Sync to Firebase for premium users (async, don't block UI)
-      // This ensures gamification data persists across devices for premium users
-      // Free users will continue using IndexedDB only (offline-first)
-      const finalStore = useGamificationStore.getState()
-      finalStore.syncToFirebase().catch(err => {
-        console.error('[Gamification] Failed to sync to Firebase (will retry later):', err)
-        // Don't throw - IndexedDB save already succeeded, Firebase is just backup for premium
+      console.log('[Gamification] Session processed via server:', {
+        sessionId,
+        xpEarned: gam.xpEarned,
+        streakIncremented: gam.streakIncremented,
+        achievements: gam.achievementsUnlocked?.length || 0
       })
     } catch (error) {
       console.error('[Gamification] Error handling session completion:', error)

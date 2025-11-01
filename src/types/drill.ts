@@ -36,6 +36,7 @@ export interface JapaneseWord {
   tags?: string[];
   frequency?: number;
   examples?: string[];
+  partsOfSpeech?: string[]; // NEW: Parts of speech for detailed word type detection
 }
 
 // Extended Conjugation Forms
@@ -137,6 +138,8 @@ export interface DrillSettings {
   wordTypeFilter: WordTypeFilter;
   drillMode: DrillMode;
   selectedLists?: string[];
+  jlptLevels?: JLPTLevel[]; // NEW: Filter by JLPT levels (N5, N4, N3, N2, N1)
+  conjugationForms?: string[]; // NEW: Filter specific conjugation forms
 }
 
 // Word List for drill selection
