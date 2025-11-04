@@ -385,6 +385,11 @@ export default function TranscriptViewerNew({
 
   if (!isVisible) return null;
 
+  // Don't render if we have no segments at all
+  if (!transcript && segments.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <div className={`caption-component ${className} [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}>
@@ -392,9 +397,9 @@ export default function TranscriptViewerNew({
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="text-dark-300 text-sm font-medium flex items-center gap-1">
-              🇯🇵 {transcript.language || 'Japanese'}
+              🇯🇵 {transcript?.language || 'Japanese'}
             </span>
-            {transcript.source && (
+            {transcript?.source && (
               <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded border border-green-500/30">
                 {transcript.cached ? '📦 Cached' : '🔄 Fresh'} • {transcript.source}
               </span>
