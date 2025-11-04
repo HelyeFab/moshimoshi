@@ -6,7 +6,6 @@ import WordExplanationModal from '@/components/word/WordExplanationModal';
 import { useWordExplanation } from '@/hooks/useWordExplanation';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { TranscriptSegment } from '@/types/youtube-player';
-import { generateFuriganaWithCache } from '@/utils/furigana';
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText';
 
 export interface TranscriptLine {
@@ -77,7 +76,6 @@ export default function TranscriptViewerNew({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showFullTranscript, setShowFullTranscript] = useState(initialShowFullTranscript);
-  const [currentSegmentFurigana, setCurrentSegmentFurigana] = useState<string>('');
   const { showToast } = useToast();
 
   // Refs for auto-scroll functionality
@@ -179,30 +177,6 @@ export default function TranscriptViewerNew({
     if (!segments || segments.length === 0) return [];
     return segments.filter((segment) => segment.startTime > currentTime).slice(0, 3);
   }, [segments, currentTime]);
-
-  // Generate furigana for current segment
-  useEffect(() => {
-    const generateFurigana = async () => {
-      if (!currentSegment) {
-        setCurrentSegmentFurigana('');
-        return;
-      }
-
-      if (!showFurigana) {
-        setCurrentSegmentFurigana(currentSegment.text);
-        return;
-      }
-
-      try {
-        const withFurigana = await generateFuriganaWithCache(currentSegment.text);
-        setCurrentSegmentFurigana(withFurigana);
-      } catch (error) {
-        setCurrentSegmentFurigana(currentSegment.text);
-      }
-    };
-
-    generateFurigana();
-  }, [currentSegment, showFurigana]);
 
   // Auto-scroll to current segment when it changes
   useEffect(() => {
@@ -427,23 +401,14 @@ export default function TranscriptViewerNew({
                 exit={{ opacity: 0, y: -10 }}
                 className="p-4 bg-gradient-to-r from-primary-500/20 to-primary-600/20 rounded-lg border-l-4 border-primary-500 shadow-lg"
               >
-                {showGrammar ? (
-                  <div className="text-dark-50 text-base leading-relaxed font-medium">
-                    <GrammarHighlightedText
-                      text={currentSegment.text}
-                      highlightMode={grammarMode}
-                      showFurigana={showFurigana}
-                      className="text-base"
-                    />
-                  </div>
-                ) : (
-                  <p
-                    className="text-dark-50 text-base leading-relaxed font-medium japanese-text"
-                    dangerouslySetInnerHTML={{
-                      __html: showFurigana ? currentSegmentFurigana : currentSegment.text
-                    }}
+                <div className="text-dark-50 text-base leading-relaxed font-medium">
+                  <GrammarHighlightedText
+                    text={currentSegment.text}
+                    highlightMode={showGrammar ? grammarMode : 'none'}
+                    showFurigana={showFurigana}
+                    className="text-base"
                   />
-                )}
+                </div>
                 <div className="flex justify-between items-center mt-3 text-xs text-dark-300">
                   <span>
                     {formatTime(currentSegment.startTime)} - {formatTime(currentSegment.endTime)}
