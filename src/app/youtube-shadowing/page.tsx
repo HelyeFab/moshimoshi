@@ -15,6 +15,7 @@ import EnhancedShadowingPlayer from '@/components/youtube-shadowing/EnhancedShad
 import TranscriptViewerNew from '@/components/youtube-shadowing/TranscriptViewerNew';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { extractVideoId } from '@/utils/youtubeHelpers';
+import TranscriptCacheManager from '@/utils/transcriptCache';
 
 const SESSION_STORAGE_KEY = 'youtubeShadowingSession';
 export interface TranscriptLine {
