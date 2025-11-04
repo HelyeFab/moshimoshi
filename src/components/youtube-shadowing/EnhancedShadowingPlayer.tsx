@@ -46,6 +46,12 @@ export default function EnhancedShadowingPlayer({
   onTimeUpdate,
   onPlayStateChange,
   showVideo = true,
+  showFurigana = true,
+  onToggleFurigana,
+  showGrammar = false,
+  onToggleGrammar,
+  grammarMode = 'content',
+  onGrammarModeChange,
   className,
   // AI-related props are ignored (deprecated)
 }: EnhancedShadowingPlayerProps) {
