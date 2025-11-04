@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import type { ShadowingSession, TranscriptLine } from '@/types/youtubeShadowing';
 import { 
   Play, Pause, SkipBack, SkipForward, Volume2, Repeat, Settings, 
-  ChevronLeft, ChevronRight, Video, AudioLines, ChevronUp, ChevronDown, RotateCcw 
+  ChevronLeft, ChevronRight, Video, AudioLines, ChevronUp, ChevronDown, RotateCcw, Sparkles 
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
@@ -44,6 +44,10 @@ interface EnhancedShadowingPlayerProps {
   useEnhancedTranscript?: boolean;
   onToggleTranscriptSource?: (useEnhanced: boolean) => void;
   className?: string;
+  canRequestAiEnhancement?: boolean;
+  onRequestAiEnhancement?: () => void | Promise<void>;
+  aiEnhancementStatus?: 'idle' | 'running' | 'completed' | 'error';
+  aiEnhancementError?: string | null;
 }
 
 export default function EnhancedShadowingPlayer({
@@ -62,7 +66,11 @@ export default function EnhancedShadowingPlayer({
   formattedAvailable = false,
   useEnhancedTranscript = true,
   onToggleTranscriptSource,
-  className
+  className,
+  canRequestAiEnhancement = false,
+  onRequestAiEnhancement,
+  aiEnhancementStatus = 'idle',
+  aiEnhancementError
 }: EnhancedShadowingPlayerProps) {
   const { user } = useAuth();
   const { showToast } = useToast();
@@ -74,7 +82,6 @@ export default function EnhancedShadowingPlayer({
   const [pauseBetweenRepeats, setPauseBetweenRepeats] = useState(1500);
   const [currentRepeat, setCurrentRepeat] = useState(0);
   const [activeRepeatNumber, setActiveRepeatNumber] = useState(1);
-  const [continuousPlay, setContinuousPlay] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [volume, setVolume] = useState(1.0);
   const [isYouTubeMode, setIsYouTubeMode] = useState(false);
@@ -131,6 +138,7 @@ export default function EnhancedShadowingPlayer({
   const syncIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const repeatMonitorRef = useRef<NodeJS.Timeout | null>(null);
   const currentRepeatRef = useRef<number>(0);
+  const repeatCountRef = useRef<number>(repeatCount);
   const actualPlayingLineIndexRef = useRef<number>(session.currentLineIndex);
   const playerContainerRef = useRef<HTMLDivElement>(null);
   
@@ -193,6 +201,46 @@ export default function EnhancedShadowingPlayer({
   useEffect(() => {
     currentRepeatRef.current = currentRepeat;
   }, [currentRepeat]);
+  
+  // Keep latest repeat count available for async callbacks
+  useEffect(() => {
+    repeatCountRef.current = repeatCount;
+  }, [repeatCount]);
+
+const stopRepeatsEarly = useCallback(() => {
+  if (repeatTimeoutRef.current) {
+    clearTimeout(repeatTimeoutRef.current);
+    repeatTimeoutRef.current = null;
+  }
+  if (repeatMonitorRef.current) {
+    clearInterval(repeatMonitorRef.current);
+    repeatMonitorRef.current = null;
+  }
+  if (lineEndTimeoutRef.current) {
+    clearTimeout(lineEndTimeoutRef.current);
+    lineEndTimeoutRef.current = null;
+  }
+  currentRepeatRef.current = 0;
+  setCurrentRepeat(0);
+  setActiveRepeatNumber(1);
+  setIsPausingForRepeat(false);
+  setIsInRepeatMode(false);
+  if (youtubePlayerRef.current && typeof youtubePlayerRef.current.pauseVideo === 'function') {
+    youtubePlayerRef.current.pauseVideo();
+  }
+  if (localVideoRef.current) {
+    localVideoRef.current.pause();
+  }
+  if (audioRef.current) {
+    audioRef.current.pause();
+  }
+  setIsPlaying(false);
+  setAbRepeat(prev => ({
+    ...prev,
+    currentRepeat: 0,
+    isActive: false
+  }));
+}, []);
 
   // Helper function to clean romaji from text
   const cleanRomaji = (text: string): string => {
@@ -391,22 +439,37 @@ export default function EnhancedShadowingPlayer({
   }, [playbackSpeed, volume]);
 
   const handleYouTubeStateChange = useCallback((event: any) => {
-    if (isHandlingRepeatEnd || (repeatCount > 1)) {
+    if (isHandlingRepeatEnd || (repeatCountRef.current > 1)) {
       return;
     }
-    
-    if (event.data === window.YT.PlayerState.PLAYING) {
+
+    const state = event.data;
+
+    // Handle PLAYING state (1)
+    if (state === window.YT.PlayerState.PLAYING) {
       setIsPlaying(true);
       if (onPlayStateChange) onPlayStateChange(true);
       timeManagerRef.current.startSync();
-    } else {
+    }
+    // Handle PAUSED state (2)
+    else if (state === window.YT.PlayerState.PAUSED) {
       setIsPlaying(false);
       if (onPlayStateChange) onPlayStateChange(false);
-      if (event.data === window.YT.PlayerState.PAUSED) {
-        timeManagerRef.current.stopSync();
-      }
+      timeManagerRef.current.stopSync();
     }
-  }, [isHandlingRepeatEnd, repeatCount]);
+    // Handle BUFFERING state (3) - Critical for sync accuracy
+    else if (state === window.YT.PlayerState.BUFFERING) {
+      // Stop time sync during buffering to prevent drift
+      timeManagerRef.current.stopSync();
+      console.log('[YOUTUBE] Buffering - pausing time sync');
+    }
+    // Handle ENDED state (0)
+    else if (state === window.YT.PlayerState.ENDED) {
+      setIsPlaying(false);
+      if (onPlayStateChange) onPlayStateChange(false);
+      timeManagerRef.current.stopSync();
+    }
+  }, [isHandlingRepeatEnd]);
 
   // Initialize audio element
   useEffect(() => {
@@ -421,22 +484,44 @@ export default function EnhancedShadowingPlayer({
         audioRef.current?.currentTime || 0
       );
 
-      audio.addEventListener('timeupdate', handleAudioTimeUpdate);
-      audio.addEventListener('ended', handleAudioEnded);
-      audio.addEventListener('play', () => {
+      const handlePlay = () => {
         setIsPlaying(true);
         if (onPlayStateChange) onPlayStateChange(true);
         timeManagerRef.current.startSync();
-      });
-      audio.addEventListener('pause', () => {
+      };
+
+      const handlePause = () => {
         setIsPlaying(false);
         if (onPlayStateChange) onPlayStateChange(false);
         timeManagerRef.current.stopSync();
-      });
+      };
+
+      const handleWaiting = () => {
+        console.log('[AUDIO] Buffering/Waiting - pausing time sync');
+        timeManagerRef.current.stopSync();
+      };
+
+      const handleCanPlay = () => {
+        console.log('[AUDIO] Can play - resuming time sync if playing');
+        if (!audio.paused) {
+          timeManagerRef.current.startSync();
+        }
+      };
+
+      audio.addEventListener('timeupdate', handleAudioTimeUpdate);
+      audio.addEventListener('ended', handleAudioEnded);
+      audio.addEventListener('play', handlePlay);
+      audio.addEventListener('pause', handlePause);
+      audio.addEventListener('waiting', handleWaiting);
+      audio.addEventListener('canplay', handleCanPlay);
 
       return () => {
         audio.removeEventListener('timeupdate', handleAudioTimeUpdate);
         audio.removeEventListener('ended', handleAudioEnded);
+        audio.removeEventListener('play', handlePlay);
+        audio.removeEventListener('pause', handlePause);
+        audio.removeEventListener('waiting', handleWaiting);
+        audio.removeEventListener('canplay', handleCanPlay);
         audio.pause();
       };
     }
@@ -445,12 +530,49 @@ export default function EnhancedShadowingPlayer({
   // Initialize local video element
   useEffect(() => {
     if (isLocalVideo && localVideoRef.current && session.videoUrl) {
-      localVideoRef.current.load();
-      
+      const video = localVideoRef.current;
+      video.load();
+
       // Set up precision time tracking for local video
-      timeManagerRef.current.setPlayer(() => 
+      timeManagerRef.current.setPlayer(() =>
         localVideoRef.current?.currentTime || 0
       );
+
+      // Handle buffering/waiting states to prevent sync drift
+      const handleWaiting = () => {
+        console.log('[VIDEO] Buffering/Waiting - pausing time sync');
+        timeManagerRef.current.stopSync();
+      };
+
+      const handleCanPlay = () => {
+        console.log('[VIDEO] Can play - resuming time sync if playing');
+        if (!video.paused) {
+          timeManagerRef.current.startSync();
+        }
+      };
+
+      const handlePlaying = () => {
+        console.log('[VIDEO] Playing - starting time sync');
+        timeManagerRef.current.startSync();
+      };
+
+      const handlePause = () => {
+        console.log('[VIDEO] Paused - stopping time sync');
+        timeManagerRef.current.stopSync();
+      };
+
+      // Add event listeners
+      video.addEventListener('waiting', handleWaiting);
+      video.addEventListener('canplay', handleCanPlay);
+      video.addEventListener('playing', handlePlaying);
+      video.addEventListener('pause', handlePause);
+
+      return () => {
+        video.removeEventListener('waiting', handleWaiting);
+        video.removeEventListener('canplay', handleCanPlay);
+        video.removeEventListener('playing', handlePlaying);
+        video.removeEventListener('pause', handlePause);
+      };
     }
   }, [isLocalVideo, session.videoUrl]);
 
@@ -500,9 +622,8 @@ export default function EnhancedShadowingPlayer({
           setActiveSegmentId(activeSegment.id);
           setCurrentSegmentIndex(segmentIndex);
 
-          if (!isInRepeatMode && !isPausingForRepeat) {
-            onLineChangeRef.current(segmentIndex);
-          }
+          // Always update the line change so transcript follows
+          onLineChangeRef.current(segmentIndex);
 
           // Only auto-scroll if user isn't manually scrolling
           if (!userIsScrolling) {
@@ -569,7 +690,7 @@ export default function EnhancedShadowingPlayer({
       effectiveEndTime = nextLine.startTime - 0.05;
     }
     
-    if (currentTime >= effectiveEndTime && repeatCount > 1) {
+    if (currentTime >= effectiveEndTime && repeatCountRef.current > 1) {
       localVideoRef.current.pause();
       handleLineComplete();
     }
@@ -588,56 +709,42 @@ export default function EnhancedShadowingPlayer({
     const lineToRepeat = activeTranscript[currentLineIndex];
 
     timeManagerRef.current.stopSync();
-    
-    if (nextRepeat < repeatCount) {
+
+    // Use the ref value which is always up-to-date with user changes
+    if (nextRepeat < repeatCountRef.current) {
       setCurrentRepeat(nextRepeat);
       setActiveRepeatNumber(nextRepeat + 1);
       setIsPausingForRepeat(true);
       
       repeatTimeoutRef.current = setTimeout(() => {
+        const allowedRepeats = repeatCountRef.current;
+        const completedRepeats = currentRepeatRef.current;
+
+        if (allowedRepeats <= 1 || completedRepeats >= allowedRepeats) {
+          stopRepeatsEarly();
+          setIsPlaying(false);
+          repeatTimeoutRef.current = null;
+          return;
+        }
+
         // Use the specific line for this repeat
         if (lineToRepeat) {
           playSpecificLine(lineToRepeat, currentLineIndex);
         } else {
           playCurrentLine();
         }
+        repeatTimeoutRef.current = null;
       }, pauseBetweenRepeats);
     } else {
+      // Completed all repeats for this segment
       setCurrentRepeat(0);
       setActiveRepeatNumber(1);
       setIsInRepeatMode(false);
-      
-      // Check if continuous play is enabled and we're not at the last line
-      if (continuousPlay && actualPlayingLineIndexRef.current < activeTranscript.length - 1) {
-        setTimeout(() => {
-          const nextIndex = actualPlayingLineIndexRef.current + 1;
-          const nextLine = activeTranscript[nextIndex];
-          
-          if (!nextLine) {
-            setIsPlaying(false);
-            return;
-          }
-          
-          onLineChange(nextIndex);
-          // Reset repeat tracking for the new line
-          currentRepeatRef.current = 0;
-          // Update the active segment to match the new line
-          if (segments[nextIndex]) {
-            setActiveSegmentId(segments[nextIndex].id);
-            setCurrentSegmentIndex(nextIndex);
-            // Scroll to the new segment if not manually scrolling
-            if (!userIsScrolling) {
-              scrollToActiveSegment(segments[nextIndex].id);
-            }
-          }
-          // Play the next line with its specific data
-          setTimeout(() => {
-            playSpecificLine(nextLine, nextIndex);
-          }, 500);
-        }, 1000);
-      } else {
-        setIsPlaying(false);
-      }
+      setIsPlaying(false);
+
+      // Player stops after completing repeats for the current segment
+      // User needs to manually advance to next segment
+      if (onPlayStateChange) onPlayStateChange(false);
     }
   };
 
@@ -714,8 +821,19 @@ export default function EnhancedShadowingPlayer({
     // Track what line we're actually playing
     actualPlayingLineIndexRef.current = lineIndex;
     setIsPausingForRepeat(false);
-    
-    if (repeatCount > 1) {
+
+    // Update parent component so transcript viewer follows
+    if (onLineChangeRef.current) {
+      onLineChangeRef.current(lineIndex);
+    }
+
+    // Update segment tracking for transcript viewer
+    if (segments[lineIndex]) {
+      setActiveSegmentId(segments[lineIndex].id);
+      setCurrentSegmentIndex(lineIndex);
+    }
+
+    if (repeatCountRef.current > 1) {
       setIsInRepeatMode(true);
     }
 
@@ -724,8 +842,8 @@ export default function EnhancedShadowingPlayer({
       youtubePlayerRef.current.playVideo();
       setIsPlaying(true);
       if (onPlayStateChange) onPlayStateChange(true);
-      
-      if (repeatCount > 1) {
+
+      if (repeatCountRef.current > 1) {
         if (repeatMonitorRef.current) {
           clearInterval(repeatMonitorRef.current);
         }
@@ -805,6 +923,100 @@ export default function EnhancedShadowingPlayer({
   // Store the function in the ref so it can be called from the parent
   handlePlayPauseRef.current = handlePlayPause;
 
+  // Handle repeat count changes with Miraa-style logic
+  const handleRepeatCountChange = useCallback((newCount: number) => {
+    const oldCount = repeatCount;
+    const currentRep = currentRepeatRef.current;
+
+    console.log(`[RepeatCount] Changing from ${oldCount} to ${newCount}, currently on repeat ${currentRep + 1}`);
+
+    // Always update the repeat count and ref
+    setRepeatCount(newCount);
+    repeatCountRef.current = newCount;
+
+    // Update AB repeat config
+    setAbRepeat(prev => ({ ...prev, totalRepeats: newCount }));
+
+    // Handle changes during active playback or pausing
+    if ((isPlaying || isPausingForRepeat) && isInRepeatMode) {
+      if (newCount > oldCount) {
+        // INCREASE: Continue current segment with more repeats
+        console.log(`[RepeatCount] Increasing repeats - will play ${newCount - currentRep} more times`);
+        // No need to stop or restart, just update the count
+
+      } else if (newCount < oldCount) {
+        // DECREASE: Check if we should advance
+        if (currentRep >= newCount) {
+          // Already past the new limit, advance to next segment
+          console.log(`[RepeatCount] Current repeat (${currentRep + 1}) exceeds new count (${newCount}), advancing to next segment`);
+
+          // Stop current repeat cycle
+          stopRepeatsEarly();
+
+          // Advance to next segment if not at the last one
+          if (actualPlayingLineIndexRef.current < activeTranscript.length - 1) {
+            const nextIndex = actualPlayingLineIndexRef.current + 1;
+            const nextLine = activeTranscript[nextIndex];
+
+            if (nextLine) {
+              onLineChangeRef.current(nextIndex);
+              actualPlayingLineIndexRef.current = nextIndex;
+
+              // Reset repeat tracking for new segment
+              currentRepeatRef.current = 0;
+              setCurrentRepeat(0);
+              setActiveRepeatNumber(1);
+
+              // Update segment tracking
+              if (segments[nextIndex]) {
+                setActiveSegmentId(segments[nextIndex].id);
+                setCurrentSegmentIndex(nextIndex);
+                if (!userIsScrolling) {
+                  scrollToActiveSegment(segments[nextIndex].id);
+                }
+              }
+
+              // Start playing the next segment
+              setTimeout(() => {
+                playSpecificLine(nextLine, nextIndex);
+              }, 100);
+            }
+          } else {
+            // Stop playback if at last segment
+            setIsPlaying(false);
+            if (onPlayStateChange) onPlayStateChange(false);
+          }
+        } else {
+          // Haven't reached new limit yet, just update the cap
+          console.log(`[RepeatCount] Continuing with reduced count, will stop at repeat ${newCount}`);
+        }
+      }
+    } else if (!isPlaying) {
+      // Not currently playing, reset current repeat counter
+      currentRepeatRef.current = 0;
+      setCurrentRepeat(0);
+      setActiveRepeatNumber(1);
+    }
+
+    // Show visual feedback with more context
+    if (showToast && oldCount !== newCount) {
+      let message = `Repeat count: ${newCount}`;
+      if (isPlaying && isInRepeatMode) {
+        if (newCount > oldCount) {
+          const remaining = newCount - currentRep;
+          message = `Repeat count increased to ${newCount} (${remaining} more to go)`;
+        } else if (newCount < oldCount && currentRep >= newCount) {
+          message = `Advancing to next segment (repeat count: ${newCount})`;
+        } else {
+          message = `Repeat count reduced to ${newCount}`;
+        }
+      }
+      showToast(message, 'info');
+    }
+  }, [repeatCount, isPlaying, isInRepeatMode, isPausingForRepeat, activeTranscript,
+      stopRepeatsEarly, onLineChange, segments, userIsScrolling, scrollToActiveSegment,
+      playSpecificLine, onPlayStateChange, showToast]);
+
   const handlePrevious = () => {
     if (session.currentLineIndex > 0) {
       if (repeatTimeoutRef.current) {
@@ -823,7 +1035,7 @@ export default function EnhancedShadowingPlayer({
       setIsPausingForRepeat(false);
       setIsInRepeatMode(false);
       const prevIndex = session.currentLineIndex - 1;
-      onLineChange(prevIndex);
+      onLineChangeRef.current(prevIndex);
       actualPlayingLineIndexRef.current = prevIndex;
       // Reset repeat tracking for the new line
       currentRepeatRef.current = 0;
@@ -859,7 +1071,9 @@ export default function EnhancedShadowingPlayer({
       setIsPausingForRepeat(false);
       setIsInRepeatMode(false);
       const nextIndex = session.currentLineIndex + 1;
-      onLineChange(nextIndex);
+      if (onLineChangeRef.current) {
+        onLineChangeRef.current(nextIndex);
+      }
       actualPlayingLineIndexRef.current = nextIndex;
       // Reset repeat tracking for the new line
       currentRepeatRef.current = 0;
@@ -894,7 +1108,9 @@ export default function EnhancedShadowingPlayer({
     timeManagerRef.current.stopSync();
     setIsPausingForRepeat(false);
     setIsInRepeatMode(false);
-    onLineChange(index);
+    if (onLineChangeRef.current) {
+      onLineChangeRef.current(index);
+    }
     actualPlayingLineIndexRef.current = index;
     setCurrentRepeat(0);
     setActiveRepeatNumber(1);
@@ -924,8 +1140,10 @@ export default function EnhancedShadowingPlayer({
   const handleSegmentClick = useCallback((segment: TimeSegment, index: number) => {
     seekTo(segment.startTime);
     setActiveSegmentId(segment.id);
-    onLineChange(index);
-  }, [seekTo, onLineChange]);
+    if (onLineChangeRef.current) {
+      onLineChangeRef.current(index);
+    }
+  }, [seekTo]);
 
   if (!session || !session.transcript || session.transcript.length === 0) {
     return (
@@ -1113,8 +1331,7 @@ export default function EnhancedShadowingPlayer({
                     value={repeatCount}
                     onChange={(e) => {
                       const newCount = parseInt(e.target.value);
-                      setRepeatCount(newCount);
-                      setAbRepeat(prev => ({ ...prev, totalRepeats: newCount }));
+                      handleRepeatCountChange(newCount);
                     }}
                     className="w-full"
                   />
@@ -1138,31 +1355,6 @@ export default function EnhancedShadowingPlayer({
                     }}
                     className="w-full"
                   />
-                </div>
-
-                {/* Continuous Play Toggle */}
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 pr-3">
-                    <label className="text-sm font-medium text-gray-900 dark:text-gray-100 block">Continuous Play</label>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                      Auto-advance after completing repeats
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setContinuousPlay(!continuousPlay)}
-                    className={cn(
-                      "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
-                      continuousPlay ? "bg-primary-500" : "bg-gray-300 dark:bg-dark-600"
-                    )}
-                    role="switch"
-                    aria-checked={continuousPlay}
-                    aria-label="Toggle continuous play"
-                  >
-                    <span className={cn(
-                      "inline-block h-4 w-4 transform rounded-full bg-white transition-transform",
-                      continuousPlay ? "translate-x-6" : "translate-x-1"
-                    )} />
-                  </button>
                 </div>
 
                 {/* Divider */}
@@ -1281,8 +1473,8 @@ export default function EnhancedShadowingPlayer({
                           {useFormattedTranscript ? '✨ AI-Optimized' : '📝 Raw Transcript'}
                         </label>
                         <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                          {useFormattedTranscript 
-                            ? 'Using AI-improved line breaks' 
+                          {useFormattedTranscript
+                            ? 'Using AI-improved line breaks'
                             : 'Using original YouTube captions'}
                         </p>
                       </div>
@@ -1302,6 +1494,49 @@ export default function EnhancedShadowingPlayer({
                           }`}
                         />
                       </button>
+                    </div>
+                  )}
+
+                  {!canUseFormattedTranscript && !formattedAvailable && canRequestAiEnhancement && onRequestAiEnhancement && (
+                    <div className="mb-3 rounded-lg border border-dashed border-primary/30 bg-primary/5 p-3 dark:border-primary/40 dark:bg-primary/10">
+                      <div className="flex items-start gap-2">
+                        <Sparkles className="mt-0.5 h-4 w-4 text-primary" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-primary-600 dark:text-primary-200">
+                            Enhance with AI
+                          </p>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            Kick off a one-time AI pass to improve line breaks and translations for this video.
+                          </p>
+                          <button
+                            onClick={() => onRequestAiEnhancement()}
+                            disabled={aiEnhancementStatus === 'running'}
+                            className="mt-3 inline-flex items-center gap-2 rounded-md bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground shadow-sm transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+                          >
+                            {aiEnhancementStatus === 'running' ? (
+                              <>
+                                <span className="inline-flex h-2 w-2 animate-pulse rounded-full bg-primary-foreground" />
+                                Enhancing…
+                              </>
+                            ) : (
+                              <>
+                                <Sparkles className="h-4 w-4" />
+                                Start AI enhancement
+                              </>
+                            )}
+                          </button>
+                          {aiEnhancementStatus === 'completed' && (
+                            <p className="mt-2 text-xs text-primary-600 dark:text-primary-200">
+                              Enhancement requested. Switch to the AI tab once processing finishes.
+                            </p>
+                          )}
+                          {aiEnhancementStatus === 'error' && aiEnhancementError && (
+                            <p className="mt-2 text-xs text-destructive">
+                              {aiEnhancementError}
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
                   
@@ -1394,19 +1629,17 @@ export default function EnhancedShadowingPlayer({
           <p className="text-xs sm:text-sm text-gray-300">
             Line {session.currentLineIndex + 1} of {activeTranscript.length}
           </p>
-          {hasFormattedTranscript && (
-            <div className="mt-1 inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-opacity-20"
-                 style={{
-                   backgroundColor: useFormattedTranscript ? 'rgb(168 85 247 / 0.1)' : 'rgb(251 191 36 / 0.1)',
-                   color: useFormattedTranscript ? 'rgb(168 85 247)' : 'rgb(245 158 11)'
-                 }}>
-              {useFormattedTranscript ? '✨ AI-Optimized' : '📝 Raw Transcript'}
-            </div>
-          )}
           {repeatCount > 1 && (
-            <p className="text-xs sm:text-sm text-primary mt-2">
-              Repeat {activeRepeatNumber} of {repeatCount}
-            </p>
+            <div className="mt-2 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary/20 border border-primary/30">
+              <span className="text-xs sm:text-sm text-primary font-medium">
+                {activeRepeatNumber}/{repeatCount}
+              </span>
+              {isPausingForRepeat && (
+                <span className="text-xs text-primary/70 ml-1">
+                  (pausing...)
+                </span>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -1415,12 +1648,10 @@ export default function EnhancedShadowingPlayer({
         <FloatingNavbar
           isPlaying={isPlaying}
           onPlayPause={handlePlayPause}
-          onRepeatCountChange={(count) => setRepeatCount(count)}
+          onRepeatCountChange={handleRepeatCountChange}
           repeatCount={repeatCount}
           showFurigana={showFurigana}
           onToggleFurigana={onToggleFurigana}
-          continuousPlay={continuousPlay}
-          onToggleContinuousPlay={() => setContinuousPlay(!continuousPlay)}
           displayMode={displayMode}
           onDisplayModeChange={setDisplayMode}
           showVideo={showVideo}

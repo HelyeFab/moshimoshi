@@ -6,6 +6,7 @@ import { Play, Pause } from 'lucide-react';
 import WordExplanationModal from '@/components/word/WordExplanationModal';
 import { useWordExplanation } from '@/hooks/useWordExplanation';
 import { useToast } from '@/components/ui/Toast/ToastContext';
+import Dialog from '@/components/ui/Dialog';
 
 export interface TranscriptLine {
   id: string;
@@ -26,6 +27,7 @@ interface TranscriptViewerProps {
   className?: string;
   isPlaying?: boolean;
   onPlayPause?: () => void;
+  onClearSession?: () => void;
 }
 
 export default function TranscriptViewer({
@@ -37,11 +39,15 @@ export default function TranscriptViewer({
   showFurigana = false,
   className = '',
   isPlaying = false,
-  onPlayPause
+  onPlayPause,
+  onClearSession
 }: TranscriptViewerProps) {
   const transcriptContainerRef = useRef<HTMLDivElement>(null);
   const segmentRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const { showToast } = useToast();
+
+  // State for clear confirmation dialog
+  const [showClearConfirmation, setShowClearConfirmation] = useState(false);
 
   // AI Word lookup
   const [isWordModalOpen, setIsWordModalOpen] = useState(false);
@@ -305,15 +311,9 @@ export default function TranscriptViewer({
 
         {/* Full Transcript View */}
         {showFullTranscript && (
-          <div
-            ref={transcriptContainerRef}
-            className="max-h-[500px] overflow-y-auto bg-black/40 backdrop-blur-sm rounded-lg p-4 space-y-1 border border-white/10 shadow-inner [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-            style={{
-              scrollBehavior: 'smooth',
-            }}
-          >
-            {/* Header */}
-            <div className="mb-3 pb-2 border-b border-white/10 sticky top-0 bg-black/80 backdrop-blur-sm z-10">
+          <div className="space-y-2">
+            {/* Header - Outside scrollable area */}
+            <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4 border border-white/10">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-white/70 text-sm font-medium">
                   Full Transcript ({segments.length} segments)
@@ -326,25 +326,27 @@ export default function TranscriptViewer({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    // Clear video from localStorage
-                    const videoId = localStorage.getItem('youtube-shadowing-current-video-id');
-                    if (videoId) {
-                      localStorage.removeItem(`youtube-transcript-${videoId}`);
-                      localStorage.removeItem('youtube-shadowing-current-video-id');
-                      localStorage.removeItem('youtube-shadowing-current-video-url');
-                      // Reload the page to clear the video
-                      window.location.reload();
-                    }
+                    // Show confirmation dialog instead of immediately clearing
+                    setShowClearConfirmation(true);
                   }}
                   className="text-red-400 text-xs bg-red-500/20 px-2 py-1 rounded hover:bg-red-500/30 transition-colors"
+                  title="Clear current video and return to input screen"
                 >
                   🗑️ Clear
                 </button>
               </div>
             </div>
 
-            {/* Segments */}
-            {segments.map((segment, index) => {
+            {/* Scrollable Transcript Container */}
+            <div
+              ref={transcriptContainerRef}
+              className="max-h-[500px] overflow-y-auto bg-black/40 backdrop-blur-sm rounded-lg p-4 space-y-1 border border-white/10 shadow-inner [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+              style={{
+                scrollBehavior: 'smooth',
+              }}
+            >
+              {/* Segments */}
+              {segments.map((segment, index) => {
               const isActive = currentTime >= segment.startTime && currentTime <= segment.endTime;
               const isPast = currentTime > segment.endTime;
 
@@ -412,6 +414,7 @@ export default function TranscriptViewer({
                 </motion.div>
               );
             })}
+            </div>
           </div>
         )}
       </div>
@@ -424,6 +427,23 @@ export default function TranscriptViewer({
         explanation={wordExplanation}
         loading={wordLoading}
         error={wordError}
+      />
+
+      {/* Clear Confirmation Dialog */}
+      <Dialog
+        isOpen={showClearConfirmation}
+        onClose={() => setShowClearConfirmation(false)}
+        onConfirm={() => {
+          if (onClearSession) {
+            onClearSession();
+          }
+          setShowClearConfirmation(false);
+        }}
+        title="Clear Video Session?"
+        message="Are you sure you want to clear the current video and return to the input screen? Your progress will be saved locally."
+        confirmText="Yes, Clear"
+        cancelText="Cancel"
+        type="warning"
       />
     </>
   );

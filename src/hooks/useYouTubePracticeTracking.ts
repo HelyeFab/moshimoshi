@@ -77,8 +77,6 @@ export function useYouTubePracticeTracking({
         throw new Error('Failed to track practice');
       }
 
-      console.log(`[Practice Tracking] Saved ${Math.round(practiceTime)}s of practice for video ${session.videoId}`);
-
       // Update session to reflect that we've sent the initial practice
       if (practiceTime >= INITIAL_PRACTICE_THRESHOLD && !session.hasSentInitialPractice) {
         const updatedSession = { ...session, hasSentInitialPractice: true, lastSaveTime: Date.now() };
@@ -121,15 +119,12 @@ export function useYouTubePracticeTracking({
     sessionRef.current = newSession;
     lastPlayTimeRef.current = currentTime;
 
-    console.log(`[Practice Tracking] Started new session for video ${videoId}`);
-
     // Cleanup function
     return () => {
       // Save any remaining practice time when component unmounts
       if (sessionRef.current && sessionRef.current.accumulatedTime > 0) {
         const finalPracticeTime = sessionRef.current.accumulatedTime;
         if (finalPracticeTime >= MIN_SAVE_INTERVAL) {
-          console.log(`[Practice Tracking] Saving final practice time: ${finalPracticeTime}s`);
           // Use beacon API for reliable cleanup save
           const data = {
             videoId: sessionRef.current.videoId,
@@ -196,10 +191,8 @@ export function useYouTubePracticeTracking({
         timeSinceLastSave >= MIN_SAVE_INTERVAL * 1000;
 
       if (shouldSaveInitial) {
-        console.log(`[Practice Tracking] Reached ${INITIAL_PRACTICE_THRESHOLD}s threshold, saving initial practice`);
         trackPractice(updatedSession.accumulatedTime);
       } else if (shouldSavePeriodic) {
-        console.log(`[Practice Tracking] Periodic save after ${PERIODIC_SAVE_INTERVAL}s`);
         trackPractice(updatedSession.accumulatedTime);
       }
     }
