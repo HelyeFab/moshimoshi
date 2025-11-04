@@ -389,47 +389,47 @@ export default function TranscriptViewerNew({
           </button>
         </div>
 
-        {/* Current Caption Display */}
-        {!showFullTranscript && (
-          <div className="space-y-3">
-            {/* Active Caption - Moshimoshi dark theme */}
-            {currentSegment ? (
-              <motion.div
-                key={currentSegment.startTime}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="p-4 bg-gradient-to-r from-primary-500/20 to-primary-600/20 rounded-lg border-l-4 border-primary-500 shadow-lg"
-              >
-                <div className="text-dark-50 text-base leading-relaxed font-medium">
-                  <GrammarHighlightedText
-                    text={currentSegment.text}
-                    highlightMode={showGrammar ? grammarMode : 'none'}
-                    showFurigana={showFurigana}
-                    className="text-base"
-                  />
-                </div>
-                <div className="flex justify-between items-center mt-3 text-xs text-dark-300">
-                  <span>
-                    {formatTime(currentSegment.startTime)} - {formatTime(currentSegment.endTime)}
-                  </span>
-                  <span className="bg-primary-500 px-2 py-0.5 rounded text-white font-semibold">
-                    LIVE
-                  </span>
-                </div>
-              </motion.div>
-            ) : (
-              <div className="p-4 bg-dark-800/50 rounded-lg border border-dark-700/50 text-center">
-                <p className="text-dark-400 text-sm">Waiting for next segment...</p>
+        {/* Current Caption Display - ALWAYS VISIBLE */}
+        <div className="mb-6">
+          {currentSegment ? (
+            <motion.div
+              key={currentSegment.startTime}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="p-6 bg-gradient-to-r from-primary-500/20 to-primary-600/20 rounded-xl border-l-4 border-primary-500 shadow-lg"
+            >
+              <div className="text-dark-50 text-lg leading-relaxed font-medium mb-3">
+                <GrammarHighlightedText
+                  text={currentSegment.text}
+                  highlightMode={showGrammar ? grammarMode : 'none'}
+                  showFurigana={showFurigana}
+                  className="text-lg"
+                />
               </div>
-            )}
+              <div className="flex justify-between items-center text-xs text-dark-300">
+                <span>
+                  {formatTime(currentSegment.startTime)} - {formatTime(currentSegment.endTime)}
+                </span>
+                <span className="bg-primary-500 px-2 py-0.5 rounded text-white font-semibold">
+                  LIVE
+                </span>
+              </div>
+            </motion.div>
+          ) : (
+            <div className="p-6 bg-dark-800/50 rounded-xl border border-dark-700/50 text-center">
+              <p className="text-dark-400 text-sm">Waiting for next segment...</p>
+            </div>
+          )}
+        </div>
 
-            {/* Upcoming Segments Preview */}
-            {upcomingSegments.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-dark-300 text-xs font-medium flex items-center gap-2">
-                  <span>⏭️</span>
-                  Coming up:
+        {/* Upcoming Segments Preview - Only in "Current" mode */}
+        {!showFullTranscript && upcomingSegments.length > 0 && (
+          <div className="space-y-3">
+            <div className="space-y-2">
+              <p className="text-dark-300 text-xs font-medium flex items-center gap-2">
+                <span>⏭️</span>
+                Coming up:
                 </p>
                 {upcomingSegments.map((segment, index) => (
                   <button
@@ -449,8 +449,7 @@ export default function TranscriptViewerNew({
                     </div>
                   </button>
                 ))}
-              </div>
-            )}
+            </div>
           </div>
         )}
 
