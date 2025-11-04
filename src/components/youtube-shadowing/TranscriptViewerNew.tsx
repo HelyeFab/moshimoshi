@@ -95,6 +95,13 @@ export default function TranscriptViewerNew({
     // If segments are provided directly, use them
     if (providedSegments && providedSegments.length > 0) {
       console.log(`[TranscriptViewer] Using provided segments: ${providedSegments.length}`);
+      setTranscript({
+        available: true,
+        videoId: videoId || '',
+        segments: providedSegments as any,
+        totalSegments: providedSegments.length,
+        source: 'provided',
+      });
       setLoading(false);
       setError(null);
       return;
@@ -102,7 +109,10 @@ export default function TranscriptViewerNew({
 
     // Otherwise fetch from API if videoId is available
     if (!videoId) {
-      setError('No videoId or segments provided');
+      console.log('[TranscriptViewer] No videoId or segments provided');
+      setTranscript(null);
+      setLoading(false);
+      setError(null);
       return;
     }
 

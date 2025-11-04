@@ -748,7 +748,7 @@ function YouTubeShadowingContent() {
 
                   {/* Transcript Viewer */}
                   <TranscriptViewerNew
-                    segments={viewerSegments}
+                    videoId={extractVideoId(session.videoUrl) || undefined}
                     currentTime={currentTime}
                     onSeekToTime={handleSeekToTime}
                     showFullTranscript={true}
