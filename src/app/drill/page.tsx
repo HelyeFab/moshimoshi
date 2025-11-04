@@ -13,6 +13,7 @@ import { useToast } from '@/components/ui/Toast';
 import type { DrillSession, DrillQuestion, DrillSettings } from '@/types/drill';
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
 import type { DrillSessionData } from '@/lib/review-engine/progress/DrillProgressManager';
+import { formatDrillDefinition } from '@/utils/textUtils';
 
 export default function DrillPage() {
   const { t, strings } = useI18n();
@@ -273,29 +274,29 @@ export default function DrillPage() {
 
           {!session ? (
             // Setup screen
-            <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-semibold mb-6">{t('drill.settings')}</h2>
+            <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+              <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">{t('drill.settings')}</h2>
 
               {/* Drill Stats Display */}
               {drillStats && drillStats.totalDrills > 0 && (
-                <div className="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
-                  <h3 className="font-semibold mb-2">{t('drill.yourProgress') || 'Your Progress'}</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">{t('drill.totalDrills') || 'Total Drills'}:</span>
-                      <span className="ml-1 font-bold">{drillStats.totalDrills}</span>
+                <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
+                  <h3 className="font-semibold mb-2 text-sm sm:text-base">{t('drill.yourProgress') || 'Your Progress'}</h3>
+                  <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div className="flex flex-col">
+                      <span className="text-muted-foreground">{t('drill.totalDrills') || 'Total Drills'}</span>
+                      <span className="font-bold text-lg">{drillStats.totalDrills}</span>
                     </div>
-                    <div>
-                      <span className="text-muted-foreground">{t('drill.accuracy') || 'Accuracy'}:</span>
-                      <span className="ml-1 font-bold">{drillStats.averageAccuracy?.toFixed(1)}%</span>
+                    <div className="flex flex-col">
+                      <span className="text-muted-foreground">{t('drill.accuracy') || 'Accuracy'}</span>
+                      <span className="font-bold text-lg">{drillStats.averageAccuracy?.toFixed(1)}%</span>
                     </div>
-                    <div>
-                      <span className="text-muted-foreground">{t('drill.perfectDrills') || 'Perfect'}:</span>
-                      <span className="ml-1 font-bold">{drillStats.perfectDrills}</span>
+                    <div className="flex flex-col">
+                      <span className="text-muted-foreground">{t('drill.perfectDrills') || 'Perfect'}</span>
+                      <span className="font-bold text-lg">{drillStats.perfectDrills}</span>
                     </div>
-                    <div>
-                      <span className="text-muted-foreground">{t('drill.wordsStudied') || 'Words'}:</span>
-                      <span className="ml-1 font-bold">
+                    <div className="flex flex-col">
+                      <span className="text-muted-foreground">{t('drill.wordsStudied') || 'Words'}</span>
+                      <span className="font-bold text-lg">
                         {(drillStats.verbsStudied?.size || 0) + (drillStats.adjectivesStudied?.size || 0)}
                       </span>
                     </div>
@@ -379,7 +380,7 @@ export default function DrillPage() {
                 <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
                   JLPT Levels <span className="text-xs text-muted-foreground">(Select one or more)</span>
                 </label>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                   {(['N5', 'N4', 'N3', 'N2', 'N1'] as const).map(level => (
                     <button
                       key={level}
@@ -397,7 +398,7 @@ export default function DrillPage() {
                           }
                         });
                       }}
-                      className={`px-4 py-2 rounded-lg border transition-colors font-medium ${
+                      className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium ${
                         settings.jlptLevels?.includes(level)
                           ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
                           : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
@@ -416,10 +417,10 @@ export default function DrillPage() {
                 </label>
                 <div className="space-y-2">
                   {/* Quick presets */}
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                     <button
                       onClick={() => setSettings(prev => ({ ...prev, conjugationForms: [] }))}
-                      className={`px-3 py-1.5 rounded-lg border text-sm transition-colors ${
+                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
                         settings.conjugationForms?.length === 0
                           ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
                           : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
@@ -432,7 +433,7 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['present', 'past', 'negative', 'pastNegative']
                       }))}
-                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
                     >
                       Basic Only
                     </button>
@@ -441,7 +442,7 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['polite', 'politePast', 'politeNegative', 'politePastNegative']
                       }))}
-                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
                     >
                       Polite Only
                     </button>
@@ -450,7 +451,7 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['teForm', 'negativeTeForm', 'naiDeForm']
                       }))}
-                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
                     >
                       Te-Forms
                     </button>
@@ -459,7 +460,7 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['potential', 'potentialNegative', 'potentialPast', 'potentialPastNegative']
                       }))}
-                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
                     >
                       Potential
                     </button>
@@ -468,7 +469,7 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['passive', 'passiveNegative', 'passivePast', 'passivePastNegative']
                       }))}
-                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
                     >
                       Passive
                     </button>
@@ -477,7 +478,7 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['causative', 'causativeNegative', 'causativePast', 'causativePastNegative']
                       }))}
-                      className="px-3 py-1.5 rounded-lg border text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
                     >
                       Causative
                     </button>
@@ -491,16 +492,16 @@ export default function DrillPage() {
               </div>
 
               {/* Practice Mode */}
-              <div className="mb-6">
+              <div className="mb-4 sm:mb-6">
                 <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
                   {t('drill.practiceMode')}
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, drillMode: 'random' }))}
-                    className={`px-4 py-2 rounded-lg border transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors ${
                       settings.drillMode === 'random'
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
                         : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
                     }`}
                   >
@@ -508,9 +509,9 @@ export default function DrillPage() {
                   </button>
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, drillMode: 'lists' }))}
-                    className={`px-4 py-2 rounded-lg border transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors ${
                       settings.drillMode === 'lists'
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
                         : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
                     }`}
                     disabled={!user}
@@ -521,13 +522,13 @@ export default function DrillPage() {
               </div>
 
               {/* Auto-advance toggle */}
-              <div className="mb-6">
+              <div className="mb-6 sm:mb-8">
                 <label className="flex items-center">
                   <input
                     type="checkbox"
                     checked={settings.autoAdvance}
                     onChange={(e) => setSettings(prev => ({ ...prev, autoAdvance: e.target.checked }))}
-                    className="mr-2"
+                    className="mr-2 w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                   />
                   <span className="text-sm text-foreground dark:text-dark-foreground">
                     {t('drill.autoAdvance')}
@@ -535,10 +536,10 @@ export default function DrillPage() {
                 </label>
               </div>
 
-              {/* Start Button */}
+              {/* Start Button - More prominent with spacing */}
               <button
                 onClick={startDrill}
-                className="w-full py-3 px-6 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
+                className="w-full py-3 px-6 bg-primary-500 hover:bg-primary-600 active:bg-primary-700 text-white rounded-lg font-medium transition-colors shadow-sm hover:shadow-md"
               >
                 {t('drill.startDrill')}
               </button>
@@ -573,10 +574,10 @@ export default function DrillPage() {
             </div>
           ) : currentQuestion ? (
             // Question screen
-            <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-8">
+            <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
               {/* Progress bar */}
-              <div className="mb-6">
-                <div className="flex justify-between text-sm text-muted-foreground dark:text-dark-muted mb-2">
+              <div className="mb-4 sm:mb-6">
+                <div className="flex justify-between text-xs sm:text-sm text-muted-foreground dark:text-dark-muted mb-2">
                   <span>{t('drill.question')} {currentQuestionIndex + 1} / {session.questions.length}</span>
                   <span>{t('drill.score')}: {score}</span>
                 </div>
@@ -589,25 +590,27 @@ export default function DrillPage() {
               </div>
 
               {/* Question */}
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">
-                  {t('drill.conjugateTo')}: <span className="text-primary-600">{currentQuestion.targetForm}</span>
+              <div className="mb-6 sm:mb-8">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-4">
+                  {t('drill.conjugateTo')}: <span className="text-primary-600 block sm:inline mt-1 sm:mt-0">{currentQuestion.rule}</span>
                 </h2>
-                <div className="flex items-baseline gap-4 mb-2">
-                  <span className="text-3xl font-medium">{currentQuestion.word.kanji}</span>
-                  <span className="text-xl text-muted-foreground dark:text-dark-muted">{currentQuestion.word.kana}</span>
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 mb-2">
+                  <span className="text-2xl sm:text-3xl font-medium">{currentQuestion.word.kanji}</span>
+                  <span className="text-lg sm:text-xl text-muted-foreground dark:text-dark-muted">{currentQuestion.word.kana}</span>
                 </div>
-                <p className="text-muted-foreground dark:text-dark-muted">{currentQuestion.word.meaning}</p>
+                <p className="text-sm sm:text-base text-muted-foreground dark:text-dark-muted" title={currentQuestion.word.meaning}>
+                  {formatDrillDefinition(currentQuestion.word.meaning, 80)}
+                </p>
               </div>
 
               {/* Answer options */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6">
                 {currentQuestion.options.map((option, index) => (
                   <button
                     key={index}
                     onClick={() => handleAnswer(option)}
                     disabled={showResult}
-                    className={`p-4 rounded-lg border-2 transition-all ${
+                    className={`p-3 sm:p-4 text-base sm:text-lg rounded-lg border-2 transition-all min-h-[60px] sm:min-h-[auto] ${
                       showResult && option === currentQuestion.correctAnswer
                         ? 'bg-green-500 text-white border-green-600 dark:bg-green-600 dark:border-green-700'
                         : showResult && option === selectedAnswer && option !== currentQuestion.correctAnswer
@@ -615,7 +618,7 @@ export default function DrillPage() {
                         : option === selectedAnswer
                         ? 'bg-primary-100 border-primary-500 dark:bg-primary-900/30 dark:border-primary-400'
                         : 'bg-white/50 dark:bg-dark-700 border-primary-200 dark:border-dark-600 hover:bg-primary-50 dark:hover:bg-dark-600 hover:border-primary-300'
-                    } ${!showResult && !selectedAnswer ? 'hover:border-primary-400' : ''}`}
+                    } ${!showResult && !selectedAnswer ? 'hover:border-primary-400 active:scale-[0.98]' : ''}`}
                   >
                     {option}
                   </button>

@@ -1830,6 +1830,95 @@ export const strings = {
     },
   },
 
+  // Pricing Comparison
+  pricingComparison: {
+    badge: "すべての機能を統合",
+    title: "一つのアプリで、すべての機能",
+    subtitle: "なぜ複数のアプリにお金を払うのですか？もしもしは、日本語学習に必要なすべてのプレミアム機能を統合しています。",
+    tableTitle: "価値を比較",
+    priceColumn: "価格",
+    featuresColumn: "機能",
+    actionButton: "無料トライアルを開始",
+    actionSecondary: "すべての機能を表示",
+
+    moshimoshi: {
+      name: "もしもし",
+      price: "£8.99/月",
+      yearlyPrice: "£99.9/年",
+      description: "完全な学習ソリューション",
+      cta: "最高の価値",
+      features: {
+        gamification: "ゲーミフィケーション＆モチベーション",
+        youtube: "YouTubeシャドーイング",
+        aiStories: "パーソナライズAIストーリー",
+        kanjiBreakdown: "漢字分解",
+        newsReading: "ニュース読解",
+        ankiExport: "Ankiエクスポート",
+        pitchAccent: "ピッチアクセント訓練",
+        srsReviews: "スマートSRSシステム",
+        dictionary: "内蔵辞書",
+        grammarGuide: "文法ガイド",
+        offline: "オフライン学習",
+        analytics: "詳細な分析"
+      }
+    },
+
+    competitors: {
+      duolingo: {
+        name: "Duolingo",
+        price: "£47.99/年",
+        features: ["ゲーミフィケーション", "基本レッスン", "連続記録追跡"],
+        missing: ["YouTubeシャドーイング", "AIストーリー", "漢字分解", "ニュース読解", "Ankiエクスポート"]
+      },
+      heyjapan: {
+        name: "HeyJapan",
+        price: "$33.99-$48.99",
+        features: ["会話練習", "音声認識", "ライブレッスン"],
+        missing: ["YouTubeシャドーイング", "ゲーミフィケーション", "SRS", "Ankiエクスポート", "ニュース読解"]
+      },
+      miraa: {
+        name: "Miraa",
+        price: "£5.49/月",
+        features: ["マンガ読解", "辞書検索", "Ankiエクスポート"],
+        missing: ["AIストーリー", "YouTubeシャドーイング", "ゲーミフィケーション", "会話練習", "文法レッスン"]
+      },
+      satoriReader: {
+        name: "Satori Reader",
+        price: "£8.49/月",
+        features: ["段階的記事", "文法説明", "音声"],
+        missing: ["YouTubeシャドーイング", "AIストーリー", "ゲーミフィケーション", "Ankiエクスポート", "会話練習"]
+      },
+      takoboto: {
+        name: "Takoboto",
+        price: "£25.49",
+        features: ["オフライン辞書", "例文", "活用"],
+        missing: ["学習コンテンツ", "SRS", "YouTubeシャドーイング", "AIストーリー", "ゲーミフィケーション"]
+      },
+      miji: {
+        name: "Miji",
+        price: "£27.49/年",
+        features: ["フラッシュカード", "手書き認識", "漢字練習"],
+        missing: ["YouTubeシャドーイング", "AIストーリー", "ニュース読解", "会話練習", "ゲーミフィケーション"]
+      },
+      lingodeer: {
+        name: "LingoDeer",
+        price: "$14.99/月",
+        features: ["構造化コース", "文法説明", "練習問題", "ストーリー"],
+        missing: ["YouTubeシャドーイング", "パーソナライズAIストーリー", "実際のニュース読解", "Ankiエクスポート", "辞書"]
+      }
+    },
+
+    comparison: {
+      hasFeature: "✓",
+      missingFeature: "—",
+      popularLabel: "人気",
+      bestValueLabel: "最高の価値",
+      monthlyLabel: "/月",
+      yearlyLabel: "/年",
+      lifetimeLabel: "一回払い"
+    }
+  },
+
   // Entitlements & Limits
   entitlements: {
     limits: {

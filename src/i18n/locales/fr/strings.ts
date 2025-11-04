@@ -1971,9 +1971,133 @@ export const strings = {
         answer: "Absolument ! Vous pouvez améliorer ou rétrograder votre plan à tout moment. Les changements prennent effet au prochain cycle de facturation.",
       },
     },
+    // Pricing Comparison Section
+    pricingComparison: {
+      badge: "TOUTES LES FONCTIONNALITÉS COMBINÉES",
+      title: "Une App, Toutes les Fonctionnalités",
+      subtitle: "Pourquoi payer pour plusieurs applications ? Moshimoshi combine toutes les fonctionnalités premium des principales applications d'apprentissage du japonais pour une fraction du coût.",
+      compareTitle: "Comparer avec d'autres applications",
+      competitors: {
+        duolingo: {
+          name: "Duolingo",
+          price: "£47.99/an",
+          features: ["Gamification", "Leçons de base", "Suivi des séries"],
+          missing: ["Shadowing YouTube", "Histoires IA", "Analyse des kanji", "Lecture d'actualités", "Export Anki"]
+        },
+        heyJapan: {
+          name: "HeyJapan",
+          price: "£48.99/an",
+          features: ["Leçons vidéo", "Explications grammaticales"],
+          missing: ["Gamification", "Fonctionnalités IA", "Pratique YouTube", "Lecture d'actualités", "Export Anki"]
+        },
+        satoriReader: {
+          name: "Satori Reader",
+          price: "£8.49/mois",
+          features: ["Pratique de lecture", "Support furigana"],
+          missing: ["Leçons vidéo", "Gamification", "Pratique YouTube", "Histoires IA", "Export Anki"]
+        },
+        lingoDeer: {
+          name: "LingoDeer",
+          price: "£95.99/an",
+          features: ["Leçons structurées", "Focus grammaire"],
+          missing: ["Pratique YouTube", "Histoires IA", "Lecture d'actualités", "Outils kanji avancés"]
+        }
+      },
+      missingLabel: "Manquant:",
+      moreMissing: "autres manquants...",
+      costComparison: {
+        title: "Pour obtenir toutes ces fonctionnalités séparément, vous paieriez :",
+        amount: "£240+ par an",
+        subtitle: "(En s'abonnant à 3-4 applications différentes)"
+      },
+      moshimoshiPricing: {
+        title: "Tarifs Moshimoshi",
+        monthly: "Mensuel",
+        yearly: "Annuel",
+        save: "Économisez",
+        free: {
+          title: "Gratuit",
+          subtitle: "Commencez votre voyage",
+          price: "£0",
+          period: "/pour toujours",
+          features: [
+            "Hiragana & Katakana",
+            "Kanji de base (N5)",
+            "5 vidéos YouTube/jour",
+            "Fonctionnalités IA limitées"
+          ],
+          limitations: ["Fonctionnalités avancées verrouillées"],
+          cta: "Commencer Gratuitement"
+        },
+        premium: {
+          title: "Premium",
+          subtitle: "Tout inclus",
+          monthlyPrice: "£8.99",
+          yearlyPrice: "£8.33",
+          yearlyTotal: "£99.9/an",
+          period: "/mois",
+          badge: "MEILLEURE VALEUR",
+          features: [
+            "Tout dans Gratuit, plus :",
+            "Shadowing YouTube illimité",
+            "Tous les niveaux JLPT (N5-N1)",
+            "Histoires et explications IA illimitées",
+            "Lecteur d'actualités japonaises",
+            "Export Anki et synchronisation cloud",
+            "Support prioritaire"
+          ],
+          cta: "Commencer l'essai gratuit de 7 jours",
+          disclaimer: "Aucune carte de crédit requise • Annulez à tout moment"
+        }
+      },
+      allFeatures: {
+        title: "Tout ce que vous obtenez avec Premium",
+        categories: {
+          learningTools: {
+            title: "Outils d'Apprentissage",
+            items: [
+              "Shadowing de Vidéos YouTube",
+              "Histoires Générées par IA",
+              "Lecteur d'Actualités Japonaises",
+              "Système de Gamification et XP",
+              "Succès et Classement",
+              "Intégration Export Anki"
+            ]
+          },
+          studyFeatures: {
+            title: "Fonctionnalités d'Étude",
+            items: [
+              "Hiragana/Katakana Complet",
+              "Navigateur Kanji JLPT N5-N1",
+              "Explications Grammaticales",
+              "Algorithme SRS Intelligent",
+              "Mode Hors Ligne",
+              "Prononciation Audio Native"
+            ]
+          },
+          advancedTools: {
+            title: "Outils Avancés",
+            items: [
+              "Explications de Mots par IA",
+              "Moteur de Conjugaison",
+              "Ordre des Traits Kanji",
+              "Analyse de Progression",
+              "Listes d'Étude Personnalisées",
+              "Thème Sombre/Clair"
+            ]
+          }
+        }
+      },
+      bottomCta: {
+        title: "Rejoignez des milliers d'apprenants de japonais de manière intelligente",
+        subtitle: "Une application, toutes les fonctionnalités, une fraction du coût. Commencez votre voyage aujourd'hui !",
+        button: "Commencer l'essai gratuit"
+      }
+    },
+  },
 
-    // Settings Page
-    settings: {
+  // Settings Page
+  settings: {
       title: "Paramètres",
       subtitle: "Personnalisez votre expérience d'apprentissage",
       backToDashboard: "← Retour au tableau de bord",
@@ -2112,7 +2236,6 @@ export const strings = {
         }
       }
     },
-  },
 
   // Review Prompts
   reviewPrompts: {
@@ -3796,5 +3919,7 @@ export const strings = {
     mistakesLabel: "Erreurs courantes",
     relatedLabel: "Schémas associés",
     formalityLabel: "Formalité"
-  }
+  },
 }
+
+export default strings

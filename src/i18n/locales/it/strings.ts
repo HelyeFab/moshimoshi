@@ -1714,6 +1714,95 @@ export const strings = {
     },
   },
 
+  // Pricing Comparison
+  pricingComparison: {
+    badge: "TUTTE LE FUNZIONALITÀ COMBINATE",
+    title: "Un'app, ogni funzionalità",
+    subtitle: "Perché pagare per più app? Moshimoshi combina tutte le funzionalità premium di cui hai bisogno per il tuo percorso di apprendimento giapponese.",
+    tableTitle: "Confronta il valore",
+    priceColumn: "Prezzo",
+    featuresColumn: "Caratteristiche",
+    actionButton: "Inizia prova gratuita",
+    actionSecondary: "Visualizza tutte le funzionalità",
+
+    moshimoshi: {
+      name: "Moshimoshi",
+      price: "£8.99/mese",
+      yearlyPrice: "£99.9/anno",
+      description: "Soluzione completa di apprendimento",
+      cta: "Migliore valore",
+      features: {
+        gamification: "Gamification & motivazione",
+        youtube: "YouTube shadowing",
+        aiStories: "Storie AI personalizzate",
+        kanjiBreakdown: "Scomposizione Kanji",
+        newsReading: "Lettura notizie",
+        ankiExport: "Esportazione Anki",
+        pitchAccent: "Formazione accento tonale",
+        srsReviews: "Sistema SRS intelligente",
+        dictionary: "Dizionario integrato",
+        grammarGuide: "Guide grammaticali",
+        offline: "Apprendimento offline",
+        analytics: "Analisi dettagliate"
+      }
+    },
+
+    competitors: {
+      duolingo: {
+        name: "Duolingo",
+        price: "£47.99/anno",
+        features: ["Gamification", "Lezioni base", "Tracciamento serie"],
+        missing: ["YouTube shadowing", "Storie AI", "Scomposizione Kanji", "Lettura notizie", "Esportazione Anki"]
+      },
+      heyjapan: {
+        name: "HeyJapan",
+        price: "$33.99-$48.99",
+        features: ["Pratica conversazione", "Riconoscimento vocale", "Lezioni dal vivo"],
+        missing: ["YouTube shadowing", "Gamification", "SRS", "Esportazione Anki", "Lettura notizie"]
+      },
+      miraa: {
+        name: "Miraa",
+        price: "£5.49/mese",
+        features: ["Lettura manga", "Ricerca dizionario", "Esportazione Anki"],
+        missing: ["Storie AI", "YouTube shadowing", "Gamification", "Pratica conversazione", "Lezioni grammatica"]
+      },
+      satoriReader: {
+        name: "Satori Reader",
+        price: "£8.49/mese",
+        features: ["Articoli graduati", "Spiegazioni grammaticali", "Audio"],
+        missing: ["YouTube shadowing", "Storie AI", "Gamification", "Esportazione Anki", "Pratica conversazione"]
+      },
+      takoboto: {
+        name: "Takoboto",
+        price: "£25.49",
+        features: ["Dizionario offline", "Esempi", "Coniugazioni"],
+        missing: ["Contenuti di apprendimento", "SRS", "YouTube shadowing", "Storie AI", "Gamification"]
+      },
+      miji: {
+        name: "Miji",
+        price: "£27.49/anno",
+        features: ["Carte flash", "Riconoscimento scrittura", "Pratica kanji"],
+        missing: ["YouTube shadowing", "Storie AI", "Lettura notizie", "Pratica conversazione", "Gamification"]
+      },
+      lingodeer: {
+        name: "LingoDeer",
+        price: "$14.99/mese",
+        features: ["Corsi strutturati", "Spiegazioni grammaticali", "Pratica", "Storie"],
+        missing: ["YouTube shadowing", "Storie AI personalizzate", "Lettura notizie reali", "Esportazione Anki", "Dizionario"]
+      }
+    },
+
+    comparison: {
+      hasFeature: "✓",
+      missingFeature: "—",
+      popularLabel: "Popolare",
+      bestValueLabel: "Miglior Valore",
+      monthlyLabel: "/mese",
+      yearlyLabel: "/anno",
+      lifetimeLabel: "Una tantum"
+    }
+  },
+
   // Entitlements & Limits
   entitlements: {
     limits: {
@@ -1888,6 +1977,128 @@ export const strings = {
         question: "Posso cambiare il mio piano?",
         answer: "Sì, puoi aggiornare o ridurre il tuo piano in qualsiasi momento dalle impostazioni del tuo account.",
       },
+    },
+    pricingComparison: {
+      badge: "TUTTE LE FUNZIONALITÀ COMBINATE",
+      title: "Un'App, Tutte le Funzionalità",
+      subtitle: "Perché pagare per più app? Moshimoshi combina tutte le funzionalità premium delle principali app per l'apprendimento del giapponese a una frazione del costo.",
+      compareTitle: "Confronta con altre app",
+      competitors: {
+        duolingo: {
+          name: "Duolingo",
+          price: "£47.99/anno",
+          features: ["Gamificazione", "Lezioni base", "Tracciamento serie"],
+          missing: ["Shadowing YouTube", "Storie IA", "Analisi kanji", "Lettura notizie", "Esportazione Anki"]
+        },
+        heyJapan: {
+          name: "HeyJapan",
+          price: "£48.99/anno",
+          features: ["Lezioni video", "Spiegazioni grammaticali"],
+          missing: ["Gamificazione", "Funzionalità IA", "Pratica YouTube", "Lettura notizie", "Esportazione Anki"]
+        },
+        satoriReader: {
+          name: "Satori Reader",
+          price: "£8.49/mese",
+          features: ["Pratica di lettura", "Supporto furigana"],
+          missing: ["Lezioni video", "Gamificazione", "Pratica YouTube", "Storie IA", "Esportazione Anki"]
+        },
+        lingoDeer: {
+          name: "LingoDeer",
+          price: "£95.99/anno",
+          features: ["Lezioni strutturate", "Focus grammatica"],
+          missing: ["Pratica YouTube", "Storie IA", "Lettura notizie", "Strumenti kanji avanzati"]
+        }
+      },
+      missingLabel: "Mancante:",
+      moreMissing: "altri mancanti...",
+      costComparison: {
+        title: "Per ottenere tutte queste funzionalità separatamente, pagheresti:",
+        amount: "£240+ all'anno",
+        subtitle: "(Abbonandoti a 3-4 app diverse)"
+      },
+      moshimoshiPricing: {
+        title: "Prezzi Moshimoshi",
+        monthly: "Mensile",
+        yearly: "Annuale",
+        save: "Risparmia",
+        free: {
+          title: "Gratuito",
+          subtitle: "Inizia il tuo viaggio",
+          price: "£0",
+          period: "/per sempre",
+          features: [
+            "Hiragana e Katakana",
+            "Kanji base (N5)",
+            "5 video YouTube/giorno",
+            "Funzionalità IA limitate"
+          ],
+          limitations: ["Funzionalità avanzate bloccate"],
+          cta: "Inizia Gratuitamente"
+        },
+        premium: {
+          title: "Premium",
+          subtitle: "Tutto incluso",
+          monthlyPrice: "£8.99",
+          yearlyPrice: "£8.33",
+          yearlyTotal: "£99.9/anno",
+          period: "/mese",
+          badge: "MIGLIOR VALORE",
+          features: [
+            "Tutto in Gratuito, più:",
+            "Shadowing YouTube illimitato",
+            "Tutti i livelli JLPT (N5-N1)",
+            "Storie e spiegazioni IA illimitate",
+            "Lettore di notizie giapponesi",
+            "Esportazione Anki e sincronizzazione cloud",
+            "Supporto prioritario"
+          ],
+          cta: "Inizia la prova gratuita di 7 giorni",
+          disclaimer: "Nessuna carta di credito richiesta • Cancella in qualsiasi momento"
+        }
+      },
+      allFeatures: {
+        title: "Tutto quello che ottieni con Premium",
+        categories: {
+          learningTools: {
+            title: "Strumenti di Apprendimento",
+            items: [
+              "Shadowing Video YouTube",
+              "Storie Generate dall'IA",
+              "Lettore Notizie Giapponesi",
+              "Sistema di Gamificazione e XP",
+              "Obiettivi e Classifica",
+              "Integrazione Esportazione Anki"
+            ]
+          },
+          studyFeatures: {
+            title: "Funzionalità di Studio",
+            items: [
+              "Hiragana/Katakana Completo",
+              "Browser Kanji JLPT N5-N1",
+              "Spiegazioni Grammaticali",
+              "Algoritmo SRS Intelligente",
+              "Modalità Offline",
+              "Pronuncia Audio Nativa"
+            ]
+          },
+          advancedTools: {
+            title: "Strumenti Avanzati",
+            items: [
+              "Spiegazioni Parole IA",
+              "Motore di Coniugazione",
+              "Ordine Tratti Kanji",
+              "Analisi Progressi",
+              "Liste di Studio Personalizzate",
+              "Tema Scuro/Chiaro"
+            ]
+          }
+        }
+      },
+      bottomCta: {
+        title: "Unisciti a migliaia di studenti che imparano il giapponese in modo intelligente",
+        subtitle: "Un'app, tutte le funzionalità, una frazione del costo. Inizia il tuo viaggio oggi!",
+        button: "Inizia la prova gratuita"
+      }
     },
   },
 

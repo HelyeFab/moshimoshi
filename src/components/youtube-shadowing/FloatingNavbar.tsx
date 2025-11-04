@@ -182,8 +182,6 @@ function SettingsMenu({
   onToggleFurigana,
   showTranslations,
   onToggleTranslations,
-  continuousPlay,
-  onToggleContinuousPlay,
   displayMode,
   onDisplayModeChange,
   showVideo,
@@ -203,8 +201,6 @@ function SettingsMenu({
   onToggleFurigana?: () => void;
   showTranslations?: boolean;
   onToggleTranslations?: () => void;
-  continuousPlay?: boolean;
-  onToggleContinuousPlay?: () => void;
   displayMode?: 'video' | 'transcript';
   onDisplayModeChange?: (mode: 'video' | 'transcript') => void;
   showVideo?: boolean;
@@ -298,27 +294,6 @@ function SettingsMenu({
                     <span className={cn(
                       "inline-block h-3 w-3 transform rounded-full bg-white transition-transform",
                       showTranslations ? "translate-x-5" : "translate-x-1"
-                    )} />
-                  </button>
-                </div>
-              )}
-
-              {/* Continuous Play Toggle */}
-              {onToggleContinuousPlay && (
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">
-                    {t('shadowing.floatingNavbar.continuousPlay')}
-                  </span>
-                  <button
-                    onClick={onToggleContinuousPlay}
-                    className={cn(
-                      "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
-                      continuousPlay ? "bg-primary" : "bg-gray-300 dark:bg-gray-600"
-                    )}
-                  >
-                    <span className={cn(
-                      "inline-block h-3 w-3 transform rounded-full bg-white transition-transform",
-                      continuousPlay ? "translate-x-5" : "translate-x-1"
                     )} />
                   </button>
                 </div>
@@ -467,8 +442,6 @@ interface FloatingNavbarProps {
   onToggleFurigana?: () => void;
   showTranslations?: boolean;
   onToggleTranslations?: () => void;
-  continuousPlay?: boolean;
-  onToggleContinuousPlay?: () => void;
   displayMode?: 'video' | 'transcript';
   onDisplayModeChange?: (mode: 'video' | 'transcript') => void;
   showVideo?: boolean;
@@ -499,8 +472,6 @@ export default function FloatingNavbar({
   onToggleFurigana,
   showTranslations,
   onToggleTranslations,
-  continuousPlay,
-  onToggleContinuousPlay,
   displayMode,
   onDisplayModeChange,
   showVideo,
@@ -543,16 +514,6 @@ export default function FloatingNavbar({
 
   return (
     <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
-      {/* AI-Optimized Indicator - Show above the navbar when using enhanced transcript */}
-      {formattedAvailable && useEnhancedTranscript && (
-        <div className="flex justify-end mb-2 mr-2">
-          <div className="bg-gradient-to-r from-amber-500/90 to-yellow-500/90 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 animate-fadeIn">
-            <span className="text-base">✨</span>
-            <span className="font-medium">AI-Optimized</span>
-          </div>
-        </div>
-      )}
-
       <div className={cn(
         "bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-full shadow-2xl border border-white/15 dark:border-white/10 py-3 flex items-center gap-2 transition-all duration-300",
         isExpanded ? "px-4" : "px-3"
@@ -664,8 +625,6 @@ export default function FloatingNavbar({
         onToggleFurigana={onToggleFurigana}
         showTranslations={showTranslations}
         onToggleTranslations={onToggleTranslations}
-        continuousPlay={continuousPlay}
-        onToggleContinuousPlay={onToggleContinuousPlay}
         displayMode={displayMode}
         onDisplayModeChange={onDisplayModeChange}
         showVideo={showVideo}

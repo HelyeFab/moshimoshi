@@ -91,10 +91,12 @@ export async function GET(
 
         let response: any = null;
 
-        if (session?.http?.post) {
-          response = await session.http.post('/youtubei/v1/get_transcript', payload);
+        if (client?.actions?.execute) {
+          response = await client.actions.execute('/youtubei/v1/get_transcript', payload);
         } else if (session?.actions?.execute) {
           response = await session.actions.execute('/youtubei/v1/get_transcript', payload);
+        } else if (session?.http?.fetch) {
+          response = await session.http.fetch('/youtubei/v1/get_transcript', payload);
         }
 
         const transcriptContent =
@@ -177,4 +179,3 @@ export async function GET(
     );
   }
 }
-

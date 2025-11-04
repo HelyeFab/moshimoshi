@@ -130,13 +130,7 @@ export default function LearningPageHeader({
         {/* Compact Header */}
         <div className="relative">
           <div className="flex items-center gap-4">
-            {mascot === 'doshi' && (
-              <DoshiMascot
-                size="medium"
-                variant="animated"
-                className="flex-shrink-0"
-              />
-            )}
+            {/* Remove Doshi mascot on mobile */}
             <div className="flex-1">
               <h1 className={`text-2xl font-bold ${titleClasses}`}>
                 {title}

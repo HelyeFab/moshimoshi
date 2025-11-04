@@ -233,7 +233,8 @@ export default function TranscriptDisplay({
 
       const isAuthenticated = Boolean(user?.uid && !isGuest);
 
-      if (isAuthenticated && contentId && !contentId.startsWith('unknown_')) {
+      // Check cache for ALL users (even unauthenticated) to save transcription costs
+      if (contentId && !contentId.startsWith('unknown_')) {
         const cachedTranscript = await TranscriptCacheManager.getCachedTranscript(contentId);
 
         if (cachedTranscript && cachedTranscript.transcript.length > 0) {
@@ -249,7 +250,9 @@ export default function TranscriptDisplay({
 
           setStatus('completed');
           onTranscriptLoaded(transcriptToUse, cachedTranscript.videoTitle, enrichedMetadata);
-          if (!cachedTranscript.formattedTranscript && cachedTranscript.metadata?.wasFormatted === false) {
+
+          // Only authenticated users get formatted transcript polling
+          if (isAuthenticated && !cachedTranscript.formattedTranscript && cachedTranscript.metadata?.wasFormatted === false) {
             setFormattingPending(true);
             scheduleFormattedPolling(contentId);
           }

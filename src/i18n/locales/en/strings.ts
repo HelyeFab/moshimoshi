@@ -2239,6 +2239,129 @@ export const strings = {
       guarantee: "30-Day Money Back",
       support: "24/7 Support",
     },
+    // Pricing Comparison Section
+    pricingComparison: {
+      badge: "ALL FEATURES COMBINED",
+      title: "One App, Every Feature",
+      subtitle: "Why pay for multiple apps? Moshimoshi combines all premium features from leading Japanese learning apps at a fraction of the cost.",
+      compareTitle: "Compare with Other Apps",
+      competitors: {
+        duolingo: {
+          name: "Duolingo",
+          price: "£47.99/year",
+          features: ["Gamification", "Basic lessons", "Streak tracking"],
+          missing: ["YouTube shadowing", "AI stories", "Kanji breakdown", "News reading", "Anki export"]
+        },
+        heyJapan: {
+          name: "HeyJapan",
+          price: "£48.99/year",
+          features: ["Video lessons", "Grammar explanations"],
+          missing: ["Gamification", "AI features", "YouTube practice", "News reading", "Anki export"]
+        },
+        satoriReader: {
+          name: "Satori Reader",
+          price: "£8.49/month",
+          features: ["Reading practice", "Furigana support"],
+          missing: ["Video lessons", "Gamification", "YouTube practice", "AI stories", "Anki export"]
+        },
+        lingoDeer: {
+          name: "LingoDeer",
+          price: "£95.99/year",
+          features: ["Structured lessons", "Grammar focus"],
+          missing: ["YouTube practice", "AI stories", "News reading", "Advanced kanji tools"]
+        }
+      },
+      missingLabel: "Missing:",
+      moreMissing: "+ more missing...",
+      costComparison: {
+        title: "To get all these features separately, you'd pay:",
+        amount: "£240+ per year",
+        subtitle: "(Subscribing to 3-4 different apps)"
+      },
+      moshimoshiPricing: {
+        title: "Moshimoshi Pricing",
+        monthly: "Monthly",
+        yearly: "Yearly",
+        save: "Save",
+        free: {
+          title: "Free",
+          subtitle: "Start your journey",
+          price: "£0",
+          period: "/forever",
+          features: [
+            "Hiragana & Katakana",
+            "Basic Kanji (N5)",
+            "5 YouTube videos/day",
+            "Limited AI features"
+          ],
+          limitations: ["Advanced features locked"],
+          cta: "Get Started Free"
+        },
+        premium: {
+          title: "Premium",
+          subtitle: "Everything included",
+          monthlyPrice: "£8.99",
+          yearlyPrice: "£8.33",
+          yearlyTotal: "£99.9/year",
+          period: "/month",
+          badge: "BEST VALUE",
+          features: [
+            "Everything in Free, plus:",
+            "Unlimited YouTube shadowing",
+            "All JLPT levels (N5-N1)",
+            "Unlimited AI stories & explanations",
+            "Japanese news reader",
+            "Anki export & cloud sync",
+            "Priority support"
+          ],
+          cta: "Start 7-Day Free Trial",
+          disclaimer: "No credit card required • Cancel anytime"
+        }
+      },
+      allFeatures: {
+        title: "Everything You Get with Premium",
+        categories: {
+          learningTools: {
+            title: "Learning Tools",
+            items: [
+              "YouTube Video Shadowing",
+              "AI-Generated Stories",
+              "Japanese News Reader",
+              "Gamification & XP System",
+              "Achievements & Leaderboard",
+              "Anki Export Integration"
+            ]
+          },
+          studyFeatures: {
+            title: "Study Features",
+            items: [
+              "Complete Hiragana/Katakana",
+              "JLPT N5-N1 Kanji Browser",
+              "Grammar Explanations",
+              "Smart SRS Algorithm",
+              "Offline Mode",
+              "Native Audio Pronunciation"
+            ]
+          },
+          advancedTools: {
+            title: "Advanced Tools",
+            items: [
+              "AI Word Explanations",
+              "Conjugation Engine",
+              "Kanji Stroke Order",
+              "Progress Analytics",
+              "Custom Study Lists",
+              "Dark/Light Theme"
+            ]
+          }
+        }
+      },
+      bottomCta: {
+        title: "Join thousands learning Japanese the smart way",
+        subtitle: "One app, every feature, fraction of the cost. Start your journey today!",
+        button: "Start Free Trial"
+      }
+    }
   },
 
   // Dashboard

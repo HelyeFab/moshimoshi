@@ -206,7 +206,8 @@ export class TranscriptCacheManager {
       }
 
       return null;
-    } catch (error) {
+    } catch (error: any) {
+      // Log error but return null to allow fallback to API
       console.error('Error getting cached transcript:', error);
       return null;
     }
@@ -389,7 +390,7 @@ export class TranscriptCacheManager {
       const docSnap = await getDoc(docRef);
       return docSnap.exists();
     } catch (error) {
-      console.error('Error checking cache:', error);
+      // Silently return false on any error
       return false;
     }
   }

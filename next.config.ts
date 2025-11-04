@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
       'firebasestorage.googleapis.com',
       'lh3.googleusercontent.com',  // Google profile images
       'storage.googleapis.com',      // Firebase Storage custom uploads
+      'cdn.brandfetch.io',          // Duolingo and LingoDeer logos
+      'heylearning.net',            // HeyJapan logo
+      'web.cdn.satorireader.com',   // Satori Reader logo
+      'www.satorireader.com',       // Satori Reader favicon
     ],
   },
   eslint: {

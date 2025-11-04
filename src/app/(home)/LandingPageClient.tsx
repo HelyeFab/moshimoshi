@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/FeatureCard'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import PricingComparison from '@/components/landing/PricingComparison'
 import Image from 'next/image'
 import {
   ArrowRightIcon,
@@ -829,6 +830,9 @@ export default function LandingPageClient() {
           </div>
         </div>
       </section>
+
+      {/* Pricing Comparison Section */}
+      <PricingComparison />
 
       {/* Final CTA */}
       <section className="bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-700 dark:to-purple-700 py-12 md:py-20 text-white">
