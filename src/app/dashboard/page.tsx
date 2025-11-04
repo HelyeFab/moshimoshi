@@ -96,6 +96,43 @@ function DashboardContent() {
     ? Math.round(learningProgress.progressPercentage)
     : 0
 
+  // Calculate grace period remaining hours
+  const calculateGracePeriodRemaining = (): number | null => {
+    if (!lastActivityDate || currentStreak === 0) return null
+
+    const GRACE_PERIOD_HOURS = 24
+    const now = new Date()
+    const lastActivity = new Date(lastActivityDate)
+
+    // Get start of today (00:00 UTC)
+    const todayStart = new Date(now)
+    todayStart.setUTCHours(0, 0, 0, 0)
+
+    // Get start of last activity day (00:00 UTC)
+    const lastActivityDayStart = new Date(lastActivity)
+    lastActivityDayStart.setUTCHours(0, 0, 0, 0)
+
+    // If activity is today, no grace period needed
+    if (todayStart.getTime() === lastActivityDayStart.getTime()) {
+      return null
+    }
+
+    // Calculate hours since last activity
+    const hoursSinceLastActivity = (now.getTime() - lastActivity.getTime()) / (1000 * 60 * 60)
+
+    // Calculate remaining grace period hours
+    const remainingHours = GRACE_PERIOD_HOURS - hoursSinceLastActivity
+
+    // Only show if we're within the grace period and it's less than 24 hours
+    if (remainingHours > 0 && remainingHours < GRACE_PERIOD_HOURS) {
+      return Math.max(0, Math.ceil(remainingHours))
+    }
+
+    return null
+  }
+
+  const gracePeriodRemaining = calculateGracePeriodRemaining()
+
   // Helper function to get stat calculation breakdown
   const getStatBreakdown = (statLabel: string) => {
     switch (statLabel) {
@@ -706,11 +743,18 @@ function DashboardContent() {
                             }
                           }}
                         >
-                          <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 rounded-full">
-                            <span className="text-lg animate-pulse">🔥</span>
-                            <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
-                              {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
-                            </span>
+                          <div className="flex flex-col items-center gap-1 px-3 py-2 bg-orange-100 dark:bg-orange-900/20 rounded-2xl">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg animate-pulse">🔥</span>
+                              <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
+                                {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                              </span>
+                            </div>
+                            {gracePeriodRemaining !== null && (
+                              <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
+                                ⏰ Grace period: {gracePeriodRemaining}h remaining
+                              </div>
+                            )}
                           </div>
                         </motion.div>
                       )}
@@ -872,12 +916,19 @@ function DashboardContent() {
 
                   {/* Optional Motivational Tagline - Enhanced */}
                   {gamificationEnabled && currentStreak > 0 && (
-                    <div className="flex items-center justify-center gap-3 pt-1">
-                      <div className="flex items-center gap-2 px-2 py-1 bg-orange-100 dark:bg-orange-900/20 rounded-full">
-                        <span className="text-base animate-pulse">🔥</span>
-                        <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
-                          {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak
-                        </span>
+                    <div className="flex justify-center pt-1">
+                      <div className="flex flex-col items-center gap-1 px-3 py-2 bg-orange-100 dark:bg-orange-900/20 rounded-2xl">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base animate-pulse">🔥</span>
+                          <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
+                            {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak
+                          </span>
+                        </div>
+                        {gracePeriodRemaining !== null && (
+                          <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
+                            ⏰ Grace period: {gracePeriodRemaining}h remaining
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
