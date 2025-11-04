@@ -96,42 +96,42 @@ function DashboardContent() {
     ? Math.round(learningProgress.progressPercentage)
     : 0
 
-  // Calculate grace period remaining hours
-  const calculateGracePeriodRemaining = (): number | null => {
-    if (!lastActivityDate || currentStreak === 0) return null
+  // Calculate hours until streak deadline (midnight UTC)
+  const calculateTimeUntilDeadline = (): { hours: number; isActiveToday: boolean } | null => {
+    if (currentStreak === 0) return null
 
-    const GRACE_PERIOD_HOURS = 24
     const now = new Date()
-    const lastActivity = new Date(lastActivityDate)
+    const lastActivity = lastActivityDate ? new Date(lastActivityDate) : null
 
     // Get start of today (00:00 UTC)
     const todayStart = new Date(now)
     todayStart.setUTCHours(0, 0, 0, 0)
 
-    // Get start of last activity day (00:00 UTC)
-    const lastActivityDayStart = new Date(lastActivity)
-    lastActivityDayStart.setUTCHours(0, 0, 0, 0)
+    // Get start of tomorrow (00:00 UTC) - this is the deadline
+    const tomorrowStart = new Date(todayStart)
+    tomorrowStart.setUTCDate(tomorrowStart.getUTCDate() + 1)
 
-    // If activity is today, no grace period needed
-    if (todayStart.getTime() === lastActivityDayStart.getTime()) {
-      return null
+    // Check if we're active today
+    if (lastActivity) {
+      const lastActivityDayStart = new Date(lastActivity)
+      lastActivityDayStart.setUTCHours(0, 0, 0, 0)
+
+      if (todayStart.getTime() === lastActivityDayStart.getTime()) {
+        // Already active today - no countdown needed
+        return { hours: 0, isActiveToday: true }
+      }
     }
 
-    // Calculate hours since last activity
-    const hoursSinceLastActivity = (now.getTime() - lastActivity.getTime()) / (1000 * 60 * 60)
+    // Calculate hours until tomorrow midnight (deadline)
+    const hoursUntilDeadline = (tomorrowStart.getTime() - now.getTime()) / (1000 * 60 * 60)
 
-    // Calculate remaining grace period hours
-    const remainingHours = GRACE_PERIOD_HOURS - hoursSinceLastActivity
-
-    // Only show if we're within the grace period and it's less than 24 hours
-    if (remainingHours > 0 && remainingHours < GRACE_PERIOD_HOURS) {
-      return Math.max(0, Math.ceil(remainingHours))
+    return {
+      hours: Math.max(0, Math.ceil(hoursUntilDeadline)),
+      isActiveToday: false
     }
-
-    return null
   }
 
-  const gracePeriodRemaining = calculateGracePeriodRemaining()
+  const deadlineInfo = calculateTimeUntilDeadline()
 
   // Helper function to get stat calculation breakdown
   const getStatBreakdown = (statLabel: string) => {
@@ -750,10 +750,16 @@ function DashboardContent() {
                                 {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
                               </span>
                             </div>
-                            {gracePeriodRemaining !== null && (
-                              <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
-                                ⏰ Grace period: {gracePeriodRemaining}h remaining
-                              </div>
+                            {deadlineInfo && (
+                              deadlineInfo.isActiveToday ? (
+                                <div className="text-[10px] text-green-600 dark:text-green-400 font-medium flex items-center gap-1">
+                                  ✓ Active today
+                                </div>
+                              ) : (
+                                <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
+                                  ⏰ Complete within {deadlineInfo.hours}h to keep streak
+                                </div>
+                              )
                             )}
                           </div>
                         </motion.div>
@@ -924,10 +930,16 @@ function DashboardContent() {
                             {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak
                           </span>
                         </div>
-                        {gracePeriodRemaining !== null && (
-                          <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
-                            ⏰ Grace period: {gracePeriodRemaining}h remaining
-                          </div>
+                        {deadlineInfo && (
+                          deadlineInfo.isActiveToday ? (
+                            <div className="text-[10px] text-green-600 dark:text-green-400 font-medium flex items-center gap-1">
+                              ✓ Active today
+                            </div>
+                          ) : (
+                            <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
+                              ⏰ Complete within {deadlineInfo.hours}h
+                            </div>
+                          )
                         )}
                       </div>
                     </div>
