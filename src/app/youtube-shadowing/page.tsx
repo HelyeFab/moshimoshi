@@ -236,6 +236,12 @@ function YouTubeShadowingContent() {
       hasHydratedFromCacheRef.current = true;
       updateSession(restoredSession);
 
+      // Restore cached transcript if available
+      if (parsed.cachedTranscript && Array.isArray(parsed.cachedTranscript) && parsed.cachedTranscript.length > 0) {
+        console.log(`[YouTubeShadowing] Restored ${parsed.cachedTranscript.length} cached transcript segments from localStorage`);
+        setCachedTranscriptSegments(parsed.cachedTranscript);
+      }
+
       if (typeof parsed.useAi === 'boolean') {
         userAiOverrideRef.current = true;
         setUseAiTranscript(parsed.useAi);
@@ -466,6 +472,9 @@ function YouTubeShadowingContent() {
     // Clear the session state
     updateSession(null);
 
+    // Clear cached transcript
+    setCachedTranscriptSegments([]);
+
     // Reset view mode to input
     setViewMode('input');
 
@@ -474,6 +483,9 @@ function YouTubeShadowingContent() {
     setIsLoading(false);
     hasHydratedFromCacheRef.current = false;
   }, []);
+
+  // Track transcript data for caching
+  const [cachedTranscriptSegments, setCachedTranscriptSegments] = useState<TranscriptLine[]>([]);
 
   // Persist session state for reloads
   useEffect(() => {
@@ -490,7 +502,8 @@ function YouTubeShadowingContent() {
       version: 1,
       savedAt: Date.now(),
       session,
-      useAi: useAiTranscript
+      useAi: useAiTranscript,
+      cachedTranscript: cachedTranscriptSegments.length > 0 ? cachedTranscriptSegments : undefined
     };
 
     try {
@@ -498,7 +511,7 @@ function YouTubeShadowingContent() {
     } catch (err) {
       console.warn('[YouTubeShadowing] Failed to cache session:', err);
     }
-  }, [session, useAiTranscript]);
+  }, [session, useAiTranscript, cachedTranscriptSegments]);
 
   const viewerSegments: TranscriptLine[] = session
     ? (formattedAvailable && useAiTranscript ? formattedSegments : session.transcript)
@@ -748,6 +761,7 @@ function YouTubeShadowingContent() {
 
                   {/* Transcript Viewer */}
                   <TranscriptViewerNew
+                    segments={cachedTranscriptSegments.length > 0 ? cachedTranscriptSegments : undefined}
                     videoId={extractVideoId(session.videoUrl) || undefined}
                     currentTime={currentTime}
                     onSeekToTime={handleSeekToTime}
@@ -759,6 +773,7 @@ function YouTubeShadowingContent() {
                     isPlaying={isPlaying}
                     onPlayPause={handlePlayPause}
                     onClearSession={handleClearSession}
+                    onTranscriptLoaded={setCachedTranscriptSegments}
                   />
                 </motion.div>
               )}

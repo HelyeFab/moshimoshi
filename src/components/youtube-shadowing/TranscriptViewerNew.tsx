@@ -33,6 +33,7 @@ export interface TranscriptViewerProps {
   isPlaying?: boolean;
   onPlayPause?: () => void;
   onClearSession?: () => void;
+  onTranscriptLoaded?: (segments: TranscriptLine[]) => void; // Callback when transcript loads
 }
 
 interface TranscriptData {
@@ -70,6 +71,7 @@ export default function TranscriptViewerNew({
   isPlaying = false,
   onPlayPause,
   onClearSession,
+  onTranscriptLoaded,
 }: TranscriptViewerProps) {
   const [transcript, setTranscript] = useState<TranscriptData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -136,6 +138,11 @@ export default function TranscriptViewerNew({
         if (response.ok && data.available) {
           setTranscript(data);
           console.log(`[TranscriptViewer] ✅ Loaded transcript: ${data.totalSegments} segments from ${data.source}`);
+
+          // Notify parent component to cache the transcript
+          if (onTranscriptLoaded && data.segments) {
+            onTranscriptLoaded(data.segments as TranscriptLine[]);
+          }
         } else {
           const message = data.message || data.error || 'No transcript available for this video';
           throw new Error(message);
