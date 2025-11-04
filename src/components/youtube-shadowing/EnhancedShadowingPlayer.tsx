@@ -66,24 +66,18 @@ export default function EnhancedShadowingPlayer({
     pauseDuration: 1500,
   });
 
-  // Practice tracking
-  const { startTracking, stopTracking, getTotalTime } = useYouTubePracticeTracking(videoId || '');
-
-  // Start/stop practice tracking based on play state
-  useEffect(() => {
-    if (isPlaying) {
-      startTracking();
-    } else {
-      stopTracking();
-    }
-  }, [isPlaying, startTracking, stopTracking]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      stopTracking();
-    };
-  }, [stopTracking]);
+  // Practice tracking - hook handles start/stop automatically based on isPlaying
+  const { practiceTime } = useYouTubePracticeTracking({
+    videoId: videoId || null,
+    videoUrl: session.videoUrl,
+    videoTitle: session.videoTitle || null,
+    thumbnailUrl: session.videoMetadata?.thumbnails?.medium?.url,
+    channelName: session.videoMetadata?.channelTitle,
+    duration: session.videoMetadata?.duration,
+    metadata: session.videoMetadata,
+    isPlaying,
+    currentTime,
+  });
 
   // Handle player ready
   const handlePlayerReady = useCallback(() => {
@@ -203,7 +197,7 @@ export default function EnhancedShadowingPlayer({
 
           {/* Practice Time Display */}
           <div className="absolute bottom-4 right-4 px-3 py-1 bg-dark-800/80 backdrop-blur-sm text-dark-300 text-xs rounded-lg z-10">
-            {(getTotalTime() / 1000 / 60).toFixed(1)} min
+            {(practiceTime / 60).toFixed(1)} min
           </div>
         </div>
       )}
