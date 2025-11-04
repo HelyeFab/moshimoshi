@@ -180,9 +180,9 @@ export default function EnhancedShadowingPlayer({
             className="w-full"
           />
 
-          {/* Repeat Status Indicator */}
+          {/* Repeat Status Indicator - Top Right to avoid play button */}
           {repeatConfig.enabled && repeatConfig.count > 1 && isPlaying && (
-            <div className="absolute bottom-4 left-4 px-3 py-1 bg-primary-500/90 backdrop-blur-sm text-white text-sm font-semibold rounded-lg z-10 flex items-center gap-2">
+            <div className="absolute top-4 right-4 px-3 py-1 bg-primary-500/90 backdrop-blur-sm text-white text-sm font-semibold rounded-lg z-10 flex items-center gap-2">
               <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
               Repeat {repeatConfig.currentRepeat + 1}/{repeatConfig.count}
             </div>
