@@ -93,7 +93,7 @@ export default function LearningPageHeader({
 
   return (<>
     {/* Mobile Version - Collapsible */}
-    <div className="sm:hidden">
+    <div className="sm:hidden mb-6">
     <div
       className={headerClasses}
       style={isLightTheme ? {
@@ -444,7 +444,7 @@ export default function LearningPageHeader({
     </div>
 
     {/* Desktop Version - Original Full Layout */}
-    <div className="hidden sm:block">
+    <div className="hidden sm:block mb-6">
     <div
       className={headerClasses}
       style={isLightTheme ? {
