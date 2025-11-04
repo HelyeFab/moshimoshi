@@ -754,6 +754,8 @@ function YouTubeShadowingContent() {
                     showFullTranscript={true}
                     source={viewerSource}
                     showFurigana={showFurigana}
+                    showGrammar={showGrammar}
+                    grammarMode={grammarMode}
                     isPlaying={isPlaying}
                     onPlayPause={handlePlayPause}
                     onClearSession={handleClearSession}
