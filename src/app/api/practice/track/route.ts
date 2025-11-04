@@ -3,6 +3,7 @@ import { getSession } from '@/lib/auth/session';
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
 import { adminFirestore as adminDb } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
+import { prepareFirestoreData, cleanYouTubeMetadata } from '@/lib/firebase/cleanFirestoreData';
 
 export async function POST(req: NextRequest) {
   console.log('[Practice Track] ========== POST REQUEST RECEIVED ==========');
@@ -53,15 +54,16 @@ export async function POST(req: NextRequest) {
         if (docSnap.exists) {
           // Update existing video
           const existingData = docSnap.data();
-          await docRef.update({
+          await docRef.update(prepareFirestoreData({
             lastWatched: Timestamp.now(),
             watchCount: (existingData?.watchCount || 0) + 1,
             totalWatchTime: (existingData?.totalWatchTime || 0) + (practiceTime || 0),
             updatedAt: Timestamp.now()
-          });
+          }));
         } else {
           // Create new video entry
-          await docRef.set({
+          const cleanedMetadata = cleanYouTubeMetadata(metadata);
+          await docRef.set(prepareFirestoreData({
             userId: session.uid,
             videoId,
             videoUrl,
@@ -73,10 +75,10 @@ export async function POST(req: NextRequest) {
             watchCount: 1,
             totalWatchTime: practiceTime || 0,
             duration,
-            metadata,
+            metadata: cleanedMetadata,
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now()
-          });
+          }));
         }
       } catch (error) {
         console.error('Error saving YouTube video to Firebase:', error);

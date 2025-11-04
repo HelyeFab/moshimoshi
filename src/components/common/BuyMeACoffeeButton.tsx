@@ -81,10 +81,11 @@ export default function BuyMeACoffeeButton({ variant = 'inline', className = '' 
     return (
       <>
         {/* Floating button with Doshi-inspired colors (red panda theme) - Desktop: rectangular, Mobile: pill */}
+        {/* Position moved to top-right to avoid clustering with bottom controls */}
         <button
           onClick={() => setShowAmountSelector(!showAmountSelector)}
           disabled={isLoading}
-          className={`fixed bottom-4 right-4 z-40 flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-full sm:rounded-xl ${className}`}
+          className={`fixed top-20 right-6 z-40 flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed rounded-full sm:rounded-xl ${className}`}
         >
           <Coffee className="w-5 h-5" />
           <span className="hidden sm:inline">{strings.dashboard?.buyMeACoffee || 'Buy me a coffee'}</span>
@@ -92,7 +93,7 @@ export default function BuyMeACoffeeButton({ variant = 'inline', className = '' 
 
         {/* Amount selector popup - Enhanced design */}
         {showAmountSelector && (
-          <div className="fixed bottom-20 right-4 z-50 bg-gradient-to-br from-white to-gray-50 dark:from-dark-800 dark:to-dark-850 rounded-2xl shadow-2xl p-5 w-[280px] border border-gray-100 dark:border-dark-600 transform transition-all duration-300 animate-slide-up">
+          <div className="fixed top-36 right-6 z-50 bg-gradient-to-br from-white to-gray-50 dark:from-dark-800 dark:to-dark-850 rounded-2xl shadow-2xl p-5 w-[280px] border border-gray-100 dark:border-dark-600 transform transition-all duration-300 animate-slide-down">
             {/* Header with icon */}
             <div className="flex items-center gap-2 mb-4">
               <Coffee className="w-5 h-5 text-orange-500" />

@@ -6,30 +6,8 @@ import Link from 'next/link'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useI18n } from '@/i18n/I18nContext'
-import { useStallOrder } from '@/hooks/useStallOrder'
+import { useAnimationControl } from '@/components/ui/AnimationControl'
 import Image from 'next/image'
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-  DragOverlay,
-  DragEndEvent,
-  DragStartEvent
-} from '@dnd-kit/core'
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  rectSortingStrategy,
-} from '@dnd-kit/sortable'
-import {
-  useSortable
-} from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 
 const stallImages = [
   '/ui/flat-icons/stalls/ceramics.png',
@@ -51,18 +29,20 @@ const getRandomStallImage = () => stallImages[Math.floor(Math.random() * stallIm
 
 // Floating lantern component
 function FloatingLantern({ delay = 0, color = '#ef4444' }) {
+  const animationsEnabled = useAnimationControl()
+
   return (
     <motion.div
-      className="absolute pointer-events-none"
+      className="absolute pointer-events-none floating-element"
       initial={{ y: '120vh', opacity: 0 }}
-      animate={{
+      animate={animationsEnabled ? {
         y: '-20vh',
         opacity: [0, 1, 1, 0],
-      }}
+      } : { y: '120vh', opacity: 0 }}
       transition={{
-        duration: 20,
-        delay,
-        repeat: Infinity,
+        duration: animationsEnabled ? 20 : 0,
+        delay: animationsEnabled ? delay : 0,
+        repeat: animationsEnabled ? Infinity : 0,
         ease: 'linear',
       }}
       style={{
@@ -83,20 +63,22 @@ function FloatingLantern({ delay = 0, color = '#ef4444' }) {
 
 // Twinkling light component
 function TwinklingLight({ delay = 0, x = '50%', y = '50%', color = '#fbbf24' }) {
+  const animationsEnabled = useAnimationControl()
+
   return (
     <motion.div
-      className="absolute pointer-events-none"
+      className="absolute pointer-events-none twinkling-light"
       style={{ left: x, top: y }}
       initial={{ opacity: 0, scale: 0 }}
-      animate={{
+      animate={animationsEnabled ? {
         opacity: [0, 1, 0.3, 1, 0],
         scale: [0, 1.2, 0.8, 1.5, 0],
-      }}
+      } : { opacity: 0, scale: 0 }}
       transition={{
-        duration: 2 + Math.random() * 2,
-        delay: delay + Math.random() * 0.5,
-        repeat: Infinity,
-        repeatDelay: Math.random() * 3,
+        duration: animationsEnabled ? (2 + Math.random() * 2) : 0,
+        delay: animationsEnabled ? (delay + Math.random() * 0.5) : 0,
+        repeat: animationsEnabled ? Infinity : 0,
+        repeatDelay: animationsEnabled ? (Math.random() * 3) : 0,
         ease: 'easeInOut',
       }}
     >
@@ -113,6 +95,8 @@ function TwinklingLight({ delay = 0, x = '50%', y = '50%', color = '#fbbf24' }) 
 
 // Chinese lantern emoji component
 function ChineseLantern({ delay = 0, size = 'medium' }) {
+  const animationsEnabled = useAnimationControl()
+
   const sizes = {
     small: 'text-2xl',
     medium: 'text-4xl',
@@ -130,23 +114,28 @@ function ChineseLantern({ delay = 0, size = 'medium' }) {
 
   return (
     <motion.div
-      className={`absolute pointer-events-none ${sizes[size]}`}
+      className={`absolute pointer-events-none lantern-float ${sizes[size]}`}
       initial={{
         y: startY,
         x: 0,
         opacity: 0,
         rotate: -10
       }}
-      animate={{
+      animate={animationsEnabled ? {
         y: endY,
         x: horizontalDrift,
         opacity: [0, 1, 1, 1, 0],
         rotate: 10
+      } : {
+        y: startY,
+        x: 0,
+        opacity: 0,
+        rotate: -10
       }}
       transition={{
-        duration,
-        delay,
-        repeat: Infinity,
+        duration: animationsEnabled ? duration : 0,
+        delay: animationsEnabled ? delay : 0,
+        repeat: animationsEnabled ? Infinity : 0,
         ease: 'easeInOut',
       }}
       style={{
@@ -159,32 +148,9 @@ function ChineseLantern({ delay = 0, size = 'medium' }) {
   )
 }
 
-// Sortable stall card wrapper for edit mode
-function SortableStallCard({ stall, index }: { stall: any, index: number }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: stall.id })
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  }
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes}>
-      <StallCard stall={stall} index={index} isEditMode={true} dragListeners={listeners} />
-    </div>
-  )
-}
 
 // Stall card component
-function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, index: number, isEditMode: boolean, dragListeners?: any }) {
+function StallCard({ stall, index }: { stall: any, index: number }) {
   const [isHovered, setIsHovered] = useState(false)
   const { strings } = useI18n()
   const cardRef = useRef<HTMLDivElement>(null)
@@ -273,36 +239,9 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
         >
           <span className="text-white text-sm">→</span>
         </motion.div>
-
-        {/* Drag Handle for Edit Mode */}
-        {isEditMode && (
-          <div
-            className="absolute top-4 left-4 cursor-grab active:cursor-grabbing"
-            {...dragListeners}
-          >
-            <div className="flex flex-col gap-1 p-2 bg-white/50 dark:bg-dark-700/50 backdrop-blur-md rounded-lg shadow-md border border-white/30 dark:border-white/10">
-              <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-400"></span>
-              <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-400"></span>
-              <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-400"></span>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )
-
-  if (isEditMode) {
-    return (
-      <div
-        ref={cardRef}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="relative cursor-move h-full"
-      >
-        {cardContent}
-      </div>
-    )
-  }
 
   return (
     <motion.div
@@ -331,12 +270,12 @@ function StallCard({ stall, index, isEditMode, dragListeners }: { stall: any, in
 export default function LearningVillage() {
   const { resolvedTheme } = useTheme()
   const { strings } = useI18n()
+  const animationsEnabled = useAnimationControl()
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
-  const [activeId, setActiveId] = useState<string | null>(null)
 
   // Learning sections with festival stall themes - now with i18n
   // Reordered in a logical progression for learners
-  const initialLearningStalls = useMemo(() => [
+  const learningStalls = useMemo(() => [
     // === FOUNDATION (Basics) ===
     {
       id: 'hiragana',
@@ -720,59 +659,6 @@ export default function LearningVillage() {
     },
   ], [strings])
 
-  // Use the stall order hook
-  const {
-    stalls,
-    isEditMode,
-    isDirty,
-    isSaving,
-    lastSaved,
-    canSync,
-    handleReorder,
-    toggleEditMode,
-    resetToDefault
-  } = useStallOrder(initialLearningStalls)
-
-  // DnD Kit sensors for mouse, touch, and keyboard
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 150,        // Reduced from 250ms for faster response
-        tolerance: 10,     // Increased from 5px for more forgiveness
-      },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  )
-
-  const handleDragStart = (event: DragStartEvent) => {
-    setActiveId(event.active.id as string)
-  }
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event
-
-    if (active.id !== over?.id && over) {
-      const oldIndex = stalls.findIndex((s) => s.id === active.id)
-      const newIndex = stalls.findIndex((s) => s.id === over.id)
-
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const newStalls = arrayMove(stalls, oldIndex, newIndex)
-        handleReorder(newStalls)
-      }
-    }
-
-    setActiveId(null)
-  }
-
-  const activeStall = activeId ? stalls.find(s => s.id === activeId) : null
-
   useEffect(() => {
     const hour = new Date().getHours()
     if (hour >= 6 && hour < 17) {
@@ -809,23 +695,27 @@ export default function LearningVillage() {
         {[...Array(8)].map((_, i) => (
           <motion.div
             key={`distributed-lantern-${i}`}
-            className="absolute text-3xl"
+            className="absolute text-3xl floating-element"
             initial={{
               bottom: `${(i * 25) % 100}%`,
               left: `${10 + (i * 11)}%`,
               opacity: 0,
               scale: 0.5,
             }}
-            animate={{
+            animate={animationsEnabled ? {
               bottom: [`${(i * 25) % 100}%`, `${((i * 25) % 100) + 120}%`],
               opacity: [0, 1, 1, 1, 0],
               scale: [0.5, 1, 1, 1, 0.8],
               x: [0, Math.sin(i) * 20, Math.sin(i) * -15, Math.sin(i) * 25],
+            } : {
+              bottom: `${(i * 25) % 100}%`,
+              opacity: 0,
+              scale: 0.5,
             }}
             transition={{
-              duration: 45 + (i * 2),
-              delay: i * 3,
-              repeat: Infinity,
+              duration: animationsEnabled ? (45 + (i * 2)) : 0,
+              delay: animationsEnabled ? (i * 3) : 0,
+              repeat: animationsEnabled ? Infinity : 0,
               ease: 'easeInOut',
             }}
             style={{
@@ -840,24 +730,28 @@ export default function LearningVillage() {
         {[...Array(3)].map((_, i) => (
           <motion.div
             key={`bottom-glow-lantern-${i}`}
-            className="absolute text-4xl"
+            className="absolute text-4xl floating-element"
             initial={{
               bottom: -50,
               left: `${30 + (i * 20)}%`,
               opacity: 0,
               scale: 0.3,
             }}
-            animate={{
+            animate={animationsEnabled ? {
               bottom: [-50, window.innerHeight * 1.2],
               opacity: [0, 0.8, 1, 0.9, 0],
               scale: [0.3, 1.2, 1, 1, 0.5],
               x: [0, Math.cos(i) * -20, Math.cos(i) * 30, Math.cos(i) * -25],
               rotate: [-10, 10, -5, 8, -10],
+            } : {
+              bottom: -50,
+              opacity: 0,
+              scale: 0.3,
             }}
             transition={{
-              duration: 55 + (i * 3),
-              delay: i * 7 + 2,
-              repeat: Infinity,
+              duration: animationsEnabled ? (55 + (i * 3)) : 0,
+              delay: animationsEnabled ? (i * 7 + 2) : 0,
+              repeat: animationsEnabled ? Infinity : 0,
               ease: 'easeInOut',
             }}
             style={{
@@ -900,7 +794,7 @@ export default function LearningVillage() {
 
       {/* Floating lanterns - moved to main container level */}
       <div className="absolute inset-0 h-full overflow-hidden pointer-events-none">
-        {stalls.slice(0, 5).map((stall, i) => (
+        {learningStalls.slice(0, 5).map((stall, i) => (
           <FloatingLantern
             key={`lantern-${i}`}
             delay={i * 4}
@@ -1081,106 +975,13 @@ export default function LearningVillage() {
           </motion.div>
         </motion.div>
 
-        {/* Edit Mode Controls */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={toggleEditMode}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${isEditMode
-                ? 'bg-primary-500 text-white shadow-lg'
-                : 'bg-white/70 dark:bg-dark-800/70 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-dark-700'
-                }`}
-            >
-              {isEditMode ? (
-                <>
-                  <span>✓</span>
-                  <span className="hidden sm:inline ml-1">Done Editing</span>
-                </>
-              ) : (
-                <>
-                  <span>✏️</span>
-                  <span className="hidden sm:inline ml-1">{strings.dashboard?.villageHeader?.editLayout || 'Edit Layout'}</span>
-                </>
-              )}
-            </button>
-
-            {isEditMode && (
-              <>
-                <button
-                  type="button"
-                  onClick={resetToDefault}
-                  className="px-4 py-2 rounded-lg font-medium bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/30 transition-all"
-                >
-                  ↺ Reset to Default
-                </button>
-
-                {canSync && (
-                  <div className="flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                    <span className="text-xs font-medium text-purple-600 dark:text-purple-400">
-                      ☁️ Syncs to Cloud
-                    </span>
-                    <span className="px-2 py-0.5 bg-purple-500 text-white text-xs font-bold rounded">
-                      PREMIUM
-                    </span>
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-
-          {isSaving && (
-            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-500"></div>
-              Saving...
-            </div>
-          )}
-
-          {!isSaving && lastSaved && (
-            <div className="text-sm text-gray-500 dark:text-gray-500">
-              Last saved: {lastSaved.toLocaleTimeString()}
-            </div>
-          )}
-        </div>
 
         {/* Stalls grid with masonry layout */}
-        {isEditMode ? (
-          <div className="bg-yellow-50 dark:bg-yellow-900/10 border-2 border-dashed border-yellow-300 dark:border-yellow-700 rounded-xl p-4">
-            <p className="text-sm text-yellow-700 dark:text-yellow-400 mb-4 text-center">
-              🎯 Drag stalls by their handles to reorder - Changes save automatically
-            </p>
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={stalls.map(s => s.id)}
-                strategy={rectSortingStrategy}
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                  {stalls.map((stall, index) => (
-                    <SortableStallCard key={stall.id} stall={stall} index={index} />
-                  ))}
-                </div>
-              </SortableContext>
-              <DragOverlay>
-                {activeStall ? (
-                  <div className="opacity-90">
-                    <StallCard stall={activeStall} index={0} isEditMode={true} dragListeners={null} />
-                  </div>
-                ) : null}
-              </DragOverlay>
-            </DndContext>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {stalls.map((stall, index) => (
-              <StallCard key={stall.id} stall={stall} index={index} isEditMode={isEditMode} dragListeners={null} />
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {learningStalls.map((stall, index) => (
+            <StallCard key={stall.id} stall={stall} index={index} />
+          ))}
+        </div>
 
       </div>
     </div>

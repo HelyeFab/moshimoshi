@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { ShadowingSession, TranscriptLine } from '@/app/tools/youtube-shadowing/YouTubeShadowing';
+import type { ShadowingSession, TranscriptLine } from '@/types/youtubeShadowing';
 import { 
   Play, Pause, SkipBack, SkipForward, Volume2, Repeat, Settings, 
   ChevronLeft, ChevronRight, Video, AudioLines, ChevronUp, ChevronDown, RotateCcw 
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
+import { useYouTubePracticeTracking } from '@/hooks/useYouTubePracticeTracking';
 // TODO: Import or create AIExplanationTrigger
 // import { AIExplanationTrigger } from '@/components/AIExplanation';
 import { generateFuriganaWithCache } from '@/utils/furigana';
@@ -29,6 +30,9 @@ declare global {
 interface EnhancedShadowingPlayerProps {
   session: ShadowingSession;
   onLineChange: (index: number) => void;
+  onPlayerReady?: (seekFn: (time: number) => void, playPauseFn?: () => void) => void;  // Expose seek and play/pause functions
+  onTimeUpdate?: (time: number) => void;  // Report current time
+  onPlayStateChange?: (isPlaying: boolean) => void;  // Report play state changes
   showVideo?: boolean;
   showFurigana?: boolean;
   onToggleFurigana?: () => void;
@@ -36,12 +40,18 @@ interface EnhancedShadowingPlayerProps {
   onToggleGrammar?: () => void;
   grammarMode?: 'none' | 'all' | 'content' | 'grammar';
   onGrammarModeChange?: (mode: 'none' | 'all' | 'content' | 'grammar') => void;
+  formattedAvailable?: boolean;
+  useEnhancedTranscript?: boolean;
+  onToggleTranscriptSource?: (useEnhanced: boolean) => void;
   className?: string;
 }
 
-export default function EnhancedShadowingPlayer({ 
-  session, 
+export default function EnhancedShadowingPlayer({
+  session,
   onLineChange,
+  onPlayerReady,
+  onTimeUpdate,
+  onPlayStateChange,
   showVideo = true,
   showFurigana = true,
   onToggleFurigana,
@@ -49,7 +59,10 @@ export default function EnhancedShadowingPlayer({
   onToggleGrammar,
   grammarMode = 'content',
   onGrammarModeChange,
-  className 
+  formattedAvailable = false,
+  useEnhancedTranscript = true,
+  onToggleTranscriptSource,
+  className
 }: EnhancedShadowingPlayerProps) {
   const { user } = useAuth();
   const { showToast } = useToast();
@@ -73,7 +86,6 @@ export default function EnhancedShadowingPlayer({
   const [isPausingForRepeat, setIsPausingForRepeat] = useState(false);
   const [isInRepeatMode, setIsInRepeatMode] = useState(false);
   const [isHandlingRepeatEnd, setIsHandlingRepeatEnd] = useState(false);
-  const [useFormattedTranscript, setUseFormattedTranscript] = useState(true); // Always prefer AI transcripts
   const [showGrammarLegend, setShowGrammarLegend] = useState(false);
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
   
@@ -91,6 +103,12 @@ export default function EnhancedShadowingPlayer({
     onLineChangeRef.current = onLineChange;
   }, [onLineChange]);
 
+  // Store onTimeUpdate in ref to prevent re-subscriptions while keeping latest reference
+  const onTimeUpdateRef = useRef(onTimeUpdate);
+  useEffect(() => {
+    onTimeUpdateRef.current = onTimeUpdate;
+  }, [onTimeUpdate]);
+
   // Track previous time to avoid unnecessary updates
   const prevTimeRef = useRef(0);
 
@@ -105,18 +123,6 @@ export default function EnhancedShadowingPlayer({
   });
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(0);
   
-  // Debug logging - moved after all state declarations
-  useEffect(() => {
-    console.log('[PLAYER_DEBUG] Component mounted/updated', {
-      sessionLineIndex: session.currentLineIndex,
-      isPlaying,
-      repeatCount,
-      currentRepeat,
-      isInRepeatMode,
-      isPausingForRepeat
-    });
-  }, [session.currentLineIndex, isPlaying, repeatCount, currentRepeat, isInRepeatMode, isPausingForRepeat]);
-
   // Refs
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const youtubePlayerRef = useRef<any>(null);
@@ -131,20 +137,42 @@ export default function EnhancedShadowingPlayer({
   // Precision Time Manager
   const timeManagerRef = useRef<PrecisionTimeManager>(new PrecisionTimeManager());
 
+  // Universal seek function that works for all player types
+  const seekToTime = useCallback((time: number) => {
+    if (isYouTubeMode && youtubePlayerRef.current) {
+      youtubePlayerRef.current.seekTo(time, true);
+    } else if (localVideoRef.current) {
+      localVideoRef.current.currentTime = time;
+    } else if (audioRef.current) {
+      audioRef.current.currentTime = time;
+    }
+  }, [isYouTubeMode]);
+
+  // Use a ref to store the play/pause function
+  const handlePlayPauseRef = useRef<() => void>();
+
+  // Expose seek and play/pause functions to parent via callback
+  useEffect(() => {
+    if (onPlayerReady) {
+      // Create a wrapper function that calls the ref
+      const playPauseWrapper = () => {
+        if (handlePlayPauseRef.current) {
+          handlePlayPauseRef.current();
+        }
+      };
+      onPlayerReady(seekToTime, playPauseWrapper);
+    }
+  }, [onPlayerReady, seekToTime]);
+
   // Determine which transcript to use - ALWAYS prefer formatted when available
   // TypeScript doesn't know about formattedTranscript in videoMetadata, so we use type assertion
   const metadata = session.videoMetadata as any;
-  const hasFormattedTranscript = metadata?.formattedTranscript && 
-                                  Array.isArray(metadata.formattedTranscript) &&
-                                  metadata.formattedTranscript.length > 0;
-  
-  // Auto-enable formatted transcript when available
-  useEffect(() => {
-    if (hasFormattedTranscript && !useFormattedTranscript) {
-      console.log('[TRANSCRIPT] AI-formatted transcript available, enabling automatically');
-      setUseFormattedTranscript(true);
-    }
-  }, [hasFormattedTranscript]);
+  const hasFormattedTranscript = metadata?.formattedTranscript &&
+    Array.isArray(metadata.formattedTranscript) &&
+    metadata.formattedTranscript.length > 0;
+
+  const canUseFormattedTranscript = formattedAvailable && hasFormattedTranscript;
+  const useFormattedTranscript = canUseFormattedTranscript && useEnhancedTranscript;
   
   const activeTranscript = (useFormattedTranscript && hasFormattedTranscript) 
     ? metadata.formattedTranscript 
@@ -212,7 +240,6 @@ export default function EnhancedShadowingPlayer({
         const withFurigana = await generateFuriganaWithCache(cleanedText);
         setCurrentLineFurigana(withFurigana);
       } catch (error) {
-        console.error('Failed to generate furigana:', error);
         setCurrentLineFurigana(cleanedText);
       }
     };
@@ -236,6 +263,19 @@ export default function EnhancedShadowingPlayer({
   };
 
   const videoId = session.videoUrl ? extractVideoId(session.videoUrl) : null;
+
+  // Track practice sessions
+  const { practiceTime, hasPracticed } = useYouTubePracticeTracking({
+    videoId,
+    videoUrl: session.videoUrl,
+    videoTitle: session.videoTitle || session.videoMetadata?.title || null,
+    thumbnailUrl: session.videoMetadata?.thumbnailUrl,
+    channelName: session.videoMetadata?.channelTitle,
+    duration: duration,
+    metadata: session.videoMetadata,
+    isPlaying,
+    currentTime,
+  });
 
   // Determine if we're in YouTube mode or local video mode
   useEffect(() => {
@@ -265,7 +305,6 @@ export default function EnhancedShadowingPlayer({
         
         apiLoadTimeout = setTimeout(() => {
           if (mounted && !window.YT) {
-            console.warn('[PLAYER] YouTube API load timeout - using fallback player');
             setIsYouTubeReady(true);
           }
         }, 5000);
@@ -333,7 +372,6 @@ export default function EnhancedShadowingPlayer({
         }
       });
     } catch (error) {
-      console.error('Failed to initialize YouTube player:', error);
     }
   }, [videoId]);
 
@@ -359,9 +397,11 @@ export default function EnhancedShadowingPlayer({
     
     if (event.data === window.YT.PlayerState.PLAYING) {
       setIsPlaying(true);
+      if (onPlayStateChange) onPlayStateChange(true);
       timeManagerRef.current.startSync();
     } else {
       setIsPlaying(false);
+      if (onPlayStateChange) onPlayStateChange(false);
       if (event.data === window.YT.PlayerState.PAUSED) {
         timeManagerRef.current.stopSync();
       }
@@ -385,10 +425,12 @@ export default function EnhancedShadowingPlayer({
       audio.addEventListener('ended', handleAudioEnded);
       audio.addEventListener('play', () => {
         setIsPlaying(true);
+        if (onPlayStateChange) onPlayStateChange(true);
         timeManagerRef.current.startSync();
       });
       audio.addEventListener('pause', () => {
         setIsPlaying(false);
+        if (onPlayStateChange) onPlayStateChange(false);
         timeManagerRef.current.stopSync();
       });
 
@@ -445,6 +487,7 @@ export default function EnhancedShadowingPlayer({
       if (Math.abs(time - prevTimeRef.current) >= 0.01) {
         prevTimeRef.current = time;
         setCurrentTime(time);
+        onTimeUpdateRef.current?.(time);  // Report to parent using ref
       }
       
       // Update active segment
@@ -453,14 +496,6 @@ export default function EnhancedShadowingPlayer({
         const segmentIndex = segments.findIndex(s => s.id === activeSegment.id);
         
         if (activeSegment.id !== lastSegmentId) {
-          console.log('[PLAYER_DEBUG] Segment changed', {
-            oldSegmentId: lastSegmentId,
-            newSegmentId: activeSegment.id,
-            segmentIndex,
-            isInRepeatMode,
-            isPausingForRepeat
-          });
-          
           lastSegmentId = activeSegment.id;
           setActiveSegmentId(activeSegment.id);
           setCurrentSegmentIndex(segmentIndex);
@@ -552,26 +587,9 @@ export default function EnhancedShadowingPlayer({
     const currentLineIndex = actualPlayingLineIndexRef.current;
     const lineToRepeat = activeTranscript[currentLineIndex];
 
-    console.log('[PLAYER_DEBUG] handleLineComplete called', {
-      currentRep,
-      nextRepeat,
-      repeatCount,
-      currentLineIndex,
-      sessionLineIndex: session.currentLineIndex,
-      actualPlayingLineIndex: actualPlayingLineIndexRef.current,
-      lineText: lineToRepeat?.text?.substring(0, 30),
-      totalLines: activeTranscript.length
-    });
-
     timeManagerRef.current.stopSync();
     
     if (nextRepeat < repeatCount) {
-      console.log('[PLAYER_DEBUG] Continuing repeats', { 
-        nextRepeat, 
-        repeatCount,
-        lineIndex: currentLineIndex,
-        lineText: lineToRepeat?.text?.substring(0, 30)
-      });
       setCurrentRepeat(nextRepeat);
       setActiveRepeatNumber(nextRepeat + 1);
       setIsPausingForRepeat(true);
@@ -581,25 +599,21 @@ export default function EnhancedShadowingPlayer({
         if (lineToRepeat) {
           playSpecificLine(lineToRepeat, currentLineIndex);
         } else {
-          console.error('[PLAYER_DEBUG] Line to repeat not found!');
           playCurrentLine();
         }
       }, pauseBetweenRepeats);
     } else {
-      console.log('[PLAYER_DEBUG] Completed all repeats');
       setCurrentRepeat(0);
       setActiveRepeatNumber(1);
       setIsInRepeatMode(false);
       
       // Check if continuous play is enabled and we're not at the last line
       if (continuousPlay && actualPlayingLineIndexRef.current < activeTranscript.length - 1) {
-        console.log('[PLAYER_DEBUG] Continuous play enabled - advancing to next line');
         setTimeout(() => {
           const nextIndex = actualPlayingLineIndexRef.current + 1;
           const nextLine = activeTranscript[nextIndex];
           
           if (!nextLine) {
-            console.log('[PLAYER_DEBUG] Next line not found, stopping');
             setIsPlaying(false);
             return;
           }
@@ -623,18 +637,11 @@ export default function EnhancedShadowingPlayer({
         }, 1000);
       } else {
         setIsPlaying(false);
-        console.log('[PLAYER_DEBUG] Stopping playback - continuous play disabled or last line reached');
       }
     }
   };
 
   const handleAutoRepeatSegmentEnd = useCallback((segmentIndex: number) => {
-    console.log('[PLAYER_DEBUG] handleAutoRepeatSegmentEnd called', {
-      segmentIndex,
-      abRepeat,
-      segmentCount: segments.length
-    });
-
     if (youtubePlayerRef.current) {
       youtubePlayerRef.current.pauseVideo();
     } else if (localVideoRef.current) {
@@ -646,10 +653,6 @@ export default function EnhancedShadowingPlayer({
     const currentRep = abRepeat.currentRepeat + 1;
     
     if (currentRep < abRepeat.totalRepeats) {
-      console.log('[PLAYER_DEBUG] Auto-repeat: continuing segment repeat', { 
-        currentRep, 
-        totalRepeats: abRepeat.totalRepeats 
-      });
       setAbRepeat(prev => ({ ...prev, currentRepeat: currentRep }));
       
       if (repeatTimeoutRef.current) {
@@ -672,10 +675,6 @@ export default function EnhancedShadowingPlayer({
       }, abRepeat.pauseDuration);
     } else {
       const nextIndex = segmentIndex + 1;
-      console.log('[PLAYER_DEBUG] Auto-repeat: segment complete, moving to next', { 
-        nextIndex, 
-        hasNext: nextIndex < segments.length 
-      });
       
       if (nextIndex < segments.length) {
         setAbRepeat(prev => ({ 
@@ -703,7 +702,6 @@ export default function EnhancedShadowingPlayer({
           }
         }, 500);
       } else {
-        console.log('[PLAYER_DEBUG] Auto-repeat: completed all segments, disabling');
         setAutoRepeatMode(false);
         setAbRepeat(prev => ({ ...prev, isActive: false, currentRepeat: 0 }));
       }
@@ -713,24 +711,11 @@ export default function EnhancedShadowingPlayer({
   const playSpecificLine = (lineToPlay: any, lineIndex: number) => {
     if (!lineToPlay) return;
 
-    const repeatNum = currentRepeatRef.current + 1;
-    console.log('[PLAYER_DEBUG] playSpecificLine called', {
-      lineIndex,
-      lineStartTime: lineToPlay.startTime,
-      lineText: lineToPlay.text?.substring(0, 30),
-      repeatNum,
-      repeatCount,
-      isInRepeatMode,
-      sessionLineIndex: session.currentLineIndex,
-      actualPlayingLineIndex: actualPlayingLineIndexRef.current
-    });
-    
     // Track what line we're actually playing
     actualPlayingLineIndexRef.current = lineIndex;
     setIsPausingForRepeat(false);
     
     if (repeatCount > 1) {
-      console.log('[PLAYER_DEBUG] Setting isInRepeatMode = true (repeatCount > 1)');
       setIsInRepeatMode(true);
     }
 
@@ -738,6 +723,7 @@ export default function EnhancedShadowingPlayer({
       youtubePlayerRef.current.seekTo(lineToPlay.startTime, true);
       youtubePlayerRef.current.playVideo();
       setIsPlaying(true);
+      if (onPlayStateChange) onPlayStateChange(true);
       
       if (repeatCount > 1) {
         if (repeatMonitorRef.current) {
@@ -763,20 +749,12 @@ export default function EnhancedShadowingPlayer({
             }
             
             if (currentTime >= effectiveEndTime) {
-              console.log('[PLAYER_DEBUG] YouTube reached line end', {
-                currentTime,
-                effectiveEndTime,
-                currentRepeat: currentRepeatRef.current,
-                repeatCount
-              });
-              
               youtubePlayerRef.current.pauseVideo();
               clearInterval(checkInterval);
               repeatMonitorRef.current = null;
               handleLineComplete();
             }
           } catch (e) {
-            console.error('[PLAYER_DEBUG] Error checking YouTube time:', e);
             clearInterval(checkInterval);
             repeatMonitorRef.current = null;
           }
@@ -788,10 +766,12 @@ export default function EnhancedShadowingPlayer({
       localVideoRef.current.currentTime = lineToPlay.startTime;
       localVideoRef.current.play();
       setIsPlaying(true);
+      if (onPlayStateChange) onPlayStateChange(true);
     } else if (audioRef.current) {
       audioRef.current.currentTime = lineToPlay.startTime;
       audioRef.current.play();
       setIsPlaying(true);
+      if (onPlayStateChange) onPlayStateChange(true);
     }
   };
 
@@ -806,7 +786,7 @@ export default function EnhancedShadowingPlayer({
         clearTimeout(lineEndTimeoutRef.current);
         lineEndTimeoutRef.current = null;
       }
-      
+
       if (isYouTubeMode && youtubePlayerRef.current) {
         youtubePlayerRef.current.pauseVideo();
       } else if (isLocalVideo && localVideoRef.current) {
@@ -815,11 +795,15 @@ export default function EnhancedShadowingPlayer({
         audioRef.current.pause();
       }
       setIsPlaying(false);
+      if (onPlayStateChange) onPlayStateChange(false);
       timeManagerRef.current.stopSync();
     } else {
       playCurrentLine();
     }
   };
+
+  // Store the function in the ref so it can be called from the parent
+  handlePlayPauseRef.current = handlePlayPause;
 
   const handlePrevious = () => {
     if (session.currentLineIndex > 0) {
@@ -990,14 +974,15 @@ export default function EnhancedShadowingPlayer({
               onEnded={handleAudioEnded}
               onPlay={() => {
                 setIsPlaying(true);
+                if (onPlayStateChange) onPlayStateChange(true);
                 timeManagerRef.current.startSync();
               }}
               onPause={() => {
                 setIsPlaying(false);
+                if (onPlayStateChange) onPlayStateChange(false);
                 timeManagerRef.current.stopSync();
               }}
-              onError={(e) => {
-                console.error('Video playback error:', e);
+              onError={() => {
                 setVideoError(true);
                 showToast(
                   'Video format not supported. Showing fallback player with controls.',
@@ -1040,13 +1025,16 @@ export default function EnhancedShadowingPlayer({
       )}
 
       {/* Playback Controls - Immediately after video */}
-      <div className="rounded-lg shadow-sm border border-gray-300/50 dark:border-gray-700/50 p-3 sm:p-4 bg-white dark:bg-[#a0aace]">
+      <div
+        className="rounded-lg shadow-md border-2 border-primary-200 dark:border-primary-800 p-3 sm:p-4 backdrop-blur-sm"
+        style={{ backgroundColor: '#38455c' }}
+      >
         {/* Playback Controls */}
         <div className="flex items-center justify-center gap-2 sm:gap-4 mb-3 sm:mb-4">
           <button
             onClick={handlePrevious}
             disabled={session.currentLineIndex === 0}
-            className="p-1.5 sm:p-2 rounded-lg hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg hover:bg-slate-500/50 text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Previous line"
           >
             <SkipBack className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -1054,7 +1042,7 @@ export default function EnhancedShadowingPlayer({
 
           <button
             onClick={handlePlayPause}
-            className="p-2 sm:p-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+            className="p-2 sm:p-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-colors shadow-lg"
             aria-label={isPlaying ? 'Pause' : 'Play'}
           >
             {isPlaying ? <Pause className="w-5 h-5 sm:w-6 sm:h-6" /> : <Play className="w-5 h-5 sm:w-6 sm:h-6" />}
@@ -1063,7 +1051,7 @@ export default function EnhancedShadowingPlayer({
           <button
             onClick={handleNext}
             disabled={session.currentLineIndex === activeTranscript.length - 1}
-            className="p-1.5 sm:p-2 rounded-lg hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg hover:bg-slate-500/50 text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Next line"
           >
             <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -1072,13 +1060,13 @@ export default function EnhancedShadowingPlayer({
 
         {/* Progress Bar */}
         <div className="space-y-0.5 sm:space-y-1">
-          <div className="flex justify-between text-[10px] sm:text-xs text-gray-700 dark:text-white">
+          <div className="flex justify-between text-[10px] sm:text-xs text-gray-100">
             <span>{timeManagerRef.current.formatTime(currentTime)}</span>
             <span>{timeManagerRef.current.formatTime(duration)}</span>
           </div>
-          <div className="relative h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="relative h-1.5 sm:h-2 bg-[#282a36] rounded-full overflow-hidden">
             <div
-              className="absolute left-0 top-0 h-full bg-blue-500 transition-all duration-100"
+              className="absolute left-0 top-0 h-full bg-orange-500 transition-all duration-100"
               style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
             />
           </div>
@@ -1089,7 +1077,7 @@ export default function EnhancedShadowingPlayer({
       <div className="hidden sm:flex justify-end mb-2 relative">
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted hover:bg-muted/80 transition-all group"
+          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-all group"
           aria-label="Settings"
           title="Click for playback settings and AI transcript toggle"
         >
@@ -1105,7 +1093,7 @@ export default function EnhancedShadowingPlayer({
               onClick={() => setShowSettings(false)}
             />
 
-            <div className="absolute right-0 top-full mt-2 w-80 bg-gray-50 dark:bg-dark-800 rounded-lg shadow-xl border border-gray-300/30 dark:border-dark-700/30 p-4 z-50 max-h-[80vh] overflow-y-auto">
+            <div className="absolute right-0 top-full mt-2 w-80 bg-gray-50 dark:bg-dark-800 rounded-lg shadow-xl border border-gray-300/30 dark:border-dark-700/30 p-4 z-50 max-h-[80vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
                 <Settings className="w-4 h-4" />
                 Settings
@@ -1217,7 +1205,7 @@ export default function EnhancedShadowingPlayer({
                     <button
                       onClick={() => onToggleGrammar?.()}
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        showGrammar ? 'bg-primary' : 'bg-muted'
+                        showGrammar ? 'bg-primary-500 dark:bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
                       }`}
                       role="switch"
                       aria-checked={showGrammar}
@@ -1286,7 +1274,7 @@ export default function EnhancedShadowingPlayer({
                   )}
                   
                   {/* AI-Formatted Transcript Toggle - Always visible when available */}
-                  {hasFormattedTranscript && (
+                  {canUseFormattedTranscript && (
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex-1 pr-3">
                         <label className="text-sm font-medium text-gray-900 dark:text-gray-100 block">
@@ -1299,9 +1287,9 @@ export default function EnhancedShadowingPlayer({
                         </p>
                       </div>
                       <button
-                        onClick={() => setUseFormattedTranscript(!useFormattedTranscript)}
+                        onClick={() => onToggleTranscriptSource?.(!useEnhancedTranscript)}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          useFormattedTranscript ? 'bg-primary' : 'bg-muted'
+                          useFormattedTranscript ? 'bg-primary-500 dark:bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
                         }`}
                         role="switch"
                         aria-checked={useFormattedTranscript}
@@ -1366,7 +1354,10 @@ export default function EnhancedShadowingPlayer({
       </div>
 
       {/* Current Line Display */}
-      <div className="rounded-lg shadow-sm border border-gray-300/50 dark:border-gray-700/50 p-3 sm:p-6 bg-white dark:bg-[#a0aace]">
+      <div
+        className="rounded-lg shadow-md border-2 border-primary-200 dark:border-primary-800 p-3 sm:p-6 backdrop-blur-sm"
+        style={{ backgroundColor: '#38455c' }}
+      >
         {/* AI Icon row - TODO: Add AI explanation feature when available */}
         {/* {currentLine?.text && (
           <div className="flex justify-start mb-4">
@@ -1381,7 +1372,7 @@ export default function EnhancedShadowingPlayer({
         <div className="text-center">
           <div className="py-4 px-2 sm:py-8 sm:px-4">
             {showGrammar ? (
-              <div className="text-lg sm:text-2xl font-medium text-gray-900 leading-relaxed">
+              <div className="text-lg sm:text-2xl font-medium text-gray-100 leading-relaxed">
                 <GrammarHighlightedText
                   text={cleanRomaji(currentLine?.text || '')}
                   highlightMode={grammarMode}
@@ -1391,7 +1382,7 @@ export default function EnhancedShadowingPlayer({
               </div>
             ) : (
               <p
-                className="text-lg sm:text-2xl font-medium text-gray-900 japanese-text leading-relaxed"
+                className="text-lg sm:text-2xl font-medium text-gray-100 japanese-text leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: showFurigana
                     ? currentLineFurigana
@@ -1400,7 +1391,7 @@ export default function EnhancedShadowingPlayer({
               />
             )}
           </div>
-          <p className="text-xs sm:text-sm text-gray-600">
+          <p className="text-xs sm:text-sm text-gray-300">
             Line {session.currentLineIndex + 1} of {activeTranscript.length}
           </p>
           {hasFormattedTranscript && (
@@ -1450,6 +1441,9 @@ export default function EnhancedShadowingPlayer({
           onToggleGrammar={onToggleGrammar}
           grammarMode={grammarMode}
           onGrammarModeChange={onGrammarModeChange}
+          formattedAvailable={canUseFormattedTranscript}
+          useEnhancedTranscript={useEnhancedTranscript}
+          onToggleTranscriptSource={onToggleTranscriptSource}
         />
       </div>
     </div>

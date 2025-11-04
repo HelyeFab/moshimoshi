@@ -1,5 +1,6 @@
 import { db } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
+import { prepareFirestoreData, cleanYouTubeMetadata } from '@/lib/firebase/cleanFirestoreData';
 
 interface TranscriptLine {
   id: string;
@@ -112,9 +113,11 @@ class TranscriptCacheService {
       if (params.duration !== undefined) entry.duration = params.duration;
       if (params.createdBy) entry.createdBy = params.createdBy;
       if (params.formattedTranscript) entry.formattedTranscript = params.formattedTranscript;
-      if (params.metadata) entry.metadata = params.metadata;
+      if (params.metadata) entry.metadata = cleanYouTubeMetadata(params.metadata);
 
-      await db.collection(this.collection).doc(params.contentId).set(entry);
+      // Clean the entire entry to remove any undefined values
+      const cleanedEntry = prepareFirestoreData(entry);
+      await db.collection(this.collection).doc(params.contentId).set(cleanedEntry);
 
       console.log('✅ Transcript cached successfully:', {
         contentId: params.contentId,
@@ -143,13 +146,14 @@ class TranscriptCacheService {
         return false;
       }
 
-      await db.collection(this.collection).doc(contentId).update({
+      const updateData = prepareFirestoreData({
         formattedTranscript,
         'metadata.formattedAt': new Date(),
         'metadata.formattingModel': formattingModel || 'gpt-3.5-turbo',
         'metadata.wasFormatted': true,
         lastAccessed: new Date()
       });
+      await db.collection(this.collection).doc(contentId).update(updateData);
 
       console.log('Formatted transcript updated in cache:', contentId);
       return true;

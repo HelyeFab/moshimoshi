@@ -36,7 +36,7 @@ export default function WordExplanationModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={word || 'Word Explanation'}
+      title=""
       size="xl"
       closeOnOverlayClick={true}
       closeOnEsc={true}
@@ -73,13 +73,13 @@ export default function WordExplanationModal({
           <div className="space-y-6">
             {/* Basic Info */}
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-5">
-              <div className="flex items-baseline gap-3 mb-2">
+              <div className="space-y-1 mb-3">
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
                   {explanation.word}
                 </h3>
-                <span className="text-lg text-gray-600 dark:text-gray-400">
+                <div className="text-lg text-gray-600 dark:text-gray-400">
                   {explanation.reading}
-                </span>
+                </div>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                 {explanation.romaji}

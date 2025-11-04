@@ -123,6 +123,7 @@
     "winston": "^3.17.0",
     "winston-transport": "^4.9.0",
     "youtube-captions-scraper": "^2.0.3",
+    "youtubei.js": "^16.0.1",
     "zod": "^4.1.5",
     "zustand": "^5.0.8"
   },

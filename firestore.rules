@@ -397,10 +397,10 @@ service cloud.firestore {
     }
 
     // Transcript Cache - Shared cache to save API costs
-    // All authenticated users can READ (to check if transcript exists)
+    // Authenticated users can READ cached transcripts (to check before extraction)
     // Only server can WRITE (to prevent abuse/spam)
     match /transcriptCache/{contentId} {
-      // All authenticated users can read cached transcripts
+      // All signed-in users can read cached transcripts
       allow read: if isAuthenticated();
 
       // Only server can write (via Admin SDK)

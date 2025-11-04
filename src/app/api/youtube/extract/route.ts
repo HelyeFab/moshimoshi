@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import ytdl from '@distube/ytdl-core';
 import axios from 'axios';
 import { getSubtitles } from 'youtube-captions-scraper';
+import { Innertube } from 'youtubei.js';
 import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin';
 import { AIService } from '@/lib/ai/AIService';
 import { TranscriptProcessRequest } from '@/lib/ai/types';
@@ -9,12 +10,22 @@ import { transcriptCache } from '@/lib/transcript/cache';
 import { getSession } from '@/lib/auth/session';
 import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
 import type { EvalContext } from '@/types/entitlements';
+import { cleanYouTubeMetadata, prepareFirestoreData } from '@/lib/firebase/cleanFirestoreData';
 
 // Initialize AI Service
 const aiService = AIService.getInstance();
 
 // YouTube Data API v3 endpoint
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
+
+let youtubeClient: Innertube | null = null;
+
+async function getYouTubeClient() {
+  if (!youtubeClient) {
+    youtubeClient = await Innertube.create();
+  }
+  return youtubeClient;
+}
 
 interface TranscriptLine {
   id: string;
@@ -147,27 +158,29 @@ async function saveToYouTubeHistory(
 
     if (doc.exists) {
       // Update existing record
-      await docRef.update({
+      const cleanedMetadata = cleanYouTubeMetadata(metadata || doc.data()?.metadata);
+      await docRef.update(prepareFirestoreData({
         lastWatched: Timestamp.now(),
         watchCount: (doc.data()?.watchCount || 0) + 1,
         transcript: transcript, // Update transcript if it's better
-        metadata: metadata || doc.data()?.metadata
-      });
+        metadata: cleanedMetadata
+      }));
       console.log('✅ Updated YouTube history for video:', videoId);
     } else {
       // Create new record
-      await docRef.set({
+      const cleanedMetadata = cleanYouTubeMetadata(metadata);
+      await docRef.set(prepareFirestoreData({
         userId,
         videoId,
         videoTitle,
         videoUrl,
         transcript,
-        metadata,
+        metadata: cleanedMetadata,
         firstWatched: Timestamp.now(),
         lastWatched: Timestamp.now(),
         watchCount: 1,
         createdAt: Timestamp.now()
-      });
+      }));
       console.log('✅ Created new YouTube history entry for video:', videoId);
     }
   } catch (error) {
@@ -434,6 +447,255 @@ async function formatTranscriptWithAI(
   }
 }
 
+async function extractWithYouTubeNative(
+  videoId: string | null,
+  contentId: string,
+  url: string,
+  isAuthenticated: boolean,
+  userId: string
+): Promise<NextResponse | null> {
+  if (!videoId) {
+    return null;
+  }
+
+  try {
+    const client = await getYouTubeClient();
+    const videoInfo = await client.getInfo(videoId);
+    const transcriptInfo = await videoInfo.getTranscript();
+
+    const languageMenu = transcriptInfo?.transcript?.content?.footer?.language_menu;
+    const availableLanguages: any[] = languageMenu?.sub_menu_items || [];
+
+    const japaneseLanguages = availableLanguages.filter(lang => {
+      const title = (lang.title || '').toLowerCase();
+      return (title.includes('japanese') || title.includes('日本語')) &&
+             !title.includes('english') && !title.includes('英語');
+    });
+
+    if (japaneseLanguages.length === 0) {
+      await logApiUsage('youtubei.js', false, 'NO_JAPANESE_TRANSCRIPT', {
+        videoId,
+        availableLanguages: availableLanguages.map(lang => lang.title)
+      });
+      return null;
+    }
+
+    let finalTranscriptInfo = transcriptInfo;
+    let selectedLanguage = availableLanguages.find(lang => lang.selected);
+    let forcedJapanese = false;
+
+    const isCurrentlyJapanese = (selectedLanguage?.title || '').toLowerCase().includes('japanese') ||
+      (selectedLanguage?.title || '').toLowerCase().includes('日本語');
+
+    if (!isCurrentlyJapanese) {
+      const preferredJapanese = japaneseLanguages.find(lang =>
+        !(lang.title || '').toLowerCase().includes('auto-generated')
+      ) || japaneseLanguages[0];
+
+      if (preferredJapanese?.continuation) {
+        try {
+          const payload = {
+            context: client.session?.context,
+            continuation: preferredJapanese.continuation
+          };
+
+          let response: any = null;
+
+          if (typeof client.session?.http?.post === 'function') {
+            response = await client.session.http.post('/youtubei/v1/get_transcript', payload);
+          } else if (typeof client.session?.actions?.execute === 'function') {
+            response = await client.session.actions.execute('/youtubei/v1/get_transcript', payload);
+          }
+
+          const transcriptContent =
+            response?.actions?.[0]?.updateEngagementPanelAction?.content?.transcript ??
+            response?.data?.actions?.[0]?.updateEngagementPanelAction?.content?.transcript ??
+            response?.transcript;
+
+          if (transcriptContent) {
+            finalTranscriptInfo = { transcript: transcriptContent };
+            selectedLanguage = preferredJapanese;
+            forcedJapanese = true;
+          }
+        } catch (continuationError) {
+          console.warn('[YouTubei] Failed to force Japanese transcript:', continuationError);
+        }
+      }
+    } else {
+      forcedJapanese = true;
+    }
+
+    const rawSegments = finalTranscriptInfo?.transcript?.content?.body?.initial_segments;
+
+    if (!rawSegments || rawSegments.length === 0) {
+      await logApiUsage('youtubei.js', false, 'NO_SEGMENTS', { videoId });
+      return null;
+    }
+
+    const segments = rawSegments.map((segment: any) => {
+      const startMs = Number(segment.start_ms ?? 0);
+      const endMs = Number(segment.end_ms ?? startMs);
+      const start = startMs / 1000;
+      const end = endMs / 1000;
+      const text = segment.snippet?.text || segment.snippet?.runs?.[0]?.text || '';
+
+      return {
+        start,
+        end,
+        text: text.trim()
+      };
+    }).filter((segment: any) => segment.text.length > 0 && !/^\[.*\]$/.test(segment.text));
+
+    if (segments.length === 0) {
+      await logApiUsage('youtubei.js', false, 'EMPTY_SEGMENTS', { videoId });
+      return null;
+    }
+
+    const languageTitle = selectedLanguage?.title || (forcedJapanese ? 'Japanese (forced)' : 'Unknown');
+    const isJapanese = forcedJapanese ||
+      (languageTitle.toLowerCase().includes('japanese') || languageTitle.toLowerCase().includes('日本語'));
+
+    if (!isJapanese) {
+      await logApiUsage('youtubei.js', false, 'NON_JAPANESE_TRANSCRIPT', {
+        videoId,
+        language: languageTitle
+      });
+      return null;
+    }
+
+    const transcript = segments.map((segment: any, index: number) => ({
+      id: String(index + 1),
+      text: segment.text,
+      startTime: segment.start,
+      endTime: segment.end,
+      words: segment.text.split(/[\s、。！？]/g).filter((w: string) => w.length > 0)
+    }));
+
+    const basicInfo = videoInfo?.basic_info || {};
+    const videoMetadata = {
+      title: basicInfo.title,
+      channelTitle: basicInfo.author,
+      description: basicInfo.description,
+      thumbnails: basicInfo.thumbnail?.thumbnails,
+      duration: basicInfo.duration,
+      publishedAt: basicInfo.publish_date
+    };
+
+    const canBackgroundFormat = isAuthenticated && userId && userId !== 'anonymous';
+    let formattedTranscript: any[] | null = null;
+    let formattingPending = false;
+
+    if (canBackgroundFormat) {
+      try {
+        await transcriptCache.set({
+          contentId,
+          contentType: 'youtube',
+          videoUrl: url,
+          videoTitle: videoMetadata.title || `YouTube Video ${videoId}`,
+          transcript,
+          language: 'ja',
+          metadata: {
+            youtubeVideoId: videoId,
+            channelName: videoMetadata.channelTitle,
+            uploadDate: videoMetadata.publishedAt,
+            thumbnailUrl: videoMetadata.thumbnails?.[0]?.url,
+            thumbnails: videoMetadata.thumbnails,
+            description: videoMetadata.description,
+            wasFormatted: false,
+            method: 'youtubei.js',
+            forcedJapanese
+          }
+        });
+      } catch (cacheError) {
+        console.error('[YouTubei] Failed to cache transcript:', cacheError);
+      }
+
+      formattingPending = true;
+
+      void (async () => {
+        try {
+          const aiFormatted = await formatTranscriptWithAI(transcript, videoMetadata.title, contentId);
+          if (aiFormatted && aiFormatted.length > 0) {
+            await transcriptCache.set({
+              contentId,
+              contentType: 'youtube',
+              videoUrl: url,
+              videoTitle: videoMetadata.title || `YouTube Video ${videoId}`,
+              transcript: aiFormatted,
+              formattedTranscript: aiFormatted,
+              language: 'ja',
+              metadata: {
+                youtubeVideoId: videoId,
+                channelName: videoMetadata.channelTitle,
+                uploadDate: videoMetadata.publishedAt,
+                thumbnailUrl: videoMetadata.thumbnails?.[0]?.url,
+                thumbnails: videoMetadata.thumbnails,
+                description: videoMetadata.description,
+                wasFormatted: true,
+                method: 'youtubei.js',
+                forcedJapanese
+              }
+            });
+          }
+        } catch (formatError) {
+          console.warn('[YouTubei] Background AI formatting failed:', formatError);
+        }
+      })();
+    } else {
+      try {
+        formattedTranscript = await formatTranscriptWithAI(transcript, videoMetadata.title, contentId);
+      } catch (formatError) {
+        console.warn('[YouTubei] AI formatting failed, continuing without formatted transcript:', formatError);
+      }
+    }
+
+    if (isAuthenticated && userId && userId !== 'anonymous') {
+      try {
+        await saveToYouTubeHistory(
+          userId,
+          videoId,
+          videoMetadata.title || `YouTube Video ${videoId}`,
+          url,
+          formattedTranscript || transcript,
+          {
+            channelTitle: videoMetadata.channelTitle,
+            thumbnails: videoMetadata.thumbnails,
+            duration: videoMetadata.duration,
+            publishedAt: videoMetadata.publishedAt
+          }
+        );
+      } catch (historyError) {
+        console.error('[YouTubei] Failed to save history:', historyError);
+      }
+    }
+
+    await logApiUsage('youtubei.js', true, undefined, {
+      videoId,
+      language: languageTitle,
+      forcedJapanese,
+      segmentCount: transcript.length,
+      formattingPending
+    });
+
+    return NextResponse.json({
+      success: true,
+      transcript,
+      formattedTranscript,
+      language: 'ja',
+      videoTitle: videoMetadata.title || `YouTube Video ${videoId}`,
+      videoMetadata,
+      method: 'youtubei.js',
+      hasFormattedVersion: !!formattedTranscript,
+      forcedJapanese,
+      formattingPending
+    });
+  } catch (error: any) {
+    console.error('[YouTubei] Error fetching transcript:', error);
+    await logApiUsage('youtubei.js', false, error?.message || 'UNKNOWN_ERROR', { videoId });
+    return null;
+  }
+}
+
 // Helper function to extract with YouTube-Transcript.io
 async function extractWithYouTubeTranscriptIO(
   videoId: string | null,
@@ -599,7 +861,55 @@ async function extractWithYouTubeTranscriptIO(
 
 export async function POST(request: NextRequest) {
   try {
-    const { url, provider = 'auto', forceRegenerate = false, forceReformat = false, apiKey } = await request.json();
+    const {
+      url,
+      provider = 'auto',
+      forceRegenerate = false,
+      forceReformat = false,
+      apiKey,
+      // Progressive enhancement parameters
+      enhanceOnly = false,
+      rawTranscript = null
+    } = await request.json();
+
+    // ═══════════════════════════════════════════════════════
+    // ENHANCE ONLY MODE: Phase 2 of progressive loading
+    // Takes raw transcript and enhances it with AI
+    // ═══════════════════════════════════════════════════════
+    if (enhanceOnly && rawTranscript && Array.isArray(rawTranscript)) {
+      console.log('🚀 [ENHANCE-ONLY] Processing AI enhancement for', rawTranscript.length, 'segments');
+
+      try {
+        const formattedTranscript = await formatTranscriptWithAI(
+          rawTranscript,
+          undefined, // videoTitle not critical for enhancement
+          undefined  // contentId not critical for enhancement
+        );
+
+        if (!formattedTranscript) {
+          return NextResponse.json({
+            success: false,
+            error: 'AI_ENHANCEMENT_FAILED',
+            message: 'Failed to enhance transcript with AI'
+          }, { status: 500 });
+        }
+
+        console.log('✅ [ENHANCE-ONLY] AI enhancement complete:', formattedTranscript.length, 'segments');
+
+        return NextResponse.json({
+          success: true,
+          formattedTranscript,
+          method: 'ai-enhancement-only'
+        });
+      } catch (error: any) {
+        console.error('❌ [ENHANCE-ONLY] Error:', error);
+        return NextResponse.json({
+          success: false,
+          error: 'AI_ENHANCEMENT_ERROR',
+          message: error.message || 'Failed to enhance transcript'
+        }, { status: 500 });
+      }
+    }
 
     if (!url || !isValidYouTubeUrl(url)) {
       return NextResponse.json(
@@ -727,6 +1037,23 @@ export async function POST(request: NextRequest) {
       });
       }
     }
+    // Attempt YouTube native transcripts first (youtubei.js) before other providers
+    const shouldTryYouTubeNative = provider === 'youtube-native' || provider === 'auto';
+
+    if (shouldTryYouTubeNative) {
+      const youtubeNativeResult = await extractWithYouTubeNative(
+        videoId,
+        contentId,
+        url,
+        isAuthenticated,
+        userId
+      );
+
+      if (youtubeNativeResult) {
+        return youtubeNativeResult;
+      }
+    }
+
     let videoMetadata = null;
     let hitRateLimit = false; // Track if we hit rate limits
 

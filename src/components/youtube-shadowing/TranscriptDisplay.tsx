@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
-import { useSubscription } from '@/hooks/useSubscription';
 import { TranscriptCacheManager } from '@/utils/transcriptCache';
 import { motion } from 'framer-motion';
 
@@ -57,12 +56,14 @@ export default function TranscriptDisplay({
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState<string>('');
   const [retryCount, setRetryCount] = useState(0);
+  const [formattingPending, setFormattingPending] = useState(false);
   const { t, strings } = useI18n();
-  const { user } = useAuth();
-  const { hasAccess } = useSubscription();
-
+  const { user, isGuest } = useAuth();
   const loadingMessageIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const messageIndexRef = useRef(0);
+  const formattedPollingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pollAttemptsRef = useRef(0);
+  const contentIdRef = useRef<string>('');
 
   useEffect(() => {
     loadTranscript();
@@ -71,6 +72,9 @@ export default function TranscriptDisplay({
     return () => {
       if (loadingMessageIntervalRef.current) {
         clearInterval(loadingMessageIntervalRef.current);
+      }
+      if (formattedPollingTimeoutRef.current) {
+        clearTimeout(formattedPollingTimeoutRef.current);
       }
     };
   }, [videoUrl]);
@@ -99,25 +103,125 @@ export default function TranscriptDisplay({
       if (loadingMessageIntervalRef.current) {
         clearInterval(loadingMessageIntervalRef.current);
       }
+      if (formattedPollingTimeoutRef.current) {
+        clearTimeout(formattedPollingTimeoutRef.current);
+      }
     };
   }, [status, audioUrl]);
+
+  const scheduleFormattedPolling = (contentId: string) => {
+    if (!user?.uid || isGuest) return;
+    if (!contentId) return;
+
+    if (formattedPollingTimeoutRef.current) {
+      clearTimeout(formattedPollingTimeoutRef.current);
+    }
+
+    formattedPollingTimeoutRef.current = setTimeout(async () => {
+      try {
+        pollAttemptsRef.current += 1;
+        const cachedTranscript = await TranscriptCacheManager.getCachedTranscript(contentId);
+
+        if (cachedTranscript?.formattedTranscript && cachedTranscript.formattedTranscript.length > 0) {
+          setFormattingPending(false);
+          pollAttemptsRef.current = 0;
+
+          const enrichedMetadata = {
+            ...cachedTranscript.metadata,
+            formattedTranscript: cachedTranscript.formattedTranscript,
+            hasFormattedVersion: true
+          };
+
+          onTranscriptLoaded(
+            cachedTranscript.formattedTranscript,
+            cachedTranscript.videoTitle,
+            enrichedMetadata
+          );
+          return;
+        }
+
+        if (pollAttemptsRef.current < 6) {
+          scheduleFormattedPolling(contentId);
+        } else {
+          setFormattingPending(false);
+        }
+      } catch (err) {
+        console.error('Formatted transcript polling error:', err);
+        if (pollAttemptsRef.current < 6) {
+          scheduleFormattedPolling(contentId);
+        } else {
+          setFormattingPending(false);
+        }
+      }
+    }, 5000);
+  };
+
+  const mapNativeSegments = (segments: any[]): TranscriptLine[] =>
+    (segments || []).map((segment: any, index: number) => ({
+      id: segment.id ?? String(index + 1),
+      text: segment.text ?? '',
+      startTime: typeof segment.start === 'number' ? segment.start : 0,
+      endTime: typeof segment.end === 'number' ? segment.end : segment.start ?? 0,
+      words: segment.text ? segment.text.split(/[\s、。！？]/g).filter((w: string) => w.length > 0) : []
+    }));
+
+  const fetchNativeTranscript = async (videoId: string, contentId: string, isAuthenticated: boolean) => {
+    try {
+      const nativeResponse = await fetch(`/api/youtube/native-transcript/${videoId}`);
+      const nativeData = await nativeResponse.json();
+
+      if (!nativeResponse.ok || !nativeData?.available || !nativeData?.segments?.length) {
+        return false;
+      }
+
+      const nativeSegments = mapNativeSegments(nativeData.segments);
+      const metadata = {
+        title: nativeData.title,
+        language: nativeData.language,
+        availableLanguages: nativeData.availableLanguages,
+        forcedJapanese: nativeData.forcedJapanese,
+        languageNote: nativeData.languageNote,
+        totalSegments: nativeData.totalSegments,
+        totalDuration: nativeData.totalDuration,
+        method: 'youtube-native-lite'
+      };
+
+      setStatus('completed');
+      onTranscriptLoaded(nativeSegments, nativeData.title, metadata);
+
+      if (isAuthenticated && contentId) {
+        setFormattingPending(true);
+        scheduleFormattedPolling(contentId);
+      } else {
+        setFormattingPending(false);
+      }
+
+      return true;
+    } catch (nativeError) {
+      console.warn('Native transcript fetch failed, falling back to full pipeline:', nativeError);
+      return false;
+    }
+  };
 
   const loadTranscript = async () => {
     setStatus('loading');
     setError(null);
+    setFormattingPending(false);
+    pollAttemptsRef.current = 0;
+    if (formattedPollingTimeoutRef.current) {
+      clearTimeout(formattedPollingTimeoutRef.current);
+      formattedPollingTimeoutRef.current = null;
+    }
 
-    // Generate content ID for cache lookup
-    let contentId: string = '';
+    let contentId = '';
 
     try {
       if (videoUrl && !fileInfo) {
-        // YouTube video
         contentId = TranscriptCacheManager.generateContentId({
           type: 'youtube',
-          videoUrl: videoUrl
+          videoUrl
         });
       } else if (fileInfo) {
-        // Uploaded file
         contentId = TranscriptCacheManager.generateContentId({
           type: fileInfo.type.startsWith('video/') ? 'video' : 'audio',
           fileName: fileInfo.name,
@@ -125,48 +229,109 @@ export default function TranscriptDisplay({
         });
       }
 
-      // Check cache first
-      if (contentId && !contentId.startsWith('unknown_')) {
+      contentIdRef.current = contentId;
+
+      const isAuthenticated = Boolean(user?.uid && !isGuest);
+
+      if (isAuthenticated && contentId && !contentId.startsWith('unknown_')) {
         const cachedTranscript = await TranscriptCacheManager.getCachedTranscript(contentId);
 
         if (cachedTranscript && cachedTranscript.transcript.length > 0) {
           setLoadingMessage(CACHE_HIT_MESSAGES[0]);
 
-          // Include formatted transcript if available
           const enrichedMetadata = {
             ...cachedTranscript.metadata,
             formattedTranscript: cachedTranscript.formattedTranscript,
             hasFormattedVersion: !!cachedTranscript.formattedTranscript
           };
 
-          // Use AI-formatted transcript if available, otherwise raw
           const transcriptToUse = cachedTranscript.formattedTranscript || cachedTranscript.transcript;
 
           setStatus('completed');
           onTranscriptLoaded(transcriptToUse, cachedTranscript.videoTitle, enrichedMetadata);
+          if (!cachedTranscript.formattedTranscript && cachedTranscript.metadata?.wasFormatted === false) {
+            setFormattingPending(true);
+            scheduleFormattedPolling(contentId);
+          }
           return;
         }
       }
 
-      // For YouTube videos, extract transcript
+      let nativeServed = false;
+      const videoId =
+        !fileInfo && typeof videoUrl === 'string'
+          ? TranscriptCacheManager.extractYouTubeVideoId(videoUrl)
+          : null;
+
+      if (audioUrl === 'youtube-player' && videoId) {
+        nativeServed = await fetchNativeTranscript(videoId, contentId, isAuthenticated);
+      }
+
+      if (nativeServed) {
+        // Continue with the heavier pipeline to populate caches / AI in the background.
+        try {
+          const response = await fetch('/api/youtube/extract', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              url: videoUrl,
+              provider: 'youtube-native',
+              forceRegenerate: false
+            })
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            const formattingFlag = Boolean(data.formattingPending);
+            onTranscriptLoaded(
+              data.formattedTranscript || data.transcript,
+              data.videoTitle,
+              data.videoMetadata
+            );
+
+            if (formattingFlag && isAuthenticated && contentId) {
+              setFormattingPending(true);
+              scheduleFormattedPolling(contentId);
+            } else {
+              setFormattingPending(false);
+            }
+          }
+          return;
+        } catch (backgroundError) {
+          console.warn('Background transcript enhancement failed:', backgroundError);
+          return;
+        }
+      }
+
       if (audioUrl === 'youtube-player') {
         const response = await fetch('/api/youtube/extract', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: videoUrl })
+          body: JSON.stringify({
+            url: videoUrl,
+            provider: 'youtube-native',
+            forceRegenerate: false
+          })
         });
 
         const data = await response.json();
 
         if (response.ok && data.success) {
+          const formattingFlag = Boolean(data.formattingPending);
           setStatus('completed');
           onTranscriptLoaded(
             data.formattedTranscript || data.transcript,
             data.videoTitle,
             data.videoMetadata
           );
+          if (formattingFlag && isAuthenticated && contentId) {
+            setFormattingPending(true);
+            scheduleFormattedPolling(contentId);
+          } else {
+            setFormattingPending(false);
+          }
         } else {
-          // Handle quota exceeded error (status 429)
           if (response.status === 429 && data.error === 'QUOTA_EXCEEDED') {
             const quotaInfo = data.quotaInfo || {};
             setStatus('error');
@@ -175,18 +340,15 @@ export default function TranscriptDisplay({
               `Upgrade to Premium for more videos or try again tomorrow!`
             );
 
-            // Optional: Redirect to pricing after a delay
             setTimeout(() => {
               window.location.href = '/pricing?reason=quota_exceeded';
             }, 3000);
             return;
           }
 
-          // Show error with suggestions from API
           const errorMessage = data.message || strings.youtubeShadowing.errors.transcriptFailed;
           const suggestions = data.suggestions || [];
 
-          // Create a more helpful error message
           let fullError = errorMessage;
           if (suggestions.length > 0) {
             fullError += '\n\n' + t('common.suggestions') + ':\n• ' + suggestions.join('\n• ');
@@ -195,8 +357,6 @@ export default function TranscriptDisplay({
           throw new Error(fullError);
         }
       } else {
-        // For uploaded files, we'd need additional processing
-        // For now, show a message
         setStatus('error');
         setError('File transcript generation is not yet implemented');
       }
@@ -302,6 +462,13 @@ export default function TranscriptDisplay({
               </button>
             )}
           </div>
+        </div>
+      )}
+
+      {formattingPending && (
+        <div className="mt-4 rounded-lg border border-dashed border-primary-300 bg-primary-50/60 dark:bg-primary-900/20 p-3 text-sm text-primary-700 dark:text-primary-200">
+          {strings.youtubeShadowing?.messages?.aiEnhancing ??
+            'AI is enhancing this transcript in the background. We’ll upgrade the text as soon as it is ready.'}
         </div>
       )}
     </div>

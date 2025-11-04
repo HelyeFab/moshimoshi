@@ -23,7 +23,7 @@ export class TranscriptProcessor extends BaseProcessor<TranscriptProcessRequest,
   }
 
   /**
-   * Process transcript request
+   * Process transcript request - now with batching for long transcripts
    */
   async process(
     request: TranscriptProcessRequest,
@@ -32,9 +32,113 @@ export class TranscriptProcessor extends BaseProcessor<TranscriptProcessRequest,
     // Validate request
     this.validateRequest(request);
 
-    // Determine processing type
+    const BATCH_SIZE = 50; // Process 50 segments at a time
+    const segments = request.content.transcript;
     const processingType = this.determineProcessingType(request);
 
+    // Check if we need to batch
+    if (segments.length > BATCH_SIZE) {
+      console.log(`📦 Processing ${segments.length} segments in batches of ${BATCH_SIZE}...`);
+      return await this.processInBatches(request, config, processingType, BATCH_SIZE);
+    }
+
+    // Process normally for small transcripts
+    return await this.processSingleBatch(request, config, processingType);
+  }
+
+  /**
+   * Process transcript in batches for large transcripts
+   */
+  private async processInBatches(
+    request: TranscriptProcessRequest,
+    config: TaskConfig | undefined,
+    processingType: string,
+    batchSize: number
+  ): Promise<ProcessorResult<ProcessedTranscript>> {
+    const segments = request.content.transcript;
+    const batches = [];
+
+    // Split into batches
+    for (let i = 0; i < segments.length; i += batchSize) {
+      batches.push(segments.slice(i, i + batchSize));
+    }
+
+    console.log(`🔄 Processing ${batches.length} batches...`);
+
+    const processedBatches: ProcessedTranscript[] = [];
+    let totalUsage = { promptTokens: 0, completionTokens: 0, totalCost: 0 };
+
+    // Process each batch with increased timeout
+    const batchConfig = {
+      ...config,
+      timeout: 60000 // Increase timeout to 60 seconds for batch processing
+    };
+
+    for (let i = 0; i < batches.length; i++) {
+      console.log(`  Processing batch ${i + 1}/${batches.length} (${batches[i].length} segments)...`);
+
+      const batchRequest: TranscriptProcessRequest = {
+        ...request,
+        content: {
+          ...request.content,
+          transcript: batches[i]
+        }
+      };
+
+      try {
+        const result = await this.processSingleBatch(batchRequest, batchConfig, processingType);
+        processedBatches.push(result.data);
+
+        if (result.usage) {
+          totalUsage.promptTokens += result.usage.promptTokens || 0;
+          totalUsage.completionTokens += result.usage.completionTokens || 0;
+          totalUsage.totalCost = (totalUsage.totalCost || 0) + (result.usage.estimatedCost || 0);
+        }
+      } catch (error) {
+        console.error(`❌ Failed to process batch ${i + 1}:`, error);
+        // Continue with other batches even if one fails
+      }
+    }
+
+    // Combine all processed segments
+    const allSegments = processedBatches.flatMap(batch => batch.segments);
+
+    if (allSegments.length === 0) {
+      throw new AIServiceError(
+        'All batches failed to process',
+        'BATCH_PROCESSING_FAILED',
+        500
+      );
+    }
+
+    console.log(`✅ Successfully processed ${allSegments.length} segments across ${batches.length} batches`);
+
+    return {
+      data: {
+        segments: allSegments,
+        metadata: processedBatches[0]?.metadata // Use metadata from first batch
+      },
+      usage: {
+        promptTokens: totalUsage.promptTokens,
+        completionTokens: totalUsage.completionTokens,
+        estimatedCost: totalUsage.totalCost
+      },
+      metadata: {
+        processingType,
+        segmentCount: allSegments.length,
+        batchCount: batches.length
+      }
+    };
+  }
+
+  /**
+   * Process a single batch (original single-batch logic)
+   */
+  private async processSingleBatch(
+    request: TranscriptProcessRequest,
+    config: TaskConfig | undefined,
+    processingType: string
+  ): Promise<ProcessorResult<ProcessedTranscript>> {
     // Get appropriate prompts
     const systemPrompt = this.getSystemPrompt(config, processingType);
     const userPrompt = this.getUserPrompt(request, config, processingType);

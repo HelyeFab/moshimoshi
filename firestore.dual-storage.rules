@@ -206,16 +206,13 @@ service cloud.firestore {
       allow delete: if isPremiumUser(userId);
     }
 
-    // Village Layout (subcollection) - Premium users only for cloud sync
-    // Stores learning village stall order customization
+    // Village Layout (subcollection) - DEPRECATED: Feature removed
+    // Previously stored learning village stall order customization
+    // Keeping rules for backward compatibility during cleanup period
     match /users/{userId}/villageLayout/{document} {
       allow read: if isPremiumUser(userId);
-
-      allow create: if isPremiumUser(userId);
-
-      allow update: if isPremiumUser(userId);
-
-      allow delete: if false; // Layout preferences should not be deleted
+      allow delete: if isPremiumUser(userId); // Allow users to clean up their data
+      allow create, update: if false; // Prevent new writes - feature removed
     }
 
     // Pokemon data (subcollection) - Premium users only
@@ -328,7 +325,7 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Transcript Cache - Available to all authenticated users
+    // Transcript Cache - Available to signed-in users
     match /transcriptCache/{cacheId} {
       allow read: if isAuthenticated();
 

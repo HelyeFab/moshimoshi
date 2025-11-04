@@ -14,7 +14,6 @@ import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Tooltip from '@/components/ui/Tooltip'
 import LearningVillage from '@/components/dashboard/LearningVillage'
-import BuyMeACoffeeButton from '@/components/common/BuyMeACoffeeButton'
 import PokedexCard from '@/components/pokedex/PokedexCard'
 import { useSubscription } from '@/hooks/useSubscription'
 import GuestModeBanner from '@/components/ui/GuestModeBanner'
@@ -26,6 +25,8 @@ import { useYouTubeStats } from '@/hooks/useYouTubeStats'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
 import Modal from '@/components/ui/Modal'
+import AnimationControl from '@/components/ui/AnimationControl'
+import CommandPalette from '@/components/ui/CommandPalette'
 
 // Dynamically import Confetti to avoid SSR issues
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false })
@@ -648,11 +649,16 @@ function DashboardContent() {
                         }}
                       >
                         <div className="inline-flex flex-col items-center">
-                          <span className="text-xs text-gray-500 dark:text-gray-400 font-medium mb-1 tracking-wider">
+                          <span className="text-xs text-gray-600 dark:text-gray-400 font-medium mb-1 tracking-wider">
                             {greeting.translation}
                           </span>
-                          <span className="text-4xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent animate-gradient tracking-tight leading-none">
+                          {/* High contrast greeting text with subtle gradient shadow */}
+                          <span className="text-4xl font-black text-primary-600 dark:text-primary-400 tracking-tight leading-none relative">
                             {greeting.text}
+                            {/* Gradient shadow effect for visual interest without sacrificing readability */}
+                            <span className="absolute inset-0 text-4xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent opacity-50 blur-sm -z-10" aria-hidden="true">
+                              {greeting.text}
+                            </span>
                           </span>
                         </div>
 
@@ -726,7 +732,7 @@ function DashboardContent() {
                         {learningStats.map((stat, index) => (
                           <motion.div
                             key={stat.label}
-                            className="bg-white/50 dark:bg-dark-700/50 backdrop-blur-sm rounded-xl p-3 shadow-md cursor-pointer border-l-4 border-primary-500 dark:border-primary-400"
+                            className="bg-white/90 dark:bg-dark-700/90 backdrop-blur-sm rounded-xl p-3 shadow-md cursor-pointer border-l-4 border-primary-500 dark:border-primary-400"
                             variants={{
                               hidden: {
                                 opacity: 0,
@@ -755,13 +761,16 @@ function DashboardContent() {
                               setIsStatModalOpen(true)
                             }}
                           >
-                            <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                            {/* Use solid color for better contrast */}
+                            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                               {stat.value}
                             </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400">{String(stat.unit || '')}</div>
-                            <div className="text-xs font-medium text-gray-700 dark:text-gray-300 mt-1">
+                            <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{String(stat.unit || '')}</div>
+                            <div className="text-xs font-semibold text-gray-800 dark:text-gray-200 mt-1">
                               {String(stat.label || '')}
                             </div>
+                            {/* Add color accent as bottom border */}
+                            <div className={`mt-2 h-0.5 rounded-full bg-gradient-to-r ${stat.color} opacity-70`} />
                           </motion.div>
                         ))}
                       </motion.div>
@@ -819,8 +828,13 @@ function DashboardContent() {
                     <span className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1 tracking-wider">
                       {greeting.translation}
                     </span>
-                    <span className="text-4xl lg:text-5xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent animate-gradient tracking-tight leading-none">
+                    {/* High contrast greeting text */}
+                    <span className="text-4xl lg:text-5xl font-black text-primary-600 dark:text-primary-400 tracking-tight leading-none relative">
                       {greeting.text}
+                      {/* Optional gradient glow for aesthetics */}
+                      <span className="absolute inset-0 text-4xl lg:text-5xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent opacity-40 blur-md -z-10" aria-hidden="true">
+                        {greeting.text}
+                      </span>
                     </span>
                   </div>
 
@@ -880,16 +894,19 @@ function DashboardContent() {
                     setSelectedStat(stat.label)
                     setIsStatModalOpen(true)
                   }}
-                  className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center border-l-4 border-primary-500 dark:border-primary-400"
+                  className="bg-white/95 dark:bg-dark-800/95 backdrop-blur-sm rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col justify-center border-l-4 border-primary-500 dark:border-primary-400"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                  {/* Use solid color for better contrast instead of gradient */}
+                  <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                     {stat.value}
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">{String(stat.unit || '')}</div>
-                  <div className="text-xs font-medium text-gray-700 dark:text-gray-300 mt-1">
+                  <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{String(stat.unit || '')}</div>
+                  <div className="text-xs font-semibold text-gray-800 dark:text-gray-200 mt-1">
                     {String(stat.label || '')}
                   </div>
+                  {/* Add a small color indicator instead of gradient text */}
+                  <div className={`mt-2 h-1 rounded-full bg-gradient-to-r ${stat.color} opacity-80`} />
                 </div>
               ))}
             </div>
@@ -908,11 +925,11 @@ function DashboardContent() {
 
       </main>
 
-      {/* Achievement Toast Notifications */}
-      {/* Buy Me a Coffee Button - Floating (Optional) */}
-      {!isGuest && user && (
-        <BuyMeACoffeeButton variant="floating" />
-      )}
+      {/* Command Palette */}
+      <CommandPalette />
+
+      {/* Animation Control Button */}
+      <AnimationControl position="bottom-right" />
 
       {/* Stat Details Modal */}
       <Modal

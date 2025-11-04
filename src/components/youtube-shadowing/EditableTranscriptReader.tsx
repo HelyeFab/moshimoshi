@@ -34,6 +34,7 @@ interface EditableTranscriptReaderProps {
   transcript: TranscriptLine[];
   currentLineIndex: number;
   onLineClick: (index: number) => void;
+  onSeekToTime?: (time: number) => void;  // Direct seek callback (like moshi-player)
   showFurigana: boolean;
   showTranslations: boolean;
   showGrammar: boolean;
@@ -49,6 +50,7 @@ export default function EditableTranscriptReader({
   transcript,
   currentLineIndex,
   onLineClick,
+  onSeekToTime,
   showFurigana,
   showTranslations,
   showGrammar,
@@ -76,6 +78,10 @@ export default function EditableTranscriptReader({
   const [showLegend, setShowLegend] = useState(false);
   const [showEditTools, setShowEditTools] = useState(false);
   const editRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // Auto-scroll refs (like moshi-player)
+  const transcriptContainerRef = useRef<HTMLDivElement>(null);
+  const segmentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   // Word explanation state
   const [isWordModalOpen, setIsWordModalOpen] = useState(false);
@@ -163,6 +169,38 @@ export default function EditableTranscriptReader({
 
     processTranscript();
   }, [transcript, editedTranscript, showFurigana]);
+
+  // Auto-scroll to current segment (like moshi-player)
+  useEffect(() => {
+    if (editMode || currentLineIndex < 0 || currentLineIndex >= processedTranscript.length) return;
+
+    const currentSegment = processedTranscript[currentLineIndex];
+    if (!currentSegment) return;
+
+    const segmentKey = `${currentSegment.original.id}`;
+    const segmentElement = segmentRefs.current[segmentKey];
+
+    if (segmentElement && transcriptContainerRef.current) {
+      const container = transcriptContainerRef.current;
+      const elementTop = segmentElement.offsetTop;
+      const elementHeight = segmentElement.offsetHeight;
+      const containerHeight = container.offsetHeight;
+      const containerScrollTop = container.scrollTop;
+
+      // Check if element is not fully visible (100px buffer zones - moshi-player pattern)
+      const isElementAboveViewport = elementTop < containerScrollTop + 100;
+      const isElementBelowViewport = elementTop + elementHeight > containerScrollTop + containerHeight - 100;
+
+      if (isElementAboveViewport || isElementBelowViewport) {
+        // Smooth scroll to CENTER the active segment
+        const scrollPosition = elementTop - containerHeight / 2 + elementHeight / 2;
+        container.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [currentLineIndex, processedTranscript, editMode]);
 
   const handleWordClick = async (word: string) => {
     if (editMode) return; // Disable word lookup in edit mode
@@ -492,11 +530,18 @@ export default function EditableTranscriptReader({
         )}
         
         {/* Scrollable transcript content with custom scrollbar */}
-        <div className="max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent hover:scrollbar-thumb-primary/40 transition-colors">
+        <div
+          ref={transcriptContainerRef}
+          className="max-h-[600px] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        >
           <div className="space-y-1">
             {processedTranscript.map((item, index) => (
             <div
               key={item.original.id}
+              ref={(el) => {
+                const segmentKey = `${item.original.id}`;
+                segmentRefs.current[segmentKey] = el;
+              }}
               className={`relative ${editMode ? 'p-6' : 'p-4'} ${
                 !editMode ? 'cursor-pointer' : ''
               } transition-all ${
@@ -504,7 +549,13 @@ export default function EditableTranscriptReader({
                   ? 'bg-primary/10 border-l-4 border-primary-500'
                   : 'hover:bg-muted/50'
               }`}
-              onClick={() => !editMode && onLineClick(index)}
+              onClick={() => {
+                if (!editMode) {
+                  console.log(`Jumping to segment: ${formatTimestamp(item.original.startTime)} - "${item.original.text.substring(0, 30)}..."`);
+                  onLineClick(index);  // Update state
+                  onSeekToTime?.(item.original.startTime);  // Direct seek
+                }
+              }}
             >
               {/* Timestamp - Top Right Corner */}
               <span className="absolute top-2 right-2 text-[10px] text-gray-500 font-mono">
