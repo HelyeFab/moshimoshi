@@ -660,6 +660,17 @@ function YouTubeShadowingContent() {
               exit={{ opacity: 0, y: -20 }}
               className="max-w-5xl mx-auto"
             >
+              {/* Back Button - Always visible */}
+              <div className="mb-4">
+                <button
+                  onClick={handleClearSession}
+                  className="flex items-center gap-2 px-4 py-2 bg-dark-800 hover:bg-dark-700 text-dark-50 rounded-lg transition-colors border border-white/10"
+                >
+                  <span>←</span>
+                  <span>Back to Input</span>
+                </button>
+              </div>
+
               {/* Video Info Card - Hidden on mobile (shown in PageHeader collapsible) */}
               {(session.videoTitle || session.videoMetadata) && (
                 <motion.div

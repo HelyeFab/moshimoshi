@@ -297,11 +297,19 @@ export default function TranscriptViewerNew({
   if (error || (transcript && !transcript.available)) {
     return (
       <div className={`caption-component ${className}`}>
-        <div className="p-4 bg-dark-800/70 backdrop-blur-sm rounded-lg border border-yellow-500/30 text-center">
+        <div className="p-4 bg-dark-800/70 backdrop-blur-sm rounded-lg border border-yellow-500/30 text-center space-y-3">
           <p className="text-yellow-300 text-sm mb-2">⚠️ Transcript not available</p>
           <p className="text-dark-300 text-xs">
             {error || transcript?.message || 'This video does not have transcripts enabled'}
           </p>
+          {onClearSession && (
+            <button
+              onClick={onClearSession}
+              className="mt-3 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded-lg transition-colors"
+            >
+              ← Back to Input
+            </button>
+          )}
         </div>
       </div>
     );
@@ -311,8 +319,16 @@ export default function TranscriptViewerNew({
   if (segments.length === 0 && !loading) {
     return (
       <div className={`caption-component ${className}`}>
-        <div className="p-4 bg-dark-800/70 backdrop-blur-sm rounded-lg border border-white/10 text-center">
+        <div className="p-4 bg-dark-800/70 backdrop-blur-sm rounded-lg border border-white/10 text-center space-y-3">
           <p className="text-dark-300 text-sm">📝 No transcript available</p>
+          {onClearSession && (
+            <button
+              onClick={onClearSession}
+              className="mt-3 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded-lg transition-colors"
+            >
+              ← Back to Input
+            </button>
+          )}
         </div>
       </div>
     );
