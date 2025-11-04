@@ -47,19 +47,29 @@ export default function CelebrationScreen({
   const [message, setMessage] = useState('')
 
   useEffect(() => {
-    if (isOpen) {
-      setShowConfetti(true)
-      // Pick a random encouraging message
-      const randomMessage = encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)]
-      setMessage(randomMessage)
+    if (!isOpen) {
+      setShowConfetti(false)
+      return
+    }
 
-      // Auto-close after 4 seconds
-      const timer = setTimeout(() => {
-        setShowConfetti(false)
-        setTimeout(onClose, 500) // Wait for confetti to fade
-      }, 4000)
+    setShowConfetti(true)
+    // Pick a random encouraging message
+    const randomMessage = encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)]
+    setMessage(randomMessage)
 
-      return () => clearTimeout(timer)
+    // Auto-close after 4 seconds
+    const confettiTimer = setTimeout(() => {
+      setShowConfetti(false)
+    }, 4000)
+
+    const closeTimer = setTimeout(() => {
+      onClose()
+    }, 4500) // Wait 500ms after confetti stops
+
+    // Cleanup both timers
+    return () => {
+      clearTimeout(confettiTimer)
+      clearTimeout(closeTimer)
     }
   }, [isOpen, onClose])
 

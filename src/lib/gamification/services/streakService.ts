@@ -277,7 +277,10 @@ export function calculateNewStreakValues(
       newBest = newCurrent
     }
   } else if (eligibility.shouldReset) {
-    newCurrent = 0
+    // When resetting due to missed days, start fresh at 1 (not 0)
+    // because we're currently processing a valid session with sufficient XP.
+    // This ensures the user gets credit for today's activity.
+    newCurrent = 1
     if (freezeEnabled) {
       newFreezes = maxFreezes
     }
