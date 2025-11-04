@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { ShadowingSession, TranscriptLine } from '@/types/youtubeShadowing';
-import { Settings, X, Video, VideoOff } from 'lucide-react';
+import { Settings, X, Video, VideoOff, ChevronDown, ChevronUp } from 'lucide-react';
 import { useYouTubePracticeTracking } from '@/hooks/useYouTubePracticeTracking';
 import { extractVideoId } from '@/utils/youtubeHelpers';
 import YouTubePlayerNew from './YouTubePlayerNew';
 import RepeatControls from './RepeatControls';
 import { RepeatModeConfig } from '@/types/youtube-player';
 import { cn } from '@/lib/utils';
+import { GrammarLegend } from '@/components/reading/GrammarHighlightedText';
 
 interface EnhancedShadowingPlayerProps {
   session: ShadowingSession;
@@ -57,6 +58,7 @@ export default function EnhancedShadowingPlayer({
   const [currentTime, setCurrentTime] = useState(0);
   const [seekFunction, setSeekFunction] = useState<((time: number) => void) | null>(null);
   const [playPauseFunction, setPlayPauseFunction] = useState<(() => void) | null>(null);
+  const [showGrammarLegend, setShowGrammarLegend] = useState(false);
 
   // Repeat mode configuration
   const [repeatConfig, setRepeatConfig] = useState<RepeatModeConfig>({
@@ -152,21 +154,7 @@ export default function EnhancedShadowingPlayer({
   }
 
   return (
-    <div className={cn('enhanced-shadowing-player relative space-y-4', className)}>
-      {/* Floating Settings Button - Always Visible */}
-      <button
-        onClick={() => setShowSettings(!showSettings)}
-        className={cn(
-          "fixed right-4 p-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full shadow-lg transition-all z-50",
-          "sm:absolute sm:top-4 sm:right-4 sm:rounded-lg sm:bg-dark-800/80 sm:backdrop-blur-sm sm:hover:bg-dark-700/80 sm:text-dark-50 sm:border sm:border-white/10",
-          showSettings && "bg-primary-700 sm:bg-dark-700"
-        )}
-        style={{ bottom: showSettings ? '1rem' : '5rem' }} // Adjust position based on state
-        title={showSettings ? 'Hide settings' : 'Show settings'}
-      >
-        {showSettings ? <X className="w-5 h-5 sm:w-5 sm:h-5" /> : <Settings className="w-5 h-5 sm:w-5 sm:h-5" />}
-      </button>
-
+    <div className={cn('enhanced-shadowing-player space-y-4', className)}>
       {/* Video Player */}
       {showVideo && (
         <div className="relative">
@@ -215,17 +203,153 @@ export default function EnhancedShadowingPlayer({
         </div>
       )}
 
-      {/* Repeat Controls (collapsible) */}
-      {showSettings && (
-        <RepeatControls
-          repeatConfig={repeatConfig}
-          onRepeatCountChange={handleRepeatCountChange}
-          onPauseDurationChange={handlePauseDurationChange}
-          onSkipPrevious={undefined} // Will implement segment navigation later
-          onSkipNext={undefined} // Will implement segment navigation later
-          isPlaying={isPlaying}
-        />
-      )}
+      {/* Settings Panel Below Video */}
+      <div className="bg-dark-800/80 backdrop-blur-sm rounded-xl border border-white/10">
+        {/* Settings Header - Collapsible */}
+        <button
+          onClick={() => setShowSettings(!showSettings)}
+          className="w-full flex items-center justify-between p-4 hover:bg-dark-700/50 transition-colors rounded-xl"
+        >
+          <div className="flex items-center gap-2">
+            <Settings className="w-5 h-5 text-primary-500" />
+            <span className="text-dark-50 font-semibold">Player Settings</span>
+          </div>
+          {showSettings ? (
+            <ChevronUp className="w-5 h-5 text-dark-300" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-dark-300" />
+          )}
+        </button>
+
+        {/* Settings Content */}
+        {showSettings && (
+          <div className="px-4 pb-4 space-y-4">
+            {/* Furigana Toggle */}
+            {showFurigana !== undefined && onToggleFurigana && (
+              <div className="flex items-center justify-between">
+                <div className="flex-1 pr-3">
+                  <label className="text-sm font-medium text-dark-50 block">Furigana</label>
+                  <p className="text-xs text-dark-400 mt-1">
+                    Show readings above kanji characters
+                  </p>
+                </div>
+                <button
+                  onClick={onToggleFurigana}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    showFurigana ? 'bg-primary-500' : 'bg-dark-600'
+                  }`}
+                  role="switch"
+                  aria-checked={showFurigana}
+                  aria-label="Toggle furigana"
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      showFurigana ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
+            )}
+
+            {/* Grammar Highlighting Toggle */}
+            {showGrammar !== undefined && onToggleGrammar && (
+              <>
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 pr-3">
+                    <label className="text-sm font-medium text-dark-50 block">Grammar Colors</label>
+                    <p className="text-xs text-dark-400 mt-1">
+                      Highlight parts of speech with colors
+                    </p>
+                  </div>
+                  <button
+                    onClick={onToggleGrammar}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      showGrammar ? 'bg-primary-500' : 'bg-dark-600'
+                    }`}
+                    role="switch"
+                    aria-checked={showGrammar}
+                    aria-label="Toggle grammar highlighting"
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        showGrammar ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {/* Grammar Mode Selection */}
+                {showGrammar && grammarMode && onGrammarModeChange && (
+                  <div className="pl-3 space-y-2">
+                    <label className="text-xs text-dark-400 block">Highlight Mode:</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => onGrammarModeChange('all')}
+                        className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                          grammarMode === 'all'
+                            ? 'bg-primary-600 text-white'
+                            : 'bg-dark-700 text-dark-300 hover:bg-dark-600'
+                        }`}
+                      >
+                        All Words
+                      </button>
+                      <button
+                        onClick={() => onGrammarModeChange('content')}
+                        className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                          grammarMode === 'content'
+                            ? 'bg-primary-600 text-white'
+                            : 'bg-dark-700 text-dark-300 hover:bg-dark-600'
+                        }`}
+                      >
+                        Content Words
+                      </button>
+                      <button
+                        onClick={() => onGrammarModeChange('grammar')}
+                        className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                          grammarMode === 'grammar'
+                            ? 'bg-primary-600 text-white'
+                            : 'bg-dark-700 text-dark-300 hover:bg-dark-600'
+                        }`}
+                      >
+                        Grammar Only
+                      </button>
+                      <button
+                        onClick={() => setShowGrammarLegend(!showGrammarLegend)}
+                        className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors col-span-2 ${
+                          showGrammarLegend
+                            ? 'bg-primary-600 text-white'
+                            : 'bg-dark-700 text-dark-300 hover:bg-dark-600'
+                        }`}
+                      >
+                        {showGrammarLegend ? 'Hide' : 'Show'} Legend
+                      </button>
+                    </div>
+                    {showGrammarLegend && (
+                      <div className="mt-3 p-3 bg-dark-900/50 rounded-lg">
+                        <GrammarLegend />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Divider */}
+            <div className="border-t border-white/10 my-4" />
+
+            {/* Repeat Controls */}
+            <RepeatControls
+              repeatConfig={repeatConfig}
+              onRepeatCountChange={handleRepeatCountChange}
+              onPauseDurationChange={handlePauseDurationChange}
+              onSkipPrevious={undefined} // Will implement segment navigation later
+              onSkipNext={undefined} // Will implement segment navigation later
+              isPlaying={isPlaying}
+              className="!bg-transparent !border-0 !p-0"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
