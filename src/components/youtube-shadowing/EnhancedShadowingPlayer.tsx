@@ -152,7 +152,21 @@ export default function EnhancedShadowingPlayer({
   }
 
   return (
-    <div className={cn('enhanced-shadowing-player space-y-4', className)}>
+    <div className={cn('enhanced-shadowing-player relative space-y-4', className)}>
+      {/* Floating Settings Button - Always Visible */}
+      <button
+        onClick={() => setShowSettings(!showSettings)}
+        className={cn(
+          "fixed right-4 p-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full shadow-lg transition-all z-50",
+          "sm:absolute sm:top-4 sm:right-4 sm:rounded-lg sm:bg-dark-800/80 sm:backdrop-blur-sm sm:hover:bg-dark-700/80 sm:text-dark-50 sm:border sm:border-white/10",
+          showSettings && "bg-primary-700 sm:bg-dark-700"
+        )}
+        style={{ bottom: showSettings ? '1rem' : '5rem' }} // Adjust position based on state
+        title={showSettings ? 'Hide settings' : 'Show settings'}
+      >
+        {showSettings ? <X className="w-5 h-5 sm:w-5 sm:h-5" /> : <Settings className="w-5 h-5 sm:w-5 sm:h-5" />}
+      </button>
+
       {/* Video Player */}
       {showVideo && (
         <div className="relative">
@@ -177,15 +191,6 @@ export default function EnhancedShadowingPlayer({
             onSeekRequest={handleSeekRequest}
             className="w-full"
           />
-
-          {/* Settings Toggle Button */}
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="absolute top-4 left-4 p-2 bg-dark-800/80 backdrop-blur-sm hover:bg-dark-700/80 text-dark-50 rounded-lg transition-colors border border-white/10 z-10"
-            title={showSettings ? 'Hide settings' : 'Show settings'}
-          >
-            {showSettings ? <X className="w-5 h-5" /> : <Settings className="w-5 h-5" />}
-          </button>
 
           {/* Repeat Status Indicator */}
           {repeatConfig.enabled && repeatConfig.count > 1 && isPlaying && (
