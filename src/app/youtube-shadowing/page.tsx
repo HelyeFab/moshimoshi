@@ -11,12 +11,10 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import Link from 'next/link';
 import YouTubeInput from '@/components/youtube-shadowing/YouTubeInput';
-import AudioExtractor from '@/components/youtube-shadowing/AudioExtractor';
-import TranscriptDisplay from '@/components/youtube-shadowing/TranscriptDisplay';
 import EnhancedShadowingPlayer from '@/components/youtube-shadowing/EnhancedShadowingPlayer';
-import TranscriptViewer from '@/components/youtube-shadowing/TranscriptViewer';
+import TranscriptViewerNew from '@/components/youtube-shadowing/TranscriptViewerNew';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import { TranscriptCacheManager } from '@/utils/transcriptCache';
+import { extractVideoId } from '@/utils/youtubeHelpers';
 
 const SESSION_STORAGE_KEY = 'youtubeShadowingSession';
 export interface TranscriptLine {
@@ -118,22 +116,6 @@ function YouTubeShadowingContent() {
 
   const sharedUrlParam = searchParams.get('url');
 
-  // Extract video ID from YouTube URL - moved here to be available for handleUrlSubmit
-  const extractVideoId = (url: string): string | null => {
-    const patterns = [
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s]+)/,
-      /youtube\.com\/v\/([^&\s]+)/,
-      /youtube\.com\/shorts\/([^&\s]+)/,
-      /music\.youtube\.com\/watch\?v=([^&\s]+)/
-    ];
-
-    for (const pattern of patterns) {
-      const match = url.match(pattern);
-      if (match) return match[1];
-    }
-    return null;
-  };
-
   const updateSession = useCallback((newSession: ShadowingSession | null) => {
     setSession(prevSession => {
       if (prevSession?.videoUrl?.startsWith('blob:') && prevSession.videoUrl !== newSession?.videoUrl) {
@@ -190,9 +172,10 @@ function YouTubeShadowingContent() {
         return;
       }
 
-      // Create session
+      // Create session with "youtube-player" as audioUrl to indicate YouTube mode
       updateSession({
         videoUrl: url,
+        audioUrl: 'youtube-player',
         transcript: [],
         currentLineIndex: 0
       });
@@ -715,38 +698,8 @@ function YouTubeShadowingContent() {
                 </motion.div>
               )}
 
-              {/* Audio Extraction - Only for YouTube videos */}
-              {!session.audioUrl && !session.fileInfo && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <AudioExtractor
-                    videoUrl={session.videoUrl}
-                    onAudioExtracted={handleAudioExtracted}
-                  />
-                </motion.div>
-              )}
-
-              {/* Transcript Loading */}
-              {session.audioUrl && session.transcript.length === 0 && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <TranscriptDisplay
-                    videoUrl={session.videoUrl}
-                    audioUrl={session.audioUrl}
-                    fileInfo={session.fileInfo}
-                    onTranscriptLoaded={handleTranscriptLoaded}
-                  />
-                </motion.div>
-              )}
-
               {/* Video and Transcript Display */}
-              {session.audioUrl && session.transcript.length > 0 && (
+              {session && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -782,7 +735,7 @@ function YouTubeShadowingContent() {
                   />
 
                   {/* Transcript Viewer */}
-                  <TranscriptViewer
+                  <TranscriptViewerNew
                     segments={viewerSegments}
                     currentTime={currentTime}
                     onSeekToTime={handleSeekToTime}
