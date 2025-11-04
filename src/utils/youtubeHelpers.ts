@@ -226,23 +226,37 @@ export function getQualityDisplayName(quality: string): string {
  */
 export function loadYouTubeAPI(): Promise<void> {
   return new Promise((resolve) => {
+    // Check if API is already loaded
     if ((window as any).YT && (window as any).YT.Player) {
+      console.log('[loadYouTubeAPI] API already loaded');
       resolve();
       return;
     }
 
+    // Check if script is already loading
     const existingScript = document.getElementById('youtube-api');
     if (existingScript) {
-      existingScript.addEventListener('load', () => resolve());
+      console.log('[loadYouTubeAPI] Script already exists, waiting for ready callback');
+      // Wait for the onYouTubeIframeAPIReady callback
+      const originalCallback = (window as any).onYouTubeIframeAPIReady;
+      (window as any).onYouTubeIframeAPIReady = () => {
+        console.log('[loadYouTubeAPI] API ready via existing script');
+        if (originalCallback) originalCallback();
+        resolve();
+      };
       return;
     }
 
+    console.log('[loadYouTubeAPI] Loading YouTube IFrame API script');
+
+    // Create and load the script
     const script = document.createElement('script');
     script.id = 'youtube-api';
     script.src = 'https://www.youtube.com/iframe_api';
     script.async = true;
 
     (window as any).onYouTubeIframeAPIReady = () => {
+      console.log('[loadYouTubeAPI] API ready via new script');
       resolve();
     };
 
