@@ -6,7 +6,6 @@ import { getPaginatedBlogPosts } from "@/services/blogService";
 import type { BlogPost, PaginatedBlogResponse } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
 import Link from "next/link";
-import Head from "next/head";
 import { NewsletterForm } from "@/components/blog/NewsletterForm";
 
 function BlogContent() {

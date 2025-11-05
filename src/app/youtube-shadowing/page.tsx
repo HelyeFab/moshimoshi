@@ -696,13 +696,13 @@ function YouTubeShadowingContent() {
         )}
       </AnimatePresence>
 
-      {/* Non-session screens - Show Navbar and PageHeader normally */}
+      {/* Non-session screens - Show Navbar and PageHeader normally (mobile only) */}
       {!session && (
         <>
-          <div className="block">
+          <div className="block sm:hidden">
             <Navbar user={user} showUserMenu={true} />
           </div>
-          <div className="block">
+          <div className="block sm:hidden">
             <PageHeader
               title={t('youtubeShadowing.title')}
               description={t('youtubeShadowing.description')}

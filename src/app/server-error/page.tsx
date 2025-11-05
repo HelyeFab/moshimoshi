@@ -47,9 +47,8 @@ export default function Custom500() {
                   5
                 </span>
                 <div className="relative">
-                  <DoshiMascot 
-                    size="large" 
-                    
+                  <DoshiMascot
+                    size="large"
                     variant="animated"
                   />
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -81,7 +80,7 @@ export default function Custom500() {
                   Our servers are taking a little nap. Even Doshi needs rest sometimes!
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                  Don't worry, we're working on waking them up. 
+                  Don't worry, we're working on waking them up.
                 </p>
               </div>
 
@@ -94,7 +93,7 @@ export default function Custom500() {
                   <span>Refresh page</span>
                   <span className="text-xl">🔄</span>
                 </button>
-                
+
                 <Link
                   href="/"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-300 dark:hover:bg-dark-600 hover:shadow-lg transform hover:scale-105 transition-all duration-200"
@@ -123,7 +122,7 @@ export default function Custom500() {
               <div className="mt-6 text-center">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   <span className="font-bold">Did you know?</span> In Japanese, "500" can be read as "go-hyaku" (五百).
-                  It literally means "five hundred"! 
+                  It literally means "five hundred"!
                 </p>
               </div>
             </div>

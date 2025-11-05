@@ -10,7 +10,6 @@ import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { CommentSection } from "@/components/blog/CommentSection";
 import { ShareButtons } from "@/components/blog/ShareButtons";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
-import Head from "next/head";
 import "@/styles/blog-content.css";
 
 export default function BlogPostPage() {

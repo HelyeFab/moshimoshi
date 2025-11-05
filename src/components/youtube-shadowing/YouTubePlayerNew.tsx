@@ -296,18 +296,26 @@ export function YouTubePlayerSurface({
           }`}
         >
           {/* Top Controls */}
-          <div className="absolute top-4 right-4 flex gap-2">
-            <button
-              onClick={handleFullscreenToggle}
-              className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
-              title={isFullscreenActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+          <div className="absolute top-4 right-4 flex items-center gap-2">
+            {/* Quality Selector */}
+            <div className="text-sm bg-dark-800/70 backdrop-blur-xl text-primary-400 dark:text-primary-400 px-3 py-1 rounded-lg border border-white/10 shadow-lg">
+              {getQualityDisplayName(state.quality)}
+            </div>
+
+            {/* Playback Rate */}
+            <select
+              value={state.playbackRate}
+              onChange={(e) => handlePlaybackRateChange(parseFloat(e.target.value))}
+              className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 text-sm px-3 py-1 rounded-lg border border-white/10 cursor-pointer transition-colors shadow-lg"
             >
-              {isFullscreenActive ? (
-                <Minimize className="w-4 h-4" />
-              ) : (
-                <Maximize className="w-4 h-4" />
-              )}
-            </button>
+              <option value={0.25}>0.25x</option>
+              <option value={0.5}>0.5x</option>
+              <option value={0.75}>0.75x</option>
+              <option value={1}>1x</option>
+              <option value={1.25}>1.25x</option>
+              <option value={1.5}>1.5x</option>
+              <option value={2}>2x</option>
+            </select>
           </div>
 
           {/* Bottom Controls */}
@@ -328,8 +336,8 @@ export function YouTubePlayerSurface({
             </div>
 
             {/* Control Bar */}
-            <div className="flex items-center justify-between text-white">
-              {/* Left Controls */}
+            <div className="flex items-center text-white">
+              {/* Controls */}
               <div className="flex items-center gap-4">
                 <button
                   onClick={handlePlayPause}
@@ -371,28 +379,7 @@ export function YouTubePlayerSurface({
                 </span>
               </div>
 
-              {/* Right Controls */}
-              <div className="flex items-center gap-4">
-                {/* Quality Selector */}
-                <div className="text-sm bg-dark-800/70 backdrop-blur-xl text-primary-400 dark:text-primary-400 px-3 py-1 rounded-lg border border-white/10 shadow-lg">
-                  {getQualityDisplayName(state.quality)}
-                </div>
 
-                {/* Playback Rate */}
-                <select
-                  value={state.playbackRate}
-                  onChange={(e) => handlePlaybackRateChange(parseFloat(e.target.value))}
-                  className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 text-sm px-3 py-1 rounded-lg border border-white/10 cursor-pointer transition-colors shadow-lg"
-                >
-                  <option value={0.25}>0.25x</option>
-                  <option value={0.5}>0.5x</option>
-                  <option value={0.75}>0.75x</option>
-                  <option value={1}>1x</option>
-                  <option value={1.25}>1.25x</option>
-                  <option value={1.5}>1.5x</option>
-                  <option value={2}>2x</option>
-                </select>
-              </div>
             </div>
           </div>
         </div>

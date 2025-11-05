@@ -503,7 +503,7 @@ export default function TranscriptViewerNew({
                     }}
                     className={`w-full text-left p-3 rounded-lg text-sm transition-all cursor-pointer border ${
                       isActive
-                        ? 'bg-primary-500/30 border-primary-500 text-dark-50 shadow-lg transform scale-[1.02] ring-2 ring-primary-500/50'
+                        ? 'bg-[#34464d] border-primary-500 text-dark-50 shadow-lg transform scale-[1.02] ring-2 ring-primary-500/50'
                         : isPast
                         ? 'text-dark-400 hover:text-dark-200 border-white/10 hover:border-white/20 hover:bg-white/5'
                         : 'text-dark-200 hover:text-dark-50 border-white/10 hover:border-white/30 hover:bg-white/10'

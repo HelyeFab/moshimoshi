@@ -86,7 +86,7 @@ function useSimpleKeyboardShortcuts(shortcuts: KeyboardShortcuts, enabled: boole
       }
     }
 
-    // Build key combination string
+    // Build key combination string (exact match with modifiers)
     const modifiers = [];
     if (event.ctrlKey) modifiers.push('Ctrl');
     if (event.altKey) modifiers.push('Alt');
@@ -98,13 +98,10 @@ function useSimpleKeyboardShortcuts(shortcuts: KeyboardShortcuts, enabled: boole
       ? `${modifiers.join('+')}+${key}`
       : key;
 
-    // Check if we have a handler for this combination
+    // Check for exact match (with modifiers if present)
     if (shortcuts[combination]) {
       event.preventDefault();
       shortcuts[combination]();
-    } else if (shortcuts[key]) {
-      event.preventDefault();
-      shortcuts[key]();
     }
   }, [shortcuts, enabled]);
 
@@ -154,13 +151,15 @@ function useAdvancedKeyboardShortcuts(options: UseKeyboardShortcutsOptions) {
       }
     }
 
-    // Find matching binding
+    // Find matching binding (prefer exact modifier matches)
     const binding = bindingsRef.current.find(b => {
       const keyMatches = b.key.toLowerCase() === event.key.toLowerCase();
-      const ctrlMatches = b.ctrlKey === undefined || b.ctrlKey === event.ctrlKey;
-      const shiftMatches = b.shiftKey === undefined || b.shiftKey === event.shiftKey;
-      const altMatches = b.altKey === undefined || b.altKey === event.altKey;
-      const metaMatches = b.metaKey === undefined || b.metaKey === event.metaKey;
+
+      // Exact matching: if modifier not specified in binding, it must be false in event
+      const ctrlMatches = b.ctrlKey === undefined ? !event.ctrlKey : b.ctrlKey === event.ctrlKey;
+      const shiftMatches = b.shiftKey === undefined ? !event.shiftKey : b.shiftKey === event.shiftKey;
+      const altMatches = b.altKey === undefined ? !event.altKey : b.altKey === event.altKey;
+      const metaMatches = b.metaKey === undefined ? !event.metaKey : b.metaKey === event.metaKey;
 
       return keyMatches && ctrlMatches && shiftMatches && altMatches && metaMatches;
     });

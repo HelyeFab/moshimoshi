@@ -44,9 +44,8 @@ export default function Custom403() {
             <div className="text-center mb-8">
               {/* Doshi Guard */}
               <div className="relative inline-block mb-6">
-                <DoshiMascot 
-                  size="xlarge" 
-                  
+                <DoshiMascot
+                  size="xlarge"
                   variant="animated"
                 />
                 <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
@@ -90,7 +89,7 @@ export default function Custom403() {
                   <span>Sign in</span>
                   <span className="text-xl">🔐</span>
                 </Link>
-                
+
                 <Link
                   href="/"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-300 dark:hover:bg-dark-600 hover:shadow-lg transform hover:scale-105 transition-all duration-200"
@@ -115,7 +114,7 @@ export default function Custom403() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
                   <div className="flex items-start gap-3">
                     <span className="text-2xl">⭐</span>

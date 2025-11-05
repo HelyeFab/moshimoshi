@@ -283,6 +283,15 @@ export default function EnhancedShadowingPlayer({
             className="w-full"
           />
 
+          {/* Settings Button - Top Left Corner */}
+          <button
+            onClick={() => setShowSettings(true)}
+            className="absolute top-4 left-4 z-20 flex items-center justify-center p-3 bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl border border-white/20 rounded-full shadow-lg transition-all hover:scale-110 active:scale-95"
+            title="Player Settings"
+          >
+            <Settings className="w-5 h-5 text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 transition-colors" />
+          </button>
+
           {playerState.repeatConfig.enabled && playerState.repeatConfig.count > 1 && playerState.playing && (
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary-500/90 backdrop-blur-sm text-white text-sm font-semibold rounded-lg z-10 flex items-center gap-2">
               <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
@@ -304,14 +313,7 @@ export default function EnhancedShadowingPlayer({
         </div>
       )}
 
-      {/* Floating Settings Button - Glassmorphism */}
-      <button
-        onClick={() => setShowSettings(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center justify-center p-4 bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95 group"
-        title="Player Settings"
-      >
-        <Settings className="w-6 h-6 text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 transition-colors" />
-      </button>
+
 
       {/* Compact Floating Settings Menu */}
       {showSettings && (
@@ -478,7 +480,10 @@ export default function EnhancedShadowingPlayer({
                 {/* Keyboard Shortcuts - Desktop Only */}
                 <div className="hidden sm:block space-y-2 pt-2 border-t border-white/10">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-medium text-dark-300 uppercase tracking-wide">Keyboard Shortcuts</h4>
+                    <div className="flex items-center gap-1">
+                      <Keyboard className="w-3 h-3 text-dark-300" />
+                      <h4 className="text-xs font-medium text-dark-300 uppercase tracking-wide">Keyboard Shortcuts</h4>
+                    </div>
                     <button
                       onClick={() => setShowShortcutsHelp(!showShortcutsHelp)}
                       className="text-xs text-primary-400 hover:text-primary-300 transition-colors"
@@ -488,7 +493,7 @@ export default function EnhancedShadowingPlayer({
                   </div>
 
                   {showShortcutsHelp && (
-                    <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
+                    <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                       {getShortcutsHelp().map(({ keys, description }) => (
                         <div key={keys} className="flex justify-between items-center p-2 bg-dark-900/50 rounded text-xs gap-2">
                           <span className="text-dark-300 flex-1">{description}</span>
