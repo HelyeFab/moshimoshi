@@ -142,12 +142,17 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
       const endBuffer = calculateSegmentEndBuffer(duration, playbackRate, { bufferRatio: 0.02 });
       const isAtEnd = currentTime >= segment.end - endBuffer;
 
-      console.log('[Repeat Debug] isAtEnd:', isAtEnd, 'repeatConfig.count:', repeatConfig.count, 'currentRepeat:', repeatConfig.currentRepeat);
+      console.log('[Repeat Debug] isAtEnd:', isAtEnd, 'repeatConfig.count:', repeatConfig.count, 'currentRepeat:', repeatConfig.currentRepeat, 'segmentIndex:', segmentIndex);
 
       const shouldRepeat = isAtEnd && repeatConfig.count > 1 && repeatConfig.currentRepeat < repeatConfig.count - 1;
       const shouldMoveNext = isAtEnd && (repeatConfig.count === 1 || repeatConfig.currentRepeat >= repeatConfig.count - 1);
 
-      console.log('[Repeat Debug] shouldRepeat:', shouldRepeat, 'shouldMoveNext:', shouldMoveNext);
+      console.log('[Repeat Debug] shouldRepeat:', shouldRepeat, 'shouldMoveNext:', shouldMoveNext, 'Calculation:', {
+        'isAtEnd': isAtEnd,
+        'count > 1': repeatConfig.count > 1,
+        'currentRepeat < count - 1': repeatConfig.currentRepeat < repeatConfig.count - 1,
+        'currentRepeat >= count - 1': repeatConfig.currentRepeat >= repeatConfig.count - 1
+      });
 
       if (shouldRepeat) {
         // Need to repeat this segment
@@ -260,7 +265,7 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
       } else if (shouldMoveNext) {
         // Finished all repeats, move to next segment or stop
         if (segmentIndex < transcript.length - 1) {
-          console.log(`[Repeat] Cycle complete for segment ${segmentIndex}, moving to next`);
+          console.log(`[Repeat] Cycle complete for segment ${segmentIndex}, moving to next segment ${segmentIndex + 1}`);
 
           // Set lock to prevent re-triggering during transition
           isHandlingRepeatRef.current = true;
@@ -270,16 +275,38 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
           const nextSegment = transcript[segmentIndex + 1];
           const nextIndex = segmentIndex + 1;
 
-          baseActions.seekTo(nextSegment.start);
-          setCurrentSegmentIndex(nextIndex);
-          currentSegmentIndexRef.current = nextIndex; // Update ref immediately to prevent re-trigger
-          setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-          repeatConfigRef.current = { ...repeatConfigRef.current, currentRepeat: 0 }; // Update ref too
+          // Use async smart seek to ensure we're at the next segment before continuing
+          (async () => {
+            try {
+              await seekAndWaitForReady(playerRef.current, nextSegment.start, {
+                maxWaitMs: 2000,
+                pollIntervalMs: 50
+              });
 
-          // Release lock after a short delay to allow seek to complete
-          setTimeout(() => {
-            isHandlingRepeatRef.current = false;
-          }, 300);
+              console.log(`[Repeat] Successfully moved to segment ${nextIndex}`);
+
+              // Update segment index and reset repeat count AFTER seek completes
+              setCurrentSegmentIndex(nextIndex);
+              currentSegmentIndexRef.current = nextIndex;
+              setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+              repeatConfigRef.current = { ...repeatConfigRef.current, currentRepeat: 0 };
+
+              // Release lock
+              isHandlingRepeatRef.current = false;
+            } catch (error) {
+              console.error('[Repeat] Failed to move to next segment:', error);
+              // Fallback
+              baseActions.seekTo(nextSegment.start);
+              setCurrentSegmentIndex(nextIndex);
+              currentSegmentIndexRef.current = nextIndex;
+              setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+              repeatConfigRef.current = { ...repeatConfigRef.current, currentRepeat: 0 };
+
+              setTimeout(() => {
+                isHandlingRepeatRef.current = false;
+              }, 300);
+            }
+          })();
         } else {
           // Last segment, stop playing
           console.log('[Repeat] Last segment complete, stopping');

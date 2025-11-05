@@ -299,7 +299,7 @@ export function YouTubePlayerSurface({
           <div className="absolute top-4 right-4 flex gap-2">
             <button
               onClick={handleFullscreenToggle}
-              className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-foreground dark:text-dark-50 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
+              className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
               title={isFullscreenActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
             >
               {isFullscreenActive ? (
@@ -333,7 +333,7 @@ export function YouTubePlayerSurface({
               <div className="flex items-center gap-4">
                 <button
                   onClick={handlePlayPause}
-                  className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-foreground dark:text-dark-50 p-3 rounded-full transition-colors shadow-lg border border-white/10"
+                  className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 p-3 rounded-full transition-colors shadow-lg border border-white/10"
                   title={state.playing ? 'Pause' : 'Play'}
                 >
                   {state.playing ? (
@@ -346,7 +346,7 @@ export function YouTubePlayerSurface({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={state.muted ? actions.unmute : actions.mute}
-                    className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-foreground dark:text-dark-50 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
+                    className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
                     title={state.muted ? 'Unmute' : 'Mute'}
                   >
                     {state.muted ? (
@@ -366,7 +366,7 @@ export function YouTubePlayerSurface({
                   />
                 </div>
 
-                <span className="text-sm font-mono text-foreground dark:text-dark-50/90 bg-dark-800/70 backdrop-blur-xl px-3 py-1 rounded-lg border border-white/10 shadow-lg">
+                <span className="text-sm font-mono text-primary-400 dark:text-primary-400 bg-dark-800/70 backdrop-blur-xl px-3 py-1 rounded-lg border border-white/10 shadow-lg">
                   {formatTime(state.currentTime)} / {formatTime(state.duration)}
                 </span>
               </div>
@@ -374,7 +374,7 @@ export function YouTubePlayerSurface({
               {/* Right Controls */}
               <div className="flex items-center gap-4">
                 {/* Quality Selector */}
-                <div className="text-sm bg-dark-800/70 backdrop-blur-xl text-foreground dark:text-dark-50 px-3 py-1 rounded-lg border border-white/10 shadow-lg">
+                <div className="text-sm bg-dark-800/70 backdrop-blur-xl text-primary-400 dark:text-primary-400 px-3 py-1 rounded-lg border border-white/10 shadow-lg">
                   {getQualityDisplayName(state.quality)}
                 </div>
 
@@ -382,7 +382,7 @@ export function YouTubePlayerSurface({
                 <select
                   value={state.playbackRate}
                   onChange={(e) => handlePlaybackRateChange(parseFloat(e.target.value))}
-                  className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-foreground dark:text-dark-50 text-sm px-3 py-1 rounded-lg border border-white/10 cursor-pointer transition-colors shadow-lg"
+                  className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 text-sm px-3 py-1 rounded-lg border border-white/10 cursor-pointer transition-colors shadow-lg"
                 >
                   <option value={0.25}>0.25x</option>
                   <option value={0.5}>0.5x</option>

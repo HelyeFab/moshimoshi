@@ -307,10 +307,10 @@ export default function EnhancedShadowingPlayer({
       {/* Floating Settings Button - Glassmorphism */}
       <button
         onClick={() => setShowSettings(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center justify-center p-4 bg-white/10 dark:bg-white/10 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-full shadow-2xl transition-all hover:scale-110 hover:bg-white/20 dark:hover:bg-white/20 active:scale-95 group"
+        className="fixed bottom-6 right-6 z-50 flex items-center justify-center p-4 bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl border border-white/20 dark:border-white/20 rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95 group"
         title="Player Settings"
       >
-        <Settings className="w-6 h-6 text-foreground dark:text-dark-50 transition-colors" />
+        <Settings className="w-6 h-6 text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 transition-colors" />
       </button>
 
       {/* Compact Floating Settings Menu */}
