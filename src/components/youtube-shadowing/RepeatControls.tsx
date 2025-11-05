@@ -12,6 +12,7 @@ interface RepeatControlsProps {
   onSkipNext?: () => void;
   isPlaying: boolean;
   className?: string;
+  hideNavigation?: boolean;
 }
 
 /**
@@ -26,6 +27,7 @@ export default function RepeatControls({
   onSkipNext,
   isPlaying,
   className = '',
+  hideNavigation = false,
 }: RepeatControlsProps) {
   const handleRepeatIncrement = () => {
     const newCount = Math.min(20, repeatConfig.count + 1);
@@ -140,32 +142,34 @@ export default function RepeatControls({
         )}
 
         {/* Navigation Controls */}
-        <div className="pt-3 border-t border-white/10">
-          <label className="text-dark-300 text-xs font-medium block mb-2">
-            Segment Navigation
-          </label>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onSkipPrevious}
-              disabled={!onSkipPrevious}
-              className="flex-1 flex items-center justify-center gap-2 p-3 bg-dark-700 hover:bg-dark-600 disabled:bg-dark-800 disabled:opacity-50 disabled:cursor-not-allowed text-dark-50 rounded-lg transition-colors border border-white/10"
-              title="Previous segment"
-            >
-              <SkipBack className="w-4 h-4" />
-              <span className="text-sm">Previous</span>
-            </button>
+        {!hideNavigation && (
+          <div className="pt-3 border-t border-white/10">
+            <label className="text-dark-300 text-xs font-medium block mb-2">
+              Segment Navigation
+            </label>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onSkipPrevious}
+                disabled={!onSkipPrevious}
+                className="flex-1 flex items-center justify-center gap-2 p-3 bg-dark-700 hover:bg-dark-600 disabled:bg-dark-800 disabled:opacity-50 disabled:cursor-not-allowed text-dark-50 rounded-lg transition-colors border border-white/10"
+                title="Previous segment"
+              >
+                <SkipBack className="w-4 h-4" />
+                <span className="text-sm">Previous</span>
+              </button>
 
-            <button
-              onClick={onSkipNext}
-              disabled={!onSkipNext}
-              className="flex-1 flex items-center justify-center gap-2 p-3 bg-dark-700 hover:bg-dark-600 disabled:bg-dark-800 disabled:opacity-50 disabled:cursor-not-allowed text-dark-50 rounded-lg transition-colors border border-white/10"
-              title="Next segment"
-            >
-              <span className="text-sm">Next</span>
-              <SkipForward className="w-4 h-4" />
-            </button>
+              <button
+                onClick={onSkipNext}
+                disabled={!onSkipNext}
+                className="flex-1 flex items-center justify-center gap-2 p-3 bg-dark-700 hover:bg-dark-600 disabled:bg-dark-800 disabled:opacity-50 disabled:cursor-not-allowed text-dark-50 rounded-lg transition-colors border border-white/10"
+                title="Next segment"
+              >
+                <span className="text-sm">Next</span>
+                <SkipForward className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Status Indicator */}
         {repeatConfig.enabled && isPlaying && (

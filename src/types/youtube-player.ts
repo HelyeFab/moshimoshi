@@ -1,3 +1,5 @@
+import type { MutableRefObject, RefObject } from 'react';
+
 /**
  * YouTube Player Types
  * Copied from moshi-player with extensions for repeat/shadowing mode
@@ -14,6 +16,7 @@ export interface YouTubePlayerState {
   fullscreen: boolean;
   buffered: number;
   error: string | null;
+  playerState: YouTubePlayerStateEnum;
 }
 
 export interface YouTubePlayerConfig {
@@ -56,6 +59,17 @@ export interface YouTubePlayerActions {
   loadVideoByUrl: (url: string, startSeconds?: number) => void;
 }
 
+export interface YouTubePlayerHookResult<
+  State extends YouTubePlayerState = YouTubePlayerState,
+  Actions extends YouTubePlayerActions = YouTubePlayerActions,
+> {
+  containerRef: RefObject<HTMLDivElement>;
+  playerRef: MutableRefObject<any>;
+  state: State;
+  actions: Actions;
+  isReady: boolean;
+}
+
 export interface YouTubePlayerProps {
   videoId: string;
   config?: Partial<YouTubePlayerConfig>;
@@ -69,6 +83,12 @@ export interface YouTubePlayerProps {
   onPlaybackRateChange?: (rate: number) => void;
   onQualityChange?: (quality: string) => void;
   onSeekRequest?: (seekFunction: (time: number) => void) => void;
+  onPlayerApi?: (api: {
+    play: () => void;
+    pause: () => void;
+    seekTo: (time: number) => void;
+    getCurrentTime: () => number;
+  }) => void;
   className?: string;
 }
 
@@ -116,6 +136,8 @@ export interface TranscriptSegment {
   start: number;
   duration: number;
   end: number;
+  startTime: number;
+  endTime: number;
   text: string;
   words?: string[]; // For word-level tapping
 }
@@ -201,6 +223,8 @@ export interface SegmentPlaybackEvent {
   repeatNumber: number;
   totalRepeats: number;
   isLastRepeat: boolean;
+  seekDurationMs?: number; // Time taken for seek operation (performance tracking)
+  wasSeekSlow?: boolean;   // Flag if seek took >1000ms
 }
 
 /**

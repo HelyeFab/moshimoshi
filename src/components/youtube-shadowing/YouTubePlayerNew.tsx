@@ -1,7 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { YouTubePlayerProps } from '@/types/youtube-player';
+import {
+  YouTubePlayerProps,
+  YouTubePlayerStateEnum,
+  YouTubePlayerHookResult,
+  YouTubePlayerConfig,
+} from '@/types/youtube-player';
 import { useYouTubePlayer } from '@/hooks/useYouTubePlayer';
 import {
   formatTime,
@@ -11,14 +16,26 @@ import {
   exitFullscreen,
   isFullscreen,
 } from '@/utils/youtubeHelpers';
+import { 
+  Play, 
+  Pause, 
+  Volume2, 
+  VolumeX, 
+  Maximize, 
+  Minimize 
+} from 'lucide-react';
+
+type YouTubePlayerSurfaceProps = Omit<YouTubePlayerProps, 'config'> & {
+  config: Partial<YouTubePlayerConfig>;
+  playerData: YouTubePlayerHookResult;
+};
 
 /**
- * YouTube Player Component adapted for Moshimoshi
- * Based on moshi-player with Moshimoshi dark theme styling
+ * Shared player surface that expects a prepared player instance.
  */
-export default function YouTubePlayerNew({
+export function YouTubePlayerSurface({
   videoId,
-  config = {},
+  config,
   onReady,
   onPlay,
   onPause,
@@ -29,9 +46,11 @@ export default function YouTubePlayerNew({
   onPlaybackRateChange,
   onQualityChange,
   onSeekRequest,
+  onPlayerApi,
   className = '',
-}: YouTubePlayerProps) {
-  const { containerRef, playerRef, state, actions, isReady } = useYouTubePlayer(videoId, config);
+  playerData,
+}: YouTubePlayerSurfaceProps) {
+  const { containerRef, playerRef, state, actions, isReady } = playerData;
   const [showControls, setShowControls] = useState(true);
   const [isFullscreenActive, setIsFullscreenActive] = useState(false);
 
@@ -60,6 +79,9 @@ export default function YouTubePlayerNew({
   const onPauseRef = useRef(onPause);
   const onErrorRef = useRef(onError);
   const onTimeUpdateRef = useRef(onTimeUpdate);
+  const onEndRef = useRef(onEnd);
+  const onQualityChangeRef = useRef(onQualityChange);
+  const onVolumeChangeRef = useRef(onVolumeChange);
 
   // Update refs when callbacks change
   useEffect(() => {
@@ -68,6 +90,9 @@ export default function YouTubePlayerNew({
     onPauseRef.current = onPause;
     onErrorRef.current = onError;
     onTimeUpdateRef.current = onTimeUpdate;
+    onEndRef.current = onEnd;
+    onQualityChangeRef.current = onQualityChange;
+    onVolumeChangeRef.current = onVolumeChange;
   });
 
   useEffect(() => {
@@ -96,6 +121,57 @@ export default function YouTubePlayerNew({
     }
   }, [state.currentTime, state.duration]);
 
+  const lastQualityRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!onQualityChangeRef.current) return;
+    if (lastQualityRef.current === state.quality) return;
+
+    lastQualityRef.current = state.quality;
+    onQualityChangeRef.current(state.quality);
+  }, [state.quality]);
+
+  const hasReportedEndRef = useRef(false);
+  useEffect(() => {
+    if (state.playerState === YouTubePlayerStateEnum.ENDED) {
+      if (!hasReportedEndRef.current) {
+        hasReportedEndRef.current = true;
+        onEndRef.current?.();
+      }
+    } else {
+      hasReportedEndRef.current = false;
+    }
+  }, [state.playerState]);
+
+  const lastVolumeRef = useRef<{ volume: number; muted: boolean } | null>(null);
+  useEffect(() => {
+    if (!onVolumeChangeRef.current) return;
+    const effectiveVolume = state.muted ? 0 : state.volume;
+    const prev = lastVolumeRef.current;
+    if (prev && prev.volume === effectiveVolume && prev.muted === state.muted) {
+      return;
+    }
+    lastVolumeRef.current = { volume: effectiveVolume, muted: state.muted };
+    onVolumeChangeRef.current(effectiveVolume);
+  }, [state.volume, state.muted]);
+
+  useEffect(() => {
+    if (!onPlayerApi || !isReady || !playerRef.current) {
+      return;
+    }
+
+    onPlayerApi({
+      play: actions.play,
+      pause: actions.pause,
+      seekTo: actions.seekTo,
+      getCurrentTime: () => {
+        if (playerRef.current?.getCurrentTime) {
+          return playerRef.current.getCurrentTime();
+        }
+        return 0;
+      },
+    });
+  }, [onPlayerApi, isReady, actions.play, actions.pause, actions.seekTo]);
+
   // Enhanced fullscreen toggle
   const handleFullscreenToggle = () => {
     if (!supportsFullscreen()) return;
@@ -119,7 +195,6 @@ export default function YouTubePlayerNew({
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const volume = parseInt(e.target.value);
     actions.setVolume(volume);
-    if (onVolumeChange) onVolumeChange(volume);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,7 +220,7 @@ export default function YouTubePlayerNew({
     if (onSeekRequest && isReady) {
       onSeekRequest(handleExternalSeek);
     }
-  }, [isReady]);
+  }, [isReady, onSeekRequest]);
 
   const progress = state.duration > 0 ? (state.currentTime / state.duration) * 100 : 0;
 
@@ -224,10 +299,14 @@ export default function YouTubePlayerNew({
           <div className="absolute top-4 right-4 flex gap-2">
             <button
               onClick={handleFullscreenToggle}
-              className="bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white p-2 rounded-lg transition-colors border border-white/10"
+              className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-foreground dark:text-dark-50 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
               title={isFullscreenActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
             >
-              {isFullscreenActive ? '⊠' : '⛶'}
+              {isFullscreenActive ? (
+                <Minimize className="w-4 h-4" />
+              ) : (
+                <Maximize className="w-4 h-4" />
+              )}
             </button>
           </div>
 
@@ -254,19 +333,27 @@ export default function YouTubePlayerNew({
               <div className="flex items-center gap-4">
                 <button
                   onClick={handlePlayPause}
-                  className="bg-primary-600 hover:bg-primary-700 text-white p-3 rounded-full transition-colors shadow-lg"
+                  className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-foreground dark:text-dark-50 p-3 rounded-full transition-colors shadow-lg border border-white/10"
                   title={state.playing ? 'Pause' : 'Play'}
                 >
-                  {state.playing ? '⏸️' : '▶️'}
+                  {state.playing ? (
+                    <Pause className="w-5 h-5" />
+                  ) : (
+                    <Play className="w-5 h-5 ml-0.5" />
+                  )}
                 </button>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={state.muted ? actions.unmute : actions.mute}
-                    className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                    className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-foreground dark:text-dark-50 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
                     title={state.muted ? 'Unmute' : 'Mute'}
                   >
-                    {state.muted ? '🔇' : '🔊'}
+                    {state.muted ? (
+                      <VolumeX className="w-4 h-4" />
+                    ) : (
+                      <Volume2 className="w-4 h-4" />
+                    )}
                   </button>
 
                   <input
@@ -279,7 +366,7 @@ export default function YouTubePlayerNew({
                   />
                 </div>
 
-                <span className="text-sm font-mono text-white/90">
+                <span className="text-sm font-mono text-foreground dark:text-dark-50/90 bg-dark-800/70 backdrop-blur-xl px-3 py-1 rounded-lg border border-white/10 shadow-lg">
                   {formatTime(state.currentTime)} / {formatTime(state.duration)}
                 </span>
               </div>
@@ -287,7 +374,7 @@ export default function YouTubePlayerNew({
               {/* Right Controls */}
               <div className="flex items-center gap-4">
                 {/* Quality Selector */}
-                <div className="text-sm bg-black/60 backdrop-blur-sm px-3 py-1 rounded-lg border border-white/10">
+                <div className="text-sm bg-dark-800/70 backdrop-blur-xl text-foreground dark:text-dark-50 px-3 py-1 rounded-lg border border-white/10 shadow-lg">
                   {getQualityDisplayName(state.quality)}
                 </div>
 
@@ -295,7 +382,7 @@ export default function YouTubePlayerNew({
                 <select
                   value={state.playbackRate}
                   onChange={(e) => handlePlaybackRateChange(parseFloat(e.target.value))}
-                  className="bg-black/60 backdrop-blur-sm text-white text-sm px-3 py-1 rounded-lg border border-white/10 cursor-pointer hover:bg-black/80 transition-colors"
+                  className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-foreground dark:text-dark-50 text-sm px-3 py-1 rounded-lg border border-white/10 cursor-pointer transition-colors shadow-lg"
                 >
                   <option value={0.25}>0.25x</option>
                   <option value={0.5}>0.5x</option>
@@ -311,5 +398,38 @@ export default function YouTubePlayerNew({
         </div>
       )}
     </div>
+  );
+}
+
+/**
+ * Default YouTube player that manages its own player instance.
+ */
+export default function YouTubePlayerNew(props: YouTubePlayerProps) {
+  const { videoId, config = {}, ...rest } = props;
+  const playerData = useYouTubePlayer(videoId, config);
+
+  return (
+    <YouTubePlayerSurface
+      {...rest}
+      videoId={videoId}
+      config={config}
+      playerData={playerData}
+    />
+  );
+}
+
+/**
+ * Helper component that renders the YouTube player using an externally managed instance.
+ */
+export function YouTubePlayerWithPlayer(
+  { playerData, videoId, config = {}, ...rest }: YouTubePlayerProps & { playerData: YouTubePlayerHookResult }
+) {
+  return (
+    <YouTubePlayerSurface
+      {...rest}
+      videoId={videoId}
+      config={config}
+      playerData={playerData}
+    />
   );
 }

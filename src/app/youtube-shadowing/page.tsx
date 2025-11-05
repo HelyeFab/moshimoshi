@@ -19,11 +19,12 @@ import { TranscriptCacheManager } from '@/utils/transcriptCache';
 
 const SESSION_STORAGE_KEY = 'youtubeShadowingSession';
 export interface TranscriptLine {
-  id: string;
+  id?: string;
   text: string;
   startTime: number;
   endTime: number;
   words?: string[];
+  translation?: string;
 }
 
 export interface ShadowingSession {
@@ -71,6 +72,7 @@ function YouTubeShadowingContent() {
   const [aiEnhancementStatus, setAiEnhancementStatus] = useState<'idle' | 'running' | 'completed' | 'error'>('idle');
   const [aiEnhancementError, setAiEnhancementError] = useState<string | null>(null);
   const [aiEnhancementTriggered, setAiEnhancementTriggered] = useState(false);
+  const [showMobileHeader, setShowMobileHeader] = useState(false);
 
   const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({});
   const playerSeekRef = useRef<((time: number) => void) | null>(null);
@@ -315,12 +317,18 @@ function YouTubeShadowingContent() {
     });
   }, []);
 
-  const handleTranscriptLoaded = useCallback((transcript: TranscriptLine[], videoTitle?: string, videoMetadata?: any) => {
+  interface TranscriptLoadPayload {
+    transcript: TranscriptLine[];
+    videoTitle?: string;
+    videoMetadata?: Record<string, unknown>;
+  }
+
+  const handleTranscriptLoaded = useCallback(({ transcript, videoTitle, videoMetadata }: TranscriptLoadPayload) => {
     setSession(prevSession => {
       if (!prevSession) return prevSession;
 
       const hadFormatted = Boolean((prevSession.videoMetadata as any)?.formattedTranscript?.length);
-      const hasFormattedNow = Boolean(videoMetadata?.formattedTranscript?.length);
+      const hasFormattedNow = Boolean((videoMetadata as any)?.formattedTranscript?.length);
 
       // Update AI transcript setting if needed
       if (hasFormattedNow && !hadFormatted && !userAiOverrideRef.current) {
@@ -341,7 +349,16 @@ function YouTubeShadowingContent() {
         ...prevSession,
         transcript,
         ...(videoTitle && { videoTitle }),
-        ...(videoMetadata && { videoMetadata })
+        ...(videoMetadata && {
+          videoMetadata: {
+            ...(prevSession.videoMetadata || {}),
+            ...videoMetadata,
+            metadata: {
+              ...((prevSession.videoMetadata as any)?.metadata || {}),
+              ...((videoMetadata as any)?.metadata || {})
+            }
+          }
+        })
       };
     });
   }, []);
@@ -487,6 +504,39 @@ function YouTubeShadowingContent() {
   // Track transcript data for caching
   const [cachedTranscriptSegments, setCachedTranscriptSegments] = useState<TranscriptLine[]>([]);
 
+  const handleTranscriptFromViewer = useCallback(
+    (segments: TranscriptLine[], info?: { title?: string; language?: string; source?: string; cached?: boolean; totalSegments?: number }) => {
+      setCachedTranscriptSegments(segments);
+
+      const videoMetadataPayload: Record<string, unknown> = {};
+      const nestedMetadata: Record<string, unknown> = {};
+
+      if (info?.language) {
+        videoMetadataPayload.language = info.language;
+      }
+      if (info?.source) {
+        nestedMetadata.transcriptSource = info.source;
+      }
+      if (info?.cached !== undefined) {
+        nestedMetadata.transcriptCached = info.cached;
+      }
+      if (info?.totalSegments !== undefined) {
+        nestedMetadata.transcriptTotalSegments = info.totalSegments;
+      }
+
+      if (Object.keys(nestedMetadata).length > 0) {
+        videoMetadataPayload.metadata = nestedMetadata;
+      }
+
+      handleTranscriptLoaded({
+        transcript: segments,
+        videoTitle: info?.title,
+        videoMetadata: Object.keys(videoMetadataPayload).length > 0 ? videoMetadataPayload : undefined
+      });
+    },
+    [handleTranscriptLoaded]
+  );
+
   // Persist session state for reloads
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -518,11 +568,155 @@ function YouTubeShadowingContent() {
     : [];
   const viewerSource: 'raw' | 'ai-enhanced' = formattedAvailable && useAiTranscript ? 'ai-enhanced' : 'raw';
 
+  // Pull-down gesture to show/hide mobile header
+  useEffect(() => {
+    if (typeof window === 'undefined' || !session) {
+      return;
+    }
+
+    let startY = 0;
+    let hideTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY;
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      const diff = currentY - startY;
+      // More sensitive pull-down detection (reduced from 50 to 30)
+      if (window.scrollY === 0 && diff > 30) {
+        setShowMobileHeader(true);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      if (showMobileHeader) {
+        // Auto-hide after 4 seconds (increased from 3)
+        hideTimeout = setTimeout(() => {
+          setShowMobileHeader(false);
+        }, 4000);
+      }
+    };
+
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      // Show header when scrolling up near the top
+      if (currentScrollY < lastScrollY && currentScrollY < 150) {
+        setShowMobileHeader(true);
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+        }
+        hideTimeout = setTimeout(() => {
+          setShowMobileHeader(false);
+        }, 4000);
+      } else if (currentScrollY > lastScrollY + 50) {
+        // Hide immediately when scrolling down quickly
+        setShowMobileHeader(false);
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+          hideTimeout = null;
+        }
+      }
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('scroll', handleScroll);
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+    };
+  }, [session, showMobileHeader]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background dark:from-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
+      {/* Mobile Pull-down Indicator - Only visible when session active and header hidden */}
+      {session && !showMobileHeader && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="sm:hidden fixed top-0 left-0 right-0 z-[60] pointer-events-none"
+        >
+          <div className="flex justify-center pt-2">
+            <motion.div
+              animate={{ y: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              className="w-12 h-1 bg-white/30 rounded-full"
+            />
+          </div>
+        </motion.div>
+      )}
 
-      {/* Desktop-only PageHeader */}
+      {/* Mobile Header Overlay - Contains both Navbar and PageHeader */}
+      <AnimatePresence mode="wait">
+        {session && showMobileHeader && (
+          <motion.div
+            key="mobile-header-overlay"
+            initial={{ y: '-100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '-100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="sm:hidden fixed top-0 left-0 right-0 z-[54] shadow-2xl rounded-b-2xl overflow-hidden"
+          >
+            {/* Navbar */}
+            <div className="bg-white dark:bg-dark-900">
+              <Navbar user={user} showUserMenu={true} />
+            </div>
+
+            {/* PageHeader */}
+            <div className="bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-dark-800">
+              <PageHeader
+                title={
+                  session?.videoTitle
+                    ? session.videoTitle.split(' ').slice(0, 3).join(' ') + (session.videoTitle.split(' ').length > 3 ? '...' : '')
+                    : session?.videoMetadata?.title
+                      ? session.videoMetadata.title.split(' ').slice(0, 3).join(' ') + (session.videoMetadata.title.split(' ').length > 3 ? '...' : '')
+                      : t('youtubeShadowing.title')
+                }
+                description={t('youtubeShadowing.description')}
+                minimal={true}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Non-session screens - Show Navbar and PageHeader normally */}
+      {!session && (
+        <>
+          <div className="block">
+            <Navbar user={user} showUserMenu={true} />
+          </div>
+          <div className="block">
+            <PageHeader
+              title={t('youtubeShadowing.title')}
+              description={t('youtubeShadowing.description')}
+            />
+          </div>
+        </>
+      )}
+
+      {/* Desktop version - always visible */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
+
+      {/* Desktop PageHeader - always visible */}
       <div className="hidden sm:block">
         <PageHeader
           title={
@@ -536,24 +730,6 @@ function YouTubeShadowingContent() {
         />
       </div>
 
-      {/* Mobile-only: Super compact title bar when video is loaded */}
-      {session && (session.videoTitle || session.videoMetadata?.title) && (
-        <div className="sm:hidden sticky top-0 z-10">
-          <div className="px-3 py-2 bg-white/95 dark:bg-dark-800/95 backdrop-blur-sm border-b border-gray-200/50 dark:border-dark-700/50">
-            <div className="flex items-center gap-2">
-              <span className="text-sm">🎬</span>
-              <h1 className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate flex-1">
-                {session.videoTitle || session.videoMetadata?.title}
-              </h1>
-              {isVideoFree && (
-                <span className="text-xs px-2 py-0.5 bg-green-500 text-white rounded-full">
-                  FREE
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {isLoading && <LoadingOverlay message={t('common.loading')} />}
 
@@ -674,54 +850,9 @@ function YouTubeShadowingContent() {
               exit={{ opacity: 0, y: -20 }}
               className="max-w-5xl mx-auto"
             >
-              {/* Back Button - Always visible */}
-              <div className="mb-4">
-                <button
-                  onClick={handleClearSession}
-                  className="flex items-center gap-2 px-4 py-2 bg-dark-800 hover:bg-dark-700 text-dark-50 rounded-lg transition-colors border border-white/10"
-                >
-                  <span>←</span>
-                  <span>Back to Input</span>
-                </button>
-              </div>
 
-              {/* Video Info Card - Hidden on mobile (shown in PageHeader collapsible) */}
-              {(session.videoTitle || session.videoMetadata) && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="hidden sm:block bg-gradient-to-r from-primary-600 to-primary-500 rounded-2xl p-6 mb-6 text-white relative"
-                >
-                  {isVideoFree && (
-                    <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-                      <span>✨</span> {t('youtubeShadowing.freeAccess')}
-                    </div>
-                  )}
 
-                  <div className="flex items-center gap-4">
-                    {session.videoMetadata?.thumbnails?.medium ? (
-                      <img
-                        src={session.videoMetadata.thumbnails.medium.url}
-                        alt={session.videoTitle || 'Video thumbnail'}
-                        className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-                      />
-                    ) : (
-                      <div className="text-4xl flex-shrink-0">🎬</div>
-                    )}
 
-                    <div className="flex-1 min-w-0">
-                      <h2 className="text-xl font-bold mb-1 truncate">
-                        {session.videoTitle || session.videoMetadata?.title || t('youtubeShadowing.loadingTitle')}
-                      </h2>
-                      {session.videoMetadata?.channelTitle && (
-                        <p className="text-sm opacity-90 mb-1">
-                          {t('youtubeShadowing.by')} {session.videoMetadata.channelTitle}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
 
               {/* Video and Transcript Display */}
               {session && (
@@ -757,6 +888,7 @@ function YouTubeShadowingContent() {
                     onRequestAiEnhancement={handleManualAiEnhancement}
                     aiEnhancementStatus={aiEnhancementStatus}
                     aiEnhancementError={aiEnhancementError}
+                    onClearSession={handleClearSession}
                   />
 
                   {/* Transcript Viewer */}
@@ -772,8 +904,7 @@ function YouTubeShadowingContent() {
                     grammarMode={grammarMode}
                     isPlaying={isPlaying}
                     onPlayPause={handlePlayPause}
-                    onClearSession={handleClearSession}
-                    onTranscriptLoaded={setCachedTranscriptSegments}
+                    onTranscriptLoaded={handleTranscriptFromViewer}
                   />
                 </motion.div>
               )}

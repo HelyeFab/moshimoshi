@@ -31,20 +31,46 @@ export function useYouTubePlayer(videoId: string, config: Partial<YouTubePlayerC
     fullscreen: false,
     buffered: 0,
     error: null,
+    playerState: YouTubePlayerStateEnum.UNSTARTED,
   });
 
   // Throttled state update function for performance
-  const updateCurrentTime = useCallback(() => {
-    if (playerRef.current && typeof playerRef.current.getCurrentTime === 'function') {
-      const currentTime = playerRef.current.getCurrentTime();
-      const duration = playerRef.current.getDuration() || 0;
+  const syncPlayerState = useCallback(() => {
+    const player = playerRef.current;
+    if (!player || typeof player.getCurrentTime !== 'function') {
+      return;
+    }
 
-      setState(prev => ({
+    const currentTime = player.getCurrentTime() || 0;
+    const duration = player.getDuration?.() || 0;
+    const rawVolume = player.getVolume?.();
+    const isMuted = player.isMuted?.() ?? false;
+    const volume = typeof rawVolume === 'number' ? Math.max(0, Math.min(100, Math.round(rawVolume))) : undefined;
+    const loadedFraction = player.getVideoLoadedFraction?.() ?? 0;
+    const buffered = duration > 0 ? loadedFraction * duration : loadedFraction;
+
+    setState(prev => {
+      const next = {
         ...prev,
         currentTime,
         duration,
-      }));
-    }
+        buffered,
+        muted: isMuted,
+        volume: volume ?? prev.volume,
+      };
+
+      if (
+        next.currentTime === prev.currentTime &&
+        next.duration === prev.duration &&
+        next.buffered === prev.buffered &&
+        next.muted === prev.muted &&
+        next.volume === prev.volume
+      ) {
+        return prev;
+      }
+
+      return next;
+    });
   }, []);
 
   // Load YouTube API on mount
@@ -56,7 +82,7 @@ export function useYouTubePlayer(videoId: string, config: Partial<YouTubePlayerC
 
   // Initialize player when API is ready
   useEffect(() => {
-    if (!isAPIReady || !containerRef.current || playerRef.current) return;
+    if (!isAPIReady || !containerRef.current || playerRef.current || !videoId) return;
 
     // YouTube IFrame Player API configuration
     const playerConfig = {
@@ -75,7 +101,16 @@ export function useYouTubePlayer(videoId: string, config: Partial<YouTubePlayerC
       events: {
         onReady: (event: any) => {
           console.log('[useYouTubePlayer] Player ready for video:', videoId);
-          setState(prev => ({ ...prev, error: null }));
+          setState(prev => ({
+            ...prev,
+            error: null,
+            volume: typeof event?.target?.getVolume === 'function'
+              ? Math.max(0, Math.min(100, Math.round(event.target.getVolume())))
+              : prev.volume,
+            muted: typeof event?.target?.isMuted === 'function' ? event.target.isMuted() : prev.muted,
+            duration: typeof event?.target?.getDuration === 'function' ? event.target.getDuration() || prev.duration : prev.duration,
+          }));
+          syncPlayerState();
         },
         onStateChange: (event: any) => {
           const playerState = event.data;
@@ -88,10 +123,11 @@ export function useYouTubePlayer(videoId: string, config: Partial<YouTubePlayerC
           setState(prev => ({
             ...prev,
             playing: playerState === YouTubePlayerStateEnum.PLAYING,
+            playerState,
           }));
 
           if (playerState === YouTubePlayerStateEnum.PLAYING) {
-            updateCurrentTime();
+            syncPlayerState();
           }
         },
         onPlaybackQualityChange: (event: any) => {
@@ -130,24 +166,48 @@ export function useYouTubePlayer(videoId: string, config: Partial<YouTubePlayerC
         playerRef.current = null;
       }
     };
-  }, [isAPIReady, videoId]);
+  }, [config.height, config.width, config.autoplay, isAPIReady, syncPlayerState, videoId]);
 
-  // Separate effect for time updates
+  // Optimized time updates using requestAnimationFrame
   useEffect(() => {
-    let timeUpdateInterval: NodeJS.Timeout;
+    if (!playerRef.current) return;
 
-    if (state.playing && playerRef.current) {
-      timeUpdateInterval = setInterval(() => {
-        updateCurrentTime();
-      }, 1000);
-    }
+    let rafId: number;
+    let lastUpdateTime = 0;
+    let isTabVisible = !document.hidden;
 
-    return () => {
-      if (timeUpdateInterval) {
-        clearInterval(timeUpdateInterval);
+    // Throttle: 60ms when playing (16 updates/sec), 1000ms when paused (1 update/sec)
+    const getUpdateInterval = () => (state.playing ? 60 : 1000);
+
+    const updateLoop = (timestamp: number) => {
+      const updateIntervalMs = getUpdateInterval();
+
+      // Only update if tab is visible and enough time has passed
+      if (isTabVisible && timestamp - lastUpdateTime >= updateIntervalMs) {
+        syncPlayerState();
+        lastUpdateTime = timestamp;
+      }
+
+      rafId = requestAnimationFrame(updateLoop);
+    };
+
+    // Handle visibility changes - sync immediately when tab becomes visible
+    const handleVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isTabVisible) {
+        syncPlayerState();
+        lastUpdateTime = performance.now();
       }
     };
-  }, [state.playing, updateCurrentTime]);
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    rafId = requestAnimationFrame(updateLoop);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [syncPlayerState, state.playing]);
 
   // Player actions
   const actions: YouTubePlayerActions = {

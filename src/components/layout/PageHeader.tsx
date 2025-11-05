@@ -15,6 +15,7 @@ interface PageHeaderProps {
   // Customization
   mascot?: 'doshi' | 'none'
   className?: string
+  minimal?: boolean
 }
 
 export default function PageHeader({
@@ -23,6 +24,7 @@ export default function PageHeader({
   subtitle,
   mascot = 'doshi',
   className = '',
+  minimal = false,
   children
 }: PageHeaderProps) {
   const { resolvedTheme } = useTheme()
@@ -54,7 +56,7 @@ export default function PageHeader({
       } : undefined}
     >
       {/* Beautiful background pattern for light theme - only primary colors */}
-      {isLightTheme && (
+      {isLightTheme && !minimal && (
         <>
           {/* Semi-transparent overlay for better text readability */}
           <div className="absolute inset-0 bg-black/10" />
@@ -193,7 +195,7 @@ export default function PageHeader({
       } : undefined}
     >
       {/* Beautiful background pattern for light theme - only primary colors */}
-      {isLightTheme && (
+      {isLightTheme && !minimal && (
         <>
           {/* Semi-transparent overlay for better text readability */}
           <div className="absolute inset-0 bg-black/10" />

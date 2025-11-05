@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useYouTubePlayer } from '@/hooks/useYouTubePlayer';
+import { seekAndWaitForReady, calculateSegmentEndBuffer, SegmentBufferCache } from '@/utils/youtubePlayerUtils';
 import {
   YouTubePlayerConfig,
   TranscriptSegment,
@@ -18,6 +19,8 @@ interface UseShadowingPlayerConfig extends Partial<YouTubePlayerConfig> {
   onSegmentChange?: (index: number) => void;
   onSegmentComplete?: (event: SegmentPlaybackEvent) => void;
   onRepeatCycleComplete?: (segmentIndex: number) => void;
+  enableBufferPreload?: boolean; // Enable predictive buffer preloading (default: true)
+  preloadLeadTimeMs?: number;    // Time before pause ends to start preload (default: 500ms)
 }
 
 /**
@@ -32,6 +35,8 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
     onSegmentChange,
     onSegmentComplete,
     onRepeatCycleComplete,
+    enableBufferPreload = true,
+    preloadLeadTimeMs = 500,
     ...playerConfig
   } = config;
 
@@ -40,7 +45,7 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
 
   // Repeat mode state
   const [repeatConfig, setRepeatConfig] = useState<RepeatModeConfig>({
-    enabled: repeatCount > 1,
+    enabled: initialRepeatCount > 1,
     count: initialRepeatCount,
     currentRepeat: 0,
     pauseDuration: initialPauseDuration,
@@ -57,6 +62,9 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
   const transcriptRef = useRef(transcript);
   const isHandlingRepeatRef = useRef(false);
 
+  // Buffer cache for preloading optimization
+  const bufferCacheRef = useRef(new SegmentBufferCache({ maxAge: 30000 }));
+
   // Update refs when state changes
   useEffect(() => {
     repeatConfigRef.current = repeatConfig;
@@ -70,10 +78,33 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
     transcriptRef.current = transcript;
   }, [transcript]);
 
-  // Find current segment based on time
+  // Sync repeat config when initial values change
+  useEffect(() => {
+    setRepeatConfig(prev => ({
+      ...prev,
+      enabled: initialRepeatCount > 1,
+      count: initialRepeatCount,
+    }));
+  }, [initialRepeatCount]);
+
+  useEffect(() => {
+    setRepeatConfig(prev => ({
+      ...prev,
+      pauseDuration: initialPauseDuration,
+    }));
+  }, [initialPauseDuration]);
+
+  // Find current segment based on time with dynamic buffer
+  // Buffer adapts to segment duration and playback rate for precise detection
   const getCurrentSegmentIndex = useCallback((time: number): number => {
-    return transcript.findIndex((seg) => time >= seg.start && time <= seg.end);
-  }, [transcript]);
+    const playbackRate = baseState.playbackRate || 1.0;
+
+    return transcript.findIndex((seg) => {
+      const duration = seg.end - seg.start;
+      const buffer = calculateSegmentEndBuffer(duration, playbackRate);
+      return time >= seg.start && time <= seg.end + buffer;
+    });
+  }, [transcript, baseState.playbackRate]);
 
   // Handle segment end and repeat logic
   useEffect(() => {
@@ -82,6 +113,12 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
 
     const currentTime = baseState.currentTime;
     const segmentIndex = getCurrentSegmentIndex(currentTime);
+
+    // DEBUG: Log current time and segment info
+    if (segmentIndex !== -1) {
+      const segment = transcript[segmentIndex];
+      console.log('[Repeat Debug] Time:', currentTime.toFixed(2), 'Segment:', segmentIndex, 'End:', segment.end.toFixed(2), 'Gap:', (segment.end - currentTime).toFixed(2));
+    }
 
     // Update current segment if changed
     if (segmentIndex !== currentSegmentIndex && segmentIndex !== -1) {
@@ -96,12 +133,23 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
       }
     }
 
-    // Check if segment ended
+    // Check if segment ended with dynamic buffer for precise detection
     if (segmentIndex !== -1) {
       const segment = transcript[segmentIndex];
-      const isAtEnd = currentTime >= segment.end - 0.1; // Small buffer
+      const duration = segment.end - segment.start;
+      const playbackRate = baseState.playbackRate || 1.0;
+      // Use tighter buffer (2% instead of 5%) for end detection
+      const endBuffer = calculateSegmentEndBuffer(duration, playbackRate, { bufferRatio: 0.02 });
+      const isAtEnd = currentTime >= segment.end - endBuffer;
 
-      if (isAtEnd && repeatConfig.count > 1 && repeatConfig.currentRepeat < repeatConfig.count - 1) {
+      console.log('[Repeat Debug] isAtEnd:', isAtEnd, 'repeatConfig.count:', repeatConfig.count, 'currentRepeat:', repeatConfig.currentRepeat);
+
+      const shouldRepeat = isAtEnd && repeatConfig.count > 1 && repeatConfig.currentRepeat < repeatConfig.count - 1;
+      const shouldMoveNext = isAtEnd && (repeatConfig.count === 1 || repeatConfig.currentRepeat >= repeatConfig.count - 1);
+
+      console.log('[Repeat Debug] shouldRepeat:', shouldRepeat, 'shouldMoveNext:', shouldMoveNext);
+
+      if (shouldRepeat) {
         // Need to repeat this segment
         isHandlingRepeatRef.current = true;
         setIsPausingForRepeat(true);
@@ -119,12 +167,88 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
           isLastRepeat: repeatConfig.currentRepeat + 1 === repeatConfig.count,
         });
 
-        // Wait, then restart segment
-        setTimeout(() => {
-          if (playerRef.current && isReady) {
-            baseActions.seekTo(segment.start);
+        // Preload next segment's buffer during pause (if enabled)
+        const pauseDuration = repeatConfig.pauseDuration;
+        const hasTimeToPreload = pauseDuration > preloadLeadTimeMs + 500;
+
+        if (enableBufferPreload && hasTimeToPreload && segmentIndex < transcript.length - 1) {
+          const nextSegmentIndex = segmentIndex + 1;
+          const bufferCache = bufferCacheRef.current;
+
+          // Only preload if not already buffered
+          if (!bufferCache.isLikelyBuffered(nextSegmentIndex)) {
+            setTimeout(() => {
+              if (!playerRef.current) return;
+
+              const nextSegment = transcript[nextSegmentIndex];
+              console.log(`[BufferPreload] Preloading segment ${nextSegmentIndex} at ${nextSegment.start}s`);
+
+              // Quick seek to next segment to trigger YouTube buffer
+              playerRef.current.seekTo(nextSegment.start, true);
+
+              // Mark as buffered in cache
+              bufferCache.markBuffered(nextSegmentIndex);
+
+              // Immediately seek back to current segment start (buffer persists)
+              setTimeout(() => {
+                if (playerRef.current) {
+                  playerRef.current.seekTo(segment.start, true);
+                }
+              }, 100);
+            }, preloadLeadTimeMs);
+          }
+        }
+
+        // Wait for pause duration, then smart seek and play
+        setTimeout(async () => {
+          if (!playerRef.current || !isReady) {
+            isHandlingRepeatRef.current = false;
+            return;
+          }
+
+          try {
+            // Smart seek with buffering detection
+            const { success, waitedMs } = await seekAndWaitForReady(
+              playerRef.current,
+              segment.start,
+              {
+                maxWaitMs: 3000,
+                pollIntervalMs: 50,
+                onProgress: (elapsed) => {
+                  if (elapsed > 1000) {
+                    console.warn(`[Repeat] Slow seek: ${elapsed}ms`);
+                  }
+                }
+              }
+            );
+
+            console.log(`[Repeat] Seek completed in ${waitedMs}ms, success: ${success}`);
+
+            // Update repeat count
             setRepeatConfig(prev => ({ ...prev, currentRepeat: prev.currentRepeat + 1 }));
 
+            // Play immediately after seek is ready
+            baseActions.play();
+            setIsPausingForRepeat(false);
+            isHandlingRepeatRef.current = false;
+
+            // Notify with performance tracking
+            if (onSegmentComplete) {
+              onSegmentComplete({
+                segmentIndex,
+                repeatNumber: repeatConfig.currentRepeat + 2, // +2 because we just incremented
+                totalRepeats: repeatConfig.count,
+                isLastRepeat: false,
+                seekDurationMs: waitedMs,
+                wasSeekSlow: waitedMs > 1000,
+              });
+            }
+
+          } catch (error) {
+            console.error('[Repeat] Smart seek failed, falling back:', error);
+            // Fallback to old behavior
+            baseActions.seekTo(segment.start);
+            setRepeatConfig(prev => ({ ...prev, currentRepeat: prev.currentRepeat + 1 }));
             setTimeout(() => {
               baseActions.play();
               setIsPausingForRepeat(false);
@@ -133,17 +257,29 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
           }
         }, repeatConfig.pauseDuration);
 
-      } else if (isAtEnd && (repeatConfig.count === 1 || repeatConfig.currentRepeat >= repeatConfig.count - 1)) {
+      } else if (shouldMoveNext) {
         // Finished all repeats, move to next segment or stop
         if (segmentIndex < transcript.length - 1) {
           console.log(`[Repeat] Cycle complete for segment ${segmentIndex}, moving to next`);
 
+          // Set lock to prevent re-triggering during transition
+          isHandlingRepeatRef.current = true;
+
           onRepeatCycleComplete?.(segmentIndex);
 
           const nextSegment = transcript[segmentIndex + 1];
+          const nextIndex = segmentIndex + 1;
+
           baseActions.seekTo(nextSegment.start);
-          setCurrentSegmentIndex(segmentIndex + 1);
+          setCurrentSegmentIndex(nextIndex);
+          currentSegmentIndexRef.current = nextIndex; // Update ref immediately to prevent re-trigger
           setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+          repeatConfigRef.current = { ...repeatConfigRef.current, currentRepeat: 0 }; // Update ref too
+
+          // Release lock after a short delay to allow seek to complete
+          setTimeout(() => {
+            isHandlingRepeatRef.current = false;
+          }, 300);
         } else {
           // Last segment, stop playing
           console.log('[Repeat] Last segment complete, stopping');

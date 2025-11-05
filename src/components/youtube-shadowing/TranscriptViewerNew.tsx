@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import WordExplanationModal from '@/components/word/WordExplanationModal';
 import { useWordExplanation } from '@/hooks/useWordExplanation';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import { TranscriptSegment } from '@/types/youtube-player';
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText';
 
 export interface TranscriptLine {
@@ -31,15 +30,23 @@ export interface TranscriptViewerProps {
   onSeekToTime?: (seconds: number) => void;
   isPlaying?: boolean;
   onPlayPause?: () => void;
-  onClearSession?: () => void;
-  onTranscriptLoaded?: (segments: TranscriptLine[]) => void; // Callback when transcript loads
+  onTranscriptLoaded?: (
+    segments: TranscriptLine[],
+    info?: {
+      title?: string;
+      language?: string;
+      source?: string;
+      cached?: boolean;
+      totalSegments?: number;
+    }
+  ) => void; // Callback when transcript loads
 }
 
 interface TranscriptData {
   available: boolean;
   videoId: string;
   title?: string;
-  segments?: TranscriptSegment[];
+  segments?: TranscriptLine[];
   language?: string;
   availableLanguages?: string[];
   source?: 'firebase-cache' | 'youtubei-enhanced' | 'youtubei-standard' | 'supa-api';
@@ -69,7 +76,6 @@ export default function TranscriptViewerNew({
   onSeekToTime,
   isPlaying = false,
   onPlayPause,
-  onClearSession,
   onTranscriptLoaded,
 }: TranscriptViewerProps) {
   const [transcript, setTranscript] = useState<TranscriptData | null>(null);
@@ -98,6 +104,37 @@ export default function TranscriptViewerNew({
     },
   });
 
+  const normalizeSegments = useCallback((rawSegments: any[]): TranscriptLine[] => {
+    if (!Array.isArray(rawSegments)) return [];
+
+    return rawSegments.map((segment, index) => {
+      const fallbackStart =
+        typeof segment.start === 'number'
+          ? segment.start
+          : typeof segment.startTime === 'number'
+            ? segment.startTime
+            : 0;
+      const fallbackEnd =
+        typeof segment.end === 'number'
+          ? segment.end
+          : typeof segment.endTime === 'number'
+            ? segment.endTime
+            : fallbackStart;
+
+      const startTime = typeof segment.startTime === 'number' ? segment.startTime : fallbackStart;
+      const endTime = typeof segment.endTime === 'number' ? segment.endTime : fallbackEnd;
+
+      return {
+        id: segment.id ?? String(index + 1),
+        text: segment.text ?? '',
+        startTime,
+        endTime,
+        words: segment.words,
+        translation: segment.translation,
+      };
+    });
+  }, []);
+
   // Use provided segments or fetch from API
   useEffect(() => {
     // If segments are provided directly, use them
@@ -106,7 +143,7 @@ export default function TranscriptViewerNew({
       setTranscript({
         available: true,
         videoId: videoId || '',
-        segments: providedSegments as any,
+        segments: normalizeSegments(providedSegments),
         totalSegments: providedSegments.length,
         source: 'provided',
       });
@@ -134,12 +171,25 @@ export default function TranscriptViewerNew({
         const data: TranscriptData = await response.json();
 
         if (response.ok && data.available) {
-          setTranscript(data);
-          console.log(`[TranscriptViewer] ✅ Loaded transcript: ${data.totalSegments} segments from ${data.source}`);
+          const normalizedSegments = normalizeSegments(data.segments || []);
+          const totalSegments = normalizedSegments.length;
+
+          setTranscript({
+            ...data,
+            segments: normalizedSegments,
+            totalSegments,
+          });
+          console.log(`[TranscriptViewer] ✅ Loaded transcript: ${totalSegments} segments from ${data.source}`);
 
           // Notify parent component to cache the transcript
-          if (onTranscriptLoaded && data.segments) {
-            onTranscriptLoaded(data.segments as TranscriptLine[]);
+          if (onTranscriptLoaded && normalizedSegments.length > 0) {
+            onTranscriptLoaded(normalizedSegments, {
+              title: data.title,
+              language: data.language,
+              source: data.source,
+              cached: data.cached,
+              totalSegments,
+            });
           }
         } else {
           const message = data.message || data.error || 'No transcript available for this video';
@@ -154,7 +204,7 @@ export default function TranscriptViewerNew({
     };
 
     fetchTranscript();
-  }, [providedSegments, videoId]);
+  }, [providedSegments, videoId, normalizeSegments, onTranscriptLoaded]);
 
   // Reset timing log when video changes
   useEffect(() => {
@@ -162,7 +212,9 @@ export default function TranscriptViewerNew({
   }, [videoId]);
 
   // Determine which segments to use
-  const segments = providedSegments || transcript?.segments || [];
+  const segments = providedSegments && providedSegments.length > 0
+    ? normalizeSegments(providedSegments)
+    : transcript?.segments || [];
 
   // Find current caption segment based on video time
   const currentSegment = useMemo(() => {
@@ -229,7 +281,7 @@ export default function TranscriptViewerNew({
   };
 
   // Render segment text with word-level tapping for Japanese
-  const renderSegmentText = (segment: TranscriptSegment) => {
+  const renderSegmentText = (segment: TranscriptLine) => {
     const elements: React.ReactNode[] = [];
     const text = segment.text || '';
 
@@ -325,14 +377,6 @@ export default function TranscriptViewerNew({
           <p className="text-dark-300 text-xs">
             {error || transcript?.message || 'This video does not have transcripts enabled'}
           </p>
-          {onClearSession && (
-            <button
-              onClick={onClearSession}
-              className="mt-3 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded-lg transition-colors"
-            >
-              ← Back to Input
-            </button>
-          )}
         </div>
       </div>
     );
@@ -344,14 +388,6 @@ export default function TranscriptViewerNew({
       <div className={`caption-component ${className}`}>
         <div className="p-4 bg-dark-800/70 backdrop-blur-sm rounded-lg border border-white/10 text-center space-y-3">
           <p className="text-dark-300 text-sm">📝 No transcript available</p>
-          {onClearSession && (
-            <button
-              onClick={onClearSession}
-              className="mt-3 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded-lg transition-colors"
-            >
-              ← Back to Input
-            </button>
-          )}
         </div>
       </div>
     );
@@ -367,28 +403,6 @@ export default function TranscriptViewerNew({
   return (
     <>
       <div className={`caption-component ${className} [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}>
-        {/* Caption Controls - Theme aware */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-dark-300 text-sm font-medium flex items-center gap-1">
-              🇯🇵 {transcript?.language || 'Japanese'}
-            </span>
-            {transcript?.source && (
-              <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded border border-green-500/30">
-                {transcript.cached ? '📦 Cached' : '🔄 Fresh'} • {transcript.source}
-              </span>
-            )}
-          </div>
-
-          <button
-            onClick={() => setShowFullTranscript(!showFullTranscript)}
-            className="text-dark-300 hover:text-dark-50 text-xs px-3 py-1 bg-white/10 hover:bg-white/20 rounded border border-white/20 transition-colors"
-            title={showFullTranscript ? 'Show Current Only' : 'Show Full Transcript'}
-          >
-            {showFullTranscript ? 'Current' : 'Full'}
-          </button>
-        </div>
-
         {/* Current Caption Display - ALWAYS VISIBLE */}
         <div className="mb-6">
           {currentSegment ? (
@@ -456,28 +470,7 @@ export default function TranscriptViewerNew({
         {/* Full Transcript View */}
         {showFullTranscript && (
           <div className="space-y-2">
-            {/* Header - Theme aware */}
-            <div className="bg-dark-800/40 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-dark-300 text-sm font-medium">
-                  Full Transcript ({segments.length} segments)
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-blue-400 text-xs bg-blue-500/20 px-2 py-1 rounded">
-                  👆 Click to jump
-                </span>
-                {onClearSession && (
-                  <button
-                    onClick={onClearSession}
-                    className="text-red-400 text-xs bg-red-500/20 px-2 py-1 rounded hover:bg-red-500/30 transition-colors"
-                    title="Clear current video and return to input screen"
-                  >
-                    🗑️ Clear
-                  </button>
-                )}
-              </div>
-            </div>
+
 
             {/* Scrollable Transcript Container */}
             <div
