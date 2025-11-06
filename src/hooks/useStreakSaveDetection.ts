@@ -35,7 +35,8 @@ export function useStreakSaveDetection(): UseStreakSaveDetectionReturn {
   const {
     currentStreak,
     lastActivityDate,
-    hasHydrated
+    hasHydrated,
+    loadFromFirebase // Import the reload function
   } = useGamification()
 
   useEffect(() => {
@@ -161,6 +162,17 @@ export function useStreakSaveDetection(): UseStreakSaveDetectionReturn {
     if (!breakSuccess) {
       console.warn('[useStreakSaveDetection] Auto-break failed, not showing modal')
       return
+    }
+
+    // CRITICAL FIX: Reload gamification data from Firebase to show updated streak (0)
+    // Without this, the dashboard shows stale cached value (7) until user navigates away
+    try {
+      console.log('[useStreakSaveDetection] Reloading gamification data after auto-break...')
+      await loadFromFirebase()
+      console.log('[useStreakSaveDetection] ✓ Gamification data reloaded, streak should now show 0')
+    } catch (reloadError) {
+      console.warn('[useStreakSaveDetection] Failed to reload gamification data:', reloadError)
+      // Continue showing modal even if reload fails
     }
 
     // All conditions met! Show modal

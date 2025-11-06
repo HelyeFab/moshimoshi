@@ -94,11 +94,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         const preferences = await preferencesManager.getPreferences(user, isPremium);
         if (preferences.palette) {
           document.documentElement.setAttribute('data-palette', preferences.palette);
-          console.log('[ThemeContext] Applied palette from preferences:', preferences.palette);
         } else {
           // Fallback to default palette
           document.documentElement.setAttribute('data-palette', 'sakura');
-          console.log('[ThemeContext] Applied default palette: sakura');
         }
 
         // Apply accessibility settings
@@ -112,7 +110,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           if (preferences.accessibility.highContrast) {
             document.documentElement.classList.add('high-contrast');
           }
-          console.log('[ThemeContext] Applied accessibility preferences:', preferences.accessibility);
         }
       } catch (error) {
         console.error('[ThemeContext] Failed to load preferences:', error);

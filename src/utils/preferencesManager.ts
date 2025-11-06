@@ -153,8 +153,6 @@ export class PreferencesManager {
           }
         }
       });
-
-      console.log('[PreferencesManager] IndexedDB initialized');
     } catch (error) {
       console.error('[PreferencesManager] Failed to initialize IndexedDB:', error);
       // Fallback to memory storage if IndexedDB fails
@@ -212,14 +210,8 @@ export class PreferencesManager {
     user: User | null,
     isPremium: boolean
   ): Promise<UserPreferences> {
-    console.log('[PreferencesManager] Getting preferences', {
-      userId: user?.uid,
-      isPremium
-    });
-
     // Guest users: return defaults
     if (!user) {
-      console.log('[PreferencesManager] Guest user - returning defaults');
       return {
         ...this.DEFAULT_PREFERENCES,
         updatedAt: new Date()
@@ -273,8 +265,6 @@ export class PreferencesManager {
         updatedAt: preferences.updatedAt,
         syncedAt: preferences.syncedAt
       });
-
-      console.log('[PreferencesManager] Saved to IndexedDB');
     } catch (error) {
       console.error('[PreferencesManager] Failed to save to IndexedDB:', error);
     }

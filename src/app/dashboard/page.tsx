@@ -90,15 +90,7 @@ function DashboardContent() {
   const { stats: youtubeStats, loading: youtubeStatsLoading } = useYouTubeStats()
 
   // Debug: Log learning progress
-  useEffect(() => {
-    if (!learningProgressLoading) {
-      console.log('[Dashboard] Learning Progress:', {
-        progressPercentage: learningProgress.progressPercentage,
-        categoriesStarted: learningProgress.categoriesStarted,
-        drillCategory: learningCategories.drills
-      })
-    }
-  }, [learningProgressLoading, learningProgress, learningCategories])
+  // Removed noisy logging
 
   // Drill stats
   const [drillStats, setDrillStats] = useState<any>(null)
@@ -415,7 +407,6 @@ function DashboardContent() {
       try {
         const drillManager = DrillProgressManager.getInstance()
         const stats = await drillManager.getDrillStats(user.uid, isPremium || false)
-        console.log('[Dashboard] Loaded drill stats:', stats)
         setDrillStats(stats)
       } catch (error) {
         logger.error('[Dashboard] Failed to load drill stats:', error)
@@ -501,13 +492,6 @@ function DashboardContent() {
     const achievementsUnit = (typeof achievementsData === 'object' && achievementsData !== null && 'unit' in achievementsData)
       ? String(achievementsData.unit)
       : 'unlocked'
-
-    console.log('[Dashboard] Stats card values:', {
-      drillCount,
-      drillAccuracy,
-      drillMastery,
-      learningProgressPercentage: learningProgress?.progressPercentage
-    })
 
     // Format watch time (seconds to minutes or hours)
     const watchTimeMinutes = Math.round((youtubeStats?.watchTime || 0) / 60);

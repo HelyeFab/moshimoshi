@@ -69,7 +69,6 @@ export class IndexedDBStore {
         const request = objectStore.put(data)
 
         request.onsuccess = () => {
-          console.log(`[IndexedDB] Saved data for user: ${userId}`)
           resolve()
         }
         request.onerror = () => reject(request.error)

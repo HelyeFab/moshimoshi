@@ -571,8 +571,6 @@ export const useGamificationStore = create<GamificationState>()(
             return
           }
 
-          console.log('[Gamification State] Loading from Firebase for user:', state.userId)
-
           // Call load API
           const response = await fetch('/api/gamification/load', {
             method: 'GET',
@@ -611,12 +609,6 @@ export const useGamificationStore = create<GamificationState>()(
             })
 
             await get().saveToIndexedDB()
-
-            console.log('[Gamification State] Loaded from Firebase and cached to IndexedDB:', {
-              totalXP: data.totalXP,
-              current: streak.current ?? 0,
-              sessionCount: data.sessionCount
-            })
           } else {
             console.log('[Gamification State] No Firebase data found, will use IndexedDB or defaults')
             // Mark as loaded even if no data found (prevents sync race condition)

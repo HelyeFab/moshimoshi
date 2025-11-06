@@ -38,6 +38,7 @@ export interface GamificationData {
   loading: boolean
   error: Error | null
   isEnabled: boolean
+  loadFromFirebase: () => Promise<void> // Expose reload function
 }
 
 /**
@@ -82,20 +83,15 @@ export function useGamification(): GamificationData {
 
         // Premium users: Try Firebase first, fallback to IndexedDB
         if (isPremium) {
-          console.log('[useGamification] Premium user - loading from Firebase first')
           try {
             await store.loadFromFirebase()
-            console.log('[useGamification] ✅ Successfully loaded from Firebase')
           } catch (firebaseError) {
             console.warn('[useGamification] Firebase load failed, trying IndexedDB fallback:', firebaseError)
             await store.loadFromIndexedDB(user.uid)
-            console.log('[useGamification] ✅ Loaded from IndexedDB (fallback)')
           }
         } else {
           // Free users: IndexedDB only
-          console.log('[useGamification] Free user - loading from IndexedDB')
           await store.loadFromIndexedDB(user.uid)
-          console.log('[useGamification] ✅ Loaded from IndexedDB')
         }
 
         setLoading(false)
@@ -123,7 +119,8 @@ export function useGamification(): GamificationData {
       hasHydrated: false,
       loading: false,
       error: null,
-      isEnabled: false
+      isEnabled: false,
+      loadFromFirebase: async () => {} // Dummy function when disabled
     }
   }
 
@@ -139,6 +136,7 @@ export function useGamification(): GamificationData {
     hasHydrated: store.hasHydrated,
     loading,
     error,
-    isEnabled: true
+    isEnabled: true,
+    loadFromFirebase: store.loadFromFirebase // Expose reload function
   }
 }
