@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const articleId = searchParams.get('id');
     const source = searchParams.get('source');
-    const maxResults = parseInt(searchParams.get('limit') || '50');
+    const maxResults = parseInt(searchParams.get('limit') || '100');
     const forceRefresh = searchParams.get('refresh') === 'true';
 
     // Optional: Get session for user tracking

@@ -155,6 +155,25 @@ export function getCurrentDateUTC(refDate: Date = new Date()): string {
   return refDate.toISOString().split('T')[0]
 }
 
+/**
+ * Get UTC date with optional day offset
+ * Used for streak save feature to calculate "yesterday" date
+ *
+ * @param refDate - Reference date (defaults to now)
+ * @param daysOffset - Days to add/subtract (e.g., -1 for yesterday)
+ * @returns ISO date string in yyyy-mm-dd format
+ *
+ * @example
+ * getDateUTC(new Date(), -1)  // Yesterday's date
+ * getDateUTC(new Date(), 0)   // Today's date
+ * getDateUTC(new Date(), 1)   // Tomorrow's date
+ */
+export function getDateUTC(refDate: Date = new Date(), daysOffset: number = 0): string {
+  const date = new Date(refDate)
+  date.setUTCDate(date.getUTCDate() + daysOffset)
+  return date.toISOString().split('T')[0]
+}
+
 export function parseISODate(dateString: string): Date {
   return new Date(`${dateString}T00:00:00.000Z`)
 }

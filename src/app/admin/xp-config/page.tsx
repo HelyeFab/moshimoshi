@@ -33,26 +33,6 @@ interface XPConfig {
   activities: Record<string, ActivityConfig>
 }
 
-interface StreakConfig {
-  version: string
-  minXPForStreak: number
-  gracePeriodHours: number
-  resetTime: string
-  timezone: string
-  streakFreeze?: {
-    enabled: boolean
-    requiresPremium: boolean
-    maxFreezes: number
-    freezeDurationDays: number
-    description: string
-  }
-  notifications?: {
-    enabled: boolean
-    reminderHours: number[]
-    description: string
-  }
-}
-
 interface GamificationConfig {
   version: string
   baseXP: number
@@ -80,7 +60,6 @@ export default function XPConfigPage() {
   const [saving, setSaving] = useState(false)
   const [config, setConfig] = useState<XPConfig | null>(null)
   const [gamificationConfig, setGamificationConfig] = useState<GamificationConfig | null>(null)
-  const [streakConfig, setStreakConfig] = useState<StreakConfig | null>(null)
   const [activeTab, setActiveTab] = useState<TabType>('activities')
   const [expandedActivities, setExpandedActivities] = useState<Set<string>>(new Set())
   const [editingActivity, setEditingActivity] = useState<string | null>(null)
@@ -97,10 +76,9 @@ export default function XPConfigPage() {
   const loadConfigs = async () => {
     try {
       setLoading(true)
-      const [activityRes, gamificationRes, streakRes] = await Promise.all([
+      const [activityRes, gamificationRes] = await Promise.all([
         fetch('/api/admin/xp-config', { credentials: 'include' }),
-        fetch('/api/admin/gamification-xp-config', { credentials: 'include' }),
-        fetch('/api/admin/streak-config', { credentials: 'include' })
+        fetch('/api/admin/gamification-xp-config', { credentials: 'include' })
       ])
 
       if (activityRes.ok) {
@@ -111,11 +89,6 @@ export default function XPConfigPage() {
       if (gamificationRes.ok) {
         const data = await gamificationRes.json()
         setGamificationConfig(data.config)
-      }
-
-      if (streakRes.ok) {
-        const data = await streakRes.json()
-        setStreakConfig(data.config)
       }
     } catch (error) {
       console.error('[XP Config] Error loading:', error)
@@ -168,30 +141,6 @@ export default function XPConfigPage() {
       await loadConfigs()
     } catch (error) {
       showToast('Failed to save configuration', 'error')
-    } finally {
-      setSaving(false)
-    }
-  }
-
-  const saveStreakConfig = async () => {
-    if (!streakConfig) return
-    setSaving(true)
-    try {
-      const response = await fetch('/api/admin/streak-config', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ config: streakConfig })
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to save')
-      }
-
-      showToast('Streak configuration saved', 'success')
-      await loadConfigs()
-    } catch (error) {
-      showToast('Failed to save streak configuration', 'error')
     } finally {
       setSaving(false)
     }
@@ -364,7 +313,6 @@ export default function XPConfigPage() {
                     await saveActivityConfig()
                   } else if (activeTab === 'gamification') {
                     await saveGamificationConfig()
-                    await saveStreakConfig()
                   } else if (activeTab === 'global') {
                     await saveActivityConfig()
                   }
@@ -875,61 +823,6 @@ export default function XPConfigPage() {
                       })}
                       className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500"
                     />
-                  </div>
-                </div>
-              </div>
-
-              {/* Streak Settings */}
-              <div className="bg-white dark:bg-dark-800 rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Streak Configuration</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  Control when daily streaks are counted and reset behavior
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Min XP for Streak
-                    </label>
-                    <input
-                      type="number"
-                      value={streakConfig?.minXPForStreak || 10}
-                      onChange={(e) => streakConfig && setStreakConfig({ ...streakConfig, minXPForStreak: parseInt(e.target.value) || 10 })}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500"
-                      min="0"
-                    />
-                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                      Minimum XP needed to count for daily streak
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Grace Period (hours)
-                    </label>
-                    <input
-                      type="number"
-                      value={streakConfig?.gracePeriodHours || 24}
-                      onChange={(e) => streakConfig && setStreakConfig({ ...streakConfig, gracePeriodHours: parseInt(e.target.value) || 24 })}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500"
-                      min="0"
-                    />
-                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                      Hours allowed between activities before streak breaks
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Reset Time (UTC)
-                    </label>
-                    <input
-                      type="text"
-                      value={streakConfig?.resetTime || '00:00'}
-                      onChange={(e) => streakConfig && setStreakConfig({ ...streakConfig, resetTime: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500"
-                      placeholder="HH:MM"
-                    />
-                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                      Time when daily streak resets (24-hour format)
-                    </p>
                   </div>
                 </div>
               </div>

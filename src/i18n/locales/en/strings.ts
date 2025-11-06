@@ -4351,6 +4351,15 @@ export const strings = {
       lowConfidence: "Conjugation type detected with low confidence",
       specialCase: "This word has special conjugation rules"
     },
+    help: {
+      smartModeTitle: "Smart Help",
+      smartModeDesc: "This help was suggested based on your answer.",
+      examples: "Examples",
+      tip: "Tip",
+      previous: "Previous",
+      next: "Next",
+      closeHelp: "Close Help"
+    },
     // Practice page
     practiceTitle: "Conjugation Practice",
     practiceDescription: "Master Japanese verb and adjective conjugations",

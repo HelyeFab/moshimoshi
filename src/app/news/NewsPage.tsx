@@ -10,12 +10,17 @@ import { useAuth } from '@/hooks/useAuth';
 interface NewsArticle {
   id: string;
   title: string;
+  titleWithFurigana?: string;
   content: string;
+  contentWithFurigana?: string;
   summary: string;
+  summaryWithFurigana?: string;
   url: string;
   imageUrl?: string;
+  audioUrl?: string;
   publishDate: string | Date;
   source: string;
+  sourceId?: string;
   category: string;
   difficulty: string;
   tags?: string[];
@@ -119,6 +124,13 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
             {article.metadata?.hasFurigana && (
               <span className="text-xs bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 px-2 py-0.5 rounded-full">
                 {t('news.reader.withFurigana')}
+              </span>
+            )}
+
+            {article.audioUrl && (
+              <span className="text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-full flex items-center gap-1">
+                <span>🎧</span>
+                Audio
               </span>
             )}
 
@@ -245,6 +257,7 @@ export default function NewsPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [selectedSource, setSelectedSource] = useState('All');
+  const [displayCount, setDisplayCount] = useState(20); // Show 20 articles initially
 
   // Load articles
   useEffect(() => {
@@ -254,6 +267,7 @@ export default function NewsPage() {
   // Filter articles when filters change
   useEffect(() => {
     filterArticles();
+    setDisplayCount(20); // Reset pagination when filters change
   }, [articles, selectedLevel, selectedSource]);
 
   const loadArticles = async () => {
@@ -261,7 +275,7 @@ export default function NewsPage() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/news/articles?limit=50');
+      const response = await fetch('/api/news/articles?limit=100');
       if (!response.ok) throw new Error('Failed to fetch articles');
 
       const data = await response.json();
@@ -292,6 +306,14 @@ export default function NewsPage() {
     // Navigate to article reader
     router.push(`/news/${article.id}`);
   };
+
+  const handleLoadMore = () => {
+    setDisplayCount(prev => prev + 20); // Load 20 more articles
+  };
+
+  // Get articles to display (limited by displayCount)
+  const displayedArticles = filteredArticles.slice(0, displayCount);
+  const hasMore = displayCount < filteredArticles.length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -362,7 +384,7 @@ export default function NewsPage() {
             </div>
           ) : (
             // Articles
-            filteredArticles.map(article => (
+            displayedArticles.map(article => (
               <ArticleCard
                 key={article.id}
                 article={article}
@@ -373,12 +395,13 @@ export default function NewsPage() {
         </div>
 
         {/* Load More Button */}
-        {!loading && filteredArticles.length >= 20 && (
+        {!loading && hasMore && (
           <div className="mt-6 text-center">
             <button
+              onClick={handleLoadMore}
               className="px-6 py-2 bg-card dark:bg-dark-850 border border-border dark:border-dark-700 rounded-lg text-foreground hover:bg-muted transition-colors"
             >
-              {t('common.loadMore', 'Load More')}
+              {t('common.loadMore', 'Load More')} ({displayedArticles.length} / {filteredArticles.length})
             </button>
           </div>
         )}

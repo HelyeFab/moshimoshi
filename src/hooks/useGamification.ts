@@ -34,6 +34,7 @@ export interface GamificationData {
   unlockedAchievements: string[]
   sessionCount: number
   lastActivityDate: Date | null
+  hasHydrated: boolean
   loading: boolean
   error: Error | null
   isEnabled: boolean
@@ -119,6 +120,7 @@ export function useGamification(): GamificationData {
       unlockedAchievements: [],
       sessionCount: 0,
       lastActivityDate: null,
+      hasHydrated: false,
       loading: false,
       error: null,
       isEnabled: false
@@ -134,6 +136,7 @@ export function useGamification(): GamificationData {
     unlockedAchievements: store.unlockedAchievements,
     sessionCount: store.sessionCount,
     lastActivityDate: store.lastActivityDate,
+    hasHydrated: store.hasHydrated,
     loading,
     error,
     isEnabled: true

@@ -11,6 +11,16 @@
     "freezeDurationDays": 1,
     "description": "Allow premium users to freeze streak for 1 day"
   },
+  "streakSave": {
+    "enabled": true,
+    "costMode": "dynamic",
+    "baseCost": 25,
+    "surgePricing": true,
+    "surgeMultiplier": 1.0,
+    "maxSaveWindow": 3,
+    "requiresPremium": false,
+    "description": "Trade XP to save a breaking streak (surge pricing: cost = baseCost × daysSince)"
+  },
   "notifications": {
     "enabled": true,
     "reminderHours": [

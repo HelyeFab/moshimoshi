@@ -166,25 +166,45 @@ export async function recordDrillCompletion(params: {
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
     const nowIso = new Date().toISOString()
+    const today = nowIso.split('T')[0] // yyyy-mm-dd
 
-    // Update XP
+    // Track daily XP accumulation (CRITICAL FIX: accumulate XP throughout the day)
+    const lastXPDate = currentStats.xp?.lastXPDate || null
+    const isNewDay = lastXPDate !== today
+    const currentDailyXP = isNewDay ? 0 : (currentStats.xp?.xpGainedToday || 0)
+    const newDailyXP = currentDailyXP + xpEarned
+
+    console.log('[Gamification Coordinator] Daily XP Accumulation:', {
+      lastXPDate,
+      today,
+      isNewDay,
+      currentDailyXP,
+      xpEarnedThisDrill: xpEarned,
+      newDailyXP,
+      minXpForStreak: getMinXpForStreak()
+    })
+
+    // Update XP (including daily accumulation)
     transaction.update(userStatsRef, {
       'xp.total': newTotalXP,
       'xp.level': newLevel,
+      'xp.xpGainedToday': newDailyXP,
+      'xp.lastXPDate': today,
       'sessions.totalSessions': FieldValue.increment(1),
       'metadata.lastUpdated': nowIso
     })
 
-    // Update streak if XP threshold met
+    // Update streak using DAILY XP total (not per-drill XP)
+    // CRITICAL FIX: Check daily accumulated XP, not individual drill XP
     let streakResult: StreakUpdateResult | null = null
     const minXpForStreak = getMinXpForStreak()
 
-    if (xpEarned >= minXpForStreak) {
+    if (newDailyXP >= minXpForStreak) {
       try {
         const result = await updateStreakWithinTransaction(
           transaction,
           userId,
-          xpEarned,
+          newDailyXP, // Pass daily total, not individual drill XP
           {
             isPremium,
             db: adminDb!,
@@ -204,6 +224,11 @@ export async function recordDrillCompletion(params: {
         console.error('[Gamification Coordinator] Failed to update streak:', error)
         // Don't fail the whole transaction if streak update fails
       }
+    } else {
+      console.log('[Gamification Coordinator] Daily XP below threshold, streak not updated:', {
+        newDailyXP,
+        minXpForStreak
+      })
     }
 
     // Check for achievements
@@ -303,25 +328,45 @@ export async function recordReviewCompletion(params: {
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
     const nowIso = new Date().toISOString()
+    const today = nowIso.split('T')[0] // yyyy-mm-dd
 
-    // Update XP
+    // Track daily XP accumulation (CRITICAL FIX: accumulate XP throughout the day)
+    const lastXPDate = currentStats.xp?.lastXPDate || null
+    const isNewDay = lastXPDate !== today
+    const currentDailyXP = isNewDay ? 0 : (currentStats.xp?.xpGainedToday || 0)
+    const newDailyXP = currentDailyXP + xpEarned
+
+    console.log('[Gamification Coordinator] Daily XP Accumulation (Review):', {
+      lastXPDate,
+      today,
+      isNewDay,
+      currentDailyXP,
+      xpEarnedThisReview: xpEarned,
+      newDailyXP,
+      minXpForStreak: getMinXpForStreak()
+    })
+
+    // Update XP (including daily accumulation)
     transaction.update(userStatsRef, {
       'xp.total': newTotalXP,
       'xp.level': newLevel,
+      'xp.xpGainedToday': newDailyXP,
+      'xp.lastXPDate': today,
       'sessions.totalSessions': FieldValue.increment(1),
       'metadata.lastUpdated': nowIso
     })
 
-    // Update streak if XP threshold met
+    // Update streak using DAILY XP total (not per-review XP)
+    // CRITICAL FIX: Check daily accumulated XP, not individual review XP
     let streakResult: StreakUpdateResult | null = null
     const minXpForStreak = getMinXpForStreak()
 
-    if (xpEarned >= minXpForStreak) {
+    if (newDailyXP >= minXpForStreak) {
       try {
         const result = await updateStreakWithinTransaction(
           transaction,
           userId,
-          xpEarned,
+          newDailyXP, // Pass daily total, not individual review XP
           {
             isPremium,
             db: adminDb!,
@@ -340,6 +385,11 @@ export async function recordReviewCompletion(params: {
       } catch (error) {
         console.error('[Gamification Coordinator] Failed to update streak:', error)
       }
+    } else {
+      console.log('[Gamification Coordinator] Daily XP below threshold, streak not updated:', {
+        newDailyXP,
+        minXpForStreak
+      })
     }
 
     const fallbackStreak = {

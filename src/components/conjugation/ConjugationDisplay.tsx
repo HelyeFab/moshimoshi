@@ -10,6 +10,10 @@ import { JapaneseWord } from '@/types/vocabulary'
 import { ExtendedConjugationForms } from '@/types/conjugation'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTTS } from '@/hooks/useTTS'
+import { HelpIcon } from '@/components/conjugation-help/HelpIcon'
+import { HelpModal } from '@/components/conjugation-help/HelpModal'
+import { getHelpByFormType, getHelpByWordType } from '@/data/conjugation-help'
+import { formatConjugationForm } from '@/utils/formatConjugationForm'
 
 interface ConjugationDisplayProps {
   word: JapaneseWord
@@ -213,7 +217,7 @@ export function ConjugationDisplay({
                           >
                             <div className="flex-1">
                               <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                                {t(`conjugation.forms.${form.key}`) || form.label}
+                                {t(`conjugation.forms.${form.key}`) || form.label || formatConjugationForm(form.key)}
                                 {form.subLabel && (
                                   <span className="ml-2 text-xs text-gray-500">
                                     ({form.subLabel})
@@ -234,6 +238,22 @@ export function ConjugationDisplay({
                                     {/* Here you could add furigana logic */}
                                   </span>
                                 )}
+                                {/* Help icon for this form */}
+                                {(() => {
+                                  const formHelps = getHelpByFormType(form.key);
+                                  const wordTypeHelps = getHelpByWordType(enhancedWord.conjugationType || '');
+                                  const relevantHelps = [...formHelps, ...wordTypeHelps];
+                                  const bestHelp = relevantHelps[0];
+
+                                  return bestHelp ? (
+                                    <HelpIcon
+                                      help={bestHelp}
+                                      size="sm"
+                                      showTooltip={true}
+                                      tooltipPosition="right"
+                                    />
+                                  ) : null;
+                                })()}
                               </div>
                             </div>
                             <button
@@ -258,6 +278,9 @@ export function ConjugationDisplay({
           )
         })}
       </div>
+
+      {/* Help modal for manual mode */}
+      <HelpModal />
     </div>
   )
 }

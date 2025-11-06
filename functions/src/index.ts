@@ -328,3 +328,11 @@ export {
   scheduledNewsScraperFunction,
   manualNewsScraperFunction
 } from './scheduled/newsScheduler';
+
+/**
+ * Export scheduled streak auto-break function
+ * Phase 2.5: Automatically breaks streaks beyond grace period every hour
+ */
+export {
+  autoBreakStreaks
+} from './scheduled/streakAutoBreak';

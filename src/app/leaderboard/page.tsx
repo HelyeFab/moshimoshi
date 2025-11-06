@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
@@ -11,6 +11,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { Trophy, Medal, Zap, Star, Users, ChevronLeft, ChevronRight } from 'lucide-react'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import type { LeaderboardEntry, LeaderboardResponse, UserRankResponse } from '@/lib/leaderboard/types'
+import { validateStreakDisplay } from '@/lib/gamification/utils/streakValidation'
 
 export default function LeaderboardPage() {
   const { user } = useAuth()
@@ -28,8 +29,17 @@ export default function LeaderboardPage() {
     totalXP,
     currentLevel,
     currentStreak,
+    lastActivityDate,
     isEnabled: gamificationEnabled
   } = useGamification()
+
+  // Validate streak to detect stale data (Phase 1: Emergency UI Fix)
+  const streakValidation = useMemo(() => {
+    return validateStreakDisplay(currentStreak, lastActivityDate, 24)
+  }, [currentStreak, lastActivityDate])
+
+  // Use validated streak for display
+  const displayStreak = streakValidation.effectiveStreak
 
   // Fetch leaderboard data
   useEffect(() => {
@@ -167,9 +177,12 @@ export default function LeaderboardPage() {
                   <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
                   <div className="text-right sm:text-left">
                     <div className="text-xl sm:text-2xl font-bold">
-                      {currentStreak}
+                      {displayStreak}
                     </div>
                     <div className="text-xs sm:text-sm opacity-75">{strings.leaderboard?.streak || 'Streak'}</div>
+                    {streakValidation.isStale && currentStreak > 0 && (
+                      <div className="text-[10px] opacity-60">(Broken)</div>
+                    )}
                   </div>
                 </div>
               </motion.div>

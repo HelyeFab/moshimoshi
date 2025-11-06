@@ -32,17 +32,19 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = void 0;
 exports.scheduledNewsScraper = scheduledNewsScraper;
 exports.manualNewsScraper = manualNewsScraper;
 const admin = __importStar(require("firebase-admin"));
-const node_fetch_1 = __importDefault(require("node-fetch"));
+const logger = __importStar(require("firebase-functions/logger"));
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
+const nhkEasyScraper_1 = require("../scrapers/nhkEasyScraper");
+const todaii_1 = require("../scrapers/todaii");
+const watanoc_1 = require("../scrapers/watanoc");
+const mainichi_news_1 = require("../scrapers/mainichi-news");
+const mainichi_shogakusei_1 = require("../scrapers/mainichi-shogakusei");
 // Initialize Firestore
 const db = admin.firestore();
 // News source configurations
@@ -80,39 +82,61 @@ const NEWS_SOURCES = [
 ];
 // Helper to trigger individual scraper
 async function triggerScraper(source) {
+    var _a, _b;
     const startTime = Date.now();
     try {
-        console.log(`[NewsScheduler] Triggering ${source.name} scraper...`);
-        // Get the base URL from environment or use default
-        const baseUrl = process.env.FUNCTIONS_EMULATOR_URL ||
-            `https://${process.env.GCLOUD_PROJECT}.web.app`;
-        // Call the API endpoint
-        const response = await (0, node_fetch_1.default)(`${baseUrl}/api/news/scrape?source=${source.endpoint}&force=true`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Internal-Request': 'true' // Internal request marker
-            },
-            signal: AbortSignal.timeout(55000) // 55 seconds timeout
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        logger.info('[NewsScheduler] Triggering scraper', { source: source.name });
+        let result;
+        // Call scrapers directly instead of via HTTP
+        switch (source.endpoint) {
+            case 'nhk-easy':
+                result = await (0, nhkEasyScraper_1.scrapeNHKEasy)();
+                break;
+            case 'todaii': {
+                const articles = await (0, todaii_1.scrapeTodaii)();
+                result = { success: true, articles };
+                break;
+            }
+            case 'watanoc': {
+                const articles = await (0, watanoc_1.scrapeWatanoc)();
+                result = { success: true, articles };
+                break;
+            }
+            case 'mainichi-news': {
+                const articles = await (0, mainichi_news_1.scrapeMainichiNews)();
+                result = { success: true, articles };
+                break;
+            }
+            case 'mainichi-shogakusei': {
+                const articles = await (0, mainichi_shogakusei_1.scrapeMainichiShogakusei)();
+                result = { success: true, articles };
+                break;
+            }
+            default:
+                throw new Error(`Unknown scraper: ${source.endpoint}`);
         }
-        const result = await response.json();
         const duration = Date.now() - startTime;
         if (result.success) {
-            console.log(`✅ [NewsScheduler] ${source.name}: ${result.articlesCount || 0} articles scraped in ${duration}ms`);
+            logger.info('[NewsScheduler] Scraper succeeded', {
+                source: source.name,
+                articlesCount: ((_a = result.articles) === null || _a === void 0 ? void 0 : _a.length) || 0,
+                durationMs: duration
+            });
             return {
                 source: source.name,
                 endpoint: source.endpoint,
                 success: true,
-                articlesCount: result.articlesCount || 0,
+                articlesCount: ((_b = result.articles) === null || _b === void 0 ? void 0 : _b.length) || 0,
                 duration,
                 timestamp: new Date().toISOString()
             };
         }
         else {
-            console.error(`❌ [NewsScheduler] ${source.name} failed:`, result.error);
+            logger.error('[NewsScheduler] Scraper failed', {
+                source: source.name,
+                error: result.error,
+                durationMs: duration
+            });
             return {
                 source: source.name,
                 endpoint: source.endpoint,
@@ -126,7 +150,11 @@ async function triggerScraper(source) {
     }
     catch (error) {
         const duration = Date.now() - startTime;
-        console.error(`❌ [NewsScheduler] ${source.name} error:`, error);
+        logger.error('[NewsScheduler] Scraper error', {
+            source: source.name,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            durationMs: duration
+        });
         return {
             source: source.name,
             endpoint: source.endpoint,
@@ -141,12 +169,12 @@ async function triggerScraper(source) {
 // Main scheduler function
 async function scheduledNewsScraper() {
     const startTime = Date.now();
-    console.log('🗞️ [NewsScheduler] Starting scheduled news scraping...');
+    logger.info('[NewsScheduler] Starting scheduled news scraping');
     try {
         // Filter enabled sources only
         const enabledSources = NEWS_SOURCES.filter(s => s.enabled);
         if (enabledSources.length === 0) {
-            console.warn('⚠️ [NewsScheduler] No news sources enabled');
+            logger.warn('[NewsScheduler] No news sources enabled');
             return {
                 success: false,
                 message: 'No news sources enabled',
@@ -154,7 +182,9 @@ async function scheduledNewsScraper() {
             };
         }
         // Run all scrapers in parallel
-        console.log(`[NewsScheduler] Running ${enabledSources.length} scrapers in parallel...`);
+        logger.info('[NewsScheduler] Running scrapers in parallel', {
+            scraperCount: enabledSources.length
+        });
         const results = await Promise.allSettled(enabledSources.map(source => triggerScraper(source)));
         // Process results
         const summary = {
@@ -197,20 +227,28 @@ async function scheduledNewsScraper() {
         // Log results to Firestore for monitoring
         try {
             await db.collection('scraping_logs').add(Object.assign(Object.assign({}, summary), { type: 'scheduled', createdAt: admin.firestore.FieldValue.serverTimestamp() }));
-            console.log('✅ [NewsScheduler] Results logged to Firestore');
+            logger.info('[NewsScheduler] Results logged to Firestore');
         }
         catch (logError) {
-            console.error('❌ [NewsScheduler] Failed to log results:', logError);
+            logger.error('[NewsScheduler] Failed to log results', {
+                error: logError instanceof Error ? logError.message : 'Unknown error'
+            });
         }
         // Log summary
-        console.log('📊 [NewsScheduler] Scraping Summary:');
-        console.log(`  - Total Articles: ${summary.totalArticles}`);
-        console.log(`  - Successful Sources: ${summary.successfulSources}/${enabledSources.length}`);
-        console.log(`  - Failed Sources: ${summary.failedSources}`);
-        console.log(`  - Total Duration: ${summary.duration}ms`);
+        logger.info('[NewsScheduler] Scraping summary', {
+            totalArticles: summary.totalArticles,
+            successfulSources: summary.successfulSources,
+            totalSources: enabledSources.length,
+            failedSources: summary.failedSources,
+            durationMs: summary.duration,
+            sources: summary.sources
+        });
         // Send alert if all scrapers failed
         if (summary.successfulSources === 0) {
-            console.error('🚨 [NewsScheduler] ALERT: All scrapers failed!');
+            logger.error('[NewsScheduler] ALERT: All scrapers failed', {
+                totalSources: enabledSources.length,
+                timestamp: new Date().toISOString()
+            });
             // TODO: Send notification (email, Slack, etc.)
         }
         return {
@@ -220,7 +258,10 @@ async function scheduledNewsScraper() {
         };
     }
     catch (error) {
-        console.error('❌ [NewsScheduler] Fatal error:', error);
+        logger.error('[NewsScheduler] Fatal error', {
+            error: error instanceof Error ? error.message : 'Unknown error',
+            durationMs: Date.now() - startTime
+        });
         // Log error to Firestore
         try {
             await db.collection('scraping_logs').add({
@@ -231,18 +272,26 @@ async function scheduledNewsScraper() {
             });
         }
         catch (logError) {
-            console.error('Failed to log error:', logError);
+            logger.error('[NewsScheduler] Failed to log error', {
+                error: logError instanceof Error ? logError.message : 'Unknown error'
+            });
         }
         throw error;
     }
 }
 // Manual trigger function for testing
 async function manualNewsScraper(data, context) {
-    // Check if user is authenticated (optional)
-    if (!context.auth) {
-        throw new https_1.HttpsError('unauthenticated', 'User must be authenticated to trigger manual scraping');
+    var _a;
+    // Check if user is authenticated OR has admin key
+    const adminKey = data === null || data === void 0 ? void 0 : data.adminKey;
+    const expectedAdminKey = process.env.NEWS_SCRAPER_ADMIN_KEY || 'news-scraper-admin-2025';
+    if (!context.auth && adminKey !== expectedAdminKey) {
+        throw new https_1.HttpsError('unauthenticated', 'User must be authenticated or provide valid admin key to trigger manual scraping');
     }
-    console.log(`🔧 [NewsScheduler] Manual trigger by user: ${context.auth.uid}`);
+    logger.info('[NewsScheduler] Manual trigger initiated', {
+        userId: ((_a = context.auth) === null || _a === void 0 ? void 0 : _a.uid) || 'admin-key',
+        timestamp: new Date().toISOString()
+    });
     // Run the scheduler
     const result = await scheduledNewsScraper();
     return result;
@@ -251,15 +300,20 @@ async function manualNewsScraper(data, context) {
 exports.scheduledNewsScraperFunction = (0, scheduler_1.onSchedule)({
     schedule: '0 6 * * *', // 6:00 AM every day
     timeZone: 'Asia/Tokyo', // Japan time
-    memory: '1GiB',
-    timeoutSeconds: 540 // 9 minutes
+    memory: '2GiB', // Increased from 1GiB for better performance
+    timeoutSeconds: 540, // 9 minutes
+    retryCount: 2 // Retry up to 2 times on failure
 }, async (event) => {
-    console.log('⏰ [NewsScheduler] Scheduled trigger activated');
+    logger.info('[NewsScheduler] Scheduled trigger activated', {
+        scheduleTime: event.scheduleTime,
+        jobName: event.jobName
+    });
     await scheduledNewsScraper();
 });
 exports.manualNewsScraperFunction = (0, https_1.onCall)({
-    memory: '1GiB',
-    timeoutSeconds: 540
+    memory: '2GiB', // Increased from 1GiB for better performance
+    timeoutSeconds: 540,
+    invoker: 'public' // Allow public invocation (auth checked via admin key inside)
 }, async (request) => {
     return manualNewsScraper(request.data, request);
 });

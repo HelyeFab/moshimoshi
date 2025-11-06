@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -22,11 +22,14 @@ import { useGamification } from '@/hooks/useGamification'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { useAutoSync } from '@/hooks/useAutoSync'
 import { useYouTubeStats } from '@/hooks/useYouTubeStats'
+import { useStreakSaveDetection } from '@/hooks/useStreakSaveDetection'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
+import { validateStreakDisplay, getStreakDeadline } from '@/lib/gamification/utils/streakValidation'
 import Modal from '@/components/ui/Modal'
 import AnimationControl from '@/components/ui/AnimationControl'
 import CommandPalette from '@/components/ui/CommandPalette'
+import StreakSaveModal from '@/components/gamification/StreakSaveModal'
 
 // Dynamically import Confetti to avoid SSR issues
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false })
@@ -64,6 +67,22 @@ function DashboardContent() {
     isEnabled: gamificationEnabled
   } = useGamification()
 
+  // Validate streak to detect stale data (Phase 1: Emergency UI Fix)
+  const streakValidation = useMemo(() => {
+    return validateStreakDisplay(currentStreak, lastActivityDate, 24)
+  }, [currentStreak, lastActivityDate])
+
+  const streakDeadline = useMemo(() => {
+    return getStreakDeadline(lastActivityDate, 24)
+  }, [lastActivityDate])
+
+  // Phase 2.5: Use actual streak from database, not validated value
+  // Auto-break system will handle breaking streaks properly and showing save modal
+  const displayStreak = currentStreak
+
+  // Streak save detection (Phase 2: XP-Save Mechanic)
+  const { shouldShowModal: shouldShowStreakSaveModal, dismissModal: dismissStreakSaveModal } = useStreakSaveDetection()
+
   // Learning progress from drill mastery (Bunpro multi-track approach)
   const { overall: learningProgress, categories: learningCategories, loading: learningProgressLoading } = useLearningProgress()
 
@@ -96,9 +115,13 @@ function DashboardContent() {
     ? Math.round(learningProgress.progressPercentage)
     : 0
 
-  // Calculate hours until streak deadline (midnight UTC)
+  // Calculate hours until streak deadline using validated deadline (Phase 1: Fix)
   const calculateTimeUntilDeadline = (): { hours: number; isActiveToday: boolean } | null => {
-    if (currentStreak === 0) return null
+    // If streak is stale, don't show countdown
+    if (streakValidation.isStale || displayStreak === 0) return null
+
+    // If no deadline (streak is broken), don't show countdown
+    if (!streakDeadline) return null
 
     const now = new Date()
     const lastActivity = lastActivityDate ? new Date(lastActivityDate) : null
@@ -106,10 +129,6 @@ function DashboardContent() {
     // Get start of today (00:00 UTC)
     const todayStart = new Date(now)
     todayStart.setUTCHours(0, 0, 0, 0)
-
-    // Get start of tomorrow (00:00 UTC) - this is the deadline
-    const tomorrowStart = new Date(todayStart)
-    tomorrowStart.setUTCDate(tomorrowStart.getUTCDate() + 1)
 
     // Check if we're active today
     if (lastActivity) {
@@ -122,8 +141,11 @@ function DashboardContent() {
       }
     }
 
-    // Calculate hours until tomorrow midnight (deadline)
-    const hoursUntilDeadline = (tomorrowStart.getTime() - now.getTime()) / (1000 * 60 * 60)
+    // Calculate hours until validated deadline
+    const hoursUntilDeadline = (streakDeadline.getTime() - now.getTime()) / (1000 * 60 * 60)
+
+    // If deadline has passed, return null
+    if (hoursUntilDeadline <= 0) return null
 
     return {
       hours: Math.max(0, Math.ceil(hoursUntilDeadline)),
@@ -149,10 +171,11 @@ function DashboardContent() {
           howToImprove: streakModal?.howToImprove,
           goalNote: streakModal?.goalNote,
           breakdown: [
-            { label: streakModal?.breakdown?.current || 'Current streak', value: `${currentStreak} ${currentStreak === 1 ? 'day' : 'days'}` },
+            { label: streakModal?.breakdown?.current || 'Current streak', value: `${displayStreak} ${displayStreak === 1 ? 'day' : 'days'}` },
             { label: streakModal?.breakdown?.longest || 'Longest streak', value: `${bestStreak} ${bestStreak === 1 ? 'day' : 'days'}` },
             { label: streakModal?.breakdown?.lastActive || 'Last activity', value: lastActivityFormatted },
-            { label: streakModal?.breakdown?.minXP || 'Min XP per day', value: '10 XP' }
+            { label: streakModal?.breakdown?.minXP || 'Min XP per day', value: '25 XP' },
+            ...(streakValidation.isStale ? [{ label: 'Status', value: streakValidation.reason }] : [])
           ]
         }
 
@@ -441,7 +464,8 @@ function DashboardContent() {
     const completionPercentage = gamificationEnabled && unlockedAchievements.length > 0
       ? Math.round((unlockedAchievements.length / 10) * 100)
       : 0
-    const streakValue = gamificationEnabled ? currentStreak : 0
+    // Use validated streak (shows 0 if stale, prevents showing false streak)
+    const streakValue = gamificationEnabled ? displayStreak : 0
     const achievementCount = gamificationEnabled ? unlockedAchievements.length : 0
 
     // Safely extract string values from i18n objects
@@ -724,8 +748,8 @@ function DashboardContent() {
                         </h1>
                       </motion.div>
 
-                      {/* Streak Badge */}
-                      {currentStreak > 0 && (
+                      {/* Streak Badge - Shows validated streak or broken message */}
+                      {displayStreak > 0 && (
                         <motion.div
                           className="flex justify-center"
                           variants={{
@@ -747,7 +771,7 @@ function DashboardContent() {
                             <div className="flex items-center gap-2">
                               <span className="text-lg animate-pulse">🔥</span>
                               <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
-                                {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                                {displayStreak} {displayStreak === 1 ? 'day' : 'days'} streak · Keep it up!
                               </span>
                             </div>
                             {deadlineInfo && (
@@ -761,6 +785,38 @@ function DashboardContent() {
                                 </div>
                               )
                             )}
+                          </div>
+                        </motion.div>
+                      )}
+                      {/* Show broken streak message if streak is stale */}
+                      {streakValidation.isStale && currentStreak > 0 && (
+                        <motion.div
+                          className="flex justify-center"
+                          variants={{
+                            hidden: { scale: 0, opacity: 0 },
+                            visible: {
+                              scale: 1,
+                              opacity: 1,
+                              transition: {
+                                type: "spring",
+                                damping: 12,
+                                stiffness: 150,
+                                bounce: 0.4,
+                                duration: 1
+                              }
+                            }
+                          }}
+                        >
+                          <div className="flex flex-col items-center gap-1 px-3 py-2 bg-gray-100 dark:bg-gray-800/50 rounded-2xl border border-gray-300 dark:border-gray-700">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg">💔</span>
+                              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                                Streak broken
+                              </span>
+                            </div>
+                            <div className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">
+                              Last active {streakValidation.daysSinceActivity} {streakValidation.daysSinceActivity === 1 ? 'day' : 'days'} ago · Start fresh today!
+                            </div>
                           </div>
                         </motion.div>
                       )}
@@ -920,14 +976,14 @@ function DashboardContent() {
                       : strings.dashboard?.welcome?.returning || "Ready to continue your journey? Your dedication is inspiring!"}
                   </p>
 
-                  {/* Optional Motivational Tagline - Enhanced */}
-                  {gamificationEnabled && currentStreak > 0 && (
+                  {/* Streak Badge - Desktop - Shows validated streak */}
+                  {gamificationEnabled && displayStreak > 0 && (
                     <div className="flex justify-center pt-1">
                       <div className="flex flex-col items-center gap-1 px-3 py-2 bg-orange-100 dark:bg-orange-900/20 rounded-2xl">
                         <div className="flex items-center gap-2">
                           <span className="text-base animate-pulse">🔥</span>
                           <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
-                            {currentStreak} {currentStreak === 1 ? 'day' : 'days'} streak
+                            {displayStreak} {displayStreak === 1 ? 'day' : 'days'} streak
                           </span>
                         </div>
                         {deadlineInfo && (
@@ -941,6 +997,22 @@ function DashboardContent() {
                             </div>
                           )
                         )}
+                      </div>
+                    </div>
+                  )}
+                  {/* Show broken streak message - Desktop */}
+                  {gamificationEnabled && streakValidation.isStale && currentStreak > 0 && (
+                    <div className="flex justify-center pt-1">
+                      <div className="flex flex-col items-center gap-1 px-3 py-2 bg-gray-100 dark:bg-gray-800/50 rounded-2xl border border-gray-300 dark:border-gray-700">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">💔</span>
+                          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                            Streak broken
+                          </span>
+                        </div>
+                        <div className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">
+                          Last active {streakValidation.daysSinceActivity} {streakValidation.daysSinceActivity === 1 ? 'day' : 'days'} ago
+                        </div>
                       </div>
                     </div>
                   )}
@@ -993,6 +1065,16 @@ function DashboardContent() {
 
       {/* Animation Control Button */}
       <AnimationControl position="bottom-right" />
+
+      {/* Streak Save Modal (Phase 2: XP-Save Mechanic) */}
+      <StreakSaveModal
+        isOpen={shouldShowStreakSaveModal}
+        onClose={dismissStreakSaveModal}
+        onSaveSuccess={() => {
+          // Optional: Show celebration or reload data
+          showToast('Your streak lives another day! 🔥', 'success', 3000)
+        }}
+      />
 
       {/* Stat Details Modal */}
       <Modal

@@ -1,25 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { scrapeNHKEasy } from '@/utils/scrapers/nhk-easy';
-import { scrapeTodaii } from '@/utils/scrapers/todaii';
-import { scrapeWatanoc } from '@/utils/scrapers/watanoc';
-import { scrapeMainichiNews } from '@/utils/scrapers/mainichi-news';
-import { scrapeMainichiShogakusei } from '@/utils/scrapers/mainichi-shogakusei';
-import { db } from '@/lib/firebase/admin';
-import { Timestamp, FieldValue } from 'firebase-admin/firestore';
-import { quickValidate, filterArticles, checkDuplicates } from '@/utils/article-validation';
 
 // Simple in-memory cache to prevent too frequent scraping
 const scrapeCache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_DURATION = 1000 * 60 * 30; // 30 minutes
+
+// Firebase Function URL
+const FIREBASE_FUNCTION_URL = `https://us-central1-moshimoshi-de237.cloudfunctions.net/manualNewsScraperFunction`;
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const source = searchParams.get('source') || 'nhk-easy';
     const force = searchParams.get('force') === 'true';
-
-    // Check for internal request header (from Firebase functions)
-    const isInternal = request.headers.get('X-Internal-Request') === 'true';
 
     // Check cache if not forcing
     if (!force) {
@@ -33,115 +25,74 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    let articles;
-    let scraperName;
+    console.log(`[Moshimoshi Admin] Triggering ${source} scraper via Firebase Function`);
 
-    switch (source) {
-      case 'nhk-easy':
-        articles = await scrapeNHKEasy();
-        scraperName = 'NHK Easy';
-        break;
-      case 'todaii':
-        articles = await scrapeTodaii();
-        scraperName = 'Todaii';
-        break;
-      case 'watanoc':
-        articles = await scrapeWatanoc();
-        scraperName = 'Watanoc';
-        break;
-      case 'mainichi-news':
-        articles = await scrapeMainichiNews();
-        scraperName = 'Mainichi News';
-        break;
-      case 'mainichi-shogakusei':
-        articles = await scrapeMainichiShogakusei();
-        scraperName = 'Mainichi Shogakusei';
-        break;
-      default:
-        return NextResponse.json(
-          { error: 'Invalid news source. Supported: nhk-easy, todaii, watanoc, mainichi-news, mainichi-shogakusei' },
-          { status: 400 }
-        );
-    }
+    // Call the Firebase Function via HTTP with admin key
+    try {
+      const adminKey = process.env.NEWS_SCRAPER_ADMIN_KEY || 'news-scraper-admin-2025';
 
-    // Validate and filter articles
-    let validArticles = articles;
-
-    if (articles.length > 0) {
-      // Remove duplicates
-      validArticles = checkDuplicates(articles);
-
-      // Filter out invalid articles
-      const { valid, rejected } = filterArticles(validArticles.map(a => ({
-        title: a.title,
-        content: a.content,
-        url: a.url,
-        source: a.source,
-        publishDate: a.publishDate
-      })));
-
-      if (rejected.length > 0) {
-        console.log(`⚠️ Rejected ${rejected.length} invalid articles from ${scraperName}`);
-      }
-
-      // Store valid articles in Firestore
-      if (valid.length > 0 && db) {
-        try {
-          const batch = db.batch();
-          const processedIds = [];
-
-          for (const article of articles.filter(a =>
-            valid.some(v => v.url === a.url)
-          )) {
-            const docRef = db.collection('news_articles').doc(article.id);
-            // Clean up undefined values
-            const articleData: any = {
-              ...article,
-              publishDate: Timestamp.fromDate(article.publishDate),
-              createdAt: FieldValue.serverTimestamp(),
-              lastUpdated: FieldValue.serverTimestamp(),
-              validated: true,
-              visible: true // Mark as visible after validation
-            };
-            // Remove undefined fields
-            Object.keys(articleData).forEach(key => {
-              if (articleData[key] === undefined) {
-                delete articleData[key];
-              }
-            });
-            batch.set(docRef, articleData, { merge: true });
-            processedIds.push(article.id);
+      const functionResponse = await fetch(FIREBASE_FUNCTION_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            source,
+            timestamp: new Date().toISOString(),
+            adminKey
           }
+        })
+      });
 
-          await batch.commit();
-          console.log(`✅ Stored ${processedIds.length} validated articles in Firestore`);
-        } catch (error) {
-          console.error('❌ Failed to store in Firestore:', error);
-          // Continue even if storage fails
-        }
+      if (!functionResponse.ok) {
+        const errorText = await functionResponse.text();
+        throw new Error(`Function returned ${functionResponse.status}: ${errorText}`);
       }
 
-      // Update articles to only include valid ones
-      articles = articles.filter(a => valid.some(v => v.url === a.url));
+      const data = await functionResponse.json();
+      const result = data.result;
+
+      if (!result.success) {
+        throw new Error(result.message || 'Scraping failed');
+      }
+
+      // Map source endpoint to display name
+      const sourceNameMap: Record<string, string> = {
+        'nhk-easy': 'NHK Easy',
+        'todaii': 'Todaii',
+        'watanoc': 'Watanoc',
+        'mainichi-news': 'Mainichi News',
+        'mainichi-shogakusei': 'Mainichi Elementary'
+      };
+
+      const sourceName = sourceNameMap[source] || source;
+
+      const response = {
+        success: true,
+        source: sourceName,
+        articlesCount: result.summary?.sources?.[sourceName]?.articles || result.summary?.totalArticles || 0,
+        timestamp: new Date().toISOString(),
+        summary: result.summary
+      };
+
+      // Cache the result
+      scrapeCache.set(source, {
+        data: response,
+        timestamp: Date.now()
+      });
+
+      console.log(`[Moshimoshi Admin] Successfully scraped ${response.articlesCount} articles from ${source}`);
+
+      return NextResponse.json(response);
+
+    } catch (functionError) {
+      console.error('[Moshimoshi Admin] Firebase Function error:', functionError);
+      throw new Error(`Failed to call Firebase Function: ${functionError instanceof Error ? functionError.message : 'Unknown error'}`);
     }
 
-    const result = {
-      success: true,
-      source: scraperName,
-      articlesCount: articles.length,
-      articles: articles.slice(0, 10), // Return first 10 for preview
-      timestamp: new Date().toISOString()
-    };
-
-    // Cache the result
-    scrapeCache.set(source, {
-      data: result,
-      timestamp: Date.now()
-    });
-
-    return NextResponse.json(result);
   } catch (error) {
-    console.error('News scraping error:', error);
+    console.error('[Moshimoshi Admin] Error:', error);
     return NextResponse.json(
       {
         error: 'Failed to scrape news',
@@ -152,19 +103,11 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Manual trigger endpoint for testing
+// Manual trigger endpoint for testing (just redirects to GET with force=true)
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { source = 'nhk-easy', adminKey } = body;
-
-    // Simple admin key check for manual triggers
-    if (adminKey !== process.env.ADMIN_API_KEY) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    const { source = 'nhk-easy' } = body;
 
     // Force a fresh scrape
     const url = new URL(request.url);
@@ -179,7 +122,7 @@ export async function POST(request: NextRequest) {
 
     return GET(getRequest);
   } catch (error) {
-    console.error('Manual scrape error:', error);
+    console.error('[Moshimoshi Admin] Manual scrape error:', error);
     return NextResponse.json(
       {
         error: 'Failed to trigger manual scrape',

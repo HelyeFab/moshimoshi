@@ -14,6 +14,9 @@ import type { DrillSession, DrillQuestion, DrillSettings } from '@/types/drill';
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
 import type { DrillSessionData } from '@/lib/review-engine/progress/DrillProgressManager';
 import { formatDrillDefinition } from '@/utils/textUtils';
+import { ConjugationErrorAnalyzer } from '@/lib/conjugation-help';
+import { useConjugationHelp } from '@/contexts/ConjugationHelpContext';
+import { HelpModal, HelpBanner } from '@/components/conjugation-help';
 
 export default function DrillPage() {
   const { t, strings } = useI18n();
@@ -22,6 +25,7 @@ export default function DrillPage() {
   const { subscription } = useSubscription();
   const { checkAndTrack, remaining } = useFeature('conjugation_drill');
   const { showToast } = useToast();
+  const { showMultipleHelps } = useConjugationHelp();
   const drillManager = DrillProgressManager.getInstance();
 
   // Debug logging
@@ -46,6 +50,7 @@ export default function DrillPage() {
   const [score, setScore] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [drillStats, setDrillStats] = useState<any>(null);
+  const [currentErrorReport, setCurrentErrorReport] = useState<any>(null);
 
   // Settings state with question count slider
   const [settings, setSettings] = useState<DrillSettings>({
@@ -151,14 +156,40 @@ export default function DrillPage() {
     const currentQuestion = session.questions[currentQuestionIndex];
     const isCorrect = answer === currentQuestion.correctAnswer;
 
+    let hasRelevantHelp = false;
+
     if (isCorrect) {
       setScore(score + 1);
+      setCurrentErrorReport(null); // Clear any previous error report
+    } else {
+      // Smart mode: Analyze the error and store it
+      try {
+        const errorReport = ConjugationErrorAnalyzer.analyzeError(
+          answer,
+          currentQuestion.correctAnswer,
+          currentQuestion.targetForm as any,
+          currentQuestion.word
+        );
+
+        // Check if we have relevant help to show
+        hasRelevantHelp = errorReport.relevantHelp && errorReport.relevantHelp.length > 0;
+
+        // Store error report to show help banner (don't auto-open modal!)
+        setCurrentErrorReport(errorReport);
+      } catch (error) {
+        console.error('Error analyzing conjugation mistake:', error);
+        setCurrentErrorReport(null);
+        // Don't break the drill flow if error analysis fails
+      }
     }
 
     // Auto-advance after delay if enabled
-    if (settings.autoAdvance) {
+    // BUT: Don't auto-advance if there's an error with relevant help (let user read it!)
+    if (settings.autoAdvance && !hasRelevantHelp) {
+      // Only auto-advance for correct answers or errors without help
       setTimeout(() => nextQuestion(), 1500);
     }
+    // If there's help to show, user must manually click "Next" to proceed
   };
 
   const handleDrillComplete = async () => {
@@ -230,6 +261,7 @@ export default function DrillPage() {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedAnswer(null);
       setShowResult(false);
+      setCurrentErrorReport(null); // Clear error report for next question
     } else {
       // Complete the drill and track progress
       setIsComplete(true);
@@ -625,6 +657,20 @@ export default function DrillPage() {
                 ))}
               </div>
 
+              {/* Help banner - shows contextual help when user makes a mistake */}
+              {showResult && currentErrorReport && (
+                <HelpBanner
+                  errorReport={currentErrorReport}
+                  onDismiss={() => {
+                    setCurrentErrorReport(null);
+                    // If auto-advance is enabled, proceed to next question after dismissing help
+                    if (settings.autoAdvance) {
+                      setTimeout(() => nextQuestion(), 500); // Short delay after dismissal
+                    }
+                  }}
+                />
+              )}
+
               {/* Next button */}
               {showResult && !settings.autoAdvance && (
                 <button
@@ -638,6 +684,9 @@ export default function DrillPage() {
           ) : null}
         </div>
       </div>
+
+      {/* Smart help modal */}
+      <HelpModal />
     </div>
   );
 }

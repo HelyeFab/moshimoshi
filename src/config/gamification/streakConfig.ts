@@ -26,6 +26,18 @@ export const streakConfigSchema = z
         description: z.string().optional()
       })
       .optional(),
+    streakSave: z
+      .object({
+        enabled: z.boolean(),
+        costMode: z.enum(['fixed', 'dynamic']),
+        baseCost: z.number().nonnegative(),
+        surgePricing: z.boolean(),
+        surgeMultiplier: z.number().nonnegative(),
+        maxSaveWindow: z.number().int().positive(),
+        requiresPremium: z.boolean(),
+        description: z.string().optional()
+      })
+      .optional(),
     notifications: z
       .object({
         enabled: z.boolean(),

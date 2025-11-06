@@ -1,0 +1,414 @@
+#!/usr/bin/env node
+
+const admin = require('firebase-admin');
+const path = require('path');
+const readline = require('readline');
+
+// Initialize Firebase Admin
+const serviceAccount = require(path.join(__dirname, '../moshimoshi-service-account.json'));
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    projectId: 'moshimoshi-de237'
+  });
+}
+
+const db = admin.firestore();
+const userId = '8onZzlQg3tQxkw8pinSF9ow4Q6j2';
+
+// Readline interface for interactive input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+// Promisify readline question
+function question(prompt) {
+  return new Promise((resolve) => {
+    rl.question(prompt, resolve);
+  });
+}
+
+// Helper to get date string in UTC format (YYYY-MM-DD)
+function getDateString(daysOffset = 0) {
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() + daysOffset);
+  return date.toISOString().split('T')[0];
+}
+
+// Helper to format date for display
+function formatDate(dateString) {
+  if (!dateString) return 'Never';
+  const date = new Date(dateString + 'T00:00:00.000Z');
+  return date.toISOString().split('T')[0];
+}
+
+// Calculate days between dates
+function daysBetween(date1String, date2String) {
+  const d1 = new Date(date1String + 'T00:00:00.000Z');
+  const d2 = new Date(date2String + 'T00:00:00.000Z');
+  const diffMs = d2.getTime() - d1.getTime();
+  return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+}
+
+// Get current user data
+async function getUserData() {
+  const userStatsRef = db.collection('user_stats').doc(userId);
+  const doc = await userStatsRef.get();
+
+  if (!doc.exists) {
+    console.log('❌ User not found');
+    return null;
+  }
+
+  return doc.data();
+}
+
+// Display current streak status
+async function displayStatus() {
+  const data = await getUserData();
+  if (!data) return;
+
+  const today = getDateString(0);
+  const lastActivity = data.dates?.lastActivityDate || 'Never';
+  const daysSince = lastActivity !== 'Never' ? daysBetween(lastActivity, today) : 0;
+  const isBreaking = daysSince > 1;
+  const withinSaveWindow = daysSince <= 3 && daysSince > 1;
+
+  console.log('\n' + '='.repeat(80));
+  console.log('🔥 STREAK STATUS');
+  console.log('='.repeat(80));
+  console.log(`User ID: ${userId}`);
+  console.log(`Email: ${data.email || 'N/A'}`);
+  console.log();
+  console.log('📊 CURRENT DATA:');
+  console.log(`  Streak: ${data.streak?.current || 0} days (Best: ${data.streak?.best || 0})`);
+  console.log(`  XP: ${data.xp?.total || 0} (Level ${data.xp?.level || 1})`);
+  console.log(`  Last Activity: ${formatDate(lastActivity)}`);
+  console.log(`  Today: ${formatDate(today)}`);
+  console.log();
+  console.log('⏰ TIME STATUS:');
+  console.log(`  Days since activity: ${daysSince} days`);
+  console.log(`  Status: ${isBreaking ? '❌ BREAKING' : '✅ ACTIVE'} ${withinSaveWindow ? '(💾 Can Save!)' : ''}`);
+  console.log(`  Grace period: ${daysSince <= 1 ? '✅ Within (0-1 days)' : '❌ Expired'}`);
+  console.log(`  Save window: ${withinSaveWindow ? '✅ Can save (2-3 days)' : daysSince > 3 ? '❌ Too late (>3 days)' : 'N/A'}`);
+
+  if (isBreaking && withinSaveWindow) {
+    const cost = 25 * daysSince;
+    console.log();
+    console.log('💰 SAVE COST:');
+    console.log(`  Cost to save: ${cost} XP (25 × ${daysSince} days)`);
+    console.log(`  Can afford: ${data.xp?.total >= cost ? '✅ Yes' : '❌ No'}`);
+    console.log(`  Remaining after save: ${data.xp?.total - cost} XP`);
+  }
+
+  console.log('='.repeat(80));
+}
+
+// Set last activity date
+async function setLastActivityDate(dateString) {
+  const userStatsRef = db.collection('user_stats').doc(userId);
+
+  await userStatsRef.update({
+    'dates.lastActivityDate': dateString,
+    'dates.isActiveToday': dateString === getDateString(0),
+    'metadata.lastUpdated': new Date().toISOString()
+  });
+
+  console.log(`✅ Set last activity date to: ${dateString}`);
+}
+
+// Modify XP
+async function modifyXP(amount) {
+  const userStatsRef = db.collection('user_stats').doc(userId);
+  const doc = await userStatsRef.get();
+  const currentXP = doc.data().xp?.total || 0;
+  const newXP = Math.max(0, currentXP + amount);
+  const newLevel = Math.max(1, Math.floor(newXP / 1000));
+
+  await userStatsRef.update({
+    'xp.total': newXP,
+    'xp.level': newLevel,
+    'metadata.lastUpdated': new Date().toISOString()
+  });
+
+  console.log(`✅ XP: ${currentXP} → ${newXP} (${amount >= 0 ? '+' : ''}${amount})`);
+  console.log(`   Level: ${newLevel}`);
+}
+
+// Modify streak
+async function modifyStreak(current, best = null) {
+  const userStatsRef = db.collection('user_stats').doc(userId);
+  const doc = await userStatsRef.get();
+  const currentStreak = doc.data().streak?.current || 0;
+  const currentBest = doc.data().streak?.best || 0;
+  const newBest = best !== null ? best : Math.max(currentBest, current);
+
+  await userStatsRef.update({
+    'streak.current': current,
+    'streak.best': newBest,
+    'streak.version': admin.firestore.FieldValue.increment(1),
+    'metadata.lastUpdated': new Date().toISOString()
+  });
+
+  console.log(`✅ Streak: ${currentStreak} → ${current} days`);
+  console.log(`   Best: ${newBest} days`);
+}
+
+// Reset streak to 0
+async function resetStreak() {
+  const userStatsRef = db.collection('user_stats').doc(userId);
+  const doc = await userStatsRef.get();
+  const best = doc.data().streak?.best || 0;
+
+  await userStatsRef.update({
+    'streak.current': 0,
+    'streak.version': admin.firestore.FieldValue.increment(1),
+    'dates.lastActivityDate': null,
+    'dates.isActiveToday': false,
+    'metadata.lastUpdated': new Date().toISOString()
+  });
+
+  console.log(`✅ Streak reset to 0 (Best preserved: ${best})`);
+}
+
+// Quick test scenarios
+async function applyScenario(scenarioId) {
+  switch (scenarioId) {
+    case '1': // Active streak (yesterday)
+      await setLastActivityDate(getDateString(-1));
+      console.log('📍 Scenario: Active streak (within grace period)');
+      break;
+
+    case '2': // Breaking - 2 days (can save)
+      await setLastActivityDate(getDateString(-2));
+      console.log('📍 Scenario: Breaking streak - 2 days ago (can save for 50 XP)');
+      break;
+
+    case '3': // Breaking - 3 days (last chance)
+      await setLastActivityDate(getDateString(-3));
+      console.log('📍 Scenario: Breaking streak - 3 days ago (last chance to save for 75 XP)');
+      break;
+
+    case '4': // Too late - 5 days
+      await setLastActivityDate(getDateString(-5));
+      console.log('📍 Scenario: Too late - 5 days ago (cannot save)');
+      break;
+
+    case '5': // Active today
+      await setLastActivityDate(getDateString(0));
+      console.log('📍 Scenario: Active today (no action needed)');
+      break;
+
+    case '6': // Setup for save test (good streak + 2 days + enough XP)
+      await setLastActivityDate(getDateString(-2));
+      await modifyStreak(7);
+      await modifyXP(1000); // Add enough XP
+      console.log('📍 Scenario: Perfect save test (7-day streak breaking, 2 days ago, plenty of XP)');
+      break;
+
+    case '7': // Setup for insufficient XP test
+      await setLastActivityDate(getDateString(-3));
+      await modifyStreak(5);
+      const data = await getUserData();
+      const deficit = 75 - (data.xp?.total || 0);
+      if (deficit > 0) {
+        await modifyXP(-deficit - 10); // Remove XP to make insufficient
+      }
+      console.log('📍 Scenario: Insufficient XP (5-day streak, 3 days late, not enough XP)');
+      break;
+  }
+}
+
+// View full user data
+async function viewFullData() {
+  const data = await getUserData();
+  if (!data) return;
+
+  console.log('\n' + '='.repeat(80));
+  console.log('📄 FULL USER DATA');
+  console.log('='.repeat(80));
+  console.log(JSON.stringify(data, null, 2));
+  console.log('='.repeat(80));
+}
+
+// Main menu
+async function showMenu() {
+  console.log('\n' + '='.repeat(80));
+  console.log('🕐 STREAK TIME TRAVEL CONSOLE');
+  console.log('='.repeat(80));
+  console.log();
+  console.log('📊 STATUS & VIEWING:');
+  console.log('  1. View current streak status');
+  console.log('  2. View full user data');
+  console.log();
+  console.log('⏰ TIME TRAVEL:');
+  console.log('  3. Set last activity to TODAY');
+  console.log('  4. Set last activity to YESTERDAY');
+  console.log('  5. Set last activity to N days ago');
+  console.log('  6. Set last activity to SPECIFIC DATE (YYYY-MM-DD)');
+  console.log();
+  console.log('💰 MODIFY DATA:');
+  console.log('  7. Add/subtract XP');
+  console.log('  8. Set streak count');
+  console.log('  9. Reset streak to 0');
+  console.log();
+  console.log('🎬 QUICK TEST SCENARIOS:');
+  console.log('  s1. Active streak (1 day ago - within grace)');
+  console.log('  s2. Breaking - 2 days (can save for 50 XP)');
+  console.log('  s3. Breaking - 3 days (last chance, 75 XP)');
+  console.log('  s4. Too late - 5 days (cannot save)');
+  console.log('  s5. Active today');
+  console.log('  s6. Perfect save test (7-day streak, 2 days late, plenty XP)');
+  console.log('  s7. Insufficient XP test');
+  console.log();
+  console.log('  0. Exit');
+  console.log('='.repeat(80));
+}
+
+// Main interactive loop
+async function main() {
+  console.log('\n🔥 MOSHIMOSHI STREAK TIME TRAVEL TOOL');
+  console.log(`Testing user: ${userId}\n`);
+
+  // Show initial status
+  await displayStatus();
+
+  let running = true;
+
+  while (running) {
+    await showMenu();
+    const choice = await question('\nEnter your choice: ');
+
+    try {
+      switch (choice.trim()) {
+        case '0':
+          running = false;
+          console.log('\n👋 Goodbye!');
+          break;
+
+        case '1':
+          await displayStatus();
+          break;
+
+        case '2':
+          await viewFullData();
+          break;
+
+        case '3':
+          await setLastActivityDate(getDateString(0));
+          await displayStatus();
+          break;
+
+        case '4':
+          await setLastActivityDate(getDateString(-1));
+          await displayStatus();
+          break;
+
+        case '5':
+          const days = await question('How many days ago? ');
+          const daysInt = parseInt(days);
+          if (isNaN(daysInt)) {
+            console.log('❌ Invalid number');
+          } else {
+            await setLastActivityDate(getDateString(-Math.abs(daysInt)));
+            await displayStatus();
+          }
+          break;
+
+        case '6':
+          const dateStr = await question('Enter date (YYYY-MM-DD): ');
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+            console.log('❌ Invalid format. Use YYYY-MM-DD');
+          } else {
+            await setLastActivityDate(dateStr);
+            await displayStatus();
+          }
+          break;
+
+        case '7':
+          const xpChange = await question('XP to add (negative to subtract): ');
+          const xpInt = parseInt(xpChange);
+          if (isNaN(xpInt)) {
+            console.log('❌ Invalid number');
+          } else {
+            await modifyXP(xpInt);
+            await displayStatus();
+          }
+          break;
+
+        case '8':
+          const newStreak = await question('New streak count: ');
+          const streakInt = parseInt(newStreak);
+          if (isNaN(streakInt) || streakInt < 0) {
+            console.log('❌ Invalid number');
+          } else {
+            await modifyStreak(streakInt);
+            await displayStatus();
+          }
+          break;
+
+        case '9':
+          const confirm = await question('Reset streak to 0? (yes/no): ');
+          if (confirm.toLowerCase() === 'yes' || confirm.toLowerCase() === 'y') {
+            await resetStreak();
+            await displayStatus();
+          } else {
+            console.log('❌ Cancelled');
+          }
+          break;
+
+        case 's1':
+          await applyScenario('1');
+          await displayStatus();
+          break;
+
+        case 's2':
+          await applyScenario('2');
+          await displayStatus();
+          break;
+
+        case 's3':
+          await applyScenario('3');
+          await displayStatus();
+          break;
+
+        case 's4':
+          await applyScenario('4');
+          await displayStatus();
+          break;
+
+        case 's5':
+          await applyScenario('5');
+          await displayStatus();
+          break;
+
+        case 's6':
+          await applyScenario('6');
+          await displayStatus();
+          break;
+
+        case 's7':
+          await applyScenario('7');
+          await displayStatus();
+          break;
+
+        default:
+          console.log('❌ Invalid choice');
+      }
+    } catch (error) {
+      console.error('❌ Error:', error.message);
+    }
+
+    if (running) {
+      await question('\nPress Enter to continue...');
+    }
+  }
+
+  rl.close();
+  process.exit(0);
+}
+
+// Run the interactive tool
+main().catch(console.error);

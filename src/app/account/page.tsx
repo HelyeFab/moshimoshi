@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState, useEffect } from 'react'
+import { Suspense, useState, useEffect, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 // import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -25,6 +25,7 @@ import { PremiumBadge } from '@/components/common/PremiumBadge'
 import { Input } from '@/components/ui/Input'
 import dynamic from 'next/dynamic'
 import logger from '@/lib/logger'
+import { validateStreakDisplay } from '@/lib/gamification/utils/streakValidation'
 
 // Dynamically import Confetti to avoid SSR issues
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false })
@@ -58,9 +59,18 @@ function AccountPageContent() {
     bestStreak,
     unlockedAchievements,
     sessionCount,
+    lastActivityDate,
     loading: gamificationLoading,
     isEnabled: gamificationEnabled
   } = useGamification()
+
+  // Validate streak to detect stale data (Phase 1: Emergency UI Fix)
+  const streakValidation = useMemo(() => {
+    return validateStreakDisplay(currentStreak, lastActivityDate, 24)
+  }, [currentStreak, lastActivityDate])
+
+  // Use validated streak for display
+  const displayStreak = streakValidation.effectiveStreak
 
   // Learning progress from drill mastery
   const { overall: learningProgress, categories } = useLearningProgress()
@@ -549,9 +559,14 @@ function AccountPageContent() {
                     </div>
                     <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg">
                       <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                        {currentStreak}
+                        {displayStreak}
                       </div>
                       <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.dayStreak}</div>
+                      {streakValidation.isStale && currentStreak > 0 && (
+                        <div className="text-[10px] text-gray-500 dark:text-gray-500 mt-1">
+                          (Broken {streakValidation.daysSinceActivity}d ago)
+                        </div>
+                      )}
                     </div>
                   </div>
 

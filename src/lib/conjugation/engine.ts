@@ -5,24 +5,89 @@ import { EnhancedJapaneseWord } from '@/utils/enhancedWordTypeDetection';
 import { ExtendedConjugationForms } from '@/types/conjugation';
 
 export class ExtendedConjugationEngine {
-  
-  // Main conjugation function
+  // Cache for conjugation results to improve performance
+  private static conjugationCache = new Map<string, ExtendedConjugationForms>();
+
+  /**
+   * Main conjugation function - conjugates Japanese words into all forms
+   * @param word - The word to conjugate (must have kanji/kana and conjugationType)
+   * @returns ExtendedConjugationForms object with all conjugation forms
+   * @throws Returns empty conjugations if word is invalid or not conjugatable
+   */
   static conjugate(word: EnhancedJapaneseWord): ExtendedConjugationForms {
-    // Use the conjugationType for accurate classification
-    switch (word.conjugationType || word.type) {
-      case 'Ichidan':
-        return this.conjugateIchidan(word);
-      case 'Godan':
-        return this.conjugateGodan(word);
-      case 'Irregular':
-        return this.conjugateIrregular(word);
-      case 'i-adjective':
-        return this.conjugateIAdjective(word);
-      case 'na-adjective':
-        return this.conjugateNaAdjective(word);
-      default:
-        return this.getEmptyConjugations();
+    // Input validation
+    if (!word) {
+      console.warn('ExtendedConjugationEngine: Invalid word (null or undefined)');
+      return this.getEmptyConjugations();
     }
+
+    if (!word.kanji && !word.kana) {
+      console.warn('ExtendedConjugationEngine: Word has no kanji or kana property', word);
+      return this.getEmptyConjugations();
+    }
+
+    const conjugationType = word.conjugationType || word.type;
+    if (!conjugationType) {
+      console.warn('ExtendedConjugationEngine: Word has no conjugation type', word);
+      return this.getEmptyConjugations();
+    }
+
+    // Check if the word type is conjugatable
+    const conjugatableTypes = ['Ichidan', 'Godan', 'Irregular', 'i-adjective', 'na-adjective'];
+    if (!conjugatableTypes.includes(conjugationType)) {
+      console.warn(`ExtendedConjugationEngine: Word type "${conjugationType}" is not conjugatable`, word);
+      return this.getEmptyConjugations();
+    }
+
+    // Check cache first
+    const cacheKey = `${word.kanji || word.kana}:${conjugationType}`;
+    const cached = this.conjugationCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // Generate conjugations
+    let result: ExtendedConjugationForms;
+
+    // Use the conjugationType for accurate classification
+    switch (conjugationType) {
+      case 'Ichidan':
+        result = this.conjugateIchidan(word);
+        break;
+      case 'Godan':
+        result = this.conjugateGodan(word);
+        break;
+      case 'Irregular':
+        result = this.conjugateIrregular(word);
+        break;
+      case 'i-adjective':
+        result = this.conjugateIAdjective(word);
+        break;
+      case 'na-adjective':
+        result = this.conjugateNaAdjective(word);
+        break;
+      default:
+        result = this.getEmptyConjugations();
+    }
+
+    // Store in cache
+    this.conjugationCache.set(cacheKey, result);
+
+    return result;
+  }
+
+  /**
+   * Clear the conjugation cache (useful for testing or memory management)
+   */
+  static clearCache(): void {
+    this.conjugationCache.clear();
+  }
+
+  /**
+   * Get the current cache size
+   */
+  static getCacheSize(): number {
+    return this.conjugationCache.size;
   }
 
   // ============= GODAN VERB CONJUGATION =============
@@ -193,12 +258,12 @@ export class ExtendedConjugationEngine {
 
   // ============= ICHIDAN VERB CONJUGATION =============
   private static conjugateIchidan(word: EnhancedJapaneseWord): ExtendedConjugationForms {
-    const kanji = word.kanji || '';
-    const kanjiStem = kanji.slice(0, -1); // Remove る
+    const base = word.kanji || word.kana || '';
+    const kanjiStem = base.slice(0, -1); // Remove る
     
     return {
       // ============= BASIC FORMS =============
-      present: kanji,
+      present: base,
       masuStem: kanjiStem,
       negativeStem: kanjiStem,
       
@@ -221,12 +286,12 @@ export class ExtendedConjugationEngine {
       
       // ============= VOLITIONAL =============
       volitional: kanjiStem + 'よう',
-      volitionalNegative: kanji + 'まい',
+      volitionalNegative: base + 'まい',
       
       // ============= IMPERATIVE =============
       imperativePlain: kanjiStem + 'ろ',
       imperativePolite: kanjiStem + 'なさい',
-      imperativeNegative: kanji + 'な',
+      imperativeNegative: base + 'な',
       
       // ============= CONDITIONAL FORMS =============
       provisional: kanjiStem + 'れば',
@@ -325,9 +390,9 @@ export class ExtendedConjugationEngine {
       classicalNegativeModifier: kanjiStem + 'ざる',
       
       // ============= PRESUMPTIVE FORMS =============
-      presumptive: kanji + 'だろう',
+      presumptive: base + 'だろう',
       presumptiveNegative: kanjiStem + 'ないだろう',
-      presumptivePolite: kanji + 'でしょう',
+      presumptivePolite: base + 'でしょう',
       presumptivePoliteNegative: kanjiStem + 'ないでしょう',
     };
   }
@@ -351,13 +416,13 @@ export class ExtendedConjugationEngine {
   }
 
   // Helper: Conjugate する verbs
-  private static conjugateSuru(word: JapaneseWord): ExtendedConjugationForms {
-    const kanji = word.kanji || '';
-    const kanjiPrefix = kanji.slice(0, -2);
-    
+  private static conjugateSuru(word: EnhancedJapaneseWord): ExtendedConjugationForms {
+    const base = word.kanji || word.kana || '';
+    const kanjiPrefix = base.slice(0, -2);
+
     return {
       // ============= BASIC FORMS =============
-      present: kanji,
+      present: base,
       masuStem: kanjiPrefix + 'し',
       negativeStem: kanjiPrefix + 'し',
       
@@ -492,7 +557,7 @@ export class ExtendedConjugationEngine {
   }
 
   // Helper: Conjugate 来る
-  private static conjugateKuru(word: JapaneseWord): ExtendedConjugationForms {
+  private static conjugateKuru(word: EnhancedJapaneseWord): ExtendedConjugationForms {
     return {
       // ============= BASIC FORMS =============
       present: '来る',
@@ -656,16 +721,19 @@ export class ExtendedConjugationEngine {
   // Helper: Conjugate as Ichidan (for potential/passive/causative forms)
   private static conjugateAsIchidan(base: string): ExtendedConjugationForms {
     const stem = base.slice(0, -1);
-    const word: JapaneseWord = {
+    const word: EnhancedJapaneseWord = {
       id: 'temp',
       kanji: base,
       kana: base,
       meaning: '',
       type: 'Ichidan',
+      conjugationType: 'Ichidan',
       jlpt: '',
-      romaji: ''
+      romaji: '',
+      isConjugatable: true,
+      typeConfidence: 'high'
     };
-    
+
     return this.conjugateIchidan(word);
   }
 

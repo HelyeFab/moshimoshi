@@ -91,6 +91,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/stats-consistency', label: 'Stats Monitor', icon: '🔍' },
     { href: '/admin/entitlements', label: 'Entitlements', icon: '🔐' },
     { href: '/admin/xp-config', label: 'XP Config', icon: '⚡' },
+    { href: '/admin/streak', label: 'Streak', icon: '🔥' },
     { href: '/admin/leaderboard', label: 'Leaderboard', icon: '🏆' },
     { href: '/admin/decision-explorer', label: 'Decision Logs', icon: '🔎' },
     { href: '/admin/firebase-monitoring', label: 'Firebase Monitor', icon: '🔥' },
@@ -105,12 +106,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <div className={`min-h-screen bg-gray-50 dark:bg-dark-850 w-full transition-all duration-300 ${sidebarOpen ? 'lg:pl-64' : 'lg:pl-20'}`}>
       {/* Sidebar */}
-      <aside className={`fixed top-0 left-0 h-full z-40 bg-white/80 dark:bg-dark-900/80 backdrop-blur-xl border-r border-gray-200/50 dark:border-dark-700/50 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} hidden lg:block`}>
-        <div className="flex items-center justify-between h-16 px-6">
+      <aside className={`fixed top-0 left-0 h-full z-40 bg-white/80 dark:bg-dark-900/80 backdrop-blur-xl border-r border-gray-200/50 dark:border-dark-700/50 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} hidden lg:flex lg:flex-col`}>
+        <div className="flex items-center justify-between h-16 px-6 flex-shrink-0">
           <span className="text-2xl">🛡️</span>
           {sidebarOpen && <h1 className="text-xl font-bold text-gray-900 dark:text-white">Admin</h1>}
         </div>
-        <nav className="mt-4 px-2 space-y-1">
+        <nav className="flex-1 mt-4 px-2 space-y-1 overflow-y-auto overflow-x-hidden">
           {navItems.map((item) => (
             <Link
               key={item.href}

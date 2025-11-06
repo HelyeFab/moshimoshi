@@ -46,7 +46,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
+exports.autoBreakStreaks = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
@@ -292,4 +292,10 @@ __exportStar(require("./notifications/scheduled-notifications"), exports);
 var newsScheduler_1 = require("./scheduled/newsScheduler");
 Object.defineProperty(exports, "scheduledNewsScraperFunction", { enumerable: true, get: function () { return newsScheduler_1.scheduledNewsScraperFunction; } });
 Object.defineProperty(exports, "manualNewsScraperFunction", { enumerable: true, get: function () { return newsScheduler_1.manualNewsScraperFunction; } });
+/**
+ * Export scheduled streak auto-break function
+ * Phase 2.5: Automatically breaks streaks beyond grace period every hour
+ */
+var streakAutoBreak_1 = require("./scheduled/streakAutoBreak");
+Object.defineProperty(exports, "autoBreakStreaks", { enumerable: true, get: function () { return streakAutoBreak_1.autoBreakStreaks; } });
 //# sourceMappingURL=index.js.map
