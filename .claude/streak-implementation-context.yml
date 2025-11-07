@@ -1,0 +1,483 @@
+version: "1.0"
+
+metadata:
+  name: "Streak XP-Save Feature Implementation Context"
+  id: "moshimoshi-streak-xp-save-v1.0"
+  role: "Guide future AI agents working on streak feature development and debugging"
+  created: "2025-11-06"
+  updated: "2025-11-06"
+  owner: "beano"
+  project: "Moshimoshi Japanese Learning Platform"
+  tags:
+    - "gamification"
+    - "streak-system"
+    - "xp-save-mechanic"
+    - "firebase"
+    - "zustand"
+    - "daily-xp-accumulation"
+
+feature:
+  name: "Streak XP-Save System with Daily XP Accumulation"
+  status: "Phase 2.5 - In Progress"
+  total_estimated_time: "3-4 days across phases"
+  current_phase: "Daily XP Accumulation Fix"
+
+  phases:
+    phase_1:
+      name: "Emergency UI Fix"
+      status: "✅ COMPLETE"
+      completion_date: "2025-11-06"
+      test_results: "40/40 tests passing (100%)"
+      files_modified: 3
+      files_created: 2
+      outcome: "UI shows accurate streak status, broken streaks display correctly"
+
+    phase_2:
+      name: "XP-Save Mechanic"
+      status: "✅ COMPLETE"
+      completion_date: "2025-11-06"
+      code_written: "2000+ lines across 6 files"
+      test_results: "85/85 tests passing (100%)"
+      components:
+        - "API endpoint: /api/gamification/streak/save"
+        - "Modal component: StreakSaveModal.tsx"
+        - "Detection hook: useStreakSaveDetection.ts"
+        - "Dashboard integration"
+      configuration:
+        enabled: true
+        surge_pricing: true
+        save_window_days: 3
+        base_cost: 25
+
+    phase_2_5:
+      name: "Database Sync & Auto-Break + Daily XP Accumulation"
+      status: "🔄 IN PROGRESS"
+      current_work: "Daily XP accumulation for streak validation"
+      estimated_time: "2-3 hours"
+
+      problems_identified:
+        - name: "Per-Drill XP Checking"
+          description: "Streak checked XP per-drill (5 XP < 25) instead of daily total (30 XP >= 25)"
+          impact: "Users completing multiple small drills per day didn't get streak credit"
+          status: "✅ FIXED"
+
+        - name: "UI/Database Desync"
+          description: "Dashboard showed stale streak (7) after auto-break set it to 0"
+          impact: "Users had to navigate away and back to see updated streak"
+          status: "✅ FIXED"
+
+      solutions_implemented:
+        - name: "Daily XP Accumulation"
+          file: "src/lib/gamification/services/gamification-coordinator.ts"
+          changes:
+            - "Track xpGainedToday in user_stats"
+            - "Track lastXPDate to detect day changes"
+            - "Reset daily XP at midnight"
+            - "Pass daily total (not per-drill XP) to streak update"
+          logging: "Added detailed console logs for debugging"
+
+        - name: "Auto-Break Refresh"
+          file: "src/hooks/useStreakSaveDetection.ts"
+          changes:
+            - "Expose loadFromFirebase() from useGamification"
+            - "Call loadFromFirebase() after successful auto-break"
+            - "Dashboard immediately shows updated streak without navigation"
+
+      testing_requirements:
+        - "Run s6 scenario (7-day streak, 2 days ago, 200 XP)"
+        - "Dashboard should show streak=0 immediately after auto-break"
+        - "Complete 3 small drills (~5-10 XP each)"
+        - "Daily XP should accumulate: 5 → 15 → 25"
+        - "Streak should increment 0 → 1 after 25+ XP"
+        - "Firebase should show updated lastActivityDate (today)"
+
+architecture:
+  core_concepts:
+    daily_xp_accumulation:
+      description: "XP earned throughout a day accumulates before checking streak threshold"
+      threshold: 25
+      reset_time: "Midnight (daily)"
+      storage_fields:
+        - "xp.xpGainedToday (number)"
+        - "xp.lastXPDate (yyyy-mm-dd string)"
+      flow: |
+        8am: Drill 1 → 10 XP → todayXP = 10 (below threshold, no update)
+        2pm: Drill 2 → 10 XP → todayXP = 20 (below threshold, no update)
+        9pm: Drill 3 → 10 XP → todayXP = 30 (above threshold, increment streak!)
+
+    xp_save_mechanic:
+      description: "Users trade XP to save a breaking streak"
+      cost_formula: "baseCost × daysSinceActivity (surge pricing)"
+      base_cost: 25
+      save_window: "1-3 days after last activity"
+      eligibility:
+        - "User has sufficient XP"
+        - "Streak is broken (current=0) OR stale (beyond grace period)"
+        - "Within save window (1-3 days)"
+        - "Has lastActivityDate"
+        - "brokenAt exists (auto-break has run)"
+
+    auto_break_system:
+      description: "Automatically breaks expired streaks"
+      trigger: "Dashboard load (useStreakSaveDetection hook)"
+      conditions:
+        - "Streak > 0"
+        - "Beyond grace period (24 hours)"
+        - "Within save window (3 days)"
+      actions:
+        - "Call /api/gamification/streak/break endpoint"
+        - "Set streak.current = 0"
+        - "Set streak.brokenAt = now"
+        - "Reload gamification data from Firebase"
+        - "Show save modal"
+
+key_files:
+  critical_files:
+    - path: "src/lib/gamification/services/gamification-coordinator.ts"
+      purpose: "Coordinates XP/streak updates, implements daily XP tracking"
+      key_changes:
+        - "Lines 130-170: Daily XP accumulation logic for drills"
+        - "Lines 240-280: Daily XP accumulation logic for reviews"
+        - "Logs daily XP state for debugging"
+
+    - path: "src/hooks/useGamification.ts"
+      purpose: "Exposes gamification state to React components"
+      key_changes:
+        - "Line 41: Added loadFromFirebase to interface"
+        - "Line 139: Exposed loadFromFirebase function"
+        - "Allows hooks to reload data after DB updates"
+
+    - path: "src/hooks/useStreakSaveDetection.ts"
+      purpose: "Auto-break detection and modal trigger"
+      key_changes:
+        - "Line 39: Import loadFromFirebase from useGamification"
+        - "Lines 167-176: Reload data after auto-break"
+        - "Ensures UI shows updated streak immediately"
+
+    - path: "src/app/api/gamification/streak/break/route.ts"
+      purpose: "API endpoint to break expired streaks"
+      transaction_logic: "Lines 111-155"
+      version_conflict_detection: true
+
+    - path: "src/app/api/gamification/streak/save/route.ts"
+      purpose: "API endpoint to save streak with XP"
+      cost_calculation: "Lines 224, 386"
+      eligibility_validation: "Lines 108-176"
+      transaction_logic: "Lines 178-347"
+
+    - path: "src/components/gamification/StreakSaveModal.tsx"
+      purpose: "Modal UI for streak save"
+      zustand_updates: "Lines 120-135"
+      error_handling: "Lines 60-95"
+
+    - path: "src/app/dashboard/page.tsx"
+      purpose: "Dashboard displays streak"
+      display_logic: "Line 81"
+      note: "Uses currentStreak (not validated effectiveStreak)"
+
+    - path: "src/config/gamification/streak.json"
+      purpose: "Runtime configuration"
+      key_settings:
+        minXPForStreak: 25
+        gracePeriodHours: 24
+        streakSave:
+          enabled: true
+          baseCost: 25
+          maxSaveWindow: 3
+          surgePricing: true
+
+  testing_files:
+    - path: "scripts/streak-time-travel.js"
+      purpose: "Testing utility to manipulate streak data safely"
+      alias: "streak"
+      location: "/home/beano/DevProjects/next_js/moshimoshi/scripts/streak-time-travel.js"
+      scenarios:
+        s6: "7-day streak, 2 days ago, 200 XP (common test)"
+        s1: "Fresh start (0 streak)"
+        s2: "Active today"
+        s3: "Yesterday (within grace)"
+        s4: "2 days ago (broken)"
+        s5: "4 days ago (beyond save window)"
+        s7: "Active with high XP"
+      commands:
+        show_status: "Option 1"
+        create_snapshot: "Option 2"
+        restore_snapshot: "Option 3"
+        scenarios: "Options 6-12"
+
+critical_bugs_fixed:
+  bug_1:
+    name: "UI Shows 0, Firebase Shows 7"
+    root_cause: "Client validation showing 0 before auto-break updated DB"
+    file: "src/app/dashboard/page.tsx"
+    line: 81
+    fix: "Use currentStreak (actual DB value) instead of streakValidation.effectiveStreak"
+    status: "✅ FIXED"
+
+  bug_2:
+    name: "Cost Calculation Wrong"
+    root_cause: "Using daysSinceBreak (0) instead of daysSinceActivity"
+    file: "src/app/api/gamification/streak/save/route.ts"
+    lines: [224, 386]
+    fix: "Calculate daysSinceActivity from lastActivityDate"
+    status: "✅ FIXED"
+
+  bug_3:
+    name: "Same-Day Save Blocked"
+    root_cause: "Old validation rejected saves on same day as break"
+    file: "src/app/api/gamification/streak/save/route.ts"
+    lines: [118-120]
+    fix: "Removed daysSinceBreak < 1 validation check"
+    rationale: "Phase 2.5 auto-breaks immediately, so daysSinceBreak=0 is valid"
+    status: "✅ FIXED"
+
+  bug_4:
+    name: "Streak Not Updating After Save"
+    root_cause: "Modal only updated XP, not streak in Zustand"
+    file: "src/components/gamification/StreakSaveModal.tsx"
+    line: 128
+    fix: "Added currentStreak and lastActivityDate to setState call"
+    status: "✅ FIXED"
+
+  bug_5:
+    name: "Per-Drill XP Checking"
+    root_cause: "Streak validated per-activity instead of per-day XP total"
+    impact: "Multiple small drills (5+10+10=25 XP) didn't count for streak"
+    files:
+      - "src/lib/gamification/services/gamification-coordinator.ts (drills)"
+      - "src/lib/gamification/services/gamification-coordinator.ts (reviews)"
+    fix:
+      - "Track xpGainedToday and lastXPDate in user_stats"
+      - "Reset daily XP at midnight"
+      - "Accumulate XP throughout the day"
+      - "Pass daily total (not per-drill XP) to streak check"
+    status: "✅ FIXED"
+
+  bug_6:
+    name: "Dashboard Doesn't Refresh After Auto-Break"
+    root_cause: "Auto-break updated Firebase, but Zustand kept cached value"
+    impact: "Streak showed 7 after auto-break, required navigation to see 0"
+    files:
+      - "src/hooks/useGamification.ts"
+      - "src/hooks/useStreakSaveDetection.ts"
+    fix:
+      - "Exposed loadFromFirebase() from useGamification hook"
+      - "Call loadFromFirebase() after successful auto-break"
+      - "Dashboard immediately shows updated streak"
+    status: "✅ FIXED"
+
+data_model:
+  firestore_collections:
+    user_stats:
+      document_id: "userId"
+      fields:
+        xp:
+          total: "number (accumulated XP)"
+          level: "number (floor(total/1000))"
+          xpGainedToday: "number (resets at midnight) - ADDED IN PHASE 2.5"
+          lastXPDate: "string (yyyy-mm-dd) - ADDED IN PHASE 2.5"
+        streak:
+          current: "number (days)"
+          best: "number (all-time record)"
+          brokenAt: "string (ISO datetime when broken) - ADDED IN PHASE 2.5"
+          version: "number (conflict detection)"
+          updatedAt: "string (ISO datetime)"
+        dates:
+          lastActivityDate: "string (yyyy-mm-dd)"
+          isActiveToday: "boolean"
+
+    streak_save_logs:
+      document_id: "auto-generated"
+      fields:
+        userId: "string"
+        streakSaved: "number (streak value restored)"
+        xpDeducted: "number (XP cost paid)"
+        xpBefore: "number"
+        xpAfter: "number"
+        daysSinceActivity: "number (for cost calculation)"
+        daysSinceBreak: "number"
+        brokenAt: "string"
+        lastActivityDate: "string"
+        restoredTo: "string (extended to yesterday)"
+        costBreakdown:
+          baseCost: 25
+          surgePricing: true
+          daysSince: "number (multiplier)"
+          totalCost: "number"
+        timestamp: "Firestore Timestamp"
+        createdAt: "string (ISO)"
+
+testing_protocol:
+  test_script:
+    name: "streak-time-travel.js"
+    alias: "streak"
+    usage: |
+      # Show current streak status
+      streak
+      > Choose option 1
+
+      # Run common test scenario
+      streak
+      > Choose option 6 (s6: 7-day streak, 2 days ago, 200 XP)
+
+      # Create snapshot before testing
+      streak
+      > Choose option 2
+
+      # Restore snapshot after testing
+      streak
+      > Choose option 3
+
+  manual_test_flow:
+    setup:
+      - "Restart dev server: pkill -f 'npm run dev' && npm run dev"
+      - "Run s6 scenario: streak > option 6"
+      - "Clear localStorage: localStorage.removeItem('moshimoshi_streak_save_prompt_date')"
+
+    test_auto_break:
+      - "Open dashboard: http://localhost:3000/dashboard"
+      - "Watch console for: [useStreakSaveDetection] Streak auto-broken"
+      - "Watch console for: [useStreakSaveDetection] ✓ Gamification data reloaded"
+      - "Verify dashboard shows streak=0 immediately (not 7)"
+      - "Modal should appear"
+      - "Close/decline modal"
+
+    test_daily_xp:
+      - "Navigate to /drill"
+      - "Complete drill 1 (1-2 correct): Earn ~5-10 XP"
+      - "Watch console: [Gamification Coordinator] Daily XP Accumulation: newDailyXP: 5-10"
+      - "Complete drill 2 (1-2 correct): Earn ~5-10 XP"
+      - "Watch console: newDailyXP: 15-20"
+      - "Complete drill 3 (1-2 correct): Earn ~5-10 XP"
+      - "Watch console: newDailyXP: 25+ (should trigger streak update)"
+
+    verify_results:
+      - "Run: streak > option 1"
+      - "Verify: Streak = 1 (not 0)"
+      - "Verify: XP = 225+ (200 + daily XP)"
+      - "Verify: Last Activity = today (2025-11-06)"
+      - "Verify: Status = ✓ Active"
+
+  automated_tests:
+    unit_tests:
+      - "src/app/api/gamification/streak/save/__tests__/unit.test.ts (45 tests)"
+      - "Cost calculation, eligibility validation, integration scenarios"
+
+    hook_tests:
+      - "src/hooks/__tests__/useStreakSaveDetection.test.tsx (40 tests)"
+      - "Trigger conditions, feature gates, error handling, user scenarios"
+
+    run_command: |
+      npm test -- src/app/api/gamification/streak/save/__tests__/unit.test.ts src/hooks/__tests__/useStreakSaveDetection.test.tsx
+
+common_pitfalls:
+  must_know:
+    - issue: "Always use streak alias, not direct node command"
+      why: "Alias properly sets up environment and paths"
+
+    - issue: "Clear localStorage before testing auto-break"
+      why: "Prevents 'already prompted today' check from blocking modal"
+      code: "localStorage.removeItem('moshimoshi_streak_save_prompt_date')"
+
+    - issue: "Dashboard shows stale data after DB update"
+      solution: "Ensure loadFromFirebase() is called after mutations"
+
+    - issue: "Streak threshold is 25 XP, not 10"
+      note: "User explicitly rejected lowering threshold"
+      reason: "Multiple small drills should accumulate, not lower bar"
+
+    - issue: "Cost uses daysSinceActivity, not daysSinceBreak"
+      why: "daysSinceBreak is always 0 on same day as break"
+
+    - issue: "Console logs needed for debugging daily XP"
+      location: "gamification-coordinator.ts lines 130-170, 240-280"
+      keep: "Don't remove these logs until feature is stable"
+
+  debugging_tips:
+    - "Check browser console for [Gamification Coordinator] logs"
+    - "Verify Firebase data with: streak > option 1"
+    - "Test in incognito to avoid localStorage cache"
+    - "Hard refresh (Ctrl+Shift+R) if data seems stale"
+    - "Check Network tab for /api/gamification/* calls"
+
+integration_points:
+  zustand_store:
+    file: "src/state/userGamification.ts"
+    key_functions:
+      - "loadFromFirebase(): Loads from /api/gamification/load"
+      - "saveToIndexedDB(): Caches locally for offline"
+      - "loadFromIndexedDB(): Fallback for offline mode"
+
+  firebase_admin:
+    file: "src/lib/firebase/admin.ts"
+    usage: "Server-side only (API routes, Cloud Functions)"
+    note: "Never use in client components"
+
+  react_hooks:
+    useGamification: "Main hook for accessing streak/XP state"
+    useStreakSaveDetection: "Auto-break detection and modal trigger"
+    useAutoSync: "Background sync (dashboard)"
+
+next_steps:
+  phase_3:
+    name: "Proactive Features"
+    estimated_time: "1-2 days"
+    features:
+      - "Streak warning notifications (20h, 22h)"
+      - "Auto-cleanup of expired save logs"
+      - "Analytics dashboard for admin"
+      - "Historical trend charts"
+
+  phase_4:
+    name: "Polish & Optimization"
+    features:
+      - "Celebration animations on streak save"
+      - "Social sharing (saved X-day streak)"
+      - "Leaderboard integration"
+      - "Achievement badges"
+
+documentation:
+  primary_guide: "/home/beano/DevProjects/next_js/moshimoshi/docs/streak/STREAK_XP_SAVE_IMPLEMENTATION_GUIDE.md"
+  test_reports:
+    - "/home/beano/DevProjects/next_js/moshimoshi/docs/streak/TEST_RESULTS_2025-10-11.md"
+    - "/home/beano/DevProjects/next_js/moshimoshi/docs/streak/FINAL_TEST_REPORT_2025-10-11.md"
+  other_docs:
+    - "/home/beano/DevProjects/next_js/moshimoshi/docs/streak/STREAK_SYNC_2025-10-11.md"
+    - "/home/beano/DevProjects/next_js/moshimoshi/docs/streak/STREAK_RACE_CONDITION_FIX.md"
+
+important_notes:
+  user_preferences:
+    - "User prefers facts over hypotheses - investigate first"
+    - "User wants commits for all changes before testing"
+    - "User wants todo lists for multi-step tasks"
+    - "Always ask before making configuration changes (like lowering thresholds)"
+
+  architectural_decisions:
+    - "Both free and premium users save to Firebase (for leaderboard)"
+    - "Premium users load from Firebase first, fallback to IndexedDB"
+    - "Free users load from IndexedDB only"
+    - "Daily XP accumulation is per-day, not per-activity"
+    - "Streak threshold stays at 25 XP (user decision)"
+
+  deployment_workflow:
+    - "Test locally first with streak script"
+    - "Commit and push before major testing"
+    - "Use feature branches for experimental changes"
+    - "Main branch: feature/time-machine-streak-sim"
+
+success_criteria:
+  required:
+    - "Daily XP accumulates correctly throughout the day"
+    - "Streak increments after 25+ daily XP (not per-drill)"
+    - "Auto-break updates database AND refreshes dashboard immediately"
+    - "Modal appears after auto-break with correct cost"
+    - "Saving streak updates UI instantly (no navigation needed)"
+    - "All console logs show correct daily XP progression"
+    - "Firebase data matches UI display"
+    - "Multiple small drills per day count toward streak"
+
+  verification:
+    - "Run s6 scenario + 3 drills test flow"
+    - "Verify streak goes 7 → 0 (auto-break) → 1 (after 25+ XP)"
+    - "No navigation required between states"
+    - "Console logs show daily XP: 5 → 15 → 25"
