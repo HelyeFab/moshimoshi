@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 // Navigation is now global via NavigationWrapper in root layout;
-import PageHeader from '@/components/layout/PageHeader';
+import Navbar from '@/components/layout/Navbar';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
@@ -74,7 +74,6 @@ function YouTubeShadowingContent() {
   const [aiEnhancementStatus, setAiEnhancementStatus] = useState<'idle' | 'running' | 'completed' | 'error'>('idle');
   const [aiEnhancementError, setAiEnhancementError] = useState<string | null>(null);
   const [aiEnhancementTriggered, setAiEnhancementTriggered] = useState(false);
-  const [showMobileHeader, setShowMobileHeader] = useState(false);
 
   const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({});
   const playerSeekRef = useRef<((time: number) => void) | null>(null);
@@ -593,132 +592,11 @@ function YouTubeShadowingContent() {
     : [];
   const viewerSource: 'raw' | 'ai-enhanced' = formattedAvailable && useAiTranscript ? 'ai-enhanced' : 'raw';
 
-  // Pull-down gesture to show/hide mobile header
-  useEffect(() => {
-    if (typeof window === 'undefined' || !session) {
-      return;
-    }
-
-    let startY = 0;
-    let hideTimeout: ReturnType<typeof setTimeout> | null = null;
-
-    const handleTouchStart = (e: TouchEvent) => {
-      startY = e.touches[0].clientY;
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-        hideTimeout = null;
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      const currentY = e.touches[0].clientY;
-      const diff = currentY - startY;
-      // More sensitive pull-down detection (reduced from 50 to 30)
-      if (window.scrollY === 0 && diff > 30) {
-        setShowMobileHeader(true);
-      }
-    };
-
-    const handleTouchEnd = () => {
-      if (showMobileHeader) {
-        // Auto-hide after 4 seconds (increased from 3)
-        hideTimeout = setTimeout(() => {
-          setShowMobileHeader(false);
-        }, 4000);
-      }
-    };
-
-    let lastScrollY = window.scrollY;
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      // Show header when scrolling up near the top
-      if (currentScrollY < lastScrollY && currentScrollY < 150) {
-        setShowMobileHeader(true);
-        if (hideTimeout) {
-          clearTimeout(hideTimeout);
-        }
-        hideTimeout = setTimeout(() => {
-          setShowMobileHeader(false);
-        }, 4000);
-      } else if (currentScrollY > lastScrollY + 50) {
-        // Hide immediately when scrolling down quickly
-        setShowMobileHeader(false);
-        if (hideTimeout) {
-          clearTimeout(hideTimeout);
-          hideTimeout = null;
-        }
-      }
-      lastScrollY = currentScrollY;
-    };
-
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-      window.removeEventListener('scroll', handleScroll);
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-      }
-    };
-  }, [session, showMobileHeader]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background dark:from-dark-850 dark:to-dark-900">
-      {/* Mobile Pull-down Indicator - Only visible when session active and header hidden */}
-      {session && !showMobileHeader && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="sm:hidden fixed top-0 left-0 right-0 z-[60] pointer-events-none"
-        >
-          <div className="flex justify-center pt-2">
-            <motion.div
-              animate={{ y: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              className="w-12 h-1 bg-white/30 rounded-full"
-            />
-          </div>
-        </motion.div>
-      )}
-
-      {/* Mobile Header Overlay - Contains both Navbar and PageHeader */}
-      <AnimatePresence mode="wait">
-        {session && showMobileHeader && (
-          <motion.div
-            key="mobile-header-overlay"
-            initial={{ y: '-100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '-100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="sm:hidden fixed top-0 left-0 right-0 z-[54] shadow-2xl rounded-b-2xl overflow-hidden"
-          >
-            {/* Navbar */}
-            <div className="bg-white dark:bg-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Non-session screens - Show Navbar and PageHeader normally (mobile only) */}
-      {!session && (
-        <>
-          <div className="block sm:hidden">
-      {/* Navigation is now global - rendered in root layout */}
-          </div>
-        </>
-      )}
-
-      {/* Desktop version - always visible */}
-      <div className="hidden sm:block">
-      {/* Navigation is now global - rendered in root layout */}
-      </div>
+      {/* Navbar */}
+      <Navbar user={user} showUserMenu={true} />
 
 
       {isLoading && <LoadingOverlay message={t('common.loading')} />}
