@@ -17,8 +17,9 @@ import {
   RiSearchFill
 } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
+import { useBottomNav } from '@/contexts/BottomNavContext';
 
-interface NavItem {
+export interface NavItem {
   id: string;
   label: string;
   href?: string;
@@ -78,18 +79,31 @@ interface BottomNavProps {
    * Setting to false keeps navbar always visible (recommended for accessibility)
    */
   hideOnScroll?: boolean;
+  /**
+   * Optional extra nav item to inject (e.g., for page-specific actions)
+   */
+  extraItem?: NavItem;
 }
 
-export default function BottomNav({ className, hideOnScroll = false }: BottomNavProps) {
+export default function BottomNav({ className, hideOnScroll = false, extraItem: propExtraItem }: BottomNavProps) {
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
+  const { extraItem: contextExtraItem } = useBottomNav();
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
     window.dispatchEvent(new CustomEvent('openCommandPalette'));
   };
 
-  const NAV_ITEMS = createNavItems(handleOpenCommandPalette);
+  const baseNavItems = createNavItems(handleOpenCommandPalette);
+
+  // Use context extra item if available, otherwise use prop
+  const extraItem = contextExtraItem || propExtraItem;
+
+  // Inject extra item if provided (append at the end as the last item)
+  const NAV_ITEMS = extraItem
+    ? [...baseNavItems, extraItem]
+    : baseNavItems;
 
   // Content-aware visibility logic (OPTIONAL - disabled by default)
   useEffect(() => {

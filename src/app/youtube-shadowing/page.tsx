@@ -16,6 +16,8 @@ import TranscriptViewerNew from '@/components/youtube-shadowing/TranscriptViewer
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { extractVideoId } from '@/utils/youtubeHelpers';
 import { TranscriptCacheManager } from '@/utils/transcriptCache';
+import { useBottomNav } from '@/contexts/BottomNavContext';
+import { Settings } from 'lucide-react';
 
 const SESSION_STORAGE_KEY = 'youtubeShadowingSession';
 export interface TranscriptLine {
@@ -86,6 +88,29 @@ function YouTubeShadowingContent() {
   const aiContentIdRef = useRef<string | null>(null);
   const aiStorageKeyRef = useRef<string | null>(null);
   const { showToast } = useToast();
+  const { setExtraItem } = useBottomNav();
+
+  // Settings panel state for mobile
+  const [showSettings, setShowSettings] = useState(false);
+
+  // Inject player settings button into bottom navbar when video is loaded (mobile only)
+  useEffect(() => {
+    if (session && viewMode === 'player') {
+      setExtraItem({
+        id: 'player-settings',
+        label: 'Settings',
+        icon: Settings,
+        activeIcon: Settings,
+        action: () => setShowSettings(true),
+        matchPaths: [],
+      });
+    } else {
+      setExtraItem(null);
+    }
+
+    // Cleanup when component unmounts
+    return () => setExtraItem(null);
+  }, [session, viewMode, setExtraItem]);
 
   // Stabilize onLineChange callback to prevent infinite re-subscriptions
   const handleLineChange = useCallback((index: number) => {
@@ -854,6 +879,8 @@ function YouTubeShadowingContent() {
                     aiEnhancementStatus={aiEnhancementStatus}
                     aiEnhancementError={aiEnhancementError}
                     onClearSession={handleClearSession}
+                    showSettings={showSettings}
+                    onShowSettingsChange={setShowSettings}
                   />
 
                   {/* Transcript Viewer */}

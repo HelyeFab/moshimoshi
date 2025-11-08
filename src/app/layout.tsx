@@ -11,6 +11,7 @@ import { EmailVerificationBanner } from '@/components/EmailVerificationBanner'
 import { themeInitScript } from '@/lib/theme/theme-script'
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors'
 import BottomNav from '@/components/layout/BottomNav'
+import { BottomNavProvider } from '@/contexts/BottomNavContext'
 import CommandPalette from '@/components/ui/CommandPalette'
 import '@/styles/globals.css'
 import TimeMachineButton from '@/components/dev/TimeMachineButton'
@@ -193,11 +194,13 @@ export default function RootLayout({
                 <ThemeProvider>
                   <ServiceWorkerProvider>
                     <CelebrationProvider>
-                      <EmailVerificationBanner />
-                      {children}
-                      {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
-                      <BottomNav />
-                      <CommandPalette />
+                      <BottomNavProvider>
+                        <EmailVerificationBanner />
+                        {children}
+                        {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
+                        <BottomNav />
+                        <CommandPalette />
+                      </BottomNavProvider>
                     </CelebrationProvider>
                   </ServiceWorkerProvider>
                 </ThemeProvider>
