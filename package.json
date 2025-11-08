@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"next dev\" \"npm run notebooklm:watch\"",
+    "dev": "next dev",
     "dev:simple": "next dev",
     "build": "next build",
     "start": "next start",
@@ -45,10 +45,7 @@
     "coverage:report": "nyc report --temp-dir coverage/combined --reporter html --reporter text",
     "gen:entitlements": "tsx scripts/gen-entitlements.ts",
     "docs:aggregate": "node scripts/docs-aggregator.js",
-    "docs:watch": "node scripts/docs-aggregator.js --watch",
-    "notebooklm:sync": "node scripts/notebooklm-sync.js -o ${NOTEBOOKLM_OUTPUT:-./notebooklm-output/moshimoshi-docs.md}",
-    "notebooklm:watch": "node scripts/notebooklm-sync.js --watch -o ${NOTEBOOKLM_OUTPUT:-./notebooklm-output/moshimoshi-docs.md}",
-    "notebooklm:clean": "node scripts/notebooklm-sync.js --clean"
+    "docs:watch": "node scripts/docs-aggregator.js --watch"
   },
   "keywords": [],
   "author": "",

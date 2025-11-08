@@ -371,8 +371,30 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
     'quick-actions': 'Quick Actions'
   }
 
+  // Desktop floating button
+  const desktopButton = (
+    <button
+      onClick={() => setIsOpen(true)}
+      className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-3 rounded-full
+                 bg-soft-white/20 dark:bg-dark-900/30
+                 backdrop-blur-2xl backdrop-saturate-150
+                 border border-gray-200/40 dark:border-gray-700/30
+                 shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60
+                 hover:bg-soft-white/30 dark:hover:bg-dark-900/40
+                 transition-all duration-200 hover:scale-105
+                 hidden md:flex"
+      aria-label="Open command palette"
+    >
+      <Command className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+      <span className="text-sm font-medium text-primary-600 dark:text-primary-400">Command</span>
+      <kbd className="px-1.5 py-0.5 text-xs bg-primary-100/50 dark:bg-primary-900/30 rounded text-primary-600 dark:text-primary-400 border border-primary-200/50 dark:border-primary-800/50">
+        ⌘K
+      </kbd>
+    </button>
+  )
+
   if (!isOpen) {
-    return null
+    return desktopButton
   }
 
   const modalContent = (
@@ -490,10 +512,15 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
 
   // Portal to body
   if (typeof document !== 'undefined') {
-    return createPortal(modalContent, document.body)
+    return (
+      <>
+        {desktopButton}
+        {createPortal(modalContent, document.body)}
+      </>
+    )
   }
 
-  return null
+  return desktopButton
 }
 
 // Export hook for programmatic control
