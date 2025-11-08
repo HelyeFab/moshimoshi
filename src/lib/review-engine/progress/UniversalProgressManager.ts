@@ -208,7 +208,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       contentType,
       contentId,
       event
-    })
+    }
 
     // Get or create progress data
     let progress = await this.getProgressItem(userId, contentType, contentId)
