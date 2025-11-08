@@ -99,19 +99,6 @@ export class GamificationListener extends EventEmitter {
       console.log('[Gamification] Received event:', event)
       console.log('[Gamification] Processing session:', sessionId, statistics)
 
-      // NEW: Firebase-first unified pathway
-      // Call server-side API for atomic gamification update
-      const { getAuth } = await import('firebase/auth');
-      const auth = getAuth();
-      const user = auth.currentUser;
-
-      if (!user) {
-        console.error('[Gamification] User not authenticated, skipping gamification');
-        return;
-      }
-
-      const idToken = await user.getIdToken();
-
       // Calculate metrics from statistics
       const itemsReviewed = statistics.totalItems || 0;
       const correctCount = statistics.correctItems || 0;
@@ -124,13 +111,13 @@ export class GamificationListener extends EventEmitter {
         accuracy
       });
 
-      // Call server-side API
+      // Call server-side API using session cookies (no Bearer token needed)
       const response = await fetch('/api/review/session/complete', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${idToken}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include', // Send session cookies
         body: JSON.stringify({
           sessionId,
           itemsReviewed,
@@ -155,15 +142,15 @@ export class GamificationListener extends EventEmitter {
 
       // Update Zustand store with server response (Firebase is source of truth)
       const store = useGamificationStore.getState();
-      store.set({
+      store.updateFromServer({
         totalXP: gam.newTotalXP,
         currentLevel: gam.newLevel,
         currentStreak: gam.currentStreak,
-        bestStreak: gam.bestStreak,
-        sessionCount: store.sessionCount + 1,
-        isDirty: false,
-        lastSyncedAt: new Date().toISOString()
+        bestStreak: gam.bestStreak
       });
+
+      // Increment session count separately
+      store.incrementSessionCount();
 
       // Handle achievement unlocks if any
       if (gam.achievementsUnlocked && gam.achievementsUnlocked.length > 0) {

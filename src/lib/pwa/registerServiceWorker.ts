@@ -27,7 +27,7 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
 
   // Only register in production or when explicitly enabled
   if (process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_ENABLE_SW_DEV) {
-    console.log('[SW] Service Worker registration disabled in development');
+    // Service Worker registration disabled in development
     return {
       registration: null,
       isSupported: true,

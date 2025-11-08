@@ -9,7 +9,7 @@
  */
 
 import { redis, RedisKeys, CacheTTL } from '@/lib/redis/client'
-import LRUCache from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 
 /**
  * Cache configuration based on performance budget
@@ -55,6 +55,13 @@ export const CACHE_CONFIG = {
     ttl: 24 * 60 * 60, // 24 hours
     maxMemoryItems: 1000,
     warmup: false,
+  },
+
+  // Conjugation forms - static data, frequently accessed
+  CONJUGATION: {
+    ttl: 24 * 60 * 60, // 24 hours (conjugations never change)
+    maxMemoryItems: 1000, // Generous - conjugations are small (~2KB each)
+    warmup: true, // Pre-cache common words for instant drill startup
   },
 }
 

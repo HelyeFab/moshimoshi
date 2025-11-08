@@ -6,17 +6,19 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useFeature } from '@/hooks/useFeature';
 import { useSubscription } from '@/hooks/useSubscription';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/layout/PageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { useToast } from '@/components/ui/Toast';
+import CenteredAlert, { useCenteredAlert } from '@/components/ui/CenteredAlert';
 import type { DrillSession, DrillQuestion, DrillSettings } from '@/types/drill';
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
-import type { DrillSessionData } from '@/lib/review-engine/progress/DrillProgressManager';
+import type { DrillSessionData, QuestionAnswerResult } from '@/lib/review-engine/progress/DrillProgressManager';
 import { formatDrillDefinition } from '@/utils/textUtils';
 import { ConjugationErrorAnalyzer } from '@/lib/conjugation-help';
 import { useConjugationHelp } from '@/contexts/ConjugationHelpContext';
 import { HelpModal, HelpBanner } from '@/components/conjugation-help';
+import { SRSWordSelector } from '@/lib/drill/srs-word-selector';
 
 export default function DrillPage() {
   const { t, strings } = useI18n();
@@ -25,6 +27,7 @@ export default function DrillPage() {
   const { subscription } = useSubscription();
   const { checkAndTrack, remaining } = useFeature('conjugation_drill');
   const { showToast } = useToast();
+  const { alert, showAlert, closeAlert } = useCenteredAlert();
   const { showMultipleHelps } = useConjugationHelp();
   const drillManager = DrillProgressManager.getInstance();
 
@@ -63,6 +66,47 @@ export default function DrillPage() {
     jlptLevels: ['N5', 'N4'], // Default to N5 + N4
     conjugationForms: [] // Empty = all forms
   });
+
+  // User lists state
+  const [userLists, setUserLists] = useState<any[]>([]);
+  const [loadingLists, setLoadingLists] = useState(false);
+
+  // SRS state
+  const [srsWordCounts, setSrsWordCounts] = useState<{
+    total: number;
+    due: number;
+    learning: number;
+    new: number;
+  } | null>(null);
+  const [loadingSRSStats, setLoadingSRSStats] = useState(false);
+
+  // Question results tracking for SRS (per-question data)
+  const [questionResults, setQuestionResults] = useState<QuestionAnswerResult[]>([]);
+  const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
+
+  // Helper: Check if a list is potentially drillable
+  const isListDrillable = (list: any): { drillable: boolean; reason?: string; warning?: string } => {
+    if (!list.items || list.items.length === 0) {
+      return { drillable: false, reason: 'No items' };
+    }
+
+    // Only 'word' and 'verbAdj' types can contain drillable content
+    if (list.type !== 'word' && list.type !== 'verbAdj') {
+      return { drillable: false, reason: 'Only word/verb lists can be drilled' };
+    }
+
+    // Note: We can't determine exact conjugatability client-side without full word type detection
+    // The API will filter out non-conjugatable words (nouns, particles, etc.)
+    // But we can warn if the list type suggests it might have mixed content
+    if (list.type === 'word') {
+      return {
+        drillable: true,
+        warning: 'May contain non-conjugatable words (nouns, etc.)'
+      };
+    }
+
+    return { drillable: true };
+  };
 
   // Question count limits based on user plan
   const getQuestionLimits = () => {
@@ -103,7 +147,113 @@ export default function DrillPage() {
     loadStats();
   }, [user?.uid, subscription, isComplete]);
 
+  // Fetch user lists when authenticated
+  useEffect(() => {
+    const fetchLists = async () => {
+      if (!user?.uid) {
+        setUserLists([]);
+        return;
+      }
+
+      setLoadingLists(true);
+      try {
+        const response = await fetch('/api/lists');
+        if (response.ok) {
+          const data = await response.json();
+          setUserLists(data.lists || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch user lists:', error);
+      } finally {
+        setLoadingLists(false);
+      }
+    };
+
+    fetchLists();
+  }, [user?.uid]);
+
+  // Fetch SRS word counts when authenticated
+  useEffect(() => {
+    const fetchSRSCounts = async () => {
+      if (!user?.uid) {
+        setSrsWordCounts(null);
+        return;
+      }
+
+      setLoadingSRSStats(true);
+      try {
+        const isPremium = subscription?.plan?.includes('premium') || false;
+        const counts = await SRSWordSelector.getWordCounts(user.uid, isPremium);
+        setSrsWordCounts(counts);
+      } catch (error) {
+        console.error('Failed to fetch SRS stats:', error);
+      } finally {
+        setLoadingSRSStats(false);
+      }
+    };
+
+    fetchSRSCounts();
+  }, [user?.uid, subscription]);
+
   const startDrill = async () => {
+    // Validate SRS mode requirements
+    if (settings.drillMode === 'srs') {
+      if (!srsWordCounts || srsWordCounts.total === 0) {
+        showAlert(
+          'No SRS words yet! Practice in Random or My Lists mode first to build your review queue.',
+          'info',
+          '🧠 SRS Mode'
+        );
+        return;
+      }
+
+      if (srsWordCounts.due === 0) {
+        showAlert(
+          'No words due for review yet. Your words are scheduled for later. Try Random mode for now!',
+          'info',
+          '🧠 SRS Mode'
+        );
+        return;
+      }
+    }
+
+    // Validate list selection for 'lists' mode
+    if (settings.drillMode === 'lists' && (!settings.selectedLists || settings.selectedLists.length === 0)) {
+      showAlert(
+        t('drill.selectListsError') || 'Please select at least one list to practice',
+        'error',
+        'Select Lists'
+      );
+      return;
+    }
+
+    // Additional validation: Check if selected lists are drillable
+    if (settings.drillMode === 'lists' && settings.selectedLists && settings.selectedLists.length > 0) {
+      const selectedListsData = userLists.filter(list => settings.selectedLists?.includes(list.id));
+      const nonDrillableLists = selectedListsData.filter(list => !isListDrillable(list).drillable);
+
+      if (nonDrillableLists.length > 0) {
+        const listNames = nonDrillableLists.map(l => l.name).join(', ');
+        showAlert(
+          `Cannot drill these lists: ${listNames}. Only word and verb/adjective lists can be drilled.`,
+          'error',
+          'Invalid Lists'
+        );
+        return;
+      }
+
+      // Check if all selected lists are empty
+      const hasItems = selectedListsData.some(list => list.items && list.items.length > 0);
+      if (!hasItems) {
+        showAlert(
+          'Selected lists have no items to drill',
+          'error',
+          'Empty Lists'
+        );
+        return;
+      }
+    }
+
     // Check entitlement
     const allowed = await checkAndTrack({ showUI: true });
     if (!allowed) {
@@ -129,19 +279,41 @@ export default function DrillPage() {
         })
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to start drill');
+        // Enhanced error messages based on API response
+        if (data.error?.code === 'NO_QUESTIONS') {
+          showAlert(
+            'Could not generate questions. The selected lists may not contain conjugatable words (verbs or adjectives).',
+            'error',
+            'No Questions Available'
+          );
+        } else {
+          showAlert(
+            data.error?.message || t('drill.startError') || 'Failed to start drill',
+            'error',
+            'Drill Error'
+          );
+        }
+        return;
       }
 
-      const { data } = await response.json();
-      setSession(data.session);
+      const sessionData = data.data?.session || data.session;
+      setSession(sessionData);
       setCurrentQuestionIndex(0);
       setScore(0);
       setIsComplete(false);
+      // Reset SRS tracking for new session
+      setQuestionResults([]);
+      setQuestionStartTime(Date.now());
     } catch (error) {
       console.error('Error starting drill:', error);
-      showToast(t('drill.startError'), 'error');
+      showAlert(
+        t('drill.startError') || 'Failed to start drill session',
+        'error',
+        'Connection Error'
+      );
     } finally {
       setLoading(false);
     }
@@ -155,6 +327,20 @@ export default function DrillPage() {
 
     const currentQuestion = session.questions[currentQuestionIndex];
     const isCorrect = answer === currentQuestion.correctAnswer;
+
+    // Record answer for SRS tracking
+    const responseTime = Date.now() - questionStartTime;
+    const wordId = `${currentQuestion.word.kanji || currentQuestion.word.kana}:${currentQuestion.word.kana}`;
+
+    setQuestionResults(prev => [...prev, {
+      questionId: currentQuestion.id,
+      wordId: wordId,
+      targetForm: currentQuestion.targetForm,
+      correct: isCorrect,
+      userAnswer: answer,
+      correctAnswer: currentQuestion.correctAnswer,
+      responseTime: responseTime
+    }]);
 
     let hasRelevantHelp = false;
 
@@ -228,8 +414,16 @@ export default function DrillPage() {
         wordTypeFilter: session.wordTypeFilter || 'all',
         verbsPracticed: [...new Set(verbsPracticed)], // Remove duplicates
         adjectivesPracticed: [...new Set(adjectivesPracticed)],
-        conjugationTypes: [...new Set(conjugationTypes)]
+        conjugationTypes: [...new Set(conjugationTypes)],
+        questionResults: questionResults // NEW: For SRS tracking
       };
+
+      // DEBUG: Log question results to verify SRS tracking data
+      console.log('[Drill Complete] Question results for SRS:', {
+        count: questionResults.length,
+        sample: questionResults[0],
+        allResults: questionResults
+      });
 
       // 3. Track drill session using DrillProgressManager
       // This automatically handles:
@@ -262,6 +456,7 @@ export default function DrillPage() {
       setSelectedAnswer(null);
       setShowResult(false);
       setCurrentErrorReport(null); // Clear error report for next question
+      setQuestionStartTime(Date.now()); // Reset timer for next question
     } else {
       // Complete the drill and track progress
       setIsComplete(true);
@@ -278,6 +473,12 @@ export default function DrillPage() {
     setIsComplete(false);
   };
 
+  // Helper function to check if two arrays contain the same elements
+  const arraysEqual = (a: string[] | undefined, b: string[]) => {
+    if (!a || a.length !== b.length) return false;
+    return a.every(item => b.includes(item)) && b.every(item => a.includes(item));
+  };
+
   const currentQuestion = session?.questions[currentQuestionIndex];
 
   if (loading) {
@@ -286,13 +487,7 @@ export default function DrillPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      <PageHeader
-        title={t('drill.title')}
-        description={t('drill.description')}
-        mascot="doshi"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -465,7 +660,11 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['present', 'past', 'negative', 'pastNegative']
                       }))}
-                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
+                        arraysEqual(settings.conjugationForms, ['present', 'past', 'negative', 'pastNegative'])
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                      }`}
                     >
                       Basic Only
                     </button>
@@ -474,7 +673,11 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['polite', 'politePast', 'politeNegative', 'politePastNegative']
                       }))}
-                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
+                        arraysEqual(settings.conjugationForms, ['polite', 'politePast', 'politeNegative', 'politePastNegative'])
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                      }`}
                     >
                       Polite Only
                     </button>
@@ -483,7 +686,11 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['teForm', 'negativeTeForm', 'naiDeForm']
                       }))}
-                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
+                        arraysEqual(settings.conjugationForms, ['teForm', 'negativeTeForm', 'naiDeForm'])
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                      }`}
                     >
                       Te-Forms
                     </button>
@@ -492,7 +699,11 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['potential', 'potentialNegative', 'potentialPast', 'potentialPastNegative']
                       }))}
-                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
+                        arraysEqual(settings.conjugationForms, ['potential', 'potentialNegative', 'potentialPast', 'potentialPastNegative'])
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                      }`}
                     >
                       Potential
                     </button>
@@ -501,7 +712,11 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['passive', 'passiveNegative', 'passivePast', 'passivePastNegative']
                       }))}
-                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
+                        arraysEqual(settings.conjugationForms, ['passive', 'passiveNegative', 'passivePast', 'passivePastNegative'])
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                      }`}
                     >
                       Passive
                     </button>
@@ -510,7 +725,11 @@ export default function DrillPage() {
                         ...prev,
                         conjugationForms: ['causative', 'causativeNegative', 'causativePast', 'causativePastNegative']
                       }))}
-                      className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm border-gray-300 dark:border-gray-600 hover:border-gray-400 transition-colors"
+                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
+                        arraysEqual(settings.conjugationForms, ['causative', 'causativeNegative', 'causativePast', 'causativePastNegative'])
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                      }`}
                     >
                       Causative
                     </button>
@@ -528,7 +747,7 @@ export default function DrillPage() {
                 <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
                   {t('drill.practiceMode')}
                 </label>
-                <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, drillMode: 'random' }))}
                     className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors ${
@@ -550,7 +769,166 @@ export default function DrillPage() {
                   >
                     {t('drill.myLists')}
                   </button>
+                  <button
+                    onClick={() => setSettings(prev => ({ ...prev, drillMode: 'srs' }))}
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors relative ${
+                      settings.drillMode === 'srs'
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300'
+                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                    }`}
+                    disabled={!user}
+                    title={!user ? 'Sign in to use SRS mode' : undefined}
+                  >
+                    <span className="flex items-center justify-center gap-1">
+                      🧠 SRS
+                      {srsWordCounts && srsWordCounts.due > 0 && (
+                        <span className="ml-1 px-1.5 py-0.5 text-xs bg-purple-500 text-white rounded-full">
+                          {srsWordCounts.due}
+                        </span>
+                      )}
+                    </span>
+                  </button>
                 </div>
+
+                {/* List Selector - shown when 'lists' mode is selected */}
+                {settings.drillMode === 'lists' && user && (
+                  <div className="mt-4 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg border border-primary-200 dark:border-primary-800">
+                    <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
+                      {t('drill.selectLists') || 'Select Lists to Practice'}
+                    </label>
+
+                    {loadingLists ? (
+                      <div className="text-sm text-muted-foreground">{t('common.loading') || 'Loading lists...'}</div>
+                    ) : userLists.length === 0 ? (
+                      <div className="text-sm text-muted-foreground">
+                        {t('drill.noLists') || 'You have no lists yet. Create one from the vocabulary page!'}
+                      </div>
+                    ) : (
+                      <div className="space-y-2 max-h-48 overflow-y-auto">
+                        {userLists.map(list => {
+                          const isSelected = settings.selectedLists?.includes(list.id);
+                          const itemCount = list.items?.length || 0;
+                          const drillableCheck = isListDrillable(list);
+                          const isDrillable = drillableCheck.drillable;
+
+                          return (
+                            <label
+                              key={list.id}
+                              className={`flex items-center gap-3 p-2 rounded-lg transition-colors ${
+                                isDrillable
+                                  ? 'hover:bg-primary-100 dark:hover:bg-primary-900/30 cursor-pointer'
+                                  : 'opacity-60 cursor-not-allowed bg-gray-50 dark:bg-gray-900/20'
+                              }`}
+                              title={!isDrillable ? drillableCheck.reason : drillableCheck.warning}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={isSelected}
+                                disabled={!isDrillable}
+                                onChange={(e) => {
+                                  if (!isDrillable) return;
+                                  setSettings(prev => {
+                                    const currentLists = prev.selectedLists || [];
+                                    if (e.target.checked) {
+                                      return { ...prev, selectedLists: [...currentLists, list.id] };
+                                    } else {
+                                      return { ...prev, selectedLists: currentLists.filter(id => id !== list.id) };
+                                    }
+                                  });
+                                }}
+                                className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500 disabled:opacity-50"
+                              />
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-base">{list.emoji}</span>
+                                  <span className="font-medium text-sm truncate">{list.name}</span>
+                                  {!isDrillable ? (
+                                    <span className="ml-auto px-2 py-0.5 text-xs bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-full whitespace-nowrap">
+                                      ✖ {drillableCheck.reason}
+                                    </span>
+                                  ) : drillableCheck.warning ? (
+                                    <span className="ml-auto px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full whitespace-nowrap flex items-center gap-1">
+                                      <span className="text-xs">ℹ️</span>
+                                      <span className="hidden sm:inline">Mixed content</span>
+                                    </span>
+                                  ) : null}
+                                </div>
+                                <div className="text-xs text-muted-foreground">
+                                  {itemCount} {itemCount === 1 ? 'item' : 'items'}
+                                  {isDrillable && list.type && (
+                                    <span className="ml-2 text-primary-600 dark:text-primary-400">
+                                      • {list.type === 'verbAdj' ? 'Verbs/Adj' : list.type === 'word' ? 'Words' : list.type}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {settings.selectedLists && settings.selectedLists.length > 0 && (
+                      <div className="mt-3 text-xs text-primary-600 dark:text-primary-400 font-medium">
+                        ✓ {settings.selectedLists.length} {settings.selectedLists.length === 1 ? 'list' : 'lists'} selected
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* SRS Info Panel - shown when 'srs' mode is selected */}
+                {settings.drillMode === 'srs' && user && (
+                  <div className="mt-4 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">🧠</span>
+                      <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-purple-900 dark:text-purple-100">
+                          Spaced Repetition System (SRS)
+                        </h3>
+                        <p className="text-xs text-purple-700 dark:text-purple-300 mt-0.5">
+                          Smart learning algorithm that shows words when you need to review them
+                        </p>
+                      </div>
+                    </div>
+
+                    {loadingSRSStats ? (
+                      <div className="text-sm text-purple-600 dark:text-purple-400">
+                        Loading SRS data...
+                      </div>
+                    ) : srsWordCounts && srsWordCounts.total > 0 ? (
+                      <div className="space-y-2">
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-white dark:bg-gray-800 p-2 rounded-lg">
+                            <div className="text-xs text-muted-foreground">Due Today</div>
+                            <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                              {srsWordCounts.due}
+                            </div>
+                          </div>
+                          <div className="bg-white dark:bg-gray-800 p-2 rounded-lg">
+                            <div className="text-xs text-muted-foreground">Total Studied</div>
+                            <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                              {srsWordCounts.total}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-xs text-purple-600 dark:text-purple-400 mt-2">
+                          💡 SRS shows words from ANY drill mode you've practiced before
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <div className="text-sm text-purple-700 dark:text-purple-300">
+                          <strong>No SRS data yet!</strong>
+                        </div>
+                        <div className="text-xs text-purple-600 dark:text-purple-400 space-y-1">
+                          <p>• Practice in Random or My Lists mode first</p>
+                          <p>• Words you study will automatically appear here</p>
+                          <p>• Come back when you have words to review</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Auto-advance toggle */}
@@ -577,31 +955,33 @@ export default function DrillPage() {
               </button>
             </div>
           ) : isComplete ? (
-            // Results screen
-            <div className="bg-soft-white dark:bg-dark-800 rounded-xl shadow-lg p-8 text-center border border-primary-100 dark:border-dark-700">
-              <h2 className="text-3xl font-bold mb-4">{t('drill.complete')}</h2>
-              <div className="text-6xl mb-4">
-                {score >= session.questions.length * 0.8 ? '🏆' : score >= session.questions.length * 0.6 ? '✨' : '💪'}
-              </div>
-              <p className="text-2xl mb-2">
-                {score} / {session.questions.length}
-              </p>
-              <p className="text-muted-foreground dark:text-dark-muted mb-6">
-                {Math.round((score / session.questions.length) * 100)}% {t('drill.accuracy')}
-              </p>
-              <div className="flex gap-4 justify-center">
-                <button
-                  onClick={resetDrill}
-                  className="px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
-                >
-                  {t('drill.newDrill')}
-                </button>
-                <button
-                  onClick={() => router.push('/dashboard')}
-                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-foreground dark:text-dark-foreground rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                >
-                  {t('drill.backToDashboard')}
-                </button>
+            // Results screen - Styled like SessionSummary for perfect mobile centering
+            <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 fixed inset-0 z-50">
+              <div className="bg-soft-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
+                <h2 className="text-3xl font-bold mb-4">{t('drill.complete')}</h2>
+                <div className="text-6xl mb-4">
+                  {score >= session.questions.length * 0.8 ? '🏆' : score >= session.questions.length * 0.6 ? '✨' : '💪'}
+                </div>
+                <p className="text-2xl mb-2">
+                  {score} / {session.questions.length}
+                </p>
+                <p className="text-muted-foreground dark:text-dark-muted mb-6">
+                  {Math.round((score / session.questions.length) * 100)}% {t('drill.accuracy')}
+                </p>
+                <div className="flex gap-4 justify-center flex-wrap">
+                  <button
+                    onClick={resetDrill}
+                    className="flex-1 min-w-[120px] px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
+                  >
+                    {t('drill.newDrill')}
+                  </button>
+                  <button
+                    onClick={() => router.push('/dashboard')}
+                    className="flex-1 min-w-[120px] px-6 py-3 bg-gray-200 dark:bg-gray-700 text-foreground dark:text-dark-foreground rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                  >
+                    {t('drill.backToDashboard')}
+                  </button>
+                </div>
               </div>
             </div>
           ) : currentQuestion ? (
@@ -687,6 +1067,17 @@ export default function DrillPage() {
 
       {/* Smart help modal */}
       <HelpModal />
+
+      {/* Centered error alert */}
+      <CenteredAlert
+        type={alert.type}
+        title={alert.title}
+        message={alert.message}
+        isOpen={alert.isOpen}
+        onClose={closeAlert}
+        showIcon={true}
+        action={alert.action}
+      />
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { JLPTLevel } from '@/types/ai-story';
 import { STORY_THEMES } from '@/types/story';
 import { AIStoryDraft, AIGenerationProgress, AICharacterSheet } from '@/types/ai-story';
 import { storyService } from '@/lib/services/StoryService';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import RegenerateImageModal from '@/components/admin/RegenerateImageModal';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -384,45 +384,7 @@ export default function GenerateStoryPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-          AI Story Generator
-        </h1>
-
-        {/* Setup Form */}
-        {currentStep === 'setup' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-dark-700 space-y-6"
-          >
-            {/* Theme Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Story Theme
-              </label>
-              <select
-                value={theme}
-                onChange={(e) => setTheme(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-              >
-                <option value="">Select a theme...</option>
-                {STORY_THEMES.map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-                <option value="custom">Custom Theme...</option>
-              </select>
-
-              {theme === 'custom' && (
-                <input
-                  type="text"
-                  value={customTheme}
-                  onChange={(e) => setCustomTheme(e.target.value)}
-                  placeholder="Enter your custom theme..."
-                  className="mt-2 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-                />
+      {/* Navigation is now global - rendered in root layout */}
               )}
             </div>
 

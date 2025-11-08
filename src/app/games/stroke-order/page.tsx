@@ -6,7 +6,7 @@ import StrokeOrderGame from './components/StrokeOrderGame'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import Modal from '@/components/ui/Modal'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 
 const PRACTICE_SETS = [
@@ -95,12 +95,7 @@ export default function StrokeOrderPracticePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} backLink={{ href: '/games', label: t('common.back') }} />
-
-      <LearningPageHeader
-        title={strings.games?.strokeOrder?.title || 'Master Kanji Stroke Order'}
-        description={strings.games?.strokeOrder?.description || 'Learn to write kanji correctly by practicing stroke order.'}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">

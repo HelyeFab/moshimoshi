@@ -6,7 +6,7 @@ import { useMoodBoards } from '@/hooks/useMoodBoards';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import { MoodBoard } from '@/types/moodboard';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import KanjiSimonGameWrapper from '../components/KanjiSimonGameWrapper';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { useToast } from '@/components/ui/Toast/ToastContext';
@@ -59,13 +59,7 @@ export default function KanjiSimonGamePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background-light/90 to-primary-100/20 dark:from-dark-850 dark:via-dark-900 dark:to-primary-900/10">
-      <Navbar user={user} showUserMenu={true} backLink="/games/kanji-simon" />
-
-      <div className="container mx-auto px-4 py-8">
-        <KanjiSimonGameWrapper
-          board={board}
-          onComplete={handleComplete}
-        />
+      {/* Navigation is now global - rendered in root layout */}
       </div>
     </div>
   );

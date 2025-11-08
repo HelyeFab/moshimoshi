@@ -130,28 +130,22 @@ export async function getSession(): Promise<SessionUser | null> {
   try {
     const cookieStore = await cookies()
     const sessionCookie = cookieStore.get(SESSION_COOKIE_NAME)
-    console.log('[getSession] Cookie found:', sessionCookie ? 'yes' : 'no')
-    
+
     if (!sessionCookie?.value) {
-      console.log('[getSession] No session cookie value')
       return null
     }
 
     // First check Redis cache for fast validation
     const decoded = decodeSessionToken(sessionCookie.value)
-    console.log('[getSession] Token decoded:', decoded ? 'yes' : 'no')
     if (!decoded) {
-      console.log('[getSession] Failed to decode token')
       return null
     }
 
     const sessionCacheKey = `session:${decoded.sid}`
     const cached = await redis.get(sessionCacheKey)
-    console.log('[getSession] Redis cache check:', cached ? 'found' : 'not found')
-    
+
     if (!cached) {
       // Session not in cache, invalid or expired
-      console.log('[getSession] Session not in cache')
       return null
     }
 

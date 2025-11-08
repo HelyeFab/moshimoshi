@@ -162,7 +162,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         }
       })
 
-      reviewLogger.info('[UniversalProgressManager] Database initialized')
+      // Database initialized
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to initialize database:', error)
       throw error
@@ -182,7 +182,6 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   ): Promise<void> {
     // Guest users: no storage
     if (!user) {
-      reviewLogger.debug('[UniversalProgressManager] Guest user - no storage')
       return
     }
 
@@ -198,8 +197,8 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       return
     }
 
-    // Debug logging
-    reviewLogger.info('[UniversalProgressManager] trackProgress called:', {
+    // Track progress event (logging removed for cleaner console)
+    const _debugInfo = {
       hasUser: !!user,
       userUid: user?.uid,
       userType: typeof user,
@@ -338,10 +337,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
     // ONLY premium users sync to Firebase
     if (isPremium) {
-      reviewLogger.info('[UniversalProgressManager] Premium user - queuing Firebase sync')
       this.queueFirebaseSync(userId, contentType, contentId, progress)
-    } else {
-      reviewLogger.debug('[UniversalProgressManager] Free user - saved to IndexedDB only')
     }
   }
 
@@ -401,8 +397,6 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
           updatedAt: new Date()
         })
       }
-
-      reviewLogger.debug('[UniversalProgressManager] Saved to IndexedDB:', contentId)
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to save to IndexedDB:', error)
     }
@@ -487,12 +481,9 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
       // Check if data was actually saved to Firebase
       if (result.storage?.location === 'local') {
-        reviewLogger.info('[UniversalProgressManager] Free user - API stored locally only')
+        // Free user - API stored locally only
       } else if (result.storage?.location === 'both') {
-        reviewLogger.info('[UniversalProgressManager] Premium user - synced to Firebase:', {
-          contentType,
-          itemsCount: result.itemsCount
-        })
+        // Premium user - synced to Firebase
       }
 
       // Clear review history queue after successful sync
@@ -572,15 +563,12 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     // ONLY premium users load from Firebase
     if (isPremium && navigator.onLine) {
       try {
-        reviewLogger.info('[UniversalProgressManager] Premium user - loading from Firebase')
         const cloudData = await this.loadFromFirebase(userId, contentType)
         return this.mergeProgress(localData, cloudData)
       } catch (error) {
         reviewLogger.error('[UniversalProgressManager] Failed to load from Firebase:', error)
         return localData
       }
-    } else {
-      reviewLogger.debug('[UniversalProgressManager] Free user - using IndexedDB data only')
     }
 
     return localData
@@ -655,7 +643,6 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         }
       }
 
-      reviewLogger.info('[UniversalProgressManager] Loaded from Firebase via API:', contentType, progressMap.size, 'items')
       return progressMap
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to load from Firebase via API:', error)
@@ -808,8 +795,6 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       // ONLY premium users sync to Firebase
       if (isPremium) {
         try {
-          reviewLogger.info('[UniversalProgressManager] Premium user - syncing session to Firebase')
-
           // Transform session data to match API expectations
           const sessionData = {
             sessionType: 'study', // UniversalProgressManager handles study/practice sessions
@@ -847,9 +832,6 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
             const result = await response.json()
             if (result.storage?.location === 'both') {
               session.syncedToCloud = true
-              reviewLogger.info('[UniversalProgressManager] Premium user - session synced to cloud:', session.sessionId)
-            } else {
-              reviewLogger.info('[UniversalProgressManager] Free user - session saved locally only')
             }
           } else {
             reviewLogger.error('[UniversalProgressManager] Failed to sync session, status:', response.status)
@@ -857,8 +839,6 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         } catch (error) {
           reviewLogger.error('[UniversalProgressManager] Failed to sync session to cloud:', error)
         }
-      } else {
-        reviewLogger.info('[UniversalProgressManager] Free user - session saved to IndexedDB only')
       }
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to save session:', error)
@@ -905,7 +885,6 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   ): Promise<void> {
     // Only track review history for premium users
     if (!isPremium) {
-      reviewLogger.debug('[UniversalProgressManager] Free user - skipping review history tracking')
       return
     }
     // Get actual content based on content type

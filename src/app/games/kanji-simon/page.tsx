@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
@@ -25,12 +25,7 @@ export default function KanjiSimonPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background-light/90 to-primary-100/20 dark:from-dark-850 dark:via-dark-900 dark:to-primary-900/10">
-      <Navbar user={user} showUserMenu={true} backLink={{ href: '/games', label: t('common.back') }} />
-
-      <LearningPageHeader
-        title={strings.games?.kanjiSimon?.title || 'Kanji Simon'}
-        description={strings.games?.kanjiSimon?.subtitle || 'Test your memory with kanji readings'}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">

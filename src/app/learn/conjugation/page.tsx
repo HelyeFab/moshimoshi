@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import PageHeader from '@/components/layout/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ConjugationDisplay } from '@/components/conjugation/ConjugationDisplay'
@@ -252,13 +252,7 @@ export default function ConjugationPracticePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
-      <Navbar user={user} showUserMenu={true} />
-
-      <PageHeader
-        title={t('conjugation.practiceTitle')}
-        description={t('conjugation.practiceDescription')}
-        mascot="doshi"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-6">
         {/* Search Bar */}

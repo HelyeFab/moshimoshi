@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/i18n/I18nContext';
 import { formatDistanceToNow } from 'date-fns';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import Dropdown from '@/components/ui/Dropdown';
@@ -81,12 +81,7 @@ export default function ResourcesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-soft-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      <Navbar user={user} showUserMenu={true} />
-
-      <LearningPageHeader
-        title={strings.resources?.title || 'Learning Resources'}
-        description={strings.resources?.subtitle || 'Discover guides, tutorials, and articles to enhance your Japanese learning journey'}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Search and Filters */}
       <div className="container mx-auto px-4 py-8">

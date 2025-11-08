@@ -101,12 +101,12 @@ export default function CelebrationScreen({
             </div>
           )}
 
-          {/* Celebration Modal */}
+          {/* Celebration Modal - Styled like SessionSummary for perfect mobile centering */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
             onClick={onClose}
           >
             <motion.div
@@ -114,7 +114,7 @@ export default function CelebrationScreen({
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 20 }}
               transition={{ type: 'spring', duration: 0.5 }}
-              className="relative bg-white dark:bg-dark-800 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl"
+              className="relative bg-white dark:bg-dark-800 rounded-2xl p-8 max-w-md w-full shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Success Icon */}

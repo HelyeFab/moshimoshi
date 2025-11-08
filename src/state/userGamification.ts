@@ -97,6 +97,12 @@ interface GamificationState {
   unlockAchievement: (id: string) => void
   updateAchievementProgress: (id: string, progress: number) => void
   incrementSessionCount: () => void
+  updateFromServer: (data: {
+    totalXP: number
+    currentLevel: number
+    currentStreak: number
+    bestStreak: number
+  }) => void
   syncToFirebase: () => Promise<void>
   loadFromFirebase: () => Promise<void>
   loadFromIndexedDB: (userId: string) => Promise<void>
@@ -462,6 +468,26 @@ export const useGamificationStore = create<GamificationState>()(
       },
 
       /**
+       * Update store from server response (used by gamificationListener)
+       * Updates XP, level, and streak data from API responses
+       */
+      updateFromServer: (data) => {
+        // Feature flag check
+        if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
+          return
+        }
+
+        set({
+          totalXP: data.totalXP,
+          currentLevel: data.currentLevel,
+          currentStreak: data.currentStreak,
+          bestStreak: data.bestStreak,
+          isDirty: false,
+          lastSyncedAt: DateSerializer.getCurrentDateTimeUTC()
+        })
+      },
+
+      /**
        * Sync to Firebase (premium only)
        * FIXED: Uses ISO strings
        */
@@ -486,7 +512,6 @@ export const useGamificationStore = create<GamificationState>()(
 
           // Don't sync if there are no changes (optimization + safety)
           if (!state.isDirty) {
-            console.log('[Gamification State] No changes to sync, skipping Firebase upload')
             return
           }
 
@@ -529,7 +554,6 @@ export const useGamificationStore = create<GamificationState>()(
           }
 
           const result = await response.json()
-          console.log('[Gamification State] Synced to Firebase:', result)
 
           set({
             lastSyncedAt: DateSerializer.getCurrentDateTimeUTC(), // FIXED: ISO string
@@ -550,7 +574,6 @@ export const useGamificationStore = create<GamificationState>()(
         try {
           // Prevent duplicate simultaneous loads
           if (isLoadingFromFirebase) {
-            console.log('[Gamification State] Already loading from Firebase, skipping duplicate call')
             return
           }
 
@@ -610,7 +633,6 @@ export const useGamificationStore = create<GamificationState>()(
 
             await get().saveToIndexedDB()
           } else {
-            console.log('[Gamification State] No Firebase data found, will use IndexedDB or defaults')
             // Mark as loaded even if no data found (prevents sync race condition)
             set({ isLoaded: true, hasHydrated: true })
           }
@@ -751,7 +773,6 @@ export const useGamificationStore = create<GamificationState>()(
         // Mark as hydrated when rehydration completes
         if (state) {
           state.hasHydrated = true
-          console.log('[Gamification Store] Hydration complete')
         }
       }
     }

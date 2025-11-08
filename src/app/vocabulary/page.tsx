@@ -6,7 +6,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { useI18n } from '@/i18n/I18nContext'
 import { motion } from 'framer-motion'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import PageHeader from '@/components/layout/PageHeader'
 import Modal from '@/components/ui/Modal'
 import VocabularySearch from './components/VocabularySearch'
@@ -282,14 +282,7 @@ function VocabularyContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
       {/* Navbar */}
-      <Navbar user={user} showUserMenu={true} />
-
-      {/* Page Header */}
-      <PageHeader
-        title={strings.reviewPrompts?.vocabulary?.searchTitle || 'Vocabulary Search'}
-        description={strings.reviewPrompts?.vocabulary?.searchDescription || 'Search Japanese words with meanings and examples'}
-        mascot="doshi"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

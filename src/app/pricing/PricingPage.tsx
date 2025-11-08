@@ -11,7 +11,7 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { LoadingButton } from '@/components/ui/Loading';
 import DoshiMascot from '@/components/ui/DoshiMascot';
 import { useToast } from '@/components/ui/Toast';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 
 export default function PricingPage() {
   const router = useRouter();
@@ -101,33 +101,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Navbar */}
-      <Navbar user={user} showUserMenu={true} />
-
-      {/* Header */}
-      <div className="pt-8 pb-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl">
-            {t('pricing.title')}
-          </h1>
-          <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">
-            {t('pricing.subtitle')}
-          </p>
-          
-          {/* Billing toggle */}
-          <div className="mt-8 flex items-center justify-center space-x-4">
-            <span className={`text-sm ${billingInterval === 'month' ? 'text-gray-900 dark:text-white font-semibold' : 'text-gray-500'}`}>
-              {t('pricing.billing.monthly')}
-            </span>
-            <button
-              onClick={() => setBillingInterval(billingInterval === 'month' ? 'year' : 'month')}
-              className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary-500 transition-colors"
-              aria-label="Toggle billing interval"
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  billingInterval === 'year' ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
+      {/* Navigation is now global - rendered in root layout */}
             </button>
             <span className={`text-sm ${billingInterval === 'year' ? 'text-gray-900 dark:text-white font-semibold' : 'text-gray-500'}`}>
               {t('pricing.billing.yearly')}

@@ -8,7 +8,7 @@ import { useTheme } from '@/lib/theme/ThemeContext'
 import { useI18n } from '@/i18n/I18nContext'
 import { languages, languageNames } from '@/i18n/config'
 import DoshiMascot from '@/components/ui/DoshiMascot'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Tooltip from '@/components/ui/Tooltip'
 import SettingToggle from '@/components/ui/SettingToggle'
@@ -212,14 +212,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Navbar */}
-      <Navbar 
-        user={user}
-        showUserMenu={true}
-        backLink={{
-          href: '/dashboard',
-          label: strings.settings?.backToDashboard || '← Back to Dashboard'
-        }}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-4xl">

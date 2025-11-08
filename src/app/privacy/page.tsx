@@ -1,7 +1,7 @@
 'use client'
 
 import { useI18n } from '@/i18n/I18nContext'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import PageContainer from '@/components/ui/PageContainer'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useEffect, useState } from 'react'
@@ -39,14 +39,7 @@ export default function PrivacyPolicyPage() {
 
   return (
     <PageContainer gradient="default" showPattern={true}>
-      <Navbar
-        user={user}
-        showUserMenu={!!user}
-        backLink={{
-          href: user ? '/settings' : '/',
-          label: user ? '← Back to Settings' : '← Back'
-        }}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Page Header */}

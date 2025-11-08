@@ -68,7 +68,7 @@ export type DrillQuestion = z.infer<typeof DrillQuestionSchema>
 /**
  * Drill mode schema
  */
-export const DrillModeSchema = z.enum(['random', 'lists', 'review'])
+export const DrillModeSchema = z.enum(['random', 'lists', 'srs'])
 
 export type DrillMode = z.infer<typeof DrillModeSchema>
 
@@ -122,13 +122,29 @@ export const DrillSessionAnswerRequestSchema = z.object({
 export type DrillSessionAnswerRequest = z.infer<typeof DrillSessionAnswerRequestSchema>
 
 /**
+ * Per-question answer result (for SRS tracking)
+ */
+export const QuestionAnswerResultSchema = z.object({
+  questionId: z.string(),
+  wordId: z.string(),
+  targetForm: z.string(),
+  correct: z.boolean(),
+  userAnswer: z.string(),
+  correctAnswer: z.string(),
+  responseTime: z.number().optional() // milliseconds
+})
+
+export type QuestionAnswerResult = z.infer<typeof QuestionAnswerResultSchema>
+
+/**
  * Drill session complete request schema
  */
 export const DrillSessionCompleteRequestSchema = z.object({
   sessionId: z.string(),
   action: z.literal('complete'),
   finalScore: z.number().int().min(0).optional(),
-  accuracy: z.number().min(0).max(100).optional()
+  accuracy: z.number().min(0).max(100).optional(),
+  questionResults: z.array(QuestionAnswerResultSchema).optional() // NEW: For SRS tracking
 })
 
 export type DrillSessionCompleteRequest = z.infer<typeof DrillSessionCompleteRequestSchema>

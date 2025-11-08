@@ -225,20 +225,7 @@ export { debug }
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   (window as any).debug = debugLog
 
-  // Show instructions in console
-  console.log(`
-🐛 Debug Logger Available!
-
-Enable logging:
-  localStorage.debug = 'app:*'           // All modules
-  localStorage.debug = 'app:streak'      // Just streak
-  localStorage.debug = 'app:streak,app:pokemon'  // Multiple
-
-Or use helper:
-  debug.enable('app:*')
-  debug.disable()
-  debug.status()
-
-Current: ${localStorage.debug || 'Disabled'}
-  `)
+  // Debug logger is available via window.debug
+  // To enable: localStorage.debug = 'app:*' or debug.enable('app:*')
+  // Removed startup message to reduce console noise
 }

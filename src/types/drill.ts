@@ -118,7 +118,7 @@ export interface DrillSession extends Versioned {
   updatedAt: ISODateTimeString; // From Versioned
 }
 
-export type DrillMode = 'random' | 'lists' | 'review';
+export type DrillMode = 'random' | 'lists' | 'srs';  // 'review' → 'srs' for clarity
 export type WordTypeFilter = 'all' | 'verbs' | 'adjectives';
 
 // Drill Results
@@ -188,4 +188,104 @@ export interface CachedPracticeWords {
   words: JapaneseWord[];
   timestamp: number;
   expiresAt: number;
+}
+
+// ============= SRS (Spaced Repetition System) Types =============
+
+/**
+ * SRS status for a word
+ */
+export type SRSStatus = 'new' | 'learning' | 'review' | 'mastered';
+
+/**
+ * Per-conjugation-form accuracy tracking
+ */
+export interface ConjugationFormAccuracy {
+  attempts: number;
+  correct: number;
+  lastAttempted: ISODateTimeString | null;
+  averageTime: number; // milliseconds
+}
+
+/**
+ * Individual review event in history
+ */
+export interface ReviewHistoryEntry {
+  timestamp: ISODateTimeString;
+  targetForm: string;
+  correct: boolean;
+  responseTime: number;
+}
+
+/**
+ * Complete SRS data for a single word
+ * Tracks everything needed for spaced repetition scheduling
+ */
+export interface WordSRSEntry extends Versioned {
+  // Word identification
+  wordId: string; // Format: "${kanji}:${kana}"
+  word: {
+    kanji: string;
+    kana: string;
+    meaning: string;
+    type: WordType;
+    jlpt?: JLPTLevel;
+  };
+
+  // Core SRS data (SM-2 algorithm)
+  srsData: {
+    interval: number;           // Days until next review
+    easeFactor: number;         // 1.3 - 2.5
+    repetitions: number;        // Consecutive correct answers
+    lastReviewedAt: ISODateTimeString | null;
+    nextReviewAt: ISODateTimeString;
+    status: SRSStatus;
+    lapses: number;            // Number of times forgotten
+  };
+
+  // Drill-specific tracking
+  conjugationAccuracy: Record<string, ConjugationFormAccuracy>; // Per-form tracking
+  reviewHistory: ReviewHistoryEntry[]; // Last 10 reviews
+  leechScore: number;          // How many times failed (0-10+)
+
+  // Metadata
+  firstSeenAt: ISODateTimeString;
+  lastReviewedAt: ISODateTimeString | null;
+  totalReviews: number;
+  version: number; // From Versioned
+  updatedAt: ISODateTimeString; // From Versioned
+}
+
+/**
+ * SRS statistics for the user's drill progress
+ */
+export interface DrillSRSStats {
+  totalWords: number;
+  newWords: number;
+  learningWords: number;
+  reviewWords: number;
+  masteredWords: number;
+  dueToday: number;
+  dueThisWeek: number;
+  leechWords: number; // Words with leechScore >= 5
+  averageAccuracy: number;
+  totalReviews: number;
+}
+
+/**
+ * Word selection criteria for SRS mode
+ */
+export interface SRSWordSelectionCriteria {
+  userId: string;
+  targetCount: number;
+
+  // Distribution ratios
+  dueWordRatio: number;      // Default: 0.6 (60%)
+  newWordRatio: number;      // Default: 0.3 (30%)
+  recentWordRatio: number;   // Default: 0.1 (10%)
+
+  // Filters
+  excludeWordIds?: string[];
+  includeJLPT?: JLPTLevel[];
+  maxLeechScore?: number;    // Optionally exclude leeches
 }

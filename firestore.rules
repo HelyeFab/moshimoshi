@@ -407,6 +407,20 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Drill SRS data - Spaced Repetition System tracking for conjugation drills
+    // PREMIUM FEATURE: Only premium users can access SRS tracking
+    // Follows same pattern as achievements and video history
+    match /users/{userId}/drill-srs/{wordId} {
+      // Only premium users can read their SRS data
+      allow read: if isOwner(userId) &&
+        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
+         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
+
+      // Server writes via Admin SDK (bypasses this rule)
+      // But document that only premium users should have SRS data written
+      allow write: if false; // Only server can write
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

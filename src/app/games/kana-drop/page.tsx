@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
@@ -18,12 +18,7 @@ export default function KanaDropPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} backLink={{ href: '/games', label: t('common.back') }} />
-
-      <LearningPageHeader
-        title={t('games.kanaDrop.title')}
-        description={t('games.kanaDrop.description')}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-8">
         <KanaDropGame onClose={handleClose} />

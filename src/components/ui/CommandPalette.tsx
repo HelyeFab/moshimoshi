@@ -2,24 +2,21 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import { createPortal } from 'react-dom'
 import {
   Search,
   Command,
-  ArrowRight,
   Home,
   BookOpen,
   Gamepad2,
   Trophy,
-  Settings,
   LogOut,
   User,
   ChevronRight,
   Sparkles,
   Clock,
   TrendingUp,
-  X,
-  Keyboard
+  X
 } from 'lucide-react'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
@@ -44,7 +41,6 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const router = useRouter()
   const { strings } = useI18n()
   const { user, logout } = useAuth()
@@ -274,23 +270,32 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
     return groups
   }, [filteredCommands])
 
-  // Handle keyboard shortcuts
+  // Global keyboard shortcut (Cmd/Ctrl+K) to open palette
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Open with Cmd/Ctrl + K
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
         setIsOpen(true)
       }
+    }
 
+    window.addEventListener('keydown', handleGlobalKeyDown)
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown)
+  }, [])
+
+  // Command palette keyboard navigation (arrow keys, enter, esc)
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleCommandKeyDown = (e: KeyboardEvent) => {
       // Close with Escape
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === 'Escape') {
         e.preventDefault()
         setIsOpen(false)
       }
 
       // Navigate with arrow keys
-      if (isOpen && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault()
         const direction = e.key === 'ArrowUp' ? -1 : 1
         setSelectedIndex(prev => {
@@ -302,20 +307,45 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       }
 
       // Execute with Enter
-      if (isOpen && e.key === 'Enter' && filteredCommands[selectedIndex]) {
+      if (e.key === 'Enter' && filteredCommands[selectedIndex]) {
         e.preventDefault()
         filteredCommands[selectedIndex].action()
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    window.addEventListener('keydown', handleCommandKeyDown)
+    return () => window.removeEventListener('keydown', handleCommandKeyDown)
   }, [isOpen, selectedIndex, filteredCommands])
 
   // Reset selected index when search changes
   useEffect(() => {
     setSelectedIndex(0)
   }, [searchQuery])
+
+  // Reset state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchQuery('')
+      setSelectedIndex(0)
+    }
+  }, [isOpen])
+
+  // Body scroll lock when open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
+  const handleClose = () => {
+    setIsOpen(false)
+    onClose?.()
+  }
 
   const categoryLabels = {
     navigation: 'Navigation',
@@ -325,147 +355,146 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
     'quick-actions': 'Quick Actions'
   }
 
-  return (
-    <>
-      {/* Trigger button (optional - can be triggered with keyboard shortcut) */}
+  if (!isOpen) {
+    return (
       <button
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-2
                    bg-white/90 dark:bg-dark-800/90 backdrop-blur-md
                    border border-gray-200 dark:border-dark-700
                    rounded-full shadow-lg hover:shadow-xl
-                   transition-all duration-200 hover:scale-105"
+                   transition-all duration-200 hover:scale-105
+                   hidden md:flex"
         aria-label="Open command palette"
       >
         <Command className="w-4 h-4" />
-        <span className="text-sm font-medium hidden sm:inline">Command</span>
-        <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-xs bg-gray-100 dark:bg-dark-700 rounded">
+        <span className="text-sm font-medium">Command</span>
+        <kbd className="px-1.5 py-0.5 text-xs bg-gray-100 dark:bg-dark-700 rounded">
           ⌘K
         </kbd>
       </button>
+    )
+  }
 
-      {/* Command Palette Modal */}
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
-              onClick={() => setIsOpen(false)}
-            />
+  const modalContent = (
+    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
+        onClick={handleClose}
+        aria-hidden="true"
+      />
 
-            {/* Command Palette */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.15 }}
-              className="fixed inset-x-4 top-20 z-50 mx-auto max-w-2xl
-                         bg-white dark:bg-dark-800 rounded-2xl shadow-2xl
-                         overflow-hidden border border-gray-200 dark:border-dark-700"
-            >
-              {/* Search Header */}
-              <div className="flex items-center gap-3 p-4 border-b border-gray-200 dark:border-dark-700">
-                <Search className="w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Type a command or search..."
-                  className="flex-1 bg-transparent outline-none text-gray-900 dark:text-gray-100
-                           placeholder-gray-400 dark:placeholder-gray-500"
-                  autoFocus
-                />
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="p-1 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
-                >
-                  <X className="w-4 h-4 text-gray-400" />
-                </button>
-              </div>
+      {/* Command Palette - Styled like SessionSummary for perfect mobile centering */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        className="relative w-full max-w-md max-h-[85vh] bg-white dark:bg-dark-800 rounded-2xl shadow-2xl
+                   border border-gray-200 dark:border-dark-700 overflow-hidden flex flex-col"
+      >
+        {/* Search Header */}
+        <div className="flex-shrink-0 flex items-center gap-3 p-4 border-b border-gray-200 dark:border-dark-700">
+          <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Type a command or search..."
+            className="flex-1 bg-transparent outline-none text-gray-900 dark:text-gray-100
+                     placeholder-gray-400 dark:placeholder-gray-500"
+            autoFocus
+          />
+          <button
+            onClick={handleClose}
+            className="p-1 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors flex-shrink-0"
+            aria-label="Close"
+          >
+            <X className="w-4 h-4 text-gray-400" />
+          </button>
+        </div>
 
-              {/* Commands List */}
-              <div className="max-h-[400px] overflow-y-auto">
-                {filteredCommands.length === 0 ? (
-                  <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-                    No commands found for "{searchQuery}"
+        {/* Commands List */}
+        <div className="flex-1 overflow-y-auto overscroll-contain">
+          {filteredCommands.length === 0 ? (
+            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+              No commands found for "{searchQuery}"
+            </div>
+          ) : (
+            <div className="p-2">
+              {Object.entries(groupedCommands).map(([category, commands]) => (
+                <div key={category} className="mb-4 last:mb-0">
+                  <div className="px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">
+                    {categoryLabels[category as keyof typeof categoryLabels]}
                   </div>
-                ) : (
-                  <div className="p-2">
-                    {Object.entries(groupedCommands).map(([category, commands]) => (
-                      <div key={category} className="mb-4">
-                        <div className="px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">
-                          {categoryLabels[category as keyof typeof categoryLabels]}
+                  {commands.map((command) => {
+                    const globalIndex = filteredCommands.findIndex(c => c.id === command.id)
+                    return (
+                      <button
+                        key={command.id}
+                        onClick={command.action}
+                        onMouseEnter={() => setSelectedIndex(globalIndex)}
+                        className={`
+                          w-full flex items-center gap-3 px-3 py-2 rounded-lg
+                          transition-colors duration-150 text-left
+                          ${globalIndex === selectedIndex
+                            ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
+                            : 'hover:bg-gray-50 dark:hover:bg-dark-700 text-gray-700 dark:text-gray-300'
+                          }
+                        `}
+                      >
+                        <div className="flex-shrink-0">{command.icon}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate">{command.title}</div>
+                          {command.subtitle && (
+                            <div className="text-xs opacity-75 truncate">{command.subtitle}</div>
+                          )}
                         </div>
-                        {commands.map((command, index) => {
-                          const globalIndex = filteredCommands.findIndex(c => c.id === command.id)
-                          return (
-                            <button
-                              key={command.id}
-                              onClick={command.action}
-                              onMouseEnter={() => setSelectedIndex(globalIndex)}
-                              className={`
-                                w-full flex items-center gap-3 px-3 py-2 rounded-lg
-                                transition-colors duration-150
-                                ${globalIndex === selectedIndex
-                                  ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                                  : 'hover:bg-gray-50 dark:hover:bg-dark-700 text-gray-700 dark:text-gray-300'
-                                }
-                              `}
-                            >
-                              <div className="flex-shrink-0">{command.icon}</div>
-                              <div className="flex-1 text-left">
-                                <div className="font-medium">{command.title}</div>
-                                {command.subtitle && (
-                                  <div className="text-xs opacity-75">{command.subtitle}</div>
-                                )}
-                              </div>
-                              {command.shortcut && (
-                                <kbd className="px-2 py-1 text-xs bg-gray-100 dark:bg-dark-700 rounded">
-                                  {command.shortcut}
-                                </kbd>
-                              )}
-                              <ChevronRight className="w-4 h-4 opacity-50" />
-                            </button>
-                          )
-                        })}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Footer with keyboard shortcuts */}
-              <div className="flex items-center justify-between px-4 py-2 border-t border-gray-200 dark:border-dark-700
-                            bg-gray-50 dark:bg-dark-900/50">
-                <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-                  <span className="flex items-center gap-1">
-                    <kbd className="px-1 py-0.5 bg-white dark:bg-dark-800 rounded">↑↓</kbd>
-                    Navigate
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <kbd className="px-1 py-0.5 bg-white dark:bg-dark-800 rounded">↵</kbd>
-                    Select
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <kbd className="px-1 py-0.5 bg-white dark:bg-dark-800 rounded">esc</kbd>
-                    Close
-                  </span>
+                        {command.shortcut && (
+                          <kbd className="hidden sm:block px-2 py-1 text-xs bg-gray-100 dark:bg-dark-700 rounded flex-shrink-0">
+                            {command.shortcut}
+                          </kbd>
+                        )}
+                        <ChevronRight className="w-4 h-4 opacity-50 flex-shrink-0" />
+                      </button>
+                    )
+                  })}
                 </div>
-                <span className="text-xs text-gray-400 dark:text-gray-500">
-                  {filteredCommands.length} results
-                </span>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex-shrink-0 flex items-center justify-between px-4 py-2 border-t border-gray-200 dark:border-dark-700
+                      bg-gray-50 dark:bg-dark-900/50">
+          <div className="flex items-center gap-2 sm:gap-4 text-xs text-gray-500 dark:text-gray-400">
+            <span className="flex items-center gap-1">
+              <kbd className="px-1 py-0.5 bg-white dark:bg-dark-800 rounded">↑↓</kbd>
+              <span className="hidden sm:inline">Navigate</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <kbd className="px-1 py-0.5 bg-white dark:bg-dark-800 rounded">↵</kbd>
+              <span className="hidden sm:inline">Select</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <kbd className="px-1 py-0.5 bg-white dark:bg-dark-800 rounded">esc</kbd>
+              <span className="hidden sm:inline">Close</span>
+            </span>
+          </div>
+          <span className="text-xs text-gray-400 dark:text-gray-500">
+            {filteredCommands.length}
+          </span>
+        </div>
+      </div>
+    </div>
   )
+
+  // Portal to body
+  if (typeof document !== 'undefined') {
+    return createPortal(modalContent, document.body)
+  }
+
+  return null
 }
 
 // Export hook for programmatic control

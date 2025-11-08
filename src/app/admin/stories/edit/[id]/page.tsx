@@ -5,7 +5,7 @@ import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { storyService } from '@/lib/services/StoryService';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import { Story, StoryQuizQuestion } from '@/types/story';
 import { JLPTLevel } from '@/types/ai-story';
 import { STORY_THEMES } from '@/types/story';
@@ -269,16 +269,7 @@ export default function EditStoryPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Header */}
-        <div className="mb-8">
-          <Link
-            href="/admin/stories"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 mb-4 transition-colors"
-          >
-            <ChevronLeftIcon className="w-4 h-4" />
+      {/* Navigation is now global - rendered in root layout */}
             Back to Stories
           </Link>
           <div className="flex justify-between items-center">

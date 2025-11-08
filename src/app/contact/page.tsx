@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import PageContainer from '@/components/ui/PageContainer'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { LoadingOverlay } from '@/components/ui/Loading'
@@ -152,14 +152,7 @@ export default function ContactPage() {
   if (showSuccess) {
     return (
       <PageContainer gradient="default" showPattern={true}>
-        <Navbar
-          user={user}
-          showUserMenu={!!user}
-          backLink={{
-            href: user ? '/dashboard' : '/',
-            label: user ? '← Back to Dashboard' : '← Back'
-          }}
-        />
+      {/* Navigation is now global - rendered in root layout */}
 
         <main className="container mx-auto px-4 py-8 max-w-md">
           <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-8 text-center">
@@ -192,14 +185,7 @@ export default function ContactPage() {
 
   return (
     <PageContainer gradient="default" showPattern={true}>
-      <Navbar
-        user={user}
-        showUserMenu={!!user}
-        backLink={{
-          href: user ? '/dashboard' : '/',
-          label: user ? '← Back to Dashboard' : '← Back'
-        }}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <main className="container mx-auto px-4 py-8 max-w-2xl">
         {/* Page Header */}

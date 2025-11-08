@@ -72,13 +72,14 @@ const NA_ADJECTIVE_COMPATIBLE_FORMS: (keyof ExtendedConjugationForms)[] = [
 export class QuestionGenerator {
   /**
    * Generate multiple drill questions from a list of words
+   * NOW WITH REDIS CACHING: Blazing fast on repeat sessions!
    */
-  static generateQuestions(
+  static async generateQuestions(
     words: JapaneseWord[],
     questionsPerWord: number = 3,
     totalQuestions?: number,
     formFilter?: string[] // NEW: Filter specific forms
-  ): DrillQuestion[] {
+  ): Promise<DrillQuestion[]> {
     if (!words || words.length === 0) {
       return [];
     }
@@ -86,10 +87,13 @@ export class QuestionGenerator {
     const questions: DrillQuestion[] = [];
     const targetCount = totalQuestions || words.length * questionsPerWord;
 
+    // Process questions with parallelized async conjugations
+    const questionPromises: Promise<DrillQuestion | null>[] = [];
+
     for (let i = 0; i < targetCount; i++) {
       const word = words[i % words.length];
 
-      // Detect word type and conjugate
+      // Detect word type
       const wordType = detectWordType(word.kanji || word.kana, word.kana, word.partsOfSpeech);
 
       if (!wordType.isConjugatable || !wordType.conjugationType) {
@@ -103,30 +107,48 @@ export class QuestionGenerator {
         partsOfSpeech: word.partsOfSpeech || []
       };
 
-      const conjugations = ExtendedConjugationEngine.conjugate(enhancedWord);
+      // Create promise for async conjugation
+      const questionPromise = (async () => {
+        try {
+          // Async call to cached conjugation engine
+          const conjugations = await ExtendedConjugationEngine.conjugate(enhancedWord);
 
-      // Get compatible forms for this word type
-      const compatibleForms = this.getCompatibleForms(wordType.conjugationType);
+          // Get compatible forms for this word type
+          const compatibleForms = this.getCompatibleForms(wordType.conjugationType);
 
-      // Apply user's form filter if provided
-      const allowedForms = formFilter && formFilter.length > 0
-        ? compatibleForms.filter(f => formFilter.includes(f))
-        : compatibleForms;
+          // Apply user's form filter if provided
+          const allowedForms = formFilter && formFilter.length > 0
+            ? compatibleForms.filter(f => formFilter.includes(f))
+            : compatibleForms;
 
-      if (allowedForms.length === 0) {
-        console.warn(`[QuestionGenerator] No allowed forms for ${word.kanji || word.kana}`);
-        continue;
-      }
+          if (allowedForms.length === 0) {
+            console.warn(`[QuestionGenerator] No allowed forms for ${word.kanji || word.kana}`);
+            return null;
+          }
 
-      // Pick a random form from allowed forms
-      const targetForm = allowedForms[Math.floor(Math.random() * allowedForms.length)];
-      const correctAnswer = conjugations[targetForm];
+          // Pick a random form from allowed forms
+          const targetForm = allowedForms[Math.floor(Math.random() * allowedForms.length)];
+          const correctAnswer = conjugations[targetForm];
 
-      if (!correctAnswer || correctAnswer.trim() === '' || correctAnswer === 'N/A') {
-        continue;
-      }
+          if (!correctAnswer || correctAnswer.trim() === '' || correctAnswer === 'N/A') {
+            return null;
+          }
 
-      const question = this.generateSingleQuestion(word, targetForm, correctAnswer, conjugations, wordType.conjugationType);
+          return this.generateSingleQuestion(word, targetForm, correctAnswer, conjugations, wordType.conjugationType);
+        } catch (error) {
+          console.error(`[QuestionGenerator] Error generating question for ${word.kanji || word.kana}:`, error);
+          return null;
+        }
+      })();
+
+      questionPromises.push(questionPromise);
+    }
+
+    // Wait for all conjugations to complete (parallel cache lookups!)
+    const generatedQuestions = await Promise.all(questionPromises);
+
+    // Filter out null results and collect questions
+    for (const question of generatedQuestions) {
       if (question) {
         questions.push(question);
       }

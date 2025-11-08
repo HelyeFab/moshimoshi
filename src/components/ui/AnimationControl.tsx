@@ -9,12 +9,14 @@ interface AnimationControlProps {
   onToggle?: (enabled: boolean) => void
   className?: string
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
+  variant?: 'default' | 'glassmorphism'
 }
 
 export default function AnimationControl({
   onToggle,
   className = '',
-  position = 'bottom-right'
+  position = 'bottom-right',
+  variant = 'default'
 }: AnimationControlProps) {
   const [animationsEnabled, setAnimationsEnabled] = useState(true)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -65,8 +67,8 @@ export default function AnimationControl({
   const positionClasses = {
     'bottom-right': 'bottom-6 right-6',
     'bottom-left': 'bottom-6 left-6',
-    'top-right': 'top-20 right-6',
-    'top-left': 'top-20 left-6'
+    'top-right': 'top-[100px] right-6',
+    'top-left': 'top-[100px] left-6'
   }
 
   return (
@@ -105,7 +107,7 @@ export default function AnimationControl({
       {/* Animation Control Button */}
       <AnimatePresence>
         <motion.div
-          className={`fixed ${positionClasses[position]} z-50 ${className}`}
+          className={`${variant === 'glassmorphism' ? 'relative' : `fixed ${positionClasses[position]} z-50`} ${className}`}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
@@ -113,18 +115,34 @@ export default function AnimationControl({
         >
           <motion.button
             onClick={handleToggle}
-            className={`
-              group relative flex items-center gap-2 px-4 py-3 rounded-full
-              bg-white/90 dark:bg-dark-800/90 backdrop-blur-md
-              border border-gray-200 dark:border-dark-700
-              shadow-lg hover:shadow-xl
-              transition-all duration-200
-              ${animationsEnabled
-                ? 'hover:bg-primary-50 dark:hover:bg-primary-900/20'
-                : 'hover:bg-gray-100 dark:hover:bg-dark-700'
-              }
-            `}
-            whileHover={{ scale: animationsEnabled ? 1.05 : 1 }}
+            className={
+              variant === 'glassmorphism'
+                ? `
+                  group relative flex items-center justify-center rounded-full
+                  w-12 h-12
+                  bg-soft-white/20 dark:bg-dark-900/30
+                  backdrop-blur-2xl backdrop-saturate-150
+                  border border-gray-200/40 dark:border-gray-700/30
+                  shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60
+                  transition-all duration-200
+                  ${animationsEnabled
+                    ? 'hover:bg-soft-white/30 dark:hover:bg-dark-900/40'
+                    : 'hover:bg-soft-white/30 dark:hover:bg-dark-900/40'
+                  }
+                `
+                : `
+                  group relative flex items-center gap-2 px-4 py-3 rounded-full
+                  bg-white/90 dark:bg-dark-800/90 backdrop-blur-md
+                  border border-gray-200 dark:border-dark-700
+                  shadow-lg hover:shadow-xl
+                  transition-all duration-200
+                  ${animationsEnabled
+                    ? 'hover:bg-primary-50 dark:hover:bg-primary-900/20'
+                    : 'hover:bg-gray-100 dark:hover:bg-dark-700'
+                  }
+                `
+            }
+            whileHover={{ scale: animationsEnabled ? 1.1 : 1.05 }}
             whileTap={{ scale: animationsEnabled ? 0.95 : 1 }}
             aria-label={animationsEnabled ? 'Pause animations' : 'Play animations'}
             title={animationsEnabled ? 'Pause all animations' : 'Resume animations'}
@@ -141,7 +159,7 @@ export default function AnimationControl({
                     transition={{ duration: 0.2 }}
                     className="absolute inset-0"
                   >
-                    <Pause className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                    <Pause className={variant === 'glassmorphism' ? 'w-5 h-5 text-gray-700 dark:text-gray-300' : 'w-5 h-5 text-primary-600 dark:text-primary-400'} />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -152,25 +170,27 @@ export default function AnimationControl({
                     transition={{ duration: 0.2 }}
                     className="absolute inset-0"
                   >
-                    <Play className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                    <Play className={variant === 'glassmorphism' ? 'w-5 h-5 text-gray-700 dark:text-gray-300' : 'w-5 h-5 text-gray-600 dark:text-gray-400'} />
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            {/* Label text */}
-            <span className={`
-              text-sm font-medium hidden sm:inline-block
-              ${animationsEnabled
-                ? 'text-primary-600 dark:text-primary-400'
-                : 'text-gray-600 dark:text-gray-400'
-              }
-            `}>
-              {animationsEnabled ? 'Animations On' : 'Animations Off'}
-            </span>
+            {/* Label text (hidden in glassmorphism variant) */}
+            {variant !== 'glassmorphism' && (
+              <span className={`
+                text-sm font-medium hidden sm:inline-block
+                ${animationsEnabled
+                  ? 'text-primary-600 dark:text-primary-400'
+                  : 'text-gray-600 dark:text-gray-400'
+                }
+              `}>
+                {animationsEnabled ? 'Animations On' : 'Animations Off'}
+              </span>
+            )}
 
-            {/* Sparkle indicator when enabled */}
-            {animationsEnabled && (
+            {/* Sparkle indicator when enabled (hidden in glassmorphism variant) */}
+            {animationsEnabled && variant !== 'glassmorphism' && (
               <motion.div
                 className="absolute -top-1 -right-1"
                 initial={{ scale: 0 }}

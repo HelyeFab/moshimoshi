@@ -196,10 +196,21 @@ export async function recordDrillCompletion(params: {
 
     // Update streak using DAILY XP total (not per-drill XP)
     // CRITICAL FIX: Check daily accumulated XP, not individual drill XP
+    // CRITICAL FIX 2: Only update streak ONCE per day
     let streakResult: StreakUpdateResult | null = null
     const minXpForStreak = getMinXpForStreak()
+    const lastStreakUpdateDate = currentStats.dates?.lastStreakUpdateDate || null
+    const streakAlreadyUpdatedToday = lastStreakUpdateDate === today
 
-    if (newDailyXP >= minXpForStreak) {
+    console.log('[Gamification Coordinator] Streak Update Check:', {
+      newDailyXP,
+      minXpForStreak,
+      lastStreakUpdateDate,
+      today,
+      streakAlreadyUpdatedToday
+    })
+
+    if (newDailyXP >= minXpForStreak && !streakAlreadyUpdatedToday) {
       try {
         const result = await updateStreakWithinTransaction(
           transaction,
@@ -219,11 +230,21 @@ export async function recordDrillCompletion(params: {
           )
         } else {
           streakResult = result
+          // Mark that streak was updated today
+          transaction.update(userStatsRef, {
+            'dates.lastStreakUpdateDate': today
+          })
+          console.log('[Gamification Coordinator] ✅ Streak updated and marked for today')
         }
       } catch (error) {
         console.error('[Gamification Coordinator] Failed to update streak:', error)
         // Don't fail the whole transaction if streak update fails
       }
+    } else if (streakAlreadyUpdatedToday) {
+      console.log('[Gamification Coordinator] ⏭️ Streak already updated today, skipping:', {
+        lastStreakUpdateDate,
+        currentStreak: currentStats.streak?.current || 0
+      })
     } else {
       console.log('[Gamification Coordinator] Daily XP below threshold, streak not updated:', {
         newDailyXP,
@@ -358,10 +379,21 @@ export async function recordReviewCompletion(params: {
 
     // Update streak using DAILY XP total (not per-review XP)
     // CRITICAL FIX: Check daily accumulated XP, not individual review XP
+    // CRITICAL FIX 2: Only update streak ONCE per day
     let streakResult: StreakUpdateResult | null = null
     const minXpForStreak = getMinXpForStreak()
+    const lastStreakUpdateDate = currentStats.dates?.lastStreakUpdateDate || null
+    const streakAlreadyUpdatedToday = lastStreakUpdateDate === today
 
-    if (newDailyXP >= minXpForStreak) {
+    console.log('[Gamification Coordinator] Streak Update Check (Review):', {
+      newDailyXP,
+      minXpForStreak,
+      lastStreakUpdateDate,
+      today,
+      streakAlreadyUpdatedToday
+    })
+
+    if (newDailyXP >= minXpForStreak && !streakAlreadyUpdatedToday) {
       try {
         const result = await updateStreakWithinTransaction(
           transaction,
@@ -381,10 +413,20 @@ export async function recordReviewCompletion(params: {
           )
         } else {
           streakResult = result
+          // Mark that streak was updated today
+          transaction.update(userStatsRef, {
+            'dates.lastStreakUpdateDate': today
+          })
+          console.log('[Gamification Coordinator] ✅ Streak updated and marked for today (Review)')
         }
       } catch (error) {
         console.error('[Gamification Coordinator] Failed to update streak:', error)
       }
+    } else if (streakAlreadyUpdatedToday) {
+      console.log('[Gamification Coordinator] ⏭️ Streak already updated today, skipping (Review):', {
+        lastStreakUpdateDate,
+        currentStreak: currentStats.streak?.current || 0
+      })
     } else {
       console.log('[Gamification Coordinator] Daily XP below threshold, streak not updated:', {
         newDailyXP,

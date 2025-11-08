@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useI18n } from '@/i18n/I18nContext';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/layout/PageHeader';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -305,14 +305,7 @@ export default function NewsPage() {
       />
 
       {/* Navbar */}
-      <Navbar user={user} showUserMenu={true} />
-
-      {/* Page Header */}
-      <PageHeader
-        title={t('news.title')}
-        description={t('news.subtitle')}
-        mascot="doshi"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="px-4 pb-20 max-w-7xl mx-auto">
         {/* Filter Bar */}

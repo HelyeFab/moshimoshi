@@ -22,6 +22,19 @@ export interface DrillProgressData extends ReviewProgressData {
 }
 
 /**
+ * Per-question answer result (for SRS tracking)
+ */
+export interface QuestionAnswerResult {
+  questionId: string
+  wordId: string
+  targetForm: string
+  correct: boolean
+  userAnswer: string
+  correctAnswer: string
+  responseTime: number
+}
+
+/**
  * Drill session data for tracking
  */
 export interface DrillSessionData {
@@ -37,6 +50,7 @@ export interface DrillSessionData {
   verbsPracticed: string[]
   adjectivesPracticed: string[]
   conjugationTypes: string[]
+  questionResults?: QuestionAnswerResult[] // NEW: For SRS tracking
 }
 
 /**
@@ -96,14 +110,6 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     user: any,
     isPremium: boolean
   ): Promise<void> {
-    console.log('[DrillProgressManager] trackDrillSession called:', {
-      sessionId: session.sessionId,
-      userId: user?.uid,
-      questions: session.questions,
-      correctAnswers: session.correctAnswers,
-      accuracy: session.accuracy
-    })
-
     if (!user?.uid) {
       reviewLogger.debug('[DrillProgressManager] No user - skipping tracking')
       return
@@ -114,6 +120,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
 
     // 🔥 FIX: Call the API to properly complete the drill session
     // This updates Firebase drill_sessions collection and triggers gamification (XP + streak)
+    // NEW: Also sends questionResults for SRS tracking
     try {
       const response = await fetch('/api/drill/session', {
         method: 'PUT',
@@ -122,15 +129,15 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
           sessionId: session.sessionId,
           action: 'complete',
           finalScore: session.correctAnswers,
-          accuracy: session.accuracy
+          accuracy: session.accuracy,
+          questionResults: session.questionResults // NEW: For SRS tracking
         })
       })
 
       if (response.ok) {
         const result = await response.json()
-        console.log('[DrillProgressManager] ✅ Drill session completed via API:', result.data)
 
-        // Log gamification results if present
+        // Log gamification results if present (streak/XP only)
         if (result.data?.gamification) {
           console.log('[DrillProgressManager] 🎉 Gamification results:', {
             xpEarned: result.data.gamification.xpEarned,
@@ -148,9 +155,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
 
     // Get current progress
     const progressMap = await this.getProgress(userId, 'drill', isPremium)
-    console.log('[DrillProgressManager] Loaded progress map:', progressMap)
     const currentProgress = progressMap?.get('overall')
-    console.log('[DrillProgressManager] Current drill data:', currentProgress)
 
     // Initialize with defaults or convert loaded data
     let drillData: DrillProgressData
@@ -231,13 +236,9 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       conjugationTypes: Object.fromEntries(drillData.conjugationTypes)
     }
 
-    console.log('[DrillProgressManager] Saving drill data:', serializableData)
-
     // Save updated progress
     // saveProgress(userId, contentType, contentId, progress, isPremium)
     await this.saveProgress(userId, 'drill', 'overall', serializableData as any, isPremium)
-
-    console.log('[DrillProgressManager] Drill data saved successfully')
 
     // Track individual session for history
     await this.trackProgress(
@@ -275,14 +276,11 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     // This ensures stats are consistent across devices
     if (isPremium) {
       try {
-        console.log('[DrillProgressManager] Premium user - loading drill stats from Firebase')
         const cloudData = await this.loadFromFirebase(userId, 'drill')
 
         if (cloudData && cloudData.size > 0) {
           const progress = cloudData.get('overall')
           if (progress) {
-            console.log('[DrillProgressManager] ✅ Loaded drill stats from Firebase:', progress)
-
             // Convert serialized data back to proper types
             const raw = progress as any
             return {
@@ -293,8 +291,6 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
             } as DrillProgressData
           }
         }
-
-        console.log('[DrillProgressManager] No Firebase drill data, falling back to IndexedDB')
       } catch (error) {
         console.warn('[DrillProgressManager] Firebase load failed, using IndexedDB fallback:', error)
       }
@@ -396,6 +392,275 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       bestStreak: 0,
       conjugationTypes: new Map()
     } as DrillProgressData, false)
+  }
+
+  // ============= SRS (Spaced Repetition System) Methods =============
+
+  /**
+   * Get ALL SRS data for a user's studied words
+   * Returns a Map of wordId => WordSRSEntry
+   */
+  async getSRSData(userId: string, isPremium: boolean): Promise<Map<string, any>> {
+    await this.initDB()
+
+    // Load from appropriate storage
+    const progressMap = await this.getProgress(userId, 'drill-srs', isPremium)
+
+    if (!progressMap || progressMap.size === 0) {
+      return new Map()
+    }
+
+    return progressMap
+  }
+
+  /**
+   * Update SRS data for a single word after a review
+   * Uses SM-2 algorithm to calculate next interval
+   *
+   * CLIENT-SIDE ONLY: This method uses IndexedDB
+   * For server-side SRS updates, use the API route's direct Firebase write
+   */
+  async updateWordSRS(
+    userId: string,
+    wordId: string,
+    word: any,
+    correct: boolean,
+    targetForm: string,
+    responseTime: number,
+    isPremium: boolean
+  ): Promise<void> {
+    // CLIENT-SIDE: Use IndexedDB
+    await this.initDB()
+
+    // Get existing SRS data
+    const srsMap = await this.getSRSData(userId, isPremium)
+    let wordEntry = srsMap.get(wordId)
+
+    const now = new Date().toISOString()
+
+    // Initialize if new word
+    if (!wordEntry) {
+      wordEntry = {
+        wordId,
+        word: {
+          kanji: word.kanji,
+          kana: word.kana,
+          meaning: word.meaning || word.english,
+          type: word.type,
+          jlpt: word.jlpt
+        },
+        srsData: {
+          interval: 1,
+          easeFactor: 2.5,
+          repetitions: 0,
+          lastReviewedAt: null,
+          nextReviewAt: this.calculateNextReviewDate(1),
+          status: 'new' as const,
+          lapses: 0
+        },
+        conjugationAccuracy: {},
+        reviewHistory: [],
+        leechScore: 0,
+        firstSeenAt: now,
+        lastReviewedAt: null,
+        totalReviews: 0,
+        version: 1,
+        updatedAt: now
+      }
+    }
+
+    // Update conjugation form accuracy
+    if (!wordEntry.conjugationAccuracy[targetForm]) {
+      wordEntry.conjugationAccuracy[targetForm] = {
+        attempts: 0,
+        correct: 0,
+        lastAttempted: null,
+        averageTime: 0
+      }
+    }
+
+    const formAccuracy = wordEntry.conjugationAccuracy[targetForm]
+    formAccuracy.attempts++
+    if (correct) formAccuracy.correct++
+    formAccuracy.lastAttempted = now
+    formAccuracy.averageTime =
+      (formAccuracy.averageTime * (formAccuracy.attempts - 1) + responseTime) / formAccuracy.attempts
+
+    // Update review history (keep last 10)
+    wordEntry.reviewHistory.push({
+      timestamp: now,
+      targetForm,
+      correct,
+      responseTime
+    })
+    if (wordEntry.reviewHistory.length > 10) {
+      wordEntry.reviewHistory.shift()
+    }
+
+    // Update leech score
+    if (!correct) {
+      wordEntry.leechScore = Math.min(10, wordEntry.leechScore + 1)
+    } else if (wordEntry.leechScore > 0) {
+      wordEntry.leechScore = Math.max(0, wordEntry.leechScore - 0.5)
+    }
+
+    // Update SRS data using SM-2 algorithm
+    wordEntry.srsData = this.calculateSM2(wordEntry.srsData, correct)
+    wordEntry.lastReviewedAt = now
+    wordEntry.totalReviews++
+    wordEntry.updatedAt = now
+
+    // Save updated data
+    srsMap.set(wordId, wordEntry)
+    await this.saveProgress(userId, 'drill-srs', wordId, wordEntry, isPremium)
+
+    console.log(`[DrillProgressManager] SRS updated for ${wordId}:`, {
+      status: wordEntry.srsData.status,
+      interval: wordEntry.srsData.interval,
+      nextReview: wordEntry.srsData.nextReviewAt,
+      leechScore: wordEntry.leechScore
+    })
+  }
+
+  /**
+   * SM-2 algorithm implementation for SRS interval calculation
+   * PUBLIC: Exported for use in API routes for server-side SRS calculations
+   */
+  public calculateSM2(currentSRS: any, correct: boolean): any {
+    const newSRS = { ...currentSRS }
+
+    if (correct) {
+      // Correct answer
+      if (newSRS.status === 'new') {
+        newSRS.status = 'learning'
+        newSRS.interval = 1
+        newSRS.repetitions = 1
+      } else if (newSRS.status === 'learning') {
+        newSRS.repetitions++
+        if (newSRS.repetitions >= 2) {
+          newSRS.status = 'review'
+          newSRS.interval = 3
+        } else {
+          newSRS.interval = 1
+        }
+      } else {
+        // Review status
+        newSRS.repetitions++
+        newSRS.interval = Math.round(newSRS.interval * newSRS.easeFactor)
+
+        // Check for mastery (21+ days with good accuracy)
+        if (newSRS.interval >= 21 && newSRS.repetitions >= 5) {
+          newSRS.status = 'mastered'
+        }
+      }
+
+      // Increase ease factor slightly on correct
+      newSRS.easeFactor = Math.min(2.5, newSRS.easeFactor + 0.1)
+    } else {
+      // Incorrect answer
+      newSRS.lapses++
+      newSRS.repetitions = 0
+      newSRS.interval = 1
+      newSRS.easeFactor = Math.max(1.3, newSRS.easeFactor - 0.2)
+
+      // Demote status
+      if (newSRS.status === 'mastered') {
+        newSRS.status = 'review'
+      } else if (newSRS.status === 'review') {
+        newSRS.status = 'learning'
+      }
+    }
+
+    // Calculate next review date
+    newSRS.lastReviewedAt = new Date().toISOString()
+    newSRS.nextReviewAt = this.calculateNextReviewDate(newSRS.interval)
+
+    return newSRS
+  }
+
+  /**
+   * Calculate next review date based on interval
+   */
+  public calculateNextReviewDate(intervalDays: number): string {
+    const now = new Date()
+    const next = new Date(now.getTime() + intervalDays * 24 * 60 * 60 * 1000)
+    return next.toISOString()
+  }
+
+  /**
+   * Get SRS statistics for dashboard display
+   */
+  async getSRSStats(userId: string, isPremium: boolean): Promise<any> {
+    const srsData = await this.getSRSData(userId, isPremium)
+
+    const stats = {
+      totalWords: srsData.size,
+      newWords: 0,
+      learningWords: 0,
+      reviewWords: 0,
+      masteredWords: 0,
+      dueToday: 0,
+      dueThisWeek: 0,
+      leechWords: 0,
+      averageAccuracy: 0,
+      totalReviews: 0
+    }
+
+    const now = new Date()
+    const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+
+    srsData.forEach(entry => {
+      // Count by status
+      switch (entry.srsData.status) {
+        case 'new':
+          stats.newWords++
+          break
+        case 'learning':
+          stats.learningWords++
+          break
+        case 'review':
+          stats.reviewWords++
+          break
+        case 'mastered':
+          stats.masteredWords++
+          break
+      }
+
+      // Count due words
+      const nextReview = new Date(entry.srsData.nextReviewAt)
+      if (nextReview <= now) {
+        stats.dueToday++
+      } else if (nextReview <= weekFromNow) {
+        stats.dueThisWeek++
+      }
+
+      // Count leeches
+      if (entry.leechScore >= 5) {
+        stats.leechWords++
+      }
+
+      // Aggregate reviews
+      stats.totalReviews += entry.totalReviews
+    })
+
+    // Calculate average accuracy
+    if (stats.totalReviews > 0) {
+      let totalCorrect = 0
+      let totalAttempts = 0
+
+      srsData.forEach(entry => {
+        Object.values(entry.conjugationAccuracy).forEach((form: any) => {
+          totalCorrect += form.correct
+          totalAttempts += form.attempts
+        })
+      })
+
+      stats.averageAccuracy = totalAttempts > 0
+        ? Math.round((totalCorrect / totalAttempts) * 100)
+        : 0
+    }
+
+    return stats
   }
 }
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import EnhancedArticleReader from '@/components/news/EnhancedArticleReaderFinal';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -68,21 +68,7 @@ export default function NewsArticlePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-        <Navbar user={user} showUserMenu={true} />
-        <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500 mx-auto mb-4"></div>
-            <p className="text-muted-foreground dark:text-dark-400">{t('news.loading')}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !article) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-        <Navbar user={user} showUserMenu={true} />
+      {/* Navigation is now global - rendered in root layout */}
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
             <p className="text-danger-600 dark:text-danger-400 mb-4">{error || t('news.error.articleNotFound')}</p>
@@ -100,8 +86,7 @@ export default function NewsArticlePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-      <EnhancedArticleReader article={article} onBack={handleBack} />
+      {/* Navigation is now global - rendered in root layout */}
     </div>
   );
 }

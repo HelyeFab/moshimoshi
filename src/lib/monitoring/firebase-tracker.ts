@@ -181,22 +181,3 @@ export async function trackFirebaseOp<T>(
   }
 }
 
-// Log summary every 5 minutes in development
-if (process.env.NODE_ENV === 'development') {
-  setInterval(() => {
-    const tracker = FirebaseUsageTracker.getInstance()
-    const summary = tracker.getSummary()
-
-    if (summary.totalOperations > 0) {
-      console.log('='.repeat(60))
-      console.log('[📊 Firebase Usage Summary]')
-      console.log(`Total Operations: ${summary.totalOperations}`)
-      console.log(`Premium Users: ${summary.premiumUserOperations}`)
-      console.log(`Free Users: ${summary.freeUserOperations}`)
-      console.log(`🚨 VIOLATIONS: ${summary.violations}`)
-      console.log('Operations by Type:', summary.operationsByType)
-      console.log('Operations by Collection:', summary.operationsByCollection)
-      console.log('='.repeat(60))
-    }
-  }, 5 * 60 * 1000) // 5 minutes
-}

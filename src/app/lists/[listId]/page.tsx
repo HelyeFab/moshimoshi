@@ -5,7 +5,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useRouter, useParams } from 'next/navigation';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import { listManager } from '@/lib/lists/ListManager';
 import type { UserList, ListItem } from '@/types/userLists';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -264,10 +264,7 @@ export default function ListDetailPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-        <Navbar user={user} showUserMenu={true} backLink="/lists" />
-        <div className="container mx-auto px-4 py-16">
-          <div className="flex flex-col items-center justify-center">
-            <DoshiMascot size="large" mood="thinking" />
+      {/* Navigation is now global - rendered in root layout */}
             <p className="text-gray-500 dark:text-gray-400 mt-4">{t('common.loading')}</p>
           </div>
         </div>
@@ -286,19 +283,7 @@ export default function ListDetailPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-        <Navbar user={user} showUserMenu={true} backLink="/lists" />
-        <LearningPageHeader
-          title={list.name}
-          description={t(`lists.types.${list.type}.description`)}
-          subtitle={`Studying ${selectedItems.size} items`}
-          stats={{
-            total: list.items.length,
-            learned: 0
-          }}
-          mode={viewMode}
-          onModeChange={setViewMode}
-          mascot="doshi"
-        />
+      {/* Navigation is now global - rendered in root layout */}
         <main className="container mx-auto px-4 py-8">
           {/* Simple study card */}
           <div className="max-w-2xl mx-auto">
@@ -410,19 +395,7 @@ export default function ListDetailPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-        <Navbar user={user} showUserMenu={true} backLink="/lists" />
-        <LearningPageHeader
-          title={list.name}
-          description={t(`lists.types.${list.type}.description`)}
-          subtitle={`Reviewing ${selectedItems.size} items`}
-          stats={{
-            total: list.items.length,
-            learned: 0
-          }}
-          mode={viewMode}
-          onModeChange={setViewMode}
-          mascot="doshi"
-        />
+      {/* Navigation is now global - rendered in root layout */}
         <main className="container mx-auto px-4 py-8">
           <ReviewEngine
             content={reviewContent}
@@ -446,30 +419,7 @@ export default function ListDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
       dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      <Navbar user={user} showUserMenu={true} backLink="/lists" />
-      <LearningPageHeader
-        title={list.name}
-        description={t(`lists.types.${list.type}.description`)}
-        subtitle={
-          viewMode === 'browse'
-            ? `${list.items.length} items in this list`
-            : viewMode === 'study'
-            ? 'Select items to study'
-            : 'Select items to review'
-        }
-        stats={{
-          total: list.items.length,
-          learned: 0
-        }}
-        mode={viewMode}
-        onModeChange={setViewMode}
-        selectedCount={selectedItems.size}
-        onSelectAll={viewMode !== 'browse' ? handleSelectAll : undefined}
-        onClearSelection={viewMode !== 'browse' ? handleClearSelection : undefined}
-        onStartStudy={viewMode === 'study' ? handleStartStudy : undefined}
-        onStartReview={viewMode === 'review' ? handleStartReview : undefined}
-        mascot="doshi"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-8">
         {/* Actions bar - only show add button in browse mode */}

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import { useStories } from '@/hooks/useStories';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { Story, JLPTLevel } from '@/types/story';
 
@@ -94,19 +94,7 @@ export default function StoriesPage() {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-        <Navbar user={user} showUserMenu={true} />
-        <div className="container mx-auto px-4 py-8">
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-            <p className="text-red-700 dark:text-red-300">{error}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white py-12 px-4">

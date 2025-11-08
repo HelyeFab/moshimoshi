@@ -77,7 +77,6 @@ class ListManager {
 
     // Try to fetch from server to check storage location
     try {
-      console.log('[ListManager.getLists] Checking server for lists:', userId);
       const response = await fetch('/api/lists', {
         method: 'GET',
         credentials: 'include'
@@ -90,16 +89,12 @@ class ListManager {
         // Check storage location from response
         if (storage?.location === 'local') {
           // Free user - use IndexedDB only
-          console.log('[ListManager.getLists] Free user - using local IndexedDB only');
           const localLists = await db.getAllFromIndex('lists', 'userId', userId);
           return localLists.sort((a, b) => b.updatedAt - a.updatedAt);
         } else if (storage?.location === 'both' || storage?.syncEnabled) {
           // Premium user - MERGE server lists with local lists (never delete all!)
-          console.log('[ListManager.getLists] Premium user - received', lists?.length || 0, 'lists from Firebase');
-
           // Get current local lists
           const localLists = await db.getAllFromIndex('lists', 'userId', userId);
-          console.log('[ListManager.getLists] Found', localLists.length, 'lists in local IndexedDB');
 
           // Create a map of server lists by ID for efficient lookup
           const serverListsMap = new Map<string, UserList>();
@@ -120,11 +115,9 @@ class ListManager {
             if (!localList || serverList.updatedAt >= localList.updatedAt) {
               // Server version is newer or local doesn't exist - use server version
               mergedLists.push(serverList);
-              console.log('[ListManager.getLists] Using server version of list:', serverList.name);
             } else {
               // Local version is newer (might have just been created)
               mergedLists.push(localList);
-              console.log('[ListManager.getLists] Using local version of list (newer):', localList.name);
             }
             processedIds.add(serverList.id);
           }
@@ -134,7 +127,6 @@ class ListManager {
           for (const localList of localLists) {
             if (!processedIds.has(localList.id)) {
               mergedLists.push(localList);
-              console.log('[ListManager.getLists] Keeping local-only list (not on server yet):', localList.name);
             }
           }
 
@@ -151,8 +143,6 @@ class ListManager {
           }
           await tx.done;
 
-          console.log('[ListManager.getLists] Merged and synced', mergedLists.length, 'lists to IndexedDB');
-
           return mergedLists.sort((a, b) => b.updatedAt - a.updatedAt);
         }
       }
@@ -161,7 +151,6 @@ class ListManager {
     }
 
     // Fallback: Use IndexedDB for offline access
-    console.log('[ListManager.getLists] Using IndexedDB (offline or error)');
     const lists = await db.getAllFromIndex('lists', 'userId', userId);
     return lists.sort((a, b) => b.updatedAt - a.updatedAt);
   }
@@ -202,19 +191,7 @@ class ListManager {
     };
 
     // Call server API - it will decide storage based on user's plan
-    console.log('[ListManager.createList] Creating list:', {
-      listId: list.id,
-      name: request.name,
-      type: request.type,
-      userId,
-      isPremium,
-      hasFirstItem: !!request.firstItem
-    });
-
-    // Log the exact request being sent
     const requestBody = JSON.stringify(request);
-    console.log('[ListManager.createList] Request body:', requestBody);
-    console.log('[ListManager.createList] Request size:', requestBody.length, 'bytes');
 
     try {
       const startTime = Date.now();
@@ -225,33 +202,16 @@ class ListManager {
         body: requestBody
       });
 
-      const responseTime = Date.now() - startTime;
-      console.log('[ListManager.createList] Server responded in', responseTime, 'ms - status:', response.status);
-
       if (response.ok) {
         const data = await response.json();
         const { data: serverList, storage } = data;
-
-        console.log('[ListManager.createList] Server response:', {
-          storageLocation: storage?.location,
-          syncEnabled: storage?.syncEnabled,
-          hasServerList: !!serverList,
-          serverListId: serverList?.id
-        });
 
         // Always save to IndexedDB for local access
         // Premium users: This is synced with Firebase
         // Free users: This is their only storage
         const listToStore = serverList || list;
         await db.put('lists', listToStore);
-        console.log('[ListManager.createList] Saved to IndexedDB:', listToStore.id);
         this.notifyListeners('lists-changed');
-
-        if (storage?.location === 'local') {
-          console.log('[ListManager.createList] ✓ Free user - list saved to IndexedDB only');
-        } else if (storage?.location === 'both') {
-          console.log('[ListManager.createList] ✓ Premium user - list saved to both IndexedDB and Firebase');
-        }
 
         return listToStore;
       } else {
@@ -286,7 +246,6 @@ class ListManager {
     }
 
     // Fallback: Save to IndexedDB only if server fails
-    console.log('[ListManager.createList] ⚠ Server failed, saving to IndexedDB only (offline mode)');
     await db.put('lists', list);
     this.notifyListeners('lists-changed');
     return list;
@@ -369,11 +328,9 @@ class ListManager {
     const localLists = await db.getAllFromIndex('lists', 'userId', userId);
 
     if (localLists.length === 0) {
-      console.log('[ListManager.syncLocalListsToServer] No local lists to sync');
       return 0;
     }
 
-    console.log('[ListManager.syncLocalListsToServer] Found', localLists.length, 'local lists to sync');
     let syncedCount = 0;
 
     for (const list of localLists) {
@@ -386,7 +343,6 @@ class ListManager {
 
         if (checkResponse.status === 404) {
           // List doesn't exist on server, create it
-          console.log('[ListManager.syncLocalListsToServer] Syncing list:', list.name);
           const response = await fetch('/api/lists/sync', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -396,7 +352,6 @@ class ListManager {
 
           if (response.ok) {
             syncedCount++;
-            console.log('[ListManager.syncLocalListsToServer] Successfully synced list:', list.name);
           } else {
             console.error('[ListManager.syncLocalListsToServer] Failed to sync list:', list.name, await response.text());
           }
@@ -406,7 +361,6 @@ class ListManager {
       }
     }
 
-    console.log('[ListManager.syncLocalListsToServer] Synced', syncedCount, 'lists to server');
     return syncedCount;
   }
 
@@ -532,49 +486,38 @@ class ListManager {
 
   // Delete a list
   async deleteList(listId: string, userId: string, isPremium: boolean): Promise<boolean> {
-    console.log('[ListManager.deleteList] Starting delete:', { listId, userId, isPremium });
     const db = await this.initDB();
 
     // Premium users: Delete from server AND IndexedDB
     if (isPremium) {
       try {
-        console.log('[ListManager.deleteList] Premium user, trying server delete');
         const response = await fetch(`/api/lists/${listId}`, {
           method: 'DELETE',
           credentials: 'include'
         });
 
-        console.log('[ListManager.deleteList] Server response:', response.status, response.ok);
-
         if (response.ok) {
-          console.log('[ListManager.deleteList] Server delete successful, removing from IndexedDB');
           await db.delete('lists', listId);
           this.notifyListeners('lists-changed');
           return true;
         } else {
-          console.error('[ListManager.deleteList] Server delete failed:', response.status);
           return false;
         }
       } catch (error) {
         console.error('[ListManager.deleteList] Failed to delete list on server:', error);
         // For offline premium users, still delete locally
-        console.log('[ListManager.deleteList] Premium user offline, deleting locally only');
       }
     }
 
     // Free users or offline premium users: Delete from IndexedDB only
-    console.log('[ListManager.deleteList] Deleting from local IndexedDB only');
     const list = await db.get('lists', listId);
-    console.log('[ListManager.deleteList] List found in IndexedDB:', list);
 
     if (list && list.userId === userId) {
-      console.log('[ListManager.deleteList] User owns list, deleting from IndexedDB');
       await db.delete('lists', listId);
       this.notifyListeners('lists-changed');
       return true;
     }
 
-    console.log('[ListManager.deleteList] Failed to delete - list not found or user mismatch');
     return false;
   }
 

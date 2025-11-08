@@ -8,7 +8,7 @@ import MoodBoardCard from '@/components/kanji-moods/MoodBoardCard';
 import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard';
 import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 
@@ -121,44 +121,7 @@ export default function KanjiMoodsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      <LearningPageHeader
-        title={t('moodboards.title')}
-        description={t('moodboards.description')}
-        mode={viewMode}
-        onModeChange={setViewMode}
-        stats={stats}
-        onSearch={handleSearch}
-        searchPlaceholder={t('moodboards.searchPlaceholder')}
-        filters={{
-          jlpt: {
-            value: selectedJLPT,
-            options: [
-              { value: 'all', label: t('common.all') },
-              { value: 'N5', label: 'N5' },
-              { value: 'N4', label: 'N4' },
-              { value: 'N3', label: 'N3' },
-              { value: 'N2', label: 'N2' },
-              { value: 'N1', label: 'N1' },
-            ],
-            onChange: (value) => handleFilterChange({ jlpt: value })
-          },
-          showCompleted: {
-            value: showCompleted,
-            onChange: (value) => handleFilterChange({ showCompleted: value })
-          },
-          sortBy: {
-            value: sortBy,
-            options: [
-              { value: 'title', label: t('common.title') },
-              { value: 'progress', label: t('common.progress') },
-              { value: 'kanji', label: t('common.kanjiCount') },
-            ],
-            onChange: (value) => handleFilterChange({ sortBy: value })
-          }
-        }}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {loading ? (
         <LoadingOverlay />

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { DeckGrid } from '@/components/flashcards/DeckGrid';
 import { DeckCreator } from '@/components/flashcards/DeckCreator';
@@ -490,14 +490,7 @@ export default function FlashcardsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      {/* Learning Page Header without optional props */}
-      <LearningPageHeader
-        title={t('flashcards.pageTitle')}
-        description={t('flashcards.pageDescription')}
-        mascot="doshi"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-8">
 

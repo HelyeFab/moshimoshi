@@ -13,7 +13,7 @@ import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
 import { InvoiceHistory } from '@/components/subscription/InvoiceHistory'
 import DoshiMascot from '@/components/ui/DoshiMascot'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import { LoadingOverlay, LoadingButton } from '@/components/ui/Loading'
 import Dialog from '@/components/ui/Dialog'
 import Image from 'next/image'
@@ -366,11 +366,7 @@ function AccountPageContent() {
         </div>
       )}
 
-      {/* Navbar */}
-      <Navbar
-        user={user || undefined}
-        showUserMenu={true}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-4xl">

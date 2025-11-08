@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useI18n } from '@/i18n/I18nContext';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import { useAuth } from '@/hooks/useAuth';
 
 interface NewsArticle {
@@ -325,12 +325,7 @@ export default function NewsPage() {
       />
 
       {/* Navbar */}
-      <Navbar
-        backLink={{
-          href: '/dashboard',
-          label: t('common.backToDashboard', 'Back to Dashboard')
-        }}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Page Header */}
       <header className="px-4 pt-6 pb-4">

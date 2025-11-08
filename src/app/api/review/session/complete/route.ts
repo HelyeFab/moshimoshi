@@ -12,8 +12,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuth } from 'firebase-admin/auth';
+import { getSession } from '@/lib/auth/session';
 import { recordReviewCompletion } from '@/lib/gamification/services/gamification-coordinator';
+import { adminDb } from '@/lib/firebase/admin';
 
 /**
  * POST /api/review/session/complete
@@ -33,29 +34,14 @@ import { recordReviewCompletion } from '@/lib/gamification/services/gamification
  */
 export async function POST(req: NextRequest) {
   try {
-    // Get auth token from request
-    const authHeader = req.headers.get('authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
+    // Use standard session-based auth (same as all other routes)
+    const session = await getSession();
+
+    if (!session?.uid) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Missing or invalid authorization header'
-        },
-        { status: 401 }
-      );
-    }
-
-    const token = authHeader.substring(7);
-
-    // Verify token with Firebase Admin
-    const decodedToken = await getAuth().verifyIdToken(token);
-    const userId = decodedToken.uid;
-
-    if (!userId) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Invalid user ID'
+          error: 'Not authenticated'
         },
         { status: 401 }
       );
@@ -77,11 +63,14 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user is premium (for streak freeze eligibility)
-    const isPremium = decodedToken.stripeRole === 'premium' || false;
+    const userDoc = await adminDb!.collection('users').doc(session.uid).get();
+    const userData = userDoc.data();
+    const plan = userData?.subscription?.plan || 'free';
+    const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly';
 
     // Record review completion via coordinator (atomic transaction)
     const gamificationResult = await recordReviewCompletion({
-      userId,
+      userId: session.uid,
       sessionId,
       itemsReviewed,
       correctCount,

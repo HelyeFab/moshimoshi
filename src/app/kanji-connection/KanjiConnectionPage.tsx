@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
@@ -54,18 +54,7 @@ export default function KanjiConnectionPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      {/* Learning Page Header with all components hidden */}
-      <LearningPageHeader
-        title={t('kanjiConnection.title')}
-        description={t('kanjiConnection.subtitle')}
-        subtitle={`${t('kanjiConnection.howItWorks.description')} • ${t('kanjiConnection.howItWorks.step1')} • ${t('kanjiConnection.howItWorks.step2')} • ${t('kanjiConnection.howItWorks.step3')}`}
-        showProgress={false}
-        showModeSelector={false}
-        showModeInfo={false}
-        mascot="doshi"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-8 pb-8">

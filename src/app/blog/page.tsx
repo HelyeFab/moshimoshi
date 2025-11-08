@@ -117,101 +117,7 @@ function BlogContent() {
         <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-japanese-mizu/15 dark:bg-japanese-mizuDark/10 rounded-full blur-2xl animate-pulse delay-500" />
       </div>
 
-      <Navbar showUserMenu={true} />
-
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12 relative z-10">
-        {/* Enhanced Hero Header */}
-        <header className="mb-16 sm:mb-20 text-center relative">
-          <div className="inline-flex items-center gap-3 mb-6 px-4 py-2 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-sm rounded-full shadow-lg">
-            <div className="w-2 h-2 bg-japanese-sakura rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              Welcome to our blog
-            </span>
-            <div className="w-2 h-2 bg-japanese-matcha rounded-full animate-pulse delay-300"></div>
-          </div>
-
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold bg-gradient-to-r from-gray-900 via-primary-600 to-japanese-sakura bg-clip-text text-transparent dark:from-gray-100 dark:via-primary-400 dark:to-japanese-sakuraDark mb-6 pb-2 leading-tight">
-            Stories & Insights
-          </h1>
-
-          <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
-            Discover the latest in Japanese language learning, cultural
-            insights, and product updates from the Moshimoshi team
-          </p>
-
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-8 mb-8">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                {posts.length}
-              </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Articles
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-japanese-matcha dark:text-japanese-matchaDark">
-                {categories.length - 1}
-              </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Topics
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-japanese-zen dark:text-japanese-zenDark">
-                ∞
-              </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Learning
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {loading ? (
-          <div className="text-center py-20">
-            <div className="relative">
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200 dark:border-primary-800 mx-auto"></div>
-              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary-500 mx-auto absolute top-0 left-1/2 transform -translate-x-1/2"></div>
-            </div>
-            <p className="text-gray-600 dark:text-gray-400 mt-6 text-lg">
-              Curating amazing content for you...
-            </p>
-          </div>
-        ) : posts.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="text-8xl mb-6">✨</div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Something amazing is coming
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
-              We're crafting incredible stories and insights just for you. Check
-              back soon!
-            </p>
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-japanese-sakura text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all">
-              <span>🔔</span>
-              <span>Get notified when we publish</span>
-            </div>
-          </div>
-        ) : (
-          <>
-            {/* Category Filter - Enhanced with Collapse */}
-            {categories.length > 1 && (
-              <div className="mb-16">
-                <div className="text-center mb-6">
-                  <button
-                    type="button"
-                    onClick={() => setShowCategories(!showCategories)}
-                    className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors group"
-                  >
-                    <span>Explore Topics</span>
-                    <svg
-                      className={`w-6 h-6 transition-transform duration-300 ${showCategories ? 'rotate-180' : ''}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+      {/* Navigation is now global - rendered in root layout */}
                     </svg>
                   </button>
                   <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -625,19 +531,7 @@ export default function BlogPage() {
   return (
     <Suspense fallback={
       <main className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-        <Navbar showUserMenu={true} />
-        <div className="max-w-7xl mx-auto px-4 py-20 text-center relative z-10">
-          <div className="relative mb-6">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200 dark:border-primary-800 mx-auto"></div>
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary-500 mx-auto absolute top-0 left-1/2 transform -translate-x-1/2"></div>
-          </div>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Loading blog posts...
-          </p>
-        </div>
-      </main>
-    }>
-      <BlogContent />
+      {/* Navigation is now global - rendered in root layout */}
     </Suspense>
   );
 }

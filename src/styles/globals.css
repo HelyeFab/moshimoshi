@@ -199,6 +199,18 @@ body {
   background-color: var(--color-background-light);
 }
 
+/* Ensure content doesn't get hidden behind bottom navbar on mobile */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  /* Apply padding directly to page containers so their backgrounds extend */
+  main > div {
+    padding-bottom: 50px !important;
+  }
+}
+
 /* Custom utilities */
 .japanese-text {
   font-family: var(--font-family-japanese);

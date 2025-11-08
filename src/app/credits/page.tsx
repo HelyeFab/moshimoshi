@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { LoadingOverlay } from '@/components/ui/Loading'
 
@@ -201,14 +201,7 @@ export default function CreditsPage() {
       </div>
 
       {/* Navbar */}
-      <Navbar
-        user={user}
-        showUserMenu={true}
-        backLink={{
-          href: '/settings',
-          label: strings.credits?.backToSettings || '← Back to Settings'
-        }}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-4xl">

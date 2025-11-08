@@ -5,7 +5,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useRouter } from 'next/navigation';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import { listManager } from '@/lib/lists/ListManager';
 import CreateListModal from '@/components/lists/CreateListModal';
 import EditListModal from '@/components/lists/EditListModal';
@@ -178,12 +178,7 @@ export default function MyListsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-        <Navbar user={user} showUserMenu={true} />
-        <LearningPageHeader
-          title={t('lists.title')}
-          description={t('lists.pageDescription')}
-          mascot="doshi"
-        />
+      {/* Navigation is now global - rendered in root layout */}
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col items-center justify-center">
             <DoshiMascot size="large" mood="thinking" />
@@ -198,12 +193,7 @@ export default function MyListsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-        <Navbar user={user} showUserMenu={true} />
-        <LearningPageHeader
-          title={t('lists.title')}
-          description={t('lists.pageDescription')}
-          mascot="doshi"
-        />
+      {/* Navigation is now global - rendered in root layout */}
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col items-center justify-center">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-4">
@@ -225,14 +215,7 @@ export default function MyListsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
       dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      <Navbar user={user} showUserMenu={true} />
-
-      {/* Learning Page Header */}
-      <LearningPageHeader
-        title={t('lists.title')}
-        description={t('lists.pageDescription')}
-        mascot="doshi"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-8">
 

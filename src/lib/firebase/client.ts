@@ -78,8 +78,8 @@ export const getFirebaseAnalytics = async () => {
 
 // Disable network access for Firestore in development
 // This ensures all data operations go through API routes
-if (process.env.NODE_ENV === 'development') {
-  console.log('🔒 Firebase client initialized (auth operations will go through API routes)')
-}
+// if (process.env.NODE_ENV === 'development') {
+//   console.log('🔒 Firebase client initialized (auth operations will go through API routes)')
+// }
 
 export { app }

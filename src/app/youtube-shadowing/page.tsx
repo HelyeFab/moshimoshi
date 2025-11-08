@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/layout/PageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -675,22 +675,7 @@ function YouTubeShadowingContent() {
           >
             {/* Navbar */}
             <div className="bg-white dark:bg-dark-900">
-              <Navbar user={user} showUserMenu={true} />
-            </div>
-
-            {/* PageHeader */}
-            <div className="bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-dark-800">
-              <PageHeader
-                title={
-                  session?.videoTitle
-                    ? session.videoTitle.split(' ').slice(0, 3).join(' ') + (session.videoTitle.split(' ').length > 3 ? '...' : '')
-                    : session?.videoMetadata?.title
-                      ? session.videoMetadata.title.split(' ').slice(0, 3).join(' ') + (session.videoMetadata.title.split(' ').length > 3 ? '...' : '')
-                      : t('youtubeShadowing.title')
-                }
-                description={t('youtubeShadowing.description')}
-                minimal={true}
-              />
+      {/* Navigation is now global - rendered in root layout */}
             </div>
           </motion.div>
         )}
@@ -700,34 +685,14 @@ function YouTubeShadowingContent() {
       {!session && (
         <>
           <div className="block sm:hidden">
-            <Navbar user={user} showUserMenu={true} />
-          </div>
-          <div className="block sm:hidden">
-            <PageHeader
-              title={t('youtubeShadowing.title')}
-              description={t('youtubeShadowing.description')}
-            />
+      {/* Navigation is now global - rendered in root layout */}
           </div>
         </>
       )}
 
       {/* Desktop version - always visible */}
       <div className="hidden sm:block">
-        <Navbar user={user} showUserMenu={true} />
-      </div>
-
-      {/* Desktop PageHeader - always visible */}
-      <div className="hidden sm:block">
-        <PageHeader
-          title={
-            session?.videoTitle
-              ? session.videoTitle.split(' ').slice(0, 3).join(' ') + (session.videoTitle.split(' ').length > 3 ? '...' : '')
-              : session?.videoMetadata?.title
-                ? session.videoMetadata.title.split(' ').slice(0, 3).join(' ') + (session.videoMetadata.title.split(' ').length > 3 ? '...' : '')
-                : t('youtubeShadowing.title')
-          }
-          description={t('youtubeShadowing.description')}
-        />
+      {/* Navigation is now global - rendered in root layout */}
       </div>
 
 

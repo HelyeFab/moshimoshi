@@ -5,7 +5,7 @@ import { Kanji, JLPTLevel, KanjiByLevel } from '@/types/kanji'
 import { kanjiService } from '@/services/kanjiService'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay, LoadingSpinner } from '@/components/ui/Loading'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
@@ -560,32 +560,7 @@ function KanjiBrowserContent() {
   if (selectedKanjiData.length > 0 && selectedKanjiData[currentStudyIndex]) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-        <Navbar user={user} showUserMenu={true} />
-        <LearningPageHeader
-          title="Kanji Browser"
-          description="Master Japanese kanji step by step through JLPT levels"
-          subtitle="Select kanji and start studying"
-          stats={{
-            total: progressStats.total,
-            learned: progressStats.learned,
-            daily: user ? { used: dailyUsage.added, limit: dailyUsage.limit } : undefined
-          }}
-          mode={viewMode}
-          onModeChange={setViewMode}
-          selectedCount={selectedKanji.size}
-          onSelectAll={() => {
-            const allKanji = Object.values(kanjiData).flat()
-            handleSelectAll(allKanji)
-          }}
-          onClearSelection={handleDeselectAll}
-          onStartStudy={() => {
-            if (selectedKanji.size === 0) {
-              showToast('Please select kanji to study', 'warning')
-              return
-            }
-            handleStartStudy()
-          }}
-        />
+      {/* Navigation is now global - rendered in root layout */}
         <main className="container mx-auto px-4 py-8">
           <KanjiStudyMode
             kanji={selectedKanjiData[currentStudyIndex]}
@@ -650,32 +625,7 @@ function KanjiBrowserContent() {
   if (reviewContent.length > 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-        <Navbar user={user} showUserMenu={true} />
-        <LearningPageHeader
-          title="Kanji Browser"
-          description="Master Japanese kanji step by step through JLPT levels"
-          subtitle="Select kanji and start reviewing"
-          stats={{
-            total: progressStats.total,
-            learned: progressStats.learned,
-            daily: user ? { used: dailyUsage.added, limit: dailyUsage.limit } : undefined
-          }}
-          mode={viewMode}
-          onModeChange={setViewMode}
-          selectedCount={selectedKanji.size}
-          onSelectAll={() => {
-            const allKanji = Object.values(kanjiData).flat()
-            handleSelectAll(allKanji)
-          }}
-          onClearSelection={handleDeselectAll}
-          onStartReview={() => {
-            if (selectedKanji.size === 0) {
-              showToast('Please select kanji to review', 'warning')
-              return
-            }
-            handleStartReview()
-          }}
-        />
+      {/* Navigation is now global - rendered in root layout */}
         <main className="container mx-auto px-4 py-8">
           <ReviewEngine
             content={reviewContent}
@@ -698,47 +648,7 @@ function KanjiBrowserContent() {
   // Main view for all modes (when not in active session)
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      <Navbar user={user} showUserMenu={true} />
-      <LearningPageHeader
-        title="Kanji Browser"
-        description="Master Japanese kanji step by step through JLPT levels"
-        subtitle={
-          viewMode === 'browse'
-            ? "Browse over 2,000 kanji organized from beginner (N5) to advanced (N1)"
-            : viewMode === 'study'
-            ? "Select kanji to study"
-            : "Select kanji to review"
-        }
-        stats={{
-          total: progressStats.total,
-          learned: progressStats.learned,
-          daily: user ? { used: dailyUsage.added, limit: dailyUsage.limit } : undefined
-        }}
-        mode={viewMode}
-        onModeChange={setViewMode}
-        selectedCount={selectedKanji.size}
-        onSelectAll={viewMode !== 'browse' ? () => {
-          const allKanji = searchQuery.trim()
-            ? searchResults
-            : Object.values(kanjiData).flat()
-          handleSelectAll(allKanji)
-        } : undefined}
-        onClearSelection={viewMode !== 'browse' ? handleDeselectAll : undefined}
-        onStartStudy={viewMode === 'study' ? () => {
-          if (selectedKanji.size === 0) {
-            showToast('Please select kanji to study', 'warning')
-            return
-          }
-          handleStartStudy()
-        } : undefined}
-        onStartReview={viewMode === 'review' ? () => {
-          if (selectedKanji.size === 0) {
-            showToast('Please select kanji to review', 'warning')
-            return
-          }
-          handleStartReview()
-        } : undefined}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-7xl">

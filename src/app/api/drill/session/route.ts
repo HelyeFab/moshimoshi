@@ -13,11 +13,13 @@ import type { FeatureId } from '@/types/FeatureId';
 import type { DrillSession, DrillQuestion, JapaneseWord } from '@/types/drill';
 import { WordUtils } from '@/lib/drill/word-utils';
 import { QuestionGenerator } from '@/lib/drill/question-generator';
+import { SRSWordSelector } from '@/lib/drill/srs-word-selector';
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
 import { recordDrillCompletion } from '@/lib/gamification/services/gamification-coordinator';
 import { Accuracy } from '@/lib/statistics/accuracy';
 import { DrillSessionCompleteRequestSchema } from '@/lib/schemas/drill.schema';
 import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch';
+import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
 
 /**
  * GET /api/drill/session
@@ -204,11 +206,11 @@ export async function POST(request: NextRequest) {
         const fallbackWords = WordUtils.getCommonPracticeWords();
         const filteredWords = WordUtils.filterByType(fallbackWords, wordTypeFilter);
         const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
-        questions = QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession, conjugationForms);
+        questions = await QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession, conjugationForms);
       } else {
         // Use custom question count if provided, otherwise use plan defaults
         const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
-        questions = QuestionGenerator.generateQuestions(practiceWords, 3, questionsPerSession, conjugationForms);
+        questions = await QuestionGenerator.generateQuestions(practiceWords, 3, questionsPerSession, conjugationForms);
       }
     } else if (mode === 'lists' && selectedLists?.length > 0) {
       // Fetch words from user's lists
@@ -224,20 +226,43 @@ export async function POST(request: NextRequest) {
 
         if (listDoc.exists) {
           const items = listDoc.data()?.items || [];
-          // Transform items to JapaneseWord format
-          const words = items.map((item: any) => ({
-            id: item.id,
-            kanji: item.kanji || item.word,
-            kana: item.kana || item.reading,
-            meaning: item.meaning || item.english,
-            type: WordUtils.detectWordTypeByPattern({
-              kanji: item.kanji || item.word,
-              kana: item.kana || item.reading,
-            } as JapaneseWord),
-            jlpt: item.jlpt,
-          }));
+          console.log(`[Drill API] Processing list ${listId}:`, {
+            itemCount: items.length,
+            sampleItem: items[0] // Log first item to see structure
+          });
 
-          listWords.push(...WordUtils.filterConjugableWords(words));
+          // Transform items to JapaneseWord format
+          const words = items.map((item: any) => {
+            // Handle different list item structures:
+            // 1. New format: { content: "買う", metadata: { reading: "かう", meaning: "to buy" } }
+            // 2. Old format: { kanji/word: "買う", kana/reading: "かう", meaning/english: "to buy" }
+            const kanji = item.content || item.kanji || item.word;
+            const kana = item.metadata?.reading || item.kana || item.reading;
+            const meaning = item.metadata?.meaning || item.meaning || item.english;
+
+            const word = {
+              id: item.id,
+              kanji: kanji,
+              kana: kana,
+              meaning: meaning,
+              type: WordUtils.detectWordTypeByPattern({
+                kanji: kanji,
+                kana: kana,
+              } as JapaneseWord),
+              jlpt: item.jlpt || item.metadata?.jlpt,
+            };
+            console.log('[Drill API] Transformed word:', {
+              kanji: word.kanji,
+              kana: word.kana,
+              type: word.type,
+              isConjugatable: WordUtils.isConjugable(word as JapaneseWord)
+            });
+            return word;
+          });
+
+          const conjugableWords = WordUtils.filterConjugableWords(words);
+          console.log(`[Drill API] List ${listId}: ${items.length} items -> ${words.length} transformed -> ${conjugableWords.length} conjugatable`);
+          listWords.push(...conjugableWords);
         }
       }
 
@@ -245,7 +270,54 @@ export async function POST(request: NextRequest) {
         const filteredWords = WordUtils.filterByType(listWords, wordTypeFilter);
         // Use custom question count if provided, otherwise use plan defaults
         const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
-        questions = QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession, conjugationForms);
+        questions = await QuestionGenerator.generateQuestions(filteredWords, 3, questionsPerSession, conjugationForms);
+      }
+    } else if (mode === 'srs') {
+      // SRS mode: Use intelligent word selection based on spaced repetition
+      console.log('[Drill API] SRS mode requested');
+
+      const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly';
+      const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
+
+      try {
+        // Select words using SRS algorithm
+        const srsWords = await SRSWordSelector.selectWords({
+          userId: session.uid,
+          targetCount: questionsPerSession,
+          isPremium,
+          // SRS mode ignores JLPT filters - shows ALL studied words
+          // This matches the user's design decision: "SRS mode shows ALL studied words"
+        });
+
+        console.log('[Drill API] SRS selected', srsWords.length, 'words');
+
+        if (srsWords.length === 0) {
+          return NextResponse.json({
+            success: false,
+            error: {
+              code: 'NO_SRS_WORDS',
+              message: 'No words available for SRS review. Practice in Random or My Lists mode first!'
+            }
+          }, { status: 400 });
+        }
+
+        // Generate questions from SRS words
+        // Note: wordTypeFilter is ignored for SRS mode (shows all types studied)
+        questions = await QuestionGenerator.generateQuestions(
+          srsWords,
+          3,
+          Math.min(questionsPerSession, srsWords.length),
+          conjugationForms
+        );
+      } catch (error) {
+        console.error('[Drill API] SRS word selection failed:', error);
+        return NextResponse.json({
+          success: false,
+          error: {
+            code: 'SRS_ERROR',
+            message: 'Failed to load SRS words. Please try again.'
+          }
+        }, { status: 500 });
       }
     }
 
@@ -259,12 +331,27 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
+    // Helper to sanitize object for Firestore (convert undefined to null)
+    const sanitizeForFirestore = (obj: any): any => {
+      if (obj === null || obj === undefined) return null;
+      if (Array.isArray(obj)) return obj.map(sanitizeForFirestore);
+      if (typeof obj === 'object') {
+        const sanitized: any = {};
+        for (const key in obj) {
+          sanitized[key] = sanitizeForFirestore(obj[key]);
+        }
+        return sanitized;
+      }
+      return obj;
+    };
+
     // Create session
     const sessionId = `drill_${session.uid}_${Date.now()}`;
+
     const drillSession: DrillSession = {
       id: sessionId,
       userId: session.uid,
-      questions,
+      questions: sanitizeForFirestore(questions), // Recursively clean all undefined values
       currentQuestionIndex: 0,
       score: 0,
       startedAt: nowUtc,
@@ -447,6 +534,152 @@ export async function PUT(request: NextRequest) {
           console.error('[Drill API] Failed to update gamification:', error);
           // Don't fail the whole request if gamification fails
         }
+      }
+
+      // NEW: Update SRS data for all answered questions (passive tracking)
+      // This allows words from ANY mode (random, lists, srs) to appear in future SRS sessions
+      console.log('[Drill API] Checking for questionResults:', {
+        hasQuestionResults: !!validated.questionResults,
+        count: validated.questionResults?.length || 0,
+        sample: validated.questionResults?.[0]
+      });
+
+      if (validated.questionResults && validated.questionResults.length > 0) {
+        try {
+          // PREMIUM ONLY: SRS tracking follows the same pattern as achievements and video history
+          if (!isPremium) {
+            console.log('[Drill API] Skipping SRS tracking - premium feature');
+          } else {
+            console.log('[Drill API] Updating SRS data for', validated.questionResults.length, 'words');
+
+            // Import Firebase Admin (server-only)
+            const { adminFirestore } = await import('@/lib/firebase/admin');
+
+            if (!adminFirestore) {
+              throw new Error('Firebase Admin not initialized');
+            }
+
+            const drillProgressManager = DrillProgressManager.getInstance();
+
+            // Process each question result for SRS tracking
+            for (const result of validated.questionResults) {
+              // Find the full question data
+              const question = sessionData.questions.find(q => q.id === result.questionId);
+              if (!question) continue;
+
+              // Build word ID format expected by SRS: "kanji:kana"
+              const wordId = `${question.word.kanji || question.word.kana}:${question.word.kana}`;
+              const now = new Date().toISOString();
+
+              // Reference to the SRS word document
+              const wordDocRef = adminFirestore
+                .collection('users')
+                .doc(session.uid)
+                .collection('drill-srs')
+                .doc(wordId);
+
+              // Get existing document
+              const wordDoc = await wordDocRef.get();
+              let wordEntry: any;
+
+              if (!wordDoc.exists) {
+                // Initialize new word entry
+                wordEntry = {
+                  wordId,
+                  word: {
+                    kanji: question.word.kanji,
+                    kana: question.word.kana,
+                    meaning: question.word.meaning,
+                    type: question.word.type,
+                    jlpt: question.word.jlpt
+                  },
+                  srsData: {
+                    interval: 1,
+                    easeFactor: 2.5,
+                    repetitions: 0,
+                    lastReviewedAt: null,
+                    nextReviewAt: drillProgressManager.calculateNextReviewDate(1),
+                    status: 'new' as const,
+                    lapses: 0
+                  },
+                  conjugationAccuracy: {},
+                  reviewHistory: [],
+                  leechScore: 0,
+                  firstSeenAt: now,
+                  lastReviewedAt: null,
+                  totalReviews: 0,
+                  version: 1,
+                  updatedAt: now
+                };
+              } else {
+                // Get existing entry
+                wordEntry = wordDoc.data();
+              }
+
+              // Update conjugation form accuracy
+              if (!wordEntry.conjugationAccuracy[result.targetForm]) {
+                wordEntry.conjugationAccuracy[result.targetForm] = {
+                  attempts: 0,
+                  correct: 0,
+                  lastAttempted: null,
+                  averageTime: 0
+                };
+              }
+
+              const formAccuracy = wordEntry.conjugationAccuracy[result.targetForm];
+              formAccuracy.attempts++;
+              if (result.correct) formAccuracy.correct++;
+              formAccuracy.lastAttempted = now;
+              formAccuracy.averageTime =
+                (formAccuracy.averageTime * (formAccuracy.attempts - 1) + (result.responseTime || 0)) /
+                formAccuracy.attempts;
+
+              // Update review history (keep last 10)
+              if (!wordEntry.reviewHistory) {
+                wordEntry.reviewHistory = [];
+              }
+              wordEntry.reviewHistory.push({
+                timestamp: now,
+                targetForm: result.targetForm,
+                correct: result.correct,
+                responseTime: result.responseTime || 0
+              });
+              if (wordEntry.reviewHistory.length > 10) {
+                wordEntry.reviewHistory.shift();
+              }
+
+              // Update leech score
+              if (!result.correct) {
+                wordEntry.leechScore = Math.min(10, wordEntry.leechScore + 1);
+              } else if (wordEntry.leechScore > 0) {
+                wordEntry.leechScore = Math.max(0, wordEntry.leechScore - 0.5);
+              }
+
+              // Update SRS data using SM-2 algorithm
+              wordEntry.srsData = drillProgressManager.calculateSM2(wordEntry.srsData, result.correct);
+              wordEntry.lastReviewedAt = now;
+              wordEntry.totalReviews++;
+              wordEntry.updatedAt = now;
+
+              // Write to Firebase
+              await wordDocRef.set(wordEntry, { merge: true });
+
+              console.log(`[Drill API] [SERVER] SRS updated for ${wordId}:`, {
+                status: wordEntry.srsData.status,
+                interval: wordEntry.srsData.interval,
+                nextReview: wordEntry.srsData.nextReviewAt,
+                leechScore: wordEntry.leechScore
+              });
+            }
+
+            console.log('[Drill API] SRS data updated successfully');
+          }
+        } catch (error) {
+          console.error('[Drill API] Failed to update SRS data:', error);
+          // Don't fail the whole request if SRS tracking fails
+        }
+      } else {
+        console.log('[Drill API] No question results provided - SRS tracking skipped');
       }
 
       return NextResponse.json({

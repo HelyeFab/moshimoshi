@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
@@ -133,12 +133,7 @@ export default function GamesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      <LearningPageHeader
-        title={strings.games?.title || 'Games Stall'}
-        description={strings.games?.subtitle || 'Learn Japanese through fun and interactive games'}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">

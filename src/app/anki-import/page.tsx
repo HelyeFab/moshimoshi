@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/layout/PageHeader';
 import { AnkiImportModal } from '@/components/anki/AnkiImportModal';
 import { useAnkiImport } from '@/hooks/useAnkiImport';
@@ -47,13 +47,7 @@ export default function AnkiImportPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-primary-50 dark:from-dark-850 dark:to-dark-900">
-      <Navbar showUserMenu={true} />
-
-      <PageHeader
-        title={t('anki.importTitle')}
-        description={t('anki.description')}
-        mascot="none"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-8 max-w-6xl">
 

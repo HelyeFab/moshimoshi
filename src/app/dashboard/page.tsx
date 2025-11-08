@@ -5,12 +5,12 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Search } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useI18n } from '@/i18n/I18nContext'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Tooltip from '@/components/ui/Tooltip'
 import LearningVillage from '@/components/dashboard/LearningVillage'
@@ -564,21 +564,20 @@ function DashboardContent() {
         }} />
       </div>
 
-      {/* Navbar */}
-      <Navbar user={user} showUserMenu={true} />
-      
+      {/* Navigation is now global - rendered in root layout */}
+
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 relative z-10">
+      <main className="container mx-auto px-4 py-2 sm:py-8 relative z-10">
         {/* Guest Mode Banner */}
         {isGuest && (
           <GuestModeBanner className="mb-6" />
         )}
 
         {/* Welcome Section - Mobile Collapsible, Desktop Full */}
-        <div className="mb-8">
+        <div className="mb-1 sm:mb-8">
           {/* Mobile Version - Collapsible */}
-          <div className="sm:hidden">
+          <div className="sm:hidden mt-6">
             <div className={`bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 dark:border-dark-700/30 relative transition-all duration-300 ${
               isWelcomeExpanded ? '' : 'border-l-4 border-l-primary-500 dark:border-l-primary-400'
             }`}>
@@ -1038,17 +1037,44 @@ function DashboardContent() {
         </div>
 
         {/* Learning Village - The stunning navigation system */}
-        <div className="mb-8 -mx-4 sm:mx-0">
+        <div className="mb-8 -mx-4 sm:mx-0 mt-0 relative">
+          {/* Mobile: Floating buttons at top of Learning Village */}
+          <div className="sm:hidden absolute top-4 left-0 right-0 z-[60] flex justify-between px-10 pointer-events-none">
+            {/* Search Button - Left */}
+            <button
+              onClick={() => {
+                const event = new KeyboardEvent('keydown', {
+                  key: 'k',
+                  metaKey: true,
+                  ctrlKey: true,
+                  bubbles: true
+                });
+                document.dispatchEvent(event);
+              }}
+              className="p-3 bg-soft-white/20 dark:bg-dark-900/30 backdrop-blur-2xl backdrop-saturate-150 border border-gray-200/40 dark:border-gray-700/30 text-gray-700 dark:text-gray-300 rounded-full shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60 hover:bg-soft-white/30 dark:hover:bg-dark-900/40 transition-all duration-200 hover:scale-110 active:scale-95 pointer-events-auto"
+              aria-label="Open search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+
+            {/* Animation Control Button - Right */}
+            <div className="pointer-events-auto">
+              <AnimationControl position="top-right" variant="glassmorphism" />
+            </div>
+          </div>
+
           <LearningVillage />
         </div>
 
       </main>
 
-      {/* Command Palette */}
+      {/* Command Palette - Opens on keyboard shortcut (Cmd+K / Ctrl+K) */}
       <CommandPalette />
 
-      {/* Animation Control Button */}
-      <AnimationControl position="bottom-right" />
+      {/* Desktop: Animation Control only (bottom-right) */}
+      <div className="hidden sm:block">
+        <AnimationControl position="bottom-right" />
+      </div>
 
       {/* Streak Save Modal (Phase 2: XP-Save Mechanic) */}
       <StreakSaveModal

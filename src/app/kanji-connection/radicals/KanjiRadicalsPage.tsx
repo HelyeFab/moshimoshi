@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { SEMANTIC_RADICALS, getRadicalsByCategory, RADICAL_CATEGORIES, type RadicalKanji } from '@/lib/kanji/radicals';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
@@ -98,18 +98,7 @@ export default function KanjiRadicalsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      {/* Header */}
-      <header className="px-4 pt-24 pb-4">
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => router.back()}
-              className="p-2 rounded-lg hover:bg-muted dark:hover:bg-dark-700 transition-colors"
-            >
-              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      {/* Navigation is now global - rendered in root layout */}
               </svg>
             </button>
 

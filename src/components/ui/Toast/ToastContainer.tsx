@@ -8,8 +8,8 @@ export default function ToastContainer() {
   const { toasts, position } = useToast();
 
   const getPositionClasses = () => {
-    const base = 'fixed z-50 pointer-events-none flex flex-col gap-2 p-4';
-    
+    const base = 'fixed z-[100] pointer-events-none flex flex-col gap-2 p-4';
+
     switch (position) {
       case 'top':
         return `${base} top-0 left-1/2 -translate-x-1/2 items-center`;

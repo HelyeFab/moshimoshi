@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import ReadingRoutesGame from './components/ReadingRoutesGame'
 import type { MoodBoard } from '@/types/moodboard'
@@ -135,23 +135,14 @@ export default function ReadingRoutesPage() {
   if (gameStarted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-        <Navbar user={user} showUserMenu={true} />
-        <ReadingRoutesGame
-          board={demoMoodBoard}
-          onComplete={handleGameComplete}
-        />
+      {/* Navigation is now global - rendered in root layout */}
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} backLink={{ href: '/games', label: t('common.back') }} />
-
-      <LearningPageHeader
-        title={strings.games?.readingRoutes?.title || 'Reading Routes'}
-        description={strings.games?.readingRoutes?.description || "Navigate through kanji readings in context!"}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
 

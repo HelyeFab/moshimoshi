@@ -9,7 +9,7 @@ import { GuestLoginModal } from '@/components/entitlements/GuestLoginModal';
 import { InlineUpgradeModal } from '@/components/entitlements/InlineUpgradeModal';
 import { LimitReachedModal } from '@/components/entitlements/LimitDisplay';
 import { EntitlementGate } from '@/components/review-engine/EntitlementGate';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import DoshiMascot from '@/components/ui/DoshiMascot';
 import { useToast } from '@/components/ui/Toast';
 
@@ -74,13 +74,7 @@ export default function TestEntitlementsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
-      <Navbar user={user} showUserMenu={true} />
-
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <DoshiMascot size="large" />
+      {/* Navigation is now global - rendered in root layout */}
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-4">
               Entitlements System Test Page
             </h1>

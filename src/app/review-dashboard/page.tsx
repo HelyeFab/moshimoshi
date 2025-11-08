@@ -12,7 +12,7 @@ import { ProgressHeatmap } from '@/components/review/charts/ProgressHeatmap';
 import { UpcomingReviews } from '@/components/review/dashboard/UpcomingReviews';
 import { LoadingOverlay } from '@/components/ui/Loading';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 
 export default function ReviewDashboard() {
   const { user, loading: authLoading } = useAuth();
@@ -147,11 +147,7 @@ export default function ReviewDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background-lighter to-background-accent dark:from-dark-900 dark:via-dark-800 dark:to-dark-850">
       {/* Standard Navbar */}
-      <Navbar
-        user={user}
-        showUserMenu={true}
-        backLink="/dashboard"
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* Learning Page Header - WITHOUT the 3 optional props for simplified usage */}
       <LearningPageHeader

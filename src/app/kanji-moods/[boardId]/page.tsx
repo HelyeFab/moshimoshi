@@ -12,7 +12,7 @@ import {
 } from '@/utils/moodBoardProgress';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal';
@@ -172,39 +172,7 @@ export default function MoodBoardDetailPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      <Navbar user={user} showUserMenu={true} />
-
-      {/* Learning Page Header */}
-      <LearningPageHeader
-        title={`${board.emoji} ${board.title}`}
-        description={board.description}
-        mode={viewMode}
-        onModeChange={(mode) => {
-          if (mode === 'study') {
-            handleStudyMode();
-          } else {
-            setViewMode(mode as 'grid' | 'study' | 'list');
-          }
-        }}
-        stats={{
-          total: totalCount,
-          learned: learnedCount,
-          reviewing: 0,
-          accuracy: 0
-        }}
-        progress={progressPercentage}
-        selectionMode={false}
-        onToggleSelection={() => {}}
-        customActions={
-          <div className="flex items-center gap-4">
-            {/* Show completed toggle */}
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={showCompleted}
-                onChange={(e) => setShowCompleted(e.target.checked)}
-                className="rounded border-gray-300 dark:border-dark-600"
-              />
+      {/* Navigation is now global - rendered in root layout */}
               <span className="text-sm">{t('moodboards.showCompleted')}</span>
             </label>
 

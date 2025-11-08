@@ -7,7 +7,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import Navbar from '@/components/layout/Navbar';
+// Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/layout/PageHeader';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import DoshiMascot from '@/components/ui/DoshiMascot';
@@ -377,13 +377,7 @@ export default function PopularVideosPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background dark:from-dark-850 dark:to-dark-900">
-      <Navbar user={user || undefined} showUserMenu={true} />
-
-      {/* LearningPageHeader with ONLY required props - NO optional props */}
-      <PageHeader
-        title={t('popularVideos.title')}
-        description={t('popularVideos.subtitle')}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       {isLoading && <LoadingOverlay message={t('popularVideos.loading')} />}
 

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
-import Navbar from '@/components/layout/Navbar'
+// Navigation is now global via NavigationWrapper in root layout
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { useAuth } from '@/hooks/useAuth'
 import { DoshiMascot } from '@/components/ui/DoshiMascot'
@@ -35,14 +35,7 @@ export default function TextbookVocabularyPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
-      <Navbar user={user} showUserMenu={true} />
-
-      <LearningPageHeader
-        title={strings.common?.textbookVocabulary || 'Textbook Vocabulary'}
-        description={strings.common?.textbookVocabularyDesc || 'Study vocabulary from popular Japanese textbooks'}
-        mode={viewMode}
-        onModeChange={handleModeChange}
-      />
+      {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-6 max-w-6xl">
 
