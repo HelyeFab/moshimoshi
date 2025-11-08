@@ -48,7 +48,7 @@ export async function getTranscriptFromSupa(
     console.log(`[SUPA] Fetching transcript for video: ${videoId}`);
 
     const response = await fetch(
-      `https://api.supadata.ai/v1/transcript?video_id=${videoId}&type=json`,
+      `https://api.supadata.ai/v1/transcript?url=https://www.youtube.com/watch?v=${videoId}&type=json`,
       {
         headers: {
           'x-api-key': API_KEY,
