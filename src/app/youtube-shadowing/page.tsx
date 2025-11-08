@@ -94,7 +94,14 @@ function YouTubeShadowingContent() {
 
   // Inject player settings button into bottom navbar when video is loaded (mobile only)
   useEffect(() => {
+    console.log('[YouTube Shadowing] Bottom nav injection:', {
+      hasSession: !!session,
+      viewMode,
+      shouldShow: session && viewMode === 'player'
+    });
+
     if (session && viewMode === 'player') {
+      console.log('[YouTube Shadowing] Setting Player button in navbar');
       setExtraItem({
         id: 'player-settings',
         label: 'Player',
@@ -104,6 +111,7 @@ function YouTubeShadowingContent() {
         matchPaths: [],
       });
     } else {
+      console.log('[YouTube Shadowing] Removing Player button from navbar');
       setExtraItem(null);
     }
 
