@@ -288,98 +288,50 @@ export function YouTubePlayerSurface({
         </div>
       )}
 
-      {/* Custom Controls Overlay - Moshimoshi Style */}
+      {/* Custom Controls Overlay - Simplified */}
       {isReady && showControls && (
         <div
           className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent transition-opacity duration-300 ${
             showControls ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          {/* Top Controls */}
-          <div className="absolute top-4 right-4 flex items-center gap-2">
-            {/* Quality Selector */}
-            <div className="text-sm bg-dark-800/70 backdrop-blur-xl text-primary-400 dark:text-primary-400 px-3 py-1 rounded-lg border border-white/10 shadow-lg">
-              {getQualityDisplayName(state.quality)}
-            </div>
-
-            {/* Playback Rate */}
-            <select
-              value={state.playbackRate}
-              onChange={(e) => handlePlaybackRateChange(parseFloat(e.target.value))}
-              className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 text-sm px-3 py-1 rounded-lg border border-white/10 cursor-pointer transition-colors shadow-lg"
+          {/* Bottom Controls - Only Play/Pause and Volume */}
+          <div className="absolute bottom-4 left-4 flex items-center gap-4">
+            {/* Play/Pause Button */}
+            <button
+              onClick={handlePlayPause}
+              className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 p-3 rounded-full transition-colors shadow-lg border border-white/10"
+              title={state.playing ? 'Pause' : 'Play'}
             >
-              <option value={0.25}>0.25x</option>
-              <option value={0.5}>0.5x</option>
-              <option value={0.75}>0.75x</option>
-              <option value={1}>1x</option>
-              <option value={1.25}>1.25x</option>
-              <option value={1.5}>1.5x</option>
-              <option value={2}>2x</option>
-            </select>
-          </div>
+              {state.playing ? (
+                <Pause className="w-5 h-5" />
+              ) : (
+                <Play className="w-5 h-5 ml-0.5" />
+              )}
+            </button>
 
-          {/* Bottom Controls */}
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            {/* Progress Bar */}
-            <div className="mb-4">
+            {/* Volume Controls */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={state.muted ? actions.unmute : actions.mute}
+                className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
+                title={state.muted ? 'Unmute' : 'Mute'}
+              >
+                {state.muted ? (
+                  <VolumeX className="w-4 h-4" />
+                ) : (
+                  <Volume2 className="w-4 h-4" />
+                )}
+              </button>
+
               <input
                 type="range"
                 min="0"
                 max="100"
-                value={progress}
-                onChange={handleSeek}
-                className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer hover:h-3 transition-all"
-                style={{
-                  background: `linear-gradient(to right, #ef4444 0%, #ef4444 ${progress}%, rgba(255,255,255,0.2) ${progress}%, rgba(255,255,255,0.2) 100%)`,
-                }}
+                value={state.muted ? 0 : state.volume}
+                onChange={handleVolumeChange}
+                className="w-20 h-1 bg-white/30 rounded-lg appearance-none cursor-pointer"
               />
-            </div>
-
-            {/* Control Bar */}
-            <div className="flex items-center text-white">
-              {/* Controls */}
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={handlePlayPause}
-                  className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 p-3 rounded-full transition-colors shadow-lg border border-white/10"
-                  title={state.playing ? 'Pause' : 'Play'}
-                >
-                  {state.playing ? (
-                    <Pause className="w-5 h-5" />
-                  ) : (
-                    <Play className="w-5 h-5 ml-0.5" />
-                  )}
-                </button>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={state.muted ? actions.unmute : actions.mute}
-                    className="bg-dark-800/70 hover:bg-dark-700/80 backdrop-blur-xl text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300 p-2 rounded-lg transition-colors border border-white/10 shadow-lg"
-                    title={state.muted ? 'Unmute' : 'Mute'}
-                  >
-                    {state.muted ? (
-                      <VolumeX className="w-4 h-4" />
-                    ) : (
-                      <Volume2 className="w-4 h-4" />
-                    )}
-                  </button>
-
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={state.muted ? 0 : state.volume}
-                    onChange={handleVolumeChange}
-                    className="w-20 h-1 bg-white/30 rounded-lg appearance-none cursor-pointer"
-                  />
-                </div>
-
-                <span className="text-sm font-mono text-primary-400 dark:text-primary-400 bg-dark-800/70 backdrop-blur-xl px-3 py-1 rounded-lg border border-white/10 shadow-lg">
-                  {formatTime(state.currentTime)} / {formatTime(state.duration)}
-                </span>
-              </div>
-
-
             </div>
           </div>
         </div>
