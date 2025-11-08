@@ -96,6 +96,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/decision-explorer', label: 'Decision Logs', icon: '🔎' },
     { href: '/admin/firebase-monitoring', label: 'Firebase Monitor', icon: '🔥' },
     { href: '/admin/youtube-series', label: 'YouTube Series', icon: '📹' },
+    { href: '/admin/feature-flags', label: 'Feature Flags', icon: '🚩' },
   ];
 
   const isActiveRoute = (href: string) => {

@@ -1,0 +1,843 @@
+version: "1.0"
+
+metadata:
+  name: "Security Enhancement & Modernization Implementation Context"
+  id: "moshimoshi-security-enhancement-v1.0"
+  role: "Guide future AI agents working on security fixes and performance optimization"
+  created: "2025-01-08"
+  updated: "2025-01-08"
+  owner: "beano"
+  project: "Moshimoshi Japanese Learning Platform"
+  tags:
+    - "security"
+    - "performance-optimization"
+    - "react-19"
+    - "next-js-15"
+    - "pwa"
+    - "jwt-authentication"
+    - "bundle-optimization"
+    - "suspense"
+
+project:
+  name: "Security Enhancement & Performance Modernization"
+  status: "Phase 1 - Documentation Complete, Implementation Starting"
+  total_estimated_time: "9 weeks (63 days)"
+  current_phase: "Phase 1: Critical Security"
+  branch: "security-modernization-refactor"
+
+  phases:
+    phase_1:
+      name: "Critical Security"
+      status: "🔄 IN PROGRESS"
+      duration: "Week 1-2 (2 weeks)"
+      priority: "CRITICAL - BLOCKING"
+      start_date: "2025-01-08"
+      estimated_completion: "2025-01-22"
+
+      objectives:
+        - "Generate and rotate JWT_SECRET"
+        - "Protect 11 unprotected admin routes"
+        - "Delete/protect 4 debug routes"
+        - "Implement rate limiting on 56 public routes"
+        - "Add security headers (HSTS, CSP)"
+
+      critical_vulnerabilities:
+        - name: "Development JWT_SECRET"
+          severity: "CRITICAL"
+          cvss: 9.8
+          file: ".env.local"
+          line: 21
+          status: "📋 DOCUMENTED"
+
+        - name: "Unprotected Admin Routes"
+          severity: "CRITICAL"
+          cvss: 8.9
+          count: 11
+          impact: "Financial (AI API costs), Security (privilege escalation)"
+          status: "📋 DOCUMENTED"
+
+        - name: "Debug Endpoint Exposing Secrets"
+          severity: "CRITICAL"
+          cvss: 8.6
+          file: "src/app/api/debug/env/route.ts"
+          action: "DELETE"
+          status: "📋 DOCUMENTED"
+
+      deliverables:
+        - "New cryptographically secure JWT_SECRET"
+        - "Firebase Admin SDK protection on all admin routes"
+        - "Rate limiting infrastructure with @upstash/ratelimit"
+        - "HSTS and CSP headers configured"
+        - "Debug routes removed or admin-protected"
+
+      success_criteria:
+        - "✅ 0 critical vulnerabilities"
+        - "✅ 100% admin routes protected"
+        - "✅ 0 exposed debug endpoints"
+        - "✅ All public routes rate limited"
+        - "✅ Security headers present"
+        - "✅ No increase in error rates"
+
+    phase_2:
+      name: "TypeScript Cleanup"
+      status: "⏳ PENDING"
+      duration: "Week 2 (parallel with Phase 1)"
+      priority: "HIGH"
+      estimated_completion: "2025-01-22"
+
+      objectives:
+        - "Fix 2 TypeScript errors in UniversalProgressManager.ts"
+        - "Remove ignoreBuildErrors from next.config.ts"
+        - "Enable strict type checking"
+
+      files_to_modify:
+        - path: "src/lib/review-engine/progress/UniversalProgressManager.ts"
+          lines: [211, 214]
+          issue: "Unused _debugInfo variable causing syntax error"
+
+        - path: "next.config.ts"
+          lines: [20, 23]
+          issue: "ignoreBuildErrors: true bypasses type safety"
+
+      success_criteria:
+        - "✅ 0 TypeScript errors (npx tsc --noEmit)"
+        - "✅ Strict checking enabled"
+        - "✅ Build fails on future errors"
+
+    phase_3a:
+      name: "Bundle Optimization"
+      status: "⏳ PENDING"
+      duration: "Week 3-6 (4 weeks, parallel with 3B)"
+      priority: "HIGH"
+      estimated_completion: "2025-02-19"
+
+      objectives:
+        week_3:
+          - "Replace react-icons with lucide-react (-40MB)"
+          - "Dynamic import framer-motion (-40MB)"
+          - "Remove axios, use fetch (-12MB)"
+          - "Setup bundle analyzer"
+        week_4:
+          - "Lazy load Tiptap (admin only)"
+          - "Lazy load Recharts (dashboard)"
+          - "Lazy load Kuromoji (furigana)"
+          - "Dynamic import games"
+        week_5:
+          - "Firebase tree-shaking"
+          - "Image optimization (WebP/AVIF)"
+          - "Add memoization"
+        week_6:
+          - "CDN configuration"
+          - "Performance monitoring"
+
+      metrics:
+        current:
+          build_size: "2.1GB"
+          initial_bundle: "Unknown"
+          largest_deps:
+            - "react-icons: 50MB"
+            - "framer-motion: 60MB"
+            - "firebase-admin: 45MB"
+            - "firebase: 30MB"
+
+        target:
+          build_size: "1.5GB (-30%)"
+          initial_bundle: "<500KB (-60%)"
+          lighthouse: ">90"
+
+      success_criteria:
+        - "✅ Build size <1.5GB"
+        - "✅ Initial bundle <500KB"
+        - "✅ Lighthouse Performance >90"
+        - "✅ No functionality breaks"
+
+    phase_3b:
+      name: "React 19 Suspense Implementation"
+      status: "⏳ PENDING"
+      duration: "Week 3-6 (4 weeks, parallel with 3A)"
+      priority: "HIGH"
+      estimated_completion: "2025-02-19"
+
+      objectives:
+        week_3: "Fix existing 5 Suspense boundaries, replace 10 spinners with skeletons"
+        week_4: "Add nested Suspense to News Articles, Review Dashboard"
+        week_5: "Add Suspense to Leaderboard, Resources, YouTube Series"
+        week_6: "Add preloading, error boundaries, performance testing"
+
+      target_pages:
+        high_value:
+          - path: "/news/[id]"
+            benefit: "Stream article then comments"
+            expected_improvement: "30% TTFB"
+
+          - path: "/review-dashboard"
+            benefit: "Parallel data loading"
+            expected_improvement: "25% perceived performance"
+
+        medium_value:
+          - "/leaderboard"
+          - "/resources"
+          - "/youtube-series"
+          - "/kanji-moods/[boardId]"
+          - "/games"
+
+      success_criteria:
+        - "✅ 15 pages with Suspense boundaries"
+        - "✅ TTFB improves 20-30%"
+        - "✅ CLS <0.1"
+        - "✅ All skeletons match content layout"
+
+    phase_4:
+      name: "PWA Migration"
+      status: "⏳ PENDING"
+      duration: "Week 7-8 (2 weeks)"
+      priority: "MEDIUM"
+      estimated_completion: "2025-03-05"
+
+      objectives:
+        - "Install @ducanh2912/next-pwa"
+        - "Migrate from manual sw.js to Workbox"
+        - "Test PWA features comprehensively"
+        - "Gradual production rollout"
+
+      migration_details:
+        from: "Manual service worker (sw.js)"
+        to: "@ducanh2912/next-pwa v10.2.9"
+        reason: "Next.js 15 has NO native PWA (myth debunked)"
+
+        current_sw_features:
+          - "Multiple cache buckets (static, API, main)"
+          - "Notification support (review-reminder tag)"
+          - "Pattern-based caching strategies"
+          - "Offline page support"
+          - "Sound caching"
+
+        new_features_gained:
+          - "Background sync"
+          - "Automatic asset precaching"
+          - "Better build integration"
+          - "Lower maintenance burden"
+
+      success_criteria:
+        - "✅ PWA installs successfully"
+        - "✅ Offline mode works"
+        - "✅ Push notifications functional"
+        - "✅ Background sync enabled"
+        - "✅ No increase in error rates"
+
+    phase_5:
+      name: "Monitoring & Testing"
+      status: "⏳ PENDING"
+      duration: "Week 9 (1 week)"
+      priority: "HIGH"
+      estimated_completion: "2025-03-08"
+
+      objectives:
+        - "Setup Lighthouse CI"
+        - "End-to-end testing"
+        - "Performance benchmarking"
+        - "Documentation updates"
+
+      success_criteria:
+        - "✅ All tests passing"
+        - "✅ Performance targets met"
+        - "✅ Documentation complete"
+        - "✅ Monitoring operational"
+
+architecture:
+  security_vulnerabilities:
+    critical:
+      jwt_secret:
+        description: "Development placeholder JWT_SECRET in production risk"
+        current_value: "your-super-secret-jwt-key-change-this-in-production-minimum-32-chars"
+        file: ".env.local"
+        line: 21
+        impact: "Anyone with secret can forge authentication tokens"
+        exploitability: "HIGH"
+        fix: "Generate with: openssl rand -base64 64"
+        rotation_guide: "docs/security-enhancement/JWT_SECRET_ROTATION_GUIDE.md"
+
+      unprotected_admin_routes:
+        count: 11
+        routes:
+          - "/api/admin/generate-story-from-moodboard"
+          - "/api/admin/generate-story"
+          - "/api/admin/generate-audio"
+          - "/api/admin/generate-image"
+          - "/api/admin/generate-moodboard"
+          - "/api/admin/generate-kanji-moodboard"
+          - "/api/admin/init"
+          - "/api/admin/news/trigger-scraping"
+          - "/api/admin/streak-analytics"
+          - "/api/admin/entitlements/config"
+          - "/api/admin/entitlements/types"
+
+        impact: "Financial (OpenAI costs), Security (privilege escalation)"
+        fix_pattern: |
+          import { withAdminAuth } from '@/lib/auth/admin-auth'
+
+          export const POST = withAdminAuth(async (request: Request) => {
+            // Now requires Firebase Admin token
+          })
+
+      debug_endpoint_exposure:
+        file: "src/app/api/debug/env/route.ts"
+        issue: "Returns actual secret values in development mode"
+        exposed_data:
+          - "JWT_SECRET"
+          - "FIREBASE_PRIVATE_KEY"
+          - "STRIPE_SECRET_KEY"
+          - "OPENAI_API_KEY"
+        action: "DELETE THIS FILE"
+
+    high:
+      admin_flag_in_jwt:
+        description: "Middleware trusts JWT admin flag without server validation"
+        file: "src/middleware.ts"
+        lines: [60, 64]
+        issue: "Edge runtime can't verify Firebase, only checks JWT payload"
+        fix: "Add Firebase Admin SDK verification in API routes"
+
+      no_csrf_protection:
+        description: "No CSRF tokens, relies on sameSite: 'lax' only"
+        file: "src/lib/auth/session.ts"
+        line: 21
+        issue: "Changed from 'strict' to 'lax' for Stripe redirects"
+        fix: "Implement CSRF tokens for critical operations"
+
+      predictable_redis_keys:
+        description: "Session keys follow pattern: session:${sid}"
+        file: "src/lib/auth/session.ts"
+        line: 99
+        risk: "If Redis exposed, sessions enumerable"
+        fix: "Use hashed session IDs"
+
+    medium:
+      no_ip_binding:
+        description: "Stolen JWT works from any IP"
+        file: "src/lib/auth/jwt.ts"
+        lines: [33, 52]
+        fix: "Add IP hash to session payload"
+
+      missing_hsts:
+        description: "No Strict-Transport-Security header"
+        file: "src/middleware.ts"
+        fix: "Add HSTS with max-age=31536000"
+
+      redis_not_encrypted:
+        description: "Session data stored as plaintext JSON"
+        file: "src/lib/auth/session.ts"
+        line: 99
+        fix: "Encrypt session data before storing"
+
+  authentication_flow:
+    current:
+      pattern_1: "Firebase Admin SDK (8 routes) - MOST SECURE"
+      pattern_2: "JWT Session (requireAuth) - 30+ routes"
+      pattern_3: "JWT Session (getSession) - 87+ routes"
+      pattern_4: "No Authentication - 71 routes (36%)"
+
+    middleware_check:
+      file: "src/middleware.ts"
+      lines: [38, 73]
+      limitation: "Edge runtime - no signature verification (comment line 58)"
+      process: "validateTokenBasic() → checks structure only"
+      full_verification: "Happens in API routes with Node.js runtime"
+
+    session_management:
+      jwt_secret: "process.env.JWT_SECRET"
+      algorithm: "HS256"
+      expiration: "1 hour (3600000ms)"
+      refresh: "7 days for 'remember me'"
+      storage: "Redis (Upstash) + httpOnly cookie"
+
+      cookie_config:
+        httpOnly: true
+        secure: "production only"
+        sameSite: "lax"
+        path: "/"
+
+  bundle_analysis:
+    current_size:
+      total: "2.1GB"
+      node_modules: "1.5GB"
+      next_build: "2.1GB"
+
+    largest_dependencies:
+      react_icons:
+        size: "50MB"
+        usage: "Icons throughout app"
+        issue: "Imports entire library"
+        fix: "Replace with lucide-react (already installed)"
+        expected_saving: "-40MB"
+
+      framer_motion:
+        size: "60MB"
+        usage: "Animations on multiple pages"
+        issue: "Imported globally"
+        fix: "Dynamic import per-page"
+        expected_saving: "-40MB initial bundle"
+
+      firebase_admin:
+        size: "45MB"
+        usage: "Server-side auth"
+        removable: false
+        note: "Critical, server-only"
+
+      tiptap:
+        size: "40MB"
+        usage: "Rich text editor (admin only)"
+        fix: "Dynamic import"
+
+      recharts:
+        size: "35MB"
+        usage: "Charts (dashboard/admin only)"
+        fix: "Dynamic import"
+
+      kuromoji:
+        size: "20MB"
+        usage: "Japanese tokenizer (furigana)"
+        fix: "Dynamic import, client-side only"
+
+      axios:
+        size: "12MB"
+        usage: "HTTP client"
+        removable: true
+        fix: "Replace with native fetch"
+
+key_files:
+  critical_security:
+    - path: "src/middleware.ts"
+      purpose: "Edge middleware for route protection"
+      key_sections:
+        admin_check: "Lines 28-73"
+        jwt_validation: "Lines 38-73"
+        security_headers: "Lines 166-175"
+      issues:
+        - "No JWT signature verification (line 58 comment)"
+        - "Trusts admin flag without Firebase check"
+
+    - path: "src/lib/auth/jwt.ts"
+      purpose: "JWT signing, verification, session management"
+      key_sections:
+        secret_validation: "Lines 14-29"
+        payload_interface: "Lines 33-52"
+        session_creation: "Line 80+"
+      issues:
+        - "JWT_SECRET is development placeholder"
+
+    - path: "src/lib/auth/session.ts"
+      purpose: "Session cookie management"
+      key_sections:
+        cookie_config: "Lines 18-24"
+        redis_storage: "Lines 99-106"
+      issues:
+        - "sameSite: 'lax' (changed for Stripe)"
+        - "No encryption at rest"
+
+    - path: "next.config.ts"
+      purpose: "Next.js configuration"
+      issues:
+        - "ignoreBuildErrors: true (line 22)"
+        - "ignoreDuringBuilds: true (line 18)"
+
+    - path: ".env.local"
+      purpose: "Environment variables (gitignored)"
+      critical:
+        - "JWT_SECRET (line 21) - MUST ROTATE"
+        - "FIREBASE_PRIVATE_KEY"
+        - "STRIPE_SECRET_KEY"
+
+  admin_routes_to_protect:
+    ai_generation:
+      - path: "src/app/api/admin/generate-story-from-moodboard/route.ts"
+        cost_per_request: "$0.05-0.20"
+      - path: "src/app/api/admin/generate-story/route.ts"
+        cost_per_request: "$0.05-0.20"
+      - path: "src/app/api/admin/generate-audio/route.ts"
+        cost_per_request: "$0.015/1000 chars"
+      - path: "src/app/api/admin/generate-image/route.ts"
+        cost_per_request: "$0.02-0.08"
+      - path: "src/app/api/admin/generate-moodboard/route.ts"
+      - path: "src/app/api/admin/generate-kanji-moodboard/route.ts"
+
+    data_access:
+      - path: "src/app/api/admin/streak-analytics/route.ts"
+        exposure: "All user streak data (GDPR issue)"
+      - path: "src/app/api/admin/entitlements/config/route.ts"
+        risk: "Can grant admin access to anyone"
+      - path: "src/app/api/admin/entitlements/types/route.ts"
+        exposure: "Business logic, permission structure"
+
+    system_operations:
+      - path: "src/app/api/admin/init/route.ts"
+        risk: "Could reset production data"
+      - path: "src/app/api/admin/news/trigger-scraping/route.ts"
+        risk: "DoS potential (CPU/memory intensive)"
+
+  debug_routes_to_delete:
+    - path: "src/app/api/debug/env/route.ts"
+      action: "DELETE"
+      reason: "Exposes all secrets in dev mode"
+    - path: "src/app/api/debug/user/[uid]/route.ts"
+      action: "DELETE or protect"
+    - path: "src/app/api/debug/firebase-test/route.ts"
+      action: "DELETE or protect"
+    - path: "src/app/api/debug-storage/route.ts"
+      action: "DELETE or protect"
+
+  public_routes_needing_rate_limiting:
+    kanji: 8
+    furigana: 6
+    news: 4
+    tatoeba: 2
+    grammar: 10
+    vocabulary: 10
+    other: 16
+    total: 56
+
+    rate_limit_strategy:
+      kanji: "100 req/min per IP"
+      furigana: "50 req/min per IP (CPU intensive)"
+      general: "100 req/min per IP"
+      implementation: "@upstash/ratelimit (already installed)"
+
+  optimization_targets:
+    bundle_splitting:
+      - component: "Tiptap Editor"
+        usage: "Admin pages only"
+        strategy: "dynamic(() => import('@/components/RichEditor'), {ssr: false})"
+
+      - component: "Recharts"
+        usage: "Dashboard/admin"
+        strategy: "dynamic(() => import('@/components/StatsChart'))"
+
+      - component: "Kuromoji Tokenizer"
+        usage: "Furigana pages"
+        strategy: "dynamic(() => import('kuromoji'), {ssr: false})"
+
+      - component: "Game Components"
+        usage: "Game pages only"
+        strategy: "Dynamic import per game"
+
+    image_optimization:
+      config_file: "next.config.ts"
+      add:
+        - "formats: ['image/webp', 'image/avif']"
+        - "deviceSizes: [640, 750, 828, 1080, 1200, 1920]"
+        - "minimumCacheTTL: 60"
+
+  suspense_implementation:
+    high_value_pages:
+      news_article:
+        file: "src/app/news/[id]/page.tsx"
+        strategy: "Nested Suspense (article → comments)"
+        benefit: "Stream content progressively"
+
+      review_dashboard:
+        file: "src/app/review-dashboard/page.tsx"
+        strategy: "Parallel Suspense (stats | queue)"
+        benefit: "Load data in parallel"
+
+    patterns:
+      basic: |
+        <Suspense fallback={<ArticleSkeleton />}>
+          <ArticleContent />
+        </Suspense>
+
+      nested: |
+        <Suspense fallback={<ArticleSkeleton />}>
+          <ArticleContent />
+          <Suspense fallback={<CommentsSkeleton />}>
+            <CommentsSection />
+          </Suspense>
+        </Suspense>
+
+      with_error_boundary: |
+        <ErrorBoundary fallback={<Error />}>
+          <Suspense fallback={<Loading />}>
+            <Component />
+          </Suspense>
+        </ErrorBoundary>
+
+  pwa_migration:
+    current_setup:
+      package: "Manual service worker"
+      file: "public/sw.js"
+      features:
+        - "Multiple cache buckets"
+        - "Notification support"
+        - "Pattern-based caching"
+        - "Offline page"
+
+    target_setup:
+      package: "@ducanh2912/next-pwa"
+      version: "10.2.9"
+      config_file: "next.config.ts"
+
+      configuration: |
+        import withPWA from '@ducanh2912/next-pwa'
+
+        export default withPWA({
+          dest: 'public',
+          register: true,
+          skipWaiting: true,
+          disable: process.env.NODE_ENV === 'development',
+          runtimeCaching: [
+            // Migrate caching strategies from sw.js
+          ]
+        })(nextConfig)
+
+testing_protocol:
+  security_testing:
+    automated:
+      - "npm audit"
+      - "OWASP ZAP scan"
+      - "npm run test:security"
+
+    manual:
+      - test: "Attempt unauthorized admin access"
+        expected: "401 Unauthorized"
+
+      - test: "Try JWT token forgery"
+        expected: "401 Invalid Token"
+
+      - test: "Access debug routes"
+        expected: "404 Not Found"
+
+      - test: "Exceed rate limit"
+        expected: "429 Too Many Requests"
+
+      - test: "Verify security headers"
+        check: "HSTS, CSP, X-Frame-Options"
+
+  performance_testing:
+    lighthouse:
+      command: "lighthouse https://moshimoshi.app --view"
+      targets:
+        performance: ">90"
+        accessibility: ">95"
+        best_practices: ">95"
+        seo: ">90"
+
+    bundle_analysis:
+      command: "ANALYZE=true npm run build"
+      review: "Bundle sizes, duplicate code, unused imports"
+
+    load_testing:
+      tool: "Artillery"
+      config: "load-test.yml"
+      scenarios:
+        - "100 concurrent users"
+        - "1000 req/min sustained"
+        - "Rate limiting behavior"
+
+  e2e_testing:
+    critical_flows:
+      - "Sign up → Login → Dashboard"
+      - "Start review session → Complete review"
+      - "Make payment → Subscribe"
+      - "Admin login → User management"
+
+    tool: "Playwright"
+    command: "npm run test:e2e"
+
+data_model:
+  jwt_payload:
+    required_fields:
+      uid: "string (user ID)"
+      email: "string"
+      sid: "string (session ID)"
+      iat: "number (issued at)"
+      exp: "number (expiration)"
+      fingerprint: "string (browser fingerprint hash)"
+
+    optional_fields:
+      tier: "string (being phased out to Redis cache)"
+      admin: "boolean (admin flag)"
+
+  redis_sessions:
+    key_pattern: "session:${sid}"
+    ttl: "Matches JWT expiration"
+    data: "JSON.stringify(SessionPayload)"
+    note: "Not encrypted at rest (future enhancement)"
+
+documentation:
+  master_plan: "docs/security-enhancement/00-MASTER-IMPLEMENTATION-PLAN.md"
+  security_audit: "docs/security-enhancement/01-SECURITY-AUDIT-FINDINGS.md"
+  api_audit: "docs/security-enhancement/02-API-ROUTES-AUDIT.md"
+  jwt_rotation: "docs/security-enhancement/JWT_SECRET_ROTATION_GUIDE.md"
+  checklist: "docs/security-enhancement/IMPLEMENTATION-CHECKLIST.md"
+  living_memory: "docs/security-enhancement/IMPLEMENTATION_PROGRESS.md"
+
+  bundle_optimization: "docs/security-enhancement/04-BUNDLE-OPTIMIZATION-PLAN.md"
+  suspense_guide: "docs/security-enhancement/05-SUSPENSE-IMPLEMENTATION-GUIDE.md"
+  pwa_migration: "docs/security-enhancement/06-PWA-MIGRATION-STRATEGY.md"
+  testing_strategy: "docs/security-enhancement/07-TESTING-STRATEGY.md"
+  risk_mitigation: "docs/security-enhancement/08-RISK-MITIGATION.md"
+  rollback_procedures: "docs/security-enhancement/09-ROLLBACK-PROCEDURES.md"
+
+common_pitfalls:
+  must_know:
+    - issue: "Always test on staging first"
+      why: "Security changes can break authentication"
+
+    - issue: "JWT rotation logs out all users"
+      mitigation: "Announce maintenance window 24hrs advance"
+
+    - issue: "Rate limiting needs Redis configured"
+      check: "UPSTASH_REDIS_REST_URL and TOKEN in env"
+
+    - issue: "Dynamic imports need loading states"
+      why: "Prevents blank screens during code loading"
+
+    - issue: "PWA migration may prompt reinstall"
+      mitigation: "Gradual rollout (10% → 50% → 100%)"
+
+    - issue: "Bundle analyzer requires production build"
+      command: "ANALYZE=true npm run build"
+
+    - issue: "Suspense requires async Server Components"
+      pattern: "export default async function Page() { const data = await fetch(...) }"
+
+  debugging_tips:
+    - "Check Sentry for authentication errors after JWT rotation"
+    - "Monitor Redis for rate limit performance"
+    - "Use Network tab to verify rate limit headers"
+    - "Check bundle analyzer for unexpected large dependencies"
+    - "Profile with React DevTools after Suspense implementation"
+    - "Test PWA offline mode in browser DevTools (Application → Service Workers)"
+
+integration_points:
+  firebase_admin:
+    file: "src/lib/firebase/admin.ts"
+    usage: "Server-side only (API routes)"
+    functions:
+      - "adminAuth.verifyIdToken(token)"
+      - "adminFirestore.collection('user_stats')"
+
+  upstash_redis:
+    client: "@upstash/redis"
+    ratelimit: "@upstash/ratelimit"
+    env_vars:
+      - "UPSTASH_REDIS_REST_URL"
+      - "UPSTASH_REDIS_REST_TOKEN"
+
+  sentry:
+    package: "@sentry/nextjs"
+    version: "10.11.0"
+    config: "sentry.client.config.ts, sentry.server.config.ts"
+    features:
+      - "Error tracking"
+      - "Performance monitoring"
+      - "User feedback"
+
+next_steps:
+  immediate:
+    - "Complete JWT_SECRET rotation documentation"
+    - "Begin protecting admin routes"
+    - "Setup rate limiting infrastructure"
+    - "Create rate limit middleware"
+
+  this_week:
+    - "Complete Phase 1 security fixes"
+    - "Fix 2 TypeScript errors"
+    - "Test all protected routes"
+    - "Deploy to staging"
+    - "Monitor for 48 hours"
+
+  next_week:
+    - "Production deployment of security fixes"
+    - "Begin bundle optimization"
+    - "Start Suspense implementation"
+    - "Setup bundle analyzer"
+
+success_criteria:
+  phase_1_complete:
+    - "✅ 0 critical vulnerabilities"
+    - "✅ 0 high vulnerabilities"
+    - "✅ 11/11 admin routes protected"
+    - "✅ 0/4 debug routes exposed"
+    - "✅ 56/56 public routes rate limited"
+    - "✅ Security headers present"
+    - "✅ JWT_SECRET rotated"
+
+  project_complete:
+    security:
+      - "✅ 0 security vulnerabilities"
+      - "✅ 100% admin routes protected"
+      - "✅ Rate limiting operational"
+
+    performance:
+      - "✅ Build size <1.5GB (-30%)"
+      - "✅ Initial bundle <500KB (-60%)"
+      - "✅ Page load <2s on 3G (-50%)"
+      - "✅ Lighthouse score >90"
+
+    code_quality:
+      - "✅ 0 TypeScript errors"
+      - "✅ Strict mode enabled"
+      - "✅ All tests passing"
+
+    user_experience:
+      - "✅ 0% increase in error rates"
+      - "✅ 40-50% faster page loads"
+      - "✅ PWA install rate >10%"
+      - "✅ Progressive content loading"
+
+important_notes:
+  user_preferences:
+    - "User prefers ultra-thorough analysis (this project)"
+    - "User wants comprehensive documentation"
+    - "User wants living memory system"
+    - "Always commit changes before major testing"
+    - "Use todo lists for tracking progress"
+
+  architectural_decisions:
+    - "Next.js 15 has NO native PWA (requires package)"
+    - "JWT_SECRET must be cryptographically random"
+    - "Admin routes MUST use Firebase Admin SDK"
+    - "Rate limiting uses Upstash Redis"
+    - "React 19 Suspense for progressive loading"
+    - "Bundle optimization in parallel with Suspense"
+
+  deployment_workflow:
+    - "Test locally first"
+    - "Deploy to staging"
+    - "48-hour stability test"
+    - "Gradual production rollout (10% → 50% → 100%)"
+    - "Monitor error rates continuously"
+    - "Keep rollback plan ready"
+
+  security_protocol:
+    - "Never commit secrets to repository"
+    - "Use environment variables only"
+    - "Rotate JWT_SECRET monthly in production"
+    - "Monitor failed auth attempts"
+    - "Audit logs for admin operations"
+
+metrics_tracking:
+  baseline:
+    build_size: "2.1GB"
+    typescript_errors: 2
+    critical_vulnerabilities: 3
+    high_vulnerabilities: 3
+    protected_admin_routes: "0/11 (0%)"
+    rate_limited_routes: "0/56 (0%)"
+    lighthouse_score: "Unknown"
+
+  current:
+    phase: "Phase 1 - Documentation Complete"
+    date: "2025-01-08"
+    completed_tasks: 1
+    total_tasks: 11
+    completion_percentage: "9%"
+
+  target:
+    build_size: "<1.5GB (-30%)"
+    typescript_errors: 0
+    vulnerabilities: 0
+    protected_admin_routes: "11/11 (100%)"
+    rate_limited_routes: "56/56 (100%)"
+    lighthouse_score: ">90"
+    completion_date: "2025-03-08"
