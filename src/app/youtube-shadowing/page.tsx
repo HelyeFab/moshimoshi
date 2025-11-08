@@ -17,7 +17,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext';
 import { extractVideoId } from '@/utils/youtubeHelpers';
 import { TranscriptCacheManager } from '@/utils/transcriptCache';
 import { useBottomNav } from '@/contexts/BottomNavContext';
-import { Settings } from 'lucide-react';
+import { PlaySquare } from 'lucide-react';
 
 const SESSION_STORAGE_KEY = 'youtubeShadowingSession';
 export interface TranscriptLine {
@@ -98,9 +98,9 @@ function YouTubeShadowingContent() {
     if (session && viewMode === 'player') {
       setExtraItem({
         id: 'player-settings',
-        label: 'Settings',
-        icon: Settings,
-        activeIcon: Settings,
+        label: 'Player',
+        icon: PlaySquare,
+        activeIcon: PlaySquare,
         action: () => setShowSettings(true),
         matchPaths: [],
       });
