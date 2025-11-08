@@ -97,6 +97,19 @@ export default function StoriesPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       {/* Navigation is now global - rendered in root layout */}
+        <div className="container mx-auto px-4 py-16 text-center">
+          <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
+            {t('stories.errorLoading')}
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
+      {/* Navigation is now global - rendered in root layout */}
 
       {/* LearningPageHeader with only required props */}
       <LearningPageHeader

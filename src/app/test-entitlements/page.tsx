@@ -75,6 +75,11 @@ export default function TestEntitlementsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Navigation is now global - rendered in root layout */}
+
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <DoshiMascot size="large" mood="excited" />
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-4">
               Entitlements System Test Page
             </h1>

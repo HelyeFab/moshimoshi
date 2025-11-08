@@ -173,6 +173,72 @@ export default function MoodBoardDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       {/* Navigation is now global - rendered in root layout */}
+
+      {/* Learning Page Header */}
+      <LearningPageHeader
+        title={`${board.emoji} ${board.title}`}
+        description={board.description}
+        stats={[
+          {
+            label: t('moodboards.progress'),
+            value: `${learnedCount}/${totalCount}`,
+            color: 'primary' as const
+          },
+          {
+            label: t('moodboards.completion'),
+            value: `${progressPercentage}%`,
+            color: isCompleted ? 'success' as const : 'warning' as const
+          },
+          {
+            label: t('moodboards.jlptLevel'),
+            value: board.jlpt,
+            color: 'info' as const
+          }
+        ]}
+        actions={
+          <div className="flex gap-3 items-center">
+            {/* View mode tabs */}
+            <div className="flex gap-1 bg-white dark:bg-dark-700 rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`px-3 py-1.5 rounded-md text-sm transition-all ${
+                  viewMode === 'grid'
+                    ? 'bg-primary-500 text-white'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
+                }`}
+              >
+                {t('moodboards.viewModes.grid')}
+              </button>
+              <button
+                onClick={handleStudyMode}
+                className={`px-3 py-1.5 rounded-md text-sm transition-all ${
+                  viewMode === 'study'
+                    ? 'bg-primary-500 text-white'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
+                }`}
+              >
+                {t('moodboards.viewModes.study')}
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`px-3 py-1.5 rounded-md text-sm transition-all ${
+                  viewMode === 'list'
+                    ? 'bg-primary-500 text-white'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
+                }`}
+              >
+                {t('moodboards.viewModes.list')}
+              </button>
+            </div>
+
+            {/* Show completed toggle */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showCompleted}
+                onChange={(e) => setShowCompleted(e.target.checked)}
+                className="w-4 h-4 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
+              />
               <span className="text-sm">{t('moodboards.showCompleted')}</span>
             </label>
 

@@ -83,6 +83,19 @@ export default function ResourceDetailPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-soft-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
       {/* Navigation is now global - rendered in root layout */}
+        <div className="container mx-auto px-4 py-16">
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!resource) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background-light via-soft-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+      {/* Navigation is now global - rendered in root layout */}
         <div className="container mx-auto px-4 py-16 text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             {strings.resources?.notFound || 'Resource not found'}
@@ -101,6 +114,23 @@ export default function ResourceDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-soft-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
       {/* Navigation is now global - rendered in root layout */}
+
+      <div className="container mx-auto px-4 py-8">
+        {/* Resource Detail */}
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white dark:bg-dark-900 rounded-lg shadow-lg overflow-hidden">
+            {/* Header */}
+            <div className="p-8 border-b border-gray-200 dark:border-gray-700">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                {resource.title}
+              </h1>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
+                {resource.description}
+              </p>
+              <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
+                <span className="flex items-center">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   {formatDistanceToNow(new Date(resource.publishedAt), { addSuffix: true })}
                 </span>

@@ -26,8 +26,10 @@ import { useStreakSaveDetection } from '@/hooks/useStreakSaveDetection'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import logger from '@/lib/logger'
 import { validateStreakDisplay, getStreakDeadline } from '@/lib/gamification/utils/streakValidation'
+import Navbar from '@/components/layout/Navbar'
 import Modal from '@/components/ui/Modal'
 import AnimationControl from '@/components/ui/AnimationControl'
+import CommandPalette from '@/components/ui/CommandPalette'
 import StreakSaveModal from '@/components/gamification/StreakSaveModal'
 
 // Dynamically import Confetti to avoid SSR issues
@@ -563,8 +565,8 @@ function DashboardContent() {
         }} />
       </div>
 
-      {/* Navigation is now global - rendered in root layout */}
-
+      {/* Navbar */}
+      <Navbar user={user} showUserMenu={true} />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-2 sm:py-8 relative z-10">
@@ -1036,36 +1038,39 @@ function DashboardContent() {
         </div>
 
         {/* Learning Village - The stunning navigation system */}
-        <div className="mb-8 -mx-4 sm:mx-0 mt-0 relative">
-          {/* Mobile: Floating buttons at top of Learning Village */}
-          <div className="sm:hidden absolute top-4 left-0 right-0 z-[60] flex justify-between px-10 pointer-events-none">
-            {/* Search Button - Left */}
-            <button
-              onClick={() => {
-                const event = new KeyboardEvent('keydown', {
-                  key: 'k',
-                  metaKey: true,
-                  ctrlKey: true,
-                  bubbles: true
-                });
-                document.dispatchEvent(event);
-              }}
-              className="p-3 bg-soft-white/20 dark:bg-dark-900/30 backdrop-blur-2xl backdrop-saturate-150 border border-gray-200/40 dark:border-gray-700/30 text-gray-700 dark:text-gray-300 rounded-full shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60 hover:bg-soft-white/30 dark:hover:bg-dark-900/40 transition-all duration-200 hover:scale-110 active:scale-95 pointer-events-auto"
-              aria-label="Open search"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-
-            {/* Animation Control Button - Right */}
-            <div className="pointer-events-auto">
-              <AnimationControl position="top-right" variant="glassmorphism" />
-            </div>
-          </div>
-
+        <div className="mb-8 -mx-4 sm:mx-0 mt-0">
           <LearningVillage />
         </div>
 
+        {/* Mobile: Floating buttons - Independent of Learning Village */}
+        <div className="sm:hidden fixed top-20 left-0 right-0 z-[60] flex justify-between px-10 pointer-events-none">
+          {/* Search Button - Left */}
+          <button
+            onClick={() => {
+              const event = new KeyboardEvent('keydown', {
+                key: 'k',
+                metaKey: true,
+                ctrlKey: true,
+                bubbles: true
+              });
+              document.dispatchEvent(event);
+            }}
+            className="p-3 bg-soft-white/20 dark:bg-dark-900/30 backdrop-blur-2xl backdrop-saturate-150 border border-gray-200/40 dark:border-gray-700/30 text-gray-700 dark:text-gray-300 rounded-full shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60 hover:bg-soft-white/30 dark:hover:bg-dark-900/40 transition-all duration-200 hover:scale-110 active:scale-95 pointer-events-auto"
+            aria-label="Open search"
+          >
+            <Search className="w-5 h-5" />
+          </button>
+
+          {/* Animation Control Button - Right */}
+          <div className="pointer-events-auto">
+            <AnimationControl position="top-right" variant="glassmorphism" />
+          </div>
+        </div>
+
       </main>
+
+      {/* Command Palette - Opens on keyboard shortcut (Cmd+K / Ctrl+K) */}
+      <CommandPalette />
 
       {/* Desktop: Animation Control only (bottom-right) */}
       <div className="hidden sm:block">

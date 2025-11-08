@@ -144,6 +144,33 @@ export async function GET(request: NextRequest) {
     }
 
     // Get progress from Firestore (premium only)
+    // SPECIAL CASE: drill-srs uses a subcollection structure
+    if (contentType === 'drill-srs') {
+      const srsCollectionRef = adminDb
+        .collection('users')
+        .doc(session.uid)
+        .collection('drill-srs')
+
+      const srsSnapshot = await srsCollectionRef.get()
+      const items: Record<string, any> = {}
+
+      srsSnapshot.forEach(doc => {
+        items[doc.id] = doc.data()
+      })
+
+      console.log(`[GET /api/progress] Loaded ${srsSnapshot.size} SRS words from Firebase for user ${session.uid}`)
+
+      return NextResponse.json({
+        items,
+        contentType,
+        storage: {
+          location: decision.storageLocation,
+          syncEnabled: decision.shouldWriteToFirebase
+        }
+      })
+    }
+
+    // Standard progress document structure
     const progressRef = adminDb
       .collection('users')
       .doc(session.uid)

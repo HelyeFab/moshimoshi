@@ -126,15 +126,27 @@ export default function VisualLayoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
+    <>
       {/* Navigation is now global - rendered in root layout */}
-              </svg>
-            </button>
+      <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
+        {/* Header */}
+        <header className="pt-24 pb-4 md:pt-24">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center gap-3 mb-4">
+              <button
+                onClick={() => router.back()}
+                className="p-2 rounded-lg hover:bg-muted dark:hover:bg-dark-700 transition-colors"
+                aria-label="Go back"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
 
-            <h1 className="text-xl font-bold text-foreground dark:text-dark-50 flex-1">
-              {t('kanjiConnection.visualLayout.title')}
-            </h1>
-          </div>
+              <h1 className="text-xl font-bold text-foreground dark:text-dark-50 flex-1">
+                {t('kanjiConnection.visualLayout.title')}
+              </h1>
+            </div>
 
           {/* Controls */}
           <div className="flex items-center justify-between gap-3 flex-wrap sm:ml-11">
@@ -451,14 +463,15 @@ export default function VisualLayoutPage() {
       </div>
 
       {/* Kanji Detail Modal */}
-      {modalKanji && (
-        <KanjiDetailsModal
-          kanji={modalKanji}
-          isOpen={!!modalKanji}
-          onClose={() => setModalKanji(null)}
-          showSaveButton={false}
-        />
-      )}
-    </div>
+        {modalKanji && (
+          <KanjiDetailsModal
+            kanji={modalKanji}
+            isOpen={!!modalKanji}
+            onClose={() => setModalKanji(null)}
+            showSaveButton={false}
+          />
+        )}
+      </div>
+    </>
   );
 }

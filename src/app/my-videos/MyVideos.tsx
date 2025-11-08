@@ -279,6 +279,13 @@ export default function MyVideos() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50/50 via-soft-white to-primary-100/30 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
       {/* Navigation is now global - rendered in root layout */}
+
+      {/* Decorative Background */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <motion.div
+          style={{ y: parallaxY }}
+          className="absolute top-0 left-1/4 w-[40rem] h-[40rem] bg-gradient-to-br from-primary-300/10 to-primary-500/10 rounded-full blur-3xl"
+        />
         <motion.div
           style={{ y: parallaxY }}
           className="absolute bottom-0 right-1/4 w-[30rem] h-[30rem] bg-gradient-to-tl from-primary-400/10 to-primary-600/10 rounded-full blur-3xl"

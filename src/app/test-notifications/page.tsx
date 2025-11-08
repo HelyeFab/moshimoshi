@@ -238,4 +238,149 @@ export default function TestNotificationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light via-background-soft to-background">
+    <div className="min-h-screen bg-gradient-to-br from-background-light via-background-soft to-background dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+      {/* Navigation is now global - rendered in root layout */}
+
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="bg-soft-white dark:bg-dark-900 rounded-xl shadow-soft p-8">
+          <h1 className="text-3xl font-bold text-text-primary dark:text-dark-100 mb-6">
+            Notification System Test Page
+          </h1>
+
+          {/* Status Section */}
+          <div className="mb-8 p-4 bg-gray-50 dark:bg-dark-800 rounded-lg">
+            <h2 className="text-xl font-semibold mb-3">Status</h2>
+            <div className="space-y-2 text-sm">
+              <div>
+                <span className="font-medium">Service Worker:</span>{' '}
+                {swStatus ? (
+                  swStatus.supported ? (
+                    <span className="text-green-600">Supported ✓</span>
+                  ) : (
+                    <span className="text-red-600">Not Supported ✗</span>
+                  )
+                ) : (
+                  <span className="text-gray-500">Checking...</span>
+                )}
+              </div>
+              <div>
+                <span className="font-medium">Notification Permission:</span>{' '}
+                <span className={
+                  notificationPermission === 'granted' ? 'text-green-600' :
+                  notificationPermission === 'denied' ? 'text-red-600' :
+                  'text-yellow-600'
+                }>
+                  {notificationPermission}
+                </span>
+              </div>
+              <div>
+                <span className="font-medium">FCM Token:</span>{' '}
+                {fcmToken ? (
+                  <span className="text-green-600">Available ✓</span>
+                ) : (
+                  <span className="text-gray-500">Not initialized</span>
+                )}
+              </div>
+              {user && (
+                <div>
+                  <span className="font-medium">User ID:</span>{' '}
+                  <span className="text-xs font-mono">{user.uid}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Control Buttons */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-3">Controls</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <button
+                onClick={initializeServiceWorker}
+                disabled={isLoading}
+                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 transition-colors"
+              >
+                Initialize SW
+              </button>
+
+              <button
+                onClick={requestNotificationPermission}
+                disabled={isLoading}
+                className="px-4 py-2 bg-secondary-500 text-white rounded-lg hover:bg-secondary-600 disabled:opacity-50 transition-colors"
+              >
+                Request Permission
+              </button>
+
+              <button
+                onClick={initializeFCM}
+                disabled={isLoading || !user}
+                className="px-4 py-2 bg-accent-500 text-white rounded-lg hover:bg-accent-600 disabled:opacity-50 transition-colors"
+              >
+                Initialize FCM
+              </button>
+
+              <button
+                onClick={testBrowserNotification}
+                disabled={isLoading}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 transition-colors"
+              >
+                Test Browser
+              </button>
+
+              <button
+                onClick={testServiceWorkerNotification}
+                disabled={isLoading}
+                className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 transition-colors"
+              >
+                Test SW (5s delay)
+              </button>
+
+              <button
+                onClick={testPushNotification}
+                disabled={isLoading || !user || !fcmToken}
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50 transition-colors"
+              >
+                Test Push
+              </button>
+            </div>
+          </div>
+
+          {/* Logs Section */}
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-xl font-semibold">Logs</h2>
+              <button
+                onClick={clearLogs}
+                className="px-3 py-1 text-sm bg-gray-200 dark:bg-dark-700 rounded hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors"
+              >
+                Clear
+              </button>
+            </div>
+            <div className="bg-gray-900 text-green-400 p-4 rounded-lg h-64 overflow-y-auto font-mono text-sm">
+              {logs.length === 0 ? (
+                <div className="text-gray-500">No logs yet. Click a button to start testing.</div>
+              ) : (
+                logs.map((log, i) => (
+                  <div key={i} className="mb-1">
+                    {log}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Instructions */}
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            <h3 className="font-semibold mb-2">Testing Steps:</h3>
+            <ol className="list-decimal list-inside space-y-1">
+              <li>Initialize Service Worker Manager</li>
+              <li>Request notification permission if not granted</li>
+              <li>Login if you want to test FCM (push notifications)</li>
+              <li>Initialize FCM (requires login)</li>
+              <li>Test different notification types using the buttons</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

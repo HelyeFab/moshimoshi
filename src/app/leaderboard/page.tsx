@@ -83,6 +83,30 @@ export default function LeaderboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-dark-900 dark:via-dark-800 dark:to-dark-900">
       {/* Navigation is now global - rendered in root layout */}
+
+      <div className="container mx-auto px-4 py-8">
+        {/* Header with animated background */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-4 sm:mb-6 md:mb-8 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 p-4 sm:p-6 md:p-8 text-white shadow-xl"
+        >
+          <div className="absolute inset-0 bg-black/10"></div>
+
+          {/* Animated background elements */}
+          <div className="absolute inset-0 opacity-20">
+            <motion.div
+              className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full filter blur-3xl"
+              animate={{
+                x: [0, 30, 0],
+                y: [0, -50, 0],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
             <motion.div
               className="absolute bottom-0 left-0 w-48 h-48 bg-yellow-300 rounded-full filter blur-3xl"
               animate={{
