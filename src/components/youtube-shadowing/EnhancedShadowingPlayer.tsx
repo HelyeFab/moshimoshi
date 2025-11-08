@@ -36,6 +36,8 @@ interface EnhancedShadowingPlayerProps {
   aiEnhancementStatus?: 'idle' | 'running' | 'completed' | 'error';
   aiEnhancementError?: string | null;
   onClearSession?: () => void;
+  showSettings?: boolean;
+  onShowSettingsChange?: (show: boolean) => void;
 }
 
 export default function EnhancedShadowingPlayer({
@@ -60,11 +62,16 @@ export default function EnhancedShadowingPlayer({
   aiEnhancementStatus: _aiEnhancementStatus,
   aiEnhancementError: _aiEnhancementError,
   onClearSession,
+  showSettings: externalShowSettings,
+  onShowSettingsChange,
 }: EnhancedShadowingPlayerProps) {
   const videoId = extractVideoId(session.videoUrl);
   const segments: TranscriptLine[] = session.transcript || [];
 
-  const [showSettings, setShowSettings] = useState(false);
+  // Use external state if provided, otherwise use internal state
+  const [internalShowSettings, setInternalShowSettings] = useState(false);
+  const showSettings = externalShowSettings !== undefined ? externalShowSettings : internalShowSettings;
+  const setShowSettings = onShowSettingsChange || setInternalShowSettings;
   const [showGrammarLegend, setShowGrammarLegend] = useState(false);
   const [showClearConfirmation, setShowClearConfirmation] = useState(false);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
