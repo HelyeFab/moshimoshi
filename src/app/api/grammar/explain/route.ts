@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const session = await getSession();
+    // Session already fetched above for rate limiting
     if (!session) {
       return NextResponse.json({
         success: false,
