@@ -332,7 +332,7 @@ export default function EnhancedShadowingPlayer({
           />
           
           {/* Floating Menu */}
-          <div className="fixed bottom-20 right-6 z-[100] w-80 max-h-[70vh] overflow-y-auto animate-in slide-in-from-bottom-2 fade-in duration-200">
+          <div className="fixed bottom-28 md:bottom-20 right-6 z-[100] w-80 max-h-[60vh] overflow-y-auto animate-in slide-in-from-bottom-2 fade-in duration-200">
             <div className="bg-dark-800/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-4 space-y-4">
               {/* Header */}
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
