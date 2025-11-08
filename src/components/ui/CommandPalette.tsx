@@ -16,8 +16,16 @@ import {
   Sparkles,
   Clock,
   TrendingUp,
-  X
+  X,
+  Zap,
+  Video,
+  BookMarked
 } from 'lucide-react'
+import {
+  RiTextSpacing,
+  RiCharacterRecognitionLine,
+  RiFontSize2
+} from 'react-icons/ri'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -66,7 +74,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'hiragana',
       title: 'Hiragana',
       subtitle: 'Learn hiragana characters',
-      icon: <span className="text-lg">あ</span>,
+      icon: <RiTextSpacing className="w-5 h-5" />,
       action: () => {
         router.push('/learn/hiragana')
         setIsOpen(false)
@@ -79,7 +87,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'katakana',
       title: 'Katakana',
       subtitle: 'Learn katakana characters',
-      icon: <span className="text-lg">カ</span>,
+      icon: <RiCharacterRecognitionLine className="w-5 h-5" />,
       action: () => {
         router.push('/learn/katakana')
         setIsOpen(false)
@@ -92,7 +100,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'kanji-browser',
       title: 'Kanji Browser',
       subtitle: 'Browse all JLPT kanji',
-      icon: <span className="text-lg">漢</span>,
+      icon: <RiFontSize2 className="w-5 h-5" />,
       action: () => {
         router.push('/kanji-browser')
         setIsOpen(false)
@@ -118,7 +126,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'drill',
       title: 'Drill Practice',
       subtitle: 'Quick drill exercises',
-      icon: <span className="text-lg">⚡</span>,
+      icon: <Zap className="w-5 h-5" />,
       action: () => {
         router.push('/drill')
         setIsOpen(false)
@@ -131,7 +139,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'youtube',
       title: 'YouTube Shadowing',
       subtitle: 'Practice with YouTube videos',
-      icon: <span className="text-lg">📺</span>,
+      icon: <Video className="w-5 h-5" />,
       action: () => {
         router.push('/youtube-shadowing')
         setIsOpen(false)
@@ -144,7 +152,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'stories',
       title: 'Stories',
       subtitle: 'Read AI-generated stories',
-      icon: <span className="text-lg">📚</span>,
+      icon: <BookMarked className="w-5 h-5" />,
       action: () => {
         router.push('/stories')
         setIsOpen(false)
@@ -279,8 +287,16 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       }
     }
 
+    const handleCustomOpen = () => {
+      setIsOpen(true)
+    }
+
     window.addEventListener('keydown', handleGlobalKeyDown)
-    return () => window.removeEventListener('keydown', handleGlobalKeyDown)
+    window.addEventListener('openCommandPalette', handleCustomOpen)
+    return () => {
+      window.removeEventListener('keydown', handleGlobalKeyDown)
+      window.removeEventListener('openCommandPalette', handleCustomOpen)
+    }
   }, [])
 
   // Command palette keyboard navigation (arrow keys, enter, esc)
@@ -356,24 +372,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
   }
 
   if (!isOpen) {
-    return (
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-2
-                   bg-white/90 dark:bg-dark-800/90 backdrop-blur-md
-                   border border-gray-200 dark:border-dark-700
-                   rounded-full shadow-lg hover:shadow-xl
-                   transition-all duration-200 hover:scale-105
-                   hidden md:flex"
-        aria-label="Open command palette"
-      >
-        <Command className="w-4 h-4" />
-        <span className="text-sm font-medium">Command</span>
-        <kbd className="px-1.5 py-0.5 text-xs bg-gray-100 dark:bg-dark-700 rounded">
-          ⌘K
-        </kbd>
-      </button>
-    )
+    return null
   }
 
   const modalContent = (
@@ -414,7 +413,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
         </div>
 
         {/* Commands List */}
-        <div className="flex-1 overflow-y-auto overscroll-contain">
+        <div className="flex-1 overflow-y-auto overscroll-contain scrollbar-hide">
           {filteredCommands.length === 0 ? (
             <div className="p-8 text-center text-gray-500 dark:text-gray-400">
               No commands found for "{searchQuery}"

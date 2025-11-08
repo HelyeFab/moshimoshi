@@ -13,21 +13,22 @@ import {
   RiGamepadFill,
   RiStackLine,
   RiStackFill,
-  RiUser3Line,
-  RiUser3Fill
+  RiSearchLine,
+  RiSearchFill
 } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
 
 interface NavItem {
   id: string;
   label: string;
-  href: string;
+  href?: string;
   icon: React.ElementType;
   activeIcon: React.ElementType;
-  matchPaths: string[];
+  matchPaths?: string[];
+  action?: () => void;
 }
 
-const NAV_ITEMS: NavItem[] = [
+const createNavItems = (onSearchClick: () => void): NavItem[] => [
   {
     id: 'dashboard',
     label: 'Home',
@@ -61,12 +62,12 @@ const NAV_ITEMS: NavItem[] = [
     matchPaths: ['/flashcards', '/lists']
   },
   {
-    id: 'profile',
-    label: 'Profile',
-    href: '/account',
-    icon: RiUser3Line,
-    activeIcon: RiUser3Fill,
-    matchPaths: ['/account', '/settings', '/profile', '/statistics']
+    id: 'search',
+    label: 'Search',
+    icon: RiSearchLine,
+    activeIcon: RiSearchFill,
+    action: onSearchClick,
+    matchPaths: []
   }
 ];
 
@@ -82,6 +83,13 @@ interface BottomNavProps {
 export default function BottomNav({ className, hideOnScroll = false }: BottomNavProps) {
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
+
+  const handleOpenCommandPalette = () => {
+    // Dispatch custom event to open command palette
+    window.dispatchEvent(new CustomEvent('openCommandPalette'));
+  };
+
+  const NAV_ITEMS = createNavItems(handleOpenCommandPalette);
 
   // Content-aware visibility logic (OPTIONAL - disabled by default)
   useEffect(() => {
@@ -135,12 +143,14 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
 
   // Check if a nav item is active
   const isActive = (item: NavItem) => {
+    if (!item.matchPaths) return false;
     return item.matchPaths.some(path =>
       pathname === path || pathname.startsWith(path + '/')
     );
   };
 
   return (
+    <>
     <AnimatePresence>
       {isVisible && (
         <motion.nav
@@ -195,29 +205,23 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
               const active = isActive(item);
               const Icon = active ? item.activeIcon : item.icon;
 
-              return (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  className={cn(
-                    'relative flex flex-col items-center justify-center',
-                    // Comfortable touch target: 60px width, 64px height for better ergonomics
-                    'w-[60px] h-[64px]',
-                    'rounded-2xl',
-                    'transition-all duration-200',
-                    // Accessibility: focus states
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
-                    'focus-visible:ring-offset-soft-white dark:focus-visible:ring-offset-dark-900',
-                    // Theme-aware text colors
-                    active
-                      ? 'text-primary-600 dark:text-primary-400'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100',
-                    // Subtle background on active
-                    active && 'bg-primary-50/50 dark:bg-primary-900/20'
-                  )}
-                  aria-label={item.label}
-                  aria-current={active ? 'page' : undefined}
-                >
+              const commonClassName = cn(
+                'relative flex flex-col items-center justify-center',
+                // Comfortable touch target: 60px width, 64px height for better ergonomics
+                'w-[60px] h-[64px]',
+                'rounded-2xl',
+                'transition-all duration-200',
+                // Accessibility: focus states
+                'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
+                'focus-visible:ring-offset-soft-white dark:focus-visible:ring-offset-dark-900',
+                // Theme-aware text colors
+                active
+                  ? 'text-primary-600 dark:text-primary-400'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+              );
+
+              const content = (
+                <>
                   {/* Icon and Label Container */}
                   <div className="relative z-10 flex flex-col items-center gap-1">
                     <Icon
@@ -261,6 +265,32 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
                       WebkitTapHighlightColor: 'transparent'
                     }}
                   />
+                </>
+              );
+
+              // Render button for action items, Link for navigation items
+              if (item.action) {
+                return (
+                  <button
+                    key={item.id}
+                    onClick={item.action}
+                    className={commonClassName}
+                    aria-label={item.label}
+                  >
+                    {content}
+                  </button>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href!}
+                  className={commonClassName}
+                  aria-label={item.label}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {content}
                 </Link>
               );
             })}
@@ -268,5 +298,6 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
         </motion.nav>
       )}
     </AnimatePresence>
+  </>
   );
 }

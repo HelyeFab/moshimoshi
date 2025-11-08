@@ -10,6 +10,8 @@ import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext'
 import { EmailVerificationBanner } from '@/components/EmailVerificationBanner'
 import { themeInitScript } from '@/lib/theme/theme-script'
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors'
+import BottomNav from '@/components/layout/BottomNav'
+import CommandPalette from '@/components/ui/CommandPalette'
 import '@/styles/globals.css'
 import TimeMachineButton from '@/components/dev/TimeMachineButton'
 
@@ -194,6 +196,8 @@ export default function RootLayout({
                       <EmailVerificationBanner />
                       {children}
                       {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
+                      <BottomNav />
+                      <CommandPalette />
                     </CelebrationProvider>
                   </ServiceWorkerProvider>
                 </ThemeProvider>

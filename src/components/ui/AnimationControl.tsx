@@ -159,7 +159,7 @@ export default function AnimationControl({
                     transition={{ duration: 0.2 }}
                     className="absolute inset-0"
                   >
-                    <Pause className={variant === 'glassmorphism' ? 'w-5 h-5 text-gray-700 dark:text-gray-300' : 'w-5 h-5 text-primary-600 dark:text-primary-400'} />
+                    <Pause className={variant === 'glassmorphism' ? 'w-5 h-5 text-primary-600 dark:text-primary-400' : 'w-5 h-5 text-primary-600 dark:text-primary-400'} />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -170,7 +170,7 @@ export default function AnimationControl({
                     transition={{ duration: 0.2 }}
                     className="absolute inset-0"
                   >
-                    <Play className={variant === 'glassmorphism' ? 'w-5 h-5 text-gray-700 dark:text-gray-300' : 'w-5 h-5 text-gray-600 dark:text-gray-400'} />
+                    <Play className={variant === 'glassmorphism' ? 'w-5 h-5 text-primary-600 dark:text-primary-400' : 'w-5 h-5 text-primary-600 dark:text-primary-400'} />
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Search } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useI18n } from '@/i18n/I18nContext'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -29,7 +29,6 @@ import { validateStreakDisplay, getStreakDeadline } from '@/lib/gamification/uti
 import Navbar from '@/components/layout/Navbar'
 import Modal from '@/components/ui/Modal'
 import AnimationControl from '@/components/ui/AnimationControl'
-import CommandPalette from '@/components/ui/CommandPalette'
 import StreakSaveModal from '@/components/gamification/StreakSaveModal'
 
 // Dynamically import Confetti to avoid SSR issues
@@ -1042,35 +1041,14 @@ function DashboardContent() {
           <LearningVillage />
         </div>
 
-        {/* Mobile: Floating buttons - Independent of Learning Village */}
-        <div className="sm:hidden fixed top-20 left-0 right-0 z-[60] flex justify-between px-10 pointer-events-none">
-          {/* Search Button - Left */}
-          <button
-            onClick={() => {
-              const event = new KeyboardEvent('keydown', {
-                key: 'k',
-                metaKey: true,
-                ctrlKey: true,
-                bubbles: true
-              });
-              document.dispatchEvent(event);
-            }}
-            className="p-3 bg-soft-white/20 dark:bg-dark-900/30 backdrop-blur-2xl backdrop-saturate-150 border border-gray-200/40 dark:border-gray-700/30 text-gray-700 dark:text-gray-300 rounded-full shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60 hover:bg-soft-white/30 dark:hover:bg-dark-900/40 transition-all duration-200 hover:scale-110 active:scale-95 pointer-events-auto"
-            aria-label="Open search"
-          >
-            <Search className="w-5 h-5" />
-          </button>
-
-          {/* Animation Control Button - Right */}
+        {/* Animation Control Button - Mobile Only */}
+        <div className="sm:hidden fixed top-[246px] right-10 z-[60] pointer-events-none">
           <div className="pointer-events-auto">
             <AnimationControl position="top-right" variant="glassmorphism" />
           </div>
         </div>
 
       </main>
-
-      {/* Command Palette - Opens on keyboard shortcut (Cmd+K / Ctrl+K) */}
-      <CommandPalette />
 
       {/* Desktop: Animation Control only (bottom-right) */}
       <div className="hidden sm:block">
