@@ -85,7 +85,7 @@ export default function EnhancedShadowingPlayer({
 
   const playerData = useShadowingPlayer(videoId || '', {
     transcript: transcriptSegments,
-    repeatCount: 3,
+    repeatCount: 1,
     pauseDuration: 1500,
     onSegmentChange: (index) => {
       if (index >= 0) {
