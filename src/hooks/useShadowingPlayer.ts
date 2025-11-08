@@ -291,8 +291,11 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
               setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
               repeatConfigRef.current = { ...repeatConfigRef.current, currentRepeat: 0 };
 
-              // Release lock
-              isHandlingRepeatRef.current = false;
+              // Release lock after a delay to allow currentTime to update
+              // This prevents re-detection of the old segment
+              setTimeout(() => {
+                isHandlingRepeatRef.current = false;
+              }, 150);
             } catch (error) {
               console.error('[Repeat] Failed to move to next segment:', error);
               // Fallback
