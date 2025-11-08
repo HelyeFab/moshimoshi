@@ -609,7 +609,7 @@ function YouTubeShadowingContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="max-w-3xl mx-auto"
+              className="max-w-3xl mx-auto mt-8"
             >
               {/* Hero Section */}
               <motion.div

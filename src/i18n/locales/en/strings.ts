@@ -3733,8 +3733,8 @@ export const strings = {
     description: "Practice Japanese with YouTube videos and media files",
 
     hero: {
-      title: "Master Japanese with Any Media",
-      subtitle: "Turn YouTube videos or your own media files into interactive shadowing practice sessions with AI-powered transcripts"
+      title: "Master Japanese with YouTube Videos",
+      subtitle: "Turn YouTube videos into interactive shadowing practice sessions with AI-powered transcripts"
     },
 
     modes: {
