@@ -58,9 +58,16 @@ export default function KanjiSimonGamePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light via-background-light/90 to-primary-100/20 dark:from-dark-850 dark:via-dark-900 dark:to-primary-900/10">
+    <>
       {/* Navigation is now global - rendered in root layout */}
+      <div className="min-h-screen bg-gradient-to-br from-background-light via-background-light/90 to-primary-100/20 dark:from-dark-850 dark:via-dark-900 dark:to-primary-900/10">
+        <div className="container mx-auto px-4 py-8">
+          <KanjiSimonGameWrapper
+            board={board}
+            onComplete={handleComplete}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

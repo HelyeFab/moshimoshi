@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Modal from '@/components/ui/Modal'
 import CelebrationScreen from '@/components/gamification/CelebrationScreen'
-import CommandPalette from '@/components/ui/CommandPalette'
 import SessionSummary from '@/components/review-engine/SessionSummary'
 
 export default function TestModalPage() {
@@ -196,8 +195,7 @@ export default function TestModalPage() {
         />
       )}
 
-      {/* Command Palette is always rendered, controlled by keyboard shortcut */}
-      <CommandPalette />
+      {/* Command Palette is now global - rendered in root layout */}
     </div>
   )
 }

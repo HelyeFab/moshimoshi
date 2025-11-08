@@ -11,6 +11,7 @@ import { EmailVerificationBanner } from '@/components/EmailVerificationBanner'
 import { themeInitScript } from '@/lib/theme/theme-script'
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors'
 import NavigationWrapper from '@/components/layout/NavigationWrapper'
+import CommandPalette from '@/components/ui/CommandPalette'
 import '@/styles/globals.css'
 import TimeMachineButton from '@/components/dev/TimeMachineButton'
 
@@ -198,6 +199,7 @@ export default function RootLayout({
                         {children}
                       </main>
                       {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
+                      <CommandPalette />
                     </CelebrationProvider>
                   </ServiceWorkerProvider>
                 </ThemeProvider>

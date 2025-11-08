@@ -268,8 +268,15 @@ export default function EditStoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
+    <>
       {/* Navigation is now global - rendered in root layout */}
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
+        <div className="container mx-auto px-4 py-8">
+          <Link
+            href="/admin/stories"
+            className="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 mb-6"
+          >
+            <ChevronLeftIcon className="w-5 h-5" />
             Back to Stories
           </Link>
           <div className="flex justify-between items-center">
@@ -680,6 +687,6 @@ export default function EditStoryPage() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

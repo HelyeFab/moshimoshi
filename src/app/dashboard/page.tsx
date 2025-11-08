@@ -28,7 +28,6 @@ import logger from '@/lib/logger'
 import { validateStreakDisplay, getStreakDeadline } from '@/lib/gamification/utils/streakValidation'
 import Modal from '@/components/ui/Modal'
 import AnimationControl from '@/components/ui/AnimationControl'
-import CommandPalette from '@/components/ui/CommandPalette'
 import StreakSaveModal from '@/components/gamification/StreakSaveModal'
 
 // Dynamically import Confetti to avoid SSR issues
@@ -1067,9 +1066,6 @@ function DashboardContent() {
         </div>
 
       </main>
-
-      {/* Command Palette - Opens on keyboard shortcut (Cmd+K / Ctrl+K) */}
-      <CommandPalette />
 
       {/* Desktop: Animation Control only (bottom-right) */}
       <div className="hidden sm:block">
