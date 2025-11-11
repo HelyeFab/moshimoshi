@@ -5,17 +5,16 @@ import CommandPalette from './CommandPalette'
 
 /**
  * Conditionally renders CommandPalette based on current route.
- * Hides on landing page, auth pages, and admin pages.
+ * Hides on landing page and auth pages.
  */
 export default function ConditionalCommandPalette() {
   const pathname = usePathname()
 
-  // Hide on landing page, auth pages, and admin pages (admin has its own navigation)
+  // Hide on landing page and auth pages
   const shouldHide =
     pathname === '/' ||
     pathname === '/landing' ||
-    pathname.startsWith('/auth/') ||
-    pathname.startsWith('/admin')
+    pathname.startsWith('/auth/')
 
   if (shouldHide) {
     return null

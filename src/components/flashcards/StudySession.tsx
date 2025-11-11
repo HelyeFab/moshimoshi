@@ -289,59 +289,8 @@ export function StudySession({
         console.error('Failed to save session stats:', error);
       }
 
-      // Check for achievements
-      const newAchievements = achievementManager.checkSessionAchievements(user.uid, sessionStats);
-
-      // Check comeback achievement
-      const lastSession = await sessionManager.getUserSessions(user.uid, 1);
-      if (lastSession.length > 0) {
-        const daysSinceLastSession = Math.floor((Date.now() - lastSession[0].timestamp) / (1000 * 60 * 60 * 24));
-        if (daysSinceLastSession >= 7) {
-          const comebackAchievement = achievementManager.unlockAchievement(user.uid, 'comeback_kid');
-          if (comebackAchievement) {
-            newAchievements.push(comebackAchievement);
-          }
-        }
-      }
-
-      // Check marathon achievement (60+ minutes in a day)
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const todaySessions = await sessionManager.getUserSessions(user.uid, undefined, today, tomorrow);
-      const totalMinutesToday = todaySessions.reduce((sum, s) => sum + Math.floor(s.duration / 60000), 0);
-      if (totalMinutesToday >= 60) {
-        const marathonAchievement = achievementManager.unlockAchievement(user.uid, 'marathon');
-        if (marathonAchievement) {
-          newAchievements.push(marathonAchievement);
-        }
-      }
-
-      // Check progress-based achievements
-      const allDecks = await flashcardManager.getDecks(user.uid, isPremium || false);
-      const totalCardsReviewed = allDecks.reduce((sum, d) => sum + (d.stats.totalCards || 0), 0);
-      const totalMasteredCards = allDecks.reduce((sum, d) => sum + (d.stats.masteredCards || 0), 0);
-      const streak = await sessionManager.calculateStreak(user.uid);
-
-      const progressAchievements = await achievementManager.checkProgressAchievements(
-        user.uid,
-        {
-          streak,
-          totalCardsReviewed,
-          totalMasteredCards,
-          averageAccuracy: accuracy,
-          totalDecksCreated: allDecks.length,
-          totalMinutesStudied: totalMinutesToday
-        }
-      );
-
-      newAchievements.push(...progressAchievements);
-
-      // Add achievements to summary
-      if (newAchievements.length > 0) {
-        (summary as any).unlockedAchievements = newAchievements;
-      }
+      // Note: Achievement checking is now handled by the gamification listener system
+      // which responds to URE events and processes achievements server-side
     }
 
     onComplete(summary);

@@ -137,7 +137,7 @@ function FuriganaText({
 
   return (
     <div
-      className={`japanese-text ${sizeClasses[fontSize as keyof typeof sizeClasses]} ${className} leading-loose cursor-pointer`}
+      className={`japanese-text ${sizeClasses[fontSize as keyof typeof sizeClasses]} ${className} leading-loose cursor-pointer text-foreground`}
       dangerouslySetInnerHTML={{ __html: furiganaHtml }}
       onClick={handleClick}
       style={{
@@ -182,38 +182,38 @@ function VocabularyPopup({
 
   return (
     <div
-      className="absolute z-50 bg-soft-white dark:bg-dark-850 border border-gray-200 dark:border-dark-700 rounded-lg shadow-xl p-4 max-w-sm"
+      className="absolute z-50 bg-card border border-border rounded-lg shadow-xl p-4 max-w-sm"
       style={{
         left: Math.min(position.x, window.innerWidth - 320),
         top: position.y + 10,
       }}
     >
       <div className="flex justify-between items-start mb-3">
-        <h3 className="font-bold text-lg">{word}</h3>
+        <h3 className="font-bold text-lg text-foreground">{word}</h3>
         <button
           onClick={onClose}
-          className="text-muted-foreground hover:text-foreground text-xl"
+          className="text-muted-foreground hover:text-foreground text-xl transition-colors"
         >
           ×
         </button>
       </div>
 
       {loading ? (
-        <div className="text-center py-4">
+        <div className="text-center py-4 text-muted-foreground">
           {t('common.loading')}
         </div>
       ) : wordData && (
         <div className="space-y-2">
           <div>
             <div className="text-sm text-muted-foreground">{t('vocabulary.reading')}</div>
-            <div className="font-medium">{wordData.reading}</div>
+            <div className="font-medium text-foreground">{wordData.reading}</div>
           </div>
           <div>
             <div className="text-sm text-muted-foreground">{t('vocabulary.meaning')}</div>
-            <div className="font-medium">{wordData.meaning}</div>
+            <div className="font-medium text-foreground">{wordData.meaning}</div>
           </div>
           <div className="flex gap-2 text-sm">
-            <span className="px-2 py-1 bg-soft-white dark:bg-dark-700 rounded">{wordData.type}</span>
+            <span className="px-2 py-1 bg-muted text-muted-foreground rounded">{wordData.type}</span>
             <span className="px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded">{wordData.level}</span>
           </div>
           <button
@@ -241,16 +241,16 @@ function SettingsPanel({
   const { t } = useI18n();
 
   return (
-    <div className="absolute top-12 right-0 z-50 bg-soft-white dark:bg-dark-850 rounded-lg shadow-lg border border-gray-200 dark:border-dark-700 p-4 w-72">
+    <div className="absolute top-12 right-0 z-50 bg-card rounded-lg shadow-lg border border-border p-4 w-72">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-medium text-foreground">{t('news.reader.settings')}</h3>
-        <button onClick={onClose} className="text-xl hover:text-foreground">×</button>
+        <button onClick={onClose} className="text-xl text-muted-foreground hover:text-foreground transition-colors">×</button>
       </div>
 
       <div className="space-y-4">
         {/* Font Size */}
         <div>
-          <label className="text-sm font-medium block mb-2">
+          <label className="text-sm font-medium block mb-2 text-foreground">
             {t('news.reader.fontSize')}
           </label>
           <div className="flex gap-2">
@@ -258,10 +258,10 @@ function SettingsPanel({
               <button
                 key={size}
                 onClick={() => onSettingsChange({ ...settings, fontSize: size })}
-                className={`px-3 py-1 rounded text-sm ${
+                className={`px-3 py-1 rounded text-sm transition-colors ${
                   settings.fontSize === size
                     ? 'bg-primary-500 text-white'
-                    : 'bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
                 }`}
               >
                 {size[0].toUpperCase()}
@@ -271,86 +271,86 @@ function SettingsPanel({
         </div>
 
         {/* Show Furigana */}
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={settings.showFurigana}
             onChange={(e) => onSettingsChange({ ...settings, showFurigana: e.target.checked })}
             className="rounded"
           />
-          <span className="text-sm">{t('news.reader.showFurigana')}</span>
+          <span className="text-sm text-foreground">{t('news.reader.showFurigana')}</span>
         </label>
 
         {/* Grammar Highlighting */}
         <div>
-          <label className="flex items-center gap-2 mb-2">
+          <label className="flex items-center gap-2 mb-2 cursor-pointer">
             <input
               type="checkbox"
               checked={settings.highlightGrammar}
               onChange={(e) => onSettingsChange({ ...settings, highlightGrammar: e.target.checked })}
               className="rounded"
             />
-            <span className="text-sm">{t('news.reader.highlightGrammar')}</span>
+            <span className="text-sm text-foreground">{t('news.reader.highlightGrammar')}</span>
           </label>
 
           {settings.highlightGrammar && (
             <div className="ml-6 space-y-1">
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
                   name="highlightMode"
                   checked={settings.highlightMode === 'all'}
                   onChange={() => onSettingsChange({ ...settings, highlightMode: 'all' })}
                 />
-                <span className="text-xs">{t('news.reader.highlightAll')}</span>
+                <span className="text-xs text-foreground">{t('news.reader.highlightAll')}</span>
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
                   name="highlightMode"
                   checked={settings.highlightMode === 'content'}
                   onChange={() => onSettingsChange({ ...settings, highlightMode: 'content' })}
                 />
-                <span className="text-xs">{t('news.reader.highlightContent')}</span>
+                <span className="text-xs text-foreground">{t('news.reader.highlightContent')}</span>
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
                   name="highlightMode"
                   checked={settings.highlightMode === 'grammar'}
                   onChange={() => onSettingsChange({ ...settings, highlightMode: 'grammar' })}
                 />
-                <span className="text-xs">{t('news.reader.highlightGrammarOnly')}</span>
+                <span className="text-xs text-foreground">{t('news.reader.highlightGrammarOnly')}</span>
               </label>
             </div>
           )}
         </div>
 
         {/* Show Translation */}
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={settings.showTranslation}
             onChange={(e) => onSettingsChange({ ...settings, showTranslation: e.target.checked })}
             className="rounded"
           />
-          <span className="text-sm">{t('news.reader.showTranslation')}</span>
+          <span className="text-sm text-foreground">{t('news.reader.showTranslation')}</span>
         </label>
 
         {/* Shadowing Mode */}
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={settings.shadowingMode}
             onChange={(e) => onSettingsChange({ ...settings, shadowingMode: e.target.checked })}
             className="rounded"
           />
-          <span className="text-sm">{t('news.reader.shadowingMode')}</span>
+          <span className="text-sm text-foreground">{t('news.reader.shadowingMode')}</span>
         </label>
 
         {/* Audio Speed */}
         <div>
-          <label className="text-sm font-medium block mb-2">
+          <label className="text-sm font-medium block mb-2 text-foreground">
             {t('news.reader.audioSpeed')}: {settings.audioSpeed}x
           </label>
           <input
@@ -407,20 +407,20 @@ function ShadowingMode({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-      <div className="bg-soft-white dark:bg-dark-850 rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto p-6">
+    <div className="fixed inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-card rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto p-6 border border-border shadow-2xl">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">{t('news.reader.shadowingMode')}</h2>
-          <button onClick={onClose} className="text-2xl hover:text-foreground">×</button>
+          <h2 className="text-2xl font-bold text-foreground">{t('news.reader.shadowingMode')}</h2>
+          <button onClick={onClose} className="text-2xl text-muted-foreground hover:text-foreground transition-colors">×</button>
         </div>
 
         {/* Progress */}
         <div className="mb-6">
-          <div className="flex justify-between text-sm mb-2">
+          <div className="flex justify-between text-sm mb-2 text-foreground">
             <span>{t('common.sentence')} {currentIndex + 1} / {sentences.length}</span>
             <span>{Math.round(((currentIndex + 1) / sentences.length) * 100)}%</span>
           </div>
-          <div className="h-2 bg-gray-100 dark:bg-dark-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-muted rounded-full overflow-hidden">
             <div
               className="h-full bg-primary-500 transition-all duration-300"
               style={{ width: `${((currentIndex + 1) / sentences.length) * 100}%` }}
@@ -429,8 +429,8 @@ function ShadowingMode({
         </div>
 
         {/* Current Sentence */}
-        <div className="mb-6 p-6 bg-soft-white/50 dark:bg-dark-800/50 rounded-lg">
-          <p className="text-2xl leading-relaxed japanese-text">
+        <div className="mb-6 p-6 bg-muted/50 rounded-lg">
+          <p className="text-2xl leading-relaxed japanese-text text-foreground">
             {sentences[currentIndex]}
           </p>
         </div>
@@ -439,16 +439,16 @@ function ShadowingMode({
         <div className="space-y-4">
           {/* Repeat Count */}
           <div className="flex items-center justify-center gap-4">
-            <span className="text-sm">{t('news.reader.repeatCount')}:</span>
+            <span className="text-sm text-foreground">{t('news.reader.repeatCount')}:</span>
             <div className="flex gap-2">
               {[1, 2, 3, 5].map(count => (
                 <button
                   key={count}
                   onClick={() => setRepeatCount(count)}
-                  className={`px-3 py-1 rounded ${
+                  className={`px-3 py-1 rounded transition-colors ${
                     repeatCount === count
                       ? 'bg-primary-500 text-white'
-                      : 'bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
                   }`}
                 >
                   {count}x
@@ -462,7 +462,7 @@ function ShadowingMode({
             <button
               onClick={handlePrevious}
               disabled={currentIndex === 0}
-              className="p-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 disabled:opacity-50"
+              className="p-2 rounded-lg bg-muted text-foreground hover:bg-muted/80 disabled:opacity-50 transition-colors"
             >
               ← {t('common.previous')}
             </button>
@@ -470,7 +470,7 @@ function ShadowingMode({
             <button
               onClick={handlePlay}
               disabled={isPlaying}
-              className="px-6 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 disabled:opacity-50 flex items-center gap-2"
+              className="px-6 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 disabled:opacity-50 flex items-center gap-2 transition-colors"
             >
               {isPlaying ? (
                 <>
@@ -488,7 +488,7 @@ function ShadowingMode({
             <button
               onClick={handleNext}
               disabled={currentIndex === sentences.length - 1}
-              className="p-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 disabled:opacity-50"
+              className="p-2 rounded-lg bg-muted text-foreground hover:bg-muted/80 disabled:opacity-50 transition-colors"
             >
               {t('common.next')} →
             </button>
@@ -565,14 +565,14 @@ export default function EnhancedArticleReader({
   }, [settings.highlightGrammar]);
 
   return (
-    <div className="container mx-auto px-4 py-8 relative">
+    <div className="container mx-auto px-4 py-8 relative bg-background min-h-screen">
       {/* Header with Controls */}
-      <div className="sticky top-0 z-40 bg-soft-white dark:bg-dark-850 border-b border-gray-200 dark:border-dark-700">
+      <div className="sticky top-0 z-40 bg-card/95 backdrop-blur-sm border-b border-border">
         <div className="py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={onBack}
-              className="px-4 py-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
+              className="px-4 py-2 rounded-lg bg-muted text-foreground hover:bg-muted/80 transition-colors"
             >
               ← {t('common.back')}
             </button>
@@ -586,7 +586,7 @@ export default function EnhancedArticleReader({
             {settings.shadowingMode && (
               <button
                 onClick={() => setShowShadowing(true)}
-                className="px-4 py-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
+                className="px-4 py-2 rounded-lg bg-muted text-foreground hover:bg-muted/80 transition-colors"
               >
                 {t('news.reader.shadowing')}
               </button>
@@ -595,7 +595,7 @@ export default function EnhancedArticleReader({
           <div className="relative">
             <button
               onClick={() => setShowSettings(!showSettings)}
-              className="p-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
+              className="p-2 rounded-lg bg-muted text-foreground hover:bg-muted/80 transition-colors"
               aria-label={t('news.reader.settings')}
             >
               ⚙️
@@ -614,10 +614,10 @@ export default function EnhancedArticleReader({
       {/* Article Content */}
       <article className="max-w-4xl mx-auto mt-8">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-4 text-foreground dark:text-dark-100">
+          <h1 className="text-3xl font-bold mb-4 text-foreground">
             {article.title}
           </h1>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground dark:text-dark-400">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span>{article.source}</span>
             <span className="px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded">
               {article.difficulty}
@@ -628,41 +628,44 @@ export default function EnhancedArticleReader({
 
         {/* Article Summary */}
         {article.summary && (
-          <div className="mb-6 p-4 bg-soft-white/50 dark:bg-dark-800/50 rounded-lg">
-            <p className="text-lg text-muted-foreground dark:text-dark-400">
+          <div className="mb-6 p-4 bg-muted/50 rounded-lg border border-border/50">
+            <p className="text-lg text-muted-foreground">
               {article.summary}
             </p>
           </div>
         )}
 
-        {/* Main Content */}
-        <div className="prose prose-lg max-w-none">
-          <FuriganaText
-            text={article.content}
-            showFurigana={settings.showFurigana}
-            fontSize={settings.fontSize}
-            highlightGrammar={settings.highlightGrammar}
-            highlightMode={settings.highlightMode}
-            onWordClick={handleWordClick}
-          />
+        {/* Main Content - Enhanced contrast for reading */}
+        <div className="prose prose-lg max-w-none bg-card rounded-lg p-6 md:p-8 border border-border shadow-sm">
+          <div className="text-foreground">
+            <FuriganaText
+              text={article.content}
+              showFurigana={settings.showFurigana}
+              fontSize={settings.fontSize}
+              highlightGrammar={settings.highlightGrammar}
+              highlightMode={settings.highlightMode}
+              onWordClick={handleWordClick}
+              className="text-foreground"
+            />
+          </div>
         </div>
 
         {/* Translation Section */}
         {settings.showTranslation && (
-          <div className="mt-8 p-4 bg-soft-white dark:bg-dark-800 rounded-lg">
-            <h3 className="font-medium mb-2">{t('news.reader.translation')}</h3>
-            <p className="text-muted-foreground dark:text-dark-400">
+          <div className="mt-8 p-4 bg-card rounded-lg border border-border">
+            <h3 className="font-medium mb-2 text-foreground">{t('news.reader.translation')}</h3>
+            <p className="text-muted-foreground">
               [Translation would appear here]
             </p>
           </div>
         )}
 
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-dark-700">
+        <footer className="mt-12 pt-8 border-t border-border">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-muted-foreground dark:text-dark-400">
+            <div className="text-sm text-muted-foreground">
               {article.metadata?.wordCount && (
-                <span className="px-3 py-1 bg-soft-white dark:bg-dark-700 text-muted-foreground dark:text-dark-400 rounded-full text-sm">
+                <span className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm">
                   {article.metadata.wordCount} words
                 </span>
               )}
@@ -672,7 +675,7 @@ export default function EnhancedArticleReader({
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary-500 hover:text-primary-600 text-sm"
+                className="text-primary-500 hover:text-primary-600 text-sm transition-colors"
               >
                 {t('news.reader.viewOriginal')} →
               </a>

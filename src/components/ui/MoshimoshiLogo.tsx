@@ -1,42 +1,33 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import dynamic from 'next/dynamic';
-
-// Dynamically import Lottie to avoid SSR issues
-const Lottie = dynamic(() => import('lottie-react'), {
-  ssr: false,
-  loading: () => null
-});
-
 interface MoshimoshiLogoProps {
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   animated?: boolean;
   className?: string;
-  variant?: 'inline' | 'stacked';
+  variant?: 'inline' | 'stacked' | 'compact';
+  showRomaji?: boolean;
 }
 
 const sizeConfig = {
   small: {
-    fontSize: '1.5rem',
-    doshiSize: 24,
-    gap: '0.125rem',
+    japaneseFontSize: '1.25rem',
+    romajiFontSize: '0.625rem',
+    spacing: '0.125rem',
   },
   medium: {
-    fontSize: '2.5rem',
-    doshiSize: 40,
-    gap: '0.25rem',
+    japaneseFontSize: '2rem',
+    romajiFontSize: '0.875rem',
+    spacing: '0.25rem',
   },
   large: {
-    fontSize: '4rem',
-    doshiSize: 64,
-    gap: '0.375rem',
+    japaneseFontSize: '3.5rem',
+    romajiFontSize: '1.25rem',
+    spacing: '0.5rem',
   },
   xlarge: {
-    fontSize: '6rem',
-    doshiSize: 96,
-    gap: '0.5rem',
+    japaneseFontSize: '5.5rem',
+    romajiFontSize: '1.75rem',
+    spacing: '0.75rem',
   },
 };
 
@@ -45,179 +36,157 @@ export default function MoshimoshiLogo({
   animated = false,
   className = '',
   variant = 'inline',
+  showRomaji = true,
 }: MoshimoshiLogoProps) {
-  const [animationData, setAnimationData] = useState<any>(null);
   const config = sizeConfig[size];
 
-  // Load animation data if needed
-  useEffect(() => {
-    if (animated) {
-      fetch('/red-panda/red-panda.json')
-        .then(response => response.json())
-        .then(data => setAnimationData(data))
-        .catch(error => console.error('Failed to load animation:', error));
-    }
-  }, [animated]);
-
-  const DoshiO = () => {
-    if (animated && animationData) {
-      return (
-        <span 
-          className="inline-block align-middle"
-          style={{ 
-            width: config.doshiSize, 
-            height: config.doshiSize,
-            margin: `0 ${config.gap}`,
+  // Compact variant for navbars - horizontal layout with romaji beside
+  if (variant === 'compact') {
+    return (
+      <div 
+        className={`inline-flex items-baseline gap-2 ${className}`}
+      >
+        <span
+          className="font-bold text-primary-500 dark:text-primary-400"
+          style={{
+            fontFamily: 'var(--font-family-logo-japanese)',
+            fontSize: config.japaneseFontSize,
+            lineHeight: 1,
+            letterSpacing: '0.05em',
           }}
         >
-          <Lottie
-            animationData={animationData}
-            loop={true}
-            autoplay={true}
-            style={{ width: '100%', height: '100%' }}
-            rendererSettings={{
-              preserveAspectRatio: 'xMidYMid meet'
-            }}
-          />
+          もしもし
         </span>
-      );
-    }
-
-    return (
-      <span 
-        className="inline-block align-middle transition-transform hover:scale-110"
-        style={{ 
-          width: config.doshiSize, 
-          height: config.doshiSize,
-          margin: `0 ${config.gap}`,
-        }}
-      >
-        <Image
-          src="/doshi.png"
-          alt="o"
-          width={config.doshiSize}
-          height={config.doshiSize}
-          className="w-full h-full object-contain"
-        />
-      </span>
-    );
-  };
-
-  if (variant === 'stacked') {
-    return (
-      <div className={`flex flex-col items-center ${className}`}>
-        <div 
-          className="font-japanese font-bold text-primary-500 dark:text-primary-400 flex items-center"
-          style={{ fontSize: config.fontSize }}
-        >
-          <span>M</span>
-          <DoshiO />
-          <span>shi</span>
-        </div>
-        <div 
-          className="font-japanese font-bold text-primary-500 dark:text-primary-400 flex items-center"
-          style={{ fontSize: config.fontSize }}
-        >
-          <span>M</span>
-          <DoshiO />
-          <span>shi</span>
-        </div>
+        {showRomaji && (
+          <span
+            className="font-medium text-gray-500 dark:text-gray-400 opacity-70"
+            style={{
+              fontSize: config.romajiFontSize,
+              lineHeight: 1,
+              letterSpacing: '0.1em',
+              textTransform: 'lowercase',
+            }}
+          >
+            moshimoshi
+          </span>
+        )}
       </div>
     );
   }
 
+  // Stacked variant - vertical layout
+  if (variant === 'stacked') {
+    return (
+      <div className={`flex flex-col items-center ${className}`}>
+        <span
+          className="font-bold text-primary-500 dark:text-primary-400"
+          style={{
+            fontFamily: 'var(--font-family-logo-japanese)',
+            fontSize: config.japaneseFontSize,
+            lineHeight: 1,
+            letterSpacing: '0.05em',
+          }}
+        >
+          もしもし
+        </span>
+        {showRomaji && (
+          <span
+            className="font-medium text-gray-500 dark:text-gray-400 opacity-70 mt-1"
+            style={{
+              fontSize: config.romajiFontSize,
+              lineHeight: 1,
+              letterSpacing: '0.1em',
+              textTransform: 'lowercase',
+            }}
+          >
+            moshimoshi
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  // Default inline variant - vertical with romaji below
   return (
     <div 
-      className={`font-japanese font-bold text-primary-500 dark:text-primary-400 inline-flex items-center ${className}`}
-      style={{ fontSize: config.fontSize }}
+      className={`inline-flex flex-col items-start leading-none ${className}`}
     >
-      <span>M</span>
-      <DoshiO />
-      <span>shim</span>
-      <DoshiO />
-      <span>shi</span>
+      <span
+        className="font-bold text-primary-500 dark:text-primary-400"
+        style={{
+          fontFamily: 'var(--font-family-logo-japanese)',
+          fontSize: config.japaneseFontSize,
+          lineHeight: 1,
+          letterSpacing: '0.05em',
+        }}
+      >
+        もしもし
+      </span>
+      {showRomaji && (
+        <span
+          className="font-medium text-gray-500 dark:text-gray-400 opacity-70"
+          style={{
+            fontSize: config.romajiFontSize,
+            lineHeight: 1,
+            marginTop: config.spacing,
+            letterSpacing: '0.1em',
+            textTransform: 'lowercase',
+          }}
+        >
+          moshimoshi
+        </span>
+      )}
     </div>
   );
 }
 
-// Alternative version with text shadow for more impact
+// Hero version for landing pages with gradient and animation
 export function MoshimoshiLogoHero({
   animated = true,
   className = '',
+  showRomaji = true,
 }: {
   animated?: boolean;
   className?: string;
+  showRomaji?: boolean;
 }) {
-  const [animationData, setAnimationData] = useState<any>(null);
-
-  useEffect(() => {
-    if (animated) {
-      fetch('/red-panda/red-panda.json')
-        .then(response => response.json())
-        .then(data => setAnimationData(data))
-        .catch(error => console.error('Failed to load animation:', error));
-    }
-  }, [animated]);
-
-  const DoshiO = ({ delay = 0 }: { delay?: number }) => {
-    if (animated && animationData) {
-      return (
-        <span 
-          className="inline-block align-middle animate-bounce"
-          style={{ 
-            width: 80, 
-            height: 80,
-            margin: '0 0.5rem',
-            animationDelay: `${delay}ms`,
-          }}
-        >
-          <Lottie
-            animationData={animationData}
-            loop={true}
-            autoplay={true}
-            style={{ width: '100%', height: '100%' }}
-            rendererSettings={{
-              preserveAspectRatio: 'xMidYMid meet'
-            }}
-          />
-        </span>
-      );
-    }
-
-    return (
-      <span 
-        className="inline-block align-middle animate-bounce"
-        style={{ 
-          width: 80, 
-          height: 80,
-          margin: '0 0.5rem',
-          animationDelay: `${delay}ms`,
+  return (
+    <div className={`flex flex-col items-center ${className}`}>
+      <h1 
+        className="font-black bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 bg-clip-text text-transparent inline-flex items-center"
+        style={{
+          fontFamily: 'var(--font-family-logo-japanese)',
+          fontSize: 'clamp(3rem, 8vw, 6rem)',
+          lineHeight: 1,
+          letterSpacing: '0.05em',
+          filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))',
         }}
       >
-        <Image
-          src="/doshi.png"
-          alt="o"
-          width={80}
-          height={80}
-          className="w-full h-full object-contain"
-        />
-      </span>
-    );
-  };
-
-  return (
-    <h1 
-      className={`font-japanese font-black text-6xl lg:text-8xl bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent inline-flex items-center ${className}`}
-      style={{
-        filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))',
-      }}
-    >
-      <span className="animate-fade-in">M</span>
-      <DoshiO delay={100} />
-      <span className="animate-fade-in" style={{ animationDelay: '200ms' }}>shim</span>
-      <DoshiO delay={300} />
-      <span className="animate-fade-in" style={{ animationDelay: '400ms' }}>shi</span>
-    </h1>
+        {animated ? (
+          <>
+            <span className="animate-fade-in">も</span>
+            <span className="animate-fade-in" style={{ animationDelay: '100ms' }}>し</span>
+            <span className="animate-fade-in" style={{ animationDelay: '200ms' }}>も</span>
+            <span className="animate-fade-in" style={{ animationDelay: '300ms' }}>し</span>
+          </>
+        ) : (
+          'もしもし'
+        )}
+      </h1>
+      {showRomaji && (
+        <span
+          className="font-medium text-gray-500 dark:text-gray-400 opacity-70 mt-2"
+          style={{
+            fontSize: 'clamp(0.875rem, 2vw, 1.5rem)',
+            lineHeight: 1,
+            letterSpacing: '0.15em',
+            textTransform: 'lowercase',
+          }}
+        >
+          moshimoshi
+        </span>
+      )}
+    </div>
   );
 }
 

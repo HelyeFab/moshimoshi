@@ -125,7 +125,9 @@
   --color-surface-darkHover: #374151;
   
   /* Font family */
-  --font-family-japanese: 'Mulish', 'Noto Sans JP', sans-serif;
+  --font-family-japanese: 'Elms Sans', 'Noto Sans JP', sans-serif;
+  --font-family-logo: 'Elms Sans Playwrite', 'Elms Sans', 'Noto Sans JP', sans-serif;
+  --font-family-logo-japanese: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
   
   /* Animations */
   --animate-fade-in: fadeIn 0.5s ease-in-out;
@@ -215,6 +217,10 @@ body {
 .japanese-text {
   font-family: var(--font-family-japanese);
   font-feature-settings: 'palt' 1;
+}
+
+.logo-font {
+  font-family: var(--font-family-logo);
 }
 
 /* Soft white background utilities */

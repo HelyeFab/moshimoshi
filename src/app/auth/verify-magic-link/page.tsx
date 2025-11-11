@@ -6,6 +6,7 @@ import { signInWithEmailLink, isSignInWithEmailLink } from 'firebase/auth'
 import { auth } from '@/lib/firebase/config'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useTranslation } from '@/i18n/I18nContext'
+import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 
 function VerifyMagicLinkContent() {
   const router = useRouter()
@@ -117,13 +118,13 @@ function VerifyMagicLinkContent() {
           <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-xl p-8">
             {/* Logo */}
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center gap-2 mb-4">
-                <div className="w-12 h-12 bg-primary-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-                  も
-                </div>
-                <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  Moshimoshi
-                </span>
+              <div className="inline-flex items-center justify-center mb-4">
+                <MoshimoshiLogo
+                  size="medium"
+                  variant="stacked"
+                  showRomaji={true}
+                  className="text-gray-900 dark:text-gray-100"
+                />
               </div>
             </div>
             <div className="text-center mb-6">

@@ -163,11 +163,6 @@ export default function BottomNav({ className, hideOnScroll = false, extraItem: 
     );
   };
 
-  // Hide on admin pages (admin has its own sidebar navigation)
-  if (pathname.startsWith('/admin')) {
-    return null;
-  }
-
   return (
     <>
     <AnimatePresence>

@@ -7,6 +7,7 @@ import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAnimationControl } from '@/components/ui/AnimationControl'
+import AnimationControl from '@/components/ui/AnimationControl'
 import Image from 'next/image'
 
 const stallImages = [
@@ -685,6 +686,11 @@ export default function LearningVillage() {
 
   return (
     <div className="relative overflow-hidden">
+      {/* Animation Control - Top Left Corner */}
+      <div className="absolute top-4 left-4 z-50">
+        <AnimationControl position="top-left" variant="glassmorphism" />
+      </div>
+
       {/* Bottom glow effect */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary-500/30 via-primary-400/10 to-transparent blur-xl pointer-events-none z-20" />
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-primary-400/20 to-transparent blur-md pointer-events-none z-20" />

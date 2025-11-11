@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { getUserFriendlyErrorMessage } from '@/utils/errorMessages'
 import { useTranslation } from '@/i18n/I18nContext'
 import logger from '@/lib/logger'
+import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -167,11 +168,13 @@ export default function SignUpPage() {
       <div className="flex-1 flex items-center justify-center px-4 py-8">
         <div className="max-w-md w-full">
         {/* Logo */}
-        <Link href="/" className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-10 h-10 bg-primary-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-            {strings.auth.signin.branding.logoText}
-          </div>
-          <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">{strings.common.brand}</span>
+        <Link href="/" className="flex items-center justify-center mb-8">
+          <MoshimoshiLogo
+            size="medium"
+            variant="stacked"
+            showRomaji={true}
+            className="text-gray-900 dark:text-gray-100"
+          />
         </Link>
 
         {/* Sign Up Card */}

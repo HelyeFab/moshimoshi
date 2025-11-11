@@ -43,10 +43,8 @@ export default function Navbar({
   const [showDropdown, setShowDropdown] = useState(false);
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const menuRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLDivElement>(null);
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Determine if we should show the back to dashboard link
   // Show on all pages except dashboard, home page, and auth pages
@@ -66,25 +64,6 @@ export default function Navbar({
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
-  // Auto-hide navbar on mobile after 5 seconds
-  useEffect(() => {
-    if (!isMobile) {
-      setIsNavbarVisible(true);
-      return;
-    }
-
-    // Hide navbar after 5 seconds on mobile
-    hideTimerRef.current = setTimeout(() => {
-      setIsNavbarVisible(false);
-    }, 5000);
-
-    return () => {
-      if (hideTimerRef.current) {
-        clearTimeout(hideTimerRef.current);
-      }
-    };
-  }, [isMobile]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -128,15 +107,11 @@ export default function Navbar({
   // Check if we're on the blog page for special styling
   const isBlogPage = pathname.startsWith("/blog");
 
-  const handleShowNavbar = () => {
-    setIsNavbarVisible(true);
-  };
-
   return (
     <>
-      {/* Navbar - always visible on desktop, auto-hide on mobile */}
+      {/* Navbar - always visible on desktop, hidden on mobile (bottom nav handles mobile navigation) */}
       <AnimatePresence>
-        {(isNavbarVisible || !isMobile) && (
+        {!isMobile && (
           <motion.header
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -165,7 +140,7 @@ export default function Navbar({
             <div className="hidden sm:block">
               <MoshimoshiLogo
                 size="small"
-                animated={true}
+                variant="compact"
                 className="group-hover:scale-105 transition-transform"
               />
             </div>
@@ -502,47 +477,6 @@ export default function Navbar({
           </motion.header>
         )}
       </AnimatePresence>
-
-      {/* Bouncing Handle - only show on mobile when navbar is hidden */}
-      {isMobile && !isNavbarVisible && (
-        <motion.button
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -50, opacity: 0 }}
-          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-          onClick={handleShowNavbar}
-          className="fixed top-0 left-1/2 -translate-x-1/2 z-[60] sm:hidden"
-          aria-label="Show navigation"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="flex flex-col items-center gap-1 pt-2"
-          >
-            {/* Handle bar */}
-            <div className="w-12 h-1 rounded-full bg-primary-600 dark:bg-primary-400 shadow-lg shadow-primary-600/50 dark:shadow-primary-400/50" />
-
-            {/* Optional: Small chevron indicator */}
-            <svg
-              className="w-4 h-4 text-primary-600 dark:text-primary-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={3}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </motion.div>
-        </motion.button>
-      )}
     </>
   );
 }

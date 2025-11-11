@@ -77,12 +77,12 @@ function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsPanelPro
   };
 
   return (
-    <div className="absolute top-12 right-0 z-40 bg-soft-white dark:bg-dark-850 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 w-64 max-w-[calc(100vw-2rem)] md:max-w-none">
+    <div className="absolute top-12 right-0 z-40 bg-card border border-border rounded-lg shadow-lg p-4 w-64 max-w-[calc(100vw-2rem)] md:max-w-none">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-medium text-gray-900 dark:text-white">{t('story.readingSettings')}</h3>
+        <h3 className="font-medium text-foreground">{t('story.readingSettings')}</h3>
         <button
           onClick={onClose}
-          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          className="text-muted-foreground hover:text-foreground transition-colors"
         >
           <XMarkIcon className="w-5 h-5" />
         </button>
@@ -91,16 +91,16 @@ function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsPanelPro
       <div className="space-y-4">
         {/* Font Size */}
         <div>
-          <label className="block text-sm font-medium mb-2">{t('story.fontSize')}</label>
+          <label className="block text-sm font-medium mb-2 text-foreground">{t('story.fontSize')}</label>
           <div className="flex flex-wrap gap-2">
             {(['small', 'medium', 'large', 'xlarge'] as const).map((size) => (
               <button
                 key={size}
                 onClick={() => handleFontSizeChange(size)}
-                className={`px-3 py-1 rounded text-xs sm:text-sm ${
+                className={`px-3 py-1 rounded text-xs sm:text-sm transition-colors ${
                   settings.fontSize === size
                     ? 'bg-primary-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
                 }`}
               >
                 {t(`story.fontSize.${size}`)}
@@ -111,15 +111,15 @@ function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsPanelPro
 
         {/* Furigana Toggle */}
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium">{t('story.showFurigana')}</label>
+          <label className="text-sm font-medium text-foreground">{t('story.showFurigana')}</label>
           <button
             onClick={handleToggleFurigana}
             className={`relative inline-flex h-6 sm:h-6 w-11 items-center rounded-full transition-colors ${
-              settings.showFurigana ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
+              settings.showFurigana ? 'bg-primary-600' : 'bg-muted'
             }`}
           >
             <span
-              className={`inline-block h-5 w-5 transform rounded-full bg-soft-white dark:bg-gray-200 shadow-sm transition-transform ${
+              className={`inline-block h-5 w-5 transform rounded-full bg-card shadow-sm transition-transform ${
                 settings.showFurigana ? 'translate-x-6' : 'translate-x-0.5'
               }`}
             />
@@ -128,15 +128,15 @@ function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsPanelPro
 
         {/* Vocabulary Highlighting */}
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium">Highlight Vocabulary</label>
+          <label className="text-sm font-medium text-foreground">Highlight Vocabulary</label>
           <button
             onClick={handleToggleVocabularyHighlight}
             className={`relative inline-flex h-6 sm:h-6 w-11 items-center rounded-full transition-colors ${
-              settings.highlightVocabulary ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
+              settings.highlightVocabulary ? 'bg-primary-600' : 'bg-muted'
             }`}
           >
             <span
-              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-transform ${
+              className={`inline-block h-5 w-5 transform rounded-full bg-card shadow-sm transition-transform ${
                 settings.highlightVocabulary ? 'translate-x-6' : 'translate-x-0.5'
               }`}
             />
@@ -146,10 +146,10 @@ function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsPanelPro
         {/* Highlight Mode */}
         {settings.highlightVocabulary && (
           <div>
-            <label className="block text-sm font-medium mb-2">Highlight Mode</label>
+            <label className="block text-sm font-medium mb-2 text-foreground">Highlight Mode</label>
             <div className="space-y-2">
               {(['none', 'all', 'content', 'grammar'] as const).map((mode) => (
-                <label key={mode} className="flex items-center gap-2">
+                <label key={mode} className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="radio"
                     name="highlightMode"
@@ -157,7 +157,7 @@ function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsPanelPro
                     onChange={() => handleHighlightModeChange(mode)}
                     className="w-4 h-4"
                   />
-                  <span className="text-sm capitalize">{mode}</span>
+                  <span className="text-sm capitalize text-foreground">{mode}</span>
                 </label>
               ))}
             </div>
@@ -484,86 +484,86 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
   if (showQuiz) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
+      <div className="min-h-screen bg-background">
         <div className="max-w-4xl mx-auto p-4">
-          <div className="bg-soft-white dark:bg-dark-850 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-2xl font-bold mb-6">{t('story.quiz.title')}</h2>
+          <div className="bg-card rounded-lg p-6 border border-border">
+            <h2 className="text-2xl font-bold mb-6 text-foreground">{t('story.quiz.title')}</h2>
 
-          {quizScore === null ? (
-            <div className="space-y-6">
-              {story.quiz.map((question, qIndex) => (
-                <div key={question.id} className="space-y-3">
-                  <p className="font-medium">{qIndex + 1}. {question.question}</p>
-                  <div className="space-y-2">
-                    {question.options.map((option, oIndex) => (
-                      <label key={oIndex} className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 cursor-pointer transition-colors">
-                        <input
-                          type="radio"
-                          name={`question-${qIndex}`}
-                          checked={quizAnswers[qIndex] === oIndex}
-                          onChange={() => handleQuizAnswer(qIndex, oIndex)}
-                          className="w-4 h-4"
-                        />
-                        <span>{option}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              ))}
-
-              <div className="flex justify-between mt-8">
-                <button
-                  onClick={() => setShowQuiz(false)}
-                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 rounded-lg transition-colors"
-                >
-                  {t('common.back')}
-                </button>
-                <button
-                  onClick={handleQuizSubmit}
-                  disabled={quizAnswers.length !== story.quiz.length}
-                  className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg disabled:opacity-50"
-                >
-                  {t('common.submit')}
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="text-center space-y-4">
-              <div className="text-6xl mb-4">
-                {quizScore >= 80 ? '🎉' : quizScore >= 60 ? '👍' : '💪'}
-              </div>
-              <h3 className="text-2xl font-bold">
-                {quizScore >= 80 ? t('story.quiz.excellent') : quizScore >= 60 ? t('story.quiz.good') : t('story.quiz.keepPracticing')}
-              </h3>
-              <p className="text-xl">{t('story.quiz.yourScore')}: {quizScore}%</p>
-
-              <div className="space-y-3 mt-6">
-                {story.quiz.map((question, index) => (
-                  <div key={question.id} className="text-left p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
-                    <p className="font-medium mb-2">{question.question}</p>
-                    <p className={quizAnswers[index] === question.correctIndex ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
-                      Your answer: {question.options[quizAnswers[index]]}
-                    </p>
-                    {quizAnswers[index] !== question.correctIndex && (
-                      <p className="text-green-600 dark:text-green-400">
-                        Correct: {question.options[question.correctIndex]}
-                      </p>
-                    )}
-                    {question.explanation && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{question.explanation}</p>
-                    )}
+            {quizScore === null ? (
+              <div className="space-y-6">
+                {story.quiz.map((question, qIndex) => (
+                  <div key={question.id} className="space-y-3">
+                    <p className="font-medium text-foreground">{qIndex + 1}. {question.question}</p>
+                    <div className="space-y-2">
+                      {question.options.map((option, oIndex) => (
+                        <label key={oIndex} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-muted/50 hover:bg-muted cursor-pointer transition-colors">
+                          <input
+                            type="radio"
+                            name={`question-${qIndex}`}
+                            checked={quizAnswers[qIndex] === oIndex}
+                            onChange={() => handleQuizAnswer(qIndex, oIndex)}
+                            className="w-4 h-4"
+                          />
+                          <span className="text-foreground">{option}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
                 ))}
-              </div>
 
-              <button
-                onClick={onExit}
-                className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg mt-6"
-              >
-                {t('common.finish')}
-              </button>
-            </div>
-          )}
+                <div className="flex justify-between mt-8">
+                  <button
+                    onClick={() => setShowQuiz(false)}
+                    className="px-4 py-2 bg-muted text-foreground hover:bg-muted/80 rounded-lg transition-colors"
+                  >
+                    {t('common.back')}
+                  </button>
+                  <button
+                    onClick={handleQuizSubmit}
+                    disabled={quizAnswers.length !== story.quiz.length}
+                    className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg disabled:opacity-50 transition-colors"
+                  >
+                    {t('common.submit')}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center space-y-4">
+                <div className="text-6xl mb-4">
+                  {quizScore >= 80 ? '🎉' : quizScore >= 60 ? '👍' : '💪'}
+                </div>
+                <h3 className="text-2xl font-bold text-foreground">
+                  {quizScore >= 80 ? t('story.quiz.excellent') : quizScore >= 60 ? t('story.quiz.good') : t('story.quiz.keepPracticing')}
+                </h3>
+                <p className="text-xl text-foreground">{t('story.quiz.yourScore')}: {quizScore}%</p>
+
+                <div className="space-y-3 mt-6">
+                  {story.quiz.map((question, index) => (
+                    <div key={question.id} className="text-left p-4 rounded-lg bg-muted/50 border border-border">
+                      <p className="font-medium mb-2 text-foreground">{question.question}</p>
+                      <p className={quizAnswers[index] === question.correctIndex ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
+                        Your answer: {question.options[quizAnswers[index]]}
+                      </p>
+                      {quizAnswers[index] !== question.correctIndex && (
+                        <p className="text-green-600 dark:text-green-400">
+                          Correct: {question.options[question.correctIndex]}
+                        </p>
+                      )}
+                      {question.explanation && (
+                        <p className="text-sm text-muted-foreground mt-1">{question.explanation}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={onExit}
+                  className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg mt-6 transition-colors"
+                >
+                  {t('common.finish')}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -572,7 +572,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
   return (
     <>
-      <div className="container mx-auto px-4 py-6 min-h-screen pb-24 md:pb-8 bg-gray-50 dark:bg-dark-900">
+      <div className="container mx-auto px-4 py-6 min-h-screen pb-24 md:pb-8 bg-background">
         <div className="max-w-6xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
@@ -588,7 +588,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                   {/* Options Menu Button */}
                   <button
                     onClick={() => setShowOptionsMenu(!showOptionsMenu)}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-muted text-foreground hover:bg-muted/80 rounded-lg font-medium transition-colors"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -600,7 +600,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
                   {/* Dropdown Menu */}
                   {showOptionsMenu && (
-                    <div className="absolute top-12 right-0 z-50 bg-soft-white dark:bg-dark-850 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-1 w-64">
+                    <div className="absolute top-12 right-0 z-50 bg-card border border-border rounded-lg shadow-lg p-1 w-64">
                       {/* Audio Reader */}
                       <button
                         onClick={() => {
@@ -608,12 +608,12 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                           setShowOptionsMenu(false);
                         }}
                         disabled={isPlaying || isCacheLoading}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-left disabled:opacity-50"
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted rounded-lg transition-colors text-left disabled:opacity-50"
                       >
                         <span className="text-xl">🔊</span>
                         <div>
-                          <div className="font-medium">Play Audio</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">Listen to this page</div>
+                          <div className="font-medium text-foreground">Play Audio</div>
+                          <div className="text-sm text-muted-foreground">Listen to this page</div>
                         </div>
                       </button>
 
@@ -623,12 +623,12 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                           setShowQuiz(true);
                           setShowOptionsMenu(false);
                         }}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-left"
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted rounded-lg transition-colors text-left"
                       >
                         <span className="text-xl">🎯</span>
                         <div>
-                          <div className="font-medium">Comprehension Quiz</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">Test your understanding</div>
+                          <div className="font-medium text-foreground">Comprehension Quiz</div>
+                          <div className="text-sm text-muted-foreground">Test your understanding</div>
                         </div>
                       </button>
 
@@ -639,18 +639,18 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                           setShowOptionsMenu(false);
                         }}
                         disabled={bookmarkLoading || !user}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted rounded-lg transition-colors text-left disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <span className="text-xl">{isBookmarked ? '★' : '☆'}</span>
                         <div>
-                          <div className="font-medium">{isBookmarked ? 'Remove Bookmark' : 'Bookmark Story'}</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                          <div className="font-medium text-foreground">{isBookmarked ? 'Remove Bookmark' : 'Bookmark Story'}</div>
+                          <div className="text-sm text-muted-foreground">
                             {!user ? 'Login required' : 'Save for later'}
                           </div>
                         </div>
                       </button>
 
-                      <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                      <div className="border-t border-border my-1"></div>
 
                       {/* Settings */}
                       <button
@@ -658,12 +658,12 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                           setShowSettings(true);
                           setShowOptionsMenu(false);
                         }}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-left"
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted rounded-lg transition-colors text-left"
                       >
                         <span className="text-xl">⚙️</span>
                         <div>
-                          <div className="font-medium">{t('story.readingSettings')}</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">Font size, furigana, etc.</div>
+                          <div className="font-medium text-foreground">{t('story.readingSettings')}</div>
+                          <div className="text-sm text-muted-foreground">Font size, furigana, etc.</div>
                         </div>
                       </button>
                     </div>
@@ -681,19 +681,19 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
               </div>
 
               {/* Reading progress bar */}
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 mb-6">
+              <div className="w-full bg-muted rounded-full h-1 mb-6">
                 <div
                   className="bg-primary-600 h-1 rounded-full transition-all duration-300"
                   style={{ width: `${readingProgress}%` }}
                 />
               </div>
 
-              {/* Story content */}
-              <div className="bg-soft-white dark:bg-dark-850 rounded-lg p-4 md:p-8 border border-gray-200 dark:border-gray-700">
+              {/* Story content - Enhanced contrast for reading */}
+              <div className="bg-card rounded-lg p-4 md:p-8 border border-border shadow-sm">
                 {/* Story header */}
                 <header className="mb-6">
                   {/* Story metadata */}
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                     <span>📄 Page {currentPageIndex + 1} of {story.pages.length}</span>
                     <span>📊 {story.jlptLevel}</span>
                     <span>🏷️ {story.theme}</span>
@@ -744,10 +744,10 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
                     {/* Grammar Legend */}
                     {settings.highlightVocabulary && settings.highlightMode !== 'none' && (
-                      <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                      <div className="mb-6 p-4 bg-muted/50 rounded-lg border border-border/50">
                         <button
                           onClick={() => setShowGrammarLegend(!showGrammarLegend)}
-                          className="flex items-center gap-2 text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors w-full text-left"
+                          className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors w-full text-left"
                         >
                           <svg
                             className={`w-4 h-4 transition-transform ${showGrammarLegend ? 'rotate-180' : 'rotate-0'}`}
@@ -767,19 +767,21 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                       </div>
                     )}
 
-                    {renderJapaneseText(currentPage.text)}
+                    <div className="text-foreground">
+                      {renderJapaneseText(currentPage.text)}
+                    </div>
 
                     {showTranslation && (
-                      <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Translation:</p>
-                        <p>{currentPage.translation}</p>
+                      <div className="p-4 bg-muted/50 rounded-lg border border-border">
+                        <p className="text-sm text-muted-foreground">Translation:</p>
+                        <p className="text-foreground">{currentPage.translation}</p>
                       </div>
                     )}
 
                     {/* Word Popup */}
                     {selectedWord && (
                       <div
-                        className="absolute z-50 bg-soft-white dark:bg-dark-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 min-w-[200px]"
+                        className="absolute z-50 bg-card border border-border rounded-lg shadow-lg p-4 min-w-[200px]"
                         style={{
                           left: `${selectedWord.position.x}px`,
                           top: `${selectedWord.position.y + 30}px`,
@@ -794,28 +796,28 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                           <>
                             <div className="flex justify-between items-start mb-2">
                               <div>
-                                <p className="font-bold text-lg japanese-text">{selectedWord.word}</p>
+                                <p className="font-bold text-lg japanese-text text-foreground">{selectedWord.word}</p>
                                 {selectedWord.reading && (
-                                  <p className="text-sm text-gray-600 dark:text-gray-400 japanese-text">{selectedWord.reading}</p>
+                                  <p className="text-sm text-muted-foreground japanese-text">{selectedWord.reading}</p>
                                 )}
                               </div>
                               <button
                                 onClick={() => setSelectedWord(null)}
-                                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 ml-2"
+                                className="text-muted-foreground hover:text-foreground ml-2 transition-colors"
                               >
                                 <XMarkIcon className="w-5 h-5" />
                               </button>
                             </div>
                             <div className="space-y-1">
                               {selectedWord.meanings?.map((meaning, index) => (
-                                <p key={index} className="text-sm">{index + 1}. {meaning}</p>
+                                <p key={index} className="text-sm text-foreground">{index + 1}. {meaning}</p>
                               ))}
                             </div>
                             {user && (
                               <button
                                 onClick={handleSaveWord}
                                 disabled={savedWords.has(selectedWord.word)}
-                                className="mt-3 w-full px-3 py-1 bg-primary-600 text-white rounded text-sm disabled:bg-gray-300 disabled:text-gray-500"
+                                className="mt-3 w-full px-3 py-1 bg-primary-600 text-white rounded text-sm disabled:bg-muted disabled:text-muted-foreground transition-colors"
                               >
                                 {savedWords.has(selectedWord.word) ? t('common.saved') : 'Save Word'}
                               </button>
@@ -828,11 +830,11 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                 </div>
 
                 {/* Navigation */}
-                <div className="flex justify-between items-center pt-6 mt-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex justify-between items-center pt-6 mt-6 border-t border-border">
                   <button
                     onClick={() => handlePageChange('prev')}
                     disabled={currentPageIndex === 0}
-                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 rounded-lg disabled:opacity-50 transition-colors"
+                    className="px-4 py-2 bg-muted text-foreground hover:bg-muted/80 rounded-lg disabled:opacity-50 transition-colors"
                   >
                     {t('common.previous')}
                   </button>
@@ -841,8 +843,8 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                     {story.pages.map((_, index) => (
                       <div
                         key={index}
-                        className={`w-2 h-2 rounded-full ${
-                          index === currentPageIndex ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
+                        className={`w-2 h-2 rounded-full transition-colors ${
+                          index === currentPageIndex ? 'bg-primary-600' : 'bg-muted'
                         }`}
                       />
                     ))}
@@ -850,7 +852,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
                   <button
                     onClick={() => handlePageChange('next')}
-                    className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg"
+                    className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
                   >
                     {currentPageIndex === story.pages.length - 1 ? t('story.takeQuiz') : t('common.next')}
                   </button>

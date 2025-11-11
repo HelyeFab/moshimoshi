@@ -3,6 +3,7 @@
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import Link from 'next/link'
+import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 
 const errorMessages: Record<string, { title: string; message: string }> = {
   INVALID_LINK: {
@@ -47,13 +48,13 @@ function AuthErrorContent() {
         <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-xl p-8">
           {/* Logo */}
           <div className="text-center mb-6">
-            <Link href="/" className="inline-flex items-center justify-center gap-2">
-              <div className="w-12 h-12 bg-primary-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-                も
-              </div>
-              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                Moshimoshi
-              </span>
+            <Link href="/" className="inline-flex items-center justify-center">
+              <MoshimoshiLogo
+                size="medium"
+                variant="stacked"
+                showRomaji={true}
+                className="text-gray-900 dark:text-gray-100"
+              />
             </Link>
           </div>
 

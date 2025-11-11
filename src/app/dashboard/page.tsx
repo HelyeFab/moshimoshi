@@ -28,7 +28,6 @@ import logger from '@/lib/logger'
 import { validateStreakDisplay, getStreakDeadline } from '@/lib/gamification/utils/streakValidation'
 import Navbar from '@/components/layout/Navbar'
 import Modal from '@/components/ui/Modal'
-import AnimationControl from '@/components/ui/AnimationControl'
 import StreakSaveModal from '@/components/gamification/StreakSaveModal'
 
 // Dynamically import Confetti to avoid SSR issues
@@ -1041,19 +1040,7 @@ function DashboardContent() {
           <LearningVillage />
         </div>
 
-        {/* Animation Control Button - Mobile Only */}
-        <div className="sm:hidden fixed top-[246px] right-10 z-[60] pointer-events-none">
-          <div className="pointer-events-auto">
-            <AnimationControl position="top-right" variant="glassmorphism" />
-          </div>
-        </div>
-
       </main>
-
-      {/* Desktop: Animation Control only (bottom-right) */}
-      <div className="hidden sm:block">
-        <AnimationControl position="bottom-right" />
-      </div>
 
       {/* Streak Save Modal (Phase 2: XP-Save Mechanic) */}
       <StreakSaveModal
