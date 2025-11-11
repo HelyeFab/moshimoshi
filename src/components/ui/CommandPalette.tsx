@@ -375,7 +375,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
   const desktopButton = (
     <button
       onClick={() => setIsOpen(true)}
-      className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-3 rounded-full
+      className="fixed bottom-6 left-6 z-[60] flex items-center gap-2 px-4 py-3 rounded-full
                  bg-soft-white/20 dark:bg-dark-900/30
                  backdrop-blur-2xl backdrop-saturate-150
                  border border-gray-200/40 dark:border-gray-700/30
