@@ -112,7 +112,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <span className="text-2xl">🛡️</span>
           {sidebarOpen && <h1 className="text-xl font-bold text-gray-900 dark:text-white">Admin</h1>}
         </div>
-        <nav className="flex-1 mt-4 px-2 space-y-1 overflow-y-auto overflow-x-hidden pb-24">
+        <nav className="flex-1 mt-4 px-2 space-y-1 overflow-y-auto overflow-x-hidden pb-6">
           {navItems.map((item) => (
             <Link
               key={item.href}
