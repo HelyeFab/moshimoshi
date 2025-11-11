@@ -9,7 +9,8 @@ const UPSTASH_REDIS_REST_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN?.trim()
 
 // CRITICAL: In production, Redis is REQUIRED for session management, tier caching, and rate limiting
 // Fail fast if not configured to prevent silent degradation and Stripe checkout issues
-if (process.env.NODE_ENV === 'production') {
+// Only check on server-side (typeof window === 'undefined')
+if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
   if (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes('mock')) {
     console.error('🔴 CRITICAL: Redis (Upstash) is not configured in production')
     console.error('Required environment variables:')
@@ -31,7 +32,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Development/Test: Warn if not configured but allow mock fallback
-if (process.env.NODE_ENV !== 'production') {
+// Only warn on server-side to avoid browser console pollution
+if (typeof window === 'undefined' && process.env.NODE_ENV !== 'production') {
   if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
     console.warn('⚠️  Redis not configured. Using mock Redis for development.')
     console.warn('To use real Redis, add to your .env.local:')
@@ -97,14 +99,16 @@ export const redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes
     automaticDeserialization: false, // Keep as strings for consistent JSON handling
   })
 
-// Log Redis client status on initialization
-if (redis === null || typeof redis === 'object' && 'get' in redis && redis.get.constructor.name === 'AsyncFunction') {
-  // Mock Redis
-  console.log('[Redis] 🔶 Using MOCK Redis client (development mode)')
-} else {
-  // Real Redis
-  console.log('[Redis] ✅ Using REAL Upstash Redis client')
-  console.log(`[Redis] 🔗 Connected to: ${UPSTASH_REDIS_REST_URL?.slice(0, 30)}...`)
+// Log Redis client status on initialization (server-side only)
+if (typeof window === 'undefined') {
+  if (redis === null || typeof redis === 'object' && 'get' in redis && redis.get.constructor.name === 'AsyncFunction') {
+    // Mock Redis
+    console.log('[Redis] 🔶 Using MOCK Redis client (development mode)')
+  } else {
+    // Real Redis
+    console.log('[Redis] ✅ Using REAL Upstash Redis client')
+    console.log(`[Redis] 🔗 Connected to: ${UPSTASH_REDIS_REST_URL?.slice(0, 30)}...`)
+  }
 }
 
 // Redis key prefixes for different data types
