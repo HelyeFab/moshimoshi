@@ -2,7 +2,15 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useYouTubePlayer } from '@/hooks/useYouTubePlayer';
-import { seekAndWaitForReady, calculateSegmentEndBuffer, SegmentBufferCache } from '@/utils/youtubePlayerUtils';
+import {
+  seekAndWaitForReady,
+  calculateSegmentEndBuffer,
+  calculateSegmentBuffers,
+  detectVideoFrameRate,
+  SegmentBufferCache,
+  SeekRequestQueue,
+  debugLogger,
+} from '@/utils/youtubePlayerUtils';
 import {
   YouTubePlayerConfig,
   TranscriptSegment,
@@ -65,6 +73,12 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
   // Buffer cache for preloading optimization
   const bufferCacheRef = useRef(new SegmentBufferCache({ maxAge: 30000 }));
 
+  // NEW: Seek request queue for debouncing and coalescing
+  const seekQueueRef = useRef(new SeekRequestQueue({ debounceWindow: 150, coalesceTolerance: 0.5 }));
+
+  // NEW: Video framerate detection (defaults to 30fps)
+  const [videoFrameRate, setVideoFrameRate] = useState<number>(30);
+
   // Update refs when state changes
   useEffect(() => {
     repeatConfigRef.current = repeatConfig;
@@ -94,6 +108,24 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
     }));
   }, [initialPauseDuration]);
 
+  // NEW: Detect video framerate when player is ready
+  useEffect(() => {
+    if (!isReady || !playerRef.current || !baseState.playing) return;
+
+    let isMounted = true;
+
+    detectVideoFrameRate(playerRef.current).then((fps) => {
+      if (isMounted) {
+        setVideoFrameRate(fps);
+        debugLogger.segmentDetection(`Video framerate detected: ${fps}fps`);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isReady, playerRef, baseState.playing]);
+
   // Find current segment based on time with dynamic buffer
   // Buffer adapts to segment duration and playback rate for precise detection
   const getCurrentSegmentIndex = useCallback((time: number): number => {
@@ -114,10 +146,12 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
     const currentTime = baseState.currentTime;
     const segmentIndex = getCurrentSegmentIndex(currentTime);
 
-    // DEBUG: Log current time and segment info
+    // DEBUG: Log current time and segment info (using debugLogger)
     if (segmentIndex !== -1) {
       const segment = transcript[segmentIndex];
-      console.log('[Repeat Debug] Time:', currentTime.toFixed(2), 'Segment:', segmentIndex, 'End:', segment.end.toFixed(2), 'Gap:', (segment.end - currentTime).toFixed(2));
+      debugLogger.segmentDetection(
+        `Time: ${currentTime.toFixed(2)}s, Segment: ${segmentIndex}, End: ${segment.end.toFixed(2)}s, Gap: ${(segment.end - currentTime).toFixed(2)}s`
+      );
     }
 
     // Update current segment if changed
@@ -133,26 +167,34 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
       }
     }
 
-    // Check if segment ended with dynamic buffer for precise detection
+    // NEW: Check segment end using two-tier buffer system for precision
     if (segmentIndex !== -1) {
       const segment = transcript[segmentIndex];
       const duration = segment.end - segment.start;
       const playbackRate = baseState.playbackRate || 1.0;
-      // Use tighter buffer (2% instead of 5%) for end detection
-      const endBuffer = calculateSegmentEndBuffer(duration, playbackRate, { bufferRatio: 0.02 });
-      const isAtEnd = currentTime >= segment.end - endBuffer;
 
-      console.log('[Repeat Debug] isAtEnd:', isAtEnd, 'repeatConfig.count:', repeatConfig.count, 'currentRepeat:', repeatConfig.currentRepeat, 'segmentIndex:', segmentIndex);
+      // Calculate both detection and trigger buffers using frame-aware system
+      const { detectionBuffer, triggerBuffer } = calculateSegmentBuffers(
+        duration,
+        playbackRate,
+        videoFrameRate
+      );
+
+      const isApproachingEnd = currentTime >= segment.end - detectionBuffer;
+      const isAtEnd = currentTime >= segment.end - triggerBuffer;
+
+      debugLogger.segmentDetection(
+        `Detection: approaching=${isApproachingEnd}, atEnd=${isAtEnd}, ` +
+        `detectBuf=${detectionBuffer.toFixed(3)}s, triggerBuf=${triggerBuffer.toFixed(3)}s, ` +
+        `count=${repeatConfig.count}, repeat=${repeatConfig.currentRepeat}`
+      );
 
       const shouldRepeat = isAtEnd && repeatConfig.count > 1 && repeatConfig.currentRepeat < repeatConfig.count - 1;
       const shouldMoveNext = isAtEnd && (repeatConfig.count === 1 || repeatConfig.currentRepeat >= repeatConfig.count - 1);
 
-      console.log('[Repeat Debug] shouldRepeat:', shouldRepeat, 'shouldMoveNext:', shouldMoveNext, 'Calculation:', {
-        'isAtEnd': isAtEnd,
-        'count > 1': repeatConfig.count > 1,
-        'currentRepeat < count - 1': repeatConfig.currentRepeat < repeatConfig.count - 1,
-        'currentRepeat >= count - 1': repeatConfig.currentRepeat >= repeatConfig.count - 1
-      });
+      debugLogger.segmentDetection(
+        `Decision: shouldRepeat=${shouldRepeat}, shouldMoveNext=${shouldMoveNext}`
+      );
 
       if (shouldRepeat) {
         // Need to repeat this segment
@@ -160,8 +202,8 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
         setIsPausingForRepeat(true);
         baseActions.pause();
 
-        console.log(
-          `[Repeat] Segment ended. Repeat ${repeatConfig.currentRepeat + 1}/${repeatConfig.count}`
+        debugLogger.segmentDetection(
+          `Segment ended. Repeat ${repeatConfig.currentRepeat + 1}/${repeatConfig.count}`
         );
 
         // Notify segment complete
@@ -186,7 +228,7 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
               if (!playerRef.current) return;
 
               const nextSegment = transcript[nextSegmentIndex];
-              console.log(`[BufferPreload] Preloading segment ${nextSegmentIndex} at ${nextSegment.start}s`);
+              debugLogger.bufferPreload(`Preloading segment ${nextSegmentIndex} at ${nextSegment.start}s`);
 
               // Quick seek to next segment to trigger YouTube buffer
               playerRef.current.seekTo(nextSegment.start, true);
@@ -219,15 +261,16 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
               {
                 maxWaitMs: 3000,
                 pollIntervalMs: 50,
+                priority: 'normal',  // NEW: Repeat seeks are normal priority
                 onProgress: (elapsed) => {
                   if (elapsed > 1000) {
-                    console.warn(`[Repeat] Slow seek: ${elapsed}ms`);
+                    debugLogger.seekPerformance(`Slow seek: ${elapsed}ms`);
                   }
                 }
               }
             );
 
-            console.log(`[Repeat] Seek completed in ${waitedMs}ms, success: ${success}`);
+            debugLogger.seekPerformance(`Seek completed in ${waitedMs}ms, success: ${success}`);
 
             // Update repeat count
             setRepeatConfig(prev => ({ ...prev, currentRepeat: prev.currentRepeat + 1 }));
@@ -250,7 +293,7 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
             }
 
           } catch (error) {
-            console.error('[Repeat] Smart seek failed, falling back:', error);
+            debugLogger.seekPerformance('Smart seek failed, falling back', error);
             // Fallback to old behavior
             baseActions.seekTo(segment.start);
             setRepeatConfig(prev => ({ ...prev, currentRepeat: prev.currentRepeat + 1 }));
@@ -265,7 +308,7 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
       } else if (shouldMoveNext) {
         // Finished all repeats, move to next segment or stop
         if (segmentIndex < transcript.length - 1) {
-          console.log(`[Repeat] Cycle complete for segment ${segmentIndex}, moving to next segment ${segmentIndex + 1}`);
+          debugLogger.segmentDetection(`Cycle complete for segment ${segmentIndex}, moving to next ${segmentIndex + 1}`);
 
           // Set lock to prevent re-triggering during transition
           isHandlingRepeatRef.current = true;
@@ -280,10 +323,11 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
             try {
               await seekAndWaitForReady(playerRef.current, nextSegment.start, {
                 maxWaitMs: 2000,
-                pollIntervalMs: 50
+                pollIntervalMs: 50,
+                priority: 'normal'  // NEW: Transition seeks are normal priority
               });
 
-              console.log(`[Repeat] Successfully moved to segment ${nextIndex}`);
+              debugLogger.segmentDetection(`Successfully moved to segment ${nextIndex}`);
 
               // Update segment index and reset repeat count AFTER seek completes
               setCurrentSegmentIndex(nextIndex);
@@ -297,7 +341,7 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
                 isHandlingRepeatRef.current = false;
               }, 150);
             } catch (error) {
-              console.error('[Repeat] Failed to move to next segment:', error);
+              debugLogger.segmentDetection('Failed to move to next segment', error);
               // Fallback
               baseActions.seekTo(nextSegment.start);
               setCurrentSegmentIndex(nextIndex);
@@ -312,7 +356,7 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
           })();
         } else {
           // Last segment, stop playing
-          console.log('[Repeat] Last segment complete, stopping');
+          debugLogger.segmentDetection('Last segment complete, stopping');
           baseActions.pause();
           setIsInRepeatMode(false);
         }
@@ -339,7 +383,7 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
     const oldCount = repeatConfigRef.current.count;
     const currentRep = repeatConfigRef.current.currentRepeat;
 
-    console.log(`[RepeatCount] Changing from ${oldCount} to ${clampedCount}, currently on repeat ${currentRep + 1}`);
+    debugLogger.segmentDetection(`Changing repeat count from ${oldCount} to ${clampedCount}, currently on repeat ${currentRep + 1}`);
 
     setRepeatConfig(prev => ({ ...prev, count: clampedCount, enabled: clampedCount > 1 }));
 
@@ -347,15 +391,27 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
     if (baseState.playing && isInRepeatMode) {
       if (clampedCount < oldCount && currentRep >= clampedCount) {
         // Already past new limit, advance to next segment
-        console.log(`[RepeatCount] Current repeat (${currentRep + 1}) exceeds new count (${clampedCount}), advancing`);
+        debugLogger.segmentDetection(`Current repeat (${currentRep + 1}) exceeds new count (${clampedCount}), advancing`);
 
         const nextIndex = currentSegmentIndexRef.current + 1;
-        if (nextIndex < transcriptRef.current.length) {
+        if (nextIndex < transcriptRef.current.length && playerRef.current) {
           const nextSegment = transcriptRef.current[nextIndex];
-          baseActions.seekTo(nextSegment.start);
-          setCurrentSegmentIndex(nextIndex);
-          setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-          onSegmentChange?.(nextIndex);
+
+          // Use seek queue with high priority (user-initiated repeat count change)
+          seekQueueRef.current.enqueue(playerRef.current, nextSegment.start, {
+            priority: 'high',
+            maxWaitMs: 2000
+          }).then(() => {
+            setCurrentSegmentIndex(nextIndex);
+            setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+            onSegmentChange?.(nextIndex);
+          }).catch(() => {
+            // Fallback
+            baseActions.seekTo(nextSegment.start);
+            setCurrentSegmentIndex(nextIndex);
+            setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+            onSegmentChange?.(nextIndex);
+          });
         }
       }
     }
@@ -366,40 +422,89 @@ export function useShadowingPlayer(videoId: string, config: UseShadowingPlayerCo
     setRepeatConfig(prev => ({ ...prev, pauseDuration: clampedDuration }));
   }, []);
 
-  const skipToNextSegment = useCallback(() => {
+  // NEW: User-initiated seeks use the seek queue with HIGH priority
+  const skipToNextSegment = useCallback(async () => {
     const nextIndex = currentSegmentIndex + 1;
-    if (nextIndex < transcript.length) {
+    if (nextIndex < transcript.length && playerRef.current) {
       const nextSegment = transcript[nextIndex];
-      baseActions.seekTo(nextSegment.start);
-      setCurrentSegmentIndex(nextIndex);
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-      onSegmentChange?.(nextIndex);
-    }
-  }, [currentSegmentIndex, transcript, baseActions, onSegmentChange]);
 
-  const skipToPreviousSegment = useCallback(() => {
-    const prevIndex = currentSegmentIndex - 1;
-    if (prevIndex >= 0) {
-      const prevSegment = transcript[prevIndex];
-      baseActions.seekTo(prevSegment.start);
-      setCurrentSegmentIndex(prevIndex);
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-      onSegmentChange?.(prevIndex);
-    }
-  }, [currentSegmentIndex, transcript, baseActions, onSegmentChange]);
+      try {
+        // Use seek queue with high priority (user-initiated)
+        await seekQueueRef.current.enqueue(playerRef.current, nextSegment.start, {
+          priority: 'high',
+          maxWaitMs: 2000
+        });
 
-  const playSegment = useCallback((index: number) => {
-    if (index >= 0 && index < transcript.length) {
-      const segment = transcript[index];
-      baseActions.seekTo(segment.start);
-      setCurrentSegmentIndex(index);
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-      onSegmentChange?.(index);
-      if (!baseState.playing) {
-        baseActions.play();
+        setCurrentSegmentIndex(nextIndex);
+        setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+        onSegmentChange?.(nextIndex);
+      } catch (error) {
+        // Fallback to direct seek if queue fails
+        debugLogger.seekPerformance('Seek queue failed, using direct seek', error);
+        baseActions.seekTo(nextSegment.start);
+        setCurrentSegmentIndex(nextIndex);
+        setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+        onSegmentChange?.(nextIndex);
       }
     }
-  }, [transcript, baseActions, baseState.playing, onSegmentChange]);
+  }, [currentSegmentIndex, transcript, playerRef, baseActions, onSegmentChange]);
+
+  const skipToPreviousSegment = useCallback(async () => {
+    const prevIndex = currentSegmentIndex - 1;
+    if (prevIndex >= 0 && playerRef.current) {
+      const prevSegment = transcript[prevIndex];
+
+      try {
+        // Use seek queue with high priority (user-initiated)
+        await seekQueueRef.current.enqueue(playerRef.current, prevSegment.start, {
+          priority: 'high',
+          maxWaitMs: 2000
+        });
+
+        setCurrentSegmentIndex(prevIndex);
+        setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+        onSegmentChange?.(prevIndex);
+      } catch (error) {
+        // Fallback to direct seek if queue fails
+        debugLogger.seekPerformance('Seek queue failed, using direct seek', error);
+        baseActions.seekTo(prevSegment.start);
+        setCurrentSegmentIndex(prevIndex);
+        setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+        onSegmentChange?.(prevIndex);
+      }
+    }
+  }, [currentSegmentIndex, transcript, playerRef, baseActions, onSegmentChange]);
+
+  const playSegment = useCallback(async (index: number) => {
+    if (index >= 0 && index < transcript.length && playerRef.current) {
+      const segment = transcript[index];
+
+      try {
+        // Use seek queue with high priority (user-initiated)
+        await seekQueueRef.current.enqueue(playerRef.current, segment.start, {
+          priority: 'high',
+          maxWaitMs: 2000
+        });
+
+        setCurrentSegmentIndex(index);
+        setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+        onSegmentChange?.(index);
+        if (!baseState.playing) {
+          baseActions.play();
+        }
+      } catch (error) {
+        // Fallback to direct seek if queue fails
+        debugLogger.seekPerformance('Seek queue failed, using direct seek', error);
+        baseActions.seekTo(segment.start);
+        setCurrentSegmentIndex(index);
+        setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+        onSegmentChange?.(index);
+        if (!baseState.playing) {
+          baseActions.play();
+        }
+      }
+    }
+  }, [transcript, playerRef, baseActions, baseState.playing, onSegmentChange]);
 
   const stopRepeats = useCallback(() => {
     setIsInRepeatMode(false);
