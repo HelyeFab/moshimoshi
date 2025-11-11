@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useAdmin } from '@/hooks/useAdmin'
-import { getAllFeatureFlags, updateFeatureFlag, resetAllFeatureFlags, type FeatureFlag, FEATURE_METADATA } from '@/lib/features/runtimeFeatureFlags'
+import { type FeatureFlag, FEATURE_METADATA } from '@/lib/features/runtimeFeatureFlags'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 
 export default function FeatureFlagsPage() {
@@ -20,8 +20,20 @@ export default function FeatureFlagsPage() {
 
   async function loadFlags() {
     try {
-      const currentFlags = await getAllFeatureFlags()
-      setFlags(currentFlags)
+      // Use API instead of direct Firestore read
+      const response = await fetch('/api/admin/feature-flags')
+      if (!response.ok) {
+        throw new Error('Failed to fetch feature flags')
+      }
+      const data = await response.json()
+
+      // Merge with defaults for any missing flags
+      const allFlags: Record<string, boolean> = {}
+      Object.entries(FEATURE_METADATA).forEach(([key, metadata]) => {
+        allFlags[key] = data.flags?.[key] ?? metadata.defaultEnabled
+      })
+
+      setFlags(allFlags as Record<FeatureFlag, boolean>)
     } catch (error) {
       showToast('Failed to load feature flags', 'error')
       console.error(error)
@@ -33,7 +45,17 @@ export default function FeatureFlagsPage() {
   async function handleToggle(flag: FeatureFlag, currentValue: boolean) {
     setUpdating(flag)
     try {
-      await updateFeatureFlag(flag, !currentValue)
+      // Use API instead of direct Firestore write
+      const response = await fetch('/api/admin/feature-flags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ flag, enabled: !currentValue })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update feature flag')
+      }
+
       setFlags(prev => prev ? { ...prev, [flag]: !currentValue } : null)
       showToast(`${FEATURE_METADATA[flag].name} ${!currentValue ? 'enabled' : 'disabled'}`, 'success')
     } catch (error) {
@@ -51,7 +73,23 @@ export default function FeatureFlagsPage() {
 
     setLoading(true)
     try {
-      await resetAllFeatureFlags()
+      // Build defaults object
+      const defaults: Record<string, boolean> = {}
+      Object.entries(FEATURE_METADATA).forEach(([key, metadata]) => {
+        defaults[key] = metadata.defaultEnabled
+      })
+
+      // Use API to reset
+      const response = await fetch('/api/admin/feature-flags', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ defaults })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to reset feature flags')
+      }
+
       await loadFlags()
       showToast('All feature flags reset to defaults', 'success')
     } catch (error) {
