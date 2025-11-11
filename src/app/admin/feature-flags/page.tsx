@@ -1,18 +1,22 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useAdmin } from '@/hooks/useAdmin'
 import { getAllFeatureFlags, updateFeatureFlag, resetAllFeatureFlags, type FeatureFlag, FEATURE_METADATA } from '@/lib/features/runtimeFeatureFlags'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 
 export default function FeatureFlagsPage() {
+  const { isAdmin, isLoading: adminLoading } = useAdmin()
   const [flags, setFlags] = useState<Record<FeatureFlag, boolean> | null>(null)
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState<string | null>(null)
   const { showToast } = useToast()
 
   useEffect(() => {
-    loadFlags()
-  }, [])
+    if (isAdmin) {
+      loadFlags()
+    }
+  }, [isAdmin])
 
   async function loadFlags() {
     try {
@@ -58,12 +62,26 @@ export default function FeatureFlagsPage() {
     }
   }
 
-  if (loading || !flags) {
+  if (adminLoading || loading || !flags) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">Loading feature flags...</p>
+          <p className="text-gray-600 dark:text-gray-400">
+            {adminLoading ? 'Verifying admin access...' : 'Loading feature flags...'}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="text-6xl mb-4">🚫</div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Access Denied</h2>
+          <p className="text-gray-600 dark:text-gray-400">You do not have admin privileges</p>
         </div>
       </div>
     )

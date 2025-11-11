@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAdmin } from '@/hooks/useAdmin';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, Activity, AlertTriangle, CheckCircle, XCircle, Database, Download, Clock, Shield } from 'lucide-react';
@@ -110,6 +111,7 @@ interface QuotaData {
 }
 
 export default function MonitoringDashboard() {
+  const { isAdmin, isLoading: adminLoading } = useAdmin();
   const [data, setData] = useState<DashboardData | null>(null);
   const [backupStatus, setBackupStatus] = useState<BackupStatus | null>(null);
   const [quotaData, setQuotaData] = useState<QuotaData | null>(null);
@@ -231,19 +233,23 @@ export default function MonitoringDashboard() {
   };
 
   useEffect(() => {
-    fetchMetrics();
-    fetchBackupStatus();
-    fetchQuotaData();
-
-    if (autoRefresh) {
-      const interval = setInterval(() => {
-        fetchMetrics();
-        fetchBackupStatus();
-        fetchQuotaData();
-      }, 5000); // Refresh every 5 seconds
-      return () => clearInterval(interval);
+    if (isAdmin) {
+      fetchMetrics();
+      fetchBackupStatus();
+      fetchQuotaData();
     }
-  }, [autoRefresh]);
+  }, [isAdmin]);
+
+  useEffect(() => {
+    if (!isAdmin || !autoRefresh) return;
+
+    const interval = setInterval(() => {
+      fetchMetrics();
+      fetchBackupStatus();
+      fetchQuotaData();
+    }, 5000); // Refresh every 5 seconds
+    return () => clearInterval(interval);
+  }, [isAdmin, autoRefresh]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -283,10 +289,27 @@ export default function MonitoringDashboard() {
     return `${value.toFixed(2)} ${units[unitIndex]}`;
   };
 
-  if (loading && !data) {
+  if (adminLoading || (loading && !data)) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">
+            {adminLoading ? 'Verifying admin access...' : 'Loading monitoring data...'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="text-6xl mb-4">🚫</div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Access Denied</h2>
+          <p className="text-gray-600 dark:text-gray-400">You do not have admin privileges</p>
+        </div>
       </div>
     );
   }
