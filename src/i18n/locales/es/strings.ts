@@ -360,6 +360,10 @@ export const strings = {
     back: "Atrás",
     next: "Siguiente",
     previous: "Anterior",
+    play: "Reproducir",
+    playing: "Reproduciendo",
+    stop: "Detener",
+    sentence: "Oración",
     submit: "Enviar",
     continue: "Continuar",
     clear: "Borrar",
@@ -1577,6 +1581,43 @@ export const strings = {
       progressSaved: "Progreso guardado",
       audioNotAvailable: "Audio no disponible para este carácter",
     },
+  },
+
+  // News Feature
+  news: {
+    reader: {
+      settings: "Configuración de lectura",
+      fontSize: "Tamaño del texto",
+      fontSizes: {
+        small: "P",
+        medium: "M",
+        large: "G",
+        xlarge: "MG"
+      },
+      showFurigana: "Mostrar furigana",
+      withFurigana: "Con furigana",
+      highlightGrammar: "Resaltar gramática",
+      highlightAll: "Todas las palabras",
+      highlightContent: "Palabras de contenido",
+      highlightGrammarOnly: "Solo gramática",
+      shadowingMode: "Modo de sombreado",
+      repeatCount: "Número de repeticiones",
+      translation: "Traducción",
+      viewOriginal: "Ver original",
+      lookupWord: "Haz clic en una palabra para ver su definición",
+      wordNotFound: "Palabra no encontrada",
+      loading: "Cargando definición...",
+      reading: "Lectura",
+      meaning: "Significado",
+      type: "Tipo",
+      saveToList: "Guardar en lista",
+      savedToList: "Guardado en la lista de estudio"
+    },
+    error: {
+      loadFailed: "Error al cargar el artículo",
+      notFound: "Artículo no encontrado",
+      goBack: "Volver a la lista de noticias"
+    }
   },
 
   // Subscription & Entitlements

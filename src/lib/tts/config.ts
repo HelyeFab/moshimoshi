@@ -26,6 +26,11 @@ export function getTtsConfig(): TTSConfig {
         useSpeakerBoost: true,
       },
     },
+    edgeTts: {
+      endpoint: process.env.EDGE_TTS_ENDPOINT || 'https://tts.selfmind.dev',
+      defaultVoice: 'ja-JP-NanamiNeural', // Female Japanese voice
+      fallbackVoice: 'en-US-JennyNeural', // English fallback
+    },
     cache: {
       enabled: true,
       ttl: undefined, // Permanent cache

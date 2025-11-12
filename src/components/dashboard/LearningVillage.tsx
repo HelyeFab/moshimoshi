@@ -188,44 +188,45 @@ function StallCard({ stall, index }: { stall: any, index: number }) {
         }}
       />
 
-      <Image
-        src={stall.stallImage}
-        alt="Stall Image"
-        width={48}
-        height={48}
-        className="absolute top-2 right-2 opacity-60 group-hover:opacity-80 transition-opacity duration-300"
-      />
-
       {/* Content background for better readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-white/5 dark:from-black/20 dark:to-black/10 pointer-events-none" />
 
       {/* Content */}
       <div className="relative p-6 space-y-4">
-        {/* Header with icon */}
-        <div className="flex items-center gap-3">
-          <span className="text-3xl filter drop-shadow-lg group-hover:animate-bounce">
+        {/* Emoji icon and stall image in a single row with space between */}
+        <div className="flex items-center justify-between">
+          <span className="text-3xl filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0">
             {stall.icon}
           </span>
-          <div className="flex-1">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight">
-              {/* Split title if it contains multiple words */}
-              {stall.title.split(' ').length > 1 ? (
-                <>
-                  {stall.title.split(' ').map((word, index) => (
-                    <span key={index} className="block">
-                      {word}
-                    </span>
-                  ))}
-                </>
-              ) : (
-                stall.title
-              )}
-            </h3>
-            <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors font-medium">
-              {stall.subtitle}
-            </p>
-          </div>
+          <Image
+            src={stall.stallImage}
+            alt="Stall Image"
+            width={48}
+            height={48}
+            className="opacity-60 group-hover:opacity-80 transition-opacity duration-300 flex-shrink-0"
+          />
         </div>
+
+        {/* Title */}
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight">
+          {/* Split title if it contains multiple words */}
+          {stall.title.split(' ').length > 1 ? (
+            <>
+              {stall.title.split(' ').map((word, index) => (
+                <span key={index} className="block">
+                  {word}
+                </span>
+              ))}
+            </>
+          ) : (
+            stall.title
+          )}
+        </h3>
+
+        {/* Subtitle */}
+        <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors font-medium">
+          {stall.subtitle}
+        </p>
 
         {/* Description */}
         <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors">

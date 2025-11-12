@@ -360,6 +360,10 @@ export const strings = {
     back: "Retour",
     next: "Suivant",
     previous: "Précédent",
+    play: "Lire",
+    playing: "En lecture",
+    stop: "Arrêter",
+    sentence: "Phrase",
     submit: "Soumettre",
     continue: "Continuer",
     clear: "Effacer",
@@ -1724,6 +1728,43 @@ export const strings = {
       title: "Traduction anglaise",
       loading: "Traduction de l'article...",
       disclaimer: "Note: Ceci est une traduction automatique et peut ne pas être 100% précise."
+    }
+  },
+
+  // News Feature
+  news: {
+    reader: {
+      settings: "Paramètres de lecture",
+      fontSize: "Taille du texte",
+      fontSizes: {
+        small: "P",
+        medium: "M",
+        large: "G",
+        xlarge: "TG"
+      },
+      showFurigana: "Afficher les furigana",
+      withFurigana: "Avec furigana",
+      highlightGrammar: "Surlignage grammatical",
+      highlightAll: "Tous les mots",
+      highlightContent: "Mots de contenu",
+      highlightGrammarOnly: "Grammaire uniquement",
+      shadowingMode: "Mode d'écoute",
+      repeatCount: "Nombre de répétitions",
+      translation: "Traduction",
+      viewOriginal: "Voir l'original",
+      lookupWord: "Cliquez sur un mot pour voir sa définition",
+      wordNotFound: "Mot non trouvé",
+      loading: "Chargement de la définition...",
+      reading: "Lecture",
+      meaning: "Signification",
+      type: "Type",
+      saveToList: "Enregistrer dans la liste",
+      savedToList: "Enregistré dans la liste d'étude"
+    },
+    error: {
+      loadFailed: "Échec du chargement de l'article",
+      notFound: "Article non trouvé",
+      goBack: "Retour à la liste des actualités"
     }
   },
 

@@ -1,4 +1,4 @@
-export type TTSProvider = 'google' | 'elevenlabs';
+export type TTSProvider = 'google' | 'elevenlabs' | 'edge-tts';
 
 export interface TTSOptions {
   provider?: TTSProvider | 'auto';
@@ -66,6 +66,11 @@ export interface TTSConfig {
       style?: number;
       useSpeakerBoost?: boolean;
     };
+  };
+  edgeTts: {
+    endpoint: string;
+    defaultVoice: string;
+    fallbackVoice: string;
   };
   cache: {
     enabled: boolean;

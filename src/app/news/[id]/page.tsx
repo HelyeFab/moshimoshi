@@ -67,11 +67,25 @@ export default function NewsArticlePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      <div className="min-h-screen bg-background-light dark:bg-dark-850">
+        {/* Navigation is now global - rendered in root layout */}
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <p className="text-danger-600 dark:text-danger-400 mb-4">{error || t('news.error.articleNotFound')}</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500 mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-dark-400">{t('common.loading')}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !article) {
+    return (
+      <div className="min-h-screen bg-background-light dark:bg-dark-850">
+        {/* Navigation is now global - rendered in root layout */}
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center">
+            <p className="text-red-600 dark:text-red-400 mb-4">{error || t('news.error.articleNotFound')}</p>
             <button
               onClick={handleBack}
               className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
@@ -85,8 +99,9 @@ export default function NewsArticlePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
+    <div className="min-h-screen bg-background-light dark:bg-dark-850">
       {/* Navigation is now global - rendered in root layout */}
+      <EnhancedArticleReader article={article} onBack={handleBack} />
     </div>
   );
 }

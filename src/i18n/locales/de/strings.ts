@@ -360,6 +360,10 @@ export const strings = {
     back: "Zurück",
     next: "Weiter",
     previous: "Zurück",
+    play: "Abspielen",
+    playing: "Wird abgespielt",
+    stop: "Stoppen",
+    sentence: "Satz",
     submit: "Absenden",
     continue: "Fortfahren",
     clear: "Löschen",
@@ -1577,6 +1581,43 @@ export const strings = {
       progressSaved: "Fortschritt gespeichert",
       audioNotAvailable: "Audio für dieses Zeichen nicht verfügbar",
     },
+  },
+
+  // News Feature
+  news: {
+    reader: {
+      settings: "Leseeinstellungen",
+      fontSize: "Textgröße",
+      fontSizes: {
+        small: "K",
+        medium: "M",
+        large: "G",
+        xlarge: "SG"
+      },
+      showFurigana: "Furigana anzeigen",
+      withFurigana: "Mit Furigana",
+      highlightGrammar: "Grammatik hervorheben",
+      highlightAll: "Alle Wörter",
+      highlightContent: "Inhaltswörter",
+      highlightGrammarOnly: "Nur Grammatik",
+      shadowingMode: "Shadowing-Modus",
+      repeatCount: "Wiederholungsanzahl",
+      translation: "Übersetzung",
+      viewOriginal: "Original ansehen",
+      lookupWord: "Klicken Sie auf ein Wort für die Definition",
+      wordNotFound: "Wort nicht gefunden",
+      loading: "Lade Definition...",
+      reading: "Lesung",
+      meaning: "Bedeutung",
+      type: "Typ",
+      saveToList: "Zur Liste hinzufügen",
+      savedToList: "Zur Lernliste hinzugefügt"
+    },
+    error: {
+      loadFailed: "Artikel konnte nicht geladen werden",
+      notFound: "Artikel nicht gefunden",
+      goBack: "Zurück zur Nachrichtenliste"
+    }
   },
 
   // Subscription & Entitlements

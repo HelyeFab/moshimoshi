@@ -81,6 +81,37 @@ export function GrammarHighlightedText({
     return false;
   };
 
+  const shouldAddWordSpacing = (token: TokenWithHighlight, nextToken?: TokenWithHighlight): boolean => {
+    const partOfSpeech = token.part_of_speech;
+
+    // Don't add spacing after punctuation
+    if (partOfSpeech === '記号' || partOfSpeech === '補助記号') {
+      return false;
+    }
+
+    // Don't add spacing after particles
+    if (partOfSpeech === '助詞') {
+      return false;
+    }
+
+    // Don't add spacing after auxiliary verbs
+    if (partOfSpeech === '助動詞') {
+      return false;
+    }
+
+    // Don't add spacing before particles if next token is a particle
+    if (nextToken && nextToken.part_of_speech === '助詞') {
+      return false;
+    }
+
+    // Don't add spacing before punctuation
+    if (nextToken && (nextToken.part_of_speech === '記号' || nextToken.part_of_speech === '補助記号')) {
+      return false;
+    }
+
+    return true;
+  };
+
   const handleWordClick = (token: TokenWithHighlight, event: React.MouseEvent) => {
     if (onWordClick && token.basic_form) {
       onWordClick(token.basic_form, event);
@@ -98,10 +129,23 @@ export function GrammarHighlightedText({
   return (
     <span className={`${className} block md:inline japanese-text font-ja`} data-quickcontext="true" style={{ lineHeight: '2.5', marginTop: '0.5rem' }}>
       {tokens.map((token, index) => {
+        const nextToken = tokens[index + 1];
         const isHighlighted = shouldHighlight(token);
         const posType = KuromojiService.getInstance().getPartOfSpeech(token);
+        const addSpacing = shouldAddWordSpacing(token, nextToken);
 
-        // Skip symbols (e.g., '・', punctuation)
+        // Handle Japanese full stop - add line breaks after it
+        if (token.surface_form === '。') {
+          return (
+            <React.Fragment key={index}>
+              <span className="inline-block mx-1">。</span>
+              <br />
+              <br />
+            </React.Fragment>
+          );
+        }
+
+        // Skip other symbols (e.g., '・', punctuation)
         if (posType === 'symbol') {
           return null;
         }
@@ -121,10 +165,11 @@ export function GrammarHighlightedText({
                 }`}
               style={{
                 ...(isHighlighted ? { backgroundColor: `${token.color}60`, color: '#111827' } : {}),
-                paddingTop: showFurigana ? '1em' : undefined,
+                paddingTop: showFurigana ? '2.2em' : undefined,  // Increased for more vertical space between furigana and text
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
-                overflowWrap: 'normal'
+                overflowWrap: 'normal',
+                marginRight: addSpacing ? '0.25em' : undefined  // Word spacing
               }}
               onClick={(e) => handleWordClick(token, e)}
               data-pos={posType}
@@ -132,12 +177,14 @@ export function GrammarHighlightedText({
               <span
                 className="absolute text-xs w-full text-center"
                 style={{
-                  top: '0.1em',
+                  top: '0.3em',  // Adjusted to match increased paddingTop
                   left: '0',
                   fontSize: '0.7em',
                   lineHeight: 1,
                   whiteSpace: 'nowrap',
-                  fontWeight: 'normal'
+                  fontWeight: 'normal',
+                  color: 'var(--article-text-secondary)',
+                  opacity: 0.85
                 }}
               >
                 {hiraganaReading}
@@ -156,7 +203,8 @@ export function GrammarHighlightedText({
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
                 overflowWrap: 'normal',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                marginRight: addSpacing ? '0.25em' : undefined  // Word spacing
               }}
               onClick={(e) => handleWordClick(token, e)}
               data-pos={posType}

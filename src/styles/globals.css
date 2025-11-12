@@ -191,6 +191,30 @@ html {
   }
 }
 
+/* Fluid Typography System for Article Reader */
+:root {
+  /* Fluid font sizes using clamp() for smooth scaling */
+  --font-size-article-small: clamp(0.9375rem, 0.875rem + 0.3125vw, 1.0625rem); /* 15px → 17px */
+  --font-size-article-medium: clamp(1.0625rem, 1rem + 0.3125vw, 1.1875rem);    /* 17px → 19px */
+  --font-size-article-large: clamp(1.1875rem, 1.125rem + 0.3125vw, 1.3125rem); /* 19px → 21px */
+  --font-size-article-xlarge: clamp(1.3125rem, 1.25rem + 0.3125vw, 1.5rem);    /* 21px → 24px */
+
+  /* Line heights optimized for Japanese text */
+  --line-height-article-base: 2.0;
+  --line-height-article-furigana: 3.0;  /* Generous spacing for comfortable furigana reading */
+  --line-height-article-ui: 1.8;
+  --line-height-article-tight: 1.6;
+
+  /* Letter spacing for Japanese text */
+  --letter-spacing-article: -0.01em;
+
+  /* Paragraph spacing */
+  --paragraph-spacing: 2em;  /* Improved from 1.75em for clearer breaks */
+
+  /* Content max width (66-75 chars per line optimal) */
+  --article-content-width: 42.5rem; /* 680px at 16px base */
+}
+
 body {
   font-family: var(--font-family-japanese);
   font-feature-settings: "rlig" 1, "calt" 1;
@@ -245,15 +269,128 @@ body {
 .furigana rt {
   font-size: 0.5em;
   position: absolute;
-  top: -0.5em;
+  top: -1.5em;  /* Increased for more vertical space between furigana and base text */
   left: 0;
   right: 0;
   text-align: center;
 }
 
+/* Ruby tag styles for furigana from API */
+ruby {
+  position: relative;
+  display: inline-block;
+  vertical-align: text-bottom;
+  text-align: center;
+  line-height: 1;
+  padding-top: 1.2em;  /* Space for furigana above */
+}
+
+ruby rt {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.5em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--article-text-secondary);
+  opacity: 0.85;
+}
+
+ruby rp {
+  display: none;  /* Hide parentheses */
+}
+
+/* Ensure line breaks work in Japanese text with furigana */
+.japanese-text br {
+  display: block;
+  content: "";
+  margin-top: 0.5em;
+}
+
 /* Animation utilities */
 .animate-slide-down {
   animation: slide-down 0.3s ease-out;
+}
+
+.animate-slide-in-from-bottom-right {
+  animation: slide-in-from-bottom-right 0.4s ease-out;
+}
+
+/* Article Reader Animations */
+@keyframes spring-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-10px);
+  }
+  50% {
+    transform: scale(1.02) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-spring-in {
+  animation: spring-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out;
+}
+
+/* Article Reader Theme-Aware Colors */
+:root {
+  /* Light mode article colors */
+  --article-bg: #f5f3f0;              /* Slightly darker page background (was #fafaf9) */
+  --article-content-bg: #ffffff;      /* Pure white elevated card for content */
+  --article-text: #1a1a1a;
+  --article-text-secondary: #525252;
+  --article-border: rgba(0, 0, 0, 0.06);
+  --article-shadow: rgba(0, 0, 0, 0.05);
+  --article-hover-bg: rgba(0, 0, 0, 0.02);
+  --article-accent-bg: rgba(0, 0, 0, 0.03);
+}
+
+:root.dark,
+.dark {
+  /* Dark mode article colors - reduced contrast for eye comfort */
+  --article-bg: #1a1d28;             /* Page background */
+  --article-content-bg: #212936;     /* Elevated card for content */
+  --article-text: #e1e4eb;
+  --article-text-secondary: #9ca3af;
+  --article-border: rgba(255, 255, 255, 0.08);
+  --article-shadow: rgba(0, 0, 0, 0.3);
+  --article-hover-bg: rgba(255, 255, 255, 0.05);
+  --article-accent-bg: rgba(255, 255, 255, 0.03);
 }
 
 /* Text size utility classes for fine-tuning */
@@ -337,6 +474,17 @@ button, input, select, textarea {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-from-bottom-right {
+  from {
+    transform: translate(20px, 20px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
   }
 }
 

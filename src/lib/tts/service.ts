@@ -1,6 +1,7 @@
 import { storage } from '@/lib/firebase/admin';
 import { GoogleTTSProvider } from './providers/google';
 import { ElevenLabsProvider } from './providers/elevenlabs';
+import { EdgeTTSProvider } from './providers/edge-tts';
 import { ttsCache } from './cache';
 import { 
   TTSProvider, 
@@ -23,6 +24,7 @@ import { getTtsConfig, TTS_ERROR_CODES } from './config';
 export class TTSService {
   private googleProvider?: GoogleTTSProvider;
   private elevenLabsProvider?: ElevenLabsProvider;
+  private edgeTtsProvider?: EdgeTTSProvider;
   private uploadPromises: Map<string, Promise<{ url: string; path: string; size: number }>> = new Map();
 
   constructor() {
@@ -204,6 +206,32 @@ export class TTSService {
   ): Promise<Buffer> {
     let lastError: any = null;
 
+    // Edge-TTS is now the primary provider
+    if (provider === 'edge-tts') {
+      try {
+        if (!this.edgeTtsProvider) {
+          this.edgeTtsProvider = new EdgeTTSProvider();
+        }
+
+        const result = await this.edgeTtsProvider.synthesize(text, options);
+        // Convert ArrayBuffer to Buffer
+        const audioBuffer = Buffer.from(result.audioContent);
+
+        // Validate the audio buffer is not empty
+        if (audioBuffer.length < 100) {
+          throw new Error('Edge-TTS returned empty or invalid audio data');
+        }
+
+        return audioBuffer;
+      } catch (error: any) {
+        console.error('Edge-TTS provider error:', error);
+        lastError = error;
+        // Fallback to ElevenLabs if Edge-TTS fails
+        console.log('Falling back to ElevenLabs provider due to:', error.message);
+        provider = 'elevenlabs';
+      }
+    }
+
     if (provider === 'google') {
       try {
         if (!this.googleProvider) {
@@ -223,9 +251,9 @@ export class TTSService {
       } catch (error: any) {
         console.error('Google TTS provider error:', error);
         lastError = error;
-        // Fallback to ElevenLabs if Google fails
-        console.log('Falling back to ElevenLabs provider due to:', error.message);
-        provider = 'elevenlabs';
+        // Fallback to Edge-TTS if Google fails
+        console.log('Falling back to Edge-TTS provider due to:', error.message);
+        provider = 'edge-tts';
       }
     }
 
@@ -247,11 +275,11 @@ export class TTSService {
         return audioBuffer;
       } catch (error: any) {
         console.error('ElevenLabs TTS provider error:', error);
-        // If both providers fail, throw the error
+        // If all providers fail, throw the error
         throw {
           code: TTS_ERROR_CODES.PROVIDER_ERROR,
           message: `All TTS providers failed. Last error: ${error.message || lastError?.message}`,
-          provider: 'both',
+          provider: 'all',
           retryable: false,
         } as TTSError;
       }
@@ -404,6 +432,8 @@ export class TTSService {
     const config = getTtsConfig();
     if (provider === 'google') {
       return config.google.defaultVoice;
+    } else if (provider === 'edge-tts') {
+      return config.edgeTts.defaultVoice;
     } else {
       return config.elevenlabs.voiceId;
     }

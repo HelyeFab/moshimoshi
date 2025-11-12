@@ -57,29 +57,75 @@ function hasKanji(text: string): boolean {
   return /[\u4e00-\u9faf]/.test(text);
 }
 
+// Check if a word should have spacing after it (not particles, connectors, etc.)
+function shouldAddWordSpacing(token: KuromojiToken, nextToken?: KuromojiToken): boolean {
+  const { part_of_speech, surface_form } = token;
+
+  // Don't add spacing after punctuation
+  if (part_of_speech === '記号' || part_of_speech === '補助記号') {
+    return false;
+  }
+
+  // Don't add spacing after particles
+  if (part_of_speech === '助詞') {
+    return false;
+  }
+
+  // Don't add spacing after auxiliary verbs
+  if (part_of_speech === '助動詞') {
+    return false;
+  }
+
+  // Don't add spacing before particles if next token is a particle
+  if (nextToken && nextToken.part_of_speech === '助詞') {
+    return false;
+  }
+
+  // Don't add spacing before punctuation
+  if (nextToken && (nextToken.part_of_speech === '記号' || nextToken.part_of_speech === '補助記号')) {
+    return false;
+  }
+
+  return true;
+}
+
 function generateFurigana(tokens: KuromojiToken[]): string {
   return tokens
-    .map((token) => {
+    .map((token, index) => {
       const { surface_form, reading, part_of_speech } = token;
+      const nextToken = tokens[index + 1];
 
-      // Skip punctuation and symbols
-      if (part_of_speech === '記号' || part_of_speech === '補助記号') {
-        return surface_form;
+      // Handle Japanese full stop - add line break after it with proper spacing
+      if (surface_form === '。') {
+        return '。<div style="height: 1.5em;"></div>';
       }
 
+      let wordHtml = '';
+
+      // Skip other punctuation and symbols
+      if (part_of_speech === '記号' || part_of_speech === '補助記号') {
+        wordHtml = surface_form;
+      }
       // Only add furigana if the surface form contains kanji and we have a reading
-      if (hasKanji(surface_form) && reading && reading !== surface_form) {
+      else if (hasKanji(surface_form) && reading && reading !== surface_form) {
         const hiraganaReading = convertKatakanaToHiragana(reading);
 
         // Don't add furigana if the reading is the same as the surface form
         if (hiraganaReading === surface_form) {
-          return surface_form;
+          wordHtml = surface_form;
+        } else {
+          wordHtml = `<ruby>${surface_form}<rp>(</rp><rt>${hiraganaReading}</rt><rp>)</rp></ruby>`;
         }
-
-        return `<ruby>${surface_form}<rp>(</rp><rt>${hiraganaReading}</rt><rp>)</rp></ruby>`;
       } else {
-        return surface_form;
+        wordHtml = surface_form;
       }
+
+      // Add word spacing after certain types of words
+      if (shouldAddWordSpacing(token, nextToken)) {
+        wordHtml += '<span style="margin-right: 0.25em;"></span>';
+      }
+
+      return wordHtml;
     })
     .join('');
 }

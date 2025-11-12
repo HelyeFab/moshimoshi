@@ -100,9 +100,9 @@ export default function BottomNav({ className, hideOnScroll = false, extraItem: 
   // Use context extra item if available, otherwise use prop
   const extraItem = contextExtraItem || propExtraItem;
 
-  // Inject extra item if provided (append at the end as the last item)
+  // Replace search (last item) with extra item if provided, otherwise use base items
   const NAV_ITEMS = extraItem
-    ? [...baseNavItems, extraItem]
+    ? [...baseNavItems.slice(0, -1), extraItem] // Replace last item (search) with extra item
     : baseNavItems;
 
   // Content-aware visibility logic (OPTIONAL - disabled by default)
@@ -162,6 +162,16 @@ export default function BottomNav({ className, hideOnScroll = false, extraItem: 
       pathname === path || pathname.startsWith(path + '/')
     );
   };
+
+  // Hide on landing page and auth pages
+  const shouldHide =
+    pathname === '/' ||
+    pathname === '/landing' ||
+    pathname.startsWith('/auth/');
+
+  if (shouldHide) {
+    return null;
+  }
 
   return (
     <>

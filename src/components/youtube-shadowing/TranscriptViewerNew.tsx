@@ -521,7 +521,18 @@ export default function TranscriptViewerNew({
                         {formatTime(segment.startTime)}
                       </span>
 
-                      <div className="flex-1 min-w-0 leading-relaxed">{renderSegmentText(segment)}</div>
+                      <div className="flex-1 min-w-0 leading-relaxed">
+                        <GrammarHighlightedText
+                          text={segment.text}
+                          highlightMode={showGrammar ? grammarMode : 'none'}
+                          showFurigana={showFurigana}
+                          onWordClick={(word, e) => {
+                            e.stopPropagation();
+                            handleWordClick(word);
+                          }}
+                          className="text-sm"
+                        />
+                      </div>
 
                       {isActive && (
                         <span className="text-xs text-primary-400 mt-0.5">▶</span>

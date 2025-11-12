@@ -45,18 +45,18 @@ export function getTextType(text: string): TTSTextType {
 export function selectProvider(text: string): TTSProvider {
   const normalizedText = normalizeText(text);
 
-  // Use Google for short text or single characters
-  if (normalizedText.length < PROVIDER_THRESHOLDS.characterLimit) {
+  // Use Google TTS for very short texts (single characters, short words)
+  // Google TTS excels at hiragana/kanji pronunciation
+  if (normalizedText.length <= 4) {
     return 'google';
   }
 
-  // Check if text is single kana or kanji
-  if (isSingleCharacter(normalizedText)) {
-    return 'google';
-  }
+  // Use Edge-TTS as primary provider for longer Japanese content
+  // It's free, unlimited, and works great for sentences and paragraphs
+  return 'edge-tts';
 
-  // Use ElevenLabs for longer content
-  return 'elevenlabs';
+  // Note: ElevenLabs kept as fallback option if Edge-TTS has issues
+  // Can manually specify provider: 'elevenlabs' in options if needed
 }
 
 /**

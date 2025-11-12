@@ -19,7 +19,20 @@ import {
   X,
   Zap,
   Video,
-  BookMarked
+  BookMarked,
+  List,
+  Target,
+  Puzzle,
+  Map,
+  Type,
+  Newspaper,
+  Flame,
+  Clapperboard,
+  CreditCard,
+  RotateCcw,
+  Library,
+  FileText,
+  CheckSquare
 } from 'lucide-react'
 import {
   RiTextSpacing,
@@ -51,7 +64,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const router = useRouter()
   const { strings } = useI18n()
-  const { user, logout } = useAuth()
+  const { user, signOut } = useAuth()
   const { showToast } = useToast()
 
   // Define all available commands
@@ -244,14 +257,210 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       subtitle: 'Sign out of your account',
       icon: <LogOut className="w-5 h-5" />,
       action: async () => {
-        await logout()
+        await signOut()
         setIsOpen(false)
         showToast('Signed out successfully', 'success')
       },
       keywords: ['logout', 'signout', 'sign', 'out', 'exit'],
       category: 'account'
+    },
+    // === Additional Learning Stalls ===
+    {
+      id: 'my-lists',
+      title: 'My Lists',
+      subtitle: 'Create custom study lists',
+      icon: <List className="w-5 h-5" />,
+      action: () => {
+        router.push('/lists')
+        setIsOpen(false)
+      },
+      keywords: ['lists', 'custom', 'study', 'organize', 'リスト'],
+      category: 'learning',
+      shortcut: 'g l'
+    },
+    {
+      id: 'kanji-mastery',
+      title: 'Kanji Mastery',
+      subtitle: 'Master kanji with SRS',
+      icon: <Target className="w-5 h-5" />,
+      action: () => {
+        router.push('/tools/kanji-mastery')
+        setIsOpen(false)
+      },
+      keywords: ['kanji', 'mastery', 'srs', 'spaced', 'repetition', '漢字習得'],
+      category: 'learning',
+      shortcut: 'g km'
+    },
+    {
+      id: 'kanji-connections',
+      title: 'Kanji Connections',
+      subtitle: 'Families, Radicals & Patterns',
+      icon: <Puzzle className="w-5 h-5" />,
+      action: () => {
+        router.push('/kanji-connection')
+        setIsOpen(false)
+      },
+      keywords: ['kanji', 'connections', 'radicals', 'families', 'patterns', '漢字関連'],
+      category: 'learning',
+      shortcut: 'g kc'
+    },
+    {
+      id: 'mood-boards',
+      title: 'Mood Boards',
+      subtitle: 'Learn kanji by themes',
+      icon: <Map className="w-5 h-5" />,
+      action: () => {
+        router.push('/kanji-moods')
+        setIsOpen(false)
+      },
+      keywords: ['mood', 'boards', 'themes', 'kanji', 'topics', 'ムード'],
+      category: 'learning',
+      shortcut: 'g m'
+    },
+    {
+      id: 'conjugation',
+      title: 'Conjugation',
+      subtitle: 'Practice verb conjugations',
+      icon: <Type className="w-5 h-5" />,
+      action: () => {
+        router.push('/learn/conjugation')
+        setIsOpen(false)
+      },
+      keywords: ['conjugation', 'verbs', 'grammar', 'practice', '活用'],
+      category: 'learning',
+      shortcut: 'g c'
+    },
+    {
+      id: 'textbook-vocab',
+      title: 'Textbook Vocab',
+      subtitle: 'Study textbook vocabulary',
+      icon: <BookMarked className="w-5 h-5" />,
+      action: () => {
+        router.push('/tools/textbook-vocabulary')
+        setIsOpen(false)
+      },
+      keywords: ['textbook', 'vocabulary', 'vocab', 'study', '教科書'],
+      category: 'learning',
+      shortcut: 'g tv'
+    },
+    {
+      id: 'news',
+      title: 'News',
+      subtitle: 'Read Japanese news',
+      icon: <Newspaper className="w-5 h-5" />,
+      action: () => {
+        router.push('/news')
+        setIsOpen(false)
+      },
+      keywords: ['news', 'articles', 'reading', 'current', 'events', 'ニュース'],
+      category: 'practice',
+      shortcut: 'g n'
+    },
+    {
+      id: 'popular-videos',
+      title: 'Trending Videos',
+      subtitle: 'Most watched by community',
+      icon: <Flame className="w-5 h-5" />,
+      action: () => {
+        router.push('/popular-videos')
+        setIsOpen(false)
+      },
+      keywords: ['popular', 'trending', 'videos', 'community', 'watched', '人気動画'],
+      category: 'practice',
+      shortcut: 'g pv'
+    },
+    {
+      id: 'youtube-series',
+      title: 'YouTube Series',
+      subtitle: 'Track YouTube channels',
+      icon: <Video className="w-5 h-5" />,
+      action: () => {
+        router.push('/youtube-series')
+        setIsOpen(false)
+      },
+      keywords: ['youtube', 'series', 'channels', 'follow', 'シリーズ'],
+      category: 'practice',
+      shortcut: 'g ys'
+    },
+    {
+      id: 'my-videos',
+      title: 'My Videos',
+      subtitle: 'Your saved videos',
+      icon: <Clapperboard className="w-5 h-5" />,
+      action: () => {
+        router.push('/my-videos')
+        setIsOpen(false)
+      },
+      keywords: ['my', 'videos', 'saved', 'collection', 'ビデオ'],
+      category: 'practice',
+      shortcut: 'g mv'
+    },
+    {
+      id: 'flashcards',
+      title: 'Flashcards',
+      subtitle: 'Study flashcard decks',
+      icon: <CreditCard className="w-5 h-5" />,
+      action: () => {
+        router.push('/flashcards')
+        setIsOpen(false)
+      },
+      keywords: ['flashcards', 'decks', 'study', 'memorize', 'フラッシュカード'],
+      category: 'practice',
+      shortcut: 'g f'
+    },
+    {
+      id: 'review-hub',
+      title: 'Review Hub',
+      subtitle: 'Unified review system',
+      icon: <RotateCcw className="w-5 h-5" />,
+      action: () => {
+        router.push('/review-dashboard')
+        setIsOpen(false)
+      },
+      keywords: ['review', 'hub', 'dashboard', 'srs', 'レビュー'],
+      category: 'practice',
+      shortcut: 'g r'
+    },
+    {
+      id: 'resources',
+      title: 'Resources',
+      subtitle: 'Learning resources',
+      icon: <Library className="w-5 h-5" />,
+      action: () => {
+        router.push('/resources')
+        setIsOpen(false)
+      },
+      keywords: ['resources', 'learning', 'materials', 'guides', 'リソース'],
+      category: 'learning',
+      shortcut: 'g re'
+    },
+    {
+      id: 'blog',
+      title: 'Blog',
+      subtitle: 'Articles and updates',
+      icon: <FileText className="w-5 h-5" />,
+      action: () => {
+        router.push('/blog')
+        setIsOpen(false)
+      },
+      keywords: ['blog', 'articles', 'updates', 'news', 'posts', 'ブログ'],
+      category: 'account',
+      shortcut: 'g b'
+    },
+    {
+      id: 'todos',
+      title: 'Task Manager',
+      subtitle: 'Organize study tasks',
+      icon: <CheckSquare className="w-5 h-5" />,
+      action: () => {
+        router.push('/todos')
+        setIsOpen(false)
+      },
+      keywords: ['todos', 'tasks', 'checklist', 'organize', 'goals', 'タスク管理'],
+      category: 'quick-actions',
+      shortcut: 'g t'
     }
-  ], [router, logout, showToast])
+  ], [router, signOut, showToast])
 
   // Filter commands based on search query
   const filteredCommands = useMemo(() => {
