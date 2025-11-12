@@ -51,12 +51,12 @@ export function selectProvider(text: string): TTSProvider {
     return 'google';
   }
 
-  // Use Edge-TTS as primary provider for longer Japanese content
-  // It's free, unlimited, and works great for sentences and paragraphs
-  return 'edge-tts';
+  // Use ElevenLabs for longer content
+  // High quality, natural-sounding voices for Japanese
+  return 'elevenlabs';
 
-  // Note: ElevenLabs kept as fallback option if Edge-TTS has issues
-  // Can manually specify provider: 'elevenlabs' in options if needed
+  // Note: Edge-TTS infrastructure on Sheldon is ready for alternative services
+  // (Coqui XTTS, Piper, StyleTTS2, etc.) when needed
 }
 
 /**

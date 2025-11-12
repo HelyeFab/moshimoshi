@@ -251,9 +251,9 @@ export class TTSService {
       } catch (error: any) {
         console.error('Google TTS provider error:', error);
         lastError = error;
-        // Fallback to Edge-TTS if Google fails
-        console.log('Falling back to Edge-TTS provider due to:', error.message);
-        provider = 'edge-tts';
+        // Fallback to ElevenLabs if Google fails
+        console.log('Falling back to ElevenLabs provider due to:', error.message);
+        provider = 'elevenlabs';
       }
     }
 
