@@ -102,7 +102,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'hiragana',
       title: 'Hiragana',
       subtitle: 'Learn hiragana characters',
-      icon: <RiTextSpacing className="w-5 h-5" />,
+      icon: <HiraganaIcon />,
       action: () => {
         router.push('/learn/hiragana')
         setIsOpen(false)
@@ -115,7 +115,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'katakana',
       title: 'Katakana',
       subtitle: 'Learn katakana characters',
-      icon: <RiCharacterRecognitionLine className="w-5 h-5" />,
+      icon: <KatakanaIcon />,
       action: () => {
         router.push('/learn/katakana')
         setIsOpen(false)
@@ -128,7 +128,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'kanji-browser',
       title: 'Kanji Browser',
       subtitle: 'Browse all JLPT kanji',
-      icon: <RiFontSize2 className="w-5 h-5" />,
+      icon: <KanjiIcon />,
       action: () => {
         router.push('/kanji-browser')
         setIsOpen(false)
@@ -141,7 +141,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'vocabulary',
       title: 'Vocabulary',
       subtitle: 'Study vocabulary words',
-      icon: <BookOpen className="w-5 h-5" />,
+      icon: <VocabIcon />,
       action: () => {
         router.push('/vocabulary')
         setIsOpen(false)
@@ -154,7 +154,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'drill',
       title: 'Drill Practice',
       subtitle: 'Quick drill exercises',
-      icon: <Zap className="w-5 h-5" />,
+      icon: <DrillIcon />,
       action: () => {
         router.push('/drill')
         setIsOpen(false)
@@ -180,7 +180,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'stories',
       title: 'Stories',
       subtitle: 'Read AI-generated stories',
-      icon: <BookMarked className="w-5 h-5" />,
+      icon: <StoryIcon />,
       action: () => {
         router.push('/stories')
         setIsOpen(false)
@@ -193,7 +193,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'games',
       title: 'Games',
       subtitle: 'Learn through games',
-      icon: <Gamepad2 className="w-5 h-5" />,
+      icon: <GamesIcon />,
       action: () => {
         router.push('/games')
         setIsOpen(false)
@@ -284,7 +284,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'my-lists',
       title: 'My Lists',
       subtitle: 'Create custom study lists',
-      icon: <List className="w-5 h-5" />,
+      icon: <ListsIcon />,
       action: () => {
         router.push('/lists')
         setIsOpen(false)
@@ -336,7 +336,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'conjugation',
       title: 'Conjugation',
       subtitle: 'Practice verb conjugations',
-      icon: <Type className="w-5 h-5" />,
+      icon: <ConjugationIcon />,
       action: () => {
         router.push('/learn/conjugation')
         setIsOpen(false)
@@ -362,7 +362,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'news',
       title: 'News',
       subtitle: 'Read Japanese news',
-      icon: <Newspaper className="w-5 h-5" />,
+      icon: <NewsIcon />,
       action: () => {
         router.push('/news')
         setIsOpen(false)
@@ -440,7 +440,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'resources',
       title: 'Resources',
       subtitle: 'Learning resources',
-      icon: <Library className="w-5 h-5" />,
+      icon: <ResourcesIcon />,
       action: () => {
         router.push('/resources')
         setIsOpen(false)
@@ -453,7 +453,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'blog',
       title: 'Blog',
       subtitle: 'Articles and updates',
-      icon: <FileText className="w-5 h-5" />,
+      icon: <BlogIcon />,
       action: () => {
         router.push('/blog')
         setIsOpen(false)
@@ -466,7 +466,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       id: 'todos',
       title: 'Task Manager',
       subtitle: 'Organize study tasks',
-      icon: <CheckSquare className="w-5 h-5" />,
+      icon: <TodosIcon />,
       action: () => {
         router.push('/todos')
         setIsOpen(false)

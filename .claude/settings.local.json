@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo:*)",
+      "Bash(npm run build:*)",
+      "Bash(ssh tbbt-sheldon \"ls -la /home/sheldon/ | grep -i tts\")",
+      "Bash(ssh tbbt-sheldon:*)",
+      "Bash(curl:*)",
+      "Bash(nslookup:*)",
+      "Bash(timeout 8 curl -v https://tts.selfmind.dev/health)",
+      "Bash(ipconfig /flushdns)",
+      "Bash(cmd.exe /c ipconfig /flushdns)",
+      "SlashCommand(/deepdive:*)",
+      "WebSearch",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)",
+      "Bash(git commit:*)",
+      "Bash(git log:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

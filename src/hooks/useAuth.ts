@@ -15,6 +15,7 @@ import {
 import { auth } from '@/lib/firebase/client'
 import logger from '@/lib/logger'
 import { migrateUserStores, cleanupNonUserSpecificStores } from '@/lib/storage/migrate-stores'
+import { requestManager } from '@/lib/api/requestManager'
 
 // Types
 interface AuthUser {
@@ -435,7 +436,10 @@ function useAuthProvider(): Auth {
     setLoading(true)
 
     try {
-      // Use direct Firebase auth and clear server session
+      // STEP 1: Cancel all pending API requests to prevent 401 errors
+      requestManager.cancelAllRequests('User signed out')
+
+      // STEP 2: Use direct Firebase auth and clear server session
       await signOut(auth)
       await fetch('/api/auth/logout', { method: 'POST' })
 
