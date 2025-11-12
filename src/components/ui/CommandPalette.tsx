@@ -42,6 +42,21 @@ import {
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import {
+  HiraganaIcon,
+  KatakanaIcon,
+  KanjiIcon,
+  VocabIcon,
+  DrillIcon,
+  NewsIcon,
+  StoryIcon,
+  GamesIcon,
+  ListsIcon,
+  ConjugationIcon,
+  ResourcesIcon,
+  BlogIcon,
+  TodosIcon
+} from '@/components/ui/FontIcon'
 
 interface CommandItem {
   id: string
