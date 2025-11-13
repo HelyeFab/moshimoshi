@@ -8,6 +8,11 @@ import { RepeatModeConfig } from '@/types/youtube-player';
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText';
 import { useBottomNav } from '@/contexts/BottomNavContext';
 import MobileSettingsToolbar from './CompactSettingsToolbar';
+import { useShadowingSession } from '@/components/shadowing/hooks/useShadowingSession';
+import RepeatControls from '@/components/shadowing/shared/RepeatControls';
+import NavigationControls from '@/components/shadowing/shared/NavigationControls';
+import SentenceDisplay from '@/components/shadowing/shared/SentenceDisplay';
+import { ShadowingSentence, ShadowingSettings } from '@/components/shadowing/types';
 import {
   Volume2,
   X,
@@ -535,7 +540,7 @@ function CompactSettingsToolbar({
   );
 }
 
-// Shadowing mode component for sentence practice
+// Shadowing mode component for sentence practice using shared components
 function ShadowingMode({
   sentences,
   audioSpeed,
@@ -556,102 +561,49 @@ function ShadowingMode({
   ttsPlaying: boolean;
 }) {
   const { t } = useI18n();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlayingSequence, setIsPlayingSequence] = useState(false);
 
-  // Add logging for shadowing mode lifecycle
-  useEffect(() => {
-    console.log('ShadowingMode component mounted');
-    return () => console.log('ShadowingMode component unmounted');
-  }, []);
+  // Convert sentences to ShadowingSentence format
+  const shadowingSentences: ShadowingSentence[] = sentences.map((text, index) => ({
+    id: `sentence-${index}`,
+    text,
+    startIndex: 0,
+    endIndex: text.length
+  }));
 
-  // Enhanced repeat configuration matching YouTube implementation
-  const [repeatConfig, setRepeatConfig] = useState<RepeatModeConfig>({
-    enabled: true,
-    count: 1,
-    currentRepeat: 0,
-    pauseDuration: 1000, // Default 1 second pause
+  // Convert settings to ShadowingSettings format
+  const shadowingSettings: ShadowingSettings = {
+    showFurigana: settings.showFurigana,
+    playbackSpeed: audioSpeed,
+    highlightGrammar: settings.highlightGrammar,
+    highlightMode: settings.highlightMode,
+    fontSize: settings.fontSize
+  };
+
+  // Create TTS provider interface
+  const ttsProvider = {
+    play: onPlayTTS,
+    stop: () => {},
+    isPlaying: ttsPlaying,
+    isLoading: ttsLoading,
+    preload: async () => {} // Not implemented in news context
+  };
+
+  // Use shared shadowing session hook
+  const { session, currentSentence, progress, handlers, canGoNext, canGoPrevious } = useShadowingSession({
+    initialSentences: shadowingSentences,
+    ttsProvider,
+    settings: shadowingSettings,
+    onSettingsChange: (newSettings) => {
+      onSettingsChange({
+        ...settings,
+        showFurigana: newSettings.showFurigana,
+        highlightGrammar: newSettings.highlightGrammar || false,
+        highlightMode: newSettings.highlightMode || 'none',
+        fontSize: newSettings.fontSize || 'medium'
+      });
+    },
+    onComplete: onClose
   });
-
-  const handlePlay = async () => {
-    setIsPlayingSequence(true);
-    const sentence = sentences[currentIndex];
-
-    try {
-      // Enhanced repeat logic matching YouTube implementation
-      for (let i = 0; i < repeatConfig.count; i++) {
-        // Update current repeat progress
-        setRepeatConfig(prev => ({ ...prev, currentRepeat: i }));
-
-        // Play the sentence with configured audio speed
-        await onPlayTTS(sentence, { speed: audioSpeed });
-
-        // Add configurable pause between repeats (except after last repeat)
-        if (i < repeatConfig.count - 1) {
-          await new Promise(resolve => setTimeout(resolve, repeatConfig.pauseDuration));
-        }
-      }
-
-      // Auto-advancement logic after completing all repeats
-      if (currentIndex < sentences.length - 1) {
-        // Move to next sentence
-        setCurrentIndex(currentIndex + 1);
-        setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-      } else {
-        // Last sentence completed - stop shadowing mode
-        onClose();
-      }
-    } catch (error) {
-      console.error('TTS playback error:', error);
-    } finally {
-      setIsPlayingSequence(false);
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-    }
-  };
-
-  // Auto-enable highlight mode when grammar highlighting is turned on
-  const handleGrammarToggle = () => {
-    const newGrammarState = !settings.highlightGrammar;
-    const newSettings = { ...settings, highlightGrammar: newGrammarState };
-
-    // Auto-enable highlight mode if grammar highlighting is turned on and mode is 'none'
-    if (newGrammarState && settings.highlightMode === 'none') {
-      newSettings.highlightMode = 'content';
-    }
-
-    onSettingsChange(newSettings);
-  };
-
-  // Enhanced navigation with repeat state reset
-  const handleNext = () => {
-    if (currentIndex < sentences.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-    }
-  };
-
-  // YouTube-style repeat configuration handlers
-  const setRepeatCount = (newCount: number) => {
-    const clampedCount = Math.max(1, Math.min(20, newCount));
-    setRepeatConfig(prev => ({
-      ...prev,
-      count: clampedCount,
-      enabled: clampedCount > 1,
-      currentRepeat: 0 // Reset current repeat when count changes
-    }));
-  };
-
-  const setPauseDuration = (duration: number) => {
-    const clampedDuration = Math.max(500, Math.min(3000, duration));
-    setRepeatConfig(prev => ({ ...prev, pauseDuration: clampedDuration }));
-  };
 
   return (
     <div className="fixed inset-0 z-30 overflow-y-auto animate-fade-in" style={{ backgroundColor: 'var(--article-bg)' }}>
@@ -664,276 +616,97 @@ function ShadowingMode({
             backgroundColor: 'var(--article-hover-bg)',
             color: 'var(--article-text-secondary)'
           }}
+          aria-label="Close shadowing mode"
         >
           <X className="w-6 h-6" />
         </button>
 
         {/* Main Content */}
-        <div className="max-w-4xl mx-auto p-6 pt-16 pb-32">{/* Extra top padding for close button, extra bottom padding for mobile */}
-
-        {/* Progress */}
-        <div className="mb-8">
-          <div className="flex justify-between text-sm mb-3">
-            <span style={{ color: 'var(--article-text-secondary)' }}>
-              {t('common.sentence')} {currentIndex + 1} / {sentences.length}
-            </span>
-            <span style={{ color: 'var(--article-text-secondary)' }}>
-              {Math.round(((currentIndex + 1) / sentences.length) * 100)}%
-            </span>
-          </div>
-          <div
-            className="h-2 rounded-full overflow-hidden"
-            style={{ backgroundColor: 'var(--article-accent-bg)' }}
-          >
-            <div
-              className="h-full transition-all duration-500"
-              style={{
-                width: `${((currentIndex + 1) / sentences.length) * 100}%`,
-                backgroundColor: 'rgb(var(--palette-primary-500))'
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Current Sentence - Enhanced for full page */}
-        <div
-          className="mb-10 p-10 rounded-3xl shadow-lg"
-          style={{
-            backgroundColor: 'var(--article-content-bg)',
-            border: '1px solid var(--article-border)'
-          }}
-        >
-          <div className="text-center mb-4">
-            <span
-              className="text-sm font-medium px-3 py-1 rounded-full"
-              style={{
-                backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
-                color: 'rgb(var(--palette-primary-600))'
-              }}
-            >
-              Sentence {currentIndex + 1} of {sentences.length}
-            </span>
-          </div>
-          <div className="text-center" style={{ fontSize: '2rem' }}>
-            <FuriganaText
-              text={sentences[currentIndex]}
-              showFurigana={settings.showFurigana}
-              fontSize={settings.fontSize}
-              highlightGrammar={settings.highlightGrammar}
-              highlightMode={settings.highlightMode}
-              className="japanese-text text-center font-medium"
-            />
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="space-y-6">
-          {/* Repeat Count - YouTube Style */}
-          <div className="flex flex-col items-center gap-4">
-            <span
-              className="text-lg font-semibold"
-              style={{ color: 'var(--article-text)' }}
-            >
-              {t('news.reader.repeatCount')}
-            </span>
-
-            {/* Counter Display with +/- Controls */}
-            <div className="flex items-center justify-center gap-4">
-              <button
-                onClick={() => setRepeatCount(repeatConfig.count - 1)}
-                disabled={repeatConfig.count <= 1}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                style={{
-                  backgroundColor: repeatConfig.count <= 1 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
-                  color: repeatConfig.count <= 1 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
-                }}
-                title="Decrease"
-              >
-                <ChevronDown className="w-5 h-5" />
-              </button>
-
-              <div className="flex flex-col items-center">
-                <div className="text-4xl font-bold tabular-nums" style={{ color: 'rgb(var(--palette-primary-600))' }}>
-                  {repeatConfig.count}
-                </div>
-                <div className="text-xs font-medium" style={{ color: 'var(--article-text-secondary)' }}>
-                  {repeatConfig.count === 1 ? 'time' : 'times'}
-                </div>
-                {/* Progress indicator during playback */}
-                {isPlayingSequence && repeatConfig.count > 1 && (
-                  <div className="text-xs mt-1" style={{ color: 'rgb(var(--palette-primary-600))' }}>
-                    {repeatConfig.currentRepeat + 1}/{repeatConfig.count}
-                  </div>
-                )}
-              </div>
-
-              <button
-                onClick={() => setRepeatCount(repeatConfig.count + 1)}
-                disabled={repeatConfig.count >= 20}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                style={{
-                  backgroundColor: repeatConfig.count >= 20 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
-                  color: repeatConfig.count >= 20 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
-                }}
-                title="Increase"
-              >
-                <ChevronUp className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Quick Select Buttons */}
-            <div className="space-y-2">
-              <div className="text-xs font-medium text-center" style={{ color: 'var(--article-text-secondary)' }}>
-                Quick Select
-              </div>
-              <div className="flex gap-2">
-                {[1, 2, 3, 5, 10].map(count => (
-                  <button
-                    key={count}
-                    onClick={() => setRepeatCount(count)}
-                    className="w-12 h-9 rounded-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
-                    style={{
-                      backgroundColor: repeatConfig.count === count
-                        ? 'rgb(var(--palette-primary-500))'
-                        : 'var(--article-accent-bg)',
-                      color: repeatConfig.count === count ? 'white' : 'var(--article-text)',
-                      ...(repeatConfig.count === count && {
-                        boxShadow: '0 4px 12px rgb(var(--palette-primary-500) / 0.3)',
-                        border: '2px solid rgb(var(--palette-primary-500) / 0.5)'
-                      })
-                    }}
-                  >
-                    {count}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Pause Duration Controls - Like YouTube */}
-          {repeatConfig.count > 1 && (
-            <div className="flex flex-col items-center gap-4">
-              <span
-                className="text-lg font-semibold"
-                style={{ color: 'var(--article-text)' }}
-              >
-                Pause Between Repeats
+        <div className="max-w-4xl mx-auto p-6 pt-16 pb-32">
+          {/* Progress */}
+          <div className="mb-8">
+            <div className="flex justify-between text-sm mb-3">
+              <span style={{ color: 'var(--article-text-secondary)' }}>
+                {t('common.sentence')} {session.currentIndex + 1} / {session.sentences.length}
               </span>
-
-              {/* Pause Duration Display with +/- Controls */}
-              <div className="flex items-center justify-center gap-4">
-                <button
-                  onClick={() => setPauseDuration(repeatConfig.pauseDuration - 500)}
-                  disabled={repeatConfig.pauseDuration <= 500}
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  style={{
-                    backgroundColor: repeatConfig.pauseDuration <= 500 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
-                    color: repeatConfig.pauseDuration <= 500 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
-                  }}
-                  title="Decrease pause duration"
-                >
-                  <ChevronDown className="w-5 h-5" />
-                </button>
-
-                <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold tabular-nums" style={{ color: 'rgb(var(--palette-primary-600))' }}>
-                    {(repeatConfig.pauseDuration / 1000).toFixed(1)}
-                  </div>
-                  <div className="text-xs font-medium" style={{ color: 'var(--article-text-secondary)' }}>
-                    seconds
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setPauseDuration(repeatConfig.pauseDuration + 500)}
-                  disabled={repeatConfig.pauseDuration >= 3000}
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  style={{
-                    backgroundColor: repeatConfig.pauseDuration >= 3000 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
-                    color: repeatConfig.pauseDuration >= 3000 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
-                  }}
-                  title="Increase pause duration"
-                >
-                  <ChevronUp className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Quick Select Buttons for Pause Duration */}
-              <div className="space-y-2">
-                <div className="text-xs font-medium text-center" style={{ color: 'var(--article-text-secondary)' }}>
-                  Quick Select
-                </div>
-                <div className="flex gap-2">
-                  {[0.5, 1.0, 1.5, 2.0, 3.0].map(seconds => (
-                    <button
-                      key={seconds}
-                      onClick={() => setPauseDuration(seconds * 1000)}
-                      className="w-12 h-9 rounded-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95 text-xs"
-                      style={{
-                        backgroundColor: repeatConfig.pauseDuration === seconds * 1000
-                          ? 'rgb(var(--palette-primary-500))'
-                          : 'var(--article-accent-bg)',
-                        color: repeatConfig.pauseDuration === seconds * 1000 ? 'white' : 'var(--article-text)',
-                        ...(repeatConfig.pauseDuration === seconds * 1000 && {
-                          boxShadow: '0 4px 12px rgb(var(--palette-primary-500) / 0.3)',
-                          border: '2px solid rgb(var(--palette-primary-500) / 0.5)'
-                        })
-                      }}
-                    >
-                      {seconds}s
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <span style={{ color: 'var(--article-text-secondary)' }}>
+                {Math.round(progress)}%
+              </span>
             </div>
-          )}
-
-          {/* Playback Controls - More Compact */}
-          <div className="flex items-center justify-center gap-3">
-            <button
-              onClick={handlePrevious}
-              disabled={currentIndex === 0}
-              className="w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-              style={{
-                backgroundColor: 'var(--article-accent-bg)',
-                color: 'var(--article-text)'
-              }}
-              title={t('common.previous')}
+            <div
+              className="h-2 rounded-full overflow-hidden"
+              style={{ backgroundColor: 'var(--article-accent-bg)' }}
+              role="progressbar"
+              aria-valuenow={Math.round(progress)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`Reading progress: ${Math.round(progress)}%`}
             >
-              ←
-            </button>
-
-            <button
-              onClick={handlePlay}
-              disabled={isPlayingSequence || ttsLoading}
-              className="w-16 h-16 rounded-full font-semibold transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-1 shadow-lg"
-              style={{
-                backgroundColor: 'rgb(var(--palette-primary-500))',
-                color: 'white'
-              }}
-              title={isPlayingSequence || ttsPlaying ? t('common.playing') : t('common.play')}
-            >
-              {isPlayingSequence || ttsPlaying ? (
-                <span className="animate-pulse text-lg">●</span>
-              ) : (
-                <Play className="w-6 h-6" fill="currentColor" />
-              )}
-            </button>
-
-            <button
-              onClick={handleNext}
-              disabled={currentIndex === sentences.length - 1}
-              className="w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-              style={{
-                backgroundColor: 'var(--article-accent-bg)',
-                color: 'var(--article-text)'
-              }}
-              title={t('common.next')}
-            >
-              →
-            </button>
+              <div
+                className="h-full transition-all duration-500"
+                style={{
+                  width: `${progress}%`,
+                  backgroundColor: 'rgb(var(--palette-primary-500))'
+                }}
+              />
+            </div>
           </div>
-        </div>
+
+          {/* Sentence Display using shared component */}
+          <SentenceDisplay
+            sentence={currentSentence}
+            currentIndex={session.currentIndex}
+            totalSentences={session.sentences.length}
+            settings={shadowingSettings}
+            variant="news"
+            className="mb-10"
+            currentRepeat={session.repeatConfig.currentRepeat}
+            totalRepeats={session.repeatConfig.count}
+            colors={{
+              primary: 'rgb(var(--palette-primary-600))',
+              background: 'var(--article-content-bg)',
+              text: 'var(--article-text)',
+              secondary: 'var(--article-text-secondary)'
+            }}
+          />
+
+          {/* Controls */}
+          <div className="space-y-6">
+            {/* Repeat Controls using shared component */}
+            <RepeatControls
+              repeatConfig={session.repeatConfig}
+              onRepeatCountChange={handlers.onRepeatCountChange}
+              onPauseDurationChange={handlers.onPauseDurationChange}
+              isPlaying={session.isPlaying}
+              variant="buttons"
+              colors={{
+                primary: 'rgb(var(--palette-primary-500))',
+                secondary: 'rgb(var(--palette-primary-600))',
+                background: 'var(--article-accent-bg)',
+                text: 'var(--article-text)',
+                disabled: 'var(--article-text-secondary)'
+              }}
+            />
+
+            {/* Navigation Controls using shared component */}
+            <NavigationControls
+              isPlaying={session.isPlaying}
+              isLoading={session.isLoading}
+              canGoPrevious={canGoPrevious}
+              canGoNext={canGoNext}
+              onPlay={handlers.onPlay}
+              onPause={handlers.onPause}
+              onPrevious={handlers.onPrevious}
+              onNext={handlers.onNext}
+              variant="news"
+              colors={{
+                primary: 'rgb(var(--palette-primary-500))',
+                background: 'var(--article-accent-bg)',
+                text: 'var(--article-text)',
+                disabled: 'var(--article-text-secondary)'
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

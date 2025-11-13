@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { TTSOptions, TTSResult, TTSError } from '@/lib/tts/types';
+import { OfflineTTSCache } from '@/lib/tts/offlineCache';
 
 interface UseTTSOptions {
   autoPlay?: boolean;
@@ -77,39 +78,103 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         audioRef.current.currentTime = 0;
       }
 
-      // Call TTS API
-      const response = await fetch('/api/tts/synthesize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text,
-          language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
-          voice: ttsOptions?.voice,
-          speed: ttsOptions?.speed || ttsOptions?.rate || 1.0,
-          pitch: ttsOptions?.pitch || 0
-        }),
-      });
+      // Prepare TTS parameters
+      const voice = ttsOptions?.voice || 'ja-JP-Standard-A';
+      const speed = ttsOptions?.speed || ttsOptions?.rate || 1.0;
+      const provider = 'google'; // Could be dynamic based on settings
 
-      if (!response.ok) {
-        let errorMessage = 'TTS synthesis failed';
-        let errorDetails = null;
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.error?.message || errorData.message || errorMessage;
-          errorDetails = errorData;
-        } catch (e) {
-          // If parsing fails, use response status
-          errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`;
+      let result: TTSResult;
+
+      // Check offline cache first if cacheFirst is enabled
+      if (cacheFirst) {
+        const offlineCache = OfflineTTSCache.getInstance();
+        const cachedResult = await offlineCache.get(text, provider, voice, speed);
+
+        if (cachedResult) {
+          // Use cached audio
+          result = {
+            audioUrl: cachedResult.audioUrl,
+            provider,
+            cached: true,
+            duration: 0 // We don't store duration in offline cache yet
+          };
+          console.log(`TTS Provider: ${provider}, Offline Cached: true, Text: "${text.substring(0, 30)}..."`);
+        } else {
+          // Cache miss, proceed with API call
+          console.log(`TTS Offline cache miss, calling API for: "${text.substring(0, 30)}..."`);
+
+          const response = await fetch('/api/tts/synthesize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              text,
+              language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
+              voice: ttsOptions?.voice,
+              speed: speed,
+              pitch: ttsOptions?.pitch || 0
+            }),
+          });
+
+          if (!response.ok) {
+            let errorMessage = 'TTS synthesis failed';
+            let errorDetails = null;
+            try {
+              const errorData = await response.json();
+              errorMessage = errorData.error?.message || errorData.message || errorMessage;
+              errorDetails = errorData;
+            } catch (e) {
+              // If parsing fails, use response status
+              errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`;
+            }
+            console.error('TTS API Error:', { status: response.status, errorDetails, requestBody: { text: text.substring(0, 50) + '...' } });
+            throw new Error(errorMessage);
+          }
+
+          const data = await response.json();
+          result = data.data;
+
+          // Cache the result for offline use (fire and forget)
+          offlineCache.set(text, provider, voice, speed, result.audioUrl, result.duration || 0)
+            .catch(error => {
+              console.warn('[useTTS] Failed to cache audio offline:', error);
+            });
+
+          console.log(`TTS Provider: ${result.provider}, Server Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`);
         }
-        console.error('TTS API Error:', { status: response.status, errorDetails, requestBody: { text: text.substring(0, 50) + '...' } });
-        throw new Error(errorMessage);
+      } else {
+        // Cache disabled, always call API
+        const response = await fetch('/api/tts/synthesize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text,
+            language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
+            voice: ttsOptions?.voice,
+            speed: speed,
+            pitch: ttsOptions?.pitch || 0
+          }),
+        });
+
+        if (!response.ok) {
+          let errorMessage = 'TTS synthesis failed';
+          let errorDetails = null;
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error?.message || errorData.message || errorMessage;
+            errorDetails = errorData;
+          } catch (e) {
+            // If parsing fails, use response status
+            errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`;
+          }
+          console.error('TTS API Error:', { status: response.status, errorDetails, requestBody: { text: text.substring(0, 50) + '...' } });
+          throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+        result = data.data;
+
+        console.log(`TTS Provider: ${result.provider}, Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`);
       }
-
-      const data = await response.json();
-      const result: TTSResult = data.data;
-
-      // Log the provider and cache status
-      console.log(`TTS Provider: ${result.provider}, Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`);
 
       // Create audio element only if it doesn't exist
       if (!audioRef.current) {

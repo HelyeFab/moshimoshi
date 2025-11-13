@@ -6,6 +6,11 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { Play, Pause, SkipBack, SkipForward, Volume2, Repeat, Settings, Bookmark } from 'lucide-react';
+import { useShadowingSession } from '@/components/shadowing/hooks/useShadowingSession';
+import RepeatControls from '@/components/shadowing/shared/RepeatControls';
+import NavigationControls from '@/components/shadowing/shared/NavigationControls';
+import SentenceDisplay from '@/components/shadowing/shared/SentenceDisplay';
+import { ShadowingSentence, ShadowingSettings } from '@/components/shadowing/types';
 
 interface ShadowingAudioPlayerProps {
   content: {
@@ -30,95 +35,22 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
   const { user } = useAuth();
   const { showToast } = useToast();
 
-  // State
-  const [sentences, setSentences] = useState<SentenceData[]>([]);
-  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Local settings state
   const [voice, setVoice] = useState<'male' | 'female'>('female');
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
-  const [repeatCount, setRepeatCount] = useState(3);
-  const [pauseBetweenRepeats, setPauseBetweenRepeats] = useState(2000); // ms
   const [showSettings, setShowSettings] = useState(false);
-  const [currentRepeat, setCurrentRepeat] = useState(0);
   const [showFurigana, setShowFurigana] = useState(false);
-  const [loadingFurigana, setLoadingFurigana] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
-  const [loadingTranslations, setLoadingTranslations] = useState(false);
-
-  // Refs
-  const repeatTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const currentRepeatRef = useRef<number>(0);
-
-  // Handle audio playback completion
-  const handleAudioEnd = useCallback(() => {
-    const currentRepeatValue = currentRepeatRef.current;
-
-    if (currentRepeatValue < repeatCount - 1) {
-      // More repeats to go
-      const nextRepeat = currentRepeatValue + 1;
-      currentRepeatRef.current = nextRepeat;
-      setCurrentRepeat(nextRepeat);
-
-      // Pause before repeating
-      repeatTimeoutRef.current = setTimeout(() => {
-        playCurrentSentence();
-      }, pauseBetweenRepeats);
-    } else {
-      // Done with repeats, reset
-      currentRepeatRef.current = 0;
-      setCurrentRepeat(0);
-    }
-  }, [repeatCount, pauseBetweenRepeats]);
-
-  // Initialize useTTS with proper callbacks
-  const { play: playTTS, preload, playing: isPlaying, stop: stopTTS } = useTTS({
-    cacheFirst: true,
-    onEnd: handleAudioEnd,
-    onError: (err) => {
-      console.error('[Shadowing] TTS error:', err);
-      setError(err.message || t('shadowing.playbackError'));
-      setIsLoading(false);
-    }
-  });
-
-  // Parse sentences on mount
-  useEffect(() => {
-    if (content?.text) {
-      const parsedSentences = parseSentences(content.text);
-      setSentences(parsedSentences);
-
-      // Preload first few sentences
-      if (parsedSentences.length > 0) {
-        const preloadCount = Math.min(3, parsedSentences.length);
-        const textsToPreload = parsedSentences.slice(0, preloadCount).map(s => s.text);
-        preload(textsToPreload, {
-          voice: voice === 'female' ? 'ja-JP-Standard-A' : 'ja-JP-Standard-D',
-          speed: playbackSpeed
-        });
-      }
-    }
-  }, [content, preload, voice, playbackSpeed]);
-
-  // Cleanup
-  useEffect(() => {
-    return () => {
-      stop();
-      if (repeatTimeoutRef.current) {
-        clearTimeout(repeatTimeoutRef.current);
-      }
-    };
-  }, []);
 
   // Parse content into sentences
-  const parseSentences = (text: string): SentenceData[] => {
-    // Japanese sentence endings: 。！？
+  const parseSentences = (text: string): ShadowingSentence[] => {
     const sentenceRegex = /[^。！？]+[。！？]/g;
-    const sentenceList: SentenceData[] = [];
+    const sentences: ShadowingSentence[] = [];
     let match;
 
     while ((match = sentenceRegex.exec(text)) !== null) {
-      sentenceList.push({
+      sentences.push({
+        id: `sentence-${match.index}`,
         text: match[0].trim(),
         startIndex: match.index,
         endIndex: match.index + match[0].length
@@ -126,142 +58,83 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
     }
 
     // If no sentences found, treat the whole content as one sentence
-    if (sentenceList.length === 0 && text.trim()) {
-      sentenceList.push({
+    if (sentences.length === 0 && text.trim()) {
+      sentences.push({
+        id: 'sentence-0',
         text: text.trim(),
         startIndex: 0,
         endIndex: text.length
       });
     }
 
-    return sentenceList;
+    return sentences;
   };
 
-  // Play current sentence
-  const playCurrentSentence = useCallback(async () => {
-    if (currentSentenceIndex >= sentences.length || !sentences[currentSentenceIndex]) {
-      setError(t('shadowing.noSentence'));
-      return;
+  const shadowingSentences = parseSentences(content.text);
+
+  // Convert settings to ShadowingSettings format
+  const shadowingSettings: ShadowingSettings = {
+    showFurigana,
+    playbackSpeed,
+    voice,
+    showTranslation
+  };
+
+  // Initialize TTS
+  const { play: playTTS, preload, playing: isPlaying, stop: stopTTS } = useTTS({
+    cacheFirst: true,
+    onError: (err) => {
+      console.error('[Shadowing] TTS error:', err);
     }
+  });
 
-    const sentence = sentences[currentSentenceIndex];
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Use TTS hook to play - onEnd callback will handle completion
-      await playTTS(sentence.text, {
+  // Create TTS provider interface
+  const ttsProvider = {
+    play: async (text: string, options?: any) => {
+      return playTTS(text, {
+        voice: voice === 'female' ? 'ja-JP-Standard-A' : 'ja-JP-Standard-D',
+        speed: playbackSpeed,
+        ...options
+      });
+    },
+    stop: stopTTS,
+    isPlaying,
+    isLoading: false,
+    preload: async (texts: string[]) => {
+      return preload(texts, {
         voice: voice === 'female' ? 'ja-JP-Standard-A' : 'ja-JP-Standard-D',
         speed: playbackSpeed
       });
-
-      setIsLoading(false);
-    } catch (err) {
-      console.error('[Shadowing] Error playing sentence:', err);
-      setError(err instanceof Error ? err.message : t('shadowing.playbackError'));
-      setIsLoading(false);
-    }
-  }, [currentSentenceIndex, sentences, playTTS, voice, playbackSpeed, t]);
-
-  // Control functions
-  const play = () => {
-    if (!isPlaying && !isLoading) {
-      currentRepeatRef.current = 0;
-      setCurrentRepeat(0);
-      setError(null);
-      playCurrentSentence();
     }
   };
 
-  const pause = () => {
-    stopTTS();
-    if (repeatTimeoutRef.current) {
-      clearTimeout(repeatTimeoutRef.current);
+  // Use shared shadowing session hook
+  const { session, currentSentence, progress, handlers, canGoNext, canGoPrevious } = useShadowingSession({
+    initialSentences: shadowingSentences,
+    ttsProvider,
+    settings: shadowingSettings,
+    onSettingsChange: (newSettings) => {
+      if (newSettings.showFurigana !== undefined) setShowFurigana(newSettings.showFurigana);
+      if (newSettings.playbackSpeed !== undefined) setPlaybackSpeed(newSettings.playbackSpeed);
+      if (newSettings.voice !== undefined) setVoice(newSettings.voice);
+      if (newSettings.showTranslation !== undefined) setShowTranslation(newSettings.showTranslation);
+    },
+    onComplete: () => {
+      onClose?.();
     }
-  };
+  });
 
-  const stop = () => {
-    stopTTS();
-    if (repeatTimeoutRef.current) {
-      clearTimeout(repeatTimeoutRef.current);
-      repeatTimeoutRef.current = null;
-    }
-    currentRepeatRef.current = 0;
-    setCurrentRepeat(0);
-    setIsLoading(false);
-  };
-
-  const nextSentence = () => {
-    stop();
-    if (currentSentenceIndex < sentences.length - 1) {
-      const newIndex = currentSentenceIndex + 1;
-      setCurrentSentenceIndex(newIndex);
-      currentRepeatRef.current = 0;
-      setCurrentRepeat(0);
-
-      // Preload next sentence
-      if (sentences[newIndex]) {
-        preload([sentences[newIndex].text], {
-          voice: voice === 'female' ? 'ja-JP-Standard-A' : 'ja-JP-Standard-D',
-          speed: playbackSpeed
-        });
-      }
-    }
-  };
-
-  const previousSentence = () => {
-    stop();
-    if (currentSentenceIndex > 0) {
-      const newIndex = currentSentenceIndex - 1;
-      setCurrentSentenceIndex(newIndex);
-      currentRepeatRef.current = 0;
-      setCurrentRepeat(0);
-    }
-  };
-
-  const handleSpeedChange = (speed: number) => {
-    setPlaybackSpeed(speed);
-  };
-
-  // Generate furigana for current sentence when showFurigana is enabled
+  // Preload first few sentences on mount
   useEffect(() => {
-    const generateCurrentSentenceFurigana = async () => {
-      if (!showFurigana || !sentences[currentSentenceIndex] || sentences[currentSentenceIndex].furiganaText) {
-        return;
-      }
-
-      setLoadingFurigana(true);
-      try {
-        // Call furigana API
-        const response = await fetch('/api/furigana/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: sentences[currentSentenceIndex].text })
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          // Update the specific sentence with furigana
-          setSentences(prev => prev.map((sentence, index) =>
-            index === currentSentenceIndex
-              ? { ...sentence, furiganaText: data.furigana }
-              : sentence
-          ));
-        }
-      } catch (error) {
-        console.error('Failed to generate furigana:', error);
-      } finally {
-        setLoadingFurigana(false);
-      }
-    };
-
-    if (showFurigana) {
-      generateCurrentSentenceFurigana();
+    if (shadowingSentences.length > 0) {
+      const preloadCount = Math.min(3, shadowingSentences.length);
+      const textsToPreload = shadowingSentences.slice(0, preloadCount).map(s => s.text);
+      ttsProvider.preload(textsToPreload);
     }
-  }, [showFurigana, currentSentenceIndex, sentences]);
+  }, [voice, playbackSpeed]);
 
-  // Handle sentence bookmark
-  const handleBookmarkSentence = async (sentence: SentenceData) => {
+  // Handle bookmark functionality
+  const handleBookmarkSentence = async (sentence: ShadowingSentence) => {
     if (!user) {
       showToast(t('common.loginRequired'), 'error');
       return;
@@ -276,8 +149,9 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
     }
   };
 
-  // Get current sentence
-  const currentSentence = sentences[currentSentenceIndex];
+  const handleSpeedChange = (speed: number) => {
+    setPlaybackSpeed(speed);
+  };
 
   return (
     <div className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -289,6 +163,7 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
             <button
               onClick={() => setShowSettings(!showSettings)}
               className="p-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
+              aria-label="Settings"
             >
               <Settings className="w-5 h-5" />
             </button>
@@ -296,6 +171,7 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
               <button
                 onClick={onClose}
                 className="p-2 rounded-lg bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors"
+                aria-label="Close"
               >
                 ✕
               </button>
@@ -312,7 +188,7 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
                 <label className="text-sm font-medium mb-2 block text-muted-foreground">
                   {t('shadowing.voice')}
                 </label>
-                <div className="flex gap-2">
+                <div className="flex gap-2" role="group" aria-label="Voice selection">
                   <button
                     onClick={() => setVoice('male')}
                     className={`px-4 py-2 rounded-lg transition-colors ${
@@ -320,6 +196,7 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
                         ? 'bg-primary-500 text-white'
                         : 'bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600'
                     }`}
+                    aria-pressed={voice === 'male'}
                   >
                     {t('shadowing.male')}
                   </button>
@@ -330,6 +207,7 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
                         ? 'bg-primary-500 text-white'
                         : 'bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600'
                     }`}
+                    aria-pressed={voice === 'female'}
                   >
                     {t('shadowing.female')}
                   </button>
@@ -349,38 +227,7 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
                   value={playbackSpeed}
                   onChange={(e) => handleSpeedChange(parseFloat(e.target.value))}
                   className="w-full"
-                />
-              </div>
-
-              {/* Repeat Count */}
-              <div>
-                <label className="text-sm font-medium mb-2 block text-muted-foreground">
-                  {t('shadowing.repeatCount')}: {repeatCount}
-                </label>
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  step="1"
-                  value={repeatCount}
-                  onChange={(e) => setRepeatCount(parseInt(e.target.value))}
-                  className="w-full"
-                />
-              </div>
-
-              {/* Pause Duration */}
-              <div>
-                <label className="text-sm font-medium mb-2 block text-muted-foreground">
-                  {t('shadowing.pauseDuration')}: {pauseBetweenRepeats / 1000}s
-                </label>
-                <input
-                  type="range"
-                  min="500"
-                  max="5000"
-                  step="500"
-                  value={pauseBetweenRepeats}
-                  onChange={(e) => setPauseBetweenRepeats(parseInt(e.target.value))}
-                  className="w-full"
+                  aria-label={`Playback speed: ${playbackSpeed.toFixed(1)}x`}
                 />
               </div>
 
@@ -392,14 +239,12 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
                     checked={showFurigana}
                     onChange={(e) => setShowFurigana(e.target.checked)}
                     className="rounded border-gray-300 dark:border-dark-600"
+                    aria-describedby="furigana-description"
                   />
                   <div>
                     <span className="text-sm font-medium">{t('shadowing.showFurigana')}</span>
-                    <p className="text-xs text-muted-foreground">{t('shadowing.furiganaDescription')}</p>
+                    <p id="furigana-description" className="text-xs text-muted-foreground">{t('shadowing.furiganaDescription')}</p>
                   </div>
-                  {loadingFurigana && (
-                    <div className="w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
-                  )}
                 </label>
               </div>
             </div>
@@ -408,98 +253,65 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
 
         {/* Main Content */}
         <div className="p-6">
-          {/* Sentence Display */}
-          <div className="mb-6">
-            <div className="text-sm text-muted-foreground mb-2">
-              {t('shadowing.sentenceProgress', {
-                current: currentSentenceIndex + 1,
-                total: sentences.length
-              })}
-              {repeatCount > 1 && (isPlaying || currentRepeat > 0) &&
-                ` (${t('shadowing.repeatProgress', { current: currentRepeat + 1, total: repeatCount })})`
-              }
-            </div>
-            <div className="bg-soft-white/50 dark:bg-dark-800/50 rounded-lg p-6 min-h-[150px] flex items-center justify-center relative">
-              {currentSentence ? (
-                <>
-                  <div className="text-2xl leading-relaxed text-center japanese-text pr-12">
-                    {showFurigana && currentSentence.furiganaText ? (
-                      <div
-                        dangerouslySetInnerHTML={{ __html: currentSentence.furiganaText }}
-                        className="ruby-text"
-                      />
-                    ) : (
-                      <p>{currentSentence.text}</p>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => handleBookmarkSentence(currentSentence)}
-                    className="absolute top-4 right-4 p-2 rounded-lg hover:bg-background/80 transition-colors text-muted-foreground hover:text-foreground"
-                    title={t('shadowing.saveSentence')}
-                  >
-                    <Bookmark className="w-5 h-5" />
-                  </button>
-                </>
-              ) : (
-                <p className="text-muted-foreground">{t('shadowing.noSentenceAvailable')}</p>
-              )}
-            </div>
-          </div>
+          {/* Sentence Display using shared component */}
+          <SentenceDisplay
+            sentence={currentSentence}
+            currentIndex={session.currentIndex}
+            totalSentences={session.sentences.length}
+            settings={shadowingSettings}
+            variant="stories"
+            className="mb-6"
+            onBookmark={handleBookmarkSentence}
+            currentRepeat={session.repeatConfig.currentRepeat}
+            totalRepeats={session.repeatConfig.count}
+          />
 
           {/* Progress Bar */}
           <div className="mb-6">
             <div className="text-xs text-muted-foreground mb-1">
-              {repeatCount > 1 ? t('shadowing.repeatProgressLabel') : t('shadowing.sentenceProgressLabel')}
+              {session.repeatConfig.count > 1 ? t('shadowing.repeatProgressLabel') : t('shadowing.sentenceProgressLabel')}
             </div>
             <div className="bg-gray-100 dark:bg-dark-700 rounded-full h-2 overflow-hidden">
               <div
                 className="bg-primary-500 h-full transition-all duration-300"
-                style={{
-                  width: repeatCount > 1
-                    ? `${((currentRepeat + (isPlaying ? 1 : 0)) / repeatCount) * 100}%`
-                    : `${((currentSentenceIndex + 1) / sentences.length) * 100}%`
-                }}
+                style={{ width: `${progress}%` }}
+                role="progressbar"
+                aria-valuenow={Math.round(progress)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`Progress: ${Math.round(progress)}%`}
               />
             </div>
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={previousSentence}
-              disabled={currentSentenceIndex === 0}
-              className="p-3 rounded-full bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <SkipBack className="w-6 h-6" />
-            </button>
+          {/* Repeat Controls using shared component */}
+          <RepeatControls
+            repeatConfig={session.repeatConfig}
+            onRepeatCountChange={handlers.onRepeatCountChange}
+            onPauseDurationChange={handlers.onPauseDurationChange}
+            isPlaying={session.isPlaying}
+            variant="sliders"
+            className="mb-6"
+          />
 
-            <button
-              onClick={isPlaying ? pause : play}
-              disabled={isLoading || !currentSentence}
-              className="p-4 rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin" />
-              ) : isPlaying ? (
-                <Pause className="w-6 h-6" />
-              ) : (
-                <Play className="w-6 h-6 ml-0.5" />
-              )}
-            </button>
-
-            <button
-              onClick={nextSentence}
-              disabled={currentSentenceIndex === sentences.length - 1}
-              className="p-3 rounded-full bg-soft-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <SkipForward className="w-6 h-6" />
-            </button>
-          </div>
+          {/* Navigation Controls using shared component */}
+          <NavigationControls
+            isPlaying={session.isPlaying}
+            isLoading={session.isLoading}
+            canGoPrevious={canGoPrevious}
+            canGoNext={canGoNext}
+            onPlay={handlers.onPlay}
+            onPause={handlers.onPause}
+            onPrevious={handlers.onPrevious}
+            onNext={handlers.onNext}
+            variant="stories"
+            className="mb-6"
+          />
 
           {/* Error Display */}
-          {error && (
-            <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-center">
-              {error}
+          {session.error && (
+            <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-center" role="alert">
+              {session.error}
             </div>
           )}
 
@@ -514,19 +326,18 @@ export default function ShadowingAudioPlayer({ content, onClose }: ShadowingAudi
         <div className="border-t border-gray-100 dark:border-dark-700 max-h-[200px] overflow-y-auto">
           <div className="p-4">
             <h3 className="text-sm font-medium mb-2">{t('shadowing.allSentences')}</h3>
-            <div className="space-y-1">
-              {sentences.map((sentence, index) => (
+            <div className="space-y-1" role="list">
+              {session.sentences.map((sentence, index) => (
                 <button
-                  key={index}
-                  onClick={() => {
-                    stop();
-                    setCurrentSentenceIndex(index);
-                  }}
+                  key={sentence.id}
+                  onClick={() => handlers.onSentenceSelect(index)}
                   className={`w-full text-left p-2 rounded-lg transition-colors text-sm ${
-                    index === currentSentenceIndex
+                    index === session.currentIndex
                       ? 'bg-primary-100 dark:bg-primary-900/30 font-medium'
                       : 'hover:bg-soft-white dark:hover:bg-dark-700'
                   }`}
+                  role="listitem"
+                  aria-label={`Go to sentence ${index + 1}: ${sentence.text.substring(0, 50)}...`}
                 >
                   <span className="text-muted-foreground mr-2">{index + 1}.</span>
                   {sentence.text}
