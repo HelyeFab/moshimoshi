@@ -1,13 +1,19 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
 import { TTSOptions } from '@/lib/tts/types';
 import { RepeatModeConfig } from '@/types/youtube-player';
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText';
+import KuromojiService from '@/utils/kuromojiService';
 import { useBottomNav } from '@/contexts/BottomNavContext';
 import MobileSettingsToolbar from './CompactSettingsToolbar';
+import Modal from '@/components/ui/Modal';
+import { useWordExplanation } from '@/hooks/useWordExplanation';
+import WordExplanationModal from '@/components/word/WordExplanationModal';
+import UnifiedShadowingMode from '@/components/shadowing/UnifiedShadowingMode';
+import { segmentLongSentence, shouldSegment } from '@/utils/sentenceSegmentation';
 import {
   Volume2,
   X,
@@ -16,6 +22,7 @@ import {
   Languages,
   Palette,
   Play,
+  Pause,
   ChevronDown,
   ChevronUp,
   Settings
@@ -28,6 +35,7 @@ interface NewsArticle {
   summary: string;
   url: string;
   imageUrl?: string;
+  audioUrl?: string; // NHK native audio (m3u8 format) - professional voice-over
   publishDate: string | Date;
   source: string;
   category: string;
@@ -38,6 +46,16 @@ interface NewsArticle {
     readingTime?: number;
     hasFurigana?: boolean;
   };
+
+  // TTS-generated audio fields (pre-generated during scraping)
+  generatedTitleAudioUrl?: string;
+  generatedSummaryAudioUrl?: string;
+  generatedContentAudioUrl?: string;
+  audioGeneratedAt?: Date;
+  audioProvider?: 'edge-tts' | 'kokoro';
+  audioVoice?: string;
+  audioStatus?: 'pending' | 'generated' | 'failed' | 'partial';
+  audioError?: string;
 }
 
 interface ReadingSettings {
@@ -50,16 +68,173 @@ interface ReadingSettings {
   shadowingMode: boolean;
 }
 
-interface VocabularyWord {
-  word: string;
-  reading: string;
-  meaning: string;
-  type: string;
-  level: string;
+// Component to render article content with per-sentence play buttons
+function ArticleContentWithPlayButtons({
+  sentences,
+  showFurigana,
+  fontSize,
+  highlightGrammar,
+  highlightMode,
+  onWordClick,
+  onPlaySentence,
+  playingSentenceIndex,
+  sentenceAudioLoading,
+  isFullArticlePlaying,
+  className = ''
+}: {
+  sentences: string[];
+  showFurigana: boolean;
+  fontSize: string;
+  highlightGrammar: boolean;
+  highlightMode: 'none' | 'all' | 'content' | 'grammar';
+  onWordClick?: (word: string, event: React.MouseEvent) => void;
+  onPlaySentence: (sentence: string, index: number) => void;
+  playingSentenceIndex: number | null;
+  sentenceAudioLoading: number | null;
+  isFullArticlePlaying: boolean;
+  className?: string;
+}) {
+  // Track segments across all sentences for unique indexing
+  let globalSegmentIndex = 0;
+
+  return (
+    <div className={className}>
+      <style jsx>{`
+        .sentence-inline-wrapper.not-segmented :global(div) {
+          display: inline !important;
+          margin-bottom: 0 !important;
+        }
+        .segment-wrapper {
+          margin-bottom: 0.75rem !important;
+          display: block !important;
+          clear: both !important;
+          width: 100% !important;
+        }
+        .segment-wrapper button {
+          display: inline-flex !important;
+        }
+        .segment-wrapper .furigana-content {
+          display: inline !important;
+        }
+        .segment-wrapper :global(.japanese-text) {
+          display: inline !important;
+        }
+        .segment-wrapper :global(span) {
+          display: inline !important;
+        }
+      `}</style>
+      {sentences.map((sentence, sentenceIndex) => {
+        // Check if this sentence should be segmented
+        const needsSegmentation = shouldSegment(sentence, 120);
+        const segments = needsSegmentation ? segmentLongSentence(sentence, 120) : [sentence];
+
+        // Debug logging
+        if (sentence.length > 100) {
+          console.log('[Segmentation Debug]', {
+            sentenceIndex,
+            length: sentence.length,
+            needsSegmentation,
+            segmentCount: segments.length,
+            hasCommas: sentence.includes('、'),
+            preview: sentence.substring(0, 50) + '...'
+          });
+        }
+
+        return (
+          <div key={sentenceIndex} style={{ marginBottom: '1rem' }}>
+            {segments.map((segment, segmentIdx) => {
+              const currentGlobalIndex = globalSegmentIndex++;
+              return (
+                <div
+                  key={segmentIdx}
+                  className={`group relative sentence-inline-wrapper ${segments.length > 1 ? 'segment-wrapper' : 'not-segmented'}`}
+                  style={{ lineHeight: segments.length > 1 ? '2.0' : undefined }}
+                >
+                  {/* Play button inline before each segment */}
+                  <button
+                    onClick={() => onPlaySentence(segment, currentGlobalIndex)}
+                    disabled={isFullArticlePlaying || sentenceAudioLoading === currentGlobalIndex}
+                    className={`inline-flex items-center justify-center mr-2 w-7 h-7 rounded-full transition-all duration-200 ${
+                      playingSentenceIndex === currentGlobalIndex
+                        ? '!opacity-100 bg-primary-500 text-white'
+                        : playingSentenceIndex !== null
+                          ? 'opacity-20 md:opacity-0 md:group-hover:opacity-100 hover:scale-110 active:scale-95 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
+                          : isFullArticlePlaying
+                            ? 'opacity-30 cursor-not-allowed bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
+                            : 'opacity-70 md:opacity-0 md:group-hover:opacity-100 hover:scale-110 active:scale-95 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
+                    }`}
+                    style={{
+                      backgroundColor: playingSentenceIndex === currentGlobalIndex ? 'rgb(var(--palette-primary-500))' : undefined,
+                      verticalAlign: 'middle'
+                    }}
+                    title={playingSentenceIndex === currentGlobalIndex ? 'Pause segment' : 'Play segment'}
+                    aria-label={`Play segment ${currentGlobalIndex + 1}`}
+                  >
+                    {sentenceAudioLoading === currentGlobalIndex ? (
+                      <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                    ) : playingSentenceIndex === currentGlobalIndex ? (
+                      <Pause className="w-3.5 h-3.5" />
+                    ) : (
+                      <Play className="w-3.5 h-3.5" fill="currentColor" />
+                    )}
+                  </button>
+                  {/* Segment text with furigana (no further segmentation) */}
+                  <span className="furigana-content">
+                    <FuriganaTextCore
+                      text={segment}
+                      showFurigana={showFurigana}
+                      fontSize={fontSize}
+                      highlightGrammar={highlightGrammar}
+                      highlightMode={highlightMode}
+                      onWordClick={onWordClick}
+                      className="inline"
+                    />
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 // Component to render text with furigana using the API
+// Note: Segmentation is now handled at ArticleContentWithPlayButtons level
 function FuriganaText({
+  text,
+  showFurigana,
+  fontSize,
+  highlightGrammar,
+  highlightMode,
+  onWordClick,
+  className = ''
+}: {
+  text: string;
+  showFurigana: boolean;
+  fontSize: string;
+  highlightGrammar: boolean;
+  highlightMode: 'none' | 'all' | 'content' | 'grammar';
+  onWordClick?: (word: string, event: React.MouseEvent) => void;
+  className?: string;
+}) {
+  // Simply pass through to core component - segmentation handled elsewhere
+  return (
+    <FuriganaTextCore
+      text={text}
+      showFurigana={showFurigana}
+      fontSize={fontSize}
+      highlightGrammar={highlightGrammar}
+      highlightMode={highlightMode}
+      onWordClick={onWordClick}
+      className={className}
+    />
+  );
+}
+
+// Core furigana rendering component (extracted for reuse in segments)
+function FuriganaTextCore({
   text,
   showFurigana,
   fontSize,
@@ -78,11 +253,72 @@ function FuriganaText({
 }) {
   const [furiganaHtml, setFuriganaHtml] = useState<string>(text);
   const [loading, setLoading] = useState(false);
+  const [tokens, setTokens] = useState<any[]>([]);
+
+  // Format plain text with proper sentence spacing
+  const formatPlainText = (text: string): string => {
+    if (!text) return '';
+
+    // Split by Japanese sentence delimiters while preserving them
+    // Matches: 。！？ followed by optional whitespace
+    const sentences = text.split(/([。！？])\s*/);
+
+    // Reconstruct with proper spacing, wrapping each sentence in a div with margin
+    const sentenceBlocks: string[] = [];
+    let currentSentence = '';
+
+    for (let i = 0; i < sentences.length; i++) {
+      const part = sentences[i];
+      if (!part) continue;
+
+      // If it's a delimiter, add it to the current sentence and push the block
+      if (/^[。！？]$/.test(part)) {
+        currentSentence += part;
+        // Wrap the sentence in a div with bottom margin
+        if (currentSentence.trim()) {
+          sentenceBlocks.push(`<div style="margin-bottom: 1rem;">${currentSentence}</div>`);
+          currentSentence = '';
+        }
+      } else {
+        // Regular text - add to current sentence
+        currentSentence += part;
+      }
+    }
+
+    // Add any remaining text
+    if (currentSentence.trim()) {
+      sentenceBlocks.push(`<div style="margin-bottom: 1rem;">${currentSentence}</div>`);
+    }
+
+    return sentenceBlocks.join('') || text;
+  };
+
+  // Tokenize text for clickable words when onWordClick is provided
+  useEffect(() => {
+    const tokenizeText = async () => {
+      if (!onWordClick || !text) {
+        setTokens([]);
+        return;
+      }
+
+      try {
+        const kuromojiService = KuromojiService.getInstance();
+        const analyzedTokens = await kuromojiService.tokenize(text);
+        setTokens(analyzedTokens);
+      } catch (error) {
+        console.error('[FuriganaText] Failed to tokenize text:', error);
+        setTokens([]);
+      }
+    };
+
+    tokenizeText();
+  }, [text, onWordClick]);
 
   useEffect(() => {
     const fetchFurigana = async () => {
       if (!showFurigana || !text) {
-        setFuriganaHtml(text);
+        // Format plain text with proper sentence breaks
+        setFuriganaHtml(formatPlainText(text));
         return;
       }
 
@@ -102,7 +338,7 @@ function FuriganaText({
         }
       } catch (error) {
         console.error('Failed to fetch furigana:', error);
-        setFuriganaHtml(text);
+        setFuriganaHtml(formatPlainText(text));
       } finally {
         setLoading(false);
       }
@@ -119,6 +355,21 @@ function FuriganaText({
       xlarge: 'var(--font-size-article-xlarge)'
     };
     return sizes[fontSize as keyof typeof sizes];
+  };
+
+  // Convert katakana to hiragana for furigana display
+  const convertKatakanaToHiragana = (str: string): string => {
+    return str.replace(/[\u30A1-\u30FA]/g, function (match) {
+      const chr = match.charCodeAt(0) - 0x60;
+      return String.fromCharCode(chr);
+    });
+  };
+
+  // Handle word click from tokenized text
+  const handleTokenClick = (token: any, event: React.MouseEvent) => {
+    if (onWordClick && token.basic_form) {
+      onWordClick(token.basic_form, event);
+    }
   };
 
   // If grammar highlighting is enabled, use the GrammarHighlightedText component
@@ -142,17 +393,6 @@ function FuriganaText({
     );
   }
 
-  // Otherwise, render with furigana only
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!onWordClick) return;
-
-    const selection = window.getSelection();
-    const selectedText = selection?.toString().trim();
-    if (selectedText && selectedText.length > 0) {
-      onWordClick(selectedText, e);
-    }
-  };
-
   if (loading) {
     return (
       <div
@@ -168,370 +408,114 @@ function FuriganaText({
     );
   }
 
+  // If onWordClick is provided and we have tokens, render clickable words with optional furigana
+  if (onWordClick && tokens.length > 0) {
+    return (
+      <span
+        className={`japanese-text ${className}`}
+        style={{
+          fontSize: getFontSizeStyle(),
+          lineHeight: showFurigana ? 'var(--line-height-article-furigana)' : 'var(--line-height-article-base)',
+          letterSpacing: 'var(--letter-spacing-article)',
+          color: 'var(--article-text)',
+          display: className?.includes('inline') ? 'inline' : undefined,
+          fontFamily: '"Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif'
+        }}
+      >
+        {tokens.map((token: any, index: number) => {
+          // Handle Japanese full stop - add line breaks after it
+          if (token.surface_form === '。') {
+            return (
+              <React.Fragment key={index}>
+                <span className="inline-block">。</span>
+              </React.Fragment>
+            );
+          }
+
+          // Check if the token contains kanji
+          const hasKanji = /[\u4E00-\u9FAF]/.test(token.surface_form);
+
+          // Convert katakana reading to hiragana
+          const hiraganaReading = token.reading ? convertKatakanaToHiragana(token.reading) : '';
+
+          if (showFurigana && hiraganaReading && token.surface_form !== hiraganaReading && hasKanji) {
+            // Render with furigana for words containing kanji
+            return (
+              <span
+                key={index}
+                className="cursor-pointer hover:bg-primary-500/20 transition-colors rounded px-1 inline-block relative"
+                style={{
+                  paddingTop: '1.5em',
+                  whiteSpace: 'nowrap',
+                  marginRight: '0.1em'
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleTokenClick(token, e);
+                }}
+              >
+                <span
+                  className="absolute text-xs"
+                  style={{
+                    top: '0',
+                    left: '0',
+                    right: '0',
+                    fontSize: '0.65em',
+                    lineHeight: 1,
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                    color: 'var(--article-text-secondary)',
+                    opacity: 0.85
+                  }}
+                >
+                  {hiraganaReading}
+                </span>
+                <span>{token.surface_form}</span>
+              </span>
+            );
+          } else {
+            // Render without furigana
+            return (
+              <span
+                key={index}
+                className="cursor-pointer hover:bg-primary-500/20 transition-colors rounded px-0.5 inline-block"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleTokenClick(token, e);
+                }}
+              >
+                {token.surface_form}
+              </span>
+            );
+          }
+        })}
+      </span>
+    );
+  }
+
+  // Fallback: render with dangerouslySetInnerHTML (furigana HTML from API, selection-based clicking only)
   return (
     <div
-      className={`japanese-text ${className} cursor-pointer transition-colors duration-200`}
+      className={`japanese-text ${className} ${onWordClick ? 'cursor-pointer' : ''}`}
       dangerouslySetInnerHTML={{ __html: furiganaHtml }}
-      onClick={handleClick}
+      onClick={(e) => {
+        if (!onWordClick) return;
+        // Allow selection-based clicking for furigana text
+        const selection = window.getSelection();
+        const selectedText = selection?.toString().trim();
+        if (selectedText && selectedText.length > 0) {
+          onWordClick(selectedText, e);
+        }
+      }}
       style={{
         fontSize: getFontSizeStyle(),
         lineHeight: showFurigana ? 'var(--line-height-article-furigana)' : 'var(--line-height-article-base)',
         letterSpacing: 'var(--letter-spacing-article)',
         color: 'var(--article-text)',
+        display: className?.includes('inline') ? 'inline' : undefined,
         fontFamily: '"Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif'
       }}
     />
-  );
-}
-
-// Vocabulary popup for word lookup
-function VocabularyPopup({
-  word,
-  position,
-  onClose,
-  onSaveToList
-}: {
-  word: string;
-  position: { x: number; y: number };
-  onClose: () => void;
-  onSaveToList: (word: VocabularyWord) => void;
-}) {
-  const { t } = useI18n();
-  const [loading, setLoading] = useState(true);
-  const [wordData, setWordData] = useState<VocabularyWord | null>(null);
-
-  useEffect(() => {
-    // Simulate word lookup - in production, this would call an API
-    const timer = setTimeout(() => {
-      setWordData({
-        word,
-        reading: 'よみかた',
-        meaning: 'Example meaning',
-        type: 'Noun',
-        level: 'N3'
-      });
-      setLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [word]);
-
-  return (
-    <div
-      className="fixed z-50 animate-spring-in"
-      style={{
-        left: Math.min(position.x, window.innerWidth - 340),
-        top: position.y + 10,
-        maxWidth: 'calc(100vw - 2rem)'
-      }}
-    >
-      <div
-        className="rounded-2xl shadow-2xl p-5 w-80 backdrop-blur-xl"
-        style={{
-          backgroundColor: 'var(--article-bg)',
-          border: '1px solid var(--article-border)',
-          boxShadow: '0 20px 25px -5px var(--article-shadow), 0 10px 10px -5px var(--article-shadow)'
-        }}
-      >
-        <div className="flex justify-between items-start mb-4">
-          <h3
-            className="font-bold text-xl"
-            style={{ color: 'var(--article-text)' }}
-          >
-            {word}
-          </h3>
-          <button
-            onClick={onClose}
-            className="transition-all duration-200 hover:scale-110 rounded-lg p-1"
-            style={{
-              color: 'var(--article-text-secondary)',
-              backgroundColor: 'var(--article-hover-bg)'
-            }}
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {loading ? (
-          <div
-            className="text-center py-6 text-sm"
-            style={{ color: 'var(--article-text-secondary)' }}
-          >
-            {t('common.loading')}
-          </div>
-        ) : wordData && (
-          <div className="space-y-3">
-            <div>
-              <div
-                className="text-xs font-medium mb-1 uppercase tracking-wide"
-                style={{ color: 'var(--article-text-secondary)' }}
-              >
-                {t('reading.vocabulary.reading')}
-              </div>
-              <div
-                className="font-medium text-base"
-                style={{ color: 'var(--article-text)' }}
-              >
-                {wordData.reading}
-              </div>
-            </div>
-            <div>
-              <div
-                className="text-xs font-medium mb-1 uppercase tracking-wide"
-                style={{ color: 'var(--article-text-secondary)' }}
-              >
-                {t('reading.vocabulary.meaning')}
-              </div>
-              <div
-                className="text-base"
-                style={{ color: 'var(--article-text)' }}
-              >
-                {wordData.meaning}
-              </div>
-            </div>
-            <div className="flex gap-2 pt-2">
-              <span
-                className="px-3 py-1 rounded-full text-xs font-medium"
-                style={{
-                  backgroundColor: 'var(--article-accent-bg)',
-                  color: 'var(--article-text-secondary)'
-                }}
-              >
-                {wordData.type}
-              </span>
-              <span
-                className="px-3 py-1 rounded-full text-xs font-medium"
-                style={{
-                  backgroundColor: 'rgb(var(--palette-primary-500) / 0.15)',
-                  color: 'rgb(var(--palette-primary-600))'
-                }}
-              >
-                {wordData.level}
-              </span>
-            </div>
-            <button
-              onClick={() => onSaveToList(wordData)}
-              className="w-full mt-3 px-4 py-2.5 rounded-xl font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              style={{
-                backgroundColor: 'rgb(var(--palette-primary-500))',
-                color: 'white'
-              }}
-            >
-              {t('reading.vocabulary.saveToList')}
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// Compact Settings Toolbar
-function CompactSettingsToolbar({
-  settings,
-  onSettingsChange,
-  isScrolled
-}: {
-  settings: ReadingSettings;
-  onSettingsChange: (settings: ReadingSettings) => void;
-  isScrolled: boolean;
-}) {
-  const { t } = useI18n();
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
-
-  const toggleSection = (section: string) => {
-    setExpandedSection(expandedSection === section ? null : section);
-  };
-
-  return (
-    <div
-      className={`fixed z-40 transition-all duration-300 ${
-        isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
-      }`}
-      style={{
-        bottom: 'env(safe-area-inset-bottom, 1rem)',
-        right: '1rem',
-        left: '1rem'
-      }}
-    >
-      <div className="max-w-lg mx-auto lg:ml-auto lg:mr-0">
-        <div
-          className="rounded-full shadow-2xl backdrop-blur-xl px-4 py-3 flex items-center justify-between gap-3 lg:rounded-2xl"
-          style={{
-            backgroundColor: 'var(--article-bg)',
-            border: '1px solid var(--article-border)',
-            boxShadow: '0 20px 25px -5px var(--article-shadow), 0 10px 10px -5px var(--article-shadow)'
-          }}
-        >
-          {/* Font Size Button */}
-          <button
-            onClick={() => toggleSection('fontSize')}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 relative"
-            style={{
-              backgroundColor: expandedSection === 'fontSize' ? 'var(--article-hover-bg)' : 'transparent',
-              color: 'var(--article-text)'
-            }}
-            title={t('news.reader.fontSize')}
-          >
-            <Type className="w-5 h-5" />
-            <span className="hidden sm:inline text-sm font-medium">{settings.fontSize[0].toUpperCase()}</span>
-          </button>
-
-          {/* Furigana Toggle */}
-          <button
-            onClick={() => onSettingsChange({ ...settings, showFurigana: !settings.showFurigana })}
-            className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: settings.showFurigana ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
-              color: settings.showFurigana ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
-            }}
-            title={t('news.reader.showFurigana')}
-          >
-            <Languages className="w-5 h-5" />
-          </button>
-
-          {/* Grammar Highlighting Toggle */}
-          <button
-            onClick={() => toggleSection('grammar')}
-            className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: settings.highlightGrammar ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
-              color: settings.highlightGrammar ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
-            }}
-            title={t('news.reader.highlightGrammar')}
-          >
-            <Palette className="w-5 h-5" />
-          </button>
-
-          {/* Audio Toggle */}
-          <button
-            onClick={() => onSettingsChange({ ...settings, shadowingMode: !settings.shadowingMode })}
-            className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: settings.shadowingMode ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
-              color: settings.shadowingMode ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
-            }}
-            title={t('news.reader.shadowingMode')}
-          >
-            <Play className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Expanded Sections */}
-        {expandedSection === 'fontSize' && (
-          <div
-            className="mt-3 rounded-2xl shadow-xl backdrop-blur-xl p-4 animate-scale-in"
-            style={{
-              backgroundColor: 'var(--article-bg)',
-              border: '1px solid var(--article-border)'
-            }}
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span
-                className="text-sm font-medium"
-                style={{ color: 'var(--article-text)' }}
-              >
-                {t('news.reader.fontSize')}
-              </span>
-              <button
-                onClick={() => setExpandedSection(null)}
-                style={{ color: 'var(--article-text-secondary)' }}
-              >
-                <ChevronDown className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="grid grid-cols-4 gap-2">
-              {(['small', 'medium', 'large', 'xlarge'] as const).map(size => (
-                <button
-                  key={size}
-                  onClick={() => {
-                    onSettingsChange({ ...settings, fontSize: size });
-                    setExpandedSection(null);
-                  }}
-                  className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-                  style={{
-                    backgroundColor: settings.fontSize === size
-                      ? 'rgb(var(--palette-primary-500))'
-                      : 'var(--article-accent-bg)',
-                    color: settings.fontSize === size
-                      ? 'white'
-                      : 'var(--article-text)'
-                  }}
-                >
-                  {size[0].toUpperCase()}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {expandedSection === 'grammar' && (
-          <div
-            className="mt-3 rounded-2xl shadow-xl backdrop-blur-xl p-4 animate-scale-in"
-            style={{
-              backgroundColor: 'var(--article-bg)',
-              border: '1px solid var(--article-border)'
-            }}
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span
-                className="text-sm font-medium"
-                style={{ color: 'var(--article-text)' }}
-              >
-                {t('news.reader.highlightGrammar')}
-              </span>
-              <button
-                onClick={() => setExpandedSection(null)}
-                style={{ color: 'var(--article-text-secondary)' }}
-              >
-                <ChevronDown className="w-4 h-4" />
-              </button>
-            </div>
-
-            <label className="flex items-center gap-3 mb-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={settings.highlightGrammar}
-                onChange={(e) => onSettingsChange({ ...settings, highlightGrammar: e.target.checked })}
-                className="w-4 h-4 rounded"
-              />
-              <span
-                className="text-sm"
-                style={{ color: 'var(--article-text)' }}
-              >
-                Enable highlighting
-              </span>
-            </label>
-
-            {settings.highlightGrammar && (
-              <div className="space-y-2 ml-1">
-                {[
-                  { value: 'all', label: t('news.reader.highlightAll') },
-                  { value: 'content', label: t('news.reader.highlightContent') },
-                  { value: 'grammar', label: t('news.reader.highlightGrammarOnly') }
-                ].map(option => (
-                  <label key={option.value} className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="highlightMode"
-                      checked={settings.highlightMode === option.value}
-                      onChange={() => onSettingsChange({ ...settings, highlightMode: option.value as any })}
-                      className="w-3.5 h-3.5"
-                    />
-                    <span
-                      className="text-sm"
-                      style={{ color: 'var(--article-text-secondary)' }}
-                    >
-                      {option.label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
   );
 }
 
@@ -952,11 +936,14 @@ export default function EnhancedArticleReader({
   const { setExtraItem } = useBottomNav();
   const {
     play: playTTS,
+    pause: ttsPause,
+    resume: ttsResume,
     preload,
     loading: ttsLoading,
     error: ttsError,
     playing: ttsPlaying,
-    stop: ttsStop
+    stop: ttsStop,
+    currentText: currentTTSText
   } = useTTS({
     cacheFirst: true,
     onError: (err) => {
@@ -973,6 +960,45 @@ export default function EnhancedArticleReader({
     showTranslation: false,
     shadowingMode: false
   });
+
+  // Track if we've ever loaded audio for this article (to show loading modal on first load only)
+  const [hasLoadedAudioBefore, setHasLoadedAudioBefore] = useState(false);
+
+  // Track which sentence is currently playing (for per-sentence play buttons)
+  const [playingSentenceIndex, setPlayingSentenceIndex] = useState<number | null>(null);
+  const [sentenceAudioLoading, setSentenceAudioLoading] = useState<number | null>(null);
+
+  // Ref for pre-generated audio playback (HTML5 Audio)
+  const preGeneratedAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPreGeneratedPlaying, setIsPreGeneratedPlaying] = useState(false);
+
+  // AI word explanation feature
+  const [isWordModalOpen, setIsWordModalOpen] = useState(false);
+  const {
+    explainWord,
+    loading: wordLoading,
+    error: wordError,
+    explanation: wordExplanation,
+    currentWord,
+    reset: resetWordExplanation
+  } = useWordExplanation();
+
+  // Mark audio as loaded when it starts playing for the first time
+  useEffect(() => {
+    if (ttsPlaying && !hasLoadedAudioBefore) {
+      setHasLoadedAudioBefore(true);
+    }
+  }, [ttsPlaying, hasLoadedAudioBefore]);
+
+  // Cleanup pre-generated audio when component unmounts or article changes
+  useEffect(() => {
+    return () => {
+      if (preGeneratedAudioRef.current) {
+        preGeneratedAudioRef.current.pause();
+        preGeneratedAudioRef.current = null;
+      }
+    };
+  }, [article.id]);
 
   // Add logging for settings changes
   const handleSettingsChange = (newSettings: ReadingSettings) => {
@@ -1001,10 +1027,6 @@ export default function EnhancedArticleReader({
   useEffect(() => {
     console.log('Mobile settings state changed:', showMobileSettings);
   }, [showMobileSettings]);
-  const [vocabularyPopup, setVocabularyPopup] = useState<{
-    word: string;
-    position: { x: number; y: number };
-  } | null>(null);
   const [sentences, setSentences] = useState<string[]>([]);
 
   // Set up bottom navbar settings button (mobile only)
@@ -1078,35 +1100,345 @@ export default function EnhancedArticleReader({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleWordClick = (word: string, event: React.MouseEvent) => {
-    const rect = (event.target as HTMLElement).getBoundingClientRect();
-    setVocabularyPopup({
-      word,
-      position: {
-        x: event.clientX,
-        y: rect.bottom
-      }
-    });
+  // AI word tap handler - Moshimoshi feature
+  const handleWordClick = async (word: string, event: React.MouseEvent) => {
+    console.log('[Article Reader] handleWordClick called with word:', word);
+    const cleanWord = word.replace(/<[^>]*>/g, '').trim();
+    console.log('[Article Reader] cleanWord:', cleanWord);
+    if (!cleanWord || cleanWord.length === 0) {
+      console.log('[Article Reader] No clean word, returning');
+      return;
+    }
+
+    console.log('[Article Reader] Opening word modal and explaining word');
+    setIsWordModalOpen(true);
+    await explainWord(cleanWord, article.content);
   };
 
-  const handleSaveToList = (word: VocabularyWord) => {
-    // TODO: Implement save to vocabulary list
-    console.log('Saving word:', word);
-    setVocabularyPopup(null);
+  const handleCloseWordModal = () => {
+    console.log('[Article Reader] Closing word modal');
+    setIsWordModalOpen(false);
+    resetWordExplanation();
   };
 
   const handlePlayArticle = async () => {
+    // Stop any sentence-level playback
+    setPlayingSentenceIndex(null);
+    setSentenceAudioLoading(null);
+
+    // PRIORITY 1: NHK native audio (highest quality, professional voice-over)
+    if (article.audioUrl) {
+      // If already playing native audio, pause it
+      if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
+        preGeneratedAudioRef.current.pause();
+        setIsPreGeneratedPlaying(false);
+        console.log('[Article Reader] Paused NHK native audio');
+        return;
+      }
+
+      // If native audio is paused, resume it
+      if (preGeneratedAudioRef.current && !preGeneratedAudioRef.current.ended) {
+        preGeneratedAudioRef.current.play();
+        setIsPreGeneratedPlaying(true);
+        console.log('[Article Reader] Resumed NHK native audio');
+        return;
+      }
+
+      // Otherwise, start playing native audio from beginning
+      try {
+        console.log('[Article Reader] Using NHK native audio (m3u8)', {
+          url: article.audioUrl,
+          source: article.source
+        });
+
+        // Clean up existing audio if any
+        if (preGeneratedAudioRef.current) {
+          preGeneratedAudioRef.current.pause();
+          preGeneratedAudioRef.current = null;
+        }
+
+        // Create new audio element for NHK audio
+        const audio = new Audio(article.audioUrl);
+        audio.playbackRate = settings.audioSpeed;
+
+        // Set up event listeners
+        audio.onplay = () => {
+          setIsPreGeneratedPlaying(true);
+          console.log('[Article Reader] NHK native audio started');
+        };
+
+        audio.onpause = () => {
+          setIsPreGeneratedPlaying(false);
+          console.log('[Article Reader] NHK native audio paused');
+        };
+
+        audio.onended = () => {
+          setIsPreGeneratedPlaying(false);
+          console.log('[Article Reader] NHK native audio finished');
+        };
+
+        audio.onerror = (e) => {
+          console.error('[Article Reader] NHK native audio error:', e);
+          setIsPreGeneratedPlaying(false);
+          // Fall back to Kokoro TTS or app TTS
+          console.log('[Article Reader] Falling back from NHK audio...');
+          handleKokoroOrTTSFallback();
+        };
+
+        preGeneratedAudioRef.current = audio;
+        await audio.play();
+        console.log('[Article Reader] Playing NHK native professional audio');
+        return;
+
+      } catch (error) {
+        console.error('[Article Reader] Failed to play NHK native audio:', error);
+        // Fall through to Kokoro/TTS fallback
+      }
+    }
+
+    // PRIORITY 2: Kokoro TTS-generated audio (from Firebase Storage)
+    handleKokoroOrTTSFallback();
+  };
+
+  // Handle Kokoro TTS or app TTS fallback
+  const handleKokoroOrTTSFallback = async () => {
+    if (article.generatedContentAudioUrl) {
+      // If already playing Kokoro audio, pause it
+      if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
+        preGeneratedAudioRef.current.pause();
+        setIsPreGeneratedPlaying(false);
+        console.log('[Article Reader] Paused Kokoro TTS audio');
+        return;
+      }
+
+      // If Kokoro audio is paused, resume it
+      if (preGeneratedAudioRef.current && !preGeneratedAudioRef.current.ended) {
+        preGeneratedAudioRef.current.play();
+        setIsPreGeneratedPlaying(true);
+        console.log('[Article Reader] Resumed Kokoro TTS audio');
+        return;
+      }
+
+      // Otherwise, start playing Kokoro audio from beginning
+      try {
+        console.log('[Article Reader] Using Kokoro TTS audio from Firebase Storage', {
+          url: article.generatedContentAudioUrl,
+          provider: article.audioProvider,
+          voice: article.audioVoice
+        });
+
+        // Clean up existing audio if any
+        if (preGeneratedAudioRef.current) {
+          preGeneratedAudioRef.current.pause();
+          preGeneratedAudioRef.current = null;
+        }
+
+        // Create new audio element
+        const audio = new Audio(article.generatedContentAudioUrl);
+        audio.playbackRate = settings.audioSpeed;
+
+        // Set up event listeners
+        audio.onplay = () => {
+          setIsPreGeneratedPlaying(true);
+          console.log('[Article Reader] Kokoro TTS audio started');
+        };
+
+        audio.onpause = () => {
+          setIsPreGeneratedPlaying(false);
+          console.log('[Article Reader] Kokoro TTS audio paused');
+        };
+
+        audio.onended = () => {
+          setIsPreGeneratedPlaying(false);
+          console.log('[Article Reader] Kokoro TTS audio finished');
+        };
+
+        audio.onerror = (e) => {
+          console.error('[Article Reader] Kokoro TTS audio error:', e);
+          setIsPreGeneratedPlaying(false);
+          // Fall back to app TTS on error
+          console.log('[Article Reader] Falling back to app TTS');
+          handleTTSPlayback();
+        };
+
+        preGeneratedAudioRef.current = audio;
+        await audio.play();
+        console.log('[Article Reader] Playing Kokoro TTS audio from Firebase Storage');
+        return;
+
+      } catch (error) {
+        console.error('[Article Reader] Failed to play Kokoro audio:', error);
+        // Fall through to app TTS fallback
+      }
+    }
+
+    // PRIORITY 3: App TTS system (last fallback)
+    handleTTSPlayback();
+  };
+
+  // Separate TTS playback logic for cleaner code
+  const handleTTSPlayback = async () => {
+    // If already playing TTS, pause it
+    if (ttsPlaying) {
+      ttsPause();
+      return;
+    }
+
+    // If TTS is paused (has currentText), resume it
+    if (currentTTSText && !ttsPlaying) {
+      ttsResume();
+      return;
+    }
+
+    // Otherwise, start TTS from beginning
     try {
       await playTTS(article.content, {
-        speed: settings.audioSpeed  // Use canonical 'speed' instead of 'rate'
+        speed: settings.audioSpeed
       });
-      console.log('Article playback started successfully');
+      console.log('Article playback started with TTS fallback');
     } catch (error) {
-      console.error('Failed to play article:', error);
+      console.error('Failed to play article with TTS:', error);
       // Error already logged by onError callback in useTTS
       // Could show user-facing error notification here if toast system exists
     }
   };
+
+  // Split article content into sentences
+  const splitIntoSentences = (text: string): string[] => {
+    const sentences: string[] = [];
+    const parts = text.split(/([。！？])/);
+    let current = '';
+
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      if (!part) continue;
+
+      if (/^[。！？]$/.test(part)) {
+        current += part;
+        if (current.trim()) {
+          sentences.push(current.trim());
+          current = '';
+        }
+      } else {
+        current += part;
+      }
+    }
+
+    // Add any remaining text
+    if (current.trim()) {
+      sentences.push(current.trim());
+    }
+
+    return sentences;
+  };
+
+  // Handle playing individual sentence with on-demand Kokoro generation + caching
+  // Flow: Try Kokoro (cached or generate) → Fallback to app TTS if needed
+  const handlePlaySentence = async (sentence: string, index: number) => {
+    // Stop full article playback if running (pre-generated or TTS)
+    if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
+      preGeneratedAudioRef.current.pause();
+      setIsPreGeneratedPlaying(false);
+    }
+    if (ttsPlaying && playingSentenceIndex === null) {
+      ttsStop();
+    }
+
+    // If this sentence is already playing, pause it
+    if (playingSentenceIndex === index && ttsPlaying) {
+      ttsPause();
+      return;
+    }
+
+    // If paused, resume it
+    if (playingSentenceIndex === index && !ttsPlaying && currentTTSText) {
+      ttsResume();
+      return;
+    }
+
+    // Set loading state
+    setSentenceAudioLoading(index);
+    setPlayingSentenceIndex(index);
+
+    // PRIORITY 1: Try Kokoro TTS (cached or on-demand generation)
+    try {
+      console.log('[Article Reader] Attempting Kokoro sentence audio', { index, sentence: sentence.substring(0, 30) + '...' });
+
+      const response = await fetch('/api/tts/generate-sentence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          articleId: article.id,
+          sentence,
+          index
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data.success && data.audioUrl) {
+          console.log('[Article Reader] Playing Kokoro sentence audio', {
+            index,
+            cached: data.cached,
+            provider: data.provider
+          });
+
+          // Create and play audio element
+          const audio = new Audio(data.audioUrl);
+          audio.playbackRate = settings.audioSpeed;
+
+          audio.onended = () => {
+            setSentenceAudioLoading(null);
+            setPlayingSentenceIndex(null);
+            console.log('[Article Reader] Kokoro sentence playback completed');
+          };
+
+          audio.onerror = (e) => {
+            console.error('[Article Reader] Kokoro audio playback error:', e);
+            setSentenceAudioLoading(null);
+            setPlayingSentenceIndex(null);
+          };
+
+          await audio.play();
+          setSentenceAudioLoading(null);
+          return; // Success!
+        }
+      }
+
+      // If response not OK, fall through to app TTS
+      console.log('[Article Reader] Kokoro sentence generation failed, falling back to app TTS');
+
+    } catch (kokoroError) {
+      console.log('[Article Reader] Kokoro error, falling back to app TTS:', kokoroError);
+      // Fall through to app TTS
+    }
+
+    // PRIORITY 2: Fallback to app TTS (which also makes API calls via Edge TTS)
+    try {
+      console.log('[Article Reader] Using app TTS fallback for sentence');
+      await playTTS(sentence, { speed: settings.audioSpeed });
+      setSentenceAudioLoading(null);
+      console.log('[Article Reader] App TTS sentence playback completed');
+    } catch (ttsError) {
+      console.error('[Article Reader] All sentence playback methods failed:', ttsError);
+      setSentenceAudioLoading(null);
+      setPlayingSentenceIndex(null);
+    }
+  };
+
+  // Reset sentence playback state when TTS stops
+  useEffect(() => {
+    if (!ttsPlaying && playingSentenceIndex !== null) {
+      // Small delay to allow for pause/resume transitions
+      const timer = setTimeout(() => {
+        if (!ttsPlaying) {
+          setPlayingSentenceIndex(null);
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [ttsPlaying, playingSentenceIndex]);
 
   // Auto-enable highlight mode when grammar highlighting is turned on
   useEffect(() => {
@@ -1154,31 +1486,27 @@ export default function EnhancedArticleReader({
               </button>
             )}
             <button
-              onClick={ttsPlaying ? ttsStop : handlePlayArticle}
+              onClick={handlePlayArticle}
               disabled={ttsLoading}
-              className={`ml-auto px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg disabled:opacity-70 disabled:cursor-wait disabled:hover:scale-100 ${
-                ttsPlaying ? 'animate-pulse' : ''
-              }`}
+              className={`ml-auto px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg disabled:opacity-70 disabled:cursor-wait disabled:hover:scale-100`}
               style={{
                 backgroundColor: ttsLoading
                   ? 'rgb(156 163 175)'
-                  : ttsPlaying
-                    ? 'rgb(249 115 22)'
-                    : 'rgb(var(--palette-primary-500))',
+                  : 'rgb(var(--palette-primary-500))',
                 color: 'white'
               }}
               aria-label={
                 ttsLoading
                   ? t('common.loading')
                   : ttsPlaying
-                    ? t('common.stop')
+                    ? t('common.pause')
                     : t('common.play')
               }
               title={
                 ttsLoading
                   ? 'Loading audio...'
                   : ttsPlaying
-                    ? 'Stop playback'
+                    ? 'Pause playback'
                     : 'Play article'
               }
             >
@@ -1189,14 +1517,12 @@ export default function EnhancedArticleReader({
                 </>
               ) : ttsPlaying ? (
                 <>
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <rect x="6" y="6" width="12" height="12" rx="2" />
-                  </svg>
-                  <span className="text-sm font-medium hidden sm:inline">{t('common.stop')}</span>
+                  <Pause className="w-5 h-5" />
+                  <span className="text-sm font-medium hidden sm:inline">{t('common.pause')}</span>
                 </>
               ) : (
                 <>
-                  <Volume2 className="w-5 h-5" />
+                  <Play className="w-5 h-5" fill="currentColor" />
                   <span className="text-sm font-medium hidden sm:inline">{t('common.play')}</span>
                 </>
               )}
@@ -1254,7 +1580,13 @@ export default function EnhancedArticleReader({
             animationDelay: '0.1s'
           }}
         >
-          {article.title}
+          <FuriganaText
+            text={article.title}
+            showFurigana={settings.showFurigana}
+            fontSize="xlarge"
+            highlightGrammar={false}
+            highlightMode="none"
+          />
         </h1>
 
         {/* Source */}
@@ -1278,15 +1610,21 @@ export default function EnhancedArticleReader({
               animationDelay: '0.3s'
             }}
           >
-            <p
+            <div
               className="text-lg leading-relaxed"
               style={{
                 color: 'var(--article-text-secondary)',
                 lineHeight: 'var(--line-height-article-ui)'
               }}
             >
-              {article.summary}
-            </p>
+              <FuriganaText
+                text={article.summary}
+                showFurigana={settings.showFurigana}
+                fontSize="large"
+                highlightGrammar={false}
+                highlightMode="none"
+              />
+            </div>
           </div>
         )}
 
@@ -1300,13 +1638,17 @@ export default function EnhancedArticleReader({
             border: '1px solid var(--article-border)'
           }}
         >
-          <FuriganaText
-            text={article.content}
+          <ArticleContentWithPlayButtons
+            sentences={splitIntoSentences(article.content)}
             showFurigana={settings.showFurigana}
             fontSize={settings.fontSize}
             highlightGrammar={settings.highlightGrammar}
             highlightMode={settings.highlightMode}
             onWordClick={handleWordClick}
+            onPlaySentence={handlePlaySentence}
+            playingSentenceIndex={playingSentenceIndex}
+            sentenceAudioLoading={sentenceAudioLoading}
+            isFullArticlePlaying={ttsPlaying && playingSentenceIndex === null}
           />
         </div>
 
@@ -1367,16 +1709,7 @@ export default function EnhancedArticleReader({
         </footer>
       </article>
 
-      {/* Desktop Settings Toolbar */}
-      <div className="hidden md:block">
-        <CompactSettingsToolbar
-          settings={settings}
-          onSettingsChange={handleSettingsChange}
-          isScrolled={isScrolled}
-        />
-      </div>
-
-      {/* Mobile Settings (via Bottom Nav + Modal) - Only show when NOT in shadowing mode */}
+      {/* Settings Toolbar (handles both mobile and desktop) */}
       {!settings.shadowingMode && (
         <MobileSettingsToolbar
           settings={settings}
@@ -1390,42 +1723,50 @@ export default function EnhancedArticleReader({
         />
       )}
 
-      {/* Vocabulary Popup */}
-      {vocabularyPopup && (
-        <VocabularyPopup
-          word={vocabularyPopup.word}
-          position={vocabularyPopup.position}
-          onClose={() => setVocabularyPopup(null)}
-          onSaveToList={handleSaveToList}
-        />
-      )}
+      {/* AI Word Explanation Modal - Moshimoshi feature */}
+      <WordExplanationModal
+        isOpen={isWordModalOpen}
+        onClose={handleCloseWordModal}
+        word={currentWord || ''}
+        explanation={wordExplanation}
+        loading={wordLoading}
+        error={wordError}
+      />
 
       {/* Shadowing Mode */}
       {settings.shadowingMode && (
-        <>
-          <ShadowingMode
-            sentences={sentences}
-            audioSpeed={settings.audioSpeed}
-            settings={settings}
-            onSettingsChange={handleShadowingModeSettingsChange}
-            onClose={() => setSettings(prev => ({ ...prev, shadowingMode: false }))}
-            onPlayTTS={playTTS}
-            ttsLoading={ttsLoading}
-            ttsPlaying={ttsPlaying}
-          />
-          {/* Mobile Settings Modal for Shadowing Mode - Only one settings modal at a time */}
-          <MobileSettingsToolbar
-            settings={settings}
-            onSettingsChange={handleShadowingModeSettingsChange}
-            isScrolled={isScrolled}
-            isOpen={showMobileSettings}
-            onClose={() => {
-              console.log('Closing mobile settings from shadowing mode');
-              setShowMobileSettings(false);
-            }}
-          />
-        </>
+        <UnifiedShadowingMode
+          sentences={sentences}
+          title={article.title}
+          contentId={article.id}
+          contentType="article"
+          audioSpeed={settings.audioSpeed}
+          showFurigana={settings.showFurigana}
+          highlightGrammar={settings.highlightGrammar}
+          highlightMode={settings.highlightMode}
+          onClose={() => setSettings(prev => ({ ...prev, shadowingMode: false }))}
+        />
       )}
+
+      {/* Loading Modal - Show only on first audio load */}
+      <Modal
+        isOpen={ttsLoading && !hasLoadedAudioBefore}
+        onClose={() => {}} // Prevent closing during load
+        closeOnOverlayClick={false}
+        closeOnEsc={false}
+        showCloseButton={false}
+        size="sm"
+      >
+        <div className="text-center py-4">
+          <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            {t('news.reader.preparingAudio')}
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            {t('news.reader.generatingAudioMessage')}
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

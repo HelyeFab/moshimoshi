@@ -18,6 +18,7 @@ import {
 } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
 import { useBottomNav } from '@/contexts/BottomNavContext';
+import { useI18n } from '@/i18n/I18nContext';
 
 export interface NavItem {
   id: string;
@@ -29,10 +30,10 @@ export interface NavItem {
   action?: () => void;
 }
 
-const createNavItems = (onSearchClick: () => void): NavItem[] => [
+const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
     id: 'dashboard',
-    label: 'Home',
+    label: strings.dashboard?.navigation?.bottomNav?.home || 'Home',
     href: '/dashboard',
     icon: RiHome5Line,
     activeIcon: RiHome5Fill,
@@ -40,7 +41,7 @@ const createNavItems = (onSearchClick: () => void): NavItem[] => [
   },
   {
     id: 'review',
-    label: 'Review',
+    label: strings.dashboard?.navigation?.bottomNav?.review || 'Review',
     href: '/review-dashboard',
     icon: RiBook2Line,
     activeIcon: RiBook2Fill,
@@ -48,7 +49,7 @@ const createNavItems = (onSearchClick: () => void): NavItem[] => [
   },
   {
     id: 'games',
-    label: 'Games',
+    label: strings.dashboard?.navigation?.bottomNav?.games || 'Games',
     href: '/games',
     icon: RiGamepadLine,
     activeIcon: RiGamepadFill,
@@ -56,7 +57,7 @@ const createNavItems = (onSearchClick: () => void): NavItem[] => [
   },
   {
     id: 'flashcards',
-    label: 'Cards',
+    label: strings.dashboard?.navigation?.bottomNav?.cards || 'Cards',
     href: '/flashcards',
     icon: RiStackLine,
     activeIcon: RiStackFill,
@@ -64,7 +65,7 @@ const createNavItems = (onSearchClick: () => void): NavItem[] => [
   },
   {
     id: 'search',
-    label: 'Places',
+    label: strings.dashboard?.navigation?.bottomNav?.places || 'Places',
     icon: RiSearchLine,
     activeIcon: RiSearchFill,
     action: onSearchClick,
@@ -89,13 +90,14 @@ export default function BottomNav({ className, hideOnScroll = false, extraItem: 
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
   const { extraItem: contextExtraItem } = useBottomNav();
+  const { strings } = useI18n();
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
     window.dispatchEvent(new CustomEvent('openCommandPalette'));
   };
 
-  const baseNavItems = createNavItems(handleOpenCommandPalette);
+  const baseNavItems = createNavItems(handleOpenCommandPalette, strings);
 
   // Use context extra item if available, otherwise use prop
   const extraItem = contextExtraItem || propExtraItem;

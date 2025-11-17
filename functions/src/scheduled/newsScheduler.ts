@@ -2,11 +2,15 @@ import * as admin from 'firebase-admin';
 import * as logger from 'firebase-functions/logger';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { defineSecret } from 'firebase-functions/params';
 import { filterArticles, checkDuplicates } from '../utils/articleValidation';
 import { scrapeNHKEasy } from '../scrapers/nhkEasyScraper';
 import { scrapeWatanoc } from '../scrapers/watanoc';
 import { scrapeMainichiNews } from '../scrapers/mainichi-news';
 import { scrapeMainichiShogakusei } from '../scrapers/mainichi-shogakusei';
+
+// Define secrets needed for TTS audio generation
+const KOKORO_API_KEY = defineSecret('KOKORO_API_KEY');
 
 // Initialize Firestore
 const db = admin.firestore();
@@ -377,7 +381,8 @@ export const scheduledNewsScraperFunction = onSchedule({
   timeZone: 'Asia/Tokyo', // Japan time
   memory: '2GiB', // Increased from 1GiB for better performance
   timeoutSeconds: 540, // 9 minutes
-  retryCount: 2 // Retry up to 2 times on failure
+  retryCount: 2, // Retry up to 2 times on failure
+  secrets: [KOKORO_API_KEY] // Add secret for TTS audio generation
 }, async (event) => {
   logger.info('[NewsScheduler] Scheduled trigger activated', {
     scheduleTime: event.scheduleTime,
@@ -389,7 +394,8 @@ export const scheduledNewsScraperFunction = onSchedule({
 export const manualNewsScraperFunction = onCall({
   memory: '2GiB', // Increased from 1GiB for better performance
   timeoutSeconds: 540,
-  invoker: 'public' // Allow public invocation (auth checked via admin key inside)
+  invoker: 'public', // Allow public invocation (auth checked via admin key inside)
+  secrets: [KOKORO_API_KEY] // Add secret for TTS audio generation
 }, async (request) => {
   return manualNewsScraper(request.data, request);
 });

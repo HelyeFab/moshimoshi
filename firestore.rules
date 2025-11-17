@@ -273,6 +273,22 @@ service cloud.firestore {
       allow write: if false; // Only server-side writes
     }
 
+    // Books collection - Published books (public read, admin write via server)
+    match /books/{bookId} {
+      // Anyone can read published books
+      allow read: if resource.data.status == 'published';
+
+      // Only server (Admin SDK) can write
+      // Client-side writes are blocked
+      allow write: if false;
+    }
+
+    // Book drafts collection - Admin only via server
+    match /book_drafts/{draftId} {
+      // No client-side access
+      allow read, write: if false;
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

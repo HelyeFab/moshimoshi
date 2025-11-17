@@ -83,6 +83,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/scripts', label: 'Scripts', icon: '🛠️' },
     { href: '/admin/resources', label: 'Resources', icon: '📚' },
     { href: '/admin/stories', label: 'Stories', icon: '📖' },
+    { href: '/admin/books', label: 'Library Books', icon: '📚' },
     { href: '/admin/moodboards', label: 'Moodboards', icon: '🎨' },
     { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
     { href: '/admin/stripe-testing', label: 'Stripe Testing', icon: '🥚' },

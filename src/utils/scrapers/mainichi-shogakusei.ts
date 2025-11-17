@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import crypto from 'crypto';
+import { removePhotoCaptions } from './scraper-utils';
 
 interface NewsArticle {
   id: string;
@@ -120,6 +121,8 @@ export async function scrapeMainichiShogakusei(): Promise<NewsArticle[]> {
             // Keep ruby base text but remove rt (furigana)
             element.find('rt').remove();
             content = cleanText(element.text());
+            // Remove photo captions
+            content = removePhotoCaptions(content);
             if (content.length > 100) break; // Found substantial content
           }
         }

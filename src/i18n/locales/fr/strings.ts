@@ -1337,6 +1337,11 @@ export const strings = {
         subtitle: "Prépa JLPT",
         description: "Réussissez votre test"
       },
+      library: {
+        title: "Bibliothèque",
+        subtitle: "図書館",
+        description: "Lire des livres condensés"
+      },
       flashcards: {
         title: "Cartes mémoire",
         subtitle: "カード",
@@ -1736,6 +1741,7 @@ export const strings = {
     page: "Page",
     reader: {
       settings: "Paramètres de lecture",
+      summary: "Résumé",
       fontSize: "Taille du texte",
       fontSizes: {
         small: "P",

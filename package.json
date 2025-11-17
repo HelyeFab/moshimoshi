@@ -86,7 +86,7 @@
     "clsx": "^2.1.1",
     "cookie": "^1.0.2",
     "date-fns": "^4.1.0",
-    "firebase": "^12.2.1",
+    "firebase": "^12.6.0",
     "firebase-admin": "^13.5.0",
     "framer-motion": "^12.23.12",
     "gray-matter": "^4.0.3",

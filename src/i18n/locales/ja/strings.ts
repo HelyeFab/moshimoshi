@@ -853,6 +853,11 @@ export const strings = {
         subtitle: "JLPT対策",
         description: "検定試験に合格"
       },
+      library: {
+        title: "図書館",
+        subtitle: "ライブラリー",
+        description: "要約された本を読む"
+      },
       flashcards: {
         title: "Flashcards",
         subtitle: "カード",
@@ -1703,6 +1708,7 @@ export const strings = {
     },
     menu: {
       options: "オプション",
+      summary: "要約",
       shadowingMode: "シャドーイング練習モード",
       shadowingDescription: "一緒に話す練習",
       showTranslation: "英語翻訳を表示",

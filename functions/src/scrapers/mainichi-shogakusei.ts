@@ -1,5 +1,7 @@
 import * as cheerio from 'cheerio';
 import crypto from 'crypto';
+import { removePhotoCaptions } from '../utils/scraper-utils';
+import { generateBatchAudio } from '../utils/newsAudioGenerator';
 
 interface NewsArticle {
   id: string;
@@ -13,6 +15,17 @@ interface NewsArticle {
   category: string;
   difficulty: string;
   tags?: string[];
+
+  // TTS-generated audio fields
+  generatedTitleAudioUrl?: string;
+  generatedSummaryAudioUrl?: string;
+  generatedContentAudioUrl?: string;
+  audioGeneratedAt?: Date;
+  audioProvider?: 'edge-tts' | 'kokoro';
+  audioVoice?: string;
+  audioStatus?: 'pending' | 'generated' | 'failed' | 'partial';
+  audioError?: string;
+
   metadata?: {
     wordCount?: number;
     readingTime?: number;
@@ -126,6 +139,8 @@ export async function scrapeMainichiShogakusei(): Promise<NewsArticle[]> {
             // Keep ruby base text but remove rt (furigana)
             element.find('rt').remove();
             content = cleanText(element.text());
+            // Remove photo captions
+            content = removePhotoCaptions(content);
             if (content.length > 100) break; // Found substantial content
           }
         }
@@ -177,6 +192,53 @@ export async function scrapeMainichiShogakusei(): Promise<NewsArticle[]> {
             hasFurigana: true // Shogakusei news typically has furigana
           }
         };
+
+        // Generate TTS audio for title, summary, and content
+        console.log(`🔊 Generating TTS audio for: ${title.substring(0, 50)}`);
+
+        try {
+          const audioResult = await generateBatchAudio({
+            id: newsArticle.id,
+            title: newsArticle.title,  // Plain text title
+            summary: newsArticle.summary,
+            content: newsArticle.content, // Full content
+            source: 'mainichi-shogakusei'
+          });
+
+          // Update article with audio metadata
+          if (audioResult.titleAudio) {
+            newsArticle.generatedTitleAudioUrl = audioResult.titleAudio.url;
+            newsArticle.audioProvider = audioResult.titleAudio.provider;
+            newsArticle.audioVoice = audioResult.titleAudio.voice;
+            newsArticle.audioGeneratedAt = audioResult.titleAudio.generatedAt;
+          }
+
+          if (audioResult.summaryAudio) {
+            newsArticle.generatedSummaryAudioUrl = audioResult.summaryAudio.url;
+          }
+
+          if (audioResult.contentAudio) {
+            newsArticle.generatedContentAudioUrl = audioResult.contentAudio.url;
+          }
+
+          // Set audio status
+          if (audioResult.errors.length === 0) {
+            newsArticle.audioStatus = 'generated';
+            console.log(`✅ TTS audio generated successfully`);
+          } else if (audioResult.titleAudio || audioResult.summaryAudio || audioResult.contentAudio) {
+            newsArticle.audioStatus = 'partial';
+            newsArticle.audioError = audioResult.errors.join('; ');
+            console.warn(`⚠️ TTS audio partially generated: ${audioResult.errors.join('; ')}`);
+          } else {
+            newsArticle.audioStatus = 'failed';
+            newsArticle.audioError = audioResult.errors.join('; ');
+            console.error(`❌ TTS audio generation failed: ${audioResult.errors.join('; ')}`);
+          }
+        } catch (audioError) {
+          newsArticle.audioStatus = 'failed';
+          newsArticle.audioError = audioError instanceof Error ? audioError.message : 'Unknown error';
+          console.error(`❌ TTS audio generation exception:`, audioError);
+        }
 
         articles.push(newsArticle);
 

@@ -75,11 +75,13 @@ class KuromojiService {
       const response = await fetch('/api/furigana/tokenize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ text }),
+        // Add timeout and signal to prevent hanging requests
+        signal: AbortSignal.timeout(5000) // 5 second timeout
       });
 
       if (!response.ok) {
-        // If API fails, use fallback
+        // If API fails, silently use fallback (no error logging for transient failures)
         return this.fallbackTokenize(text);
       }
 
@@ -96,7 +98,16 @@ class KuromojiService {
         });
       }
     } catch (error) {
-      console.error('Tokenization API error:', error);
+      // Silently fall back to client-side tokenization
+      // This handles:
+      // - Network errors (too many parallel requests)
+      // - Timeouts (slow response due to server load)
+      // - Aborted requests (component unmounted)
+      // No need to log - this is expected behavior under high load
+      if (error instanceof Error && error.name !== 'AbortError') {
+        // Only log unexpected errors (not timeouts or aborts)
+        console.debug('Tokenization API unavailable, using fallback:', error.message);
+      }
     }
 
     // If all else fails, use fallback

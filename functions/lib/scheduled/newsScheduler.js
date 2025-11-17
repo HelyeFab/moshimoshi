@@ -40,10 +40,13 @@ const admin = __importStar(require("firebase-admin"));
 const logger = __importStar(require("firebase-functions/logger"));
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
+const params_1 = require("firebase-functions/params");
 const nhkEasyScraper_1 = require("../scrapers/nhkEasyScraper");
 const watanoc_1 = require("../scrapers/watanoc");
 const mainichi_news_1 = require("../scrapers/mainichi-news");
 const mainichi_shogakusei_1 = require("../scrapers/mainichi-shogakusei");
+// Define secrets needed for TTS audio generation
+const KOKORO_API_KEY = (0, params_1.defineSecret)('KOKORO_API_KEY');
 // Initialize Firestore
 const db = admin.firestore();
 // News source configurations
@@ -360,7 +363,8 @@ exports.scheduledNewsScraperFunction = (0, scheduler_1.onSchedule)({
     timeZone: 'Asia/Tokyo', // Japan time
     memory: '2GiB', // Increased from 1GiB for better performance
     timeoutSeconds: 540, // 9 minutes
-    retryCount: 2 // Retry up to 2 times on failure
+    retryCount: 2, // Retry up to 2 times on failure
+    secrets: [KOKORO_API_KEY] // Add secret for TTS audio generation
 }, async (event) => {
     logger.info('[NewsScheduler] Scheduled trigger activated', {
         scheduleTime: event.scheduleTime,
@@ -371,7 +375,8 @@ exports.scheduledNewsScraperFunction = (0, scheduler_1.onSchedule)({
 exports.manualNewsScraperFunction = (0, https_1.onCall)({
     memory: '2GiB', // Increased from 1GiB for better performance
     timeoutSeconds: 540,
-    invoker: 'public' // Allow public invocation (auth checked via admin key inside)
+    invoker: 'public', // Allow public invocation (auth checked via admin key inside)
+    secrets: [KOKORO_API_KEY] // Add secret for TTS audio generation
 }, async (request) => {
     return manualNewsScraper(request.data, request);
 });

@@ -47,14 +47,6 @@ const db = admin.firestore();
 function generateArticleId(url) {
     return crypto_1.default.createHash('md5').update(url).digest('hex');
 }
-// Helper to strip ruby tags but keep the text
-function stripRubyTags(html) {
-    // Remove <rt> tags and their content
-    let text = html.replace(/<rt>.*?<\/rt>/g, '');
-    // Remove remaining <ruby> tags but keep content
-    text = text.replace(/<\/?ruby>/g, '');
-    return text;
-}
 /**
  * NHK Easy scraper using self-hosted NHK Easy API
  * Fetches articles from our Sheldon-hosted nhk-easy-api service
@@ -126,6 +118,13 @@ async function scrapeNHKEasy() {
                         hasFurigana: true // NHK Easy always has furigana
                     }
                 };
+                // NHK Easy provides native professional audio via m3u8Url
+                // No need to generate TTS - use the high-quality native audio instead
+                logger.info('[NHK Easy] Using native NHK audio', {
+                    articleId: newsArticle.id,
+                    title: newsArticle.title.substring(0, 50),
+                    hasNativeAudio: !!newsArticle.audioUrl
+                });
                 articles.push(newsArticle);
                 logger.debug('[NHK Easy] Article processed', {
                     newsId: apiArticle.newsId,

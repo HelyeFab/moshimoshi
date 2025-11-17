@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTTS } from '@/hooks/useTTS';
 import { TTSOptions } from '@/lib/tts/types';
+import { useI18n } from '@/i18n/I18nContext';
 
 interface AudioPlayerProps {
   text: string;
@@ -27,6 +28,7 @@ export default function AudioPlayer({
   options,
   autoPlay = false,
 }: AudioPlayerProps) {
+  const { strings } = useI18n();
   const { play, pause, resume, stop, playing, loading, audioRef } = useTTS({
     autoPlay,
   });
@@ -110,7 +112,7 @@ export default function AudioPlayer({
             onClick={handlePlayPause}
             disabled={loading}
             className="w-10 h-10 flex items-center justify-center rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors disabled:opacity-50"
-            aria-label={playing ? 'Pause' : 'Play'}
+            aria-label={playing ? (strings.common?.pause || 'Pause') : (strings.common?.play || 'Play')}
           >
             {loading ? (
               <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
@@ -133,7 +135,7 @@ export default function AudioPlayer({
             onClick={stop}
             disabled={!playing && currentTime === 0}
             className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
-            aria-label="Stop"
+            aria-label={strings.common?.stop || 'Stop'}
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
               <rect x="6" y="6" width="12" height="12" />
@@ -172,7 +174,7 @@ export default function AudioPlayer({
         {/* Speed Control */}
         {showSpeed && (
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-600 dark:text-gray-400">Speed</label>
+            <label className="text-xs text-gray-600 dark:text-gray-400">{strings.common?.speed || 'Speed'}</label>
             <select
               value={speed}
               onChange={handleSpeedChange}

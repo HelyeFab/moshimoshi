@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import crypto from 'crypto';
+import { removePhotoCaptions } from './scraper-utils';
 
 interface NewsArticle {
   id: string;
@@ -226,6 +227,10 @@ export async function scrapeMainichiNews(): Promise<NewsArticle[]> {
 
         // Clean content
         if (content) {
+          // First remove photo captions
+          content = removePhotoCaptions(content);
+
+          // Then clean URLs and whitespace
           content = content
             .replace(/\s+/g, ' ')
             .replace(/https?:\/\/[^\s]+/gi, '')

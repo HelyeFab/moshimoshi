@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { useI18n } from '@/i18n/I18nContext';
 import {
   Type,
@@ -8,7 +8,8 @@ import {
   Palette,
   Play,
   ChevronDown,
-  X
+  X,
+  Settings
 } from 'lucide-react';
 
 interface ReadingSettings {
@@ -29,7 +30,7 @@ interface CompactSettingsToolbarProps {
   onClose: () => void;
 }
 
-export default function CompactSettingsToolbar({
+const CompactSettingsToolbar = memo(function CompactSettingsToolbar({
   settings,
   onSettingsChange,
   isScrolled,
@@ -38,6 +39,7 @@ export default function CompactSettingsToolbar({
 }: CompactSettingsToolbarProps) {
   const { t } = useI18n();
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [isToolbarExpanded, setIsToolbarExpanded] = useState(false);
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
@@ -232,196 +234,246 @@ export default function CompactSettingsToolbar({
     </>
   );
 
-  // Desktop: Floating toolbar (unchanged from original)
+  // Desktop: Floating toolbar with collapse functionality
   const DesktopToolbar = () => (
-    <div
-      className={`fixed z-40 transition-all duration-300 hidden md:block ${
-        isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
-      }`}
-      style={{
-        bottom: 'env(safe-area-inset-bottom, 1rem)',
-        right: '1rem',
-        left: '1rem'
-      }}
-    >
-      <div className="max-w-lg mx-auto lg:ml-auto lg:mr-0">
-        <div
-          className="rounded-full shadow-2xl backdrop-blur-xl px-4 py-3 flex items-center justify-between gap-3 lg:rounded-2xl"
-          style={{
-            backgroundColor: 'var(--article-bg)',
-            border: '1px solid var(--article-border)',
-            boxShadow: '0 20px 25px -5px var(--article-shadow), 0 10px 10px -5px var(--article-shadow)'
-          }}
-        >
-          {/* Font Size Button */}
+    <>
+      <style jsx>{`
+        @keyframes expandWidth {
+          0% {
+            opacity: 0;
+            transform: scale(0.7) translateX(20px);
+          }
+          60% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateX(0);
+          }
+        }
+      `}</style>
+      <div
+        className={`fixed bottom-6 right-6 z-40 transition-all duration-300 hidden md:block ${
+          isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
+        }`}
+      >
+        <div className="max-w-lg mx-auto lg:ml-auto lg:mr-0">
+        {/* Collapsed: Single Settings Button */}
+        {!isToolbarExpanded && (
           <button
-            onClick={() => toggleSection('fontSize')}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 relative"
-            style={{
-              backgroundColor: expandedSection === 'fontSize' ? 'var(--article-hover-bg)' : 'transparent',
-              color: 'var(--article-text)'
-            }}
-            title={t('news.reader.fontSize')}
-          >
-            <Type className="w-5 h-5" />
-            <span className="hidden sm:inline text-sm font-medium">{settings.fontSize[0].toUpperCase()}</span>
-          </button>
-
-          {/* Furigana Toggle */}
-          <button
-            onClick={() => onSettingsChange({ ...settings, showFurigana: !settings.showFurigana })}
-            className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: settings.showFurigana ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
-              color: settings.showFurigana ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
-            }}
-            title={t('news.reader.showFurigana')}
-          >
-            <Languages className="w-5 h-5" />
-          </button>
-
-          {/* Grammar Highlighting Toggle */}
-          <button
-            onClick={() => toggleSection('grammar')}
-            className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: settings.highlightGrammar ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
-              color: settings.highlightGrammar ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
-            }}
-            title={t('news.reader.highlightGrammar')}
-          >
-            <Palette className="w-5 h-5" />
-          </button>
-
-          {/* Audio Toggle */}
-          <button
-            onClick={() => onSettingsChange({ ...settings, shadowingMode: !settings.shadowingMode })}
-            className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: settings.shadowingMode ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
-              color: settings.shadowingMode ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
-            }}
-            title={t('news.reader.shadowingMode')}
-          >
-            <Play className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Expanded Sections */}
-        {expandedSection === 'fontSize' && (
-          <div
-            className="mt-3 rounded-2xl shadow-xl backdrop-blur-xl p-4 animate-scale-in"
+            onClick={() => setIsToolbarExpanded(true)}
+            className="w-14 h-14 rounded-full shadow-2xl backdrop-blur-xl flex items-center justify-center hover:scale-110 active:scale-95"
             style={{
               backgroundColor: 'var(--article-bg)',
-              border: '1px solid var(--article-border)'
+              border: '1px solid var(--article-border)',
+              boxShadow: '0 20px 25px -5px var(--article-shadow), 0 10px 10px -5px var(--article-shadow)',
+              transition: 'transform 0.2s ease'
             }}
+            title={t('news.reader.settings')}
           >
-            <div className="flex items-center justify-between mb-3">
-              <span
-                className="text-sm font-medium"
-                style={{ color: 'var(--article-text)' }}
-              >
-                {t('news.reader.fontSize')}
-              </span>
-              <button
-                onClick={() => setExpandedSection(null)}
-                style={{ color: 'var(--article-text-secondary)' }}
-              >
-                <ChevronDown className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="grid grid-cols-4 gap-2">
-              {(['small', 'medium', 'large', 'xlarge'] as const).map(size => (
-                <button
-                  key={size}
-                  onClick={() => {
-                    onSettingsChange({ ...settings, fontSize: size });
-                    setExpandedSection(null);
-                  }}
-                  className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-                  style={{
-                    backgroundColor: settings.fontSize === size
-                      ? 'rgb(var(--palette-primary-500))'
-                      : 'var(--article-accent-bg)',
-                    color: settings.fontSize === size
-                      ? 'white'
-                      : 'var(--article-text)'
-                  }}
-                >
-                  {size[0].toUpperCase()}
-                </button>
-              ))}
-            </div>
-          </div>
+            <Settings className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+          </button>
         )}
 
-        {expandedSection === 'grammar' && (
-          <div
-            className="mt-3 rounded-2xl shadow-xl backdrop-blur-xl p-4 animate-scale-in"
-            style={{
-              backgroundColor: 'var(--article-bg)',
-              border: '1px solid var(--article-border)'
-            }}
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span
-                className="text-sm font-medium"
-                style={{ color: 'var(--article-text)' }}
-              >
-                {t('news.reader.highlightGrammar')}
-              </span>
+        {/* Expanded: Full Toolbar */}
+        {isToolbarExpanded && (
+          <>
+            <div
+              className="rounded-full shadow-2xl backdrop-blur-xl px-4 py-3 flex items-center justify-between gap-3"
+              style={{
+                backgroundColor: 'var(--article-bg)',
+                border: '1px solid var(--article-border)',
+                boxShadow: '0 20px 25px -5px var(--article-shadow), 0 10px 10px -5px var(--article-shadow)',
+                animation: 'expandWidth 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards'
+              }}
+            >
+              {/* Font Size Button */}
               <button
-                onClick={() => setExpandedSection(null)}
-                style={{ color: 'var(--article-text-secondary)' }}
+                onClick={() => toggleSection('fontSize')}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 relative"
+                style={{
+                  backgroundColor: expandedSection === 'fontSize' ? 'var(--article-hover-bg)' : 'transparent',
+                  color: 'var(--article-text)'
+                }}
+                title={t('news.reader.fontSize')}
               >
-                <ChevronDown className="w-4 h-4" />
+                <Type className="w-5 h-5" />
+                <span className="hidden sm:inline text-sm font-medium">{settings.fontSize[0].toUpperCase()}</span>
+              </button>
+
+              {/* Furigana Toggle */}
+              <button
+                onClick={() => onSettingsChange({ ...settings, showFurigana: !settings.showFurigana })}
+                className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{
+                  backgroundColor: settings.showFurigana ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
+                  color: settings.showFurigana ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
+                }}
+                title={t('news.reader.showFurigana')}
+              >
+                <Languages className="w-5 h-5" />
+              </button>
+
+              {/* Grammar Highlighting Toggle */}
+              <button
+                onClick={() => toggleSection('grammar')}
+                className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{
+                  backgroundColor: settings.highlightGrammar ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
+                  color: settings.highlightGrammar ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
+                }}
+                title={t('news.reader.highlightGrammar')}
+              >
+                <Palette className="w-5 h-5" />
+              </button>
+
+              {/* Audio Toggle */}
+              <button
+                onClick={() => onSettingsChange({ ...settings, shadowingMode: !settings.shadowingMode })}
+                className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{
+                  backgroundColor: settings.shadowingMode ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
+                  color: settings.shadowingMode ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
+                }}
+                title={t('news.reader.shadowingMode')}
+              >
+                <Play className="w-5 h-5" />
+              </button>
+
+              {/* Close/Collapse Button */}
+              <button
+                onClick={() => {
+                  setIsToolbarExpanded(false);
+                  setExpandedSection(null);
+                }}
+                className="px-2 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{
+                  color: 'var(--article-text-secondary)'
+                }}
+                title="Collapse"
+              >
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <label className="flex items-center gap-3 mb-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={settings.highlightGrammar}
-                onChange={(e) => onSettingsChange({ ...settings, highlightGrammar: e.target.checked })}
-                className="w-4 h-4 rounded"
-              />
-              <span
-                className="text-sm"
-                style={{ color: 'var(--article-text)' }}
+            {/* Expanded Sections */}
+            {expandedSection === 'fontSize' && (
+              <div
+                className="mt-3 rounded-2xl shadow-xl backdrop-blur-xl p-4 animate-scale-in"
+                style={{
+                  backgroundColor: 'var(--article-bg)',
+                  border: '1px solid var(--article-border)'
+                }}
               >
-                Enable highlighting
-              </span>
-            </label>
-
-            {settings.highlightGrammar && (
-              <div className="space-y-2 ml-1">
-                {[
-                  { value: 'all', label: t('news.reader.highlightAll') },
-                  { value: 'content', label: t('news.reader.highlightContent') },
-                  { value: 'grammar', label: t('news.reader.highlightGrammarOnly') }
-                ].map(option => (
-                  <label key={option.value} className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="highlightMode"
-                      checked={settings.highlightMode === option.value}
-                      onChange={() => onSettingsChange({ ...settings, highlightMode: option.value as any })}
-                      className="w-3.5 h-3.5"
-                    />
-                    <span
-                      className="text-sm"
-                      style={{ color: 'var(--article-text-secondary)' }}
+                <div className="flex items-center justify-between mb-3">
+                  <span
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--article-text)' }}
+                  >
+                    {t('news.reader.fontSize')}
+                  </span>
+                  <button
+                    onClick={() => setExpandedSection(null)}
+                    style={{ color: 'var(--article-text-secondary)' }}
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {(['small', 'medium', 'large', 'xlarge'] as const).map(size => (
+                    <button
+                      key={size}
+                      onClick={() => {
+                        onSettingsChange({ ...settings, fontSize: size });
+                        setExpandedSection(null);
+                      }}
+                      className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+                      style={{
+                        backgroundColor: settings.fontSize === size
+                          ? 'rgb(var(--palette-primary-500))'
+                          : 'var(--article-accent-bg)',
+                        color: settings.fontSize === size
+                          ? 'white'
+                          : 'var(--article-text)'
+                      }}
                     >
-                      {option.label}
-                    </span>
-                  </label>
-                ))}
+                      {size[0].toUpperCase()}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
-          </div>
+
+            {expandedSection === 'grammar' && (
+              <div
+                className="mt-3 rounded-2xl shadow-xl backdrop-blur-xl p-4 animate-scale-in"
+                style={{
+                  backgroundColor: 'var(--article-bg)',
+                  border: '1px solid var(--article-border)'
+                }}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--article-text)' }}
+                  >
+                    {t('news.reader.highlightGrammar')}
+                  </span>
+                  <button
+                    onClick={() => setExpandedSection(null)}
+                    style={{ color: 'var(--article-text-secondary)' }}
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <label className="flex items-center gap-3 mb-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={settings.highlightGrammar}
+                    onChange={(e) => onSettingsChange({ ...settings, highlightGrammar: e.target.checked })}
+                    className="w-4 h-4 rounded"
+                  />
+                  <span
+                    className="text-sm"
+                    style={{ color: 'var(--article-text)' }}
+                  >
+                    Enable highlighting
+                  </span>
+                </label>
+
+                {settings.highlightGrammar && (
+                  <div className="space-y-2 ml-1">
+                    {[
+                      { value: 'all', label: t('news.reader.highlightAll') },
+                      { value: 'content', label: t('news.reader.highlightContent') },
+                      { value: 'grammar', label: t('news.reader.highlightGrammarOnly') }
+                    ].map(option => (
+                      <label key={option.value} className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="highlightMode"
+                          checked={settings.highlightMode === option.value}
+                          onChange={() => onSettingsChange({ ...settings, highlightMode: option.value as any })}
+                          className="w-3.5 h-3.5"
+                        />
+                        <span
+                          className="text-sm"
+                          style={{ color: 'var(--article-text-secondary)' }}
+                        >
+                          {option.label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
+    </>
   );
 
   return (
@@ -433,4 +485,6 @@ export default function CompactSettingsToolbar({
       <DesktopToolbar />
     </>
   );
-}
+});
+
+export default CompactSettingsToolbar;

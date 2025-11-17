@@ -1,0 +1,46 @@
+// Firebase Security Rules for Books Collections
+// Add these to your firestore.rules file
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Books collection - Published books (public read, admin write via server)
+    match /books/{bookId} {
+      // Anyone can read published books
+      allow read: if resource.data.status == 'published';
+
+      // Only server (Admin SDK) can write
+      // Client-side writes are blocked
+      allow write: if false;
+    }
+
+    // Book drafts collection - Admin only via server
+    match /book_drafts/{draftId} {
+      // No client-side access
+      allow read, write: if false;
+    }
+  }
+}
+
+// NOTES:
+// - All writes happen via API routes using Firebase Admin SDK (bypasses rules)
+// - These rules only affect potential direct client-side Firestore access
+// - Books are publicly readable once published
+// - Drafts are completely private (server-only)
+
+// To deploy these rules:
+// 1. Add the match blocks to your existing firestore.rules file
+// 2. Run: firebase deploy --only firestore:rules
+
+// FIRESTORE INDEXES (Optional - for better performance):
+// Currently the app works without indexes by fetching all books and filtering server-side.
+// For better performance with large book collections (100+ books), create this composite index:
+//
+// Collection: books
+// Fields:
+//   - status (Ascending)
+//   - createdAt (Descending)
+//
+// Create at: https://console.firebase.google.com/project/moshimoshi-de237/firestore/indexes
+// Or wait for a query to fail and click the link in the error message.

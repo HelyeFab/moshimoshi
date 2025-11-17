@@ -353,7 +353,10 @@ export const strings = {
     previous: "Previous",
     play: "Play",
     playing: "Playing",
+    pause: "Pause",
     stop: "Stop",
+    speed: "Speed",
+    volume: "Volume",
     sentence: "Sentence",
     submit: "Submit",
     continue: "Continue",
@@ -667,6 +670,14 @@ export const strings = {
       settings: "Settings",
       adminDashboard: "Admin Dashboard",
       backToDashboard: "← Back to Dashboard",
+      dashboard: "Dashboard",
+      bottomNav: {
+        home: "Home",
+        review: "Review",
+        games: "Games",
+        cards: "Cards",
+        places: "Places",
+      },
     },
     welcome: {
       firstVisit: "Welcome to your Japanese learning adventure! Doshi is here to guide you.",
@@ -1839,7 +1850,9 @@ export const strings = {
       meaning: "Meaning",
       type: "Type",
       saveToList: "Save to list",
-      savedToList: "Saved to study list"
+      savedToList: "Saved to study list",
+      preparingAudio: "Preparing Audio",
+      generatingAudioMessage: "Generating audio for this article. This may take a moment..."
     },
     error: {
       loadFailed: "Failed to load article",
@@ -1911,6 +1924,7 @@ export const strings = {
     article: {
       playAudio: "Play article audio",
       options: "Options",
+      summary: "Summary",
       shadowingMode: "Shadowing Practice Mode",
       shadowingModeDesc: "Practice speaking along with audio",
       addBookmark: "Bookmark Article",
@@ -2526,6 +2540,11 @@ export const strings = {
         title: "Kanji Mastery",
         subtitle: "漢字習得",
         description: "Master kanji with SRS"
+      },
+      library: {
+        title: "Library",
+        subtitle: "図書館",
+        description: "Read condensed books"
       },
       youtubeShadowing: {
         title: "YouTube Shadowing",
