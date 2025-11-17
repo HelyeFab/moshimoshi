@@ -1585,6 +1585,7 @@ export const strings = {
 
   // News Feature
   news: {
+    page: "Seite",
     reader: {
       settings: "Leseeinstellungen",
       fontSize: "Textgröße",

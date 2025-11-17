@@ -68,7 +68,11 @@
       "Bash(rm:*)",
       "Bash(git stash:*)",
       "Bash(git checkout:*)",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "Bash(pkill:*)",
+      "Bash(timeout 45 curl:*)",
+      "Bash(firebase functions:log:*)",
+      "Bash(timeout 30 curl:*)"
     ],
     "deny": [],
     "ask": []

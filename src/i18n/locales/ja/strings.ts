@@ -1627,6 +1627,7 @@ export const strings = {
     source: "出典",
     publishedOn: "公開日",
     viewOriginal: "元の記事を見る",
+    page: "ページ",
     levels: {
       all: "全レベル",
       n5: "N5 (初級)",

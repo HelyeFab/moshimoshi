@@ -3,7 +3,7 @@
  * Provides pagination, filtering, and statistics for news articles
  */
 
-export type NewsSource = 'all' | 'nhk-easy' | 'watanoc' | 'todaii' | 'mainichi-news' | 'mainichi-shogakusei';
+export type NewsSource = 'all' | 'nhk-easy' | 'watanoc' | 'mainichi-news' | 'mainichi-shogakusei';
 export type DifficultyLevel = 'all' | 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
 export type NewsCategory = 'all' | 'news' | 'culture' | 'science' | 'sports' | 'economy' | 'weather' | 'reading';
 
@@ -154,6 +154,22 @@ class NewsService {
     } catch (error) {
       console.error('[NewsService] Error triggering scraping:', error);
       return false;
+    }
+  }
+
+  /**
+   * Mark an article as read (for usage tracking)
+   */
+  markArticleRead(articleId: string): void {
+    try {
+      // Store in localStorage for session tracking
+      const readArticles = JSON.parse(localStorage.getItem('readArticles') || '[]');
+      if (!readArticles.includes(articleId)) {
+        readArticles.push(articleId);
+        localStorage.setItem('readArticles', JSON.stringify(readArticles));
+      }
+    } catch (error) {
+      console.error('[NewsService] Error marking article as read:', error);
     }
   }
 }

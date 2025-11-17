@@ -60,7 +60,6 @@ export async function GET(request: NextRequest) {
       // Map source endpoint to display name
       const sourceNameMap: Record<string, string> = {
         'nhk-easy': 'NHK Easy',
-        'todaii': 'Todaii',
         'watanoc': 'Watanoc',
         'mainichi-news': 'Mainichi News',
         'mainichi-shogakusei': 'Mainichi Elementary'

@@ -1790,6 +1790,7 @@ export const strings = {
     source: "Source",
     publishedOn: "Published on",
     viewOriginal: "View original article",
+    page: "Page",
     filters: {
       title: "Filters",
       applied: "Applied",

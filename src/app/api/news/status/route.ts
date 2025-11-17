@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
 
     // Get the last successful scrape time for each source
     const lastSuccessfulScrapes: Record<string, Date | null> = {};
-    const sources = ['NHK Easy', 'Todaii', 'Watanoc', 'Mainichi News', 'Mainichi Elementary'];
+    const sources = ['NHK Easy', 'Watanoc', 'Mainichi News', 'Mainichi Elementary'];
 
     for (const source of sources) {
       const lastArticle = await db

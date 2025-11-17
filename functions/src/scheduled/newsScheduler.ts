@@ -4,7 +4,6 @@ import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { filterArticles, checkDuplicates } from '../utils/articleValidation';
 import { scrapeNHKEasy } from '../scrapers/nhkEasyScraper';
-import { scrapeTodaii } from '../scrapers/todaii';
 import { scrapeWatanoc } from '../scrapers/watanoc';
 import { scrapeMainichiNews } from '../scrapers/mainichi-news';
 import { scrapeMainichiShogakusei } from '../scrapers/mainichi-shogakusei';
@@ -21,27 +20,21 @@ const NEWS_SOURCES = [
     enabled: true
   },
   {
-    name: 'Todaii',
-    endpoint: 'todaii',
-    priority: 2,
-    enabled: true
-  },
-  {
     name: 'Watanoc',
     endpoint: 'watanoc',
-    priority: 3,
+    priority: 2,
     enabled: true
   },
   {
     name: 'Mainichi News',
     endpoint: 'mainichi-news',
-    priority: 4,
+    priority: 3,
     enabled: true
   },
   {
     name: 'Mainichi Elementary',
     endpoint: 'mainichi-shogakusei',
-    priority: 5,
+    priority: 4,
     enabled: true
   }
 ];
@@ -115,11 +108,6 @@ async function triggerScraper(source: typeof NEWS_SOURCES[0]) {
       case 'nhk-easy':
         result = await scrapeNHKEasy();
         break;
-      case 'todaii': {
-        const articles = await scrapeTodaii();
-        result = { success: true, articles };
-        break;
-      }
       case 'watanoc': {
         const articles = await scrapeWatanoc();
         result = { success: true, articles };

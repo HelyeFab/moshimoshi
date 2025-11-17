@@ -72,7 +72,13 @@ export async function scrapeMainichiShogakusei(): Promise<NewsArticle[]> {
     // Process each article (limit to first 10)
     for (const link of articleLinks.slice(0, 10)) {
       try {
-        const articleUrl = link.startsWith('http') ? link : `https://mainichi.jp${link}`;
+        // Handle protocol-relative URLs (//mainichi.jp/...)
+        let articleUrl = link;
+        if (link.startsWith('//')) {
+          articleUrl = `https:${link}`;
+        } else if (!link.startsWith('http')) {
+          articleUrl = `https://mainichi.jp${link}`;
+        }
         console.log(`📄 Fetching article: ${articleUrl}`);
 
         const articleResponse = await fetch(articleUrl);

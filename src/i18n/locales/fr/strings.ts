@@ -1733,6 +1733,7 @@ export const strings = {
 
   // News Feature
   news: {
+    page: "Page",
     reader: {
       settings: "Paramètres de lecture",
       fontSize: "Taille du texte",

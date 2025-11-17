@@ -41,7 +41,6 @@ const logger = __importStar(require("firebase-functions/logger"));
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const nhkEasyScraper_1 = require("../scrapers/nhkEasyScraper");
-const todaii_1 = require("../scrapers/todaii");
 const watanoc_1 = require("../scrapers/watanoc");
 const mainichi_news_1 = require("../scrapers/mainichi-news");
 const mainichi_shogakusei_1 = require("../scrapers/mainichi-shogakusei");
@@ -56,27 +55,21 @@ const NEWS_SOURCES = [
         enabled: true
     },
     {
-        name: 'Todaii',
-        endpoint: 'todaii',
-        priority: 2,
-        enabled: true
-    },
-    {
         name: 'Watanoc',
         endpoint: 'watanoc',
-        priority: 3,
+        priority: 2,
         enabled: true
     },
     {
         name: 'Mainichi News',
         endpoint: 'mainichi-news',
-        priority: 4,
+        priority: 3,
         enabled: true
     },
     {
         name: 'Mainichi Elementary',
         endpoint: 'mainichi-shogakusei',
-        priority: 5,
+        priority: 4,
         enabled: true
     }
 ];
@@ -135,11 +128,6 @@ async function triggerScraper(source) {
             case 'nhk-easy':
                 result = await (0, nhkEasyScraper_1.scrapeNHKEasy)();
                 break;
-            case 'todaii': {
-                const articles = await (0, todaii_1.scrapeTodaii)();
-                result = { success: true, articles };
-                break;
-            }
             case 'watanoc': {
                 const articles = await (0, watanoc_1.scrapeWatanoc)();
                 result = { success: true, articles };

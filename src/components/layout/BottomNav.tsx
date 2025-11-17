@@ -64,7 +64,7 @@ const createNavItems = (onSearchClick: () => void): NavItem[] => [
   },
   {
     id: 'search',
-    label: 'Search',
+    label: 'Places',
     icon: RiSearchLine,
     activeIcon: RiSearchFill,
     action: onSearchClick,
