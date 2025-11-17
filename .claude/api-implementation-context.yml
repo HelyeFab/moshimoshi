@@ -1,0 +1,781 @@
+version: "1.0"
+
+metadata:
+  name: "Sheldon API Architecture & Integration Context"
+  id: "sheldon-api-integration-v1.0"
+  role: "Guide future AI agents working with Sheldon's self-hosted API infrastructure"
+  created: "2025-11-16"
+  updated: "2025-11-16"
+  owner: "beano"
+  project: "Sheldon Infrastructure + Moshimoshi Integration"
+  tags:
+    - "apis"
+    - "sheldon-server"
+    - "self-hosted"
+    - "ai-gateway"
+    - "infrastructure"
+
+overview:
+  description: "Complete documentation of Sheldon's self-hosted API infrastructure - 8 production APIs serving AI/ML capabilities for external applications"
+  primary_gateway: "https://api.selfmind.dev"
+  alternative_domains: "*.selfmind.dev and *.appsparkle.org"
+  status: "✅ ALL SERVICES FULLY OPERATIONAL (100%)"
+  last_tested: "2025-11-16"
+  total_apis: 8
+  authentication_model: "API Key with service-level permissions"
+  deployment_model: "Docker containers on Sheldon server"
+
+architecture:
+  core_concepts:
+    api_gateway:
+      description: "Central authentication and routing layer"
+      url: "https://api.selfmind.dev"
+      port: 8080
+      features:
+        - "API key validation"
+        - "Rate limiting per user"
+        - "Audit logging"
+        - "Service permissions (all, tts, nhk, whisper, image, chat)"
+        - "Global HTTPS access via Cloudflare Tunnel"
+
+    authentication:
+      method: "API Key (X-API-Key header)"
+      key_format: "UUID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+      permissions:
+        - "all: Access to all services"
+        - "tts: Text-to-speech only"
+        - "nhk: News API only"
+        - "whisper: Speech-to-text only"
+        - "image: Image generation only"
+        - "chat: LLM chat only"
+      key_management: "Generated via /home/sheldon/ai-gateway/generate_apikey.py"
+
+    rate_limiting:
+      implementation: "Per-user, per-service"
+      limits:
+        tts: "200 requests/hour"
+        nhk: "200 requests/hour"
+        whisper: "100 requests/hour"
+        image: "50 requests/hour"
+        chat: "100 requests/hour"
+        system_control: "300 requests/minute"
+      headers:
+        - "X-RateLimit-Limit"
+        - "X-RateLimit-Remaining"
+        - "X-RateLimit-Reset"
+
+    deployment:
+      infrastructure: "Docker on Sheldon server (AMD Ryzen 9 6900HX)"
+      reverse_proxy: "Caddy (Port 80 → containers)"
+      external_access: "Cloudflare Tunnel"
+      monitoring: "Guardian Dashboard (https://guardian-dashboard.appsparkle.org)"
+      container_orchestration: "Docker Compose"
+
+apis:
+  edge_tts:
+    name: "Edge-TTS API"
+    description: "Text-to-speech using Microsoft Edge neural voices"
+    base_url: "https://api.selfmind.dev/tts"
+    alternative_url: "https://tts.selfmind.dev (direct access)"
+    port: 7860
+    status: "✅ WORKING"
+    authentication: "API Key (via gateway) or Public (direct)"
+
+    key_features:
+      - "400+ voices in 100+ languages"
+      - "Neural voice quality"
+      - "Zero cost (vs $6,720/year for ElevenLabs)"
+      - "Word-level timestamps"
+      - "Customizable rate/volume/pitch"
+      - "MP3 audio output"
+
+    endpoints:
+      health:
+        method: "GET"
+        path: "/health"
+        auth_required: false
+
+      synthesize:
+        method: "POST"
+        path: "/speak"
+        auth_required: true
+        max_text_length: 5000
+        request_example: |
+          {
+            "text": "こんにちは、世界",
+            "voice": "ja-JP-NanamiNeural",
+            "rate": "+0%",
+            "volume": "+0%",
+            "pitch": "+0Hz"
+          }
+        response_type: "audio/mpeg (MP3)"
+
+    popular_voices:
+      japanese:
+        - "ja-JP-NanamiNeural (Female, natural)"
+        - "ja-JP-KeitaNeural (Male, professional)"
+        - "ja-JP-AoiNeural (Female, anime-style)"
+      english:
+        - "en-US-JennyNeural (Female, friendly)"
+        - "en-US-GuyNeural (Male, professional)"
+        - "en-GB-SoniaNeural (Female, British)"
+
+    integration_example: |
+      // Moshimoshi uses Edge-TTS as primary provider
+      // File: src/lib/tts/config.ts:30
+      edgeTts: {
+        endpoint: process.env.EDGE_TTS_ENDPOINT || 'https://tts.selfmind.dev',
+        defaultVoice: 'ja-JP-NanamiNeural',
+      }
+
+    rate_limit: "200 requests/hour"
+    cost_savings: "$6,720/year vs ElevenLabs"
+
+  transcript_service:
+    name: "Transcript Service API"
+    description: "YouTube video transcription (Japanese-focused)"
+    base_url: "http://localhost:5000 (Internal only)"
+    public_proxy: "https://yt-player.appsparkle.org/api/youtube/transcript/[videoId]"
+    port: 5000
+    container: "transcript-service-prod"
+    status: "✅ WORKING"
+    authentication: "None (internal service)"
+
+    key_features:
+      - "YouTube subtitle extraction"
+      - "Japanese language priority"
+      - "Word-level timestamps"
+      - "Auto-generated subtitle support"
+      - "Multiple language support"
+
+    endpoints:
+      health:
+        method: "GET"
+        path: "/health"
+
+      japanese_transcript:
+        method: "GET"
+        path: "/get-japanese-transcript"
+        params:
+          - "videoId (required): YouTube video ID"
+        response_example: |
+          {
+            "available": true,
+            "videoId": "cAFz4nWkJoA",
+            "language": "Japanese",
+            "languageCode": "ja",
+            "isJapanese": true,
+            "totalSegments": 23,
+            "totalDuration": 79.048,
+            "segments": [
+              {"start": 13.989, "duration": 1.263, "text": "あ！"}
+            ]
+          }
+
+    integration: "Used by yt-player app for shadowing practice"
+    access_model: "Internal Docker network only (172.17.0.1:5000)"
+
+  nhk_easy:
+    name: "NHK Easy News API"
+    description: "Simplified Japanese news articles scraper"
+    base_url: "https://api.selfmind.dev/nhk"
+    alternative_url: "https://nhk.selfmind.dev"
+    port: 30004
+    status: "✅ WORKING"
+    authentication: "API Key"
+
+    key_features:
+      - "Automated scraping every 2 hours"
+      - "Simplified Japanese content"
+      - "Furigana (ruby text) support"
+      - "MySQL database storage"
+      - "Date range queries"
+      - "Intelligent image URL fixing (extracts correct OGP URLs from HTML)"
+
+    endpoints:
+      news:
+        method: "GET"
+        path: "/news"
+        params:
+          - "startDate (ISO 8601): Start date for retrieval"
+          - "endDate (ISO 8601): End date for retrieval"
+          - "limit (optional): Number of articles"
+        response_fields:
+          - "id: Database ID"
+          - "newsId: NHK article ID"
+          - "title: Plain Japanese title"
+          - "titleWithRuby: Title with furigana"
+          - "content: Plain article body"
+          - "contentWithRuby: Body with furigana"
+          - "imageUrl: Thumbnail URL (automatically fixed to use /news/easy/ogp/ path)"
+          - "publishedAt: Publication date"
+
+    data_model:
+      database: "MySQL 8.0"
+      scraping_frequency: "Every 2 hours"
+      retention: "Unlimited (all articles retained)"
+      article_rate: "~300 articles/month"
+
+    implementation_details:
+      image_url_fix:
+        issue: "nhk-easy-entity library incorrectly resolves ../ogp/ to /news/html/ (401 Unauthorized)"
+        solution: "Post-processing in NewsController.kt extracts correct URLs from article body HTML"
+        pattern: 'Regex: <img\s+src="\.\./(ogp/[^"]+)"'
+        result: "30% real images + 70% fallback (empty string triggers frontend fallback)"
+        location: "/app/src/main/kotlin/nhk/controller/api/NewsController.kt"
+
+    use_cases:
+      - "Japanese language learning"
+      - "Vocabulary extraction"
+      - "Reading comprehension practice"
+      - "Daily news consumption"
+
+    rate_limit: "200 requests/hour"
+
+  whisper:
+    name: "Whisper Speech-to-Text API"
+    description: "AI-powered audio transcription"
+    base_url: "https://api.selfmind.dev/whisper"
+    port: 8092
+    status: "✅ WORKING"
+    authentication: "API Key"
+
+    key_features:
+      - "90+ language support"
+      - "Multiple audio formats (MP3, WAV, M4A, etc.)"
+      - "Automatic language detection"
+      - "Word-level timestamps"
+      - "Confidence scores"
+      - "SRT/VTT subtitle generation"
+
+    endpoints:
+      transcribe:
+        method: "POST"
+        path: "/api/transcribe"
+        content_type: "multipart/form-data or application/json"
+        max_file_size: "25 MB"
+        max_duration: "30 minutes"
+        params:
+          - "audio (file): Audio file to transcribe"
+          - "language (optional): ISO 639-1 code (auto-detect if omitted)"
+          - "format (optional): text, json, srt, vtt"
+        response_example: |
+          {
+            "text": "This is the transcribed text.",
+            "language": "en",
+            "duration": 45.3,
+            "segments": [
+              {"start": 0.0, "end": 2.5, "text": "...", "confidence": 0.95}
+            ]
+          }
+
+    supported_languages:
+      - "English (en)"
+      - "Japanese (ja)"
+      - "Spanish (es)"
+      - "French (fr)"
+      - "German (de)"
+      - "Korean (ko)"
+      - "Chinese (zh)"
+      - "...and 83 more"
+
+    use_cases:
+      - "Meeting transcription"
+      - "Podcast to text"
+      - "Voice note transcription"
+      - "Subtitle generation"
+      - "Language learning"
+
+    rate_limit: "100 requests/hour"
+    model: "OpenAI Whisper"
+
+  image_generation:
+    name: "ComfyUI Image Generation API"
+    description: "AI image generation using Stable Diffusion Turbo"
+    base_url: "https://api.selfmind.dev/image"
+    public_ui: "https://img.selfmind.dev (no auth)"
+    port: 7860
+    status: "✅ WORKING"
+    authentication: "API Key (for API) or None (for web UI)"
+
+    key_features:
+      - "SD Turbo model (1-4 step generation)"
+      - "CPU-optimized for AMD Ryzen 9"
+      - "512×512 image generation"
+      - "Node-based workflow interface"
+      - "Zero cost (self-hosted)"
+
+    endpoints:
+      simple_generate:
+        method: "POST"
+        path: "/image/api/generate/simple"
+        request_example: |
+          {
+            "prompt": "a beautiful sunset over mountains",
+            "negative_prompt": "blurry, low quality",
+            "steps": 4,
+            "cfg_scale": 1.0,
+            "width": 512,
+            "height": 512,
+            "seed": -1
+          }
+        response_format: "Base64-encoded PNG image"
+        generation_time: "30-90 seconds (CPU mode)"
+
+    best_practices:
+      steps: "1-4 (SD Turbo optimized)"
+      cfg_scale: "1.0 (higher values degrade quality)"
+      size: "512×512 (optimal for speed)"
+      negative_prompt: "Always use to improve quality"
+
+    migration_notes:
+      previous: "AUTOMATIC1111 (deprecated)"
+      current: "ComfyUI (modern, node-based)"
+      model_change: "SD 1.5 → SD Turbo"
+
+    future_plans:
+      - "ROCm GPU acceleration (10-20x faster)"
+      - "SDXL and ControlNet models"
+      - "Batch generation endpoint"
+      - "Image-to-image transformation"
+
+    rate_limit: "50 requests/hour"
+    cost_savings: "vs commercial services ($20-50/month)"
+
+  chat_llm:
+    name: "Chat/LLM (Ollama) API"
+    description: "Large language model inference"
+    base_url: "https://api.selfmind.dev/chat"
+    port: 11434
+    status: "✅ WORKING"
+    authentication: "API Key"
+
+    available_models:
+      qwen25_7b:
+        name: "Qwen2.5:7b"
+        type: "Text-only"
+        size: "4.7 GB"
+        context: "32K tokens"
+        speed: "Fast (2-5 seconds)"
+        best_for: "General chat, coding, writing, analysis"
+
+      qwen3_vl_8b:
+        name: "Qwen3-VL:8b"
+        type: "Vision-Language"
+        size: "6.1 GB"
+        context: "8K tokens"
+        speed: "Moderate (5-15 seconds)"
+        best_for: "Image analysis, visual Q&A, OCR"
+
+    endpoints:
+      generate:
+        method: "POST"
+        path: "/api/generate"
+        stream_supported: true
+        request_example: |
+          {
+            "model": "qwen2.5:7b",
+            "prompt": "Explain quantum computing",
+            "stream": false,
+            "options": {
+              "temperature": 0.7,
+              "top_p": 0.9,
+              "num_predict": 500
+            }
+          }
+
+      chat:
+        method: "POST"
+        path: "/api/chat"
+        context_management: true
+        request_example: |
+          {
+            "model": "qwen2.5:7b",
+            "messages": [
+              {"role": "system", "content": "You are a helpful assistant"},
+              {"role": "user", "content": "What's the capital of France?"}
+            ]
+          }
+
+      vision:
+        method: "POST"
+        path: "/api/generate"
+        model: "qwen3-vl:8b"
+        supports: "Base64-encoded images"
+
+    key_parameters:
+      temperature: "0.0-2.0 (creativity vs consistency)"
+      top_p: "0.0-1.0 (nucleus sampling)"
+      top_k: "1-100 (top K sampling)"
+      num_predict: "1-2048 (max tokens to generate)"
+      seed: "Random seed for reproducibility"
+
+    use_cases:
+      - "Chatbots and conversational AI"
+      - "Code generation and debugging"
+      - "Content creation"
+      - "Translation"
+      - "Question answering"
+      - "Image analysis (vision model)"
+      - "Data extraction"
+
+    rate_limit: "100 requests/hour"
+    privacy: "All processing local (no external API calls)"
+
+  system_control:
+    name: "System Control API"
+    description: "Infrastructure management and automation"
+    base_url: "https://system-api.appsparkle.org"
+    port: 30013
+    status: "✅ WORKING"
+    authentication: "Admin API Key"
+
+    key_features:
+      - "Guardian daemon control"
+      - "Application deployment"
+      - "Backup operations"
+      - "Dashboard metrics"
+      - "API key management"
+      - "Disk health monitoring"
+
+    endpoints:
+      guardian_status:
+        method: "GET"
+        path: "/api/guardian/status"
+        returns: "Daemon status, uptime, monitored services"
+
+      guardian_start:
+        method: "POST"
+        path: "/api/guardian/start"
+
+      guardian_stop:
+        method: "POST"
+        path: "/api/guardian/stop"
+
+      guardian_restart:
+        method: "POST"
+        path: "/api/guardian/restart"
+
+      deploy_trigger:
+        method: "POST"
+        path: "/api/deploy/trigger"
+        params:
+          - "app_name: Application to deploy"
+          - "branch: Git branch (default: main)"
+          - "force_rebuild: Force Docker rebuild"
+
+      backup_trigger:
+        method: "POST"
+        path: "/api/backup/restic/trigger"
+        params:
+          - "tier: 1 or 2 (Tier 1 = critical, Tier 2 = all)"
+
+      backup_status:
+        method: "GET"
+        path: "/api/backup/restic/status"
+
+      dashboard_stats:
+        method: "GET"
+        path: "/api/dashboard/stats"
+        returns: "Service counts, system metrics, backup info"
+
+      disk_health:
+        method: "GET"
+        path: "/api/disk/health"
+
+    security:
+      - "API key required for all endpoints (except /health)"
+      - "Rate limit: 300 requests/minute"
+      - "CORS restricted to Guardian Dashboard"
+      - "Helmet.js security headers"
+      - "Audit logging enabled"
+
+    use_cases:
+      - "Remote infrastructure management"
+      - "Automated deployment pipelines"
+      - "Backup automation"
+      - "System health monitoring"
+
+    rate_limit: "300 requests/minute"
+    access_restriction: "Admin keys only"
+
+  guardian_webhook:
+    name: "Guardian Webhook API"
+    description: "Intelligent alert handling and auto-remediation"
+    base_url: "https://guardian-webhook.appsparkle.org"
+    port: 30006
+    container: "guardian-webhook-prod"
+    status: "✅ WORKING"
+    authentication: "None (internal service)"
+
+    key_features:
+      - "Intelligent error detection (SSL, memory, container failures)"
+      - "Progressive 3-tier remediation"
+      - "SSL/TLS error auto-fix"
+      - "Memory optimization (heap vs container)"
+      - "Prometheus metrics export"
+      - "Comprehensive logging"
+
+    endpoints:
+      health:
+        method: "GET"
+        path: "/health"
+
+      status:
+        method: "GET"
+        path: "/status"
+        returns: "Recent activity, statistics"
+
+      metrics:
+        method: "GET"
+        path: "/metrics"
+        format: "Prometheus-compatible"
+
+      alert_handler:
+        method: "POST"
+        path: "/guardian/alert"
+        format: "Alertmanager webhook format"
+
+    supported_alerts:
+      ssl_errors:
+        patterns:
+          - "error:1E08010C:DECODER routines::unsupported"
+          - "SSL_ERROR_SSL"
+          - "GRPC SSL errors"
+        remediation: "Apply Node.js v20 SSL compatibility fix"
+
+      memory_alerts:
+        types:
+          - "Heap memory (98% threshold)"
+          - "Container memory (80% threshold)"
+        remediation: "Increase heap allocation or container limits"
+
+      container_down:
+        tiers:
+          - "Tier 1: Quick health check + graceful restart"
+          - "Tier 2: Full container restart + dependency checks"
+          - "Tier 3: Force recreate + cache clearing"
+
+    performance:
+      success_rate: "~94%"
+      avg_response_time: "200-500ms"
+      remediation_time: "10-120 seconds"
+
+    integration: "Receives alerts from Prometheus Alertmanager"
+    log_location: "/home/sheldon/infra/guardian/logs/"
+
+integration_patterns:
+  moshimoshi:
+    tts_integration:
+      file: "src/lib/tts/config.ts"
+      endpoint: "https://tts.selfmind.dev"
+      voice: "ja-JP-NanamiNeural"
+      usage: "Primary TTS provider for Japanese learning"
+
+    transcript_integration:
+      file: "src/app/api/youtube/transcript/[videoId]/route.ts"
+      proxy: "Internal proxy to transcript service"
+      usage: "YouTube shadowing feature"
+
+  future_integrations:
+    whisper:
+      planned: "Speech practice with feedback"
+      file: "TBD"
+
+    chat_llm:
+      planned: "AI tutor for Japanese learning"
+      use_case: "Grammar explanations, conversation practice"
+
+    image_generation:
+      planned: "Visual vocabulary cards"
+      use_case: "Generate images for kanji/vocab"
+
+common_tasks:
+  generate_api_key:
+    script: "/home/sheldon/ai-gateway/generate_apikey.py"
+    command: |
+      cd /home/sheldon/ai-gateway
+      python generate_apikey.py generate \
+        -u "app-name" \
+        -s "all" \
+        -d "Description" \
+        -e 90
+    output: "UUID key with expiration date"
+
+  test_api_endpoint:
+    edge_tts: |
+      curl -X POST https://api.selfmind.dev/tts/api/speak \
+        -H "X-API-Key: YOUR_KEY" \
+        -H "Content-Type: application/json" \
+        -d '{"text":"Hello","voice":"en-US-JennyNeural"}' \
+        --output test.mp3
+
+    whisper: |
+      curl -X POST https://api.selfmind.dev/whisper/api/transcribe \
+        -H "X-API-Key: YOUR_KEY" \
+        -F "audio=@test.mp3"
+
+    chat: |
+      curl -X POST https://api.selfmind.dev/chat/api/generate \
+        -H "X-API-Key: YOUR_KEY" \
+        -H "Content-Type: application/json" \
+        -d '{"model":"qwen2.5:7b","prompt":"What is 2+2?","stream":false}'
+
+  check_service_health:
+    all_services: |
+      # Check Guardian Dashboard
+      curl https://guardian-dashboard.appsparkle.org
+
+      # Check API Gateway
+      curl https://api.selfmind.dev/health
+
+      # Check individual services
+      curl https://tts.selfmind.dev/health
+      curl https://nhk.selfmind.dev/actuator/health
+
+  monitor_rate_limits:
+    check_headers: "X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset"
+    example: |
+      curl -I https://api.selfmind.dev/tts/api/speak \
+        -H "X-API-Key: YOUR_KEY" \
+        | grep X-RateLimit
+
+troubleshooting:
+  common_issues:
+    invalid_api_key:
+      error: "401 Unauthorized"
+      solution:
+        - "Verify key format (UUID)"
+        - "Check key hasn't expired"
+        - "Ensure X-API-Key header is set"
+
+    rate_limit_exceeded:
+      error: "429 Too Many Requests"
+      solution:
+        - "Implement exponential backoff"
+        - "Cache responses"
+        - "Request higher limits"
+
+    service_unavailable:
+      error: "503 Service Unavailable"
+      solution:
+        - "Check Guardian Dashboard for alerts"
+        - "Verify container status: docker ps"
+        - "Check logs: docker logs <container>"
+
+    slow_responses:
+      causes:
+        - "Large requests (images, long audio)"
+        - "Cold start (model loading)"
+        - "Network latency"
+      solution:
+        - "Use appropriate timeouts"
+        - "Reduce payload size"
+        - "Implement client-side caching"
+
+  debugging_commands:
+    check_containers: "docker ps"
+    view_logs: "docker logs <container-name> -f"
+    check_network: "docker network inspect bridge"
+    test_internal: "curl http://172.17.0.1:<port>/health"
+    check_guardian: "curl https://guardian-dashboard.appsparkle.org"
+
+best_practices:
+  api_key_security:
+    - "Never commit keys to git"
+    - "Use environment variables"
+    - "Rotate keys every 90 days"
+    - "Use separate keys per service/environment"
+    - "Revoke unused keys immediately"
+
+  error_handling:
+    - "Implement retry logic with exponential backoff"
+    - "Handle rate limits gracefully"
+    - "Provide fallback mechanisms"
+    - "Log errors for debugging"
+    - "Show user-friendly error messages"
+
+  performance_optimization:
+    - "Cache responses when possible"
+    - "Use streaming for better UX (chat, TTS)"
+    - "Implement request queueing"
+    - "Set appropriate timeouts"
+    - "Monitor usage patterns"
+
+  cost_management:
+    - "Use self-hosted APIs (zero ongoing cost)"
+    - "Monitor rate limits to avoid blocks"
+    - "Cache expensive operations"
+    - "Consider batch processing"
+
+infrastructure:
+  server:
+    name: "Sheldon"
+    location: "Local network (tbbt-sheldon)"
+    hardware: "AMD Ryzen 9 6900HX, Radeon 680M"
+    os: "Ubuntu Server"
+    docker_version: "24.x"
+
+  networking:
+    internal: "Docker bridge network (172.17.0.0/16)"
+    external: "Cloudflare Tunnel"
+    reverse_proxy: "Caddy"
+    dns: "*.selfmind.dev, *.appsparkle.org"
+
+  monitoring:
+    dashboard: "https://guardian-dashboard.appsparkle.org"
+    prometheus: "http://localhost:9090"
+    alertmanager: "http://localhost:9093"
+    logs: "/home/sheldon/infra/guardian/logs/"
+
+  backup:
+    tier_1: "Critical infrastructure (every 2 hours)"
+    tier_2: "All services (daily)"
+    storage: "Google Drive via Restic"
+    retention: "Unlimited snapshots"
+
+related_documentation:
+  api_docs_location: "/home/beano/Life-Org/SecondBrain/Sheldon/APIs/"
+  individual_docs:
+    - "01-edge-tts-api.md"
+    - "02-transcript-service-api.md"
+    - "03-system-control-api.md"
+    - "04-comfyui-image-generation-api.md"
+    - "05-guardian-webhook-api.md"
+    - "06-nhk-easy-api.md"
+    - "07-whisper-api.md"
+    - "08-chat-llm-ollama-api.md"
+  infrastructure_docs:
+    - "/home/sheldon/ai-gateway/docs/"
+    - "/home/sheldon/infra/docs/"
+  integration_guides:
+    - "moshimoshi/docs/SHELDON_SERVICE_DEPLOYMENT_GUIDE.md"
+
+key_architectural_decisions:
+  - "Self-hosted for privacy and cost savings ($6,720+/year saved)"
+  - "API Gateway pattern for centralized auth and rate limiting"
+  - "Docker containers for easy deployment and isolation"
+  - "Cloudflare Tunnel for secure external access (no port forwarding)"
+  - "Ollama for local LLM inference (privacy-first)"
+  - "Guardian system for automated monitoring and remediation"
+  - "Modular architecture (each service independent)"
+  - "Prometheus + Alertmanager for monitoring"
+
+success_metrics:
+  uptime: "99.5%+ (30-day average)"
+  all_services_operational: "100% (8/8)"
+  cost_savings: "$6,720+/year vs commercial services"
+  response_times: "Within acceptable ranges for all services"
+  auto_remediation_success: "94%+ (Guardian Webhook)"
+
+version_info:
+  api_gateway: "1.0.0"
+  edge_tts: "1.0"
+  transcript_service: "1.0"
+  nhk_easy: "1.0"
+  whisper: "1.0"
+  image_generation: "1.0 (ComfyUI)"
+  chat_llm: "1.0 (Ollama 0.12.11)"
+  system_control: "1.0.0"
+  guardian_webhook: "2.0 (containerized)"
+  last_updated: "2025-11-16"

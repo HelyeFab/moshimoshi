@@ -120,9 +120,8 @@ service cloud.firestore {
       allow delete: if false; // Users should be soft-deleted
     }
     
-    // Usage tracking - Read for owner, write server-only
-    // Supports both flat dates (2025-10-06) and monthly buckets (2025-10)
-    match /users/{userId}/usage/{document=**} {
+    // Usage collection - track feature usage (Entitlements v2)
+    match /usage/{userId}/daily/{date} {
       allow read: if isOwner(userId) || isAdmin();
       allow write: if false; // Only server can write usage data
     }
@@ -268,157 +267,10 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // Video history - Premium users can sync video history for cross-device access
-    match /users/{userId}/videoHistory/{document} {
-      // Users can read their own video history
-      allow read: if isOwner(userId);
-
-      // Only premium users can write (sync) their video history
-      allow create: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
-
-      allow update: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
-
-      // Video history should not be deleted
-      allow delete: if false;
-    }
-
-    // Custom learning lists - Users can manage their own lists
-    match /users/{userId}/lists/{listId} {
-      // Users can read their own lists
-      allow read: if isOwner(userId);
-
-      // Users can create lists with required fields
-      allow create: if isOwner(userId) &&
-        request.resource.data.keys().hasAll(['name', 'userId', 'items', 'createdAt', 'updatedAt']);
-
-      // Users can update their own lists
-      allow update: if isOwner(userId) &&
-        request.resource.data.userId == resource.data.userId;
-
-      // Users can delete their own lists
-      allow delete: if isOwner(userId);
-    }
-
-    // Flashcard decks - Premium users can sync flashcard decks
-    match /users/{userId}/flashcardDecks/{deckId} {
-      // Users can read their own flashcard decks
-      allow read: if isOwner(userId);
-
-      // Only premium users can create flashcard decks in Firebase
-      allow create: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['name', 'userId', 'createdAt', 'updatedAt']);
-
-      // Only premium users can update flashcard decks
-      allow update: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.userId == resource.data.userId;
-
-      // Users can delete their own decks
-      allow delete: if isOwner(userId);
-    }
-
     // Audit logs - write-only for system, read-only for admins
     match /audit_logs/{logId} {
       allow read: if isAdmin();
       allow write: if false; // Only server-side writes
-    }
-
-    // YouTube History - Premium users can sync their video history
-    // Document ID format: {userId}_{videoId}
-    match /userYouTubeHistory/{docId} {
-      // Users can read their own video history
-      allow read: if isAuthenticated() &&
-        docId.matches('^' + request.auth.uid + '_.*$');
-
-      // Only premium users can write (sync) their video history
-      allow create: if isAuthenticated() &&
-        docId.matches('^' + request.auth.uid + '_.*$') &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly') &&
-        request.resource.data.keys().hasAll(['userId', 'videoId', 'videoUrl', 'videoTitle']) &&
-        request.resource.data.userId == request.auth.uid;
-
-      allow update: if isAuthenticated() &&
-        docId.matches('^' + request.auth.uid + '_.*$') &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.plan == 'premium_yearly') &&
-        resource.data.userId == request.auth.uid &&
-        request.resource.data.userId == request.auth.uid;
-
-      allow delete: if isAuthenticated() &&
-        docId.matches('^' + request.auth.uid + '_.*$') &&
-        resource.data.userId == request.auth.uid;
-    }
-
-    // Practice History - All authenticated users can track practice stats
-    // Document ID format: {userId}_{videoId}
-    match /userPracticeHistory/{docId} {
-      // Users can read their own practice history
-      allow read: if isAuthenticated() &&
-        docId.matches('^' + request.auth.uid + '_.*$');
-
-      // All authenticated users can write practice history
-      allow create: if isAuthenticated() &&
-        docId.matches('^' + request.auth.uid + '_.*$') &&
-        request.resource.data.keys().hasAll(['userId', 'videoId', 'contentType']) &&
-        request.resource.data.userId == request.auth.uid &&
-        request.resource.data.contentType == 'youtube';
-
-      allow update: if isAuthenticated() &&
-        docId.matches('^' + request.auth.uid + '_.*$') &&
-        resource.data.userId == request.auth.uid &&
-        request.resource.data.userId == request.auth.uid;
-
-      allow delete: if isAuthenticated() &&
-        docId.matches('^' + request.auth.uid + '_.*$') &&
-        resource.data.userId == request.auth.uid;
-    }
-
-    // Video History - Lightweight tracking of which videos user has accessed
-    // Document ID: {userId}
-    match /userVideoHistory/{userId} {
-      // Users can read their own video history
-      allow read: if isOwner(userId);
-
-      // All authenticated users can create/update their video history
-      allow create: if isOwner(userId) &&
-        request.resource.data.keys().hasAll(['videoIds', 'lastUpdated']);
-
-      allow update: if isOwner(userId);
-
-      allow delete: if isOwner(userId);
-    }
-
-    // Transcript Cache - Shared cache to save API costs
-    // Anyone can READ cached transcripts (to avoid re-transcribing)
-    // Only server can WRITE (to prevent abuse/spam)
-    match /transcriptCache/{contentId} {
-      // Anyone can read cached transcripts - this saves money by avoiding re-transcription
-      allow read: if true;
-
-      // Only server can write (via Admin SDK)
-      allow write: if false;
-    }
-
-    // Drill SRS data - Spaced Repetition System tracking for conjugation drills
-    // PREMIUM FEATURE: Only premium users can access SRS tracking
-    // Follows same pattern as achievements and video history
-    match /users/{userId}/drill-srs/{wordId} {
-      // Only premium users can read their SRS data
-      allow read: if isOwner(userId) &&
-        (get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_monthly' ||
-         get(/databases/$(database)/documents/users/$(userId)).data.subscription.plan == 'premium_yearly');
-
-      // Server writes via Admin SDK (bypasses this rule)
-      // But document that only premium users should have SRS data written
-      allow write: if false; // Only server can write
     }
 
     // Default deny all

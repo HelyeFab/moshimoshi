@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const articleId = searchParams.get('id');
     const source = searchParams.get('source');
-    const maxResults = parseInt(searchParams.get('limit') || '100');
+    const difficulty = searchParams.get('difficulty');
+    const category = searchParams.get('category');
+    const searchQuery = searchParams.get('search');
+    const limit = parseInt(searchParams.get('limit') || '12');
+    const offset = parseInt(searchParams.get('offset') || '0');
     const forceRefresh = searchParams.get('refresh') === 'true';
 
     // Optional: Get session for user tracking
@@ -48,42 +52,58 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Check cache for list requests
-    if (!forceRefresh && articlesCache && Date.now() - articlesCache.timestamp < CACHE_DURATION) {
-      return NextResponse.json({
-        success: true,
-        data: articlesCache.data,
-        meta: {
-          total: articlesCache.data.length,
-          cached: true
-        }
+    // Build base query
+    let query: any = db.collection('news_articles');
+
+    // Add filters
+    const filters: any[] = [];
+    if (source && source !== 'all') filters.push(['source', '==', source]);
+    if (difficulty && difficulty !== 'all') filters.push(['difficulty', '==', difficulty]);
+    if (category && category !== 'all') filters.push(['category', '==', category]);
+
+    // Apply filters
+    filters.forEach(([field, op, value]) => {
+      query = query.where(field, op, value);
+    });
+
+    // Always order by publishDate
+    query = query.orderBy('publishDate', 'desc');
+
+    // Get total count for pagination
+    const countSnapshot = await query.get();
+    const totalCount = countSnapshot.size;
+
+    // Apply pagination
+    query = query.limit(limit);
+    if (offset > 0) {
+      // Get the last document from previous page to use as cursor
+      let offsetQuery: any = db.collection('news_articles');
+      filters.forEach(([field, op, value]) => {
+        offsetQuery = offsetQuery.where(field, op, value);
       });
-    }
-
-    // Build query for multiple articles
-    let query = db.collection('news_articles')
-      .orderBy('publishDate', 'desc')
-      .limit(maxResults);
-
-    // Add source filter if specified
-    if (source) {
-      query = db.collection('news_articles')
-        .where('source', '==', source)
+      const offsetSnapshot = await offsetQuery
         .orderBy('publishDate', 'desc')
-        .limit(maxResults);
+        .limit(offset)
+        .get();
+
+      if (!offsetSnapshot.empty) {
+        const lastDoc = offsetSnapshot.docs[offsetSnapshot.docs.length - 1];
+        query = query.startAfter(lastDoc);
+      }
     }
 
     // Fetch articles
     const snapshot = await query.get();
 
-    if (snapshot.empty) {
+    if (snapshot.empty && offset === 0) {
       // Return fallback articles if no articles found
       const fallbackArticles = getFallbackArticles();
       return NextResponse.json({
         success: true,
-        data: fallbackArticles,
+        articles: fallbackArticles,
+        totalCount: fallbackArticles.length,
+        hasMore: false,
         meta: {
-          total: fallbackArticles.length,
           cached: false,
           fallback: true
         }
@@ -102,17 +122,27 @@ export async function GET(request: NextRequest) {
       };
     });
 
-    // Update cache
-    articlesCache = {
-      data: articles,
-      timestamp: Date.now()
-    };
+    // Filter by search query if provided (client-side for simplicity)
+    let filteredArticles = articles;
+    if (searchQuery) {
+      const lowerQuery = searchQuery.toLowerCase();
+      filteredArticles = articles.filter(article =>
+        article.title?.toLowerCase().includes(lowerQuery) ||
+        article.summary?.toLowerCase().includes(lowerQuery) ||
+        article.content?.toLowerCase().includes(lowerQuery)
+      );
+    }
+
+    const hasMore = (offset + limit) < totalCount;
 
     return NextResponse.json({
       success: true,
-      data: articles,
+      articles: filteredArticles,
+      totalCount,
+      hasMore,
       meta: {
-        total: articles.length,
+        offset,
+        limit,
         cached: false
       }
     });
@@ -123,9 +153,10 @@ export async function GET(request: NextRequest) {
     const fallbackArticles = getFallbackArticles();
     return NextResponse.json({
       success: true,
-      data: fallbackArticles,
+      articles: fallbackArticles,
+      totalCount: fallbackArticles.length,
+      hasMore: false,
       meta: {
-        total: fallbackArticles.length,
         cached: false,
         fallback: true,
         error: error instanceof Error ? error.message : 'Unknown error'

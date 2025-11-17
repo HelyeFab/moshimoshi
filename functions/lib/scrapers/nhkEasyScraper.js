@@ -147,17 +147,30 @@ async function scrapeNHKEasy() {
             durationMs: duration,
             avgTimePerArticle: articles.length > 0 ? Math.round(duration / articles.length) : 0
         });
-        // Store articles in Firestore
+        // Store articles in Firestore with batch chunking
+        // Firestore has a 500 operation limit per batch, so we chunk at 100 for optimal performance
         if (articles.length > 0) {
             try {
-                const batch = db.batch();
-                for (const article of articles) {
-                    const docRef = db.collection('news_articles').doc(article.id);
-                    batch.set(docRef, Object.assign(Object.assign({}, article), { publishDate: admin.firestore.Timestamp.fromDate(article.publishDate), createdAt: admin.firestore.FieldValue.serverTimestamp(), lastUpdated: admin.firestore.FieldValue.serverTimestamp() }), { merge: true });
+                const BATCH_SIZE = 100;
+                let totalStored = 0;
+                for (let i = 0; i < articles.length; i += BATCH_SIZE) {
+                    const batch = db.batch();
+                    const chunk = articles.slice(i, i + BATCH_SIZE);
+                    for (const article of chunk) {
+                        const docRef = db.collection('news_articles').doc(article.id);
+                        batch.set(docRef, Object.assign(Object.assign({}, article), { publishDate: admin.firestore.Timestamp.fromDate(article.publishDate), createdAt: admin.firestore.FieldValue.serverTimestamp(), lastUpdated: admin.firestore.FieldValue.serverTimestamp() }), { merge: true });
+                    }
+                    await batch.commit();
+                    totalStored += chunk.length;
+                    logger.debug('[NHK Easy] Batch committed', {
+                        batchNumber: Math.floor(i / BATCH_SIZE) + 1,
+                        articlesInBatch: chunk.length,
+                        totalStored
+                    });
                 }
-                await batch.commit();
                 logger.info('[NHK Easy] Articles stored in Firestore', {
-                    count: articles.length
+                    count: totalStored,
+                    batches: Math.ceil(articles.length / BATCH_SIZE)
                 });
             }
             catch (dbError) {

@@ -9,7 +9,7 @@
  */
 
 import { redis, RedisKeys, CacheTTL } from '@/lib/redis/client'
-import { LRUCache } from 'lru-cache'
+import LRUCache from 'lru-cache'
 
 /**
  * Cache configuration based on performance budget

@@ -7,6 +7,7 @@ import { useI18n } from '@/i18n/I18nContext';
 // Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/layout/PageHeader';
 import { useAuth } from '@/hooks/useAuth';
+import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage';
 
 interface NewsArticle {
   id: string;
@@ -85,13 +86,16 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
       onClick={() => onClick(article)}
     >
       <div className="flex gap-4">
-        {/* Thumbnail or icon */}
-        <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-800 dark:to-primary-900 flex-shrink-0 flex items-center justify-center">
-          {article.imageUrl ? (
-            <img src={article.imageUrl} alt="" className="w-full h-full object-cover rounded-lg" />
-          ) : (
-            <span className="text-3xl">{getSourceIcon(article.source)}</span>
-          )}
+        {/* Thumbnail with professional fallback */}
+        <div className="w-20 h-20 rounded-lg flex-shrink-0 overflow-hidden">
+          <NewsArticleFallbackImage
+            imageUrl={article.imageUrl}
+            title={article.title}
+            source={article.source}
+            category={article.category}
+            difficulty={article.difficulty}
+            height="h-20"
+          />
         </div>
 
         {/* Content */}
@@ -363,7 +367,7 @@ export default function NewsPage() {
             <button
               className="px-6 py-2 bg-soft-white dark:bg-dark-850 border border-gray-100 dark:border-dark-700 rounded-lg text-foreground dark:text-dark-100 hover:bg-gray-50 dark:hover:bg-dark-800 transition-colors"
             >
-              {t('common.loadMore')}
+              {t('news.loadMore')}
             </button>
           </div>
         )}
