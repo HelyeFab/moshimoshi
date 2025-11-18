@@ -150,11 +150,23 @@ function ArticleContentWithPlayButtons({
                   className={`group relative sentence-inline-wrapper ${segments.length > 1 ? 'segment-wrapper' : 'not-segmented'}`}
                   style={{ lineHeight: segments.length > 1 ? '2.0' : undefined }}
                 >
-                  {/* Play button inline before each segment */}
+                  {/* Segment text with furigana (no further segmentation) */}
+                  <span className="furigana-content">
+                    <FuriganaTextCore
+                      text={segment}
+                      showFurigana={showFurigana}
+                      fontSize={fontSize}
+                      highlightGrammar={highlightGrammar}
+                      highlightMode={highlightMode}
+                      onWordClick={onWordClick}
+                      className="inline"
+                    />
+                  </span>
+                  {/* Play button inline after each segment */}
                   <button
                     onClick={() => onPlaySentence(segment, currentGlobalIndex)}
                     disabled={isFullArticlePlaying || sentenceAudioLoading === currentGlobalIndex}
-                    className={`inline-flex items-center justify-center mr-2 w-7 h-7 rounded-full transition-all duration-200 ${
+                    className={`inline-flex items-center justify-center ml-2 w-7 h-7 rounded-full transition-all duration-200 ${
                       playingSentenceIndex === currentGlobalIndex
                         ? '!opacity-100 bg-primary-500 text-white'
                         : playingSentenceIndex !== null
@@ -178,18 +190,6 @@ function ArticleContentWithPlayButtons({
                       <Play className="w-3.5 h-3.5" fill="currentColor" />
                     )}
                   </button>
-                  {/* Segment text with furigana (no further segmentation) */}
-                  <span className="furigana-content">
-                    <FuriganaTextCore
-                      text={segment}
-                      showFurigana={showFurigana}
-                      fontSize={fontSize}
-                      highlightGrammar={highlightGrammar}
-                      highlightMode={highlightMode}
-                      onWordClick={onWordClick}
-                      className="inline"
-                    />
-                  </span>
                 </div>
               );
             })}
@@ -1605,9 +1605,9 @@ export default function EnhancedArticleReader({
           <div
             className="mb-10 p-6 rounded-2xl animate-fade-in-up"
             style={{
+              animationDelay: '0.3s',
               backgroundColor: 'var(--article-accent-bg)',
-              maxWidth: 'var(--article-content-width)',
-              animationDelay: '0.3s'
+              maxWidth: 'var(--article-content-width)'
             }}
           >
             <div
