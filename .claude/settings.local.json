@@ -99,7 +99,11 @@
       "Bash(timeout 120 curl:*)",
       "Bash(timeout 180 curl:*)",
       "Bash(journalctl:*)",
-      "Bash(timeout 60 curl:*)"
+      "Bash(timeout 60 curl:*)",
+      "Bash(git push:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(timeout 180 tail:*)"
     ],
     "deny": [],
     "ask": []

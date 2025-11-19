@@ -1,0 +1,18 @@
+# Session Secret (CRITICAL - must be at least 32 characters)
+# Generate with: openssl rand -base64 32
+SESSION_SECRET=ZQ2eA2vfe6hE3T/9dQrZBR8Q3FXjzzBySsw2hu5gJlA=
+
+# Admin Password
+# Set a strong password for admin access
+ADMIN_PASSWORD=admin213
+
+# Viewer Password (for family/friends to access the site)
+VIEWER_PASSWORD=family123
+
+# Vercel Blob Storage
+# Get your token from https://vercel.com/dashboard/stores
+BLOB_READ_WRITE_TOKEN="vercel_blob_rw_fqx7L25DNElhIk0D_Go6eIJBBMzXPyUoH3GRAhyEOczcMPK"
+
+# Node Environment
+NODE_ENV=production
+
