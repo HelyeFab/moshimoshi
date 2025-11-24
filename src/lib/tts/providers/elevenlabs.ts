@@ -28,9 +28,15 @@ export class ElevenLabsProvider {
     }
   ): Promise<{ audioContent: ArrayBuffer }> {
     try {
-      // Ignore language codes like 'ja-JP', use the configured voice ID
+      // Ignore language codes and Edge-TTS/Google voice names, use the configured voice ID
       let voiceId = this.voiceId;
-      if (options?.voice && options.voice !== 'ja-JP' && options.voice !== 'en-US') {
+      if (options?.voice &&
+          options.voice !== 'ja-JP' &&
+          options.voice !== 'en-US' &&
+          !options.voice.includes('-') && // Ignore Edge-TTS/Google format voices (e.g., 'ja-JP-NanamiNeural')
+          !options.voice.includes('Neural') &&
+          !options.voice.includes('Standard')) {
+        // Only use the voice if it looks like an ElevenLabs voice ID
         voiceId = options.voice;
       }
       const url = `${this.endpoint}/text-to-speech/${voiceId}`;

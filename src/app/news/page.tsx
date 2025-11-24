@@ -7,6 +7,8 @@ import { useI18n } from '@/i18n/I18nContext';
 // Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/layout/PageHeader';
 import { useAuth } from '@/hooks/useAuth';
+import { LoadingOverlay } from '@/components/ui/Loading';
+import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage';
 
 interface NewsArticle {
   id: string;
@@ -85,13 +87,16 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
       onClick={() => onClick(article)}
     >
       <div className="flex gap-4">
-        {/* Thumbnail or icon */}
-        <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-800 dark:to-primary-900 flex-shrink-0 flex items-center justify-center">
-          {article.imageUrl ? (
-            <img src={article.imageUrl} alt="" className="w-full h-full object-cover rounded-lg" />
-          ) : (
-            <span className="text-3xl">{getSourceIcon(article.source)}</span>
-          )}
+        {/* Thumbnail with professional fallback */}
+        <div className="w-20 h-20 rounded-lg flex-shrink-0 overflow-hidden">
+          <NewsArticleFallbackImage
+            imageUrl={article.imageUrl}
+            title={article.title}
+            source={article.source}
+            category={article.category}
+            difficulty={article.difficulty}
+            height="h-20"
+          />
         </div>
 
         {/* Content */}
@@ -109,6 +114,11 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
           <div className="flex flex-wrap items-center gap-2">
             <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getDifficultyColor(article.difficulty)}`}>
               {article.difficulty}
+            </span>
+
+            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 flex items-center gap-1">
+              <span>{getSourceIcon(article.source)}</span>
+              {article.source}
             </span>
 
             <span className="text-xs text-muted-foreground dark:text-dark-500 flex items-center gap-1">
@@ -153,7 +163,7 @@ function FilterBar({
   const [showFilters, setShowFilters] = useState(false);
 
   const levels = ['All', 'N5', 'N4', 'N3', 'N2', 'N1'];
-  const sources = ['All', 'NHK Easy', 'Todaii', 'Watanoc', 'Mainichi News', 'Mainichi Shogakusei'];
+  const sources = ['All', 'NHK Easy', 'Watanoc', 'Mainichi News', 'Mainichi Shogakusei'];
 
   return (
     <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4 mb-4">
@@ -240,13 +250,15 @@ const pageStructuredData = {
 export default function NewsPage() {
   const router = useRouter();
   const { t } = useI18n();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, isGuest, isAuthenticated } = useAuth();
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [selectedSource, setSelectedSource] = useState('All');
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
 
   // Load articles
   useEffect(() => {
@@ -258,21 +270,45 @@ export default function NewsPage() {
     filterArticles();
   }, [articles, selectedLevel, selectedSource]);
 
-  const loadArticles = async () => {
+  // Handle redirect if no user after auth has loaded
+  useEffect(() => {
+    if (!authLoading && !user && !isGuest) {
+      const timer = setTimeout(() => {
+        router.push('/auth/signin');
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [authLoading, user, isGuest, router]);
+
+  const loadArticles = async (pageNum: number = 0) => {
     try {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/news/articles?limit=50');
+      const offset = pageNum * 20;
+      const response = await fetch(`/api/news/articles?limit=20&offset=${offset}`);
       if (!response.ok) throw new Error('Failed to fetch articles');
 
       const data = await response.json();
-      setArticles(data.data || []);
+      console.log('[NewsPage] API response:', data);
+      setArticles(data.articles || data.data || []);
+      setHasMore(data.hasMore || false);
+      setPage(pageNum);
     } catch (err) {
       console.error('Failed to load articles:', err);
       setError('ニュース記事の読み込みに失敗しました');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadNextPage = () => {
+    loadArticles(page + 1);
+  };
+
+  const loadPreviousPage = () => {
+    if (page > 0) {
+      loadArticles(page - 1);
     }
   };
 
@@ -295,6 +331,11 @@ export default function NewsPage() {
     router.push(`/news/${article.id}`);
   };
 
+  // Show loading state while auth is loading
+  if (authLoading) {
+    return <LoadingOverlay message={t('common.loading')} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       <script
@@ -314,7 +355,7 @@ export default function NewsPage() {
           selectedSource={selectedSource}
           onLevelChange={setSelectedLevel}
           onSourceChange={setSelectedSource}
-          onRefresh={loadArticles}
+          onRefresh={() => loadArticles(0)}
           isLoading={loading}
         />
 
@@ -357,14 +398,49 @@ export default function NewsPage() {
           )}
         </div>
 
-        {/* Load More Button */}
-        {!loading && filteredArticles.length >= 20 && (
-          <div className="mt-6 text-center">
-            <button
-              className="px-6 py-2 bg-soft-white dark:bg-dark-850 border border-gray-100 dark:border-dark-700 rounded-lg text-foreground dark:text-dark-100 hover:bg-gray-50 dark:hover:bg-dark-800 transition-colors"
-            >
-              {t('common.loadMore')}
-            </button>
+        {/* Pagination Buttons */}
+        {!loading && (page > 0 || hasMore) && (
+          <div className="mt-6 mb-8 flex justify-center items-center gap-4">
+            {/* Previous Page Button */}
+            {page > 0 && (
+              <button
+                onClick={loadPreviousPage}
+                className="group flex items-center gap-2 px-4 py-3 bg-soft-white dark:bg-dark-850 border border-gray-200 dark:border-dark-700 text-foreground dark:text-dark-100 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-800 transition-all shadow-sm hover:shadow-md"
+                aria-label="Previous page"
+              >
+                <svg
+                  className="w-5 h-5 transition-transform group-hover:-translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            )}
+
+            {/* Page Indicator */}
+            <span className="text-sm text-muted-foreground dark:text-dark-400">
+              {t('news.page')} {page + 1}
+            </span>
+
+            {/* Next Page Button */}
+            {hasMore && (
+              <button
+                onClick={loadNextPage}
+                className="group flex items-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-all shadow-sm hover:shadow-md"
+                aria-label="Next page"
+              >
+                <svg
+                  className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
           </div>
         )}
       </div>

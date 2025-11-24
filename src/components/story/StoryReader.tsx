@@ -22,7 +22,7 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline';
 import { BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
-import ShadowingAudioPlayer from '@/components/audio/ShadowingAudioPlayer';
+import UnifiedShadowingMode from '@/components/shadowing/UnifiedShadowingMode';
 import dynamic from 'next/dynamic';
 
 // Audio player placeholder - using ShadowingAudioPlayer instead
@@ -862,12 +862,21 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
           {/* Shadowing Mode Modal */}
           {showShadowingMode && (
-            <ShadowingAudioPlayer
-              article={{
-                id: `${story.id}_page_${currentPageIndex}`,
-                content: cleanTextForTTS(currentPage.text),
-                title: story.title
-              } as any}
+            <UnifiedShadowingMode
+              sentences={
+                // Split Japanese text into sentences (split on sentence-ending punctuation)
+                cleanTextForTTS(currentPage.text)
+                  .split(/[。！？]/)
+                  .map(s => s.trim())
+                  .filter(s => s.length > 0)
+              }
+              title={`${story.title} - Page ${currentPageIndex + 1}`}
+              contentId={`${story.id}_page_${currentPageIndex}`}
+              contentType="story"
+              audioSpeed={1.0}
+              showFurigana={settings.showFurigana}
+              highlightGrammar={settings.highlightVocabulary}
+              highlightMode={settings.highlightMode}
               onClose={() => setShowShadowingMode(false)}
             />
           )}

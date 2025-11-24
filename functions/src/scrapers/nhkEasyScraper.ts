@@ -21,13 +21,24 @@ interface NewsArticle {
   summaryWithFurigana?: string; // Summary with furigana
   url: string;
   imageUrl?: string;
-  audioUrl?: string; // m3u8 audio URL for listening practice
+  audioUrl?: string; // m3u8 audio URL for listening practice (NHK native)
   publishDate: Date;
   source: string;
   category: string;
   difficulty: string;
   tags?: string[];
   sourceId?: string; // Original article ID from source
+
+  // TTS-generated audio fields
+  generatedTitleAudioUrl?: string;     // TTS-generated audio for title
+  generatedSummaryAudioUrl?: string;   // TTS-generated audio for summary
+  generatedContentAudioUrl?: string;   // TTS-generated audio for full content
+  audioGeneratedAt?: Date;             // When audio was generated
+  audioProvider?: 'edge-tts' | 'kokoro';  // TTS provider used
+  audioVoice?: string;                 // Voice ID used
+  audioStatus?: 'pending' | 'generated' | 'failed' | 'partial';  // Generation status
+  audioError?: string;                 // Error message if generation failed
+
   metadata?: {
     wordCount?: number;
     readingTime?: number;
@@ -48,15 +59,6 @@ interface NHKArticle {
 // Helper to generate consistent IDs
 function generateArticleId(url: string): string {
   return crypto.createHash('md5').update(url).digest('hex');
-}
-
-// Helper to strip ruby tags but keep the text
-function stripRubyTags(html: string): string {
-  // Remove <rt> tags and their content
-  let text = html.replace(/<rt>.*?<\/rt>/g, '');
-  // Remove remaining <ruby> tags but keep content
-  text = text.replace(/<\/?ruby>/g, '');
-  return text;
 }
 
 /**
@@ -157,6 +159,14 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
           }
         };
 
+        // NHK Easy provides native professional audio via m3u8Url
+        // No need to generate TTS - use the high-quality native audio instead
+        logger.info('[NHK Easy] Using native NHK audio', {
+          articleId: newsArticle.id,
+          title: newsArticle.title.substring(0, 50),
+          hasNativeAudio: !!newsArticle.audioUrl
+        });
+
         articles.push(newsArticle);
 
         logger.debug('[NHK Easy] Article processed', {
@@ -181,24 +191,40 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
       avgTimePerArticle: articles.length > 0 ? Math.round(duration / articles.length) : 0
     });
 
-    // Store articles in Firestore
+    // Store articles in Firestore with batch chunking
+    // Firestore has a 500 operation limit per batch, so we chunk at 100 for optimal performance
     if (articles.length > 0) {
       try {
-        const batch = db.batch();
+        const BATCH_SIZE = 100;
+        let totalStored = 0;
 
-        for (const article of articles) {
-          const docRef = db.collection('news_articles').doc(article.id);
-          batch.set(docRef, {
-            ...article,
-            publishDate: admin.firestore.Timestamp.fromDate(article.publishDate),
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
-            lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
-          }, { merge: true });
+        for (let i = 0; i < articles.length; i += BATCH_SIZE) {
+          const batch = db.batch();
+          const chunk = articles.slice(i, i + BATCH_SIZE);
+
+          for (const article of chunk) {
+            const docRef = db.collection('news_articles').doc(article.id);
+            batch.set(docRef, {
+              ...article,
+              publishDate: admin.firestore.Timestamp.fromDate(article.publishDate),
+              createdAt: admin.firestore.FieldValue.serverTimestamp(),
+              lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+            }, { merge: true });
+          }
+
+          await batch.commit();
+          totalStored += chunk.length;
+
+          logger.debug('[NHK Easy] Batch committed', {
+            batchNumber: Math.floor(i / BATCH_SIZE) + 1,
+            articlesInBatch: chunk.length,
+            totalStored
+          });
         }
 
-        await batch.commit();
         logger.info('[NHK Easy] Articles stored in Firestore', {
-          count: articles.length
+          count: totalStored,
+          batches: Math.ceil(articles.length / BATCH_SIZE)
         });
       } catch (dbError) {
         logger.error('[NHK Easy] Failed to store in Firestore', {

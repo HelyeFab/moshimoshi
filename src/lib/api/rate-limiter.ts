@@ -55,7 +55,14 @@ export const RateLimitConfigs = {
     batch: { requests: 5, window: '1m', cost: 10 },
     preload: { requests: 10, window: '5m', cost: 5 },
   },
-  
+
+  // Furigana endpoints - moderate limits (CPU-intensive tokenization)
+  // Higher limits due to client-side caching reducing actual API calls
+  furigana: {
+    generate: { requests: 300, window: '1m', cost: 1 },
+    tokenize: { requests: 300, window: '1m', cost: 1 },
+  },
+
   // Admin endpoints - relaxed limits
   admin: {
     stats: { requests: 100, window: '1m' },

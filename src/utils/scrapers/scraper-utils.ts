@@ -283,3 +283,41 @@ export const scraperLogger = {
     }
   }
 };
+
+/**
+ * Removes photo captions from Japanese news article content
+ * Photo captions typically contain:
+ * - Full-width equals sign (＝) for location/date/photographer info
+ * - End with 撮影 (photography credit)
+ * - Photographer names and dates
+ *
+ * Example: 「東京2025デフリンピック」開会式で行われたアーティスティックプログラム＝東京都渋谷区の東京体育館で2025年11月15日、西夏生撮影
+ *
+ * @param content - The article content to clean
+ * @returns Content with photo captions removed
+ */
+export function removePhotoCaptions(content: string): string {
+  if (!content) return content;
+
+  // Pattern to match photo captions embedded in text
+  // Format: text＝location/date/photographer撮影 nexttext
+  // We want to remove from ＝ to 撮影 (inclusive)
+  const captionPattern = /＝[^＝。]*?撮影\s*/g;
+
+  const before = content;
+  const cleaned = content.replace(captionPattern, '');
+
+  // Log if we removed something
+  if (before !== cleaned) {
+    const matches = before.match(captionPattern);
+    if (matches) {
+      scraperLogger.debug('Removed photo caption(s)', {
+        count: matches.length,
+        examples: matches.slice(0, 2).map(m => m.substring(0, 80) + (m.length > 80 ? '...' : ''))
+      });
+    }
+  }
+
+  // Clean up any double spaces or leading/trailing whitespace
+  return cleaned.replace(/\s+/g, ' ').trim();
+}

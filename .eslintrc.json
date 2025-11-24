@@ -3,59 +3,21 @@
   "rules": {
     "prefer-const": "warn",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", {
+    "@typescript-eslint/no-unused-vars": ["warn", { 
       "argsIgnorePattern": "^_",
       "varsIgnorePattern": "^_",
       "ignoreRestSiblings": true
     }],
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-require-imports": "off",
-    "react/no-unescaped-entities": "off",
-    "no-restricted-imports": ["error", {
-      "paths": [{
-        "name": "firebase-admin/firestore",
-        "importNames": ["getFirestore", "Firestore"],
-        "message": "Do not import Firestore in API routes. Use service layer functions from @/lib/gamification/services/streakService instead."
-      }]
-    }]
+    "react/no-unescaped-entities": "off"
   },
   "overrides": [
     {
       "files": ["**/__tests__/**/*", "**/*.test.*", "**/*.spec.*"],
       "rules": {
         "@typescript-eslint/no-require-imports": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "no-restricted-imports": "off"
-      }
-    },
-    {
-      "files": ["src/app/api/**/*.ts"],
-      "rules": {
-        "no-restricted-imports": ["error", {
-          "paths": [
-            {
-              "name": "firebase-admin/firestore",
-              "message": "API routes must NOT directly import Firestore. Use service layer (@/lib/gamification/services/streakService) for all database operations."
-            },
-            {
-              "name": "@/lib/firebase/admin",
-              "importNames": ["adminDb"],
-              "message": "API routes must NOT use adminDb directly for user_stats writes. Use streakService transactions instead."
-            }
-          ]
-        }]
-      }
-    },
-    {
-      "files": ["src/lib/**/*.ts", "!src/lib/**/*.test.ts"],
-      "excludedFiles": ["src/lib/gamification/services/streakService.ts", "src/lib/firebase/admin.ts"],
-      "rules": {
-        "no-restricted-imports": ["warn", {
-          "paths": [{
-            "name": "firebase-admin/firestore",
-            "message": "Consider using streakService for user_stats writes to maintain single writer pattern."
-          }]
-        }]
+        "@typescript-eslint/no-explicit-any": "off"
       }
     }
   ]

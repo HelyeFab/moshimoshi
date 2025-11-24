@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
+import { rateLimitMiddleware } from '@/lib/api/rate-limiter';
 const kuromoji = require('kuromoji');
 
 // Type definitions for Kuromoji
@@ -52,9 +53,22 @@ function buildTokenizer(): Promise<KuromojiTokenizer> {
 
 export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting (premium tier gets 5x multiplier = 1500 req/min)
+    const rateLimitResponse = await rateLimitMiddleware(request, {
+      category: 'furigana',
+      endpoint: 'tokenize',
+      tier: 'premium',
+      bypassForAdmin: true,
+    });
+
+    if (rateLimitResponse) {
+      return rateLimitResponse;
+    }
+
     const body = await request.json();
     const { text } = body;
 
+    // Input validation and sanitization
     if (!text || typeof text !== 'string') {
       return NextResponse.json(
         { error: 'Text parameter is required and must be a string' },
@@ -62,11 +76,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Prevent excessively long inputs (DoS protection)
+    if (text.length > 10000) {
+      return NextResponse.json(
+        { error: 'Text exceeds maximum length of 10,000 characters' },
+        { status: 400 }
+      );
+    }
+
+    // Sanitize input - remove control characters except newlines/tabs
+    const sanitizedText = text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+
     // Get or build the tokenizer
     const tokenizer = cachedTokenizer || await buildTokenizer();
 
-    // Tokenize the text
-    const tokens = tokenizer.tokenize(text);
+    // Tokenize the sanitized text
+    const tokens = tokenizer.tokenize(sanitizedText);
 
     // Map tokens to include all necessary fields
     const mappedTokens = tokens.map((token, index) => ({

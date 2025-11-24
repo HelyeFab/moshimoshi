@@ -8,18 +8,18 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  Newspaper, Calendar, Clock, Tag, ChevronRight, ChevronLeft, 
+import {
+  Newspaper, Calendar, Clock, Tag, ChevronRight, ChevronLeft,
   RefreshCw, Filter, X, BarChart3, Globe, BookOpen, TrendingUp,
   Lock, User, Search, ChevronDown, ChevronUp
 } from 'lucide-react'
-import { NewsArticle } from '@/types/news'
 import { useUser } from '@/contexts/UserContext'
 import { useEntitlements } from '@/hooks/useEntitlements'
-import { newsService, DifficultyLevel, NewsCategory, NewsSource } from '@/services/newsService'
+import { newsService, NewsArticle, DifficultyLevel, NewsCategory, NewsSource } from '@/services/newsService'
 import { AddToReviewButton } from '@/components/review/AddToReviewButton'
 import { rdaTrack, trackScreen } from '@/lib/rda'
 import { cn } from '@/utils/cn'
+import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage'
 
 const ARTICLES_PER_PAGE = 12
 
@@ -30,8 +30,14 @@ export default function NewsPageClient() {
   const { hasFeatureAccess, getRemaining } = useEntitlements()
   
   // State
-  const [articles, setArticles] = useState<NewsArticle[]>([])
-  const [loading, setLoading] = useState(true)
+  const [articles, setArticles] = useState<NewsArticle[]>(() => {
+    console.log('[NewsPageClient] 🎬 Component mounting - initializing state')
+    return []
+  })
+  const [loading, setLoading] = useState(() => {
+    console.log('[NewsPageClient] 📊 Initial loading state: true')
+    return true
+  })
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -109,9 +115,12 @@ export default function NewsPageClient() {
 
   // Load initial data
   useEffect(() => {
+    console.log('[NewsPageClient] Initial load effect fired')
+    console.log('[NewsPageClient] Calling loadArticles(1)')
     loadArticles(1)
-    loadStats()
-  }, [loadArticles, loadStats])
+    // Temporarily disabled until stats index is ready
+    // loadStats()
+  }, [loadArticles])
 
   // Trigger scraping
   const triggerScraping = async () => {
@@ -369,20 +378,15 @@ export default function NewsPageClient() {
                   className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all group"
                 >
                   {/* Article Thumbnail */}
-                  {article.thumbnail && (
-                    <div className="relative h-48 bg-gradient-to-br from-primary/20 to-primary/5 overflow-hidden">
-                      <img
-                        src={article.thumbnail}
-                        alt={article.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none'
-                        }}
-                      />
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    </div>
-                  )}
+                  <NewsArticleFallbackImage
+                    imageUrl={article.imageUrl || article.thumbnail}
+                    title={article.title}
+                    source={article.source}
+                    category={article.category}
+                    difficulty={article.difficulty}
+                    className="group-hover:scale-105 transition-transform duration-300"
+                    height="h-48"
+                  />
                   
                   <div className="p-4">
                     {/* Meta Info */}
@@ -421,7 +425,7 @@ export default function NewsPageClient() {
                     {/* Date */}
                     <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
                       <Calendar className="w-3 h-3" />
-                      {formatDate(article.publishedAt)}
+                      {formatDate(article.publishDate)}
                     </div>
                     
                     {/* Actions */}

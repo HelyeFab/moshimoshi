@@ -40,11 +40,13 @@ const admin = __importStar(require("firebase-admin"));
 const logger = __importStar(require("firebase-functions/logger"));
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
+const params_1 = require("firebase-functions/params");
 const nhkEasyScraper_1 = require("../scrapers/nhkEasyScraper");
-const todaii_1 = require("../scrapers/todaii");
 const watanoc_1 = require("../scrapers/watanoc");
 const mainichi_news_1 = require("../scrapers/mainichi-news");
 const mainichi_shogakusei_1 = require("../scrapers/mainichi-shogakusei");
+// Define secrets needed for TTS audio generation
+const KOKORO_API_KEY = (0, params_1.defineSecret)('KOKORO_API_KEY');
 // Initialize Firestore
 const db = admin.firestore();
 // News source configurations
@@ -56,30 +58,67 @@ const NEWS_SOURCES = [
         enabled: true
     },
     {
-        name: 'Todaii',
-        endpoint: 'todaii',
-        priority: 2,
-        enabled: true
-    },
-    {
         name: 'Watanoc',
         endpoint: 'watanoc',
-        priority: 3,
+        priority: 2,
         enabled: true
     },
     {
         name: 'Mainichi News',
         endpoint: 'mainichi-news',
-        priority: 4,
+        priority: 3,
         enabled: true
     },
     {
         name: 'Mainichi Elementary',
         endpoint: 'mainichi-shogakusei',
-        priority: 5,
+        priority: 4,
         enabled: true
     }
 ];
+// Helper to save articles to Firestore
+async function saveArticlesToFirestore(articles, sourceName) {
+    if (!articles || articles.length === 0) {
+        logger.debug('[NewsScheduler] No articles to save', { source: sourceName });
+        return 0;
+    }
+    try {
+        const BATCH_SIZE = 100;
+        let totalStored = 0;
+        for (let i = 0; i < articles.length; i += BATCH_SIZE) {
+            const batch = db.batch();
+            const chunk = articles.slice(i, i + BATCH_SIZE);
+            for (const article of chunk) {
+                const docRef = db.collection('news_articles').doc(article.id);
+                batch.set(docRef, Object.assign(Object.assign({}, article), { publishDate: article.publishDate instanceof Date
+                        ? admin.firestore.Timestamp.fromDate(article.publishDate)
+                        : article.publishDate, createdAt: admin.firestore.FieldValue.serverTimestamp(), lastUpdated: admin.firestore.FieldValue.serverTimestamp() }), { merge: true });
+            }
+            await batch.commit();
+            totalStored += chunk.length;
+            logger.debug('[NewsScheduler] Batch committed', {
+                source: sourceName,
+                batchNumber: Math.floor(i / BATCH_SIZE) + 1,
+                articlesInBatch: chunk.length,
+                totalStored
+            });
+        }
+        logger.info('[NewsScheduler] Articles stored in Firestore', {
+            source: sourceName,
+            count: totalStored,
+            batches: Math.ceil(articles.length / BATCH_SIZE)
+        });
+        return totalStored;
+    }
+    catch (dbError) {
+        logger.error('[NewsScheduler] Failed to store in Firestore', {
+            source: sourceName,
+            error: dbError instanceof Error ? dbError.message : 'Unknown error',
+            articleCount: articles.length
+        });
+        return 0;
+    }
+}
 // Helper to trigger individual scraper
 async function triggerScraper(source) {
     var _a, _b;
@@ -92,11 +131,6 @@ async function triggerScraper(source) {
             case 'nhk-easy':
                 result = await (0, nhkEasyScraper_1.scrapeNHKEasy)();
                 break;
-            case 'todaii': {
-                const articles = await (0, todaii_1.scrapeTodaii)();
-                result = { success: true, articles };
-                break;
-            }
             case 'watanoc': {
                 const articles = await (0, watanoc_1.scrapeWatanoc)();
                 result = { success: true, articles };
@@ -114,6 +148,10 @@ async function triggerScraper(source) {
             }
             default:
                 throw new Error(`Unknown scraper: ${source.endpoint}`);
+        }
+        // Save articles to Firestore (except NHK Easy which saves internally)
+        if (source.endpoint !== 'nhk-easy' && result.articles && result.articles.length > 0) {
+            await saveArticlesToFirestore(result.articles, source.name);
         }
         const duration = Date.now() - startTime;
         if (result.success) {
@@ -288,11 +326,34 @@ async function manualNewsScraper(data, context) {
     if (!context.auth && adminKey !== expectedAdminKey) {
         throw new https_1.HttpsError('unauthenticated', 'User must be authenticated or provide valid admin key to trigger manual scraping');
     }
+    const requestedSource = data === null || data === void 0 ? void 0 : data.source;
     logger.info('[NewsScheduler] Manual trigger initiated', {
         userId: ((_a = context.auth) === null || _a === void 0 ? void 0 : _a.uid) || 'admin-key',
+        source: requestedSource || 'all',
         timestamp: new Date().toISOString()
     });
-    // Run the scheduler
+    // If a specific source is requested, scrape only that source
+    if (requestedSource) {
+        const source = NEWS_SOURCES.find(s => s.endpoint === requestedSource);
+        if (!source) {
+            throw new https_1.HttpsError('invalid-argument', `Invalid source: ${requestedSource}. Valid sources: ${NEWS_SOURCES.map(s => s.endpoint).join(', ')}`);
+        }
+        if (!source.enabled) {
+            throw new https_1.HttpsError('failed-precondition', `Source ${source.name} is currently disabled`);
+        }
+        logger.info('[NewsScheduler] Scraping single source', { source: source.name });
+        const result = await triggerScraper(source);
+        return {
+            success: result.success,
+            source: result.source,
+            articlesCount: result.articlesCount,
+            duration: result.duration,
+            timestamp: result.timestamp,
+            error: result.error
+        };
+    }
+    // No specific source - run all scrapers
+    logger.info('[NewsScheduler] Scraping all sources');
     const result = await scheduledNewsScraper();
     return result;
 }
@@ -302,7 +363,8 @@ exports.scheduledNewsScraperFunction = (0, scheduler_1.onSchedule)({
     timeZone: 'Asia/Tokyo', // Japan time
     memory: '2GiB', // Increased from 1GiB for better performance
     timeoutSeconds: 540, // 9 minutes
-    retryCount: 2 // Retry up to 2 times on failure
+    retryCount: 2, // Retry up to 2 times on failure
+    secrets: [KOKORO_API_KEY] // Add secret for TTS audio generation
 }, async (event) => {
     logger.info('[NewsScheduler] Scheduled trigger activated', {
         scheduleTime: event.scheduleTime,
@@ -313,7 +375,8 @@ exports.scheduledNewsScraperFunction = (0, scheduler_1.onSchedule)({
 exports.manualNewsScraperFunction = (0, https_1.onCall)({
     memory: '2GiB', // Increased from 1GiB for better performance
     timeoutSeconds: 540,
-    invoker: 'public' // Allow public invocation (auth checked via admin key inside)
+    invoker: 'public', // Allow public invocation (auth checked via admin key inside)
+    secrets: [KOKORO_API_KEY] // Add secret for TTS audio generation
 }, async (request) => {
     return manualNewsScraper(request.data, request);
 });

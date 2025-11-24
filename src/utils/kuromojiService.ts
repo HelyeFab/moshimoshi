@@ -60,7 +60,23 @@ export const POS_COLORS: Record<string, string> = {
 class KuromojiService {
   private static instance: KuromojiService;
 
-  private constructor() {}
+  // Cache for tokenization results (max 200 entries, ~1MB memory)
+  private tokenCache: Map<string, TokenWithHighlight[]> = new Map();
+
+  // Map to track pending requests (deduplication)
+  private pendingRequests: Map<string, Promise<TokenWithHighlight[]>> = new Map();
+
+  // Cache configuration
+  private readonly MAX_CACHE_SIZE = 200;
+  private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+  private cacheTimestamps: Map<string, number> = new Map();
+
+  private constructor() {
+    // Clean up expired cache entries every minute
+    if (typeof setInterval !== 'undefined') {
+      setInterval(() => this.cleanExpiredCache(), 60000);
+    }
+  }
 
   static getInstance(): KuromojiService {
     if (!KuromojiService.instance) {
@@ -69,17 +85,81 @@ class KuromojiService {
     return KuromojiService.instance;
   }
 
+  private cleanExpiredCache(): void {
+    const now = Date.now();
+    for (const [key, timestamp] of this.cacheTimestamps.entries()) {
+      if (now - timestamp > this.CACHE_TTL) {
+        this.tokenCache.delete(key);
+        this.cacheTimestamps.delete(key);
+      }
+    }
+  }
+
+  private getCacheKey(text: string): string {
+    // Use first 100 chars + length as cache key for uniqueness
+    return text.length <= 100 ? text : `${text.substring(0, 100)}:${text.length}`;
+  }
+
   async tokenize(text: string): Promise<TokenWithHighlight[]> {
+    const cacheKey = this.getCacheKey(text);
+
+    // Check cache first
+    const cached = this.tokenCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // Check if request is already pending (deduplication)
+    const pending = this.pendingRequests.get(cacheKey);
+    if (pending) {
+      return pending;
+    }
+
+    // Create new request promise
+    const requestPromise = this.performTokenization(text, cacheKey);
+
+    // Store pending request for deduplication
+    this.pendingRequests.set(cacheKey, requestPromise);
+
+    try {
+      const result = await requestPromise;
+
+      // Cache the result
+      this.tokenCache.set(cacheKey, result);
+      this.cacheTimestamps.set(cacheKey, Date.now());
+
+      // Evict oldest entries if cache is full
+      if (this.tokenCache.size > this.MAX_CACHE_SIZE) {
+        const oldestKey = this.tokenCache.keys().next().value;
+        this.tokenCache.delete(oldestKey);
+        this.cacheTimestamps.delete(oldestKey);
+      }
+
+      return result;
+    } finally {
+      // Remove from pending requests
+      this.pendingRequests.delete(cacheKey);
+    }
+  }
+
+  private async performTokenization(text: string, cacheKey: string): Promise<TokenWithHighlight[]> {
     try {
       // Call the furigana API which uses kuromoji for tokenization
       const response = await fetch('/api/furigana/tokenize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ text }),
+        // Add timeout and signal to prevent hanging requests
+        signal: AbortSignal.timeout(5000) // 5 second timeout
       });
 
       if (!response.ok) {
-        // If API fails, use fallback
+        // If rate limited, use fallback immediately
+        if (response.status === 429) {
+          console.debug('[KuromojiService] Rate limited, using fallback tokenization');
+          return this.fallbackTokenize(text);
+        }
+        // For other errors, also use fallback
         return this.fallbackTokenize(text);
       }
 
@@ -96,7 +176,16 @@ class KuromojiService {
         });
       }
     } catch (error) {
-      console.error('Tokenization API error:', error);
+      // Silently fall back to client-side tokenization
+      // This handles:
+      // - Network errors (too many parallel requests)
+      // - Timeouts (slow response due to server load)
+      // - Aborted requests (component unmounted)
+      // No need to log - this is expected behavior under high load
+      if (error instanceof Error && error.name !== 'AbortError') {
+        // Only log unexpected errors (not timeouts or aborts)
+        console.debug('Tokenization API unavailable, using fallback:', error.message);
+      }
     }
 
     // If all else fails, use fallback

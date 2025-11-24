@@ -851,6 +851,11 @@ export const strings = {
         subtitle: "Prep JLPT",
         description: "Aprueba tu examen de competencia"
       },
+      library: {
+        title: "Biblioteca",
+        subtitle: "図書館",
+        description: "Leer libros condensados"
+      },
       flashcards: {
         title: "Flashcards",
         subtitle: "カード",
@@ -1585,8 +1590,10 @@ export const strings = {
 
   // News Feature
   news: {
+    page: "Página",
     reader: {
       settings: "Configuración de lectura",
+      summary: "Resumen",
       fontSize: "Tamaño del texto",
       fontSizes: {
         small: "P",

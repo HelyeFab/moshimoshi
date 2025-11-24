@@ -37,17 +37,20 @@ import {
   StoredImage
 } from './types';
 
-import { ReviewQuestionProcessor } from './processors/ReviewQuestionProcessor';
-import { GrammarExplainerProcessor } from './processors/GrammarExplainerProcessor';
-import { GrammarSentenceProcessor } from './processors/GrammarSentenceProcessor';
-import { WordExplainerProcessor } from './processors/WordExplainerProcessor';
-import { TranscriptProcessor } from './processors/TranscriptProcessor';
-import { StoryProcessor } from './processors/StoryProcessor';
-import { MoodboardProcessor } from './processors/MoodboardProcessor';
+// Import hybrid processors (with automatic Ollama/OpenAI selection)
+import { ReviewQuestionProcessorHybrid as ReviewQuestionProcessor } from './processors/ReviewQuestionProcessorHybrid';
+import { GrammarExplainerProcessorHybrid as GrammarExplainerProcessor } from './processors/GrammarExplainerProcessorHybrid';
+import { GrammarSentenceProcessorHybrid as GrammarSentenceProcessor } from './processors/GrammarSentenceProcessorHybrid';
+import { WordExplainerProcessorHybrid as WordExplainerProcessor } from './processors/WordExplainerProcessorHybrid';
+import { TranscriptProcessorHybrid as TranscriptProcessor } from './processors/TranscriptProcessorHybrid';
+import { StoryProcessorHybrid as StoryProcessor } from './processors/StoryProcessorHybrid';
+import { MoodboardProcessorHybrid as MoodboardProcessor } from './processors/MoodboardProcessorHybrid';
 import { MultiStepStoryProcessor } from './processors/MultiStepStoryProcessor';
 import { ImageProcessor } from './processors/ImageProcessor';
 import { ImageStorageProcessor } from './processors/ImageStorageProcessor';
 // import { ArticleProcessor } from './processors/ArticleProcessor';
+
+// Note: Smart routing enabled! Set AI_PROVIDER=openai in .env.local to disable Ollama
 
 import { PersistentCacheManager } from './cache/PersistentCacheManager';
 import { UsageTracker } from './utils/UsageTracker';

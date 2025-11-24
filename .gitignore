@@ -48,6 +48,12 @@ public/worker-*
 
 # Firebase
 .firebase/
+
+# NotebookLM documentation sync
+moshimoshi-docs.md
+aggregated-docs.md
+.notebooklm-sync-state.json
+notebooklm-backups/
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
@@ -61,11 +67,6 @@ ui-debug.log
 *.p12
 *.pfx
 
-# NotebookLM aggregated files
-aggregated-docs.md
-notebooklm-docs.md
-.notebooklm-sync-state.json
-notebooklm-backups/
 
 # Database files with potential secrets
-data/memories.dbfirebase-admin-key.json
+data/memories.db

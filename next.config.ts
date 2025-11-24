@@ -7,10 +7,6 @@ const nextConfig: NextConfig = {
       'firebasestorage.googleapis.com',
       'lh3.googleusercontent.com',  // Google profile images
       'storage.googleapis.com',      // Firebase Storage custom uploads
-      'cdn.brandfetch.io',          // Duolingo and LingoDeer logos
-      'heylearning.net',            // HeyJapan logo
-      'web.cdn.satorireader.com',   // Satori Reader logo
-      'www.satorireader.com',       // Satori Reader favicon
     ],
   },
   eslint: {
@@ -31,6 +27,23 @@ const nextConfig: NextConfig = {
         tls: false,
         child_process: false,
       };
+
+      // Externalize OpenTelemetry and Sentry Node.js dependencies
+      config.externals = config.externals || [];
+      config.externals.push({
+        '@opentelemetry/instrumentation': 'commonjs @opentelemetry/instrumentation',
+        '@opentelemetry/api': 'commonjs @opentelemetry/api',
+        '@sentry/node': 'commonjs @sentry/node',
+      });
+
+      // Ignore dynamic require warnings from OpenTelemetry
+      config.ignoreWarnings = [
+        ...(config.ignoreWarnings || []),
+        {
+          module: /@opentelemetry\/instrumentation/,
+          message: /Critical dependency: the request of a dependency is an expression/,
+        },
+      ];
     }
     return config;
   },
