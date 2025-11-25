@@ -14,6 +14,116 @@ import { useWordExplanation } from '@/hooks/useWordExplanation';
 import WordExplanationModal from '@/components/word/WordExplanationModal';
 import UnifiedShadowingMode from '@/components/shadowing/UnifiedShadowingMode';
 import { segmentLongSentence, shouldSegment } from '@/utils/sentenceSegmentation';
+
+// HLS.js types for m3u8 playback support
+declare global {
+  interface Window {
+    Hls: any;
+  }
+}
+
+// Helper function to detect m3u8 URLs
+const isM3U8Url = (url: string): boolean => {
+  return url.includes('.m3u8') || url.includes('m3u8');
+};
+
+// Helper function to load HLS.js from CDN
+const loadHlsJs = async (): Promise<void> => {
+  if (typeof window !== 'undefined' && !window.Hls) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.4.12/dist/hls.min.js';
+      script.onload = () => {
+        console.log('[HLS] HLS.js loaded successfully');
+        resolve();
+      };
+      script.onerror = () => {
+        console.error('[HLS] Failed to load HLS.js');
+        reject(new Error('Failed to load HLS.js'));
+      };
+      document.head.appendChild(script);
+    });
+  }
+};
+
+// Helper function to create HLS-enabled audio element
+const createHLSAudio = async (audioUrl: string): Promise<HTMLAudioElement> => {
+  const audio = new Audio();
+
+  if (isM3U8Url(audioUrl)) {
+    console.log('[HLS] Detected m3u8 URL, using HLS.js for playback');
+
+    // Load HLS.js if not already loaded
+    await loadHlsJs();
+
+    if (window.Hls && window.Hls.isSupported()) {
+      const hls = new window.Hls({
+        enableWorker: true,
+        lowLatencyMode: false,
+        backBufferLength: 90
+      });
+
+      hls.loadSource(audioUrl);
+      hls.attachMedia(audio);
+
+      hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
+        console.log('[HLS] M3U8 manifest loaded successfully');
+      });
+
+      hls.on(window.Hls.Events.ERROR, (event: any, data: any) => {
+        console.error('[HLS] HLS.js error:', data);
+        if (data.fatal) {
+          switch (data.type) {
+            case window.Hls.ErrorTypes.NETWORK_ERROR:
+              console.error('[HLS] Fatal network error, trying to recover...');
+              hls.startLoad();
+              break;
+            case window.Hls.ErrorTypes.MEDIA_ERROR:
+              console.error('[HLS] Fatal media error, trying to recover...');
+              hls.recoverMediaError();
+              break;
+            default:
+              console.error('[HLS] Fatal error, cannot recover');
+              hls.destroy();
+              break;
+          }
+        }
+      });
+
+      // Store HLS instance on audio element for cleanup
+      (audio as any)._hlsInstance = hls;
+    } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
+      // Safari supports HLS natively
+      console.log('[HLS] Using native HLS support (Safari)');
+      audio.src = audioUrl;
+    } else {
+      throw new Error('HLS not supported in this browser');
+    }
+  } else {
+    // Regular audio file
+    audio.src = audioUrl;
+  }
+
+  return audio;
+};
+
+// Helper function to properly cleanup audio with HLS support
+const cleanupAudio = (audio: HTMLAudioElement | null): void => {
+  if (audio) {
+    // Cleanup HLS instance if it exists
+    if ((audio as any)._hlsInstance) {
+      console.log('[HLS] Cleaning up HLS instance');
+      (audio as any)._hlsInstance.destroy();
+      (audio as any)._hlsInstance = null;
+    }
+
+    // Standard audio cleanup
+    audio.pause();
+    audio.src = '';
+    audio.load(); // Reset the audio element
+  }
+};
+
 import {
   Volume2,
   X,
@@ -27,6 +137,7 @@ import {
   ChevronUp,
   Settings
 } from 'lucide-react';
+import NewsArticleFallbackImage from './NewsArticleFallbackImage';
 
 interface NewsArticle {
   id: string;
@@ -162,32 +273,27 @@ function ArticleContentWithPlayButtons({
                       className="inline"
                     />
                   </span>
-                  {/* Play button inline after each segment */}
+                  {/* Play button inline after each segment - Subtler design */}
                   <button
                     onClick={() => onPlaySentence(segment, currentGlobalIndex)}
                     disabled={isFullArticlePlaying || sentenceAudioLoading === currentGlobalIndex}
-                    className={`inline-flex items-center justify-center ml-2 w-7 h-7 rounded-full transition-all duration-200 ${
-                      playingSentenceIndex === currentGlobalIndex
-                        ? '!opacity-100 bg-primary-500 text-white'
-                        : playingSentenceIndex !== null
-                          ? 'opacity-20 md:opacity-0 md:group-hover:opacity-100 hover:scale-110 active:scale-95 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
-                          : isFullArticlePlaying
-                            ? 'opacity-30 cursor-not-allowed bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
-                            : 'opacity-70 md:opacity-0 md:group-hover:opacity-100 hover:scale-110 active:scale-95 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
-                    }`}
-                    style={{
-                      backgroundColor: playingSentenceIndex === currentGlobalIndex ? 'rgb(var(--palette-primary-500))' : undefined,
-                      verticalAlign: 'middle'
-                    }}
+                    className={`inline-flex items-center justify-center ml-2 w-6 h-6 rounded-full transition-all duration-200 ${playingSentenceIndex === currentGlobalIndex
+                      ? '!opacity-100 bg-primary-500 text-white shadow-md scale-110'
+                      : playingSentenceIndex !== null
+                        ? 'opacity-0' // Hide other buttons when one is playing to reduce noise
+                        : isFullArticlePlaying
+                          ? 'opacity-0'
+                          : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:scale-110 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-primary-500'
+                      }`}
                     title={playingSentenceIndex === currentGlobalIndex ? 'Pause segment' : 'Play segment'}
                     aria-label={`Play segment ${currentGlobalIndex + 1}`}
                   >
                     {sentenceAudioLoading === currentGlobalIndex ? (
-                      <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
                     ) : playingSentenceIndex === currentGlobalIndex ? (
-                      <Pause className="w-3.5 h-3.5" />
+                      <Pause className="w-3 h-3" fill="currentColor" />
                     ) : (
-                      <Play className="w-3.5 h-3.5" fill="currentColor" />
+                      <Play className="w-3 h-3" fill="currentColor" />
                     )}
                   </button>
                 </div>
@@ -655,269 +761,269 @@ function ShadowingMode({
         {/* Main Content */}
         <div className="max-w-4xl mx-auto p-6 pt-16 pb-32">{/* Extra top padding for close button, extra bottom padding for mobile */}
 
-        {/* Progress */}
-        <div className="mb-8">
-          <div className="flex justify-between text-sm mb-3">
-            <span style={{ color: 'var(--article-text-secondary)' }}>
-              {t('common.sentence')} {currentIndex + 1} / {sentences.length}
-            </span>
-            <span style={{ color: 'var(--article-text-secondary)' }}>
-              {Math.round(((currentIndex + 1) / sentences.length) * 100)}%
-            </span>
-          </div>
-          <div
-            className="h-2 rounded-full overflow-hidden"
-            style={{ backgroundColor: 'var(--article-accent-bg)' }}
-          >
+          {/* Progress */}
+          <div className="mb-8">
+            <div className="flex justify-between text-sm mb-3">
+              <span style={{ color: 'var(--article-text-secondary)' }}>
+                {t('common.sentence')} {currentIndex + 1} / {sentences.length}
+              </span>
+              <span style={{ color: 'var(--article-text-secondary)' }}>
+                {Math.round(((currentIndex + 1) / sentences.length) * 100)}%
+              </span>
+            </div>
             <div
-              className="h-full transition-all duration-500"
-              style={{
-                width: `${((currentIndex + 1) / sentences.length) * 100}%`,
-                backgroundColor: 'rgb(var(--palette-primary-500))'
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Current Sentence - Enhanced for full page */}
-        <div
-          className="mb-10 p-10 rounded-3xl shadow-lg"
-          style={{
-            backgroundColor: 'var(--article-content-bg)',
-            border: '1px solid var(--article-border)'
-          }}
-        >
-          <div className="text-center mb-4">
-            <span
-              className="text-sm font-medium px-3 py-1 rounded-full"
-              style={{
-                backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
-                color: 'rgb(var(--palette-primary-600))'
-              }}
+              className="h-2 rounded-full overflow-hidden"
+              style={{ backgroundColor: 'var(--article-accent-bg)' }}
             >
-              Sentence {currentIndex + 1} of {sentences.length}
-            </span>
-          </div>
-          <div className="text-center" style={{ fontSize: '2rem' }}>
-            <FuriganaText
-              text={sentences[currentIndex]}
-              showFurigana={settings.showFurigana}
-              fontSize={settings.fontSize}
-              highlightGrammar={settings.highlightGrammar}
-              highlightMode={settings.highlightMode}
-              className="japanese-text text-center font-medium"
-            />
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="space-y-6">
-          {/* Repeat Count - YouTube Style */}
-          <div className="flex flex-col items-center gap-4">
-            <span
-              className="text-lg font-semibold"
-              style={{ color: 'var(--article-text)' }}
-            >
-              {t('news.reader.repeatCount')}
-            </span>
-
-            {/* Counter Display with +/- Controls */}
-            <div className="flex items-center justify-center gap-4">
-              <button
-                onClick={() => setRepeatCount(repeatConfig.count - 1)}
-                disabled={repeatConfig.count <= 1}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+              <div
+                className="h-full transition-all duration-500"
                 style={{
-                  backgroundColor: repeatConfig.count <= 1 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
-                  color: repeatConfig.count <= 1 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
+                  width: `${((currentIndex + 1) / sentences.length) * 100}%`,
+                  backgroundColor: 'rgb(var(--palette-primary-500))'
                 }}
-                title="Decrease"
-              >
-                <ChevronDown className="w-5 h-5" />
-              </button>
-
-              <div className="flex flex-col items-center">
-                <div className="text-4xl font-bold tabular-nums" style={{ color: 'rgb(var(--palette-primary-600))' }}>
-                  {repeatConfig.count}
-                </div>
-                <div className="text-xs font-medium" style={{ color: 'var(--article-text-secondary)' }}>
-                  {repeatConfig.count === 1 ? 'time' : 'times'}
-                </div>
-                {/* Progress indicator during playback */}
-                {isPlayingSequence && repeatConfig.count > 1 && (
-                  <div className="text-xs mt-1" style={{ color: 'rgb(var(--palette-primary-600))' }}>
-                    {repeatConfig.currentRepeat + 1}/{repeatConfig.count}
-                  </div>
-                )}
-              </div>
-
-              <button
-                onClick={() => setRepeatCount(repeatConfig.count + 1)}
-                disabled={repeatConfig.count >= 20}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                style={{
-                  backgroundColor: repeatConfig.count >= 20 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
-                  color: repeatConfig.count >= 20 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
-                }}
-                title="Increase"
-              >
-                <ChevronUp className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Quick Select Buttons */}
-            <div className="space-y-2">
-              <div className="text-xs font-medium text-center" style={{ color: 'var(--article-text-secondary)' }}>
-                Quick Select
-              </div>
-              <div className="flex gap-2">
-                {[1, 2, 3, 5, 10].map(count => (
-                  <button
-                    key={count}
-                    onClick={() => setRepeatCount(count)}
-                    className="w-12 h-9 rounded-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
-                    style={{
-                      backgroundColor: repeatConfig.count === count
-                        ? 'rgb(var(--palette-primary-500))'
-                        : 'var(--article-accent-bg)',
-                      color: repeatConfig.count === count ? 'white' : 'var(--article-text)',
-                      ...(repeatConfig.count === count && {
-                        boxShadow: '0 4px 12px rgb(var(--palette-primary-500) / 0.3)',
-                        border: '2px solid rgb(var(--palette-primary-500) / 0.5)'
-                      })
-                    }}
-                  >
-                    {count}
-                  </button>
-                ))}
-              </div>
+              />
             </div>
           </div>
 
-          {/* Pause Duration Controls - Like YouTube */}
-          {repeatConfig.count > 1 && (
+          {/* Current Sentence - Enhanced for full page */}
+          <div
+            className="mb-10 p-10 rounded-3xl shadow-lg"
+            style={{
+              backgroundColor: 'var(--article-content-bg)',
+              border: '1px solid var(--article-border)'
+            }}
+          >
+            <div className="text-center mb-4">
+              <span
+                className="text-sm font-medium px-3 py-1 rounded-full"
+                style={{
+                  backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
+                  color: 'rgb(var(--palette-primary-600))'
+                }}
+              >
+                Sentence {currentIndex + 1} of {sentences.length}
+              </span>
+            </div>
+            <div className="text-center" style={{ fontSize: '2rem' }}>
+              <FuriganaText
+                text={sentences[currentIndex]}
+                showFurigana={settings.showFurigana}
+                fontSize={settings.fontSize}
+                highlightGrammar={settings.highlightGrammar}
+                highlightMode={settings.highlightMode}
+                className="japanese-text text-center font-medium"
+              />
+            </div>
+          </div>
+
+          {/* Controls */}
+          <div className="space-y-6">
+            {/* Repeat Count - YouTube Style */}
             <div className="flex flex-col items-center gap-4">
               <span
                 className="text-lg font-semibold"
                 style={{ color: 'var(--article-text)' }}
               >
-                Pause Between Repeats
+                {t('news.reader.repeatCount')}
               </span>
 
-              {/* Pause Duration Display with +/- Controls */}
+              {/* Counter Display with +/- Controls */}
               <div className="flex items-center justify-center gap-4">
                 <button
-                  onClick={() => setPauseDuration(repeatConfig.pauseDuration - 500)}
-                  disabled={repeatConfig.pauseDuration <= 500}
+                  onClick={() => setRepeatCount(repeatConfig.count - 1)}
+                  disabled={repeatConfig.count <= 1}
                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
                   style={{
-                    backgroundColor: repeatConfig.pauseDuration <= 500 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
-                    color: repeatConfig.pauseDuration <= 500 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
+                    backgroundColor: repeatConfig.count <= 1 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
+                    color: repeatConfig.count <= 1 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
                   }}
-                  title="Decrease pause duration"
+                  title="Decrease"
                 >
                   <ChevronDown className="w-5 h-5" />
                 </button>
 
                 <div className="flex flex-col items-center">
                   <div className="text-4xl font-bold tabular-nums" style={{ color: 'rgb(var(--palette-primary-600))' }}>
-                    {(repeatConfig.pauseDuration / 1000).toFixed(1)}
+                    {repeatConfig.count}
                   </div>
                   <div className="text-xs font-medium" style={{ color: 'var(--article-text-secondary)' }}>
-                    seconds
+                    {repeatConfig.count === 1 ? 'time' : 'times'}
                   </div>
+                  {/* Progress indicator during playback */}
+                  {isPlayingSequence && repeatConfig.count > 1 && (
+                    <div className="text-xs mt-1" style={{ color: 'rgb(var(--palette-primary-600))' }}>
+                      {repeatConfig.currentRepeat + 1}/{repeatConfig.count}
+                    </div>
+                  )}
                 </div>
 
                 <button
-                  onClick={() => setPauseDuration(repeatConfig.pauseDuration + 500)}
-                  disabled={repeatConfig.pauseDuration >= 3000}
+                  onClick={() => setRepeatCount(repeatConfig.count + 1)}
+                  disabled={repeatConfig.count >= 20}
                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
                   style={{
-                    backgroundColor: repeatConfig.pauseDuration >= 3000 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
-                    color: repeatConfig.pauseDuration >= 3000 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
+                    backgroundColor: repeatConfig.count >= 20 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
+                    color: repeatConfig.count >= 20 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
                   }}
-                  title="Increase pause duration"
+                  title="Increase"
                 >
                   <ChevronUp className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Quick Select Buttons for Pause Duration */}
+              {/* Quick Select Buttons */}
               <div className="space-y-2">
                 <div className="text-xs font-medium text-center" style={{ color: 'var(--article-text-secondary)' }}>
                   Quick Select
                 </div>
                 <div className="flex gap-2">
-                  {[0.5, 1.0, 1.5, 2.0, 3.0].map(seconds => (
+                  {[1, 2, 3, 5, 10].map(count => (
                     <button
-                      key={seconds}
-                      onClick={() => setPauseDuration(seconds * 1000)}
-                      className="w-12 h-9 rounded-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95 text-xs"
+                      key={count}
+                      onClick={() => setRepeatCount(count)}
+                      className="w-12 h-9 rounded-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
                       style={{
-                        backgroundColor: repeatConfig.pauseDuration === seconds * 1000
+                        backgroundColor: repeatConfig.count === count
                           ? 'rgb(var(--palette-primary-500))'
                           : 'var(--article-accent-bg)',
-                        color: repeatConfig.pauseDuration === seconds * 1000 ? 'white' : 'var(--article-text)',
-                        ...(repeatConfig.pauseDuration === seconds * 1000 && {
+                        color: repeatConfig.count === count ? 'white' : 'var(--article-text)',
+                        ...(repeatConfig.count === count && {
                           boxShadow: '0 4px 12px rgb(var(--palette-primary-500) / 0.3)',
                           border: '2px solid rgb(var(--palette-primary-500) / 0.5)'
                         })
                       }}
                     >
-                      {seconds}s
+                      {count}
                     </button>
                   ))}
                 </div>
               </div>
             </div>
-          )}
 
-          {/* Playback Controls - More Compact */}
-          <div className="flex items-center justify-center gap-3">
-            <button
-              onClick={handlePrevious}
-              disabled={currentIndex === 0}
-              className="w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-              style={{
-                backgroundColor: 'var(--article-accent-bg)',
-                color: 'var(--article-text)'
-              }}
-              title={t('common.previous')}
-            >
-              ←
-            </button>
+            {/* Pause Duration Controls - Like YouTube */}
+            {repeatConfig.count > 1 && (
+              <div className="flex flex-col items-center gap-4">
+                <span
+                  className="text-lg font-semibold"
+                  style={{ color: 'var(--article-text)' }}
+                >
+                  Pause Between Repeats
+                </span>
 
-            <button
-              onClick={handlePlay}
-              disabled={isPlayingSequence || ttsLoading}
-              className="w-16 h-16 rounded-full font-semibold transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-1 shadow-lg"
-              style={{
-                backgroundColor: 'rgb(var(--palette-primary-500))',
-                color: 'white'
-              }}
-              title={isPlayingSequence || ttsPlaying ? t('common.playing') : t('common.play')}
-            >
-              {isPlayingSequence || ttsPlaying ? (
-                <span className="animate-pulse text-lg">●</span>
-              ) : (
-                <Play className="w-6 h-6" fill="currentColor" />
-              )}
-            </button>
+                {/* Pause Duration Display with +/- Controls */}
+                <div className="flex items-center justify-center gap-4">
+                  <button
+                    onClick={() => setPauseDuration(repeatConfig.pauseDuration - 500)}
+                    disabled={repeatConfig.pauseDuration <= 500}
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    style={{
+                      backgroundColor: repeatConfig.pauseDuration <= 500 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
+                      color: repeatConfig.pauseDuration <= 500 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
+                    }}
+                    title="Decrease pause duration"
+                  >
+                    <ChevronDown className="w-5 h-5" />
+                  </button>
 
-            <button
-              onClick={handleNext}
-              disabled={currentIndex === sentences.length - 1}
-              className="w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-              style={{
-                backgroundColor: 'var(--article-accent-bg)',
-                color: 'var(--article-text)'
-              }}
-              title={t('common.next')}
-            >
-              →
-            </button>
+                  <div className="flex flex-col items-center">
+                    <div className="text-4xl font-bold tabular-nums" style={{ color: 'rgb(var(--palette-primary-600))' }}>
+                      {(repeatConfig.pauseDuration / 1000).toFixed(1)}
+                    </div>
+                    <div className="text-xs font-medium" style={{ color: 'var(--article-text-secondary)' }}>
+                      seconds
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setPauseDuration(repeatConfig.pauseDuration + 500)}
+                    disabled={repeatConfig.pauseDuration >= 3000}
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    style={{
+                      backgroundColor: repeatConfig.pauseDuration >= 3000 ? 'var(--article-accent-bg)' : 'rgb(var(--palette-primary-500) / 0.1)',
+                      color: repeatConfig.pauseDuration >= 3000 ? 'var(--article-text-secondary)' : 'rgb(var(--palette-primary-600))'
+                    }}
+                    title="Increase pause duration"
+                  >
+                    <ChevronUp className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Quick Select Buttons for Pause Duration */}
+                <div className="space-y-2">
+                  <div className="text-xs font-medium text-center" style={{ color: 'var(--article-text-secondary)' }}>
+                    Quick Select
+                  </div>
+                  <div className="flex gap-2">
+                    {[0.5, 1.0, 1.5, 2.0, 3.0].map(seconds => (
+                      <button
+                        key={seconds}
+                        onClick={() => setPauseDuration(seconds * 1000)}
+                        className="w-12 h-9 rounded-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95 text-xs"
+                        style={{
+                          backgroundColor: repeatConfig.pauseDuration === seconds * 1000
+                            ? 'rgb(var(--palette-primary-500))'
+                            : 'var(--article-accent-bg)',
+                          color: repeatConfig.pauseDuration === seconds * 1000 ? 'white' : 'var(--article-text)',
+                          ...(repeatConfig.pauseDuration === seconds * 1000 && {
+                            boxShadow: '0 4px 12px rgb(var(--palette-primary-500) / 0.3)',
+                            border: '2px solid rgb(var(--palette-primary-500) / 0.5)'
+                          })
+                        }}
+                      >
+                        {seconds}s
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Playback Controls - More Compact */}
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={handlePrevious}
+                disabled={currentIndex === 0}
+                className="w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                style={{
+                  backgroundColor: 'var(--article-accent-bg)',
+                  color: 'var(--article-text)'
+                }}
+                title={t('common.previous')}
+              >
+                ←
+              </button>
+
+              <button
+                onClick={handlePlay}
+                disabled={isPlayingSequence || ttsLoading}
+                className="w-16 h-16 rounded-full font-semibold transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-1 shadow-lg"
+                style={{
+                  backgroundColor: 'rgb(var(--palette-primary-500))',
+                  color: 'white'
+                }}
+                title={isPlayingSequence || ttsPlaying ? t('common.playing') : t('common.play')}
+              >
+                {isPlayingSequence || ttsPlaying ? (
+                  <span className="animate-pulse text-lg">●</span>
+                ) : (
+                  <Play className="w-6 h-6" fill="currentColor" />
+                )}
+              </button>
+
+              <button
+                onClick={handleNext}
+                disabled={currentIndex === sentences.length - 1}
+                className="w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                style={{
+                  backgroundColor: 'var(--article-accent-bg)',
+                  color: 'var(--article-text)'
+                }}
+                title={t('common.next')}
+              >
+                →
+              </button>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -993,10 +1099,8 @@ export default function EnhancedArticleReader({
   // Cleanup pre-generated audio when component unmounts or article changes
   useEffect(() => {
     return () => {
-      if (preGeneratedAudioRef.current) {
-        preGeneratedAudioRef.current.pause();
-        preGeneratedAudioRef.current = null;
-      }
+      cleanupAudio(preGeneratedAudioRef.current);
+      preGeneratedAudioRef.current = null;
     };
   }, [article.id]);
 
@@ -1136,12 +1240,20 @@ export default function EnhancedArticleReader({
         return;
       }
 
-      // If native audio is paused, resume it
-      if (preGeneratedAudioRef.current && !preGeneratedAudioRef.current.ended) {
-        preGeneratedAudioRef.current.play();
-        setIsPreGeneratedPlaying(true);
-        console.log('[Article Reader] Resumed NHK native audio');
-        return;
+      // If native audio is paused (exists but not playing and not ended), resume it
+      if (preGeneratedAudioRef.current &&
+          !isPreGeneratedPlaying &&
+          !preGeneratedAudioRef.current.ended &&
+          preGeneratedAudioRef.current.src) {
+        try {
+          await preGeneratedAudioRef.current.play();
+          setIsPreGeneratedPlaying(true);
+          console.log('[Article Reader] Resumed NHK native audio');
+          return;
+        } catch (resumeError) {
+          console.warn('[Article Reader] Failed to resume NHK audio, creating new instance:', resumeError);
+          // Fall through to create new audio instance
+        }
       }
 
       // Otherwise, start playing native audio from beginning
@@ -1153,12 +1265,28 @@ export default function EnhancedArticleReader({
 
         // Clean up existing audio if any
         if (preGeneratedAudioRef.current) {
-          preGeneratedAudioRef.current.pause();
+          cleanupAudio(preGeneratedAudioRef.current);
           preGeneratedAudioRef.current = null;
         }
 
         // Create new audio element for NHK audio
-        const audio = new Audio(article.audioUrl);
+        // Route through appropriate proxy based on URL type
+        let audioUrl: string;
+
+        if (article.audioUrl.includes('vod-stream.nhk.jp')) {
+          // Route old NHK URLs through NHK Audio Proxy to convert to working URLs
+          console.log('[Article Reader] Detected old NHK URL, using NHK Audio Proxy:', article.audioUrl);
+          audioUrl = `/api/nhkAudioProxy?url=${encodeURIComponent(article.audioUrl)}`;
+        } else if ((article.audioUrl.includes('firebasestorage') || article.audioUrl.includes('storage.googleapis.com')) && !isM3U8Url(article.audioUrl)) {
+          // Route Firebase Storage URLs through TTS proxy to handle CORS
+          audioUrl = `/api/tts/proxy?url=${encodeURIComponent(article.audioUrl)}`;
+        } else {
+          // Use URL as-is (new media.vd.st.nhk URLs, local URLs, etc.)
+          audioUrl = article.audioUrl;
+        }
+
+        console.log('[Article Reader] Creating HLS-capable audio for URL:', audioUrl);
+        const audio = await createHLSAudio(audioUrl);
         audio.playbackRate = settings.audioSpeed;
 
         // Set up event listeners
@@ -1229,12 +1357,17 @@ export default function EnhancedArticleReader({
 
         // Clean up existing audio if any
         if (preGeneratedAudioRef.current) {
-          preGeneratedAudioRef.current.pause();
+          cleanupAudio(preGeneratedAudioRef.current);
           preGeneratedAudioRef.current = null;
         }
 
         // Create new audio element
-        const audio = new Audio(article.generatedContentAudioUrl);
+        // Route through TTS proxy to handle Firebase Storage CORS
+        const audioUrl = article.generatedContentAudioUrl.includes('firebasestorage') || article.generatedContentAudioUrl.includes('storage.googleapis.com')
+          ? `/api/tts/proxy?url=${encodeURIComponent(article.generatedContentAudioUrl)}`
+          : article.generatedContentAudioUrl;
+
+        const audio = new Audio(audioUrl);
         audio.playbackRate = settings.audioSpeed;
 
         // Set up event listeners
@@ -1468,165 +1601,153 @@ export default function EnhancedArticleReader({
         }}
       />
 
-      {/* Header */}
-      <header className="relative">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 pb-4">
-          <div className="flex items-center justify-between mb-6">
-            {onBack && (
-              <button
-                onClick={onBack}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-                style={{
-                  backgroundColor: 'var(--article-hover-bg)',
-                  color: 'var(--article-text)'
-                }}
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="text-sm font-medium hidden sm:inline">{t('common.back')}</span>
-              </button>
-            )}
+      {/* Header - Sticky & Glassmorphic */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 transition-all duration-300 supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          {onBack && (
             <button
-              onClick={handlePlayArticle}
-              disabled={ttsLoading}
-              className={`ml-auto px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg disabled:opacity-70 disabled:cursor-wait disabled:hover:scale-100`}
-              style={{
-                backgroundColor: ttsLoading
-                  ? 'rgb(156 163 175)'
-                  : 'rgb(var(--palette-primary-500))',
-                color: 'white'
-              }}
-              aria-label={
-                ttsLoading
-                  ? t('common.loading')
-                  : ttsPlaying
-                    ? t('common.pause')
-                    : t('common.play')
-              }
-              title={
-                ttsLoading
-                  ? 'Loading audio...'
-                  : ttsPlaying
-                    ? 'Pause playback'
-                    : 'Play article'
-              }
+              onClick={onBack}
+              className="group flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
             >
-              {ttsLoading ? (
-                <>
-                  <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
-                  <span className="text-sm font-medium hidden sm:inline">{t('common.loading')}</span>
-                </>
-              ) : ttsPlaying ? (
-                <>
-                  <Pause className="w-5 h-5" />
-                  <span className="text-sm font-medium hidden sm:inline">{t('common.pause')}</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-5 h-5" fill="currentColor" />
-                  <span className="text-sm font-medium hidden sm:inline">{t('common.play')}</span>
-                </>
-              )}
+              <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+              <span className="text-sm font-medium hidden sm:inline">{t('common.back')}</span>
             </button>
-          </div>
+          )}
+
+          <button
+            onClick={handlePlayArticle}
+            disabled={ttsLoading}
+            className={`ml-auto px-5 py-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-sm font-medium ${ttsLoading
+              ? 'bg-gray-100 text-gray-400 cursor-wait'
+              : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
+              }`}
+            aria-label={ttsLoading ? t('common.loading') : ttsPlaying ? t('common.pause') : t('common.play')}
+          >
+            {ttsLoading ? (
+              <>
+                <div className="animate-spin w-4 h-4 border-2 border-white/80 border-t-transparent rounded-full" />
+                <span className="text-sm hidden sm:inline">{t('common.loading')}</span>
+              </>
+            ) : ttsPlaying ? (
+              <>
+                <Pause className="w-4 h-4 fill-current" />
+                <span className="text-sm hidden sm:inline">{t('common.pause')}</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-4 h-4 fill-current" />
+                <span className="text-sm hidden sm:inline">{t('common.play')}</span>
+              </>
+            )}
+          </button>
         </div>
       </header>
 
       {/* Article Content */}
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 pb-32">
-        {/* Metadata */}
-        <div className="flex flex-wrap items-center gap-3 mb-6 animate-fade-in-up">
-          <span
-            className="px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide"
-            style={{
-              backgroundColor: 'rgb(var(--palette-primary-500) / 0.15)',
-              color: 'rgb(var(--palette-primary-600))'
-            }}
-          >
-            {article.category}
-          </span>
-          <span
-            className="px-3 py-1 rounded-full text-xs font-medium"
-            style={{
-              backgroundColor: 'var(--article-accent-bg)',
-              color: 'var(--article-text-secondary)'
-            }}
-          >
-            {article.difficulty}
-          </span>
-          <span
-            className="text-xs"
-            style={{ color: 'var(--article-text-secondary)' }}
-          >
-            {formatDate(article.publishDate)}
-          </span>
-          {article.metadata?.readingTime && (
-            <span
-              className="text-xs"
-              style={{ color: 'var(--article-text-secondary)' }}
-            >
-              {article.metadata.readingTime} min read
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 pb-32 pt-8">
+        {/* Hero Image Section */}
+        <div className="mb-10 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-gray-900/5 dark:ring-white/10 aspect-[21/9] relative bg-gray-100 dark:bg-gray-800 group">
+          <NewsArticleFallbackImage
+            imageUrl={article.imageUrl}
+            title={article.title}
+            source={article.source}
+            category={article.category}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+
+          {/* Source Badge on Image */}
+          <div className="absolute bottom-4 left-4 flex items-center gap-2 animate-fade-in-up">
+            <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-medium border border-white/20 shadow-lg">
+              {article.source}
             </span>
-          )}
+            {article.metadata?.readingTime && (
+              <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-medium border border-white/20 shadow-lg flex items-center gap-1">
+                <span className="opacity-70">⏱</span> {article.metadata.readingTime} min
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Title */}
-        <h1
-          className="mb-6 font-bold animate-fade-in-up leading-tight"
-          style={{
-            color: 'var(--article-text)',
-            fontSize: 'clamp(1.75rem, 5vw, 2.75rem)',
-            lineHeight: 'var(--line-height-article-tight)',
-            maxWidth: 'var(--article-content-width)',
-            animationDelay: '0.1s'
-          }}
-        >
-          <FuriganaText
-            text={article.title}
-            showFurigana={settings.showFurigana}
-            fontSize="xlarge"
-            highlightGrammar={false}
-            highlightMode="none"
-          />
-        </h1>
+        {/* Title & Metadata */}
+        <div className="mb-12 text-center max-w-3xl mx-auto">
+          {/* Tags */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <span
+              className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+              style={{
+                backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
+                color: 'rgb(var(--palette-primary-600))'
+              }}
+            >
+              {article.category}
+            </span>
+            <span
+              className="px-3 py-1 rounded-full text-xs font-bold border"
+              style={{
+                borderColor: 'var(--article-border)',
+                color: 'var(--article-text-secondary)'
+              }}
+            >
+              {article.difficulty}
+            </span>
+            <span
+              className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 dark:text-gray-400"
+            >
+              {formatDate(article.publishDate)}
+            </span>
+          </div>
 
-        {/* Source */}
-        <div
-          className="mb-8 text-sm font-medium animate-fade-in-up"
-          style={{
-            color: 'var(--article-text-secondary)',
-            animationDelay: '0.2s'
-          }}
-        >
-          {article.source}
+          {/* Title */}
+          <h1
+            className="mb-6 font-bold leading-tight animate-fade-in-up"
+            style={{
+              color: 'var(--article-text)',
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              lineHeight: '1.3',
+              animationDelay: '0.2s'
+            }}
+          >
+            <FuriganaText
+              text={article.title}
+              showFurigana={settings.showFurigana}
+              fontSize="xlarge"
+              highlightGrammar={false}
+              highlightMode="none"
+            />
+          </h1>
         </div>
 
         {/* Summary */}
-        {article.summary && (
-          <div
-            className="mb-10 p-6 rounded-2xl animate-fade-in-up"
-            style={{
-              animationDelay: '0.3s',
-              backgroundColor: 'var(--article-accent-bg)',
-              maxWidth: 'var(--article-content-width)'
-            }}
-          >
+        {
+          article.summary && (
             <div
-              className="text-lg leading-relaxed"
+              className="mb-10 p-6 rounded-2xl animate-fade-in-up"
               style={{
-                color: 'var(--article-text-secondary)',
-                lineHeight: 'var(--line-height-article-ui)'
+                animationDelay: '0.3s',
+                backgroundColor: 'var(--article-accent-bg)',
+                maxWidth: 'var(--article-content-width)'
               }}
             >
-              <FuriganaText
-                text={article.summary}
-                showFurigana={settings.showFurigana}
-                fontSize="large"
-                highlightGrammar={false}
-                highlightMode="none"
-              />
+              <div
+                className="text-lg leading-relaxed"
+                style={{
+                  color: 'var(--article-text-secondary)',
+                  lineHeight: 'var(--line-height-article-ui)'
+                }}
+              >
+                <FuriganaText
+                  text={article.summary}
+                  showFurigana={settings.showFurigana}
+                  fontSize="large"
+                  highlightGrammar={false}
+                  highlightMode="none"
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
 
         {/* Main Content - Elevated Card */}
         <div
@@ -1653,25 +1774,27 @@ export default function EnhancedArticleReader({
         </div>
 
         {/* Translation Section */}
-        {settings.showTranslation && (
-          <div
-            className="mt-10 p-6 rounded-2xl"
-            style={{
-              backgroundColor: 'var(--article-accent-bg)',
-              maxWidth: 'var(--article-content-width)'
-            }}
-          >
-            <h3
-              className="font-semibold mb-3 text-lg"
-              style={{ color: 'var(--article-text)' }}
+        {
+          settings.showTranslation && (
+            <div
+              className="mt-10 p-6 rounded-2xl"
+              style={{
+                backgroundColor: 'var(--article-accent-bg)',
+                maxWidth: 'var(--article-content-width)'
+              }}
             >
-              {t('news.reader.translation')}
-            </h3>
-            <p style={{ color: 'var(--article-text-secondary)' }}>
-              [Translation would appear here]
-            </p>
-          </div>
-        )}
+              <h3
+                className="font-semibold mb-3 text-lg"
+                style={{ color: 'var(--article-text)' }}
+              >
+                {t('news.reader.translation')}
+              </h3>
+              <p style={{ color: 'var(--article-text-secondary)' }}>
+                [Translation would appear here]
+              </p>
+            </div>
+          )
+        }
 
         {/* Footer */}
         <footer
@@ -1707,21 +1830,23 @@ export default function EnhancedArticleReader({
             )}
           </div>
         </footer>
-      </article>
+      </article >
 
       {/* Settings Toolbar (handles both mobile and desktop) */}
-      {!settings.shadowingMode && (
-        <MobileSettingsToolbar
-          settings={settings}
-          onSettingsChange={handleSettingsChange}
-          isScrolled={isScrolled}
-          isOpen={showMobileSettings}
-          onClose={() => {
-            console.log('Closing mobile settings');
-            setShowMobileSettings(false);
-          }}
-        />
-      )}
+      {
+        !settings.shadowingMode && (
+          <MobileSettingsToolbar
+            settings={settings}
+            onSettingsChange={handleSettingsChange}
+            isScrolled={isScrolled}
+            isOpen={showMobileSettings}
+            onClose={() => {
+              console.log('Closing mobile settings');
+              setShowMobileSettings(false);
+            }}
+          />
+        )
+      }
 
       {/* AI Word Explanation Modal - Moshimoshi feature */}
       <WordExplanationModal
@@ -1734,24 +1859,26 @@ export default function EnhancedArticleReader({
       />
 
       {/* Shadowing Mode */}
-      {settings.shadowingMode && (
-        <UnifiedShadowingMode
-          sentences={sentences}
-          title={article.title}
-          contentId={article.id}
-          contentType="article"
-          audioSpeed={settings.audioSpeed}
-          showFurigana={settings.showFurigana}
-          highlightGrammar={settings.highlightGrammar}
-          highlightMode={settings.highlightMode}
-          onClose={() => setSettings(prev => ({ ...prev, shadowingMode: false }))}
-        />
-      )}
+      {
+        settings.shadowingMode && (
+          <UnifiedShadowingMode
+            sentences={sentences}
+            title={article.title}
+            contentId={article.id}
+            contentType="article"
+            audioSpeed={settings.audioSpeed}
+            showFurigana={settings.showFurigana}
+            highlightGrammar={settings.highlightGrammar}
+            highlightMode={settings.highlightMode}
+            onClose={() => setSettings(prev => ({ ...prev, shadowingMode: false }))}
+          />
+        )
+      }
 
       {/* Loading Modal - Show only on first audio load */}
       <Modal
         isOpen={ttsLoading && !hasLoadedAudioBefore}
-        onClose={() => {}} // Prevent closing during load
+        onClose={() => { }} // Prevent closing during load
         closeOnOverlayClick={false}
         closeOnEsc={false}
         showCloseButton={false}
@@ -1767,6 +1894,6 @@ export default function EnhancedArticleReader({
           </p>
         </div>
       </Modal>
-    </div>
+    </div >
   );
 }
