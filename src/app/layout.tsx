@@ -4,6 +4,7 @@ import { ToastProvider } from '@/components/ui/Toast/ToastContext'
 // import { ContentProtectionProvider } from '@/components/providers/ContentProtectionProvider'
 import { I18nProvider } from '@/i18n/I18nContext'
 import { AuthProvider } from '@/hooks/useAuth' // Compatibility wrapper - not actually needed but keeps layout consistent
+import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
 import { ServiceWorkerProvider } from '@/components/pwa/ServiceWorkerProvider'
 import CelebrationProvider from '@/components/gamification/CelebrationProvider'
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext'
@@ -188,6 +189,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         <AuthProvider>
+          <ReCaptchaProvider>
           <ToastProvider defaultPosition="top-right">
             <I18nProvider>
               <ConjugationHelpProvider>
@@ -207,6 +209,7 @@ export default function RootLayout({
               </ConjugationHelpProvider>
             </I18nProvider>
           </ToastProvider>
+          </ReCaptchaProvider>
         </AuthProvider>
       </body>
     </html>

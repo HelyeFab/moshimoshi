@@ -8,11 +8,13 @@ import { getUserFriendlyErrorMessage } from '@/utils/errorMessages'
 import { useTranslation } from '@/i18n/I18nContext'
 import logger from '@/lib/logger'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
+import { useReCaptcha } from '@/components/ReCaptchaProvider'
 
 export default function SignUpPage() {
   const router = useRouter()
   const { showToast } = useToast()
   const { strings, t } = useTranslation()
+  const { executeRecaptcha } = useReCaptcha()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
@@ -29,10 +31,14 @@ export default function SignUpPage() {
     setError('')
 
     try {
+      // Execute reCAPTCHA
+      const recaptchaToken = await executeRecaptcha('signup')
+      logger.auth('reCAPTCHA token obtained', { hasToken: !!recaptchaToken })
+
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, displayName, termsAccepted })
+        body: JSON.stringify({ email, password, displayName, termsAccepted, recaptchaToken })
       })
 
       const data = await response.json()

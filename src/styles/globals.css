@@ -201,7 +201,7 @@ html {
 
   /* Line heights optimized for Japanese text */
   --line-height-article-base: 2.0;
-  --line-height-article-furigana: 3.0;  /* Generous spacing for comfortable furigana reading */
+  --line-height-article-furigana: 1.9;  /* Tighter furigana spacing for better text cohesion */
   --line-height-article-ui: 1.8;
   --line-height-article-tight: 1.6;
 
@@ -269,7 +269,7 @@ body {
 .furigana rt {
   font-size: 0.5em;
   position: absolute;
-  top: -1.5em;  /* Increased for more vertical space between furigana and base text */
+  top: -1.0em;  /* Tighter spacing between furigana and base text */
   left: 0;
   right: 0;
   text-align: center;
@@ -282,7 +282,7 @@ ruby {
   vertical-align: text-bottom;
   text-align: center;
   line-height: 1;
-  padding-top: 1.2em;  /* Space for furigana above */
+  padding-top: 0.85em;  /* Tighter space for furigana above */
 }
 
 ruby rt {

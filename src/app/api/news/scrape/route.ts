@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { v4 as uuidv4 } from 'uuid';
 
 // Simple in-memory cache to prevent too frequent scraping
 const scrapeCache = new Map<string, { data: any; timestamp: number }>();
@@ -12,10 +13,16 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const source = searchParams.get('source') || 'nhk-easy';
     const force = searchParams.get('force') === 'true';
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+    const progressId = searchParams.get('progressId'); // Optional: for progress tracking
+
+    // Create cache key that includes date range for unique caching
+    const cacheKey = startDate && endDate ? `${source}-${startDate}-${endDate}` : source;
 
     // Check cache if not forcing
     if (!force) {
-      const cached = scrapeCache.get(source);
+      const cached = scrapeCache.get(cacheKey);
       if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
         return NextResponse.json({
           ...cached.data,
@@ -25,7 +32,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    console.log(`[Moshimoshi Admin] Triggering ${source} scraper via Firebase Function`);
+    console.log(`[Moshimoshi Admin] Triggering ${source} scraper via Firebase Function`, { progressId });
 
     // Call the Firebase Function via HTTP with admin key
     try {
@@ -40,7 +47,9 @@ export async function GET(request: NextRequest) {
           data: {
             source,
             timestamp: new Date().toISOString(),
-            adminKey
+            adminKey,
+            ...(startDate && endDate && { startDate, endDate }),
+            ...(progressId && { progressId }) // Pass progressId for tracking
           }
         })
       });
@@ -70,13 +79,13 @@ export async function GET(request: NextRequest) {
       const response = {
         success: true,
         source: sourceName,
-        articlesCount: result.summary?.sources?.[sourceName]?.articles || result.summary?.totalArticles || 0,
+        articlesCount: result.articlesCount || result.summary?.sources?.[sourceName]?.articles || result.summary?.totalArticles || 0,
         timestamp: new Date().toISOString(),
         summary: result.summary
       };
 
       // Cache the result
-      scrapeCache.set(source, {
+      scrapeCache.set(cacheKey, {
         data: response,
         timestamp: Date.now()
       });

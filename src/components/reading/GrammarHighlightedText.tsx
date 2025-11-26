@@ -165,7 +165,7 @@ export function GrammarHighlightedText({
                 }`}
               style={{
                 ...(isHighlighted ? { backgroundColor: `${token.color}60`, color: '#111827' } : {}),
-                paddingTop: showFurigana ? '2.2em' : undefined,  // Increased for more vertical space between furigana and text
+                paddingTop: showFurigana ? '1.1em' : undefined,  // Tighter furigana spacing
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
                 overflowWrap: 'normal',
@@ -177,7 +177,7 @@ export function GrammarHighlightedText({
               <span
                 className="absolute text-xs w-full text-center"
                 style={{
-                  top: '0.3em',  // Adjusted to match increased paddingTop
+                  top: '0.1em',  // Tighter positioning
                   left: '0',
                   fontSize: '0.7em',
                   lineHeight: 1,

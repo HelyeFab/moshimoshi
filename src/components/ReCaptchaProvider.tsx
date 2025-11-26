@@ -1,0 +1,95 @@
+'use client'
+
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react'
+import Script from 'next/script'
+
+interface ReCaptchaContextType {
+  executeRecaptcha: (action: string) => Promise<string | null>
+  isLoaded: boolean
+}
+
+const ReCaptchaContext = createContext<ReCaptchaContextType>({
+  executeRecaptcha: async () => null,
+  isLoaded: false,
+})
+
+export const useReCaptcha = () => useContext(ReCaptchaContext)
+
+interface ReCaptchaProviderProps {
+  children: ReactNode
+}
+
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (callback: () => void) => void
+      execute: (siteKey: string, options: { action: string }) => Promise<string>
+    }
+  }
+}
+
+export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
+  const [isLoaded, setIsLoaded] = useState(false)
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+
+  // Skip reCAPTCHA if not configured
+  const isConfigured = siteKey && !siteKey.includes('YOUR_RECAPTCHA')
+
+  useEffect(() => {
+    if (!isConfigured) {
+      console.warn('[ReCAPTCHA] Not configured - skipping. Get keys from: https://www.google.com/recaptcha/admin')
+      setIsLoaded(true) // Allow forms to work without reCAPTCHA
+      return
+    }
+
+    // Check if already loaded
+    if (window.grecaptcha) {
+      window.grecaptcha.ready(() => {
+        setIsLoaded(true)
+      })
+    }
+  }, [isConfigured])
+
+  const handleScriptLoad = useCallback(() => {
+    if (window.grecaptcha) {
+      window.grecaptcha.ready(() => {
+        setIsLoaded(true)
+        console.log('[ReCAPTCHA] Loaded successfully')
+      })
+    }
+  }, [])
+
+  const executeRecaptcha = useCallback(async (action: string): Promise<string | null> => {
+    // If not configured, return null (bypass)
+    if (!isConfigured) {
+      console.log('[ReCAPTCHA] Not configured, bypassing verification')
+      return null
+    }
+
+    if (!isLoaded || !window.grecaptcha) {
+      console.warn('[ReCAPTCHA] Not loaded yet')
+      return null
+    }
+
+    try {
+      const token = await window.grecaptcha.execute(siteKey!, { action })
+      return token
+    } catch (error) {
+      console.error('[ReCAPTCHA] Error executing:', error)
+      return null
+    }
+  }, [isLoaded, siteKey, isConfigured])
+
+  return (
+    <ReCaptchaContext.Provider value={{ executeRecaptcha, isLoaded }}>
+      {isConfigured && (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
+          onLoad={handleScriptLoad}
+          strategy="afterInteractive"
+        />
+      )}
+      {children}
+    </ReCaptchaContext.Provider>
+  )
+}

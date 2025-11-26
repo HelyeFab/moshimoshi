@@ -1,4 +1,4 @@
-export type TTSProvider = 'google' | 'elevenlabs' | 'edge-tts';
+export type TTSProvider = 'kokoro' | 'google' | 'elevenlabs' | 'edge-tts';
 
 export interface TTSOptions {
   provider?: TTSProvider | 'auto';
@@ -44,6 +44,13 @@ export interface TTSCacheEntry {
 }
 
 export interface TTSConfig {
+  kokoro: {
+    apiKey?: string;
+    baseUrl: string;
+    defaultVoice: string;
+    model: string;
+    timeout: number;
+  };
   google: {
     apiKey?: string;
     projectId?: string;

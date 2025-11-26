@@ -105,10 +105,15 @@ export class PersistentCacheManager extends CacheManager {
         const docId = this.generateDocId(key);
         const expiresAt = new Date(Date.now() + durationSeconds * 1000);
 
+        // Filter out undefined values from metadata to avoid Firestore errors
+        const cleanMetadata = metadata ? Object.fromEntries(
+          Object.entries(metadata).filter(([_, value]) => value !== undefined)
+        ) : {};
+
         await db.collection(this.COLLECTION_NAME).doc(docId).set({
           key,
           data,
-          metadata,
+          metadata: cleanMetadata,
           timestamp: Timestamp.now(),
           expiresAt: Timestamp.fromDate(expiresAt),
           hits: 0,

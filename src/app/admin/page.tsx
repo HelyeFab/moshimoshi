@@ -5,6 +5,8 @@ import { useI18n } from '@/i18n/I18nContext';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import DoshiMascot from '@/components/ui/DoshiMascot';
+import DateRangeScrapingModal from '@/components/admin/DateRangeScrapingModal';
+import ScrapingLogsPanel from '@/components/admin/ScrapingLogsPanel';
 
 interface DashboardStats {
   totalUsers: number;
@@ -40,8 +42,9 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [scrapingLoading, setScrapingLoading] = useState(false);
   const [scrapingMessage, setScrapingMessage] = useState<string | null>(null);
+  const [isScrapingModalOpen, setIsScrapingModalOpen] = useState(false);
+  const [logsRefreshTrigger, setLogsRefreshTrigger] = useState(0);
 
   useEffect(() => {
     fetchDashboardStats();
@@ -64,32 +67,17 @@ export default function AdminDashboard() {
     }
   }
 
-  async function triggerNewsScraping(source?: string) {
-    setScrapingLoading(true);
-    setScrapingMessage(null);
+  const handleScrapingStart = (message: string) => {
+    setScrapingMessage(message);
+  };
 
-    try {
-      const response = await fetch('/api/news/scrape?' + new URLSearchParams({
-        source: source || 'nhk-easy',
-        force: 'true'
-      }), {
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to trigger scraping: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      setScrapingMessage(`✅ Successfully scraped ${data.articlesCount || 0} articles from ${data.source || source}`);
-    } catch (err) {
-      setScrapingMessage(`❌ Error: ${err instanceof Error ? err.message : 'Failed to trigger scraping'}`);
-    } finally {
-      setScrapingLoading(false);
-      // Clear message after 5 seconds
-      setTimeout(() => setScrapingMessage(null), 5000);
-    }
-  }
+  const handleScrapingComplete = (message: string) => {
+    setScrapingMessage(message);
+    // Refresh logs after scraping completes
+    setLogsRefreshTrigger(prev => prev + 1);
+    // Clear message after 5 seconds
+    setTimeout(() => setScrapingMessage(null), 5000);
+  };
 
   if (loading) {
     return (
@@ -321,71 +309,52 @@ export default function AdminDashboard() {
           </motion.div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {[
-            {
-              source: 'nhk-easy',
-              icon: '📺',
-              title: strings.admin?.newsScraping?.nhkEasy || 'NHK Easy News',
-              schedule: strings.admin?.newsScraping?.nhkSchedule || 'Daily at 5 AM UTC',
-              gradient: 'from-blue-400 to-blue-600',
-              bgColor: 'bg-blue-50 dark:bg-blue-900/20'
-            },
-            {
-              source: 'watanoc',
-              icon: '🏯',
-              title: strings.admin?.newsScraping?.watanoc || 'Watanoc',
-              schedule: strings.admin?.newsScraping?.watanocSchedule || 'Every 6 hours',
-              gradient: 'from-purple-400 to-purple-600',
-              bgColor: 'bg-purple-50 dark:bg-purple-900/20'
-            },
-            {
-              source: 'mainichi-shogakusei',
-              icon: '🎒',
-              title: strings.admin?.newsScraping?.mainichiShogakusei || 'Mainichi Kids',
-              schedule: strings.admin?.newsScraping?.mainichiSchedule || 'Twice daily',
-              gradient: 'from-orange-400 to-orange-600',
-              bgColor: 'bg-orange-50 dark:bg-orange-900/20'
-            }
-          ].map((news, index) => (
-            <motion.button
-              key={news.source}
-              onClick={() => triggerNewsScraping(news.source)}
-              disabled={scrapingLoading}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`group relative flex flex-col items-center gap-2 p-4 rounded-xl ${news.bgColor} hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              <span className="text-3xl group-hover:scale-110 transition-transform duration-300">
-                {news.icon}
-              </span>
-              <div className="text-center">
-                <p className={`text-sm font-bold bg-gradient-to-r ${news.gradient} bg-clip-text text-transparent`}>
-                  {news.title}
-                </p>
-                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                  {news.schedule}
-                </p>
-              </div>
-            </motion.button>
-          ))}
-        </div>
-
-        {scrapingLoading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-4 flex items-center justify-center gap-2"
+        <div className="flex flex-col items-center gap-4">
+          <motion.button
+            onClick={() => setIsScrapingModalOpen(true)}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="group relative flex items-center gap-4 p-6 rounded-xl bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 hover:shadow-lg transition-all duration-300 border border-blue-200 dark:border-blue-700 w-full max-w-md"
           >
-            <div className="w-5 h-5 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              {strings.admin?.newsScraping?.scrapingArticles || 'Scraping articles...'}
-            </span>
-          </motion.div>
-        )}
+            <div className="flex-shrink-0">
+              <span className="text-4xl group-hover:scale-110 transition-transform duration-300">
+                📺
+              </span>
+            </div>
+            <div className="flex-grow text-left">
+              <p className="text-lg font-bold bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent">
+                NHK Easy News
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                Scrape articles with custom date range
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                Click to select dates (max 30 days)
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <svg className="w-5 h-5 text-blue-500 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </motion.button>
+
+          <p className="text-xs text-gray-500 dark:text-gray-400 text-center max-w-md">
+            Watanoc and Mainichi scrapers have been archived. NHK Easy provides the most reliable and comprehensive Japanese news content.
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Scraping Logs Panel */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.35 }}
+      >
+        <ScrapingLogsPanel refreshTrigger={logsRefreshTrigger} />
       </motion.div>
 
       {/* Recent Activity - Beautiful Mobile-First Cards */}
@@ -519,6 +488,14 @@ export default function AdminDashboard() {
           </div>
         </motion.div>
       </div>
+
+      {/* Date Range Scraping Modal */}
+      <DateRangeScrapingModal
+        isOpen={isScrapingModalOpen}
+        onClose={() => setIsScrapingModalOpen(false)}
+        onScrapingStart={handleScrapingStart}
+        onScrapingComplete={handleScrapingComplete}
+      />
     </motion.div>
   );
 }

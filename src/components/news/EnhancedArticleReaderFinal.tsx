@@ -14,113 +14,15 @@ import { useWordExplanation } from '@/hooks/useWordExplanation';
 import WordExplanationModal from '@/components/word/WordExplanationModal';
 import UnifiedShadowingMode from '@/components/shadowing/UnifiedShadowingMode';
 import { segmentLongSentence, shouldSegment } from '@/utils/sentenceSegmentation';
+import { ReadingSettings, TranslationMode } from '@/types/story';
+import { useContentTranslation } from '@/hooks/useContentTranslation';
 
-// HLS.js types for m3u8 playback support
-declare global {
-  interface Window {
-    Hls: any;
-  }
-}
-
-// Helper function to detect m3u8 URLs
-const isM3U8Url = (url: string): boolean => {
-  return url.includes('.m3u8') || url.includes('m3u8');
-};
-
-// Helper function to load HLS.js from CDN
-const loadHlsJs = async (): Promise<void> => {
-  if (typeof window !== 'undefined' && !window.Hls) {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.4.12/dist/hls.min.js';
-      script.onload = () => {
-        console.log('[HLS] HLS.js loaded successfully');
-        resolve();
-      };
-      script.onerror = () => {
-        console.error('[HLS] Failed to load HLS.js');
-        reject(new Error('Failed to load HLS.js'));
-      };
-      document.head.appendChild(script);
-    });
-  }
-};
-
-// Helper function to create HLS-enabled audio element
-const createHLSAudio = async (audioUrl: string): Promise<HTMLAudioElement> => {
-  const audio = new Audio();
-
-  if (isM3U8Url(audioUrl)) {
-    console.log('[HLS] Detected m3u8 URL, using HLS.js for playback');
-
-    // Load HLS.js if not already loaded
-    await loadHlsJs();
-
-    if (window.Hls && window.Hls.isSupported()) {
-      const hls = new window.Hls({
-        enableWorker: true,
-        lowLatencyMode: false,
-        backBufferLength: 90
-      });
-
-      hls.loadSource(audioUrl);
-      hls.attachMedia(audio);
-
-      hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
-        console.log('[HLS] M3U8 manifest loaded successfully');
-      });
-
-      hls.on(window.Hls.Events.ERROR, (event: any, data: any) => {
-        console.error('[HLS] HLS.js error:', data);
-        if (data.fatal) {
-          switch (data.type) {
-            case window.Hls.ErrorTypes.NETWORK_ERROR:
-              console.error('[HLS] Fatal network error, trying to recover...');
-              hls.startLoad();
-              break;
-            case window.Hls.ErrorTypes.MEDIA_ERROR:
-              console.error('[HLS] Fatal media error, trying to recover...');
-              hls.recoverMediaError();
-              break;
-            default:
-              console.error('[HLS] Fatal error, cannot recover');
-              hls.destroy();
-              break;
-          }
-        }
-      });
-
-      // Store HLS instance on audio element for cleanup
-      (audio as any)._hlsInstance = hls;
-    } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
-      // Safari supports HLS natively
-      console.log('[HLS] Using native HLS support (Safari)');
-      audio.src = audioUrl;
-    } else {
-      throw new Error('HLS not supported in this browser');
-    }
-  } else {
-    // Regular audio file
-    audio.src = audioUrl;
-  }
-
-  return audio;
-};
-
-// Helper function to properly cleanup audio with HLS support
+// Helper function to cleanup audio element
 const cleanupAudio = (audio: HTMLAudioElement | null): void => {
   if (audio) {
-    // Cleanup HLS instance if it exists
-    if ((audio as any)._hlsInstance) {
-      console.log('[HLS] Cleaning up HLS instance');
-      (audio as any)._hlsInstance.destroy();
-      (audio as any)._hlsInstance = null;
-    }
-
-    // Standard audio cleanup
     audio.pause();
     audio.src = '';
-    audio.load(); // Reset the audio element
+    audio.load();
   }
 };
 
@@ -146,7 +48,6 @@ interface NewsArticle {
   summary: string;
   url: string;
   imageUrl?: string;
-  audioUrl?: string; // NHK native audio (m3u8 format) - professional voice-over
   publishDate: string | Date;
   source: string;
   category: string;
@@ -169,15 +70,7 @@ interface NewsArticle {
   audioError?: string;
 }
 
-interface ReadingSettings {
-  fontSize: 'small' | 'medium' | 'large' | 'xlarge';
-  showFurigana: boolean;
-  highlightGrammar: boolean;
-  highlightMode: 'none' | 'all' | 'content' | 'grammar';
-  audioSpeed: number;
-  showTranslation: boolean;
-  shadowingMode: boolean;
-}
+// ReadingSettings interface now imported from @/types/story
 
 // Component to render article content with per-sentence play buttons
 function ArticleContentWithPlayButtons({
@@ -188,9 +81,12 @@ function ArticleContentWithPlayButtons({
   highlightMode,
   onWordClick,
   onPlaySentence,
+  onTranslateSegment,
   playingSentenceIndex,
   sentenceAudioLoading,
   isFullArticlePlaying,
+  translatingSegmentIndex,
+  segmentTranslations,
   className = ''
 }: {
   sentences: string[];
@@ -200,9 +96,12 @@ function ArticleContentWithPlayButtons({
   highlightMode: 'none' | 'all' | 'content' | 'grammar';
   onWordClick?: (word: string, event: React.MouseEvent) => void;
   onPlaySentence: (sentence: string, index: number) => void;
+  onTranslateSegment?: (segment: string, index: number) => void;
   playingSentenceIndex: number | null;
   sentenceAudioLoading: number | null;
   isFullArticlePlaying: boolean;
+  translatingSegmentIndex?: number | null;
+  segmentTranslations?: { [key: number]: any };
   className?: string;
 }) {
   // Track segments across all sentences for unique indexing
@@ -256,47 +155,100 @@ function ArticleContentWithPlayButtons({
             {segments.map((segment, segmentIdx) => {
               const currentGlobalIndex = globalSegmentIndex++;
               return (
-                <div
-                  key={segmentIdx}
-                  className={`group relative sentence-inline-wrapper ${segments.length > 1 ? 'segment-wrapper' : 'not-segmented'}`}
-                  style={{ lineHeight: segments.length > 1 ? '2.0' : undefined }}
-                >
-                  {/* Segment text with furigana (no further segmentation) */}
-                  <span className="furigana-content">
-                    <FuriganaTextCore
-                      text={segment}
-                      showFurigana={showFurigana}
-                      fontSize={fontSize}
-                      highlightGrammar={highlightGrammar}
-                      highlightMode={highlightMode}
-                      onWordClick={onWordClick}
-                      className="inline"
-                    />
-                  </span>
-                  {/* Play button inline after each segment - Subtler design */}
-                  <button
-                    onClick={() => onPlaySentence(segment, currentGlobalIndex)}
-                    disabled={isFullArticlePlaying || sentenceAudioLoading === currentGlobalIndex}
-                    className={`inline-flex items-center justify-center ml-2 w-6 h-6 rounded-full transition-all duration-200 ${playingSentenceIndex === currentGlobalIndex
-                      ? '!opacity-100 bg-primary-500 text-white shadow-md scale-110'
-                      : playingSentenceIndex !== null
-                        ? 'opacity-0' // Hide other buttons when one is playing to reduce noise
-                        : isFullArticlePlaying
-                          ? 'opacity-0'
-                          : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:scale-110 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-primary-500'
-                      }`}
-                    title={playingSentenceIndex === currentGlobalIndex ? 'Pause segment' : 'Play segment'}
-                    aria-label={`Play segment ${currentGlobalIndex + 1}`}
+                <React.Fragment key={segmentIdx}>
+                  <div
+                    className={`group relative sentence-inline-wrapper ${segments.length > 1 ? 'segment-wrapper' : 'not-segmented'}`}
+                    style={{ lineHeight: segments.length > 1 ? '2.0' : undefined }}
                   >
-                    {sentenceAudioLoading === currentGlobalIndex ? (
-                      <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                    ) : playingSentenceIndex === currentGlobalIndex ? (
-                      <Pause className="w-3 h-3" fill="currentColor" />
-                    ) : (
-                      <Play className="w-3 h-3" fill="currentColor" />
+                    {/* Segment text with furigana (no further segmentation) */}
+                    <span className="furigana-content">
+                      <FuriganaTextCore
+                        text={segment}
+                        showFurigana={showFurigana}
+                        fontSize={fontSize}
+                        highlightGrammar={highlightGrammar}
+                        highlightMode={highlightMode}
+                        onWordClick={onWordClick}
+                        className="inline"
+                      />
+                    </span>
+                    {/* Play button inline after each segment - Subtler design */}
+                    <button
+                      onClick={() => onPlaySentence(segment, currentGlobalIndex)}
+                      disabled={isFullArticlePlaying || sentenceAudioLoading === currentGlobalIndex}
+                      className={`inline-flex items-center justify-center ml-2 w-6 h-6 rounded-full transition-all duration-200 ${playingSentenceIndex === currentGlobalIndex
+                        ? '!opacity-100 bg-primary-500 text-white shadow-md scale-110'
+                        : playingSentenceIndex !== null
+                          ? 'opacity-0' // Hide other buttons when one is playing to reduce noise
+                          : isFullArticlePlaying
+                            ? 'opacity-0'
+                            : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:scale-110 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-primary-500'
+                        }`}
+                      title={playingSentenceIndex === currentGlobalIndex ? 'Pause segment' : 'Play segment'}
+                      aria-label={`Play segment ${currentGlobalIndex + 1}`}
+                    >
+                      {sentenceAudioLoading === currentGlobalIndex ? (
+                        <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      ) : playingSentenceIndex === currentGlobalIndex ? (
+                        <Pause className="w-3 h-3" fill="currentColor" />
+                      ) : (
+                        <Play className="w-3 h-3" fill="currentColor" />
+                      )}
+                    </button>
+
+                    {/* Translation button inline after play button */}
+                    {onTranslateSegment && (
+                      <button
+                        onClick={() => onTranslateSegment(segment, currentGlobalIndex)}
+                        disabled={translatingSegmentIndex === currentGlobalIndex}
+                        className={`inline-flex items-center justify-center ml-1 w-6 h-6 rounded-full transition-all duration-200 ${
+                          segmentTranslations?.[currentGlobalIndex]
+                            ? '!opacity-100 bg-green-500 text-white shadow-md scale-110'
+                            : translatingSegmentIndex === currentGlobalIndex
+                              ? '!opacity-100 bg-blue-500 text-white animate-pulse'
+                              : playingSentenceIndex !== null
+                                ? 'opacity-0' // Hide when audio is playing
+                                : isFullArticlePlaying
+                                  ? 'opacity-0'
+                                  : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:scale-110 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-500'
+                        }`}
+                        title={
+                          segmentTranslations?.[currentGlobalIndex]
+                            ? 'Show translation'
+                            : translatingSegmentIndex === currentGlobalIndex
+                              ? 'Translating...'
+                              : 'Translate segment'
+                        }
+                        aria-label={`Translate segment ${currentGlobalIndex + 1}`}
+                      >
+                        {translatingSegmentIndex === currentGlobalIndex ? (
+                          <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <Languages className="w-3 h-3" />
+                        )}
+                      </button>
                     )}
-                  </button>
-                </div>
+                  </div>
+
+                  {/* Display translation if available */}
+                  {segmentTranslations?.[currentGlobalIndex] && (
+                    <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border-l-4 border-blue-500 ml-8">
+                      <div className="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
+                        {segmentTranslations[currentGlobalIndex].translatedText}
+                      </div>
+                      {segmentTranslations[currentGlobalIndex].keyVocabulary?.length > 0 && (
+                        <div className="mt-2 text-xs text-blue-700 dark:text-blue-300">
+                          <span className="font-semibold">Key vocabulary:</span>{' '}
+                          {segmentTranslations[currentGlobalIndex].keyVocabulary.map((vocab: any, i: number) => (
+                            <span key={i} className="inline-block mr-2 mb-1">
+                              <span className="font-medium">{vocab.word}</span> - <span>{vocab.meaning}</span>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </React.Fragment>
               );
             })}
           </div>
@@ -551,7 +503,7 @@ function FuriganaTextCore({
                 key={index}
                 className="cursor-pointer hover:bg-primary-500/20 transition-colors rounded px-1 inline-block relative"
                 style={{
-                  paddingTop: '1.5em',
+                  paddingTop: '0.50rem',
                   whiteSpace: 'nowrap',
                   marginRight: '0.1em'
                 }}
@@ -1060,12 +1012,77 @@ export default function EnhancedArticleReader({
   const [settings, setSettings] = useState<ReadingSettings>({
     fontSize: 'medium',
     showFurigana: true,
-    highlightGrammar: false,
+    highlightVocabulary: false,
     highlightMode: 'none',
-    audioSpeed: 1.0,
-    showTranslation: false,
+    darkMode: false,
+    autoPlay: false,
+    playbackSpeed: 1.0,
+    showTranslation: false, // Legacy field
+    translationMode: 'off' as TranslationMode,
+    translationProvider: 'ai',
+    showTranslationConfidence: true,
+    preserveGrammarStructure: true,
+    includeGrammarNotes: true,
+    autoAddToVocabulary: false,
+    translationUserLevel: 'N5',
     shadowingMode: false
   });
+
+  // Initialize content translation hook
+  const {
+    translateText,
+    getFullTranslation,
+    isLoading: translationLoading,
+    error: translationError,
+    settings: translationSettings,
+    updateSettings: updateTranslationSettings
+  } = useContentTranslation({
+    mode: settings.translationMode,
+    userLevel: settings.translationUserLevel,
+    showConfidence: settings.showTranslationConfidence,
+    includeGrammarNotes: settings.includeGrammarNotes,
+    autoAddToVocabulary: settings.autoAddToVocabulary,
+    articleId: article.id // Enable pre-cached translation lookup
+  });
+
+  // Track translation state
+  const [translatedContent, setTranslatedContent] = useState<string | null>(null);
+
+  // Auto-translate when translation mode is enabled and content changes
+  useEffect(() => {
+    const handleAutoTranslation = async () => {
+      if (settings.translationMode !== 'off' && article.content) {
+        console.log(`[Translation] Auto-translating article content (mode: ${settings.translationMode})`);
+        try {
+          const result = await getFullTranslation(article.content);
+          if (result?.translatedText) {
+            setTranslatedContent(result.translatedText);
+            console.log('[Translation] Auto-translation completed');
+          }
+        } catch (error) {
+          console.error('[Translation] Auto-translation failed:', error);
+          setTranslatedContent(null);
+        }
+      } else {
+        setTranslatedContent(null);
+      }
+    };
+
+    handleAutoTranslation();
+  }, [settings.translationMode, article.content, getFullTranslation]);
+
+  // Sync translation settings when reading settings change
+  useEffect(() => {
+    updateTranslationSettings({
+      mode: settings.translationMode,
+      userLevel: settings.translationUserLevel,
+      showConfidence: settings.showTranslationConfidence,
+      includeGrammarNotes: settings.includeGrammarNotes,
+      autoAddToVocabulary: settings.autoAddToVocabulary
+    });
+  }, [settings.translationMode, settings.translationUserLevel,
+      settings.showTranslationConfidence, settings.includeGrammarNotes, settings.autoAddToVocabulary,
+      updateTranslationSettings]);
 
   // Track if we've ever loaded audio for this article (to show loading modal on first load only)
   const [hasLoadedAudioBefore, setHasLoadedAudioBefore] = useState(false);
@@ -1073,6 +1090,10 @@ export default function EnhancedArticleReader({
   // Track which sentence is currently playing (for per-sentence play buttons)
   const [playingSentenceIndex, setPlayingSentenceIndex] = useState<number | null>(null);
   const [sentenceAudioLoading, setSentenceAudioLoading] = useState<number | null>(null);
+
+  // Track segment translation state
+  const [translatingSegmentIndex, setTranslatingSegmentIndex] = useState<number | null>(null);
+  const [segmentTranslations, setSegmentTranslations] = useState<{ [key: number]: any }>({});
 
   // Ref for pre-generated audio playback (HTML5 Audio)
   const preGeneratedAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -1087,7 +1108,7 @@ export default function EnhancedArticleReader({
     explanation: wordExplanation,
     currentWord,
     reset: resetWordExplanation
-  } = useWordExplanation();
+  } = useWordExplanation({ articleId: article.id });
 
   // Mark audio as loaded when it starts playing for the first time
   useEffect(() => {
@@ -1230,106 +1251,20 @@ export default function EnhancedArticleReader({
     setPlayingSentenceIndex(null);
     setSentenceAudioLoading(null);
 
-    // PRIORITY 1: NHK native audio (highest quality, professional voice-over)
-    if (article.audioUrl) {
-      // If already playing native audio, pause it
-      if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
-        preGeneratedAudioRef.current.pause();
-        setIsPreGeneratedPlaying(false);
-        console.log('[Article Reader] Paused NHK native audio');
-        return;
-      }
+    console.log('%c🔊 TTS PROVIDER TRACKING - Full Article Playback', 'background: #4CAF50; color: white; font-size: 14px; padding: 4px 8px; border-radius: 4px;');
+    console.log('Available audio sources:', {
+      kokoroPreGenerated: article.generatedContentAudioUrl ? '✅ Available' : '❌ Not available',
+      appTtsFallback: '✅ Always available (Kokoro → ElevenLabs → Edge-TTS)'
+    });
 
-      // If native audio is paused (exists but not playing and not ended), resume it
-      if (preGeneratedAudioRef.current &&
-          !isPreGeneratedPlaying &&
-          !preGeneratedAudioRef.current.ended &&
-          preGeneratedAudioRef.current.src) {
-        try {
-          await preGeneratedAudioRef.current.play();
-          setIsPreGeneratedPlaying(true);
-          console.log('[Article Reader] Resumed NHK native audio');
-          return;
-        } catch (resumeError) {
-          console.warn('[Article Reader] Failed to resume NHK audio, creating new instance:', resumeError);
-          // Fall through to create new audio instance
-        }
-      }
-
-      // Otherwise, start playing native audio from beginning
-      try {
-        console.log('[Article Reader] Using NHK native audio (m3u8)', {
-          url: article.audioUrl,
-          source: article.source
-        });
-
-        // Clean up existing audio if any
-        if (preGeneratedAudioRef.current) {
-          cleanupAudio(preGeneratedAudioRef.current);
-          preGeneratedAudioRef.current = null;
-        }
-
-        // Create new audio element for NHK audio
-        // Route through appropriate proxy based on URL type
-        let audioUrl: string;
-
-        if (article.audioUrl.includes('vod-stream.nhk.jp')) {
-          // Route old NHK URLs through NHK Audio Proxy to convert to working URLs
-          console.log('[Article Reader] Detected old NHK URL, using NHK Audio Proxy:', article.audioUrl);
-          audioUrl = `/api/nhkAudioProxy?url=${encodeURIComponent(article.audioUrl)}`;
-        } else if ((article.audioUrl.includes('firebasestorage') || article.audioUrl.includes('storage.googleapis.com')) && !isM3U8Url(article.audioUrl)) {
-          // Route Firebase Storage URLs through TTS proxy to handle CORS
-          audioUrl = `/api/tts/proxy?url=${encodeURIComponent(article.audioUrl)}`;
-        } else {
-          // Use URL as-is (new media.vd.st.nhk URLs, local URLs, etc.)
-          audioUrl = article.audioUrl;
-        }
-
-        console.log('[Article Reader] Creating HLS-capable audio for URL:', audioUrl);
-        const audio = await createHLSAudio(audioUrl);
-        audio.playbackRate = settings.audioSpeed;
-
-        // Set up event listeners
-        audio.onplay = () => {
-          setIsPreGeneratedPlaying(true);
-          console.log('[Article Reader] NHK native audio started');
-        };
-
-        audio.onpause = () => {
-          setIsPreGeneratedPlaying(false);
-          console.log('[Article Reader] NHK native audio paused');
-        };
-
-        audio.onended = () => {
-          setIsPreGeneratedPlaying(false);
-          console.log('[Article Reader] NHK native audio finished');
-        };
-
-        audio.onerror = (e) => {
-          console.error('[Article Reader] NHK native audio error:', e);
-          setIsPreGeneratedPlaying(false);
-          // Fall back to Kokoro TTS or app TTS
-          console.log('[Article Reader] Falling back from NHK audio...');
-          handleKokoroOrTTSFallback();
-        };
-
-        preGeneratedAudioRef.current = audio;
-        await audio.play();
-        console.log('[Article Reader] Playing NHK native professional audio');
-        return;
-
-      } catch (error) {
-        console.error('[Article Reader] Failed to play NHK native audio:', error);
-        // Fall through to Kokoro/TTS fallback
-      }
-    }
-
-    // PRIORITY 2: Kokoro TTS-generated audio (from Firebase Storage)
+    // Use Kokoro TTS (pre-generated or app TTS fallback)
     handleKokoroOrTTSFallback();
   };
 
-  // Handle Kokoro TTS or app TTS fallback
+  // Handle Kokoro TTS playback
   const handleKokoroOrTTSFallback = async () => {
+    console.log('%c🔄 Attempting Kokoro TTS playback...', 'color: #FF9800; font-weight: bold;');
+
     if (article.generatedContentAudioUrl) {
       // If already playing Kokoro audio, pause it
       if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
@@ -1349,9 +1284,8 @@ export default function EnhancedArticleReader({
 
       // Otherwise, start playing Kokoro audio from beginning
       try {
-        console.log('[Article Reader] Using Kokoro TTS audio from Firebase Storage', {
-          url: article.generatedContentAudioUrl,
-          provider: article.audioProvider,
+        console.log('%c[Audio] SOURCE: FIREBASE PRE-CACHED (Kokoro TTS)', 'color: #ff9900; font-weight: bold', {
+          provider: article.audioProvider || 'kokoro',
           voice: article.audioVoice
         });
 
@@ -1368,7 +1302,8 @@ export default function EnhancedArticleReader({
           : article.generatedContentAudioUrl;
 
         const audio = new Audio(audioUrl);
-        audio.playbackRate = settings.audioSpeed;
+        // Validate audioSpeed to prevent "non-finite" error
+        audio.playbackRate = Number.isFinite(settings.audioSpeed) ? settings.audioSpeed : 1.0;
 
         // Set up event listeners
         audio.onplay = () => {
@@ -1396,7 +1331,8 @@ export default function EnhancedArticleReader({
 
         preGeneratedAudioRef.current = audio;
         await audio.play();
-        console.log('[Article Reader] Playing Kokoro TTS audio from Firebase Storage');
+        console.log('%c▶️ PLAYING: Kokoro Pre-generated TTS (Priority 1)', 'background: #9C27B0; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;');
+        console.log('Provider: Kokoro (pre-generated via Sheldon, cached in Firebase Storage)');
         return;
 
       } catch (error) {
@@ -1405,7 +1341,10 @@ export default function EnhancedArticleReader({
       }
     }
 
-    // PRIORITY 3: App TTS system (last fallback)
+    // PRIORITY 2: App TTS system (fallback)
+    console.log('%c[Audio] SOURCE: API TTS (on-demand generation)', 'color: #ff0000; font-weight: bold', {
+      reason: 'No pre-cached audio available'
+    });
     handleTTSPlayback();
   };
 
@@ -1425,10 +1364,12 @@ export default function EnhancedArticleReader({
 
     // Otherwise, start TTS from beginning
     try {
+      console.log('%c▶️ PLAYING: App TTS System (Priority 2)', 'background: #FF5722; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;');
+      console.log('Provider chain: Kokoro → ElevenLabs → Edge-TTS (check server logs for actual provider used)');
       await playTTS(article.content, {
         speed: settings.audioSpeed
       });
-      console.log('Article playback started with TTS fallback');
+      console.log('Article playback started with App TTS fallback');
     } catch (error) {
       console.error('Failed to play article with TTS:', error);
       // Error already logged by onError callback in useTTS
@@ -1493,9 +1434,12 @@ export default function EnhancedArticleReader({
     setSentenceAudioLoading(index);
     setPlayingSentenceIndex(index);
 
+    console.log('%c🔊 TTS PROVIDER TRACKING - Single Sentence Playback', 'background: #4CAF50; color: white; font-size: 14px; padding: 4px 8px; border-radius: 4px;');
+    console.log('Sentence:', sentence.substring(0, 50) + '...');
+
     // PRIORITY 1: Try Kokoro TTS (cached or on-demand generation)
     try {
-      console.log('[Article Reader] Attempting Kokoro sentence audio', { index, sentence: sentence.substring(0, 30) + '...' });
+      console.log('[Article Reader] Attempting Kokoro sentence audio (Priority 1)...');
 
       const response = await fetch('/api/tts/generate-sentence', {
         method: 'POST',
@@ -1511,15 +1455,16 @@ export default function EnhancedArticleReader({
         const data = await response.json();
 
         if (data.success && data.audioUrl) {
-          console.log('[Article Reader] Playing Kokoro sentence audio', {
-            index,
-            cached: data.cached,
+          console.log('%c▶️ PLAYING: Kokoro Sentence TTS (Priority 1)', 'background: #9C27B0; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;');
+          console.log('Provider: Kokoro via Sheldon API', {
+            cached: data.cached ? '✅ From Cache' : '🔄 Freshly Generated',
             provider: data.provider
           });
 
           // Create and play audio element
           const audio = new Audio(data.audioUrl);
-          audio.playbackRate = settings.audioSpeed;
+          // Validate audioSpeed to prevent "non-finite" error
+          audio.playbackRate = Number.isFinite(settings.audioSpeed) ? settings.audioSpeed : 1.0;
 
           audio.onended = () => {
             setSentenceAudioLoading(null);
@@ -1540,16 +1485,17 @@ export default function EnhancedArticleReader({
       }
 
       // If response not OK, fall through to app TTS
-      console.log('[Article Reader] Kokoro sentence generation failed, falling back to app TTS');
+      console.log('%c⚠️ Kokoro sentence generation failed, falling back to app TTS...', 'color: #f44336; font-weight: bold;');
 
     } catch (kokoroError) {
-      console.log('[Article Reader] Kokoro error, falling back to app TTS:', kokoroError);
+      console.log('%c⚠️ Kokoro error, falling back to app TTS:', 'color: #f44336; font-weight: bold;', kokoroError);
       // Fall through to app TTS
     }
 
     // PRIORITY 2: Fallback to app TTS (which also makes API calls via Edge TTS)
     try {
-      console.log('[Article Reader] Using app TTS fallback for sentence');
+      console.log('%c▶️ PLAYING: App TTS Fallback (Priority 2)', 'background: #FF5722; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;');
+      console.log('Provider chain: Kokoro → ElevenLabs → Edge-TTS');
       await playTTS(sentence, { speed: settings.audioSpeed });
       setSentenceAudioLoading(null);
       console.log('[Article Reader] App TTS sentence playback completed');
@@ -1557,6 +1503,46 @@ export default function EnhancedArticleReader({
       console.error('[Article Reader] All sentence playback methods failed:', ttsError);
       setSentenceAudioLoading(null);
       setPlayingSentenceIndex(null);
+    }
+  };
+
+  // Handle translating individual segment
+  const handleTranslateSegment = async (segment: string, index: number) => {
+    // Skip if segment is already being translated
+    if (translatingSegmentIndex === index) return;
+
+    // If translation already exists, clear it (toggle functionality)
+    if (segmentTranslations[index]) {
+      setSegmentTranslations(prev => {
+        const newState = { ...prev };
+        delete newState[index];
+        return newState;
+      });
+      return;
+    }
+
+    // Start translation process
+    setTranslatingSegmentIndex(index);
+
+    try {
+      console.log(`[Translation] Translating segment ${index}: "${segment.substring(0, 50)}..."`);
+
+      // Use 'learning' mode for icon-based translation (optimal for Japanese learning)
+      const result = await translateText(segment, 'learning');
+
+      if (result) {
+        setSegmentTranslations(prev => ({
+          ...prev,
+          [index]: result
+        }));
+        console.log(`[Translation] Successfully translated segment ${index}`);
+      } else {
+        console.error(`[Translation] Failed to translate segment ${index}: No result returned`);
+      }
+    } catch (error) {
+      console.error(`[Translation] Error translating segment ${index}:`, error);
+    } finally {
+      setTranslatingSegmentIndex(null);
     }
   };
 
@@ -1657,104 +1643,138 @@ export default function EnhancedArticleReader({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
 
-          {/* Source Badge on Image */}
-          <div className="absolute bottom-4 left-4 flex items-center gap-2 animate-fade-in-up">
-            <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-medium border border-white/20 shadow-lg">
-              {article.source}
-            </span>
-            {article.metadata?.readingTime && (
-              <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-medium border border-white/20 shadow-lg flex items-center gap-1">
-                <span className="opacity-70">⏱</span> {article.metadata.readingTime} min
+          {/* Metadata Badges on Image */}
+          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between animate-fade-in-up">
+            {/* Left side: Reading time */}
+            <div className="flex items-center gap-2">
+              {article.metadata?.readingTime && (
+                <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-medium border border-white/20 shadow-lg flex items-center gap-1">
+                  <span className="opacity-70">⏱</span> {article.metadata.readingTime} min
+                </span>
+              )}
+            </div>
+            {/* Right side: Level and Date */}
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-bold border border-white/20 shadow-lg">
+                {article.difficulty}
               </span>
-            )}
+              <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-medium border border-white/20 shadow-lg">
+                {formatDate(article.publishDate)}
+              </span>
+            </div>
           </div>
         </div>
 
         {/* Title & Metadata */}
-        <div className="mb-12 text-center max-w-3xl mx-auto">
-          {/* Tags */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <span
-              className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+        <div className="mb-12 text-center max-w-3xl mx-auto px-4">
+
+          {/* Title with elegant styling and interactive features */}
+          <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <h1
+              className="mb-4 font-bold leading-tight relative inline"
               style={{
-                backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
-                color: 'rgb(var(--palette-primary-600))'
+                color: 'var(--article-text)',
+                fontSize: 'clamp(1.75rem, 4.5vw, 3rem)',
+                lineHeight: '1.4',
+                letterSpacing: '-0.02em'
               }}
             >
-              {article.category}
-            </span>
-            <span
-              className="px-3 py-1 rounded-full text-xs font-bold border"
-              style={{
-                borderColor: 'var(--article-border)',
-                color: 'var(--article-text-secondary)'
-              }}
-            >
-              {article.difficulty}
-            </span>
-            <span
-              className="px-3 py-1 rounded-full text-xs font-medium text-gray-500 dark:text-gray-400"
-            >
-              {formatDate(article.publishDate)}
-            </span>
+              <FuriganaText
+                text={article.title}
+                showFurigana={settings.showFurigana}
+                fontSize="xlarge"
+                highlightGrammar={false}
+                highlightMode="none"
+                onWordClick={handleWordClick}
+              />
+            </h1>
+
+            {/* Title action buttons */}
+            <div className="flex items-center justify-center gap-3 mt-4 mb-6">
+              {/* Play title button */}
+              <button
+                onClick={() => handlePlaySentence(article.title, -1)}
+                disabled={sentenceAudioLoading === -1}
+                className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${
+                  playingSentenceIndex === -1
+                    ? 'bg-primary-500 text-white shadow-md scale-110'
+                    : 'bg-gray-100 dark:bg-gray-800 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-primary-500 hover:scale-110'
+                }`}
+                title={playingSentenceIndex === -1 ? 'Pause' : 'Play title'}
+              >
+                {sentenceAudioLoading === -1 ? (
+                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                ) : playingSentenceIndex === -1 ? (
+                  <Pause className="w-4 h-4" fill="currentColor" />
+                ) : (
+                  <Play className="w-4 h-4" fill="currentColor" />
+                )}
+              </button>
+
+              {/* Translate title button */}
+              <button
+                onClick={() => handleTranslateSegment(article.title, -1)}
+                disabled={translatingSegmentIndex === -1}
+                className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${
+                  segmentTranslations[-1]
+                    ? 'bg-green-500 text-white shadow-md scale-110'
+                    : translatingSegmentIndex === -1
+                      ? 'bg-blue-500 text-white animate-pulse'
+                      : 'bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-500 hover:scale-110'
+                }`}
+                title={segmentTranslations[-1] ? 'Show translation' : 'Translate title'}
+              >
+                {translatingSegmentIndex === -1 ? (
+                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <Languages className="w-4 h-4" />
+                )}
+              </button>
+            </div>
+
+            {/* Title translation display */}
+            {segmentTranslations[-1] && (
+              <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-xl border-l-4 border-blue-500 text-left max-w-2xl mx-auto">
+                <div className="text-base text-blue-800 dark:text-blue-200 leading-relaxed">
+                  {segmentTranslations[-1].translatedText}
+                </div>
+                {segmentTranslations[-1].keyVocabulary?.length > 0 && (
+                  <div className="mt-3 text-sm text-blue-700 dark:text-blue-300">
+                    <span className="font-semibold">Key vocabulary:</span>{' '}
+                    {segmentTranslations[-1].keyVocabulary.map((vocab: any, i: number) => (
+                      <span key={i} className="inline-block mr-3 mb-1">
+                        <span className="font-medium">{vocab.word}</span> - <span>{vocab.meaning}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          {/* Title */}
-          <h1
-            className="mb-6 font-bold leading-tight animate-fade-in-up"
-            style={{
-              color: 'var(--article-text)',
-              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-              lineHeight: '1.3',
-              animationDelay: '0.2s'
-            }}
-          >
-            <FuriganaText
-              text={article.title}
-              showFurigana={settings.showFurigana}
-              fontSize="xlarge"
-              highlightGrammar={false}
-              highlightMode="none"
-            />
-          </h1>
-        </div>
-
-        {/* Summary */}
-        {
-          article.summary && (
+          {/* Elegant decorative divider */}
+          <div className="flex items-center justify-center gap-3 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
             <div
-              className="mb-10 p-6 rounded-2xl animate-fade-in-up"
-              style={{
-                animationDelay: '0.3s',
-                backgroundColor: 'var(--article-accent-bg)',
-                maxWidth: 'var(--article-content-width)'
-              }}
-            >
-              <div
-                className="text-lg leading-relaxed"
-                style={{
-                  color: 'var(--article-text-secondary)',
-                  lineHeight: 'var(--line-height-article-ui)'
-                }}
-              >
-                <FuriganaText
-                  text={article.summary}
-                  showFurigana={settings.showFurigana}
-                  fontSize="large"
-                  highlightGrammar={false}
-                  highlightMode="none"
-                />
-              </div>
-            </div>
-          )
-        }
+              className="h-px w-12 rounded-full"
+              style={{ background: 'linear-gradient(to left, rgb(var(--palette-primary-500)), transparent)' }}
+            />
+            <div
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: 'rgb(var(--palette-primary-500) / 0.6)' }}
+            />
+            <div
+              className="h-px w-12 rounded-full"
+              style={{ background: 'linear-gradient(to right, rgb(var(--palette-primary-500)), transparent)' }}
+            />
+          </div>
+        </div>
 
         {/* Main Content - Elevated Card */}
         <div
-          className="animate-fade-in-up p-6 sm:p-8 md:p-10 rounded-2xl shadow-sm dark:shadow-lg"
+          className="animate-fade-in-up p-6 sm:p-8 md:p-10 rounded-2xl shadow-sm dark:shadow-lg mx-auto"
           style={{
             maxWidth: 'var(--article-content-width)',
-            animationDelay: '0.4s',
+            animationDelay: '0.3s',
             backgroundColor: 'var(--article-content-bg)',
             border: '1px solid var(--article-border)'
           }}
@@ -1767,38 +1787,108 @@ export default function EnhancedArticleReader({
             highlightMode={settings.highlightMode}
             onWordClick={handleWordClick}
             onPlaySentence={handlePlaySentence}
+            onTranslateSegment={handleTranslateSegment}
             playingSentenceIndex={playingSentenceIndex}
             sentenceAudioLoading={sentenceAudioLoading}
             isFullArticlePlaying={ttsPlaying && playingSentenceIndex === null}
+            translatingSegmentIndex={translatingSegmentIndex}
+            segmentTranslations={segmentTranslations}
           />
         </div>
 
-        {/* Translation Section */}
+        {/* Translation Section - Firebase-powered */}
         {
-          settings.showTranslation && (
+          (settings.translationMode !== 'off' || settings.showTranslation) && (
             <div
-              className="mt-10 p-6 rounded-2xl"
+              className="mt-10 p-6 rounded-2xl animate-fade-in-up mx-auto"
               style={{
                 backgroundColor: 'var(--article-accent-bg)',
-                maxWidth: 'var(--article-content-width)'
+                maxWidth: 'var(--article-content-width)',
+                animationDelay: '0.4s'
               }}
             >
-              <h3
-                className="font-semibold mb-3 text-lg"
-                style={{ color: 'var(--article-text)' }}
-              >
-                {t('news.reader.translation')}
-              </h3>
-              <p style={{ color: 'var(--article-text-secondary)' }}>
-                [Translation would appear here]
-              </p>
+              <div className="flex items-center justify-between mb-4">
+                <h3
+                  className="font-semibold text-lg flex items-center gap-2"
+                  style={{ color: 'var(--article-text)' }}
+                >
+                  <Languages className="w-5 h-5" />
+                  {t('news.reader.translation')}
+                </h3>
+                {settings.translationMode !== 'off' && (
+                  <div className="flex items-center gap-2 text-xs">
+                    <span
+                      className="px-2 py-1 rounded-full font-medium"
+                      style={{
+                        backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
+                        color: 'rgb(var(--palette-primary-600))'
+                      }}
+                    >
+                      {settings.translationMode}
+                    </span>
+                    <span style={{ color: 'var(--article-text-secondary)' }}>
+                      {settings.translationUserLevel}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Translation Content */}
+              {translationLoading ? (
+                <div className="flex items-center gap-3 py-8">
+                  <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                  <span style={{ color: 'var(--article-text-secondary)' }}>
+                    Translating with AI • Firebase caching enabled...
+                  </span>
+                </div>
+              ) : translationError ? (
+                <div className="py-4 px-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                  <p className="text-red-700 dark:text-red-400 text-sm">
+                    Translation error: {translationError}
+                  </p>
+                </div>
+              ) : translatedContent ? (
+                <div className="prose prose-gray dark:prose-invert max-w-none">
+                  <p
+                    style={{
+                      color: 'var(--article-text-secondary)',
+                      lineHeight: '1.7',
+                      fontSize: '1rem'
+                    }}
+                    className="whitespace-pre-wrap"
+                  >
+                    {translatedContent}
+                  </p>
+                </div>
+              ) : settings.translationMode !== 'off' ? (
+                <div className="py-4">
+                  <p style={{ color: 'var(--article-text-secondary)' }} className="text-sm italic">
+                    Translation will appear here automatically.
+                  </p>
+                </div>
+              ) : (
+                <div className="py-4">
+                  <p style={{ color: 'var(--article-text-secondary)' }} className="text-sm">
+                    Enable translation in settings to see the English translation.
+                  </p>
+                </div>
+              )}
+
+              {/* Firebase Cache Status */}
+              {translatedContent && !translationLoading && (
+                <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700 text-xs">
+                  <span style={{ color: 'var(--article-text-secondary)' }} className="opacity-70">
+                    🔥 Powered by Firebase Translation Cache
+                  </span>
+                </div>
+              )}
             </div>
           )
         }
 
         {/* Footer */}
         <footer
-          className="mt-16 pt-8"
+          className="mt-16 pt-8 mx-auto"
           style={{
             borderTop: '1px solid var(--article-border)',
             maxWidth: 'var(--article-content-width)'

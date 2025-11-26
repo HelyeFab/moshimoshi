@@ -1,0 +1,578 @@
+/**
+ * Translation Processor
+ * Learning-focused Japanese-English translation with progressive assistance modes
+ */
+
+import { BaseProcessor } from './BaseProcessor';
+import {
+  ProcessorContext,
+  ProcessorResult,
+  TaskConfig,
+  AIServiceError
+} from '../types';
+import { translationCache } from '@/lib/firebase/collections/translations';
+
+// ============================================
+// Translation Types
+// ============================================
+
+export type TranslationMode = 'hints' | 'partial' | 'full' | 'learning';
+
+export interface TranslationRequest {
+  text: string;
+  mode?: TranslationMode;
+  sourceLang?: 'ja' | 'en';
+  targetLang?: 'en' | 'ja';
+  context?: string; // Article context, sentence context, etc.
+  preserveGrammarStructure?: boolean;
+  includeGrammarNotes?: boolean;
+  userLevel?: 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
+}
+
+export interface TranslationHint {
+  type: 'grammar' | 'structure' | 'particle' | 'verb' | 'noun' | 'adjective';
+  explanation: string;
+  position?: number; // Character position in original text
+}
+
+export interface PartialTranslation {
+  original: string;
+  partial: string; // Mix of translated and untranslated parts
+  translatedParts: Array<{
+    originalText: string;
+    translation: string;
+    position: number;
+    type: 'key_phrase' | 'difficult_word' | 'grammar_pattern';
+  }>;
+  remainingJapanese: string[];
+}
+
+export interface GrammarNote {
+  pattern: string;
+  explanation: string;
+  example?: string;
+}
+
+export interface TranslationResult {
+  originalText: string;
+  translatedText: string;
+  mode: TranslationMode;
+  confidence: number; // 0-1 confidence score
+
+  // Mode-specific results
+  hints?: TranslationHint[];
+  partialTranslation?: PartialTranslation;
+  grammarNotes?: GrammarNote[];
+
+  // Vocabulary extraction
+  keyVocabulary?: Array<{
+    word: string;
+    reading: string;
+    meaning: string;
+    jlptLevel?: string;
+    difficulty: 'easy' | 'medium' | 'hard';
+  }>;
+
+  // Alternative translations
+  alternatives?: string[];
+
+  // Learning metadata
+  learningPoints?: string[];
+  nextSteps?: string[]; // What to study next based on this translation
+}
+
+export class TranslationProcessor extends BaseProcessor<TranslationRequest, TranslationResult> {
+  constructor(context: ProcessorContext) {
+    super(context);
+  }
+
+  /**
+   * Process the translation request
+   */
+  async process(
+    request: TranslationRequest,
+    config?: TaskConfig
+  ): Promise<ProcessorResult<TranslationResult>> {
+    // Validate the request
+    this.validateRequest(request);
+
+    // Set defaults
+    const normalizedRequest = this.normalizeRequest(request, config);
+
+    const startTime = Date.now();
+    let cached = false;
+    let usage = { promptTokens: 0, completionTokens: 0, totalTokens: 0, estimatedCost: 0 };
+
+    try {
+      // 🔍 STEP 1: Check Firebase cache first
+      console.log(`🔍 Checking Firebase cache for: "${normalizedRequest.text.substring(0, 50)}..." (${normalizedRequest.mode})`);
+
+      const cachedResult = await translationCache.getCachedTranslation(
+        normalizedRequest.text,
+        normalizedRequest.mode,
+        normalizedRequest.userLevel,
+        {
+          includeGrammarNotes: normalizedRequest.includeGrammarNotes,
+          preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
+        }
+      );
+
+      if (cachedResult) {
+        console.log(`✅ Cache HIT! Using cached translation (${Date.now() - startTime}ms)`);
+        cached = true;
+
+        return {
+          data: cachedResult,
+          usage, // Zero cost for cached results
+          metadata: {
+            mode: normalizedRequest.mode,
+            sourceLang: normalizedRequest.sourceLang,
+            targetLang: normalizedRequest.targetLang,
+            userLevel: normalizedRequest.userLevel,
+            cached: true,
+            cacheHit: true
+          }
+        };
+      }
+
+      console.log(`❌ Cache MISS. Proceeding with AI translation...`);
+
+    } catch (cacheError) {
+      console.error('⚠️ Firebase cache error (proceeding with AI):', cacheError);
+      // Continue with AI translation if cache fails
+    }
+
+    // 🤖 STEP 2: Generate with AI (cache miss or cache error)
+    try {
+      // Generate prompts based on mode
+      const systemPrompt = this.getSystemPrompt(config);
+      const userPrompt = this.getUserPrompt(normalizedRequest, config);
+
+      // Call OpenAI
+      const { content, usage: aiUsage } = await this.callOpenAI(systemPrompt, userPrompt);
+      usage = aiUsage;
+
+      // Parse the response
+      const result = this.parseResponse(content);
+
+      // Enhance the result with metadata
+      const enhancedResult = this.enhanceTranslationResult(result, normalizedRequest, config);
+
+      // 💾 STEP 3: Store in Firebase cache for future use
+      try {
+        const costInfo = {
+          promptTokens: usage.promptTokens,
+          completionTokens: usage.completionTokens,
+          estimatedCost: usage.estimatedCost
+        };
+
+        const context = config?.source ? {
+          source: config.source as 'article' | 'story' | 'manual',
+          articleId: config.articleId,
+          articleTitle: config.articleTitle
+        } : undefined;
+
+        await translationCache.storeTranslation(
+          normalizedRequest.text,
+          normalizedRequest.mode,
+          normalizedRequest.userLevel,
+          enhancedResult,
+          costInfo,
+          context,
+          {
+            includeGrammarNotes: normalizedRequest.includeGrammarNotes,
+            preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
+          }
+        );
+
+        console.log(`💾 Stored translation in Firebase cache (${Date.now() - startTime}ms total)`);
+
+      } catch (storeError) {
+        console.error('⚠️ Failed to store translation in Firebase cache:', storeError);
+        // Don't fail the translation if cache storage fails
+      }
+
+      return {
+        data: enhancedResult,
+        usage,
+        metadata: {
+          mode: normalizedRequest.mode,
+          sourceLang: normalizedRequest.sourceLang,
+          targetLang: normalizedRequest.targetLang,
+          userLevel: normalizedRequest.userLevel,
+          cached: false,
+          cacheHit: false,
+          processingTime: Date.now() - startTime
+        }
+      };
+
+    } catch (aiError) {
+      console.error('❌ AI translation failed:', aiError);
+      throw aiError;
+    }
+  }
+
+  /**
+   * Validate the translation request
+   */
+  validateRequest(request: TranslationRequest): void {
+    if (!request.text) {
+      throw new AIServiceError(
+        'Text is required for translation',
+        'VALIDATION_ERROR',
+        400
+      );
+    }
+
+    if (typeof request.text !== 'string' || request.text.trim().length === 0) {
+      throw new AIServiceError(
+        'Text must be a non-empty string',
+        'VALIDATION_ERROR',
+        400
+      );
+    }
+
+    // Check text length (reasonable limit for translation)
+    if (request.text.length > 5000) {
+      throw new AIServiceError(
+        'Text too long. Maximum 5000 characters for translation.',
+        'VALIDATION_ERROR',
+        400
+      );
+    }
+
+    // Validate mode if provided
+    const validModes: TranslationMode[] = ['hints', 'partial', 'full', 'learning'];
+    if (request.mode && !validModes.includes(request.mode)) {
+      throw new AIServiceError(
+        `Invalid translation mode. Must be one of: ${validModes.join(', ')}`,
+        'VALIDATION_ERROR',
+        400
+      );
+    }
+  }
+
+  /**
+   * Normalize request with defaults
+   */
+  private normalizeRequest(request: TranslationRequest, config?: TaskConfig): Required<TranslationRequest> {
+    return {
+      text: request.text,
+      mode: request.mode || 'learning',
+      sourceLang: request.sourceLang || 'ja',
+      targetLang: request.targetLang || 'en',
+      context: request.context || '',
+      preserveGrammarStructure: request.preserveGrammarStructure ?? true,
+      includeGrammarNotes: request.includeGrammarNotes ?? true,
+      userLevel: request.userLevel || config?.jlptLevel || 'N5'
+    };
+  }
+
+  /**
+   * Generate the system prompt for translation
+   */
+  getSystemPrompt(config?: TaskConfig): string {
+    return `You are an expert Japanese-English translation system specialized for Japanese language learners.
+
+Your role is to provide educational translations that support learning rather than just direct conversion.
+
+CORE PRINCIPLES:
+1. Learning-Focused: Translations should teach, not just convert
+2. Progressive Assistance: Different modes provide different levels of help
+3. Grammar-Aware: Understand and explain Japanese grammar patterns
+4. Context-Sensitive: Consider the learning context and user level
+5. Encouraging: Help users build confidence in their comprehension
+
+TRANSLATION MODES:
+
+1. HINTS MODE:
+   - Provide grammar structure hints instead of direct translation
+   - Explain sentence patterns and particle usage
+   - Point out key grammar constructions
+   - Encourage comprehension attempts
+
+2. PARTIAL MODE:
+   - Translate key difficult phrases only
+   - Leave familiar/learnable parts in Japanese
+   - Focus on words above user's current level
+   - Provide scaffolding for comprehension
+
+3. FULL MODE:
+   - Complete translation with explanatory notes
+   - Include alternative phrasings
+   - Explain nuances and cultural context
+   - Highlight learning opportunities
+
+4. LEARNING MODE (Default):
+   - Comprehensive translation with full educational support
+   - Grammar breakdowns and explanations
+   - Vocabulary extraction and difficulty assessment
+   - Study recommendations and next steps
+
+OUTPUT FORMAT:
+Return a JSON object with this structure:
+{
+  "originalText": "Original Japanese text",
+  "translatedText": "Full English translation",
+  "mode": "Mode used for this translation",
+  "confidence": 0.95,
+
+  "hints": [
+    {
+      "type": "grammar|structure|particle|verb|noun|adjective",
+      "explanation": "Educational hint about this aspect",
+      "position": 0
+    }
+  ],
+
+  "partialTranslation": {
+    "original": "Original text",
+    "partial": "Mixed translation with [brackets] for untranslated parts",
+    "translatedParts": [
+      {
+        "originalText": "Difficult part in Japanese",
+        "translation": "Its translation",
+        "position": 0,
+        "type": "key_phrase|difficult_word|grammar_pattern"
+      }
+    ],
+    "remainingJapanese": ["Parts left in Japanese for learning"]
+  },
+
+  "grammarNotes": [
+    {
+      "pattern": "Grammar pattern like ～ている",
+      "explanation": "How this pattern works",
+      "example": "Additional example"
+    }
+  ],
+
+  "keyVocabulary": [
+    {
+      "word": "Japanese word",
+      "reading": "Hiragana reading",
+      "meaning": "English meaning",
+      "jlptLevel": "N3",
+      "difficulty": "medium"
+    }
+  ],
+
+  "alternatives": ["Alternative translation options"],
+  "learningPoints": ["What this text teaches"],
+  "nextSteps": ["Study recommendations based on this text"]
+}
+
+IMPORTANT GUIDELINES:
+- For hints mode: Focus on grammar structure, don't give full translation
+- For partial mode: Only translate words above the user's level
+- For learning mode: Include comprehensive educational content
+- Always consider the user's JLPT level for difficulty assessment
+- Encourage active learning and pattern recognition
+- Use clear, educational explanations appropriate for language learners`;
+  }
+
+  /**
+   * Generate the user prompt for translation
+   */
+  getUserPrompt(request: Required<TranslationRequest>, config?: TaskConfig): string {
+    const { text, mode, sourceLang, targetLang, context, userLevel } = request;
+
+    let prompt = `Translate this ${sourceLang === 'ja' ? 'Japanese' : 'English'} text using ${mode} mode:\n\n"${text}"\n\n`;
+
+    // Add context if provided
+    if (context) {
+      prompt += `Context: ${context}\n\n`;
+    }
+
+    // Add user level information
+    prompt += `User Level: ${userLevel}\n`;
+    prompt += `Translation Mode: ${mode}\n`;
+    prompt += `Source Language: ${sourceLang}\n`;
+    prompt += `Target Language: ${targetLang}\n\n`;
+
+    // Mode-specific instructions
+    switch (mode) {
+      case 'hints':
+        prompt += `HINTS MODE REQUIREMENTS:
+- Do NOT provide a full translation
+- Focus on grammar structure explanations
+- Point out key particles and their functions
+- Explain sentence patterns and constructions
+- Provide hints that guide understanding without giving away the meaning
+- Encourage the user to attempt comprehension`;
+        break;
+
+      case 'partial':
+        prompt += `PARTIAL MODE REQUIREMENTS:
+- Translate only words/phrases above ${userLevel} level
+- Leave familiar vocabulary in Japanese
+- Focus on helping with the most challenging parts
+- Provide just enough help to make the text comprehensible
+- Create a mixed Japanese-English result`;
+        break;
+
+      case 'full':
+        prompt += `FULL MODE REQUIREMENTS:
+- Provide complete translation
+- Include cultural context and nuances
+- Offer alternative translations where appropriate
+- Explain any idiomatic expressions
+- Maintain natural English flow`;
+        break;
+
+      case 'learning':
+        prompt += `LEARNING MODE REQUIREMENTS:
+- Provide comprehensive educational translation
+- Include detailed grammar analysis
+- Extract key vocabulary with difficulty levels
+- Provide learning recommendations
+- Focus on teaching opportunities in this text`;
+        break;
+    }
+
+    prompt += `\n\nReturn your response as a valid JSON object as specified in the system prompt.`;
+
+    return prompt;
+  }
+
+  /**
+   * Parse the AI response
+   */
+  parseResponse(response: string): TranslationResult {
+    const parsed = this.parseJSON<TranslationResult>(response);
+
+    // Validate required fields
+    if (!parsed.originalText || !parsed.translatedText || !parsed.mode) {
+      throw new AIServiceError(
+        'Missing required fields in translation result',
+        'INVALID_RESPONSE_FORMAT',
+        500
+      );
+    }
+
+    // Set default values for optional fields
+    if (typeof parsed.confidence !== 'number') {
+      parsed.confidence = 0.8; // Default confidence
+    }
+
+    // Ensure arrays are properly initialized
+    if (!Array.isArray(parsed.hints)) {
+      parsed.hints = [];
+    }
+    if (!Array.isArray(parsed.grammarNotes)) {
+      parsed.grammarNotes = [];
+    }
+    if (!Array.isArray(parsed.keyVocabulary)) {
+      parsed.keyVocabulary = [];
+    }
+    if (!Array.isArray(parsed.alternatives)) {
+      parsed.alternatives = [];
+    }
+    if (!Array.isArray(parsed.learningPoints)) {
+      parsed.learningPoints = [];
+    }
+    if (!Array.isArray(parsed.nextSteps)) {
+      parsed.nextSteps = [];
+    }
+
+    return parsed;
+  }
+
+  /**
+   * Enhance the translation result with additional processing
+   */
+  private enhanceTranslationResult(
+    result: TranslationResult,
+    request: Required<TranslationRequest>,
+    config?: TaskConfig
+  ): TranslationResult {
+    // Ensure confidence is within valid range
+    result.confidence = Math.max(0, Math.min(1, result.confidence));
+
+    // Add mode-specific enhancements
+    switch (request.mode) {
+      case 'hints':
+        // For hints mode, ensure we don't accidentally provide full translation
+        if (result.translatedText && result.translatedText.length > result.originalText.length * 0.3) {
+          // Translation seems too complete for hints mode, clear it
+          result.translatedText = 'Translation hints provided above - try to understand the text first!';
+        }
+        break;
+
+      case 'partial':
+        // Ensure partial translation exists
+        if (!result.partialTranslation) {
+          result.partialTranslation = {
+            original: request.text,
+            partial: result.translatedText,
+            translatedParts: [],
+            remainingJapanese: []
+          };
+        }
+        break;
+    }
+
+    // Add text analysis metadata
+    const textLength = request.text.length;
+    const hasKanji = /[\u4e00-\u9faf]/.test(request.text);
+    const hasHiragana = /[\u3040-\u309f]/.test(request.text);
+    const hasKatakana = /[\u30a0-\u30ff]/.test(request.text);
+
+    // Add complexity assessment to learning points
+    if (request.mode === 'learning') {
+      const complexityNotes = [];
+      if (textLength > 100) complexityNotes.push('Long text - good for reading practice');
+      if (hasKanji) complexityNotes.push('Contains kanji - focus on character recognition');
+      if (hasHiragana && hasKatakana) complexityNotes.push('Mixed scripts - practice script recognition');
+
+      result.learningPoints = [...(result.learningPoints || []), ...complexityNotes];
+    }
+
+    return result;
+  }
+
+  /**
+   * Batch translate multiple sentences
+   */
+  async translateBatch(
+    texts: string[],
+    mode: TranslationMode = 'learning',
+    config?: TaskConfig
+  ): Promise<ProcessorResult<TranslationResult[]>> {
+    const results: TranslationResult[] = [];
+    let totalUsage = { promptTokens: 0, completionTokens: 0, totalTokens: 0, estimatedCost: 0 };
+
+    for (const text of texts) {
+      const result = await this.process({ text, mode }, config);
+      results.push(result.data);
+
+      // Accumulate usage
+      totalUsage.promptTokens += result.usage.promptTokens;
+      totalUsage.completionTokens += result.usage.completionTokens;
+      totalUsage.totalTokens += result.usage.totalTokens;
+      totalUsage.estimatedCost += result.usage.estimatedCost;
+    }
+
+    return {
+      data: results,
+      usage: totalUsage,
+      metadata: {
+        batchSize: texts.length,
+        mode,
+        totalTexts: texts.length
+      }
+    };
+  }
+
+  /**
+   * Quick hint translation for immediate assistance
+   */
+  async quickHint(text: string, config?: TaskConfig): Promise<string[]> {
+    const result = await this.process(
+      { text, mode: 'hints' },
+      { ...config, temperature: 0.3 } // Lower temperature for consistent hints
+    );
+
+    return result.data.hints?.map(hint => hint.explanation) || [];
+  }
+}

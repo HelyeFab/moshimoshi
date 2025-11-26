@@ -44,7 +44,7 @@ export interface AudioGenerationResult {
  *
  * @param text - Text to convert to speech (max 5000 chars)
  * @param articleId - Unique article identifier
- * @param source - News source (e.g., 'nhk-easy', 'mainichi-news')
+ * @param source - News source (e.g., 'nhk-easy', 'watanoc')
  * @param audioType - Type of audio (title, summary, content)
  * @param options - Optional TTS configuration
  * @returns Public URL of generated audio file

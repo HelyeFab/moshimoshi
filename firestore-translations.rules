@@ -1,0 +1,215 @@
+/**
+ * Firestore Security Rules for Translation Collections
+ * Secure access control for translation caching system
+ */
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================
+    // Helper Functions
+    // ============================================
+
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if user is admin (customize based on your admin system)
+    function isAdmin() {
+      return isAuthenticated() &&
+             request.auth.token.admin == true;
+    }
+
+    // Check if user is premium/paid (customize based on your subscription system)
+    function isPremiumUser() {
+      return isAuthenticated() &&
+             (request.auth.token.subscription == 'premium' ||
+              request.auth.token.subscription == 'pro');
+    }
+
+    // Validate translation document structure
+    function isValidTranslationDoc(data) {
+      return data.keys().hasAll([
+        'id', 'textHash', 'originalText', 'mode', 'result',
+        'confidence', 'usageCount', 'createdAt'
+      ]) &&
+      data.mode in ['hints', 'partial', 'full', 'learning'] &&
+      data.userLevel in ['N5', 'N4', 'N3', 'N2', 'N1'] &&
+      data.confidence is number &&
+      data.confidence >= 0 && data.confidence <= 1 &&
+      data.usageCount is number && data.usageCount >= 0;
+    }
+
+    // Validate cache document structure
+    function isValidCacheDoc(data) {
+      return data.keys().hasAll([
+        'textHash', 'translationId', 'mode', 'userLevel',
+        'confidence', 'preview'
+      ]) &&
+      data.mode in ['hints', 'partial', 'full', 'learning'] &&
+      data.userLevel in ['N5', 'N4', 'N3', 'N2', 'N1'];
+    }
+
+    // ============================================
+    // Main Translations Collection
+    // ============================================
+
+    match /translations/{translationId} {
+      // Read: Allow authenticated users to read any translation
+      // This enables sharing translations across users to reduce API costs
+      allow read: if isAuthenticated();
+
+      // Create: Allow authenticated users to create new translations
+      allow create: if isAuthenticated() &&
+                    isValidTranslationDoc(resource.data) &&
+                    resource.data.createdAt == request.time &&
+                    resource.data.updatedAt == request.time;
+
+      // Update: Only allow updating usage statistics and lastUsed
+      allow update: if isAuthenticated() &&
+                    request.writeFields.hasOnly(['usageCount', 'lastUsed', 'updatedAt']) &&
+                    resource.data.updatedAt == request.time &&
+                    // Only allow incrementing usage count
+                    request.resource.data.usageCount >= resource.data.usageCount;
+
+      // Delete: Only admins can delete translations (for moderation)
+      allow delete: if isAdmin();
+
+      // ============================================
+      // Analytics Subcollection
+      // ============================================
+
+      match /analytics/{date} {
+        // Read: Only admins can read analytics
+        allow read: if isAdmin();
+
+        // Write: Only system/admin can write analytics
+        allow write: if isAdmin();
+      }
+    }
+
+    // ============================================
+    // Translation Cache Collection (for quick lookups)
+    // ============================================
+
+    match /translation_cache/{textHash} {
+      // Read: Allow authenticated users to read any cache entry
+      allow read: if isAuthenticated();
+
+      // Create: Allow authenticated users to create cache entries
+      allow create: if isAuthenticated() &&
+                    isValidCacheDoc(resource.data);
+
+      // Update: Only allow updating usage statistics
+      allow update: if isAuthenticated() &&
+                    request.writeFields.hasOnly(['usageCount', 'lastUsed']) &&
+                    // Only allow incrementing usage count
+                    request.resource.data.usageCount >= resource.data.usageCount;
+
+      // Delete: Only admins can delete cache entries
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // Translation Usage Statistics (global)
+    // ============================================
+
+    match /translation_stats/{statsId} {
+      // Read: Allow authenticated users to read general stats
+      allow read: if isAuthenticated();
+
+      // Write: Only admins can write stats
+      allow write: if isAdmin();
+    }
+
+    // ============================================
+    // User Translation History
+    // ============================================
+
+    match /users/{userId}/translation_history/{historyId} {
+      // Read/Write: Users can only access their own translation history
+      allow read, write: if isAuthenticated() &&
+                         request.auth.uid == userId;
+    }
+
+    // ============================================
+    // Rate Limiting Collection (to prevent abuse)
+    // ============================================
+
+    match /translation_rate_limits/{userId} {
+      // Read: Users can read their own rate limit status
+      allow read: if isAuthenticated() &&
+                  request.auth.uid == userId;
+
+      // Write: Only system can write rate limits
+      allow write: if isAdmin();
+    }
+
+    // ============================================
+    // Translation Quality Feedback
+    // ============================================
+
+    match /translation_feedback/{feedbackId} {
+      // Read: Allow authenticated users to read feedback (for community improvement)
+      allow read: if isAuthenticated();
+
+      // Create: Allow authenticated users to submit feedback
+      allow create: if isAuthenticated() &&
+                    resource.data.keys().hasAll(['translationId', 'rating', 'createdAt']) &&
+                    resource.data.rating is number &&
+                    resource.data.rating >= 1 && resource.data.rating <= 5 &&
+                    resource.data.createdAt == request.time;
+
+      // Update/Delete: Only the feedback creator or admins
+      allow update, delete: if isAuthenticated() &&
+                           (resource.data.userId == request.auth.uid || isAdmin());
+    }
+  }
+}
+
+/**
+ * Index Configuration (for firestore.indexes.json)
+ *
+ * Add these indexes to your firestore.indexes.json:
+ *
+ * {
+ *   "indexes": [
+ *     {
+ *       "collectionGroup": "translations",
+ *       "queryScope": "COLLECTION",
+ *       "fields": [
+ *         { "fieldPath": "textHash", "order": "ASCENDING" },
+ *         { "fieldPath": "mode", "order": "ASCENDING" },
+ *         { "fieldPath": "userLevel", "order": "ASCENDING" }
+ *       ]
+ *     },
+ *     {
+ *       "collectionGroup": "translations",
+ *       "queryScope": "COLLECTION",
+ *       "fields": [
+ *         { "fieldPath": "usageCount", "order": "DESCENDING" },
+ *         { "fieldPath": "createdAt", "order": "DESCENDING" }
+ *       ]
+ *     },
+ *     {
+ *       "collectionGroup": "translation_cache",
+ *       "queryScope": "COLLECTION",
+ *       "fields": [
+ *         { "fieldPath": "usageCount", "order": "DESCENDING" },
+ *         { "fieldPath": "lastUsed", "order": "DESCENDING" }
+ *       ]
+ *     },
+ *     {
+ *       "collectionGroup": "translation_cache",
+ *       "queryScope": "COLLECTION",
+ *       "fields": [
+ *         { "fieldPath": "mode", "order": "ASCENDING" },
+ *         { "fieldPath": "userLevel", "order": "ASCENDING" },
+ *         { "fieldPath": "confidence", "order": "DESCENDING" }
+ *       ]
+ *     }
+ *   ]
+ * }
+ */

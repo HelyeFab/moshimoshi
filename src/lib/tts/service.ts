@@ -2,6 +2,7 @@ import { storage } from '@/lib/firebase/admin';
 import { GoogleTTSProvider } from './providers/google';
 import { ElevenLabsProvider } from './providers/elevenlabs';
 import { EdgeTTSProvider } from './providers/edge-tts';
+import { KokoroProvider } from './providers/kokoro';
 import { ttsCache } from './cache';
 import { 
   TTSProvider, 
@@ -25,6 +26,7 @@ export class TTSService {
   private googleProvider?: GoogleTTSProvider;
   private elevenLabsProvider?: ElevenLabsProvider;
   private edgeTtsProvider?: EdgeTTSProvider;
+  private kokoroProvider?: KokoroProvider;
   private uploadPromises: Map<string, Promise<{ url: string; path: string; size: number }>> = new Map();
 
   constructor() {
@@ -193,6 +195,7 @@ export class TTSService {
 
   /**
    * Synthesize with specific provider
+   * Updated priority: Kokoro (Sheldon) → ElevenLabs → Edge-TTS
    */
   private async synthesizeWithProvider(
     text: string,
@@ -206,14 +209,76 @@ export class TTSService {
   ): Promise<Buffer> {
     let lastError: any = null;
 
-    // Edge-TTS is now the primary provider
+    // PRIORITY 1: Kokoro TTS via Sheldon API (fastest, highest quality for Japanese)
+    if (provider === 'kokoro' || provider === 'auto') {
+      try {
+        if (!this.kokoroProvider) {
+          this.kokoroProvider = new KokoroProvider();
+        }
+
+        const result = await this.kokoroProvider.synthesize(text, options);
+        // Convert ArrayBuffer to Buffer
+        const audioBuffer = Buffer.from(result.audioContent);
+
+        // Validate the audio buffer is not empty
+        if (audioBuffer.length < 100) {
+          throw new Error('Kokoro TTS returned empty or invalid audio data');
+        }
+
+        console.log('\x1b[42m\x1b[37m ▶️ TTS PROVIDER: Kokoro (Priority 1) \x1b[0m');
+        return audioBuffer;
+      } catch (error: any) {
+        console.error('[TTS Service] Kokoro provider error:', error);
+        lastError = error;
+        // Fallback to ElevenLabs if Kokoro fails
+        console.log('\x1b[43m\x1b[30m ⚠️ Kokoro failed, falling back to ElevenLabs... \x1b[0m', error.message);
+        provider = 'elevenlabs';
+      }
+    }
+
+    // PRIORITY 2: ElevenLabs (commercial quality, reliable)
+    if (provider === 'elevenlabs') {
+      try {
+        if (!this.elevenLabsProvider) {
+          this.elevenLabsProvider = new ElevenLabsProvider();
+        }
+
+        // Use ElevenLabs-specific voice, not the original Kokoro voice
+        const elevenLabsVoice = this.getVoiceForProvider('elevenlabs');
+        const elevenLabsOptions = { ...options, voice: elevenLabsVoice };
+
+        const result = await this.elevenLabsProvider.synthesize(text, elevenLabsOptions);
+        // Convert ArrayBuffer to Buffer
+        const audioBuffer = Buffer.from(result.audioContent);
+
+        // Validate the audio buffer is not empty
+        if (audioBuffer.length < 100) {
+          throw new Error('ElevenLabs TTS returned empty or invalid audio data');
+        }
+
+        console.log('\x1b[45m\x1b[37m ▶️ TTS PROVIDER: ElevenLabs (Priority 2) \x1b[0m');
+        return audioBuffer;
+      } catch (error: any) {
+        console.error('[TTS Service] ElevenLabs provider error:', error);
+        lastError = error;
+        // Fallback to Edge-TTS if ElevenLabs fails
+        console.log('\x1b[43m\x1b[30m ⚠️ ElevenLabs failed, falling back to Edge-TTS... \x1b[0m', error.message);
+        provider = 'edge-tts';
+      }
+    }
+
+    // PRIORITY 3: Edge-TTS (free fallback)
     if (provider === 'edge-tts') {
       try {
         if (!this.edgeTtsProvider) {
           this.edgeTtsProvider = new EdgeTTSProvider();
         }
 
-        const result = await this.edgeTtsProvider.synthesize(text, options);
+        // Use Edge-TTS-specific voice, not the original provider voice
+        const edgeTtsVoice = this.getVoiceForProvider('edge-tts');
+        const edgeTtsOptions = { ...options, voice: edgeTtsVoice };
+
+        const result = await this.edgeTtsProvider.synthesize(text, edgeTtsOptions);
         // Convert ArrayBuffer to Buffer
         const audioBuffer = Buffer.from(result.audioContent);
 
@@ -222,16 +287,15 @@ export class TTSService {
           throw new Error('Edge-TTS returned empty or invalid audio data');
         }
 
+        console.log('\x1b[44m\x1b[37m ▶️ TTS PROVIDER: Edge-TTS (Priority 3 - Fallback) \x1b[0m');
         return audioBuffer;
       } catch (error: any) {
-        console.error('Edge-TTS provider error:', error);
+        console.error('[TTS Service] Edge-TTS provider error:', error);
         lastError = error;
-        // Fallback to ElevenLabs if Edge-TTS fails
-        console.log('Falling back to ElevenLabs provider due to:', error.message);
-        provider = 'elevenlabs';
       }
     }
 
+    // DEPRECATED: Google TTS (kept for compatibility)
     if (provider === 'google') {
       try {
         if (!this.googleProvider) {
@@ -247,48 +311,19 @@ export class TTSService {
           throw new Error('Google TTS returned empty or invalid audio data');
         }
 
+        console.log('[TTS Service] Google TTS successful (deprecated)');
         return audioBuffer;
       } catch (error: any) {
-        console.error('Google TTS provider error:', error);
+        console.error('[TTS Service] Google TTS provider error:', error);
         lastError = error;
-        // Fallback to ElevenLabs if Google fails
-        console.log('Falling back to ElevenLabs provider due to:', error.message);
-        provider = 'elevenlabs';
       }
     }
 
-    if (provider === 'elevenlabs') {
-      try {
-        if (!this.elevenLabsProvider) {
-          this.elevenLabsProvider = new ElevenLabsProvider();
-        }
-
-        const result = await this.elevenLabsProvider.synthesize(text, options);
-        // Convert ArrayBuffer to Buffer
-        const audioBuffer = Buffer.from(result.audioContent);
-
-        // Validate the audio buffer is not empty
-        if (audioBuffer.length < 100) {
-          throw new Error('ElevenLabs TTS returned empty or invalid audio data');
-        }
-
-        return audioBuffer;
-      } catch (error: any) {
-        console.error('ElevenLabs TTS provider error:', error);
-        // If all providers fail, throw the error
-        throw {
-          code: TTS_ERROR_CODES.PROVIDER_ERROR,
-          message: `All TTS providers failed. Last error: ${error.message || lastError?.message}`,
-          provider: 'all',
-          retryable: false,
-        } as TTSError;
-      }
-    }
-
+    // If all providers fail, throw comprehensive error
     throw {
       code: TTS_ERROR_CODES.PROVIDER_ERROR,
-      message: 'No TTS provider available',
-      provider: 'unknown',
+      message: `All TTS providers failed. Last error: ${lastError?.message || 'Unknown error'}. Providers tried: ${provider === 'auto' ? 'Kokoro → ElevenLabs → Edge-TTS' : provider}`,
+      provider: 'all',
       retryable: false,
     } as TTSError;
   }
@@ -430,7 +465,9 @@ export class TTSService {
     }
 
     const config = getTtsConfig();
-    if (provider === 'google') {
+    if (provider === 'kokoro') {
+      return config.kokoro.defaultVoice;
+    } else if (provider === 'google') {
       return config.google.defaultVoice;
     } else if (provider === 'edge-tts') {
       return config.edgeTts.defaultVoice;

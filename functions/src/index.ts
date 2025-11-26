@@ -337,11 +337,3 @@ export {
   autoBreakStreaks
 } from './scheduled/streakAutoBreak';
 
-/**
- * Export NHK Audio Proxy function
- * Converts old vod-stream.nhk.jp URLs to working media.vd.st.nhk URLs
- * and handles authentication/CORS issues
- */
-export {
-  nhkAudioProxy
-} from './endpoints/nhkAudioProxy';

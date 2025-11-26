@@ -7,6 +7,7 @@ import { createSession } from '@/lib/auth/session'
 import { signInSchema, getSecurityHeaders, formatZodErrors } from '@/lib/auth/validation'
 import { checkSigninRateLimit, getRateLimitHeaders, trackAuthAttempt, isLockedOut } from '@/lib/auth/rateLimit'
 import { logAuditEvent, AuditEvent, logAuthAttempt } from '@/lib/auth/audit'
+import { verifyReCaptcha, isReCaptchaConfigured } from '@/lib/auth/recaptcha'
 import { z } from 'zod'
 
 export async function POST(request: NextRequest) {
@@ -40,11 +41,52 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, rememberMe } = validatedData
+    const recaptchaToken = body.recaptchaToken
 
     // Get client information for audit logging and rate limiting
-    const ipAddress = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+    const ipAddress = request.headers.get('x-forwarded-for')?.split(',')[0] ||
                      request.headers.get('x-real-ip') || 'unknown'
     const userAgent = request.headers.get('user-agent') || 'unknown'
+
+    // Verify reCAPTCHA (if configured)
+    if (isReCaptchaConfigured()) {
+      console.log('[API /auth/signin] Verifying reCAPTCHA')
+      const recaptchaResult = await verifyReCaptcha(recaptchaToken, 'signin')
+
+      if (!recaptchaResult.success) {
+        console.warn('[API /auth/signin] reCAPTCHA failed:', recaptchaResult.error)
+
+        await logAuthAttempt(
+          AuditEvent.FAILED_LOGIN,
+          {
+            ipAddress,
+            userAgent,
+            endpoint: '/api/auth/signin',
+          },
+          {
+            email,
+            method: 'email',
+            reason: 'recaptcha_failed',
+            recaptchaScore: recaptchaResult.score,
+          },
+          'failure'
+        )
+
+        return NextResponse.json(
+          {
+            error: {
+              code: 'RECAPTCHA_FAILED',
+              message: recaptchaResult.error || 'reCAPTCHA verification failed. Please try again.',
+            },
+          },
+          {
+            status: 403,
+            headers: getSecurityHeaders(),
+          }
+        )
+      }
+      console.log('[API /auth/signin] reCAPTCHA passed with score:', recaptchaResult.score)
+    }
 
     // Check if account is locked out
     const emailIdentifier = `email:${email}`

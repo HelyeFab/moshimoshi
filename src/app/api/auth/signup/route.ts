@@ -8,6 +8,7 @@ import { createSession } from '@/lib/auth/session'
 import { signUpSchema, getSecurityHeaders, formatZodErrors } from '@/lib/auth/validation'
 import { checkSignupRateLimit, getRateLimitHeaders } from '@/lib/auth/rateLimit'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
+import { verifyReCaptcha, isReCaptchaConfigured } from '@/lib/auth/recaptcha'
 import { createEmailVerificationToken } from '@/lib/auth/jwt'
 import { sendVerificationEmail } from '@/lib/email/resend'
 import { redis, RedisKeys, CacheTTL } from '@/lib/redis/client'
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     // Parse and validate request body
     const body = await request.json()
-    
+
     let validatedData
     try {
       validatedData = signUpSchema.parse(body)
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
               details: formatZodErrors(error),
             },
           },
-          { 
+          {
             status: 400,
             headers: getSecurityHeaders(),
           }
@@ -68,6 +69,48 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password, displayName } = validatedData
+    const recaptchaToken = body.recaptchaToken
+
+    // Verify reCAPTCHA (if configured)
+    if (isReCaptchaConfigured()) {
+      console.log('[API /auth/signup] Verifying reCAPTCHA')
+      const recaptchaResult = await verifyReCaptcha(recaptchaToken, 'signup')
+
+      if (!recaptchaResult.success) {
+        console.warn('[API /auth/signup] reCAPTCHA failed:', recaptchaResult.error)
+
+        // Log the bot attempt
+        await logAuditEvent(
+          AuditEvent.SIGN_UP,
+          {
+            ipAddress: request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown',
+            userAgent: request.headers.get('user-agent') || 'unknown',
+            endpoint: '/api/auth/signup',
+          },
+          {
+            email,
+            errorCode: 'RECAPTCHA_FAILED',
+            recaptchaScore: recaptchaResult.score,
+            isBot: recaptchaResult.isBot,
+          },
+          'failure'
+        )
+
+        return NextResponse.json(
+          {
+            error: {
+              code: 'RECAPTCHA_FAILED',
+              message: recaptchaResult.error || 'reCAPTCHA verification failed. Please try again.',
+            },
+          },
+          {
+            status: 403,
+            headers: getSecurityHeaders(),
+          }
+        )
+      }
+      console.log('[API /auth/signup] reCAPTCHA passed with score:', recaptchaResult.score)
+    }
     console.log('[API /auth/signup] Validated data:', { email, displayName })
 
     // Get client information for audit logging

@@ -21,7 +21,6 @@ interface NewsArticle {
   summaryWithFurigana?: string; // Summary with furigana
   url: string;
   imageUrl?: string;
-  audioUrl?: string; // m3u8 audio URL for listening practice (NHK native)
   publishDate: Date;
   source: string;
   category: string;
@@ -65,8 +64,12 @@ function generateArticleId(url: string): string {
  * NHK Easy scraper using self-hosted NHK Easy API
  * Fetches articles from our Sheldon-hosted nhk-easy-api service
  * Much faster and more reliable than HTML scraping
+ *
+ * @param customStartDate - Optional start date (YYYY-MM-DD)
+ * @param customEndDate - Optional end date (YYYY-MM-DD)
+ * @param limit - Maximum number of articles to scrape (default: 1)
  */
-export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: NewsArticle[]; error?: string }> {
+export async function scrapeNHKEasy(customStartDate?: string, customEndDate?: string, limit: number = 1): Promise<{ success: boolean; articles: NewsArticle[]; error?: string; message?: string }> {
   const startTime = Date.now();
   const articles: NewsArticle[] = [];
 
@@ -77,16 +80,35 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
       timestamp: new Date().toISOString()
     });
 
-    // Calculate date range: fetch articles from last 7 days
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 7);
+    // Calculate date range: use custom dates if provided, otherwise last 7 days
+    let startDate: Date;
+    let endDate: Date;
+
+    if (customStartDate && customEndDate) {
+      startDate = new Date(customStartDate);
+      endDate = new Date(customEndDate);
+      // Ensure end date includes the whole day
+      endDate.setHours(23, 59, 59, 999);
+
+      logger.info('[NHK Easy] Using custom date range', {
+        customStartDate,
+        customEndDate
+      });
+    } else {
+      // Default: fetch articles from last 7 days
+      endDate = new Date();
+      startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7);
+
+      logger.info('[NHK Easy] Using default 7-day range');
+    }
 
     const apiUrl = `https://nhk.selfmind.dev/news?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
 
     logger.info('[NHK Easy] Fetching from API', {
       startDate: startDate.toISOString(),
-      endDate: endDate.toISOString()
+      endDate: endDate.toISOString(),
+      isCustomRange: !!(customStartDate && customEndDate)
     });
 
     // Fetch from our self-hosted API
@@ -118,7 +140,8 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
     const apiArticles: NHKAPIArticle[] = await response.json();
 
     logger.info('[NHK Easy] API response received', {
-      articleCount: apiArticles.length
+      articleCount: apiArticles.length,
+      limit
     });
 
     if (!Array.isArray(apiArticles) || apiArticles.length === 0) {
@@ -126,8 +149,74 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
       return { success: true, articles: [] };
     }
 
+    // Generate IDs for all articles to check which are already processed
+    const articleIdsToCheck = apiArticles.map(a => generateArticleId(a.url));
+
+    // Check Firestore for already fully pre-cached articles
+    // An article is "fully pre-cached" if it has audio, translations, AND word explanations
+    const existingFullyCached = new Set<string>();
+
+    try {
+      // Check in batches of 10 (Firestore 'in' query limit)
+      for (let i = 0; i < articleIdsToCheck.length; i += 10) {
+        const batchIds = articleIdsToCheck.slice(i, i + 10);
+
+        // Check news_articles for audio
+        const articlesSnap = await db.collection('news_articles')
+          .where(admin.firestore.FieldPath.documentId(), 'in', batchIds)
+          .get();
+
+        // Check news_article_translations
+        const translationsSnap = await db.collection('news_article_translations')
+          .where(admin.firestore.FieldPath.documentId(), 'in', batchIds)
+          .get();
+
+        // Check news_article_word_explanations
+        const explanationsSnap = await db.collection('news_article_word_explanations')
+          .where(admin.firestore.FieldPath.documentId(), 'in', batchIds)
+          .get();
+
+        const hasAudio = new Set(articlesSnap.docs.filter(d => d.data().generatedContentAudioUrl).map(d => d.id));
+        const hasTranslations = new Set(translationsSnap.docs.map(d => d.id));
+        const hasExplanations = new Set(explanationsSnap.docs.map(d => d.id));
+
+        // Mark as fully cached if ALL three exist
+        for (const id of batchIds) {
+          if (hasAudio.has(id) && hasTranslations.has(id) && hasExplanations.has(id)) {
+            existingFullyCached.add(id);
+          }
+        }
+      }
+
+      logger.info('[NHK Easy] Checked for existing pre-cached articles', {
+        totalFromApi: apiArticles.length,
+        alreadyFullyCached: existingFullyCached.size
+      });
+    } catch (checkError) {
+      logger.warn('[NHK Easy] Error checking for existing articles, proceeding without skip logic', {
+        error: checkError instanceof Error ? checkError.message : 'Unknown error'
+      });
+    }
+
+    // Filter out already fully pre-cached articles, then apply limit
+    const newArticles = apiArticles.filter(a => !existingFullyCached.has(generateArticleId(a.url)));
+    const articlesToProcess = newArticles.slice(0, limit);
+
+    logger.info('[NHK Easy] Applying article limit after filtering', {
+      totalFromApi: apiArticles.length,
+      alreadyFullyCached: existingFullyCached.size,
+      newArticlesAvailable: newArticles.length,
+      processing: articlesToProcess.length,
+      limit
+    });
+
+    if (articlesToProcess.length === 0) {
+      logger.info('[NHK Easy] All articles in date range are already fully pre-cached');
+      return { success: true, articles: [], message: 'All articles already pre-cached' };
+    }
+
     // Transform API articles to our NewsArticle format
-    for (const apiArticle of apiArticles) {
+    for (const apiArticle of articlesToProcess) {
       try {
         // Use bodyWithoutHtml as the plain text content
         const content = apiArticle.bodyWithoutHtml;
@@ -145,7 +234,6 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
           summaryWithFurigana: apiArticle.outlineWithRuby, // Summary with furigana
           url: apiArticle.url,
           imageUrl: apiArticle.imageUrl || undefined,
-          audioUrl: apiArticle.m3u8Url || undefined, // Audio for listening practice!
           publishDate: new Date(apiArticle.publishedAtUtc),
           source: 'NHK Easy',
           sourceId: apiArticle.newsId, // Original NHK article ID
@@ -158,14 +246,6 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
             hasFurigana: true // NHK Easy always has furigana
           }
         };
-
-        // NHK Easy provides native professional audio via m3u8Url
-        // No need to generate TTS - use the high-quality native audio instead
-        logger.info('[NHK Easy] Using native NHK audio', {
-          articleId: newsArticle.id,
-          title: newsArticle.title.substring(0, 50),
-          hasNativeAudio: !!newsArticle.audioUrl
-        });
 
         articles.push(newsArticle);
 
@@ -197,6 +277,30 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
       try {
         const BATCH_SIZE = 100;
         let totalStored = 0;
+        let newArticlesCount = 0;
+        let updatedArticlesCount = 0;
+
+        // First, check which articles already exist in Firestore
+        // This prevents overwriting createdAt for existing articles
+        const existingArticleIds = new Set<string>();
+        const articleIds = articles.map(a => a.id);
+
+        // Check in batches of 10 (Firestore 'in' query limit)
+        for (let i = 0; i < articleIds.length; i += 10) {
+          const batchIds = articleIds.slice(i, i + 10);
+          const existingDocs = await db.collection('news_articles')
+            .where(admin.firestore.FieldPath.documentId(), 'in', batchIds)
+            .select() // Only fetch document references, not full data
+            .get();
+
+          existingDocs.docs.forEach(doc => existingArticleIds.add(doc.id));
+        }
+
+        logger.info('[NHK Easy] Checked existing articles', {
+          totalArticles: articles.length,
+          alreadyExist: existingArticleIds.size,
+          trulyNew: articles.length - existingArticleIds.size
+        });
 
         for (let i = 0; i < articles.length; i += BATCH_SIZE) {
           const batch = db.batch();
@@ -204,12 +308,26 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
 
           for (const article of chunk) {
             const docRef = db.collection('news_articles').doc(article.id);
-            batch.set(docRef, {
-              ...article,
-              publishDate: admin.firestore.Timestamp.fromDate(article.publishDate),
-              createdAt: admin.firestore.FieldValue.serverTimestamp(),
-              lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
-            }, { merge: true });
+            const isNewArticle = !existingArticleIds.has(article.id);
+
+            if (isNewArticle) {
+              // New article: set both createdAt and lastUpdated
+              batch.set(docRef, {
+                ...article,
+                publishDate: admin.firestore.Timestamp.fromDate(article.publishDate),
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+                lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+              });
+              newArticlesCount++;
+            } else {
+              // Existing article: only update lastUpdated, preserve createdAt
+              batch.set(docRef, {
+                ...article,
+                publishDate: admin.firestore.Timestamp.fromDate(article.publishDate),
+                lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+              }, { merge: true });
+              updatedArticlesCount++;
+            }
           }
 
           await batch.commit();
@@ -224,6 +342,8 @@ export async function scrapeNHKEasy(): Promise<{ success: boolean; articles: New
 
         logger.info('[NHK Easy] Articles stored in Firestore', {
           count: totalStored,
+          newArticles: newArticlesCount,
+          updatedArticles: updatedArticlesCount,
           batches: Math.ceil(articles.length / BATCH_SIZE)
         });
       } catch (dbError) {

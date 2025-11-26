@@ -159,7 +159,11 @@ export const STORY_TAGS = [
 
 export type StoryTag = typeof STORY_TAGS[number];
 
-// Reading Settings for Story Reader
+// Translation modes for learning-focused assistance
+export type TranslationMode = 'off' | 'hints' | 'partial' | 'full' | 'learning';
+export type TranslationProvider = 'ai' | 'google' | 'deepl' | 'azure';
+
+// Reading Settings for Story Reader and Article Reader
 export interface ReadingSettings {
   fontSize: 'small' | 'medium' | 'large' | 'xlarge';
   showFurigana: boolean;
@@ -168,7 +172,19 @@ export interface ReadingSettings {
   darkMode: boolean;
   autoPlay?: boolean;
   playbackSpeed?: number; // 0.5 to 2.0
-  showTranslation?: boolean;
+
+  // Enhanced Translation Settings
+  showTranslation?: boolean; // Legacy field - keep for backward compatibility
+  translationMode: TranslationMode;
+  translationProvider: TranslationProvider;
+  showTranslationConfidence: boolean;
+  preserveGrammarStructure: boolean;
+  includeGrammarNotes: boolean;
+  autoAddToVocabulary: boolean; // Automatically add unknown words to vocabulary list
+  translationUserLevel?: 'N5' | 'N4' | 'N3' | 'N2' | 'N1'; // For personalized translation assistance
+
+  // Shadowing mode specific settings
+  shadowingMode: boolean;
 }
 
 // Selected Word for dictionary lookup

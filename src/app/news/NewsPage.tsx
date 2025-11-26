@@ -18,7 +18,6 @@ interface NewsArticle {
   summaryWithFurigana?: string;
   url: string;
   imageUrl?: string;
-  audioUrl?: string;
   publishDate: string | Date;
   source: string;
   sourceId?: string;
@@ -128,13 +127,6 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
             {article.metadata?.hasFurigana && (
               <span className="text-xs bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 px-2 py-0.5 rounded-full">
                 {t('news.reader.withFurigana')}
-              </span>
-            )}
-
-            {article.audioUrl && (
-              <span className="text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-full flex items-center gap-1">
-                <span>🎧</span>
-                Audio
               </span>
             )}
 

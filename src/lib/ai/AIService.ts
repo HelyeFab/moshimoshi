@@ -36,6 +36,7 @@ import {
   ImageStorageRequest,
   StoredImage
 } from './types';
+import { TranslationRequest, TranslationResult } from './processors/TranslationProcessor';
 
 // Import hybrid processors (with automatic Ollama/OpenAI selection)
 import { ReviewQuestionProcessorHybrid as ReviewQuestionProcessor } from './processors/ReviewQuestionProcessorHybrid';
@@ -48,6 +49,7 @@ import { MoodboardProcessorHybrid as MoodboardProcessor } from './processors/Moo
 import { MultiStepStoryProcessor } from './processors/MultiStepStoryProcessor';
 import { ImageProcessor } from './processors/ImageProcessor';
 import { ImageStorageProcessor } from './processors/ImageStorageProcessor';
+import { TranslationProcessor } from './processors/TranslationProcessor';
 // import { ArticleProcessor } from './processors/ArticleProcessor';
 
 // Note: Smart routing enabled! Set AI_PROVIDER=openai in .env.local to disable Ollama
@@ -374,6 +376,13 @@ export class AIService {
           request.config
         );
 
+      case 'translate_content':
+        const translationProcessor = new TranslationProcessor(context);
+        return await translationProcessor.process(
+          request.content as TranslationRequest,
+          request.config
+        );
+
       // case 'process_article':
       //   const articleProcessor = new ArticleProcessor(context);
       //   return await articleProcessor.process(
@@ -415,6 +424,9 @@ export class AIService {
         case 'explain_grammar':
         case 'explain_word':
           duration = 604800; // 7 days for grammar/word (rarely changes)
+          break;
+        case 'translate_content':
+          duration = 259200; // 3 days for translations (semi-static)
           break;
         case 'generate_story':
         case 'generate_moodboard':
@@ -537,6 +549,33 @@ export class AIService {
       content: requestWithDefaults,
       config: mergedConfig
     });
+  }
+
+  async translate(
+    request: TranslationRequest,
+    config?: TaskConfig
+  ): Promise<AIResponse<TranslationResult>> {
+    return this.process({
+      task: 'translate_content',
+      content: request,
+      config
+    });
+  }
+
+  async translateText(
+    text: string,
+    mode: 'hints' | 'partial' | 'full' | 'learning' = 'learning',
+    config?: TaskConfig
+  ): Promise<AIResponse<TranslationResult>> {
+    return this.translate({ text, mode }, config);
+  }
+
+  async getTranslationHints(
+    text: string,
+    config?: TaskConfig
+  ): Promise<string[]> {
+    const result = await this.translate({ text, mode: 'hints' }, config);
+    return result.data?.hints?.map(hint => hint.explanation) || [];
   }
 
   // Add more convenience methods as processors are implemented

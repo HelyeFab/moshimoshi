@@ -206,8 +206,13 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
       const audio = audioRef.current;
 
       // Load and play audio
-      console.log('Setting audio source:', result.audioUrl);
-      audio.src = result.audioUrl;
+      // Route Firebase Storage URLs through TTS proxy to handle CORS
+      const audioUrl = result.audioUrl.includes('firebasestorage') || result.audioUrl.includes('storage.googleapis.com')
+        ? `/api/tts/proxy?url=${encodeURIComponent(result.audioUrl)}`
+        : result.audioUrl;
+
+      console.log('Setting audio source:', audioUrl);
+      audio.src = audioUrl;
       setLoading(false);
 
       // Wait for audio to be ready before playing

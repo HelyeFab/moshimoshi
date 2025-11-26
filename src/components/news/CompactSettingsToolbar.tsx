@@ -9,18 +9,13 @@ import {
   Play,
   ChevronDown,
   X,
-  Settings
+  Settings,
+  Globe,
+  Lightbulb,
+  BookOpen,
+  GraduationCap
 } from 'lucide-react';
-
-interface ReadingSettings {
-  fontSize: 'small' | 'medium' | 'large' | 'xlarge';
-  showFurigana: boolean;
-  highlightGrammar: boolean;
-  highlightMode: 'none' | 'all' | 'content' | 'grammar';
-  audioSpeed: number;
-  showTranslation: boolean;
-  shadowingMode: boolean;
-}
+import { ReadingSettings, TranslationMode } from '@/types/story';
 
 interface CompactSettingsToolbarProps {
   settings: ReadingSettings;
@@ -227,6 +222,166 @@ const CompactSettingsToolbar = memo(function CompactSettingsToolbar({
                 />
               </button>
             </div>
+
+            {/* Translation Settings */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span
+                  className="text-sm font-medium"
+                  style={{ color: 'var(--article-text)' }}
+                >
+                  Translation Assistance
+                </span>
+                <button
+                  onClick={() => onSettingsChange({
+                    ...settings,
+                    translationMode: settings.translationMode === 'off' ? 'learning' : 'off'
+                  })}
+                  className={`relative w-14 h-8 rounded-full transition-colors duration-200`}
+                  style={{
+                    backgroundColor: settings.translationMode !== 'off'
+                      ? 'rgb(var(--palette-primary-500))'
+                      : 'rgb(156 163 175)'
+                  }}
+                >
+                  <span
+                    className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform duration-200 shadow-md ${
+                      settings.translationMode !== 'off' ? 'translate-x-6' : 'translate-x-0'
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {settings.translationMode !== 'off' && (
+                <div className="space-y-4 ml-2">
+                  {/* Translation Mode */}
+                  <div>
+                    <label
+                      className="text-xs font-medium block mb-2"
+                      style={{ color: 'var(--article-text-secondary)' }}
+                    >
+                      Learning Mode
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {([
+                        { value: 'hints', label: 'Hints', icon: '💡' },
+                        { value: 'partial', label: 'Partial', icon: '📝' },
+                        { value: 'full', label: 'Direct', icon: '📖' },
+                        { value: 'learning', label: 'Learning', icon: '🎓' }
+                      ] as const).map(mode => (
+                        <button
+                          key={mode.value}
+                          onClick={() => onSettingsChange({ ...settings, translationMode: mode.value })}
+                          className="px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1"
+                          style={{
+                            backgroundColor: settings.translationMode === mode.value
+                              ? 'rgb(var(--palette-primary-500))'
+                              : 'var(--article-accent-bg)',
+                            color: settings.translationMode === mode.value
+                              ? 'white'
+                              : 'var(--article-text)'
+                          }}
+                        >
+                          <span>{mode.icon}</span>
+                          <span>{mode.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Translation Activation: Now uses inline icons after each sentence */}
+                  <div className="text-xs opacity-75" style={{ color: 'var(--article-text-secondary)' }}>
+                    Translation icons appear after each sentence when enabled
+                  </div>
+
+                  {/* User Level */}
+                  <div>
+                    <label
+                      className="text-xs font-medium block mb-2"
+                      style={{ color: 'var(--article-text-secondary)' }}
+                    >
+                      Your Level
+                    </label>
+                    <div className="grid grid-cols-5 gap-1">
+                      {(['N5', 'N4', 'N3', 'N2', 'N1'] as const).map(level => (
+                        <button
+                          key={level}
+                          onClick={() => onSettingsChange({ ...settings, translationUserLevel: level })}
+                          className="px-2 py-1 rounded text-xs font-medium transition-all duration-200"
+                          style={{
+                            backgroundColor: settings.translationUserLevel === level
+                              ? 'rgb(var(--palette-primary-500))'
+                              : 'var(--article-accent-bg)',
+                            color: settings.translationUserLevel === level
+                              ? 'white'
+                              : 'var(--article-text)'
+                          }}
+                        >
+                          {level}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Additional Options */}
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={settings.showTranslationConfidence}
+                        onChange={(e) => onSettingsChange({
+                          ...settings,
+                          showTranslationConfidence: e.target.checked
+                        })}
+                        className="w-3 h-3"
+                      />
+                      <span
+                        className="text-xs"
+                        style={{ color: 'var(--article-text-secondary)' }}
+                      >
+                        Show confidence scores
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={settings.includeGrammarNotes}
+                        onChange={(e) => onSettingsChange({
+                          ...settings,
+                          includeGrammarNotes: e.target.checked
+                        })}
+                        className="w-3 h-3"
+                      />
+                      <span
+                        className="text-xs"
+                        style={{ color: 'var(--article-text-secondary)' }}
+                      >
+                        Include grammar notes
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={settings.autoAddToVocabulary}
+                        onChange={(e) => onSettingsChange({
+                          ...settings,
+                          autoAddToVocabulary: e.target.checked
+                        })}
+                        className="w-3 h-3"
+                      />
+                      <span
+                        className="text-xs"
+                        style={{ color: 'var(--article-text-secondary)' }}
+                      >
+                        Auto-add to vocabulary
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           </div>
         </div>
@@ -338,6 +493,19 @@ const CompactSettingsToolbar = memo(function CompactSettingsToolbar({
                 title={t('news.reader.shadowingMode')}
               >
                 <Play className="w-5 h-5" />
+              </button>
+
+              {/* Translation Toggle */}
+              <button
+                onClick={() => toggleSection('translation')}
+                className="px-3 py-2 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{
+                  backgroundColor: settings.translationMode !== 'off' ? 'rgb(var(--palette-primary-500) / 0.15)' : 'transparent',
+                  color: settings.translationMode !== 'off' ? 'rgb(var(--palette-primary-600))' : 'var(--article-text-secondary)'
+                }}
+                title="Translation Assistance"
+              >
+                <Globe className="w-5 h-5" />
               </button>
 
               {/* Close/Collapse Button */}
@@ -467,6 +635,121 @@ const CompactSettingsToolbar = memo(function CompactSettingsToolbar({
                     ))}
                   </div>
                 )}
+              </div>
+            )}
+
+            {expandedSection === 'translation' && (
+              <div
+                className="mt-3 rounded-2xl shadow-xl backdrop-blur-xl p-4 animate-scale-in"
+                style={{
+                  backgroundColor: 'var(--article-bg)',
+                  border: '1px solid var(--article-border)'
+                }}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--article-text)' }}
+                  >
+                    Translation Assistance
+                  </span>
+                  <button
+                    onClick={() => setExpandedSection(null)}
+                    style={{ color: 'var(--article-text-secondary)' }}
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {/* Enable/Disable Toggle */}
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={settings.translationMode !== 'off'}
+                      onChange={(e) => onSettingsChange({
+                        ...settings,
+                        translationMode: e.target.checked ? 'learning' : 'off'
+                      })}
+                      className="w-4 h-4 rounded"
+                    />
+                    <span
+                      className="text-sm"
+                      style={{ color: 'var(--article-text)' }}
+                    >
+                      Enable translation assistance
+                    </span>
+                  </label>
+
+                  {settings.translationMode !== 'off' && (
+                    <>
+                      {/* Translation Mode */}
+                      <div>
+                        <label
+                          className="text-xs font-medium block mb-2"
+                          style={{ color: 'var(--article-text-secondary)' }}
+                        >
+                          Learning Mode
+                        </label>
+                        <div className="grid grid-cols-2 gap-2">
+                          {([
+                            { value: 'hints', label: 'Hints', icon: <Lightbulb className="w-3 h-3" /> },
+                            { value: 'partial', label: 'Partial', icon: <BookOpen className="w-3 h-3" /> },
+                            { value: 'full', label: 'Direct', icon: <Globe className="w-3 h-3" /> },
+                            { value: 'learning', label: 'Learning', icon: <GraduationCap className="w-3 h-3" /> }
+                          ] as const).map(mode => (
+                            <button
+                              key={mode.value}
+                              onClick={() => onSettingsChange({ ...settings, translationMode: mode.value })}
+                              className="px-2 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1"
+                              style={{
+                                backgroundColor: settings.translationMode === mode.value
+                                  ? 'rgb(var(--palette-primary-500))'
+                                  : 'var(--article-accent-bg)',
+                                color: settings.translationMode === mode.value
+                                  ? 'white'
+                                  : 'var(--article-text)'
+                              }}
+                            >
+                              {mode.icon}
+                              <span>{mode.label}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+
+                      {/* User Level */}
+                      <div>
+                        <label
+                          className="text-xs font-medium block mb-2"
+                          style={{ color: 'var(--article-text-secondary)' }}
+                        >
+                          JLPT Level
+                        </label>
+                        <div className="flex gap-1">
+                          {(['N5', 'N4', 'N3', 'N2', 'N1'] as const).map(level => (
+                            <button
+                              key={level}
+                              onClick={() => onSettingsChange({ ...settings, translationUserLevel: level })}
+                              className="px-2 py-1 rounded text-xs font-medium transition-all duration-200 flex-1"
+                              style={{
+                                backgroundColor: settings.translationUserLevel === level
+                                  ? 'rgb(var(--palette-primary-500))'
+                                  : 'var(--article-accent-bg)',
+                                color: settings.translationUserLevel === level
+                                  ? 'white'
+                                  : 'var(--article-text)'
+                              }}
+                            >
+                              {level}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             )}
           </>

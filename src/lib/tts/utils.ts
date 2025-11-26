@@ -41,22 +41,17 @@ export function getTextType(text: string): TTSTextType {
 
 /**
  * Auto-select provider based on text
+ * Priority: Kokoro (Sheldon) → ElevenLabs → Edge-TTS
  */
 export function selectProvider(text: string): TTSProvider {
   const normalizedText = normalizeText(text);
 
-  // Use Google TTS for very short texts (single characters, short words)
-  // Google TTS excels at hiragana/kanji pronunciation
-  if (normalizedText.length <= 4) {
-    return 'google';
-  }
+  // Use Kokoro TTS for all Japanese content - fastest and highest quality
+  // Self-hosted on Sheldon, unlimited usage, optimized for Japanese
+  return 'kokoro';
 
-  // Use ElevenLabs for longer content
-  // High quality, natural-sounding voices for Japanese
-  return 'elevenlabs';
-
-  // Note: Edge-TTS infrastructure on Sheldon is ready for alternative services
-  // (Coqui XTTS, Piper, StyleTTS2, etc.) when needed
+  // Note: Fallback chain in TTSService handles failures:
+  // Kokoro → ElevenLabs → Edge-TTS → Google (deprecated)
 }
 
 /**
@@ -104,10 +99,12 @@ export function validateText(text: string): { valid: boolean; error?: string } {
   }
   
   // Check for valid Japanese or English characters
-  // Include: Hiragana, Katakana, Kanji, ASCII, Japanese punctuation, and special marks
-  const validPattern = /^[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF\u0020-\u007E\s\n\r！-～。、「」『』（）・々〜ー【】〔〕…※＊]+$/;
+  // Include: Hiragana, Katakana, Kanji, ASCII, Japanese punctuation, full-width chars, and special marks
+  const validPattern = /^[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF\u0020-\u007E\u3000-\u303F\uFF00-\uFFEF\s\n\r！-～。、「」『』（）・々〜ー【】〔〕…※＊％°—–−]+$/;
   if (!validPattern.test(text)) {
-    return { valid: false, error: 'Text contains invalid characters' };
+    console.warn('[TTS Validation] Invalid characters found in text:', text.substring(0, 100) + '...');
+    console.warn('[TTS Validation] First invalid char code:', text.split('').find(char => !validPattern.test(char))?.charCodeAt(0));
+    return { valid: false, error: 'Text contains invalid characters. Please check for special symbols or formatting.' };
   }
   
   return { valid: true };

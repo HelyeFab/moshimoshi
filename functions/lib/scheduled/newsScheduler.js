@@ -42,11 +42,13 @@ const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const nhkEasyScraper_1 = require("../scrapers/nhkEasyScraper");
-const watanoc_1 = require("../scrapers/watanoc");
-const mainichi_news_1 = require("../scrapers/mainichi-news");
-const mainichi_shogakusei_1 = require("../scrapers/mainichi-shogakusei");
-// Define secrets needed for TTS audio generation
+const newsAudioGenerator_1 = require("../utils/newsAudioGenerator");
+const wordExtractor_1 = require("../utils/wordExtractor");
+const translationPreGenerator_1 = require("../utils/translationPreGenerator");
+const wordExplanationPreGenerator_1 = require("../utils/wordExplanationPreGenerator");
+// Define secrets needed for TTS audio generation and AI processing
 const KOKORO_API_KEY = (0, params_1.defineSecret)('KOKORO_API_KEY');
+const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
 // Initialize Firestore
 const db = admin.firestore();
 // News source configurations
@@ -55,24 +57,6 @@ const NEWS_SOURCES = [
         name: 'NHK Easy',
         endpoint: 'nhk-easy',
         priority: 1,
-        enabled: true
-    },
-    {
-        name: 'Watanoc',
-        endpoint: 'watanoc',
-        priority: 2,
-        enabled: true
-    },
-    {
-        name: 'Mainichi News',
-        endpoint: 'mainichi-news',
-        priority: 3,
-        enabled: true
-    },
-    {
-        name: 'Mainichi Elementary',
-        endpoint: 'mainichi-shogakusei',
-        priority: 4,
         enabled: true
     }
 ];
@@ -120,32 +104,17 @@ async function saveArticlesToFirestore(articles, sourceName) {
     }
 }
 // Helper to trigger individual scraper
-async function triggerScraper(source) {
+async function triggerScraper(source, startDate, endDate, limit = 1) {
     var _a, _b;
     const startTime = Date.now();
     try {
-        logger.info('[NewsScheduler] Triggering scraper', { source: source.name });
+        logger.info('[NewsScheduler] Triggering scraper', { source: source.name, limit });
         let result;
         // Call scrapers directly instead of via HTTP
         switch (source.endpoint) {
             case 'nhk-easy':
-                result = await (0, nhkEasyScraper_1.scrapeNHKEasy)();
+                result = await (0, nhkEasyScraper_1.scrapeNHKEasy)(startDate, endDate, limit);
                 break;
-            case 'watanoc': {
-                const articles = await (0, watanoc_1.scrapeWatanoc)();
-                result = { success: true, articles };
-                break;
-            }
-            case 'mainichi-news': {
-                const articles = await (0, mainichi_news_1.scrapeMainichiNews)();
-                result = { success: true, articles };
-                break;
-            }
-            case 'mainichi-shogakusei': {
-                const articles = await (0, mainichi_shogakusei_1.scrapeMainichiShogakusei)();
-                result = { success: true, articles };
-                break;
-            }
             default:
                 throw new Error(`Unknown scraper: ${source.endpoint}`);
         }
@@ -219,11 +188,20 @@ async function scheduledNewsScraper() {
                 timestamp: new Date().toISOString()
             };
         }
-        // Run all scrapers in parallel
+        // Calculate date range to fetch only recent articles (last 6 hours)
+        // This limits to ~1 article per run when running 4x daily
+        const now = new Date();
+        const sixHoursAgo = new Date(now.getTime() - 6 * 60 * 60 * 1000);
+        const endDate = now.toISOString().split('T')[0]; // YYYY-MM-DD
+        const startDate = sixHoursAgo.toISOString().split('T')[0]; // YYYY-MM-DD
+        // Run all scrapers in parallel - limit to 1 article per source
+        const ARTICLE_LIMIT = 1;
         logger.info('[NewsScheduler] Running scrapers in parallel', {
-            scraperCount: enabledSources.length
+            scraperCount: enabledSources.length,
+            dateRange: { startDate, endDate },
+            articleLimit: ARTICLE_LIMIT
         });
-        const results = await Promise.allSettled(enabledSources.map(source => triggerScraper(source)));
+        const results = await Promise.allSettled(enabledSources.map(source => triggerScraper(source, startDate, endDate, ARTICLE_LIMIT)));
         // Process results
         const summary = {
             totalArticles: 0,
@@ -289,6 +267,118 @@ async function scheduledNewsScraper() {
             });
             // TODO: Send notification (email, Slack, etc.)
         }
+        // PRE-CACHE ASSETS: Generate audio for newly scraped articles
+        if (summary.totalArticles > 0) {
+            logger.info('[NewsScheduler] Starting asset pre-caching for articles', {
+                articleCount: summary.totalArticles
+            });
+            try {
+                // Fetch articles scraped in this run (last 10 minutes to be safe)
+                const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+                const articlesSnapshot = await db.collection('news_articles')
+                    .where('createdAt', '>=', admin.firestore.Timestamp.fromDate(tenMinutesAgo))
+                    .orderBy('createdAt', 'desc')
+                    .limit(10) // Safety limit
+                    .get();
+                if (!articlesSnapshot.empty) {
+                    const articles = articlesSnapshot.docs.map(doc => ({
+                        id: doc.id,
+                        title: doc.data().title,
+                        summary: doc.data().summary,
+                        content: doc.data().content,
+                        source: doc.data().source
+                    }));
+                    logger.info('[NewsScheduler] Found articles for pre-caching', {
+                        count: articles.length
+                    });
+                    // Generate audio (title, summary, content) for all articles
+                    const audioStartTime = Date.now();
+                    let audioSuccessCount = 0;
+                    let audioFailureCount = 0;
+                    for (const article of articles) {
+                        try {
+                            await (0, newsAudioGenerator_1.generateBatchAudio)(article);
+                            audioSuccessCount++;
+                        }
+                        catch (audioError) {
+                            audioFailureCount++;
+                            logger.error('[NewsScheduler] Audio generation failed for article', {
+                                articleId: article.id,
+                                error: audioError instanceof Error ? audioError.message : 'Unknown error'
+                            });
+                        }
+                    }
+                    const audioDuration = Date.now() - audioStartTime;
+                    logger.info('[NewsScheduler] Audio generation completed', {
+                        articlesProcessed: audioSuccessCount,
+                        articlesFailed: audioFailureCount,
+                        durationMs: audioDuration
+                    });
+                    // STEP 2: Generate translations for all article segments
+                    logger.info('[NewsScheduler] Starting translation pre-generation');
+                    const translationStartTime = Date.now();
+                    try {
+                        const translationResults = await (0, translationPreGenerator_1.generateBatchTranslations)(articles);
+                        const translationDuration = Date.now() - translationStartTime;
+                        logger.info('[NewsScheduler] Translation generation completed', {
+                            articlesProcessed: translationResults.successCount,
+                            articlesFailed: translationResults.failureCount,
+                            totalCost: translationResults.totalCost.toFixed(4),
+                            durationMs: translationDuration
+                        });
+                    }
+                    catch (translationError) {
+                        logger.error('[NewsScheduler] Translation generation failed', {
+                            error: translationError instanceof Error ? translationError.message : 'Unknown error'
+                        });
+                        // Continue - don't fail whole job if translations fail
+                    }
+                    // STEP 3: Extract top words and generate explanations
+                    logger.info('[NewsScheduler] Starting word extraction and explanation generation');
+                    const wordExtractionStartTime = Date.now();
+                    try {
+                        // Extract top 100 words from each article
+                        const articlesWithWords = articles.map(article => {
+                            const words = (0, wordExtractor_1.extractTopWords)(article.content, 100);
+                            return {
+                                id: article.id,
+                                content: article.content,
+                                words: words.words
+                            };
+                        });
+                        logger.info('[NewsScheduler] Words extracted', {
+                            articleCount: articlesWithWords.length,
+                            totalWords: articlesWithWords.reduce((sum, a) => sum + a.words.length, 0)
+                        });
+                        // Generate word explanations for all articles
+                        const wordExplanationResults = await (0, wordExplanationPreGenerator_1.generateBatchWordExplanations)(articlesWithWords);
+                        const wordExtractionDuration = Date.now() - wordExtractionStartTime;
+                        logger.info('[NewsScheduler] Word explanation generation completed', {
+                            articlesProcessed: wordExplanationResults.successCount,
+                            articlesFailed: wordExplanationResults.failureCount,
+                            totalWords: wordExplanationResults.totalWords,
+                            totalCost: wordExplanationResults.totalCost.toFixed(4),
+                            durationMs: wordExtractionDuration
+                        });
+                    }
+                    catch (wordError) {
+                        logger.error('[NewsScheduler] Word explanation generation failed', {
+                            error: wordError instanceof Error ? wordError.message : 'Unknown error'
+                        });
+                        // Continue - don't fail whole job if word explanations fail
+                    }
+                }
+                else {
+                    logger.warn('[NewsScheduler] No articles found for pre-caching');
+                }
+            }
+            catch (assetError) {
+                logger.error('[NewsScheduler] Asset pre-caching failed', {
+                    error: assetError instanceof Error ? assetError.message : 'Unknown error'
+                });
+                // Don't fail the whole scraping job if asset generation fails
+            }
+        }
         return {
             success: summary.successfulSources > 0,
             summary,
@@ -317,6 +407,132 @@ async function scheduledNewsScraper() {
         throw error;
     }
 }
+// Helper function to run pre-caching pipeline on articles
+async function runPreCachingPipeline(articleIds) {
+    const result = {
+        audioSuccess: 0,
+        audioFailed: 0,
+        translationSuccess: 0,
+        translationFailed: 0,
+        wordExplanationSuccess: 0,
+        wordExplanationFailed: 0,
+        totalCost: 0
+    };
+    if (articleIds.length === 0) {
+        logger.info('[PreCache] No articles to process');
+        return result;
+    }
+    logger.info('[PreCache] Starting pre-caching pipeline', {
+        articleCount: articleIds.length
+    });
+    // Fetch the full article data
+    const articlesSnapshot = await db.collection('news_articles')
+        .where(admin.firestore.FieldPath.documentId(), 'in', articleIds.slice(0, 10)) // Firestore 'in' limit is 10
+        .get();
+    if (articlesSnapshot.empty) {
+        logger.warn('[PreCache] No articles found for pre-caching');
+        return result;
+    }
+    const articles = articlesSnapshot.docs.map(doc => ({
+        id: doc.id,
+        title: doc.data().title,
+        summary: doc.data().summary,
+        content: doc.data().content,
+        source: doc.data().source
+    }));
+    logger.info('[PreCache] Found articles for pre-caching', {
+        count: articles.length
+    });
+    // STAGE 1: Audio Generation
+    logger.info('[PreCache] Stage 1: Audio generation');
+    const audioStartTime = Date.now();
+    for (const article of articles) {
+        try {
+            await (0, newsAudioGenerator_1.generateBatchAudio)(article);
+            result.audioSuccess++;
+        }
+        catch (audioError) {
+            result.audioFailed++;
+            logger.error('[PreCache] Audio generation failed for article', {
+                articleId: article.id,
+                error: audioError instanceof Error ? audioError.message : 'Unknown error'
+            });
+        }
+    }
+    logger.info('[PreCache] Audio generation completed', {
+        success: result.audioSuccess,
+        failed: result.audioFailed,
+        durationMs: Date.now() - audioStartTime
+    });
+    // STAGE 2: Translation Generation
+    logger.info('[PreCache] Stage 2: Translation generation');
+    const translationStartTime = Date.now();
+    try {
+        const translationResults = await (0, translationPreGenerator_1.generateBatchTranslations)(articles);
+        result.translationSuccess = translationResults.successCount;
+        result.translationFailed = translationResults.failureCount;
+        result.totalCost += translationResults.totalCost;
+        logger.info('[PreCache] Translation generation completed', {
+            success: result.translationSuccess,
+            failed: result.translationFailed,
+            cost: translationResults.totalCost.toFixed(4),
+            durationMs: Date.now() - translationStartTime
+        });
+    }
+    catch (translationError) {
+        result.translationFailed = articles.length;
+        logger.error('[PreCache] Translation generation failed', {
+            error: translationError instanceof Error ? translationError.message : 'Unknown error'
+        });
+    }
+    // STAGE 3: Word Explanation Generation
+    logger.info('[PreCache] Stage 3: Word explanation generation');
+    const wordStartTime = Date.now();
+    try {
+        const articlesWithWords = articles.map(article => {
+            const words = (0, wordExtractor_1.extractTopWords)(article.content, 100);
+            return {
+                id: article.id,
+                content: article.content,
+                words: words.words
+            };
+        });
+        const wordResults = await (0, wordExplanationPreGenerator_1.generateBatchWordExplanations)(articlesWithWords);
+        result.wordExplanationSuccess = wordResults.successCount;
+        result.wordExplanationFailed = wordResults.failureCount;
+        result.totalCost += wordResults.totalCost;
+        logger.info('[PreCache] Word explanation generation completed', {
+            success: result.wordExplanationSuccess,
+            failed: result.wordExplanationFailed,
+            totalWords: wordResults.totalWords,
+            cost: wordResults.totalCost.toFixed(4),
+            durationMs: Date.now() - wordStartTime
+        });
+    }
+    catch (wordError) {
+        result.wordExplanationFailed = articles.length;
+        logger.error('[PreCache] Word explanation generation failed', {
+            error: wordError instanceof Error ? wordError.message : 'Unknown error'
+        });
+    }
+    logger.info('[PreCache] Pipeline completed', Object.assign(Object.assign({}, result), { totalCost: result.totalCost.toFixed(4) }));
+    return result;
+}
+// Helper to update progress in Firestore
+async function updateProgress(progressId, stage, details, percentage, substage) {
+    try {
+        await db.collection('scraping_progress').doc(progressId).set({
+            stage,
+            substage: substage || null,
+            details,
+            percentage,
+            updatedAt: admin.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+    }
+    catch (error) {
+        logger.error('[Progress] Failed to update progress', { progressId, error });
+    }
+}
 // Manual trigger function for testing
 async function manualNewsScraper(data, context) {
     var _a;
@@ -327,11 +543,30 @@ async function manualNewsScraper(data, context) {
         throw new https_1.HttpsError('unauthenticated', 'User must be authenticated or provide valid admin key to trigger manual scraping');
     }
     const requestedSource = data === null || data === void 0 ? void 0 : data.source;
+    const startDate = data === null || data === void 0 ? void 0 : data.startDate;
+    const endDate = data === null || data === void 0 ? void 0 : data.endDate;
+    const skipPreCache = (data === null || data === void 0 ? void 0 : data.skipPreCache) === true; // Option to skip pre-caching
+    const progressId = data === null || data === void 0 ? void 0 : data.progressId; // For progress tracking
     logger.info('[NewsScheduler] Manual trigger initiated', {
         userId: ((_a = context.auth) === null || _a === void 0 ? void 0 : _a.uid) || 'admin-key',
         source: requestedSource || 'all',
+        startDate: startDate || 'default',
+        endDate: endDate || 'default',
+        skipPreCache,
+        progressId,
         timestamp: new Date().toISOString()
     });
+    // Initialize progress tracking if progressId provided
+    if (progressId) {
+        await db.collection('scraping_progress').doc(progressId).set({
+            stage: 'initializing',
+            details: 'Starting scraping process...',
+            percentage: 0,
+            startedAt: admin.firestore.FieldValue.serverTimestamp(),
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            status: 'running'
+        });
+    }
     // If a specific source is requested, scrape only that source
     if (requestedSource) {
         const source = NEWS_SOURCES.find(s => s.endpoint === requestedSource);
@@ -341,15 +576,101 @@ async function manualNewsScraper(data, context) {
         if (!source.enabled) {
             throw new https_1.HttpsError('failed-precondition', `Source ${source.name} is currently disabled`);
         }
-        logger.info('[NewsScheduler] Scraping single source', { source: source.name });
-        const result = await triggerScraper(source);
+        // Limit to 1 article - scrape AND pre-cache exactly 1 article
+        const ARTICLE_LIMIT = 1;
+        logger.info('[NewsScheduler] Scraping single source', { source: source.name, limit: ARTICLE_LIMIT });
+        // Stage 1: Scraping (0-25%)
+        if (progressId) {
+            await updateProgress(progressId, 'scraping', `Fetching articles from ${source.name}...`, 5);
+        }
+        const result = await triggerScraper(source, startDate, endDate, ARTICLE_LIMIT);
+        if (progressId) {
+            await updateProgress(progressId, 'scraping', `Found ${result.articlesCount} new article(s)`, 25);
+        }
+        // Run pre-caching pipeline for the 1 scraped article
+        let preCacheResult = null;
+        if (result.success && result.articlesCount > 0 && !skipPreCache) {
+            logger.info('[NewsScheduler] Running pre-caching pipeline for scraped article');
+            // Get ONLY articles created in the last 2 minutes (truly new from THIS scrape)
+            const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
+            const recentArticles = await db.collection('news_articles')
+                .where('source', '==', source.name)
+                .where('createdAt', '>=', admin.firestore.Timestamp.fromDate(twoMinutesAgo))
+                .orderBy('createdAt', 'desc')
+                .limit(ARTICLE_LIMIT)
+                .get();
+            if (!recentArticles.empty) {
+                const articleIds = recentArticles.docs.map(doc => doc.id);
+                logger.info('[NewsScheduler] Found newly scraped articles for pre-caching', {
+                    count: articleIds.length,
+                    articleIds
+                });
+                preCacheResult = await runPreCachingPipelineWithProgress(articleIds, progressId);
+            }
+            else {
+                logger.warn('[NewsScheduler] No newly scraped articles found in last 2 minutes - skipping pre-cache');
+                if (progressId) {
+                    await updateProgress(progressId, 'complete', 'Article already fully cached', 100);
+                }
+            }
+        }
+        else if (progressId) {
+            // No articles to pre-cache, skip to complete
+            await updateProgress(progressId, 'complete', 'No new articles to process', 100);
+        }
+        // Mark as complete
+        if (progressId) {
+            await db.collection('scraping_progress').doc(progressId).set({
+                stage: 'complete',
+                details: `Completed: ${result.articlesCount} article(s) scraped`,
+                percentage: 100,
+                status: 'complete',
+                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+                completedAt: admin.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+        }
+        // Log to scraping_logs for admin dashboard
+        const totalDuration = Date.now() - (new Date(result.timestamp).getTime() || Date.now());
+        try {
+            await db.collection('scraping_logs').add({
+                type: 'manual',
+                source: result.source,
+                totalArticles: result.articlesCount,
+                successfulSources: result.success ? 1 : 0,
+                failedSources: result.success ? 0 : 1,
+                duration: totalDuration,
+                sources: [{
+                        name: source.name,
+                        status: result.success ? 'success' : 'error',
+                        articlesCount: result.articlesCount,
+                        error: result.error || null
+                    }],
+                preCaching: preCacheResult ? {
+                    audioGenerated: preCacheResult.audioSuccess,
+                    translationsGenerated: preCacheResult.translationSuccess,
+                    wordExplanationsGenerated: preCacheResult.wordExplanationSuccess,
+                    totalCost: preCacheResult.totalCost
+                } : null,
+                dateRange: startDate && endDate ? { startDate, endDate } : null,
+                error: result.error || null,
+                createdAt: admin.firestore.FieldValue.serverTimestamp()
+            });
+            logger.info('[NewsScheduler] Manual scrape logged to Firestore');
+        }
+        catch (logError) {
+            logger.error('[NewsScheduler] Failed to log manual scrape', {
+                error: logError instanceof Error ? logError.message : 'Unknown error'
+            });
+        }
         return {
             success: result.success,
             source: result.source,
-            articlesCount: result.articlesCount,
+            articlesScraped: result.articlesCount,
+            articlesPreCached: preCacheResult ? result.articlesCount : 0,
             duration: result.duration,
             timestamp: result.timestamp,
-            error: result.error
+            error: result.error,
+            preCaching: preCacheResult
         };
     }
     // No specific source - run all scrapers
@@ -357,14 +678,109 @@ async function manualNewsScraper(data, context) {
     const result = await scheduledNewsScraper();
     return result;
 }
+// Pre-caching pipeline with progress updates
+async function runPreCachingPipelineWithProgress(articleIds, progressId) {
+    const result = {
+        audioSuccess: 0,
+        audioFailed: 0,
+        translationSuccess: 0,
+        translationFailed: 0,
+        wordExplanationSuccess: 0,
+        wordExplanationFailed: 0,
+        totalCost: 0
+    };
+    if (articleIds.length === 0) {
+        logger.info('[PreCache] No articles to process');
+        return result;
+    }
+    // Fetch the full article data
+    const articlesSnapshot = await db.collection('news_articles')
+        .where(admin.firestore.FieldPath.documentId(), 'in', articleIds.slice(0, 10))
+        .get();
+    if (articlesSnapshot.empty) {
+        return result;
+    }
+    const articles = articlesSnapshot.docs.map(doc => ({
+        id: doc.id,
+        title: doc.data().title,
+        summary: doc.data().summary,
+        content: doc.data().content,
+        source: doc.data().source
+    }));
+    // STAGE 2: Audio Generation (25-50%)
+    if (progressId) {
+        await updateProgress(progressId, 'audio', 'Generating audio with Kokoro TTS...', 30, 'title');
+    }
+    for (let i = 0; i < articles.length; i++) {
+        const article = articles[i];
+        try {
+            if (progressId) {
+                await updateProgress(progressId, 'audio', `Generating audio for article ${i + 1}/${articles.length}...`, 30 + (i / articles.length) * 20);
+            }
+            await (0, newsAudioGenerator_1.generateBatchAudio)(article);
+            result.audioSuccess++;
+        }
+        catch (audioError) {
+            result.audioFailed++;
+            logger.error('[PreCache] Audio generation failed', { articleId: article.id });
+        }
+    }
+    // STAGE 3: Translation Generation (50-75%)
+    if (progressId) {
+        await updateProgress(progressId, 'translation', 'Generating translations...', 55);
+    }
+    try {
+        const translationResults = await (0, translationPreGenerator_1.generateBatchTranslations)(articles);
+        result.translationSuccess = translationResults.successCount;
+        result.translationFailed = translationResults.failureCount;
+        result.totalCost += translationResults.totalCost;
+        if (progressId) {
+            await updateProgress(progressId, 'translation', `Translated ${translationResults.successCount} segment(s)`, 75);
+        }
+    }
+    catch (translationError) {
+        result.translationFailed = articles.length;
+        logger.error('[PreCache] Translation generation failed');
+    }
+    // STAGE 4: Word Explanation Generation (75-100%)
+    if (progressId) {
+        await updateProgress(progressId, 'words', 'Generating word explanations...', 80);
+    }
+    try {
+        const articlesWithWords = articles.map(article => {
+            const words = (0, wordExtractor_1.extractTopWords)(article.content, 100);
+            return {
+                id: article.id,
+                content: article.content,
+                words: words.words
+            };
+        });
+        if (progressId) {
+            const totalWords = articlesWithWords.reduce((sum, a) => sum + a.words.length, 0);
+            await updateProgress(progressId, 'words', `Processing ${totalWords} words...`, 85);
+        }
+        const wordResults = await (0, wordExplanationPreGenerator_1.generateBatchWordExplanations)(articlesWithWords);
+        result.wordExplanationSuccess = wordResults.successCount;
+        result.wordExplanationFailed = wordResults.failureCount;
+        result.totalCost += wordResults.totalCost;
+        if (progressId) {
+            await updateProgress(progressId, 'words', `Generated ${wordResults.totalWords} word explanations`, 95);
+        }
+    }
+    catch (wordError) {
+        result.wordExplanationFailed = articles.length;
+        logger.error('[PreCache] Word explanation generation failed');
+    }
+    return result;
+}
 // Export functions for different triggers
 exports.scheduledNewsScraperFunction = (0, scheduler_1.onSchedule)({
-    schedule: '0 6 * * *', // 6:00 AM every day
+    schedule: '0 0,6,12,18 * * *', // 4x daily: 00:00, 06:00, 12:00, 18:00 JST
     timeZone: 'Asia/Tokyo', // Japan time
     memory: '2GiB', // Increased from 1GiB for better performance
     timeoutSeconds: 540, // 9 minutes
     retryCount: 2, // Retry up to 2 times on failure
-    secrets: [KOKORO_API_KEY] // Add secret for TTS audio generation
+    secrets: [KOKORO_API_KEY, OPENAI_API_KEY] // Secrets for TTS and AI processing
 }, async (event) => {
     logger.info('[NewsScheduler] Scheduled trigger activated', {
         scheduleTime: event.scheduleTime,
@@ -376,7 +792,7 @@ exports.manualNewsScraperFunction = (0, https_1.onCall)({
     memory: '2GiB', // Increased from 1GiB for better performance
     timeoutSeconds: 540,
     invoker: 'public', // Allow public invocation (auth checked via admin key inside)
-    secrets: [KOKORO_API_KEY] // Add secret for TTS audio generation
+    secrets: [KOKORO_API_KEY, OPENAI_API_KEY] // Secrets for TTS and AI processing
 }, async (request) => {
     return manualNewsScraper(request.data, request);
 });

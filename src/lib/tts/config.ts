@@ -3,6 +3,13 @@ import { TTSConfig } from './types';
 // Use a function to get the config so environment variables are read at runtime
 export function getTtsConfig(): TTSConfig {
   return {
+    kokoro: {
+      apiKey: process.env.SHELDON_API_KEY,
+      baseUrl: 'https://api.selfmind.dev/kokoro/v1/audio',
+      defaultVoice: 'jf_alpha',
+      model: 'kokoro',
+      timeout: 30000,
+    },
     google: {
       apiKey: process.env.GOOGLE_CLOUD_TTS_API_KEY,
       projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,

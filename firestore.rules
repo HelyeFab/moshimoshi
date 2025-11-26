@@ -289,6 +289,27 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // Translation cache collections - server-side optimization
+    // These collections cache AI translations to reduce API costs
+    match /translations/{translationId} {
+      // Allow server-side reads and writes via Admin SDK
+      // Client-side access blocked for security
+      allow read, write: if false;
+    }
+
+    match /translation_cache/{cacheId} {
+      // Allow server-side reads and writes via Admin SDK
+      // Client-side access blocked for security
+      allow read, write: if false;
+    }
+
+    // AI cache collection - server-side caching system
+    match /ai_cache/{cacheId} {
+      // Allow server-side reads and writes via Admin SDK
+      // Client-side access blocked for security
+      allow read, write: if false;
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

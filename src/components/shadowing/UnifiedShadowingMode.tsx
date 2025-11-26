@@ -133,8 +133,7 @@ export default function UnifiedShadowingMode({
       const textsToPreload = sentences.slice(0, preloadCount).map(s => s.text);
       preload(textsToPreload, {
         voice: voice === 'female' ? 'ja-JP-NanamiNeural' : 'ja-JP-KeitaNeural',
-        speed: audioSpeed,
-        rate: audioSpeed // Compatibility with both speed and rate parameters
+        speed: audioSpeed
       });
     }
   }, [voice, audioSpeed]); // Only on mount and when voice/speed changes
@@ -196,8 +195,7 @@ export default function UnifiedShadowingMode({
     try {
       await playTTS(sentence.text, {
         voice: voice === 'female' ? 'ja-JP-NanamiNeural' : 'ja-JP-KeitaNeural',
-        speed: audioSpeed,
-        rate: audioSpeed // Compatibility with both speed and rate parameters
+        speed: audioSpeed
       });
     } catch (error) {
       console.error('TTS playback error:', error);
@@ -232,8 +230,7 @@ export default function UnifiedShadowingMode({
       if (sentences[newIndex]) {
         preload([sentences[newIndex].text], {
           voice: voice === 'female' ? 'ja-JP-NanamiNeural' : 'ja-JP-KeitaNeural',
-          speed: audioSpeed,
-          rate: audioSpeed
+          speed: audioSpeed
         });
       }
     }
@@ -272,8 +269,8 @@ export default function UnifiedShadowingMode({
 
   return (
     <div
-      className="fixed inset-0 z-30 overflow-y-auto animate-fade-in"
-      style={{ backgroundColor: 'var(--article-bg)' }}
+      className="fixed inset-0 z-50 overflow-y-auto animate-fade-in backdrop-blur-xl"
+      style={{ backgroundColor: 'var(--article-bg)', opacity: 0.98 }}
     >
       <div className="min-h-screen w-full relative">
         {/* Header - Close and Settings Buttons */}
