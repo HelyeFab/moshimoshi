@@ -578,3 +578,5 @@ html.high-contrast.dark .text-gray-400 {
   /* Make gray text lighter in dark mode */
   color: #eeeeee !important;
 }
+/* Hide reCAPTCHA badge - attribution included in privacy policy */
+.grecaptcha-badge { visibility: hidden !important; }
