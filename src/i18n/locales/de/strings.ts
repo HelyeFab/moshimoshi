@@ -3785,5 +3785,22 @@ export const strings = {
     mistakesLabel: "Häufige Fehler",
     relatedLabel: "Verwandte Muster",
     formalityLabel: "Formell"
+  },
+
+  // Privacy Policy Page
+  privacy: {
+    title: "Datenschutzrichtlinie",
+    lastUpdated: "Zuletzt aktualisiert: Januar 2025",
+    footer: "Vielen Dank, dass Sie Moshimoshi für Ihre Japanisch-Lernreise vertrauen.",
+    sections: {
+      recaptcha: {
+        title: "7. reCAPTCHA-Schutz",
+        content: "Diese Website ist durch reCAPTCHA geschützt und es gelten die",
+        privacyPolicy: "Datenschutzbestimmungen",
+        and: "und",
+        termsOfService: "Nutzungsbedingungen",
+        apply: "von Google."
+      }
+    }
   }
 }

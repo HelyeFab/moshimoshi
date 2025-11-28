@@ -3754,5 +3754,22 @@ export const strings = {
       good: "Ottimo Lavoro!",
       keepPracticing: "Continua a Praticare!"
     }
+  },
+
+  // Privacy Policy Page
+  privacy: {
+    title: "Informativa sulla Privacy",
+    lastUpdated: "Ultimo aggiornamento: Gennaio 2025",
+    footer: "Grazie per aver scelto Moshimoshi per il tuo percorso di apprendimento del giapponese.",
+    sections: {
+      recaptcha: {
+        title: "7. Protezione reCAPTCHA",
+        content: "Questo sito è protetto da reCAPTCHA e si applicano le",
+        privacyPolicy: "Norme sulla privacy",
+        and: "e i",
+        termsOfService: "Termini di servizio",
+        apply: "di Google."
+      }
+    }
   }
 }

@@ -281,6 +281,7 @@ async function checkExistingAudio(articleId, source, audioType) {
     }
 }
 async function generateBatchAudio(article, options = {}) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
     const result = {
         errors: []
     };
@@ -354,6 +355,53 @@ async function generateBatchAudio(article, options = {}) {
         const errorMsg = `Content audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
         result.errors.push(errorMsg);
         logger.error(errorMsg, { articleId: article.id });
+    }
+    // Save audio URLs to Firestore news_articles document
+    // This enables smart skip detection in future scrapes
+    try {
+        const db = admin.firestore();
+        const updateData = {
+            audioGeneratedAt: admin.firestore.FieldValue.serverTimestamp(),
+            audioProvider: provider,
+            audioVoice: voice,
+        };
+        if ((_a = result.titleAudio) === null || _a === void 0 ? void 0 : _a.url) {
+            updateData.generatedTitleAudioUrl = result.titleAudio.url;
+        }
+        if ((_b = result.summaryAudio) === null || _b === void 0 ? void 0 : _b.url) {
+            updateData.generatedSummaryAudioUrl = result.summaryAudio.url;
+        }
+        if ((_c = result.contentAudio) === null || _c === void 0 ? void 0 : _c.url) {
+            updateData.generatedContentAudioUrl = result.contentAudio.url;
+        }
+        // Determine audio status
+        const hasAllAudio = ((_d = result.titleAudio) === null || _d === void 0 ? void 0 : _d.url) && ((_e = result.summaryAudio) === null || _e === void 0 ? void 0 : _e.url) && ((_f = result.contentAudio) === null || _f === void 0 ? void 0 : _f.url);
+        const hasAnyAudio = ((_g = result.titleAudio) === null || _g === void 0 ? void 0 : _g.url) || ((_h = result.summaryAudio) === null || _h === void 0 ? void 0 : _h.url) || ((_j = result.contentAudio) === null || _j === void 0 ? void 0 : _j.url);
+        if (hasAllAudio) {
+            updateData.audioStatus = 'generated';
+        }
+        else if (hasAnyAudio) {
+            updateData.audioStatus = 'partial';
+        }
+        else if (result.errors.length > 0) {
+            updateData.audioStatus = 'failed';
+            updateData.audioError = result.errors.join('; ');
+        }
+        await db.collection('news_articles').doc(article.id).update(updateData);
+        logger.info('[AudioGenerator] Audio URLs saved to Firestore', {
+            articleId: article.id,
+            hasTitle: !!((_k = result.titleAudio) === null || _k === void 0 ? void 0 : _k.url),
+            hasSummary: !!((_l = result.summaryAudio) === null || _l === void 0 ? void 0 : _l.url),
+            hasContent: !!((_m = result.contentAudio) === null || _m === void 0 ? void 0 : _m.url),
+            status: updateData.audioStatus
+        });
+    }
+    catch (saveError) {
+        // Don't fail the whole operation if Firestore save fails
+        logger.error('[AudioGenerator] Failed to save audio URLs to Firestore', {
+            articleId: article.id,
+            error: saveError instanceof Error ? saveError.message : 'Unknown error'
+        });
     }
     return result;
 }

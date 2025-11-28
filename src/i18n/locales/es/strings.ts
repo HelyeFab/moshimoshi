@@ -3835,5 +3835,22 @@ export const strings = {
       good: "¡Buen Trabajo!",
       keepPracticing: "¡Sigue Practicando!"
     }
+  },
+
+  // Privacy Policy Page
+  privacy: {
+    title: "Política de Privacidad",
+    lastUpdated: "Última actualización: Enero 2025",
+    footer: "Gracias por confiar en Moshimoshi para tu viaje de aprendizaje del japonés.",
+    sections: {
+      recaptcha: {
+        title: "7. Protección reCAPTCHA",
+        content: "Este sitio está protegido por reCAPTCHA y se aplican la",
+        privacyPolicy: "Política de Privacidad",
+        and: "y los",
+        termsOfService: "Términos de Servicio",
+        apply: "de Google."
+      }
+    }
   }
 }

@@ -664,5 +664,8 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
   }
 }
 
-// Export singleton instance
-export const drillProgressManager = DrillProgressManager.getInstance()
+// Note: Do NOT export an eagerly-instantiated singleton here.
+// This class uses IndexedDB (via idb) which is browser-only.
+// Server-side code (API routes) that imports this module would fail during build
+// if we instantiate at module load time.
+// Use DrillProgressManager.getInstance() when needed instead.

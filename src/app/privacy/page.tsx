@@ -348,6 +348,36 @@ export default function PrivacyPolicyPage() {
             </div>
           </section>
 
+          {/* reCAPTCHA Protection */}
+          <section className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+              {privacy.sections?.recaptcha?.title || '7. reCAPTCHA Protection'}
+            </h2>
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                {privacy.sections?.recaptcha?.content || 'This site is protected by reCAPTCHA and the Google'}{' '}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary-500 hover:underline"
+                >
+                  {privacy.sections?.recaptcha?.privacyPolicy || 'Privacy Policy'}
+                </a>{' '}
+                {privacy.sections?.recaptcha?.and || 'and'}{' '}
+                <a
+                  href="https://policies.google.com/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary-500 hover:underline"
+                >
+                  {privacy.sections?.recaptcha?.termsOfService || 'Terms of Service'}
+                </a>{' '}
+                {privacy.sections?.recaptcha?.apply || 'apply.'}
+              </p>
+            </div>
+          </section>
+
           {/* Footer */}
           <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
             <div className="text-center">

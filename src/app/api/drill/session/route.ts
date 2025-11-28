@@ -19,7 +19,9 @@ import { recordDrillCompletion } from '@/lib/gamification/services/gamification-
 import { Accuracy } from '@/lib/statistics/accuracy';
 import { DrillSessionCompleteRequestSchema } from '@/lib/schemas/drill.schema';
 import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch';
-import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
+// Server-safe SRS utilities (no IndexedDB dependency)
+// DrillProgressManager cannot be used here as it imports 'idb' which is browser-only
+import { calculateSM2, calculateNextReviewDate } from '@/lib/review-engine/srs/drill-srs-utils';
 
 /**
  * GET /api/drill/session
@@ -280,11 +282,27 @@ export async function POST(request: NextRequest) {
       const questionsPerSession = questionsCount || getQuestionsPerSession(plan);
 
       try {
-        // Select words using SRS algorithm
+        // Pre-fetch SRS data from Firebase Admin (server-side)
+        // This avoids using DrillProgressManager which requires IndexedDB (browser-only)
+        const srsSnapshot = await adminDb
+          .collection('users')
+          .doc(session.uid)
+          .collection('drill-srs')
+          .get();
+
+        const srsData = new Map<string, any>();
+        srsSnapshot.docs.forEach(doc => {
+          srsData.set(doc.id, doc.data());
+        });
+
+        console.log('[Drill API] Fetched', srsData.size, 'SRS entries from Firebase');
+
+        // Select words using SRS algorithm with pre-fetched data
         const srsWords = await SRSWordSelector.selectWords({
           userId: session.uid,
           targetCount: questionsPerSession,
           isPremium,
+          srsData, // Pass pre-fetched data for server-side use
           // SRS mode ignores JLPT filters - shows ALL studied words
           // This matches the user's design decision: "SRS mode shows ALL studied words"
         });
@@ -559,9 +577,8 @@ export async function PUT(request: NextRequest) {
               throw new Error('Firebase Admin not initialized');
             }
 
-            const drillProgressManager = DrillProgressManager.getInstance();
-
             // Process each question result for SRS tracking
+            // Using server-safe SRS utilities (not DrillProgressManager which requires IndexedDB)
             for (const result of validated.questionResults) {
               // Find the full question data
               const question = sessionData.questions.find(q => q.id === result.questionId);
@@ -598,7 +615,7 @@ export async function PUT(request: NextRequest) {
                     easeFactor: 2.5,
                     repetitions: 0,
                     lastReviewedAt: null,
-                    nextReviewAt: drillProgressManager.calculateNextReviewDate(1),
+                    nextReviewAt: calculateNextReviewDate(1),
                     status: 'new' as const,
                     lapses: 0
                   },
@@ -656,7 +673,7 @@ export async function PUT(request: NextRequest) {
               }
 
               // Update SRS data using SM-2 algorithm
-              wordEntry.srsData = drillProgressManager.calculateSM2(wordEntry.srsData, result.correct);
+              wordEntry.srsData = calculateSM2(wordEntry.srsData, result.correct);
               wordEntry.lastReviewedAt = now;
               wordEntry.totalReviews++;
               wordEntry.updatedAt = now;

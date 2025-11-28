@@ -3968,6 +3968,23 @@ export const strings = {
     relatedLabel: "Schémas associés",
     formalityLabel: "Formalité"
   },
+
+  // Privacy Policy Page
+  privacy: {
+    title: "Politique de Confidentialité",
+    lastUpdated: "Dernière mise à jour : Janvier 2025",
+    footer: "Merci de faire confiance à Moshimoshi pour votre apprentissage du japonais.",
+    sections: {
+      recaptcha: {
+        title: "7. Protection reCAPTCHA",
+        content: "Ce site est protégé par reCAPTCHA et la",
+        privacyPolicy: "Politique de confidentialité",
+        and: "et les",
+        termsOfService: "Conditions d'utilisation",
+        apply: "de Google s'appliquent."
+      }
+    }
+  },
 }
 
 export default strings

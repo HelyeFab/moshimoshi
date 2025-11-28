@@ -128,7 +128,11 @@
       "Bash(firebase firestore:rules:*)",
       "Bash(firebase firestore:indexes:*)",
       "Bash(nul)",
-      "Bash(firebase functions:secrets:access:*)"
+      "Bash(firebase functions:secrets:access:*)",
+      "Bash(npm ls:*)",
+      "Bash(timeout 90 bash:*)",
+      "Bash(npm test:*)",
+      "Bash(src/styles/globals.css)"
     ],
     "deny": [],
     "ask": []

@@ -3904,5 +3904,22 @@ export const strings = {
       title: "単語ビルダー",
       description: "コンポーネントから単語を作る"
     }
+  },
+
+  // Privacy Policy Page
+  privacy: {
+    title: "プライバシーポリシー",
+    lastUpdated: "最終更新日: 2025年1月",
+    footer: "Moshimoshiで日本語学習をしていただきありがとうございます。",
+    sections: {
+      recaptcha: {
+        title: "7. reCAPTCHA保護",
+        content: "このサイトはreCAPTCHAによって保護されており、Googleの",
+        privacyPolicy: "プライバシーポリシー",
+        and: "と",
+        termsOfService: "利用規約",
+        apply: "が適用されます。"
+      }
+    }
   }
 }

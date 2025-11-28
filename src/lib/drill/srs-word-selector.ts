@@ -9,10 +9,12 @@
  */
 
 import type { JapaneseWord, WordSRSEntry, JLPTLevel } from '@/types/drill';
-import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager';
 import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch';
 
-const drillProgressManager = DrillProgressManager.getInstance();
+// Note: DrillProgressManager is NOT imported at module level.
+// It uses IndexedDB (browser-only) and would break server-side builds.
+// For server-side use, pass srsData directly from Firebase Admin.
+// For client-side use, the method will dynamically import DrillProgressManager.
 
 export interface SRSWordSelectionOptions {
   userId: string;
@@ -27,6 +29,10 @@ export interface SRSWordSelectionOptions {
   // Optional filters (rarely used - SRS shows ALL studied words by design)
   includeJLPT?: JLPTLevel[];
   maxLeechScore?: number;    // Optionally exclude very difficult words
+
+  // Server-side support: pass pre-fetched SRS data from Firebase Admin
+  // If provided, skips DrillProgressManager (which requires IndexedDB)
+  srsData?: Map<string, WordSRSEntry>;
 }
 
 export class SRSWordSelector {
@@ -42,11 +48,21 @@ export class SRSWordSelector {
       newWordRatio = 0.3,
       learningWordRatio = 0.1,
       includeJLPT,
-      maxLeechScore
+      maxLeechScore,
+      srsData: providedSrsData
     } = options;
 
-    // Get all SRS data for this user
-    const srsData = await drillProgressManager.getSRSData(userId, isPremium);
+    // Get SRS data - either use provided data (server-side) or fetch from DrillProgressManager (client-side)
+    let srsData: Map<string, WordSRSEntry>;
+    if (providedSrsData) {
+      // Server-side: use pre-fetched data from Firebase Admin
+      srsData = providedSrsData;
+    } else {
+      // Client-side: dynamically import DrillProgressManager (uses IndexedDB)
+      const { DrillProgressManager } = await import('@/lib/review-engine/progress/DrillProgressManager');
+      const drillProgressManager = DrillProgressManager.getInstance();
+      srsData = await drillProgressManager.getSRSData(userId, isPremium);
+    }
 
     // Categorize words
     const now = new Date();
@@ -240,21 +256,28 @@ export class SRSWordSelector {
 
   /**
    * Get SRS statistics for the user (used for dashboard)
+   * CLIENT-SIDE ONLY - uses IndexedDB via DrillProgressManager
    */
   static async getStats(userId: string, isPremium: boolean) {
+    const { DrillProgressManager } = await import('@/lib/review-engine/progress/DrillProgressManager');
+    const drillProgressManager = DrillProgressManager.getInstance();
     return await drillProgressManager.getSRSStats(userId, isPremium);
   }
 
   /**
    * Check if user has enough words for SRS mode
+   * CLIENT-SIDE ONLY - uses IndexedDB via DrillProgressManager
    */
   static async hasEnoughWords(userId: string, isPremium: boolean, minWords: number = 5): Promise<boolean> {
+    const { DrillProgressManager } = await import('@/lib/review-engine/progress/DrillProgressManager');
+    const drillProgressManager = DrillProgressManager.getInstance();
     const srsData = await drillProgressManager.getSRSData(userId, isPremium);
     return srsData.size >= minWords;
   }
 
   /**
    * Get word counts by category (for UI display)
+   * CLIENT-SIDE ONLY - uses IndexedDB via DrillProgressManager
    */
   static async getWordCounts(userId: string, isPremium: boolean): Promise<{
     total: number;
@@ -262,6 +285,8 @@ export class SRSWordSelector {
     learning: number;
     new: number;
   }> {
+    const { DrillProgressManager } = await import('@/lib/review-engine/progress/DrillProgressManager');
+    const drillProgressManager = DrillProgressManager.getInstance();
     const srsData = await drillProgressManager.getSRSData(userId, isPremium);
     const now = new Date();
 

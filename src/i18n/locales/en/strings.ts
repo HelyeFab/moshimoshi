@@ -3108,6 +3108,14 @@ export const strings = {
           intro: "If you have questions or concerns about this privacy policy or our data practices, please contact us:",
           email: "Email",
           support: "Support"
+        },
+        recaptcha: {
+          title: "7. reCAPTCHA Protection",
+          content: "This site is protected by reCAPTCHA and the Google",
+          privacyPolicy: "Privacy Policy",
+          and: "and",
+          termsOfService: "Terms of Service",
+          apply: "apply."
         }
       }
     },
