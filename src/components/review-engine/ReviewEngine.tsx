@@ -528,8 +528,7 @@ export default function ReviewEngine({
     's': () => handleSkip(),
     'h': () => handleHint(),
     '1': () => handleModeChange('recognition'),
-    '2': () => handleModeChange('recall'),
-    '3': () => handleModeChange('listening'),
+    '2': () => handleModeChange('listening'),
     'Escape': () => onCancel()
   })
   
@@ -591,7 +590,7 @@ export default function ReviewEngine({
           <div className="flex items-center justify-between">
             {/* Mode selector */}
             <div className="flex gap-2">
-              {(['recognition', 'recall', 'listening'] as ReviewMode[]).map(m => {
+              {(['recognition', 'listening'] as ReviewMode[]).map(m => {
                 const isSupported = currentItem?.content.supportedModes?.includes(m) ?? true
                 return (
                   <button

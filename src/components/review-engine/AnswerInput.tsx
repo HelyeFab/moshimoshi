@@ -23,7 +23,7 @@ export default function AnswerInput({
   showAnswer
 }: AnswerInputProps) {
   const inputProps = { content, onAnswer, disabled, showAnswer }
-  const multipleChoiceProps = { ...inputProps, contentPool }
+  const multipleChoiceProps = { ...inputProps, contentPool, mode }
   
   switch (mode) {
     case 'recognition':

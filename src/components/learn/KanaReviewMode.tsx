@@ -172,7 +172,7 @@ export default function KanaReviewMode({
   const stats = calculateStats()
   
   // Check if we have enough characters for review mode
-  if (characters.length < 4 && reviewMode !== 'recall') {
+  if (characters.length < 4) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light to-japanese-mizu/10 dark:from-dark-900 dark:to-dark-800 flex items-center justify-center p-4">
         <div className="bg-white dark:bg-dark-800 rounded-xl shadow-lg p-8 max-w-md text-center">
@@ -203,7 +203,7 @@ export default function KanaReviewMode({
               {t('kana.review.reviewMode')}
             </h2>
             <div className="flex gap-2">
-              {(['recognition', 'recall', 'listening'] as ReviewMode[]).map(mode => (
+              {(['recognition', 'listening'] as ReviewMode[]).map(mode => (
                 <button
                   key={mode}
                   onClick={() => setReviewMode(mode)}
@@ -261,7 +261,7 @@ export default function KanaReviewMode({
             >
               <div className="text-center mb-12">
                 <div className="text-7xl sm:text-8xl md:text-9xl font-japanese font-bold text-gray-800 dark:text-gray-200 mb-6">
-                  {currentCharacter.hiragana}
+                  {displayScript === 'hiragana' ? currentCharacter.hiragana : currentCharacter.katakana}
                 </div>
                 <p className="text-lg text-gray-600 dark:text-gray-400">
                   {t('kana.review.selectAnswer')}
@@ -293,65 +293,7 @@ export default function KanaReviewMode({
               </div>
             </motion.div>
           )}
-          
-          {/* Recall Mode */}
-          {reviewMode === 'recall' && (
-            <motion.div
-              key="recall"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="space-y-6"
-            >
-              <div className="text-center">
-                <div className="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">
-                  {currentCharacter.romaji}
-                </div>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('kana.review.typeAnswer')} (Hiragana)
-                </p>
-              </div>
-              
-              <div className="flex flex-col items-center space-y-4">
-                <input
-                  type="text"
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleRecallSubmit()}
-                  disabled={showAnswer}
-                  className="w-full max-w-xs px-4 py-3 text-center text-2xl font-japanese
-                           border-2 border-gray-300 dark:border-dark-600 rounded-xl
-                           focus:border-primary-500 focus:ring-2 focus:ring-primary-200
-                           dark:bg-dark-700 dark:text-gray-100"
-                  placeholder="Type hiragana..."
-                  autoFocus
-                />
-                
-                {showAnswer && (
-                  <div className={`text-center p-4 rounded-xl ${
-                    isCorrect 
-                      ? 'bg-green-100 dark:bg-green-900/30' 
-                      : 'bg-red-100 dark:bg-red-900/30'
-                  }`}>
-                    <div className="text-6xl font-japanese font-bold mb-2">
-                      {currentCharacter.hiragana}
-                    </div>
-                    <div className="text-xl">{currentCharacter.romaji}</div>
-                  </div>
-                )}
-                
-                {!showAnswer && (
-                  <button
-                    onClick={handleRecallSubmit}
-                    className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
-                  >
-                    Submit
-                  </button>
-                )}
-              </div>
-            </motion.div>
-          )}
-          
+
           {/* Listening Mode */}
           {reviewMode === 'listening' && (
             <motion.div
@@ -405,7 +347,9 @@ export default function KanaReviewMode({
                       ${!showAnswer && 'hover:shadow-lg cursor-pointer'}
                     `}
                   >
-                    <div className="text-3xl sm:text-4xl font-japanese font-bold">{option.hiragana}</div>
+                    <div className="text-3xl sm:text-4xl font-japanese font-bold">
+                      {displayScript === 'hiragana' ? option.hiragana : option.katakana}
+                    </div>
                     {showAnswer && (
                       <div className="text-lg text-gray-600 dark:text-gray-400 mt-1">
                         {option.romaji}
