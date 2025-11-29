@@ -8,6 +8,7 @@ import { adminAuth, adminFirestore, ensureAdminInitialized } from '@/lib/firebas
 import { redis, CacheTTL } from '@/lib/redis/client'
 import { z } from 'zod'
 import crypto from 'crypto'
+import { sendPasswordResetEmail } from '@/lib/email/resend'
 
 // Password reset request schema
 const PasswordResetRequestSchema = z.object({
@@ -33,46 +34,16 @@ function generateResetToken(): string {
 }
 
 /**
- * Send password reset email (mock implementation)
- * In production, integrate with your email service (SendGrid, Postmark, etc.)
+ * Send password reset email via Resend
  */
-async function sendPasswordResetEmail(email: string, resetToken: string, userDisplayName?: string) {
-  // Mock email sending - replace with real email service
-  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${resetToken}`
-  
-  console.log(`
-    ===========================================
-    PASSWORD RESET EMAIL (MOCK)
-    ===========================================
-    To: ${email}
-    Subject: Reset Your Moshimoshi Password
-    
-    Hello ${userDisplayName || 'there'},
-    
-    You requested a password reset for your Moshimoshi account.
-    
-    Click the link below to reset your password:
-    ${resetUrl}
-    
-    This link will expire in 1 hour.
-    
-    If you didn't request this, please ignore this email.
-    
-    Best regards,
-    The Moshimoshi Team
-    ===========================================
-  `)
+async function sendResetEmail(email: string, resetToken: string, userDisplayName?: string) {
+  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/reset-password?token=${resetToken}`
 
-  // In production, replace with actual email service:
-  // await emailService.send({
-  //   to: email,
-  //   subject: 'Reset Your Moshimoshi Password',
-  //   template: 'password-reset',
-  //   data: {
-  //     resetUrl,
-  //     userDisplayName: userDisplayName || 'there',
-  //   }
-  // })
+  console.log(`[Password Reset] Sending reset email to ${email}`)
+
+  await sendPasswordResetEmail(email, resetUrl, userDisplayName)
+
+  console.log(`[Password Reset] Reset email sent successfully to ${email}`)
 }
 
 /**
@@ -216,7 +187,7 @@ export async function POST(request: NextRequest) {
 
     // Send reset email
     try {
-      await sendPasswordResetEmail(email, resetToken, userDisplayName)
+      await sendResetEmail(email, resetToken, userDisplayName)
     } catch (error) {
       console.error('Failed to send reset email:', error)
       

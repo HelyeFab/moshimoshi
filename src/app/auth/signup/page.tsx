@@ -45,6 +45,16 @@ export default function SignUpPage() {
       logger.auth('Sign up response', { status: response.status, data })
 
       if (response.ok) {
+        // Store reCAPTCHA result for display after redirect
+        if (data.recaptcha) {
+          sessionStorage.setItem('recaptcha_result', JSON.stringify({
+            verified: true,
+            score: data.recaptcha.score,
+            action: 'signup',
+            timestamp: Date.now()
+          }))
+        }
+
         // Show success message and redirect
         showToast(strings.auth.signup.messages.signupSuccess, 'success', 4000)
         router.push('/auth/signin')

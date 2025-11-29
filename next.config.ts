@@ -10,12 +10,12 @@ const nextConfig: NextConfig = {
     ],
   },
   eslint: {
-    // Temporarily ignore ESLint during builds to allow deployment
-    ignoreDuringBuilds: true,
+    // MVP: Enforce ESLint during builds for production quality
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    // Temporarily ignore TypeScript errors during builds to allow deployment
-    ignoreBuildErrors: true,
+    // MVP: Enforce TypeScript type checking for production quality
+    ignoreBuildErrors: false,
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -48,7 +48,20 @@ const nextConfig: NextConfig = {
     return config;
   },
   experimental: {
-    // Enable when needed for advanced features
+    // MVP: Optimize package imports to reduce bundle size
+    optimizePackageImports: [
+      '@heroicons/react',
+      'lucide-react',
+      'recharts',
+      'react-icons',
+      '@radix-ui/react-slot',
+      'date-fns',
+      'framer-motion',
+    ],
+  },
+  // MVP: Remove console logs in production for cleaner output and smaller bundle
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
   env: {
     // Pricing configuration - these will be available client-side

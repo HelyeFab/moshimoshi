@@ -59,6 +59,16 @@ function SignInContent() {
       logger.auth('Sign in response', { status: response.status, data })
 
       if (response.ok) {
+        // Store reCAPTCHA result for display on dashboard
+        if (data.recaptcha) {
+          sessionStorage.setItem('recaptcha_result', JSON.stringify({
+            verified: true,
+            score: data.recaptcha.score,
+            action: 'signin',
+            timestamp: Date.now()
+          }))
+        }
+
         logger.auth('Sign in successful, redirecting to dashboard')
         showToast(strings.auth.signin.messages.signinSuccess, 'success')
         // Use window.location for a hard redirect to ensure navigation

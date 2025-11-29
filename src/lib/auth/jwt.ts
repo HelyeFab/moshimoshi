@@ -180,10 +180,8 @@ export function createRefreshToken(
     exp: Math.floor((Date.now() + duration) / 1000),
   }
 
-  return jwt.sign(payload, getJWTSecret(), {
-    ...JWT_SIGN_OPTIONS,
-    expiresIn: Math.floor(duration / 1000),
-  })
+  // Don't use expiresIn option since we're setting exp in the payload
+  return jwt.sign(payload, getJWTSecret(), JWT_SIGN_OPTIONS)
 }
 
 /**
@@ -223,10 +221,8 @@ export function createPasswordResetToken(
     exp: Math.floor((Date.now() + duration) / 1000),
   }
 
-  return jwt.sign(payload, getJWTSecret(), {
-    ...JWT_SIGN_OPTIONS,
-    expiresIn: Math.floor(duration / 1000),
-  })
+  // Don't use expiresIn option since we're setting exp in the payload
+  return jwt.sign(payload, getJWTSecret(), JWT_SIGN_OPTIONS)
 }
 
 /**
@@ -270,10 +266,8 @@ export function createEmailVerificationToken(
     exp: Math.floor((Date.now() + duration) / 1000),
   }
 
-  return jwt.sign(payload, getJWTSecret(), {
-    ...JWT_SIGN_OPTIONS,
-    expiresIn: Math.floor(duration / 1000),
-  })
+  // Don't use expiresIn option since we're setting exp in the payload
+  return jwt.sign(payload, getJWTSecret(), JWT_SIGN_OPTIONS)
 }
 
 /**
@@ -315,10 +309,8 @@ export function createNewsletterVerificationToken(
     exp: Math.floor((Date.now() + duration) / 1000),
   }
 
-  return jwt.sign(payload, getJWTSecret(), {
-    ...JWT_SIGN_OPTIONS,
-    expiresIn: Math.floor(duration / 1000),
-  })
+  // Don't use expiresIn option since we're setting exp in the payload
+  return jwt.sign(payload, getJWTSecret(), JWT_SIGN_OPTIONS)
 }
 
 /**

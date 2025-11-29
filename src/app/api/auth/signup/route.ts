@@ -72,9 +72,11 @@ export async function POST(request: NextRequest) {
     const recaptchaToken = body.recaptchaToken
 
     // Verify reCAPTCHA (if configured)
+    let recaptchaScore: number | undefined
     if (isReCaptchaConfigured()) {
       console.log('[API /auth/signup] Verifying reCAPTCHA')
       const recaptchaResult = await verifyReCaptcha(recaptchaToken, 'signup')
+      recaptchaScore = recaptchaResult.score
 
       if (!recaptchaResult.success) {
         console.warn('[API /auth/signup] reCAPTCHA failed:', recaptchaResult.error)
@@ -214,6 +216,10 @@ export async function POST(request: NextRequest) {
           },
           requiresVerification: true, // Changed: Now requiring email verification
           message: 'Account created successfully. Please check your email to verify your account.',
+          recaptcha: recaptchaScore !== undefined ? {
+            verified: true,
+            score: recaptchaScore,
+          } : undefined,
         },
         { 
           status: 201,

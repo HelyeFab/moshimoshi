@@ -49,9 +49,11 @@ export async function POST(request: NextRequest) {
     const userAgent = request.headers.get('user-agent') || 'unknown'
 
     // Verify reCAPTCHA (if configured)
+    let recaptchaScore: number | undefined
     if (isReCaptchaConfigured()) {
       console.log('[API /auth/signin] Verifying reCAPTCHA')
       const recaptchaResult = await verifyReCaptcha(recaptchaToken, 'signin')
+      recaptchaScore = recaptchaResult.score
 
       if (!recaptchaResult.success) {
         console.warn('[API /auth/signin] reCAPTCHA failed:', recaptchaResult.error)
@@ -400,6 +402,10 @@ export async function POST(request: NextRequest) {
             displayName: userData.displayName || userRecord.displayName,
           },
           redirectTo: '/dashboard',
+          recaptcha: recaptchaScore !== undefined ? {
+            verified: true,
+            score: recaptchaScore,
+          } : undefined,
         },
         { 
           status: 200,

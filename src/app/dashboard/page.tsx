@@ -366,6 +366,30 @@ function DashboardContent() {
     }
   }, [searchParams, showToast])
 
+  // Display reCAPTCHA verification result from signin/signup
+  useEffect(() => {
+    const recaptchaResult = sessionStorage.getItem('recaptcha_result')
+    if (recaptchaResult) {
+      try {
+        const result = JSON.parse(recaptchaResult)
+        // Only show if recent (within 30 seconds)
+        if (Date.now() - result.timestamp < 30000) {
+          const status = result.score >= 0.7 ? 'Human (high confidence)' :
+                        result.score >= 0.5 ? 'Human (medium confidence)' : 'Suspicious'
+          console.log('%c[reCAPTCHA] ✓ Verification successful', 'color: #22c55e; font-weight: bold', {
+            action: result.action,
+            score: result.score,
+            status
+          })
+        }
+      } catch (e) {
+        // Ignore parse errors
+      }
+      // Clear after displaying
+      sessionStorage.removeItem('recaptcha_result')
+    }
+  }, [])
+
   // Handle auth state and redirects
   useEffect(() => {
     // Only process after auth has loaded

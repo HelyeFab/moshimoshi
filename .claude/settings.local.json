@@ -132,7 +132,8 @@
       "Bash(npm ls:*)",
       "Bash(timeout 90 bash:*)",
       "Bash(npm test:*)",
-      "Bash(src/styles/globals.css)"
+      "Bash(src/styles/globals.css)",
+      "Bash(timeout 60 vercel logs:*)"
     ],
     "deny": [],
     "ask": []
