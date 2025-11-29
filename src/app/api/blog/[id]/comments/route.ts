@@ -8,10 +8,10 @@ import DOMPurify from 'isomorphic-dompurify';
 // GET /api/blog/[id]/comments - Get all comments for a blog post
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const postId = params.id;
+    const { id: postId } = await params;
 
     // Get all comments for this post and filter/sort client-side to avoid index requirement
     const commentsSnapshot = await adminDb
@@ -53,13 +53,13 @@ export async function GET(
 // POST /api/blog/[id]/comments - Create a new comment
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Require authentication
     const session = await requireAuth();
 
-    const postId = params.id;
+    const { id: postId } = await params;
     const body = await request.json();
 
     // Validate content

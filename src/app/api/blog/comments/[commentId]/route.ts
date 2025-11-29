@@ -7,13 +7,13 @@ import DOMPurify from 'isomorphic-dompurify';
 // PATCH /api/blog/comments/[commentId] - Update a comment
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { commentId: string } }
+  { params }: { params: Promise<{ commentId: string }> }
 ) {
   try {
     // Require authentication
     const session = await requireAuth();
 
-    const commentId = params.commentId;
+    const { commentId } = await params;
     const body = await request.json();
 
     // Validate content
@@ -119,13 +119,13 @@ export async function PATCH(
 // DELETE /api/blog/comments/[commentId] - Delete a comment
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { commentId: string } }
+  { params }: { params: Promise<{ commentId: string }> }
 ) {
   try {
     // Require authentication
     const session = await requireAuth();
 
-    const commentId = params.commentId;
+    const { commentId } = await params;
 
     // Get comment
     const commentRef = adminDb.collection('blogComments').doc(commentId);
