@@ -1,0 +1,417 @@
+version: "1.0"
+
+metadata:
+  name: "TypeScript Error Fixing Context"
+  id: "moshimoshi-typescript-fixing-v1.0"
+  role: "Guide future AI agents working on TypeScript error remediation"
+  created: "2025-11-30"
+  updated: "2025-11-30"
+  owner: "beano"
+  project: "Moshimoshi Japanese Learning Platform"
+  tags:
+    - "typescript"
+    - "type-safety"
+    - "error-fixing"
+    - "next-js"
+    - "firebase"
+    - "stripe"
+
+project_overview:
+  name: "Moshimoshi"
+  description: "Japanese learning platform with drills, reviews, gamification, and premium features"
+  tech_stack:
+    framework: "Next.js 15.5.2"
+    language: "TypeScript"
+    database: "Firebase/Firestore"
+    auth: "Firebase Auth + Custom JWT Sessions"
+    payments: "Stripe"
+    state: "Zustand + React Query"
+    offline: "IndexedDB + Service Workers"
+    styling: "Tailwind CSS"
+
+task:
+  name: "TypeScript Error Remediation"
+  goal: "Eliminate TypeScript errors while preserving existing behaviour"
+  status: "IN PROGRESS"
+
+  current_state:
+    total_files_with_errors: 386
+    test_files_excluded: true
+    build_config: "ignoreBuildErrors: true (temporary)"
+    error_tracking_doc: "docs/TYPESCRIPT_ERRORS_FILES.md"
+
+  priority_files:
+    stripe_routes:
+      description: "Payment processing - fix first"
+      files:
+        - path: "src/app/api/admin/stripe/cleanup/route.ts"
+          purpose: "Admin Stripe cleanup operations"
+        - path: "src/app/api/admin/stripe/test-renewal/route.ts"
+          purpose: "Admin Stripe renewal testing"
+        - path: "src/app/api/stripe/create-checkout-session/route.ts"
+          purpose: "Checkout session creation for subscriptions"
+        - path: "src/app/api/stripe/donate/route.ts"
+          purpose: "Donation processing"
+
+core_principles:
+  do:
+    understand_before_changing:
+      - "Read the function/module to understand its purpose"
+      - "Identify connections: imports, consumers, API routes, Firestore usage, hooks"
+      - "Read related files if necessary (shared types, services, hooks, converters)"
+
+    preserve_behaviour:
+      - "Assume current runtime behaviour is intentional unless documented as a bug"
+      - "Refactor types in a way that keeps the same observable behaviour"
+      - "If tests exist, they should continue to pass"
+
+    make_minimal_changes:
+      - "Prefer small, surgical fixes over large refactors"
+      - "Keep refactors well-scoped and well-reasoned"
+      - "Explain changes in comments or commit messages"
+
+    use_typescript_properly:
+      - "Narrow types with runtime guards"
+      - "Add proper interfaces and type definitions"
+      - "Use Firestore converters for typed collections"
+      - "Create API response types"
+
+    be_explicit_about_risk:
+      - "Add runtime checks for assumptions"
+      - "Comment assumptions and why they're safe"
+
+    test_every_change:
+      - "Run type-check: npm run type-check (or npx tsc --noEmit)"
+      - "Run tests if available: npm test"
+      - "Describe flows for manual smoke-testing"
+
+    think_app_wide:
+      - "Ask: Who else imports this type/function?"
+      - "Ask: Does this change affect public APIs, shared models, or global state?"
+      - "Verify all usages when adjusting shared types"
+
+  dont:
+    blind_fixes:
+      - "Don't slap 'any' on values just to silence errors"
+      - "Don't add '!' non-null assertions without justification"
+      - "Don't cast everything to 'unknown' and back"
+
+    change_business_logic:
+      - "Don't modify business rules"
+      - "Don't change entitlement logic"
+      - "Don't alter review engine behaviour"
+      - "Don't touch auth flows"
+      - "Don't modify payment/subscription logic"
+      - "Exception: Only if explicitly requested"
+
+    break_shared_types:
+      - "Don't change public/shared types without checking all usages"
+      - "Don't introduce breaking changes without justification"
+
+preferred_fix_patterns:
+  narrowing:
+    description: "Use type narrowing instead of assertions"
+    example: |
+      // BAD
+      const user = data as User;
+
+      // GOOD
+      if (!data || typeof data.id !== 'string') {
+        throw new Error('Invalid user data');
+      }
+      const user: User = data;
+
+  optional_handling:
+    description: "Properly handle optional values"
+    example: |
+      // BAD
+      const name = user.profile!.name;
+
+      // GOOD
+      const name = user.profile?.name ?? 'Anonymous';
+
+  runtime_guards:
+    description: "Add runtime checks before using values"
+    example: |
+      // BAD
+      return NextResponse.json({ data: result as any });
+
+      // GOOD
+      if (!result || !isValidResult(result)) {
+        return NextResponse.json({ error: 'Invalid result' }, { status: 500 });
+      }
+      return NextResponse.json({ data: result });
+
+  proper_interfaces:
+    description: "Define interfaces for data shapes"
+    example: |
+      // BAD
+      const handleData = (data: any) => { ... }
+
+      // GOOD
+      interface UserData {
+        id: string;
+        email: string;
+        profile?: UserProfile;
+      }
+      const handleData = (data: UserData) => { ... }
+
+  firestore_converters:
+    description: "Use typed Firestore converters"
+    example: |
+      const userConverter: FirestoreDataConverter<User> = {
+        toFirestore: (user: User) => ({ ...user }),
+        fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as User
+      };
+
+workflow_per_error:
+  step_1_identify:
+    name: "Identify the error"
+    actions:
+      - "Copy the exact TypeScript error message(s)"
+      - "Note the file and line(s) involved"
+
+  step_2_understand:
+    name: "Understand the context"
+    actions:
+      - "Describe what this piece of code is responsible for"
+      - "Identify dependencies: imported types/functions"
+      - "Note external services: Firestore, API routes, Auth, Stripe"
+
+  step_3_analyse:
+    name: "Analyse the root cause"
+    causes:
+      - "Missing or wrong type definition"
+      - "Optional value not handled"
+      - "Incorrect assumption about external data"
+      - "Mis-typed Firestore / API response"
+      - "Incorrect generic usage"
+
+  step_4_plan:
+    name: "Propose a plan (minimal and safe)"
+    examples:
+      - "Add a UserProfile interface and use it in this hook"
+      - "Narrow the type based on runtime checks"
+      - "Introduce a Firestore converter for this collection"
+      - "Make this prop optional and handle the undefined case"
+
+  step_5_implement:
+    name: "Implement the fix"
+    guidelines:
+      - "Apply minimal code changes needed"
+      - "Avoid any or ! unless fully justified"
+      - "Keep logic identical; only typing/guards should change"
+
+  step_6_verify:
+    name: "Verify and test"
+    actions:
+      - "Run TypeScript type-check"
+      - "Run tests"
+      - "Confirm no new errors introduced"
+      - "Suggest manual flows to smoke-test if relevant"
+
+  step_7_summarise:
+    name: "Summarise why the fix is safe"
+    example: |
+      "This change only adds stricter types and runtime checks;
+      core logic, data shape, and behaviour remain unchanged."
+
+  step_8_update_tracking:
+    name: "Update the error tracking document"
+    actions:
+      - "Open docs/TYPESCRIPT_ERRORS_FILES.md"
+      - "Mark the fixed file(s) as complete (strikethrough or move to Fixed section)"
+      - "Update the count in the summary table"
+      - "Add date: e.g., '~~src/app/api/stripe/donate/route.ts~~ (Fixed 2025-11-30)'"
+    why: "Prevents future agents from duplicating work on already-fixed files"
+
+output_format:
+  description: "For each error group, output using this structure"
+  template: |
+    ## File(s): path/to/file.tsx, path/to/related.ts
+
+    ### Error(s):
+    - TSxxxx: <full error message>
+
+    ### Context Summary:
+    What this code does and how it fits in the app.
+
+    ### Root Cause:
+    Why the type error is happening.
+
+    ### Plan:
+    Short, clear description of the fix.
+
+    ### Changes Made:
+    - Bullet list of the main code changes.
+
+    ### Testing:
+    - `npm run type-check`: Pass/Fail
+    - `npm test`: Pass/Fail (with notes)
+    - Suggested manual checks
+
+    ### Safety Notes:
+    Why this is safe and how behaviour is unchanged.
+
+error_categories:
+  api_routes:
+    count: 117
+    common_issues:
+      - "Request/Response typing"
+      - "Firebase Admin SDK types"
+      - "Session/auth context types"
+      - "Dynamic route params"
+
+  pages:
+    count: 75
+    common_issues:
+      - "Props typing"
+      - "Server component vs client component"
+      - "Dynamic params (Next.js 15 changes)"
+      - "Metadata types"
+
+  components:
+    count: 64
+    common_issues:
+      - "Props interfaces"
+      - "Event handler types"
+      - "Ref types"
+      - "Children types"
+
+  library:
+    count: 80
+    common_issues:
+      - "Service class types"
+      - "Firestore document types"
+      - "Generic constraints"
+      - "Module exports"
+
+  hooks:
+    count: 18
+    common_issues:
+      - "Return type inference"
+      - "Dependency types"
+      - "Generic hook parameters"
+
+commands:
+  type_check:
+    command: "npx tsc --noEmit"
+    description: "Run TypeScript compiler without emitting files"
+    timeout: "May take 2-3 minutes"
+
+  count_errors:
+    command: "npx tsc --noEmit 2>&1 | grep -E '^src/.*error TS' | grep -v '\\.test\\.' | grep -v '\\.spec\\.' | grep -v '__tests__' | wc -l"
+    description: "Count non-test TypeScript errors"
+
+  errors_by_file:
+    command: "npx tsc --noEmit 2>&1 | grep -E '^src/.*error TS' | grep -v '\\.test\\.' | sed 's/(.*//'' | sort | uniq -c | sort -rn | head -30"
+    description: "Top 30 files with most errors"
+
+  build:
+    command: "npm run build"
+    description: "Run production build (will fail if ignoreBuildErrors: false)"
+
+  dev:
+    command: "npm run dev"
+    description: "Run dev server (errors show as warnings, app still runs)"
+
+key_files:
+  config:
+    - path: "next.config.ts"
+      purpose: "Next.js configuration including ignoreBuildErrors setting"
+      key_settings:
+        - "typescript.ignoreBuildErrors: true/false"
+        - "eslint.ignoreDuringBuilds: true/false"
+
+    - path: "tsconfig.json"
+      purpose: "TypeScript compiler configuration"
+
+  error_tracking:
+    - path: "docs/TYPESCRIPT_ERRORS_FILES.md"
+      purpose: "List of all files with TypeScript errors - MUST BE KEPT UP TO DATE"
+      sections:
+        - "Summary by category"
+        - "Priority files (Stripe)"
+        - "Files organized by directory"
+      maintenance:
+        - "CRITICAL: Update this document after fixing errors in any file"
+        - "Mark fixed files with strikethrough or move to 'Fixed' section"
+        - "Update the counts in the summary table"
+        - "Add date and brief note when marking as fixed"
+        - "This prevents future agents from working on already-fixed files"
+
+  shared_types:
+    - path: "src/lib/firebase/admin.ts"
+      purpose: "Firebase Admin SDK exports"
+
+    - path: "src/lib/admin/adminAuth.ts"
+      purpose: "Admin authentication wrapper"
+
+    - path: "src/lib/auth.ts"
+      purpose: "Authentication utilities"
+
+common_patterns_in_codebase:
+  api_route_pattern:
+    description: "Standard API route structure"
+    example: |
+      import { NextRequest, NextResponse } from 'next/server';
+      import { withAuth } from '@/lib/auth';
+
+      export const GET = withAuth(async (request: NextRequest, context: any) => {
+        // Handler logic
+        return NextResponse.json({ data });
+      });
+
+  firestore_query_pattern:
+    description: "Firestore query with typing"
+    example: |
+      const snapshot = await adminDb!.collection('users').doc(uid).get();
+      const userData = snapshot.data() as UserData | undefined;
+      if (!userData) {
+        return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      }
+
+  hook_pattern:
+    description: "Custom hook structure"
+    example: |
+      export function useMyHook(): MyHookReturn {
+        const [data, setData] = useState<DataType | null>(null);
+        // Hook logic
+        return { data, ... };
+      }
+
+important_notes:
+  user_preferences:
+    - "User prefers facts over hypotheses - investigate first"
+    - "Always verify the fix doesn't change behaviour"
+    - "Prefer quality and correctness over speed"
+    - "Document reasoning for each fix"
+
+  architectural_decisions:
+    - "Server-side auth only with Firebase Admin SDK"
+    - "JWT sessions in Redis with 24hr expiry"
+    - "IndexedDB for offline session storage"
+    - "Both free and premium users save to Firebase (for leaderboard)"
+
+  do_not_modify:
+    - "Business rules and entitlement logic"
+    - "Payment/subscription flows"
+    - "Auth flows and session handling"
+    - "Review engine core algorithm"
+    - "Gamification XP/streak calculations"
+
+success_criteria:
+  per_fix:
+    - "Error is resolved"
+    - "No new errors introduced"
+    - "Tests still pass"
+    - "Behaviour is unchanged"
+    - "Fix is documented"
+    - "docs/TYPESCRIPT_ERRORS_FILES.md is updated (file marked as fixed)"
+
+  overall:
+    - "Reduce error count progressively"
+    - "Priority files (Stripe) fixed first"
+    - "docs/TYPESCRIPT_ERRORS_FILES.md stays accurate and up-to-date"
+    - "Eventually set ignoreBuildErrors: false"
+    - "Clean production build"

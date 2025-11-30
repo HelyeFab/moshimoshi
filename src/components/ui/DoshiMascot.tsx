@@ -5,20 +5,23 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
 // Dynamically import Lottie to avoid SSR issues
-const Lottie = dynamic(() => import('lottie-react'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center">
-      <Image
-        src="/doshi.png"
-        alt="Doshi Loading..."
-        width={64}
-        height={64}
-        className="opacity-50"
-      />
-    </div>
-  )
-});
+const Lottie = dynamic(
+  () => import('lottie-react').then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center">
+        <Image
+          src="/doshi.png"
+          alt="Doshi Loading..."
+          width={64}
+          height={64}
+          className="opacity-50"
+        />
+      </div>
+    )
+  }
+);
 
 interface DoshiMascotProps {
   variant?: 'static' | 'animated' | 'auto';
