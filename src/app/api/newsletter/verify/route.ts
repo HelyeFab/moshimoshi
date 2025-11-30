@@ -63,6 +63,12 @@ export async function GET(request: NextRequest) {
         .update(normalizedEmail)
         .digest('hex')
 
+      if (!adminDb) {
+        const errorUrl = new URL('/newsletter/verify-error', request.url)
+        errorUrl.searchParams.set('code', 'DATABASE_ERROR')
+        return NextResponse.redirect(errorUrl, { status: 302, headers: getSecurityHeaders() })
+      }
+
       // Get subscriber document
       const subscriberRef = adminDb.collection('newsletterSubscribers').doc(emailHash)
       const subscriberDoc = await subscriberRef.get()

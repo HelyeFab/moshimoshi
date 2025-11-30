@@ -7,6 +7,7 @@ export interface AdminContext {
     email: string;
     isAdmin: boolean;
   };
+  params?: Record<string, string>;
 }
 
 /**
@@ -16,7 +17,7 @@ export interface AdminContext {
 export function withAdminAuth(
   handler: (request: NextRequest, context: AdminContext) => Promise<NextResponse>
 ) {
-  return async (request: NextRequest) => {
+  return async (request: NextRequest, routeContext?: { params?: Promise<Record<string, string>> | Record<string, string> }) => {
     try {
       // Get the authorization header
       const authHeader = request.headers.get('authorization');
@@ -56,12 +57,21 @@ export function withAdminAuth(
         );
       }
 
+      // Resolve params (Next.js 15 makes params a Promise)
+      let resolvedParams: Record<string, string> | undefined;
+      if (routeContext?.params) {
+        resolvedParams = routeContext.params instanceof Promise
+          ? await routeContext.params
+          : routeContext.params;
+      }
+
       const context: AdminContext = {
         user: {
           uid: decodedToken.uid,
           email: decodedToken.email || '',
           isAdmin: true
-        }
+        },
+        params: resolvedParams
       };
 
       return handler(request, context);
@@ -131,6 +141,9 @@ export async function setAdminClaim(
   uid: string,
   isAdmin: boolean = true
 ): Promise<void> {
+  if (!adminAuth) {
+    throw new Error('Firebase Admin Auth not initialized');
+  }
   try {
     await adminAuth.setCustomUserClaims(uid, { admin: isAdmin });
     console.log(`Admin claim ${isAdmin ? 'set' : 'removed'} for user ${uid}`);

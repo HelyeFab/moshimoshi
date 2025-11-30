@@ -15,6 +15,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No active session' }, { status: 401 });
     }
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+    }
+
     // Get fresh user data from Firestore
     const userDoc = await adminDb.collection('users').doc(currentSession.uid).get();
     const userData = userDoc.data();

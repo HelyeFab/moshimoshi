@@ -22,6 +22,13 @@ export async function POST(request: NextRequest) {
     if (!targetUserId && stripeCustomerId) {
       console.log(`[Invalidate Tier Cache] Looking up userId for Stripe customer: ${stripeCustomerId}`);
 
+      if (!adminDb) {
+        return NextResponse.json({
+          success: false,
+          error: 'Database not initialized'
+        }, { status: 500 });
+      }
+
       // Query Firestore for user with this Stripe customer ID
       const usersSnapshot = await adminDb
         .collection('users')

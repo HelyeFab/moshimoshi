@@ -7,16 +7,19 @@
 
 ## Universal Review Engine Specialist Knowledge
 
-### Architecture (71 files, 12 modules)
+### Architecture (100 files, 15 modules)
 ```
 /src/lib/review-engine/
 ├── core/           # Types: ReviewableContent, ReviewSession interfaces
 ├── adapters/       # Content transformation (Registry pattern)
-├── srs/           # SM-2 algorithm (<10ms performance)
+├── srs/           # SM-2+ algorithm (<10ms, interval randomization, overdue bonus)
 ├── session/       # Event-driven lifecycle management
 ├── validation/    # Multi-strategy with fuzzy matching
 ├── offline/       # IndexedDB + circuit breaker sync
 ├── queue/         # Smart prioritization algorithm
+├── progress/      # Progress tracking & Learning Village sync
+├── pinning/       # Content pinning & release scheduling
+├── resilience/    # Retry manager & resilient API client
 └── __tests__/     # 80%+ coverage requirement
 ```
 
@@ -49,7 +52,7 @@ src/components/review-engine/ReviewEngine.tsx:156 // Main component
 src/hooks/useReviewEngine.ts:89                  // React hook
 ```
 
-### SRS Algorithm Configuration
+### SRS Algorithm Configuration (SM-2+ Enhanced)
 ```typescript
 const SRS_CONFIG = {
   initialEaseFactor: 2.5,
@@ -63,6 +66,11 @@ const SRS_CONFIG = {
 
 // State flow: NEW → LEARNING → REVIEW → MASTERED
 // Mastery: 21+ days with 90% accuracy
+
+// SM2+ Enhancements:
+// - Interval Randomization: ±5% to prevent batch review syndrome
+// - Overdue Bonus: +20-50% interval for items 7+ days overdue
+// - Leech Detection UI: Visual indicator for items with 8+ failures
 ```
 
 ### Queue Prioritization Algorithm

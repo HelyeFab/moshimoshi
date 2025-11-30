@@ -18,12 +18,25 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
     const handleUpdate = () => {
       setUpdateAvailable(true);
 
+      // Use fallbacks in case i18n isn't ready yet (t() returns the key if not found)
+      const titleKey = 'pwa.updateAvailable';
+      const descKey = 'pwa.updateDescription';
+      const btnKey = 'pwa.updateNow';
+
+      const titleResult = t(titleKey);
+      const descResult = t(descKey);
+      const btnResult = t(btnKey);
+
+      const title = titleResult !== titleKey ? titleResult : 'Update available';
+      const description = descResult !== descKey ? descResult : 'A new version is available. Update now for the latest features.';
+      const buttonLabel = btnResult !== btnKey ? btnResult : 'Update Now';
+
       showToast(
-        `${t('pwa.updateAvailable')}: ${t('pwa.updateDescription')}`,
+        `${title}: ${description}`,
         'info',
         0, // Duration 0 keeps it visible
         {
-          label: t('pwa.updateNow'),
+          label: buttonLabel,
           onClick: () => {
             skipWaiting();
           }

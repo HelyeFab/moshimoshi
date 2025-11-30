@@ -32,7 +32,8 @@ import {
   RotateCcw,
   Library,
   FileText,
-  CheckSquare
+  CheckSquare,
+  Settings
 } from 'lucide-react'
 import {
   RiTextSpacing,
@@ -236,9 +237,22 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
         router.push('/account')
         setIsOpen(false)
       },
-      keywords: ['profile', 'account', 'settings', 'user'],
+      keywords: ['profile', 'account', 'user'],
       category: 'account',
       shortcut: 'g p'
+    },
+    {
+      id: 'settings',
+      title: 'Settings',
+      subtitle: 'App preferences & notifications',
+      icon: <Settings className="w-5 h-5" />,
+      action: () => {
+        router.push('/settings')
+        setIsOpen(false)
+      },
+      keywords: ['settings', 'preferences', 'notifications', 'theme', 'language', '設定'],
+      category: 'account',
+      shortcut: 'g ,'
     },
     // Quick actions
     {

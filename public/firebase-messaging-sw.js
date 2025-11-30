@@ -6,15 +6,15 @@ importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js'
 importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js');
 
 // Firebase configuration
-// These values should match your Firebase project config
+// These values MUST match your Firebase project config in .env.local
 const firebaseConfig = {
-  apiKey: "AIzaSyDqGAw33T_OgeAPZvb7uz4Y_QzIBSdPJzE",
-  authDomain: "moshimoshi-a7611.firebaseapp.com",
-  projectId: "moshimoshi-a7611",
-  storageBucket: "moshimoshi-a7611.firebasestorage.app",
-  messagingSenderId: "940135043128",
-  appId: "1:940135043128:web:6f1e1bec913fb332c6c5e8",
-  measurementId: "G-82Y5GLZZZN"
+  apiKey: "AIzaSyBnW_0IiEr3ju05xPdf6-lWcQOsXbbAUAY",
+  authDomain: "moshimoshi-de237.firebaseapp.com",
+  projectId: "moshimoshi-de237",
+  storageBucket: "moshimoshi-de237.firebasestorage.app",
+  messagingSenderId: "617419549071",
+  appId: "1:617419549071:web:3b68066b3d6d2ed99b83fa",
+  measurementId: "G-MB4E8TTWL4"
 };
 
 // Initialize Firebase app
@@ -257,6 +257,67 @@ function trackEvent(eventName, eventData) {
     console.error('[FCM SW] Failed to track event:', error);
   });
 }
+
+// Handle push events directly (fallback if onBackgroundMessage doesn't fire)
+self.addEventListener('push', (event) => {
+  console.log('[FCM SW] Push event received:', event);
+
+  if (event.data) {
+    event.waitUntil(
+      (async () => {
+        try {
+          // Check if any client window is visible (app in foreground)
+          const clientList = await clients.matchAll({
+            type: 'window',
+            includeUncontrolled: true
+          });
+
+          const isAppInForeground = clientList.some(client =>
+            client.visibilityState === 'visible'
+          );
+
+          if (isAppInForeground) {
+            console.log('[FCM SW] App is in foreground, skipping SW notification (handled by onMessage)');
+            return;
+          }
+
+          const payload = event.data.json();
+          console.log('[FCM SW] Push payload:', payload);
+
+          // Check if this is an FCM message
+          if (payload.notification || payload.data) {
+            const notification = payload.notification || {};
+            const data = payload.data || {};
+
+            const title = notification.title || data.title || 'Moshimoshi';
+            const body = notification.body || data.body || 'You have a new notification';
+            const icon = notification.icon || data.icon || '/icons/icon-192x192.png';
+
+            const options = {
+              body,
+              icon,
+              badge: '/icons/icon-72x72.png',
+              data: {
+                ...data,
+                FCM_MSG: payload,
+                timestamp: Date.now()
+              },
+              vibrate: [200, 100, 200],
+              tag: 'fcm-push',
+              renotify: true,
+              requireInteraction: true
+            };
+
+            console.log('[FCM SW] Showing notification:', title, options);
+            await self.registration.showNotification(title, options);
+          }
+        } catch (e) {
+          console.error('[FCM SW] Error parsing push data:', e);
+        }
+      })()
+    );
+  }
+});
 
 // Handle service worker installation
 self.addEventListener('install', (event) => {

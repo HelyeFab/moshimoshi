@@ -22,6 +22,10 @@ export async function GET(request: NextRequest) {
 
     console.log('[Gamification Load] Fetching data for user:', userId)
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 })
+    }
+
     // Fetch user's gamification data from user_stats collection
     const userStatsRef = adminDb.collection('user_stats').doc(userId)
     const userStatsDoc = await userStatsRef.get()

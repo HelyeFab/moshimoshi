@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Bell, BellOff, X, Clock, Check, AlertCircle } from 'lucide-react'
+import { Bell, BellOff, X, Clock, Check, AlertCircle, Send, Loader2 } from 'lucide-react'
 import { notificationManager, QuietHours } from '@/lib/pwa/notifications'
 import { useI18n } from '@/i18n/I18nContext'
 import { canCurrentUser } from '@/lib/pwa/entitlements'
+import { usePushNotifications } from '@/hooks/usePushNotifications'
 
 export function NotificationPermissionFlow() {
   const { t } = useI18n()
@@ -13,6 +14,11 @@ export function NotificationPermissionFlow() {
   const [showSettings, setShowSettings] = useState(false)
   const [quietHours, setQuietHours] = useState<QuietHours | null>(null)
   const [requesting, setRequesting] = useState(false)
+  const [testingPush, setTestingPush] = useState(false)
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null)
+
+  // FCM push notifications hook
+  const { initialize: initializePush, isInitialized: isPushInitialized } = usePushNotifications()
 
   useEffect(() => {
     // Check if user can use notifications
@@ -40,12 +46,15 @@ export function NotificationPermissionFlow() {
     setRequesting(true)
     const result = await notificationManager.requestPermission()
     setPermission(result)
-    setRequesting(false)
 
     if (result === 'granted') {
+      // Initialize FCM push notifications
+      await initializePush()
       setShowPrompt(false)
       setShowSettings(true)
     }
+
+    setRequesting(false)
   }
 
   const handleDismiss = () => {
@@ -58,6 +67,49 @@ export function NotificationPermissionFlow() {
     const success = await notificationManager.sendTestNotification()
     if (!success && permission === 'default') {
       setShowPrompt(true)
+    }
+  }
+
+  // Test server-side push notification (FCM)
+  const handleTestPushNotification = async () => {
+    setTestingPush(true)
+    setTestResult(null)
+
+    try {
+      const response = await fetch('/api/notifications/test', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          channel: 'push',
+          type: 'review_due',
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.results?.push?.success) {
+        setTestResult({
+          success: true,
+          message: t('pwa.notifications.test.success') || 'Push notification sent! Check your device.',
+        })
+      } else {
+        const errorMsg = data.results?.push?.error || data.error || 'Failed to send'
+        setTestResult({
+          success: false,
+          message: errorMsg,
+        })
+      }
+    } catch (error) {
+      setTestResult({
+        success: false,
+        message: error instanceof Error ? error.message : 'Network error',
+      })
+    } finally {
+      setTestingPush(false)
+      // Clear result after 5 seconds
+      setTimeout(() => setTestResult(null), 5000)
     }
   }
 
@@ -212,13 +264,57 @@ export function NotificationPermissionFlow() {
               )}
             </div>
 
-            {/* Test notification button */}
-            <button
-              onClick={handleTestNotification}
-              className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm font-medium"
-            >
-              {t('pwa.notifications.test.button')}
-            </button>
+            {/* Test notification buttons */}
+            <div className="space-y-2">
+              <button
+                onClick={handleTestNotification}
+                className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm font-medium"
+              >
+                {t('pwa.notifications.test.button')}
+              </button>
+
+              {/* Server-side Push Test (FCM) */}
+              <button
+                onClick={handleTestPushNotification}
+                disabled={testingPush}
+                className="w-full px-4 py-2 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 text-white rounded-lg transition-colors text-sm font-medium flex items-center justify-center gap-2"
+              >
+                {testingPush ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    {t('common.processing') || 'Sending...'}
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    {t('pwa.notifications.test.pushButton') || 'Test Server Push (FCM)'}
+                  </>
+                )}
+              </button>
+
+              {/* Test result feedback */}
+              {testResult && (
+                <div
+                  className={`p-2 rounded-lg text-xs ${
+                    testResult.success
+                      ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+                      : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'
+                  }`}
+                >
+                  {testResult.success ? (
+                    <div className="flex items-center gap-1">
+                      <Check className="w-3 h-3" />
+                      {testResult.message}
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {testResult.message}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

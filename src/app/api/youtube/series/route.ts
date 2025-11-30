@@ -3,6 +3,10 @@ import { adminFirestore as adminDb } from '@/lib/firebase/admin';
 
 export async function GET(request: NextRequest) {
   try {
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+    }
+
     // Load all channels and filter in memory to avoid index requirement
     const channelsSnapshot = await adminDb
       .collection('youtubeChannels')

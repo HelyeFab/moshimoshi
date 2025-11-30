@@ -47,6 +47,13 @@ export async function POST(request: NextRequest) {
       .update(normalizedEmail)
       .digest('hex');
 
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: { code: 'INTERNAL_ERROR', message: 'Database not available' } },
+        { status: 500 }
+      );
+    }
+
     const subscriberRef = adminDb.collection('newsletterSubscribers').doc(emailHash);
     const subscriberDoc = await subscriberRef.get();
 

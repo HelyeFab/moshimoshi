@@ -4,6 +4,19 @@ import { Timestamp } from 'firebase-admin/firestore';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
+    // Check if adminDb is available
+    if (!adminDb) {
+      console.warn('adminDb not available for sitemap generation');
+      return [
+        {
+          url: 'https://moshimoshi.app/blog',
+          lastModified: new Date(),
+          changeFrequency: 'daily',
+          priority: 0.9,
+        },
+      ];
+    }
+
     // Fetch all published blog posts
     const postsSnapshot = await adminDb
       .collection('blogPosts')

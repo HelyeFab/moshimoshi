@@ -296,6 +296,7 @@ export async function logAuthAttempt(
     email?: string
     method?: 'email' | 'google' | 'magic_link'
     reason?: string
+    recaptchaScore?: number
   } = {},
   outcome: 'success' | 'failure' = 'success'
 ): Promise<void> {
@@ -303,6 +304,7 @@ export async function logAuthAttempt(
     email: details.email,
     authMethod: details.method,
     failureReason: details.reason,
+    recaptchaScore: details.recaptchaScore,
   }, outcome)
 }
 

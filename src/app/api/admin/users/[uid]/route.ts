@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withAdminAuth } from '@/lib/admin/adminAuth';
+import { withAdminAuth, AdminContext } from '@/lib/admin/adminAuth';
 import { adminDb, adminAuth } from '@/lib/firebase/admin';
 import { getUserOverrides } from '@/lib/entitlements/adminEvaluator';
 
@@ -13,16 +13,23 @@ import { getUserOverrides } from '@/lib/entitlements/adminEvaluator';
  * - Recent activity
  */
 export const GET = withAdminAuth(async (
-  request: NextRequest, 
-  context: { params: { uid: string }, user: any }
+  request: NextRequest,
+  context: AdminContext
 ) => {
   try {
-    const { uid } = context.params;
+    const uid = context.params?.uid;
 
     if (!uid) {
       return NextResponse.json(
         { error: 'User ID is required' },
         { status: 400 }
+      );
+    }
+
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
       );
     }
 
@@ -41,7 +48,9 @@ export const GET = withAdminAuth(async (
     // Get user auth record for additional info
     let authUser;
     try {
-      authUser = await adminAuth.getUser(uid);
+      if (adminAuth) {
+        authUser = await adminAuth.getUser(uid);
+      }
     } catch (error) {
       console.warn('Could not get auth user:', error);
     }
@@ -158,16 +167,23 @@ export const GET = withAdminAuth(async (
  */
 export const PATCH = withAdminAuth(async (
   request: NextRequest,
-  context: { params: { uid: string }, user: any }
+  context: AdminContext
 ) => {
   try {
-    const { uid } = context.params;
+    const uid = context.params?.uid;
     const body = await request.json();
 
     if (!uid) {
       return NextResponse.json(
         { error: 'User ID is required' },
         { status: 400 }
+      );
+    }
+
+    if (!adminDb || !adminAuth) {
+      return NextResponse.json(
+        { error: 'Firebase not initialized' },
+        { status: 500 }
       );
     }
 

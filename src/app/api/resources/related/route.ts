@@ -11,6 +11,10 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ resources: [] });
     }
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+    }
+
     // Fetch related resources in the same category
     let query = adminDb
       .collection('resources')

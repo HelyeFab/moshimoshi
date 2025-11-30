@@ -284,6 +284,10 @@ export async function POST(request: NextRequest) {
       try {
         // Pre-fetch SRS data from Firebase Admin (server-side)
         // This avoids using DrillProgressManager which requires IndexedDB (browser-only)
+        if (!adminDb) {
+          return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+        }
+
         const srsSnapshot = await adminDb
           .collection('users')
           .doc(session.uid)

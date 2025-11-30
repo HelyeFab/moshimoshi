@@ -2,7 +2,7 @@
 // Verifies Google ID tokens and creates sessions
 
 import { NextRequest, NextResponse } from 'next/server'
-import { adminAuth, adminFirestore, ensureAdminInitialized, ensureUserProfile, setAdminClaims, isAdminUser } from '@/lib/firebase/admin'
+import { adminAuth, adminFirestore, ensureAdminInitialized, ensureUserProfile, setAdminClaims, isAdminUser, FieldValue } from '@/lib/firebase/admin'
 import { createSession } from '@/lib/auth/session'
 import { getSecurityHeaders } from '@/lib/auth/validation'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
           photoURL: photoURL || null,
           emailVerified: true, // Both Google and magic link verify email
           authProvider: photoURL ? 'google' : 'magic-link',
-          updatedAt: adminFirestore!.FieldValue.serverTimestamp(),
+          updatedAt: FieldValue.serverTimestamp(),
         }, { merge: true })
     } else {
       // Update last login

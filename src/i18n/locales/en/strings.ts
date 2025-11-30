@@ -348,6 +348,7 @@ export const strings = {
     remove: "Remove",
     back: "Back",
     dismiss: "Dismiss",
+    gotIt: "Got it!",
     enable: "Enable",
     next: "Next",
     previous: "Previous",
@@ -4824,7 +4825,10 @@ export const strings = {
       test: {
         title: "Test Notification",
         body: "This is a test of your notification settings",
-        button: "Send Test"
+        button: "Send Test",
+        pushButton: "Test Server Push (FCM)",
+        success: "Push notification sent! Check your device.",
+        error: "Failed to send push notification"
       }
     },
     badge: {

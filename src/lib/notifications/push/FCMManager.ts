@@ -52,6 +52,11 @@ export class FCMManager {
       this.userId = config.userId || null;
 
       // Initialize Firebase Messaging
+      // Note: app is null on server-side, but this code only runs client-side after isSupported() check
+      if (!app) {
+        console.warn('[FCM] Firebase app not initialized');
+        return false;
+      }
       this.messaging = getMessaging(app);
 
       // Register service workers
@@ -79,6 +84,8 @@ export class FCMManager {
     }
   }
 
+  private fcmServiceWorkerRegistration: ServiceWorkerRegistration | null = null;
+
   /**
    * Register service workers
    */
@@ -88,20 +95,39 @@ export class FCMManager {
     }
 
     try {
-      // Register main service worker
-      const mainSW = await navigator.serviceWorker.register('/sw.js', {
+      // Register main service worker for PWA functionality
+      const mainSW = await navigator.serviceWorker.register('/service-worker.js', {
         scope: '/'
       });
       console.log('[FCM] Main Service Worker registered:', mainSW);
 
-      // Register Firebase messaging service worker
-      const fcmSW = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
-        scope: '/firebase-cloud-messaging-push-scope'
+      // Register Firebase messaging service worker with root scope
+      // IMPORTANT: Must have root scope to receive push notifications
+      this.fcmServiceWorkerRegistration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+        scope: '/'
       });
-      console.log('[FCM] Firebase Messaging SW registered:', fcmSW);
+      console.log('[FCM] Firebase Messaging SW registered:', this.fcmServiceWorkerRegistration);
 
-      // Wait for service workers to be ready
-      await navigator.serviceWorker.ready;
+      // Wait for FCM service worker to be active
+      if (this.fcmServiceWorkerRegistration.installing) {
+        await new Promise<void>((resolve) => {
+          this.fcmServiceWorkerRegistration!.installing!.addEventListener('statechange', (e) => {
+            if ((e.target as ServiceWorker).state === 'activated') {
+              resolve();
+            }
+          });
+        });
+      } else if (this.fcmServiceWorkerRegistration.waiting) {
+        await new Promise<void>((resolve) => {
+          this.fcmServiceWorkerRegistration!.waiting!.addEventListener('statechange', (e) => {
+            if ((e.target as ServiceWorker).state === 'activated') {
+              resolve();
+            }
+          });
+        });
+      }
+
+      console.log('[FCM] Service workers ready');
     } catch (error) {
       console.error('[FCM] Service Worker registration failed:', error);
       throw error;
@@ -124,10 +150,18 @@ export class FCMManager {
         return null;
       }
 
-      // Get FCM token
+      // Ensure we have the FCM service worker registration
+      if (!this.fcmServiceWorkerRegistration) {
+        console.error('[FCM] No FCM service worker registration available');
+        return null;
+      }
+
+      console.log('[FCM] Getting token with SW registration:', this.fcmServiceWorkerRegistration.scope);
+
+      // Get FCM token using the FCM-specific service worker
       const token = await getToken(this.messaging, {
         vapidKey: this.config.vapidKey,
-        serviceWorkerRegistration: await navigator.serviceWorker.ready
+        serviceWorkerRegistration: this.fcmServiceWorkerRegistration
       });
 
       if (token) {
@@ -184,6 +218,10 @@ export class FCMManager {
     }
 
     try {
+      if (!db) {
+        console.warn('[FCM] Firestore not initialized, skipping token save');
+        return;
+      }
       const deviceInfo = this.getDeviceInfo();
       const tokenDoc = doc(db, 'notifications_tokens', this.userId);
 
@@ -241,10 +279,9 @@ export class FCMManager {
       });
       window.dispatchEvent(event);
 
-      // Show notification if page is not visible
-      if (document.hidden) {
-        this.showForegroundNotification(payload);
-      }
+      // Always show notification for foreground messages
+      // This ensures users see push notifications even when the app is open
+      this.showForegroundNotification(payload);
     });
   }
 
@@ -256,16 +293,30 @@ export class FCMManager {
     const { clickAction, ...data } = payload.data || {};
 
     if ('Notification' in window && Notification.permission === 'granted') {
-      const notification = new Notification(title || 'Moshimoshi', {
+      // Extended notification options including image, renotify, and vibrate (supported in modern browsers)
+      // These properties are valid in the Notification API but not in TypeScript's base NotificationOptions
+      interface ExtendedNotificationOptions extends NotificationOptions {
+        image?: string;
+        renotify?: boolean;
+        vibrate?: number[];
+      }
+
+      const notificationOptions: ExtendedNotificationOptions = {
         body: body || 'You have a new notification',
         icon: icon || '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
-        image,
         data,
         tag: 'fcm-foreground',
         renotify: true,
         vibrate: [200, 100, 200]
-      });
+      };
+
+      // Add image if provided (not in base TypeScript types but supported in browsers)
+      if (image) {
+        notificationOptions.image = image;
+      }
+
+      const notification = new Notification(title || 'Moshimoshi', notificationOptions);
 
       notification.onclick = () => {
         window.focus();
@@ -305,7 +356,7 @@ export class FCMManager {
       this.currentToken = null;
 
       // Remove token from Firestore
-      if (this.userId) {
+      if (this.userId && db) {
         const tokenDoc = doc(db, 'notifications_tokens', this.userId);
         await updateDoc(tokenDoc, {
           fcm_token: null,

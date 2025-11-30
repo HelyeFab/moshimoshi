@@ -358,6 +358,7 @@ export const strings = {
     edit: "Editar",
     remove: "Remove",
     back: "Atrás",
+    gotIt: "¡Entendido!",
     next: "Siguiente",
     previous: "Anterior",
     play: "Reproducir",

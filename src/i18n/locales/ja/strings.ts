@@ -358,6 +358,7 @@ export const strings = {
     edit: "編集",
     remove: "Remove",
     back: "戻る",
+    gotIt: "了解！",
     next: "次へ",
     previous: "前へ",
     play: "再生",
@@ -3674,7 +3675,10 @@ export const strings = {
       test: {
         title: "テスト通知",
         body: "通知設定のテストです",
-        button: "テストを送信"
+        button: "テストを送信",
+        pushButton: "サーバープッシュをテスト (FCM)",
+        success: "プッシュ通知を送信しました！デバイスを確認してください。",
+        error: "プッシュ通知の送信に失敗しました"
       }
     },
     badge: {

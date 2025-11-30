@@ -38,6 +38,9 @@ export async function getStorageDecision(session: { uid: string }): Promise<Stor
     )
 
     // Get FRESH user data (never trust cached session.tier)
+    if (!adminDb) {
+      throw new Error('Database not available')
+    }
     const userDoc = await adminDb.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const plan = userData?.subscription?.plan || 'free'

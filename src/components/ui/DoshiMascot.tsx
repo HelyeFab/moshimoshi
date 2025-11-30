@@ -16,6 +16,7 @@ const Lottie = dynamic(
           alt="Doshi Loading..."
           width={64}
           height={64}
+          priority
           className="opacity-50"
         />
       </div>
@@ -190,11 +191,11 @@ export default function DoshiMascot({
 }
 
 // Export a simpler loading version for use in loading states
-export function DoshiLoading({ size = 'small' }: { size?: DoshiMascotProps['size'] }) {
+export function DoshiLoading({ size = 'small', priority = false }: { size?: DoshiMascotProps['size']; priority?: boolean }) {
   const dimension = sizeMap[size];
-  
+
   return (
-    <div 
+    <div
       className="inline-block animate-pulse"
       style={{ width: dimension, height: dimension }}
     >
@@ -203,6 +204,7 @@ export function DoshiLoading({ size = 'small' }: { size?: DoshiMascotProps['size
         alt="Loading..."
         width={dimension}
         height={dimension}
+        priority={priority}
         className="w-full h-full object-contain opacity-50"
       />
     </div>

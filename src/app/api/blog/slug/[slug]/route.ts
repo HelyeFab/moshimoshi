@@ -12,6 +12,13 @@ export async function GET(
     const { slug } = await params
     const session = await getSession()
 
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: { code: 'INTERNAL_ERROR', message: 'Database not available' } },
+        { status: 500 }
+      )
+    }
+
     const postsSnapshot = await adminDb
       .collection('blogPosts')
       .where('slug', '==', slug)

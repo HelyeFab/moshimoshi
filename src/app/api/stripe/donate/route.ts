@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get optional session (donations can be anonymous)
-    const session = await getSession(request);
+    const session = await getSession();
     const userEmail = session?.email;
     const userId = session?.uid;
 

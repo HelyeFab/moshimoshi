@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Get session from cookies instead of Firebase token
-    const session = await getSession(request);
+    const session = await getSession();
 
     if (!session) {
       return NextResponse.json(

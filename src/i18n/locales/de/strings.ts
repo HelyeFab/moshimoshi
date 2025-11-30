@@ -358,6 +358,7 @@ export const strings = {
     edit: "Bearbeiten",
     remove: "Remove",
     back: "Zurück",
+    gotIt: "Verstanden!",
     next: "Weiter",
     previous: "Zurück",
     play: "Abspielen",

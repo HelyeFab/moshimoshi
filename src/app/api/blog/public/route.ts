@@ -15,6 +15,14 @@ export async function GET(request: NextRequest) {
 
     // Get all posts and filter client-side (avoids compound index requirement)
     const now = Timestamp.now()
+
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: { code: 'INTERNAL_ERROR', message: 'Database not available' } },
+        { status: 500 }
+      )
+    }
+
     const postsSnapshot = await adminDb
       .collection('blogPosts')
       .get()

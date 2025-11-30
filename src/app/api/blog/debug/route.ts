@@ -5,6 +5,13 @@ import { Timestamp } from 'firebase-admin/firestore'
 // GET /api/blog/debug - Debug endpoint to see ALL blog posts
 export async function GET(request: NextRequest) {
   try {
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: { code: 'INTERNAL_ERROR', message: 'Database not available' } },
+        { status: 500 }
+      )
+    }
+
     const postsSnapshot = await adminDb
       .collection('blogPosts')
       .get()

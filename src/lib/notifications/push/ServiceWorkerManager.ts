@@ -73,7 +73,7 @@ export class ServiceWorkerManager {
     try {
       console.log('[SWManager] Registering main service worker');
 
-      this.mainSW = await navigator.serviceWorker.register('/sw.js', {
+      this.mainSW = await navigator.serviceWorker.register('/service-worker.js', {
         scope: '/',
         updateViaCache: 'none'
       });
@@ -103,7 +103,7 @@ export class ServiceWorkerManager {
       console.log('[SWManager] Registering FCM service worker');
 
       this.fcmSW = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
-        scope: '/firebase-cloud-messaging-push-scope',
+        scope: '/',
         updateViaCache: 'none'
       });
 

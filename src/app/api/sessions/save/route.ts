@@ -82,6 +82,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Save to user's sessions subcollection
+    if (!adminDb) {
+      console.error('[Sessions API] adminDb not initialized')
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 500 }
+      )
+    }
+
     await adminDb
       .collection('users')
       .doc(session.uid)

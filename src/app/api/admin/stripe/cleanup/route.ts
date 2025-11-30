@@ -95,6 +95,10 @@ export async function POST(request: NextRequest) {
     console.log(`[Admin Cleanup] Found ${invoices.data.length} open invoice(s)`);
 
     for (const invoice of invoices.data) {
+      if (!invoice.id) {
+        console.warn('[Admin Cleanup] Invoice missing ID, skipping');
+        continue;
+      }
       try {
         await stripe.invoices.voidInvoice(invoice.id);
         console.log(`[Admin Cleanup] Voided invoice: ${invoice.id}`);

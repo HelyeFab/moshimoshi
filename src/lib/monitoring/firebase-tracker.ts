@@ -88,6 +88,11 @@ class FirebaseUsageTracker {
       // Import dynamically to avoid circular dependencies
       const { adminDb } = await import('@/lib/firebase/admin')
 
+      if (!adminDb) {
+        console.error('[Monitoring] adminDb not available for violation logging')
+        return
+      }
+
       await adminDb.collection('monitoring_violations').add({
         ...op,
         detectedAt: new Date().toISOString(),

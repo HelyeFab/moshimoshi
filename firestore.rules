@@ -273,6 +273,66 @@ service cloud.firestore {
       allow write: if false; // Only server-side writes
     }
 
+    // Push notification tokens - users can manage their own FCM tokens
+    match /notifications_tokens/{userId} {
+      // Users can read their own token document
+      allow read: if isOwner(userId);
+
+      // Users can create their token document
+      allow create: if isOwner(userId) &&
+        request.resource.data.keys().hasAll(['userId', 'fcm_token']);
+
+      // Users can update their token document
+      allow update: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+
+      // Users can delete their token document (for logout/unsubscribe)
+      allow delete: if isOwner(userId);
+    }
+
+    // Notification preferences - users can manage their own preferences
+    match /notifications_preferences/{userId} {
+      allow read: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+
+      allow update: if isOwner(userId);
+
+      allow delete: if false; // Preferences should not be deleted
+    }
+
+    // Notification queue - scheduled notifications
+    match /notifications_queue/{notificationId} {
+      // Users can read their own scheduled notifications
+      allow read: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+
+      // Users can create scheduled notifications for themselves
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.keys().hasAll(['userId', 'notification', 'scheduledFor', 'status']);
+
+      // Users can update their own scheduled notifications (e.g., cancel)
+      allow update: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow delete: if false; // Don't delete, just update status to cancelled
+    }
+
+    // Notification logs - server writes, users read their own
+    match /notifications_log/{logId} {
+      // Users can read their own notification logs
+      allow read: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+
+      // Only server can write notification logs
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow update, delete: if false; // Logs are immutable
+    }
+
     // Books collection - Published books (public read, admin write via server)
     match /books/{bookId} {
       // Anyone can read published books

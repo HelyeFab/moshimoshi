@@ -39,7 +39,10 @@ export const pwaTranslations = {
         test: {
           title: "テスト通知",
           body: "通知設定のテストです",
-          button: "テストを送信"
+          button: "テストを送信",
+          pushButton: "サーバープッシュをテスト (FCM)",
+          success: "プッシュ通知を送信しました！デバイスを確認してください。",
+          error: "プッシュ通知の送信に失敗しました"
         }
       },
       badge: {
@@ -107,7 +110,10 @@ export const pwaTranslations = {
         test: {
           title: "Notification de test",
           body: "Ceci est un test de vos paramètres de notification",
-          button: "Envoyer un test"
+          button: "Envoyer un test",
+          pushButton: "Tester le push serveur (FCM)",
+          success: "Notification push envoyée ! Vérifiez votre appareil.",
+          error: "Échec de l'envoi de la notification push"
         }
       },
       badge: {
@@ -175,7 +181,10 @@ export const pwaTranslations = {
         test: {
           title: "Notifica di prova",
           body: "Questo è un test delle tue impostazioni di notifica",
-          button: "Invia test"
+          button: "Invia test",
+          pushButton: "Testa push server (FCM)",
+          success: "Notifica push inviata! Controlla il tuo dispositivo.",
+          error: "Invio notifica push fallito"
         }
       },
       badge: {
@@ -243,7 +252,10 @@ export const pwaTranslations = {
         test: {
           title: "Testbenachrichtigung",
           body: "Dies ist ein Test Ihrer Benachrichtigungseinstellungen",
-          button: "Test senden"
+          button: "Test senden",
+          pushButton: "Server-Push testen (FCM)",
+          success: "Push-Benachrichtigung gesendet! Überprüfen Sie Ihr Gerät.",
+          error: "Push-Benachrichtigung konnte nicht gesendet werden"
         }
       },
       badge: {
@@ -311,7 +323,10 @@ export const pwaTranslations = {
         test: {
           title: "Notificación de prueba",
           body: "Esta es una prueba de tu configuración de notificaciones",
-          button: "Enviar prueba"
+          button: "Enviar prueba",
+          pushButton: "Probar push del servidor (FCM)",
+          success: "¡Notificación push enviada! Revisa tu dispositivo.",
+          error: "Error al enviar la notificación push"
         }
       },
       badge: {

@@ -164,7 +164,15 @@ export class SRSAlgorithm {
         result.responseTime
       )
     }
-    
+
+    // Apply overdue bonus for correct answers on long-overdue items (SM2+)
+    if (result.correct && currentSRS.nextReviewAt) {
+      const overdueDays = this.getOverdueDaysFromDate(currentSRS.nextReviewAt)
+      if (overdueDays > 0) {
+        newSRS.interval = this.applyOverdueBonus(newSRS.interval, overdueDays)
+      }
+    }
+
     // Set review dates
     newSRS.lastReviewedAt = nowDate()
     newSRS.nextReviewAt = this.calculateNextReviewDate(newSRS.interval)
@@ -388,10 +396,31 @@ export class SRSAlgorithm {
   }
   
   /**
+   * Apply bonus for correctly answering overdue items (SM2+ enhancement)
+   * If a user correctly recalls a long-overdue item, they likely know it well
+   */
+  private applyOverdueBonus(interval: number, overdueDays: number): number {
+    if (overdueDays < 7) return interval
+    const overdueBonus = 0.2 + Math.min(overdueDays / 30, 0.3) * (overdueDays / 30)
+    return interval * (1 + Math.min(overdueBonus, 0.5))
+  }
+
+  /**
+   * Get overdue days from a date
+   */
+  private getOverdueDaysFromDate(nextReviewAt: Date): number {
+    const now = nowDate()
+    const diff = now.getTime() - new Date(nextReviewAt).getTime()
+    return Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)))
+  }
+
+  /**
    * Calculate next review date from interval
+   * Adds ±5% randomization to prevent batch review syndrome (SM2+ enhancement)
    */
   private calculateNextReviewDate(interval: number): Date {
-    return daysFromNow(interval)
+    const randomFactor = 0.95 + Math.random() * 0.1
+    return daysFromNow(interval * randomFactor)
   }
   
   /**

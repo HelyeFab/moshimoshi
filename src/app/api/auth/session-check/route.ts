@@ -17,6 +17,13 @@ export async function GET(request: NextRequest) {
       }, { status: 401 });
     }
 
+    if (!adminDb) {
+      return NextResponse.json({
+        error: 'Database not initialized',
+        needsRefresh: false
+      }, { status: 500 });
+    }
+
     // Get fresh user data from Firestore
     const userDoc = await adminDb.collection('users').doc(session.uid).get();
     const userData = userDoc.data();

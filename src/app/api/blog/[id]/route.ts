@@ -11,6 +11,13 @@ export async function GET(
     const { id } = await params
     const session = await getSession() // Don't require auth - public can read published posts
 
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: { code: 'INTERNAL_ERROR', message: 'Database not available' } },
+        { status: 500 }
+      )
+    }
+
     const postRef = adminDb.collection('blogPosts').doc(id)
     const postDoc = await postRef.get()
 

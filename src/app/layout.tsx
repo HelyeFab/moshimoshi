@@ -6,6 +6,7 @@ import { I18nProvider } from '@/i18n/I18nContext'
 import { AuthProvider } from '@/hooks/useAuth' // Compatibility wrapper - not actually needed but keeps layout consistent
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
 import { ServiceWorkerProvider } from '@/components/pwa/ServiceWorkerProvider'
+import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt'
 import CelebrationProvider from '@/components/gamification/CelebrationProvider'
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext'
 import { EmailVerificationBanner } from '@/components/EmailVerificationBanner'
@@ -202,6 +203,8 @@ export default function RootLayout({
                         {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
                         <BottomNav />
                         <ConditionalCommandPalette />
+                        {/* PWA Install Prompt */}
+                        <PWAInstallPrompt />
                       </BottomNavProvider>
                     </CelebrationProvider>
                   </ServiceWorkerProvider>

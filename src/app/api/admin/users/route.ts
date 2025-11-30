@@ -1,7 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withAdminAuth } from '@/lib/admin/adminAuth';
+import { withAdminAuth, AdminContext } from '@/lib/admin/adminAuth';
 import { adminDb } from '@/lib/firebase/admin';
 import { getUserOverrides } from '@/lib/entitlements/adminEvaluator';
+
+// Interface for user data from Firestore
+interface FirestoreUserData {
+  id: string;
+  email?: string;
+  displayName?: string;
+  photoURL?: string;
+  subscription?: {
+    plan?: string;
+    status?: string;
+  };
+  createdAt?: string | Date;
+  lastLoginAt?: string | Date;
+}
 
 /**
  * GET /api/admin/users
@@ -14,10 +28,10 @@ import { getUserOverrides } from '@/lib/entitlements/adminEvaluator';
  * - plan: Filter by plan (guest, free, premium)
  * - hasOverrides: Filter by users with overrides (true/false)
  */
-export const GET = withAdminAuth(async (request: NextRequest, context) => {
+export const GET = withAdminAuth(async (request: NextRequest, context: AdminContext) => {
   try {
     const { searchParams } = new URL(request.url);
-    
+
     const limitParam = searchParams.get('limit');
     const pageParam = searchParams.get('page');
     const search = searchParams.get('search');
@@ -56,6 +70,13 @@ export const GET = withAdminAuth(async (request: NextRequest, context) => {
       );
     }
 
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      );
+    }
+
     // Build query
     let query = adminDb.collection('users').orderBy('createdAt', 'desc');
 
@@ -66,10 +87,10 @@ export const GET = withAdminAuth(async (request: NextRequest, context) => {
 
     // Get all users (we'll filter by search and overrides in memory)
     const snapshot = await query.get();
-    let users = snapshot.docs.map(doc => ({
+    let users: FirestoreUserData[] = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }));
+    } as FirestoreUserData));
 
     // Apply search filter
     if (search) {

@@ -158,6 +158,10 @@ export class PushNotificationService {
   }): Promise<string> {
     const { userId, notification, scheduledFor } = params;
 
+    if (!db) {
+      throw new Error('Firestore not initialized');
+    }
+
     // Create scheduled notification document
     const scheduledRef = doc(collection(db, 'notifications_queue'));
     const scheduledNotification: ScheduledPushNotification = {
@@ -186,6 +190,10 @@ export class PushNotificationService {
    * Cancel a scheduled notification
    */
   async cancelScheduledNotification(notificationId: string): Promise<void> {
+    if (!db) {
+      throw new Error('Firestore not initialized');
+    }
+
     try {
       const notificationRef = doc(db, 'notifications_queue', notificationId);
       await updateDoc(notificationRef, {
@@ -316,28 +324,28 @@ export class PushNotificationService {
 
   /**
    * Handle FCM token refresh
+   * Note: Token is already saved to Firestore by FCMManager.saveToken()
+   * This callback is for any additional processing needed
    */
-  private async handleTokenRefresh(newToken: string): Promise<void> {
-    console.log('[Push] FCM token refreshed');
+  private handleTokenRefresh(newToken: string): void {
+    console.log('[Push] FCM token refreshed, saved to Firestore by FCMManager');
 
-    // Update token in backend if needed
-    try {
-      await fetch('/api/notifications/update-token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token: newToken })
-      });
-    } catch (error) {
-      console.error('[Push] Failed to update token on server:', error);
-    }
+    // Emit event for any listeners that need to know about the refresh
+    const event = new CustomEvent('push:tokenRefresh', {
+      detail: { token: newToken }
+    });
+    window.dispatchEvent(event);
   }
 
   /**
    * Get user's FCM token
    */
   private async getUserToken(userId: string): Promise<string | null> {
+    if (!db) {
+      console.error('[Push] Firestore not initialized');
+      return null;
+    }
+
     try {
       const tokenDoc = await getDoc(doc(db, 'notifications_tokens', userId));
       if (tokenDoc.exists()) {
@@ -354,6 +362,11 @@ export class PushNotificationService {
    * Get user notification preferences
    */
   private async getUserPreferences(userId: string): Promise<any> {
+    if (!db) {
+      console.error('[Push] Firestore not initialized');
+      return null;
+    }
+
     try {
       const prefsDoc = await getDoc(doc(db, 'notifications_preferences', userId));
       if (prefsDoc.exists()) {
@@ -427,6 +440,11 @@ export class PushNotificationService {
    */
   private scheduleLocalNotification(notificationId: string, delay: number): void {
     setTimeout(async () => {
+      if (!db) {
+        console.error('[Push] Firestore not initialized');
+        return;
+      }
+
       try {
         // Get notification from database
         const notificationDoc = await getDoc(doc(db, 'notifications_queue', notificationId));
@@ -455,6 +473,11 @@ export class PushNotificationService {
    * Process pending scheduled notifications
    */
   private async processPendingNotifications(userId: string): Promise<void> {
+    if (!db) {
+      console.error('[Push] Firestore not initialized');
+      return;
+    }
+
     try {
       const q = query(
         collection(db, 'notifications_queue'),
@@ -493,6 +516,11 @@ export class PushNotificationService {
     status: 'sent' | 'failed',
     error?: Error
   ): Promise<void> {
+    if (!db) {
+      console.error('[Push] Firestore not initialized, skipping log');
+      return;
+    }
+
     try {
       await setDoc(doc(collection(db, 'notifications_log')), {
         userId,
@@ -536,6 +564,11 @@ export class PushNotificationService {
    * Get notification statistics
    */
   async getStatistics(userId: string): Promise<any> {
+    if (!db) {
+      console.error('[Push] Firestore not initialized');
+      return null;
+    }
+
     try {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);

@@ -7,8 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/app/api/review/_middleware/auth'
-import { adminDb, adminAuth } from '@/lib/firebase/admin'
-import admin from 'firebase-admin'
+import { adminDb, adminMessaging, Timestamp, FieldValue } from '@/lib/firebase/admin'
 import { notificationService } from '@/lib/notifications/notification-service'
 
 interface TestNotificationRequest {
@@ -29,7 +28,14 @@ export async function POST(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
-    const userId = user.id
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      )
+    }
+
+    const userId = user.uid
     const body: TestNotificationRequest = await request.json()
 
     // Validate channel
@@ -97,10 +103,10 @@ export async function POST(request: NextRequest) {
       userId,
       type: 'test',
       channels,
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      timestamp: FieldValue.serverTimestamp(),
       results,
       testType: notificationType,
-      customMessage: body.customMessage
+      ...(body.customMessage && { customMessage: body.customMessage })
     })
 
     // Check overall success
@@ -138,7 +144,14 @@ export async function GET(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
-    const userId = user.id
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      )
+    }
+
+    const userId = user.uid
 
     // Get recent test notifications
     const recentTests = await adminDb
@@ -229,8 +242,8 @@ function generateTestContent(type: string, customMessage?: any) {
 
   const defaults: Record<string, any> = {
     review_due: {
-      title: '🎯 Test: Review Due!',
-      body: `This is a test review notification sent at ${timestamp}`,
+      title: '🎯 Hello Beano!',
+      body: `Time to review! Test notification sent at ${timestamp}`,
       icon: '/icons/icon-192x192.svg',
       data: {
         type: 'test',
@@ -288,7 +301,7 @@ function generateTestContent(type: string, customMessage?: any) {
 async function sendBrowserTestNotification(userId: string, content: any) {
   // This would be triggered on the client side
   // For API testing, we just validate the setup
-  const tokenDoc = await adminDb
+  const tokenDoc = await adminDb!
     .collection('notifications_tokens')
     .doc(userId)
     .get()
@@ -314,7 +327,15 @@ async function sendBrowserTestNotification(userId: string, content: any) {
  * Send push test notification
  */
 async function sendPushTestNotification(userId: string, content: any) {
-  const tokenDoc = await adminDb
+  if (!adminMessaging) {
+    return {
+      success: false,
+      error: 'Firebase Messaging not initialized',
+      requiresSetup: true
+    }
+  }
+
+  const tokenDoc = await adminDb!
     .collection('notifications_tokens')
     .doc(userId)
     .get()
@@ -330,22 +351,41 @@ async function sendPushTestNotification(userId: string, content: any) {
   }
 
   try {
-    const messaging = admin.messaging()
-    const response = await messaging.send({
+    // Convert data object values to strings (FCM requirement)
+    // Include title/body in data for foreground handling
+    const stringData = {
+      ...(content.data ? Object.fromEntries(
+        Object.entries(content.data).map(([k, v]) => [k, String(v)])
+      ) : {}),
+      title: content.title,
+      body: content.body,
+      icon: content.icon || '/icons/icon-192x192.png'
+    }
+
+    // Send as data-only message for reliable foreground delivery
+    // Also include notification for background/service worker handling
+    const response = await adminMessaging.send({
       token: fcmToken,
+      // notification field for background delivery via service worker
       notification: {
         title: content.title,
         body: content.body
       },
-      data: content.data,
+      // data field for foreground delivery via onMessage
+      data: stringData,
       webpush: {
+        fcmOptions: {
+          link: '/'
+        },
         notification: {
-          icon: content.icon,
+          icon: content.icon || '/icons/icon-192x192.png',
           badge: '/icons/icon-72x72.svg',
           requireInteraction: true
         }
       }
     })
+
+    console.log('[FCM Test] Message sent successfully:', response)
 
     return {
       success: true,
@@ -385,18 +425,19 @@ async function sendEmailTestNotification(userId: string, content: any) {
  */
 async function sendInAppTestNotification(userId: string, content: any) {
   // Store in-app notification in queue
-  await adminDb.collection('notifications_queue').add({
+  await adminDb!.collection('notifications_queue').add({
     userId,
     type: 'test',
     channel: 'in_app',
-    scheduledFor: admin.firestore.Timestamp.now(),
+    scheduledFor: Timestamp.now(),
     status: 'pending',
+    notification: content,
     data: {
       ...content,
       persistent: false,
       autoHide: 5000
     },
-    createdAt: admin.firestore.Timestamp.now()
+    createdAt: Timestamp.now()
   })
 
   return {

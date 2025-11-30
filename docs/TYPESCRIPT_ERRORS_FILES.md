@@ -19,7 +19,39 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 
 | File | Fixed Date | Notes |
 |------|------------|-------|
-| *(none yet)* | - | - |
+| `src/app/api/admin/stripe/cleanup/route.ts` | 2025-11-30 | Added null check for invoice.id |
+| `src/app/api/admin/stripe/test-renewal/route.ts` | 2025-11-30 | Added null check for invoice.id |
+| `src/app/api/stripe/create-checkout-session/route.ts` | 2025-11-30 | Fixed getSession() call (no args) |
+| `src/app/api/stripe/donate/route.ts` | 2025-11-30 | Fixed getSession() call (no args) |
+| `src/lib/admin/adminAuth.ts` | 2025-11-30 | Added params support to withAdminAuth, null check |
+| `src/app/api/admin/users/[uid]/route.ts` | 2025-11-30 | Updated to AdminContext, added null checks |
+| `src/app/api/admin/users/route.ts` | 2025-11-30 | Added FirestoreUserData interface, null checks |
+| `src/app/api/auth/invalidate-all-caches/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/auth/invalidate-tier-cache/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/auth/refresh-session/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/auth/session-check/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/auth/google/route.ts` | 2025-11-30 | Imported FieldValue correctly |
+| `src/app/api/auth/signin/route.ts` | 2025-11-30 | Added recaptchaScore to type |
+| `src/lib/auth/audit.ts` | 2025-11-30 | Added recaptchaScore to logAuthAttempt type |
+| `src/lib/notifications/push/FCMManager.ts` | 2025-11-30 | Added app/db null checks, extended NotificationOptions |
+| `src/lib/notifications/push/PushNotificationService.ts` | 2025-11-30 | Added db null checks throughout |
+| `src/app/blog/sitemap.ts` | 2025-11-30 | Added adminDb null check with fallback |
+| `src/app/api/sessions/save/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/newsletter/subscribe/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/leaderboard/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/blog/[id]/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/blog/debug/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/blog/slug/[slug]/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/youtube/series/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/drill/session/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/gamification/load/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/kanji/progress/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/leaderboard/user-rank/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/newsletter/verify/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/resources/public/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/resources/related/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/lib/api/storage-helper.ts` | 2025-11-30 | Added adminDb null check |
+| `src/lib/monitoring/firebase-tracker.ts` | 2025-11-30 | Added adminDb null check |
 
 ---
 
@@ -27,11 +59,11 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 
 | Category | Count |
 |----------|-------|
-| **⚠️ Stripe Routes (PRIORITY)** | **4** |
-| API Routes (`src/app/api/`) | 117 |
-| Pages (`src/app/**/page.tsx`) | 75 |
+| **⚠️ Stripe Routes (PRIORITY)** | **0** ✅ |
+| API Routes (`src/app/api/`) | 103 |
+| Pages (`src/app/**/page.tsx`) | 74 |
 | Components (`src/components/`) | 64 |
-| Library (`src/lib/`) | 80 |
+| Library (`src/lib/`) | 76 |
 | Hooks (`src/hooks/`) | 18 |
 | i18n (`src/i18n/`) | 6 |
 | Services (`src/services/`) | 3 |

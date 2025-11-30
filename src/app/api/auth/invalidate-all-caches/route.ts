@@ -38,6 +38,13 @@ export async function POST(request: NextRequest) {
     if (!targetUserId && stripeCustomerId) {
       console.log(`[Invalidate All Caches] Looking up user by Stripe customer ID: ${stripeCustomerId}`)
 
+      if (!adminDb) {
+        return NextResponse.json(
+          { success: false, error: 'Database not initialized' },
+          { status: 500 }
+        )
+      }
+
       const snapshot = await adminDb
         .collection('users')
         .where('subscription.stripeCustomerId', '==', stripeCustomerId)

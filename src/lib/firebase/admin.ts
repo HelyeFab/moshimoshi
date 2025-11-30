@@ -6,6 +6,7 @@ import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
+import { getMessaging, Messaging } from 'firebase-admin/messaging'
 
 // Initialize Firebase Admin only once
 function initializeFirebaseAdmin() {
@@ -65,6 +66,7 @@ if (!adminApp) {
 export const adminAuth = adminApp ? getAuth(adminApp) : null
 export const adminFirestore = adminApp ? getFirestore(adminApp) : null
 export const adminStorage = adminApp ? getStorage(adminApp) : null
+export const adminMessaging = adminApp ? getMessaging(adminApp) : null
 
 // Log the initialization state
 console.log('Firebase Admin initialization state:', {

@@ -13,6 +13,10 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+    }
+
     // Get user's progress from Firestore
     const progressDoc = await adminDb
       .collection('users')

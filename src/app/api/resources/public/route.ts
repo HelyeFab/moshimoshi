@@ -3,6 +3,10 @@ import { adminDb } from '@/lib/firebase/admin';
 
 export async function GET(req: NextRequest) {
   try {
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+    }
+
     // Fetch only published resources for public view
     // Try without orderBy first to avoid index requirement
     const snapshot = await adminDb

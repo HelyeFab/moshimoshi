@@ -159,10 +159,10 @@ export function useReviewNotifications() {
     }
   }, [])
 
-  // Test function to trigger a notification immediately
+  // Test function to trigger an in-app notification (with sound if enabled)
   const testNotification = useCallback(() => {
     if (!managerRef.current) return
-    
+
     // Create a test notification
     const testItem = {
       id: 'test-' + Date.now(),
@@ -172,13 +172,93 @@ export function useReviewNotifications() {
       contentType: 'kanji' as const,
       scheduledFor: new Date(Date.now() - 1000) // 1 second ago to trigger immediately
     }
-    
+
     // Fire as in-app notification
     window.dispatchEvent(new CustomEvent('review:notification', {
       detail: testItem
     }))
-    
-    reviewLogger.info('Test notification triggered')
+
+    reviewLogger.info('Test in-app notification triggered')
+  }, [])
+
+  // Test function to trigger a real browser notification
+  const testBrowserNotification = useCallback(async () => {
+    if (!('Notification' in window)) {
+      reviewLogger.warn('Browser does not support notifications')
+      return false
+    }
+
+    if (Notification.permission !== 'granted') {
+      reviewLogger.warn('Notification permission not granted')
+      return false
+    }
+
+    try {
+      const notification = new Notification('🧪 Test Notification', {
+        body: 'This is a test of your browser notifications. If you see this, notifications are working!',
+        icon: '/icons/icon-192x192.svg',
+        badge: '/icons/icon-72x72.svg',
+        tag: 'test-notification',
+        requireInteraction: false,
+      })
+
+      notification.onclick = () => {
+        window.focus()
+        notification.close()
+      }
+
+      // Auto-close after 5 seconds
+      setTimeout(() => notification.close(), 5000)
+
+      reviewLogger.info('Test browser notification triggered')
+      return true
+    } catch (error) {
+      reviewLogger.error('Failed to show test notification:', error)
+      return false
+    }
+  }, [])
+
+  // Test notification sound
+  const testSound = useCallback(async () => {
+    if (!managerRef.current) return false
+
+    try {
+      // Access the private method via the manager
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext
+      if (!AudioContext) {
+        reviewLogger.warn('AudioContext not supported')
+        return false
+      }
+
+      const audioContext = new AudioContext()
+      const oscillator = audioContext.createOscillator()
+      const gainNode = audioContext.createGain()
+
+      oscillator.connect(gainNode)
+      gainNode.connect(audioContext.destination)
+
+      // Play a pleasant three-note chime (kanji sound)
+      const notes = [440, 554, 659] // A, C#, E - major chord
+      const currentTime = audioContext.currentTime
+
+      notes.forEach((freq, index) => {
+        const startTime = currentTime + (index * 0.1)
+        const endTime = startTime + 0.2
+
+        oscillator.frequency.setValueAtTime(freq, startTime)
+        gainNode.gain.setValueAtTime(0.3, startTime)
+        gainNode.gain.exponentialRampToValueAtTime(0.01, endTime)
+      })
+
+      oscillator.start(currentTime)
+      oscillator.stop(currentTime + 0.5)
+
+      reviewLogger.info('Test sound played')
+      return true
+    } catch (error) {
+      reviewLogger.error('Failed to play test sound:', error)
+      return false
+    }
   }, [])
 
   return {
@@ -190,6 +270,8 @@ export function useReviewNotifications() {
     cancelNotification,
     cancelAllNotifications,
     testNotification,
+    testBrowserNotification,
+    testSound,
     scheduleNotificationForItem
   }
 }

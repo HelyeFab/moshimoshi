@@ -113,6 +113,11 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Admin Test Renewal] Created invoice: ${invoice.id}`);
 
+    // Ensure invoice ID is available for subsequent operations
+    if (!invoice.id) {
+      throw new Error('Invoice creation succeeded but no invoice ID returned');
+    }
+
     // 5. FINALIZE THE INVOICE
     // This triggers invoice.finalized webhook
     const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);

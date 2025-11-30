@@ -134,7 +134,10 @@
       "Bash(npm test:*)",
       "Bash(src/styles/globals.css)",
       "Bash(timeout 60 vercel logs:*)",
-      "Bash(cmd.exe /c \"taskkill /F /IM node.exe\")"
+      "Bash(cmd.exe /c \"taskkill /F /IM node.exe\")",
+      "Bash(cmd.exe /c \"taskkill /F /PID 33312\")",
+      "Bash(wmic process where \"name=''node.exe''\" delete)",
+      "Bash(cmd.exe /c \"rmdir /s /q .next\")"
     ],
     "deny": [],
     "ask": []

@@ -41,6 +41,13 @@ export async function GET(request: NextRequest) {
     if (!snapshot) {
       console.log('[Leaderboard API] Cache miss, fetching from Firestore');
 
+      if (!adminDb) {
+        return NextResponse.json(
+          { error: 'Database not available' },
+          { status: 500 }
+        );
+      }
+
       const doc = await adminDb
         .collection('leaderboard_snapshots')
         .doc('allTime-latest')

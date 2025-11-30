@@ -389,6 +389,7 @@ export const strings = {
     edit: "Modifica",
     remove: "Remove",
     back: "Indietro",
+    gotIt: "Capito!",
     next: "Avanti",
     previous: "Precedente",
     play: "Riproduci",
