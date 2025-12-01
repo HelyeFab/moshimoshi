@@ -9,6 +9,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { languages, languageNames } from '@/i18n/config'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 // Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Tooltip from '@/components/ui/Tooltip'
 import SettingToggle from '@/components/ui/SettingToggle'
@@ -212,7 +213,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Navbar */}
-      {/* Navigation is now global - rendered in root layout */}
+      <Navbar user={user} showUserMenu={true} />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-4xl">
