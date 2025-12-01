@@ -999,7 +999,7 @@ export default function LearningVillage() {
 
 
         {/* Stalls grid with masonry layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6">
           {learningStalls.map((stall, index) => (
             <StallCard key={stall.id} stall={stall} index={index} />
           ))}

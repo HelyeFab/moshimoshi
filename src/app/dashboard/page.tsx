@@ -1060,7 +1060,7 @@ function DashboardContent() {
         </div>
 
         {/* Learning Village - The stunning navigation system */}
-        <div className="mb-8 -mx-4 sm:mx-0 mt-0">
+        <div className="mb-8 mt-0">
           <LearningVillage />
         </div>
 
