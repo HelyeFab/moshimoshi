@@ -204,54 +204,57 @@ function StallCard({ stall, index }: { stall: any, index: number }) {
 
       {/* Content */}
       <div className={`relative p-6 ${spacingClass} flex-1 flex flex-col`}>
-        {/* Badge for featured items */}
+        {/* Badge for featured items - Moved to bottom right to avoid overlap */}
         {isFeatured && (
-          <div className="absolute top-0 right-0 mt-4 mr-4 px-2 py-1 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/10">
-             <span className="text-xs font-bold text-yellow-600 dark:text-yellow-400">✨ Popular</span>
+          <div className="absolute bottom-3 right-3 px-2 py-1 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/10 z-10">
+             <span className="text-[10px] font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">Popular</span>
           </div>
         )}
 
-        {/* Emoji icon and stall image in a single row with space between */}
-        <div className="flex items-center justify-between">
-          <span className={`filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0 ${isFeatured ? 'text-4xl' : 'text-3xl'}`}>
-            {stall.icon}
-          </span>
-          <Image
-            src={stall.stallImage}
-            alt="Stall Image"
-            width={isFeatured ? 56 : 48}
-            height={isFeatured ? 56 : 48}
-            className="opacity-60 group-hover:opacity-80 transition-opacity duration-300 flex-shrink-0"
-          />
-        </div>
+        {/* NEW: Content Wrapper to add padding if featured */}
+        <div className={`flex-1 flex flex-col ${isFeatured ? 'pb-10' : ''}`}>
+          {/* Emoji icon and stall image in a single row with space between */}
+          <div className="flex items-center justify-between mb-2">
+            <span className={`filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0 ${isFeatured ? 'text-4xl' : 'text-3xl'}`}>
+              {stall.icon}
+            </span>
+            <Image
+              src={stall.stallImage}
+              alt="Stall Image"
+              width={isFeatured ? 56 : 48}
+              height={isFeatured ? 56 : 48}
+              className="opacity-60 group-hover:opacity-80 transition-opacity duration-300 flex-shrink-0"
+            />
+          </div>
 
-        {/* Title */}
-        <h3 className={`font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight ${isFeatured ? 'text-xl' : 'text-lg'}`}>
-          {/* Split title if it contains multiple words */}
-          {stall.title.split(' ').length > 1 ? (
-            <>
-              {stall.title.split(' ').map((word: string, index: number) => (
-                <span key={index} className="block">
-                  {word}
-                </span>
-              ))}
-            </>
-          ) : (
-            stall.title
+          {/* Title */}
+          <h3 className={`font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight ${isFeatured ? 'text-xl' : 'text-lg'}`}>
+            {/* Split title if it contains multiple words */}
+            {stall.title.split(' ').length > 1 ? (
+              <>
+                {stall.title.split(' ').map((word: string, index: number) => (
+                  <span key={index} className="block">
+                    {word}
+                  </span>
+                ))}
+              </>
+            ) : (
+              stall.title
+            )}
+          </h3>
+
+          {/* Subtitle */}
+          {!isCompact && (
+            <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors font-medium mt-1">
+              {stall.subtitle}
+            </p>
           )}
-        </h3>
 
-        {/* Subtitle */}
-        {!isCompact && (
-          <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors font-medium">
-            {stall.subtitle}
+          {/* Description */}
+          <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors flex-1 mt-1">
+            {stall.description}
           </p>
-        )}
-
-        {/* Description */}
-        <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors flex-1">
-          {stall.description}
-        </p>
+        </div>
 
         {/* Hover indicator */}
         <motion.div
