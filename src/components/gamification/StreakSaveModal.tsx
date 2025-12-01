@@ -325,7 +325,7 @@ export default function StreakSaveModal({
             <div className="flex gap-3">
               <LoadingButton
                 onClick={handleSave}
-                loading={saving}
+                isLoading={saving}
                 disabled={saving}
                 className="flex-1 px-4 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >

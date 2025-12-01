@@ -122,6 +122,10 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 | `src/components/landing/PricingComparison.tsx` | 2025-12-01 | Added type assertions for nested i18n objects with NonNullable (62 errors) |
 | `src/app/vocabulary/page.tsx` | 2025-12-01 | Fixed isPremium ?? false, replaced strings.reviewPrompts with fallbacks, fixed word.kanji\|\|word.kana (25 errors) |
 | `src/app/dashboard/page.tsx` | 2025-12-01 | Simplified stats i18n, fixed case statements (16 errors fixed, 2 streak-related errors LEFT PENDING - requires careful review) |
+| `src/app/api/gamification/streak/save/route.ts` | 2025-12-01 | Fixed db null narrowing in transaction callback using local const |
+| `src/components/gamification/StreakSaveModal.tsx` | 2025-12-01 | Fixed LoadingButton prop: loading → isLoading |
+| `src/hooks/useGamification.ts` | 2025-12-01 | Fixed GamificationData interface: lastActivityDate Date → string (ISO format) |
+| `src/hooks/__tests__/useStreakSaveDetection.test.tsx` | 2025-12-01 | Fixed 18+ mock return values to match StreakValidationResult interface (isActive→removed, status→removed, statusMessage→reason, added effectiveStreak, isWithinGracePeriod) |
 
 ---
 

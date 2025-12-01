@@ -4,26 +4,14 @@ import { reviewLogger } from '@/lib/monitoring/logger'
 import { adminDb } from '@/lib/firebase/admin'
 import { UniversalProgressManager } from '@/lib/review-engine/progress/UniversalProgressManager'
 import { SRSIntegration } from '@/lib/review-engine/srs/integration'
-import { ReviewableContentWithSRS } from '@/lib/review-engine/srs/types'
+// ReviewableContentWithSRS removed - was unused
 
 // Create a concrete implementation of UniversalProgressManager
+// Uses base class createInitialProgress which returns ReviewProgressData
 class ConcreteProgressManager extends UniversalProgressManager {
-  createInitialProgress(contentId: string, contentType: string) {
-    return {
-      contentId,
-      contentType,
-      status: 'new' as const,
-      firstSeenAt: new Date(),
-      lastReviewedAt: null,
-      reviewCount: 0,
-      correctCount: 0,
-      incorrectCount: 0,
-      accuracy: 0,
-      streakCount: 0,
-      lastResult: null,
-      srsData: null,
-      metadata: {}
-    }
+  // Make initDB accessible for fallback IndexedDB loading
+  public async initializeDB(): Promise<void> {
+    await this.initDB()
   }
 }
 
@@ -95,6 +83,12 @@ async function fetchUserProgress(
       try {
         // Get progress data from Firebase - from the user's subcollection using Admin SDK
         console.log(`[API] Fetching progress for user ${userId}, type: ${type}`)
+
+        if (!adminDb) {
+          reviewLogger.warn('adminDb not available, skipping Firebase fetch')
+          continue
+        }
+
         const progressRef = adminDb
           .collection('users')
           .doc(userId)
@@ -104,7 +98,7 @@ async function fetchUserProgress(
         console.log(`[API] Found ${progressSnapshot.size} progress documents`)
 
         // Find the document for this content type
-        let typeDoc = null
+        let typeDoc: FirebaseFirestore.QueryDocumentSnapshot | null = null
         progressSnapshot.forEach(doc => {
           console.log(`[API] Document ID: ${doc.id}`)
           if (doc.id === type) {
@@ -113,7 +107,7 @@ async function fetchUserProgress(
         })
 
         if (typeDoc) {
-          const docData = typeDoc.data()
+          const docData = (typeDoc as FirebaseFirestore.QueryDocumentSnapshot).data()
           const itemsObject = docData?.items || {}
 
           // Check if this is a legacy single-item document (like the user ID document)
@@ -174,7 +168,7 @@ async function fetchUserProgress(
     }
 
     // Always fetch from kanji_browse_history collection for kanji data
-    if (contentType === 'all' || contentType === 'kanji') {
+    if ((contentType === 'all' || contentType === 'kanji') && adminDb) {
       try {
         console.log('[API] Checking kanji_browse_history...')
         const kanjiBrowseRef = adminDb
@@ -220,7 +214,7 @@ async function fetchUserProgress(
     }
 
     // Also fetch from review history for kana items
-    if (contentType === 'all' || contentType === 'kana') {
+    if ((contentType === 'all' || contentType === 'kana') && adminDb) {
       try {
         console.log('[API] No progress data found, checking review history...')
         const historyRef = adminDb
@@ -271,28 +265,30 @@ async function fetchUserProgress(
     // If no Firebase data, try IndexedDB through progress manager
     if (items.length === 0) {
       try {
-        await progressManager.initDB()
+        await progressManager.initializeDB()
 
         for (const type of contentTypes) {
           const progressMap = await progressManager.getProgress(userId, type, false)
 
           progressMap.forEach((progress, contentId) => {
-            const srsData = progress.srsData
+            // Cast to any since IndexedDB may contain legacy data with different shape
+            const progressData = progress as any
+            const srsData = progressData.srsData || null
 
             items.push({
               id: `${type}_${contentId}`,
               contentType: type as 'kana' | 'kanji' | 'vocabulary' | 'sentence',
               primaryDisplay: contentId,
-              secondaryDisplay: progress.metadata?.meaning || progress.metadata?.reading,
-              status: progress.status || 'new',
-              lastReviewedAt: progress.lastReviewedAt,
-              nextReviewAt: srsData?.nextReviewAt || calculateNextReview(progress),
-              srsLevel: srsData?.repetitions || 0,
-              accuracy: progress.accuracy || 0,
-              reviewCount: progress.reviewCount || 0,
-              correctCount: progress.correctCount || 0,
-              tags: progress.metadata?.tags || [],
-              source: progress.metadata?.source || getSourceByType(type)
+              secondaryDisplay: progressData.metadata?.meaning || progressData.metadata?.reading || '',
+              status: progressData.status || 'new',
+              lastReviewedAt: progressData.lastReviewedAt || progressData.lastViewedAt || null,
+              nextReviewAt: srsData?.nextReviewAt || progressData.nextReviewDate || calculateNextReview(progressData),
+              srsLevel: srsData?.repetitions || progressData.srsLevel || 0,
+              accuracy: progressData.accuracy || 0,
+              reviewCount: progressData.reviewCount || progressData.viewCount || 0,
+              correctCount: progressData.correctCount || 0,
+              tags: progressData.metadata?.tags || [],
+              source: progressData.metadata?.source || getSourceByType(type)
             })
           })
         }

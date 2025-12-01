@@ -33,7 +33,7 @@ export interface GamificationData {
   bestStreak: number
   unlockedAchievements: string[]
   sessionCount: number
-  lastActivityDate: Date | null
+  lastActivityDate: string | null  // ISO date string (yyyy-mm-dd) matching store type
   hasHydrated: boolean
   loading: boolean
   error: Error | null

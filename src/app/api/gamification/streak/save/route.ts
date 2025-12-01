@@ -350,7 +350,9 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       )
     }
-    const userStatsRef = db.collection('user_stats').doc(userId)
+    // Capture in local const for TypeScript narrowing inside transaction callback
+    const firestore = db
+    const userStatsRef = firestore.collection('user_stats').doc(userId)
 
     const result = await db.runTransaction(async (transaction) => {
       // Read user stats
@@ -425,7 +427,7 @@ export async function POST(req: NextRequest) {
       })
 
       // Log to streak_save_logs collection (within transaction for consistency)
-      const logRef = db.collection('streak_save_logs').doc()
+      const logRef = firestore.collection('streak_save_logs').doc()
       transaction.set(logRef, {
         userId,
         streakSaved: bestStreak,              // Restored streak value

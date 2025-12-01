@@ -171,11 +171,11 @@ describe('useStreakSaveDetection', () => {
     mockGetStreakConfig.mockReturnValue(defaultConfig as any)
 
     mockValidateStreakDisplay.mockReturnValue({
-      isActive: false,
       isStale: true,
       daysSinceActivity: 2,
-      status: 'stale',
-      statusMessage: 'Streak is breaking'
+      effectiveStreak: 0,
+      reason: 'Streak is breaking',
+      isWithinGracePeriod: false
     })
   })
 
@@ -293,11 +293,11 @@ describe('useStreakSaveDetection', () => {
     describe('Condition 4: streak is stale (beyond grace period)', () => {
       it('should NOT show modal when streak is active', () => {
         mockValidateStreakDisplay.mockReturnValue({
-          isActive: true,
           isStale: false,
           daysSinceActivity: 0,
-          status: 'active',
-          statusMessage: 'Active today'
+          effectiveStreak: 7,
+          reason: 'Active today',
+          isWithinGracePeriod: true
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -307,11 +307,11 @@ describe('useStreakSaveDetection', () => {
 
       it('should NOT show modal when within grace period', () => {
         mockValidateStreakDisplay.mockReturnValue({
-          isActive: false,
           isStale: false,
           daysSinceActivity: 1,
-          status: 'grace',
-          statusMessage: 'Within grace period'
+          effectiveStreak: 7,
+          reason: 'Within grace period',
+          isWithinGracePeriod: true
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -321,11 +321,11 @@ describe('useStreakSaveDetection', () => {
 
       it('should show modal when stale (beyond grace period)', async () => {
         mockValidateStreakDisplay.mockReturnValue({
-          isActive: false,
           isStale: true,
           daysSinceActivity: 2,
-          status: 'stale',
-          statusMessage: 'Streak is breaking'
+          effectiveStreak: 0,
+          reason: 'Streak is breaking',
+          isWithinGracePeriod: false
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -339,11 +339,11 @@ describe('useStreakSaveDetection', () => {
     describe('Condition 5: within save window', () => {
       it('should show modal on day 2 (within 3-day window)', async () => {
         mockValidateStreakDisplay.mockReturnValue({
-          isActive: false,
           isStale: true,
           daysSinceActivity: 2,
-          status: 'stale',
-          statusMessage: 'Streak is breaking'
+          effectiveStreak: 0,
+          reason: 'Streak is breaking',
+          isWithinGracePeriod: false
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -355,11 +355,11 @@ describe('useStreakSaveDetection', () => {
 
       it('should show modal on day 3 (last day of window)', async () => {
         mockValidateStreakDisplay.mockReturnValue({
-          isActive: false,
           isStale: true,
           daysSinceActivity: 3,
-          status: 'stale',
-          statusMessage: 'Streak is breaking'
+          effectiveStreak: 0,
+          reason: 'Streak is breaking',
+          isWithinGracePeriod: false
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -371,11 +371,11 @@ describe('useStreakSaveDetection', () => {
 
       it('should NOT show modal on day 4 (beyond window)', () => {
         mockValidateStreakDisplay.mockReturnValue({
-          isActive: false,
           isStale: true,
           daysSinceActivity: 4,
-          status: 'broken',
-          statusMessage: 'Streak broken'
+          effectiveStreak: 0,
+          reason: 'Streak broken',
+          isWithinGracePeriod: false
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -385,11 +385,11 @@ describe('useStreakSaveDetection', () => {
 
       it('should NOT show modal on day 10 (far beyond window)', () => {
         mockValidateStreakDisplay.mockReturnValue({
-          isActive: false,
           isStale: true,
           daysSinceActivity: 10,
-          status: 'broken',
-          statusMessage: 'Streak broken'
+          effectiveStreak: 0,
+          reason: 'Streak broken',
+          isWithinGracePeriod: false
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -520,11 +520,11 @@ describe('useStreakSaveDetection', () => {
 
       // Mock validation to show streak is NOT stale (still within grace)
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: true,
         isStale: false,
         daysSinceActivity: 1,
-        status: 'grace',
-        statusMessage: 'Within grace'
+        effectiveStreak: 7,
+        reason: 'Within grace',
+        isWithinGracePeriod: true
       })
 
       renderHook(() => useStreakSaveDetection())
@@ -535,11 +535,11 @@ describe('useStreakSaveDetection', () => {
 
     it('should NOT call break API if within grace period', () => {
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: true,
         isStale: false,
         daysSinceActivity: 1,
-        status: 'grace',
-        statusMessage: 'Within grace'
+        effectiveStreak: 7,
+        reason: 'Within grace',
+        isWithinGracePeriod: true
       })
 
       renderHook(() => useStreakSaveDetection())
@@ -690,11 +690,11 @@ describe('useStreakSaveDetection', () => {
 
       // Mock validation to show NOT stale
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: true,
         isStale: false,
         daysSinceActivity: 1,
-        status: 'grace',
-        statusMessage: 'Within grace'
+        effectiveStreak: 7,
+        reason: 'Within grace',
+        isWithinGracePeriod: true
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -780,11 +780,11 @@ describe('useStreakSaveDetection', () => {
       } as any)
 
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: false,
         isStale: true,
         daysSinceActivity: 2,
-        status: 'stale',
-        statusMessage: 'Broken'
+        effectiveStreak: 0,
+        reason: 'Broken',
+        isWithinGracePeriod: false
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -811,11 +811,11 @@ describe('useStreakSaveDetection', () => {
 
       // Streak is now active again after save
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: false,
         isStale: false,
         daysSinceActivity: 1,
-        status: 'grace',
-        statusMessage: 'Within grace'
+        effectiveStreak: 10,
+        reason: 'Within grace',
+        isWithinGracePeriod: true
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -826,11 +826,11 @@ describe('useStreakSaveDetection', () => {
 
     it('scenario: user is 4 days late (too late to save)', () => {
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: false,
         isStale: true,
         daysSinceActivity: 4,
-        status: 'broken',
-        statusMessage: 'Too late'
+        effectiveStreak: 0,
+        reason: 'Too late',
+        isWithinGracePeriod: false
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -856,11 +856,11 @@ describe('useStreakSaveDetection', () => {
 
     it('scenario: user just completed activity (within grace period)', () => {
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: true,
         isStale: false,
         daysSinceActivity: 0,
-        status: 'active',
-        statusMessage: 'Active'
+        effectiveStreak: 7,
+        reason: 'Active',
+        isWithinGracePeriod: true
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -877,11 +877,11 @@ describe('useStreakSaveDetection', () => {
       } as any)
 
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: false,
         isStale: true,
         daysSinceActivity: 3, // Beyond 2-day grace
-        status: 'stale',
-        statusMessage: 'Breaking'
+        effectiveStreak: 0,
+        reason: 'Breaking',
+        isWithinGracePeriod: false
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -901,11 +901,11 @@ describe('useStreakSaveDetection', () => {
       } as any)
 
       mockValidateStreakDisplay.mockReturnValue({
-        isActive: false,
         isStale: true,
         daysSinceActivity: 6,
-        status: 'stale',
-        statusMessage: 'Breaking'
+        effectiveStreak: 0,
+        reason: 'Breaking',
+        isWithinGracePeriod: false
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -947,11 +947,11 @@ describe('useStreakSaveDetection', () => {
         // Reset to default mocks
         mockGetStreakConfig.mockReturnValue(defaultConfig as any)
         mockValidateStreakDisplay.mockReturnValue({
-          isActive: false,
           isStale: true,
           daysSinceActivity: 2,
-          status: 'stale',
-          statusMessage: 'Streak is breaking'
+          effectiveStreak: 0,
+          reason: 'Streak is breaking',
+          isWithinGracePeriod: false
         })
         mockBreakAPISuccess()
 

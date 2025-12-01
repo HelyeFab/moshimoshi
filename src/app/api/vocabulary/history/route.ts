@@ -9,6 +9,14 @@ import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { reviewLogger } from '@/lib/monitoring/logger'
 
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available')
+  }
+  return adminDb
+}
+
 /**
  * GET /api/vocabulary/history
  * Load search history for authenticated premium users
@@ -24,8 +32,10 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    const db = getDb()
+
     // Check if user is premium
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const isPremium = userData?.subscription?.plan === 'premium_monthly' ||
                       userData?.subscription?.plan === 'premium_yearly'
@@ -42,7 +52,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(url.searchParams.get('limit') || '50')
 
     // Load search history from Firebase
-    const historySnapshot = await adminDb
+    const historySnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('searched_words')
