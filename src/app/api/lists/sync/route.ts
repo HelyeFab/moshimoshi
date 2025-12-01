@@ -3,6 +3,14 @@ import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import type { UserList } from '@/types/userLists';
 
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available');
+  }
+  return adminDb;
+}
+
 /**
  * POST /api/lists/sync
  * Sync a local list to Firebase (for correcting lists created with wrong session tier)
@@ -25,8 +33,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const db = getDb();
+
     // Get fresh user data from Firestore
-    const userDoc = await adminDb.collection('users').doc(session.uid).get();
+    const userDoc = await db.collection('users').doc(session.uid).get();
     const userData = userDoc.data();
 
     if (!userData) {
@@ -39,7 +49,7 @@ export async function POST(request: NextRequest) {
     console.log('[POST /api/lists/sync] Syncing list:', list.id, 'for user:', session.uid);
 
     // Save the list to Firebase
-    const listsRef = adminDb.collection('users').doc(session.uid).collection('lists');
+    const listsRef = db.collection('users').doc(session.uid).collection('lists');
     await listsRef.doc(list.id).set(list);
 
     console.log('[POST /api/lists/sync] Successfully synced list:', list.id);

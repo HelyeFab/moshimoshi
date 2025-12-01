@@ -6,8 +6,16 @@ import type { UserList, CreateListRequest, ListItem } from '@/types/userLists';
 import { DEFAULT_LIST_EMOJIS } from '@/types/userLists';
 import { evaluate } from '@/lib/entitlements/evaluator';
 import { getBucketKey } from '@/lib/entitlements/policy';
-import { EvalContext } from '@/types/entitlements';
+import { EvalContext, FeatureId } from '@/types/entitlements';
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
+
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available');
+  }
+  return adminDb;
+}
 
 // GET /api/lists - Fetch all lists for current user
 export async function GET(request: NextRequest) {
@@ -40,7 +48,8 @@ export async function GET(request: NextRequest) {
 
     console.log('[GET /api/lists] Premium user - fetching from Firebase:', session.uid);
 
-    const listsRef = adminDb.collection('users').doc(session.uid).collection('lists');
+    const db = getDb();
+    const listsRef = db.collection('users').doc(session.uid).collection('lists');
     const snapshot = await listsRef.orderBy('updatedAt', 'desc').get();
 
     const lists: UserList[] = [];
@@ -81,7 +90,8 @@ export async function POST(request: NextRequest) {
 
     // Get fresh user data and check entitlements
     console.log('[POST /api/lists] Fetching user data from Firestore...');
-    const userDoc = await adminDb.collection('users').doc(session.uid).get();
+    const db = getDb();
+    const userDoc = await db.collection('users').doc(session.uid).get();
     const userData = userDoc.data();
     console.log('[POST /api/lists] User data exists:', userDoc.exists);
 
@@ -116,7 +126,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Count existing lists for usage tracking
-    const listsSnapshot = await adminDb
+    const listsSnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('lists')
@@ -126,7 +136,7 @@ export async function POST(request: NextRequest) {
 
     // Get monthly usage for custom_lists feature
     const monthBucket = getBucketKey('monthly', new Date());
-    const usageRef = adminDb
+    const usageRef = db
       .collection('users')
       .doc(session.uid)
       .collection('usage')
@@ -138,7 +148,7 @@ export async function POST(request: NextRequest) {
     const evalContext: EvalContext = {
       userId: session.uid,
       plan: plan as any,
-      usage: { custom_lists: monthlyUsage },
+      usage: { custom_lists: monthlyUsage } as Record<FeatureId, number>,
       nowUtcISO: new Date().toISOString()
     };
 
@@ -240,10 +250,10 @@ export async function POST(request: NextRequest) {
       console.log('[POST /api/lists] Premium user - saving to Firebase:', session.uid);
 
       try {
-        const batch = adminDb.batch();
+        const batch = db.batch();
 
         // Save the list
-        const listsRef = adminDb.collection('users').doc(session.uid).collection('lists');
+        const listsRef = db.collection('users').doc(session.uid).collection('lists');
         batch.set(listsRef.doc(listId), newList);
 
         // Update usage tracking

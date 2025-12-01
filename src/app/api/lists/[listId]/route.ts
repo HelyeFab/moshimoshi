@@ -3,6 +3,14 @@ import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import type { UserList } from '@/types/userLists';
 
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available');
+  }
+  return adminDb;
+}
+
 /**
  * GET /api/lists/[listId]
  * Get a single list by ID
@@ -18,9 +26,10 @@ export async function GET(
     }
 
     const { listId } = await params;
+    const db = getDb();
 
     // Get the list from Firebase
-    const listDoc = await adminDb
+    const listDoc = await db
       .collection('users')
       .doc(session.uid)
       .collection('lists')
@@ -72,8 +81,10 @@ export async function PUT(
       );
     }
 
+    const db = getDb();
+
     // Get the list to verify ownership
-    const listRef = adminDb
+    const listRef = db
       .collection('users')
       .doc(session.uid)
       .collection('lists')
@@ -136,8 +147,10 @@ export async function DELETE(
     }
     console.log('[API DELETE] Session user:', session.uid, 'Deleting list:', listId);
 
+    const db = getDb();
+
     // Verify the list exists and belongs to the user
-    const listRef = adminDb
+    const listRef = db
       .collection('users')
       .doc(session.uid)
       .collection('lists')

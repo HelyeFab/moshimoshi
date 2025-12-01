@@ -150,7 +150,8 @@
       "Bash(then echo \"Libraries\" elif [[ \"$f\" == *\"/app/\"* ]])",
       "Bash(then echo \"Pages\" elif [[ \"$f\" == *\"/services/\"* ]])",
       "Bash(then echo \"Services\" elif [[ \"$f\" == *\"/utils/\"* ]])",
-      "Bash(then echo \"Utils\" else echo \"Other\" fi done)"
+      "Bash(then echo \"Utils\" else echo \"Other\" fi done)",
+      "Bash(xargs -I{} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && grep -n \"\"\"\"adminDb\"\"\"\" {} | grep -v \"\"\"\"function getDb\"\"\"\" | grep -v \"\"\"\"if (!adminDb)\"\"\"\" | head -20')"
     ],
     "deny": [],
     "ask": []

@@ -4,6 +4,14 @@ import { adminDb } from '@/lib/firebase/admin';
 import { v4 as uuidv4 } from 'uuid';
 import type { ListItem, ListType } from '@/types/userLists';
 
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available');
+  }
+  return adminDb;
+}
+
 /**
  * Normalize content for duplicate comparison based on list type
  */
@@ -58,8 +66,10 @@ export async function POST(
       );
     }
 
+    const db = getDb();
+
     // Get the list to verify ownership and get the type
-    const listRef = adminDb
+    const listRef = db
       .collection('users')
       .doc(session.uid)
       .collection('lists')
@@ -147,8 +157,10 @@ export async function DELETE(
       );
     }
 
+    const db = getDb();
+
     // Get the list to verify ownership
-    const listRef = adminDb
+    const listRef = db
       .collection('users')
       .doc(session.uid)
       .collection('lists')
@@ -220,8 +232,10 @@ export async function PUT(
       );
     }
 
+    const db = getDb();
+
     // Get the list to verify ownership
-    const listRef = adminDb
+    const listRef = db
       .collection('users')
       .doc(session.uid)
       .collection('lists')

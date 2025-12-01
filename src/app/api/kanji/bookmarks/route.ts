@@ -4,6 +4,14 @@ import { adminDb } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
 
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available');
+  }
+  return adminDb;
+}
+
 /**
  * GET /api/kanji/bookmarks
  * Get all user's bookmarked kanji
@@ -15,7 +23,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const bookmarksSnapshot = await adminDb
+    const db = getDb();
+    const bookmarksSnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('kanji_bookmarks')
@@ -66,8 +75,10 @@ export async function POST(request: NextRequest) {
     const decision = await getStorageDecision(session);
     const isPremium = decision.isPremium;
 
+    const db = getDb();
+
     // Count existing bookmarks
-    const bookmarksSnapshot = await adminDb
+    const bookmarksSnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('kanji_bookmarks')
@@ -92,7 +103,7 @@ export async function POST(request: NextRequest) {
     const timestamp = FieldValue.serverTimestamp();
 
     if (decision.shouldWriteToFirebase) {
-      await adminDb
+      await db
         .collection('users')
         .doc(session.uid)
         .collection('kanji_bookmarks')
@@ -108,7 +119,7 @@ export async function POST(request: NextRequest) {
         });
 
       // Update achievement tracking
-      await adminDb
+      await db
         .collection('users')
         .doc(session.uid)
         .collection('achievements')
@@ -157,10 +168,11 @@ export async function DELETE(request: NextRequest) {
 
     // Get storage decision
     const decision = await getStorageDecision(session);
+    const db = getDb();
 
     // Delete bookmark (only from Firebase for premium users)
     if (decision.shouldWriteToFirebase) {
-      await adminDb
+      await db
         .collection('users')
         .doc(session.uid)
         .collection('kanji_bookmarks')
@@ -168,7 +180,7 @@ export async function DELETE(request: NextRequest) {
         .delete();
 
       // Update achievement tracking
-      await adminDb
+      await db
         .collection('users')
         .doc(session.uid)
         .collection('achievements')
@@ -222,7 +234,8 @@ export async function PATCH(request: NextRequest) {
     if (tags !== undefined) updates.tags = tags;
     if (priority !== undefined) updates.priority = priority;
 
-    await adminDb
+    const db = getDb();
+    await db
       .collection('users')
       .doc(session.uid)
       .collection('kanji_bookmarks')

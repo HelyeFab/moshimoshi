@@ -8,6 +8,14 @@ import { z } from 'zod'
 import { Todo } from '@/types/todos'
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
 
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available')
+  }
+  return adminDb
+}
+
 // Validation schema for updates
 const UpdateTodoSchema = z.object({
   title: z.string().min(1).max(200).optional(),
@@ -48,8 +56,10 @@ export async function GET(
       )
     }
 
+    const db = getDb()
+
     // 3. Get the todo from Firebase (premium only)
-    const todoDoc = await adminDb
+    const todoDoc = await db
       .collection('users')
       .doc(session.uid)
       .collection('todos')
@@ -139,9 +149,10 @@ export async function PATCH(
     }
 
     const updates = validationResult.data
+    const db = getDb()
 
     // 4. Check if todo exists and belongs to user
-    const todoRef = adminDb
+    const todoRef = db
       .collection('users')
       .doc(session.uid)
       .collection('todos')
@@ -239,8 +250,10 @@ export async function DELETE(
       return createStorageResponse({ id, message: 'Delete from local storage' }, storageDecision)
     }
 
+    const db = getDb()
+
     // 3. Check if todo exists and belongs to user
-    const todoRef = adminDb
+    const todoRef = db
       .collection('users')
       .doc(session.uid)
       .collection('todos')
