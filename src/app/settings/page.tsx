@@ -465,21 +465,33 @@ export default function SettingsPage() {
                 label={strings.settings?.sections?.accessibility?.largeText?.label || "Large Text"}
                 description={strings.settings?.sections?.accessibility?.largeText?.description || "Increase text size for better readability"}
                 enabled={accessibility.largeText}
-                onChange={(value) => setAccessibility({ ...accessibility, largeText: value })}
+                onChange={(value) => {
+                  setAccessibility({ ...accessibility, largeText: value })
+                  if (value) document.documentElement.classList.add('text-large')
+                  else document.documentElement.classList.remove('text-large')
+                }}
                 icon="🔍"
               />
               <SettingToggle
                 label={strings.settings?.sections?.accessibility?.highContrast?.label || "High Contrast"}
                 description={strings.settings?.sections?.accessibility?.highContrast?.description || "Increase color contrast for visibility"}
                 enabled={accessibility.highContrast}
-                onChange={(value) => setAccessibility({ ...accessibility, highContrast: value })}
+                onChange={(value) => {
+                  setAccessibility({ ...accessibility, highContrast: value })
+                  if (value) document.documentElement.classList.add('high-contrast')
+                  else document.documentElement.classList.remove('high-contrast')
+                }}
                 icon="🎨"
               />
               <SettingToggle
                 label={strings.settings?.sections?.accessibility?.reduceMotion?.label || "Reduce Motion"}
                 description={strings.settings?.sections?.accessibility?.reduceMotion?.description || "Minimize animations and transitions"}
                 enabled={accessibility.reduceMotion}
-                onChange={(value) => setAccessibility({ ...accessibility, reduceMotion: value })}
+                onChange={(value) => {
+                  setAccessibility({ ...accessibility, reduceMotion: value })
+                  if (value) document.documentElement.classList.add('reduce-motion')
+                  else document.documentElement.classList.remove('reduce-motion')
+                }}
                 icon="🎬"
               />
             </div>
