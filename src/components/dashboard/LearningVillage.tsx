@@ -156,6 +156,16 @@ function StallCard({ stall, index }: { stall: any, index: number }) {
   const { strings } = useI18n()
   const cardRef = useRef<HTMLDivElement>(null)
 
+  // Determine variant for masonry variety
+  const featuredIds = ['hiragana', 'katakana', 'games', 'leaderboard', 'youtube-shadowing', 'kanji-mastery']
+  const compactIds = ['drill', 'resources', 'todos', 'blog', 'my-lists', 'textbook-vocab']
+  
+  const isFeatured = featuredIds.includes(stall.id)
+  const isCompact = compactIds.includes(stall.id)
+  
+  const heightClass = isFeatured ? 'min-h-[280px]' : isCompact ? 'min-h-[200px]' : 'min-h-[240px]'
+  const spacingClass = isFeatured ? 'space-y-6' : isCompact ? 'space-y-2' : 'space-y-4'
+
   const cardContent = (
     <div className={`
           relative overflow-hidden rounded-2xl
@@ -164,7 +174,8 @@ function StallCard({ stall, index }: { stall: any, index: number }) {
           hover:border-primary-400/80 dark:hover:border-primary-500/80
           shadow-xl hover:shadow-2xl ${stall.glow}
           transition-all duration-300 cursor-pointer
-          group
+          group flex flex-col
+          ${heightClass}
           before:absolute before:inset-0
           before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-transparent
           before:pointer-events-none
@@ -192,27 +203,34 @@ function StallCard({ stall, index }: { stall: any, index: number }) {
       <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-white/5 dark:from-black/20 dark:to-black/10 pointer-events-none" />
 
       {/* Content */}
-      <div className="relative p-6 space-y-4">
+      <div className={`relative p-6 ${spacingClass} flex-1 flex flex-col`}>
+        {/* Badge for featured items */}
+        {isFeatured && (
+          <div className="absolute top-0 right-0 mt-4 mr-4 px-2 py-1 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/10">
+             <span className="text-xs font-bold text-yellow-600 dark:text-yellow-400">✨ Popular</span>
+          </div>
+        )}
+
         {/* Emoji icon and stall image in a single row with space between */}
         <div className="flex items-center justify-between">
-          <span className="text-3xl filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0">
+          <span className={`filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0 ${isFeatured ? 'text-4xl' : 'text-3xl'}`}>
             {stall.icon}
           </span>
           <Image
             src={stall.stallImage}
             alt="Stall Image"
-            width={48}
-            height={48}
+            width={isFeatured ? 56 : 48}
+            height={isFeatured ? 56 : 48}
             className="opacity-60 group-hover:opacity-80 transition-opacity duration-300 flex-shrink-0"
           />
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight">
+        <h3 className={`font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight ${isFeatured ? 'text-xl' : 'text-lg'}`}>
           {/* Split title if it contains multiple words */}
           {stall.title.split(' ').length > 1 ? (
             <>
-              {stall.title.split(' ').map((word, index) => (
+              {stall.title.split(' ').map((word: string, index: number) => (
                 <span key={index} className="block">
                   {word}
                 </span>
@@ -224,12 +242,14 @@ function StallCard({ stall, index }: { stall: any, index: number }) {
         </h3>
 
         {/* Subtitle */}
-        <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors font-medium">
-          {stall.subtitle}
-        </p>
+        {!isCompact && (
+          <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors font-medium">
+            {stall.subtitle}
+          </p>
+        )}
 
         {/* Description */}
-        <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors">
+        <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-white/90 transition-colors flex-1">
           {stall.description}
         </p>
 
@@ -999,9 +1019,11 @@ export default function LearningVillage() {
 
 
         {/* Stalls grid with masonry layout */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6">
+        <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-6">
           {learningStalls.map((stall, index) => (
-            <StallCard key={stall.id} stall={stall} index={index} />
+            <div key={stall.id} className="break-inside-avoid mb-3 sm:mb-6">
+              <StallCard stall={stall} index={index} />
+            </div>
           ))}
         </div>
 
