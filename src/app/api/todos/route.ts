@@ -5,10 +5,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
 import { adminDb, FieldValue, Timestamp } from '@/lib/firebase/admin'
 import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator'
-import { EvalContext } from '@/types/entitlements'
+import { EvalContext, FeatureId } from '@/types/entitlements'
 import { z } from 'zod'
 import { CreateTodoInput, UpdateTodoInput, Todo } from '@/types/todos'
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
+
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available')
+  }
+  return adminDb
+}
 
 // Validation schemas
 const CreateTodoSchema = z.object({
@@ -44,7 +52,8 @@ export async function GET(request: NextRequest) {
 
     if (storageDecision.shouldWriteToFirebase) {
       // Premium users: read from Firebase
-      const todosSnapshot = await adminDb
+      const db = getDb()
+      const todosSnapshot = await db
         .collection('users')
         .doc(session.uid)
         .collection('todos')
@@ -110,16 +119,17 @@ export async function POST(request: NextRequest) {
     }
 
     const todoInput = validationResult.data
+    const db = getDb()
 
     // 3. Get FRESH user data (NEVER use session.tier!)
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const plan = userData?.subscription?.plan || 'free'
 
     // 4. Get current usage for today
     const nowUtcISO = new Date().toISOString()
     const bucket = getTodayBucket(nowUtcISO)
-    const usageRef = adminDb
+    const usageRef = db
       .collection('users')
       .doc(session.uid)
       .collection('usage')
@@ -129,15 +139,16 @@ export async function POST(request: NextRequest) {
     const currentUsage = usageDoc.data()?.todos || 0
 
     // 5. Build evaluation context
+    // Note: 'todos' feature uses 'save_items' entitlement category
     const evalContext: EvalContext = {
       userId: session.uid,
       plan: plan as any,
-      usage: { todos: currentUsage },
+      usage: { save_items: currentUsage } as Record<FeatureId, number>,
       nowUtcISO: nowUtcISO
     }
 
-    // 6. Check entitlements
-    const decision = evaluate('todos', evalContext)
+    // 6. Check entitlements (using save_items as todos category)
+    const decision = evaluate('save_items' as FeatureId, evalContext)
 
     if (!decision.allow) {
       return NextResponse.json({
@@ -161,7 +172,7 @@ export async function POST(request: NextRequest) {
     const storageDecision = await getStorageDecision(session)
 
     // Generate a consistent ID for both storage types
-    const todoId = adminDb.collection('_').doc().id
+    const todoId = db.collection('_').doc().id
 
     const todoData = {
       title: todoInput.title,
@@ -177,10 +188,10 @@ export async function POST(request: NextRequest) {
     if (storageDecision.shouldWriteToFirebase) {
       console.log(`[Storage] Premium user ${session.uid} - writing todo to Firebase`)
 
-      const batch = adminDb.batch()
+      const batch = db.batch()
 
       // Create the todo in Firebase
-      const todoRef = adminDb
+      const todoRef = db
         .collection('users')
         .doc(session.uid)
         .collection('todos')

@@ -105,8 +105,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const db = getDb()
+
     // Check if user is premium
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const isPremium = userData?.subscription?.plan === 'premium_monthly' ||
                       userData?.subscription?.plan === 'premium_yearly'
@@ -142,7 +144,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Save to Firebase
-    const docRef = await adminDb
+    const docRef = await db
       .collection('users')
       .doc(session.uid)
       .collection('searched_words')
@@ -181,8 +183,10 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
+    const db = getDb()
+
     // Check if user is premium
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const isPremium = userData?.subscription?.plan === 'premium_monthly' ||
                       userData?.subscription?.plan === 'premium_yearly'
@@ -206,7 +210,7 @@ export async function DELETE(request: NextRequest) {
       // Premium users: delete from Firebase
       if (entryId) {
         // Delete by ID
-        const docRef = adminDb
+        const docRef = db
           .collection('users')
           .doc(session.uid)
           .collection('searched_words')
@@ -233,7 +237,7 @@ export async function DELETE(request: NextRequest) {
         const timestamp = new Date(parseInt(timestampStr!))
 
         // Find the matching document
-        const querySnapshot = await adminDb
+        const querySnapshot = await db
           .collection('users')
           .doc(session.uid)
           .collection('searched_words')
@@ -281,14 +285,14 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Get all search history documents
-    const historySnapshot = await adminDb
+    const historySnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('searched_words')
       .get()
 
     // Batch delete for efficiency
-    const batch = adminDb.batch()
+    const batch = db.batch()
     historySnapshot.docs.forEach(doc => {
       batch.delete(doc.ref)
     })
@@ -327,8 +331,10 @@ export async function PATCH(request: NextRequest) {
       )
     }
 
+    const db = getDb()
+
     // Check if user is premium
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const isPremium = userData?.subscription?.plan === 'premium_monthly' ||
                       userData?.subscription?.plan === 'premium_yearly'
@@ -352,7 +358,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Update the search entry
-    const docRef = adminDb
+    const docRef = db
       .collection('users')
       .doc(session.uid)
       .collection('searched_words')

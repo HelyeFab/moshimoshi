@@ -3,7 +3,15 @@ import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
-import { EvalContext } from '@/types/entitlements';
+import { EvalContext, FeatureId } from '@/types/entitlements';
+
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available');
+  }
+  return adminDb;
+}
 
 /**
  * POST /api/kanji/add-to-review
@@ -16,6 +24,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const db = getDb();
+
     const body = await request.json();
     const { kanjiIds } = body;
 
@@ -27,12 +37,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user data and current usage for entitlement check
-    const userDoc = await adminDb.collection('users').doc(session.uid).get();
+    const userDoc = await db.collection('users').doc(session.uid).get();
     const userData = userDoc.data();
     const subscription = userData?.subscription;
 
     const today = getTodayBucket(new Date().toISOString());
-    const usageRef = adminDb
+    const usageRef = db
       .collection('users')
       .doc(session.uid)
       .collection('usage')
@@ -45,7 +55,7 @@ export async function POST(request: NextRequest) {
     const evalContext: EvalContext = {
       userId: session.uid,
       plan: subscription?.plan || 'free',
-      usage: { kanji_browser: currentUsage },
+      usage: { kanji_browser: currentUsage } as Record<FeatureId, number>,
       nowUtcISO: new Date().toISOString()
     };
 
@@ -66,12 +76,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Add kanji to review queue
-    const batch = adminDb.batch();
+    const batch = db.batch();
     const timestamp = FieldValue.serverTimestamp();
 
     for (const kanjiId of kanjiIds) {
       // Add to review queue
-      const queueRef = adminDb
+      const queueRef = db
         .collection('users')
         .doc(session.uid)
         .collection('review_queue')
@@ -91,7 +101,7 @@ export async function POST(request: NextRequest) {
       }, { merge: true });
 
       // Update progress to mark as added to review
-      const progressRef = adminDb
+      const progressRef = db
         .collection('users')
         .doc(session.uid)
         .collection('progress')
@@ -111,7 +121,7 @@ export async function POST(request: NextRequest) {
     }, { merge: true });
 
     // Log the action
-    const logRef = adminDb.collection('logs').doc();
+    const logRef = db.collection('logs').doc();
     batch.set(logRef, {
       action: 'kanji_added_to_review',
       userId: session.uid,
@@ -123,7 +133,7 @@ export async function POST(request: NextRequest) {
     await batch.commit();
 
     // Track achievement progress
-    await adminDb
+    await db
       .collection('users')
       .doc(session.uid)
       .collection('achievements')
@@ -137,7 +147,7 @@ export async function POST(request: NextRequest) {
     const newUsage = currentUsage + kanjiIds.length;
     const newContext: EvalContext = {
       ...evalContext,
-      usage: { kanji_browser: newUsage }
+      usage: { kanji_browser: newUsage } as Record<FeatureId, number>
     };
     const newDecision = evaluate('kanji_browser', newContext);
 

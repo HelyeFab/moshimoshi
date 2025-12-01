@@ -3,17 +3,26 @@ import { adminDb, FieldValue } from '@/lib/firebase/admin';
 import { cookies } from 'next/headers';
 import { getSession } from '@/lib/auth/session';
 
+// Helper for database availability check
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Database not available');
+  }
+  return adminDb;
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const db = getDb();
     const { id } = await params;
     const searchParams = req.nextUrl.searchParams;
     const skipTracking = searchParams.get('skipTracking') === 'true';
 
     // Fetch the resource
-    const doc = await adminDb.collection('resources').doc(id).get();
+    const doc = await db.collection('resources').doc(id).get();
 
     if (!doc.exists) {
       return NextResponse.json(
@@ -34,7 +43,7 @@ export async function GET(
 
     // Track unique views - don't increment on every page load
     if (!skipTracking) {
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       const viewedResourcesCookie = cookieStore.get('viewed_resources');
       const viewedResources = viewedResourcesCookie ? JSON.parse(viewedResourcesCookie.value) : [];
 
@@ -47,7 +56,7 @@ export async function GET(
 
         // Update cookie to remember this view (expires in 24 hours)
         viewedResources.push(id);
-        cookies().set('viewed_resources', JSON.stringify(viewedResources), {
+        (await cookies()).set('viewed_resources', JSON.stringify(viewedResources), {
           maxAge: 60 * 60 * 24, // 24 hours
           httpOnly: true,
           sameSite: 'lax'
@@ -56,7 +65,7 @@ export async function GET(
     }
 
     // Get the latest view count after potential update
-    const updatedDoc = await adminDb.collection('resources').doc(id).get();
+    const updatedDoc = await db.collection('resources').doc(id).get();
     const updatedData = updatedDoc.data();
 
     return NextResponse.json({
@@ -83,6 +92,8 @@ export async function GET(
 
 async function trackUniqueView(resourceId: string, req: NextRequest) {
   try {
+    const db = getDb();
+
     // Get user identifier (logged in user ID or anonymous session)
     const session = await getSession();
     const userId = session?.uid || null;
@@ -103,7 +114,7 @@ async function trackUniqueView(resourceId: string, req: NextRequest) {
     // Check if this user has already viewed this resource today
     if (userId) {
       // For logged-in users, check by userId
-      const existingView = await adminDb
+      const existingView = await db
         .collection('resource_views')
         .where('resourceId', '==', resourceId)
         .where('userId', '==', userId)
@@ -118,10 +129,10 @@ async function trackUniqueView(resourceId: string, req: NextRequest) {
     }
 
     // Record the unique view
-    await adminDb.collection('resource_views').add(viewData);
+    await db.collection('resource_views').add(viewData);
 
     // Increment the view count
-    await adminDb.collection('resources').doc(resourceId).update({
+    await db.collection('resources').doc(resourceId).update({
       views: FieldValue.increment(1),
       lastViewedAt: FieldValue.serverTimestamp()
     });

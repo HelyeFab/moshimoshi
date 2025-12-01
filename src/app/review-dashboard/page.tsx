@@ -24,6 +24,7 @@ export default function ReviewDashboard() {
 
   // Use real data hooks instead of mock data
   const {
+    srsItems,
     queueItems,
     sessions,
     currentSession,
@@ -43,7 +44,37 @@ export default function ReviewDashboard() {
     isEnabled: gamificationEnabled
   } = useGamification();
 
-  const stats = { currentStreak, bestStreak };
+  // Calculate stats from srsItems for StatsOverview component
+  const stats = useMemo(() => {
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    // Count items by state
+    const newItems = srsItems.filter(item => item.state === 'new').length;
+    const learningItems = srsItems.filter(item => item.state === 'learning').length;
+    const masteredItems = srsItems.filter(item => item.state === 'mastered').length;
+
+    // Count items due now (nextReviewDate <= now)
+    const dueNow = srsItems.filter(item =>
+      item.nextReviewDate && new Date(item.nextReviewDate) <= now
+    ).length;
+
+    // Calculate today's progress from sessions completed today
+    const todaysProgress = sessions
+      .filter(session => new Date(session.date) >= todayStart)
+      .reduce((total, session) => total + session.itemsReviewed, 0);
+
+    return {
+      dueNow,
+      newItems,
+      learningItems,
+      masteredItems,
+      todaysGoal: 20, // Default daily goal
+      todaysProgress,
+      currentStreak
+    };
+  }, [srsItems, sessions, currentStreak]);
+
   const levelInfo = gamificationEnabled ? { level: currentLevel, xp: totalXP } : null;
 
   // Combined loading state

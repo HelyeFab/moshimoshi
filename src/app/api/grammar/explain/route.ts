@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator';
-import type { EvalContext } from '@/lib/entitlements/evaluator';
+import type { EvalContext, FeatureId as EntitlementFeatureId } from '@/types/entitlements';
 import type { FeatureId } from '@/types/FeatureId';
 import { AIService } from '@/lib/ai/AIService';
 import { getCachedExplanation, setCachedExplanation } from '@/lib/ai/cache/GrammarExplanationCache';
 
-const FEATURE_ID = 'grammar_explanations' as FeatureId;
+const FEATURE_ID: FeatureId = 'grammar_explanations';
 const MAX_SENTENCE_LENGTH = 500;
 const MAX_CONTEXT_LENGTH = 1200;
 const MAX_SURROUNDING_SENTENCES = 5;
@@ -58,8 +58,9 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Session already fetched above for rate limiting
-    if (!session) {
+    // Get session for authentication
+    const session = await getSession();
+    if (!session?.uid) {
       return NextResponse.json({
         success: false,
         error: 'UNAUTHENTICATED'
@@ -78,7 +79,7 @@ export async function POST(request: NextRequest) {
     const plan = userData?.subscription?.plan || 'free';
 
     const nowUtc = new Date().toISOString();
-    const bucketKey = getBucketKey(FEATURE_ID, session.uid, nowUtc);
+    const bucketKey = getBucketKey(FEATURE_ID as EntitlementFeatureId, session.uid, nowUtc);
     const usageRef = adminDb.collection('users').doc(session.uid).collection('usage').doc(bucketKey);
     const usageDoc = await usageRef.get();
     const currentUsage = usageDoc.data()?.[FEATURE_ID] || 0;
@@ -86,11 +87,11 @@ export async function POST(request: NextRequest) {
     const evalContext: EvalContext = {
       userId: session.uid,
       plan: plan as any,
-      usage: { [FEATURE_ID]: currentUsage },
+      usage: { [FEATURE_ID]: currentUsage } as Record<EntitlementFeatureId, number>,
       nowUtcISO: nowUtc
     };
 
-    const decision = evaluate(FEATURE_ID, evalContext);
+    const decision = evaluate(FEATURE_ID as EntitlementFeatureId, evalContext);
     if (!decision.allow) {
       return NextResponse.json({
         success: false,

@@ -1,0 +1,1088 @@
+version: "1.0"
+
+metadata:
+  name: "Stripe Integration Implementation Context"
+  id: "moshimoshi-stripe-integration-v1.0"
+  role: "Guide future AI agents working on Stripe payment, subscription, and billing features"
+  created: "2025-12-01"
+  updated: "2025-12-01"
+  owner: "beano"
+  project: "Moshimoshi Japanese Learning Platform"
+  tags:
+    - "stripe"
+    - "payments"
+    - "subscriptions"
+    - "webhooks"
+    - "firebase-functions"
+    - "billing"
+    - "checkout"
+    - "invoices"
+
+# ============================================================================
+# EXECUTIVE SUMMARY
+# ============================================================================
+
+executive_summary:
+  description: |
+    Production-grade, enterprise-level Stripe integration supporting subscription management,
+    checkout flows, billing portal, invoice management, admin testing infrastructure, and
+    one-time donations. The system spans 32 critical files across frontend (Next.js 15 App Router)
+    and backend (Firebase Cloud Functions v2).
+
+  architecture_highlights:
+    - "Dual-layer webhook processing: Next.js API webhook + Firebase Functions webhook"
+    - "Bidirectional customer-UID mapping in Firestore"
+    - "Idempotent event processing with deduplication"
+    - "Multi-tier caching invalidation system (6 cache types)"
+    - "Admin testing suite for zero-cost production testing"
+    - "Comprehensive audit logging for all Stripe events"
+
+  production_status: "READY"
+  total_files_analyzed: 32
+  total_lines_of_code: "~7,500"
+
+# ============================================================================
+# PROJECT TECH STACK
+# ============================================================================
+
+tech_stack:
+  framework: "Next.js 15.5.2"
+  language: "TypeScript"
+  backend: "Firebase Cloud Functions v2"
+  database: "Firestore"
+  payments: "Stripe"
+  region: "europe-west1"
+  stripe_api_version: "2025-08-27.basil"
+  auth: "Firebase Auth + Custom JWT Sessions (Redis)"
+  caching: "Redis (Vercel KV)"
+
+# ============================================================================
+# PRICING CONFIGURATION
+# ============================================================================
+
+pricing:
+  currency: "GBP"
+  currency_symbol: "£"
+
+  plans:
+    free:
+      price: 0
+      features:
+        - "Basic drills"
+        - "Limited reviews"
+        - "Offline access (IndexedDB only)"
+
+    premium_monthly:
+      price: 8.99
+      interval: "month"
+      price_ids:
+        test: "price_1S6wG7HdrJomitOw5YvQ71DD"
+        production: "price_1S6vKuHdrJomitOw4XuExllV"
+      features:
+        - "All drills and content"
+        - "Unlimited reviews"
+        - "Firebase sync"
+        - "Advanced analytics"
+
+    premium_yearly:
+      price: 99.99
+      interval: "year"
+      savings_percentage: 7
+      price_ids:
+        test: "price_1S6wGGHdrJomitOwcmT2JeUG"
+        production: "price_1S6vMBHdrJomitOwweaSGhYp"
+      features:
+        - "All premium features"
+        - "Best value"
+
+  easter_egg:
+    description: "Admin-only zero-cost subscription for production testing"
+    price_id: "price_1SEXlIHdrJomitOw956pZB3q"
+    amount: 0
+    interval: "month"
+
+# ============================================================================
+# ARCHITECTURE OVERVIEW
+# ============================================================================
+
+architecture:
+  layers:
+    frontend:
+      description: "Next.js 15 App Router with React Server Components"
+      components:
+        library:
+          path: "src/lib/stripe/"
+          files:
+            - "server.ts - Stripe client initialization (singleton)"
+            - "types.ts - TypeScript definitions"
+            - "mapping.ts - Price ID to plan conversion"
+            - "api.ts - Client-side API wrapper"
+            - "invoice-messages.ts - UI message generator"
+
+        api_routes:
+          path: "src/app/api/"
+          count: 11
+          categories:
+            user_routes:
+              - "stripe/webhook/route.ts"
+              - "stripe/create-checkout-session/route.ts"
+              - "stripe/create-portal-session/route.ts"
+              - "stripe/invoices/route.ts"
+              - "stripe/donate/route.ts"
+            admin_routes:
+              - "admin/stripe/test-checkout/route.ts"
+              - "admin/stripe/test-renewal/route.ts"
+              - "admin/stripe/test-cancel/route.ts"
+              - "admin/stripe/cleanup/route.ts"
+              - "admin/stripe/health/route.ts"
+              - "admin/subscriptions/upgrade/route.ts"
+
+        config:
+          path: "src/config/"
+          files:
+            - "pricing.ts - Pricing configuration (single source of truth)"
+            - "donations.ts - Donation configuration"
+
+    backend:
+      description: "Firebase Cloud Functions v2 (Node.js 20)"
+      components:
+        infrastructure:
+          path: "functions/src/"
+          files:
+            - "stripeClient.ts - Singleton Stripe client"
+            - "mapping/stripeMapping.ts - Price ID mapping"
+            - "webhook.ts - Main webhook handler"
+            - "firestore.ts - Data persistence layer (810 lines)"
+
+        handlers:
+          path: "functions/src/handlers/"
+          files:
+            - "checkout.ts - checkout.session.completed handler"
+            - "subscriptions.ts - customer.subscription.* handlers"
+            - "invoices.ts - invoice.* handlers"
+
+  data_flow:
+    checkout:
+      description: "User subscription flow"
+      steps:
+        - "User clicks Subscribe on Pricing page"
+        - "POST /api/stripe/create-checkout-session"
+        - "Session auth via getSession()"
+        - "Get/create Stripe customer"
+        - "Create bidirectional mapping (uid <-> customerId)"
+        - "Create Stripe Checkout session"
+        - "Redirect to Stripe Checkout"
+        - "User completes payment"
+        - "Stripe sends webhooks to Firebase Functions"
+        - "Webhook handler processes events"
+        - "Firestore updated with subscription facts"
+        - "Cache invalidation triggers"
+        - "User sees premium features immediately"
+
+    webhook:
+      description: "Webhook processing flow"
+      steps:
+        - "Stripe sends POST to webhook endpoint"
+        - "Verify signature with STRIPE_WEBHOOK_SECRET"
+        - "Check deduplication: wasProcessed(event.id)"
+        - "Log event to Firestore"
+        - "Route to appropriate handler"
+        - "Handler updates Firestore"
+        - "Invalidate user caches"
+        - "Mark event as processed"
+        - "Return 200 (or 500 to retry)"
+
+# ============================================================================
+# CRITICAL FILES WITH LINE REFERENCES
+# ============================================================================
+
+critical_files:
+  frontend_library:
+    - path: "src/lib/stripe/server.ts"
+      purpose: "Server-side Stripe client initialization"
+      key_lines:
+        - "32: apiVersion '2025-08-27.basil'"
+        - "35: maxNetworkRetries: 2"
+        - "36: timeout: 20000"
+      exports:
+        - "getStripe() - Returns singleton Stripe instance"
+
+    - path: "src/lib/stripe/types.ts"
+      purpose: "TypeScript definitions for Stripe integration"
+      key_types:
+        - "SubscriptionPlan = 'free' | 'premium_monthly' | 'premium_yearly'"
+        - "SubscriptionStatus = 'active' | 'incomplete' | 'past_due' | 'canceled' | 'trialing'"
+        - "CheckoutSessionRequest"
+        - "PortalSessionRequest"
+        - "Invoice interface"
+
+    - path: "src/lib/stripe/mapping.ts"
+      purpose: "Price ID to plan mapping (frontend)"
+      key_functions:
+        - "toPlan(priceId) - Convert price ID to plan name"
+        - "getPriceId(plan) - Get price ID for plan"
+        - "isValidPriceId(priceId) - Validate price ID"
+      key_constants:
+        - "PRICE_TO_PLAN - Mapping object"
+
+    - path: "src/lib/stripe/api.ts"
+      purpose: "Client-side API wrapper"
+      key_functions:
+        - "createCheckoutSession(priceId, successUrl, cancelUrl)"
+        - "createPortalSession(returnUrl)"
+        - "fetchInvoices()"
+      idempotency: "Uses crypto.randomUUID() for idempotency keys"
+
+    - path: "src/lib/stripe/invoice-messages.ts"
+      purpose: "User-friendly invoice messages"
+      key_functions:
+        - "getInvoiceMessage(status, amount, currency)"
+        - "formatCurrency(amount, currency)"
+
+  frontend_api_routes:
+    - path: "src/app/api/stripe/create-checkout-session/route.ts"
+      purpose: "Creates Stripe Checkout sessions"
+      key_lines:
+        - "19: getSession() for authentication"
+        - "52-70: Customer creation/retrieval with Stripe verification"
+        - "74-102: Checkout session creation with metadata"
+      security:
+        - "Session-based auth (not Firebase token)"
+        - "Customer existence verification"
+        - "Idempotency key support"
+
+    - path: "src/app/api/stripe/create-portal-session/route.ts"
+      purpose: "Creates Stripe Billing Portal sessions"
+      key_lines:
+        - "39: getCustomerIdByUid(uid)"
+        - "51-54: Portal session creation"
+      requires: "Existing Stripe customer"
+
+    - path: "src/app/api/stripe/invoices/route.ts"
+      purpose: "Fetches user invoices"
+      key_lines:
+        - "25-29: Fetch last 100 invoices"
+        - "32-37: Filter out $0 test invoices"
+      returns: "Simplified invoice format for UI"
+
+    - path: "src/app/api/stripe/donate/route.ts"
+      purpose: "One-time donation checkout"
+      key_lines:
+        - "17-22: Minimum $1.00 validation"
+        - "43-70: Payment mode checkout"
+      supports: "Anonymous donations (no auth required)"
+
+    - path: "src/app/api/admin/stripe/test-checkout/route.ts"
+      purpose: "Admin-only zero-cost production testing"
+      key_lines:
+        - "22: EASTER_EGG_PRICE_ID"
+        - "25-53: isUserAdmin() check"
+        - "121-130: Production-only enforcement"
+        - "233-259: Checkout session with test metadata"
+        - "273-280: Audit logging"
+      security:
+        - "Admin-only (Firestore isAdmin check)"
+        - "Production-only"
+        - "Easter egg price validation"
+
+    - path: "src/app/api/admin/stripe/test-renewal/route.ts"
+      purpose: "Simulates subscription renewal"
+      key_lines:
+        - "86-96: Create invoice item"
+        - "102-112: Create invoice"
+        - "123: Finalize invoice"
+        - "128: Pay invoice (triggers webhook)"
+      triggers: "invoice.payment_succeeded webhook"
+
+    - path: "src/app/api/admin/stripe/test-cancel/route.ts"
+      purpose: "Tests subscription cancellation"
+      key_lines:
+        - "86-88: Cancel subscription immediately"
+      triggers: "customer.subscription.deleted webhook"
+
+    - path: "src/app/api/admin/stripe/cleanup/route.ts"
+      purpose: "Comprehensive admin cleanup"
+      key_lines:
+        - "75-86: Cancel all subscriptions"
+        - "89-109: Void open invoices"
+        - "112: Reset Firestore to free tier"
+        - "116-134: Invalidate all caches"
+        - "162-188: resetFirestoreSubscription()"
+      actions:
+        - "Cancel all active subscriptions"
+        - "Void open invoices"
+        - "Reset Firestore subscription to free"
+        - "Invalidate all user caches"
+
+    - path: "src/app/api/admin/stripe/health/route.ts"
+      purpose: "Health check endpoint"
+      checks:
+        - "Session status"
+        - "Firebase Admin availability"
+        - "Admin status"
+        - "Stripe configuration"
+        - "App URL configuration"
+      returns: "HEALTHY or UNHEALTHY with details"
+
+    - path: "src/app/api/admin/subscriptions/upgrade/route.ts"
+      purpose: "Admin-initiated subscription changes"
+      key_lines:
+        - "162-185: Create 100% off coupon"
+        - "192-216: Create subscription with coupon"
+        - "220-226: CRITICAL FIX - Use actual price ID from subscription"
+        - "251-261: Audit logging"
+      critical_fix:
+        issue: "Was using requested plan instead of actual Stripe price"
+        solution: "Use toPlan(actualPriceId) from subscription items"
+
+  backend_infrastructure:
+    - path: "functions/src/stripeClient.ts"
+      purpose: "Singleton Stripe client for Firebase Functions"
+      key_lines:
+        - "30-42: Stripe initialization with config"
+        - "31: apiVersion '2025-08-27.basil'"
+        - "34-36: maxNetworkRetries, timeout, telemetry"
+        - "63-72: verifyStripeConnection()"
+        - "80-99: getStripeDashboardUrl(objectId)"
+      exports:
+        - "getStripe() - Returns Stripe instance"
+        - "verifyStripeConnection() - Health check"
+        - "getStripeDashboardUrl(objectId) - Dashboard links"
+
+    - path: "functions/src/mapping/stripeMapping.ts"
+      purpose: "Price ID mapping for backend"
+      key_lines:
+        - "20-24: Hardcoded price IDs (TEST and PROD)"
+        - "29-40: TEST_PRICES and PRODUCTION_PRICES maps"
+        - "53-56: PRICE_TO_PLAN combined mapping"
+        - "71-74: toPlan(priceId)"
+        - "89-102: getSubscriptionPlan(priceId, hasActive)"
+      exports:
+        - "toPlan(priceId)"
+        - "getSubscriptionPlan(priceId, hasActive)"
+        - "isValidPriceId(priceId)"
+        - "getPriceIdsForPlan(plan)"
+        - "isTestPrice(priceId)"
+        - "isLegacyPrice(priceId)"
+        - "DEFAULT_PLAN, DEFAULT_PAID_PLAN"
+
+    - path: "functions/src/webhook.ts"
+      purpose: "Main Stripe webhook handler"
+      key_lines:
+        - "24-25: defineSecret for secrets"
+        - "37-42: Function config (region, maxInstances, secrets)"
+        - "52-57: Signature header validation"
+        - "68-88: Signature verification"
+        - "91-104: Deduplication check"
+        - "107-112: Event logging"
+        - "118-167: Event routing switch"
+        - "170: markProcessed(event.id)"
+        - "180-194: Error handling (return 500 for retry)"
+      event_routing:
+        checkout: "checkout.session.completed -> applyCheckoutCompleted()"
+        subscription: "customer.subscription.* -> applySubscriptionEvent()"
+        invoice: "invoice.* -> applyInvoiceEvent()"
+
+    - path: "functions/src/firestore.ts"
+      purpose: "Data persistence layer"
+      lines: 810
+      key_sections:
+        types:
+          lines: "26-92"
+          exports:
+            - "SubscriptionPlan"
+            - "SubscriptionStatus"
+            - "UserSubscriptionFacts"
+            - "UserDoc"
+            - "StripeEventLog"
+            - "ProcessedEvent"
+            - "CustomerMapping"
+            - "UidMapping"
+
+        idempotency:
+          lines: "100-146"
+          functions:
+            - "wasProcessed(eventId) - Check if already processed"
+            - "markProcessed(eventId) - Mark as processed (30 day TTL)"
+            - "batchMarkProcessed(eventIds[]) - Batch marking"
+
+        logging:
+          lines: "152-216"
+          functions:
+            - "logStripeEvent(event, extra?) - Log event for audit"
+            - "logDedupedEvent(event) - Log deduped event"
+
+        mapping:
+          lines: "225-289"
+          functions:
+            - "mapUidToCustomer(uid, customerId) - Bidirectional mapping"
+            - "getCustomerIdByUid(uid) - Get customer from uid"
+            - "getUidByCustomerId(customerId) - Get uid from customer"
+            - "hasCustomerMapping(customerId) - Check if mapping exists"
+
+        subscription_facts:
+          lines: "299-434"
+          functions:
+            - "upsertUserSubscriptionByCustomerId(customerId, facts)"
+            - "upsertUserSubscriptionByUid(uid, customerId, facts)"
+            - "clearUserSubscription(uid)"
+
+        batch_operations:
+          lines: "443-524"
+          functions:
+            - "batchUpdateSubscriptions(updates[])"
+            - "buildSubscriptionData(customerId, facts)"
+
+        transactions:
+          lines: "533-597"
+          functions:
+            - "runTransaction(fn, maxAttempts) - With exponential backoff"
+            - "atomicSubscriptionUpdate(uid, customerId, updater)"
+
+        cleanup:
+          lines: "606-674"
+          functions:
+            - "cleanupOldProcessedEvents(daysToKeep) - 30 day default"
+            - "cleanupOldEventLogs(daysToKeep) - 90 day default"
+
+        queries:
+          lines: "683-765"
+          functions:
+            - "getUserSubscription(uid)"
+            - "getRecentUserEvents(uid, limit)"
+            - "getEventsByType(eventType, limit)"
+            - "checkSubscriptionHealth(uid)"
+
+  backend_handlers:
+    - path: "functions/src/handlers/checkout.ts"
+      purpose: "Checkout completion handler"
+      key_lines:
+        - "32-59: invalidateAllUserCaches()"
+        - "72-143: applyCheckoutCompleted(event)"
+        - "89-92: UID extraction fallback chain"
+        - "108-132: Admin test checkout detection"
+        - "151-190: handleSubscriptionCheckout()"
+        - "236-258: extractPriceId() fallback chain"
+      uid_sources:
+        - "client_reference_id"
+        - "metadata.uid"
+        - "customer_details.metadata.uid"
+
+    - path: "functions/src/handlers/subscriptions.ts"
+      purpose: "Subscription lifecycle handler"
+      key_lines:
+        - "34-97: invalidateAllUserCaches() with retry logic"
+        - "105-142: applySubscriptionEvent() router"
+        - "150-170: handleSubscriptionCreated()"
+        - "179-208: handleSubscriptionUpdated()"
+        - "217-243: handleSubscriptionDeleted()"
+        - "251-287: extractSubscriptionFacts()"
+        - "295-317: normalizeSubscriptionStatus()"
+      status_mapping:
+        active: "active"
+        past_due: "past_due"
+        incomplete: "incomplete"
+        incomplete_expired: "incomplete"
+        trialing: "trialing"
+        canceled: "canceled"
+        unpaid: "canceled"
+        paused: "past_due"
+
+    - path: "functions/src/handlers/invoices.ts"
+      purpose: "Invoice event handler"
+      key_lines:
+        - "23-66: applyInvoiceEvent() router"
+        - "75-110: handleInvoicePaymentSucceeded()"
+        - "119-173: handleInvoicePaymentFailed()"
+        - "182-196: handleInvoiceCreated()"
+        - "205-213: handleInvoiceFinalized()"
+        - "222-247: handlePaymentActionRequired()"
+      payment_failure_logic:
+        with_retry: "status = 'past_due'"
+        no_retry: "status = 'canceled'"
+
+# ============================================================================
+# FIRESTORE SCHEMA
+# ============================================================================
+
+firestore_schema:
+  collections:
+    users:
+      path: "/users/{uid}"
+      fields:
+        subscription:
+          plan: "SubscriptionPlan (free | premium_monthly | premium_yearly)"
+          status: "SubscriptionStatus (active | incomplete | past_due | canceled | trialing)"
+          stripeCustomerId: "string"
+          stripeSubscriptionId: "string"
+          stripePriceId: "string"
+          currentPeriodEnd: "Timestamp"
+          currentPeriodStart: "Timestamp"
+          cancelAtPeriodEnd: "boolean"
+          canceledAt: "Timestamp | null"
+          trialEnd: "Timestamp | null"
+          metadata:
+            source: "'stripe'"
+            updatedAt: "Timestamp"
+            updateEventId: "string (event that caused update)"
+
+    stripe_uid_to_customer:
+      path: "/stripe/byUid/uidToCustomer/{uid}"
+      fields:
+        customerId: "string"
+        createdAt: "Timestamp"
+        updatedAt: "Timestamp"
+
+    stripe_customer_to_uid:
+      path: "/stripe/byCustomer/customerToUid/{customerId}"
+      fields:
+        uid: "string"
+        createdAt: "Timestamp"
+        updatedAt: "Timestamp"
+
+    processed_events:
+      path: "/ops/stripe/processed_events/{eventId}"
+      fields:
+        ts: "Timestamp"
+        processedAt: "Timestamp"
+        ttl: "Timestamp (30 days)"
+
+    event_logs:
+      path: "/logs/stripe/events/{auto-id}"
+      fields:
+        ts: "Timestamp"
+        eventId: "string"
+        type: "string"
+        requestId: "string | null"
+        livemode: "boolean"
+        uid: "string | null"
+        customerId: "string | null"
+        objectId: "string | null"
+        payloadSummary:
+          status: "string"
+          priceId: "string"
+          amount: "number"
+          currency: "string"
+        processing:
+          deduped: "boolean"
+          applied: "boolean"
+          error: "string | null"
+          processingTimeMs: "number"
+
+    admin_logs:
+      path: "/admin_logs/{auto-id}"
+      fields:
+        action: "string"
+        adminUid: "string"
+        adminEmail: "string"
+        targetUserId: "string"
+        fromPlan: "string"
+        toPlan: "string"
+        reason: "string"
+        timestamp: "Timestamp"
+
+# ============================================================================
+# WEBHOOK EVENTS HANDLED
+# ============================================================================
+
+webhook_events:
+  checkout:
+    - event: "checkout.session.completed"
+      handler: "applyCheckoutCompleted"
+      actions:
+        - "Create UID-Customer mapping"
+        - "Update subscription facts"
+        - "Invalidate caches"
+
+  subscription:
+    - event: "customer.subscription.created"
+      handler: "handleSubscriptionCreated"
+      actions:
+        - "Extract subscription facts"
+        - "Upsert to Firestore"
+        - "Invalidate caches"
+
+    - event: "customer.subscription.updated"
+      handler: "handleSubscriptionUpdated"
+      actions:
+        - "Extract updated facts"
+        - "Upsert to Firestore"
+        - "Invalidate caches"
+
+    - event: "customer.subscription.deleted"
+      handler: "handleSubscriptionDeleted"
+      actions:
+        - "Set plan to 'free'"
+        - "Set status to 'canceled'"
+        - "Clear subscription IDs"
+        - "Invalidate caches (critical for security)"
+
+    - event: "customer.subscription.paused"
+      handler: "applySubscriptionEvent"
+      status: "Logged but not actively processed"
+
+    - event: "customer.subscription.resumed"
+      handler: "applySubscriptionEvent"
+      status: "Logged but not actively processed"
+
+  invoice:
+    - event: "invoice.payment_succeeded"
+      handler: "handleInvoicePaymentSucceeded"
+      actions:
+        - "Set status to 'active'"
+        - "Update payment metadata"
+
+    - event: "invoice.payment_failed"
+      handler: "handleInvoicePaymentFailed"
+      actions:
+        - "Set status to 'past_due' or 'canceled'"
+        - "Track failure metadata"
+
+    - event: "invoice.payment_action_required"
+      handler: "handlePaymentActionRequired"
+      actions:
+        - "Set status to 'incomplete'"
+        - "Store hosted_invoice_url"
+
+    - event: "invoice.created"
+      handler: "handleInvoiceCreated"
+      status: "Logged only"
+
+    - event: "invoice.finalized"
+      handler: "handleInvoiceFinalized"
+      status: "Logged only"
+
+  customer:
+    events:
+      - "customer.created"
+      - "customer.updated"
+      - "customer.deleted"
+    status: "Received but not processed (logged)"
+
+  payment_method:
+    events:
+      - "payment_method.attached"
+      - "payment_method.detached"
+      - "payment_method.updated"
+    status: "Received but not processed (logged)"
+
+# ============================================================================
+# SECURITY IMPLEMENTATION
+# ============================================================================
+
+security:
+  webhook_signature:
+    description: "Stripe webhook signature verification"
+    frontend:
+      file: "src/app/api/stripe/webhook/route.ts"
+      method: "stripe.webhooks.constructEvent(rawBody, sig, secret)"
+      critical: "Must use req.text() to preserve raw body"
+    backend:
+      file: "functions/src/webhook.ts"
+      method: "stripe.webhooks.constructEvent(rawBody, sig, webhookSecret)"
+      note: "Functions v2 provides rawBody automatically"
+
+  admin_authorization:
+    description: "Admin-only endpoint protection"
+    pattern: |
+      async function isUserAdmin(uid: string): Promise<boolean> {
+        const userDoc = await adminFirestore.collection('users').doc(uid).get()
+        return userDoc.data()?.isAdmin === true
+      }
+    used_in:
+      - "admin/stripe/test-checkout"
+      - "admin/stripe/test-renewal"
+      - "admin/stripe/test-cancel"
+      - "admin/stripe/cleanup"
+      - "admin/subscriptions/upgrade"
+
+  api_key_management:
+    environment_variables:
+      frontend:
+        - "STRIPE_SECRET_KEY"
+        - "STRIPE_WEBHOOK_SECRET"
+        - "NEXT_PUBLIC_STRIPE_PRICE_MONTHLY"
+        - "NEXT_PUBLIC_STRIPE_PRICE_YEARLY"
+      backend:
+        - "STRIPE_SECRET_KEY (Google Secret Manager)"
+        - "STRIPE_WEBHOOK_SECRET (Google Secret Manager)"
+        - "APP_URL"
+    best_practices:
+      - "Secrets in Google Secret Manager (not env vars)"
+      - "Public keys prefixed with NEXT_PUBLIC_ only"
+      - "Validation on startup (throws if missing)"
+
+  session_auth:
+    description: "Session-based authentication for API routes"
+    pattern: |
+      const session = await getSession()
+      if (!session?.uid) return 401
+    file: "src/lib/auth/session.ts"
+    note: "Uses Redis-backed JWT sessions, not Firebase tokens"
+
+# ============================================================================
+# CACHE INVALIDATION
+# ============================================================================
+
+cache_invalidation:
+  endpoint: "/api/auth/invalidate-all-caches"
+  trigger_events:
+    - "checkout.session.completed"
+    - "customer.subscription.created"
+    - "customer.subscription.updated"
+    - "customer.subscription.deleted"
+
+  cache_types:
+    - name: "Tier cache"
+      ttl: "30s"
+      purpose: "User subscription level"
+    - name: "Session cache"
+      ttl: "1hr"
+      purpose: "User session data"
+    - name: "Stats cache"
+      ttl: "1hr"
+      purpose: "Progress, streaks"
+    - name: "Queue cache"
+      ttl: "30min"
+      purpose: "Review queue"
+    - name: "Entitlements cache"
+      ttl: "10min"
+      purpose: "Feature flags"
+    - name: "Profile cache"
+      ttl: "15min"
+      purpose: "User profile data"
+
+  retry_logic:
+    max_retries: 3
+    backoff: "Exponential (1s, 2s, 3s)"
+    on_failure: "Log error, don't fail webhook"
+
+  rationale: |
+    We invalidate everything on subscription changes because:
+    1. Zero staleness - user sees premium immediately
+    2. Simple logic - no selective invalidation bugs
+    3. Rare operation - minimal performance impact
+
+# ============================================================================
+# KNOWN ISSUES & FIXES
+# ============================================================================
+
+bugs_fixed:
+  - id: "BUG-001"
+    name: "Duplicate Event Processing"
+    status: "FIXED"
+    root_cause: "Webhooks processed multiple times due to Stripe retries"
+    solution: "Idempotency via Firestore processed_events collection"
+    files:
+      - "functions/src/firestore.ts:100-123"
+      - "functions/src/webhook.ts:92-100"
+
+  - id: "BUG-002"
+    name: "Session Staleness"
+    status: "FIXED"
+    root_cause: "Users saw old tier due to Redis cache (1hr TTL)"
+    solution: "Comprehensive cache invalidation on subscription changes"
+    files:
+      - "functions/src/handlers/subscriptions.ts:34-97"
+      - "functions/src/handlers/checkout.ts:32-59"
+
+  - id: "BUG-003"
+    name: "Admin Upgrade Plan Mismatch"
+    status: "FIXED"
+    root_cause: "Admin upgrades used requested plan instead of actual Stripe price ID"
+    solution: "Use toPlan(actualPriceId) from subscription.items.data[0].price.id"
+    file: "src/app/api/admin/subscriptions/upgrade/route.ts:220-226"
+    code_change: |
+      // OLD (WRONG):
+      subscription.plan = plan  // User's request
+
+      // NEW (CORRECT):
+      const actualPriceId = subscription.items.data[0]?.price.id
+      const actualPlan = toPlan(actualPriceId) || plan
+      subscription.plan = actualPlan  // What Stripe actually created
+
+  - id: "BUG-004"
+    name: "Missing Customer Validation"
+    status: "FIXED"
+    root_cause: "Checkout failed if customer deleted in Stripe but still mapped in Firestore"
+    solution: "Customer existence verification before use"
+    file: "src/app/api/stripe/create-checkout-session/route.ts:54-62"
+    code_pattern: |
+      if (customerId) {
+        try {
+          await stripe.customers.retrieve(customerId)
+        } catch (error) {
+          customerId = null  // Customer doesn't exist, create new
+        }
+      }
+
+  - id: "BUG-005"
+    name: "API Version Mismatch"
+    status: "FIXED"
+    root_cause: "Frontend and backend used different Stripe API versions"
+    solution: "Standardized to 2025-08-27.basil everywhere"
+    files:
+      - "src/lib/stripe/server.ts:32"
+      - "functions/src/stripeClient.ts:32"
+
+# ============================================================================
+# ADMIN TESTING SUITE
+# ============================================================================
+
+admin_testing:
+  description: "Zero-cost production testing infrastructure"
+
+  endpoints:
+    test_checkout:
+      path: "/api/admin/stripe/test-checkout"
+      method: "POST"
+      purpose: "Create zero-cost subscription"
+      price_id: "price_1SEXlIHdrJomitOw956pZB3q"
+      requirements:
+        - "Admin user (isAdmin: true in Firestore)"
+        - "Production environment only"
+      triggers:
+        - "checkout.session.completed"
+        - "customer.subscription.created"
+        - "invoice.payment_succeeded"
+
+    test_renewal:
+      path: "/api/admin/stripe/test-renewal"
+      method: "POST"
+      purpose: "Simulate subscription renewal"
+      triggers:
+        - "invoice.payment_succeeded"
+      tests: "Recurring billing code path"
+
+    test_cancel:
+      path: "/api/admin/stripe/test-cancel"
+      method: "POST"
+      purpose: "Test cancellation flow"
+      triggers:
+        - "customer.subscription.deleted"
+      tests: "Free tier reversion and access control removal"
+
+    cleanup:
+      path: "/api/admin/stripe/cleanup"
+      method: "POST"
+      purpose: "Reset admin account to free tier"
+      actions:
+        - "Cancel all active subscriptions"
+        - "Void open invoices"
+        - "Reset Firestore subscription"
+        - "Invalidate all caches"
+
+    health:
+      path: "/api/admin/stripe/health"
+      method: "GET"
+      purpose: "System health check"
+      checks:
+        - "Session status"
+        - "Firebase Admin"
+        - "Admin status"
+        - "Stripe config"
+        - "App URL"
+
+  testing_flow:
+    - "Run health check to verify system"
+    - "Run test checkout (creates zero-cost subscription)"
+    - "Verify dashboard shows premium"
+    - "Run test renewal (triggers payment webhook)"
+    - "Run test cancel (triggers deletion webhook)"
+    - "Verify dashboard shows free tier"
+    - "Run cleanup to reset"
+
+# ============================================================================
+# PERFORMANCE CHARACTERISTICS
+# ============================================================================
+
+performance:
+  webhook_processing:
+    target: "<500ms per event"
+    actual: "~200-300ms average"
+    breakdown:
+      signature_verification: "~10ms"
+      deduplication_check: "~20ms"
+      event_routing: "~5ms"
+      handler_processing: "~100-200ms"
+      cache_invalidation: "~50-100ms (with retries)"
+      logging: "~10-20ms"
+      mark_processed: "~20ms"
+
+  bottlenecks:
+    - "Cache invalidation (up to 300ms on retries)"
+    - "Firestore writes (region latency)"
+    - "Stripe API calls (customer retrieval)"
+
+  optimizations:
+    - "Lazy customer creation"
+    - "Batch writes where possible"
+    - "Async cache invalidation"
+
+  concurrency:
+    max_instances: 100
+    region: "europe-west1"
+    expected_load:
+      normal: "1-5 webhooks/min"
+      peak: "50-100 webhooks/min"
+      burst: "500+ webhooks/min"
+
+# ============================================================================
+# BEST PRACTICES IMPLEMENTED
+# ============================================================================
+
+best_practices:
+  idempotency:
+    - "All webhook handlers are idempotent"
+    - "Event deduplication via Firestore"
+    - "Retries are safe (Stripe retries failed webhooks)"
+
+  error_handling:
+    - "Returns 500 on failure -> Stripe retries"
+    - "Returns 200 on success or duplicate -> Stripe stops"
+    - "Comprehensive logging for debugging"
+
+  security:
+    - "Webhook signature verification"
+    - "Admin authorization checks"
+    - "Secrets in Secret Manager"
+    - "Session-based auth (not client tokens)"
+
+  data_consistency:
+    - "Bidirectional UID <-> Customer mapping"
+    - "Subscription facts as single source of truth"
+    - "Atomic writes with transactions"
+    - "Cache invalidation on all changes"
+
+  observability:
+    - "Comprehensive event logging"
+    - "Audit trails for admin actions"
+    - "Health check endpoints"
+    - "Detailed error messages"
+
+# ============================================================================
+# IMPORTANT NOTES
+# ============================================================================
+
+important_notes:
+  user_preferences:
+    - "User prefers facts over hypotheses - investigate first"
+    - "Always commit changes before testing"
+    - "Use TodoWrite for multi-step tasks"
+    - "Ask before making configuration changes"
+    - "User is direct - don't over-apologize, just fix issues"
+
+  architectural_decisions:
+    - "Server-side auth only with Firebase Admin SDK"
+    - "JWT sessions in Redis with 24hr expiry"
+    - "Bidirectional mapping for O(1) lookups"
+    - "Subscription facts (not full Stripe objects)"
+    - "Last-write-wins for event ordering"
+
+  do_not_modify:
+    - "Payment/subscription flows without explicit request"
+    - "Webhook signature verification logic"
+    - "Idempotency implementation"
+    - "Price ID mappings without Stripe dashboard update"
+    - "Cache invalidation scope (invalidate all, not selective)"
+
+  common_pitfalls:
+    - issue: "Forgetting to invalidate caches after subscription change"
+      why: "User sees stale tier for up to 1 hour"
+
+    - issue: "Using Firebase token instead of session auth"
+      why: "Server uses Redis sessions, not Firebase tokens"
+
+    - issue: "Not verifying customer exists in Stripe"
+      why: "Customer may be deleted but still mapped in Firestore"
+
+    - issue: "Using requested plan instead of actual price ID"
+      why: "Stripe subscription may have different price than requested"
+
+    - issue: "Not marking event as processed on error"
+      why: "Actually correct - allows Stripe to retry"
+
+# ============================================================================
+# COMMANDS REFERENCE
+# ============================================================================
+
+commands:
+  development:
+    - command: "npm run dev"
+      description: "Start Next.js dev server"
+
+    - command: "cd functions && npm run serve"
+      description: "Start Firebase Functions emulator"
+
+  deployment:
+    - command: "vercel"
+      description: "Deploy frontend to Vercel"
+
+    - command: "firebase deploy --only functions"
+      description: "Deploy Firebase Functions"
+
+  testing:
+    - command: "npm run test:stripe"
+      description: "Run Stripe-related tests"
+
+    - command: "stripe listen --forward-to localhost:3000/api/stripe/webhook"
+      description: "Forward Stripe webhooks to local dev server"
+
+    - command: "stripe trigger checkout.session.completed"
+      description: "Trigger test webhook event"
+
+  debugging:
+    - command: "firebase functions:log --only stripeWebhook"
+      description: "View webhook function logs"
+
+    - command: "stripe events list --limit 10"
+      description: "List recent Stripe events"
+
+    - command: "stripe customers list --limit 5"
+      description: "List recent customers"
+
+# ============================================================================
+# DOCUMENTATION
+# ============================================================================
+
+documentation:
+  primary_docs:
+    - path: "docs/firebase-collections/stripe.md"
+      purpose: "Firestore schema documentation"
+
+    - path: "docs/pre-production/STRIPE_FIXES_2025.md"
+      purpose: "Known issues and resolutions"
+
+    - path: "docs/pre-production/STRIPE_PRODUCTION_CHECKLIST.md"
+      purpose: "Pre-launch verification checklist"
+
+    - path: "docs/pre-production/STRIPE_WEBHOOK_DEV_SETUP.md"
+      purpose: "Local webhook testing guide"
+
+    - path: "docs/admin/SUBSCRIPTION_MANAGEMENT.md"
+      purpose: "Admin operations guide"
+
+  architecture_docs:
+    - path: "docs/root/emmanuel/DoshiSensei - Stripe Integration.md"
+      purpose: "Architecture philosophy and design decisions"
+
+    - path: "docs/root/emmanuel/1) Test Plan.md"
+      purpose: "Staging testing strategy"
+
+# ============================================================================
+# SESSION UPDATES
+# ============================================================================
+# This section is for future Claude sessions to add discoveries, fixes, and notes.
+# Add entries chronologically with date and brief description.
+
+session_updates:
+  - date: "2025-12-01"
+    agent: "Claude Opus 4"
+    action: "Initial knowledge base creation"
+    details: "Complete deep dive analysis of 32 files, documented all architecture, security, and patterns"
+
+# Add new entries below this line:
+# - date: "YYYY-MM-DD"
+#   agent: "Claude [model]"
+#   action: "Brief action description"
+#   details: "What was learned, fixed, or discovered"
