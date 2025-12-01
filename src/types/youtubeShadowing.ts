@@ -1,5 +1,5 @@
 export interface TranscriptLine {
-  id: string;
+  id?: string;
   text: string;
   startTime: number;
   endTime: number;
@@ -21,6 +21,8 @@ export interface ShadowingVideoMetadata {
   duration: string;
   publishedAt: string;
   formattedTranscript?: TranscriptLine[];
+  hasFormattedVersion?: boolean;
+  metadata?: Record<string, unknown>;
   [key: string]: unknown;
 }
 

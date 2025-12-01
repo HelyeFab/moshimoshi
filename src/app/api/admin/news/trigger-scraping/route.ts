@@ -30,6 +30,11 @@ const NEWS_SOURCES = {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check Firebase services are initialized
+    if (!adminAuth || !db) {
+      return NextResponse.json({ error: 'Service not available' }, { status: 503 });
+    }
+
     // Verify admin authentication
     const authHeader = request.headers.get('Authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -40,7 +45,7 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.split('Bearer ')[1];
-    const decodedToken = await auth.verifyIdToken(token);
+    const decodedToken = await adminAuth.verifyIdToken(token);
 
     // Check if user is admin
     const userDoc = await db.collection('users').doc(decodedToken.uid).get();

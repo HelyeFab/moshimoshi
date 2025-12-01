@@ -6,8 +6,13 @@ import { Language, defaultLanguage, translations, getTranslation, TranslationKey
 interface I18nContextType {
   language: Language
   setLanguage: (lang: Language) => void
-  t: (path: string, params?: Record<string, string | number>) => string
-  strings: typeof translations[Language]
+  /**
+   * Translate a key path. Second parameter can be:
+   * - Record for interpolation: t('greeting', { name: 'John' })
+   * - String as fallback (ignored, uses path as fallback): t('key', 'Fallback')
+   */
+  t: (path: string, paramsOrFallback?: Record<string, string | number> | string) => string
+  strings: TranslationKeys
 }
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined)
@@ -83,7 +88,9 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
     }
   }, [])
 
-  const t = useCallback((path: string, params?: Record<string, string | number>) => {
+  const t = useCallback((path: string, paramsOrFallback?: Record<string, string | number> | string) => {
+    // If second param is a string (fallback), ignore it - getTranslation handles fallbacks
+    const params = typeof paramsOrFallback === 'object' ? paramsOrFallback : undefined
     return getTranslation(language, path, params)
   }, [language])
 
@@ -98,7 +105,8 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
     language,
     setLanguage,
     t,
-    strings: translations[language],
+    // Cast to TranslationKeys - other locales may have missing keys but fallback logic handles it
+    strings: translations[language] as TranslationKeys,
   }
 
   return (

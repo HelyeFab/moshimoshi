@@ -8,6 +8,7 @@ const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
 // Check if user is admin
 async function isUserAdmin(userId: string): Promise<boolean> {
   try {
+    if (!adminDb) return false;
     const userDoc = await adminDb.collection('users').doc(userId).get();
     const userData = userDoc.data();
     return userData?.isAdmin === true || userData?.role === 'admin';
@@ -37,6 +38,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 503 }
+      );
+    }
+
     const { channelId } = await request.json();
 
     if (!channelId) {
@@ -57,6 +65,12 @@ export async function POST(request: NextRequest) {
     }
 
     const channelData = channelDoc.data();
+    if (!channelData) {
+      return NextResponse.json(
+        { error: 'Channel data not found' },
+        { status: 404 }
+      );
+    }
     const API_KEY = process.env.YOUTUBE_API_KEY || process.env.GOOGLE_API_KEY;
 
     if (!API_KEY) {

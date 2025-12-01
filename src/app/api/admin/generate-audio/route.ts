@@ -37,8 +37,7 @@ const JAPANESE_VOICES = {
 export async function POST(request: NextRequest) {
   try {
     // Verify admin authentication
-    const authHeader = request.headers.get('authorization');
-    const authResult = await checkAdminRole(authHeader);
+    const authResult = await checkAdminRole(request);
     
     if (!authResult.isAdmin) {
       return NextResponse.json(
@@ -109,7 +108,7 @@ export async function POST(request: NextRequest) {
             language: language,
             generatedBy: 'openai-tts',
             generatedAt: new Date().toISOString(),
-            userId: authResult.userId,
+            userId: authResult.uid,
           }
         }
       });
@@ -146,8 +145,7 @@ export async function POST(request: NextRequest) {
 // Batch audio generation for entire story
 export async function PUT(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    const authResult = await checkAdminRole(authHeader);
+    const authResult = await checkAdminRole(request);
     
     if (!authResult.isAdmin) {
       return NextResponse.json(

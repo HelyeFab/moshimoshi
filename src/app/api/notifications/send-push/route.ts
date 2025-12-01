@@ -21,10 +21,14 @@ if (admin.apps.length > 0) {
  * Send push notification to a specific device
  */
 export async function POST(request: NextRequest) {
+  // Declare userId outside try block for error handling
+  let userId: string | null = null
+
   try {
     // Verify authentication
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
+    userId = user.uid
 
     // Parse request body
     const body = await request.json()
@@ -104,31 +108,33 @@ export async function POST(request: NextRequest) {
     const response = await messaging.send(message)
 
     // Log notification in database
-    await adminDb.collection('notifications_log').add({
-      userId: user.id,
-      type: 'push',
-      channel: 'fcm',
-      messageId: response,
-      sentAt: admin.firestore.FieldValue.serverTimestamp(),
-      title,
-      body: notificationBody,
-      data,
-      token: token.substring(0, 10) + '...', // Store partial token for debugging
-      status: 'sent'
-    })
-
-    // Track analytics event
-    await adminDb.collection('analytics_events').add({
-      userId: user.id,
-      event: 'notification_sent',
-      category: 'push',
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
-      properties: {
+    if (adminDb) {
+      await adminDb.collection('notifications_log').add({
+        userId,
+        type: 'push',
+        channel: 'fcm',
         messageId: response,
-        hasData: !!data,
-        hasAction: !!data?.actionUrl
-      }
-    })
+        sentAt: admin.firestore.FieldValue.serverTimestamp(),
+        title,
+        body: notificationBody,
+        data,
+        token: token.substring(0, 10) + '...', // Store partial token for debugging
+        status: 'sent'
+      })
+
+      // Track analytics event
+      await adminDb.collection('analytics_events').add({
+        userId,
+        event: 'notification_sent',
+        category: 'push',
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        properties: {
+          messageId: response,
+          hasData: !!data,
+          hasAction: !!data?.actionUrl
+        }
+      })
+    }
 
     return NextResponse.json({
       success: true,
@@ -140,9 +146,9 @@ export async function POST(request: NextRequest) {
     console.error('Failed to send push notification:', error)
 
     // Log error in database
-    if (user?.id) {
+    if (userId && adminDb) {
       await adminDb.collection('notifications_log').add({
-        userId: user.id,
+        userId,
         type: 'push',
         channel: 'fcm',
         sentAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -194,6 +200,12 @@ export async function GET(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 })
+    }
+
+    const userId = user.uid
+
     // Check if messaging service is available
     const serviceAvailable = !!messaging
 
@@ -203,7 +215,7 @@ export async function GET(request: NextRequest) {
 
     const tokenDoc = await adminDb
       .collection('notifications_tokens')
-      .doc(user.id)
+      .doc(userId)
       .get()
 
     if (tokenDoc.exists) {
@@ -225,7 +237,7 @@ export async function GET(request: NextRequest) {
     // Get recent push notification stats
     const recentNotifications = await adminDb
       .collection('notifications_log')
-      .where('userId', '==', user.id)
+      .where('userId', '==', userId)
       .where('type', '==', 'push')
       .orderBy('sentAt', 'desc')
       .limit(5)

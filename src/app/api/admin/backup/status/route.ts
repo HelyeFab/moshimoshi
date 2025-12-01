@@ -9,11 +9,42 @@ import { adminDb } from '@/lib/firebase/admin'
 import admin from 'firebase-admin'
 
 /**
+ * Backup history record structure stored in Firestore
+ */
+interface BackupHistoryRecord {
+  id: string
+  type: 'manual' | 'scheduled' | string
+  status: 'in_progress' | 'completed' | 'failed'
+  triggeredBy?: string
+  triggeredByEmail?: string
+  reason?: string
+  collections?: string[]
+  exportPath?: string
+  operationName?: string | null
+  startedAt: string
+  completedAt?: string | null
+  error?: string | null
+  metadata?: {
+    userAgent?: string | null
+    ipAddress?: string | null
+  }
+}
+
+/**
  * GET /api/admin/backup/status
  * Get backup system status including PITR configuration
  */
 export async function GET(request: NextRequest) {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      console.error('[Backup Status] Firebase Admin DB not initialized')
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 503 }
+      )
+    }
+
     // 1. Authenticate and check admin
     const session = await requireAuth()
 
@@ -52,8 +83,13 @@ export async function GET(request: NextRequest) {
       pitrEnabled = database.pointInTimeRecoveryEnablement === 'POINT_IN_TIME_RECOVERY_ENABLED'
 
       if (pitrEnabled && database.earliestVersionTime) {
-        pitrEarliestRestoreTime = database.earliestVersionTime.seconds
-          ? new Date(database.earliestVersionTime.seconds * 1000).toISOString()
+        // earliestVersionTime.seconds may be a Long type from protobuf
+        const seconds = database.earliestVersionTime.seconds
+        const secondsNum = typeof seconds === 'object' && seconds !== null && 'toNumber' in seconds
+          ? (seconds as { toNumber: () => number }).toNumber()
+          : Number(seconds)
+        pitrEarliestRestoreTime = secondsNum
+          ? new Date(secondsNum * 1000).toISOString()
           : null
       }
     } catch (pitrError: any) {
@@ -69,10 +105,24 @@ export async function GET(request: NextRequest) {
       .limit(10)
       .get()
 
-    const recentBackups = backupsSnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
+    const recentBackups: BackupHistoryRecord[] = backupsSnapshot.docs.map(doc => {
+      const data = doc.data()
+      return {
+        id: doc.id,
+        type: data.type ?? 'unknown',
+        status: data.status ?? 'unknown',
+        triggeredBy: data.triggeredBy,
+        triggeredByEmail: data.triggeredByEmail,
+        reason: data.reason,
+        collections: data.collections,
+        exportPath: data.exportPath,
+        operationName: data.operationName,
+        startedAt: data.startedAt ?? '',
+        completedAt: data.completedAt,
+        error: data.error,
+        metadata: data.metadata,
+      } as BackupHistoryRecord
+    })
 
     // 4. Calculate backup statistics
     const totalBackups = recentBackups.length

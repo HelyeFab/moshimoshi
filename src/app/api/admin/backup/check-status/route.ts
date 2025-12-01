@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 import admin from 'firebase-admin'
+import type { BackupRecord } from '@/types/admin'
 
 /**
  * POST /api/admin/backup/check-status
@@ -16,6 +17,13 @@ export async function POST(request: NextRequest) {
   try {
     // 1. Authenticate and check admin
     const session = await requireAuth()
+
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500 }
+      )
+    }
 
     const userDoc = await adminDb.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
@@ -55,10 +63,10 @@ export async function POST(request: NextRequest) {
     })
 
     let updated = 0
-    const results = []
+    const results: Array<{ id: string; status: string; updated: boolean; error?: string }> = []
 
     for (const doc of inProgressSnapshot.docs) {
-      const backup = doc.data()
+      const backup = doc.data() as Partial<BackupRecord>
       const backupId = doc.id
 
       try {
@@ -80,9 +88,10 @@ export async function POST(request: NextRequest) {
 
         // Get the operation status
         const operationsClient = client.operationsClient
+        // Type assertion needed for Google Cloud protobuf types
         const [operation] = await operationsClient.getOperation({
           name: backup.operationName,
-        })
+        } as Parameters<typeof operationsClient.getOperation>[0])
 
         if (operation.done) {
           if (operation.error) {

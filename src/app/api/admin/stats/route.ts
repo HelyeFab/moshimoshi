@@ -9,6 +9,11 @@ export async function GET(request: NextRequest) {
     // Ensure Firebase Admin is initialized
     ensureAdminInitialized();
 
+    // Check adminFirestore is available
+    if (!adminFirestore) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+    }
+
     // Validate admin session (middleware already checks, but double-check here)
     const session = await validateSession(request);
     if (!session.valid || !session.payload) {
@@ -19,7 +24,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if user is admin from Firebase
-    const userDoc = await adminFirestore!.collection('users').doc(session.payload.uid).get();
+    const userDoc = await adminFirestore.collection('users').doc(session.payload.uid).get();
     const userData = userDoc?.data();
     if (!userData?.isAdmin) {
       return NextResponse.json(
@@ -39,9 +44,9 @@ export async function GET(request: NextRequest) {
       lessonsSnapshot,
       subscriptionsSnapshot,
     ] = await Promise.all([
-      adminFirestore!.collection('users').get(),
-      adminFirestore!.collection('lessons').get(),
-      adminFirestore!.collection('subscriptions').where('status', '==', 'active').get(),
+      adminFirestore.collection('users').get(),
+      adminFirestore.collection('lessons').get(),
+      adminFirestore.collection('subscriptions').where('status', '==', 'active').get(),
     ]);
 
     // Calculate stats
@@ -94,7 +99,7 @@ export async function GET(request: NextRequest) {
     let totalCompletedLessons = 0;
 
     // Query review sessions for today's completed items
-    const reviewSessionsSnapshot = await adminFirestore!
+    const reviewSessionsSnapshot = await adminFirestore
       .collection('reviewSessions')
       .where('completedAt', '>=', new Date(todayTimestamp))
       .get()
@@ -111,7 +116,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get total completed items across all time
-    const allSessionsSnapshot = await adminFirestore!
+    const allSessionsSnapshot = await adminFirestore
       .collection('reviewSessions')
       .get()
       .catch(() => null);
@@ -126,14 +131,20 @@ export async function GET(request: NextRequest) {
     }
 
     // Get recent users (last 5)
-    const recentUsersSnapshot = await adminFirestore!
+    const recentUsersSnapshot = await adminFirestore
       .collection('users')
       .orderBy('createdAt', 'desc')
       .limit(5)
       .get()
       .catch(() => null);
 
-    const recentUsers = [];
+    const recentUsers: Array<{
+      id: string;
+      email: string;
+      displayName: string;
+      createdAt: Date;
+      photoURL?: string;
+    }> = [];
     if (recentUsersSnapshot) {
       recentUsersSnapshot.forEach(doc => {
         const userData = doc.data();

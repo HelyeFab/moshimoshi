@@ -5,6 +5,11 @@ import { getSession } from '@/lib/auth/session';
 // GET: Fetch all feature flags
 export async function GET(request: NextRequest) {
   try {
+    // Check Firebase services are initialized
+    if (!adminAuth || !adminDb) {
+      return NextResponse.json({ error: 'Service not available' }, { status: 503 });
+    }
+
     // Verify admin
     const session = await getSession();
     if (!session?.uid) {
@@ -46,6 +51,11 @@ export async function GET(request: NextRequest) {
 // POST: Update a feature flag
 export async function POST(request: NextRequest) {
   try {
+    // Check Firebase services are initialized
+    if (!adminAuth || !adminDb) {
+      return NextResponse.json({ error: 'Service not available' }, { status: 503 });
+    }
+
     // Verify admin
     const session = await getSession();
     if (!session?.uid) {
@@ -99,6 +109,11 @@ export async function POST(request: NextRequest) {
 // PUT: Reset all feature flags to defaults
 export async function PUT(request: NextRequest) {
   try {
+    // Check Firebase services are initialized
+    if (!adminAuth || !adminDb) {
+      return NextResponse.json({ error: 'Service not available' }, { status: 503 });
+    }
+
     // Verify admin
     const session = await getSession();
     if (!session?.uid) {

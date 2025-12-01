@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ytdl from '@distube/ytdl-core';
 import axios from 'axios';
+// @ts-expect-error - youtube-captions-scraper has no type declarations
 import { getSubtitles } from 'youtube-captions-scraper';
 import { Innertube } from 'youtubei.js';
 import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin';
@@ -14,6 +15,14 @@ import { cleanYouTubeMetadata, prepareFirestoreData } from '@/lib/firebase/clean
 
 // Initialize AI Service
 const aiService = AIService.getInstance();
+
+// Helper to assert db is available
+function assertDb(): NonNullable<typeof db> {
+  if (!db) {
+    throw new Error('Database not available');
+  }
+  return db;
+}
 
 // YouTube Data API v3 endpoint
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
@@ -75,7 +84,7 @@ async function getAvailableCaptionTracks(videoId: string): Promise<{
 
     return {
       tracks,
-      hasJapanese: tracks.some(track =>
+      hasJapanese: tracks.some((track: CaptionTrack) =>
         track.language === 'ja' || track.language.startsWith('ja-')
       )
     };
@@ -87,9 +96,10 @@ async function getAvailableCaptionTracks(videoId: string): Promise<{
 }
 
 // Helper function to log API usage
-async function logApiUsage(api: string, success: boolean, error?: string, metadata?: any) {
+async function logApiUsage(api: string, success: boolean, error?: string, metadata?: Record<string, unknown>) {
   try {
-    await db.collection('apiUsageLogs').add({
+    const firestore = assertDb();
+    await firestore.collection('apiUsageLogs').add({
       api,
       success,
       error: error || null, // Firestore doesn't allow undefined values
@@ -146,12 +156,13 @@ async function saveToYouTubeHistory(
   videoId: string,
   videoTitle: string,
   videoUrl: string,
-  transcript: any[],
-  metadata: any
+  transcript: TranscriptLine[],
+  metadata: Record<string, unknown>
 ): Promise<void> {
   try {
+    const firestore = assertDb();
     const docId = `${userId}_${videoId}`;
-    const docRef = db.collection('userYouTubeHistory').doc(docId);
+    const docRef = firestore.collection('userYouTubeHistory').doc(docId);
 
     // Check if document exists
     const doc = await docRef.get();
@@ -191,8 +202,9 @@ async function saveToYouTubeHistory(
 // Helper function to check if video has been accessed before (any day)
 async function checkIfRepeatVideo(userId: string, videoId: string): Promise<boolean> {
   try {
+    const firestore = assertDb();
     const docId = `${userId}_${videoId}`;
-    const docRef = db.collection('userPracticeHistory').doc(docId);
+    const docRef = firestore.collection('userPracticeHistory').doc(docId);
     const doc = await docRef.get();
     return doc.exists;
   } catch (error) {
@@ -206,8 +218,9 @@ async function checkIfRepeatVideo(userId: string, videoId: string): Promise<bool
 // Returns false if this is a REPEAT video (unlimited practice)
 async function shouldCountTowardQuota(userId: string, videoId: string): Promise<boolean> {
   try {
+    const firestore = assertDb();
     const docId = `${userId}_${videoId}`;
-    const docRef = db.collection('userPracticeHistory').doc(docId);
+    const docRef = firestore.collection('userPracticeHistory').doc(docId);
     const doc = await docRef.get();
 
     if (!doc.exists) {
@@ -232,8 +245,9 @@ async function createPracticeHistoryOnFirstAccess(
   videoId: string
 ): Promise<void> {
   try {
+    const firestore = assertDb();
     const docId = `${userId}_${videoId}`;
-    const docRef = db.collection('userPracticeHistory').doc(docId);
+    const docRef = firestore.collection('userPracticeHistory').doc(docId);
 
     // Double-check it doesn't exist (race condition protection)
     const doc = await docRef.get();
@@ -281,7 +295,8 @@ async function checkAndIncrementQuota(userId: string, videoId: string, userPlan:
     const todayTimestamp = Timestamp.fromDate(today);
 
     // Query userPracticeHistory for videos accessed today
-    const practiceSnapshot = await db
+    const firestore = assertDb();
+    const practiceSnapshot = await firestore
       .collection('userPracticeHistory')
       .where('userId', '==', userId)
       .get();
@@ -480,8 +495,9 @@ async function extractWithYouTubeNative(
       return null;
     }
 
-    let finalTranscriptInfo = transcriptInfo;
-    let selectedLanguage = availableLanguages.find(lang => lang.selected);
+    // Use flexible type to allow both original transcriptInfo and custom format
+    let finalTranscriptInfo: { transcript?: any } | typeof transcriptInfo = transcriptInfo;
+    let selectedLanguage = availableLanguages.find((lang: any) => lang.selected);
     let forcedJapanese = false;
 
     const isCurrentlyJapanese = (selectedLanguage?.title || '').toLowerCase().includes('japanese') ||
@@ -501,10 +517,12 @@ async function extractWithYouTubeNative(
 
           let response: any = null;
 
-          if (typeof client.session?.http?.post === 'function') {
-            response = await client.session.http.post('/youtubei/v1/get_transcript', payload);
-          } else if (typeof client.session?.actions?.execute === 'function') {
-            response = await client.session.actions.execute('/youtubei/v1/get_transcript', payload);
+          // Access internal youtubei.js methods with type assertion (internal API)
+          const session = client.session as { http?: { post?: Function }; actions?: { execute?: Function } } | undefined;
+          if (typeof session?.http?.post === 'function') {
+            response = await session.http.post('/youtubei/v1/get_transcript', payload);
+          } else if (typeof session?.actions?.execute === 'function') {
+            response = await session.actions.execute('/youtubei/v1/get_transcript', payload);
           }
 
           const transcriptContent =
@@ -571,7 +589,8 @@ async function extractWithYouTubeNative(
       words: segment.text.split(/[\s、。！？]/g).filter((w: string) => w.length > 0)
     }));
 
-    const basicInfo = videoInfo?.basic_info || {};
+    // Cast to any to access extended properties not in base type definition
+    const basicInfo = (videoInfo?.basic_info || {}) as Record<string, any>;
     const videoMetadata = {
       title: basicInfo.title,
       channelTitle: basicInfo.author,
@@ -946,6 +965,15 @@ export async function POST(request: NextRequest) {
     // Extract video ID for YouTube API calls (need this BEFORE creating contentId)
     const videoId = extractVideoIdFromUrl(url);
 
+    // Validate videoId before proceeding
+    if (!videoId) {
+      return NextResponse.json({
+        success: false,
+        error: 'INVALID_URL',
+        message: 'Could not extract video ID from URL'
+      }, { status: 400 });
+    }
+
     // CHECK CAPTION AVAILABILITY using YouTube Data API
     console.log('🔍 Checking available caption tracks...');
     const captionInfo = await getAvailableCaptionTracks(videoId);
@@ -979,7 +1007,8 @@ export async function POST(request: NextRequest) {
       // Get user's plan from Firestore
       let userPlan = 'free';
       try {
-        const userDoc = await db.collection('users').doc(userId).get();
+        const firestore = assertDb();
+        const userDoc = await firestore.collection('users').doc(userId).get();
         if (userDoc.exists) {
           const userData = userDoc.data();
           userPlan = userData?.subscription?.plan || 'free';
@@ -1097,10 +1126,12 @@ export async function POST(request: NextRequest) {
           };
 
         }
-      } catch (youtubeApiError) {
-        console.error('YouTube Data API error:', youtubeApiError.message);
-        if (youtubeApiError.response) {
-          console.error('API Response:', youtubeApiError.response.status, youtubeApiError.response.data);
+      } catch (youtubeApiError: unknown) {
+        const errorMessage = youtubeApiError instanceof Error ? youtubeApiError.message : String(youtubeApiError);
+        console.error('YouTube Data API error:', errorMessage);
+        const axiosError = youtubeApiError as { response?: { status?: number; data?: unknown } };
+        if (axiosError.response) {
+          console.error('API Response:', axiosError.response.status, axiosError.response.data);
         }
         // Continue with other methods - don't let this block SupaData
       }
@@ -1188,7 +1219,7 @@ export async function POST(request: NextRequest) {
           // Check if Japanese subtitles are available
           const hasJapanese = supaResponse.data.lang === 'ja' ||
                              supaResponse.data.lang?.startsWith('ja') ||
-                             supaResponse.data.availableLangs?.some(lang => lang.startsWith('ja'));
+                             supaResponse.data.availableLangs?.some((lang: string) => lang.startsWith('ja'));
 
           if (!hasJapanese) {
             console.warn('⚠️ No Japanese subtitles available, using available language:', supaResponse.data.lang);
@@ -1490,7 +1521,7 @@ function parseYouTubeCaptions(data: string): any[] {
               text: text,
               startTime: start,
               endTime: start + duration,
-              words: text.split(/[\s、。！？]/g).filter(w => w.length > 0)
+              words: text.split(/[\s、。！？]/g).filter((w: string) => w.length > 0)
             });
           }
         }
@@ -1500,9 +1531,9 @@ function parseYouTubeCaptions(data: string): any[] {
         const events = json.events || json;
 
         if (Array.isArray(events)) {
-          events.forEach((event, index) => {
+          events.forEach((event: any, index: number) => {
             if (event.segs || event.text) {
-              const text = event.text || event.segs.map(s => s.utf8).join('');
+              const text = event.text || event.segs.map((s: any) => s.utf8).join('');
               const start = (event.tStartMs || event.start || 0) / 1000;
               const duration = (event.dDurationMs || event.dur || 5000) / 1000;
 
@@ -1511,7 +1542,7 @@ function parseYouTubeCaptions(data: string): any[] {
                 text: text.trim(),
                 startTime: start,
                 endTime: start + duration,
-                words: text.trim().split(/[\s、。！？]/g).filter(w => w.length > 0)
+                words: text.trim().split(/[\s、。！？]/g).filter((w: string) => w.length > 0)
               });
             }
           });
@@ -1531,7 +1562,7 @@ function parseSupaDataTranscript(data: any): any[] {
   try {
     // SupaData returns data in format: { lang: 'ja', content: [...], availableLangs: [...] }
     if (data.content && Array.isArray(data.content)) {
-      data.content.forEach((segment, index) => {
+      data.content.forEach((segment: any, index: number) => {
         // Convert milliseconds to seconds
         const startTime = (segment.offset || 0) / 1000;
         const duration = (segment.duration || 5000) / 1000;
@@ -1542,7 +1573,7 @@ function parseSupaDataTranscript(data: any): any[] {
           text: segment.text || '',
           startTime: startTime,
           endTime: endTime,
-          words: (segment.text || '').split(/[\s、。！？]/g).filter(w => w.length > 0)
+          words: (segment.text || '').split(/[\s、。！？]/g).filter((w: string) => w.length > 0)
         });
       });
     }
@@ -1550,29 +1581,29 @@ function parseSupaDataTranscript(data: any): any[] {
     else if (data.transcript) {
       // If it's already formatted as an array of segments
       if (Array.isArray(data.transcript)) {
-        data.transcript.forEach((segment, index) => {
+        data.transcript.forEach((segment: any, index: number) => {
           transcript.push({
             id: String(index + 1),
             text: segment.text || segment.content || '',
             startTime: segment.start || segment.startTime || index * 5,
             endTime: segment.end || segment.endTime || (index + 1) * 5,
-            words: (segment.text || segment.content || '').split(/[\s、。！？]/g).filter(w => w.length > 0)
+            words: (segment.text || segment.content || '').split(/[\s、。！？]/g).filter((w: string) => w.length > 0)
           });
         });
       }
       // If it's a plain text transcript
       else if (typeof data.transcript === 'string') {
         // Split by sentences or paragraphs and create segments
-        const sentences = data.transcript.split(/[。！？\n]+/).filter(s => s.trim());
+        const sentences = data.transcript.split(/[。！？\n]+/).filter((s: string) => s.trim());
         const avgDuration = 5; // 5 seconds per segment as default
 
-        sentences.forEach((sentence, index) => {
+        sentences.forEach((sentence: string, index: number) => {
           transcript.push({
             id: String(index + 1),
             text: sentence.trim(),
             startTime: index * avgDuration,
             endTime: (index + 1) * avgDuration,
-            words: sentence.trim().split(/[\s、。！？]/g).filter(w => w.length > 0)
+            words: sentence.trim().split(/[\s、。！？]/g).filter((w: string) => w.length > 0)
           });
         });
       }

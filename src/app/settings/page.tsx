@@ -75,11 +75,11 @@ export default function SettingsPage() {
 
       // Migrate old localStorage data if needed
       if (user) {
-        await preferencesManager.migrateFromLocalStorage(user, isPremium)
+        await preferencesManager.migrateFromLocalStorage(user, isPremium ?? false)
       }
 
       // Load preferences based on user tier
-      const preferences = await preferencesManager.getPreferences(user, isPremium)
+      const preferences = await preferencesManager.getPreferences(user, isPremium ?? false)
 
       // Update state with loaded preferences
       if (preferences.notifications) setNotifications(preferences.notifications)
@@ -144,7 +144,7 @@ export default function SettingsPage() {
       }
 
       // Save preferences based on user tier
-      await preferencesManager.savePreferences(preferences, user, isPremium)
+      await preferencesManager.savePreferences(preferences, user, isPremium ?? false)
 
       // Apply color palette to document
       document.documentElement.setAttribute('data-palette', selectedPalette)

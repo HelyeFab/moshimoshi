@@ -79,8 +79,8 @@ export const POST = withAdminAuth(async (request: NextRequest, context) => {
       );
     }
 
-    // Build the override object
-    const overrideData: Partial<FeatureOverride> = {};
+    // Build the override object (excluding id, createdAt, updatedAt which are managed by setOverride)
+    const overrideData: Partial<Omit<FeatureOverride, 'id' | 'createdAt' | 'updatedAt'>> = {};
 
     // Handle limit
     if ('limit' in override) {
@@ -131,12 +131,16 @@ export const POST = withAdminAuth(async (request: NextRequest, context) => {
       }
     }
 
-    // Set the override
+    // Set the override with all required fields
     await setOverride(
       userId,
       featureId as FeatureId,
-      overrideData,
-      context.user.uid
+      {
+        featureId: featureId as FeatureId,
+        setBy: context.user.uid,
+        active: true,
+        ...overrideData
+      }
     );
 
     return NextResponse.json({

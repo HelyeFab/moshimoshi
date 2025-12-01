@@ -18,41 +18,12 @@ import { extractVideoId } from '@/utils/youtubeHelpers';
 import { TranscriptCacheManager } from '@/utils/transcriptCache';
 import { useBottomNav } from '@/contexts/BottomNavContext';
 import { PlaySquare } from 'lucide-react';
+import type { TranscriptLine, ShadowingSession, ShadowingVideoMetadata } from '@/types/youtubeShadowing';
 
 const SESSION_STORAGE_KEY = 'youtubeShadowingSession';
-export interface TranscriptLine {
-  id?: string;
-  text: string;
-  startTime: number;
-  endTime: number;
-  words?: string[];
-  translation?: string;
-}
 
-export interface ShadowingSession {
-  videoUrl: string;
-  videoTitle?: string;
-  audioUrl?: string;
-  transcript: TranscriptLine[];
-  currentLineIndex: number;
-  fileInfo?: {
-    name: string;
-    size: number;
-    type: string;
-  };
-  videoMetadata?: {
-    title: string;
-    channelTitle: string;
-    description: string;
-    thumbnails: any;
-    duration: string;
-    publishedAt: string;
-    formattedTranscript?: TranscriptLine[];
-    hasFormattedVersion?: boolean;
-    metadata?: Record<string, unknown>;
-    [key: string]: unknown;
-  };
-}
+// Re-export types for backwards compatibility
+export type { TranscriptLine, ShadowingSession };
 
 function YouTubeShadowingContent() {
   const { t, strings } = useI18n();
@@ -151,8 +122,15 @@ function YouTubeShadowingContent() {
 
   const sharedUrlParam = searchParams.get('url');
 
-  const updateSession = useCallback((newSession: ShadowingSession | null) => {
+  const updateSession = useCallback((
+    newSessionOrUpdater: ShadowingSession | null | ((prev: ShadowingSession | null) => ShadowingSession | null)
+  ) => {
     setSession(prevSession => {
+      // Resolve the new session value (direct value or from updater function)
+      const newSession = typeof newSessionOrUpdater === 'function'
+        ? newSessionOrUpdater(prevSession)
+        : newSessionOrUpdater;
+
       if (prevSession?.videoUrl?.startsWith('blob:') && prevSession.videoUrl !== newSession?.videoUrl) {
         URL.revokeObjectURL(prevSession.videoUrl);
       }
@@ -376,8 +354,8 @@ function YouTubeShadowingContent() {
         loadSourceRef.current = null;
       }
 
-      // Return updated session
-      return {
+      // Return updated session with explicit type assertion
+      const updatedSession: ShadowingSession = {
         ...prevSession,
         transcript,
         ...(videoTitle && { videoTitle }),
@@ -389,9 +367,10 @@ function YouTubeShadowingContent() {
               ...((prevSession.videoMetadata as any)?.metadata || {}),
               ...((videoMetadata as any)?.metadata || {})
             }
-          }
+          } as ShadowingVideoMetadata
         })
       };
+      return updatedSession;
     });
   }, []);
 

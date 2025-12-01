@@ -137,7 +137,20 @@
       "Bash(cmd.exe /c \"taskkill /F /IM node.exe\")",
       "Bash(cmd.exe /c \"taskkill /F /PID 33312\")",
       "Bash(wmic process where \"name=''node.exe''\" delete)",
-      "Bash(cmd.exe /c \"rmdir /s /q .next\")"
+      "Bash(cmd.exe /c \"rmdir /s /q .next\")",
+      "mcp__ide__getDiagnostics",
+      "Bash(awk:*)",
+      "Bash(Select-String \"error TS\")",
+      "Bash(Measure-Object)",
+      "Bash(cut:*)",
+      "Bash(while read f)",
+      "Bash(do if [[ \"$f\" == *\"/api/\"* ]])",
+      "Bash(then echo \"API Routes\" elif [[ \"$f\" == *\"/components/\"* ]])",
+      "Bash(then echo \"Components\" elif [[ \"$f\" == *\"/lib/\"* ]])",
+      "Bash(then echo \"Libraries\" elif [[ \"$f\" == *\"/app/\"* ]])",
+      "Bash(then echo \"Pages\" elif [[ \"$f\" == *\"/services/\"* ]])",
+      "Bash(then echo \"Services\" elif [[ \"$f\" == *\"/utils/\"* ]])",
+      "Bash(then echo \"Utils\" else echo \"Other\" fi done)"
     ],
     "deny": [],
     "ask": []

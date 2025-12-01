@@ -49,7 +49,7 @@ export const GamificationStateSchema = z.object({
 
   // Achievements
   unlockedAchievements: z.array(z.string()),
-  achievementProgress: z.record(z.number()),
+  achievementProgress: z.record(z.string(), z.number()),
 
   // Session Tracking
   sessionCount: z.number().int().min(0),
@@ -120,7 +120,7 @@ export const GamificationSyncRequestSchema = z.object({
   totalXP: z.number().int().min(0),
   lastActivityDate: ISODateStringSchema.nullable(),
   unlockedAchievements: z.array(z.string()),
-  achievementProgress: z.record(z.number()),
+  achievementProgress: z.record(z.string(), z.number()),
   sessionCount: z.number().int().min(0)
 })
 

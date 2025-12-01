@@ -6,6 +6,7 @@ import {
   YouTubePlayerConfig,
   YouTubePlayerActions,
   YouTubePlayerStateEnum,
+  YouTubePlayerHookResult,
 } from '@/types/youtube-player';
 import { loadYouTubeAPI } from '@/utils/youtubeHelpers';
 
@@ -14,7 +15,7 @@ import { loadYouTubeAPI } from '@/utils/youtubeHelpers';
  * Copied from moshi-player with minimal adaptations
  * Will be extended with repeat/shadowing mode in Phase 6
  */
-export function useYouTubePlayer(videoId: string, config: Partial<YouTubePlayerConfig> = {}) {
+export function useYouTubePlayer(videoId: string, config: Partial<YouTubePlayerConfig> = {}): YouTubePlayerHookResult {
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAPIReady, setIsAPIReady] = useState(false);

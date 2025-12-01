@@ -14,6 +14,14 @@ import { firebaseTracker } from '@/lib/monitoring/firebase-tracker'
  */
 export async function GET(request: NextRequest) {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: { code: 'SERVICE_UNAVAILABLE', message: 'Database not available' } },
+        { status: 503 }
+      )
+    }
+
     // 1. Authenticate and check admin
     const session = await requireAuth()
 
@@ -94,6 +102,14 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: { code: 'SERVICE_UNAVAILABLE', message: 'Database not available' } },
+        { status: 503 }
+      )
+    }
+
     // Only allow in development
     if (process.env.NODE_ENV === 'production') {
       return NextResponse.json(

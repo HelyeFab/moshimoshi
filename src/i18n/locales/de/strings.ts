@@ -1,261 +1,4 @@
 export const strings = {
-  // Landing Page
-  landing: {
-    hero: {
-      headline: "Meistern Sie Japanisch mit revolutionären Lerntools",
-      subheadline: "Die einzige Plattform, die YouTube-Shadowing, intelligente Kanji-Verbindungen, Ein-Klick-Anki-Import und vollständige Lehrbuchintegration kombiniert",
-      ctaPrimary: "Kostenlos lernen starten",
-      ctaSecondary: "Demo ansehen",
-      carousel: {
-        shadowing: {
-          title: "YouTube-Shadowing",
-          description: "Meistern Sie die native Aussprache mit authentischem japanischen Inhalt",
-          badge: "Am beliebtesten"
-        },
-        kanji: {
-          title: "Kanji-Verbindungssystem",
-          description: "Verstehen Sie 2.136 Kanji durch visuelle Muster und Familien",
-          badge: "Einzigartig für Moshimoshi"
-        },
-        conjugation: {
-          title: "Konjugations-Engine",
-          description: "Über 100 Konjugationsformen - das umfassendste auf dem Markt",
-          badge: "Grammatikbeherrschung"
-        },
-        news: {
-          title: "Japanische Nachrichtenartikel",
-          description: "Lernen Sie von aktuellen Ereignissen mit KI-Unterstützung",
-          badge: "Echter Inhalt"
-        },
-        stories: {
-          title: "KI-generierte Geschichten",
-          description: "Personalisierte Geschichten auf Ihr Niveau zugeschnitten",
-          badge: "Adaptives Lernen"
-        },
-        anki: {
-          title: "Ein-Klick-Anki-Import",
-          description: "Migrieren Sie Ihre Anki-Decks sofort - kein Datenverlust",
-          badge: "Nahtlose Migration"
-        },
-        textbooks: {
-          title: "Vollständige Lehrbuchintegration",
-          description: "Alle Vokabeln aus Genki, Minna no Nihongo und mehr",
-          badge: "Akademische Stärke"
-        }
-      }
-    },
-    features: {
-      shadowing: {
-        title: "YouTube-Shadowing: Lernen Sie von nativem Inhalt",
-        subtitle: "Die geheime Waffe, die Japanischlerner nicht kennen",
-        description: "Shadowing mit authentischen japanischen YouTube-Videos, Dramen und Podcasts. Unser KI-gestütztes System zerlegt Inhalte in perfekte Lerneinheiten mit einstellbaren Pausenzeiten.",
-        benefits: {
-          benefit1: "Üben Sie mit echter nativer Aussprache",
-          benefit2: "Einstellbare Wiedergabegeschwindigkeit (0,5x - 2x)",
-          benefit3: "Auto-Pause für Shadowing-Praxis",
-          benefit4: "Verfolgen Sie den Fortschritt über alle Videos"
-        },
-        cta: "Shadowing jetzt ausprobieren"
-      },
-      kanji: {
-        title: "Kanji-Verbindungssystem: Visuelle Lernrevolution",
-        subtitle: "Sehen Sie die Muster, die Ihnen niemand sonst zeigt",
-        description: "Unser einzigartiges System verbindet alle 2.136 jōyō-Kanji durch phonetische Familien, semantische Radikale und visuelle Muster. Lernen Sie Kanji in verbundenen Clustern statt isolierten Zeichen.",
-        benefits: {
-          benefit1: "214 Radikale mit Komponentenzerlegung",
-          benefit2: "Phonetische Familiengruppierung",
-          benefit3: "Interaktive Netzwerkvisualisierung",
-          benefit4: "Gedächtnistechniken für jedes Muster"
-        },
-        cta: "Kanji-Verbindungen erkunden"
-      },
-      conjugation: {
-        title: "Meistern Sie japanische Konjugation",
-        subtitle: "Über 100 Konjugationsformen - das umfassendste auf dem Markt",
-        description: "Unsere fortschrittliche Konjugations-Engine deckt jede Verb-, Adjektiv- und Kopula-Form mit perfekter Genauigkeit ab. Intelligente Worttypenerkennung, gewichtete Schwierigkeitsübungen und saubere Architektur machen Grammatikpraxis mühelos.",
-        benefits: {
-          benefit1: "Über 100 Konjugationsformen (die umfassendsten verfügbaren)",
-          benefit2: "Präzise Implementierung japanischer Grammatikregeln",
-          benefit3: "Intelligente Worttypenerkennung mit Konfidenzbewertung",
-          benefit4: "Hervorragende Übungsintegration mit gewichteter Schwierigkeit"
-        },
-        cta: "Konjugation üben"
-      },
-      anki: {
-        title: "Ein-Klick-Anki-Import: Behalten Sie Ihren Fortschritt",
-        subtitle: "Wechseln Sie ohne Tausende Stunden Arbeit zu verlieren",
-        description: "Importieren Sie alle Ihre Anki-Decks mit vollständiger SRS-Historie, Kartenplanung und benutzerdefinierten Notizen. Unser intelligentes Migrationssystem bewahrt alles, während es Ihr Lernerlebnis verbessert.",
-        benefits: {
-          benefit1: "100% SRS-Historie erhalten",
-          benefit2: "Benutzerdefinierte Karten perfekt importiert",
-          benefit3: "Tags und Deck-Struktur beibehalten",
-          benefit4: "Erweitert mit KI-gestützten Funktionen"
-        },
-        cta: "Meine Anki-Decks importieren"
-      },
-      textbooks: {
-        title: "Lehrbuchvokabular: Akademische Exzellenz",
-        subtitle: "Jedes Wort aus den Büchern, die Sie bereits verwenden",
-        description: "Vollständiges Vokabular aus Genki I & II, Minna no Nihongo, Tobira und mehr. Organisiert nach Lektion mit Beispielsätzen, Audio und SRS-Überprüfung.",
-        textbookList: "Genki • Minna no Nihongo • Tobira • Japanese from Zero • Marugoto",
-        benefits: {
-          benefit1: "Nach Lehrbuch und Lektion organisiert",
-          benefit2: "Native Audio für jedes Wort",
-          benefit3: "Beispielsätze mit Kontext",
-          benefit4: "Synchronisierung mit Ihrem Kursplan"
-        },
-        cta: "Lehrbuchvokabular durchsuchen"
-      },
-
-      news: {
-        title: "Echte japanische Nachrichtenartikel",
-        subtitle: "Lernen Sie von authentischen aktuellen Ereignissen",
-        description: "Lesen Sie echte japanische Nachrichtenartikel mit integrierter Verständnisunterstützung. Unsere KI zerlegt komplexe Sätze, bietet Vokabelhinweise und verfolgt Ihren Lesefortschritt.",
-        benefits: {
-          benefit1: "Täglich aktualisierte authentische Nachrichteninhalte",
-          benefit2: "KI-gestützte Satzzerlegung und -analyse",
-          benefit3: "Sofortige Vokabelsuche mit SRS-Integration",
-          benefit4: "Lesefortschrittsverfolgung und Statistiken"
-        },
-        cta: "Nachrichtenartikel lesen"
-      },
-
-      stories: {
-        title: "KI-generierte Geschichten",
-        subtitle: "Personalisierte Geschichten für Ihr Niveau",
-        description: "Üben Sie das Lesen mit KI-generierten Geschichten, die auf Ihr Vokabularniveau und Ihre Interessen zugeschnitten sind. Jede Geschichte enthält Furigana, Vokabellisten und Verständnisfragen.",
-        benefits: {
-          benefit1: "Geschichten auf Ihrem genauen Niveau generiert",
-          benefit2: "Furigana- und Vokabelunterstützung",
-          benefit3: "Verständnisfragen und Quizze",
-          benefit4: "Speichern Sie unbekannte Wörter direkt in der SRS-Überprüfung"
-        },
-        cta: "KI-Geschichten erkunden"
-      }
-    },
-    comparison: {
-      title: "Warum Moshimoshi die Konkurrenz schlägt",
-      subtitle: "Die einzige Plattform für ernsthafte Lerner",
-      tableHeaders: {
-        feature: "Funktion",
-        moshimoshi: "Moshimoshi",
-        anki: "Anki",
-        wanikani: "WaniKani",
-        duolingo: "Duolingo"
-      },
-      features: {
-        shadowing: "YouTube-Shadowing",
-        kanjiSystem: "Visuelles Kanji-System",
-        ankiImport: "Anki-Import",
-        textbooks: "Lehrbuchintegration",
-        customCards: "Benutzerdefinierte Flashcards",
-        offline: "Offline-Modus",
-        gamification: "Gamification",
-        community: "Community-Funktionen"
-      },
-      values: {
-        yes: "✓",
-        no: "✗",
-        limited: "Begrenzt"
-      }
-    },
-    socialProof: {
-      title: "Geliebt von Japanischlernern weltweit",
-      subtitle: "Von Anfängern bis JLPT N1-Kandidaten",
-      testimonials: {
-        testimonial1: {
-          quote: "Ich bin nach 3 Jahren von Anki migriert. Der Import war einwandfrei und die Shadowing-Funktion hat meine Aussprache dramatisch verbessert.",
-          author: "Sarah Chen",
-          role: "JLPT N2-Student",
-          context: "Von Anki migriert"
-        },
-        testimonial2: {
-          quote: "Das Kanji-Verbindungssystem hat Kanji endlich für mich verständlich gemacht. Die Familien und Muster zu sehen hat alles verändert.",
-          author: "Marcus Rodriguez",
-          role: "Universitätsstudent Japanisch",
-          context: "Kanji-Verbindungsbenutzer"
-        },
-        testimonial3: {
-          quote: "Als Genki-Student ist es ein Game-Changer, das gesamte Vokabular nach Lektion mit Audio organisiert zu haben.",
-          author: "Emma Thompson",
-          role: "Selbstlerner",
-          context: "Lehrbuchintegrationsbenutzer"
-        },
-        testimonial4: {
-          quote: "Shadowing mit authentischem YouTube-Inhalt schlägt jedes Lehrbuch. Meine japanischen Freunde können nicht glauben, dass ich Autodidakt bin.",
-          author: "Kenji Yamamoto",
-          role: "Geschäftsprofi",
-          context: "YouTube-Shadowing-Benutzer"
-        }
-      },
-      stats: {
-        cards: "Über eine Million erstellte Flashcards",
-        kanji: "Vollständige jōyō-Kanji-Abdeckung",
-        textbooks: "Große Lehrbücher integriert",
-        languages: "Oberflächensprachen"
-      }
-    },
-    faq: {
-      title: "Häufig gestellte Fragen",
-      subtitle: "Alles, was Sie wissen müssen",
-      questions: {
-        q1: {
-          question: "Kann ich wirklich alle meine Anki-Decks importieren?",
-          answer: "Ja! Unser Import-Tool verarbeitet .apkg-Dateien und bewahrt Ihre vollständige SRS-Historie, Planung, Tags und benutzerdefinierten Kartenformate. Die meisten Importe sind in unter 60 Sekunden abgeschlossen."
-        },
-        q2: {
-          question: "Was macht das Kanji-Verbindungssystem einzigartig?",
-          answer: "Im Gegensatz zu anderen Apps, die Kanji isoliert lehren, zeigen wir Ihnen phonetische Familien, semantische Muster und visuelle Beziehungen. Zum Beispiel werden alle Kanji mit der 青 (blau/grün) Komponente zusammen mit ihren Aussprachemustern gruppiert und gelehrt."
-        },
-        q3: {
-          question: "Ist YouTube-Shadowing für alle Videos verfügbar?",
-          answer: "Wir unterstützen jedes YouTube-Video mit japanischen Untertiteln. Unsere KI zerlegt Inhalte in lernbare Segmente mit einstellbaren Pausenzeiten für Shadowing-Praxis."
-        },
-        q4: {
-          question: "Welche Lehrbücher unterstützen Sie?",
-          answer: "Wir haben vollständige Vokabelabdeckung für Genki I & II, Minna no Nihongo I & II, Tobira, Japanese from Zero und Marugoto. Jeder Eintrag enthält Audio, Beispielsätze und Lektionsorganisation."
-        },
-        q5: {
-          question: "Kann ich Moshimoshi offline verwenden?",
-          answer: "Ja! Alle Ihre Flashcards, Kanji-Daten und Lehrbuchvokabular funktionieren offline. Überprüfungen synchronisieren sich automatisch, wenn Sie wieder online sind."
-        },
-        q6: {
-          question: "Wie unterscheidet sich dies von Duolingo oder WaniKani?",
-          answer: "Moshimoshi kombiniert die Anpassung von Anki, die Kanji-Tiefe von WaniKani und einzigartige Funktionen wie YouTube-Shadowing und Lehrbuchintegration - alles auf einer Plattform. Wir sind für ernsthafte Lerner gebaut, die umfassende Tools wollen."
-        }
-      }
-    },
-    finalCta: {
-      title: "Bereit, Ihr Japanischlernen zu transformieren?",
-      subtitle: "Schließen Sie sich Tausenden von Lernern an, die schneller Flüssigkeit erreichen",
-      features: "Kostenlose Stufe enthält Kernfunktionen • Keine Kreditkarte erforderlich • Jederzeit upgraden",
-      ctaPrimary: "Kostenlos lernen starten",
-      ctaSecondary: "Preise ansehen"
-    },
-    footer: {
-      tagline: "Die umfassende Japanischlernplattform für ernsthafte Studenten",
-      sections: {
-        product: "Produkt",
-        features: "Funktionen",
-        company: "Unternehmen",
-        support: "Support"
-      },
-      links: {
-        shadowing: "YouTube-Shadowing",
-        kanji: "Kanji-Verbindung",
-        anki: "Anki-Import",
-        textbooks: "Lehrbuchvokabular",
-        pricing: "Preise",
-        blog: "Blog",
-        about: "Über uns",
-        contact: "Kontakt",
-        privacy: "Datenschutz",
-        terms: "Bedingungen"
-      },
-      copyright: "© 2025 Moshimoshi. Alle Rechte vorbehalten."
-    }
-  },
-
   reviewDashboard: {
     title: "Wiederholungs-Dashboard",
     description: "Verfolgen Sie Ihren Lernfortschritt und Wiederholungsplan",
@@ -400,13 +143,6 @@ export const strings = {
     days: "Tage",
     minutes: "Minuten",
     cards: "Karten",
-  },
-
-  // PWA
-  pwa: {
-    updateAvailable: "Update verfügbar",
-    updateDescription: "Eine neue Version der App ist verfügbar. Jetzt aktualisieren, um die neuesten Funktionen zu erhalten.",
-    updateNow: "Jetzt aktualisieren",
   },
 
   // Landing Page
@@ -856,11 +592,6 @@ export const strings = {
         title: "Bibliothek",
         subtitle: "図書館",
         description: "Zusammengefasste Bücher lesen"
-      },
-      flashcards: {
-        title: "Flashcards",
-        subtitle: "カード",
-        description: "Schnelle Wiederholungssessions"
       },
       drill: {
         title: "Übungen",
@@ -1698,6 +1429,8 @@ export const strings = {
       processingPayment: "Zahlung wird verarbeitet...",
       paymentFailed: "Zahlung fehlgeschlagen",
       paymentSuccess: "Zahlung erfolgreich!",
+      success: "🎉 Willkommen bei Premium! Ihr Abonnement wird aktiviert...",
+      canceled: "Zahlung abgebrochen. Sie können jederzeit über Ihre Kontoeinstellungen upgraden.",
     },
     messages: {
       welcomeToPremium: "🎉 Willkommen bei Premium! Ihr Abonnement ist jetzt aktiv.",
@@ -1714,10 +1447,6 @@ export const strings = {
       ends: "Endet",
       daysRemaining: "{{days}} Tage verbleibend",
       willEndOn: "Ihr Abonnement endet am {{date}}",
-    },
-    checkout: {
-      success: "🎉 Willkommen bei Premium! Ihr Abonnement wird aktiviert...",
-      canceled: "Zahlung abgebrochen. Sie können jederzeit über Ihre Kontoeinstellungen upgraden.",
     },
     errors: {
       paymentFailed: "Zahlung fehlgeschlagen. Versuchen Sie es mit einer anderen Zahlungsmethode.",
@@ -2116,88 +1845,6 @@ export const strings = {
         subtitle: "Eine App, alle Funktionen, Bruchteil der Kosten. Beginnen Sie heute Ihre Reise!",
         button: "Kostenlose Testversion starten"
       }
-    },
-  },
-
-  // Kana Learning System
-  kana: {
-    kanji: {
-      study: {
-        skip: "Überspringen",
-        examples: "Beispiele",
-        markAsLearned: "Als gelernt markieren",
-        noExamples: "Keine Beispiele verfügbar"
-      }
-    }
-  },
-
-  // Review System
-  review: {
-    skip: "Überspringen",
-    showAnswer: "Antwort anzeigen",
-    modes: {
-      recognition: "Erkennung",
-      recall: "Abruf",
-      listening: "Hören",
-      writing: "Schreiben",
-      speaking: "Sprechen"
-    },
-
-    // Kanji-specific
-    kanji: {
-      writeKanjiFor: "Schreibe das Kanji für:",
-      strokeCount: "{{count}} Striche",
-      grade: "Klasse {{grade}}",
-      frequency: "Häufigkeit #{{rank}}"
-    },
-
-    // Confidence
-    confidence: "Zuversicht",
-    confidenceHelp: "Was ist Zuversicht?",
-    confidenceLevel: "Zuversichtsniveau",
-    confidenceLow: "Raten",
-    confidenceMedium: "Unsicher",
-    confidenceHigh: "Sicher",
-    confidenceTooltip: {
-      title: "Wie sicher sind Sie?",
-      description: "Verwenden Sie den Schieberegler, um anzugeben, wie sicher Sie sich bei Ihrer Antwort sind:",
-      high: "Hoch (70-100%): Sie kennen die Antwort gut",
-      medium: "Mittel (30-70%): Sie sind einigermaßen sicher",
-      low: "Niedrig (0-30%): Sie raten",
-      tip: "Dies hilft dem System, Ihre Wiederholungen basierend auf Ihrem tatsächlichen Wissen besser zu planen."
-    }
-  },
-
-  // Learn Section
-  kana: {
-    study: {
-      skip: "Überspringen",
-      examples: "Beispiele",
-    },
-    combinedPractice: "Kombinierte Übung",
-
-    filters: {
-      filterByType: "Nach Typ filtern",
-      display: "Anzeige",
-      showLearned: "Gelernte anzeigen",
-      showNotStarted: "Nicht begonnene anzeigen",
-      scriptType: "Schriftart",
-    },
-
-    selectAllInRow: "Alle {{count}} Zeichen in dieser Reihe auswählen",
-
-    browse: {
-      browseAll: "Alle {{count}} Zeichen nach Typ organisiert durchsuchen",
-      selectToStudy: "Zeichen zum Lernen auswählen",
-      selectToReview: "Zeichen zum Wiederholen auswählen",
-      searchPlaceholder: "Kana nach Romaji, Zeichen suchen...",
-      searchResults: "Suchergebnisse",
-      resultsFound: "{{count}} gefunden",
-      noResultsFound: "Keine Zeichen gefunden, die \"{{query}}\" entsprechen",
-      charactersLabel: "Zeichen",
-      basicLabel: "Basis",
-      dakutenLabel: "Dakuten",
-      digraphsLabel: "Digraphen",
     },
   },
 
@@ -2801,25 +2448,6 @@ export const strings = {
     progressSaved: "Fortschritt gespeichert",
     imported: "Stapel importiert",
     exported: "Stapel exportiert"
-  },
-
-  // Session Settings
-  settings: {
-    sessionLength: "Karten pro Sitzung",
-    sessionLengthHint: "Wählen Sie, wie viele Karten Sie in dieser Sitzung lernen möchten",
-    quickSettings: "Schnelleinstellungen",
-    reviewMode: "Überprüfungsmodus",
-    sequential: "Sequenziell",
-    random: "Zufällig",
-    smart: "Intelligent",
-    studyDirection: "Lernrichtung",
-    frontToBack: "Vorderseite → Rückseite",
-    frontToBackDesc: "Vorderseite zuerst anzeigen",
-    backToFront: "Rückseite → Vorderseite",
-    backToFrontDesc: "Rückseite zuerst anzeigen",
-    mixed: "Gemischt",
-    mixedDesc: "Zufällige Richtung für jede Karte",
-    usingAllCards: "Verwendung aller verfügbaren Karten"
   },
 
   // Actions
@@ -3643,6 +3271,9 @@ export const strings = {
 
   // PWA (Progressive Web App)
   pwa: {
+    updateAvailable: "Update verfügbar",
+    updateDescription: "Eine neue Version der App ist verfügbar. Jetzt aktualisieren, um die neuesten Funktionen zu erhalten.",
+    updateNow: "Jetzt aktualisieren",
     install: {
       title: "Moshimoshi installieren",
       description: "Installieren Sie die App für ein besseres Erlebnis",

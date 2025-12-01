@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminAuth, setAdminClaims, isAdminUser, adminFirestore } from '@/lib/firebase/admin';
+import { adminAuth, setAdminClaims, isAdminUser, adminFirestore, FieldValue } from '@/lib/firebase/admin';
 import { validateSession } from '@/lib/auth/session';
 
 /**
@@ -43,8 +43,8 @@ export async function POST(request: NextRequest) {
     // Update the adminUpdatedAt timestamp
     if (adminFirestore) {
       await adminFirestore.collection('users').doc(uid).update({
-        adminUpdatedAt: adminFirestore.FieldValue.serverTimestamp(),
-        updatedAt: adminFirestore.FieldValue.serverTimestamp()
+        adminUpdatedAt: FieldValue.serverTimestamp(),
+        updatedAt: FieldValue.serverTimestamp()
       });
     }
 

@@ -1,5 +1,10 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
-import { User } from 'firebase/auth';
+
+// Minimal user interface - accepts both Firebase User and AuthUser from useAuth()
+// Only requires uid since that's all preferencesManager actually uses
+interface MinimalUser {
+  uid: string;
+}
 
 // Define comprehensive preferences interface
 export interface UserPreferences {
@@ -168,7 +173,7 @@ export class PreferencesManager {
    */
   async savePreferences(
     preferences: Partial<UserPreferences>,
-    user: User | null,
+    user: MinimalUser | null,
     isPremium: boolean
   ): Promise<void> {
     console.log('[PreferencesManager] Saving preferences', {
@@ -207,7 +212,7 @@ export class PreferencesManager {
    * Get preferences based on user tier
    */
   async getPreferences(
-    user: User | null,
+    user: MinimalUser | null,
     isPremium: boolean
   ): Promise<UserPreferences> {
     // Guest users: return defaults
@@ -470,7 +475,7 @@ export class PreferencesManager {
    * Migrate from localStorage to new storage system
    */
   async migrateFromLocalStorage(
-    user: User,
+    user: MinimalUser,
     isPremium: boolean
   ): Promise<boolean> {
     const migrationKey = `preferences-migrated-${user.uid}`;

@@ -1,261 +1,4 @@
 export const strings = {
-  // Landing Page
-  landing: {
-    hero: {
-      headline: "Maîtrisez le japonais avec des outils d'apprentissage révolutionnaires",
-      subheadline: "La seule plateforme combinant le shadowing YouTube, les connexions kanji intelligentes, l'import Anki en un clic et l'intégration complète des manuels",
-      ctaPrimary: "Commencer gratuitement",
-      ctaSecondary: "Voir la démo",
-      carousel: {
-        shadowing: {
-          title: "Shadowing YouTube",
-          description: "Maîtrisez la prononciation native avec du contenu japonais authentique",
-          badge: "Le plus populaire"
-        },
-        kanji: {
-          title: "Système de connexion kanji",
-          description: "Comprenez 2 136 kanji à travers les modèles visuels et les familles",
-          badge: "Unique à Moshimoshi"
-        },
-        conjugation: {
-          title: "Moteur de conjugaison",
-          description: "Plus de 100 formes de conjugaison - le plus complet du marché",
-          badge: "Maîtrise de la grammaire"
-        },
-        news: {
-          title: "Articles de presse japonais",
-          description: "Apprenez à partir d'événements actuels avec support IA",
-          badge: "Contenu réel"
-        },
-        stories: {
-          title: "Histoires générées par IA",
-          description: "Histoires personnalisées adaptées à votre niveau",
-          badge: "Apprentissage adaptatif"
-        },
-        anki: {
-          title: "Import Anki en un clic",
-          description: "Migrez vos decks Anki instantanément - aucune perte de données",
-          badge: "Migration transparente"
-        },
-        textbooks: {
-          title: "Intégration complète des manuels",
-          description: "Tout le vocabulaire de Genki, Minna no Nihongo et plus",
-          badge: "Puissance académique"
-        }
-      }
-    },
-    features: {
-      shadowing: {
-        title: "Shadowing YouTube : Apprenez du contenu natif",
-        subtitle: "L'arme secrète que les apprenants de japonais ne connaissent pas",
-        description: "Pratiquez le shadowing avec des vidéos YouTube japonaises authentiques, des dramas et des podcasts. Notre système alimenté par IA décompose le contenu en blocs d'apprentissage parfaits avec des temps de pause ajustables.",
-        benefits: {
-          benefit1: "Pratiquez avec une vraie prononciation native",
-          benefit2: "Vitesse de lecture ajustable (0,5x - 2x)",
-          benefit3: "Pause automatique pour la pratique du shadowing",
-          benefit4: "Suivez les progrès sur toutes les vidéos"
-        },
-        cta: "Essayer le shadowing maintenant"
-      },
-      kanji: {
-        title: "Système de connexion kanji : Révolution de l'apprentissage visuel",
-        subtitle: "Voyez les modèles que personne d'autre ne vous montre",
-        description: "Notre système unique connecte tous les 2 136 kanji jōyō à travers les familles phonétiques, les radicaux sémantiques et les modèles visuels. Apprenez les kanji en groupes connectés au lieu de caractères isolés.",
-        benefits: {
-          benefit1: "214 radicaux avec décomposition des composants",
-          benefit2: "Regroupements par familles phonétiques",
-          benefit3: "Visualisation de réseau interactive",
-          benefit4: "Techniques de mémorisation pour chaque modèle"
-        },
-        cta: "Explorer les connexions kanji"
-      },
-      conjugation: {
-        title: "Maîtrisez la conjugaison japonaise",
-        subtitle: "Plus de 100 formes de conjugaison - le plus complet du marché",
-        description: "Notre moteur de conjugaison avancé couvre chaque forme de verbe, d'adjectif et de copule avec une précision parfaite. Détection intelligente du type de mot, exercices de difficulté pondérée et architecture propre rendent la pratique grammaticale sans effort.",
-        benefits: {
-          benefit1: "Plus de 100 formes de conjugaison (les plus complètes disponibles)",
-          benefit2: "Implémentation précise des règles grammaticales japonaises",
-          benefit3: "Détection intelligente du type de mot avec score de confiance",
-          benefit4: "Excellente intégration d'exercices avec difficulté pondérée"
-        },
-        cta: "Pratiquer la conjugaison"
-      },
-      anki: {
-        title: "Import Anki en un clic : Conservez vos progrès",
-        subtitle: "Changez sans perdre des milliers d'heures de travail",
-        description: "Importez tous vos decks Anki avec l'historique SRS complet, la planification des cartes et les notes personnalisées. Notre système de migration intelligent préserve tout en améliorant votre expérience d'apprentissage.",
-        benefits: {
-          benefit1: "100% de l'historique SRS préservé",
-          benefit2: "Cartes personnalisées importées parfaitement",
-          benefit3: "Tags et structure de deck maintenus",
-          benefit4: "Amélioré avec des fonctionnalités alimentées par IA"
-        },
-        cta: "Importer mes decks Anki"
-      },
-      textbooks: {
-        title: "Vocabulaire des manuels : Excellence académique",
-        subtitle: "Chaque mot des livres que vous utilisez déjà",
-        description: "Vocabulaire complet de Genki I & II, Minna no Nihongo, Tobira et plus. Organisé par leçon avec exemples de phrases, audio et révision SRS.",
-        textbookList: "Genki • Minna no Nihongo • Tobira • Japanese from Zero • Marugoto",
-        benefits: {
-          benefit1: "Organisé par manuel et leçon",
-          benefit2: "Audio natif pour chaque mot",
-          benefit3: "Exemples de phrases avec contexte",
-          benefit4: "Synchronisation avec votre emploi du temps de cours"
-        },
-        cta: "Parcourir le vocabulaire des manuels"
-      },
-
-      news: {
-        title: "Articles de presse japonais réels",
-        subtitle: "Apprenez à partir d'événements actuels authentiques",
-        description: "Lisez de vrais articles de presse japonais avec support de compréhension intégré. Notre IA décompose les phrases complexes, fournit des indices de vocabulaire et suit vos progrès de lecture.",
-        benefits: {
-          benefit1: "Contenu d'actualité authentique mis à jour quotidiennement",
-          benefit2: "Décomposition et analyse de phrases alimentées par IA",
-          benefit3: "Recherche instantanée de vocabulaire avec intégration SRS",
-          benefit4: "Suivi et statistiques des progrès de lecture"
-        },
-        cta: "Lire des articles de presse"
-      },
-
-      stories: {
-        title: "Histoires générées par IA",
-        subtitle: "Histoires personnalisées pour votre niveau",
-        description: "Pratiquez la lecture avec des histoires générées par IA adaptées à votre niveau de vocabulaire et à vos intérêts. Chaque histoire inclut furigana, listes de vocabulaire et questions de compréhension.",
-        benefits: {
-          benefit1: "Histoires générées à votre niveau exact",
-          benefit2: "Support furigana et vocabulaire",
-          benefit3: "Questions et quiz de compréhension",
-          benefit4: "Enregistrez les mots inconnus directement dans la révision SRS"
-        },
-        cta: "Explorer les histoires IA"
-      }
-    },
-    comparison: {
-      title: "Pourquoi Moshimoshi bat la concurrence",
-      subtitle: "La seule plateforme conçue pour les apprenants sérieux",
-      tableHeaders: {
-        feature: "Fonctionnalité",
-        moshimoshi: "Moshimoshi",
-        anki: "Anki",
-        wanikani: "WaniKani",
-        duolingo: "Duolingo"
-      },
-      features: {
-        shadowing: "Shadowing YouTube",
-        kanjiSystem: "Système kanji visuel",
-        ankiImport: "Import Anki",
-        textbooks: "Intégration des manuels",
-        customCards: "Cartes personnalisées",
-        offline: "Mode hors ligne",
-        gamification: "Gamification",
-        community: "Fonctionnalités communautaires"
-      },
-      values: {
-        yes: "✓",
-        no: "✗",
-        limited: "Limité"
-      }
-    },
-    socialProof: {
-      title: "Aimé par les apprenants de japonais du monde entier",
-      subtitle: "Des débutants aux candidats JLPT N1",
-      testimonials: {
-        testimonial1: {
-          quote: "J'ai migré d'Anki après 3 ans. L'import était impeccable et la fonction de shadowing a considérablement amélioré ma prononciation.",
-          author: "Sarah Chen",
-          role: "Étudiant JLPT N2",
-          context: "Migré d'Anki"
-        },
-        testimonial2: {
-          quote: "Le système de connexion kanji a finalement fait cliquer les kanji pour moi. Voir les familles et les modèles a tout changé.",
-          author: "Marcus Rodriguez",
-          role: "Étudiant universitaire en japonais",
-          context: "Utilisateur de connexion kanji"
-        },
-        testimonial3: {
-          quote: "En tant qu'étudiant Genki, avoir tout le vocabulaire organisé par leçon avec audio est révolutionnaire pour mes études.",
-          author: "Emma Thompson",
-          role: "Apprenant autodidacte",
-          context: "Utilisateur d'intégration de manuels"
-        },
-        testimonial4: {
-          quote: "Le shadowing avec du contenu YouTube authentique bat n'importe quel manuel. Mes amis japonais ne peuvent pas croire que je suis autodidacte.",
-          author: "Kenji Yamamoto",
-          role: "Professionnel des affaires",
-          context: "Utilisateur de shadowing YouTube"
-        }
-      },
-      stats: {
-        cards: "Plus d'un million de flashcards créées",
-        kanji: "Couverture complète des kanji jōyō",
-        textbooks: "Manuels majeurs intégrés",
-        languages: "Langues d'interface"
-      }
-    },
-    faq: {
-      title: "Questions fréquemment posées",
-      subtitle: "Tout ce que vous devez savoir",
-      questions: {
-        q1: {
-          question: "Puis-je vraiment importer tous mes decks Anki ?",
-          answer: "Oui ! Notre outil d'import gère les fichiers .apkg et préserve votre historique SRS complet, la planification, les tags et les formats de cartes personnalisés. La plupart des imports se terminent en moins de 60 secondes."
-        },
-        q2: {
-          question: "Qu'est-ce qui rend le système de connexion kanji unique ?",
-          answer: "Contrairement aux autres applications qui enseignent les kanji de manière isolée, nous vous montrons les familles phonétiques, les modèles sémantiques et les relations visuelles. Par exemple, tous les kanji avec le composant 青 (bleu/vert) sont regroupés et enseignés ensemble avec leurs modèles de prononciation."
-        },
-        q3: {
-          question: "Le shadowing YouTube est-il disponible pour toutes les vidéos ?",
-          answer: "Nous prenons en charge toute vidéo YouTube avec des sous-titres japonais. Notre IA décompose le contenu en segments apprenables avec des temps de pause ajustables pour la pratique du shadowing."
-        },
-        q4: {
-          question: "Quels manuels soutenez-vous ?",
-          answer: "Nous avons une couverture vocabulaire complète pour Genki I & II, Minna no Nihongo I & II, Tobira, Japanese from Zero et Marugoto. Chaque entrée inclut l'audio, des exemples de phrases et l'organisation par leçon."
-        },
-        q5: {
-          question: "Puis-je utiliser Moshimoshi hors ligne ?",
-          answer: "Oui ! Toutes vos flashcards, données de kanji et vocabulaire de manuels fonctionnent hors ligne. Les révisions se synchronisent automatiquement lorsque vous êtes de nouveau en ligne."
-        },
-        q6: {
-          question: "En quoi est-ce différent de Duolingo ou WaniKani ?",
-          answer: "Moshimoshi combine la personnalisation d'Anki, la profondeur des kanji de WaniKani et des fonctionnalités uniques comme le shadowing YouTube et l'intégration des manuels - le tout sur une seule plateforme. Nous sommes conçus pour les apprenants sérieux qui veulent des outils complets."
-        }
-      }
-    },
-    finalCta: {
-      title: "Prêt à transformer votre apprentissage du japonais ?",
-      subtitle: "Rejoignez des milliers d'apprenants atteignant la fluidité plus rapidement",
-      features: "Le niveau gratuit inclut les fonctionnalités principales • Pas de carte de crédit requise • Mise à niveau à tout moment",
-      ctaPrimary: "Commencer gratuitement",
-      ctaSecondary: "Voir les tarifs"
-    },
-    footer: {
-      tagline: "La plateforme complète d'apprentissage du japonais pour les étudiants sérieux",
-      sections: {
-        product: "Produit",
-        features: "Fonctionnalités",
-        company: "Entreprise",
-        support: "Support"
-      },
-      links: {
-        shadowing: "Shadowing YouTube",
-        kanji: "Connexion kanji",
-        anki: "Import Anki",
-        textbooks: "Vocabulaire des manuels",
-        pricing: "Tarifs",
-        blog: "Blog",
-        about: "À propos",
-        contact: "Contact",
-        privacy: "Confidentialité",
-        terms: "Conditions"
-      },
-      copyright: "© 2025 Moshimoshi. Tous droits réservés."
-    }
-  },
-
   reviewDashboard: {
     title: "Tableau de Révision",
     description: "Suivez votre progression d'apprentissage et votre planning de révision",
@@ -333,18 +76,6 @@ export const strings = {
     items: "éléments"
   },
 
-  // Review section
-  review: {
-    schedule: {
-      today: "Aujourd'hui",
-      tomorrow: "Demain",
-      thisWeek: "Cette Semaine",
-      later: "Plus tard",
-      nextReview: "Prochaine révision",
-      scheduledReviews: "Révisions programmées"
-    },
-    items: "éléments"
-  },
   // Common/Shared
   common: {
     brand: "Moshimoshi",
@@ -400,13 +131,6 @@ export const strings = {
     days: "jours",
     minutes: "minutes",
     cards: "cartes",
-  },
-
-  // PWA
-  pwa: {
-    updateAvailable: "Mise à jour disponible",
-    updateDescription: "Une nouvelle version de l'application est disponible. Mettez à jour maintenant pour bénéficier des dernières fonctionnalités.",
-    updateNow: "Mettre à jour maintenant",
   },
 
   // Landing Page
@@ -481,266 +205,6 @@ export const strings = {
       description: "C'est gratuit, amusant et ne prend que 5 minutes par jour !",
       buttonText: "Commencer mon voyage gratuit",
     },
-  },
-
-  // Dashboard
-  dashboard: {
-    loading: "Chargement de votre tableau de bord...",
-    stats: {
-      streak: {
-        label: "Série",
-        unit: "jours",
-      },
-      xpEarned: {
-        label: "XP gagnés",
-        unit: "points",
-      },
-      wordsLearned: {
-        label: "Mots appris",
-        unit: "mots",
-      },
-      timeStudied: {
-        label: "Temps étudié",
-        unit: "heures",
-      },
-      progress: {
-        label: "Progression",
-        unit: "%",
-      },
-      achievements: {
-        label: "Succès",
-        unit: "récents",
-      },
-    },
-    greetings: {
-      morning: {
-        japanese: "おはよう",
-        english: "Bonjour",
-      },
-      afternoon: {
-        japanese: "こんにちは",
-        english: "Bon après-midi",
-      },
-      evening: {
-        japanese: "こんばんは",
-        english: "Bonsoir",
-      },
-    },
-    navigation: {
-      userMenuAria: "Menu utilisateur",
-      account: "Compte",
-      settings: "Paramètres",
-      adminDashboard: "Tableau de bord admin",
-      backToDashboard: "← Retour au tableau de bord",
-    },
-    welcome: {
-      firstVisit: "Bienvenue dans votre aventure d'apprentissage du japonais ! Doshi est là pour vous guider.",
-      returning: "Prêt à continuer votre voyage ? Votre dévouement est inspirant !",
-      signoutToast: "Sayonara ! À bientôt ! 👋",
-      doshiClick: "Doshi dit : がんばって ! (Bonne chance !)",
-    },
-    progress: {
-      dailyGoal: {
-        title: "Objectif quotidien",
-        tooltip: "Complétez 30 minutes d'étude chaque jour",
-        progressLabel: "Progression",
-        encouragement: "Continuez ! Vous êtes à {{percentage}}% !",
-      },
-      achievement: {
-        title: "Dernier succès",
-        earnedTime: "Gagné il y a {{time}}",
-      },
-    },
-    account: {
-      title: "Détails du compte",
-      upgradeTooltip: "Passez au Premium pour des leçons illimitées !",
-      upgradeLink: "Mettre à niveau →",
-      fields: {
-        email: "Email",
-        memberSince: "Membre depuis",
-        emailStatus: "Statut de l'email",
-      },
-      emailStatusValues: {
-        verified: "✓ Vérifié",
-        pending: "⚠ En attente de vérification",
-      },
-      defaultMemberSince: "Récemment inscrit",
-    },
-    developer: {
-      modeTitle: "Mode développeur",
-      authTestLink: "→ Page de test d'authentification",
-    },
-    statModals: {
-      close: "Compris !",
-      formulaLabel: "Formule",
-      breakdownLabel: "Détails",
-      howToImproveLabel: "Comment améliorer",
-      availableBonusesLabel: "Bonus disponibles",
-      masteryLevelsLabel: "Niveaux de maîtrise",
-      proTipLabel: "Conseil de pro",
-      streak: {
-        title: "Série Quotidienne",
-        description: "Votre série montre combien de jours consécutifs vous avez pratiqué le japonais avec un engagement significatif.",
-        formula: "Jours consécutifs avec ≥10 XP gagnés",
-        whatItMeans: "Chaque jour où vous gagnez au moins 10 XP (en complétant 1+ réponses correctes dans un exercice), votre série augmente de 1. Plusieurs sessions le même jour n'augmentent pas davantage votre série.",
-        howToImprove: "Pratiquez tous les jours ! Même une courte session de 5 minutes compte. Définissez un rappel quotidien et faites de la pratique du japonais une partie de votre routine.",
-        breakdown: {
-          current: "Série actuelle",
-          longest: "Série la plus longue (tous temps)",
-          lastActive: "Dernière activité",
-          minXP: "XP minimum nécessaire par jour"
-        },
-        goalNote: "Construisez une série de 7 jours pour développer une forte habitude d'apprentissage !"
-      },
-      xpEarned: {
-        title: "XP Gagnés",
-        description: "Les Points d'Expérience (XP) mesurent votre activité d'apprentissage et vos réalisations. Les XP sont gagnés grâce aux sessions de pratique avec des bonus de précision et de vitesse.",
-        formula: "XP de base + Bonus de Précision + Bonus de Vitesse + Bonus de Série",
-        whatItMeans: "Chaque réponse correcte rapporte des XP de base (10 points). Une haute précision (≥90%) et des réponses rapides peuvent doubler vos XP grâce aux bonus !",
-        howToImprove: "Concentrez-vous d'abord sur la précision, puis sur la vitesse ! Complétez des sessions d'exercices complètes, maintenez une haute précision et construisez des séries pour maximiser les XP.",
-        breakdown: {
-          total: "Total XP gagnés",
-          currentLevel: "Niveau actuel",
-          nextLevel: "XP jusqu'au prochain niveau",
-          dailyCap: "Plafond XP quotidien"
-        },
-        bonuses: {
-          accuracy: "Bonus de précision (≥90%) : 2x XP",
-          speed: "Bonus de vitesse (<2s moy) : +10 XP",
-          streak: "Bonus de série (≥5) : +3 XP par élément"
-        },
-        goalNote: "Les XP quotidiens sont plafonnés à 500 pour encourager une pratique équilibrée et durable."
-      },
-      achievementProgress: {
-        title: "Progression des Succès",
-        description: "Suivez votre parcours en débloquant des succès au fur et à mesure que vous apprenez et pratiquez le japonais.",
-        formula: "(Débloqués / Total) × 100",
-        whatItMeans: "Ce pourcentage montre combien de succès vous avez gagnés sur le total disponible.",
-        howToImprove: "Complétez des exercices, maintenez des séries quotidiennes et pratiquez régulièrement pour débloquer plus de succès.",
-        breakdown: {
-          unlocked: "Succès débloqués",
-          total: "Total disponible",
-          completion: "Taux de complétion"
-        }
-      },
-      achievements: {
-        title: "Succès Débloqués",
-        description: "Les succès sont des récompenses pour avoir atteint des jalons dans votre parcours d'apprentissage. Chaque succès représente une réalisation spécifique.",
-        formula: "Nombre de succès débloqués",
-        whatItMeans: "Le nombre total de succès que vous avez gagnés grâce à votre pratique et votre dévouement.",
-        howToImprove: "Continuez à pratiquer ! Complétez des exercices, maintenez des séries, atteignez des objectifs de précision et pratiquez à différents moments pour débloquer les 10 succès.",
-        breakdown: {
-          unlocked: "Actuellement débloqués",
-          available: "Total disponible",
-          earnMore: "Comment en gagner plus"
-        },
-        tips: "Essayez Lève-tôt (pratiquez avant 6h du matin) ou Noctambule (pratiquez après 22h) pour des succès faciles !"
-      },
-      drillsCompleted: {
-        title: "Exercices Complétés",
-        description: "Chaque session d'exercice que vous complétez aide à développer vos compétences de conjugaison japonaise. La qualité compte plus que la quantité !",
-        formula: "Total des sessions d'exercices terminées",
-        whatItMeans: "Le nombre de sessions d'exercices complètes que vous avez terminées, quel que soit le score.",
-        howToImprove: "Pratiquez régulièrement ! Chaque session compte pour votre total et aide à construire la mémoire musculaire des conjugaisons.",
-        breakdown: {
-          total: "Total des exercices",
-          perfect: "Exercices parfaits (100%)",
-          types: "Types de pratique"
-        }
-      },
-      drillAccuracy: {
-        title: "Précision des Exercices",
-        description: "Votre précision reflète à quel point vous comprenez les conjugaisons verbales japonaises dans toutes vos sessions de pratique.",
-        formula: "(Réponses correctes / Total des réponses) × 100",
-        whatItMeans: "Le pourcentage de questions auxquelles vous avez répondu correctement dans TOUS les exercices. Il est calculé de manière cumulative, donc les améliorations récentes augmenteront progressivement votre score global.",
-        example: "Exemple : Si vous avez eu 12 réponses correctes sur 15 au total, votre précision est de 80%.",
-        howToImprove: "Concentrez-vous sur la compréhension des modèles ! Révisez les règles de conjugaison, prenez votre temps avec chaque question et pratiquez de manière cohérente.",
-        breakdown: {
-          current: "Précision actuelle",
-          total: "Total des exercices complétés",
-          goal: "Objectif de précision"
-        },
-        goalNote: "Visez 80% ou plus pour montrer une compréhension solide !"
-      },
-      drillMastery: {
-        title: "Score de Maîtrise des Exercices",
-        description: "La maîtrise est un score de qualité complet (0-100) qui mesure non seulement combien vous pratiquez, mais à quel point vous pratiquez bien.",
-        formula: "Calcul pondéré à 4 facteurs",
-        whatItMeans: "Ce score combine le volume, la précision, la cohérence et le ratio d'exercices parfaits pour vous donner une image complète de votre niveau de maîtrise.",
-        factors: "Les quatre facteurs",
-        howToImprove: "L'équilibre est la clé ! Pratiquez régulièrement (volume), concentrez-vous sur la précision, visez des sessions parfaites et maintenez la cohérence.",
-        breakdown: {
-          volume: "Volume (max 30 pts)",
-          volumeDetail: "Basé sur le total des exercices complétés",
-          accuracy: "Précision (max 40 pts)",
-          accuracyDetail: "Basé sur votre % correct",
-          perfectRatio: "Ratio Parfait (20 pts)",
-          perfectDetail: "Sessions 100% précises",
-          consistency: "Cohérence (10 pts)",
-          consistencyDetail: "Modèle de pratique régulier",
-          total: "Score de Maîtrise Total"
-        },
-        masterLevels: {
-          beginner: "0-30 : Débutant - Continuez à pratiquer !",
-          developing: "31-60 : En développement - Vous progressez !",
-          proficient: "61-80 : Compétent - Excellent travail !",
-          expert: "81-100 : Expert - Exceptionnel !"
-        }
-      },
-      learningProgress: {
-        title: "Progression d'Apprentissage",
-        description: "Votre progression globale dans toutes les catégories d'apprentissage (exercices, kana, kanji, vocabulaire).",
-        formula: "(Éléments maîtrisés / Éléments commencés) × 100",
-        whatItMeans: "Cela montre la qualité de votre apprentissage, pas seulement la quantité. Seuls les éléments que vous avez réellement pratiqués comptent pour votre progression.",
-        howToImprove: "Maîtrisez ce que vous avez commencé ! Concentrez-vous sur l'achèvement des éléments incomplets avant d'en commencer de nouveaux.",
-        breakdown: {
-          percentage: "Progression globale",
-          categoriesStarted: "Catégories actives",
-          itemsMastered: "Éléments maîtrisés"
-        }
-      },
-      videosPracticed: {
-        title: "Vidéos Pratiquées",
-        description: "Le nombre total de vidéos YouTube uniques auxquelles vous avez accédé pour pratiquer le shadowing.",
-        formula: "Nombre de vidéos uniques chargées",
-        whatItMeans: "Chaque nouvelle vidéo que vous chargez pour la pratique du shadowing compte pour ce total. Revoir la même vidéo n'augmente pas le compteur.",
-        howToImprove: "Explorez différentes vidéos pour pratiquer avec divers locuteurs, sujets et modèles de discours !",
-        breakdown: {
-          total: "Total de vidéos consultées",
-          thisWeek: "Vidéos cette semaine",
-          quotaInfo: "Informations sur le quota"
-        },
-        goalNote: "Pratiquer avec du contenu diversifié améliore votre compréhension orale !"
-      },
-      videosRemaining: {
-        title: "Vidéos Restantes",
-        description: "Le nombre de nouvelles vidéos que vous pouvez charger aujourd'hui selon votre quota quotidien.",
-        formula: "Limite quotidienne − Vidéos chargées aujourd'hui",
-        whatItMeans: "Votre quota quotidien se réinitialise à minuit UTC. Les vidéos précédemment consultées peuvent être pratiquées indéfiniment sans utiliser de quota.",
-        howToImprove: "Passez à Premium pour 20 vidéos par jour, ou revisitez vos vidéos préférées pour une pratique illimitée gratuite !",
-        breakdown: {
-          remaining: "Restantes aujourd'hui",
-          limit: "Limite quotidienne",
-          used: "Utilisées aujourd'hui",
-          resetTime: "Réinitialisation à"
-        },
-        goalNote: "Les utilisateurs gratuits obtiennent 3 nouvelles vidéos par jour, les utilisateurs Premium en obtiennent 20 !"
-      },
-      watchTime: {
-        title: "Temps de Visionnage",
-        description: "Le temps total que vous avez passé à pratiquer activement avec des vidéos de shadowing YouTube.",
-        formula: "Somme de toutes les durées de session de pratique",
-        whatItMeans: "Le temps est suivi pendant les sessions de pratique réelles. Cela mesure votre engagement constant avec la pratique du shadowing.",
-        howToImprove: "Pratiquez régulièrement ! Même 10 à 15 minutes par jour développent de solides compétences d'écoute et de prononciation.",
-        breakdown: {
-          total: "Temps de visionnage total",
-          thisWeek: "Cette semaine",
-          thisMonth: "Ce mois-ci",
-          avgPerSession: "Moyenne par session"
-        },
-        goalNote: "Visez au moins 30 minutes de pratique de shadowing par semaine !"
-      }
-    }
   },
 
   // Auth Pages
@@ -1343,11 +807,6 @@ export const strings = {
         subtitle: "図書館",
         description: "Lire des livres condensés"
       },
-      flashcards: {
-        title: "Cartes mémoire",
-        subtitle: "カード",
-        description: "Sessions de révision rapide"
-      },
       drill: {
         title: "Exercices",
         subtitle: "ドリル",
@@ -1482,17 +941,198 @@ export const strings = {
       upgrade: "Améliorer"
     },
     developerMode: "Mode développeur",
-    authTestPage: "Page de test d'authentification"
-  },
-
-  // Kana Learning System
-  kana: {
-    kanji: {
-      study: {
-        skip: "Passer",
-        examples: "Exemples",
-        markAsLearned: "Marquer comme appris",
-        noExamples: "Aucun exemple disponible"
+    authTestPage: "Page de test d'authentification",
+    loading: "Chargement de votre tableau de bord...",
+    greetings: {
+      morning: {
+        japanese: "おはよう",
+        english: "Bonjour",
+      },
+      afternoon: {
+        japanese: "こんにちは",
+        english: "Bon après-midi",
+      },
+      evening: {
+        japanese: "こんばんは",
+        english: "Bonsoir",
+      },
+    },
+    navigation: {
+      userMenuAria: "Menu utilisateur",
+      account: "Compte",
+      settings: "Paramètres",
+      adminDashboard: "Tableau de bord admin",
+      backToDashboard: "← Retour au tableau de bord",
+    },
+    statModals: {
+      close: "Compris !",
+      formulaLabel: "Formule",
+      breakdownLabel: "Détails",
+      howToImproveLabel: "Comment améliorer",
+      availableBonusesLabel: "Bonus disponibles",
+      masteryLevelsLabel: "Niveaux de maîtrise",
+      proTipLabel: "Conseil de pro",
+      streak: {
+        title: "Série Quotidienne",
+        description: "Votre série montre combien de jours consécutifs vous avez pratiqué le japonais avec un engagement significatif.",
+        formula: "Jours consécutifs avec ≥10 XP gagnés",
+        whatItMeans: "Chaque jour où vous gagnez au moins 10 XP (en complétant 1+ réponses correctes dans un exercice), votre série augmente de 1. Plusieurs sessions le même jour n'augmentent pas davantage votre série.",
+        howToImprove: "Pratiquez tous les jours ! Même une courte session de 5 minutes compte. Définissez un rappel quotidien et faites de la pratique du japonais une partie de votre routine.",
+        breakdown: {
+          current: "Série actuelle",
+          longest: "Série la plus longue (tous temps)",
+          lastActive: "Dernière activité",
+          minXP: "XP minimum nécessaire par jour"
+        },
+        goalNote: "Construisez une série de 7 jours pour développer une forte habitude d'apprentissage !"
+      },
+      xpEarned: {
+        title: "XP Gagnés",
+        description: "Les Points d'Expérience (XP) mesurent votre activité d'apprentissage et vos réalisations. Les XP sont gagnés grâce aux sessions de pratique avec des bonus de précision et de vitesse.",
+        formula: "XP de base + Bonus de Précision + Bonus de Vitesse + Bonus de Série",
+        whatItMeans: "Chaque réponse correcte rapporte des XP de base (10 points). Une haute précision (≥90%) et des réponses rapides peuvent doubler vos XP grâce aux bonus !",
+        howToImprove: "Concentrez-vous d'abord sur la précision, puis sur la vitesse ! Complétez des sessions d'exercices complètes, maintenez une haute précision et construisez des séries pour maximiser les XP.",
+        breakdown: {
+          total: "Total XP gagnés",
+          currentLevel: "Niveau actuel",
+          nextLevel: "XP jusqu'au prochain niveau",
+          dailyCap: "Plafond XP quotidien"
+        },
+        bonuses: {
+          accuracy: "Bonus de précision (≥90%) : 2x XP",
+          speed: "Bonus de vitesse (<2s moy) : +10 XP",
+          streak: "Bonus de série (≥5) : +3 XP par élément"
+        },
+        goalNote: "Les XP quotidiens sont plafonnés à 500 pour encourager une pratique équilibrée et durable."
+      },
+      achievementProgress: {
+        title: "Progression des Succès",
+        description: "Suivez votre parcours en débloquant des succès au fur et à mesure que vous apprenez et pratiquez le japonais.",
+        formula: "(Débloqués / Total) × 100",
+        whatItMeans: "Ce pourcentage montre combien de succès vous avez gagnés sur le total disponible.",
+        howToImprove: "Complétez des exercices, maintenez des séries quotidiennes et pratiquez régulièrement pour débloquer plus de succès.",
+        breakdown: {
+          unlocked: "Succès débloqués",
+          total: "Total disponible",
+          completion: "Taux de complétion"
+        }
+      },
+      achievements: {
+        title: "Succès Débloqués",
+        description: "Les succès sont des récompenses pour avoir atteint des jalons dans votre parcours d'apprentissage. Chaque succès représente une réalisation spécifique.",
+        formula: "Nombre de succès débloqués",
+        whatItMeans: "Le nombre total de succès que vous avez gagnés grâce à votre pratique et votre dévouement.",
+        howToImprove: "Continuez à pratiquer ! Complétez des exercices, maintenez des séries, atteignez des objectifs de précision et pratiquez à différents moments pour débloquer les 10 succès.",
+        breakdown: {
+          unlocked: "Actuellement débloqués",
+          available: "Total disponible",
+          earnMore: "Comment en gagner plus"
+        },
+        tips: "Essayez Lève-tôt (pratiquez avant 6h du matin) ou Noctambule (pratiquez après 22h) pour des succès faciles !"
+      },
+      drillsCompleted: {
+        title: "Exercices Complétés",
+        description: "Chaque session d'exercice que vous complétez aide à développer vos compétences de conjugaison japonaise. La qualité compte plus que la quantité !",
+        formula: "Total des sessions d'exercices terminées",
+        whatItMeans: "Le nombre de sessions d'exercices complètes que vous avez terminées, quel que soit le score.",
+        howToImprove: "Pratiquez régulièrement ! Chaque session compte pour votre total et aide à construire la mémoire musculaire des conjugaisons.",
+        breakdown: {
+          total: "Total des exercices",
+          perfect: "Exercices parfaits (100%)",
+          types: "Types de pratique"
+        }
+      },
+      drillAccuracy: {
+        title: "Précision des Exercices",
+        description: "Votre précision reflète à quel point vous comprenez les conjugaisons verbales japonaises dans toutes vos sessions de pratique.",
+        formula: "(Réponses correctes / Total des réponses) × 100",
+        whatItMeans: "Le pourcentage de questions auxquelles vous avez répondu correctement dans TOUS les exercices. Il est calculé de manière cumulative, donc les améliorations récentes augmenteront progressivement votre score global.",
+        example: "Exemple : Si vous avez eu 12 réponses correctes sur 15 au total, votre précision est de 80%.",
+        howToImprove: "Concentrez-vous sur la compréhension des modèles ! Révisez les règles de conjugaison, prenez votre temps avec chaque question et pratiquez de manière cohérente.",
+        breakdown: {
+          current: "Précision actuelle",
+          total: "Total des exercices complétés",
+          goal: "Objectif de précision"
+        },
+        goalNote: "Visez 80% ou plus pour montrer une compréhension solide !"
+      },
+      drillMastery: {
+        title: "Score de Maîtrise des Exercices",
+        description: "La maîtrise est un score de qualité complet (0-100) qui mesure non seulement combien vous pratiquez, mais à quel point vous pratiquez bien.",
+        formula: "Calcul pondéré à 4 facteurs",
+        whatItMeans: "Ce score combine le volume, la précision, la cohérence et le ratio d'exercices parfaits pour vous donner une image complète de votre niveau de maîtrise.",
+        factors: "Les quatre facteurs",
+        howToImprove: "L'équilibre est la clé ! Pratiquez régulièrement (volume), concentrez-vous sur la précision, visez des sessions parfaites et maintenez la cohérence.",
+        breakdown: {
+          volume: "Volume (max 30 pts)",
+          volumeDetail: "Basé sur le total des exercices complétés",
+          accuracy: "Précision (max 40 pts)",
+          accuracyDetail: "Basé sur votre % correct",
+          perfectRatio: "Ratio Parfait (20 pts)",
+          perfectDetail: "Sessions 100% précises",
+          consistency: "Cohérence (10 pts)",
+          consistencyDetail: "Modèle de pratique régulier",
+          total: "Score de Maîtrise Total"
+        },
+        masterLevels: {
+          beginner: "0-30 : Débutant - Continuez à pratiquer !",
+          developing: "31-60 : En développement - Vous progressez !",
+          proficient: "61-80 : Compétent - Excellent travail !",
+          expert: "81-100 : Expert - Exceptionnel !"
+        }
+      },
+      learningProgress: {
+        title: "Progression d'Apprentissage",
+        description: "Votre progression globale dans toutes les catégories d'apprentissage (exercices, kana, kanji, vocabulaire).",
+        formula: "(Éléments maîtrisés / Éléments commencés) × 100",
+        whatItMeans: "Cela montre la qualité de votre apprentissage, pas seulement la quantité. Seuls les éléments que vous avez réellement pratiqués comptent pour votre progression.",
+        howToImprove: "Maîtrisez ce que vous avez commencé ! Concentrez-vous sur l'achèvement des éléments incomplets avant d'en commencer de nouveaux.",
+        breakdown: {
+          percentage: "Progression globale",
+          categoriesStarted: "Catégories actives",
+          itemsMastered: "Éléments maîtrisés"
+        }
+      },
+      videosPracticed: {
+        title: "Vidéos Pratiquées",
+        description: "Le nombre total de vidéos YouTube uniques auxquelles vous avez accédé pour pratiquer le shadowing.",
+        formula: "Nombre de vidéos uniques chargées",
+        whatItMeans: "Chaque nouvelle vidéo que vous chargez pour la pratique du shadowing compte pour ce total. Revoir la même vidéo n'augmente pas le compteur.",
+        howToImprove: "Explorez différentes vidéos pour pratiquer avec divers locuteurs, sujets et modèles de discours !",
+        breakdown: {
+          total: "Total de vidéos consultées",
+          thisWeek: "Vidéos cette semaine",
+          quotaInfo: "Informations sur le quota"
+        },
+        goalNote: "Pratiquer avec du contenu diversifié améliore votre compréhension orale !"
+      },
+      videosRemaining: {
+        title: "Vidéos Restantes",
+        description: "Le nombre de nouvelles vidéos que vous pouvez charger aujourd'hui selon votre quota quotidien.",
+        formula: "Limite quotidienne − Vidéos chargées aujourd'hui",
+        whatItMeans: "Votre quota quotidien se réinitialise à minuit UTC. Les vidéos précédemment consultées peuvent être pratiquées indéfiniment sans utiliser de quota.",
+        howToImprove: "Passez à Premium pour 20 vidéos par jour, ou revisitez vos vidéos préférées pour une pratique illimitée gratuite !",
+        breakdown: {
+          remaining: "Restantes aujourd'hui",
+          limit: "Limite quotidienne",
+          used: "Utilisées aujourd'hui",
+          resetTime: "Réinitialisation à"
+        },
+        goalNote: "Les utilisateurs gratuits obtiennent 3 nouvelles vidéos par jour, les utilisateurs Premium en obtiennent 20 !"
+      },
+      watchTime: {
+        title: "Temps de Visionnage",
+        description: "Le temps total que vous avez passé à pratiquer activement avec des vidéos de shadowing YouTube.",
+        formula: "Somme de toutes les durées de session de pratique",
+        whatItMeans: "Le temps est suivi pendant les sessions de pratique réelles. Cela mesure votre engagement constant avec la pratique du shadowing.",
+        howToImprove: "Pratiquez régulièrement ! Même 10 à 15 minutes par jour développent de solides compétences d'écoute et de prononciation.",
+        breakdown: {
+          total: "Temps de visionnage total",
+          thisWeek: "Cette semaine",
+          thisMonth: "Ce mois-ci",
+          avgPerSession: "Moyenne par session"
+        },
+        goalNote: "Visez au moins 30 minutes de pratique de shadowing par semaine !"
       }
     }
   },
@@ -1558,12 +1198,13 @@ export const strings = {
     combined: "Pratique combinée",
     combinedPractice: "Pratique combinée",
 
-    filters: {
-      filterByType: "Filtrer par type",
-      display: "Affichage",
-      showLearned: "Afficher appris",
-      showNotStarted: "Afficher non commencés",
-      scriptType: "Type de script",
+    kanji: {
+      study: {
+        skip: "Passer",
+        examples: "Exemples",
+        markAsLearned: "Marquer comme appris",
+        noExamples: "Aucun exemple disponible"
+      }
     },
 
     navigation: {
@@ -1658,6 +1299,7 @@ export const strings = {
       alphabetical: "Alphabétique",
       difficulty: "Difficulté",
       progress: "Progression",
+      scriptType: "Type de script",
     },
 
     tooltips: {
@@ -1819,15 +1461,6 @@ export const strings = {
       ends: "Expire",
       daysRemaining: "{{days}} jours restants",
       willEndOn: "Se terminera le {{date}}",
-    },
-    checkout: {
-      success: "🎉 Bienvenue chez Premium ! Votre abonnement est en cours d'activation...",
-      canceled: "Paiement annulé. Vous pouvez mettre à niveau à tout moment depuis les paramètres de votre compte.",
-    },
-    errors: {
-      checkoutFailed: "Impossible de démarrer le paiement. Veuillez réessayer.",
-      billingPortalFailed: "Impossible d'ouvrir le portail de facturation. Veuillez réessayer.",
-      cancelFailed: "Impossible d'annuler l'abonnement. Veuillez réessayer.",
     },
     billing: {
       monthly: "Mensuel",
@@ -2144,147 +1777,6 @@ export const strings = {
       }
     },
   },
-
-  // Settings Page
-  settings: {
-      title: "Paramètres",
-      subtitle: "Personnalisez votre expérience d'apprentissage",
-      backToDashboard: "← Retour au tableau de bord",
-      saveButton: "Enregistrer tous les paramètres",
-      resetButton: "Réinitialiser tous les paramètres par défaut",
-      resetConfirm: "Êtes-vous sûr de vouloir réinitialiser tous les paramètres par défaut ?",
-      saveSuccess: "Paramètres enregistrés avec succès !",
-      resetSuccess: "Paramètres réinitialisés par défaut",
-
-      sections: {
-        appearance: {
-          title: "Apparence",
-          language: {
-            label: "Language / 言語 / Langue / Lingua / Sprache / Idioma"
-          },
-          theme: {
-            label: "Thème",
-            light: "Clair",
-            dark: "Sombre",
-            system: "Système"
-          },
-          colorPalette: {
-            label: "Palette de couleurs",
-            preview: "Aperçu :",
-            primary: "Primaire",
-            secondary: "Secondaire",
-            palettes: {
-              sakura: "Sakura",
-              ocean: "Océan",
-              matcha: "Matcha",
-              sunset: "Coucher de soleil",
-              lavender: "Lavande",
-              monochrome: "Mono"
-            }
-          }
-        },
-
-        learning: {
-          title: "Préférences d'apprentissage",
-          autoplay: {
-            label: "Audio automatique",
-            description: "Jouer automatiquement la prononciation lors de la visualisation des mots"
-          },
-          furigana: {
-            label: "Afficher les Furigana",
-            description: "Afficher les indices de lecture au-dessus des caractères kanji"
-          },
-          romaji: {
-            label: "Afficher le Romaji",
-            description: "Afficher le texte japonais romanisé"
-          },
-          soundEffects: {
-            label: "Effets sonores",
-            description: "Jouer des sons pour les réponses correctes/incorrectes"
-          },
-          hapticFeedback: {
-            label: "Retour haptique",
-            description: "Retour de vibration sur les appareils mobiles"
-          }
-        },
-
-        notifications: {
-          title: "Notifications",
-          dailyReminder: {
-            label: "Rappel d'étude quotidien",
-            description: "Recevez un rappel pour pratiquer chaque jour"
-          },
-          achievementAlerts: {
-            label: "Alertes de succès",
-            description: "Célébrez lorsque vous débloquez des succès"
-          },
-          weeklyProgress: {
-            label: "Rapport de progression hebdomadaire",
-            description: "Recevez un résumé de votre progression hebdomadaire"
-          },
-          marketingEmails: {
-            label: "E-mails marketing",
-            description: "Mises à jour sur les nouvelles fonctionnalités et le contenu"
-          }
-        },
-
-        privacy: {
-          title: "Confidentialité",
-          publicProfile: {
-            label: "Profil public",
-            description: "Permettre aux autres de voir votre profil"
-          },
-          showProgress: {
-            label: "Afficher la progression",
-            description: "Afficher votre progression d'apprentissage sur votre profil"
-          },
-          shareAchievements: {
-            label: "Partager les succès",
-            description: "Partager automatiquement les succès avec des amis"
-          }
-        },
-
-        accessibility: {
-          title: "Accessibilité",
-          largeText: {
-            label: "Texte large",
-            description: "Augmenter la taille du texte pour une meilleure lisibilité"
-          },
-          highContrast: {
-            label: "Contraste élevé",
-            description: "Augmenter le contraste des couleurs pour la visibilité"
-          },
-          reduceMotion: {
-            label: "Réduire le mouvement",
-            description: "Minimiser les animations et les transitions"
-          },
-          screenReader: {
-            label: "Support de lecteur d'écran",
-            description: "Optimiser pour la compatibilité avec les lecteurs d'écran"
-          }
-        },
-
-        legal: {
-          title: "Légal et assistance",
-          privacyPolicy: {
-            label: "Politique de confidentialité",
-            description: "Comment nous gérons vos données"
-          },
-          termsOfService: {
-            label: "Conditions d'utilisation",
-            description: "Nos termes et conditions"
-          },
-          contactUs: {
-            label: "Nous contacter",
-            description: "Obtenir de l'aide ou envoyer des commentaires"
-          },
-          emailSupport: {
-            label: "Support par e-mail",
-            description: "support@moshimoshi.app"
-          }
-        }
-      }
-    },
 
   // Review Prompts
   reviewPrompts: {
@@ -2689,18 +2181,6 @@ export const strings = {
     learningCards: "En apprentissage",
     reviewCards: "À réviser",
 
-    // Statistics
-    stats: {
-      title: "Statistiques",
-      todayStudied: "Étudié aujourd'hui",
-      totalStudied: "Total étudié",
-      averageAccuracy: "Précision moyenne",
-      studyStreak: "Série d'étude",
-      timeSpent: "Temps passé",
-      heatmap: "Carte de chaleur",
-      retention: "Taux de rétention"
-    },
-
     // Customization
     customize: {
       title: "Personnaliser les Cartes",
@@ -2785,39 +2265,6 @@ export const strings = {
       unlimited: "Paquets illimités"
     },
 
-    // Daily Goals
-    dailyGoals: {
-      title: "Objectifs Quotidiens",
-      progress: "{{percentage}}% terminé",
-      allComplete: "Tous les objectifs atteints !",
-      cards: "Cartes",
-      time: "Temps",
-      decks: "Paquets",
-      accuracy: "Précision",
-      congratulations: "Félicitations !",
-      keepItUp: "Continuez comme ça !",
-      customizeGoals: "Personnaliser les Objectifs",
-      cardsPerDay: "Cartes par jour",
-      minutesPerDay: "Minutes par jour",
-      decksPerDay: "Paquets par jour",
-      accuracyTarget: "Objectif de précision"
-    },
-
-    // Achievements
-    achievements: {
-      title: "Succès",
-      unlocked: "Débloqué",
-      progress: "{{unlocked}}/{{total}} débloqués",
-      totalXP: "XP Total",
-      streak: "Série",
-      mastery: "Maîtrise",
-      speed: "Vitesse",
-      accuracy: "Précision",
-      volume: "Volume",
-      special: "Spécial",
-      viewAll: "Voir Tout"
-    },
-
     // Learning Insights
     learningInsights: "Aperçus d'Apprentissage",
     currentStreak: "Série Actuelle",
@@ -2829,32 +2276,11 @@ export const strings = {
     optimalSettings: "Paramètres Optimaux",
     sessionLength: "Durée de Session",
     studyTime: "Temps d'Étude",
-
-    // Recommended Study
     recommendedStudy: "Étude Recommandée",
-
-    // Urgency levels
-    urgency: {
-      low: "Priorité Faible",
-      medium: "Priorité Moyenne",
-      high: "Priorité Élevée",
-      critical: "Critique"
-    },
 
     // Additional missing translations
     minutes: "minutes",
     cards: "cartes",
-
-    // Missing translations for flashcards page
-    optimalSettings: "Paramètres Optimaux",
-    sessionLength: "Durée de Session",
-    studyTime: "Temps d'Étude",
-    learningInsights: "Aperçus d'Apprentissage",
-    recommendedStudy: "Étude Recommandée",
-    currentStreak: "Série Actuelle",
-    retentionRate: "Taux de Rétention",
-    cardsPerDay: "Cartes par Jour",
-    bestStudyTime: "Meilleur Moment d'Étude",
 
     achievements: {
       viewAll: "Voir Tous les Succès",
@@ -3907,41 +3333,6 @@ export const strings = {
     allSentences: "Toutes les Phrases",
     sentenceSaved: "Phrase sauvegardée avec succès",
     saveFailed: "Échec de la sauvegarde de la phrase",
-    instructions1: "Écoutez chaque phrase et répétez-la pendant la pause.",
-    instructions2: "Ajustez les paramètres selon votre rythme d'apprentissage.",
-
-    // Floating Navbar (Mobile)
-    floatingNavbar: {
-      message: "Expliquer la grammaire",
-      repeat: "Répéter",
-      play: "Lire",
-      pause: "Pause",
-      settings: "Paramètres"
-    }
-  },
-
-  // Shadowing Feature
-  shadowing: {
-    title: "Exercice de Shadowing",
-    noSentence: "Aucune phrase à lire",
-    playbackError: "Erreur de lecture audio",
-    voice: "Voix",
-    male: "Homme",
-    female: "Femme",
-    speed: "Vitesse",
-    repeatCount: "Nombre de Répétitions",
-    pauseDuration: "Pause entre Répétitions",
-    showFurigana: "Afficher Furigana",
-    furiganaDescription: "Afficher les aides de lecture au-dessus des kanji",
-    sentenceProgress: "Phrase {{current}} sur {{total}}",
-    repeatProgress: "Répétition {{current}}/{{total}}",
-    saveSentence: "Sauvegarder la phrase dans la liste d'étude",
-    noSentenceAvailable: "Aucune phrase disponible",
-    repeatProgressLabel: "Progrès des Répétitions:",
-    sentenceProgressLabel: "Progrès des Phrases:",
-    allSentences: "Toutes les Phrases",
-    sentenceSaved: "Phrase sauvegardée avec succès",
-    saveFailed: "Erreur lors de la sauvegarde de la phrase",
     instructions1: "Écoutez chaque phrase et répétez-la pendant la pause.",
     instructions2: "Ajustez les paramètres selon votre rythme d'apprentissage.",
 

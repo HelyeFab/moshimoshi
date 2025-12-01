@@ -248,12 +248,13 @@ export default function EditableTranscriptReader({
   const handleSplitLine = (index: number) => {
     const line = editedTranscript[index];
     const selection = window.getSelection();
-    
+
     if (!selection || selection.rangeCount === 0) return;
-    
+
     const range = selection.getRangeAt(0);
-    const container = editRefs.current[line.id];
-    
+    const lineId = line.id ?? '';
+    const container = lineId ? editRefs.current[lineId] : null;
+
     if (!container || !container.contains(range.commonAncestorContainer)) return;
     
     // Get the text before and after the cursor
@@ -568,8 +569,9 @@ export default function EditableTranscriptReader({
                     <div>
                       <div
                         ref={(el) => {
-                          if (el) {
-                            editRefs.current[item.original.id] = el;
+                          const itemId = item.original.id ?? '';
+                          if (el && itemId) {
+                            editRefs.current[itemId] = el;
                           }
                         }}
                         contentEditable

@@ -243,7 +243,8 @@ export class ServiceWorkerManager {
    * Send message to service worker
    */
   async sendMessage(message: ServiceWorkerMessage): Promise<any> {
-    if (!navigator.serviceWorker.controller) {
+    const controller = navigator.serviceWorker.controller;
+    if (!controller) {
       throw new Error('No active service worker');
     }
 
@@ -258,7 +259,7 @@ export class ServiceWorkerManager {
         }
       };
 
-      navigator.serviceWorker.controller.postMessage(message, [messageChannel.port2]);
+      controller.postMessage(message, [messageChannel.port2]);
 
       // Timeout after 5 seconds
       setTimeout(() => {

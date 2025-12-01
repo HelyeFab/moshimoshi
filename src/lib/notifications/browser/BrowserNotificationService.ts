@@ -9,6 +9,28 @@ import { reviewLogger } from '@/lib/monitoring/logger'
 import { NotificationContent, NotificationTokens } from '../types/notifications.types'
 
 /**
+ * NotificationAction interface for browser notification actions
+ * Not included in TypeScript's lib.dom.d.ts but supported by modern browsers
+ */
+interface BrowserNotificationAction {
+  action: string
+  title: string
+  icon?: string
+}
+
+/**
+ * Extended NotificationOptions to include properties supported by modern browsers
+ * but not yet in TypeScript's lib.dom.d.ts
+ */
+interface ExtendedNotificationOptions extends NotificationOptions {
+  image?: string
+  actions?: BrowserNotificationAction[]
+  renotify?: boolean
+  vibrate?: number[]
+  timestamp?: number
+}
+
+/**
  * Browser notification options
  */
 export interface BrowserNotificationOptions extends NotificationContent {
@@ -172,8 +194,8 @@ export class BrowserNotificationService {
         onError
       } = options
 
-      // Create notification
-      const notification = new Notification(title, {
+      // Create notification with extended options (image, renotify, vibrate, timestamp)
+      const notificationOptions: ExtendedNotificationOptions = {
         body,
         icon,
         badge,
@@ -186,7 +208,8 @@ export class BrowserNotificationService {
         renotify,
         vibrate,
         timestamp: Date.now()
-      })
+      }
+      const notification = new Notification(title, notificationOptions)
 
       // Play sound if enabled
       if (!silent && this.soundEnabled) {
@@ -319,6 +342,11 @@ export class BrowserNotificationService {
    * Store permission in Firestore
    */
   private async storePermission(userId: string, permission: NotificationPermission): Promise<void> {
+    if (!db) {
+      reviewLogger.warn('Firestore not available, cannot store permission')
+      return
+    }
+
     try {
       const tokenData: Partial<NotificationTokens> = {
         userId,
@@ -342,6 +370,11 @@ export class BrowserNotificationService {
    * Get stored permission from Firestore
    */
   async getStoredPermission(userId: string): Promise<NotificationPermission | null> {
+    if (!db) {
+      reviewLogger.warn('Firestore not available, cannot get stored permission')
+      return null
+    }
+
     try {
       const docRef = doc(db, 'notifications_tokens', userId)
       const docSnap = await getDoc(docRef)

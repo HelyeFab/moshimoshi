@@ -1,0 +1,10 @@
+﻿{
+    "Sessions":  [
+                     {
+                         "Timestamp":  "2025-12-01 10:17:30",
+                         "FixedTotal":  77,
+                         "FileCount":  315,
+                         "ErrorCount":  1894
+                     }
+                 ]
+}

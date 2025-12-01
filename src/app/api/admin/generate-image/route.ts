@@ -27,8 +27,7 @@ function getOpenAIClient() {
 export async function POST(request: NextRequest) {
   try {
     // Verify admin authentication
-    const authHeader = request.headers.get('authorization');
-    const authResult = await checkAdminRole(authHeader);
+    const authResult = await checkAdminRole(request);
     
     if (!authResult.isAdmin) {
       return NextResponse.json(
@@ -84,7 +83,7 @@ Important: Maintain consistent character appearance and art style. Safe for all 
         style: 'natural', // or 'vivid' for more hyper-real images
       });
 
-      const imageUrl = response.data[0].url;
+      const imageUrl = response.data?.[0]?.url;
       
       if (!imageUrl) {
         throw new Error('No image URL returned from OpenAI');
@@ -107,7 +106,7 @@ Important: Maintain consistent character appearance and art style. Safe for all 
             enhancedPrompt: enhancedPrompt,
             generatedBy: 'dall-e-3',
             generatedAt: new Date().toISOString(),
-            userId: authResult.userId,
+            userId: authResult.uid,
           }
         }
       });
@@ -123,7 +122,7 @@ Important: Maintain consistent character appearance and art style. Safe for all 
         imageUrl: publicUrl,
         temporaryUrl: imageUrl, // OpenAI's temporary URL (expires after ~1 hour)
         storagePath: fileName,
-        revisedPrompt: response.data[0].revised_prompt, // DALL-E 3 returns the revised prompt it actually used
+        revisedPrompt: response.data?.[0]?.revised_prompt, // DALL-E 3 returns the revised prompt it actually used
       });
 
     } catch (openaiError: any) {
@@ -152,9 +151,8 @@ Important: Maintain consistent character appearance and art style. Safe for all 
 // GET endpoint to check status or retrieve existing images
 export async function GET(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    const authResult = await checkAdminRole(authHeader);
-    
+    const authResult = await checkAdminRole(request);
+
     if (!authResult.isAdmin) {
       return NextResponse.json(
         { error: 'Admin access required' },

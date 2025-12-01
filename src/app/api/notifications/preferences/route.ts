@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
-    const userId = user.id
+    const userId = user.uid
     const session = await getSession()
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
 
     // Only get from Firebase for premium users
     let prefsDoc = null
-    if (decision.shouldWriteToFirebase) {
+    if (decision.shouldWriteToFirebase && adminDb) {
       prefsDoc = await adminDb
         .collection('notifications_preferences')
         .doc(userId)
@@ -147,7 +147,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Only save to Firebase for premium users
-    if (decision.shouldWriteToFirebase) {
+    if (decision.shouldWriteToFirebase && adminDb) {
       await adminDb
         .collection('notifications_preferences')
         .doc(userId)
@@ -177,7 +177,7 @@ export async function PUT(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
-    const userId = user.id
+    const userId = user.uid
     const session = await getSession()
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -188,7 +188,7 @@ export async function PUT(request: NextRequest) {
     const validatedPreferences = validatePreferences(body)
 
     // Only update in Firebase for premium users
-    if (decision.shouldWriteToFirebase) {
+    if (decision.shouldWriteToFirebase && adminDb) {
       const docRef = adminDb.collection('notifications_preferences').doc(userId)
 
       await docRef.set({
@@ -199,7 +199,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // If browser notifications are being enabled, check permission status (premium only)
-    if (decision.shouldWriteToFirebase && validatedPreferences.channels?.browser) {
+    if (decision.shouldWriteToFirebase && adminDb && validatedPreferences.channels?.browser) {
       const tokenDoc = await adminDb
         .collection('notifications_tokens')
         .doc(userId)
@@ -216,7 +216,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // If push notifications are being enabled, check FCM token (premium only)
-    if (decision.shouldWriteToFirebase && validatedPreferences.channels?.push) {
+    if (decision.shouldWriteToFirebase && adminDb && validatedPreferences.channels?.push) {
       const tokenDoc = await adminDb
         .collection('notifications_tokens')
         .doc(userId)
@@ -233,7 +233,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Log preference change (premium only)
-    if (decision.shouldWriteToFirebase) {
+    if (decision.shouldWriteToFirebase && adminDb) {
       await adminDb.collection('analytics_events').add({
         userId,
         event: 'preferences_updated',
@@ -279,7 +279,7 @@ export async function POST(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
-    const userId = user.id
+    const userId = user.uid
     const session = await getSession()
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -300,6 +300,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: `Invalid setting: ${setting}` },
         { status: 400 }
+      )
+    }
+
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 500 }
       )
     }
 
@@ -340,7 +347,14 @@ export async function DELETE(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
-    const userId = user.id
+    const userId = user.uid
+
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 500 }
+      )
+    }
 
     // Delete existing preferences
     await adminDb
@@ -454,7 +468,7 @@ function validatePreferences(prefs: any): Partial<NotificationPreferences> {
     validated.vibration = {
       enabled: !!prefs.vibration.enabled,
       pattern: Array.isArray(prefs.vibration.pattern)
-        ? prefs.vibration.pattern.map(v => Math.max(0, parseInt(v) || 0))
+        ? prefs.vibration.pattern.map((v: number | string) => Math.max(0, parseInt(String(v)) || 0))
         : [200, 100, 200]
     }
   }
@@ -504,6 +518,11 @@ function mapSettingToPath(setting: string): string | null {
  * Cancel all pending notifications for a user
  */
 async function cancelAllPendingNotifications(userId: string): Promise<void> {
+  if (!adminDb) {
+    console.warn('adminDb not available, skipping notification cancellation')
+    return
+  }
+
   const batch = adminDb.batch()
 
   const pendingNotifications = await adminDb

@@ -77,7 +77,8 @@ export async function GET(
       });
     }
 
-    let transcriptPayload = transcriptInfo;
+    // Use flexible type to allow both original transcriptInfo and custom format
+    let transcriptPayload: { transcript?: any } | typeof transcriptInfo = transcriptInfo;
     let selectedLanguage = availableLanguages.find((lang: any) => lang.selected);
     let forcedJapanese = false;
 

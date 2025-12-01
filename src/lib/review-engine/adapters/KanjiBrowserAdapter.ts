@@ -4,17 +4,21 @@
  */
 
 import { BaseContentAdapter } from './base.adapter';
-import { ReviewableContent, ReviewMode } from '../core/interfaces';
+import { ReviewableContent } from '../core/interfaces';
+import { ReviewMode, ContentTypeConfig } from '../core/types';
 
 export interface KanjiContent {
   id: string;
   character: string;
+  kanji?: string; // Alias for character (alternate data sources)
   meanings: string[];
+  meaning?: string; // Single meaning (alternate format)
   onyomi: string[];
   kunyomi: string[];
   nanori?: string[];
   strokeCount: number;
   jlptLevel: number;
+  jlpt?: string; // String format like "N5" (alternate data sources)
   grade: number;
   frequency?: number;
   radicals: Array<{ character: string; meaning: string }>;
@@ -67,7 +71,50 @@ export interface BrowseableContent extends ReviewableContent {
   actions?: string[];
 }
 
+// Default config for kanji browser content type
+const KANJI_BROWSER_CONFIG: ContentTypeConfig = {
+  contentType: 'kanji',
+  availableModes: [
+    {
+      mode: 'recognition',
+      showPrimary: true,
+      showSecondary: false,
+      showTertiary: false,
+      showMedia: true,
+      inputType: 'multiple-choice',
+      optionCount: 4,
+      optionSource: 'similar',
+      allowHints: true,
+      hintPenalty: 0.1,
+      immediateValidation: true,
+      allowRetry: false
+    },
+    {
+      mode: 'recall',
+      showPrimary: true,
+      showSecondary: true,
+      showTertiary: false,
+      showMedia: false,
+      inputType: 'text',
+      allowHints: true,
+      hintPenalty: 0.2,
+      immediateValidation: true,
+      allowRetry: true,
+      maxRetries: 2
+    }
+  ],
+  defaultMode: 'recognition',
+  validationStrategy: 'fuzzy',
+  validationOptions: {
+    threshold: 0.8,
+    ignoreCase: true
+  }
+};
+
 export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
+  constructor(config: ContentTypeConfig = KANJI_BROWSER_CONFIG) {
+    super(config);
+  }
 
   /**
    * Transform kanji content to reviewable format
@@ -310,8 +357,8 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
     if (confusionPairs[targetChar]) {
       const confusedChars = confusionPairs[targetChar];
       for (const kanji of pool) {
-        const kanjiChar = kanji.character || kanji.kanji;
-        if (confusedChars.includes(kanjiChar)) {
+        const kanjiChar = kanji.character || kanji.kanji || '';
+        if (kanjiChar && confusedChars.includes(kanjiChar)) {
           similar.push(kanji);
         }
       }
@@ -593,4 +640,4 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
 }
 
 // Export a singleton instance
-export const kanjiBrowserAdapter = new KanjiBrowserAdapter();
+export const kanjiBrowserAdapter = new KanjiBrowserAdapter(KANJI_BROWSER_CONFIG);

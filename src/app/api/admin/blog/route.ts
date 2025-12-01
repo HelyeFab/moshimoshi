@@ -4,11 +4,13 @@ import { checkAdminAuth } from '@/lib/admin/adminAuth';
 
 export async function GET(request: NextRequest) {
   try {
-    // Check admin authentication
-    const authResult = await checkAdminAuth(request);
-    if (!authResult.isAdmin) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
     }
+
+    // Check admin authentication (throws if not authorized)
+    await checkAdminAuth(request);
 
     // Get all blog posts from Firestore
     const postsSnapshot = await adminDb
@@ -37,11 +39,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    // Check admin authentication
-    const authResult = await checkAdminAuth(request);
-    if (!authResult.isAdmin) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
     }
+
+    // Check admin authentication (throws if not authorized)
+    await checkAdminAuth(request);
 
     const data = await request.json();
 
@@ -74,11 +78,13 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    // Check admin authentication
-    const authResult = await checkAdminAuth(request);
-    if (!authResult.isAdmin) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
     }
+
+    // Check admin authentication (throws if not authorized)
+    await checkAdminAuth(request);
 
     const data = await request.json();
     const { id, ...updateData } = data;
@@ -107,11 +113,13 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    // Check admin authentication
-    const authResult = await checkAdminAuth(request);
-    if (!authResult.isAdmin) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
     }
+
+    // Check admin authentication (throws if not authorized)
+    await checkAdminAuth(request);
 
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

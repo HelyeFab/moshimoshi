@@ -1,261 +1,4 @@
 export const strings = {
-  // Landing Page
-  landing: {
-    hero: {
-      headline: "Domina el japonés con herramientas de aprendizaje revolucionarias",
-      subheadline: "La única plataforma que combina shadowing de YouTube, conexiones kanji inteligentes, importación de Anki con un clic e integración completa de libros de texto",
-      ctaPrimary: "Comenzar gratis",
-      ctaSecondary: "Ver demo",
-      carousel: {
-        shadowing: {
-          title: "Shadowing de YouTube",
-          description: "Domina la pronunciación nativa con contenido japonés auténtico",
-          badge: "Más popular"
-        },
-        kanji: {
-          title: "Sistema de conexión kanji",
-          description: "Comprende 2,136 kanji a través de patrones visuales y familias",
-          badge: "Exclusivo de Moshimoshi"
-        },
-        conjugation: {
-          title: "Motor de conjugación",
-          description: "Más de 100 formas de conjugación - el más completo del mercado",
-          badge: "Dominio de la gramática"
-        },
-        news: {
-          title: "Artículos de noticias japonesas",
-          description: "Aprende de eventos actuales con soporte IA",
-          badge: "Contenido real"
-        },
-        stories: {
-          title: "Historias generadas por IA",
-          description: "Historias personalizadas adaptadas a tu nivel",
-          badge: "Aprendizaje adaptativo"
-        },
-        anki: {
-          title: "Importación de Anki con un clic",
-          description: "Migra tus mazos de Anki al instante - sin pérdida de datos",
-          badge: "Migración perfecta"
-        },
-        textbooks: {
-          title: "Integración completa de libros de texto",
-          description: "Todo el vocabulario de Genki, Minna no Nihongo y más",
-          badge: "Poder académico"
-        }
-      }
-    },
-    features: {
-      shadowing: {
-        title: "Shadowing de YouTube: Aprende del contenido nativo",
-        subtitle: "El arma secreta que los estudiantes de japonés no conocen",
-        description: "Practica shadowing con videos auténticos de YouTube en japonés, dramas y podcasts. Nuestro sistema impulsado por IA descompone el contenido en fragmentos de aprendizaje perfectos con tiempos de pausa ajustables.",
-        benefits: {
-          benefit1: "Practica con pronunciación nativa real",
-          benefit2: "Velocidad de reproducción ajustable (0.5x - 2x)",
-          benefit3: "Pausa automática para práctica de shadowing",
-          benefit4: "Rastrea el progreso en todos los videos"
-        },
-        cta: "Probar shadowing ahora"
-      },
-      kanji: {
-        title: "Sistema de conexión kanji: Revolución del aprendizaje visual",
-        subtitle: "Ve los patrones que nadie más te muestra",
-        description: "Nuestro sistema único conecta todos los 2,136 kanji jōyō a través de familias fonéticas, radicales semánticos y patrones visuales. Aprende kanji en grupos conectados en lugar de caracteres aislados.",
-        benefits: {
-          benefit1: "214 radicales con descomposición de componentes",
-          benefit2: "Agrupación por familias fonéticas",
-          benefit3: "Visualización de red interactiva",
-          benefit4: "Técnicas de memoria para cada patrón"
-        },
-        cta: "Explorar conexiones kanji"
-      },
-      conjugation: {
-        title: "Domina la conjugación japonesa",
-        subtitle: "Más de 100 formas de conjugación - el más completo del mercado",
-        description: "Nuestro motor de conjugación avanzado cubre cada forma de verbo, adjetivo y cópula con perfecta precisión. Detección inteligente del tipo de palabra, ejercicios de dificultad ponderada y arquitectura limpia hacen que la práctica gramatical sea sencilla.",
-        benefits: {
-          benefit1: "Más de 100 formas de conjugación (las más completas disponibles)",
-          benefit2: "Implementación precisa de las reglas gramaticales japonesas",
-          benefit3: "Detección inteligente del tipo de palabra con puntuación de confianza",
-          benefit4: "Excelente integración de ejercicios con dificultad ponderada"
-        },
-        cta: "Practicar conjugación"
-      },
-      anki: {
-        title: "Importación de Anki con un clic: Mantén tu progreso",
-        subtitle: "Cambia sin perder miles de horas de trabajo",
-        description: "Importa todos tus mazos de Anki con historial SRS completo, programación de tarjetas y notas personalizadas. Nuestro sistema de migración inteligente preserva todo mientras mejora tu experiencia de aprendizaje.",
-        benefits: {
-          benefit1: "100% del historial SRS preservado",
-          benefit2: "Tarjetas personalizadas importadas perfectamente",
-          benefit3: "Etiquetas y estructura de mazo mantenidas",
-          benefit4: "Mejorado con características impulsadas por IA"
-        },
-        cta: "Importar mis mazos de Anki"
-      },
-      textbooks: {
-        title: "Vocabulario de libros de texto: Excelencia académica",
-        subtitle: "Cada palabra de los libros que ya usas",
-        description: "Vocabulario completo de Genki I & II, Minna no Nihongo, Tobira y más. Organizado por lección con oraciones de ejemplo, audio y revisión SRS.",
-        textbookList: "Genki • Minna no Nihongo • Tobira • Japanese from Zero • Marugoto",
-        benefits: {
-          benefit1: "Organizado por libro de texto y lección",
-          benefit2: "Audio nativo para cada palabra",
-          benefit3: "Oraciones de ejemplo con contexto",
-          benefit4: "Sincronización con tu horario de clases"
-        },
-        cta: "Explorar vocabulario de libros de texto"
-      },
-
-      news: {
-        title: "Artículos de noticias japonesas reales",
-        subtitle: "Aprende de eventos actuales auténticos",
-        description: "Lee artículos de noticias japonesas reales con soporte de comprensión integrado. Nuestra IA descompone frases complejas, proporciona pistas de vocabulario y rastrea tu progreso de lectura.",
-        benefits: {
-          benefit1: "Contenido de noticias auténticas actualizado diariamente",
-          benefit2: "Descomposición y análisis de frases impulsado por IA",
-          benefit3: "Búsqueda instantánea de vocabulario con integración SRS",
-          benefit4: "Seguimiento de progreso de lectura y estadísticas"
-        },
-        cta: "Leer artículos de noticias"
-      },
-
-      stories: {
-        title: "Historias generadas por IA",
-        subtitle: "Historias personalizadas para tu nivel",
-        description: "Practica la lectura con historias generadas por IA adaptadas a tu nivel de vocabulario e intereses. Cada historia incluye furigana, listas de vocabulario y preguntas de comprensión.",
-        benefits: {
-          benefit1: "Historias generadas en tu nivel exacto",
-          benefit2: "Soporte de furigana y vocabulario",
-          benefit3: "Preguntas y cuestionarios de comprensión",
-          benefit4: "Guarda palabras desconocidas directamente en la revisión SRS"
-        },
-        cta: "Explorar historias IA"
-      }
-    },
-    comparison: {
-      title: "Por qué Moshimoshi supera a la competencia",
-      subtitle: "La única plataforma construida para estudiantes serios",
-      tableHeaders: {
-        feature: "Característica",
-        moshimoshi: "Moshimoshi",
-        anki: "Anki",
-        wanikani: "WaniKani",
-        duolingo: "Duolingo"
-      },
-      features: {
-        shadowing: "Shadowing de YouTube",
-        kanjiSystem: "Sistema kanji visual",
-        ankiImport: "Importación de Anki",
-        textbooks: "Integración de libros de texto",
-        customCards: "Tarjetas personalizadas",
-        offline: "Modo sin conexión",
-        gamification: "Gamificación",
-        community: "Características comunitarias"
-      },
-      values: {
-        yes: "✓",
-        no: "✗",
-        limited: "Limitado"
-      }
-    },
-    socialProof: {
-      title: "Amado por estudiantes de japonés en todo el mundo",
-      subtitle: "Desde principiantes hasta candidatos JLPT N1",
-      testimonials: {
-        testimonial1: {
-          quote: "Migré de Anki después de 3 años. La importación fue impecable y la función de shadowing ha mejorado mi pronunciación dramáticamente.",
-          author: "Sarah Chen",
-          role: "Estudiante JLPT N2",
-          context: "Migrado de Anki"
-        },
-        testimonial2: {
-          quote: "El sistema de conexión kanji finalmente hizo que el kanji hiciera clic para mí. Ver las familias y patrones cambió todo.",
-          author: "Marcus Rodriguez",
-          role: "Estudiante universitario de japonés",
-          context: "Usuario de conexión kanji"
-        },
-        testimonial3: {
-          quote: "Como estudiante de Genki, tener todo el vocabulario organizado por lección con audio es un cambio de juego para mis estudios.",
-          author: "Emma Thompson",
-          role: "Estudiante autodidacta",
-          context: "Usuario de integración de libros de texto"
-        },
-        testimonial4: {
-          quote: "El shadowing con contenido auténtico de YouTube supera cualquier libro de texto. Mis amigos japoneses no pueden creer que sea autodidacta.",
-          author: "Kenji Yamamoto",
-          role: "Profesional de negocios",
-          context: "Usuario de shadowing de YouTube"
-        }
-      },
-      stats: {
-        cards: "Más de un millón de flashcards creadas",
-        kanji: "Cobertura completa de kanji jōyō",
-        textbooks: "Libros de texto principales integrados",
-        languages: "Idiomas de interfaz"
-      }
-    },
-    faq: {
-      title: "Preguntas frecuentes",
-      subtitle: "Todo lo que necesitas saber",
-      questions: {
-        q1: {
-          question: "¿Realmente puedo importar todos mis mazos de Anki?",
-          answer: "¡Sí! Nuestra herramienta de importación maneja archivos .apkg y preserva tu historial SRS completo, programación, etiquetas y formatos de tarjetas personalizados. La mayoría de las importaciones se completan en menos de 60 segundos."
-        },
-        q2: {
-          question: "¿Qué hace único al sistema de conexión kanji?",
-          answer: "A diferencia de otras aplicaciones que enseñan kanji de forma aislada, te mostramos familias fonéticas, patrones semánticos y relaciones visuales. Por ejemplo, todos los kanji con el componente 青 (azul/verde) se agrupan y enseñan juntos con sus patrones de pronunciación."
-        },
-        q3: {
-          question: "¿El shadowing de YouTube está disponible para todos los videos?",
-          answer: "Soportamos cualquier video de YouTube con subtítulos en japonés. Nuestra IA descompone el contenido en segmentos aprendibles con tiempos de pausa ajustables para práctica de shadowing."
-        },
-        q4: {
-          question: "¿Qué libros de texto soportan?",
-          answer: "Tenemos cobertura completa de vocabulario para Genki I & II, Minna no Nihongo I & II, Tobira, Japanese from Zero y Marugoto. Cada entrada incluye audio, oraciones de ejemplo y organización por lección."
-        },
-        q5: {
-          question: "¿Puedo usar Moshimoshi sin conexión?",
-          answer: "¡Sí! Todas tus flashcards, datos de kanji y vocabulario de libros de texto funcionan sin conexión. Las revisiones se sincronizan automáticamente cuando vuelves a estar en línea."
-        },
-        q6: {
-          question: "¿En qué se diferencia de Duolingo o WaniKani?",
-          answer: "Moshimoshi combina la personalización de Anki, la profundidad de kanji de WaniKani y características únicas como shadowing de YouTube e integración de libros de texto - todo en una plataforma. Estamos construidos para estudiantes serios que quieren herramientas completas."
-        }
-      }
-    },
-    finalCta: {
-      title: "¿Listo para transformar tu aprendizaje de japonés?",
-      subtitle: "Únete a miles de estudiantes que logran fluidez más rápido",
-      features: "El nivel gratuito incluye características principales • No se requiere tarjeta de crédito • Actualiza en cualquier momento",
-      ctaPrimary: "Comenzar gratis",
-      ctaSecondary: "Ver precios"
-    },
-    footer: {
-      tagline: "La plataforma completa de aprendizaje de japonés para estudiantes serios",
-      sections: {
-        product: "Producto",
-        features: "Características",
-        company: "Compañía",
-        support: "Soporte"
-      },
-      links: {
-        shadowing: "Shadowing de YouTube",
-        kanji: "Conexión kanji",
-        anki: "Importación de Anki",
-        textbooks: "Vocabulario de libros de texto",
-        pricing: "Precios",
-        blog: "Blog",
-        about: "Acerca de",
-        contact: "Contacto",
-        privacy: "Privacidad",
-        terms: "Términos"
-      },
-      copyright: "© 2025 Moshimoshi. Todos los derechos reservados."
-    }
-  },
-
   reviewDashboard: {
     title: "Panel de Revisión",
     description: "Rastrea tu progreso de aprendizaje y programa de revisión",
@@ -333,18 +76,6 @@ export const strings = {
     items: "elementos"
   },
 
-  // Review section
-  review: {
-    schedule: {
-      today: "Hoy",
-      tomorrow: "Mañana",
-      thisWeek: "Esta Semana",
-      later: "Después",
-      nextReview: "Próxima revisión",
-      scheduledReviews: "Revisiones programadas"
-    },
-    items: "elementos"
-  },
   // Common/Shared
   common: {
     brand: "Moshimoshi",
@@ -400,13 +131,6 @@ export const strings = {
     days: "días",
     minutes: "minutos",
     cards: "tarjetas",
-  },
-
-  // PWA
-  pwa: {
-    updateAvailable: "Actualización disponible",
-    updateDescription: "Una nueva versión de la aplicación está disponible. Actualiza ahora para obtener las últimas funciones.",
-    updateNow: "Actualizar ahora",
   },
 
   // Landing Page
@@ -856,11 +580,6 @@ export const strings = {
         title: "Biblioteca",
         subtitle: "図書館",
         description: "Leer libros condensados"
-      },
-      flashcards: {
-        title: "Flashcards",
-        subtitle: "カード",
-        description: "Sesiones de repaso rápido"
       },
       drill: {
         title: "Ejercicios",
@@ -1563,10 +1282,38 @@ export const strings = {
       showLearned: "Mostrar aprendidos",
       showNotStarted: "Mostrar no iniciados",
       filterByType: "Filtrar por tipo",
+      display: "Mostrar",
       sortBy: "Ordenar por",
       alphabetical: "Alfabético",
       difficulty: "Dificultad",
       progress: "Progreso",
+      scriptType: "Tipo de escritura",
+    },
+
+    selectAllInRow: "Seleccionar todos los {{count}} caracteres en esta fila",
+    combinedPractice: "Práctica combinada",
+
+    browse: {
+      browseAll: "Explorar todos los {{count}} caracteres organizados por tipo",
+      selectToStudy: "Seleccionar caracteres para estudiar",
+      selectToReview: "Seleccionar caracteres para repasar",
+      searchPlaceholder: "Buscar kana por romaji, carácter...",
+      searchResults: "Resultados de búsqueda",
+      resultsFound: "{{count}} encontrados",
+      noResultsFound: "No se encontraron caracteres que coincidan con \"{{query}}\"",
+      charactersLabel: "caracteres",
+      basicLabel: "básico",
+      dakutenLabel: "dakuten",
+      digraphsLabel: "dígrafos",
+    },
+
+    kanji: {
+      study: {
+        skip: "Saltar",
+        examples: "Ejemplos",
+        markAsLearned: "Marcar como aprendido",
+        noExamples: "No hay ejemplos disponibles"
+      }
     },
 
     tooltips: {
@@ -1698,6 +1445,8 @@ export const strings = {
       processingPayment: "Procesando pago...",
       paymentFailed: "Pago fallido",
       paymentSuccess: "¡Pago exitoso!",
+      success: "🎉 ¡Bienvenido a Premium! Tu suscripción se está activando...",
+      canceled: "Pago cancelado. Puedes actualizar en cualquier momento desde la configuración de tu cuenta.",
     },
     messages: {
       welcomeToPremium: "🎉 ¡Bienvenido a Premium! Tu suscripción está ahora activa.",
@@ -1714,10 +1463,6 @@ export const strings = {
       ends: "Termina",
       daysRemaining: "{{days}} días restantes",
       willEndOn: "Tu suscripción terminará el {{date}}",
-    },
-    checkout: {
-      success: "🎉 ¡Bienvenido a Premium! Tu suscripción se está activando...",
-      canceled: "Pago cancelado. Puedes actualizar en cualquier momento desde la configuración de tu cuenta.",
     },
     errors: {
       paymentFailed: "Pago fallido. Inténtalo con un método de pago diferente.",
@@ -2119,18 +1864,6 @@ export const strings = {
     },
   },
 
-  // Kana Learning System
-  kana: {
-    kanji: {
-      study: {
-        skip: "Saltar",
-        examples: "Ejemplos",
-        markAsLearned: "Marcar como aprendido",
-        noExamples: "No hay ejemplos disponibles"
-      }
-    }
-  },
-
   // Review System
   review: {
     skip: "Saltar",
@@ -2166,39 +1899,6 @@ export const strings = {
       low: "Bajo (0-30%): Estás adivinando",
       tip: "Esto ayuda al sistema a programar mejor tus repasos según tu conocimiento real."
     }
-  },
-
-  // Learn Section
-  kana: {
-    study: {
-      skip: "Saltar",
-      examples: "Ejemplos",
-    },
-    combinedPractice: "Práctica combinada",
-
-    filters: {
-      filterByType: "Filtrar por tipo",
-      display: "Mostrar",
-      showLearned: "Mostrar aprendidos",
-      showNotStarted: "Mostrar no iniciados",
-      scriptType: "Tipo de escritura",
-    },
-
-    selectAllInRow: "Seleccionar todos los {{count}} caracteres en esta fila",
-
-    browse: {
-      browseAll: "Explorar todos los {{count}} caracteres organizados por tipo",
-      selectToStudy: "Seleccionar caracteres para estudiar",
-      selectToReview: "Seleccionar caracteres para repasar",
-      searchPlaceholder: "Buscar kana por romaji, carácter...",
-      searchResults: "Resultados de búsqueda",
-      resultsFound: "{{count}} encontrados",
-      noResultsFound: "No se encontraron caracteres que coincidan con \"{{query}}\"",
-      charactersLabel: "caracteres",
-      basicLabel: "básico",
-      dakutenLabel: "dakuten",
-      digraphsLabel: "dígrafos",
-    },
   },
 
   learn: {
@@ -2621,18 +2321,6 @@ export const strings = {
     learningCards: "Aprendiendo",
     reviewCards: "Revisar",
 
-    // Statistics
-    stats: {
-      title: "Estadísticas",
-      todayStudied: "Estudiado hoy",
-      totalStudied: "Total estudiado",
-      averageAccuracy: "Precisión promedio",
-      studyStreak: "Racha de estudio",
-      timeSpent: "Tiempo invertido",
-      heatmap: "Mapa de calor",
-      retention: "Tasa de retención"
-    },
-
     // Customization
     customize: {
       title: "Personalizar Tarjetas",
@@ -2773,54 +2461,6 @@ export const strings = {
     // Additional missing translations
     minutes: "minutos",
     cards: "tarjetas",
-
-    // Missing translations for flashcards page
-    optimalSettings: "Configuración Óptima",
-    sessionLength: "Duración de Sesión",
-    studyTime: "Tiempo de Estudio",
-    learningInsights: "Perspectivas de Aprendizaje",
-    recommendedStudy: "Estudio Recomendado",
-    currentStreak: "Racha Actual",
-    retentionRate: "Tasa de Retención",
-    cardsPerDay: "Tarjetas por Día",
-    bestStudyTime: "Mejor Hora de Estudio",
-
-    achievements: {
-      viewAll: "Ver Todos los Logros",
-      title: "Logros",
-      unlocked: "Desbloqueado",
-      progress: "{{unlocked}}/{{total}} desbloqueados",
-      totalXP: "XP Total",
-      streak: "Racha",
-      mastery: "Maestría",
-      speed: "Velocidad",
-      accuracy: "Precisión",
-      volume: "Volumen",
-      special: "Especial"
-    },
-
-    dailyGoals: {
-      title: "Objetivos Diarios",
-      progress: "{{percentage}}% completado",
-      cards: "Tarjetas",
-      time: "Tiempo",
-      decks: "Mazos",
-      accuracy: "Precisión",
-      congratulations: "¡Felicitaciones!",
-      keepItUp: "¡Sigue así!",
-      allComplete: "¡Todos los objetivos completados!",
-      customizeGoals: "Personalizar Objetivos",
-      cardsPerDay: "Tarjetas por día",
-      minutesPerDay: "Minutos por día",
-      decksPerDay: "Mazos por día",
-      accuracyTarget: "Objetivo de precisión"
-    },
-
-    urgency: {
-      low: "Baja",
-      medium: "Media",
-      high: "Alta"
-    },
 
     // Tooltips
     tooltips: {
@@ -3806,7 +3446,10 @@ export const strings = {
       description: "Algunas funciones pueden estar limitadas sin conexión a internet",
       cached: "Viendo contenido en caché",
       retry: "Reintentar conexión"
-    }
+    },
+    updateAvailable: "Actualización disponible",
+    updateDescription: "Una nueva versión de la aplicación está disponible. Actualiza ahora para obtener las últimas funciones.",
+    updateNow: "Actualizar ahora"
   },
 
   // Stories

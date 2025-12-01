@@ -10,6 +10,11 @@ import { getStreakConfig, writeStreakConfig } from '@/config/gamification/streak
  */
 export async function GET(request: NextRequest) {
   try {
+    // Check adminFirestore is available
+    if (!adminFirestore) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 })
+    }
+
     // Check admin access
     const session = await getSession()
     console.log('[Streak Config API] Session:', session?.uid, session?.email)
@@ -20,7 +25,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check admin status in Firebase
-    const userDoc = await adminFirestore!
+    const userDoc = await adminFirestore
       .collection('users')
       .doc(session.uid)
       .get()
@@ -53,6 +58,11 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
+    // Check adminFirestore is available
+    if (!adminFirestore) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 })
+    }
+
     // Check admin access
     const session = await getSession()
     if (!session?.uid) {
@@ -60,7 +70,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check admin status in Firebase
-    const userDoc = await adminFirestore!
+    const userDoc = await adminFirestore
       .collection('users')
       .doc(session.uid)
       .get()
@@ -93,11 +103,11 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     if (error instanceof ZodError) {
-      logger.warn('[Streak Config API] Validation error:', error.errors)
+      logger.warn('[Streak Config API] Validation error:', error.issues)
       return NextResponse.json(
         {
           error: 'Invalid configuration payload',
-          details: error.errors
+          details: error.issues
         },
         { status: 400 }
       )

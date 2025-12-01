@@ -5,6 +5,24 @@ import { useI18n } from '@/i18n/I18nContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTTS } from '@/hooks/useTTS';
 
+// YouTube IFrame API type declaration
+declare global {
+  interface Window {
+    YT: {
+      Player: new (elementId: string, options: any) => any;
+      PlayerState: {
+        UNSTARTED: number;
+        ENDED: number;
+        PLAYING: number;
+        PAUSED: number;
+        BUFFERING: number;
+        CUED: number;
+      };
+    };
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
 export interface TranscriptLine {
   id: string;
   text: string;

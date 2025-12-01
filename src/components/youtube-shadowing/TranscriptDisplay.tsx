@@ -470,8 +470,8 @@ export default function TranscriptDisplay({
 
       {formattingPending && (
         <div className="mt-4 rounded-lg border border-dashed border-primary-300 bg-primary-50/60 dark:bg-primary-900/20 p-3 text-sm text-primary-700 dark:text-primary-200">
-          {strings.youtubeShadowing?.messages?.aiEnhancing ??
-            'AI is enhancing this transcript in the background. We’ll upgrade the text as soon as it is ready.'}
+          {(strings.youtubeShadowing as unknown as Record<string, Record<string, string>> | undefined)?.messages?.aiEnhancing ??
+            "AI is enhancing this transcript in the background. We'll upgrade the text as soon as it is ready."}
         </div>
       )}
     </div>

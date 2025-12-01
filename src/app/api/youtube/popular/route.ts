@@ -52,6 +52,11 @@ export function clearPopularVideosCache() {
 
 async function aggregatePopularVideos(minViewers: number = 3) {
   try {
+    if (!adminDb) {
+      console.error('[Popular API] Database not available');
+      return [];
+    }
+
     // Get all videos from userYouTubeHistory
     const snapshot = await adminDb.collection('userYouTubeHistory').get();
 
@@ -142,7 +147,7 @@ export async function GET(req: NextRequest) {
       }
 
       // Get today's usage count
-      if (quotaLimit > 0) {
+      if (quotaLimit > 0 && adminDb) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -169,7 +174,7 @@ export async function GET(req: NextRequest) {
       totalPracticeTime: 0
     };
 
-    if (session) {
+    if (session && adminDb) {
       try {
         const userPracticeSnapshot = await adminDb
           .collection('userPracticeHistory')

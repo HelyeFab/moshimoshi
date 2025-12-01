@@ -55,3 +55,54 @@ export enum AdminPermission {
   VIEW_LOGS = 'VIEW_LOGS',
   MANAGE_NEWS = 'MANAGE_NEWS'
 }
+
+/**
+ * Backup status values
+ */
+export type BackupStatus = 'in_progress' | 'completed' | 'failed';
+
+/**
+ * Backup type values
+ */
+export type BackupType = 'manual' | 'scheduled';
+
+/**
+ * Backup record stored in Firestore backup_history collection
+ * Used across all admin backup API routes
+ */
+export interface BackupRecord {
+  id: string;
+  type: BackupType;
+  status: BackupStatus;
+  triggeredBy?: string;
+  triggeredByEmail?: string;
+  reason?: string;
+  collections?: string[];
+  exportPath?: string;
+  operationName?: string;
+  startedAt: string;
+  completedAt?: string | null;
+  error?: string | null;
+  metadata?: {
+    userAgent?: string | null;
+    ipAddress?: string | null;
+  };
+}
+
+/**
+ * Backup list item returned from the list API
+ * Includes computed duration field
+ */
+export interface BackupListItem {
+  id: string;
+  type: BackupType;
+  status: BackupStatus;
+  triggeredBy?: string;
+  reason?: string;
+  collections?: string[];
+  exportPath?: string;
+  startedAt: string;
+  completedAt?: string | null;
+  error?: string | null;
+  duration?: string | null;
+}

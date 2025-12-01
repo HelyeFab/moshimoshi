@@ -107,23 +107,23 @@ export const POST = withAdminAuth(async (
       let errorOutput = '';
 
       // Execute script using npx tsx
-      const process = spawn('npx', ['tsx', scriptPath, ...args], {
-        cwd: path.join(process.cwd()),
+      const childProcess = spawn('npx', ['tsx', scriptPath, ...args], {
+        cwd: process.cwd(),
         env: { ...process.env }
       });
 
       // Collect stdout
-      process.stdout.on('data', (data) => {
+      childProcess.stdout.on('data', (data) => {
         output += data.toString();
       });
 
       // Collect stderr
-      process.stderr.on('data', (data) => {
+      childProcess.stderr.on('data', (data) => {
         errorOutput += data.toString();
       });
 
       // Handle completion
-      process.on('close', (code) => {
+      childProcess.on('close', (code) => {
         if (code === 0) {
           resolve(NextResponse.json({
             success: true,
@@ -145,7 +145,7 @@ export const POST = withAdminAuth(async (
       });
 
       // Handle errors
-      process.on('error', (error) => {
+      childProcess.on('error', (error) => {
         resolve(NextResponse.json({
           success: false,
           scriptId,

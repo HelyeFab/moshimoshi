@@ -398,7 +398,7 @@ export class NotificationSanitizer {
         errors.push('Too many actions (max 3)')
       }
 
-      content.actions.forEach((action, index) => {
+      content.actions.forEach((action: { action?: string; title?: string }, index: number) => {
         if (!action.action || !action.title) {
           errors.push(`Action ${index + 1} is missing required fields`)
         }

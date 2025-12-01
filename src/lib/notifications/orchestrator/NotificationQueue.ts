@@ -82,6 +82,11 @@ export class NotificationQueue {
    * Add notification to queue
    */
   async addToQueue(options: QueueOptions): Promise<string> {
+    if (!db) {
+      reviewLogger.warn('Firestore not available, cannot add to queue')
+      return ''
+    }
+
     const {
       userId,
       itemId,
@@ -151,6 +156,11 @@ export class NotificationQueue {
    * Add to daily notification batch
    */
   async addToDaily(options: DailyNotificationOptions): Promise<void> {
+    if (!db) {
+      reviewLogger.warn('Firestore not available, cannot add to daily')
+      return
+    }
+
     const { userId, itemId, itemType, dueDate, interval } = options
 
     // Get or create daily batch for user
@@ -220,7 +230,7 @@ export class NotificationQueue {
    * Get pending notifications
    */
   async getPendingNotifications(): Promise<NotificationQueueItem[]> {
-    if (!this.userId) return []
+    if (!this.userId || !db) return []
 
     try {
       const q = query(
@@ -255,7 +265,7 @@ export class NotificationQueue {
    * Get queued count
    */
   async getQueuedCount(): Promise<number> {
-    if (!this.userId) return 0
+    if (!this.userId || !db) return 0
 
     try {
       const q = query(
@@ -276,6 +286,8 @@ export class NotificationQueue {
    * Mark notification as sent
    */
   async markAsSent(notificationId: string): Promise<void> {
+    if (!db) return
+
     try {
       await updateDoc(doc(db, this.COLLECTION_NAME, notificationId), {
         status: 'sent',
@@ -292,6 +304,8 @@ export class NotificationQueue {
    * Mark notification as failed
    */
   async markAsFailed(notificationId: string, error: string): Promise<void> {
+    if (!db) return
+
     try {
       const notifRef = doc(db, this.COLLECTION_NAME, notificationId)
       const notifSnap = await getDoc(notifRef)
@@ -363,6 +377,8 @@ export class NotificationQueue {
     scheduledFor: Date,
     channel: NotificationChannel
   ): Promise<NotificationQueueItem | null> {
+    if (!db) return null
+
     const windowStart = new Date(scheduledFor.getTime() - this.batchWindowMinutes * 60 * 1000)
     const windowEnd = new Date(scheduledFor.getTime() + this.batchWindowMinutes * 60 * 1000)
 
@@ -399,7 +415,7 @@ export class NotificationQueue {
    * Add item to existing batch
    */
   private async addToBatch(batchId: string, itemId?: string): Promise<void> {
-    if (!itemId) return
+    if (!itemId || !db) return
 
     try {
       const batchRef = doc(db, this.COLLECTION_NAME, batchId)
@@ -456,7 +472,7 @@ export class NotificationQueue {
    * Clean up old notifications
    */
   private async cleanupOldNotifications(): Promise<void> {
-    if (!this.userId) return
+    if (!this.userId || !db) return
 
     try {
       const cutoffDate = new Date()
@@ -494,7 +510,7 @@ export class NotificationQueue {
    * Cancel notifications for item
    */
   async cancelNotificationsForItem(itemId: string): Promise<void> {
-    if (!this.userId) return
+    if (!this.userId || !db) return
 
     try {
       const q = query(

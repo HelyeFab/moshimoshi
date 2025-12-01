@@ -25,6 +25,11 @@ interface LeaderboardEntry {
 }
 
 async function generateLeaderboardSnapshot() {
+  // This function is only called after adminDb is verified non-null
+  if (!adminDb) {
+    throw new Error('Database not initialized');
+  }
+
   console.log('[Leaderboard] Starting snapshot generation...');
 
   // 1. Fetch all user_stats ordered by XP (fetch extra to account for opt-outs)
@@ -103,6 +108,11 @@ async function generateLeaderboardSnapshot() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check Firebase services are initialized
+    if (!adminAuth || !adminDb) {
+      return NextResponse.json({ error: 'Service not available' }, { status: 503 });
+    }
+
     // Verify admin authentication
     const session = await getSession();
 

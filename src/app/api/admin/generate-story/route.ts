@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkAdminRole } from '@/lib/firebase/auth-admin';
-import { JLPTLevel } from '@/types/aiStory';
+import { JLPTLevel } from '@/types/ai-story';
 import { getFirestore } from 'firebase-admin/firestore';
 import { initAdmin } from '@/lib/firebase/admin';
 import { AIService } from '@/lib/ai/AIService';
@@ -19,8 +19,7 @@ export const maxDuration = 60;
 export async function POST(request: NextRequest) {
   try {
     // Verify admin authentication
-    const authHeader = request.headers.get('authorization');
-    const authResult = await checkAdminRole(authHeader);
+    const authResult = await checkAdminRole(request);
 
     if (!authResult.isAdmin) {
       return NextResponse.json(
@@ -49,7 +48,7 @@ export async function POST(request: NextRequest) {
         config: { jlptLevel },
         metadata: {
           source: 'admin-story-generator',
-          userId: authResult.userId,
+          userId: authResult.uid,
           step: 'character_sheet'
         }
       });
@@ -59,13 +58,13 @@ export async function POST(request: NextRequest) {
       }
 
       // Save to Firestore for later steps
-      const draftId = `draft_${Date.now()}_${authResult.userId}`;
+      const draftId = `draft_${Date.now()}_${authResult.uid}`;
       await db.collection('ai_story_drafts').doc(draftId).set({
         characterSheet: response.data,
         theme,
         jlptLevel,
         pageCount,
-        userId: authResult.userId,
+        userId: authResult.uid,
         createdAt: new Date(),
         status: 'character_created'
       });
@@ -109,7 +108,7 @@ export async function POST(request: NextRequest) {
         config: { jlptLevel },
         metadata: {
           source: 'admin-story-generator',
-          userId: authResult.userId,
+          userId: authResult.uid,
           step: 'outline',
           draftId
         }
@@ -165,7 +164,7 @@ export async function POST(request: NextRequest) {
         config: { jlptLevel },
         metadata: {
           source: 'admin-story-generator',
-          userId: authResult.userId,
+          userId: authResult.uid,
           step: 'generate_page',
           draftId,
           pageNumber
@@ -224,7 +223,7 @@ export async function POST(request: NextRequest) {
         config: { jlptLevel },
         metadata: {
           source: 'admin-story-generator',
-          userId: authResult.userId,
+          userId: authResult.uid,
           step: 'generate_quiz',
           draftId
         }

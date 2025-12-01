@@ -95,7 +95,7 @@ function TwinklingLight({ delay = 0, x = '50%', y = '50%', color = '#fbbf24' }) 
 }
 
 // Chinese lantern emoji component
-function ChineseLantern({ delay = 0, size = 'medium' }) {
+function ChineseLantern({ delay = 0, size = 'medium' }: { delay?: number; size?: 'small' | 'medium' | 'large' | 'xlarge' }) {
   const animationsEnabled = useAnimationControl()
 
   const sizes = {
@@ -103,7 +103,7 @@ function ChineseLantern({ delay = 0, size = 'medium' }) {
     medium: 'text-4xl',
     large: 'text-6xl',
     xlarge: 'text-8xl'
-  }
+  } as const
 
   const duration = 25 + Math.random() * 10 // Varying speeds
   const horizontalDrift = Math.random() * 30 - 15 // Drift left or right
@@ -292,11 +292,17 @@ function StallCard({ stall, index }: { stall: any, index: number }) {
   )
 }
 
+// Type helper for i18n cards with dynamic keys
+type CardStrings = Record<string, { title?: string; subtitle?: string; description?: string }> | undefined
+
 export default function LearningVillage() {
   const { resolvedTheme } = useTheme()
   const { strings } = useI18n()
   const animationsEnabled = useAnimationControl()
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
+
+  // Cast cards to allow dynamic key access with fallbacks
+  const cards = strings.dashboard?.cards as CardStrings
 
   // Learning sections with festival stall themes - now with i18n
   // Reordered in a logical progression for learners
@@ -380,9 +386,9 @@ export default function LearningVillage() {
     },
     {
       id: 'kanji-browser',
-      title: strings.dashboard?.cards?.kanjiBrowser?.title || 'Kanji Browser',
-      subtitle: strings.dashboard?.cards?.kanjiBrowser?.subtitle || '漢字辞典',
-      description: strings.dashboard?.cards?.kanjiBrowser?.description || 'Browse all JLPT kanji levels',
+      title: cards?.kanjiBrowser?.title || 'Kanji Browser',
+      subtitle: cards?.kanjiBrowser?.subtitle || '漢字辞典',
+      description: cards?.kanjiBrowser?.description || 'Browse all JLPT kanji levels',
       href: '/kanji-browser',
       icon: '📖',
       stallType: 'library',
@@ -395,9 +401,9 @@ export default function LearningVillage() {
     },
     {
       id: 'kanji-mastery',
-      title: strings.dashboard?.cards?.kanjiMastery?.title || 'Kanji Mastery',
-      subtitle: strings.dashboard?.cards?.kanjiMastery?.subtitle || '漢字習得',
-      description: strings.dashboard?.cards?.kanjiMastery?.description || 'Master kanji with SRS',
+      title: cards?.kanjiMastery?.title || 'Kanji Mastery',
+      subtitle: cards?.kanjiMastery?.subtitle || '漢字習得',
+      description: cards?.kanjiMastery?.description || 'Master kanji with SRS',
       href: '/tools/kanji-mastery',
       icon: '🎯',
       stallType: 'bridge',
@@ -410,9 +416,9 @@ export default function LearningVillage() {
     },
     {
       id: 'kanji-connections',
-      title: strings.dashboard?.cards?.kanjiConnections?.title || 'Kanji Connections',
-      subtitle: strings.dashboard?.cards?.kanjiConnections?.subtitle || '漢字関連',
-      description: strings.dashboard?.cards?.kanjiConnections?.description || 'Premium: Families, Radicals & Patterns',
+      title: cards?.kanjiConnections?.title || 'Kanji Connections',
+      subtitle: cards?.kanjiConnections?.subtitle || '漢字関連',
+      description: cards?.kanjiConnections?.description || 'Premium: Families, Radicals & Patterns',
       href: '/kanji-connection',
       icon: '🔮',
       stallType: 'map',
@@ -425,9 +431,9 @@ export default function LearningVillage() {
     },
     {
       id: 'mood-boards',
-      title: strings.dashboard?.cards?.moodBoards?.title || 'Mood Boards',
-      subtitle: strings.dashboard?.cards?.moodBoards?.subtitle || 'ムード',
-      description: strings.dashboard?.cards?.moodBoards?.description || 'Learn kanji by themes',
+      title: cards?.moodBoards?.title || 'Mood Boards',
+      subtitle: cards?.moodBoards?.subtitle || 'ムード',
+      description: cards?.moodBoards?.description || 'Learn kanji by themes',
       href: '/kanji-moods',
       icon: '🗺️',
       stallType: 'restaurant',
@@ -440,9 +446,9 @@ export default function LearningVillage() {
     },
     {
       id: 'conjugation',
-      title: strings.dashboard?.cards?.conjugation?.title || 'Conjugation',
-      subtitle: strings.dashboard?.cards?.conjugation?.subtitle || '活用',
-      description: strings.dashboard?.cards?.conjugation?.description || 'Practice verb conjugations',
+      title: cards?.conjugation?.title || 'Conjugation',
+      subtitle: cards?.conjugation?.subtitle || '活用',
+      description: cards?.conjugation?.description || 'Practice verb conjugations',
       href: '/learn/conjugation',
       icon: '🔤',
       stallType: 'archery',
@@ -455,9 +461,9 @@ export default function LearningVillage() {
     },
     {
       id: 'textbook-vocab',
-      title: strings.dashboard?.cards?.textbookVocab?.title || 'Textbook Vocab',
-      subtitle: strings.dashboard?.cards?.textbookVocab?.subtitle || '教科書',
-      description: strings.dashboard?.cards?.textbookVocab?.description || 'Study textbook vocabulary',
+      title: cards?.textbookVocab?.title || 'Textbook Vocab',
+      subtitle: cards?.textbookVocab?.subtitle || '教科書',
+      description: cards?.textbookVocab?.description || 'Study textbook vocabulary',
       href: '/tools/textbook-vocabulary',
       icon: '📚',
       stallType: 'calligraphy',
@@ -471,9 +477,9 @@ export default function LearningVillage() {
     // === PRACTICE & IMMERSION ===
     {
       id: 'stories',
-      title: strings.dashboard?.cards?.stories?.title || 'Stories',
-      subtitle: strings.dashboard?.cards?.stories?.subtitle || '物語',
-      description: strings.dashboard?.cards?.stories?.description || 'AI-generated stories',
+      title: cards?.stories?.title || 'Stories',
+      subtitle: cards?.stories?.subtitle || '物語',
+      description: cards?.stories?.description || 'AI-generated stories',
       href: '/stories',
       icon: '📚',
       stallType: 'stage',
@@ -516,9 +522,9 @@ export default function LearningVillage() {
     },
     {
       id: 'youtube-shadowing',
-      title: strings.dashboard?.cards?.youtubeShadowing?.title || 'YouTube Shadowing',
-      subtitle: strings.dashboard?.cards?.youtubeShadowing?.subtitle || 'YouTube',
-      description: strings.dashboard?.cards?.youtubeShadowing?.description || 'Practice with YouTube',
+      title: cards?.youtubeShadowing?.title || 'YouTube Shadowing',
+      subtitle: cards?.youtubeShadowing?.subtitle || 'YouTube',
+      description: cards?.youtubeShadowing?.description || 'Practice with YouTube',
       href: '/youtube-shadowing',
       icon: '📺',
       stallType: 'music',
@@ -531,9 +537,9 @@ export default function LearningVillage() {
     },
     {
       id: 'popular-videos',
-      title: strings.dashboard?.cards?.popularVideos?.title || 'Trending Videos',
-      subtitle: strings.dashboard?.cards?.popularVideos?.subtitle || '人気動画',
-      description: strings.dashboard?.cards?.popularVideos?.description || 'Most watched by the community',
+      title: cards?.popularVideos?.title || 'Trending Videos',
+      subtitle: cards?.popularVideos?.subtitle || '人気動画',
+      description: cards?.popularVideos?.description || 'Most watched by the community',
       href: '/popular-videos',
       icon: '🔥',
       stallType: 'cinema',
@@ -607,9 +613,9 @@ export default function LearningVillage() {
     },
     {
       id: 'review-hub',
-      title: strings.dashboard?.cards?.reviewHub?.title || 'Review Hub',
-      subtitle: strings.dashboard?.cards?.reviewHub?.subtitle || 'レビュー',
-      description: strings.dashboard?.cards?.reviewHub?.description || 'Unified review system',
+      title: cards?.reviewHub?.title || 'Review Hub',
+      subtitle: cards?.reviewHub?.subtitle || 'レビュー',
+      description: cards?.reviewHub?.description || 'Unified review system',
       href: '/review-dashboard',
       icon: '📖',
       stallType: 'office',
@@ -638,9 +644,9 @@ export default function LearningVillage() {
     },
     {
       id: 'leaderboard',
-      title: strings.leaderboard?.title || 'Leaderboard',
-      subtitle: strings.leaderboard?.subtitle || 'ランキング',
-      description: strings.leaderboard?.description || 'Compete with other learners',
+      title: (strings as Record<string, { title?: string; subtitle?: string; description?: string }>).leaderboard?.title || 'Leaderboard',
+      subtitle: (strings as Record<string, { title?: string; subtitle?: string; description?: string }>).leaderboard?.subtitle || 'ランキング',
+      description: (strings as Record<string, { title?: string; subtitle?: string; description?: string }>).leaderboard?.description || 'Compete with other learners',
       href: '/leaderboard',
       icon: '🥇',
       stallType: 'podium',

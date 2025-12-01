@@ -24,6 +24,10 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+    }
+
     // Get the resource
     const docRef = adminDb.collection('resources').doc(id);
     const doc = await docRef.get();
@@ -55,6 +59,10 @@ export async function PUT(
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
     }
 
     // Verify admin status from Firestore
@@ -131,6 +139,10 @@ export async function DELETE(
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
     }
 
     // Verify admin status from Firestore

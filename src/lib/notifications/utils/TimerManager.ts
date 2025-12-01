@@ -45,7 +45,7 @@ export class TimerManager {
   private maxTimers = 1000 // Prevent unbounded growth
   private warningThreshold = 500 // Warn when approaching limit
   private cleanupInterval?: NodeJS.Timeout
-  private isDestroyed = false
+  private _isDestroyed = false
 
   constructor(private readonly name: string = 'default') {
     // Start periodic cleanup
@@ -61,7 +61,7 @@ export class TimerManager {
     id?: string,
     metadata?: Record<string, any>
   ): string {
-    if (this.isDestroyed) {
+    if (this._isDestroyed) {
       throw new Error(`TimerManager ${this.name} has been destroyed`)
     }
 
@@ -138,7 +138,7 @@ export class TimerManager {
     id?: string,
     metadata?: Record<string, any>
   ): string {
-    if (this.isDestroyed) {
+    if (this._isDestroyed) {
       throw new Error(`TimerManager ${this.name} has been destroyed`)
     }
 
@@ -411,7 +411,7 @@ export class TimerManager {
    * Destroy the timer manager
    */
   destroy(): void {
-    if (this.isDestroyed) {
+    if (this._isDestroyed) {
       return
     }
 
@@ -430,14 +430,14 @@ export class TimerManager {
     }
 
     // Mark as destroyed
-    this.isDestroyed = true
+    this._isDestroyed = true
   }
 
   /**
    * Check if destroyed
    */
   isDestroyed(): boolean {
-    return this.isDestroyed
+    return this._isDestroyed
   }
 }
 

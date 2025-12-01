@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAdminAuth } from '@/lib/admin/adminAuth';
 import { getEntitlementLogs } from '@/lib/entitlements/adminEvaluator';
 import { adminFirestore as adminDb } from '@/lib/firebase/admin';
-import { FeatureId, EntitlementLog, OverrideLog } from '@/types/entitlements';
+import { FeatureId } from '@/types/entitlements';
+import type { Query, DocumentData } from 'firebase-admin/firestore';
 
 /**
  * GET /api/admin/logs
@@ -19,6 +20,11 @@ import { FeatureId, EntitlementLog, OverrideLog } from '@/types/entitlements';
  */
 export const GET = withAdminAuth(async (request: NextRequest, context) => {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+    }
+
     const { searchParams } = new URL(request.url);
     
     const type = searchParams.get('type') || 'entitlements';
@@ -111,7 +117,7 @@ export const GET = withAdminAuth(async (request: NextRequest, context) => {
       });
 
       // Get total count for pagination
-      let countQuery = adminDb
+      let countQuery: Query<DocumentData> = adminDb
         .collection('logs')
         .doc('entitlements')
         .collection('entries');
@@ -129,7 +135,7 @@ export const GET = withAdminAuth(async (request: NextRequest, context) => {
       logs = logs.slice(startIndex, startIndex + limit);
     } else {
       // Get override logs
-      let query = adminDb
+      let query: Query<DocumentData> = adminDb
         .collection('logs')
         .doc('overrides')
         .collection('entries')

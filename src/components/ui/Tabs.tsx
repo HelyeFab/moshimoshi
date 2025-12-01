@@ -11,7 +11,8 @@ interface TabsProps {
   tabs: Tab[];
   defaultTab?: string;
   onChange?: (tabId: string) => void;
-  children: React.ReactNode;
+  /** Optional children - TabPanel components to render content. If not provided, caller handles content rendering. */
+  children?: React.ReactNode;
   variant?: 'default' | 'pills' | 'underline';
   className?: string;
 }
@@ -91,22 +92,24 @@ export function Tabs({
         ))}
       </div>
       
-      <div className="mt-4">
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child) && (child as React.ReactElement<any>).props?.id === activeTab) {
-            return (
-              <div
-                role="tabpanel"
-                id={`tabpanel-${activeTab}`}
-                aria-labelledby={`tab-${activeTab}`}
-              >
-                {child}
-              </div>
-            );
-          }
-          return null;
-        })}
-      </div>
+      {children && (
+        <div className="mt-4">
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement(child) && (child as React.ReactElement<{ id?: string }>).props?.id === activeTab) {
+              return (
+                <div
+                  role="tabpanel"
+                  id={`tabpanel-${activeTab}`}
+                  aria-labelledby={`tab-${activeTab}`}
+                >
+                  {child}
+                </div>
+              );
+            }
+            return null;
+          })}
+        </div>
+      )}
     </div>
   );
 }

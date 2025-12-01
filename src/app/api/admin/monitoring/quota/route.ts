@@ -13,6 +13,14 @@ import { adminDb } from '@/lib/firebase/admin'
  */
 export async function GET(request: NextRequest) {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 503 }
+      )
+    }
+
     // 1. Authenticate and check admin
     const session = await requireAuth()
 

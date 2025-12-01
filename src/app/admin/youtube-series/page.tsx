@@ -480,38 +480,38 @@ export default function AdminYouTubeSeriesPage() {
                       {/* Channel Stats */}
                       {(channel.subscriberCount || channel.videoCount || channel.viewCount) && (
                         <div className="flex flex-wrap gap-4 mb-3 p-3 bg-gray-50 dark:bg-dark-700/50 rounded-lg">
-                          {channel.subscriberCount > 0 && (
+                          {(channel.subscriberCount ?? 0) > 0 && (
                             <div className="flex items-center gap-1 text-sm">
                               <Users className="w-4 h-4 text-gray-500" />
                               <span className="text-muted-foreground">Subscribers:</span>
                               <span className="font-medium text-foreground">
-                                {channel.subscriberCount >= 1000000
-                                  ? `${(channel.subscriberCount / 1000000).toFixed(1)}M`
-                                  : channel.subscriberCount >= 1000
-                                  ? `${(channel.subscriberCount / 1000).toFixed(1)}K`
-                                  : channel.subscriberCount.toLocaleString()}
+                                {(channel.subscriberCount ?? 0) >= 1000000
+                                  ? `${((channel.subscriberCount ?? 0) / 1000000).toFixed(1)}M`
+                                  : (channel.subscriberCount ?? 0) >= 1000
+                                  ? `${((channel.subscriberCount ?? 0) / 1000).toFixed(1)}K`
+                                  : (channel.subscriberCount ?? 0).toLocaleString()}
                               </span>
                             </div>
                           )}
-                          {channel.videoCount > 0 && (
+                          {(channel.videoCount ?? 0) > 0 && (
                             <div className="flex items-center gap-1 text-sm">
                               <Video className="w-4 h-4 text-gray-500" />
                               <span className="text-muted-foreground">Videos:</span>
-                              <span className="font-medium text-foreground">{channel.videoCount.toLocaleString()}</span>
+                              <span className="font-medium text-foreground">{(channel.videoCount ?? 0).toLocaleString()}</span>
                             </div>
                           )}
-                          {channel.viewCount > 0 && (
+                          {(channel.viewCount ?? 0) > 0 && (
                             <div className="flex items-center gap-1 text-sm">
                               <Eye className="w-4 h-4 text-gray-500" />
                               <span className="text-muted-foreground">Views:</span>
                               <span className="font-medium text-foreground">
-                                {channel.viewCount >= 1000000000
-                                  ? `${(channel.viewCount / 1000000000).toFixed(1)}B`
-                                  : channel.viewCount >= 1000000
-                                  ? `${(channel.viewCount / 1000000).toFixed(1)}M`
-                                  : channel.viewCount >= 1000
-                                  ? `${(channel.viewCount / 1000).toFixed(1)}K`
-                                  : channel.viewCount.toLocaleString()}
+                                {(channel.viewCount ?? 0) >= 1000000000
+                                  ? `${((channel.viewCount ?? 0) / 1000000000).toFixed(1)}B`
+                                  : (channel.viewCount ?? 0) >= 1000000
+                                  ? `${((channel.viewCount ?? 0) / 1000000).toFixed(1)}M`
+                                  : (channel.viewCount ?? 0) >= 1000
+                                  ? `${((channel.viewCount ?? 0) / 1000).toFixed(1)}K`
+                                  : (channel.viewCount ?? 0).toLocaleString()}
                               </span>
                             </div>
                           )}
@@ -550,7 +550,7 @@ export default function AdminYouTubeSeriesPage() {
                           <p className="flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
                             Last checked: {formatDistanceToNow(
-                              channel.lastCheckedAt.toDate ? channel.lastCheckedAt.toDate() : new Date(channel.lastCheckedAt),
+                              (channel.lastCheckedAt.toDate ? channel.lastCheckedAt.toDate() : new Date(channel.lastCheckedAt as unknown as string | number)) as Date,
                               { addSuffix: true }
                             )}
                           </p>

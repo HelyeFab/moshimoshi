@@ -22,6 +22,15 @@ import admin from 'firebase-admin'
  */
 export async function POST(request: NextRequest) {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      console.error('[Backup] Firebase Admin DB not initialized')
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 503 }
+      )
+    }
+
     // 1. Authenticate and check admin
     const session = await requireAuth()
 

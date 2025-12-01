@@ -84,6 +84,7 @@ export interface RequestMetadata {
   source?: string;
   timestamp?: Date;
   priority?: 'low' | 'normal' | 'high';
+  [key: string]: any; // Allow task-specific metadata (step, draftId, pageNumber, etc.)
 }
 
 export interface ResponseMetadata {

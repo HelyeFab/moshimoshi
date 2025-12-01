@@ -118,22 +118,47 @@ export async function unregisterServiceWorker(): Promise<boolean> {
 
 /**
  * Skip waiting and activate new service worker
+ * @param providedRegistration - Optional registration from the update event
  */
-export async function skipWaiting(): Promise<void> {
+export async function skipWaiting(providedRegistration?: globalThis.ServiceWorkerRegistration): Promise<boolean> {
   if (!('serviceWorker' in navigator)) {
-    return;
+    console.log('[SW] Service workers not supported');
+    return false;
   }
 
-  const registration = await navigator.serviceWorker.ready;
+  try {
+    // Use provided registration or get the current one
+    const registration = providedRegistration || await navigator.serviceWorker.getRegistration();
 
-  if (registration.waiting) {
-    // Tell service worker to skip waiting
-    registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    if (!registration) {
+      console.log('[SW] No service worker registration found');
+      return false;
+    }
 
-    // Reload page when new service worker takes control
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (registration.waiting) {
+      console.log('[SW] Found waiting service worker, sending SKIP_WAITING message');
+
+      // Tell service worker to skip waiting
+      registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+
+      // Reload page when new service worker takes control
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        console.log('[SW] Controller changed, reloading page');
+        window.location.reload();
+      }, { once: true });
+
+      return true;
+    } else {
+      console.log('[SW] No waiting service worker found, reloading to get latest version');
+      // If no waiting SW, just reload to ensure we get the latest
       window.location.reload();
-    }, { once: true });
+      return true;
+    }
+  } catch (error) {
+    console.error('[SW] Error in skipWaiting:', error);
+    // Fallback: just reload the page
+    window.location.reload();
+    return false;
   }
 }
 

@@ -15,6 +15,7 @@ import type { SubscriptionPlan } from '@/lib/stripe/types'
 // Helper function to check if user is admin
 async function isUserAdmin(uid: string): Promise<boolean> {
   try {
+    if (!adminFirestore) return false
     const userDoc = await adminFirestore.collection('users').doc(uid).get()
     const userData = userDoc.data()
     // Check for isAdmin field (not admin)
@@ -44,6 +45,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Forbidden - Admin access required' },
         { status: 403 }
+      )
+    }
+
+    if (!adminFirestore) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 503 }
       )
     }
 
@@ -179,7 +187,7 @@ export async function POST(request: NextRequest) {
       // Create new subscription with 100% discount coupon
       console.log(`[Admin API] Creating subscription with coupon ${coupon.id}`)
 
-      let subscription
+      let subscription: Awaited<ReturnType<typeof stripe.subscriptions.create>>
       try {
         subscription = await stripe.subscriptions.create({
           customer: stripeCustomerId,
@@ -224,7 +232,7 @@ export async function POST(request: NextRequest) {
           stripeCustomerId,
           stripeSubscriptionId: subscription.id,
           stripePriceId: actualPriceId,  // Use the actual price ID from subscription
-          currentPeriodEnd: subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null,
+          currentPeriodEnd: (subscription as any).current_period_end ? new Date((subscription as any).current_period_end * 1000) : null,
           cancelAtPeriodEnd: subscription.cancel_at_period_end || false,
           metadata: {
             source: 'admin',
@@ -289,6 +297,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: 'Forbidden - Admin access required' },
         { status: 403 }
+      )
+    }
+
+    if (!adminFirestore) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 503 }
       )
     }
 

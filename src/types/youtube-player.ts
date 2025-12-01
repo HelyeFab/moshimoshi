@@ -63,7 +63,7 @@ export interface YouTubePlayerHookResult<
   State extends YouTubePlayerState = YouTubePlayerState,
   Actions extends YouTubePlayerActions = YouTubePlayerActions,
 > {
-  containerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
   playerRef: MutableRefObject<any>;
   state: State;
   actions: Actions;

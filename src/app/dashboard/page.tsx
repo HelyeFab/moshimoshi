@@ -224,8 +224,8 @@ function DashboardContent() {
           ]
         }
 
-      case strings.drill?.stats?.totalDrills || 'Drills':
-      case strings.dashboard?.stats?.drillsCompleted || 'Drills Completed':
+      case 'Drills':
+      case 'Drills Completed':
         const drillsModal = strings.dashboard?.statModals?.drillsCompleted
         const perfectDrills = learningCategories.drills?.totalDrills ? Math.round((learningCategories.drills.totalDrills * drillAccuracy) / 100) : 0
         return {
@@ -241,7 +241,7 @@ function DashboardContent() {
           ]
         }
 
-      case strings.dashboard?.stats?.drillAccuracy || 'Drill Accuracy':
+      case 'Drill Accuracy':
         const accuracyModal = strings.dashboard?.statModals?.drillAccuracy
         return {
           title: accuracyModal?.title || 'Drill Accuracy',
@@ -258,7 +258,7 @@ function DashboardContent() {
           ]
         }
 
-      case strings.drill?.stats?.mastery || 'Drill Mastery':
+      case 'Drill Mastery':
         const masteryModal = strings.dashboard?.statModals?.drillMastery
         return {
           title: masteryModal?.title || 'Drill Mastery Score',
@@ -482,39 +482,15 @@ function DashboardContent() {
     const streakValue = gamificationEnabled ? displayStreak : 0
     const achievementCount = gamificationEnabled ? unlockedAchievements.length : 0
 
-    // Safely extract string values from i18n objects
-    // Check if the value is an object with label/unit properties
-    const streakData = strings.dashboard?.stats?.streak
-    const streakLabel = (typeof streakData === 'object' && streakData !== null && 'label' in streakData)
-      ? String(streakData.label)
-      : String(streakData || 'Streak')
-    const streakUnit = (typeof streakData === 'object' && streakData !== null && 'unit' in streakData)
-      ? String(streakData.unit)
-      : 'days'
-
-    const xpData = strings.dashboard?.stats?.xpEarned
-    const xpLabel = (typeof xpData === 'object' && xpData !== null && 'label' in xpData)
-      ? String(xpData.label)
-      : String(xpData || 'XP Earned')
-    const xpUnit = (typeof xpData === 'object' && xpData !== null && 'unit' in xpData)
-      ? String(xpData.unit)
-      : 'points'
-
-    const progressData = strings.dashboard?.stats?.progress
-    const progressLabel = (typeof progressData === 'object' && progressData !== null && 'label' in progressData)
-      ? String(progressData.label)
-      : String(progressData || 'Progress')
-    const progressUnit = (typeof progressData === 'object' && progressData !== null && 'unit' in progressData)
-      ? String(progressData.unit)
-      : '%'
-
-    const achievementsData = strings.dashboard?.stats?.achievements
-    const achievementsLabel = (typeof achievementsData === 'object' && achievementsData !== null && 'label' in achievementsData)
-      ? String(achievementsData.label)
-      : String(achievementsData || 'Achievements')
-    const achievementsUnit = (typeof achievementsData === 'object' && achievementsData !== null && 'unit' in achievementsData)
-      ? String(achievementsData.unit)
-      : 'unlocked'
+    // Get string labels from i18n (these are simple strings, not objects)
+    const streakLabel = strings.dashboard?.stats?.streak || 'Streak'
+    const streakUnit = strings.dashboard?.stats?.days || 'days'
+    const xpLabel = strings.dashboard?.stats?.xpEarned || 'XP Earned'
+    const xpUnit = strings.dashboard?.stats?.points || 'points'
+    const progressLabel = strings.dashboard?.stats?.progress || 'Progress'
+    const progressUnit = '%'
+    const achievementsLabel = strings.dashboard?.stats?.achievements || 'Achievements'
+    const achievementsUnit = 'unlocked'
 
     // Format watch time (seconds to minutes or hours)
     const watchTimeMinutes = Math.round((youtubeStats?.watchTime || 0) / 60);
@@ -533,9 +509,9 @@ function DashboardContent() {
       { label: 'Videos Practiced', value: (youtubeStats?.videosPracticed || 0).toString(), unit: 'videos', color: 'from-red-400 to-pink-500' },
       { label: 'Videos Remaining', value: (youtubeStats?.videosRemaining || 0).toString(), unit: 'today', color: 'from-green-400 to-teal-500' },
       { label: 'Watch Time', value: watchTimeValue, unit: watchTimeUnit, color: 'from-purple-400 to-indigo-500' },
-      { label: strings.drill?.stats?.totalDrills || 'Drills', value: drillCount.toString(), unit: strings.drill?.stats?.drillsUnit || 'completed', color: 'from-indigo-400 to-blue-500' },
-      { label: strings.drill?.stats?.accuracy || 'Drill Accuracy', value: drillAccuracy.toString(), unit: '%', color: 'from-teal-400 to-green-500' },
-      { label: strings.drill?.stats?.mastery || 'Drill Mastery', value: drillMastery.toString(), unit: '%', color: 'from-purple-400 to-indigo-500' },
+      { label: 'Drills', value: drillCount.toString(), unit: 'completed', color: 'from-indigo-400 to-blue-500' },
+      { label: 'Drill Accuracy', value: drillAccuracy.toString(), unit: '%', color: 'from-teal-400 to-green-500' },
+      { label: 'Drill Mastery', value: drillMastery.toString(), unit: '%', color: 'from-purple-400 to-indigo-500' },
     ]
   }
 

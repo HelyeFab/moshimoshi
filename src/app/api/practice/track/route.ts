@@ -140,10 +140,11 @@ export async function POST(req: NextRequest) {
         }
       } catch (error) {
         console.error('[Practice Track] ❌ Error saving practice stats to Firebase:', error);
+        const err = error as Error & { code?: string }
         console.error('[Practice Track] Error details:', {
-          message: error.message,
-          code: error.code,
-          stack: error.stack?.split('\n')[0]
+          message: err.message,
+          code: err.code,
+          stack: err.stack?.split('\n')[0]
         });
       }
     } else {
@@ -181,8 +182,24 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const limit = parseInt(searchParams.get('limit') || '50');
 
+    // Define video type for practice history
+    interface PracticeVideo {
+      id: string
+      videoId: string
+      videoUrl: string
+      videoTitle: string
+      lastPracticed: Date
+      firstPracticed: Date
+      practiceCount: number
+      totalPracticeTime: number
+      duration?: number
+      thumbnailUrl?: string
+      channelName?: string
+      metadata?: Record<string, unknown>
+    }
+
     // Get video history from Firebase (premium users only)
-    let videos = [];
+    let videos: PracticeVideo[] = [];
 
     if (session && storageDecision?.isPremium && adminDb) {
       try {

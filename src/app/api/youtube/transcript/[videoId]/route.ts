@@ -20,7 +20,7 @@ interface TranscriptResponse {
   segments?: TranscriptSegment[];
   language?: string;
   availableLanguages?: string[];
-  source?: 'firebase-cache' | 'youtubei-enhanced' | 'youtubei-standard' | 'supa-api';
+  source?: 'firebase-cache' | 'youtubei-enhanced' | 'youtubei-standard' | 'supa-api' | 'custom-server';
   cached?: boolean;
   totalSegments?: number;
   totalDuration?: number;
@@ -70,7 +70,8 @@ async function tryEnhancedYouTubeiJS(videoId: string): Promise<TranscriptRespons
       return null;
     }
 
-    let transcriptPayload = transcriptInfo;
+    // Use flexible type to allow both original transcriptInfo and custom format
+    let transcriptPayload: { transcript?: any } | typeof transcriptInfo = transcriptInfo;
     let selectedLanguage = availableLanguages.find((lang: any) => lang.selected);
 
     // Force Japanese language if not already selected

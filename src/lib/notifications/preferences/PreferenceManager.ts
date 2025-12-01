@@ -62,6 +62,17 @@ export class PreferenceManager {
         return
       }
 
+      // Check if Firestore is available
+      if (!db) {
+        reviewLogger.warn('Firestore not available, using default preferences')
+        this.updateCache({
+          ...DEFAULT_NOTIFICATION_PREFERENCES,
+          userId: this.userId,
+          updated_at: new Date()
+        })
+        return
+      }
+
       // Load from Firestore
       const docRef = doc(db, this.COLLECTION_NAME, this.userId)
       const docSnap = await getDoc(docRef)
@@ -102,7 +113,7 @@ export class PreferenceManager {
    * Set up real-time listener for preference changes
    */
   private setupRealtimeListener(): void {
-    if (!this.userId) return
+    if (!this.userId || !db) return
 
     const docRef = doc(db, this.COLLECTION_NAME, this.userId)
 
@@ -180,7 +191,10 @@ export class PreferenceManager {
    * Save preferences to Firestore
    */
   private async savePreferences(preferences: NotificationPreferences): Promise<void> {
-    if (!this.userId) return
+    if (!this.userId || !db) {
+      reviewLogger.warn('Cannot save preferences: missing userId or Firestore')
+      return
+    }
 
     await setDoc(
       doc(db, this.COLLECTION_NAME, this.userId),

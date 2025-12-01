@@ -36,14 +36,21 @@ export const POST = withAdminAuth(async (request: NextRequest, context) => {
       );
     }
 
-    // Set the admin claim
-    const result = await setAdminClaim(userId, isAdmin);
-
-    if (!result.success) {
+    if (!adminDb) {
       return NextResponse.json(
-        { 
+        { error: 'Database not available' },
+        { status: 503 }
+      );
+    }
+
+    // Set the admin claim (throws on error)
+    try {
+      await setAdminClaim(userId, isAdmin);
+    } catch (claimError) {
+      return NextResponse.json(
+        {
           error: 'Failed to set admin claim',
-          details: result.error
+          details: claimError instanceof Error ? claimError.message : 'Unknown error'
         },
         { status: 500 }
       );

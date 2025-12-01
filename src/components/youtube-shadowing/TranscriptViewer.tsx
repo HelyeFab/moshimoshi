@@ -43,7 +43,7 @@ export default function TranscriptViewer({
   onClearSession
 }: TranscriptViewerProps) {
   const transcriptContainerRef = useRef<HTMLDivElement>(null);
-  const segmentRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+  const segmentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const { showToast } = useToast();
 
   // State for clear confirmation dialog

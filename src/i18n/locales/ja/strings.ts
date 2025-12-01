@@ -333,18 +333,6 @@ export const strings = {
     items: "項目"
   },
 
-  // Review section
-  review: {
-    schedule: {
-      today: "今日",
-      tomorrow: "明日",
-      thisWeek: "今週",
-      later: "後で",
-      nextReview: "次の復習",
-      scheduledReviews: "予定された復習"
-    },
-    items: "項目"
-  },
   // Common/Shared
   common: {
     brand: "もしもし",
@@ -401,87 +389,6 @@ export const strings = {
     days: "日",
     minutes: "分",
     cards: "カード",
-  },
-
-  // PWA
-  pwa: {
-    updateAvailable: "アップデートが利用可能",
-    updateDescription: "アプリの新しいバージョンが利用可能です。最新の機能を利用するために今すぐアップデートしてください。",
-    updateNow: "今すぐアップデート",
-  },
-
-  // Landing Page
-  landing: {
-    header: {
-      navigation: {
-        about: "について",
-        pricing: "料金",
-        signIn: "サインイン",
-      },
-    },
-    hero: {
-      badge: "無料！",
-      title: "日本語を学ぼう",
-      subtitle: "楽しく学習！",
-      description: "ひらがな、カタカナ、漢字を効率的に学習。スペースドリピティションで確実に身につく！",
-      primaryCta: "今すぐ学習を始める",
-      secondaryCta: "すでにアカウントをお持ちの方",
-    },
-    mascots: {
-      sakura: "さくら",
-      matcha: "抹茶",
-      fuji: "富士",
-      torii: "鳥居",
-    },
-    features: {
-      personalizedLearning: {
-        title: "パーソナライズド学習",
-        description: "AIがあなたのペースと学習スタイルに合わせてレッスンを調整",
-      },
-      stayMotivated: {
-        title: "モチベーション維持",
-        description: "XPを獲得し、連続記録を維持し、実績を解除",
-      },
-      smartReview: {
-        title: "スマート復習システム",
-        description: "SRSアルゴリズムで最適なタイミングで復習",
-      },
-    },
-    stats: {
-      title: "数千人が日本語を学習中！",
-      activeLearners: {
-        number: "500万+",
-        label: "アクティブ学習者",
-      },
-      lessons: {
-        number: "1万+",
-        label: "レッスン",
-      },
-      successRate: {
-        number: "95%",
-        label: "成功率",
-      },
-    },
-    progressPreview: {
-      title: "あなたの学習の旅",
-      stage1: {
-        title: "ひらがな・カタカナ",
-        description: "2週間で基礎をマスター",
-      },
-      stage2: {
-        title: "基本漢字",
-        description: "記憶術で100以上の基本漢字を学習",
-      },
-      stage3: {
-        title: "上級漢字",
-        description: "流暢さのために1000以上の漢字をマスター",
-      },
-    },
-    finalCta: {
-      title: "旅を始める準備はできましたか？",
-      description: "無料で楽しく、1日たった5分！",
-      buttonText: "無料で旅を始める",
-    },
   },
 
   // Dashboard
@@ -858,11 +765,6 @@ export const strings = {
         title: "図書館",
         subtitle: "ライブラリー",
         description: "要約された本を読む"
-      },
-      flashcards: {
-        title: "Flashcards",
-        subtitle: "カード",
-        description: "復習セッション"
       },
       drill: {
         title: "Drill",
@@ -1786,15 +1688,6 @@ export const strings = {
       ends: "終了日",
       daysRemaining: "残り{{days}}日",
       willEndOn: "{{date}}に終了予定",
-    },
-    checkout: {
-      success: "🎉 プレミアムへようこそ！サブスクリプションを有効化しています...",
-      canceled: "チェックアウトがキャンセルされました。アカウント設定からいつでもアップグレードできます。",
-    },
-    errors: {
-      checkoutFailed: "チェックアウトの開始に失敗しました。もう一度お試しください。",
-      billingPortalFailed: "請求ポータルを開けませんでした。もう一度お試しください。",
-      cancelFailed: "サブスクリプションのキャンセルに失敗しました。もう一度お試しください。",
     },
     billing: {
       monthly: "月額",
@@ -2828,139 +2721,7 @@ export const strings = {
 
     // Additional missing translations
     minutes: "分",
-    cards: "カード",
-    currentStreak: "現在の連続記録",
-    retentionRate: "定着率",
-    cardsPerDay: "1日のカード数",
-    bestStudyTime: "最適学習時間",
-
-    achievements: {
-      viewAll: "すべての実績を表示",
-      title: "実績",
-      unlocked: "解除済み",
-      progress: "{{unlocked}}/{{total}} 解除済み",
-      totalXP: "総XP",
-      streak: "連続記録",
-      mastery: "習得",
-      speed: "スピード",
-      accuracy: "正確性",
-      volume: "ボリューム",
-      special: "特別"
-    },
-
-    dailyGoals: {
-      title: "デイリーゴール",
-      progress: "{{percentage}}% 完了",
-      cards: "カード",
-      time: "時間",
-      decks: "デッキ",
-      accuracy: "正答率",
-      congratulations: "おめでとうございます！",
-      keepItUp: "その調子で頑張って！",
-      allComplete: "すべてのゴール達成！",
-      customizeGoals: "ゴールをカスタマイズ",
-      cardsPerDay: "1日のカード数",
-      minutesPerDay: "1日の分数",
-      decksPerDay: "1日のデッキ数",
-      accuracyTarget: "正答率目標"
-    },
-
-    urgency: {
-      low: "低",
-      medium: "中",
-      high: "高"
-    },
-
-    // Tooltips
-    tooltips: {
-      srs: "最適な学習のための間隔反復を使用",
-      mastery: "90%以上の正答率で21日以上継続学習",
-      streak: "毎日学習して連続記録を維持",
-      difficulty: "このカードの理解度を評価",
-      leech: "このカードは追加練習が必要"
-    },
-
-    // Confirmations
-    confirmDelete: {
-      title: "デッキを削除",
-      message: "「{{name}}」を削除してもよろしいですか？この操作は元に戻せません。",
-      deck: "デッキ「{{name}}」を削除しますか？元に戻せません。",
-      card: "このカードを削除しますか？元に戻せません。",
-      progress: "進捗をリセットしますか？全ての統計がクリアされます。"
-    },
-
-    // Success messages
-    success: {
-      deckCreated: "デッキを作成しました",
-      deckUpdated: "デッキを更新しました",
-      deckDeleted: "デッキを削除しました",
-      cardAdded: "カードをデッキに追加",
-      cardUpdated: "カードを更新しました",
-      cardDeleted: "カードをデッキから削除",
-      progressSaved: "進捗を保存しました",
-      imported: "デッキをインポートしました",
-      exported: "デッキをエクスポートしました"
-    },
-
-    // セッション設定
-    settings: {
-      sessionLength: "セッション毎のカード数",
-      sessionLengthHint: "このセッションで学習するカード数を選択",
-      quickSettings: "クイック設定",
-      reviewMode: "復習モード",
-      sequential: "順番通り",
-      random: "ランダム",
-      smart: "スマート",
-      studyDirection: "学習方向",
-      frontToBack: "表 → 裏",
-      frontToBackDesc: "表面を最初に表示",
-      backToFront: "裏 → 表",
-      backToFrontDesc: "裏面を最初に表示",
-      mixed: "ミックス",
-      mixedDesc: "各カードでランダムな方向",
-      usingAllCards: "すべてのカードを使用"
-    },
-
-    // アクション
-    actions: {
-      syncAll: "すべて同期",
-      exportAll: "すべてエクスポート"
-    },
-
-    // 学習セッション
-    startSession: "セッションを開始",
-
-    // 統計
-    showStats: "統計を表示",
-    hideStats: "統計を隠す",
-    stats: {
-      mastered: "習得済み",
-      accuracy: "正確度",
-      streak: "現在の連続記録",
-      studyTime: "学習時間",
-      learningProgress: "学習進捗",
-      deckPerformance: "デッキのパフォーマンス",
-      insights: "学習インサイト",
-      velocity: "学習速度",
-      cardsPerHour: "カード/時間",
-      todayGoal: "今日の進捗",
-      bestStreak: "最長連続記録",
-      dueNow: "復習待ち",
-      days: "日",
-      total: "総カード数",
-      learning: "学習中",
-      complete: "完了",
-      progress: "進捗",
-      averageAccuracy: "平均正確度",
-      hoursMinutes: "{{hours}}時間{{minutes}}分",
-      minutes: "{{minutes}}分",
-      period: {
-        day: "今日",
-        week: "今週",
-        month: "今月",
-        all: "全期間"
-      }
-    }
+    cards: "カード"
   },
 
   conjugation: {
@@ -3638,6 +3399,9 @@ export const strings = {
 
   // PWA (Progressive Web App)
   pwa: {
+    updateAvailable: "アップデートが利用可能",
+    updateDescription: "アプリの新しいバージョンが利用可能です。最新の機能を利用するために今すぐアップデートしてください。",
+    updateNow: "今すぐアップデート",
     install: {
       title: "Moshimoshiをインストール",
       description: "より良い体験のためにアプリをインストールしてください",

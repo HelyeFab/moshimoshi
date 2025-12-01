@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDb, adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
+import { adminDb, adminFirestore, adminAuth, ensureAdminInitialized } from '@/lib/firebase/admin';
 import { validateSession } from '@/lib/auth/session';
 
 export async function GET(request: NextRequest) {
@@ -93,9 +93,9 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    // Check if database is initialized
-    if (!adminDb) {
-      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+    // Check if Firebase services are initialized
+    if (!adminDb || !adminAuth) {
+      return NextResponse.json({ error: 'Service not initialized' }, { status: 500 });
     }
 
     // Verify authentication
@@ -105,7 +105,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const decodedToken = await verifyIdToken(token);
+    const decodedToken = await adminAuth.verifyIdToken(token);
     
     // Check admin permission
     const userDoc = await adminDb.collection('users').doc(decodedToken.uid).get();

@@ -17,12 +17,20 @@ import {
   increment,
   serverTimestamp,
   deleteDoc,
-  Timestamp
+  Timestamp,
+  Firestore
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { Story, StoryProgress, StoryStats, StoryBookmark } from '@/types/story';
-import { JLPTLevel } from '@/types/aiStory';
-import { AIStoryDraft } from '@/types/ai-story';
+import { JLPTLevel, AIStoryDraft } from '@/types/ai-story';
+
+// Helper to get non-null db instance
+function getDb(): Firestore {
+  if (!db) {
+    throw new Error('Firestore database not initialized');
+  }
+  return db;
+}
 
 class StoryService {
   private readonly STORIES_COLLECTION = 'stories';
@@ -38,8 +46,8 @@ class StoryService {
    */
   async saveStory(story: Omit<Story, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
     try {
-      const storyId = story.slug || doc(collection(db, this.STORIES_COLLECTION)).id;
-      const storyRef = doc(db, this.STORIES_COLLECTION, storyId);
+      const storyId = story.slug || doc(collection(getDb(), this.STORIES_COLLECTION)).id;
+      const storyRef = doc(getDb(), this.STORIES_COLLECTION, storyId);
 
       const storyData = {
         ...story,
@@ -63,7 +71,7 @@ class StoryService {
    */
   async updateStory(storyId: string, updates: Partial<Story>): Promise<void> {
     try {
-      const storyRef = doc(db, this.STORIES_COLLECTION, storyId);
+      const storyRef = doc(getDb(), this.STORIES_COLLECTION, storyId);
       await updateDoc(storyRef, {
         ...updates,
         updatedAt: serverTimestamp()
@@ -79,7 +87,7 @@ class StoryService {
    */
   async getStory(storyId: string): Promise<Story | null> {
     try {
-      const storyRef = doc(db, this.STORIES_COLLECTION, storyId);
+      const storyRef = doc(getDb(), this.STORIES_COLLECTION, storyId);
       const storyDoc = await getDoc(storyRef);
 
       if (!storyDoc.exists()) {
@@ -100,7 +108,7 @@ class StoryService {
   async getStoryBySlug(slug: string): Promise<Story | null> {
     try {
       const q = query(
-        collection(db, this.STORIES_COLLECTION),
+        collection(getDb(), this.STORIES_COLLECTION),
         where('slug', '==', slug),
         limit(1)
       );
@@ -125,7 +133,7 @@ class StoryService {
   async getStoriesByLevel(level: JLPTLevel, limitCount: number = 20): Promise<Story[]> {
     try {
       const q = query(
-        collection(db, this.STORIES_COLLECTION),
+        collection(getDb(), this.STORIES_COLLECTION),
         where('jlptLevel', '==', level),
         where('status', '==', 'published'),
         orderBy('publishedAt', 'desc'),
@@ -148,7 +156,7 @@ class StoryService {
   async getAllStories(limitCount: number = 50): Promise<Story[]> {
     try {
       const q = query(
-        collection(db, this.STORIES_COLLECTION),
+        collection(getDb(), this.STORIES_COLLECTION),
         where('status', '==', 'published'),
         orderBy('publishedAt', 'desc'),
         limit(limitCount)
@@ -170,7 +178,7 @@ class StoryService {
   async getAdminStories(limitCount: number = 100): Promise<Story[]> {
     try {
       const q = query(
-        collection(db, this.STORIES_COLLECTION),
+        collection(getDb(), this.STORIES_COLLECTION),
         orderBy('updatedAt', 'desc'),
         limit(limitCount)
       );
@@ -190,7 +198,7 @@ class StoryService {
    */
   async deleteStory(storyId: string): Promise<void> {
     try {
-      const storyRef = doc(db, this.STORIES_COLLECTION, storyId);
+      const storyRef = doc(getDb(), this.STORIES_COLLECTION, storyId);
       await deleteDoc(storyRef);
     } catch (error) {
       console.error('Error deleting story:', error);
@@ -203,7 +211,7 @@ class StoryService {
    */
   async incrementViewCount(storyId: string): Promise<void> {
     try {
-      const storyRef = doc(db, this.STORIES_COLLECTION, storyId);
+      const storyRef = doc(getDb(), this.STORIES_COLLECTION, storyId);
       await updateDoc(storyRef, {
         viewCount: increment(1)
       });
@@ -220,7 +228,7 @@ class StoryService {
    */
   async getStoryProgress(userId: string, storyId: string): Promise<StoryProgress | null> {
     try {
-      const progressRef = doc(db, this.PROGRESS_COLLECTION, `${userId}_${storyId}`);
+      const progressRef = doc(getDb(), this.PROGRESS_COLLECTION, `${userId}_${storyId}`);
       const progressDoc = await getDoc(progressRef);
 
       if (!progressDoc.exists()) {
@@ -245,7 +253,7 @@ class StoryService {
    */
   async saveStoryProgress(progress: StoryProgress): Promise<void> {
     try {
-      const progressRef = doc(db, this.PROGRESS_COLLECTION, `${progress.userId}_${progress.storyId}`);
+      const progressRef = doc(getDb(), this.PROGRESS_COLLECTION, `${progress.userId}_${progress.storyId}`);
 
       // Filter out undefined values to avoid Firestore errors
       const cleanProgress: Record<string, any> = {};
@@ -271,7 +279,7 @@ class StoryService {
   async getUserStoryProgress(userId: string): Promise<StoryProgress[]> {
     try {
       const q = query(
-        collection(db, this.PROGRESS_COLLECTION),
+        collection(getDb(), this.PROGRESS_COLLECTION),
         where('userId', '==', userId),
         orderBy('lastReadAt', 'desc')
       );
@@ -299,8 +307,8 @@ class StoryService {
    */
   async addBookmark(bookmark: Omit<StoryBookmark, 'id' | 'bookmarkedAt' | 'updatedAt'>): Promise<string> {
     try {
-      const bookmarkId = doc(collection(db, this.BOOKMARKS_COLLECTION)).id;
-      const bookmarkRef = doc(db, this.BOOKMARKS_COLLECTION, bookmarkId);
+      const bookmarkId = doc(collection(getDb(), this.BOOKMARKS_COLLECTION)).id;
+      const bookmarkRef = doc(getDb(), this.BOOKMARKS_COLLECTION, bookmarkId);
 
       await setDoc(bookmarkRef, {
         ...bookmark,
@@ -322,7 +330,7 @@ class StoryService {
   async getUserBookmarks(userId: string): Promise<StoryBookmark[]> {
     try {
       const q = query(
-        collection(db, this.BOOKMARKS_COLLECTION),
+        collection(getDb(), this.BOOKMARKS_COLLECTION),
         where('userId', '==', userId),
         orderBy('bookmarkedAt', 'desc')
       );
@@ -348,7 +356,7 @@ class StoryService {
    */
   async removeBookmark(bookmarkId: string): Promise<void> {
     try {
-      const bookmarkRef = doc(db, this.BOOKMARKS_COLLECTION, bookmarkId);
+      const bookmarkRef = doc(getDb(), this.BOOKMARKS_COLLECTION, bookmarkId);
       await deleteDoc(bookmarkRef);
     } catch (error) {
       console.error('Error removing bookmark:', error);
@@ -363,8 +371,8 @@ class StoryService {
    */
   async saveAIDraft(draft: Omit<AIStoryDraft, 'id'>): Promise<string> {
     try {
-      const draftId = doc(collection(db, this.DRAFTS_COLLECTION)).id;
-      const draftRef = doc(db, this.DRAFTS_COLLECTION, draftId);
+      const draftId = doc(collection(getDb(), this.DRAFTS_COLLECTION)).id;
+      const draftRef = doc(getDb(), this.DRAFTS_COLLECTION, draftId);
 
       await setDoc(draftRef, {
         ...draft,
@@ -387,7 +395,7 @@ class StoryService {
    */
   async getAIDraft(draftId: string): Promise<AIStoryDraft | null> {
     try {
-      const draftRef = doc(db, this.DRAFTS_COLLECTION, draftId);
+      const draftRef = doc(getDb(), this.DRAFTS_COLLECTION, draftId);
       const draftDoc = await getDoc(draftRef);
 
       if (!draftDoc.exists()) {
@@ -414,7 +422,7 @@ class StoryService {
    */
   async updateAIDraftStatus(draftId: string, status: AIStoryDraft['status'], error?: string): Promise<void> {
     try {
-      const draftRef = doc(db, this.DRAFTS_COLLECTION, draftId);
+      const draftRef = doc(getDb(), this.DRAFTS_COLLECTION, draftId);
       const updates: any = { status };
       if (error) {
         updates.error = error;
@@ -433,7 +441,7 @@ class StoryService {
    */
   async getUserStoryStats(userId: string): Promise<StoryStats> {
     try {
-      const statsRef = doc(db, this.STATS_COLLECTION, userId);
+      const statsRef = doc(getDb(), this.STATS_COLLECTION, userId);
       const statsDoc = await getDoc(statsRef);
 
       if (!statsDoc.exists()) {
@@ -467,7 +475,7 @@ class StoryService {
    */
   async updateUserStoryStats(userId: string, updates: Partial<StoryStats>): Promise<void> {
     try {
-      const statsRef = doc(db, this.STATS_COLLECTION, userId);
+      const statsRef = doc(getDb(), this.STATS_COLLECTION, userId);
       await setDoc(statsRef, updates, { merge: true });
     } catch (error) {
       console.error('Error updating user story stats:', error);

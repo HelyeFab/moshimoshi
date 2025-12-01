@@ -430,13 +430,6 @@ export const strings = {
     cards: "cards",
   },
 
-  // PWA
-  pwa: {
-    updateAvailable: "Update available",
-    updateDescription: "A new version of the app is available. Update now for the latest features.",
-    updateNow: "Update Now",
-  },
-
   // Moodboards
   moodboards: {
     title: "Kanji Mood Boards",
@@ -620,274 +613,6 @@ export const strings = {
       scheduledReviews: "Scheduled reviews"
     },
     items: "items"
-  },
-
-  // Dashboard
-  dashboard: {
-    loading: "Loading your dashboard...",
-    stats: {
-      streak: {
-        label: "Streak",
-        unit: "days",
-      },
-      xpEarned: {
-        label: "XP Earned",
-        unit: "points",
-      },
-      progress: {
-        label: "Progress",
-        unit: "%",
-      },
-      achievements: {
-        label: "Achievements",
-        unit: "recent",
-      },
-      wordsLearned: {
-        label: "Words Learned",
-        unit: "words",
-      },
-      timeStudied: {
-        label: "Time Studied",
-        unit: "hours",
-      },
-    },
-    greetings: {
-      morning: {
-        japanese: "おはよう",
-        english: "Good morning",
-      },
-      afternoon: {
-        japanese: "こんにちは",
-        english: "Good afternoon",
-      },
-      evening: {
-        japanese: "こんばんは",
-        english: "Good evening",
-      },
-    },
-    navigation: {
-      userMenuAria: "User menu",
-      account: "Account",
-      settings: "Settings",
-      adminDashboard: "Admin Dashboard",
-      backToDashboard: "← Back to Dashboard",
-      dashboard: "Dashboard",
-      bottomNav: {
-        home: "Home",
-        review: "Review",
-        games: "Games",
-        cards: "Cards",
-        places: "Places",
-      },
-    },
-    welcome: {
-      firstVisit: "Welcome to your Japanese learning adventure! Doshi is here to guide you.",
-      returning: "Ready to continue your journey? Your dedication is inspiring!",
-      signoutToast: "Sayonara! See you soon! 👋",
-      doshiClick: "Doshi says: がんばって! (Good luck!)",
-    },
-    progress: {
-      dailyGoal: {
-        title: "Daily Goal",
-        tooltip: "Complete 30 minutes of study each day",
-        progressLabel: "Progress",
-        encouragement: "Keep going! You're {{percentage}}% there!",
-      },
-      achievement: {
-        title: "Latest Achievement",
-        earnedTime: "Earned {{time}} ago",
-      },
-    },
-    account: {
-      title: "Account Details",
-      upgradeTooltip: "Upgrade to Premium for unlimited lessons!",
-      upgradeLink: "Upgrade →",
-      fields: {
-        email: "Email",
-        memberSince: "Member Since",
-        emailStatus: "Email Status",
-      },
-      emailStatusValues: {
-        verified: "✓ Verified",
-        pending: "⚠ Pending Verification",
-      },
-      defaultMemberSince: "Recently joined",
-    },
-    developer: {
-      modeTitle: "Developer Mode",
-      authTestLink: "→ Auth Test Page",
-    },
-    statModals: {
-      close: "Got it!",
-      formulaLabel: "Formula",
-      breakdownLabel: "Breakdown",
-      howToImproveLabel: "How to improve",
-      availableBonusesLabel: "Available Bonuses",
-      masteryLevelsLabel: "Mastery Levels",
-      proTipLabel: "Pro tip",
-      streak: {
-        title: "Daily Streak",
-        description: "Your streak shows how many consecutive days you've practiced Japanese with meaningful engagement.",
-        formula: "Consecutive days with ≥10 XP earned",
-        whatItMeans: "Each day you earn at least 10 XP (completing 1+ correct answers in a drill), your streak increases by 1. Multiple sessions in the same day don't increase your streak further.",
-        howToImprove: "Practice every day! Even a short 5-minute session counts. Set a daily reminder and make Japanese practice part of your routine.",
-        breakdown: {
-          current: "Current streak",
-          longest: "Longest streak (all-time)",
-          lastActive: "Last activity",
-          minXP: "Minimum XP needed per day"
-        },
-        goalNote: "Build a 7-day streak to develop a strong learning habit!"
-      },
-      xpEarned: {
-        title: "XP Earned",
-        description: "Experience Points (XP) measure your learning activity and achievement. XP is earned through practice sessions with accuracy and speed bonuses.",
-        formula: "Base XP + Accuracy Bonus + Speed Bonus + Streak Bonus",
-        whatItMeans: "Every correct answer earns base XP (10 points). High accuracy (≥90%) and fast responses can double your XP through bonuses!",
-        howToImprove: "Focus on accuracy first, then speed! Complete full drill sessions, maintain high accuracy, and build streaks to maximize XP.",
-        breakdown: {
-          total: "Total XP earned",
-          currentLevel: "Current level",
-          nextLevel: "XP to next level",
-          dailyCap: "Daily XP cap"
-        },
-        bonuses: {
-          accuracy: "Accuracy bonus (≥90%): 2x XP",
-          speed: "Speed bonus (<2s avg): +10 XP",
-          streak: "Streak bonus (≥5): +3 XP per item"
-        },
-        goalNote: "Daily XP is capped at 500 to encourage balanced, sustainable practice."
-      },
-      achievementProgress: {
-        title: "Achievement Progress",
-        description: "Track your journey by unlocking achievements as you learn and practice Japanese.",
-        formula: "(Unlocked / Total) × 100",
-        whatItMeans: "This percentage shows how many achievements you've earned out of the total available.",
-        howToImprove: "Complete drills, maintain daily streaks, and practice regularly to unlock more achievements.",
-        breakdown: {
-          unlocked: "Unlocked achievements",
-          total: "Total available",
-          completion: "Completion rate"
-        }
-      },
-      achievements: {
-        title: "Achievements Unlocked",
-        description: "Achievements are rewards for reaching milestones in your learning journey. Each achievement represents a specific accomplishment.",
-        formula: "Count of unlocked achievements",
-        whatItMeans: "The total number of achievements you've earned through your practice and dedication.",
-        howToImprove: "Keep practicing! Complete drills, maintain streaks, reach accuracy goals, and practice at different times to unlock all 10 achievements.",
-        breakdown: {
-          unlocked: "Currently unlocked",
-          available: "Total available",
-          earnMore: "How to earn more"
-        },
-        tips: "Try Early Bird (practice before 6 AM) or Night Owl (practice after 10 PM) for easy achievements!"
-      },
-      drillsCompleted: {
-        title: "Drills Completed",
-        description: "Every drill session you complete helps build your Japanese conjugation skills. Quality matters more than quantity!",
-        formula: "Total finished drill sessions",
-        whatItMeans: "The number of complete drill sessions you've finished, regardless of score.",
-        howToImprove: "Practice regularly! Each session counts toward your total and helps build muscle memory for conjugations.",
-        breakdown: {
-          total: "Total drills",
-          perfect: "Perfect drills (100%)",
-          types: "Practice types"
-        }
-      },
-      drillAccuracy: {
-        title: "Drill Accuracy",
-        description: "Your accuracy reflects how well you understand Japanese verb conjugations across all your practice sessions.",
-        formula: "(Correct answers / Total answers) × 100",
-        whatItMeans: "The percentage of questions you've answered correctly across ALL drills. It's calculated cumulatively, so recent improvements will gradually raise your overall score.",
-        example: "Example: If you got 12 correct out of 15 total answers, your accuracy is 80%.",
-        howToImprove: "Focus on understanding patterns! Review conjugation rules, take your time with each question, and practice consistently.",
-        breakdown: {
-          current: "Current accuracy",
-          total: "Total drills completed",
-          goal: "Goal accuracy"
-        },
-        goalNote: "Aim for 80% or higher to show strong understanding!"
-      },
-      drillMastery: {
-        title: "Drill Mastery Score",
-        description: "Mastery is a comprehensive quality score (0-100) that measures not just how much you practice, but how well you practice.",
-        formula: "4-factor weighted calculation",
-        whatItMeans: "This score combines volume, accuracy, consistency, and perfect drill ratio to give you a complete picture of your mastery level.",
-        factors: "The four factors",
-        howToImprove: "Balance is key! Practice regularly (volume), focus on accuracy, aim for perfect sessions, and maintain consistency.",
-        breakdown: {
-          volume: "Volume (30 pts max)",
-          volumeDetail: "Based on total drills completed",
-          accuracy: "Accuracy (40 pts max)",
-          accuracyDetail: "Based on your % correct",
-          perfectRatio: "Perfect Ratio (20 pts)",
-          perfectDetail: "100% accurate sessions",
-          consistency: "Consistency (10 pts)",
-          consistencyDetail: "Regular practice pattern",
-          total: "Total Mastery Score"
-        },
-        masterLevels: {
-          beginner: "0-30: Beginner - Keep practicing!",
-          developing: "31-60: Developing - You're improving!",
-          proficient: "61-80: Proficient - Great work!",
-          expert: "81-100: Expert - Outstanding!"
-        }
-      },
-      learningProgress: {
-        title: "Learning Progress",
-        description: "Your overall progress across all learning categories (drills, kana, kanji, vocabulary).",
-        formula: "(Items mastered / Items started) × 100",
-        whatItMeans: "This shows the quality of your learning, not just quantity. Only items you've actually practiced count toward your progress.",
-        howToImprove: "Master what you've started! Focus on bringing incomplete items to mastery before starting new ones.",
-        breakdown: {
-          percentage: "Overall progress",
-          categoriesStarted: "Categories active",
-          itemsMastered: "Items mastered"
-        }
-      },
-      videosPracticed: {
-        title: "Videos Practiced",
-        description: "The total number of unique YouTube videos you've accessed for shadowing practice.",
-        formula: "Count of unique videos loaded",
-        whatItMeans: "Each new video you load for shadowing practice counts toward this total. Revisiting the same video doesn't increase the count.",
-        howToImprove: "Explore different videos to practice with various speakers, topics, and speech patterns!",
-        breakdown: {
-          total: "Total videos accessed",
-          thisWeek: "Videos this week",
-          quotaInfo: "Quota information"
-        },
-        goalNote: "Practicing with diverse content improves your listening comprehension!"
-      },
-      videosRemaining: {
-        title: "Videos Remaining",
-        description: "The number of new videos you can load today based on your daily quota.",
-        formula: "Daily limit − Videos loaded today",
-        whatItMeans: "Your daily quota resets at midnight UTC. Previously accessed videos can be practiced unlimited times without using quota.",
-        howToImprove: "Upgrade to Premium for 20 videos per day, or revisit your favorite videos for free unlimited practice!",
-        breakdown: {
-          remaining: "Remaining today",
-          limit: "Daily limit",
-          used: "Used today",
-          resetTime: "Resets at"
-        },
-        goalNote: "Free users get 3 new videos daily, Premium users get 20!"
-      },
-      watchTime: {
-        title: "Watch Time",
-        description: "The total time you've spent actively practicing with YouTube shadowing videos.",
-        formula: "Sum of all practice session durations",
-        whatItMeans: "Time is tracked during actual practice sessions. This measures your consistent engagement with shadowing practice.",
-        howToImprove: "Practice regularly! Even 10-15 minutes daily builds strong listening and pronunciation skills.",
-        breakdown: {
-          total: "Total watch time",
-          thisWeek: "This week",
-          thisMonth: "This month",
-          avgPerSession: "Average per session"
-        },
-        goalNote: "Aim for at least 30 minutes of shadowing practice per week!"
-      }
-    }
   },
 
   // Auth Pages
@@ -1746,7 +1471,6 @@ export const strings = {
     upgradeForMore: "Upgrade to Premium for more questions per session",
 
     // Messages
-    limitReached: "Daily drill limit reached",
     startError: "Failed to start drill. Please try again.",
 
     // Conjugation forms
@@ -2587,11 +2311,6 @@ export const strings = {
         subtitle: "ビデオ",
         description: "Your saved videos"
       },
-      flashcards: {
-        title: "Flashcards",
-        subtitle: "フラッシュカード",
-        description: "Create and study flashcard decks"
-      },
       drill: {
         title: "Drill",
         subtitle: "ドリル",
@@ -2670,7 +2389,208 @@ export const strings = {
       upgrade: "Upgrade"
     },
     developerMode: "Developer Mode",
-    authTestPage: "Auth Test Page"
+    authTestPage: "Auth Test Page",
+    loading: "Loading your dashboard...",
+    greetings: {
+      morning: {
+        japanese: "おはよう",
+        english: "Good morning",
+      },
+      afternoon: {
+        japanese: "こんにちは",
+        english: "Good afternoon",
+      },
+      evening: {
+        japanese: "こんばんは",
+        english: "Good evening",
+      },
+    },
+    navigation: {
+      userMenuAria: "User menu",
+      account: "Account",
+      settings: "Settings",
+      adminDashboard: "Admin Dashboard",
+      backToDashboard: "← Back to Dashboard",
+      dashboard: "Dashboard",
+      bottomNav: {
+        home: "Home",
+        review: "Review",
+        games: "Games",
+        cards: "Cards",
+        places: "Places",
+      },
+    },
+    statModals: {
+      close: "Got it!",
+      formulaLabel: "Formula",
+      breakdownLabel: "Breakdown",
+      howToImproveLabel: "How to improve",
+      availableBonusesLabel: "Available Bonuses",
+      masteryLevelsLabel: "Mastery Levels",
+      proTipLabel: "Pro tip",
+      streak: {
+        title: "Daily Streak",
+        description: "Your streak shows how many consecutive days you've practiced Japanese with meaningful engagement.",
+        formula: "Consecutive days with ≥10 XP earned",
+        whatItMeans: "Each day you earn at least 10 XP (completing 1+ correct answers in a drill), your streak increases by 1. Multiple sessions in the same day don't increase your streak further.",
+        howToImprove: "Practice every day! Even a short 5-minute session counts. Set a daily reminder and make Japanese practice part of your routine.",
+        breakdown: {
+          current: "Current streak",
+          longest: "Longest streak (all-time)",
+          lastActive: "Last activity",
+          minXP: "Minimum XP needed per day"
+        },
+        goalNote: "Build a 7-day streak to develop a strong learning habit!"
+      },
+      xpEarned: {
+        title: "XP Earned",
+        description: "Experience Points (XP) measure your learning activity and achievement. XP is earned through practice sessions with accuracy and speed bonuses.",
+        formula: "Base XP + Accuracy Bonus + Speed Bonus + Streak Bonus",
+        whatItMeans: "Every correct answer earns base XP (10 points). High accuracy (≥90%) and fast responses can double your XP through bonuses!",
+        howToImprove: "Focus on accuracy first, then speed! Complete full drill sessions, maintain high accuracy, and build streaks to maximize XP.",
+        breakdown: {
+          total: "Total XP earned",
+          currentLevel: "Current level",
+          nextLevel: "XP to next level",
+          dailyCap: "Daily XP cap"
+        },
+        bonuses: {
+          accuracy: "Accuracy bonus (≥90%): 2x XP",
+          speed: "Speed bonus (<2s avg): +10 XP",
+          streak: "Streak bonus (≥5): +3 XP per item"
+        },
+        goalNote: "Daily XP is capped at 500 to encourage balanced, sustainable practice."
+      },
+      achievementProgress: {
+        title: "Achievement Progress",
+        description: "Track your journey by unlocking achievements as you learn and practice Japanese.",
+        formula: "(Unlocked / Total) × 100",
+        whatItMeans: "This percentage shows how many achievements you've earned out of the total available.",
+        howToImprove: "Complete drills, maintain daily streaks, and practice regularly to unlock more achievements.",
+        breakdown: {
+          unlocked: "Unlocked achievements",
+          total: "Total available",
+          completion: "Completion rate"
+        }
+      },
+      achievements: {
+        title: "Achievements Unlocked",
+        description: "Achievements are rewards for reaching milestones in your learning journey. Each achievement represents a specific accomplishment.",
+        formula: "Count of unlocked achievements",
+        whatItMeans: "The total number of achievements you've earned through your practice and dedication.",
+        howToImprove: "Keep practicing! Complete drills, maintain streaks, reach accuracy goals, and practice at different times to unlock all 10 achievements.",
+        breakdown: {
+          unlocked: "Currently unlocked",
+          available: "Total available",
+          earnMore: "How to earn more"
+        },
+        tips: "Try Early Bird (practice before 6 AM) or Night Owl (practice after 10 PM) for easy achievements!"
+      },
+      drillsCompleted: {
+        title: "Drills Completed",
+        description: "Every drill session you complete helps build your Japanese conjugation skills. Quality matters more than quantity!",
+        formula: "Total finished drill sessions",
+        whatItMeans: "The number of complete drill sessions you've finished, regardless of score.",
+        howToImprove: "Practice regularly! Each session counts toward your total and helps build muscle memory for conjugations.",
+        breakdown: {
+          total: "Total drills",
+          perfect: "Perfect drills (100%)",
+          types: "Practice types"
+        }
+      },
+      drillAccuracy: {
+        title: "Drill Accuracy",
+        description: "Your accuracy reflects how well you understand Japanese verb conjugations across all your practice sessions.",
+        formula: "(Correct answers / Total answers) × 100",
+        whatItMeans: "The percentage of questions you've answered correctly across ALL drills. It's calculated cumulatively, so recent improvements will gradually raise your overall score.",
+        example: "Example: If you got 12 correct out of 15 total answers, your accuracy is 80%.",
+        howToImprove: "Focus on understanding patterns! Review conjugation rules, take your time with each question, and practice consistently.",
+        breakdown: {
+          current: "Current accuracy",
+          total: "Total drills completed",
+          goal: "Goal accuracy"
+        },
+        goalNote: "Aim for 80% or higher to show strong understanding!"
+      },
+      drillMastery: {
+        title: "Drill Mastery Score",
+        description: "Mastery is a comprehensive quality score (0-100) that measures not just how much you practice, but how well you practice.",
+        formula: "4-factor weighted calculation",
+        whatItMeans: "This score combines volume, accuracy, consistency, and perfect drill ratio to give you a complete picture of your mastery level.",
+        factors: "The four factors",
+        howToImprove: "Balance is key! Practice regularly (volume), focus on accuracy, aim for perfect sessions, and maintain consistency.",
+        breakdown: {
+          volume: "Volume (30 pts max)",
+          volumeDetail: "Based on total drills completed",
+          accuracy: "Accuracy (40 pts max)",
+          accuracyDetail: "Based on your % correct",
+          perfectRatio: "Perfect Ratio (20 pts)",
+          perfectDetail: "100% accurate sessions",
+          consistency: "Consistency (10 pts)",
+          consistencyDetail: "Regular practice pattern",
+          total: "Total Mastery Score"
+        },
+        masterLevels: {
+          beginner: "0-30: Beginner - Keep practicing!",
+          developing: "31-60: Developing - You're improving!",
+          proficient: "61-80: Proficient - Great work!",
+          expert: "81-100: Expert - Outstanding!"
+        }
+      },
+      learningProgress: {
+        title: "Learning Progress",
+        description: "Your overall progress across all learning categories (drills, kana, kanji, vocabulary).",
+        formula: "(Items mastered / Items started) × 100",
+        whatItMeans: "This shows the quality of your learning, not just quantity. Only items you've actually practiced count toward your progress.",
+        howToImprove: "Master what you've started! Focus on bringing incomplete items to mastery before starting new ones.",
+        breakdown: {
+          percentage: "Overall progress",
+          categoriesStarted: "Categories active",
+          itemsMastered: "Items mastered"
+        }
+      },
+      videosPracticed: {
+        title: "Videos Practiced",
+        description: "The total number of unique YouTube videos you've accessed for shadowing practice.",
+        formula: "Count of unique videos loaded",
+        whatItMeans: "Each new video you load for shadowing practice counts toward this total. Revisiting the same video doesn't increase the count.",
+        howToImprove: "Explore different videos to practice with various speakers, topics, and speech patterns!",
+        breakdown: {
+          total: "Total videos accessed",
+          thisWeek: "Videos this week",
+          quotaInfo: "Quota information"
+        },
+        goalNote: "Practicing with diverse content improves your listening comprehension!"
+      },
+      videosRemaining: {
+        title: "Videos Remaining",
+        description: "The number of new videos you can load today based on your daily quota.",
+        formula: "Daily limit − Videos loaded today",
+        whatItMeans: "Your daily quota resets at midnight UTC. Previously accessed videos can be practiced unlimited times without using quota.",
+        howToImprove: "Upgrade to Premium for 20 videos per day, or revisit your favorite videos for free unlimited practice!",
+        breakdown: {
+          remaining: "Remaining today",
+          limit: "Daily limit",
+          used: "Used today",
+          resetTime: "Resets at"
+        },
+        goalNote: "Free users get 3 new videos daily, Premium users get 20!"
+      },
+      watchTime: {
+        title: "Watch Time",
+        description: "The total time you've spent actively practicing with YouTube shadowing videos.",
+        formula: "Sum of all practice session durations",
+        whatItMeans: "Time is tracked during actual practice sessions. This measures your consistent engagement with shadowing practice.",
+        howToImprove: "Practice regularly! Even 10-15 minutes daily builds strong listening and pronunciation skills.",
+        breakdown: {
+          total: "Total watch time",
+          thisWeek: "This week",
+          thisMonth: "This month",
+          avgPerSession: "Average per session"
+        },
+        goalNote: "Aim for at least 30 minutes of shadowing practice per week!"
+      }
+    }
   },
 
   // Learn Section
@@ -2698,14 +2618,6 @@ export const strings = {
     katakana: "Katakana",
     combined: "Combined Practice",
     combinedPractice: "Combined Practice",
-
-    filters: {
-      filterByType: "Filter by Type",
-      display: "Display",
-      showLearned: "Show Learned",
-      showNotStarted: "Show Not Started",
-      scriptType: "Script Type",
-    },
 
     navigation: {
       backToGrid: "Back to Characters",
@@ -2807,9 +2719,6 @@ export const strings = {
       errorOccurred: "Oops! Something went wrong",
       goBack: "Go Back",
       offlineMode: "Offline Mode",
-      skip: "Skip",
-      showAnswer: "Show Answer",
-      hint: "Hint",
 
       // Modes
       modes: {
@@ -2968,6 +2877,7 @@ export const strings = {
       alphabetical: "Alphabetical",
       difficulty: "Difficulty",
       progress: "Progress",
+      scriptType: "Script Type",
     },
 
     tooltips: {
@@ -3942,18 +3852,6 @@ export const strings = {
     learningCards: "Learning",
     reviewCards: "Review",
 
-    // Statistics
-    stats: {
-      title: "Statistics",
-      todayStudied: "Studied today",
-      totalStudied: "Total studied",
-      averageAccuracy: "Average accuracy",
-      studyStreak: "Study streak",
-      timeSpent: "Time spent",
-      heatmap: "Study Heatmap",
-      retention: "Retention rate"
-    },
-
     // Customization
     customize: {
       title: "Customize Cards",
@@ -4098,54 +3996,6 @@ export const strings = {
     minutes: "minutes",
     cards: "cards",
 
-    // Missing translations for flashcards page
-    optimalSettings: "Optimal Settings",
-    sessionLength: "Session Length",
-    studyTime: "Study Time",
-    learningInsights: "Learning Insights",
-    recommendedStudy: "Recommended Study",
-    currentStreak: "Current Streak",
-    retentionRate: "Retention Rate",
-    cardsPerDay: "Cards Per Day",
-    bestStudyTime: "Best Study Time",
-
-    achievements: {
-      viewAll: "View All Achievements",
-      title: "Achievements",
-      unlocked: "Unlocked",
-      progress: "{{unlocked}}/{{total}} unlocked",
-      totalXP: "Total XP",
-      streak: "Streak",
-      mastery: "Mastery",
-      speed: "Speed",
-      accuracy: "Accuracy",
-      volume: "Volume",
-      special: "Special"
-    },
-
-    dailyGoals: {
-      title: "Daily Goals",
-      progress: "{{percentage}}% complete",
-      cards: "Cards",
-      time: "Time",
-      decks: "Decks",
-      accuracy: "Accuracy",
-      congratulations: "Congratulations!",
-      keepItUp: "Keep up the great work!",
-      allComplete: "All goals completed!",
-      customizeGoals: "Customize Goals",
-      cardsPerDay: "Cards per day",
-      minutesPerDay: "Minutes per day",
-      decksPerDay: "Decks per day",
-      accuracyTarget: "Accuracy target"
-    },
-
-    urgency: {
-      low: "Low",
-      medium: "Medium",
-      high: "High"
-    },
-
     // Sync
     syncToCloud: "Sync to Cloud",
 
@@ -4212,6 +4062,7 @@ export const strings = {
     showStats: "Show Statistics",
     hideStats: "Hide Statistics",
     stats: {
+      title: "Statistics",
       mastered: "Mastered",
       accuracy: "Accuracy",
       streak: "Current Streak",
@@ -4232,6 +4083,12 @@ export const strings = {
       averageAccuracy: "Average Accuracy",
       hoursMinutes: "{{hours}}h {{minutes}}m",
       minutes: "{{minutes}} minutes",
+      todayStudied: "Studied today",
+      totalStudied: "Total studied",
+      studyStreak: "Study streak",
+      timeSpent: "Time spent",
+      heatmap: "Study Heatmap",
+      retention: "Retention rate",
       period: {
         day: "Today",
         week: "This Week",
@@ -4433,6 +4290,201 @@ export const strings = {
       practiceConjugation: "Practice this conjugation",
       complete: "Complete Review",
       noWords: "No words selected for review"
+    }
+  },
+
+  // Settings Page
+  settings: {
+    title: "Settings",
+    subtitle: "Customize your learning experience",
+    backToDashboard: "← Back to Dashboard",
+    saveButton: "Save All Settings",
+    resetButton: "Reset all settings to default",
+    resetConfirm: "Are you sure you want to reset all settings to default?",
+    saveSuccess: "Settings saved successfully!",
+    resetSuccess: "Settings reset to default",
+    reviewNotifications: "Review Notifications",
+
+    sections: {
+      appearance: {
+        title: "Appearance",
+        language: {
+          label: "Language / 言語 / Langue / Lingua / Sprache / Idioma"
+        },
+        theme: {
+          label: "Theme",
+          light: "Light",
+          dark: "Dark",
+          system: "System"
+        },
+        colorPalette: {
+          label: "Color Palette",
+          preview: "Preview:",
+          primary: "Primary",
+          secondary: "Secondary",
+          palettes: {
+            sakura: "Sakura",
+            ocean: "Ocean",
+            matcha: "Matcha",
+            sunset: "Sunset",
+            lavender: "Lavender",
+            monochrome: "Monochrome"
+          }
+        }
+      },
+
+      learning: {
+        title: "Learning Settings",
+        autoplay: {
+          label: "Auto-play Audio",
+          description: "Automatically play pronunciation when viewing words"
+        },
+        furigana: {
+          label: "Show Furigana",
+          description: "Display reading hints above kanji characters"
+        },
+        romaji: {
+          label: "Show Romaji",
+          description: "Display romanized Japanese text"
+        },
+        soundEffects: {
+          label: "Sound Effects",
+          description: "Play sounds for correct/incorrect answers"
+        },
+        hapticFeedback: {
+          label: "Haptic Feedback",
+          description: "Vibration feedback on mobile devices"
+        }
+      },
+
+      notifications: {
+        title: "Notifications",
+        dailyReminder: {
+          label: "Daily Study Reminder",
+          description: "Get reminded to practice every day"
+        },
+        achievementAlerts: {
+          label: "Achievement Alerts",
+          description: "Celebrate when you unlock achievements"
+        },
+        weeklyProgress: {
+          label: "Weekly Progress Report",
+          description: "Receive a summary of your weekly progress"
+        },
+        marketingEmails: {
+          label: "Marketing Emails",
+          description: "Updates about new features and content"
+        },
+        channels: {
+          title: "Notification Channels",
+          browser: {
+            label: "Browser Notifications",
+            description: "Desktop notifications when reviews are due"
+          },
+          inApp: {
+            label: "In-App Notifications",
+            description: "Toast notifications while using the app"
+          },
+          push: {
+            label: "Push Notifications",
+            description: "Mobile notifications (requires app installation)"
+          }
+        },
+        timing: {
+          title: "Timing Settings",
+          immediate: {
+            label: "Immediate Reviews",
+            description: "Notify for 10-minute and 30-minute reviews"
+          },
+          daily: {
+            label: "Daily Summary",
+            description: "Receive a daily summary of due reviews"
+          }
+        },
+        quietHours: {
+          title: "Quiet Hours",
+          enable: "Enable Quiet Hours",
+          description: "No notifications during specified times",
+          start: "Start Time",
+          end: "End Time"
+        },
+        saveSuccess: "Notification settings saved",
+        saveError: "Failed to save settings",
+        browserNotSupported: "Browser notifications not supported",
+        browserEnabled: "Browser notifications enabled",
+        browserDenied: "Browser notifications blocked. Please enable in browser settings.",
+        enableBrowserFirst: "Please enable browser notifications first",
+        blocked: "Blocked",
+        testNotification: "Test Notification",
+        test: {
+          title: "Test Notification",
+          body: "This is a test of your notification settings"
+        }
+      },
+
+      privacy: {
+        title: "Privacy",
+        publicProfile: {
+          label: "Public Profile",
+          description: "Allow others to view your profile"
+        },
+        showProgress: {
+          label: "Show Progress",
+          description: "Display your learning progress on your profile"
+        },
+        shareAchievements: {
+          label: "Share Achievements",
+          description: "Automatically share achievements with friends"
+        },
+        hideFromLeaderboard: {
+          label: "Hide from Leaderboard",
+          description: "Opt out of appearing in public leaderboard rankings"
+        }
+      },
+
+      accessibility: {
+        title: "Accessibility",
+        largeText: {
+          label: "Large Text",
+          description: "Increase text size for better readability"
+        },
+        highContrast: {
+          label: "High Contrast",
+          description: "Increase color contrast for visibility"
+        },
+        reduceMotion: {
+          label: "Reduce Motion",
+          description: "Minimize animations and transitions"
+        },
+        screenReader: {
+          label: "Screen Reader Support",
+          description: "Optimize for screen reader compatibility"
+        }
+      },
+
+      legal: {
+        title: "Legal & Support",
+        privacyPolicy: {
+          label: "Privacy Policy",
+          description: "How we handle your data"
+        },
+        termsOfService: {
+          label: "Terms of Service",
+          description: "Our terms and conditions"
+        },
+        credits: {
+          label: "Credits & Acknowledgments",
+          description: "Open source libraries and data sources"
+        },
+        contactUs: {
+          label: "Contact Us",
+          description: "Get help or send feedback"
+        },
+        emailSupport: {
+          label: "Email Support",
+          description: "support@moshimoshi.app"
+        }
+      }
     }
   },
 
@@ -4788,6 +4840,9 @@ export const strings = {
 
   // PWA (Progressive Web App)
   pwa: {
+    updateAvailable: "Update available",
+    updateDescription: "A new version of the app is available. Update now for the latest features.",
+    updateNow: "Update Now",
     install: {
       title: "Install Moshimoshi",
       description: "Install the app for a better experience",

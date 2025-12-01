@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     // 1. Auth check
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return NextResponse.json<BreakStreakErrorResult>(
+      return NextResponse.json<ErrorResult>(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
       )
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
 
     // 3. Run transaction
     if (!db) {
-      return NextResponse.json<BreakStreakErrorResult>(
+      return NextResponse.json<ErrorResult>(
         {
           success: false,
           error: 'Database not initialized'
@@ -138,10 +138,8 @@ export async function POST(req: NextRequest) {
 
     logger.info('[Streak Break] Result:', { userId, ...result })
 
-    return NextResponse.json({
-      success: true,
-      ...result
-    })
+    // Note: result already contains success: true from the typed return values
+    return NextResponse.json(result)
 
   } catch (error) {
     logger.error('[Streak Break] Error:', error)

@@ -400,12 +400,13 @@ export class NotificationService {
   private async getDocument(...path: string[]): Promise<any> {
     if (typeof window === 'undefined' && adminDb) {
       const docRef = adminDb.doc(path.join('/'))
-      const doc = await docRef.get()
-      return doc.exists ? doc.data() : null
+      const docSnapshot = await docRef.get()
+      return docSnapshot.exists ? docSnapshot.data() : null
     }
 
     if (db) {
-      const docRef = doc(db, ...path)
+      // Use path.join('/') for a single path string, consistent with admin SDK
+      const docRef = doc(db, path.join('/'))
       const docSnap = await getDoc(docRef)
       return docSnap.exists() ? docSnap.data() : null
     }

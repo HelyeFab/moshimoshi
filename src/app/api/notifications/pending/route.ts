@@ -19,7 +19,11 @@ export async function GET(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
-    const userId = user.id
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 })
+    }
+
+    const userId = user.uid
     const now = admin.firestore.Timestamp.now()
 
     // Query pending notifications that are due
@@ -133,6 +137,10 @@ export async function POST(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 })
+    }
+
     const body = await request.json()
     const { notificationIds, status, error } = body
 
@@ -187,7 +195,7 @@ export async function POST(request: NextRequest) {
 
     // Log the update
     await adminDb.collection('notifications_log').add({
-      userId: user.id,
+      userId: user.uid,
       action: 'batch_update',
       notificationIds,
       status,
@@ -217,10 +225,14 @@ export async function DELETE(request: NextRequest) {
     const { user, response: authError } = await requireAuth(request)
     if (authError) return authError
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 })
+    }
+
     const { searchParams } = new URL(request.url)
     const clearType = searchParams.get('type') || 'sent' // 'sent', 'failed', 'old', 'all'
 
-    const userId = user.id
+    const userId = user.uid
     let query = adminDb
       .collection('notifications_queue')
       .where('userId', '==', userId)

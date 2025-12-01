@@ -6,6 +6,24 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
+import type { QueryDocumentSnapshot } from 'firebase-admin/firestore'
+
+/**
+ * Backup list item returned from API
+ */
+interface BackupListItem {
+  id: string
+  type: string
+  status: string
+  triggeredBy: string
+  reason: string
+  collections: string[]
+  exportPath: string
+  startedAt: string
+  completedAt: string | null
+  error: string | null
+  duration: string | null
+}
 
 /**
  * GET /api/admin/backup/list
@@ -18,6 +36,15 @@ import { adminDb } from '@/lib/firebase/admin'
  */
 export async function GET(request: NextRequest) {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      console.error('[Backup List] Firebase Admin DB not initialized')
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 503 }
+      )
+    }
+
     // 1. Authenticate and check admin
     const session = await requireAuth()
 
@@ -56,19 +83,19 @@ export async function GET(request: NextRequest) {
     // 4. Execute query
     const snapshot = await query.get()
 
-    const backups = snapshot.docs.map(doc => {
+    const backups: BackupListItem[] = snapshot.docs.map((doc: QueryDocumentSnapshot) => {
       const data = doc.data()
       return {
         id: doc.id,
-        type: data.type,
-        status: data.status,
-        triggeredBy: data.triggeredByEmail || data.triggeredBy,
-        reason: data.reason,
-        collections: data.collections,
-        exportPath: data.exportPath,
-        startedAt: data.startedAt,
-        completedAt: data.completedAt,
-        error: data.error,
+        type: data.type ?? 'unknown',
+        status: data.status ?? 'unknown',
+        triggeredBy: data.triggeredByEmail || data.triggeredBy || 'unknown',
+        reason: data.reason ?? '',
+        collections: data.collections ?? [],
+        exportPath: data.exportPath ?? '',
+        startedAt: data.startedAt ?? '',
+        completedAt: data.completedAt ?? null,
+        error: data.error ?? null,
         duration: data.completedAt && data.startedAt
           ? calculateDuration(data.startedAt, data.completedAt)
           : null,

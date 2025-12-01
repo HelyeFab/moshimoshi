@@ -22,19 +22,20 @@ export default function PricingComparison() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
 
   // Get pricing comparison strings with fallback
-  const pricingStrings = strings?.pricing?.pricingComparison || {}
+  // Use type assertion to preserve structure when accessing nested i18n keys
+  const pricingStrings = (strings?.pricing?.pricingComparison ?? {}) as NonNullable<typeof strings.pricing.pricingComparison>
   const {
     badge = "ALL FEATURES COMBINED",
     title = "One App, Every Feature",
     subtitle = "Why pay for multiple apps? Moshimoshi combines all premium features from leading Japanese learning apps at a fraction of the cost.",
     compareTitle = "Compare with Other Apps",
-    competitors: competitorStrings = {},
+    competitors: competitorStrings = {} as NonNullable<typeof pricingStrings.competitors>,
     missingLabel = "Missing:",
     moreMissing = "+ more missing...",
-    costComparison = {},
-    moshimoshiPricing = {},
-    allFeatures = {},
-    bottomCta = {}
+    costComparison = {} as NonNullable<typeof pricingStrings.costComparison>,
+    moshimoshiPricing = {} as NonNullable<typeof pricingStrings.moshimoshiPricing>,
+    allFeatures = {} as NonNullable<typeof pricingStrings.allFeatures>,
+    bottomCta = {} as NonNullable<typeof pricingStrings.bottomCta>
   } = pricingStrings
 
   // Competitor apps with their features and actual logos

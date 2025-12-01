@@ -41,6 +41,10 @@ export interface EvalContext {
     id?: string;
     dailyCaps?: Partial<Record<FeatureId, number>>;
   };
+  /** Optional: Simulate evaluation at a different date (admin use) */
+  simulateDate?: Date;
+  /** Optional: Skip logging for simulation purposes */
+  skipLogging?: boolean;
 }
 
 export interface Decision {
@@ -94,4 +98,36 @@ export interface EntitlementLog {
   reason: DecisionReason;
   policyVersion: number;
   idempotencyKey?: string;
+}
+
+/**
+ * Feature override for a specific user/feature
+ * Allows admins to grant/restrict access beyond normal plan limits
+ */
+export interface FeatureOverride {
+  id: string;
+  featureId: FeatureId;
+  setBy: string;
+  limit?: number | null;
+  allow?: boolean | null;
+  note?: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  expiresAt?: any; // Firestore Timestamp or Date
+  active: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createdAt: any; // Firestore Timestamp or Date
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updatedAt: any; // Firestore Timestamp or Date
+}
+
+/**
+ * Log entry for override actions
+ */
+export interface OverrideLog {
+  userId: string;
+  featureId: FeatureId;
+  action: 'SET' | 'REMOVE';
+  override: Partial<FeatureOverride>;
+  adminId: string;
+  timestamp: Date;
 }

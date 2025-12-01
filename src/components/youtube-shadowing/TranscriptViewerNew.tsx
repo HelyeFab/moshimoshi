@@ -49,7 +49,7 @@ interface TranscriptData {
   segments?: TranscriptLine[];
   language?: string;
   availableLanguages?: string[];
-  source?: 'firebase-cache' | 'youtubei-enhanced' | 'youtubei-standard' | 'supa-api';
+  source?: 'firebase-cache' | 'youtubei-enhanced' | 'youtubei-standard' | 'supa-api' | 'provided';
   cached?: boolean;
   totalSegments?: number;
   totalDuration?: number;

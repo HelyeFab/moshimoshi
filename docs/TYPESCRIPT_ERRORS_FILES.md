@@ -1,8 +1,9 @@
 # TypeScript Error Files
 
 **Generated:** 2025-11-30
-**Last Updated:** 2025-11-30
-**Total Files with Errors:** 386 (excluding test files)
+**Last Updated:** 2025-12-01
+**Total Errors:** ~1759 (excluding test files and .next/types generated)
+**Total Files with Errors:** ~310 (excluding test files)
 
 This document lists all files that would produce TypeScript errors if `ignoreBuildErrors` is set to `false` in `next.config.ts`.
 
@@ -52,92 +53,120 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 | `src/app/api/resources/related/route.ts` | 2025-11-30 | Added adminDb null check |
 | `src/lib/api/storage-helper.ts` | 2025-11-30 | Added adminDb null check |
 | `src/lib/monitoring/firebase-tracker.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/admin/backup/status/route.ts` | 2025-11-30 | Added adminDb null check, BackupHistoryRecord interface, Long type handling |
+| `src/app/api/admin/backup/trigger/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/admin/backup/list/route.ts` | 2025-11-30 | Added adminDb null check, BackupListItem interface |
+| `src/app/api/admin/backup/check-status/route.ts` | 2025-11-30 | Added adminDb null check, BackupRecord type, GetOperationRequest type assertion |
+| `src/types/admin.ts` | 2025-11-30 | Added BackupRecord, BackupListItem, BackupStatus, BackupType types |
+| `src/lib/notifications/push/ServiceWorkerManager.ts` | 2025-11-30 | Captured controller reference for TypeScript narrowing in callback |
+| `src/lib/notifications/utils/TimerManager.ts` | 2025-11-30 | Renamed isDestroyed property to _isDestroyed (duplicate identifier) |
+| `src/lib/notifications/utils/sanitizer.ts` | 2025-11-30 | Added explicit types to forEach callback parameters |
+| `src/lib/notifications/utils/RateLimiter.ts` | 2025-11-30 | Split merge vs create logic in updateConfig |
+| `src/lib/notifications/orchestrator/NotificationOrchestrator.ts` | 2025-11-30 | Handle Date | Timestamp union for scheduled_for |
+| `src/lib/notifications/browser/BrowserNotificationService.ts` | 2025-11-30 | Extended NotificationOptions type, added db null checks |
+| `src/lib/notifications/notification-service.ts` | 2025-11-30 | Use path.join('/') for doc() call |
+| `src/lib/notifications/preferences/PreferenceManager.ts` | 2025-11-30 | Added db null checks throughout |
+| `src/lib/notifications/orchestrator/NotificationQueue.ts` | 2025-11-30 | Added db null checks throughout |
+| `src/app/api/admin/blog/route.ts` | 2025-11-30 | Fixed checkAdminAuth usage, added adminDb null check |
+| `src/app/api/admin/feature-flags/route.ts` | 2025-11-30 | Added adminAuth/adminDb null checks |
+| `src/app/api/admin/resources/[id]/route.ts` | 2025-11-30 | Added adminDb null checks to GET, PUT, DELETE handlers |
+| `src/app/api/admin/resources/route.ts` | 2025-11-30 | Added adminDb null checks to GET, POST handlers |
+| `src/app/api/admin/resources/analytics/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/admin/resources/stats/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/admin/leaderboard/trigger/route.ts` | 2025-11-30 | Added adminAuth/adminDb null checks |
+| `src/app/api/admin/init/route.ts` | 2025-11-30 | Fixed FieldValue import |
+| `src/app/api/admin/logs/route.ts` | 2025-11-30 | Fixed imports, Query typing, adminDb null check |
+| `src/app/api/admin/stats/route.ts` | 2025-11-30 | Added adminFirestore null check, typed recentUsers array |
+| `src/app/api/admin/streak-config/route.ts` | 2025-11-30 | Added adminFirestore null check, fixed ZodError .errors to .issues |
+| `src/app/api/admin/monitoring/firebase-usage/route.ts` | 2025-11-30 | Added adminDb null checks |
+| `src/app/api/admin/monitoring/quota/route.ts` | 2025-11-30 | Added adminDb null check |
+| `src/app/api/admin/scraping-logs/route.ts` | 2025-11-30 | Added adminDb null checks |
+| `src/app/api/admin/scraping-progress/route.ts` | 2025-11-30 | Added adminDb null checks |
+| `src/app/api/admin/news/trigger-scraping/route.ts` | 2025-11-30 | Fixed auth -> adminAuth, added null checks |
+| `src/app/api/admin/decision-logs/route.ts` | 2025-11-30 | Added adminAuth import, fixed verifyIdToken call |
+| `src/app/api/admin/generate-moodboard/route.ts` | 2025-11-30 | Fixed checkAdminRole call (pass request not authHeader) |
+| `src/app/api/admin/evaluate/route.ts` | 2025-11-30 | Build proper EvalContext with user data |
+| `src/app/api/admin/override/route.ts` | 2025-11-30 | Fixed setOverride call with required fields |
+| `src/types/entitlements.ts` | 2025-11-30 | Added FeatureOverride, OverrideLog interfaces, EvalContext extensions |
+| `src/app/api/admin/generate-audio/route.ts` | 2025-12-01 | Fixed checkAdminRole(request), authResult.uid |
+| `src/app/api/admin/generate-image/route.ts` | 2025-12-01 | Fixed checkAdminRole, optional chaining for OpenAI response |
+| `src/app/api/admin/generate-story/route.ts` | 2025-12-01 | Fixed checkAdminRole, authResult.uid, import path ai-story |
+| `src/app/api/admin/youtube-series/sync/route.ts` | 2025-12-01 | Added adminDb and channelData null checks |
+| `src/app/api/admin/subscriptions/upgrade/route.ts` | 2025-12-01 | Added adminFirestore null checks, typed subscription, cast current_period_end |
+| `src/app/api/admin/scripts/run/route.ts` | 2025-12-01 | Renamed process → childProcess (variable shadowing) |
+| `src/app/api/admin/set-admin/route.ts` | 2025-12-01 | Added adminDb null check, wrapped setAdminClaim in try/catch |
+| `src/app/api/admin/stats-consistency/route.ts` | 2025-12-01 | Added adminDb null check |
+| `src/lib/ai/types.ts` | 2025-12-01 | Added index signature to RequestMetadata for task-specific fields |
+| `src/i18n/I18nContext.tsx` | 2025-12-01 | Updated t() signature to accept string fallbacks (fixes 38+ errors across codebase) |
+| `src/components/ui/Tabs.tsx` | 2025-12-01 | Made children prop optional, fixed React.ReactElement typing |
+| `src/app/review-dashboard/ReviewDashboard.tsx` | 2025-12-01 | Fixed by upstream t() and Tabs changes (39 errors resolved) |
+| `src/app/api/notifications/preferences/route.ts` | 2025-12-01 | Fixed user.id→uid, added adminDb null checks, typed vibration map param (16 errors) |
+| `src/app/api/notifications/pending/route.ts` | 2025-12-01 | Fixed user.id→uid, added adminDb null checks (12 errors) |
+| `src/app/api/notifications/send-push/route.ts` | 2025-12-01 | Fixed user scope in catch, user.id→uid, adminDb null checks (11 errors) |
+| `src/app/api/practice/track/route.ts` | 2025-12-01 | Typed error as Error, added PracticeVideo interface (7 errors) |
+| `src/lib/review-engine/adapters/MoodBoardAdapter.ts` | 2025-12-01 | Aligned with BaseContentAdapter interface, removed non-existent imports, added missing abstract methods, fixed readings optional access (33 errors) |
+| `src/components/dashboard/LearningVillage.tsx` | 2025-12-01 | Fixed ChineseLantern size prop typing, used CardStrings type helper for i18n dynamic key access (31 errors) |
+| `src/lib/review-engine/adapters/KanjiBrowserAdapter.ts` | 2025-12-01 | Fixed ReviewMode import, added optional kanji/jlpt/meaning fields to KanjiContent, added constructor with config (19 errors) |
+| `src/app/api/flashcards/decks/route.ts` | 2025-12-01 | Added adminDb null checks, cast initialCards to any[] for flexible card formats (19 errors) |
+| `src/lib/services/StoryService.ts` | 2025-12-01 | Fixed import path ai-story, added getDb() helper for null-safe Firestore access (24 errors) |
+| `src/i18n/locales/en/strings.ts` | 2025-12-01 | Fixed TS1117 duplicate property keys - merged dashboard, kana, settings, flashcards sections (30 errors) |
+| `src/i18n/locales/fr/strings.ts` | 2025-12-01 | Fixed TS1117 duplicate property keys - merged dashboard, kana, settings, shadowing sections (23 errors) |
+| `src/i18n/locales/es/strings.ts` | 2025-12-01 | Fixed TS1117 duplicate property keys - merged landing, kana, flashcards, pwa sections (19 errors) |
+| `src/i18n/locales/ja/strings.ts` | 2025-12-01 | Fixed TS1117 duplicate property keys - merged landing, flashcards, checkout, pwa sections (15 errors) |
+| `src/i18n/locales/de/strings.ts` | 2025-12-01 | Fixed TS1117 duplicate property keys - merged landing, kana (3→1), settings, pwa sections (8 errors) |
+| `src/i18n/locales/it/strings.ts` | 2025-12-01 | Fixed TS1117 duplicate property keys - merged landing, flashcards, checkout, settings sections (6 errors) |
+| `src/utils/preferencesManager.ts` | 2025-12-01 | Changed User type to MinimalUser interface - accepts both Firebase User and AuthUser (3 errors) |
+| `src/app/settings/page.tsx` | 2025-12-01 | Fixed isPremium undefined with ?? false, fixed strings.settings access (49 errors) |
+| `src/i18n/locales/en/strings.ts` | 2025-12-01 | Added top-level settings section for Settings page translations (~46 errors across codebase) |
+| `src/i18n/I18nContext.tsx` | 2025-12-01 | Changed strings type from union to TranslationKeys, added type assertion (fixes ~300 errors from union type) |
+| `src/components/landing/PricingComparison.tsx` | 2025-12-01 | Added type assertions for nested i18n objects with NonNullable (62 errors) |
+| `src/app/vocabulary/page.tsx` | 2025-12-01 | Fixed isPremium ?? false, replaced strings.reviewPrompts with fallbacks, fixed word.kanji\|\|word.kana (25 errors) |
+| `src/app/dashboard/page.tsx` | 2025-12-01 | Simplified stats i18n, fixed case statements (16 errors fixed, 2 streak-related errors LEFT PENDING - requires careful review) |
 
 ---
 
 ## Summary by Category
 
-| Category | Count |
-|----------|-------|
-| **⚠️ Stripe Routes (PRIORITY)** | **0** ✅ |
-| API Routes (`src/app/api/`) | 103 |
-| Pages (`src/app/**/page.tsx`) | 74 |
-| Components (`src/components/`) | 64 |
-| Library (`src/lib/`) | 76 |
-| Hooks (`src/hooks/`) | 18 |
-| i18n (`src/i18n/`) | 6 |
-| Services (`src/services/`) | 3 |
-| Utils (`src/utils/`) | 5 |
-| Other | 14 |
+| Category | Count | Status |
+|----------|-------|--------|
+| **⚠️ Stripe Routes (PRIORITY)** | **0** | ✅ Fixed |
+| **Admin Routes** | **0** | ✅ Fixed |
+| **i18n / UI (shared)** | **0** | ✅ Fixed (t() signature, Tabs component, I18nContext union type) |
+| **Settings Page** | **0** | ✅ Fixed (49 errors - preferencesManager type, strings.settings) |
+| **Dashboard Page** | **2** | ⚠️ Partial (16 fixed, 2 streak-related PENDING - needs careful review) |
+| **Vocabulary Page** | **0** | ✅ Fixed (25 errors - isPremium, reviewPrompts fallbacks) |
+| **PricingComparison** | **0** | ✅ Fixed (62 errors - NonNullable type assertions) |
+| API Routes (other) | ~42 | In progress |
+| Pages (`src/app/**/page.tsx`) | ~69 | Pending (3 pages fixed this session) |
+| Components (`src/components/`) | ~64 | Pending |
+| Library (`src/lib/`) | ~60 | Pending |
+| Hooks (`src/hooks/`) | ~18 | Pending |
+| **i18n (`src/i18n/`)** | **0** | ✅ Fixed (101 duplicate key errors across 6 locale files) |
+| Services (`src/services/`) | 3 | Pending |
+| Utils (`src/utils/`) | 5 | Pending |
+| Other | ~14 | Pending |
 
 ---
 
 ## API Routes (121 files)
 
-### ⚠️ STRIPE ROUTES (PRIORITY) ⚠️
-> **These files handle payment processing and should be fixed first**
-
-| File | Description |
-|------|-------------|
-| `src/app/api/admin/stripe/cleanup/route.ts` | Admin Stripe cleanup |
-| `src/app/api/admin/stripe/test-renewal/route.ts` | Admin Stripe test renewal |
-| `src/app/api/stripe/create-checkout-session/route.ts` | Checkout session creation |
-| `src/app/api/stripe/donate/route.ts` | Donation processing |
+### ✅ STRIPE ROUTES (COMPLETE)
+> **All Stripe payment routes have been fixed!** See Fixed Files section above.
 
 ---
 
 ### Admin Routes
-- `src/app/api/admin/backup/check-status/route.ts`
-- `src/app/api/admin/backup/list/route.ts`
-- `src/app/api/admin/backup/status/route.ts`
-- `src/app/api/admin/backup/trigger/route.ts`
-- `src/app/api/admin/blog/route.ts`
-- `src/app/api/admin/decision-logs/route.ts`
-- `src/app/api/admin/evaluate/route.ts`
-- `src/app/api/admin/feature-flags/route.ts`
-- `src/app/api/admin/generate-audio/route.ts`
-- `src/app/api/admin/generate-image/route.ts`
-- `src/app/api/admin/generate-moodboard/route.ts`
-- `src/app/api/admin/generate-story/route.ts`
-- `src/app/api/admin/init/route.ts`
-- `src/app/api/admin/leaderboard/trigger/route.ts`
-- `src/app/api/admin/logs/route.ts`
-- `src/app/api/admin/monitoring/firebase-usage/route.ts`
-- `src/app/api/admin/monitoring/quota/route.ts`
-- `src/app/api/admin/news/trigger-scraping/route.ts`
-- `src/app/api/admin/override/route.ts`
-- `src/app/api/admin/resources/[id]/route.ts`
-- `src/app/api/admin/resources/analytics/route.ts`
-- `src/app/api/admin/resources/route.ts`
-- `src/app/api/admin/resources/stats/route.ts`
-- `src/app/api/admin/scraping-logs/route.ts`
-- `src/app/api/admin/scraping-progress/route.ts`
-- `src/app/api/admin/scripts/run/route.ts`
-- `src/app/api/admin/set-admin/route.ts`
-- `src/app/api/admin/stats/route.ts`
-- `src/app/api/admin/stats-consistency/route.ts`
-- `src/app/api/admin/streak-config/route.ts`
-- `src/app/api/admin/subscriptions/upgrade/route.ts`
-- `src/app/api/admin/users/[uid]/route.ts`
-- `src/app/api/admin/users/route.ts`
-- `src/app/api/admin/youtube-series/sync/route.ts`
+> **All admin routes have been fixed!** See Fixed Files section above.
 
 ### Auth Routes
-- `src/app/api/auth/google/route.ts`
-- `src/app/api/auth/invalidate-all-caches/route.ts`
-- `src/app/api/auth/invalidate-tier-cache/route.ts`
-- `src/app/api/auth/refresh-session/route.ts`
-- `src/app/api/auth/session-check/route.ts`
-- `src/app/api/auth/signin/route.ts`
+> **All auth routes have been fixed!** See Fixed Files section above.
 
 ### Blog Routes
 - `src/app/api/blog/[id]/comments/route.ts`
-- `src/app/api/blog/[id]/route.ts`
 - `src/app/api/blog/comments/[commentId]/route.ts`
-- `src/app/api/blog/debug/route.ts`
 - `src/app/api/blog/public/route.ts`
 - `src/app/api/blog/route.ts`
-- `src/app/api/blog/slug/[slug]/route.ts`
+> *Note: Some blog routes already fixed - see Fixed Files section*
 
 ### Other API Routes
 - `src/app/api/ai/process/route.ts`
@@ -171,13 +200,9 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 - `src/app/api/newsletter/verify/route.ts`
 - `src/app/api/nhk/live-schedule/route.ts`
 - `src/app/api/notifications/daily-reminder/route.ts`
-- `src/app/api/notifications/pending/route.ts`
-- `src/app/api/notifications/preferences/route.ts`
-- `src/app/api/notifications/send-push/route.ts`
 - `src/app/api/notifications/test/route.ts`
 - `src/app/api/notifications/unsubscribe/route.ts`
 - `src/app/api/notifications/weekly-progress/route.ts`
-- `src/app/api/practice/track/route.ts`
 - `src/app/api/progress/track/route.ts`
 - `src/app/api/resources/[id]/route.ts`
 - `src/app/api/resources/public/route.ts`
@@ -248,7 +273,6 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 - `src/app/review/ReviewPage.tsx`
 - `src/app/review/session/page.tsx`
 - `src/app/review-dashboard/page.tsx`
-- `src/app/review-dashboard/ReviewDashboard.tsx`
 - `src/app/settings/page.tsx`
 - `src/app/stories/page.tsx`
 - `src/app/stories/StoriesPage.tsx`
@@ -589,12 +613,15 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 
 ## i18n (6 files)
 
-- `src/i18n/locales/de/strings.ts`
-- `src/i18n/locales/en/strings.ts`
-- `src/i18n/locales/es/strings.ts`
-- `src/i18n/locales/fr/strings.ts`
-- `src/i18n/locales/it/strings.ts`
-- `src/i18n/locales/ja/strings.ts`
+> **All i18n locale files have been fixed!** See Fixed Files section above.
+>
+> Fixed 101 TS1117 (duplicate property keys) errors across all 6 locale files:
+> - en/strings.ts: 30 errors (dashboard, kana, settings, flashcards duplicates)
+> - fr/strings.ts: 23 errors (dashboard, kana, settings, shadowing duplicates)
+> - es/strings.ts: 19 errors (landing, kana, flashcards, pwa duplicates)
+> - ja/strings.ts: 15 errors (landing, flashcards, checkout, pwa duplicates)
+> - de/strings.ts: 8 errors (landing, kana 3→1 merge, settings, pwa duplicates)
+> - it/strings.ts: 6 errors (landing, flashcards, checkout, settings duplicates)
 
 ---
 

@@ -3,6 +3,11 @@ import { adminDb } from '@/lib/firebase/admin';
 
 export async function GET(request: NextRequest) {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json({ success: false, error: 'Database not available' }, { status: 503 });
+    }
+
     const { searchParams } = new URL(request.url);
     const progressId = searchParams.get('id');
 
@@ -52,6 +57,11 @@ export async function GET(request: NextRequest) {
 // DELETE - Clean up old progress entries
 export async function DELETE(request: NextRequest) {
   try {
+    // Check adminDb is initialized
+    if (!adminDb) {
+      return NextResponse.json({ success: false, error: 'Database not available' }, { status: 503 });
+    }
+
     const { searchParams } = new URL(request.url);
     const progressId = searchParams.get('id');
 

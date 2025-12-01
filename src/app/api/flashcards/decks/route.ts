@@ -15,6 +15,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+    }
+
     // Check storage decision
     const decision = await getStorageDecision(session);
 
@@ -68,6 +72,10 @@ export async function POST(request: NextRequest) {
 
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 500 });
     }
 
     const body: CreateDeckRequest = await request.json();
@@ -152,7 +160,8 @@ export async function POST(request: NextRequest) {
 
     // Add initial cards if provided
     if (body.initialCards && body.initialCards.length > 0) {
-      newDeck.cards = body.initialCards.map(card => {
+      // Cast to any[] to handle legacy/flexible card formats
+      newDeck.cards = (body.initialCards as any[]).map((card: any) => {
         // Create a clean card with only defined values
         const cleanCard: any = {
           id: card.id || uuidv4(),
@@ -165,7 +174,7 @@ export async function POST(request: NextRequest) {
           cleanCard.hint = card.hint;
         }
         if (card.tags && Array.isArray(card.tags)) {
-          cleanCard.tags = card.tags.filter(tag => tag !== undefined && tag !== null);
+          cleanCard.tags = card.tags.filter((tag: unknown) => tag !== undefined && tag !== null);
         }
         if (card.audio !== undefined && card.audio !== null) {
           cleanCard.audio = card.audio;

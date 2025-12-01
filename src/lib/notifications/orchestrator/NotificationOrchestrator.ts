@@ -471,7 +471,11 @@ export class NotificationOrchestrator extends EventEmitter {
     })
 
     for (const notification of pending) {
-      const delay = notification.scheduled_for.toDate().getTime() - Date.now()
+      // Handle both Date and Timestamp types for scheduled_for
+      const scheduledDate = notification.scheduled_for instanceof Date
+        ? notification.scheduled_for
+        : notification.scheduled_for.toDate()
+      const delay = scheduledDate.getTime() - Date.now()
 
       if (delay <= 0) {
         // Send immediately
@@ -489,7 +493,7 @@ export class NotificationOrchestrator extends EventEmitter {
           userId: notification.userId,
           itemIds: notification.data.item_ids,
           type: notification.type,
-          scheduledFor: notification.scheduled_for.toDate(),
+          scheduledFor: scheduledDate,
           priority: notification.data.priority,
           channels: [notification.channel]
         })

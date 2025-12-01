@@ -123,6 +123,13 @@ export async function GET(request: NextRequest) {
     // 1. Authenticate and check admin
     const session = await requireAuth()
 
+    if (!adminDb) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 503 }
+      )
+    }
+
     const userDoc = await adminDb.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const isAdmin = userData?.role === 'admin' || userData?.isAdmin === true

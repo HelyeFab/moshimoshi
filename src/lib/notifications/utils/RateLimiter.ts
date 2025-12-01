@@ -369,8 +369,14 @@ export class RateLimiter {
    * Update rate limit configuration
    */
   updateConfig(key: string, config: Partial<RateLimitConfig>): void {
-    const existing = this.configs.get(key) || {}
-    this.configs.set(key, { ...existing, ...config })
+    const existing = this.configs.get(key)
+    if (existing) {
+      // Merge with existing config - result is guaranteed to have required fields
+      this.configs.set(key, { ...existing, ...config })
+    } else {
+      // No existing config - caller must provide required fields (maxRequests, windowMs)
+      this.configs.set(key, config as RateLimitConfig)
+    }
 
     reviewLogger.info('Rate limit config updated', {
       key,

@@ -41,8 +41,7 @@ export const maxDuration = 60;
 export async function POST(request: NextRequest) {
   try {
     // Verify admin authentication
-    const authHeader = request.headers.get('authorization');
-    const authResult = await checkAdminRole(authHeader);
+    const authResult = await checkAdminRole(request);
     
     if (!authResult.isAdmin) {
       return NextResponse.json(

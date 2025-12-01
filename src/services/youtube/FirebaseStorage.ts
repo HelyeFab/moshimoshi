@@ -20,14 +20,22 @@ export class FirebaseYouTubeStorage implements YouTubeHistoryStorage {
     return `${this.userId}_${videoId}`;
   }
 
+  private assertDb(): NonNullable<typeof adminDb> {
+    if (!adminDb) {
+      throw new Error('Firebase database not available');
+    }
+    return adminDb;
+  }
+
   async init(): Promise<void> {
     // Firebase doesn't require initialization
     return Promise.resolve();
   }
 
   async addOrUpdateVideo(video: YouTubeVideoItem): Promise<void> {
+    const db = this.assertDb();
     const docId = this.getDocId(video.videoId);
-    const docRef = adminDb.collection(COLLECTION_NAME).doc(docId);
+    const docRef = db.collection(COLLECTION_NAME).doc(docId);
 
     try {
       const docSnap = await docRef.get();
@@ -85,8 +93,9 @@ export class FirebaseYouTubeStorage implements YouTubeHistoryStorage {
   }
 
   async getVideo(videoId: string): Promise<YouTubeVideoItem | null> {
+    const db = this.assertDb();
     const docId = this.getDocId(videoId);
-    const docRef = adminDb.collection(COLLECTION_NAME).doc(docId);
+    const docRef = db.collection(COLLECTION_NAME).doc(docId);
 
     try {
       const docSnap = await docRef.get();
@@ -120,7 +129,8 @@ export class FirebaseYouTubeStorage implements YouTubeHistoryStorage {
 
   async getAllVideos(): Promise<YouTubeVideoItem[]> {
     try {
-      const querySnapshot = await adminDb
+      const db = this.assertDb();
+      const querySnapshot = await db
         .collection(COLLECTION_NAME)
         .where('userId', '==', this.userId)
         .orderBy('lastWatched', 'desc')
@@ -156,8 +166,9 @@ export class FirebaseYouTubeStorage implements YouTubeHistoryStorage {
   }
 
   async deleteVideo(videoId: string): Promise<void> {
+    const db = this.assertDb();
     const docId = this.getDocId(videoId);
-    const docRef = adminDb.collection(COLLECTION_NAME).doc(docId);
+    const docRef = db.collection(COLLECTION_NAME).doc(docId);
 
     try {
       // Verify ownership before deleting
@@ -183,12 +194,13 @@ export class FirebaseYouTubeStorage implements YouTubeHistoryStorage {
 
   async clearAll(): Promise<void> {
     try {
-      const querySnapshot = await adminDb
+      const db = this.assertDb();
+      const querySnapshot = await db
         .collection(COLLECTION_NAME)
         .where('userId', '==', this.userId)
         .get();
 
-      const batch = adminDb.batch();
+      const batch = db.batch();
 
       querySnapshot.forEach((doc) => {
         batch.delete(doc.ref);
@@ -203,7 +215,8 @@ export class FirebaseYouTubeStorage implements YouTubeHistoryStorage {
 
   async getRecentVideos(limit: number): Promise<YouTubeVideoItem[]> {
     try {
-      const querySnapshot = await adminDb
+      const db = this.assertDb();
+      const querySnapshot = await db
         .collection(COLLECTION_NAME)
         .where('userId', '==', this.userId)
         .orderBy('lastWatched', 'desc')
