@@ -193,11 +193,17 @@ export default function BottomNav({ className, hideOnScroll = false, extraItem: 
           role="navigation"
           aria-label="Bottom navigation"
         >
+          {/* Shadow Layer - Separate from glass to prevent clipping issues */}
+          <div className="absolute inset-0 rounded-t-3xl shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60 pointer-events-none" />
+
           {/* Edge-to-edge glassmorphic container with safe area support */}
           <div
             className={cn(
               // Positioning for pseudo-element
               'relative',
+              
+              // Shape & Clipping - CRITICAL for removing "ghost rectangle"
+              'rounded-t-3xl overflow-hidden',
 
               // Layout: evenly distributed items with safe padding
               'flex items-center justify-around',
@@ -209,9 +215,6 @@ export default function BottomNav({ className, hideOnScroll = false, extraItem: 
 
               // Top border with glassmorphism aesthetic
               'border-t border-gray-200/40 dark:border-gray-700/30',
-
-              // Enhanced shadows for glassmorphism depth
-              'shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60',
 
               // Subtle top glow effect using pseudo-element (stronger for glass effect)
               'before:absolute before:inset-x-0 before:top-0 before:h-px',
