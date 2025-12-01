@@ -1,4 +1,4 @@
-import { BaseContentAdapter } from './BaseContentAdapter';
+import { BaseContentAdapter } from './base.adapter';
 import type { ReviewableContent, ReviewMode } from '../core/interfaces';
 import type { UserList, ListItem } from '@/types/userLists';
 
@@ -14,13 +14,12 @@ export class UserListAdapter extends BaseContentAdapter {
 
   transform(item: ListItem): ReviewableContent {
     // Determine the best review mode based on list type
-    const supportedModes = this.getSupportedModes();
+    const supportedModes = this.getSupportedModesForList();
     const preferredMode = supportedModes[0]; // Default to first supported mode
 
     return {
       id: item.id,
-      type: 'user-list-item',
-      content: item.content,
+      contentType: 'custom',
 
       // Display fields
       primaryDisplay: item.content, // The main content (word, sentence, etc.)
@@ -48,6 +47,7 @@ export class UserListAdapter extends BaseContentAdapter {
       metadata: {
         listName: this.list.name,
         listType: this.list.type,
+        itemContent: item.content, // Store original content in metadata
         itemNotes: item.metadata?.notes,
         jlptLevel: item.metadata?.jlptLevel,
         addedAt: item.metadata?.addedAt
@@ -55,7 +55,7 @@ export class UserListAdapter extends BaseContentAdapter {
     };
   }
 
-  generateOptions(item: ListItem, count: number = 4): string[] {
+  private generateStringOptions(item: ListItem, count: number = 4): string[] {
     const options: string[] = [];
     const correctAnswer = item.metadata?.meaning || item.content;
     options.push(correctAnswer);
@@ -139,7 +139,7 @@ export class UserListAdapter extends BaseContentAdapter {
     return Math.min(1, Math.max(0, difficulty));
   }
 
-  generateHints(item: ListItem): string[] {
+  private getHintsForItem(item: ListItem): string[] {
     const hints: string[] = [];
 
     // Add notes as a hint if available
@@ -175,7 +175,7 @@ export class UserListAdapter extends BaseContentAdapter {
     return hints;
   }
 
-  prepareForMode(item: ListItem, mode: ReviewMode): ReviewableContent {
+  private prepareItemForMode(item: ListItem, mode: ReviewMode): ReviewableContent {
     const base = this.transform(item);
 
     switch (mode) {
@@ -212,7 +212,7 @@ export class UserListAdapter extends BaseContentAdapter {
     return base;
   }
 
-  private getSupportedModes(): ReviewMode[] {
+  private getSupportedModesForList(): ReviewMode[] {
     // Determine supported modes based on list type and available metadata
     const modes: ReviewMode[] = [];
 
@@ -251,6 +251,6 @@ export class UserListAdapter extends BaseContentAdapter {
 
   // Get items for a specific review mode
   getItemsForMode(mode: ReviewMode): ReviewableContent[] {
-    return this.currentItems.map(item => this.prepareForMode(item, mode));
+    return this.currentItems.map(item => this.prepareItemForMode(item, mode));
   }
 }

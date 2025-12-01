@@ -5,6 +5,9 @@
 
 import { ReviewMode } from './types'
 
+// Re-export ReviewMode for convenience (many adapters import from interfaces)
+export { ReviewMode } from './types'
+
 /**
  * Base interface for all reviewable content types
  * Content adapters will transform specific content types to this format

@@ -19,7 +19,7 @@ export interface KanaContent {
 
 export class KanaAdapter extends BaseContentAdapter<KanaContent> {
   transform(kana: KanaContent): ReviewableContent {
-    const displayScript = this.config.features?.displayScript || 'hiragana';
+    const displayScript = this.config?.features?.displayScript || 'hiragana';
     
     return {
       id: kana.id,

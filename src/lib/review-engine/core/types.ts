@@ -6,7 +6,7 @@
 /**
  * Available review modes
  */
-export type ReviewMode = 'recognition' | 'recall' | 'listening'
+export type ReviewMode = 'recognition' | 'recall' | 'listening' | 'writing'
 
 /**
  * Input types for different review modes
@@ -300,6 +300,18 @@ export const DEFAULT_MODE_CONFIGS: Record<ReviewMode, Partial<ReviewModeConfig>>
     allowHints: false,
     immediateValidation: true,
     allowRetry: false
+  },
+  writing: {
+    showPrimary: true,
+    showSecondary: false,
+    showTertiary: false,
+    showMedia: false,
+    inputType: 'text',
+    allowHints: true,
+    hintPenalty: 0.15,
+    immediateValidation: true,
+    allowRetry: true,
+    maxRetries: 1
   }
 }
 

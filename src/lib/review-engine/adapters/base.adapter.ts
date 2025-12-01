@@ -7,50 +7,92 @@ import { ReviewMode, ContentTypeConfig } from '../core/types';
 
 /**
  * Abstract base class for all content adapters
+ *
+ * Subclasses should implement at minimum:
+ * - transform() to convert raw content to ReviewableContent
+ *
+ * Optional overrides for advanced features:
+ * - generateOptions() for multiple choice
+ * - getSupportedModes() for mode selection
+ * - prepareForMode() for mode-specific display
+ * - calculateDifficulty() for SRS integration
+ * - generateHints() for hint system
  */
 export abstract class BaseContentAdapter<T = any> {
-  protected config: ContentTypeConfig;
-  
-  constructor(config: ContentTypeConfig) {
+  protected config?: ContentTypeConfig;
+
+  constructor(config?: ContentTypeConfig) {
     this.config = config;
   }
-  
+
   /**
    * Transform raw content into ReviewableContent
+   * This is the primary method subclasses must implement
    */
   abstract transform(rawContent: T): ReviewableContent;
-  
+
+  /**
+   * Alias for transform() - for backwards compatibility
+   */
+  adapt(rawContent: T): ReviewableContent {
+    return this.transform(rawContent);
+  }
+
+  /**
+   * Batch transform multiple items
+   */
+  adaptBatch(items: T[]): ReviewableContent[] {
+    return items.map(item => this.transform(item));
+  }
+
   /**
    * Generate multiple choice options for recognition mode
+   * Override in subclass for custom option generation
    */
-  abstract generateOptions(
-    content: ReviewableContent, 
-    pool: T[], 
-    count: number
-  ): ReviewableContent[];
-  
+  generateOptions(
+    content: ReviewableContent,
+    pool: T[],
+    count: number = 4
+  ): ReviewableContent[] {
+    // Default: return random items from pool
+    const shuffled = [...pool].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count).map(item => this.transform(item));
+  }
+
   /**
    * Determine which review modes are supported
+   * Override in subclass for content-specific modes
    */
-  abstract getSupportedModes(): ReviewMode[];
-  
+  getSupportedModes(): ReviewMode[] {
+    return ['recognition', 'recall'];
+  }
+
   /**
    * Prepare content for specific review mode
+   * Override in subclass for mode-specific transformations
    */
-  abstract prepareForMode(
-    content: ReviewableContent, 
+  prepareForMode(
+    content: ReviewableContent,
     mode: ReviewMode
-  ): ReviewableContent;
-  
+  ): ReviewableContent {
+    return content; // Default: return unchanged
+  }
+
   /**
    * Calculate difficulty based on content characteristics
+   * Override in subclass for content-specific difficulty calculation
    */
-  abstract calculateDifficulty(content: T): number;
-  
+  calculateDifficulty(content: T): number {
+    return 0.5; // Default: medium difficulty
+  }
+
   /**
    * Generate hints for the content
+   * Override in subclass for content-specific hints
    */
-  abstract generateHints(content: ReviewableContent): string[];
+  generateHints(content: ReviewableContent): string[] {
+    return []; // Default: no hints
+  }
   
   /**
    * Validate if raw content can be adapted

@@ -13,13 +13,12 @@ export class FlashcardAdapter extends BaseContentAdapter {
   }
 
   transform(card: FlashcardContent): ReviewableContent {
-    const supportedModes = this.getSupportedModes(card);
+    const supportedModes = this.getSupportedModesForCard(card);
     const preferredMode = this.getPreferredMode(card);
 
     return {
       id: card.id,
-      type: 'flashcard',
-      content: `${card.front.text} | ${card.back.text}`,
+      contentType: 'custom',  // Flashcards are custom content
 
       // Display fields based on deck settings
       primaryDisplay: this.getPrimaryDisplay(card),
@@ -48,20 +47,6 @@ export class FlashcardAdapter extends BaseContentAdapter {
       supportedModes,
       preferredMode,
 
-      // SRS data if available
-      srsData: card.metadata?.srsLevel ? {
-        level: card.metadata.srsLevel,
-        easeFactor: card.metadata.easeFactor || 2.5,
-        interval: card.metadata.nextReview
-          ? Math.floor((card.metadata.nextReview - Date.now()) / (1000 * 60 * 60 * 24))
-          : 0,
-        lastReviewed: card.metadata.lastReviewed
-          ? new Date(card.metadata.lastReviewed)
-          : undefined,
-        reviewCount: card.metadata.reviewCount || 0,
-        lapseCount: 0
-      } : undefined,
-
       // Additional context
       metadata: {
         deckName: this.deck.name,
@@ -70,7 +55,14 @@ export class FlashcardAdapter extends BaseContentAdapter {
         frontHint: card.front.subtext,
         backHint: card.back.subtext,
         frontMedia: card.front.media,
-        backMedia: card.back.media
+        backMedia: card.back.media,
+        // Store SRS data in metadata if available
+        srsData: card.metadata?.interval ? {
+          easeFactor: card.metadata.easeFactor || 2.5,
+          interval: card.metadata.interval || 0,
+          lastReviewed: card.metadata.lastReviewed,
+          reviewCount: card.metadata.reviewCount || 0
+        } : undefined
       }
     };
   }
@@ -125,7 +117,8 @@ export class FlashcardAdapter extends BaseContentAdapter {
     return alternatives;
   }
 
-  generateOptions(card: FlashcardContent, count: number = 4): string[] {
+  // Generate string options for multiple choice (internal method)
+  private generateStringOptions(card: FlashcardContent, count: number = 4): string[] {
     const options: string[] = [];
     const correctAnswer = this.getPrimaryAnswer(card);
     options.push(correctAnswer);
@@ -208,7 +201,8 @@ export class FlashcardAdapter extends BaseContentAdapter {
     return Math.min(1, Math.max(0, difficulty));
   }
 
-  generateHints(card: FlashcardContent): string[] {
+  // Generate hints for a specific card (internal method)
+  private getHintsForCard(card: FlashcardContent): string[] {
     const hints: string[] = [];
     const answer = this.getPrimaryAnswer(card);
 
@@ -248,7 +242,7 @@ export class FlashcardAdapter extends BaseContentAdapter {
     return hints;
   }
 
-  prepareForMode(card: FlashcardContent, mode: ReviewMode): ReviewableContent {
+  private prepareCardForMode(card: FlashcardContent, mode: ReviewMode): ReviewableContent {
     const base = this.transform(card);
 
     switch (mode) {
@@ -288,7 +282,7 @@ export class FlashcardAdapter extends BaseContentAdapter {
     return base;
   }
 
-  private getSupportedModes(card: FlashcardContent): ReviewMode[] {
+  private getSupportedModesForCard(card: FlashcardContent): ReviewMode[] {
     const modes: ReviewMode[] = [];
 
     // All flashcards support recognition and recall
@@ -310,7 +304,7 @@ export class FlashcardAdapter extends BaseContentAdapter {
   }
 
   private getPreferredMode(card: FlashcardContent): ReviewMode {
-    const modes = this.getSupportedModes(card);
+    const modes = this.getSupportedModesForCard(card);
 
     // Use deck's review mode setting if available
     if (this.deck.settings.reviewMode === 'random') {
@@ -329,8 +323,8 @@ export class FlashcardAdapter extends BaseContentAdapter {
   // Get cards for a specific review mode
   getCardsForMode(mode: ReviewMode): ReviewableContent[] {
     return this.currentCards
-      .filter(card => this.getSupportedModes(card).includes(mode))
-      .map(card => this.prepareForMode(card, mode));
+      .filter(card => this.getSupportedModesForCard(card).includes(mode))
+      .map(card => this.prepareCardForMode(card, mode));
   }
 
   // Get cards based on SRS status
@@ -339,11 +333,11 @@ export class FlashcardAdapter extends BaseContentAdapter {
 
     return this.currentCards.filter(card => {
       if (status === 'new') {
-        return !card.metadata?.lastReviewed;
+        return card.metadata?.status === 'new' || !card.metadata?.lastReviewed;
       } else if (status === 'learning') {
-        return card.metadata?.srsLevel && card.metadata.srsLevel < 3;
+        return card.metadata?.status === 'learning';
       } else if (status === 'review') {
-        return card.metadata?.srsLevel && card.metadata.srsLevel >= 3;
+        return card.metadata?.status === 'review' || card.metadata?.status === 'mastered';
       } else if (status === 'due') {
         return card.metadata?.nextReview && card.metadata.nextReview <= now;
       }

@@ -1,6 +1,5 @@
-import { BaseContentAdapter } from './BaseContentAdapter'
+import { BaseContentAdapter } from './base.adapter'
 import { ReviewableContent } from '../core/interfaces'
-import { ContentType } from '../core/types'
 
 export interface KanjiMasteryContent {
   id: string
@@ -25,24 +24,33 @@ export interface KanjiMasteryContent {
 }
 
 export class KanjiMasteryAdapter extends BaseContentAdapter<KanjiMasteryContent> {
-  getContentType(): ContentType {
-    return 'kanji'
-  }
-
-  async transform(content: KanjiMasteryContent): Promise<ReviewableContent> {
+  transform(content: KanjiMasteryContent): ReviewableContent {
     // Determine validation type based on round
     const validationType = this.determineValidationType(content.round)
 
     return {
       id: `kanji_mastery_${content.id}_${content.sessionId || Date.now()}`,
-      type: this.getContentType(),
-      content: {
-        question: this.formatQuestion(content, validationType),
-        answer: this.formatAnswer(content, validationType),
-        alternatives: this.getAlternatives(content, validationType),
-        hint: this.formatHint(content),
-        explanation: this.formatExplanation(content)
-      },
+      contentType: 'kanji',
+
+      // Display fields
+      primaryDisplay: this.formatQuestion(content, validationType),
+      secondaryDisplay: this.formatHint(content),
+      tertiaryDisplay: this.formatExplanation(content),
+
+      // Answer fields
+      primaryAnswer: this.formatAnswer(content, validationType),
+      alternativeAnswers: this.getAlternatives(content, validationType),
+
+      // Metadata
+      difficulty: this.calculateDifficulty(content),
+      tags: this.generateTags(content),
+      source: 'kanji_mastery',
+
+      // Review settings
+      supportedModes: ['recognition', 'recall'],
+      preferredMode: 'recognition',
+
+      // Additional context
       metadata: {
         kanjiId: content.id,
         character: content.character,
@@ -52,17 +60,15 @@ export class KanjiMasteryAdapter extends BaseContentAdapter<KanjiMasteryContent>
         round: content.round || 1,
         sessionId: content.sessionId,
         validationType,
-        difficulty: this.calculateDifficulty(content),
-        tags: this.generateTags(content),
-        lastReviewed: new Date().toISOString()
-      },
-      validation: {
-        strategy: this.getValidationStrategy(validationType),
-        acceptableAnswers: this.getAcceptableAnswers(content, validationType),
-        caseSensitive: false,
-        fuzzyMatchThreshold: validationType === 'writing' ? 1.0 : 0.85,
-        partialCreditEnabled: validationType !== 'writing',
-        customRules: this.getCustomValidationRules(content, validationType)
+        lastReviewed: new Date().toISOString(),
+        validation: {
+          strategy: this.getValidationStrategy(validationType),
+          acceptableAnswers: this.getAcceptableAnswers(content, validationType),
+          caseSensitive: false,
+          fuzzyMatchThreshold: validationType === 'writing' ? 1.0 : 0.85,
+          partialCreditEnabled: validationType !== 'writing',
+          customRules: this.getCustomValidationRules(content, validationType)
+        }
       }
     }
   }
@@ -260,7 +266,7 @@ export class KanjiMasteryAdapter extends BaseContentAdapter<KanjiMasteryContent>
     return {}
   }
 
-  async validate(userInput: string, expected: ReviewableContent): Promise<boolean> {
+  validateAnswer(userInput: string, expected: ReviewableContent): boolean {
     const validationType = expected.metadata?.validationType || 'meaning'
 
     // Use the appropriate validator based on validation type
@@ -268,11 +274,18 @@ export class KanjiMasteryAdapter extends BaseContentAdapter<KanjiMasteryContent>
       return this.validateJapaneseReading(userInput, expected)
     }
 
-    return super.validate(userInput, expected)
+    // Default: check if input matches primary answer or alternatives
+    const normalizedInput = userInput.trim().toLowerCase()
+    if (expected.primaryAnswer.toLowerCase() === normalizedInput) {
+      return true
+    }
+    return expected.alternativeAnswers?.some(
+      alt => alt.toLowerCase() === normalizedInput
+    ) ?? false
   }
 
   private validateJapaneseReading(userInput: string, expected: ReviewableContent): boolean {
-    const acceptableAnswers = expected.validation?.acceptableAnswers || []
+    const acceptableAnswers = expected.metadata?.validation?.acceptableAnswers || expected.alternativeAnswers || []
     const normalizedInput = this.normalizeJapanese(userInput)
 
     for (const answer of acceptableAnswers) {

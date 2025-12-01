@@ -45,26 +45,29 @@ export class AnkiAdapter extends BaseContentAdapter<AnkiCard> {
   transform(item: AnkiCard): ReviewableContent {
     return {
       id: item.id,
-      type: 'anki-card',
-      content: {
-        primary: item.front,
-        secondary: item.back,
-        tertiary: item.tags?.join(', '),
-        media: item.media,
-        metadata: {
-          deckName: item.deckName,
-          fields: item.fields,
-          interval: item.interval,
-          ease: item.ease,
-          reviews: item.reviews,
-          lapses: item.lapses
-        }
-      },
+      contentType: 'custom',  // Anki cards are custom content
+      primaryDisplay: item.front,
+      secondaryDisplay: item.back,
+      tertiaryDisplay: item.tags?.join(', '),
+      primaryAnswer: item.back,
+      alternativeAnswers: [],
+      difficulty: this.calculateDifficulty(item),
+      tags: [...(item.tags || []), 'anki', `deck:${item.deckName}`],
+      source: 'anki',
+      supportedModes: ['recognition', 'recall'],
+      preferredMode: 'recognition',
+      // Media in AnkiCard is string[], extract based on extension
+      imageUrl: item.media?.find(m => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(m)),
+      audioUrl: item.media?.find(m => /\.(mp3|wav|ogg|m4a)$/i.test(m)),
       metadata: {
         ...item.metadata,
         source: 'anki',
         deckName: item.deckName,
-        tags: item.tags,
+        fields: item.fields,
+        interval: item.interval,
+        ease: item.ease,
+        reviews: item.reviews,
+        lapses: item.lapses,
         hasMedia: (item.media?.length || 0) > 0
       }
     };
@@ -73,16 +76,15 @@ export class AnkiAdapter extends BaseContentAdapter<AnkiCard> {
   generateOptions(
     content: ReviewableContent,
     pool: AnkiCard[],
-    count: number
+    count: number = 4
   ): ReviewableContent[] {
     // For Anki cards, we generate options based on similar cards from the pool
     const options: ReviewableContent[] = [];
-    const currentCard = content.content as any;
 
     // Filter out the current card and cards with identical answers
     const validPool = pool.filter(card =>
       card.id !== content.id &&
-      card.back !== currentCard.secondary
+      card.back !== content.primaryAnswer
     );
 
     // Randomly select options from the pool
@@ -112,18 +114,10 @@ export class AnkiAdapter extends BaseContentAdapter<AnkiCard> {
     const prepared = { ...content };
 
     if (mode === 'recall') {
-      // In recall mode, hide the answer (secondary)
-      prepared.content = {
-        ...prepared.content,
-        secondary: undefined
-      };
-    } else if (mode === 'recognition') {
-      // In recognition mode, show the question
-      prepared.content = {
-        ...prepared.content,
-        primary: content.content.primary
-      };
+      // In recall mode, hide the answer (secondary display)
+      prepared.secondaryDisplay = undefined;
     }
+    // Recognition mode shows content as-is
 
     return prepared;
   }
@@ -147,21 +141,20 @@ export class AnkiAdapter extends BaseContentAdapter<AnkiCard> {
 
   generateHints(content: ReviewableContent): string[] {
     const hints: string[] = [];
-    const ankiContent = content.content as any;
 
     // Add tag hints
-    if (content.metadata?.tags?.length) {
-      hints.push(`Tags: ${content.metadata.tags.join(', ')}`);
+    if (content.tags?.length) {
+      hints.push(`Tags: ${content.tags.join(', ')}`);
     }
 
     // Add first letter hint
-    if (ankiContent.secondary && ankiContent.secondary.length > 0) {
-      hints.push(`Starts with: ${ankiContent.secondary[0]}`);
+    if (content.primaryAnswer && content.primaryAnswer.length > 0) {
+      hints.push(`Starts with: ${content.primaryAnswer[0]}`);
     }
 
     // Add length hint for text answers
-    if (ankiContent.secondary && typeof ankiContent.secondary === 'string') {
-      hints.push(`${ankiContent.secondary.length} characters`);
+    if (content.primaryAnswer && typeof content.primaryAnswer === 'string') {
+      hints.push(`${content.primaryAnswer.length} characters`);
     }
 
     // Add deck name as hint
