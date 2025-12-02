@@ -29,9 +29,12 @@ export function useKanjiDetails() {
       setModalKanji({
         kanji: kanji,
         meaning: 'Loading...', // Will be fetched
+        meanings: [],
         onyomi: [],
         kunyomi: [],
-        jlpt: undefined,
+        strokeCount: 0,
+        jlpt: 'N5', // Default, will be fetched
+        examples: [],
         grade: undefined,
         frequency: undefined
       })

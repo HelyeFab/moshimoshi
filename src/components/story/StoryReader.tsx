@@ -171,7 +171,7 @@ function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsPanelPro
 export default function StoryReader({ story, onComplete, onExit }: StoryReaderProps) {
   const { user } = useAuth();
   const { t, strings } = useI18n();
-  const { play, isPlaying, isCacheLoading } = useTTS({ cacheFirst: true });
+  const { play, isPlaying } = useTTS({ cacheFirst: true });
   const { showToast } = useToast();
 
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -191,7 +191,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
   const [showSettings, setShowSettings] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
   const [showGrammarLegend, setShowGrammarLegend] = useState(false);
-  const [settings, setSettings] = useState<ReadingSettings>({
+  const [settings, setSettings] = useState<Partial<ReadingSettings>>({
     fontSize: 'medium',
     showFurigana: true,
     highlightVocabulary: true,
@@ -418,7 +418,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
       large: 'text-lg',
       xlarge: 'text-xl'
     };
-    return sizes[settings.fontSize];
+    return sizes[settings.fontSize ?? 'medium'];
   };
 
   const renderJapaneseText = (html: string) => {
@@ -426,7 +426,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
       return (
         <GrammarHighlightedText
           text={html.replace(/<[^>]*>/g, '')} // Remove HTML tags for grammar analysis
-          highlightMode={settings.highlightMode}
+          highlightMode={settings.highlightMode ?? 'content'}
           onWordClick={handleWordClick}
           showFurigana={settings.showFurigana}
           className={`${getFontSizeClass()} leading-relaxed`}
@@ -491,7 +491,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
 
           {quizScore === null ? (
             <div className="space-y-6">
-              {story.quiz.map((question, qIndex) => (
+              {story.quiz?.map((question, qIndex) => (
                 <div key={question.id} className="space-y-3">
                   <p className="font-medium">{qIndex + 1}. {question.question}</p>
                   <div className="space-y-2">
@@ -520,7 +520,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                 </button>
                 <button
                   onClick={handleQuizSubmit}
-                  disabled={quizAnswers.length !== story.quiz.length}
+                  disabled={quizAnswers.length !== (story.quiz?.length ?? 0)}
                   className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg disabled:opacity-50"
                 >
                   {t('common.submit')}
@@ -538,7 +538,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
               <p className="text-xl">{t('story.quiz.yourScore')}: {quizScore}%</p>
 
               <div className="space-y-3 mt-6">
-                {story.quiz.map((question, index) => (
+                {story.quiz?.map((question, index) => (
                   <div key={question.id} className="text-left p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
                     <p className="font-medium mb-2">{question.question}</p>
                     <p className={quizAnswers[index] === question.correctIndex ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
@@ -607,7 +607,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                           play(cleanTextForTTS(currentPage.text), { voice: 'ja-JP', rate: 0.9 });
                           setShowOptionsMenu(false);
                         }}
-                        disabled={isPlaying || isCacheLoading}
+                        disabled={isPlaying}
                         className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-left disabled:opacity-50"
                       >
                         <span className="text-xl">🔊</span>
@@ -672,8 +672,8 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                   {/* Settings Panel (separate from menu) */}
                   {showSettings && (
                     <SettingsPanel
-                      settings={settings}
-                      onSettingsChange={setSettings}
+                      settings={settings as ReadingSettings}
+                      onSettingsChange={(s: ReadingSettings) => setSettings(s)}
                       onClose={() => setShowSettings(false)}
                     />
                   )}
@@ -725,7 +725,7 @@ export default function StoryReader({ story, onComplete, onExit }: StoryReaderPr
                     <div className="space-y-2 mb-6">
                       <button
                         onClick={() => play(cleanTextForTTS(currentPage.text), { voice: 'ja-JP', rate: 0.9 })}
-                        disabled={isPlaying || isCacheLoading}
+                        disabled={isPlaying}
                         className="flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 hover:bg-primary-200 dark:hover:bg-primary-900/50 rounded-lg transition-colors disabled:opacity-50"
                       >
                         <SpeakerWaveIcon className="w-5 h-5" />

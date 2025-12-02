@@ -475,6 +475,10 @@ export const strings = {
     onReading: "On Reading",
     kunReading: "Kun Reading",
     examples: "Examples",
+    overview: "Overview",
+    readings: "Readings",
+    info: "Info",
+    noExamples: "No examples available",
   },
 
   // Story Reader

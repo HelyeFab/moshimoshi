@@ -35,7 +35,8 @@
       "Bash(npx husky init)",
       "Bash(vercel --version:*)",
       "Bash(vercel env:*)",
-      "Bash(vercel link:*)"
+      "Bash(vercel link:*)",
+      "Bash(Select-String -Pattern \"ExamplesModal|KanjiDetailsModal|useKanjiDetails\")"
     ],
     "deny": [],
     "ask": []

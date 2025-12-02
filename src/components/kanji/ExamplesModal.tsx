@@ -45,7 +45,7 @@ export default function ExamplesModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={`${strings?.review?.kanji?.study?.examples || 'Examples'}: ${kanji}`}
+      title={`${strings?.kanji?.examples || 'Examples'}: ${kanji}`}
       size="lg"
     >
       <div className="p-6">
@@ -92,7 +92,7 @@ export default function ExamplesModal({
         ) : (
           <div className="text-center py-8">
             <p className="text-gray-500 dark:text-gray-400">
-              {strings?.review?.kanji?.study?.noExamples || 'No examples available'}
+              {strings?.kanji?.noExamples || 'No examples available'}
             </p>
           </div>
         )}

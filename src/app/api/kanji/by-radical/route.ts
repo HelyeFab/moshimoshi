@@ -221,7 +221,8 @@ export async function GET(request: NextRequest) {
   const { kanji: kanjiList, subThemeGroups, uncategorized } = getRadicalKanji(radicalId, subThemes);
 
   // Fetch detailed kanji data using batch loading
-  const kanjiWithDetails = await getKanjiDetailsBatch(kanjiList);
+  const kanjiStrings = kanjiList.map(k => k.kanji);
+  const kanjiWithDetails = await getKanjiDetailsBatch(kanjiStrings);
 
   const response: any = {
     radical,

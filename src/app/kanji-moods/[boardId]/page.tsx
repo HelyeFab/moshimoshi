@@ -181,77 +181,86 @@ export default function MoodBoardDetailPage() {
           total: totalCount,
           learned: learnedCount
         }}
-        actions={
-          <div className="flex gap-3 items-center">
-            {/* View mode tabs */}
-            <div className="flex gap-1 bg-white dark:bg-dark-700 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`px-3 py-1.5 rounded-md text-sm transition-all ${
-                  viewMode === 'grid'
-                    ? 'bg-primary-500 text-white'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
-                }`}
-              >
-                {t('moodboards.viewModes.grid')}
-              </button>
-              <button
-                onClick={handleStudyMode}
-                className={`px-3 py-1.5 rounded-md text-sm transition-all ${
-                  viewMode === 'study'
-                    ? 'bg-primary-500 text-white'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
-                }`}
-              >
-                {t('moodboards.viewModes.study')}
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`px-3 py-1.5 rounded-md text-sm transition-all ${
-                  viewMode === 'list'
-                    ? 'bg-primary-500 text-white'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
-                }`}
-              >
-                {t('moodboards.viewModes.list')}
-              </button>
-            </div>
+      />
 
-            {/* Show completed toggle */}
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={showCompleted}
-                onChange={(e) => setShowCompleted(e.target.checked)}
-                className="w-4 h-4 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
-              />
-              <span className="text-sm">{t('moodboards.showCompleted')}</span>
-            </label>
+      {/* Action Controls */}
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex gap-3 items-center flex-wrap">
+          {/* Back link */}
+          <a href="/kanji-moods" className="text-primary-500 hover:text-primary-600 text-sm flex items-center gap-1">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+          </a>
 
-            {/* Generate Story button (admin only) */}
-            {user?.isAdmin && (
-              <button
-                onClick={() => handleGenerateStory()}
-                className="px-3 py-1.5 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors text-sm flex items-center gap-1"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-                Generate Story
-              </button>
-            )}
-
-            {/* Reset progress button */}
+          {/* View mode tabs */}
+          <div className="flex gap-1 bg-white dark:bg-dark-700 rounded-lg p-1">
             <button
-              onClick={handleResetProgress}
-              className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
+              onClick={() => setViewMode('grid')}
+              className={`px-3 py-1.5 rounded-md text-sm transition-all ${
+                viewMode === 'grid'
+                  ? 'bg-primary-500 text-white'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
+              }`}
             >
-              {t('common.resetProgress')}
+              {t('moodboards.viewModes.grid')}
+            </button>
+            <button
+              onClick={handleStudyMode}
+              className={`px-3 py-1.5 rounded-md text-sm transition-all ${
+                viewMode === 'study'
+                  ? 'bg-primary-500 text-white'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
+              }`}
+            >
+              {t('moodboards.viewModes.study')}
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`px-3 py-1.5 rounded-md text-sm transition-all ${
+                viewMode === 'list'
+                  ? 'bg-primary-500 text-white'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
+              }`}
+            >
+              {t('moodboards.viewModes.list')}
             </button>
           </div>
-        }
-        backLink="/kanji-moods"
-      />
+
+          {/* Show completed toggle */}
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={showCompleted}
+              onChange={(e) => setShowCompleted(e.target.checked)}
+              className="w-4 h-4 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
+            />
+            <span className="text-sm">{t('moodboards.showCompleted')}</span>
+          </label>
+
+          {/* Generate Story button (admin only) */}
+          {user?.isAdmin && (
+            <button
+              onClick={() => handleGenerateStory()}
+              className="px-3 py-1.5 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors text-sm flex items-center gap-1"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              Generate Story
+            </button>
+          )}
+
+          {/* Reset progress button */}
+          <button
+            onClick={handleResetProgress}
+            className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
+          >
+            {t('common.resetProgress')}
+          </button>
+        </div>
+      </div>
 
       {/* Content area */}
       <div className="container mx-auto px-4 py-8">

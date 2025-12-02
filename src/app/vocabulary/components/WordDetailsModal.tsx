@@ -224,7 +224,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                     type={isConjugatable ? 'verbAdj' : 'word'}
                     metadata={{
                       reading: word.kana,
-                      meaning: word.meanings?.join(', ') || '',
+                      meaning: word.meaning || '',
                       jlptLevel: word.jlpt ? parseInt(word.jlpt.replace('N', '')) : undefined
                     }}
                     variant="bookmark"
@@ -279,7 +279,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
               {/* Meaning */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  {strings.reviewPrompts?.vocabulary?.wordMeaning || 'Meaning'}
+                  {(strings.reviewPrompts?.vocabulary as any)?.wordMeaning || 'Meaning'}
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300">
                   {word.meaning}
@@ -290,7 +290,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
               {word.romaji && (
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    {strings.reviewPrompts?.vocabulary?.wordRomaji || 'Romaji'}
+                    {(strings.reviewPrompts?.vocabulary as any)?.wordRomaji || 'Romaji'}
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     {word.romaji}
@@ -303,7 +303,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 flex items-center gap-2">
                     <Tag className="w-4 h-4" />
-                    {strings.reviewPrompts?.vocabulary?.wordTags || 'Tags'}
+                    {(strings.reviewPrompts?.vocabulary as any)?.wordTags || 'Tags'}
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {word.tags.map((tag, index) => (
@@ -322,7 +322,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
               <div className="pt-4 border-t border-gray-200 dark:border-dark-700">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 flex items-center gap-2">
                   <BookOpen className="w-4 h-4" />
-                  {strings.reviewPrompts?.vocabulary?.wordExampleSentences || 'Example Sentences'}
+                  {(strings.reviewPrompts?.vocabulary as any)?.wordExampleSentences || 'Example Sentences'}
                 </h3>
 
                 {loadingExamples ? (
@@ -371,7 +371,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                   </div>
                 ) : (
                   <p className="text-gray-500 dark:text-gray-400 text-sm italic">
-                    {strings.reviewPrompts?.vocabulary?.noExamplesFound || 'No examples found for this word'}
+                    {(strings.reviewPrompts?.vocabulary as any)?.noExamplesFound || 'No examples found for this word'}
                   </p>
                 )}
               </div>

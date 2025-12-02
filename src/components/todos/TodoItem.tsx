@@ -247,9 +247,9 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
               {todo.description}
             </p>
           )}
-          {todo.tags && todo.tags.length > 0 && (
+          {(todo as Todo & { tags?: string[] }).tags && (todo as Todo & { tags?: string[] }).tags!.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-3">
-              {todo.tags.map((tag, index) => (
+              {(todo as Todo & { tags?: string[] }).tags!.map((tag: string, index: number) => (
                 <span
                   key={index}
                   className="px-2.5 py-1 text-xs font-medium bg-gradient-to-r from-primary-100 to-primary-200 dark:from-primary-900/30 dark:to-primary-800/30 text-primary-700 dark:text-primary-300 rounded-full"

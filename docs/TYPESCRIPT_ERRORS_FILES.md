@@ -178,6 +178,14 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 | `src/app/kanji-connection/radicals/page.tsx` | 2025-12-02 | Fixed structuredData.learningResource args - singular strings not arrays (2 errors) |
 | `src/app/kanji-connection/visual-layout/VisualLayoutPage.tsx` | 2025-12-02 | Fixed LoadingOverlay import, removed showSaveButton prop (2 errors) |
 | `src/app/kanji-connection/visual-layout/page.tsx` | 2025-12-02 | Fixed structuredData.learningResource args - singular strings not arrays (2 errors) |
+| `src/app/api/kanji/by-radical/route.ts` | 2025-12-02 | Added KanjiItem/RadicalKanjiResult interfaces, typed getRadicalKanji return, mapped kanjiList to strings (1 error) |
+| `src/app/kanji-moods/[boardId]/page.tsx` | 2025-12-02 | Fixed Kanji type (JLPTLevel cast), LearningPageHeader stats format, removed unsupported actions/backLink props (2 errors) |
+| `src/components/kanji-moods/KanjiCard.tsx` | 2025-12-02 | Fixed readings optional access (onyomi/kunyomi fallbacks), examples type handling (5 errors) |
+| `src/app/tools/kanji-mastery/learn/components/Round2Test.tsx` | 2025-12-02 | Split tests array definition to preserve TestType literal types after filter, removed redundant recognition type check (3 errors) |
+| `src/components/kanji/ExamplesModal.tsx` | 2025-12-02 | Fixed i18n strings path (strings.kanji.examples instead of strings.review.kanji.study) (2 errors) |
+| `src/components/kanji/KanjiDetailsModal.tsx` | 2025-12-02 | Fixed i18n strings (overview/readings/info tabs), jlptLevel number conversion for AddToListButton (4 errors) |
+| `src/hooks/useKanjiDetails.ts` | 2025-12-02 | Fixed minimal Kanji object - added required fields (meanings, strokeCount, examples), default jlpt='N5' instead of undefined (1 error) |
+| `src/i18n/locales/en/strings.ts` | 2025-12-02 | Added kanji modal i18n keys: overview, readings, info, noExamples (supports KanjiDetailsModal tabs) |
 
 ---
 
@@ -439,10 +447,7 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 - `src/components/gamification/StreakSaveModal.tsx`
 
 ### Kanji Components
-- `src/components/kanji/ExamplesModal.tsx`
-- `src/components/kanji/KanjiDetailsModal.tsx`
-- `src/components/kanji/KanjiStudyMode.tsx`
-- `src/components/kanji-moods/KanjiCard.tsx`
+> *All kanji components fixed 2025-12-02 - see Fixed Files section*
 
 ### Layout Components
 - `src/components/landing/PricingComparison.tsx`
@@ -649,8 +654,8 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 - `src/hooks/useDrill.ts`
 - `src/hooks/useEntitlementModal.ts`
 - `src/hooks/useGamification.ts`
-- `src/hooks/useKanjiDetails.ts`
 - `src/hooks/useKeyboardShortcuts.ts`
+> *Note: useKanjiDetails.ts fixed 2025-12-02 - see Fixed Files*
 - `src/hooks/useNotificationIntegration.ts`
 - `src/hooks/useNotificationPreferences.ts`
 - `src/hooks/usePokemonCatch.ts`

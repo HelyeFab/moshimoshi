@@ -275,7 +275,7 @@ export default function DrillPage() {
           selectedLists: settings.selectedLists,
           questionsCount: settings.questionsPerSession,
           jlptLevels: settings.jlptLevels,
-          conjugationForms: settings.conjugationForms?.length > 0 ? settings.conjugationForms : undefined
+          conjugationForms: (settings.conjugationForms?.length ?? 0) > 0 ? settings.conjugationForms : undefined
         })
       });
 
@@ -358,7 +358,8 @@ export default function DrillPage() {
         );
 
         // Check if we have relevant help to show
-        hasRelevantHelp = errorReport.relevantHelp && errorReport.relevantHelp.length > 0;
+        const report = errorReport as { relevantHelp?: any[] };
+        hasRelevantHelp = !!(report.relevantHelp && report.relevantHelp.length > 0);
 
         // Store error report to show help banner (don't auto-open modal!)
         setCurrentErrorReport(errorReport);
@@ -393,9 +394,10 @@ export default function DrillPage() {
 
       session.questions.forEach(question => {
         // Extract word type and conjugation
-        if (question.word.type === 'verb') {
+        const wordType = question.word.type as string;
+        if (wordType === 'verb') {
           verbsPracticed.push(question.word.kanji || question.word.kana);
-        } else if (question.word.type === 'adjective') {
+        } else if (wordType === 'adjective') {
           adjectivesPracticed.push(question.word.kanji || question.word.kana);
         }
         conjugationTypes.push(question.targetForm);
@@ -556,7 +558,7 @@ export default function DrillPage() {
                   />
                   <span className="text-sm text-muted-foreground">{questionLimits.max}</span>
                 </div>
-                {user?.subscription?.plan === 'free' && (
+                {subscription?.plan === 'free' && (
                   <p className="text-xs text-muted-foreground mt-2">
                     {t('drill.upgradeForMore')}
                   </p>

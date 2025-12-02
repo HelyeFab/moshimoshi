@@ -122,10 +122,10 @@ export default function KanjiDetailsModal({
 
   // Tab configuration
   const tabs = [
-    { id: 'overview', label: strings.kanji?.overview || 'Overview', icon: '本' },
-    { id: 'readings', label: strings.kanji?.readings || 'Readings', icon: '音' },
-    { id: 'examples', label: strings.kanji?.examples || 'Examples', icon: '文' },
-    { id: 'info', label: strings.kanji?.info || 'Info', icon: '情' }
+    { id: 'overview', label: strings?.kanji?.overview || 'Overview', icon: '本' },
+    { id: 'readings', label: strings?.kanji?.readings || 'Readings', icon: '音' },
+    { id: 'examples', label: strings?.kanji?.examples || 'Examples', icon: '文' },
+    { id: 'info', label: strings?.kanji?.info || 'Info', icon: '情' }
   ]
 
   return (
@@ -482,7 +482,7 @@ export default function KanjiDetailsModal({
               metadata={{
                 reading: kanji.kunyomi?.[0] || kanji.onyomi?.[0] || '',
                 meaning: kanji.meaning,
-                jlptLevel: kanji.jlpt
+                jlptLevel: kanji.jlpt ? parseInt(kanji.jlpt.replace('N', ''), 10) : undefined
               }}
               variant="bookmark"
               size="medium"
