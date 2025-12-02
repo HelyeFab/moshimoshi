@@ -900,14 +900,12 @@ export default function LearningVillage() {
       foundation: [
         'hiragana',
         'katakana',
-        'drill',
         'kanji-browser',
         'kanji-mastery',
         'kanji-connections',
-        'mood-boards',
         'conjugation',
       ],
-      study: ['vocabulary', 'my-lists', 'textbook-vocab', 'flashcards'],
+      study: ['vocabulary', 'my-lists', 'textbook-vocab', 'flashcards', 'mood-boards', 'drill'],
       immersion: [
         'stories',
         'news',
