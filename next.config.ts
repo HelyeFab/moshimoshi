@@ -2,6 +2,22 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+
+  // Headers configuration for security and authentication
+  async headers() {
+    return [
+      {
+        // Apply to all routes - needed for Firebase Google Sign-In popup
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin-allow-popups',
+          },
+        ],
+      },
+    ]
+  },
   images: {
     domains: [
       'firebasestorage.googleapis.com',
