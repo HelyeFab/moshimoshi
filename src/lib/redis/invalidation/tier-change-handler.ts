@@ -15,6 +15,14 @@
 import { redis, RedisKeys } from '@/lib/redis/client'
 import { adminDb } from '@/lib/firebase/admin'
 
+/** Get Firestore instance, throwing if not initialized */
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Firebase Admin Firestore is not initialized')
+  }
+  return adminDb
+}
+
 export interface TierChangeInvalidationResult {
   success: boolean
   cachesClearedCount: number
@@ -51,7 +59,7 @@ export async function invalidateAllUserCaches(
   // Define all cache keys that need to be invalidated
   const cacheOperations = [
     { key: RedisKeys.userTier(userId), type: 'tier' },
-    { key: RedisKeys.userSession(userId), type: 'session' },
+    { key: RedisKeys.userSessions(userId), type: 'session' },
     { key: RedisKeys.userStats(userId), type: 'stats' },
     { key: RedisKeys.reviewQueue(userId), type: 'queue' },
     { key: RedisKeys.userEntitlements(userId), type: 'entitlements' },
@@ -92,7 +100,7 @@ export async function invalidateAllUserCaches(
 
   // Log invalidation event to Firestore (for auditing and monitoring)
   try {
-    await adminDb.collection('audit_logs').add({
+    await getDb().collection('audit_logs').add({
       type: 'cache_invalidation',
       userId,
       reason,
@@ -149,7 +157,7 @@ export async function invalidateSpecificCaches(
   // Map cache types to Redis keys
   const cacheKeyMap: Record<string, string> = {
     tier: RedisKeys.userTier(userId),
-    session: RedisKeys.userSession(userId),
+    session: RedisKeys.userSessions(userId),
     stats: RedisKeys.userStats(userId),
     queue: RedisKeys.reviewQueue(userId),
     entitlements: RedisKeys.userEntitlements(userId),
@@ -184,7 +192,7 @@ export async function invalidateSpecificCaches(
 
   // Log to audit
   try {
-    await adminDb.collection('audit_logs').add({
+    await getDb().collection('audit_logs').add({
       type: 'cache_invalidation_targeted',
       userId,
       reason,

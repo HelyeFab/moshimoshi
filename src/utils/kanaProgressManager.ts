@@ -306,7 +306,7 @@ export class KanaProgressManager {
 
       await this.db.put(storeName, storedProgress);
 
-      reviewLogger.debug(`[KanaProgressManager] Saved ${script} progress for ${characterId} to IndexedDB`);
+      logger.debug(`[KanaProgressManager] Saved ${script} progress for ${characterId} to IndexedDB`);
     } catch (error) {
       logger.error('[KanaProgressManager] Failed to save to IndexedDB:', error);
     }

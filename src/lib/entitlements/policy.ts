@@ -12,9 +12,9 @@ export const POLICY_VERSION = 1;
 export type LimitType = 'daily' | 'weekly' | 'monthly';
 
 export interface PlanLimits {
-  daily?: Record<FeatureId, number>;
-  weekly?: Record<FeatureId, number>;
-  monthly?: Record<FeatureId, number>;
+  daily?: Partial<Record<FeatureId, number>>;
+  weekly?: Partial<Record<FeatureId, number>>;
+  monthly?: Partial<Record<FeatureId, number>>;
 }
 
 export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {

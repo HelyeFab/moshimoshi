@@ -31,6 +31,14 @@
 
 import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
+
+/** Get Firestore instance, throwing if not initialized */
+function getDb() {
+  if (!adminDb) {
+    throw new Error('Firebase Admin Firestore is not initialized')
+  }
+  return adminDb
+}
 import { getStreakConfig } from '@/config/gamification/streakConfig'
 import { updateStreakWithinTransaction, type StreakUpdateResult } from './streakService'
 import { Accuracy } from '@/lib/statistics/accuracy'
@@ -136,8 +144,8 @@ export async function recordDrillCompletion(params: {
   const xpEarned = calculateDrillXP({ score, totalQuestions, accuracy })
 
   // Use transaction for atomic updates
-  return await adminDb.runTransaction(async (transaction) => {
-    const userStatsRef = adminDb.collection('user_stats').doc(userId)
+  return await getDb().runTransaction(async (transaction) => {
+    const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
     // Initialize if doesn't exist
@@ -319,8 +327,8 @@ export async function recordReviewCompletion(params: {
   const xpEarned = calculateReviewXP({ itemsReviewed, correctCount, accuracy })
 
   // Use transaction for atomic updates
-  return await adminDb.runTransaction(async (transaction) => {
-    const userStatsRef = adminDb.collection('user_stats').doc(userId)
+  return await getDb().runTransaction(async (transaction) => {
+    const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
     // Initialize if doesn't exist
@@ -467,8 +475,8 @@ export async function awardManualXP(params: {
     throw new Error('Firebase Admin not initialized')
   }
 
-  return await adminDb.runTransaction(async (transaction) => {
-    const userStatsRef = adminDb.collection('user_stats').doc(userId)
+  return await getDb().runTransaction(async (transaction) => {
+    const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
     const currentStats = statsDoc.data() || {}
@@ -483,7 +491,7 @@ export async function awardManualXP(params: {
     })
 
     // Log the manual XP award
-    const logRef = adminDb.collection('xp_logs').doc()
+    const logRef = getDb().collection('xp_logs').doc()
     transaction.set(logRef, {
       userId,
       amount,
