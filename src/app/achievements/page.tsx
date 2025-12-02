@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
@@ -10,6 +10,9 @@ import PageHeader from '@/components/layout/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { cn } from '@/utils/cn'
 import achievementsConfig from '@/config/gamification/achievements.json'
+
+// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
+const isAchievementsEnabled = process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false'
 
 // Achievement rarity colors
 const rarityColors = {
@@ -65,6 +68,18 @@ export default function AchievementsPage() {
   const unlockedAchievementsList = useMemo(() => {
     return allAchievements.filter(a => a.unlocked)
   }, [allAchievements])
+
+  // Redirect if Achievements feature is disabled
+  useEffect(() => {
+    if (!isAchievementsEnabled) {
+      router.replace('/dashboard')
+    }
+  }, [router])
+
+  // Don't render if feature is disabled (prevents flash before redirect)
+  if (!isAchievementsEnabled) {
+    return null
+  }
 
   // Categories for filter buttons
   const categories: { value: AchievementCategory; label: string }[] = [

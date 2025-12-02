@@ -14,6 +14,9 @@ import { LoadingOverlay } from '@/components/ui/Loading';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 // Navigation is now global via NavigationWrapper in root layout;
 
+// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
+const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false'
+
 export default function ReviewDashboard() {
   const { user, loading: authLoading } = useAuth();
   const { t } = useI18n();
@@ -163,6 +166,18 @@ export default function ReviewDashboard() {
 
     fetchActivityData();
   }, [user, sessions, loading, activities]);
+
+  // Redirect if Review Hub feature is disabled
+  useEffect(() => {
+    if (!isReviewHubEnabled) {
+      router.replace('/dashboard')
+    }
+  }, [router])
+
+  // Don't render if feature is disabled (prevents flash before redirect)
+  if (!isReviewHubEnabled) {
+    return null
+  }
 
   if (authLoading || loading) {
     return (

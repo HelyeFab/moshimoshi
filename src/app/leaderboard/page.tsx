@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
@@ -13,9 +14,13 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import type { LeaderboardEntry, LeaderboardResponse, UserRankResponse } from '@/lib/leaderboard/types'
 import { validateStreakDisplay } from '@/lib/gamification/utils/streakValidation'
 
+// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
+const isLeaderboardEnabled = process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false'
+
 export default function LeaderboardPage() {
   const { user } = useAuth()
   const { t, strings } = useI18n()
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState<'global' | 'friends'>('global')
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
@@ -79,6 +84,18 @@ export default function LeaderboardPage() {
     }
     fetchUserRank()
   }, [user?.uid])
+
+  // Redirect if Leaderboard feature is disabled
+  useEffect(() => {
+    if (!isLeaderboardEnabled) {
+      router.replace('/dashboard')
+    }
+  }, [router])
+
+  // Don't render if feature is disabled (prevents flash before redirect)
+  if (!isLeaderboardEnabled) {
+    return null
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-dark-900 dark:via-dark-800 dark:to-dark-900">

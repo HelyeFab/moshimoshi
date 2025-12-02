@@ -27,14 +27,33 @@ const isStandalone = (): boolean => {
   )
 }
 
-// Check if install prompt was recently dismissed
+// Check if install prompt was recently dismissed (7 days)
 const wasRecentlyDismissed = (): boolean => {
   if (typeof window === 'undefined') return false
   const dismissed = localStorage.getItem('pwa_install_dismissed')
   if (!dismissed) return false
   const dismissedTime = new Date(dismissed).getTime()
-  const threeDaysAgo = Date.now() - 3 * 24 * 60 * 60 * 1000
-  return dismissedTime > threeDaysAgo
+  const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
+  return dismissedTime > sevenDaysAgo
+}
+
+// Visit count management for engagement threshold
+const VISIT_COUNT_KEY = 'pwa_visit_count'
+const MIN_VISITS_FOR_PROMPT = 3
+
+const getVisitCount = (): number => {
+  if (typeof window === 'undefined') return 0
+  return parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0', 10)
+}
+
+const incrementVisitCount = (): void => {
+  if (typeof window === 'undefined') return
+  const count = getVisitCount() + 1
+  localStorage.setItem(VISIT_COUNT_KEY, count.toString())
+}
+
+const hasEnoughVisits = (): boolean => {
+  return getVisitCount() >= MIN_VISITS_FOR_PROMPT
 }
 
 export function PWAInstallPrompt() {
@@ -45,8 +64,11 @@ export function PWAInstallPrompt() {
   const [isInstalling, setIsInstalling] = useState(false)
 
   useEffect(() => {
-    // Don't show if already installed or recently dismissed
-    if (isStandalone() || wasRecentlyDismissed()) return
+    // Increment visit count on each mount
+    incrementVisitCount()
+
+    // Don't show if already installed, recently dismissed, or not enough visits
+    if (isStandalone() || wasRecentlyDismissed() || !hasEnoughVisits()) return
 
     // Handle iOS Safari
     if (isIOS()) {

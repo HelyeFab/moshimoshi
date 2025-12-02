@@ -337,7 +337,7 @@ function KanjiBrowserContent() {
 
     // First, collect the selected kanji and their JLPT levels
     Object.entries(kanjiData).forEach(([level, levelKanji]) => {
-      levelKanji.forEach(k => {
+      levelKanji.forEach((k: Kanji) => {
         if (selectedKanji.has(k.kanji)) {
           kanjiDataArray.push(k)
           jlptLevelsInUse.add(level)
@@ -389,7 +389,7 @@ function KanjiBrowserContent() {
     // Convert selected kanji to array
     const kanjiDataArray: Kanji[] = []
     Object.values(kanjiData).forEach(levelKanji => {
-      levelKanji.forEach(k => {
+      levelKanji.forEach((k: Kanji) => {
         if (selectedKanji.has(k.kanji)) {
           kanjiDataArray.push(k)
         }

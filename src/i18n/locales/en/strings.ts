@@ -5434,5 +5434,29 @@ export const strings = {
     },
     noResults: "No kanji found matching your criteria",
     loading: "Loading kanji..."
+  },
+
+  // Review Prompts (used in vocabulary search and history)
+  reviewPrompts: {
+    vocabulary: {
+      searchHistory: "Search History",
+      searchHistoryEmpty: "Your search history will appear here",
+      searchHistoryClear: "Clear",
+      searchHistoryResults: "{{count}} results",
+      searchJustNow: "Just now",
+      searchMinutesAgo: "{{minutes}}m ago",
+      searchHoursAgo: "{{hours}}h ago",
+      searchDaysAgo: "{{days}}d ago",
+      searchPlaceholder: "Search vocabulary...",
+      noResults: "No results found",
+      searchHint: "Try different keywords",
+      searching: "Searching...",
+      addToList: "Add to List",
+      saveWord: "Save Word",
+      studyWord: "Study Word",
+      pronunciation: "Pronunciation",
+      examples: "Examples",
+      conjugations: "Conjugations"
+    }
   }
 }

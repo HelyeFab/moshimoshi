@@ -30,8 +30,10 @@ export type FeatureFlag =
   | 'ANKI_IMPORT'               // Anki deck import
   | 'CUSTOM_LISTS'              // Custom study lists
   | 'REVIEW_ENGINE'             // Universal review engine
+  | 'REVIEW_HUB'                // Review hub/dashboard
   | 'FLASHCARDS'                // Flashcard system
   | 'GAMES'                     // Learning games
+  | 'TODOS'                     // Task manager / todos
 
 /**
  * Default feature states
@@ -49,6 +51,7 @@ const DEFAULT_FEATURES: Record<FeatureFlag, boolean> = {
 
   // Core Learning Features (stable)
   REVIEW_ENGINE: true,
+  REVIEW_HUB: true,
   FLASHCARDS: true,
   DRILL_PRACTICE: true,
   KANJI_BROWSER: true,
@@ -58,6 +61,9 @@ const DEFAULT_FEATURES: Record<FeatureFlag, boolean> = {
   STREAK_SYSTEM: true,
   LEADERBOARD: true,
   ACHIEVEMENTS: true,
+
+  // Productivity (stable)
+  TODOS: true,
 
   // Advanced Features (can be toggled off for testing)
   YOUTUBE_SHADOWING: true,
@@ -237,6 +243,11 @@ export function getFeatureMetadata(feature: FeatureFlag): {
       description: 'Universal SRS review system',
       category: 'Learning'
     },
+    REVIEW_HUB: {
+      name: 'Review Hub',
+      description: 'Unified review dashboard',
+      category: 'Learning'
+    },
     FLASHCARDS: {
       name: 'Flashcards',
       description: 'Flashcard study system',
@@ -246,6 +257,11 @@ export function getFeatureMetadata(feature: FeatureFlag): {
       name: 'Learning Games',
       description: 'Educational games',
       category: 'Learning'
+    },
+    TODOS: {
+      name: 'Task Manager',
+      description: 'Study task organization and goals',
+      category: 'Productivity'
     },
   }
 

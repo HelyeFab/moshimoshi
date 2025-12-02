@@ -37,6 +37,7 @@ export interface KanjiByLevel {
   N3?: Kanji[]
   N2?: Kanji[]
   N1?: Kanji[]
+  [key: string]: Kanji[] | undefined
 }
 
 export interface SavedKanji {

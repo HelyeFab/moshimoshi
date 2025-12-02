@@ -3,6 +3,8 @@
 
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { TodoList } from '@/components/todos/TodoList'
 // Navigation is now global via NavigationWrapper in root layout
 import { useAuth } from '@/hooks/useAuth'
@@ -11,10 +13,26 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 
+// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
+const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false'
+
 export default function TodosPage() {
   const { t } = useI18n()
   const { user, isAuthenticated, loading: authLoading } = useAuth()
   const { isPremium, isLoading: subLoading } = useSubscription()
+  const router = useRouter()
+
+  // Redirect if Todos feature is disabled
+  useEffect(() => {
+    if (!isTodosEnabled) {
+      router.replace('/dashboard')
+    }
+  }, [router])
+
+  // Don't render if feature is disabled (prevents flash before redirect)
+  if (!isTodosEnabled) {
+    return null
+  }
 
   // Show loading while auth is being checked
   if (authLoading || subLoading) {

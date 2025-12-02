@@ -494,13 +494,21 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
   // Filter out disabled features
   // Note: Direct env check needed because Next.js only inlines static NEXT_PUBLIC_* references
   const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false'
+  const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false'
+  const isAchievementsEnabled = process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false'
+  const isLeaderboardEnabled = process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false'
+  const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false'
 
   const enabledCommands = useMemo(() => {
     return allCommands.filter(command => {
       if (command.id === 'games' && !isGamesEnabled) return false
+      if (command.id === 'review-hub' && !isReviewHubEnabled) return false
+      if (command.id === 'achievements' && !isAchievementsEnabled) return false
+      if (command.id === 'leaderboard' && !isLeaderboardEnabled) return false
+      if (command.id === 'todos' && !isTodosEnabled) return false
       return true
     })
-  }, [allCommands, isGamesEnabled])
+  }, [allCommands, isGamesEnabled, isReviewHubEnabled, isAchievementsEnabled, isLeaderboardEnabled, isTodosEnabled])
 
   // Filter commands based on search query
   const filteredCommands = useMemo(() => {

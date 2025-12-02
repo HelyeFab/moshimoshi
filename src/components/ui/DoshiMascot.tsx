@@ -113,7 +113,7 @@ export default function DoshiMascot({
     }
   }, [shouldAnimate, animationData, loadError]);
 
-  const wrapperProps = {
+  const wrapperProps: React.HTMLAttributes<HTMLDivElement> & { style: React.CSSProperties } = {
     className: `relative inline-block transition-transform ${
       onClick ? 'cursor-pointer hover:scale-110' : ''
     } ${className}`,
@@ -128,8 +128,8 @@ export default function DoshiMascot({
       ...(isMobile && shouldAnimate ? {
         WebkitTransform: 'translate3d(0,0,0)',
         transform: 'translate3d(0,0,0)',
-        WebkitBackfaceVisibility: 'hidden',
-        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden' as const,
+        backfaceVisibility: 'hidden' as const,
       } : {}),
     },
     role: onClick ? 'button' : undefined,
@@ -164,23 +164,26 @@ export default function DoshiMascot({
             // Disable pointer events to improve performance
             pointerEvents: onClick ? 'auto' : 'none',
           }}
-          renderer={isMobile ? 'canvas' : 'svg'}
-          rendererSettings={{
-            preserveAspectRatio: 'xMidYMid meet',
-            // Force canvas renderer on mobile for better performance
-            // Canvas renderer prevents the tearing issues on mobile
-            ...(isMobile ? {
-              context: undefined,
-              clearCanvas: false,
-              progressiveLoad: false,
-              hideOnTransparent: true,
-            } : {
-              viewBoxOnly: true,
-              progressiveLoad: true,
-              hideOnTransparent: false,
-              className: 'lottie-animation'
-            })
-          }}
+          // lottie-react passes these to lottie-web but types are incomplete
+          {...{
+            renderer: isMobile ? 'canvas' : 'svg',
+            rendererSettings: {
+              preserveAspectRatio: 'xMidYMid meet',
+              // Force canvas renderer on mobile for better performance
+              // Canvas renderer prevents the tearing issues on mobile
+              ...(isMobile ? {
+                context: undefined,
+                clearCanvas: false,
+                progressiveLoad: false,
+                hideOnTransparent: true,
+              } : {
+                viewBoxOnly: true,
+                progressiveLoad: true,
+                hideOnTransparent: false,
+                className: 'lottie-animation'
+              })
+            }
+          } as Record<string, unknown>}
         />
       ) : (
         <Image

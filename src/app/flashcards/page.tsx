@@ -126,7 +126,7 @@ export default function FlashcardsPage() {
       setLoading(true);
 
       // Load flashcard decks
-      const userDecks = await flashcardManager.getDecks(user.uid, isPremium);
+      const userDecks = await flashcardManager.getDecks(user.uid, isPremium ?? false);
 
       // Check if request was aborted
       if (abortControllerRef.current?.signal.aborted) {
@@ -136,7 +136,7 @@ export default function FlashcardsPage() {
       setDecks(userDecks);
 
       // Load user lists for import option
-      const lists = await listManager.getLists(user.uid, isPremium);
+      const lists = await listManager.getLists(user.uid, isPremium ?? false);
 
       // Check if request was aborted
       if (abortControllerRef.current?.signal.aborted) {
@@ -264,7 +264,7 @@ export default function FlashcardsPage() {
     }
 
     try {
-      const newDeck = await flashcardManager.createDeck(deckRequest, user.uid, isPremium);
+      const newDeck = await flashcardManager.createDeck(deckRequest, user.uid, isPremium ?? false);
       if (newDeck) {
         setDecks([newDeck, ...decks]);
         setShowCreator(false);
@@ -297,7 +297,7 @@ export default function FlashcardsPage() {
     }
 
     try {
-      const updatedDeck = await flashcardManager.updateDeck(editingDeck.id, deckRequest, user.uid, isPremium);
+      const updatedDeck = await flashcardManager.updateDeck(editingDeck.id, deckRequest, user.uid, isPremium ?? false);
       if (updatedDeck) {
         setDecks(decks.map(d => d.id === updatedDeck.id ? updatedDeck : d));
         setShowCreator(false);
@@ -324,7 +324,7 @@ export default function FlashcardsPage() {
     if (!user || !deckToDelete) return;
 
     try {
-      const success = await flashcardManager.deleteDeck(deckToDelete.id, user.uid, isPremium);
+      const success = await flashcardManager.deleteDeck(deckToDelete.id, user.uid, isPremium ?? false);
       if (success) {
         setDecks(decks.filter(d => d.id !== deckToDelete.id));
         showToast(t('flashcards.success.deckDeleted'), 'success');
@@ -599,7 +599,7 @@ export default function FlashcardsPage() {
           <div className="mb-8">
             <DailyGoals
               userId={user.uid}
-              isPremium={isPremium}
+              isPremium={isPremium ?? false}
               onGoalComplete={(goalType) => {
                 console.log('Goal completed:', goalType);
               }}
@@ -768,7 +768,7 @@ export default function FlashcardsPage() {
           onSave={editingDeck ? handleUpdateDeck : handleCreateDeck}
           userLists={userLists}
           userId={user?.uid || 'guest'}
-          isPremium={isPremium}
+          isPremium={isPremium ?? false}
           editDeck={editingDeck}
         />
 

@@ -61,8 +61,8 @@ class A2HSManager {
       const dismissedDate = new Date(installDismissedAt)
       const daysSinceDismissed = (Date.now() - dismissedDate.getTime()) / (1000 * 60 * 60 * 24)
 
-      // Don't show prompt again for 14 days after dismissal
-      if (daysSinceDismissed < 14) {
+      // Don't show prompt again for 7 days after dismissal (standardized)
+      if (daysSinceDismissed < 7) {
         this.isInstalled = true
       }
     }

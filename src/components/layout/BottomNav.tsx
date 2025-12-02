@@ -103,10 +103,15 @@ export default function BottomNav({ className, hideOnScroll = false, extraItem: 
   // Filter nav items based on feature flags
   // Note: Direct env check needed because Next.js only inlines static NEXT_PUBLIC_* references
   const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false';
+  const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false';
 
   const filteredNavItems = baseNavItems.filter(item => {
     // Hide games if GAMES feature is disabled
     if (item.id === 'games' && !isGamesEnabled) {
+      return false;
+    }
+    // Hide review if REVIEW_HUB feature is disabled
+    if (item.id === 'review' && !isReviewHubEnabled) {
       return false;
     }
     return true;

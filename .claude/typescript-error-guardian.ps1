@@ -27,21 +27,47 @@ function Get-LiveErrorCount {
     Write-Host "Running TypeScript compiler (this may take 2-3 minutes)..." -ForegroundColor Yellow
 
     $startTime = Get-Date
-    $tempFile = [System.IO.Path]::GetTempFileName()
+    $tempFile = Join-Path $env:TEMP "tsc_output_$(Get-Date -Format 'yyyyMMdd_HHmmss').txt"
 
     try {
-        # Run tsc and redirect to temp file (faster than piping)
-        $proc = Start-Process -FilePath "npx" -ArgumentList "tsc", "--noEmit" -NoNewWindow -Wait -RedirectStandardOutput $tempFile -RedirectStandardError "$tempFile.err" -PassThru
-        $duration = (Get-Date) - $startTime
+        # Use Start-Process with cmd.exe to properly handle npx.cmd on Windows
+        Write-Host "  Starting tsc process..." -ForegroundColor Gray
 
-        # Read output from temp file
-        $tscOutput = Get-Content $tempFile -Raw -ErrorAction SilentlyContinue
-        if (Test-Path "$tempFile.err") {
-            $tscOutput += Get-Content "$tempFile.err" -Raw -ErrorAction SilentlyContinue
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = "cmd.exe"
+        $psi.Arguments = "/c npx tsc --noEmit 2>&1"
+        $psi.WorkingDirectory = $ProjectRoot
+        $psi.RedirectStandardOutput = $true
+        $psi.RedirectStandardError = $true
+        $psi.UseShellExecute = $false
+        $psi.CreateNoWindow = $true
+
+        $process = [System.Diagnostics.Process]::Start($psi)
+
+        # Read output asynchronously to prevent deadlocks
+        $stdout = $process.StandardOutput.ReadToEndAsync()
+        $stderr = $process.StandardError.ReadToEndAsync()
+
+        # Wait for process with timeout (5 minutes max)
+        $completed = $process.WaitForExit(300000)
+
+        if (-not $completed) {
+            Write-Host "  Tsc timed out after 5 minutes, killing process..." -ForegroundColor Red
+            $process.Kill()
+            $tscOutput = ""
+        } else {
+            [System.Threading.Tasks.Task]::WaitAll(@($stdout, $stderr))
+            $tscOutput = $stdout.Result + "`n" + $stderr.Result
+            Write-Host "  Process completed with exit code: $($process.ExitCode)" -ForegroundColor Gray
         }
+
+        $duration = (Get-Date) - $startTime
+    } catch {
+        Write-Host "Error running tsc: $_" -ForegroundColor Red
+        $tscOutput = ""
+        $duration = (Get-Date) - $startTime
     } finally {
-        Remove-Item $tempFile -ErrorAction SilentlyContinue
-        Remove-Item "$tempFile.err" -ErrorAction SilentlyContinue
+        if ($process) { $process.Dispose() }
     }
 
     # Count errors (excluding test files and .next/types)
@@ -394,6 +420,8 @@ $prompt += @"
 
 ## COMPLETE IMPLEMENTATION CONTEXT
 
+**Model:** claude-opus-4-5 (use this model for all TypeScript error fixing tasks)
+
 You are a senior TypeScript / React / Next.js engineer working on **MoshiMoshi** - a Japanese learning platform.
 
 Your task is to fix TypeScript errors **without changing business logic**.
@@ -407,14 +435,32 @@ Your task is to fix TypeScript errors **without changing business logic**.
 
 ### Workflow Per Error
 
-1. **Identify** - Copy the exact error message and location
-2. **Understand** - What does this code do? Dependencies?
-3. **Analyse** - Why is the type error happening?
-4. **Plan** - Describe the minimal, safe fix
-5. **Implement** - Apply changes, avoid ``any`` and ``!``
-6. **Verify** - Run ``npx tsc --noEmit``
-7. **Summarise** - Explain why the fix is safe
-8. **Update Tracking** - Mark file fixed in ``docs/TYPESCRIPT_ERRORS_FILES.md``
+1. **DEEPDIVE FIRST** - Before fixing errors in a new module/feature area, ALWAYS run:
+   ``/deepdive [module-name]``
+   Example: ``/deepdive review-engine`` or ``/deepdive conjugation`` or ``/deepdive kana-learning``
+   This ensures you understand the feature's architecture, types, and patterns before making changes.
+
+2. **Identify** - Copy the exact error message and location
+3. **Understand** - What does this code do? Dependencies?
+4. **Analyse** - Why is the type error happening?
+5. **Plan** - Describe the minimal, safe fix
+6. **Implement** - Apply changes, avoid ``any`` and ``!``
+7. **Verify** - Run ``npx tsc --noEmit``
+8. **Summarise** - Explain why the fix is safe
+9. **Update Tracking** - Mark file fixed in ``docs/TYPESCRIPT_ERRORS_FILES.md``
+
+### IMPORTANT: Always Use /deepdive
+
+When starting work on a new category of files (e.g., moving from API routes to components, or from one feature to another), you MUST run ``/deepdive`` first:
+
+- ``/deepdive review-engine`` - For review engine files
+- ``/deepdive conjugation`` - For verb conjugation files
+- ``/deepdive kana`` - For kana learning files
+- ``/deepdive news`` - For news/article reader files
+- ``/deepdive drill`` - For drill/quiz files
+- ``/deepdive progress`` - For progress tracking files
+
+This prevents breaking changes by ensuring full context of the feature's type system and patterns.
 
 ### Fix Preferences
 
@@ -465,13 +511,15 @@ This prevents future sessions from duplicating work!
 
 ## SESSION START
 
+**Model:** claude-opus-4-5
 **You are now fully briefed with live data.**
 
-1. Review the "Suggested Next Files" above
-2. Or pick from ``docs/TYPESCRIPT_ERRORS_FILES.md``
-3. Fix errors following the workflow
-4. Update the tracking document after each file
-5. Commit frequently with descriptive messages
+1. **Run /deepdive FIRST** - Before touching any file, run ``/deepdive [feature-area]`` to understand the module
+2. Review the "Suggested Next Files" above
+3. Or pick from ``docs/TYPESCRIPT_ERRORS_FILES.md``
+4. Fix errors following the workflow
+5. Update the tracking document after each file
+6. Commit frequently with descriptive messages
 
 **Proceed with confidence!**
 "@

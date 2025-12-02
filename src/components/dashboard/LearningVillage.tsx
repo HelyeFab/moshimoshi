@@ -708,13 +708,21 @@ export default function LearningVillage() {
   // Filter out disabled features
   // Note: Direct env check needed because Next.js only inlines static NEXT_PUBLIC_* references
   const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false'
+  const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false'
+  const isAchievementsEnabled = process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false'
+  const isLeaderboardEnabled = process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false'
+  const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false'
 
   const filteredStalls = useMemo(() => {
     return learningStalls.filter(stall => {
       if (stall.id === 'games' && !isGamesEnabled) return false
+      if (stall.id === 'review-hub' && !isReviewHubEnabled) return false
+      if (stall.id === 'achievements' && !isAchievementsEnabled) return false
+      if (stall.id === 'leaderboard' && !isLeaderboardEnabled) return false
+      if (stall.id === 'todos' && !isTodosEnabled) return false
       return true
     })
-  }, [learningStalls, isGamesEnabled])
+  }, [learningStalls, isGamesEnabled, isReviewHubEnabled, isAchievementsEnabled, isLeaderboardEnabled, isTodosEnabled])
 
   useEffect(() => {
     const hour = new Date().getHours()

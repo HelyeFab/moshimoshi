@@ -4,6 +4,8 @@ export interface TTSOptions {
   provider?: TTSProvider | 'auto';
   voice?: string;
   speed?: number;
+  /** Alias for speed - used by some components */
+  rate?: number;
   pitch?: number;
   volume?: number;
 }
