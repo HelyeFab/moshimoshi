@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     domains: [
       'firebasestorage.googleapis.com',
-      'lh3.googleusercontent.com',  // Google profile images
-      'storage.googleapis.com',      // Firebase Storage custom uploads
+      'lh3.googleusercontent.com', // Google profile images
+      'storage.googleapis.com', // Firebase Storage custom uploads
     ],
   },
   eslint: {
@@ -14,8 +14,8 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Temporarily disabled to match Vercel build settings
-    ignoreBuildErrors: true,
+    // Strict TypeScript checking enabled - all route types properly configured for Next.js 15
+    ignoreBuildErrors: false,
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -26,9 +26,9 @@ const nextConfig: NextConfig = {
         net: false,
         tls: false,
         child_process: false,
-      };
+      }
     }
-    return config;
+    return config
   },
   experimental: {
     // MVP: Optimize package imports to reduce bundle size
