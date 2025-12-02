@@ -894,6 +894,62 @@ export default function LearningVillage() {
     }
   }, [])
 
+  // Define categories and their info for grouping
+  const stallCategories = useMemo(
+    () => ({
+      foundation: ['hiragana', 'katakana', 'drill'],
+      study: [
+        'vocabulary',
+        'my-lists',
+        'kanji-browser',
+        'kanji-mastery',
+        'kanji-connections',
+        'mood-boards',
+        'conjugation',
+        'textbook-vocab',
+        'flashcards',
+      ],
+      immersion: [
+        'stories',
+        'news',
+        'library',
+        'youtube-shadowing',
+        'popular-videos',
+        'youtube-series',
+        'my-videos',
+      ],
+      play: ['games', 'review-hub'],
+      community: ['achievements', 'leaderboard', 'resources', 'blog', 'todos'],
+    }),
+    []
+  )
+
+  const categoryInfo = useMemo(
+    () => ({
+      foundation: {
+        title: (strings.dashboard as any)?.districts?.foundation || "Beginner's Plaza",
+        icon: '⛩️',
+      },
+      study: {
+        title: (strings.dashboard as any)?.districts?.study || 'Study Center',
+        icon: '📚',
+      },
+      immersion: {
+        title: (strings.dashboard as any)?.districts?.immersion || 'Immersion Alley',
+        icon: '🏮',
+      },
+      play: {
+        title: (strings.dashboard as any)?.districts?.play || 'Entertainment District',
+        icon: '🎮',
+      },
+      community: {
+        title: (strings.dashboard as any)?.districts?.community || 'Town Hall',
+        icon: '🏯',
+      },
+    }),
+    [strings]
+  )
+
   // Dynamic sky gradient based on time and theme
   const skyGradient = {
     day:
@@ -1217,117 +1273,104 @@ export default function LearningVillage() {
 
         {/* Mobile View: Vertical List with Virtual Areas */}
         <div className="sm:hidden space-y-8 px-4 pb-12">
-          {(() => {
-            const STALL_CATEGORIES = {
-              foundation: ['hiragana', 'katakana', 'drill'],
-              study: [
-                'vocabulary',
-                'my-lists',
-                'kanji-browser',
-                'kanji-mastery',
-                'kanji-connections',
-                'mood-boards',
-                'conjugation',
-                'textbook-vocab',
-                'flashcards',
-              ],
-              immersion: [
-                'stories',
-                'news',
-                'library',
-                'youtube-shadowing',
-                'popular-videos',
-                'youtube-series',
-                'my-videos',
-              ],
-              play: ['games', 'review-hub'],
-              community: ['achievements', 'leaderboard', 'resources', 'blog', 'todos'],
-            }
+          {Object.entries(stallCategories).map(([catKey, stallIds]) => {
+            // Filter stalls that belong to this category AND are currently enabled/visible
+            const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id))
 
-            const CATEGORY_INFO = {
-              foundation: {
-                title: (strings.dashboard as any)?.districts?.foundation || "Beginner's Plaza",
-                icon: '⛩️',
-              },
-              study: {
-                title: (strings.dashboard as any)?.districts?.study || 'Study Center',
-                icon: '📚',
-              },
-              immersion: {
-                title: (strings.dashboard as any)?.districts?.immersion || 'Immersion Alley',
-                icon: '🏮',
-              },
-              play: {
-                title: (strings.dashboard as any)?.districts?.play || 'Entertainment District',
-                icon: '🎮',
-              },
-              community: {
-                title: (strings.dashboard as any)?.districts?.community || 'Town Hall',
-                icon: '🏯',
-              },
-            }
+            // Don't render empty sections
+            if (categoryStalls.length === 0) return null
 
-            return Object.entries(STALL_CATEGORIES).map(([catKey, stallIds]) => {
-              // Filter stalls that belong to this category AND are currently enabled/visible
-              const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id))
+            const info = categoryInfo[catKey as keyof typeof categoryInfo]
 
-              // Don't render empty sections
-              if (categoryStalls.length === 0) return null
+            return (
+              <div key={catKey} className="space-y-3">
+                {/* Area Title */}
+                <motion.div
+                  className="flex items-center gap-2 px-1 pb-1"
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <span className="text-xl">{info.icon}</span>
+                  <h3 className="text-lg font-bold text-white/90 tracking-wide uppercase text-shadow-sm">
+                    {info.title}
+                  </h3>
+                  <div className="h-px flex-1 bg-gradient-to-r from-white/30 to-transparent ml-2" />
+                </motion.div>
 
-              const info = CATEGORY_INFO[catKey as keyof typeof CATEGORY_INFO]
-
-              return (
-                <div key={catKey} className="space-y-3">
-                  {/* Area Title */}
-                  <motion.div
-                    className="flex items-center gap-2 px-1 pb-1"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <span className="text-xl">{info.icon}</span>
-                    <h3 className="text-lg font-bold text-white/90 tracking-wide uppercase text-shadow-sm">
-                      {info.title}
-                    </h3>
-                    <div className="h-px flex-1 bg-gradient-to-r from-white/30 to-transparent ml-2" />
-                  </motion.div>
-
-                  {/* Stalls in this area */}
-                  <div className="space-y-3">
-                    {categoryStalls.map((stall, index) => (
-                      <MobileStallCard
-                        key={stall.id}
-                        stall={stall}
-                        isPopular={isPopular(stall.id as StallId)}
-                      />
-                    ))}
-                  </div>
+                {/* Stalls in this area */}
+                <div className="space-y-3">
+                  {categoryStalls.map((stall, index) => (
+                    <MobileStallCard
+                      key={stall.id}
+                      stall={stall}
+                      isPopular={isPopular(stall.id as StallId)}
+                    />
+                  ))}
                 </div>
-              )
-            })
-          })()}
+              </div>
+            )
+          })}
         </div>
 
-        {/* Desktop View: Masonry */}
-        <div className="hidden sm:block w-full">
-          <Masonry
-            breakpointCols={{
-              default: 5,
-              1280: 5, // xl
-              1024: 4, // lg
-              768: 3, // md
-              640: 2, // sm
-            }}
-            className="flex -ml-3 sm:-ml-6 w-auto"
-            columnClassName="pl-3 sm:pl-6 bg-clip-padding"
-          >
-            {filteredStalls.map((stall, index) => (
-              <div key={stall.id} className="mb-3 sm:mb-6 break-inside-avoid">
-                <StallCard stall={stall} index={index} isPopular={isPopular(stall.id as StallId)} />
+        {/* Desktop View: Masonry with Categories */}
+        <div className="hidden sm:block w-full space-y-12">
+          {Object.entries(stallCategories).map(([catKey, stallIds]) => {
+            // Filter stalls that belong to this category AND are currently enabled/visible
+            const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id))
+
+            // Don't render empty sections
+            if (categoryStalls.length === 0) return null
+
+            const info = categoryInfo[catKey as keyof typeof categoryInfo]
+
+            return (
+              <div key={catKey} className="space-y-6">
+                {/* Category Header */}
+                <motion.div
+                  className="flex items-center gap-4 px-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
+                    <span className="text-3xl filter drop-shadow-lg">{info.icon}</span>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-white tracking-wide uppercase text-shadow-lg">
+                      {info.title}
+                    </h3>
+                    <div className="h-px w-full bg-gradient-to-r from-white/40 via-white/10 to-transparent mt-2" />
+                  </div>
+                </motion.div>
+
+                {/* Masonry Grid for this category */}
+                <Masonry
+                  breakpointCols={{
+                    default: 5,
+                    1280: 5, // xl
+                    1024: 4, // lg
+                    768: 3, // md
+                    640: 2, // sm
+                  }}
+                  className="flex -ml-3 sm:-ml-6 w-auto"
+                  columnClassName="pl-3 sm:pl-6 bg-clip-padding"
+                >
+                  {categoryStalls.map((stall, index) => (
+                    <div key={stall.id} className="mb-3 sm:mb-6 break-inside-avoid">
+                      <StallCard
+                        stall={stall}
+                        index={index}
+                        isPopular={isPopular(stall.id as StallId)}
+                      />
+                    </div>
+                  ))}
+                </Masonry>
               </div>
-            ))}
-          </Masonry>
+            )
+          })}
         </div>
       </div>
     </div>
