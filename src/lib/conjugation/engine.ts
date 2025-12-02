@@ -3,6 +3,7 @@
 
 import { EnhancedJapaneseWord } from '@/utils/enhancedWordTypeDetection';
 import { ExtendedConjugationForms } from '@/types/conjugation';
+import { WordType, JapaneseWord } from '@/types/drill';
 import { cacheManager } from '@/lib/performance/cache-manager';
 
 export class ExtendedConjugationEngine {
@@ -196,7 +197,7 @@ export class ExtendedConjugationEngine {
       provisionalNegative: kanjiStem + mappings.negative + 'なければ',
       provisionalNegativeColloquial: kanjiStem + mappings.negative + 'なきゃ',
       
-      conditional: kanjiStem + mappings.past.replace(/[だた]$/, match => match === 'だ' ? 'だら' : 'たら'),
+      conditional: kanjiStem + mappings.past.replace(/[だた]$/, (match: string) => match === 'だ' ? 'だら' : 'たら'),
       conditionalNegative: kanjiStem + mappings.negative + 'なかったら',
       
       alternativeForm: kanjiStem + mappings.past + 'り',
@@ -734,25 +735,29 @@ export class ExtendedConjugationEngine {
   }
 
   // Helper: Generate TAI forms (treating as i-adjective)
-  private static generateTaiForms(stem: string): Partial<ExtendedConjugationForms> {
+  private static generateTaiForms(stem: string): Pick<ExtendedConjugationForms,
+    'taiForm' | 'taiFormNegative' | 'taiFormPast' | 'taiFormPastNegative' |
+    'taiAdjectiveStem' | 'taiTeForm' | 'taiNegativeTeForm' | 'taiAdverbial' |
+    'taiProvisional' | 'taiProvisionalNegative' | 'taiConditional' | 'taiConditionalNegative' |
+    'taiObjective'> {
     const taiBase = stem + 'たい';
-    
+
     return {
       taiForm: taiBase,
       taiFormNegative: stem + 'たくない',
       taiFormPast: stem + 'たかった',
       taiFormPastNegative: stem + 'たくなかった',
-      
+
       taiAdjectiveStem: stem + 'た',
       taiTeForm: stem + 'たくて',
       taiNegativeTeForm: stem + 'たくなくて',
       taiAdverbial: stem + 'たく',
-      
+
       taiProvisional: stem + 'たければ',
       taiProvisionalNegative: stem + 'たくなければ',
       taiConditional: stem + 'たかったら',
       taiConditionalNegative: stem + 'たくなかったら',
-      
+
       taiObjective: stem + 'たさ',
     };
   }
@@ -767,7 +772,7 @@ export class ExtendedConjugationEngine {
       meaning: '',
       type: 'Ichidan',
       conjugationType: 'Ichidan',
-      jlpt: '',
+      jlpt: undefined,
       romaji: '',
       isConjugatable: true,
       typeConfidence: 'high'
@@ -826,7 +831,7 @@ export class ExtendedConjugationEngine {
       // Fill other forms with empty to avoid undefined
       masuStem: '',
       negativeStem: '',
-      naideForm: '',
+      naiDeForm: '',
       volitional: '',
       volitionalNegative: '',
       imperativePlain: '',
@@ -951,7 +956,7 @@ export class ExtendedConjugationEngine {
       // Fill other forms with empty to avoid undefined
       masuStem: '',
       negativeStem: '',
-      naideForm: '',
+      naiDeForm: '',
       volitional: '',
       volitionalNegative: '',
       imperativePlain: '',

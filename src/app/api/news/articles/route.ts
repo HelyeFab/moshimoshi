@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Convert to array and format dates
-    const articles = snapshot.docs.map(doc => {
+    const articles = snapshot.docs.map((doc: FirebaseFirestore.QueryDocumentSnapshot) => {
       const data = doc.data();
       return {
         id: doc.id,
@@ -126,7 +126,7 @@ export async function GET(request: NextRequest) {
     let filteredArticles = articles;
     if (searchQuery) {
       const lowerQuery = searchQuery.toLowerCase();
-      filteredArticles = articles.filter(article =>
+      filteredArticles = articles.filter((article: { title?: string; summary?: string; content?: string }) =>
         article.title?.toLowerCase().includes(lowerQuery) ||
         article.summary?.toLowerCase().includes(lowerQuery) ||
         article.content?.toLowerCase().includes(lowerQuery)

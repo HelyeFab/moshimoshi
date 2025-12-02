@@ -168,7 +168,7 @@ export async function GET(request: NextRequest) {
       preferredLanguage: profileData?.preferredLanguage || 'en',
       studyGoal: profileData?.studyGoal || 'casual',
       studyTime: profileData?.studyTime || '30min',
-      tier: session.tier,
+      tier: session.tier || 'free',
       createdAt: profileData?.createdAt?.toDate() || new Date(),
       lastActiveAt: profileData?.lastActiveAt?.toDate() || new Date(),
       notifications: {

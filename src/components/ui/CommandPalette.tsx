@@ -491,18 +491,29 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
     }
   ], [router, signOut, showToast])
 
+  // Filter out disabled features
+  // Note: Direct env check needed because Next.js only inlines static NEXT_PUBLIC_* references
+  const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false'
+
+  const enabledCommands = useMemo(() => {
+    return allCommands.filter(command => {
+      if (command.id === 'games' && !isGamesEnabled) return false
+      return true
+    })
+  }, [allCommands, isGamesEnabled])
+
   // Filter commands based on search query
   const filteredCommands = useMemo(() => {
-    if (!searchQuery) return allCommands
+    if (!searchQuery) return enabledCommands
 
     const query = searchQuery.toLowerCase()
-    return allCommands.filter(command => {
+    return enabledCommands.filter(command => {
       const titleMatch = command.title.toLowerCase().includes(query)
       const subtitleMatch = command.subtitle?.toLowerCase().includes(query)
       const keywordMatch = command.keywords.some(k => k.toLowerCase().includes(query))
       return titleMatch || subtitleMatch || keywordMatch
     })
-  }, [searchQuery, allCommands])
+  }, [searchQuery, enabledCommands])
 
   // Group commands by category
   const groupedCommands = useMemo(() => {

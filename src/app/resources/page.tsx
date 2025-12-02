@@ -55,7 +55,7 @@ export default function ResourcesPage() {
       // Extract unique categories
       const uniqueCategories = Array.from(
         new Set(data.resources?.map((r: Resource) => r.category).filter(Boolean))
-      );
+      ) as string[];
       setCategories(uniqueCategories);
     } catch (error) {
       console.error('Error loading resources:', error);
@@ -90,7 +90,7 @@ export default function ResourcesPage() {
             <div className="flex-1">
               <input
                 type="text"
-                placeholder={strings.resources?.searchPlaceholder || 'Search resources...'}
+                placeholder={t('admin.resources.searchPlaceholder', 'Search resources...')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -100,9 +100,9 @@ export default function ResourcesPage() {
               <Dropdown
                 value={selectedCategory}
                 onChange={setSelectedCategory}
-                placeholder={strings.resources?.allCategories || 'All Categories'}
+                placeholder={t('admin.resources.allCategories', 'All Categories')}
                 options={[
-                  { value: 'all', label: strings.resources?.allCategories || 'All Categories' },
+                  { value: 'all', label: t('admin.resources.allCategories', 'All Categories') },
                   ...categories.map(cat => ({
                     value: cat,
                     label: cat.charAt(0).toUpperCase() + cat.slice(1)
@@ -119,7 +119,7 @@ export default function ResourcesPage() {
         {loading && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">{strings.loading?.general || 'Loading...'}</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('loading.default', 'Loading...')}</p>
           </div>
         )}
 
@@ -131,13 +131,13 @@ export default function ResourcesPage() {
             </svg>
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
               {searchQuery
-                ? strings.resources?.noResultsFound || 'No resources found'
-                : strings.resources?.noResources || 'No resources available'}
+                ? t('admin.resources.noResultsFound', 'No resources found')
+                : t('admin.resources.noResources', 'No resources available')}
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               {searchQuery
-                ? strings.resources?.tryDifferentSearch || 'Try adjusting your search terms'
-                : strings.resources?.checkBackLater || 'Check back later for new content'}
+                ? t('admin.resources.tryDifferentSearch', 'Try adjusting your search terms')
+                : t('admin.resources.checkBackLater', 'Check back later for new content')}
             </p>
           </div>
         )}
@@ -146,7 +146,7 @@ export default function ResourcesPage() {
         {!loading && featuredResources.length > 0 && (
           <div className="mb-12">
             <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-              {strings.resources?.featured || 'Featured Resources'}
+              {t('admin.resources.featured', 'Featured Resources')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {featuredResources.map(resource => (
@@ -157,10 +157,10 @@ export default function ResourcesPage() {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary-500 text-white">
-                      {strings.resources?.featured || 'Featured'}
+                      {t('admin.resources.featured', 'Featured')}
                     </span>
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                      {resource.views} {strings.resources?.views || 'views'}
+                      {resource.views} {t('admin.resources.views', 'views')}
                     </span>
                   </div>
                   <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
@@ -187,7 +187,7 @@ export default function ResourcesPage() {
         {!loading && regularResources.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-              {strings.resources?.allResources || 'All Resources'}
+              {t('admin.resources.allResources', 'All Resources')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {regularResources.map(resource => (
@@ -202,7 +202,7 @@ export default function ResourcesPage() {
                         {resource.category}
                       </span>
                       <span className="text-sm text-gray-500 dark:text-gray-400">
-                        {resource.views} {strings.resources?.views || 'views'}
+                        {resource.views} {t('admin.resources.views', 'views')}
                       </span>
                     </div>
                     <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">

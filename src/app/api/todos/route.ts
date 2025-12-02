@@ -221,9 +221,9 @@ export async function POST(request: NextRequest) {
       description: todoData.description,
       completed: todoData.completed,
       priority: todoData.priority as 'low' | 'medium' | 'high',
-      dueDate: todoData.dueDate?.toDate() || null,
-      createdAt: todoData.createdAt.toDate(),
-      updatedAt: todoData.updatedAt.toDate(),
+      dueDate: todoData.dueDate?.toDate().toISOString() || null,
+      createdAt: todoData.createdAt.toDate().toISOString(),
+      updatedAt: todoData.updatedAt.toDate().toISOString(),
     }
 
     return createStorageResponse(newTodo, storageDecision, {

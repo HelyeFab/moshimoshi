@@ -172,7 +172,7 @@ export async function POST(request: NextRequest) {
       if (subscriptionDoc.exists) {
         const subData = subscriptionDoc.data()!
         exportData.personalData.subscription = {
-          tier: session.tier,
+          tier: session.tier || 'free',
           status: subData.status || null,
           subscriptionId: subData.subscriptionId || null,
           customerId: subData.customerId || null,

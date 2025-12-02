@@ -49,7 +49,7 @@ export class PersistentCacheManager extends CacheManager {
     }
 
     // If not in memory and persistence enabled, check Firestore
-    if (this.persistenceEnabled) {
+    if (this.persistenceEnabled && db) {
       try {
         const docId = this.generateDocId(key);
         const doc = await db.collection(this.COLLECTION_NAME).doc(docId).get();
@@ -93,7 +93,7 @@ export class PersistentCacheManager extends CacheManager {
     await super.set(key, data, durationSeconds, metadata);
 
     // Persist to Firestore if enabled
-    if (this.persistenceEnabled) {
+    if (this.persistenceEnabled && db) {
       try {
         // Check data size (Firestore has 1MB limit per document)
         const dataSize = JSON.stringify(data).length;
@@ -134,7 +134,7 @@ export class PersistentCacheManager extends CacheManager {
   async delete(key: string): Promise<boolean> {
     const memoryDeleted = await super.delete(key);
 
-    if (this.persistenceEnabled) {
+    if (this.persistenceEnabled && db) {
       try {
         const docId = this.generateDocId(key);
         await db.collection(this.COLLECTION_NAME).doc(docId).delete();
@@ -155,7 +155,7 @@ export class PersistentCacheManager extends CacheManager {
     await super.clear(pattern);
 
     // Clear Firestore if pattern provided
-    if (this.persistenceEnabled && pattern) {
+    if (this.persistenceEnabled && pattern && db) {
       try {
         const snapshot = await db.collection(this.COLLECTION_NAME)
           .where('key', '>=', pattern)
@@ -179,7 +179,7 @@ export class PersistentCacheManager extends CacheManager {
    * Warmup cache with frequently accessed entries
    */
   private async warmupCache(): Promise<void> {
-    if (!this.persistenceEnabled) return;
+    if (!this.persistenceEnabled || !db) return;
 
     try {
       console.log('🔥 Warming up cache from Firestore...');
@@ -216,7 +216,7 @@ export class PersistentCacheManager extends CacheManager {
    * Clean up expired Firestore entries
    */
   async cleanupExpiredFirestore(): Promise<void> {
-    if (!this.persistenceEnabled) return;
+    if (!this.persistenceEnabled || !db) return;
 
     try {
       const snapshot = await db.collection(this.COLLECTION_NAME)
@@ -267,7 +267,7 @@ export class PersistentCacheManager extends CacheManager {
       enabled: this.persistenceEnabled
     };
 
-    if (this.persistenceEnabled) {
+    if (this.persistenceEnabled && db) {
       try {
         const snapshot = await db.collection(this.COLLECTION_NAME).count().get();
         firestoreStats.documentCount = snapshot.data().count;
@@ -305,7 +305,7 @@ export class PersistentCacheManager extends CacheManager {
 
     const firestoreEntries: Array<CacheEntry & { persistent: boolean }> = [];
 
-    if (this.persistenceEnabled) {
+    if (this.persistenceEnabled && db) {
       try {
         const snapshot = await db.collection(this.COLLECTION_NAME)
           .where('expiresAt', '>', Timestamp.now())

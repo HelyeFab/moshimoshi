@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 
+interface BlogPostData {
+  status: 'draft' | 'published' | 'scheduled'
+  views?: number
+  [key: string]: unknown
+}
+
 // GET /api/blog/[id] - Get a single blog post
 export async function GET(
   request: NextRequest,
@@ -31,7 +37,7 @@ export async function GET(
     const post = {
       id: postDoc.id,
       ...postDoc.data()
-    }
+    } as BlogPostData & { id: string }
 
     // Check if user can view this post
     // Admins can see all posts, others can only see published posts

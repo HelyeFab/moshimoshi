@@ -705,6 +705,17 @@ export default function LearningVillage() {
     },
   ], [strings])
 
+  // Filter out disabled features
+  // Note: Direct env check needed because Next.js only inlines static NEXT_PUBLIC_* references
+  const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false'
+
+  const filteredStalls = useMemo(() => {
+    return learningStalls.filter(stall => {
+      if (stall.id === 'games' && !isGamesEnabled) return false
+      return true
+    })
+  }, [learningStalls, isGamesEnabled])
+
   useEffect(() => {
     const hour = new Date().getHours()
     if (hour >= 6 && hour < 17) {
@@ -845,7 +856,7 @@ export default function LearningVillage() {
 
       {/* Floating lanterns - moved to main container level */}
       <div className="absolute inset-0 h-full overflow-hidden pointer-events-none">
-        {learningStalls.slice(0, 5).map((stall, i) => (
+        {filteredStalls.slice(0, 5).map((stall, i) => (
           <FloatingLantern
             key={`lantern-${i}`}
             delay={i * 4}
@@ -1029,7 +1040,7 @@ export default function LearningVillage() {
 
         {/* Stalls grid with masonry layout */}
         <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-6">
-          {learningStalls.map((stall, index) => (
+          {filteredStalls.map((stall, index) => (
             <div key={stall.id} className="break-inside-avoid mb-3 sm:mb-6">
               <StallCard stall={stall} index={index} />
             </div>

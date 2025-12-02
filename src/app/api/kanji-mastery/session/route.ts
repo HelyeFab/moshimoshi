@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession, requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
-import { getUserTier } from '@/lib/auth/tier-utils'
+import { tierCache } from '@/lib/auth/tier-cache'
 import { KanjiMasterySession } from '@/lib/review-engine/progress/KanjiMasteryProgressManager'
 
 export async function POST(request: NextRequest) {
@@ -28,8 +28,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user tier
-    const tier = await getUserTier(session.uid)
-    const isPremium = tier?.plan === 'premium_monthly' || tier?.plan === 'premium_yearly'
+    const tier = await tierCache.getUserTier(session.uid)
+    const isPremium = tier === 'premium_monthly' || tier === 'premium_yearly'
 
     // Only save to Firebase for premium users
     if (isPremium && adminDb) {
@@ -136,8 +136,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Get user tier
-    const tier = await getUserTier(session.uid)
-    const isPremium = tier?.plan === 'premium_monthly' || tier?.plan === 'premium_yearly'
+    const tier = await tierCache.getUserTier(session.uid)
+    const isPremium = tier === 'premium_monthly' || tier === 'premium_yearly'
 
     // Only fetch from Firebase for premium users
     if (!isPremium || !adminDb) {
@@ -150,7 +150,7 @@ export async function GET(request: NextRequest) {
     // Fetch recent sessions from Firebase
     const sessionsSnapshot = await adminDb
       .collection('users')
-      .doc(user.uid)
+      .doc(session.uid)
       .collection('kanji_mastery_sessions')
       .orderBy('createdAt', 'desc')
       .limit(20)
@@ -164,7 +164,7 @@ export async function GET(request: NextRequest) {
     // Fetch statistics
     const statsRef = adminDb
       .collection('users')
-      .doc(user.uid)
+      .doc(session.uid)
       .collection('statistics')
       .doc('kanji_mastery')
 

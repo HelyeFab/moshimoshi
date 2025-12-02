@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase/admin'
 import { Timestamp } from 'firebase-admin/firestore'
 
+interface BlogPostData {
+  status: 'draft' | 'published' | 'scheduled'
+  publishDate: string | Timestamp
+  createdAt?: string | Timestamp
+  updatedAt?: string | Timestamp
+  [key: string]: unknown
+}
+
 // GET /api/blog/public - Fetch published blog posts (public view)
 export async function GET(request: NextRequest) {
   try {
@@ -30,7 +38,7 @@ export async function GET(request: NextRequest) {
     // Filter for published posts and scheduled posts that have reached their publish date
     const allPublishedPosts = postsSnapshot.docs
       .map(doc => {
-        const data = doc.data()
+        const data = doc.data() as BlogPostData
         return {
           id: doc.id,
           ...data,

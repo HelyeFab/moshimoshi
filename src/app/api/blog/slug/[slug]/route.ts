@@ -3,6 +3,15 @@ import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 import { Timestamp } from 'firebase-admin/firestore'
 
+interface BlogPostData {
+  status: 'draft' | 'published' | 'scheduled'
+  publishDate: string | Timestamp
+  createdAt?: string | Timestamp
+  updatedAt?: string | Timestamp
+  views?: number
+  [key: string]: unknown
+}
+
 // GET /api/blog/slug/[slug] - Get a blog post by slug
 export async function GET(
   request: NextRequest,
@@ -33,7 +42,7 @@ export async function GET(
     }
 
     const postDoc = postsSnapshot.docs[0]
-    const data = postDoc.data()
+    const data = postDoc.data() as BlogPostData
     const post = {
       id: postDoc.id,
       ...data,

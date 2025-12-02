@@ -62,14 +62,14 @@ export async function POST(request: NextRequest) {
 
     let userId: string | undefined;
     if (adminOnlyTasks.includes(body.task)) {
-      const authResult = await checkAdminRole(authHeader);
+      const authResult = await checkAdminRole(request);
       if (!authResult.isAdmin) {
         return NextResponse.json(
           { error: 'Admin access required for this task' },
           { status: 403 }
         );
       }
-      userId = authResult.userId;
+      userId = authResult.uid;
     } else {
       // For regular users, just extract user ID from token
       // This would normally validate the token and extract the user ID
@@ -156,7 +156,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Check admin role for batch processing
-    const authResult = await checkAdminRole(authHeader);
+    const authResult = await checkAdminRole(request);
     if (!authResult.isAdmin) {
       return NextResponse.json(
         { error: 'Admin access required for batch processing' },
@@ -185,7 +185,7 @@ export async function PUT(request: NextRequest) {
       ...req,
       metadata: {
         ...req.metadata,
-        userId: authResult.userId,
+        userId: authResult.uid,
         timestamp: new Date(),
         source: 'batch_api'
       }
@@ -242,8 +242,8 @@ export async function PATCH(request: NextRequest) {
 
     // Check if requesting other user's stats (admin only)
     if (userId) {
-      const authResult = await checkAdminRole(authHeader);
-      if (!authResult.isAdmin && authResult.userId !== userId) {
+      const authResult = await checkAdminRole(request);
+      if (!authResult.isAdmin && authResult.uid !== userId) {
         return NextResponse.json(
           { error: 'Cannot access other users\' statistics' },
           { status: 403 }
@@ -285,8 +285,7 @@ export async function PATCH(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     // Check admin authentication
-    const authHeader = request.headers.get('authorization');
-    const authResult = await checkAdminRole(authHeader);
+    const authResult = await checkAdminRole(request);
 
     if (!authResult.isAdmin) {
       return NextResponse.json(

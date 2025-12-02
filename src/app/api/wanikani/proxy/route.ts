@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
       if (data.data.length > 0) {
         console.log('[WaniKani Proxy] First result:', data.data[0]?.data?.characters || data.data[0]?.data?.slug)
         // Log if we're getting the same mock data repeatedly
-        const firstChars = data.data.slice(0, 4).map(item => item.data?.characters || item.data?.slug).join(', ')
+        const firstChars = data.data.slice(0, 4).map((item: { data?: { characters?: string; slug?: string } }) => item.data?.characters || item.data?.slug).join(', ')
         console.log('[WaniKani Proxy] First 4 results:', firstChars)
 
         // Check if this looks like mock data

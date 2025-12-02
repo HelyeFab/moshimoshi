@@ -1,12 +1,22 @@
 import { NextResponse } from 'next/server'
 import { adminAuth, adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin'
 
+interface FirebaseTestResults {
+  adminInitialized: boolean
+  projectId: string | undefined
+  canListUsers?: boolean
+  usersFound?: number
+  listUsersError?: string
+  canReadFirestore?: boolean
+  firestoreError?: string
+}
+
 export async function GET() {
   try {
     // Test Firebase Admin initialization
     ensureAdminInitialized()
 
-    const tests = {
+    const tests: FirebaseTestResults = {
       adminInitialized: !!adminAuth && !!adminFirestore,
       projectId: process.env.FIREBASE_ADMIN_PROJECT_ID?.trim(),
     }

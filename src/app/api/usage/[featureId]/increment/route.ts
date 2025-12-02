@@ -88,7 +88,8 @@ export async function POST(
         }, { merge: true });
 
         // Update decision with new usage
-        decision.remaining = decision.limit === -1 ? -1 : Math.max(0, decision.limit - (currentUsage + 1));
+        const limit = decision.limit ?? 0;
+        decision.remaining = limit === -1 ? -1 : Math.max(0, limit - (currentUsage + 1));
       } catch (error) {
         console.error('Error updating usage:', error);
       }

@@ -148,6 +148,22 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 | `src/app/tools/textbook-vocabulary/page.tsx` | 2025-12-02 | Fixed DoshiMascot props: removed invalid mood prop, added valid variant prop |
 | `src/app/tools/textbook-vocabulary/TextbookVocabularyPage.tsx` | 2025-12-02 | Fixed DoshiMascot props: removed invalid mood prop, added valid variant prop |
 | `src/app/tools/textbook-vocabulary/components/VocabularyDisplay.tsx` | 2025-12-02 | Fixed by useTTS isPlaying alias and i18n common strings (14 errors) |
+| `src/lib/ai/cache/PersistentCacheManager.ts` | 2025-12-02 | Added `&& db` null checks to all persistenceEnabled conditionals (11 errors) |
+| `src/app/resources/page.tsx` | 2025-12-02 | Added `as string[]` type assertion for categories, changed strings.resources to t() calls (16 errors) |
+| `src/lib/conjugation/engine.ts` | 2025-12-02 | Added match:string type, jlpt undefined, naideForm→naiDeForm, imported WordType/JapaneseWord, fixed generateTaiForms return type (12 errors) |
+| `src/types/entitlements.ts` | 2025-12-02 | Re-exported FeatureId from FeatureId.ts to consolidate duplicate type definitions (~12 errors across multiple files) |
+| `src/app/api/ai/process/route.ts` | 2025-12-02 | Fixed checkAdminRole(request) calls, authResult.userId→uid (7 errors) |
+| `src/app/api/debug/firebase-test/route.ts` | 2025-12-02 | Added FirebaseTestResults interface for dynamic test properties (7 errors) |
+| `src/app/api/blog/[id]/route.ts` | 2025-12-02 | Added BlogPostData interface with status, views properties (3 errors) |
+| `src/app/api/blog/public/route.ts` | 2025-12-02 | Added BlogPostData interface, typed doc.data() cast (2 errors) |
+| `src/app/api/blog/slug/[slug]/route.ts` | 2025-12-02 | Added BlogPostData interface with status, views, dates (3 errors) |
+| `src/app/api/kanji-mastery/session/route.ts` | 2025-12-02 | Changed getUserTier to tierCache.getUserTier, removed .plan access, fixed user.uid→session.uid (6 errors) |
+| `src/app/api/todos/route.ts` | 2025-12-02 | Added .toISOString() to Date conversions (3 errors) |
+| `src/app/api/news/articles/route.ts` | 2025-12-02 | Added types to doc and article filter parameters (2 errors) |
+| `src/app/api/wanikani/proxy/route.ts` | 2025-12-02 | Added type to item parameter in map (1 error) |
+| `src/app/api/user/profile/route.ts` | 2025-12-02 | Added fallback for session.tier (1 error) |
+| `src/app/api/user/export-data/route.ts` | 2025-12-02 | Added fallback for session.tier (1 error) |
+| `src/app/api/usage/[featureId]/increment/route.ts` | 2025-12-02 | Added null coalescing for decision.limit (1 error) |
 
 ---
 
