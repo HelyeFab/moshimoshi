@@ -76,10 +76,11 @@ export function useGamification(): GamificationData {
     }
 
     // Load data with priority: Firebase (premium) > IndexedDB > defaults
+    const userId = user!.uid; // We know user is not null from the check above
     async function loadData() {
       try {
         // Set userId first for all operations
-        store.setUserId(user.uid)
+        store.setUserId(userId)
 
         // Premium users: Try Firebase first, fallback to IndexedDB
         if (isPremium) {
@@ -87,11 +88,11 @@ export function useGamification(): GamificationData {
             await store.loadFromFirebase()
           } catch (firebaseError) {
             console.warn('[useGamification] Firebase load failed, trying IndexedDB fallback:', firebaseError)
-            await store.loadFromIndexedDB(user.uid)
+            await store.loadFromIndexedDB(userId)
           }
         } else {
           // Free users: IndexedDB only
-          await store.loadFromIndexedDB(user.uid)
+          await store.loadFromIndexedDB(userId)
         }
 
         setLoading(false)

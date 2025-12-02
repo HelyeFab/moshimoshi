@@ -121,6 +121,7 @@ export class TranscriptProcessor extends BaseProcessor<TranscriptProcessRequest,
       usage: {
         promptTokens: totalUsage.promptTokens,
         completionTokens: totalUsage.completionTokens,
+        totalTokens: totalUsage.promptTokens + totalUsage.completionTokens,
         estimatedCost: totalUsage.totalCost
       },
       metadata: {
@@ -157,7 +158,7 @@ export class TranscriptProcessor extends BaseProcessor<TranscriptProcessRequest,
         );
 
         // Parse response based on processing type
-        const processed = this.parseResponse(content, processingType);
+        const processed = this.parseTranscriptResponse(content, processingType);
 
         // Validate we have valid segments
         if (!processed.segments || processed.segments.length === 0) {
@@ -250,7 +251,7 @@ export class TranscriptProcessor extends BaseProcessor<TranscriptProcessRequest,
   /**
    * Determine processing type based on request flags
    */
-  private determineProcessingType(request: TranscriptProcessRequest): string {
+  protected determineProcessingType(request: TranscriptProcessRequest): string {
     if (request.splitForShadowing) {
       return 'shadowing';
     } else if (request.fixErrors) {
@@ -400,9 +401,16 @@ Return processed segments with vocabulary in JSON format${includeTranslations ? 
   }
 
   /**
+   * Parse AI response (base implementation)
+   */
+  parseResponse(response: string): ProcessedTranscript {
+    return this.parseTranscriptResponse(response, 'default');
+  }
+
+  /**
    * Parse AI response based on processing type
    */
-  parseResponse(response: string, processingType: string): ProcessedTranscript {
+  protected parseTranscriptResponse(response: string, processingType: string): ProcessedTranscript {
     let parsed: any;
 
     try {
@@ -460,7 +468,7 @@ Return processed segments with vocabulary in JSON format${includeTranslations ? 
         };
       } else if (parsed.segments && Array.isArray(parsed.segments)) {
         // Handle object with segments array
-        return this.parseResponse(JSON.stringify(parsed.segments), processingType);
+        return this.parseTranscriptResponse(JSON.stringify(parsed.segments), processingType);
       } else {
         throw new AIServiceError(
           'Invalid response format for shadowing',

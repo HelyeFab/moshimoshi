@@ -425,7 +425,19 @@ Response format (JSON only):
 }`;
 
     const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt);
-    const response = this.parseJSON<{ questions: ReviewQuestion[] }>(content);
+
+    // Raw response type from AI (has correctIndex instead of correctAnswer)
+    interface RawQuestion {
+      id: string;
+      question: string;
+      questionJa?: string;
+      options?: string[];
+      correctIndex: number;
+      explanation?: string;
+      explanationJa?: string;
+    }
+
+    const response = this.parseJSON<{ questions: RawQuestion[] }>(content);
 
     // Map to ReviewQuestion type
     const questions = response.questions.map(q => ({

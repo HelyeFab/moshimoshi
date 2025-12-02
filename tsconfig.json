@@ -37,6 +37,16 @@
   "exclude": [
     "node_modules",
     "functions",
-    "next.config.optimized.ts"
+    "next.config.optimized.ts",
+    "__tests__/**",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/test-utils/**",
+    "scripts/**",
+    "src/lib/email/sendgrid.ts",
+    "src/lib/logger/pino-logger.ts"
   ]
 }

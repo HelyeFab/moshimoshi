@@ -16,6 +16,7 @@ interface PageHeaderProps {
   mascot?: 'doshi' | 'none'
   className?: string
   minimal?: boolean
+  children?: React.ReactNode
 }
 
 export default function PageHeader({

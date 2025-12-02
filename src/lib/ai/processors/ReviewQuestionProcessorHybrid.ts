@@ -265,13 +265,14 @@ Requirements:
    */
   private calculateDifficultyLocal(question: ReviewQuestion, config?: TaskConfig): number {
     const jlptLevel = config?.jlptLevel || 'N5';
-    const baseDifficulty = {
+    const baseDifficultyMap: Record<string, number> = {
       'N5': 1,
       'N4': 2,
       'N3': 3,
       'N2': 4,
       'N1': 5
-    }[jlptLevel] || 3;
+    };
+    const baseDifficulty = baseDifficultyMap[jlptLevel] || 3;
 
     const typeAdjustment = {
       'multiple_choice': 0,
@@ -311,17 +312,5 @@ Requirements:
     return tags;
   }
 
-  /**
-   * Get content types
-   */
-  private getContentTypes(request: ReviewQuestionRequest): string[] {
-    const types: string[] = [];
-
-    if (request.content.kanji?.length) types.push('kanji');
-    if (request.content.vocabulary?.length) types.push('vocabulary');
-    if (request.content.grammar?.length) types.push('grammar');
-    if (request.content.context) types.push('context');
-
-    return types;
-  }
+  // Note: getContentTypes is now protected in parent class - using it directly
 }

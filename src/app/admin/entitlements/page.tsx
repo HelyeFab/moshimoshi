@@ -280,7 +280,7 @@ export default function EntitlementsDashboardPage() {
       </div>
 
       {/* Key Metrics */}
-      <StatCardGrid columns={2} smColumns={2} mdColumns={4}>
+      <StatCardGrid columns={4}>
         <StatCard
           label="Total Users"
           value={totalUsers}

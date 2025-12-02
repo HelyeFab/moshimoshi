@@ -249,13 +249,14 @@ Return your response as a valid json array of question objects.`;
    */
   private calculateDifficulty(question: ReviewQuestion, config?: TaskConfig): number {
     const jlptLevel = config?.jlptLevel || 'N5';
-    const baseDifficulty = {
+    const baseDifficultyMap: Record<string, number> = {
       'N5': 1,
       'N4': 2,
       'N3': 3,
       'N2': 4,
       'N1': 5
-    }[jlptLevel] || 3;
+    };
+    const baseDifficulty = baseDifficultyMap[jlptLevel] || 3;
 
     // Adjust based on question type
     const typeAdjustment = {
@@ -310,7 +311,7 @@ Return your response as a valid json array of question objects.`;
   /**
    * Get content types from request
    */
-  private getContentTypes(request: ReviewQuestionRequest): string[] {
+  protected getContentTypes(request: ReviewQuestionRequest): string[] {
     const types: string[] = [];
 
     if (request.content.kanji?.length) types.push('kanji');

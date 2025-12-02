@@ -596,10 +596,12 @@ export class AIService {
           success: false,
           error: result.reason?.message || 'Processing failed',
           metadata: {
+            modelUsed: 'gpt-4o-mini' as const,
+            errorCode: 'BATCH_ITEM_FAILED',
             requestIndex: index,
             originalRequest: requests[index]
           }
-        };
+        } as AIResponse<any>;
       }
     });
   }

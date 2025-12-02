@@ -184,29 +184,5 @@ Return JSON:
     return prompt;
   }
 
-  /**
-   * Enhanced explanation method (private in parent, so we replicate logic)
-   */
-  private enhanceExplanation(
-    explanation: GrammarExplanation,
-    request: GrammarExplanationRequest,
-    config?: TaskConfig
-  ): GrammarExplanation {
-    // Ensure JLPT level is set
-    if (!explanation.jlptLevel && config?.jlptLevel) {
-      explanation.jlptLevel = config.jlptLevel;
-    }
-
-    // Add default common mistakes if none provided
-    if (!explanation.commonMistakes || explanation.commonMistakes.length === 0) {
-      explanation.commonMistakes = ['Incorrect word order', 'Wrong particle usage'];
-    }
-
-    // Ensure formality is set
-    if (!explanation.formality) {
-      explanation.formality = 'both';
-    }
-
-    return explanation;
-  }
+  // Note: enhanceExplanation is now protected in parent class - using it directly
 }

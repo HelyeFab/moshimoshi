@@ -333,7 +333,7 @@ export default function NewsPage() {
 
   // Show loading state while auth is loading
   if (authLoading) {
-    return <LoadingOverlay message={t('common.loading')} />;
+    return <LoadingOverlay isLoading={true} message={t('common.loading')} />;
   }
 
   return (
@@ -373,7 +373,7 @@ export default function NewsPage() {
             <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-8 text-center">
               <p className="text-danger-600 dark:text-danger-400 mb-4">{error}</p>
               <button
-                onClick={loadArticles}
+                onClick={() => loadArticles()}
                 className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
               >
                 {t('common.retry')}

@@ -36,7 +36,8 @@
       "Bash(vercel --version:*)",
       "Bash(vercel env:*)",
       "Bash(vercel link:*)",
-      "Bash(Select-String -Pattern \"ExamplesModal|KanjiDetailsModal|useKanjiDetails\")"
+      "Bash(Select-String -Pattern \"ExamplesModal|KanjiDetailsModal|useKanjiDetails\")",
+      "Bash(tee:*)"
     ],
     "deny": [],
     "ask": []

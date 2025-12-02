@@ -57,10 +57,8 @@ interface UseDrillReturn {
 
 export function useDrill(options: UseDrillOptions = {}): UseDrillReturn {
   // Entitlement check
-  const { checkAndTrack, canUse, remaining } = useFeature('conjugation_drill', {
-    showToast: true,
-    showModal: true,
-  });
+  const { checkAndTrack, remaining, lastDecision } = useFeature('conjugation_drill');
+  const canUse = lastDecision?.allow ?? (remaining === null || remaining > 0);
 
   // Session state
   const [session, setSession] = useState<DrillSession | null>(null);

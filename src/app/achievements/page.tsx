@@ -166,7 +166,7 @@ export default function AchievementsPage() {
                     'relative group cursor-pointer transition-all duration-300',
                     'rounded-xl p-4 border-2',
                     isUnlocked
-                      ? cn(rarityColors[achievement.rarity], 'scale-100 opacity-100')
+                      ? cn(rarityColors[achievement.rarity as keyof typeof rarityColors], 'scale-100 opacity-100')
                       : 'border-gray-600 bg-gray-800/50 opacity-50 grayscale hover:opacity-70'
                   )}
                 >

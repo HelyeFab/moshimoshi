@@ -93,8 +93,8 @@ export function useEntitlementModal(): UseEntitlementModalReturn {
     });
 
     // Track analytics event
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'entitlement_modal_shown', {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'entitlement_modal_shown', {
         modal_type: type,
         feature_id: options?.featureId,
         user_plan: subscription?.plan || 'guest'

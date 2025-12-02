@@ -109,14 +109,14 @@ export default function EditStoryPage() {
         setTags(storyData.tags || []);
 
         // Convert story pages to editable format
-        setPages(storyData.pages.map(page => ({
+        setPages(storyData.pages.map((page: { text: string; translation: string; imageUrl?: string }) => ({
           text: page.text,
           translation: page.translation,
           imageUrl: page.imageUrl || ''
         })));
 
         // Load quiz data
-        setQuiz((storyData.quiz || []).map(q => ({
+        setQuiz((storyData.quiz || []).map((q: StoryQuizQuestion) => ({
           id: q.id,
           question: q.question,
           questionJa: q.questionJa || '',

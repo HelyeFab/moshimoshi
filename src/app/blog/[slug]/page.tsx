@@ -285,7 +285,7 @@ export default function BlogPostPage() {
         {/* Content */}
         <div className="max-w-none mb-12 sm:mb-16">
           <div
-            className="bg-white dark:bg-surface-dark rounded-2xl shadow-lg p-6 sm:p-8 lg:p-12"
+            className="bg-white dark:bg-surface-dark rounded-2xl shadow-lg p-6 sm:p-8 lg:p-12 blog-content"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(post.content, {
                 ALLOWED_TAGS: [
@@ -325,7 +325,6 @@ export default function BlogPostPage() {
               lineHeight: '1.7',
               color: '#1f2937',
             }}
-            className="blog-content"
           />
         </div>
 

@@ -34,7 +34,7 @@ if (typeof window !== 'undefined') {
     kanaProgressManager = module.kanaProgressManager;
   });
 }
-import { achievementManager } from '@/utils/achievementManager';
+// achievementManager import removed - not used
 
 interface SyncItem {
   id: string;

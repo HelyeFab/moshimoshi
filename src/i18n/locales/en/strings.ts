@@ -389,6 +389,7 @@ export const strings = {
     theme: "Theme",
     complete: "Complete",
     completed: "Completed",
+    comingSoon: "Coming Soon",
     correct: "Correct",
     incorrect: "Incorrect",
     search: "Search",
@@ -808,6 +809,9 @@ export const strings = {
       content: "Content",
       analytics: "Analytics",
       blog: "Blog",
+      subscriptions: "Subscriptions",
+      monitoring: "Monitoring",
+      entitlements: "Entitlements",
     },
     newsScraping: {
       nhkEasy: "NHK Easy",
@@ -979,6 +983,7 @@ export const strings = {
       description: "Manage blog posts and learning resources",
       newResource: "New Resource",
       searchResources: "Search resources...",
+      filterByStatus: "Filter by status",
       allStatus: "All Status",
       published: "Published",
       draft: "Draft",
@@ -1032,6 +1037,9 @@ export const strings = {
       update: "Update",
       required: "Required",
       optional: "Optional",
+      errors: {
+        loadFailed: "Failed to Load Resources",
+      },
     },
   },
 
@@ -2158,6 +2166,7 @@ export const strings = {
       achievements: "Achievements",
       recent: "recent"
     },
+    buyMeACoffee: "Buy me a coffee",
     villageHeader: {
       welcomeTo: "WELCOME TO THE",
       learningVillage: "LEARNING VILLAGE",
@@ -5455,6 +5464,8 @@ export const strings = {
       noResults: "No results found",
       searchHint: "Try different keywords",
       searching: "Searching...",
+      searchButton: "Search",
+      searchQuickSearch: "Quick search:",
       addToList: "Add to List",
       saveWord: "Save Word",
       studyWord: "Study Word",

@@ -3,7 +3,10 @@
  * Central type definitions for all AI-powered features
  */
 
-import { JLPTLevel } from '@/types/aiStory';
+import { JLPTLevel } from '@/types/kanji';
+
+// Re-export JLPTLevel for convenience
+export type { JLPTLevel } from '@/types/kanji';
 
 // ============================================
 // Core Types
@@ -94,6 +97,10 @@ export interface ResponseMetadata {
   totalCost?: number;
   cacheHit?: boolean;
   processingSteps?: string[];
+  errorCode?: string;
+  errorDetails?: string;
+  task?: AITaskType;
+  [key: string]: any; // Allow additional processor-specific metadata
 }
 
 export interface TokenUsage {
@@ -273,6 +280,7 @@ export interface ProcessedTranscript {
     meaning: string;
     frequency: number;
   }>;
+  metadata?: Record<string, any>;
 }
 
 // Article Processing
@@ -318,6 +326,7 @@ export interface StoryGenerationRequest {
   includeQuiz?: boolean;
   includeVocabulary?: boolean;
   visualStyle?: string;
+  metadata?: Record<string, any>;
 }
 
 export interface GeneratedStory {

@@ -20,8 +20,8 @@ export function FirebaseUsageChart({ data }: Props) {
     )
   }
 
-  const operations = data.summary.operationsByType || {}
-  const maxCount = Math.max(...Object.values(operations as Record<string, number>), 1)
+  const operations: Record<string, number> = data.summary.operationsByType || {}
+  const maxCount = Math.max(...Object.values(operations), 1)
 
   return (
     <div className="bg-white dark:bg-dark-800 rounded-lg shadow-lg p-6">

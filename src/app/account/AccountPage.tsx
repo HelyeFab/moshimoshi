@@ -248,10 +248,10 @@ function AccountPageContent() {
             <div className="text-center">
               <div className="text-6xl mb-4">🎉</div>
               <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">
-                {strings.subscription?.congratulations || 'Congratulations!'}
+                {strings.account?.subscription?.congratulations || 'Congratulations!'}
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                {strings.subscription?.welcomePremium || 'Welcome to Premium! Enjoy all the amazing features.'}
+                {strings.account?.subscription?.welcomePremium || 'Welcome to Premium! Enjoy all the amazing features.'}
               </p>
               <button
                 onClick={() => setShowCongrats(false)}

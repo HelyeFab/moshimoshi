@@ -181,7 +181,7 @@ export default function Navbar({
             {/* Back Link - Show custom backLink or auto Back to Dashboard */}
             {(backLink || shouldShowBackToDashboard) && !isBlogPage && (
               <Link
-                href={backLink?.href || "/dashboard"}
+                href={typeof backLink === 'object' ? backLink?.href : (backLink || "/dashboard")}
                 className={`${
                   isMobile
                     ? "flex items-center gap-1 px-2 py-1.5 text-xs"
@@ -208,7 +208,7 @@ export default function Navbar({
                     </span>
                   </>
                 ) : (
-                  backLink?.label ||
+                  (typeof backLink === 'object' ? backLink?.label : null) ||
                   strings.navigation?.backToDashboard ||
                   "← Back to Dashboard"
                 )}

@@ -1,5 +1,8 @@
 import { JLPTLevel } from './kanji';
 
+// Re-export JLPTLevel for convenience
+export { JLPTLevel } from './kanji';
+
 export interface StoryPage {
   pageNumber: number;
   imageUrl?: string;

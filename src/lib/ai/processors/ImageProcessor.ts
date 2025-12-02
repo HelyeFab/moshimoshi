@@ -19,7 +19,7 @@ import {
 import OpenAI from 'openai';
 
 export class ImageProcessor extends BaseProcessor<ImageGenerationRequest, GeneratedImage> {
-  private openai: OpenAI;
+  // Note: openai is inherited from BaseProcessor as protected
 
   constructor(context: ProcessorContext) {
     super(context);
@@ -49,6 +49,10 @@ export class ImageProcessor extends BaseProcessor<ImageGenerationRequest, Genera
     this.validateRequest(request);
 
     const finalPrompt = this.buildPromptWithConsistency(request);
+
+    if (!this.openai) {
+      throw new AIServiceError('OpenAI client not initialized', 'OPENAI_NOT_INITIALIZED', 500);
+    }
 
     try {
       const response = await this.openai.images.generate({
@@ -131,6 +135,10 @@ export class ImageProcessor extends BaseProcessor<ImageGenerationRequest, Genera
 
     // Create detailed model sheet prompt
     const modelSheetPrompt = this.buildModelSheetPrompt(request, characterId);
+
+    if (!this.openai) {
+      throw new AIServiceError('OpenAI client not initialized', 'OPENAI_NOT_INITIALIZED', 500);
+    }
 
     try {
       const response = await this.openai.images.generate({

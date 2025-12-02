@@ -126,7 +126,7 @@ export class TranscriptProcessorHybrid extends TranscriptProcessor {
     });
 
     // Parse response
-    const processed = this.parseResponse(response.response, processingType);
+    const processed = this.parseTranscriptResponse(response.response, processingType);
 
     // Validate segments
     if (!processed.segments || processed.segments.length === 0) {
@@ -160,19 +160,7 @@ export class TranscriptProcessorHybrid extends TranscriptProcessor {
     };
   }
 
-  /**
-   * Determine processing type
-   */
-  private determineProcessingType(request: TranscriptProcessRequest): string {
-    if (request.splitForShadowing) {
-      return 'shadowing';
-    } else if (request.fixErrors) {
-      return 'error_correction';
-    } else if (request.improveNaturalness) {
-      return 'naturalization';
-    }
-    return 'general';
-  }
+  // Note: determineProcessingType is now protected in parent class - using it directly
 
   /**
    * Get optimized system prompt for Ollama

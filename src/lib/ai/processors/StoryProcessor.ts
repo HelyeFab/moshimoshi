@@ -15,7 +15,7 @@ import {
 } from '../types';
 import { PromptManager } from '../config/PromptManager';
 import { AICharacterSheet, AIStoryOutline } from '@/types/ai-story';
-import { JLPTLevel } from '@/types/aiStory';
+import { JLPTLevel } from '@/types/kanji';
 
 export class StoryProcessor extends BaseProcessor<StoryGenerationRequest, GeneratedStory> {
   private promptManager: PromptManager;

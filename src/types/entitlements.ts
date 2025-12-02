@@ -28,7 +28,7 @@ export interface Feature {
 export interface EvalContext {
   userId: string;
   plan: PlanType;
-  usage: Record<FeatureId, number>;
+  usage: Partial<Record<FeatureId, number>>;
   nowUtcISO: string;
   overrides?: Partial<Record<FeatureId, number | 'unlimited'>>;
   tenant?: {

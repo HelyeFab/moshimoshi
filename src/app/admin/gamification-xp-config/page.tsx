@@ -281,7 +281,6 @@ export default function GamificationXPConfigPage() {
                             onChange={(e) => updateAccuracyBonus(index, 'multiplier', parseFloat(e.target.value) || 1)}
                             className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500"
                             min="1"
-                            step="0.1"
                           />
                         </div>
                         <div>

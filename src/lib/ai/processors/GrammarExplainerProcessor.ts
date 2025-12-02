@@ -192,7 +192,7 @@ Return your response as a valid json object as specified.`;
   /**
    * Enhance the grammar explanation
    */
-  private enhanceExplanation(
+  protected enhanceExplanation(
     explanation: GrammarExplanation,
     request: GrammarExplanationRequest,
     config?: TaskConfig
