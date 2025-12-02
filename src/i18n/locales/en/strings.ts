@@ -5458,5 +5458,81 @@ export const strings = {
       examples: "Examples",
       conjugations: "Conjugations"
     }
+  },
+
+  // Navigation
+  navigation: {
+    backToDashboard: "← Back to Dashboard",
+    dashboard: "Dashboard",
+    account: "Account",
+    settings: "Settings",
+    adminDashboard: "Admin Dashboard",
+    home: "Home",
+    learn: "Learn",
+    practice: "Practice",
+    review: "Review",
+    profile: "Profile"
+  },
+
+  // Terms of Service
+  terms: {
+    title: "Terms of Service",
+    effectiveDate: "Effective Date: January 2025",
+    lastUpdated: "Last Updated",
+    sections: {
+      agreement: {
+        title: "Agreement to Terms",
+        content: "By accessing or using Moshimoshi, you agree to be bound by these Terms of Service."
+      },
+      description: {
+        title: "Description of Service",
+        content: "Moshimoshi is a Japanese language learning platform offering various educational tools and resources."
+      },
+      accounts: {
+        title: "User Accounts",
+        content: "You are responsible for maintaining the confidentiality of your account credentials."
+      },
+      conduct: {
+        title: "User Conduct",
+        content: "You agree to use the service in compliance with all applicable laws and regulations."
+      },
+      intellectual: {
+        title: "Intellectual Property",
+        content: "All content and materials on Moshimoshi are protected by intellectual property rights."
+      },
+      disclaimer: {
+        title: "Disclaimer of Warranties",
+        content: "The service is provided 'as is' without warranties of any kind."
+      },
+      limitation: {
+        title: "Limitation of Liability",
+        content: "We shall not be liable for any indirect, incidental, or consequential damages."
+      },
+      changes: {
+        title: "Changes to Terms",
+        content: "We reserve the right to modify these terms at any time."
+      },
+      contact: {
+        title: "Contact Us",
+        content: "If you have questions about these Terms, please contact us."
+      },
+      subscription: {
+        title: "3. Subscription and Payment",
+        plans: {
+          title: "3.1 Subscription Plans",
+          content: "We offer various subscription plans with different features and pricing. By subscribing, you agree to pay the applicable fees for your chosen plan."
+        },
+        billing: {
+          title: "3.2 Billing",
+          autoRenew: "Subscriptions automatically renew unless cancelled",
+          stripe: "Payment is processed through Stripe, our payment provider",
+          changes: "Prices may change with advance notice"
+        },
+        refunds: {
+          title: "3.3 Refunds",
+          content: "We offer a money-back guarantee for new subscribers. After this period, refunds are provided at our discretion for technical issues or service failures."
+        }
+      }
+    }
   }
 }

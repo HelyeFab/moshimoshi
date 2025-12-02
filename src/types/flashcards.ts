@@ -55,6 +55,7 @@ export interface FlashcardContent {
     difficulty?: number; // User-perceived difficulty (0-1)
     tags?: string[];
     notes?: string;
+    hints?: string | string[]; // Custom hints for the card
     audioUrl?: string;
     imageUrl?: string;
 
@@ -133,7 +134,9 @@ export interface UpdateDeckRequest {
   description?: string;
   emoji?: string;
   color?: string;
+  cardStyle?: CardStyle;
   settings?: Partial<DeckSettings>;
+  cards?: FlashcardContent[];
 }
 
 export interface AddCardRequest {

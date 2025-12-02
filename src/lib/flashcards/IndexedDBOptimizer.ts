@@ -21,6 +21,9 @@ interface OptimizedFlashcardDB extends DBSchema {
       timestamp: number;
       size: number;
     };
+    indexes: {
+      'timestamp': number;
+    };
   };
   queryCache: {
     key: string;
@@ -28,6 +31,9 @@ interface OptimizedFlashcardDB extends DBSchema {
       query: string;
       results: string[];
       timestamp: number;
+    };
+    indexes: {
+      'timestamp': number;
     };
   };
 }
@@ -79,8 +85,12 @@ export class IndexedDBOptimizer {
         // Migrate existing data if needed
         if (oldVersion === 1) {
           // Add cardCount index to existing data
-          const tx = db.transaction('decks', 'readwrite');
-          tx.objectStore('decks').createIndex('cardCount', 'stats.totalCards');
+          const decksStore = db.objectStoreNames.contains('decks')
+            ? db.transaction('decks', 'readwrite').objectStore('decks')
+            : null;
+          if (decksStore && !decksStore.indexNames.contains('cardCount')) {
+            decksStore.createIndex('cardCount', 'stats.totalCards');
+          }
         }
       }
     });
@@ -344,7 +354,7 @@ export class IndexedDBOptimizer {
       });
     }
 
-    return deck;
+    return deck ?? null;
   }
 
   // Memory cache management

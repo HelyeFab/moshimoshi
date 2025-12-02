@@ -99,7 +99,7 @@ export function StatsDashboard({
     // Performance metrics
     const cardsStudiedToday = filteredSessions
       .filter(s => s.timestamp >= now - 24 * 60 * 60 * 1000)
-      .reduce((sum, s) => sum + s.cardsReviewed, 0);
+      .reduce((sum, s) => sum + s.cardsStudied, 0);
 
     const studyVelocity = totalSessions > 0 
       ? Math.round(totalMastered / Math.max(1, Math.ceil(totalStudyTime / (60 * 60 * 1000))))

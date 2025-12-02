@@ -190,11 +190,11 @@ export function FlashcardViewer({
   const cardVariants = {
     front: {
       rotateY: 0,
-      transition: { duration: speed, type: 'spring', stiffness: 200, damping: 20 }
+      transition: { duration: speed, type: 'spring' as const, stiffness: 200, damping: 20 }
     },
     back: {
       rotateY: 180,
-      transition: { duration: speed, type: 'spring', stiffness: 200, damping: 20 }
+      transition: { duration: speed, type: 'spring' as const, stiffness: 200, damping: 20 }
     }
   };
 

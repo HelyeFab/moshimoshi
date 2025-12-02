@@ -652,7 +652,7 @@ export class FlashcardManager {
       return JSON.stringify({
         name: deck.name,
         description: deck.description,
-        cards: deck.cards.map(card => ({
+        cards: deck.cards.map((card: FlashcardContent) => ({
           front: card.front.text,
           frontHint: card.front.subtext,
           back: card.back.text,
@@ -665,7 +665,7 @@ export class FlashcardManager {
 
     // CSV format
     const headers = ['Front', 'Back', 'Front Hint', 'Back Hint', 'Tags', 'Notes'];
-    const rows = deck.cards.map(card => [
+    const rows = deck.cards.map((card: FlashcardContent) => [
       card.front.text,
       card.back.text,
       card.front.subtext || '',
@@ -676,7 +676,7 @@ export class FlashcardManager {
 
     const csvContent = [
       headers.join(','),
-      ...rows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(','))
+      ...rows.map((row: string[]) => row.map((cell: string) => `"${cell.replace(/"/g, '""')}"`).join(','))
     ].join('\n');
 
     return csvContent;
