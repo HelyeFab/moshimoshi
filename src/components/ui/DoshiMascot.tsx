@@ -24,7 +24,11 @@ const Lottie = dynamic(
   }
 );
 
-interface DoshiMascotProps {
+// Mood types for semantic usage - currently mapped to variant behavior
+// Future: could support different animations/images per mood
+export type DoshiMood = 'happy' | 'excited' | 'thinking' | 'curious' | 'sleepy' | 'sad' | 'celebrating' | 'studying' | 'loading';
+
+export interface DoshiMascotProps {
   variant?: 'static' | 'animated' | 'auto';
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
   className?: string;
@@ -32,6 +36,8 @@ interface DoshiMascotProps {
   priority?: boolean;
   onClick?: () => void;
   loop?: boolean;
+  /** Semantic mood indicator. Currently decorative - future versions may show different animations per mood */
+  mood?: DoshiMood;
 }
 
 const sizeMap = {
@@ -50,6 +56,7 @@ export default function DoshiMascot({
   priority = false,
   onClick,
   loop = true,
+  mood: _mood, // Currently unused - reserved for future mood-specific animations
 }: DoshiMascotProps) {
   const [animationData, setAnimationData] = useState<any>(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);

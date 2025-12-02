@@ -82,7 +82,7 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-4">
-        <DoshiMascot size="medium" variant="loading" />
+        <DoshiMascot size="medium" mood="loading" variant="animated" />
         <div className="text-sm text-gray-500 dark:text-gray-400">
           {strings.common?.loading || 'Loading dashboard data...'}
         </div>
@@ -191,7 +191,7 @@ export default function AdminDashboard() {
             </p>
           </div>
           <div className="hidden sm:block">
-            <DoshiMascot size="small" variant="happy" />
+            <DoshiMascot size="small" mood="happy" />
           </div>
         </div>
       </div>

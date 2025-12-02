@@ -3367,6 +3367,99 @@ export const strings = {
     lastUpdated: "Dernière mise à jour : Janvier 2025",
     footer: "Merci de faire confiance à Moshimoshi pour votre apprentissage du japonais.",
     sections: {
+      introduction: {
+        title: "1. Introduction",
+        content: "Bienvenue sur Moshimoshi (\"nous\", \"notre\" ou \"nos\"). Nous nous engageons à protéger vos informations personnelles et votre droit à la vie privée. Cette politique de confidentialité explique comment nous collectons, utilisons, divulguons et protégeons vos informations lorsque vous utilisez notre application d'apprentissage du japonais.",
+        agreement: "En utilisant Moshimoshi, vous acceptez la collecte et l'utilisation des informations conformément à cette politique. Si vous n'êtes pas d'accord avec nos politiques et pratiques, veuillez ne pas utiliser nos services."
+      },
+      collection: {
+        title: "2. Informations que nous collectons",
+        provided: {
+          title: "2.1 Informations que vous fournissez",
+          account: "Informations de compte",
+          accountDesc: "Adresse e-mail, nom d'affichage et photo de profil lors de la création de votre compte",
+          learning: "Données d'apprentissage",
+          learningDesc: "Votre progression, vocabulaire enregistré, résultats de pratique et préférences d'étude",
+          content: "Contenu utilisateur",
+          contentDesc: "Notes, listes de mots personnalisées et tout contenu que vous créez dans l'application",
+          communications: "Communications",
+          communicationsDesc: "Commentaires, demandes d'assistance et correspondance avec nous"
+        },
+        automatic: {
+          title: "2.2 Informations collectées automatiquement",
+          device: "Informations sur l'appareil",
+          deviceDesc: "Type de navigateur, système d'exploitation, type d'appareil et identifiants uniques",
+          usage: "Données d'utilisation",
+          usageDesc: "Fonctionnalités utilisées, temps passé, pages visitées et modèles d'interaction",
+          performance: "Données de performance",
+          performanceDesc: "Rapports de plantage, journaux d'erreurs et métriques de performance",
+          analytics: "Analytique",
+          analyticsDesc: "Statistiques agrégées pour améliorer nos services"
+        },
+        thirdParty: {
+          title: "2.3 Services tiers",
+          intro: "Nous utilisons les services tiers suivants qui peuvent collecter des informations :",
+          firebase: "Authentification, base de données et analytique",
+          stripe: "Traitement des paiements (aucun détail de carte de crédit stocké par nous)",
+          openai: "Fonctionnalités alimentées par l'IA (contenu anonymisé)"
+        }
+      },
+      usage: {
+        title: "3. Comment nous utilisons vos informations",
+        intro: "Nous utilisons les informations collectées pour :",
+        provide: "Fournir et maintenir nos services d'apprentissage des langues",
+        personalize: "Personnaliser votre expérience d'apprentissage et suivre vos progrès",
+        process: "Traiter les transactions et gérer les abonnements",
+        notify: "Envoyer des notifications et mises à jour liées au service",
+        support: "Répondre aux demandes d'assistance et aux commentaires",
+        improve: "Améliorer nos services grâce à l'analytique et à la recherche",
+        comply: "Respecter les obligations légales et protéger nos droits"
+      },
+      security: {
+        title: "4. Stockage et sécurité des données",
+        content: "Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données.",
+        measures: {
+          title: "Nos mesures de sécurité",
+          encryption: "Chiffrement de bout en bout pour les données sensibles",
+          https: "Connexions HTTPS sécurisées pour tous les transferts de données",
+          audits: "Audits de sécurité réguliers et évaluations des vulnérabilités",
+          access: "Contrôles d'accès et mécanismes d'authentification"
+        },
+        location: {
+          title: "Localisation des données",
+          content: "Vos données sont stockées sur des serveurs sécurisés fournis par Google Firebase, situés aux États-Unis. Pour les utilisateurs de l'Union européenne, les données peuvent être transférées internationalement conformément aux lois applicables sur la protection des données."
+        },
+        local: {
+          title: "Stockage local",
+          content: "Certaines données sont stockées localement sur votre appareil pour l'accès hors ligne et l'optimisation des performances. Cela inclut le contenu mis en cache, les préférences et l'activité récente."
+        }
+      },
+      rights: {
+        title: "5. Vos droits et choix",
+        exercise: "Pour exercer l'un de ces droits, veuillez nous contacter à",
+        exerciseSuffix: "ou via les paramètres de votre compte.",
+        yourRights: {
+          title: "Vous avez le droit de :",
+          access: "Accéder",
+          accessDesc: "Demander une copie de vos données personnelles",
+          correct: "Corriger",
+          correctDesc: "Mettre à jour ou corriger des informations inexactes",
+          delete: "Supprimer",
+          deleteDesc: "Demander la suppression de votre compte et de vos données",
+          export: "Exporter",
+          exportDesc: "Télécharger vos données dans un format portable",
+          optOut: "Se désinscrire",
+          optOutDesc: "Se désabonner des communications marketing",
+          restrict: "Restreindre",
+          restrictDesc: "Limiter le traitement de vos données dans certaines circonstances"
+        }
+      },
+      contact: {
+        title: "6. Informations de contact",
+        intro: "Si vous avez des questions ou des préoccupations concernant cette politique de confidentialité ou nos pratiques en matière de données, veuillez nous contacter :",
+        email: "E-mail",
+        support: "Support"
+      },
       recaptcha: {
         title: "7. Protection reCAPTCHA",
         content: "Ce site est protégé par reCAPTCHA et la",
@@ -3375,8 +3468,135 @@ export const strings = {
         termsOfService: "Conditions d'utilisation",
         apply: "de Google s'appliquent."
       }
+    },
+    acceptButton: "Je comprends et j'accepte"
+  },
+
+  // Contact Page
+  contact: {
+    title: "Contactez-nous",
+    subtitle: "Nous serions ravis de vous entendre !",
+    error: "Désolé, une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer.",
+    validation: {
+      invalidEmail: "Veuillez entrer une adresse email valide",
+      messageTooShort: "Le message doit contenir au moins 10 caractères",
+      messageTooLong: "Le message dépasse la limite de caractères"
+    },
+    form: {
+      name: "Nom",
+      namePlaceholder: "Votre nom",
+      email: "Email",
+      emailPlaceholder: "votre@email.com",
+      category: "Catégorie",
+      categories: {
+        general: "Demande générale",
+        support: "Support technique",
+        bug: "Signaler un bug",
+        feature: "Demande de fonctionnalité",
+        feedback: "Commentaires",
+        privacy: "Préoccupation de confidentialité"
+      },
+      subject: "Sujet",
+      subjectPlaceholder: "Brève description de votre demande",
+      message: "Message",
+      messagePlaceholder: "Dites-nous en plus sur votre demande...",
+      info: {
+        title: "Votre message sera envoyé à",
+        support: "Support",
+        feedback: "Commentaires",
+        privacy: "Confidentialité"
+      },
+      sending: "Envoi en cours...",
+      submit: "Envoyer le message"
+    },
+    success: {
+      title: "Message envoyé !",
+      message: "Merci de nous avoir contactés. Nous vous répondrons dès que possible !",
+      sendAnother: "Envoyer un autre message",
+      goBack: "Retour"
+    },
+    alternative: {
+      title: "Autres moyens de nous contacter",
+      email: {
+        title: "Envoyez-nous un email",
+        description: "Envoyez-nous un email à tout moment"
+      },
+      privacy: {
+        title: "Préoccupations de confidentialité"
+      },
+      social: {
+        title: "Suivez-nous",
+        description: "Restez informé de nos dernières nouvelles"
+      }
     }
   },
+
+  // Leaderboard Page
+  leaderboard: {
+    title: "Classement",
+    yourRank: "Votre rang",
+    totalXP: "XP Total",
+    streak: "Série",
+    global: "Global",
+    friends: "Amis",
+    friendsComingSoon: "Classement des amis bientôt disponible",
+    friendsDescription: "Connectez-vous avec vos amis et affrontez-vous ensemble dans votre parcours d'apprentissage.",
+    rank: "Rang",
+    learner: "Apprenant",
+    level: "Niveau",
+    xp: "XP",
+    noData: "Aucune donnée de classement disponible",
+    loading: "Chargement du classement..."
+  },
+
+  // Resources Page
+  resources: {
+    notFound: "Ressource introuvable",
+    backToResources: "Retour aux ressources",
+    views: "vues",
+    lastUpdated: "Dernière mise à jour",
+    relatedResources: "Ressources associées",
+    title: "Ressources d'apprentissage",
+    description: "Ressources sélectionnées pour vous accompagner dans votre apprentissage du japonais",
+    categories: {
+      all: "Tout",
+      grammar: "Grammaire",
+      vocabulary: "Vocabulaire",
+      reading: "Lecture",
+      listening: "Écoute",
+      speaking: "Expression orale",
+      kanji: "Kanji"
+    }
+  },
+
+  // Kanji Browser Page
+  kanjiBrowser: {
+    searchPlaceholder: "Rechercher un kanji par caractère, signification ou lecture...",
+    title: "Explorateur de Kanji",
+    subtitle: "Explorez et apprenez les kanji japonais",
+    filters: {
+      jlptLevel: "Niveau JLPT",
+      gradeLevel: "Niveau scolaire",
+      strokeCount: "Nombre de traits",
+      radical: "Radical"
+    },
+    sort: {
+      frequency: "Fréquence",
+      strokes: "Traits",
+      grade: "Niveau"
+    },
+    details: {
+      meanings: "Significations",
+      readings: "Lectures",
+      onyomi: "On'yomi",
+      kunyomi: "Kun'yomi",
+      strokes: "Traits",
+      examples: "Exemples",
+      radicals: "Radicaux"
+    },
+    noResults: "Aucun kanji trouvé correspondant à vos critères",
+    loading: "Chargement des kanji..."
+  }
 }
 
 export default strings

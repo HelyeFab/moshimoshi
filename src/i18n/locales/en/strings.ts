@@ -5197,5 +5197,242 @@ export const strings = {
       title: "Word Builder",
       description: "Build words from components"
     }
+  },
+
+  // Contact Page
+  contact: {
+    title: "Contact Us",
+    subtitle: "We'd love to hear from you!",
+    error: "Sorry, there was an error sending your message. Please try again.",
+    validation: {
+      invalidEmail: "Please enter a valid email address",
+      messageTooShort: "Message must be at least 10 characters",
+      messageTooLong: "Message exceeds character limit"
+    },
+    form: {
+      name: "Name",
+      namePlaceholder: "Your name",
+      email: "Email",
+      emailPlaceholder: "your@email.com",
+      category: "Category",
+      categories: {
+        general: "General Inquiry",
+        support: "Technical Support",
+        bug: "Bug Report",
+        feature: "Feature Request",
+        feedback: "Feedback",
+        privacy: "Privacy Concern"
+      },
+      subject: "Subject",
+      subjectPlaceholder: "Brief description of your inquiry",
+      message: "Message",
+      messagePlaceholder: "Tell us more about your inquiry...",
+      info: {
+        title: "Your message will be sent to",
+        support: "Support",
+        feedback: "Feedback",
+        privacy: "Privacy"
+      },
+      sending: "Sending...",
+      submit: "Send Message"
+    },
+    success: {
+      title: "Message Sent!",
+      message: "Thank you for contacting us. We'll get back to you as soon as possible!",
+      sendAnother: "Send Another Message",
+      goBack: "Go Back"
+    },
+    alternative: {
+      title: "Other Ways to Reach Us",
+      email: {
+        title: "Email Us Directly",
+        description: "Send us an email at any time"
+      },
+      privacy: {
+        title: "Privacy Concerns"
+      },
+      social: {
+        title: "Follow Us",
+        description: "Stay updated with our latest news"
+      }
+    }
+  },
+
+  // Leaderboard Page
+  leaderboard: {
+    title: "Leaderboard",
+    yourRank: "Your Rank",
+    totalXP: "Total XP",
+    streak: "Streak",
+    global: "Global",
+    friends: "Friends",
+    friendsComingSoon: "Friends Leaderboard Coming Soon",
+    friendsDescription: "Connect with friends and compete together in your learning journey.",
+    rank: "Rank",
+    learner: "Learner",
+    level: "Level",
+    xp: "XP",
+    noData: "No leaderboard data available",
+    loading: "Loading leaderboard..."
+  },
+
+  // Resources Page
+  resources: {
+    notFound: "Resource not found",
+    backToResources: "Back to Resources",
+    views: "views",
+    lastUpdated: "Last updated",
+    relatedResources: "Related Resources",
+    title: "Learning Resources",
+    description: "Curated resources to help you on your Japanese learning journey",
+    categories: {
+      all: "All",
+      grammar: "Grammar",
+      vocabulary: "Vocabulary",
+      reading: "Reading",
+      listening: "Listening",
+      speaking: "Speaking",
+      kanji: "Kanji"
+    }
+  },
+
+  // Privacy Policy Page
+  privacy: {
+    title: "Privacy Policy",
+    lastUpdated: "Last updated: January 2025",
+    footer: "Thank you for trusting Moshimoshi with your Japanese learning journey.",
+    sections: {
+      introduction: {
+        title: "1. Introduction",
+        content: "Welcome to Moshimoshi (\"we,\" \"our,\" or \"us\"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Japanese language learning application.",
+        agreement: "By using Moshimoshi, you agree to the collection and use of information in accordance with this policy. If you do not agree with our policies and practices, please do not use our services."
+      },
+      collection: {
+        title: "2. Information We Collect",
+        provided: {
+          title: "2.1 Information You Provide",
+          account: "Account Information",
+          accountDesc: "Email address, display name, and profile picture when you create an account",
+          learning: "Learning Data",
+          learningDesc: "Your progress, saved vocabulary, practice results, and study preferences",
+          content: "User Content",
+          contentDesc: "Notes, custom word lists, and any content you create within the app",
+          communications: "Communications",
+          communicationsDesc: "Feedback, support requests, and correspondence with us"
+        },
+        automatic: {
+          title: "2.2 Information Collected Automatically",
+          device: "Device Information",
+          deviceDesc: "Browser type, operating system, device type, and unique device identifiers",
+          usage: "Usage Data",
+          usageDesc: "Features used, time spent, pages visited, and interaction patterns",
+          performance: "Performance Data",
+          performanceDesc: "Crash reports, error logs, and performance metrics",
+          analytics: "Analytics",
+          analyticsDesc: "Aggregated statistics to improve our services"
+        },
+        thirdParty: {
+          title: "2.3 Third-Party Services",
+          intro: "We use the following third-party services that may collect information:",
+          firebase: "Authentication, database, and analytics",
+          stripe: "Payment processing (no credit card details stored by us)",
+          openai: "AI-powered features (content anonymized)"
+        }
+      },
+      usage: {
+        title: "3. How We Use Your Information",
+        intro: "We use the information we collect to:",
+        provide: "Provide and maintain our language learning services",
+        personalize: "Personalize your learning experience and track progress",
+        process: "Process transactions and manage subscriptions",
+        notify: "Send service-related notifications and updates",
+        support: "Respond to support requests and feedback",
+        improve: "Improve our services through analytics and research",
+        comply: "Comply with legal obligations and protect our rights"
+      },
+      security: {
+        title: "4. Data Storage and Security",
+        content: "We implement appropriate technical and organizational measures to protect your data.",
+        measures: {
+          title: "Our Security Measures",
+          encryption: "End-to-end encryption for sensitive data",
+          https: "Secure HTTPS connections for all data transfers",
+          audits: "Regular security audits and vulnerability assessments",
+          access: "Access controls and authentication mechanisms"
+        },
+        location: {
+          title: "Data Location",
+          content: "Your data is stored on secure servers provided by Google Firebase, located in the United States. For users in the European Union, data may be transferred internationally in compliance with applicable data protection laws."
+        },
+        local: {
+          title: "Local Storage",
+          content: "Some data is stored locally on your device for offline access and performance optimization. This includes cached content, preferences, and recent activity."
+        }
+      },
+      rights: {
+        title: "5. Your Rights and Choices",
+        exercise: "To exercise any of these rights, please contact us at",
+        exerciseSuffix: "or through your account settings.",
+        yourRights: {
+          title: "You have the right to:",
+          access: "Access",
+          accessDesc: "Request a copy of your personal data",
+          correct: "Correct",
+          correctDesc: "Update or correct inaccurate information",
+          delete: "Delete",
+          deleteDesc: "Request deletion of your account and data",
+          export: "Export",
+          exportDesc: "Download your data in a portable format",
+          optOut: "Opt-out",
+          optOutDesc: "Unsubscribe from marketing communications",
+          restrict: "Restrict",
+          restrictDesc: "Limit processing of your data in certain circumstances"
+        }
+      },
+      contact: {
+        title: "6. Contact Information",
+        intro: "If you have questions or concerns about this privacy policy or our data practices, please contact us:",
+        email: "Email",
+        support: "Support"
+      },
+      recaptcha: {
+        title: "7. reCAPTCHA Protection",
+        content: "This site is protected by reCAPTCHA and the Google",
+        privacyPolicy: "Privacy Policy",
+        and: "and",
+        termsOfService: "Terms of Service",
+        apply: "apply."
+      }
+    },
+    acceptButton: "I understand and accept"
+  },
+
+  // Kanji Browser Page
+  kanjiBrowser: {
+    searchPlaceholder: "Search kanji by character, meaning, or reading...",
+    title: "Kanji Browser",
+    subtitle: "Explore and learn Japanese kanji",
+    filters: {
+      jlptLevel: "JLPT Level",
+      gradeLevel: "Grade Level",
+      strokeCount: "Stroke Count",
+      radical: "Radical"
+    },
+    sort: {
+      frequency: "Frequency",
+      strokes: "Strokes",
+      grade: "Grade"
+    },
+    details: {
+      meanings: "Meanings",
+      readings: "Readings",
+      onyomi: "On'yomi",
+      kunyomi: "Kun'yomi",
+      strokes: "Strokes",
+      examples: "Examples",
+      radicals: "Radicals"
+    },
+    noResults: "No kanji found matching your criteria",
+    loading: "Loading kanji..."
   }
 }

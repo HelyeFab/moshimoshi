@@ -3680,6 +3680,99 @@ export const strings = {
     lastUpdated: "最終更新日: 2025年1月",
     footer: "Moshimoshiで日本語学習をしていただきありがとうございます。",
     sections: {
+      introduction: {
+        title: "1. はじめに",
+        content: "Moshimoshi（以下「当社」）へようこそ。当社は、お客様の個人情報とプライバシーの権利を保護することに尽力しています。このプライバシーポリシーは、当社の日本語学習アプリケーションをご利用いただく際に、どのように情報を収集、使用、開示、保護するかについて説明しています。",
+        agreement: "Moshimoshiをご利用いただくことで、このポリシーに従った情報の収集と使用に同意したものとみなされます。当社のポリシーと慣行に同意されない場合は、当社のサービスをご利用にならないでください。"
+      },
+      collection: {
+        title: "2. 収集する情報",
+        provided: {
+          title: "2.1 お客様から提供される情報",
+          account: "アカウント情報",
+          accountDesc: "アカウント作成時のメールアドレス、表示名、プロフィール画像",
+          learning: "学習データ",
+          learningDesc: "進捗状況、保存した語彙、練習結果、学習設定",
+          content: "ユーザーコンテンツ",
+          contentDesc: "メモ、カスタム単語リスト、アプリ内で作成したコンテンツ",
+          communications: "コミュニケーション",
+          communicationsDesc: "フィードバック、サポートリクエスト、当社とのやり取り"
+        },
+        automatic: {
+          title: "2.2 自動的に収集される情報",
+          device: "デバイス情報",
+          deviceDesc: "ブラウザの種類、オペレーティングシステム、デバイスの種類、一意のデバイス識別子",
+          usage: "利用データ",
+          usageDesc: "使用した機能、滞在時間、訪問したページ、操作パターン",
+          performance: "パフォーマンスデータ",
+          performanceDesc: "クラッシュレポート、エラーログ、パフォーマンス指標",
+          analytics: "分析データ",
+          analyticsDesc: "サービス向上のための集計統計"
+        },
+        thirdParty: {
+          title: "2.3 サードパーティサービス",
+          intro: "以下のサードパーティサービスが情報を収集する場合があります：",
+          firebase: "認証、データベース、分析",
+          stripe: "決済処理（クレジットカード情報は当社では保存しません）",
+          openai: "AI機能（コンテンツは匿名化されます）"
+        }
+      },
+      usage: {
+        title: "3. 情報の使用方法",
+        intro: "収集した情報は以下の目的で使用します：",
+        provide: "言語学習サービスの提供と維持",
+        personalize: "学習体験のパーソナライズと進捗の追跡",
+        process: "取引の処理とサブスクリプションの管理",
+        notify: "サービス関連の通知と更新の送信",
+        support: "サポートリクエストとフィードバックへの対応",
+        improve: "分析と研究によるサービスの改善",
+        comply: "法的義務の遵守と権利の保護"
+      },
+      security: {
+        title: "4. データの保存とセキュリティ",
+        content: "当社はデータを保護するために適切な技術的・組織的措置を講じています。",
+        measures: {
+          title: "セキュリティ対策",
+          encryption: "機密データのエンドツーエンド暗号化",
+          https: "すべてのデータ転送における安全なHTTPS接続",
+          audits: "定期的なセキュリティ監査と脆弱性評価",
+          access: "アクセス制御と認証メカニズム"
+        },
+        location: {
+          title: "データの保存場所",
+          content: "お客様のデータは、米国にあるGoogle Firebaseが提供する安全なサーバーに保存されます。欧州連合のユーザーについては、適用されるデータ保護法に従って国際的にデータが転送される場合があります。"
+        },
+        local: {
+          title: "ローカルストレージ",
+          content: "一部のデータは、オフラインアクセスとパフォーマンスの最適化のためにデバイスにローカルに保存されます。これには、キャッシュされたコンテンツ、設定、最近のアクティビティが含まれます。"
+        }
+      },
+      rights: {
+        title: "5. お客様の権利と選択",
+        exercise: "これらの権利を行使するには、以下にご連絡ください：",
+        exerciseSuffix: "またはアカウント設定から行ってください。",
+        yourRights: {
+          title: "お客様には以下の権利があります：",
+          access: "アクセス",
+          accessDesc: "個人データのコピーをリクエスト",
+          correct: "訂正",
+          correctDesc: "不正確な情報の更新または訂正",
+          delete: "削除",
+          deleteDesc: "アカウントとデータの削除をリクエスト",
+          export: "エクスポート",
+          exportDesc: "ポータブル形式でデータをダウンロード",
+          optOut: "オプトアウト",
+          optOutDesc: "マーケティングコミュニケーションの配信停止",
+          restrict: "制限",
+          restrictDesc: "特定の状況でのデータ処理の制限"
+        }
+      },
+      contact: {
+        title: "6. お問い合わせ",
+        intro: "このプライバシーポリシーまたは当社のデータ慣行についてご質問やご懸念がある場合は、以下にお問い合わせください：",
+        email: "メール",
+        support: "サポート"
+      },
       recaptcha: {
         title: "7. reCAPTCHA保護",
         content: "このサイトはreCAPTCHAによって保護されており、Googleの",
@@ -3688,6 +3781,133 @@ export const strings = {
         termsOfService: "利用規約",
         apply: "が適用されます。"
       }
+    },
+    acceptButton: "理解し、同意します"
+  },
+
+  // Contact Page
+  contact: {
+    title: "お問い合わせ",
+    subtitle: "お気軽にお問い合わせください！",
+    error: "申し訳ありません。メッセージの送信中にエラーが発生しました。もう一度お試しください。",
+    validation: {
+      invalidEmail: "有効なメールアドレスを入力してください",
+      messageTooShort: "メッセージは10文字以上である必要があります",
+      messageTooLong: "メッセージが文字数制限を超えています"
+    },
+    form: {
+      name: "名前",
+      namePlaceholder: "お名前",
+      email: "メールアドレス",
+      emailPlaceholder: "your@email.com",
+      category: "カテゴリ",
+      categories: {
+        general: "一般的なお問い合わせ",
+        support: "技術サポート",
+        bug: "バグ報告",
+        feature: "機能リクエスト",
+        feedback: "フィードバック",
+        privacy: "プライバシーに関する懸念"
+      },
+      subject: "件名",
+      subjectPlaceholder: "お問い合わせの簡単な説明",
+      message: "メッセージ",
+      messagePlaceholder: "お問い合わせの詳細をお書きください...",
+      info: {
+        title: "メッセージの送信先",
+        support: "サポート",
+        feedback: "フィードバック",
+        privacy: "プライバシー"
+      },
+      sending: "送信中...",
+      submit: "メッセージを送信"
+    },
+    success: {
+      title: "メッセージが送信されました！",
+      message: "お問い合わせいただきありがとうございます。できるだけ早くご連絡いたします！",
+      sendAnother: "別のメッセージを送る",
+      goBack: "戻る"
+    },
+    alternative: {
+      title: "他の連絡方法",
+      email: {
+        title: "直接メールする",
+        description: "いつでもメールをお送りください"
+      },
+      privacy: {
+        title: "プライバシーに関する懸念"
+      },
+      social: {
+        title: "フォローする",
+        description: "最新ニュースをチェック"
+      }
     }
+  },
+
+  // Leaderboard Page
+  leaderboard: {
+    title: "リーダーボード",
+    yourRank: "あなたの順位",
+    totalXP: "合計XP",
+    streak: "連続記録",
+    global: "グローバル",
+    friends: "フレンド",
+    friendsComingSoon: "フレンドリーダーボード近日公開",
+    friendsDescription: "フレンドとつながり、学習の旅で一緒に競争しましょう。",
+    rank: "順位",
+    learner: "学習者",
+    level: "レベル",
+    xp: "XP",
+    noData: "リーダーボードデータがありません",
+    loading: "リーダーボードを読み込み中..."
+  },
+
+  // Resources Page
+  resources: {
+    notFound: "リソースが見つかりません",
+    backToResources: "リソースに戻る",
+    views: "回閲覧",
+    lastUpdated: "最終更新",
+    relatedResources: "関連リソース",
+    title: "学習リソース",
+    description: "日本語学習の旅をサポートする厳選されたリソース",
+    categories: {
+      all: "すべて",
+      grammar: "文法",
+      vocabulary: "語彙",
+      reading: "読解",
+      listening: "リスニング",
+      speaking: "スピーキング",
+      kanji: "漢字"
+    }
+  },
+
+  // Kanji Browser Page
+  kanjiBrowser: {
+    searchPlaceholder: "漢字、意味、読み方で検索...",
+    title: "漢字ブラウザ",
+    subtitle: "日本語の漢字を探索して学ぶ",
+    filters: {
+      jlptLevel: "JLPTレベル",
+      gradeLevel: "学年",
+      strokeCount: "画数",
+      radical: "部首"
+    },
+    sort: {
+      frequency: "頻度",
+      strokes: "画数",
+      grade: "学年"
+    },
+    details: {
+      meanings: "意味",
+      readings: "読み方",
+      onyomi: "音読み",
+      kunyomi: "訓読み",
+      strokes: "画数",
+      examples: "例",
+      radicals: "部首"
+    },
+    noResults: "条件に一致する漢字が見つかりません",
+    loading: "漢字を読み込み中..."
   }
 }
