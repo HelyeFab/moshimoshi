@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Masonry from 'react-masonry-css'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useI18n } from '@/i18n/I18nContext'
@@ -218,7 +219,7 @@ function StallCard({ stall, index, isPopular }: { stall: any, index: number, isP
         <div className={`flex-1 flex flex-col ${isFeatured ? 'pb-10' : ''}`}>
           {/* Emoji icon and stall image in a single row with space between */}
           <div className="flex items-center justify-between mb-2">
-            <span className={`filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0 ${isFeatured ? 'text-4xl' : 'text-3xl'}`}>
+            <span className={`filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0 ${isFeatured ? 'text-xl sm:text-4xl' : 'text-lg sm:text-3xl'}`}>
               {stall.icon}
             </span>
             <Image
@@ -226,7 +227,7 @@ function StallCard({ stall, index, isPopular }: { stall: any, index: number, isP
               alt="Stall Image"
               width={isFeatured ? 56 : 48}
               height={isFeatured ? 56 : 48}
-              className="opacity-60 group-hover:opacity-80 transition-opacity duration-300 flex-shrink-0"
+              className="opacity-60 group-hover:opacity-80 transition-opacity duration-300 flex-shrink-0 w-8 h-8 sm:w-auto sm:h-auto"
             />
           </div>
 
@@ -305,7 +306,7 @@ export default function LearningVillage() {
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
 
   // Learning Village configuration from Firestore (real-time updates)
-  const { isPopular, getStallOrder, isStallEnabled, loading: configLoading } = useLearningVillageConfig()
+  const { config, isPopular, getStallOrder, isStallEnabled, loading: configLoading } = useLearningVillageConfig()
 
   // Cast cards to allow dynamic key access with fallbacks
   const cards = strings.dashboard?.cards as CardStrings
@@ -711,30 +712,49 @@ export default function LearningVillage() {
     },
   ], [strings])
 
-  // Filter out disabled features
-  // Note: Direct env check needed because Next.js only inlines static NEXT_PUBLIC_* references
-  const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false'
-  const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false'
-  const isAchievementsEnabled = process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false'
-  const isLeaderboardEnabled = process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false'
-  const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false'
+  // Feature flags from environment variables (inlined at build time by Next.js)
+  // These take precedence over admin config - if disabled here, stall won't show regardless of Firestore
+  const featureFlags = useMemo(() => ({
+    games: process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false',
+    'review-hub': process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false',
+    achievements: process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false',
+    leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false',
+    todos: process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false',
+  }), [])
+
+  // Debug: Log feature flag values (remove in production)
+  useEffect(() => {
+    console.log('[LearningVillage] Feature flags:', featureFlags)
+    console.log('[LearningVillage] Raw env values:', {
+      games: process.env.NEXT_PUBLIC_FEATURE_GAMES,
+      reviewHub: process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB,
+      achievements: process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS,
+      leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD,
+      todos: process.env.NEXT_PUBLIC_FEATURE_TODOS,
+    })
+  }, [featureFlags])
 
   const filteredStalls = useMemo(() => {
+    console.log('[LearningVillage] Filtering stalls, config.stalls:', config.stalls.map(s => ({ id: s.id, order: s.order, enabled: s.enabled })))
+
     return learningStalls
       .filter(stall => {
-        // Feature flag checks (from env vars)
-        if (stall.id === 'games' && !isGamesEnabled) return false
-        if (stall.id === 'review-hub' && !isReviewHubEnabled) return false
-        if (stall.id === 'achievements' && !isAchievementsEnabled) return false
-        if (stall.id === 'leaderboard' && !isLeaderboardEnabled) return false
-        if (stall.id === 'todos' && !isTodosEnabled) return false
+        // Feature flag checks (from env vars) - these take absolute precedence
+        const stallId = stall.id as keyof typeof featureFlags
+        if (stallId in featureFlags && !featureFlags[stallId]) {
+          console.log(`[LearningVillage] Hiding ${stall.id} due to feature flag`)
+          return false
+        }
         // Admin config enabled check (from Firestore)
-        if (!isStallEnabled(stall.id as StallId)) return false
+        if (!isStallEnabled(stall.id as StallId)) {
+          console.log(`[LearningVillage] Hiding ${stall.id} due to admin config`)
+          return false
+        }
         return true
       })
       // Sort by admin-configured order
       .sort((a, b) => getStallOrder(a.id as StallId) - getStallOrder(b.id as StallId))
-  }, [learningStalls, isGamesEnabled, isReviewHubEnabled, isAchievementsEnabled, isLeaderboardEnabled, isTodosEnabled, isStallEnabled, getStallOrder])
+  }, [learningStalls, featureFlags, config.stalls, isStallEnabled, getStallOrder])
 
   useEffect(() => {
     const hour = new Date().getHours()
@@ -1058,14 +1078,25 @@ export default function LearningVillage() {
         </motion.div>
 
 
-        {/* Stalls grid with masonry layout */}
-        <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-6">
+        {/* Stalls grid - uses Masonry for varied heights with correct left-to-right ordering */}
+        <Masonry
+          breakpointCols={{
+            default: 5,
+            1280: 5,  // xl
+            1024: 4,  // lg
+            768: 3,   // md
+            640: 2,   // sm
+            0: 2      // base
+          }}
+          className="flex -ml-3 sm:-ml-6 w-auto"
+          columnClassName="pl-3 sm:pl-6 bg-clip-padding"
+        >
           {filteredStalls.map((stall, index) => (
-            <div key={stall.id} className="break-inside-avoid mb-3 sm:mb-6">
+            <div key={stall.id} className="mb-3 sm:mb-6">
               <StallCard stall={stall} index={index} isPopular={isPopular(stall.id as StallId)} />
             </div>
           ))}
-        </div>
+        </Masonry>
 
       </div>
     </div>

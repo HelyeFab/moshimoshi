@@ -30,7 +30,7 @@ let gamificationListenerInitialized = false;
 const ReviewEngine = dynamic(
   () => import('@/components/review-engine/ReviewEngine'),
   {
-    loading: () => <LoadingOverlay isVisible={true} />,
+    loading: () => <LoadingOverlay isLoading={true} />,
     ssr: false,
   }
 );
@@ -93,7 +93,7 @@ export default function ListDetailPage() {
 
     setIsLoading(true);
     try {
-      const lists = await listManager.getLists(user.uid, isPremium);
+      const lists = await listManager.getLists(user.uid, isPremium ?? false);
       const foundList = lists.find(l => l.id === listId);
 
       if (foundList) {
@@ -119,7 +119,7 @@ export default function ListDetailPage() {
         newItemContent.trim(),
         newItemMetadata,
         user.uid,
-        isPremium
+        isPremium ?? false
       );
 
       await loadList();
@@ -137,7 +137,7 @@ export default function ListDetailPage() {
     if (!user || !list) return;
 
     try {
-      await listManager.removeItemFromList(list.id, itemId, user.uid, isPremium);
+      await listManager.removeItemFromList(list.id, itemId, user.uid, isPremium ?? false);
       await loadList();
       showToast(t('lists.success.itemRemoved', { count: 1 }), 'success');
       setDeletingItem(null);
@@ -296,7 +296,6 @@ export default function ListDetailPage() {
             learned: 0
           }}
           mode={viewMode}
-          backLink="/lists"
         />
         <main className="container mx-auto px-4 py-8">
           {/* Simple study card */}
@@ -414,7 +413,6 @@ export default function ListDetailPage() {
           title={list.name}
           description={t(`lists.types.${list.type}.description`)}
           subtitle="Review Mode"
-          backLink="/lists"
         />
         <main className="container mx-auto px-4 py-8">
           <ReviewEngine
@@ -447,47 +445,18 @@ export default function ListDetailPage() {
         subtitle={`${list.items.length} items`}
         stats={
           viewMode !== 'browse' ? {
-            selected: selectedItems.size,
-            total: list.items.length
+            total: list.items.length,
+            learned: selectedItems.size
           } : undefined
         }
         mode={viewMode}
         onModeChange={setViewMode}
-        actions={
-          viewMode !== 'browse' && selectedItems.size > 0 ? (
-            <div className="flex gap-2">
-              <button
-                onClick={handleSelectAll}
-                className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-dark-700 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-all"
-              >
-                {t('lists.selectAll')}
-              </button>
-              <button
-                onClick={handleClearSelection}
-                className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-dark-700 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-all"
-              >
-                {t('lists.clearSelection')}
-              </button>
-              {viewMode === 'study' && (
-                <button
-                  onClick={handleStartStudy}
-                  className="px-4 py-1.5 text-sm bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-all"
-                >
-                  {t('lists.startStudy')}
-                </button>
-              )}
-              {viewMode === 'review' && (
-                <button
-                  onClick={handleStartReview}
-                  className="px-4 py-1.5 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all"
-                >
-                  {t('lists.startReview')}
-                </button>
-              )}
-            </div>
-          ) : undefined
-        }
-        backLink="/lists"
+        selectionMode={viewMode !== 'browse'}
+        selectedCount={selectedItems.size}
+        onSelectAll={handleSelectAll}
+        onClearSelection={handleClearSelection}
+        onStartStudy={viewMode === 'study' ? handleStartStudy : undefined}
+        onStartReview={viewMode === 'review' ? handleStartReview : undefined}
       />
 
       <div className="container mx-auto px-4 py-8">
@@ -716,14 +685,14 @@ export default function ListDetailPage() {
         onClose={() => setDeletingItem(null)}
         title={t('lists.confirmDelete')}
         message={t('lists.confirmDeleteMessage')}
-        confirmLabel={t('common.delete')}
-        cancelLabel={t('common.cancel')}
+        confirmText={t('common.delete')}
+        cancelText={t('common.cancel')}
         onConfirm={() => {
           if (deletingItem) {
             handleRemoveItem(deletingItem);
           }
         }}
-        variant="danger"
+        type="danger"
       />
     </div>
   );

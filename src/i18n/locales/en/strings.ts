@@ -5478,49 +5478,29 @@ export const strings = {
   terms: {
     title: "Terms of Service",
     effectiveDate: "Effective Date: January 2025",
-    lastUpdated: "Last Updated",
+    footer: "Thank you for choosing Moshimoshi for your Japanese learning journey.",
     sections: {
       agreement: {
-        title: "Agreement to Terms",
-        content: "By accessing or using Moshimoshi, you agree to be bound by these Terms of Service."
+        title: "1. Agreement to Terms",
+        content: "These Terms of Service constitute a legally binding agreement between you and Moshimoshi regarding your use of our Japanese language learning application and related services.",
+        acceptance: "By accessing or using our Service, you agree to be bound by these Terms.",
+        important: "Important",
+        importantContent: "These Terms contain a binding arbitration clause and class action waiver, which affect your legal rights."
       },
-      description: {
-        title: "Description of Service",
-        content: "Moshimoshi is a Japanese language learning platform offering various educational tools and resources."
-      },
-      accounts: {
-        title: "User Accounts",
-        content: "You are responsible for maintaining the confidentiality of your account credentials."
-      },
-      conduct: {
-        title: "User Conduct",
-        content: "You agree to use the service in compliance with all applicable laws and regulations."
-      },
-      intellectual: {
-        title: "Intellectual Property",
-        content: "All content and materials on Moshimoshi are protected by intellectual property rights."
-      },
-      disclaimer: {
-        title: "Disclaimer of Warranties",
-        content: "The service is provided 'as is' without warranties of any kind."
-      },
-      limitation: {
-        title: "Limitation of Liability",
-        content: "We shall not be liable for any indirect, incidental, or consequential damages."
-      },
-      changes: {
-        title: "Changes to Terms",
-        content: "We reserve the right to modify these terms at any time."
-      },
-      contact: {
-        title: "Contact Us",
-        content: "If you have questions about these Terms, please contact us."
+      eligibility: {
+        title: "2. Eligibility and Account",
+        requirements: "To use our Service, you must:",
+        age: "Be at least 13 years old (or the minimum age in your jurisdiction)",
+        accurate: "Provide accurate and complete registration information",
+        security: "Maintain the security of your account credentials",
+        notify: "Notify us immediately of any unauthorized access",
+        responsibility: "You are responsible for all activities that occur under your account."
       },
       subscription: {
         title: "3. Subscription and Payment",
         plans: {
           title: "3.1 Subscription Plans",
-          content: "We offer various subscription plans with different features and pricing. By subscribing, you agree to pay the applicable fees for your chosen plan."
+          content: "We offer various subscription plans with different features and pricing."
         },
         billing: {
           title: "3.2 Billing",
@@ -5530,8 +5510,89 @@ export const strings = {
         },
         refunds: {
           title: "3.3 Refunds",
-          content: "We offer a money-back guarantee for new subscribers. After this period, refunds are provided at our discretion for technical issues or service failures."
+          content: "We offer a money-back guarantee for new subscribers."
         }
+      },
+      acceptable: {
+        title: "4. Acceptable Use Policy",
+        permitted: {
+          title: "4.1 Permitted Uses",
+          intro: "You may use our Service for:",
+          personal: "Personal educational purposes",
+          classroom: "Classroom use by educators (with appropriate license)",
+          sharing: "Creating and sharing study materials within the platform"
+        },
+        prohibited: {
+          title: "4.2 Prohibited Uses",
+          intro: "You agree NOT to:",
+          laws: "Violate any laws or regulations",
+          ip: "Infringe on intellectual property rights",
+          malware: "Transmit malware, viruses, or harmful code",
+          unauthorized: "Attempt to gain unauthorized access to our systems",
+          scrape: "Scrape, data mine, or use automated systems",
+          circumvent: "Circumvent usage limits or access restrictions",
+          resell: "Resell or commercially redistribute our content",
+          impersonate: "Impersonate others or provide false information",
+          harass: "Harass, abuse, or harm other users"
+        }
+      },
+      ip: {
+        title: "5. Intellectual Property Rights",
+        ourContent: {
+          title: "5.1 Our Content",
+          content: "The Service and its original content are owned by Moshimoshi and protected by intellectual property laws."
+        },
+        yourContent: {
+          title: "5.2 Your Content",
+          content: "You retain ownership of content you create. By posting, you grant us a license to use it for providing the Service."
+        },
+        feedback: {
+          title: "5.3 Feedback",
+          content: "Any feedback you provide becomes our property and may be used without compensation."
+        }
+      },
+      disclaimers: {
+        title: "6. Disclaimers and Warranties",
+        important: "IMPORTANT LEGAL DISCLAIMER:",
+        asIs: "THE SERVICE IS PROVIDED 'AS IS' WITHOUT WARRANTIES OF ANY KIND.",
+        noWarranty: "WE DO NOT WARRANT THAT:",
+        uninterrupted: "The Service will be uninterrupted or error-free",
+        defects: "Defects will be corrected",
+        viruses: "The Service is free of viruses or harmful components",
+        results: "The results will meet your requirements"
+      },
+      liability: {
+        title: "7. Limitation of Liability",
+        limitation: "LIMITATION OF LIABILITY:",
+        maxExtent: "TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE SHALL NOT BE LIABLE FOR:",
+        indirect: "Any indirect, incidental, special, or consequential damages",
+        loss: "Loss of profits, data, use, goodwill, or other intangible losses",
+        unauthorized: "Damages from unauthorized access to our servers",
+        interruption: "Any interruption or cessation of transmission",
+        total: "Our total liability shall not exceed the amount paid by you in the six months preceding the claim."
+      },
+      termination: {
+        title: "8. Termination",
+        intro: "We may terminate or suspend your account immediately for any reason, including:",
+        breach: "Breach of these Terms",
+        request: "Request by law enforcement or government agencies",
+        inactivity: "Extended periods of inactivity",
+        nonPayment: "Non-payment of fees",
+        consequence: "Upon termination, your right to use the Service will immediately cease."
+      },
+      governing: {
+        title: "9. Governing Law",
+        content: "These Terms shall be governed by the laws of the State of Delaware, United States."
+      },
+      changes: {
+        title: "10. Changes to These Terms",
+        content: "We reserve the right to modify these Terms at any time with 30 days notice for material changes."
+      },
+      contact: {
+        title: "11. Contact Information",
+        intro: "If you have any questions about these Terms, please contact us:",
+        email: "Email",
+        privacy: "Privacy"
       }
     }
   }

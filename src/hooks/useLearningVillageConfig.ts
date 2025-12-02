@@ -1,8 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore'
-import { firestore } from '@/lib/firebase/client'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import {
   LearningVillageConfig,
   StallConfig,
@@ -23,17 +21,18 @@ interface UseLearningVillageConfigReturn {
 }
 
 /**
- * Hook to fetch and listen to Learning Village configuration
- * Uses Firestore real-time listener for instant updates
+ * Hook to fetch Learning Village configuration
+ * Uses API route (server-side Firebase Admin SDK) - follows app-wide pattern
  */
 export function useLearningVillageConfig(): UseLearningVillageConfigReturn {
   const [config, setConfig] = useState<LearningVillageConfig>(DEFAULT_CONFIG)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch via API (fallback)
+  // Fetch via API (uses Firebase Admin SDK on server)
   const fetchFromAPI = useCallback(async () => {
     try {
+      setLoading(true)
       const response = await fetch('/api/admin/learning-village')
       const data = await response.json()
 
@@ -41,59 +40,21 @@ export function useLearningVillageConfig(): UseLearningVillageConfigReturn {
         setConfig(mergeWithDefaults(data.config))
         setError(null)
       } else {
+        console.warn('[useLearningVillageConfig] API returned no config, using defaults')
         setConfig(DEFAULT_CONFIG)
       }
     } catch (err) {
       console.error('[useLearningVillageConfig] API fetch error:', err)
+      setError('Failed to load configuration')
       setConfig(DEFAULT_CONFIG)
     } finally {
       setLoading(false)
     }
   }, [])
 
-  // Set up real-time Firestore listener
+  // Fetch on mount
   useEffect(() => {
-    let unsubscribe: Unsubscribe | null = null
-
-    const setupListener = () => {
-      try {
-        const configRef = doc(firestore, 'config', 'learningVillage')
-
-        unsubscribe = onSnapshot(
-          configRef,
-          (snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.data() as Partial<LearningVillageConfig>
-              setConfig(mergeWithDefaults(data))
-              setError(null)
-            } else {
-              // No config in Firestore, use defaults
-              setConfig(DEFAULT_CONFIG)
-            }
-            setLoading(false)
-          },
-          (err) => {
-            console.error('[useLearningVillageConfig] Firestore listener error:', err)
-            setError('Failed to load configuration')
-            // Fallback to API fetch
-            fetchFromAPI()
-          }
-        )
-      } catch (err) {
-        console.error('[useLearningVillageConfig] Error setting up listener:', err)
-        // Fallback to API fetch
-        fetchFromAPI()
-      }
-    }
-
-    setupListener()
-
-    // Cleanup
-    return () => {
-      if (unsubscribe) {
-        unsubscribe()
-      }
-    }
+    fetchFromAPI()
   }, [fetchFromAPI])
 
   // Helper: Check if a stall is popular
@@ -114,10 +75,13 @@ export function useLearningVillageConfig(): UseLearningVillageConfigReturn {
     return stallConfig?.enabled ?? true
   }, [config.stalls])
 
-  // Get sorted stall IDs
-  const sortedStallIds = [...config.stalls]
-    .sort((a, b) => a.order - b.order)
-    .map(s => s.id) as StallId[]
+  // Get sorted stall IDs (memoized)
+  const sortedStallIds = useMemo(() =>
+    [...config.stalls]
+      .sort((a, b) => a.order - b.order)
+      .map(s => s.id) as StallId[],
+    [config.stalls]
+  )
 
   return {
     config,
@@ -133,7 +97,7 @@ export function useLearningVillageConfig(): UseLearningVillageConfigReturn {
 
 /**
  * Admin hook for managing Learning Village configuration
- * Provides update functionality
+ * Provides update functionality and auto-refetch after changes
  */
 interface UseAdminLearningVillageConfigReturn extends UseLearningVillageConfigReturn {
   updateConfig: (stalls: StallConfig[]) => Promise<boolean>
@@ -161,6 +125,8 @@ export function useAdminLearningVillageConfig(): UseAdminLearningVillageConfigRe
         return false
       }
 
+      // Refetch to get updated config
+      await baseHook.refetch()
       return true
     } catch (err) {
       console.error('[useAdminLearningVillageConfig] Update error:', err)
@@ -168,7 +134,7 @@ export function useAdminLearningVillageConfig(): UseAdminLearningVillageConfigRe
     } finally {
       setSaving(false)
     }
-  }, [])
+  }, [baseHook])
 
   const resetToDefaults = useCallback(async (): Promise<boolean> => {
     setSaving(true)
@@ -186,6 +152,8 @@ export function useAdminLearningVillageConfig(): UseAdminLearningVillageConfigRe
         return false
       }
 
+      // Refetch to get updated config
+      await baseHook.refetch()
       return true
     } catch (err) {
       console.error('[useAdminLearningVillageConfig] Reset error:', err)
@@ -193,7 +161,7 @@ export function useAdminLearningVillageConfig(): UseAdminLearningVillageConfigRe
     } finally {
       setSaving(false)
     }
-  }, [])
+  }, [baseHook])
 
   return {
     ...baseHook,

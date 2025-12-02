@@ -1,7 +1,7 @@
 # TypeScript Error Files
 
 **Generated:** 2025-11-30
-**Last Updated:** 2025-12-01
+**Last Updated:** 2025-12-02
 **Total Errors:** ~1759 (excluding test files and .next/types generated)
 **Total Files with Errors:** ~310 (excluding test files)
 
@@ -164,6 +164,9 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 | `src/app/api/user/profile/route.ts` | 2025-12-02 | Added fallback for session.tier (1 error) |
 | `src/app/api/user/export-data/route.ts` | 2025-12-02 | Added fallback for session.tier (1 error) |
 | `src/app/api/usage/[featureId]/increment/route.ts` | 2025-12-02 | Added null coalescing for decision.limit (1 error) |
+| `src/i18n/locales/en/strings.ts` | 2025-12-02 | Fixed duplicate `terms` object that was overwriting full ToS structure (126 errors in terms pages) |
+| `src/components/admin/MoodBoardEditor.tsx` | 2025-12-02 | Added optional chaining for kanji.readings access (10 errors) |
+| `src/app/lists/[listId]/page.tsx` | 2025-12-02 | Fixed component props (LoadingOverlay, LearningPageHeader, Dialog), isPremium ?? false (8 errors) |
 
 ---
 

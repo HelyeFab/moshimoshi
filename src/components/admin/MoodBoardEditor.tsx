@@ -340,13 +340,13 @@ Or simple: 漢,Chinese"
                           placeholder="Meaning"
                         />
                         <input
-                          value={kanji.readings.on.join(', ')}
+                          value={(kanji.readings?.on ?? []).join(', ')}
                           onChange={(e) => {
-                            const updated = {
+                            const updated: KanjiItem = {
                               ...kanji,
                               readings: {
-                                ...kanji.readings,
-                                on: e.target.value.split(',').map(r => r.trim()).filter(Boolean)
+                                on: e.target.value.split(',').map(r => r.trim()).filter(Boolean),
+                                kun: kanji.readings?.kun ?? []
                               }
                             };
                             handleSaveKanjiEdit(index, updated);
@@ -355,12 +355,12 @@ Or simple: 漢,Chinese"
                           placeholder="On readings"
                         />
                         <input
-                          value={kanji.readings.kun.join(', ')}
+                          value={(kanji.readings?.kun ?? []).join(', ')}
                           onChange={(e) => {
-                            const updated = {
+                            const updated: KanjiItem = {
                               ...kanji,
                               readings: {
-                                ...kanji.readings,
+                                on: kanji.readings?.on ?? [],
                                 kun: e.target.value.split(',').map(r => r.trim()).filter(Boolean)
                               }
                             };
@@ -385,12 +385,12 @@ Or simple: 漢,Chinese"
                         <div>
                           <div className="font-medium">{kanji.meaning}</div>
                           <div className="text-sm text-muted-foreground dark:text-dark-400">
-                            {kanji.readings.on.length > 0 && (
-                              <span>On: {kanji.readings.on.join('、')}</span>
+                            {(kanji.readings?.on?.length ?? 0) > 0 && (
+                              <span>On: {kanji.readings?.on?.join('、')}</span>
                             )}
-                            {kanji.readings.on.length > 0 && kanji.readings.kun.length > 0 && ' | '}
-                            {kanji.readings.kun.length > 0 && (
-                              <span>Kun: {kanji.readings.kun.join('、')}</span>
+                            {(kanji.readings?.on?.length ?? 0) > 0 && (kanji.readings?.kun?.length ?? 0) > 0 && ' | '}
+                            {(kanji.readings?.kun?.length ?? 0) > 0 && (
+                              <span>Kun: {kanji.readings?.kun?.join('、')}</span>
                             )}
                           </div>
                         </div>
