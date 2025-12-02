@@ -39,10 +39,14 @@ function FloatingLantern({ delay = 0, color = '#ef4444' }) {
     <motion.div
       className="absolute pointer-events-none floating-element"
       initial={{ y: '120vh', opacity: 0 }}
-      animate={animationsEnabled ? {
-        y: '-20vh',
-        opacity: [0, 1, 1, 0],
-      } : { y: '120vh', opacity: 0 }}
+      animate={
+        animationsEnabled
+          ? {
+              y: '-20vh',
+              opacity: [0, 1, 1, 0],
+            }
+          : { y: '120vh', opacity: 0 }
+      }
       transition={{
         duration: animationsEnabled ? 20 : 0,
         delay: animationsEnabled ? delay : 0,
@@ -74,15 +78,19 @@ function TwinklingLight({ delay = 0, x = '50%', y = '50%', color = '#fbbf24' }) 
       className="absolute pointer-events-none twinkling-light"
       style={{ left: x, top: y }}
       initial={{ opacity: 0, scale: 0 }}
-      animate={animationsEnabled ? {
-        opacity: [0, 1, 0.3, 1, 0],
-        scale: [0, 1.2, 0.8, 1.5, 0],
-      } : { opacity: 0, scale: 0 }}
+      animate={
+        animationsEnabled
+          ? {
+              opacity: [0, 1, 0.3, 1, 0],
+              scale: [0, 1.2, 0.8, 1.5, 0],
+            }
+          : { opacity: 0, scale: 0 }
+      }
       transition={{
-        duration: animationsEnabled ? (2 + Math.random() * 2) : 0,
-        delay: animationsEnabled ? (delay + Math.random() * 0.5) : 0,
+        duration: animationsEnabled ? 2 + Math.random() * 2 : 0,
+        delay: animationsEnabled ? delay + Math.random() * 0.5 : 0,
         repeat: animationsEnabled ? Infinity : 0,
-        repeatDelay: animationsEnabled ? (Math.random() * 3) : 0,
+        repeatDelay: animationsEnabled ? Math.random() * 3 : 0,
         ease: 'easeInOut',
       }}
     >
@@ -98,14 +106,20 @@ function TwinklingLight({ delay = 0, x = '50%', y = '50%', color = '#fbbf24' }) 
 }
 
 // Chinese lantern emoji component
-function ChineseLantern({ delay = 0, size = 'medium' }: { delay?: number; size?: 'small' | 'medium' | 'large' | 'xlarge' }) {
+function ChineseLantern({
+  delay = 0,
+  size = 'medium',
+}: {
+  delay?: number
+  size?: 'small' | 'medium' | 'large' | 'xlarge'
+}) {
   const animationsEnabled = useAnimationControl()
 
   const sizes = {
     small: 'text-2xl',
     medium: 'text-4xl',
     large: 'text-6xl',
-    xlarge: 'text-8xl'
+    xlarge: 'text-8xl',
   } as const
 
   const duration = 25 + Math.random() * 10 // Varying speeds
@@ -113,8 +127,8 @@ function ChineseLantern({ delay = 0, size = 'medium' }: { delay?: number; size?:
 
   // Start from very bottom of the Learning Village (after all 5 rows)
   // Using vh units for better responsiveness
-  const startY = '120vh'  // Start 120% of viewport height (well below all content)
-  const endY = '-20vh'    // End above the viewport
+  const startY = '120vh' // Start 120% of viewport height (well below all content)
+  const endY = '-20vh' // End above the viewport
 
   return (
     <motion.div
@@ -123,19 +137,23 @@ function ChineseLantern({ delay = 0, size = 'medium' }: { delay?: number; size?:
         y: startY,
         x: 0,
         opacity: 0,
-        rotate: -10
+        rotate: -10,
       }}
-      animate={animationsEnabled ? {
-        y: endY,
-        x: horizontalDrift,
-        opacity: [0, 1, 1, 1, 0],
-        rotate: 10
-      } : {
-        y: startY,
-        x: 0,
-        opacity: 0,
-        rotate: -10
-      }}
+      animate={
+        animationsEnabled
+          ? {
+              y: endY,
+              x: horizontalDrift,
+              opacity: [0, 1, 1, 1, 0],
+              rotate: 10,
+            }
+          : {
+              y: startY,
+              x: 0,
+              opacity: 0,
+              rotate: -10,
+            }
+      }
       transition={{
         duration: animationsEnabled ? duration : 0,
         delay: animationsEnabled ? delay : 0,
@@ -152,9 +170,8 @@ function ChineseLantern({ delay = 0, size = 'medium' }: { delay?: number; size?:
   )
 }
 
-
 // Stall card component
-function StallCard({ stall, index, isPopular }: { stall: any, index: number, isPopular: boolean }) {
+function StallCard({ stall, index, isPopular }: { stall: any; index: number; isPopular: boolean }) {
   const [isHovered, setIsHovered] = useState(false)
   const { strings } = useI18n()
   const cardRef = useRef<HTMLDivElement>(null)
@@ -166,12 +183,13 @@ function StallCard({ stall, index, isPopular }: { stall: any, index: number, isP
 
   const isFeatured = isPopular
   const isCompact = compactIds.includes(stall.id)
-  
+
   const heightClass = isFeatured ? 'min-h-[280px]' : isCompact ? 'min-h-[200px]' : 'min-h-[240px]'
   const spacingClass = isFeatured ? 'space-y-6' : isCompact ? 'space-y-2' : 'space-y-4'
 
   const cardContent = (
-    <div className={`
+    <div
+      className={`
           relative overflow-hidden rounded-2xl
           bg-white/5 dark:bg-dark-800/5 backdrop-blur-md
           border border-white/40 dark:border-white/20
@@ -186,13 +204,16 @@ function StallCard({ stall, index, isPopular }: { stall: any, index: number, isP
           after:absolute after:inset-0
           after:shadow-inner after:rounded-2xl
           after:pointer-events-none
-        `}>
+        `}
+    >
       {/* Animated gradient background */}
-      <div className={`
+      <div
+        className={`
             absolute inset-0 opacity-0 group-hover:opacity-20
             bg-gradient-to-br ${stall.color}
             transition-opacity duration-500
-          `} />
+          `}
+      />
 
       {/* Lantern glow effect */}
       <div
@@ -207,11 +228,13 @@ function StallCard({ stall, index, isPopular }: { stall: any, index: number, isP
       <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-white/5 dark:from-black/20 dark:to-black/10 pointer-events-none" />
 
       {/* Content */}
-      <div className={`relative p-6 ${spacingClass} flex-1 flex flex-col`}>
+      <div className={`relative px-4 py-6 sm:p-6 ${spacingClass} flex-1 flex flex-col`}>
         {/* Badge for featured items - Moved to bottom right to avoid overlap */}
         {isFeatured && (
           <div className="absolute bottom-3 right-3 px-2 py-1 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/10 z-10">
-             <span className="text-[10px] font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">Popular</span>
+            <span className="text-[10px] font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">
+              Popular
+            </span>
           </div>
         )}
 
@@ -219,7 +242,9 @@ function StallCard({ stall, index, isPopular }: { stall: any, index: number, isP
         <div className={`flex-1 flex flex-col ${isFeatured ? 'pb-10' : ''}`}>
           {/* Emoji icon and stall image in a single row with space between */}
           <div className="flex items-center justify-between mb-2">
-            <span className={`filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0 ${isFeatured ? 'text-xl sm:text-4xl' : 'text-lg sm:text-3xl'}`}>
+            <span
+              className={`filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0 ${isFeatured ? 'text-xl sm:text-4xl' : 'text-lg sm:text-3xl'}`}
+            >
               {stall.icon}
             </span>
             <Image
@@ -232,7 +257,9 @@ function StallCard({ stall, index, isPopular }: { stall: any, index: number, isP
           </div>
 
           {/* Title */}
-          <h3 className={`font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight ${isFeatured ? 'text-xl' : 'text-lg'}`}>
+          <h3
+            className={`font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors leading-tight ${isFeatured ? 'text-xl' : 'text-lg'}`}
+          >
             {/* Split title if it contains multiple words */}
             {stall.title.split(' ').length > 1 ? (
               <>
@@ -289,15 +316,87 @@ function StallCard({ stall, index, isPopular }: { stall: any, index: number, isP
       onHoverEnd={() => setIsHovered(false)}
       className="relative"
     >
-      <Link href={stall.href}>
-        {cardContent}
-      </Link>
+      <Link href={stall.href}>{cardContent}</Link>
     </motion.div>
   )
 }
 
+// Mobile Stall Card Component (for vertical list view)
+function MobileStallCard({ stall, isPopular }: { stall: any; isPopular: boolean }) {
+  const { strings } = useI18n()
+
+  return (
+    <Link href={stall.href} className="block w-full group">
+      {' '}
+      {/* Added group for hover effects */}
+      <motion.div
+        whileTap={{ scale: 0.98 }}
+        className={`relative flex items-center p-3 sm:p-4 rounded-xl bg-white/10 dark:bg-dark-800/10 backdrop-blur-md
+                   border border-white/40 dark:border-white/20 hover:border-primary-400/80 dark:hover:border-primary-500/80
+                   shadow-none group-hover:${stall.glow} transition-all duration-300 cursor-pointer h-20 sm:h-24 overflow-hidden
+                   group-hover:scale-[1.01] gap-x-2`} // Added subtle lift on hover and glow effect, and gap-x-2
+      >
+        {/* Animated gradient background */}
+        <div
+          className={`
+              absolute inset-0 opacity-20 group-hover:opacity-50
+              bg-gradient-to-br ${stall.color}
+              transition-opacity duration-500
+            `}
+        />
+
+        {/* Content */}
+        <div className="flex items-center space-x-3 sm:space-x-4 z-10 flex-1 min-w-0">
+          {/* Emoji icon and stall image */}
+          <div className="flex-shrink-0 relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
+            <span className="text-2xl sm:text-3xl filter drop-shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-200">
+              {stall.icon}
+            </span>
+            {/* Image is absolutely positioned to layer behind emoji */}
+            <Image
+              src={stall.stallImage}
+              alt="Stall Image"
+              width={32}
+              height={32}
+              className="absolute opacity-50 transition-opacity duration-300"
+            />
+          </div>
+
+          <div className="flex-grow min-w-0 overflow-hidden">
+            <h3 className="font-bold text-gray-900 dark:text-white leading-tight text-base sm:text-lg truncate">
+              {stall.title}
+            </h3>
+            <p className="text-sm text-gray-700 dark:text-gray-300 truncate">{stall.subtitle}</p>
+          </div>
+        </div>
+
+        {/* Optional: Popular badge (smaller) */}
+        {isPopular && (
+          <div className="flex-shrink-0 px-2 py-0.5 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/10 ml-auto z-10">
+            <span className="text-[9px] font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">
+              Pop
+            </span>
+          </div>
+        )}
+
+        {/* Arrow indicator */}
+        <motion.div
+          className="ml-2 sm:ml-4 text-white/70 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 z-10"
+          initial={{ x: 0 }}
+          whileHover={{ x: 5 }}
+          transition={{ duration: 0.2 }}
+        >
+          <span className="text-xl sm:text-2xl">→</span>
+        </motion.div>
+      </motion.div>
+    </Link>
+  )
+}
+
 // Type helper for i18n cards with dynamic keys
-type CardStrings = Record<string, { title?: string; subtitle?: string; description?: string }> | undefined
+type CardStrings =
+  | Record<string, { title?: string; subtitle?: string; description?: string }>
+  | undefined
 
 export default function LearningVillage() {
   const { resolvedTheme } = useTheme()
@@ -306,421 +405,444 @@ export default function LearningVillage() {
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
 
   // Learning Village configuration from Firestore (real-time updates)
-  const { config, isPopular, getStallOrder, isStallEnabled, loading: configLoading } = useLearningVillageConfig()
+  const {
+    config,
+    isPopular,
+    getStallOrder,
+    isStallEnabled,
+    loading: configLoading,
+  } = useLearningVillageConfig()
 
   // Cast cards to allow dynamic key access with fallbacks
   const cards = strings.dashboard?.cards as CardStrings
 
   // Learning sections with festival stall themes - now with i18n
   // Reordered in a logical progression for learners
-  const learningStalls = useMemo(() => [
-    // === FOUNDATION (Basics) ===
-    {
-      id: 'hiragana',
-      title: strings.dashboard?.cards?.hiragana?.title || 'Hiragana',
-      subtitle: strings.dashboard?.cards?.hiragana?.subtitle || 'ひらがな',
-      description: strings.dashboard?.cards?.hiragana?.description || 'Master the flowing script',
-      href: '/learn/hiragana',
-      icon: '🎋',
-      stallType: 'bamboo',
-      color: 'from-green-400 to-emerald-600',
-      glow: 'shadow-green-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#10b981',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'katakana',
-      title: strings.dashboard?.cards?.katakana?.title || 'Katakana',
-      subtitle: strings.dashboard?.cards?.katakana?.subtitle || 'カタカナ',
-      description: strings.dashboard?.cards?.katakana?.description || 'Sharp and angular characters',
-      href: '/learn/katakana',
-      icon: '⚡',
-      stallType: 'thunder',
-      color: 'from-blue-400 to-indigo-600',
-      glow: 'shadow-blue-500/50',
-      doshiMood: 'excited' as const,
-      progress: 0,
-      lanternColor: '#3b82f6',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'drill',
-      title: strings.dashboard?.cards?.drill?.title || 'Drill',
-      subtitle: strings.dashboard?.cards?.drill?.subtitle || 'ドリル',
-      description: strings.dashboard?.cards?.drill?.description || 'Quick drill exercises',
-      href: '/drill',
-      icon: '⚡',
-      stallType: 'school',
-      color: 'from-indigo-400 to-purple-600',
-      glow: 'shadow-indigo-500/50',
-      doshiMood: 'thinking' as const,
-      progress: 0,
-      lanternColor: '#6366f1',
-      stallImage: getRandomStallImage(),
-    },
-    // === CORE CONTENT ===
-    {
-      id: 'vocabulary',
-      title: strings.dashboard?.cards?.vocabulary?.title || 'Vocabulary',
-      subtitle: strings.dashboard?.cards?.vocabulary?.subtitle || '単語',
-      description: strings.dashboard?.cards?.vocabulary?.description || 'Build your word power',
-      href: '/vocabulary',
-      icon: '📚',
-      stallType: 'library',
-      color: 'from-purple-400 to-violet-600',
-      glow: 'shadow-purple-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#8b5cf6',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'my-lists',
-      title: strings.lists?.title || 'My Lists',
-      subtitle: strings.lists?.pageDescription || 'リスト',
-      description: strings.lists?.pageDescription || 'Create and manage custom study lists',
-      href: '/lists',
-      icon: '📋',
-      stallType: 'scroll',
-      color: 'from-cyan-400 to-teal-600',
-      glow: 'shadow-cyan-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#06b6d4',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'kanji-browser',
-      title: cards?.kanjiBrowser?.title || 'Kanji Browser',
-      subtitle: cards?.kanjiBrowser?.subtitle || '漢字辞典',
-      description: cards?.kanjiBrowser?.description || 'Browse all JLPT kanji levels',
-      href: '/kanji-browser',
-      icon: '📖',
-      stallType: 'library',
-      color: 'from-indigo-400 to-blue-600',
-      glow: 'shadow-indigo-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#4f46e5',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'kanji-mastery',
-      title: cards?.kanjiMastery?.title || 'Kanji Mastery',
-      subtitle: cards?.kanjiMastery?.subtitle || '漢字習得',
-      description: cards?.kanjiMastery?.description || 'Master kanji with SRS',
-      href: '/tools/kanji-mastery',
-      icon: '🎯',
-      stallType: 'bridge',
-      color: 'from-teal-400 to-cyan-600',
-      glow: 'shadow-teal-500/50',
-      doshiMood: 'excited' as const,
-      progress: 0,
-      lanternColor: '#14b8a6',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'kanji-connections',
-      title: cards?.kanjiConnections?.title || 'Kanji Connections',
-      subtitle: cards?.kanjiConnections?.subtitle || '漢字関連',
-      description: cards?.kanjiConnections?.description || 'Premium: Families, Radicals & Patterns',
-      href: '/kanji-connection',
-      icon: '🔮',
-      stallType: 'map',
-      color: 'from-sky-400 to-blue-600',
-      glow: 'shadow-sky-500/50',
-      doshiMood: 'excited' as const,
-      progress: 0,
-      lanternColor: '#0ea5e9',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'mood-boards',
-      title: cards?.moodBoards?.title || 'Mood Boards',
-      subtitle: cards?.moodBoards?.subtitle || 'ムード',
-      description: cards?.moodBoards?.description || 'Learn kanji by themes',
-      href: '/kanji-moods',
-      icon: '🗺️',
-      stallType: 'restaurant',
-      color: 'from-yellow-400 to-orange-600',
-      glow: 'shadow-yellow-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#eab308',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'conjugation',
-      title: cards?.conjugation?.title || 'Conjugation',
-      subtitle: cards?.conjugation?.subtitle || '活用',
-      description: cards?.conjugation?.description || 'Practice verb conjugations',
-      href: '/learn/conjugation',
-      icon: '🔤',
-      stallType: 'archery',
-      color: 'from-orange-400 to-amber-600',
-      glow: 'shadow-orange-500/50',
-      doshiMood: 'thinking' as const,
-      progress: 0,
-      lanternColor: '#f97316',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'textbook-vocab',
-      title: cards?.textbookVocab?.title || 'Textbook Vocab',
-      subtitle: cards?.textbookVocab?.subtitle || '教科書',
-      description: cards?.textbookVocab?.description || 'Study textbook vocabulary',
-      href: '/tools/textbook-vocabulary',
-      icon: '📚',
-      stallType: 'calligraphy',
-      color: 'from-gray-400 to-slate-600',
-      glow: 'shadow-gray-500/50',
-      doshiMood: 'thinking' as const,
-      progress: 0,
-      lanternColor: '#64748b',
-      stallImage: getRandomStallImage(),
-    },
-    // === PRACTICE & IMMERSION ===
-    {
-      id: 'stories',
-      title: cards?.stories?.title || 'Stories',
-      subtitle: cards?.stories?.subtitle || '物語',
-      description: cards?.stories?.description || 'AI-generated stories',
-      href: '/stories',
-      icon: '📚',
-      stallType: 'stage',
-      color: 'from-indigo-400 to-blue-600',
-      glow: 'shadow-indigo-500/50',
-      doshiMood: 'waving' as const,
-      progress: 0,
-      lanternColor: '#6366f1',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'news',
-      title: strings.dashboard?.cards?.news?.title || 'News',
-      subtitle: strings.dashboard?.cards?.news?.subtitle || 'ニュース',
-      description: strings.dashboard?.cards?.news?.description || 'Read Japanese news',
-      href: '/news',
-      icon: '🗞️',
-      stallType: 'scroll',
-      color: 'from-emerald-400 to-green-600',
-      glow: 'shadow-emerald-500/50',
-      doshiMood: 'thinking' as const,
-      progress: 0,
-      lanternColor: '#10b981',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'library',
-      title: strings.dashboard?.cards?.library?.title || 'Library',
-      subtitle: strings.dashboard?.cards?.library?.subtitle || '図書館',
-      description: strings.dashboard?.cards?.library?.description || 'Read condensed books',
-      href: '/library',
-      icon: '📚',
-      stallType: 'scroll',
-      color: 'from-amber-400 to-orange-600',
-      glow: 'shadow-amber-500/50',
-      doshiMood: 'reading' as const,
-      progress: 0,
-      lanternColor: '#f59e0b',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'youtube-shadowing',
-      title: cards?.youtubeShadowing?.title || 'YouTube Shadowing',
-      subtitle: cards?.youtubeShadowing?.subtitle || 'YouTube',
-      description: cards?.youtubeShadowing?.description || 'Practice with YouTube',
-      href: '/youtube-shadowing',
-      icon: '📺',
-      stallType: 'music',
-      color: 'from-pink-400 to-rose-600',
-      glow: 'shadow-pink-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#ec4899',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'popular-videos',
-      title: cards?.popularVideos?.title || 'Trending Videos',
-      subtitle: cards?.popularVideos?.subtitle || '人気動画',
-      description: cards?.popularVideos?.description || 'Most watched by the community',
-      href: '/popular-videos',
-      icon: '🔥',
-      stallType: 'cinema',
-      color: 'from-red-500 to-orange-600',
-      glow: 'shadow-orange-500/50',
-      doshiMood: 'excited' as const,
-      progress: 0,
-      lanternColor: '#f97316',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'youtube-series',
-      title: strings.dashboard?.cards?.youtubeSeries?.title || 'YouTube Series',
-      subtitle: strings.dashboard?.cards?.youtubeSeries?.subtitle || 'シリーズ',
-      description: strings.dashboard?.cards?.youtubeSeries?.description || 'Track YouTube channels',
-      href: '/youtube-series',
-      icon: '📺',
-      stallType: 'cards',
-      color: 'from-amber-400 to-yellow-600',
-      glow: 'shadow-amber-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#f59e0b',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'my-videos',
-      title: strings.dashboard?.cards?.myVideos?.title || 'My Videos',
-      subtitle: strings.dashboard?.cards?.myVideos?.subtitle || 'ビデオ',
-      description: strings.dashboard?.cards?.myVideos?.description || 'Your saved videos',
-      href: '/my-videos',
-      icon: '🎬',
-      stallType: 'theater',
-      color: 'from-rose-400 to-pink-600',
-      glow: 'shadow-rose-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#f43f5e',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'flashcards',
-      title: strings.dashboard?.cards?.flashcards?.title || 'Flashcards',
-      subtitle: strings.dashboard?.cards?.flashcards?.subtitle || 'フラッシュカード',
-      description: strings.dashboard?.cards?.flashcards?.description || 'Create and study flashcard decks',
-      href: '/flashcards',
-      icon: '🎴',
-      stallType: 'cards',
-      color: 'from-violet-400 to-purple-600',
-      glow: 'shadow-violet-500/50',
-      doshiMood: 'excited' as const,
-      progress: 0,
-      lanternColor: '#8b5cf6',
-      stallImage: getRandomStallImage(),
-    },
-    // === GAMES & REVIEW ===
-    {
-      id: 'games',
-      title: strings.dashboard?.cards?.games?.title || 'Games',
-      subtitle: strings.dashboard?.cards?.games?.subtitle || 'ゲーム',
-      description: strings.dashboard?.cards?.games?.description || 'Learn through fun games',
-      href: '/games',
-      icon: '🎮',
-      stallType: 'festival',
-      color: 'from-red-400 to-pink-600',
-      glow: 'shadow-red-500/50',
-      doshiMood: 'excited' as const,
-      progress: 0,
-      lanternColor: '#ef4444',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'review-hub',
-      title: cards?.reviewHub?.title || 'Review Hub',
-      subtitle: cards?.reviewHub?.subtitle || 'レビュー',
-      description: cards?.reviewHub?.description || 'Unified review system',
-      href: '/review-dashboard',
-      icon: '📖',
-      stallType: 'office',
-      color: 'from-slate-400 to-gray-600',
-      glow: 'shadow-slate-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#475569',
-      stallImage: getRandomStallImage(),
-    },
-    // === PROGRESS & COMMUNITY ===
-    {
-      id: 'achievements',
-      title: strings.dashboard?.cards?.achievements?.title || 'Achievements',
-      subtitle: strings.dashboard?.cards?.achievements?.subtitle || '成果',
-      description: strings.dashboard?.cards?.achievements?.description || 'Track your progress',
-      href: '/achievements',
-      icon: '🏆',
-      stallType: 'trophy',
-      color: 'from-yellow-400 to-amber-600',
-      glow: 'shadow-yellow-500/50',
-      doshiMood: 'excited' as const,
-      progress: 0,
-      lanternColor: '#eab308',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'leaderboard',
-      title: (strings as Record<string, { title?: string; subtitle?: string; description?: string }>).leaderboard?.title || 'Leaderboard',
-      subtitle: (strings as Record<string, { title?: string; subtitle?: string; description?: string }>).leaderboard?.subtitle || 'ランキング',
-      description: (strings as Record<string, { title?: string; subtitle?: string; description?: string }>).leaderboard?.description || 'Compete with other learners',
-      href: '/leaderboard',
-      icon: '🥇',
-      stallType: 'podium',
-      color: 'from-yellow-500 to-amber-500',
-      glow: 'shadow-yellow-500/50',
-      doshiMood: 'excited' as const,
-      progress: 0,
-      lanternColor: '#fbbf24',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'resources',
-      title: strings.dashboard?.cards?.resources?.title || 'Resources',
-      subtitle: strings.dashboard?.cards?.resources?.subtitle || 'リソース',
-      description: strings.dashboard?.cards?.resources?.description || 'Learning resources',
-      href: '/resources',
-      icon: '🎌',
-      stallType: 'library',
-      color: 'from-purple-400 to-indigo-600',
-      glow: 'shadow-purple-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#9333ea',
-      stallImage: getRandomStallImage(),
-    },
-    {
-      id: 'blog',
-      title: strings.dashboard?.cards?.blog?.title || 'Blog',
-      subtitle: strings.dashboard?.cards?.blog?.subtitle || 'ブログ',
-      description: strings.dashboard?.cards?.blog?.description || 'Read articles and updates',
-      href: '/blog',
-      icon: '✍️',
-      stallType: 'scroll',
-      color: 'from-teal-400 to-cyan-600',
-      glow: 'shadow-teal-500/50',
-      doshiMood: 'happy' as const,
-      progress: 0,
-      lanternColor: '#14b8a6',
-      stallImage: getRandomStallImage(),
-    },
-    // === PRODUCTIVITY ===
-    {
-      id: 'todos',
-      title: strings.dashboard?.cards?.todos?.title || 'Task Manager',
-      subtitle: strings.dashboard?.cards?.todos?.subtitle || 'タスク管理',
-      description: strings.dashboard?.cards?.todos?.description || 'Organize your study tasks and goals',
-      href: '/todos',
-      icon: '✅',
-      stallType: 'utility',
-      color: 'from-purple-400 to-indigo-600',
-      glow: 'shadow-purple-500/50',
-      doshiMood: 'thinking' as const,
-      progress: 0,
-      lanternColor: '#a855f7',
-      stallImage: getRandomStallImage(),
-    },
-  ], [strings])
+  const learningStalls = useMemo(
+    () => [
+      // === FOUNDATION (Basics) ===
+      {
+        id: 'hiragana',
+        title: strings.dashboard?.cards?.hiragana?.title || 'Hiragana',
+        subtitle: strings.dashboard?.cards?.hiragana?.subtitle || 'ひらがな',
+        description: strings.dashboard?.cards?.hiragana?.description || 'Master the flowing script',
+        href: '/learn/hiragana',
+        icon: '🎋',
+        stallType: 'bamboo',
+        color: 'from-green-400 to-emerald-600',
+        glow: 'shadow-green-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#10b981',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'katakana',
+        title: strings.dashboard?.cards?.katakana?.title || 'Katakana',
+        subtitle: strings.dashboard?.cards?.katakana?.subtitle || 'カタカナ',
+        description:
+          strings.dashboard?.cards?.katakana?.description || 'Sharp and angular characters',
+        href: '/learn/katakana',
+        icon: '⚡',
+        stallType: 'thunder',
+        color: 'from-blue-400 to-indigo-600',
+        glow: 'shadow-blue-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#3b82f6',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'drill',
+        title: strings.dashboard?.cards?.drill?.title || 'Drill',
+        subtitle: strings.dashboard?.cards?.drill?.subtitle || 'ドリル',
+        description: strings.dashboard?.cards?.drill?.description || 'Quick drill exercises',
+        href: '/drill',
+        icon: '⚡',
+        stallType: 'school',
+        color: 'from-indigo-400 to-purple-600',
+        glow: 'shadow-indigo-500/50',
+        doshiMood: 'thinking' as const,
+        progress: 0,
+        lanternColor: '#6366f1',
+        stallImage: getRandomStallImage(),
+      },
+      // === CORE CONTENT ===
+      {
+        id: 'vocabulary',
+        title: strings.dashboard?.cards?.vocabulary?.title || 'Vocabulary',
+        subtitle: strings.dashboard?.cards?.vocabulary?.subtitle || '単語',
+        description: strings.dashboard?.cards?.vocabulary?.description || 'Build your word power',
+        href: '/vocabulary',
+        icon: '📚',
+        stallType: 'library',
+        color: 'from-purple-400 to-violet-600',
+        glow: 'shadow-purple-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#8b5cf6',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'my-lists',
+        title: strings.lists?.title || 'My Lists',
+        subtitle: strings.lists?.pageDescription || 'リスト',
+        description: strings.lists?.pageDescription || 'Create and manage custom study lists',
+        href: '/lists',
+        icon: '📋',
+        stallType: 'scroll',
+        color: 'from-cyan-400 to-teal-600',
+        glow: 'shadow-cyan-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#06b6d4',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'kanji-browser',
+        title: cards?.kanjiBrowser?.title || 'Kanji Browser',
+        subtitle: cards?.kanjiBrowser?.subtitle || '漢字辞典',
+        description: cards?.kanjiBrowser?.description || 'Browse all JLPT kanji levels',
+        href: '/kanji-browser',
+        icon: '📖',
+        stallType: 'library',
+        color: 'from-indigo-400 to-blue-600',
+        glow: 'shadow-indigo-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#4f46e5',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'kanji-mastery',
+        title: cards?.kanjiMastery?.title || 'Kanji Mastery',
+        subtitle: cards?.kanjiMastery?.subtitle || '漢字習得',
+        description: cards?.kanjiMastery?.description || 'Master kanji with SRS',
+        href: '/tools/kanji-mastery',
+        icon: '🎯',
+        stallType: 'bridge',
+        color: 'from-teal-400 to-cyan-600',
+        glow: 'shadow-teal-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#14b8a6',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'kanji-connections',
+        title: cards?.kanjiConnections?.title || 'Kanji Connections',
+        subtitle: cards?.kanjiConnections?.subtitle || '漢字関連',
+        description:
+          cards?.kanjiConnections?.description || 'Premium: Families, Radicals & Patterns',
+        href: '/kanji-connection',
+        icon: '🔮',
+        stallType: 'map',
+        color: 'from-sky-400 to-blue-600',
+        glow: 'shadow-sky-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#0ea5e9',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'mood-boards',
+        title: cards?.moodBoards?.title || 'Mood Boards',
+        subtitle: cards?.moodBoards?.subtitle || 'ムード',
+        description: cards?.moodBoards?.description || 'Learn kanji by themes',
+        href: '/kanji-moods',
+        icon: '🗺️',
+        stallType: 'restaurant',
+        color: 'from-yellow-400 to-orange-600',
+        glow: 'shadow-yellow-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#eab308',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'conjugation',
+        title: cards?.conjugation?.title || 'Conjugation',
+        subtitle: cards?.conjugation?.subtitle || '活用',
+        description: cards?.conjugation?.description || 'Practice verb conjugations',
+        href: '/learn/conjugation',
+        icon: '🔤',
+        stallType: 'archery',
+        color: 'from-orange-400 to-amber-600',
+        glow: 'shadow-orange-500/50',
+        doshiMood: 'thinking' as const,
+        progress: 0,
+        lanternColor: '#f97316',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'textbook-vocab',
+        title: cards?.textbookVocab?.title || 'Textbook Vocab',
+        subtitle: cards?.textbookVocab?.subtitle || '教科書',
+        description: cards?.textbookVocab?.description || 'Study textbook vocabulary',
+        href: '/tools/textbook-vocabulary',
+        icon: '📚',
+        stallType: 'calligraphy',
+        color: 'from-gray-400 to-slate-600',
+        glow: 'shadow-gray-500/50',
+        doshiMood: 'thinking' as const,
+        progress: 0,
+        lanternColor: '#64748b',
+        stallImage: getRandomStallImage(),
+      },
+      // === PRACTICE & IMMERSION ===
+      {
+        id: 'stories',
+        title: cards?.stories?.title || 'Stories',
+        subtitle: cards?.stories?.subtitle || '物語',
+        description: cards?.stories?.description || 'AI-generated stories',
+        href: '/stories',
+        icon: '📚',
+        stallType: 'stage',
+        color: 'from-indigo-400 to-blue-600',
+        glow: 'shadow-indigo-500/50',
+        doshiMood: 'waving' as const,
+        progress: 0,
+        lanternColor: '#6366f1',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'news',
+        title: strings.dashboard?.cards?.news?.title || 'News',
+        subtitle: strings.dashboard?.cards?.news?.subtitle || 'ニュース',
+        description: strings.dashboard?.cards?.news?.description || 'Read Japanese news',
+        href: '/news',
+        icon: '🗞️',
+        stallType: 'scroll',
+        color: 'from-emerald-400 to-green-600',
+        glow: 'shadow-emerald-500/50',
+        doshiMood: 'thinking' as const,
+        progress: 0,
+        lanternColor: '#10b981',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'library',
+        title: strings.dashboard?.cards?.library?.title || 'Library',
+        subtitle: strings.dashboard?.cards?.library?.subtitle || '図書館',
+        description: strings.dashboard?.cards?.library?.description || 'Read condensed books',
+        href: '/library',
+        icon: '📚',
+        stallType: 'scroll',
+        color: 'from-amber-400 to-orange-600',
+        glow: 'shadow-amber-500/50',
+        doshiMood: 'reading' as const,
+        progress: 0,
+        lanternColor: '#f59e0b',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'youtube-shadowing',
+        title: cards?.youtubeShadowing?.title || 'YouTube Shadowing',
+        subtitle: cards?.youtubeShadowing?.subtitle || 'YouTube',
+        description: cards?.youtubeShadowing?.description || 'Practice with YouTube',
+        href: '/youtube-shadowing',
+        icon: '📺',
+        stallType: 'music',
+        color: 'from-pink-400 to-rose-600',
+        glow: 'shadow-pink-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#ec4899',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'popular-videos',
+        title: cards?.popularVideos?.title || 'Trending Videos',
+        subtitle: cards?.popularVideos?.subtitle || '人気動画',
+        description: cards?.popularVideos?.description || 'Most watched by the community',
+        href: '/popular-videos',
+        icon: '🔥',
+        stallType: 'cinema',
+        color: 'from-red-500 to-orange-600',
+        glow: 'shadow-orange-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#f97316',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'youtube-series',
+        title: strings.dashboard?.cards?.youtubeSeries?.title || 'YouTube Series',
+        subtitle: strings.dashboard?.cards?.youtubeSeries?.subtitle || 'シリーズ',
+        description:
+          strings.dashboard?.cards?.youtubeSeries?.description || 'Track YouTube channels',
+        href: '/youtube-series',
+        icon: '📺',
+        stallType: 'cards',
+        color: 'from-amber-400 to-yellow-600',
+        glow: 'shadow-amber-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#f59e0b',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'my-videos',
+        title: strings.dashboard?.cards?.myVideos?.title || 'My Videos',
+        subtitle: strings.dashboard?.cards?.myVideos?.subtitle || 'ビデオ',
+        description: strings.dashboard?.cards?.myVideos?.description || 'Your saved videos',
+        href: '/my-videos',
+        icon: '🎬',
+        stallType: 'theater',
+        color: 'from-rose-400 to-pink-600',
+        glow: 'shadow-rose-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#f43f5e',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'flashcards',
+        title: strings.dashboard?.cards?.flashcards?.title || 'Flashcards',
+        subtitle: strings.dashboard?.cards?.flashcards?.subtitle || 'フラッシュカード',
+        description:
+          strings.dashboard?.cards?.flashcards?.description || 'Create and study flashcard decks',
+        href: '/flashcards',
+        icon: '🎴',
+        stallType: 'cards',
+        color: 'from-violet-400 to-purple-600',
+        glow: 'shadow-violet-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#8b5cf6',
+        stallImage: getRandomStallImage(),
+      },
+      // === GAMES & REVIEW ===
+      {
+        id: 'games',
+        title: strings.dashboard?.cards?.games?.title || 'Games',
+        subtitle: strings.dashboard?.cards?.games?.subtitle || 'ゲーム',
+        description: strings.dashboard?.cards?.games?.description || 'Learn through fun games',
+        href: '/games',
+        icon: '🎮',
+        stallType: 'festival',
+        color: 'from-red-400 to-pink-600',
+        glow: 'shadow-red-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#ef4444',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'review-hub',
+        title: cards?.reviewHub?.title || 'Review Hub',
+        subtitle: cards?.reviewHub?.subtitle || 'レビュー',
+        description: cards?.reviewHub?.description || 'Unified review system',
+        href: '/review-dashboard',
+        icon: '📖',
+        stallType: 'office',
+        color: 'from-slate-400 to-gray-600',
+        glow: 'shadow-slate-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#475569',
+        stallImage: getRandomStallImage(),
+      },
+      // === PROGRESS & COMMUNITY ===
+      {
+        id: 'achievements',
+        title: strings.dashboard?.cards?.achievements?.title || 'Achievements',
+        subtitle: strings.dashboard?.cards?.achievements?.subtitle || '成果',
+        description: strings.dashboard?.cards?.achievements?.description || 'Track your progress',
+        href: '/achievements',
+        icon: '🏆',
+        stallType: 'trophy',
+        color: 'from-yellow-400 to-amber-600',
+        glow: 'shadow-yellow-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#eab308',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'leaderboard',
+        title:
+          (strings as Record<string, { title?: string; subtitle?: string; description?: string }>)
+            .leaderboard?.title || 'Leaderboard',
+        subtitle:
+          (strings as Record<string, { title?: string; subtitle?: string; description?: string }>)
+            .leaderboard?.subtitle || 'ランキング',
+        description:
+          (strings as Record<string, { title?: string; subtitle?: string; description?: string }>)
+            .leaderboard?.description || 'Compete with other learners',
+        href: '/leaderboard',
+        icon: '🥇',
+        stallType: 'podium',
+        color: 'from-yellow-500 to-amber-500',
+        glow: 'shadow-yellow-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#fbbf24',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'resources',
+        title: strings.dashboard?.cards?.resources?.title || 'Resources',
+        subtitle: strings.dashboard?.cards?.resources?.subtitle || 'リソース',
+        description: strings.dashboard?.cards?.resources?.description || 'Learning resources',
+        href: '/resources',
+        icon: '🎌',
+        stallType: 'library',
+        color: 'from-purple-400 to-indigo-600',
+        glow: 'shadow-purple-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#9333ea',
+        stallImage: getRandomStallImage(),
+      },
+      {
+        id: 'blog',
+        title: strings.dashboard?.cards?.blog?.title || 'Blog',
+        subtitle: strings.dashboard?.cards?.blog?.subtitle || 'ブログ',
+        description: strings.dashboard?.cards?.blog?.description || 'Read articles and updates',
+        href: '/blog',
+        icon: '✍️',
+        stallType: 'scroll',
+        color: 'from-teal-400 to-cyan-600',
+        glow: 'shadow-teal-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#14b8a6',
+        stallImage: getRandomStallImage(),
+      },
+      // === PRODUCTIVITY ===
+      {
+        id: 'todos',
+        title: strings.dashboard?.cards?.todos?.title || 'Task Manager',
+        subtitle: strings.dashboard?.cards?.todos?.subtitle || 'タスク管理',
+        description:
+          strings.dashboard?.cards?.todos?.description || 'Organize your study tasks and goals',
+        href: '/todos',
+        icon: '✅',
+        stallType: 'utility',
+        color: 'from-purple-400 to-indigo-600',
+        glow: 'shadow-purple-500/50',
+        doshiMood: 'thinking' as const,
+        progress: 0,
+        lanternColor: '#a855f7',
+        stallImage: getRandomStallImage(),
+      },
+    ],
+    [strings]
+  )
 
   // Feature flags from environment variables (inlined at build time by Next.js)
   // These take precedence over admin config - if disabled here, stall won't show regardless of Firestore
-  const featureFlags = useMemo(() => ({
-    games: process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false',
-    'review-hub': process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false',
-    achievements: process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false',
-    leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false',
-    todos: process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false',
-  }), [])
+  const featureFlags = useMemo(
+    () => ({
+      games: process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false',
+      'review-hub': process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false',
+      achievements: process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false',
+      leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false',
+      todos: process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false',
+    }),
+    []
+  )
 
   // Debug: Log feature flag values (remove in production)
   useEffect(() => {
@@ -735,25 +857,30 @@ export default function LearningVillage() {
   }, [featureFlags])
 
   const filteredStalls = useMemo(() => {
-    console.log('[LearningVillage] Filtering stalls, config.stalls:', config.stalls.map(s => ({ id: s.id, order: s.order, enabled: s.enabled })))
+    console.log(
+      '[LearningVillage] Filtering stalls, config.stalls:',
+      config.stalls.map(s => ({ id: s.id, order: s.order, enabled: s.enabled }))
+    )
 
-    return learningStalls
-      .filter(stall => {
-        // Feature flag checks (from env vars) - these take absolute precedence
-        const stallId = stall.id as keyof typeof featureFlags
-        if (stallId in featureFlags && !featureFlags[stallId]) {
-          console.log(`[LearningVillage] Hiding ${stall.id} due to feature flag`)
-          return false
-        }
-        // Admin config enabled check (from Firestore)
-        if (!isStallEnabled(stall.id as StallId)) {
-          console.log(`[LearningVillage] Hiding ${stall.id} due to admin config`)
-          return false
-        }
-        return true
-      })
-      // Sort by admin-configured order
-      .sort((a, b) => getStallOrder(a.id as StallId) - getStallOrder(b.id as StallId))
+    return (
+      learningStalls
+        .filter(stall => {
+          // Feature flag checks (from env vars) - these take absolute precedence
+          const stallId = stall.id as keyof typeof featureFlags
+          if (stallId in featureFlags && !featureFlags[stallId]) {
+            console.log(`[LearningVillage] Hiding ${stall.id} due to feature flag`)
+            return false
+          }
+          // Admin config enabled check (from Firestore)
+          if (!isStallEnabled(stall.id as StallId)) {
+            console.log(`[LearningVillage] Hiding ${stall.id} due to admin config`)
+            return false
+          }
+          return true
+        })
+        // Sort by admin-configured order
+        .sort((a, b) => getStallOrder(a.id as StallId) - getStallOrder(b.id as StallId))
+    )
   }, [learningStalls, featureFlags, config.stalls, isStallEnabled, getStallOrder])
 
   useEffect(() => {
@@ -769,15 +896,18 @@ export default function LearningVillage() {
 
   // Dynamic sky gradient based on time and theme
   const skyGradient = {
-    day: resolvedTheme === 'dark'
-      ? 'from-slate-800 via-slate-700 to-slate-600'
-      : 'from-sky-200 via-sky-300 to-blue-400',
-    evening: resolvedTheme === 'dark'
-      ? 'from-indigo-900 via-purple-800 to-pink-700'
-      : 'from-orange-300 via-pink-400 to-purple-500',
-    night: resolvedTheme === 'dark'
-      ? 'from-slate-900 via-indigo-900 to-purple-900'
-      : 'from-indigo-700 via-purple-700 to-slate-800',
+    day:
+      resolvedTheme === 'dark'
+        ? 'from-slate-800 via-slate-700 to-slate-600'
+        : 'from-sky-200 via-sky-300 to-blue-400',
+    evening:
+      resolvedTheme === 'dark'
+        ? 'from-indigo-900 via-purple-800 to-pink-700'
+        : 'from-orange-300 via-pink-400 to-purple-500',
+    night:
+      resolvedTheme === 'dark'
+        ? 'from-slate-900 via-indigo-900 to-purple-900'
+        : 'from-indigo-700 via-purple-700 to-slate-800',
   }
 
   return (
@@ -800,23 +930,27 @@ export default function LearningVillage() {
             className="absolute text-3xl floating-element"
             initial={{
               bottom: `${(i * 25) % 100}%`,
-              left: `${10 + (i * 11)}%`,
+              left: `${10 + i * 11}%`,
               opacity: 0,
               scale: 0.5,
             }}
-            animate={animationsEnabled ? {
-              bottom: [`${(i * 25) % 100}%`, `${((i * 25) % 100) + 120}%`],
-              opacity: [0, 1, 1, 1, 0],
-              scale: [0.5, 1, 1, 1, 0.8],
-              x: [0, Math.sin(i) * 20, Math.sin(i) * -15, Math.sin(i) * 25],
-            } : {
-              bottom: `${(i * 25) % 100}%`,
-              opacity: 0,
-              scale: 0.5,
-            }}
+            animate={
+              animationsEnabled
+                ? {
+                    bottom: [`${(i * 25) % 100}%`, `${((i * 25) % 100) + 120}%`],
+                    opacity: [0, 1, 1, 1, 0],
+                    scale: [0.5, 1, 1, 1, 0.8],
+                    x: [0, Math.sin(i) * 20, Math.sin(i) * -15, Math.sin(i) * 25],
+                  }
+                : {
+                    bottom: `${(i * 25) % 100}%`,
+                    opacity: 0,
+                    scale: 0.5,
+                  }
+            }
             transition={{
-              duration: animationsEnabled ? (45 + (i * 2)) : 0,
-              delay: animationsEnabled ? (i * 3) : 0,
+              duration: animationsEnabled ? 45 + i * 2 : 0,
+              delay: animationsEnabled ? i * 3 : 0,
               repeat: animationsEnabled ? Infinity : 0,
               ease: 'easeInOut',
             }}
@@ -835,24 +969,28 @@ export default function LearningVillage() {
             className="absolute text-4xl floating-element"
             initial={{
               bottom: -50,
-              left: `${30 + (i * 20)}%`,
+              left: `${30 + i * 20}%`,
               opacity: 0,
               scale: 0.3,
             }}
-            animate={animationsEnabled ? {
-              bottom: [-50, window.innerHeight * 1.2],
-              opacity: [0, 0.8, 1, 0.9, 0],
-              scale: [0.3, 1.2, 1, 1, 0.5],
-              x: [0, Math.cos(i) * -20, Math.cos(i) * 30, Math.cos(i) * -25],
-              rotate: [-10, 10, -5, 8, -10],
-            } : {
-              bottom: -50,
-              opacity: 0,
-              scale: 0.3,
-            }}
+            animate={
+              animationsEnabled
+                ? {
+                    bottom: [-50, window.innerHeight * 1.2],
+                    opacity: [0, 0.8, 1, 0.9, 0],
+                    scale: [0.3, 1.2, 1, 1, 0.5],
+                    x: [0, Math.cos(i) * -20, Math.cos(i) * 30, Math.cos(i) * -25],
+                    rotate: [-10, 10, -5, 8, -10],
+                  }
+                : {
+                    bottom: -50,
+                    opacity: 0,
+                    scale: 0.3,
+                  }
+            }
             transition={{
-              duration: animationsEnabled ? (55 + (i * 3)) : 0,
-              delay: animationsEnabled ? (i * 7 + 2) : 0,
+              duration: animationsEnabled ? 55 + i * 3 : 0,
+              delay: animationsEnabled ? i * 7 + 2 : 0,
               repeat: animationsEnabled ? Infinity : 0,
               ease: 'easeInOut',
             }}
@@ -897,11 +1035,7 @@ export default function LearningVillage() {
       {/* Floating lanterns - moved to main container level */}
       <div className="absolute inset-0 h-full overflow-hidden pointer-events-none">
         {filteredStalls.slice(0, 5).map((stall, i) => (
-          <FloatingLantern
-            key={`lantern-${i}`}
-            delay={i * 4}
-            color={stall.lanternColor}
-          />
+          <FloatingLantern key={`lantern-${i}`} delay={i * 4} color={stall.lanternColor} />
         ))}
 
         {/* Chinese lantern emojis of different sizes */}
@@ -950,8 +1084,8 @@ export default function LearningVillage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.6,
-                  type: "spring",
-                  stiffness: 100
+                  type: 'spring',
+                  stiffness: 100,
                 }}
               >
                 <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
@@ -966,28 +1100,31 @@ export default function LearningVillage() {
                 transition={{
                   duration: 0.6,
                   delay: 0.2,
-                  type: "spring",
-                  stiffness: 100
+                  type: 'spring',
+                  stiffness: 100,
                 }}
               >
                 <span className="relative inline-block">
                   {/* White stroke layer behind */}
-                  <span className="absolute inset-0 text-white [-webkit-text-stroke:_0.25px_white]" aria-hidden="true">
+                  <span
+                    className="absolute inset-0 text-white [-webkit-text-stroke:_0.25px_white]"
+                    aria-hidden="true"
+                  >
                     学習村
                   </span>
                   {/* Gradient text on top */}
                   <motion.span
                     className="relative inline-block bg-gradient-to-r from-primary-400 via-pink-500 to-primary-600 bg-clip-text text-transparent animate-gradient bg-300%"
                     animate={{
-                      backgroundPosition: ["0%", "100%", "0%"],
+                      backgroundPosition: ['0%', '100%', '0%'],
                     }}
                     transition={{
                       duration: 5,
                       repeat: Infinity,
-                      ease: "linear"
+                      ease: 'linear',
                     }}
                     style={{
-                      backgroundSize: "300%",
+                      backgroundSize: '300%',
                     }}
                   >
                     学習村
@@ -1016,12 +1153,12 @@ export default function LearningVillage() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: [0, 1, 1, 0, 1],
-                  scale: [0.8, 1, 1, 1, 1]
+                  scale: [0.8, 1, 1, 1, 1],
                 }}
                 transition={{
                   duration: 1.5,
                   delay: 0.8,
-                  times: [0, 0.2, 0.8, 0.9, 1]
+                  times: [0, 0.2, 0.8, 0.9, 1],
                 }}
               >
                 {strings.dashboard?.villageHeader?.learningVillage || 'Learning Village'}
@@ -1071,33 +1208,128 @@ export default function LearningVillage() {
               transition={{ delay: 0.5 }}
             >
               <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {strings.dashboard?.learningVillage?.clickToStart || 'Click any stall to begin your journey!'}
+                {strings.dashboard?.learningVillage?.clickToStart ||
+                  'Click any stall to begin your journey!'}
               </p>
             </motion.div>
           </motion.div>
         </motion.div>
 
+        {/* Mobile View: Vertical List with Virtual Areas */}
+        <div className="sm:hidden space-y-8 px-4 pb-12">
+          {(() => {
+            const STALL_CATEGORIES = {
+              foundation: ['hiragana', 'katakana', 'drill'],
+              study: [
+                'vocabulary',
+                'my-lists',
+                'kanji-browser',
+                'kanji-mastery',
+                'kanji-connections',
+                'mood-boards',
+                'conjugation',
+                'textbook-vocab',
+                'flashcards',
+              ],
+              immersion: [
+                'stories',
+                'news',
+                'library',
+                'youtube-shadowing',
+                'popular-videos',
+                'youtube-series',
+                'my-videos',
+              ],
+              play: ['games', 'review-hub'],
+              community: ['achievements', 'leaderboard', 'resources', 'blog', 'todos'],
+            }
 
-        {/* Stalls grid - uses Masonry for varied heights with correct left-to-right ordering */}
-        <Masonry
-          breakpointCols={{
-            default: 5,
-            1280: 5,  // xl
-            1024: 4,  // lg
-            768: 3,   // md
-            640: 2,   // sm
-            0: 2      // base
-          }}
-          className="flex -ml-3 sm:-ml-6 w-auto"
-          columnClassName="pl-3 sm:pl-6 bg-clip-padding"
-        >
-          {filteredStalls.map((stall, index) => (
-            <div key={stall.id} className="mb-3 sm:mb-6">
-              <StallCard stall={stall} index={index} isPopular={isPopular(stall.id as StallId)} />
-            </div>
-          ))}
-        </Masonry>
+            const CATEGORY_INFO = {
+              foundation: {
+                title: (strings.dashboard as any)?.districts?.foundation || "Beginner's Plaza",
+                icon: '⛩️',
+              },
+              study: {
+                title: (strings.dashboard as any)?.districts?.study || 'Study Center',
+                icon: '📚',
+              },
+              immersion: {
+                title: (strings.dashboard as any)?.districts?.immersion || 'Immersion Alley',
+                icon: '🏮',
+              },
+              play: {
+                title: (strings.dashboard as any)?.districts?.play || 'Entertainment District',
+                icon: '🎮',
+              },
+              community: {
+                title: (strings.dashboard as any)?.districts?.community || 'Town Hall',
+                icon: '🏯',
+              },
+            }
 
+            return Object.entries(STALL_CATEGORIES).map(([catKey, stallIds]) => {
+              // Filter stalls that belong to this category AND are currently enabled/visible
+              const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id))
+
+              // Don't render empty sections
+              if (categoryStalls.length === 0) return null
+
+              const info = CATEGORY_INFO[catKey as keyof typeof CATEGORY_INFO]
+
+              return (
+                <div key={catKey} className="space-y-3">
+                  {/* Area Title */}
+                  <motion.div
+                    className="flex items-center gap-2 px-1 pb-1"
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <span className="text-xl">{info.icon}</span>
+                    <h3 className="text-lg font-bold text-white/90 tracking-wide uppercase text-shadow-sm">
+                      {info.title}
+                    </h3>
+                    <div className="h-px flex-1 bg-gradient-to-r from-white/30 to-transparent ml-2" />
+                  </motion.div>
+
+                  {/* Stalls in this area */}
+                  <div className="space-y-3">
+                    {categoryStalls.map((stall, index) => (
+                      <MobileStallCard
+                        key={stall.id}
+                        stall={stall}
+                        isPopular={isPopular(stall.id as StallId)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+            })
+          })()}
+        </div>
+
+        {/* Desktop View: Masonry */}
+        <div className="hidden sm:block">
+          <Masonry
+            breakpointCols={{
+              default: 5,
+              1280: 5, // xl
+              1024: 4, // lg
+              768: 3, // md
+              640: 2, // sm
+              0: 2, // base (this won't be used as it's hidden on mobile)
+            }}
+            className="flex -ml-3 sm:-ml-6 w-auto"
+            columnClassName="pl-3 sm:pl-6 bg-clip-padding"
+          >
+            {filteredStalls.map((stall, index) => (
+              <div key={stall.id} className="mb-3 sm:mb-6">
+                <StallCard stall={stall} index={index} isPopular={isPopular(stall.id as StallId)} />
+              </div>
+            ))}
+          </Masonry>
+        </div>
       </div>
     </div>
   )
