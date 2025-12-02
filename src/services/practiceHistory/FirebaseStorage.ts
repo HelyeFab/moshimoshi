@@ -11,6 +11,17 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
     this.userId = userId;
   }
 
+  /**
+   * Get the Firestore instance, throwing if not initialized.
+   * This ensures type safety for all database operations.
+   */
+  private getDb() {
+    if (!adminDb) {
+      throw new Error('Firebase Admin Firestore is not initialized');
+    }
+    return adminDb;
+  }
+
   private getDocId(videoId: string): string {
     return `${this.userId}_${videoId}`;
   }
@@ -22,7 +33,7 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
 
   async addOrUpdateItem(item: PracticeHistoryItem): Promise<void> {
     const docId = this.getDocId(item.videoId);
-    const docRef = adminDb.collection(COLLECTION_NAME).doc(docId);
+    const docRef = this.getDb().collection(COLLECTION_NAME).doc(docId);
 
     try {
       // Check if document exists
@@ -85,7 +96,7 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
 
   async getItem(videoId: string): Promise<PracticeHistoryItem | null> {
     const docId = this.getDocId(videoId);
-    const docRef = adminDb.collection(COLLECTION_NAME).doc(docId);
+    const docRef = this.getDb().collection(COLLECTION_NAME).doc(docId);
 
     try {
       const docSnap = await docRef.get();
@@ -118,7 +129,7 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
 
   async getAllItems(): Promise<PracticeHistoryItem[]> {
     try {
-      const querySnapshot = await adminDb
+      const querySnapshot = await this.getDb()
         .collection(COLLECTION_NAME)
         .where('userId', '==', this.userId)
         .orderBy('lastPracticed', 'desc')
@@ -154,7 +165,7 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
 
   async deleteItem(videoId: string): Promise<void> {
     const docId = this.getDocId(videoId);
-    const docRef = adminDb.collection(COLLECTION_NAME).doc(docId);
+    const docRef = this.getDb().collection(COLLECTION_NAME).doc(docId);
 
     try {
       // First, verify the document exists and belongs to the user
@@ -182,12 +193,12 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
 
   async clearAll(): Promise<void> {
     try {
-      const querySnapshot = await adminDb
+      const querySnapshot = await this.getDb()
         .collection(COLLECTION_NAME)
         .where('userId', '==', this.userId)
         .get();
 
-      const batch = adminDb.batch();
+      const batch = this.getDb().batch();
 
       querySnapshot.forEach((doc) => {
         batch.delete(doc.ref);
@@ -202,7 +213,7 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
 
   async getItemsByDateRange(startDate: Date, endDate: Date): Promise<PracticeHistoryItem[]> {
     try {
-      const querySnapshot = await adminDb
+      const querySnapshot = await this.getDb()
         .collection(COLLECTION_NAME)
         .where('userId', '==', this.userId)
         .where('lastPracticed', '>=', Timestamp.fromDate(startDate))
@@ -240,7 +251,7 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
 
   async getMostPracticed(limitCount: number = 10): Promise<PracticeHistoryItem[]> {
     try {
-      const querySnapshot = await adminDb
+      const querySnapshot = await this.getDb()
         .collection(COLLECTION_NAME)
         .where('userId', '==', this.userId)
         .orderBy('practiceCount', 'desc')
@@ -278,11 +289,11 @@ export class FirebasePracticeHistoryStorage implements PracticeHistoryStorage {
   // Sync from IndexedDB to Firebase (for when users upgrade)
   async syncFromLocal(localItems: PracticeHistoryItem[]): Promise<void> {
     try {
-      const batch = adminDb.batch();
+      const batch = this.getDb().batch();
 
       for (const item of localItems) {
         const docId = this.getDocId(item.videoId);
-        const docRef = adminDb.collection(COLLECTION_NAME).doc(docId);
+        const docRef = this.getDb().collection(COLLECTION_NAME).doc(docId);
 
         const data = {
           userId: this.userId,

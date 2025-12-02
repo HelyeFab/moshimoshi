@@ -3,8 +3,9 @@
  * Agent 2 Implementation
  */
 
-// Re-export FeatureId from the generated source of truth
-export type { FeatureId } from './FeatureId';
+// Import FeatureId for local use and re-export for consumers
+import type { FeatureId } from './FeatureId';
+export type { FeatureId };
 
 export type PlanType = 'guest' | 'free' | 'premium_monthly' | 'premium_yearly';
 
