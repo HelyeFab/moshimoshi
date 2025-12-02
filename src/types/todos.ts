@@ -1,8 +1,6 @@
 // Todo Types
 // Core type definitions for todos
 
-import { Timestamp } from 'firebase/firestore'
-
 export interface Todo {
   id: string
   userId: string
@@ -10,16 +8,16 @@ export interface Todo {
   description?: string
   completed: boolean
   priority: 'low' | 'medium' | 'high'
-  dueDate?: Date | null
-  createdAt: Date | Timestamp
-  updatedAt: Date | Timestamp
+  dueDate?: string | null          // ISO 8601 date string or null
+  createdAt: string                // ISO 8601 datetime string
+  updatedAt: string                // ISO 8601 datetime string
 }
 
 export interface CreateTodoInput {
   title: string
   description?: string
   priority?: 'low' | 'medium' | 'high'
-  dueDate?: Date | null
+  dueDate?: string | null            // ISO 8601 date string or null
 }
 
 export interface UpdateTodoInput {
@@ -27,7 +25,7 @@ export interface UpdateTodoInput {
   description?: string
   completed?: boolean
   priority?: 'low' | 'medium' | 'high'
-  dueDate?: Date | null
+  dueDate?: string | null            // ISO 8601 date string or null
 }
 
 export interface TodosApiResponse {

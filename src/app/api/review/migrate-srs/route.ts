@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { SRSAlgorithm, ReviewResult } from '@/lib/review-engine/srs/algorithm'
 import { FieldValue } from 'firebase-admin/firestore'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +20,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Get fresh user data from Firestore
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const db = getDb()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const plan = userData?.subscription?.plan || 'free'
     const isPremium = plan.startsWith('premium')
@@ -37,7 +41,7 @@ export async function POST(request: NextRequest) {
     const errors: string[] = []
 
     // Step 1: Fetch all review sessions for the user
-    const reviewSessionsSnapshot = await adminDb
+    const reviewSessionsSnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('review_sessions')
@@ -94,7 +98,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Step 2: Also check study sessions
-    const studySessionsSnapshot = await adminDb
+    const studySessionsSnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('study_sessions')
@@ -139,8 +143,8 @@ export async function POST(request: NextRequest) {
     console.log(`[SRS Migration] Processing ${itemHistoryMap.size} unique items`)
 
     // Step 3: Calculate SRS data for each item
-    const batch = adminDb.batch()
-    const progressCollection = adminDb.collection('users').doc(session.uid).collection('progress')
+    const batch = db.batch()
+    const progressCollection = db.collection('users').doc(session.uid).collection('progress')
 
     for (const [itemId, history] of itemHistoryMap) {
       try {

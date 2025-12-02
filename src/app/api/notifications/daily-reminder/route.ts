@@ -5,13 +5,16 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { notificationService } from '@/lib/notifications/notification-service'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 export async function GET(request: NextRequest) {
   try {
     // Verify this is a cron job request (Vercel adds this header)
-    const authHeader = headers().get('authorization')
+    const authHeader = (await headers()).get('authorization')
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -26,7 +29,8 @@ export async function GET(request: NextRequest) {
 
     // Query users who should receive reminders at this hour
     // We'll need to consider timezones in production
-    const usersSnapshot = await adminDb
+    const db = getDb()
+    const usersSnapshot = await db
       .collection('users')
       .where('preferences.notifications.dailyReminder', '==', true)
       .get()
@@ -63,7 +67,7 @@ export async function GET(request: NextRequest) {
             // Calculate user's current hour based on timezone
             // For MVP, we'll use a simplified approach
             // In production, use a proper timezone library
-            const userCurrentHour = this.getUserCurrentHour(currentHour, userTimezone)
+            const userCurrentHour = getUserCurrentHour(currentHour, userTimezone)
 
             if (userCurrentHour !== reminderHour) {
               results.skipped++
@@ -72,7 +76,7 @@ export async function GET(request: NextRequest) {
 
             // Check if user has already been notified today
             const today = new Date().toISOString().split('T')[0]
-            const notificationLogRef = adminDb
+            const notificationLogRef = db
               .collection('users')
               .doc(userId)
               .collection('notificationLogs')
@@ -158,7 +162,7 @@ function getUserCurrentHour(utcHour: number, timezone: string): number {
 export async function POST(request: NextRequest) {
   try {
     // Verify admin authentication
-    const authHeader = headers().get('authorization')
+    const authHeader = (await headers()).get('authorization')
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json(
         { error: 'Unauthorized' },

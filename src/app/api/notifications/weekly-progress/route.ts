@@ -5,13 +5,16 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { notificationService } from '@/lib/notifications/notification-service'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 export async function GET(request: NextRequest) {
   try {
     // Verify this is a cron job request
-    const authHeader = headers().get('authorization')
+    const authHeader = (await headers()).get('authorization')
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -34,7 +37,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Query users who have weekly progress enabled
-    const usersSnapshot = await adminDb
+    const db = getDb()
+    const usersSnapshot = await db
       .collection('users')
       .where('preferences.notifications.weeklyProgress', '==', true)
       .get()
@@ -62,7 +66,7 @@ export async function GET(request: NextRequest) {
             const userData = userDoc.data()
 
             // Check if user has been active in the past week
-            const lastActivityRef = await adminDb
+            const lastActivityRef = await db
               .collection('users')
               .doc(userId)
               .collection('reviewSessions')
@@ -89,7 +93,7 @@ export async function GET(request: NextRequest) {
             weekStart.setDate(weekStart.getDate() - 7)
             weekStart.setHours(0, 0, 0, 0)
 
-            const existingReportRef = await adminDb
+            const existingReportRef = await db
               .collection('users')
               .doc(userId)
               .collection('notificationLogs')
@@ -128,7 +132,7 @@ export async function GET(request: NextRequest) {
     console.log('[Weekly Progress] Job completed:', results)
 
     // Log job execution
-    await adminDb.collection('cronJobs').add({
+    await db.collection('cronJobs').add({
       type: 'weekly_progress',
       executedAt: new Date(),
       results,
@@ -155,7 +159,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // Verify admin authentication
-    const authHeader = headers().get('authorization')
+    const authHeader = (await headers()).get('authorization')
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json(
         { error: 'Unauthorized' },

@@ -93,10 +93,11 @@ export interface ConjugationForms {
 }
 
 // Drill Question Interface
+// Note: Uses ExtendedConjugationForms from conjugation.ts for full form support
 export interface DrillQuestion {
   id: string;
   word: JapaneseWord;
-  targetForm: keyof ConjugationForms;
+  targetForm: string; // keyof ExtendedConjugationForms (using string for flexibility)
   stem: string;
   correctAnswer: string;
   options: string[];

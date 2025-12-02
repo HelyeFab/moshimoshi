@@ -60,8 +60,8 @@ export default function TextbookVocabularyPage() {
           className="fixed bottom-4 right-4 z-10"
         >
           <DoshiMascot
-            mood={selectedTextbook ? "happy" : "thinking"}
             size="small"
+            variant={selectedTextbook ? "animated" : "static"}
           />
         </motion.div>
       </div>

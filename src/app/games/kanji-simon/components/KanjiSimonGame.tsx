@@ -297,7 +297,7 @@ export default function KanjiSimonGame({ kanji, onRoundComplete, onGameOver }: K
       // Play TTS
       if (segment.ttsText) {
         try {
-          await playTTS(segment.ttsText, { voice: 'ja-JP', rate: 0.9 });
+          await playTTS(segment.ttsText, { voice: 'ja-JP', speed: 0.9 });
         } catch (error) {
           console.error('TTS error:', error);
         }
@@ -412,7 +412,7 @@ export default function KanjiSimonGame({ kanji, onRoundComplete, onGameOver }: K
     // Play TTS
     const segment = state.segments.find(s => s.value === segmentValue);
     if (segment?.ttsText) {
-      playTTS(segment.ttsText, { voice: 'ja-JP', rate: 0.9 }).catch(console.error);
+      playTTS(segment.ttsText, { voice: 'ja-JP', speed: 0.9 }).catch(console.error);
     }
 
     // Unhighlight after delay
@@ -532,7 +532,7 @@ export default function KanjiSimonGame({ kanji, onRoundComplete, onGameOver }: K
                 dominantBaseline="middle"
                 className="fill-japanese-sumi dark:fill-dark-100 text-sm font-bold pointer-events-none select-none opacity-60"
               >
-                {segment.id === 'onyomi' ? 'ON' : segment.id === 'kunyomi' ? 'KUN' : segment.id === 'meaning' ? strings.common?.meaning || 'MEANING' : '?'}
+                {segment.id === 'onyomi' ? 'ON' : segment.id === 'kunyomi' ? 'KUN' : segment.id === 'meaning' ? (strings.common as any)?.meaning || 'MEANING' : '?'}
               </text>
             </motion.g>
           ))}

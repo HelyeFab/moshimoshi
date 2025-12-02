@@ -147,7 +147,7 @@ export default function GameCanvas({ gameState, onGameStateUpdate }: GameCanvasP
 
     if (object.type === 'distractor') {
       setShowFeedback({ type: 'distractor', ...clickPosition });
-      playSound('thud');
+      playSound('distractor');
       onGameStateUpdate({
         score: Math.max(0, gameState.score + GAME_CONSTANTS.POINTS_DISTRACTOR),
         clicks: {

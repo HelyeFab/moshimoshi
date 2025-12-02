@@ -89,7 +89,7 @@ export default function GameOverScreen({
           onClick={onExit}
           className="px-6 py-3 border border-border rounded-lg hover:bg-muted transition-colors"
         >
-          {strings.common?.exit || 'Exit'}
+          {(strings.common as any)?.exit || 'Exit'}
         </motion.button>
 
         <motion.button

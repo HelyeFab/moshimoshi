@@ -126,6 +126,28 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 | `src/components/gamification/StreakSaveModal.tsx` | 2025-12-01 | Fixed LoadingButton prop: loading → isLoading |
 | `src/hooks/useGamification.ts` | 2025-12-01 | Fixed GamificationData interface: lastActivityDate Date → string (ISO format) |
 | `src/hooks/__tests__/useStreakSaveDetection.test.tsx` | 2025-12-01 | Fixed 18+ mock return values to match StreakValidationResult interface (isActive→removed, status→removed, statusMessage→reason, added effectiveStreak, isWithinGracePeriod) |
+| `src/lib/conjugation/wordTypeDetector.ts` | 2025-12-02 | Changed import WordType from drill.ts (includes verb classifications), added GodanEndingPattern interface, fixed VERB_ENDING_PATTERNS typing, changed fallback 'verb' to 'other' (14 errors) |
+| `src/lib/review-engine/progress/UniversalProgressManager.ts` | 2025-12-02 | Changed Date objects to ISO strings (.toISOString()), fixed generic T type assertions for ReviewProgressData, fixed duration calculation with ISO string parsing, removed .toISOString() calls on already-ISO strings (16 errors) |
+| `src/utils/kanaProgressManagerV2.ts` | 2025-12-02 | Fixed Date/string conversions for ISO strings, renamed saveProgress→saveLegacyProgress and getProgress→getLegacyProgress to avoid base class conflict, fixed by-composite→by-composite-key index name (10 errors) |
+| `src/lib/review-engine/progress/KanjiMasteryProgressManager.ts` | 2025-12-02 | Fixed kanji.id→kanji.kanji, kanji.character→kanji.kanji to match Kanji interface (3 errors) |
+| `src/lib/drill/question-generator.ts` | 2025-12-02 | Fixed 'adverbial'→'taiAdverbial', added type guards for filter, made generateQuestionsForWord async with await, added EnhancedJapaneseWord type assertions, updated DrillQuestion.targetForm to string (13 errors) |
+| `src/types/drill.ts` | 2025-12-02 | Changed DrillQuestion.targetForm from keyof ConjugationForms to string for ExtendedConjugationForms compatibility |
+| `src/lib/review-engine/core/interfaces.ts` | 2025-12-02 | Changed `export { ReviewMode }` to `export type { ReviewMode }` for isolatedModules compatibility |
+| `src/lib/review-engine/session/manager.ts` | 2025-12-02 | Imported ReviewableContentWithSRS, added type assertion for srsData access (6 errors) |
+| `src/lib/review-engine/monitoring/performance-monitor.ts` | 2025-12-02 | Changed startTimer() return type from `() => void` to `() => number` (2 errors) |
+| `src/lib/review-engine/api/session-entitlement-validator.ts` | 2025-12-02 | Changed policyVersion: '1.0' to 1 (number), 'invalid_request' to 'no_permission', added type cast for usage Record (4 errors) |
+| `src/lib/review-engine/adapters/KanjiMasteryAdapter.ts` | 2025-12-02 | Changed `private calculateDifficulty` to `override calculateDifficulty` for proper base class extension |
+| `src/lib/review-engine/validation/KanjiMasteryValidator.ts` | 2025-12-02 | Rewrote to properly extend BaseValidator with correct imports and validate() signature |
+| `src/hooks/useFeature.ts` | 2025-12-02 | Added `limit?: number` and `usageBefore?: number` to Decision interface |
+| `src/components/review-engine/cards/KanjiCard.tsx` | 2025-12-02 | Fixed Kanji type - added meanings, strokeCount, examples, fixed jlptLevel access |
+| `src/hooks/useTTS.ts` | 2025-12-02 | Added isPlaying alias property for component compatibility (2 interface + return object changes) |
+| `src/i18n/locales/en/strings.ts` | 2025-12-02 | Added 17 vocabulary display i18n strings to common: searchPlaceholder, allLessons, lesson, lessons, showing, of, words, shuffle, japanese, reading, meaning, examples, partOfSpeech, totalVocabulary, srsReview, audioSupport, interactive |
+| `src/app/textbook-vocabulary/page.tsx` | 2025-12-02 | Fixed DoshiMascot props: removed invalid mood prop, added valid variant prop |
+| `src/app/textbook-vocabulary/TextbookVocabularyPage.tsx` | 2025-12-02 | Fixed DoshiMascot props: removed invalid mood prop, added valid variant prop |
+| `src/app/textbook-vocabulary/components/VocabularyDisplay.tsx` | 2025-12-02 | Fixed by useTTS isPlaying alias and i18n common strings (14 errors) |
+| `src/app/tools/textbook-vocabulary/page.tsx` | 2025-12-02 | Fixed DoshiMascot props: removed invalid mood prop, added valid variant prop |
+| `src/app/tools/textbook-vocabulary/TextbookVocabularyPage.tsx` | 2025-12-02 | Fixed DoshiMascot props: removed invalid mood prop, added valid variant prop |
+| `src/app/tools/textbook-vocabulary/components/VocabularyDisplay.tsx` | 2025-12-02 | Fixed by useTTS isPlaying alias and i18n common strings (14 errors) |
 
 ---
 
@@ -425,8 +447,7 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 
 ### Review Components
 - `src/components/review/dashboard/StatsOverview.tsx`
-- `src/components/review-engine/cards/KanjiCard.tsx`
-- `src/components/review-engine/EntitlementGate.tsx`
+> *Note: KanjiCard.tsx and EntitlementGate.tsx fixed 2025-12-02 - see Fixed Files*
 
 ### Story Components
 - `src/components/story/StoryReader.tsx`
@@ -561,20 +582,15 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 - `src/lib/redis/invalidation/tier-change-handler.ts`
 
 ### Review Engine
+> **Core review-engine files fixed 2025-12-02!** See Fixed Files section above.
+> Remaining files with errors:
 - `src/lib/review-engine/adapters/AnkiAdapter.ts`
 - `src/lib/review-engine/adapters/FlashcardAdapter.ts`
 - `src/lib/review-engine/adapters/KanjiBrowserAdapter.ts`
-- `src/lib/review-engine/adapters/KanjiMasteryAdapter.ts`
 - `src/lib/review-engine/adapters/registry.ts`
 - `src/lib/review-engine/adapters/UserListAdapter.ts`
-- `src/lib/review-engine/api/session-entitlement-validator.ts`
-- `src/lib/review-engine/monitoring/performance-monitor.ts`
 - `src/lib/review-engine/progress/DrillProgressManager.ts`
-- `src/lib/review-engine/progress/KanjiMasteryProgressManager.ts`
 - `src/lib/review-engine/progress/statistics-aggregator.ts`
-- `src/lib/review-engine/progress/UniversalProgressManager.ts`
-- `src/lib/review-engine/session/manager.ts`
-- `src/lib/review-engine/validation/KanjiMasteryValidator.ts`
 - `src/lib/review-engine/validation/validator-factory.ts`
 
 ### Schemas
@@ -595,6 +611,8 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 ---
 
 ## Hooks (18 files)
+
+> *Note: useFeature.ts fixed 2025-12-02 - see Fixed Files*
 
 - `src/hooks/useAutoSync.ts`
 - `src/hooks/useContentTranslation.ts`

@@ -4,7 +4,7 @@
  */
 
 import { evaluate } from './evaluator';
-import { adminFirestore } from '@/lib/firebase/admin';
+import { adminFirestore, getAdminDb } from '@/lib/firebase/admin';
 import {
   FeatureId,
   EvalContext,
@@ -14,6 +14,9 @@ import {
   OverrideLog
 } from '@/types/entitlements';
 import { Timestamp } from 'firebase-admin/firestore';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 /**
  * Evaluate entitlement with override support
@@ -49,7 +52,8 @@ export async function evaluateEntitlementWithOverrides(
  * Get all overrides for a user
  */
 export async function getUserOverrides(userId: string): Promise<FeatureOverride[]> {
-  const snapshot = await adminFirestore
+  const db = getDb()
+  const snapshot = await db
     .collection('user_overrides')
     .doc(userId)
     .collection('overrides')
@@ -90,7 +94,8 @@ export async function setFeatureOverride(
     active: true
   };
 
-  const docRef = await adminFirestore
+  const db = getDb()
+  const docRef = await db
     .collection('user_overrides')
     .doc(userId)
     .collection('overrides')
@@ -129,7 +134,8 @@ export async function removeFeatureOverride(
   overrideId: string,
   adminId: string
 ): Promise<void> {
-  const overrideRef = adminFirestore
+  const db = getDb()
+  const overrideRef = db
     .collection('user_overrides')
     .doc(userId)
     .collection('overrides')
@@ -170,7 +176,8 @@ export async function getEntitlementLogs(
     limit?: number;
   } = {}
 ): Promise<EntitlementLog[]> {
-  let query = adminFirestore
+  const db = getDb()
+  let query = db
     .collection('entitlement_logs')
     .orderBy('timestamp', 'desc');
 
@@ -215,7 +222,8 @@ async function logOverride(log: {
   timestamp: Date;
 }): Promise<void> {
   try {
-    await adminFirestore.collection('override_logs').add({
+    const db = getDb()
+    await db.collection('override_logs').add({
       ...log,
       timestamp: Timestamp.fromDate(log.timestamp)
     });

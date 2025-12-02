@@ -200,7 +200,8 @@ export default function RootLayout({
                       <BottomNavProvider>
                         <EmailVerificationBanner />
                         {children}
-                        {process.env.NODE_ENV === 'development' && <TimeMachineButton />}
+                        {process.env.NODE_ENV === 'development' &&
+                         process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && <TimeMachineButton />}
                         <BottomNav />
                         <ConditionalCommandPalette />
                         {/* PWA Install Prompt */}

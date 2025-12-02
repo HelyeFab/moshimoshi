@@ -177,7 +177,7 @@ export function useTodos(): UseTodosReturn {
         await todoStorage.updateTodo(id, input)
         const todo = todos.find(t => t.id === id)
         if (todo) {
-          const updated = { ...todo, ...input, updatedAt: new Date() }
+          const updated = { ...todo, ...input, updatedAt: new Date().toISOString() }
           setTodos(prev => prev.map(t => t.id === id ? updated : t))
           return updated
         }

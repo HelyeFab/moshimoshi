@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { reviewLogger } from '@/lib/monitoring/logger'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,7 +16,8 @@ export async function GET(request: NextRequest) {
 
     // CRITICAL: Get fresh user data to check premium status (never trust session.tier!)
     if (userId !== 'guest') {
-      const userDoc = await adminDb.collection('users').doc(userId).get()
+      const db = getDb()
+      const userDoc = await db.collection('users').doc(userId).get()
       const userData = userDoc.data()
       const plan = userData?.subscription?.plan || 'free'
       const isPremium = plan.includes('premium')
@@ -81,8 +85,9 @@ async function aggregateUserStats(userId: string) {
   try {
     console.log('[aggregateUserStats] Starting aggregation for user:', userId)
 
+    const db = getDb()
     // Fetch SRS data from Firebase - the actual review data
-    const srsRef = adminDb
+    const srsRef = db
       .collection('users')
       .doc(userId)
       .collection('srs_data')
@@ -177,7 +182,7 @@ async function aggregateUserStats(userId: string) {
     })
 
     // Fetch user stats from unified collection
-    const userStatsRef = adminDb.collection('user_stats').doc(userId)
+    const userStatsRef = db.collection('user_stats').doc(userId)
     const userStatsDoc = await userStatsRef.get()
 
     let streakDays = 0

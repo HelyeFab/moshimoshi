@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { nanoid } from 'nanoid'
 import { Timestamp } from 'firebase-admin/firestore'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 // GET /api/blog - Fetch all blog posts (for admin)
 export async function GET(request: NextRequest) {
@@ -17,8 +20,10 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    const db = getDb()
+
     // Get all posts for admin view
-    const postsSnapshot = await adminDb
+    const postsSnapshot = await db
       .collection('blogPosts')
       .orderBy('publishDate', 'desc')
       .get()
@@ -85,8 +90,10 @@ export async function POST(request: NextRequest) {
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '')
 
+    const db = getDb()
+
     // Get user info for author details
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
 
     // Determine author name - use from body if provided, otherwise use user display name or email
@@ -124,7 +131,7 @@ export async function POST(request: NextRequest) {
     if (body.isFeatured !== undefined) blogPost.isFeatured = body.isFeatured
 
     // Save to Firestore
-    await adminDb
+    await db
       .collection('blogPosts')
       .doc(postId)
       .set(blogPost)
@@ -188,8 +195,10 @@ export async function PATCH(request: NextRequest) {
       )
     }
 
+    const db = getDb()
+
     // Get the post to verify it exists
-    const postRef = adminDb.collection('blogPosts').doc(id)
+    const postRef = db.collection('blogPosts').doc(id)
     const postDoc = await postRef.get()
 
     if (!postDoc.exists) {
@@ -302,7 +311,8 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    const postRef = adminDb.collection('blogPosts').doc(id)
+    const db = getDb()
+    const postRef = db.collection('blogPosts').doc(id)
 
     // Check if post exists
     const postDoc = await postRef.get()

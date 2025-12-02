@@ -14,10 +14,12 @@ interface UseTTSOptions {
 interface UseTTSReturn {
   // State
   playing: boolean;
+  /** Alias for `playing` - for component compatibility */
+  isPlaying: boolean;
   loading: boolean;
   error: Error | null;
   currentText: string | null;
-  
+
   // Methods
   play: (text: string, options?: TTSOptions) => Promise<void>;
   pause: () => void;
@@ -26,7 +28,7 @@ interface UseTTSReturn {
   preload: (texts: string[], options?: TTSOptions) => Promise<void>;
   queue: (items: Array<{ text: string; delay?: number }>) => void;
   clearQueue: () => void;
-  
+
   // Audio element ref
   audioRef: React.RefObject<HTMLAudioElement | null>;
 }
@@ -327,10 +329,11 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
   return {
     // State
     playing,
+    isPlaying: playing,
     loading,
     error,
     currentText,
-    
+
     // Methods
     play,
     pause,
@@ -339,7 +342,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
     preload,
     queue,
     clearQueue,
-    
+
     // Audio element ref
     audioRef,
   };

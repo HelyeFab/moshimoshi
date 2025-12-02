@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,8 +19,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
+    const db = getDb()
     // Save to a dedicated srs_data collection
-    await adminDb
+    await db
       .collection('users')
       .doc(session.uid)
       .collection('srs_data')
@@ -44,8 +48,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const db = getDb()
     // Get all SRS data for the user
-    const srsSnapshot = await adminDb
+    const srsSnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('srs_data')

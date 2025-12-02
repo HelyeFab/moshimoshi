@@ -36,6 +36,7 @@ export interface TranslationAssistanceProps {
   onWordSelect?: (word: string) => void;
   onVocabularyAdd?: (word: string, translation: string) => void;
   className?: string;
+  children?: React.ReactNode;
 }
 
 interface TranslationState {
@@ -79,7 +80,7 @@ export const TranslationAssistance: React.FC<TranslationAssistanceProps> = ({
   const [isHovering, setIsHovering] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
-  const hoverTimeoutRef = useRef<NodeJS.Timeout>();
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const aiService = AIService.getInstance();
   const { play: playAudio } = useTTS();
 

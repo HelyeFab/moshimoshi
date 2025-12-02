@@ -428,6 +428,25 @@ export const strings = {
     days: "days",
     minutes: "minutes",
     cards: "cards",
+    // Vocabulary display
+    searchPlaceholder: "Search vocabulary...",
+    allLessons: "All Lessons",
+    lesson: "Lesson",
+    lessons: "Lessons",
+    showing: "Showing",
+    of: "of",
+    words: "words",
+    shuffle: "Shuffle",
+    japanese: "Japanese",
+    reading: "Reading",
+    meaning: "Meaning",
+    examples: "Examples",
+    partOfSpeech: "Part of Speech",
+    // Textbook features
+    totalVocabulary: "Total Collection",
+    srsReview: "SRS Review",
+    audioSupport: "Audio Support",
+    interactive: "Interactive",
   },
 
   // Moodboards

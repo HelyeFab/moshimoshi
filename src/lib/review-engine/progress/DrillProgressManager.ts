@@ -79,26 +79,49 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
   async initializeDrillProgress(userId: string): Promise<void> {
     await this.initDB()
 
-    const existingProgress = await this.getProgress('drill', 'overall', userId, false)
+    const progressMap = await this.getProgress(userId, 'drill', false)
+    const existingProgress = progressMap?.get('overall')
 
     if (!existingProgress) {
+      const now = new Date().toISOString()
       const initialData: DrillProgressData = {
+        // Base ReviewProgressData fields
+        contentId: 'overall',
+        contentType: 'drill',
         status: 'not-started',
-        lastReviewedAt: null,
-        reviewCount: 0,
+        viewCount: 0,
+        firstViewedAt: null,
+        lastViewedAt: null,
+        totalViewTime: 0,
+        interactionCount: 0,
         correctCount: 0,
+        incorrectCount: 0,
+        lastInteractedAt: null,
         accuracy: 0,
+        streak: 0,
+        bestStreak: 0,
+        srsLevel: null,
+        nextReviewDate: null,
+        easeFactor: null,
+        interval: null,
+        pinned: false,
+        bookmarked: false,
+        flaggedForReview: false,
+        createdAt: now,
+        updatedAt: now,
+        syncedAt: null,
+        version: 1,
+        // Drill-specific fields
         drillType: 'conjugation',
         verbsStudied: new Set(),
         adjectivesStudied: new Set(),
         totalDrills: 0,
         perfectDrills: 0,
         averageAccuracy: 0,
-        bestStreak: 0,
         conjugationTypes: new Map()
       }
 
-      await this.saveProgress('drill', 'overall', userId, initialData, false)
+      await this.saveProgress(userId, 'drill', 'overall', initialData, false)
     }
   }
 
@@ -172,31 +195,53 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       } as DrillProgressData
     } else {
       // Create initial data
+      const now = new Date().toISOString()
       drillData = {
+        // Base ReviewProgressData fields
+        contentId: 'overall',
+        contentType: 'drill',
         status: 'learning',
-        lastReviewedAt: null,
-        reviewCount: 0,
+        viewCount: 0,
+        firstViewedAt: null,
+        lastViewedAt: null,
+        totalViewTime: 0,
+        interactionCount: 0,
         correctCount: 0,
+        incorrectCount: 0,
+        lastInteractedAt: null,
         accuracy: 0,
+        streak: 0,
+        bestStreak: 0,
+        srsLevel: null,
+        nextReviewDate: null,
+        easeFactor: null,
+        interval: null,
+        pinned: false,
+        bookmarked: false,
+        flaggedForReview: false,
+        createdAt: now,
+        updatedAt: now,
+        syncedAt: null,
+        version: 1,
+        // Drill-specific fields
         drillType: 'conjugation',
         verbsStudied: new Set(),
         adjectivesStudied: new Set(),
         totalDrills: 0,
         perfectDrills: 0,
         averageAccuracy: 0,
-        bestStreak: 0,
         conjugationTypes: new Map()
-      } as DrillProgressData
+      }
     }
 
     // Update drill statistics
     drillData.totalDrills += 1
-    drillData.reviewCount += session.questions
+    drillData.viewCount += session.questions
     drillData.correctCount += session.correctAnswers
-    drillData.lastReviewedAt = session.completedAt || new Date()
+    drillData.lastViewedAt = (session.completedAt || new Date()).toISOString()
 
     // Update accuracy (weighted average)
-    const totalAnswers = drillData.reviewCount
+    const totalAnswers = drillData.viewCount
     drillData.accuracy = (drillData.correctCount / totalAnswers) * 100
     drillData.averageAccuracy = drillData.accuracy
 
@@ -248,10 +293,8 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       user,
       isPremium,
       {
-        score: session.accuracy,
-        questionsAnswered: session.questions,
-        correctAnswers: session.correctAnswers,
-        mode: session.mode
+        sessionId: session.sessionId,
+        correct: session.accuracy === 100
       }
     )
 
@@ -377,19 +420,41 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
    */
   async resetDrillProgress(userId: string): Promise<void> {
     await this.initDB()
-    await this.saveProgress('drill', 'overall', userId, {
+    const now = new Date().toISOString()
+    await this.saveProgress(userId, 'drill', 'overall', {
+      // Base ReviewProgressData fields
+      contentId: 'overall',
+      contentType: 'drill',
       status: 'not-started',
-      lastReviewedAt: null,
-      reviewCount: 0,
+      viewCount: 0,
+      firstViewedAt: null,
+      lastViewedAt: null,
+      totalViewTime: 0,
+      interactionCount: 0,
       correctCount: 0,
+      incorrectCount: 0,
+      lastInteractedAt: null,
       accuracy: 0,
+      streak: 0,
+      bestStreak: 0,
+      srsLevel: null,
+      nextReviewDate: null,
+      easeFactor: null,
+      interval: null,
+      pinned: false,
+      bookmarked: false,
+      flaggedForReview: false,
+      createdAt: now,
+      updatedAt: now,
+      syncedAt: null,
+      version: 1,
+      // Drill-specific fields
       drillType: 'conjugation',
       verbsStudied: new Set(),
       adjectivesStudied: new Set(),
       totalDrills: 0,
       perfectDrills: 0,
       averageAccuracy: 0,
-      bestStreak: 0,
       conjugationTypes: new Map()
     } as DrillProgressData, false)
   }

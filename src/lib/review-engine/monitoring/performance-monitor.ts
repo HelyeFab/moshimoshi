@@ -73,7 +73,7 @@ class PerformanceMonitor {
   /**
    * Start timing an operation
    */
-  startTimer(): () => void {
+  startTimer(): () => number {
     const start = performance.now()
 
     return () => {

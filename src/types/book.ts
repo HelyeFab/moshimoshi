@@ -31,8 +31,8 @@ export interface Book {
   tags?: string[];                  // Additional tags
 
   // Metadata
-  createdAt: Date | string;         // Creation timestamp
-  updatedAt?: Date | string;        // Last update timestamp
+  createdAt: string;                // Creation timestamp (ISO 8601)
+  updatedAt?: string;               // Last update timestamp (ISO 8601)
   createdBy: string;                // Admin user ID who created it
   status: 'draft' | 'published';    // Publication status
 
@@ -48,7 +48,7 @@ export interface Book {
     generationModel?: string;       // AI model used for generation
     coverGenerated?: boolean;       // Whether cover was AI-generated
     audioCached?: boolean;          // Whether audio has been pre-generated
-    audioGeneratedAt?: Date | string; // When audio was generated
+    audioGeneratedAt?: string;        // When audio was generated (ISO 8601)
   };
 }
 
@@ -80,7 +80,7 @@ export interface BookDraft {
   coverImageUrl?: string;
   category?: string;
   status: 'generating' | 'draft' | 'error';
-  createdAt: Date | string;
+  createdAt: string;                // Creation timestamp (ISO 8601)
   createdBy: string;
   error?: string;
   metadata?: {

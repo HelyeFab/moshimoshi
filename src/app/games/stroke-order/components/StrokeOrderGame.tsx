@@ -363,7 +363,7 @@ export default function StrokeOrderGame({ practiceSet, onBack }: Props) {
               <div className="flex flex-col items-center">
                 <div className="mb-4 text-center">
                   <div className="text-sm text-muted-foreground mb-1">
-                    {strings.games?.strokeOrder?.kanjiProgress || 'Kanji'} {gameState.currentKanjiIndex + 1} {strings.common?.of || 'of'} {practiceSet.kanji.length}
+                    {strings.games?.strokeOrder?.kanjiProgress || 'Kanji'} {gameState.currentKanjiIndex + 1} {(strings.common as any)?.of || 'of'} {practiceSet.kanji.length}
                   </div>
                   <div className="text-6xl font-bold mb-2">{currentKanji}</div>
                 </div>

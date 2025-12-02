@@ -102,7 +102,8 @@ export class StatisticsAggregator {
       const sessions = await this.storage.getUserSessions(userId)
 
       // Load all progress data - IndexedDBStorage doesn't have getAllProgress, use empty array
-      const progressData: SRSData[] = []
+      // TODO: When progress loading is implemented, type this properly as ReviewProgressData[]
+      const progressData: any[] = []
 
       // Initialize statistics
       const stats: AggregatedStatistics = {
@@ -149,7 +150,7 @@ export class StatisticsAggregator {
           stats.completedSessions++
 
           // Check for perfect session
-          if (session.stats && session.stats.accuracy === 100 && session.stats.totalAnswered >= 10) {
+          if (session.stats && session.stats.accuracy === 100 && session.stats.completedItems >= 10) {
             stats.perfectSessions++
           }
         } else if (session.status === 'abandoned') {
@@ -244,7 +245,9 @@ export class StatisticsAggregator {
       // Process progress data for category statistics
       const categoryData: Map<string, any> = new Map()
 
-      for (const [contentId, progress] of progressData) {
+      // Note: progressData is currently always empty (IndexedDBStorage doesn't have getAllProgress)
+      // This loop will only execute if progress data becomes available in the future
+      for (const progress of progressData) {
         const category = progress.contentType || 'unknown'
 
         if (!categoryData.has(category)) {

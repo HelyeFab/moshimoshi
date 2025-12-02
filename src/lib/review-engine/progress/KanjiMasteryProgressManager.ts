@@ -1,6 +1,6 @@
 import { UniversalProgressManager } from './UniversalProgressManager'
 import { SessionState, KanjiProgress } from '@/app/tools/kanji-mastery/learn/LearnContent'
-import { User } from '@/types/auth'
+import type { User } from 'firebase/auth'
 
 export interface KanjiMasterySession {
   sessionId: string
@@ -34,7 +34,7 @@ export interface KanjiMasterySession {
 
 export class KanjiMasteryProgressManager extends UniversalProgressManager {
   constructor() {
-    super('kanji_mastery')
+    super()
   }
 
   async trackSession(
@@ -64,7 +64,7 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     }
 
     // Handle storage based on user tier
-    await this.saveSession(session, user, isPremium)
+    await this.saveKanjiMasterySession(session, user, isPremium)
 
     // Track individual kanji progress
     await this.trackKanjiProgress(session.kanji, user, isPremium)
@@ -111,15 +111,15 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     const kanjiData: KanjiMasterySession['kanji'] = []
 
     sessionState.kanji.forEach((kanji) => {
-      const progress = sessionState.progress.get(kanji.id!)
+      const progress = sessionState.progress.get(kanji.kanji)
 
       if (progress) {
         const finalScore = this.calculateKanjiFinalScore(progress)
         const nextReviewDate = this.calculateNextReviewDate(finalScore)
 
         kanjiData.push({
-          id: kanji.id!,
-          character: kanji.character,
+          id: kanji.kanji,
+          character: kanji.kanji,
           rounds: {
             round1: progress.round1Completed,
             round2Accuracy: progress.round2Accuracy,
@@ -166,21 +166,21 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     return nextDate.toISOString()
   }
 
-  private async saveSession(
+  private async saveKanjiMasterySession(
     session: KanjiMasterySession,
     user: User | null,
     isPremium: boolean
   ) {
     // Save to IndexedDB for all authenticated users
     if (user) {
-      await this.saveToIndexedDB(session)
+      await this.saveKanjiMasteryToIndexedDB(session)
     }
 
     // Firebase saving is handled by API endpoint
     // Premium users will have their data synced through the API
   }
 
-  private async saveToIndexedDB(session: KanjiMasterySession) {
+  private async saveKanjiMasteryToIndexedDB(session: KanjiMasterySession) {
     try {
       // Open IndexedDB
       const request = indexedDB.open('moshimoshi_progress', 2)

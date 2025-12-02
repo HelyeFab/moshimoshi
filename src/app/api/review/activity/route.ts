@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 /**
  * GET /api/review/activity
@@ -26,7 +29,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Get user document to check if they have review data
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const db = getDb()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
 
     // Try to fetch from multiple possible locations
@@ -47,7 +51,7 @@ export async function GET(request: NextRequest) {
     // Try to fetch sessions
     for (const collectionName of collections) {
       try {
-        const snapshot = await adminDb
+        const snapshot = await db
           .collection('users')
           .doc(session.uid)
           .collection(collectionName)
@@ -77,7 +81,7 @@ export async function GET(request: NextRequest) {
     // Also try alternate field names for ordering
     if (allSessions.length === 0) {
       try {
-        const altSnapshot = await adminDb
+        const altSnapshot = await db
           .collection('users')
           .doc(session.uid)
           .collection('sessions')

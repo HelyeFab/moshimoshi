@@ -25,7 +25,7 @@ import {
   SessionCompletedPayload,
   StreakUpdatedPayload
 } from '../core/events';
-import { ReviewableContent } from '../core/interfaces';
+import { ReviewableContent, ReviewableContentWithSRS } from '../core/interfaces';
 import { ReviewMode, ReviewModeConfig } from '../core/types';
 import { SessionError } from '../core/errors';
 import { ISessionStorage } from './storage';
@@ -181,17 +181,19 @@ export class SessionManager extends EventEmitter {
     let nextReviewAt: Date | undefined;
     let srsData: any = undefined;
 
-    if (validation.correct && item.content.srsData) {
+    // Type assertion for content with SRS data
+    const contentWithSRS = item.content as ReviewableContentWithSRS;
+    if (validation.correct && contentWithSRS.srsData) {
       // Calculate next review based on SRS data
-      const intervalDays = item.content.srsData.interval || 1;
+      const intervalDays = contentWithSRS.srsData.interval || 1;
       nextReviewAt = new Date();
       nextReviewAt.setTime(nextReviewAt.getTime() + intervalDays * 24 * 60 * 60 * 1000);
 
       srsData = {
-        interval: item.content.srsData.interval,
-        repetitions: item.content.srsData.repetitions,
-        easeFactor: item.content.srsData.easeFactor,
-        status: item.content.srsData.status
+        interval: contentWithSRS.srsData.interval,
+        repetitions: contentWithSRS.srsData.repetitions,
+        easeFactor: contentWithSRS.srsData.easeFactor,
+        status: contentWithSRS.srsData.status
       };
     }
 

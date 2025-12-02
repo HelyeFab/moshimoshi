@@ -1,53 +1,71 @@
-import { BaseValidator } from './BaseValidator'
-import { ValidationResult, ValidationStrategy } from './types'
+/**
+ * Kanji Mastery Validator
+ * Specialized validator for kanji mastery sessions with Japanese-specific validation rules
+ */
+
+import { BaseValidator, ValidationResult, ValidationOptions } from './base-validator'
+
+export interface KanjiMasteryValidationContext {
+  validationType?: 'meaning' | 'reading' | 'writing' | 'example'
+  acceptableReadings?: string[]
+  allowSynonyms?: boolean
+}
 
 export class KanjiMasteryValidator extends BaseValidator {
-  validate(userInput: string, expectedAnswer: string, strategy: ValidationStrategy): ValidationResult {
-    // Normalize inputs for Japanese text
-    const normalizedInput = this.normalizeJapanese(userInput.trim())
-    const normalizedExpected = this.normalizeJapanese(expectedAnswer.trim())
+  constructor(options: ValidationOptions = {}) {
+    super({
+      caseSensitive: false,
+      ignoreSpaces: true,
+      fuzzyThreshold: 0.85,
+      ...options
+    })
+  }
 
-    // Handle different validation strategies
-    switch (strategy) {
-      case 'exact':
-        return this.validateExact(normalizedInput, normalizedExpected)
+  validate(
+    userAnswer: string,
+    correctAnswer: string | string[],
+    context?: KanjiMasteryValidationContext
+  ): ValidationResult {
+    const validationType = context?.validationType || 'meaning'
+    const expected = Array.isArray(correctAnswer) ? correctAnswer.join(', ') : correctAnswer
 
-      case 'fuzzy':
-        return this.validateFuzzy(normalizedInput, normalizedExpected)
+    // Handle different validation strategies based on type
+    switch (validationType) {
+      case 'writing':
+        return this.validateExact(userAnswer, expected)
 
-      case 'custom':
-        return this.validateJapaneseReading(normalizedInput, normalizedExpected)
+      case 'reading':
+        return this.validateJapaneseReading(userAnswer, expected, context?.acceptableReadings)
+
+      case 'meaning':
+        return this.validateMeaning(userAnswer, expected)
 
       default:
-        return super.validate(userInput, expectedAnswer, strategy)
+        return this.validateMeaning(userAnswer, expected)
     }
   }
 
   private validateExact(input: string, expected: string): ValidationResult {
-    const isCorrect = input === expected
+    const isCorrect = this.normalize(input) === this.normalize(expected)
 
     return {
       isCorrect,
-      score: isCorrect ? 1 : 0,
+      confidence: isCorrect ? 1 : 0,
       feedback: isCorrect ? 'Perfect!' : `Expected: ${expected}`,
-      details: {
-        userAnswer: input,
-        expectedAnswer: expected,
-        validationType: 'exact'
-      }
+      corrections: isCorrect ? undefined : [expected]
     }
   }
 
-  private validateFuzzy(input: string, expected: string): ValidationResult {
+  private validateMeaning(input: string, expected: string): ValidationResult {
     // For meanings, allow some flexibility
-    const inputWords = input.toLowerCase().split(/[,\s]+/).filter(w => w.length > 0)
-    const expectedWords = expected.toLowerCase().split(/[,\s]+/).filter(w => w.length > 0)
+    const inputWords = this.normalize(input).split(/[,\s]+/).filter(w => w.length > 0)
+    const expectedWords = this.normalize(expected).split(/[,\s]+/).filter(w => w.length > 0)
 
     // Check if any of the main meaning words are present
     let matchCount = 0
     for (const inputWord of inputWords) {
       for (const expectedWord of expectedWords) {
-        if (this.isSimilar(inputWord, expectedWord, 0.8)) {
+        if (this.calculateSimilarity(inputWord, expectedWord) >= (this.options.fuzzyThreshold || 0.8)) {
           matchCount++
           break
         }
@@ -59,82 +77,65 @@ export class KanjiMasteryValidator extends BaseValidator {
 
     return {
       isCorrect,
-      score,
+      confidence: score,
+      partialCredit: score,
       feedback: this.generateMeaningFeedback(score, expected),
-      details: {
-        userAnswer: input,
-        expectedAnswer: expected,
-        validationType: 'fuzzy',
-        matchRatio: score
-      }
+      corrections: isCorrect ? undefined : [expected]
     }
   }
 
-  private validateJapaneseReading(input: string, expected: string): ValidationResult {
+  private validateJapaneseReading(
+    input: string,
+    expected: string,
+    acceptableReadings?: string[]
+  ): ValidationResult {
     // Handle multiple acceptable readings (separated by commas)
-    const acceptableReadings = expected.split(',').map(r => this.normalizeJapanese(r.trim()))
+    const readings = acceptableReadings || expected.split(',').map(r => r.trim())
+    const normalizedReadings = readings.map(r => this.normalizeJapanese(r))
     const normalizedInput = this.normalizeJapanese(input)
 
     // Check exact match first
-    if (acceptableReadings.includes(normalizedInput)) {
+    if (normalizedReadings.includes(normalizedInput)) {
       return {
         isCorrect: true,
-        score: 1,
-        feedback: 'Correct!',
-        details: {
-          userAnswer: input,
-          expectedAnswer: expected,
-          validationType: 'japanese_reading'
-        }
+        confidence: 1,
+        feedback: 'Correct!'
       }
     }
 
     // Check with okurigana flexibility
-    for (const reading of acceptableReadings) {
+    for (const reading of normalizedReadings) {
       if (this.matchesWithFlexibility(normalizedInput, reading)) {
         return {
           isCorrect: true,
-          score: 0.95, // Slightly lower score for flexible match
-          feedback: 'Correct! (Alternative reading accepted)',
-          details: {
-            userAnswer: input,
-            expectedAnswer: expected,
-            validationType: 'japanese_reading_flexible'
-          }
+          confidence: 0.95, // Slightly lower score for flexible match
+          feedback: 'Correct! (Alternative reading accepted)'
         }
       }
     }
 
-    // Check for partial matches (e.g., only on'yomi when kun'yomi was expected)
-    const partialScore = this.calculatePartialReadingScore(normalizedInput, acceptableReadings)
+    // Check for partial matches
+    const partialScore = this.calculatePartialReadingScore(normalizedInput, normalizedReadings)
     if (partialScore > 0) {
       return {
         isCorrect: false,
-        score: partialScore,
+        confidence: partialScore,
+        partialCredit: partialScore,
         feedback: `Partial credit. Expected: ${expected}`,
-        details: {
-          userAnswer: input,
-          expectedAnswer: expected,
-          validationType: 'japanese_reading_partial',
-          partialScore
-        }
+        corrections: readings
       }
     }
 
     return {
       isCorrect: false,
-      score: 0,
+      confidence: 0,
       feedback: `Incorrect. Expected: ${expected}`,
-      details: {
-        userAnswer: input,
-        expectedAnswer: expected,
-        validationType: 'japanese_reading'
-      }
+      corrections: readings
     }
   }
 
   private normalizeJapanese(text: string): string {
-    let normalized = text
+    let normalized = text.trim()
 
     // Convert full-width characters to half-width
     normalized = normalized.replace(/[Ａ-Ｚａ-ｚ０-９]/g, char => {
@@ -211,60 +212,14 @@ export class KanjiMasteryValidator extends BaseValidator {
     let maxScore = 0
 
     for (const reading of acceptableReadings) {
-      // Calculate Levenshtein distance for partial credit
-      const distance = this.levenshteinDistance(input, reading)
-      const maxLength = Math.max(input.length, reading.length)
-
-      if (maxLength > 0) {
-        const similarity = 1 - (distance / maxLength)
-        // Only give partial credit if similarity is above 50%
-        if (similarity > 0.5) {
-          maxScore = Math.max(maxScore, similarity * 0.5) // Max 50% for partial
-        }
+      const similarity = this.calculateSimilarity(input, reading)
+      // Only give partial credit if similarity is above 50%
+      if (similarity > 0.5) {
+        maxScore = Math.max(maxScore, similarity * 0.5) // Max 50% for partial
       }
     }
 
     return maxScore
-  }
-
-  private levenshteinDistance(str1: string, str2: string): number {
-    const matrix: number[][] = []
-
-    for (let i = 0; i <= str2.length; i++) {
-      matrix[i] = [i]
-    }
-
-    for (let j = 0; j <= str1.length; j++) {
-      matrix[0][j] = j
-    }
-
-    for (let i = 1; i <= str2.length; i++) {
-      for (let j = 1; j <= str1.length; j++) {
-        if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
-          matrix[i][j] = matrix[i - 1][j - 1]
-        } else {
-          matrix[i][j] = Math.min(
-            matrix[i - 1][j - 1] + 1, // substitution
-            matrix[i][j - 1] + 1,     // insertion
-            matrix[i - 1][j] + 1      // deletion
-          )
-        }
-      }
-    }
-
-    return matrix[str2.length][str1.length]
-  }
-
-  private isSimilar(str1: string, str2: string, threshold: number): boolean {
-    if (str1 === str2) return true
-
-    const distance = this.levenshteinDistance(str1, str2)
-    const maxLength = Math.max(str1.length, str2.length)
-
-    if (maxLength === 0) return true
-
-    const similarity = 1 - (distance / maxLength)
-    return similarity >= threshold
   }
 
   private generateMeaningFeedback(score: number, expected: string): string {
@@ -273,20 +228,5 @@ export class KanjiMasteryValidator extends BaseValidator {
     if (score >= 0.7) return 'Good! Acceptable answer.'
     if (score >= 0.5) return `Partial credit. Full answer: ${expected}`
     return `Incorrect. Expected: ${expected}`
-  }
-
-  // Override the base validateCustom to handle Japanese-specific rules
-  validateCustom(userInput: string, expectedAnswer: string, customRules?: Record<string, any>): ValidationResult {
-    if (customRules?.acceptableReadings) {
-      // Use Japanese reading validation
-      return this.validateJapaneseReading(userInput, customRules.acceptableReadings.join(', '))
-    }
-
-    if (customRules?.allowSynonyms && customRules?.validationType === 'meaning') {
-      // Use fuzzy validation for meanings with synonym support
-      return this.validateFuzzy(userInput, expectedAnswer)
-    }
-
-    return super.validateCustom(userInput, expectedAnswer, customRules)
   }
 }

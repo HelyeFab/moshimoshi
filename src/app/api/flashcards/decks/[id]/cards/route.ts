@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import type { AddCardRequest, FlashcardContent } from '@/types/flashcards';
 import { v4 as uuidv4 } from 'uuid';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 interface Params {
   params: Promise<{
@@ -22,7 +25,8 @@ export async function POST(request: NextRequest, { params }: Params) {
 
     const body: AddCardRequest = await request.json();
 
-    const deckRef = adminDb
+    const db = getDb();
+    const deckRef = db
       .collection('users')
       .doc(session.uid)
       .collection('flashcardDecks')
@@ -87,7 +91,8 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Card ID required' }, { status: 400 });
     }
 
-    const deckRef = adminDb
+    const db = getDb();
+    const deckRef = db
       .collection('users')
       .doc(session.uid)
       .collection('flashcardDecks')

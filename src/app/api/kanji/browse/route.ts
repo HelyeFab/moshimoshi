@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 /**
  * GET /api/kanji/browse
@@ -148,14 +151,15 @@ export async function POST(request: NextRequest) {
     }
 
     const timestamp = FieldValue.serverTimestamp();
+    const db = getDb();
 
     // Track browse events
     if (action === 'browse') {
-      const batch = adminDb.batch();
+      const batch = db.batch();
 
       for (const kanjiId of kanjiIds) {
         // Add to browse history
-        const historyRef = adminDb
+        const historyRef = db
           .collection('users')
           .doc(session.uid)
           .collection('kanji_browse_history')
@@ -171,7 +175,7 @@ export async function POST(request: NextRequest) {
         });
 
         // Update progress tracking
-        const progressRef = adminDb
+        const progressRef = db
           .collection('users')
           .doc(session.uid)
           .collection('progress')
@@ -188,7 +192,7 @@ export async function POST(request: NextRequest) {
 
       // Update user's daily activity for streak tracking
       const today = new Date().toISOString().split('T')[0];
-      await adminDb
+      await db
         .collection('users')
         .doc(session.uid)
         .collection('achievements')

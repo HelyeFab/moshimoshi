@@ -19,6 +19,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useBottomNav } from '@/contexts/BottomNavContext';
 import { useI18n } from '@/i18n/I18nContext';
+import { isFeatureEnabled } from '@/lib/features/featureFlags';
 
 export interface NavItem {
   id: string;
@@ -99,13 +100,25 @@ export default function BottomNav({ className, hideOnScroll = false, extraItem: 
 
   const baseNavItems = createNavItems(handleOpenCommandPalette, strings);
 
+  // Filter nav items based on feature flags
+  // Note: Direct env check needed because Next.js only inlines static NEXT_PUBLIC_* references
+  const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false';
+
+  const filteredNavItems = baseNavItems.filter(item => {
+    // Hide games if GAMES feature is disabled
+    if (item.id === 'games' && !isGamesEnabled) {
+      return false;
+    }
+    return true;
+  });
+
   // Use context extra item if available, otherwise use prop
   const extraItem = contextExtraItem || propExtraItem;
 
-  // Replace search (last item) with extra item if provided, otherwise use base items
+  // Replace search (last item) with extra item if provided, otherwise use filtered items
   const NAV_ITEMS = extraItem
-    ? [...baseNavItems.slice(0, -1), extraItem] // Replace last item (search) with extra item
-    : baseNavItems;
+    ? [...filteredNavItems.slice(0, -1), extraItem] // Replace last item (search) with extra item
+    : filteredNavItems;
 
   // Content-aware visibility logic (OPTIONAL - disabled by default)
   useEffect(() => {

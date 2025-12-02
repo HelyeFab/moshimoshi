@@ -4,7 +4,7 @@
 
 import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
-import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore'
+import { getFirestore, Timestamp, FieldValue, Firestore } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
 import { getMessaging, Messaging } from 'firebase-admin/messaging'
 
@@ -164,6 +164,29 @@ export function ensureAdminInitialized() {
   }
   console.log('✅ Firebase Admin SDK is properly initialized')
   return true
+}
+
+/**
+ * Get the Firebase Admin Firestore instance.
+ * Throws if not initialized, preventing undefined behavior.
+ * Use this instead of adminDb directly to satisfy TypeScript null checks.
+ *
+ * @throws Error if Firebase Admin Firestore is not initialized
+ * @returns Non-nullable Firestore instance
+ */
+export function getAdminDb(): Firestore {
+  if (!adminDb) {
+    console.error('❌ Firebase Admin Firestore not initialized')
+    console.error('Environment check:')
+    console.error('  FIREBASE_ADMIN_PROJECT_ID:', !!process.env.FIREBASE_ADMIN_PROJECT_ID)
+    console.error('  FIREBASE_ADMIN_CLIENT_EMAIL:', !!process.env.FIREBASE_ADMIN_CLIENT_EMAIL)
+    console.error('  FIREBASE_ADMIN_PRIVATE_KEY:', !!process.env.FIREBASE_ADMIN_PRIVATE_KEY)
+    throw new Error(
+      'Firebase Admin Firestore is not initialized. ' +
+      'Ensure FIREBASE_ADMIN_PROJECT_ID and service account credentials are configured.'
+    )
+  }
+  return adminDb
 }
 
 // Helper function to verify ID tokens

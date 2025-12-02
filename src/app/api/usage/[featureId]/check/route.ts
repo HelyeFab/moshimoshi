@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
 import type { FeatureId } from '@/types/FeatureId';
 import { FEATURE_IDS } from '@/types/FeatureId';
 import type { EvalContext } from '@/types/entitlements';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 // Valid feature IDs - should match the main route
 const VALID_FEATURES: Set<FeatureId> = new Set(FEATURE_IDS);
@@ -34,7 +37,8 @@ export async function GET(
     }
 
     // Get FRESH user data from Firestore (NEVER trust session.tier)
-    const userDoc = await adminDb.collection('users').doc(session.uid).get();
+    const db = getDb()
+    const userDoc = await db.collection('users').doc(session.uid).get();
     if (!userDoc.exists) {
       return NextResponse.json(
         { error: 'User not found' },
@@ -48,7 +52,7 @@ export async function GET(
     // Get current usage for the feature
     const nowUtcISO = new Date().toISOString();
     const bucket = getTodayBucket(nowUtcISO);
-    const usageRef = adminDb
+    const usageRef = db
       .collection('users')
       .doc(session.uid)
       .collection('usage')

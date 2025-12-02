@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
 import crypto from 'crypto';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 // Email validation regex
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,7 +38,8 @@ export async function POST(request: NextRequest) {
       .update(normalizedEmail)
       .digest('hex');
 
-    const subscriberRef = adminDb.collection('newsletterSubscribers').doc(emailHash);
+    const db = getDb()
+    const subscriberRef = db.collection('newsletterSubscribers').doc(emailHash);
     const subscriberDoc = await subscriberRef.get();
 
     // If not subscribed, return success anyway (idempotent)
@@ -99,7 +103,8 @@ export async function GET(request: NextRequest) {
       .update(normalizedEmail)
       .digest('hex');
 
-    const subscriberRef = adminDb.collection('newsletterSubscribers').doc(emailHash);
+    const db = getDb()
+    const subscriberRef = db.collection('newsletterSubscribers').doc(emailHash);
     const subscriberDoc = await subscriberRef.get();
 
     // Update if exists and is currently active

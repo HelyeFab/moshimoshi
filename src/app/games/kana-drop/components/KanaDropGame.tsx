@@ -28,6 +28,7 @@ export default function KanaDropGame({ initialSelectedKana = [], onClose }: Kana
   const [gameState, setGameState] = useState<GameState>({
     score: 0,
     selectedKana: initialSelectedKana,
+    activeRomaji: null,
     fallingObjects: [],
     gameSpeed: 1,
     isPlaying: false,
@@ -137,6 +138,7 @@ export default function KanaDropGame({ initialSelectedKana = [], onClose }: Kana
     setGameState({
       score: 0,
       selectedKana,
+      activeRomaji: null,
       fallingObjects: [],
       gameSpeed: 1,
       isPlaying: false,
@@ -159,6 +161,13 @@ export default function KanaDropGame({ initialSelectedKana = [], onClose }: Kana
       // Navigate back to games page
       window.location.href = '/games';
     }
+  };
+
+  // Handle selecting new kana (from victory screen)
+  const handleSelectNewKana = () => {
+    setShowVictory(false);
+    setGameStats(null);
+    setShowKanaSelection(true);
   };
 
   // Kana Selection Screen
@@ -299,6 +308,7 @@ export default function KanaDropGame({ initialSelectedKana = [], onClose }: Kana
         <VictoryScreen
           stats={gameStats}
           onPlayAgain={handlePlayAgain}
+          onSelectNewKana={handleSelectNewKana}
           onClose={handleClose}
         />
       )}

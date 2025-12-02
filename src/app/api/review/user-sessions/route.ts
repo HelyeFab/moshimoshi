@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 /**
  * GET /api/review/user-sessions
@@ -19,8 +22,9 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const limit = Math.min(parseInt(searchParams.get('limit') || '50'), 100)
 
+    const db = getDb()
     // Fetch sessions from user's sessions subcollection
-    const sessionsSnapshot = await adminDb
+    const sessionsSnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('sessions')
@@ -29,7 +33,7 @@ export async function GET(request: NextRequest) {
       .get()
 
     // Fetch review history
-    const reviewHistorySnapshot = await adminDb
+    const reviewHistorySnapshot = await db
       .collection('users')
       .doc(session.uid)
       .collection('review_history')

@@ -168,10 +168,12 @@ export interface ReadingSettings {
   fontSize: 'small' | 'medium' | 'large' | 'xlarge';
   showFurigana: boolean;
   highlightVocabulary: boolean;
+  highlightGrammar?: boolean; // Highlight grammar patterns
   highlightMode: 'none' | 'all' | 'content' | 'grammar';
   darkMode: boolean;
   autoPlay?: boolean;
   playbackSpeed?: number; // 0.5 to 2.0
+  audioSpeed?: number; // Audio playback speed
 
   // Enhanced Translation Settings
   showTranslation?: boolean; // Legacy field - keep for backward compatibility

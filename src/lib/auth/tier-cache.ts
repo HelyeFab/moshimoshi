@@ -3,7 +3,10 @@
 // while maintaining good performance
 
 import { redis, RedisKeys, RedisUtils, CacheTTL } from '@/lib/redis/client'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 /**
  * Tier Cache Service
@@ -43,7 +46,8 @@ class TierCacheService {
       console.log(`[TierCache] Cache MISS for user ${userId}, fetching from Firestore`)
 
       // Fetch from Firestore
-      const userDoc = await adminDb.collection('users').doc(userId).get()
+      const db = getDb()
+      const userDoc = await db.collection('users').doc(userId).get()
       const userData = userDoc.data()
 
       if (!userDoc.exists || !userData) {
@@ -80,7 +84,8 @@ class TierCacheService {
 
       // In case of any error, try direct Firestore as last resort
       try {
-        const userDoc = await adminDb.collection('users').doc(userId).get()
+        const db = getDb()
+        const userDoc = await db.collection('users').doc(userId).get()
         const userData = userDoc.data()
 
         if (userData?.subscription?.status === 'active' && userData?.subscription?.plan) {

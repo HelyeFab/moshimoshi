@@ -13,9 +13,12 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import logger from '@/lib/logger'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 /**
  * GET - Check if user has opted out of leaderboard
@@ -28,7 +31,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Check opt-out status
-    const optOutDoc = await adminDb
+    const db = getDb()
+    const optOutDoc = await db
       .collection('leaderboard_optouts')
       .doc(session.uid)
       .get()
@@ -61,7 +65,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Add to opt-out list (minimal data for privacy)
-    await adminDb
+    const db = getDb()
+    await db
       .collection('leaderboard_optouts')
       .doc(session.uid)
       .set({
@@ -97,7 +102,8 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Remove from opt-out list
-    await adminDb
+    const db = getDb()
+    await db
       .collection('leaderboard_optouts')
       .doc(session.uid)
       .delete()

@@ -26,13 +26,13 @@ export class ConjugationErrorAnalyzer {
   /**
    * Analyze a conjugation error and generate help suggestions
    */
-  static analyzeError(
+  static async analyzeError(
     userInput: string,
     correctAnswer: string,
     attemptedForm: keyof ExtendedConjugationForms,
     word: JapaneseWord,
     options: AnalysisOptions = {}
-  ): ConjugationErrorReport {
+  ): Promise<ConjugationErrorReport> {
     // Merge with default options
     const opts: Required<AnalysisOptions> = {
       includeHelp: true,
@@ -50,7 +50,7 @@ export class ConjugationErrorAnalyzer {
       typeConfidence: 'high'
     };
 
-    const allConjugations = ExtendedConjugationEngine.conjugate(enhancedWord);
+    const allConjugations = await ExtendedConjugationEngine.conjugate(enhancedWord);
 
     // Classify the error
     const analysis = ConjugationErrorClassifier.classifyError(

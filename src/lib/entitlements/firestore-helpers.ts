@@ -5,7 +5,7 @@
  * Helper functions for managing usage buckets and decision logs
  */
 
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
 import {
   UsageBucket,
@@ -15,6 +15,9 @@ import {
 } from '@/types/entitlements';
 import { getTodayBucket } from './evaluator';
 
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
+
 /**
  * Get or create a usage bucket for a user on a specific date
  */
@@ -22,7 +25,8 @@ export async function getUsageBucket(
   userId: string,
   date: string
 ): Promise<UsageBucket> {
-  const bucketRef = adminDb
+  const db = getDb()
+  const bucketRef = db
     .collection('users')
     .doc(userId)
     .collection('usage')
@@ -56,7 +60,8 @@ export function incrementUsage(
   featureId: FeatureId,
   date: string
 ): void {
-  const bucketRef = adminDb
+  const db = getDb()
+  const bucketRef = db
     .collection('users')
     .doc(userId)
     .collection('usage')
@@ -89,7 +94,8 @@ export async function getTodayUsage(
 export async function logDecision(
   decision: EntitlementLog
 ): Promise<void> {
-  await adminDb
+  const db = getDb()
+  await db
     .collection('logs')
     .doc('entitlements')
     .collection('decisions')
@@ -110,7 +116,8 @@ export async function cleanupOldUsageBuckets(
   cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
   const cutoffString = getTodayBucket(cutoffDate.toISOString());
 
-  const bucketsRef = adminDb
+  const db = getDb()
+  const bucketsRef = db
     .collection('users')
     .doc(userId)
     .collection('usage');
@@ -120,7 +127,7 @@ export async function cleanupOldUsageBuckets(
     .get();
 
   let deletedCount = 0;
-  const batch = adminDb.batch();
+  const batch = db.batch();
 
   oldBuckets.forEach((doc) => {
     batch.delete(doc.ref);
@@ -141,7 +148,8 @@ export async function getUsageHistory(
   userId: string,
   days: number = 7
 ): Promise<UsageBucket[]> {
-  const bucketsRef = adminDb
+  const db = getDb()
+  const bucketsRef = db
     .collection('users')
     .doc(userId)
     .collection('usage');
@@ -161,7 +169,8 @@ export async function getDecisionLogs(
   userId: string,
   limit: number = 100
 ): Promise<EntitlementLog[]> {
-  const logsRef = adminDb
+  const db = getDb()
+  const logsRef = db
     .collection('logs')
     .doc('entitlements')
     .collection('decisions');
@@ -183,7 +192,8 @@ export async function checkIdempotency(
   featureId: FeatureId,
   idempotencyKey: string
 ): Promise<boolean> {
-  const idempotencyRef = adminDb
+  const db = getDb()
+  const idempotencyRef = db
     .collection('idempotency')
     .doc(`${userId}_${featureId}_${idempotencyKey}`);
 
@@ -195,15 +205,16 @@ export async function checkIdempotency(
  * Clean up expired idempotency records
  */
 export async function cleanupExpiredIdempotency(): Promise<number> {
+  const db = getDb();
   const now = new Date().toISOString();
-  
-  const expiredDocs = await adminDb
+
+  const expiredDocs = await db
     .collection('idempotency')
     .where('expiresAt', '<', now)
     .get();
 
   let deletedCount = 0;
-  const batch = adminDb.batch();
+  const batch = db.batch();
 
   expiredDocs.forEach((doc) => {
     batch.delete(doc.ref);
@@ -253,8 +264,9 @@ export async function resetFeatureUsage(
   userId: string,
   featureId: FeatureId
 ): Promise<void> {
+  const db = getDb();
   const today = getTodayBucket(new Date().toISOString());
-  const bucketRef = adminDb
+  const bucketRef = db
     .collection('users')
     .doc(userId)
     .collection('usage')

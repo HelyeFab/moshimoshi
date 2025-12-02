@@ -53,8 +53,8 @@ describe('ConjugationErrorAnalyzer', () => {
   };
 
   describe('Wrong Form Detection', () => {
-    it('should detect when user enters wrong conjugation form', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect when user enters wrong conjugation form', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '食べた',        // User entered past
         '食べない',      // Should be negative
         'negative',
@@ -67,8 +67,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(report.relevantHelp.length).toBeGreaterThan(0);
     });
 
-    it('should provide helpful quick tip for wrong form', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should provide helpful quick tip for wrong form', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '食べます',      // Polite form
         '食べる',        // Dictionary form
         'present',
@@ -81,8 +81,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Verb Type Confusion', () => {
-    it('should detect Godan rules applied to Ichidan verb', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect Godan rules applied to Ichidan verb', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '食べわない',    // Wrong: Godan negative pattern
         '食べない',      // Correct: Ichidan negative
         'negative',
@@ -93,8 +93,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(report.quickTip).toContain('Ichidan');
     });
 
-    it('should detect Ichidan rules applied to Godan verb', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect Ichidan rules applied to Godan verb', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '買られる',      // Wrong: Ichidan potential pattern
         '買える',        // Correct: Godan potential
         'potential',
@@ -107,8 +107,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Special Case: 行く', () => {
-    it('should detect wrong te-form for 行く', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect wrong te-form for 行く', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '行いて',        // Wrong exception
         '行って',        // Correct
         'teForm',
@@ -119,8 +119,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(report.quickTip).toContain('special exception');
     });
 
-    it('should detect wrong past form for 行く', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect wrong past form for 行く', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '行いた',        // Wrong
         '行った',        // Correct
         'past',
@@ -132,8 +132,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Special Case: いい', () => {
-    it('should detect wrong past form for いい', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect wrong past form for いい', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'いかった',      // Wrong
         'よかった',      // Correct
         'past',
@@ -144,8 +144,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(report.analysis.possibleInterpretation?.explanation).toContain('よかった');
     });
 
-    it('should detect wrong negative form for いい', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect wrong negative form for いい', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'いくない',      // Wrong
         'よくない',      // Correct
         'negative',
@@ -158,8 +158,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Special Case: ある', () => {
-    it('should detect invalid ている form for ある', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect invalid ている form for ある', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'あっている',    // Invalid
         'ある',          // Correct (no ている form)
         'progressive',
@@ -172,8 +172,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Close Match (Typo)', () => {
-    it('should detect minor typos', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect minor typos', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '食ベない',      // Typo: katakana ベ instead of hiragana べ
         '食べない',
         'negative',
@@ -185,8 +185,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(report.analysis.similarityScore).toBeGreaterThan(0.7);
     });
 
-    it('should be encouraging for very close answers', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should be encouraging for very close answers', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '買わなi',       // Missing one character
         '買わない',
         'negative',
@@ -200,8 +200,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Partial Correctness', () => {
-    it('should detect partially correct answers', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should detect partially correct answers', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '食べな',        // Partial
         '食べない',
         'negative',
@@ -215,8 +215,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Completely Wrong', () => {
-    it('should handle completely wrong answers', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should handle completely wrong answers', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'すし',          // Completely unrelated
         '食べない',
         'negative',
@@ -229,8 +229,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Empty/Null Handling', () => {
-    it('should handle empty user input', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should handle empty user input', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '',
         '食べない',
         'negative',
@@ -241,8 +241,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(report.quickTip).toBeDefined();
     });
 
-    it('should handle whitespace-only input', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should handle whitespace-only input', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '   ',
         '食べない',
         'negative',
@@ -254,8 +254,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Correct Answers', () => {
-    it('should recognize correct answers', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should recognize correct answers', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '食べない',
         '食べない',
         'negative',
@@ -266,8 +266,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(report.analysis.levenshteinDistance).toBe(0);
     });
 
-    it('should not provide help for correct answers', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should not provide help for correct answers', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         '買わない',
         '買わない',
         'negative',
@@ -280,8 +280,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Help Content Relevance', () => {
-    it('should provide relevant help for Ichidan verbs', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should provide relevant help for Ichidan verbs', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'wrong',
         '食べない',
         'negative',
@@ -297,8 +297,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(hasIchidanHelp).toBe(true);
     });
 
-    it('should provide relevant help for Godan verbs', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should provide relevant help for Godan verbs', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'wrong',
         '買わない',
         'negative',
@@ -314,8 +314,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(hasGodanHelp).toBe(true);
     });
 
-    it('should limit help to maxHelpItems', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should limit help to maxHelpItems', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'wrong',
         '食べない',
         'negative',
@@ -328,8 +328,8 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Options', () => {
-    it('should respect includeHelp option', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should respect includeHelp option', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'wrong',
         '食べない',
         'negative',
@@ -342,8 +342,8 @@ describe('ConjugationErrorAnalyzer', () => {
       expect(report.detailedExplanation).toBeUndefined();
     });
 
-    it('should respect maxHelpItems option', () => {
-      const report = ConjugationErrorAnalyzer.analyzeError(
+    it('should respect maxHelpItems option', async () => {
+      const report = await ConjugationErrorAnalyzer.analyzeError(
         'wrong',
         '食べない',
         'negative',
@@ -356,10 +356,10 @@ describe('ConjugationErrorAnalyzer', () => {
   });
 
   describe('Performance', () => {
-    it('should analyze errors quickly', () => {
+    it('should analyze errors quickly', async () => {
       const startTime = performance.now();
 
-      ConjugationErrorAnalyzer.analyzeError(
+      await ConjugationErrorAnalyzer.analyzeError(
         'wrong',
         '食べない',
         'negative',

@@ -17,6 +17,8 @@ export interface Decision {
   reason: 'ok' | 'no_permission' | 'limit_reached' | 'lifecycle_blocked';
   policyVersion: number;
   resetAtUtc?: string;
+  limit?: number;
+  usageBefore?: number;
 }
 
 export interface CheckOptions {

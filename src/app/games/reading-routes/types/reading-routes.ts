@@ -1,8 +1,9 @@
 // Reading Routes Game Types
 // Game-specific types that extend or complement the main MoodBoard types
 
-// Re-export the main types from moshimoshi's moodboard types
-export type { MoodBoard, KanjiItem, BoardProgress } from '@/types/moodboard'
+// Import and re-export the main types from moshimoshi's moodboard types
+import type { MoodBoard, KanjiItem, BoardProgress } from '@/types/moodboard'
+export type { MoodBoard, KanjiItem, BoardProgress }
 
 export interface ReadingOption {
   id: string

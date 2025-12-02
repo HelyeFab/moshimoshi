@@ -1,5 +1,6 @@
 import { BaseContentAdapter } from './base.adapter'
 import { ReviewableContent } from '../core/interfaces'
+import { ContentTypeConfig } from '../core/types'
 
 export interface KanjiMasteryContent {
   id: string
@@ -24,6 +25,10 @@ export interface KanjiMasteryContent {
 }
 
 export class KanjiMasteryAdapter extends BaseContentAdapter<KanjiMasteryContent> {
+  constructor(config?: ContentTypeConfig) {
+    super(config)
+  }
+
   transform(content: KanjiMasteryContent): ReviewableContent {
     // Determine validation type based on round
     const validationType = this.determineValidationType(content.round)
@@ -163,7 +168,7 @@ export class KanjiMasteryAdapter extends BaseContentAdapter<KanjiMasteryContent>
     return parts.join('\n')
   }
 
-  private calculateDifficulty(content: KanjiMasteryContent): number {
+  override calculateDifficulty(content: KanjiMasteryContent): number {
     // Calculate difficulty based on JLPT level, stroke count, and reading count
     let difficulty = 0.5 // Base difficulty
 

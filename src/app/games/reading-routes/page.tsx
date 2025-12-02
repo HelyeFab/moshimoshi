@@ -156,7 +156,7 @@ export default function ReadingRoutesPage() {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="text-2xl font-bold mb-4 text-foreground">
-                {strings.games?.howToPlay || 'How to Play'}
+                {strings.games?.readingRoutes?.howToPlay || 'How to Play'}
               </h3>
               <ul className="space-y-3 text-gray-600 dark:text-gray-400">
                 <li className="flex items-start gap-3">

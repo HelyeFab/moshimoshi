@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 interface ProgressItem {
   contentId: string
@@ -40,11 +43,12 @@ export async function POST(request: NextRequest) {
     if (decision.shouldWriteToFirebase) {
       console.log(`[API Progress] Premium user - saving to Firebase`)
 
+      const db = getDb()
       // Save each item as an individual document in progress subcollection
-      const batch = adminDb.batch()
+      const batch = db.batch()
 
       for (const [contentId, progressData] of items) {
-        const progressRef = adminDb
+        const progressRef = db
           .collection('users')
           .doc(session.uid)
           .collection('progress')
@@ -68,10 +72,11 @@ export async function POST(request: NextRequest) {
 
     // Save review history if provided and user is premium
     if (reviewHistory && reviewHistory.length > 0 && decision.isPremium) {
-      const batch = adminDb.batch()
+      const db = getDb()
+      const batch = db.batch()
 
       for (const entry of reviewHistory) {
-        const historyRef = adminDb
+        const historyRef = db
           .collection('users')
           .doc(session.uid)
           .collection('review_history')
@@ -145,8 +150,9 @@ export async function GET(request: NextRequest) {
 
     // Get progress from Firestore (premium only)
     // SPECIAL CASE: drill-srs uses a subcollection structure
+    const db = getDb()
     if (contentType === 'drill-srs') {
-      const srsCollectionRef = adminDb
+      const srsCollectionRef = db
         .collection('users')
         .doc(session.uid)
         .collection('drill-srs')
@@ -171,7 +177,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Standard progress document structure
-    const progressRef = adminDb
+    const progressRef = db
       .collection('users')
       .doc(session.uid)
       .collection('progress')

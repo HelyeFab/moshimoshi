@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth/session';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import { nanoid } from 'nanoid';
 import { Timestamp } from 'firebase-admin/firestore';
 import DOMPurify from 'isomorphic-dompurify';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 // GET /api/blog/[id]/comments - Get all comments for a blog post
 export async function GET(
@@ -12,9 +15,10 @@ export async function GET(
 ) {
   try {
     const { id: postId } = await params;
+    const db = getDb();
 
     // Get all comments for this post and filter/sort client-side to avoid index requirement
-    const commentsSnapshot = await adminDb
+    const commentsSnapshot = await db
       .collection('blogComments')
       .where('postId', '==', postId)
       .get();
@@ -92,8 +96,10 @@ export async function POST(
       ALLOWED_ATTR: [],
     });
 
+    const db = getDb();
+
     // Verify blog post exists
-    const postDoc = await adminDb.collection('blogPosts').doc(postId).get();
+    const postDoc = await db.collection('blogPosts').doc(postId).get();
     if (!postDoc.exists) {
       return NextResponse.json(
         { error: { code: 'NOT_FOUND', message: 'Blog post not found' } },
@@ -102,7 +108,7 @@ export async function POST(
     }
 
     // Get user data for display
-    const userDoc = await adminDb.collection('users').doc(session.uid).get();
+    const userDoc = await db.collection('users').doc(session.uid).get();
     const userData = userDoc.data();
 
     // Create a friendly display name
@@ -133,7 +139,7 @@ export async function POST(
       deletedAt: null,
     };
 
-    await adminDb.collection('blogComments').doc(commentId).set(comment);
+    await db.collection('blogComments').doc(commentId).set(comment);
 
     // Return comment with ISO dates
     const responseComment = {

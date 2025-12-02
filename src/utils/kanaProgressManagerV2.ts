@@ -67,8 +67,9 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
   /**
    * Legacy method: Save progress for a character
    * Maintains backward compatibility with existing code
+   * NOTE: Renamed from saveProgress to avoid conflict with base class method
    */
-  async saveProgress(
+  async saveLegacyProgress(
     script: 'hiragana' | 'katakana',
     characterId: string,
     progress: CharacterProgress,
@@ -86,26 +87,43 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
       return
     }
 
-    // Convert legacy format to new format
+    // Convert legacy format to new format - convert Date to ISO string
+    const lastReviewedIso = progress.lastReviewed
+      ? (progress.lastReviewed instanceof Date ? progress.lastReviewed.toISOString() : progress.lastReviewed)
+      : null
+    const updatedAtIso = progress.updatedAt
+      ? (progress.updatedAt instanceof Date ? progress.updatedAt.toISOString() : progress.updatedAt)
+      : new Date().toISOString()
+
     const kanaProgress: KanaProgressData = {
       contentId: characterId,
       contentType: script,
       script,
       status: progress.status || 'not-started',
       viewCount: progress.reviewCount || 0, // Map reviewCount to viewCount
-      firstViewedAt: progress.lastReviewed || undefined,
-      lastViewedAt: progress.lastReviewed || undefined,
+      firstViewedAt: lastReviewedIso,
+      lastViewedAt: lastReviewedIso,
+      totalViewTime: 0,
       interactionCount: progress.reviewCount || 0,
       correctCount: progress.correctCount || 0,
       incorrectCount: Math.max(0, (progress.reviewCount || 0) - (progress.correctCount || 0)),
+      lastInteractedAt: lastReviewedIso,
       accuracy: (progress.reviewCount || 0) > 0 ? ((progress.correctCount || 0) / (progress.reviewCount || 0)) * 100 : 0,
       streak: 0,
       bestStreak: 0,
+      srsLevel: null,
+      nextReviewDate: null,
+      easeFactor: null,
+      interval: null,
       pinned: progress.pinned || false,
       bookmarked: false,
       flaggedForReview: false,
-      createdAt: progress.updatedAt || new Date(),
-      updatedAt: progress.updatedAt || new Date()
+      createdAt: updatedAtIso,
+      updatedAt: updatedAtIso,
+      syncedAt: null,
+      version: 1,
+      reviewCount: progress.reviewCount || 0,
+      lastReviewed: progress.lastReviewed
     }
 
     // Remove undefined fields before saving
@@ -122,8 +140,9 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
   /**
    * Legacy method: Get progress for a script
    * Returns in the old format for backward compatibility
+   * NOTE: Renamed from getProgress to avoid conflict with base class method
    */
-  async getProgress(
+  async getLegacyProgress(
     script: 'hiragana' | 'katakana',
     user: any | null,
     isPremium: boolean
@@ -133,7 +152,7 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
     // Get progress using the base class method
     const progressMap = await super.getProgress(user.uid, script, isPremium)
 
-    // Convert to legacy format
+    // Convert to legacy format - convert ISO strings back to Date objects
     const legacyProgress: Record<string, CharacterProgress> = {}
 
     for (const [characterId, data] of progressMap) {
@@ -141,9 +160,9 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
         status: data.status,
         reviewCount: data.viewCount,
         correctCount: data.correctCount,
-        lastReviewed: data.lastViewedAt,
+        lastReviewed: data.lastViewedAt ? new Date(data.lastViewedAt) : undefined,
         pinned: data.pinned,
-        updatedAt: data.updatedAt
+        updatedAt: data.updatedAt ? new Date(data.updatedAt) : new Date()
       }
     }
 
@@ -188,7 +207,7 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
       isPremium,
       {
         eventType: ProgressEvent.INTERACTED,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         interactionType: interactionType as any,
         userId: user?.uid || '',
         isPremium
@@ -213,7 +232,7 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
       isPremium,
       {
         eventType: ProgressEvent.COMPLETED,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         correct: true,
         userId: user?.uid || '',
         isPremium
@@ -238,7 +257,7 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
       isPremium,
       {
         eventType: ProgressEvent.SKIPPED,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         userId: user?.uid || '',
         isPremium
       }
@@ -307,7 +326,7 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
       for (const [characterId, progress] of Object.entries(parsed)) {
         if (typeof progress === 'object' && progress !== null) {
           const oldProgress = progress as any
-          await this.saveProgress(
+          await this.saveLegacyProgress(
             script,
             characterId,
             {
@@ -343,11 +362,13 @@ export class KanaProgressManagerV2 extends UniversalProgressManager<KanaProgress
 
     try {
       const tx = this.db.transaction('progress', 'readwrite')
-      const index = tx.store.index('by-composite')
+      const index = tx.store.index('by-composite-key')
 
+      // The composite key is a string format: "userId:contentType:contentId"
+      const prefix = `${userId}:${script}:`
       let cursor = await index.openCursor(IDBKeyRange.bound(
-        [userId, script, ''],
-        [userId, script, '\uffff']
+        prefix,
+        prefix + '\uffff'
       ))
 
       while (cursor) {

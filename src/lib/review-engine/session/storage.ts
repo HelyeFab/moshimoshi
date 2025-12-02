@@ -228,13 +228,13 @@ export class LocalSessionStorage implements ISessionStorage {
   private serializeSession(session: ReviewSession): any {
     return {
       ...session,
-      startedAt: session.startedAt.toISOString(),
-      lastActivityAt: session.lastActivityAt.toISOString(),
-      endedAt: session.endedAt?.toISOString(),
+      startedAt: session.startedAt instanceof Date ? session.startedAt.toISOString() : session.startedAt,
+      lastActivityAt: session.lastActivityAt instanceof Date ? session.lastActivityAt.toISOString() : session.lastActivityAt,
+      endedAt: session.endedAt instanceof Date ? session.endedAt.toISOString() : session.endedAt,
       items: session.items.map(item => ({
         ...item,
-        presentedAt: item.presentedAt?.toISOString(),
-        answeredAt: item.answeredAt?.toISOString()
+        presentedAt: item.presentedAt instanceof Date ? item.presentedAt.toISOString() : item.presentedAt,
+        answeredAt: item.answeredAt instanceof Date ? item.answeredAt.toISOString() : item.answeredAt
       }))
     };
   }
@@ -455,9 +455,9 @@ export class IndexedDBSessionStorage implements ISessionStorage {
   private serializeForIndexedDB(session: ReviewSession): any {
     return {
       ...session,
-      startedAt: session.startedAt.toISOString(),
-      lastActivityAt: session.lastActivityAt.toISOString(),
-      endedAt: session.endedAt?.toISOString()
+      startedAt: session.startedAt instanceof Date ? session.startedAt.toISOString() : session.startedAt,
+      lastActivityAt: session.lastActivityAt instanceof Date ? session.lastActivityAt.toISOString() : session.lastActivityAt,
+      endedAt: session.endedAt instanceof Date ? session.endedAt.toISOString() : session.endedAt
     };
   }
   

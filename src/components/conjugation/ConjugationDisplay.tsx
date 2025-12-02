@@ -34,6 +34,7 @@ export function ConjugationDisplay({
   const { play, playing } = useTTS({ cacheFirst: true })
   const [internalExpandedGroups, setInternalExpandedGroups] = useState<Set<string>>(new Set())
   const [playingForm, setPlayingForm] = useState<string | null>(null)
+  const [conjugations, setConjugations] = useState<ExtendedConjugationForms | null>(null)
 
   // Use external control if provided, otherwise use internal state
   const expandedGroups = externalExpandedGroups ?? internalExpandedGroups
@@ -44,12 +45,23 @@ export function ConjugationDisplay({
     return enhanceWordWithType(word)
   }, [word])
 
-  // Get conjugations
-  const conjugations = useMemo(() => {
-    if (!enhancedWord.isConjugatable) {
-      return null
+  // Get conjugations (async)
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadConjugations() {
+      if (!enhancedWord.isConjugatable) {
+        setConjugations(null)
+        return
+      }
+      const result = await ExtendedConjugationEngine.conjugate(enhancedWord)
+      if (!cancelled) {
+        setConjugations(result)
+      }
     }
-    return ExtendedConjugationEngine.conjugate(enhancedWord)
+
+    loadConjugations()
+    return () => { cancelled = true }
   }, [enhancedWord])
 
   // Get the appropriate structure based on word type

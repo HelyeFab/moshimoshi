@@ -4,7 +4,10 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 export async function GET(request: NextRequest) {
   try {
@@ -39,7 +42,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Update user preferences
-    const userRef = adminDb.collection('users').doc(userId)
+    const db = getDb()
+    const userRef = db.collection('users').doc(userId)
     const prefsRef = userRef.collection('preferences').doc('settings')
 
     // Map notification type to preference field
@@ -180,7 +184,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Update user preferences
-    const prefsRef = adminDb
+    const db = getDb()
+    const prefsRef = db
       .collection('users')
       .doc(userId)
       .collection('preferences')

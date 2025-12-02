@@ -1,5 +1,8 @@
-import { adminFirestore } from '@/lib/firebase/admin';
+import { adminFirestore, getAdminDb } from '@/lib/firebase/admin';
 import { AdminAction } from '@/types/admin';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 export interface AuditLog {
   id?: string;
@@ -31,7 +34,8 @@ export class AuditLogger {
    */
   static async log(entry: Omit<AuditLog, 'id' | 'timestamp'>): Promise<void> {
     try {
-      await adminFirestore.collection(this.COLLECTION).add({
+      const db = getDb()
+      await db.collection(this.COLLECTION).add({
         ...entry,
         timestamp: new Date()
       });
@@ -45,7 +49,8 @@ export class AuditLogger {
    * Retrieve audit logs with filters
    */
   static async getLogs(filters: AuditFilters = {}): Promise<AuditLog[]> {
-    let query = adminFirestore.collection(this.COLLECTION)
+    const db = getDb()
+    let query = db.collection(this.COLLECTION)
       .orderBy('timestamp', 'desc');
 
     if (filters.adminId) {

@@ -113,8 +113,9 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
               const progressStore = transaction.objectStore('progress')
 
               // Delete old composite index if it exists (from version 1)
-              if (progressStore.indexNames.contains('by-composite')) {
-                progressStore.deleteIndex('by-composite')
+              // Note: 'by-composite' is the legacy index name not in current schema, hence type assertion
+              if (progressStore.indexNames.contains('by-composite' as any)) {
+                progressStore.deleteIndex('by-composite' as any)
               }
 
               // Create new composite key index
@@ -248,7 +249,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
    * Create initial progress data
    */
   protected createInitialProgress(contentId: string, contentType: string): T {
-    const now = new Date()
+    const now = new Date().toISOString()
     return {
       contentId,
       contentType,
@@ -264,7 +265,18 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       bookmarked: false,
       flaggedForReview: false,
       createdAt: now,
-      updatedAt: now
+      updatedAt: now,
+      // Initialize optional fields
+      firstViewedAt: null,
+      lastViewedAt: null,
+      totalViewTime: 0,
+      lastInteractedAt: null,
+      srsLevel: null,
+      nextReviewDate: null,
+      easeFactor: null,
+      interval: null,
+      syncedAt: null,
+      version: 1
     } as T
   }
 
@@ -277,7 +289,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     metadata?: Partial<ProgressEventMetadata>
   ): T {
     const updated = { ...progress }
-    const now = new Date()
+    const now = new Date().toISOString()
 
     switch (event) {
       case ProgressEvent.VIEWED:
@@ -537,7 +549,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     try {
       const compositeKey = `${userId}:${contentType}:${contentId}`
       const record = await this.db.getFromIndex('progress', 'by-composite-key', compositeKey)
-      return record ? record.data : null
+      return record ? (record.data as T) : null
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to get progress item:', error)
       return null
@@ -604,7 +616,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
       const progressMap = new Map<string, T>()
       for (const record of records) {
-        progressMap.set(record.contentId, record.data)
+        progressMap.set(record.contentId, record.data as T)
       }
 
       return progressMap
@@ -685,7 +697,8 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       sessionId: id,
       userId,
       contentType,
-      startedAt: new Date(),
+      startedAt: new Date().toISOString(),
+      endedAt: null,
       duration: 0,
       itemsViewed: [],
       itemsInteracted: [],
@@ -762,8 +775,10 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     if (!this.currentSession) return null
 
     const session = this.currentSession
-    session.endedAt = new Date()
-    session.duration = session.endedAt.getTime() - session.startedAt.getTime()
+    const endTime = new Date()
+    session.endedAt = endTime.toISOString()
+    // Calculate duration from ISO string timestamps
+    session.duration = endTime.getTime() - new Date(session.startedAt).getTime()
     session.completed = true
     session.totalItems = session.itemsViewed.length
     session.completionRate = session.totalItems > 0
@@ -815,8 +830,8 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
               avgResponseTime: 0,
               duration: session.duration
             },
-            startedAt: session.startedAt.toISOString(),
-            completedAt: session.endedAt?.toISOString() || new Date().toISOString()
+            startedAt: session.startedAt, // Already an ISO string
+            completedAt: session.endedAt || new Date().toISOString()
           }
 
           const response = await fetch('/api/sessions/save', {
@@ -858,7 +873,8 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
       for (const item of pending) {
         if (item.type === 'progress') {
-          const itemsMap = new Map(Object.entries(item.data))
+          // Cast to Map<string, T> since we know the data structure
+          const itemsMap = new Map(Object.entries(item.data)) as Map<string, T>
           await this.syncToFirebase(item.userId, item.contentType, itemsMap)
 
           // Mark as completed

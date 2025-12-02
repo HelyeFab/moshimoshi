@@ -87,7 +87,7 @@ export async function validateSessionEntitlement(
         allow: true,
         remaining: -1,
         reason: 'ok',
-        policyVersion: '1.0',
+        policyVersion: 1,
         featureId: 'hiragana_practice' as FeatureId,
         userId,
         plan
@@ -104,8 +104,8 @@ export async function validateSessionEntitlement(
       decision: {
         allow: false,
         remaining: 0,
-        reason: 'invalid_request',
-        policyVersion: '1.0',
+        reason: 'no_permission',
+        policyVersion: 1,
         featureId: 'hiragana_practice' as FeatureId,
         userId,
         plan
@@ -124,7 +124,7 @@ export async function validateSessionEntitlement(
         allow: true,
         remaining: -1,
         reason: 'ok',
-        policyVersion: '1.0',
+        policyVersion: 1,
         featureId: 'hiragana_practice' as FeatureId,
         userId,
         plan
@@ -137,13 +137,15 @@ export async function validateSessionEntitlement(
   const currentUsage = await getCurrentUsage(userId, featureId)
 
   // Build evaluation context
+  // Note: We only provide usage for the feature being checked
+  // The evaluator only looks at the specific featureId
   const ctx: EvalContext = {
     userId,
     plan,
     nowUtcISO: new Date().toISOString(),
     usage: {
       [featureId]: currentUsage
-    }
+    } as Record<FeatureId, number>
   }
 
   // Evaluate entitlement

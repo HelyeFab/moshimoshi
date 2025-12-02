@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-import { adminDb } from '@/lib/firebase/admin'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { IndexedDBStorage } from '@/lib/review-engine/offline/indexed-db'
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,7 +19,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Get fresh user data from Firestore
-    const userDoc = await adminDb.collection('users').doc(session.uid).get()
+    const db = getDb()
+    const userDoc = await db.collection('users').doc(session.uid).get()
     const userData = userDoc.data()
     const plan = userData?.subscription?.plan || 'free'
     const isPremium = plan.startsWith('premium')
@@ -33,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     if (isPremium) {
       // Fetch from the dedicated srs_data collection
-      const srsSnapshot = await adminDb
+      const srsSnapshot = await db
         .collection('users')
         .doc(session.uid)
         .collection('srs_data')

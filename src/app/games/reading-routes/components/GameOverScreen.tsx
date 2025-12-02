@@ -105,7 +105,7 @@ export default function GameOverScreen({
             onClick={onExit}
             className="flex-1 py-3 px-6 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors"
           >
-            {strings.common?.exit || 'Exit'}
+            {(strings.common as any)?.exit || 'Exit'}
           </button>
           <button
             onClick={onPlayAgain}

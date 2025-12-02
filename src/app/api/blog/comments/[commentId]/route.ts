@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth/session';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
 import DOMPurify from 'isomorphic-dompurify';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 // PATCH /api/blog/comments/[commentId] - Update a comment
 export async function PATCH(
@@ -40,8 +43,10 @@ export async function PATCH(
       );
     }
 
+    const db = getDb();
+
     // Get comment
-    const commentRef = adminDb.collection('blogComments').doc(commentId);
+    const commentRef = db.collection('blogComments').doc(commentId);
     const commentDoc = await commentRef.get();
 
     if (!commentDoc.exists) {
@@ -126,9 +131,10 @@ export async function DELETE(
     const session = await requireAuth();
 
     const { commentId } = await params;
+    const db = getDb();
 
     // Get comment
-    const commentRef = adminDb.collection('blogComments').doc(commentId);
+    const commentRef = db.collection('blogComments').doc(commentId);
     const commentDoc = await commentRef.get();
 
     if (!commentDoc.exists) {

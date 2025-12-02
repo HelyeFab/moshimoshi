@@ -761,7 +761,7 @@ function ShadowingMode({
                 text={sentences[currentIndex]}
                 showFurigana={settings.showFurigana}
                 fontSize={settings.fontSize}
-                highlightGrammar={settings.highlightGrammar}
+                highlightGrammar={settings.highlightGrammar ?? false}
                 highlightMode={settings.highlightMode}
                 className="japanese-text text-center font-medium"
               />
@@ -1303,7 +1303,7 @@ export default function EnhancedArticleReader({
 
         const audio = new Audio(audioUrl);
         // Validate audioSpeed to prevent "non-finite" error
-        audio.playbackRate = Number.isFinite(settings.audioSpeed) ? settings.audioSpeed : 1.0;
+        audio.playbackRate = Number.isFinite(settings.audioSpeed) ? settings.audioSpeed! : 1.0;
 
         // Set up event listeners
         audio.onplay = () => {
@@ -1464,7 +1464,7 @@ export default function EnhancedArticleReader({
           // Create and play audio element
           const audio = new Audio(data.audioUrl);
           // Validate audioSpeed to prevent "non-finite" error
-          audio.playbackRate = Number.isFinite(settings.audioSpeed) ? settings.audioSpeed : 1.0;
+          audio.playbackRate = Number.isFinite(settings.audioSpeed) ? settings.audioSpeed! : 1.0;
 
           audio.onended = () => {
             setSentenceAudioLoading(null);
@@ -1783,7 +1783,7 @@ export default function EnhancedArticleReader({
             sentences={splitIntoSentences(article.content)}
             showFurigana={settings.showFurigana}
             fontSize={settings.fontSize}
-            highlightGrammar={settings.highlightGrammar}
+            highlightGrammar={settings.highlightGrammar ?? false}
             highlightMode={settings.highlightMode}
             onWordClick={handleWordClick}
             onPlaySentence={handlePlaySentence}
@@ -1958,7 +1958,7 @@ export default function EnhancedArticleReader({
             contentType="article"
             audioSpeed={settings.audioSpeed}
             showFurigana={settings.showFurigana}
-            highlightGrammar={settings.highlightGrammar}
+            highlightGrammar={settings.highlightGrammar ?? false}
             highlightMode={settings.highlightMode}
             onClose={() => setSettings(prev => ({ ...prev, shadowingMode: false }))}
           />

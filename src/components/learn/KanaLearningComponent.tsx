@@ -359,7 +359,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
   const handleReviewComplete = useCallback(async (stats: SessionStatistics) => {
     console.log('[Kana Review] handleReviewComplete called with stats:', stats)
 
-    const sessionStartTime = Date.now() - (stats.duration || 0)
+    const sessionStartTime = Date.now() - (stats.totalTime || 0)
     const sessionEndTime = Date.now()
 
     // Save individual character progress and session data to Firebase
@@ -376,7 +376,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
         // These would be more accurate with per-character tracking
         correct: stats.accuracy >= 80,
         attempts: 1,
-        responseTime: stats.avgResponseTime || 0
+        responseTime: stats.averageResponseTime || 0
       }))
 
       // Save complete session data
@@ -395,8 +395,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               totalItems: stats.totalItems,
               correctItems: stats.correctItems,
               accuracy: stats.accuracy,
-              avgResponseTime: stats.avgResponseTime,
-              duration: stats.duration
+              avgResponseTime: stats.averageResponseTime,
+              duration: stats.totalTime
             },
             startedAt: new Date(sessionStartTime).toISOString(),
             completedAt: new Date(sessionEndTime).toISOString()
@@ -460,7 +460,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
           averageResponseTime: stats.averageResponseTime || 0,
           bestStreak: stats.bestStreak || 0
         },
-        duration: stats.duration || 0
+        duration: stats.totalTime || 0
       }
     })
 
@@ -470,7 +470,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       accuracy: stats.accuracy,
       averageResponseTime: stats.averageResponseTime,
       bestStreak: stats.bestStreak,
-      duration: stats.duration
+      duration: stats.totalTime
     })
 
     setLastSessionStats(stats)

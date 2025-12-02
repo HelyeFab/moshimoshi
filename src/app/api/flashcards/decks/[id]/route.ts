@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import type { UpdateDeckRequest } from '@/types/flashcards';
+
+// Use centralized getAdminDb() for null-safe database access
+const getDb = getAdminDb;
 
 interface Params {
   params: Promise<{
@@ -19,7 +22,8 @@ export async function GET(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const deckRef = adminDb
+    const db = getDb();
+    const deckRef = db
       .collection('users')
       .doc(session.uid)
       .collection('flashcardDecks')
@@ -58,7 +62,8 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     const body: UpdateDeckRequest = await request.json();
 
-    const deckRef = adminDb
+    const db = getDb();
+    const deckRef = db
       .collection('users')
       .doc(session.uid)
       .collection('flashcardDecks')
@@ -103,7 +108,8 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const deckRef = adminDb
+    const db = getDb();
+    const deckRef = db
       .collection('users')
       .doc(session.uid)
       .collection('flashcardDecks')

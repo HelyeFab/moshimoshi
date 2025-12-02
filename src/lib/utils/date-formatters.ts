@@ -1,10 +1,53 @@
 /**
  * Utility functions for formatting Firebase timestamps and dates
+ *
+ * Key patterns for Date/ISO string handling:
+ * - Use `safeToISOString()` for safe Date → ISO string conversion
+ * - Use `firebaseTimestampToDate()` for Firestore Timestamp → Date conversion
+ * - Always check `instanceof Date` before calling `.toISOString()` directly
  */
 
 interface FirebaseTimestamp {
   _seconds: number;
   _nanoseconds: number;
+}
+
+/**
+ * Safely converts a Date, string, or null value to an ISO string.
+ * Handles the case where the value might already be a string.
+ *
+ * @example
+ * safeToISOString(new Date())        // "2025-01-15T10:30:00.000Z"
+ * safeToISOString("2025-01-15...")   // "2025-01-15..." (passthrough)
+ * safeToISOString(null)              // null
+ * safeToISOString(undefined)         // null
+ */
+export function safeToISOString(value: Date | string | null | undefined): string | null {
+  if (!value) return null;
+  if (value instanceof Date) return value.toISOString();
+  if (typeof value === 'string') return value;
+  return null;
+}
+
+/**
+ * Safely converts a Firebase Timestamp or Date to an ISO string.
+ * Handles Firestore Timestamps (with toDate method), Date objects, and strings.
+ *
+ * @example
+ * timestampToISOString(firestoreTimestamp)  // "2025-01-15T10:30:00.000Z"
+ * timestampToISOString(new Date())          // "2025-01-15T10:30:00.000Z"
+ * timestampToISOString("2025-01-15...")     // "2025-01-15..." (passthrough)
+ */
+export function timestampToISOString(
+  value: { toDate: () => Date } | Date | string | null | undefined
+): string | null {
+  if (!value) return null;
+  if (typeof value === 'string') return value;
+  if (value instanceof Date) return value.toISOString();
+  if (typeof value === 'object' && 'toDate' in value && typeof value.toDate === 'function') {
+    return value.toDate().toISOString();
+  }
+  return null;
 }
 
 /**

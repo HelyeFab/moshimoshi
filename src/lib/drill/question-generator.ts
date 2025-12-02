@@ -60,7 +60,7 @@ const I_ADJECTIVE_COMPATIBLE_FORMS: (keyof ExtendedConjugationForms)[] = [
   'teForm', 'negativeTeForm',
   'provisional', 'provisionalNegative',
   'conditional', 'conditionalNegative',
-  'adverbial',
+  'taiAdverbial', // Was 'adverbial' - fixed to valid form name
   'polite', 'politePast', 'politeNegative', 'politePastNegative'
 ];
 
@@ -101,11 +101,15 @@ export class QuestionGenerator {
         continue;
       }
 
-      const enhancedWord: EnhancedJapaneseWord = {
+      // Create enhanced word with type assertion since drill.JapaneseWord
+      // has slightly different structure than vocabulary.JapaneseWord
+      const enhancedWord = {
         ...word,
         conjugationType: wordType.conjugationType,
+        isConjugatable: wordType.isConjugatable,
+        typeConfidence: wordType.confidence,
         partsOfSpeech: word.partsOfSpeech || []
-      };
+      } as EnhancedJapaneseWord;
 
       // Create promise for async conjugation
       const questionPromise = (async () => {
@@ -113,8 +117,8 @@ export class QuestionGenerator {
           // Async call to cached conjugation engine
           const conjugations = await ExtendedConjugationEngine.conjugate(enhancedWord);
 
-          // Get compatible forms for this word type
-          const compatibleForms = this.getCompatibleForms(wordType.conjugationType);
+          // Get compatible forms for this word type (already validated above)
+          const compatibleForms = this.getCompatibleForms(wordType.conjugationType!);
 
           // Apply user's form filter if provided
           const allowedForms = formFilter && formFilter.length > 0
@@ -134,7 +138,7 @@ export class QuestionGenerator {
             return null;
           }
 
-          return this.generateSingleQuestion(word, targetForm, correctAnswer, conjugations, wordType.conjugationType);
+          return this.generateSingleQuestion(word, targetForm, correctAnswer, conjugations, wordType.conjugationType!);
         } catch (error) {
           console.error(`[QuestionGenerator] Error generating question for ${word.kanji || word.kana}:`, error);
           return null;
@@ -384,9 +388,14 @@ export class QuestionGenerator {
     const compatibleForms = this.getCompatibleForms(wordType);
 
     // Get all valid forms except the correct answer
+    // Filter out undefined values and ensure we have string[]
     const validForms = compatibleForms
       .map(form => conjugations[form])
-      .filter(form => form && form !== correctAnswer && form !== '' && form !== 'N/A' && form.trim() !== '');
+      .filter((form): form is string =>
+        form !== undefined && form !== null &&
+        form !== correctAnswer && form !== '' &&
+        form !== 'N/A' && form.trim() !== ''
+      );
 
     // Remove duplicates
     const uniqueForms = Array.from(new Set(validForms));
@@ -452,13 +461,13 @@ export class QuestionGenerator {
   }
 
   /**
-   * Generate questions for specific word
+   * Generate questions for specific word (async due to cached conjugation)
    */
-  static generateQuestionsForWord(
+  static async generateQuestionsForWord(
     word: JapaneseWord,
     count: number = 5,
     formFilter?: string[]
-  ): DrillQuestion[] {
+  ): Promise<DrillQuestion[]> {
     const questions: DrillQuestion[] = [];
 
     // Detect word type
@@ -468,13 +477,18 @@ export class QuestionGenerator {
       return [];
     }
 
-    const enhancedWord: EnhancedJapaneseWord = {
+    // Create enhanced word with type assertion since drill.JapaneseWord
+    // has slightly different structure than vocabulary.JapaneseWord
+    const enhancedWord = {
       ...word,
       conjugationType: wordType.conjugationType,
+      isConjugatable: wordType.isConjugatable,
+      typeConfidence: wordType.confidence,
       partsOfSpeech: word.partsOfSpeech || []
-    };
+    } as EnhancedJapaneseWord;
 
-    const conjugations = ExtendedConjugationEngine.conjugate(enhancedWord);
+    // Await the async conjugation (uses Redis caching)
+    const conjugations = await ExtendedConjugationEngine.conjugate(enhancedWord);
     const compatibleForms = this.getCompatibleForms(wordType.conjugationType);
 
     // Apply filter
@@ -492,7 +506,7 @@ export class QuestionGenerator {
       const correctAnswer = conjugations[targetForm];
       if (!correctAnswer) continue;
 
-      const question = this.generateSingleQuestion(word, targetForm, correctAnswer, conjugations, wordType.conjugationType);
+      const question = this.generateSingleQuestion(word, targetForm, correctAnswer, conjugations, wordType.conjugationType!);
       if (question) {
         questions.push(question);
       }

@@ -4,7 +4,8 @@
  * Handles JMdict, WaniKani, and other dictionary formats
  */
 
-import { WordType } from '@/types/vocabulary'
+// Import WordType from drill.ts which includes verb classifications (Ichidan, Godan, Irregular)
+import { WordType } from '@/types/drill'
 
 export type VerbType = 'Ichidan' | 'Godan' | 'Irregular'
 export type AdjectiveType = 'i-adjective' | 'na-adjective'
@@ -60,9 +61,22 @@ const JMDICT_VERB_MAPPINGS: Record<string, VerbType> = {
 }
 
 /**
+ * Type for Godan verb ending pattern
+ */
+interface GodanEndingPattern {
+  type: 'Godan'
+  confidence: 'high' | 'medium' | 'low'
+}
+
+/**
  * Verb ending patterns for detection when POS tags are incomplete
  */
-const VERB_ENDING_PATTERNS = {
+const VERB_ENDING_PATTERNS: {
+  godan: Record<string, GodanEndingPattern>
+  ichidan: string[]
+  godanRuExceptions: string[]
+  irregular: Record<string, VerbType>
+} = {
   // Godan verb endings
   godan: {
     'う': { type: 'Godan', confidence: 'high' },
@@ -259,8 +273,9 @@ function detectFromPartsOfSpeech(
     if (word) {
       return detectFromPattern(word)
     }
+    // Return 'other' for unclassified verbs since WordType doesn't include generic 'verb'
     return {
-      baseType: 'verb',
+      baseType: 'other',
       isConjugatable: false, // Can't conjugate without knowing specific type
       confidence: 'low'
     }

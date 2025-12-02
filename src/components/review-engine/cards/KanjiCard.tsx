@@ -25,14 +25,21 @@ export default function KanjiCard({
 
   // Convert metadata to Kanji format for the modal
   const handleOpenDetails = () => {
+    // Convert jlptLevel number to JLPTLevel string
+    const jlptLevel = metadata?.jlptLevel
+    const jlptString = jlptLevel ? `N${jlptLevel}` as 'N5' | 'N4' | 'N3' | 'N2' | 'N1' : 'N5'
+
     const kanjiData: Kanji = {
       kanji: content.primaryDisplay,
       meaning: content.primaryAnswer,
+      meanings: [content.primaryAnswer], // Required array
       onyomi: metadata?.onyomi || [],
       kunyomi: metadata?.kunyomi || [],
-      jlpt: metadata?.jlpt,
+      jlpt: jlptString,
+      strokeCount: metadata?.strokeCount || 0,
       grade: metadata?.grade,
-      frequency: metadata?.frequency
+      frequency: metadata?.frequency,
+      examples: [] // Required array
     }
     openKanjiDetails(kanjiData)
   }

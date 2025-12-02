@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 // Navigation is now global via NavigationWrapper in root layout
@@ -13,6 +13,9 @@ import WordAssemblyGame from '@/components/games/WordAssembly/WordAssemblyGame'
 import KanjiQuest from '@/components/games/kanji-quest/KanjiQuest'
 import { JapaneseWord } from '@/types/vocabulary'
 
+// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
+const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false'
+
 export default function GamesPage() {
   const { t, strings } = useI18n()
   const { resolvedTheme } = useTheme()
@@ -20,6 +23,18 @@ export default function GamesPage() {
   const router = useRouter()
   const [selectedGame, setSelectedGame] = useState<string | null>(null)
   const [gameWords, setGameWords] = useState<JapaneseWord[]>([])
+
+  // Redirect if games feature is disabled
+  useEffect(() => {
+    if (!isGamesEnabled) {
+      router.replace('/dashboard')
+    }
+  }, [router])
+
+  // Don't render if feature is disabled (prevents flash before redirect)
+  if (!isGamesEnabled) {
+    return null
+  }
 
   // Sample words for testing - in production, these would come from user's lists
   const sampleWords: JapaneseWord[] = [
@@ -39,8 +54,8 @@ export default function GamesPage() {
     // Kana Games (Beginner)
     {
       id: 'kana-drop',
-      title: strings.games?.kanaDrop?.title || 'Kana Drop',
-      description: strings.games?.kanaDrop?.description || 'Catch falling kana characters to score points!',
+      title: (strings.games as any)?.kanaDrop?.title || 'Kana Drop',
+      description: (strings.games as any)?.kanaDrop?.description || 'Catch falling kana characters to score points!',
       icon: '🎯',
       color: 'from-cyan-400 to-teal-600',
       available: true,
@@ -170,7 +185,7 @@ export default function GamesPage() {
                   >
                     <div className="absolute inset-0 bg-black/10" />
                     <span className="relative z-10">{game.icon}</span>
-                    {game.comingSoon && (
+                    {(game as any).comingSoon && (
                       <div className="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">
                         {strings.games?.comingSoon || 'Coming Soon'}
                       </div>

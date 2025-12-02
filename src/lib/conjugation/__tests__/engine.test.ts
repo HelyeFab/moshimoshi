@@ -14,31 +14,31 @@ describe('ExtendedConjugationEngine', () => {
   });
 
   describe('Input Validation', () => {
-    test('handles null word', () => {
-      const result = ExtendedConjugationEngine.conjugate(null as any);
+    test('handles null word', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(null as any);
       expect(result.present).toBe('');
       expect(result.past).toBe('');
     });
 
-    test('handles undefined word', () => {
-      const result = ExtendedConjugationEngine.conjugate(undefined as any);
+    test('handles undefined word', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(undefined as any);
       expect(result.present).toBe('');
       expect(result.past).toBe('');
     });
 
-    test('handles word without kanji or kana', () => {
+    test('handles word without kanji or kana', async () => {
       const word: any = { conjugationType: 'Godan' };
-      const result = ExtendedConjugationEngine.conjugate(word);
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('');
     });
 
-    test('handles word without conjugationType', () => {
+    test('handles word without conjugationType', async () => {
       const word: any = { kanji: '買う', kana: 'かう' };
-      const result = ExtendedConjugationEngine.conjugate(word);
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('');
     });
 
-    test('handles non-conjugatable word type', () => {
+    test('handles non-conjugatable word type', async () => {
       const word: EnhancedJapaneseWord = {
         id: 'test',
         kanji: '本',
@@ -51,7 +51,7 @@ describe('ExtendedConjugationEngine', () => {
         isConjugatable: false,
         typeConfidence: 'high'
       };
-      const result = ExtendedConjugationEngine.conjugate(word);
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('');
     });
   });
@@ -71,42 +71,42 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates basic forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates basic forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.present).toBe('買う');
         expect(result.past).toBe('買った');
         expect(result.negative).toBe('買わない');
         expect(result.pastNegative).toBe('買わなかった');
       });
 
-      test('generates polite forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates polite forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.polite).toBe('買います');
         expect(result.politePast).toBe('買いました');
         expect(result.politeNegative).toBe('買いません');
         expect(result.politePastNegative).toBe('買いませんでした');
       });
 
-      test('generates te-form correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates te-form correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('買って');
         expect(result.negativeTeForm).toBe('買わなくて');
       });
 
-      test('generates potential forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates potential forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.potential).toBe('買える');
         expect(result.potentialNegative).toBe('買えない');
       });
 
-      test('generates passive forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates passive forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.passive).toBe('買われる');
         expect(result.passiveNegative).toBe('買われない');
       });
 
-      test('generates causative forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates causative forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.causative).toBe('買わせる');
         expect(result.causativeNegative).toBe('買わせない');
       });
@@ -126,8 +126,8 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates correct te-form', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates correct te-form', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('書いて');
         expect(result.past).toBe('書いた');
       });
@@ -147,8 +147,8 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates correct te-form', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates correct te-form', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('泳いで');
         expect(result.past).toBe('泳いだ');
       });
@@ -168,8 +168,8 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates correct te-form', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates correct te-form', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('話して');
         expect(result.past).toBe('話した');
       });
@@ -189,8 +189,8 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates correct te-form', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates correct te-form', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('待って');
         expect(result.past).toBe('待った');
       });
@@ -210,8 +210,8 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates correct te-form', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates correct te-form', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('死んで');
         expect(result.past).toBe('死んだ');
       });
@@ -231,8 +231,8 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates correct te-form', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates correct te-form', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('遊んで');
         expect(result.past).toBe('遊んだ');
       });
@@ -252,8 +252,8 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates correct te-form', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates correct te-form', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('飲んで');
         expect(result.past).toBe('飲んだ');
       });
@@ -273,8 +273,8 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates correct te-form', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates correct te-form', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('帰って');
         expect(result.past).toBe('帰った');
       });
@@ -295,14 +295,14 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('generates special te-form (って not いて)', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates special te-form (って not いて)', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.teForm).toBe('行って');
       expect(result.past).toBe('行った');
     });
 
-    test('generates normal other forms', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates normal other forms', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.negative).toBe('行かない');
       expect(result.polite).toBe('行きます');
     });
@@ -322,48 +322,48 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('generates basic forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates basic forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('食べる');
       expect(result.past).toBe('食べた');
       expect(result.negative).toBe('食べない');
       expect(result.pastNegative).toBe('食べなかった');
     });
 
-    test('generates polite forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates polite forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.polite).toBe('食べます');
       expect(result.politePast).toBe('食べました');
       expect(result.politeNegative).toBe('食べません');
       expect(result.politePastNegative).toBe('食べませんでした');
     });
 
-    test('generates te-form correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates te-form correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.teForm).toBe('食べて');
       expect(result.negativeTeForm).toBe('食べなくて');
     });
 
-    test('generates potential forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates potential forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.potential).toBe('食べられる');
       expect(result.potentialNegative).toBe('食べられない');
     });
 
-    test('generates passive forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates passive forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.passive).toBe('食べられる');
       expect(result.passiveNegative).toBe('食べられない');
     });
 
-    test('generates causative forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates causative forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.causative).toBe('食べさせる');
       expect(result.causativeNegative).toBe('食べさせない');
     });
 
-    test('generates volitional forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates volitional forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.volitional).toBe('食べよう');
       expect(result.politeVolitional).toBe('食べましょう');
     });
@@ -384,28 +384,28 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates basic forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates basic forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.present).toBe('する');
         expect(result.past).toBe('した');
         expect(result.negative).toBe('しない');
         expect(result.pastNegative).toBe('しなかった');
       });
 
-      test('generates polite forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates polite forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.polite).toBe('します');
         expect(result.politePast).toBe('しました');
         expect(result.politeNegative).toBe('しません');
       });
 
-      test('generates te-form correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates te-form correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.teForm).toBe('して');
       });
 
-      test('generates potential forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates potential forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.potential).toBe('できる');
         expect(result.potentialNegative).toBe('できない');
       });
@@ -425,21 +425,21 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      test('generates basic forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates basic forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.present).toBe('勉強する');
         expect(result.past).toBe('勉強した');
         expect(result.negative).toBe('勉強しない');
       });
 
-      test('generates polite forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates polite forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.polite).toBe('勉強します');
         expect(result.politePast).toBe('勉強しました');
       });
 
-      test('generates potential forms correctly', () => {
-        const result = ExtendedConjugationEngine.conjugate(word);
+      test('generates potential forms correctly', async () => {
+        const result = await ExtendedConjugationEngine.conjugate(word);
         expect(result.potential).toBe('勉強できる');
         expect(result.potentialNegative).toBe('勉強できない');
       });
@@ -460,34 +460,34 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('generates basic forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates basic forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('来る');
       expect(result.past).toBe('来た');
       expect(result.negative).toBe('来ない');
       expect(result.pastNegative).toBe('来なかった');
     });
 
-    test('generates polite forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates polite forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.polite).toBe('来ます');
       expect(result.politePast).toBe('来ました');
       expect(result.politeNegative).toBe('来ません');
     });
 
-    test('generates te-form correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates te-form correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.teForm).toBe('来て');
     });
 
-    test('generates potential forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates potential forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.potential).toBe('来られる');
       expect(result.potentialNegative).toBe('来られない');
     });
 
-    test('generates imperative forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates imperative forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.imperativePlain).toBe('来い');
       expect(result.imperativeNegative).toBe('来るな');
     });
@@ -507,35 +507,35 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('generates basic forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates basic forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('高い');
       expect(result.past).toBe('高かった');
       expect(result.negative).toBe('高くない');
       expect(result.pastNegative).toBe('高くなかった');
     });
 
-    test('generates polite forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates polite forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.polite).toBe('高いです');
       expect(result.politePast).toBe('高かったです');
       expect(result.politeNegative).toBe('高くないです');
     });
 
-    test('generates te-form correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates te-form correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.teForm).toBe('高くて');
       expect(result.negativeTeForm).toBe('高くなくて');
     });
 
-    test('generates conditional forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates conditional forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.provisional).toBe('高ければ');
       expect(result.conditional).toBe('高かったら');
     });
 
-    test('does not generate verb-specific forms', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('does not generate verb-specific forms', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.potential).toBe('');
       expect(result.passive).toBe('');
       expect(result.causative).toBe('');
@@ -556,8 +556,8 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('uses よ stem for conjugations except dictionary form', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('uses よ stem for conjugations except dictionary form', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('いい'); // Dictionary form stays いい
       expect(result.past).toBe('よかった'); // Uses よ stem
       expect(result.negative).toBe('よくない'); // Uses よ stem
@@ -579,29 +579,29 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('generates basic forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates basic forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('綺麗だ');
       expect(result.past).toBe('綺麗だった');
       expect(result.negative).toBe('綺麗じゃない');
       expect(result.pastNegative).toBe('綺麗じゃなかった');
     });
 
-    test('generates polite forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates polite forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.polite).toBe('綺麗です');
       expect(result.politePast).toBe('綺麗でした');
       expect(result.politeNegative).toBe('綺麗じゃありません');
     });
 
-    test('generates te-form correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates te-form correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.teForm).toBe('綺麗で');
       expect(result.negativeTeForm).toBe('綺麗じゃなくて');
     });
 
-    test('does not generate verb-specific forms', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('does not generate verb-specific forms', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.potential).toBe('');
       expect(result.passive).toBe('');
       expect(result.causative).toBe('');
@@ -622,12 +622,12 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('caches conjugation results', () => {
-      const result1 = ExtendedConjugationEngine.conjugate(word);
+    test('caches conjugation results', async () => {
+      const result1 = await ExtendedConjugationEngine.conjugate(word);
       const cacheSize1 = ExtendedConjugationEngine.getCacheSize();
       expect(cacheSize1).toBe(1);
 
-      const result2 = ExtendedConjugationEngine.conjugate(word);
+      const result2 = await ExtendedConjugationEngine.conjugate(word);
       const cacheSize2 = ExtendedConjugationEngine.getCacheSize();
       expect(cacheSize2).toBe(1); // Should still be 1 (cached)
 
@@ -635,15 +635,15 @@ describe('ExtendedConjugationEngine', () => {
       expect(result1).toBe(result2);
     });
 
-    test('clearCache() empties the cache', () => {
-      ExtendedConjugationEngine.conjugate(word);
+    test('clearCache() empties the cache', async () => {
+      await ExtendedConjugationEngine.conjugate(word);
       expect(ExtendedConjugationEngine.getCacheSize()).toBeGreaterThan(0);
 
       ExtendedConjugationEngine.clearCache();
       expect(ExtendedConjugationEngine.getCacheSize()).toBe(0);
     });
 
-    test('caches different words separately', () => {
+    test('caches different words separately', async () => {
       const word2: EnhancedJapaneseWord = {
         ...word,
         id: 'miru',
@@ -652,8 +652,8 @@ describe('ExtendedConjugationEngine', () => {
         meaning: 'to see'
       };
 
-      ExtendedConjugationEngine.conjugate(word);
-      ExtendedConjugationEngine.conjugate(word2);
+      await ExtendedConjugationEngine.conjugate(word);
+      await ExtendedConjugationEngine.conjugate(word2);
 
       expect(ExtendedConjugationEngine.getCacheSize()).toBe(2);
     });
@@ -673,16 +673,16 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('generates progressive forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates progressive forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.progressive).toBe('食べている');
       expect(result.progressiveNegative).toBe('食べていない');
       expect(result.progressivePast).toBe('食べていた');
       expect(result.progressivePastNegative).toBe('食べていなかった');
     });
 
-    test('generates polite progressive forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates polite progressive forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.progressivePolite).toBe('食べています');
       expect(result.progressivePoliteNegative).toBe('食べていません');
       expect(result.progressivePolitePast).toBe('食べていました');
@@ -704,23 +704,23 @@ describe('ExtendedConjugationEngine', () => {
       typeConfidence: 'high'
     };
 
-    test('generates tai forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates tai forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.taiForm).toBe('食べたい');
       expect(result.taiFormNegative).toBe('食べたくない');
       expect(result.taiFormPast).toBe('食べたかった');
       expect(result.taiFormPastNegative).toBe('食べたくなかった');
     });
 
-    test('generates tai conditional forms correctly', () => {
-      const result = ExtendedConjugationEngine.conjugate(word);
+    test('generates tai conditional forms correctly', async () => {
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.taiProvisional).toBe('食べたければ');
       expect(result.taiConditional).toBe('食べたかったら');
     });
   });
 
   describe('Edge Cases', () => {
-    test('handles empty string for kanji', () => {
+    test('handles empty string for kanji', async () => {
       const word: EnhancedJapaneseWord = {
         id: 'test',
         kanji: '',
@@ -734,12 +734,12 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      const result = ExtendedConjugationEngine.conjugate(word);
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('する');
       expect(result.past).toBe('した');
     });
 
-    test('handles word with only kana property', () => {
+    test('handles word with only kana property', async () => {
       const word: EnhancedJapaneseWord = {
         id: 'test',
         kana: '食べる',
@@ -752,14 +752,14 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      const result = ExtendedConjugationEngine.conjugate(word);
+      const result = await ExtendedConjugationEngine.conjugate(word);
       expect(result.present).toBe('食べる');
       expect(result.past).toBe('食べた');
     });
   });
 
   describe('getAllPossibleForms', () => {
-    test('returns all non-empty forms', () => {
+    test('returns all non-empty forms', async () => {
       const word: EnhancedJapaneseWord = {
         id: 'taberu',
         kanji: '食べる',
@@ -773,7 +773,7 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      const conjugations = ExtendedConjugationEngine.conjugate(word);
+      const conjugations = await ExtendedConjugationEngine.conjugate(word);
       const forms = ExtendedConjugationEngine.getAllPossibleForms(conjugations);
 
       expect(forms.length).toBeGreaterThan(0);
@@ -785,7 +785,7 @@ describe('ExtendedConjugationEngine', () => {
       expect(forms.every(form => form.trim() !== '')).toBe(true);
     });
 
-    test('removes duplicate forms', () => {
+    test('removes duplicate forms', async () => {
       const word: EnhancedJapaneseWord = {
         id: 'taberu',
         kanji: '食べる',
@@ -799,7 +799,7 @@ describe('ExtendedConjugationEngine', () => {
         typeConfidence: 'high'
       };
 
-      const conjugations = ExtendedConjugationEngine.conjugate(word);
+      const conjugations = await ExtendedConjugationEngine.conjugate(word);
       const forms = ExtendedConjugationEngine.getAllPossibleForms(conjugations);
 
       // Check that there are no duplicates
