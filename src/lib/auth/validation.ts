@@ -2,15 +2,26 @@
 // Provides input validation, sanitization, and type safety for auth operations
 
 import { z } from 'zod'
-import DOMPurify from 'isomorphic-dompurify'
 import bcrypt from 'bcryptjs'
+
+// Simple server-safe string sanitizer (replaces isomorphic-dompurify which causes jsdom ESM issues)
+const sanitizeString = (input: string): string => {
+  return input
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;')
+    .trim()
+}
 
 // Password strength requirements
 const PASSWORD_MIN_LENGTH = 8
 const PASSWORD_MAX_LENGTH = 128
 
 // Email validation regex (more permissive than strict RFC)
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
 // Display name validation
 const DISPLAY_NAME_MIN_LENGTH = 1
@@ -21,54 +32,72 @@ export const emailSchema = z
   .string()
   .min(1, 'Email is required')
   .max(254, 'Email is too long')
-  .refine((email) => EMAIL_REGEX.test(email), {
+  .refine(email => EMAIL_REGEX.test(email), {
     message: 'Please enter a valid email address',
   })
-  .transform((email) => email.toLowerCase().trim())
+  .transform(email => email.toLowerCase().trim())
 
 export const passwordSchema = z
   .string()
   .min(PASSWORD_MIN_LENGTH, `Password must be at least ${PASSWORD_MIN_LENGTH} characters`)
   .max(PASSWORD_MAX_LENGTH, `Password must not exceed ${PASSWORD_MAX_LENGTH} characters`)
-  .refine((password) => {
-    // Check for at least one lowercase letter
-    if (!/[a-z]/.test(password)) return false
-    // Check for at least one uppercase letter
-    if (!/[A-Z]/.test(password)) return false
-    // Check for at least one number
-    if (!/\d/.test(password)) return false
-    // Check for at least one special character
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) return false
-    return true
-  }, {
-    message: 'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character',
-  })
+  .refine(
+    password => {
+      // Check for at least one lowercase letter
+      if (!/[a-z]/.test(password)) return false
+      // Check for at least one uppercase letter
+      if (!/[A-Z]/.test(password)) return false
+      // Check for at least one number
+      if (!/\d/.test(password)) return false
+      // Check for at least one special character
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) return false
+      return true
+    },
+    {
+      message:
+        'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character',
+    }
+  )
 
 export const displayNameSchema = z
   .string()
   .min(DISPLAY_NAME_MIN_LENGTH, 'Display name is required')
-  .max(DISPLAY_NAME_MAX_LENGTH, `Display name must not exceed ${DISPLAY_NAME_MAX_LENGTH} characters`)
-  .refine((name) => {
-    // Allow letters, numbers, spaces, and common punctuation
-    return /^[a-zA-Z0-9\s\-_.]+$/.test(name)
-  }, {
-    message: 'Display name can only contain letters, numbers, spaces, hyphens, underscores, and periods',
-  })
-  .transform((name) => DOMPurify.sanitize(name.trim()))
+  .max(
+    DISPLAY_NAME_MAX_LENGTH,
+    `Display name must not exceed ${DISPLAY_NAME_MAX_LENGTH} characters`
+  )
+  .refine(
+    name => {
+      // Allow letters, numbers, spaces, and common punctuation
+      return /^[a-zA-Z0-9\s\-_.]+$/.test(name)
+    },
+    {
+      message:
+        'Display name can only contain letters, numbers, spaces, hyphens, underscores, and periods',
+    }
+  )
+  .transform(name => sanitizeString(name))
 
 // Optional display name schema for signup
 export const optionalDisplayNameSchema = z
   .string()
-  .max(DISPLAY_NAME_MAX_LENGTH, `Display name must not exceed ${DISPLAY_NAME_MAX_LENGTH} characters`)
-  .refine((name) => {
-    // If empty, it's valid for optional fields
-    if (!name || name.trim() === '') return true
-    // Otherwise apply the same validation
-    return /^[a-zA-Z0-9\s\-_.]+$/.test(name)
-  }, {
-    message: 'Display name can only contain letters, numbers, spaces, hyphens, underscores, and periods',
-  })
-  .transform((name) => name ? DOMPurify.sanitize(name.trim()) : '')
+  .max(
+    DISPLAY_NAME_MAX_LENGTH,
+    `Display name must not exceed ${DISPLAY_NAME_MAX_LENGTH} characters`
+  )
+  .refine(
+    name => {
+      // If empty, it's valid for optional fields
+      if (!name || name.trim() === '') return true
+      // Otherwise apply the same validation
+      return /^[a-zA-Z0-9\s\-_.]+$/.test(name)
+    },
+    {
+      message:
+        'Display name can only contain letters, numbers, spaces, hyphens, underscores, and periods',
+    }
+  )
+  .transform(name => (name ? sanitizeString(name) : ''))
   .optional()
 
 // Authentication form schemas
@@ -76,7 +105,7 @@ export const signUpSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
   displayName: optionalDisplayNameSchema,
-  termsAccepted: z.boolean().refine((val) => val === true, {
+  termsAccepted: z.boolean().refine(val => val === true, {
     message: 'You must accept the terms and conditions',
   }),
 })
@@ -95,37 +124,47 @@ export const passwordResetRequestSchema = z.object({
   email: emailSchema,
 })
 
-export const passwordResetConfirmSchema = z.object({
-  token: z.string().min(1, 'Reset token is required'),
-  newPassword: passwordSchema,
-  confirmPassword: z.string().min(1, 'Password confirmation is required'),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword'],
-})
+export const passwordResetConfirmSchema = z
+  .object({
+    token: z.string().min(1, 'Reset token is required'),
+    newPassword: passwordSchema,
+    confirmPassword: z.string().min(1, 'Password confirmation is required'),
+  })
+  .refine(data => data.newPassword === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
 
-export const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1, 'Current password is required'),
-  newPassword: passwordSchema,
-  confirmPassword: z.string().min(1, 'Password confirmation is required'),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword'],
-})
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, 'Current password is required'),
+    newPassword: passwordSchema,
+    confirmPassword: z.string().min(1, 'Password confirmation is required'),
+  })
+  .refine(data => data.newPassword === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
 
 export const updateProfileSchema = z.object({
   displayName: displayNameSchema.optional(),
   photoURL: z.string().url().optional().or(z.literal('')),
-  bio: z.string().max(500).optional().transform((bio) => 
-    bio ? DOMPurify.sanitize(bio.trim()) : bio
-  ),
-  preferences: z.object({
-    language: z.enum(['en', 'ja']).optional(),
-    notifications: z.object({
-      email: z.boolean().optional(),
-      push: z.boolean().optional(),
-    }).optional(),
-  }).optional(),
+  bio: z
+    .string()
+    .max(500)
+    .optional()
+    .transform(bio => (bio ? sanitizeString(bio) : bio)),
+  preferences: z
+    .object({
+      language: z.enum(['en', 'ja']).optional(),
+      notifications: z
+        .object({
+          email: z.boolean().optional(),
+          push: z.boolean().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
 })
 
 // Admin schemas
@@ -154,19 +193,17 @@ export const ValidationHelpers = {
    * Sanitize user input to prevent XSS attacks
    */
   sanitizeInput: (input: string): string => {
-    return DOMPurify.sanitize(input.trim())
+    return sanitizeString(input)
   },
 
   /**
    * Sanitize HTML content (for user-generated content)
+   * Note: This is a basic implementation - for rich HTML content, use a client-side sanitizer
    */
-  sanitizeHTML: (html: string, allowedTags?: string[]): string => {
-    const config = allowedTags ? {
-      ALLOWED_TAGS: allowedTags,
-      ALLOWED_ATTR: ['href', 'target', 'rel'],
-    } : {}
-    
-    return DOMPurify.sanitize(html, config)
+  sanitizeHTML: (html: string, _allowedTags?: string[]): string => {
+    // For server-side, we do basic escaping
+    // Rich HTML sanitization should be done client-side with isomorphic-dompurify
+    return sanitizeString(html)
   },
 
   /**
@@ -179,10 +216,12 @@ export const ValidationHelpers = {
   /**
    * Check password strength
    */
-  checkPasswordStrength: (password: string): {
-    score: number; // 0-4
-    feedback: string[];
-    isStrong: boolean;
+  checkPasswordStrength: (
+    password: string
+  ): {
+    score: number // 0-4
+    feedback: string[]
+    isStrong: boolean
   } => {
     const feedback: string[] = []
     let score = 0
@@ -236,7 +275,7 @@ export const ValidationHelpers = {
       'temp-mail.org',
       'throwaway.email',
     ]
-    
+
     return disposableDomains.includes(domain.toLowerCase())
   },
 
@@ -246,10 +285,8 @@ export const ValidationHelpers = {
   generateDisplayNameFromEmail: (email: string): string => {
     const localPart = email.split('@')[0]
     // Remove numbers and special characters, capitalize first letter
-    const safeName = localPart
-      .replace(/[^a-zA-Z]/g, '')
-      .replace(/^\w/, (c) => c.toUpperCase())
-    
+    const safeName = localPart.replace(/[^a-zA-Z]/g, '').replace(/^\w/, c => c.toUpperCase())
+
     return safeName || 'User'
   },
 }
@@ -277,20 +314,23 @@ export const PasswordUtils = {
   generateSecurePassword(length: number = 16): string {
     const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-='
     let password = ''
-    
+
     // Ensure at least one character from each category
     password += 'abcdefghijklmnopqrstuvwxyz'[Math.floor(Math.random() * 26)]
     password += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random() * 26)]
     password += '0123456789'[Math.floor(Math.random() * 10)]
     password += '!@#$%^&*()_+-='[Math.floor(Math.random() * 13)]
-    
+
     // Fill remaining length
     for (let i = password.length; i < length; i++) {
       password += charset[Math.floor(Math.random() * charset.length)]
     }
-    
+
     // Shuffle the password
-    return password.split('').sort(() => Math.random() - 0.5).join('')
+    return password
+      .split('')
+      .sort(() => Math.random() - 0.5)
+      .join('')
   },
 }
 
@@ -303,13 +343,15 @@ export interface ValidationError {
 
 export function formatZodErrors(error: z.ZodError): ValidationError[] {
   if (!error || !error.issues) {
-    return [{
-      field: 'unknown',
-      message: 'Validation error',
-      code: 'VALIDATION_ERROR'
-    }]
+    return [
+      {
+        field: 'unknown',
+        message: 'Validation error',
+        code: 'VALIDATION_ERROR',
+      },
+    ]
   }
-  return error.issues.map((err) => ({
+  return error.issues.map(err => ({
     field: err.path.join('.'),
     message: err.message,
     code: err.code,
