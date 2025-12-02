@@ -156,8 +156,7 @@ export default function MoodBoardDetailPage() {
     onyomi: k.onyomi || k.readings?.on || [],
     kunyomi: k.kunyomi || k.readings?.kun || [],
     strokeCount: k.strokeCount || 0, // Fixed field name from 'strokes' to 'strokeCount'
-    frequency: undefined, // Don't set to 0, leave undefined so it doesn't display
-    jlpt: k.jlpt || board.jlpt || 'N5',
+    jlpt: (k.jlpt || board.jlpt || 'N5') as import('@/types/kanji').JLPTLevel,
     examples: k.examples?.map(ex => ({
       word: typeof ex === 'string' ? ex : ex.sentence,
       reading: '',
@@ -178,23 +177,10 @@ export default function MoodBoardDetailPage() {
       <LearningPageHeader
         title={`${board.emoji} ${board.title}`}
         description={board.description}
-        stats={[
-          {
-            label: t('moodboards.progress'),
-            value: `${learnedCount}/${totalCount}`,
-            color: 'primary' as const
-          },
-          {
-            label: t('moodboards.completion'),
-            value: `${progressPercentage}%`,
-            color: isCompleted ? 'success' as const : 'warning' as const
-          },
-          {
-            label: t('moodboards.jlptLevel'),
-            value: board.jlpt,
-            color: 'info' as const
-          }
-        ]}
+        stats={{
+          total: totalCount,
+          learned: learnedCount
+        }}
         actions={
           <div className="flex gap-3 items-center">
             {/* View mode tabs */}

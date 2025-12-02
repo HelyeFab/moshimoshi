@@ -31,7 +31,11 @@
       "Bash(cat:*)",
       "mcp__ide__getDiagnostics",
       "Bash(Select-Object -First 50)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npx husky init)",
+      "Bash(vercel --version:*)",
+      "Bash(vercel env:*)",
+      "Bash(vercel link:*)"
     ],
     "deny": [],
     "ask": []

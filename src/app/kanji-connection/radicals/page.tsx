@@ -45,15 +45,9 @@ export default function Page() {
   const learningResourceData = structuredData.learningResource({
     name: "Semantic Radicals - Kanji Building Blocks",
     description: "Master kanji through semantic radicals that provide meaning clues",
-    educationalLevel: "Japanese language learners at all levels",
-    learningResourceType: "Interactive radical explorer",
-    inLanguage: ["en", "ja"],
-    teaches: [
-      "Semantic radical meanings",
-      "Kanji structure analysis",
-      "Pattern recognition",
-      "Meaning-based learning"
-    ]
+    url: "/kanji-connection/radicals",
+    educationalLevel: "All levels - Beginner to Advanced",
+    teaches: "Semantic radical meanings, kanji structure analysis, pattern recognition"
   });
 
   return (

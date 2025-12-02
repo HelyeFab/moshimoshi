@@ -33,7 +33,8 @@
     "docs:watch": "node scripts/docs-aggregator.js --watch",
     "notebooklm:sync": "node scripts/notebooklm-sync.js -o ./moshimoshi-docs.md",
     "notebooklm:watch": "node scripts/notebooklm-sync.js --watch -o ./moshimoshi-docs.md",
-    "notebooklm:clean": "node scripts/notebooklm-sync.js --clean"
+    "notebooklm:clean": "node scripts/notebooklm-sync.js --clean",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -110,6 +111,14 @@
     "zod": "^4.1.5",
     "zustand": "^5.0.8"
   },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix --max-warnings=0"
+    ],
+    "*.{js,jsx,ts,tsx,json,css,md}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "@playwright/test": "^1.55.0",
@@ -130,14 +139,17 @@
     "fake-indexeddb": "^6.2.2",
     "firebase-tools": "^14.25.0",
     "glob": "^11.0.3",
+    "husky": "^9.1.7",
     "jest": "^30.1.3",
     "jest-environment-jsdom": "^30.1.2",
     "jest-html-reporters": "^3.1.7",
     "jest-watch-typeahead": "^3.0.1",
+    "lint-staged": "^16.2.7",
     "msw": "^2.11.1",
     "npm-run-all": "^4.1.5",
     "playwright": "^1.55.0",
     "postcss": "^8.5.6",
+    "prettier": "^3.7.3",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.1",
     "tsx": "^4.20.5",

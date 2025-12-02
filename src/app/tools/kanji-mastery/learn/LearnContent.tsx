@@ -20,12 +20,8 @@ import Round2Test from './components/Round2Test'
 import Round3Evaluate from './components/Round3Evaluate'
 
 // Types for the learning session
+// Note: Kanji already has examples: KanjiExample[], so we only extend with sentences
 export interface KanjiWithExamples extends Kanji {
-  examples?: Array<{
-    word: string
-    reading: string
-    meaning: string
-  }>
   sentences?: Array<{
     japanese: string
     english: string
@@ -96,11 +92,11 @@ export default function LearnContent() {
 
       if (mode === 'jlpt') {
         // Load kanji from the service
-        const jlptLevel = level.replace('N', '') // Convert N5 to 5
-        const levelKanji = await kanjiService.loadKanjiByLevel(level as any)
+        const jlptLevel = level as import('@/types/kanji').JLPTLevel
+        const levelKanji = await kanjiService.loadKanjiByLevel(jlptLevel)
         kanjiData = levelKanji.map(k => ({
           ...k,
-          jlpt: level
+          jlpt: jlptLevel
         }))
       } else {
         // Handle other modes later
@@ -395,15 +391,16 @@ export default function LearnContent() {
         isPremium
       )
 
-      // Calculate and award XP
+      // Calculate XP (deprecated - gamification moved to external service)
       const xp = progressManager.calculateSessionXP(updatedSessionState, session.sessionStats)
-      if (user) {
-        await trackXP('kanji_mastery', xp, 'Kanji Mastery Session', {
-          sessionId: session.sessionId,
-          kanjiCount: session.kanji.length,
-          accuracy: session.sessionStats.averageAccuracy
-        })
-      }
+      // Gamification removed - trackXP disabled
+      // if (user) {
+      //   await trackXP('kanji_mastery', xp, 'Kanji Mastery Session', {
+      //     sessionId: session.sessionId,
+      //     kanjiCount: session.kanji.length,
+      //     accuracy: session.sessionStats.averageAccuracy
+      //   })
+      // }
 
       // Gamification removed - recordActivityAndSync disabled
       // if (user) {
@@ -414,19 +411,18 @@ export default function LearnContent() {
       //   )
       // }
 
-      // Check achievements
-      if (user) {
-        // Track basic progress
-        await updateProgress({
-          type: 'kanji_mastery',
-          kanjiMasterySessions: 1,
-          kanjiMastered: session.sessionStats.totalKanji,
-          kanjiPerfectSession: session.sessionStats.averageAccuracy === 1,
-          kanjiSpeedSession: session.sessionStats.timeSpentSeconds < 600 && session.kanji.length === 5,
-          perfectReadings: session.kanji.filter(k => k.rounds.round2Accuracy === 1).length,
-          exampleSentencesMastered: session.kanji.length * 2 // Rough estimate
-        })
-      }
+      // Gamification removed - updateProgress disabled
+      // if (user) {
+      //   await updateProgress({
+      //     type: 'kanji_mastery',
+      //     kanjiMasterySessions: 1,
+      //     kanjiMastered: session.sessionStats.totalKanji,
+      //     kanjiPerfectSession: session.sessionStats.averageAccuracy === 1,
+      //     kanjiSpeedSession: session.sessionStats.timeSpentSeconds < 600 && session.kanji.length === 5,
+      //     perfectReadings: session.kanji.filter(k => k.rounds.round2Accuracy === 1).length,
+      //     exampleSentencesMastered: session.kanji.length * 2
+      //   })
+      // }
 
       // Save session to API (respects user tiers)
       if (user) {
@@ -441,33 +437,21 @@ export default function LearnContent() {
 
           const result = await response.json()
           if (result.success) {
-            showToast({
-              title: 'Session Complete!',
-              description: `+${xp} XP earned! ${result.message}`,
-              variant: 'success'
-            })
+            showToast(`Session Complete! ${result.message}`, 'success')
           }
         } catch (error) {
           console.error('Error saving session:', error)
           // Continue even if API fails
         }
       } else {
-        showToast({
-          title: 'Session Complete!',
-          description: 'Sign in to save your progress and earn XP!',
-          variant: 'info'
-        })
+        showToast('Session Complete! Sign in to save your progress.', 'info')
       }
 
       // Navigate back to main page
       router.push('/tools/kanji-mastery')
     } catch (error) {
       console.error('Error completing session:', error)
-      showToast({
-        title: 'Error',
-        description: 'Failed to save session progress',
-        variant: 'error'
-      })
+      showToast('Failed to save session progress', 'error')
       router.push('/tools/kanji-mastery')
     }
   }

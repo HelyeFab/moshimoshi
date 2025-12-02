@@ -167,6 +167,17 @@ This document lists all files that would produce TypeScript errors if `ignoreBui
 | `src/i18n/locales/en/strings.ts` | 2025-12-02 | Fixed duplicate `terms` object that was overwriting full ToS structure (126 errors in terms pages) |
 | `src/components/admin/MoodBoardEditor.tsx` | 2025-12-02 | Added optional chaining for kanji.readings access (10 errors) |
 | `src/app/lists/[listId]/page.tsx` | 2025-12-02 | Fixed component props (LoadingOverlay, LearningPageHeader, Dialog), isPremium ?? false (8 errors) |
+| `src/app/tools/kanji-mastery/learn/LearnContent.tsx` | 2025-12-02 | Fixed KanjiWithExamples interface (examples inherited from Kanji), JLPTLevel typing, removed trackXP/updateProgress calls (gamification disabled), showToast signature (8 errors) |
+| `src/components/kanji/KanjiStudyMode.tsx` | 2025-12-02 | Fixed useTTS loading→loading (not isLoading), AudioButton onPlay callbacks, i18n strings fallbacks (8 errors) |
+| `src/lib/review-engine/progress/KanjiMasteryProgressManager.ts` | 2025-12-02 | Changed User type to ProgressUser interface (only uid needed) - fixes AuthUser/User type mismatch (3 errors) |
+| `src/app/kanji-browser/KanjiBrowserPage.tsx` | 2025-12-02 | Added levelKanji null checks, stats.duration→stats.totalTime (4 errors) |
+| `src/app/kanji-browser/page.tsx` | 2025-12-02 | Added levelKanji null checks (2 errors) |
+| `src/app/kanji-connection/families/KanjiFamiliesPage.tsx` | 2025-12-02 | Fixed LoadingOverlay import (Loading vs LoadingOverlay), removed showSaveButton prop, meanings not meaning, KanjiFamilyCategory typing (6 errors) |
+| `src/app/kanji-connection/families/page.tsx` | 2025-12-02 | Fixed structuredData.learningResource args - singular strings not arrays (2 errors) |
+| `src/app/kanji-connection/radicals/KanjiRadicalsPage.tsx` | 2025-12-02 | Fixed LoadingOverlay import, removed showSaveButton prop (2 errors) |
+| `src/app/kanji-connection/radicals/page.tsx` | 2025-12-02 | Fixed structuredData.learningResource args - singular strings not arrays (2 errors) |
+| `src/app/kanji-connection/visual-layout/VisualLayoutPage.tsx` | 2025-12-02 | Fixed LoadingOverlay import, removed showSaveButton prop (2 errors) |
+| `src/app/kanji-connection/visual-layout/page.tsx` | 2025-12-02 | Fixed structuredData.learningResource args - singular strings not arrays (2 errors) |
 
 ---
 

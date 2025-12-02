@@ -45,15 +45,9 @@ export default function Page() {
   const learningResourceData = structuredData.learningResource({
     name: "Visual Kanji Patterns - SKIP Method",
     description: "Master kanji through visual layout patterns using the SKIP classification system",
-    educationalLevel: "Japanese language learners at all levels",
-    learningResourceType: "Interactive visual pattern explorer",
-    inLanguage: ["en", "ja"],
-    teaches: [
-      "SKIP classification system",
-      "Visual pattern recognition",
-      "Kanji structural analysis",
-      "Layout-based memorization"
-    ]
+    url: "/kanji-connection/visual-layout",
+    educationalLevel: "All levels - Beginner to Advanced",
+    teaches: "SKIP classification system, visual pattern recognition, kanji structural analysis"
   });
 
   return (

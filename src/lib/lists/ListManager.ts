@@ -98,7 +98,7 @@ class ListManager {
 
           // Create a map of server lists by ID for efficient lookup
           const serverListsMap = new Map<string, UserList>();
-          (lists || []).forEach(list => serverListsMap.set(list.id, list));
+          (lists || []).forEach((list: UserList) => serverListsMap.set(list.id, list));
 
           // Create a map of local lists by ID
           const localListsMap = new Map<string, UserList>();
@@ -364,45 +364,6 @@ class ListManager {
     return syncedCount;
   }
 
-  // Update list details (name, emoji, color)
-  async updateList(listId: string, updates: { name?: string; emoji?: string; color?: string }, userId: string): Promise<UserList | null> {
-    const db = await this.initDB();
-
-    try {
-      // Try server first for all authenticated users
-      const response = await fetch(`/api/lists/${listId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(updates)
-      });
-
-      if (response.ok) {
-        const { list: updatedList } = await response.json();
-
-        // Update local IndexedDB
-        await db.put('lists', updatedList);
-        this.notifyListeners('lists-changed');
-
-        return updatedList;
-      }
-    } catch (error) {
-      console.error('Failed to update list on server:', error);
-    }
-
-    // Fallback: Update locally only
-    const list = await db.get('lists', listId);
-    if (list && list.userId === userId) {
-      Object.assign(list, updates, { updatedAt: Date.now() });
-      await db.put('lists', list);
-      this.notifyListeners('lists-changed');
-      return list;
-    }
-
-    return null;
-  }
-
-
   // Remove item from list
   async removeItemFromList(listId: string, itemId: string, userId: string, isPremium: boolean): Promise<boolean> {
     const db = await this.initDB();
@@ -419,7 +380,7 @@ class ListManager {
           // Update local IndexedDB
           const list = await db.get('lists', listId);
           if (list) {
-            list.items = list.items.filter(item => item.id !== itemId);
+            list.items = list.items.filter((item: ListItem) => item.id !== itemId);
             list.updatedAt = Date.now();
             await db.put('lists', list);
             this.notifyListeners(`list-${listId}`);
@@ -435,7 +396,7 @@ class ListManager {
     // Free users or offline: Update IndexedDB only
     const list = await db.get('lists', listId);
     if (list && list.userId === userId) {
-      list.items = list.items.filter(item => item.id !== itemId);
+      list.items = list.items.filter((item: ListItem) => item.id !== itemId);
       list.updatedAt = Date.now();
       await db.put('lists', list);
       this.notifyListeners(`list-${listId}`);
@@ -536,7 +497,7 @@ class ListManager {
 
     // CSV format
     const headers = ['Content', 'Reading', 'Meaning', 'Notes', 'Tags', 'Added Date'];
-    const rows = list.items.map(item => [
+    const rows = list.items.map((item: ListItem) => [
       item.content,
       item.metadata?.reading || '',
       item.metadata?.meaning || '',
@@ -547,7 +508,7 @@ class ListManager {
 
     const csvContent = [
       headers.join(','),
-      ...rows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(','))
+      ...rows.map((row: string[]) => row.map((cell: string) => `"${cell.replace(/"/g, '""')}"`).join(','))
     ].join('\n');
 
     return csvContent;

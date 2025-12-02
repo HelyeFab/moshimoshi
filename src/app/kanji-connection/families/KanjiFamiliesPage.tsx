@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { KANJI_FAMILIES, getFamiliesByCategories, type KanjiFamily } from '@/lib/kanji/families';
+import { KANJI_FAMILIES, getFamiliesByCategories, type KanjiFamily, type KanjiFamilyCategory } from '@/lib/kanji/families';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 // Navigation is now global via NavigationWrapper in root layout;
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import { LoadingOverlay } from '@/components/ui/Loading';
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal';
 
 interface KanjiDetails {
@@ -46,7 +46,7 @@ export default function KanjiFamiliesPage() {
   const [familyData, setFamilyData] = useState<FamilyData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | KanjiFamilyCategory>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showCrossFamilies, setShowCrossFamilies] = useState(false);
   const [modalKanji, setModalKanji] = useState<any>(null);
@@ -93,7 +93,7 @@ export default function KanjiFamiliesPage() {
     setModalKanji(kanjiDetail);
   };
 
-  const getFilteredFamilies = () => {
+  const getFilteredFamilies = (): KanjiFamily[] => {
     if (selectedCategory === 'all') {
       return Object.values(KANJI_FAMILIES);
     }
@@ -182,7 +182,7 @@ export default function KanjiFamiliesPage() {
                     >
                       All Categories
                     </button>
-                    {Object.keys(familiesByCategory).map(cat => (
+                    {(Object.keys(familiesByCategory) as KanjiFamilyCategory[]).map(cat => (
                       <button
                         key={cat}
                         onClick={() => {
@@ -298,7 +298,7 @@ export default function KanjiFamiliesPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.01 }}
                       onClick={() => handleKanjiClick(kanjiDetail)}
-                      title={kanjiDetail.meaning || kanjiDetail.meanings?.join(', ') || ''}
+                      title={kanjiDetail.meanings?.join(', ') || ''}
                       className={
                         viewMode === 'grid'
                           ? 'aspect-square bg-muted dark:bg-dark-700 hover:bg-primary-100 dark:hover:bg-primary-900/20 rounded-lg flex items-center justify-center text-2xl font-bold transition-colors'
@@ -311,7 +311,7 @@ export default function KanjiFamiliesPage() {
                       {viewMode === 'list' && (
                         <div className="flex-1 text-left">
                           <div className="text-sm text-muted-foreground dark:text-dark-400">
-                            {kanjiDetail.meaning || kanjiDetail.meanings?.join(', ') || ''}
+                            {kanjiDetail.meanings?.join(', ') || ''}
                           </div>
                         </div>
                       )}
@@ -348,7 +348,6 @@ export default function KanjiFamiliesPage() {
             kanji={modalKanji}
             isOpen={!!modalKanji}
             onClose={() => setModalKanji(null)}
-            showSaveButton={false}
           />
         )}
       </div>

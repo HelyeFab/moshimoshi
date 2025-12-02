@@ -95,7 +95,7 @@ export default function KanaDetailsModal({
               </span>
               {loadingStrokes ? (
                 <div className="px-3 py-1.5 bg-gray-100 dark:bg-dark-700 rounded-lg">
-                  <LoadingSpinner size="xsmall" />
+                  <LoadingSpinner size="small" />
                 </div>
               ) : strokeCount !== null ? (
                 <button
@@ -190,14 +190,14 @@ export default function KanaDetailsModal({
               </div>
             )}
 
-            {/* Common Words */}
-            {character.mnemonicWord && (
+            {/* Common Words - mnemonicWord is an optional extension to KanaCharacter */}
+            {(character as KanaCharacter & { mnemonicWord?: string }).mnemonicWord && (
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Mnemonic Helper
                 </h3>
                 <div className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
-                  {character.mnemonicWord}
+                  {(character as KanaCharacter & { mnemonicWord?: string }).mnemonicWord}
                 </div>
               </div>
             )}

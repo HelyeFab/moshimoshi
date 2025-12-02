@@ -58,7 +58,7 @@ export function useNotificationIntegration() {
    * Load user notification preferences
    */
   const loadPreferences = useCallback(async () => {
-    if (!user) return null
+    if (!user || !db) return null
 
     try {
       const docRef = doc(db, 'notifications_preferences', user.uid)
@@ -359,7 +359,7 @@ export function useNotificationIntegration() {
   const storeScheduledNotification = useCallback(async (
     notification: ScheduledNotification
   ) => {
-    if (!user) return
+    if (!user || !db) return
 
     try {
       await setDoc(
@@ -471,9 +471,9 @@ export function useNotificationIntegration() {
         await loadPreferences()
 
         // Set up event listeners
-        const itemAnsweredHandler = handleItemAnswered as EventListener
-        const sessionCompletedHandler = handleSessionCompleted as EventListener
-        const progressUpdatedHandler = handleProgressUpdated as EventListener
+        const itemAnsweredHandler = handleItemAnswered as unknown as EventListener
+        const sessionCompletedHandler = handleSessionCompleted as unknown as EventListener
+        const progressUpdatedHandler = handleProgressUpdated as unknown as EventListener
 
         window.addEventListener(`review:${ReviewEventType.ITEM_ANSWERED}`, itemAnsweredHandler)
         window.addEventListener(`review:${ReviewEventType.SESSION_COMPLETED}`, sessionCompletedHandler)
@@ -515,7 +515,7 @@ export function useNotificationIntegration() {
     const permission = await Notification.requestPermission()
 
     // Update preferences if permission granted
-    if (permission === 'granted' && user) {
+    if (permission === 'granted' && user && db) {
       await setDoc(
         doc(db, 'notifications_tokens', user.uid),
         {
@@ -548,7 +548,7 @@ export function useNotificationIntegration() {
   const updatePreferences = useCallback(async (
     preferences: Partial<NotificationPreferences>
   ) => {
-    if (!user) return
+    if (!user || !db) return
 
     const docRef = doc(db, 'notifications_preferences', user.uid)
     await setDoc(docRef, {

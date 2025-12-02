@@ -1,6 +1,10 @@
 import { UniversalProgressManager } from './UniversalProgressManager'
 import { SessionState, KanjiProgress } from '@/app/tools/kanji-mastery/learn/LearnContent'
-import type { User } from 'firebase/auth'
+
+// Simplified user type - only uid is needed for progress tracking
+interface ProgressUser {
+  uid: string
+}
 
 export interface KanjiMasterySession {
   sessionId: string
@@ -39,7 +43,7 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
 
   async trackSession(
     sessionState: SessionState,
-    user: User | null,
+    user: ProgressUser | null,
     isPremium: boolean
   ): Promise<KanjiMasterySession> {
     const endTime = new Date()
@@ -168,7 +172,7 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
 
   private async saveKanjiMasterySession(
     session: KanjiMasterySession,
-    user: User | null,
+    user: ProgressUser | null,
     isPremium: boolean
   ) {
     // Save to IndexedDB for all authenticated users
@@ -225,7 +229,7 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
 
   private async trackKanjiProgress(
     kanjiData: KanjiMasterySession['kanji'],
-    user: User | null,
+    user: ProgressUser | null,
     isPremium: boolean
   ) {
     if (!user) return
@@ -302,7 +306,7 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
 
   private async syncKanjiProgressToFirebase(
     kanjiData: KanjiMasterySession['kanji'],
-    user: User
+    user: ProgressUser
   ) {
     // Firebase sync handled by API endpoint
     // This method is kept for future direct Firebase integration

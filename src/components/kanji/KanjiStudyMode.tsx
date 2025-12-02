@@ -37,7 +37,7 @@ export default function KanjiStudyMode({
   const [isFlipped, setIsFlipped] = useState(false)
   const [hasTrackedView, setHasTrackedView] = useState(false)
   const { browseKanji } = useKanjiBrowser()
-  const { play, preload, isLoading: ttsLoading } = useTTS({ cacheFirst: true })
+  const { play, preload, loading: ttsLoading } = useTTS({ cacheFirst: true })
 
   // Modal states
   const [showExamplesModal, setShowExamplesModal] = useState(false)
@@ -333,8 +333,7 @@ export default function KanjiStudyMode({
                               <div key={idx} className="flex items-center gap-2">
                                 <AudioButton
                                   size="sm"
-                                  onPlay={(e) => {
-                                    e?.stopPropagation()
+                                  onPlay={() => {
                                     // Reset timer when playing audio
                                     if (onyomiTimerRef.current) {
                                       clearTimeout(onyomiTimerRef.current)
@@ -396,8 +395,7 @@ export default function KanjiStudyMode({
                               <div key={idx} className="flex items-center gap-2">
                                 <AudioButton
                                   size="sm"
-                                  onPlay={(e) => {
-                                    e?.stopPropagation()
+                                  onPlay={() => {
                                     // Reset timer when playing audio
                                     if (kunyomiTimerRef.current) {
                                       clearTimeout(kunyomiTimerRef.current)
@@ -448,7 +446,7 @@ export default function KanjiStudyMode({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M13 5l7 7-7 7M5 5l7 7-7 7" />
             </svg>
-            {strings?.review?.kanji?.study?.skip || 'Skip'}
+            {strings?.review?.skip || 'Skip'}
           </span>
         </button>
 
@@ -464,7 +462,7 @@ export default function KanjiStudyMode({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
-            {strings?.review?.kanji?.study?.examples || 'Examples'}
+            {'Examples'}
           </span>
         </button>
 
@@ -479,7 +477,7 @@ export default function KanjiStudyMode({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            {strings?.review?.kanji?.study?.markAsLearned || 'Mark as Learned'}
+            {'Mark as Learned'}
           </span>
         </button>
       </div>

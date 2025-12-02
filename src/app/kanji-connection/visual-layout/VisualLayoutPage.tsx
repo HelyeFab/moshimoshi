@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Navigation is now global via NavigationWrapper in root layout;
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import { LoadingOverlay } from '@/components/ui/Loading';
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal';
 
 interface SkipData {
@@ -468,7 +468,6 @@ export default function VisualLayoutPage() {
             kanji={modalKanji}
             isOpen={!!modalKanji}
             onClose={() => setModalKanji(null)}
-            showSaveButton={false}
           />
         )}
       </div>

@@ -59,6 +59,7 @@ interface CharacterProgress {
     lastReviewed?: Date
     pinned: boolean
     updatedAt?: Date
+    lastReviewSessionId?: string
   }
 }
 
@@ -233,11 +234,11 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       // Try to migrate from localStorage first (one-time operation)
       const migrationKey = `kana-progress-${defaultScript}-${user.uid}-migrated`
       if (!localStorage.getItem(migrationKey)) {
-        await kanaProgressManager.migrateFromLocalStorage(defaultScript, user, isPremium)
+        await kanaProgressManager.migrateFromLocalStorage(defaultScript, user as any, isPremium ?? false)
       }
 
       // Load progress from KanaProgressManager (IndexedDB + Firebase for premium)
-      const savedProgress = await kanaProgressManager.getProgress(defaultScript, user, isPremium)
+      const savedProgress = await kanaProgressManager.getProgress(defaultScript, user as any, isPremium ?? false)
 
       // Migrate non-prefixed IDs to prefixed format (one-time fix for existing data)
       const prefixMigrationKey = `kana-progress-prefix-migration-${defaultScript}-${user.uid}`
@@ -251,15 +252,15 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               defaultScript,
               prefixedId,
               progressData,
-              user,
-              isPremium
+              user as any,
+              isPremium ?? false
             )
           }
         }
         localStorage.setItem(prefixMigrationKey, 'true')
 
         // Reload progress after migration
-        const migratedProgress = await kanaProgressManager.getProgress(defaultScript, user, isPremium)
+        const migratedProgress = await kanaProgressManager.getProgress(defaultScript, user as any, isPremium ?? false)
         const formattedProgress: CharacterProgress = {}
         for (const [charId, progress] of Object.entries(migratedProgress)) {
           formattedProgress[charId] = {
@@ -320,8 +321,8 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
       defaultScript,
       characterId,
       updatedProgress,
-      user,
-      isPremium
+      user as any,
+      isPremium ?? false
     )
   }, [defaultScript, user, isPremium, progress])
 
@@ -887,7 +888,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
               } else {
                 // End the session - this will save to Firebase via UniversalProgressManager
                 if (user) {
-                  await kanaProgressManagerV2.endKanaSession(isPremium)
+                  await kanaProgressManagerV2.endKanaSession(isPremium ?? false)
                   // The session is saved automatically by UniversalProgressManager
                   // No need for duplicate saving here
                 }
@@ -941,7 +942,7 @@ export function KanaLearningComponent({ defaultScript = 'hiragana' }: { defaultS
             onBack={async () => {
               // End session when going back
               if (user) {
-                await kanaProgressManagerV2.endKanaSession(isPremium)
+                await kanaProgressManagerV2.endKanaSession(isPremium ?? false)
               }
               setViewMode('browse')
               setCurrentStudyIndex(0) // Reset index when going back

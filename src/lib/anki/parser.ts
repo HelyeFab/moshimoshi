@@ -111,7 +111,7 @@ export class AnkiParser {
       if (deck.mediaFiles && Array.isArray(deck.mediaFiles)) {
         deck.mediaFiles.forEach((mediaFile) => {
           if (mediaFile.data) {
-            media.set(mediaFile.filename, new Blob([mediaFile.data]));
+            media.set(mediaFile.filename, new Blob([mediaFile.data as BlobPart]));
           }
         });
       }
@@ -166,7 +166,7 @@ export class AnkiParser {
 
       // Get all notes using pagination to avoid issues with large decks
       let offset = 0;
-      let allNotes = [];
+      let allNotes: Record<string, any>[] = [];
       let hasMore = true;
 
       while (hasMore) {
@@ -177,10 +177,10 @@ export class AnkiParser {
           hasMore = false;
         } else {
           // Map raw SQL result to objects
-          const columns = pageQuery[0]?.columns || [];
-          const mappedPage = pageData.map((row) => {
+          const columns: string[] = pageQuery[0]?.columns || [];
+          const mappedPage = pageData.map((row: any[]) => {
             const obj: Record<string, any> = {};
-            columns.forEach((col, idx) => {
+            columns.forEach((col: string, idx: number) => {
               obj[col] = row[idx];
             });
             return obj;
@@ -244,6 +244,7 @@ export class AnkiParser {
   }
 
   private static async initSQL() {
+    // @ts-ignore - sql.js doesn't have type declarations
     const initSqlJs = (await import('sql.js')).default;
     return await initSqlJs({
       locateFile: (file: string) => {

@@ -337,6 +337,7 @@ function KanjiBrowserContent() {
 
     // First, collect the selected kanji and their JLPT levels
     Object.entries(kanjiData).forEach(([level, levelKanji]) => {
+      if (!levelKanji) return
       levelKanji.forEach((k: Kanji) => {
         if (selectedKanji.has(k.kanji)) {
           kanjiDataArray.push(k)
@@ -389,6 +390,7 @@ function KanjiBrowserContent() {
     // Convert selected kanji to array
     const kanjiDataArray: Kanji[] = []
     Object.values(kanjiData).forEach(levelKanji => {
+      if (!levelKanji) return
       levelKanji.forEach((k: Kanji) => {
         if (selectedKanji.has(k.kanji)) {
           kanjiDataArray.push(k)
@@ -429,7 +431,7 @@ function KanjiBrowserContent() {
           averageResponseTime: stats.averageResponseTime || 0,
           bestStreak: stats.bestStreak || 0
         },
-        duration: stats.duration || 0
+        duration: stats.totalTime || 0
       }
     })
 
@@ -439,7 +441,7 @@ function KanjiBrowserContent() {
       accuracy: stats.accuracy,
       averageResponseTime: stats.averageResponseTime,
       bestStreak: stats.bestStreak,
-      duration: stats.duration
+      duration: stats.totalTime
     })
 
     setLastSessionStats(stats)

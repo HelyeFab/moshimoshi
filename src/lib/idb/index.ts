@@ -5,11 +5,17 @@
  * Central export point for all PWA data layer functionality
  */
 
-// Core exports
-export { idbClient, IDBClient, type ListsApi } from './client';
-export { outboxManager, OutboxManager, queueOp } from './outbox';
-export { firebaseSync, FirebaseSyncManager } from './firebase-sync';
-export { accountCleanup, AccountCleanupManager } from './account-cleanup';
+// Import for local use
+import { idbClient, IDBClient, type ListsApi } from './client';
+import { outboxManager, OutboxManager, queueOp } from './outbox';
+import { firebaseSync, FirebaseSyncManager, type SyncResult } from './firebase-sync';
+import { accountCleanup, AccountCleanupManager } from './account-cleanup';
+
+// Re-export for external use
+export { idbClient, IDBClient, type ListsApi };
+export { outboxManager, OutboxManager, queueOp };
+export { firebaseSync, FirebaseSyncManager };
+export { accountCleanup, AccountCleanupManager };
 
 // Type exports
 export * from './types';

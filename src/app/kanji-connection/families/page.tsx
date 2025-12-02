@@ -45,15 +45,9 @@ export default function Page() {
   const learningResourceData = structuredData.learningResource({
     name: "Kanji Families - Component-Based Learning",
     description: "Learn kanji through family groups based on shared components and meanings",
-    educationalLevel: "Japanese language learners at all levels",
-    learningResourceType: "Interactive kanji family explorer",
-    inLanguage: ["en", "ja"],
-    teaches: [
-      "Kanji component patterns",
-      "Semantic relationships",
-      "Visual memory techniques",
-      "Systematic kanji learning"
-    ]
+    url: "/kanji-connection/families",
+    educationalLevel: "All levels - Beginner to Advanced",
+    teaches: "Kanji component patterns, semantic relationships, visual memory techniques"
   });
 
   return (

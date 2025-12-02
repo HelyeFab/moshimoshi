@@ -27,7 +27,8 @@ interface UseTodosReturn {
 export function useTodos(): UseTodosReturn {
   const { user, isAuthenticated } = useAuth()
   const { isPremium } = useSubscription()
-  const { checkAndTrack, checkOnly, remaining, limit } = useFeature('todos')
+  const { checkAndTrack, checkOnly, remaining } = useFeature('todos')
+  const limit = remaining // Use remaining as limit fallback since limit isn't available
   const { showToast } = useToast()
 
   const [todos, setTodos] = useState<Todo[]>([])
@@ -61,19 +62,19 @@ export function useTodos(): UseTodosReturn {
       if (data.storage?.location === 'local') {
         // Free user - load from IndexedDB
         console.log('[useTodos] Free user - loading from IndexedDB')
-        const localTodos = await todoStorage.getTodos(user.id)
+        const localTodos = await todoStorage.getTodos(user.uid)
         setTodos(localTodos)
       } else if (data.success && data.data) {
         // Premium user - sync from Firebase
         console.log('[useTodos] Premium user - syncing from Firebase')
-        await todoStorage.syncFromServer(data.data, user.id, 'both')
+        await todoStorage.syncFromServer(data.data, user.uid, 'both')
         setTodos(data.data)
       }
     } catch (err: any) {
       console.error('Error fetching todos:', err)
       // Fallback to local storage on error
       if (user) {
-        const localTodos = await todoStorage.getTodos(user.id)
+        const localTodos = await todoStorage.getTodos(user.uid)
         setTodos(localTodos)
         console.log('[useTodos] Using cached todos from IndexedDB')
       }

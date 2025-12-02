@@ -24,28 +24,30 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
   const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
 
   // Define test sequence
-  const tests: Array<{ type: TestType; question: string; answer: string | string[] }> = [
+  const allTests: Array<{ type: TestType; question: string; answer: string | string[] }> = [
     {
-      type: 'meaning',
+      type: 'meaning' as const,
       question: `What is the meaning of ${kanji.kanji}?`,
       answer: kanji.meaning.toLowerCase()
     },
     {
-      type: 'onyomi',
+      type: 'onyomi' as const,
       question: `What is the on'yomi reading of ${kanji.kanji}?`,
       answer: kanji.onyomi || []
     },
     {
-      type: 'kunyomi',
+      type: 'kunyomi' as const,
       question: `What is the kun'yomi reading of ${kanji.kanji}?`,
       answer: kanji.kunyomi || []
     },
     {
-      type: 'recognition',
+      type: 'recognition' as const,
       question: `Which kanji means "${kanji.meaning}"?`,
       answer: kanji.kanji
     }
-  ].filter(test => {
+  ]
+
+  const tests = allTests.filter(test => {
     // Skip tests that don't have answers
     if (test.type === 'onyomi' && (!kanji.onyomi || kanji.onyomi.length === 0)) return false
     if (test.type === 'kunyomi' && (!kanji.kunyomi || kanji.kunyomi.length === 0)) return false

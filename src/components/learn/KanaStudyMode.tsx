@@ -62,7 +62,7 @@ export default function KanaStudyMode({
           script,
           character.id,
           user,
-          isPremium
+          isPremium ?? false
         )
         setHasTrackedView(true)
       }
@@ -76,7 +76,7 @@ export default function KanaStudyMode({
     const timeSpent = Date.now() - viewStartTime
     if (timeSpent < 2000 && hasTrackedView && user && user.uid) {
       const script = displayScript as 'hiragana' | 'katakana'
-      kanaProgressManagerV2.trackCharacterSkipped?.(script, character.id, user, isPremium)
+      kanaProgressManagerV2.trackCharacterSkipped?.(script, character.id, user, isPremium ?? false)
     }
 
     setShowRomaji(false)
@@ -115,7 +115,7 @@ export default function KanaStudyMode({
           character.id,
           'audio',
           user,
-          isPremium
+          isPremium ?? false
         )
       }
     } catch (error) {
@@ -128,7 +128,7 @@ export default function KanaStudyMode({
     // Track skip event - only if user has valid uid
     if (user && user.uid) {
       const script = displayScript as 'hiragana' | 'katakana'
-      await kanaProgressManagerV2.trackCharacterSkipped?.(script, character.id, user, isPremium)
+      await kanaProgressManagerV2.trackCharacterSkipped?.(script, character.id, user, isPremium ?? false)
     }
 
     // Animate and move to next
@@ -150,7 +150,7 @@ export default function KanaStudyMode({
         script,
         character.id,
         user,
-        isPremium
+        isPremium ?? false
       )
     }
 
@@ -1435,7 +1435,7 @@ export default function KanaStudyMode({
                   character.id,
                   'hint',
                   user,
-                  isPremium
+                  isPremium ?? false
                 )
               }
             }}

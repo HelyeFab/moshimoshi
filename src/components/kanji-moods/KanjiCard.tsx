@@ -120,27 +120,27 @@ export default function KanjiCard({
 
             {/* Readings */}
             <div className="space-y-3 mb-4">
-              {kanji.readings.on.length > 0 && (
+              {(kanji.onyomi?.length || kanji.readings?.on?.length) ? (
                 <div>
                   <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-1">
                     {t('kanji.onReading')}
                   </p>
                   <p className="text-base text-foreground dark:text-dark-100 font-japanese">
-                    {kanji.readings.on.join('、')}
+                    {(kanji.onyomi || kanji.readings?.on || []).join('、')}
                   </p>
                 </div>
-              )}
+              ) : null}
 
-              {kanji.readings.kun.length > 0 && (
+              {(kanji.kunyomi?.length || kanji.readings?.kun?.length) ? (
                 <div>
                   <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-1">
                     {t('kanji.kunReading')}
                   </p>
                   <p className="text-base text-foreground dark:text-dark-100 font-japanese">
-                    {kanji.readings.kun.join('、')}
+                    {(kanji.kunyomi || kanji.readings?.kun || []).join('、')}
                   </p>
                 </div>
-              )}
+              ) : null}
             </div>
 
             {/* Examples */}
@@ -152,7 +152,7 @@ export default function KanjiCard({
                 <div className="space-y-2">
                   {kanji.examples.slice(0, 3).map((example, index) => (
                     <p key={index} className="text-sm text-foreground dark:text-dark-200 font-japanese">
-                      {example}
+                      {typeof example === 'string' ? example : example.sentence}
                     </p>
                   ))}
                 </div>

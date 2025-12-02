@@ -85,7 +85,18 @@ const RADICAL_KANJI_MAP: Record<string, Record<string, string[]>> = {
   }
 };
 
-function getRadicalKanji(radicalId: string, subThemes: boolean = false) {
+interface KanjiItem {
+  kanji: string;
+  theme?: string;
+}
+
+interface RadicalKanjiResult {
+  kanji: KanjiItem[];
+  subThemeGroups: Record<string, KanjiItem[]>;
+  uncategorized?: KanjiItem[];
+}
+
+function getRadicalKanji(radicalId: string, subThemes: boolean = false): RadicalKanjiResult {
   const radical = SEMANTIC_RADICALS[radicalId];
   if (!radical) return { kanji: [], subThemeGroups: {} };
 
@@ -109,7 +120,7 @@ function getRadicalKanji(radicalId: string, subThemes: boolean = false) {
           acc[theme] = kanjiList.map(k => ({ kanji: k }));
         }
         return acc;
-      }, {} as Record<string, any[]>),
+      }, {} as Record<string, KanjiItem[]>),
       uncategorized: themeGroups['Uncategorized']?.map(k => ({ kanji: k })) || []
     };
   }
@@ -221,15 +232,15 @@ export async function GET(request: NextRequest) {
   if (subThemes) {
     // Enrich subThemeGroups with details using batch loading
     const enrichedSubThemeGroups: Record<string, any[]> = {};
-    for (const [theme, kanjiArray] of Object.entries(subThemeGroups || {})) {
-      const kanjiStrings = kanjiArray.map((item: any) => item.kanji);
+    for (const [theme, kanjiArray] of Object.entries(subThemeGroups)) {
+      const kanjiStrings = kanjiArray.map(item => item.kanji);
       enrichedSubThemeGroups[theme] = await getKanjiDetailsBatch(kanjiStrings);
     }
     response.subThemeGroups = enrichedSubThemeGroups;
 
     // Enrich uncategorized with details using batch loading
     if (uncategorized && uncategorized.length > 0) {
-      const uncategorizedKanji = uncategorized.map((item: any) => item.kanji);
+      const uncategorizedKanji = uncategorized.map(item => item.kanji);
       response.uncategorized = await getKanjiDetailsBatch(uncategorizedKanji);
     }
   }
