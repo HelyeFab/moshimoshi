@@ -844,36 +844,17 @@ export default function LearningVillage() {
     []
   )
 
-  // Debug: Log feature flag values (remove in production)
-  useEffect(() => {
-    console.log('[LearningVillage] Feature flags:', featureFlags)
-    console.log('[LearningVillage] Raw env values:', {
-      games: process.env.NEXT_PUBLIC_FEATURE_GAMES,
-      reviewHub: process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB,
-      achievements: process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS,
-      leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD,
-      todos: process.env.NEXT_PUBLIC_FEATURE_TODOS,
-    })
-  }, [featureFlags])
-
   const filteredStalls = useMemo(() => {
-    console.log(
-      '[LearningVillage] Filtering stalls, config.stalls:',
-      config.stalls.map(s => ({ id: s.id, order: s.order, enabled: s.enabled }))
-    )
-
     return (
       learningStalls
         .filter(stall => {
           // Feature flag checks (from env vars) - these take absolute precedence
           const stallId = stall.id as keyof typeof featureFlags
           if (stallId in featureFlags && !featureFlags[stallId]) {
-            console.log(`[LearningVillage] Hiding ${stall.id} due to feature flag`)
             return false
           }
           // Admin config enabled check (from Firestore)
           if (!isStallEnabled(stall.id as StallId)) {
-            console.log(`[LearningVillage] Hiding ${stall.id} due to admin config`)
             return false
           }
           return true
