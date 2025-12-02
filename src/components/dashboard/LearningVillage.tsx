@@ -897,18 +897,17 @@ export default function LearningVillage() {
   // Define categories and their info for grouping
   const stallCategories = useMemo(
     () => ({
-      foundation: ['hiragana', 'katakana', 'drill'],
-      study: [
-        'vocabulary',
-        'my-lists',
+      foundation: [
+        'hiragana',
+        'katakana',
+        'drill',
         'kanji-browser',
         'kanji-mastery',
         'kanji-connections',
         'mood-boards',
         'conjugation',
-        'textbook-vocab',
-        'flashcards',
       ],
+      study: ['vocabulary', 'my-lists', 'textbook-vocab', 'flashcards'],
       immersion: [
         'stories',
         'news',
