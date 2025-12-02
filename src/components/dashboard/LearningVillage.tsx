@@ -9,6 +9,8 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAnimationControl } from '@/components/ui/AnimationControl'
 import AnimationControl from '@/components/ui/AnimationControl'
 import Image from 'next/image'
+import { useLearningVillageConfig } from '@/hooks/useLearningVillageConfig'
+import { StallId } from '@/config/learning-village-types'
 
 const stallImages = [
   '/ui/flat-icons/stalls/ceramics.png',
@@ -151,16 +153,17 @@ function ChineseLantern({ delay = 0, size = 'medium' }: { delay?: number; size?:
 
 
 // Stall card component
-function StallCard({ stall, index }: { stall: any, index: number }) {
+function StallCard({ stall, index, isPopular }: { stall: any, index: number, isPopular: boolean }) {
   const [isHovered, setIsHovered] = useState(false)
   const { strings } = useI18n()
   const cardRef = useRef<HTMLDivElement>(null)
 
   // Determine variant for masonry variety
-  const featuredIds = ['hiragana', 'katakana', 'games', 'leaderboard', 'youtube-shadowing', 'kanji-mastery']
+  // Popular stalls (from admin config) get featured styling
+  // Compact IDs remain hardcoded for UI layout purposes
   const compactIds = ['drill', 'resources', 'todos', 'blog', 'my-lists', 'textbook-vocab']
-  
-  const isFeatured = featuredIds.includes(stall.id)
+
+  const isFeatured = isPopular
   const isCompact = compactIds.includes(stall.id)
   
   const heightClass = isFeatured ? 'min-h-[280px]' : isCompact ? 'min-h-[200px]' : 'min-h-[240px]'
@@ -300,6 +303,9 @@ export default function LearningVillage() {
   const { strings } = useI18n()
   const animationsEnabled = useAnimationControl()
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
+
+  // Learning Village configuration from Firestore (real-time updates)
+  const { isPopular, getStallOrder, isStallEnabled, loading: configLoading } = useLearningVillageConfig()
 
   // Cast cards to allow dynamic key access with fallbacks
   const cards = strings.dashboard?.cards as CardStrings
@@ -714,15 +720,21 @@ export default function LearningVillage() {
   const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false'
 
   const filteredStalls = useMemo(() => {
-    return learningStalls.filter(stall => {
-      if (stall.id === 'games' && !isGamesEnabled) return false
-      if (stall.id === 'review-hub' && !isReviewHubEnabled) return false
-      if (stall.id === 'achievements' && !isAchievementsEnabled) return false
-      if (stall.id === 'leaderboard' && !isLeaderboardEnabled) return false
-      if (stall.id === 'todos' && !isTodosEnabled) return false
-      return true
-    })
-  }, [learningStalls, isGamesEnabled, isReviewHubEnabled, isAchievementsEnabled, isLeaderboardEnabled, isTodosEnabled])
+    return learningStalls
+      .filter(stall => {
+        // Feature flag checks (from env vars)
+        if (stall.id === 'games' && !isGamesEnabled) return false
+        if (stall.id === 'review-hub' && !isReviewHubEnabled) return false
+        if (stall.id === 'achievements' && !isAchievementsEnabled) return false
+        if (stall.id === 'leaderboard' && !isLeaderboardEnabled) return false
+        if (stall.id === 'todos' && !isTodosEnabled) return false
+        // Admin config enabled check (from Firestore)
+        if (!isStallEnabled(stall.id as StallId)) return false
+        return true
+      })
+      // Sort by admin-configured order
+      .sort((a, b) => getStallOrder(a.id as StallId) - getStallOrder(b.id as StallId))
+  }, [learningStalls, isGamesEnabled, isReviewHubEnabled, isAchievementsEnabled, isLeaderboardEnabled, isTodosEnabled, isStallEnabled, getStallOrder])
 
   useEffect(() => {
     const hour = new Date().getHours()
@@ -1050,7 +1062,7 @@ export default function LearningVillage() {
         <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-6">
           {filteredStalls.map((stall, index) => (
             <div key={stall.id} className="break-inside-avoid mb-3 sm:mb-6">
-              <StallCard stall={stall} index={index} />
+              <StallCard stall={stall} index={index} isPopular={isPopular(stall.id as StallId)} />
             </div>
           ))}
         </div>

@@ -27,7 +27,8 @@
       "Bash(rm:*)",
       "Bash(Select-String \"DoshiMascot\")",
       "Bash(Select-Object -First 20)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
