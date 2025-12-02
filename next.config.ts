@@ -58,7 +58,7 @@ const nextConfig: NextConfig = {
       'framer-motion',
     ],
   },
-  // MVP: Remove console logs in production for cleaner output and smaller bundle
+  // Remove console logs in production for cleaner output and smaller bundle
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
