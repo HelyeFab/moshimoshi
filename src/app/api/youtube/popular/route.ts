@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth/session';
-import { adminFirestore as adminDb, Timestamp } from '@/lib/firebase/admin';
-import { getStorageDecision } from '@/lib/api/storage-helper';
+import { NextRequest, NextResponse } from 'next/server'
+import { getSession } from '@/lib/auth/session'
+import { adminFirestore as adminDb, Timestamp } from '@/lib/firebase/admin'
+import { getStorageDecision } from '@/lib/api/storage-helper'
 
 // Curated starter videos for when we have low data
 const CURATED_STARTER_VIDEOS = [
@@ -14,7 +14,7 @@ const CURATED_STARTER_VIDEOS = [
     uniqueViewers: 0,
     totalWatchCount: 0,
     isCurated: true,
-    badge: '👋 Starter'
+    badge: '👋 Starter',
   },
   {
     videoId: 'K_EyIFRIvO4',
@@ -25,7 +25,7 @@ const CURATED_STARTER_VIDEOS = [
     uniqueViewers: 0,
     totalWatchCount: 0,
     isCurated: true,
-    badge: '👋 Starter'
+    badge: '👋 Starter',
   },
   {
     videoId: 'uk7gKixqVNU',
@@ -36,36 +36,36 @@ const CURATED_STARTER_VIDEOS = [
     uniqueViewers: 0,
     totalWatchCount: 0,
     isCurated: true,
-    badge: '👋 Starter'
-  }
-];
+    badge: '👋 Starter',
+  },
+]
 
 // Cache for popular videos
-let cachedVideos: any = null;
-let cacheExpiry: Date | null = null;
+let cachedVideos: any = null
+let cacheExpiry: Date | null = null
 
-// Export function to clear cache
-export function clearPopularVideosCache() {
-  cachedVideos = null;
-  cacheExpiry = null;
+// Function to clear cache (internal use only - not exported from route)
+function clearPopularVideosCache() {
+  cachedVideos = null
+  cacheExpiry = null
 }
 
 async function aggregatePopularVideos(minViewers: number = 3) {
   try {
     if (!adminDb) {
-      console.error('[Popular API] Database not available');
-      return [];
+      console.error('[Popular API] Database not available')
+      return []
     }
 
     // Get all videos from userYouTubeHistory
-    const snapshot = await adminDb.collection('userYouTubeHistory').get();
+    const snapshot = await adminDb.collection('userYouTubeHistory').get()
 
     // Aggregate by videoId
-    const videoMap = new Map<string, any>();
+    const videoMap = new Map<string, any>()
 
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const videoId = data.videoId;
+    snapshot.forEach(doc => {
+      const data = doc.data()
+      const videoId = data.videoId
 
       if (!videoMap.has(videoId)) {
         videoMap.set(videoId, {
@@ -77,102 +77,103 @@ async function aggregatePopularVideos(minViewers: number = 3) {
           uniqueViewers: new Set(),
           totalWatchCount: 0,
           totalWatchTime: 0,
-          lastWatched: data.lastWatched?.toDate() || new Date()
-        });
+          lastWatched: data.lastWatched?.toDate() || new Date(),
+        })
       }
 
-      const video = videoMap.get(videoId);
-      video.uniqueViewers.add(data.userId);
-      video.totalWatchCount += data.watchCount || 1;
-      video.totalWatchTime += data.totalWatchTime || 0;
+      const video = videoMap.get(videoId)
+      video.uniqueViewers.add(data.userId)
+      video.totalWatchCount += data.watchCount || 1
+      video.totalWatchTime += data.totalWatchTime || 0
 
       // Update last watched if more recent
-      const lastWatched = data.lastWatched?.toDate() || new Date();
+      const lastWatched = data.lastWatched?.toDate() || new Date()
       if (lastWatched > video.lastWatched) {
-        video.lastWatched = lastWatched;
+        video.lastWatched = lastWatched
       }
-    });
+    })
 
     // Convert to array and filter by minimum viewers
     let videos = Array.from(videoMap.values())
       .map(v => ({
         ...v,
         uniqueViewers: v.uniqueViewers.size,
-        averageWatchTime: v.uniqueViewers.size > 0
-          ? Math.round(v.totalWatchTime / v.uniqueViewers.size)
-          : 0
+        averageWatchTime:
+          v.uniqueViewers.size > 0 ? Math.round(v.totalWatchTime / v.uniqueViewers.size) : 0,
       }))
-      .filter(v => v.uniqueViewers >= minViewers);
+      .filter(v => v.uniqueViewers >= minViewers)
 
     // Sort by popularity (weighted by unique viewers and total watches)
     videos.sort((a, b) => {
-      const scoreA = (a.uniqueViewers * 2) + a.totalWatchCount;
-      const scoreB = (b.uniqueViewers * 2) + b.totalWatchCount;
-      return scoreB - scoreA;
-    });
+      const scoreA = a.uniqueViewers * 2 + a.totalWatchCount
+      const scoreB = b.uniqueViewers * 2 + b.totalWatchCount
+      return scoreB - scoreA
+    })
 
-    return videos;
+    return videos
   } catch (error) {
-    console.error('Error aggregating popular videos:', error);
-    return [];
+    console.error('Error aggregating popular videos:', error)
+    return []
   }
 }
 
 export async function GET(req: NextRequest) {
   try {
     // Get session for quota information
-    const session = await getSession();
+    const session = await getSession()
 
     // Check storage decision for user tier
-    let storageDecision = null;
-    let userTier = 'guest';
-    let quotaLimit = 0;
-    let quotaUsed = 0;
+    let storageDecision = null
+    let userTier = 'guest'
+    let quotaLimit = 0
+    let quotaUsed = 0
 
     if (session) {
-      storageDecision = await getStorageDecision(session);
-      userTier = storageDecision.plan;
+      storageDecision = await getStorageDecision(session)
+      userTier = storageDecision.plan
 
       // Get quota limits based on plan
       switch (userTier) {
         case 'free':
-          quotaLimit = 3;
-          break;
+          quotaLimit = 3
+          break
         case 'premium_monthly':
         case 'premium_yearly':
-          quotaLimit = 20;
-          break;
+          quotaLimit = 20
+          break
         default:
-          quotaLimit = 0;
+          quotaLimit = 0
       }
 
       // Get today's usage count
       if (quotaLimit > 0 && adminDb) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
 
         // Simplified query to avoid index requirement
         const practiceSnapshot = await adminDb
           .collection('userPracticeHistory')
           .where('userId', '==', session.uid)
-          .get();
+          .get()
 
         // Filter in memory for today's YouTube videos
-        const todayTimestamp = Timestamp.fromDate(today);
+        const todayTimestamp = Timestamp.fromDate(today)
         quotaUsed = practiceSnapshot.docs.filter(doc => {
-          const data = doc.data();
-          return data.contentType === 'youtube' &&
-                 data.firstAccessed &&
-                 data.firstAccessed.seconds >= todayTimestamp.seconds;
-        }).length;
+          const data = doc.data()
+          return (
+            data.contentType === 'youtube' &&
+            data.firstAccessed &&
+            data.firstAccessed.seconds >= todayTimestamp.seconds
+          )
+        }).length
       }
     }
 
     // Calculate user-specific stats (even for cached response)
     let userStats = {
       totalVideos: 0,
-      totalPracticeTime: 0
-    };
+      totalPracticeTime: 0,
+    }
 
     if (session && adminDb) {
       try {
@@ -180,14 +181,14 @@ export async function GET(req: NextRequest) {
           .collection('userPracticeHistory')
           .where('userId', '==', session.uid)
           .where('contentType', '==', 'youtube')
-          .get();
+          .get()
 
-        userStats.totalVideos = userPracticeSnapshot.size;
+        userStats.totalVideos = userPracticeSnapshot.size
         userStats.totalPracticeTime = userPracticeSnapshot.docs.reduce((total, doc) => {
-          return total + (doc.data().totalPracticeTime || 0);
-        }, 0);
+          return total + (doc.data().totalPracticeTime || 0)
+        }, 0)
       } catch (err) {
-        console.error('[Popular API] Error fetching user stats:', err);
+        console.error('[Popular API] Error fetching user stats:', err)
       }
     }
 
@@ -199,22 +200,22 @@ export async function GET(req: NextRequest) {
         userQuota: {
           used: quotaUsed,
           limit: quotaLimit,
-          remaining: Math.max(0, quotaLimit - quotaUsed)
+          remaining: Math.max(0, quotaLimit - quotaUsed),
         },
         stats: userStats,
-        cached: true
-      });
+        cached: true,
+      })
     }
 
     // Aggregate popular videos
     // Just show whatever videos we have in the database, no minimum requirement
-    let videos = await aggregatePopularVideos(1); // Start with 1 viewer minimum
+    let videos = await aggregatePopularVideos(1) // Start with 1 viewer minimum
 
     // If no videos at all, return empty array
     if (videos.length === 0) {
-      console.log('No videos found in database');
+      console.log('No videos found in database')
     } else {
-      console.log(`Found ${videos.length} video(s) in database`);
+      console.log(`Found ${videos.length} video(s) in database`)
     }
 
     // Mark videos as trending or suggested
@@ -222,15 +223,15 @@ export async function GET(req: NextRequest) {
       ...v,
       rank: index + 1,
       isTrending: v.uniqueViewers >= 3,
-      badge: v.uniqueViewers >= 3 ? '🔥 Trending' : '✨ Suggested'
-    }));
+      badge: v.uniqueViewers >= 3 ? '🔥 Trending' : '✨ Suggested',
+    }))
 
     // Take top 12 videos
-    videos = videos.slice(0, 12);
+    videos = videos.slice(0, 12)
 
     // Cache the results for 1 hour
-    cachedVideos = videos;
-    cacheExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    cachedVideos = videos
+    cacheExpiry = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 
     return NextResponse.json({
       success: true,
@@ -238,16 +239,13 @@ export async function GET(req: NextRequest) {
       userQuota: {
         used: quotaUsed,
         limit: quotaLimit,
-        remaining: Math.max(0, quotaLimit - quotaUsed)
+        remaining: Math.max(0, quotaLimit - quotaUsed),
       },
       stats: userStats,
-      cached: false
-    });
+      cached: false,
+    })
   } catch (error: any) {
-    console.error('Error fetching popular videos:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch popular videos' },
-      { status: 500 }
-    );
+    console.error('Error fetching popular videos:', error)
+    return NextResponse.json({ error: 'Failed to fetch popular videos' }, { status: 500 })
   }
 }

@@ -1,129 +1,134 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { requireAuth } from '@/lib/auth/session';
-import { adminDb, getAdminDb } from '@/lib/firebase/admin';
-import { nanoid } from 'nanoid';
-import { Timestamp } from 'firebase-admin/firestore';
-import DOMPurify from 'isomorphic-dompurify';
+import { NextRequest, NextResponse } from 'next/server'
+import { requireAuth } from '@/lib/auth/session'
+import { adminDb, getAdminDb } from '@/lib/firebase/admin'
+import { nanoid } from 'nanoid'
+import { Timestamp } from 'firebase-admin/firestore'
+import DOMPurify from 'isomorphic-dompurify'
 
 // Use centralized getAdminDb() for null-safe database access
-const getDb = getAdminDb;
+const getDb = getAdminDb
 
 // GET /api/blog/[id]/comments - Get all comments for a blog post
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id: postId } = await params;
-    const db = getDb();
+    const { id: postId } = await params
+    const db = getDb()
 
     // Get all comments for this post and filter/sort client-side to avoid index requirement
-    const commentsSnapshot = await db
-      .collection('blogComments')
-      .where('postId', '==', postId)
-      .get();
+    const commentsSnapshot = await db.collection('blogComments').where('postId', '==', postId).get()
 
     const comments = commentsSnapshot.docs
-      .map((doc) => {
-        const data = doc.data();
+      .map(doc => {
+        const data = doc.data()
         return {
           id: doc.id,
           ...data,
-          createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
-          updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toDate().toISOString() : data.updatedAt,
-        };
+          createdAt:
+            data.createdAt instanceof Timestamp
+              ? data.createdAt.toDate().toISOString()
+              : data.createdAt,
+          updatedAt:
+            data.updatedAt instanceof Timestamp
+              ? data.updatedAt.toDate().toISOString()
+              : data.updatedAt,
+        } as {
+          id: string
+          createdAt: string
+          updatedAt: string
+          deletedAt?: string
+          [key: string]: unknown
+        }
       })
-      .filter((comment) => !comment.deletedAt) // Filter out deleted comments
+      .filter(comment => !comment.deletedAt) // Filter out deleted comments
       .sort((a, b) => {
         // Sort by createdAt descending
-        const dateA = new Date(a.createdAt).getTime();
-        const dateB = new Date(b.createdAt).getTime();
-        return dateB - dateA;
-      });
+        const dateA = new Date(a.createdAt).getTime()
+        const dateB = new Date(b.createdAt).getTime()
+        return dateB - dateA
+      })
 
     return NextResponse.json({
       success: true,
       data: comments,
-    });
+    })
   } catch (error: any) {
-    console.error('Error fetching comments:', error);
+    console.error('Error fetching comments:', error)
     return NextResponse.json(
       { error: { code: 'INTERNAL_ERROR', message: 'Failed to fetch comments' } },
       { status: 500 }
-    );
+    )
   }
 }
 
 // POST /api/blog/[id]/comments - Create a new comment
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Require authentication
-    const session = await requireAuth();
+    const session = await requireAuth()
 
-    const { id: postId } = await params;
-    const body = await request.json();
+    const { id: postId } = await params
+    const body = await request.json()
 
     // Validate content
     if (!body.content || typeof body.content !== 'string') {
       return NextResponse.json(
         { error: { code: 'INVALID_CONTENT', message: 'Comment content is required' } },
         { status: 400 }
-      );
+      )
     }
 
-    const trimmedContent = body.content.trim();
+    const trimmedContent = body.content.trim()
 
     if (trimmedContent.length < 2) {
       return NextResponse.json(
         { error: { code: 'INVALID_CONTENT', message: 'Comment must be at least 2 characters' } },
         { status: 400 }
-      );
+      )
     }
 
     if (trimmedContent.length > 2000) {
       return NextResponse.json(
-        { error: { code: 'INVALID_CONTENT', message: 'Comment must be less than 2000 characters' } },
+        {
+          error: { code: 'INVALID_CONTENT', message: 'Comment must be less than 2000 characters' },
+        },
         { status: 400 }
-      );
+      )
     }
 
     // Sanitize content to prevent XSS
     const sanitizedContent = DOMPurify.sanitize(trimmedContent, {
       ALLOWED_TAGS: [], // Strip all HTML tags
       ALLOWED_ATTR: [],
-    });
+    })
 
-    const db = getDb();
+    const db = getDb()
 
     // Verify blog post exists
-    const postDoc = await db.collection('blogPosts').doc(postId).get();
+    const postDoc = await db.collection('blogPosts').doc(postId).get()
     if (!postDoc.exists) {
       return NextResponse.json(
         { error: { code: 'NOT_FOUND', message: 'Blog post not found' } },
         { status: 404 }
-      );
+      )
     }
 
     // Get user data for display
-    const userDoc = await db.collection('users').doc(session.uid).get();
-    const userData = userDoc.data();
+    const userDoc = await db.collection('users').doc(session.uid).get()
+    const userData = userDoc.data()
 
     // Create a friendly display name
-    let displayName = userData?.displayName;
+    let displayName = userData?.displayName
     if (!displayName && session.email) {
       // Use the part before @ in the email as fallback
-      displayName = session.email.split('@')[0];
+      displayName = session.email.split('@')[0]
     }
     if (!displayName) {
-      displayName = 'Anonymous User';
+      displayName = 'Anonymous User'
     }
 
     // Create comment
-    const commentId = nanoid();
-    const now = Timestamp.now();
+    const commentId = nanoid()
+    const now = Timestamp.now()
 
     const comment = {
       id: commentId,
@@ -137,35 +142,37 @@ export async function POST(
       updatedAt: now,
       isEdited: false,
       deletedAt: null,
-    };
+    }
 
-    await db.collection('blogComments').doc(commentId).set(comment);
+    await db.collection('blogComments').doc(commentId).set(comment)
 
     // Return comment with ISO dates
     const responseComment = {
       ...comment,
       createdAt: now.toDate().toISOString(),
       updatedAt: now.toDate().toISOString(),
-    };
+    }
 
-    return NextResponse.json({
-      success: true,
-      data: responseComment,
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        success: true,
+        data: responseComment,
+      },
+      { status: 201 }
+    )
   } catch (error: any) {
-    console.error('Error creating comment:', error);
+    console.error('Error creating comment:', error)
 
     if (error.message === 'Unauthorized') {
       return NextResponse.json(
         { error: { code: 'AUTH_REQUIRED', message: 'You must be logged in to comment' } },
         { status: 401 }
-      );
+      )
     }
 
     return NextResponse.json(
       { error: { code: 'INTERNAL_ERROR', message: 'Failed to create comment' } },
       { status: 500 }
-    );
+    )
   }
 }

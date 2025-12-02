@@ -6,15 +6,19 @@
  * To be integrated with the main service worker
  */
 
+// Service Worker global scope type
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const self: any // ServiceWorkerGlobalScope - full type requires lib.webworker.d.ts
+
 // Import types (these would be shared in production)
 interface SyncOutboxItem {
-  id: string;
-  type: string;
-  payload: any;
-  createdAt: number;
-  attempts: number;
-  lastAttemptAt?: number;
-  error?: string;
+  id: string
+  type: string
+  payload: any
+  createdAt: number
+  attempts: number
+  lastAttemptAt?: number
+  error?: string
 }
 
 /**
@@ -22,35 +26,34 @@ interface SyncOutboxItem {
  * Called when background sync is triggered
  */
 export async function handleSyncOutbox(): Promise<void> {
-  console.log('[SW-Sync] Background sync triggered');
+  console.log('[SW-Sync] Background sync triggered')
 
   try {
     // Open IndexedDB directly (can't import modules in SW)
-    const db = await openDB();
-    const items = await getPendingSyncItems(db);
+    const db = await openDB()
+    const items = await getPendingSyncItems(db)
 
     if (items.length === 0) {
-      console.log('[SW-Sync] No items to sync');
-      return;
+      console.log('[SW-Sync] No items to sync')
+      return
     }
 
-    console.log(`[SW-Sync] Syncing ${items.length} items`);
+    console.log(`[SW-Sync] Syncing ${items.length} items`)
 
     // Process items sequentially
     for (const item of items) {
-      const success = await syncItem(db, item);
+      const success = await syncItem(db, item)
       if (!success) {
         // Stop on first failure (will retry later)
-        break;
+        break
       }
     }
 
-    console.log('[SW-Sync] Sync completed');
-
+    console.log('[SW-Sync] Sync completed')
   } catch (error) {
-    console.error('[SW-Sync] Sync failed:', error);
+    console.error('[SW-Sync] Sync failed:', error)
     // Will retry automatically
-    throw error;
+    throw error
   }
 }
 
@@ -60,49 +63,45 @@ export async function handleSyncOutbox(): Promise<void> {
  */
 export async function handlePeriodicSync(tag: string): Promise<void> {
   if (tag !== 'daily-review-check') {
-    return;
+    return
   }
 
-  console.log('[SW-Sync] Periodic sync: checking for due reviews');
+  console.log('[SW-Sync] Periodic sync: checking for due reviews')
 
   try {
     // Check if user is premium (via settings)
-    const db = await openDB();
-    const settings = await getSettings(db, 'sync');
+    const db = await openDB()
+    const settings = await getSettings(db, 'sync')
 
     if (!settings?.periodicSyncEnabled) {
-      console.log('[SW-Sync] Periodic sync not enabled');
-      return;
+      console.log('[SW-Sync] Periodic sync not enabled')
+      return
     }
 
     // Check quiet hours
     if (isInQuietHours(settings)) {
-      console.log('[SW-Sync] In quiet hours, skipping notification');
-      return;
+      console.log('[SW-Sync] In quiet hours, skipping notification')
+      return
     }
 
     // Check for due reviews
-    const dueCount = await getDueCount(db);
+    const dueCount = await getDueCount(db)
 
     if (dueCount > 0) {
       // Show notification (this would be handled by Agent 2)
-      await self.registration.showNotification(
-        'Reviews Due!',
-        {
-          body: `You have ${dueCount} reviews waiting`,
-          icon: '/favicon-192x192.png',
-          badge: '/favicon-192x192.png',
-          tag: 'due-reviews',
-          data: {
-            actionUrl: '/review',
-            count: dueCount
-          }
-        }
-      );
+      await self.registration.showNotification('Reviews Due!', {
+        body: `You have ${dueCount} reviews waiting`,
+        icon: '/favicon-192x192.png',
+        badge: '/favicon-192x192.png',
+        tag: 'due-reviews',
+        data: {
+          actionUrl: '/review',
+          count: dueCount,
+        },
+      })
     }
-
   } catch (error) {
-    console.error('[SW-Sync] Periodic sync failed:', error);
+    console.error('[SW-Sync] Periodic sync failed:', error)
   }
 }
 
@@ -111,10 +110,10 @@ export async function handlePeriodicSync(tag: string): Promise<void> {
  */
 async function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open('moshimoshi', 1);
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
-  });
+    const request = indexedDB.open('moshimoshi', 1)
+    request.onsuccess = () => resolve(request.result)
+    request.onerror = () => reject(request.error)
+  })
 }
 
 /**
@@ -122,13 +121,13 @@ async function openDB(): Promise<IDBDatabase> {
  */
 async function getPendingSyncItems(db: IDBDatabase): Promise<SyncOutboxItem[]> {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(['sync_outbox'], 'readonly');
-    const store = tx.objectStore('sync_outbox');
-    const request = store.getAll();
+    const tx = db.transaction(['sync_outbox'], 'readonly')
+    const store = tx.objectStore('sync_outbox')
+    const request = store.getAll()
 
-    request.onsuccess = () => resolve(request.result || []);
-    request.onerror = () => reject(request.error);
-  });
+    request.onsuccess = () => resolve(request.result || [])
+    request.onerror = () => reject(request.error)
+  })
 }
 
 /**
@@ -146,50 +145,49 @@ async function syncItem(db: IDBDatabase, item: SyncOutboxItem): Promise<boolean>
         opId: item.id,
         type: item.type,
         payload: item.payload,
-        createdAt: item.createdAt
-      })
-    });
+        createdAt: item.createdAt,
+      }),
+    })
 
     if (!response.ok) {
       if (response.status === 401 || response.status === 403) {
         // Auth error - stop syncing
-        console.error('[SW-Sync] Authentication error');
-        return false;
+        console.error('[SW-Sync] Authentication error')
+        return false
       }
 
       if (response.status === 409) {
         // Conflict - remove from queue (handled elsewhere)
-        await removeFromQueue(db, item.id);
-        return true;
+        await removeFromQueue(db, item.id)
+        return true
       }
 
       if (response.status >= 500) {
         // Server error - retry later
-        throw new Error(`Server error: ${response.status}`);
+        throw new Error(`Server error: ${response.status}`)
       }
 
       // Client error - don't retry, remove from queue
-      console.error(`[SW-Sync] Client error for ${item.id}: ${response.status}`);
-      await removeFromQueue(db, item.id);
-      return true;
+      console.error(`[SW-Sync] Client error for ${item.id}: ${response.status}`)
+      await removeFromQueue(db, item.id)
+      return true
     }
 
     // Success - remove from queue
-    await removeFromQueue(db, item.id);
-    console.log(`[SW-Sync] Successfully synced ${item.id}`);
-    return true;
-
+    await removeFromQueue(db, item.id)
+    console.log(`[SW-Sync] Successfully synced ${item.id}`)
+    return true
   } catch (error) {
     // Network error - update attempt count
-    console.error(`[SW-Sync] Failed to sync ${item.id}:`, error);
+    console.error(`[SW-Sync] Failed to sync ${item.id}:`, error)
 
     await updateSyncItem(db, item.id, {
       attempts: item.attempts + 1,
       lastAttemptAt: Date.now(),
-      error: String(error)
-    });
+      error: String(error),
+    })
 
-    return false;
+    return false
   }
 }
 
@@ -198,13 +196,13 @@ async function syncItem(db: IDBDatabase, item: SyncOutboxItem): Promise<boolean>
  */
 async function removeFromQueue(db: IDBDatabase, id: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(['sync_outbox'], 'readwrite');
-    const store = tx.objectStore('sync_outbox');
-    const request = store.delete(id);
+    const tx = db.transaction(['sync_outbox'], 'readwrite')
+    const store = tx.objectStore('sync_outbox')
+    const request = store.delete(id)
 
-    request.onsuccess = () => resolve();
-    request.onerror = () => reject(request.error);
-  });
+    request.onsuccess = () => resolve()
+    request.onerror = () => reject(request.error)
+  })
 }
 
 /**
@@ -216,25 +214,25 @@ async function updateSyncItem(
   update: Partial<SyncOutboxItem>
 ): Promise<void> {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(['sync_outbox'], 'readwrite');
-    const store = tx.objectStore('sync_outbox');
+    const tx = db.transaction(['sync_outbox'], 'readwrite')
+    const store = tx.objectStore('sync_outbox')
 
-    const getRequest = store.get(id);
+    const getRequest = store.get(id)
 
     getRequest.onsuccess = () => {
-      const item = getRequest.result;
+      const item = getRequest.result
       if (item) {
-        const updated = { ...item, ...update };
-        const putRequest = store.put(updated);
-        putRequest.onsuccess = () => resolve();
-        putRequest.onerror = () => reject(putRequest.error);
+        const updated = { ...item, ...update }
+        const putRequest = store.put(updated)
+        putRequest.onsuccess = () => resolve()
+        putRequest.onerror = () => reject(putRequest.error)
       } else {
-        resolve();
+        resolve()
       }
-    };
+    }
 
-    getRequest.onerror = () => reject(getRequest.error);
-  });
+    getRequest.onerror = () => reject(getRequest.error)
+  })
 }
 
 /**
@@ -242,13 +240,13 @@ async function updateSyncItem(
  */
 async function getSettings(db: IDBDatabase, id: string): Promise<any> {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(['settings'], 'readonly');
-    const store = tx.objectStore('settings');
-    const request = store.get(id);
+    const tx = db.transaction(['settings'], 'readonly')
+    const store = tx.objectStore('settings')
+    const request = store.get(id)
 
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
-  });
+    request.onsuccess = () => resolve(request.result)
+    request.onerror = () => reject(request.error)
+  })
 }
 
 /**
@@ -256,15 +254,15 @@ async function getSettings(db: IDBDatabase, id: string): Promise<any> {
  */
 async function getDueCount(db: IDBDatabase): Promise<number> {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(['reviewQueue'], 'readonly');
-    const store = tx.objectStore('reviewQueue');
-    const index = store.index('dueAt');
-    const range = IDBKeyRange.upperBound(Date.now());
-    const request = index.count(range);
+    const tx = db.transaction(['reviewQueue'], 'readonly')
+    const store = tx.objectStore('reviewQueue')
+    const index = store.index('dueAt')
+    const range = IDBKeyRange.upperBound(Date.now())
+    const request = index.count(range)
 
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
-  });
+    request.onsuccess = () => resolve(request.result)
+    request.onerror = () => reject(request.error)
+  })
 }
 
 /**
@@ -272,23 +270,23 @@ async function getDueCount(db: IDBDatabase): Promise<number> {
  */
 function isInQuietHours(settings: any): boolean {
   if (!settings?.quietHours?.enabled) {
-    return false;
+    return false
   }
 
-  const now = new Date();
-  const currentTime = now.getHours() * 60 + now.getMinutes();
+  const now = new Date()
+  const currentTime = now.getHours() * 60 + now.getMinutes()
 
-  const [startHour, startMin] = settings.quietHours.start.split(':').map(Number);
-  const [endHour, endMin] = settings.quietHours.end.split(':').map(Number);
+  const [startHour, startMin] = settings.quietHours.start.split(':').map(Number)
+  const [endHour, endMin] = settings.quietHours.end.split(':').map(Number)
 
-  const startTime = startHour * 60 + startMin;
-  const endTime = endHour * 60 + endMin;
+  const startTime = startHour * 60 + startMin
+  const endTime = endHour * 60 + endMin
 
   if (startTime <= endTime) {
     // Quiet hours don't cross midnight
-    return currentTime >= startTime && currentTime <= endTime;
+    return currentTime >= startTime && currentTime <= endTime
   } else {
     // Quiet hours cross midnight
-    return currentTime >= startTime || currentTime <= endTime;
+    return currentTime >= startTime || currentTime <= endTime
   }
 }

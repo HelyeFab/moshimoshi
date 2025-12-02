@@ -92,51 +92,57 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
     }
   }, [])
 
-  const handleSessionCompleted = useCallback((event: any) => {
-    const { itemsReviewed, accuracy } = event.data
+  const handleSessionCompleted = useCallback(
+    (event: any) => {
+      const { itemsReviewed, accuracy } = event.data
 
-    if (itemsReviewed > 0) {
-      addNotification({
-        title: t('notifications.sessionComplete.title'),
-        body: t('notifications.sessionComplete.body', {
-          count: itemsReviewed,
-          accuracy: Math.round(accuracy * 100)
-        }),
-        type: 'success',
-        persistent: false
-      })
-    }
-  }, [t])
+      if (itemsReviewed > 0) {
+        addNotification({
+          title: t('notifications.sessionComplete.title'),
+          body: t('notifications.sessionComplete.body', {
+            count: itemsReviewed,
+            accuracy: Math.round(accuracy * 100),
+          }),
+          type: 'success',
+          persistent: false,
+        })
+      }
+    },
+    [t]
+  )
 
   const handleProgressUpdated = useCallback((event: any) => {
     // Handle progress updates if needed
   }, [])
 
-  const addNotification = useCallback((notification: Omit<InAppNotification, 'id' | 'timestamp'>) => {
-    const id = `${Date.now()}_${Math.random()}`
-    const newNotification: InAppNotification = {
-      ...notification,
-      id,
-      timestamp: new Date()
-    }
+  const addNotification = useCallback(
+    (notification: Omit<InAppNotification, 'id' | 'timestamp'>) => {
+      const id = `${Date.now()}_${Math.random()}`
+      const newNotification: InAppNotification = {
+        ...notification,
+        id,
+        timestamp: new Date(),
+      }
 
-    setNotifications(prev => [...prev, newNotification])
+      setNotifications(prev => [...prev, newNotification])
 
-    // Auto-dismiss if not persistent
-    if (!notification.persistent) {
-      const timeout = notification.countdown || 5000
-      const timerId = setTimeout(() => {
-        removeNotification(id)
-      }, timeout)
+      // Auto-dismiss if not persistent
+      if (!notification.persistent) {
+        const timeout = notification.countdown || 5000
+        const timerId = setTimeout(() => {
+          removeNotification(id)
+        }, timeout)
 
-      timersRef.current.set(id, timerId)
-    }
+        timersRef.current.set(id, timerId)
+      }
 
-    // Play sound for review_due notifications
-    if (notification.type === 'review_due') {
-      playNotificationSound()
-    }
-  }, [])
+      // Play sound for review_due notifications
+      if (notification.type === 'review_due') {
+        playNotificationSound()
+      }
+    },
+    []
+  )
 
   const removeNotification = useCallback((id: string) => {
     setNotifications(prev => prev.filter(n => n.id !== id))
@@ -149,33 +155,37 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
     }
   }, [])
 
-  const addCountdown = useCallback((itemId: string, dueDate: Date) => {
-    setCountdowns(prev => {
-      const next = new Map(prev)
-      next.set(itemId, dueDate)
-      return next
-    })
+  const addCountdown = useCallback(
+    (itemId: string, dueDate: Date) => {
+      setCountdowns(prev => {
+        const next = new Map(prev)
+        next.set(itemId, dueDate)
+        return next
+      })
 
-    // Persist to localStorage
-    persistCountdowns()
+      // Persist to localStorage
+      persistCountdowns()
 
-    // Schedule notification for due date
-    const delay = dueDate.getTime() - Date.now()
-    if (delay > 0 && delay < 60 * 60 * 1000) { // Less than 1 hour
-      const timerId = setTimeout(() => {
-        addNotification({
-          title: t('notifications.reviewDue.title'),
-          body: t('notifications.reviewDue.body'),
-          type: 'review_due',
-          actionUrl: `/review?item=${itemId}`,
-          persistent: true
-        })
-        removeCountdown(itemId)
-      }, delay)
+      // Schedule notification for due date
+      const delay = dueDate.getTime() - Date.now()
+      if (delay > 0 && delay < 60 * 60 * 1000) {
+        // Less than 1 hour
+        const timerId = setTimeout(() => {
+          addNotification({
+            title: t('notifications.reviewDue.title'),
+            body: t('notifications.reviewDue.body'),
+            type: 'review_due',
+            actionUrl: `/review?item=${itemId}`,
+            persistent: true,
+          })
+          removeCountdown(itemId)
+        }, delay)
 
-      timersRef.current.set(`countdown_${itemId}`, timerId)
-    }
-  }, [addNotification, t])
+        timersRef.current.set(`countdown_${itemId}`, timerId)
+      }
+    },
+    [addNotification, t]
+  )
 
   const removeCountdown = useCallback((itemId: string) => {
     setCountdowns(prev => {
@@ -208,7 +218,7 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
 
     const data = Array.from(countdowns.entries()).map(([itemId, dueDate]) => ({
       itemId,
-      dueDate: dueDate.toISOString()
+      dueDate: dueDate.toISOString(),
     }))
 
     if (storageRef.current) {
@@ -222,7 +232,7 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
     try {
       const stored = storageRef.current.getItem<any[]>('review_countdowns')
       if (stored) {
-        const data = JSON.parse(stored)
+        const data = Array.isArray(stored) ? stored : JSON.parse(String(stored))
         const now = Date.now()
 
         data.forEach((item: any) => {
@@ -258,7 +268,7 @@ export function InAppNotificationProvider({ children }: { children: React.ReactN
         removeNotification,
         addCountdown,
         removeCountdown,
-        clearAll
+        clearAll,
       }}
     >
       {children}

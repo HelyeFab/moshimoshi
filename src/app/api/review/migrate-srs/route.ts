@@ -13,10 +13,7 @@ export async function POST(request: NextRequest) {
     const session = await getSession()
 
     if (!session?.uid) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     // Get fresh user data from Firestore
@@ -29,7 +26,7 @@ export async function POST(request: NextRequest) {
     if (!isPremium) {
       return NextResponse.json({
         success: false,
-        message: 'Migration only available for premium users'
+        message: 'Migration only available for premium users',
       })
     }
 
@@ -51,16 +48,19 @@ export async function POST(request: NextRequest) {
     console.log(`[SRS Migration] Found ${reviewSessionsSnapshot.size} review sessions`)
 
     // Build a map of item performance history
-    const itemHistoryMap = new Map<string, {
-      reviews: Array<{
-        date: Date
-        correct: boolean
-        responseTime?: number
-      }>
-      lastReview?: Date
-      totalReviews: number
-      correctReviews: number
-    }>()
+    const itemHistoryMap = new Map<
+      string,
+      {
+        reviews: Array<{
+          date: Date
+          correct: boolean
+          responseTime?: number
+        }>
+        lastReview?: Date
+        totalReviews: number
+        correctReviews: number
+      }
+    >()
 
     // Process review sessions to build history
     reviewSessionsSnapshot.forEach(doc => {
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
             itemHistoryMap.set(itemId, {
               reviews: [],
               totalReviews: 0,
-              correctReviews: 0
+              correctReviews: 0,
             })
           }
 
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
           history.reviews.push({
             date: completedAt,
             correct: char.correct || false,
-            responseTime: char.responseTime
+            responseTime: char.responseTime,
           })
           history.totalReviews++
           if (char.correct) history.correctReviews++
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
             itemHistoryMap.set(itemId, {
               reviews: [],
               totalReviews: 0,
-              correctReviews: 0
+              correctReviews: 0,
             })
           }
 
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
           history.reviews.push({
             date: completedAt,
             correct: char.correct || false,
-            responseTime: char.responseTime
+            responseTime: char.responseTime,
           })
           history.totalReviews++
           if (char.correct) history.correctReviews++
@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
           reviewCount: 0,
           correctCount: 0,
           streak: 0,
-          bestStreak: 0
+          bestStreak: 0,
         }
 
         // Process each review to build up SRS state
@@ -179,19 +179,21 @@ export async function POST(request: NextRequest) {
             correct: review.correct,
             responseTime: review.responseTime || 1000,
             confidence: review.correct ? 4 : 2, // Estimate confidence
-            attemptCount: 1
+            attemptCount: 1,
           }
 
           // Create a mock content item for SRS calculation
-          const contentWithSRS = {
-            id: itemId,
-            contentType: 'kanji' as any, // Type doesn't matter for SRS calculation
-            primaryDisplay: itemId,
-            primaryAnswer: itemId,
-            difficulty: 0.5,
-            supportedModes: ['recognition', 'recall'] as any,
-            srsData: srsData
-          }
+          const contentWithSRS: import('@/lib/review-engine/core/interfaces').ReviewableContentWithSRS =
+            {
+              id: itemId,
+              contentType: 'kanji',
+              primaryDisplay: itemId,
+              primaryAnswer: itemId,
+              difficulty: 0.5,
+              tags: [],
+              supportedModes: ['recognition', 'recall'],
+              srsData: srsData,
+            }
 
           // Calculate next SRS state
           const newSRS = srsAlgorithm.calculateNextReview(contentWithSRS, reviewResult)
@@ -247,16 +249,20 @@ export async function POST(request: NextRequest) {
 
         // Update or create progress document
         const progressRef = progressCollection.doc(itemId)
-        batch.set(progressRef, {
-          contentId: itemId,
-          contentType,
-          srsData,
-          lastReviewedAt: history.lastReview,
-          totalReviews: history.totalReviews,
-          correctReviews: history.correctReviews,
-          updatedAt: FieldValue.serverTimestamp(),
-          migratedAt: FieldValue.serverTimestamp()
-        }, { merge: true })
+        batch.set(
+          progressRef,
+          {
+            contentId: itemId,
+            contentType,
+            srsData,
+            lastReviewedAt: history.lastReview,
+            totalReviews: history.totalReviews,
+            correctReviews: history.correctReviews,
+            updatedAt: FieldValue.serverTimestamp(),
+            migratedAt: FieldValue.serverTimestamp(),
+          },
+          { merge: true }
+        )
 
         migratedCount++
 
@@ -274,7 +280,9 @@ export async function POST(request: NextRequest) {
     // Commit the batch
     await batch.commit()
 
-    console.log(`[SRS Migration] Migration complete. Migrated: ${migratedCount}, Skipped: ${skippedCount}`)
+    console.log(
+      `[SRS Migration] Migration complete. Migrated: ${migratedCount}, Skipped: ${skippedCount}`
+    )
 
     return NextResponse.json({
       success: true,
@@ -283,17 +291,16 @@ export async function POST(request: NextRequest) {
         migrated: migratedCount,
         skipped: skippedCount,
         totalProcessed: itemHistoryMap.size,
-        errors: errors.length
+        errors: errors.length,
       },
-      errors: errors.length > 0 ? errors.slice(0, 10) : undefined // Return first 10 errors if any
+      errors: errors.length > 0 ? errors.slice(0, 10) : undefined, // Return first 10 errors if any
     })
-
   } catch (error) {
     console.error('[SRS Migration] Error:', error)
     return NextResponse.json(
       {
         error: 'Migration failed',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        message: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     )

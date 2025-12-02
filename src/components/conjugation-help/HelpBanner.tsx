@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { XMarkIcon, LightBulbIcon } from '@heroicons/react/24/outline';
-import { useConjugationHelp } from '@/contexts/ConjugationHelpContext';
-import type { ConjugationErrorReport } from '@/lib/conjugation-help';
+import { useState } from 'react'
+import { XMarkIcon, LightBulbIcon } from '@heroicons/react/24/outline'
+import { useConjugationHelp } from '@/contexts/ConjugationHelpContext'
+import type { ConjugationErrorReport } from '@/lib/conjugation-help'
 
 interface HelpBannerProps {
-  errorReport: ConjugationErrorReport;
-  onDismiss: () => void;
+  errorReport: ConjugationErrorReport
+  onDismiss: () => void
 }
 
 /**
@@ -16,29 +16,29 @@ interface HelpBannerProps {
  * Only shows THE MOST RELEVANT help for the specific form being practiced
  */
 export function HelpBanner({ errorReport, onDismiss }: HelpBannerProps) {
-  const { showMultipleHelps } = useConjugationHelp();
-  const [dismissed, setDismissed] = useState(false);
+  const { showMultipleHelps } = useConjugationHelp()
+  const [dismissed, setDismissed] = useState(false)
 
   // Don't show if no relevant help
   if (!errorReport.relevantHelp || errorReport.relevantHelp.length === 0) {
-    return null;
+    return null
   }
 
   // Don't show if dismissed
   if (dismissed) {
-    return null;
+    return null
   }
 
   const handleDismiss = () => {
-    setDismissed(true);
-    onDismiss();
-  };
+    setDismissed(true)
+    onDismiss()
+  }
 
   const handleLearnMore = () => {
-    const helps = errorReport.relevantHelp.map(rh => rh.helpContent);
-    showMultipleHelps(helps, errorReport.analysis);
-    handleDismiss();
-  };
+    const helps = errorReport.relevantHelp.map(rh => rh.helpContent)
+    showMultipleHelps(helps, errorReport)
+    handleDismiss()
+  }
 
   return (
     <div className="mt-4 rounded-lg border-2 border-yellow-400 dark:border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 p-4 shadow-sm animate-fade-in">
@@ -88,5 +88,5 @@ export function HelpBanner({ errorReport, onDismiss }: HelpBannerProps) {
         </button>
       </div>
     </div>
-  );
+  )
 }

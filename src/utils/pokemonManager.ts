@@ -1,49 +1,65 @@
-import { doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs, getFirestore, collectionGroup } from 'firebase/firestore';
-import { db as configDb, app } from '@/lib/firebase/config';
-import { pokemonStorage } from './pokemonStorage';
-import { User } from 'firebase/auth';
-import logger from '@/lib/logger';
+import {
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  getFirestore,
+  collectionGroup,
+} from 'firebase/firestore'
+import { db as configDb, app } from '@/lib/firebase/config'
+import { pokemonStorage } from './pokemonStorage'
+import logger from '@/lib/logger'
+
+// Minimal user interface - works with both Firebase User and AuthUser
+interface MinimalUser {
+  uid: string
+  email: string | null
+}
 
 interface PokemonCatch {
-  pokemonId: number;
-  caughtAt: string;
-  jlptLevel?: number;
-  kanjiIds?: string[];
-  source?: 'game' | 'reward' | 'achievement';
+  pokemonId: number
+  caughtAt: string
+  jlptLevel?: number
+  kanjiIds?: string[]
+  source?: 'game' | 'reward' | 'achievement'
 }
 
 interface UserPokedex {
-  userId: string;
-  caught: number[];
+  userId: string
+  caught: number[]
   lastCaught?: {
-    id: number;
-    date: string;
-  };
-  totalCaught: number;
-  catchHistory?: PokemonCatch[];
-  updatedAt: string;
+    id: number
+    date: string
+  }
+  totalCaught: number
+  catchHistory?: PokemonCatch[]
+  updatedAt: string
 }
 
 class PokemonManager {
-  private readonly SUBCOLLECTION_NAME = 'pokemon';
-  private db: any = null;
+  private readonly SUBCOLLECTION_NAME = 'pokemon'
+  private db: any = null
 
   // Get Firestore instance (lazy initialization)
   private getDb() {
     if (!this.db) {
       if (typeof window !== 'undefined' && app) {
-        this.db = getFirestore(app);
+        this.db = getFirestore(app)
       } else if (configDb) {
-        this.db = configDb;
+        this.db = configDb
       }
     }
-    return this.db;
+    return this.db
   }
 
   // Save caught Pokemon based on user subscription status
   async saveCaughtPokemon(
     pokemonId: number,
-    user: User | null,
+    user: MinimalUser | null,
     isPremium: boolean,
     source: 'game' | 'reward' | 'achievement' = 'game',
     jlptLevel?: number,
@@ -57,19 +73,26 @@ class PokemonManager {
       source,
       jlptLevel,
       kanjiIds,
-    };
+    }
 
     // Get user identification
-    const userId = user?.uid || null;
-    const userEmail = user?.email || null;
+    const userId = user?.uid || null
+    const userEmail = user?.email || null
 
     // Always save to localStorage for offline access
-    await pokemonStorage.savePokemonLocally(pokemonId, userId, userEmail, source, jlptLevel, kanjiIds);
+    await pokemonStorage.savePokemonLocally(
+      pokemonId,
+      userId,
+      userEmail,
+      source,
+      jlptLevel,
+      kanjiIds
+    )
 
     // For premium users, also save to Firebase
     if (user && isPremium) {
       // User is premium, saving to Firebase
-      await this.savePokemonToCloud(user.uid, userEmail, pokemonId, catchData);
+      await this.savePokemonToCloud(user.uid, userEmail, pokemonId, catchData)
     } else {
       // User is not premium or not logged in, skipping Firebase save
     }
@@ -84,26 +107,26 @@ class PokemonManager {
   ): Promise<void> {
     // Saving Pokemon to cloud
 
-    const db = this.getDb();
+    const db = this.getDb()
     if (!db) {
-      console.error('[PokemonManager] Firestore not initialized, cannot save to cloud');
-      return;
+      console.error('[PokemonManager] Firestore not initialized, cannot save to cloud')
+      return
     }
 
     try {
-      const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data');
-      const userPokedexDoc = await getDoc(userPokedexRef);
+      const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data')
+      const userPokedexDoc = await getDoc(userPokedexRef)
 
       if (userPokedexDoc.exists()) {
         // Update existing document
-        const currentData = userPokedexDoc.data() as UserPokedex;
-        const currentCaught = currentData.caught || [];
-        const catchHistory = currentData.catchHistory || [];
+        const currentData = userPokedexDoc.data() as UserPokedex
+        const currentCaught = currentData.caught || []
+        const catchHistory = currentData.catchHistory || []
 
         // Only add if not already caught
         if (!currentCaught.includes(pokemonId)) {
-          currentCaught.push(pokemonId);
-          catchHistory.push(catchData);
+          currentCaught.push(pokemonId)
+          catchHistory.push(catchData)
 
           const updateData: Partial<UserPokedex> = {
             caught: currentCaught,
@@ -114,9 +137,9 @@ class PokemonManager {
             totalCaught: currentCaught.length,
             catchHistory,
             updatedAt: new Date().toISOString(),
-          };
+          }
 
-          await updateDoc(userPokedexRef, updateData);
+          await updateDoc(userPokedexRef, updateData)
           // Successfully updated Firebase with Pokemon
         } else {
           // Pokemon already in cloud collection
@@ -133,113 +156,119 @@ class PokemonManager {
           totalCaught: 1,
           catchHistory: [catchData],
           updatedAt: new Date().toISOString(),
-        };
+        }
 
-        await setDoc(userPokedexRef, newPokedex);
+        await setDoc(userPokedexRef, newPokedex)
         // Created new pokedex document
       }
     } catch (error) {
-      console.error('[PokemonManager] Failed to save Pokemon to cloud:', error);
+      console.error('[PokemonManager] Failed to save Pokemon to cloud:', error)
       // Don't throw - local storage should still work
     }
   }
 
   // Get all caught Pokemon (merge local and cloud data)
-  async getCaughtPokemon(user: User | null, isPremium: boolean): Promise<number[]> {
+  async getCaughtPokemon(user: MinimalUser | null, isPremium: boolean): Promise<number[]> {
     try {
       // Always return empty for no user (guests don't persist)
       if (!user) {
-        return [];
+        return []
       }
 
-      const userId = user.uid;
-      const userEmail = user.email;
+      const userId = user.uid
+      const userEmail = user.email
 
       // For now, always try to fetch from cloud regardless of premium status for debugging
-      const cloudPokemonIds = await this.getPokemonFromCloud(userId);
+      const cloudPokemonIds = await this.getPokemonFromCloud(userId)
 
       if (cloudPokemonIds.length > 0) {
         // Sync to local for offline use
-        await pokemonStorage.syncFromCloud(cloudPokemonIds, userId, userEmail || '');
-        return cloudPokemonIds;
+        await pokemonStorage.syncFromCloud(cloudPokemonIds, userId, userEmail || '')
+        return cloudPokemonIds
       }
 
       // Fallback to local
-      const localPokemon = await pokemonStorage.getAllCaughtPokemonLocally(userId, userEmail);
-      return localPokemon;
+      const localPokemon = await pokemonStorage.getAllCaughtPokemonLocally(userId, userEmail)
+      return localPokemon
     } catch (error) {
-      console.error('[PokemonManager] Error getting caught Pokemon:', error);
-      return [];
+      console.error('[PokemonManager] Error getting caught Pokemon:', error)
+      return []
     }
   }
 
   // Get Pokemon from Firebase
   private async getPokemonFromCloud(userId: string): Promise<number[]> {
     try {
-      const db = this.getDb();
+      const db = this.getDb()
       if (!db) {
-        console.error('[PokemonManager] Firestore not initialized');
-        return [];
+        console.error('[PokemonManager] Firestore not initialized')
+        return []
       }
 
-      const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data');
-      const userPokedexDoc = await getDoc(userPokedexRef);
+      const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data')
+      const userPokedexDoc = await getDoc(userPokedexRef)
 
       if (userPokedexDoc.exists()) {
-        const data = userPokedexDoc.data() as UserPokedex;
-        const caught = data.caught || [];
-        return caught;
+        const data = userPokedexDoc.data() as UserPokedex
+        const caught = data.caught || []
+        return caught
       }
-      return [];
+      return []
     } catch (error: any) {
       // Check if it's a permission error - this is expected for new users or users without Pokemon
-      if (error?.code === 'permission-denied' || error?.message?.includes('Missing or insufficient permissions')) {
+      if (
+        error?.code === 'permission-denied' ||
+        error?.message?.includes('Missing or insufficient permissions')
+      ) {
         // This is normal - user hasn't caught any Pokemon yet or doesn't have permission
         // No need to log an error for this expected case
-        return [];
+        return []
       }
 
       // Only log actual unexpected errors
-      console.error('[PokemonManager] Failed to get Pokemon from cloud:', error);
-      return [];
+      console.error('[PokemonManager] Failed to get Pokemon from cloud:', error)
+      return []
     }
   }
 
   // Check if a specific Pokemon is caught
   async isPokemonCaught(
     pokemonId: number,
-    user: User | null,
+    user: MinimalUser | null,
     isPremium: boolean
   ): Promise<boolean> {
-    const caughtPokemon = await this.getCaughtPokemon(user, isPremium);
-    return caughtPokemon.includes(pokemonId);
+    const caughtPokemon = await this.getCaughtPokemon(user, isPremium)
+    return caughtPokemon.includes(pokemonId)
   }
 
   // Get Pokedex stats
-  async getPokedexStats(user: User | null, isPremium: boolean): Promise<{
-    totalCaught: number;
-    lastCaught?: { id: number; date: string };
-    byRarity?: Record<string, number>;
+  async getPokedexStats(
+    user: MinimalUser | null,
+    isPremium: boolean
+  ): Promise<{
+    totalCaught: number
+    lastCaught?: { id: number; date: string }
+    byRarity?: Record<string, number>
   }> {
-    const caughtPokemon = await this.getCaughtPokemon(user, isPremium);
+    const caughtPokemon = await this.getCaughtPokemon(user, isPremium)
 
     if (!user || !isPremium) {
       // For free users, just return count
       return {
         totalCaught: caughtPokemon.length,
-      };
+      }
     }
 
     // For premium users, try to get additional stats from cloud
     try {
-      const db = this.getDb();
-      if (!db) return { totalCaught: caughtPokemon.length };
+      const db = this.getDb()
+      if (!db) return { totalCaught: caughtPokemon.length }
 
-      const userPokedexRef = doc(db, 'users', user.uid, this.SUBCOLLECTION_NAME, 'data');
-      const userPokedexDoc = await getDoc(userPokedexRef);
+      const userPokedexRef = doc(db, 'users', user.uid, this.SUBCOLLECTION_NAME, 'data')
+      const userPokedexDoc = await getDoc(userPokedexRef)
 
       if (userPokedexDoc.exists()) {
-        const pokedexData = userPokedexDoc.data() as UserPokedex;
+        const pokedexData = userPokedexDoc.data() as UserPokedex
 
         // Calculate rarity distribution
         const byRarity: Record<string, number> = {
@@ -248,7 +277,7 @@ class PokemonManager {
           rare: 0,
           legendary: 0,
           mythical: 0,
-        };
+        }
 
         // This would need getPokemonRarity imported from pokemonData
         // For now, returning empty rarity stats
@@ -257,47 +286,47 @@ class PokemonManager {
           totalCaught: caughtPokemon.length,
           lastCaught: pokedexData.lastCaught,
           byRarity,
-        };
+        }
       }
     } catch (error) {
-      console.error('[PokemonManager] Failed to get Pokedex stats from cloud:', error);
+      console.error('[PokemonManager] Failed to get Pokedex stats from cloud:', error)
     }
 
     return {
       totalCaught: caughtPokemon.length,
-    };
+    }
   }
 
   // Clear local storage (for logout)
   async clearLocalStorage(userId?: string): Promise<void> {
     if (userId) {
-      await pokemonStorage.clearUserPokemon(userId);
+      await pokemonStorage.clearUserPokemon(userId)
     }
   }
 
   // Force sync all local Pokemon to cloud (for premium upgrade)
-  async forceSyncToCloud(user: User): Promise<void> {
-    logger.pokemon('Force sync to cloud started');
+  async forceSyncToCloud(user: MinimalUser): Promise<void> {
+    logger.pokemon('Force sync to cloud started')
 
     try {
-      const userId = user.uid;
-      const userEmail = user.email;
+      const userId = user.uid
+      const userEmail = user.email
 
       if (!userId || !userEmail) {
-        console.error('[PokemonManager] Cannot sync without complete user identification');
-        return;
+        console.error('[PokemonManager] Cannot sync without complete user identification')
+        return
       }
 
       // Get all local Pokemon
-      const localPokemon = await pokemonStorage.getAllCaughtPokemonLocally(userId, userEmail);
+      const localPokemon = await pokemonStorage.getAllCaughtPokemonLocally(userId, userEmail)
 
-      logger.pokemon(`Force sync - ${localPokemon.length} Pokemon to sync`);
+      logger.pokemon(`Force sync - ${localPokemon.length} Pokemon to sync`)
 
       if (localPokemon.length > 0) {
-        const db = this.getDb();
-        if (!db) throw new Error('Firestore not initialized');
+        const db = this.getDb()
+        if (!db) throw new Error('Firestore not initialized')
 
-        const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data');
+        const userPokedexRef = doc(db, 'users', userId, this.SUBCOLLECTION_NAME, 'data')
 
         const updateData: UserPokedex = {
           userId,
@@ -308,87 +337,87 @@ class PokemonManager {
           },
           totalCaught: localPokemon.length,
           updatedAt: new Date().toISOString(),
-        };
+        }
 
-        await setDoc(userPokedexRef, updateData, { merge: true });
-        logger.pokemon(`Force sync completed - ${localPokemon.length} Pokemon synced`);
+        await setDoc(userPokedexRef, updateData, { merge: true })
+        logger.pokemon(`Force sync completed - ${localPokemon.length} Pokemon synced`)
       }
     } catch (error) {
-      console.error('[PokemonManager] Force sync failed:', error);
-      throw error;
+      console.error('[PokemonManager] Force sync failed:', error)
+      throw error
     }
   }
 
   // Get global Pokemon statistics (for leaderboards, etc.)
   async getGlobalStats(): Promise<{
-    mostCaught: number[];
-    totalUsers: number;
+    mostCaught: number[]
+    totalUsers: number
   }> {
     try {
-      const db = this.getDb();
-      if (!db) throw new Error('Firestore not initialized');
+      const db = this.getDb()
+      if (!db) throw new Error('Firestore not initialized')
 
       // Use collectionGroup to query across all users' pokemon subcollections
-      const pokemonQuery = collectionGroup(db, this.SUBCOLLECTION_NAME);
-      const snapshot = await getDocs(pokemonQuery);
+      const pokemonQuery = collectionGroup(db, this.SUBCOLLECTION_NAME)
+      const snapshot = await getDocs(pokemonQuery)
 
-      const pokemonCounts = new Map<number, number>();
-      let totalUsers = 0;
+      const pokemonCounts = new Map<number, number>()
+      let totalUsers = 0
 
-      snapshot.forEach((docSnap) => {
-        totalUsers++;
-        const data = docSnap.data() as UserPokedex;
-        (data.caught || []).forEach((pokemonId) => {
-          pokemonCounts.set(pokemonId, (pokemonCounts.get(pokemonId) || 0) + 1);
-        });
-      });
+      snapshot.forEach(docSnap => {
+        totalUsers++
+        const data = docSnap.data() as UserPokedex
+        ;(data.caught || []).forEach(pokemonId => {
+          pokemonCounts.set(pokemonId, (pokemonCounts.get(pokemonId) || 0) + 1)
+        })
+      })
 
       // Get top 10 most caught Pokemon
       const mostCaught = Array.from(pokemonCounts.entries())
         .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
-        .map(([pokemonId]) => pokemonId);
+        .map(([pokemonId]) => pokemonId)
 
       return {
         mostCaught,
         totalUsers,
-      };
+      }
     } catch (error) {
-      console.error('[PokemonManager] Failed to get global stats:', error);
+      console.error('[PokemonManager] Failed to get global stats:', error)
       return {
         mostCaught: [],
         totalUsers: 0,
-      };
+      }
     }
   }
 
   // Event emitter for Pokemon catch events (for UI updates)
-  private catchListeners: Array<(pokemonId: number) => void> = [];
+  private catchListeners: Array<(pokemonId: number) => void> = []
 
   onPokemonCaught(callback: (pokemonId: number) => void): () => void {
-    this.catchListeners.push(callback);
+    this.catchListeners.push(callback)
     return () => {
-      this.catchListeners = this.catchListeners.filter(cb => cb !== callback);
-    };
+      this.catchListeners = this.catchListeners.filter(cb => cb !== callback)
+    }
   }
 
   private emitCatchEvent(pokemonId: number): void {
-    this.catchListeners.forEach(callback => callback(pokemonId));
+    this.catchListeners.forEach(callback => callback(pokemonId))
   }
 
   // Wrapper for catching Pokemon with event emission
   async catchPokemon(
     pokemonId: number,
-    user: User | null,
+    user: MinimalUser | null,
     isPremium: boolean,
     source: 'game' | 'reward' | 'achievement' = 'game',
     jlptLevel?: number,
     kanjiIds?: string[]
   ): Promise<void> {
-    await this.saveCaughtPokemon(pokemonId, user, isPremium, source, jlptLevel, kanjiIds);
-    this.emitCatchEvent(pokemonId);
+    await this.saveCaughtPokemon(pokemonId, user, isPremium, source, jlptLevel, kanjiIds)
+    this.emitCatchEvent(pokemonId)
   }
 }
 
 // Export singleton instance
-export const pokemonManager = new PokemonManager();
+export const pokemonManager = new PokemonManager()

@@ -31,13 +31,23 @@ export async function sendEmail(options: EmailOptions): Promise<void> {
   }
 
   try {
-    const { data, error } = await getResendClient().emails.send({
+    // Build email payload, only including text/html if provided
+    const emailPayload: {
+      from: string
+      to: string
+      subject: string
+      text?: string
+      html?: string
+    } = {
       from: options.from || 'Moshimoshi <noreply@moshimoshi.app>',
       to: options.to,
       subject: options.subject,
-      text: options.text,
-      html: options.html,
-    })
+    }
+    if (options.text) emailPayload.text = options.text
+    if (options.html) emailPayload.html = options.html
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await getResendClient().emails.send(emailPayload as any)
 
     if (error) {
       console.error('[Resend] Error sending email:', error)
@@ -190,7 +200,11 @@ If you didn't request this email, you can safely ignore it.
 /**
  * Send email verification email
  */
-export async function sendVerificationEmail(email: string, verificationLink: string, name?: string): Promise<void> {
+export async function sendVerificationEmail(
+  email: string,
+  verificationLink: string,
+  name?: string
+): Promise<void> {
   const html = `
     <!DOCTYPE html>
     <html>
@@ -321,7 +335,10 @@ If you didn't create an account, you can safely ignore this email.
 /**
  * Send newsletter verification email
  */
-export async function sendNewsletterVerificationEmail(email: string, verificationLink: string): Promise<void> {
+export async function sendNewsletterVerificationEmail(
+  email: string,
+  verificationLink: string
+): Promise<void> {
   const html = `
     <!DOCTYPE html>
     <html>
@@ -452,7 +469,11 @@ If you didn't subscribe to our newsletter, you can safely ignore this email.
 /**
  * Send password reset email
  */
-export async function sendPasswordResetEmail(email: string, resetLink: string, name?: string): Promise<void> {
+export async function sendPasswordResetEmail(
+  email: string,
+  resetLink: string,
+  name?: string
+): Promise<void> {
   const html = `
     <!DOCTYPE html>
     <html>

@@ -9,176 +9,147 @@
  * - Backward compatible simple API
  */
 
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef } from 'react'
 
 // Simple API (backward compatible)
-type KeyboardShortcuts = Record<string, () => void>;
+type KeyboardShortcuts = Record<string, () => void>
 
 // Advanced API
 export interface KeyBinding {
-  key: string;
-  ctrlKey?: boolean;
-  shiftKey?: boolean;
-  altKey?: boolean;
-  metaKey?: boolean;
-  description: string;
-  handler: (event: KeyboardEvent) => void;
-  preventDefault?: boolean;
+  key: string
+  ctrlKey?: boolean
+  shiftKey?: boolean
+  altKey?: boolean
+  metaKey?: boolean
+  description: string
+  handler: (event: KeyboardEvent) => void
+  preventDefault?: boolean
 }
 
 export interface UseKeyboardShortcutsOptions {
-  enabled?: boolean;
-  ignoreInputFields?: boolean;
-  bindings: KeyBinding[];
+  enabled?: boolean
+  ignoreInputFields?: boolean
+  bindings: KeyBinding[]
 }
 
 export interface ShortcutHelp {
-  keys: string;
-  description: string;
+  keys: string
+  description: string
 }
 
 /**
  * Simple overload (backward compatible)
  */
-export function useKeyboardShortcuts(shortcuts: KeyboardShortcuts, enabled?: boolean): {
-  isEnabled: boolean;
-};
+export function useKeyboardShortcuts(
+  shortcuts: KeyboardShortcuts,
+  enabled?: boolean
+): {
+  isEnabled: boolean
+}
 
 /**
  * Advanced overload with KeyBinding array
  */
 export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions): {
-  getShortcutsHelp: () => ShortcutHelp[];
-};
+  getShortcutsHelp: () => ShortcutHelp[]
+}
 
 /**
- * Implementation
+ * Implementation - unified hook that handles both simple and advanced APIs
  */
 export function useKeyboardShortcuts(
   shortcutsOrOptions: KeyboardShortcuts | UseKeyboardShortcutsOptions,
   enabledParam = true
-): any {
-  // Detect which API is being used
-  const isAdvancedAPI = 'bindings' in shortcutsOrOptions;
+): { isEnabled?: boolean; getShortcutsHelp?: () => ShortcutHelp[] } {
+  // Detect which API is being used (computed once, stable across renders)
+  const isAdvancedAPI = 'bindings' in shortcutsOrOptions
 
-  if (isAdvancedAPI) {
-    return useAdvancedKeyboardShortcuts(shortcutsOrOptions);
-  } else {
-    return useSimpleKeyboardShortcuts(shortcutsOrOptions, enabledParam);
-  }
-}
+  // Extract options for advanced API
+  const advancedOptions = isAdvancedAPI ? (shortcutsOrOptions as UseKeyboardShortcutsOptions) : null
+  const simpleShortcuts = !isAdvancedAPI ? (shortcutsOrOptions as KeyboardShortcuts) : null
 
-/**
- * Simple API implementation (backward compatible)
- */
-function useSimpleKeyboardShortcuts(shortcuts: KeyboardShortcuts, enabled: boolean) {
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (!enabled) return;
+  const enabled = isAdvancedAPI ? (advancedOptions?.enabled ?? true) : enabledParam
+  const ignoreInputFields = advancedOptions?.ignoreInputFields ?? true
+  const bindings = advancedOptions?.bindings ?? []
 
-    // Don't trigger shortcuts when typing in input fields
-    const target = event.target as HTMLElement;
-    if (target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.contentEditable === 'true') {
-      // Allow Escape and Enter in some cases
-      if (event.key !== 'Escape' && event.key !== 'Enter') {
-        return;
+  const bindingsRef = useRef(bindings)
+  const shortcutsRef = useRef(simpleShortcuts)
+
+  // Update refs when values change
+  useEffect(() => {
+    bindingsRef.current = bindings
+  }, [bindings])
+
+  useEffect(() => {
+    shortcutsRef.current = simpleShortcuts
+  }, [simpleShortcuts])
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (!enabled) return
+
+      const target = event.target as HTMLElement
+      const tagName = target.tagName.toLowerCase()
+      const isEditable = target.isContentEditable
+
+      // Handle advanced API
+      if (isAdvancedAPI) {
+        if (ignoreInputFields) {
+          if (tagName === 'input' || tagName === 'textarea' || tagName === 'select' || isEditable) {
+            return
+          }
+        }
+
+        const binding = bindingsRef.current.find(b => {
+          const keyMatches = b.key.toLowerCase() === event.key.toLowerCase()
+          const ctrlMatches = b.ctrlKey === undefined ? !event.ctrlKey : b.ctrlKey === event.ctrlKey
+          const shiftMatches =
+            b.shiftKey === undefined ? !event.shiftKey : b.shiftKey === event.shiftKey
+          const altMatches = b.altKey === undefined ? !event.altKey : b.altKey === event.altKey
+          const metaMatches = b.metaKey === undefined ? !event.metaKey : b.metaKey === event.metaKey
+          return keyMatches && ctrlMatches && shiftMatches && altMatches && metaMatches
+        })
+
+        if (binding) {
+          if (binding.preventDefault !== false) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          binding.handler(event)
+        }
+      } else {
+        // Handle simple API
+        if (tagName === 'input' || tagName === 'textarea' || isEditable) {
+          if (event.key !== 'Escape' && event.key !== 'Enter') {
+            return
+          }
+        }
+
+        const modifiers: string[] = []
+        if (event.ctrlKey) modifiers.push('Ctrl')
+        if (event.altKey) modifiers.push('Alt')
+        if (event.shiftKey) modifiers.push('Shift')
+        if (event.metaKey) modifiers.push('Meta')
+
+        const combination = modifiers.length > 0 ? `${modifiers.join('+')}+${event.key}` : event.key
+
+        const shortcuts = shortcutsRef.current
+        if (shortcuts && shortcuts[combination]) {
+          event.preventDefault()
+          shortcuts[combination]()
+        }
       }
-    }
-
-    // Build key combination string (exact match with modifiers)
-    const modifiers = [];
-    if (event.ctrlKey) modifiers.push('Ctrl');
-    if (event.altKey) modifiers.push('Alt');
-    if (event.shiftKey) modifiers.push('Shift');
-    if (event.metaKey) modifiers.push('Meta');
-
-    const key = event.key;
-    const combination = modifiers.length > 0
-      ? `${modifiers.join('+')}+${key}`
-      : key;
-
-    // Check for exact match (with modifiers if present)
-    if (shortcuts[combination]) {
-      event.preventDefault();
-      shortcuts[combination]();
-    }
-  }, [shortcuts, enabled]);
+    },
+    [enabled, ignoreInputFields, isAdvancedAPI]
+  )
 
   useEffect(() => {
     if (enabled) {
-      window.addEventListener('keydown', handleKeyDown);
-
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-      };
+      window.addEventListener('keydown', handleKeyDown)
+      return () => window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [handleKeyDown, enabled]);
+  }, [handleKeyDown, enabled])
 
-  return {
-    isEnabled: enabled
-  };
-}
-
-/**
- * Advanced API implementation with KeyBinding array
- */
-function useAdvancedKeyboardShortcuts(options: UseKeyboardShortcutsOptions) {
-  const { enabled = true, ignoreInputFields = true, bindings } = options;
-  const bindingsRef = useRef(bindings);
-
-  // Update ref when bindings change (avoid stale closures)
-  useEffect(() => {
-    bindingsRef.current = bindings;
-  }, [bindings]);
-
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (!enabled) return;
-
-    // Ignore shortcuts when typing in input fields
-    if (ignoreInputFields) {
-      const target = event.target as HTMLElement;
-      const tagName = target.tagName.toLowerCase();
-      const isEditable = target.isContentEditable;
-
-      if (
-        tagName === 'input' ||
-        tagName === 'textarea' ||
-        tagName === 'select' ||
-        isEditable
-      ) {
-        return;
-      }
-    }
-
-    // Find matching binding (prefer exact modifier matches)
-    const binding = bindingsRef.current.find(b => {
-      const keyMatches = b.key.toLowerCase() === event.key.toLowerCase();
-
-      // Exact matching: if modifier not specified in binding, it must be false in event
-      const ctrlMatches = b.ctrlKey === undefined ? !event.ctrlKey : b.ctrlKey === event.ctrlKey;
-      const shiftMatches = b.shiftKey === undefined ? !event.shiftKey : b.shiftKey === event.shiftKey;
-      const altMatches = b.altKey === undefined ? !event.altKey : b.altKey === event.altKey;
-      const metaMatches = b.metaKey === undefined ? !event.metaKey : b.metaKey === event.metaKey;
-
-      return keyMatches && ctrlMatches && shiftMatches && altMatches && metaMatches;
-    });
-
-    if (binding) {
-      if (binding.preventDefault !== false) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      binding.handler(event);
-    }
-  }, [enabled, ignoreInputFields]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
-
-  // Return help text for UI
   const getShortcutsHelp = useCallback((): ShortcutHelp[] => {
     return bindingsRef.current.map(b => ({
       keys: [
@@ -186,13 +157,20 @@ function useAdvancedKeyboardShortcuts(options: UseKeyboardShortcutsOptions) {
         b.shiftKey && 'Shift',
         b.altKey && 'Alt',
         b.metaKey && 'Cmd',
-        formatKeyName(b.key)
-      ].filter(Boolean).join(' + '),
-      description: b.description
-    }));
-  }, []);
+        formatKeyName(b.key),
+      ]
+        .filter(Boolean)
+        .join(' + '),
+      description: b.description,
+    }))
+  }, [])
 
-  return { getShortcutsHelp };
+  // Return appropriate shape based on API
+  if (isAdvancedAPI) {
+    return { getShortcutsHelp }
+  } else {
+    return { isEnabled: enabled }
+  }
 }
 
 /**
@@ -201,13 +179,13 @@ function useAdvancedKeyboardShortcuts(options: UseKeyboardShortcutsOptions) {
 function formatKeyName(key: string): string {
   const keyMap: Record<string, string> = {
     ' ': 'Space',
-    'ArrowLeft': '←',
-    'ArrowRight': '→',
-    'ArrowUp': '↑',
-    'ArrowDown': '↓',
-    'Enter': 'Enter',
-    'Escape': 'Esc',
-  };
+    ArrowLeft: '←',
+    ArrowRight: '→',
+    ArrowUp: '↑',
+    ArrowDown: '↓',
+    Enter: 'Enter',
+    Escape: 'Esc',
+  }
 
-  return keyMap[key] || key.toUpperCase();
+  return keyMap[key] || key.toUpperCase()
 }

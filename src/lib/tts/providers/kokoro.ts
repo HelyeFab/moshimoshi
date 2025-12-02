@@ -1,53 +1,50 @@
-import { TTSProvider, TTSOptions, TTSResult } from '../types';
-import { getTtsConfig } from '../config';
+import { TTSProvider, TTSOptions, TTSResult } from '../types'
+import { getTtsConfig } from '../config'
 
 interface KokoroTTSOptions {
-  voice: string;
-  speed?: number;
-  pitch?: number;
-  volume?: number;
+  voice: string
+  speed?: number
+  pitch?: number
+  volume?: number
 }
 
 interface KokoroResponse {
-  audioContent: ArrayBuffer;
-  duration?: number;
+  audioContent: ArrayBuffer
+  duration?: number
 }
 
 export class KokoroProvider {
-  private apiKey: string;
-  private baseUrl: string;
+  private apiKey: string
+  private baseUrl: string
 
   constructor() {
-    this.apiKey = process.env.SHELDON_API_KEY || '';
-    this.baseUrl = 'https://api.selfmind.dev/kokoro/v1/audio';
+    this.apiKey = process.env.SHELDON_API_KEY || ''
+    this.baseUrl = 'https://api.selfmind.dev/kokoro/v1/audio'
 
     if (!this.apiKey) {
-      console.warn('SHELDON_API_KEY not found - Kokoro TTS will fail');
+      console.warn('SHELDON_API_KEY not found - Kokoro TTS will fail')
     }
   }
 
-  async synthesize(
-    text: string,
-    options: KokoroTTSOptions
-  ): Promise<KokoroResponse> {
+  async synthesize(text: string, options: KokoroTTSOptions): Promise<KokoroResponse> {
     if (!this.apiKey) {
-      throw new Error('SHELDON_API_KEY is required for Kokoro TTS');
+      throw new Error('SHELDON_API_KEY is required for Kokoro TTS')
     }
 
     if (!text || text.trim().length === 0) {
-      throw new Error('Text cannot be empty');
+      throw new Error('Text cannot be empty')
     }
 
     // Kokoro API expects specific voice IDs
-    const voice = this.mapVoiceToKokoro(options.voice);
-    const speed = Math.max(0.5, Math.min(2.0, options.speed || 1.0));
+    const voice = this.mapVoiceToKokoro(options.voice)
+    const speed = Math.max(0.5, Math.min(2.0, options.speed || 1.0))
 
     console.log('[Kokoro TTS] Generating audio', {
       textLength: text.length,
       voice,
       speed,
-      textPreview: text.substring(0, 50) + (text.length > 50 ? '...' : '')
-    });
+      textPreview: text.substring(0, 50) + (text.length > 50 ? '...' : ''),
+    })
 
     try {
       const response = await fetch(`${this.baseUrl}/speech`, {
@@ -55,68 +52,66 @@ export class KokoroProvider {
         headers: {
           'Content-Type': 'application/json',
           'X-API-Key': this.apiKey,
-          'User-Agent': 'Moshimoshi/TTS-Service'
+          'User-Agent': 'Moshimoshi/TTS-Service',
         },
         body: JSON.stringify({
           model: 'kokoro',
           input: text,
           voice: voice,
           response_format: 'mp3',
-          speed: speed
+          speed: speed,
         }),
-        timeout: 30000 // 30 second timeout
-      });
+      })
 
       if (!response.ok) {
-        const errorText = await response.text();
+        const errorText = await response.text()
         console.error('[Kokoro TTS] API Error:', {
           status: response.status,
           statusText: response.statusText,
-          error: errorText
-        });
+          error: errorText,
+        })
 
         if (response.status === 401) {
-          throw new Error('Kokoro API authentication failed - check SHELDON_API_KEY');
+          throw new Error('Kokoro API authentication failed - check SHELDON_API_KEY')
         } else if (response.status === 429) {
-          throw new Error('Kokoro API rate limit exceeded');
+          throw new Error('Kokoro API rate limit exceeded')
         } else if (response.status >= 500) {
-          throw new Error(`Kokoro API server error (${response.status}): ${errorText}`);
+          throw new Error(`Kokoro API server error (${response.status}): ${errorText}`)
         } else {
-          throw new Error(`Kokoro API error (${response.status}): ${errorText}`);
+          throw new Error(`Kokoro API error (${response.status}): ${errorText}`)
         }
       }
 
-      const audioBuffer = await response.arrayBuffer();
+      const audioBuffer = await response.arrayBuffer()
 
       if (audioBuffer.byteLength === 0) {
-        throw new Error('Kokoro API returned empty audio data');
+        throw new Error('Kokoro API returned empty audio data')
       }
 
       console.log('[Kokoro TTS] Audio generated successfully', {
         size: (audioBuffer.byteLength / 1024).toFixed(2) + ' KB',
         voice,
-        speed
-      });
+        speed,
+      })
 
       return {
         audioContent: audioBuffer,
-        duration: this.estimateDuration(text, speed)
-      };
-
+        duration: this.estimateDuration(text, speed),
+      }
     } catch (error: any) {
-      console.error('[Kokoro TTS] Request failed:', error);
+      console.error('[Kokoro TTS] Request failed:', error)
 
       if (error.name === 'AbortError' || error.message?.includes('timeout')) {
-        throw new Error('Kokoro API request timeout - Sheldon server may be overloaded');
+        throw new Error('Kokoro API request timeout - Sheldon server may be overloaded')
       }
 
       // Re-throw our custom errors as-is
       if (error.message?.startsWith('Kokoro API')) {
-        throw error;
+        throw error
       }
 
       // Network errors
-      throw new Error(`Kokoro TTS network error: ${error.message}`);
+      throw new Error(`Kokoro TTS network error: ${error.message}`)
     }
   }
 
@@ -135,10 +130,10 @@ export class KokoroProvider {
       'ja-JP-Wavenet-D': 'jf_alpha',
       'japanese-female': 'jf_alpha',
       'japanese-male': 'jf_alpha', // Only female voice available for now
-      'default': 'jf_alpha'
-    };
+      default: 'jf_alpha',
+    }
 
-    return voiceMapping[voice] || 'jf_alpha';
+    return voiceMapping[voice] || 'jf_alpha'
   }
 
   /**
@@ -146,9 +141,9 @@ export class KokoroProvider {
    * Japanese text: ~4 characters per second at normal speed
    */
   private estimateDuration(text: string, speed: number = 1.0): number {
-    const charactersPerSecond = 4 * speed;
-    const duration = text.length / charactersPerSecond;
-    return Math.max(0.5, duration); // Minimum 0.5 seconds
+    const charactersPerSecond = 4 * speed
+    const duration = text.length / charactersPerSecond
+    return Math.max(0.5, duration) // Minimum 0.5 seconds
   }
 
   /**
@@ -160,15 +155,14 @@ export class KokoroProvider {
         method: 'GET',
         headers: {
           'X-API-Key': this.apiKey,
-          'User-Agent': 'Moshimoshi/Health-Check'
+          'User-Agent': 'Moshimoshi/Health-Check',
         },
-        timeout: 5000
-      });
+      })
 
-      return response.ok;
+      return response.ok
     } catch (error) {
-      console.warn('[Kokoro TTS] Health check failed:', error);
-      return false;
+      console.warn('[Kokoro TTS] Health check failed:', error)
+      return false
     }
   }
 
@@ -176,7 +170,7 @@ export class KokoroProvider {
    * Get supported voices
    */
   getSupportedVoices(): string[] {
-    return ['jf_alpha']; // Currently only one voice available
+    return ['jf_alpha'] // Currently only one voice available
   }
 
   /**
@@ -190,7 +184,7 @@ export class KokoroProvider {
       hasApiKey: !!this.apiKey,
       supportedLanguages: ['ja-JP'],
       supportedFormats: ['mp3'],
-      maxTextLength: 5000 // Kokoro limit
-    };
+      maxTextLength: 5000, // Kokoro limit
+    }
   }
 }

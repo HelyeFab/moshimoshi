@@ -1,22 +1,22 @@
-'use client';
+'use client'
 
-import React, { useEffect, useState, useMemo } from 'react';
-import KuromojiService, { TokenWithHighlight, POS_COLORS } from '@/utils/kuromojiService';
+import React, { useEffect, useState, useMemo } from 'react'
+import KuromojiService, { TokenWithHighlight, POS_COLORS } from '@/utils/kuromojiService'
 
 interface GrammarHighlightedTextProps {
-  text: string;
-  highlightMode: 'none' | 'all' | 'content' | 'grammar';
-  onWordClick?: (word: string, event: React.MouseEvent) => void;
-  showFurigana?: boolean;
-  className?: string;
+  text: string
+  highlightMode: 'none' | 'all' | 'content' | 'grammar'
+  onWordClick?: (word: string, event: React.MouseEvent) => void
+  showFurigana?: boolean
+  className?: string
 }
 
 // Convert katakana to hiragana
 function convertKatakanaToHiragana(str: string): string {
   return str.replace(/[\u30A1-\u30FA]/g, function (match) {
-    const chr = match.charCodeAt(0) - 0x60;
-    return String.fromCharCode(chr);
-  });
+    const chr = match.charCodeAt(0) - 0x60
+    return String.fromCharCode(chr)
+  })
 }
 
 export function GrammarHighlightedText({
@@ -24,115 +24,130 @@ export function GrammarHighlightedText({
   highlightMode,
   onWordClick,
   showFurigana = false,
-  className = ''
+  className = '',
 }: GrammarHighlightedTextProps) {
-  const [tokens, setTokens] = useState<TokenWithHighlight[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isKuromojiReady, setIsKuromojiReady] = useState(false);
+  const [tokens, setTokens] = useState<TokenWithHighlight[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [isKuromojiReady, setIsKuromojiReady] = useState(false)
 
   // Initialize Kuromoji once
   useEffect(() => {
     // KuromojiService is a singleton that doesn't need initialization
     // It uses the /api/furigana endpoint internally
-    setIsKuromojiReady(true);
-  }, []);
+    setIsKuromojiReady(true)
+  }, [])
 
   useEffect(() => {
     const analyzeText = async () => {
       if (!isKuromojiReady || highlightMode === 'none' || !text) {
-        setTokens([]);
-        setLoading(false);
-        return;
+        setTokens([])
+        setLoading(false)
+        return
       }
 
       try {
-        setLoading(true);
-        const kuromojiService = KuromojiService.getInstance();
-        const analyzedTokens = await kuromojiService.tokenize(text);
-        setTokens(analyzedTokens);
-        setError(null);
+        setLoading(true)
+        const kuromojiService = KuromojiService.getInstance()
+        const analyzedTokens = await kuromojiService.tokenize(text)
+        setTokens(analyzedTokens)
+        setError(null)
       } catch (err) {
-        console.error('Failed to analyze text:', err);
-        setError('Failed to analyze text');
-        setTokens([]);
+        console.error('Failed to analyze text:', err)
+        setError('Failed to analyze text')
+        setTokens([])
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    analyzeText();
-  }, [text, highlightMode, isKuromojiReady]);
+    analyzeText()
+  }, [text, highlightMode, isKuromojiReady])
 
   const shouldHighlight = (token: TokenWithHighlight): boolean => {
-    if (highlightMode === 'none') return false;
-    if (highlightMode === 'all') return true;
+    if (highlightMode === 'none') return false
+    if (highlightMode === 'all') return true
 
-    const kuromojiService = KuromojiService.getInstance();
+    const kuromojiService = KuromojiService.getInstance()
 
     if (highlightMode === 'content') {
-      return kuromojiService.isContentWord(token);
+      return kuromojiService.isContentWord(token)
     }
 
     if (highlightMode === 'grammar') {
-      return kuromojiService.isGrammarWord(token);
+      return kuromojiService.isGrammarWord(token)
     }
 
-    return false;
-  };
+    return false
+  }
 
-  const shouldAddWordSpacing = (token: TokenWithHighlight, nextToken?: TokenWithHighlight): boolean => {
-    const partOfSpeech = token.part_of_speech;
+  const shouldAddWordSpacing = (
+    token: TokenWithHighlight,
+    nextToken?: TokenWithHighlight
+  ): boolean => {
+    const partOfSpeech = token.pos
 
     // Don't add spacing after punctuation
     if (partOfSpeech === '記号' || partOfSpeech === '補助記号') {
-      return false;
+      return false
     }
 
     // Don't add spacing after particles
     if (partOfSpeech === '助詞') {
-      return false;
+      return false
     }
 
     // Don't add spacing after auxiliary verbs
     if (partOfSpeech === '助動詞') {
-      return false;
+      return false
     }
 
     // Don't add spacing before particles if next token is a particle
-    if (nextToken && nextToken.part_of_speech === '助詞') {
-      return false;
+    if (nextToken && nextToken.pos === '助詞') {
+      return false
     }
 
     // Don't add spacing before punctuation
-    if (nextToken && (nextToken.part_of_speech === '記号' || nextToken.part_of_speech === '補助記号')) {
-      return false;
+    if (nextToken && (nextToken.pos === '記号' || nextToken.pos === '補助記号')) {
+      return false
     }
 
-    return true;
-  };
+    return true
+  }
 
   const handleWordClick = (token: TokenWithHighlight, event: React.MouseEvent) => {
     if (onWordClick && token.basic_form) {
-      onWordClick(token.basic_form, event);
+      onWordClick(token.basic_form, event)
     }
-  };
+  }
 
   if (loading || !isKuromojiReady) {
-    return <span className={`${className} japanese-text font-ja`} data-quickcontext="true">{text}</span>;
+    return (
+      <span className={`${className} japanese-text font-ja`} data-quickcontext="true">
+        {text}
+      </span>
+    )
   }
 
   if (error || tokens.length === 0) {
-    return <span className={`${className} japanese-text font-ja`} data-quickcontext="true">{text}</span>;
+    return (
+      <span className={`${className} japanese-text font-ja`} data-quickcontext="true">
+        {text}
+      </span>
+    )
   }
 
   return (
-    <span className={`${className} block md:inline japanese-text font-ja`} data-quickcontext="true" style={{ lineHeight: '2.5', marginTop: '0.5rem' }}>
+    <span
+      className={`${className} block md:inline japanese-text font-ja`}
+      data-quickcontext="true"
+      style={{ lineHeight: '2.5', marginTop: '0.5rem' }}
+    >
       {tokens.map((token, index) => {
-        const nextToken = tokens[index + 1];
-        const isHighlighted = shouldHighlight(token);
-        const posType = KuromojiService.getInstance().getPartOfSpeech(token);
-        const addSpacing = shouldAddWordSpacing(token, nextToken);
+        const nextToken = tokens[index + 1]
+        const isHighlighted = shouldHighlight(token)
+        const posType = KuromojiService.getInstance().getPartOfSpeech(token)
+        const addSpacing = shouldAddWordSpacing(token, nextToken)
 
         // Handle Japanese full stop - add line breaks after it
         if (token.surface_form === '。') {
@@ -142,56 +157,57 @@ export function GrammarHighlightedText({
               <br />
               <br />
             </React.Fragment>
-          );
+          )
         }
 
         // Skip other symbols (e.g., '・', punctuation)
         if (posType === 'symbol') {
-          return null;
+          return null
         }
 
         // Check if the token contains kanji
-        const hasKanji = /[\u4E00-\u9FAF]/.test(token.surface_form);
+        const hasKanji = /[\u4E00-\u9FAF]/.test(token.surface_form)
 
         // Convert katakana reading to hiragana
-        const hiraganaReading = token.reading ? convertKatakanaToHiragana(token.reading) : '';
+        const hiraganaReading = token.reading ? convertKatakanaToHiragana(token.reading) : ''
 
         if (showFurigana && hiraganaReading && token.surface_form !== hiraganaReading && hasKanji) {
           // Render with furigana only for words containing kanji
           return (
             <span
               key={index}
-              className={`cursor-pointer hover:bg-primary/20 transition-colors rounded px-2 py-0.5 mx-2 my-2 inline-block relative min-w-[2.5em] text-center ${isHighlighted ? `grammar-${posType}` : ''
-                }`}
+              className={`cursor-pointer hover:bg-primary/20 transition-colors rounded px-2 py-0.5 mx-2 my-2 inline-block relative min-w-[2.5em] text-center ${
+                isHighlighted ? `grammar-${posType}` : ''
+              }`}
               style={{
                 ...(isHighlighted ? { backgroundColor: `${token.color}60`, color: '#111827' } : {}),
-                paddingTop: showFurigana ? '1.1em' : undefined,  // Tighter furigana spacing
+                paddingTop: showFurigana ? '1.1em' : undefined, // Tighter furigana spacing
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
                 overflowWrap: 'normal',
-                marginRight: addSpacing ? '0.25em' : undefined  // Word spacing
+                marginRight: addSpacing ? '0.25em' : undefined, // Word spacing
               }}
-              onClick={(e) => handleWordClick(token, e)}
+              onClick={e => handleWordClick(token, e)}
               data-pos={posType}
             >
               <span
                 className="absolute text-xs w-full text-center"
                 style={{
-                  top: '0.1em',  // Tighter positioning
+                  top: '0.1em', // Tighter positioning
                   left: '0',
                   fontSize: '0.7em',
                   lineHeight: 1,
                   whiteSpace: 'nowrap',
                   fontWeight: 'normal',
                   color: 'var(--article-text-secondary)',
-                  opacity: 0.85
+                  opacity: 0.85,
                 }}
               >
                 {hiraganaReading}
               </span>
               <span style={{ fontWeight: 'bold' }}>{token.surface_form}</span>
             </span>
-          );
+          )
         } else {
           // Render without furigana
           return (
@@ -204,19 +220,19 @@ export function GrammarHighlightedText({
                 wordBreak: 'keep-all',
                 overflowWrap: 'normal',
                 fontWeight: 'bold',
-                marginRight: addSpacing ? '0.25em' : undefined  // Word spacing
+                marginRight: addSpacing ? '0.25em' : undefined, // Word spacing
               }}
-              onClick={(e) => handleWordClick(token, e)}
+              onClick={e => handleWordClick(token, e)}
               data-pos={posType}
               title={hiraganaReading || token.surface_form}
             >
               {token.surface_form}
             </span>
-          );
+          )
         }
       })}
     </span>
-  );
+  )
 }
 
 // Legend component to show color coding
@@ -227,12 +243,15 @@ export function GrammarLegend() {
     { type: 'adjective', label: 'Adjectives', color: POS_COLORS.adjective },
     { type: 'particle', label: 'Particles', color: POS_COLORS.particle },
     { type: 'adverb', label: 'Adverbs', color: POS_COLORS.adverb },
-  ];
+  ]
 
   return (
     <div className="flex flex-wrap gap-3 md:gap-3 text-xs md:text-sm">
       {categories.map(cat => (
-        <div key={cat.type} className="flex items-center gap-1 px-2 py-1 md:px-0 md:py-0 bg-white dark:bg-[#a0aace] rounded-md">
+        <div
+          key={cat.type}
+          className="flex items-center gap-1 px-2 py-1 md:px-0 md:py-0 bg-white dark:bg-[#a0aace] rounded-md"
+        >
           <div
             className="w-3 h-3 md:w-4 md:h-4 rounded"
             style={{ backgroundColor: `${cat.color}50` }}
@@ -241,5 +260,5 @@ export function GrammarLegend() {
         </div>
       ))}
     </div>
-  );
+  )
 }

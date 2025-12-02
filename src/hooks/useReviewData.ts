@@ -146,7 +146,7 @@ export function useReviewData() {
           consecutiveCorrect: item.srsData?.consecutiveCorrect || 0,
           successRate: item.accuracy || 0,
           lastReviewDate: item.lastReviewedAt,
-          nextReviewDate: item.nextReviewAt
+          nextReviewDate: item.nextReviewAt,
         }))
         setSrsItems(items)
 
@@ -166,7 +166,7 @@ export function useReviewData() {
               primaryDisplay: item.primaryDisplay,
               secondaryDisplay: item.secondaryDisplay,
               contentType: item.contentType,
-              difficulty: 1 - item.successRate
+              difficulty: 1 - item.successRate,
             },
             failureCount: Math.floor((1 - item.successRate) * 10),
             successRate: item.successRate,
@@ -176,8 +176,8 @@ export function useReviewData() {
             srsData: {
               easeFactor: item.easeFactor,
               interval: item.interval,
-              consecutiveFailures: Math.max(0, 3 - item.consecutiveCorrect)
-            }
+              consecutiveFailures: Math.max(0, 3 - item.consecutiveCorrect),
+            },
           }))
         setLeeches(leechItems)
       }
@@ -194,7 +194,7 @@ export function useReviewData() {
           accuracy: calculateAccuracy(session.items),
           averageResponseTime: session.averageResponseTime || 0,
           mode: session.mode || 'recognition',
-          status: session.status || 'completed'
+          status: session.status || 'completed',
         }))
       setSessions(realSessions)
 
@@ -207,7 +207,7 @@ export function useReviewData() {
           itemsTotal: storedSession.items?.length || 0,
           currentAccuracy: calculateAccuracy(storedSession.items),
           averageResponseTime: 2.8,
-          streak: calculateStreak(storedSession.items)
+          streak: calculateStreak(storedSession.items),
         })
       }
     } catch (err) {
@@ -223,7 +223,7 @@ export function useReviewData() {
         fetch('/api/review/stats'),
         fetch('/api/review/queue'),
         fetch('/api/review/progress/studied'),
-        fetch('/api/review/user-sessions')
+        fetch('/api/review/user-sessions'),
       ])
 
       if (statsRes.ok && queueRes.ok && progressRes.ok) {
@@ -242,19 +242,20 @@ export function useReviewData() {
         }
 
         // Transform API data to our format
-        const items: ReviewItem[] = progressData.items?.map((item: any) => ({
-          id: item.id,
-          contentType: item.contentType,
-          primaryDisplay: item.primaryDisplay,
-          secondaryDisplay: item.secondaryDisplay,
-          state: item.status,
-          interval: item.srsLevel || 0,
-          easeFactor: 2.5,
-          consecutiveCorrect: item.correctCount || 0,
-          successRate: item.accuracy || 0,
-          lastReviewDate: item.lastReviewedAt ? new Date(item.lastReviewedAt) : undefined,
-          nextReviewDate: item.nextReviewAt ? new Date(item.nextReviewAt) : undefined
-        })) || []
+        const items: ReviewItem[] =
+          progressData.items?.map((item: any) => ({
+            id: item.id,
+            contentType: item.contentType,
+            primaryDisplay: item.primaryDisplay,
+            secondaryDisplay: item.secondaryDisplay,
+            state: item.status,
+            interval: item.srsLevel || 0,
+            easeFactor: 2.5,
+            consecutiveCorrect: item.correctCount || 0,
+            successRate: item.accuracy || 0,
+            lastReviewDate: item.lastReviewedAt ? new Date(item.lastReviewedAt) : undefined,
+            nextReviewDate: item.nextReviewAt ? new Date(item.nextReviewAt) : undefined,
+          })) || []
 
         setSrsItems(items)
         setQueueItems(queueData.items || [])
@@ -273,7 +274,7 @@ export function useReviewData() {
             accuracy: s.accuracy,
             averageResponseTime: s.averageResponseTime,
             mode: s.mode,
-            status: s.status
+            status: s.status,
           }))
           setSessions(realSessions)
         }
@@ -313,7 +314,10 @@ export function useReviewData() {
     try {
       const storage = new IndexedDBStorage()
       await storage.initialize()
-      await storage.cacheContent(srsItems)
+      // Cast ReviewItem[] to ReviewableContent[] - they share the same structure
+      await storage.cacheContent(
+        srsItems as unknown as import('@/lib/review-engine/core/interfaces').ReviewableContent[]
+      )
     } catch (err) {
       logger.error('Failed to cache data locally:', err)
     }
@@ -327,6 +331,6 @@ export function useReviewData() {
     leeches,
     loading,
     error,
-    refetch: loadReviewData
+    refetch: loadReviewData,
   }
 }

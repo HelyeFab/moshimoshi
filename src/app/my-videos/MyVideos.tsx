@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useRef } from 'react';
-import { useI18n } from '@/i18n/I18nContext';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react'
+import { useI18n } from '@/i18n/I18nContext'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import {
   Play,
   Clock,
@@ -20,217 +20,224 @@ import {
   X,
   PlayCircle,
   Timer,
-  BarChart3
-} from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
-import { useFeature } from '@/hooks/useFeature';
-import { useSubscription } from '@/hooks/useSubscription';
-import { useYouTubeStats } from '@/hooks/useYouTubeStats';
-import { PracticeHistoryItem } from '@/services/practiceHistory/types';
+  BarChart3,
+} from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
+import { useFeature } from '@/hooks/useFeature'
+import { useSubscription } from '@/hooks/useSubscription'
+import { useYouTubeStats } from '@/hooks/useYouTubeStats'
+import { PracticeHistoryItem } from '@/services/practiceHistory/types'
 // Navigation is now global via NavigationWrapper in root layout;
-import { useToast } from '@/components/ui/Toast/ToastContext';
-import Link from 'next/link';
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import Link from 'next/link'
 
 export default function MyVideos() {
-  const { t, strings } = useI18n();
-  const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
-  const { isPremium, isFreeTier } = useSubscription();
-  const { checkAndTrack, remaining } = useFeature('media_upload');
-  const { showToast } = useToast();
-  const { stats: youtubeStats, loading: youtubeStatsLoading } = useYouTubeStats();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
-  const parallaxY = useTransform(scrollY, [0, 300], [0, -50]);
+  const { t, strings } = useI18n()
+  const router = useRouter()
+  const { user, loading: authLoading } = useAuth()
+  const { isPremium, isFreeTier } = useSubscription()
+  const { checkAndTrack, remaining } = useFeature('media_upload')
+  const { showToast } = useToast()
+  const { stats: youtubeStats, loading: youtubeStatsLoading } = useYouTubeStats()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollY } = useScroll()
+  const parallaxY = useTransform(scrollY, [0, 300], [0, -50])
 
-  const [videos, setVideos] = useState<PracticeHistoryItem[]>([]);
-  const [filteredVideos, setFilteredVideos] = useState<PracticeHistoryItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<'recent' | 'mostPracticed'>('recent');
-  const [userTier, setUserTier] = useState<string>('guest');
-  const [showFilters, setShowFilters] = useState(false);
+  const [videos, setVideos] = useState<PracticeHistoryItem[]>([])
+  const [filteredVideos, setFilteredVideos] = useState<PracticeHistoryItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sortBy, setSortBy] = useState<'recent' | 'mostPracticed'>('recent')
+  const [userTier, setUserTier] = useState<string>('guest')
+  const [showFilters, setShowFilters] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<{
-    isOpen: boolean;
-    video: PracticeHistoryItem | null;
-    isDeleting: boolean;
+    isOpen: boolean
+    video: PracticeHistoryItem | null
+    isDeleting: boolean
   }>({
     isOpen: false,
     video: null,
-    isDeleting: false
-  });
+    isDeleting: false,
+  })
 
   // Redirect non-premium users to pricing page
   useEffect(() => {
     if (!authLoading && isPremium === false) {
-      router.push('/pricing?reason=my_videos_premium_only');
+      router.push('/pricing?reason=my_videos_premium_only')
     }
-  }, [authLoading, isPremium, router]);
+  }, [authLoading, isPremium, router])
 
   // Load videos from API
   useEffect(() => {
     if (!authLoading && isPremium) {
-      loadVideos();
+      loadVideos()
     }
-  }, [user, authLoading, sortBy, isPremium]);
+  }, [user, authLoading, sortBy, isPremium])
 
   const loadVideos = async () => {
     try {
-      setIsLoading(true);
+      setIsLoading(true)
 
       // Use subscription hook to check premium status
       if (!user || isFreeTier) {
         // For free users and guests, load from IndexedDB/localStorage
         try {
           // Dynamically import only the IndexedDB storage which is browser-safe
-          const { IndexedDBPracticeHistoryStorage } = await import('@/services/practiceHistory/IndexedDBStorage');
-          const storage = new IndexedDBPracticeHistoryStorage();
-          await storage.init();
+          const { IndexedDBPracticeHistoryStorage } =
+            await import('@/services/practiceHistory/IndexedDBStorage')
+          const storage = new IndexedDBPracticeHistoryStorage()
+          await storage.init()
 
-          const localVideos = await storage.getAllItems();
+          const localVideos = await storage.getAllItems()
 
           // Sort videos based on sortBy
           if (sortBy === 'recent') {
-            localVideos.sort((a, b) => new Date(b.lastPracticed).getTime() - new Date(a.lastPracticed).getTime());
+            localVideos.sort(
+              (a, b) => new Date(b.lastPracticed).getTime() - new Date(a.lastPracticed).getTime()
+            )
           } else if (sortBy === 'mostPracticed') {
-            localVideos.sort((a, b) => b.practiceCount - a.practiceCount);
+            localVideos.sort((a, b) => b.practiceCount - a.practiceCount)
           }
 
-          setVideos(localVideos);
-          setFilteredVideos(localVideos);
-          setUserTier(user ? 'free' : 'guest');
+          setVideos(localVideos)
+          setFilteredVideos(localVideos)
+          setUserTier(user ? 'free' : 'guest')
         } catch (localError) {
-          console.error('Error loading local videos:', localError);
+          console.error('Error loading local videos:', localError)
           // Fallback to empty state
-          setVideos([]);
-          setFilteredVideos([]);
-          setUserTier(user ? 'free' : 'guest');
+          setVideos([])
+          setFilteredVideos([])
+          setUserTier(user ? 'free' : 'guest')
         }
       } else {
         // For premium users, fetch from API (Firebase)
-        const response = await fetch(`/api/practice/track?limit=100&sortBy=${sortBy}`);
+        const response = await fetch(`/api/practice/track?limit=100&sortBy=${sortBy}`)
         if (!response.ok) {
-          throw new Error('Failed to fetch videos');
+          throw new Error('Failed to fetch videos')
         }
 
-        const data = await response.json();
-        setVideos(data.items || []);
-        setFilteredVideos(data.items || []);
-        setUserTier(data.userTier || 'guest');
+        const data = await response.json()
+        setVideos(data.items || [])
+        setFilteredVideos(data.items || [])
+        setUserTier(data.userTier || 'guest')
       }
     } catch (error) {
-      console.error('Error loading videos:', error);
-      showToast(t('common.error'), 'error');
-      setVideos([]);
-      setFilteredVideos([]);
+      console.error('Error loading videos:', error)
+      showToast(t('common.error'), 'error')
+      setVideos([])
+      setFilteredVideos([])
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   // Filter videos based on search
   useEffect(() => {
-    let filtered = [...videos];
+    let filtered = [...videos]
 
     // Apply search filter
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
+      const query = searchQuery.toLowerCase()
       filtered = filtered.filter(video => {
-        const title = video.videoTitle.toLowerCase();
-        const channel = video.channelName?.toLowerCase() || '';
-        return title.includes(query) || channel.includes(query);
-      });
+        const title = video.videoTitle.toLowerCase()
+        const channel = video.channelName?.toLowerCase() || ''
+        return title.includes(query) || channel.includes(query)
+      })
     }
 
-    setFilteredVideos(filtered);
-  }, [searchQuery, videos]);
+    setFilteredVideos(filtered)
+  }, [searchQuery, videos])
 
   const handlePracticeAgain = (video: PracticeHistoryItem) => {
     // Navigate to YouTube shadowing with the video URL
-    router.push(`/youtube-shadowing?url=${encodeURIComponent(video.videoUrl)}&fromHistory=true`);
-  };
+    router.push(`/youtube-shadowing?url=${encodeURIComponent(video.videoUrl)}&fromHistory=true`)
+  }
 
   const handleDelete = (video: PracticeHistoryItem) => {
     setDeleteConfirm({
       isOpen: true,
       video,
-      isDeleting: false
-    });
-  };
+      isDeleting: false,
+    })
+  }
 
   const confirmDelete = async () => {
-    if (!deleteConfirm.video) return;
+    if (!deleteConfirm.video) return
 
-    setDeleteConfirm(prev => ({ ...prev, isDeleting: true }));
+    setDeleteConfirm(prev => ({ ...prev, isDeleting: true }))
 
     try {
-      const deletedVideo = deleteConfirm.video!;
+      const deletedVideo = deleteConfirm.video!
 
       if (!user || isFreeTier) {
         // For free users, delete from IndexedDB/localStorage
-        const { IndexedDBPracticeHistoryStorage } = await import('@/services/practiceHistory/IndexedDBStorage');
-        const storage = new IndexedDBPracticeHistoryStorage();
-        await storage.init();
-        await storage.removeItem(deletedVideo.videoId);
+        const { IndexedDBPracticeHistoryStorage } =
+          await import('@/services/practiceHistory/IndexedDBStorage')
+        const storage = new IndexedDBPracticeHistoryStorage()
+        await storage.init()
+        await storage.deleteItem(deletedVideo.videoId)
       } else {
         // For premium users, call API to delete video
         const response = await fetch('/api/practice/track', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ videoId: deletedVideo.videoId })
-        });
+          body: JSON.stringify({ videoId: deletedVideo.videoId }),
+        })
 
         if (!response.ok) {
-          throw new Error('Failed to delete video');
+          throw new Error('Failed to delete video')
         }
       }
 
       // Update local state
-      setVideos(prev => prev.filter(v => v.videoId !== deletedVideo.videoId));
-      setFilteredVideos(prev => prev.filter(v => v.videoId !== deletedVideo.videoId));
+      setVideos(prev => prev.filter(v => v.videoId !== deletedVideo.videoId))
+      setFilteredVideos(prev => prev.filter(v => v.videoId !== deletedVideo.videoId))
 
-      setDeleteConfirm({ isOpen: false, video: null, isDeleting: false });
-      showToast(t('common.success'), 'success');
+      setDeleteConfirm({ isOpen: false, video: null, isDeleting: false })
+      showToast(t('common.success'), 'success')
     } catch (error) {
-      console.error('Error deleting video:', error);
-      showToast(t('common.error'), 'error');
-      setDeleteConfirm(prev => ({ ...prev, isDeleting: false }));
+      console.error('Error deleting video:', error)
+      showToast(t('common.error'), 'error')
+      setDeleteConfirm(prev => ({ ...prev, isDeleting: false }))
     }
-  };
+  }
 
   const cancelDelete = () => {
-    setDeleteConfirm({ isOpen: false, video: null, isDeleting: false });
-  };
+    setDeleteConfirm({ isOpen: false, video: null, isDeleting: false })
+  }
 
   const formatDate = (date: Date) => {
-    const now = new Date();
-    const diff = now.getTime() - new Date(date).getTime();
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const now = new Date()
+    const diff = now.getTime() - new Date(date).getTime()
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
-    if (days === 0) return strings.myVideos?.video?.today || 'Today';
-    if (days === 1) return strings.myVideos?.video?.yesterday || 'Yesterday';
-    if (days < 7) return t('myVideos.video.daysAgo', { days });
-    if (days < 30) return t('myVideos.video.weeksAgo', { weeks: Math.floor(days / 7) });
-    return new Date(date).toLocaleDateString();
-  };
+    if (days === 0) return strings.myVideos?.video?.today || 'Today'
+    if (days === 1) return strings.myVideos?.video?.yesterday || 'Yesterday'
+    if (days < 7) return t('myVideos.video.daysAgo', { days })
+    if (days < 30) return t('myVideos.video.weeksAgo', { weeks: Math.floor(days / 7) })
+    return new Date(date).toLocaleDateString()
+  }
 
   const getYouTubeThumbnail = (videoId: string) => {
-    return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-  };
+    return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+  }
 
   const formatTime = (seconds: number): { value: string; unit: string } => {
-    const minutes = Math.round(seconds / 60);
+    const minutes = Math.round(seconds / 60)
     if (minutes >= 60) {
-      const hours = Math.floor(minutes / 60);
-      const remainingMinutes = minutes % 60;
+      const hours = Math.floor(minutes / 60)
+      const remainingMinutes = minutes % 60
       return {
-        value: remainingMinutes > 0 ? `${hours}:${remainingMinutes.toString().padStart(2, '0')}` : `${hours}`,
-        unit: 'hrs'
-      };
+        value:
+          remainingMinutes > 0
+            ? `${hours}:${remainingMinutes.toString().padStart(2, '0')}`
+            : `${hours}`,
+        unit: 'hrs',
+      }
     }
-    return { value: minutes.toString(), unit: 'min' };
-  };
+    return { value: minutes.toString(), unit: 'min' }
+  }
 
   // Stats are now managed in state from API response
 
@@ -238,7 +245,7 @@ export default function MyVideos() {
   if (!authLoading && !user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-soft-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
-      {/* Navigation is now global - rendered in root layout */}
+        {/* Navigation is now global - rendered in root layout */}
 
         <div className="container mx-auto px-4 py-16">
           <motion.div
@@ -251,7 +258,7 @@ export default function MyVideos() {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: "spring", duration: 0.6 }}
+                transition={{ type: 'spring', duration: 0.6 }}
                 className="relative bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20"
               >
                 <History className="w-20 h-20 mx-auto mb-6 text-primary-500" />
@@ -273,7 +280,7 @@ export default function MyVideos() {
           </motion.div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -319,7 +326,7 @@ export default function MyVideos() {
             <motion.h1
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1, type: "spring" }}
+              transition={{ delay: 0.1, type: 'spring' }}
               className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400 bg-clip-text text-transparent"
             >
               {strings.myVideos?.title || 'My Videos'}
@@ -375,7 +382,9 @@ export default function MyVideos() {
                 </div>
                 <p className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
                   {formatTime(youtubeStats.watchTime).value}
-                  <span className="text-lg ml-1 opacity-70">{formatTime(youtubeStats.watchTime).unit}</span>
+                  <span className="text-lg ml-1 opacity-70">
+                    {formatTime(youtubeStats.watchTime).unit}
+                  </span>
                 </p>
                 <div className="mt-2 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full opacity-50" />
               </div>
@@ -397,9 +406,9 @@ export default function MyVideos() {
                   </span>
                 </div>
                 <p className="text-2xl font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                  {userTier === 'premium_monthly' || userTier === 'premium_yearly' ?
-                    `Premium` :
-                    userTier}
+                  {userTier === 'premium_monthly' || userTier === 'premium_yearly'
+                    ? `Premium`
+                    : userTier}
                 </p>
                 <div className="mt-2 h-1 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full opacity-50" />
               </div>
@@ -422,7 +431,7 @@ export default function MyVideos() {
                     type="text"
                     placeholder={strings.myVideos?.search?.placeholder || 'Search videos...'}
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={e => setSearchQuery(e.target.value)}
                     className="w-full pl-12 pr-4 py-3 bg-white/70 dark:bg-dark-700/70 backdrop-blur rounded-xl border border-gray-200/50 dark:border-dark-600/50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-400 transition-all duration-300"
                   />
                   {searchQuery && (
@@ -455,7 +464,11 @@ export default function MyVideos() {
                     onClick={() => setSortBy(sortBy === 'recent' ? 'mostPracticed' : 'recent')}
                     className="px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
                   >
-                    {sortBy === 'recent' ? <Clock className="w-5 h-5" /> : <BarChart3 className="w-5 h-5" />}
+                    {sortBy === 'recent' ? (
+                      <Clock className="w-5 h-5" />
+                    ) : (
+                      <BarChart3 className="w-5 h-5" />
+                    )}
                     <span className="hidden sm:inline">
                       {sortBy === 'recent'
                         ? strings.myVideos?.sort?.mostRecent || 'Recent'
@@ -491,7 +504,7 @@ export default function MyVideos() {
             <div className="flex flex-col justify-center items-center py-20">
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
               >
                 <Loader2 className="w-12 h-12 text-primary-500" />
               </motion.div>
@@ -508,14 +521,15 @@ export default function MyVideos() {
                 <div className="relative bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl rounded-3xl p-12 shadow-2xl border border-white/20">
                   <History className="w-24 h-24 mx-auto mb-6 text-gray-300 dark:text-gray-700" />
                   <h3 className="text-2xl font-bold mb-3">
-                    {searchQuery ?
-                      strings.myVideos?.search?.noResults || 'No videos found' :
-                      strings.myVideos?.empty?.title || 'No practice history yet'}
+                    {searchQuery
+                      ? strings.myVideos?.search?.noResults || 'No videos found'
+                      : strings.myVideos?.empty?.title || 'No practice history yet'}
                   </h3>
                   <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                    {searchQuery ?
-                      strings.myVideos?.search?.noResultsDescription || 'Try a different search' :
-                      strings.myVideos?.empty?.description || 'Start practicing with YouTube videos to see them here'}
+                    {searchQuery
+                      ? strings.myVideos?.search?.noResultsDescription || 'Try a different search'
+                      : strings.myVideos?.empty?.description ||
+                        'Start practicing with YouTube videos to see them here'}
                   </p>
                   <Link
                     href="/youtube-shadowing"
@@ -539,9 +553,9 @@ export default function MyVideos() {
                     exit={{ opacity: 0, scale: 0.8, y: -50 }}
                     transition={{
                       delay: index * 0.05,
-                      type: "spring",
+                      type: 'spring',
                       stiffness: 300,
-                      damping: 25
+                      damping: 25,
                     }}
                     whileHover={{ y: -8, transition: { duration: 0.3 } }}
                     className="relative group"
@@ -555,9 +569,9 @@ export default function MyVideos() {
                           src={video.thumbnailUrl || getYouTubeThumbnail(video.videoId)}
                           alt={video.videoTitle}
                           className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = getYouTubeThumbnail(video.videoId);
+                          onError={e => {
+                            const target = e.target as HTMLImageElement
+                            target.src = getYouTubeThumbnail(video.videoId)
                           }}
                         />
 
@@ -628,9 +642,9 @@ export default function MyVideos() {
                           <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDelete(video);
+                            onClick={e => {
+                              e.stopPropagation()
+                              handleDelete(video)
                             }}
                             className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-500 transition-all duration-300"
                           >
@@ -662,9 +676,9 @@ export default function MyVideos() {
                   initial={{ scale: 0.8, opacity: 0, y: 50 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ scale: 0.8, opacity: 0, y: 50 }}
-                  transition={{ type: "spring", duration: 0.5 }}
+                  transition={{ type: 'spring', duration: 0.5 }}
                   className="bg-white/95 dark:bg-dark-800/95 backdrop-blur-2xl rounded-3xl p-8 max-w-md w-full shadow-2xl border border-white/20"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={e => e.stopPropagation()}
                 >
                   <div className="text-center mb-6">
                     <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
@@ -674,13 +688,16 @@ export default function MyVideos() {
                       {strings.myVideos?.confirmDelete?.title || 'Delete Video'}
                     </h3>
                     <p className="text-muted-foreground">
-                      {strings.myVideos?.confirmDelete?.message || 'Are you sure you want to delete this video from your history?'}
+                      {strings.myVideos?.confirmDelete?.message ||
+                        'Are you sure you want to delete this video from your history?'}
                     </p>
                   </div>
 
                   {deleteConfirm.video && (
                     <div className="bg-gray-50/50 dark:bg-dark-700/50 backdrop-blur rounded-xl p-4 mb-6">
-                      <p className="font-semibold line-clamp-2 mb-1">{deleteConfirm.video.videoTitle}</p>
+                      <p className="font-semibold line-clamp-2 mb-1">
+                        {deleteConfirm.video.videoTitle}
+                      </p>
                       {deleteConfirm.video.channelName && (
                         <p className="text-sm text-muted-foreground flex items-center gap-1">
                           <User className="w-3.5 h-3.5" />
@@ -716,5 +733,5 @@ export default function MyVideos() {
         </div>
       </div>
     </div>
-  );
+  )
 }

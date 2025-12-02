@@ -62,7 +62,6 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
         title: title.trim(),
         description: description.trim() || undefined,
         priority,
-        tags: tags.length > 0 ? tags : undefined,
         dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
       })
 
@@ -163,7 +162,7 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
             id="title"
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
             className="peer w-full px-4 py-3 text-lg font-medium border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-soft-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 transition-all placeholder-transparent"
             placeholder={t('todos.form.titlePlaceholder')}
             autoFocus
@@ -184,13 +183,11 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {t('todos.form.descriptionPlaceholder')}
             </label>
-            <span className="text-xs text-gray-500">
-              {description.length}/1000
-            </span>
+            <span className="text-xs text-gray-500">{description.length}/1000</span>
           </div>
           <textarea
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={e => setDescription(e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-soft-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 transition-all resize-none"
             placeholder={t('todos.form.descriptionPlaceholder')}
             rows={3}
@@ -205,7 +202,7 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
             {t('todos.priority.label')}
           </label>
           <div className="grid grid-cols-3 gap-3">
-            {(['low', 'medium', 'high'] as const).map((p) => {
+            {(['low', 'medium', 'high'] as const).map(p => {
               const config = priorityConfig[p]
               return (
                 <button
@@ -221,14 +218,20 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
                 >
                   <div className="flex flex-col items-center gap-2">
                     <span className="text-2xl">{config.icon}</span>
-                    <span className="text-sm font-medium">
-                      {t(`todos.priority.${p}`)}
-                    </span>
+                    <span className="text-sm font-medium">{t(`todos.priority.${p}`)}</span>
                   </div>
                   {priority === p && (
                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-white dark:bg-dark-850 rounded-full flex items-center justify-center">
-                      <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      <svg
+                        className="w-4 h-4 text-green-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </div>
                   )}
@@ -244,7 +247,7 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
             {t('todos.tagsLabel')}
           </label>
           <div className="flex gap-2 mb-2 flex-wrap">
-            {tags.map((tag) => (
+            {tags.map(tag => (
               <span
                 key={tag}
                 className="px-3 py-1 bg-gradient-to-r from-primary-100 to-primary-200 dark:from-primary-900/30 dark:to-primary-800/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium flex items-center gap-1"
@@ -264,8 +267,8 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
             <input
               type="text"
               value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+              onChange={e => setTagInput(e.target.value)}
+              onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
               className="flex-1 px-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-soft-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 transition-all"
               placeholder={t('todos.tagPlaceholder')}
               disabled={isCreating}
@@ -284,7 +287,10 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
         {/* Due date with calendar icon */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label htmlFor="dueDate" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="dueDate"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               {t('todos.dueDateLabel')}
             </label>
             {/* Date format toggle */}
@@ -318,13 +324,21 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
               id="dueDate"
               type="date"
               value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
+              onChange={e => setDueDate(e.target.value)}
               className="w-full px-4 py-3 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-soft-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 transition-all"
               min={new Date().toISOString().split('T')[0]}
               disabled={isCreating}
             />
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+            <svg
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                clipRule="evenodd"
+              />
             </svg>
           </div>
           {/* Format helper text */}
@@ -347,15 +361,31 @@ export function CreateTodoForm({ onCreateTodo }: CreateTodoFormProps) {
             {isCreating ? (
               <span className="flex items-center justify-center gap-2">
                 <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 {t('todos.creating')}
               </span>
             ) : (
               <span className="flex items-center justify-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
                 </svg>
                 {t('todos.form.addButton')}
               </span>

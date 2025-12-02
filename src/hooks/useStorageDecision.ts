@@ -35,82 +35,88 @@ export function useStorageDecision() {
    * @param response - API response with storage metadata
    * @returns Storage decision with location and sync flags
    */
-  const handleStorageResponse = useCallback(<T = any>(response: StorageResponse<T>): StorageDecision & { data: T } => {
-    const { data, storage } = response
+  const handleStorageResponse = useCallback(
+    <T = any>(response: StorageResponse<T>): StorageDecision & { data: T } => {
+      const { data, storage } = response
 
-    // Log storage decision for debugging
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[Storage Decision]', {
-        location: storage?.location || 'unknown',
-        syncEnabled: storage?.syncEnabled || false,
-        plan: storage?.plan || 'unknown'
-      })
-    }
-
-    // Default to local storage if no storage info provided
-    if (!storage || !storage.location) {
-      console.warn('[Storage] No storage location in API response, defaulting to local')
-      return {
-        isLocal: true,
-        shouldSync: false,
-        storageLocation: 'local',
-        data
+      // Log storage decision for debugging
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[Storage Decision]', {
+          location: storage?.location || 'unknown',
+          syncEnabled: storage?.syncEnabled || false,
+          plan: storage?.plan || 'unknown',
+        })
       }
-    }
 
-    // Handle different storage locations
-    switch (storage.location) {
-      case 'local':
-        // Free user - local storage only
-        console.log('[Storage] Free user - using local storage only')
+      // Default to local storage if no storage info provided
+      if (!storage || !storage.location) {
+        console.warn('[Storage] No storage location in API response, defaulting to local')
         return {
           isLocal: true,
           shouldSync: false,
           storageLocation: 'local',
-          data
+          data,
         }
+      }
 
-      case 'both':
-        // Premium user - both local and cloud storage
-        console.log('[Storage] Premium user - syncing to cloud')
-        return {
-          isLocal: false,
-          shouldSync: true,
-          storageLocation: 'both',
-          data
-        }
+      // Handle different storage locations
+      switch (storage.location) {
+        case 'local':
+          // Free user - local storage only
+          console.log('[Storage] Free user - using local storage only')
+          return {
+            isLocal: true,
+            shouldSync: false,
+            storageLocation: 'local',
+            data,
+          }
 
-      case 'none':
-        // Guest user - no persistent storage
-        console.log('[Storage] Guest user - no persistent storage')
-        return {
-          isLocal: false,
-          shouldSync: false,
-          storageLocation: 'none',
-          data
-        }
+        case 'both':
+          // Premium user - both local and cloud storage
+          console.log('[Storage] Premium user - syncing to cloud')
+          return {
+            isLocal: false,
+            shouldSync: true,
+            storageLocation: 'both',
+            data,
+          }
 
-      default:
-        // Unknown storage location - default to local
-        console.warn('[Storage] Unknown storage location:', storage.location)
-        return {
-          isLocal: true,
-          shouldSync: false,
-          storageLocation: 'local',
-          data
-        }
-    }
-  }, [])
+        case 'none':
+          // Guest user - no persistent storage
+          console.log('[Storage] Guest user - no persistent storage')
+          return {
+            isLocal: false,
+            shouldSync: false,
+            storageLocation: 'none',
+            data,
+          }
+
+        default:
+          // Unknown storage location - default to local
+          console.warn('[Storage] Unknown storage location:', storage.location)
+          return {
+            isLocal: true,
+            shouldSync: false,
+            storageLocation: 'local',
+            data,
+          }
+      }
+    },
+    []
+  )
 
   /**
    * Check if we should save to IndexedDB
    * @param storageLocation - Storage location from API
    * @returns True if should save to IndexedDB
    */
-  const shouldSaveToIndexedDB = useCallback((storageLocation: 'none' | 'local' | 'both'): boolean => {
-    // Save to IndexedDB for both local and cloud storage (for offline access)
-    return storageLocation === 'local' || storageLocation === 'both'
-  }, [])
+  const shouldSaveToIndexedDB = useCallback(
+    (storageLocation: 'none' | 'local' | 'both'): boolean => {
+      // Save to IndexedDB for both local and cloud storage (for offline access)
+      return storageLocation === 'local' || storageLocation === 'both'
+    },
+    []
+  )
 
   /**
    * Check if data is synced to cloud
@@ -126,18 +132,21 @@ export function useStorageDecision() {
    * @param storageLocation - Storage location from API
    * @returns Human-readable storage location
    */
-  const getStorageDisplayText = useCallback((storageLocation: 'none' | 'local' | 'both'): string => {
-    switch (storageLocation) {
-      case 'local':
-        return 'Local Device Only'
-      case 'both':
-        return 'Synced to Cloud'
-      case 'none':
-        return 'Session Only'
-      default:
-        return 'Unknown'
-    }
-  }, [])
+  const getStorageDisplayText = useCallback(
+    (storageLocation: 'none' | 'local' | 'both'): string => {
+      switch (storageLocation) {
+        case 'local':
+          return 'Local Device Only'
+        case 'both':
+          return 'Synced to Cloud'
+        case 'none':
+          return 'Session Only'
+        default:
+          return 'Unknown'
+      }
+    },
+    []
+  )
 
   /**
    * Get storage location icon
@@ -162,7 +171,7 @@ export function useStorageDecision() {
     shouldSaveToIndexedDB,
     isCloudSynced,
     getStorageDisplayText,
-    getStorageIcon
+    getStorageIcon,
   }
 }
 
@@ -170,18 +179,20 @@ export function useStorageDecision() {
  * Type guard to check if response has storage metadata
  */
 export function hasStorageMetadata(response: any): response is StorageResponse {
-  return response &&
-         typeof response === 'object' &&
-         'storage' in response &&
-         response.storage &&
-         'location' in response.storage
+  return (
+    response &&
+    typeof response === 'object' &&
+    'storage' in response &&
+    response.storage &&
+    'location' in response.storage
+  )
 }
 
 /**
  * Helper to extract storage location from response
  */
 export function getStorageLocation(response: any): 'none' | 'local' | 'both' | null {
-  if (!hasStorageMetadata(response)) {
+  if (!hasStorageMetadata(response) || !response.storage) {
     return null
   }
   return response.storage.location

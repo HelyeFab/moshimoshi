@@ -1,24 +1,24 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { BlogPost } from '@/services/blogService';
-import { Timestamp } from 'firebase/firestore';
-import { useI18n } from '@/i18n/I18nContext';
-import { RichTextEditor } from '@/components/ui/RichTextEditor';
-import { ImageUploader } from '@/components/admin/ImageUploader';
-import { XMarkIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline';
-import matter from 'gray-matter';
-import { marked } from 'marked';
+import { useState, useEffect } from 'react'
+import { BlogPost } from '@/services/blogService'
+import { Timestamp } from 'firebase/firestore'
+import { useI18n } from '@/i18n/I18nContext'
+import { RichTextEditor } from '@/components/ui/RichTextEditor'
+import { ImageUploader } from '@/components/admin/ImageUploader'
+import { XMarkIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline'
+import matter from 'gray-matter'
+import { marked } from 'marked'
 
 interface BlogEditorProps {
-  post?: BlogPost;
-  onSave: (post: Partial<BlogPost>) => Promise<void>;
-  saving?: boolean;
-  onCancel: () => void;
+  post?: BlogPost
+  onSave: (post: Partial<BlogPost>) => Promise<void>
+  saving?: boolean
+  onCancel: () => void
 }
 
 export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEditorProps) {
-  const { t } = useI18n();
+  const { t } = useI18n()
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -35,28 +35,28 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
     ogImage: '',
     canonical: '',
     isFeatured: false,
-  });
+  })
 
-  const [tagInput, setTagInput] = useState('');
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [markdownInput, setMarkdownInput] = useState('');
-  const [importError, setImportError] = useState('');
+  const [tagInput, setTagInput] = useState('')
+  const [showImportModal, setShowImportModal] = useState(false)
+  const [markdownInput, setMarkdownInput] = useState('')
+  const [importError, setImportError] = useState('')
 
   useEffect(() => {
     if (post) {
-      let publishDate: Date;
+      let publishDate: Date
 
       if (post.publishDate instanceof Timestamp) {
-        publishDate = post.publishDate.toDate();
+        publishDate = post.publishDate.toDate()
       } else if (post.publishDate) {
-        publishDate = new Date(post.publishDate);
+        publishDate = new Date(post.publishDate)
       } else {
-        publishDate = new Date();
+        publishDate = new Date()
       }
 
       // Validate the date - if invalid, use current date
       if (isNaN(publishDate.getTime())) {
-        publishDate = new Date();
+        publishDate = new Date()
       }
 
       setFormData({
@@ -75,62 +75,64 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
         ogImage: post.ogImage || '',
         canonical: post.canonical || '',
         isFeatured: post.isFeatured || false,
-      });
+      })
     }
-  }, [post]);
+  }, [post])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
       [name]: value,
-    }));
+    }))
 
     // Auto-generate slug from title
     if (name === 'title' && !post) {
       const slug = value
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-      setFormData(prev => ({ ...prev, slug }));
+        .replace(/^-+|-+$/g, '')
+      setFormData(prev => ({ ...prev, slug }))
     }
-  };
+  }
 
   const handleContentChange = (html: string) => {
-    setFormData(prev => ({ ...prev, content: html }));
-  };
+    setFormData(prev => ({ ...prev, content: html }))
+  }
 
   const handleCoverChange = (url: string) => {
     setFormData(prev => ({
       ...prev,
       cover: url,
       ogImage: url || prev.ogImage, // Auto-set OG image if not set
-    }));
-  };
+    }))
+  }
 
   const handleAddTag = () => {
     if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
       setFormData(prev => ({
         ...prev,
         tags: [...prev.tags, tagInput.trim()],
-      }));
-      setTagInput('');
+      }))
+      setTagInput('')
     }
-  };
+  }
 
   const handleRemoveTag = (tag: string) => {
     setFormData(prev => ({
       ...prev,
       tags: prev.tags.filter(t => t !== tag),
-    }));
-  };
+    }))
+  }
 
   const handleImportMarkdown = async () => {
     try {
-      setImportError('');
+      setImportError('')
 
       // Parse frontmatter
-      const { data: frontmatter, content } = matter(markdownInput);
+      const { data: frontmatter, content } = matter(markdownInput)
 
       // Configure marked with table support
       const markedOptions = {
@@ -140,20 +142,20 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
         pedantic: false,
         sanitize: false,
         smartLists: true,
-        smartypants: false
-      };
+        smartypants: false,
+      }
 
-      // Convert markdown to HTML
-      const htmlContent = marked(content, markedOptions);
-      
+      // Convert markdown to HTML (sync mode - using marked.parse to ensure string return)
+      const htmlContent = marked.parse(content, markedOptions) as string
+
       // Debug: Log the converted HTML to see if tables are preserved
-      console.log('Converted HTML:', htmlContent);
-      console.log('Original markdown content:', content);
+      console.log('Converted HTML:', htmlContent)
+      console.log('Original markdown content:', content)
 
       // Parse publish date
-      let publishDateTime = new Date();
+      let publishDateTime = new Date()
       if (frontmatter.date) {
-        publishDateTime = new Date(frontmatter.date);
+        publishDateTime = new Date(frontmatter.date)
       }
 
       // Map frontmatter to form data
@@ -170,25 +172,30 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
         seoTitle: frontmatter.seo?.title || frontmatter.seoTitle || '',
         seoDescription: frontmatter.seo?.description || frontmatter.seoDescription || '',
         cover: frontmatter.cover_image || frontmatter.cover || '',
-        ogImage: frontmatter.og_image || frontmatter.ogImage || frontmatter.cover_image || frontmatter.cover || '',
+        ogImage:
+          frontmatter.og_image ||
+          frontmatter.ogImage ||
+          frontmatter.cover_image ||
+          frontmatter.cover ||
+          '',
         canonical: frontmatter.canonical || '',
         isFeatured: frontmatter.isFeatured || frontmatter.featured || false,
-      });
+      })
 
       // Close modal and clear input
-      setShowImportModal(false);
-      setMarkdownInput('');
+      setShowImportModal(false)
+      setMarkdownInput('')
     } catch (error) {
-      console.error('Error parsing markdown:', error);
-      setImportError('Failed to parse markdown. Please check the format and try again.');
+      console.error('Error parsing markdown:', error)
+      setImportError('Failed to parse markdown. Please check the format and try again.')
     }
-  };
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Combine date and time for scheduled posts
-    const publishDateTime = new Date(`${formData.publishDate}T${formData.publishTime}`);
+    const publishDateTime = new Date(`${formData.publishDate}T${formData.publishTime}`)
 
     const postData: Partial<BlogPost> = {
       title: formData.title,
@@ -205,10 +212,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
       ogImage: formData.ogImage || formData.cover,
       canonical: formData.canonical,
       isFeatured: formData.isFeatured,
-    };
+    }
 
-    await onSave(postData);
-  };
+    await onSave(postData)
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -228,9 +235,9 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               <button
                 type="button"
                 onClick={() => {
-                  setShowImportModal(false);
-                  setMarkdownInput('');
-                  setImportError('');
+                  setShowImportModal(false)
+                  setMarkdownInput('')
+                  setImportError('')
                 }}
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
               >
@@ -246,7 +253,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
             <textarea
               value={markdownInput}
-              onChange={(e) => setMarkdownInput(e.target.value)}
+              onChange={e => setMarkdownInput(e.target.value)}
               placeholder="---&#10;title: Your Blog Title&#10;slug: your-blog-slug&#10;date: 2025-10-04&#10;tags:&#10;  - Tag1&#10;  - Tag2&#10;excerpt: Your excerpt here&#10;cover_image: /path/to/image.jpg&#10;seo:&#10;  title: SEO Title&#10;  description: SEO Description&#10;---&#10;&#10;# Your Content Here&#10;&#10;Write your blog post content...&#10;&#10;| Column 1 | Column 2 | Column 3 |&#10;|----------|----------|----------|&#10;| Data 1   | Data 2   | Data 3   |&#10;| Data 4   | Data 5   | Data 6   |"
               className="w-full h-64 sm:h-96 px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 font-mono text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
             />
@@ -255,9 +262,9 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               <button
                 type="button"
                 onClick={() => {
-                  setShowImportModal(false);
-                  setMarkdownInput('');
-                  setImportError('');
+                  setShowImportModal(false)
+                  setMarkdownInput('')
+                  setImportError('')
                 }}
                 className="w-full sm:w-auto px-6 py-2.5 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
               >
@@ -294,7 +301,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
         <div className="xl:col-span-8 space-y-4 md:space-y-6">
           {/* Title */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
-            <label htmlFor="title" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+            >
               Title *
             </label>
             <input
@@ -311,11 +321,16 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
           {/* Slug */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
-            <label htmlFor="slug" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <label
+              htmlFor="slug"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+            >
               URL Slug *
             </label>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base whitespace-nowrap">/blog/</span>
+              <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base whitespace-nowrap">
+                /blog/
+              </span>
               <input
                 id="slug"
                 type="text"
@@ -344,7 +359,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
           {/* Excerpt */}
           <div className="bg-white dark:bg-dark-850 rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:p-6">
-            <label htmlFor="excerpt" className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <label
+              htmlFor="excerpt"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+            >
               Excerpt
             </label>
             <textarea
@@ -379,7 +397,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
             {/* Author */}
             <div className="mb-4">
-              <label htmlFor="author" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label
+                htmlFor="author"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
                 Author
               </label>
               <input
@@ -395,7 +416,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
             {/* Status */}
             <div className="mb-4">
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
                 Status
               </label>
               <select
@@ -413,7 +437,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
             {/* Publish Date */}
             <div className="mb-4">
-              <label htmlFor="publishDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label
+                htmlFor="publishDate"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
                 Publish Date
               </label>
               <input
@@ -428,7 +455,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
             {/* Publish Time */}
             <div className="mb-4">
-              <label htmlFor="publishTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label
+                htmlFor="publishTime"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
                 Publish Time
               </label>
               <input
@@ -448,10 +478,13 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 type="checkbox"
                 name="isFeatured"
                 checked={formData.isFeatured}
-                onChange={(e) => setFormData(prev => ({ ...prev, isFeatured: e.target.checked }))}
+                onChange={e => setFormData(prev => ({ ...prev, isFeatured: e.target.checked }))}
                 className="w-5 h-5 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
               />
-              <label htmlFor="isFeatured" className="text-sm font-medium text-gray-900 dark:text-gray-100 cursor-pointer flex-1">
+              <label
+                htmlFor="isFeatured"
+                className="text-sm font-medium text-gray-900 dark:text-gray-100 cursor-pointer flex-1"
+              >
                 ⭐ Feature this post
                 <span className="block text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                   Show as hero post on blog homepage
@@ -471,8 +504,8 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
                 <input
                   type="text"
                   value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                  onChange={e => setTagInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
                   placeholder="Add a tag"
                   className="flex-1 min-w-0 px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
@@ -487,7 +520,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
               {formData.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 pt-1">
-                  {formData.tags.map((tag) => (
+                  {formData.tags.map(tag => (
                     <span
                       key={tag}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm"
@@ -515,7 +548,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="seoTitle" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label
+                  htmlFor="seoTitle"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >
                   {t('admin.blog.fields.seoTitle') || 'SEO Title'}
                 </label>
                 <input
@@ -530,7 +566,10 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
               </div>
 
               <div>
-                <label htmlFor="seoDescription" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label
+                  htmlFor="seoDescription"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >
                   {t('admin.blog.fields.seoDescription') || 'SEO Description'}
                 </label>
                 <textarea
@@ -563,9 +602,13 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
           disabled={saving}
           className="w-full sm:w-auto px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 font-medium"
         >
-          {saving ? (t('common.saving') || 'Saving...') : (post ? (t('admin.blog.buttons.update') || 'Update Post') : (t('admin.blog.buttons.create') || 'Create Post'))}
+          {saving
+            ? t('common.saving') || 'Saving...'
+            : post
+              ? t('admin.blog.buttons.update') || 'Update Post'
+              : t('admin.blog.buttons.create') || 'Create Post'}
         </button>
       </div>
     </form>
-  );
+  )
 }

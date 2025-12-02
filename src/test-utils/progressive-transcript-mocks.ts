@@ -2,8 +2,8 @@
  * Test Utilities and Mocks for Progressive Transcript Testing
  */
 
-import { TranscriptSegment, TranscriptState } from '@/hooks/useProgressiveTranscript';
-import type { TranscriptLine } from '@/types/youtubeShadowing';
+import { TranscriptSegment, TranscriptState } from '@/hooks/useProgressiveTranscript'
+import type { TranscriptLine } from '@/types/youtubeShadowing'
 
 /**
  * Mock raw transcript data from Python API
@@ -22,7 +22,7 @@ export const mockRawTranscriptResponse = {
     { start: 15, end: 20, text: 'ありがとうございます' },
     { start: 20, end: 25, text: 'さようなら' },
   ],
-};
+}
 
 /**
  * Mock AI-enhanced transcript response
@@ -48,7 +48,8 @@ export const mockAIEnhancedResponse = {
       translation: "It's nice weather today",
       difficulty: 2,
       keyVocabulary: ['今日', '天気'],
-      textWithFurigana: '<ruby>今日<rt>きょう</rt></ruby>はいい<ruby>天気<rt>てんき</rt></ruby>ですね',
+      textWithFurigana:
+        '<ruby>今日<rt>きょう</rt></ruby>はいい<ruby>天気<rt>てんき</rt></ruby>ですね',
     },
     {
       id: 'seg_3',
@@ -99,7 +100,7 @@ export const mockAIEnhancedResponse = {
     model: 'gpt-4o-mini',
     mode: 'enhance-only',
   },
-};
+}
 
 /**
  * Create mock TranscriptState for testing
@@ -110,11 +111,11 @@ export function createMockTranscript(source: 'raw' | 'ai-enhanced' = 'raw'): Tra
     text: seg.text,
     startTime: seg.start,
     endTime: seg.end,
-  }));
+  }))
 
   if (source === 'raw') {
     return {
-      segments: baseSegments,
+      segments: baseSegments as TranscriptSegment[],
       videoTitle: mockRawTranscriptResponse.videoTitle,
       metadata: {
         language: 'ja',
@@ -122,11 +123,11 @@ export function createMockTranscript(source: 'raw' | 'ai-enhanced' = 'raw'): Tra
         totalSegments: baseSegments.length,
       },
       source: 'raw',
-    };
+    }
   }
 
   return {
-    segments: mockAIEnhancedResponse.formattedTranscript as TranscriptLine[],
+    segments: mockAIEnhancedResponse.formattedTranscript as TranscriptSegment[],
     videoTitle: mockRawTranscriptResponse.videoTitle,
     metadata: {
       language: 'ja',
@@ -135,47 +136,47 @@ export function createMockTranscript(source: 'raw' | 'ai-enhanced' = 'raw'): Tra
       aiEnhanced: true,
     },
     source: 'ai-enhanced',
-  };
+  }
 }
 
 /**
  * Mock fetch for testing progressive transcript loading
  */
 export function mockProgressiveFetch() {
-  const originalFetch = global.fetch;
-  const calls: any[] = [];
+  const originalFetch = global.fetch
+  const calls: any[] = []
 
-  global.fetch = jest.fn((url: string, options?: any) => {
-    calls.push({ url, options });
+  ;(global as any).fetch = jest.fn((url: string, options?: any) => {
+    calls.push({ url, options })
 
     // Raw transcript endpoint
     if (url.includes('/api/youtube/transcript-python/')) {
       return Promise.resolve({
         ok: true,
         json: async () => mockRawTranscriptResponse,
-      } as Response);
+      } as Response)
     }
 
     // AI enhancement endpoint
     if (url.includes('/api/youtube/extract') && options?.body) {
-      const body = JSON.parse(options.body);
+      const body = JSON.parse(options.body)
       if (body.enhanceOnly) {
         return Promise.resolve({
           ok: true,
           json: async () => mockAIEnhancedResponse,
-        } as Response);
+        } as Response)
       }
     }
 
-    return originalFetch(url, options);
-  });
+    return originalFetch(url, options)
+  })
 
   return {
     calls,
     restore: () => {
-      global.fetch = originalFetch;
+      global.fetch = originalFetch
     },
-  };
+  }
 }
 
 /**
@@ -185,17 +186,17 @@ export async function waitForAIEnhancement(
   callback: () => TranscriptState | null,
   timeout = 5000
 ): Promise<void> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   while (Date.now() - startTime < timeout) {
-    const transcript = callback();
+    const transcript = callback()
     if (transcript?.source === 'ai-enhanced') {
-      return;
+      return
     }
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 100))
   }
 
-  throw new Error('AI enhancement did not complete within timeout');
+  throw new Error('AI enhancement did not complete within timeout')
 }
 
 /**
@@ -223,7 +224,7 @@ export const mockTranscriptSegments: TranscriptLine[] = [
     endTime: 10,
     translation: "It's nice weather today",
   },
-];
+]
 
 /**
  * Mock YouTube video IDs for testing
@@ -232,7 +233,7 @@ export const mockVideoIds = {
   valid: 'dQw4w9WgXcQ',
   noJapanese: 'jNQXAC9IVRw',
   invalid: 'invalid',
-};
+}
 
 /**
  * Mock YouTube URLs for testing
@@ -243,7 +244,7 @@ export const mockYouTubeUrls = {
   embed: `https://www.youtube.com/embed/${mockVideoIds.valid}`,
   shorts: `https://www.youtube.com/shorts/${mockVideoIds.valid}`,
   noJapanese: `https://www.youtube.com/watch?v=${mockVideoIds.noJapanese}`,
-};
+}
 
 /**
  * Helper to simulate AI progress updates
@@ -252,41 +253,41 @@ export function simulateAIProgress(
   onProgress: (progress: number) => void,
   duration = 5000
 ): () => void {
-  let progress = 0;
+  let progress = 0
   const interval = setInterval(() => {
-    progress += Math.random() * 10 + 5;
+    progress += Math.random() * 10 + 5
     if (progress >= 100) {
-      progress = 100;
-      clearInterval(interval);
+      progress = 100
+      clearInterval(interval)
     }
-    onProgress(Math.min(100, progress));
-  }, 500);
+    onProgress(Math.min(100, progress))
+  }, 500)
 
-  return () => clearInterval(interval);
+  return () => clearInterval(interval)
 }
 
 /**
  * Mock scroll behavior for auto-scroll testing
  */
 export function mockScrollBehavior() {
-  const originalScrollTo = window.scrollTo;
-  const originalScrollIntoView = Element.prototype.scrollIntoView;
+  const originalScrollTo = window.scrollTo
+  const originalScrollIntoView = Element.prototype.scrollIntoView
 
-  const scrollCalls: any[] = [];
+  const scrollCalls: any[] = []
 
   window.scrollTo = jest.fn((options: any) => {
-    scrollCalls.push({ type: 'window.scrollTo', options });
-  });
+    scrollCalls.push({ type: 'window.scrollTo', options })
+  })
 
-  Element.prototype.scrollIntoView = jest.fn(function(this: Element, options: any) {
-    scrollCalls.push({ type: 'scrollIntoView', element: this, options });
-  });
+  Element.prototype.scrollIntoView = jest.fn(function (this: Element, options: any) {
+    scrollCalls.push({ type: 'scrollIntoView', element: this, options })
+  })
 
   return {
     scrollCalls,
     restore: () => {
-      window.scrollTo = originalScrollTo;
-      Element.prototype.scrollIntoView = originalScrollIntoView;
+      window.scrollTo = originalScrollTo
+      Element.prototype.scrollIntoView = originalScrollIntoView
     },
-  };
+  }
 }

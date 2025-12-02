@@ -9,40 +9,44 @@
  * @param ellipsis - String to append when truncated (default: '...')
  * @returns Truncated text with ellipsis if needed
  */
-export function truncateText(text: string, maxLength: number = 80, ellipsis: string = '...'): string {
+export function truncateText(
+  text: string,
+  maxLength: number = 80,
+  ellipsis: string = '...'
+): string {
   if (!text || text.length <= maxLength) {
-    return text;
+    return text
   }
 
   // Try to find natural break points in order of preference
   const breakPoints = [
-    { char: ';', offset: 0 },     // Semicolon (often separates definitions)
-    { char: ',', offset: 0 },     // Comma
-    { char: '.', offset: 1 },     // Period (include the period)
-    { char: '、', offset: 0 },    // Japanese comma
-    { char: '。', offset: 1 },    // Japanese period
-    { char: ' ', offset: 0 },     // Space
-    { char: '/', offset: 0 },     // Slash (common in definitions)
-    { char: '(', offset: -1 },    // Before parenthesis
-  ];
+    { char: ';', offset: 0 }, // Semicolon (often separates definitions)
+    { char: ',', offset: 0 }, // Comma
+    { char: '.', offset: 1 }, // Period (include the period)
+    { char: '、', offset: 0 }, // Japanese comma
+    { char: '。', offset: 1 }, // Japanese period
+    { char: ' ', offset: 0 }, // Space
+    { char: '/', offset: 0 }, // Slash (common in definitions)
+    { char: '(', offset: -1 }, // Before parenthesis
+  ]
 
-  let bestBreakPoint = -1;
+  let bestBreakPoint = -1
 
   // Find the best break point before maxLength
   for (const { char, offset } of breakPoints) {
-    const lastIndex = text.lastIndexOf(char, maxLength);
+    const lastIndex = text.lastIndexOf(char, maxLength)
     if (lastIndex !== -1 && lastIndex > bestBreakPoint) {
-      bestBreakPoint = lastIndex + offset;
+      bestBreakPoint = lastIndex + offset
     }
   }
 
   // If no good break point found, try to at least break at a space
   if (bestBreakPoint === -1) {
-    const lastSpace = text.lastIndexOf(' ', maxLength);
-    bestBreakPoint = lastSpace !== -1 ? lastSpace : maxLength;
+    const lastSpace = text.lastIndexOf(' ', maxLength)
+    bestBreakPoint = lastSpace !== -1 ? lastSpace : maxLength
   }
 
-  return text.substring(0, bestBreakPoint).trim() + ellipsis;
+  return text.substring(0, bestBreakPoint).trim() + ellipsis
 }
 
 /**
@@ -52,19 +56,19 @@ export function truncateText(text: string, maxLength: number = 80, ellipsis: str
  * @returns The first definition segment
  */
 export function getFirstDefinition(definition: string): string {
-  if (!definition) return '';
+  if (!definition) return ''
 
   // Common separators in order of precedence
-  const separators = [';', ',', '/'];
+  const separators = [';', ',', '/']
 
   for (const separator of separators) {
-    const index = definition.indexOf(separator);
+    const index = definition.indexOf(separator)
     if (index !== -1 && index > 0) {
-      return definition.substring(0, index).trim();
+      return definition.substring(0, index).trim()
     }
   }
 
-  return definition.trim();
+  return definition.trim()
 }
 
 /**
@@ -73,17 +77,17 @@ export function getFirstDefinition(definition: string): string {
  * @returns Cleaned definition
  */
 export function cleanDefinition(definition: string): string {
-  if (!definition) return '';
+  if (!definition) return ''
 
-  let cleaned = definition;
+  let cleaned = definition
 
   // Remove common dictionary annotations
-  cleaned = cleaned.replace(/\([^)]*\)/g, ''); // Remove parenthetical notes
-  cleaned = cleaned.replace(/\[[^\]]*\]/g, ''); // Remove bracketed notes
-  cleaned = cleaned.replace(/\s+/g, ' ');       // Normalize whitespace
-  cleaned = cleaned.replace(/^\s*to\s+/i, '');  // Remove leading "to" for verbs
+  cleaned = cleaned.replace(/\([^)]*\)/g, '') // Remove parenthetical notes
+  cleaned = cleaned.replace(/\[[^\]]*\]/g, '') // Remove bracketed notes
+  cleaned = cleaned.replace(/\s+/g, ' ') // Normalize whitespace
+  cleaned = cleaned.replace(/^\s*to\s+/i, '') // Remove leading "to" for verbs
 
-  return cleaned.trim();
+  return cleaned.trim()
 }
 
 /**
@@ -95,12 +99,12 @@ export function cleanDefinition(definition: string): string {
  */
 export function formatDrillDefinition(definition: string, maxLength: number = 80): string {
   // First, get the primary definition if multiple exist
-  let formatted = getFirstDefinition(definition);
+  let formatted = getFirstDefinition(definition)
 
   // Then truncate if still too long
-  formatted = truncateText(formatted, maxLength);
+  formatted = truncateText(formatted, maxLength)
 
-  return formatted;
+  return formatted
 }
 
 /**
@@ -110,5 +114,5 @@ export function formatDrillDefinition(definition: string, maxLength: number = 80
  * @returns true if text exceeds maxLength
  */
 export function needsTruncation(text: string, maxLength: number = 80): boolean {
-  return text && text.length > maxLength;
+  return Boolean(text && text.length > maxLength)
 }

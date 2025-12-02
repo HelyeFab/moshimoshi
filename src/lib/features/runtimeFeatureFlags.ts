@@ -5,8 +5,8 @@
  * They override environment variables and take effect immediately.
  */
 
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { db } from '@/lib/firebase/config'
 
 export type FeatureFlag =
   | 'COMMAND_PALETTE'
@@ -43,127 +43,127 @@ export const FEATURE_METADATA: Record<FeatureFlag, FeatureMetadata> = {
     name: 'Command Palette',
     description: 'Quick navigation search (Cmd/Ctrl+K)',
     category: 'Navigation',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   BOTTOM_NAV: {
     name: 'Bottom Navigation',
     description: 'Mobile bottom navigation bar',
     category: 'Navigation',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   AUTO_HIDE_NAV: {
     name: 'Auto-hide Navigation',
     description: 'Auto-hiding top navbar on mobile',
     category: 'Navigation',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   GLASSMORPHISM_NAV: {
     name: 'Glassmorphism Effect',
     description: 'Glassmorphism styling on navigation',
     category: 'Navigation',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   LEARNING_VILLAGE: {
     name: 'Learning Village',
     description: 'Interactive learning village on dashboard',
     category: 'Dashboard',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   ANIMATION_CONTROL: {
     name: 'Animation Control',
     description: 'Pause/play button for animations',
     category: 'UX',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   STREAK_SYSTEM: {
     name: 'Streak System',
     description: 'Daily streak tracking and rewards',
     category: 'Gamification',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   LEADERBOARD: {
     name: 'Leaderboard',
     description: 'Global leaderboard rankings',
     category: 'Gamification',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   ACHIEVEMENTS: {
     name: 'Achievements',
     description: 'Achievement badges and rewards',
     category: 'Gamification',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   YOUTUBE_SHADOWING: {
     name: 'YouTube Shadowing',
     description: 'Practice with YouTube videos',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   AI_STORIES: {
     name: 'AI Stories',
     description: 'AI-generated reading stories',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   BLOG: {
     name: 'Blog',
     description: 'Blog section and articles',
     category: 'Content',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   NEWSLETTER: {
     name: 'Newsletter',
     description: 'Email newsletter subscription',
     category: 'Content',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   NOTIFICATIONS: {
     name: 'Notifications',
     description: 'Push notifications system',
     category: 'Engagement',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   DRILL_PRACTICE: {
     name: 'Drill Practice',
     description: 'Quick drill exercises',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   KANJI_BROWSER: {
     name: 'Kanji Browser',
     description: 'Browse and study kanji',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   ANKI_IMPORT: {
     name: 'Anki Import',
     description: 'Import Anki decks',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   CUSTOM_LISTS: {
     name: 'Custom Lists',
     description: 'Create custom study lists',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   REVIEW_ENGINE: {
     name: 'Review Engine',
     description: 'Universal SRS review system',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   FLASHCARDS: {
     name: 'Flashcards',
     description: 'Flashcard study system',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
   GAMES: {
     name: 'Learning Games',
     description: 'Educational games',
     category: 'Learning',
-    defaultEnabled: true
+    defaultEnabled: true,
   },
 }
 
@@ -183,6 +183,9 @@ export async function getAllFeatureFlags(): Promise<Record<FeatureFlag, boolean>
   }
 
   try {
+    if (!db) {
+      return getDefaultFlags()
+    }
     const docRef = doc(db, 'config', 'featureFlags')
     const docSnap = await getDoc(docRef)
 
@@ -231,12 +234,15 @@ export async function isFeatureEnabled(flag: FeatureFlag): Promise<boolean> {
  */
 export async function updateFeatureFlag(flag: FeatureFlag, enabled: boolean): Promise<void> {
   try {
+    if (!db) {
+      throw new Error('Firestore not initialized')
+    }
     const docRef = doc(db, 'config', 'featureFlags')
     const currentFlags = await getAllFeatureFlags()
 
     const updatedFlags = {
       ...currentFlags,
-      [flag]: enabled
+      [flag]: enabled,
     }
 
     await setDoc(docRef, updatedFlags, { merge: true })
@@ -255,6 +261,9 @@ export async function updateFeatureFlag(flag: FeatureFlag, enabled: boolean): Pr
  */
 export async function resetAllFeatureFlags(): Promise<void> {
   try {
+    if (!db) {
+      throw new Error('Firestore not initialized')
+    }
     const defaults = getDefaultFlags()
     const docRef = doc(db, 'config', 'featureFlags')
     await setDoc(docRef, defaults)

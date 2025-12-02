@@ -67,19 +67,18 @@ export function storageGuard<T extends any[]>(
           userId: session.uid,
           isPremium: storageDecision.isPremium,
           storageLocation: storageDecision.storageLocation,
-          plan: storageDecision.plan
+          plan: storageDecision.plan,
         })
       }
 
       // Inject storage decision into context
       const context: StorageGuardContext = {
         storageDecision,
-        session
+        session,
       }
 
       // Call the handler with injected context
       return await handler(request, context, ...args)
-
     } catch (error: any) {
       console.error('[StorageGuard] Error:', error)
 
@@ -122,11 +121,15 @@ export async function protectedFirebaseWrite<T>(
   operation: () => Promise<T>
 ): Promise<T | null> {
   if (!context.storageDecision.shouldWriteToFirebase) {
-    console.log(`[StorageGuard] Skipping Firebase write for free user ${context.session.uid}`)
+    console.log(
+      `[StorageGuard] Skipping Firebase write for free user ${context.session?.uid ?? 'unknown'}`
+    )
     return null
   }
 
-  console.log(`[StorageGuard] Executing Firebase write for premium user ${context.session.uid}`)
+  console.log(
+    `[StorageGuard] Executing Firebase write for premium user ${context.session?.uid ?? 'unknown'}`
+  )
   return await operation()
 }
 
@@ -138,10 +141,14 @@ export async function protectedBatchOperation(
   operations: Array<() => Promise<any>>
 ): Promise<any[]> {
   if (!context.storageDecision.shouldWriteToFirebase) {
-    console.log(`[StorageGuard] Skipping batch operations for free user ${context.session.uid}`)
+    console.log(
+      `[StorageGuard] Skipping batch operations for free user ${context.session?.uid ?? 'unknown'}`
+    )
     return operations.map(() => null)
   }
 
-  console.log(`[StorageGuard] Executing ${operations.length} batch operations for premium user ${context.session.uid}`)
+  console.log(
+    `[StorageGuard] Executing ${operations.length} batch operations for premium user ${context.session?.uid ?? 'unknown'}`
+  )
   return await Promise.all(operations.map(op => op()))
 }

@@ -10,6 +10,7 @@
  * localStorage.debug = 'app:streak,app:pokemon'
  */
 
+// @ts-expect-error - debug module may not have types installed
 import createDebug from 'debug'
 
 // Ensure createDebug is available
@@ -42,8 +43,8 @@ const debug = {
   performance: safeCreateDebug('app:performance'),
   error: safeCreateDebug('app:error'),
   subscription: safeCreateDebug('app:subscription'),
-  race: safeCreateDebug('app:race'),  // For race condition monitoring
-  warning: safeCreateDebug('app:warning')  // For important warnings
+  race: safeCreateDebug('app:race'), // For race condition monitoring
+  warning: safeCreateDebug('app:warning'), // For important warnings
 }
 
 // Enable colors in browser
@@ -53,7 +54,7 @@ if (typeof window !== 'undefined' && createDebug && createDebug.enable) {
 
     // Add color support
     if (createDebug.formatters) {
-      createDebug.formatters.c = (v) => {
+      createDebug.formatters.c = (v: string) => {
         return `color: ${v}`
       }
     }
@@ -66,11 +67,11 @@ if (typeof window !== 'undefined' && createDebug && createDebug.enable) {
 export const debugLog: any = (namespace?: string) => {
   // If called with namespace, create a new debug instance
   if (namespace) {
-    return safeCreateDebug(namespace);
+    return safeCreateDebug(namespace)
   }
   // Otherwise return the default api logger
-  return debug.api;
-};
+  return debug.api
+}
 
 // Add convenience methods to the function
 Object.assign(debugLog, {
@@ -194,9 +195,7 @@ Object.assign(debugLog, {
 
   // Show current status
   status: () => {
-    const enabled = typeof window !== 'undefined'
-      ? localStorage.debug
-      : process.env.DEBUG
+    const enabled = typeof window !== 'undefined' ? localStorage.debug : process.env.DEBUG
 
     console.log('📊 Debug Status:')
     console.log('  Enabled namespaces:', enabled || 'None')
@@ -215,7 +214,7 @@ Object.assign(debugLog, {
     console.log('\n💡 Enable in browser:')
     console.log('  localStorage.debug = "app:*"')
     console.log('  localStorage.debug = "app:streak,app:pokemon"')
-  }
+  },
 })
 
 // Export the raw debug instances for advanced usage
@@ -223,7 +222,7 @@ export { debug }
 
 // Browser console helpers
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-  (window as any).debug = debugLog
+  ;(window as any).debug = debugLog
 
   // Debug logger is available via window.debug
   // To enable: localStorage.debug = 'app:*' or debug.enable('app:*')

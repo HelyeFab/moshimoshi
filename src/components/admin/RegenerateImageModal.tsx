@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useToast } from '@/components/ui/Toast/ToastContext';
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 
 interface RegenerateImageModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  currentImageUrl: string;
-  pageNumber?: number;
-  draftId: string;
-  onImageRegenerated: (newImageUrl: string) => void;
+  isOpen: boolean
+  onClose: () => void
+  currentImageUrl: string
+  pageNumber?: number
+  draftId: string
+  onImageRegenerated: (newImageUrl: string) => void
 }
 
 export default function RegenerateImageModal({
@@ -19,55 +19,48 @@ export default function RegenerateImageModal({
   currentImageUrl,
   pageNumber,
   draftId,
-  onImageRegenerated
+  onImageRegenerated,
 }: RegenerateImageModalProps) {
-  const [isRegenerating, setIsRegenerating] = useState(false);
-  const [customPrompt, setCustomPrompt] = useState('');
-  const { showToast } = useToast();
+  const [isRegenerating, setIsRegenerating] = useState(false)
+  const [customPrompt, setCustomPrompt] = useState('')
+  const { showToast } = useToast()
 
   const handleRegenerate = async () => {
-    setIsRegenerating(true);
+    setIsRegenerating(true)
 
     try {
       const response = await fetch('/api/admin/generate-story', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({
           step: 'generate_page_image',
           draftId,
           pageNumber,
-          customPrompt: customPrompt || undefined
-        })
-      });
+          customPrompt: customPrompt || undefined,
+        }),
+      })
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to regenerate image');
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to regenerate image')
       }
 
-      const data = await response.json();
-      const newImageUrl = data.data.imageUrl;
+      const data = await response.json()
+      const newImageUrl = data.data.imageUrl
 
-      onImageRegenerated(newImageUrl);
-      showToast({
-        message: 'Image regenerated successfully!',
-        type: 'success'
-      });
-      onClose();
-
+      onImageRegenerated(newImageUrl)
+      showToast('Image regenerated successfully!', 'success')
+      onClose()
     } catch (error) {
-      console.error('Image regeneration error:', error);
-      showToast({
-        message: error instanceof Error ? error.message : 'Failed to regenerate image',
-        type: 'error'
-      });
+      console.error('Image regeneration error:', error)
+      showToast(error instanceof Error ? error.message : 'Failed to regenerate image', 'error')
     } finally {
-      setIsRegenerating(false);
+      setIsRegenerating(false)
     }
-  };
+  }
 
   return (
     <AnimatePresence>
@@ -88,7 +81,7 @@ export default function RegenerateImageModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             <div className="bg-white dark:bg-dark-850 rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
               {/* Header */}
@@ -102,7 +95,12 @@ export default function RegenerateImageModal({
                   disabled={isRegenerating}
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
               </div>
@@ -128,26 +126,38 @@ export default function RegenerateImageModal({
                   </label>
                   <textarea
                     value={customPrompt}
-                    onChange={(e) => setCustomPrompt(e.target.value)}
+                    onChange={e => setCustomPrompt(e.target.value)}
                     placeholder="Leave empty to use the original prompt, or enter a custom prompt to modify the scene..."
                     rows={4}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors resize-none"
                     disabled={isRegenerating}
                   />
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    Tip: Be specific about what you want to change (e.g., "Make the background more colorful", "Add more details to the character's outfit")
+                    Tip: Be specific about what you want to change (e.g., "Make the background more
+                    colorful", "Add more details to the character's outfit")
                   </p>
                 </div>
 
                 {/* Info Box */}
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                   <div className="flex items-start">
-                    <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    <svg
+                      className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 mr-3 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     <div className="text-sm text-blue-800 dark:text-blue-300">
                       <p className="font-medium mb-1">Character Consistency</p>
-                      <p>The system will maintain character appearance consistency using the character model sheet.</p>
+                      <p>
+                        The system will maintain character appearance consistency using the
+                        character model sheet.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -170,15 +180,36 @@ export default function RegenerateImageModal({
                   {isRegenerating ? (
                     <>
                       <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
                       </svg>
                       Regenerating...
                     </>
                   ) : (
                     <>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
                       </svg>
                       Regenerate Image
                     </>
@@ -190,5 +221,5 @@ export default function RegenerateImageModal({
         </>
       )}
     </AnimatePresence>
-  );
+  )
 }

@@ -4,7 +4,7 @@
 interface QuietHours {
   enabled: boolean
   startTime: string // HH:MM format
-  endTime: string   // HH:MM format
+  endTime: string // HH:MM format
 }
 
 interface NotificationOptions {
@@ -58,9 +58,7 @@ class NotificationManager {
   }
 
   public isSupported(): boolean {
-    return typeof window !== 'undefined' &&
-           'Notification' in window &&
-           'serviceWorker' in navigator
+    return typeof window !== 'undefined' && 'Notification' in window && 'serviceWorker' in navigator
   }
 
   public getPermission(): NotificationPermission {
@@ -93,8 +91,8 @@ class NotificationManager {
   private trackPermissionChange(permission: NotificationPermission) {
     // Track analytics event
     if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'notification_permission', {
-        permission_status: permission
+      ;(window as any).gtag('event', 'notification_permission', {
+        permission_status: permission,
       })
     }
 
@@ -153,6 +151,7 @@ class NotificationManager {
     try {
       // Use service worker to show notification if available
       if (this.serviceWorkerRegistration) {
+        // Service Worker notifications support additional properties beyond standard NotificationOptions
         await this.serviceWorkerRegistration.showNotification(options.title, {
           body: options.body,
           icon: options.icon || '/favicon-192x192.png',
@@ -160,8 +159,8 @@ class NotificationManager {
           tag: options.tag,
           data: options.data,
           requireInteraction: options.requireInteraction,
-          actions: options.actions
-        })
+          actions: options.actions,
+        } as NotificationOptions & { actions?: { action: string; title: string }[] })
       } else {
         // Fallback to basic notification API
         new Notification(options.title, {
@@ -169,14 +168,14 @@ class NotificationManager {
           icon: options.icon || '/favicon-192x192.png',
           badge: options.badge || '/favicon-96x96.png',
           tag: options.tag,
-          data: options.data
+          data: options.data,
         })
       }
 
       // Track notification shown
       if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'notification_shown', {
-          notification_type: options.tag || 'general'
+        ;(window as any).gtag('event', 'notification_shown', {
+          notification_type: options.tag || 'general',
         })
       }
     } catch (error) {
@@ -195,7 +194,7 @@ class NotificationManager {
     await this.showNotification({
       title: 'Test Notification',
       body: 'This is a test of your notification settings',
-      tag: 'test-notification'
+      tag: 'test-notification',
     })
 
     return true
@@ -227,7 +226,7 @@ class NotificationManager {
 
     try {
       const notifications = await this.serviceWorkerRegistration.getNotifications({
-        tag
+        tag,
       })
       return notifications
     } catch (error) {
@@ -255,8 +254,10 @@ class NotificationManager {
     // Check if we've recently requested permission
     const lastRequested = localStorage.getItem('notification_permission_requested')
     if (lastRequested) {
-      const daysSinceRequest = (Date.now() - new Date(lastRequested).getTime()) / (1000 * 60 * 60 * 24)
-      if (daysSinceRequest < 7) { // Don't prompt again for a week
+      const daysSinceRequest =
+        (Date.now() - new Date(lastRequested).getTime()) / (1000 * 60 * 60 * 24)
+      if (daysSinceRequest < 7) {
+        // Don't prompt again for a week
         return false
       }
     }

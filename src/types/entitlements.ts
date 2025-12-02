@@ -4,94 +4,99 @@
  */
 
 // Import FeatureId for local use and re-export for consumers
-import type { FeatureId } from './FeatureId';
-export type { FeatureId };
+import type { FeatureId } from './FeatureId'
+export type { FeatureId }
 
-export type PlanType = 'guest' | 'free' | 'premium_monthly' | 'premium_yearly';
+export type PlanType = 'guest' | 'free' | 'premium_monthly' | 'premium_yearly'
 
-export type Permission = 'do_practice';
+export type Permission = 'do_practice'
 
-export type FeatureLifecycle = 'active' | 'deprecated' | 'hidden';
+export type FeatureLifecycle = 'active' | 'deprecated' | 'hidden'
 
-export type DecisionReason = 'ok' | 'no_permission' | 'limit_reached' | 'lifecycle_blocked';
+export type DecisionReason =
+  | 'ok'
+  | 'no_permission'
+  | 'limit_reached'
+  | 'lifecycle_blocked'
+  | 'override'
 
 export interface Feature {
-  id: FeatureId;
-  name: string;
-  category: string;
-  lifecycle: FeatureLifecycle;
-  permission: Permission;
-  limitType: 'daily' | 'monthly';
-  notifications: boolean;
+  id: FeatureId
+  name: string
+  category: string
+  lifecycle: FeatureLifecycle
+  permission: Permission
+  limitType: 'daily' | 'monthly'
+  notifications: boolean
 }
 
 export interface EvalContext {
-  userId: string;
-  plan: PlanType;
-  usage: Partial<Record<FeatureId, number>>;
-  nowUtcISO: string;
-  overrides?: Partial<Record<FeatureId, number | 'unlimited'>>;
+  userId: string
+  plan: PlanType
+  usage: Partial<Record<FeatureId, number>>
+  nowUtcISO: string
+  overrides?: Partial<Record<FeatureId, number | 'unlimited'>>
   tenant?: {
-    id?: string;
-    dailyCaps?: Partial<Record<FeatureId, number>>;
-  };
+    id?: string
+    dailyCaps?: Partial<Record<FeatureId, number>>
+  }
   /** Optional: Simulate evaluation at a different date (admin use) */
-  simulateDate?: Date;
+  simulateDate?: Date
   /** Optional: Skip logging for simulation purposes */
-  skipLogging?: boolean;
+  skipLogging?: boolean
 }
 
 export interface Decision {
-  allow: boolean;
-  remaining: number | -1; // -1 means unlimited
-  reason: DecisionReason;
-  policyVersion: number;
-  resetAtUtc?: string;
-  featureId?: FeatureId;
-  userId?: string;
-  plan?: PlanType;
-  usageBefore?: number;
-  limit?: number;
+  allow: boolean
+  remaining: number | -1 // -1 means unlimited
+  reason: DecisionReason
+  policyVersion: number
+  resetAtUtc?: string
+  featureId?: FeatureId
+  userId?: string
+  plan?: PlanType
+  usageBefore?: number
+  limit?: number
 }
 
 export interface PolicyLimits {
   guest: {
-    daily: Record<FeatureId, number>;
-    monthly?: Record<FeatureId, number>;
-  };
+    daily: Record<FeatureId, number>
+    monthly?: Record<FeatureId, number>
+  }
   free: {
-    daily: Record<FeatureId, number>;
-    monthly?: Record<FeatureId, number>;
-  };
+    daily: Record<FeatureId, number>
+    monthly?: Record<FeatureId, number>
+  }
   premium_monthly: {
-    daily: Record<FeatureId, number>;
-    monthly?: Record<FeatureId, number>;
-  };
+    daily: Record<FeatureId, number>
+    monthly?: Record<FeatureId, number>
+  }
   premium_yearly: {
-    daily: Record<FeatureId, number>;
-    monthly?: Record<FeatureId, number>;
-  };
+    daily: Record<FeatureId, number>
+    monthly?: Record<FeatureId, number>
+  }
 }
 
 export interface UsageBucket {
-  userId: string;
-  date: string; // YYYY-MM-DD
-  counts: Partial<Record<FeatureId, number>>;
-  updatedAt: string;
+  userId: string
+  date: string // YYYY-MM-DD
+  counts: Partial<Record<FeatureId, number>>
+  updatedAt: string
 }
 
 export interface EntitlementLog {
-  ts: string;
-  userId: string;
-  featureId: FeatureId;
-  plan: PlanType;
-  usageBefore: number;
-  limit: number;
-  allow: boolean;
-  remaining: number;
-  reason: DecisionReason;
-  policyVersion: number;
-  idempotencyKey?: string;
+  ts: string
+  userId: string
+  featureId: FeatureId
+  plan: PlanType
+  usageBefore: number
+  limit: number
+  allow: boolean
+  remaining: number
+  reason: DecisionReason
+  policyVersion: number
+  idempotencyKey?: string
 }
 
 /**
@@ -99,29 +104,29 @@ export interface EntitlementLog {
  * Allows admins to grant/restrict access beyond normal plan limits
  */
 export interface FeatureOverride {
-  id: string;
-  featureId: FeatureId;
-  setBy: string;
-  limit?: number | null;
-  allow?: boolean | null;
-  note?: string | null;
+  id: string
+  featureId: FeatureId
+  setBy: string
+  limit?: number | null
+  allow?: boolean | null
+  note?: string | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  expiresAt?: any; // Firestore Timestamp or Date
-  active: boolean;
+  expiresAt?: any // Firestore Timestamp or Date
+  active: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createdAt: any; // Firestore Timestamp or Date
+  createdAt: any // Firestore Timestamp or Date
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  updatedAt: any; // Firestore Timestamp or Date
+  updatedAt: any // Firestore Timestamp or Date
 }
 
 /**
  * Log entry for override actions
  */
 export interface OverrideLog {
-  userId: string;
-  featureId: FeatureId;
-  action: 'SET' | 'REMOVE';
-  override: Partial<FeatureOverride>;
-  adminId: string;
-  timestamp: Date;
+  userId: string
+  featureId: FeatureId
+  action: 'SET' | 'REMOVE'
+  override: Partial<FeatureOverride>
+  adminId: string
+  timestamp: Date
 }

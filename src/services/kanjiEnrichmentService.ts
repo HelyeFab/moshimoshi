@@ -35,13 +35,13 @@ class KanjiEnrichmentService {
       const dictPath = path.join(process.cwd(), 'src/data/dictionary/jmdict-eng-common.json')
       const content = fs.readFileSync(dictPath, 'utf8')
       this.jmdictData = JSON.parse(content).words || []
-      console.log(`Loaded ${this.jmdictData.length} JMDict entries`)
+      console.log(`Loaded ${this.jmdictData!.length} JMDict entries`)
     } catch (error) {
       console.error('Failed to load JMDict:', error)
       this.jmdictData = []
     }
 
-    return this.jmdictData
+    return this.jmdictData!
   }
 
   /**
@@ -55,7 +55,8 @@ class KanjiEnrichmentService {
     try {
       const tatoebaDir = path.join(process.cwd(), 'src/data/sentences/tatoeba')
       // Load just first few files for performance in development
-      const files = fs.readdirSync(tatoebaDir)
+      const files = fs
+        .readdirSync(tatoebaDir)
         .filter(f => f.startsWith('examples-') && f.endsWith('.json'))
         .slice(0, 20) // Limit to first 20 files
 
@@ -70,7 +71,7 @@ class KanjiEnrichmentService {
               if (item.japanese && item.english) {
                 this.tatoebaData!.push({
                   japanese: item.japanese,
-                  english: item.english
+                  english: item.english,
                 })
               }
             })
@@ -91,7 +92,10 @@ class KanjiEnrichmentService {
   /**
    * Find vocabulary words containing a specific kanji
    */
-  private findVocabularyForKanji(kanji: string, limit = 3): Array<{
+  private findVocabularyForKanji(
+    kanji: string,
+    limit = 3
+  ): Array<{
     word: string
     reading: string
     meaning: string
@@ -105,7 +109,7 @@ class KanjiEnrichmentService {
         results.push({
           word: entry.word,
           reading: entry.reading || '',
-          meaning
+          meaning,
         })
 
         if (results.length >= limit) break
@@ -118,7 +122,11 @@ class KanjiEnrichmentService {
   /**
    * Find example sentences containing a specific kanji
    */
-  private findSentencesForKanji(kanji: string, meaning: string, limit = 2): Array<{
+  private findSentencesForKanji(
+    kanji: string,
+    meaning: string,
+    limit = 2
+  ): Array<{
     japanese: string
     english: string
   }> {
@@ -137,8 +145,10 @@ class KanjiEnrichmentService {
     if (results.length < limit) {
       const meaningLower = meaning.toLowerCase()
       for (const sentence of sentences) {
-        if (sentence.english.toLowerCase().includes(meaningLower) &&
-            !results.some(r => r.japanese === sentence.japanese)) {
+        if (
+          sentence.english.toLowerCase().includes(meaningLower) &&
+          !results.some(r => r.japanese === sentence.japanese)
+        ) {
           results.push(sentence)
           if (results.length >= limit) break
         }
@@ -161,19 +171,25 @@ class KanjiEnrichmentService {
 
       return {
         ...kanji,
-        examples: vocabulary.length > 0 ? vocabulary : [
-          {
-            word: kanji.kanji + '語',
-            reading: 'example',
-            meaning: `Example with ${kanji.meaning}`
-          }
-        ],
-        sentences: sentences.length > 0 ? sentences : [
-          {
-            japanese: `これは${kanji.kanji}の例文です。`,
-            english: `This is an example sentence with ${kanji.kanji}.`
-          }
-        ]
+        examples:
+          vocabulary.length > 0
+            ? vocabulary
+            : [
+                {
+                  word: kanji.kanji + '語',
+                  reading: 'example',
+                  meaning: `Example with ${kanji.meaning}`,
+                },
+              ],
+        sentences:
+          sentences.length > 0
+            ? sentences
+            : [
+                {
+                  japanese: `これは${kanji.kanji}の例文です。`,
+                  english: `This is an example sentence with ${kanji.kanji}.`,
+                },
+              ],
       }
     })
   }

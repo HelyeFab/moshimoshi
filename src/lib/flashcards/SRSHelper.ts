@@ -15,10 +15,10 @@ export class FlashcardSRSHelper {
    */
   static difficultyToQuality(difficulty: 'again' | 'hard' | 'good' | 'easy'): number {
     const qualityMap = {
-      'again': 1,  // Failed to recall
-      'hard': 3,   // Difficult but correct
-      'good': 4,   // Normal difficulty
-      'easy': 5    // Very easy
+      again: 1, // Failed to recall
+      hard: 3, // Difficult but correct
+      good: 4, // Normal difficulty
+      easy: 5, // Very easy
     }
     return qualityMap[difficulty]
   }
@@ -43,8 +43,8 @@ export class FlashcardSRSHelper {
         streak: 0,
         bestStreak: 0,
         learningStep: 0,
-        createdAt: card.metadata?.createdAt || Date.now()
-      }
+        createdAt: card.metadata?.createdAt || Date.now(),
+      },
     }
   }
 
@@ -63,25 +63,34 @@ export class FlashcardSRSHelper {
     const reviewResult: ReviewResult = {
       correct: isCorrect,
       responseTime,
-      confidence: quality as 1 | 2 | 3 | 4 | 5
+      confidence: quality as 1 | 2 | 3 | 4 | 5,
     }
 
-    // Convert card to SRS-compatible format
-    const currentSRS = {
-      interval: card.metadata?.interval || 0,
-      easeFactor: card.metadata?.easeFactor || 2.5,
-      repetitions: card.metadata?.repetitions || 0,
-      lastReviewedAt: card.metadata?.lastReviewed ? new Date(card.metadata.lastReviewed) : null,
-      nextReviewAt: card.metadata?.nextReview ? new Date(card.metadata.nextReview) : new Date(),
-      status: card.metadata?.status || 'new' as CardStatus,
-      reviewCount: card.metadata?.reviewCount || 0,
-      correctCount: card.metadata?.correctCount || 0,
-      streak: card.metadata?.streak || 0,
-      bestStreak: card.metadata?.bestStreak || 0
+    // Convert card to SRS-compatible format (ReviewableContentWithSRS)
+    const reviewableItem = {
+      id: card.id,
+      contentType: 'custom' as const, // Flashcards use 'custom' content type
+      primaryDisplay: card.front.text,
+      primaryAnswer: card.back.text,
+      difficulty: card.metadata?.difficulty || 0.5,
+      tags: card.metadata?.tags || [],
+      supportedModes: ['recognition' as const, 'recall' as const], // Valid ReviewMode values
+      srsData: {
+        interval: card.metadata?.interval || 0,
+        easeFactor: card.metadata?.easeFactor || 2.5,
+        repetitions: card.metadata?.repetitions || 0,
+        lastReviewedAt: card.metadata?.lastReviewed ? new Date(card.metadata.lastReviewed) : null,
+        nextReviewAt: card.metadata?.nextReview ? new Date(card.metadata.nextReview) : new Date(),
+        status: (card.metadata?.status || 'new') as 'new' | 'learning' | 'review' | 'mastered',
+        reviewCount: card.metadata?.reviewCount || 0,
+        correctCount: card.metadata?.correctCount || 0,
+        streak: card.metadata?.streak || 0,
+        bestStreak: card.metadata?.bestStreak || 0,
+      },
     }
 
     // Calculate next SRS state
-    const newSRS = this.srsAlgorithm.calculateNext(currentSRS, reviewResult, quality)
+    const newSRS = this.srsAlgorithm.calculateNextReview(reviewableItem, reviewResult)
 
     // Update card metadata
     const updatedCard: FlashcardContent = {
@@ -93,11 +102,13 @@ export class FlashcardSRSHelper {
         interval: newSRS.interval,
         easeFactor: newSRS.easeFactor,
         repetitions: newSRS.repetitions,
-        lapses: isCorrect ? (card.metadata?.lapses || 0) : (card.metadata?.lapses || 0) + 1,
+        lapses: isCorrect ? card.metadata?.lapses || 0 : (card.metadata?.lapses || 0) + 1,
 
         // Review Tracking
         lastReviewed: Date.now(),
-        nextReview: newSRS.nextReviewAt ? newSRS.nextReviewAt.getTime() : Date.now() + (newSRS.interval * 24 * 60 * 60 * 1000),
+        nextReview: newSRS.nextReviewAt
+          ? newSRS.nextReviewAt.getTime()
+          : Date.now() + newSRS.interval * 24 * 60 * 60 * 1000,
         reviewCount: newSRS.reviewCount,
         correctCount: newSRS.correctCount,
 
@@ -112,11 +123,16 @@ export class FlashcardSRSHelper {
         bestStreak: newSRS.bestStreak,
 
         // Learning Progress
-        learningStep: this.calculateLearningStep(newSRS.status as CardStatus, card.metadata?.learningStep || 0, isCorrect),
-        graduatedAt: newSRS.status === 'review' && card.metadata?.status === 'learning'
-          ? Date.now()
-          : card.metadata?.graduatedAt
-      }
+        learningStep: this.calculateLearningStep(
+          newSRS.status as CardStatus,
+          card.metadata?.learningStep || 0,
+          isCorrect
+        ),
+        graduatedAt:
+          newSRS.status === 'review' && card.metadata?.status === 'learning'
+            ? Date.now()
+            : card.metadata?.graduatedAt,
+      },
     }
 
     return updatedCard
@@ -131,10 +147,10 @@ export class FlashcardSRSHelper {
     reviewCount?: number
   ): number {
     if (!newTime) return currentAverage || 0
-    if (!currentAverage || reviewCount === 0) return newTime
+    if (!currentAverage || !reviewCount || reviewCount === 0) return newTime
 
     // Weighted average
-    return ((currentAverage * reviewCount) + newTime) / (reviewCount + 1)
+    return (currentAverage * reviewCount + newTime) / (reviewCount + 1)
   }
 
   /**
@@ -225,11 +241,13 @@ export class FlashcardSRSHelper {
   static isCardMastered(card: FlashcardContent): boolean {
     if (!card.metadata) return false
 
-    return (
+    return Boolean(
       card.metadata.status === 'mastered' ||
-      (card.metadata.interval && card.metadata.interval >= 21 && // 21+ day interval
-       card.metadata.correctCount && card.metadata.reviewCount &&
-       (card.metadata.correctCount / card.metadata.reviewCount) >= 0.9) // 90% accuracy
+      (card.metadata.interval &&
+        card.metadata.interval >= 21 && // 21+ day interval
+        card.metadata.correctCount &&
+        card.metadata.reviewCount &&
+        card.metadata.correctCount / card.metadata.reviewCount >= 0.9) // 90% accuracy
     )
   }
 
@@ -240,9 +258,10 @@ export class FlashcardSRSHelper {
     if (!card.metadata) return 'medium'
 
     const easeFactor = card.metadata.easeFactor || 2.5
-    const lapseRatio = card.metadata.lapses && card.metadata.reviewCount
-      ? card.metadata.lapses / card.metadata.reviewCount
-      : 0
+    const lapseRatio =
+      card.metadata.lapses && card.metadata.reviewCount
+        ? card.metadata.lapses / card.metadata.reviewCount
+        : 0
 
     if (easeFactor >= 2.3 && lapseRatio < 0.1) return 'easy'
     if (easeFactor >= 2.0 && lapseRatio < 0.2) return 'medium'

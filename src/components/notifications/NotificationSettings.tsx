@@ -44,23 +44,23 @@ export function NotificationSettings() {
       browser: false,
       inApp: true,
       push: false,
-      email: false
+      email: false,
     },
     timing: {
       immediate: true,
       daily: true,
-      overdue: true
+      overdue: true,
     },
     quiet_hours: {
       enabled: false,
       start: '22:00',
       end: '08:00',
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     },
     batching: {
       enabled: true,
-      window_minutes: 5
-    }
+      window_minutes: 5,
+    },
   })
 
   const [browserPermission, setBrowserPermission] = useState<NotificationPermission>('default')
@@ -73,7 +73,7 @@ export function NotificationSettings() {
   }, [user])
 
   const loadPreferences = async () => {
-    if (!user) return
+    if (!user || !db) return
 
     try {
       const docRef = doc(db, 'notifications_preferences', user.uid)
@@ -96,7 +96,7 @@ export function NotificationSettings() {
   }
 
   const savePreferences = async () => {
-    if (!user) return
+    if (!user || !db) return
 
     setSaving(true)
     try {
@@ -104,7 +104,7 @@ export function NotificationSettings() {
       await setDoc(docRef, {
         ...preferences,
         userId: user.uid,
-        updated_at: new Date()
+        updated_at: new Date(),
       })
 
       showToast(t('settings.notifications.saveSuccess'), 'success')
@@ -128,7 +128,7 @@ export function NotificationSettings() {
     if (permission === 'granted') {
       setPreferences(prev => ({
         ...prev,
-        channels: { ...prev.channels, browser: true }
+        channels: { ...prev.channels, browser: true },
       }))
       showToast(t('settings.notifications.browserEnabled'), 'success')
     } else if (permission === 'denied') {
@@ -146,7 +146,7 @@ export function NotificationSettings() {
       body: t('settings.notifications.test.body'),
       icon: '/icons/icon-192x192.svg',
       badge: '/icons/icon-72x72.svg',
-      requireInteraction: true
+      requireInteraction: true,
     })
 
     notification.onclick = () => {
@@ -191,10 +191,10 @@ export function NotificationSettings() {
                 <input
                   type="checkbox"
                   checked={preferences.channels.browser}
-                  onChange={(e) =>
+                  onChange={e =>
                     setPreferences(prev => ({
                       ...prev,
-                      channels: { ...prev.channels, browser: e.target.checked }
+                      channels: { ...prev.channels, browser: e.target.checked },
                     }))
                   }
                   className="sr-only peer"
@@ -220,10 +220,10 @@ export function NotificationSettings() {
               <input
                 type="checkbox"
                 checked={preferences.channels.inApp}
-                onChange={(e) =>
+                onChange={e =>
                   setPreferences(prev => ({
                     ...prev,
-                    channels: { ...prev.channels, inApp: e.target.checked }
+                    channels: { ...prev.channels, inApp: e.target.checked },
                   }))
                 }
                 className="sr-only peer"
@@ -247,10 +247,10 @@ export function NotificationSettings() {
               <input
                 type="checkbox"
                 checked={preferences.channels.push}
-                onChange={(e) =>
+                onChange={e =>
                   setPreferences(prev => ({
                     ...prev,
-                    channels: { ...prev.channels, push: e.target.checked }
+                    channels: { ...prev.channels, push: e.target.checked },
                   }))
                 }
                 className="sr-only peer"
@@ -283,10 +283,10 @@ export function NotificationSettings() {
               <input
                 type="checkbox"
                 checked={preferences.timing.immediate}
-                onChange={(e) =>
+                onChange={e =>
                   setPreferences(prev => ({
                     ...prev,
-                    timing: { ...prev.timing, immediate: e.target.checked }
+                    timing: { ...prev.timing, immediate: e.target.checked },
                   }))
                 }
                 className="sr-only peer"
@@ -309,10 +309,10 @@ export function NotificationSettings() {
               <input
                 type="checkbox"
                 checked={preferences.timing.daily}
-                onChange={(e) =>
+                onChange={e =>
                   setPreferences(prev => ({
                     ...prev,
-                    timing: { ...prev.timing, daily: e.target.checked }
+                    timing: { ...prev.timing, daily: e.target.checked },
                   }))
                 }
                 className="sr-only peer"
@@ -344,10 +344,10 @@ export function NotificationSettings() {
               <input
                 type="checkbox"
                 checked={preferences.quiet_hours.enabled}
-                onChange={(e) =>
+                onChange={e =>
                   setPreferences(prev => ({
                     ...prev,
-                    quiet_hours: { ...prev.quiet_hours, enabled: e.target.checked }
+                    quiet_hours: { ...prev.quiet_hours, enabled: e.target.checked },
                   }))
                 }
                 className="sr-only peer"
@@ -365,10 +365,10 @@ export function NotificationSettings() {
                 <input
                   type="time"
                   value={preferences.quiet_hours.start}
-                  onChange={(e) =>
+                  onChange={e =>
                     setPreferences(prev => ({
                       ...prev,
-                      quiet_hours: { ...prev.quiet_hours, start: e.target.value }
+                      quiet_hours: { ...prev.quiet_hours, start: e.target.value },
                     }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -382,10 +382,10 @@ export function NotificationSettings() {
                 <input
                   type="time"
                   value={preferences.quiet_hours.end}
-                  onChange={(e) =>
+                  onChange={e =>
                     setPreferences(prev => ({
                       ...prev,
-                      quiet_hours: { ...prev.quiet_hours, end: e.target.value }
+                      quiet_hours: { ...prev.quiet_hours, end: e.target.value },
                     }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"

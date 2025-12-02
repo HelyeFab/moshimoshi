@@ -8,8 +8,8 @@
  * - 10% recent learning words (reinforcement)
  */
 
-import type { JapaneseWord, WordSRSEntry, JLPTLevel } from '@/types/drill';
-import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch';
+import type { JapaneseWord, WordSRSEntry, JLPTLevel } from '@/types/drill'
+import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch'
 
 // Note: DrillProgressManager is NOT imported at module level.
 // It uses IndexedDB (browser-only) and would break server-side builds.
@@ -17,22 +17,22 @@ import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch';
 // For client-side use, the method will dynamically import DrillProgressManager.
 
 export interface SRSWordSelectionOptions {
-  userId: string;
-  targetCount: number;
-  isPremium: boolean;
+  userId: string
+  targetCount: number
+  isPremium: boolean
 
   // Distribution ratios (should sum to 1.0)
-  dueWordRatio?: number;      // Default: 0.6 (60%)
-  newWordRatio?: number;      // Default: 0.3 (30%)
-  learningWordRatio?: number; // Default: 0.1 (10%)
+  dueWordRatio?: number // Default: 0.6 (60%)
+  newWordRatio?: number // Default: 0.3 (30%)
+  learningWordRatio?: number // Default: 0.1 (10%)
 
   // Optional filters (rarely used - SRS shows ALL studied words by design)
-  includeJLPT?: JLPTLevel[];
-  maxLeechScore?: number;    // Optionally exclude very difficult words
+  includeJLPT?: JLPTLevel[]
+  maxLeechScore?: number // Optionally exclude very difficult words
 
   // Server-side support: pass pre-fetched SRS data from Firebase Admin
   // If provided, skips DrillProgressManager (which requires IndexedDB)
-  srsData?: Map<string, WordSRSEntry>;
+  srsData?: Map<string, WordSRSEntry>
 }
 
 export class SRSWordSelector {
@@ -49,97 +49,93 @@ export class SRSWordSelector {
       learningWordRatio = 0.1,
       includeJLPT,
       maxLeechScore,
-      srsData: providedSrsData
-    } = options;
+      srsData: providedSrsData,
+    } = options
 
     // Get SRS data - either use provided data (server-side) or fetch from DrillProgressManager (client-side)
-    let srsData: Map<string, WordSRSEntry>;
+    let srsData: Map<string, WordSRSEntry>
     if (providedSrsData) {
       // Server-side: use pre-fetched data from Firebase Admin
-      srsData = providedSrsData;
+      srsData = providedSrsData
     } else {
       // Client-side: dynamically import DrillProgressManager (uses IndexedDB)
-      const { DrillProgressManager } = await import('@/lib/review-engine/progress/DrillProgressManager');
-      const drillProgressManager = DrillProgressManager.getInstance();
-      srsData = await drillProgressManager.getSRSData(userId, isPremium);
+      const { DrillProgressManager } =
+        await import('@/lib/review-engine/progress/DrillProgressManager')
+      const drillProgressManager = DrillProgressManager.getInstance()
+      srsData = await drillProgressManager.getSRSData(userId, isPremium)
     }
 
     // Categorize words
-    const now = new Date();
-    const dueWords: WordSRSEntry[] = [];
-    const learningWords: WordSRSEntry[] = [];
-    const otherWords: WordSRSEntry[] = [];
+    const now = new Date()
+    const dueWords: WordSRSEntry[] = []
+    const learningWords: WordSRSEntry[] = []
+    const otherWords: WordSRSEntry[] = []
 
     srsData.forEach((entry: WordSRSEntry) => {
-      const nextReview = new Date(entry.srsData.nextReviewAt);
+      const nextReview = new Date(entry.srsData.nextReviewAt)
 
       // Apply leech filter if specified
       if (maxLeechScore !== undefined && entry.leechScore > maxLeechScore) {
-        return;
+        return
       }
 
       // Apply JLPT filter if specified
       if (includeJLPT && entry.word.jlpt && !includeJLPT.includes(entry.word.jlpt)) {
-        return;
+        return
       }
 
       // Categorize
       if (nextReview <= now) {
-        dueWords.push(entry);
+        dueWords.push(entry)
       } else if (entry.srsData.status === 'learning') {
-        learningWords.push(entry);
+        learningWords.push(entry)
       } else {
-        otherWords.push(entry);
+        otherWords.push(entry)
       }
-    });
+    })
 
     // Prioritize due words
-    const prioritizedDue = this.prioritizeDueWords(dueWords);
+    const prioritizedDue = this.prioritizeDueWords(dueWords)
 
     // Calculate target counts for each category
-    const targetDue = Math.floor(targetCount * dueWordRatio);
-    const targetNew = Math.floor(targetCount * newWordRatio);
-    const targetLearning = targetCount - targetDue - targetNew; // Remainder goes to learning
+    const targetDue = Math.floor(targetCount * dueWordRatio)
+    const targetNew = Math.floor(targetCount * newWordRatio)
+    const targetLearning = targetCount - targetDue - targetNew // Remainder goes to learning
 
     // Select words from each category
-    const selectedWords: JapaneseWord[] = [];
+    const selectedWords: JapaneseWord[] = []
 
     // 1. Select due words (highest priority)
-    const selectedDue = prioritizedDue.slice(0, targetDue);
-    selectedWords.push(...selectedDue.map(entry => this.entryToWord(entry)));
+    const selectedDue = prioritizedDue.slice(0, targetDue)
+    selectedWords.push(...selectedDue.map(entry => this.entryToWord(entry)))
 
     // 2. Select new words (if we have room and not enough due words)
-    const remainingAfterDue = targetCount - selectedWords.length;
+    const remainingAfterDue = targetCount - selectedWords.length
     if (remainingAfterDue > 0) {
-      const targetNewAdjusted = Math.max(targetNew, remainingAfterDue - targetLearning);
-      const newWords = await this.getNewWords(
-        userId,
-        srsData,
-        targetNewAdjusted,
-        includeJLPT
-      );
-      selectedWords.push(...newWords);
+      const targetNewAdjusted = Math.max(targetNew, remainingAfterDue - targetLearning)
+      const newWords = await this.getNewWords(userId, srsData, targetNewAdjusted, includeJLPT)
+      selectedWords.push(...newWords)
     }
 
     // 3. Select learning words (reinforcement)
-    const remainingAfterNew = targetCount - selectedWords.length;
+    const remainingAfterNew = targetCount - selectedWords.length
     if (remainingAfterNew > 0 && learningWords.length > 0) {
       // Shuffle learning words for variety
-      const shuffledLearning = this.shuffleArray([...learningWords]);
-      const selectedLearning = shuffledLearning.slice(0, remainingAfterNew);
-      selectedWords.push(...selectedLearning.map(entry => this.entryToWord(entry)));
+      const shuffledLearning = this.shuffleArray([...learningWords])
+      const selectedLearning = shuffledLearning.slice(0, remainingAfterNew)
+      selectedWords.push(...selectedLearning.map(entry => this.entryToWord(entry)))
     }
 
     // 4. Fill remaining slots with any words if still short
-    const finalRemaining = targetCount - selectedWords.length;
+    const finalRemaining = targetCount - selectedWords.length
     if (finalRemaining > 0 && otherWords.length > 0) {
-      const shuffledOther = this.shuffleArray([...otherWords]);
-      const selectedOther = shuffledOther.slice(0, finalRemaining);
-      selectedWords.push(...selectedOther.map(entry => this.entryToWord(entry)));
+      const shuffledOther = this.shuffleArray([...otherWords])
+      const selectedOther = shuffledOther.slice(0, finalRemaining)
+      selectedWords.push(...selectedOther.map(entry => this.entryToWord(entry)))
     }
 
     // Shuffle final selection for variety within the session
-    return this.shuffleArray(selectedWords);
+    return this.shuffleArray(selectedWords)
   }
 
   /**
@@ -149,32 +145,34 @@ export class SRSWordSelector {
    * 3. Last reviewed (oldest first)
    */
   private static prioritizeDueWords(dueWords: WordSRSEntry[]): WordSRSEntry[] {
-    const now = new Date();
+    const now = new Date()
 
     return dueWords.sort((a, b) => {
       // Calculate how overdue each word is (in days)
-      const aOverdue = Math.max(0,
+      const aOverdue = Math.max(
+        0,
         (now.getTime() - new Date(a.srsData.nextReviewAt).getTime()) / (1000 * 60 * 60 * 24)
-      );
-      const bOverdue = Math.max(0,
+      )
+      const bOverdue = Math.max(
+        0,
         (now.getTime() - new Date(b.srsData.nextReviewAt).getTime()) / (1000 * 60 * 60 * 24)
-      );
+      )
 
       // Priority 1: Most overdue first (>1 day difference matters)
       if (Math.abs(aOverdue - bOverdue) > 1) {
-        return bOverdue - aOverdue;
+        return bOverdue - aOverdue
       }
 
       // Priority 2: Higher leech score (more difficult words)
       if (a.leechScore !== b.leechScore) {
-        return b.leechScore - a.leechScore;
+        return b.leechScore - a.leechScore
       }
 
       // Priority 3: Oldest review first
-      const aLastReview = a.lastReviewedAt ? new Date(a.lastReviewedAt).getTime() : 0;
-      const bLastReview = b.lastReviewedAt ? new Date(b.lastReviewedAt).getTime() : 0;
-      return aLastReview - bLastReview;
-    });
+      const aLastReview = a.lastReviewedAt ? new Date(a.lastReviewedAt).getTime() : 0
+      const bLastReview = b.lastReviewedAt ? new Date(b.lastReviewedAt).getTime() : 0
+      return aLastReview - bLastReview
+    })
   }
 
   /**
@@ -187,44 +185,45 @@ export class SRSWordSelector {
     count: number,
     includeJLPT?: JLPTLevel[]
   ): Promise<JapaneseWord[]> {
-    if (count <= 0) return [];
+    if (count <= 0) return []
 
     // Determine JLPT filter for new words
     // If not specified, use N5+N4 for beginners
-    const jlptFilter: ('N5' | 'N4' | 'N3+')[] = [];
+    const jlptFilter: ('N5' | 'N4' | 'N3+')[] = []
     if (includeJLPT && includeJLPT.length > 0) {
-      if (includeJLPT.includes('N5')) jlptFilter.push('N5');
-      if (includeJLPT.includes('N4')) jlptFilter.push('N4');
+      if (includeJLPT.includes('N5')) jlptFilter.push('N5')
+      if (includeJLPT.includes('N4')) jlptFilter.push('N4')
       if (includeJLPT.includes('N3') || includeJLPT.includes('N2') || includeJLPT.includes('N1')) {
-        jlptFilter.push('N3+');
+        jlptFilter.push('N3+')
       }
     } else {
       // Default: N5 + N4 for new learners
-      jlptFilter.push('N5', 'N4');
+      jlptFilter.push('N5', 'N4')
     }
 
     // Fetch more words than needed to account for filtering
-    const fetchCount = Math.min(count * 3, 100); // Fetch 3x but cap at 100
+    const fetchCount = Math.min(count * 3, 100) // Fetch 3x but cap at 100
 
     try {
       const allWords = await getConjugatableWordsPractice({
         type: 'all',
         jlptLevels: jlptFilter,
-        limit: fetchCount
-      });
+        limit: fetchCount,
+      })
 
       // Filter out words already in SRS
       const newWords = allWords.filter(word => {
-        const wordId = `${word.kanji || word.kana}:${word.kana}`;
-        return !existingSRSData.has(wordId);
-      });
+        const wordId = `${word.kanji || word.kana}:${word.kana}`
+        return !existingSRSData.has(wordId)
+      })
 
       // Shuffle and take what we need
-      const shuffled = this.shuffleArray(newWords);
-      return shuffled.slice(0, count);
+      // Cast vocabulary.JapaneseWord to drill.JapaneseWord - both have required fields
+      const shuffled = this.shuffleArray(newWords as JapaneseWord[])
+      return shuffled.slice(0, count)
     } catch (error) {
-      console.error('[SRSWordSelector] Failed to fetch new words:', error);
-      return [];
+      console.error('[SRSWordSelector] Failed to fetch new words:', error)
+      return []
     }
   }
 
@@ -238,20 +237,20 @@ export class SRSWordSelector {
       kana: entry.word.kana,
       meaning: entry.word.meaning,
       type: entry.word.type,
-      jlpt: entry.word.jlpt
-    };
+      jlpt: entry.word.jlpt,
+    }
   }
 
   /**
    * Fisher-Yates shuffle algorithm
    */
   private static shuffleArray<T>(array: T[]): T[] {
-    const shuffled = [...array];
+    const shuffled = [...array]
     for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
     }
-    return shuffled;
+    return shuffled
   }
 
   /**
@@ -259,58 +258,68 @@ export class SRSWordSelector {
    * CLIENT-SIDE ONLY - uses IndexedDB via DrillProgressManager
    */
   static async getStats(userId: string, isPremium: boolean) {
-    const { DrillProgressManager } = await import('@/lib/review-engine/progress/DrillProgressManager');
-    const drillProgressManager = DrillProgressManager.getInstance();
-    return await drillProgressManager.getSRSStats(userId, isPremium);
+    const { DrillProgressManager } =
+      await import('@/lib/review-engine/progress/DrillProgressManager')
+    const drillProgressManager = DrillProgressManager.getInstance()
+    return await drillProgressManager.getSRSStats(userId, isPremium)
   }
 
   /**
    * Check if user has enough words for SRS mode
    * CLIENT-SIDE ONLY - uses IndexedDB via DrillProgressManager
    */
-  static async hasEnoughWords(userId: string, isPremium: boolean, minWords: number = 5): Promise<boolean> {
-    const { DrillProgressManager } = await import('@/lib/review-engine/progress/DrillProgressManager');
-    const drillProgressManager = DrillProgressManager.getInstance();
-    const srsData = await drillProgressManager.getSRSData(userId, isPremium);
-    return srsData.size >= minWords;
+  static async hasEnoughWords(
+    userId: string,
+    isPremium: boolean,
+    minWords: number = 5
+  ): Promise<boolean> {
+    const { DrillProgressManager } =
+      await import('@/lib/review-engine/progress/DrillProgressManager')
+    const drillProgressManager = DrillProgressManager.getInstance()
+    const srsData = await drillProgressManager.getSRSData(userId, isPremium)
+    return srsData.size >= minWords
   }
 
   /**
    * Get word counts by category (for UI display)
    * CLIENT-SIDE ONLY - uses IndexedDB via DrillProgressManager
    */
-  static async getWordCounts(userId: string, isPremium: boolean): Promise<{
-    total: number;
-    due: number;
-    learning: number;
-    new: number;
+  static async getWordCounts(
+    userId: string,
+    isPremium: boolean
+  ): Promise<{
+    total: number
+    due: number
+    learning: number
+    new: number
   }> {
-    const { DrillProgressManager } = await import('@/lib/review-engine/progress/DrillProgressManager');
-    const drillProgressManager = DrillProgressManager.getInstance();
-    const srsData = await drillProgressManager.getSRSData(userId, isPremium);
-    const now = new Date();
+    const { DrillProgressManager } =
+      await import('@/lib/review-engine/progress/DrillProgressManager')
+    const drillProgressManager = DrillProgressManager.getInstance()
+    const srsData = await drillProgressManager.getSRSData(userId, isPremium)
+    const now = new Date()
 
-    let dueCount = 0;
-    let learningCount = 0;
+    let dueCount = 0
+    let learningCount = 0
 
     srsData.forEach((entry: WordSRSEntry) => {
-      const nextReview = new Date(entry.srsData.nextReviewAt);
+      const nextReview = new Date(entry.srsData.nextReviewAt)
       if (nextReview <= now) {
-        dueCount++;
+        dueCount++
       } else if (entry.srsData.status === 'learning') {
-        learningCount++;
+        learningCount++
       }
-    });
+    })
 
     // "New" is theoretical - we can show a small number based on JLPT pool
     // For now, just show that new words are available
-    const newCount = dueCount < 10 ? 10 : 5; // Show more new words if few due words
+    const newCount = dueCount < 10 ? 10 : 5 // Show more new words if few due words
 
     return {
       total: srsData.size,
       due: dueCount,
       learning: learningCount,
-      new: newCount
-    };
+      new: newCount,
+    }
   }
 }

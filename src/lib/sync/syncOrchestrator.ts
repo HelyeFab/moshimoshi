@@ -1,21 +1,25 @@
-import logger from '@/lib/logger';
-import type { User } from 'firebase/auth';
+import logger from '@/lib/logger'
+
+// Minimal user interface - works with both Firebase User and AuthUser
+interface MinimalUser {
+  uid: string
+}
 
 export interface SyncResult {
-  system: string;
-  success: boolean;
-  error?: string;
+  system: string
+  success: boolean
+  error?: string
 }
 
 export interface SyncOrchestratorResult {
-  overallSuccess: boolean;
+  overallSuccess: boolean
   results: {
-    lists: SyncResult;
-    gamification: SyncResult;
-    kana: SyncResult;
-    preferences: SyncResult;
-  };
-  timestamp: Date;
+    lists: SyncResult
+    gamification: SyncResult
+    kana: SyncResult
+    preferences: SyncResult
+  }
+  timestamp: Date
 }
 
 /**
@@ -26,202 +30,214 @@ export class SyncOrchestrator {
   /**
    * Execute a full sync across all systems
    */
-  static async syncAll(user: User, isPremium: boolean): Promise<SyncOrchestratorResult> {
+  static async syncAll(user: MinimalUser, isPremium: boolean): Promise<SyncOrchestratorResult> {
     const results: SyncOrchestratorResult = {
       overallSuccess: true,
       results: {
         lists: { system: 'lists', success: false },
         gamification: { system: 'gamification', success: false },
         kana: { system: 'kana', success: false },
-        preferences: { system: 'preferences', success: false }
+        preferences: { system: 'preferences', success: false },
       },
-      timestamp: new Date()
-    };
+      timestamp: new Date(),
+    }
 
     // 1. Sync User Lists (premium only for sync to Firebase)
     if (isPremium) {
       try {
-        const { listManager } = await import('@/lib/lists/ListManager');
-        const syncedCount = await listManager.syncLocalListsToServer(user.uid);
-        results.results.lists.success = true;
-        logger.info(`[SyncOrchestrator] Synced ${syncedCount} lists`);
+        const { listManager } = await import('@/lib/lists/ListManager')
+        const syncedCount = await listManager.syncLocalListsToServer(user.uid)
+        results.results.lists.success = true
+        logger.info(`[SyncOrchestrator] Synced ${syncedCount} lists`)
       } catch (error: any) {
-        results.results.lists.success = false;
-        results.results.lists.error = error.message;
-        results.overallSuccess = false;
-        logger.error('[SyncOrchestrator] Lists sync failed:', error);
+        results.results.lists.success = false
+        results.results.lists.error = error.message
+        results.overallSuccess = false
+        logger.error('[SyncOrchestrator] Lists sync failed:', error)
       }
     } else {
       // Free users don't sync lists to server
-      results.results.lists.success = true;
+      results.results.lists.success = true
     }
 
     // 2. Sync Gamification Data (UPLOAD ONLY)
     // NOTE: Download is handled by useGamification hook on component mount
     // This prevents duplicate Firebase fetches
     try {
-      const { useGamificationStore } = await import('@/state/userGamification');
-      const gamificationStore = useGamificationStore.getState();
+      const { useGamificationStore } = await import('@/state/userGamification')
+      const gamificationStore = useGamificationStore.getState()
 
       if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true' && gamificationStore.userId) {
         // Premium users: Upload local changes to Firebase
         if (isPremium) {
           // CRITICAL: Only sync if data has been loaded (prevents race condition)
           if (!gamificationStore.isLoaded) {
-            logger.warn('[SyncOrchestrator] Gamification data not loaded yet, skipping sync to prevent data loss');
-            logger.warn('[SyncOrchestrator] This is normal on first load - will sync on next cycle');
-            results.results.gamification.success = true; // Not a failure, just skipped
+            logger.warn(
+              '[SyncOrchestrator] Gamification data not loaded yet, skipping sync to prevent data loss'
+            )
+            logger.warn('[SyncOrchestrator] This is normal on first load - will sync on next cycle')
+            results.results.gamification.success = true // Not a failure, just skipped
           } else {
-            logger.info('[SyncOrchestrator] Premium user - uploading gamification changes');
+            logger.info('[SyncOrchestrator] Premium user - uploading gamification changes')
 
-            await gamificationStore.syncToFirebase();
-            logger.info('[SyncOrchestrator] ✅ Uploaded gamification data to Firebase');
-            results.results.gamification.success = true;
+            await gamificationStore.syncToFirebase()
+            logger.info('[SyncOrchestrator] ✅ Uploaded gamification data to Firebase')
+            results.results.gamification.success = true
           }
         } else {
           // Free users: No Firebase sync
-          logger.info('[SyncOrchestrator] Free user - skipping Firebase gamification sync');
-          results.results.gamification.success = true;
+          logger.info('[SyncOrchestrator] Free user - skipping Firebase gamification sync')
+          results.results.gamification.success = true
         }
       } else {
         // Gamification disabled or no user
-        results.results.gamification.success = true;
+        results.results.gamification.success = true
       }
     } catch (error: any) {
-      results.results.gamification.success = false;
-      results.results.gamification.error = error.message;
-      results.overallSuccess = false;
-      logger.error('[SyncOrchestrator] Gamification sync failed:', error);
+      results.results.gamification.success = false
+      results.results.gamification.error = error.message
+      results.overallSuccess = false
+      logger.error('[SyncOrchestrator] Gamification sync failed:', error)
     }
 
     // 3. Sync Kana Progress
     try {
       // Dynamic import to avoid SSR issues
-      const kanaProgressModule = await import('@/utils/kanaProgressManager');
-      const kanaProgressManager = kanaProgressModule.kanaProgressManager;
+      const kanaProgressModule = await import('@/utils/kanaProgressManager')
+      const kanaProgressManager = kanaProgressModule.kanaProgressManager
 
       if (kanaProgressManager) {
-        const hiraganaProgress = await kanaProgressManager.getProgress('hiragana', user, isPremium);
-        const katakanaProgress = await kanaProgressManager.getProgress('katakana', user, isPremium);
+        // Cast MinimalUser to User - kanaProgressManager only uses uid
+        const userAsFirebase = user as unknown as import('firebase/auth').User
+        const hiraganaProgress = await kanaProgressManager.getProgress(
+          'hiragana',
+          userAsFirebase,
+          isPremium
+        )
+        const katakanaProgress = await kanaProgressManager.getProgress(
+          'katakana',
+          userAsFirebase,
+          isPremium
+        )
 
         // Sync to Firebase if there's progress
         if (Object.keys(hiraganaProgress).length > 0) {
-          await kanaProgressManager['syncToFirebase'](user.uid, 'hiragana', hiraganaProgress);
+          await kanaProgressManager['syncToFirebase'](user.uid, 'hiragana', hiraganaProgress)
         }
         if (Object.keys(katakanaProgress).length > 0) {
-          await kanaProgressManager['syncToFirebase'](user.uid, 'katakana', katakanaProgress);
+          await kanaProgressManager['syncToFirebase'](user.uid, 'katakana', katakanaProgress)
         }
 
         // Process sync queue
-        await kanaProgressManager['processSyncQueue']();
+        await kanaProgressManager['processSyncQueue']()
 
-        results.results.kana.success = true;
-        logger.info('[SyncOrchestrator] Synced kana progress');
+        results.results.kana.success = true
+        logger.info('[SyncOrchestrator] Synced kana progress')
       }
     } catch (error: any) {
-      results.results.kana.success = false;
-      results.results.kana.error = error.message;
-      results.overallSuccess = false;
-      logger.error('[SyncOrchestrator] Kana sync failed:', error);
+      results.results.kana.success = false
+      results.results.kana.error = error.message
+      results.overallSuccess = false
+      logger.error('[SyncOrchestrator] Kana sync failed:', error)
     }
 
     // 4. Sync User Preferences
     try {
-      const { preferencesManager } = await import('@/utils/preferencesManager');
-      await preferencesManager.forceSyncAll(user.uid);
-      results.results.preferences.success = true;
-      logger.info('[SyncOrchestrator] Synced preferences');
+      const { preferencesManager } = await import('@/utils/preferencesManager')
+      await preferencesManager.forceSyncAll(user.uid)
+      results.results.preferences.success = true
+      logger.info('[SyncOrchestrator] Synced preferences')
     } catch (error: any) {
-      results.results.preferences.success = false;
-      results.results.preferences.error = error.message;
-      results.overallSuccess = false;
-      logger.error('[SyncOrchestrator] Preferences sync failed:', error);
+      results.results.preferences.success = false
+      results.results.preferences.error = error.message
+      results.overallSuccess = false
+      logger.error('[SyncOrchestrator] Preferences sync failed:', error)
     }
 
-    return results;
+    return results
   }
 
   /**
    * Get aggregate pending count across all sync queues
    */
   static async getPendingCount(): Promise<number> {
-    let totalPending = 0;
+    let totalPending = 0
 
     try {
       // Open main IndexedDB for sync queue
-      const mainDb = await this.openIndexedDB('moshimoshi-offline');
+      const mainDb = await this.openIndexedDB('moshimoshi-offline')
       if (mainDb) {
-        const items = await this.getPendingItems(mainDb, 'syncQueue');
-        totalPending += items.length;
-        mainDb.close();
+        const items = await this.getPendingItems(mainDb, 'syncQueue')
+        totalPending += items.length
+        mainDb.close()
       }
     } catch (error) {
-      logger.error('[SyncOrchestrator] Failed to check main sync queue:', error);
+      logger.error('[SyncOrchestrator] Failed to check main sync queue:', error)
     }
 
     try {
       // Check kana progress sync queue
-      const kanaDb = await this.openIndexedDB('moshimoshi-kana-progress');
+      const kanaDb = await this.openIndexedDB('moshimoshi-kana-progress')
       if (kanaDb && kanaDb.objectStoreNames.contains('syncQueue')) {
-        const items = await this.getPendingItems(kanaDb, 'syncQueue');
-        totalPending += items.length;
-        kanaDb.close();
+        const items = await this.getPendingItems(kanaDb, 'syncQueue')
+        totalPending += items.length
+        kanaDb.close()
       }
     } catch (error) {
-      logger.error('[SyncOrchestrator] Failed to check kana sync queue:', error);
+      logger.error('[SyncOrchestrator] Failed to check kana sync queue:', error)
     }
 
     try {
       // Check preferences sync queue
-      const prefsDb = await this.openIndexedDB('moshimoshi-preferences');
+      const prefsDb = await this.openIndexedDB('moshimoshi-preferences')
       if (prefsDb && prefsDb.objectStoreNames.contains('syncQueue')) {
-        const items = await this.getPendingItems(prefsDb, 'syncQueue');
-        totalPending += items.length;
-        prefsDb.close();
+        const items = await this.getPendingItems(prefsDb, 'syncQueue')
+        totalPending += items.length
+        prefsDb.close()
       }
     } catch (error) {
-      logger.error('[SyncOrchestrator] Failed to check preferences sync queue:', error);
+      logger.error('[SyncOrchestrator] Failed to check preferences sync queue:', error)
     }
 
-    return totalPending;
+    return totalPending
   }
 
   // Helper: Open IndexedDB
   private static async openIndexedDB(dbName: string): Promise<IDBDatabase | null> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       try {
-        const request = indexedDB.open(dbName);
+        const request = indexedDB.open(dbName)
 
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => resolve(null);
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => resolve(null)
       } catch (error) {
-        resolve(null);
+        resolve(null)
       }
-    });
+    })
   }
 
   // Helper: Get pending items from a sync queue
   private static async getPendingItems(db: IDBDatabase, storeName: string): Promise<any[]> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       try {
         if (!db.objectStoreNames.contains(storeName)) {
-          resolve([]);
-          return;
+          resolve([])
+          return
         }
 
-        const transaction = db.transaction([storeName], 'readonly');
-        const store = transaction.objectStore(storeName);
-        const request = store.getAll();
+        const transaction = db.transaction([storeName], 'readonly')
+        const store = transaction.objectStore(storeName)
+        const request = store.getAll()
 
         request.onsuccess = () => {
-          const items = request.result || [];
-          resolve(items.filter(item => item.status === 'pending' || !item.status));
-        };
+          const items = request.result || []
+          resolve(items.filter(item => item.status === 'pending' || !item.status))
+        }
 
-        request.onerror = () => resolve([]);
+        request.onerror = () => resolve([])
       } catch (error) {
-        resolve([]);
+        resolve([])
       }
-    });
+    })
   }
 }

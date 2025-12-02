@@ -1,4 +1,17 @@
-import sgMail from '@sendgrid/mail'
+// @sendgrid/mail - Optional dependency, stubbed when not installed
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+let sgMail: any
+try {
+  sgMail = require('@sendgrid/mail').default || require('@sendgrid/mail')
+} catch {
+  // Package not installed - create stub
+  sgMail = {
+    setApiKey: () => {},
+    send: async () => {
+      throw new Error('SendGrid not installed')
+    },
+  }
+}
 
 // Initialize SendGrid with API key
 const apiKey = process.env.SENDGRID_API_KEY
@@ -30,7 +43,7 @@ export async function sendEmail(options: EmailOptions): Promise<void> {
     to: options.to,
     from: options.from || {
       email: process.env.SENDGRID_FROM_EMAIL || 'noreply@moshimoshi.app',
-      name: process.env.SENDGRID_FROM_NAME || 'Moshimoshi'
+      name: process.env.SENDGRID_FROM_NAME || 'Moshimoshi',
     },
     subject: options.subject,
     text: options.text,

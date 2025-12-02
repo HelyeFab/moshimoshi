@@ -35,7 +35,7 @@ export async function getServerSession(
   try {
     // Get session using our Firebase session system
     const session = await getSession()
-    
+
     if (!session) {
       return null
     }
@@ -45,7 +45,7 @@ export async function getServerSession(
       user: {
         id: session.uid,
         email: session.email,
-        tier: session.tier,
+        tier: session.tier || 'free',
         admin: session.admin,
       },
       expires: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour from now
@@ -64,7 +64,7 @@ export async function validateSessionFromRequest(
 ): Promise<{ valid: boolean; user?: SessionUser; reason?: string }> {
   try {
     const sessionCookie = request.cookies.get('session')
-    
+
     if (!sessionCookie?.value) {
       return { valid: false, reason: 'no_session' }
     }
@@ -72,7 +72,7 @@ export async function validateSessionFromRequest(
     // Import validateSession from session module
     const { validateSession } = await import('@/lib/auth/session')
     const validation = await validateSession(request)
-    
+
     if (!validation.valid || !validation.payload) {
       return { valid: false, reason: validation.reason || 'invalid_session' }
     }
@@ -114,11 +114,11 @@ export async function isAdmin(): Promise<boolean> {
  */
 export async function requireAuth(): Promise<SessionUser> {
   const session = await getSession()
-  
+
   if (!session) {
     throw new Error('Authentication required')
   }
-  
+
   return session
 }
 
@@ -127,11 +127,11 @@ export async function requireAuth(): Promise<SessionUser> {
  */
 export async function requireAdmin(): Promise<SessionUser> {
   const session = await requireAuth()
-  
+
   if (!session.admin) {
     throw new Error('Admin access required')
   }
-  
+
   return session
 }
 

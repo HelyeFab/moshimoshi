@@ -1,36 +1,36 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { TTSOptions, TTSResult, TTSError } from '@/lib/tts/types';
-import { OfflineTTSCache } from '@/lib/tts/offlineCache';
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { TTSOptions, TTSResult, TTSError } from '@/lib/tts/types'
+import { OfflineTTSCache } from '@/lib/tts/offlineCache'
 
 interface UseTTSOptions {
-  autoPlay?: boolean;
-  preloadOnMount?: string[];
-  cacheFirst?: boolean;
-  onPlay?: () => void;
-  onEnd?: () => void;
-  onError?: (error: Error) => void;
+  autoPlay?: boolean
+  preloadOnMount?: string[]
+  cacheFirst?: boolean
+  onPlay?: () => void
+  onEnd?: () => void
+  onError?: (error: Error) => void
 }
 
 interface UseTTSReturn {
   // State
-  playing: boolean;
+  playing: boolean
   /** Alias for `playing` - for component compatibility */
-  isPlaying: boolean;
-  loading: boolean;
-  error: Error | null;
-  currentText: string | null;
+  isPlaying: boolean
+  loading: boolean
+  error: Error | null
+  currentText: string | null
 
   // Methods
-  play: (text: string, options?: TTSOptions) => Promise<void>;
-  pause: () => void;
-  resume: () => void;
-  stop: () => void;
-  preload: (texts: string[], options?: TTSOptions) => Promise<void>;
-  queue: (items: Array<{ text: string; delay?: number }>) => void;
-  clearQueue: () => void;
+  play: (text: string, options?: TTSOptions) => Promise<void>
+  pause: () => void
+  resume: () => void
+  stop: () => void
+  preload: (texts: string[], options?: TTSOptions) => Promise<void>
+  queue: (items: Array<{ text: string; delay?: number }>) => void
+  clearQueue: () => void
 
   // Audio element ref
-  audioRef: React.RefObject<HTMLAudioElement | null>;
+  audioRef: React.RefObject<HTMLAudioElement | null>
 }
 
 export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
@@ -41,70 +41,121 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
     onPlay,
     onEnd,
     onError,
-  } = options;
+  } = options
 
-  const [playing, setPlaying] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-  const [currentText, setCurrentText] = useState<string | null>(null);
-  
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const queueRef = useRef<Array<{ text: string; delay?: number }>>([]);
-  const isProcessingQueue = useRef(false);
+  const [playing, setPlaying] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
+  const [currentText, setCurrentText] = useState<string | null>(null)
+
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const queueRef = useRef<Array<{ text: string; delay?: number }>>([])
+  const isProcessingQueue = useRef(false)
 
   // Preload on mount
   useEffect(() => {
     if (preloadOnMount.length > 0) {
-      preload(preloadOnMount);
+      preload(preloadOnMount)
     }
 
     // Cleanup on unmount
     return () => {
       if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = '';
-        audioRef.current = null;
+        audioRef.current.pause()
+        audioRef.current.src = ''
+        audioRef.current = null
       }
-    };
-  }, []);
+    }
+  }, [])
 
-  const play = useCallback(async (text: string, ttsOptions?: TTSOptions) => {
-    try {
-      setLoading(true);
-      setError(null);
-      setCurrentText(text);
+  const play = useCallback(
+    async (text: string, ttsOptions?: TTSOptions) => {
+      try {
+        setLoading(true)
+        setError(null)
+        setCurrentText(text)
 
-      // Stop current audio if playing (but don't remove it)
-      if (audioRef.current && !audioRef.current.paused) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
+        // Stop current audio if playing (but don't remove it)
+        if (audioRef.current && !audioRef.current.paused) {
+          audioRef.current.pause()
+          audioRef.current.currentTime = 0
+        }
 
-      // Prepare TTS parameters
-      const voice = ttsOptions?.voice || 'ja-JP-Standard-A';
-      const speed = ttsOptions?.speed || ttsOptions?.rate || 1.0;
-      const provider = 'google'; // Could be dynamic based on settings
+        // Prepare TTS parameters
+        const voice = ttsOptions?.voice || 'ja-JP-Standard-A'
+        const speed = ttsOptions?.speed || ttsOptions?.rate || 1.0
+        const provider = 'google' // Could be dynamic based on settings
 
-      let result: TTSResult;
+        let result: TTSResult
 
-      // Check offline cache first if cacheFirst is enabled
-      if (cacheFirst) {
-        const offlineCache = OfflineTTSCache.getInstance();
-        const cachedResult = await offlineCache.get(text, provider, voice, speed);
+        // Check offline cache first if cacheFirst is enabled
+        if (cacheFirst) {
+          const offlineCache = OfflineTTSCache.getInstance()
+          const cachedResult = await offlineCache.get(text, provider, voice, speed)
 
-        if (cachedResult) {
-          // Use cached audio
-          result = {
-            audioUrl: cachedResult.audioUrl,
-            provider,
-            cached: true,
-            duration: 0 // We don't store duration in offline cache yet
-          };
-          console.log(`TTS Provider: ${provider}, Offline Cached: true, Text: "${text.substring(0, 30)}..."`);
+          if (cachedResult) {
+            // Use cached audio
+            result = {
+              audioUrl: cachedResult.audioUrl,
+              provider,
+              cached: true,
+              duration: 0, // We don't store duration in offline cache yet
+              cacheKey: `${text}_${provider}_${voice}_${speed}`,
+            }
+            console.log(
+              `TTS Provider: ${provider}, Offline Cached: true, Text: "${text.substring(0, 30)}..."`
+            )
+          } else {
+            // Cache miss, proceed with API call
+            console.log(`TTS Offline cache miss, calling API for: "${text.substring(0, 30)}..."`)
+
+            const response = await fetch('/api/tts/synthesize', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                text,
+                language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
+                voice: ttsOptions?.voice,
+                speed: speed,
+                pitch: ttsOptions?.pitch || 0,
+              }),
+            })
+
+            if (!response.ok) {
+              let errorMessage = 'TTS synthesis failed'
+              let errorDetails = null
+              try {
+                const errorData = await response.json()
+                errorMessage = errorData.error?.message || errorData.message || errorMessage
+                errorDetails = errorData
+              } catch (e) {
+                // If parsing fails, use response status
+                errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`
+              }
+              console.error('TTS API Error:', {
+                status: response.status,
+                errorDetails,
+                requestBody: { text: text.substring(0, 50) + '...' },
+              })
+              throw new Error(errorMessage)
+            }
+
+            const data = await response.json()
+            result = data.data
+
+            // Cache the result for offline use (fire and forget)
+            offlineCache
+              .set(text, provider, voice, speed, result.audioUrl, result.duration || 0)
+              .catch(error => {
+                console.warn('[useTTS] Failed to cache audio offline:', error)
+              })
+
+            console.log(
+              `TTS Provider: ${result.provider}, Server Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`
+            )
+          }
         } else {
-          // Cache miss, proceed with API call
-          console.log(`TTS Offline cache miss, calling API for: "${text.substring(0, 30)}..."`);
-
+          // Cache disabled, always call API
           const response = await fetch('/api/tts/synthesize', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -113,218 +164,191 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
               language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
               voice: ttsOptions?.voice,
               speed: speed,
-              pitch: ttsOptions?.pitch || 0
+              pitch: ttsOptions?.pitch || 0,
             }),
-          });
+          })
 
           if (!response.ok) {
-            let errorMessage = 'TTS synthesis failed';
-            let errorDetails = null;
+            let errorMessage = 'TTS synthesis failed'
+            let errorDetails = null
             try {
-              const errorData = await response.json();
-              errorMessage = errorData.error?.message || errorData.message || errorMessage;
-              errorDetails = errorData;
+              const errorData = await response.json()
+              errorMessage = errorData.error?.message || errorData.message || errorMessage
+              errorDetails = errorData
             } catch (e) {
               // If parsing fails, use response status
-              errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`;
+              errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`
             }
-            console.error('TTS API Error:', { status: response.status, errorDetails, requestBody: { text: text.substring(0, 50) + '...' } });
-            throw new Error(errorMessage);
+            console.error('TTS API Error:', {
+              status: response.status,
+              errorDetails,
+              requestBody: { text: text.substring(0, 50) + '...' },
+            })
+            throw new Error(errorMessage)
           }
 
-          const data = await response.json();
-          result = data.data;
+          const data = await response.json()
+          result = data.data
 
-          // Cache the result for offline use (fire and forget)
-          offlineCache.set(text, provider, voice, speed, result.audioUrl, result.duration || 0)
-            .catch(error => {
-              console.warn('[useTTS] Failed to cache audio offline:', error);
-            });
-
-          console.log(`TTS Provider: ${result.provider}, Server Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`);
+          console.log(
+            `TTS Provider: ${result.provider}, Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`
+          )
         }
-      } else {
-        // Cache disabled, always call API
-        const response = await fetch('/api/tts/synthesize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            text,
-            language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
-            voice: ttsOptions?.voice,
-            speed: speed,
-            pitch: ttsOptions?.pitch || 0
-          }),
-        });
 
-        if (!response.ok) {
-          let errorMessage = 'TTS synthesis failed';
-          let errorDetails = null;
-          try {
-            const errorData = await response.json();
-            errorMessage = errorData.error?.message || errorData.message || errorMessage;
-            errorDetails = errorData;
-          } catch (e) {
-            // If parsing fails, use response status
-            errorMessage = `TTS synthesis failed (${response.status} ${response.statusText})`;
+        // Create audio element only if it doesn't exist
+        if (!audioRef.current) {
+          audioRef.current = new Audio()
+
+          // Set up permanent event handlers
+          audioRef.current.onplay = () => {
+            setPlaying(true)
+            onPlay?.()
           }
-          console.error('TTS API Error:', { status: response.status, errorDetails, requestBody: { text: text.substring(0, 50) + '...' } });
-          throw new Error(errorMessage);
+
+          audioRef.current.onended = () => {
+            setPlaying(false)
+            setCurrentText(null)
+            onEnd?.()
+            processQueue()
+          }
+
+          audioRef.current.onerror = e => {
+            const error = new Error('Audio playback failed')
+            console.error('Audio playback error:', e)
+            setError(error)
+            setPlaying(false)
+            setCurrentText(null)
+            onError?.(error)
+          }
         }
 
-        const data = await response.json();
-        result = data.data;
+        const audio = audioRef.current
 
-        console.log(`TTS Provider: ${result.provider}, Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`);
-      }
+        // Load and play audio
+        // Route Firebase Storage URLs through TTS proxy to handle CORS
+        const audioUrl =
+          result.audioUrl.includes('firebasestorage') ||
+          result.audioUrl.includes('storage.googleapis.com')
+            ? `/api/tts/proxy?url=${encodeURIComponent(result.audioUrl)}`
+            : result.audioUrl
 
-      // Create audio element only if it doesn't exist
-      if (!audioRef.current) {
-        audioRef.current = new Audio();
+        console.log('Setting audio source:', audioUrl)
+        audio.src = audioUrl
+        setLoading(false)
 
-        // Set up permanent event handlers
-        audioRef.current.onplay = () => {
-          setPlaying(true);
-          onPlay?.();
-        };
+        // Wait for audio to be ready before playing
+        await new Promise((resolve, reject) => {
+          audio.oncanplay = resolve
+          audio.onerror = reject
+          setTimeout(reject, 5000) // 5 second timeout
+        })
 
-        audioRef.current.onended = () => {
-          setPlaying(false);
-          setCurrentText(null);
-          onEnd?.();
-          processQueue();
-        };
-
-        audioRef.current.onerror = (e) => {
-          const error = new Error('Audio playback failed');
-          console.error('Audio playback error:', e);
-          setError(error);
-          setPlaying(false);
-          setCurrentText(null);
-          onError?.(error);
-        };
-      }
-
-      const audio = audioRef.current;
-
-      // Load and play audio
-      // Route Firebase Storage URLs through TTS proxy to handle CORS
-      const audioUrl = result.audioUrl.includes('firebasestorage') || result.audioUrl.includes('storage.googleapis.com')
-        ? `/api/tts/proxy?url=${encodeURIComponent(result.audioUrl)}`
-        : result.audioUrl;
-
-      console.log('Setting audio source:', audioUrl);
-      audio.src = audioUrl;
-      setLoading(false);
-
-      // Wait for audio to be ready before playing
-      await new Promise((resolve, reject) => {
-        audio.oncanplay = resolve;
-        audio.onerror = reject;
-        setTimeout(reject, 5000); // 5 second timeout
-      });
-
-      // Play the audio
-      try {
-        await audio.play();
-        console.log('Audio playing successfully');
-      } catch (playError: any) {
-        // Ignore AbortError if it's because we're switching to a new audio
-        if (playError.name !== 'AbortError') {
-          console.error('Failed to play audio:', playError);
-          throw playError;
+        // Play the audio
+        try {
+          await audio.play()
+          console.log('Audio playing successfully')
+        } catch (playError: any) {
+          // Ignore AbortError if it's because we're switching to a new audio
+          if (playError.name !== 'AbortError') {
+            console.error('Failed to play audio:', playError)
+            throw playError
+          }
         }
+      } catch (err: any) {
+        const error = err instanceof Error ? err : new Error(String(err))
+        setError(error)
+        setLoading(false)
+        setCurrentText(null)
+        onError?.(error)
+        throw error
       }
-    } catch (err: any) {
-      const error = err instanceof Error ? err : new Error(String(err));
-      setError(error);
-      setLoading(false);
-      setCurrentText(null);
-      onError?.(error);
-      throw error;
-    }
-  }, [autoPlay, onPlay, onEnd, onError]);
+    },
+    [autoPlay, onPlay, onEnd, onError]
+  )
 
   const pause = useCallback(() => {
     if (audioRef.current && playing) {
-      audioRef.current.pause();
-      setPlaying(false);
+      audioRef.current.pause()
+      setPlaying(false)
     }
-  }, [playing]);
+  }, [playing])
 
   const resume = useCallback(() => {
     if (audioRef.current && !playing) {
-      audioRef.current.play();
-      setPlaying(true);
+      audioRef.current.play()
+      setPlaying(true)
     }
-  }, [playing]);
+  }, [playing])
 
   const stop = useCallback(() => {
     if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      setPlaying(false);
-      setCurrentText(null);
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+      setPlaying(false)
+      setCurrentText(null)
     }
-  }, []);
+  }, [])
 
   const preload = useCallback(async (texts: string[], ttsOptions?: TTSOptions) => {
     try {
       const response = await fetch('/api/tts/preload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          texts, 
+        body: JSON.stringify({
+          texts,
           options: ttsOptions,
           priority: 'normal',
         }),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error('Preload failed');
+        throw new Error('Preload failed')
       }
     } catch (err) {
-      console.error('Preload error:', err);
+      console.error('Preload error:', err)
     }
-  }, []);
+  }, [])
 
-  const queue = useCallback((items: Array<{ text: string; delay?: number }>) => {
-    queueRef.current = [...queueRef.current, ...items];
-    if (!isProcessingQueue.current && !playing) {
-      processQueue();
-    }
-  }, [playing]);
+  const queue = useCallback(
+    (items: Array<{ text: string; delay?: number }>) => {
+      queueRef.current = [...queueRef.current, ...items]
+      if (!isProcessingQueue.current && !playing) {
+        processQueue()
+      }
+    },
+    [playing]
+  )
 
   const clearQueue = useCallback(() => {
-    queueRef.current = [];
-    isProcessingQueue.current = false;
-  }, []);
+    queueRef.current = []
+    isProcessingQueue.current = false
+  }, [])
 
   const processQueue = useCallback(async () => {
     if (queueRef.current.length === 0 || isProcessingQueue.current) {
-      return;
+      return
     }
 
-    isProcessingQueue.current = true;
-    const item = queueRef.current.shift();
-    
+    isProcessingQueue.current = true
+    const item = queueRef.current.shift()
+
     if (item) {
       if (item.delay) {
-        await new Promise(resolve => setTimeout(resolve, item.delay));
+        await new Promise(resolve => setTimeout(resolve, item.delay))
       }
-      
+
       try {
-        await play(item.text);
+        await play(item.text)
       } catch (error) {
-        console.error('Queue processing error:', error);
+        console.error('Queue processing error:', error)
         // Continue with next item even if current one fails
-        isProcessingQueue.current = false;
-        processQueue();
+        isProcessingQueue.current = false
+        processQueue()
       }
     } else {
-      isProcessingQueue.current = false;
+      isProcessingQueue.current = false
     }
-  }, [play]);
+  }, [play])
 
   return {
     // State
@@ -345,5 +369,5 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
     // Audio element ref
     audioRef,
-  };
+  }
 }

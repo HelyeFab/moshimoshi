@@ -3,14 +3,14 @@
  * Integrates with translation system for seamless learning experience
  */
 
-'use client';
+'use client'
 
-import React, { useState, useCallback, useEffect } from 'react';
-import Modal from '@/components/ui/Modal';
-import type { WordExplanation } from '@/lib/ai/types';
-import { useTTS } from '@/hooks/useTTS';
-import { TranslationResult } from '@/lib/ai/processors/TranslationProcessor';
-import { useContentTranslation } from '@/hooks/useContentTranslation';
+import React, { useState, useCallback, useEffect } from 'react'
+import Modal from '@/components/ui/Modal'
+import type { WordExplanation } from '@/lib/ai/types'
+import { useTTS } from '@/hooks/useTTS'
+import { TranslationResult } from '@/lib/ai/processors/TranslationProcessor'
+import { useContentTranslation } from '@/hooks/useContentTranslation'
 import {
   SpeakerWaveIcon,
   BookmarkIcon,
@@ -18,36 +18,36 @@ import {
   GlobeAsiaAustraliaIcon,
   AcademicCapIcon,
   LightBulbIcon,
-  ExclamationCircleIcon
-} from '@heroicons/react/24/outline';
-import { motion, AnimatePresence } from 'framer-motion';
+  ExclamationCircleIcon,
+} from '@heroicons/react/24/outline'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // ============================================
 // Enhanced Modal Props
 // ============================================
 
 export interface EnhancedWordExplanationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  word: string | null;
-  explanation: WordExplanation | null;
-  loading: boolean;
-  error: string | null;
+  isOpen: boolean
+  onClose: () => void
+  word: string | null
+  explanation: WordExplanation | null
+  loading: boolean
+  error: string | null
 
   // Translation integration
   translationContext?: {
-    sentence?: string;
-    translationResult?: TranslationResult;
-    userLevel?: 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
-  };
+    sentence?: string
+    translationResult?: TranslationResult
+    userLevel?: 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
+  }
 
   // Vocabulary integration
-  onAddToVocabulary?: (word: string, translation: string) => void;
-  onWordLookup?: (word: string) => void;
+  onAddToVocabulary?: (word: string, translation: string) => void
+  onWordLookup?: (word: string) => void
 
   // Enhanced features
-  showTranslationContext?: boolean;
-  enableRelatedTranslations?: boolean;
+  showTranslationContext?: boolean
+  enableRelatedTranslations?: boolean
 }
 
 // ============================================
@@ -65,70 +65,75 @@ export default function EnhancedWordExplanationModal({
   onAddToVocabulary,
   onWordLookup,
   showTranslationContext = true,
-  enableRelatedTranslations = true
+  enableRelatedTranslations = true,
 }: EnhancedWordExplanationModalProps) {
   // ============================================
   // State and Hooks
   // ============================================
 
-  const [activeTab, setActiveTab] = useState<'explanation' | 'context' | 'related'>('explanation');
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [relatedTranslations, setRelatedTranslations] = useState<TranslationResult | null>(null);
+  const [activeTab, setActiveTab] = useState<'explanation' | 'context' | 'related'>('explanation')
+  const [isBookmarked, setIsBookmarked] = useState(false)
+  const [relatedTranslations, setRelatedTranslations] = useState<TranslationResult | null>(null)
 
-  const { play, playing, currentText } = useTTS();
+  const { play, playing, currentText } = useTTS()
   const {
     translateText,
     isLoading: translationLoading,
     error: translationError,
-    addToVocabulary
+    addToVocabulary,
   } = useContentTranslation({
     mode: 'learning',
-    trigger: 'manual',
-    userLevel: translationContext?.userLevel || 'N5'
-  });
+    userLevel: translationContext?.userLevel || 'N5',
+  })
 
   // ============================================
   // Handlers
   // ============================================
 
-  const handlePlayExample = useCallback(async (text: string) => {
-    try {
-      await play(text);
-    } catch (error) {
-      console.error('TTS playback failed:', error);
-    }
-  }, [play]);
+  const handlePlayExample = useCallback(
+    async (text: string) => {
+      try {
+        await play(text)
+      } catch (error) {
+        console.error('TTS playback failed:', error)
+      }
+    },
+    [play]
+  )
 
   const handleAddToVocabulary = useCallback(() => {
     if (explanation && word) {
-      const translation = explanation.meaning;
+      const translation = explanation.meaning
 
       // Use provided handler or built-in vocabulary system
       if (onAddToVocabulary) {
-        onAddToVocabulary(word, translation);
+        onAddToVocabulary(word, translation)
       } else {
-        addToVocabulary(word, translation);
+        addToVocabulary(word, translation)
       }
 
-      setIsBookmarked(true);
+      setIsBookmarked(true)
     }
-  }, [explanation, word, onAddToVocabulary, addToVocabulary]);
+  }, [explanation, word, onAddToVocabulary, addToVocabulary])
 
-  const handleRelatedWordClick = useCallback((relatedWord: string) => {
-    if (onWordLookup) {
-      onWordLookup(relatedWord);
-    }
-  }, [onWordLookup]);
+  const handleRelatedWordClick = useCallback(
+    (relatedWord: string) => {
+      if (onWordLookup) {
+        onWordLookup(relatedWord)
+      }
+    },
+    [onWordLookup]
+  )
 
   const handleTranslateSentence = useCallback(async () => {
     if (translationContext?.sentence) {
-      const result = await translateText(translationContext.sentence, 'learning');
+      const result = await translateText(translationContext.sentence, 'learning')
       if (result) {
-        setRelatedTranslations(result);
-        setActiveTab('related');
+        setRelatedTranslations(result)
+        setActiveTab('related')
       }
     }
-  }, [translationContext?.sentence, translateText]);
+  }, [translationContext?.sentence, translateText])
 
   // ============================================
   // Effects
@@ -137,11 +142,11 @@ export default function EnhancedWordExplanationModal({
   useEffect(() => {
     // Reset state when modal opens with new word
     if (isOpen && word) {
-      setActiveTab('explanation');
-      setIsBookmarked(false);
-      setRelatedTranslations(null);
+      setActiveTab('explanation')
+      setIsBookmarked(false)
+      setRelatedTranslations(null)
     }
-  }, [isOpen, word]);
+  }, [isOpen, word])
 
   // ============================================
   // Render Helpers
@@ -150,22 +155,22 @@ export default function EnhancedWordExplanationModal({
   const renderTabButtons = () => {
     const tabs = [
       { id: 'explanation', label: 'Word Details', icon: BookmarkIcon },
-      ...(showTranslationContext && translationContext ? [
-        { id: 'context' as const, label: 'Context', icon: GlobeAsiaAustraliaIcon }
-      ] : []),
-      ...(enableRelatedTranslations ? [
-        { id: 'related' as const, label: 'Related', icon: AcademicCapIcon }
-      ] : [])
-    ];
+      ...(showTranslationContext && translationContext
+        ? [{ id: 'context' as const, label: 'Context', icon: GlobeAsiaAustraliaIcon }]
+        : []),
+      ...(enableRelatedTranslations
+        ? [{ id: 'related' as const, label: 'Related', icon: AcademicCapIcon }]
+        : []),
+    ]
 
     return (
       <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6">
         {tabs.map(tab => {
-          const Icon = tab.icon;
+          const Icon = tab.icon
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => setActiveTab(tab.id as 'explanation' | 'context' | 'related')}
               className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? 'border-blue-600 text-blue-600 dark:text-blue-400'
@@ -175,14 +180,14 @@ export default function EnhancedWordExplanationModal({
               <Icon className="w-4 h-4" />
               {tab.label}
             </button>
-          );
+          )
         })}
       </div>
-    );
-  };
+    )
+  }
 
   const renderTranslationContext = () => {
-    if (!translationContext) return null;
+    if (!translationContext) return null
 
     return (
       <motion.div
@@ -252,16 +257,14 @@ export default function EnhancedWordExplanationModal({
               <div className="text-gray-600 dark:text-gray-400 mb-2">
                 {explanation.reading} ({explanation.romaji})
               </div>
-              <p className="text-gray-900 dark:text-white">
-                {explanation.meaning}
-              </p>
+              <p className="text-gray-900 dark:text-white">{explanation.meaning}</p>
 
               {/* Context-specific meaning if available */}
-              {translationContext.translationResult?.keyVocabulary && (
+              {translationContext.translationResult?.keyVocabulary &&
                 (() => {
                   const contextWord = translationContext.translationResult.keyVocabulary.find(
                     v => v.word === word
-                  );
+                  )
                   return contextWord && contextWord.meaning !== explanation.meaning ? (
                     <div className="mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                       <div className="text-sm font-medium text-yellow-800 dark:text-yellow-200 mb-1">
@@ -271,15 +274,14 @@ export default function EnhancedWordExplanationModal({
                         {contextWord.meaning}
                       </div>
                     </div>
-                  ) : null;
-                })()
-              )}
+                  ) : null
+                })()}
             </div>
           </div>
         )}
       </motion.div>
-    );
-  };
+    )
+  }
 
   const renderRelatedTranslations = () => {
     if (!relatedTranslations) {
@@ -299,7 +301,7 @@ export default function EnhancedWordExplanationModal({
             </button>
           )}
         </div>
-      );
+      )
     }
 
     return (
@@ -321,9 +323,7 @@ export default function EnhancedWordExplanationModal({
                   <div className="font-medium text-gray-900 dark:text-white mb-1">
                     {note.pattern}
                   </div>
-                  <div className="text-gray-600 dark:text-gray-400 text-sm">
-                    {note.explanation}
-                  </div>
+                  <div className="text-gray-600 dark:text-gray-400 text-sm">{note.explanation}</div>
                   {note.example && (
                     <div className="text-gray-500 dark:text-gray-500 text-sm italic mt-2">
                       Example: {note.example}
@@ -346,24 +346,22 @@ export default function EnhancedWordExplanationModal({
                 .filter(vocab => vocab.word !== word)
                 .slice(0, 8)
                 .map((vocab, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleRelatedWordClick(vocab.word)}
-                  className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  <div className="font-medium text-gray-900 dark:text-white">
-                    {vocab.word}
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    {vocab.reading} - {vocab.meaning}
-                  </div>
-                  {vocab.jlptLevel && (
-                    <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                      {vocab.jlptLevel} • {vocab.difficulty}
+                  <button
+                    key={idx}
+                    onClick={() => handleRelatedWordClick(vocab.word)}
+                    className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <div className="font-medium text-gray-900 dark:text-white">{vocab.word}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      {vocab.reading} - {vocab.meaning}
                     </div>
-                  )}
-                </button>
-              ))}
+                    {vocab.jlptLevel && (
+                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                        {vocab.jlptLevel} • {vocab.difficulty}
+                      </div>
+                    )}
+                  </button>
+                ))}
             </div>
           </div>
         )}
@@ -385,11 +383,11 @@ export default function EnhancedWordExplanationModal({
           </div>
         )}
       </motion.div>
-    );
-  };
+    )
+  }
 
   const renderMainExplanation = () => {
-    if (!explanation) return null;
+    if (!explanation) return null
 
     return (
       <motion.div
@@ -405,12 +403,8 @@ export default function EnhancedWordExplanationModal({
               <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
                 {explanation.word}
               </h3>
-              <div className="text-lg text-gray-600 dark:text-gray-400">
-                {explanation.reading}
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {explanation.romaji}
-              </p>
+              <div className="text-lg text-gray-600 dark:text-gray-400">{explanation.reading}</div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{explanation.romaji}</p>
             </div>
 
             {/* Action Buttons */}
@@ -460,7 +454,11 @@ export default function EnhancedWordExplanationModal({
         {explanation.kanjiBreakdown && explanation.kanjiBreakdown.length > 0 && (
           <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
             <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-              <svg className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+              <svg
+                className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
                 <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
               </svg>
               Kanji Breakdown
@@ -479,7 +477,9 @@ export default function EnhancedWordExplanationModal({
                       <div className="grid grid-cols-2 gap-2 text-sm">
                         {kanji.kunYomi.length > 0 && (
                           <div>
-                            <span className="font-medium text-gray-700 dark:text-gray-300">Kun:</span>
+                            <span className="font-medium text-gray-700 dark:text-gray-300">
+                              Kun:
+                            </span>
                             <span className="ml-2 text-gray-600 dark:text-gray-400">
                               {kanji.kunYomi.join(', ')}
                             </span>
@@ -487,7 +487,9 @@ export default function EnhancedWordExplanationModal({
                         )}
                         {kanji.onYomi.length > 0 && (
                           <div>
-                            <span className="font-medium text-gray-700 dark:text-gray-300">On:</span>
+                            <span className="font-medium text-gray-700 dark:text-gray-300">
+                              On:
+                            </span>
                             <span className="ml-2 text-gray-600 dark:text-gray-400">
                               {kanji.onYomi.join(', ')}
                             </span>
@@ -506,8 +508,16 @@ export default function EnhancedWordExplanationModal({
         {explanation.examples && explanation.examples.length > 0 && (
           <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
             <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-              <svg className="w-5 h-5 mr-2 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clipRule="evenodd" />
+              <svg
+                className="w-5 h-5 mr-2 text-indigo-600 dark:text-indigo-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                  clipRule="evenodd"
+                />
               </svg>
               Example Sentences
             </h4>
@@ -521,11 +531,13 @@ export default function EnhancedWordExplanationModal({
                       className="flex-shrink-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
                       title="Play audio"
                     >
-                      <SpeakerWaveIcon className={`w-5 h-5 ${
-                        playing && currentText === example.japanese
-                          ? 'text-indigo-600 dark:text-indigo-400 animate-pulse'
-                          : 'text-indigo-600 dark:text-indigo-400'
-                      }`} />
+                      <SpeakerWaveIcon
+                        className={`w-5 h-5 ${
+                          playing && currentText === example.japanese
+                            ? 'text-indigo-600 dark:text-indigo-400 animate-pulse'
+                            : 'text-indigo-600 dark:text-indigo-400'
+                        }`}
+                      />
                     </button>
                     <div className="text-lg text-gray-900 dark:text-white font-medium">
                       {example.furigana}
@@ -545,8 +557,8 @@ export default function EnhancedWordExplanationModal({
           </div>
         )}
       </motion.div>
-    );
-  };
+    )
+  }
 
   // ============================================
   // Main Render
@@ -582,9 +594,7 @@ export default function EnhancedWordExplanationModal({
         {loading && (
           <div className="flex flex-col items-center justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400" />
-            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              Analyzing word...
-            </p>
+            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">Analyzing word...</p>
           </div>
         )}
 
@@ -597,9 +607,7 @@ export default function EnhancedWordExplanationModal({
                 <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
                   Error loading explanation
                 </h3>
-                <p className="mt-1 text-sm text-red-700 dark:text-red-300">
-                  {error}
-                </p>
+                <p className="mt-1 text-sm text-red-700 dark:text-red-300">{error}</p>
               </div>
             </div>
           </div>
@@ -614,26 +622,20 @@ export default function EnhancedWordExplanationModal({
             {/* Tab Content */}
             <AnimatePresence mode="wait">
               {activeTab === 'explanation' && (
-                <motion.div key="explanation">
-                  {renderMainExplanation()}
-                </motion.div>
+                <motion.div key="explanation">{renderMainExplanation()}</motion.div>
               )}
 
               {activeTab === 'context' && showTranslationContext && (
-                <motion.div key="context">
-                  {renderTranslationContext()}
-                </motion.div>
+                <motion.div key="context">{renderTranslationContext()}</motion.div>
               )}
 
               {activeTab === 'related' && enableRelatedTranslations && (
-                <motion.div key="related">
-                  {renderRelatedTranslations()}
-                </motion.div>
+                <motion.div key="related">{renderRelatedTranslations()}</motion.div>
               )}
             </AnimatePresence>
           </>
         )}
       </div>
     </Modal>
-  );
+  )
 }

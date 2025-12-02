@@ -1,28 +1,38 @@
-'use client';
+'use client'
 
-import React, { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Copy, Trash2, Download, Upload, Edit3, Merge, Archive,
-  CheckSquare, Square, ChevronDown, AlertCircle, Loader2
-} from 'lucide-react';
-import type { FlashcardDeck } from '@/types/flashcards';
-import { useI18n } from '@/i18n/I18nContext';
-import { flashcardManager } from '@/lib/flashcards/FlashcardManager';
-import { dbOptimizer } from '@/lib/flashcards/IndexedDBOptimizer';
-import { cn } from '@/lib/utils';
-import { useToast } from '@/components/ui/Toast/ToastContext';
+  Copy,
+  Trash2,
+  Download,
+  Upload,
+  Edit3,
+  Merge,
+  Archive,
+  CheckSquare,
+  Square,
+  ChevronDown,
+  AlertCircle,
+  Loader2,
+} from 'lucide-react'
+import type { FlashcardDeck } from '@/types/flashcards'
+import { useI18n } from '@/i18n/I18nContext'
+import { flashcardManager } from '@/lib/flashcards/FlashcardManager'
+import { dbOptimizer } from '@/lib/flashcards/IndexedDBOptimizer'
+import { cn } from '@/lib/utils'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 
 interface BulkOperationsProps {
-  decks: FlashcardDeck[];
-  selectedDeckIds: Set<string>;
-  onSelectionChange: (deckIds: Set<string>) => void;
-  onOperationComplete: () => void;
-  userId: string;
-  isPremium: boolean;
+  decks: FlashcardDeck[]
+  selectedDeckIds: Set<string>
+  onSelectionChange: (deckIds: Set<string>) => void
+  onOperationComplete: () => void
+  userId: string
+  isPremium: boolean
 }
 
-type BulkAction = 'delete' | 'export' | 'merge' | 'duplicate' | 'archive' | 'tag';
+type BulkAction = 'delete' | 'export' | 'merge' | 'duplicate' | 'archive' | 'tag'
 
 export function BulkOperations({
   decks,
@@ -30,73 +40,73 @@ export function BulkOperations({
   onSelectionChange,
   onOperationComplete,
   userId,
-  isPremium
+  isPremium,
 }: BulkOperationsProps) {
-  const { t } = useI18n();
-  const { showToast } = useToast();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [currentAction, setCurrentAction] = useState<BulkAction | null>(null);
+  const { t } = useI18n()
+  const { showToast } = useToast()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [currentAction, setCurrentAction] = useState<BulkAction | null>(null)
   const [confirmDialog, setConfirmDialog] = useState<{
-    isOpen: boolean;
-    action: BulkAction | null;
-    message: string;
-  }>({ isOpen: false, action: null, message: '' });
+    isOpen: boolean
+    action: BulkAction | null
+    message: string
+  }>({ isOpen: false, action: null, message: '' })
 
-  const selectedDecks = decks.filter(deck => selectedDeckIds.has(deck.id));
-  const isAllSelected = decks.length > 0 && selectedDeckIds.size === decks.length;
-  const isPartiallySelected = selectedDeckIds.size > 0 && selectedDeckIds.size < decks.length;
+  const selectedDecks = decks.filter(deck => selectedDeckIds.has(deck.id))
+  const isAllSelected = decks.length > 0 && selectedDeckIds.size === decks.length
+  const isPartiallySelected = selectedDeckIds.size > 0 && selectedDeckIds.size < decks.length
 
   // Toggle all selection
   const handleToggleAll = useCallback(() => {
     if (isAllSelected) {
-      onSelectionChange(new Set());
+      onSelectionChange(new Set())
     } else {
-      onSelectionChange(new Set(decks.map(d => d.id)));
+      onSelectionChange(new Set(decks.map(d => d.id)))
     }
-  }, [isAllSelected, decks, onSelectionChange]);
+  }, [isAllSelected, decks, onSelectionChange])
 
   // Toggle single deck selection
-  const handleToggleDeck = useCallback((deckId: string) => {
-    const newSelection = new Set(selectedDeckIds);
-    if (newSelection.has(deckId)) {
-      newSelection.delete(deckId);
-    } else {
-      newSelection.add(deckId);
-    }
-    onSelectionChange(newSelection);
-  }, [selectedDeckIds, onSelectionChange]);
+  const handleToggleDeck = useCallback(
+    (deckId: string) => {
+      const newSelection = new Set(selectedDeckIds)
+      if (newSelection.has(deckId)) {
+        newSelection.delete(deckId)
+      } else {
+        newSelection.add(deckId)
+      }
+      onSelectionChange(newSelection)
+    },
+    [selectedDeckIds, onSelectionChange]
+  )
 
   // Bulk delete
   const handleBulkDelete = async () => {
-    setIsProcessing(true);
-    setCurrentAction('delete');
+    setIsProcessing(true)
+    setCurrentAction('delete')
 
     try {
       // Use bulk operation for better performance
-      await dbOptimizer.bulkDeleteDecks(Array.from(selectedDeckIds));
+      await dbOptimizer.bulkDeleteDecks(Array.from(selectedDeckIds))
 
-      showToast(
-        t('flashcards.bulk.deleteSuccess', { count: selectedDeckIds.size }),
-        'success'
-      );
+      showToast(t('flashcards.bulk.deleteSuccess', { count: selectedDeckIds.size }), 'success')
 
-      onSelectionChange(new Set());
-      onOperationComplete();
+      onSelectionChange(new Set())
+      onOperationComplete()
     } catch (error) {
-      console.error('Bulk delete failed:', error);
-      showToast(t('flashcards.bulk.deleteFailed'), 'error');
+      console.error('Bulk delete failed:', error)
+      showToast(t('flashcards.bulk.deleteFailed'), 'error')
     } finally {
-      setIsProcessing(false);
-      setCurrentAction(null);
-      setConfirmDialog({ isOpen: false, action: null, message: '' });
+      setIsProcessing(false)
+      setCurrentAction(null)
+      setConfirmDialog({ isOpen: false, action: null, message: '' })
     }
-  };
+  }
 
   // Bulk export
   const handleBulkExport = async () => {
-    setIsProcessing(true);
-    setCurrentAction('export');
+    setIsProcessing(true)
+    setCurrentAction('export')
 
     try {
       const exportData = {
@@ -113,76 +123,70 @@ export function BulkOperations({
             back: card.back.text,
             backHint: card.back.subtext,
             tags: card.metadata?.tags,
-            notes: card.metadata?.notes
+            notes: card.metadata?.notes,
           })),
           settings: deck.settings,
-          stats: deck.stats
-        }))
-      };
+          stats: deck.stats,
+        })),
+      }
 
-      const jsonStr = JSON.stringify(exportData, null, 2);
-      const blob = new Blob([jsonStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `flashcards_bulk_export_${Date.now()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+      const jsonStr = JSON.stringify(exportData, null, 2)
+      const blob = new Blob([jsonStr], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `flashcards_bulk_export_${Date.now()}.json`
+      a.click()
+      URL.revokeObjectURL(url)
 
-      showToast(
-        t('flashcards.bulk.exportSuccess', { count: selectedDeckIds.size }),
-        'success'
-      );
+      showToast(t('flashcards.bulk.exportSuccess', { count: selectedDeckIds.size }), 'success')
     } catch (error) {
-      console.error('Bulk export failed:', error);
-      showToast(t('flashcards.bulk.exportFailed'), 'error');
+      console.error('Bulk export failed:', error)
+      showToast(t('flashcards.bulk.exportFailed'), 'error')
     } finally {
-      setIsProcessing(false);
-      setCurrentAction(null);
+      setIsProcessing(false)
+      setCurrentAction(null)
     }
-  };
+  }
 
   // Bulk merge
   const handleBulkMerge = async () => {
-    setIsProcessing(true);
-    setCurrentAction('merge');
+    setIsProcessing(true)
+    setCurrentAction('merge')
 
     try {
       // Merge all selected decks into a new deck
-      const mergedCards = selectedDecks.flatMap(deck => deck.cards);
+      const mergedCards = selectedDecks.flatMap(deck => deck.cards)
       const mergedDeck = {
         name: t('flashcards.bulk.mergedDeckName'),
         description: t('flashcards.bulk.mergedDeckDescription', {
-          count: selectedDecks.length
+          count: selectedDecks.length,
         }),
         emoji: '🔀',
         color: 'purple' as const,
-        initialCards: mergedCards
-      };
+        initialCards: mergedCards,
+      }
 
-      await flashcardManager.createDeck(mergedDeck, userId, isPremium);
+      await flashcardManager.createDeck(mergedDeck, userId, isPremium)
 
-      showToast(
-        t('flashcards.bulk.mergeSuccess', { count: selectedDeckIds.size }),
-        'success'
-      );
+      showToast(t('flashcards.bulk.mergeSuccess', { count: selectedDeckIds.size }), 'success')
 
-      onSelectionChange(new Set());
-      onOperationComplete();
+      onSelectionChange(new Set())
+      onOperationComplete()
     } catch (error) {
-      console.error('Bulk merge failed:', error);
-      showToast(t('flashcards.bulk.mergeFailed'), 'error');
+      console.error('Bulk merge failed:', error)
+      showToast(t('flashcards.bulk.mergeFailed'), 'error')
     } finally {
-      setIsProcessing(false);
-      setCurrentAction(null);
-      setConfirmDialog({ isOpen: false, action: null, message: '' });
+      setIsProcessing(false)
+      setCurrentAction(null)
+      setConfirmDialog({ isOpen: false, action: null, message: '' })
     }
-  };
+  }
 
   // Bulk duplicate
   const handleBulkDuplicate = async () => {
-    setIsProcessing(true);
-    setCurrentAction('duplicate');
+    setIsProcessing(true)
+    setCurrentAction('duplicate')
 
     try {
       const duplicatedDecks = selectedDecks.map(deck => ({
@@ -190,27 +194,25 @@ export function BulkOperations({
         id: undefined, // Let the system generate new IDs
         name: `${deck.name} (${t('common.copy')})`,
         createdAt: Date.now(),
-        updatedAt: Date.now()
-      }));
+        updatedAt: Date.now(),
+      }))
 
       // Use bulk create for better performance
-      await dbOptimizer.bulkCreateDecks(duplicatedDecks as FlashcardDeck[]);
+      // Cast needed because we use undefined id for new decks (system generates)
+      await dbOptimizer.bulkCreateDecks(duplicatedDecks as unknown as FlashcardDeck[])
 
-      showToast(
-        t('flashcards.bulk.duplicateSuccess', { count: selectedDeckIds.size }),
-        'success'
-      );
+      showToast(t('flashcards.bulk.duplicateSuccess', { count: selectedDeckIds.size }), 'success')
 
-      onSelectionChange(new Set());
-      onOperationComplete();
+      onSelectionChange(new Set())
+      onOperationComplete()
     } catch (error) {
-      console.error('Bulk duplicate failed:', error);
-      showToast(t('flashcards.bulk.duplicateFailed'), 'error');
+      console.error('Bulk duplicate failed:', error)
+      showToast(t('flashcards.bulk.duplicateFailed'), 'error')
     } finally {
-      setIsProcessing(false);
-      setCurrentAction(null);
+      setIsProcessing(false)
+      setCurrentAction(null)
     }
-  };
+  }
 
   // Show confirmation dialog
   const showConfirmation = (action: BulkAction) => {
@@ -220,49 +222,51 @@ export function BulkOperations({
       merge: t('flashcards.bulk.confirmMerge', { count: selectedDeckIds.size }),
       duplicate: '',
       archive: t('flashcards.bulk.confirmArchive', { count: selectedDeckIds.size }),
-      tag: ''
-    };
+      tag: '',
+    }
 
     if (messages[action]) {
       setConfirmDialog({
         isOpen: true,
         action,
-        message: messages[action]
-      });
+        message: messages[action],
+      })
     } else {
       // Direct action without confirmation
-      handleAction(action);
+      handleAction(action)
     }
-  };
+  }
 
   // Handle action execution
   const handleAction = (action: BulkAction) => {
     switch (action) {
       case 'delete':
-        handleBulkDelete();
-        break;
+        handleBulkDelete()
+        break
       case 'export':
-        handleBulkExport();
-        break;
+        handleBulkExport()
+        break
       case 'merge':
-        handleBulkMerge();
-        break;
+        handleBulkMerge()
+        break
       case 'duplicate':
-        handleBulkDuplicate();
-        break;
+        handleBulkDuplicate()
+        break
       default:
-        console.warn(`Unhandled bulk action: ${action}`);
+        console.warn(`Unhandled bulk action: ${action}`)
     }
-  };
+  }
 
   // Calculate stats for selected decks
   const selectionStats = {
     totalCards: selectedDecks.reduce((sum, deck) => sum + deck.stats.totalCards, 0),
     totalStudied: selectedDecks.reduce((sum, deck) => sum + deck.stats.totalStudied, 0),
-    avgAccuracy: selectedDecks.length > 0
-      ? selectedDecks.reduce((sum, deck) => sum + deck.stats.averageAccuracy, 0) / selectedDecks.length
-      : 0
-  };
+    avgAccuracy:
+      selectedDecks.length > 0
+        ? selectedDecks.reduce((sum, deck) => sum + deck.stats.averageAccuracy, 0) /
+          selectedDecks.length
+        : 0,
+  }
 
   return (
     <>
@@ -301,9 +305,13 @@ export function BulkOperations({
 
                 {/* Selection Stats */}
                 <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-500">
-                  <span>{selectionStats.totalCards} {t('flashcards.cards')}</span>
+                  <span>
+                    {selectionStats.totalCards} {t('flashcards.cards')}
+                  </span>
                   <span>•</span>
-                  <span>{Math.round(selectionStats.avgAccuracy * 100)}% {t('flashcards.accuracy')}</span>
+                  <span>
+                    {Math.round(selectionStats.avgAccuracy * 100)}% {t('flashcards.accuracy')}
+                  </span>
                 </div>
               </div>
 
@@ -371,10 +379,9 @@ export function BulkOperations({
                     disabled={isProcessing}
                     className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
                   >
-                    <ChevronDown className={cn(
-                      'w-5 h-5 transition-transform',
-                      isMenuOpen && 'rotate-180'
-                    )} />
+                    <ChevronDown
+                      className={cn('w-5 h-5 transition-transform', isMenuOpen && 'rotate-180')}
+                    />
                   </button>
 
                   <AnimatePresence>
@@ -387,8 +394,8 @@ export function BulkOperations({
                       >
                         <button
                           onClick={() => {
-                            showConfirmation('archive');
-                            setIsMenuOpen(false);
+                            showConfirmation('archive')
+                            setIsMenuOpen(false)
                           }}
                           disabled={isProcessing}
                           className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 flex items-center gap-2"
@@ -399,8 +406,8 @@ export function BulkOperations({
 
                         <button
                           onClick={() => {
-                            showConfirmation('tag');
-                            setIsMenuOpen(false);
+                            showConfirmation('tag')
+                            setIsMenuOpen(false)
                           }}
                           disabled={isProcessing}
                           className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 flex items-center gap-2"
@@ -440,7 +447,7 @@ export function BulkOperations({
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
               className="bg-white dark:bg-dark-850 rounded-lg shadow-xl max-w-md w-full p-6"
             >
               <div className="flex items-start gap-3 mb-4">
@@ -449,9 +456,7 @@ export function BulkOperations({
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                     {t('common.confirmAction')}
                   </h3>
-                  <p className="mt-2 text-gray-600 dark:text-gray-400">
-                    {confirmDialog.message}
-                  </p>
+                  <p className="mt-2 text-gray-600 dark:text-gray-400">{confirmDialog.message}</p>
                 </div>
               </div>
 
@@ -465,7 +470,7 @@ export function BulkOperations({
                 <button
                   onClick={() => {
                     if (confirmDialog.action) {
-                      handleAction(confirmDialog.action);
+                      handleAction(confirmDialog.action)
                     }
                   }}
                   className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
@@ -478,5 +483,5 @@ export function BulkOperations({
         )}
       </AnimatePresence>
     </>
-  );
+  )
 }

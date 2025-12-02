@@ -32,23 +32,23 @@ const defaultPreferences: NotificationPreferences = {
     browser: false,
     inApp: true,
     push: false,
-    email: false
+    email: false,
   },
   timing: {
     immediate: true,
     daily: true,
-    overdue: true
+    overdue: true,
   },
   quiet_hours: {
     enabled: false,
     start: '22:00',
     end: '08:00',
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
   batching: {
     enabled: true,
-    window_minutes: 5
-  }
+    window_minutes: 5,
+  },
 }
 
 export function useNotificationPreferences() {
@@ -68,7 +68,7 @@ export function useNotificationPreferences() {
   }, [user])
 
   const loadPreferences = async () => {
-    if (!user) return
+    if (!user || !db) return
 
     try {
       setError(null)
@@ -92,7 +92,7 @@ export function useNotificationPreferences() {
   }
 
   const savePreferences = async (newPreferences: NotificationPreferences) => {
-    if (!user) return false
+    if (!user || !db) return false
 
     setSaving(true)
     setError(null)
@@ -102,7 +102,7 @@ export function useNotificationPreferences() {
       await setDoc(docRef, {
         ...newPreferences,
         userId: user.uid,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
 
       setPreferences(newPreferences)
@@ -167,6 +167,6 @@ export function useNotificationPreferences() {
     updatePreferences,
     isInQuietHours,
     getQuietHoursEnd,
-    reloadPreferences: loadPreferences
+    reloadPreferences: loadPreferences,
   }
 }

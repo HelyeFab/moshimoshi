@@ -3,7 +3,26 @@
  * High-performance structured logging for production
  */
 
-import pino from 'pino'
+// Pino - Optional dependency, stubbed when not installed
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+let pino: any
+try {
+  pino = require('pino').default || require('pino')
+} catch {
+  // Package not installed - create console-based stub
+  const createStubLogger = (bindings: any = {}): any => ({
+    level: 'info',
+    info: (obj: any, msg?: string) => console.log('[INFO]', msg, obj),
+    debug: (obj: any, msg?: string) => console.debug('[DEBUG]', msg, obj),
+    warn: (obj: any, msg?: string) => console.warn('[WARN]', msg, obj),
+    error: (obj: any, msg?: string) => console.error('[ERROR]', msg, obj),
+    child: (childBindings: any) => createStubLogger({ ...bindings, ...childBindings }),
+    startTimer: () => ({ done: () => {} }),
+  })
+  pino = Object.assign((options?: any) => createStubLogger(options?.base), {
+    stdSerializers: { req: (r: any) => r, res: (r: any) => r, err: (e: any) => e },
+  })
+}
 
 // Determine if we're in browser or server
 const isBrowser = typeof window !== 'undefined'
@@ -16,9 +35,9 @@ const createLogger = () => {
     return pino({
       browser: {
         asObject: true,
-        serialize: true
+        serialize: true,
       },
-      level: isDevelopment ? 'debug' : 'error'
+      level: isDevelopment ? 'debug' : 'error',
     })
   } else {
     // Server configuration
@@ -27,13 +46,13 @@ const createLogger = () => {
       serializers: {
         req: pino.stdSerializers.req,
         res: pino.stdSerializers.res,
-        err: pino.stdSerializers.err
+        err: pino.stdSerializers.err,
       },
       // Add context information
       base: {
         env: process.env.NODE_ENV,
-        revision: process.env.VERCEL_GIT_COMMIT_SHA
-      }
+        revision: process.env.VERCEL_GIT_COMMIT_SHA,
+      },
     })
   }
 }
@@ -52,7 +71,7 @@ export const loggers = {
   kanji: baseLogger.child({ module: 'kanji' }),
   kana: baseLogger.child({ module: 'kana' }),
   api: baseLogger.child({ module: 'api' }),
-  db: baseLogger.child({ module: 'database' })
+  db: baseLogger.child({ module: 'database' }),
 }
 
 // Main logger export for general use
@@ -153,16 +172,16 @@ export const log = {
     console.log('📊 Pino Logger Status:')
     console.log('  Mode: Production')
     console.log('  Level:', logger.level)
-  }
+  },
 }
 
 // Browser console helper for development
 if (isBrowser && isDevelopment) {
-  (window as any).log = log
-  (window as any).logger = logger
-
-  // Add helper to change log level
-  (window as any).setLogLevel = (level: string) => {
+  ;(window as any).log = log as any
+  ;(window as any).logger = logger(
+    // Add helper to change log level
+    window as any
+  ).setLogLevel = (level: string) => {
     logger.level = level
     console.log(`✅ Log level set to: ${level}`)
   }

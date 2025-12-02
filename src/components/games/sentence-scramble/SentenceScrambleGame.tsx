@@ -32,7 +32,7 @@ export default function SentenceScrambleGame({
 }: SentenceScrambleGameProps) {
   const { t, strings } = useI18n()
   const { resolvedTheme } = useTheme()
-  const { play: playTTS } = useTTS({ voice: 'ja-JP', rate: 0.9 })
+  const { play: playTTS } = useTTS()
 
   // Game state
   const [gameState, setGameState] = useState<GameState>({
@@ -103,7 +103,13 @@ export default function SentenceScrambleGame({
     if (showFurigana && gameState.phase === 'sentence-flash') {
       generateFuriganaText()
     }
-  }, [showFurigana, gameState.phase, gameState.currentSentenceIndex, gameState.sentences, furiganaText])
+  }, [
+    showFurigana,
+    gameState.phase,
+    gameState.currentSentenceIndex,
+    gameState.sentences,
+    furiganaText,
+  ])
 
   const handleSentenceSelection = (sentence: Sentence) => {
     setSelectedSentences(prev => {
@@ -121,9 +127,8 @@ export default function SentenceScrambleGame({
   const startGame = async () => {
     setLoading(true)
 
-    const gameSentences = selectedSentences.length > 0
-      ? selectedSentences
-      : SAMPLE_SENTENCES.slice(0, 5)
+    const gameSentences =
+      selectedSentences.length > 0 ? selectedSentences : SAMPLE_SENTENCES.slice(0, 5)
 
     setGameState(prev => ({
       ...prev,
@@ -307,10 +312,12 @@ export default function SentenceScrambleGame({
       const updatedSentence = { ...prev.currentSentence }
       updatedSentence.attempts = newAttempts
       updatedSentence.isCorrect = isCorrect
-      updatedSentence.isCompleted = isCorrect || newAttempts >= GAME_CONSTANTS.MAX_ATTEMPTS_PER_SENTENCE
+      updatedSentence.isCompleted =
+        isCorrect || newAttempts >= GAME_CONSTANTS.MAX_ATTEMPTS_PER_SENTENCE
 
       const points = isCorrect
-        ? GAME_CONSTANTS.POINTS_PER_CORRECT - (newAttempts - 1) * GAME_CONSTANTS.POINTS_PER_ATTEMPT_DEDUCTION
+        ? GAME_CONSTANTS.POINTS_PER_CORRECT -
+          (newAttempts - 1) * GAME_CONSTANTS.POINTS_PER_ATTEMPT_DEDUCTION
         : 0
 
       return {
@@ -393,9 +400,12 @@ export default function SentenceScrambleGame({
     setGameState(prev => ({ ...prev, phase: 'game-over' }))
     if (gameTimer) clearInterval(gameTimer)
 
-    const accuracy = gameState.sentences.length > 0
-      ? (gameState.totalScore / (gameState.sentences.length * GAME_CONSTANTS.POINTS_PER_CORRECT)) * 100
-      : 0
+    const accuracy =
+      gameState.sentences.length > 0
+        ? (gameState.totalScore /
+            (gameState.sentences.length * GAME_CONSTANTS.POINTS_PER_CORRECT)) *
+          100
+        : 0
 
     if (onComplete) {
       onComplete(gameState.totalScore, accuracy)
@@ -431,8 +441,8 @@ export default function SentenceScrambleGame({
   const shuffleArray = <T,>(array: T[]): T[] => {
     const shuffled = [...array]
     for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
     }
     return shuffled
   }
@@ -467,13 +477,11 @@ export default function SentenceScrambleGame({
         <h3 className="text-2xl font-bold text-foreground mb-2">
           {t('games.sentenceScramble.selectSentences')}
         </h3>
-        <p className="text-muted-foreground">
-          {t('games.sentenceScramble.selectDescription')}
-        </p>
+        <p className="text-muted-foreground">{t('games.sentenceScramble.selectDescription')}</p>
       </div>
 
       <div className="grid gap-3 max-h-[400px] overflow-y-auto p-2">
-        {SAMPLE_SENTENCES.map((sentence) => (
+        {SAMPLE_SENTENCES.map(sentence => (
           <motion.button
             key={sentence.id}
             whileHover={{ scale: 1.02 }}
@@ -481,9 +489,11 @@ export default function SentenceScrambleGame({
             onClick={() => handleSentenceSelection(sentence)}
             className={`
               p-4 rounded-lg border-2 text-left transition-all
-              ${selectedSentences.some(s => s.id === sentence.id)
-                ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                : 'border-gray-200 dark:border-dark-700 hover:border-primary-300'}
+              ${
+                selectedSentences.some(s => s.id === sentence.id)
+                  ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                  : 'border-gray-200 dark:border-dark-700 hover:border-primary-300'
+              }
             `}
           >
             <div className="space-y-1">
@@ -534,9 +544,7 @@ export default function SentenceScrambleGame({
             <h4 className="font-semibold text-foreground">
               {t('games.sentenceScramble.step1Title')}
             </h4>
-            <p className="text-muted-foreground">
-              {t('games.sentenceScramble.step1Desc')}
-            </p>
+            <p className="text-muted-foreground">{t('games.sentenceScramble.step1Desc')}</p>
           </div>
         </div>
 
@@ -546,9 +554,7 @@ export default function SentenceScrambleGame({
             <h4 className="font-semibold text-foreground">
               {t('games.sentenceScramble.step2Title')}
             </h4>
-            <p className="text-muted-foreground">
-              {t('games.sentenceScramble.step2Desc')}
-            </p>
+            <p className="text-muted-foreground">{t('games.sentenceScramble.step2Desc')}</p>
           </div>
         </div>
 
@@ -558,9 +564,7 @@ export default function SentenceScrambleGame({
             <h4 className="font-semibold text-foreground">
               {t('games.sentenceScramble.step3Title')}
             </h4>
-            <p className="text-muted-foreground">
-              {t('games.sentenceScramble.step3Desc')}
-            </p>
+            <p className="text-muted-foreground">{t('games.sentenceScramble.step3Desc')}</p>
           </div>
         </div>
       </div>
@@ -594,7 +598,7 @@ export default function SentenceScrambleGame({
             <div
               className="bg-primary-500 h-2 rounded-full transition-all duration-100"
               style={{
-                width: `${((GAME_CONSTANTS.SENTENCE_FLASH_DURATION - flashTimer) / GAME_CONSTANTS.SENTENCE_FLASH_DURATION) * 100}%`
+                width: `${((GAME_CONSTANTS.SENTENCE_FLASH_DURATION - flashTimer) / GAME_CONSTANTS.SENTENCE_FLASH_DURATION) * 100}%`,
               }}
             />
           </div>
@@ -603,10 +607,7 @@ export default function SentenceScrambleGame({
         <div className="bg-gray-50 dark:bg-dark-800 rounded-xl p-8 min-h-[200px] flex items-center justify-center relative">
           <div className="text-3xl font-medium leading-relaxed">
             {showFurigana && furiganaText ? (
-              <div
-                dangerouslySetInnerHTML={{ __html: furiganaText }}
-                className="ruby-text"
-              />
+              <div dangerouslySetInnerHTML={{ __html: furiganaText }} className="ruby-text" />
             ) : (
               <p>{currentSentence?.text}</p>
             )}
@@ -616,9 +617,11 @@ export default function SentenceScrambleGame({
             onClick={() => setShowFurigana(!showFurigana)}
             className={`
               absolute top-4 right-4 flex items-center gap-1 px-3 py-2 text-sm rounded transition-colors
-              ${showFurigana
-                ? 'bg-primary-500/20 text-primary-600 dark:text-primary-400'
-                : 'bg-gray-200 dark:bg-dark-700 text-muted-foreground hover:bg-gray-300 dark:hover:bg-dark-600'}
+              ${
+                showFurigana
+                  ? 'bg-primary-500/20 text-primary-600 dark:text-primary-400'
+                  : 'bg-gray-200 dark:bg-dark-700 text-muted-foreground hover:bg-gray-300 dark:hover:bg-dark-600'
+              }
             `}
           >
             {loadingFurigana ? (
@@ -626,9 +629,7 @@ export default function SentenceScrambleGame({
             ) : (
               'あ'
             )}
-            <span className="text-xs">
-              {showFurigana ? 'ON' : 'OFF'}
-            </span>
+            <span className="text-xs">{showFurigana ? 'ON' : 'OFF'}</span>
           </button>
 
           <button
@@ -640,9 +641,7 @@ export default function SentenceScrambleGame({
         </div>
 
         {currentSentence?.translation && (
-          <p className="text-lg text-muted-foreground">
-            {currentSentence.translation}
-          </p>
+          <p className="text-lg text-muted-foreground">{currentSentence.translation}</p>
         )}
 
         <button
@@ -661,17 +660,9 @@ export default function SentenceScrambleGame({
 
   const renderCountdown = () => (
     <div className="flex items-center justify-center min-h-[400px]">
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        className="text-center"
-      >
-        <div className="text-8xl font-bold text-primary-500 mb-4 animate-pulse">
-          {countdown}
-        </div>
-        <p className="text-xl text-muted-foreground">
-          {t('games.sentenceScramble.getReady')}
-        </p>
+      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center">
+        <div className="text-8xl font-bold text-primary-500 mb-4 animate-pulse">{countdown}</div>
+        <p className="text-xl text-muted-foreground">{t('games.sentenceScramble.getReady')}</p>
       </motion.div>
     </div>
   )
@@ -692,7 +683,8 @@ export default function SentenceScrambleGame({
             <div className="flex items-center gap-2">
               <Star className="w-5 h-5" />
               <span>
-                {t('games.sentenceScramble.attempts')}: {gameState.currentSentence.attempts}/{GAME_CONSTANTS.MAX_ATTEMPTS_PER_SENTENCE}
+                {t('games.sentenceScramble.attempts')}: {gameState.currentSentence.attempts}/
+                {GAME_CONSTANTS.MAX_ATTEMPTS_PER_SENTENCE}
               </span>
             </div>
           </div>
@@ -709,7 +701,7 @@ export default function SentenceScrambleGame({
             {t('games.sentenceScramble.yourSentence')}
           </h4>
           <div className="min-h-[80px] bg-gray-50 dark:bg-dark-800 rounded-lg p-4 flex flex-wrap gap-2">
-            {gameState.currentSentence.userOrder.map((block) => (
+            {gameState.currentSentence.userOrder.map(block => (
               <motion.button
                 key={block.id}
                 initial={{ scale: 0 }}
@@ -739,7 +731,7 @@ export default function SentenceScrambleGame({
           </h4>
           <div className="flex flex-wrap gap-3 justify-center p-4 bg-gray-50/50 dark:bg-dark-800/50 rounded-lg min-h-[120px]">
             <AnimatePresence mode="popLayout">
-              {gameState.currentSentence.wordBlocks.map((block) => (
+              {gameState.currentSentence.wordBlocks.map(block => (
                 <motion.button
                   key={block.id}
                   layout
@@ -752,9 +744,11 @@ export default function SentenceScrambleGame({
                   className={`
                     px-4 py-3 rounded-lg font-medium shadow-lg transition-all duration-200
                     border-2 flex items-center justify-center
-                    ${block.isDistractor
-                      ? 'cursor-not-allowed opacity-75'
-                      : 'cursor-pointer hover:shadow-xl'}
+                    ${
+                      block.isDistractor
+                        ? 'cursor-not-allowed opacity-75'
+                        : 'cursor-pointer hover:shadow-xl'
+                    }
                   `}
                   style={{
                     backgroundColor: block.color,
@@ -794,9 +788,11 @@ export default function SentenceScrambleGame({
             animate={{ opacity: 1, y: 0 }}
             className={`
               text-center p-4 rounded-lg transition-all duration-300
-              ${gameState.currentSentence.isCorrect
-                ? 'bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20'
-                : 'bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20'}
+              ${
+                gameState.currentSentence.isCorrect
+                  ? 'bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20'
+                  : 'bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20'
+              }
             `}
           >
             <p className="text-lg font-semibold">
@@ -805,7 +801,8 @@ export default function SentenceScrambleGame({
                 : `❌ ${t('games.sentenceScramble.incorrect')}`}
             </p>
             <p className="text-sm mt-1">
-              {t('games.sentenceScramble.original')}: {gameState.currentSentence.originalSentence.text}
+              {t('games.sentenceScramble.original')}:{' '}
+              {gameState.currentSentence.originalSentence.text}
             </p>
           </motion.div>
         )}
@@ -814,9 +811,12 @@ export default function SentenceScrambleGame({
   }
 
   const renderGameOver = () => {
-    const accuracy = gameState.sentences.length > 0
-      ? (gameState.totalScore / (gameState.sentences.length * GAME_CONSTANTS.POINTS_PER_CORRECT)) * 100
-      : 0
+    const accuracy =
+      gameState.sentences.length > 0
+        ? (gameState.totalScore /
+            (gameState.sentences.length * GAME_CONSTANTS.POINTS_PER_CORRECT)) *
+          100
+        : 0
     const totalTime = Math.round((Date.now() - gameState.gameStartTime) / 1000)
 
     return (
@@ -825,9 +825,7 @@ export default function SentenceScrambleGame({
           <h3 className="text-2xl font-bold text-foreground mb-2">
             {t('games.sentenceScramble.gameComplete')}
           </h3>
-          <p className="text-muted-foreground">
-            {t('games.sentenceScramble.greatJob')}
-          </p>
+          <p className="text-muted-foreground">{t('games.sentenceScramble.greatJob')}</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -837,7 +835,9 @@ export default function SentenceScrambleGame({
           </div>
           <div className="bg-gray-50 dark:bg-dark-800 rounded-lg p-4">
             <p className="text-2xl font-bold text-primary-500">{gameState.sentences.length}</p>
-            <p className="text-sm text-muted-foreground">{t('games.sentenceScramble.totalSentences')}</p>
+            <p className="text-sm text-muted-foreground">
+              {t('games.sentenceScramble.totalSentences')}
+            </p>
           </div>
           <div className="bg-gray-50 dark:bg-dark-800 rounded-lg p-4">
             <p className="text-2xl font-bold text-primary-500">{Math.round(accuracy)}%</p>
@@ -893,9 +893,7 @@ export default function SentenceScrambleGame({
           )}
         </div>
 
-        <div className="p-6">
-          {renderGamePhase()}
-        </div>
+        <div className="p-6">{renderGamePhase()}</div>
       </div>
     </div>
   )

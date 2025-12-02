@@ -1,131 +1,126 @@
-'use client';
+'use client'
 
-import { useState, useRef } from 'react';
-import Modal from '@/components/ui/Modal';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
-import Alert from '@/components/ui/Alert';
-import { Upload, FileText, CheckCircle2, X, AlertCircle } from 'lucide-react';
-import { AnkiImporter, ImportResult } from '@/lib/anki/importer';
-import { useI18n } from '@/i18n/I18nContext';
+import { useState, useRef } from 'react'
+import Modal from '@/components/ui/Modal'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import Alert from '@/components/ui/Alert'
+import { Upload, FileText, CheckCircle2, X, AlertCircle } from 'lucide-react'
+import { AnkiImporter, ImportResult } from '@/lib/anki/importer'
+import { useI18n } from '@/i18n/I18nContext'
 
 interface AnkiImportModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onImportSuccess?: (result: ImportResult) => void;
+  isOpen: boolean
+  onClose: () => void
+  onImportSuccess?: (result: ImportResult) => void
 }
 
 export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImportModalProps) {
-  const { t } = useI18n();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useI18n()
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const [file, setFile] = useState<File | null>(null);
-  const [importing, setImporting] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [progressMessage, setProgressMessage] = useState('');
-  const [error, setError] = useState('');
-  const [importResult, setImportResult] = useState<ImportResult | null>(null);
-  const [dragActive, setDragActive] = useState(false);
+  const [file, setFile] = useState<File | null>(null)
+  const [importing, setImporting] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [progressMessage, setProgressMessage] = useState('')
+  const [error, setError] = useState('')
+  const [importResult, setImportResult] = useState<ImportResult | null>(null)
+  const [dragActive, setDragActive] = useState(false)
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
+    const selectedFile = event.target.files?.[0]
     if (selectedFile) {
-      const validation = AnkiImporter.validateFile(selectedFile);
+      const validation = AnkiImporter.validateFile(selectedFile)
       if (!validation.valid) {
-        setError(validation.error || t('anki.invalidFile'));
-        return;
+        setError(validation.error || t('anki.invalidFile'))
+        return
       }
 
-      setFile(selectedFile);
-      setError('');
-      setImportResult(null);
+      setFile(selectedFile)
+      setError('')
+      setImportResult(null)
     }
-  };
+  }
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setDragActive(false);
+    event.preventDefault()
+    event.stopPropagation()
+    setDragActive(false)
 
-    const droppedFile = event.dataTransfer.files[0];
+    const droppedFile = event.dataTransfer.files[0]
     if (droppedFile) {
-      const validation = AnkiImporter.validateFile(droppedFile);
+      const validation = AnkiImporter.validateFile(droppedFile)
       if (!validation.valid) {
-        setError(validation.error || t('anki.invalidFile'));
-        return;
+        setError(validation.error || t('anki.invalidFile'))
+        return
       }
 
-      setFile(droppedFile);
-      setError('');
-      setImportResult(null);
+      setFile(droppedFile)
+      setError('')
+      setImportResult(null)
     }
-  };
+  }
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setDragActive(true);
-  };
+    event.preventDefault()
+    event.stopPropagation()
+    setDragActive(true)
+  }
 
   const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setDragActive(false);
-  };
+    event.preventDefault()
+    event.stopPropagation()
+    setDragActive(false)
+  }
 
   const handleImport = async () => {
-    if (!file) return;
+    if (!file) return
 
-    setImporting(true);
-    setProgress(0);
-    setError('');
+    setImporting(true)
+    setProgress(0)
+    setError('')
 
     try {
       const result = await AnkiImporter.importDeck(file, {
         onProgress: (progress, message) => {
-          setProgress(progress);
-          setProgressMessage(message);
-        }
-      });
+          setProgress(progress)
+          setProgressMessage(message)
+        },
+      })
 
       if (result.success) {
-        setImportResult(result);
+        setImportResult(result)
         if (onImportSuccess) {
-          onImportSuccess(result);
+          onImportSuccess(result)
         }
       } else {
-        setError(result.error || t('anki.importFailed'));
+        setError(result.error || t('anki.importFailed'))
       }
     } catch (error) {
-      console.error('Import error:', error);
-      setError(error instanceof Error ? error.message : t('anki.importFailed'));
+      console.error('Import error:', error)
+      setError(error instanceof Error ? error.message : t('anki.importFailed'))
     } finally {
-      setImporting(false);
+      setImporting(false)
     }
-  };
+  }
 
   const resetModal = () => {
-    setFile(null);
-    setError('');
-    setImportResult(null);
-    setProgress(0);
-    setProgressMessage('');
+    setFile(null)
+    setError('')
+    setImportResult(null)
+    setProgress(0)
+    setProgressMessage('')
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = ''
     }
-  };
+  }
 
   const handleClose = () => {
-    resetModal();
-    onClose();
-  };
+    resetModal()
+    onClose()
+  }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      title={t('anki.importTitle')}
-      size="lg"
-    >
+    <Modal isOpen={isOpen} onClose={handleClose} title={t('anki.importTitle')} size="lg">
       <div className="p-6">
         {/* Success State */}
         {importResult?.success && (
@@ -147,10 +142,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
                 </p>
               </div>
             )}
-            <button
-              onClick={handleClose}
-              className="btn btn-primary"
-            >
+            <button onClick={handleClose} className="btn btn-primary">
               {t('common.close')}
             </button>
           </div>
@@ -167,9 +159,11 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
               className={`
                 border-2 border-dashed rounded-lg p-8 text-center
                 transition-colors cursor-pointer
-                ${dragActive
-                  ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                  : 'border-gray-300 dark:border-dark-600 hover:border-primary-400'}
+                ${
+                  dragActive
+                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                    : 'border-gray-300 dark:border-dark-600 hover:border-primary-400'
+                }
                 ${file ? 'bg-green-50 dark:bg-green-900/20' : ''}
               `}
               onClick={() => !file && fileInputRef.current?.click()}
@@ -194,9 +188,9 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
                     </p>
                   </div>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      resetModal();
+                    onClick={e => {
+                      e.stopPropagation()
+                      resetModal()
                     }}
                     className="text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 text-sm"
                   >
@@ -222,12 +216,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
             </div>
 
             {/* Error Alert */}
-            {error && (
-              <Alert type="error" className="mt-4">
-                <AlertCircle className="h-4 w-4" />
-                <span>{error}</span>
-              </Alert>
-            )}
+            {error && <Alert type="error" message={error} className="mt-4" />}
 
             {/* Progress Bar */}
             {importing && (
@@ -251,11 +240,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
 
             {/* Action Buttons */}
             <div className="flex justify-end space-x-3 mt-6">
-              <button
-                onClick={handleClose}
-                disabled={importing}
-                className="btn btn-secondary"
-              >
+              <button onClick={handleClose} disabled={importing} className="btn btn-secondary">
                 {t('common.cancel')}
               </button>
               <button
@@ -271,9 +256,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
       </div>
 
       {/* Loading Overlay */}
-      {importing && (
-        <LoadingOverlay message={progressMessage} />
-      )}
+      {importing && <LoadingOverlay message={progressMessage} />}
     </Modal>
-  );
+  )
 }

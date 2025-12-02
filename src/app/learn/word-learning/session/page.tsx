@@ -7,7 +7,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Volume2, Check, X } from 'lucide-react'
 import Link from 'next/link'
 import DoshiMascot from '@/components/ui/DoshiMascot'
-import { getCommonWordsFromWanikani, getWordsByJLPTLevelFromWanikani, initWanikaniApi } from '@/utils/api'
+import {
+  getCommonWordsFromWanikani,
+  getWordsByJLPTLevelFromWanikani,
+  initWanikaniApi,
+} from '@/utils/api'
 import { searchJMdictWords, getCommonJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
 import { JapaneseWord } from '@/types/vocabulary'
 
@@ -17,17 +21,20 @@ interface SessionState {
   currentWordIndex: number
   phases: string[]
   phaseIndex: number
-  results: Map<string, {
-    exposure: boolean
-    practice?: boolean
-    production?: string
-  }>
+  results: Map<
+    string,
+    {
+      exposure: boolean
+      practice?: boolean
+      production?: string
+    }
+  >
 }
 
 function SessionContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  
+
   const size = parseInt(searchParams.get('size') || '10')
   const mode = searchParams.get('mode') || 'mixed'
   const level = (searchParams.get('level') || 'N5') as 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
@@ -39,7 +46,7 @@ function SessionContent() {
     currentWordIndex: 0,
     phases,
     phaseIndex: 0,
-    results: new Map()
+    results: new Map(),
   })
 
   const [loading, setLoading] = useState(true)
@@ -71,11 +78,11 @@ function SessionContent() {
       // Filter by type if specified
       if (mode !== 'mixed') {
         const typeMap: { [key: string]: string[] } = {
-          'verbs': ['Ichidan', 'Godan', 'Irregular'],
-          'adjectives': ['i-adjective', 'na-adjective'],
-          'nouns': ['noun']
+          verbs: ['Ichidan', 'Godan', 'Irregular'],
+          adjectives: ['i-adjective', 'na-adjective'],
+          nouns: ['noun'],
         }
-        
+
         const allowedTypes = typeMap[mode] || []
         words = words.filter(w => w.type && allowedTypes.includes(w.type))
       }
@@ -92,7 +99,7 @@ function SessionContent() {
       setSessionState(prev => ({
         ...prev,
         words,
-        results: resultsMap
+        results: resultsMap,
       }))
     } catch (error) {
       console.error('Failed to load words:', error)
@@ -117,7 +124,7 @@ function SessionContent() {
     if (sessionState.currentWordIndex < sessionState.words.length - 1) {
       setSessionState(prev => ({
         ...prev,
-        currentWordIndex: prev.currentWordIndex + 1
+        currentWordIndex: prev.currentWordIndex + 1,
       }))
       resetPhaseState()
     } else {
@@ -127,7 +134,7 @@ function SessionContent() {
           ...prev,
           phaseIndex: prev.phaseIndex + 1,
           currentPhase: prev.phases[prev.phaseIndex + 1] as any,
-          currentWordIndex: 0
+          currentWordIndex: 0,
         }))
         resetPhaseState()
       } else {
@@ -152,11 +159,11 @@ function SessionContent() {
         .filter(w => w.id !== currentWord.id)
         .sort(() => Math.random() - 0.5)
         .slice(0, 3)
-      
+
       const options = [currentWord, ...otherWords]
         .map(w => w.meaning.split(',')[0].trim())
         .sort(() => Math.random() - 0.5)
-      
+
       setPracticeOptions(options)
     }
   }, [sessionState.currentPhase, sessionState.currentWordIndex])
@@ -164,7 +171,7 @@ function SessionContent() {
   const handlePracticeAnswer = (option: string) => {
     setSelectedOption(option)
     setShowResult(true)
-    
+
     const correct = option === currentWord.meaning.split(',')[0].trim()
     const result = sessionState.results.get(currentWord.id) || { exposure: true }
     result.practice = correct
@@ -199,8 +206,10 @@ function SessionContent() {
     )
   }
 
-  const progress = ((sessionState.phaseIndex * sessionState.words.length + sessionState.currentWordIndex + 1) / 
-                   (sessionState.phases.length * sessionState.words.length)) * 100
+  const progress =
+    ((sessionState.phaseIndex * sessionState.words.length + sessionState.currentWordIndex + 1) /
+      (sessionState.phases.length * sessionState.words.length)) *
+    100
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
@@ -215,8 +224,9 @@ function SessionContent() {
               <ChevronLeft className="w-5 h-5" />
             </Link>
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              {sessionState.currentPhase.charAt(0).toUpperCase() + sessionState.currentPhase.slice(1)} Phase
-              - Word {sessionState.currentWordIndex + 1} of {sessionState.words.length}
+              {sessionState.currentPhase.charAt(0).toUpperCase() +
+                sessionState.currentPhase.slice(1)}{' '}
+              Phase - Word {sessionState.currentWordIndex + 1} of {sessionState.words.length}
             </div>
           </div>
           <div className="relative h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
@@ -243,12 +253,14 @@ function SessionContent() {
               <h2 className="text-center text-lg font-medium text-gray-600 dark:text-gray-400 mb-6">
                 Learn this word
               </h2>
-              
+
               <div className="text-center space-y-4">
                 <div className="flex items-center justify-center gap-3">
                   {currentWord.kanji && (
-                    <span className="text-5xl font-bold text-gray-900 dark:text-gray-100"
-                          style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                    <span
+                      className="text-5xl font-bold text-gray-900 dark:text-gray-100"
+                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                    >
                       {currentWord.kanji}
                     </span>
                   )}
@@ -259,11 +271,9 @@ function SessionContent() {
                     <Volume2 className="w-6 h-6 text-gray-600 dark:text-gray-400" />
                   </button>
                 </div>
-                
-                <div className="text-2xl text-gray-700 dark:text-gray-300">
-                  {currentWord.kana}
-                </div>
-                
+
+                <div className="text-2xl text-gray-700 dark:text-gray-300">{currentWord.kana}</div>
+
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: showMeaning ? 1 : 0, height: showMeaning ? 'auto' : 0 }}
@@ -280,7 +290,7 @@ function SessionContent() {
                     )}
                   </div>
                 </motion.div>
-                
+
                 {!showMeaning ? (
                   <button
                     onClick={() => setShowMeaning(true)}
@@ -312,12 +322,14 @@ function SessionContent() {
               <h2 className="text-center text-lg font-medium text-gray-600 dark:text-gray-400 mb-6">
                 What does this mean?
               </h2>
-              
+
               <div className="text-center space-y-6">
                 <div className="flex items-center justify-center gap-3">
                   {currentWord.kanji && (
-                    <span className="text-5xl font-bold text-gray-900 dark:text-gray-100"
-                          style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                    <span
+                      className="text-5xl font-bold text-gray-900 dark:text-gray-100"
+                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                    >
                       {currentWord.kanji}
                     </span>
                   )}
@@ -325,7 +337,7 @@ function SessionContent() {
                     ({currentWord.kana})
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-3">
                   {practiceOptions.map((option, index) => (
                     <button
@@ -336,15 +348,15 @@ function SessionContent() {
                         showResult && option === currentWord.meaning.split(',')[0].trim()
                           ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500'
                           : showResult && option === selectedOption
-                          ? 'bg-red-100 dark:bg-red-900/30 border-2 border-red-500'
-                          : 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600'
+                            ? 'bg-red-100 dark:bg-red-900/30 border-2 border-red-500'
+                            : 'bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600'
                       }`}
                     >
                       {option}
                     </button>
                   ))}
                 </div>
-                
+
                 {showResult && (
                   <button
                     onClick={handleNextWord}
@@ -369,12 +381,14 @@ function SessionContent() {
               <h2 className="text-center text-lg font-medium text-gray-600 dark:text-gray-400 mb-6">
                 Type the meaning
               </h2>
-              
+
               <div className="text-center space-y-6">
                 <div className="flex items-center justify-center gap-3">
                   {currentWord.kanji && (
-                    <span className="text-5xl font-bold text-gray-900 dark:text-gray-100"
-                          style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                    <span
+                      className="text-5xl font-bold text-gray-900 dark:text-gray-100"
+                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                    >
                       {currentWord.kanji}
                     </span>
                   )}
@@ -382,16 +396,18 @@ function SessionContent() {
                     ({currentWord.kana})
                   </div>
                 </div>
-                
+
                 {!showResult ? (
-                  <form onSubmit={(e) => {
-                    e.preventDefault()
-                    handleProductionSubmit()
-                  }}>
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault()
+                      handleProductionSubmit()
+                    }}
+                  >
                     <input
                       type="text"
                       value={userInput}
-                      onChange={(e) => setUserInput(e.target.value)}
+                      onChange={e => setUserInput(e.target.value)}
                       placeholder="Type the meaning in English..."
                       className="w-full px-4 py-3 bg-gray-50 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       autoFocus
@@ -411,8 +427,12 @@ function SessionContent() {
                       <p className="text-lg text-gray-900 dark:text-gray-100">{userInput}</p>
                     </div>
                     <div className="p-4 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                      <p className="text-sm text-green-600 dark:text-green-400 mb-1">Correct answer:</p>
-                      <p className="text-lg text-gray-900 dark:text-gray-100">{currentWord.meaning}</p>
+                      <p className="text-sm text-green-600 dark:text-green-400 mb-1">
+                        Correct answer:
+                      </p>
+                      <p className="text-lg text-gray-900 dark:text-gray-100">
+                        {currentWord.meaning}
+                      </p>
                     </div>
                     <button
                       onClick={handleNextWord}
@@ -431,7 +451,11 @@ function SessionContent() {
         <div className="mt-8 flex justify-center">
           <DoshiMascot
             size="medium"
-            mood={showResult && selectedOption === currentWord.meaning.split(',')[0].trim() ? 'happy' : 'neutral'}
+            mood={
+              showResult && selectedOption === currentWord.meaning.split(',')[0].trim()
+                ? 'happy'
+                : 'thinking'
+            }
           />
         </div>
       </div>
@@ -441,11 +465,13 @@ function SessionContent() {
 
 export default function WordLearningSessionPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingOverlay isLoading={true} message="Preparing session..." showDoshi={true} />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <LoadingOverlay isLoading={true} message="Preparing session..." showDoshi={true} />
+        </div>
+      }
+    >
       <SessionContent />
     </Suspense>
   )
