@@ -1310,7 +1310,7 @@ export default function LearningVillage() {
         </div>
 
         {/* Desktop View: Masonry */}
-        <div className="hidden sm:block">
+        <div className="hidden sm:block w-full">
           <Masonry
             breakpointCols={{
               default: 5,
@@ -1318,13 +1318,12 @@ export default function LearningVillage() {
               1024: 4, // lg
               768: 3, // md
               640: 2, // sm
-              0: 2, // base (this won't be used as it's hidden on mobile)
             }}
             className="flex -ml-3 sm:-ml-6 w-auto"
             columnClassName="pl-3 sm:pl-6 bg-clip-padding"
           >
             {filteredStalls.map((stall, index) => (
-              <div key={stall.id} className="mb-3 sm:mb-6">
+              <div key={stall.id} className="mb-3 sm:mb-6 break-inside-avoid">
                 <StallCard stall={stall} index={index} isPopular={isPopular(stall.id as StallId)} />
               </div>
             ))}
