@@ -290,21 +290,33 @@ html {
   --article-content-width: 42.5rem; /* 680px at 16px base */
 }
 
+html,
+body {
+  height: 100%;
+
+  /* Ensure background extends to bottom on mobile browsers with dynamic toolbars */
+
+  min-height: 100dvh;
+}
+
 body {
   font-family: var(--font-family-japanese);
+
   font-feature-settings:
     'rlig' 1,
     'calt' 1;
+
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
+
   /* Ensure comfortable line height for readability */
+
   line-height: 1.6;
+
   /* Softer background for light mode */
-  background-color: var(
-    --color-background-light
-  ) !important; /* TODO: Remove after debugging bottom gap */
-  background-color: red !important; /* TEMPORARY: Debugging bottom gap */
+
+  background-color: var(--color-background-light);
 }
 
 /* Ensure content doesn't get hidden behind bottom navbar on mobile */
