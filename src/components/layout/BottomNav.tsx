@@ -310,13 +310,12 @@ export default function BottomNav({
 
   return (
     <>
-      {/* DEBUG: Gap filler - RED, should now reach actual screen edge */}
+      {/* Gap filler - extends to actual screen edge to cover PWA viewport gap */}
       <div
-        className="fixed left-0 right-0 z-40 md:hidden"
+        className="fixed left-0 right-0 z-40 md:hidden bg-background-light dark:bg-dark-850"
         style={{
           bottom: 0,
           height: '150px',
-          backgroundColor: '#ff0000', // RED for debugging
         }}
         aria-hidden="true"
       />
