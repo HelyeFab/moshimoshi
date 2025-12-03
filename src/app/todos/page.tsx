@@ -13,8 +13,8 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 
-// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
-const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false'
+// Features are DISABLED by default unless explicitly set to 'true'
+const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS === 'true'
 
 export default function TodosPage() {
   const { t } = useI18n()

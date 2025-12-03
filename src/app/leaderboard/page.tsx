@@ -14,8 +14,8 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import type { LeaderboardEntry, LeaderboardResponse, UserRankResponse } from '@/lib/leaderboard/types'
 import { validateStreakDisplay } from '@/lib/gamification/utils/streakValidation'
 
-// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
-const isLeaderboardEnabled = process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false'
+// Features are DISABLED by default unless explicitly set to 'true'
+const isLeaderboardEnabled = process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD === 'true'
 
 export default function LeaderboardPage() {
   const { user } = useAuth()

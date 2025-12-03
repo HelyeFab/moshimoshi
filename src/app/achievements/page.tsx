@@ -11,8 +11,8 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import { cn } from '@/utils/cn'
 import achievementsConfig from '@/config/gamification/achievements.json'
 
-// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
-const isAchievementsEnabled = process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false'
+// Features are DISABLED by default unless explicitly set to 'true'
+const isAchievementsEnabled = process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS === 'true'
 
 // Achievement rarity colors
 const rarityColors = {

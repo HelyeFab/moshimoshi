@@ -6,11 +6,13 @@ This document explains how to enable or disable features across the Moshimoshi a
 
 | Feature | Environment Variable | Default | Affects |
 |---------|---------------------|---------|---------|
-| Games | `NEXT_PUBLIC_FEATURE_GAMES` | `true` | Games page, Bottom Nav, Command Palette, Learning Village |
-| Review Hub | `NEXT_PUBLIC_FEATURE_REVIEW_HUB` | `true` | Review Dashboard, Bottom Nav, Command Palette, Learning Village |
-| Achievements | `NEXT_PUBLIC_FEATURE_ACHIEVEMENTS` | `true` | Achievements page, Command Palette, Learning Village |
-| Leaderboard | `NEXT_PUBLIC_FEATURE_LEADERBOARD` | `true` | Leaderboard page, Command Palette, Learning Village |
-| Task Manager | `NEXT_PUBLIC_FEATURE_TODOS` | `true` | Todos page, Command Palette, Learning Village |
+| Games | `NEXT_PUBLIC_FEATURE_GAMES` | `false` | Games page, Bottom Nav, Command Palette, Learning Village |
+| Review Hub | `NEXT_PUBLIC_FEATURE_REVIEW_HUB` | `false` | Review Dashboard, Bottom Nav, Command Palette, Learning Village |
+| Achievements | `NEXT_PUBLIC_FEATURE_ACHIEVEMENTS` | `false` | Achievements page, Command Palette, Learning Village |
+| Leaderboard | `NEXT_PUBLIC_FEATURE_LEADERBOARD` | `false` | Leaderboard page, Command Palette, Learning Village |
+| Task Manager | `NEXT_PUBLIC_FEATURE_TODOS` | `false` | Todos page, Command Palette, Learning Village |
+
+> **Note:** Features are DISABLED by default for security. You must explicitly set `=true` to enable them.
 
 ## Quick Toggle
 
@@ -114,7 +116,8 @@ Each location checks the environment variable directly:
 
 ```typescript
 // At module level (outside component)
-const isFeatureEnabled = process.env.NEXT_PUBLIC_FEATURE_X !== 'false'
+// Features are DISABLED by default unless explicitly set to 'true'
+const isFeatureEnabled = process.env.NEXT_PUBLIC_FEATURE_X === 'true'
 
 // In page component - redirect if disabled
 useEffect(() => {
@@ -128,6 +131,15 @@ if (!isFeatureEnabled) {
   return null
 }
 ```
+
+**Why `=== 'true'` instead of `!== 'false'`?**
+
+Using `=== 'true'` ensures features are disabled by default when:
+- The environment variable is not set
+- The environment variable is undefined at build time
+- The environment variable has any value other than the string `'true'`
+
+This is safer because features must be explicitly enabled, preventing accidental exposure.
 
 This pattern is used because Next.js only inlines `NEXT_PUBLIC_*` variables when accessed statically (not via dynamic keys like `process.env[envKey]`).
 
@@ -193,7 +205,8 @@ If you add feature links elsewhere, use this pattern:
 
 ```typescript
 // At module level or inside component
-const isFeatureEnabled = process.env.NEXT_PUBLIC_FEATURE_X !== 'false'
+// Features are DISABLED by default unless explicitly set to 'true'
+const isFeatureEnabled = process.env.NEXT_PUBLIC_FEATURE_X === 'true'
 
 // In JSX
 {isFeatureEnabled && <FeatureLink />}
@@ -225,4 +238,4 @@ const items = allItems.filter(item => {
 
 ---
 
-Last Updated: 2025-12-02
+Last Updated: 2025-12-03

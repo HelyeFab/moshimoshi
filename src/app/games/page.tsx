@@ -13,8 +13,8 @@ import WordAssemblyGame from '@/components/games/WordAssembly/WordAssemblyGame'
 import KanjiQuest from '@/components/games/kanji-quest/KanjiQuest'
 import { JapaneseWord } from '@/types/vocabulary'
 
-// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
-const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false'
+// Features are DISABLED by default unless explicitly set to 'true'
+const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES === 'true'
 
 export default function GamesPage() {
   const { t, strings } = useI18n()

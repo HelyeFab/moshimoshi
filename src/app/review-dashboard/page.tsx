@@ -14,8 +14,8 @@ import { LoadingOverlay } from '@/components/ui/Loading';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 // Navigation is now global via NavigationWrapper in root layout;
 
-// Direct env check - Next.js only inlines static NEXT_PUBLIC_* references
-const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false'
+// Features are DISABLED by default unless explicitly set to 'true'
+const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB === 'true'
 
 export default function ReviewDashboard() {
   const { user, loading: authLoading } = useAuth();

@@ -832,14 +832,14 @@ export default function LearningVillage() {
   )
 
   // Feature flags from environment variables (inlined at build time by Next.js)
-  // These take precedence over admin config - if disabled here, stall won't show regardless of Firestore
+  // Features are DISABLED by default unless explicitly set to 'true'
   const featureFlags = useMemo(
     () => ({
-      games: process.env.NEXT_PUBLIC_FEATURE_GAMES !== 'false',
-      'review-hub': process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB !== 'false',
-      achievements: process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS !== 'false',
-      leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD !== 'false',
-      todos: process.env.NEXT_PUBLIC_FEATURE_TODOS !== 'false',
+      games: process.env.NEXT_PUBLIC_FEATURE_GAMES === 'true',
+      'review-hub': process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB === 'true',
+      achievements: process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS === 'true',
+      leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD === 'true',
+      todos: process.env.NEXT_PUBLIC_FEATURE_TODOS === 'true',
     }),
     []
   )
