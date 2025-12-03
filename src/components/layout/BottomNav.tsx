@@ -302,11 +302,6 @@ export default function BottomNav({
                 // Shape & Clipping - CRITICAL for removing "ghost rectangle"
                 'rounded-t-3xl overflow-hidden',
 
-                // Layout: Scrollable horizontal list
-                'flex items-center justify-start gap-2',
-                'px-4 py-3',
-                'overflow-x-auto scrollbar-hide', // Enable horizontal scroll and hide scrollbar
-
                 // Theme-aware glassmorphism background (lower opacity for glass effect)
                 'bg-soft-white/20 dark:bg-dark-900/30',
                 'backdrop-blur-2xl backdrop-saturate-150',
@@ -324,102 +319,105 @@ export default function BottomNav({
               )}
               style={{
                 // Minimal bottom padding - icons sit at device edge
-                paddingBottom: '4px',
+                paddingBottom: 'calc(env(safe-area-inset-bottom, 0px))',
               }}
             >
-              {NAV_ITEMS.map(item => {
-                const active = isActive(item)
-                const Icon = active ? item.activeIcon : item.icon
+              {/* Scrollable horizontal list - pt-3 only, bottom padding handled by parent safe area */}
+              <div className="flex items-center justify-start gap-2 px-4 pt-3 pb-1 overflow-x-auto scrollbar-hide">
+                {NAV_ITEMS.map(item => {
+                  const active = isActive(item)
+                  const Icon = active ? item.activeIcon : item.icon
 
-                const commonClassName = cn(
-                  'relative flex flex-col items-center justify-center flex-shrink-0',
-                  // Comfortable touch target: 60px width, 64px height for better ergonomics
-                  'w-[60px] h-[64px]',
-                  'rounded-2xl',
-                  'transition-all duration-200',
-                  // Accessibility: focus states
-                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
-                  'focus-visible:ring-offset-soft-white dark:focus-visible:ring-offset-dark-900',
-                  // Theme-aware text colors
-                  active
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-                )
+                  const commonClassName = cn(
+                    'relative flex flex-col items-center justify-center flex-shrink-0',
+                    // Comfortable touch target: 60px width, 64px height for better ergonomics
+                    'w-[60px] h-[64px]',
+                    'rounded-2xl',
+                    'transition-all duration-200',
+                    // Accessibility: focus states
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
+                    'focus-visible:ring-offset-soft-white dark:focus-visible:ring-offset-dark-900',
+                    // Theme-aware text colors
+                    active
+                      ? 'text-primary-600 dark:text-primary-400'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                  )
 
-                const content = (
-                  <>
-                    {/* Icon and Label Container */}
-                    <div className="relative z-10 flex flex-col items-center gap-1">
-                      <Icon
-                        className={cn(
-                          'transition-all duration-200',
-                          active ? 'w-6 h-6' : 'w-5 h-5'
-                        )}
-                        aria-hidden="true"
-                      />
+                  const content = (
+                    <>
+                      {/* Icon and Label Container */}
+                      <div className="relative z-10 flex flex-col items-center gap-1">
+                        <Icon
+                          className={cn(
+                            'transition-all duration-200',
+                            active ? 'w-6 h-6' : 'w-5 h-5'
+                          )}
+                          aria-hidden="true"
+                        />
 
-                      {/* Label */}
+                        {/* Label */}
+                        <span
+                          className={cn(
+                            'text-[10px] font-medium transition-all duration-200',
+                            'leading-tight',
+                            active ? 'opacity-100 font-semibold' : 'opacity-70'
+                          )}
+                        >
+                          {item.label}
+                        </span>
+                      </div>
+
+                      {/* Active indicator - positioned at bottom of button, above safe area */}
+                      {active && (
+                        <motion.div
+                          layoutId="activeIndicator"
+                          className={cn(
+                            'absolute bottom-1 left-1/2 -translate-x-1/2',
+                            'h-0.5 w-10 rounded-full',
+                            'bg-primary-600 dark:bg-primary-400',
+                            'shadow-sm shadow-primary-600/50 dark:shadow-primary-400/50'
+                          )}
+                          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                        />
+                      )}
+
+                      {/* Ripple effect on tap (mobile) - disable default tap highlight */}
                       <span
-                        className={cn(
-                          'text-[10px] font-medium transition-all duration-200',
-                          'leading-tight',
-                          active ? 'opacity-100 font-semibold' : 'opacity-70'
-                        )}
-                      >
-                        {item.label}
-                      </span>
-                    </div>
-
-                    {/* Active indicator - positioned at bottom of button, above safe area */}
-                    {active && (
-                      <motion.div
-                        layoutId="activeIndicator"
-                        className={cn(
-                          'absolute bottom-1 left-1/2 -translate-x-1/2',
-                          'h-0.5 w-10 rounded-full',
-                          'bg-primary-600 dark:bg-primary-400',
-                          'shadow-sm shadow-primary-600/50 dark:shadow-primary-400/50'
-                        )}
-                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                        className="absolute inset-0 rounded-2xl"
+                        style={{
+                          WebkitTapHighlightColor: 'transparent',
+                        }}
                       />
-                    )}
+                    </>
+                  )
 
-                    {/* Ripple effect on tap (mobile) - disable default tap highlight */}
-                    <span
-                      className="absolute inset-0 rounded-2xl"
-                      style={{
-                        WebkitTapHighlightColor: 'transparent',
-                      }}
-                    />
-                  </>
-                )
+                  // Render button for action items, Link for navigation items
+                  if (item.action) {
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={item.action}
+                        className={commonClassName}
+                        aria-label={item.label}
+                      >
+                        {content}
+                      </button>
+                    )
+                  }
 
-                // Render button for action items, Link for navigation items
-                if (item.action) {
                   return (
-                    <button
+                    <Link
                       key={item.id}
-                      onClick={item.action}
+                      href={item.href!}
                       className={commonClassName}
                       aria-label={item.label}
+                      aria-current={active ? 'page' : undefined}
                     >
                       {content}
-                    </button>
+                    </Link>
                   )
-                }
-
-                return (
-                  <Link
-                    key={item.id}
-                    href={item.href!}
-                    className={commonClassName}
-                    aria-label={item.label}
-                    aria-current={active ? 'page' : undefined}
-                  >
-                    {content}
-                  </Link>
-                )
-              })}
+                })}
+              </div>
             </div>
           </motion.nav>
         )}

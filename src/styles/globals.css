@@ -256,6 +256,15 @@
 html {
   /* Mobile: base font size 18px (112.5% of default 16px) */
   font-size: 112.5%;
+  /* Ensure html fills the entire viewport including safe areas */
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  /* Match body background to prevent gaps */
+  background-color: var(--color-background-light);
+}
+
+html.dark {
+  background-color: var(--color-dark-850);
 }
 
 /* Desktop: even larger font size */
@@ -302,6 +311,9 @@ body {
   line-height: 1.6;
   /* Softer background for light mode */
   background-color: var(--color-background-light);
+  /* Ensure body fills the entire viewport */
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
 }
 
 /* Ensure content doesn't get hidden behind bottom navbar on mobile */
