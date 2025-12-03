@@ -203,7 +203,7 @@ export default function BottomNav({
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
               // Edge-to-edge positioning (Solution A)
-              'fixed bottom-0 left-0 right-0 z-50 w-full',
+              'fixed bottom-[-1px] left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
               className
             )}
@@ -244,7 +244,8 @@ export default function BottomNav({
               style={{
                 // Ensure proper safe area support for all devices (iPhone X+)
                 // Uses calc to ensure minimum padding + safe area
-                paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
+                // Increased base padding to 16px to cover potential unreported safe areas (Android gesture bar)
+                paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
               }}
             >
               {NAV_ITEMS.map(item => {
