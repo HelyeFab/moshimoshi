@@ -25,35 +25,89 @@
   }
 
   /* Japanese aesthetic color utilities */
-  .text-japanese-sakura { color: var(--color-japanese-sakura); }
-  .text-japanese-sakuraDark { color: var(--color-japanese-sakuraDark); }
-  .text-japanese-sumi { color: var(--color-japanese-sumi); }
-  .text-japanese-mizu { color: var(--color-japanese-mizu); }
-  .text-japanese-mizuDark { color: var(--color-japanese-mizuDark); }
-  .text-japanese-matcha { color: var(--color-japanese-matcha); }
-  .text-japanese-matchaDark { color: var(--color-japanese-matchaDark); }
-  .text-japanese-zen { color: var(--color-japanese-zen); }
-  .text-japanese-zenDark { color: var(--color-japanese-zenDark); }
+  .text-japanese-sakura {
+    color: var(--color-japanese-sakura);
+  }
+  .text-japanese-sakuraDark {
+    color: var(--color-japanese-sakuraDark);
+  }
+  .text-japanese-sumi {
+    color: var(--color-japanese-sumi);
+  }
+  .text-japanese-mizu {
+    color: var(--color-japanese-mizu);
+  }
+  .text-japanese-mizuDark {
+    color: var(--color-japanese-mizuDark);
+  }
+  .text-japanese-matcha {
+    color: var(--color-japanese-matcha);
+  }
+  .text-japanese-matchaDark {
+    color: var(--color-japanese-matchaDark);
+  }
+  .text-japanese-zen {
+    color: var(--color-japanese-zen);
+  }
+  .text-japanese-zenDark {
+    color: var(--color-japanese-zenDark);
+  }
 
-  .bg-japanese-sakura { background-color: var(--color-japanese-sakura); }
-  .bg-japanese-sakuraDark { background-color: var(--color-japanese-sakuraDark); }
-  .bg-japanese-sumi { background-color: var(--color-japanese-sumi); }
-  .bg-japanese-mizu { background-color: var(--color-japanese-mizu); }
-  .bg-japanese-mizuDark { background-color: var(--color-japanese-mizuDark); }
-  .bg-japanese-matcha { background-color: var(--color-japanese-matcha); }
-  .bg-japanese-matchaDark { background-color: var(--color-japanese-matchaDark); }
-  .bg-japanese-zen { background-color: var(--color-japanese-zen); }
-  .bg-japanese-zenDark { background-color: var(--color-japanese-zenDark); }
+  .bg-japanese-sakura {
+    background-color: var(--color-japanese-sakura);
+  }
+  .bg-japanese-sakuraDark {
+    background-color: var(--color-japanese-sakuraDark);
+  }
+  .bg-japanese-sumi {
+    background-color: var(--color-japanese-sumi);
+  }
+  .bg-japanese-mizu {
+    background-color: var(--color-japanese-mizu);
+  }
+  .bg-japanese-mizuDark {
+    background-color: var(--color-japanese-mizuDark);
+  }
+  .bg-japanese-matcha {
+    background-color: var(--color-japanese-matcha);
+  }
+  .bg-japanese-matchaDark {
+    background-color: var(--color-japanese-matchaDark);
+  }
+  .bg-japanese-zen {
+    background-color: var(--color-japanese-zen);
+  }
+  .bg-japanese-zenDark {
+    background-color: var(--color-japanese-zenDark);
+  }
 
-  .fill-japanese-sakura { fill: var(--color-japanese-sakura); }
-  .fill-japanese-sakuraDark { fill: var(--color-japanese-sakuraDark); }
-  .fill-japanese-sumi { fill: var(--color-japanese-sumi); }
-  .fill-japanese-mizu { fill: var(--color-japanese-mizu); }
-  .fill-japanese-mizuDark { fill: var(--color-japanese-mizuDark); }
-  .fill-japanese-matcha { fill: var(--color-japanese-matcha); }
-  .fill-japanese-matchaDark { fill: var(--color-japanese-matchaDark); }
-  .fill-japanese-zen { fill: var(--color-japanese-zen); }
-  .fill-japanese-zenDark { fill: var(--color-japanese-zenDark); }
+  .fill-japanese-sakura {
+    fill: var(--color-japanese-sakura);
+  }
+  .fill-japanese-sakuraDark {
+    fill: var(--color-japanese-sakuraDark);
+  }
+  .fill-japanese-sumi {
+    fill: var(--color-japanese-sumi);
+  }
+  .fill-japanese-mizu {
+    fill: var(--color-japanese-mizu);
+  }
+  .fill-japanese-mizuDark {
+    fill: var(--color-japanese-mizuDark);
+  }
+  .fill-japanese-matcha {
+    fill: var(--color-japanese-matcha);
+  }
+  .fill-japanese-matchaDark {
+    fill: var(--color-japanese-matchaDark);
+  }
+  .fill-japanese-zen {
+    fill: var(--color-japanese-zen);
+  }
+  .fill-japanese-zenDark {
+    fill: var(--color-japanese-zenDark);
+  }
 
   .perspective-1000 {
     perspective: 1000px;
@@ -86,7 +140,7 @@
   --color-primary-800: #991b1b;
   --color-primary-900: #7f1d1d;
   --color-primary-950: #450a0a;
-  
+
   /* Dark theme colors (blue-grey) */
   --color-dark-50: #f3f4f6;
   --color-dark-100: #e5e7eb;
@@ -100,7 +154,7 @@
   --color-dark-850: #1a202c;
   --color-dark-900: #171923;
   --color-dark-950: #0f1419;
-  
+
   /* Japanese aesthetic colors */
   --color-japanese-sakura: #ffb7c5;
   --color-japanese-sakuraDark: #ff8fa3;
@@ -111,7 +165,7 @@
   --color-japanese-matchaDark: #52b788;
   --color-japanese-zen: #e9c46a;
   --color-japanese-zenDark: #f4a261;
-  
+
   /* Semantic colors */
   --color-background-light: #eef6fd;
   --color-background-lightAlt: #e5f0fb;
@@ -123,12 +177,12 @@
   --color-surface-lightHover: #eef6fd;
   --color-surface-dark: #2d3748;
   --color-surface-darkHover: #374151;
-  
+
   /* Font family */
   --font-family-japanese: 'Elms Sans', 'Noto Sans JP', sans-serif;
   --font-family-logo: 'Elms Sans Playwrite', 'Elms Sans', 'Noto Sans JP', sans-serif;
   --font-family-logo-japanese: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
-  
+
   /* Animations */
   --animate-fade-in: fadeIn 0.5s ease-in-out;
   --animate-slide-up: slideUp 0.3s ease-out;
@@ -136,23 +190,44 @@
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  0% { transform: translateY(10px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes glow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes slide-down {
-  0% { transform: translateY(-10px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Base styles */
@@ -195,13 +270,13 @@ html {
 :root {
   /* Fluid font sizes using clamp() for smooth scaling */
   --font-size-article-small: clamp(0.9375rem, 0.875rem + 0.3125vw, 1.0625rem); /* 15px → 17px */
-  --font-size-article-medium: clamp(1.0625rem, 1rem + 0.3125vw, 1.1875rem);    /* 17px → 19px */
+  --font-size-article-medium: clamp(1.0625rem, 1rem + 0.3125vw, 1.1875rem); /* 17px → 19px */
   --font-size-article-large: clamp(1.1875rem, 1.125rem + 0.3125vw, 1.3125rem); /* 19px → 21px */
-  --font-size-article-xlarge: clamp(1.3125rem, 1.25rem + 0.3125vw, 1.5rem);    /* 21px → 24px */
+  --font-size-article-xlarge: clamp(1.3125rem, 1.25rem + 0.3125vw, 1.5rem); /* 21px → 24px */
 
   /* Line heights optimized for Japanese text */
-  --line-height-article-base: 2.0;
-  --line-height-article-furigana: 1.9;  /* Tighter furigana spacing for better text cohesion */
+  --line-height-article-base: 2;
+  --line-height-article-furigana: 1.9; /* Tighter furigana spacing for better text cohesion */
   --line-height-article-ui: 1.8;
   --line-height-article-tight: 1.6;
 
@@ -209,7 +284,7 @@ html {
   --letter-spacing-article: -0.01em;
 
   /* Paragraph spacing */
-  --paragraph-spacing: 2em;  /* Improved from 1.75em for clearer breaks */
+  --paragraph-spacing: 2em; /* Improved from 1.75em for clearer breaks */
 
   /* Content max width (66-75 chars per line optimal) */
   --article-content-width: 42.5rem; /* 680px at 16px base */
@@ -217,8 +292,12 @@ html {
 
 body {
   font-family: var(--font-family-japanese);
-  font-feature-settings: "rlig" 1, "calt" 1;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   /* Ensure comfortable line height for readability */
   line-height: 1.6;
   /* Softer background for light mode */
@@ -269,7 +348,7 @@ body {
 .furigana rt {
   font-size: 0.5em;
   position: absolute;
-  top: -1.0em;  /* Tighter spacing between furigana and base text */
+  top: -1em; /* Tighter spacing between furigana and base text */
   left: 0;
   right: 0;
   text-align: center;
@@ -282,7 +361,7 @@ ruby {
   vertical-align: text-bottom;
   text-align: center;
   line-height: 1;
-  padding-top: 0.85em;  /* Tighter space for furigana above */
+  padding-top: 0.85em; /* Tighter space for furigana above */
 }
 
 ruby rt {
@@ -299,13 +378,13 @@ ruby rt {
 }
 
 ruby rp {
-  display: none;  /* Hide parentheses */
+  display: none; /* Hide parentheses */
 }
 
 /* Ensure line breaks work in Japanese text with furigana */
 .japanese-text br {
   display: block;
-  content: "";
+  content: '';
   margin-top: 0.5em;
 }
 
@@ -370,8 +449,8 @@ ruby rp {
 /* Article Reader Theme-Aware Colors */
 :root {
   /* Light mode article colors */
-  --article-bg: #f5f3f0;              /* Slightly darker page background (was #fafaf9) */
-  --article-content-bg: #ffffff;      /* Pure white elevated card for content */
+  --article-bg: #f5f3f0; /* Slightly darker page background (was #fafaf9) */
+  --article-content-bg: #ffffff; /* Pure white elevated card for content */
   --article-text: #1a1a1a;
   --article-text-secondary: #525252;
   --article-border: rgba(0, 0, 0, 0.06);
@@ -383,8 +462,8 @@ ruby rp {
 :root.dark,
 .dark {
   /* Dark mode article colors - reduced contrast for eye comfort */
-  --article-bg: #1a1d28;             /* Page background */
-  --article-content-bg: #212936;     /* Elevated card for content */
+  --article-bg: #1a1d28; /* Page background */
+  --article-content-bg: #212936; /* Elevated card for content */
   --article-text: #e1e4eb;
   --article-text-secondary: #9ca3af;
   --article-border: rgba(255, 255, 255, 0.08);
@@ -407,7 +486,10 @@ ruby rp {
 }
 
 /* Ensure buttons and form elements have comfortable sizes */
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font-size: 1rem; /* Inherit the increased base size */
 }
 
@@ -579,4 +661,125 @@ html.high-contrast.dark .text-gray-400 {
   color: #eeeeee !important;
 }
 /* Hide reCAPTCHA badge - attribution included in privacy policy */
-.grecaptcha-badge { visibility: hidden !important; }
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
+/* ============================================
+   PWA Safe Area Handling
+   For edge-to-edge display on notched devices
+   ============================================ */
+
+/* PWA Standalone Mode Detection */
+@media all and (display-mode: standalone) {
+  /* Apply safe area padding when running as installed PWA */
+  body {
+    /* Extend background to edges, content respects safe areas */
+    padding-top: env(safe-area-inset-top, 0);
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: env(safe-area-inset-right, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  /* Fixed headers need to account for notch */
+  .pwa-header,
+  header[data-pwa-header] {
+    padding-top: calc(env(safe-area-inset-top, 0) + 0.5rem);
+  }
+
+  /* Fixed bottom elements (nav, FABs) need home indicator clearance */
+  .pwa-bottom-nav,
+  nav[data-pwa-nav] {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+}
+
+/* iOS Safari Standalone (for older detection) */
+@supports (-webkit-touch-callout: none) {
+  @media all and (display-mode: standalone) {
+    /* iOS-specific fixes for the status bar area */
+    :root {
+      --safe-area-top: env(safe-area-inset-top, 20px);
+      --safe-area-bottom: env(safe-area-inset-bottom, 0);
+    }
+  }
+}
+
+/* Utility classes for safe area padding */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-left {
+  padding-left: env(safe-area-inset-left, 0);
+}
+
+.safe-right {
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+.safe-x {
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+.safe-y {
+  padding-top: env(safe-area-inset-top, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-all {
+  padding-top: env(safe-area-inset-top, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+/* Margin variants */
+.mt-safe {
+  margin-top: env(safe-area-inset-top, 0);
+}
+
+.mb-safe {
+  margin-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Min-height accounting for safe areas (useful for full-height layouts) */
+.min-h-screen-safe {
+  min-height: calc(100vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+}
+
+.h-screen-safe {
+  height: calc(100vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+}
+
+/* PWA-specific touch handling - prevent overscroll/bounce */
+@media all and (display-mode: standalone) {
+  html,
+  body {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent pull-to-refresh on PWA */
+  body {
+    overflow-y: auto;
+  }
+}
+
+/* Touch action optimization for PWA */
+.pwa-touch-action {
+  touch-action: manipulation; /* Disable double-tap zoom, enable pan/pinch */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+}
+
+/* Selection prevention for app-like feel (use sparingly) */
+.pwa-no-select {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}

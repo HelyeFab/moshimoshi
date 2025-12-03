@@ -37,7 +37,16 @@
       "Bash(vercel env:*)",
       "Bash(vercel link:*)",
       "Bash(Select-String -Pattern \"ExamplesModal|KanjiDetailsModal|useKanjiDetails\")",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "Bash(git push:*)",
+      "Bash(npm run build:*)",
+      "Bash(cd:*)",
+      "Bash(vercel logs:*)",
+      "Bash(vercel whoami:*)",
+      "Bash(vercel ls:*)",
+      "Bash(curl:*)",
+      "Bash(node -e:*)",
+      "Bash(npm audit:*)"
     ],
     "deny": [],
     "ask": []

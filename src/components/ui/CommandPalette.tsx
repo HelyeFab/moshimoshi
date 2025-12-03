@@ -33,13 +33,11 @@ import {
   Library,
   FileText,
   CheckSquare,
-  Settings
+  Settings,
+  Download,
+  Share,
 } from 'lucide-react'
-import {
-  RiTextSpacing,
-  RiCharacterRecognitionLine,
-  RiFontSize2
-} from 'react-icons/ri'
+import { RiTextSpacing, RiCharacterRecognitionLine, RiFontSize2 } from 'react-icons/ri'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -56,8 +54,9 @@ import {
   ConjugationIcon,
   ResourcesIcon,
   BlogIcon,
-  TodosIcon
+  TodosIcon,
 } from '@/components/ui/FontIcon'
+import { a2hsManager } from '@/lib/pwa/a2hs'
 
 interface CommandItem {
   id: string
@@ -78,418 +77,460 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [canInstallApp, setCanInstallApp] = useState(false)
   const router = useRouter()
   const { strings } = useI18n()
   const { user, signOut } = useAuth()
   const { showToast } = useToast()
 
+  // Track PWA install availability
+  useEffect(() => {
+    // Initial check
+    setCanInstallApp(a2hsManager.canPrompt())
+
+    // Subscribe to changes
+    const unsubscribe = a2hsManager.onAvailabilityChange(available => {
+      setCanInstallApp(available)
+    })
+
+    return unsubscribe
+  }, [])
+
   // Define all available commands
-  const allCommands: CommandItem[] = useMemo(() => [
-    // Navigation
-    {
-      id: 'dashboard',
-      title: 'Dashboard',
-      subtitle: 'Go to main dashboard',
-      icon: <Home className="w-5 h-5" />,
-      action: () => {
-        router.push('/dashboard')
-        setIsOpen(false)
+  const allCommands: CommandItem[] = useMemo(
+    () => [
+      // Navigation
+      {
+        id: 'dashboard',
+        title: 'Dashboard',
+        subtitle: 'Go to main dashboard',
+        icon: <Home className="w-5 h-5" />,
+        action: () => {
+          router.push('/dashboard')
+          setIsOpen(false)
+        },
+        keywords: ['home', 'main', 'dashboard', 'start'],
+        category: 'navigation',
+        shortcut: 'g h',
       },
-      keywords: ['home', 'main', 'dashboard', 'start'],
-      category: 'navigation',
-      shortcut: 'g h'
-    },
-    {
-      id: 'hiragana',
-      title: 'Hiragana',
-      subtitle: 'Learn hiragana characters',
-      icon: <HiraganaIcon />,
-      action: () => {
-        router.push('/learn/hiragana')
-        setIsOpen(false)
+      {
+        id: 'hiragana',
+        title: 'Hiragana',
+        subtitle: 'Learn hiragana characters',
+        icon: <HiraganaIcon />,
+        action: () => {
+          router.push('/learn/hiragana')
+          setIsOpen(false)
+        },
+        keywords: ['hiragana', 'kana', 'characters', 'learn', 'ひらがな'],
+        category: 'learning',
+        shortcut: 'g ひ',
       },
-      keywords: ['hiragana', 'kana', 'characters', 'learn', 'ひらがな'],
-      category: 'learning',
-      shortcut: 'g ひ'
-    },
-    {
-      id: 'katakana',
-      title: 'Katakana',
-      subtitle: 'Learn katakana characters',
-      icon: <KatakanaIcon />,
-      action: () => {
-        router.push('/learn/katakana')
-        setIsOpen(false)
+      {
+        id: 'katakana',
+        title: 'Katakana',
+        subtitle: 'Learn katakana characters',
+        icon: <KatakanaIcon />,
+        action: () => {
+          router.push('/learn/katakana')
+          setIsOpen(false)
+        },
+        keywords: ['katakana', 'kana', 'characters', 'learn', 'カタカナ'],
+        category: 'learning',
+        shortcut: 'g カ',
       },
-      keywords: ['katakana', 'kana', 'characters', 'learn', 'カタカナ'],
-      category: 'learning',
-      shortcut: 'g カ'
-    },
-    {
-      id: 'kanji-browser',
-      title: 'Kanji Browser',
-      subtitle: 'Browse all JLPT kanji',
-      icon: <KanjiIcon />,
-      action: () => {
-        router.push('/kanji-browser')
-        setIsOpen(false)
+      {
+        id: 'kanji-browser',
+        title: 'Kanji Browser',
+        subtitle: 'Browse all JLPT kanji',
+        icon: <KanjiIcon />,
+        action: () => {
+          router.push('/kanji-browser')
+          setIsOpen(false)
+        },
+        keywords: ['kanji', 'browser', 'jlpt', 'search', '漢字'],
+        category: 'learning',
+        shortcut: 'g k',
       },
-      keywords: ['kanji', 'browser', 'jlpt', 'search', '漢字'],
-      category: 'learning',
-      shortcut: 'g k'
-    },
-    {
-      id: 'vocabulary',
-      title: 'Vocabulary',
-      subtitle: 'Study vocabulary words',
-      icon: <VocabIcon />,
-      action: () => {
-        router.push('/vocabulary')
-        setIsOpen(false)
+      {
+        id: 'vocabulary',
+        title: 'Vocabulary',
+        subtitle: 'Study vocabulary words',
+        icon: <VocabIcon />,
+        action: () => {
+          router.push('/vocabulary')
+          setIsOpen(false)
+        },
+        keywords: ['vocabulary', 'words', 'vocab', 'study', '単語'],
+        category: 'learning',
+        shortcut: 'g v',
       },
-      keywords: ['vocabulary', 'words', 'vocab', 'study', '単語'],
-      category: 'learning',
-      shortcut: 'g v'
-    },
-    {
-      id: 'drill',
-      title: 'Drill Practice',
-      subtitle: 'Quick drill exercises',
-      icon: <DrillIcon />,
-      action: () => {
-        router.push('/drill')
-        setIsOpen(false)
+      {
+        id: 'drill',
+        title: 'Drill Practice',
+        subtitle: 'Quick drill exercises',
+        icon: <DrillIcon />,
+        action: () => {
+          router.push('/drill')
+          setIsOpen(false)
+        },
+        keywords: ['drill', 'practice', 'exercise', 'quick', 'test'],
+        category: 'practice',
+        shortcut: 'g d',
       },
-      keywords: ['drill', 'practice', 'exercise', 'quick', 'test'],
-      category: 'practice',
-      shortcut: 'g d'
-    },
-    {
-      id: 'youtube',
-      title: 'YouTube Shadowing',
-      subtitle: 'Practice with YouTube videos',
-      icon: <Video className="w-5 h-5" />,
-      action: () => {
-        router.push('/youtube-shadowing')
-        setIsOpen(false)
+      {
+        id: 'youtube',
+        title: 'YouTube Shadowing',
+        subtitle: 'Practice with YouTube videos',
+        icon: <Video className="w-5 h-5" />,
+        action: () => {
+          router.push('/youtube-shadowing')
+          setIsOpen(false)
+        },
+        keywords: ['youtube', 'video', 'shadowing', 'listening', 'watch'],
+        category: 'practice',
+        shortcut: 'g y',
       },
-      keywords: ['youtube', 'video', 'shadowing', 'listening', 'watch'],
-      category: 'practice',
-      shortcut: 'g y'
-    },
-    {
-      id: 'stories',
-      title: 'Stories',
-      subtitle: 'Read AI-generated stories',
-      icon: <StoryIcon />,
-      action: () => {
-        router.push('/stories')
-        setIsOpen(false)
+      {
+        id: 'stories',
+        title: 'Stories',
+        subtitle: 'Read AI-generated stories',
+        icon: <StoryIcon />,
+        action: () => {
+          router.push('/stories')
+          setIsOpen(false)
+        },
+        keywords: ['stories', 'reading', 'ai', 'practice', '物語'],
+        category: 'practice',
+        shortcut: 'g s',
       },
-      keywords: ['stories', 'reading', 'ai', 'practice', '物語'],
-      category: 'practice',
-      shortcut: 'g s'
-    },
-    {
-      id: 'games',
-      title: 'Games',
-      subtitle: 'Learn through games',
-      icon: <GamesIcon />,
-      action: () => {
-        router.push('/games')
-        setIsOpen(false)
+      {
+        id: 'games',
+        title: 'Games',
+        subtitle: 'Learn through games',
+        icon: <GamesIcon />,
+        action: () => {
+          router.push('/games')
+          setIsOpen(false)
+        },
+        keywords: ['games', 'fun', 'play', 'learn', 'ゲーム'],
+        category: 'practice',
+        shortcut: 'g g',
       },
-      keywords: ['games', 'fun', 'play', 'learn', 'ゲーム'],
-      category: 'practice',
-      shortcut: 'g g'
-    },
-    {
-      id: 'achievements',
-      title: 'Achievements',
-      subtitle: 'View your achievements',
-      icon: <Trophy className="w-5 h-5" />,
-      action: () => {
-        router.push('/achievements')
-        setIsOpen(false)
+      {
+        id: 'achievements',
+        title: 'Achievements',
+        subtitle: 'View your achievements',
+        icon: <Trophy className="w-5 h-5" />,
+        action: () => {
+          router.push('/achievements')
+          setIsOpen(false)
+        },
+        keywords: ['achievements', 'progress', 'medals', 'rewards', '成果'],
+        category: 'account',
+        shortcut: 'g a',
       },
-      keywords: ['achievements', 'progress', 'medals', 'rewards', '成果'],
-      category: 'account',
-      shortcut: 'g a'
-    },
-    {
-      id: 'leaderboard',
-      title: 'Leaderboard',
-      subtitle: 'See top learners',
-      icon: <TrendingUp className="w-5 h-5" />,
-      action: () => {
-        router.push('/leaderboard')
-        setIsOpen(false)
+      {
+        id: 'leaderboard',
+        title: 'Leaderboard',
+        subtitle: 'See top learners',
+        icon: <TrendingUp className="w-5 h-5" />,
+        action: () => {
+          router.push('/leaderboard')
+          setIsOpen(false)
+        },
+        keywords: ['leaderboard', 'ranking', 'top', 'compete', 'ランキング'],
+        category: 'account',
       },
-      keywords: ['leaderboard', 'ranking', 'top', 'compete', 'ランキング'],
-      category: 'account'
-    },
-    {
-      id: 'profile',
-      title: 'Profile',
-      subtitle: 'View your profile',
-      icon: <User className="w-5 h-5" />,
-      action: () => {
-        router.push('/account')
-        setIsOpen(false)
+      {
+        id: 'profile',
+        title: 'Profile',
+        subtitle: 'View your profile',
+        icon: <User className="w-5 h-5" />,
+        action: () => {
+          router.push('/account')
+          setIsOpen(false)
+        },
+        keywords: ['profile', 'account', 'user'],
+        category: 'account',
+        shortcut: 'g p',
       },
-      keywords: ['profile', 'account', 'user'],
-      category: 'account',
-      shortcut: 'g p'
-    },
-    {
-      id: 'settings',
-      title: 'Settings',
-      subtitle: 'App preferences & notifications',
-      icon: <Settings className="w-5 h-5" />,
-      action: () => {
-        router.push('/settings')
-        setIsOpen(false)
+      {
+        id: 'settings',
+        title: 'Settings',
+        subtitle: 'App preferences & notifications',
+        icon: <Settings className="w-5 h-5" />,
+        action: () => {
+          router.push('/settings')
+          setIsOpen(false)
+        },
+        keywords: ['settings', 'preferences', 'notifications', 'theme', 'language', '設定'],
+        category: 'account',
+        shortcut: 'g ,',
       },
-      keywords: ['settings', 'preferences', 'notifications', 'theme', 'language', '設定'],
-      category: 'account',
-      shortcut: 'g ,'
-    },
-    // Quick actions
-    {
-      id: 'new-list',
-      title: 'Create New List',
-      subtitle: 'Create a custom study list',
-      icon: <Sparkles className="w-5 h-5" />,
-      action: () => {
-        router.push('/lists?action=new')
-        setIsOpen(false)
+      // Quick actions
+      {
+        id: 'new-list',
+        title: 'Create New List',
+        subtitle: 'Create a custom study list',
+        icon: <Sparkles className="w-5 h-5" />,
+        action: () => {
+          router.push('/lists?action=new')
+          setIsOpen(false)
+        },
+        keywords: ['new', 'create', 'list', 'custom', 'add'],
+        category: 'quick-actions',
+        shortcut: 'c l',
       },
-      keywords: ['new', 'create', 'list', 'custom', 'add'],
-      category: 'quick-actions',
-      shortcut: 'c l'
-    },
-    {
-      id: 'recent',
-      title: 'Recent Activity',
-      subtitle: 'View recent study activity',
-      icon: <Clock className="w-5 h-5" />,
-      action: () => {
-        router.push('/review-dashboard')
-        setIsOpen(false)
+      {
+        id: 'recent',
+        title: 'Recent Activity',
+        subtitle: 'View recent study activity',
+        icon: <Clock className="w-5 h-5" />,
+        action: () => {
+          router.push('/review-dashboard')
+          setIsOpen(false)
+        },
+        keywords: ['recent', 'history', 'activity', 'log'],
+        category: 'quick-actions',
       },
-      keywords: ['recent', 'history', 'activity', 'log'],
-      category: 'quick-actions'
-    },
-    {
-      id: 'logout',
-      title: 'Sign Out',
-      subtitle: 'Sign out of your account',
-      icon: <LogOut className="w-5 h-5" />,
-      action: async () => {
-        await signOut()
-        setIsOpen(false)
-        showToast('Signed out successfully', 'success')
+      {
+        id: 'logout',
+        title: 'Sign Out',
+        subtitle: 'Sign out of your account',
+        icon: <LogOut className="w-5 h-5" />,
+        action: async () => {
+          await signOut()
+          setIsOpen(false)
+          showToast('Signed out successfully', 'success')
+        },
+        keywords: ['logout', 'signout', 'sign', 'out', 'exit'],
+        category: 'account',
       },
-      keywords: ['logout', 'signout', 'sign', 'out', 'exit'],
-      category: 'account'
-    },
-    // === Additional Learning Stalls ===
-    {
-      id: 'my-lists',
-      title: 'My Lists',
-      subtitle: 'Create custom study lists',
-      icon: <ListsIcon />,
-      action: () => {
-        router.push('/lists')
-        setIsOpen(false)
+      // === Additional Learning Stalls ===
+      {
+        id: 'my-lists',
+        title: 'My Lists',
+        subtitle: 'Create custom study lists',
+        icon: <ListsIcon />,
+        action: () => {
+          router.push('/lists')
+          setIsOpen(false)
+        },
+        keywords: ['lists', 'custom', 'study', 'organize', 'リスト'],
+        category: 'learning',
+        shortcut: 'g l',
       },
-      keywords: ['lists', 'custom', 'study', 'organize', 'リスト'],
-      category: 'learning',
-      shortcut: 'g l'
-    },
-    {
-      id: 'kanji-mastery',
-      title: 'Kanji Mastery',
-      subtitle: 'Master kanji with SRS',
-      icon: <Target className="w-5 h-5" />,
-      action: () => {
-        router.push('/tools/kanji-mastery')
-        setIsOpen(false)
+      {
+        id: 'kanji-mastery',
+        title: 'Kanji Mastery',
+        subtitle: 'Master kanji with SRS',
+        icon: <Target className="w-5 h-5" />,
+        action: () => {
+          router.push('/tools/kanji-mastery')
+          setIsOpen(false)
+        },
+        keywords: ['kanji', 'mastery', 'srs', 'spaced', 'repetition', '漢字習得'],
+        category: 'learning',
+        shortcut: 'g km',
       },
-      keywords: ['kanji', 'mastery', 'srs', 'spaced', 'repetition', '漢字習得'],
-      category: 'learning',
-      shortcut: 'g km'
-    },
-    {
-      id: 'kanji-connections',
-      title: 'Kanji Connections',
-      subtitle: 'Families, Radicals & Patterns',
-      icon: <Puzzle className="w-5 h-5" />,
-      action: () => {
-        router.push('/kanji-connection')
-        setIsOpen(false)
+      {
+        id: 'kanji-connections',
+        title: 'Kanji Connections',
+        subtitle: 'Families, Radicals & Patterns',
+        icon: <Puzzle className="w-5 h-5" />,
+        action: () => {
+          router.push('/kanji-connection')
+          setIsOpen(false)
+        },
+        keywords: ['kanji', 'connections', 'radicals', 'families', 'patterns', '漢字関連'],
+        category: 'learning',
+        shortcut: 'g kc',
       },
-      keywords: ['kanji', 'connections', 'radicals', 'families', 'patterns', '漢字関連'],
-      category: 'learning',
-      shortcut: 'g kc'
-    },
-    {
-      id: 'mood-boards',
-      title: 'Mood Boards',
-      subtitle: 'Learn kanji by themes',
-      icon: <Map className="w-5 h-5" />,
-      action: () => {
-        router.push('/kanji-moods')
-        setIsOpen(false)
+      {
+        id: 'mood-boards',
+        title: 'Mood Boards',
+        subtitle: 'Learn kanji by themes',
+        icon: <Map className="w-5 h-5" />,
+        action: () => {
+          router.push('/kanji-moods')
+          setIsOpen(false)
+        },
+        keywords: ['mood', 'boards', 'themes', 'kanji', 'topics', 'ムード'],
+        category: 'learning',
+        shortcut: 'g m',
       },
-      keywords: ['mood', 'boards', 'themes', 'kanji', 'topics', 'ムード'],
-      category: 'learning',
-      shortcut: 'g m'
-    },
-    {
-      id: 'conjugation',
-      title: 'Conjugation',
-      subtitle: 'Practice verb conjugations',
-      icon: <ConjugationIcon />,
-      action: () => {
-        router.push('/learn/conjugation')
-        setIsOpen(false)
+      {
+        id: 'conjugation',
+        title: 'Conjugation',
+        subtitle: 'Practice verb conjugations',
+        icon: <ConjugationIcon />,
+        action: () => {
+          router.push('/learn/conjugation')
+          setIsOpen(false)
+        },
+        keywords: ['conjugation', 'verbs', 'grammar', 'practice', '活用'],
+        category: 'learning',
+        shortcut: 'g c',
       },
-      keywords: ['conjugation', 'verbs', 'grammar', 'practice', '活用'],
-      category: 'learning',
-      shortcut: 'g c'
-    },
-    {
-      id: 'textbook-vocab',
-      title: 'Textbook Vocab',
-      subtitle: 'Study textbook vocabulary',
-      icon: <BookMarked className="w-5 h-5" />,
-      action: () => {
-        router.push('/tools/textbook-vocabulary')
-        setIsOpen(false)
+      {
+        id: 'textbook-vocab',
+        title: 'Textbook Vocab',
+        subtitle: 'Study textbook vocabulary',
+        icon: <BookMarked className="w-5 h-5" />,
+        action: () => {
+          router.push('/tools/textbook-vocabulary')
+          setIsOpen(false)
+        },
+        keywords: ['textbook', 'vocabulary', 'vocab', 'study', '教科書'],
+        category: 'learning',
+        shortcut: 'g tv',
       },
-      keywords: ['textbook', 'vocabulary', 'vocab', 'study', '教科書'],
-      category: 'learning',
-      shortcut: 'g tv'
-    },
-    {
-      id: 'news',
-      title: 'News',
-      subtitle: 'Read Japanese news',
-      icon: <NewsIcon />,
-      action: () => {
-        router.push('/news')
-        setIsOpen(false)
+      {
+        id: 'news',
+        title: 'News',
+        subtitle: 'Read Japanese news',
+        icon: <NewsIcon />,
+        action: () => {
+          router.push('/news')
+          setIsOpen(false)
+        },
+        keywords: ['news', 'articles', 'reading', 'current', 'events', 'ニュース'],
+        category: 'practice',
+        shortcut: 'g n',
       },
-      keywords: ['news', 'articles', 'reading', 'current', 'events', 'ニュース'],
-      category: 'practice',
-      shortcut: 'g n'
-    },
-    {
-      id: 'popular-videos',
-      title: 'Trending Videos',
-      subtitle: 'Most watched by community',
-      icon: <Flame className="w-5 h-5" />,
-      action: () => {
-        router.push('/popular-videos')
-        setIsOpen(false)
+      {
+        id: 'popular-videos',
+        title: 'Trending Videos',
+        subtitle: 'Most watched by community',
+        icon: <Flame className="w-5 h-5" />,
+        action: () => {
+          router.push('/popular-videos')
+          setIsOpen(false)
+        },
+        keywords: ['popular', 'trending', 'videos', 'community', 'watched', '人気動画'],
+        category: 'practice',
+        shortcut: 'g pv',
       },
-      keywords: ['popular', 'trending', 'videos', 'community', 'watched', '人気動画'],
-      category: 'practice',
-      shortcut: 'g pv'
-    },
-    {
-      id: 'youtube-series',
-      title: 'YouTube Series',
-      subtitle: 'Track YouTube channels',
-      icon: <Video className="w-5 h-5" />,
-      action: () => {
-        router.push('/youtube-series')
-        setIsOpen(false)
+      {
+        id: 'youtube-series',
+        title: 'YouTube Series',
+        subtitle: 'Track YouTube channels',
+        icon: <Video className="w-5 h-5" />,
+        action: () => {
+          router.push('/youtube-series')
+          setIsOpen(false)
+        },
+        keywords: ['youtube', 'series', 'channels', 'follow', 'シリーズ'],
+        category: 'practice',
+        shortcut: 'g ys',
       },
-      keywords: ['youtube', 'series', 'channels', 'follow', 'シリーズ'],
-      category: 'practice',
-      shortcut: 'g ys'
-    },
-    {
-      id: 'my-videos',
-      title: 'My Videos',
-      subtitle: 'Your saved videos',
-      icon: <Clapperboard className="w-5 h-5" />,
-      action: () => {
-        router.push('/my-videos')
-        setIsOpen(false)
+      {
+        id: 'my-videos',
+        title: 'My Videos',
+        subtitle: 'Your saved videos',
+        icon: <Clapperboard className="w-5 h-5" />,
+        action: () => {
+          router.push('/my-videos')
+          setIsOpen(false)
+        },
+        keywords: ['my', 'videos', 'saved', 'collection', 'ビデオ'],
+        category: 'practice',
+        shortcut: 'g mv',
       },
-      keywords: ['my', 'videos', 'saved', 'collection', 'ビデオ'],
-      category: 'practice',
-      shortcut: 'g mv'
-    },
-    {
-      id: 'flashcards',
-      title: 'Flashcards',
-      subtitle: 'Study flashcard decks',
-      icon: <CreditCard className="w-5 h-5" />,
-      action: () => {
-        router.push('/flashcards')
-        setIsOpen(false)
+      {
+        id: 'flashcards',
+        title: 'Flashcards',
+        subtitle: 'Study flashcard decks',
+        icon: <CreditCard className="w-5 h-5" />,
+        action: () => {
+          router.push('/flashcards')
+          setIsOpen(false)
+        },
+        keywords: ['flashcards', 'decks', 'study', 'memorize', 'フラッシュカード'],
+        category: 'practice',
+        shortcut: 'g f',
       },
-      keywords: ['flashcards', 'decks', 'study', 'memorize', 'フラッシュカード'],
-      category: 'practice',
-      shortcut: 'g f'
-    },
-    {
-      id: 'review-hub',
-      title: 'Review Hub',
-      subtitle: 'Unified review system',
-      icon: <RotateCcw className="w-5 h-5" />,
-      action: () => {
-        router.push('/review-dashboard')
-        setIsOpen(false)
+      {
+        id: 'review-hub',
+        title: 'Review Hub',
+        subtitle: 'Unified review system',
+        icon: <RotateCcw className="w-5 h-5" />,
+        action: () => {
+          router.push('/review-dashboard')
+          setIsOpen(false)
+        },
+        keywords: ['review', 'hub', 'dashboard', 'srs', 'レビュー'],
+        category: 'practice',
+        shortcut: 'g r',
       },
-      keywords: ['review', 'hub', 'dashboard', 'srs', 'レビュー'],
-      category: 'practice',
-      shortcut: 'g r'
-    },
-    {
-      id: 'resources',
-      title: 'Resources',
-      subtitle: 'Learning resources',
-      icon: <ResourcesIcon />,
-      action: () => {
-        router.push('/resources')
-        setIsOpen(false)
+      {
+        id: 'resources',
+        title: 'Resources',
+        subtitle: 'Learning resources',
+        icon: <ResourcesIcon />,
+        action: () => {
+          router.push('/resources')
+          setIsOpen(false)
+        },
+        keywords: ['resources', 'learning', 'materials', 'guides', 'リソース'],
+        category: 'learning',
+        shortcut: 'g re',
       },
-      keywords: ['resources', 'learning', 'materials', 'guides', 'リソース'],
-      category: 'learning',
-      shortcut: 'g re'
-    },
-    {
-      id: 'blog',
-      title: 'Blog',
-      subtitle: 'Articles and updates',
-      icon: <BlogIcon />,
-      action: () => {
-        router.push('/blog')
-        setIsOpen(false)
+      {
+        id: 'blog',
+        title: 'Blog',
+        subtitle: 'Articles and updates',
+        icon: <BlogIcon />,
+        action: () => {
+          router.push('/blog')
+          setIsOpen(false)
+        },
+        keywords: ['blog', 'articles', 'updates', 'news', 'posts', 'ブログ'],
+        category: 'account',
+        shortcut: 'g b',
       },
-      keywords: ['blog', 'articles', 'updates', 'news', 'posts', 'ブログ'],
-      category: 'account',
-      shortcut: 'g b'
-    },
-    {
-      id: 'todos',
-      title: 'Task Manager',
-      subtitle: 'Organize study tasks',
-      icon: <TodosIcon />,
-      action: () => {
-        router.push('/todos')
-        setIsOpen(false)
+      {
+        id: 'todos',
+        title: 'Task Manager',
+        subtitle: 'Organize study tasks',
+        icon: <TodosIcon />,
+        action: () => {
+          router.push('/todos')
+          setIsOpen(false)
+        },
+        keywords: ['todos', 'tasks', 'checklist', 'organize', 'goals', 'タスク管理'],
+        category: 'quick-actions',
+        shortcut: 'g t',
       },
-      keywords: ['todos', 'tasks', 'checklist', 'organize', 'goals', 'タスク管理'],
-      category: 'quick-actions',
-      shortcut: 'g t'
-    }
-  ], [router, signOut, showToast])
+      {
+        id: 'install-app',
+        title: 'Install App',
+        subtitle: 'Add to your home screen',
+        icon: <Download className="w-5 h-5" />,
+        action: async () => {
+          const instructions = a2hsManager.getInstallInstructions()
+
+          if (instructions.platform === 'ios') {
+            // iOS: Show instructions in toast since we can't trigger native prompt
+            showToast(`Tap the Share button, then "Add to Home Screen"`, 'info', 5000)
+          } else {
+            // Chrome/Android/Desktop: Trigger native install prompt
+            const result = await a2hsManager.prompt()
+            if (result === 'accepted') {
+              showToast('App installed successfully!', 'success')
+            } else if (result === 'not-available') {
+              showToast('Install not available. Try the browser menu.', 'info')
+            }
+          }
+          setIsOpen(false)
+        },
+        keywords: ['install', 'app', 'download', 'pwa', 'home', 'screen', 'add', 'インストール'],
+        category: 'quick-actions',
+      },
+    ],
+    [router, signOut, showToast]
+  )
 
   // Filter out disabled features
   // Note: Direct env check needed because Next.js only inlines static NEXT_PUBLIC_* references
@@ -506,9 +547,18 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       if (command.id === 'achievements' && !isAchievementsEnabled) return false
       if (command.id === 'leaderboard' && !isLeaderboardEnabled) return false
       if (command.id === 'todos' && !isTodosEnabled) return false
+      if (command.id === 'install-app' && !canInstallApp) return false
       return true
     })
-  }, [allCommands, isGamesEnabled, isReviewHubEnabled, isAchievementsEnabled, isLeaderboardEnabled, isTodosEnabled])
+  }, [
+    allCommands,
+    isGamesEnabled,
+    isReviewHubEnabled,
+    isAchievementsEnabled,
+    isLeaderboardEnabled,
+    isTodosEnabled,
+    canInstallApp,
+  ])
 
   // Filter commands based on search query
   const filteredCommands = useMemo(() => {
@@ -625,7 +675,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
     learning: 'Learning',
     practice: 'Practice',
     account: 'Account',
-    'quick-actions': 'Quick Actions'
+    'quick-actions': 'Quick Actions',
   }
 
   // Desktop floating button
@@ -676,7 +726,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
             placeholder="Type a command or search..."
             className="flex-1 bg-transparent outline-none text-gray-900 dark:text-gray-100
                      placeholder-gray-400 dark:placeholder-gray-500"
@@ -704,7 +754,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
                   <div className="px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">
                     {categoryLabels[category as keyof typeof categoryLabels]}
                   </div>
-                  {commands.map((command) => {
+                  {commands.map(command => {
                     const globalIndex = filteredCommands.findIndex(c => c.id === command.id)
                     return (
                       <button
@@ -714,9 +764,10 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
                         className={`
                           w-full flex items-center gap-3 px-3 py-2 rounded-lg
                           transition-colors duration-150 text-left
-                          ${globalIndex === selectedIndex
-                            ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                            : 'hover:bg-gray-50 dark:hover:bg-dark-700 text-gray-700 dark:text-gray-300'
+                          ${
+                            globalIndex === selectedIndex
+                              ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
+                              : 'hover:bg-gray-50 dark:hover:bg-dark-700 text-gray-700 dark:text-gray-300'
                           }
                         `}
                       >
@@ -743,8 +794,10 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex-shrink-0 flex items-center justify-between px-4 py-2 border-t border-gray-200 dark:border-dark-700
-                      bg-gray-50 dark:bg-dark-900/50">
+        <div
+          className="flex-shrink-0 flex items-center justify-between px-4 py-2 border-t border-gray-200 dark:border-dark-700
+                      bg-gray-50 dark:bg-dark-900/50"
+        >
           <div className="flex items-center gap-2 sm:gap-4 text-xs text-gray-500 dark:text-gray-400">
             <span className="flex items-center gap-1">
               <kbd className="px-1 py-0.5 bg-white dark:bg-dark-800 rounded">↑↓</kbd>
