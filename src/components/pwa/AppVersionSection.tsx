@@ -76,7 +76,7 @@ export function AppVersionSection() {
 
   return (
     <div className="p-4 bg-gray-50 dark:bg-dark-900/50 rounded-xl">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <span className="text-2xl">📱</span>
           <div>
@@ -100,7 +100,7 @@ export function AppVersionSection() {
               onClick={handleUpdate}
               disabled={isUpdating}
               className={`
-                flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all
+                w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all
                 ${
                   isCritical
                     ? 'bg-red-500 hover:bg-red-600 text-white'
@@ -116,7 +116,7 @@ export function AppVersionSection() {
             <button
               onClick={checkForUpdates}
               disabled={status === 'checking'}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-50"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-50"
             >
               {status === 'checking' ? (
                 <>

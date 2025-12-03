@@ -15,6 +15,10 @@ import {
   RiStackFill,
   RiSearchLine,
   RiSearchFill,
+  RiUser3Line,
+  RiUser3Fill,
+  RiSettings4Line,
+  RiSettings4Fill,
 } from 'react-icons/ri'
 import { cn } from '@/lib/utils'
 import { useBottomNav } from '@/contexts/BottomNavContext'
@@ -63,6 +67,22 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     icon: RiStackLine,
     activeIcon: RiStackFill,
     matchPaths: ['/flashcards', '/lists'],
+  },
+  {
+    id: 'profile',
+    label: strings.dashboard?.navigation?.bottomNav?.profile || 'Profile',
+    href: '/profile',
+    icon: RiUser3Line,
+    activeIcon: RiUser3Fill,
+    matchPaths: ['/profile'],
+  },
+  {
+    id: 'settings',
+    label: strings.dashboard?.navigation?.bottomNav?.settings || 'Settings',
+    href: '/settings',
+    icon: RiSettings4Line,
+    activeIcon: RiSettings4Fill,
+    matchPaths: ['/settings'],
   },
   {
     id: 'search',
@@ -222,9 +242,10 @@ export default function BottomNav({
                 // Shape & Clipping - CRITICAL for removing "ghost rectangle"
                 'rounded-t-3xl overflow-hidden',
 
-                // Layout: evenly distributed items with safe padding
-                'flex items-center justify-around',
+                // Layout: Scrollable horizontal list
+                'flex items-center justify-start gap-2',
                 'px-4 py-3',
+                'overflow-x-auto scrollbar-hide', // Enable horizontal scroll and hide scrollbar
 
                 // Theme-aware glassmorphism background (lower opacity for glass effect)
                 'bg-soft-white/20 dark:bg-dark-900/30',
@@ -253,7 +274,7 @@ export default function BottomNav({
                 const Icon = active ? item.activeIcon : item.icon
 
                 const commonClassName = cn(
-                  'relative flex flex-col items-center justify-center',
+                  'relative flex flex-col items-center justify-center flex-shrink-0',
                   // Comfortable touch target: 60px width, 64px height for better ergonomics
                   'w-[60px] h-[64px]',
                   'rounded-2xl',
