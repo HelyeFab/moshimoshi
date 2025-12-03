@@ -19,6 +19,18 @@ import {
   RiUser3Fill,
   RiSettings4Line,
   RiSettings4Fill,
+  RiLinksLine, // Kanji Connections
+  RiLinksFill, // Kanji Connections
+  RiLayoutMasonryLine, // Mood Boards
+  RiLayoutMasonryFill, // Mood Boards
+  RiSpeedUpLine, // Drill
+  RiSpeedUpFill, // Drill
+  RiYoutubeLine, // Youtube Shadowing
+  RiYoutubeFill, // Youtube Shadowing
+  RiNewspaperLine, // News
+  RiNewspaperFill, // News
+  RiBookReadLine, // Story
+  RiBookReadFill, // Story
 } from 'react-icons/ri'
 import { cn } from '@/lib/utils'
 import { useBottomNav } from '@/contexts/BottomNavContext'
@@ -51,6 +63,54 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     icon: RiBook2Line,
     activeIcon: RiBook2Fill,
     matchPaths: ['/review', '/review-dashboard', '/review/session'],
+  },
+  {
+    id: 'kanji-connections',
+    label: strings.dashboard?.navigation?.bottomNav?.kanjiConnections || 'Kanji',
+    href: '/kanji-connections',
+    icon: RiLinksLine,
+    activeIcon: RiLinksFill,
+    matchPaths: ['/kanji-connections'],
+  },
+  {
+    id: 'mood-boards',
+    label: strings.dashboard?.navigation?.bottomNav?.moodBoards || 'Boards',
+    href: '/mood-boards',
+    icon: RiLayoutMasonryLine,
+    activeIcon: RiLayoutMasonryFill,
+    matchPaths: ['/mood-boards'],
+  },
+  {
+    id: 'drill',
+    label: strings.dashboard?.navigation?.bottomNav?.drill || 'Drill',
+    href: '/drill',
+    icon: RiSpeedUpLine,
+    activeIcon: RiSpeedUpFill,
+    matchPaths: ['/drill'],
+  },
+  {
+    id: 'youtube-shadowing',
+    label: strings.dashboard?.navigation?.bottomNav?.youtubeShadowing || 'Shadow',
+    href: '/youtube-shadowing',
+    icon: RiYoutubeLine,
+    activeIcon: RiYoutubeFill,
+    matchPaths: ['/youtube-shadowing'],
+  },
+  {
+    id: 'news',
+    label: strings.dashboard?.navigation?.bottomNav?.news || 'News',
+    href: '/news',
+    icon: RiNewspaperLine,
+    activeIcon: RiNewspaperFill,
+    matchPaths: ['/news'],
+  },
+  {
+    id: 'story',
+    label: strings.dashboard?.navigation?.bottomNav?.story || 'Story',
+    href: '/story',
+    icon: RiBookReadLine,
+    activeIcon: RiBookReadFill,
+    matchPaths: ['/story'],
   },
   {
     id: 'games',
