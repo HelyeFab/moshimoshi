@@ -4996,6 +4996,15 @@ export const strings = {
     updateAvailable: 'Update available',
     updateDescription: 'A new version of the app is available. Update now for the latest features.',
     updateNow: 'Update Now',
+    updating: 'Updating...',
+    refresh: 'Refresh',
+    remindLater: 'Remind me later',
+    criticalUpdate: {
+      title: 'Important Update Required',
+      description: 'Please update to continue using the app',
+      message:
+        'A critical update is available that includes important fixes. The app needs to refresh to apply these changes.',
+    },
     install: {
       title: 'Install Moshimoshi',
       description: 'Install the app for a better experience',
