@@ -178,45 +178,38 @@ export default function BottomNav({
   const { extraItem: contextExtraItem } = useBottomNav()
   const { strings } = useI18n()
 
-  // Detect actual screen dimensions vs viewport to calculate gap
+  // Force the document to extend to actual screen height
   useEffect(() => {
-    const calculateGap = () => {
-      // Get various measurements to find the real gap
+    const forceFullHeight = () => {
       const screenHeight = window.screen.height
       const innerHeight = window.innerHeight
-      const visualViewportHeight = window.visualViewport?.height || innerHeight
-      const documentHeight = document.documentElement.clientHeight
+      const gap = screenHeight - innerHeight
 
-      // Calculate the maximum possible gap
-      const gap = Math.max(
-        screenHeight - innerHeight,
-        screenHeight - visualViewportHeight,
-        screenHeight - documentHeight,
-        50 // Minimum 50px gap filler as fallback
-      )
-
-      console.log('[BottomNav] Screen measurements:', {
+      console.log('[BottomNav] Forcing full screen height:', {
         screenHeight,
         innerHeight,
-        visualViewportHeight,
-        documentHeight,
-        calculatedGap: gap,
+        gap,
+        devicePixelRatio: window.devicePixelRatio,
       })
 
-      setBottomGap(Math.min(gap, 200)) // Cap at 200px
+      // Force html and body to extend to actual screen height
+      document.documentElement.style.minHeight = `${screenHeight}px`
+      document.body.style.minHeight = `${screenHeight}px`
+
+      setBottomGap(gap)
     }
 
-    calculateGap()
+    forceFullHeight()
 
-    // Recalculate on resize and orientation change
-    window.addEventListener('resize', calculateGap)
-    window.addEventListener('orientationchange', calculateGap)
-    window.visualViewport?.addEventListener('resize', calculateGap)
+    window.addEventListener('resize', forceFullHeight)
+    window.addEventListener('orientationchange', forceFullHeight)
 
     return () => {
-      window.removeEventListener('resize', calculateGap)
-      window.removeEventListener('orientationchange', calculateGap)
-      window.visualViewport?.removeEventListener('resize', calculateGap)
+      window.removeEventListener('resize', forceFullHeight)
+      window.removeEventListener('orientationchange', forceFullHeight)
+      // Cleanup
+      document.documentElement.style.minHeight = ''
+      document.body.style.minHeight = ''
     }
   }, [])
 
@@ -317,13 +310,13 @@ export default function BottomNav({
 
   return (
     <>
-      {/* DEBUG: Gap filler - RED background, pushed WAY below viewport to cover any gap */}
+      {/* DEBUG: Gap filler - RED, should now reach actual screen edge */}
       <div
         className="fixed left-0 right-0 z-40 md:hidden"
         style={{
-          bottom: '-100px', // Start 100px BELOW the CSS viewport edge
-          height: '300px', // Tall enough to cover nav + any gap
-          backgroundColor: '#ff0000', // BRIGHT RED for debugging
+          bottom: 0,
+          height: '150px',
+          backgroundColor: '#ff0000', // RED for debugging
         }}
         aria-hidden="true"
       />
