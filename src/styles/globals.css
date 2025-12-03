@@ -322,9 +322,7 @@ body {
 /* Ensure content doesn't get hidden behind bottom navbar on mobile */
 @media (max-width: 767px) {
   /* Apply padding directly to the main container so the page extends beyond the navbar */
-  main {
-    padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px)) !important;
-  }
+  /* Removed in favor of spacer component in BottomNav */
 }
 
 /* Custom utilities */

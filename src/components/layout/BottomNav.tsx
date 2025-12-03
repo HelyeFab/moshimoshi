@@ -274,6 +274,13 @@ export default function BottomNav({
 
   return (
     <>
+      {/* Spacer to prevent content from being hidden behind fixed navbar */}
+      <div
+        className="md:hidden w-full shrink-0 pointer-events-none"
+        style={{ height: 'calc(80px + env(safe-area-inset-bottom, 24px))' }}
+        aria-hidden="true"
+      />
+
       <AnimatePresence>
         {isVisible && (
           <motion.nav
