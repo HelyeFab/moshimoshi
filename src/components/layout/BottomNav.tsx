@@ -272,6 +272,9 @@ export default function BottomNav({
     return null
   }
 
+  // TODO: Revert this - Debugging PWA bottom gap issue by removing BottomNav
+  return null
+
   return (
     <>
       <AnimatePresence>
