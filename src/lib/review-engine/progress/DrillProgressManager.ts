@@ -6,6 +6,7 @@
 import { UniversalProgressManager } from './UniversalProgressManager'
 import { ReviewProgressData, ProgressEvent, ProgressStatus } from '../core/progress.types'
 import { reviewLogger } from '@/lib/monitoring/logger'
+import { useGamificationStore } from '@/state/userGamification'
 
 /**
  * Drill-specific progress data
@@ -118,7 +119,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
         totalDrills: 0,
         perfectDrills: 0,
         averageAccuracy: 0,
-        conjugationTypes: new Map()
+        conjugationTypes: new Map(),
       }
 
       await this.saveProgress(userId, 'drill', 'overall', initialData, false)
@@ -128,11 +129,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
   /**
    * Track a completed drill session
    */
-  async trackDrillSession(
-    session: DrillSessionData,
-    user: any,
-    isPremium: boolean
-  ): Promise<void> {
+  async trackDrillSession(session: DrillSessionData, user: any, isPremium: boolean): Promise<void> {
     if (!user?.uid) {
       reviewLogger.debug('[DrillProgressManager] No user - skipping tracking')
       return
@@ -153,8 +150,8 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
           action: 'complete',
           finalScore: session.correctAnswers,
           accuracy: session.accuracy,
-          questionResults: session.questionResults // NEW: For SRS tracking
-        })
+          questionResults: session.questionResults, // NEW: For SRS tracking
+        }),
       })
 
       if (response.ok) {
@@ -162,14 +159,43 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
 
         // Log gamification results if present (streak/XP only)
         if (result.data?.gamification) {
+          const gam = result.data.gamification
           console.log('[DrillProgressManager] 🎉 Gamification results:', {
-            xpEarned: result.data.gamification.xpEarned,
-            streakIncremented: result.data.gamification.streakIncremented,
-            currentStreak: result.data.gamification.currentStreak
+            xpEarned: gam.xpEarned,
+            streakIncremented: gam.streakIncremented,
+            currentStreak: gam.currentStreak,
           })
+
+          // 🔥 FIX: Update Zustand store to trigger CelebrationProvider
+          // This was missing - drills weren't updating the store, so celebration never showed
+          try {
+            const store = useGamificationStore.getState()
+
+            // Update store with server response (Firebase is source of truth)
+            // This triggers CelebrationProvider which watches totalXP and sessionCount
+            if (gam.newTotalXP !== undefined) {
+              store.updateFromServer({
+                totalXP: gam.newTotalXP,
+                currentLevel: gam.newLevel || Math.max(1, Math.floor(gam.newTotalXP / 1000)),
+                currentStreak: gam.currentStreak || 0,
+                bestStreak: gam.bestStreak || 0,
+              })
+            }
+
+            // Increment session count to trigger celebration
+            store.incrementSessionCount()
+
+            console.log('[DrillProgressManager] ✅ Zustand store updated for celebration')
+          } catch (storeError) {
+            console.error('[DrillProgressManager] Failed to update Zustand store:', storeError)
+            // Don't fail the whole operation if store update fails
+          }
         }
       } else {
-        console.error('[DrillProgressManager] Failed to complete drill via API:', await response.text())
+        console.error(
+          '[DrillProgressManager] Failed to complete drill via API:',
+          await response.text()
+        )
       }
     } catch (error) {
       console.error('[DrillProgressManager] Error calling drill completion API:', error)
@@ -191,7 +217,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
         // Convert arrays/objects back to Set/Map
         verbsStudied: new Set(raw.verbsStudied || []),
         adjectivesStudied: new Set(raw.adjectivesStudied || []),
-        conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {}))
+        conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
       } as DrillProgressData
     } else {
       // Create initial data
@@ -230,7 +256,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
         totalDrills: 0,
         perfectDrills: 0,
         averageAccuracy: 0,
-        conjugationTypes: new Map()
+        conjugationTypes: new Map(),
       }
     }
 
@@ -278,7 +304,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       ...drillData,
       verbsStudied: Array.from(drillData.verbsStudied),
       adjectivesStudied: Array.from(drillData.adjectivesStudied),
-      conjugationTypes: Object.fromEntries(drillData.conjugationTypes)
+      conjugationTypes: Object.fromEntries(drillData.conjugationTypes),
     }
 
     // Save updated progress
@@ -286,17 +312,10 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     await this.saveProgress(userId, 'drill', 'overall', serializableData as any, isPremium)
 
     // Track individual session for history
-    await this.trackProgress(
-      'drill',
-      session.sessionId,
-      ProgressEvent.COMPLETED,
-      user,
-      isPremium,
-      {
-        sessionId: session.sessionId,
-        correct: session.accuracy === 100
-      }
-    )
+    await this.trackProgress('drill', session.sessionId, ProgressEvent.COMPLETED, user, isPremium, {
+      sessionId: session.sessionId,
+      correct: session.accuracy === 100,
+    })
 
     // Note: Gamification events are emitted by the drill page component
     // No need to emit here since we're using URE event system
@@ -305,7 +324,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       userId,
       sessionId: session.sessionId,
       accuracy: session.accuracy,
-      totalDrills: drillData.totalDrills
+      totalDrills: drillData.totalDrills,
     })
   }
 
@@ -330,12 +349,15 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
               ...raw,
               verbsStudied: new Set(raw.verbsStudied || []),
               adjectivesStudied: new Set(raw.adjectivesStudied || []),
-              conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {}))
+              conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
             } as DrillProgressData
           }
         }
       } catch (error) {
-        console.warn('[DrillProgressManager] Firebase load failed, using IndexedDB fallback:', error)
+        console.warn(
+          '[DrillProgressManager] Firebase load failed, using IndexedDB fallback:',
+          error
+        )
       }
     }
 
@@ -354,17 +376,14 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       ...raw,
       verbsStudied: new Set(raw.verbsStudied || []),
       adjectivesStudied: new Set(raw.adjectivesStudied || []),
-      conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {}))
+      conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
     } as DrillProgressData
   }
 
   /**
    * Get recent drill sessions
    */
-  async getRecentSessions(
-    userId: string,
-    limit: number = 10
-  ): Promise<DrillSessionData[]> {
+  async getRecentSessions(userId: string, limit: number = 10): Promise<DrillSessionData[]> {
     if (!this.db) await this.initDB()
 
     try {
@@ -421,42 +440,48 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
   async resetDrillProgress(userId: string): Promise<void> {
     await this.initDB()
     const now = new Date().toISOString()
-    await this.saveProgress(userId, 'drill', 'overall', {
-      // Base ReviewProgressData fields
-      contentId: 'overall',
-      contentType: 'drill',
-      status: 'not-started',
-      viewCount: 0,
-      firstViewedAt: null,
-      lastViewedAt: null,
-      totalViewTime: 0,
-      interactionCount: 0,
-      correctCount: 0,
-      incorrectCount: 0,
-      lastInteractedAt: null,
-      accuracy: 0,
-      streak: 0,
-      bestStreak: 0,
-      srsLevel: null,
-      nextReviewDate: null,
-      easeFactor: null,
-      interval: null,
-      pinned: false,
-      bookmarked: false,
-      flaggedForReview: false,
-      createdAt: now,
-      updatedAt: now,
-      syncedAt: null,
-      version: 1,
-      // Drill-specific fields
-      drillType: 'conjugation',
-      verbsStudied: new Set(),
-      adjectivesStudied: new Set(),
-      totalDrills: 0,
-      perfectDrills: 0,
-      averageAccuracy: 0,
-      conjugationTypes: new Map()
-    } as DrillProgressData, false)
+    await this.saveProgress(
+      userId,
+      'drill',
+      'overall',
+      {
+        // Base ReviewProgressData fields
+        contentId: 'overall',
+        contentType: 'drill',
+        status: 'not-started',
+        viewCount: 0,
+        firstViewedAt: null,
+        lastViewedAt: null,
+        totalViewTime: 0,
+        interactionCount: 0,
+        correctCount: 0,
+        incorrectCount: 0,
+        lastInteractedAt: null,
+        accuracy: 0,
+        streak: 0,
+        bestStreak: 0,
+        srsLevel: null,
+        nextReviewDate: null,
+        easeFactor: null,
+        interval: null,
+        pinned: false,
+        bookmarked: false,
+        flaggedForReview: false,
+        createdAt: now,
+        updatedAt: now,
+        syncedAt: null,
+        version: 1,
+        // Drill-specific fields
+        drillType: 'conjugation',
+        verbsStudied: new Set(),
+        adjectivesStudied: new Set(),
+        totalDrills: 0,
+        perfectDrills: 0,
+        averageAccuracy: 0,
+        conjugationTypes: new Map(),
+      } as DrillProgressData,
+      false
+    )
   }
 
   // ============= SRS (Spaced Repetition System) Methods =============
@@ -512,7 +537,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
           kana: word.kana,
           meaning: word.meaning || word.english,
           type: word.type,
-          jlpt: word.jlpt
+          jlpt: word.jlpt,
         },
         srsData: {
           interval: 1,
@@ -521,7 +546,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
           lastReviewedAt: null,
           nextReviewAt: this.calculateNextReviewDate(1),
           status: 'new' as const,
-          lapses: 0
+          lapses: 0,
         },
         conjugationAccuracy: {},
         reviewHistory: [],
@@ -530,7 +555,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
         lastReviewedAt: null,
         totalReviews: 0,
         version: 1,
-        updatedAt: now
+        updatedAt: now,
       }
     }
 
@@ -540,7 +565,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
         attempts: 0,
         correct: 0,
         lastAttempted: null,
-        averageTime: 0
+        averageTime: 0,
       }
     }
 
@@ -549,14 +574,15 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     if (correct) formAccuracy.correct++
     formAccuracy.lastAttempted = now
     formAccuracy.averageTime =
-      (formAccuracy.averageTime * (formAccuracy.attempts - 1) + responseTime) / formAccuracy.attempts
+      (formAccuracy.averageTime * (formAccuracy.attempts - 1) + responseTime) /
+      formAccuracy.attempts
 
     // Update review history (keep last 10)
     wordEntry.reviewHistory.push({
       timestamp: now,
       targetForm,
       correct,
-      responseTime
+      responseTime,
     })
     if (wordEntry.reviewHistory.length > 10) {
       wordEntry.reviewHistory.shift()
@@ -583,7 +609,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       status: wordEntry.srsData.status,
       interval: wordEntry.srsData.interval,
       nextReview: wordEntry.srsData.nextReviewAt,
-      leechScore: wordEntry.leechScore
+      leechScore: wordEntry.leechScore,
     })
   }
 
@@ -668,7 +694,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       dueThisWeek: 0,
       leechWords: 0,
       averageAccuracy: 0,
-      totalReviews: 0
+      totalReviews: 0,
     }
 
     const now = new Date()
@@ -720,9 +746,8 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
         })
       })
 
-      stats.averageAccuracy = totalAttempts > 0
-        ? Math.round((totalCorrect / totalAttempts) * 100)
-        : 0
+      stats.averageAccuracy =
+        totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0
     }
 
     return stats
