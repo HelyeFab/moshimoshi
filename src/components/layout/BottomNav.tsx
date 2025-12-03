@@ -75,10 +75,10 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
     id: 'mood-boards',
     label: strings.dashboard?.navigation?.bottomNav?.moodBoards || 'Boards',
-    href: '/mood-boards',
+    href: '/kanji-moods',
     icon: RiLayoutMasonryLine,
     activeIcon: RiLayoutMasonryFill,
-    matchPaths: ['/mood-boards'],
+    matchPaths: ['/kanji-moods'],
   },
   {
     id: 'drill',
@@ -107,10 +107,10 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
     id: 'story',
     label: strings.dashboard?.navigation?.bottomNav?.story || 'Story',
-    href: '/story',
+    href: '/stories',
     icon: RiBookReadLine,
     activeIcon: RiBookReadFill,
-    matchPaths: ['/story'],
+    matchPaths: ['/stories'],
   },
   {
     id: 'games',
@@ -131,10 +131,10 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
     id: 'profile',
     label: strings.dashboard?.navigation?.bottomNav?.profile || 'Profile',
-    href: '/profile',
+    href: '/account',
     icon: RiUser3Line,
     activeIcon: RiUser3Fill,
-    matchPaths: ['/profile'],
+    matchPaths: ['/account'],
   },
   {
     id: 'settings',
@@ -274,6 +274,16 @@ export default function BottomNav({
 
   return (
     <>
+      {/* Gap filler - solid background that extends beyond viewport to cover any PWA gap */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#1a202c] dark:bg-[#171923]"
+        style={{
+          height: '100px', // Generous height to cover any possible gap
+          transform: 'translateY(50px)', // Push half below viewport
+        }}
+        aria-hidden="true"
+      />
+
       <AnimatePresence>
         {isVisible && (
           <motion.nav
@@ -282,7 +292,7 @@ export default function BottomNav({
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
-              // Edge-to-edge positioning - icons at device edge
+              // Edge-to-edge positioning
               'fixed bottom-0 left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
               className
