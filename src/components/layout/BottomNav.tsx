@@ -282,8 +282,8 @@ export default function BottomNav({
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
-              // Edge-to-edge positioning (Solution A)
-              'fixed bottom-[-1px] left-0 right-0 z-50 w-full',
+              // Edge-to-edge positioning - icons at device edge
+              'fixed bottom-0 left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
               className
             )}
@@ -323,10 +323,8 @@ export default function BottomNav({
                 'after:bg-gradient-to-b after:from-white/5 dark:after:from-white/10 after:to-transparent after:h-1/2'
               )}
               style={{
-                // Ensure proper safe area support for all devices (iPhone X+)
-                // Uses calc to ensure minimum padding + safe area
-                // Increased base padding to 16px to cover potential unreported safe areas (Android gesture bar)
-                paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+                // Minimal bottom padding - icons sit at device edge
+                paddingBottom: '4px',
               }}
             >
               {NAV_ITEMS.map(item => {

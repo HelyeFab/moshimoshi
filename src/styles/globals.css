@@ -306,10 +306,6 @@ body {
 
 /* Ensure content doesn't get hidden behind bottom navbar on mobile */
 @media (max-width: 767px) {
-  body {
-    padding-bottom: env(safe-area-inset-bottom, 0);
-  }
-
   /* Apply padding directly to page containers so their backgrounds extend */
   main > div {
     padding-bottom: 50px !important;
@@ -675,10 +671,10 @@ html.high-contrast.dark .text-gray-400 {
   /* Apply safe area padding when running as installed PWA */
   body {
     /* Extend background to edges, content respects safe areas */
+    /* Note: bottom padding removed - BottomNav handles its own positioning */
     padding-top: env(safe-area-inset-top, 0);
     padding-left: env(safe-area-inset-left, 0);
     padding-right: env(safe-area-inset-right, 0);
-    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
   /* Fixed headers need to account for notch */
