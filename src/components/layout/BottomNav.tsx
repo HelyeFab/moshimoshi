@@ -65,20 +65,20 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     matchPaths: ['/review', '/review-dashboard', '/review/session'],
   },
   {
-    id: 'kanji-browser',
-    label: strings.dashboard?.navigation?.bottomNav?.kanji || 'Kanji',
-    href: '/kanji-browser',
-    icon: RiLinksLine, // Using RiLinksLine for now, can be updated if a more specific Kanji icon is found/preferred
+    id: 'kanji-connections',
+    label: strings.dashboard?.navigation?.bottomNav?.kanjiConnections || 'Kanji',
+    href: '/kanji-connections',
+    icon: RiLinksLine,
     activeIcon: RiLinksFill,
-    matchPaths: ['/kanji-browser'],
+    matchPaths: ['/kanji-connections'],
   },
   {
     id: 'mood-boards',
     label: strings.dashboard?.navigation?.bottomNav?.moodBoards || 'Boards',
-    href: '/kanji-moods',
+    href: '/mood-boards',
     icon: RiLayoutMasonryLine,
     activeIcon: RiLayoutMasonryFill,
-    matchPaths: ['/kanji-moods'],
+    matchPaths: ['/mood-boards'],
   },
   {
     id: 'drill',
@@ -107,10 +107,10 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
     id: 'story',
     label: strings.dashboard?.navigation?.bottomNav?.story || 'Story',
-    href: '/stories',
+    href: '/story',
     icon: RiBookReadLine,
     activeIcon: RiBookReadFill,
-    matchPaths: ['/stories'],
+    matchPaths: ['/story'],
   },
   {
     id: 'games',
@@ -131,10 +131,10 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
     id: 'profile',
     label: strings.dashboard?.navigation?.bottomNav?.profile || 'Profile',
-    href: '/account',
+    href: '/profile',
     icon: RiUser3Line,
     activeIcon: RiUser3Fill,
-    matchPaths: ['/account'],
+    matchPaths: ['/profile'],
   },
   {
     id: 'settings',
@@ -174,44 +174,8 @@ export default function BottomNav({
 }: BottomNavProps) {
   const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
-  const [bottomGap, setBottomGap] = useState(0)
   const { extraItem: contextExtraItem } = useBottomNav()
   const { strings } = useI18n()
-
-  // Force the document to extend to actual screen height
-  useEffect(() => {
-    const forceFullHeight = () => {
-      const screenHeight = window.screen.height
-      const innerHeight = window.innerHeight
-      const gap = screenHeight - innerHeight
-
-      console.log('[BottomNav] Forcing full screen height:', {
-        screenHeight,
-        innerHeight,
-        gap,
-        devicePixelRatio: window.devicePixelRatio,
-      })
-
-      // Force html and body to extend to actual screen height
-      document.documentElement.style.minHeight = `${screenHeight}px`
-      document.body.style.minHeight = `${screenHeight}px`
-
-      setBottomGap(gap)
-    }
-
-    forceFullHeight()
-
-    window.addEventListener('resize', forceFullHeight)
-    window.addEventListener('orientationchange', forceFullHeight)
-
-    return () => {
-      window.removeEventListener('resize', forceFullHeight)
-      window.removeEventListener('orientationchange', forceFullHeight)
-      // Cleanup
-      document.documentElement.style.minHeight = ''
-      document.body.style.minHeight = ''
-    }
-  }, [])
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
@@ -310,16 +274,6 @@ export default function BottomNav({
 
   return (
     <>
-      {/* Gap filler - extends to actual screen edge to cover PWA viewport gap */}
-      <div
-        className="fixed left-0 right-0 z-40 md:hidden bg-background-light dark:bg-dark-850"
-        style={{
-          bottom: 0,
-          height: '150px',
-        }}
-        aria-hidden="true"
-      />
-
       <AnimatePresence>
         {isVisible && (
           <motion.nav
@@ -328,8 +282,8 @@ export default function BottomNav({
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
-              // Edge-to-edge positioning
-              'fixed bottom-0 left-0 right-0 z-50 w-full',
+              // Edge-to-edge positioning (Solution A)
+              'fixed bottom-[-1px] left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
               className
             )}
@@ -348,6 +302,11 @@ export default function BottomNav({
                 // Shape & Clipping - CRITICAL for removing "ghost rectangle"
                 'rounded-t-3xl overflow-hidden',
 
+                // Layout: Scrollable horizontal list
+                'flex items-center justify-start gap-2',
+                'px-4 py-3',
+                'overflow-x-auto scrollbar-hide', // Enable horizontal scroll and hide scrollbar
+
                 // Theme-aware glassmorphism background (lower opacity for glass effect)
                 'bg-soft-white/20 dark:bg-dark-900/30',
                 'backdrop-blur-2xl backdrop-saturate-150',
@@ -364,106 +323,105 @@ export default function BottomNav({
                 'after:bg-gradient-to-b after:from-white/5 dark:after:from-white/10 after:to-transparent after:h-1/2'
               )}
               style={{
-                // Minimal bottom padding - icons sit at device edge
-                paddingBottom: 'calc(env(safe-area-inset-bottom, 0px))',
+                // Ensure proper safe area support for all devices (iPhone X+)
+                // Uses calc to ensure minimum padding + safe area
+                // Increased base padding to 16px to cover potential unreported safe areas (Android gesture bar)
+                paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
               }}
             >
-              {/* Scrollable horizontal list - pt-3 only, bottom padding handled by parent safe area */}
-              <div className="flex items-center justify-start gap-2 px-4 pt-3 pb-1 overflow-x-auto scrollbar-hide">
-                {NAV_ITEMS.map(item => {
-                  const active = isActive(item)
-                  const Icon = active ? item.activeIcon : item.icon
+              {NAV_ITEMS.map(item => {
+                const active = isActive(item)
+                const Icon = active ? item.activeIcon : item.icon
 
-                  const commonClassName = cn(
-                    'relative flex flex-col items-center justify-center flex-shrink-0',
-                    // Comfortable touch target: 60px width, 64px height for better ergonomics
-                    'w-[60px] h-[64px]',
-                    'rounded-2xl',
-                    'transition-all duration-200',
-                    // Accessibility: focus states
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
-                    'focus-visible:ring-offset-soft-white dark:focus-visible:ring-offset-dark-900',
-                    // Theme-aware text colors
-                    active
-                      ? 'text-primary-600 dark:text-primary-400'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-                  )
+                const commonClassName = cn(
+                  'relative flex flex-col items-center justify-center flex-shrink-0',
+                  // Comfortable touch target: 60px width, 64px height for better ergonomics
+                  'w-[60px] h-[64px]',
+                  'rounded-2xl',
+                  'transition-all duration-200',
+                  // Accessibility: focus states
+                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
+                  'focus-visible:ring-offset-soft-white dark:focus-visible:ring-offset-dark-900',
+                  // Theme-aware text colors
+                  active
+                    ? 'text-primary-600 dark:text-primary-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                )
 
-                  const content = (
-                    <>
-                      {/* Icon and Label Container */}
-                      <div className="relative z-10 flex flex-col items-center gap-1">
-                        <Icon
-                          className={cn(
-                            'transition-all duration-200',
-                            active ? 'w-6 h-6' : 'w-5 h-5'
-                          )}
-                          aria-hidden="true"
-                        />
-
-                        {/* Label */}
-                        <span
-                          className={cn(
-                            'text-[10px] font-medium transition-all duration-200',
-                            'leading-tight',
-                            active ? 'opacity-100 font-semibold' : 'opacity-70'
-                          )}
-                        >
-                          {item.label}
-                        </span>
-                      </div>
-
-                      {/* Active indicator - positioned at bottom of button, above safe area */}
-                      {active && (
-                        <motion.div
-                          layoutId="activeIndicator"
-                          className={cn(
-                            'absolute bottom-1 left-1/2 -translate-x-1/2',
-                            'h-0.5 w-10 rounded-full',
-                            'bg-primary-600 dark:bg-primary-400',
-                            'shadow-sm shadow-primary-600/50 dark:shadow-primary-400/50'
-                          )}
-                          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                        />
-                      )}
-
-                      {/* Ripple effect on tap (mobile) - disable default tap highlight */}
-                      <span
-                        className="absolute inset-0 rounded-2xl"
-                        style={{
-                          WebkitTapHighlightColor: 'transparent',
-                        }}
+                const content = (
+                  <>
+                    {/* Icon and Label Container */}
+                    <div className="relative z-10 flex flex-col items-center gap-1">
+                      <Icon
+                        className={cn(
+                          'transition-all duration-200',
+                          active ? 'w-6 h-6' : 'w-5 h-5'
+                        )}
+                        aria-hidden="true"
                       />
-                    </>
-                  )
 
-                  // Render button for action items, Link for navigation items
-                  if (item.action) {
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={item.action}
-                        className={commonClassName}
-                        aria-label={item.label}
+                      {/* Label */}
+                      <span
+                        className={cn(
+                          'text-[10px] font-medium transition-all duration-200',
+                          'leading-tight',
+                          active ? 'opacity-100 font-semibold' : 'opacity-70'
+                        )}
                       >
-                        {content}
-                      </button>
-                    )
-                  }
+                        {item.label}
+                      </span>
+                    </div>
 
+                    {/* Active indicator - positioned at bottom of button, above safe area */}
+                    {active && (
+                      <motion.div
+                        layoutId="activeIndicator"
+                        className={cn(
+                          'absolute bottom-1 left-1/2 -translate-x-1/2',
+                          'h-0.5 w-10 rounded-full',
+                          'bg-primary-600 dark:bg-primary-400',
+                          'shadow-sm shadow-primary-600/50 dark:shadow-primary-400/50'
+                        )}
+                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                      />
+                    )}
+
+                    {/* Ripple effect on tap (mobile) - disable default tap highlight */}
+                    <span
+                      className="absolute inset-0 rounded-2xl"
+                      style={{
+                        WebkitTapHighlightColor: 'transparent',
+                      }}
+                    />
+                  </>
+                )
+
+                // Render button for action items, Link for navigation items
+                if (item.action) {
                   return (
-                    <Link
+                    <button
                       key={item.id}
-                      href={item.href!}
+                      onClick={item.action}
                       className={commonClassName}
                       aria-label={item.label}
-                      aria-current={active ? 'page' : undefined}
                     >
                       {content}
-                    </Link>
+                    </button>
                   )
-                })}
-              </div>
+                }
+
+                return (
+                  <Link
+                    key={item.id}
+                    href={item.href!}
+                    className={commonClassName}
+                    aria-label={item.label}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {content}
+                  </Link>
+                )
+              })}
             </div>
           </motion.nav>
         )}
