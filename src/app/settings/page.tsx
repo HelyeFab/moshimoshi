@@ -20,6 +20,7 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { ReviewNotificationSettings } from '@/components/notifications/ReviewNotificationSettings'
 import { Select } from '@/components/ui/Select'
 import Dialog from '@/components/ui/Dialog'
+import { AppVersionSection } from '@/components/pwa/AppVersionSection'
 
 export default function SettingsPage() {
   const router = useRouter()
@@ -32,7 +33,7 @@ export default function SettingsPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [updatingLeaderboard, setUpdatingLeaderboard] = useState(false)
   const [showResetDialog, setShowResetDialog] = useState(false)
-  
+
   // Settings state
   const [notifications, setNotifications] = useState({
     dailyReminder: true,
@@ -40,7 +41,7 @@ export default function SettingsPage() {
     weeklyProgress: false,
     marketingEmails: false,
   })
-  
+
   const [learning, setLearning] = useState({
     autoplay: true,
     furigana: true,
@@ -48,7 +49,7 @@ export default function SettingsPage() {
     soundEffects: true,
     hapticFeedback: true,
   })
-  
+
   const [privacy, setPrivacy] = useState({
     publicProfile: false,
     showProgress: true,
@@ -119,7 +120,7 @@ export default function SettingsPage() {
 
       console.log('[Settings] Loaded preferences:', {
         userType: !user ? 'guest' : isPremium ? 'premium' : 'free',
-        source: !user ? 'defaults' : isPremium ? 'cloud+local' : 'local'
+        source: !user ? 'defaults' : isPremium ? 'cloud+local' : 'local',
       })
     } catch (error) {
       console.error('[Settings] Failed to load preferences:', error)
@@ -171,18 +172,18 @@ export default function SettingsPage() {
       // Show appropriate message based on user tier
       let message = strings.settings?.saveSuccess || 'Settings saved successfully!'
       if (!user) {
-        message = 'Settings applied for this session only (sign in to save)';
+        message = 'Settings applied for this session only (sign in to save)'
       } else if (isPremium) {
-        message = 'Settings saved and synced to cloud ☁️';
+        message = 'Settings saved and synced to cloud ☁️'
       } else {
-        message = 'Settings saved locally to this device';
+        message = 'Settings saved locally to this device'
       }
 
       showToast(message, 'success')
 
       console.log('[Settings] Saved preferences:', {
         userType: !user ? 'guest' : isPremium ? 'premium' : 'free',
-        storage: !user ? 'none' : isPremium ? 'indexedDB+firebase' : 'indexedDB'
+        storage: !user ? 'none' : isPremium ? 'indexedDB+firebase' : 'indexedDB',
       })
     } catch (error) {
       console.error('[Settings] Failed to save preferences:', error)
@@ -207,9 +208,12 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-matcha/10 to-japanese-matchaDark/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800 transition-colors duration-500">
       {/* Background Pattern */}
       <div className="fixed inset-0 opacity-5 dark:opacity-10 pointer-events-none">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2352b788' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2352b788' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
       </div>
 
       {/* Navbar */}
@@ -219,11 +223,7 @@ export default function SettingsPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Page Title with Doshi */}
         <div className="mb-8 flex items-center gap-4">
-          <DoshiMascot 
-            size="medium" 
-           
-            variant="animated"
-          />
+          <DoshiMascot size="medium" variant="animated" />
           <div>
             <h1 className="text-3xl font-bold text-primary-600 dark:text-primary-400">
               {strings.settings?.title || 'Settings'}
@@ -249,9 +249,12 @@ export default function SettingsPage() {
             <div className="space-y-6">
               {/* Language Selection */}
               <Select
-                label={strings.settings?.sections?.appearance?.language?.label || 'Language / 言語 / Langue / Lingua / Sprache / Idioma'}
+                label={
+                  strings.settings?.sections?.appearance?.language?.label ||
+                  'Language / 言語 / Langue / Lingua / Sprache / Idioma'
+                }
                 value={language}
-                onChange={(val) => setLanguage(val as any)}
+                onChange={val => setLanguage(val as any)}
                 options={[
                   { value: 'en', label: languageNames.en, icon: <span>🇬🇧</span> },
                   { value: 'ja', label: languageNames.ja, icon: <span>🇯🇵</span> },
@@ -268,7 +271,7 @@ export default function SettingsPage() {
                   {strings.settings?.sections?.appearance?.theme?.label || 'Theme'}
                 </label>
                 <div className="grid grid-cols-3 gap-3">
-                  {(['light', 'dark', 'system'] as const).map((themeOption) => (
+                  {(['light', 'dark', 'system'] as const).map(themeOption => (
                     <button
                       key={themeOption}
                       onClick={() => setTheme(themeOption)}
@@ -283,9 +286,11 @@ export default function SettingsPage() {
                           {themeOption === 'light' ? '☀️' : themeOption === 'dark' ? '🌙' : '💻'}
                         </span>
                         <span className="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize">
-                          {themeOption === 'light' ? (strings.settings?.sections?.appearance?.theme?.light || 'Light') :
-                           themeOption === 'dark' ? (strings.settings?.sections?.appearance?.theme?.dark || 'Dark') :
-                           (strings.settings?.sections?.appearance?.theme?.system || 'System')}
+                          {themeOption === 'light'
+                            ? strings.settings?.sections?.appearance?.theme?.light || 'Light'
+                            : themeOption === 'dark'
+                              ? strings.settings?.sections?.appearance?.theme?.dark || 'Dark'
+                              : strings.settings?.sections?.appearance?.theme?.system || 'System'}
                         </span>
                       </div>
                     </button>
@@ -295,11 +300,13 @@ export default function SettingsPage() {
 
               {/* Color Palette Selection */}
               <Select
-                label={strings.settings?.sections?.appearance?.colorPalette?.label || 'Color Palette'}
+                label={
+                  strings.settings?.sections?.appearance?.colorPalette?.label || 'Color Palette'
+                }
                 value={selectedPalette}
-                onChange={(val) => {
-                  setSelectedPalette(val);
-                  document.documentElement.setAttribute('data-palette', val);
+                onChange={val => {
+                  setSelectedPalette(val)
+                  document.documentElement.setAttribute('data-palette', val)
                 }}
                 options={[
                   { value: 'sakura', label: 'Sakura', icon: <span>🌸</span> },
@@ -317,36 +324,62 @@ export default function SettingsPage() {
 
               {/* Palette Preview */}
               <div className="mt-4 p-3 bg-gray-50 dark:bg-dark-900/50 rounded-lg">
-                <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">{strings.settings?.sections?.appearance?.colorPalette?.preview || 'Preview:'}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                  {strings.settings?.sections?.appearance?.colorPalette?.preview || 'Preview:'}
+                </p>
                 <div className="flex items-center gap-2">
-                  <button className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                    selectedPalette === 'sakura' ? 'bg-red-500 text-white' :
-                    selectedPalette === 'ocean' ? 'bg-blue-500 text-white' :
-                    selectedPalette === 'matcha' ? 'bg-green-500 text-white' :
-                    selectedPalette === 'sunset' ? 'bg-orange-500 text-white' :
-                    selectedPalette === 'lavender' ? 'bg-purple-500 text-white' :
-                    selectedPalette === 'monochrome' ? 'bg-gray-500 text-white' :
-                    selectedPalette === 'midnight' ? 'bg-indigo-600 text-white' :
-                    selectedPalette === 'cherry' ? 'bg-pink-400 text-white' :
-                    selectedPalette === 'jade' ? 'bg-emerald-500 text-white' :
-                    selectedPalette === 'amber' ? 'bg-amber-500 text-white' :
-                    'bg-gray-500 text-white'
-                  }`}>
+                  <button
+                    className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                      selectedPalette === 'sakura'
+                        ? 'bg-red-500 text-white'
+                        : selectedPalette === 'ocean'
+                          ? 'bg-blue-500 text-white'
+                          : selectedPalette === 'matcha'
+                            ? 'bg-green-500 text-white'
+                            : selectedPalette === 'sunset'
+                              ? 'bg-orange-500 text-white'
+                              : selectedPalette === 'lavender'
+                                ? 'bg-purple-500 text-white'
+                                : selectedPalette === 'monochrome'
+                                  ? 'bg-gray-500 text-white'
+                                  : selectedPalette === 'midnight'
+                                    ? 'bg-indigo-600 text-white'
+                                    : selectedPalette === 'cherry'
+                                      ? 'bg-pink-400 text-white'
+                                      : selectedPalette === 'jade'
+                                        ? 'bg-emerald-500 text-white'
+                                        : selectedPalette === 'amber'
+                                          ? 'bg-amber-500 text-white'
+                                          : 'bg-gray-500 text-white'
+                    }`}
+                  >
                     Primary
                   </button>
-                  <button className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                    selectedPalette === 'sakura' ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400' :
-                    selectedPalette === 'ocean' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400' :
-                    selectedPalette === 'matcha' ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' :
-                    selectedPalette === 'sunset' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400' :
-                    selectedPalette === 'lavender' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/20 dark:text-purple-400' :
-                    selectedPalette === 'monochrome' ? 'bg-gray-100 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400' :
-                    selectedPalette === 'midnight' ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400' :
-                    selectedPalette === 'cherry' ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400' :
-                    selectedPalette === 'jade' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' :
-                    selectedPalette === 'amber' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400' :
-                    'bg-gray-100 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400'
-                  }`}>
+                  <button
+                    className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                      selectedPalette === 'sakura'
+                        ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
+                        : selectedPalette === 'ocean'
+                          ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'
+                          : selectedPalette === 'matcha'
+                            ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400'
+                            : selectedPalette === 'sunset'
+                              ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400'
+                              : selectedPalette === 'lavender'
+                                ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/20 dark:text-purple-400'
+                                : selectedPalette === 'monochrome'
+                                  ? 'bg-gray-100 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400'
+                                  : selectedPalette === 'midnight'
+                                    ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400'
+                                    : selectedPalette === 'cherry'
+                                      ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400'
+                                      : selectedPalette === 'jade'
+                                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400'
+                                        : selectedPalette === 'amber'
+                                          ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400'
+                                          : 'bg-gray-100 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400'
+                    }`}
+                  >
                     Secondary
                   </button>
                   <DoshiMascot size="xsmall" />
@@ -373,34 +406,60 @@ export default function SettingsPage() {
                   <span>📧</span>
                   Email Notifications
                 </h4>
-              <SettingToggle
-                label={strings.settings?.sections?.notifications?.dailyReminder?.label || "Daily Study Reminder"}
-                description={strings.settings?.sections?.notifications?.dailyReminder?.description || "Get reminded to practice every day"}
-                enabled={notifications.dailyReminder}
-                onChange={(value) => setNotifications({ ...notifications, dailyReminder: value })}
-                icon="📅"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.notifications?.achievementAlerts?.label || "Achievement Alerts"}
-                description={strings.settings?.sections?.notifications?.achievementAlerts?.description || "Celebrate when you unlock achievements"}
-                enabled={notifications.achievementAlerts}
-                onChange={(value) => setNotifications({ ...notifications, achievementAlerts: value })}
-                icon="🏆"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.notifications?.weeklyProgress?.label || "Weekly Progress Report"}
-                description={strings.settings?.sections?.notifications?.weeklyProgress?.description || "Receive a summary of your weekly progress"}
-                enabled={notifications.weeklyProgress}
-                onChange={(value) => setNotifications({ ...notifications, weeklyProgress: value })}
-                icon="📊"
-              />
-              <SettingToggle
-                label={strings.settings?.sections?.notifications?.marketingEmails?.label || "Marketing Emails"}
-                description={strings.settings?.sections?.notifications?.marketingEmails?.description || "Updates about new features and content"}
-                enabled={notifications.marketingEmails}
-                onChange={(value) => setNotifications({ ...notifications, marketingEmails: value })}
-                icon="📧"
-              />
+                <SettingToggle
+                  label={
+                    strings.settings?.sections?.notifications?.dailyReminder?.label ||
+                    'Daily Study Reminder'
+                  }
+                  description={
+                    strings.settings?.sections?.notifications?.dailyReminder?.description ||
+                    'Get reminded to practice every day'
+                  }
+                  enabled={notifications.dailyReminder}
+                  onChange={value => setNotifications({ ...notifications, dailyReminder: value })}
+                  icon="📅"
+                />
+                <SettingToggle
+                  label={
+                    strings.settings?.sections?.notifications?.achievementAlerts?.label ||
+                    'Achievement Alerts'
+                  }
+                  description={
+                    strings.settings?.sections?.notifications?.achievementAlerts?.description ||
+                    'Celebrate when you unlock achievements'
+                  }
+                  enabled={notifications.achievementAlerts}
+                  onChange={value =>
+                    setNotifications({ ...notifications, achievementAlerts: value })
+                  }
+                  icon="🏆"
+                />
+                <SettingToggle
+                  label={
+                    strings.settings?.sections?.notifications?.weeklyProgress?.label ||
+                    'Weekly Progress Report'
+                  }
+                  description={
+                    strings.settings?.sections?.notifications?.weeklyProgress?.description ||
+                    'Receive a summary of your weekly progress'
+                  }
+                  enabled={notifications.weeklyProgress}
+                  onChange={value => setNotifications({ ...notifications, weeklyProgress: value })}
+                  icon="📊"
+                />
+                <SettingToggle
+                  label={
+                    strings.settings?.sections?.notifications?.marketingEmails?.label ||
+                    'Marketing Emails'
+                  }
+                  description={
+                    strings.settings?.sections?.notifications?.marketingEmails?.description ||
+                    'Updates about new features and content'
+                  }
+                  enabled={notifications.marketingEmails}
+                  onChange={value => setNotifications({ ...notifications, marketingEmails: value })}
+                  icon="📧"
+                />
               </div>
             </div>
           </CollapsibleSection>
@@ -413,10 +472,16 @@ export default function SettingsPage() {
           >
             <div>
               <SettingToggle
-                label={strings.settings?.sections?.privacy?.hideFromLeaderboard?.label || "Hide from Leaderboard"}
-                description={strings.settings?.sections?.privacy?.hideFromLeaderboard?.description || "Opt out of appearing in public leaderboard rankings"}
+                label={
+                  strings.settings?.sections?.privacy?.hideFromLeaderboard?.label ||
+                  'Hide from Leaderboard'
+                }
+                description={
+                  strings.settings?.sections?.privacy?.hideFromLeaderboard?.description ||
+                  'Opt out of appearing in public leaderboard rankings'
+                }
                 enabled={privacy.hideFromLeaderboard}
-                onChange={async (value) => {
+                onChange={async value => {
                   // Update local state optimistically
                   setPrivacy({ ...privacy, hideFromLeaderboard: value })
 
@@ -426,7 +491,7 @@ export default function SettingsPage() {
                     try {
                       const response = await fetch('/api/leaderboard/opt-out', {
                         method: value ? 'POST' : 'DELETE',
-                        headers: { 'Content-Type': 'application/json' }
+                        headers: { 'Content-Type': 'application/json' },
                       })
 
                       if (!response.ok) {
@@ -435,7 +500,9 @@ export default function SettingsPage() {
                         showToast('Failed to update leaderboard preference', 'error')
                       } else {
                         showToast(
-                          value ? 'You have been removed from the leaderboard' : 'You have been added back to the leaderboard',
+                          value
+                            ? 'You have been removed from the leaderboard'
+                            : 'You have been added back to the leaderboard',
                           'success'
                         )
                       }
@@ -462,10 +529,13 @@ export default function SettingsPage() {
           >
             <div>
               <SettingToggle
-                label={strings.settings?.sections?.accessibility?.largeText?.label || "Large Text"}
-                description={strings.settings?.sections?.accessibility?.largeText?.description || "Increase text size for better readability"}
+                label={strings.settings?.sections?.accessibility?.largeText?.label || 'Large Text'}
+                description={
+                  strings.settings?.sections?.accessibility?.largeText?.description ||
+                  'Increase text size for better readability'
+                }
                 enabled={accessibility.largeText}
-                onChange={(value) => {
+                onChange={value => {
                   setAccessibility({ ...accessibility, largeText: value })
                   if (value) document.documentElement.classList.add('text-large')
                   else document.documentElement.classList.remove('text-large')
@@ -473,10 +543,15 @@ export default function SettingsPage() {
                 icon="🔍"
               />
               <SettingToggle
-                label={strings.settings?.sections?.accessibility?.highContrast?.label || "High Contrast"}
-                description={strings.settings?.sections?.accessibility?.highContrast?.description || "Increase color contrast for visibility"}
+                label={
+                  strings.settings?.sections?.accessibility?.highContrast?.label || 'High Contrast'
+                }
+                description={
+                  strings.settings?.sections?.accessibility?.highContrast?.description ||
+                  'Increase color contrast for visibility'
+                }
                 enabled={accessibility.highContrast}
-                onChange={(value) => {
+                onChange={value => {
                   setAccessibility({ ...accessibility, highContrast: value })
                   if (value) document.documentElement.classList.add('high-contrast')
                   else document.documentElement.classList.remove('high-contrast')
@@ -484,10 +559,15 @@ export default function SettingsPage() {
                 icon="🎨"
               />
               <SettingToggle
-                label={strings.settings?.sections?.accessibility?.reduceMotion?.label || "Reduce Motion"}
-                description={strings.settings?.sections?.accessibility?.reduceMotion?.description || "Minimize animations and transitions"}
+                label={
+                  strings.settings?.sections?.accessibility?.reduceMotion?.label || 'Reduce Motion'
+                }
+                description={
+                  strings.settings?.sections?.accessibility?.reduceMotion?.description ||
+                  'Minimize animations and transitions'
+                }
                 enabled={accessibility.reduceMotion}
-                onChange={(value) => {
+                onChange={value => {
                   setAccessibility({ ...accessibility, reduceMotion: value })
                   if (value) document.documentElement.classList.add('reduce-motion')
                   else document.documentElement.classList.remove('reduce-motion')
@@ -495,6 +575,11 @@ export default function SettingsPage() {
                 icon="🎬"
               />
             </div>
+          </CollapsibleSection>
+
+          {/* App Info & Updates */}
+          <CollapsibleSection title="App Info" icon="📱" defaultOpen={false}>
+            <AppVersionSection />
           </CollapsibleSection>
 
           {/* Legal & Support */}
@@ -511,11 +596,18 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">🔒</span>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{strings.settings?.sections?.legal?.privacyPolicy?.label || 'Privacy Policy'}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{strings.settings?.sections?.legal?.privacyPolicy?.description || 'How we handle your data'}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                      {strings.settings?.sections?.legal?.privacyPolicy?.label || 'Privacy Policy'}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {strings.settings?.sections?.legal?.privacyPolicy?.description ||
+                        'How we handle your data'}
+                    </p>
                   </div>
                 </div>
-                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">→</span>
+                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">
+                  →
+                </span>
               </Link>
 
               <Link
@@ -525,11 +617,19 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">📋</span>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{strings.settings?.sections?.legal?.termsOfService?.label || 'Terms of Service'}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{strings.settings?.sections?.legal?.termsOfService?.description || 'Our terms and conditions'}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                      {strings.settings?.sections?.legal?.termsOfService?.label ||
+                        'Terms of Service'}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {strings.settings?.sections?.legal?.termsOfService?.description ||
+                        'Our terms and conditions'}
+                    </p>
                   </div>
                 </div>
-                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">→</span>
+                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">
+                  →
+                </span>
               </Link>
 
               <Link
@@ -539,11 +639,19 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">🙏</span>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{strings.settings?.sections?.legal?.credits?.label || 'Credits & Acknowledgments'}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{strings.settings?.sections?.legal?.credits?.description || 'Open source libraries and data sources'}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                      {strings.settings?.sections?.legal?.credits?.label ||
+                        'Credits & Acknowledgments'}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {strings.settings?.sections?.legal?.credits?.description ||
+                        'Open source libraries and data sources'}
+                    </p>
                   </div>
                 </div>
-                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">→</span>
+                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">
+                  →
+                </span>
               </Link>
 
               <Link
@@ -553,11 +661,18 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">💬</span>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{strings.settings?.sections?.legal?.contactUs?.label || 'Contact Us'}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{strings.settings?.sections?.legal?.contactUs?.description || 'Get help or send feedback'}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                      {strings.settings?.sections?.legal?.contactUs?.label || 'Contact Us'}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {strings.settings?.sections?.legal?.contactUs?.description ||
+                        'Get help or send feedback'}
+                    </p>
                   </div>
                 </div>
-                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">→</span>
+                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">
+                  →
+                </span>
               </Link>
 
               <a
@@ -567,11 +682,18 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">📧</span>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{strings.settings?.sections?.legal?.emailSupport?.label || 'Email Support'}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{strings.settings?.sections?.legal?.emailSupport?.description || 'support@moshimoshi.app'}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                      {strings.settings?.sections?.legal?.emailSupport?.label || 'Email Support'}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {strings.settings?.sections?.legal?.emailSupport?.description ||
+                        'support@moshimoshi.app'}
+                    </p>
                   </div>
                 </div>
-                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">↗</span>
+                <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">
+                  ↗
+                </span>
               </a>
             </div>
           </CollapsibleSection>
@@ -584,9 +706,7 @@ export default function SettingsPage() {
               className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               <span>
-                {isSaving
-                  ? 'Saving...'
-                  : (strings.settings?.saveButton || 'Save All Settings')}
+                {isSaving ? 'Saving...' : strings.settings?.saveButton || 'Save All Settings'}
               </span>
               {!isSaving && <DoshiMascot size="xsmall" />}
             </button>
@@ -627,7 +747,10 @@ export default function SettingsPage() {
           router.refresh()
         }}
         title={strings.settings?.resetConfirm || 'Reset Settings?'}
-        message={strings.settings?.resetConfirm || 'Are you sure you want to reset all settings to default?'}
+        message={
+          strings.settings?.resetConfirm ||
+          'Are you sure you want to reset all settings to default?'
+        }
         confirmText="OK"
         cancelText="Cancel"
         type="warning"

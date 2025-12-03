@@ -17,20 +17,20 @@ interface CelebrationScreenProps {
 
 const encouragingMessages = [
   "You're one step closer to mastery",
-  "Your dedication is inspiring",
-  "Every session makes you stronger",
+  'Your dedication is inspiring',
+  'Every session makes you stronger',
   "You're making amazing progress",
-  "Your skills are growing daily",
-  "Consistency is the path to excellence",
+  'Your skills are growing daily',
+  'Consistency is the path to excellence',
   "You're becoming fluent, one kanji at a time",
-  "Your journey to mastery continues",
-  "Great effort leads to great results",
+  'Your journey to mastery continues',
+  'Great effort leads to great results',
   "You're building something incredible",
-  "Your perseverance is remarkable",
-  "Each day brings you closer to your goal",
-  "Your hard work is paying off",
+  'Your perseverance is remarkable',
+  'Each day brings you closer to your goal',
+  'Your hard work is paying off',
   "You're on the path to greatness",
-  "Your commitment to learning shines through"
+  'Your commitment to learning shines through',
 ]
 
 export default function CelebrationScreen({
@@ -40,7 +40,7 @@ export default function CelebrationScreen({
   xpGained,
   accuracy,
   duration,
-  itemsCompleted
+  itemsCompleted,
 }: CelebrationScreenProps) {
   const { width, height } = useWindowSize()
   const [showConfetti, setShowConfetti] = useState(false)
@@ -54,7 +54,8 @@ export default function CelebrationScreen({
 
     setShowConfetti(true)
     // Pick a random encouraging message
-    const randomMessage = encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)]
+    const randomMessage =
+      encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)]
     setMessage(randomMessage)
 
     // Auto-close after 4 seconds
@@ -78,9 +79,7 @@ export default function CelebrationScreen({
     const seconds = Math.floor(ms / 1000)
     const minutes = Math.floor(seconds / 60)
     const remainingSeconds = seconds % 60
-    return minutes > 0
-      ? `${minutes}m ${remainingSeconds}s`
-      : `${seconds}s`
+    return minutes > 0 ? `${minutes}m ${remainingSeconds}s` : `${seconds}s`
   }
 
   return (
@@ -106,7 +105,7 @@ export default function CelebrationScreen({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            className="fixed top-0 left-0 w-full h-full z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
             onClick={onClose}
           >
             <motion.div
@@ -115,7 +114,7 @@ export default function CelebrationScreen({
               exit={{ scale: 0.8, opacity: 0, y: 20 }}
               transition={{ type: 'spring', duration: 0.5 }}
               className="relative bg-white dark:bg-dark-800 rounded-2xl p-8 max-w-md w-full shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               {/* Success Icon */}
               <motion.div
@@ -125,8 +124,18 @@ export default function CelebrationScreen({
                 className="flex justify-center mb-6"
               >
                 <div className="w-20 h-20 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center shadow-lg">
-                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-12 h-12 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={3}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </div>
               </motion.div>
@@ -159,17 +168,15 @@ export default function CelebrationScreen({
                 className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-4 mb-6 shadow-lg"
               >
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-white mb-1">
-                    +{xpGained} XP
-                  </div>
-                  <div className="text-sm text-white/90">
-                    Experience Points Earned
-                  </div>
+                  <div className="text-4xl font-bold text-white mb-1">+{xpGained} XP</div>
+                  <div className="text-sm text-white/90">Experience Points Earned</div>
                 </div>
               </motion.div>
 
               {/* Session Stats */}
-              {(accuracy !== undefined || duration !== undefined || itemsCompleted !== undefined) && (
+              {(accuracy !== undefined ||
+                duration !== undefined ||
+                itemsCompleted !== undefined) && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -181,9 +188,7 @@ export default function CelebrationScreen({
                       <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
                         {itemsCompleted}
                       </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">
-                        Completed
-                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Completed</div>
                     </div>
                   )}
                   {accuracy !== undefined && (
@@ -191,9 +196,7 @@ export default function CelebrationScreen({
                       <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                         {Math.round(accuracy)}%
                       </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">
-                        Accuracy
-                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Accuracy</div>
                     </div>
                   )}
                   {duration !== undefined && (
@@ -201,9 +204,7 @@ export default function CelebrationScreen({
                       <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                         {formatDuration(duration)}
                       </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">
-                        Duration
-                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Duration</div>
                     </div>
                   )}
                 </motion.div>
