@@ -67,10 +67,10 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
     id: 'kanji-connections',
     label: strings.dashboard?.navigation?.bottomNav?.kanjiConnections || 'Kanji',
-    href: '/kanji-connections',
+    href: '/kanji-connection',
     icon: RiLinksLine,
     activeIcon: RiLinksFill,
-    matchPaths: ['/kanji-connections'],
+    matchPaths: ['/kanji-connection'],
   },
   {
     id: 'mood-boards',
@@ -105,12 +105,12 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     matchPaths: ['/news'],
   },
   {
-    id: 'story',
-    label: strings.dashboard?.navigation?.bottomNav?.story || 'Story',
-    href: '/story',
+    id: 'stories',
+    label: strings.dashboard?.navigation?.bottomNav?.stories || 'Stories',
+    href: '/stories',
     icon: RiBookReadLine,
     activeIcon: RiBookReadFill,
-    matchPaths: ['/story'],
+    matchPaths: ['/stories'],
   },
   {
     id: 'games',
@@ -129,12 +129,12 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     matchPaths: ['/flashcards', '/lists'],
   },
   {
-    id: 'profile',
-    label: strings.dashboard?.navigation?.bottomNav?.profile || 'Profile',
-    href: '/profile',
+    id: 'account',
+    label: strings.dashboard?.navigation?.bottomNav?.account || 'Account',
+    href: '/account',
     icon: RiUser3Line,
     activeIcon: RiUser3Fill,
-    matchPaths: ['/profile'],
+    matchPaths: ['/account'],
   },
   {
     id: 'settings',
