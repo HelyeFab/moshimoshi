@@ -3020,6 +3020,20 @@ export const strings = {
         },
       },
 
+      appInfo: {
+        title: 'Info de la App',
+        version: {
+          title: 'Versión de la App',
+          checking: 'Verificando...',
+          upToDate: 'Actualizado',
+          error: 'Verificación fallida',
+          checkButton: 'Buscar Actualizaciones',
+          available: 'disponible',
+          criticalMessage:
+            'Hay una actualización importante con correcciones críticas disponible. Por favor, actualiza lo antes posible.',
+        },
+      },
+
       legal: {
         title: 'Legal y Soporte',
         privacyPolicy: {

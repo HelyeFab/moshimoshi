@@ -2845,6 +2845,20 @@ export const strings = {
         },
       },
 
+      appInfo: {
+        title: "Infos sur l'Application",
+        version: {
+          title: "Version de l'Application",
+          checking: 'Vérification...',
+          upToDate: 'À jour',
+          error: 'Échec de la vérification',
+          checkButton: 'Vérifier les mises à jour',
+          available: 'disponible',
+          criticalMessage:
+            'Une mise à jour importante avec des correctifs critiques est disponible. Veuillez mettre à jour dès que possible.',
+        },
+      },
+
       legal: {
         title: 'Légal et Support',
         privacyPolicy: {

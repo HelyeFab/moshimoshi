@@ -3514,6 +3514,20 @@ export const strings = {
           },
         },
 
+        appInfo: {
+          title: 'App Info',
+          version: {
+            title: 'App Version',
+            checking: 'Checking...',
+            upToDate: 'Up to date',
+            error: 'Check failed',
+            checkButton: 'Check for Updates',
+            available: 'available',
+            criticalMessage:
+              'This is an important update with critical fixes. Please update as soon as possible.',
+          },
+        },
+
         legal: {
           title: 'Legal & Support',
           privacyPolicy: {
@@ -4603,6 +4617,20 @@ export const strings = {
         screenReader: {
           label: 'Screen Reader Support',
           description: 'Optimize for screen reader compatibility',
+        },
+      },
+
+      appInfo: {
+        title: 'App Info',
+        version: {
+          title: 'App Version',
+          checking: 'Checking...',
+          upToDate: 'Up to date',
+          error: 'Check failed',
+          checkButton: 'Check for Updates',
+          available: 'available',
+          criticalMessage:
+            'This is an important update with critical fixes. Please update as soon as possible.',
         },
       },
 

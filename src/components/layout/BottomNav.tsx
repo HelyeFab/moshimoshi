@@ -65,12 +65,12 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     matchPaths: ['/review', '/review-dashboard', '/review/session'],
   },
   {
-    id: 'kanji-connections',
-    label: strings.dashboard?.navigation?.bottomNav?.kanjiConnections || 'Kanji',
-    href: '/kanji-connections',
-    icon: RiLinksLine,
+    id: 'kanji-browser',
+    label: strings.dashboard?.navigation?.bottomNav?.kanji || 'Kanji',
+    href: '/kanji-browser',
+    icon: RiLinksLine, // Using RiLinksLine for now, can be updated if a more specific Kanji icon is found/preferred
     activeIcon: RiLinksFill,
-    matchPaths: ['/kanji-connections'],
+    matchPaths: ['/kanji-browser'],
   },
   {
     id: 'mood-boards',

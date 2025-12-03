@@ -74,6 +74,9 @@ export function AppVersionSection() {
     }
   }, [])
 
+  // i18n path prefix for app info version strings
+  const i18nPrefix = 'settings.sections.appInfo.version'
+
   return (
     <div className="p-4 bg-gray-50 dark:bg-dark-900/50 rounded-xl">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -81,13 +84,13 @@ export function AppVersionSection() {
           <span className="text-2xl">📱</span>
           <div>
             <p className="font-medium text-gray-900 dark:text-gray-100">
-              {t('settings.appVersion.title') || 'App Version'}
+              {t(`${i18nPrefix}.title`) || 'App Version'}
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               v{APP_VERSION}
               {status === 'update-available' && serverVersion && (
                 <span className="ml-2 text-primary-500">
-                  → v{serverVersion} {t('settings.appVersion.available') || 'available'}
+                  → v{serverVersion} {t(`${i18nPrefix}.available`) || 'available'}
                 </span>
               )}
             </p>
@@ -121,22 +124,22 @@ export function AppVersionSection() {
               {status === 'checking' ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  {t('settings.appVersion.checking') || 'Checking...'}
+                  {t(`${i18nPrefix}.checking`) || 'Checking...'}
                 </>
               ) : status === 'up-to-date' ? (
                 <>
                   <Check className="w-4 h-4 text-green-500" />
-                  {t('settings.appVersion.upToDate') || 'Up to date'}
+                  {t(`${i18nPrefix}.upToDate`) || 'Up to date'}
                 </>
               ) : status === 'error' ? (
                 <>
                   <AlertCircle className="w-4 h-4 text-red-500" />
-                  {t('settings.appVersion.error') || 'Check failed'}
+                  {t(`${i18nPrefix}.error`) || 'Check failed'}
                 </>
               ) : (
                 <>
                   <RefreshCw className="w-4 h-4" />
-                  {t('settings.appVersion.checkButton') || 'Check for Updates'}
+                  {t(`${i18nPrefix}.checkButton`) || 'Check for Updates'}
                 </>
               )}
             </button>
@@ -147,7 +150,7 @@ export function AppVersionSection() {
       {status === 'update-available' && isCritical && (
         <div className="mt-3 p-3 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
           <p className="text-sm text-red-700 dark:text-red-400">
-            {t('settings.appVersion.criticalMessage') ||
+            {t(`${i18nPrefix}.criticalMessage`) ||
               'This is an important update with critical fixes. Please update as soon as possible.'}
           </p>
         </div>

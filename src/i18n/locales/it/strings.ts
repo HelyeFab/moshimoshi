@@ -2996,6 +2996,20 @@ export const strings = {
         },
       },
 
+      appInfo: {
+        title: "Info sull'App",
+        version: {
+          title: "Versione dell'App",
+          checking: 'Verifica in corso...',
+          upToDate: 'Aggiornato',
+          error: 'Verifica fallita',
+          checkButton: 'Controlla Aggiornamenti',
+          available: 'disponibile',
+          criticalMessage:
+            'È disponibile un aggiornamento importante con correzioni critiche. Si prega di aggiornare il prima possibile.',
+        },
+      },
+
       legal: {
         title: 'Legale e Supporto',
         privacyPolicy: {

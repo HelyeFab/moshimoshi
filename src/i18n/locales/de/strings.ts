@@ -2957,6 +2957,20 @@ export const strings = {
         },
       },
 
+      appInfo: {
+        title: 'App-Informationen',
+        version: {
+          title: 'App-Version',
+          checking: 'Überprüfe...',
+          upToDate: 'Aktuell',
+          error: 'Überprüfung fehlgeschlagen',
+          checkButton: 'Nach Updates suchen',
+          available: 'verfügbar',
+          criticalMessage:
+            'Ein wichtiges Update mit kritischen Fehlerbehebungen ist verfügbar. Bitte aktualisieren Sie so bald wie möglich.',
+        },
+      },
+
       legal: {
         title: 'Rechtliches und Support',
         privacyPolicy: {

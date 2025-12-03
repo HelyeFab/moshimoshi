@@ -3166,6 +3166,20 @@ export const strings = {
         },
       },
 
+      appInfo: {
+        title: 'アプリ情報',
+        version: {
+          title: 'アプリバージョン',
+          checking: '確認中...',
+          upToDate: '最新版です',
+          error: '確認に失敗しました',
+          checkButton: 'アップデートを確認',
+          available: '利用可能',
+          criticalMessage:
+            '重要な修正を含む更新があります。できるだけ早くアップデートしてください。',
+        },
+      },
+
       legal: {
         title: '法務＆サポート',
         privacyPolicy: {

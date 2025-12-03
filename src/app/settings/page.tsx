@@ -578,7 +578,11 @@ export default function SettingsPage() {
           </CollapsibleSection>
 
           {/* App Info & Updates */}
-          <CollapsibleSection title="App Info" icon="📱" defaultOpen={false}>
+          <CollapsibleSection
+            title={strings.settings?.sections?.appInfo?.title || 'App Info'}
+            icon="📱"
+            defaultOpen={false}
+          >
             <AppVersionSection />
           </CollapsibleSection>
 
