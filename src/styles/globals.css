@@ -323,7 +323,7 @@ body {
 @media (max-width: 767px) {
   /* Apply padding directly to page containers so their backgrounds extend */
   main > div {
-    padding-bottom: 50px !important;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px)) !important;
   }
 }
 
