@@ -12,12 +12,9 @@ import {
   ProgressUpdate,
   BatchProgressUpdate,
   ProgressEventMetadata,
-  ProgressSessionSummary
+  ProgressSessionSummary,
 } from '../core/progress.types'
-import {
-  ReviewHistoryEntry,
-  ReviewHistoryBatch
-} from '../core/review-history.types'
+import { ReviewHistoryEntry, ReviewHistoryBatch } from '../core/review-history.types'
 import { getKanaById } from '@/data/kanaData'
 
 /**
@@ -121,7 +118,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
               // Create new composite key index
               if (!progressStore.indexNames.contains('by-composite-key')) {
                 progressStore.createIndex('by-composite-key', 'compositeKey', {
-                  unique: true
+                  unique: true,
                 })
               }
             }
@@ -131,12 +128,12 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
           if (!db.objectStoreNames.contains('progress')) {
             const progressStore = db.createObjectStore('progress', {
               keyPath: 'id',
-              autoIncrement: true
+              autoIncrement: true,
             })
             progressStore.createIndex('by-user', 'userId')
             progressStore.createIndex('by-content-type', 'contentType')
             progressStore.createIndex('by-composite-key', 'compositeKey', {
-              unique: true
+              unique: true,
             })
             progressStore.createIndex('by-sync', 'syncedAt')
           }
@@ -145,7 +142,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
           if (!db.objectStoreNames.contains('sessions')) {
             const sessionsStore = db.createObjectStore('sessions', {
               keyPath: 'id',
-              autoIncrement: true
+              autoIncrement: true,
             })
             sessionsStore.createIndex('by-session', 'sessionId', { unique: true })
             sessionsStore.createIndex('by-user', 'userId')
@@ -155,12 +152,12 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
           if (!db.objectStoreNames.contains('syncQueue')) {
             const syncStore = db.createObjectStore('syncQueue', {
               keyPath: 'id',
-              autoIncrement: true
+              autoIncrement: true,
             })
             syncStore.createIndex('by-status', 'status')
             syncStore.createIndex('by-timestamp', 'timestamp')
           }
-        }
+        },
       })
 
       // Database initialized
@@ -177,7 +174,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     contentType: string,
     contentId: string,
     event: ProgressEvent,
-    user: any | null,  // Accept any user object with uid property
+    user: any | null, // Accept any user object with uid property
     isPremium: boolean,
     metadata?: Partial<ProgressEventMetadata>
   ): Promise<void> {
@@ -193,7 +190,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       reviewLogger.error('[UniversalProgressManager] User object has no uid/userId/id:', {
         user,
         keys: Object.keys(user),
-        values: Object.entries(user).slice(0, 5) // Show first 5 key-value pairs
+        values: Object.entries(user).slice(0, 5), // Show first 5 key-value pairs
       })
       return
     }
@@ -208,7 +205,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       userObject: user,
       contentType,
       contentId,
-      event
+      event,
     }
 
     // Get or create progress data
@@ -231,14 +228,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
 
     // Add to review history (for premium users)
     if (isPremium) {
-      await this.trackReviewHistory(
-        userId,
-        contentType,
-        contentId,
-        event,
-        isPremium,
-        metadata
-      )
+      await this.trackReviewHistory(userId, contentType, contentId, event, isPremium, metadata)
     }
 
     // XP tracking removed - now handled by gamification listener via URE events
@@ -276,7 +266,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       easeFactor: null,
       interval: null,
       syncedAt: null,
-      version: 1
+      version: 1,
     } as T
   }
 
@@ -397,17 +387,39 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         await this.db.put('progress', {
           ...existing,
           data: cleanedProgress,
-          updatedAt: new Date()
+          updatedAt: new Date(),
         })
       } else {
-        await this.db.add('progress', {
-          userId,
-          contentType,
-          contentId,
-          compositeKey,
-          data: cleanedProgress,
-          updatedAt: new Date()
-        })
+        // Try to add new record, handling race condition where another
+        // concurrent write may have inserted the same compositeKey
+        try {
+          await this.db.add('progress', {
+            userId,
+            contentType,
+            contentId,
+            compositeKey,
+            data: cleanedProgress,
+            updatedAt: new Date(),
+          })
+        } catch (addError) {
+          // ConstraintError means another concurrent write beat us - fetch and update
+          if (addError instanceof DOMException && addError.name === 'ConstraintError') {
+            const nowExisting = await this.db.getFromIndex(
+              'progress',
+              'by-composite-key',
+              compositeKey
+            )
+            if (nowExisting) {
+              await this.db.put('progress', {
+                ...nowExisting,
+                data: cleanedProgress,
+                updatedAt: new Date(),
+              })
+            }
+          } else {
+            throw addError
+          }
+        }
       }
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to save to IndexedDB:', error)
@@ -481,8 +493,8 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         body: JSON.stringify({
           contentType,
           items: itemsArray,
-          reviewHistory: reviewHistory.length > 0 ? reviewHistory : undefined
-        })
+          reviewHistory: reviewHistory.length > 0 ? reviewHistory : undefined,
+        }),
       })
 
       if (!response.ok) {
@@ -528,7 +540,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         data: Object.fromEntries(items),
         timestamp: Date.now(),
         retryCount: 0,
-        status: 'pending'
+        status: 'pending',
       })
     } catch (error) {
       reviewLogger.error('[UniversalProgressManager] Failed to add to sync queue:', error)
@@ -589,10 +601,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   /**
    * Load from IndexedDB
    */
-  protected async loadFromIndexedDB(
-    userId: string,
-    contentType: string
-  ): Promise<Map<string, T>> {
+  protected async loadFromIndexedDB(userId: string, contentType: string): Promise<Map<string, T>> {
     await this.initDB()
     if (!this.db) return new Map()
 
@@ -604,10 +613,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       // Get all records for this user and content type
       // The composite key format is "userId:contentType:contentId"
       const prefix = `${userId}:${contentType}:`
-      let cursor = await index.openCursor(IDBKeyRange.bound(
-        prefix,
-        prefix + '\uffff'
-      ))
+      let cursor = await index.openCursor(IDBKeyRange.bound(prefix, prefix + '\uffff'))
 
       while (cursor) {
         records.push(cursor.value)
@@ -629,18 +635,18 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   /**
    * Load from Firebase via server API
    */
-  protected async loadFromFirebase(
-    userId: string,
-    contentType: string
-  ): Promise<Map<string, T>> {
+  protected async loadFromFirebase(userId: string, contentType: string): Promise<Map<string, T>> {
     try {
       // Call server API to get progress
-      const response = await fetch(`/api/progress/track?contentType=${encodeURIComponent(contentType)}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `/api/progress/track?contentType=${encodeURIComponent(contentType)}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      })
+      )
 
       if (!response.ok) {
         throw new Error(`API returned ${response.status}: ${response.statusText}`)
@@ -665,10 +671,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
   /**
    * Merge local and cloud progress data
    */
-  protected mergeProgress(
-    local: Map<string, T>,
-    cloud: Map<string, T>
-  ): Map<string, T> {
+  protected mergeProgress(local: Map<string, T>, cloud: Map<string, T>): Map<string, T> {
     const merged = new Map(local)
 
     for (const [contentId, cloudItem] of cloud) {
@@ -709,19 +712,14 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       accuracy: 0,
       averageResponseTime: 0,
       completed: false,
-      syncedToCloud: false
+      syncedToCloud: false,
     }
 
     // Track session start event (only if we have a full user object)
     if (user) {
-      await this.trackProgress(
-        contentType,
-        'session',
-        ProgressEvent.SESSION_START,
-        user,
-        false,
-        { sessionId: id }
-      )
+      await this.trackProgress(contentType, 'session', ProgressEvent.SESSION_START, user, false, {
+        sessionId: id,
+      })
     }
 
     return id
@@ -734,13 +732,13 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     if (!this.currentSession) return
 
     // Get actual content for kana types
-    let actualContent = contentId;
-    const contentType = this.currentSession.contentType;
+    let actualContent = contentId
+    const contentType = this.currentSession.contentType
 
     if (contentType === 'hiragana' || contentType === 'katakana') {
-      const kanaChar = getKanaById(contentId);
+      const kanaChar = getKanaById(contentId)
       if (kanaChar) {
-        actualContent = contentType === 'hiragana' ? kanaChar.hiragana : kanaChar.katakana;
+        actualContent = contentType === 'hiragana' ? kanaChar.hiragana : kanaChar.katakana
       }
     }
 
@@ -781,9 +779,8 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     session.duration = endTime.getTime() - new Date(session.startedAt).getTime()
     session.completed = true
     session.totalItems = session.itemsViewed.length
-    session.completionRate = session.totalItems > 0
-      ? (session.itemsCompleted.length / session.totalItems) * 100
-      : 0
+    session.completionRate =
+      session.totalItems > 0 ? (session.itemsCompleted.length / session.totalItems) * 100 : 0
 
     // Save session to storage
     await this.saveSession(session, isPremium)
@@ -800,12 +797,42 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
     if (!this.db) return
 
     try {
-      // Save to IndexedDB
-      await this.db.add('sessions', {
-        sessionId: session.sessionId,
-        userId: session.userId,
-        data: session
-      })
+      // Save to IndexedDB - check for existing first to handle potential duplicates
+      const existing = await this.db.getFromIndex('sessions', 'by-session', session.sessionId)
+
+      if (existing) {
+        // Update existing session
+        await this.db.put('sessions', {
+          ...existing,
+          data: session,
+        })
+      } else {
+        // Try to add new session, handling potential race condition
+        try {
+          await this.db.add('sessions', {
+            sessionId: session.sessionId,
+            userId: session.userId,
+            data: session,
+          })
+        } catch (addError) {
+          // ConstraintError means session was already saved - update instead
+          if (addError instanceof DOMException && addError.name === 'ConstraintError') {
+            const nowExisting = await this.db.getFromIndex(
+              'sessions',
+              'by-session',
+              session.sessionId
+            )
+            if (nowExisting) {
+              await this.db.put('sessions', {
+                ...nowExisting,
+                data: session,
+              })
+            }
+          } else {
+            throw addError
+          }
+        }
+      }
 
       // ONLY premium users sync to Firebase
       if (isPremium) {
@@ -821,17 +848,17 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
               script: session.contentType,
               correct: session.itemsCompleted.includes(itemId),
               attempts: 1,
-              responseTime: 0
+              responseTime: 0,
             })),
             stats: {
               totalItems: session.totalItems,
               correctItems: session.itemsCompleted.length,
               accuracy: session.accuracy || 0,
               avgResponseTime: 0,
-              duration: session.duration
+              duration: session.duration,
             },
             startedAt: session.startedAt, // Already an ISO string
-            completedAt: session.endedAt || new Date().toISOString()
+            completedAt: session.endedAt || new Date().toISOString(),
           }
 
           const response = await fetch('/api/sessions/save', {
@@ -840,7 +867,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
               'Content-Type': 'application/json',
             },
             credentials: 'same-origin',
-            body: JSON.stringify(sessionData)
+            body: JSON.stringify(sessionData),
           })
 
           if (response.ok) {
@@ -849,7 +876,10 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
               session.syncedToCloud = true
             }
           } else {
-            reviewLogger.error('[UniversalProgressManager] Failed to sync session, status:', response.status)
+            reviewLogger.error(
+              '[UniversalProgressManager] Failed to sync session, status:',
+              response.status
+            )
           }
         } catch (error) {
           reviewLogger.error('[UniversalProgressManager] Failed to sync session to cloud:', error)
@@ -904,13 +934,13 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       return
     }
     // Get actual content based on content type
-    let actualContent = contentId; // Default to ID if not found
+    let actualContent = contentId // Default to ID if not found
 
     if (contentType === 'hiragana' || contentType === 'katakana') {
       // For kana, get the actual character from the ID
-      const kanaChar = getKanaById(contentId);
+      const kanaChar = getKanaById(contentId)
       if (kanaChar) {
-        actualContent = contentType === 'hiragana' ? kanaChar.hiragana : kanaChar.katakana;
+        actualContent = contentType === 'hiragana' ? kanaChar.hiragana : kanaChar.katakana
       }
     }
     // For other content types (kanji, vocabulary), the contentId is likely already the actual content
@@ -926,7 +956,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       event,
       isPremium,
       deviceType: this.getDeviceType(),
-      appVersion: '1.0.0' // TODO: Get from environment
+      appVersion: '1.0.0', // TODO: Get from environment
     }
 
     // Only add optional fields if they have values (Firebase doesn't accept undefined)
@@ -1013,7 +1043,7 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
       })
 
       if (!response.ok) {
@@ -1027,5 +1057,4 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
       return []
     }
   }
-
 }

@@ -4,11 +4,7 @@
  */
 
 import { UniversalProgressManager } from '../UniversalProgressManager'
-import {
-  ProgressEvent,
-  ProgressStatus,
-  ReviewProgressData
-} from '../../core/progress.types'
+import { ProgressEvent, ProgressStatus, ReviewProgressData } from '../../core/progress.types'
 import { reviewLogger } from '@/lib/monitoring/logger'
 
 // Mock fetch for API calls
@@ -26,7 +22,7 @@ jest.mock('@/lib/monitoring/logger', () => ({
     debug: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-  }
+  },
 }))
 
 // Test implementation of UniversalProgressManager
@@ -104,8 +100,8 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
       getFromIndex: jest.fn(),
       delete: jest.fn(),
       objectStoreNames: {
-        contains: jest.fn(() => true)
-      }
+        contains: jest.fn(() => true),
+      },
     }
 
     mockIDB.openDB.mockResolvedValue(mockDB)
@@ -121,13 +117,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
     const contentId = 'あ'
 
     it('should not track progress for guest users', async () => {
-      await manager.trackProgress(
-        contentType,
-        contentId,
-        ProgressEvent.VIEWED,
-        null,
-        false
-      )
+      await manager.trackProgress(contentType, contentId, ProgressEvent.VIEWED, null, false)
 
       expect(reviewLogger.debug).toHaveBeenCalledWith(
         '[UniversalProgressManager] Guest user - no storage'
@@ -169,7 +159,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         bestStreak: 0,
         pinned: false,
         bookmarked: false,
-        flaggedForReview: false
+        flaggedForReview: false,
       })
       expect(progress.createdAt).toBeInstanceOf(Date)
       expect(progress.updatedAt).toBeInstanceOf(Date)
@@ -197,11 +187,9 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
 
       it('should update progress for COMPLETED event (correct)', () => {
         const initial = manager.testCreateInitialProgress(contentId, contentType)
-        const updated = manager.testUpdateProgressForEvent(
-          initial,
-          ProgressEvent.COMPLETED,
-          { correct: true }
-        )
+        const updated = manager.testUpdateProgressForEvent(initial, ProgressEvent.COMPLETED, {
+          correct: true,
+        })
 
         expect(updated.correctCount).toBe(1)
         expect(updated.streak).toBe(1)
@@ -215,11 +203,9 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         initial.bestStreak = 5
         initial.correctCount = 5
 
-        const updated = manager.testUpdateProgressForEvent(
-          initial,
-          ProgressEvent.COMPLETED,
-          { correct: false }
-        )
+        const updated = manager.testUpdateProgressForEvent(initial, ProgressEvent.COMPLETED, {
+          correct: false,
+        })
 
         expect(updated.incorrectCount).toBe(1)
         expect(updated.streak).toBe(0)
@@ -229,10 +215,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
 
       it('should handle SKIPPED event', () => {
         const initial = manager.testCreateInitialProgress(contentId, contentType)
-        const updated = manager.testUpdateProgressForEvent(
-          initial,
-          ProgressEvent.SKIPPED
-        )
+        const updated = manager.testUpdateProgressForEvent(initial, ProgressEvent.SKIPPED)
 
         // Skipped doesn't change most fields
         expect(updated.viewCount).toBe(0)
@@ -247,18 +230,14 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
 
         // Add 3 correct and 2 incorrect
         for (let i = 0; i < 3; i++) {
-          progress = manager.testUpdateProgressForEvent(
-            progress,
-            ProgressEvent.COMPLETED,
-            { correct: true }
-          )
+          progress = manager.testUpdateProgressForEvent(progress, ProgressEvent.COMPLETED, {
+            correct: true,
+          })
         }
         for (let i = 0; i < 2; i++) {
-          progress = manager.testUpdateProgressForEvent(
-            progress,
-            ProgressEvent.COMPLETED,
-            { correct: false }
-          )
+          progress = manager.testUpdateProgressForEvent(progress, ProgressEvent.COMPLETED, {
+            correct: false,
+          })
         }
 
         expect(progress.correctCount).toBe(3)
@@ -322,13 +301,13 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
 
     describe('API Calls', () => {
       it('should call /api/progress/track for saving', async () => {
-        (fetch as jest.Mock).mockResolvedValue({
+        ;(fetch as jest.Mock).mockResolvedValue({
           ok: true,
           json: async () => ({
             success: true,
             itemsCount: 2,
-            isPremium: true
-          })
+            isPremium: true,
+          }),
         })
 
         const progress1 = manager.testCreateInitialProgress('あ', contentType)
@@ -345,7 +324,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
           expect.objectContaining({
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: expect.any(String)
+            body: expect.any(String),
           })
         )
 
@@ -356,9 +335,9 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
       })
 
       it('should include review history in API call for premium users', async () => {
-        (fetch as jest.Mock).mockResolvedValue({
+        ;(fetch as jest.Mock).mockResolvedValue({
           ok: true,
-          json: async () => ({ success: true })
+          json: async () => ({ success: true }),
         })
 
         manager.setDB(mockDB)
@@ -366,14 +345,9 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         mockDB.add.mockResolvedValue(true)
 
         // Track with premium flag to create review history
-        await manager.trackProgress(
-          contentType,
-          'あ',
-          ProgressEvent.COMPLETED,
-          mockUser,
-          true,
-          { correct: true }
-        )
+        await manager.trackProgress(contentType, 'あ', ProgressEvent.COMPLETED, mockUser, true, {
+          correct: true,
+        })
 
         jest.advanceTimersByTime(500)
         await manager.testProcessPendingUpdates()
@@ -389,7 +363,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
       })
 
       it('should handle API errors and add to sync queue', async () => {
-        (fetch as jest.Mock).mockRejectedValue(new Error('Network error'))
+        ;(fetch as jest.Mock).mockRejectedValue(new Error('Network error'))
 
         manager.setDB(mockDB)
         mockDB.add.mockResolvedValue(true)
@@ -412,7 +386,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
             type: 'progress',
             userId: mockUser.uid,
             contentType,
-            status: 'pending'
+            status: 'pending',
           })
         )
       })
@@ -421,21 +395,21 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         mockDB.transaction.mockReturnValue({
           store: {
             index: jest.fn().mockReturnValue({
-              openCursor: jest.fn().mockResolvedValue(null)
-            })
-          }
-        });
+              openCursor: jest.fn().mockResolvedValue(null),
+            }),
+          },
+        })
 
-        (fetch as jest.Mock).mockResolvedValue({
+        ;(fetch as jest.Mock).mockResolvedValue({
           ok: true,
           json: async () => ({
             items: {
-              'あ': { contentId: 'あ', viewCount: 5, accuracy: 80 },
-              'か': { contentId: 'か', viewCount: 3, accuracy: 60 }
+              あ: { contentId: 'あ', viewCount: 5, accuracy: 80 },
+              か: { contentId: 'か', viewCount: 3, accuracy: 60 },
             },
             contentType,
-            lastUpdated: new Date().toISOString()
-          })
+            lastUpdated: new Date().toISOString(),
+          }),
         })
 
         const result = await manager.getProgress(mockUser.uid, contentType, true)
@@ -444,7 +418,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
           expect.stringContaining('/api/progress/track'),
           expect.objectContaining({
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
           })
         )
 
@@ -454,10 +428,10 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
       })
 
       it('should handle API 401 responses gracefully', async () => {
-        (fetch as jest.Mock).mockResolvedValue({
+        ;(fetch as jest.Mock).mockResolvedValue({
           ok: false,
           status: 401,
-          statusText: 'Unauthorized'
+          statusText: 'Unauthorized',
         })
 
         const progress = manager.testCreateInitialProgress('あ', contentType)
@@ -504,7 +478,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
           contentType,
           contentId,
           compositeKey: `${mockUser.uid}:${contentType}:${contentId}`,
-          data: expect.any(Object)
+          data: expect.any(Object),
         })
       )
     })
@@ -515,7 +489,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         userId: mockUser.uid,
         contentType,
         contentId,
-        data: manager.testCreateInitialProgress(contentId, contentType)
+        data: manager.testCreateInitialProgress(contentId, contentType),
       }
 
       mockDB.getFromIndex.mockResolvedValue(existingEntry)
@@ -529,7 +503,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         'progress',
         expect.objectContaining({
           id: 1,
-          data: expect.objectContaining({ viewCount: 5 })
+          data: expect.objectContaining({ viewCount: 5 }),
         })
       )
     })
@@ -541,7 +515,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         c: 'test',
         d: null,
         e: { f: undefined, g: 2 },
-        arr: [1, undefined, 3]
+        arr: [1, undefined, 3],
       }
 
       const cleaned = manager.testCleanForStorage(obj)
@@ -551,7 +525,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         c: 'test',
         d: null,
         e: { g: 2 },
-        arr: [1, undefined, 3] // Arrays keep undefined
+        arr: [1, undefined, 3], // Arrays keep undefined
       })
       expect(cleaned.b).toBeUndefined()
       expect(cleaned.e.f).toBeUndefined()
@@ -568,6 +542,46 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         '[UniversalProgressManager] Failed to save to IndexedDB:',
         expect.any(Error)
       )
+    })
+
+    it('should handle ConstraintError race condition by retrying with put', async () => {
+      const progress = manager.testCreateInitialProgress(contentId, contentType)
+      const compositeKey = `${mockUser.uid}:${contentType}:${contentId}`
+
+      // First getFromIndex returns null (simulating race - record doesn't exist yet)
+      // Then add fails with ConstraintError (another concurrent write beat us)
+      // Then getFromIndex returns the newly created record
+      const constraintError = new DOMException('ConstraintError', 'ConstraintError')
+      const existingEntry = {
+        id: 1,
+        userId: mockUser.uid,
+        contentType,
+        contentId,
+        compositeKey,
+        data: progress,
+      }
+
+      mockDB.getFromIndex
+        .mockResolvedValueOnce(null) // First check - nothing exists
+        .mockResolvedValueOnce(existingEntry) // After ConstraintError - record now exists
+
+      mockDB.add.mockRejectedValue(constraintError)
+      mockDB.put.mockResolvedValue(true)
+
+      await manager['saveToIndexedDB'](mockUser.uid, contentType, contentId, progress)
+
+      // Should have tried add first
+      expect(mockDB.add).toHaveBeenCalled()
+      // Should have retried with put after ConstraintError
+      expect(mockDB.put).toHaveBeenCalledWith(
+        'progress',
+        expect.objectContaining({
+          id: 1,
+          data: expect.any(Object),
+        })
+      )
+      // Should NOT have logged an error (handled gracefully)
+      expect(reviewLogger.error).not.toHaveBeenCalled()
     })
   })
 
@@ -612,9 +626,9 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
     })
 
     it('should save session to API for premium users', async () => {
-      (fetch as jest.Mock).mockResolvedValue({
+      ;(fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: async () => ({ success: true })
+        json: async () => ({ success: true }),
       })
 
       await manager.startSession(mockUser.uid, contentType, undefined, mockUser)
@@ -625,7 +639,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         expect.objectContaining({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: expect.stringContaining('session')
+          body: expect.stringContaining('session'),
         })
       )
     })
@@ -662,7 +676,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         event: ProgressEvent.COMPLETED,
         correct: true,
         responseTime: 1500,
-        isPremium: true
+        isPremium: true,
       })
     })
 
@@ -680,19 +694,19 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
     })
 
     it('should query review history via API', async () => {
-      (fetch as jest.Mock).mockResolvedValue({
+      ;(fetch as jest.Mock).mockResolvedValue({
         ok: true,
         json: async () => ({
           entries: [
             { contentId: 'あ', event: ProgressEvent.VIEWED, timestamp: new Date() },
-            { contentId: 'か', event: ProgressEvent.COMPLETED, timestamp: new Date() }
-          ]
-        })
+            { contentId: 'か', event: ProgressEvent.COMPLETED, timestamp: new Date() },
+          ],
+        }),
       })
 
       const results = await manager.queryReviewHistory(mockUser.uid, {
         contentType,
-        limit: 10
+        limit: 10,
       })
 
       expect(fetch).toHaveBeenCalledWith(
@@ -709,7 +723,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
       Object.defineProperty(window, 'innerWidth', {
         writable: true,
         configurable: true,
-        value: 375
+        value: 375,
       })
 
       const deviceType = manager.testGetDeviceType()
@@ -720,7 +734,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
       Object.defineProperty(window, 'innerWidth', {
         writable: true,
         configurable: true,
-        value: 800
+        value: 800,
       })
 
       const deviceType = manager.testGetDeviceType()
@@ -731,7 +745,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
       Object.defineProperty(window, 'innerWidth', {
         writable: true,
         configurable: true,
-        value: 1920
+        value: 1920,
       })
 
       const deviceType = manager.testGetDeviceType()
@@ -769,9 +783,9 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
     })
 
     it('Premium users: IndexedDB + Firebase', async () => {
-      (fetch as jest.Mock).mockResolvedValue({
+      ;(fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: async () => ({ success: true })
+        json: async () => ({ success: true }),
       })
 
       await manager.trackProgress(contentType, 'あ', ProgressEvent.VIEWED, mockUser, true)
@@ -781,10 +795,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
 
       // Should sync to Firebase after debounce
       jest.advanceTimersByTime(500)
-      expect(fetch).toHaveBeenCalledWith(
-        '/api/progress/track',
-        expect.any(Object)
-      )
+      expect(fetch).toHaveBeenCalledWith('/api/progress/track', expect.any(Object))
     })
   })
 
@@ -798,7 +809,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
     })
 
     it('should continue working if API is down', async () => {
-      (fetch as jest.Mock).mockRejectedValue(new Error('Service unavailable'))
+      ;(fetch as jest.Mock).mockRejectedValue(new Error('Service unavailable'))
 
       mockDB.getFromIndex.mockResolvedValue(null)
       mockDB.add.mockResolvedValue(true)
@@ -816,9 +827,11 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
     })
 
     it('should handle malformed API responses', async () => {
-      (fetch as jest.Mock).mockResolvedValue({
+      ;(fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: async () => { throw new Error('Invalid JSON') }
+        json: async () => {
+          throw new Error('Invalid JSON')
+        },
       })
 
       const result = await manager.getProgress(mockUser.uid, contentType, true)
@@ -838,19 +851,19 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
                 type: 'progress',
                 userId: mockUser.uid,
                 contentType,
-                data: { 'あ': { viewCount: 1 } },
-                status: 'pending'
-              }
-            ])
-          })
-        }
+                data: { あ: { viewCount: 1 } },
+                status: 'pending',
+              },
+            ]),
+          }),
+        },
       })
 
-      mockDB.delete.mockResolvedValue(true);
+      mockDB.delete.mockResolvedValue(true)
 
-      (fetch as jest.Mock).mockResolvedValue({
+      ;(fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: async () => ({ success: true })
+        json: async () => ({ success: true }),
       })
 
       await manager.processSyncQueue()
