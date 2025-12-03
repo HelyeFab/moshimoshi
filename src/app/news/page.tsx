@@ -1,32 +1,32 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useI18n } from '@/i18n/I18nContext';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { useI18n } from '@/i18n/I18nContext'
 // Navigation is now global via NavigationWrapper in root layout;
-import PageHeader from '@/components/layout/PageHeader';
-import { useAuth } from '@/hooks/useAuth';
-import { LoadingOverlay } from '@/components/ui/Loading';
-import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage';
+import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import { useAuth } from '@/hooks/useAuth'
+import { LoadingOverlay } from '@/components/ui/Loading'
+import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage'
 
 interface NewsArticle {
-  id: string;
-  title: string;
-  content: string;
-  summary: string;
-  url: string;
-  imageUrl?: string;
-  publishDate: string | Date;
-  source: string;
-  category: string;
-  difficulty: string;
-  tags?: string[];
+  id: string
+  title: string
+  content: string
+  summary: string
+  url: string
+  imageUrl?: string
+  publishDate: string | Date
+  source: string
+  category: string
+  difficulty: string
+  tags?: string[]
   metadata?: {
-    wordCount?: number;
-    readingTime?: number;
-    hasFurigana?: boolean;
-  };
+    wordCount?: number
+    readingTime?: number
+    hasFurigana?: boolean
+  }
 }
 
 // Loading skeleton component
@@ -47,17 +47,23 @@ function ArticleCardSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 // Article card component
-function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (article: NewsArticle) => void }) {
-  const { t } = useI18n();
+function ArticleCard({
+  article,
+  onClick,
+}: {
+  article: NewsArticle
+  onClick: (article: NewsArticle) => void
+}) {
+  const { t } = useI18n()
 
   const formatDate = (date: string | Date) => {
-    const d = new Date(date);
-    return d.toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' });
-  };
+    const d = new Date(date)
+    return d.toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' })
+  }
 
   const getDifficultyColor = (difficulty: string) => {
     const colors: Record<string, string> = {
@@ -65,21 +71,21 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
       N4: 'bg-info-100 text-info-700 border-info-200 dark:bg-info-900/20 dark:text-info-400 dark:border-info-800',
       N3: 'bg-warning-100 text-warning-700 border-warning-200 dark:bg-warning-900/20 dark:text-warning-400 dark:border-warning-800',
       N2: 'bg-accent-100 text-accent-700 border-accent-200 dark:bg-accent-900/20 dark:text-accent-400 dark:border-accent-800',
-      N1: 'bg-danger-100 text-danger-700 border-danger-200 dark:bg-danger-900/20 dark:text-danger-400 dark:border-danger-800'
-    };
-    return colors[difficulty] || colors.N3;
-  };
+      N1: 'bg-danger-100 text-danger-700 border-danger-200 dark:bg-danger-900/20 dark:text-danger-400 dark:border-danger-800',
+    }
+    return colors[difficulty] || colors.N3
+  }
 
   const getSourceIcon = (source: string) => {
     const icons: Record<string, string> = {
       'NHK Easy': '📺',
-      'Todaii': '📚',
-      'Watanoc': '🌸',
+      Todaii: '📚',
+      Watanoc: '🌸',
       'Mainichi News': '📰',
-      'Mainichi Shogakusei': '🎒'
-    };
-    return icons[source] || '📄';
-  };
+      'Mainichi Shogakusei': '🎒',
+    }
+    return icons[source] || '📄'
+  }
 
   return (
     <article
@@ -112,7 +118,9 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
           )}
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getDifficultyColor(article.difficulty)}`}>
+            <span
+              className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getDifficultyColor(article.difficulty)}`}
+            >
               {article.difficulty}
             </span>
 
@@ -123,7 +131,8 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
 
             <span className="text-xs text-muted-foreground dark:text-dark-500 flex items-center gap-1">
               <span className="text-xs">📖</span>
-              {article.metadata?.readingTime || Math.ceil((article.metadata?.wordCount || 500) / 300)}
+              {article.metadata?.readingTime ||
+                Math.ceil((article.metadata?.wordCount || 500) / 300)}
               {t('news.readingTime')}
             </span>
 
@@ -140,30 +149,25 @@ function ArticleCard({ article, onClick }: { article: NewsArticle; onClick: (art
         </div>
       </div>
     </article>
-  );
+  )
 }
 
 // Filter bar component
 function FilterBar({
   selectedLevel,
-  selectedSource,
   onLevelChange,
-  onSourceChange,
   onRefresh,
-  isLoading
+  isLoading,
 }: {
-  selectedLevel: string;
-  selectedSource: string;
-  onLevelChange: (level: string) => void;
-  onSourceChange: (source: string) => void;
-  onRefresh: () => void;
-  isLoading: boolean;
+  selectedLevel: string
+  onLevelChange: (level: string) => void
+  onRefresh: () => void
+  isLoading: boolean
 }) {
-  const { t } = useI18n();
-  const [showFilters, setShowFilters] = useState(false);
+  const { t } = useI18n()
+  const [showFilters, setShowFilters] = useState(false)
 
-  const levels = ['All', 'N5', 'N4', 'N3', 'N2', 'N1'];
-  const sources = ['All', 'NHK Easy', 'Watanoc', 'Mainichi News', 'Mainichi Shogakusei'];
+  const levels = ['All', 'N5', 'N4', 'N3', 'N2', 'N1']
 
   return (
     <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4 mb-4">
@@ -172,11 +176,16 @@ function FilterBar({
           onClick={() => setShowFilters(!showFilters)}
           className="flex items-center gap-2 text-sm font-medium text-foreground"
         >
-          <svg className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
           {t('news.filters.title')}
-          {(selectedLevel !== 'All' || selectedSource !== 'All') && (
+          {selectedLevel !== 'All' && (
             <span className="ml-1 px-2 py-0.5 bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 rounded-full text-xs">
               {t('news.filters.applied')}
             </span>
@@ -193,10 +202,12 @@ function FilterBar({
       </div>
 
       {showFilters && (
-        <div className="space-y-3 pt-3 border-t border-gray-200 dark:border-dark-700">
+        <div className="pt-3 border-t border-gray-200 dark:border-dark-700">
           {/* Level filter */}
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-2 block">{t('news.filters.level')}</label>
+            <label className="text-xs font-medium text-muted-foreground mb-2 block">
+              {t('news.filters.level')}
+            </label>
             <div className="flex flex-wrap gap-2">
               {levels.map(level => (
                 <button
@@ -213,127 +224,103 @@ function FilterBar({
               ))}
             </div>
           </div>
-
-          {/* Source filter */}
-          <div>
-            <label className="text-xs font-medium text-muted-foreground mb-2 block">{t('news.filters.source')}</label>
-            <div className="flex flex-wrap gap-2">
-              {sources.map(source => (
-                <button
-                  key={source}
-                  onClick={() => onSourceChange(source)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                    selectedSource === source
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-soft-white dark:bg-dark-700 text-muted-foreground hover:bg-gray-100 dark:hover:bg-dark-600'
-                  }`}
-                >
-                  {source}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       )}
     </div>
-  );
+  )
 }
 
 const pageStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Japanese News Reader - Doshi",
-  "description": "Read real Japanese news with furigana, vocabulary lookup, and comprehension quizzes",
-  "url": "https://doshi.app/news"
-};
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Japanese News Reader - Doshi',
+  description:
+    'Read real Japanese news with furigana, vocabulary lookup, and comprehension quizzes',
+  url: 'https://doshi.app/news',
+}
 
 export default function NewsPage() {
-  const router = useRouter();
-  const { t } = useI18n();
-  const { user, loading: authLoading, isGuest, isAuthenticated } = useAuth();
-  const [articles, setArticles] = useState<NewsArticle[]>([]);
-  const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedLevel, setSelectedLevel] = useState('All');
-  const [selectedSource, setSelectedSource] = useState('All');
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
+  const router = useRouter()
+  const { t } = useI18n()
+  const { user, loading: authLoading, isGuest, isAuthenticated } = useAuth()
+  const [articles, setArticles] = useState<NewsArticle[]>([])
+  const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [selectedLevel, setSelectedLevel] = useState('All')
+  const [page, setPage] = useState(0)
+  const [hasMore, setHasMore] = useState(false)
 
   // Load articles
   useEffect(() => {
-    loadArticles();
-  }, []);
+    loadArticles()
+  }, [])
 
   // Filter articles when filters change
   useEffect(() => {
-    filterArticles();
-  }, [articles, selectedLevel, selectedSource]);
+    filterArticles()
+  }, [articles, selectedLevel])
 
   // Handle redirect if no user after auth has loaded
   useEffect(() => {
     if (!authLoading && !user && !isGuest) {
       const timer = setTimeout(() => {
-        router.push('/auth/signin');
-      }, 100);
-      return () => clearTimeout(timer);
+        router.push('/auth/signin')
+      }, 100)
+      return () => clearTimeout(timer)
     }
-  }, [authLoading, user, isGuest, router]);
+  }, [authLoading, user, isGuest, router])
 
   const loadArticles = async (pageNum: number = 0) => {
     try {
-      setLoading(true);
-      setError(null);
+      setLoading(true)
+      setError(null)
 
-      const offset = pageNum * 20;
-      const response = await fetch(`/api/news/articles?limit=20&offset=${offset}`);
-      if (!response.ok) throw new Error('Failed to fetch articles');
+      const offset = pageNum * 20
+      const response = await fetch(`/api/news/articles?limit=20&offset=${offset}`)
+      if (!response.ok) throw new Error('Failed to fetch articles')
 
-      const data = await response.json();
-      console.log('[NewsPage] API response:', data);
-      setArticles(data.articles || data.data || []);
-      setHasMore(data.hasMore || false);
-      setPage(pageNum);
+      const data = await response.json()
+      console.log('[NewsPage] API response:', data)
+      setArticles(data.articles || data.data || [])
+      setHasMore(data.hasMore || false)
+      setPage(pageNum)
     } catch (err) {
-      console.error('Failed to load articles:', err);
-      setError('ニュース記事の読み込みに失敗しました');
+      console.error('Failed to load articles:', err)
+      setError('ニュース記事の読み込みに失敗しました')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const loadNextPage = () => {
-    loadArticles(page + 1);
-  };
+    loadArticles(page + 1)
+  }
 
   const loadPreviousPage = () => {
     if (page > 0) {
-      loadArticles(page - 1);
+      loadArticles(page - 1)
     }
-  };
+  }
 
   const filterArticles = () => {
-    let filtered = [...articles];
+    let filtered = [...articles]
 
     if (selectedLevel !== 'All') {
-      filtered = filtered.filter(a => a.difficulty === selectedLevel);
+      filtered = filtered.filter(a => a.difficulty === selectedLevel)
     }
 
-    if (selectedSource !== 'All') {
-      filtered = filtered.filter(a => a.source === selectedSource);
-    }
-
-    setFilteredArticles(filtered);
-  };
+    setFilteredArticles(filtered)
+  }
 
   const handleArticleClick = (article: NewsArticle) => {
     // Navigate to article reader
-    router.push(`/news/${article.id}`);
-  };
+    router.push(`/news/${article.id}`)
+  }
 
   // Show loading state while auth is loading
   if (authLoading) {
-    return <LoadingOverlay isLoading={true} message={t('common.loading')} />;
+    return <LoadingOverlay isLoading={true} message={t('common.loading')} />
   }
 
   return (
@@ -348,13 +335,14 @@ export default function NewsPage() {
       {/* Navbar */}
       {/* Navigation is now global - rendered in root layout */}
 
+      {/* LearningPageHeader */}
+      <LearningPageHeader title={t('news.title')} description={t('news.description')} />
+
       <div className="px-4 pb-20 max-w-7xl mx-auto">
         {/* Filter Bar */}
         <FilterBar
           selectedLevel={selectedLevel}
-          selectedSource={selectedSource}
           onLevelChange={setSelectedLevel}
-          onSourceChange={setSelectedSource}
           onRefresh={() => loadArticles(0)}
           isLoading={loading}
         />
@@ -383,17 +371,17 @@ export default function NewsPage() {
             // Empty state
             <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-8 text-center">
               <div className="text-4xl mb-4">📰</div>
-              <p className="text-muted-foreground dark:text-dark-400 mb-2">{t('news.noArticles')}</p>
-              <p className="text-sm text-muted-foreground/70 dark:text-dark-500">{t('news.noArticlesHint')}</p>
+              <p className="text-muted-foreground dark:text-dark-400 mb-2">
+                {t('news.noArticles')}
+              </p>
+              <p className="text-sm text-muted-foreground/70 dark:text-dark-500">
+                {t('news.noArticlesHint')}
+              </p>
             </div>
           ) : (
             // Articles
             filteredArticles.map(article => (
-              <ArticleCard
-                key={article.id}
-                article={article}
-                onClick={handleArticleClick}
-              />
+              <ArticleCard key={article.id} article={article} onClick={handleArticleClick} />
             ))
           )}
         </div>
@@ -414,7 +402,12 @@ export default function NewsPage() {
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
             )}
@@ -437,7 +430,12 @@ export default function NewsPage() {
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             )}
@@ -445,5 +443,5 @@ export default function NewsPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

@@ -46,7 +46,14 @@
       "Bash(vercel ls:*)",
       "Bash(curl:*)",
       "Bash(node -e:*)",
-      "Bash(npm audit:*)"
+      "Bash(npm audit:*)",
+      "Bash(vercel --prod:*)",
+      "Bash(vercel inspect:*)",
+      "Bash(git checkout:*)",
+      "Bash(Select-String -Pattern \"BottomNav|strings\\.ts\")",
+      "Bash(Select-Object -First 10)",
+      "WebFetch(domain:developers.google.com)",
+      "Bash(npx firebase deploy:*)"
     ],
     "deny": [],
     "ask": []
