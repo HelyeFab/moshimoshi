@@ -75,6 +75,17 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
   }
 
   /**
+   * Helper to safely convert data to array (handles both arrays and objects)
+   * Fixes: "object is not iterable" error when data is stored as object instead of array
+   */
+  private toArray(data: any): any[] {
+    if (!data) return []
+    if (Array.isArray(data)) return data
+    if (typeof data === 'object') return Object.values(data)
+    return []
+  }
+
+  /**
    * Initialize drill progress for a user
    */
   async initializeDrillProgress(userId: string): Promise<void> {
@@ -214,9 +225,9 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
       const raw = currentProgress as any
       drillData = {
         ...raw,
-        // Convert arrays/objects back to Set/Map
-        verbsStudied: new Set(raw.verbsStudied || []),
-        adjectivesStudied: new Set(raw.adjectivesStudied || []),
+        // Convert arrays/objects back to Set/Map (use toArray to handle both formats)
+        verbsStudied: new Set(this.toArray(raw.verbsStudied)),
+        adjectivesStudied: new Set(this.toArray(raw.adjectivesStudied)),
         conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
       } as DrillProgressData
     } else {
@@ -347,8 +358,8 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
             const raw = progress as any
             return {
               ...raw,
-              verbsStudied: new Set(raw.verbsStudied || []),
-              adjectivesStudied: new Set(raw.adjectivesStudied || []),
+              verbsStudied: new Set(this.toArray(raw.verbsStudied)),
+              adjectivesStudied: new Set(this.toArray(raw.adjectivesStudied)),
               conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
             } as DrillProgressData
           }
@@ -374,8 +385,8 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     const raw = progress as any
     return {
       ...raw,
-      verbsStudied: new Set(raw.verbsStudied || []),
-      adjectivesStudied: new Set(raw.adjectivesStudied || []),
+      verbsStudied: new Set(this.toArray(raw.verbsStudied)),
+      adjectivesStudied: new Set(this.toArray(raw.adjectivesStudied)),
       conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
     } as DrillProgressData
   }
