@@ -29,7 +29,7 @@ export default function DrawingPracticeModal({
   isOpen,
   onClose,
   onComplete,
-  characterType = 'kanji'
+  characterType = 'kanji',
 }: DrawingPracticeModalProps) {
   // Detect if character is actually kana if not explicitly set
   const detectedCharacterType = (() => {
@@ -38,7 +38,7 @@ export default function DrawingPracticeModal({
     }
     // Check if character is kana based on Unicode range
     const code = character.charCodeAt(0)
-    const isKana = (code >= 0x3040 && code <= 0x309F) || (code >= 0x30A0 && code <= 0x30FF)
+    const isKana = (code >= 0x3040 && code <= 0x309f) || (code >= 0x30a0 && code <= 0x30ff)
     return isKana ? 'kana' : 'kanji'
   })()
   const [svgData, setSvgData] = useState<string | null>(null)
@@ -76,53 +76,55 @@ export default function DrawingPracticeModal({
   }
 
   // Handle drawing submission with real recognition
-  const handleDrawingComplete = useCallback((drawingData: DrawingData) => {
+  const handleDrawingComplete = useCallback(
+    (drawingData: DrawingData) => {
+      // Use real recognition score if available
+      let score = 50 // Base score for attempting
+      let strokeAccuracy: number[] = []
 
-    // Use real recognition score if available
-    let score = 50 // Base score for attempting
-    let strokeAccuracy: number[] = []
+      if (drawingData.recognized && drawingData.recognized.length > 0) {
+        // Check if the character was correctly recognized
+        const isCorrect = drawingData.recognized[0] === character
+        const inTop3 = drawingData.recognized.slice(0, 3).includes(character)
+        const inTop5 = drawingData.recognized.slice(0, 5).includes(character)
 
-    if (drawingData.recognized && drawingData.recognized.length > 0) {
-      // Check if the character was correctly recognized
-      const isCorrect = drawingData.recognized[0] === character
-      const inTop3 = drawingData.recognized.slice(0, 3).includes(character)
-      const inTop5 = drawingData.recognized.slice(0, 5).includes(character)
+        if (isCorrect) {
+          score = 95 + Math.floor(Math.random() * 5) // 95-100
+        } else if (inTop3) {
+          score = 80 + Math.floor(Math.random() * 10) // 80-90
+        } else if (inTop5) {
+          score = 65 + Math.floor(Math.random() * 10) // 65-75
+        } else {
+          score = 40 + Math.floor(Math.random() * 20) // 40-60
+        }
 
-      if (isCorrect) {
-        score = 95 + Math.floor(Math.random() * 5) // 95-100
-      } else if (inTop3) {
-        score = 80 + Math.floor(Math.random() * 10) // 80-90
-      } else if (inTop5) {
-        score = 65 + Math.floor(Math.random() * 10) // 65-75
+        // Generate stroke accuracy based on overall score
+        strokeAccuracy = drawingData.strokes.map(() =>
+          Math.max(50, score + (Math.random() * 20 - 10))
+        )
       } else {
-        score = 40 + Math.floor(Math.random() * 20) // 40-60
+        // Fallback to mock score if recognition failed
+        score = Math.floor(Math.random() * 30) + 70
+        strokeAccuracy = drawingData.strokes.map(() => Math.random() * 100)
       }
 
-      // Generate stroke accuracy based on overall score
-      strokeAccuracy = drawingData.strokes.map(() =>
-        Math.max(50, score + (Math.random() * 20 - 10))
-      )
-    } else {
-      // Fallback to mock score if recognition failed
-      score = Math.floor(Math.random() * 30) + 70
-      strokeAccuracy = drawingData.strokes.map(() => Math.random() * 100)
-    }
+      const feedbackData: FeedbackData = {
+        score,
+        strokeAccuracy,
+        orderAccuracy: drawingData.strokes.length === correctStrokes,
+        message: getScoreMessage(score),
+        recognized: drawingData.recognized,
+      }
 
-    const feedbackData: FeedbackData = {
-      score,
-      strokeAccuracy,
-      orderAccuracy: drawingData.strokes.length === correctStrokes,
-      message: getScoreMessage(score),
-      recognized: drawingData.recognized
-    }
+      setFeedback(feedbackData)
+      setShowFeedback(true)
 
-    setFeedback(feedbackData)
-    setShowFeedback(true)
-
-    if (onComplete && score >= 80) {
-      onComplete(score)
-    }
-  }, [character, correctStrokes, onComplete])
+      if (onComplete && score >= 80) {
+        onComplete(score)
+      }
+    },
+    [character, correctStrokes, onComplete]
+  )
 
   // Handle stroke completion
   const handleStrokeComplete = useCallback((stroke: Stroke) => {
@@ -132,11 +134,11 @@ export default function DrawingPracticeModal({
 
   // Get appropriate message based on score
   const getScoreMessage = (score: number): string => {
-    if (score >= 95) return "Perfect! 完璧！"
-    if (score >= 85) return "Excellent! 素晴らしい！"
-    if (score >= 75) return "Good job! よくできました！"
-    if (score >= 65) return "Not bad! まあまあです。"
-    return "Keep practicing! 練習を続けて！"
+    if (score >= 95) return 'Perfect! 完璧！'
+    if (score >= 85) return 'Excellent! 素晴らしい！'
+    if (score >= 75) return 'Good job! よくできました！'
+    if (score >= 65) return 'Not bad! まあまあです。'
+    return 'Keep practicing! 練習を続けて！'
   }
 
   // Reset for retry
@@ -146,12 +148,7 @@ export default function DrawingPracticeModal({
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={`Drawing Practice: ${character}`}
-      size="lg"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} title={`Drawing Practice: ${character}`} size="lg">
       <div className="p-6">
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
@@ -166,12 +163,14 @@ export default function DrawingPracticeModal({
                 <span className="font-semibold">{correctStrokes}</span>
               </div>
 
-              <button
-                onClick={() => setShowHints(!showHints)}
-                className="px-3 py-1 text-sm bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded-lg transition-colors"
-              >
-                {showHints ? 'Hide' : 'Show'} Hints
-              </button>
+              {!showFeedback && (
+                <button
+                  onClick={() => setShowHints(!showHints)}
+                  className="px-3 py-1 text-sm bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 rounded-lg transition-colors"
+                >
+                  {showHints ? 'Hide' : 'Show'} Hints
+                </button>
+              )}
             </div>
 
             {/* Drawing area or feedback */}
@@ -213,29 +212,23 @@ export default function DrawingPracticeModal({
                         feedback!.score >= 80
                           ? 'text-green-500'
                           : feedback!.score >= 60
-                          ? 'text-yellow-500'
-                          : 'text-red-500'
+                            ? 'text-yellow-500'
+                            : 'text-red-500'
                       }`}
                     >
                       {feedback?.score}%
                     </motion.div>
-                    <p className="text-lg text-gray-700 dark:text-gray-300">
-                      {feedback?.message}
-                    </p>
+                    <p className="text-lg text-gray-700 dark:text-gray-300">{feedback?.message}</p>
                   </div>
 
                   {/* Stroke accuracy breakdown */}
                   {feedback && (
                     <div className="w-full">
-                      <h3 className="text-sm font-semibold text-gray-500 mb-2">
-                        Stroke Accuracy
-                      </h3>
+                      <h3 className="text-sm font-semibold text-gray-500 mb-2">Stroke Accuracy</h3>
                       <div className="space-y-2">
                         {feedback.strokeAccuracy.map((accuracy, index) => (
                           <div key={index} className="flex items-center gap-2">
-                            <span className="text-xs text-gray-500 w-12">
-                              #{index + 1}
-                            </span>
+                            <span className="text-xs text-gray-500 w-12">#{index + 1}</span>
                             <div className="flex-1 bg-gray-200 dark:bg-dark-700 rounded-full h-2 overflow-hidden">
                               <motion.div
                                 initial={{ width: 0 }}
@@ -245,8 +238,8 @@ export default function DrawingPracticeModal({
                                   accuracy >= 80
                                     ? 'bg-green-500'
                                     : accuracy >= 60
-                                    ? 'bg-yellow-500'
-                                    : 'bg-red-500'
+                                      ? 'bg-yellow-500'
+                                      : 'bg-red-500'
                                 }`}
                               />
                             </div>
@@ -283,7 +276,9 @@ export default function DrawingPracticeModal({
               <div className="mt-6 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
                 <p className="text-sm text-blue-800 dark:text-blue-300">
                   💡 <strong>Tips:</strong> Draw each stroke in the correct order.
-                  {showHints ? ' Follow the faded outline for guidance.' : ' Toggle hints to see the character outline.'}
+                  {showHints
+                    ? ' Follow the faded outline for guidance.'
+                    : ' Toggle hints to see the character outline.'}
                 </p>
               </div>
             )}
