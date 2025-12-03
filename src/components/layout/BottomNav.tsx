@@ -317,14 +317,13 @@ export default function BottomNav({
 
   return (
     <>
-      {/* DEBUG: Gap filler - RED background to verify deployment, extends beyond viewport */}
+      {/* DEBUG: Gap filler - RED background, pushed WAY below viewport to cover any gap */}
       <div
         className="fixed left-0 right-0 z-40 md:hidden"
         style={{
-          bottom: 0,
-          height: `${bottomGap + 100}px`, // Dynamic gap + extra buffer
-          backgroundColor: '#ff0000', // BRIGHT RED for debugging - change back to theme color later
-          transform: `translateY(${bottomGap}px)`, // Push down to fill the gap
+          bottom: '-100px', // Start 100px BELOW the CSS viewport edge
+          height: '300px', // Tall enough to cover nav + any gap
+          backgroundColor: '#ff0000', // BRIGHT RED for debugging
         }}
         aria-hidden="true"
       />
