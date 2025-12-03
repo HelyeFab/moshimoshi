@@ -174,8 +174,51 @@ export default function BottomNav({
 }: BottomNavProps) {
   const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
+  const [bottomGap, setBottomGap] = useState(0)
   const { extraItem: contextExtraItem } = useBottomNav()
   const { strings } = useI18n()
+
+  // Detect actual screen dimensions vs viewport to calculate gap
+  useEffect(() => {
+    const calculateGap = () => {
+      // Get various measurements to find the real gap
+      const screenHeight = window.screen.height
+      const innerHeight = window.innerHeight
+      const visualViewportHeight = window.visualViewport?.height || innerHeight
+      const documentHeight = document.documentElement.clientHeight
+
+      // Calculate the maximum possible gap
+      const gap = Math.max(
+        screenHeight - innerHeight,
+        screenHeight - visualViewportHeight,
+        screenHeight - documentHeight,
+        50 // Minimum 50px gap filler as fallback
+      )
+
+      console.log('[BottomNav] Screen measurements:', {
+        screenHeight,
+        innerHeight,
+        visualViewportHeight,
+        documentHeight,
+        calculatedGap: gap,
+      })
+
+      setBottomGap(Math.min(gap, 200)) // Cap at 200px
+    }
+
+    calculateGap()
+
+    // Recalculate on resize and orientation change
+    window.addEventListener('resize', calculateGap)
+    window.addEventListener('orientationchange', calculateGap)
+    window.visualViewport?.addEventListener('resize', calculateGap)
+
+    return () => {
+      window.removeEventListener('resize', calculateGap)
+      window.removeEventListener('orientationchange', calculateGap)
+      window.visualViewport?.removeEventListener('resize', calculateGap)
+    }
+  }, [])
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
@@ -274,12 +317,14 @@ export default function BottomNav({
 
   return (
     <>
-      {/* Gap filler - solid background that extends beyond viewport to cover any PWA gap */}
+      {/* DEBUG: Gap filler - RED background to verify deployment, extends beyond viewport */}
       <div
-        className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#1a202c] dark:bg-[#171923]"
+        className="fixed left-0 right-0 z-40 md:hidden"
         style={{
-          height: '100px', // Generous height to cover any possible gap
-          transform: 'translateY(50px)', // Push half below viewport
+          bottom: 0,
+          height: `${bottomGap + 100}px`, // Dynamic gap + extra buffer
+          backgroundColor: '#ff0000', // BRIGHT RED for debugging - change back to theme color later
+          transform: `translateY(${bottomGap}px)`, // Push down to fill the gap
         }}
         aria-hidden="true"
       />
