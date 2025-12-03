@@ -370,6 +370,34 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // Stories collection - public read for published stories
+    match /stories/{storyId} {
+      // Anyone can read published stories
+      allow read: if resource.data.status == 'published';
+
+      // Only admin can write (create/update/delete)
+      allow write: if isAdmin();
+    }
+
+    // Story progress collection - users can track their reading progress
+    match /storyProgress/{progressId} {
+      // Users can read their own progress
+      allow read: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+
+      // Users can create progress for themselves
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Users can update their own progress
+      allow update: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Progress should not be deleted
+      allow delete: if false;
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;
