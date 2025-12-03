@@ -75,10 +75,10 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
     id: 'mood-boards',
     label: strings.dashboard?.navigation?.bottomNav?.moodBoards || 'Boards',
-    href: '/mood-boards',
+    href: '/kanji-moods',
     icon: RiLayoutMasonryLine,
     activeIcon: RiLayoutMasonryFill,
-    matchPaths: ['/mood-boards'],
+    matchPaths: ['/kanji-moods'],
   },
   {
     id: 'drill',
