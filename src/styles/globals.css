@@ -301,7 +301,10 @@ body {
   /* Ensure comfortable line height for readability */
   line-height: 1.6;
   /* Softer background for light mode */
-  background-color: var(--color-background-light);
+  background-color: var(
+    --color-background-light
+  ) !important; /* TODO: Remove after debugging bottom gap */
+  background-color: red !important; /* TEMPORARY: Debugging bottom gap */
 }
 
 /* Ensure content doesn't get hidden behind bottom navbar on mobile */
