@@ -144,7 +144,7 @@ export async function recordDrillCompletion(params: {
   const xpEarned = calculateDrillXP({ score, totalQuestions, accuracy })
 
   // Use transaction for atomic updates
-  return await getDb().runTransaction(async (transaction) => {
+  return await getDb().runTransaction(async transaction => {
     const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
@@ -157,13 +157,13 @@ export async function recordDrillCompletion(params: {
           sessions: { totalSessions: 0 },
           achievements: {
             unlockedIds: [],
-            progress: {}
+            progress: {},
           },
           metadata: {
             lastUpdated: new Date().toISOString(),
             syncStatus: 'synced',
-            schemaVersion: 2
-          }
+            schemaVersion: 2,
+          },
         },
         { merge: true }
       )
@@ -179,7 +179,7 @@ export async function recordDrillCompletion(params: {
     // Track daily XP accumulation (CRITICAL FIX: accumulate XP throughout the day)
     const lastXPDate = currentStats.xp?.lastXPDate || null
     const isNewDay = lastXPDate !== today
-    const currentDailyXP = isNewDay ? 0 : (currentStats.xp?.xpGainedToday || 0)
+    const currentDailyXP = isNewDay ? 0 : currentStats.xp?.xpGainedToday || 0
     const newDailyXP = currentDailyXP + xpEarned
 
     console.log('[Gamification Coordinator] Daily XP Accumulation:', {
@@ -189,7 +189,7 @@ export async function recordDrillCompletion(params: {
       currentDailyXP,
       xpEarnedThisDrill: xpEarned,
       newDailyXP,
-      minXpForStreak: getMinXpForStreak()
+      minXpForStreak: getMinXpForStreak(),
     })
 
     // Update XP (including daily accumulation)
@@ -199,7 +199,7 @@ export async function recordDrillCompletion(params: {
       'xp.xpGainedToday': newDailyXP,
       'xp.lastXPDate': today,
       'sessions.totalSessions': FieldValue.increment(1),
-      'metadata.lastUpdated': nowIso
+      'metadata.lastUpdated': nowIso,
     })
 
     // Update streak using DAILY XP total (not per-drill XP)
@@ -215,7 +215,7 @@ export async function recordDrillCompletion(params: {
       minXpForStreak,
       lastStreakUpdateDate,
       today,
-      streakAlreadyUpdatedToday
+      streakAlreadyUpdatedToday,
     })
 
     if (newDailyXP >= minXpForStreak && !streakAlreadyUpdatedToday) {
@@ -227,20 +227,17 @@ export async function recordDrillCompletion(params: {
           {
             isPremium,
             db: adminDb!,
-            prefetchedDoc: statsDoc
+            prefetchedDoc: statsDoc,
           }
         )
 
         if (!result.success) {
-          console.error(
-            '[Gamification Coordinator] Streak update returned failure:',
-            result.error
-          )
+          console.error('[Gamification Coordinator] Streak update returned failure:', result.error)
         } else {
           streakResult = result
           // Mark that streak was updated today
           transaction.update(userStatsRef, {
-            'dates.lastStreakUpdateDate': today
+            'dates.lastStreakUpdateDate': today,
           })
           console.log('[Gamification Coordinator] ✅ Streak updated and marked for today')
         }
@@ -251,12 +248,12 @@ export async function recordDrillCompletion(params: {
     } else if (streakAlreadyUpdatedToday) {
       console.log('[Gamification Coordinator] ⏭️ Streak already updated today, skipping:', {
         lastStreakUpdateDate,
-        currentStreak: currentStats.streak?.current || 0
+        currentStreak: currentStats.streak?.current || 0,
       })
     } else {
       console.log('[Gamification Coordinator] Daily XP below threshold, streak not updated:', {
         newDailyXP,
-        minXpForStreak
+        minXpForStreak,
       })
     }
 
@@ -275,13 +272,13 @@ export async function recordDrillCompletion(params: {
           // Unlock achievement
           transaction.update(userStatsRef, {
             'achievements.unlockedIds': FieldValue.arrayUnion(achievementId),
-            [`achievements.progress.${achievementId}`]: perfectCount
+            [`achievements.progress.${achievementId}`]: perfectCount,
           })
           achievements.push(achievementId)
         } else {
           // Update progress
           transaction.update(userStatsRef, {
-            [`achievements.progress.${achievementId}`]: perfectCount
+            [`achievements.progress.${achievementId}`]: perfectCount,
           })
         }
       }
@@ -289,7 +286,7 @@ export async function recordDrillCompletion(params: {
 
     const fallbackStreak = {
       current: currentStats.streak?.current || 0,
-      best: currentStats.streak?.best || 0
+      best: currentStats.streak?.best || 0,
     }
     const streakData = streakResult?.data ?? fallbackStreak
     const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
@@ -301,7 +298,7 @@ export async function recordDrillCompletion(params: {
       streakIncremented,
       currentStreak: streakData.current,
       bestStreak: streakData.best,
-      achievementsUnlocked: achievements
+      achievementsUnlocked: achievements,
     }
   })
 }
@@ -327,7 +324,7 @@ export async function recordReviewCompletion(params: {
   const xpEarned = calculateReviewXP({ itemsReviewed, correctCount, accuracy })
 
   // Use transaction for atomic updates
-  return await getDb().runTransaction(async (transaction) => {
+  return await getDb().runTransaction(async transaction => {
     const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
@@ -340,13 +337,13 @@ export async function recordReviewCompletion(params: {
           sessions: { totalSessions: 0 },
           achievements: {
             unlockedIds: [],
-            progress: {}
+            progress: {},
           },
           metadata: {
             lastUpdated: new Date().toISOString(),
             syncStatus: 'synced',
-            schemaVersion: 2
-          }
+            schemaVersion: 2,
+          },
         },
         { merge: true }
       )
@@ -362,7 +359,7 @@ export async function recordReviewCompletion(params: {
     // Track daily XP accumulation (CRITICAL FIX: accumulate XP throughout the day)
     const lastXPDate = currentStats.xp?.lastXPDate || null
     const isNewDay = lastXPDate !== today
-    const currentDailyXP = isNewDay ? 0 : (currentStats.xp?.xpGainedToday || 0)
+    const currentDailyXP = isNewDay ? 0 : currentStats.xp?.xpGainedToday || 0
     const newDailyXP = currentDailyXP + xpEarned
 
     console.log('[Gamification Coordinator] Daily XP Accumulation (Review):', {
@@ -372,7 +369,7 @@ export async function recordReviewCompletion(params: {
       currentDailyXP,
       xpEarnedThisReview: xpEarned,
       newDailyXP,
-      minXpForStreak: getMinXpForStreak()
+      minXpForStreak: getMinXpForStreak(),
     })
 
     // Update XP (including daily accumulation)
@@ -382,7 +379,7 @@ export async function recordReviewCompletion(params: {
       'xp.xpGainedToday': newDailyXP,
       'xp.lastXPDate': today,
       'sessions.totalSessions': FieldValue.increment(1),
-      'metadata.lastUpdated': nowIso
+      'metadata.lastUpdated': nowIso,
     })
 
     // Update streak using DAILY XP total (not per-review XP)
@@ -398,7 +395,7 @@ export async function recordReviewCompletion(params: {
       minXpForStreak,
       lastStreakUpdateDate,
       today,
-      streakAlreadyUpdatedToday
+      streakAlreadyUpdatedToday,
     })
 
     if (newDailyXP >= minXpForStreak && !streakAlreadyUpdatedToday) {
@@ -410,20 +407,17 @@ export async function recordReviewCompletion(params: {
           {
             isPremium,
             db: adminDb!,
-            prefetchedDoc: statsDoc
+            prefetchedDoc: statsDoc,
           }
         )
 
         if (!result.success) {
-          console.error(
-            '[Gamification Coordinator] Streak update returned failure:',
-            result.error
-          )
+          console.error('[Gamification Coordinator] Streak update returned failure:', result.error)
         } else {
           streakResult = result
           // Mark that streak was updated today
           transaction.update(userStatsRef, {
-            'dates.lastStreakUpdateDate': today
+            'dates.lastStreakUpdateDate': today,
           })
           console.log('[Gamification Coordinator] ✅ Streak updated and marked for today (Review)')
         }
@@ -431,20 +425,23 @@ export async function recordReviewCompletion(params: {
         console.error('[Gamification Coordinator] Failed to update streak:', error)
       }
     } else if (streakAlreadyUpdatedToday) {
-      console.log('[Gamification Coordinator] ⏭️ Streak already updated today, skipping (Review):', {
-        lastStreakUpdateDate,
-        currentStreak: currentStats.streak?.current || 0
-      })
+      console.log(
+        '[Gamification Coordinator] ⏭️ Streak already updated today, skipping (Review):',
+        {
+          lastStreakUpdateDate,
+          currentStreak: currentStats.streak?.current || 0,
+        }
+      )
     } else {
       console.log('[Gamification Coordinator] Daily XP below threshold, streak not updated:', {
         newDailyXP,
-        minXpForStreak
+        minXpForStreak,
       })
     }
 
     const fallbackStreak = {
       current: currentStats.streak?.current || 0,
-      best: currentStats.streak?.best || 0
+      best: currentStats.streak?.best || 0,
     }
     const streakData = streakResult?.data ?? fallbackStreak
     const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
@@ -456,7 +453,7 @@ export async function recordReviewCompletion(params: {
       streakIncremented,
       currentStreak: streakData.current,
       bestStreak: streakData.best,
-      achievementsUnlocked: []
+      achievementsUnlocked: [],
     }
   })
 }
@@ -475,7 +472,7 @@ export async function awardManualXP(params: {
     throw new Error('Firebase Admin not initialized')
   }
 
-  return await getDb().runTransaction(async (transaction) => {
+  return await getDb().runTransaction(async transaction => {
     const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
@@ -487,7 +484,7 @@ export async function awardManualXP(params: {
     transaction.update(userStatsRef, {
       'xp.total': newTotalXP,
       'xp.level': newLevel,
-      'metadata.lastUpdated': new Date().toISOString()
+      'metadata.lastUpdated': new Date().toISOString(),
     })
 
     // Log the manual XP award
@@ -496,9 +493,186 @@ export async function awardManualXP(params: {
       userId,
       amount,
       reason,
-      timestamp: FieldValue.serverTimestamp()
+      timestamp: FieldValue.serverTimestamp(),
     })
 
     return { newTotalXP, newLevel }
+  })
+}
+
+/**
+ * Calculate XP earned from news reading
+ * Linear formula: 1 XP per 30 seconds of active reading, capped at 50 XP
+ */
+export function calculateNewsXP(params: { readingTimeMs: number }): number {
+  const { readingTimeMs } = params
+
+  // Linear: 1 XP per 30 seconds (30000ms)
+  const baseXP = Math.floor(readingTimeMs / 30000)
+
+  // Cap at 50 XP per article
+  return Math.min(baseXP, 50)
+}
+
+/**
+ * Record news article completion and award XP
+ * Follows the same pattern as recordDrillCompletion for consistency
+ */
+export async function recordNewsCompletion(params: {
+  userId: string
+  articleId: string
+  readingTimeMs: number
+  difficulty: string
+  isPremium: boolean
+}): Promise<GamificationResult> {
+  const { userId, articleId, readingTimeMs, isPremium } = params
+
+  if (!adminDb) {
+    throw new Error('Firebase Admin not initialized')
+  }
+
+  // Calculate XP from reading time
+  const xpEarned = calculateNewsXP({ readingTimeMs })
+
+  // If no XP earned (read less than 30 seconds), return early
+  if (xpEarned === 0) {
+    return {
+      xpEarned: 0,
+      newTotalXP: 0,
+      newLevel: 1,
+      streakIncremented: false,
+      currentStreak: 0,
+      bestStreak: 0,
+      achievementsUnlocked: [],
+    }
+  }
+
+  // Use transaction for atomic updates
+  return await getDb().runTransaction(async transaction => {
+    const userStatsRef = getDb().collection('user_stats').doc(userId)
+    const statsDoc = await transaction.get(userStatsRef)
+
+    // Initialize if doesn't exist
+    if (!statsDoc.exists) {
+      transaction.set(
+        userStatsRef,
+        {
+          xp: { total: 0, level: 1 },
+          sessions: { totalSessions: 0 },
+          news: { articlesRead: 0, totalReadingTimeMs: 0 },
+          achievements: {
+            unlockedIds: [],
+            progress: {},
+          },
+          metadata: {
+            lastUpdated: new Date().toISOString(),
+            syncStatus: 'synced',
+            schemaVersion: 2,
+          },
+        },
+        { merge: true }
+      )
+    }
+
+    const currentStats = statsDoc.data() || {}
+    const currentXP = currentStats.xp?.total || 0
+    const newTotalXP = currentXP + xpEarned
+    const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
+    const nowIso = new Date().toISOString()
+    const today = nowIso.split('T')[0] // yyyy-mm-dd
+
+    // Track daily XP accumulation
+    const lastXPDate = currentStats.xp?.lastXPDate || null
+    const isNewDay = lastXPDate !== today
+    const currentDailyXP = isNewDay ? 0 : currentStats.xp?.xpGainedToday || 0
+    const newDailyXP = currentDailyXP + xpEarned
+
+    console.log('[Gamification Coordinator] News Reading XP:', {
+      articleId,
+      readingTimeMs,
+      xpEarned,
+      newDailyXP,
+      minXpForStreak: getMinXpForStreak(),
+    })
+
+    // Update XP and news stats
+    transaction.update(userStatsRef, {
+      'xp.total': newTotalXP,
+      'xp.level': newLevel,
+      'xp.xpGainedToday': newDailyXP,
+      'xp.lastXPDate': today,
+      'news.articlesRead': FieldValue.increment(1),
+      'news.totalReadingTimeMs': FieldValue.increment(readingTimeMs),
+      'metadata.lastUpdated': nowIso,
+    })
+
+    // Update streak using DAILY XP total
+    let streakResult: StreakUpdateResult | null = null
+    const minXpForStreak = getMinXpForStreak()
+    const lastStreakUpdateDate = currentStats.dates?.lastStreakUpdateDate || null
+    const streakAlreadyUpdatedToday = lastStreakUpdateDate === today
+
+    if (newDailyXP >= minXpForStreak && !streakAlreadyUpdatedToday) {
+      try {
+        const result = await updateStreakWithinTransaction(transaction, userId, newDailyXP, {
+          isPremium,
+          db: adminDb!,
+          prefetchedDoc: statsDoc,
+        })
+
+        if (result.success) {
+          streakResult = result
+          transaction.update(userStatsRef, {
+            'dates.lastStreakUpdateDate': today,
+          })
+          console.log('[Gamification Coordinator] ✅ Streak updated from news reading')
+        }
+      } catch (error) {
+        console.error('[Gamification Coordinator] Failed to update streak from news:', error)
+      }
+    }
+
+    // Check for news-specific achievements
+    const achievements: string[] = []
+    const articlesRead = (currentStats.news?.articlesRead || 0) + 1
+
+    // "Avid Reader" achievement: Read 10 articles
+    if (articlesRead === 10) {
+      const achievementId = 'avid_reader'
+      if (!currentStats.achievements?.unlockedIds?.includes(achievementId)) {
+        transaction.update(userStatsRef, {
+          'achievements.unlockedIds': FieldValue.arrayUnion(achievementId),
+        })
+        achievements.push(achievementId)
+      }
+    }
+
+    // "News Junkie" achievement: Read 50 articles
+    if (articlesRead === 50) {
+      const achievementId = 'news_junkie'
+      if (!currentStats.achievements?.unlockedIds?.includes(achievementId)) {
+        transaction.update(userStatsRef, {
+          'achievements.unlockedIds': FieldValue.arrayUnion(achievementId),
+        })
+        achievements.push(achievementId)
+      }
+    }
+
+    const fallbackStreak = {
+      current: currentStats.streak?.current || 0,
+      best: currentStats.streak?.best || 0,
+    }
+    const streakData = streakResult?.data ?? fallbackStreak
+    const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
+
+    return {
+      xpEarned,
+      newTotalXP,
+      newLevel,
+      streakIncremented,
+      currentStreak: streakData.current,
+      bestStreak: streakData.best,
+      achievementsUnlocked: achievements,
+    }
   })
 }

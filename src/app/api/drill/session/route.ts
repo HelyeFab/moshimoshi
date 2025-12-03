@@ -757,9 +757,11 @@ export async function PUT(request: NextRequest) {
           gamification: gamificationResult
             ? {
                 xpEarned: gamificationResult.xpEarned,
+                newTotalXP: gamificationResult.newTotalXP, // Added for celebration screen
                 newLevel: gamificationResult.newLevel,
                 streakIncremented: gamificationResult.streakIncremented,
                 currentStreak: gamificationResult.currentStreak,
+                bestStreak: gamificationResult.bestStreak, // Added for celebration screen
                 achievementsUnlocked: gamificationResult.achievementsUnlocked,
               }
             : null,

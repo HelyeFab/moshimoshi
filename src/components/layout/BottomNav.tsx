@@ -186,8 +186,9 @@ export default function BottomNav({
 
   // Filter nav items based on feature flags
   // Note: Features are DISABLED by default unless explicitly set to 'true'
-  const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES === 'true'
-  const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB === 'true'
+  // Use hydration-safe utility instead of direct process.env access
+  const isGamesEnabled = isFeatureEnabled('GAMES')
+  const isReviewHubEnabled = isFeatureEnabled('REVIEW_HUB')
 
   const filteredNavItems = baseNavItems.filter(item => {
     // Hide games if GAMES feature is disabled
@@ -315,9 +316,8 @@ export default function BottomNav({
                 'px-4 py-3',
                 'overflow-x-auto scrollbar-hide', // Enable horizontal scroll and hide scrollbar
 
-                // Theme-aware glassmorphism background (lower opacity for glass effect)
-                'bg-soft-white/20 dark:bg-dark-900/30',
-                'backdrop-blur-2xl backdrop-saturate-150',
+                // Solid background colors
+                'bg-white dark:bg-dark-850',
 
                 // Top border with glassmorphism aesthetic
                 'border-t border-gray-200/40 dark:border-gray-700/30',

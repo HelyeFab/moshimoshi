@@ -53,7 +53,12 @@
       "Bash(Select-String -Pattern \"BottomNav|strings\\.ts\")",
       "Bash(Select-Object -First 10)",
       "WebFetch(domain:developers.google.com)",
-      "Bash(npx firebase deploy:*)"
+      "Bash(npx firebase deploy:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(nul)",
+      "Bash(npx jest:*)",
+      "Bash(if not exist \"C:\\Users\\esfab\\WinDevProjects\\moshimoshi\\src\\app\\api\\news\\progress\" mkdir \"C:\\Users\\esfab\\WinDevProjects\\moshimoshi\\src\\app\\api\\news\\progress\")",
+      "Bash(npx firebase:*)"
     ],
     "deny": [],
     "ask": []
