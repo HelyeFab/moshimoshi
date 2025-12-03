@@ -1,6 +1,6 @@
 {
   "_comment": "IMPORTANT: Also update APP_VERSION in src/components/pwa/ServiceWorkerProvider.tsx to match",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "critical": true,
   "message": "Feature flags fix - disabled features now properly hidden",
   "releasedAt": "2025-12-03T00:00:00Z"

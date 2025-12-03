@@ -6,7 +6,7 @@ import { UpdateBanner, UpdateIndicator } from './UpdateBanner'
 
 // App version - bump this for critical updates
 // This is checked against the deployed version to detect critical updates
-const APP_VERSION = '1.0.2' // Increment for each deployment
+const APP_VERSION = '1.0.3' // Increment for each deployment
 
 interface VersionInfo {
   version: string
