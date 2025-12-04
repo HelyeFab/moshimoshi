@@ -22,10 +22,11 @@ interface TranscriptResponse {
   availableLanguages?: string[]
   source?:
     | 'firebase-cache'
+    | 'railway-server'
+    | 'sheldon-server'
     | 'youtubei-enhanced'
     | 'youtubei-standard'
     | 'supa-api'
-    | 'custom-server'
   cached?: boolean
   totalSegments?: number
   totalDuration?: number
@@ -213,44 +214,37 @@ async function tryStandardYouTubeiJS(videoId: string): Promise<TranscriptRespons
 }
 
 /**
- * Try to get transcript using custom transcript server (sheldon)
- * New API format: https://api.selfmind.dev/transcript/api/youtube/{videoId}
+ * Try to get transcript using Railway transcript server (PRIMARY)
+ * Uses Webshare rotating residential proxies
  */
-async function tryCustomTranscriptServer(videoId: string): Promise<TranscriptResponse | null> {
+async function tryRailwayTranscriptServer(videoId: string): Promise<TranscriptResponse | null> {
   try {
-    const SHELDON_API_URL =
-      process.env.SHELDON_API_URL || 'https://api.selfmind.dev/transcript/api/youtube'
-    const SHELDON_API_KEY = process.env.SHELDON_API_KEY
+    const RAILWAY_API_URL =
+      process.env.RAILWAY_TRANSCRIPT_URL || 'https://modal-services-production.up.railway.app'
 
-    if (!SHELDON_API_KEY) {
-      console.log(`[TRANSCRIPT-API] No SHELDON_API_KEY configured, skipping custom server`)
-      return null
-    }
+    console.log(`[TRANSCRIPT-API] Trying Railway transcript server for ${videoId}`)
 
-    console.log(`[TRANSCRIPT-API] Trying custom transcript server for ${videoId}`)
-    console.log(`[TRANSCRIPT-API] Server URL: ${SHELDON_API_URL}/${videoId}`)
-
-    const response = await fetch(`${SHELDON_API_URL}/${encodeURIComponent(videoId)}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': SHELDON_API_KEY,
-      },
-    })
+    const response = await fetch(
+      `${RAILWAY_API_URL}/get-japanese-transcript?videoId=${encodeURIComponent(videoId)}`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    )
 
     if (!response.ok) {
-      console.log(`[TRANSCRIPT-API] Custom server returned ${response.status}`)
+      console.log(`[TRANSCRIPT-API] Railway server returned ${response.status}`)
       return null
     }
 
     const data = await response.json()
 
     if (!data.available || !data.isJapanese) {
-      console.log(`[TRANSCRIPT-API] Custom server: transcript not available or not Japanese`)
+      console.log(`[TRANSCRIPT-API] Railway server: transcript not available or not Japanese`)
       return null
     }
 
-    // Transform custom server format to our format
+    // Transform Railway server format to our format
     const segments: TranscriptSegment[] = data.segments.map((seg: any) => ({
       start: seg.start,
       end: seg.end,
@@ -261,7 +255,9 @@ async function tryCustomTranscriptServer(videoId: string): Promise<TranscriptRes
       words: seg.text.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
     }))
 
-    console.log(`[TRANSCRIPT-API] ✅ Custom transcript server success: ${segments.length} segments`)
+    console.log(
+      `[TRANSCRIPT-API] ✅ Railway transcript server success: ${segments.length} segments`
+    )
 
     return {
       available: true,
@@ -270,12 +266,81 @@ async function tryCustomTranscriptServer(videoId: string): Promise<TranscriptRes
       segments,
       language: data.language || 'Japanese',
       availableLanguages: data.availableLanguages || ['Japanese'],
-      source: 'custom-server',
+      source: 'railway-server',
       totalSegments: segments.length,
       totalDuration: segments[segments.length - 1]?.end || 0,
     }
   } catch (error) {
-    console.error(`[TRANSCRIPT-API] Custom transcript server failed:`, error)
+    console.error(`[TRANSCRIPT-API] Railway transcript server failed:`, error)
+    return null
+  }
+}
+
+/**
+ * Try to get transcript using Sheldon server (FALLBACK)
+ * Home server with residential IP - api.selfmind.dev
+ */
+async function trySheldonTranscriptServer(videoId: string): Promise<TranscriptResponse | null> {
+  try {
+    const SHELDON_API_URL =
+      process.env.SHELDON_API_URL || 'https://api.selfmind.dev/transcript/api/youtube'
+    const SHELDON_API_KEY = process.env.SHELDON_API_KEY
+
+    if (!SHELDON_API_KEY) {
+      console.log(`[TRANSCRIPT-API] No SHELDON_API_KEY configured, skipping Sheldon server`)
+      return null
+    }
+
+    console.log(`[TRANSCRIPT-API] Trying Sheldon transcript server for ${videoId}`)
+
+    const response = await fetch(`${SHELDON_API_URL}/${encodeURIComponent(videoId)}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': SHELDON_API_KEY,
+      },
+    })
+
+    if (!response.ok) {
+      console.log(`[TRANSCRIPT-API] Sheldon server returned ${response.status}`)
+      return null
+    }
+
+    const data = await response.json()
+
+    if (!data.available || !data.isJapanese) {
+      console.log(`[TRANSCRIPT-API] Sheldon server: transcript not available or not Japanese`)
+      return null
+    }
+
+    // Transform Sheldon server format to our format
+    const segments: TranscriptSegment[] = data.segments.map((seg: any) => ({
+      start: seg.start,
+      end: seg.end,
+      duration: seg.duration,
+      startTime: seg.start,
+      endTime: seg.end,
+      text: seg.text,
+      words: seg.text.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
+    }))
+
+    console.log(
+      `[TRANSCRIPT-API] ✅ Sheldon transcript server success: ${segments.length} segments`
+    )
+
+    return {
+      available: true,
+      videoId,
+      title: data.title || 'Unknown title',
+      segments,
+      language: data.language || 'Japanese',
+      availableLanguages: data.availableLanguages || ['Japanese'],
+      source: 'sheldon-server',
+      totalSegments: segments.length,
+      totalDuration: segments[segments.length - 1]?.end || 0,
+    }
+  } catch (error) {
+    console.error(`[TRANSCRIPT-API] Sheldon transcript server failed:`, error)
     return null
   }
 }
@@ -339,37 +404,67 @@ export async function GET(
     console.log(`[TRANSCRIPT-API] Cache miss - proceeding to fetch`)
 
     // ==========================================
-    // STEP 2: TRY CUSTOM TRANSCRIPT SERVER (SHELDON)
+    // STEP 2: TRY RAILWAY TRANSCRIPT SERVER (PRIMARY)
     // ==========================================
-    const customServerResult = await tryCustomTranscriptServer(videoId)
+    const railwayResult = await tryRailwayTranscriptServer(videoId)
 
-    if (customServerResult && customServerResult.segments) {
-      // Store to Firebase cache (async, don't block response) - using Admin SDK
+    if (railwayResult && railwayResult.segments) {
+      // Store to Firebase cache (async, don't block response)
       transcriptCache
         .set({
           contentId,
           contentType: 'youtube',
-          transcript: customServerResult.segments.map((seg, i) => ({
+          transcript: railwayResult.segments.map((seg, i) => ({
             id: String(i + 1),
             text: seg.text,
             startTime: seg.start,
             endTime: seg.end,
             words: seg.words,
           })),
-          language: customServerResult.language || 'ja',
+          language: railwayResult.language || 'ja',
           videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
-          videoTitle: customServerResult.title,
+          videoTitle: railwayResult.title,
           metadata: {
             youtubeVideoId: videoId,
           },
         })
         .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-      return NextResponse.json<TranscriptResponse>(customServerResult)
+      return NextResponse.json<TranscriptResponse>(railwayResult)
     }
 
     // ==========================================
-    // STEP 3: TRY ENHANCED YOUTUBEI.JS
+    // STEP 3: TRY SHELDON TRANSCRIPT SERVER (FALLBACK)
+    // ==========================================
+    const sheldonResult = await trySheldonTranscriptServer(videoId)
+
+    if (sheldonResult && sheldonResult.segments) {
+      // Store to Firebase cache (async, don't block response)
+      transcriptCache
+        .set({
+          contentId,
+          contentType: 'youtube',
+          transcript: sheldonResult.segments.map((seg, i) => ({
+            id: String(i + 1),
+            text: seg.text,
+            startTime: seg.start,
+            endTime: seg.end,
+            words: seg.words,
+          })),
+          language: sheldonResult.language || 'ja',
+          videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
+          videoTitle: sheldonResult.title,
+          metadata: {
+            youtubeVideoId: videoId,
+          },
+        })
+        .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
+
+      return NextResponse.json<TranscriptResponse>(sheldonResult)
+    }
+
+    // ==========================================
+    // STEP 4: TRY ENHANCED YOUTUBEI.JS
     // ==========================================
     const enhancedResult = await tryEnhancedYouTubeiJS(videoId)
 
@@ -399,7 +494,7 @@ export async function GET(
     }
 
     // ==========================================
-    // STEP 4: TRY STANDARD YOUTUBEI.JS
+    // STEP 5: TRY STANDARD YOUTUBEI.JS
     // ==========================================
     const standardResult = await tryStandardYouTubeiJS(videoId)
 
@@ -429,10 +524,10 @@ export async function GET(
     }
 
     // ==========================================
-    // STEP 5: TRY SUPA API (FALLBACK)
+    // STEP 6: TRY SUPA API (LAST RESORT)
     // ==========================================
     if (isSupaConfigured()) {
-      console.log(`[TRANSCRIPT-API] Step 5: Trying Supa API`)
+      console.log(`[TRANSCRIPT-API] Step 6: Trying Supa API`)
 
       const supaResult = await getTranscriptFromSupa(videoId)
 
