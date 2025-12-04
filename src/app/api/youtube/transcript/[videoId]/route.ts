@@ -1,50 +1,55 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Innertube } from 'youtubei.js';
-import { transcriptCache } from '@/lib/transcript/cache';
-import { getTranscriptFromSupa, isSupaConfigured } from '@/lib/supa/client';
+import { NextRequest, NextResponse } from 'next/server'
+import { Innertube } from 'youtubei.js'
+import { transcriptCache } from '@/lib/transcript/cache'
+import { getTranscriptFromSupa, isSupaConfigured } from '@/lib/supa/client'
 
 interface TranscriptSegment {
-  start: number;
-  end: number;
-  duration: number;
-  startTime: number;
-  endTime: number;
-  text: string;
-  words?: string[];
+  start: number
+  end: number
+  duration: number
+  startTime: number
+  endTime: number
+  text: string
+  words?: string[]
 }
 
 interface TranscriptResponse {
-  available: boolean;
-  videoId: string;
-  title?: string;
-  segments?: TranscriptSegment[];
-  language?: string;
-  availableLanguages?: string[];
-  source?: 'firebase-cache' | 'youtubei-enhanced' | 'youtubei-standard' | 'supa-api' | 'custom-server';
-  cached?: boolean;
-  totalSegments?: number;
-  totalDuration?: number;
-  message?: string;
-  error?: string;
+  available: boolean
+  videoId: string
+  title?: string
+  segments?: TranscriptSegment[]
+  language?: string
+  availableLanguages?: string[]
+  source?:
+    | 'firebase-cache'
+    | 'youtubei-enhanced'
+    | 'youtubei-standard'
+    | 'supa-api'
+    | 'custom-server'
+  cached?: boolean
+  totalSegments?: number
+  totalDuration?: number
+  message?: string
+  error?: string
 }
 
-let youtubeClient: Innertube | null = null;
+let youtubeClient: Innertube | null = null
 
 async function getClient(): Promise<Innertube> {
   if (!youtubeClient) {
-    youtubeClient = await Innertube.create();
+    youtubeClient = await Innertube.create()
   }
-  return youtubeClient;
+  return youtubeClient
 }
 
 function isJapaneseTitle(title: string | undefined): boolean {
-  if (!title) return false;
-  const lower = title.toLowerCase();
+  if (!title) return false
+  const lower = title.toLowerCase()
   return (
     (lower.includes('japanese') || lower.includes('日本語')) &&
     !lower.includes('english') &&
     !lower.includes('英語')
-  );
+  )
 }
 
 /**
@@ -52,67 +57,65 @@ function isJapaneseTitle(title: string | undefined): boolean {
  */
 async function tryEnhancedYouTubeiJS(videoId: string): Promise<TranscriptResponse | null> {
   try {
-    console.log(`[TRANSCRIPT-API] Trying enhanced YouTubei.js for ${videoId}`);
+    console.log(`[TRANSCRIPT-API] Trying enhanced YouTubei.js for ${videoId}`)
 
-    const client = await getClient();
-    const videoInfo = await client.getInfo(videoId);
-    const transcriptInfo = await videoInfo.getTranscript();
+    const client = await getClient()
+    const videoInfo = await client.getInfo(videoId)
+    const transcriptInfo = await videoInfo.getTranscript()
 
-    const languageMenu = transcriptInfo?.transcript?.content?.footer?.language_menu;
-    const availableLanguages = languageMenu?.sub_menu_items || [];
+    const languageMenu = transcriptInfo?.transcript?.content?.footer?.language_menu
+    const availableLanguages = languageMenu?.sub_menu_items || []
 
-    const japaneseOptions = availableLanguages.filter((lang: any) =>
-      isJapaneseTitle(lang.title)
-    );
+    const japaneseOptions = availableLanguages.filter((lang: any) => isJapaneseTitle(lang.title))
 
     if (japaneseOptions.length === 0) {
-      console.log(`[TRANSCRIPT-API] No Japanese transcript available`);
-      return null;
+      console.log(`[TRANSCRIPT-API] No Japanese transcript available`)
+      return null
     }
 
     // Use flexible type to allow both original transcriptInfo and custom format
-    let transcriptPayload: { transcript?: any } | typeof transcriptInfo = transcriptInfo;
-    let selectedLanguage = availableLanguages.find((lang: any) => lang.selected);
+    let transcriptPayload: { transcript?: any } | typeof transcriptInfo = transcriptInfo
+    let selectedLanguage = availableLanguages.find((lang: any) => lang.selected)
 
     // Force Japanese language if not already selected
     if (!isJapaneseTitle(selectedLanguage?.title) && japaneseOptions[0]?.continuation) {
-      const session = (client as any).session;
+      const session = (client as any).session
       const payload = {
         context: session?.context,
         continuation: japaneseOptions[0].continuation,
-      };
+      }
 
-      let response: any = null;
+      let response: any = null
 
       if (client?.actions?.execute) {
-        response = await client.actions.execute('get_transcript', payload);
+        response = await client.actions.execute('get_transcript', payload)
       } else if (session?.actions?.execute) {
-        response = await session.actions.execute('get_transcript', payload);
+        response = await session.actions.execute('get_transcript', payload)
       } else if (session?.http?.fetch) {
-        response = await session.http.fetch('get_transcript', payload);
+        response = await session.http.fetch('get_transcript', payload)
       }
 
       if (response?.actions?.[0]?.updateEngagementPanelAction?.content) {
         transcriptPayload = {
           transcript: response.actions[0].updateEngagementPanelAction.content,
-        };
-        selectedLanguage = japaneseOptions[0];
+        }
+        selectedLanguage = japaneseOptions[0]
       }
     }
 
-    const body = transcriptPayload?.transcript?.content?.body;
-    const segmentList = body?.initial_segments || [];
+    const body = transcriptPayload?.transcript?.content?.body
+    const segmentList = body?.initial_segments || []
 
     if (!segmentList || segmentList.length === 0) {
-      return null;
+      return null
     }
 
     const segments: TranscriptSegment[] = segmentList.map((seg: any) => {
-      const startMs = parseInt(seg.start_ms) || 0;
-      const endMs = parseInt(seg.end_ms) || startMs + 5000;
-      const text = seg.snippet?.text || '';
-      const startSeconds = startMs / 1000;
-      const endSeconds = endMs / 1000;
+      const startMs = parseInt(seg.start_ms) || 0
+      const endMs = parseInt(seg.end_ms) || startMs + 5000
+      const text = seg.snippet?.text || ''
+      const startSeconds = startMs / 1000
+      const endSeconds = endMs / 1000
 
       return {
         start: startSeconds,
@@ -122,21 +125,20 @@ async function tryEnhancedYouTubeiJS(videoId: string): Promise<TranscriptRespons
         endTime: endSeconds,
         text,
         words: text.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
-      };
-    });
+      }
+    })
 
-    console.log(
-      `[TRANSCRIPT-API] ✅ Enhanced YouTubei.js success: ${segments.length} segments`
-    );
+    console.log(`[TRANSCRIPT-API] ✅ Enhanced YouTubei.js success: ${segments.length} segments`)
 
     // Validate that we got Japanese if Japanese was available
-    const detectedLanguage = selectedLanguage?.title || 'Unknown';
-    const isJapanese = detectedLanguage.toLowerCase().includes('japanese') ||
-                      detectedLanguage.toLowerCase().includes('日本語');
+    const detectedLanguage = selectedLanguage?.title || 'Unknown'
+    const isJapanese =
+      detectedLanguage.toLowerCase().includes('japanese') ||
+      detectedLanguage.toLowerCase().includes('日本語')
 
     if (!isJapanese && japaneseOptions.length > 0) {
-      console.warn(`[TRANSCRIPT-API] ⚠️ Japanese available but got ${detectedLanguage}. Rejecting.`);
-      return null; // Force fallback to next method
+      console.warn(`[TRANSCRIPT-API] ⚠️ Japanese available but got ${detectedLanguage}. Rejecting.`)
+      return null // Force fallback to next method
     }
 
     return {
@@ -149,10 +151,10 @@ async function tryEnhancedYouTubeiJS(videoId: string): Promise<TranscriptRespons
       source: 'youtubei-enhanced',
       totalSegments: segments.length,
       totalDuration: segments[segments.length - 1]?.end || 0,
-    };
+    }
   } catch (error) {
-    console.error(`[TRANSCRIPT-API] Enhanced YouTubei.js failed:`, error);
-    return null;
+    console.error(`[TRANSCRIPT-API] Enhanced YouTubei.js failed:`, error)
+    return null
   }
 }
 
@@ -161,25 +163,25 @@ async function tryEnhancedYouTubeiJS(videoId: string): Promise<TranscriptRespons
  */
 async function tryStandardYouTubeiJS(videoId: string): Promise<TranscriptResponse | null> {
   try {
-    console.log(`[TRANSCRIPT-API] Trying standard YouTubei.js for ${videoId}`);
+    console.log(`[TRANSCRIPT-API] Trying standard YouTubei.js for ${videoId}`)
 
-    const client = await getClient();
-    const videoInfo = await client.getInfo(videoId);
-    const transcriptInfo = await videoInfo.getTranscript();
+    const client = await getClient()
+    const videoInfo = await client.getInfo(videoId)
+    const transcriptInfo = await videoInfo.getTranscript()
 
-    const body = transcriptInfo?.transcript?.content?.body;
-    const segmentList = body?.initial_segments || [];
+    const body = transcriptInfo?.transcript?.content?.body
+    const segmentList = body?.initial_segments || []
 
     if (!segmentList || segmentList.length === 0) {
-      return null;
+      return null
     }
 
     const segments: TranscriptSegment[] = segmentList.map((seg: any) => {
-      const startMs = parseInt(seg.start_ms) || 0;
-      const endMs = parseInt(seg.end_ms) || startMs + 5000;
-      const text = seg.snippet?.text || '';
-      const startSeconds = startMs / 1000;
-      const endSeconds = endMs / 1000;
+      const startMs = parseInt(seg.start_ms) || 0
+      const endMs = parseInt(seg.end_ms) || startMs + 5000
+      const text = seg.snippet?.text || ''
+      const startSeconds = startMs / 1000
+      const endSeconds = endMs / 1000
 
       return {
         start: startSeconds,
@@ -189,12 +191,10 @@ async function tryStandardYouTubeiJS(videoId: string): Promise<TranscriptRespons
         endTime: endSeconds,
         text,
         words: text.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
-      };
-    });
+      }
+    })
 
-    console.log(
-      `[TRANSCRIPT-API] ✅ Standard YouTubei.js success: ${segments.length} segments`
-    );
+    console.log(`[TRANSCRIPT-API] ✅ Standard YouTubei.js success: ${segments.length} segments`)
 
     return {
       available: true,
@@ -205,41 +205,49 @@ async function tryStandardYouTubeiJS(videoId: string): Promise<TranscriptRespons
       source: 'youtubei-standard',
       totalSegments: segments.length,
       totalDuration: segments[segments.length - 1]?.end || 0,
-    };
+    }
   } catch (error) {
-    console.error(`[TRANSCRIPT-API] Standard YouTubei.js failed:`, error);
-    return null;
+    console.error(`[TRANSCRIPT-API] Standard YouTubei.js failed:`, error)
+    return null
   }
 }
 
 /**
  * Try to get transcript using custom transcript server (sheldon)
+ * New API format: https://api.selfmind.dev/transcript/api/youtube/{videoId}
  */
 async function tryCustomTranscriptServer(videoId: string): Promise<TranscriptResponse | null> {
   try {
-    const TRANSCRIPT_SERVER_URL = process.env.TRANSCRIPT_SERVER_URL || 'https://transcript.selfmind.dev';
+    const SHELDON_API_URL =
+      process.env.SHELDON_API_URL || 'https://api.selfmind.dev/transcript/api/youtube'
+    const SHELDON_API_KEY = process.env.SHELDON_API_KEY
 
-    console.log(`[TRANSCRIPT-API] Trying custom transcript server for ${videoId}`);
-    console.log(`[TRANSCRIPT-API] Server URL: ${TRANSCRIPT_SERVER_URL}`);
-
-    const response = await fetch(
-      `${TRANSCRIPT_SERVER_URL}/get-japanese-transcript?videoId=${encodeURIComponent(videoId)}`,
-      {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
-
-    if (!response.ok) {
-      console.log(`[TRANSCRIPT-API] Custom server returned ${response.status}`);
-      return null;
+    if (!SHELDON_API_KEY) {
+      console.log(`[TRANSCRIPT-API] No SHELDON_API_KEY configured, skipping custom server`)
+      return null
     }
 
-    const data = await response.json();
+    console.log(`[TRANSCRIPT-API] Trying custom transcript server for ${videoId}`)
+    console.log(`[TRANSCRIPT-API] Server URL: ${SHELDON_API_URL}/${videoId}`)
+
+    const response = await fetch(`${SHELDON_API_URL}/${encodeURIComponent(videoId)}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': SHELDON_API_KEY,
+      },
+    })
+
+    if (!response.ok) {
+      console.log(`[TRANSCRIPT-API] Custom server returned ${response.status}`)
+      return null
+    }
+
+    const data = await response.json()
 
     if (!data.available || !data.isJapanese) {
-      console.log(`[TRANSCRIPT-API] Custom server: transcript not available or not Japanese`);
-      return null;
+      console.log(`[TRANSCRIPT-API] Custom server: transcript not available or not Japanese`)
+      return null
     }
 
     // Transform custom server format to our format
@@ -251,11 +259,9 @@ async function tryCustomTranscriptServer(videoId: string): Promise<TranscriptRes
       endTime: seg.end,
       text: seg.text,
       words: seg.text.split(/[\s、。！？]/).filter((w: string) => w.length > 0),
-    }));
+    }))
 
-    console.log(
-      `[TRANSCRIPT-API] ✅ Custom transcript server success: ${segments.length} segments`
-    );
+    console.log(`[TRANSCRIPT-API] ✅ Custom transcript server success: ${segments.length} segments`)
 
     return {
       available: true,
@@ -267,10 +273,10 @@ async function tryCustomTranscriptServer(videoId: string): Promise<TranscriptRes
       source: 'custom-server',
       totalSegments: segments.length,
       totalDuration: segments[segments.length - 1]?.end || 0,
-    };
+    }
   } catch (error) {
-    console.error(`[TRANSCRIPT-API] Custom transcript server failed:`, error);
-    return null;
+    console.error(`[TRANSCRIPT-API] Custom transcript server failed:`, error)
+    return null
   }
 }
 
@@ -281,33 +287,33 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ videoId: string }> }
 ) {
-  let videoId = '';
+  let videoId = ''
 
   try {
-    const resolved = await params;
-    videoId = resolved.videoId;
+    const resolved = await params
+    videoId = resolved.videoId
 
     if (!videoId) {
       return NextResponse.json<TranscriptResponse>(
         { available: false, videoId: '', error: 'Video ID is required' },
         { status: 400 }
-      );
+      )
     }
 
-    const contentId = `youtube_${videoId}`;
+    const contentId = `youtube_${videoId}`
 
     // ==========================================
     // STEP 1: CHECK FIREBASE CACHE FIRST (Admin SDK)
     // ==========================================
-    console.log(`[TRANSCRIPT-API] Step 1: Checking Firebase cache for ${videoId}`);
+    console.log(`[TRANSCRIPT-API] Step 1: Checking Firebase cache for ${videoId}`)
 
-    const cached = await transcriptCache.get(contentId);
+    const cached = await transcriptCache.get(contentId)
 
     if (cached && cached.transcript && cached.transcript.length > 0) {
-      console.log(`[TRANSCRIPT-API] ✅ Cache hit! Returning ${cached.transcript.length} segments`);
+      console.log(`[TRANSCRIPT-API] ✅ Cache hit! Returning ${cached.transcript.length} segments`)
 
       // Transform cached format to API format
-      const segments: TranscriptSegment[] = cached.transcript.map((line) => ({
+      const segments: TranscriptSegment[] = cached.transcript.map(line => ({
         start: line.startTime,
         end: line.endTime,
         duration: line.endTime - line.startTime,
@@ -315,7 +321,7 @@ export async function GET(
         endTime: line.endTime,
         text: line.text,
         words: line.words,
-      }));
+      }))
 
       return NextResponse.json<TranscriptResponse>({
         available: true,
@@ -327,105 +333,111 @@ export async function GET(
         cached: true,
         totalSegments: segments.length,
         totalDuration: segments[segments.length - 1]?.end || 0,
-      });
+      })
     }
 
-    console.log(`[TRANSCRIPT-API] Cache miss - proceeding to fetch`);
+    console.log(`[TRANSCRIPT-API] Cache miss - proceeding to fetch`)
 
     // ==========================================
     // STEP 2: TRY CUSTOM TRANSCRIPT SERVER (SHELDON)
     // ==========================================
-    const customServerResult = await tryCustomTranscriptServer(videoId);
+    const customServerResult = await tryCustomTranscriptServer(videoId)
 
     if (customServerResult && customServerResult.segments) {
       // Store to Firebase cache (async, don't block response) - using Admin SDK
-      transcriptCache.set({
-        contentId,
-        contentType: 'youtube',
-        transcript: customServerResult.segments.map((seg, i) => ({
-          id: String(i + 1),
-          text: seg.text,
-          startTime: seg.start,
-          endTime: seg.end,
-          words: seg.words,
-        })),
-        language: customServerResult.language || 'ja',
-        videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
-        videoTitle: customServerResult.title,
-        metadata: {
-          youtubeVideoId: videoId,
-        },
-      }).catch((err) => console.error('[TRANSCRIPT-API] Cache save failed:', err));
+      transcriptCache
+        .set({
+          contentId,
+          contentType: 'youtube',
+          transcript: customServerResult.segments.map((seg, i) => ({
+            id: String(i + 1),
+            text: seg.text,
+            startTime: seg.start,
+            endTime: seg.end,
+            words: seg.words,
+          })),
+          language: customServerResult.language || 'ja',
+          videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
+          videoTitle: customServerResult.title,
+          metadata: {
+            youtubeVideoId: videoId,
+          },
+        })
+        .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-      return NextResponse.json<TranscriptResponse>(customServerResult);
+      return NextResponse.json<TranscriptResponse>(customServerResult)
     }
 
     // ==========================================
     // STEP 3: TRY ENHANCED YOUTUBEI.JS
     // ==========================================
-    const enhancedResult = await tryEnhancedYouTubeiJS(videoId);
+    const enhancedResult = await tryEnhancedYouTubeiJS(videoId)
 
     if (enhancedResult && enhancedResult.segments) {
       // Store to Firebase cache (async, don't block response) - using Admin SDK
-      transcriptCache.set({
-        contentId,
-        contentType: 'youtube',
-        transcript: enhancedResult.segments.map((seg, i) => ({
-          id: String(i + 1),
-          text: seg.text,
-          startTime: seg.start,
-          endTime: seg.end,
-          words: seg.words,
-        })),
-        language: enhancedResult.language || 'ja',
-        videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
-        videoTitle: enhancedResult.title,
-        metadata: {
-          youtubeVideoId: videoId,
-        },
-      }).catch((err) => console.error('[TRANSCRIPT-API] Cache save failed:', err));
+      transcriptCache
+        .set({
+          contentId,
+          contentType: 'youtube',
+          transcript: enhancedResult.segments.map((seg, i) => ({
+            id: String(i + 1),
+            text: seg.text,
+            startTime: seg.start,
+            endTime: seg.end,
+            words: seg.words,
+          })),
+          language: enhancedResult.language || 'ja',
+          videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
+          videoTitle: enhancedResult.title,
+          metadata: {
+            youtubeVideoId: videoId,
+          },
+        })
+        .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-      return NextResponse.json<TranscriptResponse>(enhancedResult);
+      return NextResponse.json<TranscriptResponse>(enhancedResult)
     }
 
     // ==========================================
     // STEP 4: TRY STANDARD YOUTUBEI.JS
     // ==========================================
-    const standardResult = await tryStandardYouTubeiJS(videoId);
+    const standardResult = await tryStandardYouTubeiJS(videoId)
 
     if (standardResult && standardResult.segments) {
       // Store to Firebase cache - using Admin SDK
-      transcriptCache.set({
-        contentId,
-        contentType: 'youtube',
-        transcript: standardResult.segments.map((seg, i) => ({
-          id: String(i + 1),
-          text: seg.text,
-          startTime: seg.start,
-          endTime: seg.end,
-          words: seg.words,
-        })),
-        language: standardResult.language || 'ja',
-        videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
-        videoTitle: standardResult.title,
-        metadata: {
-          youtubeVideoId: videoId,
-        },
-      }).catch((err) => console.error('[TRANSCRIPT-API] Cache save failed:', err));
+      transcriptCache
+        .set({
+          contentId,
+          contentType: 'youtube',
+          transcript: standardResult.segments.map((seg, i) => ({
+            id: String(i + 1),
+            text: seg.text,
+            startTime: seg.start,
+            endTime: seg.end,
+            words: seg.words,
+          })),
+          language: standardResult.language || 'ja',
+          videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
+          videoTitle: standardResult.title,
+          metadata: {
+            youtubeVideoId: videoId,
+          },
+        })
+        .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-      return NextResponse.json<TranscriptResponse>(standardResult);
+      return NextResponse.json<TranscriptResponse>(standardResult)
     }
 
     // ==========================================
     // STEP 5: TRY SUPA API (FALLBACK)
     // ==========================================
     if (isSupaConfigured()) {
-      console.log(`[TRANSCRIPT-API] Step 5: Trying Supa API`);
+      console.log(`[TRANSCRIPT-API] Step 5: Trying Supa API`)
 
-      const supaResult = await getTranscriptFromSupa(videoId);
+      const supaResult = await getTranscriptFromSupa(videoId)
 
       if (supaResult && supaResult.transcript) {
-        const segments: TranscriptSegment[] = supaResult.transcript.map((seg) => ({
+        const segments: TranscriptSegment[] = supaResult.transcript.map(seg => ({
           start: seg.startTime,
           end: seg.endTime,
           duration: seg.endTime - seg.startTime,
@@ -433,22 +445,24 @@ export async function GET(
           endTime: seg.endTime,
           text: seg.text,
           words: seg.words,
-        }));
+        }))
 
         // Store to Firebase cache - using Admin SDK
-        transcriptCache.set({
-          contentId,
-          contentType: 'youtube',
-          transcript: supaResult.transcript,
-          language: supaResult.language,
-          videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
-          videoTitle: supaResult.title,
-          metadata: {
-            youtubeVideoId: videoId,
-          },
-        }).catch((err) => console.error('[TRANSCRIPT-API] Cache save failed:', err));
+        transcriptCache
+          .set({
+            contentId,
+            contentType: 'youtube',
+            transcript: supaResult.transcript,
+            language: supaResult.language,
+            videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
+            videoTitle: supaResult.title,
+            metadata: {
+              youtubeVideoId: videoId,
+            },
+          })
+          .catch(err => console.error('[TRANSCRIPT-API] Cache save failed:', err))
 
-        console.log(`[TRANSCRIPT-API] ✅ Supa API success: ${segments.length} segments`);
+        console.log(`[TRANSCRIPT-API] ✅ Supa API success: ${segments.length} segments`)
 
         return NextResponse.json<TranscriptResponse>({
           available: true,
@@ -460,14 +474,14 @@ export async function GET(
           source: 'supa-api',
           totalSegments: segments.length,
           totalDuration: segments[segments.length - 1]?.end || 0,
-        });
+        })
       }
     }
 
     // ==========================================
     // ALL METHODS FAILED
     // ==========================================
-    console.log(`[TRANSCRIPT-API] ❌ All methods failed for ${videoId}`);
+    console.log(`[TRANSCRIPT-API] ❌ All methods failed for ${videoId}`)
 
     return NextResponse.json<TranscriptResponse>(
       {
@@ -477,9 +491,9 @@ export async function GET(
         error: 'All transcript fetch methods failed',
       },
       { status: 404 }
-    );
+    )
   } catch (error) {
-    console.error(`[TRANSCRIPT-API] Fatal error for ${videoId}:`, error);
+    console.error(`[TRANSCRIPT-API] Fatal error for ${videoId}:`, error)
 
     return NextResponse.json<TranscriptResponse>(
       {
@@ -488,6 +502,6 @@ export async function GET(
         error: error instanceof Error ? error.message : 'Unknown error occurred',
       },
       { status: 500 }
-    );
+    )
   }
 }
