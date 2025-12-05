@@ -5,7 +5,7 @@ metadata:
   id: "moshimoshi-streak-xp-save-v1.0"
   role: "Guide future AI agents working on streak feature development and debugging"
   created: "2025-11-06"
-  updated: "2025-11-06"
+  updated: "2025-12-05"
   owner: "beano"
   project: "Moshimoshi Japanese Learning Platform"
   tags:
@@ -51,9 +51,9 @@ feature:
 
     phase_2_5:
       name: "Database Sync & Auto-Break + Daily XP Accumulation"
-      status: "🔄 IN PROGRESS"
-      current_work: "Daily XP accumulation for streak validation"
-      estimated_time: "2-3 hours"
+      status: "✅ COMPLETE"
+      completion_date: "2025-12-05"
+      test_results: "91/92 tests passing (1 skipped)"
 
       problems_identified:
         - name: "Per-Drill XP Checking"
@@ -264,6 +264,29 @@ critical_bugs_fixed:
       - "Exposed loadFromFirebase() from useGamification hook"
       - "Call loadFromFirebase() after successful auto-break"
       - "Dashboard immediately shows updated streak"
+    status: "✅ FIXED"
+
+  bug_7:
+    name: "XP Save Modal Not Appearing After Server-Side Auto-Break"
+    root_cause: "Break endpoint used TypeScript type assertions without including success:true in runtime objects"
+    impact: "When server-side scheduled function broke streak at midnight, modal didn't appear on app open"
+    discovery_date: "2025-12-05"
+    files:
+      - "src/app/api/gamification/streak/break/route.ts"
+      - "src/hooks/__tests__/useStreakSaveDetection.test.tsx"
+    fix:
+      - "Added success:true to all 4 return statements in break endpoint"
+      - "Fixed test mocks: changed getStreakConfig to getStreakConfigClient"
+      - "Added loadFromFirebase mock to test default state"
+    detailed_cause: |
+      The break endpoint returned objects like { alreadyBroken: true, message: '...' }
+      but the TypeScript interface declared success:true as a property.
+      Using 'as AlreadyBrokenResult' is a type assertion, NOT a value assignment.
+      The hook checked 'result.success && result.alreadyBroken' which evaluated to
+      'undefined && true' = false, so triggerAutoBreak() returned false and modal
+      was never shown.
+    commit: "b8f7b65b fix(streak): add missing success:true to break endpoint responses"
+    test_results: "91 passed, 1 skipped"
     status: "✅ FIXED"
 
 data_model:

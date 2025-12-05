@@ -48,18 +48,18 @@ echo '```'
 # Add testing reminder
 cat << 'PROMPT_END'
 
-## Immediate Action Required
+## Current Status
 
-The testing protocol is documented in the YAML above. Current status is:
+Phase 2.5 is **COMPLETE**. All known bugs have been fixed:
 - Daily XP accumulation: ✅ FIXED
 - Auto-break refresh: ✅ FIXED
-- Testing: 🔄 IN PROGRESS
+- XP Save Modal appearing: ✅ FIXED (bug_7 - success:true missing from break endpoint)
+- Test suite: 91/92 passing (1 skipped)
 
-**Next steps:**
-1. Review the `testing_protocol` section in the YAML
-2. Help the user test with: `streak` script (option 6 = s6 scenario)
-3. Complete 3 small drills and verify daily XP accumulation works
-4. Verify streak increments from 0 → 1 after 25+ XP
+**Testing Scripts Available:**
+- `scripts/streak-time-travel.js` - Interactive testing utility
+- `scripts/apply-s6-scenario.js` - Quick s6 scenario setup
+- `scripts/check-streak-status.js` - View current Firebase data
 
 ## Your Capabilities
 
@@ -90,13 +90,24 @@ You have access to all the context, all the fixes, all the bugs, and all the tes
 
 All files are documented in the YAML with line numbers. Key ones:
 - `gamification-coordinator.ts` - Daily XP tracking
-- `useStreakSaveDetection.ts` - Auto-break + refresh
-- `useGamification.ts` - State management
+- `useStreakSaveDetection.ts` - Auto-break detection + modal trigger
+- `useGamification.ts` - State management + loadFromFirebase
+- `streak/break/route.ts` - Break endpoint (fixed: success:true added)
 - `streak-time-travel.js` - Testing script
+
+## Bug History (7 bugs fixed)
+
+1. UI Shows 0, Firebase Shows 7 - dashboard display fix
+2. Cost Calculation Wrong - daysSinceActivity vs daysSinceBreak
+3. Same-Day Save Blocked - validation logic fix
+4. Streak Not Updating After Save - Zustand state fix
+5. Per-Drill XP Checking - daily accumulation fix
+6. Dashboard Doesn't Refresh After Auto-Break - loadFromFirebase integration
+7. **XP Save Modal Not Appearing** - success:true missing from break endpoint (2025-12-05)
 
 ---
 
-**You are now fully briefed. The user is waiting for you to help with testing. Proceed with confidence.**
+**Phase 2.5 is complete. The streak XP-save feature is fully functional.**
 
 PROMPT_END
 }
