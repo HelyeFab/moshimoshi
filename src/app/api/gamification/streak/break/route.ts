@@ -12,7 +12,7 @@ import { adminFirestore as db } from '@/lib/firebase/admin'
 import { getStreakConfig } from '@/config/gamification/streakConfig'
 import {
   calculateDaysDifference,
-  getCurrentDateUTC
+  getCurrentDateUTC,
 } from '@/lib/gamification/services/streakService'
 import { FieldValue } from 'firebase-admin/firestore'
 import logger from '@/lib/logger'
@@ -75,14 +75,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json<ErrorResult>(
         {
           success: false,
-          error: 'Database not initialized'
+          error: 'Database not initialized',
         },
         { status: 500 }
       )
     }
     const userStatsRef = db.collection('user_stats').doc(userId)
 
-    const result = await db.runTransaction(async (transaction) => {
+    const result = await db.runTransaction(async transaction => {
       const doc = await transaction.get(userStatsRef)
 
       if (!doc.exists) {
@@ -97,16 +97,18 @@ export async function POST(req: NextRequest) {
       // Already broken?
       if (currentStreak === 0) {
         return {
+          success: true,
           alreadyBroken: true,
-          message: 'Streak already at 0'
+          message: 'Streak already at 0',
         } as AlreadyBrokenResult
       }
 
       // No activity date?
       if (!lastActivityDate) {
         return {
+          success: true,
           alreadyBroken: true,
-          message: 'No activity date recorded'
+          message: 'No activity date recorded',
         } as AlreadyBrokenResult
       }
 
@@ -114,8 +116,9 @@ export async function POST(req: NextRequest) {
       const daysSince = calculateDaysDifference(lastActivityDate, today)
       if (daysSince <= gracePeriodDays) {
         return {
+          success: true,
           notEligible: true,
-          message: `Within grace period (${daysSince} day${daysSince === 1 ? '' : 's'} <= ${gracePeriodDays} day grace period)`
+          message: `Within grace period (${daysSince} day${daysSince === 1 ? '' : 's'} <= ${gracePeriodDays} day grace period)`,
         } as NotEligibleResult
       }
 
@@ -125,30 +128,27 @@ export async function POST(req: NextRequest) {
         'streak.current': 0,
         'streak.brokenAt': now,
         'streak.version': FieldValue.increment(1),
-        'metadata.lastUpdated': now
+        'metadata.lastUpdated': now,
       })
 
       return {
+        success: true,
         broken: true,
         streakBroken: currentStreak,
         brokenAt: now,
-        daysSince
+        daysSince,
       } as BreakStreakResult
     })
 
     logger.info('[Streak Break] Result:', { userId, ...result })
 
-    // Note: result already contains success: true from the typed return values
+    // All return paths now include success: true explicitly
     return NextResponse.json(result)
-
   } catch (error) {
     logger.error('[Streak Break] Error:', error)
 
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 
-    return NextResponse.json<ErrorResult>(
-      { success: false, error: errorMessage },
-      { status: 400 }
-    )
+    return NextResponse.json<ErrorResult>({ success: false, error: errorMessage }, { status: 400 })
   }
 }

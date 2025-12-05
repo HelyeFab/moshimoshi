@@ -11,14 +11,14 @@
 jest.mock('@/lib/firebase/client', () => ({
   auth: {},
   db: {},
-  storage: {}
+  storage: {},
 }))
 
 jest.mock('@/hooks/useAuth', () => ({
   useAuth: jest.fn(() => ({
     user: { uid: 'test-user' },
-    loading: false
-  }))
+    loading: false,
+  })),
 }))
 
 // Mock localStorage
@@ -37,12 +37,12 @@ const localStorageMock = (() => {
     },
     clear() {
       store = {}
-    }
+    },
   }
 })()
 
 Object.defineProperty(global, 'localStorage', {
-  value: localStorageMock
+  value: localStorageMock,
 })
 
 // Mock fetch for auto-break API calls
@@ -52,18 +52,20 @@ import { renderHook, waitFor, act } from '@testing-library/react'
 import { useStreakSaveDetection } from '../useStreakSaveDetection'
 import { useGamification } from '../useGamification'
 import { validateStreakDisplay } from '@/lib/gamification/utils/streakValidation'
-import { getStreakConfig } from '@/config/gamification/streakConfig'
+import { getStreakConfigClient } from '@/config/gamification/streakConfig.client'
 
 // Mock dependencies
 jest.mock('../useGamification')
 jest.mock('@/lib/gamification/utils/streakValidation')
-jest.mock('@/config/gamification/streakConfig')
+jest.mock('@/config/gamification/streakConfig.client')
 
 const mockUseGamification = useGamification as jest.MockedFunction<typeof useGamification>
 const mockValidateStreakDisplay = validateStreakDisplay as jest.MockedFunction<
   typeof validateStreakDisplay
 >
-const mockGetStreakConfig = getStreakConfig as jest.MockedFunction<typeof getStreakConfig>
+const mockGetStreakConfigClient = getStreakConfigClient as jest.MockedFunction<
+  typeof getStreakConfigClient
+>
 const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>
 
 // Helper to mock successful break API call
@@ -75,8 +77,8 @@ function mockBreakAPISuccess(broken = true) {
       broken,
       streakBroken: 10,
       brokenAt: '2025-11-04T00:00:00.000Z',
-      daysSince: 2
-    })
+      daysSince: 2,
+    }),
   } as Response)
 }
 
@@ -84,7 +86,7 @@ function mockBreakAPISuccess(broken = true) {
 function mockBreakAPIFailure() {
   mockFetch.mockResolvedValueOnce({
     ok: false,
-    status: 400
+    status: 400,
   } as Response)
 }
 
@@ -95,8 +97,8 @@ function mockBreakAPIAlreadyBroken() {
     json: async () => ({
       success: true,
       alreadyBroken: true,
-      message: 'Streak already at 0'
-    })
+      message: 'Streak already at 0',
+    }),
   } as Response)
 }
 
@@ -116,7 +118,7 @@ describe('useStreakSaveDetection', () => {
       requiresPremium: true,
       maxFreezes: 3,
       freezeDurationDays: 1,
-      cooldownDays: 7
+      cooldownDays: 7,
     },
     streakSave: {
       enabled: true,
@@ -126,12 +128,12 @@ describe('useStreakSaveDetection', () => {
       surgeMultiplier: 1.0,
       maxSaveWindow: 3,
       requiresPremium: false,
-      description: 'Save breaking streak'
+      description: 'Save breaking streak',
     },
     notifications: {
       enabled: true,
-      reminderHours: [9, 18]
-    }
+      reminderHours: [9, 18],
+    },
   }
 
   // Default gamification state
@@ -146,7 +148,8 @@ describe('useStreakSaveDetection', () => {
     loading: false,
     error: null,
     isEnabled: true,
-    hasHydrated: true
+    hasHydrated: true,
+    loadFromFirebase: jest.fn().mockResolvedValue(undefined), // Mock reload function
   }
 
   beforeEach(() => {
@@ -168,14 +171,14 @@ describe('useStreakSaveDetection', () => {
     // Default mock implementations
     mockUseGamification.mockReturnValue(defaultGamificationState as any)
 
-    mockGetStreakConfig.mockReturnValue(defaultConfig as any)
+    mockGetStreakConfigClient.mockReturnValue(defaultConfig as any)
 
     mockValidateStreakDisplay.mockReturnValue({
       isStale: true,
       daysSinceActivity: 2,
       effectiveStreak: 0,
       reason: 'Streak is breaking',
-      isWithinGracePeriod: false
+      isWithinGracePeriod: false,
     })
   })
 
@@ -189,7 +192,7 @@ describe('useStreakSaveDetection', () => {
       it('should NOT show modal when not hydrated', () => {
         mockUseGamification.mockReturnValue({
           ...defaultGamificationState,
-          hasHydrated: false
+          hasHydrated: false,
         } as any)
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -202,7 +205,7 @@ describe('useStreakSaveDetection', () => {
       it('should show modal when hydrated (all other conditions met)', async () => {
         mockUseGamification.mockReturnValue({
           ...defaultGamificationState,
-          hasHydrated: true
+          hasHydrated: true,
         } as any)
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -219,7 +222,7 @@ describe('useStreakSaveDetection', () => {
 
         mockUseGamification.mockReturnValue({
           ...defaultGamificationState,
-          currentStreak: 0
+          currentStreak: 0,
         } as any)
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -232,7 +235,7 @@ describe('useStreakSaveDetection', () => {
       it('should NOT show modal when streak is 1 (still active)', async () => {
         mockUseGamification.mockReturnValue({
           ...defaultGamificationState,
-          currentStreak: 1
+          currentStreak: 1,
         } as any)
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -244,7 +247,7 @@ describe('useStreakSaveDetection', () => {
       it('should NOT show modal when streak is high (still active)', async () => {
         mockUseGamification.mockReturnValue({
           ...defaultGamificationState,
-          currentStreak: 100
+          currentStreak: 100,
         } as any)
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -257,7 +260,7 @@ describe('useStreakSaveDetection', () => {
       it('should NOT show modal when lastActivityDate is null', () => {
         mockUseGamification.mockReturnValue({
           ...defaultGamificationState,
-          lastActivityDate: null
+          lastActivityDate: null,
         } as any)
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -268,7 +271,7 @@ describe('useStreakSaveDetection', () => {
       it('should NOT show modal when lastActivityDate is undefined', () => {
         mockUseGamification.mockReturnValue({
           ...defaultGamificationState,
-          lastActivityDate: undefined
+          lastActivityDate: undefined,
         } as any)
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -279,7 +282,7 @@ describe('useStreakSaveDetection', () => {
       it('should show modal when lastActivityDate exists', async () => {
         mockUseGamification.mockReturnValue({
           ...defaultGamificationState,
-          lastActivityDate: '2025-11-04'
+          lastActivityDate: '2025-11-04',
         } as any)
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -297,7 +300,7 @@ describe('useStreakSaveDetection', () => {
           daysSinceActivity: 0,
           effectiveStreak: 7,
           reason: 'Active today',
-          isWithinGracePeriod: true
+          isWithinGracePeriod: true,
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -311,7 +314,7 @@ describe('useStreakSaveDetection', () => {
           daysSinceActivity: 1,
           effectiveStreak: 7,
           reason: 'Within grace period',
-          isWithinGracePeriod: true
+          isWithinGracePeriod: true,
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -325,7 +328,7 @@ describe('useStreakSaveDetection', () => {
           daysSinceActivity: 2,
           effectiveStreak: 0,
           reason: 'Streak is breaking',
-          isWithinGracePeriod: false
+          isWithinGracePeriod: false,
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -343,7 +346,7 @@ describe('useStreakSaveDetection', () => {
           daysSinceActivity: 2,
           effectiveStreak: 0,
           reason: 'Streak is breaking',
-          isWithinGracePeriod: false
+          isWithinGracePeriod: false,
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -359,7 +362,7 @@ describe('useStreakSaveDetection', () => {
           daysSinceActivity: 3,
           effectiveStreak: 0,
           reason: 'Streak is breaking',
-          isWithinGracePeriod: false
+          isWithinGracePeriod: false,
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -375,7 +378,7 @@ describe('useStreakSaveDetection', () => {
           daysSinceActivity: 4,
           effectiveStreak: 0,
           reason: 'Streak broken',
-          isWithinGracePeriod: false
+          isWithinGracePeriod: false,
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -389,7 +392,7 @@ describe('useStreakSaveDetection', () => {
           daysSinceActivity: 10,
           effectiveStreak: 0,
           reason: 'Streak broken',
-          isWithinGracePeriod: false
+          isWithinGracePeriod: false,
         })
 
         const { result } = renderHook(() => useStreakSaveDetection())
@@ -451,7 +454,7 @@ describe('useStreakSaveDetection', () => {
           '/api/gamification/streak/break',
           expect.objectContaining({
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
           })
         )
       })
@@ -515,7 +518,7 @@ describe('useStreakSaveDetection', () => {
       mockUseGamification.mockReturnValue({
         ...defaultGamificationState,
         currentStreak: 10, // Active streak
-        lastActivityDate: '2025-11-05' // Yesterday
+        lastActivityDate: '2025-11-05', // Yesterday
       } as any)
 
       // Mock validation to show streak is NOT stale (still within grace)
@@ -524,7 +527,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 1,
         effectiveStreak: 7,
         reason: 'Within grace',
-        isWithinGracePeriod: true
+        isWithinGracePeriod: true,
       })
 
       renderHook(() => useStreakSaveDetection())
@@ -539,7 +542,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 1,
         effectiveStreak: 7,
         reason: 'Within grace',
-        isWithinGracePeriod: true
+        isWithinGracePeriod: true,
       })
 
       renderHook(() => useStreakSaveDetection())
@@ -551,12 +554,12 @@ describe('useStreakSaveDetection', () => {
 
   describe('feature gate', () => {
     it('should NOT show modal when streakSave feature is disabled', () => {
-      mockGetStreakConfig.mockReturnValue({
+      mockGetStreakConfigClient.mockReturnValue({
         ...defaultConfig,
         streakSave: {
           ...defaultConfig.streakSave,
-          enabled: false
-        }
+          enabled: false,
+        },
       } as any)
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -567,9 +570,9 @@ describe('useStreakSaveDetection', () => {
     })
 
     it('should NOT show modal when streakSave config is missing', () => {
-      mockGetStreakConfig.mockReturnValue({
+      mockGetStreakConfigClient.mockReturnValue({
         ...defaultConfig,
-        streakSave: undefined
+        streakSave: undefined,
       } as any)
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -579,12 +582,12 @@ describe('useStreakSaveDetection', () => {
     })
 
     it('should show modal when feature is enabled', async () => {
-      mockGetStreakConfig.mockReturnValue({
+      mockGetStreakConfigClient.mockReturnValue({
         ...defaultConfig,
         streakSave: {
           ...defaultConfig.streakSave,
-          enabled: true
-        }
+          enabled: true,
+        },
       } as any)
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -600,7 +603,7 @@ describe('useStreakSaveDetection', () => {
       // Mock console.error to suppress expected error output
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
-      mockGetStreakConfig.mockImplementation(() => {
+      mockGetStreakConfigClient.mockImplementation(() => {
         throw new Error('Config load failed')
       })
 
@@ -613,9 +616,9 @@ describe('useStreakSaveDetection', () => {
 
     it('should handle malformed config gracefully', () => {
       // Config missing streakSave but otherwise valid
-      mockGetStreakConfig.mockReturnValue({
+      mockGetStreakConfigClient.mockReturnValue({
         ...defaultConfig,
-        streakSave: undefined
+        streakSave: undefined,
       } as any)
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -685,7 +688,7 @@ describe('useStreakSaveDetection', () => {
       mockUseGamification.mockReturnValue({
         ...defaultGamificationState,
         currentStreak: 10, // Active streak, should not break
-        lastActivityDate: '2025-11-05' // Yesterday
+        lastActivityDate: '2025-11-05', // Yesterday
       } as any)
 
       // Mock validation to show NOT stale
@@ -694,7 +697,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 1,
         effectiveStreak: 7,
         reason: 'Within grace',
-        isWithinGracePeriod: true
+        isWithinGracePeriod: true,
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -734,7 +737,7 @@ describe('useStreakSaveDetection', () => {
       await act(async () => {
         Object.defineProperty(document, 'hidden', {
           configurable: true,
-          get: () => false
+          get: () => false,
         })
         document.dispatchEvent(new Event('visibilitychange'))
       })
@@ -758,7 +761,7 @@ describe('useStreakSaveDetection', () => {
       act(() => {
         Object.defineProperty(document, 'hidden', {
           configurable: true,
-          get: () => true
+          get: () => true,
         })
         document.dispatchEvent(new Event('visibilitychange'))
       })
@@ -776,7 +779,7 @@ describe('useStreakSaveDetection', () => {
         ...defaultGamificationState,
         currentStreak: 0, // Phase 2.5: streak is broken
         bestStreak: 10,
-        lastActivityDate: '2025-11-04'
+        lastActivityDate: '2025-11-04',
       } as any)
 
       mockValidateStreakDisplay.mockReturnValue({
@@ -784,7 +787,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 2,
         effectiveStreak: 0,
         reason: 'Broken',
-        isWithinGracePeriod: false
+        isWithinGracePeriod: false,
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -806,7 +809,7 @@ describe('useStreakSaveDetection', () => {
       mockUseGamification.mockReturnValue({
         ...defaultGamificationState,
         currentStreak: 10, // Phase 2.5: streak restored after save
-        lastActivityDate: '2025-11-05' // Yesterday (extended via save)
+        lastActivityDate: '2025-11-05', // Yesterday (extended via save)
       } as any)
 
       // Streak is now active again after save
@@ -815,7 +818,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 1,
         effectiveStreak: 10,
         reason: 'Within grace',
-        isWithinGracePeriod: true
+        isWithinGracePeriod: true,
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -830,7 +833,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 4,
         effectiveStreak: 0,
         reason: 'Too late',
-        isWithinGracePeriod: false
+        isWithinGracePeriod: false,
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -844,7 +847,7 @@ describe('useStreakSaveDetection', () => {
       mockUseGamification.mockReturnValue({
         ...defaultGamificationState,
         currentStreak: 0,
-        bestStreak: 0 // Phase 2.5: no streak to restore
+        bestStreak: 0, // Phase 2.5: no streak to restore
       } as any)
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -860,7 +863,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 0,
         effectiveStreak: 7,
         reason: 'Active',
-        isWithinGracePeriod: true
+        isWithinGracePeriod: true,
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -871,9 +874,9 @@ describe('useStreakSaveDetection', () => {
 
   describe('edge cases', () => {
     it('should handle gracePeriodHours = 48 (2 days)', async () => {
-      mockGetStreakConfig.mockReturnValue({
+      mockGetStreakConfigClient.mockReturnValue({
         ...defaultConfig,
-        gracePeriodHours: 48
+        gracePeriodHours: 48,
       } as any)
 
       mockValidateStreakDisplay.mockReturnValue({
@@ -881,7 +884,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 3, // Beyond 2-day grace
         effectiveStreak: 0,
         reason: 'Breaking',
-        isWithinGracePeriod: false
+        isWithinGracePeriod: false,
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -892,12 +895,12 @@ describe('useStreakSaveDetection', () => {
     })
 
     it('should handle maxSaveWindow = 7 days', async () => {
-      mockGetStreakConfig.mockReturnValue({
+      mockGetStreakConfigClient.mockReturnValue({
         ...defaultConfig,
         streakSave: {
           ...defaultConfig.streakSave,
-          maxSaveWindow: 7
-        }
+          maxSaveWindow: 7,
+        },
       } as any)
 
       mockValidateStreakDisplay.mockReturnValue({
@@ -905,7 +908,7 @@ describe('useStreakSaveDetection', () => {
         daysSinceActivity: 6,
         effectiveStreak: 0,
         reason: 'Breaking',
-        isWithinGracePeriod: false
+        isWithinGracePeriod: false,
       })
 
       const { result } = renderHook(() => useStreakSaveDetection())
@@ -926,7 +929,7 @@ describe('useStreakSaveDetection', () => {
       // Start not hydrated
       const mockState = {
         ...defaultGamificationState,
-        hasHydrated: false
+        hasHydrated: false,
       }
 
       // Store original implementation to restore later
@@ -942,16 +945,16 @@ describe('useStreakSaveDetection', () => {
         // Clear all mocks and set up fresh ones
         mockFetch.mockClear()
         mockValidateStreakDisplay.mockClear()
-        mockGetStreakConfig.mockClear()
+        mockGetStreakConfigClient.mockClear()
 
         // Reset to default mocks
-        mockGetStreakConfig.mockReturnValue(defaultConfig as any)
+        mockGetStreakConfigClient.mockReturnValue(defaultConfig as any)
         mockValidateStreakDisplay.mockReturnValue({
           isStale: true,
           daysSinceActivity: 2,
           effectiveStreak: 0,
           reason: 'Streak is breaking',
-          isWithinGracePeriod: false
+          isWithinGracePeriod: false,
         })
         mockBreakAPISuccess()
 
@@ -961,9 +964,12 @@ describe('useStreakSaveDetection', () => {
         rerender()
 
         // After hydration and all conditions are met, should show modal
-        await waitFor(() => {
-          expect(result.current.shouldShowModal).toBe(true)
-        }, { timeout: 3000 })
+        await waitFor(
+          () => {
+            expect(result.current.shouldShowModal).toBe(true)
+          },
+          { timeout: 3000 }
+        )
 
         unmount()
       } finally {
@@ -983,10 +989,7 @@ describe('useStreakSaveDetection', () => {
 
       unmount()
 
-      expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'visibilitychange',
-        expect.any(Function)
-      )
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('visibilitychange', expect.any(Function))
     })
   })
 })
