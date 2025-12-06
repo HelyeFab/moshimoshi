@@ -1,14 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth/session';
-import { adminDb } from '@/lib/firebase/admin';
-import type { UserList } from '@/types/userLists';
+import { NextRequest, NextResponse } from 'next/server'
+import { getSession } from '@/lib/auth/session'
+import { adminDb } from '@/lib/firebase/admin'
+import type { UserList } from '@/types/userLists'
 
 // Helper for database availability check
 function getDb() {
   if (!adminDb) {
-    throw new Error('Database not available');
+    throw new Error('Database not available')
   }
-  return adminDb;
+  return adminDb
 }
 
 /**
@@ -20,13 +20,13 @@ export async function GET(
   { params }: { params: Promise<{ listId: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession()
     if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { listId } = await params;
-    const db = getDb();
+    const { listId } = await params
+    const db = getDb()
 
     // Get the list from Firebase
     const listDoc = await db
@@ -34,97 +34,82 @@ export async function GET(
       .doc(session.uid)
       .collection('lists')
       .doc(listId)
-      .get();
+      .get()
 
     if (!listDoc.exists) {
-      return NextResponse.json(
-        { error: 'List not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'List not found' }, { status: 404 })
     }
 
-    const list = { id: listDoc.id, ...listDoc.data() };
+    const list = { id: listDoc.id, ...listDoc.data() }
 
-    return NextResponse.json({ list });
+    return NextResponse.json({ list })
   } catch (error) {
-    console.error('Error fetching list:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch list' },
-      { status: 500 }
-    );
+    console.error('Error fetching list:', error)
+    return NextResponse.json({ error: 'Failed to fetch list' }, { status: 500 })
   }
 }
 
 /**
  * PUT /api/lists/[listId]
- * Update a list (name, emoji, color)
+ * Update a list (name, emoji, color, items)
  */
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ listId: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession()
     if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { listId } = await params;
-    const body = await request.json();
-    const { name, emoji, color } = body;
+    const { listId } = await params
+    const body = await request.json()
+    const { name, emoji, color, items } = body
 
     // Validate at least one field is provided
-    if (!name && !emoji && !color) {
+    if (!name && !emoji && !color && !items) {
       return NextResponse.json(
-        { error: 'At least one field (name, emoji, or color) must be provided' },
+        { error: 'At least one field (name, emoji, color, or items) must be provided' },
         { status: 400 }
-      );
+      )
     }
 
-    const db = getDb();
+    const db = getDb()
 
     // Get the list to verify ownership
-    const listRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('lists')
-      .doc(listId);
+    const listRef = db.collection('users').doc(session.uid).collection('lists').doc(listId)
 
-    const listDoc = await listRef.get();
+    const listDoc = await listRef.get()
 
     if (!listDoc.exists) {
-      return NextResponse.json(
-        { error: 'List not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'List not found' }, { status: 404 })
     }
 
     // Prepare update data
     const updateData: Partial<UserList> = {
-      updatedAt: Date.now()
-    };
+      updatedAt: Date.now(),
+    }
 
-    if (name) updateData.name = name;
-    if (emoji) updateData.emoji = emoji;
-    if (color) updateData.color = color;
+    if (name) updateData.name = name
+    if (emoji) updateData.emoji = emoji
+    if (color) updateData.color = color
+    if (items) updateData.items = items // Support items update for SRS data persistence
 
     // Update the list
-    await listRef.update(updateData);
+    await listRef.update(updateData)
 
     // Get updated list
-    const updatedDoc = await listRef.get();
-    const updatedList = { id: updatedDoc.id, ...updatedDoc.data() };
+    const updatedDoc = await listRef.get()
+    const updatedList = { id: updatedDoc.id, ...updatedDoc.data() }
 
     return NextResponse.json({
       success: true,
-      list: updatedList
-    });
+      list: updatedList,
+    })
   } catch (error) {
-    console.error('Error updating list:', error);
-    return NextResponse.json(
-      { error: 'Failed to update list' },
-      { status: 500 }
-    );
+    console.error('Error updating list:', error)
+    return NextResponse.json({ error: 'Failed to update list' }, { status: 500 })
   }
 }
 
@@ -137,51 +122,41 @@ export async function DELETE(
   { params }: { params: Promise<{ listId: string }> }
 ) {
   try {
-    const { listId } = await params;
-    console.log('[API DELETE /api/lists/[listId]] Starting delete for listId:', listId);
+    const { listId } = await params
+    console.log('[API DELETE /api/lists/[listId]] Starting delete for listId:', listId)
 
-    const session = await getSession();
+    const session = await getSession()
     if (!session) {
-      console.log('[API DELETE] No session found');
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      console.log('[API DELETE] No session found')
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    console.log('[API DELETE] Session user:', session.uid, 'Deleting list:', listId);
+    console.log('[API DELETE] Session user:', session.uid, 'Deleting list:', listId)
 
-    const db = getDb();
+    const db = getDb()
 
     // Verify the list exists and belongs to the user
-    const listRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('lists')
-      .doc(listId);
+    const listRef = db.collection('users').doc(session.uid).collection('lists').doc(listId)
 
-    const listDoc = await listRef.get();
+    const listDoc = await listRef.get()
 
     if (!listDoc.exists) {
-      console.log('[API DELETE] List not found in database');
-      return NextResponse.json(
-        { error: 'List not found' },
-        { status: 404 }
-      );
+      console.log('[API DELETE] List not found in database')
+      return NextResponse.json({ error: 'List not found' }, { status: 404 })
     }
 
-    console.log('[API DELETE] List found, proceeding with deletion');
+    console.log('[API DELETE] List found, proceeding with deletion')
 
     // Delete the list
-    await listRef.delete();
+    await listRef.delete()
 
-    console.log('[API DELETE] List deleted successfully');
+    console.log('[API DELETE] List deleted successfully')
 
     return NextResponse.json({
       success: true,
-      message: 'List deleted successfully'
-    });
+      message: 'List deleted successfully',
+    })
   } catch (error) {
-    console.error('[API DELETE] Error deleting list:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete list' },
-      { status: 500 }
-    );
+    console.error('[API DELETE] Error deleting list:', error)
+    return NextResponse.json({ error: 'Failed to delete list' }, { status: 500 })
   }
 }

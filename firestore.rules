@@ -6,16 +6,16 @@ service cloud.firestore {
     function isAuthenticated() {
       return request.auth != null;
     }
-    
+
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
-    
+
     function isAdmin() {
-      return isAuthenticated() && 
+      return isAuthenticated() &&
         request.auth.token.admin == true;
     }
-    
+
     function hasValidTimestamp() {
       return request.resource.data.keys().hasAll(['createdAt', 'updatedAt']) &&
         request.resource.data.createdAt is timestamp &&
@@ -415,6 +415,15 @@ service cloud.firestore {
 
       // Progress should not be deleted
       allow delete: if false;
+    }
+
+    // MoodBoards collection - public read for active, admin write via server
+    match /moodBoards/{boardId} {
+      // Anyone can read active moodboards (public learning content)
+      allow read: if resource.data.isActive == true;
+
+      // Writes handled via Admin SDK (API routes) - client writes blocked
+      allow write: if false;
     }
 
     // Default deny all

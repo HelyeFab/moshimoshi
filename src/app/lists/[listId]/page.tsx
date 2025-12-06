@@ -7,7 +7,8 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { useRouter, useParams } from 'next/navigation'
 // Navigation is now global via NavigationWrapper in root layout;
 import { listManager } from '@/lib/lists/ListManager'
-import type { UserList, ListItem } from '@/types/userLists'
+import type { UserList, ListItem, ListItemSRSData } from '@/types/userLists'
+import { createInitialSRSData } from '@/types/userLists'
 import type { Kanji } from '@/types/kanji'
 import type { JapaneseWord, JLPTLevel } from '@/types/vocabulary'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -367,6 +368,63 @@ export default function ListDetailPage() {
       bestStreak: stats.bestStreak,
       duration: stats.duration,
     })
+
+    // Update SRS data for each reviewed item
+    if (list && stats.itemResults && stats.itemResults.length > 0) {
+      console.log('[User Lists] Updating SRS data for', stats.itemResults.length, 'items')
+
+      const updatedItems = list.items.map(item => {
+        // Find the result for this item
+        const result = stats.itemResults.find((r: any) => r.itemId === item.id)
+
+        if (result) {
+          // Get current SRS data or create initial
+          const currentSRS = item.srsData || createInitialSRSData()
+
+          // Calculate updated SRS using the adapter's static method
+          const updatedSRS = UserListAdapter.calculateUpdatedSRS(currentSRS, result.correct)
+
+          console.log(`[User Lists] Item ${item.id} SRS update:`, {
+            correct: result.correct,
+            oldInterval: currentSRS.interval,
+            newInterval: updatedSRS.interval,
+            oldStatus: currentSRS.status,
+            newStatus: updatedSRS.status,
+          })
+
+          return {
+            ...item,
+            srsData: updatedSRS,
+          }
+        }
+
+        return item
+      })
+
+      // Update the list with new SRS data
+      const updatedList: UserList = {
+        ...list,
+        items: updatedItems,
+        updatedAt: Date.now(),
+      }
+
+      // Save to storage (IndexedDB + Firebase for premium)
+      try {
+        if (user?.uid) {
+          await listManager.updateList(
+            listId,
+            { items: updatedItems },
+            user.uid,
+            isPremium ?? false
+          )
+          setList(updatedList)
+          console.log('[User Lists] SRS data persisted successfully')
+        }
+      } catch (error) {
+        console.error('[User Lists] Failed to persist SRS data:', error)
+        showToast('Review saved locally, but failed to sync', 'warning')
+      }
+    }
 
     setReviewContent([])
     setReviewContentPool([])

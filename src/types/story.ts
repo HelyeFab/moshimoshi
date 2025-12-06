@@ -66,6 +66,14 @@ export interface Story {
   aiModel?: string
   generationPrompt?: string
   characterSheet?: any // AI character sheet data
+
+  // Audio Generation
+  fullAudioUrl?: string // Full story narration (all pages concatenated)
+  audioGeneratedAt?: Date
+  audioProvider?: 'voicevox' | 'openai' | 'elevenlabs'
+  audioVoice?: string
+  audioStatus?: 'pending' | 'generating' | 'complete' | 'partial' | 'failed'
+  audioError?: string
 }
 
 // Enhanced Story Progress

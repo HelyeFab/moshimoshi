@@ -1,95 +1,99 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/components/ui/Toast/ToastContext';
-import { useI18n } from '@/i18n/I18nContext';
+import { useState } from 'react'
+import { useAuth } from '@/hooks/useAuth'
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useI18n } from '@/i18n/I18nContext'
 
-type JLPTLevel = 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
+type JLPTLevel = 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
 
 interface GenerateKanjiMoodboardModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onGenerated: (moodboardData: any) => void;
+  isOpen: boolean
+  onClose: () => void
+  onGenerated: (moodboardData: any) => void
 }
 
 export default function GenerateKanjiMoodboardModal({
   isOpen,
   onClose,
-  onGenerated
+  onGenerated,
 }: GenerateKanjiMoodboardModalProps) {
-  const { user } = useAuth();
-  const { t } = useI18n();
-  const { showToast } = useToast();
+  const { user } = useAuth()
+  const { t } = useI18n()
+  const { showToast } = useToast()
 
-  const [theme, setTheme] = useState('');
-  const [jlptLevel, setJlptLevel] = useState<JLPTLevel>('N5');
-  const [kanjiCount, setKanjiCount] = useState(15);
-  const [customTags, setCustomTags] = useState('');
-  const [generateStory, setGenerateStory] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [theme, setTheme] = useState('')
+  const [jlptLevel, setJlptLevel] = useState<JLPTLevel>('N5')
+  const [kanjiCount, setKanjiCount] = useState(15)
+  const [customTags, setCustomTags] = useState('')
+  const [generateStory, setGenerateStory] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const handleGenerate = async () => {
     if (!theme.trim()) {
-      showToast(t('admin.moodboard.themeRequired'), 'error');
-      return;
+      showToast(t('admin.moodboard.themeRequired'), 'error')
+      return
     }
 
-    if (!user) return;
+    if (!user) return
 
-    setIsGenerating(true);
+    setIsGenerating(true)
 
     try {
       const response = await fetch('/api/admin/generate-kanji-moodboard', {
         method: 'POST',
         credentials: 'include', // Send session cookie
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           theme,
           jlptLevel,
           kanjiCount,
-          tags: customTags ? customTags.split(',').map(t => t.trim()).filter(Boolean) : [],
-          generateStory
-        })
-      });
+          tags: customTags
+            ? customTags
+                .split(',')
+                .map(t => t.trim())
+                .filter(Boolean)
+            : [],
+          generateStory,
+        }),
+      })
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to generate moodboard');
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to generate moodboard')
       }
 
-      const moodboardData = await response.json();
+      const moodboardData = await response.json()
 
       if (!moodboardData.kanjiList || !Array.isArray(moodboardData.kanjiList)) {
-        throw new Error('Invalid response format');
+        throw new Error('Invalid response format')
       }
 
-      showToast(`Generated ${moodboardData.kanjiList.length} kanji for "${theme}"`, 'success');
+      showToast(
+        t('admin.moodboard.success.generated', { count: moodboardData.kanjiList.length, theme }),
+        'success'
+      )
 
       // Pass both moodboard data and story preference
-      onGenerated({ ...moodboardData, generateStory });
-      onClose();
+      onGenerated({ ...moodboardData, generateStory })
+      onClose()
 
       // Reset form
-      setTheme('');
-      setCustomTags('');
-      setKanjiCount(15);
-      setGenerateStory(false);
-
+      setTheme('')
+      setCustomTags('')
+      setKanjiCount(15)
+      setGenerateStory(false)
     } catch (error) {
-      console.error('Error generating moodboard:', error);
-      showToast(
-        error instanceof Error ? error.message : 'Failed to generate moodboard',
-        'error'
-      );
+      console.error('Error generating moodboard:', error)
+      showToast(error instanceof Error ? error.message : 'Failed to generate moodboard', 'error')
     } finally {
-      setIsGenerating(false);
+      setIsGenerating(false)
     }
-  };
+  }
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -104,7 +108,12 @@ export default function GenerateKanjiMoodboardModal({
             disabled={isGenerating}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -118,7 +127,7 @@ export default function GenerateKanjiMoodboardModal({
             <input
               type="text"
               value={theme}
-              onChange={(e) => setTheme(e.target.value)}
+              onChange={e => setTheme(e.target.value)}
               placeholder="e.g., family members, colors, emotions, nature..."
               className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
               disabled={isGenerating}
@@ -135,7 +144,7 @@ export default function GenerateKanjiMoodboardModal({
             </label>
             <select
               value={jlptLevel}
-              onChange={(e) => setJlptLevel(e.target.value as JLPTLevel)}
+              onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
               disabled={isGenerating}
             >
@@ -160,7 +169,7 @@ export default function GenerateKanjiMoodboardModal({
               min="10"
               max="20"
               value={kanjiCount}
-              onChange={(e) => setKanjiCount(Number(e.target.value))}
+              onChange={e => setKanjiCount(Number(e.target.value))}
               className="w-full"
               disabled={isGenerating}
             />
@@ -178,7 +187,7 @@ export default function GenerateKanjiMoodboardModal({
             <input
               type="text"
               value={customTags}
-              onChange={(e) => setCustomTags(e.target.value)}
+              onChange={e => setCustomTags(e.target.value)}
               placeholder="e.g., formal, informal, common, business"
               className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
               disabled={isGenerating}
@@ -194,16 +203,16 @@ export default function GenerateKanjiMoodboardModal({
               type="checkbox"
               id="generateStory"
               checked={generateStory}
-              onChange={(e) => setGenerateStory(e.target.checked)}
+              onChange={e => setGenerateStory(e.target.checked)}
               className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
               disabled={isGenerating}
             />
             <label htmlFor="generateStory" className="flex-1 cursor-pointer">
               <div className="text-sm font-medium text-purple-900 dark:text-purple-100">
-                {t('admin.moodboard.generateStoryToo') || 'Also generate a story with these kanji'}
+                {t('admin.moodboard.generateStoryToo')}
               </div>
               <div className="text-xs text-purple-700 dark:text-purple-300 mt-0.5">
-                {t('admin.moodboard.generateStoryHint') || 'Creates an interactive story using the same kanji for practice'}
+                {t('admin.moodboard.generateStoryHint')}
               </div>
             </label>
           </div>
@@ -214,9 +223,21 @@ export default function GenerateKanjiMoodboardModal({
               {t('admin.moodboard.howItWorks')}
             </h3>
             <ul className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-              <li>• AI will generate relevant kanji based on your theme</li>
-              <li>• Each kanji includes readings, meanings, and examples</li>
-              <li>• You can edit the generated moodboard after creation</li>
+              <li>
+                •{' '}
+                {t('admin.moodboard.howItWorksItems.0') ||
+                  'AI will generate relevant kanji based on your theme'}
+              </li>
+              <li>
+                •{' '}
+                {t('admin.moodboard.howItWorksItems.1') ||
+                  'Each kanji includes readings, meanings, and examples'}
+              </li>
+              <li>
+                •{' '}
+                {t('admin.moodboard.howItWorksItems.2') ||
+                  'You can edit the generated moodboard after creation'}
+              </li>
             </ul>
           </div>
 
@@ -237,8 +258,19 @@ export default function GenerateKanjiMoodboardModal({
               {isGenerating ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
                   </svg>
                   {t('common.generating')}
                 </span>
@@ -250,5 +282,5 @@ export default function GenerateKanjiMoodboardModal({
         </div>
       </div>
     </div>
-  );
+  )
 }

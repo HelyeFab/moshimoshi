@@ -12,7 +12,13 @@ export type { JLPTLevel } from '@/types/kanji'
 // Core Types
 // ============================================
 
-export type AIModel = 'gpt-4' | 'gpt-4o-mini' | 'gpt-4o' | 'gpt-3.5-turbo'
+export type AIModel =
+  | 'gpt-4'
+  | 'gpt-4o-mini'
+  | 'gpt-4o'
+  | 'gpt-3.5-turbo'
+  | 'gemini-2.5-flash-image'
+  | 'gemini-3-pro-image'
 
 export type AITaskType =
   | 'generate_review_questions'
@@ -568,6 +574,16 @@ export const MODEL_PRICING: Record<AIModel, ModelPricing> = {
     model: 'gpt-3.5-turbo',
     inputCostPer1k: 0.0005,
     outputCostPer1k: 0.0015,
+  },
+  'gemini-2.5-flash-image': {
+    model: 'gemini-2.5-flash-image',
+    inputCostPer1k: 0, // Free tier
+    outputCostPer1k: 0.02, // ~$0.02 per image
+  },
+  'gemini-3-pro-image': {
+    model: 'gemini-3-pro-image',
+    inputCostPer1k: 0,
+    outputCostPer1k: 0.04, // ~$0.04 per image (higher quality)
   },
 }
 

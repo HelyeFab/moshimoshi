@@ -471,6 +471,17 @@ export default function ReviewEngine({
       }
     })
 
+    // Build per-item results for SRS updates
+    const itemResults = session.items
+      .filter(item => item.attempts > 0) // Only include answered items
+      .map(item => ({
+        itemId: item.content.id,
+        correct: item.correct === true,
+        responseTime: item.responseTime || 0,
+        hintsUsed: item.hintsUsed,
+        metadata: item.content.metadata,
+      }))
+
     return {
       sessionId: session.id,
       totalItems: session.items.length,
@@ -496,6 +507,7 @@ export default function ReviewEngine({
       maxPossibleScore,
       totalHintsUsed,
       averageHintsPerItem: session.items.length > 0 ? totalHintsUsed / session.items.length : 0,
+      itemResults, // Include per-item results for SRS updates
     }
   }
 

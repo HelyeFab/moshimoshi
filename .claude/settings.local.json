@@ -88,7 +88,10 @@
       "Bash(git branch:*)",
       "WebFetch(domain:stackoverflow.com)",
       "WebFetch(domain:docs.stripe.com)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(Select-String -Pattern \"error|Error|failed|Failed\")",
+      "WebFetch(domain:elevenlabs.io)",
+      "Bash(Select-String -Pattern \"article-cache|ArticleCacheManager|useArticleCache\")"
     ],
     "deny": [],
     "ask": []

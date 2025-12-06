@@ -1,7 +1,9 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { EventEmitter } from 'events'
 import { useI18n } from '@/i18n/I18nContext'
+import { useAuth } from '@/hooks/useAuth'
 import { useTTS } from '@/hooks/useTTS'
 import { TTSOptions } from '@/lib/tts/types'
 import { RepeatModeConfig } from '@/types/youtube-player'
@@ -14,9 +16,15 @@ import { useWordExplanation } from '@/hooks/useWordExplanation'
 import WordExplanationModal from '@/components/word/WordExplanationModal'
 import UnifiedShadowingMode from '@/components/shadowing/UnifiedShadowingMode'
 import { segmentLongSentence, shouldSegment } from '@/utils/sentenceSegmentation'
-import { ReadingSettings, TranslationMode } from '@/types/story'
+import { ReadingSettings, TranslationMode, StoryPage, StoryQuizQuestion } from '@/types/story'
 import { useContentTranslation } from '@/hooks/useContentTranslation'
 import { useNhkAudio } from '@/components/audio/NhkAudioPlayer'
+import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { gamificationListener } from '@/lib/gamification/gamificationListener'
+
+// URE event emitter for gamification integration (following Kana pattern)
+const ureEventEmitter = new EventEmitter()
+let listenerInitialized = false
 
 // Helper function to cleanup audio element
 const cleanupAudio = (audio: HTMLAudioElement | null): void => {
@@ -1061,12 +1069,36 @@ function ShadowingMode({
 export default function EnhancedArticleReader({
   article,
   onBack,
+  // Story-specific props (optional)
+  pages,
+  quiz,
+  onComplete,
+  onExit,
+  storyTitle,
 }: {
   article: NewsArticle
   onBack?: () => void
+  // Story-specific props
+  pages?: StoryPage[]
+  quiz?: StoryQuizQuestion[]
+  onComplete?: () => void
+  onExit?: () => void
+  storyTitle?: string // For stories, display this instead of article.title
 }) {
+  // Determine if we're in story mode (multi-page)
+  const isStoryMode = pages && pages.length > 0
   const { t } = useI18n()
+  const { user } = useAuth()
   const { setExtraItem } = useBottomNav()
+
+  // Initialize gamification listener (following Kana pattern)
+  useEffect(() => {
+    if (user?.uid && !listenerInitialized) {
+      console.log('[News Reader] Initializing gamification listener for user:', user.uid)
+      gamificationListener.initialize(user.uid, ureEventEmitter)
+      listenerInitialized = true
+    }
+  }, [user?.uid])
   const {
     play: playTTS,
     pause: ttsPause,
@@ -1139,13 +1171,49 @@ export default function EnhancedArticleReader({
     xp: 0,
   })
 
-  // Handle mark complete with XP notification
+  // Story mode state (for multi-page content with optional quiz)
+  const [currentPageIndex, setCurrentPageIndex] = useState(0)
+  const [showQuiz, setShowQuiz] = useState(false)
+  const [quizAnswers, setQuizAnswers] = useState<number[]>([])
+  const [quizScore, setQuizScore] = useState<number | null>(null)
+
+  // Get current content based on mode
+  const currentContent = isStoryMode ? pages![currentPageIndex].text : article.content
+  const currentTranslation = isStoryMode ? pages![currentPageIndex].translation : undefined
+  const currentPageImage = isStoryMode ? pages![currentPageIndex].imageUrl : article.imageUrl
+  const totalPages = isStoryMode ? pages!.length : 1
+  const displayTitle = storyTitle || article.title
+
+  // Handle mark complete with XP notification and URE event emission
   const handleMarkComplete = async () => {
     const result = await markArticleComplete()
     if (result.success && result.data && !result.data.alreadyCompleted) {
       setXpNotification({ show: true, xp: result.data.xpEarned })
       // Auto-hide notification after 3 seconds
       setTimeout(() => setXpNotification({ show: false, xp: 0 }), 3000)
+
+      // Emit URE SESSION_COMPLETED event for unified gamification (following Kana pattern)
+      const sessionId = `news_${article.id}_${Date.now()}`
+      ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+        data: {
+          sessionId,
+          contentType: 'news',
+          statistics: {
+            correctItems: 1, // Article completion counts as 1 successful item
+            accuracy: 100, // Completion = 100% success
+          },
+          duration: activeTimeMs,
+          metadata: {
+            articleId: article.id,
+            difficulty: article.difficulty,
+            xpEarned: result.data.xpEarned,
+          },
+        },
+      })
+      console.log('[News Reader] Emitted SESSION_COMPLETED event:', {
+        sessionId,
+        xpEarned: result.data.xpEarned,
+      })
     }
   }
 
@@ -1157,18 +1225,68 @@ export default function EnhancedArticleReader({
     return `${minutes}m ${seconds}s`
   }
 
+  // Story mode: Page navigation handlers
+  const handlePageChange = (direction: 'next' | 'prev') => {
+    if (!isStoryMode) return
+
+    if (direction === 'next') {
+      if (currentPageIndex < totalPages - 1) {
+        setCurrentPageIndex(currentPageIndex + 1)
+        // Reset translation when page changes
+        setTranslatedContent(null)
+      } else if (currentPageIndex === totalPages - 1) {
+        // Last page - show quiz if available, otherwise complete
+        if (quiz && quiz.length > 0) {
+          setShowQuiz(true)
+        } else if (onComplete) {
+          onComplete()
+        }
+      }
+    } else if (direction === 'prev' && currentPageIndex > 0) {
+      setCurrentPageIndex(currentPageIndex - 1)
+      setTranslatedContent(null)
+    }
+  }
+
+  // Story mode: Quiz handlers
+  const handleQuizAnswer = (questionIndex: number, answerIndex: number) => {
+    const newAnswers = [...quizAnswers]
+    newAnswers[questionIndex] = answerIndex
+    setQuizAnswers(newAnswers)
+  }
+
+  const handleQuizSubmit = () => {
+    if (!quiz || quizAnswers.length !== quiz.length) return
+
+    let correctAnswers = 0
+    quiz.forEach((question, index) => {
+      if (quizAnswers[index] === question.correctIndex) {
+        correctAnswers++
+      }
+    })
+
+    const score = Math.round((correctAnswers / quiz.length) * 100)
+    setQuizScore(score)
+  }
+
+  const handleQuizFinish = () => {
+    if (onComplete) {
+      onComplete()
+    } else if (onExit) {
+      onExit()
+    }
+  }
+
   // Track translation state
   const [translatedContent, setTranslatedContent] = useState<string | null>(null)
 
   // Auto-translate when translation mode is enabled and content changes
   useEffect(() => {
     const handleAutoTranslation = async () => {
-      if (settings.translationMode !== 'off' && article.content) {
-        console.log(
-          `[Translation] Auto-translating article content (mode: ${settings.translationMode})`
-        )
+      if (settings.translationMode !== 'off' && currentContent) {
+        console.log(`[Translation] Auto-translating content (mode: ${settings.translationMode})`)
         try {
-          const result = await getFullTranslation(article.content)
+          const result = await getFullTranslation(currentContent)
           if (result?.translatedText) {
             setTranslatedContent(result.translatedText)
             console.log('[Translation] Auto-translation completed')
@@ -1809,6 +1927,157 @@ export default function EnhancedArticleReader({
     })
   }
 
+  // Story mode: Quiz UI
+  if (showQuiz && quiz && quiz.length > 0) {
+    return (
+      <div
+        className="min-h-screen transition-colors duration-300"
+        style={{ backgroundColor: 'var(--article-bg)' }}
+      >
+        <div className="max-w-4xl mx-auto p-4 sm:p-6">
+          <div
+            className="rounded-2xl p-6 sm:p-8"
+            style={{
+              backgroundColor: 'var(--article-content-bg)',
+              border: '1px solid var(--article-border)',
+            }}
+          >
+            <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--article-text)' }}>
+              {t('story.quiz.title')}
+            </h2>
+
+            {quizScore === null ? (
+              <div className="space-y-6">
+                {quiz.map((question, qIndex) => (
+                  <div key={question.id} className="space-y-3">
+                    <p className="font-medium" style={{ color: 'var(--article-text)' }}>
+                      {qIndex + 1}. {question.question}
+                    </p>
+                    <div className="space-y-2">
+                      {question.options.map((option, oIndex) => (
+                        <label
+                          key={oIndex}
+                          className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+                          style={{
+                            backgroundColor:
+                              quizAnswers[qIndex] === oIndex
+                                ? 'rgb(var(--palette-primary-500) / 0.1)'
+                                : 'var(--article-hover-bg)',
+                            border:
+                              quizAnswers[qIndex] === oIndex
+                                ? '2px solid rgb(var(--palette-primary-500))'
+                                : '2px solid transparent',
+                          }}
+                        >
+                          <input
+                            type="radio"
+                            name={`question-${qIndex}`}
+                            checked={quizAnswers[qIndex] === oIndex}
+                            onChange={() => handleQuizAnswer(qIndex, oIndex)}
+                            className="w-4 h-4 accent-primary-500"
+                          />
+                          <span style={{ color: 'var(--article-text)' }}>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                <div
+                  className="flex justify-between mt-8 pt-6 border-t"
+                  style={{ borderColor: 'var(--article-border)' }}
+                >
+                  <button
+                    onClick={() => setShowQuiz(false)}
+                    className="px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105"
+                    style={{
+                      backgroundColor: 'var(--article-hover-bg)',
+                      color: 'var(--article-text)',
+                    }}
+                  >
+                    {t('common.back')}
+                  </button>
+                  <button
+                    onClick={handleQuizSubmit}
+                    disabled={quizAnswers.length !== quiz.length}
+                    className="px-6 py-2 rounded-xl text-white transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                      backgroundColor: 'rgb(var(--palette-primary-500))',
+                    }}
+                  >
+                    {t('common.submit')}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center space-y-4">
+                <div className="text-6xl mb-4">
+                  {quizScore >= 80 ? '🎉' : quizScore >= 60 ? '👍' : '💪'}
+                </div>
+                <h3 className="text-2xl font-bold" style={{ color: 'var(--article-text)' }}>
+                  {quizScore >= 80
+                    ? t('story.quiz.excellent')
+                    : quizScore >= 60
+                      ? t('story.quiz.good')
+                      : t('story.quiz.keepPracticing')}
+                </h3>
+                <p className="text-xl" style={{ color: 'var(--article-text)' }}>
+                  {t('story.quiz.yourScore')}: {quizScore}%
+                </p>
+
+                <div className="space-y-3 mt-6 text-left">
+                  {quiz.map((question, index) => (
+                    <div
+                      key={question.id}
+                      className="p-4 rounded-xl"
+                      style={{ backgroundColor: 'var(--article-hover-bg)' }}
+                    >
+                      <p className="font-medium mb-2" style={{ color: 'var(--article-text)' }}>
+                        {question.question}
+                      </p>
+                      <p
+                        className={
+                          quizAnswers[index] === question.correctIndex
+                            ? 'text-green-600 dark:text-green-400'
+                            : 'text-red-600 dark:text-red-400'
+                        }
+                      >
+                        Your answer: {question.options[quizAnswers[index]]}
+                      </p>
+                      {quizAnswers[index] !== question.correctIndex && (
+                        <p className="text-green-600 dark:text-green-400">
+                          Correct: {question.options[question.correctIndex]}
+                        </p>
+                      )}
+                      {question.explanation && (
+                        <p
+                          className="text-sm mt-1"
+                          style={{ color: 'var(--article-text-secondary)' }}
+                        >
+                          {question.explanation}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleQuizFinish}
+                  className="px-6 py-2 rounded-xl text-white mt-6 transition-all duration-200 hover:scale-105"
+                  style={{
+                    backgroundColor: 'rgb(var(--palette-primary-500))',
+                  }}
+                >
+                  {t('common.finish')}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       className="min-h-screen transition-colors duration-300"
@@ -1888,8 +2157,8 @@ export default function EnhancedArticleReader({
         {/* Hero Image Section */}
         <div className="mb-10 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-gray-900/5 dark:ring-white/10 aspect-[21/9] relative bg-gray-100 dark:bg-gray-800 group">
           <NewsArticleFallbackImage
-            imageUrl={article.imageUrl}
-            title={article.title}
+            imageUrl={currentPageImage}
+            title={displayTitle}
             source={article.source}
             category={article.category}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -1933,7 +2202,7 @@ export default function EnhancedArticleReader({
               }}
             >
               <FuriganaText
-                text={article.title}
+                text={displayTitle}
                 showFurigana={settings.showFurigana}
                 fontSize="xlarge"
                 highlightGrammar={false}
@@ -1946,7 +2215,7 @@ export default function EnhancedArticleReader({
             <div className="flex items-center justify-center gap-3 mt-4 mb-6">
               {/* Play title button */}
               <button
-                onClick={() => handlePlaySentence(article.title, -1)}
+                onClick={() => handlePlaySentence(displayTitle, -1)}
                 disabled={sentenceAudioLoading === -1}
                 className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${
                   playingSentenceIndex === -1
@@ -1966,7 +2235,7 @@ export default function EnhancedArticleReader({
 
               {/* Translate title button */}
               <button
-                onClick={() => handleTranslateSegment(article.title, -1)}
+                onClick={() => handleTranslateSegment(displayTitle, -1)}
                 disabled={translatingSegmentIndex === -1}
                 className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${
                   segmentTranslations[-1]
@@ -2043,7 +2312,7 @@ export default function EnhancedArticleReader({
           }}
         >
           <ArticleContentWithPlayButtons
-            sentences={splitIntoSentences(article.content)}
+            sentences={splitIntoSentences(currentContent)}
             showFurigana={settings.showFurigana}
             fontSize={settings.fontSize}
             highlightGrammar={settings.highlightGrammar ?? false}
@@ -2167,7 +2436,7 @@ export default function EnhancedArticleReader({
                 {article.metadata.wordCount} words
               </span>
             )}
-            {article.url && (
+            {article.url && !isStoryMode && (
               <a
                 href={article.url}
                 target="_blank"
@@ -2181,59 +2450,122 @@ export default function EnhancedArticleReader({
             )}
           </div>
 
-          {/* Mark Complete Section */}
+          {/* Navigation/Complete Section */}
           <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              {/* Reading time indicator */}
-              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                <Clock className="w-4 h-4" />
-                <span>Reading time: {formatReadingTime(activeTimeMs)}</span>
-                {isProgressPaused && (
-                  <span className="px-2 py-0.5 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs">
-                    Paused
+            {isStoryMode ? (
+              /* Story Mode: Page Navigation */
+              <div className="flex flex-col gap-4">
+                {/* Page indicator */}
+                <div className="flex items-center justify-center gap-2">
+                  {Array.from({ length: totalPages }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setCurrentPageIndex(index)
+                        setTranslatedContent(null)
+                      }}
+                      className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
+                        index === currentPageIndex
+                          ? 'bg-primary-500 scale-125'
+                          : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                      }`}
+                      aria-label={`Go to page ${index + 1}`}
+                    />
+                  ))}
+                </div>
+
+                {/* Navigation buttons */}
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={() => handlePageChange('prev')}
+                    disabled={currentPageIndex === 0}
+                    className="px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                      backgroundColor: 'var(--article-hover-bg)',
+                      color: 'var(--article-text)',
+                    }}
+                  >
+                    {t('common.previous')}
+                  </button>
+
+                  <span
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--article-text-secondary)' }}
+                  >
+                    {currentPageIndex + 1} / {totalPages}
                   </span>
-                )}
-              </div>
 
-              {/* Mark Complete button */}
-              <button
-                onClick={handleMarkComplete}
-                disabled={isCompletingArticle || isArticleCompleted}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200 ${
-                  isArticleCompleted
-                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-default'
-                    : isCompletingArticle
-                      ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-wait'
-                      : 'bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 active:scale-95 shadow-md hover:shadow-lg'
-                }`}
-              >
-                {isCompletingArticle ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>Completing...</span>
-                  </>
-                ) : isArticleCompleted ? (
-                  <>
-                    <CheckCircle className="w-5 h-5" />
-                    <span>Completed</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle className="w-5 h-5" />
-                    <span>Mark Complete</span>
-                  </>
-                )}
-              </button>
-            </div>
-
-            {/* XP Notification */}
-            {xpNotification.show && (
-              <div className="mt-4 flex justify-center animate-bounce">
-                <div className="px-6 py-3 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold shadow-lg flex items-center gap-2">
-                  <span className="text-2xl">🎉</span>
-                  <span>+{xpNotification.xp} XP earned!</span>
+                  <button
+                    onClick={() => handlePageChange('next')}
+                    className="px-4 py-2 rounded-xl text-white transition-all duration-200 hover:scale-105"
+                    style={{
+                      backgroundColor: 'rgb(var(--palette-primary-500))',
+                    }}
+                  >
+                    {currentPageIndex === totalPages - 1
+                      ? quiz && quiz.length > 0
+                        ? t('story.takeQuiz')
+                        : t('common.finish')
+                      : t('common.next')}
+                  </button>
                 </div>
               </div>
+            ) : (
+              /* Article Mode: Mark Complete */
+              <>
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  {/* Reading time indicator */}
+                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <Clock className="w-4 h-4" />
+                    <span>Reading time: {formatReadingTime(activeTimeMs)}</span>
+                    {isProgressPaused && (
+                      <span className="px-2 py-0.5 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs">
+                        Paused
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Mark Complete button */}
+                  <button
+                    onClick={handleMarkComplete}
+                    disabled={isCompletingArticle || isArticleCompleted}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200 ${
+                      isArticleCompleted
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-default'
+                        : isCompletingArticle
+                          ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-wait'
+                          : 'bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 active:scale-95 shadow-md hover:shadow-lg'
+                    }`}
+                  >
+                    {isCompletingArticle ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Completing...</span>
+                      </>
+                    ) : isArticleCompleted ? (
+                      <>
+                        <CheckCircle className="w-5 h-5" />
+                        <span>Completed</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-5 h-5" />
+                        <span>Mark Complete</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* XP Notification */}
+                {xpNotification.show && (
+                  <div className="mt-4 flex justify-center animate-bounce">
+                    <div className="px-6 py-3 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold shadow-lg flex items-center gap-2">
+                      <span className="text-2xl">🎉</span>
+                      <span>+{xpNotification.xp} XP earned!</span>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </footer>

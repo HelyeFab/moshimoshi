@@ -6,9 +6,13 @@ interface UseTTSOptions {
   autoPlay?: boolean
   preloadOnMount?: string[]
   cacheFirst?: boolean
+  /** Enable Web Speech API fallback when server TTS fails (default: true) */
+  enableFallback?: boolean
   onPlay?: () => void
   onEnd?: () => void
   onError?: (error: Error) => void
+  /** Called when falling back to browser TTS */
+  onFallback?: () => void
 }
 
 interface UseTTSReturn {
@@ -19,6 +23,8 @@ interface UseTTSReturn {
   loading: boolean
   error: Error | null
   currentText: string | null
+  /** True when using browser's Web Speech API fallback */
+  usingFallback: boolean
 
   // Methods
   play: (text: string, options?: TTSOptions) => Promise<void>
@@ -33,29 +39,129 @@ interface UseTTSReturn {
   audioRef: React.RefObject<HTMLAudioElement | null>
 }
 
+/**
+ * Check if Web Speech API is available
+ */
+function isWebSpeechSupported(): boolean {
+  return typeof window !== 'undefined' && 'speechSynthesis' in window
+}
+
+/**
+ * Get Japanese voice from available voices
+ */
+function getJapaneseVoice(): SpeechSynthesisVoice | null {
+  if (!isWebSpeechSupported()) return null
+
+  const voices = speechSynthesis.getVoices()
+  // Prefer Japanese voices, fallback to any available
+  const japaneseVoice = voices.find(v => v.lang.startsWith('ja'))
+  return japaneseVoice || voices[0] || null
+}
+
 export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
   const {
     autoPlay = false,
     preloadOnMount = [],
     cacheFirst = true,
+    enableFallback = true,
     onPlay,
     onEnd,
     onError,
+    onFallback,
   } = options
 
   const [playing, setPlaying] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
   const [currentText, setCurrentText] = useState<string | null>(null)
+  const [usingFallback, setUsingFallback] = useState(false)
 
   const audioRef = useRef<HTMLAudioElement>(null)
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
   const queueRef = useRef<Array<{ text: string; delay?: number }>>([])
   const isProcessingQueue = useRef(false)
 
-  // Preload on mount
+  /**
+   * Play audio using Web Speech API (browser native TTS)
+   * Used as fallback when server TTS fails
+   */
+  const playWithWebSpeech = useCallback(
+    (text: string, speed: number = 1.0): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        if (!isWebSpeechSupported()) {
+          reject(new Error('Web Speech API not supported'))
+          return
+        }
+
+        // Cancel any ongoing speech
+        speechSynthesis.cancel()
+
+        const utterance = new SpeechSynthesisUtterance(text)
+        utteranceRef.current = utterance
+
+        // Configure utterance
+        utterance.lang = 'ja-JP'
+        utterance.rate = Math.max(0.5, Math.min(2.0, speed))
+        utterance.pitch = 1.0
+        utterance.volume = 1.0
+
+        // Try to get Japanese voice
+        const voice = getJapaneseVoice()
+        if (voice) {
+          utterance.voice = voice
+        }
+
+        // Event handlers
+        utterance.onstart = () => {
+          setPlaying(true)
+          setUsingFallback(true)
+          onPlay?.()
+          onFallback?.()
+          console.log('[useTTS] Playing with Web Speech API fallback')
+        }
+
+        utterance.onend = () => {
+          setPlaying(false)
+          setCurrentText(null)
+          setUsingFallback(false)
+          utteranceRef.current = null
+          onEnd?.()
+          processQueue()
+          resolve()
+        }
+
+        utterance.onerror = event => {
+          const error = new Error(`Web Speech API error: ${event.error}`)
+          console.error('[useTTS] Web Speech API error:', event.error)
+          setPlaying(false)
+          setCurrentText(null)
+          setUsingFallback(false)
+          utteranceRef.current = null
+          reject(error)
+        }
+
+        // Speak
+        setLoading(false)
+        speechSynthesis.speak(utterance)
+      })
+    },
+    [onPlay, onEnd, onFallback]
+  )
+
+  // Preload on mount and ensure voices are loaded
   useEffect(() => {
     if (preloadOnMount.length > 0) {
       preload(preloadOnMount)
+    }
+
+    // Preload voices for Web Speech API (needed on some browsers)
+    if (isWebSpeechSupported()) {
+      // Voices might not be loaded immediately
+      speechSynthesis.getVoices()
+      // Listen for voiceschanged event
+      speechSynthesis.onvoiceschanged = () => {
+        speechSynthesis.getVoices()
+      }
     }
 
     // Cleanup on unmount
@@ -65,6 +171,11 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         audioRef.current.src = ''
         audioRef.current = null
       }
+      // Cancel any ongoing Web Speech
+      if (isWebSpeechSupported()) {
+        speechSynthesis.cancel()
+      }
+      utteranceRef.current = null
     }
   }, [])
 
@@ -301,6 +412,22 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         }
       } catch (err: any) {
         const error = err instanceof Error ? err : new Error(String(err))
+        console.error('[useTTS] Server TTS failed:', error.message)
+
+        // Try Web Speech API fallback if enabled
+        if (enableFallback && isWebSpeechSupported()) {
+          console.log('[useTTS] Attempting Web Speech API fallback...')
+          try {
+            const speed = ttsOptions?.speed || ttsOptions?.rate || 1.0
+            await playWithWebSpeech(text, speed)
+            // Fallback succeeded, don't throw
+            return
+          } catch (fallbackError) {
+            console.error('[useTTS] Web Speech API fallback also failed:', fallbackError)
+            // Continue to throw the original error
+          }
+        }
+
         setError(error)
         setLoading(false)
         setCurrentText(null)
@@ -308,31 +435,46 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         throw error
       }
     },
-    [autoPlay, onPlay, onEnd, onError]
+    [autoPlay, onPlay, onEnd, onError, enableFallback, playWithWebSpeech]
   )
 
   const pause = useCallback(() => {
-    if (audioRef.current && playing) {
+    if (usingFallback && isWebSpeechSupported()) {
+      // Pause Web Speech API
+      speechSynthesis.pause()
+      setPlaying(false)
+    } else if (audioRef.current && playing) {
       audioRef.current.pause()
       setPlaying(false)
     }
-  }, [playing])
+  }, [playing, usingFallback])
 
   const resume = useCallback(() => {
-    if (audioRef.current && !playing) {
+    if (usingFallback && isWebSpeechSupported()) {
+      // Resume Web Speech API
+      speechSynthesis.resume()
+      setPlaying(true)
+    } else if (audioRef.current && !playing) {
       audioRef.current.play()
       setPlaying(true)
     }
-  }, [playing])
+  }, [playing, usingFallback])
 
   const stop = useCallback(() => {
-    if (audioRef.current) {
+    if (usingFallback && isWebSpeechSupported()) {
+      // Cancel Web Speech API
+      speechSynthesis.cancel()
+      setPlaying(false)
+      setCurrentText(null)
+      setUsingFallback(false)
+      utteranceRef.current = null
+    } else if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current.currentTime = 0
       setPlaying(false)
       setCurrentText(null)
     }
-  }, [])
+  }, [usingFallback])
 
   const preload = useCallback(async (texts: string[], ttsOptions?: TTSOptions) => {
     try {
@@ -402,6 +544,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
     loading,
     error,
     currentText,
+    usingFallback,
 
     // Methods
     play,

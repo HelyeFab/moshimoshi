@@ -4,70 +4,154 @@
  */
 
 export interface OfflineTTSCacheEntry {
-  id: string;
-  textHash: string;
-  text: string;
-  provider: string;
-  voice: string;
-  speed: number;
-  audioBlob: Blob;
-  mimeType: string;
-  size: number;
-  duration: number;
-  createdAt: Date;
-  lastAccessed: Date;
-  accessCount: number;
+  id: string
+  textHash: string
+  text: string
+  provider: string
+  voice: string
+  speed: number
+  audioBlob: Blob
+  mimeType: string
+  size: number
+  duration: number
+  createdAt: Date
+  lastAccessed: Date
+  accessCount: number
 }
 
 export interface OfflineTTSCacheOptions {
-  maxSize: number;        // Maximum cache size in bytes (default: 50MB for news/stories)
-  maxAge: number;         // Maximum age in milliseconds (default: 7 days)
-  maxEntries: number;     // Maximum number of entries (default: 500)
+  maxSize: number // Maximum cache size in bytes (default: 50MB for news/stories)
+  maxAge: number // Maximum age in milliseconds (default: 7 days)
+  maxEntries: number // Maximum number of entries (default: 500)
 }
 
 const DEFAULT_OPTIONS: OfflineTTSCacheOptions = {
-  maxSize: 50 * 1024 * 1024,       // 50MB
-  maxAge: 7 * 24 * 60 * 60 * 1000,  // 7 days
-  maxEntries: 500
-};
+  maxSize: 50 * 1024 * 1024, // 50MB
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  maxEntries: 500,
+}
 
 export class OfflineTTSCache {
-  private static instance: OfflineTTSCache | null = null;
-  private options: OfflineTTSCacheOptions;
-  private dbName = 'moshimoshi-tts-offline';
-  private storeName = 'tts_offline';
-  private dbVersion = 1;
-  private dbPromise: Promise<IDBDatabase> | null = null;
+  private static instance: OfflineTTSCache | null = null
+  private options: OfflineTTSCacheOptions
+  private dbName = 'moshimoshi-tts-offline'
+  private storeName = 'tts_offline'
+  private dbVersion = 1
+  private dbPromise: Promise<IDBDatabase> | null = null
+  private _isPersisted: boolean | null = null
+  private _persistenceChecked = false
 
   private constructor(options: Partial<OfflineTTSCacheOptions> = {}) {
-    this.options = { ...DEFAULT_OPTIONS, ...options };
+    this.options = { ...DEFAULT_OPTIONS, ...options }
   }
 
   static getInstance(options: Partial<OfflineTTSCacheOptions> = {}): OfflineTTSCache {
     if (!OfflineTTSCache.instance) {
-      OfflineTTSCache.instance = new OfflineTTSCache(options);
+      OfflineTTSCache.instance = new OfflineTTSCache(options)
     }
-    return OfflineTTSCache.instance;
+    return OfflineTTSCache.instance
+  }
+
+  /**
+   * Check if persistent storage is available and enabled
+   */
+  get isPersisted(): boolean | null {
+    return this._isPersisted
+  }
+
+  /**
+   * Check if Storage API is supported
+   */
+  get isStorageSupported(): boolean {
+    return typeof navigator !== 'undefined' && !!navigator.storage?.persist
+  }
+
+  /**
+   * Request persistent storage from the browser
+   * Returns true if granted, false otherwise
+   */
+  async requestPersistence(): Promise<boolean> {
+    if (!this.isStorageSupported) {
+      console.log('[OfflineTTSCache] Storage API not supported')
+      return false
+    }
+
+    try {
+      const granted = await navigator.storage.persist()
+      this._isPersisted = granted
+      console.log(`[OfflineTTSCache] Persistent storage: ${granted ? 'granted' : 'denied'}`)
+      return granted
+    } catch (error) {
+      console.warn('[OfflineTTSCache] Failed to request persistence:', error)
+      this._isPersisted = false
+      return false
+    }
+  }
+
+  /**
+   * Check current persistence status without requesting
+   */
+  async checkPersistence(): Promise<boolean> {
+    if (!this.isStorageSupported) return false
+
+    try {
+      this._isPersisted = await navigator.storage.persisted()
+      this._persistenceChecked = true
+      return this._isPersisted
+    } catch (error) {
+      console.warn('[OfflineTTSCache] Failed to check persistence:', error)
+      return false
+    }
+  }
+
+  /**
+   * Get storage quota information
+   */
+  async getStorageEstimate(): Promise<{
+    usage: number
+    quota: number
+    percentUsed: number
+  } | null> {
+    if (!this.isStorageSupported || !navigator.storage.estimate) return null
+
+    try {
+      const estimate = await navigator.storage.estimate()
+      const usage = estimate.usage || 0
+      const quota = estimate.quota || 0
+      return {
+        usage,
+        quota,
+        percentUsed: quota > 0 ? (usage / quota) * 100 : 0,
+      }
+    } catch (error) {
+      console.warn('[OfflineTTSCache] Failed to get storage estimate:', error)
+      return null
+    }
   }
 
   /**
    * Generate a cache key from TTS parameters
    */
-  private async generateCacheKey(text: string, provider: string, voice: string, speed: number): Promise<string> {
-    const normalizedText = text.trim().toLowerCase();
-    const keyString = `${normalizedText}|${provider}|${voice}|${speed}`;
-    return this.hashString(keyString);
+  private async generateCacheKey(
+    text: string,
+    provider: string,
+    voice: string,
+    speed: number
+  ): Promise<string> {
+    const normalizedText = text.trim().toLowerCase()
+    const keyString = `${normalizedText}|${provider}|${voice}|${speed}`
+    return this.hashString(keyString)
   }
 
   /**
    * Hash function for cache keys
    */
   private async hashString(str: string): Promise<string> {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(str);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    const encoder = new TextEncoder()
+    const data = encoder.encode(str)
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
   }
 
   /**
@@ -75,49 +159,56 @@ export class OfflineTTSCache {
    */
   async has(text: string, provider: string, voice: string, speed: number): Promise<boolean> {
     try {
-      const textHash = await this.generateCacheKey(text, provider, voice, speed);
-      const db = await this.getDatabase();
-      const transaction = db.transaction([this.storeName], 'readonly');
-      const store = transaction.objectStore(this.storeName);
-      const index = store.index('textHash');
-      const result = await this.promisifyRequest(index.get(textHash));
-      return !!result;
+      const textHash = await this.generateCacheKey(text, provider, voice, speed)
+      const db = await this.getDatabase()
+      const transaction = db.transaction([this.storeName], 'readonly')
+      const store = transaction.objectStore(this.storeName)
+      const index = store.index('textHash')
+      const result = await this.promisifyRequest(index.get(textHash))
+      return !!result
     } catch (error) {
-      console.warn('[OfflineTTSCache] Error checking cache:', error);
-      return false;
+      console.warn('[OfflineTTSCache] Error checking cache:', error)
+      return false
     }
   }
 
   /**
    * Get cached audio blob and return blob URL
    */
-  async get(text: string, provider: string, voice: string, speed: number): Promise<{ audioUrl: string; cached: true } | null> {
+  async get(
+    text: string,
+    provider: string,
+    voice: string,
+    speed: number
+  ): Promise<{ audioUrl: string; cached: true } | null> {
     try {
-      const textHash = await this.generateCacheKey(text, provider, voice, speed);
-      const db = await this.getDatabase();
-      const transaction = db.transaction([this.storeName], 'readwrite');
-      const store = transaction.objectStore(this.storeName);
-      const index = store.index('textHash');
-      const entry = await this.promisifyRequest(index.get(textHash)) as OfflineTTSCacheEntry | null;
+      const textHash = await this.generateCacheKey(text, provider, voice, speed)
+      const db = await this.getDatabase()
+      const transaction = db.transaction([this.storeName], 'readwrite')
+      const store = transaction.objectStore(this.storeName)
+      const index = store.index('textHash')
+      const entry = (await this.promisifyRequest(
+        index.get(textHash)
+      )) as OfflineTTSCacheEntry | null
 
       if (entry) {
         // Update access tracking
-        entry.lastAccessed = new Date();
-        entry.accessCount += 1;
-        await this.promisifyRequest(store.put(entry));
+        entry.lastAccessed = new Date()
+        entry.accessCount += 1
+        await this.promisifyRequest(store.put(entry))
 
         // Create blob URL for the cached audio
-        const audioUrl = URL.createObjectURL(entry.audioBlob);
-        console.log(`[OfflineTTSCache] Cache HIT for: "${text.substring(0, 30)}..."`);
+        const audioUrl = URL.createObjectURL(entry.audioBlob)
+        console.log(`[OfflineTTSCache] Cache HIT for: "${text.substring(0, 30)}..."`)
 
-        return { audioUrl, cached: true };
+        return { audioUrl, cached: true }
       } else {
-        console.log(`[OfflineTTSCache] Cache MISS for: "${text.substring(0, 30)}..."`);
-        return null;
+        console.log(`[OfflineTTSCache] Cache MISS for: "${text.substring(0, 30)}..."`)
+        return null
       }
     } catch (error) {
-      console.warn('[OfflineTTSCache] Error getting cache entry:', error);
-      return null;
+      console.warn('[OfflineTTSCache] Error getting cache entry:', error)
+      return null
     }
   }
 
@@ -134,14 +225,14 @@ export class OfflineTTSCache {
   ): Promise<void> {
     try {
       // Download the audio data
-      const response = await fetch(audioUrl);
+      const response = await fetch(audioUrl)
       if (!response.ok) {
-        throw new Error(`Failed to download audio: ${response.status}`);
+        throw new Error(`Failed to download audio: ${response.status}`)
       }
 
-      const audioBlob = await response.blob();
-      const textHash = await this.generateCacheKey(text, provider, voice, speed);
-      const now = new Date();
+      const audioBlob = await response.blob()
+      const textHash = await this.generateCacheKey(text, provider, voice, speed)
+      const now = new Date()
 
       const entry: OfflineTTSCacheEntry = {
         id: this.generateId(),
@@ -156,20 +247,22 @@ export class OfflineTTSCache {
         duration,
         createdAt: now,
         lastAccessed: now,
-        accessCount: 1
-      };
+        accessCount: 1,
+      }
 
       // Check if we need to make space
-      await this.ensureSpace(entry.size);
+      await this.ensureSpace(entry.size)
 
-      const db = await this.getDatabase();
-      const transaction = db.transaction([this.storeName], 'readwrite');
-      const store = transaction.objectStore(this.storeName);
-      await this.promisifyRequest(store.put(entry));
+      const db = await this.getDatabase()
+      const transaction = db.transaction([this.storeName], 'readwrite')
+      const store = transaction.objectStore(this.storeName)
+      await this.promisifyRequest(store.put(entry))
 
-      console.log(`[OfflineTTSCache] Cached: "${text.substring(0, 30)}..." (${(entry.size / 1024).toFixed(1)}KB)`);
+      console.log(
+        `[OfflineTTSCache] Cached: "${text.substring(0, 30)}..." (${(entry.size / 1024).toFixed(1)}KB)`
+      )
     } catch (error) {
-      console.warn('[OfflineTTSCache] Error storing cache entry:', error);
+      console.warn('[OfflineTTSCache] Error storing cache entry:', error)
     }
   }
 
@@ -178,18 +271,21 @@ export class OfflineTTSCache {
    */
   private async ensureSpace(newEntrySize: number): Promise<void> {
     try {
-      const stats = await this.getCacheStats();
+      const stats = await this.getCacheStats()
 
       // Check if we need to free space
-      if (stats.totalSize + newEntrySize > this.options.maxSize || stats.entryCount >= this.options.maxEntries) {
-        const entriesToRemove = Math.max(1, Math.floor(stats.entryCount * 0.1)); // Remove 10%
-        await this.evictLRU(entriesToRemove);
+      if (
+        stats.totalSize + newEntrySize > this.options.maxSize ||
+        stats.entryCount >= this.options.maxEntries
+      ) {
+        const entriesToRemove = Math.max(1, Math.floor(stats.entryCount * 0.1)) // Remove 10%
+        await this.evictLRU(entriesToRemove)
       }
 
       // Clean up old entries
-      await this.cleanupOldEntries();
+      await this.cleanupOldEntries()
     } catch (error) {
-      console.warn('[OfflineTTSCache] Error ensuring space:', error);
+      console.warn('[OfflineTTSCache] Error ensuring space:', error)
     }
   }
 
@@ -198,36 +294,35 @@ export class OfflineTTSCache {
    */
   private async evictLRU(count: number): Promise<void> {
     try {
-      const db = await this.getDatabase();
-      const transaction = db.transaction([this.storeName], 'readwrite');
-      const store = transaction.objectStore(this.storeName);
-      const index = store.index('lastAccessed');
+      const db = await this.getDatabase()
+      const transaction = db.transaction([this.storeName], 'readwrite')
+      const store = transaction.objectStore(this.storeName)
+      const index = store.index('lastAccessed')
 
       // Get oldest entries
-      const entries: OfflineTTSCacheEntry[] = [];
-      const request = index.openCursor();
+      const entries: OfflineTTSCacheEntry[] = []
+      const request = index.openCursor()
 
       await new Promise<void>((resolve, reject) => {
-        request.onsuccess = (event) => {
-          const cursor = (event.target as IDBRequest).result;
+        request.onsuccess = event => {
+          const cursor = (event.target as IDBRequest).result
           if (cursor && entries.length < count) {
-            entries.push(cursor.value);
-            cursor.continue();
+            entries.push(cursor.value)
+            cursor.continue()
           } else {
-            resolve();
+            resolve()
           }
-        };
-        request.onerror = () => reject(request.error);
-      });
+        }
+        request.onerror = () => reject(request.error)
+      })
 
       // Remove them
       for (const entry of entries) {
-        await this.promisifyRequest(store.delete(entry.id));
-        console.log(`[OfflineTTSCache] Evicted: "${entry.text.substring(0, 30)}..."`);
+        await this.promisifyRequest(store.delete(entry.id))
+        console.log(`[OfflineTTSCache] Evicted: "${entry.text.substring(0, 30)}..."`)
       }
-
     } catch (error) {
-      console.warn('[OfflineTTSCache] Error during LRU eviction:', error);
+      console.warn('[OfflineTTSCache] Error during LRU eviction:', error)
     }
   }
 
@@ -236,51 +331,58 @@ export class OfflineTTSCache {
    */
   private async cleanupOldEntries(): Promise<void> {
     try {
-      const cutoffTime = new Date(Date.now() - this.options.maxAge);
-      const db = await this.getDatabase();
-      const transaction = db.transaction([this.storeName], 'readwrite');
-      const store = transaction.objectStore(this.storeName);
+      const cutoffTime = new Date(Date.now() - this.options.maxAge)
+      const db = await this.getDatabase()
+      const transaction = db.transaction([this.storeName], 'readwrite')
+      const store = transaction.objectStore(this.storeName)
 
-      const allEntries = await this.promisifyRequest(store.getAll()) as OfflineTTSCacheEntry[];
-      let deletedCount = 0;
+      const allEntries = (await this.promisifyRequest(store.getAll())) as OfflineTTSCacheEntry[]
+      let deletedCount = 0
 
       for (const entry of allEntries) {
         if (entry.createdAt < cutoffTime) {
-          await this.promisifyRequest(store.delete(entry.id));
-          deletedCount++;
+          await this.promisifyRequest(store.delete(entry.id))
+          deletedCount++
         }
       }
 
       if (deletedCount > 0) {
-        console.log(`[OfflineTTSCache] Cleaned up ${deletedCount} old entries`);
+        console.log(`[OfflineTTSCache] Cleaned up ${deletedCount} old entries`)
       }
     } catch (error) {
-      console.warn('[OfflineTTSCache] Error during cleanup:', error);
+      console.warn('[OfflineTTSCache] Error during cleanup:', error)
     }
   }
 
   /**
    * Get cache statistics
    */
-  async getCacheStats(): Promise<{ entryCount: number; totalSize: number; oldestEntry?: Date; newestEntry?: Date }> {
+  async getCacheStats(): Promise<{
+    entryCount: number
+    totalSize: number
+    oldestEntry?: Date
+    newestEntry?: Date
+  }> {
     try {
-      const db = await this.getDatabase();
-      const transaction = db.transaction([this.storeName], 'readonly');
-      const store = transaction.objectStore(this.storeName);
-      const allEntries = await this.promisifyRequest(store.getAll()) as OfflineTTSCacheEntry[];
+      const db = await this.getDatabase()
+      const transaction = db.transaction([this.storeName], 'readonly')
+      const store = transaction.objectStore(this.storeName)
+      const allEntries = (await this.promisifyRequest(store.getAll())) as OfflineTTSCacheEntry[]
 
-      const totalSize = allEntries.reduce((sum, entry) => sum + entry.size, 0);
-      const dates = allEntries.map(entry => entry.createdAt);
+      const totalSize = allEntries.reduce((sum, entry) => sum + entry.size, 0)
+      const dates = allEntries.map(entry => entry.createdAt)
 
       return {
         entryCount: allEntries.length,
         totalSize,
-        oldestEntry: dates.length > 0 ? new Date(Math.min(...dates.map(d => d.getTime()))) : undefined,
-        newestEntry: dates.length > 0 ? new Date(Math.max(...dates.map(d => d.getTime()))) : undefined
-      };
+        oldestEntry:
+          dates.length > 0 ? new Date(Math.min(...dates.map(d => d.getTime()))) : undefined,
+        newestEntry:
+          dates.length > 0 ? new Date(Math.max(...dates.map(d => d.getTime()))) : undefined,
+      }
     } catch (error) {
-      console.warn('[OfflineTTSCache] Error getting cache stats:', error);
-      return { entryCount: 0, totalSize: 0 };
+      console.warn('[OfflineTTSCache] Error getting cache stats:', error)
+      return { entryCount: 0, totalSize: 0 }
     }
   }
 
@@ -289,13 +391,13 @@ export class OfflineTTSCache {
    */
   async clear(): Promise<void> {
     try {
-      const db = await this.getDatabase();
-      const transaction = db.transaction([this.storeName], 'readwrite');
-      const store = transaction.objectStore(this.storeName);
-      await this.promisifyRequest(store.clear());
-      console.log('[OfflineTTSCache] Cache cleared');
+      const db = await this.getDatabase()
+      const transaction = db.transaction([this.storeName], 'readwrite')
+      const store = transaction.objectStore(this.storeName)
+      await this.promisifyRequest(store.clear())
+      console.log('[OfflineTTSCache] Cache cleared')
     } catch (error) {
-      console.warn('[OfflineTTSCache] Error clearing cache:', error);
+      console.warn('[OfflineTTSCache] Error clearing cache:', error)
     }
   }
 
@@ -304,29 +406,34 @@ export class OfflineTTSCache {
    */
   private async getDatabase(): Promise<IDBDatabase> {
     if (this.dbPromise) {
-      return this.dbPromise;
+      return this.dbPromise
     }
 
     this.dbPromise = new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.dbName, this.dbVersion);
+      const request = indexedDB.open(this.dbName, this.dbVersion)
 
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error)
+      request.onsuccess = () => resolve(request.result)
 
-      request.onupgradeneeded = (event) => {
-        const db = (event.target as IDBOpenDBRequest).result;
+      request.onupgradeneeded = event => {
+        const db = (event.target as IDBOpenDBRequest).result
 
         if (!db.objectStoreNames.contains(this.storeName)) {
-          const store = db.createObjectStore(this.storeName, { keyPath: 'id' });
-          store.createIndex('textHash', 'textHash', { unique: false });
-          store.createIndex('lastAccessed', 'lastAccessed', { unique: false });
-          store.createIndex('createdAt', 'createdAt', { unique: false });
-          console.log('[OfflineTTSCache] Created offline TTS cache store');
+          const store = db.createObjectStore(this.storeName, { keyPath: 'id' })
+          store.createIndex('textHash', 'textHash', { unique: false })
+          store.createIndex('lastAccessed', 'lastAccessed', { unique: false })
+          store.createIndex('createdAt', 'createdAt', { unique: false })
+          console.log('[OfflineTTSCache] Created offline TTS cache store')
         }
-      };
-    });
+      }
+    })
 
-    return this.dbPromise;
+    // Check persistence status on first init (fire-and-forget)
+    if (!this._persistenceChecked) {
+      this.checkPersistence().catch(() => {})
+    }
+
+    return this.dbPromise
   }
 
   /**
@@ -334,15 +441,15 @@ export class OfflineTTSCache {
    */
   private promisifyRequest<T>(request: IDBRequest<T>): Promise<T> {
     return new Promise((resolve, reject) => {
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(request.result);
-    });
+      request.onerror = () => reject(request.error)
+      request.onsuccess = () => resolve(request.result)
+    })
   }
 
   /**
    * Generate unique ID
    */
   private generateId(): string {
-    return `tts-offline-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `tts-offline-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   }
 }

@@ -1,170 +1,192 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/components/ui/Toast/ToastContext';
-import { storyService } from '@/lib/services/StoryService';
+import { useState, useEffect } from 'react'
+import { useRouter, useParams, useSearchParams } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import { storyService } from '@/lib/services/StoryService'
 // Navigation is now global via NavigationWrapper in root layout;
-import { Story, StoryQuizQuestion } from '@/types/story';
-import { JLPTLevel } from '@/types/ai-story';
-import { STORY_THEMES } from '@/types/story';
-import { ChevronLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import { Story, StoryQuizQuestion } from '@/types/story'
+import { JLPTLevel } from '@/types/ai-story'
+import { STORY_THEMES } from '@/types/story'
+import { ChevronLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 
 interface PageData {
-  text: string;
-  translation: string;
-  imageUrl?: string;
+  text: string
+  translation: string
+  imageUrl?: string
 }
 
 interface QuizQuestionData {
-  id: string;
-  question: string;
-  questionJa?: string;
-  options: string[];
-  correctIndex: number;
-  explanation?: string;
-  explanationJa?: string;
+  id: string
+  question: string
+  questionJa?: string
+  options: string[]
+  correctIndex: number
+  explanation?: string
+  explanationJa?: string
 }
 
 export default function EditStoryPage() {
-  const router = useRouter();
-  const params = useParams();
-  const searchParams = useSearchParams();
-  const { user } = useAuth();
-  const { showToast } = useToast();
+  const router = useRouter()
+  const params = useParams()
+  const searchParams = useSearchParams()
+  const { user } = useAuth()
+  const { showToast } = useToast()
 
-  const storyId = params.id as string;
-  const isDraft = searchParams.get('draft') === 'true';
+  const storyId = params.id as string
+  const isDraft = searchParams.get('draft') === 'true'
 
-  const [loading, setLoading] = useState(true);
-  const [story, setStory] = useState<Story | null>(null);
-  const [title, setTitle] = useState('');
-  const [titleJa, setTitleJa] = useState('');
-  const [description, setDescription] = useState('');
-  const [theme, setTheme] = useState<string>(STORY_THEMES[0]);
-  const [jlptLevel, setJlptLevel] = useState<JLPTLevel>('N5');
-  const [pages, setPages] = useState<PageData[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState('');
-  const [status, setStatus] = useState<'draft' | 'published' | 'archived'>('draft');
-  const [quiz, setQuiz] = useState<QuizQuestionData[]>([]);
-  const [isSaving, setIsSaving] = useState(false);
+  const [loading, setLoading] = useState(true)
+  const [story, setStory] = useState<Story | null>(null)
+  const [title, setTitle] = useState('')
+  const [titleJa, setTitleJa] = useState('')
+  const [description, setDescription] = useState('')
+  const [theme, setTheme] = useState<string>(STORY_THEMES[0])
+  const [jlptLevel, setJlptLevel] = useState<JLPTLevel>('N5')
+  const [pages, setPages] = useState<PageData[]>([])
+  const [tags, setTags] = useState<string[]>([])
+  const [tagInput, setTagInput] = useState('')
+  const [status, setStatus] = useState<'draft' | 'published' | 'archived'>('draft')
+  const [quiz, setQuiz] = useState<QuizQuestionData[]>([])
+  const [isSaving, setIsSaving] = useState(false)
 
   // Load story data
   useEffect(() => {
     const loadStory = async () => {
       try {
-        let storyData;
+        let storyData
 
         if (isDraft) {
           // Load from drafts collection via API
-          const response = await fetch(`/api/admin/stories/drafts/${storyId}`);
+          const response = await fetch(`/api/admin/stories/drafts/${storyId}`)
           if (!response.ok) {
-            showToast('Draft not found', 'error');
-            router.push('/admin/stories');
-            return;
+            showToast('Draft not found', 'error')
+            router.push('/admin/stories')
+            return
           }
 
-          const { draft } = await response.json();
+          const { draft } = await response.json()
 
           // Convert draft to story format for editing
+          // Title can be in outline.title, characterSheet.title, or theme
+          const draftTitle =
+            draft.outline?.title ||
+            draft.characterSheet?.title ||
+            draft.characterSheet?.storyTitle ||
+            draft.theme ||
+            'Untitled'
+          const draftTitleJa =
+            draft.outline?.titleJa ||
+            draft.characterSheet?.titleJa ||
+            draft.characterSheet?.storyTitleJa ||
+            '無題'
+          const draftDescription =
+            draft.outline?.description ||
+            draft.characterSheet?.summary ||
+            draft.characterSheet?.mainCharacter?.description ||
+            `A ${draft.jlptLevel || 'N5'} level story about ${draft.theme || 'adventure'}`
+
           storyData = {
             id: draft.id,
-            title: draft.characterSheet?.storyTitle || 'Untitled',
-            titleJa: draft.characterSheet?.storyTitleJa || '無題',
-            description: draft.characterSheet?.summary || '',
+            title: draftTitle,
+            titleJa: draftTitleJa,
+            description: draftDescription,
             theme: draft.theme || 'adventure',
             jlptLevel: draft.jlptLevel || 'N5',
             pages: draft.pages || [],
             quiz: draft.quiz || [],
             status: 'draft' as const,
-            tags: [],
+            tags: [draft.jlptLevel, draft.theme].filter(Boolean),
             slug: draft.id,
             authorId: draft.userId || '',
             viewCount: 0,
             completionCount: 0,
             createdAt: new Date(),
-            updatedAt: new Date()
-          };
+            updatedAt: new Date(),
+          }
         } else {
           // Load from stories collection
-          storyData = await storyService.getStory(storyId);
+          storyData = await storyService.getStory(storyId)
           if (!storyData) {
-            showToast('Story not found', 'error');
-            router.push('/admin/stories');
-            return;
+            showToast('Story not found', 'error')
+            router.push('/admin/stories')
+            return
           }
         }
 
-        setStory(storyData);
-        setTitle(storyData.title);
-        setTitleJa(storyData.titleJa);
-        setDescription(storyData.description);
-        setTheme(storyData.theme);
-        setJlptLevel(storyData.jlptLevel);
-        setStatus(storyData.status);
-        setTags(storyData.tags || []);
+        setStory(storyData)
+        setTitle(storyData.title)
+        setTitleJa(storyData.titleJa)
+        setDescription(storyData.description)
+        setTheme(storyData.theme)
+        setJlptLevel(storyData.jlptLevel)
+        setStatus(storyData.status)
+        setTags(storyData.tags || [])
 
         // Convert story pages to editable format
-        setPages(storyData.pages.map((page: { text: string; translation: string; imageUrl?: string }) => ({
-          text: page.text,
-          translation: page.translation,
-          imageUrl: page.imageUrl || ''
-        })));
+        setPages(
+          storyData.pages.map((page: { text: string; translation: string; imageUrl?: string }) => ({
+            text: page.text,
+            translation: page.translation,
+            imageUrl: page.imageUrl || '',
+          }))
+        )
 
         // Load quiz data
-        setQuiz((storyData.quiz || []).map((q: StoryQuizQuestion) => ({
-          id: q.id,
-          question: q.question,
-          questionJa: q.questionJa || '',
-          options: q.options,
-          correctIndex: q.correctIndex,
-          explanation: q.explanation || '',
-          explanationJa: q.explanationJa || ''
-        })));
+        setQuiz(
+          (storyData.quiz || []).map((q: StoryQuizQuestion) => ({
+            id: q.id,
+            question: q.question,
+            questionJa: q.questionJa || '',
+            options: q.options,
+            correctIndex: q.correctIndex,
+            explanation: q.explanation || '',
+            explanationJa: q.explanationJa || '',
+          }))
+        )
       } catch (error) {
-        console.error('Error loading story:', error);
-        showToast('Failed to load story', 'error');
-        router.push('/admin/stories');
+        console.error('Error loading story:', error)
+        showToast('Failed to load story', 'error')
+        router.push('/admin/stories')
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
     if (storyId) {
-      loadStory();
+      loadStory()
     }
-  }, [storyId, isDraft, router, showToast]);
+  }, [storyId, isDraft, router, showToast])
 
   const handleAddPage = () => {
-    setPages([...pages, { text: '', translation: '', imageUrl: '' }]);
-  };
+    setPages([...pages, { text: '', translation: '', imageUrl: '' }])
+  }
 
   const handleRemovePage = (index: number) => {
     if (pages.length > 1) {
-      setPages(pages.filter((_, i) => i !== index));
+      setPages(pages.filter((_, i) => i !== index))
     }
-  };
+  }
 
   const handlePageChange = (index: number, field: keyof PageData, value: string) => {
-    const newPages = [...pages];
-    newPages[index] = { ...newPages[index], [field]: value };
-    setPages(newPages);
-  };
+    const newPages = [...pages]
+    newPages[index] = { ...newPages[index], [field]: value }
+    setPages(newPages)
+  }
 
   const handleAddTag = () => {
     if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-      setTags([...tags, tagInput.trim()]);
-      setTagInput('');
+      setTags([...tags, tagInput.trim()])
+      setTagInput('')
     }
-  };
+  }
 
   const handleRemoveTag = (tag: string) => {
-    setTags(tags.filter(t => t !== tag));
-  };
+    setTags(tags.filter(t => t !== tag))
+  }
 
   // Quiz handlers
   const handleAddQuiz = () => {
@@ -175,41 +197,41 @@ export default function EditStoryPage() {
       options: ['', '', '', ''],
       correctIndex: 0,
       explanation: '',
-      explanationJa: ''
-    };
-    setQuiz([...quiz, newQuestion]);
-  };
+      explanationJa: '',
+    }
+    setQuiz([...quiz, newQuestion])
+  }
 
   const handleRemoveQuiz = (index: number) => {
-    setQuiz(quiz.filter((_, i) => i !== index));
-  };
+    setQuiz(quiz.filter((_, i) => i !== index))
+  }
 
   const handleQuizChange = (index: number, field: keyof QuizQuestionData, value: any) => {
-    const newQuiz = [...quiz];
-    newQuiz[index] = { ...newQuiz[index], [field]: value };
-    setQuiz(newQuiz);
-  };
+    const newQuiz = [...quiz]
+    newQuiz[index] = { ...newQuiz[index], [field]: value }
+    setQuiz(newQuiz)
+  }
 
   const handleQuizOptionChange = (quizIndex: number, optionIndex: number, value: string) => {
-    const newQuiz = [...quiz];
-    const options = [...newQuiz[quizIndex].options];
-    options[optionIndex] = value;
-    newQuiz[quizIndex] = { ...newQuiz[quizIndex], options };
-    setQuiz(newQuiz);
-  };
+    const newQuiz = [...quiz]
+    const options = [...newQuiz[quizIndex].options]
+    options[optionIndex] = value
+    newQuiz[quizIndex] = { ...newQuiz[quizIndex], options }
+    setQuiz(newQuiz)
+  }
 
   const handleSave = async () => {
     if (!title || !titleJa || !description) {
-      showToast('Please fill in all required fields', 'error');
-      return;
+      showToast('Please fill in all required fields', 'error')
+      return
     }
 
     if (pages.some(p => !p.text || !p.translation)) {
-      showToast('All pages must have Japanese text and translation', 'error');
-      return;
+      showToast('All pages must have Japanese text and translation', 'error')
+      return
     }
 
-    setIsSaving(true);
+    setIsSaving(true)
     try {
       const formattedPages = pages.map((page, index) => ({
         pageNumber: index + 1,
@@ -218,53 +240,128 @@ export default function EditStoryPage() {
         imageUrl: page.imageUrl || '',
         imageAlt: `Page ${index + 1}`,
         vocabularyNotes: story?.pages[index]?.vocabularyNotes || {},
-        grammarNotes: story?.pages[index]?.grammarNotes || {}
-      }));
+        grammarNotes: story?.pages[index]?.grammarNotes || {},
+      }))
 
-      await storyService.updateStory(storyId, {
-        title,
-        titleJa,
-        description,
-        jlptLevel,
-        theme,
-        tags,
-        pages: formattedPages,
-        status,
-        quiz: quiz as StoryQuizQuestion[]
-      });
+      if (isDraft) {
+        // For drafts, either update the draft or publish it
+        if (status === 'published') {
+          // First save the changes to the draft
+          const updateResponse = await fetch(`/api/admin/stories/drafts/${storyId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              outline: { title, titleJa, description },
+              theme,
+              jlptLevel,
+              pages: formattedPages,
+              quiz: quiz as StoryQuizQuestion[],
+              status: 'complete', // Mark as complete before publishing
+            }),
+          })
 
-      showToast('Story updated successfully!', 'success');
+          if (!updateResponse.ok) {
+            throw new Error('Failed to save draft before publishing')
+          }
 
-      router.push('/admin/stories');
+          // Then publish the draft - create in stories collection
+          const response = await fetch('/api/admin/stories/publish-draft', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              draftId: storyId,
+              storyData: {
+                title,
+                titleJa,
+                description,
+                jlptLevel,
+                theme,
+                pages: formattedPages,
+                quiz: quiz as StoryQuizQuestion[],
+              },
+            }),
+          })
+
+          if (!response.ok) {
+            const error = await response.json()
+            console.error('Publish error details:', error)
+            throw new Error(error.details || error.error || 'Failed to publish')
+          }
+
+          showToast('Story published successfully!', 'success')
+        } else {
+          // Update the draft in ai_story_drafts
+          const response = await fetch(`/api/admin/stories/drafts/${storyId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              outline: { title, titleJa, description },
+              theme,
+              jlptLevel,
+              pages: formattedPages,
+              quiz: quiz as StoryQuizQuestion[],
+              status,
+            }),
+          })
+
+          if (!response.ok) {
+            throw new Error('Failed to update draft')
+          }
+
+          showToast('Draft updated successfully!', 'success')
+        }
+      } else {
+        // For published stories, update in stories collection
+        await storyService.updateStory(storyId, {
+          title,
+          titleJa,
+          description,
+          jlptLevel,
+          theme,
+          tags,
+          pages: formattedPages,
+          status,
+          quiz: quiz as StoryQuizQuestion[],
+        })
+
+        showToast('Story updated successfully!', 'success')
+      }
+
+      router.push('/admin/stories')
     } catch (error) {
-      console.error('Error updating story:', error);
-      showToast('Failed to update story', 'error');
+      console.error('Error updating story:', error)
+      showToast('Failed to update story', 'error')
     } finally {
-      setIsSaving(false);
+      setIsSaving(false)
     }
-  };
+  }
 
   const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this story? This action cannot be undone.')) {
-      return;
+    if (
+      !window.confirm('Are you sure you want to delete this story? This action cannot be undone.')
+    ) {
+      return
     }
 
     try {
-      await storyService.deleteStory(storyId);
-      showToast('Story deleted successfully', 'success');
-      router.push('/admin/stories');
+      await storyService.deleteStory(storyId)
+      showToast('Story deleted successfully', 'success')
+      router.push('/admin/stories')
     } catch (error) {
-      console.error('Error deleting story:', error);
-      showToast('Failed to delete story', 'error');
+      console.error('Error deleting story:', error)
+      showToast('Failed to delete story', 'error')
     }
-  };
+  }
 
   if (!user || !user.isAdmin) {
-    return null;
+    return null
   }
 
   if (loading) {
-    return <LoadingOverlay />;
+    return <LoadingOverlay />
   }
 
   return (
@@ -280,9 +377,7 @@ export default function EditStoryPage() {
             Back to Stories
           </Link>
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Edit Story
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Edit Story</h1>
             <button
               onClick={handleDelete}
               className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
@@ -301,7 +396,7 @@ export default function EditStoryPage() {
             </label>
             <select
               value={status}
-              onChange={(e) => setStatus(e.target.value as any)}
+              onChange={e => setStatus(e.target.value as any)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
             >
               <option value="draft">Draft</option>
@@ -319,7 +414,7 @@ export default function EditStoryPage() {
               <input
                 type="text"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={e => setTitle(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
                 placeholder="Enter English title"
               />
@@ -332,7 +427,7 @@ export default function EditStoryPage() {
               <input
                 type="text"
                 value={titleJa}
-                onChange={(e) => setTitleJa(e.target.value)}
+                onChange={e => setTitleJa(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
                 placeholder="Enter Japanese title with furigana"
               />
@@ -348,7 +443,7 @@ export default function EditStoryPage() {
             </label>
             <textarea
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={e => setDescription(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
               rows={3}
               placeholder="Brief description of the story"
@@ -362,11 +457,13 @@ export default function EditStoryPage() {
               </label>
               <select
                 value={theme}
-                onChange={(e) => setTheme(e.target.value)}
+                onChange={e => setTheme(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
               >
                 {STORY_THEMES.map(t => (
-                  <option key={t} value={t}>{t}</option>
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
                 ))}
               </select>
             </div>
@@ -377,7 +474,7 @@ export default function EditStoryPage() {
               </label>
               <select
                 value={jlptLevel}
-                onChange={(e) => setJlptLevel(e.target.value as JLPTLevel)}
+                onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
               >
                 <option value="N5">N5 (Beginner)</option>
@@ -398,8 +495,8 @@ export default function EditStoryPage() {
               <input
                 type="text"
                 value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                onChange={e => setTagInput(e.target.value)}
+                onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
                 className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
                 placeholder="Add a tag"
               />
@@ -431,9 +528,7 @@ export default function EditStoryPage() {
           {/* Pages */}
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Story Pages
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Story Pages</h2>
               <button
                 onClick={handleAddPage}
                 className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
@@ -450,9 +545,7 @@ export default function EditStoryPage() {
                   className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
                 >
                   <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-medium text-gray-900 dark:text-white">
-                      Page {index + 1}
-                    </h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white">Page {index + 1}</h3>
                     {pages.length > 1 && (
                       <button
                         onClick={() => handleRemovePage(index)}
@@ -470,7 +563,7 @@ export default function EditStoryPage() {
                       </label>
                       <textarea
                         value={page.text}
-                        onChange={(e) => handlePageChange(index, 'text', e.target.value)}
+                        onChange={e => handlePageChange(index, 'text', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
                         rows={4}
                         placeholder="Enter Japanese text with ruby tags for furigana"
@@ -483,7 +576,7 @@ export default function EditStoryPage() {
                       </label>
                       <textarea
                         value={page.translation}
-                        onChange={(e) => handlePageChange(index, 'translation', e.target.value)}
+                        onChange={e => handlePageChange(index, 'translation', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
                         rows={3}
                         placeholder="Enter English translation"
@@ -497,7 +590,7 @@ export default function EditStoryPage() {
                       <input
                         type="text"
                         value={page.imageUrl}
-                        onChange={(e) => handlePageChange(index, 'imageUrl', e.target.value)}
+                        onChange={e => handlePageChange(index, 'imageUrl', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
                         placeholder="https://example.com/image.jpg"
                       />
@@ -562,7 +655,7 @@ export default function EditStoryPage() {
                           <input
                             type="text"
                             value={question.question}
-                            onChange={(e) => handleQuizChange(qIndex, 'question', e.target.value)}
+                            onChange={e => handleQuizChange(qIndex, 'question', e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
                             placeholder="Enter question in English"
                           />
@@ -574,7 +667,7 @@ export default function EditStoryPage() {
                           <input
                             type="text"
                             value={question.questionJa}
-                            onChange={(e) => handleQuizChange(qIndex, 'questionJa', e.target.value)}
+                            onChange={e => handleQuizChange(qIndex, 'questionJa', e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
                             placeholder="Enter question in Japanese"
                           />
@@ -602,7 +695,9 @@ export default function EditStoryPage() {
                               <input
                                 type="text"
                                 value={option}
-                                onChange={(e) => handleQuizOptionChange(qIndex, oIndex, e.target.value)}
+                                onChange={e =>
+                                  handleQuizOptionChange(qIndex, oIndex, e.target.value)
+                                }
                                 className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
                                 placeholder={`Option ${String.fromCharCode(65 + oIndex)}`}
                               />
@@ -622,7 +717,7 @@ export default function EditStoryPage() {
                           </label>
                           <textarea
                             value={question.explanation}
-                            onChange={(e) => handleQuizChange(qIndex, 'explanation', e.target.value)}
+                            onChange={e => handleQuizChange(qIndex, 'explanation', e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
                             rows={2}
                             placeholder="Optional explanation"
@@ -634,7 +729,9 @@ export default function EditStoryPage() {
                           </label>
                           <textarea
                             value={question.explanationJa}
-                            onChange={(e) => handleQuizChange(qIndex, 'explanationJa', e.target.value)}
+                            onChange={e =>
+                              handleQuizChange(qIndex, 'explanationJa', e.target.value)
+                            }
                             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100"
                             rows={2}
                             placeholder="Optional explanation in Japanese"
@@ -655,15 +752,21 @@ export default function EditStoryPage() {
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>
                   <span className="text-gray-600 dark:text-gray-400">Views:</span>
-                  <span className="ml-2 font-medium text-gray-900 dark:text-white">{story.viewCount}</span>
+                  <span className="ml-2 font-medium text-gray-900 dark:text-white">
+                    {story.viewCount}
+                  </span>
                 </div>
                 <div>
                   <span className="text-gray-600 dark:text-gray-400">Completions:</span>
-                  <span className="ml-2 font-medium text-gray-900 dark:text-white">{story.completionCount}</span>
+                  <span className="ml-2 font-medium text-gray-900 dark:text-white">
+                    {story.completionCount}
+                  </span>
                 </div>
                 <div>
                   <span className="text-gray-600 dark:text-gray-400">Quiz Questions:</span>
-                  <span className="ml-2 font-medium text-gray-900 dark:text-white">{quiz.length}</span>
+                  <span className="ml-2 font-medium text-gray-900 dark:text-white">
+                    {quiz.length}
+                  </span>
                 </div>
               </div>
             </div>
@@ -688,5 +791,5 @@ export default function EditStoryPage() {
         </div>
       </div>
     </>
-  );
+  )
 }

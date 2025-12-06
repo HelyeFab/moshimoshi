@@ -1,151 +1,163 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
-import { Story } from '@/types/story';
-import Link from 'next/link';
-import { useToast } from '@/components/ui/Toast/ToastContext';
-import { TrashIcon, PencilIcon, EyeIcon } from '@heroicons/react/24/outline';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
-import Modal from '@/components/ui/Modal';
+import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
+import { Story } from '@/types/story'
+import Link from 'next/link'
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import { TrashIcon, PencilIcon, EyeIcon } from '@heroicons/react/24/outline'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import Modal from '@/components/ui/Modal'
 
 export default function AdminStoriesPage() {
-  const router = useRouter();
-  const { user, loading: sessionLoading } = useAuth();
-  const { showToast } = useToast();
-  const [stories, setStories] = useState<Story[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
-  const [publishModalOpen, setPublishModalOpen] = useState(false);
-  const [storyToPublish, setStoryToPublish] = useState<{ id: string; title: string } | null>(null);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [storyToDelete, setStoryToDelete] = useState<{ id: string; title: string } | null>(null);
-  const [deleteSelectedModalOpen, setDeleteSelectedModalOpen] = useState(false);
+  const router = useRouter()
+  const { user, loading: sessionLoading } = useAuth()
+  const { showToast } = useToast()
+  const [stories, setStories] = useState<Story[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isPublishing, setIsPublishing] = useState(false)
+  const [publishModalOpen, setPublishModalOpen] = useState(false)
+  const [storyToPublish, setStoryToPublish] = useState<{ id: string; title: string } | null>(null)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [storyToDelete, setStoryToDelete] = useState<{ id: string; title: string } | null>(null)
+  const [deleteSelectedModalOpen, setDeleteSelectedModalOpen] = useState(false)
 
   // Check admin access
   useEffect(() => {
     if (!sessionLoading && (!user || !user.isAdmin)) {
-      router.push('/');
+      router.push('/')
     }
-  }, [user, sessionLoading, router]);
+  }, [user, sessionLoading, router])
 
   const loadStories = useCallback(async () => {
     try {
-      setLoading(true);
+      setLoading(true)
 
       // Fetch both published stories and drafts
       const [storiesResponse, draftsResponse] = await Promise.all([
         fetch('/api/admin/stories?limit=100'),
-        fetch('/api/admin/stories/drafts?limit=100')
-      ]);
+        fetch('/api/admin/stories/drafts?limit=100'),
+      ])
 
       // Handle responses gracefully - if endpoints don't exist or return errors, use empty arrays
-      const storiesData = storiesResponse.ok ? await storiesResponse.json() : { stories: [] };
-      const draftsData = draftsResponse.ok ? await draftsResponse.json() : { drafts: [] };
+      const storiesData = storiesResponse.ok ? await storiesResponse.json() : { stories: [] }
+      const draftsData = draftsResponse.ok ? await draftsResponse.json() : { drafts: [] }
 
       // Combine stories and drafts, marking drafts with status: 'draft'
       const allStories = [
         ...(storiesData.stories || []),
-        ...(draftsData.drafts || []).map((draft: any) => ({
-          id: draft.id,
-          title: draft.characterSheet?.storyTitle || 'Untitled',
-          titleJa: draft.characterSheet?.storyTitleJa || '無題',
-          theme: draft.theme || 'Unknown',
-          jlptLevel: draft.jlptLevel || 'N5',
-          pages: draft.pages || [],
-          status: 'draft',
-          viewCount: 0,
-          slug: draft.id,
-          createdAt: draft.createdAt,
-          updatedAt: draft.updatedAt
-        }))
-      ];
+        ...(draftsData.drafts || []).map((draft: any) => {
+          // Title can be in outline.title, characterSheet.title, or theme
+          const title =
+            draft.outline?.title ||
+            draft.characterSheet?.title ||
+            draft.characterSheet?.storyTitle ||
+            draft.theme ||
+            'Untitled'
+          const titleJa =
+            draft.outline?.titleJa ||
+            draft.characterSheet?.titleJa ||
+            draft.characterSheet?.storyTitleJa ||
+            '無題'
+          return {
+            id: draft.id,
+            title,
+            titleJa,
+            theme: draft.theme || 'Unknown',
+            jlptLevel: draft.jlptLevel || 'N5',
+            pages: draft.pages || [],
+            status: 'draft',
+            viewCount: 0,
+            slug: draft.id,
+            createdAt: draft.createdAt,
+            updatedAt: draft.updatedAt,
+          }
+        }),
+      ]
 
-      setStories(allStories);
+      setStories(allStories)
 
       // Only show error if both endpoints failed
       if (!storiesResponse.ok && !draftsResponse.ok) {
-        console.warn('Stories API endpoints returned errors - showing empty state');
+        console.warn('Stories API endpoints returned errors - showing empty state')
       }
     } catch (error) {
-      console.error('Error loading stories:', error);
-      showToast('Failed to load stories', 'error');
+      console.error('Error loading stories:', error)
+      showToast('Failed to load stories', 'error')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [showToast]);
+  }, [showToast])
 
   // Load stories and drafts
   useEffect(() => {
     if (user?.isAdmin) {
-      loadStories();
+      loadStories()
     }
-  }, [user, loadStories]);
+  }, [user, loadStories])
 
   const handleToggleSelect = (storyId: string) => {
     setSelectedIds(prev =>
-      prev.includes(storyId)
-        ? prev.filter(id => id !== storyId)
-        : [...prev, storyId]
-    );
-  };
+      prev.includes(storyId) ? prev.filter(id => id !== storyId) : [...prev, storyId]
+    )
+  }
 
   const handleSelectAll = () => {
     if (selectedIds.length === stories.length) {
-      setSelectedIds([]);
+      setSelectedIds([])
     } else {
-      setSelectedIds(stories.map(s => s.id));
+      setSelectedIds(stories.map(s => s.id))
     }
-  };
+  }
 
   const openDeleteModal = (storyId: string, title: string) => {
-    setStoryToDelete({ id: storyId, title });
-    setDeleteModalOpen(true);
-  };
+    setStoryToDelete({ id: storyId, title })
+    setDeleteModalOpen(true)
+  }
 
   const handleDeleteStory = async () => {
-    if (!storyToDelete) return;
+    if (!storyToDelete) return
 
     try {
-      setDeleteModalOpen(false);
-      setIsDeleting(true);
+      setDeleteModalOpen(false)
+      setIsDeleting(true)
       const response = await fetch('/api/admin/stories', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ storyId: storyToDelete.id }),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error('Failed to delete story');
+        throw new Error('Failed to delete story')
       }
 
-      setStories(prev => prev.filter(s => s.id !== storyToDelete.id));
-      setSelectedIds(prev => prev.filter(id => id !== storyToDelete.id));
-      showToast('Story deleted successfully', 'success');
+      setStories(prev => prev.filter(s => s.id !== storyToDelete.id))
+      setSelectedIds(prev => prev.filter(id => id !== storyToDelete.id))
+      showToast('Story deleted successfully', 'success')
     } catch (error) {
-      console.error('Error deleting story:', error);
-      showToast('Failed to delete story', 'error');
+      console.error('Error deleting story:', error)
+      showToast('Failed to delete story', 'error')
     } finally {
-      setIsDeleting(false);
+      setIsDeleting(false)
     }
-  };
+  }
 
   const openDeleteSelectedModal = () => {
-    if (!selectedIds.length) return;
-    setDeleteSelectedModalOpen(true);
-  };
+    if (!selectedIds.length) return
+    setDeleteSelectedModalOpen(true)
+  }
 
   const handleDeleteSelected = async () => {
-    if (!selectedIds.length) return;
+    if (!selectedIds.length) return
 
     try {
-      setDeleteSelectedModalOpen(false);
-      setIsDeleting(true);
+      setDeleteSelectedModalOpen(false)
+      setIsDeleting(true)
       for (const id of selectedIds) {
         const response = await fetch('/api/admin/stories', {
           method: 'DELETE',
@@ -153,64 +165,64 @@ export default function AdminStoriesPage() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ storyId: id }),
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`Failed to delete story ${id}`);
+          throw new Error(`Failed to delete story ${id}`)
         }
       }
-      setStories(prev => prev.filter(s => !selectedIds.includes(s.id)));
-      setSelectedIds([]);
-      showToast('Selected stories deleted successfully', 'success');
+      setStories(prev => prev.filter(s => !selectedIds.includes(s.id)))
+      setSelectedIds([])
+      showToast('Selected stories deleted successfully', 'success')
     } catch (error) {
-      console.error('Error deleting stories:', error);
-      showToast('Failed to delete stories', 'error');
+      console.error('Error deleting stories:', error)
+      showToast('Failed to delete stories', 'error')
     } finally {
-      setIsDeleting(false);
+      setIsDeleting(false)
     }
-  };
+  }
 
   const openPublishModal = (draftId: string, title: string) => {
-    setStoryToPublish({ id: draftId, title });
-    setPublishModalOpen(true);
-  };
+    setStoryToPublish({ id: draftId, title })
+    setPublishModalOpen(true)
+  }
 
   const handlePublishDraft = async () => {
-    if (!storyToPublish) return;
+    if (!storyToPublish) return
 
     try {
-      setPublishModalOpen(false);
-      setIsPublishing(true);
+      setPublishModalOpen(false)
+      setIsPublishing(true)
       const response = await fetch('/api/admin/stories/publish-draft', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ draftId: storyToPublish.id }),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error('Failed to publish draft');
+        throw new Error('Failed to publish draft')
       }
 
-      showToast('Story published successfully!', 'success');
+      showToast('Story published successfully!', 'success')
 
       // Reload stories list
-      await loadStories();
+      await loadStories()
     } catch (error) {
-      console.error('Error publishing draft:', error);
-      showToast('Failed to publish story', 'error');
+      console.error('Error publishing draft:', error)
+      showToast('Failed to publish story', 'error')
     } finally {
-      setIsPublishing(false);
+      setIsPublishing(false)
     }
-  };
+  }
 
   if (sessionLoading || loading) {
-    return <LoadingOverlay />;
+    return <LoadingOverlay />
   }
 
   if (!user || !user.isAdmin) {
-    return null;
+    return null
   }
 
   return (
@@ -254,9 +266,7 @@ export default function AdminStoriesPage() {
         {/* Stories Table */}
         {stories.length === 0 ? (
           <div className="bg-white dark:bg-dark-850 rounded-lg p-12 text-center shadow-sm border border-gray-200 dark:border-dark-700">
-            <p className="text-gray-500 dark:text-gray-400 mb-4">
-              No stories created yet
-            </p>
+            <p className="text-gray-500 dark:text-gray-400 mb-4">No stories created yet</p>
             <Link
               href="/admin/stories/new"
               className="text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 underline transition-colors"
@@ -302,7 +312,7 @@ export default function AdminStoriesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {stories.map((story) => (
+                  {stories.map(story => (
                     <tr
                       key={story.id}
                       className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-dark-800"
@@ -317,9 +327,7 @@ export default function AdminStoriesPage() {
                       </td>
                       <td className="p-4">
                         <div>
-                          <p className="font-medium text-gray-900 dark:text-white">
-                            {story.title}
-                          </p>
+                          <p className="font-medium text-gray-900 dark:text-white">{story.title}</p>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
                             {story.titleJa}
                           </p>
@@ -330,19 +338,18 @@ export default function AdminStoriesPage() {
                           {story.jlptLevel}
                         </span>
                       </td>
-                      <td className="p-4 text-gray-900 dark:text-gray-100">
-                        {story.theme}
-                      </td>
-                      <td className="p-4 text-gray-900 dark:text-gray-100">
-                        {story.pages.length}
-                      </td>
+                      <td className="p-4 text-gray-900 dark:text-gray-100">{story.theme}</td>
+                      <td className="p-4 text-gray-900 dark:text-gray-100">{story.pages.length}</td>
                       <td className="p-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${story.status === 'published'
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                          : story.status === 'draft'
-                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-                            : 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400'
-                          }`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            story.status === 'published'
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                              : story.status === 'draft'
+                                ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                                : 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400'
+                          }`}
+                        >
                           {story.status}
                         </span>
                       </td>
@@ -452,9 +459,7 @@ export default function AdminStoriesPage() {
           <p className="text-gray-700 dark:text-gray-300">
             Are you sure you want to delete <strong>&quot;{storyToDelete?.title}&quot;</strong>?
           </p>
-          <p className="text-sm text-red-600 dark:text-red-400">
-            This action cannot be undone.
-          </p>
+          <p className="text-sm text-red-600 dark:text-red-400">This action cannot be undone.</p>
           <div className="flex justify-end gap-3 pt-4">
             <button
               onClick={() => setDeleteModalOpen(false)}
@@ -481,11 +486,13 @@ export default function AdminStoriesPage() {
       >
         <div className="space-y-4">
           <p className="text-gray-700 dark:text-gray-300">
-            Are you sure you want to delete <strong>{selectedIds.length} selected {selectedIds.length === 1 ? 'story' : 'stories'}</strong>?
+            Are you sure you want to delete{' '}
+            <strong>
+              {selectedIds.length} selected {selectedIds.length === 1 ? 'story' : 'stories'}
+            </strong>
+            ?
           </p>
-          <p className="text-sm text-red-600 dark:text-red-400">
-            This action cannot be undone.
-          </p>
+          <p className="text-sm text-red-600 dark:text-red-400">This action cannot be undone.</p>
           <div className="flex justify-end gap-3 pt-4">
             <button
               onClick={() => setDeleteSelectedModalOpen(false)}
@@ -503,5 +510,5 @@ export default function AdminStoriesPage() {
         </div>
       </Modal>
     </>
-  );
+  )
 }

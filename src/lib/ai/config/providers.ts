@@ -54,7 +54,7 @@ export function getProviderConfig(): ProviderConfig {
  *
  * With Qwen 32B, quality matches GPT-4o-mini for Japanese tasks.
  * Route ALL text tasks to Ollama for maximum cost savings.
- * Keep OpenAI as fallback and for image generation (DALL-E).
+ * Image generation uses Gemini/Nano Banana (free tier, excellent quality).
  */
 function getDefaultRouting(
   primary: AIProviderType,
