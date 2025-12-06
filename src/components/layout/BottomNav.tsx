@@ -304,7 +304,7 @@ export default function BottomNav({
               'fixed inset-x-0 bottom-0 z-50',
               'md:hidden', // Only show on mobile
               // Background
-              'bg-orange-500', // TEMP: Orange for debugging v8 (dvh + pwa-bottom-nav)
+              'bg-transparent', // Transparent background
               className
             )}
             data-pwa-nav
