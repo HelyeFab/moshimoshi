@@ -300,6 +300,8 @@ export default function BottomNav({
               // Edge-to-edge positioning (Solution A)
               'fixed bottom-[-1px] left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
+              // Background to fill safe area below the rounded inner container
+              'bg-white dark:bg-dark-850',
               className
             )}
             role="navigation"
