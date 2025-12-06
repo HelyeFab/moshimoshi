@@ -292,11 +292,15 @@ html {
 
 html,
 body {
+  margin: 0;
+  padding: 0;
   height: 100%;
 
-  /* Ensure background extends to bottom on mobile browsers with dynamic toolbars */
-  /* Using 100svh instead of 100dvh to fix Chrome PWA viewport bug */
-  min-height: 100svh;
+  /* Fallback for older browsers */
+  min-height: 100vh;
+
+  /* Use dynamic viewport where supported (better for PWAs & mobile) */
+  min-height: 100dvh;
 }
 
 /* PWA Safe Area Fix: html element must have background to fill safe areas */

@@ -343,7 +343,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
         />
       </head>
-      <body suppressHydrationWarning>
+      <body suppressHydrationWarning className="min-h-screen flex flex-col">
         <AuthProvider>
           <ReCaptchaProvider>
             <ToastProvider defaultPosition="top-right">

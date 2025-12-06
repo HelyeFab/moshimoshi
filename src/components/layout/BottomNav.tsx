@@ -297,18 +297,17 @@ export default function BottomNav({
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
-              // Edge-to-edge positioning (Solution A)
-              'fixed bottom-0 left-0 right-0 z-50 w-full',
+              // PWA safe area classes
+              'pwa-bottom-nav',
+              'safe-bottom',
+              // Edge-to-edge positioning
+              'fixed inset-x-0 bottom-0 z-50',
               'md:hidden', // Only show on mobile
-              // Background to fill safe area below the rounded inner container
-              'bg-cyan-500', // TEMP: Cyan for debugging v7 (explicit meta tag)
+              // Background
+              'bg-orange-500', // TEMP: Orange for debugging v8 (dvh + pwa-bottom-nav)
               className
             )}
-            style={{
-              // Try both safe-area-inset-bottom and safe-area-max-inset-bottom (Chrome 135+)
-              paddingBottom:
-                'max(env(safe-area-inset-bottom, 0px), env(safe-area-max-inset-bottom, 34px))',
-            }}
+            data-pwa-nav
             role="navigation"
             aria-label="Bottom navigation"
           >
