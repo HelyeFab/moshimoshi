@@ -301,7 +301,7 @@ export default function BottomNav({
               'fixed bottom-0 left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
               // Background to fill safe area below the rounded inner container
-              'bg-purple-500', // TEMP: Purple for debugging v4
+              'bg-orange-500', // TEMP: Orange for debugging v5 (fullscreen mode)
               'pb-[34px]', // Fixed safe area padding for home indicator
               className
             )}
