@@ -88,7 +88,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://moshimoshi.app',
   },
-  // manifest: '/manifest.json', // DISABLED FOR TESTING
+  manifest: '/manifest.json',
   icons: {
     icon: '/favicon.svg',
     apple: [
@@ -97,9 +97,9 @@ export const metadata: Metadata = {
     ],
   },
   appleWebApp: {
-    capable: false, // DISABLED FOR TESTING
+    capable: true,
     title: 'Moshimoshi',
-    statusBarStyle: 'default', // CHANGED FOR TESTING - was 'black-translucent'
+    statusBarStyle: 'black-translucent',
     startupImage: [
       // iPhone 17 Pro Max, 16 Pro Max
       {
@@ -248,7 +248,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  viewportFit: 'auto', // CHANGED FOR TESTING - was 'cover' for edge-to-edge
+  viewportFit: 'cover', // Edge-to-edge on notched devices
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#1a202c' },
@@ -344,23 +344,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <I18nProvider>
                 <ConjugationHelpProvider>
                   <ThemeProvider>
-                    {/* ServiceWorkerProvider disabled for testing */}
-                    {/* <ServiceWorkerProvider> */}
-                    <CelebrationProvider>
-                      <BottomNavProvider>
-                        <EmailVerificationBanner />
-                        {children}
-                        {process.env.NODE_ENV === 'development' &&
-                          process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
-                            <TimeMachineButton />
-                          )}
-                        <BottomNav />
-                        <ConditionalCommandPalette />
-                        {/* PWA Install Prompt - disabled for testing */}
-                        {/* <PWAInstallPrompt /> */}
-                      </BottomNavProvider>
-                    </CelebrationProvider>
-                    {/* </ServiceWorkerProvider> */}
+                    <ServiceWorkerProvider>
+                      <CelebrationProvider>
+                        <BottomNavProvider>
+                          <EmailVerificationBanner />
+                          {children}
+                          {process.env.NODE_ENV === 'development' &&
+                            process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
+                              <TimeMachineButton />
+                            )}
+                          <BottomNav />
+                          <ConditionalCommandPalette />
+                          <PWAInstallPrompt />
+                        </BottomNavProvider>
+                      </CelebrationProvider>
+                    </ServiceWorkerProvider>
                   </ThemeProvider>
                 </ConjugationHelpProvider>
               </I18nProvider>

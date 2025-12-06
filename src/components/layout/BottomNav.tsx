@@ -301,7 +301,7 @@ export default function BottomNav({
               'fixed bottom-[-1px] left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
               // Background to fill safe area below the rounded inner container
-              'bg-red-500', // TEMP: Red for debugging
+              'bg-green-500', // TEMP: Green for debugging v2
               className
             )}
             role="navigation"

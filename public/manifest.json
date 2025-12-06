@@ -3,7 +3,7 @@
   "short_name": "Moshimoshi",
   "description": "The ultimate Japanese learning platform - from basics to fluency",
   "theme_color": "#1a202c",
-  "background_color": "#ffffff",
+  "background_color": "#1a202c",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
