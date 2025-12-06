@@ -1250,7 +1250,7 @@ export default function LearningVillage() {
         </motion.div>
 
         {/* Mobile View: Vertical List with Virtual Areas */}
-        <div className="sm:hidden space-y-8 px-4 pb-12">
+        <div className="sm:hidden space-y-8 px-2 pb-12">
           {Object.entries(stallCategories).map(([catKey, stallIds]) => {
             // Filter stalls that belong to this category AND are currently enabled/visible
             const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id))
