@@ -1,145 +1,143 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import { useI18n } from '@/i18n/I18nContext';
-import { useAuth } from '@/hooks/useAuth';
-import { useSubscription } from '@/hooks/useSubscription';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react'
+import { useI18n } from '@/i18n/I18nContext'
+import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
+import { useRouter } from 'next/navigation'
 // Navigation is now global via NavigationWrapper in root layout;
-import { listManager } from '@/lib/lists/ListManager';
-import CreateListModal from '@/components/lists/CreateListModal';
-import EditListModal from '@/components/lists/EditListModal';
-import type { UserList } from '@/types/userLists';
-import { motion, AnimatePresence } from 'framer-motion';
-import DoshiMascot from '@/components/ui/DoshiMascot';
-import { useToast } from '@/components/ui/Toast/ToastContext';
-import Dialog from '@/components/ui/Dialog';
-import Modal from '@/components/ui/Modal';
-import LearningPageHeader from '@/components/learn/LearningPageHeader';
-import { Pencil, FileJson, FileSpreadsheet, Trash2 } from 'lucide-react';
+import { listManager } from '@/lib/lists/ListManager'
+import CreateListModal from '@/components/lists/CreateListModal'
+import EditListModal from '@/components/lists/EditListModal'
+import type { UserList } from '@/types/userLists'
+import { motion, AnimatePresence } from 'framer-motion'
+import DoshiMascot from '@/components/ui/DoshiMascot'
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import Dialog from '@/components/ui/Dialog'
+import Modal from '@/components/ui/Modal'
+import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import { Pencil, FileJson, FileSpreadsheet, Trash2 } from 'lucide-react'
 
 export default function MyListsPage() {
-  const { t, strings } = useI18n();
-  const { user, loading: authLoading } = useAuth();
-  const { isPremium, isLoading: subscriptionLoading } = useSubscription();
-  const router = useRouter();
-  const { showToast } = useToast();
+  const { t, strings } = useI18n()
+  const { user, loading: authLoading } = useAuth()
+  const { isPremium, isLoading: subscriptionLoading } = useSubscription()
+  const router = useRouter()
+  const { showToast } = useToast()
 
-  const [lists, setLists] = useState<UserList[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [selectedList, setSelectedList] = useState<UserList | null>(null);
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [importData, setImportData] = useState('');
-  const [importFormat, setImportFormat] = useState<'csv' | 'json' | 'text'>('text');
-  const [editingList, setEditingList] = useState<UserList | null>(null);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [deletingList, setDeletingList] = useState<UserList | null>(null);
+  const [lists, setLists] = useState<UserList[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [selectedList, setSelectedList] = useState<UserList | null>(null)
+  const [showImportModal, setShowImportModal] = useState(false)
+  const [importData, setImportData] = useState('')
+  const [importFormat, setImportFormat] = useState<'csv' | 'json' | 'text'>('text')
+  const [editingList, setEditingList] = useState<UserList | null>(null)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [deletingList, setDeletingList] = useState<UserList | null>(null)
 
   useEffect(() => {
     // Only load lists after both auth and subscription have loaded
     if (!authLoading && !subscriptionLoading) {
-      loadLists();
+      loadLists()
     }
-  }, [user, authLoading, isPremium, subscriptionLoading]);
+  }, [user, authLoading, isPremium, subscriptionLoading])
 
   const loadLists = async () => {
     if (!user) {
-      setIsLoading(false);
-      return;
+      setIsLoading(false)
+      return
     }
 
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      console.log('[MyListsPage] Loading lists with isPremium:', isPremium);
-      const userLists = await listManager.getLists(user.uid, isPremium || false);
-      setLists(userLists);
+      console.log('[MyListsPage] Loading lists with isPremium:', isPremium)
+      const userLists = await listManager.getLists(user.uid, isPremium || false)
+      setLists(userLists)
     } catch (error) {
-      console.error('Error loading lists:', error);
-      showToast(t('lists.errors.loadFailed'), 'error');
+      console.error('Error loading lists:', error)
+      showToast(t('lists.errors.loadFailed'), 'error')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleDeleteList = async () => {
-    console.log('[handleDeleteList] Starting delete operation');
-    console.log('[handleDeleteList] deletingList:', deletingList);
-    console.log('[handleDeleteList] user:', user);
-    console.log('[handleDeleteList] isPremium:', isPremium);
+    console.log('[handleDeleteList] Starting delete operation')
+    console.log('[handleDeleteList] deletingList:', deletingList)
+    console.log('[handleDeleteList] user:', user)
+    console.log('[handleDeleteList] isPremium:', isPremium)
 
     if (!user || !deletingList) {
-      console.log('[handleDeleteList] Missing user or deletingList, aborting');
-      return;
+      console.log('[handleDeleteList] Missing user or deletingList, aborting')
+      return
     }
 
     try {
       console.log('[handleDeleteList] Calling listManager.deleteList with:', {
         listId: deletingList.id,
         userId: user.uid,
-        isPremium: isPremium || false
-      });
+        isPremium: isPremium || false,
+      })
 
       // Use the version with isPremium parameter
-      const success = await listManager.deleteList(deletingList.id, user.uid, isPremium || false);
+      const success = await listManager.deleteList(deletingList.id, user.uid, isPremium || false)
 
-      console.log('[handleDeleteList] Delete result:', success);
+      console.log('[handleDeleteList] Delete result:', success)
 
       if (success) {
-        await loadLists();
-        showToast(t('lists.deleted'), 'success');
+        await loadLists()
+        showToast(t('lists.deleted'), 'success')
       } else {
-        showToast(t('lists.errors.deleteFailed'), 'error');
+        showToast(t('lists.errors.deleteFailed'), 'error')
       }
-      setDeletingList(null);
+      setDeletingList(null)
     } catch (error) {
-      console.error('[handleDeleteList] Error deleting list:', error);
-      showToast(t('lists.errors.deleteFailed'), 'error');
-      setDeletingList(null);
+      console.error('[handleDeleteList] Error deleting list:', error)
+      showToast(t('lists.errors.deleteFailed'), 'error')
+      setDeletingList(null)
     }
-  };
+  }
 
   const handleExportList = async (list: UserList, format: 'csv' | 'json') => {
     try {
-      const data = await listManager.exportList(list.id, format);
-      const blob = new Blob([data], { type: format === 'csv' ? 'text/csv' : 'application/json' });
-      const filename = `${list.name.replace(/[^a-z0-9]/gi, '_')}.${format}`;
+      const data = await listManager.exportList(list.id, format)
+      const blob = new Blob([data], { type: format === 'csv' ? 'text/csv' : 'application/json' })
+      const filename = `${list.name.replace(/[^a-z0-9]/gi, '_')}.${format}`
 
       // Use browser API for download
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      a.click()
+      URL.revokeObjectURL(url)
 
-      showToast(t('common.success'), 'success');
+      showToast(t('common.success'), 'success')
     } catch (error) {
-      console.error('Error exporting list:', error);
-      showToast(t('common.error'), 'error');
+      console.error('Error exporting list:', error)
+      showToast(t('common.error'), 'error')
     }
-  };
+  }
 
   const handleEditList = (list: UserList) => {
-    setEditingList(list);
-    setShowEditModal(true);
-  };
+    setEditingList(list)
+    setShowEditModal(true)
+  }
 
   const handleListUpdated = (updatedList: UserList) => {
     // Update the list in our local state
-    setLists(lists.map(list =>
-      list.id === updatedList.id ? updatedList : list
-    ));
-    setShowEditModal(false);
-    setEditingList(null);
-  };
+    setLists(lists.map(list => (list.id === updatedList.id ? updatedList : list)))
+    setShowEditModal(false)
+    setEditingList(null)
+  }
 
   const handleImport = async () => {
-    if (!user || !importData.trim()) return;
+    if (!user || !importData.trim()) return
 
     try {
-      const listName = prompt(t('lists.fields.name'));
-      if (!listName) return;
+      const listName = prompt(t('lists.fields.name'))
+      if (!listName) return
 
       const list = await listManager.importList(
         listName,
@@ -148,19 +146,19 @@ export default function MyListsPage() {
         importFormat,
         user.uid,
         isPremium || false
-      );
+      )
 
       if (list) {
-        await loadLists();
-        setShowImportModal(false);
-        setImportData('');
-        showToast(t('lists.success.created'), 'success');
+        await loadLists()
+        setShowImportModal(false)
+        setImportData('')
+        showToast(t('lists.success.created'), 'success')
       }
     } catch (error) {
-      console.error('Error importing list:', error);
-      showToast(t('common.error'), 'error');
+      console.error('Error importing list:', error)
+      showToast(t('common.error'), 'error')
     }
-  };
+  }
 
   const getColorClasses = (color: string) => {
     const colorMap: Record<string, string> = {
@@ -169,16 +167,18 @@ export default function MyListsPage() {
       matcha: 'bg-green-500 dark:bg-green-600',
       sunset: 'bg-orange-500 dark:bg-orange-600',
       lavender: 'bg-purple-500 dark:bg-purple-600',
-      monochrome: 'bg-gray-500 dark:bg-gray-600'
-    };
-    return colorMap[color] || colorMap.primary;
-  };
+      monochrome: 'bg-gray-500 dark:bg-gray-600',
+    }
+    return colorMap[color] || colorMap.primary
+  }
 
   if (authLoading || isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
-        dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      {/* Navigation is now global - rendered in root layout */}
+      <div
+        className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
+        dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
+      >
+        {/* Navigation is now global - rendered in root layout */}
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col items-center justify-center">
             <DoshiMascot size="large" mood="thinking" />
@@ -186,14 +186,16 @@ export default function MyListsPage() {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
-        dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      {/* Navigation is now global - rendered in root layout */}
+      <div
+        className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
+        dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
+      >
+        {/* Navigation is now global - rendered in root layout */}
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col items-center justify-center">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-4">
@@ -209,15 +211,18 @@ export default function MyListsPage() {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
-      dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+    <div
+      className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
+      dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
+    >
       {/* Navigation is now global - rendered in root layout */}
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pb-32">
+        <LearningPageHeader title={t('lists.title')} description={t('lists.pageDescription')} />
 
         {/* Actions bar */}
         <div className="flex flex-wrap gap-3 mb-6 mt-6">
@@ -261,7 +266,7 @@ export default function MyListsPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <AnimatePresence>
-              {lists.map((list) => (
+              {lists.map(list => (
                 <motion.div
                   key={list.id}
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -270,7 +275,8 @@ export default function MyListsPage() {
                   whileHover={{ scale: 1.02 }}
                   className="relative group"
                 >
-                  <div className={`${getColorClasses(list.color)} rounded-2xl p-5 sm:p-6 text-white
+                  <div
+                    className={`${getColorClasses(list.color)} rounded-2xl p-5 sm:p-6 text-white
                     shadow-lg hover:shadow-xl transition-all cursor-pointer min-h-[180px] flex flex-col`}
                     onClick={() => router.push(`/lists/${list.id}`)}
                   >
@@ -280,9 +286,12 @@ export default function MyListsPage() {
                         <span className="text-4xl leading-none">{list.emoji}</span>
                       </div>
                       <div>
-                        <h3 className="font-bold text-lg sm:text-xl mb-2 break-words leading-tight">{list.name}</h3>
+                        <h3 className="font-bold text-lg sm:text-xl mb-2 break-words leading-tight">
+                          {list.name}
+                        </h3>
                         <p className="text-xs sm:text-sm opacity-90">
-                          {t(`lists.types.${list.type}.short`)} • {list.items.length} {t('lists.items')}
+                          {t(`lists.types.${list.type}.short`)} • {list.items.length}{' '}
+                          {t('lists.items')}
                         </p>
                       </div>
                     </div>
@@ -295,9 +304,9 @@ export default function MyListsPage() {
                     {/* Actions - always visible */}
                     <div className="absolute top-2 right-2 flex gap-1">
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditList(list);
+                        onClick={e => {
+                          e.stopPropagation()
+                          handleEditList(list)
                         }}
                         className="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
                         title={t('lists.actions.edit')}
@@ -305,9 +314,9 @@ export default function MyListsPage() {
                         <Pencil className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleExportList(list, 'json');
+                        onClick={e => {
+                          e.stopPropagation()
+                          handleExportList(list, 'json')
                         }}
                         className="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
                         title={t('lists.actions.exportJson')}
@@ -315,9 +324,9 @@ export default function MyListsPage() {
                         <FileJson className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleExportList(list, 'csv');
+                        onClick={e => {
+                          e.stopPropagation()
+                          handleExportList(list, 'csv')
                         }}
                         className="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
                         title={t('lists.actions.exportCsv')}
@@ -325,9 +334,9 @@ export default function MyListsPage() {
                         <FileSpreadsheet className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDeletingList(list);
+                        onClick={e => {
+                          e.stopPropagation()
+                          setDeletingList(list)
                         }}
                         className="p-1.5 bg-red-500/20 rounded-lg hover:bg-red-500/30 transition-all"
                         title={t('common.delete')}
@@ -348,9 +357,9 @@ export default function MyListsPage() {
         onClose={() => setShowCreateModal(false)}
         onCreated={async () => {
           // Wait a bit for Firebase to commit the write before reloading
-          console.log('[MyListsPage] List created, waiting 500ms before reload...');
-          await new Promise(resolve => setTimeout(resolve, 500));
-          await loadLists();
+          console.log('[MyListsPage] List created, waiting 500ms before reload...')
+          await new Promise(resolve => setTimeout(resolve, 500))
+          await loadLists()
         }}
       />
 
@@ -368,7 +377,7 @@ export default function MyListsPage() {
             </label>
             <select
               value={importFormat}
-              onChange={(e) => setImportFormat(e.target.value as any)}
+              onChange={e => setImportFormat(e.target.value as any)}
               className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-600
                 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100"
             >
@@ -384,8 +393,12 @@ export default function MyListsPage() {
             </label>
             <textarea
               value={importData}
-              onChange={(e) => setImportData(e.target.value)}
-              placeholder={importFormat === 'text' ? t('lists.importModal.dataPlaceholderText') : t('lists.importModal.dataPlaceholder')}
+              onChange={e => setImportData(e.target.value)}
+              placeholder={
+                importFormat === 'text'
+                  ? t('lists.importModal.dataPlaceholderText')
+                  : t('lists.importModal.dataPlaceholder')
+              }
               className="w-full h-48 px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-600
                 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 resize-none"
             />
@@ -415,8 +428,8 @@ export default function MyListsPage() {
       <EditListModal
         isOpen={showEditModal}
         onClose={() => {
-          setShowEditModal(false);
-          setEditingList(null);
+          setShowEditModal(false)
+          setEditingList(null)
         }}
         onUpdated={handleListUpdated}
         list={editingList}
@@ -436,5 +449,5 @@ export default function MyListsPage() {
         />
       )}
     </div>
-  );
+  )
 }

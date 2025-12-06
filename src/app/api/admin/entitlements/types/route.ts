@@ -1,101 +1,153 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
-import { validateSession } from '@/lib/auth/session';
-import fs from 'fs/promises';
-import path from 'path';
+import { NextRequest, NextResponse } from 'next/server'
+import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin'
+import { validateSession } from '@/lib/auth/session'
+import fs from 'fs/promises'
+import path from 'path'
+import { exec } from 'child_process'
+import { promisify } from 'util'
+
+const execAsync = promisify(exec)
+
+// Auto-regenerate types if JSON config has changed
+async function autoRegenerateIfNeeded(): Promise<{ regenerated: boolean; error?: string }> {
+  try {
+    const configPath = path.join(process.cwd(), 'config', 'features.v1.json')
+    const featureIdPath = path.join(process.cwd(), 'src', 'types', 'FeatureId.ts')
+
+    // Read JSON config
+    const configContent = await fs.readFile(configPath, 'utf-8')
+    const config = JSON.parse(configContent)
+    const jsonFeatureIds = config.features.map((f: { id: string }) => f.id)
+
+    // Read current TypeScript file
+    let tsFeatureIds: string[] = []
+    try {
+      const featureIdContent = await fs.readFile(featureIdPath, 'utf-8')
+      const featureIdMatch = featureIdContent.match(/export type FeatureId = ([^;]+);/)
+      if (featureIdMatch) {
+        tsFeatureIds = featureIdMatch[1].split('|').map(s => s.trim().replace(/['"]/g, ''))
+      }
+    } catch {
+      // File doesn't exist or can't be read - needs regeneration
+    }
+
+    // Compare feature IDs
+    const jsonSet = new Set<string>(jsonFeatureIds)
+    const tsSet = new Set<string>(tsFeatureIds)
+    const isInSync = jsonSet.size === tsSet.size && [...jsonSet].every(id => tsSet.has(id))
+
+    if (isInSync) {
+      return { regenerated: false }
+    }
+
+    // Run regeneration script
+    console.log('[Admin] Auto-regenerating entitlements types (mismatch detected)...')
+    const scriptPath = path.join(process.cwd(), 'scripts', 'gen-entitlements.ts')
+
+    await execAsync(`npx tsx ${scriptPath}`, {
+      cwd: process.cwd(),
+    })
+
+    console.log('[Admin] Auto-regeneration complete')
+    return { regenerated: true }
+  } catch (error) {
+    console.error('[Admin] Auto-regeneration failed:', error)
+    return {
+      regenerated: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }
+  }
+}
 
 export async function GET(request: NextRequest) {
   try {
     // Ensure Firebase Admin is initialized
-    ensureAdminInitialized();
+    ensureAdminInitialized()
 
     // Validate admin session (same as other admin routes)
-    const session = await validateSession(request);
+    const session = await validateSession(request)
     if (!session.valid || !session.payload) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     // Check if user is admin from Firebase
-    const userDoc = await adminFirestore!.collection('users').doc(session.payload.uid).get();
-    const userData = userDoc?.data();
+    const userDoc = await adminFirestore!.collection('users').doc(session.payload.uid).get()
+    const userData = userDoc?.data()
     if (!userData?.isAdmin) {
-      return NextResponse.json(
-        { error: 'Unauthorized - Admin access required' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
     }
 
+    // Auto-regenerate if JSON and TypeScript are out of sync
+    const regenerateResult = await autoRegenerateIfNeeded()
+
     // Read from the GENERATED TypeScript files
-    let featureIds: string[] = [];
-    let planTypes: string[] = [];
-    let limits: Record<string, Record<string, number>> = {};
+    let featureIds: string[] = []
+    let planTypes: string[] = []
+    let limits: Record<string, Record<string, number>> = {}
 
     try {
       // Read FeatureId from the generated file
-      const featureIdPath = path.join(process.cwd(), 'src', 'types', 'FeatureId.ts');
-      const featureIdContent = await fs.readFile(featureIdPath, 'utf-8');
+      const featureIdPath = path.join(process.cwd(), 'src', 'types', 'FeatureId.ts')
+      const featureIdContent = await fs.readFile(featureIdPath, 'utf-8')
 
       // Parse FeatureId type
-      const featureIdMatch = featureIdContent.match(/export type FeatureId = ([^;]+);/);
+      const featureIdMatch = featureIdContent.match(/export type FeatureId = ([^;]+);/)
       if (featureIdMatch) {
-        featureIds = featureIdMatch[1]
-          .split('|')
-          .map(s => s.trim().replace(/['"]/g, ''));
+        featureIds = featureIdMatch[1].split('|').map(s => s.trim().replace(/['"]/g, ''))
       } else {
-        console.warn('Could not find FeatureId type definition in FeatureId.ts');
+        console.warn('Could not find FeatureId type definition in FeatureId.ts')
       }
 
       // Read PlanType from entitlements.ts
-      const entitlementsPath = path.join(process.cwd(), 'src', 'types', 'entitlements.ts');
-      const entitlementsContent = await fs.readFile(entitlementsPath, 'utf-8');
-      const planTypeMatch = entitlementsContent.match(/export type PlanType = ([^;]+);/);
+      const entitlementsPath = path.join(process.cwd(), 'src', 'types', 'entitlements.ts')
+      const entitlementsContent = await fs.readFile(entitlementsPath, 'utf-8')
+      const planTypeMatch = entitlementsContent.match(/export type PlanType = ([^;]+);/)
       if (planTypeMatch) {
-        planTypes = planTypeMatch[1]
-          .split('|')
-          .map(s => s.trim().replace(/['"]/g, ''));
+        planTypes = planTypeMatch[1].split('|').map(s => s.trim().replace(/['"]/g, ''))
       }
 
       // Try to read the evaluator file for actual limits
-      const evaluatorPath = path.join(process.cwd(), 'src', 'lib', 'entitlements', 'evaluator.ts');
+      const evaluatorPath = path.join(process.cwd(), 'src', 'lib', 'entitlements', 'evaluator.ts')
       try {
-        const evaluatorContent = await fs.readFile(evaluatorPath, 'utf-8');
+        const evaluatorContent = await fs.readFile(evaluatorPath, 'utf-8')
 
         // Extract LIMITS constant
-        const limitsMatch = evaluatorContent.match(/const LIMITS[^=]*=\s*featuresConfig\.limits[^;]*/);
+        const limitsMatch = evaluatorContent.match(
+          /const LIMITS[^=]*=\s*featuresConfig\.limits[^;]*/
+        )
         if (limitsMatch) {
           // Get the actual limits from the imported config
-          const configPath = path.join(process.cwd(), 'config', 'features.v1.json');
-          const configContent = await fs.readFile(configPath, 'utf-8');
-          const config = JSON.parse(configContent);
-          limits = config.limits;
+          const configPath = path.join(process.cwd(), 'config', 'features.v1.json')
+          const configContent = await fs.readFile(configPath, 'utf-8')
+          const config = JSON.parse(configContent)
+          limits = config.limits
         }
       } catch (e) {
-        console.warn('Could not read evaluator file:', e);
+        console.warn('Could not read evaluator file:', e)
       }
     } catch (error) {
-      console.warn('Could not read types files:', error);
+      console.warn('Could not read types files:', error)
     }
 
     const codeData = {
       featureIds,
       planTypes,
       limits,
-      sourceFiles: [
-        'src/types/FeatureId.ts (generated)',
-        'src/types/entitlements.ts'
-      ],
-      lastModified: featureIds.length > 0 ? new Date().toISOString() : null
-    };
+      sourceFiles: ['src/types/FeatureId.ts (generated)', 'src/types/entitlements.ts'],
+      lastModified: featureIds.length > 0 ? new Date().toISOString() : null,
+      autoRegenerated: regenerateResult.regenerated,
+      regenerationError: regenerateResult.error,
+    }
 
-    return NextResponse.json(codeData, { status: 200 });
+    return NextResponse.json(codeData, { status: 200 })
   } catch (error) {
-    console.error('Error fetching TypeScript types:', error);
+    console.error('Error fetching TypeScript types:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch TypeScript types', details: error instanceof Error ? error.message : 'Unknown error' },
+      {
+        error: 'Failed to fetch TypeScript types',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
       { status: 500 }
-    );
+    )
   }
 }

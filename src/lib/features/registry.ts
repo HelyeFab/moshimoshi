@@ -4,22 +4,22 @@
  * Generated at: 2025-10-07T13:27:25.395Z
  */
 
-import type { FeatureId } from '@/types/FeatureId';
-import { Permission } from '@/lib/access/permissionMap';
+import type { FeatureId } from '@/types/FeatureId'
+import { Permission } from '@/lib/access/permissionMap'
 
 export interface FeatureDefinition {
-  id: FeatureId;
-  name: string;
-  category: string;
-  lifecycle: 'active' | 'deprecated' | 'hidden';
-  permission: Permission;
-  limitType: 'daily' | 'weekly' | 'monthly';
-  notifications: boolean;
-  description?: string;
+  id: FeatureId
+  name: string
+  category: string
+  lifecycle: 'active' | 'deprecated' | 'hidden'
+  permission: Permission
+  limitType: 'daily' | 'weekly' | 'monthly'
+  notifications: boolean
+  description?: string
 }
 
 export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
-  'hiragana_practice': {
+  hiragana_practice: {
     id: 'hiragana_practice',
     name: 'Hiragana Practice',
     category: 'learning',
@@ -27,9 +27,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: true,
-    description: 'Practice hiragana characters with SRS-based review sessions'
+    description: 'Practice hiragana characters with SRS-based review sessions',
   },
-  'katakana_practice': {
+  katakana_practice: {
     id: 'katakana_practice',
     name: 'Katakana Practice',
     category: 'learning',
@@ -37,9 +37,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: true,
-    description: 'Practice katakana characters with SRS-based review sessions'
+    description: 'Practice katakana characters with SRS-based review sessions',
   },
-  'kanji_browser': {
+  kanji_browser: {
     id: 'kanji_browser',
     name: 'Kanji Browser',
     category: 'learning',
@@ -47,9 +47,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: false,
-    description: 'Browse and explore kanji with detailed information'
+    description: 'Browse and explore kanji with detailed information',
   },
-  'custom_lists': {
+  custom_lists: {
     id: 'custom_lists',
     name: 'Custom Lists',
     category: 'organization',
@@ -57,9 +57,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'monthly',
     notifications: false,
-    description: 'Create and manage custom learning lists for vocabulary, kanji, and sentences'
+    description: 'Create and manage custom learning lists for vocabulary, kanji, and sentences',
   },
-  'conjugation_drill': {
+  conjugation_drill: {
     id: 'conjugation_drill',
     name: 'Conjugation Drill',
     category: 'learning',
@@ -67,9 +67,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: true,
-    description: 'Practice Japanese verb and adjective conjugations with interactive drills'
+    description: 'Practice Japanese verb and adjective conjugations with interactive drills',
   },
-  'grammar_explanations': {
+  grammar_explanations: {
     id: 'grammar_explanations',
     name: 'Grammar Explanations',
     category: 'learning',
@@ -77,9 +77,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: false,
-    description: 'Get AI-powered grammar explanations for Japanese sentences'
+    description: 'Get AI-powered grammar explanations for Japanese sentences',
   },
-  'youtube_shadowing': {
+  youtube_shadowing: {
     id: 'youtube_shadowing',
     name: 'YouTube Shadowing',
     category: 'learning',
@@ -87,9 +87,10 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: true,
-    description: 'Practice Japanese pronunciation and listening with YouTube videos and transcript shadowing'
+    description:
+      'Practice Japanese pronunciation and listening with YouTube videos and transcript shadowing',
   },
-  'media_upload': {
+  media_upload: {
     id: 'media_upload',
     name: 'Media File Upload',
     category: 'learning',
@@ -97,9 +98,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: false,
-    description: 'Upload and practice with your own video/audio files for shadowing practice'
+    description: 'Upload and practice with your own video/audio files for shadowing practice',
   },
-  'save_items': {
+  save_items: {
     id: 'save_items',
     name: 'Save Items',
     category: 'organization',
@@ -107,9 +108,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'monthly',
     notifications: false,
-    description: 'Save vocabulary, kanji, and other items to your personal collection'
+    description: 'Save vocabulary, kanji, and other items to your personal collection',
   },
-  'todos': {
+  todos: {
     id: 'todos',
     name: 'Todo Lists',
     category: 'organization',
@@ -117,9 +118,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'monthly',
     notifications: false,
-    description: 'Create and manage learning todo lists and goals'
+    description: 'Create and manage learning todo lists and goals',
   },
-  'flashcard_decks': {
+  flashcard_decks: {
     id: 'flashcard_decks',
     name: 'Flashcard Decks',
     category: 'learning',
@@ -127,9 +128,9 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'monthly',
     notifications: false,
-    description: 'Create custom flashcard decks for spaced repetition practice'
+    description: 'Create custom flashcard decks for spaced repetition practice',
   },
-  'stall_layout_customization': {
+  stall_layout_customization: {
     id: 'stall_layout_customization',
     name: 'Learning Village Layout Customization',
     category: 'personalization',
@@ -137,22 +138,113 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: false,
-    description: 'Customize the layout of Learning Village stalls by dragging and dropping them to your preferred order'
-  }
-};
+    description:
+      'Customize the layout of Learning Village stalls by dragging and dropping them to your preferred order',
+  },
+  flashcard_daily_reviews: {
+    id: 'flashcard_daily_reviews',
+    name: 'Flashcard Daily Reviews',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Daily limit for flashcard review sessions',
+  },
+  pwa_push: {
+    id: 'pwa_push',
+    name: 'Push Notifications',
+    category: 'pwa',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Receive push notifications for study reminders and updates',
+  },
+  pwa_bg_sync: {
+    id: 'pwa_bg_sync',
+    name: 'Background Sync',
+    category: 'pwa',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Sync study progress in the background when offline',
+  },
+  pwa_periodic_sync: {
+    id: 'pwa_periodic_sync',
+    name: 'Periodic Background Sync',
+    category: 'pwa',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Periodically sync and prefetch content in the background',
+  },
+  pwa_share_target: {
+    id: 'pwa_share_target',
+    name: 'Share Target',
+    category: 'pwa',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Share content directly to Moshimoshi from other apps',
+  },
+  pwa_fs_access: {
+    id: 'pwa_fs_access',
+    name: 'File System Access',
+    category: 'pwa',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Access local files for importing/exporting study materials',
+  },
+  pwa_badging: {
+    id: 'pwa_badging',
+    name: 'App Badge',
+    category: 'pwa',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Show notification badges on the app icon',
+  },
+  pwa_media_session: {
+    id: 'pwa_media_session',
+    name: 'Media Session',
+    category: 'pwa',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Control audio playback from system media controls',
+  },
+  word_lookup: {
+    id: 'word_lookup',
+    name: 'Word Lookup',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Look up word details including meanings, conjugations, and example sentences',
+  },
+}
 
 export function getFeature(id: FeatureId): FeatureDefinition {
-  return FEATURE_REGISTRY[id];
+  return FEATURE_REGISTRY[id]
 }
 
 export function getActiveFeatures(): FeatureDefinition[] {
-  return Object.values(FEATURE_REGISTRY).filter(f => f.lifecycle === 'active');
+  return Object.values(FEATURE_REGISTRY).filter(f => f.lifecycle === 'active')
 }
 
 export function getFeaturesByCategory(category: string): FeatureDefinition[] {
-  return Object.values(FEATURE_REGISTRY).filter(f => f.category === category);
+  return Object.values(FEATURE_REGISTRY).filter(f => f.category === category)
 }
 
 export function getFeaturesByPermission(permission: Permission): FeatureDefinition[] {
-  return Object.values(FEATURE_REGISTRY).filter(f => f.permission === permission);
+  return Object.values(FEATURE_REGISTRY).filter(f => f.permission === permission)
 }

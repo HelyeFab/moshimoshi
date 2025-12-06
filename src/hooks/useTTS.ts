@@ -233,14 +233,59 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             : result.audioUrl
 
         console.log('Setting audio source:', audioUrl)
-        audio.src = audioUrl
         setLoading(false)
 
         // Wait for audio to be ready before playing
-        await new Promise((resolve, reject) => {
-          audio.oncanplay = resolve
-          audio.onerror = reject
-          setTimeout(reject, 5000) // 5 second timeout
+        // IMPORTANT: Set up listeners BEFORE setting src to avoid race conditions
+        await new Promise<void>((resolve, reject) => {
+          let resolved = false
+          let timeoutId: ReturnType<typeof setTimeout>
+
+          const cleanup = () => {
+            audio.removeEventListener('canplaythrough', onCanPlay)
+            audio.removeEventListener('error', onError)
+            if (timeoutId) clearTimeout(timeoutId)
+          }
+
+          const onCanPlay = () => {
+            if (!resolved) {
+              resolved = true
+              cleanup()
+              resolve()
+            }
+          }
+
+          const onError = (e: Event) => {
+            if (!resolved) {
+              resolved = true
+              cleanup()
+              reject(new Error('Failed to load audio'))
+            }
+          }
+
+          // Use canplaythrough for more reliable playback
+          audio.addEventListener('canplaythrough', onCanPlay)
+          audio.addEventListener('error', onError)
+
+          // FIRST set the new source (this resets readyState)
+          audio.src = audioUrl
+          audio.load()
+
+          // THEN check if audio loaded instantly (browser cache for this specific URL)
+          // readyState >= 3 means HAVE_FUTURE_DATA or HAVE_ENOUGH_DATA
+          if (audio.readyState >= 3) {
+            onCanPlay()
+            return
+          }
+
+          // Timeout fallback
+          timeoutId = setTimeout(() => {
+            if (!resolved) {
+              resolved = true
+              cleanup()
+              reject(new Error('Audio loading timed out after 10 seconds'))
+            }
+          }, 10000)
         })
 
         // Play the audio

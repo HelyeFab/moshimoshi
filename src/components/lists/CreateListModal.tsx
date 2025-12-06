@@ -222,7 +222,7 @@ export default function CreateListModal({
               >
                 <div className="text-2xl mb-1">{DEFAULT_LIST_EMOJIS[type]}</div>
                 <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {t(`lists.types.${type}`)}
+                  {t(`lists.types.${type}.short`)}
                 </div>
               </button>
             ))}
@@ -309,7 +309,7 @@ export default function CreateListModal({
               <div className="flex-1">
                 <div className="font-bold text-lg">{listName || t('lists.namePlaceholder')}</div>
                 <div className="text-sm opacity-90">
-                  {t(`lists.types.${listType}`)} • 0 {t('lists.items')}
+                  {t(`lists.types.${listType}.short`)} • 0 {t('lists.items')}
                 </div>
               </div>
             </div>
