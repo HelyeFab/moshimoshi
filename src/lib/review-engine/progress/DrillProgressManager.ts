@@ -223,8 +223,23 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     if (currentProgress) {
       // Convert serialized data back to proper types
       const raw = currentProgress as any
+
+      // Sanitize numeric values to prevent NaN propagation from corrupted data
+      const safeNumber = (val: any, defaultVal: number = 0): number => {
+        const num = Number(val)
+        return isNaN(num) ? defaultVal : num
+      }
+
       drillData = {
         ...raw,
+        // Ensure numeric fields are valid numbers (fix corrupted data)
+        viewCount: safeNumber(raw.viewCount),
+        correctCount: safeNumber(raw.correctCount),
+        incorrectCount: safeNumber(raw.incorrectCount),
+        totalDrills: safeNumber(raw.totalDrills),
+        perfectDrills: safeNumber(raw.perfectDrills),
+        accuracy: safeNumber(raw.accuracy),
+        averageAccuracy: safeNumber(raw.averageAccuracy),
         // Convert arrays/objects back to Set/Map (use toArray to handle both formats)
         verbsStudied: new Set(this.toArray(raw.verbsStudied)),
         adjectivesStudied: new Set(this.toArray(raw.adjectivesStudied)),
@@ -320,6 +335,12 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
 
     // Save updated progress
     // saveProgress(userId, contentType, contentId, progress, isPremium)
+    console.log('[DrillProgressManager] 📊 Saving drill stats:', {
+      totalDrills: drillData.totalDrills,
+      accuracy: drillData.accuracy,
+      verbsStudied: drillData.verbsStudied.size,
+      adjectivesStudied: drillData.adjectivesStudied.size,
+    })
     await this.saveProgress(userId, 'drill', 'overall', serializableData as any, isPremium)
 
     // Track individual session for history
@@ -345,6 +366,35 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
   async getDrillStats(userId: string, isPremium: boolean): Promise<DrillProgressData | null> {
     await this.initDB()
 
+    // Helper to sanitize numeric values (same as in trackDrillSession)
+    const safeNumber = (val: any, defaultVal: number = 0): number => {
+      const num = Number(val)
+      return isNaN(num) ? defaultVal : num
+    }
+
+    // Helper to convert raw data to proper DrillProgressData with sanitized values
+    const convertToProgressData = (raw: any): DrillProgressData => {
+      return {
+        ...raw,
+        // Sanitize all numeric fields to prevent NaN issues
+        viewCount: safeNumber(raw.viewCount),
+        correctCount: safeNumber(raw.correctCount),
+        incorrectCount: safeNumber(raw.incorrectCount),
+        totalDrills: safeNumber(raw.totalDrills),
+        perfectDrills: safeNumber(raw.perfectDrills),
+        accuracy: safeNumber(raw.accuracy),
+        averageAccuracy: safeNumber(raw.averageAccuracy),
+        streak: safeNumber(raw.streak),
+        bestStreak: safeNumber(raw.bestStreak),
+        totalViewTime: safeNumber(raw.totalViewTime),
+        interactionCount: safeNumber(raw.interactionCount),
+        // Convert arrays/objects back to Set/Map
+        verbsStudied: new Set(this.toArray(raw.verbsStudied)),
+        adjectivesStudied: new Set(this.toArray(raw.adjectivesStudied)),
+        conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
+      } as DrillProgressData
+    }
+
     // Premium users: Load from Firebase first for cross-device sync
     // This ensures stats are consistent across devices
     if (isPremium) {
@@ -354,14 +404,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
         if (cloudData && cloudData.size > 0) {
           const progress = cloudData.get('overall')
           if (progress) {
-            // Convert serialized data back to proper types
-            const raw = progress as any
-            return {
-              ...raw,
-              verbsStudied: new Set(this.toArray(raw.verbsStudied)),
-              adjectivesStudied: new Set(this.toArray(raw.adjectivesStudied)),
-              conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
-            } as DrillProgressData
+            return convertToProgressData(progress)
           }
         }
       } catch (error) {
@@ -381,14 +424,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     const progress = progressMap.get('overall')
     if (!progress) return null
 
-    // Convert serialized data back to proper types
-    const raw = progress as any
-    return {
-      ...raw,
-      verbsStudied: new Set(this.toArray(raw.verbsStudied)),
-      adjectivesStudied: new Set(this.toArray(raw.adjectivesStudied)),
-      conjugationTypes: new Map(Object.entries(raw.conjugationTypes || {})),
-    } as DrillProgressData
+    return convertToProgressData(progress)
   }
 
   /**

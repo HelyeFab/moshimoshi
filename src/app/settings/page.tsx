@@ -265,38 +265,40 @@ export default function SettingsPage() {
                 ]}
               />
 
-              {/* Theme Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                  {strings.settings?.sections?.appearance?.theme?.label || 'Theme'}
-                </label>
-                <div className="grid grid-cols-3 gap-3">
-                  {(['light', 'dark', 'system'] as const).map(themeOption => (
-                    <button
-                      key={themeOption}
-                      onClick={() => setTheme(themeOption)}
-                      className={`p-3 rounded-lg border-2 transition-all ${
-                        theme === themeOption
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                      }`}
-                    >
-                      <div className="flex flex-col items-center gap-2">
-                        <span className="text-2xl">
-                          {themeOption === 'light' ? '☀️' : themeOption === 'dark' ? '🌙' : '💻'}
-                        </span>
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize">
-                          {themeOption === 'light'
-                            ? strings.settings?.sections?.appearance?.theme?.light || 'Light'
-                            : themeOption === 'dark'
-                              ? strings.settings?.sections?.appearance?.theme?.dark || 'Dark'
-                              : strings.settings?.sections?.appearance?.theme?.system || 'System'}
-                        </span>
-                      </div>
-                    </button>
-                  ))}
+              {/* Theme Selection - hidden unless NEXT_PUBLIC_ENABLE_THEME_SELECTOR is set */}
+              {process.env.NEXT_PUBLIC_ENABLE_THEME_SELECTOR === 'true' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                    {strings.settings?.sections?.appearance?.theme?.label || 'Theme'}
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {(['light', 'dark', 'system'] as const).map(themeOption => (
+                      <button
+                        key={themeOption}
+                        onClick={() => setTheme(themeOption)}
+                        className={`p-3 rounded-lg border-2 transition-all ${
+                          theme === themeOption
+                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                            : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center gap-2">
+                          <span className="text-2xl">
+                            {themeOption === 'light' ? '☀️' : themeOption === 'dark' ? '🌙' : '💻'}
+                          </span>
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize">
+                            {themeOption === 'light'
+                              ? strings.settings?.sections?.appearance?.theme?.light || 'Light'
+                              : themeOption === 'dark'
+                                ? strings.settings?.sections?.appearance?.theme?.dark || 'Dark'
+                                : strings.settings?.sections?.appearance?.theme?.system || 'System'}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Color Palette Selection */}
               <Select

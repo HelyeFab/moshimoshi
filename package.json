@@ -76,6 +76,7 @@
     "firebase-admin": "^13.5.0",
     "framer-motion": "^12.23.12",
     "gray-matter": "^4.0.3",
+    "hls.js": "^1.6.15",
     "isomorphic-dompurify": "^2.26.0",
     "jsonwebtoken": "^9.0.2",
     "jszip": "^3.10.1",

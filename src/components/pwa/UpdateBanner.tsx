@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RefreshCw, X, AlertTriangle } from 'lucide-react'
-import { skipWaiting } from '@/lib/pwa/registerServiceWorker'
 import { useI18n } from '@/i18n/I18nContext'
 
 interface UpdateBannerProps {
-  registration: ServiceWorkerRegistration | null
+  registration?: ServiceWorkerRegistration | null
   isCritical?: boolean
   onDismiss?: () => void
 }
@@ -16,21 +15,20 @@ interface UpdateBannerProps {
  * Persistent update banner that appears when a new version is available.
  * For critical updates, shows a modal that cannot be easily dismissed.
  */
-export function UpdateBanner({ registration, isCritical = false, onDismiss }: UpdateBannerProps) {
+export function UpdateBanner({ isCritical = false, onDismiss }: UpdateBannerProps) {
   const { t } = useI18n()
   const [isUpdating, setIsUpdating] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
-  const handleUpdate = useCallback(async () => {
+  const handleUpdate = useCallback(() => {
     setIsUpdating(true)
-    try {
-      await skipWaiting(registration || undefined)
-    } catch (error) {
-      console.error('[UpdateBanner] Failed to update:', error)
-      // Force reload as fallback
+    // For version-based updates, a simple reload is sufficient.
+    // The server will serve the new version.
+    // Small delay to show the updating state before reload
+    setTimeout(() => {
       window.location.reload()
-    }
-  }, [registration])
+    }, 100)
+  }, [])
 
   const handleDismiss = useCallback(() => {
     if (isCritical) {

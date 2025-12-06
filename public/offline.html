@@ -1,20 +1,363 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+<head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Offline — moshimoshi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <title>Offline - Moshimoshi</title>
+  <link rel="icon" href="/favicon.ico" />
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;padding:2rem;max-width:40rem;margin:auto;line-height:1.5}
-    .card{border:1px solid #e5e7eb;border-radius:12px;padding:1rem}
+    :root {
+      --primary-50: #fef2f2;
+      --primary-100: #fee2e2;
+      --primary-400: #f87171;
+      --primary-500: #ef4444;
+      --primary-600: #dc2626;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --dark-bg: #0f0f1a;
+      --dark-card: #1a1a2e;
+      --dark-border: #2d2d44;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: linear-gradient(180deg, var(--gray-50) 0%, var(--gray-100) 100%);
+      color: var(--gray-800);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: linear-gradient(180deg, var(--dark-bg) 0%, #0a0a14 100%);
+        color: var(--gray-100);
+      }
+    }
+
+    .container {
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .mascot-wrapper {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .mascot {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: grayscale(30%);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .wifi-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 48px;
+      height: 48px;
+      background: var(--gray-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .wifi-badge {
+        background: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      }
+    }
+
+    .wifi-icon {
+      width: 28px;
+      height: 28px;
+      color: var(--gray-400);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--gray-900);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      h1 {
+        color: #fff;
+      }
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--gray-500);
+      margin-bottom: 1.5rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .subtitle {
+        color: var(--gray-400);
+      }
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      border: 1px solid var(--gray-200);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .card {
+        background: var(--dark-card);
+        border-color: var(--dark-border);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      }
+    }
+
+    .tips {
+      text-align: left;
+    }
+
+    .tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .tip {
+        border-color: var(--dark-border);
+      }
+    }
+
+    .tip:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .tip:first-child {
+      padding-top: 0;
+    }
+
+    .tip-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--primary-500);
+    }
+
+    .tip-text {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .tip-text {
+        color: var(--gray-300);
+      }
+    }
+
+    .btn-retry {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.875rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-retry:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-retry:active {
+      transform: translateY(0);
+    }
+
+    .btn-retry svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer-text {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--gray-400);
+    }
+
+    .jp-text {
+      font-size: 0.85rem;
+      color: var(--gray-400);
+      margin-top: 0.25rem;
+    }
+
+    /* Safe area for notched devices */
+    @supports (padding: max(0px)) {
+      body {
+        padding-left: max(1.5rem, env(safe-area-inset-left));
+        padding-right: max(1.5rem, env(safe-area-inset-right));
+        padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+      }
+    }
+
+    /* Pulse animation for retry icon */
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Status indicator */
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--gray-400);
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+
+    .status-text {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
   </style>
-  <body>
-    <h1>🛰️ You're offline</h1>
-    <div class="card">
-      <p>The app shell is available, but live data needs a connection.</p>
-      <ul>
-        <li>Try again once you're online</li>
-        <li>Your pending changes will sync automatically</li>
-      </ul>
+</head>
+<body>
+  <div class="container">
+    <!-- Status indicator -->
+    <div class="status-text">
+      <span class="status-dot"></span>
+      No connection
     </div>
-  </body>
+
+    <!-- Mascot with wifi badge -->
+    <div class="mascot-wrapper">
+      <img src="/doshi.png" alt="Doshi mascot" class="mascot" onerror="this.style.display='none'" />
+      <div class="wifi-badge">
+        <svg class="wifi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+          <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+          <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+          <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+          <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+          <line x1="12" y1="20" x2="12.01" y2="20"></line>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Main heading -->
+    <h1>You're offline</h1>
+    <p class="subtitle">Don't worry, your progress is safe!</p>
+
+    <!-- Info card -->
+    <div class="card">
+      <div class="tips">
+        <div class="tip">
+          <svg class="tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span class="tip-text">Your study progress is saved locally and will sync when you're back online</span>
+        </div>
+        <div class="tip">
+          <svg class="tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="M12 5v14"></path>
+          </svg>
+          <span class="tip-text">Check your WiFi or mobile data connection</span>
+        </div>
+        <div class="tip">
+          <svg class="tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span class="tip-text">Try again in a few moments</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Retry button -->
+    <button class="btn-retry" onclick="window.location.reload()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 2v6h-6"></path>
+        <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+        <path d="M3 22v-6h6"></path>
+        <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+      </svg>
+      Try Again
+    </button>
+
+    <!-- Footer -->
+    <p class="footer-text">
+      Moshimoshi - Learn Japanese
+      <span class="jp-text">もしもし</span>
+    </p>
+  </div>
+
+  <script>
+    // Auto-retry when connection is restored
+    window.addEventListener('online', function() {
+      window.location.reload();
+    });
+  </script>
+</body>
 </html>

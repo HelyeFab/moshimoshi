@@ -152,22 +152,68 @@ function ArticleCard({
   )
 }
 
+// Helper to get available months from articles
+function getAvailableMonthsFromArticles(
+  articles: NewsArticle[]
+): { value: string; label: string }[] {
+  const months = [{ value: 'All', label: 'All' }]
+  const uniqueMonths = new Set<string>()
+
+  articles.forEach(article => {
+    const date = new Date(article.publishDate)
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+    const key = `${year}-${month.toString().padStart(2, '0')}`
+    uniqueMonths.add(key)
+  })
+
+  // Sort months in descending order (most recent first)
+  const sortedMonths = Array.from(uniqueMonths).sort((a, b) => b.localeCompare(a))
+
+  sortedMonths.forEach(key => {
+    const [year, month] = key.split('-').map(Number)
+    months.push({
+      value: key,
+      label: `${month}月`,
+    })
+  })
+
+  return months
+}
+
+// Helper to get days in a month
+function getDaysInMonth(yearMonth: string): number {
+  if (yearMonth === 'All') return 31
+  const [year, month] = yearMonth.split('-').map(Number)
+  return new Date(year, month, 0).getDate()
+}
+
 // Filter bar component
 function FilterBar({
-  selectedLevel,
-  onLevelChange,
+  selectedMonth,
+  selectedDay,
+  onMonthChange,
+  onDayChange,
   onRefresh,
   isLoading,
+  articles,
 }: {
-  selectedLevel: string
-  onLevelChange: (level: string) => void
+  selectedMonth: string
+  selectedDay: string
+  onMonthChange: (month: string) => void
+  onDayChange: (day: string) => void
   onRefresh: () => void
   isLoading: boolean
+  articles: NewsArticle[]
 }) {
   const { t } = useI18n()
   const [showFilters, setShowFilters] = useState(false)
 
-  const levels = ['All', 'N5', 'N4', 'N3', 'N2', 'N1']
+  const months = getAvailableMonthsFromArticles(articles)
+  const daysInMonth = getDaysInMonth(selectedMonth)
+  const days = ['All', ...Array.from({ length: daysInMonth }, (_, i) => (i + 1).toString())]
+
+  const hasFilters = selectedMonth !== 'All' || selectedDay !== 'All'
 
   return (
     <div className="bg-soft-white dark:bg-dark-850 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4 mb-4">
@@ -185,7 +231,7 @@ function FilterBar({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
           {t('news.filters.title')}
-          {selectedLevel !== 'All' && (
+          {hasFilters && (
             <span className="ml-1 px-2 py-0.5 bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 rounded-full text-xs">
               {t('news.filters.applied')}
             </span>
@@ -202,28 +248,55 @@ function FilterBar({
       </div>
 
       {showFilters && (
-        <div className="pt-3 border-t border-gray-200 dark:border-dark-700">
-          {/* Level filter */}
+        <div className="pt-3 border-t border-gray-200 dark:border-dark-700 space-y-4">
+          {/* Month filter */}
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-2 block">
-              {t('news.filters.level')}
+              {t('news.filters.month')}
             </label>
             <div className="flex flex-wrap gap-2">
-              {levels.map(level => (
+              {months.map(month => (
                 <button
-                  key={level}
-                  onClick={() => onLevelChange(level)}
+                  key={month.value}
+                  onClick={() => {
+                    onMonthChange(month.value)
+                    if (month.value === 'All') onDayChange('All')
+                  }}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                    selectedLevel === level
+                    selectedMonth === month.value
                       ? 'bg-primary-500 text-white'
                       : 'bg-soft-white dark:bg-dark-700 text-muted-foreground hover:bg-gray-100 dark:hover:bg-dark-600'
                   }`}
                 >
-                  {level}
+                  {month.label}
                 </button>
               ))}
             </div>
           </div>
+
+          {/* Day filter - only show when a month is selected */}
+          {selectedMonth !== 'All' && (
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-2 block">
+                {t('news.filters.day')}
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {days.map(day => (
+                  <button
+                    key={day}
+                    onClick={() => onDayChange(day)}
+                    className={`w-8 h-8 rounded-full text-xs font-medium transition-colors ${
+                      selectedDay === day
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-soft-white dark:bg-dark-700 text-muted-foreground hover:bg-gray-100 dark:hover:bg-dark-600'
+                    }`}
+                  >
+                    {day === 'All' ? '全' : day}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -247,7 +320,8 @@ export default function NewsPage() {
   const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedLevel, setSelectedLevel] = useState('All')
+  const [selectedMonth, setSelectedMonth] = useState('All')
+  const [selectedDay, setSelectedDay] = useState('All')
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(false)
 
@@ -259,7 +333,7 @@ export default function NewsPage() {
   // Filter articles when filters change
   useEffect(() => {
     filterArticles()
-  }, [articles, selectedLevel])
+  }, [articles, selectedMonth, selectedDay])
 
   // Handle redirect if no user after auth has loaded
   useEffect(() => {
@@ -306,8 +380,27 @@ export default function NewsPage() {
   const filterArticles = () => {
     let filtered = [...articles]
 
-    if (selectedLevel !== 'All') {
-      filtered = filtered.filter(a => a.difficulty === selectedLevel)
+    if (selectedMonth !== 'All') {
+      const [filterYear, filterMonth] = selectedMonth.split('-').map(Number)
+
+      filtered = filtered.filter(a => {
+        const articleDate = new Date(a.publishDate)
+        const articleYear = articleDate.getFullYear()
+        const articleMonth = articleDate.getMonth() + 1
+
+        // Check month match
+        if (articleYear !== filterYear || articleMonth !== filterMonth) {
+          return false
+        }
+
+        // Check day match if specified
+        if (selectedDay !== 'All') {
+          const articleDay = articleDate.getDate()
+          return articleDay === parseInt(selectedDay, 10)
+        }
+
+        return true
+      })
     }
 
     setFilteredArticles(filtered)
@@ -336,16 +429,90 @@ export default function NewsPage() {
       {/* Navigation is now global - rendered in root layout */}
 
       {/* LearningPageHeader */}
-      <LearningPageHeader title={t('news.title')} description={t('news.description')} />
+      <LearningPageHeader
+        title={t('news.title')}
+        description={t('news.description')}
+        mobileExtra={
+          <div className="space-y-3">
+            {/* Month filter pills */}
+            <div>
+              <label className="text-xs font-medium text-white/80 mb-2 block">
+                {t('news.filters.month')}
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {getAvailableMonthsFromArticles(articles).map(month => (
+                  <button
+                    key={month.value}
+                    onClick={() => {
+                      setSelectedMonth(month.value)
+                      if (month.value === 'All') setSelectedDay('All')
+                    }}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                      selectedMonth === month.value
+                        ? 'bg-white text-primary-600 shadow-sm'
+                        : 'bg-white/20 text-white hover:bg-white/30'
+                    }`}
+                  >
+                    {month.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Day filter - only show when month selected */}
+            {selectedMonth !== 'All' && (
+              <div>
+                <label className="text-xs font-medium text-white/80 mb-2 block">
+                  {t('news.filters.day')}
+                </label>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    'All',
+                    ...Array.from({ length: getDaysInMonth(selectedMonth) }, (_, i) =>
+                      (i + 1).toString()
+                    ),
+                  ].map(day => (
+                    <button
+                      key={day}
+                      onClick={() => setSelectedDay(day)}
+                      className={`w-8 h-8 rounded-full text-xs font-medium transition-colors ${
+                        selectedDay === day
+                          ? 'bg-white text-primary-600 shadow-sm'
+                          : 'bg-white/20 text-white hover:bg-white/30'
+                      }`}
+                    >
+                      {day === 'All' ? '全' : day}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Refresh button */}
+            <button
+              onClick={() => loadArticles(0)}
+              disabled={loading}
+              className="w-full px-4 py-2 bg-white/90 text-primary-600 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white transition-colors"
+            >
+              {loading ? t('news.loading') : t('news.refresh')}
+            </button>
+          </div>
+        }
+      />
 
       <div className="px-4 pb-20 max-w-7xl mx-auto">
-        {/* Filter Bar */}
-        <FilterBar
-          selectedLevel={selectedLevel}
-          onLevelChange={setSelectedLevel}
-          onRefresh={() => loadArticles(0)}
-          isLoading={loading}
-        />
+        {/* Filter Bar - hidden on mobile (filters shown in header instead) */}
+        <div className="hidden sm:block">
+          <FilterBar
+            selectedMonth={selectedMonth}
+            selectedDay={selectedDay}
+            onMonthChange={setSelectedMonth}
+            onDayChange={setSelectedDay}
+            onRefresh={() => loadArticles(0)}
+            isLoading={loading}
+            articles={articles}
+          />
+        </div>
 
         {/* Articles List */}
         <div className="space-y-3">

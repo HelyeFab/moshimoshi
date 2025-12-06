@@ -1,42 +1,44 @@
 /**
  * News Audio Generator - TTS utility for news article scraping
- * Generates audio using Kokoro TTS API and stores in Firebase Storage
+ * Generates audio using VOICEVOX TTS API (via Modal) and stores in Firebase Storage
  */
 
-import * as logger from 'firebase-functions/logger';
-import * as admin from 'firebase-admin';
-import fetch from 'node-fetch';
-import { defineSecret } from 'firebase-functions/params';
+import * as logger from 'firebase-functions/logger'
+import * as admin from 'firebase-admin'
+import fetch from 'node-fetch'
+import { defineSecret } from 'firebase-functions/params'
 
-// TTS API configuration
-const KOKORO_TTS_ENDPOINT = 'https://api.selfmind.dev/kokoro/v1/audio/speech';
-const EDGE_TTS_ENDPOINT = 'https://tts.selfmind.dev/speak';
-const KOKORO_API_KEY = defineSecret('KOKORO_API_KEY');
+// TTS API configuration - Now using Modal VOICEVOX
+const VOICEVOX_TTS_ENDPOINT =
+  'https://emmanuelfabiani23--voicevox-tts-serve.modal.run/v1/audio/speech'
+const EDGE_TTS_ENDPOINT = 'https://tts.selfmind.dev/speak'
+const MODAL_API_KEY = defineSecret('MODAL_API_KEY')
 
-// Kokoro voices (10-30x faster, higher quality)
-const DEFAULT_KOKORO_VOICE = 'jf_alpha'; // Female Japanese voice
-const DEFAULT_EDGE_VOICE = 'ja-JP-NanamiNeural'; // Fallback voice
+// VOICEVOX voices (high quality Japanese TTS)
+// Speaker IDs: 1=四国めたん, 3=ずんだもん, 11=玄野武宏(Nemo), 13=青山龍星
+const DEFAULT_VOICEVOX_VOICE = '11' // Nemo - natural female voice
+const DEFAULT_EDGE_VOICE = 'ja-JP-NanamiNeural' // Fallback voice
 
-const MAX_TEXT_LENGTH = 5000; // TTS limit
+const MAX_TEXT_LENGTH = 5000 // TTS limit
 
-export type AudioType = 'title' | 'summary' | 'content';
-export type TTSProvider = 'edge-tts' | 'kokoro';
+export type AudioType = 'title' | 'summary' | 'content'
+export type TTSProvider = 'edge-tts' | 'voicevox' | 'kokoro' // 'kokoro' kept for backward compat
 
 export interface AudioGenerationOptions {
-  voice?: string;
-  provider?: TTSProvider;
-  rate?: string; // e.g., "+0%", "+10%", "-10%"
-  volume?: string; // e.g., "+0%", "+10%"
-  pitch?: string; // e.g., "+0Hz", "+50Hz"
+  voice?: string
+  provider?: TTSProvider
+  rate?: string // e.g., "+0%", "+10%", "-10%"
+  volume?: string // e.g., "+0%", "+10%"
+  pitch?: string // e.g., "+0Hz", "+50Hz"
 }
 
 export interface AudioGenerationResult {
-  url: string;
-  provider: TTSProvider;
-  voice: string;
-  generatedAt: Date;
-  textLength: number;
-  audioType: AudioType;
+  url: string
+  provider: TTSProvider
+  voice: string
+  generatedAt: Date
+  textLength: number
+  audioType: AudioType
 }
 
 /**
@@ -58,20 +60,22 @@ export async function generateNewsAudio(
 ): Promise<AudioGenerationResult> {
   // Validate text length
   if (!text || text.trim().length === 0) {
-    throw new Error('Text cannot be empty');
+    throw new Error('Text cannot be empty')
   }
 
   if (text.length > MAX_TEXT_LENGTH) {
     logger.warn('Text exceeds max length, truncating', {
       originalLength: text.length,
       maxLength: MAX_TEXT_LENGTH,
-      articleId
-    });
-    text = text.substring(0, MAX_TEXT_LENGTH);
+      articleId,
+    })
+    text = text.substring(0, MAX_TEXT_LENGTH)
   }
 
-  const provider = options.provider || 'kokoro';
-  const voice = options.voice || (provider === 'kokoro' ? DEFAULT_KOKORO_VOICE : DEFAULT_EDGE_VOICE);
+  // Map 'kokoro' to 'voicevox' for backward compatibility
+  const provider = options.provider === 'kokoro' ? 'voicevox' : options.provider || 'voicevox'
+  const voice =
+    options.voice || (provider === 'voicevox' ? DEFAULT_VOICEVOX_VOICE : DEFAULT_EDGE_VOICE)
 
   logger.info('Generating audio', {
     articleId,
@@ -79,40 +83,38 @@ export async function generateNewsAudio(
     audioType,
     textLength: text.length,
     voice,
-    provider
-  });
+    provider,
+  })
 
   try {
     // Step 1: Generate audio with selected TTS provider
-    const audioBuffer = provider === 'kokoro'
-      ? await callKokoroTTS(text, voice)
-      : await callEdgeTTS(text, {
-          voice,
-          rate: options.rate || '+0%',
-          volume: options.volume || '+0%',
-          pitch: options.pitch || '+0Hz'
-        });
+    // Note: 'kokoro' is already mapped to 'voicevox' above for backward compatibility
+    const audioBuffer =
+      provider === 'voicevox'
+        ? await callVoicevoxTTS(text, voice)
+        : await callEdgeTTS(text, {
+            voice,
+            rate: options.rate || '+0%',
+            volume: options.volume || '+0%',
+            pitch: options.pitch || '+0Hz',
+          })
 
     // Step 2: Upload to Firebase Storage
-    const storagePath = `news-audio/${source}/${articleId}/${audioType}.mp3`;
-    const publicUrl = await uploadToFirebaseStorage(
-      audioBuffer,
-      storagePath,
-      {
-        articleId,
-        source,
-        provider,
-        voice,
-        textLength: text.length,
-        audioType
-      }
-    );
+    const storagePath = `news-audio/${source}/${articleId}/${audioType}.mp3`
+    const publicUrl = await uploadToFirebaseStorage(audioBuffer, storagePath, {
+      articleId,
+      source,
+      provider,
+      voice,
+      textLength: text.length,
+      audioType,
+    })
 
     logger.info('Audio generated successfully', {
       articleId,
       audioType,
-      url: publicUrl
-    });
+      url: publicUrl,
+    })
 
     return {
       url: publicUrl,
@@ -120,66 +122,63 @@ export async function generateNewsAudio(
       voice,
       generatedAt: new Date(),
       textLength: text.length,
-      audioType
-    };
-
+      audioType,
+    }
   } catch (error) {
     logger.error('Failed to generate audio', {
       articleId,
       audioType,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
-    throw error;
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
+    throw error
   }
 }
 
 /**
- * Call Kokoro TTS API to generate audio (10-30x faster than Edge-TTS)
+ * Call VOICEVOX TTS API (via Modal) to generate audio
+ * High-quality Japanese TTS with multiple voice options
  */
-async function callKokoroTTS(
-  text: string,
-  voice: string
-): Promise<Buffer> {
-  const startTime = Date.now();
+async function callVoicevoxTTS(text: string, voice: string): Promise<Buffer> {
+  const startTime = Date.now()
 
   try {
-    const response = await fetch(KOKORO_TTS_ENDPOINT, {
+    const response = await fetch(VOICEVOX_TTS_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Key': KOKORO_API_KEY.value().trim()
+        'X-API-Key': MODAL_API_KEY.value().trim(),
       },
       body: JSON.stringify({
-        model: 'kokoro',
+        model: 'voicevox',
         input: text,
         voice: voice,
-        response_format: 'mp3',
-        speed: 1.0
-      })
-    });
+        speed: 1.0,
+      }),
+    })
 
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Kokoro TTS API error (${response.status}): ${errorText}`);
+      const errorText = await response.text()
+      throw new Error(`VOICEVOX TTS API error (${response.status}): ${errorText}`)
     }
 
-    const audioBuffer = await response.buffer();
-    const duration = Date.now() - startTime;
+    const audioBuffer = await response.buffer()
+    const duration = Date.now() - startTime
 
-    logger.debug('Kokoro TTS API call successful', {
+    logger.debug('VOICEVOX TTS API call successful', {
       textLength: text.length,
       audioSize: audioBuffer.length,
-      durationMs: duration
-    });
+      durationMs: duration,
+    })
 
-    return audioBuffer;
-
+    return audioBuffer
   } catch (error) {
-    logger.error('Kokoro TTS API call failed', {
-      endpoint: KOKORO_TTS_ENDPOINT,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
-    throw new Error(`TTS generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    logger.error('VOICEVOX TTS API call failed', {
+      endpoint: VOICEVOX_TTS_ENDPOINT,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
+    throw new Error(
+      `TTS generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+    )
   }
 }
 
@@ -189,51 +188,52 @@ async function callKokoroTTS(
 async function callEdgeTTS(
   text: string,
   options: {
-    voice: string;
-    rate: string;
-    volume: string;
-    pitch: string;
+    voice: string
+    rate: string
+    volume: string
+    pitch: string
   }
 ): Promise<Buffer> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const response = await fetch(EDGE_TTS_ENDPOINT, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         text,
         voice: options.voice,
         rate: options.rate,
         volume: options.volume,
-        pitch: options.pitch
-      })
-    });
+        pitch: options.pitch,
+      }),
+    })
 
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Edge-TTS API error (${response.status}): ${errorText}`);
+      const errorText = await response.text()
+      throw new Error(`Edge-TTS API error (${response.status}): ${errorText}`)
     }
 
-    const audioBuffer = await response.buffer();
-    const duration = Date.now() - startTime;
+    const audioBuffer = await response.buffer()
+    const duration = Date.now() - startTime
 
     logger.debug('Edge-TTS API call successful', {
       textLength: text.length,
       audioSize: audioBuffer.length,
-      durationMs: duration
-    });
+      durationMs: duration,
+    })
 
-    return audioBuffer;
-
+    return audioBuffer
   } catch (error) {
     logger.error('Edge-TTS API call failed', {
       endpoint: EDGE_TTS_ENDPOINT,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
-    throw new Error(`TTS generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
+    throw new Error(
+      `TTS generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+    )
   }
 }
 
@@ -244,17 +244,17 @@ async function uploadToFirebaseStorage(
   audioBuffer: Buffer,
   storagePath: string,
   metadata: {
-    articleId: string;
-    source: string;
-    provider: TTSProvider;
-    voice: string;
-    textLength: number;
-    audioType: AudioType;
+    articleId: string
+    source: string
+    provider: TTSProvider
+    voice: string
+    textLength: number
+    audioType: AudioType
   }
 ): Promise<string> {
   try {
-    const bucket = admin.storage().bucket();
-    const file = bucket.file(storagePath);
+    const bucket = admin.storage().bucket()
+    const file = bucket.file(storagePath)
 
     // Upload file with metadata
     await file.save(audioBuffer, {
@@ -268,31 +268,32 @@ async function uploadToFirebaseStorage(
           voice: metadata.voice,
           textLength: metadata.textLength.toString(),
           audioType: metadata.audioType,
-          generatedAt: new Date().toISOString()
-        }
-      }
-    });
+          generatedAt: new Date().toISOString(),
+        },
+      },
+    })
 
     // Make file publicly accessible
-    await file.makePublic();
+    await file.makePublic()
 
     // Get public URL
-    const publicUrl = `https://storage.googleapis.com/${bucket.name}/${storagePath}`;
+    const publicUrl = `https://storage.googleapis.com/${bucket.name}/${storagePath}`
 
     logger.debug('File uploaded to Firebase Storage', {
       path: storagePath,
       size: audioBuffer.length,
-      url: publicUrl
-    });
+      url: publicUrl,
+    })
 
-    return publicUrl;
-
+    return publicUrl
   } catch (error) {
     logger.error('Firebase Storage upload failed', {
       path: storagePath,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
-    throw new Error(`Storage upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
+    throw new Error(
+      `Storage upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+    )
   }
 }
 
@@ -306,27 +307,26 @@ export async function checkExistingAudio(
   audioType: AudioType
 ): Promise<string | null> {
   try {
-    const bucket = admin.storage().bucket();
-    const storagePath = `news-audio/${source}/${articleId}/${audioType}.mp3`;
-    const file = bucket.file(storagePath);
+    const bucket = admin.storage().bucket()
+    const storagePath = `news-audio/${source}/${articleId}/${audioType}.mp3`
+    const file = bucket.file(storagePath)
 
-    const [exists] = await file.exists();
+    const [exists] = await file.exists()
 
     if (exists) {
-      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${storagePath}`;
-      logger.debug('Existing audio found', { articleId, audioType, url: publicUrl });
-      return publicUrl;
+      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${storagePath}`
+      logger.debug('Existing audio found', { articleId, audioType, url: publicUrl })
+      return publicUrl
     }
 
-    return null;
-
+    return null
   } catch (error) {
     logger.warn('Error checking existing audio', {
       articleId,
       audioType,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
-    return null;
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
+    return null
   }
 }
 
@@ -335,42 +335,57 @@ export async function checkExistingAudio(
  * Continues even if one generation fails
  */
 export interface BatchAudioResult {
-  titleAudio?: AudioGenerationResult;
-  summaryAudio?: AudioGenerationResult;
-  contentAudio?: AudioGenerationResult;
-  errors: string[];
+  titleAudio?: AudioGenerationResult
+  summaryAudio?: AudioGenerationResult
+  contentAudio?: AudioGenerationResult
+  errors: string[]
 }
 
 export async function generateBatchAudio(
   article: {
-    id: string;
-    title: string;
-    summary: string;
-    content: string;
-    source: string;
+    id: string
+    title: string
+    summary: string
+    content: string
+    source: string
+    nhkAudioUrl?: string // NHK's official audio - skip TTS if available
   },
   options: AudioGenerationOptions = {}
 ): Promise<BatchAudioResult> {
   const result: BatchAudioResult = {
-    errors: []
-  };
+    errors: [],
+  }
 
-  const provider = options.provider || 'kokoro';
-  const voice = options.voice || (provider === 'kokoro' ? DEFAULT_KOKORO_VOICE : DEFAULT_EDGE_VOICE);
+  // Check if NHK original audio is available - skip content TTS if so
+  const hasNhkAudio = !!article.nhkAudioUrl
+  if (hasNhkAudio) {
+    logger.info(
+      '[AudioGenerator] NHK original audio available - will skip content TTS generation',
+      {
+        articleId: article.id,
+        nhkAudioUrl: article.nhkAudioUrl,
+      }
+    )
+  }
+
+  // Map 'kokoro' to 'voicevox' for backward compatibility
+  const provider = options.provider === 'kokoro' ? 'voicevox' : options.provider || 'voicevox'
+  const voice =
+    options.voice || (provider === 'voicevox' ? DEFAULT_VOICEVOX_VOICE : DEFAULT_EDGE_VOICE)
 
   // Generate title audio
   try {
-    const existingTitleUrl = await checkExistingAudio(article.id, article.source, 'title');
+    const existingTitleUrl = await checkExistingAudio(article.id, article.source, 'title')
     if (existingTitleUrl) {
-      logger.info('Using existing title audio', { articleId: article.id });
+      logger.info('Using existing title audio', { articleId: article.id })
       result.titleAudio = {
         url: existingTitleUrl,
         provider,
         voice,
         generatedAt: new Date(),
         textLength: article.title.length,
-        audioType: 'title'
-      };
+        audioType: 'title',
+      }
     } else {
       result.titleAudio = await generateNewsAudio(
         article.title,
@@ -378,27 +393,27 @@ export async function generateBatchAudio(
         article.source,
         'title',
         options
-      );
+      )
     }
   } catch (error) {
-    const errorMsg = `Title audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
-    result.errors.push(errorMsg);
-    logger.error(errorMsg, { articleId: article.id });
+    const errorMsg = `Title audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+    result.errors.push(errorMsg)
+    logger.error(errorMsg, { articleId: article.id })
   }
 
   // Generate summary audio
   try {
-    const existingSummaryUrl = await checkExistingAudio(article.id, article.source, 'summary');
+    const existingSummaryUrl = await checkExistingAudio(article.id, article.source, 'summary')
     if (existingSummaryUrl) {
-      logger.info('Using existing summary audio', { articleId: article.id });
+      logger.info('Using existing summary audio', { articleId: article.id })
       result.summaryAudio = {
         url: existingSummaryUrl,
         provider,
         voice,
         generatedAt: new Date(),
         textLength: article.summary.length,
-        audioType: 'summary'
-      };
+        audioType: 'summary',
+      }
     } else {
       result.summaryAudio = await generateNewsAudio(
         article.summary,
@@ -406,92 +421,102 @@ export async function generateBatchAudio(
         article.source,
         'summary',
         options
-      );
+      )
     }
   } catch (error) {
-    const errorMsg = `Summary audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
-    result.errors.push(errorMsg);
-    logger.error(errorMsg, { articleId: article.id });
+    const errorMsg = `Summary audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+    result.errors.push(errorMsg)
+    logger.error(errorMsg, { articleId: article.id })
   }
 
-  // Generate content audio (full article)
-  try {
-    const existingContentUrl = await checkExistingAudio(article.id, article.source, 'content');
-    if (existingContentUrl) {
-      logger.info('Using existing content audio', { articleId: article.id });
-      result.contentAudio = {
-        url: existingContentUrl,
-        provider,
-        voice,
-        generatedAt: new Date(),
-        textLength: article.content.length,
-        audioType: 'content'
-      };
-    } else {
-      result.contentAudio = await generateNewsAudio(
-        article.content,
-        article.id,
-        article.source,
-        'content',
-        options
-      );
+  // Generate content audio (full article) - SKIP if NHK original audio is available
+  if (hasNhkAudio) {
+    // NHK audio available - no need to generate TTS for full content
+    logger.info('[AudioGenerator] Skipping content TTS - using NHK original audio', {
+      articleId: article.id,
+      nhkAudioUrl: article.nhkAudioUrl,
+    })
+    // Don't set contentAudio - the article reader will use nhkAudioUrl instead
+  } else {
+    try {
+      const existingContentUrl = await checkExistingAudio(article.id, article.source, 'content')
+      if (existingContentUrl) {
+        logger.info('Using existing content audio', { articleId: article.id })
+        result.contentAudio = {
+          url: existingContentUrl,
+          provider,
+          voice,
+          generatedAt: new Date(),
+          textLength: article.content.length,
+          audioType: 'content',
+        }
+      } else {
+        result.contentAudio = await generateNewsAudio(
+          article.content,
+          article.id,
+          article.source,
+          'content',
+          options
+        )
+      }
+    } catch (error) {
+      const errorMsg = `Content audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      result.errors.push(errorMsg)
+      logger.error(errorMsg, { articleId: article.id })
     }
-  } catch (error) {
-    const errorMsg = `Content audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
-    result.errors.push(errorMsg);
-    logger.error(errorMsg, { articleId: article.id });
   }
 
   // Save audio URLs to Firestore news_articles document
   // This enables smart skip detection in future scrapes
   try {
-    const db = admin.firestore();
+    const db = admin.firestore()
     const updateData: Record<string, any> = {
       audioGeneratedAt: admin.firestore.FieldValue.serverTimestamp(),
       audioProvider: provider,
       audioVoice: voice,
-    };
+    }
 
     if (result.titleAudio?.url) {
-      updateData.generatedTitleAudioUrl = result.titleAudio.url;
+      updateData.generatedTitleAudioUrl = result.titleAudio.url
     }
     if (result.summaryAudio?.url) {
-      updateData.generatedSummaryAudioUrl = result.summaryAudio.url;
+      updateData.generatedSummaryAudioUrl = result.summaryAudio.url
     }
     if (result.contentAudio?.url) {
-      updateData.generatedContentAudioUrl = result.contentAudio.url;
+      updateData.generatedContentAudioUrl = result.contentAudio.url
     }
 
     // Determine audio status
-    const hasAllAudio = result.titleAudio?.url && result.summaryAudio?.url && result.contentAudio?.url;
-    const hasAnyAudio = result.titleAudio?.url || result.summaryAudio?.url || result.contentAudio?.url;
+    const hasAllAudio =
+      result.titleAudio?.url && result.summaryAudio?.url && result.contentAudio?.url
+    const hasAnyAudio =
+      result.titleAudio?.url || result.summaryAudio?.url || result.contentAudio?.url
 
     if (hasAllAudio) {
-      updateData.audioStatus = 'generated';
+      updateData.audioStatus = 'generated'
     } else if (hasAnyAudio) {
-      updateData.audioStatus = 'partial';
+      updateData.audioStatus = 'partial'
     } else if (result.errors.length > 0) {
-      updateData.audioStatus = 'failed';
-      updateData.audioError = result.errors.join('; ');
+      updateData.audioStatus = 'failed'
+      updateData.audioError = result.errors.join('; ')
     }
 
-    await db.collection('news_articles').doc(article.id).update(updateData);
+    await db.collection('news_articles').doc(article.id).update(updateData)
 
     logger.info('[AudioGenerator] Audio URLs saved to Firestore', {
       articleId: article.id,
       hasTitle: !!result.titleAudio?.url,
       hasSummary: !!result.summaryAudio?.url,
       hasContent: !!result.contentAudio?.url,
-      status: updateData.audioStatus
-    });
-
+      status: updateData.audioStatus,
+    })
   } catch (saveError) {
     // Don't fail the whole operation if Firestore save fails
     logger.error('[AudioGenerator] Failed to save audio URLs to Firestore', {
       articleId: article.id,
-      error: saveError instanceof Error ? saveError.message : 'Unknown error'
-    });
+      error: saveError instanceof Error ? saveError.message : 'Unknown error',
+    })
   }
 
-  return result;
+  return result
 }

@@ -1591,6 +1591,14 @@ export const strings = {
     publishedOn: '公開日',
     viewOriginal: '元の記事を見る',
     page: 'ページ',
+    filters: {
+      title: 'フィルター',
+      applied: '適用中',
+      level: 'レベル',
+      source: '出典',
+      month: '月',
+      day: '日',
+    },
     levels: {
       all: '全レベル',
       n5: 'N5 (初級)',
@@ -1623,6 +1631,7 @@ export const strings = {
       highlightContent: '内容語',
       highlightGrammarOnly: '文法のみ',
       shadowingMode: 'シャドーイングモード',
+      playbackSpeed: '再生速度',
       repeatCount: '繰り返し回数',
       translation: '翻訳',
       viewOriginal: '原文を見る',
@@ -2136,10 +2145,14 @@ export const strings = {
       searchResults: '検索結果',
       resultsFound: '{{count}}件見つかりました',
       noResultsFound: '「{{query}}」に一致する文字が見つかりません',
+      allCharacters: 'すべての文字',
       charactersLabel: '文字',
       basicLabel: '基本',
+      basicDescription: '基本文字（46字）',
       dakutenLabel: '濁音',
+      dakutenDescription: '濁音・半濁音',
       digraphsLabel: '拗音',
+      digraphsDescription: '組み合わせ文字',
     },
 
     study: {

@@ -13,33 +13,38 @@ interface KokoroResponse {
   duration?: number
 }
 
+/**
+ * VOICEVOX TTS Provider (via Modal)
+ * Previously Kokoro - now uses VOICEVOX for higher quality Japanese TTS
+ * Kept as "KokoroProvider" for backward compatibility
+ */
 export class KokoroProvider {
   private apiKey: string
   private baseUrl: string
 
   constructor() {
-    this.apiKey = process.env.SHELDON_API_KEY || ''
-    this.baseUrl = 'https://api.selfmind.dev/kokoro/v1/audio'
+    this.apiKey = process.env.MODAL_API_KEY || ''
+    this.baseUrl = 'https://emmanuelfabiani23--voicevox-tts-serve.modal.run/v1/audio'
 
     if (!this.apiKey) {
-      console.warn('SHELDON_API_KEY not found - Kokoro TTS will fail')
+      console.warn('MODAL_API_KEY not found - VOICEVOX TTS will fail')
     }
   }
 
   async synthesize(text: string, options: KokoroTTSOptions): Promise<KokoroResponse> {
     if (!this.apiKey) {
-      throw new Error('SHELDON_API_KEY is required for Kokoro TTS')
+      throw new Error('MODAL_API_KEY is required for VOICEVOX TTS')
     }
 
     if (!text || text.trim().length === 0) {
       throw new Error('Text cannot be empty')
     }
 
-    // Kokoro API expects specific voice IDs
-    const voice = this.mapVoiceToKokoro(options.voice)
+    // VOICEVOX uses numeric speaker IDs
+    const voice = this.mapVoiceToVoicevox(options.voice)
     const speed = Math.max(0.5, Math.min(2.0, options.speed || 1.0))
 
-    console.log('[Kokoro TTS] Generating audio', {
+    console.log('[VOICEVOX TTS] Generating audio', {
       textLength: text.length,
       voice,
       speed,
@@ -55,40 +60,39 @@ export class KokoroProvider {
           'User-Agent': 'Moshimoshi/TTS-Service',
         },
         body: JSON.stringify({
-          model: 'kokoro',
+          model: 'voicevox',
           input: text,
           voice: voice,
-          response_format: 'mp3',
           speed: speed,
         }),
       })
 
       if (!response.ok) {
         const errorText = await response.text()
-        console.error('[Kokoro TTS] API Error:', {
+        console.error('[VOICEVOX TTS] API Error:', {
           status: response.status,
           statusText: response.statusText,
           error: errorText,
         })
 
         if (response.status === 401) {
-          throw new Error('Kokoro API authentication failed - check SHELDON_API_KEY')
+          throw new Error('VOICEVOX API authentication failed - check MODAL_API_KEY')
         } else if (response.status === 429) {
-          throw new Error('Kokoro API rate limit exceeded')
+          throw new Error('VOICEVOX API rate limit exceeded')
         } else if (response.status >= 500) {
-          throw new Error(`Kokoro API server error (${response.status}): ${errorText}`)
+          throw new Error(`VOICEVOX API server error (${response.status}): ${errorText}`)
         } else {
-          throw new Error(`Kokoro API error (${response.status}): ${errorText}`)
+          throw new Error(`VOICEVOX API error (${response.status}): ${errorText}`)
         }
       }
 
       const audioBuffer = await response.arrayBuffer()
 
       if (audioBuffer.byteLength === 0) {
-        throw new Error('Kokoro API returned empty audio data')
+        throw new Error('VOICEVOX API returned empty audio data')
       }
 
-      console.log('[Kokoro TTS] Audio generated successfully', {
+      console.log('[VOICEVOX TTS] Audio generated successfully', {
         size: (audioBuffer.byteLength / 1024).toFixed(2) + ' KB',
         voice,
         speed,
@@ -99,41 +103,53 @@ export class KokoroProvider {
         duration: this.estimateDuration(text, speed),
       }
     } catch (error: any) {
-      console.error('[Kokoro TTS] Request failed:', error)
+      console.error('[VOICEVOX TTS] Request failed:', error)
 
       if (error.name === 'AbortError' || error.message?.includes('timeout')) {
-        throw new Error('Kokoro API request timeout - Sheldon server may be overloaded')
+        throw new Error('VOICEVOX API request timeout - Modal server may be cold starting')
       }
 
       // Re-throw our custom errors as-is
-      if (error.message?.startsWith('Kokoro API')) {
+      if (error.message?.startsWith('VOICEVOX API')) {
         throw error
       }
 
       // Network errors
-      throw new Error(`Kokoro TTS network error: ${error.message}`)
+      throw new Error(`VOICEVOX TTS network error: ${error.message}`)
     }
   }
 
   /**
-   * Map generic voice names to Kokoro-specific voice IDs
+   * Map generic voice names to VOICEVOX speaker IDs
+   * VOICEVOX speakers: https://voicevox.hiroshiba.jp/
+   * Popular speakers: 1=四国めたん, 3=ずんだもん, 11=玄野武宏(Nemo), 13=青山龍星
    */
-  private mapVoiceToKokoro(voice: string): string {
+  private mapVoiceToVoicevox(voice: string): string {
     const voiceMapping: Record<string, string> = {
-      'ja-JP-Standard-A': 'jf_alpha',
-      'ja-JP-Standard-B': 'jf_alpha',
-      'ja-JP-Standard-C': 'jf_alpha',
-      'ja-JP-Standard-D': 'jf_alpha',
-      'ja-JP-Wavenet-A': 'jf_alpha',
-      'ja-JP-Wavenet-B': 'jf_alpha',
-      'ja-JP-Wavenet-C': 'jf_alpha',
-      'ja-JP-Wavenet-D': 'jf_alpha',
-      'japanese-female': 'jf_alpha',
-      'japanese-male': 'jf_alpha', // Only female voice available for now
-      default: 'jf_alpha',
+      // Map old Kokoro/generic voice names to VOICEVOX speaker IDs
+      jf_alpha: '11', // Map old Kokoro voice to Nemo
+      'ja-JP-Standard-A': '11', // Female -> Nemo
+      'ja-JP-Standard-B': '13', // Male -> 青山龍星
+      'ja-JP-Standard-C': '11',
+      'ja-JP-Standard-D': '13',
+      'ja-JP-Wavenet-A': '11',
+      'ja-JP-Wavenet-B': '13',
+      'japanese-female': '11', // Nemo - natural female
+      'japanese-male': '13', // 青山龍星 - natural male
+      default: '11',
+      // Direct VOICEVOX speaker IDs
+      '1': '1', // 四国めたん
+      '3': '3', // ずんだもん
+      '11': '11', // 玄野武宏 (Nemo)
+      '13': '13', // 青山龍星
     }
 
-    return voiceMapping[voice] || 'jf_alpha'
+    // If it's already a numeric ID, return as-is
+    if (/^\d+$/.test(voice)) {
+      return voice
+    }
+
+    return voiceMapping[voice] || '11' // Default to Nemo
   }
 
   /**
@@ -147,30 +163,33 @@ export class KokoroProvider {
   }
 
   /**
-   * Check if the Kokoro API is available
+   * Check if the VOICEVOX API is available
    */
   async healthCheck(): Promise<boolean> {
     try {
-      const response = await fetch(`${this.baseUrl}/health`, {
-        method: 'GET',
-        headers: {
-          'X-API-Key': this.apiKey,
-          'User-Agent': 'Moshimoshi/Health-Check',
-        },
-      })
+      // VOICEVOX health endpoint doesn't require auth
+      const response = await fetch(
+        `https://emmanuelfabiani23--voicevox-tts-serve.modal.run/health`,
+        {
+          method: 'GET',
+          headers: {
+            'User-Agent': 'Moshimoshi/Health-Check',
+          },
+        }
+      )
 
       return response.ok
     } catch (error) {
-      console.warn('[Kokoro TTS] Health check failed:', error)
+      console.warn('[VOICEVOX TTS] Health check failed:', error)
       return false
     }
   }
 
   /**
-   * Get supported voices
+   * Get supported voices (VOICEVOX speaker IDs)
    */
   getSupportedVoices(): string[] {
-    return ['jf_alpha'] // Currently only one voice available
+    return ['1', '3', '11', '13'] // Popular VOICEVOX speakers
   }
 
   /**
@@ -178,13 +197,13 @@ export class KokoroProvider {
    */
   getProviderInfo() {
     return {
-      name: 'Kokoro TTS',
-      provider: 'kokoro',
+      name: 'VOICEVOX TTS (Modal)',
+      provider: 'kokoro', // Keep 'kokoro' for backward compatibility
       baseUrl: this.baseUrl,
       hasApiKey: !!this.apiKey,
       supportedLanguages: ['ja-JP'],
-      supportedFormats: ['mp3'],
-      maxTextLength: 5000, // Kokoro limit
+      supportedFormats: ['wav', 'mp3'],
+      maxTextLength: 5000,
     }
   }
 }

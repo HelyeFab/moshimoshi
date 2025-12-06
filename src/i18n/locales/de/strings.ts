@@ -1301,6 +1301,24 @@ export const strings = {
       special: 'Spezial',
     },
 
+    browse: {
+      browseAll: 'Alle {{count}} Zeichen nach Typ durchsuchen',
+      selectToStudy: 'Zeichen zum Lernen auswählen',
+      selectToReview: 'Zeichen zur Wiederholung auswählen',
+      searchPlaceholder: 'Kana nach Romaji, Zeichen suchen...',
+      searchResults: 'Suchergebnisse',
+      resultsFound: '{{count}} gefunden',
+      noResultsFound: 'Keine Zeichen gefunden, die "{{query}}" entsprechen',
+      allCharacters: 'Alle Zeichen',
+      charactersLabel: 'Zeichen',
+      basicLabel: 'Basis',
+      basicDescription: 'Grundzeichen (46)',
+      dakutenLabel: 'Dakuten',
+      dakutenDescription: 'Stimmhafte Konsonanten',
+      digraphsLabel: 'Digraphen',
+      digraphsDescription: 'Kombinierte Zeichen',
+    },
+
     study: {
       studyMode: 'Lernmodus',
       flipCard: 'Zum Umdrehen tippen',
@@ -1380,6 +1398,14 @@ export const strings = {
   // News Feature
   news: {
     page: 'Seite',
+    filters: {
+      title: 'Filter',
+      applied: 'Angewendet',
+      level: 'Stufe',
+      source: 'Quelle',
+      month: 'Monat',
+      day: 'Tag',
+    },
     reader: {
       settings: 'Leseeinstellungen',
       summary: 'Zusammenfassung',
@@ -1397,6 +1423,7 @@ export const strings = {
       highlightContent: 'Inhaltswörter',
       highlightGrammarOnly: 'Nur Grammatik',
       shadowingMode: 'Shadowing-Modus',
+      playbackSpeed: 'Wiedergabegeschwindigkeit',
       repeatCount: 'Wiederholungsanzahl',
       translation: 'Übersetzung',
       viewOriginal: 'Original ansehen',

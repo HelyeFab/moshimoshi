@@ -9,24 +9,21 @@ interface ProgressBarProps {
   streak: number
 }
 
-export default function ProgressBar({
-  current,
-  total,
-  correct,
-  streak
-}: ProgressBarProps) {
+export default function ProgressBar({ current, total, correct, streak }: ProgressBarProps) {
   const progress = (current / total) * 100
   const accuracy = current > 0 ? (correct / current) * 100 : 0
-  
+
   return (
-    <div className="mt-4 space-y-2">
+    <div className="mt-2 sm:mt-4 space-y-1 sm:space-y-2">
       {/* Main progress bar */}
       <div className="relative">
-        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-          <span>{current} / {total}</span>
+        <div className="flex justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">
+          <span>
+            {current} / {total}
+          </span>
           <span>{Math.round(progress)}%</span>
         </div>
-        <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        <div className="h-1.5 sm:h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-primary to-primary-dark rounded-full"
             initial={{ width: 0 }}
@@ -35,37 +32,36 @@ export default function ProgressBar({
           />
         </div>
       </div>
-      
-      {/* Stats */}
-      <div className="flex items-center gap-4 text-sm">
+
+      {/* Stats - simplified on mobile */}
+      <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm">
         {/* Accuracy */}
         <div className="flex items-center gap-1">
-          <span className="text-gray-500">Accuracy:</span>
-          <span className={`font-semibold ${
-            accuracy >= 80 ? 'text-green-600' : 
-            accuracy >= 60 ? 'text-yellow-600' : 
-            'text-red-600'
-          }`}>
+          <span className="text-gray-500 hidden sm:inline">Accuracy:</span>
+          <span
+            className={`font-semibold ${
+              accuracy >= 80
+                ? 'text-green-600'
+                : accuracy >= 60
+                  ? 'text-yellow-600'
+                  : 'text-red-600'
+            }`}
+          >
             {Math.round(accuracy)}%
           </span>
         </div>
-        
+
         {/* Streak */}
         {streak > 0 && (
           <div className="flex items-center gap-1">
-            <span className="text-gray-500">Streak:</span>
-            <span className="font-semibold text-orange-600">
-              {streak} 🔥
-            </span>
+            <span className="font-semibold text-orange-600">{streak} 🔥</span>
           </div>
         )}
-        
+
         {/* Correct count */}
         <div className="flex items-center gap-1">
-          <span className="text-gray-500">Correct:</span>
-          <span className="font-semibold text-green-600">
-            {correct}
-          </span>
+          <span className="text-gray-500 hidden sm:inline">Correct:</span>
+          <span className="font-semibold text-green-600">✓ {correct}</span>
         </div>
       </div>
     </div>

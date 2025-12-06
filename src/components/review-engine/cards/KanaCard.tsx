@@ -11,33 +11,28 @@ interface KanaCardProps {
   onAudioPlay?: () => void
 }
 
-export default function KanaCard({
-  content,
-  mode,
-  showAnswer,
-  onAudioPlay
-}: KanaCardProps) {
+export default function KanaCard({ content, mode, showAnswer, onAudioPlay }: KanaCardProps) {
   const metadata = content.metadata as KanaMetadata | undefined
-  
+
   const renderContent = () => {
     switch (mode) {
       case 'recognition':
         return (
           <>
-            <div className="text-8xl font-japanese mb-8 text-center">
+            <div className="text-5xl sm:text-7xl font-japanese mb-2 sm:mb-4 text-center">
               {content.primaryDisplay}
             </div>
             <AnimatePresence>
               {showAnswer && (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
+                  exit={{ opacity: 0, y: -10 }}
                   className="text-center"
                 >
-                  <div className="text-3xl mb-2">{content.primaryAnswer}</div>
+                  <div className="text-xl sm:text-3xl mb-1 sm:mb-2">{content.primaryAnswer}</div>
                   {metadata?.script && (
-                    <div className="text-sm text-gray-500 capitalize">
+                    <div className="text-xs sm:text-sm text-gray-500 capitalize">
                       {metadata.script}
                     </div>
                   )}
@@ -46,78 +41,82 @@ export default function KanaCard({
             </AnimatePresence>
           </>
         )
-        
+
       case 'recall':
         return (
           <>
-            <div className="text-4xl mb-8 text-center">
+            <div className="text-xl sm:text-4xl mb-2 sm:mb-8 text-center">
               Write the {metadata?.script || 'kana'} for:
             </div>
-            <div className="text-6xl font-bold mb-8 text-center">
+            <div className="text-4xl sm:text-6xl font-bold mb-2 sm:mb-8 text-center">
               {content.secondaryDisplay || content.primaryAnswer}
             </div>
             <AnimatePresence>
               {showAnswer && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
                   className="text-center"
                 >
-                  <div className="text-8xl font-japanese">
-                    {content.primaryDisplay}
-                  </div>
+                  <div className="text-5xl sm:text-8xl font-japanese">{content.primaryDisplay}</div>
                 </motion.div>
               )}
             </AnimatePresence>
           </>
         )
-        
+
       case 'listening':
         return (
           <>
             <div className="text-center">
               <button
                 onClick={onAudioPlay}
-                className="mb-8 p-8 bg-primary/10 rounded-full hover:bg-primary/20 transition-colors"
+                className="mb-3 sm:mb-8 p-4 sm:p-8 bg-primary/10 rounded-full hover:bg-primary/20 transition-colors"
               >
-                <span className="text-6xl">🔊</span>
+                <span className="text-4xl sm:text-6xl">🔊</span>
               </button>
-              <div className="text-2xl mb-4">Listen and identify the kana</div>
+              <div className="text-base sm:text-2xl mb-2 sm:mb-4">Listen and identify the kana</div>
             </div>
             <AnimatePresence>
               {showAnswer && (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
+                  exit={{ opacity: 0, y: -10 }}
                   className="text-center"
                 >
-                  <div className="text-8xl font-japanese mb-2">
+                  <div className="text-5xl sm:text-8xl font-japanese mb-1 sm:mb-2">
                     {content.primaryDisplay}
                   </div>
-                  <div className="text-3xl">{content.primaryAnswer}</div>
+                  <div className="text-xl sm:text-3xl">{content.primaryAnswer}</div>
                 </motion.div>
               )}
             </AnimatePresence>
           </>
         )
-        
+
       default:
         return null
     }
   }
-  
+
   return (
     <div className="flex flex-col items-center justify-center">
       {renderContent()}
-      
-      {/* Additional info */}
+
+      {/* Additional info - hidden on mobile to save space */}
       {metadata && (
-        <div className="mt-8 flex gap-4 text-sm text-gray-500">
-          {metadata.dakuten && <span className="px-2 py-1 bg-gray-100 rounded">Dakuten</span>}
-          {metadata.handakuten && <span className="px-2 py-1 bg-gray-100 rounded">Handakuten</span>}
-          {metadata.combination && <span className="px-2 py-1 bg-gray-100 rounded">Combination</span>}
+        <div className="hidden sm:flex mt-4 sm:mt-8 gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
+          {metadata.dakuten && (
+            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">Dakuten</span>
+          )}
+          {metadata.handakuten && (
+            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">Handakuten</span>
+          )}
+          {metadata.combination && (
+            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">Combination</span>
+          )}
         </div>
       )}
     </div>

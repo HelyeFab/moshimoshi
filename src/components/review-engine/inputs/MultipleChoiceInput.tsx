@@ -6,14 +6,14 @@ import { ReviewMode } from '@/lib/review-engine/core/types'
 import { motion } from 'framer-motion'
 
 interface OptionItem {
-  display: string  // What to show to the user
-  value: string    // What to submit as the answer (primaryAnswer)
+  display: string // What to show to the user
+  value: string // What to submit as the answer (primaryAnswer)
 }
 
 interface MultipleChoiceInputProps {
   content: ReviewableContent
-  contentPool?: ReviewableContent[]  // Pool of all available content for generating options
-  mode?: ReviewMode  // Review mode to determine display format
+  contentPool?: ReviewableContent[] // Pool of all available content for generating options
+  mode?: ReviewMode // Review mode to determine display format
   onAnswer: (answer: string, confidence?: number) => void
   disabled: boolean
   showAnswer: boolean
@@ -25,7 +25,7 @@ export default function MultipleChoiceInput({
   mode = 'recognition',
   onAnswer,
   disabled,
-  showAnswer
+  showAnswer,
 }: MultipleChoiceInputProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
 
@@ -92,7 +92,7 @@ export default function MultipleChoiceInput({
 
         wrongOptions = filteredOptions.map(item => ({
           display: item.primaryAnswer,
-          value: item.primaryAnswer
+          value: item.primaryAnswer,
         }))
       }
     }
@@ -102,10 +102,46 @@ export default function MultipleChoiceInput({
       // For kanji, use common kanji characters as distractors
       if (content.contentType === 'kanji') {
         const genericKanjiDistractors = [
-          '人', '水', '火', '土', '山', '川', '木', '日', '月', '金',
-          '家', '学', '本', '手', '目', '口', '車', '道', '大', '小',
-          '空', '雨', '風', '石', '花', '草', '鳥', '魚', '中', '上',
-          '下', '左', '右', '前', '後', '内', '外', '間', '時', '分'
+          '人',
+          '水',
+          '火',
+          '土',
+          '山',
+          '川',
+          '木',
+          '日',
+          '月',
+          '金',
+          '家',
+          '学',
+          '本',
+          '手',
+          '目',
+          '口',
+          '車',
+          '道',
+          '大',
+          '小',
+          '空',
+          '雨',
+          '風',
+          '石',
+          '花',
+          '草',
+          '鳥',
+          '魚',
+          '中',
+          '上',
+          '下',
+          '左',
+          '右',
+          '前',
+          '後',
+          '内',
+          '外',
+          '間',
+          '時',
+          '分',
         ].filter(d => !validAnswers.has(d))
 
         while (wrongOptions.length < 3 && genericKanjiDistractors.length > 0) {
@@ -117,34 +153,57 @@ export default function MultipleChoiceInput({
         if (showKanaDisplay) {
           // For kana in LISTENING mode, use hiragana characters as distractors
           const genericKanaDistractors = [
-            { display: 'あ', value: 'a' }, { display: 'い', value: 'i' },
-            { display: 'う', value: 'u' }, { display: 'え', value: 'e' },
-            { display: 'お', value: 'o' }, { display: 'か', value: 'ka' },
-            { display: 'き', value: 'ki' }, { display: 'く', value: 'ku' },
-            { display: 'け', value: 'ke' }, { display: 'こ', value: 'ko' },
-            { display: 'さ', value: 'sa' }, { display: 'し', value: 'shi' },
-            { display: 'す', value: 'su' }, { display: 'せ', value: 'se' },
-            { display: 'そ', value: 'so' }, { display: 'た', value: 'ta' },
-            { display: 'ち', value: 'chi' }, { display: 'つ', value: 'tsu' },
-            { display: 'て', value: 'te' }, { display: 'と', value: 'to' },
-            { display: 'な', value: 'na' }, { display: 'に', value: 'ni' },
-            { display: 'ぬ', value: 'nu' }, { display: 'ね', value: 'ne' },
-            { display: 'の', value: 'no' }, { display: 'は', value: 'ha' },
-            { display: 'ひ', value: 'hi' }, { display: 'ふ', value: 'fu' },
-            { display: 'へ', value: 'he' }, { display: 'ほ', value: 'ho' },
-            { display: 'ま', value: 'ma' }, { display: 'み', value: 'mi' },
-            { display: 'む', value: 'mu' }, { display: 'め', value: 'me' },
-            { display: 'も', value: 'mo' }, { display: 'や', value: 'ya' },
-            { display: 'ゆ', value: 'yu' }, { display: 'よ', value: 'yo' },
-            { display: 'ら', value: 'ra' }, { display: 'り', value: 'ri' },
-            { display: 'る', value: 'ru' }, { display: 'れ', value: 're' },
-            { display: 'ろ', value: 'ro' }, { display: 'わ', value: 'wa' },
-            { display: 'を', value: 'wo' }, { display: 'ん', value: 'n' }
+            { display: 'あ', value: 'a' },
+            { display: 'い', value: 'i' },
+            { display: 'う', value: 'u' },
+            { display: 'え', value: 'e' },
+            { display: 'お', value: 'o' },
+            { display: 'か', value: 'ka' },
+            { display: 'き', value: 'ki' },
+            { display: 'く', value: 'ku' },
+            { display: 'け', value: 'ke' },
+            { display: 'こ', value: 'ko' },
+            { display: 'さ', value: 'sa' },
+            { display: 'し', value: 'shi' },
+            { display: 'す', value: 'su' },
+            { display: 'せ', value: 'se' },
+            { display: 'そ', value: 'so' },
+            { display: 'た', value: 'ta' },
+            { display: 'ち', value: 'chi' },
+            { display: 'つ', value: 'tsu' },
+            { display: 'て', value: 'te' },
+            { display: 'と', value: 'to' },
+            { display: 'な', value: 'na' },
+            { display: 'に', value: 'ni' },
+            { display: 'ぬ', value: 'nu' },
+            { display: 'ね', value: 'ne' },
+            { display: 'の', value: 'no' },
+            { display: 'は', value: 'ha' },
+            { display: 'ひ', value: 'hi' },
+            { display: 'ふ', value: 'fu' },
+            { display: 'へ', value: 'he' },
+            { display: 'ほ', value: 'ho' },
+            { display: 'ま', value: 'ma' },
+            { display: 'み', value: 'mi' },
+            { display: 'む', value: 'mu' },
+            { display: 'め', value: 'me' },
+            { display: 'も', value: 'mo' },
+            { display: 'や', value: 'ya' },
+            { display: 'ゆ', value: 'yu' },
+            { display: 'よ', value: 'yo' },
+            { display: 'ら', value: 'ra' },
+            { display: 'り', value: 'ri' },
+            { display: 'る', value: 'ru' },
+            { display: 'れ', value: 're' },
+            { display: 'ろ', value: 'ro' },
+            { display: 'わ', value: 'wa' },
+            { display: 'を', value: 'wo' },
+            { display: 'ん', value: 'n' },
           ]
 
           const existingValues = new Set(wrongOptions.map(o => o.value))
-          const availableDistractors = genericKanaDistractors.filter(d =>
-            !validAnswers.has(d.value) && !existingValues.has(d.value)
+          const availableDistractors = genericKanaDistractors.filter(
+            d => !validAnswers.has(d.value) && !existingValues.has(d.value)
           )
 
           while (wrongOptions.length < 3 && availableDistractors.length > 0) {
@@ -155,19 +214,82 @@ export default function MultipleChoiceInput({
         } else {
           // For kana in RECOGNITION mode, we need romaji options
           const genericRomajiDistractors = [
-            'a', 'i', 'u', 'e', 'o', 'ka', 'ki', 'ku', 'ke', 'ko',
-            'sa', 'shi', 'su', 'se', 'so', 'ta', 'chi', 'tsu', 'te', 'to',
-            'na', 'ni', 'nu', 'ne', 'no', 'ha', 'hi', 'fu', 'he', 'ho',
-            'ma', 'mi', 'mu', 'me', 'mo', 'ya', 'yu', 'yo', 'ra', 'ri',
-            'ru', 're', 'ro', 'wa', 'wo', 'n',
-            'ga', 'gi', 'gu', 'ge', 'go', 'za', 'ji', 'zu', 'ze', 'zo',
-            'da', 'di', 'du', 'de', 'do', 'ba', 'bi', 'bu', 'be', 'bo',
-            'pa', 'pi', 'pu', 'pe', 'po'
+            'a',
+            'i',
+            'u',
+            'e',
+            'o',
+            'ka',
+            'ki',
+            'ku',
+            'ke',
+            'ko',
+            'sa',
+            'shi',
+            'su',
+            'se',
+            'so',
+            'ta',
+            'chi',
+            'tsu',
+            'te',
+            'to',
+            'na',
+            'ni',
+            'nu',
+            'ne',
+            'no',
+            'ha',
+            'hi',
+            'fu',
+            'he',
+            'ho',
+            'ma',
+            'mi',
+            'mu',
+            'me',
+            'mo',
+            'ya',
+            'yu',
+            'yo',
+            'ra',
+            'ri',
+            'ru',
+            're',
+            'ro',
+            'wa',
+            'wo',
+            'n',
+            'ga',
+            'gi',
+            'gu',
+            'ge',
+            'go',
+            'za',
+            'ji',
+            'zu',
+            'ze',
+            'zo',
+            'da',
+            'di',
+            'du',
+            'de',
+            'do',
+            'ba',
+            'bi',
+            'bu',
+            'be',
+            'bo',
+            'pa',
+            'pi',
+            'pu',
+            'pe',
+            'po',
           ]
 
           const existingValues = new Set(wrongOptions.map(o => o.value))
-          const availableDistractors = genericRomajiDistractors.filter(d =>
-            !validAnswers.has(d) && !existingValues.has(d)
+          const availableDistractors = genericRomajiDistractors.filter(
+            d => !validAnswers.has(d) && !existingValues.has(d)
           )
 
           while (wrongOptions.length < 3 && availableDistractors.length > 0) {
@@ -189,12 +311,11 @@ export default function MultipleChoiceInput({
     // Create correct option with proper display
     const correctOption: OptionItem = {
       display: showKanaDisplay ? correctDisplay : correctAnswer,
-      value: correctAnswer
+      value: correctAnswer,
     }
 
     // Combine correct answer with wrong answers and shuffle
-    const allOptions = [correctOption, ...wrongOptions]
-      .slice(0, 4)  // Ensure we have at most 4 options
+    const allOptions = [correctOption, ...wrongOptions].slice(0, 4) // Ensure we have at most 4 options
 
     // Shuffle using a stable random based on content ID to prevent re-shuffling
     const seed = content.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
@@ -205,7 +326,14 @@ export default function MultipleChoiceInput({
     })
 
     return shuffled
-  }, [content.id, content.primaryAnswer, content.primaryDisplay, content.alternativeAnswers, contentPool, showKanaDisplay])
+  }, [
+    content.id,
+    content.primaryAnswer,
+    content.primaryDisplay,
+    content.alternativeAnswers,
+    contentPool,
+    showKanaDisplay,
+  ])
 
   // Reset selected option when content changes
   useEffect(() => {
@@ -238,28 +366,32 @@ export default function MultipleChoiceInput({
   }
 
   return (
-    <div className="mt-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+    <div className="mt-2 sm:mt-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4 max-w-2xl mx-auto">
         {options.map((option, index) => (
           <motion.button
             key={option.value}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: index * 0.05 }}
             onClick={() => handleSelect(option)}
             disabled={disabled}
             className={`
-              p-4 rounded-lg border-2 border-gray-200 dark:border-gray-600
+              p-3 sm:p-4 rounded-lg border-2 border-gray-200 dark:border-gray-600
               transition-all duration-200 font-medium
               ${getOptionClass(option)}
               ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
             `}
           >
             <span className="flex items-center justify-center">
-              <span className="mr-2 text-gray-400">
+              <span className="mr-1.5 sm:mr-2 text-gray-400 text-sm sm:text-base">
                 {String.fromCharCode(65 + index)}.
               </span>
-              <span className={showKanaDisplay ? 'font-japanese text-2xl' : ''}>
+              <span
+                className={
+                  showKanaDisplay ? 'font-japanese text-xl sm:text-2xl' : 'text-sm sm:text-base'
+                }
+              >
                 {option.display}
               </span>
             </span>
@@ -271,13 +403,14 @@ export default function MultipleChoiceInput({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center mt-4"
+          className="text-center mt-2 sm:mt-4"
         >
           {selectedOption === content.primaryAnswer ? (
-            <span className="text-green-600 font-semibold">Correct!</span>
+            <span className="text-green-600 font-semibold text-sm sm:text-base">Correct!</span>
           ) : (
-            <span className="text-red-600 font-semibold">
-              Incorrect. The answer is: {showKanaDisplay ? content.primaryDisplay : content.primaryAnswer}
+            <span className="text-red-600 font-semibold text-sm sm:text-base">
+              Incorrect. The answer is:{' '}
+              {showKanaDisplay ? content.primaryDisplay : content.primaryAnswer}
             </span>
           )}
         </motion.div>

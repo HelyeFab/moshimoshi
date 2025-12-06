@@ -174,8 +174,14 @@ export default function BottomNav({
 }: BottomNavProps) {
   const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
+  const [hasMounted, setHasMounted] = useState(false)
   const { extraItem: contextExtraItem } = useBottomNav()
   const { strings } = useI18n()
+
+  // Track hydration to avoid server/client mismatch with feature flags
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
@@ -186,16 +192,16 @@ export default function BottomNav({
 
   // Filter nav items based on feature flags
   // Note: Features are DISABLED by default unless explicitly set to 'true'
-  // Use hydration-safe utility instead of direct process.env access
-  const isGamesEnabled = isFeatureEnabled('GAMES')
-  const isReviewHubEnabled = isFeatureEnabled('REVIEW_HUB')
+  // Only check feature flags after mount to avoid hydration mismatch
+  const isGamesEnabled = hasMounted ? isFeatureEnabled('GAMES') : true
+  const isReviewHubEnabled = hasMounted ? isFeatureEnabled('REVIEW_HUB') : true
 
   const filteredNavItems = baseNavItems.filter(item => {
-    // Hide games if GAMES feature is disabled
+    // Hide games if GAMES feature is disabled (only after mount)
     if (item.id === 'games' && !isGamesEnabled) {
       return false
     }
-    // Hide review if REVIEW_HUB feature is disabled
+    // Hide review if REVIEW_HUB feature is disabled (only after mount)
     if (item.id === 'review' && !isReviewHubEnabled) {
       return false
     }

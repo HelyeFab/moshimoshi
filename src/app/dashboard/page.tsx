@@ -63,7 +63,7 @@ function DashboardContent() {
     sessionCount,
     lastActivityDate,
     loading: gamificationLoading,
-    isEnabled: gamificationEnabled
+    isEnabled: gamificationEnabled,
   } = useGamification()
 
   // Validate streak to detect stale data (Phase 1: Emergency UI Fix)
@@ -80,10 +80,15 @@ function DashboardContent() {
   const displayStreak = currentStreak
 
   // Streak save detection (Phase 2: XP-Save Mechanic)
-  const { shouldShowModal: shouldShowStreakSaveModal, dismissModal: dismissStreakSaveModal } = useStreakSaveDetection()
+  const { shouldShowModal: shouldShowStreakSaveModal, dismissModal: dismissStreakSaveModal } =
+    useStreakSaveDetection()
 
   // Learning progress from drill mastery (Bunpro multi-track approach)
-  const { overall: learningProgress, categories: learningCategories, loading: learningProgressLoading } = useLearningProgress()
+  const {
+    overall: learningProgress,
+    categories: learningCategories,
+    loading: learningProgressLoading,
+  } = useLearningProgress()
 
   // YouTube shadowing stats
   const { stats: youtubeStats, loading: youtubeStatsLoading } = useYouTubeStats()
@@ -140,7 +145,7 @@ function DashboardContent() {
 
     return {
       hours: Math.max(0, Math.ceil(hoursUntilDeadline)),
-      isActiveToday: false
+      isActiveToday: false,
     }
   }
 
@@ -156,27 +161,42 @@ function DashboardContent() {
           : 'Never'
         return {
           title: streakModal?.title || 'Daily Streak',
-          description: streakModal?.description || 'Your streak shows how many consecutive days you\'ve practiced Japanese',
+          description:
+            streakModal?.description ||
+            "Your streak shows how many consecutive days you've practiced Japanese",
           formula: streakModal?.formula || 'Consecutive days with ≥10 XP earned',
           whatItMeans: streakModal?.whatItMeans,
           howToImprove: streakModal?.howToImprove,
           goalNote: streakModal?.goalNote,
           breakdown: [
-            { label: streakModal?.breakdown?.current || 'Current streak', value: `${displayStreak} ${displayStreak === 1 ? 'day' : 'days'}` },
-            { label: streakModal?.breakdown?.longest || 'Longest streak', value: `${bestStreak} ${bestStreak === 1 ? 'day' : 'days'}` },
-            { label: streakModal?.breakdown?.lastActive || 'Last activity', value: lastActivityFormatted },
+            {
+              label: streakModal?.breakdown?.current || 'Current streak',
+              value: `${displayStreak} ${displayStreak === 1 ? 'day' : 'days'}`,
+            },
+            {
+              label: streakModal?.breakdown?.longest || 'Longest streak',
+              value: `${bestStreak} ${bestStreak === 1 ? 'day' : 'days'}`,
+            },
+            {
+              label: streakModal?.breakdown?.lastActive || 'Last activity',
+              value: lastActivityFormatted,
+            },
             { label: streakModal?.breakdown?.minXP || 'Min XP per day', value: '25 XP' },
-            ...(streakValidation.isStale ? [{ label: 'Status', value: streakValidation.reason }] : [])
-          ]
+            ...(streakValidation.isStale
+              ? [{ label: 'Status', value: streakValidation.reason }]
+              : []),
+          ],
         }
 
       case strings.dashboard?.stats?.xpEarned || 'XP Earned':
         const xpModal = strings.dashboard?.statModals?.xpEarned
         const currentLevel = Math.floor(totalXP / 100) + 1
-        const xpToNextLevel = (currentLevel * 100) - totalXP
+        const xpToNextLevel = currentLevel * 100 - totalXP
         return {
           title: xpModal?.title || 'XP Earned',
-          description: xpModal?.description || 'Experience Points measure your learning activity and achievement',
+          description:
+            xpModal?.description ||
+            'Experience Points measure your learning activity and achievement',
           formula: xpModal?.formula || 'Base XP + Bonuses',
           whatItMeans: xpModal?.whatItMeans,
           howToImprove: xpModal?.howToImprove,
@@ -184,16 +204,23 @@ function DashboardContent() {
           bonuses: xpModal?.bonuses,
           breakdown: [
             { label: xpModal?.breakdown?.total || 'Total XP', value: `${totalXP} XP` },
-            { label: xpModal?.breakdown?.currentLevel || 'Current level', value: `Level ${currentLevel}` },
-            { label: xpModal?.breakdown?.nextLevel || 'XP to next level', value: `${xpToNextLevel} XP` },
-            { label: xpModal?.breakdown?.dailyCap || 'Daily cap', value: '500 XP' }
-          ]
+            {
+              label: xpModal?.breakdown?.currentLevel || 'Current level',
+              value: `Level ${currentLevel}`,
+            },
+            {
+              label: xpModal?.breakdown?.nextLevel || 'XP to next level',
+              value: `${xpToNextLevel} XP`,
+            },
+            { label: xpModal?.breakdown?.dailyCap || 'Daily cap', value: '500 XP' },
+          ],
         }
 
       case strings.dashboard?.stats?.progress || 'Progress':
-        const achievementCompletion = gamificationEnabled && unlockedAchievements.length > 0
-          ? Math.round((unlockedAchievements.length / 10) * 100)
-          : 0
+        const achievementCompletion =
+          gamificationEnabled && unlockedAchievements.length > 0
+            ? Math.round((unlockedAchievements.length / 10) * 100)
+            : 0
         const progressModal = strings.dashboard?.statModals?.achievementProgress
         return {
           title: progressModal?.title || 'Achievement Progress',
@@ -202,60 +229,84 @@ function DashboardContent() {
           whatItMeans: progressModal?.whatItMeans,
           howToImprove: progressModal?.howToImprove,
           breakdown: [
-            { label: progressModal?.breakdown?.unlocked || 'Unlocked achievements', value: `${unlockedAchievements.length}` },
+            {
+              label: progressModal?.breakdown?.unlocked || 'Unlocked achievements',
+              value: `${unlockedAchievements.length}`,
+            },
             { label: progressModal?.breakdown?.total || 'Total available', value: '10' },
-            { label: progressModal?.breakdown?.completion || 'Completion rate', value: `${achievementCompletion}%` }
-          ]
+            {
+              label: progressModal?.breakdown?.completion || 'Completion rate',
+              value: `${achievementCompletion}%`,
+            },
+          ],
         }
 
       case strings.dashboard?.stats?.achievements || 'Achievements':
         const achievementsModal = strings.dashboard?.statModals?.achievements
         return {
           title: achievementsModal?.title || 'Achievements Unlocked',
-          description: achievementsModal?.description || 'Achievements are rewards for reaching milestones',
+          description:
+            achievementsModal?.description || 'Achievements are rewards for reaching milestones',
           formula: achievementsModal?.formula || 'Count of unlocked achievements',
           whatItMeans: achievementsModal?.whatItMeans,
           howToImprove: achievementsModal?.howToImprove,
           tips: achievementsModal?.tips,
           breakdown: [
-            { label: achievementsModal?.breakdown?.unlocked || 'Unlocked', value: `${unlockedAchievements.length}` },
+            {
+              label: achievementsModal?.breakdown?.unlocked || 'Unlocked',
+              value: `${unlockedAchievements.length}`,
+            },
             { label: achievementsModal?.breakdown?.available || 'Available', value: '10 total' },
-            { label: achievementsModal?.breakdown?.earnMore || 'How to earn more', value: 'Complete drills, maintain streaks, practice regularly' }
-          ]
+            {
+              label: achievementsModal?.breakdown?.earnMore || 'How to earn more',
+              value: 'Complete drills, maintain streaks, practice regularly',
+            },
+          ],
         }
 
       case 'Drills':
       case 'Drills Completed':
         const drillsModal = strings.dashboard?.statModals?.drillsCompleted
-        const perfectDrills = learningCategories.drills?.totalDrills ? Math.round((learningCategories.drills.totalDrills * drillAccuracy) / 100) : 0
+        const perfectDrills = learningCategories.drills?.totalDrills
+          ? Math.round((learningCategories.drills.totalDrills * drillAccuracy) / 100)
+          : 0
         return {
           title: drillsModal?.title || 'Drills Completed',
-          description: drillsModal?.description || 'Every drill session helps build your conjugation skills',
+          description:
+            drillsModal?.description || 'Every drill session helps build your conjugation skills',
           formula: drillsModal?.formula || 'Total finished drill sessions',
           whatItMeans: drillsModal?.whatItMeans,
           howToImprove: drillsModal?.howToImprove,
           breakdown: [
             { label: drillsModal?.breakdown?.total || 'Total drills', value: `${drillCount}` },
-            { label: drillsModal?.breakdown?.perfect || 'Perfect drills', value: `${perfectDrills}` },
-            { label: drillsModal?.breakdown?.types || 'Types', value: 'Conjugation practice' }
-          ]
+            {
+              label: drillsModal?.breakdown?.perfect || 'Perfect drills',
+              value: `${perfectDrills}`,
+            },
+            { label: drillsModal?.breakdown?.types || 'Types', value: 'Conjugation practice' },
+          ],
         }
 
       case 'Drill Accuracy':
         const accuracyModal = strings.dashboard?.statModals?.drillAccuracy
         return {
           title: accuracyModal?.title || 'Drill Accuracy',
-          description: accuracyModal?.description || 'Your accuracy reflects how well you understand conjugations',
+          description:
+            accuracyModal?.description ||
+            'Your accuracy reflects how well you understand conjugations',
           formula: accuracyModal?.formula || '(Correct / Total) × 100',
           whatItMeans: accuracyModal?.whatItMeans,
           example: accuracyModal?.example,
           howToImprove: accuracyModal?.howToImprove,
           goalNote: accuracyModal?.goalNote,
           breakdown: [
-            { label: accuracyModal?.breakdown?.current || 'Current accuracy', value: `${drillAccuracy}%` },
+            {
+              label: accuracyModal?.breakdown?.current || 'Current accuracy',
+              value: `${drillAccuracy}%`,
+            },
             { label: accuracyModal?.breakdown?.total || 'Total drills', value: `${drillCount}` },
-            { label: accuracyModal?.breakdown?.goal || 'Goal', value: '80% or higher' }
-          ]
+            { label: accuracyModal?.breakdown?.goal || 'Goal', value: '80% or higher' },
+          ],
         }
 
       case 'Drill Mastery':
@@ -268,28 +319,30 @@ function DashboardContent() {
           factors: masteryModal?.factors,
           howToImprove: masteryModal?.howToImprove,
           masterLevels: masteryModal?.masterLevels,
-          breakdown: learningCategories.drills ? [
-            {
-              label: masteryModal?.breakdown?.volume || 'Volume (30 pts)',
-              value: `${Math.min(30, (learningCategories.drills.totalDrills || 0) * 0.3).toFixed(1)} pts`,
-              detail: `${learningCategories.drills.totalDrills} ${masteryModal?.breakdown?.volumeDetail || 'drills completed'}`
-            },
-            {
-              label: masteryModal?.breakdown?.accuracy || 'Accuracy (40 pts)',
-              value: `${((drillAccuracy / 100) * 40).toFixed(1)} pts`,
-              detail: `${drillAccuracy}% ${masteryModal?.breakdown?.accuracyDetail || 'average accuracy'}`
-            },
-            {
-              label: masteryModal?.breakdown?.perfectRatio || 'Perfect Ratio (20 pts)',
-              value: `${((learningCategories.drills.totalDrills || 0) > 0 ? ((learningCategories.drills.totalDrills || 0) * (drillAccuracy / 100) / (learningCategories.drills.totalDrills || 1)) * 20 : 0).toFixed(1)} pts`,
-              detail: masteryModal?.breakdown?.perfectDetail || '100% accurate sessions'
-            },
-            {
-              label: masteryModal?.breakdown?.total || 'Total Score',
-              value: `${drillMastery}/100`,
-              detail: 'Overall mastery level'
-            }
-          ] : []
+          breakdown: learningCategories.drills
+            ? [
+                {
+                  label: masteryModal?.breakdown?.volume || 'Volume (30 pts)',
+                  value: `${Math.min(30, (learningCategories.drills.totalDrills || 0) * 0.3).toFixed(1)} pts`,
+                  detail: `${learningCategories.drills.totalDrills} ${masteryModal?.breakdown?.volumeDetail || 'drills completed'}`,
+                },
+                {
+                  label: masteryModal?.breakdown?.accuracy || 'Accuracy (40 pts)',
+                  value: `${((drillAccuracy / 100) * 40).toFixed(1)} pts`,
+                  detail: `${drillAccuracy}% ${masteryModal?.breakdown?.accuracyDetail || 'average accuracy'}`,
+                },
+                {
+                  label: masteryModal?.breakdown?.perfectRatio || 'Perfect Ratio (20 pts)',
+                  value: `${((learningCategories.drills.totalDrills || 0) > 0 ? (((learningCategories.drills.totalDrills || 0) * (drillAccuracy / 100)) / (learningCategories.drills.totalDrills || 1)) * 20 : 0).toFixed(1)} pts`,
+                  detail: masteryModal?.breakdown?.perfectDetail || '100% accurate sessions',
+                },
+                {
+                  label: masteryModal?.breakdown?.total || 'Total Score',
+                  value: `${drillMastery}/100`,
+                  detail: 'Overall mastery level',
+                },
+              ]
+            : [],
         }
 
       case 'Videos Practiced':
@@ -302,9 +355,15 @@ function DashboardContent() {
           howToImprove: videosModal?.howToImprove,
           goalNote: videosModal?.goalNote,
           breakdown: [
-            { label: videosModal?.breakdown?.total || 'Total videos accessed', value: `${youtubeStats?.videosPracticed || 0}` },
-            { label: videosModal?.breakdown?.quotaInfo || 'Quota limit', value: `${youtubeStats?.quotaLimit || 0} per day` }
-          ]
+            {
+              label: videosModal?.breakdown?.total || 'Total videos accessed',
+              value: `${youtubeStats?.videosPracticed || 0}`,
+            },
+            {
+              label: videosModal?.breakdown?.quotaInfo || 'Quota limit',
+              value: `${youtubeStats?.quotaLimit || 0} per day`,
+            },
+          ],
         }
 
       case 'Videos Remaining':
@@ -317,11 +376,20 @@ function DashboardContent() {
           howToImprove: remainingModal?.howToImprove,
           goalNote: remainingModal?.goalNote,
           breakdown: [
-            { label: remainingModal?.breakdown?.remaining || 'Remaining today', value: `${youtubeStats?.videosRemaining || 0}` },
-            { label: remainingModal?.breakdown?.limit || 'Daily limit', value: `${youtubeStats?.quotaLimit || 0}` },
-            { label: remainingModal?.breakdown?.used || 'Used today', value: `${youtubeStats?.quotaUsed || 0}` },
-            { label: remainingModal?.breakdown?.resetTime || 'Resets at', value: 'Midnight UTC' }
-          ]
+            {
+              label: remainingModal?.breakdown?.remaining || 'Remaining today',
+              value: `${youtubeStats?.videosRemaining || 0}`,
+            },
+            {
+              label: remainingModal?.breakdown?.limit || 'Daily limit',
+              value: `${youtubeStats?.quotaLimit || 0}`,
+            },
+            {
+              label: remainingModal?.breakdown?.used || 'Used today',
+              value: `${youtubeStats?.quotaUsed || 0}`,
+            },
+            { label: remainingModal?.breakdown?.resetTime || 'Resets at', value: 'Midnight UTC' },
+          ],
         }
 
       case 'Watch Time':
@@ -339,8 +407,8 @@ function DashboardContent() {
           goalNote: watchModal?.goalNote,
           breakdown: [
             { label: watchModal?.breakdown?.total || 'Total watch time', value: timeDisplay },
-            { label: watchModal?.breakdown?.total || 'In minutes', value: `${totalMinutes} min` }
-          ]
+            { label: watchModal?.breakdown?.total || 'In minutes', value: `${totalMinutes} min` },
+          ],
         }
 
       default:
@@ -374,13 +442,21 @@ function DashboardContent() {
         const result = JSON.parse(recaptchaResult)
         // Only show if recent (within 30 seconds)
         if (Date.now() - result.timestamp < 30000) {
-          const status = result.score >= 0.7 ? 'Human (high confidence)' :
-                        result.score >= 0.5 ? 'Human (medium confidence)' : 'Suspicious'
-          console.log('%c[reCAPTCHA] ✓ Verification successful', 'color: #22c55e; font-weight: bold', {
-            action: result.action,
-            score: result.score,
-            status
-          })
+          const status =
+            result.score >= 0.7
+              ? 'Human (high confidence)'
+              : result.score >= 0.5
+                ? 'Human (medium confidence)'
+                : 'Suspicious'
+          console.log(
+            '%c[reCAPTCHA] ✓ Verification successful',
+            'color: #22c55e; font-weight: bold',
+            {
+              action: result.action,
+              score: result.score,
+              status,
+            }
+          )
         }
       } catch (e) {
         // Ignore parse errors
@@ -398,7 +474,11 @@ function DashboardContent() {
     if (isGuest) {
       // Show guest-specific welcome message
       if (!sessionStorage.getItem('guest_welcomed')) {
-        showToast('Welcome! You\'re trying Moshimoshi as a guest. Sign up anytime to save your progress! 🌟', 'info', 8000)
+        showToast(
+          "Welcome! You're trying Moshimoshi as a guest. Sign up anytime to save your progress! 🌟",
+          'info',
+          8000
+        )
         sessionStorage.setItem('guest_welcomed', 'true')
       }
     } else if (user && !hasCheckedFirstVisit) {
@@ -418,7 +498,7 @@ function DashboardContent() {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000)
     return () => clearInterval(timer)
   }, [])
-  
+
   // Gamification removed - no need to initialize achievements
 
   // Load drill stats
@@ -441,9 +521,6 @@ function DashboardContent() {
     loadDrillStats()
   }, [user?.uid, isPremium])
 
-
-
-
   // Handle redirect if no user after auth has loaded
   useEffect(() => {
     if (!authLoading && !user && !isGuest) {
@@ -463,21 +540,33 @@ function DashboardContent() {
 
   const getGreeting = () => {
     const hour = currentTime.getHours()
-    if (hour < 12) return { text: 'おはよう', translation: strings.dashboard?.greeting?.morning || 'Good morning' }
-    if (hour < 18) return { text: 'こんにちは', translation: strings.dashboard?.greeting?.afternoon || 'Good afternoon' }
-    return { text: 'こんばんは', translation: strings.dashboard?.greeting?.evening || 'Good evening' }
+    if (hour < 12)
+      return {
+        text: 'おはよう',
+        translation: strings.dashboard?.greeting?.morning || 'Good morning',
+      }
+    if (hour < 18)
+      return {
+        text: 'こんにちは',
+        translation: strings.dashboard?.greeting?.afternoon || 'Good afternoon',
+      }
+    return {
+      text: 'こんばんは',
+      translation: strings.dashboard?.greeting?.evening || 'Good evening',
+    }
   }
 
   const greeting = getGreeting()
-  
+
   // Dynamic learning stats from gamification system
   const getLearningStats = () => {
     // Use real gamification data if enabled, otherwise use zeros
     const xpPoints = gamificationEnabled ? totalXP : 0
     // Learning Progress = Achievement completion % (same as account page)
-    const completionPercentage = gamificationEnabled && unlockedAchievements.length > 0
-      ? Math.round((unlockedAchievements.length / 10) * 100)
-      : 0
+    const completionPercentage =
+      gamificationEnabled && unlockedAchievements.length > 0
+        ? Math.round((unlockedAchievements.length / 10) * 100)
+        : 0
     // Use validated streak (shows 0 if stale, prevents showing false streak)
     const streakValue = gamificationEnabled ? displayStreak : 0
     const achievementCount = gamificationEnabled ? unlockedAchievements.length : 0
@@ -493,25 +582,78 @@ function DashboardContent() {
     const achievementsUnit = 'unlocked'
 
     // Format watch time (seconds to minutes or hours)
-    const watchTimeMinutes = Math.round((youtubeStats?.watchTime || 0) / 60);
-    const watchTimeHours = Math.floor(watchTimeMinutes / 60);
-    const watchTimeRemainingMinutes = watchTimeMinutes % 60;
-    const watchTimeValue = watchTimeMinutes >= 60
-      ? (watchTimeRemainingMinutes > 0 ? `${watchTimeHours}:${watchTimeRemainingMinutes.toString().padStart(2, '0')}` : `${watchTimeHours}`)
-      : watchTimeMinutes.toString();
-    const watchTimeUnit = watchTimeMinutes >= 60 ? 'hrs' : 'min';
+    const watchTimeMinutes = Math.round((youtubeStats?.watchTime || 0) / 60)
+    const watchTimeHours = Math.floor(watchTimeMinutes / 60)
+    const watchTimeRemainingMinutes = watchTimeMinutes % 60
+    const watchTimeValue =
+      watchTimeMinutes >= 60
+        ? watchTimeRemainingMinutes > 0
+          ? `${watchTimeHours}:${watchTimeRemainingMinutes.toString().padStart(2, '0')}`
+          : `${watchTimeHours}`
+        : watchTimeMinutes.toString()
+    const watchTimeUnit = watchTimeMinutes >= 60 ? 'hrs' : 'min'
 
     return [
-      { label: String(streakLabel || 'Streak'), value: streakValue.toString(), unit: String(streakUnit || 'days'), color: 'from-orange-400 to-red-500' },
-      { label: String(xpLabel || 'XP Earned'), value: xpPoints.toString(), unit: String(xpUnit || 'points'), color: 'from-blue-400 to-purple-500' },
-      { label: String(progressLabel || 'Progress'), value: Math.round(completionPercentage).toString(), unit: String(progressUnit || '%'), color: 'from-green-400 to-teal-500' },
-      { label: String(achievementsLabel || 'Achievements'), value: achievementCount.toString(), unit: String(achievementsUnit || 'unlocked'), color: 'from-pink-400 to-rose-500' },
-      { label: 'Videos Practiced', value: (youtubeStats?.videosPracticed || 0).toString(), unit: 'videos', color: 'from-red-400 to-pink-500' },
-      { label: 'Videos Remaining', value: (youtubeStats?.videosRemaining || 0).toString(), unit: 'today', color: 'from-green-400 to-teal-500' },
-      { label: 'Watch Time', value: watchTimeValue, unit: watchTimeUnit, color: 'from-purple-400 to-indigo-500' },
-      { label: 'Drills', value: drillCount.toString(), unit: 'completed', color: 'from-indigo-400 to-blue-500' },
-      { label: 'Drill Accuracy', value: drillAccuracy.toString(), unit: '%', color: 'from-teal-400 to-green-500' },
-      { label: 'Drill Mastery', value: drillMastery.toString(), unit: '%', color: 'from-purple-400 to-indigo-500' },
+      {
+        label: String(streakLabel || 'Streak'),
+        value: streakValue.toString(),
+        unit: String(streakUnit || 'days'),
+        color: 'from-orange-400 to-red-500',
+      },
+      {
+        label: String(xpLabel || 'XP Earned'),
+        value: xpPoints.toString(),
+        unit: String(xpUnit || 'points'),
+        color: 'from-blue-400 to-purple-500',
+      },
+      {
+        label: String(progressLabel || 'Progress'),
+        value: Math.round(completionPercentage).toString(),
+        unit: String(progressUnit || '%'),
+        color: 'from-green-400 to-teal-500',
+      },
+      {
+        label: String(achievementsLabel || 'Achievements'),
+        value: achievementCount.toString(),
+        unit: String(achievementsUnit || 'unlocked'),
+        color: 'from-pink-400 to-rose-500',
+      },
+      {
+        label: 'Videos Practiced',
+        value: (youtubeStats?.videosPracticed || 0).toString(),
+        unit: 'videos',
+        color: 'from-red-400 to-pink-500',
+      },
+      {
+        label: 'Videos Remaining',
+        value: (youtubeStats?.videosRemaining || 0).toString(),
+        unit: 'today',
+        color: 'from-green-400 to-teal-500',
+      },
+      {
+        label: 'Watch Time',
+        value: watchTimeValue,
+        unit: watchTimeUnit,
+        color: 'from-purple-400 to-indigo-500',
+      },
+      {
+        label: 'Drills',
+        value: drillCount.toString(),
+        unit: 'completed',
+        color: 'from-indigo-400 to-blue-500',
+      },
+      {
+        label: 'Drill Accuracy',
+        value: drillAccuracy.toString(),
+        unit: '%',
+        color: 'from-teal-400 to-green-500',
+      },
+      {
+        label: 'Drill Mastery',
+        value: drillMastery.toString(),
+        unit: '%',
+        color: 'from-purple-400 to-indigo-500',
+      },
     ]
   }
 
@@ -522,7 +664,7 @@ function DashboardContent() {
     return (
       <LoadingOverlay
         isLoading={true}
-        message={strings.dashboard?.loading || "Loading your dashboard..."}
+        message={strings.dashboard?.loading || 'Loading your dashboard...'}
         showDoshi={true}
         fullScreen={true}
       />
@@ -558,9 +700,12 @@ function DashboardContent() {
 
       {/* Animated background pattern */}
       <div className="fixed inset-0 opacity-5 dark:opacity-10 pointer-events-none">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ef4444' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ef4444' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
       </div>
 
       {/* Navbar */}
@@ -569,17 +714,17 @@ function DashboardContent() {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-2 sm:py-8 relative z-10">
         {/* Guest Mode Banner */}
-        {isGuest && (
-          <GuestModeBanner className="mb-6" />
-        )}
+        {isGuest && <GuestModeBanner className="mb-6" />}
 
         {/* Welcome Section - Mobile Collapsible, Desktop Full */}
-        <div className="mb-1 sm:mb-8">
+        <div className="mb-6 sm:mb-8">
           {/* Mobile Version - Collapsible */}
           <div className="sm:hidden mt-6">
-            <div className={`bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 dark:border-dark-700/30 relative transition-all duration-300 ${
-              isWelcomeExpanded ? '' : 'border-l-4 border-l-primary-500 dark:border-l-primary-400'
-            }`}>
+            <div
+              className={`bg-gradient-to-br from-white/70 to-white/50 dark:from-dark-800/70 dark:to-dark-800/50 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 dark:border-dark-700/30 relative transition-all duration-300 ${
+                isWelcomeExpanded ? '' : 'border-l-4 border-l-primary-500 dark:border-l-primary-400'
+              }`}
+            >
               {/* Compact Doshi Card with Moshimoshi Logo */}
               <div className="relative p-6 flex items-center justify-center gap-4">
                 <DoshiMascot
@@ -595,7 +740,7 @@ function DashboardContent() {
                 <button
                   onClick={() => setIsWelcomeExpanded(!isWelcomeExpanded)}
                   className="absolute bottom-2 right-4 p-2 bg-white/50 dark:bg-dark-700/50 backdrop-blur rounded-full shadow-md hover:bg-white/70 dark:hover:bg-dark-700/70 transition-all"
-                  aria-label={isWelcomeExpanded ? "Collapse" : "Expand"}
+                  aria-label={isWelcomeExpanded ? 'Collapse' : 'Expand'}
                 >
                   <motion.div
                     animate={{ rotate: isWelcomeExpanded ? 180 : 0 }}
@@ -613,7 +758,7 @@ function DashboardContent() {
                     initial={{
                       height: 0,
                       opacity: 0,
-                      scale: 0.95
+                      scale: 0.95,
                     }}
                     animate={{
                       height: 'auto',
@@ -621,22 +766,22 @@ function DashboardContent() {
                       scale: 1,
                       transition: {
                         height: {
-                          type: "spring",
+                          type: 'spring',
                           damping: 20,
                           stiffness: 100,
-                          duration: 1.2
+                          duration: 1.2,
                         },
                         opacity: {
                           duration: 0.8,
-                          ease: "easeOut"
+                          ease: 'easeOut',
                         },
                         scale: {
-                          type: "spring",
+                          type: 'spring',
                           damping: 15,
                           stiffness: 150,
-                          delay: 0.2
-                        }
-                      }
+                          delay: 0.2,
+                        },
+                      },
                     }}
                     exit={{
                       height: 0,
@@ -644,19 +789,19 @@ function DashboardContent() {
                       scale: 0.95,
                       transition: {
                         height: {
-                          type: "spring",
+                          type: 'spring',
                           damping: 25,
                           stiffness: 300,
-                          duration: 0.4
+                          duration: 0.4,
                         },
                         opacity: {
                           duration: 0.2,
-                          ease: "easeIn"
+                          ease: 'easeIn',
                         },
                         scale: {
-                          duration: 0.2
-                        }
-                      }
+                          duration: 0.2,
+                        },
+                      },
                     }}
                     className="overflow-hidden"
                   >
@@ -668,10 +813,10 @@ function DashboardContent() {
                         visible: {
                           transition: {
                             staggerChildren: 0.15,
-                            delayChildren: 0.4
-                          }
+                            delayChildren: 0.4,
+                          },
                         },
-                        hidden: {}
+                        hidden: {},
                       }}
                     >
                       {/* Greeting Section */}
@@ -683,12 +828,12 @@ function DashboardContent() {
                             y: 0,
                             opacity: 1,
                             transition: {
-                              type: "spring",
+                              type: 'spring',
                               damping: 18,
                               stiffness: 150,
-                              duration: 0.8
-                            }
-                          }
+                              duration: 0.8,
+                            },
+                          },
                         }}
                       >
                         <div className="inline-flex flex-col items-center">
@@ -699,7 +844,10 @@ function DashboardContent() {
                           <span className="text-4xl font-black text-primary-600 dark:text-primary-400 tracking-tight leading-none relative">
                             {greeting.text}
                             {/* Gradient shadow effect for visual interest without sacrificing readability */}
-                            <span className="absolute inset-0 text-4xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent opacity-50 blur-sm -z-10" aria-hidden="true">
+                            <span
+                              className="absolute inset-0 text-4xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent opacity-50 blur-sm -z-10"
+                              aria-hidden="true"
+                            >
                               {greeting.text}
                             </span>
                           </span>
@@ -708,20 +856,31 @@ function DashboardContent() {
                         <h1 className="flex items-baseline justify-center flex-wrap">
                           <span className="text-2xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
                             {(() => {
-                              const name = user?.displayName || user?.email?.split('@')[0] || 'Learner';
-                              return name.split(' ').map(word => {
-                                if (word.length === 0) return '';
-                                if (word.includes("'")) {
-                                  const parts = word.split("'");
-                                  return parts.map(part =>
-                                    part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
-                                  ).join("'");
-                                }
-                                if (word.toLowerCase().startsWith('mc')) {
-                                  return 'Mc' + word.charAt(2).toUpperCase() + word.slice(3).toLowerCase();
-                                }
-                                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-                              }).join(' ');
+                              const name =
+                                user?.displayName || user?.email?.split('@')[0] || 'Learner'
+                              return name
+                                .split(' ')
+                                .map(word => {
+                                  if (word.length === 0) return ''
+                                  if (word.includes("'")) {
+                                    const parts = word.split("'")
+                                    return parts
+                                      .map(
+                                        part =>
+                                          part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+                                      )
+                                      .join("'")
+                                  }
+                                  if (word.toLowerCase().startsWith('mc')) {
+                                    return (
+                                      'Mc' +
+                                      word.charAt(2).toUpperCase() +
+                                      word.slice(3).toLowerCase()
+                                    )
+                                  }
+                                  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                                })
+                                .join(' ')
                             })()}
                           </span>
                           <span className="text-xl font-medium text-gray-600 dark:text-gray-400 ml-2">
@@ -740,24 +899,25 @@ function DashboardContent() {
                               scale: 1,
                               opacity: 1,
                               transition: {
-                                type: "spring",
+                                type: 'spring',
                                 damping: 12,
                                 stiffness: 150,
                                 bounce: 0.4,
-                                duration: 1
-                              }
-                            }
+                                duration: 1,
+                              },
+                            },
                           }}
                         >
                           <div className="flex flex-col items-center gap-1 px-3 py-2 bg-orange-100 dark:bg-orange-900/20 rounded-2xl">
                             <div className="flex items-center gap-2">
                               <span className="text-lg animate-pulse">🔥</span>
                               <span className="text-xs font-semibold text-orange-700 dark:text-orange-300">
-                                {displayStreak} {displayStreak === 1 ? 'day' : 'days'} streak · Keep it up!
+                                {displayStreak} {displayStreak === 1 ? 'day' : 'days'} streak · Keep
+                                it up!
                               </span>
                             </div>
-                            {deadlineInfo && (
-                              deadlineInfo.isActiveToday ? (
+                            {deadlineInfo &&
+                              (deadlineInfo.isActiveToday ? (
                                 <div className="text-[10px] text-green-600 dark:text-green-400 font-medium flex items-center gap-1">
                                   ✓ Active today
                                 </div>
@@ -765,8 +925,7 @@ function DashboardContent() {
                                 <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
                                   ⏰ Complete within {deadlineInfo.hours}h to keep streak
                                 </div>
-                              )
-                            )}
+                              ))}
                           </div>
                         </motion.div>
                       )}
@@ -780,13 +939,13 @@ function DashboardContent() {
                               scale: 1,
                               opacity: 1,
                               transition: {
-                                type: "spring",
+                                type: 'spring',
                                 damping: 12,
                                 stiffness: 150,
                                 bounce: 0.4,
-                                duration: 1
-                              }
-                            }
+                                duration: 1,
+                              },
+                            },
                           }}
                         >
                           <div className="flex flex-col items-center gap-1 px-3 py-2 bg-gray-100 dark:bg-gray-800/50 rounded-2xl border border-gray-300 dark:border-gray-700">
@@ -797,7 +956,9 @@ function DashboardContent() {
                               </span>
                             </div>
                             <div className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">
-                              Last active {streakValidation.daysSinceActivity} {streakValidation.daysSinceActivity === 1 ? 'day' : 'days'} ago · Start fresh today!
+                              Last active {streakValidation.daysSinceActivity}{' '}
+                              {streakValidation.daysSinceActivity === 1 ? 'day' : 'days'} ago ·
+                              Start fresh today!
                             </div>
                           </div>
                         </motion.div>
@@ -812,9 +973,9 @@ function DashboardContent() {
                             opacity: 1,
                             transition: {
                               staggerChildren: 0.12,
-                              delayChildren: 0.1
-                            }
-                          }
+                              delayChildren: 0.1,
+                            },
+                          },
                         }}
                       >
                         {learningStats.map((stat, index) => (
@@ -825,23 +986,23 @@ function DashboardContent() {
                               hidden: {
                                 opacity: 0,
                                 y: 20,
-                                scale: 0.8
+                                scale: 0.8,
                               },
                               visible: {
                                 opacity: 1,
                                 y: 0,
                                 scale: 1,
                                 transition: {
-                                  type: "spring",
+                                  type: 'spring',
                                   damping: 15,
                                   stiffness: 120,
-                                  duration: 0.8
-                                }
-                              }
+                                  duration: 0.8,
+                                },
+                              },
                             }}
                             whileHover={{
                               scale: 1.05,
-                              transition: { duration: 0.2 }
+                              transition: { duration: 0.2 },
                             }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => {
@@ -853,12 +1014,16 @@ function DashboardContent() {
                             <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                               {stat.value}
                             </div>
-                            <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{String(stat.unit || '')}</div>
+                            <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                              {String(stat.unit || '')}
+                            </div>
                             <div className="text-xs font-semibold text-gray-800 dark:text-gray-200 mt-1">
                               {String(stat.label || '')}
                             </div>
                             {/* Add color accent as bottom border */}
-                            <div className={`mt-2 h-0.5 rounded-full bg-gradient-to-r ${stat.color} opacity-70`} />
+                            <div
+                              className={`mt-2 h-0.5 rounded-full bg-gradient-to-r ${stat.color} opacity-70`}
+                            />
                           </motion.div>
                         ))}
                       </motion.div>
@@ -870,7 +1035,7 @@ function DashboardContent() {
                             opacity: 0,
                             y: 30,
                             scale: 0.9,
-                            rotateX: -15
+                            rotateX: -15,
                           },
                           visible: {
                             opacity: 1,
@@ -878,13 +1043,13 @@ function DashboardContent() {
                             scale: 1,
                             rotateX: 0,
                             transition: {
-                              type: "spring",
+                              type: 'spring',
                               damping: 14,
                               stiffness: 100,
                               delay: 0.3,
-                              duration: 1
-                            }
-                          }
+                              duration: 1,
+                            },
+                          },
                         }}
                         style={{ transformPerspective: 1000 }}
                       >
@@ -920,7 +1085,10 @@ function DashboardContent() {
                     <span className="text-4xl lg:text-5xl font-black text-primary-600 dark:text-primary-400 tracking-tight leading-none relative">
                       {greeting.text}
                       {/* Optional gradient glow for aesthetics */}
-                      <span className="absolute inset-0 text-4xl lg:text-5xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent opacity-40 blur-md -z-10" aria-hidden="true">
+                      <span
+                        className="absolute inset-0 text-4xl lg:text-5xl font-black bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:from-primary-400 dark:via-primary-500 dark:to-primary-600 bg-clip-text text-transparent opacity-40 blur-md -z-10"
+                        aria-hidden="true"
+                      >
                         {greeting.text}
                       </span>
                     </span>
@@ -930,20 +1098,27 @@ function DashboardContent() {
                   <h1 className="flex items-baseline justify-center flex-wrap">
                     <span className="text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
                       {(() => {
-                        const name = user?.displayName || user?.email?.split('@')[0] || 'Learner';
-                        return name.split(' ').map(word => {
-                          if (word.length === 0) return '';
-                          if (word.includes("'")) {
-                            const parts = word.split("'");
-                            return parts.map(part =>
-                              part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
-                            ).join("'");
-                          }
-                          if (word.toLowerCase().startsWith('mc')) {
-                            return 'Mc' + word.charAt(2).toUpperCase() + word.slice(3).toLowerCase();
-                          }
-                          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-                        }).join(' ');
+                        const name = user?.displayName || user?.email?.split('@')[0] || 'Learner'
+                        return name
+                          .split(' ')
+                          .map(word => {
+                            if (word.length === 0) return ''
+                            if (word.includes("'")) {
+                              const parts = word.split("'")
+                              return parts
+                                .map(
+                                  part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+                                )
+                                .join("'")
+                            }
+                            if (word.toLowerCase().startsWith('mc')) {
+                              return (
+                                'Mc' + word.charAt(2).toUpperCase() + word.slice(3).toLowerCase()
+                              )
+                            }
+                            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                          })
+                          .join(' ')
                       })()}
                     </span>
                     <span className="text-xl lg:text-2xl font-medium text-gray-600 dark:text-gray-400 ml-2">
@@ -954,8 +1129,10 @@ function DashboardContent() {
                   {/* Welcome Message */}
                   <p className="text-sm lg:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-light">
                     {isFirstVisit
-                      ? strings.dashboard?.welcome?.firstVisit || "Welcome to your Japanese learning adventure! Doshi is here to guide you."
-                      : strings.dashboard?.welcome?.returning || "Ready to continue your journey? Your dedication is inspiring!"}
+                      ? strings.dashboard?.welcome?.firstVisit ||
+                        'Welcome to your Japanese learning adventure! Doshi is here to guide you.'
+                      : strings.dashboard?.welcome?.returning ||
+                        'Ready to continue your journey? Your dedication is inspiring!'}
                   </p>
 
                   {/* Streak Badge - Desktop - Shows validated streak */}
@@ -968,8 +1145,8 @@ function DashboardContent() {
                             {displayStreak} {displayStreak === 1 ? 'day' : 'days'} streak
                           </span>
                         </div>
-                        {deadlineInfo && (
-                          deadlineInfo.isActiveToday ? (
+                        {deadlineInfo &&
+                          (deadlineInfo.isActiveToday ? (
                             <div className="text-[10px] text-green-600 dark:text-green-400 font-medium flex items-center gap-1">
                               ✓ Active today
                             </div>
@@ -977,8 +1154,7 @@ function DashboardContent() {
                             <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
                               ⏰ Complete within {deadlineInfo.hours}h
                             </div>
-                          )
-                        )}
+                          ))}
                       </div>
                     </div>
                   )}
@@ -993,7 +1169,8 @@ function DashboardContent() {
                           </span>
                         </div>
                         <div className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">
-                          Last active {streakValidation.daysSinceActivity} {streakValidation.daysSinceActivity === 1 ? 'day' : 'days'} ago
+                          Last active {streakValidation.daysSinceActivity}{' '}
+                          {streakValidation.daysSinceActivity === 1 ? 'day' : 'days'} ago
                         </div>
                       </div>
                     </div>
@@ -1018,12 +1195,16 @@ function DashboardContent() {
                   <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                     {stat.value}
                   </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{String(stat.unit || '')}</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                    {String(stat.unit || '')}
+                  </div>
                   <div className="text-xs font-semibold text-gray-800 dark:text-gray-200 mt-1">
                     {String(stat.label || '')}
                   </div>
                   {/* Add a small color indicator instead of gradient text */}
-                  <div className={`mt-2 h-1 rounded-full bg-gradient-to-r ${stat.color} opacity-80`} />
+                  <div
+                    className={`mt-2 h-1 rounded-full bg-gradient-to-r ${stat.color} opacity-80`}
+                  />
                 </div>
               ))}
             </div>
@@ -1039,7 +1220,6 @@ function DashboardContent() {
         <div className="mb-8 mt-0">
           <LearningVillage />
         </div>
-
       </main>
 
       {/* Streak Save Modal (Phase 2: XP-Save Mechanic) */}
@@ -1118,9 +1298,7 @@ function DashboardContent() {
                       {item.label}
                     </p>
                     {item.detail && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {item.detail}
-                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{item.detail}</p>
                     )}
                   </div>
                   <p className="text-sm font-bold text-primary-600 dark:text-primary-400 ml-4">
@@ -1213,14 +1391,16 @@ function DashboardContent() {
 // Main export with Suspense wrapper
 export default function DashboardPage() {
   return (
-    <Suspense fallback={
-      <LoadingOverlay
-        isLoading={true}
-        message="Loading your dashboard..."
-        showDoshi={true}
-        fullScreen={true}
-      />
-    }>
+    <Suspense
+      fallback={
+        <LoadingOverlay
+          isLoading={true}
+          message="Loading your dashboard..."
+          showDoshi={true}
+          fullScreen={true}
+        />
+      }
+    >
       <DashboardContent />
     </Suspense>
   )

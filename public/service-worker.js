@@ -37,6 +37,7 @@ const PRECACHE_URLS = [
   '/favicon.ico',
   '/favicon-192x192.png',
   '/favicon-512x512.png',
+  '/doshi.png',
   '/_next/static/chunks/framework-0907bc41f77e1d3c.js',
   '/_next/static/chunks/main-911004091fe3e3d1.js',
   '/_next/static/chunks/main-app-897129e07df0fca6.js',
@@ -71,7 +72,9 @@ self.addEventListener('install', (event) => {
     await Promise.all(PRECACHE_URLS.map(url => cacheWithTimeout(url)));
 
     console.log('[SW] Installation complete');
-    self.skipWaiting();
+    // Note: We do NOT call self.skipWaiting() here automatically.
+    // The app controls when to activate via SKIP_WAITING message.
+    // This allows the update banner to be shown first.
   })());
 });
 

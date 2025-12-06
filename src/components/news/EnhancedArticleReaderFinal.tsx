@@ -16,6 +16,7 @@ import UnifiedShadowingMode from '@/components/shadowing/UnifiedShadowingMode'
 import { segmentLongSentence, shouldSegment } from '@/utils/sentenceSegmentation'
 import { ReadingSettings, TranslationMode } from '@/types/story'
 import { useContentTranslation } from '@/hooks/useContentTranslation'
+import { useNhkAudio } from '@/components/audio/NhkAudioPlayer'
 
 // Helper function to cleanup audio element
 const cleanupAudio = (audio: HTMLAudioElement | null): void => {
@@ -63,12 +64,15 @@ interface NewsArticle {
     hasFurigana?: boolean
   }
 
-  // TTS-generated audio fields (pre-generated during scraping)
+  // NHK original audio (professional narrator - PRIMARY source for full article)
+  nhkAudioUrl?: string // NHK's official m3u8 HLS audio stream
+
+  // TTS-generated audio fields (FALLBACK when nhkAudioUrl unavailable)
   generatedTitleAudioUrl?: string
   generatedSummaryAudioUrl?: string
   generatedContentAudioUrl?: string
   audioGeneratedAt?: Date
-  audioProvider?: 'edge-tts' | 'kokoro'
+  audioProvider?: 'edge-tts' | 'voicevox' | 'kokoro'
   audioVoice?: string
   audioStatus?: 'pending' | 'generated' | 'failed' | 'partial'
   audioError?: string
@@ -1214,6 +1218,19 @@ export default function EnhancedArticleReader({
   const preGeneratedAudioRef = useRef<HTMLAudioElement | null>(null)
   const [isPreGeneratedPlaying, setIsPreGeneratedPlaying] = useState(false)
 
+  // NHK HLS audio player (for original NHK narrator audio)
+  const {
+    isReady: nhkAudioReady,
+    isPlaying: isNhkPlaying,
+    isLoading: nhkAudioLoading,
+    error: nhkAudioError,
+    play: playNhkAudio,
+    pause: pauseNhkAudio,
+    stop: stopNhkAudio,
+    setPlaybackRate: setNhkPlaybackRate,
+    initialize: initializeNhkAudio,
+  } = useNhkAudio()
+
   // AI word explanation feature
   const [isWordModalOpen, setIsWordModalOpen] = useState(false)
   const {
@@ -1232,13 +1249,25 @@ export default function EnhancedArticleReader({
     }
   }, [ttsPlaying, hasLoadedAudioBefore])
 
-  // Cleanup pre-generated audio when component unmounts or article changes
+  // Cleanup audio when component unmounts or article changes
   useEffect(() => {
     return () => {
       cleanupAudio(preGeneratedAudioRef.current)
       preGeneratedAudioRef.current = null
+      // Stop NHK audio if playing
+      stopNhkAudio()
     }
-  }, [article.id])
+  }, [article.id, stopNhkAudio])
+
+  // Sync playback speed with NHK audio when settings change
+  useEffect(() => {
+    const speed = settings.playbackSpeed || 1.0
+    setNhkPlaybackRate(speed)
+    // Also update pre-generated audio if currently playing
+    if (preGeneratedAudioRef.current) {
+      preGeneratedAudioRef.current.playbackRate = speed
+    }
+  }, [settings.playbackSpeed, setNhkPlaybackRate])
 
   // Add logging for settings changes
   const handleSettingsChange = (newSettings: ReadingSettings) => {
@@ -1368,16 +1397,69 @@ export default function EnhancedArticleReader({
     setSentenceAudioLoading(null)
 
     console.log(
-      '%c🔊 TTS PROVIDER TRACKING - Full Article Playback',
+      '%c🔊 AUDIO PROVIDER TRACKING - Full Article Playback',
       'background: #4CAF50; color: white; font-size: 14px; padding: 4px 8px; border-radius: 4px;'
     )
     console.log('Available audio sources:', {
-      kokoroPreGenerated: article.generatedContentAudioUrl ? '✅ Available' : '❌ Not available',
-      appTtsFallback: '✅ Always available (Kokoro → ElevenLabs → Edge-TTS)',
+      nhkOriginal: article.nhkAudioUrl ? '✅ Available (Priority 1)' : '❌ Not available',
+      voicevoxPreGenerated: article.generatedContentAudioUrl
+        ? '✅ Available (Priority 2)'
+        : '❌ Not available',
+      appTtsFallback: '✅ Always available (Priority 3)',
     })
 
-    // Use Kokoro TTS (pre-generated or app TTS fallback)
+    // PRIORITY 1: NHK original audio (professional narrator)
+    if (article.nhkAudioUrl) {
+      handleNhkAudioPlayback()
+      return
+    }
+
+    // PRIORITY 2 & 3: VOICEVOX TTS or app TTS fallback
     handleKokoroOrTTSFallback()
+  }
+
+  // Handle NHK HLS audio playback (Priority 1)
+  const handleNhkAudioPlayback = async () => {
+    console.log(
+      '%c🎙️ Playing NHK Original Audio (Priority 1)',
+      'background: #E53935; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;'
+    )
+
+    // If already playing NHK audio, pause it
+    if (isNhkPlaying) {
+      pauseNhkAudio()
+      console.log('[Article Reader] Paused NHK audio')
+      return
+    }
+
+    // If NHK audio is ready but paused, resume it
+    if (nhkAudioReady && !isNhkPlaying) {
+      await playNhkAudio()
+      console.log('[Article Reader] Resumed NHK audio')
+      return
+    }
+
+    // Initialize and play NHK audio
+    if (article.nhkAudioUrl) {
+      try {
+        console.log('[Article Reader] Initializing NHK HLS stream:', article.nhkAudioUrl)
+        initializeNhkAudio(article.nhkAudioUrl)
+
+        // Set playback rate
+        if (settings.audioSpeed) {
+          setNhkPlaybackRate(settings.audioSpeed)
+        }
+
+        // Wait a bit for initialization then play
+        setTimeout(async () => {
+          await playNhkAudio()
+        }, 500)
+      } catch (error) {
+        console.error('[Article Reader] NHK audio failed, falling back to TTS:', error)
+        // Fall back to VOICEVOX/TTS
+        handleKokoroOrTTSFallback()
+      }
+    }
   }
 
   // Handle Kokoro TTS playback
@@ -1427,8 +1509,8 @@ export default function EnhancedArticleReader({
             : article.generatedContentAudioUrl
 
         const audio = new Audio(audioUrl)
-        // Validate audioSpeed to prevent "non-finite" error
-        audio.playbackRate = Number.isFinite(settings.audioSpeed) ? settings.audioSpeed! : 1.0
+        // Validate playbackSpeed to prevent "non-finite" error
+        audio.playbackRate = Number.isFinite(settings.playbackSpeed) ? settings.playbackSpeed! : 1.0
 
         // Set up event listeners
         audio.onplay = () => {
@@ -1605,8 +1687,10 @@ export default function EnhancedArticleReader({
 
           // Create and play audio element
           const audio = new Audio(data.audioUrl)
-          // Validate audioSpeed to prevent "non-finite" error
-          audio.playbackRate = Number.isFinite(settings.audioSpeed) ? settings.audioSpeed! : 1.0
+          // Validate playbackSpeed to prevent "non-finite" error
+          audio.playbackRate = Number.isFinite(settings.playbackSpeed)
+            ? settings.playbackSpeed!
+            : 1.0
 
           audio.onended = () => {
             setSentenceAudioLoading(null)
@@ -1647,7 +1731,7 @@ export default function EnhancedArticleReader({
         'background: #FF5722; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;'
       )
       console.log('Provider chain: Kokoro → ElevenLabs → Edge-TTS')
-      await playTTS(sentence, { speed: settings.audioSpeed })
+      await playTTS(sentence, { speed: settings.playbackSpeed })
       setSentenceAudioLoading(null)
       console.log('[Article Reader] App TTS sentence playback completed')
     } catch (ttsError) {
@@ -1753,30 +1837,46 @@ export default function EnhancedArticleReader({
 
           <button
             onClick={handlePlayArticle}
-            disabled={ttsLoading}
+            disabled={ttsLoading || nhkAudioLoading}
             className={`ml-auto px-5 py-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-sm font-medium ${
-              ttsLoading
+              ttsLoading || nhkAudioLoading
                 ? 'bg-gray-100 text-gray-400 cursor-wait'
-                : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
+                : isNhkPlaying
+                  ? 'bg-red-600 text-white hover:bg-red-700 hover:shadow-md hover:shadow-red-500/20'
+                  : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
             }`}
             aria-label={
-              ttsLoading ? t('common.loading') : ttsPlaying ? t('common.pause') : t('common.play')
+              ttsLoading || nhkAudioLoading
+                ? t('common.loading')
+                : ttsPlaying || isNhkPlaying || isPreGeneratedPlaying
+                  ? t('common.pause')
+                  : t('common.play')
             }
           >
-            {ttsLoading ? (
+            {ttsLoading || nhkAudioLoading ? (
               <>
                 <div className="animate-spin w-4 h-4 border-2 border-white/80 border-t-transparent rounded-full" />
                 <span className="text-sm hidden sm:inline">{t('common.loading')}</span>
               </>
-            ) : ttsPlaying ? (
+            ) : ttsPlaying || isNhkPlaying || isPreGeneratedPlaying ? (
               <>
                 <Pause className="w-4 h-4 fill-current" />
                 <span className="text-sm hidden sm:inline">{t('common.pause')}</span>
+                {isNhkPlaying && (
+                  <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded hidden sm:inline">
+                    NHK
+                  </span>
+                )}
               </>
             ) : (
               <>
                 <Play className="w-4 h-4 fill-current" />
                 <span className="text-sm hidden sm:inline">{t('common.play')}</span>
+                {article.nhkAudioUrl && (
+                  <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded hidden sm:inline">
+                    NHK
+                  </span>
+                )}
               </>
             )}
           </button>

@@ -1,12 +1,15 @@
 'use client'
 
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { registerServiceWorker, skipWaiting } from '@/lib/pwa/registerServiceWorker'
+import { registerServiceWorker } from '@/lib/pwa/registerServiceWorker'
 import { UpdateBanner, UpdateIndicator } from './UpdateBanner'
 
 // App version - bump this for critical updates
 // This is checked against the deployed version to detect critical updates
 const APP_VERSION = '1.0.3' // Increment for each deployment
+
+// localStorage key for tracking dismissed version
+const DISMISSED_VERSION_KEY = 'pwa-dismissed-version'
 
 interface VersionInfo {
   version: string
@@ -19,7 +22,10 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
   const [isCriticalUpdate, setIsCriticalUpdate] = useState(false)
   const [showBanner, setShowBanner] = useState(false)
   const [showIndicator, setShowIndicator] = useState(false)
+  const [serverVersion, setServerVersion] = useState<string | null>(null)
   const registrationRef = useRef<ServiceWorkerRegistration | null>(null)
+  // Track if user has dismissed the current update to prevent interval from re-showing
+  const userDismissedRef = useRef(false)
 
   // Check if this is a critical update by comparing versions
   const checkForCriticalUpdate = useCallback(async () => {
@@ -37,9 +43,21 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
         // Check if server version is newer
         if (versionInfo.version !== APP_VERSION) {
           console.log(`[SW] Version mismatch: local=${APP_VERSION}, server=${versionInfo.version}`)
+
+          // Check if user already dismissed this specific version
+          const dismissedVersion = localStorage.getItem(DISMISSED_VERSION_KEY)
+          const alreadyDismissed = dismissedVersion === versionInfo.version
+
+          setServerVersion(versionInfo.version)
           setUpdateAvailable(true)
           setIsCriticalUpdate(versionInfo.critical === true)
-          setShowBanner(true)
+
+          // Only show banner if:
+          // 1. Not already dismissed this version, AND
+          // 2. User hasn't dismissed during this session
+          if (!alreadyDismissed && !userDismissedRef.current) {
+            setShowBanner(true)
+          }
           return true
         }
       }
@@ -99,11 +117,20 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
     setShowBanner(false)
     // Show the floating indicator as a reminder
     setShowIndicator(true)
-  }, [])
+    // Mark as dismissed for this session to prevent interval from re-showing
+    userDismissedRef.current = true
+    // Persist dismissed version to localStorage (non-critical only)
+    // Critical updates will keep showing the indicator
+    if (serverVersion && !isCriticalUpdate) {
+      localStorage.setItem(DISMISSED_VERSION_KEY, serverVersion)
+    }
+  }, [serverVersion, isCriticalUpdate])
 
   const handleIndicatorClick = useCallback(() => {
     setShowIndicator(false)
     setShowBanner(true)
+    // User wants to see banner again, allow it
+    userDismissedRef.current = false
   }, [])
 
   return (
@@ -112,11 +139,7 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
 
       {/* Update UI */}
       {updateAvailable && showBanner && (
-        <UpdateBanner
-          registration={registrationRef.current}
-          isCritical={isCriticalUpdate}
-          onDismiss={handleBannerDismiss}
-        />
+        <UpdateBanner isCritical={isCriticalUpdate} onDismiss={handleBannerDismiss} />
       )}
 
       {/* Floating indicator when banner is dismissed */}

@@ -1292,10 +1292,14 @@ export const strings = {
       searchResults: 'Résultats de recherche',
       resultsFound: '{{count}} trouvés',
       noResultsFound: 'Aucun caractère trouvé correspondant à "{{query}}"',
+      allCharacters: 'Tous les caractères',
       charactersLabel: 'caractères',
-      basicLabel: 'basique',
-      dakutenLabel: 'dakuten',
-      digraphsLabel: 'digraphes',
+      basicLabel: 'Basique',
+      basicDescription: 'Caractères de base (46)',
+      dakutenLabel: 'Dakuten',
+      dakutenDescription: 'Consonnes sonores',
+      digraphsLabel: 'Digraphes',
+      digraphsDescription: 'Caractères combinés',
     },
 
     study: {
@@ -1438,6 +1442,14 @@ export const strings = {
   // News Feature
   news: {
     page: 'Page',
+    filters: {
+      title: 'Filtres',
+      applied: 'Appliqué',
+      level: 'Niveau',
+      source: 'Source',
+      month: 'Mois',
+      day: 'Jour',
+    },
     reader: {
       settings: 'Paramètres de lecture',
       summary: 'Résumé',
@@ -1455,6 +1467,7 @@ export const strings = {
       highlightContent: 'Mots de contenu',
       highlightGrammarOnly: 'Grammaire uniquement',
       shadowingMode: "Mode d'écoute",
+      playbackSpeed: 'Vitesse de lecture',
       repeatCount: 'Nombre de répétitions',
       translation: 'Traduction',
       viewOriginal: "Voir l'original",

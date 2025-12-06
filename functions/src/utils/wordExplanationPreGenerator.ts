@@ -2,114 +2,184 @@
  * Word Explanation Pre-Generator for News Articles
  * Pre-generates comprehensive word explanations for top vocabulary words
  * Stores in Firestore for instant retrieval by frontend
+ *
+ * Uses Qwen 2.5 32B via Modal Ollama endpoint for cost-effective AI processing
  */
 
-import * as admin from 'firebase-admin';
-import * as logger from 'firebase-functions/logger';
-import OpenAI from 'openai';
-import { defineSecret } from 'firebase-functions/params';
-import { ExtractedWord } from './wordExtractor';
+import * as admin from 'firebase-admin'
+import * as logger from 'firebase-functions/logger'
+import { defineSecret } from 'firebase-functions/params'
+import { ExtractedWord } from './wordExtractor'
 
 // Initialize Firestore
-const db = admin.firestore();
+const db = admin.firestore()
 
-// Define OpenAI secret
-const OPENAI_API_KEY = defineSecret('OPENAI_API_KEY');
+// Define Modal API key for Qwen 2.5 access
+const MODAL_API_KEY = defineSecret('MODAL_API_KEY')
 
-// Initialize OpenAI client lazily
-let openai: OpenAI | null = null;
-function getOpenAI(): OpenAI {
-  if (!openai) {
-    openai = new OpenAI({
-      apiKey: OPENAI_API_KEY.value()
-    });
+// Qwen 2.5 configuration via Modal Ollama
+const QWEN_CONFIG = {
+  baseUrl: 'https://emmanuelfabiani23--ollama-llm-ollamallm-serve.modal.run',
+  model: 'qwen2.5:32b',
+  timeout: 300000, // 5 minutes for 32B model
+}
+
+interface QwenChatResponse {
+  choices: Array<{
+    message: {
+      content: string
+    }
+  }>
+  usage?: {
+    prompt_tokens: number
+    completion_tokens: number
+    total_tokens: number
   }
-  return openai;
-}
-
-export interface WordExplanation {
-  word: string;
-  reading: string;
-  romaji: string;
-  meaning: string;
-  partOfSpeech: string;
-
-  // Kanji breakdown
-  kanjiBreakdown?: Array<{
-    kanji: string;
-    meaning: string;
-    kunYomi: string[];
-    onYomi: string[];
-  }>;
-
-  // Conjugation (for verbs/adjectives)
-  conjugation?: {
-    dictionary?: string;
-    present?: string;
-    past?: string;
-    negative?: string;
-    teForm?: string;
-    potential?: string;
-    passive?: string;
-    causative?: string;
-  };
-
-  // Related words
-  relatedWords?: {
-    synonyms: string[];
-    antonyms: string[];
-    compounds: string[];
-  };
-
-  // Metadata
-  jlptLevel?: 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
-  formality: 'casual' | 'formal' | 'neutral' | 'both';
-  usageNotes?: string;
-
-  // Examples
-  examples: Array<{
-    japanese: string;
-    furigana?: string;
-    translation: string;
-    notes?: string;
-  }>;
-}
-
-export interface ArticleWordExplanations {
-  articleId: string;
-  words: WordExplanation[];
-  wordCount: number;
-  generatedAt: admin.firestore.Timestamp;
-  costInfo: {
-    promptTokens: number;
-    completionTokens: number;
-    totalTokens: number;
-    estimatedCost: number;
-  };
-}
-
-export interface BatchExplanationResult {
-  successCount: number;
-  failureCount: number;
-  totalCost: number;
-  totalWords: number;
-  results: Array<{
-    articleId: string;
-    success: boolean;
-    error?: string;
-    explanations?: ArticleWordExplanations;
-  }>;
 }
 
 /**
- * Generate explanation for a single word
+ * Call Qwen 2.5 via Modal Ollama endpoint
+ */
+async function callQwen(
+  systemPrompt: string,
+  userPrompt: string
+): Promise<{
+  content: string
+  usage: { promptTokens: number; completionTokens: number; totalTokens: number }
+}> {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), QWEN_CONFIG.timeout)
+
+  try {
+    const response = await fetch(`${QWEN_CONFIG.baseUrl}/v1/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': MODAL_API_KEY.value(),
+      },
+      body: JSON.stringify({
+        model: QWEN_CONFIG.model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.3,
+        response_format: { type: 'json_object' },
+      }),
+      signal: controller.signal,
+    })
+
+    clearTimeout(timeoutId)
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      throw new Error(`Qwen API error: ${response.status} - ${errorText}`)
+    }
+
+    const data = (await response.json()) as QwenChatResponse
+    const content = data.choices[0]?.message?.content || '{}'
+
+    return {
+      content,
+      usage: {
+        promptTokens: data.usage?.prompt_tokens || 0,
+        completionTokens: data.usage?.completion_tokens || 0,
+        totalTokens: data.usage?.total_tokens || 0,
+      },
+    }
+  } catch (error) {
+    clearTimeout(timeoutId)
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Qwen API timeout after 5 minutes')
+    }
+    throw error
+  }
+}
+
+export interface WordExplanation {
+  word: string
+  reading: string
+  romaji: string
+  meaning: string
+  partOfSpeech: string
+
+  // Kanji breakdown
+  kanjiBreakdown?: Array<{
+    kanji: string
+    meaning: string
+    kunYomi: string[]
+    onYomi: string[]
+  }>
+
+  // Conjugation (for verbs/adjectives)
+  conjugation?: {
+    dictionary?: string
+    present?: string
+    past?: string
+    negative?: string
+    teForm?: string
+    potential?: string
+    passive?: string
+    causative?: string
+  }
+
+  // Related words
+  relatedWords?: {
+    synonyms: string[]
+    antonyms: string[]
+    compounds: string[]
+  }
+
+  // Metadata
+  jlptLevel?: 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
+  formality: 'casual' | 'formal' | 'neutral' | 'both'
+  usageNotes?: string
+
+  // Examples
+  examples: Array<{
+    japanese: string
+    furigana?: string
+    translation: string
+    notes?: string
+  }>
+}
+
+export interface ArticleWordExplanations {
+  articleId: string
+  words: WordExplanation[]
+  wordCount: number
+  generatedAt: admin.firestore.Timestamp
+  costInfo: {
+    promptTokens: number
+    completionTokens: number
+    totalTokens: number
+    estimatedCost: number
+  }
+}
+
+export interface BatchExplanationResult {
+  successCount: number
+  failureCount: number
+  totalCost: number
+  totalWords: number
+  results: Array<{
+    articleId: string
+    success: boolean
+    error?: string
+    explanations?: ArticleWordExplanations
+  }>
+}
+
+/**
+ * Generate explanation for a single word using Qwen 2.5
  */
 async function generateWordExplanation(
   word: ExtractedWord,
   context?: string
-): Promise<{ explanation: WordExplanation; usage: { promptTokens: number; completionTokens: number; totalTokens: number } }> {
-  const ai = getOpenAI();
-
+): Promise<{
+  explanation: WordExplanation
+  usage: { promptTokens: number; completionTokens: number; totalTokens: number }
+}> {
   const systemPrompt = `You are an expert Japanese language dictionary and teacher specializing in comprehensive word explanations.
 
 Your role is to provide detailed, educational word explanations for N5-N3 level students.
@@ -168,7 +238,7 @@ IMPORTANT:
 - Always include kanjiBreakdown if the word contains any kanji
 - Always include conjugation for verbs and adjectives
 - Include at least 2-3 examples
-- Make explanations appropriate for N5-N3 learners`;
+- Make explanations appropriate for N5-N3 learners`
 
   const userPrompt = `Provide a comprehensive explanation for this Japanese word:
 
@@ -178,21 +248,11 @@ ${context ? `Context where this word appears:\n"${context}"\n\n` : ''}
 ${word.estimatedJLPT ? `Estimated JLPT Level: ${word.estimatedJLPT}\n` : ''}
 Word frequency in article: ${word.frequency}
 
-Return a valid JSON object as specified.`;
+Return a valid JSON object as specified.`
 
   try {
-    const response = await ai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      temperature: 0.3, // Lower for consistent explanations
-      response_format: { type: 'json_object' }
-    });
-
-    const content = response.choices[0].message.content || '{}';
-    const parsed = JSON.parse(content);
+    const { content, usage } = await callQwen(systemPrompt, userPrompt)
+    const parsed = JSON.parse(content)
 
     // Ensure required fields
     const explanation: WordExplanation = {
@@ -207,24 +267,18 @@ Return a valid JSON object as specified.`;
       jlptLevel: parsed.jlptLevel || word.estimatedJLPT,
       formality: parsed.formality || 'neutral',
       usageNotes: parsed.usageNotes,
-      examples: parsed.examples || []
-    };
+      examples: parsed.examples || [],
+    }
 
-    const usage = {
-      promptTokens: response.usage?.prompt_tokens || 0,
-      completionTokens: response.usage?.completion_tokens || 0,
-      totalTokens: response.usage?.total_tokens || 0
-    };
-
-    return { explanation, usage };
-
+    return { explanation, usage }
   } catch (error) {
-    logger.error('[WordExplanationPreGen] Error generating explanation', {
+    logger.error('[WordExplanationPreGen] Error generating explanation with Qwen', {
       word: word.word,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
+      model: QWEN_CONFIG.model,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
 
-    throw error;
+    throw error
   }
 }
 
@@ -235,49 +289,46 @@ export async function generateWordExplanations(
   words: ExtractedWord[],
   articleContext?: string
 ): Promise<{ explanations: WordExplanation[]; totalCost: number; totalTokens: number }> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   logger.info('[WordExplanationPreGen] Starting word explanation generation', {
-    wordCount: words.length
-  });
+    wordCount: words.length,
+  })
 
-  const explanations: WordExplanation[] = [];
-  let totalPromptTokens = 0;
-  let totalCompletionTokens = 0;
-  let totalTokens = 0;
+  const explanations: WordExplanation[] = []
+  let totalPromptTokens = 0
+  let totalCompletionTokens = 0
+  let totalTokens = 0
 
   for (const word of words) {
     try {
-      const { explanation, usage } = await generateWordExplanation(word, articleContext);
+      const { explanation, usage } = await generateWordExplanation(word, articleContext)
 
-      explanations.push(explanation);
+      explanations.push(explanation)
 
-      totalPromptTokens += usage.promptTokens;
-      totalCompletionTokens += usage.completionTokens;
-      totalTokens += usage.totalTokens;
+      totalPromptTokens += usage.promptTokens
+      totalCompletionTokens += usage.completionTokens
+      totalTokens += usage.totalTokens
 
       logger.debug('[WordExplanationPreGen] Word explanation generated', {
         word: word.word,
         meaning: explanation.meaning,
-        tokensUsed: usage.totalTokens
-      });
-
+        tokensUsed: usage.totalTokens,
+      })
     } catch (error) {
       logger.error('[WordExplanationPreGen] Failed to generate explanation for word', {
         word: word.word,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
+        error: error instanceof Error ? error.message : 'Unknown error',
+      })
       // Continue with next word
     }
   }
 
-  // Calculate estimated cost (GPT-4o-mini pricing: $0.15/1M input, $0.60/1M output)
-  const totalCost = (
-    (totalPromptTokens / 1_000_000) * 0.15 +
-    (totalCompletionTokens / 1_000_000) * 0.60
-  );
+  // Qwen 2.5 via Modal Ollama is self-hosted = $0 cost
+  // Keeping token tracking for monitoring purposes
+  const totalCost = 0
 
-  const duration = Date.now() - startTime;
+  const duration = Date.now() - startTime
 
   logger.info('[WordExplanationPreGen] Word explanation generation completed', {
     wordsRequested: words.length,
@@ -285,14 +336,14 @@ export async function generateWordExplanations(
     durationMs: duration,
     tokensUsed: totalTokens,
     estimatedCost: totalCost.toFixed(4),
-    avgTimePerWord: Math.round(duration / words.length)
-  });
+    avgTimePerWord: Math.round(duration / words.length),
+  })
 
   return {
     explanations,
     totalCost,
-    totalTokens
-  };
+    totalTokens,
+  }
 }
 
 /**
@@ -303,20 +354,23 @@ export async function generateArticleWordExplanations(
   words: ExtractedWord[],
   articleContext?: string
 ): Promise<ArticleWordExplanations> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   logger.info('[WordExplanationPreGen] Starting article word explanations', {
     articleId,
-    wordCount: words.length
-  });
+    wordCount: words.length,
+  })
 
   try {
     // Generate explanations for all words
-    const { explanations, totalCost, totalTokens } = await generateWordExplanations(words, articleContext);
+    const { explanations, totalCost, totalTokens } = await generateWordExplanations(
+      words,
+      articleContext
+    )
 
     // Calculate token breakdown (rough estimate)
-    const promptTokens = Math.floor(totalTokens * 0.4);
-    const completionTokens = totalTokens - promptTokens;
+    const promptTokens = Math.floor(totalTokens * 0.4)
+    const completionTokens = totalTokens - promptTokens
 
     const articleExplanations: ArticleWordExplanations = {
       articleId,
@@ -327,59 +381,59 @@ export async function generateArticleWordExplanations(
         promptTokens,
         completionTokens,
         totalTokens,
-        estimatedCost: totalCost
-      }
-    };
+        estimatedCost: totalCost,
+      },
+    }
 
-    const duration = Date.now() - startTime;
+    const duration = Date.now() - startTime
 
     logger.info('[WordExplanationPreGen] Article word explanations completed', {
       articleId,
       wordCount: explanations.length,
       durationMs: duration,
-      estimatedCost: totalCost.toFixed(4)
-    });
+      estimatedCost: totalCost.toFixed(4),
+    })
 
-    return articleExplanations;
-
+    return articleExplanations
   } catch (error) {
-    const duration = Date.now() - startTime;
+    const duration = Date.now() - startTime
     logger.error('[WordExplanationPreGen] Article word explanations failed', {
       articleId,
       error: error instanceof Error ? error.message : 'Unknown error',
-      durationMs: duration
-    });
+      durationMs: duration,
+    })
 
-    throw error;
+    throw error
   }
 }
 
 /**
  * Store article word explanations in Firestore
  */
-export async function storeArticleWordExplanations(explanations: ArticleWordExplanations): Promise<void> {
+export async function storeArticleWordExplanations(
+  explanations: ArticleWordExplanations
+): Promise<void> {
   try {
-    const docRef = db.collection('news_article_word_explanations').doc(explanations.articleId);
+    const docRef = db.collection('news_article_word_explanations').doc(explanations.articleId)
 
     await docRef.set({
       ...explanations,
       generatedAt: admin.firestore.FieldValue.serverTimestamp(),
-      lastUpdated: admin.firestore.FieldValue.serverTimestamp()
-    });
+      lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+    })
 
     logger.info('[WordExplanationPreGen] Word explanations stored', {
       articleId: explanations.articleId,
       wordCount: explanations.wordCount,
-      collection: 'news_article_word_explanations'
-    });
-
+      collection: 'news_article_word_explanations',
+    })
   } catch (error) {
     logger.error('[WordExplanationPreGen] Failed to store word explanations', {
       articleId: explanations.articleId,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
 
-    throw error;
+    throw error
   }
 }
 
@@ -388,23 +442,23 @@ export async function storeArticleWordExplanations(explanations: ArticleWordExpl
  */
 export async function generateBatchWordExplanations(
   articles: Array<{
-    id: string;
-    content: string;
-    words: ExtractedWord[];
+    id: string
+    content: string
+    words: ExtractedWord[]
   }>
 ): Promise<BatchExplanationResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   logger.info('[WordExplanationPreGen] Starting batch word explanation generation', {
     articleCount: articles.length,
-    totalWords: articles.reduce((sum, a) => sum + a.words.length, 0)
-  });
+    totalWords: articles.reduce((sum, a) => sum + a.words.length, 0),
+  })
 
-  const results: BatchExplanationResult['results'] = [];
-  let successCount = 0;
-  let failureCount = 0;
-  let totalCost = 0;
-  let totalWords = 0;
+  const results: BatchExplanationResult['results'] = []
+  let successCount = 0
+  let failureCount = 0
+  let totalCost = 0
+  let totalWords = 0
 
   for (const article of articles) {
     try {
@@ -413,48 +467,47 @@ export async function generateBatchWordExplanations(
         article.id,
         article.words,
         article.content.substring(0, 500) // Use first 500 chars as context
-      );
+      )
 
       // Store in Firestore
-      await storeArticleWordExplanations(explanations);
+      await storeArticleWordExplanations(explanations)
 
       // Track success
       results.push({
         articleId: article.id,
         success: true,
-        explanations
-      });
+        explanations,
+      })
 
-      successCount++;
-      totalCost += explanations.costInfo.estimatedCost;
-      totalWords += explanations.wordCount;
+      successCount++
+      totalCost += explanations.costInfo.estimatedCost
+      totalWords += explanations.wordCount
 
       logger.info('[WordExplanationPreGen] Article word explanations completed', {
         articleId: article.id,
         wordCount: explanations.wordCount,
         successCount,
-        remainingArticles: articles.length - successCount - failureCount
-      });
-
+        remainingArticles: articles.length - successCount - failureCount,
+      })
     } catch (error) {
       // Track failure
       results.push({
         articleId: article.id,
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
+        error: error instanceof Error ? error.message : 'Unknown error',
+      })
 
-      failureCount++;
+      failureCount++
 
       logger.error('[WordExplanationPreGen] Article word explanations failed', {
         articleId: article.id,
         error: error instanceof Error ? error.message : 'Unknown error',
-        failureCount
-      });
+        failureCount,
+      })
     }
   }
 
-  const duration = Date.now() - startTime;
+  const duration = Date.now() - startTime
 
   logger.info('[WordExplanationPreGen] Batch word explanation generation completed', {
     total: articles.length,
@@ -463,39 +516,40 @@ export async function generateBatchWordExplanations(
     totalWords,
     totalCost: totalCost.toFixed(4),
     durationMs: duration,
-    avgTimePerArticle: Math.round(duration / articles.length)
-  });
+    avgTimePerArticle: Math.round(duration / articles.length),
+  })
 
   return {
     successCount,
     failureCount,
     totalCost,
     totalWords,
-    results
-  };
+    results,
+  }
 }
 
 /**
  * Get cached word explanations for an article
  */
-export async function getCachedWordExplanations(articleId: string): Promise<ArticleWordExplanations | null> {
+export async function getCachedWordExplanations(
+  articleId: string
+): Promise<ArticleWordExplanations | null> {
   try {
-    const docRef = db.collection('news_article_word_explanations').doc(articleId);
-    const doc = await docRef.get();
+    const docRef = db.collection('news_article_word_explanations').doc(articleId)
+    const doc = await docRef.get()
 
     if (doc.exists) {
-      return doc.data() as ArticleWordExplanations;
+      return doc.data() as ArticleWordExplanations
     }
 
-    return null;
-
+    return null
   } catch (error) {
     logger.error('[WordExplanationPreGen] Error fetching cached word explanations', {
       articleId,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
 
-    return null;
+    return null
   }
 }
 
@@ -509,30 +563,29 @@ export async function getWordExplanation(
   try {
     // Try to find in article cache first
     if (articleId) {
-      const articleExplanations = await getCachedWordExplanations(articleId);
+      const articleExplanations = await getCachedWordExplanations(articleId)
       if (articleExplanations) {
-        const found = articleExplanations.words.find(w => w.word === word);
-        if (found) return found;
+        const found = articleExplanations.words.find(w => w.word === word)
+        if (found) return found
       }
     }
 
     // Try global word cache
-    const wordCacheRef = db.collection('word_explanations_cache').doc(word);
-    const wordCacheDoc = await wordCacheRef.get();
+    const wordCacheRef = db.collection('word_explanations_cache').doc(word)
+    const wordCacheDoc = await wordCacheRef.get()
 
     if (wordCacheDoc.exists) {
-      return wordCacheDoc.data() as WordExplanation;
+      return wordCacheDoc.data() as WordExplanation
     }
 
-    return null;
-
+    return null
   } catch (error) {
     logger.error('[WordExplanationPreGen] Error fetching word explanation', {
       word,
       articleId,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
 
-    return null;
+    return null
   }
 }

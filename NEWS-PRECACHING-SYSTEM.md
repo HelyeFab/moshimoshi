@@ -21,7 +21,7 @@ The system runs **4x daily** (00:00, 06:00, 12:00, 18:00 JST) and processes appr
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                    NHK Easy Scraper                              │
-│              (nhk.selfmind.dev API)                              │
+│              (Railway nhk-api-proxy)                             │
 │                                                                  │
 │  Output: news_articles collection                                │
 └─────────────────────────────────────────────────────────────────┘
@@ -72,23 +72,24 @@ The system runs **4x daily** (00:00, 06:00, 12:00, 18:00 JST) and processes appr
 
 ### Core Utilities
 
-| File | Purpose |
-|------|---------|
-| `functions/src/utils/wordExtractor.ts` | Extracts top 100 Japanese words from article content |
-| `functions/src/utils/translationPreGenerator.ts` | Generates translations for article segments |
-| `functions/src/utils/wordExplanationPreGenerator.ts` | Generates comprehensive word explanations |
-| `functions/src/utils/newsAudioGenerator.ts` | Generates TTS audio using Kokoro |
+| File                                                 | Purpose                                              |
+| ---------------------------------------------------- | ---------------------------------------------------- |
+| `functions/src/utils/wordExtractor.ts`               | Extracts top 100 Japanese words from article content |
+| `functions/src/utils/translationPreGenerator.ts`     | Generates translations for article segments          |
+| `functions/src/utils/wordExplanationPreGenerator.ts` | Generates comprehensive word explanations            |
+| `functions/src/utils/newsAudioGenerator.ts`          | Generates TTS audio using Kokoro                     |
 
 ### Scheduler
 
-| File | Purpose |
-|------|---------|
+| File                                       | Purpose                                   |
+| ------------------------------------------ | ----------------------------------------- |
 | `functions/src/scheduled/newsScheduler.ts` | Main scheduler orchestrating the pipeline |
-| `functions/src/scrapers/nhkEasyScraper.ts` | NHK Easy article scraper |
+| `functions/src/scrapers/nhkEasyScraper.ts` | NHK Easy article scraper                  |
 
 ## Firestore Collections
 
 ### `news_articles`
+
 Main articles collection (created by scraper).
 
 ```typescript
@@ -115,6 +116,7 @@ Main articles collection (created by scraper).
 ```
 
 ### `news_article_translations`
+
 Pre-generated translations (created by Stage 2).
 
 ```typescript
@@ -145,6 +147,7 @@ Pre-generated translations (created by Stage 2).
 ```
 
 ### `news_article_word_explanations`
+
 Pre-generated word explanations (created by Stage 3).
 
 ```typescript
@@ -188,9 +191,9 @@ Pre-generated word explanations (created by Stage 3).
 
 ## Firebase Secrets Required
 
-| Secret | Purpose |
-|--------|---------|
-| `KOKORO_API_KEY` | Kokoro TTS API authentication |
+| Secret           | Purpose                                           |
+| ---------------- | ------------------------------------------------- |
+| `KOKORO_API_KEY` | Kokoro TTS API authentication                     |
 | `OPENAI_API_KEY` | OpenAI API for translations and word explanations |
 
 ### Setting Secrets
@@ -206,24 +209,27 @@ The scraper can be triggered manually from the admin dashboard or via Firebase c
 
 ```typescript
 // From frontend
-const result = await httpsCallable(functions, 'manualNewsScraperFunction')({
+const result = await httpsCallable(
+  functions,
+  'manualNewsScraperFunction'
+)({
   adminKey: 'news-scraper-admin-2025', // or be authenticated
   source: 'nhk-easy', // optional: specific source
   startDate: '2025-01-01', // optional: custom date range
-  endDate: '2025-01-15'
-});
+  endDate: '2025-01-15',
+})
 ```
 
 ## Estimated Costs
 
 Per article (approximate):
 
-| Stage | Provider | Cost |
-|-------|----------|------|
-| Audio | Kokoro TTS | Free (self-hosted) |
-| Translations | OpenAI GPT-4o-mini | ~$0.002-0.005 |
-| Word Explanations (100 words) | OpenAI GPT-4o-mini | ~$0.01-0.02 |
-| **Total per article** | | **~$0.02-0.03** |
+| Stage                         | Provider           | Cost               |
+| ----------------------------- | ------------------ | ------------------ |
+| Audio                         | Kokoro TTS         | Free (self-hosted) |
+| Translations                  | OpenAI GPT-4o-mini | ~$0.002-0.005      |
+| Word Explanations (100 words) | OpenAI GPT-4o-mini | ~$0.01-0.02        |
+| **Total per article**         |                    | **~$0.02-0.03**    |
 
 At 4 articles/day = ~$2.40-3.60/month
 
@@ -233,16 +239,14 @@ The frontend should check for pre-cached data before making real-time API calls:
 
 ```typescript
 // Check for pre-cached translation
-const translationDoc = await getDoc(
-  doc(db, 'news_article_translations', articleId)
-);
+const translationDoc = await getDoc(doc(db, 'news_article_translations', articleId))
 
 if (translationDoc.exists()) {
   // Use cached translation (instant!)
-  return translationDoc.data();
+  return translationDoc.data()
 } else {
   // Fall back to real-time API call
-  return await generateTranslation(text);
+  return await generateTranslation(text)
 }
 ```
 
@@ -251,6 +255,7 @@ if (translationDoc.exists()) {
 Logs are written to Firestore `scraping_logs` collection and Firebase Functions logs.
 
 View logs:
+
 ```bash
 firebase functions:log --only scheduledNewsScraperFunction
 firebase functions:log --only manualNewsScraperFunction
@@ -268,12 +273,12 @@ All errors are logged for debugging.
 
 ## Schedule
 
-| Time (JST) | UTC | Description |
-|------------|-----|-------------|
-| 00:00 | 15:00 (prev day) | Midnight run |
-| 06:00 | 21:00 (prev day) | Morning run |
-| 12:00 | 03:00 | Noon run |
-| 18:00 | 09:00 | Evening run |
+| Time (JST) | UTC              | Description  |
+| ---------- | ---------------- | ------------ |
+| 00:00      | 15:00 (prev day) | Midnight run |
+| 06:00      | 21:00 (prev day) | Morning run  |
+| 12:00      | 03:00            | Noon run     |
+| 18:00      | 09:00            | Evening run  |
 
 Cron expression: `0 0,6,12,18 * * *`
 
