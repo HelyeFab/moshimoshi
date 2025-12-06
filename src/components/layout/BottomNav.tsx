@@ -298,12 +298,15 @@ export default function BottomNav({
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
               // Edge-to-edge positioning (Solution A)
-              'fixed bottom-[-1px] left-0 right-0 z-50 w-full',
+              'fixed bottom-0 left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
               // Background to fill safe area below the rounded inner container
-              'bg-green-500', // TEMP: Green for debugging v2
+              'bg-blue-500', // TEMP: Blue for debugging v3
               className
             )}
+            style={{
+              paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+            }}
             role="navigation"
             aria-label="Bottom navigation"
           >
