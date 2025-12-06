@@ -102,6 +102,7 @@ export const strings = {
     edit: 'Bearbeiten',
     remove: 'Remove',
     back: 'Zurück',
+    backTo: 'Zurück zu',
     gotIt: 'Verstanden!',
     next: 'Weiter',
     previous: 'Zurück',
@@ -1284,6 +1285,7 @@ export const strings = {
 
     navigation: {
       backToGrid: 'Zurück zu Zeichen',
+      characters: 'Zeichen',
       nextCharacter: 'Nächstes Zeichen',
       previousCharacter: 'Vorheriges Zeichen',
       startStudy: 'Studium beginnen',
@@ -1330,6 +1332,7 @@ export const strings = {
       pinToReview: 'Zur Wiederholung anheften',
       unpinFromReview: 'Von Wiederholung lösen',
       markAsLearned: 'Als gelernt markieren',
+      learned: 'Gelernt',
       pronunciation: 'Aussprache',
     },
 

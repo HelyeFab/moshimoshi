@@ -366,6 +366,7 @@ export const strings = {
     edit: '編集',
     remove: 'Remove',
     back: '戻る',
+    backTo: '戻る：',
     gotIt: '了解！',
     next: '次へ',
     previous: '前へ',
@@ -2135,6 +2136,16 @@ export const strings = {
       scriptType: '文字の種類',
     },
 
+    navigation: {
+      backToGrid: '文字一覧に戻る',
+      characters: '文字',
+      nextCharacter: '次の文字',
+      previousCharacter: '前の文字',
+      startStudy: '学習を開始',
+      startReview: '復習を開始',
+      viewAll: 'すべて表示',
+    },
+
     selectAllInRow: 'この行の{{count}}文字をすべて選択',
 
     browse: {
@@ -2164,6 +2175,7 @@ export const strings = {
         skip: 'スキップ',
         examples: '例文',
         markAsLearned: '学習済みにする',
+        learned: '学習済み',
         noExamples: '例文がありません',
       },
     },

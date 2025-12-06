@@ -632,13 +632,6 @@ export default function ReviewEngine({
                 </span>
               )}
               <button
-                onClick={handleHint}
-                className="p-1.5 sm:p-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                title={t('review.hint')}
-              >
-                💡
-              </button>
-              <button
                 onClick={onCancel}
                 className="p-1.5 sm:p-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                 title={t('common.exit')}

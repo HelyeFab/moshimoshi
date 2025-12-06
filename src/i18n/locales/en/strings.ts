@@ -365,6 +365,7 @@ export const strings = {
     edit: 'Edit',
     remove: 'Remove',
     back: 'Back',
+    backTo: 'Back to',
     dismiss: 'Dismiss',
     gotIt: 'Got it!',
     enable: 'Enable',
@@ -2751,6 +2752,7 @@ export const strings = {
 
     navigation: {
       backToGrid: 'Back to Characters',
+      characters: 'Characters',
       nextCharacter: 'Next Character',
       previousCharacter: 'Previous Character',
       startStudy: 'Start Studying',
@@ -2799,6 +2801,7 @@ export const strings = {
       pinToReview: 'Pin to Review',
       unpinFromReview: 'Unpin from Review',
       markAsLearned: 'Mark as Learned',
+      learned: 'Learned',
       pronunciation: 'Pronunciation',
       skip: 'Skip',
       examples: 'Examples',

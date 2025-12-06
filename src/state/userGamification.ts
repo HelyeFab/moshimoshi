@@ -16,7 +16,11 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { indexedDBStore } from '@/lib/gamification/indexedDBStore'
-import { DateSerializer, type ISODateString, type ISODateTimeString } from '@/lib/types/shared/timestamp.types'
+import {
+  DateSerializer,
+  type ISODateString,
+  type ISODateTimeString,
+} from '@/lib/types/shared/timestamp.types'
 import { VersionConflictError } from '@/lib/types/shared/versioned.types'
 
 // Global flag to prevent duplicate Firebase loads
@@ -33,7 +37,7 @@ interface MutationQueue {
 
 const mutationQueue: MutationQueue = {
   pending: [],
-  isProcessing: false
+  isProcessing: false,
 }
 
 /**
@@ -135,7 +139,7 @@ export const useGamificationStore = create<GamificationState>()(
       /**
        * Set the user ID for IndexedDB operations
        */
-      setUserId: (userId) => {
+      setUserId: userId => {
         set({ userId })
       },
 
@@ -143,7 +147,7 @@ export const useGamificationStore = create<GamificationState>()(
        * Award XP and recalculate level
        * FIXED: Uses mutation queue and ISO date strings
        */
-      awardXP: (amount) => {
+      awardXP: amount => {
         // Feature flag check
         if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
           return
@@ -166,7 +170,7 @@ export const useGamificationStore = create<GamificationState>()(
           currentLevel: newLevel,
           lastActivityDate: DateSerializer.getCurrentDateUTC(), // FIXED: ISO string
           isDirty: true,
-          version: state.version + 1 // FIXED: Always increment version
+          version: state.version + 1, // FIXED: Always increment version
         })
 
         // Queue mutation to prevent race conditions
@@ -209,31 +213,31 @@ export const useGamificationStore = create<GamificationState>()(
           currentStreak: optimisticNewStreak,
           bestStreak: Math.max(optimisticNewStreak, state.bestStreak),
           lastActivityDate: DateSerializer.getCurrentDateUTC(),
-          isSyncing: true
+          isSyncing: true,
         })
 
         try {
           // Get Firebase auth token
-          const { getAuth } = await import('firebase/auth');
-          const auth = getAuth();
-          const user = auth.currentUser;
+          const { getAuth } = await import('firebase/auth')
+          const auth = getAuth()
+          const user = auth.currentUser
 
           if (!user) {
-            throw new Error('User not authenticated');
+            throw new Error('User not authenticated')
           }
 
-          const idToken = await user.getIdToken();
+          const idToken = await user.getIdToken()
 
           // Call transactional API endpoint
           const response = await fetch('/api/gamification/streak/increment', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${idToken}`
+              Authorization: `Bearer ${idToken}`,
             },
             body: JSON.stringify({
-              version: state.version
-            })
+              version: state.version,
+            }),
           })
 
           if (!response.ok) {
@@ -249,7 +253,7 @@ export const useGamificationStore = create<GamificationState>()(
               lastActivityDate: result.data.lastActivityDate,
               version: result.data.version,
               isSyncing: false,
-              isDirty: false
+              isDirty: false,
             })
 
             console.log('[Gamification Store] Streak incremented via Firebase:', result.data)
@@ -260,7 +264,6 @@ export const useGamificationStore = create<GamificationState>()(
           } else {
             throw new Error('Invalid response from streak increment API')
           }
-
         } catch (error) {
           console.error('[Gamification Store] Failed to increment streak via Firebase:', error)
 
@@ -270,7 +273,7 @@ export const useGamificationStore = create<GamificationState>()(
             bestStreak: state.bestStreak,
             lastActivityDate: state.lastActivityDate,
             isSyncing: false,
-            isDirty: true
+            isDirty: true,
           })
 
           // Fall back to IndexedDB save
@@ -305,31 +308,31 @@ export const useGamificationStore = create<GamificationState>()(
         set({
           currentStreak: 0,
           lastActivityDate: DateSerializer.getCurrentDateUTC(),
-          isSyncing: true
+          isSyncing: true,
         })
 
         try {
           // Get Firebase auth token
-          const { getAuth } = await import('firebase/auth');
-          const auth = getAuth();
-          const user = auth.currentUser;
+          const { getAuth } = await import('firebase/auth')
+          const auth = getAuth()
+          const user = auth.currentUser
 
           if (!user) {
-            throw new Error('User not authenticated');
+            throw new Error('User not authenticated')
           }
 
-          const idToken = await user.getIdToken();
+          const idToken = await user.getIdToken()
 
           // Call transactional API endpoint
           const response = await fetch('/api/gamification/streak/reset', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${idToken}`
+              Authorization: `Bearer ${idToken}`,
             },
             body: JSON.stringify({
-              version: state.version
-            })
+              version: state.version,
+            }),
           })
 
           if (!response.ok) {
@@ -345,7 +348,7 @@ export const useGamificationStore = create<GamificationState>()(
               lastActivityDate: result.data.lastActivityDate,
               version: result.data.version,
               isSyncing: false,
-              isDirty: false
+              isDirty: false,
             })
 
             console.log('[Gamification Store] Streak reset via Firebase:', result.data)
@@ -356,7 +359,6 @@ export const useGamificationStore = create<GamificationState>()(
           } else {
             throw new Error('Invalid response from streak reset API')
           }
-
         } catch (error) {
           console.error('[Gamification Store] Failed to reset streak via Firebase:', error)
 
@@ -365,7 +367,7 @@ export const useGamificationStore = create<GamificationState>()(
             currentStreak: state.currentStreak,
             lastActivityDate: state.lastActivityDate,
             isSyncing: false,
-            isDirty: true
+            isDirty: true,
           })
 
           // Fall back to IndexedDB save
@@ -376,7 +378,7 @@ export const useGamificationStore = create<GamificationState>()(
       /**
        * Unlock an achievement
        */
-      unlockAchievement: (id) => {
+      unlockAchievement: id => {
         // Feature flag check
         if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
           return
@@ -390,7 +392,7 @@ export const useGamificationStore = create<GamificationState>()(
           return
         }
 
-        set((state) => {
+        set(state => {
           // Prevent duplicate unlocks
           if (state.unlockedAchievements.includes(id)) {
             return state
@@ -399,7 +401,7 @@ export const useGamificationStore = create<GamificationState>()(
           return {
             unlockedAchievements: [...state.unlockedAchievements, id],
             version: state.version + 1,
-            isDirty: true
+            isDirty: true,
           }
         })
 
@@ -421,17 +423,19 @@ export const useGamificationStore = create<GamificationState>()(
 
         // CRITICAL: Block if not hydrated
         if (!state.hasHydrated) {
-          console.error('[Gamification Store] Cannot update achievement progress before hydration complete')
+          console.error(
+            '[Gamification Store] Cannot update achievement progress before hydration complete'
+          )
           return
         }
 
-        set((state) => ({
+        set(state => ({
           achievementProgress: {
             ...state.achievementProgress,
-            [id]: progress
+            [id]: progress,
           },
           version: state.version + 1,
-          isDirty: true
+          isDirty: true,
         }))
 
         queueMutation(async () => {
@@ -450,16 +454,16 @@ export const useGamificationStore = create<GamificationState>()(
 
         const state = get()
 
-        // CRITICAL: Block if not hydrated
+        // Block if not hydrated - session will still be processed server-side
         if (!state.hasHydrated) {
-          console.error('[Gamification Store] Cannot increment session count before hydration complete')
+          // Silent return - server still processes the session
           return
         }
 
-        set((state) => ({
+        set(state => ({
           sessionCount: state.sessionCount + 1,
           version: state.version + 1,
-          isDirty: true
+          isDirty: true,
         }))
 
         queueMutation(async () => {
@@ -471,7 +475,7 @@ export const useGamificationStore = create<GamificationState>()(
        * Update store from server response (used by gamificationListener)
        * Updates XP, level, and streak data from API responses
        */
-      updateFromServer: (data) => {
+      updateFromServer: data => {
         // Feature flag check
         if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
           return
@@ -483,7 +487,7 @@ export const useGamificationStore = create<GamificationState>()(
           currentStreak: data.currentStreak,
           bestStreak: data.bestStreak,
           isDirty: false,
-          lastSyncedAt: DateSerializer.getCurrentDateTimeUTC()
+          lastSyncedAt: DateSerializer.getCurrentDateTimeUTC(),
         })
       },
 
@@ -506,7 +510,9 @@ export const useGamificationStore = create<GamificationState>()(
 
           // CRITICAL: Don't sync if data hasn't been loaded yet (prevents race condition)
           if (!state.isLoaded || !state.hasHydrated) {
-            console.warn('[Gamification State] Data not loaded/hydrated yet, skipping Firebase sync to prevent overwriting real data')
+            console.warn(
+              '[Gamification State] Data not loaded/hydrated yet, skipping Firebase sync to prevent overwriting real data'
+            )
             return
           }
 
@@ -524,14 +530,16 @@ export const useGamificationStore = create<GamificationState>()(
             state.unlockedAchievements.length === 0
 
           if (looksUninitialized && state.lastSyncedAt === null) {
-            console.error('[Gamification State] Refusing to sync uninitialized data (all zeros). This prevents data loss!')
+            console.error(
+              '[Gamification State] Refusing to sync uninitialized data (all zeros). This prevents data loss!'
+            )
             console.error('[Gamification State] Current state:', {
               totalXP: state.totalXP,
               currentStreak: state.currentStreak,
               sessionCount: state.sessionCount,
               isLoaded: state.isLoaded,
               hasHydrated: state.hasHydrated,
-              isDirty: state.isDirty
+              isDirty: state.isDirty,
             })
             return
           }
@@ -545,8 +553,8 @@ export const useGamificationStore = create<GamificationState>()(
               lastActivityDate: state.lastActivityDate, // Already ISO string
               unlockedAchievements: state.unlockedAchievements,
               achievementProgress: state.achievementProgress,
-              sessionCount: state.sessionCount
-            })
+              sessionCount: state.sessionCount,
+            }),
           })
 
           if (!response.ok) {
@@ -557,7 +565,7 @@ export const useGamificationStore = create<GamificationState>()(
 
           set({
             lastSyncedAt: DateSerializer.getCurrentDateTimeUTC(), // FIXED: ISO string
-            isDirty: false
+            isDirty: false,
           })
         } catch (error) {
           console.error('[Gamification State] Failed to sync to Firebase:', error)
@@ -597,7 +605,7 @@ export const useGamificationStore = create<GamificationState>()(
           // Call load API
           const response = await fetch('/api/gamification/load', {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
           })
 
           if (!response.ok) {
@@ -612,7 +620,7 @@ export const useGamificationStore = create<GamificationState>()(
               current: 0,
               best: 0,
               lastActivityDate: null,
-              version: 1
+              version: 1,
             }
 
             set({
@@ -628,7 +636,7 @@ export const useGamificationStore = create<GamificationState>()(
               isDirty: false,
               isLoaded: true,
               hasHydrated: true, // Mark as hydrated
-              lastSyncedAt: DateSerializer.getCurrentDateTimeUTC()
+              lastSyncedAt: DateSerializer.getCurrentDateTimeUTC(),
             })
 
             await get().saveToIndexedDB()
@@ -649,7 +657,7 @@ export const useGamificationStore = create<GamificationState>()(
        * Load state from IndexedDB
        * FIXED: Uses ISO strings
        */
-      loadFromIndexedDB: async (userId) => {
+      loadFromIndexedDB: async userId => {
         try {
           // Only run in browser
           if (typeof window === 'undefined') return
@@ -679,7 +687,7 @@ export const useGamificationStore = create<GamificationState>()(
               version: data.version || 1,
               isDirty: false,
               isLoaded: true,
-              hasHydrated: true // Mark as hydrated
+              hasHydrated: true, // Mark as hydrated
             })
           } else {
             // Mark as loaded even if no data found (prevents sync race condition)
@@ -718,7 +726,7 @@ export const useGamificationStore = create<GamificationState>()(
             achievementProgress: state.achievementProgress,
             sessionCount: state.sessionCount,
             lastSyncedAt: state.lastSyncedAt, // Already ISO string
-            version: state.version ?? 1
+            version: state.version ?? 1,
           })
         } catch (error) {
           console.error('[Gamification State] Failed to save to IndexedDB:', error)
@@ -742,14 +750,14 @@ export const useGamificationStore = create<GamificationState>()(
           isDirty: false,
           isLoaded: false,
           hasHydrated: false,
-          version: 1
+          version: 1,
         })
-      }
+      },
     }),
     {
       name: 'gamification-storage',
       storage: createJSONStorage(() => ({
-        getItem: async (name) => {
+        getItem: async name => {
           const userId = useGamificationStore.getState().userId
           if (!userId) return null
 
@@ -762,19 +770,19 @@ export const useGamificationStore = create<GamificationState>()(
             await indexedDBStore.save(state.userId, state)
           }
         },
-        removeItem: async (name) => {
+        removeItem: async name => {
           const userId = useGamificationStore.getState().userId
           if (userId) {
             await indexedDBStore.clear(userId)
           }
-        }
+        },
       })),
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => state => {
         // Mark as hydrated when rehydration completes
         if (state) {
           state.hasHydrated = true
         }
-      }
+      },
     }
   )
 )

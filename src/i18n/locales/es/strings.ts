@@ -90,6 +90,7 @@ export const strings = {
     edit: 'Editar',
     remove: 'Remove',
     back: 'Atrás',
+    backTo: 'Volver a',
     gotIt: '¡Entendido!',
     next: 'Siguiente',
     previous: 'Anterior',
@@ -1264,6 +1265,7 @@ export const strings = {
 
     navigation: {
       backToGrid: 'Volver a caracteres',
+      characters: 'Caracteres',
       nextCharacter: 'Siguiente carácter',
       previousCharacter: 'Carácter anterior',
       startStudy: 'Comenzar a estudiar',
@@ -1292,6 +1294,7 @@ export const strings = {
       pinToReview: 'Fijar para repaso',
       unpinFromReview: 'Quitar de repaso',
       markAsLearned: 'Marcar como aprendido',
+      learned: 'Aprendido',
       pronunciation: 'Pronunciación',
     },
 

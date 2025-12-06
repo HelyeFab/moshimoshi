@@ -133,6 +133,7 @@ export const strings = {
     edit: 'Modifica',
     remove: 'Remove',
     back: 'Indietro',
+    backTo: 'Torna a',
     gotIt: 'Capito!',
     next: 'Avanti',
     previous: 'Precedente',
@@ -1293,6 +1294,7 @@ export const strings = {
 
     navigation: {
       backToGrid: 'Torna ai caratteri',
+      characters: 'Caratteri',
       nextCharacter: 'Carattere successivo',
       previousCharacter: 'Carattere precedente',
       startStudy: 'Inizia a studiare',
@@ -1341,6 +1343,7 @@ export const strings = {
       pinToReview: 'Fissa per ripasso',
       unpinFromReview: 'Rimuovi da ripasso',
       markAsLearned: 'Segna come imparato',
+      learned: 'Imparato',
       pronunciation: 'Pronuncia',
     },
 

@@ -49,6 +49,14 @@ export interface NavItem {
 
 const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
   {
+    id: 'search',
+    label: strings.dashboard?.navigation?.bottomNav?.places || 'Places',
+    icon: RiSearchLine,
+    activeIcon: RiSearchFill,
+    action: onSearchClick,
+    matchPaths: [],
+  },
+  {
     id: 'dashboard',
     label: strings.dashboard?.navigation?.bottomNav?.home || 'Home',
     href: '/dashboard',
@@ -143,14 +151,6 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     icon: RiSettings4Line,
     activeIcon: RiSettings4Fill,
     matchPaths: ['/settings'],
-  },
-  {
-    id: 'search',
-    label: strings.dashboard?.navigation?.bottomNav?.places || 'Places',
-    icon: RiSearchLine,
-    activeIcon: RiSearchFill,
-    action: onSearchClick,
-    matchPaths: [],
   },
 ]
 
@@ -311,36 +311,25 @@ export default function BottomNav({
             role="navigation"
             aria-label="Bottom navigation"
           >
-            {/* Shadow Layer - Separate from glass to prevent clipping issues */}
-            <div className="absolute inset-0 rounded-t-3xl shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60 pointer-events-none" />
-
-            {/* Edge-to-edge glassmorphic container with safe area support */}
+            {/* Inner container */}
             <div
               className={cn(
-                // Positioning for pseudo-element
+                // Positioning
                 'relative',
 
-                // Shape & Clipping - CRITICAL for removing "ghost rectangle"
+                // Shape
                 'rounded-t-3xl overflow-hidden',
 
                 // Layout: Scrollable horizontal list
                 'flex items-center justify-start gap-2',
                 'px-4 py-3',
-                'overflow-x-auto scrollbar-hide', // Enable horizontal scroll and hide scrollbar
+                'overflow-x-auto scrollbar-hide',
 
-                // Solid background colors
+                // Solid background colors (no frosted effect)
                 'bg-white dark:bg-dark-850',
 
-                // Top border with glassmorphism aesthetic
-                'border-t border-gray-200/40 dark:border-gray-700/30',
-
-                // Subtle top glow effect using pseudo-element (stronger for glass effect)
-                'before:absolute before:inset-x-0 before:top-0 before:h-px',
-                'before:bg-gradient-to-r before:from-transparent before:via-gray-100/60 dark:before:via-gray-600/40 before:to-transparent',
-
-                // Optional: Add a subtle inner glow for more depth
-                'after:absolute after:inset-0 after:rounded-t-3xl after:pointer-events-none',
-                'after:bg-gradient-to-b after:from-white/5 dark:after:from-white/10 after:to-transparent after:h-1/2'
+                // Simple top border
+                'border-t border-gray-200 dark:border-gray-700'
               )}
               style={{
                 // Ensure proper safe area support for all devices (iPhone X+)
