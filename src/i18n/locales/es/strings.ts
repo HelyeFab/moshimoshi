@@ -3873,6 +3873,15 @@ export const strings = {
     },
   },
 
+  // Moodboards
+  moodboards: {
+    viewModes: {
+      grid: 'Cuadrícula',
+      study: 'Estudiar',
+      list: 'Lista',
+    },
+  },
+
   // Kanji Browser Page
   kanjiBrowser: {
     searchPlaceholder: 'Buscar kanji por carácter, significado o lectura...',

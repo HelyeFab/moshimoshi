@@ -25,6 +25,8 @@ interface UseTTSReturn {
   currentText: string | null
   /** True when using browser's Web Speech API fallback */
   usingFallback: boolean
+  /** True when fetching audio from API (not cache) - use for loading animations */
+  isFetchingFromAPI: boolean
 
   // Methods
   play: (text: string, options?: TTSOptions) => Promise<void>
@@ -75,6 +77,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
   const [error, setError] = useState<Error | null>(null)
   const [currentText, setCurrentText] = useState<string | null>(null)
   const [usingFallback, setUsingFallback] = useState(false)
+  const [isFetchingFromAPI, setIsFetchingFromAPI] = useState(false)
 
   const audioRef = useRef<HTMLAudioElement>(null)
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
@@ -219,6 +222,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
           } else {
             // Cache miss, proceed with API call
             console.log(`TTS Offline cache miss, calling API for: "${text.substring(0, 30)}..."`)
+            setIsFetchingFromAPI(true)
 
             const response = await fetch('/api/tts/synthesize', {
               method: 'POST',
@@ -253,6 +257,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
             const data = await response.json()
             result = data.data
+            setIsFetchingFromAPI(false)
 
             // Cache the result for offline use (fire and forget)
             offlineCache
@@ -267,6 +272,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
           }
         } else {
           // Cache disabled, always call API
+          setIsFetchingFromAPI(true)
           const response = await fetch('/api/tts/synthesize', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -300,6 +306,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
           const data = await response.json()
           result = data.data
+          setIsFetchingFromAPI(false)
 
           console.log(
             `TTS Provider: ${result.provider}, Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`
@@ -430,6 +437,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
         setError(error)
         setLoading(false)
+        setIsFetchingFromAPI(false)
         setCurrentText(null)
         onError?.(error)
         throw error
@@ -545,6 +553,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
     error,
     currentText,
     usingFallback,
+    isFetchingFromAPI,
 
     // Methods
     play,

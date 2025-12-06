@@ -486,6 +486,11 @@ export const strings = {
     toggleShowCompleted: "Toggle 'Show Completed' to see all kanji",
     createNew: 'Create New Mood Board',
     aiGenerate: 'Generate with AI',
+    viewModes: {
+      grid: 'Grid',
+      study: 'Study',
+      list: 'List',
+    },
   },
 
   // Kanji
@@ -5248,6 +5253,19 @@ export const strings = {
       synthesizeFailed: 'Failed to generate audio',
       playbackFailed: 'Failed to play audio',
       networkError: 'Network error - trying offline voice',
+    },
+    loading: {
+      ariaLabel: 'Loading audio',
+      phrases: {
+        wait: 'Just a moment...',
+        preparing: 'Preparing voice...',
+        creating: 'Creating audio...',
+        almostReady: 'Almost ready!',
+        workingHard: 'Working hard!',
+        pleaseWait: 'Please wait...',
+        doshiReading: 'Doshi is reading...',
+        castingMagic: 'Casting magic...',
+      },
     },
   },
 

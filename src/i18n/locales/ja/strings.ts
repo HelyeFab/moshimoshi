@@ -4040,6 +4040,15 @@ export const strings = {
     },
   },
 
+  // Moodboards
+  moodboards: {
+    viewModes: {
+      grid: 'グリッド',
+      study: '学習',
+      list: 'リスト',
+    },
+  },
+
   // Kanji Browser Page
   kanjiBrowser: {
     searchPlaceholder: '漢字、意味、読み方で検索...',

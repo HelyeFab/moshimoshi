@@ -3724,6 +3724,15 @@ export const strings = {
     },
   },
 
+  // Moodboards
+  moodboards: {
+    viewModes: {
+      grid: 'Grille',
+      study: 'Étudier',
+      list: 'Liste',
+    },
+  },
+
   // Kanji Browser Page
   kanjiBrowser: {
     searchPlaceholder: 'Rechercher un kanji par caractère, signification ou lecture...',

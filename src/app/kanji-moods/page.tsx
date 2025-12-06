@@ -1,127 +1,127 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { useMoodBoards, searchMoodBoards, filterMoodBoardsByJLPT } from '@/hooks/useMoodBoards';
-import { getAllProgress } from '@/utils/moodBoardProgress';
-import MoodBoardCard from '@/components/kanji-moods/MoodBoardCard';
-import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard';
-import { useI18n } from '@/i18n/I18nContext';
-import { useAuth } from '@/hooks/useAuth';
+import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
+import { useMoodBoards, searchMoodBoards, filterMoodBoardsByJLPT } from '@/hooks/useMoodBoards'
+import { getAllProgress } from '@/utils/moodBoardProgress'
+import MoodBoardCard from '@/components/kanji-moods/MoodBoardCard'
+import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard'
+import { useI18n } from '@/i18n/I18nContext'
+import { useAuth } from '@/hooks/useAuth'
 // Navigation is now global via NavigationWrapper in root layout;
-import LearningPageHeader from '@/components/learn/LearningPageHeader';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import PageHeader from '@/components/layout/PageHeader'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 
-type ViewMode = 'grid' | 'list';
-type JLPTFilter = 'all' | 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
+type ViewMode = 'grid' | 'list'
+type JLPTFilter = 'all' | 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
 
 export default function KanjiMoodsPage() {
-  const router = useRouter();
-  const { t, strings } = useI18n();
-  const { user } = useAuth();
-  const { moodBoards, loading } = useMoodBoards();
-  const [progress, setProgress] = useState<MoodBoardsProgress>({});
+  const router = useRouter()
+  const { t, strings } = useI18n()
+  const { user } = useAuth()
+  const { moodBoards, loading } = useMoodBoards()
+  const [progress, setProgress] = useState<MoodBoardsProgress>({})
 
   // View and filter state
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedJLPT, setSelectedJLPT] = useState<JLPTFilter>('all');
-  const [showCompleted, setShowCompleted] = useState(true);
-  const [sortBy, setSortBy] = useState<'title' | 'progress' | 'kanji'>('title');
+  const [viewMode, setViewMode] = useState<ViewMode>('grid')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedJLPT, setSelectedJLPT] = useState<JLPTFilter>('all')
+  const [showCompleted, setShowCompleted] = useState(true)
+  const [sortBy, setSortBy] = useState<'title' | 'progress' | 'kanji'>('title')
 
   // Load progress data
   useEffect(() => {
     const loadProgress = () => {
       try {
-        const allProgress = getAllProgress();
-        setProgress(allProgress);
+        const allProgress = getAllProgress()
+        setProgress(allProgress)
       } catch (error) {
-        console.error('Error loading progress:', error);
+        console.error('Error loading progress:', error)
       }
-    };
+    }
 
-    loadProgress();
-  }, []);
+    loadProgress()
+  }, [])
 
   // Filter and sort mood boards
   const filteredBoards = useMemo(() => {
-    let boards = moodBoards.filter(board => board.isActive !== false);
+    let boards = moodBoards.filter(board => board.isActive !== false)
 
     // Apply search filter
     if (searchQuery.trim()) {
-      boards = searchMoodBoards(boards, searchQuery);
+      boards = searchMoodBoards(boards, searchQuery)
     }
 
     // Apply JLPT filter
-    boards = filterMoodBoardsByJLPT(boards, selectedJLPT);
+    boards = filterMoodBoardsByJLPT(boards, selectedJLPT)
 
     // Apply completion filter
     if (!showCompleted) {
-      boards = boards.filter(board =>
-        progress[board.id]?.progressPercentage !== 100
-      );
+      boards = boards.filter(board => progress[board.id]?.progressPercentage !== 100)
     }
 
     // Sort boards
     boards.sort((a, b) => {
       switch (sortBy) {
         case 'title':
-          return a.title.localeCompare(b.title);
+          return a.title.localeCompare(b.title)
         case 'progress':
-          const progressA = progress[a.id]?.progressPercentage || 0;
-          const progressB = progress[b.id]?.progressPercentage || 0;
-          return progressB - progressA;
+          const progressA = progress[a.id]?.progressPercentage || 0
+          const progressB = progress[b.id]?.progressPercentage || 0
+          return progressB - progressA
         case 'kanji':
-          return a.kanji.length - b.kanji.length;
+          return a.kanji.length - b.kanji.length
         default:
-          return 0;
+          return 0
       }
-    });
+    })
 
-    return boards;
-  }, [moodBoards, searchQuery, selectedJLPT, showCompleted, sortBy, progress]);
+    return boards
+  }, [moodBoards, searchQuery, selectedJLPT, showCompleted, sortBy, progress])
 
   // Calculate stats
   const stats = useMemo(() => {
-    const totalBoards = filteredBoards.length;
-    const completedBoards = filteredBoards.filter(board =>
-      progress[board.id]?.progressPercentage === 100
-    ).length;
+    const totalBoards = filteredBoards.length
+    const completedBoards = filteredBoards.filter(
+      board => progress[board.id]?.progressPercentage === 100
+    ).length
 
-    let totalKanji = 0;
-    let learnedKanji = 0;
+    let totalKanji = 0
+    let learnedKanji = 0
 
     filteredBoards.forEach(board => {
-      totalKanji += board.kanji.length;
-      learnedKanji += progress[board.id]?.learnedKanji.length || 0;
-    });
+      totalKanji += board.kanji.length
+      learnedKanji += progress[board.id]?.learnedKanji.length || 0
+    })
 
     return {
       total: totalBoards,
       completed: completedBoards,
       progress: totalBoards > 0 ? Math.round((completedBoards / totalBoards) * 100) : 0,
       totalKanji,
-      learnedKanji
-    };
-  }, [filteredBoards, progress]);
+      learnedKanji,
+    }
+  }, [filteredBoards, progress])
 
   const handleBoardClick = (boardId: string) => {
-    router.push(`/kanji-moods/${boardId}`);
-  };
+    router.push(`/kanji-moods/${boardId}`)
+  }
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
+    setSearchQuery(query)
+  }
 
   const handleFilterChange = (filters: any) => {
-    if (filters.jlpt !== undefined) setSelectedJLPT(filters.jlpt);
-    if (filters.showCompleted !== undefined) setShowCompleted(filters.showCompleted);
-    if (filters.sortBy !== undefined) setSortBy(filters.sortBy);
-  };
+    if (filters.jlpt !== undefined) setSelectedJLPT(filters.jlpt)
+    if (filters.showCompleted !== undefined) setShowCompleted(filters.showCompleted)
+    if (filters.sortBy !== undefined) setSortBy(filters.sortBy)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       {/* Navigation is now global - rendered in root layout */}
+
+      <PageHeader title={t('moodboards.title')} description={t('moodboards.description')} />
 
       {loading ? (
         <LoadingOverlay />
@@ -134,16 +134,14 @@ export default function KanjiMoodsPage() {
                 {t('moodboards.noResults')}
               </h3>
               <p className="text-muted-foreground dark:text-dark-400">
-                {searchQuery
-                  ? t('moodboards.tryDifferentSearch')
-                  : t('moodboards.noMoodboards')}
+                {searchQuery ? t('moodboards.tryDifferentSearch') : t('moodboards.noMoodboards')}
               </p>
             </div>
           ) : (
             <>
               {viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {filteredBoards.map((board) => (
+                  {filteredBoards.map(board => (
                     <MoodBoardCard
                       key={board.id}
                       board={board}
@@ -154,7 +152,7 @@ export default function KanjiMoodsPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {filteredBoards.map((board) => (
+                  {filteredBoards.map(board => (
                     <div
                       key={board.id}
                       className="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 cursor-pointer"
@@ -171,8 +169,12 @@ export default function KanjiMoodsPage() {
                           </p>
                           <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground dark:text-dark-500">
                             <span>{board.jlpt}</span>
-                            <span>{board.kanji.length} {t('common.kanji')}</span>
-                            <span>{progress[board.id]?.progressPercentage || 0}% {t('common.complete')}</span>
+                            <span>
+                              {board.kanji.length} {t('common.kanji')}
+                            </span>
+                            <span>
+                              {progress[board.id]?.progressPercentage || 0}% {t('common.complete')}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -185,5 +187,5 @@ export default function KanjiMoodsPage() {
         </div>
       )}
     </div>
-  );
+  )
 }

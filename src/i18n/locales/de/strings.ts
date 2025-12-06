@@ -3825,6 +3825,15 @@ export const strings = {
     },
   },
 
+  // Moodboards
+  moodboards: {
+    viewModes: {
+      grid: 'Raster',
+      study: 'Lernen',
+      list: 'Liste',
+    },
+  },
+
   // Kanji Browser Page
   kanjiBrowser: {
     searchPlaceholder: 'Kanji nach Zeichen, Bedeutung oder Lesung suchen...',
