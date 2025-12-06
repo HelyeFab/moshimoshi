@@ -299,8 +299,8 @@ body {
   /* Fallback for older browsers */
   min-height: 100vh;
 
-  /* Use dynamic viewport where supported (better for PWAs & mobile) */
-  min-height: 100dvh;
+  /* Use dynamic viewport + 5% buffer to extend past Chrome PWA's incorrect viewport */
+  min-height: calc(100dvh + 5vh);
 }
 
 /* PWA Safe Area Fix: html element must have background to fill safe areas */
