@@ -301,10 +301,14 @@ export default function BottomNav({
               'fixed bottom-0 left-0 right-0 z-50 w-full',
               'md:hidden', // Only show on mobile
               // Background to fill safe area below the rounded inner container
-              'bg-pink-500', // TEMP: Pink for debugging v6 (svh + interactiveWidget)
-              'pb-[34px]', // Fixed safe area padding for home indicator
+              'bg-cyan-500', // TEMP: Cyan for debugging v7 (explicit meta tag)
               className
             )}
+            style={{
+              // Try both safe-area-inset-bottom and safe-area-max-inset-bottom (Chrome 135+)
+              paddingBottom:
+                'max(env(safe-area-inset-bottom, 0px), env(safe-area-max-inset-bottom, 34px))',
+            }}
             role="navigation"
             aria-label="Bottom navigation"
           >

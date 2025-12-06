@@ -331,6 +331,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Explicit viewport meta tag for PWA edge-to-edge */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+        />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script dangerouslySetInnerHTML={{ __html: suppressFirestoreErrors }} />
         <script
