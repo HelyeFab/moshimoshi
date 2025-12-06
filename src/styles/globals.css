@@ -299,6 +299,15 @@ body {
   min-height: 100dvh;
 }
 
+/* PWA Safe Area Fix: html element must have background to fill safe areas */
+html {
+  background-color: var(--color-background-light);
+}
+
+html.dark {
+  background-color: var(--color-dark-850);
+}
+
 body {
   font-family: var(--font-family-japanese);
 
