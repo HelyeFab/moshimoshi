@@ -295,8 +295,8 @@ body {
   height: 100%;
 
   /* Ensure background extends to bottom on mobile browsers with dynamic toolbars */
-
-  min-height: 100dvh;
+  /* Using 100svh instead of 100dvh to fix Chrome PWA viewport bug */
+  min-height: 100svh;
 }
 
 /* PWA Safe Area Fix: html element must have background to fill safe areas */

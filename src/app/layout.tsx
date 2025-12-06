@@ -249,6 +249,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover', // Edge-to-edge on notched devices
+  interactiveWidget: 'resizes-content', // Fix Chrome PWA viewport bug
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#1a202c' },
