@@ -80,7 +80,15 @@
       "Bash(git log:*)",
       "Bash(gh pr list:*)",
       "Bash(git fetch:*)",
-      "WebFetch(domain:vercel.link)"
+      "WebFetch(domain:vercel.link)",
+      "Bash(npm show:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm view:*)",
+      "WebFetch(domain:vercel.com)",
+      "Bash(git branch:*)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:docs.stripe.com)",
+      "Bash(npx tsx:*)"
     ],
     "deny": [],
     "ask": []

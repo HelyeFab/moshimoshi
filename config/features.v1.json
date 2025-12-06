@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "version": 1,
   "description": "DoshiSensei feature entitlements configuration - Single source of truth for Stripe integration",
-  "lastUpdated": "2025-10-05",
+  "lastUpdated": "2025-12-06",
   "plans": {
     "guest": {
       "displayName": "Guest",
@@ -210,7 +210,28 @@
         "estimatedDuration": "variable",
         "producesReviewable": true,
         "countsForStreak": false,
-        "givesXp": false
+        "givesXp": false,
+        "maxCardsPerDeck": {
+          "guest": 0,
+          "free": 100,
+          "premium_monthly": -1,
+          "premium_yearly": -1
+        }
+      }
+    },
+    {
+      "id": "flashcard_daily_reviews",
+      "name": "Flashcard Daily Reviews",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Daily limit for flashcard review sessions",
+      "metadata": {
+        "contentType": "mixed",
+        "difficulty": "all",
+        "estimatedDuration": "variable"
       }
     },
     {
@@ -227,6 +248,126 @@
         "difficulty": "all",
         "estimatedDuration": "instant"
       }
+    },
+    {
+      "id": "pwa_push",
+      "name": "Push Notifications",
+      "category": "pwa",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Receive push notifications for study reminders and updates",
+      "metadata": {
+        "contentType": "pwa",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
+      "id": "pwa_bg_sync",
+      "name": "Background Sync",
+      "category": "pwa",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Sync study progress in the background when offline",
+      "metadata": {
+        "contentType": "pwa",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
+      "id": "pwa_periodic_sync",
+      "name": "Periodic Background Sync",
+      "category": "pwa",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Periodically sync and prefetch content in the background",
+      "metadata": {
+        "contentType": "pwa",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
+      "id": "pwa_share_target",
+      "name": "Share Target",
+      "category": "pwa",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Share content directly to Moshimoshi from other apps",
+      "metadata": {
+        "contentType": "pwa",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
+      "id": "pwa_fs_access",
+      "name": "File System Access",
+      "category": "pwa",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Access local files for importing/exporting study materials",
+      "metadata": {
+        "contentType": "pwa",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
+      "id": "pwa_badging",
+      "name": "App Badge",
+      "category": "pwa",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Show notification badges on the app icon",
+      "metadata": {
+        "contentType": "pwa",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
+      "id": "pwa_media_session",
+      "name": "Media Session",
+      "category": "pwa",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Control audio playback from system media controls",
+      "metadata": {
+        "contentType": "pwa",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
+    },
+    {
+      "id": "word_lookup",
+      "name": "Word Lookup",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Look up word details including meanings, conjugations, and example sentences",
+      "metadata": {
+        "contentType": "vocabulary",
+        "difficulty": "all",
+        "estimatedDuration": "instant"
+      }
     }
   ],
   "limits": {
@@ -239,7 +380,16 @@
         "grammar_explanations": 0,
         "youtube_shadowing": 0,
         "media_upload": 0,
-        "stall_layout_customization": 0
+        "stall_layout_customization": 0,
+        "flashcard_daily_reviews": 0,
+        "pwa_push": 0,
+        "pwa_bg_sync": 0,
+        "pwa_periodic_sync": 0,
+        "pwa_share_target": 0,
+        "pwa_fs_access": 0,
+        "pwa_badging": 0,
+        "pwa_media_session": -1,
+        "word_lookup": 5
       },
       "monthly": {
         "custom_lists": 0,
@@ -257,7 +407,16 @@
         "grammar_explanations": 3,
         "youtube_shadowing": 3,
         "media_upload": 2,
-        "stall_layout_customization": 1
+        "stall_layout_customization": 1,
+        "flashcard_daily_reviews": 50,
+        "pwa_push": -1,
+        "pwa_bg_sync": 0,
+        "pwa_periodic_sync": 0,
+        "pwa_share_target": -1,
+        "pwa_fs_access": 0,
+        "pwa_badging": -1,
+        "pwa_media_session": -1,
+        "word_lookup": 5
       },
       "monthly": {
         "custom_lists": 3,
@@ -275,7 +434,16 @@
         "grammar_explanations": -1,
         "youtube_shadowing": 20,
         "media_upload": -1,
-        "stall_layout_customization": -1
+        "stall_layout_customization": -1,
+        "flashcard_daily_reviews": -1,
+        "pwa_push": -1,
+        "pwa_bg_sync": -1,
+        "pwa_periodic_sync": -1,
+        "pwa_share_target": -1,
+        "pwa_fs_access": -1,
+        "pwa_badging": -1,
+        "pwa_media_session": -1,
+        "word_lookup": -1
       },
       "monthly": {
         "custom_lists": -1,
@@ -293,7 +461,16 @@
         "grammar_explanations": -1,
         "youtube_shadowing": 20,
         "media_upload": -1,
-        "stall_layout_customization": -1
+        "stall_layout_customization": -1,
+        "flashcard_daily_reviews": -1,
+        "pwa_push": -1,
+        "pwa_bg_sync": -1,
+        "pwa_periodic_sync": -1,
+        "pwa_share_target": -1,
+        "pwa_fs_access": -1,
+        "pwa_badging": -1,
+        "pwa_media_session": -1,
+        "word_lookup": -1
       },
       "monthly": {
         "custom_lists": -1,

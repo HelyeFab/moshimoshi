@@ -1,7 +1,11 @@
 // PWA Feature Entitlements System
 // Controls which PWA features are available per user tier
+// Now uses centralized config from features.v1.json
+
+import featuresConfig from '../../../config/features.v1.json'
 
 export type UserTier = 'guest' | 'free' | 'premium'
+export type PlanType = 'guest' | 'free' | 'premium_monthly' | 'premium_yearly'
 
 export type FeatureId =
   | 'push'
@@ -12,58 +16,45 @@ export type FeatureId =
   | 'badging'
   | 'mediaSession'
 
-interface FeatureConfig {
-  guest: boolean
-  free: boolean
-  premium: boolean
+// Map PWA feature IDs to config feature IDs
+const FEATURE_ID_MAP: Record<FeatureId, string> = {
+  push: 'pwa_push',
+  bgSync: 'pwa_bg_sync',
+  periodicSync: 'pwa_periodic_sync',
+  shareTarget: 'pwa_share_target',
+  fsAccess: 'pwa_fs_access',
+  badging: 'pwa_badging',
+  mediaSession: 'pwa_media_session',
 }
 
-const FEATURE_MATRIX: Record<FeatureId, FeatureConfig> = {
-  push: {
-    guest: false,
-    free: true,
-    premium: true,
-  },
-  bgSync: {
-    guest: false,
-    free: true,
-    premium: true,
-  },
-  periodicSync: {
-    guest: false,
-    free: false,
-    premium: true,
-  },
-  shareTarget: {
-    guest: false,
-    free: true,
-    premium: true,
-  },
-  fsAccess: {
-    guest: false,
-    free: false,
-    premium: true,
-  },
-  badging: {
-    guest: false,
-    free: true,
-    premium: true,
-  },
-  mediaSession: {
-    guest: true,
-    free: true,
-    premium: true,
-  },
+// Map simple tier names to plan types (premium covers both monthly and yearly)
+function tierToPlan(tier: UserTier): PlanType {
+  if (tier === 'premium') return 'premium_monthly' // Both premium plans have same PWA access
+  return tier
 }
 
+/**
+ * Check if a PWA feature is allowed for a given tier
+ * Reads from centralized features.v1.json config
+ */
 export function can(feature: FeatureId, userTier: UserTier = 'guest'): boolean {
-  const config = FEATURE_MATRIX[feature]
-  if (!config) {
-    console.warn(`Unknown feature: ${feature}`)
+  const configFeatureId = FEATURE_ID_MAP[feature]
+  if (!configFeatureId) {
+    console.warn(`Unknown PWA feature: ${feature}`)
     return false
   }
 
-  return config[userTier]
+  const plan = tierToPlan(userTier)
+  const limits = featuresConfig.limits as Record<string, { daily?: Record<string, number> }>
+  const planLimits = limits[plan]
+
+  if (!planLimits?.daily) {
+    return false
+  }
+
+  const limit = planLimits.daily[configFeatureId]
+  // -1 means unlimited (allowed), 0 means blocked
+  return limit === -1
 }
 
 export function getCurrentUserTier(): UserTier {

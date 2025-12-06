@@ -247,23 +247,25 @@ export default function SettingsPage() {
             }
           >
             <div className="space-y-6">
-              {/* Language Selection */}
-              <Select
-                label={
-                  strings.settings?.sections?.appearance?.language?.label ||
-                  'Language / 言語 / Langue / Lingua / Sprache / Idioma'
-                }
-                value={language}
-                onChange={val => setLanguage(val as any)}
-                options={[
-                  { value: 'en', label: languageNames.en, icon: <span>🇬🇧</span> },
-                  { value: 'ja', label: languageNames.ja, icon: <span>🇯🇵</span> },
-                  { value: 'fr', label: languageNames.fr, icon: <span>🇫🇷</span> },
-                  { value: 'it', label: languageNames.it, icon: <span>🇮🇹</span> },
-                  { value: 'de', label: languageNames.de, icon: <span>🇩🇪</span> },
-                  { value: 'es', label: languageNames.es, icon: <span>🇪🇸</span> },
-                ]}
-              />
+              {/* Language Selection - hidden unless NEXT_PUBLIC_FEATURE_LANGUAGE_SELECTOR is set */}
+              {process.env.NEXT_PUBLIC_FEATURE_LANGUAGE_SELECTOR === 'true' && (
+                <Select
+                  label={
+                    strings.settings?.sections?.appearance?.language?.label ||
+                    'Language / 言語 / Langue / Lingua / Sprache / Idioma'
+                  }
+                  value={language}
+                  onChange={val => setLanguage(val as any)}
+                  options={[
+                    { value: 'en', label: languageNames.en, icon: <span>🇬🇧</span> },
+                    { value: 'ja', label: languageNames.ja, icon: <span>🇯🇵</span> },
+                    { value: 'fr', label: languageNames.fr, icon: <span>🇫🇷</span> },
+                    { value: 'it', label: languageNames.it, icon: <span>🇮🇹</span> },
+                    { value: 'de', label: languageNames.de, icon: <span>🇩🇪</span> },
+                    { value: 'es', label: languageNames.es, icon: <span>🇪🇸</span> },
+                  ]}
+                />
+              )}
 
               {/* Theme Selection - hidden unless NEXT_PUBLIC_ENABLE_THEME_SELECTOR is set */}
               {process.env.NEXT_PUBLIC_ENABLE_THEME_SELECTOR === 'true' && (
