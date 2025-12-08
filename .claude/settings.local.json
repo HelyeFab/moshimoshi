@@ -112,7 +112,19 @@
       "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/anki-import/page.tsx)",
       "Bash(find:*)",
       "WebFetch(domain:firebase.google.com)",
-      "SlashCommand(/moshi-init)"
+      "SlashCommand(/moshi-init)",
+      "Bash(node scripts/trigger-integrity-check.js:*)",
+      "Bash(node /tmp/test-image-repair.js:*)",
+      "Bash(node:*)",
+      "Bash(python3:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(gcloud logging read:*)",
+      "Bash(grep:*)",
+      "Bash(timeout 30 curl -s -X POST \"https://moshimoshi.app/api/admin/repair-story-images\" )",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(NODE_ENV=production rm:*)",
+      "Bash(NODE_ENV=production npm run build:*)"
     ],
     "deny": [],
     "ask": []

@@ -1192,6 +1192,21 @@ export const strings = {
     },
   },
 
+  // Statistics Page
+  statistics: {
+    title: 'Your Statistics',
+    subtitle: 'Track your Japanese learning journey',
+    daysActive: 'Days Active',
+    wordsLearned: 'Words Learned',
+    achievements: 'Achievements',
+    dayStreak: 'Day Streak',
+    xpEarned: 'XP Earned',
+    lessonsCompleted: 'Sessions Completed',
+    bestStreak: 'Best Streak',
+    learningProgress: 'Learning Progress',
+    achievementCompletion: 'Achievement Completion',
+  },
+
   // UI Components
   components: {
     alert: {

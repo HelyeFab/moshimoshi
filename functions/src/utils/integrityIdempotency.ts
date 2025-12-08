@@ -35,6 +35,12 @@ export const IDEMPOTENCY_CONFIG = {
 // TYPE DEFINITIONS
 // ============================================================================
 
+export interface ProgressDetails {
+  current?: number
+  total?: number
+  stage?: string
+}
+
 export interface ProcessedIntegrityCheck {
   checkId: string
   type: 'scheduled' | 'manual'
@@ -44,6 +50,9 @@ export interface ProcessedIntegrityCheck {
   processedAt: Timestamp
   completedAt?: Timestamp
   status: 'in_progress' | 'completed' | 'failed'
+  progress?: string
+  progressDetails?: ProgressDetails | null
+  lastProgressAt?: Timestamp
   error?: string
   ttl: Timestamp
 }
@@ -135,6 +144,9 @@ export async function markCheckStarted(
     triggeredBy,
     processedAt: Timestamp.now(),
     status: 'in_progress',
+    progress: 'starting',
+    progressDetails: null,
+    lastProgressAt: Timestamp.now(),
     ttl,
   }
 
@@ -165,6 +177,34 @@ export async function markCheckCompleted(
   await ref.update(updateData)
 
   logger.info('[Idempotency] Check completed', { checkId, status, error: error || null })
+}
+
+/**
+ * Update check progress (for real-time status updates in UI)
+ */
+export async function updateCheckProgress(
+  checkId: string,
+  progress: string,
+  details?: ProgressDetails
+): Promise<void> {
+  const ref = db.collection('ops').doc('integrity').collection('processed_checks').doc(checkId)
+
+  try {
+    await ref.update({
+      progress,
+      progressDetails: details || null,
+      lastProgressAt: Timestamp.now(),
+    })
+
+    logger.debug('[Idempotency] Progress updated', { checkId, progress, details })
+  } catch (error) {
+    // Don't fail the check if progress update fails
+    logger.warn('[Idempotency] Failed to update progress', {
+      checkId,
+      progress,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
+  }
 }
 
 // ============================================================================
@@ -504,6 +544,7 @@ export const integrityIdempotency = {
   wasCheckProcessed,
   markCheckStarted,
   markCheckCompleted,
+  updateCheckProgress,
   canRepairContent,
   recordRepairAttempt,
   tryAcquireLock,

@@ -18,7 +18,7 @@ import { generateBatchAudio } from './newsAudioGenerator'
 import { generateBatchTranslations } from './translationPreGenerator'
 import { generateBatchWordExplanations } from './wordExplanationPreGenerator'
 import { extractTopWords } from './wordExtractor'
-import { canRepairContent, recordRepairAttempt } from './integrityIdempotency'
+import { canRepairContent, recordRepairAttempt, updateCheckProgress } from './integrityIdempotency'
 
 const db = admin.firestore()
 
@@ -252,6 +252,12 @@ async function repairNewsArticles(
     a => result.missingAudio.includes(a.id) || result.failedAudio.includes(a.id)
   )
 
+  if (articlesNeedingAudio.length > 0 && checkId) {
+    await updateCheckProgress(checkId, 'repairing_article_audio', {
+      total: articlesNeedingAudio.length,
+    })
+  }
+
   for (const article of articlesNeedingAudio) {
     // Check cooldown before attempting repair
     const canRepair = await canRepairContent(article.id, 'news_article', 'audio')
@@ -310,6 +316,12 @@ async function repairNewsArticles(
   }
 
   if (articlesForTranslationRepair.length > 0) {
+    if (checkId) {
+      await updateCheckProgress(checkId, 'repairing_translations', {
+        total: articlesForTranslationRepair.length,
+      })
+    }
+
     try {
       logger.info('[IntegrityChecker] Repairing translations', {
         articleCount: articlesForTranslationRepair.length,
@@ -379,6 +391,12 @@ async function repairNewsArticles(
   }
 
   if (articlesForWordRepair.length > 0) {
+    if (checkId) {
+      await updateCheckProgress(checkId, 'repairing_word_explanations', {
+        total: articlesForWordRepair.length,
+      })
+    }
+
     try {
       logger.info('[IntegrityChecker] Repairing word explanations', {
         articleCount: articlesForWordRepair.length,
@@ -589,6 +607,11 @@ async function repairStory(
           reason: canRepair.reason,
         })
       } else {
+        // Update progress
+        if (checkId) {
+          await updateCheckProgress(checkId, 'repairing_story_audio', { stage: storyId })
+        }
+
         try {
           logger.info('[IntegrityChecker] Repairing story audio', { storyId, checkId })
 
@@ -668,16 +691,101 @@ async function repairStory(
       }
     }
 
-    // Note: Image repair is more complex and requires the draft + model sheet
-    // For now, we just log missing images and don't auto-repair
+    // Repair images if missing
     if (result.missingImages.includes(storyId)) {
-      logger.warn('[IntegrityChecker] Story has missing images (manual repair needed)', {
-        storyId,
-        checkId,
-        coverImageUrl: storyData.coverImageUrl,
-        pagesWithImages: storyData.pages?.filter((p: any) => p.imageUrl).length,
-        totalPages: storyData.pages?.length,
-      })
+      // Check cooldown before attempting repair
+      const canRepair = await canRepairContent(storyId, 'story', 'images')
+
+      if (!canRepair.allowed) {
+        logger.info('[IntegrityChecker] Skipping story image repair (cooldown)', {
+          storyId,
+          reason: canRepair.reason,
+        })
+      } else {
+        // Check if story has characterSheet (required for image generation)
+        if (!storyData.characterSheet) {
+          logger.warn('[IntegrityChecker] Story has no characterSheet, cannot repair images', {
+            storyId,
+            checkId,
+          })
+        } else {
+          // Update progress
+          if (checkId) {
+            const missingPages = storyData.pages?.filter((p: any) => !p.imageUrl).length || 0
+            await updateCheckProgress(checkId, 'repairing_story_images', {
+              stage: storyId,
+              total: missingPages,
+            })
+          }
+
+          try {
+            logger.info('[IntegrityChecker] Repairing story images', {
+              storyId,
+              checkId,
+              missingPages: storyData.pages?.filter((p: any) => !p.imageUrl).length,
+              totalPages: storyData.pages?.length,
+            })
+
+            const response = await fetch(`${APP_URL}/api/admin/repair-story-images`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Admin-Key': adminKey,
+              },
+              body: JSON.stringify({ storyId }),
+            })
+
+            if (response.ok) {
+              const repairResult = await response.json()
+              result.repaired.images = repairResult.pagesRepaired?.length || 0
+              logger.info('[IntegrityChecker] Story images repaired', {
+                storyId,
+                checkId,
+                pagesRepaired: repairResult.pagesRepaired,
+                modelSheetGenerated: repairResult.modelSheetGenerated,
+              })
+
+              if (checkId) {
+                await recordRepairAttempt(storyId, 'story', 'images', checkId, true)
+              }
+            } else {
+              result.repairFailed.images++
+              const errorText = await response.text()
+
+              if (checkId) {
+                await recordRepairAttempt(
+                  storyId,
+                  'story',
+                  'images',
+                  checkId,
+                  false,
+                  `HTTP ${response.status}: ${errorText.substring(0, 200)}`
+                )
+              }
+
+              logger.error('[IntegrityChecker] Story image repair failed', {
+                storyId,
+                checkId,
+                status: response.status,
+                error: errorText,
+              })
+            }
+          } catch (error) {
+            result.repairFailed.images++
+            const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+
+            if (checkId) {
+              await recordRepairAttempt(storyId, 'story', 'images', checkId, false, errorMsg)
+            }
+
+            logger.error('[IntegrityChecker] Story image repair error', {
+              storyId,
+              checkId,
+              error: errorMsg,
+            })
+          }
+        }
+      }
     }
   } catch (error) {
     logger.error('[IntegrityChecker] Story repair error', {
@@ -704,7 +812,18 @@ export async function runIntegrityCheck(
     lookbackDays: CONFIG.LOOKBACK_DAYS,
   })
 
+  // Update progress: checking articles
+  if (checkId) {
+    await updateCheckProgress(checkId, 'checking_articles')
+  }
+
   const newsResult = await checkNewsArticles(checkId)
+
+  // Update progress: checking stories
+  if (checkId) {
+    await updateCheckProgress(checkId, 'checking_stories')
+  }
+
   const storiesResult = await checkStories(adminKey, checkId)
 
   const duration = Date.now() - startTime

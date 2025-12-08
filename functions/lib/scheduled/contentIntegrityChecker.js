@@ -9,6 +9,11 @@
  *
  * Auto-repairs up to 3 articles and 1 story per run
  * Looks back 7 days for content to check
+ *
+ * Features:
+ * - Idempotency tracking to prevent duplicate repairs
+ * - Distributed locking to prevent concurrent runs
+ * - Repair cooldown with circuit breaker
  */
 var __createBinding =
   (this && this.__createBinding) ||
@@ -70,6 +75,7 @@ const scheduler_1 = require('firebase-functions/v2/scheduler')
 const https_1 = require('firebase-functions/v2/https')
 const params_1 = require('firebase-functions/params')
 const integrityChecker_1 = require('../utils/integrityChecker')
+const integrityIdempotency_1 = require('../utils/integrityIdempotency')
 // Define secrets needed for TTS, AI processing, and API calls
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY')
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY')
@@ -89,24 +95,57 @@ exports.contentIntegrityCheckerFunction = (0, scheduler_1.onSchedule)(
     secrets: [MODAL_API_KEY, OPENAI_API_KEY],
   },
   async event => {
+    const scheduleTime = event.scheduleTime
+    const checkId = (0, integrityIdempotency_1.generateCheckId)('scheduled', scheduleTime)
+    const instanceId = `scheduled_${scheduleTime}_${Date.now()}`
     logger.info('[ContentIntegrityChecker] Scheduled trigger activated', {
-      scheduleTime: event.scheduleTime,
+      scheduleTime,
+      checkId,
+      instanceId,
       jobName: event.jobName,
     })
+    // 1. Check idempotency - skip if already processed
+    if (await (0, integrityIdempotency_1.wasCheckProcessed)(checkId)) {
+      logger.info('[ContentIntegrityChecker] Check already processed, skipping', {
+        checkId,
+      })
+      return
+    }
+    // 2. Try to acquire distributed lock
+    const lockAcquired = await (0, integrityIdempotency_1.tryAcquireLock)(instanceId)
+    if (!lockAcquired) {
+      logger.info('[ContentIntegrityChecker] Another instance is running, skipping', {
+        instanceId,
+      })
+      return
+    }
     // Get admin key from environment
     const adminKey = process.env.INTEGRITY_CHECKER_ADMIN_KEY || 'integrity-checker-2025'
     try {
-      const result = await (0, integrityChecker_1.runIntegrityCheck)(adminKey)
+      // 3. Mark check as started
+      await (0, integrityIdempotency_1.markCheckStarted)(
+        checkId,
+        'scheduled',
+        'scheduler',
+        scheduleTime
+      )
+      const result = await (0, integrityChecker_1.runIntegrityCheck)(adminKey, checkId)
       // Log results to Firestore
       await db
         .collection('integrity_check_logs')
         .add(
           Object.assign(Object.assign({}, result), {
             type: 'scheduled',
+            checkId,
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
           })
         )
+      // 4. Mark check as completed
+      await (0, integrityIdempotency_1.markCheckCompleted)(checkId, 'completed')
+      // 5. Run cleanup (opportunistic)
+      await (0, integrityIdempotency_1.cleanupOldRecords)()
       logger.info('[ContentIntegrityChecker] Check complete', {
+        checkId,
         newsChecked: result.newsArticles.checked,
         newsRepaired:
           result.newsArticles.repaired.audio +
@@ -126,6 +165,7 @@ exports.contentIntegrityCheckerFunction = (0, scheduler_1.onSchedule)(
       if (totalMissing > 10) {
         logger.warn('[ContentIntegrityChecker] ALERT: High number of missing content items', {
           totalMissing,
+          checkId,
           breakdown: {
             newsAudio: result.newsArticles.missingAudio.length,
             newsTranslations: result.newsArticles.missingTranslations.length,
@@ -137,17 +177,28 @@ exports.contentIntegrityCheckerFunction = (0, scheduler_1.onSchedule)(
         // TODO: Send notification (email, Slack, etc.)
       }
     } catch (error) {
+      // Mark check as failed
+      await (0, integrityIdempotency_1.markCheckCompleted)(
+        checkId,
+        'failed',
+        error instanceof Error ? error.message : 'Unknown error'
+      )
       logger.error('[ContentIntegrityChecker] Fatal error', {
+        checkId,
         error: error instanceof Error ? error.message : 'Unknown error',
       })
       // Log error to Firestore
       await db.collection('integrity_check_logs').add({
         type: 'scheduled',
+        checkId,
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       })
       throw error // Re-throw to trigger retry
+    } finally {
+      // Always release lock
+      await (0, integrityIdempotency_1.releaseLock)(instanceId)
     }
   }
 )
@@ -162,7 +213,7 @@ exports.manualIntegrityCheckerFunction = (0, https_1.onCall)(
     secrets: [MODAL_API_KEY, OPENAI_API_KEY],
   },
   async request => {
-    var _a, _b, _c, _d
+    var _a, _b
     // Check authentication
     const adminKey = (_a = request.data) === null || _a === void 0 ? void 0 : _a.adminKey
     const expectedAdminKey = process.env.INTEGRITY_CHECKER_ADMIN_KEY || 'integrity-checker-2025'
@@ -180,33 +231,58 @@ exports.manualIntegrityCheckerFunction = (0, https_1.onCall)(
         throw new https_1.HttpsError('permission-denied', 'Admin access required')
       }
     }
+    const triggeredBy =
+      ((_b = request.auth) === null || _b === void 0 ? void 0 : _b.uid) || 'admin-key'
+    const checkId = (0, integrityIdempotency_1.generateCheckId)(
+      'manual',
+      undefined,
+      `${triggeredBy}_${Date.now()}`
+    )
+    const instanceId = `manual_${checkId}`
     logger.info('[ContentIntegrityChecker] Manual trigger initiated', {
-      userId: ((_b = request.auth) === null || _b === void 0 ? void 0 : _b.uid) || 'admin-key',
+      checkId,
+      userId: triggeredBy,
       timestamp: new Date().toISOString(),
     })
+    // Try to acquire lock (manual can fail if another check is running)
+    const lockAcquired = await (0, integrityIdempotency_1.tryAcquireLock)(instanceId)
+    if (!lockAcquired) {
+      throw new https_1.HttpsError(
+        'already-exists',
+        'Another integrity check is currently running. Please try again later.'
+      )
+    }
     try {
-      const result = await (0, integrityChecker_1.runIntegrityCheck)(expectedAdminKey)
+      await (0, integrityIdempotency_1.markCheckStarted)(checkId, 'manual', triggeredBy)
+      const result = await (0, integrityChecker_1.runIntegrityCheck)(expectedAdminKey, checkId)
       // Log results to Firestore
       await db
         .collection('integrity_check_logs')
         .add(
           Object.assign(Object.assign({}, result), {
             type: 'manual',
-            triggeredBy:
-              ((_c = request.auth) === null || _c === void 0 ? void 0 : _c.uid) || 'admin-key',
+            checkId,
+            triggeredBy,
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
           })
         )
-      return Object.assign({ success: true }, result)
+      await (0, integrityIdempotency_1.markCheckCompleted)(checkId, 'completed')
+      return Object.assign({ success: true, checkId }, result)
     } catch (error) {
+      await (0, integrityIdempotency_1.markCheckCompleted)(
+        checkId,
+        'failed',
+        error instanceof Error ? error.message : 'Unknown error'
+      )
       logger.error('[ContentIntegrityChecker] Manual check failed', {
+        checkId,
         error: error instanceof Error ? error.message : 'Unknown error',
       })
       // Log error to Firestore
       await db.collection('integrity_check_logs').add({
         type: 'manual',
-        triggeredBy:
-          ((_d = request.auth) === null || _d === void 0 ? void 0 : _d.uid) || 'admin-key',
+        checkId,
+        triggeredBy,
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -215,6 +291,8 @@ exports.manualIntegrityCheckerFunction = (0, https_1.onCall)(
         'internal',
         error instanceof Error ? error.message : 'Integrity check failed'
       )
+    } finally {
+      await (0, integrityIdempotency_1.releaseLock)(instanceId)
     }
   }
 )
