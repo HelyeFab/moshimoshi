@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { firestore as db } from '@/lib/firebase/client'
 import { AIService } from '@/lib/ai/AIService'
 import { MultiStepStoryRequest } from '@/lib/ai/processors/MultiStepStoryProcessor'
 import { validateSession } from '@/lib/auth/session'
@@ -52,14 +50,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Moodboard ID is required' }, { status: 400 })
     }
 
-    // Fetch moodboard data
-    const moodboardDoc = await getDoc(doc(db, 'moodBoards', moodboardId))
-    if (!moodboardDoc.exists()) {
+    // Fetch moodboard data using admin SDK
+    if (!adminFirestore) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 })
+    }
+
+    const moodboardDoc = await adminFirestore.collection('moodBoards').doc(moodboardId).get()
+    if (!moodboardDoc.exists) {
       console.error('❌ Moodboard not found:', moodboardId)
       return NextResponse.json({ error: 'Moodboard not found' }, { status: 404 })
     }
 
-    const moodboard = moodboardDoc.data()
+    const moodboard = moodboardDoc.data()!
     const kanjiList = moodboard.kanjiList || moodboard.kanji || []
 
     console.log('📚 Moodboard data:', {
@@ -274,8 +276,8 @@ export async function POST(request: NextRequest) {
       publishedAt: new Date(),
     }
 
-    // Save to Firestore
-    await setDoc(doc(db, 'stories', storyId), storyData)
+    // Save to Firestore using admin SDK
+    await adminFirestore.collection('stories').doc(storyId).set(storyData)
 
     console.log('💾 Story saved to Firestore:', storyId)
 

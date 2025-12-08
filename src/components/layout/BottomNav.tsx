@@ -311,11 +311,25 @@ export default function BottomNav({
             role="navigation"
             aria-label="Bottom navigation"
           >
+            {/* Glass Background Layer */}
+            <div
+              className={cn(
+                'absolute inset-0',
+                'rounded-t-3xl',
+                'shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60',
+                'bg-soft-white/20 dark:bg-dark-900/30',
+                'backdrop-blur-2xl backdrop-saturate-150',
+                'border-t border-gray-200/40 dark:border-gray-700/30',
+                'z-0'
+              )}
+            />
+
             {/* Inner container */}
             <div
               className={cn(
                 // Positioning
                 'relative',
+                'z-10',
 
                 // Shape
                 'rounded-t-3xl overflow-hidden',
@@ -323,13 +337,7 @@ export default function BottomNav({
                 // Layout: Scrollable horizontal list
                 'flex items-center justify-start gap-2',
                 'px-4 py-3',
-                'overflow-x-auto scrollbar-hide',
-
-                // Solid background colors (no frosted effect)
-                'bg-white dark:bg-dark-850',
-
-                // Simple top border
-                'border-t border-gray-200 dark:border-gray-700'
+                'overflow-x-auto scrollbar-hide'
               )}
               style={{
                 // Ensure proper safe area support for all devices (iPhone X+)

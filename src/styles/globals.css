@@ -465,7 +465,12 @@ ruby rp {
 }
 
 .animate-scale-in {
-  animation: scale-in 0.3s ease-out;
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+/* Prevent animation replay on re-renders */
+.animate-scale-in.animated {
+  animation: none;
 }
 
 /* Article Reader Theme-Aware Colors */

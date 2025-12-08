@@ -9,21 +9,38 @@ import { Story } from '@/types/story'
  */
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSession()
-    if (!session?.uid) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Check for admin key authentication (for scheduled functions)
+    const adminKey = request.headers.get('X-Admin-Key')
+    const expectedAdminKey = process.env.STORY_SCHEDULER_ADMIN_KEY || 'story-scheduler-2025'
+
+    let authorId: string
+
+    if (adminKey === expectedAdminKey) {
+      // Authenticated via admin key (scheduled function)
+      authorId = 'scheduler-system'
+    } else {
+      const session = await getSession()
+      if (!session?.uid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
+
+      if (!adminFirestore) {
+        return NextResponse.json({ error: 'Database not initialized' }, { status: 500 })
+      }
+
+      // Verify admin status
+      const userDoc = await adminFirestore.collection('users').doc(session.uid).get()
+      const isAdmin = userDoc.data()?.isAdmin === true
+
+      if (!isAdmin) {
+        return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 })
+      }
+
+      authorId = session.uid
     }
 
     if (!adminFirestore) {
       return NextResponse.json({ error: 'Database not initialized' }, { status: 500 })
-    }
-
-    // Verify admin status
-    const userDoc = await adminFirestore.collection('users').doc(session.uid).get()
-    const isAdmin = userDoc.data()?.isAdmin === true
-
-    if (!isAdmin) {
-      return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 })
     }
 
     const body = await request.json()
@@ -141,7 +158,7 @@ export async function POST(request: NextRequest) {
       pages: storyPages,
 
       // Metadata
-      authorId: mergedData.userId || session.uid,
+      authorId: mergedData.userId || authorId,
       createdAt: mergedData.createdAt?.toDate?.() || new Date(),
       updatedAt: new Date(),
       publishedAt: new Date(),

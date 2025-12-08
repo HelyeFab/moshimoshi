@@ -29,10 +29,132 @@ let listenerInitialized = false
 // Helper function to cleanup audio element
 const cleanupAudio = (audio: HTMLAudioElement | null): void => {
   if (audio) {
+    // Remove event listeners first to prevent onerror from firing during cleanup
+    audio.onplay = null
+    audio.onpause = null
+    audio.onended = null
+    audio.onerror = null
+    audio.oncanplaythrough = null
     audio.pause()
     audio.src = ''
     audio.load()
   }
+}
+
+// Beautiful gradient backgrounds for story pages without images
+const storyGradients = [
+  'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', // Purple dream
+  'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', // Pink sunset
+  'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', // Ocean blue
+  'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', // Fresh mint
+  'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', // Warm peach
+  'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', // Soft cotton candy
+  'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', // Cherry blossom
+  'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', // Warm sunrise
+  'linear-gradient(135deg, #667eea 0%, #f093fb 100%)', // Magic purple
+  'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)', // Sky blue
+]
+
+// Cute emoji sets for different story vibes
+const storyEmojiSets = [
+  ['🌸', '✨', '🦋', '🌺'], // Nature & beauty
+  ['🐱', '🐕', '🐰', '🦊'], // Cute animals
+  ['🌙', '⭐', '🌟', '💫'], // Celestial
+  ['🍰', '🧁', '🍡', '🍵'], // Sweet treats
+  ['📚', '✏️', '🎒', '📖'], // School & learning
+  ['🏠', '🌳', '🌻', '🌈'], // Home & nature
+  ['🎀', '💝', '🎁', '🎈'], // Celebration
+  ['🍂', '🍁', '🌾', '🎃'], // Autumn
+  ['❄️', '⛄', '🎄', '🎅'], // Winter
+  ['🌊', '🐚', '🏖️', '🌴'], // Beach & summer
+]
+
+// Story page fallback component with gradient and emojis
+function StoryPageFallback({ pageIndex, title }: { pageIndex: number; title: string }) {
+  // Use page index to deterministically select gradient and emojis
+  const gradientIndex = pageIndex % storyGradients.length
+  const emojiSetIndex = (pageIndex + Math.floor(title.length / 3)) % storyEmojiSets.length
+  const gradient = storyGradients[gradientIndex]
+  const emojis = storyEmojiSets[emojiSetIndex]
+
+  return (
+    <div
+      className="w-full h-full flex items-center justify-center relative overflow-hidden"
+      style={{ background: gradient }}
+    >
+      {/* Floating emojis with animation */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {emojis.map((emoji, i) => (
+          <span
+            key={i}
+            className="absolute text-4xl sm:text-5xl opacity-30 animate-float"
+            style={{
+              left: `${15 + i * 22}%`,
+              top: `${20 + (i % 2) * 40}%`,
+              animationDelay: `${i * 0.5}s`,
+              animationDuration: `${3 + i * 0.5}s`,
+            }}
+          >
+            {emoji}
+          </span>
+        ))}
+      </div>
+
+      {/* Center emoji cluster */}
+      <div className="relative z-10 flex items-center justify-center gap-3 sm:gap-4">
+        {emojis.slice(0, 3).map((emoji, i) => (
+          <span
+            key={i}
+            className="text-5xl sm:text-6xl drop-shadow-lg transform hover:scale-110 transition-transform"
+            style={{
+              transform: `rotate(${(i - 1) * 10}deg)`,
+            }}
+          >
+            {emoji}
+          </span>
+        ))}
+      </div>
+
+      {/* Page indicator */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-medium">
+        Page {pageIndex + 1}
+      </div>
+
+      {/* Subtle shimmer effect */}
+      <div
+        className="absolute inset-0 opacity-20"
+        style={{
+          background:
+            'linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%)',
+          backgroundSize: '200% 200%',
+          animation: 'shimmer 3s ease-in-out infinite',
+        }}
+      />
+
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(5deg);
+          }
+        }
+        @keyframes shimmer {
+          0% {
+            background-position: 200% 0;
+          }
+          100% {
+            background-position: -200% 0;
+          }
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+      `}</style>
+    </div>
+  )
 }
 
 import {
@@ -1124,8 +1246,8 @@ export default function EnhancedArticleReader({
     darkMode: false,
     autoPlay: false,
     playbackSpeed: 1.0,
-    showTranslation: false, // Legacy field
-    translationMode: 'off' as TranslationMode,
+    showTranslation: true, // Legacy field - now always on
+    translationMode: 'learning' as TranslationMode, // Always on - translation assistance available
     translationProvider: 'ai',
     showTranslationConfidence: true,
     preserveGrammarStructure: true,
@@ -1229,6 +1351,13 @@ export default function EnhancedArticleReader({
   const handlePageChange = (direction: 'next' | 'prev') => {
     if (!isStoryMode) return
 
+    // Stop any playing audio when changing pages (for per-page audio experience)
+    if (preGeneratedAudioRef.current) {
+      cleanupAudio(preGeneratedAudioRef.current)
+      preGeneratedAudioRef.current = null
+      setIsPreGeneratedPlaying(false)
+    }
+
     if (direction === 'next') {
       if (currentPageIndex < totalPages - 1) {
         setCurrentPageIndex(currentPageIndex + 1)
@@ -1321,9 +1450,6 @@ export default function EnhancedArticleReader({
     updateTranslationSettings,
   ])
 
-  // Track if we've ever loaded audio for this article (to show loading modal on first load only)
-  const [hasLoadedAudioBefore, setHasLoadedAudioBefore] = useState(false)
-
   // Track which sentence is currently playing (for per-sentence play buttons)
   const [playingSentenceIndex, setPlayingSentenceIndex] = useState<number | null>(null)
   const [sentenceAudioLoading, setSentenceAudioLoading] = useState<number | null>(null)
@@ -1359,13 +1485,6 @@ export default function EnhancedArticleReader({
     currentWord,
     reset: resetWordExplanation,
   } = useWordExplanation({ articleId: article.id })
-
-  // Mark audio as loaded when it starts playing for the first time
-  useEffect(() => {
-    if (ttsPlaying && !hasLoadedAudioBefore) {
-      setHasLoadedAudioBefore(true)
-    }
-  }, [ttsPlaying, hasLoadedAudioBefore])
 
   // Cleanup audio when component unmounts or article changes
   useEffect(() => {
@@ -1584,7 +1703,12 @@ export default function EnhancedArticleReader({
   const handleKokoroOrTTSFallback = async () => {
     console.log('%c🔄 Attempting Kokoro TTS playback...', 'color: #FF9800; font-weight: bold;')
 
-    if (article.generatedContentAudioUrl) {
+    // In story mode, prefer per-page audio URL if available
+    // This allows audio to naturally stop at page boundaries
+    const currentPageAudioUrl = isStoryMode ? pages![currentPageIndex]?.audioUrl : undefined
+    const audioUrlToUse = currentPageAudioUrl || article.generatedContentAudioUrl
+
+    if (audioUrlToUse) {
       // If already playing Kokoro audio, pause it
       if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
         preGeneratedAudioRef.current.pause()
@@ -1593,22 +1717,41 @@ export default function EnhancedArticleReader({
         return
       }
 
-      // If Kokoro audio is paused, resume it
-      if (preGeneratedAudioRef.current && !preGeneratedAudioRef.current.ended) {
+      // If Kokoro audio is paused, resume it - but only if it's the same page's audio
+      // Compare by checking if the current audio src contains the expected filename
+      const expectedFilename = audioUrlToUse.split('/').pop() || ''
+      const currentAudioMatchesPage = preGeneratedAudioRef.current?.src?.includes(
+        encodeURIComponent(expectedFilename)
+      )
+
+      if (
+        preGeneratedAudioRef.current &&
+        !preGeneratedAudioRef.current.ended &&
+        currentAudioMatchesPage
+      ) {
         preGeneratedAudioRef.current.play()
         setIsPreGeneratedPlaying(true)
-        console.log('[Article Reader] Resumed Kokoro TTS audio')
+        console.log('[Article Reader] Resumed Kokoro TTS audio (same page)')
         return
+      }
+
+      // If there's old audio from a different page, clean it up first
+      if (preGeneratedAudioRef.current) {
+        console.log('[Article Reader] Cleaning up old audio before playing new page')
+        cleanupAudio(preGeneratedAudioRef.current)
+        preGeneratedAudioRef.current = null
       }
 
       // Otherwise, start playing Kokoro audio from beginning
       try {
+        const isPerPageAudio = !!currentPageAudioUrl
         console.log(
-          '%c[Audio] SOURCE: FIREBASE PRE-CACHED (Kokoro TTS)',
+          `%c[Audio] SOURCE: FIREBASE PRE-CACHED (${isPerPageAudio ? 'Per-Page' : 'Full Story'} Kokoro TTS)`,
           'color: #ff9900; font-weight: bold',
           {
             provider: article.audioProvider || 'kokoro',
             voice: article.audioVoice,
+            ...(isPerPageAudio && { page: currentPageIndex + 1 }),
           }
         )
 
@@ -1621,10 +1764,13 @@ export default function EnhancedArticleReader({
         // Create new audio element
         // Route through TTS proxy to handle Firebase Storage CORS
         const audioUrl =
-          article.generatedContentAudioUrl.includes('firebasestorage') ||
-          article.generatedContentAudioUrl.includes('storage.googleapis.com')
-            ? `/api/tts/proxy?url=${encodeURIComponent(article.generatedContentAudioUrl)}`
-            : article.generatedContentAudioUrl
+          audioUrlToUse.includes('firebasestorage') ||
+          audioUrlToUse.includes('storage.googleapis.com')
+            ? `/api/tts/proxy?url=${encodeURIComponent(audioUrlToUse)}`
+            : audioUrlToUse
+
+        console.log('[Article Reader] Loading audio URL:', audioUrl)
+        console.log('[Article Reader] Original URL:', audioUrlToUse)
 
         const audio = new Audio(audioUrl)
         // Validate playbackSpeed to prevent "non-finite" error
@@ -1646,8 +1792,26 @@ export default function EnhancedArticleReader({
           console.log('[Article Reader] Kokoro TTS audio finished')
         }
 
-        audio.onerror = e => {
-          console.error('[Article Reader] Kokoro TTS audio error:', e)
+        audio.onerror = () => {
+          const mediaError = audio.error
+          const errorCode = mediaError?.code
+          const errorMessage =
+            errorCode === MediaError.MEDIA_ERR_ABORTED
+              ? 'Audio playback was aborted'
+              : errorCode === MediaError.MEDIA_ERR_NETWORK
+                ? 'Network error while loading audio'
+                : errorCode === MediaError.MEDIA_ERR_DECODE
+                  ? 'Audio decoding failed'
+                  : errorCode === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED
+                    ? 'Audio format not supported or source unavailable'
+                    : mediaError?.message || 'Unknown audio error'
+
+          console.error('[Article Reader] Kokoro TTS audio error:', {
+            code: errorCode,
+            message: errorMessage,
+            src: audio.src,
+            originalUrl: audioUrlToUse,
+          })
           setIsPreGeneratedPlaying(false)
           // Fall back to app TTS on error
           console.log('[Article Reader] Falling back to app TTS')
@@ -2156,14 +2320,19 @@ export default function EnhancedArticleReader({
       <article className="max-w-4xl mx-auto px-4 sm:px-6 pb-32 pt-8">
         {/* Hero Image Section */}
         <div className="mb-10 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-gray-900/5 dark:ring-white/10 aspect-[21/9] relative bg-gray-100 dark:bg-gray-800 group">
-          <NewsArticleFallbackImage
-            imageUrl={currentPageImage}
-            title={displayTitle}
-            source={article.source}
-            category={article.category}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            priority
-          />
+          {/* Story mode with missing image - show beautiful gradient with emojis */}
+          {isStoryMode && !currentPageImage ? (
+            <StoryPageFallback pageIndex={currentPageIndex} title={displayTitle} />
+          ) : (
+            <NewsArticleFallbackImage
+              imageUrl={currentPageImage}
+              title={displayTitle}
+              source={article.source}
+              category={article.category}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              priority
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
 
           {/* Metadata Badges on Image */}
@@ -2578,6 +2747,10 @@ export default function EnhancedArticleReader({
           onSettingsChange={handleSettingsChange}
           isScrolled={isScrolled}
           isOpen={showMobileSettings}
+          onOpen={() => {
+            console.log('Opening mobile settings')
+            setShowMobileSettings(true)
+          }}
           onClose={() => {
             console.log('Closing mobile settings')
             setShowMobileSettings(false)
@@ -2609,26 +2782,6 @@ export default function EnhancedArticleReader({
           onClose={() => setSettings(prev => ({ ...prev, shadowingMode: false }))}
         />
       )}
-
-      {/* Loading Modal - Show only on first audio load */}
-      <Modal
-        isOpen={ttsLoading && !hasLoadedAudioBefore}
-        onClose={() => {}} // Prevent closing during load
-        closeOnOverlayClick={false}
-        closeOnEsc={false}
-        showCloseButton={false}
-        size="sm"
-      >
-        <div className="text-center py-4">
-          <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-            {t('news.reader.preparingAudio')}
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {t('news.reader.generatingAudioMessage')}
-          </p>
-        </div>
-      </Modal>
     </div>
   )
 }

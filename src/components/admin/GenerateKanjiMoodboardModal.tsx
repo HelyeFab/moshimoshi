@@ -223,21 +223,9 @@ export default function GenerateKanjiMoodboardModal({
               {t('admin.moodboard.howItWorks')}
             </h3>
             <ul className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-              <li>
-                •{' '}
-                {t('admin.moodboard.howItWorksItems.0') ||
-                  'AI will generate relevant kanji based on your theme'}
-              </li>
-              <li>
-                •{' '}
-                {t('admin.moodboard.howItWorksItems.1') ||
-                  'Each kanji includes readings, meanings, and examples'}
-              </li>
-              <li>
-                •{' '}
-                {t('admin.moodboard.howItWorksItems.2') ||
-                  'You can edit the generated moodboard after creation'}
-              </li>
+              <li>• {t('admin.moodboard.howItWorksItem0')}</li>
+              <li>• {t('admin.moodboard.howItWorksItem1')}</li>
+              <li>• {t('admin.moodboard.howItWorksItem2')}</li>
             </ul>
           </div>
 

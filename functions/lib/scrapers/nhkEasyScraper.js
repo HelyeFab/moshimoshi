@@ -81,6 +81,7 @@ function generateArticleId(url) {
  * @param limit - Maximum number of articles to scrape (default: 1)
  */
 async function scrapeNHKEasy(customStartDate, customEndDate, limit = 1) {
+  var _a, _b, _c
   const startTime = Date.now()
   const articles = []
   try {
@@ -114,8 +115,8 @@ async function scrapeNHKEasy(customStartDate, customEndDate, limit = 1) {
       endDate: endDate.toISOString(),
       isCustomRange: !!(customStartDate && customEndDate),
     })
-    // Get API key from Firebase secret
-    const apiKey = MODAL_API_KEY.value()
+    // Get API key from Firebase secret (trim to remove any trailing newlines)
+    const apiKey = (_a = MODAL_API_KEY.value()) === null || _a === void 0 ? void 0 : _a.trim()
     if (!apiKey) {
       throw new Error('MODAL_API_KEY secret not configured')
     }
@@ -131,9 +132,18 @@ async function scrapeNHKEasy(customStartDate, customEndDate, limit = 1) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`)
     }
     const apiArticles = await response.json()
+    // Sort by publish date descending (newest first) to ensure we process the most recent articles
+    apiArticles.sort(
+      (a, b) => new Date(b.publishedAtUtc).getTime() - new Date(a.publishedAtUtc).getTime()
+    )
     logger.info('[NHK Easy] API response received', {
       articleCount: apiArticles.length,
       limit,
+      newestArticle: (_b = apiArticles[0]) === null || _b === void 0 ? void 0 : _b.publishedAtUtc,
+      oldestArticle:
+        (_c = apiArticles[apiArticles.length - 1]) === null || _c === void 0
+          ? void 0
+          : _c.publishedAtUtc,
     })
     if (!Array.isArray(apiArticles) || apiArticles.length === 0) {
       logger.info('[NHK Easy] No articles available')

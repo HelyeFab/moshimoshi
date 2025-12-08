@@ -32,21 +32,32 @@ export const maxDuration = 60
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify admin authentication using session (works with credentials: 'include')
-    const session = await getSession()
+    // Check for admin key authentication (for scheduled functions)
+    const adminKey = request.headers.get('X-Admin-Key')
+    const expectedAdminKey = process.env.STORY_SCHEDULER_ADMIN_KEY || 'story-scheduler-2025'
 
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    let userId: string
+
+    if (adminKey === expectedAdminKey) {
+      // Authenticated via admin key (scheduled function)
+      userId = 'scheduler-system'
+    } else {
+      // Verify admin authentication using session (works with credentials: 'include')
+      const session = await getSession()
+
+      if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
+
+      // Check if user is admin from Firebase
+      const userDoc = await adminFirestore!.collection('users').doc(session.uid).get()
+      const userData = userDoc?.data()
+      if (!userData?.isAdmin) {
+        return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+      }
+
+      userId = session.uid
     }
-
-    // Check if user is admin from Firebase
-    const userDoc = await adminFirestore!.collection('users').doc(session.uid).get()
-    const userData = userDoc?.data()
-    if (!userData?.isAdmin) {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
-    }
-
-    const userId = session.uid
 
     const body = await request.json()
     const { step, theme, jlptLevel, pageCount, ...stepData } = body

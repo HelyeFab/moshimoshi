@@ -3,54 +3,54 @@
  * Standalone processor (no base class)
  */
 
-import { OllamaClient } from '../clients/OllamaClient';
-import { getProviderConfig, selectProvider, providerHealth } from '../config/providers';
-import { JLPTLevel } from '@/types/ai-story';
-import OpenAI from 'openai';
+import { OllamaClient } from '../clients/OllamaClient'
+import { getProviderConfig, selectProvider, providerHealth } from '../config/providers'
+import { JLPTLevel } from '@/types/ai-story'
+import OpenAI from 'openai'
 
 interface BookSummaryRequest {
-  bookName: string;
-  author?: string;
-  jlptLevel: JLPTLevel;
-  additionalContext?: string;
+  bookName: string
+  author?: string
+  jlptLevel: JLPTLevel
+  additionalContext?: string
 }
 
 interface BookSummaryResult {
-  title: string;
-  titleJa: string;
-  summary: string;
-  content: string;
-  wordCount: number;
-  readingTime: number;
-  category?: string;
-  author?: string;
+  title: string
+  titleJa: string
+  summary: string
+  content: string
+  wordCount: number
+  readingTime: number
+  category?: string
+  author?: string
 }
 
 interface ProcessorContext {
-  model: string;
-  userId?: string;
+  model: string
+  userId?: string
   config: {
-    timeout?: number;
-    maxRetries?: number;
-    temperature?: number;
-  };
+    timeout?: number
+    maxRetries?: number
+    temperature?: number
+  }
 }
 
 interface ProcessorResult {
-  data: BookSummaryResult;
+  data: BookSummaryResult
   usage: {
-    promptTokens: number;
-    completionTokens: number;
-    totalTokens: number;
-    estimatedCost: number;
-  };
-  metadata?: any;
+    promptTokens: number
+    completionTokens: number
+    totalTokens: number
+    estimatedCost: number
+  }
+  metadata?: any
 }
 
 export class BookSummaryProcessorHybrid {
-  private ollamaClient: OllamaClient | null = null;
-  private providerConfig = getProviderConfig();
-  private openai: OpenAI | null = null;
+  private ollamaClient: OllamaClient | null = null
+  private providerConfig = getProviderConfig()
+  private openai: OpenAI | null = null
 
   constructor() {
     // Don't initialize clients in constructor - lazy load them when needed
@@ -60,10 +60,10 @@ export class BookSummaryProcessorHybrid {
   private getOpenAI(): OpenAI {
     if (!this.openai) {
       this.openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY || process.env.OPEN_AI_API_KEY
-      });
+        apiKey: process.env.OPENAI_API_KEY || process.env.OPEN_AI_API_KEY,
+      })
     }
-    return this.openai;
+    return this.openai
   }
 
   private getOllamaClient(): OllamaClient | null {
@@ -74,63 +74,67 @@ export class BookSummaryProcessorHybrid {
           model: process.env.OLLAMA_MODEL || 'qwen2.5:7b',
           timeout: parseInt(process.env.OLLAMA_TIMEOUT || '600000'), // 10 minutes for book generation
           maxRetries: parseInt(process.env.OLLAMA_MAX_RETRIES || '1'), // Only 1 retry to avoid wasting time
-          apiKey: process.env.SHELDON_API_KEY || ''
-        });
+          apiKey: process.env.MODAL_API_KEY || '',
+        })
       } catch (error) {
-        console.error('Failed to initialize Ollama client:', error);
-        this.ollamaClient = null;
+        console.error('Failed to initialize Ollama client:', error)
+        this.ollamaClient = null
       }
     }
-    return this.ollamaClient;
+    return this.ollamaClient
   }
 
   async process(request: BookSummaryRequest, context: ProcessorContext): Promise<ProcessorResult> {
-    const provider = selectProvider('generate_book_summary', this.providerConfig);
+    const provider = selectProvider('generate_book_summary', this.providerConfig)
 
-    console.log(`🤖 Using ${provider} for book summary generation: ${request.bookName}`);
+    console.log(`🤖 Using ${provider} for book summary generation: ${request.bookName}`)
 
     try {
       if (provider === 'ollama' && this.getOllamaClient() && providerHealth.isHealthy('ollama')) {
-        return await this.processWithOllama(request, context);
+        return await this.processWithOllama(request, context)
       } else {
-        return await this.processWithOpenAI(request, context);
+        return await this.processWithOpenAI(request, context)
       }
     } catch (error) {
-      console.error(`❌ ${provider} failed for book summary:`, error);
+      console.error(`❌ ${provider} failed for book summary:`, error)
 
       if (provider === 'ollama') {
-        providerHealth.markUnhealthy('ollama');
-        console.warn(`⚠️  Falling back to OpenAI for book summary`);
-        return await this.processWithOpenAI(request, context);
+        providerHealth.markUnhealthy('ollama')
+        console.warn(`⚠️  Falling back to OpenAI for book summary`)
+        return await this.processWithOpenAI(request, context)
       }
 
-      throw error;
+      throw error
     }
   }
 
-  private async processWithOpenAI(request: BookSummaryRequest, context: ProcessorContext): Promise<ProcessorResult> {
-    const { bookName, author, jlptLevel, additionalContext } = request;
-    const authorInfo = author ? ` by ${author}` : '';
+  private async processWithOpenAI(
+    request: BookSummaryRequest,
+    context: ProcessorContext
+  ): Promise<ProcessorResult> {
+    const { bookName, author, jlptLevel, additionalContext } = request
+    const authorInfo = author ? ` by ${author}` : ''
 
-    const prompt = this.buildPrompt(bookName, authorInfo, jlptLevel, additionalContext);
+    const prompt = this.buildPrompt(bookName, authorInfo, jlptLevel, additionalContext)
 
-    const openai = this.getOpenAI();
+    const openai = this.getOpenAI()
     const response = await openai.chat.completions.create({
       model: context.model,
       messages: [
         {
           role: 'system',
-          content: 'You are an expert Japanese storyteller who creates engaging narrative versions of books for Japanese learners. You ALWAYS write at least 1000 characters of narrative story content in Japanese. You NEVER write summaries or lists - only full narrative stories with proper flow, dialogue, and character development. When the author is not provided, you research and include the correct author name in your response.'
+          content:
+            'You are an expert Japanese storyteller who creates engaging narrative versions of books for Japanese learners. You ALWAYS write at least 1000 characters of narrative story content in Japanese. You NEVER write summaries or lists - only full narrative stories with proper flow, dialogue, and character development. When the author is not provided, you research and include the correct author name in your response.',
         },
-        { role: 'user', content: prompt }
+        { role: 'user', content: prompt },
       ],
       temperature: context.config.temperature || 0.7,
       max_tokens: 4096, // Increased for longer book content
-      response_format: { type: 'json_object' }
-    });
+      response_format: { type: 'json_object' },
+    })
 
-    const content = response.choices[0]?.message?.content || '{}';
-    const result = this.parseResponse(content);
+    const content = response.choices[0]?.message?.content || '{}'
+    const result = this.parseResponse(content)
 
     return {
       data: result,
@@ -138,40 +142,43 @@ export class BookSummaryProcessorHybrid {
         promptTokens: response.usage?.prompt_tokens || 0,
         completionTokens: response.usage?.completion_tokens || 0,
         totalTokens: response.usage?.total_tokens || 0,
-        estimatedCost: ((response.usage?.total_tokens || 0) * 0.00000015) || 0
+        estimatedCost: (response.usage?.total_tokens || 0) * 0.00000015 || 0,
       },
       metadata: {
         provider: 'openai',
-        model: context.model
-      }
-    };
+        model: context.model,
+      },
+    }
   }
 
-  private async processWithOllama(request: BookSummaryRequest, context: ProcessorContext): Promise<ProcessorResult> {
-    const ollamaClient = this.getOllamaClient();
+  private async processWithOllama(
+    request: BookSummaryRequest,
+    context: ProcessorContext
+  ): Promise<ProcessorResult> {
+    const ollamaClient = this.getOllamaClient()
     if (!ollamaClient) {
-      throw new Error('Ollama client not initialized');
+      throw new Error('Ollama client not initialized')
     }
 
-    const { bookName, author, jlptLevel, additionalContext } = request;
-    const authorInfo = author ? ` by ${author}` : '';
+    const { bookName, author, jlptLevel, additionalContext } = request
+    const authorInfo = author ? ` by ${author}` : ''
 
-    const prompt = this.buildPrompt(bookName, authorInfo, jlptLevel, additionalContext);
+    const prompt = this.buildPrompt(bookName, authorInfo, jlptLevel, additionalContext)
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     const response = await ollamaClient.generate({
       prompt,
       format: 'json',
       options: {
         temperature: context.config.temperature || 0.7,
-        num_predict: 6144 // Reduced for shorter books (1000-1500 chars target)
-      }
-    });
+        num_predict: 6144, // Reduced for shorter books (1000-1500 chars target)
+      },
+    })
 
-    const processingTime = Date.now() - startTime;
-    const result = this.parseResponse(response.response);
+    const processingTime = Date.now() - startTime
+    const result = this.parseResponse(response.response)
 
-    providerHealth.markHealthy('ollama');
+    providerHealth.markHealthy('ollama')
 
     return {
       data: result,
@@ -179,18 +186,23 @@ export class BookSummaryProcessorHybrid {
         promptTokens: response.prompt_eval_count || 0,
         completionTokens: response.eval_count || 0,
         totalTokens: (response.prompt_eval_count || 0) + (response.eval_count || 0),
-        estimatedCost: 0
+        estimatedCost: 0,
       },
       metadata: {
         provider: 'ollama',
         model: ollamaClient['config'].model,
-        processingTime
-      }
-    };
+        processingTime,
+      },
+    }
   }
 
-  private buildPrompt(bookName: string, authorInfo: string, jlptLevel: JLPTLevel, additionalContext?: string): string {
-    const levelGuide = this.getJLPTLevelGuide(jlptLevel);
+  private buildPrompt(
+    bookName: string,
+    authorInfo: string,
+    jlptLevel: JLPTLevel,
+    additionalContext?: string
+  ): string {
+    const levelGuide = this.getJLPTLevelGuide(jlptLevel)
 
     return `You are a Japanese language expert creating condensed NARRATIVE book versions for Japanese learners.
 
@@ -243,7 +255,7 @@ ${additionalContext ? `**Additional Context:** ${additionalContext}\n\n` : ''}
 - Use narrative past tense throughout!
 - Include paragraphs and proper flow!
 
-Generate the condensed book narrative now.`;
+Generate the condensed book narrative now.`
   }
 
   private getJLPTLevelGuide(level: JLPTLevel): string {
@@ -276,28 +288,32 @@ Generate the condensed book narrative now.`;
 - Complex grammar and expressions
 - Idiomatic language
 - Literary and formal styles
-- Full range of kanji`
-    };
+- Full range of kanji`,
+    }
 
-    return guides[level] || guides.N5;
+    return guides[level] || guides.N5
   }
 
   private parseResponse(content: string): BookSummaryResult {
     try {
-      const parsed = JSON.parse(content);
+      const parsed = JSON.parse(content)
 
-      const wordCount = parsed.content?.length || 0;
+      const wordCount = parsed.content?.length || 0
 
-      // Validate minimum length
-      if (wordCount < 1000) {
-        console.error(`❌ Content too short: ${wordCount} characters (minimum: 1000)`);
-        throw new Error(`Generated content is too short (${wordCount} characters). Minimum required: 1000 characters. Please try again.`);
+      // Validate minimum length (lowered to 500 for shorter books)
+      if (wordCount < 500) {
+        console.error(`❌ Content too short: ${wordCount} characters (minimum: 500)`)
+        throw new Error(
+          `Generated content is too short (${wordCount} characters). Minimum required: 500 characters. Please try again.`
+        )
       }
 
       // Japanese reading: ~200 characters per minute (slower than English due to kanji complexity)
-      const readingTime = Math.ceil(wordCount / 200);
+      const readingTime = Math.ceil(wordCount / 200)
 
-      console.log(`✅ Book content validated: ${wordCount} characters, ~${readingTime} min read time`);
+      console.log(
+        `✅ Book content validated: ${wordCount} characters, ~${readingTime} min read time`
+      )
 
       return {
         title: parsed.title || 'Untitled',
@@ -307,14 +323,16 @@ Generate the condensed book narrative now.`;
         wordCount,
         readingTime,
         category: parsed.category,
-        author: parsed.author // AI-provided author if not specified
-      };
+        author: parsed.author, // AI-provided author if not specified
+      }
     } catch (error) {
-      console.error('Failed to parse book summary response:', error);
-      throw new Error(error instanceof Error ? error.message : 'Failed to parse AI response for book summary');
+      console.error('Failed to parse book summary response:', error)
+      throw new Error(
+        error instanceof Error ? error.message : 'Failed to parse AI response for book summary'
+      )
     }
   }
 }
 
 // Export singleton instance
-export const bookSummaryProcessor = new BookSummaryProcessorHybrid();
+export const bookSummaryProcessor = new BookSummaryProcessorHybrid()

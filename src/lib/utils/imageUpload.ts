@@ -1,5 +1,5 @@
-import { storage } from '@/lib/firebase/client';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '@/lib/firebase/client'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 /**
  * Optimizes an image file before upload
@@ -14,50 +14,50 @@ async function optimizeImage(
   quality: number = 0.8
 ): Promise<Blob> {
   return new Promise((resolve, reject) => {
-    const img = new Image();
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    const img = new Image()
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
 
     img.onload = () => {
-      let { width, height } = img;
+      let { width, height } = img
 
       // Calculate new dimensions while maintaining aspect ratio
       if (width > maxWidth || height > maxHeight) {
-        const ratio = Math.min(maxWidth / width, maxHeight / height);
-        width = width * ratio;
-        height = height * ratio;
+        const ratio = Math.min(maxWidth / width, maxHeight / height)
+        width = width * ratio
+        height = height * ratio
       }
 
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = width
+      canvas.height = height
 
       if (!ctx) {
-        reject(new Error('Could not get canvas context'));
-        return;
+        reject(new Error('Could not get canvas context'))
+        return
       }
 
       // Draw and compress
-      ctx.drawImage(img, 0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height)
 
       canvas.toBlob(
-        (blob) => {
+        blob => {
           if (blob) {
-            resolve(blob);
+            resolve(blob)
           } else {
-            reject(new Error('Canvas to Blob conversion failed'));
+            reject(new Error('Canvas to Blob conversion failed'))
           }
         },
         'image/webp',
         quality
-      );
-    };
+      )
+    }
 
     img.onerror = () => {
-      reject(new Error('Failed to load image'));
-    };
+      reject(new Error('Failed to load image'))
+    }
 
-    img.src = URL.createObjectURL(file);
-  });
+    img.src = URL.createObjectURL(file)
+  })
 }
 
 /**
@@ -69,42 +69,90 @@ export async function uploadBlogCoverImage(file: File): Promise<string> {
   try {
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      throw new Error('File must be an image');
+      throw new Error('File must be an image')
     }
 
     // Validate file size (max 10MB before optimization)
-    const maxSize = 10 * 1024 * 1024;
+    const maxSize = 10 * 1024 * 1024
     if (file.size > maxSize) {
-      throw new Error('Image file size must be less than 10MB');
+      throw new Error('Image file size must be less than 10MB')
     }
 
     // Optimize the image
-    const optimizedBlob = await optimizeImage(file);
+    const optimizedBlob = await optimizeImage(file)
 
     // Check optimized size (max 2MB after optimization)
     if (optimizedBlob.size > 2 * 1024 * 1024) {
-      throw new Error('Optimized image is still too large. Please use a smaller image.');
+      throw new Error('Optimized image is still too large. Please use a smaller image.')
     }
 
     // Generate unique filename
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(7);
-    const filename = `blog-covers/${timestamp}-${randomString}.webp`;
+    const timestamp = Date.now()
+    const randomString = Math.random().toString(36).substring(7)
+    const filename = `blog-covers/${timestamp}-${randomString}.webp`
 
     // Upload to Firebase Storage
-    const storageRef = ref(storage, filename);
+    const storageRef = ref(storage, filename)
     const snapshot = await uploadBytes(storageRef, optimizedBlob, {
       contentType: 'image/webp',
       cacheControl: 'public, max-age=31536000', // 1 year
-    });
+    })
 
     // Get download URL
-    const downloadURL = await getDownloadURL(snapshot.ref);
+    const downloadURL = await getDownloadURL(snapshot.ref)
 
-    return downloadURL;
+    return downloadURL
   } catch (error) {
-    console.error('Error uploading image:', error);
-    throw error;
+    console.error('Error uploading image:', error)
+    throw error
+  }
+}
+
+/**
+ * Uploads a book cover image to Firebase Storage
+ * @param file - The image file to upload
+ * @returns The public download URL of the uploaded image
+ */
+export async function uploadBookCoverImage(file: File): Promise<string> {
+  try {
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      throw new Error('File must be an image')
+    }
+
+    // Validate file size (max 10MB before optimization)
+    const maxSize = 10 * 1024 * 1024
+    if (file.size > maxSize) {
+      throw new Error('Image file size must be less than 10MB')
+    }
+
+    // Optimize the image - use 800x1200 for book covers (portrait orientation)
+    const optimizedBlob = await optimizeImage(file, 800, 1200, 0.85)
+
+    // Check optimized size (max 2MB after optimization)
+    if (optimizedBlob.size > 2 * 1024 * 1024) {
+      throw new Error('Optimized image is still too large. Please use a smaller image.')
+    }
+
+    // Generate unique filename
+    const timestamp = Date.now()
+    const randomString = Math.random().toString(36).substring(7)
+    const filename = `books/covers/${timestamp}-${randomString}.webp`
+
+    // Upload to Firebase Storage
+    const storageRef = ref(storage, filename)
+    const snapshot = await uploadBytes(storageRef, optimizedBlob, {
+      contentType: 'image/webp',
+      cacheControl: 'public, max-age=31536000', // 1 year
+    })
+
+    // Get download URL
+    const downloadURL = await getDownloadURL(snapshot.ref)
+
+    return downloadURL
+  } catch (error) {
+    console.error('Error uploading book cover image:', error)
+    throw error
   }
 }
 
@@ -115,16 +163,16 @@ export async function uploadBlogCoverImage(file: File): Promise<string> {
  */
 export function isValidImageUrl(url: string): boolean {
   try {
-    const urlObj = new URL(url);
-    const validProtocols = ['http:', 'https:'];
+    const urlObj = new URL(url)
+    const validProtocols = ['http:', 'https:']
     if (!validProtocols.includes(urlObj.protocol)) {
-      return false;
+      return false
     }
 
     // Check if URL looks like an image
-    const imageExtensions = /\.(jpg|jpeg|png|gif|webp|svg)$/i;
-    return imageExtensions.test(urlObj.pathname) || url.includes('firebasestorage');
+    const imageExtensions = /\.(jpg|jpeg|png|gif|webp|svg)$/i
+    return imageExtensions.test(urlObj.pathname) || url.includes('firebasestorage')
   } catch {
-    return false;
+    return false
   }
 }

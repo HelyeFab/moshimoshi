@@ -683,7 +683,7 @@ export async function manualNewsScraper(data: any, context: any) {
 
       // Get ONLY articles created in the last 2 minutes (truly new from THIS scrape)
       const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000)
-      const recentArticles = await db
+      let recentArticles = await db
         .collection('news_articles')
         .where('source', '==', source.name)
         .where('createdAt', '>=', admin.firestore.Timestamp.fromDate(twoMinutesAgo))
@@ -691,17 +691,69 @@ export async function manualNewsScraper(data: any, context: any) {
         .limit(ARTICLE_LIMIT)
         .get()
 
+      // If no newly created articles, check for articles that need pre-caching (exist but not fully cached)
+      if (recentArticles.empty) {
+        logger.info(
+          '[NewsScheduler] No newly created articles, checking for articles needing pre-cache retry'
+        )
+
+        // Get the most recent articles that might need pre-caching
+        const recentArticlesQuery = await db
+          .collection('news_articles')
+          .where('source', '==', source.name)
+          .orderBy('publishDate', 'desc')
+          .limit(5)
+          .get()
+
+        if (!recentArticlesQuery.empty) {
+          // Check which ones are missing translations or word explanations
+          const articlesToCheck = recentArticlesQuery.docs
+          const articleIdsToCheck = articlesToCheck.map(doc => doc.id)
+
+          // Check for missing translations
+          const translationsSnap = await db
+            .collection('news_article_translations')
+            .where(admin.firestore.FieldPath.documentId(), 'in', articleIdsToCheck)
+            .get()
+          const hasTranslations = new Set(translationsSnap.docs.map(d => d.id))
+
+          // Check for missing word explanations
+          const explanationsSnap = await db
+            .collection('news_article_word_explanations')
+            .where(admin.firestore.FieldPath.documentId(), 'in', articleIdsToCheck)
+            .get()
+          const hasExplanations = new Set(explanationsSnap.docs.map(d => d.id))
+
+          // Find articles missing either translations or word explanations
+          const articlesNeedingPreCache = articlesToCheck.filter(doc => {
+            const hasAudio = doc.data().generatedContentAudioUrl
+            return !hasAudio || !hasTranslations.has(doc.id) || !hasExplanations.has(doc.id)
+          })
+
+          if (articlesNeedingPreCache.length > 0) {
+            // Create a fake query result with the articles needing pre-cache
+            recentArticles = {
+              empty: false,
+              docs: articlesNeedingPreCache.slice(0, ARTICLE_LIMIT),
+            } as typeof recentArticles
+
+            logger.info('[NewsScheduler] Found articles needing pre-cache retry', {
+              count: recentArticles.docs.length,
+              articleIds: recentArticles.docs.map(d => d.id),
+            })
+          }
+        }
+      }
+
       if (!recentArticles.empty) {
         const articleIds = recentArticles.docs.map(doc => doc.id)
-        logger.info('[NewsScheduler] Found newly scraped articles for pre-caching', {
+        logger.info('[NewsScheduler] Found articles for pre-caching', {
           count: articleIds.length,
           articleIds,
         })
         preCacheResult = await runPreCachingPipelineWithProgress(articleIds, progressId)
       } else {
-        logger.warn(
-          '[NewsScheduler] No newly scraped articles found in last 2 minutes - skipping pre-cache'
-        )
+        logger.info('[NewsScheduler] All recent articles are fully pre-cached')
         if (progressId) {
           await updateProgress(progressId, 'complete', 'Article already fully cached', 100)
         }

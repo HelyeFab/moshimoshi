@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, ChevronLeft } from 'lucide-react'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
@@ -47,6 +48,8 @@ interface LearningPageHeaderProps {
   className?: string
   // Extra content to render in mobile expandable section
   mobileExtra?: React.ReactNode
+  // Back navigation
+  backHref?: string
 }
 
 export default function LearningPageHeader({
@@ -68,9 +71,11 @@ export default function LearningPageHeader({
   mascot = 'doshi',
   className = '',
   mobileExtra,
+  backHref = '/dashboard',
 }: LearningPageHeaderProps) {
   const { t } = useI18n()
   const { resolvedTheme } = useTheme()
+  const router = useRouter()
   const [isExpanded, setIsExpanded] = useState(false)
 
   // Calculate progress percentage
@@ -182,6 +187,23 @@ export default function LearningPageHeader({
                       }`}
                     />
                   </motion.div>
+                </button>
+
+                {/* Back Button */}
+                <button
+                  onClick={() => router.push(backHref)}
+                  className={`p-2 rounded-full shadow-md transition-all ${
+                    isLightTheme
+                      ? 'bg-white/50 hover:bg-white/70 backdrop-blur'
+                      : 'bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600'
+                  }`}
+                  aria-label="Go back"
+                >
+                  <ChevronLeft
+                    className={`w-5 h-5 ${
+                      isLightTheme ? 'text-gray-700' : 'text-gray-700 dark:text-gray-300'
+                    }`}
+                  />
                 </button>
               </div>
 
@@ -523,6 +545,23 @@ export default function LearningPageHeader({
             </>
           )}
           <div className="container mx-auto px-4 py-6 relative z-10">
+            {/* Back Button - Desktop */}
+            <button
+              onClick={() => router.push(backHref)}
+              className={`absolute top-6 right-4 p-2 rounded-full shadow-md transition-all ${
+                isLightTheme
+                  ? 'bg-white/50 hover:bg-white/70 backdrop-blur'
+                  : 'bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600'
+              }`}
+              aria-label="Go back"
+            >
+              <ChevronLeft
+                className={`w-6 h-6 ${
+                  isLightTheme ? 'text-gray-700' : 'text-gray-700 dark:text-gray-300'
+                }`}
+              />
+            </button>
+
             <div className="mb-6">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                 {mascot === 'doshi' && (

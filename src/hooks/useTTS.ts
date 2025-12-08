@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { TTSOptions, TTSResult, TTSError } from '@/lib/tts/types'
 import { OfflineTTSCache } from '@/lib/tts/offlineCache'
+import { ttsLoadingState } from '@/lib/tts/loadingState'
 
 interface UseTTSOptions {
   autoPlay?: boolean
@@ -58,6 +59,27 @@ function getJapaneseVoice(): SpeechSynthesisVoice | null {
   // Prefer Japanese voices, fallback to any available
   const japaneseVoice = voices.find(v => v.lang.startsWith('ja'))
   return japaneseVoice || voices[0] || null
+}
+
+/**
+ * Get human-readable error message from MediaError
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaError/code
+ */
+function getMediaErrorMessage(error: MediaError | null | undefined): string {
+  if (!error) return 'Audio playback failed (unknown error)'
+
+  switch (error.code) {
+    case MediaError.MEDIA_ERR_ABORTED:
+      return 'Audio playback was aborted'
+    case MediaError.MEDIA_ERR_NETWORK:
+      return 'Network error while loading audio'
+    case MediaError.MEDIA_ERR_DECODE:
+      return 'Audio decoding failed - file may be corrupted'
+    case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+      return 'Audio format not supported or source unavailable'
+    default:
+      return error.message || `Audio playback failed (code: ${error.code})`
+  }
 }
 
 export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
@@ -223,6 +245,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             // Cache miss, proceed with API call
             console.log(`TTS Offline cache miss, calling API for: "${text.substring(0, 30)}..."`)
             setIsFetchingFromAPI(true)
+            ttsLoadingState.setFetching(true)
 
             const response = await fetch('/api/tts/synthesize', {
               method: 'POST',
@@ -258,6 +281,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             const data = await response.json()
             result = data.data
             setIsFetchingFromAPI(false)
+            ttsLoadingState.setFetching(false)
 
             // Cache the result for offline use (fire and forget)
             offlineCache
@@ -273,6 +297,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         } else {
           // Cache disabled, always call API
           setIsFetchingFromAPI(true)
+          ttsLoadingState.setFetching(true)
           const response = await fetch('/api/tts/synthesize', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -307,6 +332,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
           const data = await response.json()
           result = data.data
           setIsFetchingFromAPI(false)
+          ttsLoadingState.setFetching(false)
 
           console.log(
             `TTS Provider: ${result.provider}, Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`
@@ -330,9 +356,16 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             processQueue()
           }
 
-          audioRef.current.onerror = e => {
-            const error = new Error('Audio playback failed')
-            console.error('Audio playback error:', e)
+          audioRef.current.onerror = () => {
+            const mediaError = audioRef.current?.error
+            const errorMessage = getMediaErrorMessage(mediaError)
+            const error = new Error(errorMessage)
+            console.error('Audio playback error:', {
+              code: mediaError?.code,
+              message: mediaError?.message,
+              errorMessage,
+              src: audioRef.current?.src?.substring(0, 100),
+            })
             setError(error)
             setPlaying(false)
             setCurrentText(null)
@@ -373,11 +406,19 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             }
           }
 
-          const onError = (e: Event) => {
+          const onError = () => {
             if (!resolved) {
               resolved = true
               cleanup()
-              reject(new Error('Failed to load audio'))
+              const mediaError = audio.error
+              const errorMessage = getMediaErrorMessage(mediaError)
+              console.error('Audio load error:', {
+                code: mediaError?.code,
+                message: mediaError?.message,
+                errorMessage,
+                src: audio.src?.substring(0, 100),
+              })
+              reject(new Error(errorMessage))
             }
           }
 
@@ -438,6 +479,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         setError(error)
         setLoading(false)
         setIsFetchingFromAPI(false)
+        ttsLoadingState.setFetching(false)
         setCurrentText(null)
         onError?.(error)
         throw error

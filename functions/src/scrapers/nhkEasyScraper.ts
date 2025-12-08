@@ -117,8 +117,8 @@ export async function scrapeNHKEasy(
       isCustomRange: !!(customStartDate && customEndDate),
     })
 
-    // Get API key from Firebase secret
-    const apiKey = MODAL_API_KEY.value()
+    // Get API key from Firebase secret (trim to remove any trailing newlines)
+    const apiKey = MODAL_API_KEY.value()?.trim()
     if (!apiKey) {
       throw new Error('MODAL_API_KEY secret not configured')
     }
@@ -152,9 +152,16 @@ export async function scrapeNHKEasy(
 
     const apiArticles: NHKAPIArticle[] = await response.json()
 
+    // Sort by publish date descending (newest first) to ensure we process the most recent articles
+    apiArticles.sort(
+      (a, b) => new Date(b.publishedAtUtc).getTime() - new Date(a.publishedAtUtc).getTime()
+    )
+
     logger.info('[NHK Easy] API response received', {
       articleCount: apiArticles.length,
       limit,
+      newestArticle: apiArticles[0]?.publishedAtUtc,
+      oldestArticle: apiArticles[apiArticles.length - 1]?.publishedAtUtc,
     })
 
     if (!Array.isArray(apiArticles) || apiArticles.length === 0) {

@@ -1,106 +1,118 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/components/ui/Toast/ToastContext';
-import { JLPTLevel } from '@/types/ai-story';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
-import { motion } from 'framer-motion';
-import { Upload, Sparkles } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import { JLPTLevel } from '@/types/ai-story'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import { motion } from 'framer-motion'
+import { Upload, Sparkles, X } from 'lucide-react'
+import { uploadBookCoverImage } from '@/lib/utils/imageUpload'
 
 interface GenerationProgress {
-  step: 'content' | 'cover' | 'audio' | 'complete';
-  message: string;
-  progress: number;
+  step: 'content' | 'cover' | 'audio' | 'complete'
+  message: string
+  progress: number
 }
 
 export default function GenerateBookPage() {
-  const router = useRouter();
-  const { user, loading: sessionLoading } = useAuth();
-  const { showToast } = useToast();
+  const router = useRouter()
+  const { user, loading: sessionLoading } = useAuth()
+  const { showToast } = useToast()
 
   // Form state
-  const [bookName, setBookName] = useState<string>('');
-  const [author, setAuthor] = useState<string>('');
-  const [jlptLevel, setJlptLevel] = useState<JLPTLevel>('N5');
-  const [additionalContext, setAdditionalContext] = useState<string>('');
-  const [coverOption, setCoverOption] = useState<'upload' | 'ai'>('ai');
-  const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
-  const [coverImagePreview, setCoverImagePreview] = useState<string>('');
+  const [bookName, setBookName] = useState<string>('')
+  const [author, setAuthor] = useState<string>('')
+  const [jlptLevel, setJlptLevel] = useState<JLPTLevel>('N5')
+  const [additionalContext, setAdditionalContext] = useState<string>('')
+  const [coverOption, setCoverOption] = useState<'upload' | 'ai' | 'none'>('ai')
+  const [coverImageFile, setCoverImageFile] = useState<File | null>(null)
+  const [coverImagePreview, setCoverImagePreview] = useState<string>('')
+  const [isUploadingCover, setIsUploadingCover] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Generation state
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generationProgress, setGenerationProgress] = useState<GenerationProgress | null>(null);
-  const [currentStep, setCurrentStep] = useState<'setup' | 'generating' | 'complete'>('setup');
-  const [generatedBookId, setGeneratedBookId] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [generationProgress, setGenerationProgress] = useState<GenerationProgress | null>(null)
+  const [currentStep, setCurrentStep] = useState<'setup' | 'generating' | 'complete'>('setup')
+  const [generatedBookId, setGeneratedBookId] = useState<string | null>(null)
 
   // Check admin access
   useEffect(() => {
     if (!sessionLoading && (!user || !user.isAdmin)) {
-      router.push('/');
+      router.push('/')
     }
-  }, [user, sessionLoading, router]);
+  }, [user, sessionLoading, router])
 
   const handleCoverImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]
     if (file) {
-      setCoverImageFile(file);
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        showToast('Please select an image file', 'error')
+        return
+      }
+
+      // Validate file size (10MB max)
+      if (file.size > 10 * 1024 * 1024) {
+        showToast('Image must be less than 10MB', 'error')
+        return
+      }
+
+      setCoverImageFile(file)
 
       // Create preview
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setCoverImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+        setCoverImagePreview(reader.result as string)
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
+
+  const handleRemoveCoverImage = () => {
+    setCoverImageFile(null)
+    setCoverImagePreview('')
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
 
   const handleGenerate = async () => {
     if (!bookName) {
-      showToast('Please enter a book name', 'error');
-      return;
+      showToast('Please enter a book name', 'error')
+      return
     }
 
     if (!user?.uid) {
-      showToast('Authentication required', 'error');
-      return;
+      showToast('Authentication required', 'error')
+      return
     }
 
-    setIsGenerating(true);
-    setCurrentStep('generating');
-    setGenerationProgress({
-      step: 'content',
-      message: 'Generating condensed book summary...',
-      progress: 10
-    });
+    setIsGenerating(true)
+    setCurrentStep('generating')
 
     try {
-      let coverImageUrl = '';
+      let coverImageUrl = ''
 
       // Step 1: Upload cover image if provided
       if (coverOption === 'upload' && coverImageFile) {
         setGenerationProgress({
           step: 'cover',
           message: 'Uploading cover image...',
-          progress: 5
-        });
+          progress: 5,
+        })
+        setIsUploadingCover(true)
 
-        const formData = new FormData();
-        formData.append('file', coverImageFile);
-        formData.append('path', `books/covers/${Date.now()}_${coverImageFile.name}`);
-
-        const uploadResponse = await fetch('/api/upload', {
-          method: 'POST',
-          credentials: 'include',
-          body: formData
-        });
-
-        if (uploadResponse.ok) {
-          const uploadData = await uploadResponse.json();
-          coverImageUrl = uploadData.url;
-        } else {
-          console.warn('Cover image upload failed, continuing without it');
+        try {
+          coverImageUrl = await uploadBookCoverImage(coverImageFile)
+          console.log('✅ Cover image uploaded:', coverImageUrl)
+        } catch (uploadError) {
+          console.error('Cover image upload failed:', uploadError)
+          showToast('Cover image upload failed, continuing without it', 'warning')
+        } finally {
+          setIsUploadingCover(false)
         }
       }
 
@@ -108,13 +120,13 @@ export default function GenerateBookPage() {
       setGenerationProgress({
         step: 'content',
         message: 'AI is creating the condensed summary...',
-        progress: 20
-      });
+        progress: 20,
+      })
 
       const generateResponse = await fetch('/api/admin/books/generate', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({
@@ -123,67 +135,67 @@ export default function GenerateBookPage() {
           jlptLevel,
           additionalContext,
           coverImageUrl,
-          generateCover: coverOption === 'ai'
-        })
-      });
+          generateCover: coverOption === 'ai',
+        }),
+      })
 
       if (!generateResponse.ok) {
-        const error = await generateResponse.json();
-        throw new Error(error.error || 'Failed to generate book');
+        const error = await generateResponse.json()
+        throw new Error(error.error || 'Failed to generate book')
       }
 
-      const { draftId } = await generateResponse.json();
-      setGeneratedBookId(draftId);
+      const { draftId } = await generateResponse.json()
+      setGeneratedBookId(draftId)
 
       setGenerationProgress({
         step: 'complete',
         message: 'Book generated successfully! Publishing...',
-        progress: 90
-      });
+        progress: 90,
+      })
 
       // Step 3: Auto-publish the book
       const publishResponse = await fetch('/api/admin/books/publish-draft', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ draftId })
-      });
+        body: JSON.stringify({ draftId }),
+      })
 
       if (!publishResponse.ok) {
-        throw new Error('Failed to publish book');
+        throw new Error('Failed to publish book')
       }
 
       setGenerationProgress({
         step: 'complete',
         message: 'Book published successfully!',
-        progress: 100
-      });
+        progress: 100,
+      })
 
-      showToast('Book generated and published successfully!', 'success');
+      showToast('Book generated and published successfully!', 'success')
 
       // Redirect to books management page
       setTimeout(() => {
-        router.push('/admin/books');
-      }, 2000);
-
+        router.push('/admin/books')
+      }, 2000)
     } catch (error) {
-      console.error('Book generation error:', error);
-      showToast(error instanceof Error ? error.message : 'Failed to generate book', 'error');
-      setCurrentStep('setup');
+      console.error('Book generation error:', error)
+      showToast(error instanceof Error ? error.message : 'Failed to generate book', 'error')
+      setCurrentStep('setup')
     } finally {
-      setIsGenerating(false);
-      setGenerationProgress(null);
+      setIsGenerating(false)
+      setIsUploadingCover(false)
+      setGenerationProgress(null)
     }
-  };
+  }
 
   if (sessionLoading) {
-    return <LoadingOverlay />;
+    return <LoadingOverlay />
   }
 
   if (!user || !user.isAdmin) {
-    return null;
+    return null
   }
 
   return (
@@ -207,8 +219,12 @@ export default function GenerateBookPage() {
                 <div className="text-sm text-blue-800 dark:text-blue-200">
                   <p className="font-medium mb-1">AI will generate:</p>
                   <ul className="space-y-1 list-disc list-inside">
-                    <li>A <strong>narrative story version</strong> (not a summary) in Japanese</li>
-                    <li>Length: <strong>1000-1500 characters</strong> (5-7 min read, 2-3 pages)</li>
+                    <li>
+                      A <strong>narrative story version</strong> (not a summary) in Japanese
+                    </li>
+                    <li>
+                      Length: <strong>1000-1500 characters</strong> (5-7 min read, 2-3 pages)
+                    </li>
                     <li>Proper story flow with beginning, middle, and end</li>
                     <li>JLPT-appropriate vocabulary and grammar</li>
                     <li>⏱️ Generation may take up to 10 minutes (using your Sheldon server)</li>
@@ -225,7 +241,7 @@ export default function GenerateBookPage() {
               <input
                 type="text"
                 value={bookName}
-                onChange={(e) => setBookName(e.target.value)}
+                onChange={e => setBookName(e.target.value)}
                 placeholder="e.g., The Little Prince, Rich Dad Poor Dad"
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               />
@@ -239,7 +255,7 @@ export default function GenerateBookPage() {
               <input
                 type="text"
                 value={author}
-                onChange={(e) => setAuthor(e.target.value)}
+                onChange={e => setAuthor(e.target.value)}
                 placeholder="e.g., Antoine de Saint-Exupéry"
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               />
@@ -255,7 +271,7 @@ export default function GenerateBookPage() {
               </label>
               <select
                 value={jlptLevel}
-                onChange={(e) => setJlptLevel(e.target.value as JLPTLevel)}
+                onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
               >
                 <option value="N5">N5 (Beginner)</option>
@@ -276,7 +292,7 @@ export default function GenerateBookPage() {
               </label>
               <textarea
                 value={additionalContext}
-                onChange={(e) => setAdditionalContext(e.target.value)}
+                onChange={e => setAdditionalContext(e.target.value)}
                 rows={3}
                 placeholder="Any specific focus or instructions for the AI..."
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
@@ -288,48 +304,114 @@ export default function GenerateBookPage() {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                 Book Cover
               </label>
-              <div className="flex gap-4 mb-4">
+              <div className="flex gap-3 mb-4">
                 <button
+                  type="button"
                   onClick={() => setCoverOption('ai')}
                   className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
                     coverOption === 'ai'
-                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                      : 'border-gray-300 dark:border-gray-600'
+                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                      : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300'
                   }`}
                 >
                   <Sparkles className="w-5 h-5 mx-auto mb-1" />
                   <span className="text-sm font-medium">AI Generate</span>
                 </button>
                 <button
+                  type="button"
                   onClick={() => setCoverOption('upload')}
                   className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
                     coverOption === 'upload'
-                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                      : 'border-gray-300 dark:border-gray-600'
+                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
+                      : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300'
                   }`}
                 >
                   <Upload className="w-5 h-5 mx-auto mb-1" />
                   <span className="text-sm font-medium">Upload Image</span>
                 </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCoverOption('none')
+                    handleRemoveCoverImage()
+                  }}
+                  className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
+                    coverOption === 'none'
+                      ? 'border-gray-500 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                      : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300'
+                  }`}
+                >
+                  <X className="w-5 h-5 mx-auto mb-1" />
+                  <span className="text-sm font-medium">No Cover</span>
+                </button>
               </div>
 
+              {coverOption === 'ai' && (
+                <div className="p-3 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+                  <p className="text-sm text-purple-700 dark:text-purple-300">
+                    AI will generate a cover image based on the book title and content using DALL-E
+                    3.
+                  </p>
+                </div>
+              )}
+
               {coverOption === 'upload' && (
-                <div>
+                <div className="space-y-3">
                   <input
+                    ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     onChange={handleCoverImageChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
+                    className="hidden"
                   />
-                  {coverImagePreview && (
-                    <div className="mt-3">
+
+                  {!coverImagePreview ? (
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-full flex flex-col items-center justify-center gap-2 px-4 py-8 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors"
+                    >
+                      <Upload className="w-8 h-8 text-gray-400" />
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Click to upload cover image
+                      </span>
+                      <span className="text-xs text-gray-500 dark:text-gray-500">
+                        PNG, JPG, WebP up to 10MB
+                      </span>
+                    </button>
+                  ) : (
+                    <div className="relative inline-block">
                       <img
                         src={coverImagePreview}
                         alt="Cover preview"
-                        className="w-48 h-auto rounded-lg border border-gray-200 dark:border-gray-700"
+                        className="w-48 h-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm"
                       />
+                      <button
+                        type="button"
+                        onClick={handleRemoveCoverImage}
+                        className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-md"
+                        title="Remove image"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="mt-2 text-sm text-primary-600 dark:text-primary-400 hover:underline"
+                      >
+                        Change image
+                      </button>
                     </div>
                   )}
+                </div>
+              )}
+
+              {coverOption === 'none' && (
+                <div className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Book will be created without a cover image. You can add one later from the edit
+                    page.
+                  </p>
                 </div>
               )}
             </div>
@@ -358,9 +440,7 @@ export default function GenerateBookPage() {
               </h2>
 
               {/* Progress Message */}
-              <p className="text-gray-600 dark:text-gray-400">
-                {generationProgress.message}
-              </p>
+              <p className="text-gray-600 dark:text-gray-400">{generationProgress.message}</p>
 
               {/* Progress Bar */}
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
@@ -381,5 +461,5 @@ export default function GenerateBookPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

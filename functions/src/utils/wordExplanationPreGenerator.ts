@@ -408,6 +408,31 @@ export async function generateArticleWordExplanations(
 }
 
 /**
+ * Recursively remove undefined values from an object (Firestore doesn't accept undefined)
+ */
+function removeUndefinedValues<T>(obj: T): T {
+  if (obj === null || obj === undefined) {
+    return obj
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => removeUndefinedValues(item)) as T
+  }
+
+  if (typeof obj === 'object') {
+    const cleaned: Record<string, unknown> = {}
+    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+      if (value !== undefined) {
+        cleaned[key] = removeUndefinedValues(value)
+      }
+    }
+    return cleaned as T
+  }
+
+  return obj
+}
+
+/**
  * Store article word explanations in Firestore
  */
 export async function storeArticleWordExplanations(
@@ -416,8 +441,11 @@ export async function storeArticleWordExplanations(
   try {
     const docRef = db.collection('news_article_word_explanations').doc(explanations.articleId)
 
+    // Clean undefined values before storing (Firestore doesn't accept undefined)
+    const cleanedExplanations = removeUndefinedValues(explanations)
+
     await docRef.set({
-      ...explanations,
+      ...cleanedExplanations,
       generatedAt: admin.firestore.FieldValue.serverTimestamp(),
       lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
     })

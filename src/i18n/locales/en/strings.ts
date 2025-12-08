@@ -873,11 +873,9 @@ export const strings = {
       tags: 'Tags',
       tagsHint: 'Comma-separated tags for categorization',
       howItWorks: 'How It Works',
-      howItWorksItems: [
-        'AI will generate relevant kanji based on your theme',
-        'Each kanji includes readings, meanings, and examples',
-        'You can edit the generated moodboard after creation',
-      ],
+      howItWorksItem0: 'AI will generate relevant kanji based on your theme',
+      howItWorksItem1: 'Each kanji includes readings, meanings, and examples',
+      howItWorksItem2: 'You can edit the generated moodboard after creation',
       generate: 'Generate',
       generateStoryToo: 'Also generate a story with these kanji',
       generateStoryHint: 'Creates an interactive story using the same kanji for practice',
@@ -4869,6 +4867,8 @@ export const strings = {
   },
 
   vocabulary: {
+    title: 'Vocabulary',
+    description: 'Search and explore Japanese vocabulary',
     tabs: {
       details: 'Details',
       conjugations: 'Conjugations',

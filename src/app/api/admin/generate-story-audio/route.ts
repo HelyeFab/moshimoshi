@@ -179,16 +179,33 @@ async function generateAudio(
  */
 export async function POST(request: NextRequest) {
   try {
-    // Verify admin authentication
-    const session = await getSession()
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Check for admin key authentication (for scheduled functions/integrity checker)
+    const adminKey = request.headers.get('X-Admin-Key')
+    const expectedAdminKey = process.env.INTEGRITY_CHECKER_ADMIN_KEY || 'integrity-checker-2025'
+    const storySchedulerKey = process.env.STORY_SCHEDULER_ADMIN_KEY || 'story-scheduler-2025'
+
+    let isAuthenticated = false
+
+    if (adminKey === expectedAdminKey || adminKey === storySchedulerKey) {
+      // Authenticated via admin key (scheduled function or integrity checker)
+      isAuthenticated = true
+    } else {
+      // Verify admin authentication using session
+      const session = await getSession()
+      if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
+
+      const userDoc = await adminFirestore!.collection('users').doc(session.uid).get()
+      const userData = userDoc?.data()
+      if (!userData?.isAdmin) {
+        return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+      }
+      isAuthenticated = true
     }
 
-    const userDoc = await adminFirestore!.collection('users').doc(session.uid).get()
-    const userData = userDoc?.data()
-    if (!userData?.isAdmin) {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+    if (!isAuthenticated) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await request.json()

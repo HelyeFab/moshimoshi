@@ -19,6 +19,7 @@ export type AIModel =
   | 'gpt-3.5-turbo'
   | 'gemini-2.5-flash-image'
   | 'gemini-3-pro-image'
+  | 'dall-e-3'
 
 export type AITaskType =
   | 'generate_review_questions'
@@ -584,6 +585,11 @@ export const MODEL_PRICING: Record<AIModel, ModelPricing> = {
     model: 'gemini-3-pro-image',
     inputCostPer1k: 0,
     outputCostPer1k: 0.04, // ~$0.04 per image (higher quality)
+  },
+  'dall-e-3': {
+    model: 'dall-e-3',
+    inputCostPer1k: 0,
+    outputCostPer1k: 0.04, // ~$0.04 per image (standard quality 1024x1024)
   },
 }
 

@@ -35,6 +35,12 @@ export default function AdminMoodboardsPage() {
   const { createMoodBoard } = useMoodBoards()
 
   const handleMoodboardGenerated = async (data: any) => {
+    console.log('📥 handleMoodboardGenerated called with:', {
+      generateStory: data.generateStory,
+      hasKanjiList: !!data.kanjiList,
+      kanjiCount: data.kanjiList?.length,
+    })
+
     try {
       // Transform the generated data into moodboard format
       const moodboard = {
@@ -61,9 +67,11 @@ export default function AdminMoodboardsPage() {
 
       // Create the moodboard
       const moodboardId = await createMoodBoard(moodboard)
+      console.log('✅ Moodboard created with ID:', moodboardId)
 
       // If user also wanted to generate a story
       if (data.generateStory && moodboardId) {
+        console.log('🎯 Starting story generation for moodboard:', moodboardId)
         showToast(t('admin.moodboard.success.storyGenerating'), 'info')
 
         try {
@@ -78,19 +86,29 @@ export default function AdminMoodboardsPage() {
             }),
           })
 
-          if (storyResponse.ok) {
-            const storyData = await storyResponse.json()
+          const storyData = await storyResponse.json()
+          console.log('📖 Story generation response:', storyResponse.status, storyData)
+
+          if (storyResponse.ok && storyData.success) {
             showToast(
-              t('admin.moodboard.success.storyCreated', { title: storyData.title }),
+              t('admin.moodboard.success.storyCreated', {
+                title: storyData.story?.title || 'Story',
+              }),
               'success'
             )
-            // Optionally navigate to the story
-            // router.push(`/stories/${storyData.id}`);
+          } else {
+            console.error('❌ Story generation failed:', storyData.error || 'Unknown error')
+            showToast(storyData.error || t('admin.moodboard.errors.storyFailed'), 'error')
           }
         } catch (storyError) {
-          console.error('Error generating story:', storyError)
+          console.error('❌ Error generating story:', storyError)
           showToast(t('admin.moodboard.errors.storyFailed'), 'warning')
         }
+      } else {
+        console.log('⏭️ Story generation skipped:', {
+          generateStory: data.generateStory,
+          moodboardId,
+        })
       }
 
       setShowGenerateModal(false)

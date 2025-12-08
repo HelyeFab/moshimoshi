@@ -7,6 +7,7 @@ import { AuthProvider } from '@/hooks/useAuth' // Compatibility wrapper - not ac
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
 import { ServiceWorkerProvider } from '@/components/pwa/ServiceWorkerProvider'
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt'
+import { TTSLoadingProvider } from '@/components/tts'
 import CelebrationProvider from '@/components/gamification/CelebrationProvider'
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext'
 import { EmailVerificationBanner } from '@/components/EmailVerificationBanner'
@@ -353,15 +354,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <ServiceWorkerProvider>
                       <CelebrationProvider>
                         <BottomNavProvider>
-                          <EmailVerificationBanner />
-                          {children}
-                          {process.env.NODE_ENV === 'development' &&
-                            process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
-                              <TimeMachineButton />
-                            )}
-                          <BottomNav />
-                          <ConditionalCommandPalette />
-                          <PWAInstallPrompt />
+                          <TTSLoadingProvider>
+                            <EmailVerificationBanner />
+                            {children}
+                            {process.env.NODE_ENV === 'development' &&
+                              process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
+                                <TimeMachineButton />
+                              )}
+                            <BottomNav />
+                            <ConditionalCommandPalette />
+                            <PWAInstallPrompt />
+                          </TTSLoadingProvider>
                         </BottomNavProvider>
                       </CelebrationProvider>
                     </ServiceWorkerProvider>

@@ -35,11 +35,13 @@ function VocabularyContent() {
   const [searchResults, setSearchResults] = useState<JapaneseWord[]>([])
   const [searching, setSearching] = useState(false)
   const [selectedWord, setSelectedWord] = useState<JapaneseWord | null>(null)
-  const [searchHistory, setSearchHistory] = useState<Array<{
-    term: string
-    timestamp: Date
-    resultCount: number
-  }>>([])
+  const [searchHistory, setSearchHistory] = useState<
+    Array<{
+      term: string
+      timestamp: Date
+      resultCount: number
+    }>
+  >([])
   const [searchSource, setSearchSource] = useState<'wanikani' | 'jmdict'>('jmdict')
   const [isLoadingCache, setIsLoadingCache] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
@@ -61,7 +63,7 @@ function VocabularyContent() {
           email: 'guest@user',
           displayName: 'Guest User',
           isGuest: true,
-          tier: 'guest'
+          tier: 'guest',
         })
         setLoading(false)
         return
@@ -284,6 +286,12 @@ function VocabularyContent() {
       {/* Navbar */}
       {/* Navigation is now global - rendered in root layout */}
 
+      {/* Page Header */}
+      <PageHeader
+        title={strings.vocabulary?.title || 'Vocabulary'}
+        description={strings.vocabulary?.description || 'Search and explore Japanese vocabulary'}
+      />
+
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Search Area */}
@@ -341,7 +349,8 @@ function VocabularyContent() {
                 <div className="flex items-center gap-3">
                   <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 border-t-transparent" />
                   <p className="text-sm text-blue-700 dark:text-blue-300">
-                    Loading WaniKani vocabulary database for the first time... This may take a moment.
+                    Loading WaniKani vocabulary database for the first time... This may take a
+                    moment.
                   </p>
                 </div>
               </motion.div>
@@ -371,8 +380,12 @@ function VocabularyContent() {
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                             {word.kanji && (
-                              <span className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100"
-                                    style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                              <span
+                                className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100"
+                                style={{
+                                  fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif',
+                                }}
+                              >
                                 {word.kanji}
                               </span>
                             )}
@@ -450,9 +463,7 @@ function VocabularyContent() {
           </p>
           {itemToDelete && (
             <div className="p-3 bg-gray-100 dark:bg-dark-700 rounded-lg">
-              <p className="font-medium text-gray-900 dark:text-gray-100">
-                {itemToDelete.term}
-              </p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">{itemToDelete.term}</p>
             </div>
           )}
           <div className="flex gap-3 justify-end">
@@ -477,11 +488,17 @@ function VocabularyContent() {
 
 export default function VocabularyPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingOverlay isLoading={true} message="Loading vocabulary search..." showDoshi={true} />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <LoadingOverlay
+            isLoading={true}
+            message="Loading vocabulary search..."
+            showDoshi={true}
+          />
+        </div>
+      }
+    >
       <VocabularyContent />
     </Suspense>
   )

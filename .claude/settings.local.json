@@ -91,7 +91,15 @@
       "Bash(npx tsx:*)",
       "Bash(Select-String -Pattern \"error|Error|failed|Failed\")",
       "WebFetch(domain:elevenlabs.io)",
-      "Bash(Select-String -Pattern \"article-cache|ArticleCacheManager|useArticleCache\")"
+      "Bash(Select-String -Pattern \"article-cache|ArticleCacheManager|useArticleCache\")",
+      "Bash(del nul 2)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout /t 10 /nobreak)",
+      "Bash(node scripts/check-story-audio.js:*)",
+      "Bash(node scripts/regenerate-story-audio.js:*)",
+      "WebFetch(domain:next-intl.dev)",
+      "Bash(node test-openai-key.js:*)",
+      "Bash(Select-String -Pattern \"error\")"
     ],
     "deny": [],
     "ask": []
