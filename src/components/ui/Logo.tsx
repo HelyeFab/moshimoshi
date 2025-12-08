@@ -1,17 +1,21 @@
-import React from 'react';
-import MoshimoshiLogo from './MoshimoshiLogo';
+import React from 'react'
+import MoshimoshiLogo from './MoshimoshiLogo'
 
-const Logo = () => {
+interface LogoProps {
+  className?: string
+}
+
+const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
-    <div className="flex items-center gap-2">
-      <MoshimoshiLogo 
-        size="small" 
+    <div className={`flex items-center gap-2 ${className || ''}`}>
+      <MoshimoshiLogo
+        size="small"
         variant="compact"
         showRomaji={true}
         className="text-gray-900 dark:text-white"
       />
     </div>
-  );
-};
+  )
+}
 
-export default Logo;
+export default Logo

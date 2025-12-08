@@ -303,6 +303,100 @@ export class ArticleCacheManager {
       return []
     }
   }
+
+  /**
+   * Prefetch articles for offline use
+   * Fetches and caches multiple articles in the background
+   * @param articleIds - Array of article IDs to prefetch
+   * @param options - Prefetch options
+   * @returns Object with success/failure counts
+   */
+  async prefetchArticles(
+    articleIds: string[],
+    options: {
+      skipCached?: boolean // Skip articles already in cache (default: true)
+      onProgress?: (current: number, total: number) => void
+    } = {}
+  ): Promise<{ cached: number; failed: number; skipped: number }> {
+    const { skipCached = true, onProgress } = options
+    const results = { cached: 0, failed: 0, skipped: 0 }
+
+    console.log('[ArticleCacheManager] Starting prefetch for', articleIds.length, 'articles')
+
+    for (let i = 0; i < articleIds.length; i++) {
+      const articleId = articleIds[i]
+
+      // Check if already cached
+      if (skipCached) {
+        const isCached = await this.has(articleId)
+        if (isCached) {
+          console.log('[ArticleCacheManager] Skipping already cached:', articleId)
+          results.skipped++
+          onProgress?.(i + 1, articleIds.length)
+          continue
+        }
+      }
+
+      try {
+        // Fetch from API
+        const response = await fetch(`/api/news/article/${articleId}`)
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`)
+        }
+
+        const data = await response.json()
+
+        if (!data.success || !data.article) {
+          throw new Error('Article not found')
+        }
+
+        // Transform to CachedArticle format
+        const article: CachedArticle = {
+          id: data.article.id,
+          title: data.article.title,
+          content: data.article.content,
+          summary: data.article.summary,
+          url: data.article.url,
+          imageUrl: data.article.imageUrl,
+          publishDate:
+            typeof data.article.publishDate === 'string'
+              ? data.article.publishDate
+              : new Date(data.article.publishDate).toISOString(),
+          source: data.article.source,
+          category: data.article.category,
+          difficulty: data.article.difficulty,
+          tags: data.article.tags,
+          metadata: data.article.metadata,
+          nhkAudioUrl: data.article.nhkAudioUrl,
+          generatedTitleAudioUrl: data.article.generatedTitleAudioUrl,
+          generatedSummaryAudioUrl: data.article.generatedSummaryAudioUrl,
+          generatedContentAudioUrl: data.article.generatedContentAudioUrl,
+          audioProvider: data.article.audioProvider,
+          audioVoice: data.article.audioVoice,
+          audioStatus: data.article.audioStatus,
+        }
+
+        // Cache the article
+        await this.set(article)
+        results.cached++
+        console.log('[ArticleCacheManager] Prefetched:', articleId)
+      } catch (error) {
+        console.warn('[ArticleCacheManager] Failed to prefetch:', articleId, error)
+        results.failed++
+      }
+
+      onProgress?.(i + 1, articleIds.length)
+
+      // Small delay to avoid hammering the server
+      if (i < articleIds.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 100))
+      }
+    }
+
+    console.log('[ArticleCacheManager] Prefetch complete:', results)
+    return results
+  }
 }
 
 // Export singleton getter

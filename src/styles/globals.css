@@ -327,9 +327,13 @@ body {
 
   line-height: 1.6;
 
-  /* Softer background for light mode */
-
+  /* Theme-aware background - must match html element to prevent flash */
   background-color: var(--color-background-light);
+}
+
+/* Dark mode body background - critical for preventing white flash during transitions */
+html.dark body {
+  background-color: var(--color-dark-850);
 }
 
 /* Ensure content doesn't get hidden behind bottom navbar on mobile */

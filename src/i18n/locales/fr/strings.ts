@@ -2225,6 +2225,12 @@ export const strings = {
     },
   },
 
+  // Library Page
+  library: {
+    title: 'Bibliothèque',
+    pageDescription: 'Lisez des résumés condensés de livres populaires en japonais',
+  },
+
   flashcards: {
     title: 'Cartes Flash',
     pageTitle: 'Paquets de Cartes Flash',
@@ -3392,6 +3398,7 @@ export const strings = {
       description: 'Certaines fonctionnalités peuvent être limitées sans connexion internet',
       cached: 'Affichage du contenu en cache',
       retry: 'Réessayer la connexion',
+      backOnline: 'De retour en ligne',
     },
   },
 

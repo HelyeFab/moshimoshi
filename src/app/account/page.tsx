@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState, useEffect, useMemo } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 // import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -8,8 +8,6 @@ import { useErrorToast } from '@/hooks/useErrorToast'
 import { useTranslation } from '@/i18n/I18nContext'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useAuth } from '@/hooks/useAuth'
-import { useGamification } from '@/hooks/useGamification'
-import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
 import { InvoiceHistory } from '@/components/subscription/InvoiceHistory'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -25,18 +23,17 @@ import { PremiumBadge } from '@/components/common/PremiumBadge'
 import { Input } from '@/components/ui/Input'
 import dynamic from 'next/dynamic'
 import logger from '@/lib/logger'
-import { validateStreakDisplay } from '@/lib/gamification/utils/streakValidation'
 
 // Dynamically import Confetti to avoid SSR issues
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false })
 
 interface User {
-  displayName: string;
-  email: string;
-  photoURL: string;
-  tier: string;
-  emailVerified: boolean;
-  isGuest?: boolean;
+  displayName: string
+  email: string
+  photoURL: string
+  tier: string
+  emailVerified: boolean
+  isGuest?: boolean
 }
 
 function AccountPageContent() {
@@ -50,30 +47,6 @@ function AccountPageContent() {
   logger.subscription('[Account Page] Subscription from hook:', subscription)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
-
-  // Real gamification data from hook
-  const {
-    totalXP,
-    currentLevel,
-    currentStreak,
-    bestStreak,
-    unlockedAchievements,
-    sessionCount,
-    lastActivityDate,
-    loading: gamificationLoading,
-    isEnabled: gamificationEnabled
-  } = useGamification()
-
-  // Validate streak to detect stale data (Phase 1: Emergency UI Fix)
-  const streakValidation = useMemo(() => {
-    return validateStreakDisplay(currentStreak, lastActivityDate, 24)
-  }, [currentStreak, lastActivityDate])
-
-  // Use validated streak for display
-  const displayStreak = streakValidation.effectiveStreak
-
-  // Learning progress from drill mastery
-  const { overall: learningProgress, categories } = useLearningProgress()
 
   const [updating, setUpdating] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -159,7 +132,7 @@ function AccountPageContent() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          displayName: trimmedName
+          displayName: trimmedName,
         }),
       })
 
@@ -353,7 +326,8 @@ function AccountPageContent() {
                 {strings.account?.subscription?.congratulations || 'Congratulations!'}
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                {strings.account?.subscription?.welcomePremium || 'Welcome to Premium! Enjoy all the amazing features.'}
+                {strings.account?.subscription?.welcomePremium ||
+                  'Welcome to Premium! Enjoy all the amazing features.'}
               </p>
               <button
                 onClick={() => setShowCongrats(false)}
@@ -385,7 +359,6 @@ function AccountPageContent() {
             title={strings.account.sections.profileInformation}
             icon={<DoshiMascot size="xsmall" />}
           >
-            
             <div className="space-y-4">
               {/* Profile Picture */}
               <div className="flex items-center gap-4">
@@ -422,10 +395,23 @@ function AccountPageContent() {
                       )}
                     </>
                   )}
-                  <label htmlFor="avatar-upload" className="absolute bottom-0 right-0 bg-primary-500 text-white p-2 rounded-full hover:bg-primary-600 transition-colors cursor-pointer">
+                  <label
+                    htmlFor="avatar-upload"
+                    className="absolute bottom-0 right-0 bg-primary-500 text-white p-2 rounded-full hover:bg-primary-600 transition-colors cursor-pointer"
+                  >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
                     </svg>
                   </label>
                   <input
@@ -438,8 +424,12 @@ function AccountPageContent() {
                   />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{strings.account.profileFields.profilePhoto}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{strings.account.profileFields.photoDescription}</p>
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {strings.account.profileFields.profilePhoto}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    {strings.account.profileFields.photoDescription}
+                  </p>
                   {user?.photoURL && (
                     <div className="mt-2 flex gap-2">
                       <label
@@ -466,7 +456,7 @@ function AccountPageContent() {
                 label={strings.account.profileFields.displayName}
                 type="text"
                 value={displayName}
-                onChange={(e) => {
+                onChange={e => {
                   setDisplayName(e.target.value)
                   // Clear error when user types
                   if (displayNameError) setDisplayNameError('')
@@ -491,7 +481,11 @@ function AccountPageContent() {
                   {user?.emailVerified ? (
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-green-600 dark:text-green-400 text-sm font-medium">
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                       {strings.account.profileFields.verified}
                     </span>
@@ -519,95 +513,12 @@ function AccountPageContent() {
             </div>
           </Section>
 
-          {/* Account Stats (Only show if gamification enabled and not guest) */}
-          {gamificationEnabled && !user?.isGuest && user?.tier !== 'guest' && (
-            <Section
-              variant="glass"
-              title={strings.account.sections.accountStatistics}
-            >
-              {gamificationLoading ? (
-                <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mx-auto"></div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                    {strings.common?.loading || 'Loading stats...'}
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        {totalXP}
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.xpEarned || 'XP Earned'}</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
-                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                        {sessionCount}
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.lessonsCompleted || 'Sessions Completed'}</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
-                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                        {unlockedAchievements.length}
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.achievements}</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg">
-                      <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                        {displayStreak}
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.dayStreak}</div>
-                      {streakValidation.isStale && currentStreak > 0 && (
-                        <div className="text-[10px] text-gray-500 dark:text-gray-500 mt-1">
-                          (Broken {streakValidation.daysSinceActivity}d ago)
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Additional Stats Row */}
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                    <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-lg">
-                      <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
-                        {bestStreak}
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.bestStreak || 'Best Streak'}</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-900/20 dark:to-teal-900/20 rounded-lg">
-                      <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">
-                        {Math.round(learningProgress.progressPercentage)}%
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.learningProgress || 'Learning Progress'}</div>
-                      {categories.drills && (
-                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                          {categories.drills.totalDrills} drills • {categories.drills.accuracy}% accuracy
-                        </div>
-                      )}
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                        {unlockedAchievements.length > 0
-                          ? Math.round((unlockedAchievements.length / 10) * 100)
-                          : 0}%
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{strings.account.statistics.achievementCompletion || 'Achievement Completion'}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                        {unlockedAchievements.length} of 10 unlocked
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </Section>
-          )}
-
           {/* Subscription Section */}
           <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               {strings.account.sections.subscription}
             </h2>
-            
+
             {/* Current Plan Display */}
             <div className="mb-6">
               <div className="flex items-center justify-between">
@@ -616,27 +527,30 @@ function AccountPageContent() {
                     {strings.account.subscription.currentPlan}
                   </p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className={`text-2xl font-bold ${
-                      subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly'
-                        ? 'text-primary-600 dark:text-primary-400'
-                        : 'text-gray-900 dark:text-gray-100'
-                    }`}>
+                    <span
+                      className={`text-2xl font-bold ${
+                        subscription?.plan === 'premium_monthly' ||
+                        subscription?.plan === 'premium_yearly'
+                          ? 'text-primary-600 dark:text-primary-400'
+                          : 'text-gray-900 dark:text-gray-100'
+                      }`}
+                    >
                       {subscription?.plan === 'premium_monthly'
                         ? strings.subscription.plans.premiumMonthly
                         : subscription?.plan === 'premium_yearly'
-                        ? strings.subscription.plans.premiumYearly
-                        : strings.subscription.plans.free}
+                          ? strings.subscription.plans.premiumYearly
+                          : strings.subscription.plans.free}
                     </span>
-                    {(subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly') && (
+                    {(subscription?.plan === 'premium_monthly' ||
+                      subscription?.plan === 'premium_yearly') && (
                       <span className="px-2 py-1 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs font-bold rounded-full">
                         {strings.common.premium}
                       </span>
                     )}
                   </div>
                 </div>
-                {subscription?.plan !== 'premium_monthly' && subscription?.plan !== 'premium_yearly' && (
-                  <DoshiMascot size="small" />
-                )}
+                {subscription?.plan !== 'premium_monthly' &&
+                  subscription?.plan !== 'premium_yearly' && <DoshiMascot size="small" />}
               </div>
             </div>
 
@@ -644,7 +558,8 @@ function AccountPageContent() {
             {(user?.isGuest || user?.tier === 'guest') && (
               <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-800">
                 <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                  You're currently exploring as a guest. Sign up for a free account to save your progress and unlock premium features!
+                  You're currently exploring as a guest. Sign up for a free account to save your
+                  progress and unlock premium features!
                 </p>
                 <a
                   href="/auth/signup"
@@ -656,90 +571,105 @@ function AccountPageContent() {
             )}
 
             {/* Upgrade Options for Free Users (Hidden for Guests) */}
-            {subscription?.plan !== 'premium_monthly' && subscription?.plan !== 'premium_yearly' && !user?.isGuest && user?.tier !== 'guest' && (
-              <div className="space-y-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {strings.account.subscription.upgradeText}
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Monthly Plan Card */}
-                  <div className="relative border-2 border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
-                    <div className="mb-3">
-                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-                        {strings.subscription.plans.premiumMonthly}
-                      </h3>
-                      <div className="mt-2">
-                        <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                          {currencySymbol}{monthlyPrice}
-                        </span>
-                        <span className="text-gray-600 dark:text-gray-400">/month</span>
-                      </div>
-                    </div>
-                    <ul className="text-sm space-y-2 mb-4">
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500 mt-0.5">✓</span>
-                        <span className="text-gray-700 dark:text-gray-300">{(strings.subscription.features as any).unlimited || 'Unlimited practice sessions'}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500 mt-0.5">✓</span>
-                        <span className="text-gray-700 dark:text-gray-300">{(strings.subscription.features as any).cancelAnytime || 'Cancel anytime'}</span>
-                      </li>
-                    </ul>
-                    <button
-                      onClick={() => upgradeToPremium('premium_monthly')}
-                      className="w-full px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-colors"
-                    >
-                      {(strings.subscription.upgrade as any).selectMonthly || 'Choose Monthly'}
-                    </button>
-                  </div>
+            {subscription?.plan !== 'premium_monthly' &&
+              subscription?.plan !== 'premium_yearly' &&
+              !user?.isGuest &&
+              user?.tier !== 'guest' && (
+                <div className="space-y-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {strings.account.subscription.upgradeText}
+                  </p>
 
-                  {/* Yearly Plan Card */}
-                  <div className="relative border-2 border-primary-500 dark:border-primary-400 rounded-lg p-4 bg-gradient-to-br from-primary-50/50 to-transparent dark:from-primary-900/10">
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="px-3 py-1 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs font-bold rounded-full">
-                        {(strings.subscription as any).bestValue || 'BEST VALUE'}
-                      </span>
-                    </div>
-                    <div className="mb-3">
-                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-                        {strings.subscription.plans.premiumYearly}
-                      </h3>
-                      <div className="mt-2">
-                        <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                          {currencySymbol}{yearlyPrice}
-                        </span>
-                        <span className="text-gray-600 dark:text-gray-400">/year</span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Monthly Plan Card */}
+                    <div className="relative border-2 border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                      <div className="mb-3">
+                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                          {strings.subscription.plans.premiumMonthly}
+                        </h3>
+                        <div className="mt-2">
+                          <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                            {currencySymbol}
+                            {monthlyPrice}
+                          </span>
+                          <span className="text-gray-600 dark:text-gray-400">/month</span>
+                        </div>
                       </div>
-                      <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-1">
-                        {(strings.subscription as any).savings || 'Save 25% with annual billing'}
-                      </p>
+                      <ul className="text-sm space-y-2 mb-4">
+                        <li className="flex items-start gap-2">
+                          <span className="text-green-500 mt-0.5">✓</span>
+                          <span className="text-gray-700 dark:text-gray-300">
+                            {(strings.subscription.features as any).unlimited ||
+                              'Unlimited practice sessions'}
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-green-500 mt-0.5">✓</span>
+                          <span className="text-gray-700 dark:text-gray-300">
+                            {(strings.subscription.features as any).cancelAnytime ||
+                              'Cancel anytime'}
+                          </span>
+                        </li>
+                      </ul>
+                      <button
+                        onClick={() => upgradeToPremium('premium_monthly')}
+                        className="w-full px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-colors"
+                      >
+                        {(strings.subscription.upgrade as any).selectMonthly || 'Choose Monthly'}
+                      </button>
                     </div>
-                    <ul className="text-sm space-y-2 mb-4">
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500 mt-0.5">✓</span>
-                        <span className="text-gray-700 dark:text-gray-300">{(strings.subscription.features as any).unlimited || 'Unlimited practice sessions'}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500 mt-0.5">✓</span>
-                        <span className="text-gray-700 dark:text-gray-300">{strings.subscription.features.bestValue}</span>
-                      </li>
-                    </ul>
-                    <button
-                      onClick={() => upgradeToPremium('premium_yearly')}
-                      className="w-full px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg transition-all"
-                    >
-                      {(strings.subscription.upgrade as any).selectYearly || 'Choose Yearly'}
-                    </button>
+
+                    {/* Yearly Plan Card */}
+                    <div className="relative border-2 border-primary-500 dark:border-primary-400 rounded-lg p-4 bg-gradient-to-br from-primary-50/50 to-transparent dark:from-primary-900/10">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                        <span className="px-3 py-1 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs font-bold rounded-full">
+                          {(strings.subscription as any).bestValue || 'BEST VALUE'}
+                        </span>
+                      </div>
+                      <div className="mb-3">
+                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                          {strings.subscription.plans.premiumYearly}
+                        </h3>
+                        <div className="mt-2">
+                          <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                            {currencySymbol}
+                            {yearlyPrice}
+                          </span>
+                          <span className="text-gray-600 dark:text-gray-400">/year</span>
+                        </div>
+                        <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-1">
+                          {(strings.subscription as any).savings || 'Save 25% with annual billing'}
+                        </p>
+                      </div>
+                      <ul className="text-sm space-y-2 mb-4">
+                        <li className="flex items-start gap-2">
+                          <span className="text-green-500 mt-0.5">✓</span>
+                          <span className="text-gray-700 dark:text-gray-300">
+                            {(strings.subscription.features as any).unlimited ||
+                              'Unlimited practice sessions'}
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-green-500 mt-0.5">✓</span>
+                          <span className="text-gray-700 dark:text-gray-300">
+                            {strings.subscription.features.bestValue}
+                          </span>
+                        </li>
+                      </ul>
+                      <button
+                        onClick={() => upgradeToPremium('premium_yearly')}
+                        className="w-full px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg transition-all"
+                      >
+                        {(strings.subscription.upgrade as any).selectYearly || 'Choose Yearly'}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Premium User Status */}
-            {(subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly') && (
-              <SubscriptionStatus showActions={true} />
-            )}
+            {(subscription?.plan === 'premium_monthly' ||
+              subscription?.plan === 'premium_yearly') && <SubscriptionStatus showActions={true} />}
           </div>
 
           {/* Invoice History */}
@@ -749,25 +679,25 @@ function AccountPageContent() {
 
           {/* Danger Zone (Hidden for Guests) */}
           {!user?.isGuest && user?.tier !== 'guest' && (
-            <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-6 border border-red-200 dark:border-red-800">
-            <h2 className="text-xl font-bold text-red-600 dark:text-red-400 mb-4">
-              {strings.account.sections.dangerZone}
-            </h2>
-            
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                  {strings.account.dangerZone.description}
-                </p>
-                <button
-                  onClick={() => setDeleteModalOpen(true)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                >
-                  {strings.account.buttons.deleteAccount}
-                </button>
+            <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-6 border border-red-200 dark:border-red-800 mb-24 sm:mb-0">
+              <h2 className="text-xl font-bold text-red-600 dark:text-red-400 mb-4">
+                {strings.account.sections.dangerZone}
+              </h2>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                    {strings.account.dangerZone.description}
+                  </p>
+                  <button
+                    onClick={() => setDeleteModalOpen(true)}
+                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  >
+                    {strings.account.buttons.deleteAccount}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
           )}
         </div>
       </main>
@@ -789,14 +719,16 @@ function AccountPageContent() {
 
 export default function AccountPage() {
   return (
-    <Suspense fallback={
-      <LoadingOverlay
-        isLoading={true}
-        message="Loading account..."
-        showDoshi={true}
-        fullScreen={true}
-      />
-    }>
+    <Suspense
+      fallback={
+        <LoadingOverlay
+          isLoading={true}
+          message="Loading account..."
+          showDoshi={true}
+          fullScreen={true}
+        />
+      }
+    >
       <AccountPageContent />
     </Suspense>
   )

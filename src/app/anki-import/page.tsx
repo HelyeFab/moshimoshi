@@ -1,56 +1,57 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 // Navigation is now global via NavigationWrapper in root layout;
-import PageHeader from '@/components/layout/PageHeader';
-import { AnkiImportModal } from '@/components/anki/AnkiImportModal';
-import { useAnkiImport } from '@/hooks/useAnkiImport';
-import { AnkiDeck } from '@/lib/anki/importer';
-import { useI18n } from '@/i18n/I18nContext';
-import { Upload, Package, FileText, Trash2, X } from 'lucide-react';
+import PageHeader from '@/components/ui/PageHeader'
+import { AnkiImportModal } from '@/components/anki/AnkiImportModal'
+import { useAnkiImport } from '@/hooks/useAnkiImport'
+import { AnkiDeck } from '@/lib/anki/importer'
+import { useI18n } from '@/i18n/I18nContext'
+import { Upload, Package, FileText, Trash2, X } from 'lucide-react'
 
 export default function AnkiImportPage() {
-  const { t } = useI18n();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [importedDecks, setImportedDecks] = useState<AnkiDeck[]>([]);
-  const { getMediaStats, clearMedia } = useAnkiImport();
-  const [mediaStats, setMediaStats] = useState<{ totalFiles: number; totalSize: number } | null>(null);
+  const { t } = useI18n()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [importedDecks, setImportedDecks] = useState<AnkiDeck[]>([])
+  const { getMediaStats, clearMedia } = useAnkiImport()
+  const [mediaStats, setMediaStats] = useState<{ totalFiles: number; totalSize: number } | null>(
+    null
+  )
 
   const handleImportSuccess = (result: any) => {
     if (result.deck) {
-      setImportedDecks([...importedDecks, result.deck]);
+      setImportedDecks([...importedDecks, result.deck])
     }
-    setIsModalOpen(false);
-    loadMediaStats();
-  };
+    setIsModalOpen(false)
+    loadMediaStats()
+  }
 
   const loadMediaStats = async () => {
-    const stats = await getMediaStats();
-    setMediaStats(stats);
-  };
+    const stats = await getMediaStats()
+    setMediaStats(stats)
+  }
 
   const handleClearMedia = async () => {
     if (confirm(t('anki.confirmClearCache'))) {
-      await clearMedia();
-      setMediaStats(null);
+      await clearMedia()
+      setMediaStats(null)
     }
-  };
+  }
 
   const removeDeck = (deckId: string) => {
-    setImportedDecks(importedDecks.filter(deck => deck.id !== deckId));
-  };
+    setImportedDecks(importedDecks.filter(deck => deck.id !== deckId))
+  }
 
   // Load media stats on mount
   useEffect(() => {
-    loadMediaStats();
-  }, []);
+    loadMediaStats()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-primary-50 dark:from-dark-850 dark:to-dark-900">
       {/* Navigation is now global - rendered in root layout */}
 
       <div className="container mx-auto px-4 py-8 max-w-6xl">
-
         {/* Import Button */}
         <div className="flex justify-center mb-8">
           <button
@@ -71,7 +72,8 @@ export default function AnkiImportPage() {
                   {t('anki.mediaCache')}
                 </h3>
                 <p className="text-text-secondary dark:text-dark-text-secondary">
-                  {t('anki.filesCount', { count: mediaStats.totalFiles })} • {t('anki.sizeInMB', { size: (mediaStats.totalSize / 1024 / 1024).toFixed(2) })}
+                  {t('anki.filesCount', { count: mediaStats.totalFiles })} •{' '}
+                  {t('anki.sizeInMB', { size: (mediaStats.totalSize / 1024 / 1024).toFixed(2) })}
                 </p>
               </div>
               <button
@@ -165,9 +167,7 @@ export default function AnkiImportPage() {
 
                 {/* Review Button */}
                 <div className="mt-4 flex justify-end">
-                  <button className="btn btn-primary">
-                    {t('anki.startReview')}
-                  </button>
+                  <button className="btn btn-primary">{t('anki.startReview')}</button>
                 </div>
               </div>
             ))}
@@ -195,5 +195,5 @@ export default function AnkiImportPage() {
         onImportSuccess={handleImportSuccess}
       />
     </div>
-  );
+  )
 }

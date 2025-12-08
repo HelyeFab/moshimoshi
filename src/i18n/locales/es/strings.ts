@@ -2399,6 +2399,12 @@ export const strings = {
     },
   },
 
+  // Library Page
+  library: {
+    title: 'Biblioteca',
+    pageDescription: 'Lee resúmenes condensados de libros populares en japonés',
+  },
+
   flashcards: {
     title: 'Tarjetas de Memoria',
     pageTitle: 'Mazos de Tarjetas',
@@ -3617,6 +3623,7 @@ export const strings = {
       description: 'Algunas funciones pueden estar limitadas sin conexión a internet',
       cached: 'Viendo contenido en caché',
       retry: 'Reintentar conexión',
+      backOnline: 'De vuelta en línea',
     },
     updateAvailable: 'Actualización disponible',
     updateDescription:

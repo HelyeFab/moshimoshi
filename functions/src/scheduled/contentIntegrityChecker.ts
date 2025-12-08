@@ -8,6 +8,11 @@
  *
  * Auto-repairs up to 3 articles and 1 story per run
  * Looks back 7 days for content to check
+ *
+ * Features:
+ * - Idempotency tracking to prevent duplicate repairs
+ * - Distributed locking to prevent concurrent runs
+ * - Repair cooldown with circuit breaker
  */
 
 import * as admin from 'firebase-admin'
@@ -16,6 +21,15 @@ import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
 import { runIntegrityCheck, IntegrityCheckResult } from '../utils/integrityChecker'
+import {
+  generateCheckId,
+  wasCheckProcessed,
+  markCheckStarted,
+  markCheckCompleted,
+  tryAcquireLock,
+  releaseLock,
+  cleanupOldRecords,
+} from '../utils/integrityIdempotency'
 
 // Define secrets needed for TTS, AI processing, and API calls
 const MODAL_API_KEY = defineSecret('MODAL_API_KEY')
@@ -38,25 +52,59 @@ export const contentIntegrityCheckerFunction = onSchedule(
     secrets: [MODAL_API_KEY, OPENAI_API_KEY],
   },
   async event => {
+    const scheduleTime = event.scheduleTime
+    const checkId = generateCheckId('scheduled', scheduleTime)
+    const instanceId = `scheduled_${scheduleTime}_${Date.now()}`
+
     logger.info('[ContentIntegrityChecker] Scheduled trigger activated', {
-      scheduleTime: event.scheduleTime,
+      scheduleTime,
+      checkId,
+      instanceId,
       jobName: event.jobName,
     })
+
+    // 1. Check idempotency - skip if already processed
+    if (await wasCheckProcessed(checkId)) {
+      logger.info('[ContentIntegrityChecker] Check already processed, skipping', {
+        checkId,
+      })
+      return
+    }
+
+    // 2. Try to acquire distributed lock
+    const lockAcquired = await tryAcquireLock(instanceId)
+    if (!lockAcquired) {
+      logger.info('[ContentIntegrityChecker] Another instance is running, skipping', {
+        instanceId,
+      })
+      return
+    }
 
     // Get admin key from environment
     const adminKey = process.env.INTEGRITY_CHECKER_ADMIN_KEY || 'integrity-checker-2025'
 
     try {
-      const result = await runIntegrityCheck(adminKey)
+      // 3. Mark check as started
+      await markCheckStarted(checkId, 'scheduled', 'scheduler', scheduleTime)
+
+      const result = await runIntegrityCheck(adminKey, checkId)
 
       // Log results to Firestore
       await db.collection('integrity_check_logs').add({
         ...result,
         type: 'scheduled',
+        checkId,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       })
 
+      // 4. Mark check as completed
+      await markCheckCompleted(checkId, 'completed')
+
+      // 5. Run cleanup (opportunistic)
+      await cleanupOldRecords()
+
       logger.info('[ContentIntegrityChecker] Check complete', {
+        checkId,
         newsChecked: result.newsArticles.checked,
         newsRepaired:
           result.newsArticles.repaired.audio +
@@ -78,6 +126,7 @@ export const contentIntegrityCheckerFunction = onSchedule(
       if (totalMissing > 10) {
         logger.warn('[ContentIntegrityChecker] ALERT: High number of missing content items', {
           totalMissing,
+          checkId,
           breakdown: {
             newsAudio: result.newsArticles.missingAudio.length,
             newsTranslations: result.newsArticles.missingTranslations.length,
@@ -89,19 +138,31 @@ export const contentIntegrityCheckerFunction = onSchedule(
         // TODO: Send notification (email, Slack, etc.)
       }
     } catch (error) {
+      // Mark check as failed
+      await markCheckCompleted(
+        checkId,
+        'failed',
+        error instanceof Error ? error.message : 'Unknown error'
+      )
+
       logger.error('[ContentIntegrityChecker] Fatal error', {
+        checkId,
         error: error instanceof Error ? error.message : 'Unknown error',
       })
 
       // Log error to Firestore
       await db.collection('integrity_check_logs').add({
         type: 'scheduled',
+        checkId,
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       })
 
       throw error // Re-throw to trigger retry
+    } finally {
+      // Always release lock
+      await releaseLock(instanceId)
     }
   }
 )
@@ -137,35 +198,63 @@ export const manualIntegrityCheckerFunction = onCall(
       }
     }
 
+    const triggeredBy = request.auth?.uid || 'admin-key'
+    const checkId = generateCheckId('manual', undefined, `${triggeredBy}_${Date.now()}`)
+    const instanceId = `manual_${checkId}`
+
     logger.info('[ContentIntegrityChecker] Manual trigger initiated', {
-      userId: request.auth?.uid || 'admin-key',
+      checkId,
+      userId: triggeredBy,
       timestamp: new Date().toISOString(),
     })
 
+    // Try to acquire lock (manual can fail if another check is running)
+    const lockAcquired = await tryAcquireLock(instanceId)
+    if (!lockAcquired) {
+      throw new HttpsError(
+        'already-exists',
+        'Another integrity check is currently running. Please try again later.'
+      )
+    }
+
     try {
-      const result = await runIntegrityCheck(expectedAdminKey)
+      await markCheckStarted(checkId, 'manual', triggeredBy)
+
+      const result = await runIntegrityCheck(expectedAdminKey, checkId)
 
       // Log results to Firestore
       await db.collection('integrity_check_logs').add({
         ...result,
         type: 'manual',
-        triggeredBy: request.auth?.uid || 'admin-key',
+        checkId,
+        triggeredBy,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       })
 
+      await markCheckCompleted(checkId, 'completed')
+
       return {
         success: true,
+        checkId,
         ...result,
       }
     } catch (error) {
+      await markCheckCompleted(
+        checkId,
+        'failed',
+        error instanceof Error ? error.message : 'Unknown error'
+      )
+
       logger.error('[ContentIntegrityChecker] Manual check failed', {
+        checkId,
         error: error instanceof Error ? error.message : 'Unknown error',
       })
 
       // Log error to Firestore
       await db.collection('integrity_check_logs').add({
         type: 'manual',
-        triggeredBy: request.auth?.uid || 'admin-key',
+        checkId,
+        triggeredBy,
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -175,6 +264,8 @@ export const manualIntegrityCheckerFunction = onCall(
         'internal',
         error instanceof Error ? error.message : 'Integrity check failed'
       )
+    } finally {
+      await releaseLock(instanceId)
     }
   }
 )

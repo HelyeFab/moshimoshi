@@ -5,6 +5,11 @@
  *
  * Runs every 6 hours, checks content from the last 7 days.
  * Auto-repairs up to 3 articles and 1 story per run.
+ *
+ * Features:
+ * - Repair cooldown to prevent repeatedly failing on same content
+ * - Circuit breaker pattern for content with multiple failures
+ * - Tracks repair attempts for observability
  */
 
 import * as admin from 'firebase-admin'
@@ -13,6 +18,7 @@ import { generateBatchAudio } from './newsAudioGenerator'
 import { generateBatchTranslations } from './translationPreGenerator'
 import { generateBatchWordExplanations } from './wordExplanationPreGenerator'
 import { extractTopWords } from './wordExtractor'
+import { canRepairContent, recordRepairAttempt } from './integrityIdempotency'
 
 const db = admin.firestore()
 
@@ -66,7 +72,9 @@ export interface IntegrityCheckResult {
 /**
  * Check news articles for missing content and auto-repair
  */
-export async function checkNewsArticles(): Promise<IntegrityCheckResult['newsArticles']> {
+export async function checkNewsArticles(
+  checkId?: string
+): Promise<IntegrityCheckResult['newsArticles']> {
   const result: IntegrityCheckResult['newsArticles'] = {
     checked: 0,
     missingAudio: [],
@@ -164,7 +172,7 @@ export async function checkNewsArticles(): Promise<IntegrityCheckResult['newsArt
     const articlesToRepair = selectArticlesForRepair(result, CONFIG.MAX_ARTICLES_PER_RUN)
 
     if (articlesToRepair.length > 0) {
-      await repairNewsArticles(articlesToRepair, result)
+      await repairNewsArticles(articlesToRepair, result, checkId)
     }
 
     return result
@@ -215,11 +223,13 @@ function selectArticlesForRepair(
  */
 async function repairNewsArticles(
   articleIds: string[],
-  result: IntegrityCheckResult['newsArticles']
+  result: IntegrityCheckResult['newsArticles'],
+  checkId?: string
 ): Promise<void> {
   logger.info('[IntegrityChecker] Starting article repairs', {
     articleCount: articleIds.length,
     articleIds,
+    checkId,
   })
 
   // Fetch article data
@@ -243,15 +253,39 @@ async function repairNewsArticles(
   )
 
   for (const article of articlesNeedingAudio) {
+    // Check cooldown before attempting repair
+    const canRepair = await canRepairContent(article.id, 'news_article', 'audio')
+
+    if (!canRepair.allowed) {
+      logger.info('[IntegrityChecker] Skipping audio repair (cooldown)', {
+        articleId: article.id,
+        reason: canRepair.reason,
+      })
+      continue
+    }
+
     try {
-      logger.info('[IntegrityChecker] Repairing audio', { articleId: article.id })
+      logger.info('[IntegrityChecker] Repairing audio', { articleId: article.id, checkId })
       await generateBatchAudio(article)
       result.repaired.audio++
+
+      // Record successful attempt
+      if (checkId) {
+        await recordRepairAttempt(article.id, 'news_article', 'audio', checkId, true)
+      }
     } catch (error) {
       result.repairFailed.audio++
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+
+      // Record failed attempt
+      if (checkId) {
+        await recordRepairAttempt(article.id, 'news_article', 'audio', checkId, false, errorMsg)
+      }
+
       logger.error('[IntegrityChecker] Audio repair failed', {
         articleId: article.id,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        checkId,
+        error: errorMsg,
       })
     }
   }
@@ -261,18 +295,66 @@ async function repairNewsArticles(
     result.missingTranslations.includes(a.id)
   )
 
-  if (articlesNeedingTranslations.length > 0) {
+  // Filter out articles in cooldown for translations
+  const articlesForTranslationRepair: typeof articles = []
+  for (const article of articlesNeedingTranslations) {
+    const canRepair = await canRepairContent(article.id, 'news_article', 'translations')
+    if (canRepair.allowed) {
+      articlesForTranslationRepair.push(article)
+    } else {
+      logger.info('[IntegrityChecker] Skipping translation repair (cooldown)', {
+        articleId: article.id,
+        reason: canRepair.reason,
+      })
+    }
+  }
+
+  if (articlesForTranslationRepair.length > 0) {
     try {
       logger.info('[IntegrityChecker] Repairing translations', {
-        articleCount: articlesNeedingTranslations.length,
+        articleCount: articlesForTranslationRepair.length,
+        checkId,
       })
-      const translationResults = await generateBatchTranslations(articlesNeedingTranslations)
+      const translationResults = await generateBatchTranslations(articlesForTranslationRepair)
       result.repaired.translations = translationResults.successCount
       result.repairFailed.translations = translationResults.failureCount
+
+      // Record attempts for each article
+      if (checkId) {
+        for (const article of articlesForTranslationRepair) {
+          // Assume success if successCount > 0 (batch operation)
+          const success = translationResults.successCount > 0
+          await recordRepairAttempt(
+            article.id,
+            'news_article',
+            'translations',
+            checkId,
+            success,
+            success ? undefined : 'Batch translation failed'
+          )
+        }
+      }
     } catch (error) {
-      result.repairFailed.translations = articlesNeedingTranslations.length
+      result.repairFailed.translations = articlesForTranslationRepair.length
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+
+      // Record failed attempts
+      if (checkId) {
+        for (const article of articlesForTranslationRepair) {
+          await recordRepairAttempt(
+            article.id,
+            'news_article',
+            'translations',
+            checkId,
+            false,
+            errorMsg
+          )
+        }
+      }
+
       logger.error('[IntegrityChecker] Translation repair failed', {
-        error: error instanceof Error ? error.message : 'Unknown error',
+        checkId,
+        error: errorMsg,
       })
     }
   }
@@ -282,14 +364,29 @@ async function repairNewsArticles(
     result.missingWordExplanations.includes(a.id)
   )
 
-  if (articlesNeedingWordExplanations.length > 0) {
+  // Filter out articles in cooldown for word explanations
+  const articlesForWordRepair: typeof articles = []
+  for (const article of articlesNeedingWordExplanations) {
+    const canRepair = await canRepairContent(article.id, 'news_article', 'wordExplanations')
+    if (canRepair.allowed) {
+      articlesForWordRepair.push(article)
+    } else {
+      logger.info('[IntegrityChecker] Skipping word explanation repair (cooldown)', {
+        articleId: article.id,
+        reason: canRepair.reason,
+      })
+    }
+  }
+
+  if (articlesForWordRepair.length > 0) {
     try {
       logger.info('[IntegrityChecker] Repairing word explanations', {
-        articleCount: articlesNeedingWordExplanations.length,
+        articleCount: articlesForWordRepair.length,
+        checkId,
       })
 
       // Extract words first
-      const articlesWithWords = articlesNeedingWordExplanations.map(article => {
+      const articlesWithWords = articlesForWordRepair.map(article => {
         const words = extractTopWords(article.content, 100)
         return {
           id: article.id,
@@ -301,15 +398,48 @@ async function repairNewsArticles(
       const wordResults = await generateBatchWordExplanations(articlesWithWords)
       result.repaired.wordExplanations = wordResults.successCount
       result.repairFailed.wordExplanations = wordResults.failureCount
+
+      // Record attempts for each article
+      if (checkId) {
+        for (const article of articlesForWordRepair) {
+          const success = wordResults.successCount > 0
+          await recordRepairAttempt(
+            article.id,
+            'news_article',
+            'wordExplanations',
+            checkId,
+            success,
+            success ? undefined : 'Batch word explanation failed'
+          )
+        }
+      }
     } catch (error) {
-      result.repairFailed.wordExplanations = articlesNeedingWordExplanations.length
+      result.repairFailed.wordExplanations = articlesForWordRepair.length
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+
+      // Record failed attempts
+      if (checkId) {
+        for (const article of articlesForWordRepair) {
+          await recordRepairAttempt(
+            article.id,
+            'news_article',
+            'wordExplanations',
+            checkId,
+            false,
+            errorMsg
+          )
+        }
+      }
+
       logger.error('[IntegrityChecker] Word explanation repair failed', {
-        error: error instanceof Error ? error.message : 'Unknown error',
+        checkId,
+        error: errorMsg,
       })
     }
   }
 
   logger.info('[IntegrityChecker] Article repairs complete', {
+    checkId,
     repairedAudio: result.repaired.audio,
     repairedTranslations: result.repaired.translations,
     repairedWordExplanations: result.repaired.wordExplanations,
@@ -322,7 +452,10 @@ async function repairNewsArticles(
 /**
  * Check stories for missing content and auto-repair
  */
-export async function checkStories(adminKey: string): Promise<IntegrityCheckResult['stories']> {
+export async function checkStories(
+  adminKey: string,
+  checkId?: string
+): Promise<IntegrityCheckResult['stories']> {
   const result: IntegrityCheckResult['stories'] = {
     checked: 0,
     missingAudio: [],
@@ -412,7 +545,7 @@ export async function checkStories(adminKey: string): Promise<IntegrityCheckResu
     if (result.missingAudio.length > 0 || result.missingImages.length > 0) {
       const storyToRepair = result.missingAudio[0] || result.missingImages[0]
       if (storyToRepair) {
-        await repairStory(storyToRepair, result, adminKey)
+        await repairStory(storyToRepair, result, adminKey, checkId)
       }
     }
 
@@ -431,9 +564,10 @@ export async function checkStories(adminKey: string): Promise<IntegrityCheckResu
 async function repairStory(
   storyId: string,
   result: IntegrityCheckResult['stories'],
-  adminKey: string
+  adminKey: string,
+  checkId?: string
 ): Promise<void> {
-  logger.info('[IntegrityChecker] Starting story repair', { storyId })
+  logger.info('[IntegrityChecker] Starting story repair', { storyId, checkId })
 
   try {
     const storyDoc = await db.collection('stories').doc(storyId).get()
@@ -446,53 +580,91 @@ async function repairStory(
 
     // Repair audio if missing
     if (result.missingAudio.includes(storyId)) {
-      try {
-        logger.info('[IntegrityChecker] Repairing story audio', { storyId })
+      // Check cooldown before attempting repair
+      const canRepair = await canRepairContent(storyId, 'story', 'audio')
 
-        // Get pages from story data
-        const pages = storyData.pages || []
-        if (pages.length === 0) {
-          logger.warn('[IntegrityChecker] Story has no pages, skipping audio repair', { storyId })
-          result.repairFailed.audio++
-          return
-        }
-
-        const response = await fetch(`${APP_URL}/api/admin/generate-story-audio`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Admin-Key': adminKey,
-          },
-          body: JSON.stringify({
-            storyId,
-            pages: pages.map((p: any) => ({
-              text: p.text || p.textJa || '',
-              pageNumber: p.pageNumber,
-            })),
-            voice: 'nemo',
-            generateFullAudio: true,
-            generatePageAudio: true,
-          }),
+      if (!canRepair.allowed) {
+        logger.info('[IntegrityChecker] Skipping story audio repair (cooldown)', {
+          storyId,
+          reason: canRepair.reason,
         })
+      } else {
+        try {
+          logger.info('[IntegrityChecker] Repairing story audio', { storyId, checkId })
 
-        if (response.ok) {
-          result.repaired.audio++
-          logger.info('[IntegrityChecker] Story audio repaired', { storyId })
-        } else {
+          // Get pages from story data
+          const pages = storyData.pages || []
+          if (pages.length === 0) {
+            logger.warn('[IntegrityChecker] Story has no pages, skipping audio repair', { storyId })
+            result.repairFailed.audio++
+
+            if (checkId) {
+              await recordRepairAttempt(storyId, 'story', 'audio', checkId, false, 'No pages')
+            }
+            return
+          }
+
+          const response = await fetch(`${APP_URL}/api/admin/generate-story-audio`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Admin-Key': adminKey,
+            },
+            body: JSON.stringify({
+              storyId,
+              pages: pages.map((p: any) => ({
+                text: p.text || p.textJa || '',
+                pageNumber: p.pageNumber,
+              })),
+              voice: 'nemo',
+              generateFullAudio: true,
+              generatePageAudio: true,
+            }),
+          })
+
+          if (response.ok) {
+            result.repaired.audio++
+            logger.info('[IntegrityChecker] Story audio repaired', { storyId, checkId })
+
+            if (checkId) {
+              await recordRepairAttempt(storyId, 'story', 'audio', checkId, true)
+            }
+          } else {
+            result.repairFailed.audio++
+            const errorText = await response.text()
+
+            if (checkId) {
+              await recordRepairAttempt(
+                storyId,
+                'story',
+                'audio',
+                checkId,
+                false,
+                `HTTP ${response.status}: ${errorText.substring(0, 200)}`
+              )
+            }
+
+            logger.error('[IntegrityChecker] Story audio repair failed', {
+              storyId,
+              checkId,
+              status: response.status,
+              error: errorText,
+            })
+          }
+        } catch (error) {
           result.repairFailed.audio++
-          const errorText = await response.text()
-          logger.error('[IntegrityChecker] Story audio repair failed', {
+          const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+
+          if (checkId) {
+            await recordRepairAttempt(storyId, 'story', 'audio', checkId, false, errorMsg)
+          }
+
+          logger.error('[IntegrityChecker] Story audio repair error', {
             storyId,
-            status: response.status,
-            error: errorText,
+            checkId,
+            error: errorMsg,
           })
         }
-      } catch (error) {
-        result.repairFailed.audio++
-        logger.error('[IntegrityChecker] Story audio repair error', {
-          storyId,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        })
       }
     }
 
@@ -501,6 +673,7 @@ async function repairStory(
     if (result.missingImages.includes(storyId)) {
       logger.warn('[IntegrityChecker] Story has missing images (manual repair needed)', {
         storyId,
+        checkId,
         coverImageUrl: storyData.coverImageUrl,
         pagesWithImages: storyData.pages?.filter((p: any) => p.imageUrl).length,
         totalPages: storyData.pages?.length,
@@ -509,6 +682,7 @@ async function repairStory(
   } catch (error) {
     logger.error('[IntegrityChecker] Story repair error', {
       storyId,
+      checkId,
       error: error instanceof Error ? error.message : 'Unknown error',
     })
   }
@@ -517,17 +691,21 @@ async function repairStory(
 /**
  * Run the full integrity check
  */
-export async function runIntegrityCheck(adminKey: string): Promise<IntegrityCheckResult> {
+export async function runIntegrityCheck(
+  adminKey: string,
+  checkId?: string
+): Promise<IntegrityCheckResult> {
   const startTime = Date.now()
 
   logger.info('[IntegrityChecker] Starting full integrity check', {
+    checkId,
     maxArticles: CONFIG.MAX_ARTICLES_PER_RUN,
     maxStories: CONFIG.MAX_STORIES_PER_RUN,
     lookbackDays: CONFIG.LOOKBACK_DAYS,
   })
 
-  const newsResult = await checkNewsArticles()
-  const storiesResult = await checkStories(adminKey)
+  const newsResult = await checkNewsArticles(checkId)
+  const storiesResult = await checkStories(adminKey, checkId)
 
   const duration = Date.now() - startTime
 

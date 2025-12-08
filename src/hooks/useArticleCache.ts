@@ -29,6 +29,14 @@ interface UseArticleCacheReturn {
   clearCache: () => Promise<void>
   /** Get list of cached article IDs */
   getCachedIds: () => Promise<string[]>
+  /** Prefetch multiple articles for offline use */
+  prefetchArticles: (
+    articleIds: string[],
+    options?: {
+      skipCached?: boolean
+      onProgress?: (current: number, total: number) => void
+    }
+  ) => Promise<{ cached: number; failed: number; skipped: number }>
 }
 
 export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticleCacheReturn {
@@ -178,12 +186,33 @@ export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticl
     return cacheManager.getCachedIds()
   }, [cacheManager])
 
+  /**
+   * Prefetch multiple articles for offline use
+   * Silently downloads and caches articles in the background
+   */
+  const prefetchArticles = useCallback(
+    async (
+      articleIds: string[],
+      options?: {
+        skipCached?: boolean
+        onProgress?: (current: number, total: number) => void
+      }
+    ): Promise<{ cached: number; failed: number; skipped: number }> => {
+      if (!enabled) {
+        return { cached: 0, failed: 0, skipped: articleIds.length }
+      }
+      return cacheManager.prefetchArticles(articleIds, options)
+    },
+    [enabled, cacheManager]
+  )
+
   return {
     getArticle,
     isCached,
     getStats,
     clearCache,
     getCachedIds,
+    prefetchArticles,
   }
 }
 

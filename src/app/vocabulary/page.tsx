@@ -7,7 +7,7 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import { useI18n } from '@/i18n/I18nContext'
 import { motion } from 'framer-motion'
 // Navigation is now global via NavigationWrapper in root layout
-import PageHeader from '@/components/layout/PageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import Modal from '@/components/ui/Modal'
 import VocabularySearch from './components/VocabularySearch'
 import WordDetailsModal from './components/WordDetailsModal'
@@ -290,6 +290,7 @@ function VocabularyContent() {
       <PageHeader
         title={strings.vocabulary?.title || 'Vocabulary'}
         description={strings.vocabulary?.description || 'Search and explore Japanese vocabulary'}
+        showDoshi
       />
 
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-6xl">

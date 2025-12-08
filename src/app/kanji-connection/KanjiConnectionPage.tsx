@@ -1,23 +1,44 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 // Navigation is now global via NavigationWrapper in root layout;
-import LearningPageHeader from '@/components/learn/LearningPageHeader';
-import { useAuth } from '@/hooks/useAuth';
-import { useI18n } from '@/i18n/I18nContext';
+import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import { useAuth } from '@/hooks/useAuth'
+import { useI18n } from '@/i18n/I18nContext'
+import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache'
 
 export default function KanjiConnectionPage() {
-  const router = useRouter();
-  const { user } = useAuth();
-  const { t } = useI18n();
-  const [loading, setLoading] = useState(false);
+  const router = useRouter()
+  const { user } = useAuth()
+  const { t } = useI18n()
+  const [loading, setLoading] = useState(false)
+
+  // Offline caching - prefetch ALL kanji connections for complete offline access
+  const { prefetchAll } = useKanjiConnectionCache()
+  const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
+
+  // Auto-prefetch all kanji connections on page load
+  useEffect(() => {
+    if (prefetchStatus === 'idle') {
+      setPrefetchStatus('prefetching')
+      prefetchAll({ skipCached: true })
+        .then(results => {
+          console.log('[KanjiConnectionPage] Offline prefetch complete:', results)
+          setPrefetchStatus('done')
+        })
+        .catch(error => {
+          console.warn('[KanjiConnectionPage] Prefetch failed:', error)
+          setPrefetchStatus('done')
+        })
+    }
+  }, [prefetchStatus, prefetchAll])
 
   const handleNavigate = (path: string) => {
-    setLoading(true);
-    router.push(path);
-  };
+    setLoading(true)
+    router.push(path)
+  }
 
   const features = [
     {
@@ -28,7 +49,7 @@ export default function KanjiConnectionPage() {
       icon: '👨‍👩‍👧‍👦',
       color: 'from-purple-400 to-pink-500',
       href: '/kanji-connection/families',
-      stats: '60+ families'
+      stats: '60+ families',
     },
     {
       id: 'radicals',
@@ -38,7 +59,7 @@ export default function KanjiConnectionPage() {
       icon: '🌊',
       color: 'from-blue-400 to-cyan-500',
       href: '/kanji-connection/radicals',
-      stats: '20+ radicals'
+      stats: '20+ radicals',
     },
     {
       id: 'visual',
@@ -48,9 +69,9 @@ export default function KanjiConnectionPage() {
       icon: '🎨',
       color: 'from-green-400 to-emerald-500',
       href: '/kanji-connection/visual-layout',
-      stats: '4 patterns'
-    }
-  ];
+      stats: '4 patterns',
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
@@ -58,7 +79,6 @@ export default function KanjiConnectionPage() {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-8 pb-8">
-
         {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {features.map((feature, index) => (
@@ -99,8 +119,18 @@ export default function KanjiConnectionPage() {
                   {/* Hover Indicator */}
                   <div className="mt-4 flex items-center text-primary-600 dark:text-primary-400">
                     <span className="text-sm font-medium">{t('common.explore')}</span>
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg
+                      className="w-4 h-4 ml-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -110,5 +140,5 @@ export default function KanjiConnectionPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

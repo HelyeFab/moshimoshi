@@ -1,102 +1,126 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
-import { useI18n } from '@/i18n/I18nContext';
-import { useStories } from '@/hooks/useStories';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
+import { useI18n } from '@/i18n/I18nContext'
+import { useStories } from '@/hooks/useStories'
+import { useStoryCache } from '@/hooks/useStoryCache'
 // Navigation is now global via NavigationWrapper in root layout;
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
-import LearningPageHeader from '@/components/learn/LearningPageHeader';
-import { Select } from '@/components/ui/Select';
-import { Story, JLPTLevel } from '@/types/story';
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import { Select } from '@/components/ui/Select'
+import { Story, JLPTLevel } from '@/types/story'
 
 interface FilterState {
-  jlptLevel: 'all' | JLPTLevel;
-  searchTerm: string;
-  sortBy: 'newest' | 'popular' | 'progress';
-  theme: 'all' | string;
+  jlptLevel: 'all' | JLPTLevel
+  searchTerm: string
+  sortBy: 'newest' | 'popular' | 'progress'
+  theme: 'all' | string
 }
 
 export default function StoriesPage() {
-  const { user } = useAuth();
-  const { t } = useI18n();
-  const router = useRouter();
-  const { stories, userProgress, loading, error } = useStories();
+  const { user } = useAuth()
+  const { t } = useI18n()
+  const router = useRouter()
+  const { stories, userProgress, loading, error } = useStories()
+
+  // Offline caching
+  const { prefetchStories } = useStoryCache()
+  const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
 
   const [filters, setFilters] = useState<FilterState>({
     jlptLevel: 'all',
     searchTerm: '',
     sortBy: 'newest',
-    theme: 'all'
-  });
+    theme: 'all',
+  })
 
   // Get unique themes from stories
-  const themes = Array.from(new Set(stories.map(s => s.theme).filter(Boolean)));
+  const themes = Array.from(new Set(stories.map(s => s.theme).filter(Boolean)))
+
+  // Auto-prefetch top 10 stories for offline use
+  useEffect(() => {
+    if (stories.length > 0 && prefetchStatus === 'idle' && !loading) {
+      const storiesToPrefetch = stories.slice(0, 10)
+      setPrefetchStatus('prefetching')
+      prefetchStories(storiesToPrefetch, { skipCached: true })
+        .then(results => {
+          console.log('[StoriesPage] Offline prefetch complete:', results)
+          setPrefetchStatus('done')
+        })
+        .catch(error => {
+          console.warn('[StoriesPage] Prefetch failed:', error)
+          setPrefetchStatus('done')
+        })
+    }
+  }, [stories, prefetchStatus, loading, prefetchStories])
 
   // Filter and sort stories
   const filteredStories = stories
     .filter(story => {
       // JLPT filter
       if (filters.jlptLevel !== 'all' && story.jlptLevel !== filters.jlptLevel) {
-        return false;
+        return false
       }
 
       // Theme filter
       if (filters.theme !== 'all' && story.theme !== filters.theme) {
-        return false;
+        return false
       }
 
       // Search filter
       if (filters.searchTerm) {
-        const searchLower = filters.searchTerm.toLowerCase();
+        const searchLower = filters.searchTerm.toLowerCase()
         return (
           story.title.toLowerCase().includes(searchLower) ||
           story.description.toLowerCase().includes(searchLower) ||
           story.tags?.some(tag => tag.toLowerCase().includes(searchLower))
-        );
+        )
       }
 
-      return true;
+      return true
     })
     .sort((a, b) => {
       switch (filters.sortBy) {
         case 'newest':
-          return new Date(b.publishedAt || b.createdAt).getTime() -
-                 new Date(a.publishedAt || a.createdAt).getTime();
+          return (
+            new Date(b.publishedAt || b.createdAt).getTime() -
+            new Date(a.publishedAt || a.createdAt).getTime()
+          )
         case 'popular':
-          return (b.viewCount || 0) - (a.viewCount || 0);
+          return (b.viewCount || 0) - (a.viewCount || 0)
         case 'progress':
-          const progressA = userProgress.get(a.id);
-          const progressB = userProgress.get(b.id);
-          return (progressB?.progress || 0) - (progressA?.progress || 0);
+          const progressA = userProgress.get(a.id)
+          const progressB = userProgress.get(b.id)
+          return (progressB?.progress || 0) - (progressA?.progress || 0)
         default:
-          return 0;
+          return 0
       }
-    });
+    })
 
   const getProgressPercentage = (storyId: string) => {
-    const progress = userProgress.get(storyId);
-    return progress?.progress || 0;
-  };
+    const progress = userProgress.get(storyId)
+    return progress?.progress || 0
+  }
 
   const isCompleted = (storyId: string) => {
-    const progress = userProgress.get(storyId);
-    return progress?.completed || false;
-  };
+    const progress = userProgress.get(storyId)
+    return progress?.completed || false
+  }
 
   const handleStoryClick = (slug: string) => {
-    router.push(`/stories/${slug}`);
-  };
+    router.push(`/stories/${slug}`)
+  }
 
   if (loading) {
-    return <LoadingOverlay />;
+    return <LoadingOverlay />
   }
 
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+        {/* Navigation is now global - rendered in root layout */}
         <div className="container mx-auto px-4 py-16 text-center">
           <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
             {t('stories.errorLoading')}
@@ -104,7 +128,7 @@ export default function StoriesPage() {
           <p className="text-gray-600 dark:text-gray-400">{error}</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -112,10 +136,7 @@ export default function StoriesPage() {
       {/* Navigation is now global - rendered in root layout */}
 
       {/* LearningPageHeader with only required props */}
-      <LearningPageHeader
-        title={t('stories.title')}
-        description={t('stories.description')}
-      />
+      <LearningPageHeader title={t('stories.title')} description={t('stories.description')} />
 
       {/* Filters */}
       <div className="container mx-auto px-4 py-6">
@@ -126,7 +147,7 @@ export default function StoriesPage() {
               <input
                 type="text"
                 value={filters.searchTerm}
-                onChange={(e) => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
+                onChange={e => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
                 placeholder={t('common.search')}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
               />
@@ -135,14 +156,14 @@ export default function StoriesPage() {
             {/* JLPT Level */}
             <Select
               value={filters.jlptLevel}
-              onChange={(value) => setFilters(prev => ({ ...prev, jlptLevel: value as any }))}
+              onChange={value => setFilters(prev => ({ ...prev, jlptLevel: value as any }))}
               options={[
                 { value: 'all', label: t('common.allLevels') },
                 { value: 'N5', label: `N5 - ${t('levels.beginner')}` },
                 { value: 'N4', label: `N4 - ${t('levels.elementary')}` },
                 { value: 'N3', label: `N3 - ${t('levels.intermediate')}` },
                 { value: 'N2', label: `N2 - ${t('levels.upperIntermediate')}` },
-                { value: 'N1', label: `N1 - ${t('levels.advanced')}` }
+                { value: 'N1', label: `N1 - ${t('levels.advanced')}` },
               ]}
               placeholder={t('common.selectLevel')}
             />
@@ -150,10 +171,10 @@ export default function StoriesPage() {
             {/* Theme */}
             <Select
               value={filters.theme}
-              onChange={(value) => setFilters(prev => ({ ...prev, theme: value }))}
+              onChange={value => setFilters(prev => ({ ...prev, theme: value }))}
               options={[
                 { value: 'all', label: t('stories.allThemes') },
-                ...themes.map(theme => ({ value: theme, label: theme }))
+                ...themes.map(theme => ({ value: theme, label: theme })),
               ]}
               placeholder={t('stories.selectTheme')}
             />
@@ -161,11 +182,11 @@ export default function StoriesPage() {
             {/* Sort */}
             <Select
               value={filters.sortBy}
-              onChange={(value) => setFilters(prev => ({ ...prev, sortBy: value as any }))}
+              onChange={value => setFilters(prev => ({ ...prev, sortBy: value as any }))}
               options={[
                 { value: 'newest', label: t('common.newest') },
                 { value: 'popular', label: t('common.popular') },
-                { value: 'progress', label: t('stories.byProgress') }
+                { value: 'progress', label: t('stories.byProgress') },
               ]}
               placeholder={t('common.sortBy')}
             />
@@ -174,9 +195,9 @@ export default function StoriesPage() {
 
         {/* Stories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredStories.map((story) => {
-            const progress = getProgressPercentage(story.id);
-            const completed = isCompleted(story.id);
+          {filteredStories.map(story => {
+            const progress = getProgressPercentage(story.id)
+            const completed = isCompleted(story.id)
 
             return (
               <div
@@ -195,7 +216,11 @@ export default function StoriesPage() {
                     {completed && (
                       <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1">
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                         {t('common.completed')}
                       </div>
@@ -257,23 +282,58 @@ export default function StoriesPage() {
                   <div className="flex items-center justify-between text-xs text-muted-foreground dark:text-dark-400">
                     <div className="flex items-center gap-3">
                       <span className="flex items-center gap-1">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          />
                         </svg>
                         {story.viewCount || 0}
                       </span>
                       <span className="flex items-center gap-1">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
                         </svg>
                         {story.completionCount || 0}
                       </span>
                     </div>
                     {story.averageQuizScore && (
                       <span className="flex items-center gap-1">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                          />
                         </svg>
                         {Math.round(story.averageQuizScore)}%
                       </span>
@@ -281,7 +341,7 @@ export default function StoriesPage() {
                   </div>
                 </div>
               </div>
-            );
+            )
           })}
         </div>
 
@@ -298,5 +358,5 @@ export default function StoriesPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

@@ -3,20 +3,31 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 // Navigation is now global via NavigationWrapper in root layout
-import PageHeader from '@/components/layout/PageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ConjugationDisplay } from '@/components/conjugation/ConjugationDisplay'
 import {
   getConjugatableWordsPractice,
   preloadConjugatableWords,
   getRecentlyUsedWords,
-  saveRecentlyUsedWords
+  saveRecentlyUsedWords,
 } from '@/utils/jmdictLocalSearch'
 import { JapaneseWord } from '@/types/vocabulary'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight, RefreshCw, BookOpen, Filter, Shuffle, Settings, ChevronDown, Search, X } from 'lucide-react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  RefreshCw,
+  BookOpen,
+  Filter,
+  Shuffle,
+  Settings,
+  ChevronDown,
+  Search,
+  X,
+} from 'lucide-react'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 
 type ViewMode = 'browse' | 'study' | 'review'
@@ -64,7 +75,7 @@ export default function ConjugationPracticePage() {
       const difficultyMix = {
         N5: jlptLevels.includes('N5') ? 0.6 : 0,
         N4: jlptLevels.includes('N4') ? 0.4 : 0,
-        'N3+': jlptLevels.includes('N3+') ? 1.0 : 0
+        'N3+': jlptLevels.includes('N3+') ? 1.0 : 0,
       }
 
       // Normalize mix if needed
@@ -81,7 +92,7 @@ export default function ConjugationPracticePage() {
         jlptLevels: jlptLevels,
         limit: 20,
         excludeRecent: recentWords,
-        difficultyMix
+        difficultyMix,
       })
 
       setPracticeWords(words)
@@ -182,22 +193,28 @@ export default function ConjugationPracticePage() {
     loadPracticeWords()
   }
 
-  const stats = useMemo(() => ({
-    total: practiceWords.length,
-    current: currentIndex + 1,
-    selected: selectedWords.size,
-    verbs: practiceWords.filter(w => {
-      const enhanced = enhanceWordWithType(w)
-      return enhanced.conjugationType === 'Godan' ||
-             enhanced.conjugationType === 'Ichidan' ||
-             enhanced.conjugationType === 'Irregular'
-    }).length,
-    adjectives: practiceWords.filter(w => {
-      const enhanced = enhanceWordWithType(w)
-      return enhanced.conjugationType === 'i-adjective' ||
-             enhanced.conjugationType === 'na-adjective'
-    }).length
-  }), [practiceWords, currentIndex, selectedWords])
+  const stats = useMemo(
+    () => ({
+      total: practiceWords.length,
+      current: currentIndex + 1,
+      selected: selectedWords.size,
+      verbs: practiceWords.filter(w => {
+        const enhanced = enhanceWordWithType(w)
+        return (
+          enhanced.conjugationType === 'Godan' ||
+          enhanced.conjugationType === 'Ichidan' ||
+          enhanced.conjugationType === 'Irregular'
+        )
+      }).length,
+      adjectives: practiceWords.filter(w => {
+        const enhanced = enhanceWordWithType(w)
+        return (
+          enhanced.conjugationType === 'i-adjective' || enhanced.conjugationType === 'na-adjective'
+        )
+      }).length,
+    }),
+    [practiceWords, currentIndex, selectedWords]
+  )
 
   const handleNext = () => {
     if (currentIndex < practiceWords.length - 1) {
@@ -257,12 +274,18 @@ export default function ConjugationPracticePage() {
       <div className="container mx-auto px-4 py-6">
         {/* Search Bar */}
         <div className="mb-6">
-          <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }} className="flex gap-2">
+          <form
+            onSubmit={e => {
+              e.preventDefault()
+              handleSearch()
+            }}
+            className="flex gap-2"
+          >
             <div className="flex-1 relative">
               <input
                 type="text"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 placeholder={t('conjugation.searchPlaceholder')}
                 className="w-full px-4 py-2 pr-10 rounded-lg bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
@@ -307,7 +330,9 @@ export default function ConjugationPracticePage() {
             >
               <Settings className="w-4 h-4" />
               {t('conjugation.settings')}
-              <ChevronDown className={`w-4 h-4 transition-transform ${showSettingsDropdown ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`w-4 h-4 transition-transform ${showSettingsDropdown ? 'rotate-180' : ''}`}
+              />
             </button>
 
             {showSettingsDropdown && (
@@ -323,7 +348,9 @@ export default function ConjugationPracticePage() {
                       setShowSettingsDropdown(false)
                     }}
                     className={`w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors ${
-                      wordFilter === 'all' ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-300'
+                      wordFilter === 'all'
+                        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
+                        : 'text-gray-700 dark:text-gray-300'
                     }`}
                   >
                     {t('conjugation.filters.all')}
@@ -334,7 +361,9 @@ export default function ConjugationPracticePage() {
                       setShowSettingsDropdown(false)
                     }}
                     className={`w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors ${
-                      wordFilter === 'verbs' ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-300'
+                      wordFilter === 'verbs'
+                        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
+                        : 'text-gray-700 dark:text-gray-300'
                     }`}
                   >
                     {t('conjugation.filters.verbs')}
@@ -345,7 +374,9 @@ export default function ConjugationPracticePage() {
                       setShowSettingsDropdown(false)
                     }}
                     className={`w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors ${
-                      wordFilter === 'adjectives' ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-300'
+                      wordFilter === 'adjectives'
+                        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
+                        : 'text-gray-700 dark:text-gray-300'
                     }`}
                   >
                     {t('conjugation.filters.adjectives')}
@@ -359,11 +390,14 @@ export default function ConjugationPracticePage() {
                   </div>
                   <div className="px-2 py-1 space-y-1">
                     {(['N5', 'N4', 'N3+'] as JLPTLevel[]).map(level => (
-                      <label key={level} className="flex items-center gap-2 cursor-pointer py-1 px-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700">
+                      <label
+                        key={level}
+                        className="flex items-center gap-2 cursor-pointer py-1 px-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700"
+                      >
                         <input
                           type="checkbox"
                           checked={jlptLevels.includes(level)}
-                          onChange={(e) => {
+                          onChange={e => {
                             if (e.target.checked) {
                               setJlptLevels([...jlptLevels, level])
                             } else {
@@ -377,7 +411,9 @@ export default function ConjugationPracticePage() {
                     ))}
                   </div>
                   <div className="mt-2 px-2 text-xs text-gray-500 dark:text-gray-400">
-                    {jlptLevels.length === 0 ? '⚠️ Select at least one level' : `✓ ${jlptLevels.join(', ')} selected`}
+                    {jlptLevels.length === 0
+                      ? '⚠️ Select at least one level'
+                      : `✓ ${jlptLevels.join(', ')} selected`}
                   </div>
                 </div>
 
@@ -596,7 +632,9 @@ export default function ConjugationPracticePage() {
                     onClick={() => setShowConjugations(!showConjugations)}
                     className="w-full mb-6 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                   >
-                    {showConjugations ? t('conjugation.actions.hideConjugations') : t('conjugation.actions.showConjugations')}
+                    {showConjugations
+                      ? t('conjugation.actions.hideConjugations')
+                      : t('conjugation.actions.showConjugations')}
                   </button>
 
                   <AnimatePresence>

@@ -10,6 +10,7 @@ import { languages, languageNames } from '@/i18n/config'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 // Navigation is now global via NavigationWrapper in root layout
 import Navbar from '@/components/layout/Navbar'
+import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Tooltip from '@/components/ui/Tooltip'
 import SettingToggle from '@/components/ui/SettingToggle'
@@ -219,21 +220,16 @@ export default function SettingsPage() {
       {/* Navbar */}
       <Navbar user={user} showUserMenu={true} />
 
+      {/* Page Header */}
+      <PageHeader
+        title={strings.settings?.title || 'Settings'}
+        description={strings.settings?.subtitle || 'Customize your learning experience'}
+        showDoshi
+        doshiMood="happy"
+      />
+
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Page Title with Doshi */}
-        <div className="mb-8 flex items-center gap-4">
-          <DoshiMascot size="medium" variant="animated" />
-          <div>
-            <h1 className="text-3xl font-bold text-primary-600 dark:text-primary-400">
-              {strings.settings?.title || 'Settings'}
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {strings.settings?.subtitle || 'Customize your learning experience'}
-            </p>
-          </div>
-        </div>
-
         <div className="space-y-6">
           {/* Appearance */}
           <CollapsibleSection

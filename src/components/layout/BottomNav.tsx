@@ -7,10 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   RiHome5Line,
   RiHome5Fill,
-  RiBook2Line,
-  RiBook2Fill,
-  RiGamepadLine,
-  RiGamepadFill,
   RiStackLine,
   RiStackFill,
   RiSearchLine,
@@ -29,13 +25,13 @@ import {
   RiYoutubeFill, // Youtube Shadowing
   RiNewspaperLine, // News
   RiNewspaperFill, // News
+  RiBook2Line, // Library
+  RiBook2Fill, // Library
   RiBookReadLine, // Story
   RiBookReadFill, // Story
 } from 'react-icons/ri'
 import { cn } from '@/lib/utils'
-import { useBottomNav } from '@/contexts/BottomNavContext'
 import { useI18n } from '@/i18n/I18nContext'
-import { isFeatureEnabled } from '@/lib/features/featureFlags'
 
 export interface NavItem {
   id: string
@@ -65,20 +61,12 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     matchPaths: ['/dashboard', '/'],
   },
   {
-    id: 'review',
-    label: strings.dashboard?.navigation?.bottomNav?.review || 'Review',
-    href: '/review-dashboard',
-    icon: RiBook2Line,
-    activeIcon: RiBook2Fill,
-    matchPaths: ['/review', '/review-dashboard', '/review/session'],
-  },
-  {
-    id: 'kanji-connections',
-    label: strings.dashboard?.navigation?.bottomNav?.kanjiConnections || 'Kanji',
-    href: '/kanji-connection',
+    id: 'kanji-browser',
+    label: strings.dashboard?.navigation?.bottomNav?.kanji || 'Kanji',
+    href: '/kanji-browser',
     icon: RiLinksLine,
     activeIcon: RiLinksFill,
-    matchPaths: ['/kanji-connection'],
+    matchPaths: ['/kanji-browser'],
   },
   {
     id: 'mood-boards',
@@ -113,20 +101,20 @@ const createNavItems = (onSearchClick: () => void, strings: any): NavItem[] => [
     matchPaths: ['/news'],
   },
   {
+    id: 'library',
+    label: strings.dashboard?.navigation?.bottomNav?.library || 'Library',
+    href: '/library',
+    icon: RiBook2Line,
+    activeIcon: RiBook2Fill,
+    matchPaths: ['/library'],
+  },
+  {
     id: 'stories',
     label: strings.dashboard?.navigation?.bottomNav?.stories || 'Stories',
     href: '/stories',
     icon: RiBookReadLine,
     activeIcon: RiBookReadFill,
     matchPaths: ['/stories'],
-  },
-  {
-    id: 'games',
-    label: strings.dashboard?.navigation?.bottomNav?.games || 'Games',
-    href: '/games',
-    icon: RiGamepadLine,
-    activeIcon: RiGamepadFill,
-    matchPaths: ['/games'],
   },
   {
     id: 'flashcards',
@@ -161,60 +149,19 @@ interface BottomNavProps {
    * Setting to false keeps navbar always visible (recommended for accessibility)
    */
   hideOnScroll?: boolean
-  /**
-   * Optional extra nav item to inject (e.g., for page-specific actions)
-   */
-  extraItem?: NavItem
 }
 
-export default function BottomNav({
-  className,
-  hideOnScroll = false,
-  extraItem: propExtraItem,
-}: BottomNavProps) {
+export default function BottomNav({ className, hideOnScroll = false }: BottomNavProps) {
   const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
-  const [hasMounted, setHasMounted] = useState(false)
-  const { extraItem: contextExtraItem } = useBottomNav()
   const { strings } = useI18n()
-
-  // Track hydration to avoid server/client mismatch with feature flags
-  useEffect(() => {
-    setHasMounted(true)
-  }, [])
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
     window.dispatchEvent(new CustomEvent('openCommandPalette'))
   }
 
-  const baseNavItems = createNavItems(handleOpenCommandPalette, strings)
-
-  // Filter nav items based on feature flags
-  // Note: Features are DISABLED by default unless explicitly set to 'true'
-  // Only check feature flags after mount to avoid hydration mismatch
-  const isGamesEnabled = hasMounted ? isFeatureEnabled('GAMES') : true
-  const isReviewHubEnabled = hasMounted ? isFeatureEnabled('REVIEW_HUB') : true
-
-  const filteredNavItems = baseNavItems.filter(item => {
-    // Hide games if GAMES feature is disabled (only after mount)
-    if (item.id === 'games' && !isGamesEnabled) {
-      return false
-    }
-    // Hide review if REVIEW_HUB feature is disabled (only after mount)
-    if (item.id === 'review' && !isReviewHubEnabled) {
-      return false
-    }
-    return true
-  })
-
-  // Use context extra item if available, otherwise use prop
-  const extraItem = contextExtraItem || propExtraItem
-
-  // Replace search (last item) with extra item if provided, otherwise use filtered items
-  const NAV_ITEMS = extraItem
-    ? [...filteredNavItems.slice(0, -1), extraItem] // Replace last item (search) with extra item
-    : filteredNavItems
+  const NAV_ITEMS = createNavItems(handleOpenCommandPalette, strings)
 
   // Content-aware visibility logic (OPTIONAL - disabled by default)
   useEffect(() => {

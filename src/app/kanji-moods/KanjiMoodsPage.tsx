@@ -9,7 +9,7 @@ import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 // Navigation is now global via NavigationWrapper in root layout;
-import PageHeader from '@/components/layout/PageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 
 type ViewMode = 'grid' | 'list'

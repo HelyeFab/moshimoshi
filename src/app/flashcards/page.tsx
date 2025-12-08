@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 // Navigation is now global via NavigationWrapper in root layout;
-import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import { DeckGrid } from '@/components/flashcards/DeckGrid'
 import { DeckCreator } from '@/components/flashcards/DeckCreator'
 import { StudySession } from '@/components/flashcards/StudySession'
@@ -511,6 +511,14 @@ export default function FlashcardsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
       {/* Navigation is now global - rendered in root layout */}
+
+      {/* Page Header - Mobile */}
+      <PageHeader
+        title={t('flashcards.title') || 'Flashcards'}
+        description="Practice your Flashcards"
+        showDoshi
+        doshiMood="studying"
+      />
 
       <div className="container mx-auto px-4 py-8">
         {/* Migration Banner for New Premium Users */}

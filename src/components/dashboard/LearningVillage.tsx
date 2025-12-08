@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Masonry from 'react-masonry-css'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -11,7 +11,8 @@ import { useAnimationControl } from '@/components/ui/AnimationControl'
 import AnimationControl from '@/components/ui/AnimationControl'
 import Image from 'next/image'
 import { useLearningVillageConfig } from '@/hooks/useLearningVillageConfig'
-import { StallId } from '@/config/learning-village-types'
+import { StallId, STALL_OFFLINE_SUPPORT, OfflineSupport } from '@/config/learning-village-types'
+import { ChevronDown, Wifi, WifiOff } from 'lucide-react'
 
 const stallImages = [
   '/ui/flat-icons/stalls/ceramics.png',
@@ -171,10 +172,24 @@ function ChineseLantern({
 }
 
 // Stall card component
-function StallCard({ stall, index, isPopular }: { stall: any; index: number; isPopular: boolean }) {
+function StallCard({
+  stall,
+  index,
+  isPopular,
+  isOnline,
+}: {
+  stall: any
+  index: number
+  isPopular: boolean
+  isOnline: boolean
+}) {
   const [isHovered, setIsHovered] = useState(false)
   const { strings } = useI18n()
   const cardRef = useRef<HTMLDivElement>(null)
+
+  // Get offline support level for this stall
+  const offlineSupport = STALL_OFFLINE_SUPPORT[stall.id] || 'partial'
+  const showOfflineWarning = !isOnline && offlineSupport === 'none'
 
   // Determine variant for masonry variety
   // Popular stalls (from admin config) get featured styling
@@ -234,6 +249,16 @@ function StallCard({ stall, index, isPopular }: { stall: any; index: number; isP
           <div className="absolute bottom-3 right-3 px-2 py-1 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/10 z-10">
             <span className="text-[10px] font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">
               Popular
+            </span>
+          </div>
+        )}
+
+        {/* Offline warning indicator - shown when offline and stall requires network */}
+        {showOfflineWarning && (
+          <div className="absolute top-3 right-3 px-2 py-1 bg-amber-500/80 dark:bg-amber-600/80 backdrop-blur-md rounded-full border border-amber-400/50 z-10 flex items-center gap-1">
+            <WifiOff className="w-3 h-3 text-white" />
+            <span className="text-[10px] font-bold text-white uppercase tracking-wider">
+              Offline
             </span>
           </div>
         )}
@@ -322,8 +347,20 @@ function StallCard({ stall, index, isPopular }: { stall: any; index: number; isP
 }
 
 // Mobile Stall Card Component (for vertical list view)
-function MobileStallCard({ stall, isPopular }: { stall: any; isPopular: boolean }) {
+function MobileStallCard({
+  stall,
+  isPopular,
+  isOnline,
+}: {
+  stall: any
+  isPopular: boolean
+  isOnline: boolean
+}) {
   const { strings } = useI18n()
+
+  // Get offline support level for this stall
+  const offlineSupport = STALL_OFFLINE_SUPPORT[stall.id] || 'partial'
+  const showOfflineWarning = !isOnline && offlineSupport === 'none'
 
   return (
     <Link href={stall.href} className="block w-full group">
@@ -344,6 +381,13 @@ function MobileStallCard({ stall, isPopular }: { stall: any; isPopular: boolean 
               transition-opacity duration-500
             `}
         />
+
+        {/* Offline warning indicator for mobile - top right */}
+        {showOfflineWarning && (
+          <div className="absolute top-1 right-1 p-1 bg-amber-500/80 rounded-full z-10">
+            <WifiOff className="w-3 h-3 text-white" />
+          </div>
+        )}
 
         {/* Content */}
         <div className="flex items-center space-x-3 sm:space-x-4 z-10 flex-1 min-w-0">
@@ -404,6 +448,25 @@ export default function LearningVillage() {
   const animationsEnabled = useAnimationControl()
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
 
+  // Collapsed sections state for mobile (only applies to mobile view)
+  // Default: ALL COLLAPSED (all category keys in the Set)
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(() => {
+    // Load from localStorage on mount
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('learningVillageCollapsedSections')
+      if (saved) {
+        try {
+          return new Set(JSON.parse(saved))
+        } catch {
+          // If parsing fails, default to all collapsed
+          return new Set(['foundation', 'study', 'immersion', 'play', 'community'])
+        }
+      }
+    }
+    // Default: all sections collapsed
+    return new Set(['foundation', 'study', 'immersion', 'play', 'community'])
+  })
+
   // Learning Village configuration from Firestore (real-time updates)
   const {
     config,
@@ -411,7 +474,28 @@ export default function LearningVillage() {
     getStallOrder,
     isStallEnabled,
     loading: configLoading,
+    isOffline: configIsOffline,
   } = useLearningVillageConfig()
+
+  // Track online/offline status for showing offline indicators
+  const [isOnline, setIsOnline] = useState(true)
+
+  useEffect(() => {
+    // Set initial state
+    setIsOnline(navigator.onLine)
+
+    // Listen for online/offline events
+    const handleOnline = () => setIsOnline(true)
+    const handleOffline = () => setIsOnline(false)
+
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [])
 
   // Cast cards to allow dynamic key access with fallbacks
   const cards = strings.dashboard?.cards as CardStrings
@@ -875,6 +959,29 @@ export default function LearningVillage() {
     }
   }, [])
 
+  // Save collapsed sections to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(
+        'learningVillageCollapsedSections',
+        JSON.stringify(Array.from(collapsedSections))
+      )
+    }
+  }, [collapsedSections])
+
+  // Toggle section collapse (mobile only)
+  const toggleSection = (sectionKey: string) => {
+    setCollapsedSections(prev => {
+      const next = new Set(prev)
+      if (next.has(sectionKey)) {
+        next.delete(sectionKey)
+      } else {
+        next.add(sectionKey)
+      }
+      return next
+    })
+  }
+
   // Define categories and their info for grouping
   const stallCategories = useMemo(
     () => ({
@@ -945,7 +1052,7 @@ export default function LearningVillage() {
   }
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden rounded-2xl mb-20 sm:mb-0">
       {/* Animation Control - Top Left Corner */}
       <div className="absolute top-4 left-4 z-50">
         <AnimationControl position="top-left" variant="glassmorphism" />
@@ -1259,34 +1366,56 @@ export default function LearningVillage() {
             if (categoryStalls.length === 0) return null
 
             const info = categoryInfo[catKey as keyof typeof categoryInfo]
+            const isCollapsed = collapsedSections.has(catKey)
 
             return (
               <div key={catKey} className="space-y-3">
-                {/* Area Title */}
+                {/* Area Title - Now clickable with chevron */}
                 <motion.div
-                  className="flex items-center gap-2 px-1 pb-1"
+                  className="flex items-center gap-2 px-1 pb-1 cursor-pointer active:scale-[0.98] transition-transform"
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
+                  onClick={() => toggleSection(catKey)}
                 >
                   <span className="text-xl">{info.icon}</span>
                   <h3 className="text-lg font-bold text-white/90 tracking-wide uppercase text-shadow-sm">
                     {info.title}
                   </h3>
                   <div className="h-px flex-1 bg-gradient-to-r from-white/30 to-transparent ml-2" />
+                  {/* Chevron indicator */}
+                  <motion.div
+                    initial={false}
+                    animate={{ rotate: isCollapsed ? -90 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-shrink-0"
+                  >
+                    <ChevronDown className="w-5 h-5 text-white/70" />
+                  </motion.div>
                 </motion.div>
 
-                {/* Stalls in this area */}
-                <div className="space-y-3">
-                  {categoryStalls.map((stall, index) => (
-                    <MobileStallCard
-                      key={stall.id}
-                      stall={stall}
-                      isPopular={isPopular(stall.id as StallId)}
-                    />
-                  ))}
-                </div>
+                {/* Stalls in this area - with collapse animation */}
+                <AnimatePresence initial={false}>
+                  {!isCollapsed && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className="space-y-3 overflow-hidden"
+                    >
+                      {categoryStalls.map((stall, index) => (
+                        <MobileStallCard
+                          key={stall.id}
+                          stall={stall}
+                          isPopular={isPopular(stall.id as StallId)}
+                          isOnline={isOnline}
+                        />
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )
           })}
@@ -1342,6 +1471,7 @@ export default function LearningVillage() {
                         stall={stall}
                         index={index}
                         isPopular={isPopular(stall.id as StallId)}
+                        isOnline={isOnline}
                       />
                     </div>
                   ))}

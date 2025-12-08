@@ -1169,7 +1169,7 @@ export const strings = {
 
   // Account Page
   account: {
-    pageTitle: 'アカウント',
+    pageTitle: 'Account',
     pageDescription: 'Manage your account settings',
     loadingMessage: 'Loading your account...',
     sections: {
@@ -4061,6 +4061,12 @@ export const strings = {
     },
   },
 
+  // Library Page
+  library: {
+    title: 'Library',
+    pageDescription: 'Read condensed summaries of popular books in Japanese',
+  },
+
   flashcards: {
     title: 'Flashcards',
     pageTitle: 'Flashcard Decks',
@@ -5221,6 +5227,7 @@ export const strings = {
       description: 'Some features may be limited without an internet connection',
       cached: 'Viewing cached content',
       retry: 'Retry Connection',
+      backOnline: 'Back online',
     },
   },
 

@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { useI18n } from '@/i18n/I18nContext';
-import { useAuth } from '@/hooks/useAuth';
-import { YouTubeChannel } from '@/types/youtube-series';
-import { formatDistanceToNow } from 'date-fns';
+import { useState, useEffect, useMemo, useRef } from 'react'
+import { useRouter } from 'next/navigation'
+import { useI18n } from '@/i18n/I18nContext'
+import { useAuth } from '@/hooks/useAuth'
+import { YouTubeChannel } from '@/types/youtube-series'
+import { formatDistanceToNow } from 'date-fns'
 // Navigation is now global via NavigationWrapper in root layout;
-import PageHeader from '@/components/layout/PageHeader';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import PageHeader from '@/components/ui/PageHeader'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import {
   Youtube,
   Users,
@@ -19,118 +19,116 @@ import {
   Tag,
   Sparkles,
   Video,
-  ChevronDown
-} from 'lucide-react';
+  ChevronDown,
+} from 'lucide-react'
 
 export default function YouTubeSeriesPage() {
-  const { t, strings } = useI18n();
-  const router = useRouter();
-  const { user } = useAuth();
-  const [channels, setChannels] = useState<YouTubeChannel[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [showOnlyShadowing, setShowOnlyShadowing] = useState(false);
-  const [showTagsDropdown, setShowTagsDropdown] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { t, strings } = useI18n()
+  const router = useRouter()
+  const { user } = useAuth()
+  const [channels, setChannels] = useState<YouTubeChannel[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [showOnlyShadowing, setShowOnlyShadowing] = useState(false)
+  const [showTagsDropdown, setShowTagsDropdown] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   // Load channels
   useEffect(() => {
-    loadChannels();
-  }, []);
+    loadChannels()
+  }, [])
 
   // Click outside handler for dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowTagsDropdown(false);
+        setShowTagsDropdown(false)
       }
-    };
+    }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const loadChannels = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
 
       // Fetch data from API endpoint (uses admin SDK, no auth required)
-      const response = await fetch('/api/youtube/series');
+      const response = await fetch('/api/youtube/series')
 
       if (!response.ok) {
-        throw new Error('Failed to fetch YouTube series');
+        throw new Error('Failed to fetch YouTube series')
       }
 
-      const data = await response.json();
+      const data = await response.json()
 
       // Convert ISO strings back to Date objects for timestamps
-      const channelsList = data.channels.map((channel: any) => ({
-        ...channel,
-        createdAt: channel.createdAt ? new Date(channel.createdAt) : null,
-        updatedAt: channel.updatedAt ? new Date(channel.updatedAt) : null,
-        lastCheckedAt: channel.lastCheckedAt ? new Date(channel.lastCheckedAt) : null,
-      } as YouTubeChannel));
+      const channelsList = data.channels.map(
+        (channel: any) =>
+          ({
+            ...channel,
+            createdAt: channel.createdAt ? new Date(channel.createdAt) : null,
+            updatedAt: channel.updatedAt ? new Date(channel.updatedAt) : null,
+            lastCheckedAt: channel.lastCheckedAt ? new Date(channel.lastCheckedAt) : null,
+          }) as YouTubeChannel
+      )
 
-      setChannels(channelsList);
-
+      setChannels(channelsList)
     } catch (err) {
-      console.error('Error loading channels:', err);
-      setError('Failed to load YouTube series');
+      console.error('Error loading channels:', err)
+      setError('Failed to load YouTube series')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   // Get all unique tags from channels
   const allTags = useMemo(() => {
-    const tags = new Set<string>();
+    const tags = new Set<string>()
     channels.forEach(channel => {
-      channel.resourceTags?.forEach(tag => tags.add(tag));
-    });
-    return Array.from(tags).sort();
-  }, [channels]);
+      channel.resourceTags?.forEach(tag => tags.add(tag))
+    })
+    return Array.from(tags).sort()
+  }, [channels])
 
   // Filter channels based on search and filters
   const filteredChannels = useMemo(() => {
     return channels.filter(channel => {
       // Search filter
       if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        const matchesTitle = channel.channelTitle.toLowerCase().includes(query);
-        const matchesDescription = channel.description?.toLowerCase().includes(query);
-        if (!matchesTitle && !matchesDescription) return false;
+        const query = searchQuery.toLowerCase()
+        const matchesTitle = channel.channelTitle.toLowerCase().includes(query)
+        const matchesDescription = channel.description?.toLowerCase().includes(query)
+        if (!matchesTitle && !matchesDescription) return false
       }
 
       // Tag filter
       if (selectedTags.length > 0) {
-        const hasTag = selectedTags.some(tag => channel.resourceTags?.includes(tag));
-        if (!hasTag) return false;
+        const hasTag = selectedTags.some(tag => channel.resourceTags?.includes(tag))
+        if (!hasTag) return false
       }
 
       // Shadowing filter
-      if (showOnlyShadowing && !channel.shadowingEnabled) return false;
+      if (showOnlyShadowing && !channel.shadowingEnabled) return false
 
-      return true;
-    });
-  }, [channels, searchQuery, selectedTags, showOnlyShadowing]);
+      return true
+    })
+  }, [channels, searchQuery, selectedTags, showOnlyShadowing])
 
   const toggleTag = (tag: string) => {
-    setSelectedTags(prev =>
-      prev.includes(tag)
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    );
-  };
+    setSelectedTags(prev => (prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]))
+  }
 
   // Format large numbers
   const formatNumber = (num: number): string => {
-    if (num >= 1000000000) return `${(num / 1000000000).toFixed(1)}B`;
-    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
-    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
-    return num.toString();
-  };
+    if (num >= 1000000000) return `${(num / 1000000000).toFixed(1)}B`
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
+    return num.toString()
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
@@ -145,7 +143,7 @@ export default function YouTubeSeriesPage() {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               placeholder={strings.youtubeSeries.searchPlaceholder}
               className="w-full pl-10 pr-10 py-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
             />
@@ -173,7 +171,9 @@ export default function YouTubeSeriesPage() {
                     {selectedTags.length}
                   </span>
                 )}
-                <ChevronDown className={`w-4 h-4 ml-auto transition-transform ${showTagsDropdown ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  className={`w-4 h-4 ml-auto transition-transform ${showTagsDropdown ? 'rotate-180' : ''}`}
+                />
               </button>
 
               {/* Dropdown Menu */}
@@ -216,7 +216,7 @@ export default function YouTubeSeriesPage() {
               <input
                 type="checkbox"
                 checked={showOnlyShadowing}
-                onChange={(e) => setShowOnlyShadowing(e.target.checked)}
+                onChange={e => setShowOnlyShadowing(e.target.checked)}
                 className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
               />
               <span className="text-sm text-gray-700 dark:text-gray-300 flex items-center gap-1">
@@ -243,8 +243,8 @@ export default function YouTubeSeriesPage() {
             <Youtube className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 dark:text-gray-400">
               {searchQuery || selectedTags.length > 0 || showOnlyShadowing
-                ? "No channels match your search"
-                : "No YouTube channels have been added yet"}
+                ? 'No channels match your search'
+                : 'No YouTube channels have been added yet'}
             </p>
           </div>
         )}
@@ -252,7 +252,7 @@ export default function YouTubeSeriesPage() {
         {/* Channels Grid */}
         {!loading && !error && filteredChannels.length > 0 && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredChannels.map((channel) => (
+            {filteredChannels.map(channel => (
               <div
                 key={channel.id}
                 className="group bg-white dark:bg-dark-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-dark-700 hover:shadow-xl transition-all duration-300"
@@ -303,18 +303,18 @@ export default function YouTubeSeriesPage() {
 
                   {/* Stats */}
                   <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400 mb-3">
-                     {channel.subscriberCount && channel.subscriberCount > 0 && (
-                       <span className="flex items-center gap-1">
-                         <Users className="w-3 h-3" />
-                         {formatNumber(channel.subscriberCount)} subscribers
-                       </span>
-                     )}
-                     {channel.videoCount && channel.videoCount > 0 && (
-                       <span className="flex items-center gap-1">
-                         <Video className="w-3 h-3" />
-                         {formatNumber(channel.videoCount!)} videos
-                       </span>
-                     )}
+                    {channel.subscriberCount && channel.subscriberCount > 0 && (
+                      <span className="flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        {formatNumber(channel.subscriberCount)} subscribers
+                      </span>
+                    )}
+                    {channel.videoCount && channel.videoCount > 0 && (
+                      <span className="flex items-center gap-1">
+                        <Video className="w-3 h-3" />
+                        {formatNumber(channel.videoCount!)} videos
+                      </span>
+                    )}
                   </div>
 
                   {/* Tags */}
@@ -356,5 +356,5 @@ export default function YouTubeSeriesPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

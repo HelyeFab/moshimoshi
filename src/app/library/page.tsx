@@ -1,110 +1,136 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useCallback } from 'react';
-import { Book, JLPTLevel } from '@/types/book';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Search, BookOpen, Clock, TrendingUp } from 'lucide-react';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
-import { getGradientForBook } from '@/lib/utils/gradients';
+import { useState, useEffect, useCallback } from 'react'
+import { Book, JLPTLevel } from '@/types/book'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Search, BookOpen, Clock, TrendingUp } from 'lucide-react'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import PageHeader from '@/components/ui/PageHeader'
+import { useI18n } from '@/i18n/I18nContext'
+import { getGradientForBook } from '@/lib/utils/gradients'
+import { useBookCache } from '@/hooks/useBookCache'
 
-const JLPT_LEVELS: Array<{value: JLPTLevel | 'all'; label: string}> = [
+const JLPT_LEVELS: Array<{ value: JLPTLevel | 'all'; label: string }> = [
   { value: 'all', label: 'All Levels' },
   { value: 'N5', label: 'N5 (Beginner)' },
   { value: 'N4', label: 'N4 (Elementary)' },
   { value: 'N3', label: 'N3 (Intermediate)' },
   { value: 'N2', label: 'N2 (Upper Int.)' },
-  { value: 'N1', label: 'N1 (Advanced)' }
-];
+  { value: 'N1', label: 'N1 (Advanced)' },
+]
 
 export default function LibraryPage() {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedLevel, setSelectedLevel] = useState<JLPTLevel | 'all'>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [hasMore, setHasMore] = useState(false);
-  const [offset, setOffset] = useState(0);
-  const limit = 12;
+  const { strings } = useI18n()
+  const [books, setBooks] = useState<Book[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selectedLevel, setSelectedLevel] = useState<JLPTLevel | 'all'>('all')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [hasMore, setHasMore] = useState(false)
+  const [offset, setOffset] = useState(0)
+  const limit = 12
 
-  const loadBooks = useCallback(async (reset: boolean = false) => {
-    try {
-      setLoading(true);
-      const currentOffset = reset ? 0 : offset;
+  // Offline caching
+  const { prefetchBooks } = useBookCache()
+  const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
 
-      const params = new URLSearchParams({
-        limit: limit.toString(),
-        offset: currentOffset.toString()
-      });
+  const loadBooks = useCallback(
+    async (reset: boolean = false) => {
+      try {
+        setLoading(true)
+        const currentOffset = reset ? 0 : offset
 
-      if (selectedLevel !== 'all') {
-        params.append('jlptLevel', selectedLevel);
+        const params = new URLSearchParams({
+          limit: limit.toString(),
+          offset: currentOffset.toString(),
+        })
+
+        if (selectedLevel !== 'all') {
+          params.append('jlptLevel', selectedLevel)
+        }
+
+        if (searchQuery) {
+          params.append('search', searchQuery)
+        }
+
+        const response = await fetch(`/api/library/books?${params}`)
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch books')
+        }
+
+        const data = await response.json()
+
+        if (reset) {
+          setBooks(data.books || [])
+          setOffset(0)
+        } else {
+          setBooks(prev => [...prev, ...(data.books || [])])
+        }
+
+        setHasMore(data.hasMore || false)
+      } catch (error) {
+        console.error('Error loading books:', error)
+        setBooks([])
+      } finally {
+        setLoading(false)
       }
-
-      if (searchQuery) {
-        params.append('search', searchQuery);
-      }
-
-      const response = await fetch(`/api/library/books?${params}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch books');
-      }
-
-      const data = await response.json();
-
-      if (reset) {
-        setBooks(data.books || []);
-        setOffset(0);
-      } else {
-        setBooks(prev => [...prev, ...(data.books || [])]);
-      }
-
-      setHasMore(data.hasMore || false);
-    } catch (error) {
-      console.error('Error loading books:', error);
-      setBooks([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedLevel, searchQuery, offset, limit]);
+    },
+    [selectedLevel, searchQuery, offset, limit]
+  )
 
   // Load books on mount and when filters change
   useEffect(() => {
-    loadBooks(true);
-  }, [selectedLevel, searchQuery]);
+    loadBooks(true)
+  }, [selectedLevel, searchQuery])
+
+  // Auto-prefetch top 10 books for offline use
+  useEffect(() => {
+    if (books.length > 0 && prefetchStatus === 'idle' && offset === 0) {
+      // Only prefetch on initial load (not when loading more)
+      const bookIds = books.slice(0, 10).map(b => b.id)
+      setPrefetchStatus('prefetching')
+      prefetchBooks(bookIds, { skipCached: true })
+        .then(results => {
+          console.log('[LibraryPage] Offline prefetch complete:', results)
+          setPrefetchStatus('done')
+        })
+        .catch(error => {
+          console.warn('[LibraryPage] Prefetch failed:', error)
+          setPrefetchStatus('done')
+        })
+    }
+  }, [books, prefetchStatus, offset, prefetchBooks])
 
   const handleLoadMore = () => {
-    setOffset(prev => prev + limit);
-    loadBooks(false);
-  };
+    setOffset(prev => prev + limit)
+    loadBooks(false)
+  }
 
   const handleLevelChange = (level: JLPTLevel | 'all') => {
-    setSelectedLevel(level);
-    setOffset(0);
-  };
+    setSelectedLevel(level)
+    setOffset(0)
+  }
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    setOffset(0);
-  };
+    setSearchQuery(query)
+    setOffset(0)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-dark-900 dark:to-dark-850">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            📚 図書館 (Toshokan)
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            Read condensed summaries of popular books in Japanese
-          </p>
-        </motion.div>
+      {/* Page Header */}
+      <PageHeader
+        title={strings.library?.title || 'Library'}
+        description={
+          strings.library?.pageDescription ||
+          'Read condensed summaries of popular books in Japanese'
+        }
+        showDoshi
+        doshiMood="studying"
+      />
 
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -119,14 +145,14 @@ export default function LibraryPage() {
               type="text"
               placeholder="Search books by title, author, or keywords..."
               value={searchQuery}
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={e => handleSearch(e.target.value)}
               className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
             />
           </div>
 
           {/* JLPT Level Filter */}
           <div className="flex flex-wrap gap-2">
-            {JLPT_LEVELS.map((level) => (
+            {JLPT_LEVELS.map(level => (
               <button
                 key={level.value}
                 onClick={() => handleLevelChange(level.value)}
@@ -143,9 +169,7 @@ export default function LibraryPage() {
         </motion.div>
 
         {/* Loading State */}
-        {loading && offset === 0 && (
-          <LoadingOverlay />
-        )}
+        {loading && offset === 0 && <LoadingOverlay />}
 
         {/* Books Grid */}
         {!loading && books.length === 0 ? (
@@ -171,10 +195,7 @@ export default function LibraryPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Link
-                  href={`/library/${book.id}`}
-                  className="block group"
-                >
+                <Link href={`/library/${book.id}`} className="block group">
                   <div className="bg-white dark:bg-dark-850 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-200 dark:border-dark-700 h-full flex flex-col">
                     {/* Cover Image or Gradient */}
                     <div className="relative h-48 overflow-hidden">
@@ -185,7 +206,9 @@ export default function LibraryPage() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
-                        <div className={`w-full h-full bg-gradient-to-br ${getGradientForBook(book.id)} flex items-center justify-center p-6 group-hover:scale-105 transition-transform duration-300`}>
+                        <div
+                          className={`w-full h-full bg-gradient-to-br ${getGradientForBook(book.id)} flex items-center justify-center p-6 group-hover:scale-105 transition-transform duration-300`}
+                        >
                           <div className="text-center">
                             <BookOpen className="w-12 h-12 text-white/80 mb-2 mx-auto" />
                             <p className="text-white font-bold text-lg line-clamp-2">
@@ -206,9 +229,7 @@ export default function LibraryPage() {
                       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         {book.titleJa}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        {book.title}
-                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{book.title}</p>
 
                       {/* Book Name & Author */}
                       <div className="mb-3">
@@ -268,5 +289,5 @@ export default function LibraryPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

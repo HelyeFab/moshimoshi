@@ -2358,6 +2358,12 @@ export const strings = {
     },
   },
 
+  // Library Page
+  library: {
+    title: 'Bibliothek',
+    pageDescription: 'Lesen Sie zusammengefasste Versionen beliebter Bücher auf Japanisch',
+  },
+
   flashcards: {
     title: 'Lernkarten',
     pageTitle: 'Lernkarten-Stapel',
@@ -3522,6 +3528,7 @@ export const strings = {
       description: 'Einige Funktionen können ohne Internetverbindung eingeschränkt sein',
       cached: 'Zwischengespeicherte Inhalte anzeigen',
       retry: 'Verbindung erneut versuchen',
+      backOnline: 'Wieder online',
     },
   },
 

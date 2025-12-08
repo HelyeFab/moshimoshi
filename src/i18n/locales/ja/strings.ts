@@ -2632,6 +2632,12 @@ export const strings = {
     formalityLabel: '丁寧さ',
   },
 
+  // Library Page
+  library: {
+    title: '図書館',
+    pageDescription: '人気の本の要約を日本語で読む',
+  },
+
   flashcards: {
     title: 'フラッシュカード',
     pageTitle: 'フラッシュカードデッキ',
@@ -3620,6 +3626,7 @@ export const strings = {
       description: 'インターネット接続がないため、一部の機能が制限される場合があります',
       cached: 'キャッシュされたコンテンツを表示しています',
       retry: '接続を再試行',
+      backOnline: 'オンラインに戻りました',
     },
   },
 

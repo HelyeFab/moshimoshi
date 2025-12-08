@@ -32,13 +32,13 @@ let gamificationListenerInitialized = false
 // Dynamically import ReviewEngine for review mode
 const ReviewEngine = dynamic(() => import('@/components/review-engine/ReviewEngine'), {
   loading: () => <LoadingOverlay isLoading={true} />,
-  ssr: false
+  ssr: false,
 })
 
 // Dynamically import KanjiStudyMode for study mode
 const KanjiStudyMode = dynamic(() => import('@/components/kanji/KanjiStudyMode'), {
   loading: () => <LoadingOverlay isLoading={true} />,
-  ssr: false
+  ssr: false,
 })
 
 type ViewMode = 'browse' | 'study' | 'review'
@@ -54,9 +54,7 @@ function KanjiBrowserContent() {
   const [loading, setLoading] = useState(true)
   const [loadingLevels, setLoadingLevels] = useState<Set<JLPTLevel>>(new Set())
   const [modalKanji, setModalKanji] = useState<Kanji | null>(null)
-  const [expandedLevels, setExpandedLevels] = useState<Set<JLPTLevel>>(
-    new Set(['N5'])
-  )
+  const [expandedLevels, setExpandedLevels] = useState<Set<JLPTLevel>>(new Set(['N5']))
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<Kanji[]>([])
   const [isSearching, setIsSearching] = useState(false)
@@ -76,7 +74,7 @@ function KanjiBrowserContent() {
     N4: null,
     N3: null,
     N2: null,
-    N1: null
+    N1: null,
   })
 
   // Use the kanji browser hook for review system integration
@@ -94,37 +92,41 @@ function KanjiBrowserContent() {
     toggleBookmark,
     loadMore,
     getBrowseStats,
-    canAddMore
+    canAddMore,
   } = useKanjiBrowser()
 
   // Initialize kanji adapter for converting to ReviewableContent
-  const kanjiAdapter = useMemo(() => new KanjiBrowserAdapter({
-    contentType: 'kanji',
-    availableModes: [
-      {
-        mode: 'recognition' as const,
-        showPrimary: true,
-        showSecondary: false,
-        showTertiary: false,
-        showMedia: false,
-        inputType: 'multiple-choice' as const,
-        optionCount: 4,
-        allowHints: true
-      },
-      {
-        mode: 'recall' as const,
-        showPrimary: true,
-        showSecondary: false,
-        showTertiary: false,
-        showMedia: false,
-        inputType: 'text' as const,
-        allowHints: true
-      }
-    ],
-    defaultMode: 'recognition' as const,
-    validationStrategy: 'exact' as const,
-    features: {}
-  }), [])
+  const kanjiAdapter = useMemo(
+    () =>
+      new KanjiBrowserAdapter({
+        contentType: 'kanji',
+        availableModes: [
+          {
+            mode: 'recognition' as const,
+            showPrimary: true,
+            showSecondary: false,
+            showTertiary: false,
+            showMedia: false,
+            inputType: 'multiple-choice' as const,
+            optionCount: 4,
+            allowHints: true,
+          },
+          {
+            mode: 'recall' as const,
+            showPrimary: true,
+            showSecondary: false,
+            showTertiary: false,
+            showMedia: false,
+            inputType: 'text' as const,
+            allowHints: true,
+          },
+        ],
+        defaultMode: 'recognition' as const,
+        validationStrategy: 'exact' as const,
+        features: {},
+      }),
+    []
+  )
 
   // JLPT level info
   const levelInfo = {
@@ -135,7 +137,7 @@ function KanjiBrowserContent() {
       textColor: 'text-green-600 dark:text-green-400',
       bgGradient: 'from-green-400 to-emerald-500',
       description: 'Basic kanji for daily use',
-      count: 80
+      count: 80,
     },
     N4: {
       name: 'N4 (Elementary)',
@@ -144,7 +146,7 @@ function KanjiBrowserContent() {
       textColor: 'text-blue-600 dark:text-blue-400',
       bgGradient: 'from-blue-400 to-indigo-500',
       description: 'Elementary level kanji',
-      count: 170
+      count: 170,
     },
     N3: {
       name: 'N3 (Intermediate)',
@@ -153,7 +155,7 @@ function KanjiBrowserContent() {
       textColor: 'text-yellow-600 dark:text-yellow-400',
       bgGradient: 'from-yellow-400 to-amber-500',
       description: 'Intermediate level kanji',
-      count: 370
+      count: 370,
     },
     N2: {
       name: 'N2 (Upper-Intermediate)',
@@ -162,7 +164,7 @@ function KanjiBrowserContent() {
       textColor: 'text-orange-600 dark:text-orange-400',
       bgGradient: 'from-orange-400 to-red-500',
       description: 'Upper-intermediate kanji',
-      count: 380
+      count: 380,
     },
     N1: {
       name: 'N1 (Advanced)',
@@ -171,8 +173,8 @@ function KanjiBrowserContent() {
       textColor: 'text-red-600 dark:text-red-400',
       bgGradient: 'from-red-400 to-rose-500',
       description: 'Advanced level kanji',
-      count: 1200
-    }
+      count: 1200,
+    },
   }
 
   // Initialize gamification listener (once per user session)
@@ -299,7 +301,7 @@ function KanjiBrowserContent() {
 
     if (success) {
       setSelectedKanji(new Set())
-      }
+    }
   }
 
   const handleStartReview = () => {
@@ -413,7 +415,7 @@ function KanjiBrowserContent() {
     return {
       total,
       learned,
-      learnedPercentage: total > 0 ? Math.round((learned / total) * 100) : 0
+      learnedPercentage: total > 0 ? Math.round((learned / total) * 100) : 0,
     }
   }, [kanjiData, getBrowseStats])
 
@@ -485,21 +487,17 @@ function KanjiBrowserContent() {
               {(viewMode === 'study' || viewMode === 'review') && (
                 <button
                   className="absolute -top-2 right-0.5 z-50 text-sm sm:text-base md:text-xl transition-all hover:scale-110"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation()
                     toggleSelection(kanjiItem.kanji)
                   }}
-                  aria-label={isSelected ? "Unpin" : "Pin"}
+                  aria-label={isSelected ? 'Unpin' : 'Pin'}
                 >
-                  <span className={isSelected ? "" : "opacity-30 grayscale"}>
-                    📌
-                  </span>
+                  <span className={isSelected ? '' : 'opacity-30 grayscale'}>📌</span>
                 </button>
               )}
 
-              <span className="text-gray-900 dark:text-gray-100">
-                {kanjiItem.kanji}
-              </span>
+              <span className="text-gray-900 dark:text-gray-100">{kanjiItem.kanji}</span>
             </div>
           </motion.div>
         )
@@ -522,7 +520,7 @@ function KanjiBrowserContent() {
   if (selectedKanjiData.length > 0 && selectedKanjiData[currentStudyIndex]) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      {/* Navigation is now global - rendered in root layout */}
+        {/* Navigation is now global - rendered in root layout */}
         <main className="container mx-auto px-4 py-8">
           <KanjiStudyMode
             kanji={selectedKanjiData[currentStudyIndex]}
@@ -549,10 +547,10 @@ function KanjiBrowserContent() {
                       correctItems,
                       accuracy,
                       averageResponseTime,
-                      bestStreak
+                      bestStreak,
                     },
-                    duration: sessionDuration
-                  }
+                    duration: sessionDuration,
+                  },
                 })
 
                 console.log('[Kanji Browser] Emitted SESSION_COMPLETED event for gamification:', {
@@ -561,7 +559,7 @@ function KanjiBrowserContent() {
                   accuracy,
                   averageResponseTime,
                   bestStreak,
-                  duration: sessionDuration
+                  duration: sessionDuration,
                 })
 
                 showToast('Study session complete!', 'success')
@@ -594,7 +592,7 @@ function KanjiBrowserContent() {
   if (reviewContent.length > 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      {/* Navigation is now global - rendered in root layout */}
+        {/* Navigation is now global - rendered in root layout */}
         <main className="container mx-auto px-4 py-8">
           <ReviewEngine
             content={reviewContent}
@@ -615,13 +613,38 @@ function KanjiBrowserContent() {
   }
 
   // Main view for all modes (when not in active session)
+  // Calculate total kanji count
+  const totalKanjiCount = Object.values(kanjiData).reduce((sum, arr) => sum + (arr?.length || 0), 0)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
       {/* Navigation is now global - rendered in root layout */}
 
+      {/* Page Header */}
+      <LearningPageHeader
+        title={strings.kanjiBrowser?.title || 'Kanji Browser'}
+        description={strings.kanjiBrowser?.subtitle || 'Browse and learn kanji by JLPT level'}
+        stats={{
+          total: totalKanjiCount,
+          learned: progressStats.learned,
+        }}
+        mode={viewMode}
+        onModeChange={setViewMode}
+        selectedCount={selectedKanji.size}
+        onSelectAll={() => {
+          // Select all kanji from expanded levels
+          const allKanji = Object.entries(kanjiData)
+            .filter(([level]) => expandedLevels.has(level as JLPTLevel))
+            .flatMap(([, kanji]) => kanji?.map(k => k.kanji) || [])
+          setSelectedKanji(new Set(allKanji))
+        }}
+        onClearSelection={() => setSelectedKanji(new Set())}
+        onStartStudy={handleStartStudy}
+        onStartReview={handleStartReview}
+      />
+
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-7xl">
-
         {/* Search Bar */}
         <div className="mb-8">
           <div className="relative">
@@ -629,15 +652,25 @@ function KanjiBrowserContent() {
               type="text"
               placeholder="Search kanji by character, meaning, or reading..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               className="w-full px-4 py-3 pr-12 rounded-xl bg-white dark:bg-dark-800 border-2 border-gray-200 dark:border-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
             />
             <div className="absolute top-1/2 right-3 -translate-y-1/2">
               {isSearching ? (
                 <LoadingSpinner size="small" />
               ) : (
-                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <svg
+                  className="w-6 h-6 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
               )}
             </div>
@@ -685,22 +718,22 @@ function KanjiBrowserContent() {
               className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg cursor-pointer"
               onClick={() => scrollToLevel(level as JLPTLevel)}
             >
-              <div className={`w-8 h-8 ${info.color} rounded-full mx-auto mb-2 flex items-center justify-center text-white text-sm font-bold`}>
+              <div
+                className={`w-8 h-8 ${info.color} rounded-full mx-auto mb-2 flex items-center justify-center text-white text-sm font-bold`}
+              >
                 {level.replace('N', '')}
               </div>
               <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 {kanjiData[level as JLPTLevel]?.length || 0}
               </div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                kanji
-              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">kanji</div>
             </motion.div>
           ))}
         </div>
 
         {/* Kanji by Level */}
         <div className="space-y-6">
-          {(['N5', 'N4', 'N3', 'N2', 'N1'] as JLPTLevel[]).map((level) => {
+          {(['N5', 'N4', 'N3', 'N2', 'N1'] as JLPTLevel[]).map(level => {
             const kanji = kanjiData[level] || []
             const isExpanded = expandedLevels.has(level)
             const info = levelInfo[level]
@@ -708,7 +741,9 @@ function KanjiBrowserContent() {
             return (
               <motion.div
                 key={level}
-                ref={(el) => { levelRefs.current[level] = el }}
+                ref={el => {
+                  levelRefs.current[level] = el
+                }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg"
@@ -719,7 +754,9 @@ function KanjiBrowserContent() {
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 ${info.color} rounded-full flex items-center justify-center text-white text-sm font-bold`}>
+                      <div
+                        className={`w-8 h-8 ${info.color} rounded-full flex items-center justify-center text-white text-sm font-bold`}
+                      >
                         {level.replace('N', '')}
                       </div>
                       <div>
@@ -727,7 +764,8 @@ function KanjiBrowserContent() {
                           {info.name}
                         </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {info.description} • {loadingLevels.has(level) ? 'Loading...' : `${kanji.length} kanji`}
+                          {info.description} •{' '}
+                          {loadingLevels.has(level) ? 'Loading...' : `${kanji.length} kanji`}
                         </p>
                       </div>
                     </div>
@@ -737,7 +775,12 @@ function KanjiBrowserContent() {
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </div>
                 </button>
@@ -780,14 +823,11 @@ function KanjiBrowserContent() {
 
 export default function KanjiBrowserPage() {
   return (
-    <Suspense fallback={
-      <LoadingOverlay
-        isLoading={true}
-        message="Loading..."
-        showDoshi={true}
-        fullScreen={true}
-      />
-    }>
+    <Suspense
+      fallback={
+        <LoadingOverlay isLoading={true} message="Loading..." showDoshi={true} fullScreen={true} />
+      }
+    >
       <KanjiBrowserContent />
     </Suspense>
   )

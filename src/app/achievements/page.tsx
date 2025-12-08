@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
 import { useI18n } from '@/i18n/I18nContext'
 // Navigation is now global via NavigationWrapper in root layout
-import PageHeader from '@/components/layout/PageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { cn } from '@/utils/cn'
 import achievementsConfig from '@/config/gamification/achievements.json'
@@ -20,7 +20,7 @@ const rarityColors = {
   uncommon: 'border-green-400 bg-green-100 dark:bg-green-900/30',
   rare: 'border-blue-400 bg-blue-100 dark:bg-blue-900/30',
   epic: 'border-purple-400 bg-purple-100 dark:bg-purple-900/30',
-  legendary: 'border-yellow-400 bg-yellow-100 dark:bg-yellow-900/30'
+  legendary: 'border-yellow-400 bg-yellow-100 dark:bg-yellow-900/30',
 }
 
 // Category type
@@ -36,14 +36,14 @@ export default function AchievementsPage() {
   const {
     unlockedAchievements,
     loading: gamificationLoading,
-    isEnabled: gamificationEnabled
+    isEnabled: gamificationEnabled,
   } = useGamification()
 
   // Load achievements from config and map unlock status
   const allAchievements = useMemo(() => {
     return achievementsConfig.achievements.map(achievement => ({
       ...achievement,
-      unlocked: unlockedAchievements.includes(achievement.id)
+      unlocked: unlockedAchievements.includes(achievement.id),
     }))
   }, [unlockedAchievements])
 
@@ -60,7 +60,7 @@ export default function AchievementsPage() {
       unlockedCount: unlockedList.length,
       totalCount: allAchievements.length,
       totalPoints: unlockedList.reduce((sum, a) => sum + a.points, 0),
-      completionPercentage: Math.round((unlockedList.length / allAchievements.length) * 100)
+      completionPercentage: Math.round((unlockedList.length / allAchievements.length) * 100),
     }
   }, [allAchievements])
 
@@ -88,14 +88,14 @@ export default function AchievementsPage() {
     { value: 'streak', label: 'Streak' },
     { value: 'accuracy', label: 'Accuracy' },
     { value: 'speed', label: 'Speed' },
-    { value: 'special', label: 'Special' }
+    { value: 'special', label: 'Special' },
   ]
 
   if (authLoading || gamificationLoading) {
     return (
       <LoadingOverlay
         isLoading={true}
-        message={strings.common?.loading || "Loading achievements..."}
+        message={strings.common?.loading || 'Loading achievements...'}
         showDoshi={true}
         fullScreen={true}
       />
@@ -111,7 +111,7 @@ export default function AchievementsPage() {
       <PageHeader
         title="Achievements"
         description="Track your progress and unlock rewards"
-        mascot="doshi"
+        showDoshi
       />
 
       {/* Main Content */}
@@ -131,7 +131,8 @@ export default function AchievementsPage() {
         {/* Stats Summary */}
         <div className="mb-8 text-center">
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            {stats.unlockedCount}/{stats.totalCount} unlocked • {stats.totalPoints} points • {stats.completionPercentage}% complete
+            {stats.unlockedCount}/{stats.totalCount} unlocked • {stats.totalPoints} points •{' '}
+            {stats.completionPercentage}% complete
           </p>
         </div>
 
@@ -166,20 +167,19 @@ export default function AchievementsPage() {
                     'relative group cursor-pointer transition-all duration-300',
                     'rounded-xl p-4 border-2',
                     isUnlocked
-                      ? cn(rarityColors[achievement.rarity as keyof typeof rarityColors], 'scale-100 opacity-100')
+                      ? cn(
+                          rarityColors[achievement.rarity as keyof typeof rarityColors],
+                          'scale-100 opacity-100'
+                        )
                       : 'border-gray-600 bg-gray-800/50 opacity-50 grayscale hover:opacity-70'
                   )}
                 >
                   {/* Achievement Icon */}
                   <div className="flex flex-col items-center justify-center">
-                    <div className="text-4xl mb-2">
-                      {achievement.icon}
-                    </div>
+                    <div className="text-4xl mb-2">{achievement.icon}</div>
 
                     {/* Points */}
-                    <div className="text-sm font-bold text-gray-300">
-                      {achievement.points}
-                    </div>
+                    <div className="text-sm font-bold text-gray-300">{achievement.points}</div>
                   </div>
 
                   {/* Unlocked indicator */}
@@ -187,7 +187,11 @@ export default function AchievementsPage() {
                     <div className="absolute -top-2 -right-2">
                       <div className="bg-green-500 rounded-full p-1">
                         <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       </div>
                     </div>

@@ -20,6 +20,7 @@ export default async function HomePage() {
   const session = await getSession()
 
   // If user is logged in, redirect to dashboard
+  // TODO: Add onboarding check once onboardingCompleted is added to SessionUser type
   if (session) {
     console.log(`[HomePage] Authenticated user ${session.uid} redirected to dashboard`)
     redirect('/dashboard')

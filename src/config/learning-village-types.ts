@@ -5,6 +5,56 @@
  * Config is stored in Firestore at /config/learningVillage
  */
 
+/**
+ * Offline support levels for Learning Village stalls
+ * - 'full': Works completely offline (data embedded or precached)
+ * - 'partial': Some features work offline (e.g., cached user data)
+ * - 'none': Requires network connection
+ */
+export type OfflineSupport = 'full' | 'partial' | 'none'
+
+/**
+ * Offline support mapping for each stall
+ * Used to show offline indicators in the UI
+ */
+export const STALL_OFFLINE_SUPPORT: Record<string, OfflineSupport> = {
+  // Foundation - HIGH offline support (data embedded/precached)
+  hiragana: 'full', // Kana data embedded in bundle, audio cached
+  katakana: 'full', // Kana data embedded in bundle, audio cached
+  drill: 'partial', // Kana drills work, user progress needs sync
+  'kanji-browser': 'full', // JLPT JSON precached
+  'kanji-mastery': 'partial', // Data available, SRS state needs sync
+  'kanji-connections': 'partial', // Data available, premium features need network
+  conjugation: 'partial', // Core data available, some features need network
+
+  // Study - MEDIUM offline support
+  vocabulary: 'full', // Jisho has embedded data, page cached for offline
+  'my-lists': 'partial', // Uses IndexedDB, sync needed for cloud backup
+  'textbook-vocab': 'partial', // Textbook data needs download
+  flashcards: 'partial', // User-created decks in IndexedDB
+  'mood-boards': 'partial', // Theme data available
+
+  // Immersion - MEDIUM offline support (content cached in IndexedDB)
+  stories: 'partial', // Stories cached in IndexedDB after first visit
+  news: 'partial', // Articles cached in IndexedDB after first visit
+  library: 'partial', // Books cached in IndexedDB after first visit
+  'youtube-shadowing': 'none', // Requires YouTube API
+  'popular-videos': 'none', // Video streaming
+  'youtube-series': 'none', // Video streaming
+  'my-videos': 'none', // Video streaming
+
+  // Games & Review - VARIES
+  games: 'partial', // Most games use local data
+  'review-hub': 'partial', // SRS state in IDB, sync needed
+
+  // Community - LOW offline support
+  achievements: 'partial', // Cached achievements, server calculation
+  leaderboard: 'none', // Real-time server data
+  resources: 'partial', // Static content, some links need network
+  blog: 'none', // Server content
+  todos: 'partial', // IndexedDB with sync
+}
+
 // All available stall IDs in the Learning Village
 export const STALL_IDS = [
   'hiragana',
@@ -35,16 +85,16 @@ export const STALL_IDS = [
   'todos',
 ] as const
 
-export type StallId = typeof STALL_IDS[number]
+export type StallId = (typeof STALL_IDS)[number]
 
 /**
  * Configuration for a single stall
  */
 export interface StallConfig {
   id: StallId
-  order: number        // Display order (lower = first)
-  isPopular: boolean   // Show "Popular" badge
-  enabled: boolean     // Whether stall is visible (respects feature flags too)
+  order: number // Display order (lower = first)
+  isPopular: boolean // Show "Popular" badge
+  enabled: boolean // Whether stall is visible (respects feature flags too)
 }
 
 /**
@@ -52,8 +102,8 @@ export interface StallConfig {
  */
 export interface LearningVillageConfig {
   version: string
-  updatedAt: string    // ISO timestamp
-  updatedBy: string    // Admin UID who made the change
+  updatedAt: string // ISO timestamp
+  updatedBy: string // Admin UID who made the change
   stalls: StallConfig[]
 }
 
@@ -102,7 +152,7 @@ export const DEFAULT_CONFIG: LearningVillageConfig = {
     { id: 'resources', order: 23, isPopular: false, enabled: true },
     { id: 'blog', order: 24, isPopular: false, enabled: true },
     { id: 'todos', order: 25, isPopular: false, enabled: true },
-  ]
+  ],
 }
 
 /**
@@ -117,7 +167,7 @@ export function getDefaultStallConfig(id: StallId): StallConfig {
     id,
     order: 999,
     isPopular: false,
-    enabled: true
+    enabled: true,
   }
 }
 
@@ -144,6 +194,6 @@ export function mergeWithDefaults(config: Partial<LearningVillageConfig>): Learn
     version: config.version || DEFAULT_CONFIG.version,
     updatedAt: config.updatedAt || DEFAULT_CONFIG.updatedAt,
     updatedBy: config.updatedBy || DEFAULT_CONFIG.updatedBy,
-    stalls: mergedStalls
+    stalls: mergedStalls,
   }
 }

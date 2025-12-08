@@ -1,424 +1,428 @@
-'use client';
+'use client'
 
-import { useState, useRef, useEffect, useCallback, useMemo, Suspense } from 'react';
-import { useI18n } from '@/i18n/I18nContext';
+import { useState, useRef, useEffect, useCallback, useMemo, Suspense } from 'react'
+import { useI18n } from '@/i18n/I18nContext'
 // Navigation is now global via NavigationWrapper in root layout;
-import Navbar from '@/components/layout/Navbar';
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useSearchParams } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
-import { useSubscription } from '@/hooks/useSubscription';
-import Link from 'next/link';
-import YouTubeInput from '@/components/youtube-shadowing/YouTubeInput';
-import EnhancedShadowingPlayer from '@/components/youtube-shadowing/EnhancedShadowingPlayer';
-import TranscriptViewerNew from '@/components/youtube-shadowing/TranscriptViewerNew';
-import { useToast } from '@/components/ui/Toast/ToastContext';
-import { extractVideoId } from '@/utils/youtubeHelpers';
-import { TranscriptCacheManager } from '@/utils/transcriptCache';
-import { useBottomNav } from '@/contexts/BottomNavContext';
-import { PlaySquare } from 'lucide-react';
-import type { TranscriptLine, ShadowingSession, ShadowingVideoMetadata } from '@/types/youtubeShadowing';
+import Navbar from '@/components/layout/Navbar'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useSearchParams } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
+import Link from 'next/link'
+import YouTubeInput from '@/components/youtube-shadowing/YouTubeInput'
+import EnhancedShadowingPlayer from '@/components/youtube-shadowing/EnhancedShadowingPlayer'
+import TranscriptViewerNew from '@/components/youtube-shadowing/TranscriptViewerNew'
+import { useToast } from '@/components/ui/Toast/ToastContext'
+import { extractVideoId } from '@/utils/youtubeHelpers'
+import { TranscriptCacheManager } from '@/utils/transcriptCache'
+import type {
+  TranscriptLine,
+  ShadowingSession,
+  ShadowingVideoMetadata,
+} from '@/types/youtubeShadowing'
 
-const SESSION_STORAGE_KEY = 'youtubeShadowingSession';
+const SESSION_STORAGE_KEY = 'youtubeShadowingSession'
 
 // Re-export types for backwards compatibility
-export type { TranscriptLine, ShadowingSession };
+export type { TranscriptLine, ShadowingSession }
 
 function YouTubeShadowingContent() {
-  const { t, strings } = useI18n();
-  const { user, isGuest } = useAuth();
-  const { isPremium, isFreeTier } = useSubscription();
-  const searchParams = useSearchParams();
+  const { t, strings } = useI18n()
+  const { user, isGuest } = useAuth()
+  const { isPremium, isFreeTier } = useSubscription()
+  const searchParams = useSearchParams()
 
-  const [session, setSession] = useState<ShadowingSession | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [showFurigana, setShowFurigana] = useState(true);
-  const [showGrammar, setShowGrammar] = useState(false);
-  const [grammarMode, setGrammarMode] = useState<'none' | 'all' | 'content' | 'grammar'>('content');
-  const [showShadowingMode, setShowShadowingMode] = useState(true);
-  const [showVideo, setShowVideo] = useState(true);
-  const [isVideoFree, setIsVideoFree] = useState(false);
-  const [viewMode, setViewMode] = useState<'input' | 'player'>('input');
-  const [useAiTranscript, setUseAiTranscript] = useState(false);
-  const [aiEnhancementStatus, setAiEnhancementStatus] = useState<'idle' | 'running' | 'completed' | 'error'>('idle');
-  const [aiEnhancementError, setAiEnhancementError] = useState<string | null>(null);
-  const [aiEnhancementTriggered, setAiEnhancementTriggered] = useState(false);
+  const [session, setSession] = useState<ShadowingSession | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [showFurigana, setShowFurigana] = useState(true)
+  const [showGrammar, setShowGrammar] = useState(false)
+  const [grammarMode, setGrammarMode] = useState<'none' | 'all' | 'content' | 'grammar'>('content')
+  const [showShadowingMode, setShowShadowingMode] = useState(true)
+  const [showVideo, setShowVideo] = useState(true)
+  const [isVideoFree, setIsVideoFree] = useState(false)
+  const [viewMode, setViewMode] = useState<'input' | 'player'>('input')
+  const [useAiTranscript, setUseAiTranscript] = useState(false)
+  const [aiEnhancementStatus, setAiEnhancementStatus] = useState<
+    'idle' | 'running' | 'completed' | 'error'
+  >('idle')
+  const [aiEnhancementError, setAiEnhancementError] = useState<string | null>(null)
+  const [aiEnhancementTriggered, setAiEnhancementTriggered] = useState(false)
 
-  const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({});
-  const playerSeekRef = useRef<((time: number) => void) | null>(null);
-  const playerPlayPauseRef = useRef<(() => void) | null>(null);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const loadTimerRef = useRef<number | null>(null);
-  const loadSourceRef = useRef<'youtube' | 'upload' | null>(null);
-  const userAiOverrideRef = useRef(false);
-  const hasHydratedFromCacheRef = useRef(false);
-  const aiContentIdRef = useRef<string | null>(null);
-  const aiStorageKeyRef = useRef<string | null>(null);
-  const { showToast } = useToast();
-  const { setExtraItem } = useBottomNav();
+  const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({})
+  const playerSeekRef = useRef<((time: number) => void) | null>(null)
+  const playerPlayPauseRef = useRef<(() => void) | null>(null)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const loadTimerRef = useRef<number | null>(null)
+  const loadSourceRef = useRef<'youtube' | 'upload' | null>(null)
+  const userAiOverrideRef = useRef(false)
+  const hasHydratedFromCacheRef = useRef(false)
+  const aiContentIdRef = useRef<string | null>(null)
+  const aiStorageKeyRef = useRef<string | null>(null)
+  const { showToast } = useToast()
 
   // Settings panel state for mobile
-  const [showSettings, setShowSettings] = useState(false);
-
-  // Inject player settings button into bottom navbar when video is loaded (mobile only)
-  useEffect(() => {
-    console.log('[YouTube Shadowing] Bottom nav injection:', {
-      hasSession: !!session,
-      viewMode,
-      shouldShow: session && viewMode === 'player'
-    });
-
-    if (session && viewMode === 'player') {
-      console.log('[YouTube Shadowing] Setting Player button in navbar');
-      setExtraItem({
-        id: 'player-settings',
-        label: 'Player',
-        icon: PlaySquare,
-        activeIcon: PlaySquare,
-        action: () => setShowSettings(true),
-        matchPaths: [],
-      });
-    } else {
-      console.log('[YouTube Shadowing] Removing Player button from navbar');
-      setExtraItem(null);
-    }
-
-    // Cleanup when component unmounts
-    return () => setExtraItem(null);
-  }, [session, viewMode, setExtraItem]);
+  const [showSettings, setShowSettings] = useState(false)
 
   // Stabilize onLineChange callback to prevent infinite re-subscriptions
   const handleLineChange = useCallback((index: number) => {
-    setSession(prev => prev ? { ...prev, currentLineIndex: index } : null);
-  }, []);
+    setSession(prev => (prev ? { ...prev, currentLineIndex: index } : null))
+  }, [])
 
   // Handle time updates from player
   const handleTimeUpdate = useCallback((time: number) => {
-    setCurrentTime(time);
-  }, []);
+    setCurrentTime(time)
+  }, [])
 
   // Handle play state changes from player
   const handlePlayStateChange = useCallback((playing: boolean) => {
-    setIsPlaying(playing);
-  }, []);
+    setIsPlaying(playing)
+  }, [])
 
   // Handle play/pause toggle
   const handlePlayPause = useCallback(() => {
     if (playerPlayPauseRef.current) {
-      playerPlayPauseRef.current();
+      playerPlayPauseRef.current()
     }
-  }, []);
+  }, [])
 
   // Direct seek handler for transcript clicks
   const handleSeekToTime = useCallback((time: number) => {
-    console.log('[PAGE] Seeking to time:', time);
+    console.log('[PAGE] Seeking to time:', time)
     if (playerSeekRef.current) {
-      playerSeekRef.current(time);
+      playerSeekRef.current(time)
     }
-  }, []);
+  }, [])
 
-  const sharedUrlParam = searchParams.get('url');
+  const sharedUrlParam = searchParams.get('url')
 
-  const updateSession = useCallback((
-    newSessionOrUpdater: ShadowingSession | null | ((prev: ShadowingSession | null) => ShadowingSession | null)
-  ) => {
-    setSession(prevSession => {
-      // Resolve the new session value (direct value or from updater function)
-      const newSession = typeof newSessionOrUpdater === 'function'
-        ? newSessionOrUpdater(prevSession)
-        : newSessionOrUpdater;
+  const updateSession = useCallback(
+    (
+      newSessionOrUpdater:
+        | ShadowingSession
+        | null
+        | ((prev: ShadowingSession | null) => ShadowingSession | null)
+    ) => {
+      setSession(prevSession => {
+        // Resolve the new session value (direct value or from updater function)
+        const newSession =
+          typeof newSessionOrUpdater === 'function'
+            ? newSessionOrUpdater(prevSession)
+            : newSessionOrUpdater
 
-      if (prevSession?.videoUrl?.startsWith('blob:') && prevSession.videoUrl !== newSession?.videoUrl) {
-        URL.revokeObjectURL(prevSession.videoUrl);
+        if (
+          prevSession?.videoUrl?.startsWith('blob:') &&
+          prevSession.videoUrl !== newSession?.videoUrl
+        ) {
+          URL.revokeObjectURL(prevSession.videoUrl)
+        }
+        if (
+          prevSession?.audioUrl?.startsWith('blob:') &&
+          prevSession.audioUrl !== newSession?.audioUrl
+        ) {
+          URL.revokeObjectURL(prevSession.audioUrl)
+        }
+
+        if (newSession) {
+          previousUrlsRef.current = {
+            videoUrl: newSession.videoUrl,
+            audioUrl: newSession.audioUrl,
+          }
+        }
+
+        if (!newSession) {
+          setUseAiTranscript(prev => (prev === false ? prev : false))
+          userAiOverrideRef.current = false
+        } else if (prevSession?.videoUrl !== newSession.videoUrl) {
+          const formatted = Boolean((newSession.videoMetadata as any)?.formattedTranscript?.length)
+          setUseAiTranscript(prev => (prev === formatted ? prev : formatted))
+          userAiOverrideRef.current = false
+        }
+
+        if (newSession) {
+          setViewMode('player')
+        }
+
+        return newSession
+      })
+    },
+    []
+  )
+
+  const handleUrlSubmit = useCallback(
+    async (url: string) => {
+      loadTimerRef.current = typeof performance !== 'undefined' ? performance.now() : Date.now()
+      loadSourceRef.current = 'youtube'
+      setUseAiTranscript(false)
+      userAiOverrideRef.current = false
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        // YouTube feature is available to all users
+        // No access check needed for YouTube videos
+
+        // Extract video ID from URL
+        const videoId = extractVideoId(url)
+
+        if (!videoId) {
+          setError(t('youtubeShadowing.errors.invalidUrl'))
+          setIsLoading(false)
+          loadTimerRef.current = null
+          loadSourceRef.current = null
+          return
+        }
+
+        // Create session with "youtube-player" as audioUrl to indicate YouTube mode
+        updateSession({
+          videoUrl: url,
+          audioUrl: 'youtube-player',
+          transcript: [],
+          currentLineIndex: 0,
+        })
+      } catch (err) {
+        setError(t('common.error'))
+        console.error(err)
+        loadTimerRef.current = null
+        loadSourceRef.current = null
+      } finally {
+        setIsLoading(false)
       }
-      if (prevSession?.audioUrl?.startsWith('blob:') && prevSession.audioUrl !== newSession?.audioUrl) {
-        URL.revokeObjectURL(prevSession.audioUrl);
-      }
-
-      if (newSession) {
-        previousUrlsRef.current = {
-          videoUrl: newSession.videoUrl,
-          audioUrl: newSession.audioUrl
-        };
-      }
-
-      if (!newSession) {
-        setUseAiTranscript(prev => (prev === false ? prev : false));
-        userAiOverrideRef.current = false;
-      } else if (prevSession?.videoUrl !== newSession.videoUrl) {
-        const formatted = Boolean((newSession.videoMetadata as any)?.formattedTranscript?.length);
-        setUseAiTranscript(prev => (prev === formatted ? prev : formatted));
-        userAiOverrideRef.current = false;
-      }
-
-      if (newSession) {
-        setViewMode('player');
-      }
-
-      return newSession;
-    });
-  }, []);
-
-  const handleUrlSubmit = useCallback(async (url: string) => {
-    loadTimerRef.current = typeof performance !== 'undefined' ? performance.now() : Date.now();
-    loadSourceRef.current = 'youtube';
-    setUseAiTranscript(false);
-    userAiOverrideRef.current = false;
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // YouTube feature is available to all users
-      // No access check needed for YouTube videos
-
-      // Extract video ID from URL
-      const videoId = extractVideoId(url);
-
-      if (!videoId) {
-        setError(t('youtubeShadowing.errors.invalidUrl'));
-        setIsLoading(false);
-        loadTimerRef.current = null;
-        loadSourceRef.current = null;
-        return;
-      }
-
-      // Create session with "youtube-player" as audioUrl to indicate YouTube mode
-      updateSession({
-        videoUrl: url,
-        audioUrl: 'youtube-player',
-        transcript: [],
-        currentLineIndex: 0
-      });
-
-    } catch (err) {
-      setError(t('common.error'));
-      console.error(err);
-      loadTimerRef.current = null;
-      loadSourceRef.current = null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [t, updateSession]);
+    },
+    [t, updateSession]
+  )
 
   // Handle URL parameters (e.g., from My Videos)
   useEffect(() => {
     if (!sharedUrlParam || session) {
-      return;
+      return
     }
 
-    const decodedUrl = decodeURIComponent(sharedUrlParam);
-    void handleUrlSubmit(decodedUrl);
-  }, [sharedUrlParam, session, handleUrlSubmit]);
+    const decodedUrl = decodeURIComponent(sharedUrlParam)
+    void handleUrlSubmit(decodedUrl)
+  }, [sharedUrlParam, session, handleUrlSubmit])
 
   // Restore cached session on first render
   useEffect(() => {
     if (typeof window === 'undefined') {
-      return;
+      return
     }
 
     if (hasHydratedFromCacheRef.current) {
-      return;
+      return
     }
 
     try {
-      const stored = localStorage.getItem(SESSION_STORAGE_KEY);
+      const stored = localStorage.getItem(SESSION_STORAGE_KEY)
       if (!stored) {
-        hasHydratedFromCacheRef.current = true;
-        return;
+        hasHydratedFromCacheRef.current = true
+        return
       }
 
-      const parsed = JSON.parse(stored);
+      const parsed = JSON.parse(stored)
       if (!parsed || typeof parsed !== 'object' || !parsed.session) {
-        hasHydratedFromCacheRef.current = true;
-        localStorage.removeItem(SESSION_STORAGE_KEY);
-        return;
+        hasHydratedFromCacheRef.current = true
+        localStorage.removeItem(SESSION_STORAGE_KEY)
+        return
       }
 
-      const restoredSession = parsed.session as ShadowingSession;
+      const restoredSession = parsed.session as ShadowingSession
 
       if (!restoredSession?.videoUrl || restoredSession.videoUrl.startsWith('blob:')) {
-        hasHydratedFromCacheRef.current = true;
-        localStorage.removeItem(SESSION_STORAGE_KEY);
-        return;
+        hasHydratedFromCacheRef.current = true
+        localStorage.removeItem(SESSION_STORAGE_KEY)
+        return
       }
 
-      hasHydratedFromCacheRef.current = true;
-      updateSession(restoredSession);
+      hasHydratedFromCacheRef.current = true
+      updateSession(restoredSession)
 
       // Restore cached transcript if available
-      if (parsed.cachedTranscript && Array.isArray(parsed.cachedTranscript) && parsed.cachedTranscript.length > 0) {
-        console.log(`[YouTubeShadowing] Restored ${parsed.cachedTranscript.length} cached transcript segments from localStorage`);
-        setCachedTranscriptSegments(parsed.cachedTranscript);
+      if (
+        parsed.cachedTranscript &&
+        Array.isArray(parsed.cachedTranscript) &&
+        parsed.cachedTranscript.length > 0
+      ) {
+        console.log(
+          `[YouTubeShadowing] Restored ${parsed.cachedTranscript.length} cached transcript segments from localStorage`
+        )
+        setCachedTranscriptSegments(parsed.cachedTranscript)
       }
 
       if (typeof parsed.useAi === 'boolean') {
-        userAiOverrideRef.current = true;
-        setUseAiTranscript(parsed.useAi);
+        userAiOverrideRef.current = true
+        setUseAiTranscript(parsed.useAi)
       }
     } catch (err) {
-      console.warn('[YouTubeShadowing] Failed to restore cached session:', err);
-      hasHydratedFromCacheRef.current = true;
-      localStorage.removeItem(SESSION_STORAGE_KEY);
+      console.warn('[YouTubeShadowing] Failed to restore cached session:', err)
+      hasHydratedFromCacheRef.current = true
+      localStorage.removeItem(SESSION_STORAGE_KEY)
     }
-  }, [updateSession]);
+  }, [updateSession])
 
   // Cleanup blob URLs when component unmounts or session changes
   useEffect(() => {
     return () => {
       if (previousUrlsRef.current.videoUrl?.startsWith('blob:')) {
-        URL.revokeObjectURL(previousUrlsRef.current.videoUrl);
+        URL.revokeObjectURL(previousUrlsRef.current.videoUrl)
       }
       if (previousUrlsRef.current.audioUrl?.startsWith('blob:')) {
-        URL.revokeObjectURL(previousUrlsRef.current.audioUrl);
+        URL.revokeObjectURL(previousUrlsRef.current.audioUrl)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   useEffect(() => {
-    setAiEnhancementStatus('idle');
-    setAiEnhancementError(null);
+    setAiEnhancementStatus('idle')
+    setAiEnhancementError(null)
 
     if (!session?.videoUrl || session.audioUrl !== 'youtube-player') {
-      aiContentIdRef.current = null;
-      aiStorageKeyRef.current = null;
-      setAiEnhancementTriggered(false);
-      return;
+      aiContentIdRef.current = null
+      aiStorageKeyRef.current = null
+      setAiEnhancementTriggered(false)
+      return
     }
 
     const contentId = TranscriptCacheManager.generateContentId({
       type: 'youtube',
-      videoUrl: session.videoUrl
-    });
+      videoUrl: session.videoUrl,
+    })
 
-    aiContentIdRef.current = contentId;
-    const storageKey = `youtube-shadowing-ai-trigger:${contentId}`;
-    aiStorageKeyRef.current = storageKey;
+    aiContentIdRef.current = contentId
+    const storageKey = `youtube-shadowing-ai-trigger:${contentId}`
+    aiStorageKeyRef.current = storageKey
 
     if (typeof window === 'undefined') {
-      setAiEnhancementTriggered(false);
-      return;
+      setAiEnhancementTriggered(false)
+      return
     }
 
-    const stored = window.localStorage.getItem(storageKey);
-    setAiEnhancementTriggered(stored === '1');
-  }, [session?.videoUrl, session?.audioUrl]);
+    const stored = window.localStorage.getItem(storageKey)
+    setAiEnhancementTriggered(stored === '1')
+  }, [session?.videoUrl, session?.audioUrl])
 
   const handleAudioExtracted = useCallback((audioUrl: string, title?: string) => {
     setSession(prevSession => {
-      if (!prevSession) return prevSession;
+      if (!prevSession) return prevSession
 
       // Update the session with new audio URL and title
       const newSession = {
         ...prevSession,
         audioUrl,
-        ...(title && { videoTitle: title })
-      };
+        ...(title && { videoTitle: title }),
+      }
 
       // Update refs
       previousUrlsRef.current = {
         videoUrl: newSession.videoUrl,
-        audioUrl: newSession.audioUrl
-      };
+        audioUrl: newSession.audioUrl,
+      }
 
-      return newSession;
-    });
-  }, []);
+      return newSession
+    })
+  }, [])
 
   interface TranscriptLoadPayload {
-    transcript: TranscriptLine[];
-    videoTitle?: string;
-    videoMetadata?: Record<string, unknown>;
+    transcript: TranscriptLine[]
+    videoTitle?: string
+    videoMetadata?: Record<string, unknown>
   }
 
-  const handleTranscriptLoaded = useCallback(({ transcript, videoTitle, videoMetadata }: TranscriptLoadPayload) => {
-    setSession(prevSession => {
-      if (!prevSession) return prevSession;
+  const handleTranscriptLoaded = useCallback(
+    ({ transcript, videoTitle, videoMetadata }: TranscriptLoadPayload) => {
+      setSession(prevSession => {
+        if (!prevSession) return prevSession
 
-      const hadFormatted = Boolean((prevSession.videoMetadata as any)?.formattedTranscript?.length);
-      const hasFormattedNow = Boolean((videoMetadata as any)?.formattedTranscript?.length);
+        const hadFormatted = Boolean(
+          (prevSession.videoMetadata as any)?.formattedTranscript?.length
+        )
+        const hasFormattedNow = Boolean((videoMetadata as any)?.formattedTranscript?.length)
 
-      // Update AI transcript setting if needed
-      if (hasFormattedNow && !hadFormatted && !userAiOverrideRef.current) {
-        setUseAiTranscript(true);
-      }
+        // Update AI transcript setting if needed
+        if (hasFormattedNow && !hadFormatted && !userAiOverrideRef.current) {
+          setUseAiTranscript(true)
+        }
 
-      // Log timing info
-      if (loadSourceRef.current === 'youtube' && loadTimerRef.current !== null) {
-        const end = typeof performance !== 'undefined' ? performance.now() : Date.now();
-        const elapsedMs = Math.round(end - loadTimerRef.current);
-        console.log(`[YouTube Shadowing] Transcript ready in ${elapsedMs}ms (YouTube native pipeline)`);
-        loadTimerRef.current = null;
-        loadSourceRef.current = null;
-      }
+        // Log timing info
+        if (loadSourceRef.current === 'youtube' && loadTimerRef.current !== null) {
+          const end = typeof performance !== 'undefined' ? performance.now() : Date.now()
+          const elapsedMs = Math.round(end - loadTimerRef.current)
+          console.log(
+            `[YouTube Shadowing] Transcript ready in ${elapsedMs}ms (YouTube native pipeline)`
+          )
+          loadTimerRef.current = null
+          loadSourceRef.current = null
+        }
 
-      // Return updated session with explicit type assertion
-      const updatedSession: ShadowingSession = {
-        ...prevSession,
-        transcript,
-        ...(videoTitle && { videoTitle }),
-        ...(videoMetadata && {
-          videoMetadata: {
-            ...(prevSession.videoMetadata || {}),
-            ...videoMetadata,
-            metadata: {
-              ...((prevSession.videoMetadata as any)?.metadata || {}),
-              ...((videoMetadata as any)?.metadata || {})
-            }
-          } as ShadowingVideoMetadata
-        })
-      };
-      return updatedSession;
-    });
-  }, []);
+        // Return updated session with explicit type assertion
+        const updatedSession: ShadowingSession = {
+          ...prevSession,
+          transcript,
+          ...(videoTitle && { videoTitle }),
+          ...(videoMetadata && {
+            videoMetadata: {
+              ...(prevSession.videoMetadata || {}),
+              ...videoMetadata,
+              metadata: {
+                ...((prevSession.videoMetadata as any)?.metadata || {}),
+                ...((videoMetadata as any)?.metadata || {}),
+              },
+            } as ShadowingVideoMetadata,
+          }),
+        }
+        return updatedSession
+      })
+    },
+    []
+  )
 
   // Stats for the header
   const stats = {
     total: 0,
     learned: 0,
-    accuracy: 0
-  };
+    accuracy: 0,
+  }
 
   const handleToggleAiTranscript = useCallback((value: boolean) => {
-    userAiOverrideRef.current = true;
-    setUseAiTranscript(prev => (prev === value ? prev : value));
-  }, []);
+    userAiOverrideRef.current = true
+    setUseAiTranscript(prev => (prev === value ? prev : value))
+  }, [])
 
   const formattedSegments = useMemo(
     () => (session?.videoMetadata as any)?.formattedTranscript,
     [session?.videoMetadata]
-  );
-  const formattedAvailable = Array.isArray(formattedSegments) && formattedSegments.length > 0;
+  )
+  const formattedAvailable = Array.isArray(formattedSegments) && formattedSegments.length > 0
   const canRequestAiEnhancement = useMemo(() => {
-    if (!session) return false;
-    if (session.audioUrl !== 'youtube-player') return false;
-    if (!session.transcript || session.transcript.length === 0) return false;
-    if (formattedAvailable) return false;
-    if (aiEnhancementTriggered) return false;
-    return true;
-  }, [session, formattedAvailable, aiEnhancementTriggered]);
+    if (!session) return false
+    if (session.audioUrl !== 'youtube-player') return false
+    if (!session.transcript || session.transcript.length === 0) return false
+    if (formattedAvailable) return false
+    if (aiEnhancementTriggered) return false
+    return true
+  }, [session, formattedAvailable, aiEnhancementTriggered])
 
   const handleManualAiEnhancement = useCallback(async () => {
     if (!session || session.audioUrl !== 'youtube-player') {
-      return;
+      return
     }
     if (!session.transcript || session.transcript.length === 0) {
-      return;
+      return
     }
     if (!canRequestAiEnhancement && aiEnhancementStatus !== 'running') {
-      return;
+      return
     }
     if (aiEnhancementStatus === 'running') {
-      return;
+      return
     }
 
-    setAiEnhancementStatus('running');
-    setAiEnhancementError(null);
-    setAiEnhancementTriggered(true);
-    const storageKey = aiStorageKeyRef.current;
-    const contentId = aiContentIdRef.current;
+    setAiEnhancementStatus('running')
+    setAiEnhancementError(null)
+    setAiEnhancementTriggered(true)
+    const storageKey = aiStorageKeyRef.current
+    const contentId = aiContentIdRef.current
 
     try {
       const response = await fetch('/api/youtube/extract', {
@@ -426,40 +430,47 @@ function YouTubeShadowingContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           enhanceOnly: true,
-          rawTranscript: session.transcript
-        })
-      });
+          rawTranscript: session.transcript,
+        }),
+      })
 
       if (!response.ok) {
-        let message = 'Failed to enhance transcript with AI.';
+        let message = 'Failed to enhance transcript with AI.'
         try {
-          const data = await response.json();
-          message = data?.message || data?.error || message;
+          const data = await response.json()
+          message = data?.message || data?.error || message
         } catch {
           // ignore parsing errors
         }
-        throw new Error(message);
+        throw new Error(message)
       }
 
-      const data = await response.json();
-      if (!data?.formattedTranscript || !Array.isArray(data.formattedTranscript) || data.formattedTranscript.length === 0) {
-        throw new Error('AI service returned no formatted transcript.');
+      const data = await response.json()
+      if (
+        !data?.formattedTranscript ||
+        !Array.isArray(data.formattedTranscript) ||
+        data.formattedTranscript.length === 0
+      ) {
+        throw new Error('AI service returned no formatted transcript.')
       }
 
       if (contentId) {
         try {
-          await TranscriptCacheManager.updateFormattedTranscript(contentId, data.formattedTranscript);
+          await TranscriptCacheManager.updateFormattedTranscript(
+            contentId,
+            data.formattedTranscript
+          )
         } catch (cacheError) {
-          console.warn('[YouTubeShadowing] Cache update failed after AI enhancement:', cacheError);
+          console.warn('[YouTubeShadowing] Cache update failed after AI enhancement:', cacheError)
         }
       }
 
       updateSession(prev => {
         if (!prev) {
-          return prev;
+          return prev
         }
 
-        const previousMetadata = prev.videoMetadata as any;
+        const previousMetadata = prev.videoMetadata as any
 
         return {
           ...prev,
@@ -469,94 +480,104 @@ function YouTubeShadowingContent() {
             hasFormattedVersion: true,
             metadata: {
               ...previousMetadata?.metadata,
-              wasFormatted: true
-            }
-          }
-        };
-      });
+              wasFormatted: true,
+            },
+          },
+        }
+      })
 
-      setUseAiTranscript(true);
-      setAiEnhancementStatus('completed');
-      setAiEnhancementError(null);
+      setUseAiTranscript(true)
+      setAiEnhancementStatus('completed')
+      setAiEnhancementError(null)
       if (storageKey && typeof window !== 'undefined') {
-        window.localStorage.setItem(storageKey, '1');
+        window.localStorage.setItem(storageKey, '1')
       }
-      showToast('AI transcript ready. Switched to enhanced view.', 'success');
+      showToast('AI transcript ready. Switched to enhanced view.', 'success')
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to enhance transcript with AI.';
-      setAiEnhancementStatus('error');
-      setAiEnhancementError(message);
-      setAiEnhancementTriggered(false);
-      showToast(message, 'error');
-      console.error('[YouTubeShadowing] Manual AI enhancement failed:', err);
+      const message = err instanceof Error ? err.message : 'Failed to enhance transcript with AI.'
+      setAiEnhancementStatus('error')
+      setAiEnhancementError(message)
+      setAiEnhancementTriggered(false)
+      showToast(message, 'error')
+      console.error('[YouTubeShadowing] Manual AI enhancement failed:', err)
     }
-  }, [session, canRequestAiEnhancement, aiEnhancementStatus, updateSession, showToast]);
+  }, [session, canRequestAiEnhancement, aiEnhancementStatus, updateSession, showToast])
 
   // Handle clearing the session
   const handleClearSession = useCallback(() => {
     // Clear localStorage
-    localStorage.removeItem(SESSION_STORAGE_KEY);
+    localStorage.removeItem(SESSION_STORAGE_KEY)
 
     // Clear the session state
-    updateSession(null);
+    updateSession(null)
 
     // Clear cached transcript
-    setCachedTranscriptSegments([]);
+    setCachedTranscriptSegments([])
 
     // Reset view mode to input
-    setViewMode('input');
+    setViewMode('input')
 
     // Reset other states
-    setError(null);
-    setIsLoading(false);
-    hasHydratedFromCacheRef.current = false;
-  }, []);
+    setError(null)
+    setIsLoading(false)
+    hasHydratedFromCacheRef.current = false
+  }, [])
 
   // Track transcript data for caching
-  const [cachedTranscriptSegments, setCachedTranscriptSegments] = useState<TranscriptLine[]>([]);
+  const [cachedTranscriptSegments, setCachedTranscriptSegments] = useState<TranscriptLine[]>([])
 
   const handleTranscriptFromViewer = useCallback(
-    (segments: TranscriptLine[], info?: { title?: string; language?: string; source?: string; cached?: boolean; totalSegments?: number }) => {
-      setCachedTranscriptSegments(segments);
+    (
+      segments: TranscriptLine[],
+      info?: {
+        title?: string
+        language?: string
+        source?: string
+        cached?: boolean
+        totalSegments?: number
+      }
+    ) => {
+      setCachedTranscriptSegments(segments)
 
-      const videoMetadataPayload: Record<string, unknown> = {};
-      const nestedMetadata: Record<string, unknown> = {};
+      const videoMetadataPayload: Record<string, unknown> = {}
+      const nestedMetadata: Record<string, unknown> = {}
 
       if (info?.language) {
-        videoMetadataPayload.language = info.language;
+        videoMetadataPayload.language = info.language
       }
       if (info?.source) {
-        nestedMetadata.transcriptSource = info.source;
+        nestedMetadata.transcriptSource = info.source
       }
       if (info?.cached !== undefined) {
-        nestedMetadata.transcriptCached = info.cached;
+        nestedMetadata.transcriptCached = info.cached
       }
       if (info?.totalSegments !== undefined) {
-        nestedMetadata.transcriptTotalSegments = info.totalSegments;
+        nestedMetadata.transcriptTotalSegments = info.totalSegments
       }
 
       if (Object.keys(nestedMetadata).length > 0) {
-        videoMetadataPayload.metadata = nestedMetadata;
+        videoMetadataPayload.metadata = nestedMetadata
       }
 
       handleTranscriptLoaded({
         transcript: segments,
         videoTitle: info?.title,
-        videoMetadata: Object.keys(videoMetadataPayload).length > 0 ? videoMetadataPayload : undefined
-      });
+        videoMetadata:
+          Object.keys(videoMetadataPayload).length > 0 ? videoMetadataPayload : undefined,
+      })
     },
     [handleTranscriptLoaded]
-  );
+  )
 
   // Persist session state for reloads
   useEffect(() => {
     if (typeof window === 'undefined') {
-      return;
+      return
     }
 
     if (!session || session.videoUrl.startsWith('blob:')) {
-      localStorage.removeItem(SESSION_STORAGE_KEY);
-      return;
+      localStorage.removeItem(SESSION_STORAGE_KEY)
+      return
     }
 
     const payload = {
@@ -564,27 +585,28 @@ function YouTubeShadowingContent() {
       savedAt: Date.now(),
       session,
       useAi: useAiTranscript,
-      cachedTranscript: cachedTranscriptSegments.length > 0 ? cachedTranscriptSegments : undefined
-    };
+      cachedTranscript: cachedTranscriptSegments.length > 0 ? cachedTranscriptSegments : undefined,
+    }
 
     try {
-      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(payload));
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(payload))
     } catch (err) {
-      console.warn('[YouTubeShadowing] Failed to cache session:', err);
+      console.warn('[YouTubeShadowing] Failed to cache session:', err)
     }
-  }, [session, useAiTranscript, cachedTranscriptSegments]);
+  }, [session, useAiTranscript, cachedTranscriptSegments])
 
   const viewerSegments: TranscriptLine[] = session
-    ? (formattedAvailable && useAiTranscript ? formattedSegments : session.transcript)
-    : [];
-  const viewerSource: 'raw' | 'ai-enhanced' = formattedAvailable && useAiTranscript ? 'ai-enhanced' : 'raw';
-
+    ? formattedAvailable && useAiTranscript
+      ? formattedSegments
+      : session.transcript
+    : []
+  const viewerSource: 'raw' | 'ai-enhanced' =
+    formattedAvailable && useAiTranscript ? 'ai-enhanced' : 'raw'
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background dark:from-dark-850 dark:to-dark-900">
       {/* Navbar */}
       <Navbar user={user} showUserMenu={true} />
-
 
       {isLoading && <LoadingOverlay message={t('common.loading')} />}
 
@@ -612,9 +634,7 @@ function YouTubeShadowingContent() {
 
                 <div className="relative z-10 text-center">
                   <div className="text-6xl mb-4">🎬</div>
-                  <h2 className="text-3xl font-bold mb-3">
-                    {t('youtubeShadowing.hero.title')}
-                  </h2>
+                  <h2 className="text-3xl font-bold mb-3">{t('youtubeShadowing.hero.title')}</h2>
                   <p className="text-lg opacity-90 max-w-2xl mx-auto">
                     {t('youtubeShadowing.hero.subtitle')}
                   </p>
@@ -635,10 +655,7 @@ function YouTubeShadowingContent() {
                     {t('youtubeShadowing.input.youtubeTitle')}
                   </h3>
 
-                  <YouTubeInput
-                    onSubmit={handleUrlSubmit}
-                    isLoading={isLoading}
-                  />
+                  <YouTubeInput onSubmit={handleUrlSubmit} isLoading={isLoading} />
                 </div>
 
                 {error && (
@@ -705,10 +722,6 @@ function YouTubeShadowingContent() {
               exit={{ opacity: 0, y: -20 }}
               className="max-w-5xl mx-auto"
             >
-
-
-
-
               {/* Video and Transcript Display */}
               {session && (
                 <motion.div
@@ -722,9 +735,9 @@ function YouTubeShadowingContent() {
                     session={session}
                     onLineChange={handleLineChange}
                     onPlayerReady={(seekFn, playPauseFn) => {
-                      playerSeekRef.current = seekFn;
+                      playerSeekRef.current = seekFn
                       if (playPauseFn) {
-                        playerPlayPauseRef.current = playPauseFn;
+                        playerPlayPauseRef.current = playPauseFn
                       }
                     }}
                     onTimeUpdate={handleTimeUpdate}
@@ -750,7 +763,9 @@ function YouTubeShadowingContent() {
 
                   {/* Transcript Viewer */}
                   <TranscriptViewerNew
-                    segments={cachedTranscriptSegments.length > 0 ? cachedTranscriptSegments : undefined}
+                    segments={
+                      cachedTranscriptSegments.length > 0 ? cachedTranscriptSegments : undefined
+                    }
                     videoId={extractVideoId(session.videoUrl) || undefined}
                     currentTime={currentTime}
                     onSeekToTime={handleSeekToTime}
@@ -770,7 +785,7 @@ function YouTubeShadowingContent() {
         </AnimatePresence>
       </div>
     </div>
-  );
+  )
 }
 
 export default function YouTubeShadowingPage() {
@@ -778,5 +793,5 @@ export default function YouTubeShadowingPage() {
     <Suspense fallback={<LoadingOverlay />}>
       <YouTubeShadowingContent />
     </Suspense>
-  );
+  )
 }

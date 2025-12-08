@@ -2386,6 +2386,12 @@ export const strings = {
     },
   },
 
+  // Library Page
+  library: {
+    title: 'Biblioteca',
+    pageDescription: 'Leggi riassunti condensati di libri popolari in giapponese',
+  },
+
   flashcards: {
     title: 'Flashcard',
     pageTitle: 'Mazzi di Flashcard',
@@ -3592,6 +3598,7 @@ export const strings = {
       description: 'Alcune funzionalità potrebbero essere limitate senza connessione internet',
       cached: 'Visualizzazione contenuto in cache',
       retry: 'Riprova connessione',
+      backOnline: 'Di nuovo online',
     },
   },
 

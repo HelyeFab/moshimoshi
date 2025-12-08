@@ -23,12 +23,8 @@ interface KanjiDetailsModalProps {
   onClose: () => void
 }
 
-export default function KanjiDetailsModal({
-  kanji,
-  isOpen,
-  onClose
-}: KanjiDetailsModalProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'readings' | 'examples' | 'info'>('overview')
+export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetailsModalProps) {
+  const [activeTab, setActiveTab] = useState<'overview' | 'readings' | 'examples'>('overview')
   const [strokeCount, setStrokeCount] = useState<number | null>(null)
   const [showStrokeOrder, setShowStrokeOrder] = useState(false)
   const [showDrawingPractice, setShowDrawingPractice] = useState(false)
@@ -40,11 +36,11 @@ export default function KanjiDetailsModal({
   const { strings } = useI18n()
   const { user } = useAuth()
   const { subscription } = useSubscription()
-  const userPlan = !user ? 'guest' : (subscription?.status === 'active' ? 'premium' : 'free')
+  const userPlan = !user ? 'guest' : subscription?.status === 'active' ? 'premium' : 'free'
 
   // TTS hook for audio playback
-  const { play, preload, loading, playing } = useTTS({
-    cacheFirst: true // Prioritize cached audio
+  const { play, preload, loading, playing, currentText } = useTTS({
+    cacheFirst: true, // Prioritize cached audio
   })
 
   // Reset to overview tab when modal opens
@@ -117,7 +113,6 @@ export default function KanjiDetailsModal({
     }
   }
 
-
   if (!kanji) return null
 
   // Tab configuration
@@ -125,7 +120,6 @@ export default function KanjiDetailsModal({
     { id: 'overview', label: strings?.kanji?.overview || 'Overview', icon: '本' },
     { id: 'readings', label: strings?.kanji?.readings || 'Readings', icon: '音' },
     { id: 'examples', label: strings?.kanji?.examples || 'Examples', icon: '文' },
-    { id: 'info', label: strings?.kanji?.info || 'Info', icon: '情' }
   ]
 
   return (
@@ -137,6 +131,8 @@ export default function KanjiDetailsModal({
         size="lg"
         showCloseButton={false}
         className="max-h-[90vh] overflow-hidden"
+        ariaLabelledBy="kanji-details-title"
+        ariaDescribedBy="kanji-details-description"
       >
         {/* Simplified Header */}
         <div className="relative p-6">
@@ -147,7 +143,12 @@ export default function KanjiDetailsModal({
             aria-label="Close modal"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
 
@@ -159,31 +160,49 @@ export default function KanjiDetailsModal({
               transition={{ duration: 0.3, type: 'spring' }}
               className="inline-block"
             >
-              <div className="text-7xl sm:text-8xl font-bold text-gray-900 dark:text-gray-100 mb-2"
-                   style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+              <h2
+                id="kanji-details-title"
+                className="text-7xl sm:text-8xl font-bold text-gray-900 dark:text-gray-100 mb-2"
+                style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+              >
                 {kanji.kanji}
-              </div>
+              </h2>
             </motion.div>
 
-            <div className="text-xl text-gray-700 dark:text-gray-300 font-medium mb-4">
+            <p
+              id="kanji-details-description"
+              className="text-xl text-gray-700 dark:text-gray-300 font-medium mb-4"
+            >
               {kanji.meaning}
-            </div>
+            </p>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200 dark:border-dark-700 bg-gray-50 dark:bg-dark-800">
-          {tabs.map((tab) => (
+        <div
+          role="tablist"
+          aria-label="Kanji information tabs"
+          className="flex border-b border-gray-200 dark:border-dark-700 bg-gray-50 dark:bg-dark-800"
+        >
+          {tabs.map(tab => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              role="tab"
+              id={`kanji-tab-${tab.id}`}
+              aria-selected={activeTab === tab.id}
+              aria-controls={`kanji-tabpanel-${tab.id}`}
+              tabIndex={activeTab === tab.id ? 0 : -1}
+              onClick={() => setActiveTab(tab.id as typeof activeTab)}
               className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-all relative
-                ${activeTab === tab.id
-                  ? 'text-primary-600 dark:text-primary-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                ${
+                  activeTab === tab.id
+                    ? 'text-primary-600 dark:text-primary-400'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
             >
-              <span className="hidden sm:inline text-lg">{tab.icon}</span>
+              <span className="hidden sm:inline text-lg" aria-hidden="true">
+                {tab.icon}
+              </span>
               <span>{tab.label}</span>
               {activeTab === tab.id && (
                 <motion.div
@@ -197,11 +216,16 @@ export default function KanjiDetailsModal({
         </div>
 
         {/* Tab Content */}
-        <div className="overflow-y-auto max-h-[50vh] p-6 scrollbar-hide"
-             style={{
-               scrollbarWidth: 'none',
-               msOverflowStyle: 'none'
-             }}>
+        <div
+          role="tabpanel"
+          id={`kanji-tabpanel-${activeTab}`}
+          aria-labelledby={`kanji-tab-${activeTab}`}
+          className="overflow-y-auto max-h-[50vh] p-6 scrollbar-hide"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
           {/* Tab-specific Content */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -221,41 +245,80 @@ export default function KanjiDetailsModal({
                     </h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Primary Meaning</p>
-                        <p className="text-base font-medium text-gray-900 dark:text-gray-100">{kanji.meaning}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
+                          Primary Meaning
+                        </p>
+                        <p className="text-base font-medium text-gray-900 dark:text-gray-100">
+                          {kanji.meaning}
+                        </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Common Reading</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
+                          Common Reading
+                        </p>
                         <p className="text-base font-medium text-gray-900 dark:text-gray-100">
                           {kanji.kunyomi?.[0] || kanji.onyomi?.[0] || 'N/A'}
                         </p>
                       </div>
                       {kanji.jlpt && (
                         <div>
-                          <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">JLPT Level</p>
-                          <p className="text-base font-medium text-gray-900 dark:text-gray-100">{kanji.jlpt}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
+                            JLPT Level
+                          </p>
+                          <p className="text-base font-medium text-gray-900 dark:text-gray-100">
+                            {kanji.jlpt}
+                          </p>
                         </div>
                       )}
                       {strokeCount !== null && (
                         <div>
-                          <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Stroke Count</p>
-                          <p className="text-base font-medium text-gray-900 dark:text-gray-100">{strokeCount}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
+                            Stroke Count
+                          </p>
+                          <p className="text-base font-medium text-gray-900 dark:text-gray-100">
+                            {strokeCount}
+                          </p>
                         </div>
                       )}
                       {kanji.grade && (
                         <div>
-                          <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Grade Level</p>
-                          <p className="text-base font-medium text-gray-900 dark:text-gray-100">Grade {kanji.grade}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
+                            Grade Level
+                          </p>
+                          <p className="text-base font-medium text-gray-900 dark:text-gray-100">
+                            Grade {kanji.grade}
+                          </p>
                         </div>
                       )}
                       {kanji.frequency && (
                         <div>
                           <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Frequency</p>
-                          <p className="text-base font-medium text-gray-900 dark:text-gray-100">#{kanji.frequency}</p>
+                          <p className="text-base font-medium text-gray-900 dark:text-gray-100">
+                            #{kanji.frequency}
+                          </p>
                         </div>
                       )}
                     </div>
                   </div>
+
+                  {/* All Meanings */}
+                  {kanji.meanings && kanji.meanings.length > 1 && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wider">
+                        All Meanings
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {kanji.meanings.map((meaning, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm"
+                          >
+                            {meaning}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -271,13 +334,18 @@ export default function KanjiDetailsModal({
                     {kanji.onyomi && kanji.onyomi.length > 0 ? (
                       <div className="flex flex-wrap gap-3">
                         {kanji.onyomi.map((reading, index) => (
-                          <div key={index} className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2">
-                            <span className="text-base font-medium text-gray-900 dark:text-gray-100">{reading}</span>
+                          <div
+                            key={index}
+                            className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2"
+                          >
+                            <span className="text-base font-medium text-gray-900 dark:text-gray-100">
+                              {reading}
+                            </span>
                             <AudioButton
                               size="sm"
                               onPlay={() => play(reading, { voice: 'ja-JP' })}
-                              loading={loading}
-                              playing={playing}
+                              loading={loading && currentText === reading}
+                              playing={playing && currentText === reading}
                             />
                           </div>
                         ))}
@@ -296,19 +364,26 @@ export default function KanjiDetailsModal({
                     {kanji.kunyomi && kanji.kunyomi.length > 0 ? (
                       <div className="flex flex-wrap gap-3">
                         {kanji.kunyomi.map((reading, index) => (
-                          <div key={index} className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2">
-                            <span className="text-base font-medium text-gray-900 dark:text-gray-100">{reading}</span>
+                          <div
+                            key={index}
+                            className="flex items-center gap-2 bg-gray-50 dark:bg-dark-700 rounded-lg px-3 py-2"
+                          >
+                            <span className="text-base font-medium text-gray-900 dark:text-gray-100">
+                              {reading}
+                            </span>
                             <AudioButton
                               size="sm"
                               onPlay={() => play(reading, { voice: 'ja-JP' })}
-                              loading={loading}
-                              playing={playing}
+                              loading={loading && currentText === reading}
+                              playing={playing && currentText === reading}
                             />
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-gray-400 dark:text-gray-500 italic">No Kun'yomi readings</p>
+                      <p className="text-gray-400 dark:text-gray-500 italic">
+                        No Kun'yomi readings
+                      </p>
                     )}
                   </div>
                 </div>
@@ -324,9 +399,18 @@ export default function KanjiDetailsModal({
                         onClick={() => setShowFurigana(!showFurigana)}
                         className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          />
                         </svg>
                         {showFurigana ? 'Hide' : 'Show'} Furigana
                       </button>
@@ -340,16 +424,20 @@ export default function KanjiDetailsModal({
                   ) : exampleSentences.length > 0 ? (
                     <div className="space-y-3">
                       {exampleSentences.map((sentence, index) => (
-                        <div key={sentence.id || index} className="bg-gray-50 dark:bg-dark-700/50 rounded-xl p-4">
+                        <div
+                          key={sentence.id || index}
+                          className="bg-gray-50 dark:bg-dark-700/50 rounded-xl p-4"
+                        >
                           <div className="space-y-3">
                             {/* Japanese with furigana */}
                             <div className="text-lg text-gray-900 dark:text-gray-100 font-medium leading-relaxed">
                               {showFurigana && furiganaTexts[sentence.japanese] ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html: furiganaTexts[sentence.japanese]
-                                      .replace(new RegExp(`(${kanji.kanji})`, 'g'),
-                                        '<span class="text-primary-600 dark:text-primary-400 font-bold bg-primary-50 dark:bg-primary-900/20 px-1 rounded">$1</span>')
+                                    __html: furiganaTexts[sentence.japanese].replace(
+                                      new RegExp(`(${kanji.kanji})`, 'g'),
+                                      '<span class="text-primary-600 dark:text-primary-400 font-bold bg-primary-50 dark:bg-primary-900/20 px-1 rounded">$1</span>'
+                                    ),
                                   }}
                                 />
                               ) : (
@@ -375,16 +463,18 @@ export default function KanjiDetailsModal({
                             <div className="flex items-center gap-2 pt-2">
                               <AudioButton
                                 size="sm"
-                                onPlay={() => play(sentence.japanese, { voice: 'ja-JP', rate: 0.9 })}
-                                loading={loading}
-                                playing={playing}
+                                onPlay={() =>
+                                  play(sentence.japanese, { voice: 'ja-JP', rate: 0.9 })
+                                }
+                                loading={loading && currentText === sentence.japanese}
+                                playing={playing && currentText === sentence.japanese}
                               />
                               <AddToListButton
                                 content={sentence.japanese}
                                 type="sentence"
                                 metadata={{
                                   meaning: sentence.english,
-                                  notes: `Contains ${kanji.kanji}`
+                                  notes: `Contains ${kanji.kanji}`,
                                 }}
                                 variant="bookmark"
                                 size="small"
@@ -396,53 +486,9 @@ export default function KanjiDetailsModal({
                     </div>
                   ) : (
                     <div className="text-center py-8">
-                      <p className="text-gray-400 dark:text-gray-500">No example sentences available</p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Info Tab */}
-              {activeTab === 'info' && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-6">
-                    {kanji.jlpt && (
-                      <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mb-1 uppercase tracking-wider">JLPT Level</p>
-                        <p className="text-lg font-medium text-gray-900 dark:text-gray-100">{kanji.jlpt}</p>
-                      </div>
-                    )}
-                    {strokeCount !== null && (
-                      <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mb-1 uppercase tracking-wider">Stroke Count</p>
-                        <p className="text-lg font-medium text-gray-900 dark:text-gray-100">{strokeCount}</p>
-                      </div>
-                    )}
-                    {kanji.grade && (
-                      <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mb-1 uppercase tracking-wider">Grade Level</p>
-                        <p className="text-lg font-medium text-gray-900 dark:text-gray-100">Grade {kanji.grade}</p>
-                      </div>
-                    )}
-                    {kanji.frequency && (
-                      <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mb-1 uppercase tracking-wider">Frequency Rank</p>
-                        <p className="text-lg font-medium text-gray-900 dark:text-gray-100">#{kanji.frequency}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Additional meanings if available */}
-                  {kanji.meanings && kanji.meanings.length > 1 && (
-                    <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">All Meanings</p>
-                      <div className="flex flex-wrap gap-2">
-                        {kanji.meanings.map((meaning, index) => (
-                          <span key={index} className="px-3 py-1 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm">
-                            {meaning}
-                          </span>
-                        ))}
-                      </div>
+                      <p className="text-gray-400 dark:text-gray-500">
+                        No example sentences available
+                      </p>
                     </div>
                   )}
                 </div>
@@ -458,10 +504,18 @@ export default function KanjiDetailsModal({
               title="Watch stroke order"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </button>
 
@@ -471,8 +525,12 @@ export default function KanjiDetailsModal({
               title="Practice writing"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                />
               </svg>
             </button>
 
@@ -482,7 +540,7 @@ export default function KanjiDetailsModal({
               metadata={{
                 reading: kanji.kunyomi?.[0] || kanji.onyomi?.[0] || '',
                 meaning: kanji.meaning,
-                jlptLevel: kanji.jlpt ? parseInt(kanji.jlpt.replace('N', ''), 10) : undefined
+                jlptLevel: kanji.jlpt ? parseInt(kanji.jlpt.replace('N', ''), 10) : undefined,
               }}
               variant="bookmark"
               size="medium"
@@ -510,8 +568,6 @@ export default function KanjiDetailsModal({
           characterType="kanji"
         />
       )}
-
-
     </>
   )
 }

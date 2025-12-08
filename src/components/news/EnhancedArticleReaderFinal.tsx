@@ -9,7 +9,6 @@ import { TTSOptions } from '@/lib/tts/types'
 import { RepeatModeConfig } from '@/types/youtube-player'
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText'
 import KuromojiService from '@/utils/kuromojiService'
-import { useBottomNav } from '@/contexts/BottomNavContext'
 import MobileSettingsToolbar from './CompactSettingsToolbar'
 import Modal from '@/components/ui/Modal'
 import { useWordExplanation } from '@/hooks/useWordExplanation'
@@ -1211,7 +1210,6 @@ export default function EnhancedArticleReader({
   const isStoryMode = pages && pages.length > 0
   const { t } = useI18n()
   const { user } = useAuth()
-  const { setExtraItem } = useBottomNav()
 
   // Initialize gamification listener (following Kana pattern)
   useEffect(() => {
@@ -1534,27 +1532,6 @@ export default function EnhancedArticleReader({
     console.log('Mobile settings state changed:', showMobileSettings)
   }, [showMobileSettings])
   const [sentences, setSentences] = useState<string[]>([])
-
-  // Set up bottom navbar settings button (mobile only)
-  useEffect(() => {
-    console.log('Setting up bottom nav extra item for settings')
-    setExtraItem({
-      id: 'reader-settings',
-      label: 'Settings',
-      icon: Settings,
-      activeIcon: Settings,
-      action: () => {
-        console.log('Bottom nav settings button clicked')
-        setShowMobileSettings(true)
-      },
-      matchPaths: [],
-    })
-
-    return () => {
-      console.log('Cleaning up bottom nav extra item')
-      setExtraItem(null)
-    }
-  }, [setExtraItem])
 
   // Split content into sentences for shadowing mode
   useEffect(() => {

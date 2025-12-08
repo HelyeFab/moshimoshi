@@ -9,6 +9,7 @@ import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage'
+import { useArticleCache } from '@/hooks/useArticleCache'
 
 interface NewsArticle {
   id: string
@@ -325,10 +326,34 @@ export default function NewsPage() {
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(false)
 
+  // Article cache for offline prefetching
+  const { prefetchArticles } = useArticleCache()
+  const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
+
   // Load articles
   useEffect(() => {
     loadArticles()
   }, [])
+
+  // Prefetch top articles for offline use after articles load
+  useEffect(() => {
+    if (articles.length > 0 && prefetchStatus === 'idle') {
+      // Get IDs of first 10 articles to prefetch for offline
+      const articleIds = articles.slice(0, 10).map(a => a.id)
+
+      // Prefetch in background (don't await - fire and forget)
+      setPrefetchStatus('prefetching')
+      prefetchArticles(articleIds, { skipCached: true })
+        .then(results => {
+          console.log('[NewsPage] Offline prefetch complete:', results)
+          setPrefetchStatus('done')
+        })
+        .catch(err => {
+          console.warn('[NewsPage] Offline prefetch failed:', err)
+          setPrefetchStatus('done')
+        })
+    }
+  }, [articles, prefetchStatus, prefetchArticles])
 
   // Filter articles when filters change
   useEffect(() => {

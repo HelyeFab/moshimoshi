@@ -3,13 +3,14 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useMoodBoards, searchMoodBoards, filterMoodBoardsByJLPT } from '@/hooks/useMoodBoards'
+import { useMoodBoardCache } from '@/hooks/useMoodBoardCache'
 import { getAllProgress } from '@/utils/moodBoardProgress'
 import MoodBoardCard from '@/components/kanji-moods/MoodBoardCard'
 import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 // Navigation is now global via NavigationWrapper in root layout;
-import PageHeader from '@/components/layout/PageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 
 type ViewMode = 'grid' | 'list'
@@ -21,6 +22,10 @@ export default function KanjiMoodsPage() {
   const { user } = useAuth()
   const { moodBoards, loading } = useMoodBoards()
   const [progress, setProgress] = useState<MoodBoardsProgress>({})
+
+  // Offline caching - prefetch ALL moodboards since total size is small
+  const { prefetchMoodBoards } = useMoodBoardCache()
+  const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
 
   // View and filter state
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
@@ -42,6 +47,22 @@ export default function KanjiMoodsPage() {
 
     loadProgress()
   }, [])
+
+  // Auto-prefetch ALL moodboards for offline use (total size is small ~6-10MB)
+  useEffect(() => {
+    if (moodBoards.length > 0 && prefetchStatus === 'idle' && !loading) {
+      setPrefetchStatus('prefetching')
+      prefetchMoodBoards(moodBoards, { skipCached: true })
+        .then(results => {
+          console.log('[KanjiMoodsPage] Offline prefetch complete:', results)
+          setPrefetchStatus('done')
+        })
+        .catch(error => {
+          console.warn('[KanjiMoodsPage] Prefetch failed:', error)
+          setPrefetchStatus('done')
+        })
+    }
+  }, [moodBoards, prefetchStatus, loading, prefetchMoodBoards])
 
   // Filter and sort mood boards
   const filteredBoards = useMemo(() => {

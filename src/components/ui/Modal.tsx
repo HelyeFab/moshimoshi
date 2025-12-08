@@ -14,6 +14,10 @@ interface ModalProps {
   showCloseButton?: boolean
   className?: string
   noPadding?: boolean
+  /** Custom aria-labelledby ID when using custom header */
+  ariaLabelledBy?: string
+  /** Custom aria-describedby ID for modal description */
+  ariaDescribedBy?: string
 }
 
 export default function Modal({
@@ -27,6 +31,8 @@ export default function Modal({
   showCloseButton = true,
   className = '',
   noPadding = false,
+  ariaLabelledBy,
+  ariaDescribedBy,
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -120,7 +126,8 @@ export default function Modal({
         ref={modalRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={title ? 'modal-title' : undefined}
+        aria-labelledby={ariaLabelledBy || (title ? 'modal-title' : undefined)}
+        aria-describedby={ariaDescribedBy}
         className={`
           relative w-full ${getSizeClasses()}
           bg-white dark:bg-gray-800

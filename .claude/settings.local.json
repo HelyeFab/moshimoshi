@@ -99,7 +99,20 @@
       "Bash(node scripts/regenerate-story-audio.js:*)",
       "WebFetch(domain:next-intl.dev)",
       "Bash(node test-openai-key.js:*)",
-      "Bash(Select-String -Pattern \"error\")"
+      "Bash(Select-String -Pattern \"error\")",
+      "Bash(ls:*)",
+      "Bash(du:*)",
+      "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/drill/page.tsx )",
+      "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/kanji-moods/KanjiMoodsPage.tsx )",
+      "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/kanji-moods/page.tsx )",
+      "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/achievements/page.tsx )",
+      "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/youtube-series/page.tsx )",
+      "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/popular-videos/page.tsx )",
+      "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/learn/conjugation/page.tsx )",
+      "Bash(/home/beano/DevProjects/NextJs/moshimoshi/src/app/anki-import/page.tsx)",
+      "Bash(find:*)",
+      "WebFetch(domain:firebase.google.com)",
+      "SlashCommand(/moshi-init)"
     ],
     "deny": [],
     "ask": []

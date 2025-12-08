@@ -7,6 +7,7 @@ import { AuthProvider } from '@/hooks/useAuth' // Compatibility wrapper - not ac
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
 import { ServiceWorkerProvider } from '@/components/pwa/ServiceWorkerProvider'
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt'
+import { OfflineBanner } from '@/components/pwa/OfflineBanner'
 import { TTSLoadingProvider } from '@/components/tts'
 import CelebrationProvider from '@/components/gamification/CelebrationProvider'
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext'
@@ -14,7 +15,6 @@ import { EmailVerificationBanner } from '@/components/EmailVerificationBanner'
 import { themeInitScript } from '@/lib/theme/theme-script'
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors'
 import BottomNav from '@/components/layout/BottomNav'
-import { BottomNavProvider } from '@/contexts/BottomNavContext'
 import ConditionalCommandPalette from '@/components/ui/ConditionalCommandPalette'
 import '@/styles/globals.css'
 import TimeMachineButton from '@/components/dev/TimeMachineButton'
@@ -344,7 +344,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
         />
       </head>
-      <body suppressHydrationWarning className="min-h-screen flex flex-col">
+      <body
+        suppressHydrationWarning
+        className="min-h-screen flex flex-col bg-background-light dark:bg-dark-850"
+      >
         <AuthProvider>
           <ReCaptchaProvider>
             <ToastProvider defaultPosition="top-right">
@@ -353,19 +356,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <ThemeProvider>
                     <ServiceWorkerProvider>
                       <CelebrationProvider>
-                        <BottomNavProvider>
-                          <TTSLoadingProvider>
-                            <EmailVerificationBanner />
-                            {children}
-                            {process.env.NODE_ENV === 'development' &&
-                              process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
-                                <TimeMachineButton />
-                              )}
-                            <BottomNav />
-                            <ConditionalCommandPalette />
-                            <PWAInstallPrompt />
-                          </TTSLoadingProvider>
-                        </BottomNavProvider>
+                        <TTSLoadingProvider>
+                          <OfflineBanner />
+                          <EmailVerificationBanner />
+                          {children}
+                          {process.env.NODE_ENV === 'development' &&
+                            process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
+                              <TimeMachineButton />
+                            )}
+                          <BottomNav />
+                          <ConditionalCommandPalette />
+                          <PWAInstallPrompt />
+                        </TTSLoadingProvider>
                       </CelebrationProvider>
                     </ServiceWorkerProvider>
                   </ThemeProvider>
