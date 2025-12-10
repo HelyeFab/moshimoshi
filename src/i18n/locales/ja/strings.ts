@@ -2497,8 +2497,46 @@ export const strings = {
 
   // YouTube シャドーイング
   youtubeShadowing: {
-    title: 'YouTube シャドーイング',
-    description: 'YouTube動画やメディアファイルで日本語を練習',
+    title: 'YouTubeシャドーイング',
+    description: 'YouTube動画と音声ファイルで日本語を練習',
+
+    header: {
+      eyebrow: 'シャドーイングプレイヤー',
+      title: 'MoshiPlayer',
+      subtitle: 'トランスクリプトをループして、フローを維持。',
+    },
+
+    form: {
+      videoLabel: 'YouTube URLまたはID',
+      videoPlaceholder: 'https://youtu.be/VIDEO_ID',
+      languageLabel: '言語',
+      repeatLabel: 'リピート回数（1-10）',
+      loadButton: 'トランスクリプトを読み込む',
+      loadingButton: '読み込み中...',
+      changeVideo: '動画を変更',
+    },
+
+    hints: {
+      transcriptWillAppear: 'トランスクリプトは読み込み後にここに表示されます。',
+      pasteToStart: 'YouTubeリンクを貼り付けてシャドーイングを開始。',
+      firstLoadInfo: '最初の読み込みはYouTube timedtextを使用。フォールバックはトランスクリプトサービス。',
+    },
+
+    settings: {
+      title: '設定',
+      furigana: 'ふりがな',
+      highlighting: '文法ハイライト',
+      noHighlighting: 'ハイライトなし',
+      contentWords: '内容語',
+      grammarWords: '文法語',
+      allWords: 'すべての単語',
+      clearSession: 'セッションをクリア',
+      clearButton: 'クリア',
+    },
+
+    status: {
+      transcriptLoaded: '{{source}}（{{language}}）からトランスクリプトを読み込みました。',
+    },
 
     hero: {
       title: 'あらゆるメディアで日本語をマスター',
@@ -2531,6 +2569,8 @@ export const strings = {
       uploadFailed: 'ファイルのアップロードに失敗しました',
       transcriptFailed: '文字起こしの生成に失敗しました',
       playerFailed: 'プレーヤーの読み込みに失敗しました',
+      invalidVideoId: '有効なYouTube URLまたは11文字の動画IDを入力してください。',
+      transcriptUnavailable: 'この動画のトランスクリプトは利用できません。',
     },
 
     features: {
@@ -2549,6 +2589,14 @@ export const strings = {
     },
 
     player: {
+      awaitingVideo: '動画を待機中',
+      nowPlaying: '再生中: {{videoId}}',
+      sourceLabel: 'ソース: {{source}}',
+      tapToJump: 'タップしてジャンプ',
+      tapWordsForExplanation: '単語をタップして説明を表示',
+      segmentProgress: 'セグメント {{current}}/{{total}}',
+      repeatProgress: 'リピート {{current}}/{{total}}',
+      title: 'プレイヤー',
       loading: 'プレーヤーを読み込み中...',
       extractingAudio: '音声を抽出中...',
       generatingTranscript: '文字起こしを生成中...',
@@ -2576,6 +2624,7 @@ export const strings = {
       },
 
       transcript: {
+        title: 'トランスクリプト',
         edit: '編集',
         regenerate: '再生成',
         save: '変更を保存',
@@ -4098,5 +4147,161 @@ export const strings = {
     },
     noResults: '条件に一致する漢字が見つかりません',
     loading: '漢字を読み込み中...',
+  },
+
+  // オンボーディングフロー
+  onboarding: {
+    // ウェルカムページ
+    welcome: {
+      title: 'Moshimoshiへようこそ！',
+      subtitle: '日本語をマスターするための究極のプラットフォームです。学習の旅を始めましょう。',
+      getStarted: '始めましょう',
+    },
+
+    // 学習目標の選択
+    learningGoal: {
+      title: 'あなたの主な目標は？',
+      subtitle: 'あなたの学習体験をパーソナライズするのに役立ちます。',
+      next: '次へ',
+      goals: {
+        jlpt: {
+          title: 'JLPTの準備',
+          description: '特定のJLPTレベルに向けて語彙、文法、漢字を集中的に学習。',
+        },
+        travel: {
+          title: '旅行のための学習',
+          description: '日本旅行に必要なフレーズと語彙をマスター。',
+        },
+        anime: {
+          title: 'アニメ・漫画を理解する',
+          description: 'お気に入りの日本のメディアの言葉を深く学ぶ。',
+        },
+        conversation: {
+          title: '会話スキルを向上',
+          description: '実際のシナリオでスピーキングとリスニングを練習。',
+        },
+      },
+    },
+
+    // 経験レベルの選択
+    experienceLevel: {
+      title: 'あなたの日本語レベルは？',
+      subtitle: '適切なコンテンツをおすすめするのに役立ちます。',
+      next: '次へ',
+      levels: {
+        beginner: {
+          title: '初心者',
+          description: '始めたばかり、または少しの単語やフレーズを知っている程度です。',
+        },
+        intermediate: {
+          title: '中級者',
+          description: '基本的な会話ができ、文法も少し理解しています。',
+        },
+        advanced: {
+          title: '上級者',
+          description: '日本語で複雑な考えを理解し表現できます。',
+        },
+      },
+    },
+
+    // 機能紹介
+    featureShowcase: {
+      continue: '続ける',
+      swipeHint: 'スワイプして他の機能を見る',
+      progress: '{{current}} / {{total}}',
+      defaultHeadline: {
+        title: 'おすすめの機能',
+        subtitle: 'あなたの目標に基づいて、始めるのに最適な機能をご紹介します。',
+      },
+      personalizedHeadlines: {
+        jlpt: {
+          title: 'これらのツールでJLPTを攻略',
+          subtitle: '漢字、語彙、文法を体系的にマスターして試験合格を目指す。',
+        },
+        travel: {
+          title: '日本旅行の準備をしよう',
+          subtitle: '日本旅行に役立つ実用的なフレーズと文化的知識を学ぶ。',
+        },
+        anime: {
+          title: 'お気に入りのアニメを理解する',
+          subtitle: 'ネイティブコンテンツから自然な言い回しや表現を身につける。',
+        },
+        conversation: {
+          title: '自信を持って日本語を話す',
+          subtitle: '発音を練習し、実際の会話パターンを学ぶ。',
+        },
+      },
+      features: {
+        shadowing: {
+          title: 'YouTubeシャドーイング',
+          description: '本物の日本語YouTube動画で発音をマスター。',
+          highlight: 'スピーキングに最適',
+        },
+        kanjiConnection: {
+          title: '漢字コネクション',
+          description: '視覚的パターンと部首を通じて2,136の漢字を学ぶ。',
+          highlight: 'ビジュアル学習',
+        },
+        kanjiBrowser: {
+          title: '漢字ブラウザ',
+          description: '常用漢字を詳細な分解と読み方で検索・探索。',
+          highlight: '参照ツール',
+        },
+        kanjiMoods: {
+          title: '漢字ムード',
+          description: 'テーマや感情でグループ化された漢字で記憶に残る学習。',
+          highlight: 'テーマ別学習',
+        },
+        conjugation: {
+          title: '活用エンジン',
+          description: '包括的なシステムで100以上の動詞・形容詞活用形をマスター。',
+          highlight: '文法マスター',
+        },
+        news: {
+          title: '日本語ニュース',
+          description: 'AIサポート付きでNHKの本物のニュース記事を読む。',
+          highlight: '実践的な読解',
+        },
+        stories: {
+          title: 'AIストーリー',
+          description: 'あなたのレベルに合わせたAI生成の物語を楽しむ。',
+          highlight: 'レベル別',
+        },
+        library: {
+          title: '読書ライブラリ',
+          description: 'あなたのレベルにぴったりの段階別読み物や本を閲覧。',
+          highlight: '豊富なコレクション',
+        },
+        anki: {
+          title: 'Ankiインポート',
+          description: '既存のAnkiデッキを持ち込んでシームレスに学習を続ける。',
+          highlight: 'カードを保持',
+        },
+        textbooks: {
+          title: '教科書ボキャブラリー',
+          description: 'げんき、みんなの日本語などの語彙を学習。',
+          highlight: '学術準備',
+        },
+        flashcards: {
+          title: 'スマートフラッシュカード',
+          description: 'あなたに適応するインテリジェントなSRSシステムで復習。',
+          highlight: '適応型復習',
+        },
+        drill: {
+          title: 'クイックドリル',
+          description: '短い学習時間に最適なテンポの速い復習セッション。',
+          highlight: 'クイック練習',
+        },
+      },
+    },
+
+    // 準備完了
+    readyToGo: {
+      title: '準備完了！',
+      subtitle: 'プロフィールの設定が完了しました。日本語学習の冒険を始めましょう！',
+      goToDashboard: 'ダッシュボードへ',
+      settingUp: '設定中...',
+      error: '問題が発生しました。もう一度お試しください。',
+    },
   },
 }

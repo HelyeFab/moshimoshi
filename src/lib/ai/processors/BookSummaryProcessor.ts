@@ -20,6 +20,7 @@ interface BookSummaryResult {
   titleJa: string
   summary: string
   content: string
+  translation: string  // English translation of the content
   wordCount: number
   readingTime: number
   category?: string
@@ -245,6 +246,7 @@ ${additionalContext ? `**Additional Context:** ${additionalContext}\n\n` : ''}
   "titleJa": "日本語のタイトル (Japanese title - make it engaging!)",
   "summary": "Brief 2-3 sentence summary IN JAPANESE of what this condensed version covers",
   "content": "Full narrative Japanese text (MINIMUM 1000 characters, target 1200-1500 characters) written in story form with proper paragraphs",
+  "translation": "Full natural English translation of the content above (preserve story flow, emotion, and paragraph structure)",
   "category": "Genre category (fiction/non-fiction/self-help/etc.)",
   "author": "Original book author name${authorInfo ? ' (use: ' + authorInfo.replace(' by ', '') + ')' : ' (research and provide the actual author name)'}"
 }
@@ -320,6 +322,7 @@ Generate the condensed book narrative now.`
         titleJa: parsed.titleJa || '無題',
         summary: parsed.summary || '',
         content: parsed.content || '',
+        translation: parsed.translation || '',  // Will validate/fallback in generate route
         wordCount,
         readingTime,
         category: parsed.category,

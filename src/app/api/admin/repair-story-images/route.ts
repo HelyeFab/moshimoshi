@@ -132,17 +132,34 @@ export async function POST(request: NextRequest) {
     let modelSheet = existingModelSheet
 
     // If no model sheet on story, check linked draft
-    if (!modelSheet?.referenceImageData) {
+    if (!modelSheet?.referenceImageData && !modelSheet?.imageUrl) {
       // Try to find draft with matching pattern
       const draftId = storyId.replace('story_', 'draft_')
       const draftDoc = await adminFirestore!.collection('ai_story_drafts').doc(draftId).get()
 
       if (draftDoc.exists) {
         const draft = draftDoc.data()
-        if (draft?.modelSheet?.referenceImageData) {
+        if (draft?.modelSheet?.referenceImageData || draft?.modelSheet?.imageUrl) {
           modelSheet = draft.modelSheet
           console.log(`[RepairStoryImages] Found model sheet in draft: ${draftId}`)
         }
+      }
+    }
+
+    // If we have a model sheet URL but no base64 data, fetch it
+    if (modelSheet?.imageUrl && !modelSheet?.referenceImageData) {
+      console.log(`[RepairStoryImages] Fetching model sheet image from URL: ${modelSheet.imageUrl}`)
+      try {
+        const imageResponse = await fetch(modelSheet.imageUrl)
+        if (imageResponse.ok) {
+          const imageBuffer = await imageResponse.arrayBuffer()
+          modelSheet.referenceImageData = Buffer.from(imageBuffer).toString('base64')
+          console.log(`[RepairStoryImages] Fetched model sheet, base64 length: ${modelSheet.referenceImageData.length}`)
+        } else {
+          console.warn(`[RepairStoryImages] Failed to fetch model sheet image: ${imageResponse.status}`)
+        }
+      } catch (fetchError) {
+        console.warn(`[RepairStoryImages] Error fetching model sheet image:`, fetchError)
       }
     }
 
@@ -204,25 +221,32 @@ export async function POST(request: NextRequest) {
         const publicUrl = `https://storage.googleapis.com/${storage.bucket().name}/${fileName}`
         console.log('[RepairStoryImages] Step 7: Public URL:', publicUrl)
 
+        // Store base64 in memory for generating page images
+        // Note: We DON'T store referenceImageData in Firestore to avoid document size limits
+        // Instead, we'll fetch from the public URL when needed for consistency
+        const referenceImageData = base64Match[1]
+        console.log('[RepairStoryImages] Step 8: Base64 data length:', referenceImageData.length)
+
         modelSheet = {
           imageUrl: publicUrl,
-          referenceImageData: base64Match[1],
+          referenceImageData: referenceImageData, // Keep in memory for this session
         }
-        console.log('[RepairStoryImages] Step 8: modelSheet object created')
+        console.log('[RepairStoryImages] Step 8: modelSheet object created (in memory)')
 
-        // Update story with model sheet
-        console.log('[RepairStoryImages] Step 9: Updating Firestore...')
+        // Update story with model sheet URL only (not base64 data - too large for Firestore)
+        console.log('[RepairStoryImages] Step 9: Updating Firestore with URL only...')
         await adminFirestore!
           .collection('stories')
           .doc(storyId)
           .update({
             modelSheet: {
               imageUrl: publicUrl,
-              referenceImageData: base64Match[1],
+              // Don't store referenceImageData in Firestore - causes "invalid nested entity" error
+              // The image can be fetched from imageUrl if needed for future repairs
             },
             updatedAt: new Date(),
           })
-        console.log('[RepairStoryImages] Step 10: Firestore updated')
+        console.log('[RepairStoryImages] Step 10: Firestore updated with model sheet URL')
 
         result.modelSheetGenerated = true
         console.log(`[RepairStoryImages] Model sheet generated and saved for ${storyId}`)

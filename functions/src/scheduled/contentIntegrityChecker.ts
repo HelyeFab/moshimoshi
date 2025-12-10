@@ -20,7 +20,7 @@ import * as logger from 'firebase-functions/logger'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
-import { runIntegrityCheck, IntegrityCheckResult } from '../utils/integrityChecker'
+import { runIntegrityCheck, IntegrityCheckResult, IntegrityCheckOptions } from '../utils/integrityChecker'
 import {
   generateCheckId,
   wasCheckProcessed,
@@ -199,14 +199,42 @@ export const manualIntegrityCheckerFunction = onCall(
     }
 
     const triggeredBy = request.auth?.uid || 'admin-key'
-    const checkId = generateCheckId('manual', undefined, `${triggeredBy}_${Date.now()}`)
+
+    // Generate check ID using current time slot (same pattern as scheduled)
+    // This creates idempotency - multiple triggers in the same minute will be deduplicated
+    const now = new Date()
+    const timeSlot = now.toISOString().replace(/:\d{2}\.\d{3}Z$/, ':00.000Z') // Round to minute
+    const checkId = generateCheckId('manual', timeSlot, triggeredBy)
     const instanceId = `manual_${checkId}`
+
+    // Extract options from request data (for manual triggers)
+    const options: IntegrityCheckOptions = {}
+    if (request.data?.maxStories !== undefined) {
+      options.maxStories = Math.min(5, Math.max(1, parseInt(request.data.maxStories) || 1))
+    }
+    if (request.data?.maxArticles !== undefined) {
+      options.maxArticles = Math.min(5, Math.max(1, parseInt(request.data.maxArticles) || 1))
+    }
 
     logger.info('[ContentIntegrityChecker] Manual trigger initiated', {
       checkId,
       userId: triggeredBy,
-      timestamp: new Date().toISOString(),
+      timestamp: now.toISOString(),
+      timeSlot,
+      options,
     })
+
+    // Check idempotency - skip if already processed in this time slot
+    if (await wasCheckProcessed(checkId)) {
+      logger.info('[ContentIntegrityChecker] Manual check already processed in this time slot, skipping', {
+        checkId,
+        timeSlot,
+      })
+      throw new HttpsError(
+        'already-exists',
+        `Integrity check already ran at ${timeSlot}. Please wait a minute before triggering again.`
+      )
+    }
 
     // Try to acquire lock (manual can fail if another check is running)
     const lockAcquired = await tryAcquireLock(instanceId)
@@ -220,7 +248,7 @@ export const manualIntegrityCheckerFunction = onCall(
     try {
       await markCheckStarted(checkId, 'manual', triggeredBy)
 
-      const result = await runIntegrityCheck(expectedAdminKey, checkId)
+      const result = await runIntegrityCheck(expectedAdminKey, checkId, options)
 
       // Log results to Firestore
       await db.collection('integrity_check_logs').add({

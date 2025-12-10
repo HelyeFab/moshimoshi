@@ -1,797 +1,751 @@
-'use client'
-
-import { useState, useRef, useEffect, useCallback, useMemo, Suspense } from 'react'
-import { useI18n } from '@/i18n/I18nContext'
-// Navigation is now global via NavigationWrapper in root layout;
-import Navbar from '@/components/layout/Navbar'
-import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useSearchParams } from 'next/navigation'
-import { useAuth } from '@/hooks/useAuth'
-import { useSubscription } from '@/hooks/useSubscription'
-import Link from 'next/link'
-import YouTubeInput from '@/components/youtube-shadowing/YouTubeInput'
-import EnhancedShadowingPlayer from '@/components/youtube-shadowing/EnhancedShadowingPlayer'
-import TranscriptViewerNew from '@/components/youtube-shadowing/TranscriptViewerNew'
-import { useToast } from '@/components/ui/Toast/ToastContext'
-import { extractVideoId } from '@/utils/youtubeHelpers'
-import { TranscriptCacheManager } from '@/utils/transcriptCache'
-import type {
-  TranscriptLine,
-  ShadowingSession,
-  ShadowingVideoMetadata,
-} from '@/types/youtubeShadowing'
-
-const SESSION_STORAGE_KEY = 'youtubeShadowingSession'
-
-// Re-export types for backwards compatibility
-export type { TranscriptLine, ShadowingSession }
-
-function YouTubeShadowingContent() {
-  const { t, strings } = useI18n()
-  const { user, isGuest } = useAuth()
-  const { isPremium, isFreeTier } = useSubscription()
-  const searchParams = useSearchParams()
-
-  const [session, setSession] = useState<ShadowingSession | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [showFurigana, setShowFurigana] = useState(true)
-  const [showGrammar, setShowGrammar] = useState(false)
-  const [grammarMode, setGrammarMode] = useState<'none' | 'all' | 'content' | 'grammar'>('content')
-  const [showShadowingMode, setShowShadowingMode] = useState(true)
-  const [showVideo, setShowVideo] = useState(true)
-  const [isVideoFree, setIsVideoFree] = useState(false)
-  const [viewMode, setViewMode] = useState<'input' | 'player'>('input')
-  const [useAiTranscript, setUseAiTranscript] = useState(false)
-  const [aiEnhancementStatus, setAiEnhancementStatus] = useState<
-    'idle' | 'running' | 'completed' | 'error'
-  >('idle')
-  const [aiEnhancementError, setAiEnhancementError] = useState<string | null>(null)
-  const [aiEnhancementTriggered, setAiEnhancementTriggered] = useState(false)
-
-  const previousUrlsRef = useRef<{ videoUrl?: string; audioUrl?: string }>({})
-  const playerSeekRef = useRef<((time: number) => void) | null>(null)
-  const playerPlayPauseRef = useRef<(() => void) | null>(null)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const loadTimerRef = useRef<number | null>(null)
-  const loadSourceRef = useRef<'youtube' | 'upload' | null>(null)
-  const userAiOverrideRef = useRef(false)
-  const hasHydratedFromCacheRef = useRef(false)
-  const aiContentIdRef = useRef<string | null>(null)
-  const aiStorageKeyRef = useRef<string | null>(null)
-  const { showToast } = useToast()
-
-  // Settings panel state for mobile
-  const [showSettings, setShowSettings] = useState(false)
-
-  // Stabilize onLineChange callback to prevent infinite re-subscriptions
-  const handleLineChange = useCallback((index: number) => {
-    setSession(prev => (prev ? { ...prev, currentLineIndex: index } : null))
-  }, [])
-
-  // Handle time updates from player
-  const handleTimeUpdate = useCallback((time: number) => {
-    setCurrentTime(time)
-  }, [])
-
-  // Handle play state changes from player
-  const handlePlayStateChange = useCallback((playing: boolean) => {
-    setIsPlaying(playing)
-  }, [])
-
-  // Handle play/pause toggle
-  const handlePlayPause = useCallback(() => {
-    if (playerPlayPauseRef.current) {
-      playerPlayPauseRef.current()
-    }
-  }, [])
-
-  // Direct seek handler for transcript clicks
-  const handleSeekToTime = useCallback((time: number) => {
-    console.log('[PAGE] Seeking to time:', time)
-    if (playerSeekRef.current) {
-      playerSeekRef.current(time)
-    }
-  }, [])
-
-  const sharedUrlParam = searchParams.get('url')
-
-  const updateSession = useCallback(
-    (
-      newSessionOrUpdater:
-        | ShadowingSession
-        | null
-        | ((prev: ShadowingSession | null) => ShadowingSession | null)
-    ) => {
-      setSession(prevSession => {
-        // Resolve the new session value (direct value or from updater function)
-        const newSession =
-          typeof newSessionOrUpdater === 'function'
-            ? newSessionOrUpdater(prevSession)
-            : newSessionOrUpdater
-
-        if (
-          prevSession?.videoUrl?.startsWith('blob:') &&
-          prevSession.videoUrl !== newSession?.videoUrl
-        ) {
-          URL.revokeObjectURL(prevSession.videoUrl)
-        }
-        if (
-          prevSession?.audioUrl?.startsWith('blob:') &&
-          prevSession.audioUrl !== newSession?.audioUrl
-        ) {
-          URL.revokeObjectURL(prevSession.audioUrl)
-        }
-
-        if (newSession) {
-          previousUrlsRef.current = {
-            videoUrl: newSession.videoUrl,
-            audioUrl: newSession.audioUrl,
-          }
-        }
-
-        if (!newSession) {
-          setUseAiTranscript(prev => (prev === false ? prev : false))
-          userAiOverrideRef.current = false
-        } else if (prevSession?.videoUrl !== newSession.videoUrl) {
-          const formatted = Boolean((newSession.videoMetadata as any)?.formattedTranscript?.length)
-          setUseAiTranscript(prev => (prev === formatted ? prev : formatted))
-          userAiOverrideRef.current = false
-        }
-
-        if (newSession) {
-          setViewMode('player')
-        }
-
-        return newSession
-      })
-    },
-    []
-  )
-
-  const handleUrlSubmit = useCallback(
-    async (url: string) => {
-      loadTimerRef.current = typeof performance !== 'undefined' ? performance.now() : Date.now()
-      loadSourceRef.current = 'youtube'
-      setUseAiTranscript(false)
-      userAiOverrideRef.current = false
-      setIsLoading(true)
-      setError(null)
-
-      try {
-        // YouTube feature is available to all users
-        // No access check needed for YouTube videos
-
-        // Extract video ID from URL
-        const videoId = extractVideoId(url)
-
-        if (!videoId) {
-          setError(t('youtubeShadowing.errors.invalidUrl'))
-          setIsLoading(false)
-          loadTimerRef.current = null
-          loadSourceRef.current = null
-          return
-        }
-
-        // Create session with "youtube-player" as audioUrl to indicate YouTube mode
-        updateSession({
-          videoUrl: url,
-          audioUrl: 'youtube-player',
-          transcript: [],
-          currentLineIndex: 0,
-        })
-      } catch (err) {
-        setError(t('common.error'))
-        console.error(err)
-        loadTimerRef.current = null
-        loadSourceRef.current = null
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    [t, updateSession]
-  )
-
-  // Handle URL parameters (e.g., from My Videos)
-  useEffect(() => {
-    if (!sharedUrlParam || session) {
-      return
-    }
-
-    const decodedUrl = decodeURIComponent(sharedUrlParam)
-    void handleUrlSubmit(decodedUrl)
-  }, [sharedUrlParam, session, handleUrlSubmit])
-
-  // Restore cached session on first render
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    if (hasHydratedFromCacheRef.current) {
-      return
-    }
-
-    try {
-      const stored = localStorage.getItem(SESSION_STORAGE_KEY)
-      if (!stored) {
-        hasHydratedFromCacheRef.current = true
-        return
-      }
-
-      const parsed = JSON.parse(stored)
-      if (!parsed || typeof parsed !== 'object' || !parsed.session) {
-        hasHydratedFromCacheRef.current = true
-        localStorage.removeItem(SESSION_STORAGE_KEY)
-        return
-      }
-
-      const restoredSession = parsed.session as ShadowingSession
-
-      if (!restoredSession?.videoUrl || restoredSession.videoUrl.startsWith('blob:')) {
-        hasHydratedFromCacheRef.current = true
-        localStorage.removeItem(SESSION_STORAGE_KEY)
-        return
-      }
-
-      hasHydratedFromCacheRef.current = true
-      updateSession(restoredSession)
-
-      // Restore cached transcript if available
-      if (
-        parsed.cachedTranscript &&
-        Array.isArray(parsed.cachedTranscript) &&
-        parsed.cachedTranscript.length > 0
-      ) {
-        console.log(
-          `[YouTubeShadowing] Restored ${parsed.cachedTranscript.length} cached transcript segments from localStorage`
-        )
-        setCachedTranscriptSegments(parsed.cachedTranscript)
-      }
-
-      if (typeof parsed.useAi === 'boolean') {
-        userAiOverrideRef.current = true
-        setUseAiTranscript(parsed.useAi)
-      }
-    } catch (err) {
-      console.warn('[YouTubeShadowing] Failed to restore cached session:', err)
-      hasHydratedFromCacheRef.current = true
-      localStorage.removeItem(SESSION_STORAGE_KEY)
-    }
-  }, [updateSession])
-
-  // Cleanup blob URLs when component unmounts or session changes
-  useEffect(() => {
-    return () => {
-      if (previousUrlsRef.current.videoUrl?.startsWith('blob:')) {
-        URL.revokeObjectURL(previousUrlsRef.current.videoUrl)
-      }
-      if (previousUrlsRef.current.audioUrl?.startsWith('blob:')) {
-        URL.revokeObjectURL(previousUrlsRef.current.audioUrl)
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    setAiEnhancementStatus('idle')
-    setAiEnhancementError(null)
-
-    if (!session?.videoUrl || session.audioUrl !== 'youtube-player') {
-      aiContentIdRef.current = null
-      aiStorageKeyRef.current = null
-      setAiEnhancementTriggered(false)
-      return
-    }
-
-    const contentId = TranscriptCacheManager.generateContentId({
-      type: 'youtube',
-      videoUrl: session.videoUrl,
-    })
-
-    aiContentIdRef.current = contentId
-    const storageKey = `youtube-shadowing-ai-trigger:${contentId}`
-    aiStorageKeyRef.current = storageKey
-
-    if (typeof window === 'undefined') {
-      setAiEnhancementTriggered(false)
-      return
-    }
-
-    const stored = window.localStorage.getItem(storageKey)
-    setAiEnhancementTriggered(stored === '1')
-  }, [session?.videoUrl, session?.audioUrl])
-
-  const handleAudioExtracted = useCallback((audioUrl: string, title?: string) => {
-    setSession(prevSession => {
-      if (!prevSession) return prevSession
-
-      // Update the session with new audio URL and title
-      const newSession = {
-        ...prevSession,
-        audioUrl,
-        ...(title && { videoTitle: title }),
-      }
-
-      // Update refs
-      previousUrlsRef.current = {
-        videoUrl: newSession.videoUrl,
-        audioUrl: newSession.audioUrl,
-      }
-
-      return newSession
-    })
-  }, [])
-
-  interface TranscriptLoadPayload {
-    transcript: TranscriptLine[]
-    videoTitle?: string
-    videoMetadata?: Record<string, unknown>
-  }
-
-  const handleTranscriptLoaded = useCallback(
-    ({ transcript, videoTitle, videoMetadata }: TranscriptLoadPayload) => {
-      setSession(prevSession => {
-        if (!prevSession) return prevSession
-
-        const hadFormatted = Boolean(
-          (prevSession.videoMetadata as any)?.formattedTranscript?.length
-        )
-        const hasFormattedNow = Boolean((videoMetadata as any)?.formattedTranscript?.length)
-
-        // Update AI transcript setting if needed
-        if (hasFormattedNow && !hadFormatted && !userAiOverrideRef.current) {
-          setUseAiTranscript(true)
-        }
-
-        // Log timing info
-        if (loadSourceRef.current === 'youtube' && loadTimerRef.current !== null) {
-          const end = typeof performance !== 'undefined' ? performance.now() : Date.now()
-          const elapsedMs = Math.round(end - loadTimerRef.current)
-          console.log(
-            `[YouTube Shadowing] Transcript ready in ${elapsedMs}ms (YouTube native pipeline)`
-          )
-          loadTimerRef.current = null
-          loadSourceRef.current = null
-        }
-
-        // Return updated session with explicit type assertion
-        const updatedSession: ShadowingSession = {
-          ...prevSession,
-          transcript,
-          ...(videoTitle && { videoTitle }),
-          ...(videoMetadata && {
-            videoMetadata: {
-              ...(prevSession.videoMetadata || {}),
-              ...videoMetadata,
-              metadata: {
-                ...((prevSession.videoMetadata as any)?.metadata || {}),
-                ...((videoMetadata as any)?.metadata || {}),
-              },
-            } as ShadowingVideoMetadata,
-          }),
-        }
-        return updatedSession
-      })
-    },
-    []
-  )
-
-  // Stats for the header
-  const stats = {
-    total: 0,
-    learned: 0,
-    accuracy: 0,
-  }
-
-  const handleToggleAiTranscript = useCallback((value: boolean) => {
-    userAiOverrideRef.current = true
-    setUseAiTranscript(prev => (prev === value ? prev : value))
-  }, [])
-
-  const formattedSegments = useMemo(
-    () => (session?.videoMetadata as any)?.formattedTranscript,
-    [session?.videoMetadata]
-  )
-  const formattedAvailable = Array.isArray(formattedSegments) && formattedSegments.length > 0
-  const canRequestAiEnhancement = useMemo(() => {
-    if (!session) return false
-    if (session.audioUrl !== 'youtube-player') return false
-    if (!session.transcript || session.transcript.length === 0) return false
-    if (formattedAvailable) return false
-    if (aiEnhancementTriggered) return false
-    return true
-  }, [session, formattedAvailable, aiEnhancementTriggered])
-
-  const handleManualAiEnhancement = useCallback(async () => {
-    if (!session || session.audioUrl !== 'youtube-player') {
-      return
-    }
-    if (!session.transcript || session.transcript.length === 0) {
-      return
-    }
-    if (!canRequestAiEnhancement && aiEnhancementStatus !== 'running') {
-      return
-    }
-    if (aiEnhancementStatus === 'running') {
-      return
-    }
-
-    setAiEnhancementStatus('running')
-    setAiEnhancementError(null)
-    setAiEnhancementTriggered(true)
-    const storageKey = aiStorageKeyRef.current
-    const contentId = aiContentIdRef.current
-
-    try {
-      const response = await fetch('/api/youtube/extract', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          enhanceOnly: true,
-          rawTranscript: session.transcript,
-        }),
-      })
-
-      if (!response.ok) {
-        let message = 'Failed to enhance transcript with AI.'
-        try {
-          const data = await response.json()
-          message = data?.message || data?.error || message
-        } catch {
-          // ignore parsing errors
-        }
-        throw new Error(message)
-      }
-
-      const data = await response.json()
-      if (
-        !data?.formattedTranscript ||
-        !Array.isArray(data.formattedTranscript) ||
-        data.formattedTranscript.length === 0
-      ) {
-        throw new Error('AI service returned no formatted transcript.')
-      }
-
-      if (contentId) {
-        try {
-          await TranscriptCacheManager.updateFormattedTranscript(
-            contentId,
-            data.formattedTranscript
-          )
-        } catch (cacheError) {
-          console.warn('[YouTubeShadowing] Cache update failed after AI enhancement:', cacheError)
-        }
-      }
-
-      updateSession(prev => {
-        if (!prev) {
-          return prev
-        }
-
-        const previousMetadata = prev.videoMetadata as any
-
-        return {
-          ...prev,
-          videoMetadata: {
-            ...previousMetadata,
-            formattedTranscript: data.formattedTranscript,
-            hasFormattedVersion: true,
-            metadata: {
-              ...previousMetadata?.metadata,
-              wasFormatted: true,
-            },
-          },
-        }
-      })
-
-      setUseAiTranscript(true)
-      setAiEnhancementStatus('completed')
-      setAiEnhancementError(null)
-      if (storageKey && typeof window !== 'undefined') {
-        window.localStorage.setItem(storageKey, '1')
-      }
-      showToast('AI transcript ready. Switched to enhanced view.', 'success')
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to enhance transcript with AI.'
-      setAiEnhancementStatus('error')
-      setAiEnhancementError(message)
-      setAiEnhancementTriggered(false)
-      showToast(message, 'error')
-      console.error('[YouTubeShadowing] Manual AI enhancement failed:', err)
-    }
-  }, [session, canRequestAiEnhancement, aiEnhancementStatus, updateSession, showToast])
-
-  // Handle clearing the session
-  const handleClearSession = useCallback(() => {
-    // Clear localStorage
-    localStorage.removeItem(SESSION_STORAGE_KEY)
-
-    // Clear the session state
-    updateSession(null)
-
-    // Clear cached transcript
-    setCachedTranscriptSegments([])
-
-    // Reset view mode to input
-    setViewMode('input')
-
-    // Reset other states
-    setError(null)
-    setIsLoading(false)
-    hasHydratedFromCacheRef.current = false
-  }, [])
-
-  // Track transcript data for caching
-  const [cachedTranscriptSegments, setCachedTranscriptSegments] = useState<TranscriptLine[]>([])
-
-  const handleTranscriptFromViewer = useCallback(
-    (
-      segments: TranscriptLine[],
-      info?: {
-        title?: string
-        language?: string
-        source?: string
-        cached?: boolean
-        totalSegments?: number
-      }
-    ) => {
-      setCachedTranscriptSegments(segments)
-
-      const videoMetadataPayload: Record<string, unknown> = {}
-      const nestedMetadata: Record<string, unknown> = {}
-
-      if (info?.language) {
-        videoMetadataPayload.language = info.language
-      }
-      if (info?.source) {
-        nestedMetadata.transcriptSource = info.source
-      }
-      if (info?.cached !== undefined) {
-        nestedMetadata.transcriptCached = info.cached
-      }
-      if (info?.totalSegments !== undefined) {
-        nestedMetadata.transcriptTotalSegments = info.totalSegments
-      }
-
-      if (Object.keys(nestedMetadata).length > 0) {
-        videoMetadataPayload.metadata = nestedMetadata
-      }
-
-      handleTranscriptLoaded({
-        transcript: segments,
-        videoTitle: info?.title,
-        videoMetadata:
-          Object.keys(videoMetadataPayload).length > 0 ? videoMetadataPayload : undefined,
-      })
-    },
-    [handleTranscriptLoaded]
-  )
-
-  // Persist session state for reloads
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    if (!session || session.videoUrl.startsWith('blob:')) {
-      localStorage.removeItem(SESSION_STORAGE_KEY)
-      return
-    }
-
-    const payload = {
-      version: 1,
-      savedAt: Date.now(),
-      session,
-      useAi: useAiTranscript,
-      cachedTranscript: cachedTranscriptSegments.length > 0 ? cachedTranscriptSegments : undefined,
-    }
-
-    try {
-      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(payload))
-    } catch (err) {
-      console.warn('[YouTubeShadowing] Failed to cache session:', err)
-    }
-  }, [session, useAiTranscript, cachedTranscriptSegments])
-
-  const viewerSegments: TranscriptLine[] = session
-    ? formattedAvailable && useAiTranscript
-      ? formattedSegments
-      : session.transcript
-    : []
-  const viewerSource: 'raw' | 'ai-enhanced' =
-    formattedAvailable && useAiTranscript ? 'ai-enhanced' : 'raw'
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background-light to-background dark:from-dark-850 dark:to-dark-900">
-      {/* Navbar */}
-      <Navbar user={user} showUserMenu={true} />
-
-      {isLoading && <LoadingOverlay message={t('common.loading')} />}
-
-      <div className="container mx-auto px-4 pb-20">
-        <AnimatePresence mode="wait">
-          {viewMode === 'input' && !session && (
-            <motion.div
-              key="input-screen"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="max-w-3xl mx-auto mt-8"
-            >
-              {/* Hero Section */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 }}
-                className="relative bg-gradient-to-br from-primary-500 to-primary-600 dark:from-primary-600 dark:to-primary-700 rounded-3xl p-10 mb-8 text-white overflow-hidden"
-              >
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute -right-10 -top-10 w-40 h-40 bg-white rounded-full blur-3xl" />
-                  <div className="absolute -left-10 -bottom-10 w-60 h-60 bg-white rounded-full blur-3xl" />
-                </div>
-
-                <div className="relative z-10 text-center">
-                  <div className="text-6xl mb-4">🎬</div>
-                  <h2 className="text-3xl font-bold mb-3">{t('youtubeShadowing.hero.title')}</h2>
-                  <p className="text-lg opacity-90 max-w-2xl mx-auto">
-                    {t('youtubeShadowing.hero.subtitle')}
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Input Section */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="bg-gray-50 dark:bg-dark-800 rounded-2xl shadow-lg border border-gray-200 dark:border-dark-700 p-8 mb-6"
-              >
-                {/* YouTube Input Only - No Tabs */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                    <span className="text-2xl">📺</span>
-                    {t('youtubeShadowing.input.youtubeTitle')}
-                  </h3>
-
-                  <YouTubeInput onSubmit={handleUrlSubmit} isLoading={isLoading} />
-                </div>
-
-                {error && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl"
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl flex-shrink-0">⚠️</span>
-                      <div className="flex-1">
-                        <p className="text-sm text-red-800 dark:text-red-200 font-medium">
-                          {error}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </motion.div>
-
-              {/* Features Grid */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4"
-              >
-                <div className="bg-gray-50 dark:bg-dark-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-dark-700">
-                  <div className="text-3xl mb-3">🎯</div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    {t('youtubeShadowing.features.transcripts.title')}
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {t('youtubeShadowing.features.transcripts.description')}
-                  </p>
-                </div>
-                <div className="bg-gray-50 dark:bg-dark-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-dark-700">
-                  <div className="text-3xl mb-3">🗣️</div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    {t('youtubeShadowing.features.shadowing.title')}
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {t('youtubeShadowing.features.shadowing.description')}
-                  </p>
-                </div>
-                <div className="bg-gray-50 dark:bg-dark-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-dark-700">
-                  <div className="text-3xl mb-3">📚</div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    {t('youtubeShadowing.features.furigana.title')}
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {t('youtubeShadowing.features.furigana.description')}
-                  </p>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-
-          {session && viewMode === 'player' && (
-            <motion.div
-              key="player-screen"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="max-w-5xl mx-auto"
-            >
-              {/* Video and Transcript Display */}
-              {session && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="space-y-6"
-                >
-                  {/* Enhanced Shadowing Player */}
-                  <EnhancedShadowingPlayer
-                    session={session}
-                    onLineChange={handleLineChange}
-                    onPlayerReady={(seekFn, playPauseFn) => {
-                      playerSeekRef.current = seekFn
-                      if (playPauseFn) {
-                        playerPlayPauseRef.current = playPauseFn
-                      }
-                    }}
-                    onTimeUpdate={handleTimeUpdate}
-                    onPlayStateChange={handlePlayStateChange}
-                    showVideo={showVideo}
-                    showFurigana={showFurigana}
-                    onToggleFurigana={() => setShowFurigana(!showFurigana)}
-                    showGrammar={showGrammar}
-                    onToggleGrammar={() => setShowGrammar(!showGrammar)}
-                    grammarMode={grammarMode}
-                    onGrammarModeChange={setGrammarMode}
-                    formattedAvailable={formattedAvailable}
-                    useEnhancedTranscript={useAiTranscript}
-                    onToggleTranscriptSource={handleToggleAiTranscript}
-                    canRequestAiEnhancement={canRequestAiEnhancement}
-                    onRequestAiEnhancement={handleManualAiEnhancement}
-                    aiEnhancementStatus={aiEnhancementStatus}
-                    aiEnhancementError={aiEnhancementError}
-                    onClearSession={handleClearSession}
-                    showSettings={showSettings}
-                    onShowSettingsChange={setShowSettings}
-                  />
-
-                  {/* Transcript Viewer */}
-                  <TranscriptViewerNew
-                    segments={
-                      cachedTranscriptSegments.length > 0 ? cachedTranscriptSegments : undefined
-                    }
-                    videoId={extractVideoId(session.videoUrl) || undefined}
-                    currentTime={currentTime}
-                    onSeekToTime={handleSeekToTime}
-                    showFullTranscript={true}
-                    source={viewerSource}
-                    showFurigana={showFurigana}
-                    showGrammar={showGrammar}
-                    grammarMode={grammarMode}
-                    isPlaying={isPlaying}
-                    onPlayPause={handlePlayPause}
-                    onTranscriptLoaded={handleTranscriptFromViewer}
-                  />
-                </motion.div>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  )
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import YouTube, { type YouTubeProps } from "react-youtube";
+import styles from "./page.module.css";
+import { clampRepeatCount, extractVideoId } from "@/lib/video";
+import { nextOnSegmentEnd, onRepeatCountChange } from "@/lib/shadowing/repeat";
+import { useWordExplanation } from "@/hooks/useWordExplanation";
+import WordExplanationModal from "@/components/word/WordExplanationModal";
+import { GrammarHighlightedText } from "@/components/reading/GrammarHighlightedText";
+import { PlayIcon } from "@heroicons/react/24/solid";
+import { useI18n } from "@/i18n/I18nContext";
+import { Settings, Repeat, Type, Highlighter, ChevronDown, ChevronUp, Video, Trash2 } from "lucide-react";
+import Modal from "@/components/ui/Modal";
+import PageHeader from "@/components/ui/PageHeader";
+import Navbar from "@/components/layout/Navbar";
+import { useAuth } from "@/hooks/useAuth";
+
+// Session persistence key
+const SESSION_STORAGE_KEY = "moshiPlayerSession";
+
+type HighlightMode = "none" | "all" | "content" | "grammar";
+
+// Session data structure for localStorage
+interface PlayerSession {
+  version: number;
+  savedAt: number;
+  videoInput: string;
+  videoId: string | null;
+  segments: TranscriptSegment[];
+  source: string | null;
+  currentSegmentIndex: number;
+  currentRepeat: number;
+  repeatCount: number;
+  showFurigana: boolean;
+  highlightMode: HighlightMode;
 }
 
+type TranscriptSegment = {
+  start: number;
+  end: number;
+  text: string;
+};
+
+type TranscriptResponse = {
+  segments: TranscriptSegment[];
+  language?: string;
+  source: string;
+};
+
+const PLAYER_STATES = {
+  unstarted: -1,
+  ended: 0,
+  playing: 1,
+  paused: 2,
+  buffering: 3,
+  cued: 5,
+} as const;
+
 export default function YouTubeShadowingPage() {
+  const { t } = useI18n();
+  const { user } = useAuth();
+  const [videoInput, setVideoInput] = useState("");
+  const [videoId, setVideoId] = useState<string | null>(null);
+  const [language] = useState("ja");
+  const [segments, setSegments] = useState<TranscriptSegment[]>([]);
+  const [source, setSource] = useState<string | null>(null);
+  const [loadingTranscript, setLoadingTranscript] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+  const [repeatCount, setRepeatCount] = useState(3);
+  const [currentSegmentIndex, setCurrentSegmentIndex] = useState(0);
+  const [currentRepeat, setCurrentRepeat] = useState(1);
+
+  // Settings state
+  const [showFurigana, setShowFurigana] = useState(true);
+  const [highlightMode, setHighlightMode] = useState<HighlightMode>("content");
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+  const [showUrlInput, setShowUrlInput] = useState(true);
+
+  // Word explanation state
+  const [wordModalOpen, setWordModalOpen] = useState(false);
+  const [selectedWord, setSelectedWord] = useState<string | null>(null);
+  const [wordContext, setWordContext] = useState<string | undefined>(undefined);
+
+  const {
+    explainWord,
+    loading: wordLoading,
+    error: wordError,
+    explanation: wordExplanation,
+    reset: resetWordExplanation,
+  } = useWordExplanation();
+
+  const playerRef = useRef<YT.Player | null>(null);
+  const pollRef = useRef<NodeJS.Timeout | null>(null);
+  const segmentsRef = useRef<TranscriptSegment[]>([]);
+  const repeatCountRef = useRef(repeatCount);
+  const segmentIndexRef = useRef(0);
+  const currentRepeatRef = useRef(1);
+  const hasHydratedRef = useRef(false);
+
+  const opts: YouTubeProps["opts"] = useMemo(
+    () => ({
+      width: "100%",
+      height: "540",
+      playerVars: {
+        autoplay: 0,
+        modestbranding: 1,
+        rel: 0,
+        controls: 1,
+      },
+    }),
+    [],
+  );
+
+  const clearPoll = useCallback(() => {
+    if (pollRef.current) {
+      clearInterval(pollRef.current);
+      pollRef.current = null;
+    }
+  }, []);
+
+  const seekToSegment = useCallback(
+    (index: number) => {
+      const player = playerRef.current;
+      const segment = segmentsRef.current[index];
+
+      if (!player || !segment) return;
+
+      segmentIndexRef.current = index;
+      currentRepeatRef.current = 1;
+      setCurrentSegmentIndex(index);
+      setCurrentRepeat(1);
+
+      player.seekTo(segment.start, true);
+      player.playVideo();
+    },
+    [setCurrentSegmentIndex],
+  );
+
+  const evaluatePlayback = useCallback(() => {
+    const player = playerRef.current;
+    const segment = segmentsRef.current[segmentIndexRef.current];
+
+    if (!player || !segment) return;
+
+    const currentTime = player.getCurrentTime();
+    const segmentEnd = Math.max(segment.end - 0.08, segment.start + 0.05);
+
+    if (currentTime >= segmentEnd) {
+      const next = nextOnSegmentEnd({
+        repeatCount: repeatCountRef.current,
+        currentRepeat: currentRepeatRef.current,
+        segmentIndex: segmentIndexRef.current,
+        totalSegments: segmentsRef.current.length,
+      });
+
+      currentRepeatRef.current = next.currentRepeat;
+      setCurrentRepeat(next.currentRepeat);
+
+      if (next.segmentIndex !== segmentIndexRef.current) {
+        segmentIndexRef.current = next.segmentIndex;
+        setCurrentSegmentIndex(next.segmentIndex);
+      }
+
+      const target = segmentsRef.current[next.segmentIndex];
+      if (target) {
+        player.seekTo(target.start, true);
+        player.playVideo();
+      } else {
+        clearPoll();
+      }
+    }
+  }, [clearPoll]);
+
+  const startPoll = useCallback(() => {
+    if (pollRef.current) return;
+    pollRef.current = setInterval(evaluatePlayback, 250);
+  }, [evaluatePlayback]);
+
+  const handleStateChange: YouTubeProps["onStateChange"] = (event) => {
+    if (event.data === PLAYER_STATES.playing) {
+      startPoll();
+    } else if (
+      event.data === PLAYER_STATES.paused ||
+      event.data === PLAYER_STATES.ended
+    ) {
+      clearPoll();
+    }
+  };
+
+  const handleReady: YouTubeProps["onReady"] = (event) => {
+    playerRef.current = event.target;
+  };
+
+  const loadTranscript = useCallback(
+    async (input: string) => {
+      const extractedId = extractVideoId(input);
+
+      if (!extractedId) {
+        setError(t('youtubeShadowing.errors.invalidVideoId'));
+        return;
+      }
+
+      setLoadingTranscript(true);
+      setError(null);
+      setStatus(null);
+
+      try {
+        const response = await fetch(
+          `/api/transcript?videoId=${encodeURIComponent(extractedId)}&lang=${encodeURIComponent(language)}`,
+        );
+
+        if (!response.ok) {
+          const details = await response.json().catch(() => ({}));
+          throw new Error(
+            details.error || t('youtubeShadowing.errors.transcriptUnavailable'),
+          );
+        }
+
+        const data = (await response.json()) as TranscriptResponse;
+
+        setVideoId(extractedId);
+        setSegments(data.segments);
+        segmentsRef.current = data.segments;
+        segmentIndexRef.current = 0;
+        currentRepeatRef.current = 1;
+        repeatCountRef.current = repeatCount;
+        setCurrentSegmentIndex(0);
+        setCurrentRepeat(1);
+        setSource(data.source);
+        setShowUrlInput(false); // Auto-collapse form after successful load
+
+        setStatus(
+          t('youtubeShadowing.status.transcriptLoaded', {
+            source: data.source.replace("-", " "),
+            language: data.language || language,
+          }),
+        );
+
+        if (data.segments[0] && playerRef.current) {
+          playerRef.current.seekTo(data.segments[0].start, true);
+        }
+      } catch (err: unknown) {
+        const message =
+          err instanceof Error ? err.message : t('youtubeShadowing.errors.transcriptFailed');
+        setError(message);
+      } finally {
+        setLoadingTranscript(false);
+      }
+    },
+    [language, repeatCount, t],
+  );
+
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      void loadTranscript(videoInput);
+    },
+    [loadTranscript, videoInput],
+  );
+
+  const handleRepeatChange = useCallback(
+    (value: number) => {
+      const nextCount = clampRepeatCount(value);
+      setRepeatCount(nextCount);
+      repeatCountRef.current = nextCount;
+
+      if (!segmentsRef.current.length) return;
+
+      const result = onRepeatCountChange(
+        {
+          repeatCount: nextCount,
+          currentRepeat: currentRepeatRef.current,
+          segmentIndex: segmentIndexRef.current,
+          totalSegments: segmentsRef.current.length,
+        },
+        nextCount,
+      );
+
+      currentRepeatRef.current = result.currentRepeat;
+      setCurrentRepeat(result.currentRepeat);
+
+      if (result.didAdvanceSegment) {
+        segmentIndexRef.current = result.segmentIndex;
+        setCurrentSegmentIndex(result.segmentIndex);
+        seekToSegment(result.segmentIndex);
+      }
+    },
+    [seekToSegment],
+  );
+
+  // Handle word tap for explanation
+  const handleWordTap = useCallback(
+    async (word: string, context: string) => {
+      // Filter out punctuation-only tokens
+      const cleanWord = word.trim();
+      if (!cleanWord || "。、！？「」『』（）".includes(cleanWord)) {
+        return;
+      }
+
+      setSelectedWord(cleanWord);
+      setWordContext(context);
+      setWordModalOpen(true);
+      await explainWord(cleanWord, context);
+    },
+    [explainWord],
+  );
+
+  const handleCloseWordModal = useCallback(() => {
+    setWordModalOpen(false);
+    setSelectedWord(null);
+    setWordContext(undefined);
+    resetWordExplanation();
+  }, [resetWordExplanation]);
+
+  useEffect(() => {
+    return () => {
+      clearPoll();
+    };
+  }, [clearPoll]);
+
+  // Restore session from localStorage on mount
+  useEffect(() => {
+    if (typeof window === "undefined" || hasHydratedRef.current) return;
+
+    try {
+      const stored = localStorage.getItem(SESSION_STORAGE_KEY);
+      if (!stored) {
+        hasHydratedRef.current = true;
+        return;
+      }
+
+      const parsed = JSON.parse(stored) as PlayerSession;
+      if (!parsed || typeof parsed !== "object" || parsed.version !== 1) {
+        hasHydratedRef.current = true;
+        localStorage.removeItem(SESSION_STORAGE_KEY);
+        return;
+      }
+
+      // Restore state
+      if (parsed.videoInput) setVideoInput(parsed.videoInput);
+      if (parsed.videoId) setVideoId(parsed.videoId);
+      if (parsed.segments?.length) {
+        setSegments(parsed.segments);
+        segmentsRef.current = parsed.segments;
+        setShowUrlInput(false); // Collapse form when restoring a session
+      }
+      if (parsed.source) setSource(parsed.source);
+      if (typeof parsed.currentSegmentIndex === "number") {
+        setCurrentSegmentIndex(parsed.currentSegmentIndex);
+        segmentIndexRef.current = parsed.currentSegmentIndex;
+      }
+      if (typeof parsed.currentRepeat === "number") {
+        setCurrentRepeat(parsed.currentRepeat);
+        currentRepeatRef.current = parsed.currentRepeat;
+      }
+      if (typeof parsed.repeatCount === "number") {
+        setRepeatCount(parsed.repeatCount);
+        repeatCountRef.current = parsed.repeatCount;
+      }
+      if (typeof parsed.showFurigana === "boolean") setShowFurigana(parsed.showFurigana);
+      if (parsed.highlightMode) setHighlightMode(parsed.highlightMode);
+
+      hasHydratedRef.current = true;
+      console.log(`[MoshiPlayer] Restored session: ${parsed.segments?.length || 0} segments`);
+    } catch (err) {
+      console.warn("[MoshiPlayer] Failed to restore session:", err);
+      hasHydratedRef.current = true;
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+    }
+  }, []);
+
+  // Save session to localStorage when state changes
+  useEffect(() => {
+    if (typeof window === "undefined" || !hasHydratedRef.current) return;
+
+    // Don't save empty sessions
+    if (!videoId && !segments.length) {
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      return;
+    }
+
+    const session: PlayerSession = {
+      version: 1,
+      savedAt: Date.now(),
+      videoInput,
+      videoId,
+      segments,
+      source,
+      currentSegmentIndex,
+      currentRepeat,
+      repeatCount,
+      showFurigana,
+      highlightMode,
+    };
+
+    try {
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+    } catch (err) {
+      console.warn("[MoshiPlayer] Failed to save session:", err);
+    }
+  }, [videoInput, videoId, segments, source, currentSegmentIndex, currentRepeat, repeatCount, showFurigana, highlightMode]);
+
+  // Clear session function (can be called from UI)
+  const clearSession = useCallback(() => {
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+    setVideoInput("");
+    setVideoId(null);
+    setSegments([]);
+    segmentsRef.current = [];
+    setSource(null);
+    setCurrentSegmentIndex(0);
+    segmentIndexRef.current = 0;
+    setCurrentRepeat(1);
+    currentRepeatRef.current = 1;
+    setError(null);
+    setStatus(null);
+    setShowUrlInput(true);
+    console.log("[MoshiPlayer] Session cleared");
+  }, []);
+
   return (
-    <Suspense fallback={<LoadingOverlay />}>
-      <YouTubeShadowingContent />
-    </Suspense>
-  )
+    <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+      <Navbar user={user} showUserMenu={true} />
+
+      <PageHeader
+        title={t('youtubeShadowing.header.title')}
+        description={t('youtubeShadowing.header.subtitle')}
+        subtitle={t('youtubeShadowing.header.eyebrow')}
+        backHref="/dashboard"
+      />
+
+      <main className="container mx-auto px-4 py-6">
+        {/* URL Input Form - Collapsible when video is loaded */}
+        {segments.length > 0 && !showUrlInput ? (
+          <button
+            type="button"
+            onClick={() => setShowUrlInput(true)}
+            className={styles.changeVideoButton}
+          >
+            <Video className="w-4 h-4" />
+            <span>{t('youtubeShadowing.form.changeVideo')}</span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
+        ) : (
+          <form className={styles.controls} onSubmit={handleSubmit}>
+            <div className={styles.urlRow}>
+              <input
+                id="video"
+                name="video"
+                className={styles.urlInput}
+                placeholder={t('youtubeShadowing.form.videoPlaceholder')}
+                value={videoInput}
+                onChange={(e) => setVideoInput(e.target.value)}
+              />
+              <button
+                className={styles.loadButton}
+                type="submit"
+                disabled={loadingTranscript}
+              >
+                {loadingTranscript ? t('youtubeShadowing.form.loadingButton') : t('youtubeShadowing.form.loadButton')}
+              </button>
+              {segments.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setShowUrlInput(false)}
+                  className={styles.collapseButton}
+                  aria-label="Collapse"
+                >
+                  <ChevronUp className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+            {(error || status) && (
+              <div className={styles.statusBar}>
+                {error && <span className={styles.error}>{error}</span>}
+                {!error && status && <span className={styles.status}>{status}</span>}
+              </div>
+            )}
+          </form>
+        )}
+
+        <div className={styles.shell}>
+
+        <section className={styles.grid}>
+          <div className={styles.playerCard}>
+            <div className={styles.cardHeader}>
+              <div>
+                <p className={styles.pill}>{t('youtubeShadowing.player.title')}</p>
+                <h2 className={`${styles.cardTitle} ${styles.hideOnMobile}`}>
+                  {videoId ? t('youtubeShadowing.player.nowPlaying', { videoId }) : t('youtubeShadowing.player.awaitingVideo')}
+                </h2>
+              </div>
+              <div className={styles.playerMeta}>
+                <span className={styles.meta}>
+                  {t('youtubeShadowing.player.segmentProgress', { current: segments.length ? currentSegmentIndex + 1 : 0, total: segments.length })}
+                </span>
+                <span className={styles.meta}>
+                  {t('youtubeShadowing.player.repeatProgress', { current: currentRepeat, total: repeatCount })}
+                </span>
+              </div>
+            </div>
+            <div className={styles.playerFrame}>
+              {videoId ? (
+                <YouTube
+                  videoId={videoId}
+                  opts={opts}
+                  onReady={handleReady}
+                  onStateChange={handleStateChange}
+                />
+              ) : (
+                <div className={styles.placeholder}>
+                  {t('youtubeShadowing.hints.pasteToStart')}
+                </div>
+              )}
+              {/* Mobile Settings Button - inside player frame */}
+              {segments.length > 0 && (
+                <button
+                  onClick={() => setSettingsModalOpen(true)}
+                  className={styles.mobileSettingsButton}
+                  aria-label={t("youtubeShadowing.settings.title")}
+                >
+                  <Settings className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+
+            {/* Current Segment Display - Mobile only */}
+            {segments.length > 0 && segments[currentSegmentIndex] && (
+              <div className={styles.currentSegmentDisplay}>
+                <div className={styles.currentSegmentLabel}>
+                  <span>Now Playing</span>
+                  <span>{currentRepeat}/{repeatCount}</span>
+                </div>
+                <div className={styles.currentSegmentText}>
+                  <GrammarHighlightedText
+                    text={segments[currentSegmentIndex].text}
+                    highlightMode={highlightMode}
+                    showFurigana={showFurigana}
+                    onWordClick={(word: string, event: React.MouseEvent) => {
+                      event.stopPropagation();
+                      handleWordTap(word, segments[currentSegmentIndex].text);
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.transcriptCard}>
+            <div className={styles.cardHeader}>
+              <div>
+                <p className={styles.pill}>{t('youtubeShadowing.player.transcript.title')}</p>
+                <h2 className={styles.cardTitle}>{t('youtubeShadowing.player.tapWordsForExplanation')}</h2>
+              </div>
+              {source && <span className={styles.source}>{t('youtubeShadowing.player.sourceLabel', { source })}</span>}
+            </div>
+            <div className={styles.segmentList}>
+              {segments.length === 0 && (
+                <p className={styles.hint}>
+                  {t('youtubeShadowing.hints.transcriptWillAppear')}
+                </p>
+              )}
+              {segments.map((segment, index) => {
+                const active = index === currentSegmentIndex;
+
+                return (
+                  <div
+                    key={`${segment.start}-${index}`}
+                    className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
+                  >
+                    {/* Repeat badge - top right corner */}
+                    {active && (
+                      <span className={styles.repeatBadge}>
+                        {currentRepeat}/{repeatCount}
+                      </span>
+                    )}
+                    <div className={styles.segmentHeader}>
+                      <button
+                        className={styles.jumpButton}
+                        onClick={() => seekToSegment(index)}
+                        title="Jump to this segment"
+                      >
+                        <PlayIcon className={styles.jumpIcon} />
+                      </button>
+                      <div className={styles.segmentMeta}>
+                        <span>
+                          {index + 1}. {segment.start.toFixed(2)}s{" "}
+                          {segment.end.toFixed(2)}s
+                        </span>
+                      </div>
+                    </div>
+                    <div className={styles.segmentText}>
+                      <GrammarHighlightedText
+                        text={segment.text}
+                        highlightMode={highlightMode}
+                        showFurigana={showFurigana}
+                        onWordClick={(word: string, event: React.MouseEvent) => {
+                          event.stopPropagation();
+                          handleWordTap(word, segment.text);
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* Floating Navbar */}
+      {segments.length > 0 && (
+        <div className={styles.floatingNav}>
+          <button
+            onClick={() => setSettingsModalOpen(true)}
+            className={styles.navButton}
+            aria-label={t("youtubeShadowing.settings.title")}
+          >
+            <Settings className="w-5 h-5" />
+          </button>
+          <span className={styles.navProgress}>
+            {t("youtubeShadowing.player.segmentProgress", {
+              current: currentSegmentIndex + 1,
+              total: segments.length,
+            })}{" "}
+            •{" "}
+            {t("youtubeShadowing.player.repeatProgress", {
+              current: currentRepeat,
+              total: repeatCount,
+            })}
+          </span>
+        </div>
+      )}
+
+      {/* Settings Modal */}
+      <Modal
+        isOpen={settingsModalOpen}
+        onClose={() => setSettingsModalOpen(false)}
+        title={t("youtubeShadowing.settings.title")}
+        size="sm"
+      >
+        <div className="space-y-4">
+          {/* Repeat Count */}
+          <div className="py-3 border-b border-gray-200 dark:border-dark-700">
+            <div className="flex items-center justify-between mb-3">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <Repeat className="w-4 h-4 text-primary-500" />
+                {t("youtubeShadowing.form.repeatLabel")}
+              </label>
+              <span className="text-lg font-semibold text-primary-500">{repeatCount}x</span>
+            </div>
+            <input
+              type="range"
+              min={1}
+              max={10}
+              value={repeatCount}
+              onChange={(e) => handleRepeatChange(Number(e.target.value))}
+              className="w-full h-2 bg-gray-200 dark:bg-dark-600 rounded-lg appearance-none cursor-pointer accent-primary-500"
+            />
+            <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <span>1x</span>
+              <span>10x</span>
+            </div>
+          </div>
+
+          {/* Furigana Toggle */}
+          <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-dark-700">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <Type className="w-4 h-4 text-primary-500" />
+              {t("youtubeShadowing.settings.furigana")}
+            </label>
+            <button
+              onClick={() => setShowFurigana(!showFurigana)}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                showFurigana
+                  ? "bg-primary-500 text-white"
+                  : "bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
+              }`}
+            >
+              {showFurigana ? "On" : "Off"}
+            </button>
+          </div>
+
+          {/* Grammar Highlight */}
+          <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-dark-700">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <Highlighter className="w-4 h-4 text-primary-500" />
+              {t("youtubeShadowing.settings.highlighting")}
+            </label>
+            <select
+              value={highlightMode}
+              onChange={(e) =>
+                setHighlightMode(e.target.value as HighlightMode)
+              }
+              className="px-3 py-1.5 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            >
+              <option value="none">
+                {t("youtubeShadowing.settings.noHighlighting")}
+              </option>
+              <option value="content">
+                {t("youtubeShadowing.settings.contentWords")}
+              </option>
+              <option value="grammar">
+                {t("youtubeShadowing.settings.grammarWords")}
+              </option>
+              <option value="all">
+                {t("youtubeShadowing.settings.allWords")}
+              </option>
+            </select>
+          </div>
+
+          {/* Clear Session */}
+          {segments.length > 0 && (
+            <div className="flex items-center justify-between py-3">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <Trash2 className="w-4 h-4 text-red-500" />
+                {t("youtubeShadowing.settings.clearSession")}
+              </label>
+              <button
+                onClick={() => {
+                  clearSession();
+                  setSettingsModalOpen(false);
+                }}
+                className="px-4 py-1.5 rounded-lg text-sm font-medium bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+              >
+                {t("youtubeShadowing.settings.clearButton")}
+              </button>
+            </div>
+          )}
+        </div>
+      </Modal>
+
+      {/* Word Explanation Modal */}
+      <WordExplanationModal
+        isOpen={wordModalOpen}
+        onClose={handleCloseWordModal}
+        word={selectedWord}
+        explanation={wordExplanation}
+        loading={wordLoading}
+        error={wordError}
+        translationContext={wordContext ? { sentence: wordContext } : undefined}
+        showTranslationContext={true}
+        enableRelatedTranslations={true}
+        onWordLookup={(word) => handleWordTap(word, wordContext || "")}
+      />
+      </main>
+    </div>
+  );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Book } from '@/types/book';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
@@ -14,20 +14,65 @@ import {
   Calendar,
   Bookmark,
   Share2,
-  Tag
+  Tag,
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
 import Link from 'next/link';
 import { getGradientForBook } from '@/lib/utils/gradients';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function BookReaderPage() {
   const params = useParams();
   const router = useRouter();
   const bookId = params?.id as string;
+  const { user, isGuest } = useAuth();
 
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Completion state
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
+  const [completionResult, setCompletionResult] = useState<{
+    xpEarned: number;
+    streakIncremented: boolean;
+    currentStreak: number;
+  } | null>(null);
+  const [showCompletionToast, setShowCompletionToast] = useState(false);
+
+  // Reading time tracking
+  const readingStartTime = useRef<number>(Date.now());
+  const accumulatedReadingTime = useRef<number>(0);
+  const lastActiveTime = useRef<number>(Date.now());
+
+  // Track reading time when page is active
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Page became hidden, accumulate time
+        accumulatedReadingTime.current += (Date.now() - lastActiveTime.current) / 1000;
+      } else {
+        // Page became visible, reset timer
+        lastActiveTime.current = Date.now();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  // Calculate total reading time in seconds
+  const getReadingTimeSec = useCallback(() => {
+    const currentSessionTime = document.hidden
+      ? 0
+      : (Date.now() - lastActiveTime.current) / 1000;
+    return Math.floor(accumulatedReadingTime.current + currentSessionTime);
+  }, []);
 
   useEffect(() => {
     if (!bookId) return;
@@ -53,6 +98,44 @@ export default function BookReaderPage() {
 
     loadBook();
   }, [bookId]);
+
+  // Handle book completion
+  const handleComplete = async () => {
+    if (isCompleted || isCompleting || !user || isGuest) return;
+
+    setIsCompleting(true);
+    try {
+      const readingTimeSec = getReadingTimeSec();
+
+      const response = await fetch('/api/library/books/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookId,
+          readingTimeSec
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsCompleted(true);
+        setCompletionResult({
+          xpEarned: data.data.xpEarned,
+          streakIncremented: data.data.streakIncremented,
+          currentStreak: data.data.currentStreak
+        });
+        setShowCompletionToast(true);
+
+        // Hide toast after 5 seconds
+        setTimeout(() => setShowCompletionToast(false), 5000);
+      }
+    } catch (err) {
+      console.error('Error completing book:', err);
+    } finally {
+      setIsCompleting(false);
+    }
+  };
 
   if (loading) {
     return <LoadingOverlay />;
@@ -100,6 +183,15 @@ export default function BookReaderPage() {
       hasFurigana: true
     }
   };
+
+  // Convert book to single-page story format to leverage existing translation support
+  // This enables instant pre-stored translation without reader component changes
+  const bookAsPages = book.translation ? [{
+    pageNumber: 1,
+    text: book.content,
+    translation: book.translation,
+    imageUrl: book.coverImageUrl,
+  }] : undefined;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
@@ -288,8 +380,95 @@ export default function BookReaderPage() {
         transition={{ delay: 0.3 }}
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-4xl"
       >
-        <EnhancedArticleReaderFinal article={articleForReader} />
+        <EnhancedArticleReaderFinal
+          article={articleForReader}
+          pages={bookAsPages}
+          storyTitle={book.titleJa}
+        />
+
+        {/* Completion Section */}
+        {user && !isGuest && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="mt-12 mb-8 text-center"
+          >
+            <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-200 dark:border-dark-700">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                {isCompleted ? 'Book Completed!' : 'Finished reading?'}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                {isCompleted
+                  ? 'Great job completing this book! Your progress has been saved.'
+                  : 'Mark this book as complete to track your progress and earn XP.'}
+              </p>
+
+              <button
+                onClick={handleComplete}
+                disabled={isCompleted || isCompleting}
+                className={`inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl text-base font-semibold transition-all ${
+                  isCompleted
+                    ? 'bg-green-500 text-white cursor-default'
+                    : isCompleting
+                    ? 'bg-gray-300 dark:bg-dark-600 text-gray-500 dark:text-gray-400 cursor-wait'
+                    : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 active:scale-95'
+                }`}
+              >
+                {isCompleted ? (
+                  <>
+                    <CheckCircle2 className="w-5 h-5" />
+                    Completed
+                  </>
+                ) : isCompleting ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                    >
+                      <Sparkles className="w-5 h-5" />
+                    </motion.div>
+                    Completing...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="w-5 h-5" />
+                    Mark as Complete
+                  </>
+                )}
+              </button>
+            </div>
+          </motion.div>
+        )}
       </motion.div>
+
+      {/* Completion Toast */}
+      <AnimatePresence>
+        {showCompletionToast && completionResult && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+          >
+            <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="font-bold text-lg">
+                  +{completionResult.xpEarned} XP
+                </p>
+                <p className="text-white/90 text-sm">
+                  {completionResult.streakIncremented
+                    ? `Streak: ${completionResult.currentStreak} days!`
+                    : 'Book completed!'}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

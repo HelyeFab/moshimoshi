@@ -5,14 +5,25 @@
 
 'use client'
 
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { TranslationMode, ReadingSettings } from '@/types/story'
-import {
-  TranslationResult,
-  TranslationMode as TranslationModeType,
-} from '@/lib/ai/processors/TranslationProcessor'
+import { TranslationResult } from '@/lib/ai/processors/TranslationProcessor'
 import { doc, getDoc } from 'firebase/firestore'
 import { firestore } from '@/lib/firebase/client'
+
+// ============================================
+// In-Flight Request Deduplication
+// Prevents multiple simultaneous API calls for the same text
+// ============================================
+
+// Global map to track in-flight translation requests across all hook instances
+const inFlightRequests = new Map<string, Promise<TranslationResult | null>>()
+
+// Generate a simple hash for deduplication key
+function getDedupeKey(text: string): string {
+  // Use just the text for deduplication (mode/level no longer vary cache)
+  return `translate_${text.substring(0, 100)}_${text.length}`
+}
 
 // Client-side types (avoiding server-side imports)
 interface TranslationCacheDocument {
@@ -154,19 +165,6 @@ export function useContentTranslation(
   // Direct API calls instead of AIService to avoid client/server boundary issues
 
   // ============================================
-  // Local Memory Cache (legacy support)
-  // Note: Primary caching now handled by Firebase
-  // ============================================
-
-  // Keeping minimal local cache for immediate re-use within the same session
-  const getCacheKey = useCallback(
-    (text: string, mode: TranslationMode): string => {
-      return `${text}_${mode}_${settings.userLevel}_${settings.includeGrammarNotes}`
-    },
-    [settings.userLevel, settings.includeGrammarNotes]
-  )
-
-  // ============================================
   // Settings Management
   // ============================================
 
@@ -196,177 +194,206 @@ export function useContentTranslation(
         return null
       }
 
+      // 🔄 DEDUPLICATION: Check if there's already an in-flight request for this text
+      const dedupeKey = getDedupeKey(text)
+      const existingRequest = inFlightRequests.get(dedupeKey)
+
+      if (existingRequest) {
+        console.log(
+          '%c[Translation] DEDUPE: Reusing in-flight request',
+          'color: #9900ff; font-weight: bold',
+          { textPreview: text.substring(0, 30) + '...' }
+        )
+        setIsLoading(true)
+        try {
+          const result = await existingRequest
+          setIsLoading(false)
+          return result
+        } catch (err) {
+          setIsLoading(false)
+          throw err
+        }
+      }
+
       setIsLoading(true)
       setError(null)
       setFirebaseError(null)
 
-      const startTime = Date.now()
+      // Create the actual translation promise
+      const translationPromise = (async (): Promise<TranslationResult | null> => {
+        try {
+          // 🔥 STEP 0: Check Firebase pre-cached translations for news articles
+          if (settings.articleId) {
+            try {
+              console.log(
+                '[Translation] Checking Firebase pre-cache for articleId:',
+                settings.articleId
+              )
+              const docRef = doc(firestore, 'news_article_translations', settings.articleId)
+              const docSnap = await getDoc(docRef)
+
+              if (docSnap.exists()) {
+                const data = docSnap.data()
+                console.log('[Translation] Found pre-cached translations document')
+
+                // Determine which translation to use based on text content
+                let preCached: TranslationResult | null = null
+
+                // Check if this is title, summary, or content translation
+                if (data.title && text === data.title.originalText) {
+                  preCached = data.title
+                  console.log('[Translation] Using pre-cached TITLE translation')
+                } else if (data.summary && text === data.summary.originalText) {
+                  preCached = data.summary
+                  console.log('[Translation] Using pre-cached SUMMARY translation')
+                } else if (data.content && text === data.content.originalText) {
+                  preCached = data.content
+                  console.log('[Translation] Using pre-cached CONTENT translation')
+                } else if (data.sentences && Array.isArray(data.sentences)) {
+                  // Check if text matches any pre-cached sentence
+                  const matchingSentence = data.sentences.find((s: any) => s.originalText === text)
+                  if (matchingSentence) {
+                    preCached = matchingSentence
+                    console.log('[Translation] Using pre-cached SENTENCE translation')
+                  }
+                }
+
+                if (preCached) {
+                  console.log(
+                    '%c[Translation] SOURCE: FIREBASE PRE-CACHE (fast)',
+                    'color: #ff9900; font-weight: bold',
+                    {
+                      articleId: settings.articleId,
+                      textPreview: text.substring(0, 30) + '...',
+                    }
+                  )
+                  setUsageStats(prev => ({
+                    ...prev,
+                    cacheHits: prev.cacheHits + 1,
+                    firebaseCacheHits: prev.firebaseCacheHits + 1,
+                    lastUsed: new Date(),
+                  }))
+                  return preCached
+                } else {
+                  console.log('[Translation] Text not in pre-cache, will use API', {
+                    textPreview: text.substring(0, 30),
+                  })
+                }
+              } else {
+                console.log('[Translation] No pre-cache document found for article')
+              }
+            } catch (firebaseError) {
+              console.warn(
+                '[Translation] Firebase pre-cache check failed, falling back to API:',
+                firebaseError
+              )
+              // Continue to API fallback
+            }
+          }
+
+          // 🤖 STEP 1: Make AI request via server-side API with Firebase caching
+          console.log(`🔍 Making translation API call for: "${text.substring(0, 50)}..." (${mode})`)
+
+          const requestBody = {
+            text,
+            mode,
+            userLevel: settings.userLevel,
+            includeGrammarNotes: settings.includeGrammarNotes,
+            preserveGrammarStructure: true, // Default to true for better learning experience
+          }
+          console.log(`[Translation] Request body:`, requestBody)
+
+          const apiResponse = await fetch('/api/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody),
+          })
+
+          console.log(`[Translation] API Response status:`, {
+            ok: apiResponse.ok,
+            status: apiResponse.status,
+            statusText: apiResponse.statusText,
+          })
+
+          if (!apiResponse.ok) {
+            throw new Error(`Translation API error: ${apiResponse.statusText}`)
+          }
+
+          const response = await apiResponse.json()
+          console.log(`[Translation] API Response:`, {
+            success: response.success,
+            hasData: !!response.data,
+            error: response.error,
+            cached: response.cached,
+            responseTime: response.responseTime,
+          })
+
+          if (response.success && response.data) {
+            const result = response.data
+
+            // Log cache status
+            if (response.cached) {
+              console.log(
+                '%c[Translation] SOURCE: API CACHE (Firebase translation_cache)',
+                'color: #00ff00; font-weight: bold',
+                { responseTime: response.responseTime + 'ms' }
+              )
+              setUsageStats(prev => ({
+                ...prev,
+                cacheHits: prev.cacheHits + 1,
+                firebaseCacheHits: prev.firebaseCacheHits + 1,
+                lastUsed: new Date(),
+              }))
+            } else {
+              console.log(
+                '%c[Translation] SOURCE: API (OpenAI)',
+                'color: #ff0000; font-weight: bold',
+                { responseTime: response.responseTime + 'ms' }
+              )
+              setUsageStats(prev => ({
+                ...prev,
+                translationsRequested: prev.translationsRequested + 1,
+                hintsRequested: mode === 'hints' ? prev.hintsRequested + 1 : prev.hintsRequested,
+                cacheMisses: prev.cacheMisses + 1,
+                costSaved: prev.costSaved + (response.usage?.estimatedCost || 0),
+                lastUsed: new Date(),
+              }))
+            }
+
+            // Auto-add vocabulary if enabled
+            if (settings.autoAddToVocabulary && result.keyVocabulary) {
+              result.keyVocabulary.forEach(
+                (vocab: { word: string; meaning: string; difficulty: string }) => {
+                  if (vocab.difficulty === 'medium' || vocab.difficulty === 'hard') {
+                    addToVocabulary(vocab.word, vocab.meaning)
+                  }
+                }
+              )
+            }
+
+            return result
+          } else {
+            throw new Error(response.error || 'Translation failed')
+          }
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Translation failed'
+          setError(errorMessage)
+          throw err
+        }
+      })()
+
+      // Register the in-flight request for deduplication
+      inFlightRequests.set(dedupeKey, translationPromise)
+      console.log(`[Translation] Registered in-flight request: ${dedupeKey}`)
 
       try {
-        // 🔥 STEP 0: Check Firebase pre-cached translations for news articles
-        if (settings.articleId) {
-          try {
-            console.log(
-              '[Translation] Checking Firebase pre-cache for articleId:',
-              settings.articleId
-            )
-            const docRef = doc(firestore, 'news_article_translations', settings.articleId)
-            const docSnap = await getDoc(docRef)
-
-            if (docSnap.exists()) {
-              const data = docSnap.data()
-              console.log('[Translation] Found pre-cached translations document')
-
-              // Determine which translation to use based on text content
-              let preCached: TranslationResult | null = null
-
-              // Check if this is title, summary, or content translation
-              if (data.title && text === data.title.originalText) {
-                preCached = data.title
-                console.log('[Translation] Using pre-cached TITLE translation')
-              } else if (data.summary && text === data.summary.originalText) {
-                preCached = data.summary
-                console.log('[Translation] Using pre-cached SUMMARY translation')
-              } else if (data.content && text === data.content.originalText) {
-                preCached = data.content
-                console.log('[Translation] Using pre-cached CONTENT translation')
-              } else if (data.sentences && Array.isArray(data.sentences)) {
-                // Check if text matches any pre-cached sentence
-                const matchingSentence = data.sentences.find((s: any) => s.originalText === text)
-                if (matchingSentence) {
-                  preCached = matchingSentence
-                  console.log('[Translation] Using pre-cached SENTENCE translation')
-                }
-              }
-
-              if (preCached) {
-                console.log(
-                  '%c[Translation] SOURCE: FIREBASE PRE-CACHE (fast)',
-                  'color: #ff9900; font-weight: bold',
-                  {
-                    articleId: settings.articleId,
-                    textPreview: text.substring(0, 30) + '...',
-                  }
-                )
-                setUsageStats(prev => ({
-                  ...prev,
-                  cacheHits: prev.cacheHits + 1,
-                  firebaseCacheHits: prev.firebaseCacheHits + 1,
-                  lastUsed: new Date(),
-                }))
-                setIsLoading(false)
-                return preCached
-              } else {
-                console.log('[Translation] Text not in pre-cache, will use API', {
-                  textPreview: text.substring(0, 30),
-                })
-              }
-            } else {
-              console.log('[Translation] No pre-cache document found for article')
-            }
-          } catch (firebaseError) {
-            console.warn(
-              '[Translation] Firebase pre-cache check failed, falling back to API:',
-              firebaseError
-            )
-            // Continue to API fallback
-          }
-        }
-
-        // 🤖 STEP 1: Make AI request via server-side API with Firebase caching
-        console.log(`🔍 Making translation API call for: "${text.substring(0, 50)}..." (${mode})`)
-
-        const requestBody = {
-          text,
-          mode,
-          userLevel: settings.userLevel,
-          includeGrammarNotes: settings.includeGrammarNotes,
-          preserveGrammarStructure: true, // Default to true for better learning experience
-        }
-        console.log(`[Translation] Request body:`, requestBody)
-
-        const apiResponse = await fetch('/api/translate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody),
-        })
-
-        console.log(`[Translation] API Response status:`, {
-          ok: apiResponse.ok,
-          status: apiResponse.status,
-          statusText: apiResponse.statusText,
-          headers: Object.fromEntries(apiResponse.headers.entries()),
-        })
-
-        if (!apiResponse.ok) {
-          throw new Error(`Translation API error: ${apiResponse.statusText}`)
-        }
-
-        const response = await apiResponse.json()
-        console.log(`[Translation] API Response:`, {
-          success: response.success,
-          hasData: !!response.data,
-          error: response.error,
-          response: response,
-        })
-
-        if (response.success && response.data) {
-          const result = response.data
-
-          // Log cache status
-          if (response.cached) {
-            console.log(
-              '%c[Translation] SOURCE: API CACHE (Firebase translation_cache)',
-              'color: #00ff00; font-weight: bold',
-              {
-                responseTime: response.responseTime + 'ms',
-              }
-            )
-            setUsageStats(prev => ({
-              ...prev,
-              cacheHits: prev.cacheHits + 1,
-              firebaseCacheHits: prev.firebaseCacheHits + 1,
-              lastUsed: new Date(),
-            }))
-          } else {
-            console.log(
-              '%c[Translation] SOURCE: API (OpenAI)',
-              'color: #ff0000; font-weight: bold',
-              {
-                responseTime: response.responseTime + 'ms',
-              }
-            )
-            setUsageStats(prev => ({
-              ...prev,
-              translationsRequested: prev.translationsRequested + 1,
-              hintsRequested: mode === 'hints' ? prev.hintsRequested + 1 : prev.hintsRequested,
-              cacheMisses: prev.cacheMisses + 1,
-              costSaved: prev.costSaved + (response.usage?.estimatedCost || 0),
-              lastUsed: new Date(),
-            }))
-          }
-
-          // Auto-add vocabulary if enabled
-          if (settings.autoAddToVocabulary && result.keyVocabulary) {
-            result.keyVocabulary.forEach(
-              (vocab: { word: string; meaning: string; difficulty: string }) => {
-                if (vocab.difficulty === 'medium' || vocab.difficulty === 'hard') {
-                  addToVocabulary(vocab.word, vocab.meaning)
-                }
-              }
-            )
-          }
-
-          setIsLoading(false)
-          return result
-        } else {
-          throw new Error(response.error || 'Translation failed')
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Translation failed'
-        setError(errorMessage)
+        const result = await translationPromise
+        return result
+      } finally {
+        // Clean up the in-flight request after completion (success or failure)
+        inFlightRequests.delete(dedupeKey)
+        console.log(`[Translation] Cleaned up in-flight request: ${dedupeKey}`)
         setIsLoading(false)
-        return null
       }
     },
     [settings]
@@ -499,7 +526,7 @@ export function useContentTranslation(
   // ============================================
 
   const getPopularTranslations = useCallback(
-    async (limit: number = 10): Promise<TranslationCacheDocument[]> => {
+    async (_limit: number = 10): Promise<TranslationCacheDocument[]> => {
       try {
         // TODO: Implement API endpoint for popular translations
         // For now, return empty array to avoid server-side imports

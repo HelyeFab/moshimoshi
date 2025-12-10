@@ -23,12 +23,12 @@ const db = admin.firestore()
 // ============================================================================
 
 export const IDEMPOTENCY_CONFIG = {
-  REPAIR_COOLDOWN_HOURS: 6, // Hours before retry allowed
+  REPAIR_COOLDOWN_HOURS: 0, // Disabled - allow immediate retries
   MAX_CONSECUTIVE_FAILURES: 3, // Circuit breaker threshold
   LOCK_EXPIRY_MINUTES: 10, // Lock auto-expires after this
   CHECK_TTL_DAYS: 14, // Auto-cleanup processed checks after this
   REPAIR_TTL_DAYS: 14, // Auto-cleanup repair attempts after this
-  EXTENDED_COOLDOWN_HOURS: 24, // Extended cooldown after circuit breaker trips
+  EXTENDED_COOLDOWN_HOURS: 0, // Disabled - no extended cooldown
 }
 
 // ============================================================================
@@ -95,18 +95,31 @@ export interface CanRepairResult {
 
 /**
  * Generate a unique check ID from schedule time or manual request
+ *
+ * For scheduled runs: Uses schedule time as idempotency key
+ * For manual runs: Uses time slot (rounded to minute) + triggeredBy for idempotency
+ *
+ * This ensures that:
+ * - Scheduled runs with the same schedule time are deduplicated
+ * - Manual runs within the same minute by the same user are deduplicated
  */
 export function generateCheckId(
   type: 'scheduled' | 'manual',
-  scheduleTime?: string,
-  requestId?: string
+  timeSlot?: string,
+  triggeredBy?: string
 ): string {
-  if (type === 'scheduled' && scheduleTime) {
+  if (type === 'scheduled' && timeSlot) {
     // Use schedule time as idempotency key for scheduled runs
-    return `scheduled_${scheduleTime.replace(/[:.]/g, '-')}`
+    return `scheduled_${timeSlot.replace(/[:.]/g, '-')}`
   }
-  // For manual runs, use request ID + timestamp
-  return `manual_${requestId || 'unknown'}_${Date.now()}`
+  if (type === 'manual' && timeSlot) {
+    // Use time slot + triggeredBy for manual runs (idempotent within same minute)
+    const sanitizedTime = timeSlot.replace(/[:.]/g, '-')
+    const sanitizedUser = (triggeredBy || 'unknown').replace(/[^a-zA-Z0-9-]/g, '_')
+    return `manual_${sanitizedTime}_${sanitizedUser}`
+  }
+  // Fallback: unique ID (no idempotency)
+  return `${type}_${triggeredBy || 'unknown'}_${Date.now()}`
 }
 
 // ============================================================================

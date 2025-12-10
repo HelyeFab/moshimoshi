@@ -1,6 +1,11 @@
 /**
  * Service Worker Registration Module
  * Handles PWA installation and lifecycle management
+ *
+ * In development: Uses service-worker.dev.js (pass-through, no caching)
+ * In production: Uses service-worker.js (full caching)
+ *
+ * @see /docs/pwa/06-dev-vs-prod-service-worker.md for switching guide
  */
 
 export interface ServiceWorkerRegistration {
@@ -8,6 +13,42 @@ export interface ServiceWorkerRegistration {
   isSupported: boolean;
   isRegistered: boolean;
   error: Error | null;
+}
+
+/**
+ * Determine which service worker to use based on environment
+ */
+function getServiceWorkerPath(): { path: string; mode: 'development' | 'production' } {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const forceProduction = process.env.NEXT_PUBLIC_FORCE_PROD_SW === 'true';
+
+  if (isDevelopment && !forceProduction) {
+    return { path: '/service-worker.dev.js', mode: 'development' };
+  }
+
+  return { path: '/service-worker.js', mode: 'production' };
+}
+
+/**
+ * Log which service worker is being used with visual distinction
+ */
+function logServiceWorkerMode(mode: 'development' | 'production', path: string): void {
+  if (mode === 'development') {
+    console.log(
+      '%c[SW] Using DEVELOPMENT Service Worker',
+      'background: #fbbf24; color: #000; padding: 4px 8px; border-radius: 4px; font-weight: bold;'
+    );
+    console.log('[SW] Path:', path);
+    console.log('[SW] Mode: Pass-through (no caching)');
+    console.log('[SW] To use production SW, set NEXT_PUBLIC_FORCE_PROD_SW=true');
+  } else {
+    console.log(
+      '%c[SW] Using PRODUCTION Service Worker',
+      'background: #22c55e; color: #fff; padding: 4px 8px; border-radius: 4px; font-weight: bold;'
+    );
+    console.log('[SW] Path:', path);
+    console.log('[SW] Mode: Full caching enabled');
+  }
 }
 
 /**
@@ -27,7 +68,8 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
 
   // Only register in production or when explicitly enabled
   if (process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_ENABLE_SW_DEV) {
-    // Service Worker registration disabled in development
+    console.log('[SW] Service Worker registration disabled in development');
+    console.log('[SW] To enable, set NEXT_PUBLIC_ENABLE_SW_DEV=true in .env.local');
     return {
       registration: null,
       isSupported: true,
@@ -46,12 +88,23 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
       }
     });
 
-    // Register service worker
-    const registration = await navigator.serviceWorker.register('/service-worker.js', {
-      scope: '/'
+    // Determine which service worker to use
+    const { path: swPath, mode } = getServiceWorkerPath();
+
+    // Log which SW we're using
+    logServiceWorkerMode(mode, swPath);
+
+    // Register service worker with updateViaCache: 'none' for dev to ensure fresh SW
+    const registration = await navigator.serviceWorker.register(swPath, {
+      scope: '/',
+      updateViaCache: mode === 'development' ? 'none' : 'imports'
     });
 
-    console.log('[SW] Service Worker registered successfully:', registration);
+    console.log('[SW] Service Worker registered successfully');
+    console.log('[SW] Scope:', registration.scope);
+    console.log('[SW] Active:', registration.active?.state || 'none');
+    console.log('[SW] Waiting:', registration.waiting?.state || 'none');
+    console.log('[SW] Installing:', registration.installing?.state || 'none');
 
     // Handle updates
     registration.addEventListener('updatefound', () => {

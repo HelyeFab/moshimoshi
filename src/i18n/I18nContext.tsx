@@ -65,11 +65,13 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
         return
       }
 
-      // Check browser language
+      // Check browser language - detect all supported languages
       const browserLang = navigator.language.toLowerCase()
-      if (browserLang.startsWith('ja')) {
-        setLanguageState('ja')
+      const detectedLang = languages.find(lang => browserLang.startsWith(lang))
+      if (detectedLang) {
+        setLanguageState(detectedLang)
       }
+      // If no match, keeps the default language ('en')
     }
   }, [])
 

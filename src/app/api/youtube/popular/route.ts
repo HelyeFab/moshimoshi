@@ -177,18 +177,24 @@ export async function GET(req: NextRequest) {
 
     if (session && adminDb) {
       try {
+        // Use simplified query to avoid composite index requirement
+        // Then filter in memory for contentType === 'youtube'
         const userPracticeSnapshot = await adminDb
           .collection('userPracticeHistory')
           .where('userId', '==', session.uid)
-          .where('contentType', '==', 'youtube')
           .get()
 
-        userStats.totalVideos = userPracticeSnapshot.size
-        userStats.totalPracticeTime = userPracticeSnapshot.docs.reduce((total, doc) => {
+        const youtubeDocs = userPracticeSnapshot.docs.filter(
+          doc => doc.data().contentType === 'youtube'
+        )
+
+        userStats.totalVideos = youtubeDocs.length
+        userStats.totalPracticeTime = youtubeDocs.reduce((total, doc) => {
           return total + (doc.data().totalPracticeTime || 0)
         }, 0)
       } catch (err) {
         console.error('[Popular API] Error fetching user stats:', err)
+        // Don't throw - return empty stats instead
       }
     }
 
@@ -245,7 +251,11 @@ export async function GET(req: NextRequest) {
       cached: false,
     })
   } catch (error: any) {
-    console.error('Error fetching popular videos:', error)
-    return NextResponse.json({ error: 'Failed to fetch popular videos' }, { status: 500 })
+    console.error('[Popular API] Error fetching popular videos:', error)
+    console.error('[Popular API] Error stack:', error?.stack)
+    return NextResponse.json({
+      error: 'Failed to fetch popular videos',
+      message: process.env.NODE_ENV === 'development' ? error?.message : undefined
+    }, { status: 500 })
   }
 }

@@ -2141,7 +2141,13 @@ export const strings = {
   // YouTube Shadowing
   youtubeShadowing: {
     title: 'Shadowing YouTube',
-    description: 'Pratiquez le japonais avec des vidéos YouTube et des fichiers multimédias',
+    description: 'Pratiquez le japonais avec des vidéos YouTube et des fichiers audio',
+
+    header: {
+      eyebrow: 'Lecteur de Shadowing',
+      title: 'MoshiPlayer',
+      subtitle: 'Bouclez les transcriptions, restez concentré.',
+    },
 
     hero: {
       title: "Maîtrisez le japonais avec n'importe quel média",
@@ -2152,6 +2158,16 @@ export const strings = {
     modes: {
       input: 'Ajouter un média',
       player: 'Pratiquer',
+    },
+
+    form: {
+      videoLabel: 'URL ou ID YouTube',
+      videoPlaceholder: 'https://youtu.be/VIDEO_ID',
+      languageLabel: 'Langue',
+      repeatLabel: 'Nombre de répétitions (1-10)',
+      loadButton: 'Charger la transcription',
+      loadingButton: 'Chargement...',
+      changeVideo: 'Changer de vidéo',
     },
 
     input: {
@@ -2174,6 +2190,8 @@ export const strings = {
       uploadFailed: 'Échec du téléchargement du fichier',
       transcriptFailed: 'Échec de la génération de la transcription',
       playerFailed: 'Échec du chargement du lecteur',
+      invalidVideoId: 'Entrez une URL YouTube valide ou un ID vidéo de 11 caractères.',
+      transcriptUnavailable: 'Transcription non disponible pour cette vidéo.',
     },
 
     features: {
@@ -2196,6 +2214,14 @@ export const strings = {
       extractingAudio: "Extraction de l'audio...",
       generatingTranscript: 'Génération de la transcription...',
       ready: 'Prêt à pratiquer !',
+      awaitingVideo: 'En attente de vidéo',
+      nowPlaying: 'Lecture en cours : {{videoId}}',
+      sourceLabel: 'Source : {{source}}',
+      tapToJump: 'Appuyez sur une ligne pour sauter',
+      tapWordsForExplanation: 'Appuyez sur les mots pour une explication',
+      segmentProgress: 'Segment {{current}}/{{total}}',
+      repeatProgress: 'Répétition {{current}}/{{total}}',
+      title: 'Lecteur',
 
       controls: {
         play: 'Lecture',
@@ -2219,11 +2245,35 @@ export const strings = {
       },
 
       transcript: {
+        title: 'Transcription',
         edit: 'Modifier',
         regenerate: 'Régénérer',
         save: 'Sauvegarder les modifications',
         cancel: 'Annuler la modification',
       },
+    },
+
+    hints: {
+      transcriptWillAppear: 'La transcription apparaîtra ici une fois chargée.',
+      pasteToStart: 'Collez un lien YouTube pour commencer le shadowing.',
+      firstLoadInfo:
+        'Le premier chargement utilise YouTube timedtext ; le service de transcription est utilisé en secours.',
+    },
+
+    settings: {
+      title: 'Paramètres',
+      furigana: 'Furigana',
+      highlighting: 'Surlignage grammatical',
+      noHighlighting: 'Pas de surlignage',
+      contentWords: 'Mots de contenu',
+      grammarWords: 'Mots grammaticaux',
+      allWords: 'Tous les mots',
+      clearSession: 'Effacer la session',
+      clearButton: 'Effacer',
+    },
+
+    status: {
+      transcriptLoaded: 'Transcription chargée depuis {{source}} ({{language}}).',
     },
 
     freeAccess: 'Accès gratuit',
@@ -2239,7 +2289,6 @@ export const strings = {
       uploads: 'téléchargements',
     },
   },
-
   // Library Page
   library: {
     title: 'Bibliothèque',
@@ -3782,6 +3831,162 @@ export const strings = {
     },
     noResults: 'Aucun kanji trouvé correspondant à vos critères',
     loading: 'Chargement des kanji...',
+  },
+
+  // Flux d'intégration
+  onboarding: {
+    // Page de bienvenue
+    welcome: {
+      title: 'Bienvenue sur Moshimoshi !',
+      subtitle: 'La plateforme ultime pour maîtriser la langue japonaise. Commençons votre voyage d\'apprentissage.',
+      getStarted: 'Commencer',
+    },
+
+    // Sélection de l'objectif d'apprentissage
+    learningGoal: {
+      title: 'Quel est votre objectif principal ?',
+      subtitle: 'Cela nous aidera à personnaliser votre expérience d\'apprentissage.',
+      next: 'Suivant',
+      goals: {
+        jlpt: {
+          title: 'Préparer le JLPT',
+          description: 'Focus sur le vocabulaire, la grammaire et les kanji pour un niveau JLPT spécifique.',
+        },
+        travel: {
+          title: 'Apprendre pour voyager',
+          description: 'Maîtriser les phrases et le vocabulaire essentiels pour votre voyage au Japon.',
+        },
+        anime: {
+          title: 'Comprendre les Anime/Manga',
+          description: 'Plongez dans la langue de vos médias japonais préférés.',
+        },
+        conversation: {
+          title: 'Améliorer la conversation',
+          description: 'Pratiquer l\'oral et l\'écoute avec des scénarios réels.',
+        },
+      },
+    },
+
+    // Sélection du niveau d'expérience
+    experienceLevel: {
+      title: 'Quel est votre niveau de japonais ?',
+      subtitle: 'Cela nous aide à recommander le bon contenu pour vous.',
+      next: 'Suivant',
+      levels: {
+        beginner: {
+          title: 'Débutant',
+          description: 'Je débute ou je connais quelques mots et phrases.',
+        },
+        intermediate: {
+          title: 'Intermédiaire',
+          description: 'Je peux avoir des conversations basiques et comprendre un peu de grammaire.',
+        },
+        advanced: {
+          title: 'Avancé',
+          description: 'Je peux comprendre et exprimer des idées complexes en japonais.',
+        },
+      },
+    },
+
+    // Présentation des fonctionnalités
+    featureShowcase: {
+      continue: 'Continuer',
+      swipeHint: 'Glissez pour découvrir plus de fonctionnalités',
+      progress: '{{current}} sur {{total}}',
+      defaultHeadline: {
+        title: 'Des fonctionnalités que vous allez adorer',
+        subtitle: 'Basé sur vos objectifs, voici quelques fonctionnalités pour commencer.',
+      },
+      personalizedHeadlines: {
+        jlpt: {
+          title: 'Réussissez le JLPT avec ces outils',
+          subtitle: 'Maîtrisez les kanji, le vocabulaire et la grammaire systématiquement.',
+        },
+        travel: {
+          title: 'Préparez-vous pour le voyage avec le japonais',
+          subtitle: 'Apprenez des phrases pratiques et des connaissances culturelles pour votre voyage.',
+        },
+        anime: {
+          title: 'Comprenez vos anime préférés',
+          subtitle: 'Apprenez les expressions naturelles du contenu natif.',
+        },
+        conversation: {
+          title: 'Parlez japonais avec confiance',
+          subtitle: 'Pratiquez la prononciation et apprenez de vrais modèles conversationnels.',
+        },
+      },
+      features: {
+        shadowing: {
+          title: 'Shadowing YouTube',
+          description: 'Maîtrisez la prononciation native avec de vraies vidéos YouTube japonaises.',
+          highlight: 'Idéal pour parler',
+        },
+        kanjiConnection: {
+          title: 'Connexion Kanji',
+          description: 'Apprenez 2 136 kanji par motifs visuels et familles de radicaux.',
+          highlight: 'Apprentissage visuel',
+        },
+        kanjiBrowser: {
+          title: 'Navigateur Kanji',
+          description: 'Recherchez et explorez tous les jōyō kanji avec des analyses détaillées.',
+          highlight: 'Outil de référence',
+        },
+        kanjiMoods: {
+          title: 'Ambiances Kanji',
+          description: 'Apprenez les kanji groupés par thèmes et émotions pour un apprentissage mémorable.',
+          highlight: 'Apprentissage thématique',
+        },
+        conjugation: {
+          title: 'Moteur de conjugaison',
+          description: 'Maîtrisez plus de 100 formes verbales et adjectivales avec notre système complet.',
+          highlight: 'Maîtrise grammaticale',
+        },
+        news: {
+          title: 'Actualités japonaises',
+          description: 'Lisez des articles NHK authentiques avec support vocabulaire IA.',
+          highlight: 'Lecture réelle',
+        },
+        stories: {
+          title: 'Histoires IA',
+          description: 'Profitez d\'histoires générées par IA adaptées à votre niveau.',
+          highlight: 'Adapté au niveau',
+        },
+        library: {
+          title: 'Bibliothèque de lecture',
+          description: 'Parcourez des lectures graduées, livres et histoires pour votre niveau.',
+          highlight: 'Collection étendue',
+        },
+        anki: {
+          title: 'Import Anki',
+          description: 'Importez vos decks Anki existants et continuez à apprendre.',
+          highlight: 'Gardez vos cartes',
+        },
+        textbooks: {
+          title: 'Vocabulaire des manuels',
+          description: 'Étudiez le vocabulaire de Genki, Minna no Nihongo et plus.',
+          highlight: 'Préparation académique',
+        },
+        flashcards: {
+          title: 'Cartes mémo intelligentes',
+          description: 'Révisez avec notre système SRS intelligent qui s\'adapte à vous.',
+          highlight: 'Révision adaptative',
+        },
+        drill: {
+          title: 'Exercice rapide',
+          description: 'Sessions de révision rapides parfaites pour les courtes pauses.',
+          highlight: 'Pratique rapide',
+        },
+      },
+    },
+
+    // Prêt à commencer
+    readyToGo: {
+      title: 'Vous êtes prêt !',
+      subtitle: 'Vous avez configuré votre profil avec succès. Préparez-vous pour votre aventure japonaise !',
+      goToDashboard: 'Aller au tableau de bord',
+      settingUp: 'Configuration...',
+      error: 'Quelque chose s\'est mal passé. Veuillez réessayer.',
+    },
   },
 }
 

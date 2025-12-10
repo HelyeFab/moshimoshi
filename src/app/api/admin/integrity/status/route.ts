@@ -2,10 +2,12 @@
  * Integrity Checker Status API
  *
  * GET: Get current running check status (for real-time polling)
+ * DELETE: Force clear stale in-progress status
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase/admin'
+import { FieldValue } from 'firebase-admin/firestore'
 
 interface RunningCheckStatus {
   isRunning: boolean
@@ -104,5 +106,67 @@ export async function GET(request: NextRequest) {
       isRunning: false,
       error: error instanceof Error ? error.message : 'Unknown error',
     })
+  }
+}
+
+/**
+ * DELETE: Force clear stale in-progress status
+ * Use when a check has timed out but status is stuck as "in_progress"
+ */
+export async function DELETE(request: NextRequest) {
+  try {
+    // Check for admin key
+    const adminKey = request.headers.get('X-Admin-Key')
+    if (adminKey !== process.env.INTEGRITY_CHECKER_ADMIN_KEY) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 })
+    }
+
+    // Find all in-progress checks
+    const snapshot = await adminDb
+      .collection('ops')
+      .doc('integrity')
+      .collection('processed_checks')
+      .where('status', '==', 'in_progress')
+      .get()
+
+    if (snapshot.empty) {
+      // Still clear the lock even if no in-progress checks
+      const lockRef = adminDb.collection('ops').doc('integrity').collection('locks').doc('integrity_checker')
+      await lockRef.delete()
+      return NextResponse.json({ cleared: 0, lockCleared: true, message: 'No in-progress checks found, but lock cleared' })
+    }
+
+    // Mark all as failed
+    const batch = adminDb.batch()
+    snapshot.docs.forEach(doc => {
+      batch.update(doc.ref, {
+        status: 'failed',
+        error: 'Force cleared by admin',
+        completedAt: FieldValue.serverTimestamp(),
+      })
+    })
+
+    // Also clear the distributed lock
+    const lockRef = adminDb.collection('ops').doc('integrity').collection('locks').doc('integrity_checker')
+    batch.delete(lockRef)
+
+    await batch.commit()
+
+    return NextResponse.json({
+      cleared: snapshot.size,
+      lockCleared: true,
+      checkIds: snapshot.docs.map(d => d.id),
+      message: `Cleared ${snapshot.size} stale check(s) and lock`,
+    })
+  } catch (error) {
+    console.error('Error clearing stale status:', error)
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 }
+    )
   }
 }

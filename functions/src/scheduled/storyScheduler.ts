@@ -118,10 +118,11 @@ async function callStoryAPIWithRetry(
 }
 
 /**
- * Select today's theme and level
+ * Select today's theme, level, and page count
  * Uses day of year to rotate through themes predictably
+ * Page count is randomized between 3-4 for variety
  */
-function selectThemeAndLevel(): { theme: string; jlptLevel: string } {
+function selectThemeAndLevel(): { theme: string; jlptLevel: string; pageCount: number } {
   const now = new Date()
   const startOfYear = new Date(now.getFullYear(), 0, 0)
   const diff = now.getTime() - startOfYear.getTime()
@@ -129,8 +130,10 @@ function selectThemeAndLevel(): { theme: string; jlptLevel: string } {
 
   const theme = STORY_THEMES[dayOfYear % STORY_THEMES.length]
   const jlptLevel = JLPT_LEVELS[dayOfYear % JLPT_LEVELS.length]
+  // Random page count between 3 and 4 (inclusive)
+  const pageCount = Math.floor(Math.random() * 2) + 3
 
-  return { theme, jlptLevel }
+  return { theme, jlptLevel, pageCount }
 }
 
 /**
@@ -144,8 +147,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
   duration: number
 }> {
   const startTime = Date.now()
-  const { theme, jlptLevel } = selectThemeAndLevel()
-  const pageCount = 5
+  const { theme, jlptLevel, pageCount } = selectThemeAndLevel()
 
   logger.info('[StoryScheduler] Starting daily story generation', {
     theme,

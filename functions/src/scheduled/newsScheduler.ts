@@ -185,14 +185,14 @@ export async function scheduledNewsScraper() {
     }
 
     // Calculate date range to fetch only recent articles (last 6 hours)
-    // This limits to ~1 article per run when running 4x daily
     const now = new Date()
     const sixHoursAgo = new Date(now.getTime() - 6 * 60 * 60 * 1000)
     const endDate = now.toISOString().split('T')[0] // YYYY-MM-DD
     const startDate = sixHoursAgo.toISOString().split('T')[0] // YYYY-MM-DD
 
-    // Run all scrapers in parallel - limit to 1 article per source
-    const ARTICLE_LIMIT = 1
+    // Run all scrapers in parallel - limit to 10 articles per source
+    // NHK publishes ~4 articles per weekday, so 10 is a safe limit
+    const ARTICLE_LIMIT = 10
     logger.info('[NewsScheduler] Running scrapers in parallel', {
       scraperCount: enabledSources.length,
       dateRange: { startDate, endDate },
@@ -653,8 +653,8 @@ export async function manualNewsScraper(data: any, context: any) {
       throw new HttpsError('failed-precondition', `Source ${source.name} is currently disabled`)
     }
 
-    // Limit to 1 article - scrape AND pre-cache exactly 1 article
-    const ARTICLE_LIMIT = 1
+    // Limit to 10 articles per manual trigger - handles full daily batch
+    const ARTICLE_LIMIT = 10
     logger.info('[NewsScheduler] Scraping single source', {
       source: source.name,
       limit: ARTICLE_LIMIT,

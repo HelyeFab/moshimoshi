@@ -62,7 +62,7 @@ export interface AggregatedStatistics {
 export class StatisticsAggregator {
   private storage: IndexedDBStorage
   private cache: Map<string, { data: AggregatedStatistics, timestamp: number }> = new Map()
-  private readonly CACHE_DURATION = 60000 // 1 minute cache
+  private readonly CACHE_DURATION = 300000 // 5 minute cache (statistics don't change frequently)
 
   constructor() {
     this.storage = new IndexedDBStorage()

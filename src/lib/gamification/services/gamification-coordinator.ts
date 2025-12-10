@@ -676,3 +676,179 @@ export async function recordNewsCompletion(params: {
     }
   })
 }
+
+/**
+ * Calculate XP earned from book reading
+ * Linear formula: 1 XP per 30 seconds of active reading, capped at 50 XP
+ */
+export function calculateBookXP(params: { readingTimeSec: number }): number {
+  const { readingTimeSec } = params
+
+  // Linear: 1 XP per 30 seconds
+  const baseXP = Math.floor(readingTimeSec / 30)
+
+  // Cap at 50 XP per book completion
+  return Math.min(baseXP, 50)
+}
+
+/**
+ * Record book completion and award XP
+ * Follows the same pattern as recordNewsCompletion for consistency
+ */
+export async function recordBookCompletion(params: {
+  userId: string
+  bookId: string
+  readingTimeSec: number
+  isPremium: boolean
+}): Promise<GamificationResult> {
+  const { userId, bookId, readingTimeSec, isPremium } = params
+
+  if (!adminDb) {
+    throw new Error('Firebase Admin not initialized')
+  }
+
+  // Calculate XP from reading time
+  const xpEarned = calculateBookXP({ readingTimeSec })
+
+  // If no XP earned (read less than 30 seconds), return early
+  if (xpEarned === 0) {
+    return {
+      xpEarned: 0,
+      newTotalXP: 0,
+      newLevel: 1,
+      streakIncremented: false,
+      currentStreak: 0,
+      bestStreak: 0,
+      achievementsUnlocked: [],
+    }
+  }
+
+  // Use transaction for atomic updates
+  return await getDb().runTransaction(async transaction => {
+    const userStatsRef = getDb().collection('user_stats').doc(userId)
+    const statsDoc = await transaction.get(userStatsRef)
+
+    // Initialize if doesn't exist
+    if (!statsDoc.exists) {
+      transaction.set(
+        userStatsRef,
+        {
+          xp: { total: 0, level: 1 },
+          sessions: { totalSessions: 0 },
+          books: { booksRead: 0, totalReadingTimeSec: 0 },
+          achievements: {
+            unlockedIds: [],
+            progress: {},
+          },
+          metadata: {
+            lastUpdated: new Date().toISOString(),
+            syncStatus: 'synced',
+            schemaVersion: 2,
+          },
+        },
+        { merge: true }
+      )
+    }
+
+    const currentStats = statsDoc.data() || {}
+    const currentXP = currentStats.xp?.total || 0
+    const newTotalXP = currentXP + xpEarned
+    const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
+    const nowIso = new Date().toISOString()
+    const today = nowIso.split('T')[0] // yyyy-mm-dd
+
+    // Track daily XP accumulation
+    const lastXPDate = currentStats.xp?.lastXPDate || null
+    const isNewDay = lastXPDate !== today
+    const currentDailyXP = isNewDay ? 0 : currentStats.xp?.xpGainedToday || 0
+    const newDailyXP = currentDailyXP + xpEarned
+
+    console.log('[Gamification Coordinator] Book Reading XP:', {
+      bookId,
+      readingTimeSec,
+      xpEarned,
+      newDailyXP,
+      minXpForStreak: getMinXpForStreak(),
+    })
+
+    // Update XP and book stats
+    transaction.update(userStatsRef, {
+      'xp.total': newTotalXP,
+      'xp.level': newLevel,
+      'xp.xpGainedToday': newDailyXP,
+      'xp.lastXPDate': today,
+      'books.booksRead': FieldValue.increment(1),
+      'books.totalReadingTimeSec': FieldValue.increment(readingTimeSec),
+      'metadata.lastUpdated': nowIso,
+    })
+
+    // Update streak using DAILY XP total
+    let streakResult: StreakUpdateResult | null = null
+    const minXpForStreak = getMinXpForStreak()
+    const lastStreakUpdateDate = currentStats.dates?.lastStreakUpdateDate || null
+    const streakAlreadyUpdatedToday = lastStreakUpdateDate === today
+
+    if (newDailyXP >= minXpForStreak && !streakAlreadyUpdatedToday) {
+      try {
+        const result = await updateStreakWithinTransaction(transaction, userId, newDailyXP, {
+          isPremium,
+          db: adminDb!,
+          prefetchedDoc: statsDoc,
+        })
+
+        if (result.success) {
+          streakResult = result
+          transaction.update(userStatsRef, {
+            'dates.lastStreakUpdateDate': today,
+          })
+          console.log('[Gamification Coordinator] ✅ Streak updated from book reading')
+        }
+      } catch (error) {
+        console.error('[Gamification Coordinator] Failed to update streak from book:', error)
+      }
+    }
+
+    // Check for book-specific achievements
+    const achievements: string[] = []
+    const booksRead = (currentStats.books?.booksRead || 0) + 1
+
+    // "Bookworm" achievement: Read 5 books
+    if (booksRead === 5) {
+      const achievementId = 'bookworm'
+      if (!currentStats.achievements?.unlockedIds?.includes(achievementId)) {
+        transaction.update(userStatsRef, {
+          'achievements.unlockedIds': FieldValue.arrayUnion(achievementId),
+        })
+        achievements.push(achievementId)
+      }
+    }
+
+    // "Library Master" achievement: Read 20 books
+    if (booksRead === 20) {
+      const achievementId = 'library_master'
+      if (!currentStats.achievements?.unlockedIds?.includes(achievementId)) {
+        transaction.update(userStatsRef, {
+          'achievements.unlockedIds': FieldValue.arrayUnion(achievementId),
+        })
+        achievements.push(achievementId)
+      }
+    }
+
+    const fallbackStreak = {
+      current: currentStats.streak?.current || 0,
+      best: currentStats.streak?.best || 0,
+    }
+    const streakData = streakResult?.data ?? fallbackStreak
+    const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
+
+    return {
+      xpEarned,
+      newTotalXP,
+      newLevel,
+      streakIncremented,
+      currentStreak: streakData.current,
+      bestStreak: streakData.best,
+      achievementsUnlocked: achievements,
+    }
+  })
+}

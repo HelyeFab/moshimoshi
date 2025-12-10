@@ -15,6 +15,12 @@ import {
   Bookmark,
   Volume2
 } from 'lucide-react';
+import {
+  nextOnSegmentEnd,
+  onRepeatCountChange as handleRepeatCountChange,
+  clampRepeatCount,
+  type RepeatState
+} from '@/lib/shadowing/repeat';
 
 interface UnifiedShadowingModeProps {
   sentences: string[];
@@ -72,7 +78,7 @@ export default function UnifiedShadowingMode({
   const [repeatConfig, setRepeatConfig] = useState<RepeatModeConfig>({
     enabled: true,
     count: 3,
-    currentRepeat: 0,
+    currentRepeat: 1, // CHANGED: 1-indexed (matches MoshiPlayer state machine)
     pauseDuration: 1000,
   });
 
@@ -80,35 +86,73 @@ export default function UnifiedShadowingMode({
   const repeatTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const handlePlayRef = useRef<(() => Promise<void>) | null>(null);
 
+  // State machine refs (match MoshiPlayer pattern)
+  const repeatCountRef = useRef(repeatConfig.count);
+  const currentRepeatRef = useRef(repeatConfig.currentRepeat);
+  const currentIndexRef = useRef(currentIndex);
+  const totalSentencesRef = useRef(sentences.length);
+
+  // Sync refs with state changes (for accurate state machine calculations)
+  useEffect(() => {
+    repeatCountRef.current = repeatConfig.count;
+    currentRepeatRef.current = repeatConfig.currentRepeat;
+    currentIndexRef.current = currentIndex;
+    totalSentencesRef.current = sentences.length;
+  }, [repeatConfig.count, repeatConfig.currentRepeat, currentIndex, sentences.length]);
+
   // Handle audio playback completion
   const handleAudioEnd = useCallback(() => {
-    const currentRepeatValue = repeatConfig.currentRepeat;
+    // Build current state for state machine
+    const state: RepeatState = {
+      repeatCount: repeatCountRef.current,
+      currentRepeat: currentRepeatRef.current,
+      segmentIndex: currentIndexRef.current,
+      totalSegments: totalSentencesRef.current
+    };
 
-    if (currentRepeatValue < repeatConfig.count - 1) {
-      // More repeats to go
-      const nextRepeat = currentRepeatValue + 1;
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: nextRepeat }));
+    // Call state machine to determine next action
+    const next = nextOnSegmentEnd(state);
 
-      // Pause before repeating
+    console.log('[Shadowing] State machine result:', {
+      current: state,
+      next,
+      didAdvance: next.didAdvanceSegment
+    });
+
+    // Update refs IMMEDIATELY (for next callback)
+    currentRepeatRef.current = next.currentRepeat;
+    currentIndexRef.current = next.segmentIndex;
+
+    // Update React state
+    setRepeatConfig(prev => ({ ...prev, currentRepeat: next.currentRepeat }));
+
+    if (next.didAdvanceSegment) {
+      // Advanced to next sentence
+      if (next.segmentIndex < totalSentencesRef.current) {
+        // More sentences to go
+        setCurrentIndex(next.segmentIndex);
+
+        // Pause, then play next sentence
+        repeatTimeoutRef.current = setTimeout(() => {
+          if (handlePlayRef.current) {
+            handlePlayRef.current();
+          }
+        }, repeatConfig.pauseDuration);
+      } else {
+        // Completed all sentences - close shadowing mode
+        setIsPlayingSequence(false);
+        onClose();
+      }
+    } else {
+      // Same sentence, increment repeat
+      // Pause, then replay current sentence
       repeatTimeoutRef.current = setTimeout(() => {
         if (handlePlayRef.current) {
           handlePlayRef.current();
         }
       }, repeatConfig.pauseDuration);
-    } else {
-      // Done with repeats
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
-      setIsPlayingSequence(false);
-
-      // Auto-advance to next sentence
-      if (currentIndex < sentences.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-      } else {
-        // Last sentence completed - close shadowing mode
-        onClose();
-      }
     }
-  }, [repeatConfig.currentRepeat, repeatConfig.count, repeatConfig.pauseDuration, currentIndex, sentences.length, onClose]);
+  }, [repeatConfig.pauseDuration, onClose]);
 
   // Initialize useTTS with proper callbacks
   const {
@@ -200,7 +244,7 @@ export default function UnifiedShadowingMode({
     } catch (error) {
       console.error('TTS playback error:', error);
       setIsPlayingSequence(false);
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+      setRepeatConfig(prev => ({ ...prev, currentRepeat: 1 })); // Reset to 1 (1-indexed)
     }
   }, [isPlayingSequence, ttsLoading, sentences, currentIndex, voice, audioSpeed, playTTS]);
 
@@ -216,7 +260,7 @@ export default function UnifiedShadowingMode({
       repeatTimeoutRef.current = null;
     }
     setIsPlayingSequence(false);
-    setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }));
+    setRepeatConfig(prev => ({ ...prev, currentRepeat: 1 })); // Reset to 1 (1-indexed)
   };
 
   // Navigation handlers
@@ -245,13 +289,47 @@ export default function UnifiedShadowingMode({
 
   // Repeat configuration handlers
   const setRepeatCount = (newCount: number) => {
-    const clampedCount = Math.max(1, Math.min(20, newCount));
+    // Use state machine's clamp function (1-10 range)
+    const clampedCount = clampRepeatCount(newCount);
+
+    // Build current state
+    const state: RepeatState = {
+      repeatCount: repeatCountRef.current,
+      currentRepeat: currentRepeatRef.current,
+      segmentIndex: currentIndexRef.current,
+      totalSegments: totalSentencesRef.current
+    };
+
+    // Call state machine to handle mid-playback count changes
+    const result = handleRepeatCountChange(state, clampedCount);
+
+    console.log('[Shadowing] Repeat count changed:', {
+      oldCount: repeatCountRef.current,
+      newCount: clampedCount,
+      result
+    });
+
+    // Update refs
+    repeatCountRef.current = clampedCount;
+    currentRepeatRef.current = result.currentRepeat;
+
+    if (result.didAdvanceSegment) {
+      currentIndexRef.current = result.segmentIndex;
+    }
+
+    // Update state
     setRepeatConfig(prev => ({
       ...prev,
       count: clampedCount,
       enabled: clampedCount > 1,
-      currentRepeat: 0
+      currentRepeat: result.currentRepeat
     }));
+
+    // If user lowered count below current progress, advance immediately
+    if (result.didAdvanceSegment && isPlayingSequence) {
+      handleStop();
+      setCurrentIndex(result.segmentIndex);
+    }
   };
 
   const setPauseDuration = (duration: number) => {
@@ -508,20 +586,20 @@ export default function UnifiedShadowingMode({
                   </div>
                   {isPlayingSequence && repeatConfig.count > 1 && (
                     <div className="text-xs mt-1" style={{ color: 'rgb(var(--palette-primary-600))' }}>
-                      {repeatConfig.currentRepeat + 1}/{repeatConfig.count}
+                      {repeatConfig.currentRepeat}/{repeatConfig.count}
                     </div>
                   )}
                 </div>
 
                 <button
                   onClick={() => setRepeatCount(repeatConfig.count + 1)}
-                  disabled={repeatConfig.count >= 20}
+                  disabled={repeatConfig.count >= 10}
                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{
-                    backgroundColor: repeatConfig.count >= 20
+                    backgroundColor: repeatConfig.count >= 10
                       ? 'var(--article-accent-bg)'
                       : 'rgb(var(--palette-primary-500) / 0.1)',
-                    color: repeatConfig.count >= 20
+                    color: repeatConfig.count >= 10
                       ? 'var(--article-text-secondary)'
                       : 'rgb(var(--palette-primary-600))'
                   }}

@@ -117,8 +117,9 @@ export async function POST(request: NextRequest) {
     // Transform pages to match Story.pages structure
     // Filter out undefined values as Firestore doesn't accept them
     const storyPages = pages.map((page: any, index: number) => {
+      const pageNumber = index + 1
       const storyPage: Record<string, any> = {
-        pageNumber: index + 1,
+        pageNumber,
         text: page.textJa || page.text || '',
         textWithFurigana: page.textWithFurigana || page.textJa || page.text || '',
         translation: page.textEn || page.translation || '',
@@ -126,7 +127,8 @@ export async function POST(request: NextRequest) {
         grammarNotes: page.grammarNotes || page.grammar || {},
       }
       // Only add optional fields if they have values
-      const imageUrl = page.imageUrl || mergedData.pageImages?.[index + 1]
+      // NOTE: pageImages uses string keys ("1", "2") not numeric indices, so use String(pageNumber)
+      const imageUrl = page.imageUrl || mergedData.pageImages?.[String(pageNumber)] || mergedData.pageImages?.[pageNumber]
       if (imageUrl) storyPage.imageUrl = imageUrl
       if (page.audioUrl) storyPage.audioUrl = page.audioUrl
       return storyPage
@@ -178,7 +180,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Add optional fields only if they exist (Firestore doesn't accept undefined)
-    const coverImageUrl = mergedData.modelSheet?.imageUrl || mergedData.pageImages?.[1]
+    // NOTE: pageImages uses string keys ("1", "2") not numeric indices
+    const coverImageUrl = mergedData.modelSheet?.imageUrl || mergedData.pageImages?.["1"] || mergedData.pageImages?.[1]
     if (coverImageUrl) (story as any).coverImageUrl = coverImageUrl
 
     const quiz = providedStoryData?.quiz || mergedData.quiz

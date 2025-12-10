@@ -1,9 +1,17 @@
 /**
  * Base Processor for AI Tasks
  * Abstract class that all AI task processors extend from
+ *
+ * Features:
+ * - OpenAI Structured Outputs support via zodResponseFormat
+ * - Zod schema validation for all providers (OpenAI, Ollama)
+ * - Automatic retry and error handling
+ * - Token usage tracking and cost calculation
  */
 
 import OpenAI from 'openai';
+import { z } from 'zod';
+import { zodResponseFormat } from 'openai/helpers/zod';
 import {
   AIModel,
   AIServiceConfig,
@@ -14,6 +22,7 @@ import {
   AIServiceError,
   MODEL_PRICING
 } from '../types';
+import { validateAIResponse, safeValidateAIResponse } from '../schemas';
 
 export abstract class BaseProcessor<TRequest = any, TResponse = any> {
   protected context: ProcessorContext;
@@ -86,6 +95,7 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
   ): Promise<{
     content: string;
     usage: TokenUsage;
+    requestId?: string;
   }> {
     if (!this.openai) {
       throw new AIServiceError(
@@ -143,10 +153,12 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
 
       console.log(`✅ AI Task completed in ${processingTime}ms using ${this.context.model}`);
       console.log(`📊 Tokens: ${usage.totalTokens} | Cost: $${usage.estimatedCost.toFixed(4)}`);
+      console.log(`🔑 Request ID: ${completion.id}`);
 
       return {
         content: response,
-        usage
+        usage,
+        requestId: completion.id
       };
     } catch (error) {
       if (error instanceof AIServiceError) {
@@ -186,6 +198,118 @@ export abstract class BaseProcessor<TRequest = any, TResponse = any> {
         { originalError: errorMessage }
       );
     }
+  }
+
+  /**
+   * Call OpenAI with Structured Outputs (Zod schema validation)
+   *
+   * This method uses OpenAI's native structured outputs feature which
+   * GUARANTEES the response will match the schema. For Ollama, we still
+   * use the schema for post-response validation.
+   *
+   * @param systemPrompt - System instructions
+   * @param userPrompt - User query
+   * @param schema - Zod schema for response validation
+   * @param schemaName - Name for the schema (used in API call)
+   * @param config - Optional configuration overrides
+   */
+  protected async callOpenAIWithSchema<T>(
+    systemPrompt: string,
+    userPrompt: string,
+    schema: z.ZodSchema<T>,
+    schemaName: string,
+    config?: Partial<AIServiceConfig>
+  ): Promise<{
+    data: T;
+    usage: TokenUsage;
+    requestId?: string;
+  }> {
+    if (!this.openai) {
+      throw new AIServiceError(
+        'OpenAI client not initialized',
+        'OPENAI_NOT_INITIALIZED',
+        500
+      );
+    }
+
+    const startTime = Date.now();
+    const mergedConfig = { ...this.defaultConfig, ...this.context.config, ...config };
+
+    try {
+      const completion = await this.openai.chat.completions.create({
+        model: this.context.model || 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        temperature: mergedConfig.temperature,
+        max_tokens: mergedConfig.maxTokens,
+        response_format: zodResponseFormat(schema, schemaName)
+      });
+
+      const response = completion.choices[0]?.message?.content;
+      if (!response) {
+        throw new AIServiceError(
+          'No response from OpenAI',
+          'EMPTY_RESPONSE',
+          500
+        );
+      }
+
+      // Parse and validate with Zod
+      const parsed = JSON.parse(response);
+      const validated = validateAIResponse(schema, parsed, schemaName);
+
+      const usage = this.calculateUsage(completion.usage);
+      const processingTime = Date.now() - startTime;
+
+      console.log(`✅ AI Task (structured) completed in ${processingTime}ms using ${this.context.model}`);
+      console.log(`📊 Tokens: ${usage.totalTokens} | Cost: $${usage.estimatedCost.toFixed(4)}`);
+      console.log(`🔑 Request ID: ${completion.id}`);
+
+      return {
+        data: validated,
+        usage,
+        requestId: completion.id
+      };
+    } catch (error) {
+      if (error instanceof AIServiceError) {
+        throw error;
+      }
+
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.error('❌ OpenAI Structured Output error:', errorMessage);
+
+      throw new AIServiceError(
+        `Failed to process structured AI request: ${errorMessage}`,
+        'STRUCTURED_OUTPUT_FAILED',
+        500,
+        { originalError: errorMessage }
+      );
+    }
+  }
+
+  /**
+   * Validate a response against a Zod schema
+   * Use this for Ollama responses or when not using structured outputs
+   */
+  protected validateResponse<T>(
+    response: unknown,
+    schema: z.ZodSchema<T>,
+    context?: string
+  ): T {
+    return validateAIResponse(schema, response, context);
+  }
+
+  /**
+   * Safely validate a response, returning null on failure
+   */
+  protected safeValidateResponse<T>(
+    response: unknown,
+    schema: z.ZodSchema<T>,
+    context?: string
+  ): T | null {
+    return safeValidateAIResponse(schema, response, context);
   }
 
   /**

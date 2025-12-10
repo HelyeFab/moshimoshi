@@ -721,7 +721,7 @@ export default function LearningVillage() {
       },
       {
         id: 'youtube-shadowing',
-        title: cards?.youtubeShadowing?.title || 'YouTube Shadowing',
+        title: cards?.youtubeShadowing?.title || 'MoshiPlayer',
         subtitle: cards?.youtubeShadowing?.subtitle || 'YouTube',
         description: cards?.youtubeShadowing?.description || 'Practice with YouTube',
         href: '/youtube-shadowing',

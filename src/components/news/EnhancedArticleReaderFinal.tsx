@@ -1359,8 +1359,7 @@ export default function EnhancedArticleReader({
     if (direction === 'next') {
       if (currentPageIndex < totalPages - 1) {
         setCurrentPageIndex(currentPageIndex + 1)
-        // Reset translation when page changes
-        setTranslatedContent(null)
+        // Translation will update automatically via useEffect (uses pre-stored page.translation)
       } else if (currentPageIndex === totalPages - 1) {
         // Last page - show quiz if available, otherwise complete
         if (quiz && quiz.length > 0) {
@@ -1371,7 +1370,7 @@ export default function EnhancedArticleReader({
       }
     } else if (direction === 'prev' && currentPageIndex > 0) {
       setCurrentPageIndex(currentPageIndex - 1)
-      setTranslatedContent(null)
+      // Translation will update automatically via useEffect (uses pre-stored page.translation)
     }
   }
 
@@ -1407,28 +1406,73 @@ export default function EnhancedArticleReader({
   // Track translation state
   const [translatedContent, setTranslatedContent] = useState<string | null>(null)
 
-  // Auto-translate when translation mode is enabled and content changes
+  // Local cache for news article translations (stories use pre-stored translations)
+  // Using ref to avoid re-triggering effect when cache updates
+  const newsTranslationCacheRef = useRef<Record<string, string>>({})
+
+  // For stories: Use the pre-stored translation immediately (no API call needed)
+  // For news: Use API with local caching
   useEffect(() => {
-    const handleAutoTranslation = async () => {
-      if (settings.translationMode !== 'off' && currentContent) {
-        console.log(`[Translation] Auto-translating content (mode: ${settings.translationMode})`)
+    const handleTranslation = async () => {
+      // If translation mode is off, clear and return
+      if (settings.translationMode === 'off') {
+        setTranslatedContent(null)
+        return
+      }
+
+      // STORY MODE: Use pre-stored translation directly (instant, no API call)
+      if (isStoryMode && currentTranslation) {
+        setTranslatedContent(currentTranslation)
+        return
+      }
+
+      // STORY MODE: No pre-stored translation - fall back to AI translation
+      if (isStoryMode && !currentTranslation && currentContent) {
+        console.warn('[Translation] Story page missing pre-stored translation, using AI fallback')
+
+        // Fall back to AI translation for stories without pre-stored translations
         try {
           const result = await getFullTranslation(currentContent)
           if (result?.translatedText) {
             setTranslatedContent(result.translatedText)
-            console.log('[Translation] Auto-translation completed')
           }
         } catch (error) {
-          console.error('[Translation] Auto-translation failed:', error)
+          console.error('[Translation] AI fallback translation failed:', error)
           setTranslatedContent(null)
         }
-      } else {
-        setTranslatedContent(null)
+        return
+      }
+
+      // NEWS MODE: Check local cache first, then API
+      if (!isStoryMode && currentContent) {
+        const cacheKey = `news_${article.id}_${currentContent.substring(0, 50)}`
+
+        // Check local cache (using ref)
+        if (newsTranslationCacheRef.current[cacheKey]) {
+          console.log(`[Translation] Using cached news translation`)
+          setTranslatedContent(newsTranslationCacheRef.current[cacheKey])
+          return
+        }
+
+        // Fetch from API (will use Firebase cache if available)
+        console.log(`[Translation] Fetching news translation via API (mode: ${settings.translationMode})`)
+        try {
+          const result = await getFullTranslation(currentContent)
+          if (result?.translatedText) {
+            setTranslatedContent(result.translatedText)
+            // Cache locally for this session (using ref to avoid effect re-trigger)
+            newsTranslationCacheRef.current[cacheKey] = result.translatedText
+            console.log('[Translation] News translation completed and cached')
+          }
+        } catch (error) {
+          console.error('[Translation] News translation failed:', error)
+          setTranslatedContent(null)
+        }
       }
     }
 
-    handleAutoTranslation()
-  }, [settings.translationMode, article.content, getFullTranslation])
+    handleTranslation()
+  }, [settings.translationMode, currentContent, currentTranslation, currentPageIndex, isStoryMode, article.id, getFullTranslation])
 
   // Sync translation settings when reading settings change
   useEffect(() => {
@@ -1475,6 +1519,10 @@ export default function EnhancedArticleReader({
 
   // AI word explanation feature
   const [isWordModalOpen, setIsWordModalOpen] = useState(false)
+
+  // Detect if this is a book (from Toshokan Library) vs a news article
+  const isBook = article.source === 'Toshokan Library'
+
   const {
     explainWord,
     loading: wordLoading,
@@ -1482,7 +1530,11 @@ export default function EnhancedArticleReader({
     explanation: wordExplanation,
     currentWord,
     reset: resetWordExplanation,
-  } = useWordExplanation({ articleId: article.id })
+  } = useWordExplanation({
+    // Use bookId for books, articleId for news articles
+    articleId: isBook ? undefined : article.id,
+    bookId: isBook ? article.id : undefined,
+  })
 
   // Cleanup audio when component unmounts or article changes
   useEffect(() => {
@@ -1660,8 +1712,8 @@ export default function EnhancedArticleReader({
         initializeNhkAudio(article.nhkAudioUrl)
 
         // Set playback rate
-        if (settings.audioSpeed) {
-          setNhkPlaybackRate(settings.audioSpeed)
+        if (settings.playbackSpeed) {
+          setNhkPlaybackRate(settings.playbackSpeed)
         }
 
         // Wait a bit for initialization then play
@@ -1844,7 +1896,7 @@ export default function EnhancedArticleReader({
         'Provider chain: Kokoro → ElevenLabs → Edge-TTS (check server logs for actual provider used)'
       )
       await playTTS(article.content, {
-        speed: settings.audioSpeed,
+        speed: settings.playbackSpeed,
       })
       console.log('Article playback started with App TTS fallback')
     } catch (error) {
@@ -2511,14 +2563,14 @@ export default function EnhancedArticleReader({
             </div>
 
             {/* Translation Content */}
-            {translationLoading ? (
+            {translationLoading && !isStoryMode ? (
               <div className="flex items-center gap-3 py-8">
                 <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
                 <span style={{ color: 'var(--article-text-secondary)' }}>
                   Translating with AI • Firebase caching enabled...
                 </span>
               </div>
-            ) : translationError ? (
+            ) : translationError && !isStoryMode ? (
               <div className="py-4 px-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
                 <p className="text-red-700 dark:text-red-400 text-sm">
                   Translation error: {translationError}
@@ -2551,11 +2603,11 @@ export default function EnhancedArticleReader({
               </div>
             )}
 
-            {/* Firebase Cache Status */}
+            {/* Translation Source Status */}
             {translatedContent && !translationLoading && (
               <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700 text-xs">
                 <span style={{ color: 'var(--article-text-secondary)' }} className="opacity-70">
-                  🔥 Powered by Firebase Translation Cache
+                  {isStoryMode ? '📖 Pre-stored story translation' : '🔥 Powered by Firebase Translation Cache'}
                 </span>
               </div>
             )}
@@ -2743,6 +2795,8 @@ export default function EnhancedArticleReader({
         explanation={wordExplanation}
         loading={wordLoading}
         error={wordError}
+        showTranslationContext={false}
+        enableRelatedTranslations={false}
       />
 
       {/* Shadowing Mode */}
@@ -2752,7 +2806,7 @@ export default function EnhancedArticleReader({
           title={article.title}
           contentId={article.id}
           contentType="article"
-          audioSpeed={settings.audioSpeed}
+          audioSpeed={settings.playbackSpeed}
           showFurigana={settings.showFurigana}
           highlightGrammar={settings.highlightGrammar ?? false}
           highlightMode={settings.highlightMode}

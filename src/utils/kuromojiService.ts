@@ -161,6 +161,10 @@ class KuromojiService {
           console.debug('[KuromojiService] Rate limited, using fallback tokenization')
           return this.fallbackTokenize(text)
         }
+        // 499 = Client Closed Request - this is expected when toggling rapidly
+        if (response.status === 499) {
+          return this.fallbackTokenize(text)
+        }
         // For other errors, also use fallback
         return this.fallbackTokenize(text)
       }
@@ -183,9 +187,19 @@ class KuromojiService {
       // - Network errors (too many parallel requests)
       // - Timeouts (slow response due to server load)
       // - Aborted requests (component unmounted)
+      // - ECONNRESET (server closed connection)
       // No need to log - this is expected behavior under high load
-      if (error instanceof Error && error.name !== 'AbortError') {
-        // Only log unexpected errors (not timeouts or aborts)
+
+      // Don't log AbortError, TimeoutError, or ECONNRESET - these are expected
+      const isExpectedError =
+        error instanceof Error &&
+        (error.name === 'AbortError' ||
+         error.name === 'TimeoutError' ||
+         error.message === 'aborted' ||
+         (error as any).code === 'ECONNRESET')
+
+      if (!isExpectedError && error instanceof Error) {
+        // Only log truly unexpected errors
         console.debug('Tokenization API unavailable, using fallback:', error.message)
       }
     }

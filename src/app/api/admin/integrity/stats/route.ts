@@ -36,15 +36,22 @@ interface IntegrityLog {
     checked: number
     missingAudio: string[]
     missingImages: string[]
+    missingTranslations: string[]
     stalledDrafts: string[]
     repaired: {
       audio: number
       images: number
+      translations: number
     }
     repairFailed: {
       audio: number
       images: number
+      translations: number
     }
+  }
+  books?: {
+    checked: number
+    missingTranslations: string[]
   }
   triggeredBy?: string
   success?: boolean
@@ -115,6 +122,8 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
     wordExplanations: { missing: 0, repaired: 0 },
     storyAudio: { missing: 0, repaired: 0 },
     storyImages: { missing: 0, repaired: 0 },
+    storyTranslations: { missing: 0, repaired: 0 },
+    bookTranslations: { missing: 0, repaired: 0 },
   }
 
   for (const log of logs) {
@@ -163,8 +172,8 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
     // Stories
     if (log.stories) {
       const st = log.stories
-      const storyRepaired = (st.repaired?.audio || 0) + (st.repaired?.images || 0)
-      const storyFailed = (st.repairFailed?.audio || 0) + (st.repairFailed?.images || 0)
+      const storyRepaired = (st.repaired?.audio || 0) + (st.repaired?.images || 0) + (st.repaired?.translations || 0)
+      const storyFailed = (st.repairFailed?.audio || 0) + (st.repairFailed?.images || 0) + (st.repairFailed?.translations || 0)
 
       totalRepairsSucceeded += storyRepaired
       totalRepairsAttempted += storyRepaired + storyFailed
@@ -177,6 +186,13 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
       contentBreakdown.storyAudio.repaired += st.repaired?.audio || 0
       contentBreakdown.storyImages.missing += st.missingImages?.length || 0
       contentBreakdown.storyImages.repaired += st.repaired?.images || 0
+      contentBreakdown.storyTranslations.missing += st.missingTranslations?.length || 0
+      contentBreakdown.storyTranslations.repaired += st.repaired?.translations || 0
+    }
+
+    // Books (detection only, no repair)
+    if (log.books) {
+      contentBreakdown.bookTranslations.missing += log.books.missingTranslations?.length || 0
     }
   }
 
@@ -190,7 +206,12 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
   }
   if (latestLog.stories) {
     currentQueueDepth +=
-      (latestLog.stories.missingAudio?.length || 0) + (latestLog.stories.missingImages?.length || 0)
+      (latestLog.stories.missingAudio?.length || 0) +
+      (latestLog.stories.missingImages?.length || 0) +
+      (latestLog.stories.missingTranslations?.length || 0)
+  }
+  if (latestLog.books) {
+    currentQueueDepth += latestLog.books.missingTranslations?.length || 0
   }
 
   // Convert trends to sorted array
@@ -224,6 +245,16 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
       type: 'Story Images',
       missing: contentBreakdown.storyImages.missing,
       repaired: contentBreakdown.storyImages.repaired,
+    },
+    {
+      type: 'Story Translations',
+      missing: contentBreakdown.storyTranslations.missing,
+      repaired: contentBreakdown.storyTranslations.repaired,
+    },
+    {
+      type: 'Book Translations',
+      missing: contentBreakdown.bookTranslations.missing,
+      repaired: contentBreakdown.bookTranslations.repaired,
     },
   ]
 
@@ -342,6 +373,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'Admin access required' }, { status: 403 })
     }
 
+    // Parse request body for optional parameters
+    let maxStories: number | undefined
+    let maxArticles: number | undefined
+    try {
+      const body = await request.json()
+      if (body.maxStories !== undefined) {
+        maxStories = Math.min(5, Math.max(1, parseInt(body.maxStories) || 1))
+      }
+      if (body.maxArticles !== undefined) {
+        maxArticles = Math.min(5, Math.max(1, parseInt(body.maxArticles) || 1))
+      }
+    } catch {
+      // Body is optional, continue with defaults
+    }
+
     // Call the Firebase Cloud Function
     const functionsUrl =
       process.env.FIREBASE_FUNCTIONS_URL ||
@@ -356,6 +402,8 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         data: {
           adminKey,
+          ...(maxStories !== undefined && { maxStories }),
+          ...(maxArticles !== undefined && { maxArticles }),
         },
       }),
     })

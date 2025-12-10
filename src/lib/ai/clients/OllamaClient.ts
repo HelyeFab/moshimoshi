@@ -4,7 +4,7 @@
  *
  * Features:
  * - OpenAI-compatible /v1/chat/completions endpoint
- * - Native Ollama /api/generate and /api/chat endpoints
+ * - Native Ollama /generate endpoint (Modal uses /generate, not /api/generate)
  * - Streaming and non-streaming responses
  * - Connection pooling for performance
  * - Automatic retries with exponential backoff
@@ -12,6 +12,12 @@
  *
  * Default endpoint: https://emmanuelfabiani23--ollama-llm-ollamallm-serve.modal.run
  * Default model: qwen2.5:32b
+ *
+ * Available endpoints on Modal:
+ * - /v1/chat/completions (OpenAI-compatible)
+ * - /generate (native Ollama)
+ * - /models
+ * - /health
  */
 
 import * as https from 'https'
@@ -97,7 +103,7 @@ export class OllamaClient {
       ...request,
     }
 
-    const response = await this.fetchWithRetry('/api/generate', {
+    const response = await this.fetchWithRetry('/generate', {
       method: 'POST',
       headers: {
         'X-API-Key': this.config.apiKey,
@@ -125,7 +131,7 @@ export class OllamaClient {
       ...request,
     }
 
-    const response = await fetch(`${this.config.baseUrl}/api/generate`, {
+    const response = await fetch(`${this.config.baseUrl}/generate`, {
       method: 'POST',
       headers: {
         'X-API-Key': this.config.apiKey,

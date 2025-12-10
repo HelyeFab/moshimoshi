@@ -453,6 +453,27 @@ Response format (JSON only):
     const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt)
     const page = this.parseJSON<StoryPage>(content)
 
+    // Validate required fields - especially translation which is often missing
+    if (!page.text) {
+      throw new AIServiceError('Page generation failed: missing text field', 'INVALID_RESPONSE_FORMAT', 500)
+    }
+
+    // Ensure translation exists - if AI didn't provide it, generate it
+    if (!page.translation && page.text) {
+      console.warn(`[MultiStepStoryProcessor] Page ${pageNumber} missing translation, generating separately...`)
+      try {
+        const translationResult = await this.callOpenAI(
+          'You are a Japanese-English translator. Translate the following Japanese text to natural, fluent English. Return ONLY the English translation, nothing else.',
+          page.text
+        )
+        page.translation = translationResult.content.trim()
+        console.log(`[MultiStepStoryProcessor] Generated missing translation for page ${pageNumber}`)
+      } catch (translationError) {
+        console.error(`[MultiStepStoryProcessor] Failed to generate translation for page ${pageNumber}:`, translationError)
+        // Continue without translation - will be handled at read time with fallback
+      }
+    }
+
     return {
       data: page,
       usage,

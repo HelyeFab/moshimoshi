@@ -22,6 +22,7 @@ interface UseWordExplanationOptions {
   onError?: (error: string) => void;
   onSuccess?: (explanation: WordExplanation) => void;
   articleId?: string; // Optional: if provided, will check Firebase pre-cached explanations first
+  bookId?: string; // Optional: if provided, will check book_word_explanations collection
 }
 
 export function useWordExplanation(options?: UseWordExplanationOptions) {
@@ -83,6 +84,43 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
           }
         } catch (firebaseError) {
           console.warn('[WordExplanation] Firebase pre-cache check failed, falling back to API:', firebaseError);
+          // Continue to API fallback
+        }
+      }
+
+      // If bookId is provided, check book_word_explanations collection
+      if (options?.bookId) {
+        try {
+          console.log('[WordExplanation] Checking Firebase pre-cache for bookId:', options.bookId);
+          const docRef = doc(firestore, 'book_word_explanations', options.bookId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            const words = data.words as WordExplanation[];
+
+            // Find the word in pre-cached explanations
+            const preCached = words?.find(w =>
+              w.word === word ||
+              w.word.toLowerCase() === word.toLowerCase() ||
+              w.reading === word
+            );
+
+            if (preCached) {
+              console.log('%c[WordExplanation] SOURCE: BOOK PRE-CACHE (fast)', 'color: #9900ff; font-weight: bold', { word, bookId: options.bookId });
+              cacheRef.current.set(cacheKey, preCached);
+              setExplanation(preCached);
+              setLoading(false);
+              options?.onSuccess?.(preCached);
+              return preCached;
+            } else {
+              console.log('[WordExplanation] Word not in book pre-cache, will use API', { word });
+            }
+          } else {
+            console.log('[WordExplanation] No pre-cache document found for book');
+          }
+        } catch (firebaseError) {
+          console.warn('[WordExplanation] Book pre-cache check failed, falling back to API:', firebaseError);
           // Continue to API fallback
         }
       }

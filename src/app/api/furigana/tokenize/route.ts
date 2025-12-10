@@ -65,7 +65,16 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse;
     }
 
-    const body = await request.json();
+    // Parse request body with defensive handling for empty/malformed requests
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid or empty request body', tokens: [], tokenCount: 0, success: false },
+        { status: 400 }
+      );
+    }
     const { text } = body;
 
     // Input validation and sanitization
@@ -117,7 +126,18 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Tokenization error:', error);
+    // Suppress logging for expected errors:
+    // - Aborted requests (ECONNRESET): users navigate away or toggle options quickly
+    // - Empty JSON: browser extensions, prefetch, or race conditions
+    const isExpectedError =
+      error instanceof Error &&
+      (error.message === 'aborted' ||
+        error.message === 'Unexpected end of JSON input' ||
+        (error as any).code === 'ECONNRESET');
+
+    if (!isExpectedError) {
+      console.error('Tokenization error:', error);
+    }
 
     return NextResponse.json(
       {

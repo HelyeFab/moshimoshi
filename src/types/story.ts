@@ -183,8 +183,7 @@ export interface ReadingSettings {
   highlightMode: 'none' | 'all' | 'content' | 'grammar'
   darkMode: boolean
   autoPlay?: boolean
-  playbackSpeed?: number // 0.5 to 2.0
-  audioSpeed?: number // Audio playback speed
+  playbackSpeed?: number // 0.5 to 2.0 - Audio playback speed
 
   // Enhanced Translation Settings
   showTranslation?: boolean // Legacy field - keep for backward compatibility

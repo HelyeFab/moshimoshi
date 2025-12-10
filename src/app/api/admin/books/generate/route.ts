@@ -6,6 +6,12 @@ import { ImageProcessor } from '@/lib/ai/processors/ImageProcessor'
 import { Book, BookDraft } from '@/types/book'
 import { JLPTLevel } from '@/types/ai-story'
 import { getStorage } from 'firebase-admin/storage'
+import type { DocumentReference } from 'firebase-admin/firestore'
+import {
+  generateBookWordExplanations,
+  storeBookWordExplanations
+} from '@/lib/ai/utils/bookWordExplanationGenerator'
+import OpenAI from 'openai'
 
 // Initialize Firebase Admin
 initAdmin()
@@ -135,7 +141,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { bookName, author, jlptLevel, additionalContext, coverImageUrl, generateCover } = body
+    const { draftId: existingDraftId, bookName, author, jlptLevel, additionalContext, coverImageUrl, generateCover } = body
 
     // Validate input
     if (!bookName || !jlptLevel) {
@@ -145,25 +151,45 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create draft document
-    const draftRef = db.collection('book_drafts').doc()
-    const draftId = draftRef.id
+    // Use existing draft if provided, otherwise create new one
+    let draftRef: DocumentReference
+    let draftId: string
 
-    const draft: BookDraft = {
-      id: draftId,
-      bookName,
-      author,
-      jlptLevel: jlptLevel as JLPTLevel,
-      status: 'generating',
-      createdAt: new Date().toISOString(),
-      createdBy: session.uid,
-      metadata: {
-        generationStep: 'content',
-        progress: 10,
-      },
+    if (existingDraftId) {
+      // Use existing draft (created by init-draft endpoint)
+      draftRef = db.collection('book_drafts').doc(existingDraftId)
+      draftId = existingDraftId
+
+      // Update draft to generating status
+      await draftRef.update({
+        status: 'generating',
+        'metadata.generationStep': 'content',
+        'metadata.progress': 10,
+      })
+
+      console.log(`📋 [BookGeneration] Using existing draft: ${draftId}`)
+    } else {
+      // Create new draft document (backward compatibility)
+      draftRef = db.collection('book_drafts').doc()
+      draftId = draftRef.id
+
+      const draft: BookDraft = {
+        id: draftId,
+        bookName,
+        author,
+        jlptLevel: jlptLevel as JLPTLevel,
+        status: 'generating',
+        createdAt: new Date().toISOString(),
+        createdBy: session.uid,
+        metadata: {
+          generationStep: 'content',
+          progress: 10,
+        },
+      }
+
+      await draftRef.set(draft)
+      console.log(`📋 [BookGeneration] Created new draft: ${draftId}`)
     }
-
-    await draftRef.set(draft)
 
     // Step 1: Generate book summary content
     console.log(`📚 Generating book summary for: ${bookName}`)
@@ -210,11 +236,45 @@ export async function POST(request: NextRequest) {
       throw new Error('AI generated incomplete book summary. Please try again.')
     }
 
+    // Validate translation - generate separately if AI omits it (following story pattern)
+    let translation = result.data.translation
+    if (!translation && result.data.content) {
+      console.warn('[BookGeneration] Translation missing from AI response, generating separately...')
+      try {
+        const openai = new OpenAI({
+          apiKey: process.env.OPENAI_API_KEY || process.env.OPEN_AI_API_KEY,
+        })
+
+        const translationResponse = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content:
+                "You are a Japanese-English translator. Translate the following Japanese narrative to natural, fluent English. Preserve the story's flow, emotion, and paragraph structure. Return ONLY the English translation, nothing else.",
+            },
+            { role: 'user', content: result.data.content },
+          ],
+          temperature: 0.3,
+          max_tokens: 2048,
+        })
+
+        translation = translationResponse.choices[0]?.message?.content?.trim() || ''
+        console.log(`[BookGeneration] Fallback translation generated (${translation.length} chars)`)
+      } catch (translationError) {
+        console.error('[BookGeneration] Translation fallback failed:', translationError)
+        // Continue without translation - will use AI fallback at read time
+      }
+    } else if (translation) {
+      console.log(`[BookGeneration] Translation from AI response (${translation.length} chars)`)
+    }
+
     // Update draft with generated content
     const draftUpdate: any = {
       title: result.data.title,
       titleJa: result.data.titleJa,
       content: result.data.content,
+      translation: translation || null,
       summary: result.data.summary,
       'metadata.generationStep': 'cover',
       'metadata.progress': 50,
@@ -270,10 +330,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Step 3: Generate TTS audio (pre-cache)
-    console.log(`🔊 Pre-generating TTS audio for book: ${draftId}`)
+    console.log(`\n🔊 [BookAudio] Starting TTS audio generation for book: ${draftId}`)
+    console.log(`🔊 [BookAudio] Content length: ${result.data.content.length} characters`)
+
+    // Update progress to audio step
+    await draftRef.update({
+      'metadata.generationStep': 'audio',
+      'metadata.progress': 72,
+    })
 
     try {
-      const ttsResponse = await fetch(`${request.nextUrl.origin}/api/tts/generate`, {
+      // Call the correct TTS synthesize endpoint
+      const ttsResponse = await fetch(`${request.nextUrl.origin}/api/tts/synthesize`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -281,30 +349,126 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           text: result.data.content,
           language: 'ja',
-          cacheKey: `book_${draftId}`,
+          speed: 1.0,
         }),
       })
 
       if (ttsResponse.ok) {
-        const ttsData = await ttsResponse.json()
+        const ttsResult = await ttsResponse.json()
 
-        // Upload audio to Firebase Storage
-        if (ttsData.audioUrl) {
-          const audioPath = `books/${draftId}/audio.mp3`
+        // The synthesize endpoint returns { success, data: { audioUrl, cached, provider } }
+        const audioUrl = ttsResult.data?.audioUrl || ttsResult.audioUrl
+        const provider = ttsResult.data?.provider || ttsResult.provider || 'unknown'
+        const cached = ttsResult.data?.cached || ttsResult.cached || false
+
+        if (audioUrl) {
+          console.log(`✅ [BookAudio] Audio generated successfully`)
+          console.log(`   - Provider: ${provider}`)
+          console.log(`   - Cached: ${cached}`)
+          console.log(`   - URL: ${audioUrl.substring(0, 80)}...`)
 
           // Store audio URL in draft
           await draftRef.update({
-            audioUrl: ttsData.audioUrl,
+            audioUrl: audioUrl,
             'metadata.audioCached': true,
             'metadata.audioGeneratedAt': new Date(),
+            'metadata.audioStatus': 'success',
+            'metadata.audioProvider': provider,
+            'metadata.progress': 78,
+          })
+        } else {
+          console.warn('⚠️ [BookAudio] TTS returned OK but no audioUrl in response')
+          await draftRef.update({
+            'metadata.audioStatus': 'failed',
+            'metadata.audioError': 'No audioUrl in response',
+            'metadata.progress': 78,
           })
         }
       } else {
-        console.warn('TTS generation failed, continuing without audio')
+        // TTS call failed
+        const errorText = await ttsResponse.text().catch(() => 'Unknown error')
+        console.error(`❌ [BookAudio] TTS generation failed with status ${ttsResponse.status}`)
+        console.error(`   - Error: ${errorText.substring(0, 200)}`)
+
+        await draftRef.update({
+          'metadata.audioStatus': 'failed',
+          'metadata.audioError': `TTS failed: ${ttsResponse.status} - ${errorText.substring(0, 100)}`,
+          'metadata.progress': 78,
+        })
       }
     } catch (audioError) {
-      console.error('Error generating audio:', audioError)
-      // Continue without audio - can be generated later
+      console.error('❌ [BookAudio] Exception during audio generation:', audioError)
+
+      await draftRef.update({
+        'metadata.audioStatus': 'failed',
+        'metadata.audioError': audioError instanceof Error ? audioError.message : 'Unknown error',
+        'metadata.progress': 78,
+      })
+      // Continue without audio - can be generated later via backfill
+    }
+
+    // Step 4: Generate word explanations (pre-cache for instant lookups)
+    console.log(`\n🔤 [BookGeneration] Starting word explanation pre-generation...`)
+
+    try {
+      await draftRef.update({
+        'metadata.generationStep': 'words',
+        'metadata.progress': 80,
+        'metadata.wordProgress': { current: 0, total: 50 },
+      })
+
+      // Generate explanations for top 50 words with real-time progress updates
+      const wordExplanations = await generateBookWordExplanations(
+        draftId,
+        result.data.content,
+        50,
+        // Progress callback - updates Firestore in real-time for UI
+        async (current, total, word, status) => {
+          // Calculate progress: 80% + (current/total * 15%) = up to 95%
+          const stepProgress = 80 + Math.round((current / total) * 15)
+
+          // Update Firestore with current word progress
+          try {
+            await draftRef.update({
+              'metadata.progress': stepProgress,
+              'metadata.wordProgress': {
+                current,
+                total,
+                currentWord: word,
+                lastStatus: status,
+              },
+            })
+          } catch (updateError) {
+            // Non-critical - log but don't fail
+            console.warn(`[BookGeneration] Failed to update word progress: ${current}/${total}`)
+          }
+        }
+      )
+
+      // Store in Firestore
+      console.log(`💾 [BookGeneration] Storing ${wordExplanations.wordCount} word explanations to Firestore...`)
+      await storeBookWordExplanations(wordExplanations)
+      console.log(`✅ [BookGeneration] Word explanations stored successfully!`)
+
+      // Update draft with word explanation metadata
+      await draftRef.update({
+        'metadata.wordExplanationsCached': true,
+        'metadata.wordExplanationsCount': wordExplanations.wordCount,
+        'metadata.wordExplanationsGeneratedAt': new Date().toISOString(),
+        'metadata.progress': 95,
+        'metadata.wordProgress': null, // Clear word progress
+      })
+
+      console.log(`✅ [BookGeneration] Word explanations complete: ${wordExplanations.wordCount} words`)
+    } catch (wordError) {
+      console.error('❌ [BookGeneration] Error generating word explanations:', wordError)
+      // Continue without word explanations - can be generated on-demand
+      console.log('⚠️ [BookGeneration] Continuing without pre-cached word explanations')
+
+      // Clear word progress on error
+      await draftRef.update({
+        'metadata.wordProgress': null,
+      })
     }
 
     // Update progress

@@ -1030,6 +1030,45 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Content ID for caching
+    const contentId = `youtube_${videoId}`
+
+    // CHECK CACHE FIRST - before caption check or quota
+    // If video is already cached, skip all validation and return immediately
+    if (!forceRegenerate) {
+      const cachedTranscript = await transcriptCache.get(contentId)
+
+      if (cachedTranscript && cachedTranscript.transcript.length > 0) {
+        console.log('✅ [CACHE HIT] Returning cached transcript for:', videoId)
+
+        // Save to YouTube history even for cached videos (to update watch count)
+        if (isAuthenticated && userId && userId !== 'anonymous') {
+          await saveToYouTubeHistory(
+            userId,
+            videoId,
+            cachedTranscript.videoTitle || 'Unknown',
+            url,
+            cachedTranscript.formattedTranscript || cachedTranscript.transcript,
+            cachedTranscript.metadata || {}
+          )
+        }
+
+        return NextResponse.json({
+          success: true,
+          transcript: cachedTranscript.transcript,
+          formattedTranscript: cachedTranscript.formattedTranscript || null,
+          language: cachedTranscript.language,
+          videoTitle: cachedTranscript.videoTitle,
+          videoMetadata: cachedTranscript.metadata,
+          method: 'cache',
+          fromCache: true,
+          hasFormattedVersion: !!cachedTranscript.formattedTranscript,
+        })
+      }
+    }
+
+    // NOT CACHED - Now check captions and quota before extraction
+
     // CHECK CAPTION AVAILABILITY using YouTube Data API
     console.log('🔍 Checking available caption tracks...')
     const captionInfo = await getAvailableCaptionTracks(videoId)
@@ -1042,6 +1081,7 @@ export async function POST(request: NextRequest) {
 
       if (!captionInfo.hasJapanese) {
         // No Japanese captions available - provide helpful error
+        // This returns BEFORE quota is checked, so no quota is spent
         const availableLanguages = [...new Set(captionInfo.tracks.map(t => t.language))]
 
         return NextResponse.json({
@@ -1057,11 +1097,14 @@ export async function POST(request: NextRequest) {
         })
       }
     } else {
-      console.log('⚠️ Could not verify caption availability, proceeding with extraction')
+      // Caption API failed - this is a soft failure, we'll try extraction anyway
+      // but warn that quota might be spent on a video without Japanese captions
+      console.log('⚠️ Could not verify caption availability (API key missing or failed)')
+      console.log('⚠️ Proceeding with extraction - quota may be spent if extraction fails')
     }
 
     // CHECK QUOTA for authenticated users BEFORE extracting transcript
-    // This ensures new videos count toward quota even if transcript is cached
+    // Only reached if: 1) Not cached, 2) Has Japanese captions OR caption check failed
     if (isAuthenticated && userId && userId !== 'anonymous') {
       // Get user's plan from Firestore
       let userPlan = 'free'
@@ -1094,40 +1137,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Check cache FIRST before making any API calls
-    const contentId = `youtube_${videoId}`
-
-    // Skip cache if force regenerate is requested
-    if (!forceRegenerate) {
-      const cachedTranscript = await transcriptCache.get(contentId)
-
-      if (cachedTranscript && cachedTranscript.transcript.length > 0) {
-        // Save to YouTube history even for cached videos (to update watch count)
-        if (isAuthenticated && userId && userId !== 'anonymous') {
-          await saveToYouTubeHistory(
-            userId,
-            videoId,
-            cachedTranscript.videoTitle || 'Unknown',
-            url,
-            cachedTranscript.formattedTranscript || cachedTranscript.transcript,
-            cachedTranscript.metadata || {}
-          )
-        }
-
-        return NextResponse.json({
-          success: true,
-          transcript: cachedTranscript.transcript,
-          formattedTranscript: cachedTranscript.formattedTranscript || null,
-          language: cachedTranscript.language,
-          videoTitle: cachedTranscript.videoTitle,
-          videoMetadata: cachedTranscript.metadata,
-          method: 'cache',
-          fromCache: true,
-          hasFormattedVersion: !!cachedTranscript.formattedTranscript,
-        })
-      }
-    }
     // Attempt YouTube native transcripts first (youtubei.js) before other providers
+    // Note: Cache check was already done above (before caption/quota checks)
     const shouldTryYouTubeNative = provider === 'youtube-native' || provider === 'auto'
 
     if (shouldTryYouTubeNative) {

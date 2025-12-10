@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 import KuromojiService, { TokenWithHighlight, POS_COLORS } from '@/utils/kuromojiService'
 
 interface GrammarHighlightedTextProps {
@@ -9,6 +9,7 @@ interface GrammarHighlightedTextProps {
   onWordClick?: (word: string, event: React.MouseEvent) => void
   showFurigana?: boolean
   className?: string
+  furiganaClassName?: string
 }
 
 // Convert katakana to hiragana
@@ -25,11 +26,15 @@ export function GrammarHighlightedText({
   onWordClick,
   showFurigana = false,
   className = '',
+  furiganaClassName = '',
 }: GrammarHighlightedTextProps) {
   const [tokens, setTokens] = useState<TokenWithHighlight[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isKuromojiReady, setIsKuromojiReady] = useState(false)
+
+  // Track the current request to avoid race conditions
+  const requestIdRef = useRef(0)
 
   // Initialize Kuromoji once
   useEffect(() => {
@@ -39,8 +44,14 @@ export function GrammarHighlightedText({
   }, [])
 
   useEffect(() => {
+    // Increment request ID to invalidate any pending requests
+    const currentRequestId = ++requestIdRef.current
+
     const analyzeText = async () => {
-      if (!isKuromojiReady || highlightMode === 'none' || !text) {
+      // Need to tokenize if grammar highlighting OR furigana is enabled
+      const needsTokenization = highlightMode !== 'none' || showFurigana
+
+      if (!isKuromojiReady || !needsTokenization || !text) {
         setTokens([])
         setLoading(false)
         return
@@ -50,19 +61,39 @@ export function GrammarHighlightedText({
         setLoading(true)
         const kuromojiService = KuromojiService.getInstance()
         const analyzedTokens = await kuromojiService.tokenize(text)
-        setTokens(analyzedTokens)
-        setError(null)
+
+        // Only update state if this is still the current request
+        // This prevents race conditions when toggling rapidly
+        if (currentRequestId === requestIdRef.current) {
+          setTokens(analyzedTokens)
+          setError(null)
+        }
       } catch (err) {
-        console.error('Failed to analyze text:', err)
-        setError('Failed to analyze text')
-        setTokens([])
+        // Ignore AbortError - this is expected when requests are cancelled
+        if (err instanceof Error && err.name === 'AbortError') {
+          return
+        }
+        // Only update state if this is still the current request
+        if (currentRequestId === requestIdRef.current) {
+          console.error('Failed to analyze text:', err)
+          setError('Failed to analyze text')
+          setTokens([])
+        }
       } finally {
-        setLoading(false)
+        // Only update loading state if this is still the current request
+        if (currentRequestId === requestIdRef.current) {
+          setLoading(false)
+        }
       }
     }
 
     analyzeText()
-  }, [text, highlightMode, isKuromojiReady])
+
+    // Cleanup: increment request ID to invalidate this request if component updates
+    return () => {
+      requestIdRef.current++
+    }
+  }, [text, highlightMode, showFurigana, isKuromojiReady])
 
   const shouldHighlight = (token: TokenWithHighlight): boolean => {
     if (highlightMode === 'none') return false
@@ -137,11 +168,16 @@ export function GrammarHighlightedText({
     )
   }
 
+  // Check if text contains kanji (furigana only shows above kanji)
+  const hasKanjiInText = /[\u4E00-\u9FAF]/.test(text)
+  // Only increase line height if furigana is enabled AND text has kanji
+  const needsExtraLineHeight = showFurigana && hasKanjiInText
+
   return (
     <span
       className={`${className} block md:inline japanese-text font-ja`}
       data-quickcontext="true"
-      style={{ lineHeight: '2.5', marginTop: '0.5rem' }}
+      style={{ lineHeight: needsExtraLineHeight ? '2.5' : '1.8', marginTop: '0.5rem' }}
     >
       {tokens.map((token, index) => {
         const nextToken = tokens[index + 1]
@@ -191,7 +227,7 @@ export function GrammarHighlightedText({
               data-pos={posType}
             >
               <span
-                className="absolute text-xs w-full text-center"
+                className={`absolute text-xs w-full text-center ${furiganaClassName}`}
                 style={{
                   top: '0.1em', // Tighter positioning
                   left: '0',
@@ -199,8 +235,7 @@ export function GrammarHighlightedText({
                   lineHeight: 1,
                   whiteSpace: 'nowrap',
                   fontWeight: 'normal',
-                  color: 'var(--article-text-secondary)',
-                  opacity: 0.85,
+                  ...(!furiganaClassName && { color: 'var(--article-text-secondary)', opacity: 0.85 }),
                 }}
               >
                 {hiraganaReading}

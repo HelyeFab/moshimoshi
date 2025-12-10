@@ -8,7 +8,7 @@
  * - Minimal, auditable, and safe
  */
 
-const CACHE_VERSION = 'moshimoshi-v1428lists-textbook';
+const CACHE_VERSION = 'moshimoshi-v1429-dev-bypass';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -175,6 +175,22 @@ self.addEventListener('fetch', (event) => {
     (request.method === 'GET' && request.headers.get('accept')?.includes('text/html'));
 
   if (isNavigationRequest) {
+    // IMPORTANT: In development or when online, don't aggressively serve offline pages
+    // Check if we're truly offline before serving fallback
+    const isOnline = self.navigator.onLine;
+
+    // Detect development mode by checking for localhost or common dev ports
+    const isDevelopment = url.hostname === 'localhost' ||
+                          url.hostname === '127.0.0.1' ||
+                          url.port === '3000' ||
+                          url.port === '3001';
+
+    // In development when online, let Next.js handle everything - don't intercept
+    if (isDevelopment && isOnline) {
+      console.log('[SW] Development mode + online - bypassing service worker for:', url.pathname);
+      return; // Let the request go through naturally without SW intervention
+    }
+
     // Check if this page should be cached for offline use
     const isOfflineEnabledPage = OFFLINE_ENABLED_PAGES.some(page =>
       url.pathname === page || url.pathname.startsWith(page + '/')
@@ -182,6 +198,9 @@ self.addEventListener('fetch', (event) => {
 
     event.respondWith(
       (async () => {
+        // Use longer timeout in development, shorter in production
+        const timeout = isDevelopment ? 30000 : 5000; // 30s dev, 5s prod
+
         // For offline-enabled pages, try cache first when offline
         if (isOfflineEnabledPage) {
           const pagesCache = await caches.open(PAGES_CACHE);
@@ -189,7 +208,7 @@ self.addEventListener('fetch', (event) => {
           try {
             // Try network with timeout
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 3000);
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
 
             const response = await fetch(request, { signal: controller.signal });
             clearTimeout(timeoutId);
@@ -218,7 +237,7 @@ self.addEventListener('fetch', (event) => {
           // Non-offline-enabled pages - just try network with timeout
           try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 3000);
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
 
             const response = await fetch(request, { signal: controller.signal });
             clearTimeout(timeoutId);
@@ -228,7 +247,16 @@ self.addEventListener('fetch', (event) => {
           }
         }
 
-        // Fallback to offline page
+        // CRITICAL: Only serve offline page if we're actually offline
+        // This prevents showing offline page when dev server is just slow
+        if (self.navigator.onLine) {
+          console.log('[SW] Still online but request failed - letting browser handle error');
+          // Return a network error so browser shows its own error page
+          // This is better than showing "offline" when we're actually online
+          throw new Error('Network request failed but device is online');
+        }
+
+        // Fallback to offline page (only when truly offline)
         const staticCache = await caches.open(STATIC_CACHE);
         const offlinePage = await staticCache.match('/offline.html');
 

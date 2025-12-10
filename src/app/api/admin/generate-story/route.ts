@@ -538,20 +538,28 @@ export async function POST(request: NextRequest) {
         await file.makePublic()
         const publicUrl = `https://storage.googleapis.com/${storage.bucket().name}/${fileName}`
 
-        // Update page in draft with image URL
-        pages[pageNumber - 1] = {
-          ...page,
-          imageUrl: publicUrl,
-        }
-
-        await adminFirestore!
-          .collection('ai_story_drafts')
-          .doc(draftId)
-          .update({
-            pages,
+        // Update page in draft with image URL using a transaction
+        // IMPORTANT: Use transaction to prevent race conditions when multiple page images are generated concurrently
+        // Firestore field paths like `pages.0.imageUrl` convert arrays to objects, so we must read-modify-write
+        const draftRef = adminFirestore!.collection('ai_story_drafts').doc(draftId)
+        await adminFirestore!.runTransaction(async (transaction) => {
+          const draftSnapshot = await transaction.get(draftRef)
+          if (!draftSnapshot.exists) {
+            throw new Error('Draft not found during image update')
+          }
+          const currentPages = draftSnapshot.data()?.pages || []
+          if (currentPages[pageNumber - 1]) {
+            currentPages[pageNumber - 1] = {
+              ...currentPages[pageNumber - 1],
+              imageUrl: publicUrl,
+            }
+          }
+          transaction.update(draftRef, {
+            pages: currentPages,
             [`pageImages.${pageNumber}`]: publicUrl,
             updatedAt: new Date(),
           })
+        })
 
         return NextResponse.json({
           success: true,

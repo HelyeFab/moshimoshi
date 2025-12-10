@@ -19,6 +19,7 @@ export interface Book {
 
   // Content
   content: string;                  // Condensed Japanese text (continuous, not paginated)
+  translation?: string;             // English translation of content (pre-generated)
   summary: string;                  // Brief summary/description
 
   // Media
@@ -48,7 +49,11 @@ export interface Book {
     generationModel?: string;       // AI model used for generation
     coverGenerated?: boolean;       // Whether cover was AI-generated
     audioCached?: boolean;          // Whether audio has been pre-generated
-    audioGeneratedAt?: string;        // When audio was generated (ISO 8601)
+    audioGeneratedAt?: string;      // When audio was generated (ISO 8601)
+    // Word explanation pre-cache metadata
+    wordExplanationsCached?: boolean;      // Whether word explanations have been pre-generated
+    wordExplanationsCount?: number;        // Number of words with explanations
+    wordExplanationsGeneratedAt?: string;  // When word explanations were generated (ISO 8601)
   };
 }
 
@@ -76,16 +81,38 @@ export interface BookDraft {
   title?: string;
   titleJa?: string;
   content?: string;
+  translation?: string;             // English translation of content
   summary?: string;
   coverImageUrl?: string;
+  audioUrl?: string;
   category?: string;
   status: 'generating' | 'draft' | 'error';
   createdAt: string;                // Creation timestamp (ISO 8601)
   createdBy: string;
   error?: string;
   metadata?: {
-    generationStep?: 'title' | 'summary' | 'content' | 'cover' | 'audio' | 'complete';
+    generationStep?: 'title' | 'summary' | 'content' | 'cover' | 'audio' | 'words' | 'complete';
     progress?: number;
+    coverGenerated?: boolean;
+    audioCached?: boolean;
+    audioGeneratedAt?: Date;
+    audioStatus?: 'success' | 'failed' | 'skipped';
+    audioError?: string;
+    audioProvider?: string;
+    // Word explanation pre-cache metadata
+    wordExplanationsCached?: boolean;
+    wordExplanationsCount?: number;
+    wordExplanationsGeneratedAt?: string;
+    // Real-time word generation progress (for admin UI)
+    wordProgress?: {
+      current: number;
+      total: number;
+      currentWord?: string;
+      lastStatus?: 'success' | 'failed';
+    } | null;
+    // Generation options (from init-draft)
+    generateCover?: boolean;
+    additionalContext?: string;
   };
 }
 

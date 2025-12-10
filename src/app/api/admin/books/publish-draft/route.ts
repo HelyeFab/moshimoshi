@@ -108,6 +108,7 @@ export async function POST(request: NextRequest) {
 
     // Add optional fields only if they exist (Firestore doesn't allow undefined)
     if (draftData.author) book.author = draftData.author;
+    if (draftData.translation) book.translation = draftData.translation;
     if (draftData.coverImageUrl) book.coverImageUrl = draftData.coverImageUrl;
     if (draftData.audioUrl) book.audioUrl = draftData.audioUrl;
     if (draftData.category) book.category = draftData.category;

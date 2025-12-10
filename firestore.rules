@@ -112,10 +112,11 @@ service cloud.firestore {
       // Allow user creation with minimal requirements (profile can be created by server or client)
       allow create: if isOwner(userId);
 
-      // Allow updates but protect subscription facts
+      // Allow updates but protect subscription facts and onboarding status
       allow update: if isOwner(userId) &&
-        // Users cannot modify their subscription facts directly
-        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['subscription', 'stripeCustomerId']));
+        // Users cannot modify their subscription facts or onboarding status directly
+        // These fields can only be modified server-side via Admin SDK
+        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['subscription', 'stripeCustomerId', 'onboarding']));
 
       allow delete: if false; // Users should be soft-deleted
     }
@@ -417,12 +418,49 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Book progress collection - users can track their book reading progress
+    match /bookProgress/{progressId} {
+      // Users can read their own progress
+      allow read: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+
+      // Users can create progress for themselves
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Users can update their own progress
+      allow update: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Progress should not be deleted
+      allow delete: if false;
+    }
+
     // MoodBoards collection - public read for active, admin write via server
     match /moodBoards/{boardId} {
       // Anyone can read active moodboards (public learning content)
       allow read: if resource.data.isActive == true;
 
       // Writes handled via Admin SDK (API routes) - client writes blocked
+      allow write: if false;
+    }
+
+    // Book word explanations - pre-cached word explanations for instant lookups
+    match /book_word_explanations/{bookId} {
+      // Authenticated users can read word explanations (for useWordExplanation hook)
+      allow read: if isAuthenticated();
+
+      // Writes handled via Admin SDK (book generation API) - client writes blocked
+      allow write: if false;
+    }
+
+    // News article word explanations - pre-cached word explanations
+    match /news_article_word_explanations/{articleId} {
+      // Authenticated users can read word explanations
+      allow read: if isAuthenticated();
+
+      // Writes handled via Admin SDK - client writes blocked
       allow write: if false;
     }
 

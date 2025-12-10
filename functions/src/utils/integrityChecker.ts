@@ -24,7 +24,7 @@ const db = admin.firestore()
 
 // Configuration
 const CONFIG = {
-  MAX_ARTICLES_PER_RUN: 3,
+  MAX_ARTICLES_PER_RUN: 1,
   MAX_STORIES_PER_RUN: 1,
   LOOKBACK_DAYS: 7,
   RETRY_COOLDOWN_HOURS: 6, // Skip items that failed repair in last 6 hours
@@ -55,15 +55,22 @@ export interface IntegrityCheckResult {
     checked: number
     missingAudio: string[]
     missingImages: string[]
+    missingTranslations: string[]
     stalledDrafts: string[]
     repaired: {
       audio: number
       images: number
+      translations: number
     }
     repairFailed: {
       audio: number
       images: number
+      translations: number
     }
+  }
+  books: {
+    checked: number
+    missingTranslations: string[]
   }
   duration: number
   timestamp: string
@@ -472,15 +479,17 @@ async function repairNewsArticles(
  */
 export async function checkStories(
   adminKey: string,
-  checkId?: string
+  checkId?: string,
+  maxStories: number = CONFIG.MAX_STORIES_PER_RUN
 ): Promise<IntegrityCheckResult['stories']> {
   const result: IntegrityCheckResult['stories'] = {
     checked: 0,
     missingAudio: [],
     missingImages: [],
+    missingTranslations: [],
     stalledDrafts: [],
-    repaired: { audio: 0, images: 0 },
-    repairFailed: { audio: 0, images: 0 },
+    repaired: { audio: 0, images: 0, translations: 0 },
+    repairFailed: { audio: 0, images: 0, translations: 0 },
   }
 
   const lookbackDate = new Date()
@@ -524,6 +533,20 @@ export async function checkStories(
       if (!hasCoverImage || missingPageImages > 0) {
         result.missingImages.push(storyId)
       }
+
+      // Check translations - pages should have translation or textEn field
+      const pagesWithMissingTranslations = pages.filter(
+        (p: any) => p.text && !p.translation && !p.textEn
+      ).length
+
+      if (pagesWithMissingTranslations > 0) {
+        result.missingTranslations.push(storyId)
+        logger.warn('[IntegrityChecker] Story has pages missing translations', {
+          storyId,
+          missingCount: pagesWithMissingTranslations,
+          totalPages: pages.length,
+        })
+      }
     }
 
     // Check for stalled drafts (older than 24 hours)
@@ -556,15 +579,25 @@ export async function checkStories(
       checked: result.checked,
       missingAudio: result.missingAudio.length,
       missingImages: result.missingImages.length,
+      missingTranslations: result.missingTranslations.length,
       stalledDrafts: result.stalledDrafts.length,
     })
 
-    // Auto-repair: Pick up to MAX_STORIES_PER_RUN stories to repair
-    if (result.missingAudio.length > 0 || result.missingImages.length > 0) {
-      const storyToRepair = result.missingAudio[0] || result.missingImages[0]
-      if (storyToRepair) {
-        await repairStory(storyToRepair, result, adminKey, checkId)
-      }
+    // Auto-repair: Pick up to maxStories stories to repair
+    // Combine missing audio and images, deduplicate, and take up to maxStories
+    const allStoriesNeedingRepair = [
+      ...new Set([...result.missingAudio, ...result.missingImages]),
+    ].slice(0, maxStories)
+
+    logger.info('[IntegrityChecker] Stories to repair', {
+      totalNeedingRepair: [...new Set([...result.missingAudio, ...result.missingImages])].length,
+      maxStories,
+      repairing: allStoriesNeedingRepair.length,
+      storyIds: allStoriesNeedingRepair,
+    })
+
+    for (const storyId of allStoriesNeedingRepair) {
+      await repairStory(storyId, result, adminKey, checkId)
     }
 
     return result
@@ -797,19 +830,85 @@ async function repairStory(
 }
 
 /**
+ * Check books for missing translations (detection only, no auto-repair)
+ */
+export async function checkBooks(
+  checkId?: string
+): Promise<IntegrityCheckResult['books']> {
+  const result: IntegrityCheckResult['books'] = {
+    checked: 0,
+    missingTranslations: [],
+  }
+
+  const lookbackDate = new Date()
+  lookbackDate.setDate(lookbackDate.getDate() - CONFIG.LOOKBACK_DAYS)
+
+  logger.info('[IntegrityChecker] Checking books', {
+    lookbackDays: CONFIG.LOOKBACK_DAYS,
+    since: lookbackDate.toISOString(),
+  })
+
+  try {
+    const booksSnapshot = await db
+      .collection('books')
+      .where('createdAt', '>=', admin.firestore.Timestamp.fromDate(lookbackDate))
+      .where('status', '==', 'published')
+      .get()
+
+    result.checked = booksSnapshot.size
+
+    for (const doc of booksSnapshot.docs) {
+      const data = doc.data()
+
+      // Check for missing translation
+      if (data.content && !data.translation) {
+        result.missingTranslations.push(doc.id)
+        logger.warn('[IntegrityChecker] Book missing translation', {
+          bookId: doc.id,
+          title: data.titleJa || data.title,
+        })
+      }
+    }
+
+    logger.info('[IntegrityChecker] Book check complete', {
+      checked: result.checked,
+      missingTranslations: result.missingTranslations.length,
+    })
+
+    return result
+  } catch (error) {
+    logger.error('[IntegrityChecker] Error checking books', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
+    return result
+  }
+}
+
+/**
  * Run the full integrity check
  */
+export interface IntegrityCheckOptions {
+  maxStories?: number // Override MAX_STORIES_PER_RUN (1-5)
+  maxArticles?: number // Override MAX_ARTICLES_PER_RUN (1-5)
+}
+
 export async function runIntegrityCheck(
   adminKey: string,
-  checkId?: string
+  checkId?: string,
+  options?: IntegrityCheckOptions
 ): Promise<IntegrityCheckResult> {
   const startTime = Date.now()
 
+  // Allow overriding max items per run (clamped to 1-5 for safety)
+  const maxStories = Math.min(5, Math.max(1, options?.maxStories || CONFIG.MAX_STORIES_PER_RUN))
+  const maxArticles = Math.min(5, Math.max(1, options?.maxArticles || CONFIG.MAX_ARTICLES_PER_RUN))
+
   logger.info('[IntegrityChecker] Starting full integrity check', {
     checkId,
-    maxArticles: CONFIG.MAX_ARTICLES_PER_RUN,
-    maxStories: CONFIG.MAX_STORIES_PER_RUN,
+    maxArticles,
+    maxStories,
     lookbackDays: CONFIG.LOOKBACK_DAYS,
+    isOverride: !!(options?.maxStories || options?.maxArticles),
   })
 
   // Update progress: checking articles
@@ -824,13 +923,21 @@ export async function runIntegrityCheck(
     await updateCheckProgress(checkId, 'checking_stories')
   }
 
-  const storiesResult = await checkStories(adminKey, checkId)
+  const storiesResult = await checkStories(adminKey, checkId, maxStories)
+
+  // Update progress: checking books
+  if (checkId) {
+    await updateCheckProgress(checkId, 'checking_books')
+  }
+
+  const booksResult = await checkBooks(checkId)
 
   const duration = Date.now() - startTime
 
   const result: IntegrityCheckResult = {
     newsArticles: newsResult,
     stories: storiesResult,
+    books: booksResult,
     duration,
     timestamp: new Date().toISOString(),
   }
@@ -844,6 +951,8 @@ export async function runIntegrityCheck(
       newsResult.repaired.wordExplanations,
     storiesChecked: storiesResult.checked,
     storiesRepaired: storiesResult.repaired.audio + storiesResult.repaired.images,
+    booksChecked: booksResult.checked,
+    booksMissingTranslations: booksResult.missingTranslations.length,
   })
 
   return result

@@ -9,7 +9,7 @@ import MoodBoardCard from '@/components/kanji-moods/MoodBoardCard'
 import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 
@@ -140,7 +140,10 @@ export default function KanjiMoodsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       <PageHeader title={t('moodboards.title')} description={t('moodboards.description')} />
 

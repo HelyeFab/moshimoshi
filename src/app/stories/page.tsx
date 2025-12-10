@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
 import { useStories } from '@/hooks/useStories'
 import { useStoryCache } from '@/hooks/useStoryCache'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { Select } from '@/components/ui/Select'
@@ -120,7 +120,10 @@ export default function StoriesPage() {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-        {/* Navigation is now global - rendered in root layout */}
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
         <div className="container mx-auto px-4 py-16 text-center">
           <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
             {t('stories.errorLoading')}
@@ -133,7 +136,10 @@ export default function StoriesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* LearningPageHeader with only required props */}
       <LearningPageHeader title={t('stories.title')} description={t('stories.description')} />

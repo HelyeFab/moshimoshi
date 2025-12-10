@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, ArrowLeft } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import DoshiMascot from './DoshiMascot'
 import { useTheme } from '@/lib/theme/ThemeContext'
 
@@ -156,10 +156,11 @@ export default function PageHeader({
               {/* Back Button - Mobile */}
               <button
                 onClick={() => router.push(backHref)}
-                className={`p-2 rounded-full shadow-md transition-all flex-shrink-0 ${buttonClasses}`}
+                className="px-3 py-1 rounded-full text-xs font-medium transition-all flex-shrink-0 text-white shadow-lg hover:scale-105 active:scale-95 shadow-primary-500/30 hover:shadow-primary-500/50"
+                style={{ backgroundColor: 'rgb(var(--palette-primary-500))' }}
                 aria-label="Go back"
               >
-                <ArrowLeft className={`w-4 h-4 ${iconClasses}`} />
+                Back
               </button>
             </div>
 
@@ -231,17 +232,12 @@ export default function PageHeader({
           )}
 
           <div className="container mx-auto px-4 py-6 relative z-10">
-            {/* Top row: Back button and actions */}
-            <div className="flex items-center justify-end gap-3 mb-4">
-              {actions}
-              <button
-                onClick={() => router.push(backHref)}
-                className={`p-2 rounded-full shadow-md transition-all ${buttonClasses}`}
-                aria-label="Go back"
-              >
-                <ArrowLeft className={`w-5 h-5 ${iconClasses}`} />
-              </button>
-            </div>
+            {/* Top row: actions */}
+            {actions && (
+              <div className="flex items-center justify-end gap-3 mb-4">
+                {actions}
+              </div>
+            )}
 
             {/* Main content */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">

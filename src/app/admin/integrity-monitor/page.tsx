@@ -43,15 +43,22 @@ interface IntegrityLog {
     checked: number
     missingAudio: string[]
     missingImages: string[]
+    missingTranslations: string[]
     stalledDrafts: string[]
     repaired: {
       audio: number
       images: number
+      translations: number
     }
     repairFailed: {
       audio: number
       images: number
+      translations: number
     }
+  }
+  books?: {
+    checked: number
+    missingTranslations: string[]
   }
   triggeredBy?: string
   success?: boolean
@@ -90,6 +97,8 @@ export default function IntegrityMonitorDashboard() {
   const [expandedLog, setExpandedLog] = useState<string | null>(null)
   const [triggering, setTriggering] = useState(false)
   const [triggerMessage, setTriggerMessage] = useState<string | null>(null)
+  const [maxStories, setMaxStories] = useState(1)
+  const [maxArticles, setMaxArticles] = useState(1)
 
   const fetchStats = async () => {
     try {
@@ -122,6 +131,10 @@ export default function IntegrityMonitorDashboard() {
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          maxStories,
+          maxArticles,
+        }),
       })
 
       const result = await response.json()
@@ -185,7 +198,8 @@ export default function IntegrityMonitorDashboard() {
       (log.newsArticles?.repairFailed?.translations || 0) +
       (log.newsArticles?.repairFailed?.wordExplanations || 0) +
       (log.stories?.repairFailed?.audio || 0) +
-      (log.stories?.repairFailed?.images || 0)
+      (log.stories?.repairFailed?.images || 0) +
+      (log.stories?.repairFailed?.translations || 0)
     if (totalFailed > 0) return 'bg-yellow-500'
     return 'bg-green-500'
   }
@@ -197,7 +211,8 @@ export default function IntegrityMonitorDashboard() {
       (log.newsArticles?.repairFailed?.translations || 0) +
       (log.newsArticles?.repairFailed?.wordExplanations || 0) +
       (log.stories?.repairFailed?.audio || 0) +
-      (log.stories?.repairFailed?.images || 0)
+      (log.stories?.repairFailed?.images || 0) +
+      (log.stories?.repairFailed?.translations || 0)
     if (totalFailed > 0) return <AlertTriangle className="w-4 h-4 text-yellow-500" />
     return <CheckCircle className="w-4 h-4 text-green-500" />
   }
@@ -208,7 +223,8 @@ export default function IntegrityMonitorDashboard() {
       (log.newsArticles?.repaired?.translations || 0) +
       (log.newsArticles?.repaired?.wordExplanations || 0) +
       (log.stories?.repaired?.audio || 0) +
-      (log.stories?.repaired?.images || 0)
+      (log.stories?.repaired?.images || 0) +
+      (log.stories?.repaired?.translations || 0)
     )
   }
 
@@ -218,7 +234,9 @@ export default function IntegrityMonitorDashboard() {
       (log.newsArticles?.missingTranslations?.length || 0) +
       (log.newsArticles?.missingWordExplanations?.length || 0) +
       (log.stories?.missingAudio?.length || 0) +
-      (log.stories?.missingImages?.length || 0)
+      (log.stories?.missingImages?.length || 0) +
+      (log.stories?.missingTranslations?.length || 0) +
+      (log.books?.missingTranslations?.length || 0)
     )
   }
 
@@ -260,7 +278,7 @@ export default function IntegrityMonitorDashboard() {
           </h1>
           <p className="text-muted-foreground">Content integrity checker status and repair logs</p>
         </div>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap items-center">
           <Button
             variant={autoRefresh ? 'default' : 'outline'}
             onClick={() => setAutoRefresh(!autoRefresh)}
@@ -272,6 +290,35 @@ export default function IntegrityMonitorDashboard() {
             <RefreshCw className="w-4 h-4 mr-2" />
             Refresh
           </Button>
+
+          {/* Max items selectors for manual run */}
+          <div className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <label className="text-xs font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">Max Stories:</label>
+            <select
+              value={maxStories}
+              onChange={(e) => setMaxStories(parseInt(e.target.value))}
+              className="text-sm font-semibold bg-transparent border-none focus:ring-0 cursor-pointer text-gray-900 dark:text-white pr-6"
+              disabled={triggering}
+            >
+              {[1, 2, 3, 4, 5].map(n => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <label className="text-xs font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">Max Articles:</label>
+            <select
+              value={maxArticles}
+              onChange={(e) => setMaxArticles(parseInt(e.target.value))}
+              className="text-sm font-semibold bg-transparent border-none focus:ring-0 cursor-pointer text-gray-900 dark:text-white pr-6"
+              disabled={triggering}
+            >
+              {[1, 2, 3, 4, 5].map(n => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
+          </div>
+
           <Button
             onClick={triggerManualCheck}
             disabled={triggering}
@@ -625,7 +672,8 @@ export default function IntegrityMonitorDashboard() {
                                 <p>Checked: {log.stories.checked}</p>
                                 <p className="text-yellow-600 dark:text-yellow-400">
                                   Missing: {log.stories.missingAudio?.length || 0} audio,{' '}
-                                  {log.stories.missingImages?.length || 0} images
+                                  {log.stories.missingImages?.length || 0} images,{' '}
+                                  {log.stories.missingTranslations?.length || 0} translations
                                 </p>
                                 {log.stories.stalledDrafts?.length > 0 && (
                                   <p className="text-orange-600 dark:text-orange-400">
@@ -634,14 +682,38 @@ export default function IntegrityMonitorDashboard() {
                                 )}
                                 <p className="text-green-600 dark:text-green-400">
                                   Repaired: {log.stories.repaired?.audio || 0} audio,{' '}
-                                  {log.stories.repaired?.images || 0} images
+                                  {log.stories.repaired?.images || 0} images,{' '}
+                                  {log.stories.repaired?.translations || 0} translations
                                 </p>
                                 {(log.stories.repairFailed?.audio || 0) +
-                                  (log.stories.repairFailed?.images || 0) >
+                                  (log.stories.repairFailed?.images || 0) +
+                                  (log.stories.repairFailed?.translations || 0) >
                                   0 && (
                                   <p className="text-red-600 dark:text-red-400">
                                     Failed: {log.stories.repairFailed?.audio || 0} audio,{' '}
-                                    {log.stories.repairFailed?.images || 0} images
+                                    {log.stories.repairFailed?.images || 0} images,{' '}
+                                    {log.stories.repairFailed?.translations || 0} translations
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Books */}
+                          {log.books && (
+                            <div>
+                              <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">
+                                Books
+                              </p>
+                              <div className="space-y-1 text-gray-700 dark:text-gray-300">
+                                <p>Checked: {log.books.checked}</p>
+                                {log.books.missingTranslations?.length > 0 ? (
+                                  <p className="text-yellow-600 dark:text-yellow-400">
+                                    Missing translations: {log.books.missingTranslations.length}
+                                  </p>
+                                ) : (
+                                  <p className="text-green-600 dark:text-green-400">
+                                    All translations present
                                   </p>
                                 )}
                               </div>

@@ -1,6 +1,11 @@
 /**
  * Translation Processor
  * Learning-focused Japanese-English translation with progressive assistance modes
+ *
+ * Features:
+ * - Zod schema validation for reliable structured outputs
+ * - Firebase caching for cost optimization
+ * - Multiple translation modes (hints, partial, full, learning)
  */
 
 import { BaseProcessor } from './BaseProcessor';
@@ -11,6 +16,7 @@ import {
   AIServiceError
 } from '../types';
 import { translationCache } from '@/lib/firebase/collections/translations';
+import { TranslationResultSchema, safeValidateAIResponse } from '../schemas';
 
 // ============================================
 // Translation Types
@@ -436,10 +442,26 @@ IMPORTANT GUIDELINES:
   }
 
   /**
-   * Parse the AI response
+   * Parse the AI response with Zod schema validation
    */
   parseResponse(response: string): TranslationResult {
     const parsed = this.parseJSON<TranslationResult>(response);
+
+    // Try Zod schema validation first for better error messages
+    const validated = safeValidateAIResponse(
+      TranslationResultSchema,
+      parsed,
+      'TranslationResult'
+    );
+
+    if (validated) {
+      console.log('✅ [Translation] Zod schema validation passed');
+      // Cast back to our local TranslationResult type
+      return validated as unknown as TranslationResult;
+    }
+
+    // Fallback: Manual validation for backwards compatibility
+    console.warn('⚠️ [Translation] Zod validation failed, using fallback validation');
 
     // Validate required fields
     if (!parsed.originalText || !parsed.translatedText || !parsed.mode) {

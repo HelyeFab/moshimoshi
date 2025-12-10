@@ -1,11 +1,10 @@
 'use client'
 
-import { useState, useEffect, useMemo, Suspense } from 'react'
+import { useState, useEffect, useMemo, Suspense, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
-  TrendingUp,
-  TrendingDown,
   Flame,
   Zap,
   Trophy,
@@ -16,14 +15,19 @@ import {
   Percent,
   Star,
   Calendar,
-  Activity,
-  Info,
+  Users,
+  ChevronRight,
+  BookOpen,
+  FileText,
+  Library
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { useYouTubeStats } from '@/hooks/useYouTubeStats'
+import { useReadingStats, formatReadingTime, formatReadingTimeSec } from '@/hooks/useReadingStats'
 import { useSubscription } from '@/hooks/useSubscription'
+import { useLeaderboardPreview } from '@/hooks/useLeaderboard'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import { validateStreakDisplay, getStreakDeadline } from '@/lib/gamification/utils/streakValidation'
 import { useI18n } from '@/i18n/I18nContext'
@@ -31,6 +35,7 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import Modal from '@/components/ui/Modal'
+import StatCard from '@/components/ui/StatCard'
 import logger from '@/lib/logger'
 import achievementsConfig from '@/config/gamification/achievements.json'
 
@@ -42,97 +47,22 @@ const IMPLEMENTED_ACHIEVEMENTS = achievementsConfig.achievements.filter(
   a => !UNIMPLEMENTED_CONDITIONS.includes(a.condition.type)
 ).length
 
-interface StatCardProps {
-  label: string
-  value: string | number
-  unit: string
-  icon: React.ReactNode
-  color: string
-  trend?: 'up' | 'down' | 'stable'
-  trendValue?: string
-  onClick?: () => void
-  description?: string
+// Statistics snapshot storage key
+const STATS_SNAPSHOT_KEY = 'moshimoshi_stats_snapshot'
+const SNAPSHOT_INTERVAL = 7 * 24 * 60 * 60 * 1000 // 7 days
+
+interface TrendData {
+  direction: 'up' | 'down' | 'stable'
+  value: string
 }
 
-function StatCard({
-  label,
-  value,
-  unit,
-  icon,
-  color,
-  trend,
-  trendValue,
-  onClick,
-  description,
-}: StatCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      className={`
-        relative overflow-hidden rounded-2xl p-6
-        bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm
-        border border-gray-200 dark:border-dark-700
-        shadow-lg hover:shadow-xl
-        transition-all duration-300 cursor-pointer
-        group
-      `}
-    >
-      {/* Gradient accent */}
-      <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${color}`} />
-
-      {/* Icon */}
-      <div className="flex items-start justify-between mb-4">
-        <div className={`p-3 rounded-xl bg-gradient-to-br ${color} text-white shadow-lg`}>
-          {icon}
-        </div>
-        {trend && (
-          <div
-            className={`flex items-center gap-1 text-sm font-medium ${
-              trend === 'up'
-                ? 'text-green-600'
-                : trend === 'down'
-                  ? 'text-red-600'
-                  : 'text-gray-500'
-            }`}
-          >
-            {trend === 'up' ? (
-              <TrendingUp className="w-4 h-4" />
-            ) : trend === 'down' ? (
-              <TrendingDown className="w-4 h-4" />
-            ) : (
-              <Activity className="w-4 h-4" />
-            )}
-            {trendValue && <span>{trendValue}</span>}
-          </div>
-        )}
-      </div>
-
-      {/* Value */}
-      <div className="mb-2">
-        <span className="text-4xl font-bold text-gray-900 dark:text-white">{value}</span>
-        <span className="ml-2 text-lg text-gray-500 dark:text-gray-400">{unit}</span>
-      </div>
-
-      {/* Label */}
-      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{label}</p>
-
-      {/* Description on hover */}
-      {description && (
-        <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4 rounded-2xl">
-          <p className="text-white text-sm text-center">{description}</p>
-        </div>
-      )}
-
-      {/* Info icon */}
-      <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-        <Info className="w-4 h-4 text-gray-400" />
-      </div>
-    </motion.div>
-  )
+interface StatsSnapshot {
+  timestamp: number
+  totalXP: number
+  drillCount: number
+  drillAccuracy: number
+  achievementCount: number
+  watchTimeMinutes: number
 }
 
 function StatisticsContent() {
@@ -156,12 +86,23 @@ function StatisticsContent() {
   // Learning progress
   const {
     overall: learningProgress,
-    categories: learningCategories,
     loading: learningProgressLoading,
   } = useLearningProgress()
 
   // YouTube stats
   const { stats: youtubeStats, loading: youtubeStatsLoading } = useYouTubeStats()
+
+  // Reading stats (articles, stories, books)
+  const { stats: readingStats, loading: readingStatsLoading } = useReadingStats()
+
+  // Leaderboard preview
+  const {
+    topEntries: leaderboardEntries,
+    userRank,
+    totalPlayers: leaderboardTotalPlayers,
+    loading: leaderboardLoading,
+    isEnabled: leaderboardEnabled
+  } = useLeaderboardPreview(5)
 
   // Drill stats
   const [drillStats, setDrillStats] = useState<any>(null)
@@ -170,6 +111,9 @@ function StatisticsContent() {
   // Modal state
   const [selectedStat, setSelectedStat] = useState<string | null>(null)
   const [isStatModalOpen, setIsStatModalOpen] = useState(false)
+
+  // Trends state
+  const [trends, setTrends] = useState<Record<string, TrendData>>({})
 
   // Validate streak
   const streakValidation = useMemo(() => {
@@ -188,6 +132,112 @@ function StatisticsContent() {
   const drillMastery = learningProgress?.progressPercentage
     ? Math.round(learningProgress.progressPercentage)
     : 0
+
+  // Format watch time
+  const watchTimeMinutes = Math.round((youtubeStats?.watchTime || 0) / 60)
+  const watchTimeHours = Math.floor(watchTimeMinutes / 60)
+  const watchTimeRemainingMinutes = watchTimeMinutes % 60
+  const watchTimeValue =
+    watchTimeMinutes >= 60
+      ? watchTimeRemainingMinutes > 0
+        ? `${watchTimeHours}:${watchTimeRemainingMinutes.toString().padStart(2, '0')}`
+        : `${watchTimeHours}`
+      : watchTimeMinutes.toString()
+  const watchTimeUnit = watchTimeMinutes >= 60 ? 'hrs' : 'min'
+
+  // Achievement completion percentage
+  const achievementCompletion =
+    gamificationEnabled && unlockedAchievements.length > 0
+      ? Math.round((unlockedAchievements.length / IMPLEMENTED_ACHIEVEMENTS) * 100)
+      : 0
+
+  // Calculate trends from localStorage snapshot
+  const calculateTrends = useCallback(() => {
+    if (typeof window === 'undefined') return
+
+    try {
+      const stored = localStorage.getItem(STATS_SNAPSHOT_KEY)
+      const now = Date.now()
+
+      const currentSnapshot: StatsSnapshot = {
+        timestamp: now,
+        totalXP,
+        drillCount,
+        drillAccuracy,
+        achievementCount: unlockedAchievements.length,
+        watchTimeMinutes
+      }
+
+      let calculatedTrends: Record<string, TrendData> = {
+        xp: { direction: 'stable', value: '' },
+        drills: { direction: 'stable', value: '' },
+        accuracy: { direction: 'stable', value: '' },
+        achievements: { direction: 'stable', value: '' },
+        watchTime: { direction: 'stable', value: '' }
+      }
+
+      if (stored) {
+        const previousSnapshot: StatsSnapshot = JSON.parse(stored)
+        const timeDiff = now - previousSnapshot.timestamp
+
+        // Only calculate trends if snapshot is at least 1 day old
+        if (timeDiff >= 24 * 60 * 60 * 1000) {
+          const xpChange = currentSnapshot.totalXP - previousSnapshot.totalXP
+          const drillChange = currentSnapshot.drillCount - previousSnapshot.drillCount
+          const accuracyChange = currentSnapshot.drillAccuracy - previousSnapshot.drillAccuracy
+          const achievementChange = currentSnapshot.achievementCount - previousSnapshot.achievementCount
+          const watchTimeChange = currentSnapshot.watchTimeMinutes - previousSnapshot.watchTimeMinutes
+
+          if (xpChange !== 0) {
+            calculatedTrends.xp = {
+              direction: xpChange > 0 ? 'up' : 'down',
+              value: xpChange > 0 ? `+${xpChange.toLocaleString()}` : `${xpChange.toLocaleString()}`
+            }
+          }
+
+          if (drillChange !== 0) {
+            calculatedTrends.drills = {
+              direction: drillChange > 0 ? 'up' : 'down',
+              value: drillChange > 0 ? `+${drillChange}` : `${drillChange}`
+            }
+          }
+
+          if (accuracyChange !== 0) {
+            calculatedTrends.accuracy = {
+              direction: accuracyChange > 0 ? 'up' : 'down',
+              value: accuracyChange > 0 ? `+${accuracyChange}%` : `${accuracyChange}%`
+            }
+          }
+
+          if (achievementChange !== 0) {
+            calculatedTrends.achievements = {
+              direction: achievementChange > 0 ? 'up' : 'down',
+              value: achievementChange > 0 ? `+${achievementChange}` : `${achievementChange}`
+            }
+          }
+
+          if (watchTimeChange !== 0) {
+            calculatedTrends.watchTime = {
+              direction: watchTimeChange > 0 ? 'up' : 'down',
+              value: watchTimeChange > 0 ? `+${watchTimeChange}m` : `${watchTimeChange}m`
+            }
+          }
+        }
+
+        // Update snapshot if interval has passed
+        if (timeDiff >= SNAPSHOT_INTERVAL) {
+          localStorage.setItem(STATS_SNAPSHOT_KEY, JSON.stringify(currentSnapshot))
+        }
+      } else {
+        // First time - create initial snapshot
+        localStorage.setItem(STATS_SNAPSHOT_KEY, JSON.stringify(currentSnapshot))
+      }
+
+      setTrends(calculatedTrends)
+    } catch (error) {
+      logger.error('[Statistics] Error calculating trends:', error)
+    }
+  }, [totalXP, drillCount, drillAccuracy, unlockedAchievements.length, watchTimeMinutes])
 
   // Load drill stats
   useEffect(() => {
@@ -208,6 +258,13 @@ function StatisticsContent() {
 
     loadDrillStats()
   }, [user?.uid, isPremium])
+
+  // Calculate trends when data is loaded
+  useEffect(() => {
+    if (!gamificationLoading && !loadingDrillStats && !youtubeStatsLoading) {
+      calculateTrends()
+    }
+  }, [gamificationLoading, loadingDrillStats, youtubeStatsLoading, calculateTrends])
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -246,24 +303,6 @@ function StatisticsContent() {
   }
 
   const deadlineInfo = calculateTimeUntilDeadline()
-
-  // Format watch time
-  const watchTimeMinutes = Math.round((youtubeStats?.watchTime || 0) / 60)
-  const watchTimeHours = Math.floor(watchTimeMinutes / 60)
-  const watchTimeRemainingMinutes = watchTimeMinutes % 60
-  const watchTimeValue =
-    watchTimeMinutes >= 60
-      ? watchTimeRemainingMinutes > 0
-        ? `${watchTimeHours}:${watchTimeRemainingMinutes.toString().padStart(2, '0')}`
-        : `${watchTimeHours}`
-      : watchTimeMinutes.toString()
-  const watchTimeUnit = watchTimeMinutes >= 60 ? 'hrs' : 'min'
-
-  // Achievement completion percentage (dynamic based on implemented achievements)
-  const achievementCompletion =
-    gamificationEnabled && unlockedAchievements.length > 0
-      ? Math.round((unlockedAchievements.length / IMPLEMENTED_ACHIEVEMENTS) * 100)
-      : 0
 
   // Stat breakdown details for modal
   const getStatBreakdown = (statId: string) => {
@@ -385,6 +424,39 @@ function StatisticsContent() {
             { label: 'In minutes', value: `${watchTimeMinutes} min` },
           ],
         }
+      case 'articles':
+        return {
+          title: 'Articles Read',
+          description: 'NHK Easy News articles you have completed reading',
+          formula: 'Count of articles marked as complete',
+          breakdown: [
+            { label: 'Articles completed', value: `${readingStats.articles.count}` },
+            { label: 'Reading time', value: formatReadingTime(readingStats.articles.readingTimeMs) },
+            { label: 'Source', value: 'NHK Easy News' },
+          ],
+        }
+      case 'stories':
+        return {
+          title: 'Stories Completed',
+          description: 'Japanese stories you have finished reading',
+          formula: 'Count of stories marked as complete',
+          breakdown: [
+            { label: 'Stories completed', value: `${readingStats.stories.count}` },
+            { label: 'Reading time', value: formatReadingTimeSec(readingStats.stories.readingTimeSec) },
+            { label: 'Includes', value: 'All JLPT levels' },
+          ],
+        }
+      case 'books':
+        return {
+          title: 'Books Completed',
+          description: 'Library books you have finished reading',
+          formula: 'Count of books marked as complete',
+          breakdown: [
+            { label: 'Books completed', value: `${readingStats.books.count}` },
+            { label: 'Reading time', value: formatReadingTimeSec(readingStats.books.readingTimeSec) },
+            { label: 'Source', value: 'Moshimoshi Library' },
+          ],
+        }
       default:
         return null
     }
@@ -414,7 +486,7 @@ function StatisticsContent() {
   }
 
   const isLoading =
-    gamificationLoading || learningProgressLoading || youtubeStatsLoading || loadingDrillStats
+    gamificationLoading || learningProgressLoading || youtubeStatsLoading || readingStatsLoading || loadingDrillStats
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
@@ -423,9 +495,7 @@ function StatisticsContent() {
       <PageHeader
         title={strings.statistics?.title || 'Your Statistics'}
         description={strings.statistics?.subtitle || 'Track your Japanese learning journey'}
-        showDoshi={true}
-        doshiMood="happy"
-        doshiSize="large"
+        showDoshi={false}
         backHref="/dashboard"
       />
 
@@ -507,48 +577,68 @@ function StatisticsContent() {
                   value={displayStreak}
                   unit="days"
                   icon={<Flame className="w-6 h-6" />}
-                  color="from-orange-400 to-red-500"
+                  accentGradient="from-orange-400 to-red-500"
+                  animated={true}
+                  animationDelay={0}
+                  description="Consecutive days with learning activity"
+                  showInfoIcon={true}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('streak')
                     setIsStatModalOpen(true)
                   }}
-                  description="Consecutive days with learning activity"
                 />
                 <StatCard
                   label="XP Earned"
                   value={totalXP.toLocaleString()}
                   unit="points"
                   icon={<Zap className="w-6 h-6" />}
-                  color="from-blue-400 to-purple-500"
+                  accentGradient="from-blue-400 to-purple-500"
+                  animated={true}
+                  animationDelay={1}
+                  description="Total experience points earned"
+                  showInfoIcon={true}
+                  trend={trends.xp?.direction}
+                  trendValue={trends.xp?.value}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('xp')
                     setIsStatModalOpen(true)
                   }}
-                  description="Total experience points earned"
                 />
                 <StatCard
                   label="Progress"
                   value={achievementCompletion}
                   unit="%"
                   icon={<Target className="w-6 h-6" />}
-                  color="from-green-400 to-teal-500"
+                  accentGradient="from-green-400 to-teal-500"
+                  animated={true}
+                  animationDelay={2}
+                  description="Achievement completion percentage"
+                  showInfoIcon={true}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('progress')
                     setIsStatModalOpen(true)
                   }}
-                  description="Achievement completion percentage"
                 />
                 <StatCard
                   label="Achievements"
                   value={unlockedAchievements.length}
                   unit="unlocked"
                   icon={<Star className="w-6 h-6" />}
-                  color="from-pink-400 to-rose-500"
+                  accentGradient="from-pink-400 to-rose-500"
+                  animated={true}
+                  animationDelay={3}
+                  description="Total achievements unlocked"
+                  showInfoIcon={true}
+                  trend={trends.achievements?.direction}
+                  trendValue={trends.achievements?.value}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('achievements')
                     setIsStatModalOpen(true)
                   }}
-                  description="Total achievements unlocked"
                 />
               </div>
             </motion.section>
@@ -570,36 +660,115 @@ function StatisticsContent() {
                   value={drillCount}
                   unit="sessions"
                   icon={<BarChart3 className="w-6 h-6" />}
-                  color="from-indigo-400 to-blue-500"
+                  accentGradient="from-indigo-400 to-blue-500"
+                  animated={true}
+                  animationDelay={4}
+                  description="Total drill sessions completed"
+                  showInfoIcon={true}
+                  trend={trends.drills?.direction}
+                  trendValue={trends.drills?.value}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('drills')
                     setIsStatModalOpen(true)
                   }}
-                  description="Total drill sessions completed"
                 />
                 <StatCard
                   label="Drill Accuracy"
                   value={drillAccuracy}
                   unit="%"
                   icon={<Percent className="w-6 h-6" />}
-                  color="from-teal-400 to-green-500"
+                  accentGradient="from-teal-400 to-green-500"
+                  animated={true}
+                  animationDelay={5}
+                  description="Average accuracy across all drills"
+                  showInfoIcon={true}
+                  trend={trends.accuracy?.direction}
+                  trendValue={trends.accuracy?.value}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('accuracy')
                     setIsStatModalOpen(true)
                   }}
-                  description="Average accuracy across all drills"
                 />
                 <StatCard
                   label="Drill Mastery"
                   value={drillMastery}
                   unit="%"
                   icon={<Trophy className="w-6 h-6" />}
-                  color="from-purple-400 to-indigo-500"
+                  accentGradient="from-purple-400 to-indigo-500"
+                  animated={true}
+                  animationDelay={6}
+                  description="Overall mastery score (0-100)"
+                  showInfoIcon={true}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('mastery')
                     setIsStatModalOpen(true)
                   }}
-                  description="Overall mastery score (0-100)"
+                />
+              </div>
+            </motion.section>
+
+            {/* Reading Progress Section */}
+            <motion.section
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.25 }}
+              className="mb-8"
+            >
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-emerald-500" />
+                Reading Progress
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <StatCard
+                  label="Articles Read"
+                  value={readingStats.articles.count}
+                  unit="articles"
+                  icon={<FileText className="w-6 h-6" />}
+                  accentGradient="from-emerald-400 to-teal-500"
+                  animated={true}
+                  animationDelay={7}
+                  description="NHK Easy News articles completed"
+                  showInfoIcon={true}
+                  trendPosition="top-right"
+                  onClick={() => {
+                    setSelectedStat('articles')
+                    setIsStatModalOpen(true)
+                  }}
+                />
+                <StatCard
+                  label="Stories Completed"
+                  value={readingStats.stories.count}
+                  unit="stories"
+                  icon={<BookOpen className="w-6 h-6" />}
+                  accentGradient="from-violet-400 to-purple-500"
+                  animated={true}
+                  animationDelay={8}
+                  description="Japanese stories finished"
+                  showInfoIcon={true}
+                  trendPosition="top-right"
+                  onClick={() => {
+                    setSelectedStat('stories')
+                    setIsStatModalOpen(true)
+                  }}
+                />
+                <StatCard
+                  label="Books Completed"
+                  value={readingStats.books.count}
+                  unit="books"
+                  icon={<Library className="w-6 h-6" />}
+                  accentGradient="from-amber-400 to-orange-500"
+                  animated={true}
+                  animationDelay={9}
+                  description="Library books finished"
+                  showInfoIcon={true}
+                  trendPosition="top-right"
+                  onClick={() => {
+                    setSelectedStat('books')
+                    setIsStatModalOpen(true)
+                  }}
                 />
               </div>
             </motion.section>
@@ -608,7 +777,7 @@ function StatisticsContent() {
             <motion.section
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.35 }}
               className="mb-8"
             >
               <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
@@ -621,39 +790,178 @@ function StatisticsContent() {
                   value={youtubeStats?.videosPracticed || 0}
                   unit="videos"
                   icon={<Play className="w-6 h-6" />}
-                  color="from-red-400 to-pink-500"
+                  accentGradient="from-red-400 to-pink-500"
+                  animated={true}
+                  animationDelay={7}
+                  description="Total unique videos accessed"
+                  showInfoIcon={true}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('videos')
                     setIsStatModalOpen(true)
                   }}
-                  description="Total unique videos accessed"
                 />
                 <StatCard
                   label="Videos Remaining"
                   value={youtubeStats?.videosRemaining || 0}
                   unit="today"
                   icon={<Calendar className="w-6 h-6" />}
-                  color="from-green-400 to-teal-500"
+                  accentGradient="from-green-400 to-teal-500"
+                  animated={true}
+                  animationDelay={8}
+                  description="Daily quota remaining"
+                  showInfoIcon={true}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('remaining')
                     setIsStatModalOpen(true)
                   }}
-                  description="Daily quota remaining"
                 />
                 <StatCard
                   label="Watch Time"
                   value={watchTimeValue}
                   unit={watchTimeUnit}
                   icon={<Clock className="w-6 h-6" />}
-                  color="from-purple-400 to-indigo-500"
+                  accentGradient="from-purple-400 to-indigo-500"
+                  animated={true}
+                  animationDelay={9}
+                  description="Total practice time"
+                  showInfoIcon={true}
+                  trend={trends.watchTime?.direction}
+                  trendValue={trends.watchTime?.value}
+                  trendPosition="top-right"
                   onClick={() => {
                     setSelectedStat('watchtime')
                     setIsStatModalOpen(true)
                   }}
-                  description="Total practice time"
                 />
               </div>
             </motion.section>
+
+            {/* Leaderboard Preview Section */}
+            {leaderboardEnabled && (
+              <motion.section
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mb-8"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                    <Users className="w-5 h-5 text-purple-500" />
+                    Leaderboard
+                  </h2>
+                  <Link
+                    href="/leaderboard"
+                    className="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium flex items-center gap-1 transition-colors"
+                  >
+                    View Full Leaderboard
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div>
+
+                <div className="bg-white/90 dark:bg-dark-800/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-dark-700">
+                  {/* User's Rank */}
+                  {user && (
+                    <div className="mb-6 p-4 bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-xl border border-primary-200 dark:border-primary-800">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Your Rank</p>
+                          <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
+                            {leaderboardLoading ? '...' : userRank !== null ? `#${userRank}` : totalXP === 0 ? 'Unranked' : '100+'}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Your XP</p>
+                          <p className="text-xl font-bold text-gray-800 dark:text-gray-200">
+                            {totalXP.toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Top 5 Preview */}
+                  {leaderboardLoading ? (
+                    <div className="space-y-3">
+                      {[...Array(5)].map((_, i) => (
+                        <div key={i} className="h-14 rounded-lg bg-gray-100 dark:bg-dark-700 animate-pulse" />
+                      ))}
+                    </div>
+                  ) : leaderboardEntries.length > 0 ? (
+                    <div className="space-y-2">
+                      {leaderboardEntries.map((entry, idx) => {
+                        const isCurrentUser = entry.userId === user?.uid
+                        const medalEmojis = ['🥇', '🥈', '🥉']
+
+                        return (
+                          <div
+                            key={entry.userId}
+                            className={`
+                              flex items-center gap-3 p-3 rounded-lg transition-all
+                              ${isCurrentUser
+                                ? 'bg-primary-100 dark:bg-primary-900/30 border-2 border-primary-500'
+                                : 'bg-gray-50 dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600'
+                              }
+                            `}
+                          >
+                            <span className="text-lg font-bold w-8 text-center">
+                              {idx < 3 ? medalEmojis[idx] : `#${entry.rank}`}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-gray-900 dark:text-gray-100 truncate">
+                                {entry.displayName}
+                                {isCurrentUser && (
+                                  <span className="ml-2 text-xs bg-primary-500 text-white px-2 py-0.5 rounded-full">
+                                    You
+                                  </span>
+                                )}
+                              </p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
+                                Level {entry.currentLevel}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-bold text-gray-800 dark:text-gray-200">
+                                {entry.totalXP.toLocaleString()}
+                              </p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">XP</p>
+                            </div>
+                            <div className="flex items-center gap-1 text-orange-500">
+                              <Flame className="w-4 h-4" />
+                              <span className="text-sm font-semibold">{entry.currentStreak}</span>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                      <Users className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                      <p>No leaderboard data available yet</p>
+                    </div>
+                  )}
+
+                  {/* View Full Leaderboard Button */}
+                  {leaderboardEntries.length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-600">
+                      <Link
+                        href="/leaderboard"
+                        className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium transition-colors"
+                      >
+                        <Trophy className="w-4 h-4" />
+                        View Full Rankings
+                        {leaderboardTotalPlayers > 0 && (
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                            ({leaderboardTotalPlayers} players)
+                          </span>
+                        )}
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </motion.section>
+            )}
           </>
         )}
       </main>
@@ -687,7 +995,7 @@ function StatisticsContent() {
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 📊 Breakdown
               </h3>
-              {getStatBreakdown(selectedStat)?.breakdown.map((item: any, idx: number) => (
+              {getStatBreakdown(selectedStat)?.breakdown.map((item: { label: string; value: string }, idx: number) => (
                 <div
                   key={idx}
                   className="flex justify-between items-center p-3 bg-gray-50 dark:bg-dark-700 rounded-lg"

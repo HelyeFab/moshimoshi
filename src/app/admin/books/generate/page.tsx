@@ -6,15 +6,36 @@ import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { JLPTLevel } from '@/types/ai-story'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
-import { motion } from 'framer-motion'
-import { Upload, Sparkles, X } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Upload, Sparkles, X, CheckCircle, Circle, Loader2, AlertTriangle } from 'lucide-react'
 import { uploadBookCoverImage } from '@/lib/utils/imageUpload'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { firestore } from '@/lib/firebase/client'
+
+// Generation steps for the progress UI
+type GenerationStep = 'content' | 'cover' | 'audio' | 'words' | 'complete'
 
 interface GenerationProgress {
-  step: 'content' | 'cover' | 'audio' | 'complete'
+  step: GenerationStep
   message: string
   progress: number
+  wordProgress?: {
+    current: number
+    total: number
+    currentWord?: string
+  }
+  audioStatus?: 'success' | 'failed' | 'skipped'
+  audioError?: string
 }
+
+// Step configuration for the stepper UI
+const GENERATION_STEPS: { key: GenerationStep; label: string; description: string }[] = [
+  { key: 'content', label: 'Content', description: 'Generating book summary' },
+  { key: 'cover', label: 'Cover', description: 'Creating cover image' },
+  { key: 'audio', label: 'Audio', description: 'Generating TTS audio' },
+  { key: 'words', label: 'Words', description: 'Pre-caching word explanations' },
+  { key: 'complete', label: 'Complete', description: 'Publishing book' },
+]
 
 export default function GenerateBookPage() {
   const router = useRouter()
@@ -37,6 +58,8 @@ export default function GenerateBookPage() {
   const [generationProgress, setGenerationProgress] = useState<GenerationProgress | null>(null)
   const [currentStep, setCurrentStep] = useState<'setup' | 'generating' | 'complete'>('setup')
   const [generatedBookId, setGeneratedBookId] = useState<string | null>(null)
+  const [draftId, setDraftId] = useState<string | null>(null)
+  const [firestoreData, setFirestoreData] = useState<any>(null)
 
   // Check admin access
   useEffect(() => {
@@ -44,6 +67,76 @@ export default function GenerateBookPage() {
       router.push('/')
     }
   }, [user, sessionLoading, router])
+
+  // Real-time Firestore listener for draft progress
+  useEffect(() => {
+    if (!draftId || !firestore) return
+
+    console.log(`🔄 Setting up Firestore listener for draft: ${draftId}`)
+
+    const unsubscribe = onSnapshot(
+      doc(firestore, 'book_drafts', draftId),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.data()
+          setFirestoreData(data)
+
+          console.log(`📊 Firestore update:`, {
+            status: data.status,
+            step: data.metadata?.generationStep,
+            progress: data.metadata?.progress,
+            wordProgress: data.metadata?.wordProgress,
+          })
+
+          // Update progress based on Firestore data
+          const step = data.metadata?.generationStep as GenerationStep || 'content'
+          const progress = data.metadata?.progress || 0
+
+          // Build message based on current step
+          let message = 'Processing...'
+          switch (step) {
+            case 'content':
+              message = 'AI is creating the condensed summary...'
+              break
+            case 'cover':
+              message = 'Generating cover image with DALL-E 3...'
+              break
+            case 'audio':
+              message = 'Creating TTS audio...'
+              break
+            case 'words':
+              const wordProg = data.metadata?.wordProgress
+              if (wordProg) {
+                message = `Generating word explanations (${wordProg.current}/${wordProg.total})...`
+              } else {
+                message = 'Pre-caching word explanations...'
+              }
+              break
+            case 'complete':
+              message = 'Generation complete!'
+              break
+          }
+
+          setGenerationProgress({
+            step,
+            message,
+            progress,
+            wordProgress: data.metadata?.wordProgress,
+            audioStatus: data.metadata?.audioStatus,
+            audioError: data.metadata?.audioError,
+          })
+        }
+      },
+      (error) => {
+        console.error('Firestore listener error:', error)
+      }
+    )
+
+    return () => {
+      console.log(`🔄 Cleaning up Firestore listener for draft: ${draftId}`)
+      unsubscribe()
+    }
+  }, [draftId])
 
   const handleCoverImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -116,14 +209,14 @@ export default function GenerateBookPage() {
         }
       }
 
-      // Step 2: Generate book content
+      // Step 2: Initialize draft to get ID for real-time tracking
       setGenerationProgress({
         step: 'content',
-        message: 'AI is creating the condensed summary...',
-        progress: 20,
+        message: 'Initializing draft...',
+        progress: 5,
       })
 
-      const generateResponse = await fetch('/api/admin/books/generate', {
+      const initResponse = await fetch('/api/admin/books/init-draft', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,14 +232,50 @@ export default function GenerateBookPage() {
         }),
       })
 
+      if (!initResponse.ok) {
+        const error = await initResponse.json()
+        throw new Error(error.error || 'Failed to initialize draft')
+      }
+
+      const initResult = await initResponse.json()
+      const receivedDraftId = initResult.draftId
+
+      // Set draftId immediately to enable real-time Firestore listener
+      setDraftId(receivedDraftId)
+      setGeneratedBookId(receivedDraftId)
+
+      console.log(`📝 Draft initialized: ${receivedDraftId}, starting generation...`)
+
+      // Step 3: Start the actual generation (real-time progress will be shown via Firestore)
+      setGenerationProgress({
+        step: 'content',
+        message: 'Starting AI generation...',
+        progress: 10,
+      })
+
+      const generateResponse = await fetch('/api/admin/books/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          draftId: receivedDraftId, // Pass the existing draftId
+          bookName,
+          author,
+          jlptLevel,
+          additionalContext,
+          coverImageUrl,
+          generateCover: coverOption === 'ai',
+        }),
+      })
+
       if (!generateResponse.ok) {
         const error = await generateResponse.json()
         throw new Error(error.error || 'Failed to generate book')
       }
 
-      const { draftId } = await generateResponse.json()
-      setGeneratedBookId(draftId)
-
+      // API call completed - generation is done (progress was tracked via Firestore)
       setGenerationProgress({
         step: 'complete',
         message: 'Book generated successfully! Publishing...',
@@ -434,27 +563,163 @@ export default function GenerateBookPage() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-lg"
           >
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Generating Book Summary...
-              </h2>
-
-              {/* Progress Message */}
-              <p className="text-gray-600 dark:text-gray-400">{generationProgress.message}</p>
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Generating Book Summary
+                </h2>
+                <span className="text-sm font-medium text-primary-600 dark:text-primary-400">
+                  {generationProgress.progress}%
+                </span>
+              </div>
 
               {/* Progress Bar */}
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <motion.div
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 h-3 rounded-full"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 h-2 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${generationProgress.progress || 0}%` }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.3 }}
                 />
               </div>
 
-              {/* Loading Animation */}
-              <div className="flex justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+              {/* Stepper UI */}
+              <div className="space-y-3">
+                {GENERATION_STEPS.map((step, index) => {
+                  const currentStepIndex = GENERATION_STEPS.findIndex(s => s.key === generationProgress.step)
+                  const stepIndex = index
+                  const isCompleted = stepIndex < currentStepIndex
+                  const isCurrent = stepIndex === currentStepIndex
+                  const isPending = stepIndex > currentStepIndex
+
+                  // Check if audio step has a warning (failed status)
+                  const isAudioWarning = step.key === 'audio' &&
+                    isCompleted &&
+                    generationProgress.audioStatus === 'failed'
+
+                  return (
+                    <div
+                      key={step.key}
+                      className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${
+                        isCurrent
+                          ? 'bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800'
+                          : isAudioWarning
+                          ? 'bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800'
+                          : isCompleted
+                          ? 'bg-green-50 dark:bg-green-900/10'
+                          : 'bg-gray-50 dark:bg-dark-800'
+                      }`}
+                    >
+                      {/* Step Icon */}
+                      <div className="flex-shrink-0">
+                        {isAudioWarning ? (
+                          <AlertTriangle className="w-6 h-6 text-amber-500" />
+                        ) : isCompleted ? (
+                          <CheckCircle className="w-6 h-6 text-green-500" />
+                        ) : isCurrent ? (
+                          <Loader2 className="w-6 h-6 text-primary-500 animate-spin" />
+                        ) : (
+                          <Circle className="w-6 h-6 text-gray-300 dark:text-gray-600" />
+                        )}
+                      </div>
+
+                      {/* Step Info */}
+                      <div className="flex-1 min-w-0">
+                        <p
+                          className={`font-medium ${
+                            isCurrent
+                              ? 'text-primary-700 dark:text-primary-300'
+                              : isAudioWarning
+                              ? 'text-amber-700 dark:text-amber-400'
+                              : isCompleted
+                              ? 'text-green-700 dark:text-green-400'
+                              : 'text-gray-500 dark:text-gray-400'
+                          }`}
+                        >
+                          {step.label}
+                        </p>
+                        <p
+                          className={`text-sm ${
+                            isCurrent
+                              ? 'text-primary-600 dark:text-primary-400'
+                              : isAudioWarning
+                              ? 'text-amber-600 dark:text-amber-400'
+                              : 'text-gray-500 dark:text-gray-500'
+                          }`}
+                        >
+                          {isAudioWarning
+                            ? generationProgress.audioError || 'Audio generation failed'
+                            : isCurrent && step.key === 'words' && generationProgress.wordProgress
+                            ? `Processing word ${generationProgress.wordProgress.current}/${generationProgress.wordProgress.total}${
+                                generationProgress.wordProgress.currentWord
+                                  ? `: "${generationProgress.wordProgress.currentWord}"`
+                                  : ''
+                              }`
+                            : step.description}
+                        </p>
+                      </div>
+
+                      {/* Step Status Badge */}
+                      {isCurrent && (
+                        <span className="flex-shrink-0 px-2 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full">
+                          In Progress
+                        </span>
+                      )}
+                      {isAudioWarning && (
+                        <span className="flex-shrink-0 px-2 py-1 text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-full">
+                          Warning
+                        </span>
+                      )}
+                      {isCompleted && !isAudioWarning && (
+                        <span className="flex-shrink-0 px-2 py-1 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full">
+                          Done
+                        </span>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Word Progress Detail (when in words step) */}
+              <AnimatePresence>
+                {generationProgress.step === 'words' && generationProgress.wordProgress && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                        Word Explanations Progress
+                      </span>
+                      <span className="text-sm text-blue-600 dark:text-blue-400">
+                        {generationProgress.wordProgress.current} / {generationProgress.wordProgress.total}
+                      </span>
+                    </div>
+                    <div className="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2">
+                      <motion.div
+                        className="bg-blue-500 h-2 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{
+                          width: `${(generationProgress.wordProgress.current / generationProgress.wordProgress.total) * 100}%`,
+                        }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </div>
+                    {generationProgress.wordProgress.currentWord && (
+                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
+                        Currently processing: <span className="font-japanese">{generationProgress.wordProgress.currentWord}</span>
+                      </p>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Current Action Message */}
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                {generationProgress.message}
               </div>
             </div>
           </motion.div>
