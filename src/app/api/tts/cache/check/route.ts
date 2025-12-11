@@ -10,6 +10,9 @@ export async function GET(request: NextRequest) {
     const text = searchParams.get('text');
     const providerParam = searchParams.get('provider');
     const voiceParam = searchParams.get('voice');
+    const speedParam = searchParams.get('speed');
+    const pitchParam = searchParams.get('pitch');
+    const volumeParam = searchParams.get('volume');
 
     if (!text) {
       return NextResponse.json(
@@ -36,8 +39,12 @@ export async function GET(request: NextRequest) {
     const voice = voiceParam || 
       (provider === 'google' ? ttsConfig.google.defaultVoice : ttsConfig.elevenlabs.voiceId);
 
-    // Check cache
-    const cacheEntry = await ttsCache.get(text, provider, voice);
+    // Check cache (include speed/pitch/volume in key)
+    const cacheEntry = await ttsCache.get(text, provider, voice, {
+      speed: speedParam ? parseFloat(speedParam) : undefined,
+      pitch: pitchParam ? parseFloat(pitchParam) : undefined,
+      volume: volumeParam ? parseFloat(volumeParam) : undefined,
+    });
 
     if (cacheEntry) {
       return NextResponse.json({

@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
 import { useI18n } from '@/i18n/I18nContext'
-// Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { cn } from '@/utils/cn'
@@ -104,8 +105,10 @@ export default function AchievementsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background-lighter to-background-accent dark:from-dark-900 dark:via-dark-800 dark:to-dark-850">
-      {/* Standard Navbar */}
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Page Header */}
       <PageHeader
@@ -246,6 +249,7 @@ export default function AchievementsPage() {
           </div>
         )}
       </div>
+      <MobileNavSpacer />
     </div>
   )
 }

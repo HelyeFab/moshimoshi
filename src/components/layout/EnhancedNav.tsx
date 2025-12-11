@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import BottomNav from './BottomNav';
 import NavHandle from './NavHandle';
-import { cn } from '@/lib/utils';
+import { useIsTablet } from '@/hooks/useMediaQuery';
 
 interface EnhancedNavProps {
   user?: {
@@ -45,23 +45,13 @@ export default function EnhancedNav({
   autoHideTopNav = true
 }: EnhancedNavProps) {
   const [showTopNav, setShowTopNav] = useState(false); // START HIDDEN on mobile
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Detect mobile screen
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // md breakpoint
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const isMobile = useIsTablet(); // SSR-safe: undefined during SSR, boolean after hydration (md breakpoint = 768px)
 
   // Desktop: always show top navbar
   // Mobile: keep hidden
+  // During SSR (isMobile undefined): don't change state
   useEffect(() => {
+    if (isMobile === undefined) return; // Wait for hydration
     if (!autoHideTopNav) {
       setShowTopNav(true); // Auto-hide disabled, always show
     } else if (isMobile) {
@@ -115,16 +105,20 @@ export default function EnhancedNav({
     setShowTopNav(prev => !prev); // Toggle navbar on tap
   };
 
+  // During SSR (isMobile undefined), show desktop navbar (Navbar handles its own SSR check)
+  const isDesktop = isMobile === false;
+  const isMobileDevice = isMobile === true;
+
   return (
     <>
       {/* Top Navbar */}
       {/* Desktop: always visible with native sticky behavior */}
-      {!isMobile && (
+      {(isMobile === undefined || isDesktop) && (
         <Navbar user={user} showUserMenu={showUserMenu} backLink={backLink} />
       )}
 
       {/* Mobile: conditional visibility with slide animation */}
-      {isMobile && (
+      {isMobileDevice && (
         <AnimatePresence mode="wait">
           {showTopNav && (
             <motion.div
@@ -143,7 +137,7 @@ export default function EnhancedNav({
 
       {/* Bouncing Handle - shows when top navbar is hidden on mobile */}
       <NavHandle
-        isVisible={!showTopNav && isMobile && autoHideTopNav}
+        isVisible={!showTopNav && isMobileDevice && autoHideTopNav}
         position="top"
         onTap={handleNavHandleTap}
       />

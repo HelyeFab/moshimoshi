@@ -11,6 +11,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 
 type ViewMode = 'grid' | 'list'
@@ -208,6 +209,8 @@ export default function KanjiMoodsPage() {
               )}
             </>
           )}
+
+          <MobileNavSpacer />
         </div>
       )}
     </div>

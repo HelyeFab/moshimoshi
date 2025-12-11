@@ -16,7 +16,7 @@ const MODAL_API_KEY = defineSecret('MODAL_API_KEY')
 
 // VOICEVOX voices (high quality Japanese TTS)
 // Speaker IDs: 1=四国めたん, 3=ずんだもん, 11=玄野武宏(Nemo), 13=青山龍星
-const DEFAULT_VOICEVOX_VOICE = '11' // Nemo - natural female voice
+const DEFAULT_VOICEVOX_VOICE = '23' // Energetic female (requested default)
 const DEFAULT_EDGE_VOICE = 'ja-JP-NanamiNeural' // Fallback voice
 
 const MAX_TEXT_LENGTH = 5000 // TTS limit
@@ -152,7 +152,7 @@ async function callVoicevoxTTS(text: string, voice: string): Promise<Buffer> {
         model: 'voicevox',
         input: text,
         voice: voice,
-        speed: 1.0,
+        speed: 0.85,
       }),
     })
 

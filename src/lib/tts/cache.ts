@@ -9,12 +9,17 @@ class TTSCacheService {
   /**
    * Get cache entry by text
    */
-  async get(text: string, provider: TTSProvider, voice: string): Promise<TTSCacheEntry | null> {
+  async get(
+    text: string,
+    provider: TTSProvider,
+    voice: string,
+    options?: { speed?: number; pitch?: number; volume?: number }
+  ): Promise<TTSCacheEntry | null> {
     try {
       if (!db) {
         return null
       }
-      const cacheKey = generateCacheKey(text, provider, voice)
+      const cacheKey = generateCacheKey(text, provider, voice, options)
       const doc = await db.collection(this.collection).doc(cacheKey).get()
 
       if (!doc.exists) {
@@ -36,11 +41,16 @@ class TTSCacheService {
   /**
    * Check if entry exists in cache
    */
-  async has(text: string, provider: TTSProvider, voice: string): Promise<boolean> {
+  async has(
+    text: string,
+    provider: TTSProvider,
+    voice: string,
+    options?: { speed?: number; pitch?: number; volume?: number }
+  ): Promise<boolean> {
     if (!db) {
       return false
     }
-    const cacheKey = generateCacheKey(text, provider, voice)
+    const cacheKey = generateCacheKey(text, provider, voice, options)
     const doc = await db.collection(this.collection).doc(cacheKey).get()
     return doc.exists
   }
@@ -58,12 +68,19 @@ class TTSCacheService {
       duration?: number
       size?: number
       type?: 'character' | 'word' | 'sentence' | 'paragraph'
+      speed?: number
+      pitch?: number
+      volume?: number
     }
   ): Promise<TTSCacheEntry> {
     if (!db) {
       throw new Error('Firebase is not initialized')
     }
-    const cacheKey = generateCacheKey(text, provider, voice)
+    const cacheKey = generateCacheKey(text, provider, voice, {
+      speed: metadata?.speed,
+      pitch: metadata?.pitch,
+      volume: metadata?.volume,
+    })
     const normalizedText = normalizeText(text)
 
     const entry: TTSCacheEntry = {
@@ -72,6 +89,9 @@ class TTSCacheService {
       normalizedText,
       provider,
       voice,
+      speed: metadata?.speed,
+      pitch: metadata?.pitch,
+      volume: metadata?.volume,
       audioUrl,
       storagePath,
       duration: metadata?.duration,
@@ -99,12 +119,17 @@ class TTSCacheService {
   /**
    * Delete cache entry
    */
-  async delete(text: string, provider: TTSProvider, voice: string): Promise<boolean> {
+  async delete(
+    text: string,
+    provider: TTSProvider,
+    voice: string,
+    options?: { speed?: number; pitch?: number; volume?: number }
+  ): Promise<boolean> {
     try {
       if (!db) {
         return false
       }
-      const cacheKey = generateCacheKey(text, provider, voice)
+      const cacheKey = generateCacheKey(text, provider, voice, options)
       await db.collection(this.collection).doc(cacheKey).delete()
       return true
     } catch (error) {

@@ -12,7 +12,8 @@ import { ProgressHeatmap } from '@/components/review/charts/ProgressHeatmap';
 import { UpcomingReviews } from '@/components/review/dashboard/UpcomingReviews';
 import { LoadingOverlay } from '@/components/ui/Loading';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 // Features are DISABLED by default unless explicitly set to 'true'
 const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB === 'true'
@@ -192,8 +193,10 @@ export default function ReviewDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background-lighter to-background-accent dark:from-dark-900 dark:via-dark-800 dark:to-dark-850">
-      {/* Standard Navbar */}
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Learning Page Header - WITHOUT the 3 optional props for simplified usage */}
       <LearningPageHeader
@@ -241,6 +244,7 @@ export default function ReviewDashboard() {
           </div>
         </div>
       </main>
+      <MobileNavSpacer />
     </div>
   );
 }

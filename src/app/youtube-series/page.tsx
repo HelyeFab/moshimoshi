@@ -6,8 +6,9 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { YouTubeChannel } from '@/types/youtube-series'
 import { formatDistanceToNow } from 'date-fns'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import {
   Youtube,
@@ -132,7 +133,10 @@ export default function YouTubeSeriesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       <div className="container mx-auto px-4 pb-8">
         {/* Search and Filters */}
@@ -354,6 +358,7 @@ export default function YouTubeSeriesPage() {
             ))}
           </div>
         )}
+        <MobileNavSpacer />
       </div>
     </div>
   )

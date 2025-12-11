@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Search, BookOpen, Clock, TrendingUp } from 'lucide-react'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { useI18n } from '@/i18n/I18nContext'
 import { getGradientForBook } from '@/lib/utils/gradients'
@@ -119,6 +121,11 @@ export default function LibraryPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-dark-900 dark:to-dark-850">
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar showUserMenu={true} />
+      </div>
+
       {/* Page Header */}
       <PageHeader
         title={strings.library?.title || 'Library'}
@@ -287,6 +294,7 @@ export default function LibraryPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           </div>
         )}
+        <MobileNavSpacer />
       </div>
     </div>
   )

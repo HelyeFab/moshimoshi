@@ -136,10 +136,12 @@ export class OfflineTTSCache {
     text: string,
     provider: string,
     voice: string,
-    speed: number
+    speed: number,
+    pitch: number = 0,
+    volume: number = 1
   ): Promise<string> {
     const normalizedText = text.trim().toLowerCase()
-    const keyString = `${normalizedText}|${provider}|${voice}|${speed}`
+    const keyString = `${normalizedText}|${provider}|${voice}|${speed}|${pitch}|${volume}`
     return this.hashString(keyString)
   }
 
@@ -157,9 +159,16 @@ export class OfflineTTSCache {
   /**
    * Check if audio is cached offline
    */
-  async has(text: string, provider: string, voice: string, speed: number): Promise<boolean> {
+  async has(
+    text: string,
+    provider: string,
+    voice: string,
+    speed: number,
+    pitch: number = 0,
+    volume: number = 1
+  ): Promise<boolean> {
     try {
-      const textHash = await this.generateCacheKey(text, provider, voice, speed)
+      const textHash = await this.generateCacheKey(text, provider, voice, speed, pitch, volume)
       const db = await this.getDatabase()
       const transaction = db.transaction([this.storeName], 'readonly')
       const store = transaction.objectStore(this.storeName)
@@ -179,10 +188,12 @@ export class OfflineTTSCache {
     text: string,
     provider: string,
     voice: string,
-    speed: number
+    speed: number,
+    pitch: number = 0,
+    volume: number = 1
   ): Promise<{ audioUrl: string; cached: true } | null> {
     try {
-      const textHash = await this.generateCacheKey(text, provider, voice, speed)
+      const textHash = await this.generateCacheKey(text, provider, voice, speed, pitch, volume)
       const db = await this.getDatabase()
       const transaction = db.transaction([this.storeName], 'readwrite')
       const store = transaction.objectStore(this.storeName)
@@ -221,7 +232,9 @@ export class OfflineTTSCache {
     voice: string,
     speed: number,
     audioUrl: string,
-    duration: number = 0
+    duration: number = 0,
+    pitch: number = 0,
+    volume: number = 1
   ): Promise<void> {
     try {
       // Download the audio data
@@ -231,7 +244,7 @@ export class OfflineTTSCache {
       }
 
       const audioBlob = await response.blob()
-      const textHash = await this.generateCacheKey(text, provider, voice, speed)
+      const textHash = await this.generateCacheKey(text, provider, voice, speed, pitch, volume)
       const now = new Date()
 
       const entry: OfflineTTSCacheEntry = {

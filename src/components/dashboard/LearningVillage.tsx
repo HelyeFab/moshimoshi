@@ -13,6 +13,7 @@ import Image from 'next/image'
 import { useLearningVillageConfig } from '@/hooks/useLearningVillageConfig'
 import { StallId, STALL_OFFLINE_SUPPORT, OfflineSupport } from '@/config/learning-village-types'
 import { ChevronDown, Wifi, WifiOff } from 'lucide-react'
+import { ReactNode } from 'react'
 
 const stallImages = [
   '/ui/flat-icons/stalls/ceramics.png',
@@ -442,7 +443,22 @@ type CardStrings =
   | Record<string, { title?: string; subtitle?: string; description?: string }>
   | undefined
 
-export default function LearningVillage() {
+interface WelcomeData {
+  userName: string
+  level: number
+  totalXP: number
+  streak: number
+  streakWarning: string | null
+  isActiveToday: boolean
+  gamificationEnabled: boolean
+}
+
+interface LearningVillageProps {
+  welcomeCard?: ReactNode
+  welcomeData?: WelcomeData
+}
+
+export default function LearningVillage({ welcomeCard, welcomeData }: LearningVillageProps = {}) {
   const { resolvedTheme } = useTheme()
   const { strings } = useI18n()
   const animationsEnabled = useAnimationControl()
@@ -1219,6 +1235,16 @@ export default function LearningVillage() {
               <TwinklingLight delay={3.0} x="25%" y="90%" color="#f59e0b" />
               <TwinklingLight delay={3.3} x="75%" y="95%" color="#fcd34d" />
 
+              {/* Doshi above welcome text */}
+              <motion.div
+                className="mb-4"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <DoshiMascot size="medium" variant="animated" />
+              </motion.div>
+
               <motion.div
                 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 relative"
                 initial={{ opacity: 0, y: 20 }}
@@ -1274,9 +1300,22 @@ export default function LearningVillage() {
               </motion.h2>
             </div>
 
-            {/* English subtitle with typing effect - Outside the glow container */}
+            {/* Username + san */}
+            {welcomeData && (
+              <motion.div
+                className="text-2xl md:text-3xl text-white font-bold mt-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                {welcomeData.userName}
+                <span className="font-normal text-gray-200"> さん</span>
+              </motion.div>
+            )}
+
+            {/* English subtitle - Welcome to the Learning Village */}
             <motion.div
-              className="space-y-1"
+              className="space-y-1 mt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
@@ -1307,9 +1346,55 @@ export default function LearningVillage() {
             </motion.div>
           </div>
 
+          {/* Level + XP Stats */}
+          {welcomeData?.gamificationEnabled && (
+            <motion.div
+              className="flex items-center justify-center gap-3 mt-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+            >
+              {/* Level */}
+              <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-violet-500/80 text-white font-semibold text-sm shadow-lg">
+                <span className="text-base">🏆</span>
+                <span>Lv.{welcomeData.level}</span>
+              </div>
+
+              {/* XP */}
+              <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-amber-500/80 text-white font-semibold text-sm shadow-lg">
+                <span className="text-base">⚡</span>
+                <span>{welcomeData.totalXP.toLocaleString()}</span>
+              </div>
+
+              {/* Streak with warning */}
+              {welcomeData.streak > 0 && (
+                <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-orange-500/80 text-white font-semibold text-sm shadow-lg relative">
+                  <span className="text-base">🔥</span>
+                  <span>{welcomeData.streak}d</span>
+                  {welcomeData.isActiveToday && (
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white shadow-sm" />
+                  )}
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* Streak Warning */}
+          {welcomeData?.streakWarning && (
+            <motion.div
+              className="flex items-center justify-center gap-2 mt-3 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-400/50 text-amber-200 text-sm font-medium"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9, duration: 0.5 }}
+            >
+              <span>⏰</span>
+              <span>Streak expires in {welcomeData.streakWarning}!</span>
+            </motion.div>
+          )}
+
           {/* Decorative divider */}
           <motion.div
-            className="flex items-center justify-center gap-3 mb-4"
+            className="flex items-center justify-center gap-3 my-6"
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
@@ -1317,42 +1402,6 @@ export default function LearningVillage() {
             <div className="h-px w-20 bg-gradient-to-r from-transparent to-primary-400" />
             <span className="text-2xl">🏮</span>
             <div className="h-px w-20 bg-gradient-to-l from-transparent to-primary-400" />
-          </motion.div>
-
-          {/* Description with fade-in words */}
-          <motion.p
-            className="hidden sm:block text-lg md:text-xl text-gray-100 dark:text-gray-300 font-light max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-          >
-            {strings.dashboard?.learningVillage?.subtitle || 'Choose your path to Japanese mastery'}
-          </motion.p>
-
-          {/* Doshi guide - Hidden on mobile */}
-          <motion.div
-            className="hidden sm:inline-block mt-6"
-            animate={{
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            <DoshiMascot size="medium" variant="animated" />
-            <motion.div
-              className="mt-2 px-4 py-2 bg-white/90 dark:bg-dark-800/90 rounded-full shadow-lg"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {strings.dashboard?.learningVillage?.clickToStart ||
-                  'Click any stall to begin your journey!'}
-              </p>
-            </motion.div>
           </motion.div>
         </motion.div>
 

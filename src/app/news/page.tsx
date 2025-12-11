@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useI18n } from '@/i18n/I18nContext'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
@@ -450,8 +451,10 @@ export default function NewsPage() {
         }}
       />
 
-      {/* Navbar */}
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* LearningPageHeader */}
       <LearningPageHeader
@@ -525,7 +528,7 @@ export default function NewsPage() {
         }
       />
 
-      <div className="px-4 pb-20 max-w-7xl mx-auto">
+      <div className="px-4 max-w-7xl mx-auto">
         {/* Filter Bar - hidden on mobile (filters shown in header instead) */}
         <div className="hidden sm:block">
           <FilterBar
@@ -633,6 +636,7 @@ export default function NewsPage() {
             )}
           </div>
         )}
+        <MobileNavSpacer />
       </div>
     </div>
   )

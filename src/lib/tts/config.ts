@@ -6,7 +6,7 @@ export function getTtsConfig(): TTSConfig {
     kokoro: {
       apiKey: process.env.MODAL_API_KEY, // Now using Modal VOICEVOX service
       baseUrl: 'https://emmanuelfabiani23--voicevox-tts-serve.modal.run/v1/audio',
-      defaultVoice: '11', // VOICEVOX speaker ID (11 = Nemo - natural female voice)
+      defaultVoice: '23', // VOICEVOX speaker ID (23 = energetic female)
       model: 'voicevox',
       timeout: 60000, // Increased for VOICEVOX cold starts
     },
@@ -35,7 +35,7 @@ export function getTtsConfig(): TTSConfig {
     },
     edgeTts: {
       endpoint: process.env.EDGE_TTS_ENDPOINT || 'https://tts.selfmind.dev',
-      defaultVoice: 'ja-JP-NanamiNeural', // Female Japanese voice
+      defaultVoice: 'ja-JP-NanamiNeural', // Female Japanese voice (fallback)
       fallbackVoice: 'en-US-JennyNeural', // English fallback
     },
     cache: {

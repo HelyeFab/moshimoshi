@@ -176,15 +176,25 @@ export function useNhkAudio(url?: string) {
   const [error, setError] = useState<string | null>(null)
 
   // Initialize HLS when URL is provided
-  const initialize = useCallback((audioUrl: string) => {
-    // Create audio element if needed
-    if (!audioRef.current) {
-      audioRef.current = new Audio()
-    }
+  const pendingAutoPlayRef = useRef<{ enabled: boolean; playbackRate?: number }>({
+    enabled: false,
+    playbackRate: undefined,
+  })
+
+  const initialize = useCallback(
+    (audioUrl: string, options?: { autoPlay?: boolean; playbackRate?: number }) => {
+      // Create audio element if needed
+      if (!audioRef.current) {
+        audioRef.current = new Audio()
+      }
 
     const audio = audioRef.current
     setIsLoading(true)
     setError(null)
+    pendingAutoPlayRef.current = {
+      enabled: !!options?.autoPlay,
+      playbackRate: options?.playbackRate,
+    }
 
     // Cleanup previous HLS instance
     if (hlsRef.current) {
@@ -204,8 +214,21 @@ export function useNhkAudio(url?: string) {
       hls.attachMedia(audio)
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        if (pendingAutoPlayRef.current.playbackRate !== undefined && Number.isFinite(pendingAutoPlayRef.current.playbackRate)) {
+          audio.playbackRate = pendingAutoPlayRef.current.playbackRate
+        }
         setIsReady(true)
         setIsLoading(false)
+
+        if (pendingAutoPlayRef.current.enabled) {
+          audio
+            .play()
+            .then(() => setIsPlaying(true))
+            .catch(err => {
+              console.error('[useNhkAudio] Autoplay failed after manifest parsed:', err)
+              setError('Failed to play audio')
+            })
+        }
       })
 
       hls.on(Hls.Events.ERROR, (_, data) => {
@@ -219,8 +242,21 @@ export function useNhkAudio(url?: string) {
       audio.addEventListener(
         'loadedmetadata',
         () => {
+          if (pendingAutoPlayRef.current.playbackRate !== undefined && Number.isFinite(pendingAutoPlayRef.current.playbackRate)) {
+            audio.playbackRate = pendingAutoPlayRef.current.playbackRate
+          }
           setIsReady(true)
           setIsLoading(false)
+
+          if (pendingAutoPlayRef.current.enabled) {
+            audio
+              .play()
+              .then(() => setIsPlaying(true))
+              .catch(err => {
+                console.error('[useNhkAudio] Autoplay failed after metadata load:', err)
+                setError('Failed to play audio')
+              })
+          }
         },
         { once: true }
       )
@@ -236,7 +272,9 @@ export function useNhkAudio(url?: string) {
       setError('HLS not supported')
       setIsLoading(false)
     }
-  }, [])
+    },
+    []
+  )
 
   // Auto-initialize if URL provided
   useEffect(() => {

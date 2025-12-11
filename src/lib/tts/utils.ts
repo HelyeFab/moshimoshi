@@ -16,9 +16,17 @@ export function normalizeText(text: string): string {
 /**
  * Generate cache key for text
  */
-export function generateCacheKey(text: string, provider: TTSProvider, voice: string): string {
+export function generateCacheKey(
+  text: string,
+  provider: TTSProvider,
+  voice: string,
+  options?: { speed?: number; pitch?: number; volume?: number }
+): string {
   const normalized = normalizeText(text)
-  const input = `${provider}:${voice}:${normalized}`
+  const speed = options?.speed ?? 0.75
+  const pitch = options?.pitch ?? 0
+  const volume = options?.volume ?? 1
+  const input = `${provider}:${voice}:s${speed}:p${pitch}:v${volume}:${normalized}`
   return crypto.createHash('md5').update(input).digest('hex')
 }
 
@@ -145,8 +153,8 @@ export function generateStoragePath(provider: TTSProvider, cacheKey: string): st
 export function parseTTSOptions(options?: any) {
   const defaults = {
     provider: 'auto' as const,
-    speed: 1.0,
-    pitch: 0,
+    speed: 0.85,
+    pitch: -5,
     volume: 1.0,
   }
 

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Book } from '@/types/book';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 import EnhancedArticleReaderFinal from '@/components/news/EnhancedArticleReaderFinal';
 import {
   ArrowLeft,
@@ -469,6 +470,7 @@ export default function BookReaderPage() {
           </motion.div>
         )}
       </AnimatePresence>
+      <MobileNavSpacer />
     </div>
   );
 }

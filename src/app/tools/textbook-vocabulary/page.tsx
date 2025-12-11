@@ -3,11 +3,12 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
-// Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { useAuth } from '@/hooks/useAuth'
 import { DoshiMascot } from '@/components/ui/DoshiMascot'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { TextbookSelector } from './components/TextbookSelector'
 import { VocabularyDisplay } from './components/VocabularyDisplay'
 
@@ -35,7 +36,10 @@ export default function TextbookVocabularyPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       <div className="container mx-auto px-4 py-6 max-w-6xl">
 
@@ -65,6 +69,7 @@ export default function TextbookVocabularyPage() {
           />
         </motion.div>
       </div>
+      <MobileNavSpacer />
     </div>
   )
 }

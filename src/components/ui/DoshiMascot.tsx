@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import { useIsTablet, usePrefersReducedMotion } from '@/hooks/useMediaQuery';
 
 // Dynamically import Lottie to avoid SSR issues
 const Lottie = dynamic(
@@ -61,26 +62,23 @@ export default function DoshiMascot({
   const [animationData, setAnimationData] = useState<any>(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [loadError, setLoadError] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+
+  // SSR-safe hooks - return undefined during SSR, boolean after hydration
+  const isMobileQuery = useIsTablet(); // md breakpoint (768px)
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // During SSR (undefined), default to desktop behavior (false)
+  const isMobile = isMobileQuery === true;
 
   const dimension = sizeMap[size];
 
-  // Detect mobile device
-  useEffect(() => {
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor;
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-      const isSmallScreen = window.innerWidth <= 768;
-      setIsMobile(isMobileDevice || isSmallScreen);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
   // Determine whether to use animation
+  // Wait for hydration before deciding (isMobileQuery !== undefined)
   useEffect(() => {
+    if (isMobileQuery === undefined || prefersReducedMotion === undefined) {
+      return; // Wait for hydration
+    }
+
     if (variant === 'static') {
       setShouldAnimate(false);
     } else if (variant === 'animated') {
@@ -88,13 +86,12 @@ export default function DoshiMascot({
       setShouldAnimate(!isMobile || (size === 'large' || size === 'xlarge'));
     } else {
       // Auto mode: use animation for medium and larger sizes, but be more conservative on mobile
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const isLargeEnough = isMobile
         ? (size === 'large' || size === 'xlarge')
         : (size === 'medium' || size === 'large' || size === 'xlarge');
       setShouldAnimate(!prefersReducedMotion && isLargeEnough);
     }
-  }, [variant, size, isMobile]);
+  }, [variant, size, isMobile, isMobileQuery, prefersReducedMotion]);
 
   // Load animation data if needed
   useEffect(() => {

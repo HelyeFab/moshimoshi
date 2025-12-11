@@ -91,8 +91,9 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           model: 'voicevox',
           input: sentence,
-          voice: '11', // VOICEVOX speaker ID (Nemo - natural female voice)
-          speed: 1.0,
+          voice: '23', // Requested default VOICEVOX speaker
+          speed: 0.85,
+          pitch: -5,
         }),
       }
     )

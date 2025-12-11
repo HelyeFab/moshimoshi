@@ -66,7 +66,7 @@ export default function PageHeader({
 
   const headerClasses = isLightTheme
     ? `relative overflow-hidden ${className}`
-    : `bg-gray-50/80 dark:bg-dark-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-dark-700 ${className}`
+    : `${className}`
 
   const titleClasses = isLightTheme
     ? 'text-white [text-shadow:_1px_1px_3px_rgb(0_0_0_/_40%)]'
@@ -142,7 +142,9 @@ export default function PageHeader({
                 <button
                   onClick={() => setIsExpanded(!isExpanded)}
                   className={`p-2 rounded-full shadow-md transition-all flex-shrink-0 ${buttonClasses}`}
-                  aria-label={isExpanded ? 'Collapse' : 'Expand'}
+                  aria-label={isExpanded ? 'Collapse header details' : 'Expand header details'}
+                  aria-expanded={isExpanded}
+                  aria-controls="page-header-expandable-content"
                 >
                   <motion.div
                     animate={{ rotate: isExpanded ? 180 : 0 }}
@@ -156,8 +158,11 @@ export default function PageHeader({
               {/* Back Button - Mobile */}
               <button
                 onClick={() => router.push(backHref)}
-                className="px-3 py-1 rounded-full text-xs font-medium transition-all flex-shrink-0 text-white shadow-lg hover:scale-105 active:scale-95 shadow-primary-500/30 hover:shadow-primary-500/50"
-                style={{ backgroundColor: 'rgb(var(--palette-primary-500))' }}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex-shrink-0 shadow-md hover:scale-105 active:scale-95 text-white ${
+                  isLightTheme
+                    ? 'bg-white/30 backdrop-blur [text-shadow:_1px_1px_2px_rgb(0_0_0_/_30%)] hover:bg-white/40'
+                    : 'bg-primary-500 hover:bg-primary-600'
+                }`}
                 aria-label="Go back"
               >
                 Back
@@ -168,6 +173,7 @@ export default function PageHeader({
             <AnimatePresence mode="wait">
               {isExpanded && (
                 <motion.div
+                  id="page-header-expandable-content"
                   initial={{ height: 0, opacity: 0, scale: 0.95 }}
                   animate={{
                     height: 'auto',
@@ -205,8 +211,8 @@ export default function PageHeader({
         </div>
       </div>
 
-      {/* Desktop Version - Full Layout */}
-      <div className="hidden sm:block mb-6">
+      {/* Desktop Version - Full Layout (pt-16 accounts for fixed navbar) */}
+      <div className="hidden sm:block mb-6 pt-16">
         <div className={headerClasses} style={gradientStyle}>
           {/* Background pattern for light theme */}
           {isLightTheme && !minimal && (

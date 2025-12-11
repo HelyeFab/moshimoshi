@@ -2,15 +2,16 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
-import { useTheme } from '@/lib/theme/ThemeContext'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
-import DoshiMascot from '@/components/ui/DoshiMascot'
+import Navbar from '@/components/layout/Navbar'
+import PageHeader from '@/components/ui/PageHeader'
 import { motion } from 'framer-motion'
 import KanjiProgressSummary from './components/KanjiProgressSummary'
 import ReviewDueAlert from './components/ReviewDueAlert'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useUserStorage } from '@/hooks/useUserStorage'
 
 interface StudySettings {
@@ -26,7 +27,7 @@ function KanjiMasteryContent() {
   const searchParams = useSearchParams()
   const { strings } = useI18n()
   const { showToast } = useToast()
-  const { resolvedTheme } = useTheme()
+  const { user, loading: authLoading, isGuest } = useAuth()
 
   // Check if we're in review mode from Review Hub
   const isReviewMode = searchParams.get('mode') === 'review'
@@ -34,6 +35,13 @@ function KanjiMasteryContent() {
 
   // Get user storage hook
   const { getItem, setItem } = useUserStorage()
+
+  // Redirect to signin if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user && !isGuest) {
+      router.push('/auth/signin')
+    }
+  }, [authLoading, user, isGuest, router])
 
   // Load saved settings from user-specific storage
   const [settings, setSettings] = useState<StudySettings>(() => {
@@ -89,34 +97,37 @@ function KanjiMasteryContent() {
     }
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
-      {/* Header */}
-      <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm border-b border-primary-200 dark:border-dark-700">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                href={isReviewMode ? returnTo : '/dashboard'}
-                className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-              >
-                ← Back
-              </Link>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {isReviewMode ? 'Kanji Mastery Review' : 'Kanji Mastery'}
-                </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Master kanji with spaced repetition
-                </p>
-              </div>
-            </div>
-            <DoshiMascot size="small" mood="happy" />
-          </div>
-        </div>
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850 flex items-center justify-center">
+        <LoadingOverlay isLoading={true} message="Loading..." />
       </div>
+    )
+  }
 
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+  // Don't render if not authenticated (will redirect)
+  if (!user && !isGuest) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850 flex items-center justify-center">
+        <LoadingOverlay isLoading={true} message="Redirecting..." />
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
+        <PageHeader
+          title={isReviewMode ? 'Kanji Mastery Review' : 'Kanji Mastery'}
+          description="Master kanji with spaced repetition"
+          backHref={isReviewMode ? returnTo : '/dashboard'}
+        />
+
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Main Content */}
         <div className="space-y-6">
           {/* Reviews Due Alert */}
@@ -435,8 +446,11 @@ function KanjiMasteryContent() {
           {/* Progress Summary */}
           <KanjiProgressSummary />
         </div>
+
+          <MobileNavSpacer />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth'
 import Modal from '@/components/ui/Modal'
 // Navigation is now global via NavigationWrapper in root layout
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 const PRACTICE_SETS = [
   {
@@ -205,6 +206,8 @@ export default function StrokeOrderPracticePage() {
           </div>
         </main>
       </div>
+
+      <MobileNavSpacer />
 
       {/* Instructions Modal */}
       <Modal

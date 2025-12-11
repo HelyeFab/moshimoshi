@@ -142,6 +142,7 @@ export class KokoroProvider {
       '3': '3', // ずんだもん
       '11': '11', // 玄野武宏 (Nemo)
       '13': '13', // 青山龍星
+      '23': '23', // Energetic female (requested default)
     }
 
     // If it's already a numeric ID, return as-is

@@ -6,6 +6,7 @@ import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import KanaDropGame from './components/KanaDropGame';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 export default function KanaDropPage() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function KanaDropPage() {
       <div className="container mx-auto px-4 py-8">
         <KanaDropGame onClose={handleClose} />
       </div>
+      <MobileNavSpacer />
     </div>
   );
 }

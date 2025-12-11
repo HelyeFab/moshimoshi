@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@/lib/theme/ThemeContext';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile(); // SSR-safe: undefined during SSR, boolean after hydration
   const containerRef = useRef<HTMLDivElement>(null);
 
   const themes = [
@@ -17,17 +18,6 @@ export default function ThemeToggle() {
 
   const currentTheme = themes.find(t => t.value === theme) || themes[0];
   const otherThemes = themes.filter(t => t.value !== theme);
-
-  // Detect mobile screen
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640); // sm breakpoint
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   // Close when clicking outside
   useEffect(() => {
@@ -63,34 +53,35 @@ export default function ThemeToggle() {
   };
 
   const getButtonStyle = (index: number) => {
-    if (isMobile) {
+    // During SSR (isMobile undefined), default to desktop behavior
+    if (isMobile === true) {
       // Vertical animation on mobile (downward)
       return {
         top: 0,
         right: 0,
-        transform: isExpanded 
-          ? `translateY(${(index + 1) * 48}px)` 
+        transform: isExpanded
+          ? `translateY(${(index + 1) * 48}px)`
           : 'translateY(0)',
         opacity: isExpanded ? 1 : 0,
         visibility: isExpanded ? 'visible' as const : 'hidden' as const,
         pointerEvents: isExpanded ? 'auto' as const : 'none' as const,
-        transitionDelay: isExpanded 
-          ? `${index * 75}ms` 
+        transitionDelay: isExpanded
+          ? `${index * 75}ms`
           : `${(otherThemes.length - index - 1) * 75}ms`,
       };
     } else {
-      // Horizontal animation on desktop (leftward)
+      // Horizontal animation on desktop (leftward) - also default for SSR
       return {
         top: 0,
         right: 0,
-        transform: isExpanded 
-          ? `translateX(-${(index + 1) * 48}px)` 
+        transform: isExpanded
+          ? `translateX(-${(index + 1) * 48}px)`
           : 'translateX(0)',
         opacity: isExpanded ? 1 : 0,
         visibility: isExpanded ? 'visible' as const : 'hidden' as const,
         pointerEvents: isExpanded ? 'auto' as const : 'none' as const,
-        transitionDelay: isExpanded 
-          ? `${index * 75}ms` 
+        transitionDelay: isExpanded
+          ? `${index * 75}ms`
           : `${(otherThemes.length - index - 1) * 75}ms`,
       };
     }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import KanjiFamiliesPage from './KanjiFamiliesPage';
 import { generatePageMetadata, structuredData } from '@/utils/seo';
 import { StructuredData } from '@/components/StructuredData';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Kanji Families - Learn Kanji by Component Groups',
@@ -55,6 +56,7 @@ export default function Page() {
       <StructuredData data={breadcrumbData} />
       <StructuredData data={learningResourceData} />
       <KanjiFamiliesPage />
+      <MobileNavSpacer />
     </>
   );
 }

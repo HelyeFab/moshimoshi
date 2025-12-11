@@ -33,6 +33,7 @@ const nextConfig: NextConfig = {
     // Strict TypeScript checking enabled - all route types properly configured for Next.js 15
     ignoreBuildErrors: false,
   },
+  serverExternalPackages: ['@opentelemetry/instrumentation', '@opentelemetry/api'],
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // Don't resolve 'fs' module on the client to prevent this error

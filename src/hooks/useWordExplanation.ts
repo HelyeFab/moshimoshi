@@ -33,6 +33,11 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
 
   // Component-level memory cache
   const cacheRef = useRef<Map<string, WordExplanation>>(new Map());
+  const lastPrefetchRef = useRef<{
+    contentId: string;
+    contentType: 'article' | 'book' | 'story' | 'video';
+    text: string;
+  } | null>(null);
 
   const explainWord = useCallback(async (word: string, context?: string) => {
     try {
@@ -76,8 +81,6 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
               setLoading(false);
               options?.onSuccess?.(preCached);
               return preCached;
-            } else {
-              console.log('[WordExplanation] Word not in pre-cache, will use API', { word });
             }
           } else {
             console.log('[WordExplanation] No pre-cache document found for article');
@@ -113,8 +116,6 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
               setLoading(false);
               options?.onSuccess?.(preCached);
               return preCached;
-            } else {
-              console.log('[WordExplanation] Word not in book pre-cache, will use API', { word });
             }
           } else {
             console.log('[WordExplanation] No pre-cache document found for book');
@@ -184,6 +185,121 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
     setCurrentWord(null);
   }, []);
 
+  /**
+   * Prefetch explanations for a content item by loading its precompute doc.
+   * If the doc doesn't exist and text is provided, trigger server-side precompute.
+   */
+  const prefetch = useCallback(
+    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'video'; text?: string }) => {
+      const { contentId, contentType, text } = params;
+      if (!contentId || !contentType) return;
+
+      console.log(
+        '%c[WordExplanation] PREFETCH START',
+        'color: #1e90ff; font-weight: bold',
+        { contentId, contentType, hasText: !!text, textLength: text?.length }
+      );
+
+      const collectionMap: Record<'article' | 'book' | 'story' | 'video', string> = {
+        article: 'news_article_word_explanations',
+        book: 'book_word_explanations',
+        story: 'story_word_explanations',
+        video: 'video_word_explanations',
+      };
+
+      const collection = collectionMap[contentType];
+      const docRef = doc(firestore, collection, contentId);
+      let docSnap: any = null;
+
+      const hydrateCache = (words: WordExplanation[]) => {
+        let hydrated = 0;
+        for (const w of words || []) {
+          const key = w.word?.toLowerCase();
+          if (key && !cacheRef.current.has(key)) {
+            cacheRef.current.set(key, w);
+            hydrated += 1;
+          }
+        }
+        if (hydrated > 0) {
+          // eslint-disable-next-line no-console
+          console.log(
+            '%c[WordExplanation] SOURCE: PRECOMPUTE DOC (hydrated)',
+            'color: #ff9900; font-weight: bold',
+            { contentId, contentType, hydrated }
+          );
+        }
+      };
+
+      // Try to hydrate from existing doc; do NOT return early so we can still top-up
+      try {
+        docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data() as { words?: WordExplanation[] };
+          if (data?.words?.length) {
+            hydrateCache(data.words);
+          }
+        }
+      } catch (err) {
+        console.warn('[WordExplanation] Prefetch doc read failed, continuing to precompute', err);
+      }
+
+      // If no precompute exists yet and text provided, kick off precompute and refetch
+      if (text) {
+        try {
+          // Truncate very long payloads to avoid server rejection and speed precompute
+          const MAX_TEXT = 18000;
+          const truncatedText = text.length > MAX_TEXT ? text.slice(0, MAX_TEXT) : text;
+
+          console.log(
+            '%c[WordExplanation] PRECOMPUTE TRIGGER',
+            'color: #00bfff; font-weight: bold',
+            { contentId, contentType, wordCountEstimate: truncatedText.length / 2, truncated: text.length > MAX_TEXT }
+          );
+          const resp = await fetch('/api/word/precompute', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contentId, contentType, text: truncatedText }),
+          });
+          if (!resp.ok) {
+            const details = await resp.json().catch(() => ({}));
+            console.warn('[WordExplanation] Precompute failed', { status: resp.status, details });
+            return;
+          }
+
+          lastPrefetchRef.current = { contentId, contentType, text: truncatedText };
+
+          // Wait briefly for precompute doc to appear (to avoid API fallback on first tap)
+          const attempts = 12;
+          for (let i = 0; i < attempts; i++) {
+            const refreshed = await getDoc(docRef);
+            if (refreshed.exists()) {
+              const data = refreshed.data() as { words?: WordExplanation[] };
+              if (data?.words?.length) {
+                hydrateCache(data.words);
+                console.log(
+                  '%c[WordExplanation] PREFETCH DOC READY',
+                  'color: #00c853; font-weight: bold',
+                  { contentId, contentType, words: data.words?.length }
+                );
+                break;
+              }
+            }
+            await new Promise(res => setTimeout(res, 200)); // small backoff
+          }
+        } catch (e) {
+          console.warn('[WordExplanation] Prefetch failed', e);
+        }
+      } else {
+        console.log(
+          '%c[WordExplanation] PREFETCH SKIPPED (no text provided)',
+          'color: #ffa500; font-weight: bold',
+          { contentId, contentType }
+        );
+      }
+    },
+    []
+  );
+
   const clearCache = useCallback(() => {
     cacheRef.current.clear();
   }, []);
@@ -195,6 +311,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
     explanation,
     currentWord,
     reset,
+    prefetch,
     clearCache,
   };
 }

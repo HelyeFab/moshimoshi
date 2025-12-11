@@ -9,6 +9,7 @@ import ReadingRoutesGame from './components/ReadingRoutesGame'
 import type { MoodBoard } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // Demo mood board data for the game
 const demoMoodBoard: MoodBoard = {
@@ -136,6 +137,7 @@ export default function ReadingRoutesPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       {/* Navigation is now global - rendered in root layout */}
+      <MobileNavSpacer />
       </div>
     )
   }
@@ -224,6 +226,7 @@ export default function ReadingRoutesPage() {
             {strings.games?.startGame || 'Start Reading Routes'}
           </button>
         </motion.div>
+        <MobileNavSpacer />
       </div>
     </div>
   )

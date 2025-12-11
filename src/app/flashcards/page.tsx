@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { DeckGrid } from '@/components/flashcards/DeckGrid'
 import { DeckCreator } from '@/components/flashcards/DeckCreator'
 import { StudySession } from '@/components/flashcards/StudySession'
@@ -510,7 +511,10 @@ export default function FlashcardsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Page Header - Mobile */}
       <PageHeader
@@ -839,6 +843,7 @@ export default function FlashcardsPage() {
             onClose={() => setComebackInfo(null)}
           />
         )}
+        <MobileNavSpacer />
       </div>
     </div>
   )

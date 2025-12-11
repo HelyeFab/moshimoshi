@@ -2596,6 +2596,7 @@ export const strings = {
   },
   conjugation: {
     title: 'Conjugaison',
+    description: 'Maîtrisez plus de 100 formes de conjugaison de verbes et adjectifs avec notre système de pratique complet',
     showConjugations: 'Afficher les conjugaisons',
     hideConjugations: 'Masquer les conjugaisons',
     expandAll: 'Tout développer',
@@ -3049,11 +3050,20 @@ export const strings = {
       title: 'Radicaux et Composants',
       subtitle: 'Blocs de construction des kanji',
       description: 'Apprenez les parties fondamentales qui composent les caractères complexes',
+      subThemes: 'Sous-thèmes',
+      subThemesTooltip: 'Grouper les kanji par catégories de sens au sein de chaque radical',
     },
     visualLayout: {
       title: 'Modèles Visuels',
       subtitle: 'Reconnaître les similarités structurelles',
       description: 'Identifiez les modèles visuels et les dispositions à travers différents kanji',
+      showSubcategories: 'Sous-catégories',
+      subcategoriesTooltip: 'Afficher les subdivisions détaillées au sein de chaque type de modèle',
+      searchPlaceholder: 'ex. 1-4-5',
+      selectPattern: 'Sélectionner un modèle',
+      selectPatternPrompt: 'Sélectionner un modèle visuel',
+      selectPatternHint: 'Choisissez parmi les cartes de modèles ci-dessus pour explorer les kanji par structure',
+      subcategories: 'Sous-catégories',
     },
   },
 

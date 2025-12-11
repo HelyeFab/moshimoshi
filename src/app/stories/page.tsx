@@ -9,6 +9,7 @@ import { useStoryCache } from '@/hooks/useStoryCache'
 import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { Select } from '@/components/ui/Select'
 import { Story, JLPTLevel } from '@/types/story'
 
@@ -362,6 +363,7 @@ export default function StoriesPage() {
             </p>
           </div>
         )}
+        <MobileNavSpacer />
       </div>
     </div>
   )

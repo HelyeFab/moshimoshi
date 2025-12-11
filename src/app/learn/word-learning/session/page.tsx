@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Volume2, Check, X } from 'lucide-react'
 import Link from 'next/link'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import {
   getCommonWordsFromWanikani,
   getWordsByJLPTLevelFromWanikani,
@@ -458,6 +459,7 @@ function SessionContent() {
             }
           />
         </div>
+        <MobileNavSpacer />
       </div>
     </div>
   )

@@ -10,6 +10,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { EventEmitter } from 'events'
 import { gamificationListener } from '@/lib/gamification/gamificationListener'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // Global URE event emitter for gamification integration
 const ureEventEmitter = new EventEmitter()
@@ -142,6 +143,7 @@ export default function ReviewSessionPage() {
             {t('common.back')}
           </button>
         </div>
+        <MobileNavSpacer />
       </div>
     )
   }

@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
 import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache'
@@ -75,7 +76,10 @@ export default function KanjiConnectionPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-8 pb-8">
@@ -138,6 +142,8 @@ export default function KanjiConnectionPage() {
             </motion.div>
           ))}
         </div>
+
+        <MobileNavSpacer />
       </div>
     </div>
   )

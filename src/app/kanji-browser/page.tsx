@@ -5,7 +5,7 @@ import { Kanji, JLPTLevel, KanjiByLevel } from '@/types/kanji'
 import { kanjiService } from '@/services/kanjiService'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
-// Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay, LoadingSpinner } from '@/components/ui/Loading'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
@@ -16,6 +16,7 @@ import { useKanjiBrowser } from '@/hooks/useKanjiBrowser'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import dynamic from 'next/dynamic'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
@@ -618,7 +619,10 @@ function KanjiBrowserContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Page Header */}
       <LearningPageHeader
@@ -816,6 +820,8 @@ function KanjiBrowserContent() {
             onClose={() => setModalKanji(null)}
           />
         )}
+
+        <MobileNavSpacer />
       </main>
     </div>
   )

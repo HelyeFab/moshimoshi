@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation'
 import EnhancedArticleReader from '@/components/news/EnhancedArticleReaderFinal'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useCachedArticle } from '@/hooks/useArticleCache'
@@ -62,6 +63,7 @@ export default function NewsArticlePage() {
         </div>
       )}
       <EnhancedArticleReader article={article} onBack={handleBack} />
+      <MobileNavSpacer />
     </div>
   )
 }

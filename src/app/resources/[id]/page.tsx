@@ -6,6 +6,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import { formatDistanceToNow } from 'date-fns';
 // Navigation is now global via NavigationWrapper in root layout;
 import { useAuth } from '@/hooks/useAuth';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 interface Resource {
   id: string;
@@ -219,6 +220,7 @@ export default function ResourceDetailPage() {
           )}
         </div>
       </div>
+      <MobileNavSpacer />
     </div>
   );
 }

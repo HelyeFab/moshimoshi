@@ -1530,6 +1530,7 @@ export default function EnhancedArticleReader({
     explanation: wordExplanation,
     currentWord,
     reset: resetWordExplanation,
+    prefetch: prefetchWordExplanations,
   } = useWordExplanation({
     // Use bookId for books, articleId for news articles
     articleId: isBook ? undefined : article.id,
@@ -1545,6 +1546,30 @@ export default function EnhancedArticleReader({
       stopNhkAudio()
     }
   }, [article.id, stopNhkAudio])
+
+  // Prefetch word explanations for instant modal response
+  useEffect(() => {
+    if (article?.id && article.content) {
+      prefetchWordExplanations({
+        contentId: article.id,
+        contentType: isBook ? 'book' : 'article',
+        text: typeof article.content === 'string' ? article.content : '',
+      })
+    }
+  }, [article?.id, article.content, isBook, prefetchWordExplanations])
+
+  // Prefetch per story page text when in story mode and page changes
+  useEffect(() => {
+    if (!isStoryMode || !pages || !pages[currentPageIndex]) return
+    const page = pages[currentPageIndex]
+    if (page?.text) {
+      prefetchWordExplanations({
+        contentId: `${article.id}:page-${currentPageIndex}`,
+        contentType: 'story',
+        text: page.text,
+      })
+    }
+  }, [isStoryMode, pages, currentPageIndex, article.id, prefetchWordExplanations])
 
   // Sync playback speed with NHK audio when settings change
   useEffect(() => {
@@ -1705,21 +1730,14 @@ export default function EnhancedArticleReader({
       return
     }
 
-    // Initialize and play NHK audio
+    // Initialize and play NHK audio with autoPlay once ready
     if (article.nhkAudioUrl) {
       try {
         console.log('[Article Reader] Initializing NHK HLS stream:', article.nhkAudioUrl)
-        initializeNhkAudio(article.nhkAudioUrl)
-
-        // Set playback rate
-        if (settings.playbackSpeed) {
-          setNhkPlaybackRate(settings.playbackSpeed)
-        }
-
-        // Wait a bit for initialization then play
-        setTimeout(async () => {
-          await playNhkAudio()
-        }, 500)
+        initializeNhkAudio(article.nhkAudioUrl, {
+          autoPlay: true,
+          playbackRate: settings.playbackSpeed,
+        })
       } catch (error) {
         console.error('[Article Reader] NHK audio failed, falling back to TTS:', error)
         // Fall back to VOICEVOX/TTS

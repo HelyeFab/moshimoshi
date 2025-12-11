@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { Story } from '@/types/story'
 import { storyService } from '@/lib/services/StoryService'
 import EnhancedArticleReader from '@/components/news/EnhancedArticleReaderFinal'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 
@@ -107,14 +108,17 @@ export default function StoryDetailPage() {
   }
 
   return (
-    <EnhancedArticleReader
-      article={articleFromStory}
-      onBack={handleBack}
-      pages={story.pages}
-      quiz={story.quiz}
-      onComplete={handleComplete}
-      onExit={handleExit}
-      storyTitle={story.titleJa || story.title}
-    />
+    <div className="min-h-screen bg-background-light dark:bg-dark-850">
+      <EnhancedArticleReader
+        article={articleFromStory}
+        onBack={handleBack}
+        pages={story.pages}
+        quiz={story.quiz}
+        onComplete={handleComplete}
+        onExit={handleExit}
+        storyTitle={story.titleJa || story.title}
+      />
+      <MobileNavSpacer />
+    </div>
   )
 }

@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useRouter, useParams } from 'next/navigation'
 // Navigation is now global via NavigationWrapper in root layout;
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { listManager } from '@/lib/lists/ListManager'
 import type { UserList, ListItem, ListItemSRSData } from '@/types/userLists'
 import { createInitialSRSData } from '@/types/userLists'
@@ -919,6 +920,7 @@ export default function ListDetailPage() {
           user={user}
         />
       )}
+      <MobileNavSpacer />
     </div>
   )
 }

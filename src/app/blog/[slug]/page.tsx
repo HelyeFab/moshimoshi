@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { getBlogPostBySlug, getRelatedPosts } from "@/services/blogService";
 import type { BlogPost } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
+import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import DOMPurify from "isomorphic-dompurify";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { CommentSection } from "@/components/blog/CommentSection";
@@ -362,6 +363,7 @@ export default function BlogPostPage() {
           </button>
         </footer>
         </article>
+        <MobileNavSpacer />
       </main>
     </>
   );

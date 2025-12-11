@@ -813,3 +813,17 @@ html.high-contrast.dark .text-gray-400 {
   user-select: none;
   -webkit-touch-callout: none;
 }
+
+/* Shimmer animation for progress bars */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}

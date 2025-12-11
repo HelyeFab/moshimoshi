@@ -31,6 +31,9 @@ export interface TTSCacheEntry {
   normalizedText: string;
   provider: TTSProvider;
   voice: string;
+  speed?: number;
+  pitch?: number;
+  volume?: number;
   audioUrl: string;
   storagePath: string;
   duration?: number;

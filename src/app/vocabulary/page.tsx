@@ -6,12 +6,13 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { useI18n } from '@/i18n/I18nContext'
 import { motion } from 'framer-motion'
-// Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import Modal from '@/components/ui/Modal'
 import VocabularySearch from './components/VocabularySearch'
 import WordDetailsModal from './components/WordDetailsModal'
 import SearchHistory from './components/SearchHistory'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { searchWords, initWanikaniApi } from '@/utils/api'
 import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
 import type { JapaneseWord } from '@/types/vocabulary'
@@ -283,8 +284,10 @@ function VocabularyContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
-      {/* Navbar */}
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Page Header */}
       <PageHeader
@@ -483,6 +486,8 @@ function VocabularyContent() {
           </div>
         </div>
       </Modal>
+
+      <MobileNavSpacer />
     </div>
   )
 }

@@ -448,19 +448,29 @@ service cloud.firestore {
 
     // Book word explanations - pre-cached word explanations for instant lookups
     match /book_word_explanations/{bookId} {
-      // Authenticated users can read word explanations (for useWordExplanation hook)
-      allow read: if isAuthenticated();
-
+      // Public read: clients do not use Firebase Auth; data is pre-generated and safe to read
+      allow read: if true;
       // Writes handled via Admin SDK (book generation API) - client writes blocked
       allow write: if false;
     }
 
     // News article word explanations - pre-cached word explanations
     match /news_article_word_explanations/{articleId} {
-      // Authenticated users can read word explanations
-      allow read: if isAuthenticated();
-
+      // Public read: clients do not use Firebase Auth; data is pre-generated and safe to read
+      allow read: if true;
       // Writes handled via Admin SDK - client writes blocked
+      allow write: if false;
+    }
+
+    // Story word explanations - pre-cached word explanations for multi-page stories
+    match /story_word_explanations/{storyId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Video word explanations - pre-cached word explanations for transcripts (moshiplayer)
+    match /video_word_explanations/{videoId} {
+      allow read: if true;
       allow write: if false;
     }
 

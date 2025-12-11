@@ -6,7 +6,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useFeature } from '@/hooks/useFeature'
 import { useSubscription } from '@/hooks/useSubscription'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { useToast } from '@/components/ui/Toast'
@@ -22,6 +22,7 @@ import { ConjugationErrorAnalyzer } from '@/lib/conjugation-help'
 import { useConjugationHelp } from '@/contexts/ConjugationHelpContext'
 import { HelpModal, HelpBanner } from '@/components/conjugation-help'
 import { SRSWordSelector } from '@/lib/drill/srs-word-selector'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function DrillPage() {
   const { t, strings } = useI18n()
@@ -500,7 +501,10 @@ export default function DrillPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Page Header - Mobile */}
       <PageHeader
@@ -1220,6 +1224,8 @@ export default function DrillPage() {
         showIcon={true}
         action={alert.action}
       />
+
+      <MobileNavSpacer />
     </div>
   )
 }

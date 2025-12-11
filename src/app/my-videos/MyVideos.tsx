@@ -27,8 +27,9 @@ import { useAuth } from '@/hooks/useAuth'
 import { useFeature } from '@/hooks/useFeature'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useYouTubeStats } from '@/hooks/useYouTubeStats'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { PracticeHistoryItem } from '@/services/practiceHistory/types'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Link from 'next/link'
 
@@ -245,7 +246,10 @@ export default function MyVideos() {
   if (!authLoading && !user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-soft-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
-        {/* Navigation is now global - rendered in root layout */}
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
 
         <div className="container mx-auto px-4 py-16">
           <motion.div
@@ -285,7 +289,10 @@ export default function MyVideos() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50/50 via-soft-white to-primary-100/30 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Decorative Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -299,7 +306,7 @@ export default function MyVideos() {
         />
       </div>
 
-      <div className="relative px-4 pb-20" ref={containerRef}>
+      <div className="relative px-4" ref={containerRef}>
         <div className="max-w-7xl mx-auto">
           {/* Enhanced Header with Glassmorphism */}
           <motion.div
@@ -731,6 +738,7 @@ export default function MyVideos() {
             )}
           </AnimatePresence>
         </div>
+        <MobileNavSpacer />
       </div>
     </div>
   )

@@ -4447,6 +4447,7 @@ export const strings = {
 
   conjugation: {
     title: 'Conjugation',
+    description: 'Master 100+ verb and adjective conjugation forms with our comprehensive practice system',
     showConjugations: 'Show Conjugations',
     hideConjugations: 'Hide Conjugations',
     expandAll: 'Expand All',
@@ -4927,11 +4928,20 @@ export const strings = {
       title: 'Radicals & Components',
       subtitle: 'Building blocks of kanji',
       description: 'Learn the fundamental parts that make up complex characters',
+      subThemes: 'Sub-themes',
+      subThemesTooltip: 'Group kanji by meaning categories within each radical',
     },
     visualLayout: {
       title: 'Visual Patterns',
       subtitle: 'Recognize structural similarities',
       description: 'Identify visual patterns and layouts across different kanji',
+      showSubcategories: 'Subcategories',
+      subcategoriesTooltip: 'Show detailed subdivisions within each pattern type',
+      searchPlaceholder: 'e.g. 1-4-5',
+      selectPattern: 'Select a pattern',
+      selectPatternPrompt: 'Select a Visual Pattern',
+      selectPatternHint: 'Choose from the pattern cards above to explore kanji by structure',
+      subcategories: 'Subcategories',
     },
   },
 

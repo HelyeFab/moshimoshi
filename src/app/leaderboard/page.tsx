@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
-// Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/i18n/I18nContext'
@@ -99,7 +100,10 @@ export default function LeaderboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-dark-900 dark:via-dark-800 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       <div className="container mx-auto px-4 py-8">
         {/* Header with animated background */}
@@ -354,6 +358,7 @@ export default function LeaderboardPage() {
           )}
         </div>
       </div>
+      <MobileNavSpacer />
     </div>
   )
 }

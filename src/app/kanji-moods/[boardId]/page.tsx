@@ -7,6 +7,7 @@ import { MoodBoard as MoodBoardType } from '@/types/moodboard'
 import { getBoardProgress, toggleKanjiLearned, isKanjiLearned } from '@/utils/moodBoardProgress'
 import { useI18n } from '@/i18n/I18nContext'
 // Navigation is now global via NavigationWrapper in root layout;
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
@@ -400,6 +401,7 @@ export default function MoodBoardDetailPage() {
           onClose={() => setSelectedKanji(null)}
         />
       )}
+      <MobileNavSpacer />
     </div>
   )
 }

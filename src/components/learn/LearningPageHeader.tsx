@@ -175,7 +175,9 @@ export default function LearningPageHeader({
                       ? 'bg-white/50 hover:bg-white/70 backdrop-blur'
                       : 'bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600'
                   }`}
-                  aria-label={isExpanded ? 'Collapse' : 'Expand'}
+                  aria-label={isExpanded ? 'Collapse header details' : 'Expand header details'}
+                  aria-expanded={isExpanded}
+                  aria-controls="learning-header-expandable-content"
                 >
                   <motion.div
                     animate={{ rotate: isExpanded ? 180 : 0 }}
@@ -192,10 +194,10 @@ export default function LearningPageHeader({
                 {/* Back Button */}
                 <button
                   onClick={() => router.push(backHref)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all bg-gradient-to-r from-primary-400 to-cyan-400 shadow-lg hover:scale-105 active:scale-95 ${
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all shadow-lg hover:scale-105 active:scale-95 ${
                     isLightTheme
-                      ? 'text-gray-900 shadow-primary-500/25 hover:shadow-primary-500/40'
-                      : 'text-white shadow-primary-500/30 hover:shadow-primary-500/50'
+                      ? 'bg-white/30 backdrop-blur text-white [text-shadow:_1px_1px_2px_rgb(0_0_0_/_30%)] hover:bg-white/40'
+                      : 'bg-primary-500 hover:bg-primary-600 text-white shadow-primary-500/30 hover:shadow-primary-500/50'
                   }`}
                   aria-label="Go back"
                 >
@@ -232,6 +234,7 @@ export default function LearningPageHeader({
             <AnimatePresence mode="wait">
               {isExpanded && (
                 <motion.div
+                  id="learning-header-expandable-content"
                   initial={{
                     height: 0,
                     opacity: 0,

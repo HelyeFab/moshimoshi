@@ -218,8 +218,9 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         }
 
         // Prepare TTS parameters
-        const voice = ttsOptions?.voice || 'ja-JP-Standard-A'
-        const speed = ttsOptions?.speed || ttsOptions?.rate || 1.0
+        const voice = ttsOptions?.voice || '23'
+        const speed = ttsOptions?.speed || ttsOptions?.rate || 0.85
+        const pitch = ttsOptions?.pitch ?? -5
         const provider = 'google' // Could be dynamic based on settings
 
         let result: TTSResult
@@ -227,7 +228,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         // Check offline cache first if cacheFirst is enabled
         if (cacheFirst) {
           const offlineCache = OfflineTTSCache.getInstance()
-          const cachedResult = await offlineCache.get(text, provider, voice, speed)
+          const cachedResult = await offlineCache.get(text, provider, voice, speed, pitch)
 
           if (cachedResult) {
             // Use cached audio
@@ -255,7 +256,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
                 language: ttsOptions?.voice === 'ja-JP' || ttsOptions?.voice === 'ja' ? 'ja' : 'en',
                 voice: ttsOptions?.voice,
                 speed: speed,
-                pitch: ttsOptions?.pitch || 0,
+                pitch,
               }),
             })
 
@@ -285,7 +286,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
             // Cache the result for offline use (fire and forget)
             offlineCache
-              .set(text, provider, voice, speed, result.audioUrl, result.duration || 0)
+              .set(text, provider, voice, speed, result.audioUrl, result.duration || 0, pitch)
               .catch(error => {
                 console.warn('[useTTS] Failed to cache audio offline:', error)
               })

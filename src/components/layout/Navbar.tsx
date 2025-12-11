@@ -7,8 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import MoshimoshiLogo from "@/components/ui/MoshimoshiLogo";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useI18n } from "@/i18n/I18nContext";
-import { useTheme } from "@/lib/theme/ThemeContext";
 import { useSubscription } from "@/hooks/useSubscription";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 import { PremiumBadge } from "@/components/common/PremiumBadge";
 import SyncStatusMenuItem from "@/components/sync/SyncStatusMenuItem";
 import BuyMeACoffeeButton from "@/components/common/BuyMeACoffeeButton";
@@ -38,11 +38,10 @@ export default function Navbar({
   const router = useRouter();
   const pathname = usePathname();
   const { strings } = useI18n();
-  const { theme, setTheme } = useTheme();
   const { isPremium } = useSubscription();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile(); // SSR-safe: returns undefined during SSR, boolean after hydration
   const menuRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLDivElement>(null);
 
@@ -54,18 +53,7 @@ export default function Navbar({
     pathname !== "/dashboard" &&
     !pathname.startsWith("/auth/");
 
-  // Detect mobile screen
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640); // sm breakpoint
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside or pressing Escape
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -79,8 +67,19 @@ export default function Navbar({
       }
     };
 
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowDropdown(false);
+        setShowHamburgerMenu(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, []);
 
   const handleSignOut = async () => {
@@ -100,19 +99,21 @@ export default function Navbar({
     }
   };
 
-  const handleThemeChange = (newTheme: "light" | "system" | "dark") => {
-    setTheme(newTheme);
-  };
-
   // Check if we're on the blog page for special styling
   const isBlogPage = pathname.startsWith("/blog");
 
+  // During SSR, isMobile is undefined - render nothing to avoid hydration mismatch
+  // On desktop (isMobile === false), show navbar
+  // On mobile (isMobile === true), hide navbar (BottomNav handles mobile)
+  if (isMobile !== false) {
+    return null;
+  }
+
   return (
     <>
-      {/* Navbar - always visible on desktop, hidden on mobile (bottom nav handles mobile navigation) */}
+      {/* Navbar - visible on desktop only (BottomNav handles mobile navigation) */}
       <AnimatePresence>
-        {!isMobile && (
-          <motion.header
+        <motion.header
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
@@ -175,43 +176,18 @@ export default function Navbar({
               </div>
             )}
 
-            {/* Theme Toggle - only show on desktop */}
-            {!isMobile && <ThemeToggle />}
+            {/* Theme Toggle */}
+            <ThemeToggle />
 
             {/* Back Link - Show custom backLink or auto Back to Dashboard */}
             {(backLink || shouldShowBackToDashboard) && !isBlogPage && (
               <Link
                 href={typeof backLink === 'object' ? backLink?.href : (backLink || "/dashboard")}
-                className={`${
-                  isMobile
-                    ? "flex items-center gap-1 px-2 py-1.5 text-xs"
-                    : "px-4 py-2 text-sm"
-                } font-medium bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-all duration-200`}
+                className="px-4 py-2 text-sm font-medium bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-all duration-200"
               >
-                {isMobile ? (
-                  <>
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                      />
-                    </svg>
-                    <span className="hidden xs:inline">
-                      {strings.common?.back || "Back"}
-                    </span>
-                  </>
-                ) : (
-                  (typeof backLink === 'object' ? backLink?.label : null) ||
+                {(typeof backLink === 'object' ? backLink?.label : null) ||
                   strings.navigation?.backToDashboard ||
-                  "← Back to Dashboard"
-                )}
+                  "← Back to Dashboard"}
               </Link>
             )}
 
@@ -249,6 +225,9 @@ export default function Navbar({
                   onClick={() => setShowDropdown(!showDropdown)}
                   className="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-colors"
                   aria-label="User menu"
+                  aria-expanded={showDropdown}
+                  aria-haspopup="menu"
+                  aria-controls="user-menu-dropdown"
                 >
                   <div className="relative">
                     {user.photoURL ? (
@@ -285,7 +264,12 @@ export default function Navbar({
 
                 {/* Dropdown Menu */}
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-64 bg-soft-white dark:bg-dark-800 rounded-lg shadow-lg border border-gray-200 dark:border-dark-700 py-2 z-50">
+                  <div
+                    id="user-menu-dropdown"
+                    role="menu"
+                    aria-label="User menu options"
+                    className="absolute right-0 mt-2 w-64 bg-soft-white dark:bg-dark-800 rounded-lg shadow-lg border border-gray-200 dark:border-dark-700 py-2 z-50"
+                  >
                     {/* User Info */}
                     <div className="px-4 py-3 border-b border-gray-200 dark:border-dark-700">
                       <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -299,50 +283,10 @@ export default function Navbar({
                     {/* Sync Status */}
                     <SyncStatusMenuItem />
 
-                    {/* Theme Selector - only show on mobile */}
-                    {isMobile && (
-                      <div className="px-4 py-3 border-b border-gray-200 dark:border-dark-700">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                          {strings.common?.theme || "Theme"}
-                        </p>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleThemeChange("light")}
-                            className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
-                              theme === "light"
-                                ? "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400"
-                                : "bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
-                            }`}
-                          >
-                            ☀️
-                          </button>
-                          <button
-                            onClick={() => handleThemeChange("system")}
-                            className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
-                              theme === "system"
-                                ? "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400"
-                                : "bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
-                            }`}
-                          >
-                            💻
-                          </button>
-                          <button
-                            onClick={() => handleThemeChange("dark")}
-                            className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
-                              theme === "dark"
-                                ? "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400"
-                                : "bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
-                            }`}
-                          >
-                            🌙
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
                     {/* Menu Items */}
                     <Link
                       href="/dashboard"
+                      role="menuitem"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
                     >
                       <div className="flex items-center gap-2">
@@ -365,6 +309,7 @@ export default function Navbar({
 
                     <Link
                       href="/account"
+                      role="menuitem"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
                     >
                       <div className="flex items-center gap-2">
@@ -387,6 +332,7 @@ export default function Navbar({
 
                     <Link
                       href="/settings"
+                      role="menuitem"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
                     >
                       <div className="flex items-center gap-2">
@@ -417,6 +363,7 @@ export default function Navbar({
                     {user?.isAdmin === true && (
                       <Link
                         href="/admin"
+                        role="menuitem"
                         className="block px-4 py-2 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
                       >
                         <div className="flex items-center gap-2">
@@ -447,6 +394,7 @@ export default function Navbar({
                     <div className="border-t border-gray-200 dark:border-dark-700 pt-2">
                       <button
                         onClick={handleSignOut}
+                        role="menuitem"
                         className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                       >
                         <div className="flex items-center gap-2">
@@ -474,8 +422,7 @@ export default function Navbar({
           </div>
         </div>
       </div>
-          </motion.header>
-        )}
+        </motion.header>
       </AnimatePresence>
     </>
   );

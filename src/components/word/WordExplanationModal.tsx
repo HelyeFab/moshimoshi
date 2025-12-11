@@ -607,14 +607,23 @@ export default function WordExplanationModal({
                       Synonyms
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {explanation.relatedWords.synonyms.map((relWord, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
-                        >
-                          {relWord}
-                        </span>
-                      ))}
+                      {explanation.relatedWords.synonyms.map((relWord, idx) => {
+                        const label =
+                          typeof relWord === 'string'
+                            ? relWord
+                            : (relWord as any)?.word ||
+                              (relWord as any)?.meaning ||
+                              (relWord as any)?.reading ||
+                              JSON.stringify(relWord)
+                        return (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
+                          >
+                            {label}
+                          </span>
+                        )
+                      })}
                     </div>
                   </div>
                 )}
@@ -625,14 +634,23 @@ export default function WordExplanationModal({
                       Antonyms
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {explanation.relatedWords.antonyms.map((relWord, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
-                        >
-                          {relWord}
-                        </span>
-                      ))}
+                      {explanation.relatedWords.antonyms.map((relWord, idx) => {
+                        const label =
+                          typeof relWord === 'string'
+                            ? relWord
+                            : (relWord as any)?.word ||
+                              (relWord as any)?.meaning ||
+                              (relWord as any)?.reading ||
+                              JSON.stringify(relWord)
+                        return (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
+                          >
+                            {label}
+                          </span>
+                        )
+                      })}
                     </div>
                   </div>
                 )}
@@ -643,14 +661,23 @@ export default function WordExplanationModal({
                       Compounds
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {explanation.relatedWords.compounds.map((relWord, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-                        >
-                          {relWord}
-                        </span>
-                      ))}
+                      {explanation.relatedWords.compounds.map((relWord, idx) => {
+                        const label =
+                          typeof relWord === 'string'
+                            ? relWord
+                            : (relWord as any)?.word ||
+                              (relWord as any)?.meaning ||
+                              (relWord as any)?.reading ||
+                              JSON.stringify(relWord)
+                        return (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                          >
+                            {label}
+                          </span>
+                        )
+                      })}
                     </div>
                   </div>
                 )}

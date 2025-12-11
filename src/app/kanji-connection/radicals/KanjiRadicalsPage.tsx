@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { SEMANTIC_RADICALS, getRadicalsByCategory, RADICAL_CATEGORIES, type RadicalKanji } from '@/lib/kanji/radicals';
-import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-// Navigation is now global via NavigationWrapper in root layout;
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import { LoadingOverlay } from '@/components/ui/Loading';
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal';
+import PageHeader from '@/components/ui/PageHeader';
+import Navbar from '@/components/layout/Navbar';
+import Tooltip from '@/components/ui/Tooltip';
+import { HelpCircle } from 'lucide-react';
 
 interface RadicalData {
   radical: any;
@@ -19,7 +21,6 @@ interface RadicalData {
 }
 
 export default function KanjiRadicalsPage() {
-  const router = useRouter();
   const { user } = useAuth();
   const { t } = useI18n();
 
@@ -98,61 +99,56 @@ export default function KanjiRadicalsPage() {
 
   return (
     <>
-      {/* Navigation is now global - rendered in root layout */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
       <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-        {/* Header */}
-        <header className="pt-24 pb-4 md:pt-24">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center gap-3 mb-4">
-              <button
-                onClick={() => router.back()}
-                className="p-2 rounded-lg hover:bg-muted dark:hover:bg-dark-700 transition-colors"
-                aria-label="Go back"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
+        <PageHeader
+          title={t('kanjiConnection.radicals.title')}
+          description="Learn kanji through their semantic radicals"
+          backHref="/kanji-connection"
+          actions={
+            <div className="flex items-center gap-3">
+              {/* Sub-themes Toggle with Tooltip */}
+              <label className="flex items-center gap-1.5 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showSubThemes}
+                  onChange={(e) => setShowSubThemes(e.target.checked)}
+                  className="rounded border-gray-300 dark:border-dark-600"
+                />
+                <span className="text-muted-foreground dark:text-dark-400">{t('kanjiConnection.radicals.subThemes')}</span>
+                <Tooltip content={t('kanjiConnection.radicals.subThemesTooltip')} position="bottom">
+                  <HelpCircle className="w-3.5 h-3.5 text-muted-foreground dark:text-dark-500 hover:text-foreground dark:hover:text-dark-300 transition-colors" />
+                </Tooltip>
+              </label>
 
-              <h1 className="text-xl font-bold text-foreground dark:text-dark-50 flex-1">
-                {t('kanjiConnection.radicals.title')}
-              </h1>
-
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={showSubThemes}
-                onChange={(e) => setShowSubThemes(e.target.checked)}
-                className="rounded"
-              />
-              <span className="text-muted-foreground dark:text-dark-400">Sub-themes</span>
-            </label>
-
-            <div className="flex gap-2 bg-muted dark:bg-dark-700 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`px-3 py-1 rounded ${
-                  viewMode === 'grid'
-                    ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
-                    : 'text-muted-foreground dark:text-dark-400'
-                }`}
-              >
-                Grid
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`px-3 py-1 rounded ${
-                  viewMode === 'list'
-                    ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
-                    : 'text-muted-foreground dark:text-dark-400'
-                }`}
-              >
-                List
-              </button>
+              {/* View Mode Toggle */}
+              <div className="flex gap-1 bg-muted dark:bg-dark-700 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                    viewMode === 'grid'
+                      ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
+                      : 'text-muted-foreground dark:text-dark-400 hover:text-foreground dark:hover:text-dark-200'
+                  }`}
+                >
+                  Grid
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                    viewMode === 'list'
+                      ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
+                      : 'text-muted-foreground dark:text-dark-400 hover:text-foreground dark:hover:text-dark-200'
+                  }`}
+                >
+                  List
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      </header>
+          }
+        />
 
       <div className="container mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

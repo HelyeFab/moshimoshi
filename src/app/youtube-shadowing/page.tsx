@@ -14,6 +14,7 @@ import { Settings, Repeat, Type, Highlighter, ChevronDown, ChevronUp, Video, Tra
 import Modal from "@/components/ui/Modal";
 import PageHeader from "@/components/ui/PageHeader";
 import Navbar from "@/components/layout/Navbar";
+import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import { useAuth } from "@/hooks/useAuth";
 
 // Session persistence key
@@ -89,6 +90,7 @@ export default function YouTubeShadowingPage() {
     error: wordError,
     explanation: wordExplanation,
     reset: resetWordExplanation,
+    prefetch: prefetchWordExplanations,
   } = useWordExplanation();
 
   const playerRef = useRef<YT.Player | null>(null);
@@ -241,6 +243,14 @@ export default function YouTubeShadowingPage() {
         if (data.segments[0] && playerRef.current) {
           playerRef.current.seekTo(data.segments[0].start, true);
         }
+
+        // Prefetch word explanations for instant modal response
+        const transcriptText = data.segments.map((s) => s.text).join(" ");
+        prefetchWordExplanations({
+          contentId: extractedId,
+          contentType: "video",
+          text: transcriptText,
+        });
       } catch (err: unknown) {
         const message =
           err instanceof Error ? err.message : t('youtubeShadowing.errors.transcriptFailed');
@@ -249,7 +259,7 @@ export default function YouTubeShadowingPage() {
         setLoadingTranscript(false);
       }
     },
-    [language, repeatCount, t],
+    [language, repeatCount, t, prefetchWordExplanations],
   );
 
   const handleSubmit = useCallback(
@@ -745,6 +755,7 @@ export default function YouTubeShadowingPage() {
         enableRelatedTranslations={true}
         onWordLookup={(word) => handleWordTap(word, wordContext || "")}
       />
+      <MobileNavSpacer />
       </main>
     </div>
   );

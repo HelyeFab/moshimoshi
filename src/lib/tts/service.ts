@@ -58,7 +58,11 @@ export class TTSService {
     )
 
     // Check cache first
-    const cached = await ttsCache.get(text, provider, voice)
+    const cached = await ttsCache.get(text, provider, voice, {
+      speed: parsedOptions.speed,
+      pitch: parsedOptions.pitch,
+      volume: parsedOptions.volume,
+    })
     if (cached) {
       console.log(`TTS cache hit for: ${text.substring(0, 50)}...`)
       return {
@@ -82,7 +86,11 @@ export class TTSService {
       })
 
       // Upload to Firebase Storage with deduplication
-      const cacheKey = generateCacheKey(text, provider, voice)
+      const cacheKey = generateCacheKey(text, provider, voice, {
+        speed: parsedOptions.speed,
+        pitch: parsedOptions.pitch,
+        volume: parsedOptions.volume,
+      })
       const { url, path, size } = await this.uploadAudioWithDedup(audioData, provider, cacheKey)
 
       // Estimate duration
@@ -92,6 +100,9 @@ export class TTSService {
       await ttsCache.set(text, provider, voice, url, path, {
         duration,
         size,
+        speed: parsedOptions.speed,
+        pitch: parsedOptions.pitch,
+        volume: parsedOptions.volume,
       })
 
       return {
@@ -99,7 +110,11 @@ export class TTSService {
         cached: false,
         duration,
         provider,
-        cacheKey: generateCacheKey(text, provider, voice),
+        cacheKey: generateCacheKey(text, provider, voice, {
+          speed: parsedOptions.speed,
+          pitch: parsedOptions.pitch,
+          volume: parsedOptions.volume,
+        }),
       }
     } catch (error: any) {
       console.error('TTS synthesis error:', error)
@@ -478,7 +493,11 @@ export class TTSService {
       'voice' in parsedOptions ? parsedOptions.voice : undefined
     )
 
-    return ttsCache.has(text, provider, voice)
+    return ttsCache.has(text, provider, voice, {
+      speed: parsedOptions.speed,
+      pitch: parsedOptions.pitch,
+      volume: parsedOptions.volume,
+    })
   }
 
   /**

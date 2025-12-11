@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { KANJI_FAMILIES, getFamiliesByCategories, type KanjiFamily, type KanjiFamilyCategory } from '@/lib/kanji/families';
-import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-// Navigation is now global via NavigationWrapper in root layout;
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import { LoadingOverlay } from '@/components/ui/Loading';
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal';
+import PageHeader from '@/components/ui/PageHeader';
+import Navbar from '@/components/layout/Navbar';
 
 interface KanjiDetails {
   kanji: string;
@@ -38,7 +38,6 @@ interface FamilyData {
 }
 
 export default function KanjiFamiliesPage() {
-  const router = useRouter();
   const { user } = useAuth();
   const { t } = useI18n();
 
@@ -51,7 +50,6 @@ export default function KanjiFamiliesPage() {
   const [showCrossFamilies, setShowCrossFamilies] = useState(false);
   const [modalKanji, setModalKanji] = useState<any>(null);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
-  const [showFamilyDropdown, setShowFamilyDropdown] = useState(false);
 
   const familiesByCategory = getFamiliesByCategories();
 
@@ -112,73 +110,61 @@ export default function KanjiFamiliesPage() {
 
   return (
     <>
-      {/* Navigation is now global - rendered in root layout */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
       <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
-        {/* Header */}
-        <header className="pt-24 pb-4 md:pt-24">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => router.back()}
-                  className="p-2 rounded-lg hover:bg-muted dark:hover:bg-dark-700 transition-colors"
-                  aria-label="Go back"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-
-                <h1 className="text-xl font-bold text-foreground dark:text-dark-50 flex-1">
-                  {t('kanjiConnection.families.title')}
-                </h1>
-
-              <div className="flex gap-2 bg-muted dark:bg-dark-700 rounded-lg p-1">
+        <PageHeader
+          title={t('kanjiConnection.families.title')}
+          description="Explore kanji grouped by shared components and meanings"
+          backHref="/kanji-connection"
+          actions={
+            <div className="flex items-center gap-3">
+              {/* View Mode Toggle */}
+              <div className="flex gap-1 bg-muted dark:bg-dark-700 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`px-3 py-1 rounded ${
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
                     viewMode === 'grid'
                       ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
-                      : 'text-muted-foreground dark:text-dark-400'
+                      : 'text-muted-foreground dark:text-dark-400 hover:text-foreground dark:hover:text-dark-200'
                   }`}
                 >
                   Grid
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-3 py-1 rounded ${
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
                     viewMode === 'list'
                       ? 'bg-background dark:bg-dark-800 text-foreground dark:text-dark-50 shadow-sm'
-                      : 'text-muted-foreground dark:text-dark-400'
+                      : 'text-muted-foreground dark:text-dark-400 hover:text-foreground dark:hover:text-dark-200'
                   }`}
                 >
                   List
                 </button>
               </div>
-            </div>
 
-            {/* Filters */}
-            <div className="flex items-center gap-3 flex-wrap sm:ml-11">
+              {/* Category Dropdown */}
               <div className="relative">
                 <button
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                  className="px-4 py-2 bg-muted dark:bg-dark-700 rounded-lg text-sm flex items-center gap-2 hover:bg-muted/80 dark:hover:bg-dark-600"
+                  className="px-4 py-2 bg-muted dark:bg-dark-700 rounded-lg text-sm flex items-center gap-2 hover:bg-muted/80 dark:hover:bg-dark-600 transition-colors"
                 >
                   <span className="text-muted-foreground dark:text-dark-400">Category:</span>
-                  <span className="text-foreground dark:text-dark-50">{selectedCategory === 'all' ? 'All' : selectedCategory}</span>
+                  <span className="text-foreground dark:text-dark-50 capitalize">{selectedCategory === 'all' ? 'All' : selectedCategory}</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
 
                 {showCategoryDropdown && (
-                  <div className="absolute top-full left-0 mt-2 bg-background dark:bg-dark-800 border border-border dark:border-dark-700 rounded-lg shadow-lg z-10">
+                  <div className="absolute top-full right-0 mt-2 bg-background dark:bg-dark-800 border border-border dark:border-dark-700 rounded-lg shadow-lg z-50 min-w-[160px]">
                     <button
                       onClick={() => {
                         setSelectedCategory('all');
                         setShowCategoryDropdown(false);
                       }}
-                      className="block w-full text-left px-4 py-2 hover:bg-muted dark:hover:bg-dark-700"
+                      className="block w-full text-left px-4 py-2 hover:bg-muted dark:hover:bg-dark-700 text-sm"
                     >
                       All Categories
                     </button>
@@ -189,7 +175,7 @@ export default function KanjiFamiliesPage() {
                           setSelectedCategory(cat);
                           setShowCategoryDropdown(false);
                         }}
-                        className="block w-full text-left px-4 py-2 hover:bg-muted dark:hover:bg-dark-700 capitalize"
+                        className="block w-full text-left px-4 py-2 hover:bg-muted dark:hover:bg-dark-700 capitalize text-sm"
                       >
                         {cat}
                       </button>
@@ -198,21 +184,21 @@ export default function KanjiFamiliesPage() {
                 )}
               </div>
 
+              {/* Cross-families Toggle */}
               {selectedFamily && (
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <input
                     type="checkbox"
                     checked={showCrossFamilies}
                     onChange={(e) => setShowCrossFamilies(e.target.checked)}
-                    className="rounded"
+                    className="rounded border-gray-300 dark:border-dark-600"
                   />
-                  <span className="text-muted-foreground dark:text-dark-400">Show cross-families</span>
+                  <span className="text-muted-foreground dark:text-dark-400">Cross-families</span>
                 </label>
               )}
             </div>
-          </div>
-        </div>
-      </header>
+          }
+        />
 
       <div className="container mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

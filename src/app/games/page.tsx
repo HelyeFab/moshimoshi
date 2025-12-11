@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-// Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useAuth } from '@/hooks/useAuth'
@@ -148,7 +149,10 @@ export default function GamesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background-light to-accent-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
@@ -245,6 +249,7 @@ export default function GamesPage() {
           onBack={handleCloseGame}
         />
       )}
+      <MobileNavSpacer />
     </div>
   )
 }

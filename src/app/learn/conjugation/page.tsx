@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-// Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ConjugationDisplay } from '@/components/conjugation/ConjugationDisplay'
@@ -269,7 +270,16 @@ export default function ConjugationPracticePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
+
+      <PageHeader
+        title={t('conjugation.title')}
+        description={t('conjugation.description')}
+        backHref="/dashboard"
+      />
 
       <div className="container mx-auto px-4 py-6">
         {/* Search Bar */}
@@ -708,6 +718,7 @@ export default function ConjugationPracticePage() {
             )}
           </div>
         )}
+        <MobileNavSpacer />
       </div>
     </div>
   )

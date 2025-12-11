@@ -2724,6 +2724,7 @@ export const strings = {
 
   conjugation: {
     title: 'Konjugation',
+    description: 'Meistere über 100 Verb- und Adjektivformen mit unserem umfassenden Übungssystem',
     showConjugations: 'Konjugationen anzeigen',
     hideConjugations: 'Konjugationen ausblenden',
     expandAll: 'Alle ausklappen',
@@ -3176,11 +3177,20 @@ export const strings = {
       title: 'Radikale & Komponenten',
       subtitle: 'Bausteine der Kanji',
       description: 'Lerne die fundamentalen Teile, aus denen komplexe Zeichen bestehen',
+      subThemes: 'Unterthemen',
+      subThemesTooltip: 'Kanji nach Bedeutungskategorien innerhalb jedes Radikals gruppieren',
     },
     visualLayout: {
       title: 'Visuelle Muster',
       subtitle: 'Strukturelle Ähnlichkeiten erkennen',
       description: 'Identifiziere visuelle Muster und Anordnungen verschiedener Kanji',
+      showSubcategories: 'Unterkategorien',
+      subcategoriesTooltip: 'Detaillierte Unterteilungen innerhalb jedes Mustertyps anzeigen',
+      searchPlaceholder: 'z.B. 1-4-5',
+      selectPattern: 'Muster auswählen',
+      selectPatternPrompt: 'Visuelles Muster auswählen',
+      selectPatternHint: 'Wähle aus den Musterkarten oben, um Kanji nach Struktur zu erkunden',
+      subcategories: 'Unterkategorien',
     },
   },
 

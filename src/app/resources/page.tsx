@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/i18n/I18nContext';
 import { formatDistanceToNow } from 'date-fns';
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import Dropdown from '@/components/ui/Dropdown';
@@ -81,7 +82,10 @@ export default function ResourcesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-soft-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {/* Search and Filters */}
       <div className="container mx-auto px-4 py-8">
@@ -231,6 +235,7 @@ export default function ResourcesPage() {
           </div>
         )}
       </div>
+      <MobileNavSpacer />
     </div>
   );
 }

@@ -7,7 +7,8 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useToast } from '@/components/ui/Toast/ToastContext'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -383,11 +384,14 @@ export default function PopularVideosPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background dark:from-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       {isLoading && <LoadingOverlay message={t('popularVideos.loading')} />}
 
-      <div className="container mx-auto px-4 pb-20">
+      <div className="container mx-auto px-4">
         {/* Quota Badge */}
         {!isLoading && userQuota.limit > 0 && (
           <motion.div
@@ -554,6 +558,7 @@ export default function PopularVideosPage() {
           </motion.div>
         )}
       </AnimatePresence>
+      <MobileNavSpacer />
     </div>
   )
 }

@@ -2928,6 +2928,7 @@ export const strings = {
 
   conjugation: {
     title: '活用',
+    description: '100以上の動詞・形容詞活用形を総合的な練習システムでマスター',
     showConjugations: '活用を表示',
     hideConjugations: '活用を非表示',
     expandAll: 'すべて展開',
@@ -3379,11 +3380,20 @@ export const strings = {
       title: '部首と構成要素',
       subtitle: '漢字の基本要素',
       description: '複雑な文字を構成する基本的な部分を学ぶ',
+      subThemes: 'サブテーマ',
+      subThemesTooltip: '各部首内で意味カテゴリ別に漢字をグループ化',
     },
     visualLayout: {
       title: '視覚的パターン',
       subtitle: '構造的類似性を認識',
       description: '異なる漢字間の視覚的パターンとレイアウトを識別',
+      showSubcategories: 'サブカテゴリ',
+      subcategoriesTooltip: '各パターンタイプ内の詳細な区分を表示',
+      searchPlaceholder: '例: 1-4-5',
+      selectPattern: 'パターンを選択',
+      selectPatternPrompt: '視覚パターンを選択',
+      selectPatternHint: '上のパターンカードから構造別に漢字を探索',
+      subcategories: 'サブカテゴリ',
     },
   },
 
