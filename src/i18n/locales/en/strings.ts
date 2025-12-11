@@ -4016,6 +4016,10 @@ export const strings = {
       clearButton: 'Clear',
     },
 
+    currentSegment: {
+      nowPlaying: 'Now Playing',
+    },
+
     status: {
       transcriptLoaded: 'Transcript loaded from {{source}} ({{language}}).',
     },
@@ -4645,7 +4649,13 @@ export const strings = {
   settings: {
     title: 'Settings',
     subtitle: 'Customize your learning experience',
+    loading: 'Loading settings...',
     backToDashboard: '← Back to Dashboard',
+    storageTier: {
+      guest: "Guest Mode - Settings won't be saved",
+      premium: "Premium - Settings sync across all devices",
+      free: "Free Account - Settings saved locally",
+    },
     saveButton: 'Save All Settings',
     resetButton: 'Reset all settings to default',
     resetConfirm: 'Are you sure you want to reset all settings to default?',
@@ -5711,6 +5721,14 @@ export const strings = {
     relatedResources: 'Related Resources',
     title: 'Learning Resources',
     description: 'Curated resources to help you on your Japanese learning journey',
+    searchPlaceholder: 'Search resources...',
+    allCategories: 'All Categories',
+    noResources: 'No resources available',
+    noResultsFound: 'No resources found',
+    checkBackLater: 'Check back later for new content',
+    tryDifferentSearch: 'Try adjusting your search terms',
+    featured: 'Featured',
+    allResources: 'All Resources',
     categories: {
       all: 'All',
       grammar: 'Grammar',
@@ -6193,6 +6211,276 @@ export const strings = {
       goToDashboard: 'Go to my Dashboard',
       settingUp: 'Setting up...',
       error: 'Something went wrong. Please try again.',
+    },
+  },
+
+  // SEO Metadata for Pages
+  seo: {
+    landing: {
+      title: 'Moshimoshi - Best Japanese Learning App 2025 | YouTube Shadowing, Anki Import, Genki & Kanji Connection',
+      description: 'Revolutionary Japanese learning platform with YouTube shadowing for native pronunciation, one-click Anki deck import, complete Genki & Minna no Nihongo vocabulary, unique kanji connection system with visual patterns and families, 2136 jōyō kanji browser, SRS flashcards, JLPT N5-N1 preparation, interactive games, and progress tracking. Import your Anki decks, practice with real YouTube videos, master kanji through visual relationships, and study with worldwide textbooks. The complete Japanese learning solution.',
+    },
+    pricing: {
+      title: 'Pricing - Affordable Japanese Learning Plans | Free Trial Available',
+      description: 'Choose the perfect Japanese learning plan. Free tier available with core features. Premium plans unlock advanced SRS, unlimited content, and offline access. Start your free trial today.',
+    },
+    blog: {
+      title: 'Japanese Learning Blog - JLPT Study Tips & Grammar Guides',
+      description: 'Expert Japanese learning tips, JLPT study strategies, grammar guides, and cultural insights. Free articles to accelerate your Japanese language mastery from beginner to advanced.',
+    },
+    dashboard: {
+      title: 'Dashboard - Your Japanese Learning Progress',
+      description: 'Track your Japanese learning journey with personalized progress metrics, study statistics, and recommended next steps.',
+    },
+    games: {
+      title: 'Japanese Learning Games - Fun Interactive Practice',
+      description: 'Master Japanese through engaging games including Kana Drop, Kanji Simon, Sentence Scramble, and more. Make learning fun and effective.',
+      kanaDrop: {
+        title: 'Kana Drop - Hiragana & Katakana Learning Game',
+        description: 'Learn hiragana and katakana through a fun falling-character game. Test your kana recognition skills with this addictive Japanese learning game. Play free online.',
+      },
+      kanjiSimon: {
+        title: 'Kanji Simon - Memory Game for Learning Kanji',
+        description: 'Master kanji recognition with this memory-based learning game. Follow the pattern, remember kanji sequences, and improve your Japanese character recall. Play free online.',
+      },
+      readingRoutes: {
+        title: 'Reading Routes - Japanese Reading Practice Game',
+        description: 'Improve your Japanese reading skills with this path-finding game. Practice kanji and kana recognition while navigating through challenging routes. Make reading fun.',
+      },
+      sentenceScramble: {
+        title: 'Japanese Sentence Scramble Game - Grammar Practice & Word Order',
+        description: 'Practice Japanese grammar with sentence scramble game. Learn proper word order, particles, and sentence structure through interactive exercises. Fun way to master Japanese grammar patterns.',
+      },
+      strokeOrder: {
+        title: 'Kanji Stroke Order Practice - Writing Game',
+        description: 'Learn proper kanji stroke order through interactive practice. Master the correct way to write Japanese characters with visual guides and instant feedback. Improve your handwriting.',
+      },
+    },
+    kanji: {
+      browser: {
+        title: 'Kanji Browser - All 2,136 Jōyō Kanji',
+        description: 'Browse and search all 2,136 jōyō kanji with detailed breakdowns, stroke orders, readings, and example words. Complete reference for Japanese learners.',
+      },
+      connection: {
+        title: 'Kanji Connection System - Visual Learning Revolution',
+        description: 'Discover kanji relationships through phonetic families, semantic radicals, and visual patterns. Learn kanji in connected clusters instead of isolated characters.',
+      },
+      families: {
+        title: 'Kanji Families - Learn by Phonetic Groups',
+        description: 'Master kanji through phonetic family groupings. Understand how kanji with similar sounds share common components.',
+      },
+      radicals: {
+        title: 'Kanji Radicals - 214 Complete Radical Reference',
+        description: 'Explore all 214 kanji radicals with component breakdowns, meanings, and example characters. Essential foundation for kanji mastery.',
+      },
+      visual: {
+        title: 'Kanji Visual Layout - Interactive Network Map',
+        description: 'Explore kanji connections through an interactive network visualization. See relationships and patterns at a glance.',
+      },
+      visualLayout: {
+        title: 'Kanji Visual Layout - Network Visualization & Pattern Recognition Map',
+        description: 'Interactive visual network map of 2136 jōyō kanji connections. See kanji relationships through visual patterns, component sharing, and etymological links. Revolutionary spatial learning interface for visual learners. Explore kanji clusters and discover hidden connections through network visualization.',
+      },
+      visualLayoutPage: {
+        title: 'Visual Kanji Layout - SKIP Pattern Learning',
+        description: 'Learn kanji through visual patterns using the SKIP classification system. Master left-right, up-down, enclosure, and solid patterns for efficient kanji recognition.',
+      },
+    },
+    kanjiMoods: {
+      title: 'Kanji Moodboards - Visual Kanji Learning & Memory Palace Method',
+      description: 'Learn kanji through visual moodboards and spatial memory techniques. Create visual associations, mnemonic stories, and memory palaces for kanji. Revolutionary visual learning approach.',
+    },
+    learningPath: {
+      title: 'Japanese Learning Path - Personalized JLPT Study Roadmap',
+      description: 'Follow a personalized Japanese learning path from beginner to JLPT N1. Structured roadmap with kanji, vocabulary, grammar, and shadowing milestones. Adaptive curriculum based on your progress.',
+    },
+    lists: {
+      title: 'Custom Japanese Study Lists - Personalized Vocabulary & Kanji',
+      description: 'Create custom Japanese study lists for vocabulary, kanji, and grammar. Organize your learning materials, share lists with others, and track progress. Personalized Japanese learning.',
+    },
+    myVideos: {
+      title: 'My Shadowing Videos - Saved Japanese Practice History',
+      description: 'Access your saved Japanese shadowing videos and practice history. Track YouTube videos you\'ve practiced with, resume shadowing sessions, and monitor listening comprehension progress. Personal library of Japanese learning videos.',
+    },
+    myVideosPage: {
+      title: 'My Videos - Moshimoshi',
+      description: 'Access your saved YouTube videos and practice history for Japanese shadowing exercises. Track your progress and quickly return to videos you\'ve practiced.',
+    },
+    popularVideos: {
+      title: 'Popular Japanese Learning Videos - Trending YouTube Content for Shadowing',
+      description: 'Discover trending Japanese learning videos perfect for shadowing practice. Most popular YouTube content from native speakers, Japanese dramas, and educational channels. Find viral Japanese videos for effective language learning.',
+    },
+    privacy: {
+      title: 'Privacy Policy - Moshimoshi',
+      description: 'Moshimoshi privacy policy. Learn how we protect your data and respect your privacy while you learn Japanese.',
+    },
+    progressReport: {
+      title: 'Progress Report - Japanese Learning Dashboard & Insights',
+      description: 'View comprehensive Japanese learning progress reports. Weekly and monthly analytics, vocabulary retention rates, kanji mastery levels, shadowing hours, and JLPT readiness assessment.',
+    },
+    resources: {
+      title: 'Free Japanese Learning Resources - JLPT Materials & Study Guides',
+      description: 'Access free Japanese learning resources, JLPT study materials, grammar guides, vocabulary lists, kanji references, and study tips. Comprehensive collection of Japanese learning materials for all levels.',
+    },
+    learn: {
+      hiragana: {
+        title: 'Learn Hiragana - Master Japanese Syllabary',
+        description: 'Master all 46 hiragana characters with writing practice, audio pronunciation, and interactive drills. Perfect for beginners.',
+      },
+      katakana: {
+        title: 'Learn Katakana - Master Japanese Syllabary',
+        description: 'Master all 46 katakana characters with writing practice, audio pronunciation, and interactive drills. Essential for foreign words.',
+      },
+      conjugation: {
+        title: 'Japanese Conjugation Practice - 100+ Forms',
+        description: 'Master Japanese verb, adjective, and copula conjugation with 100+ forms. Smart difficulty weighting and comprehensive coverage.',
+      },
+      wordLearning: {
+        title: 'Word Learning - Build Your Japanese Vocabulary',
+        description: 'Expand your Japanese vocabulary with targeted word learning sessions, SRS review, and context examples.',
+      },
+      numbers: {
+        title: 'Learn Japanese Numbers - Counting & Number System Practice',
+        description: 'Master Japanese numbers and counting systems. Learn native and Sino-Japanese numbers, counters, dates, time, and phone numbers. Interactive practice with audio pronunciation.',
+      },
+      wordLearningComplete: {
+        title: 'Session Complete - Japanese Word Learning',
+        description: 'Vocabulary learning session completed. Review your progress and continue your Japanese learning journey.',
+      },
+      wordLearningSession: {
+        title: 'Japanese Word Learning Session - Active Vocabulary Practice',
+        description: 'Active Japanese vocabulary learning session. Learn new words with context, mnemonics, example sentences, and audio pronunciation. Structured word acquisition practice.',
+      },
+    },
+    news: {
+      title: 'Japanese News - Real Articles with AI Support',
+      description: 'Read authentic Japanese news articles with AI-powered vocabulary support, sentence breakdown, and comprehension tools.',
+    },
+    shadowing: {
+      title: 'YouTube Shadowing - Master Native Pronunciation',
+      description: 'Practice shadowing with authentic YouTube videos, dramas, and podcasts. AI-powered system with adjustable pause times and playback speed.',
+    },
+    flashcards: {
+      title: 'Smart Flashcards - SRS Review System',
+      description: 'Review your Japanese vocabulary and kanji with our intelligent SRS flashcard system that adapts to your learning pace.',
+    },
+    drill: {
+      title: 'Quick Drill - Fast-Paced Japanese Practice',
+      description: 'Fast-paced review sessions perfect for short study breaks. Test your vocabulary and kanji knowledge.',
+    },
+    vocabulary: {
+      title: 'Vocabulary Browser - Comprehensive Word Database',
+      description: 'Browse thousands of Japanese words with readings, definitions, example sentences, and audio pronunciation.',
+    },
+    textbooks: {
+      title: 'Textbook Vocabulary - Genki, Minna no Nihongo & More',
+      description: 'Complete vocabulary from Genki I & II, Minna no Nihongo, Tobira, and more. Organized by lesson with audio and examples.',
+    },
+    todos: {
+      title: 'Study To-Dos - Manage Your Learning Tasks',
+      description: 'Organize your Japanese learning tasks and goals. Track what to study next and stay on top of your progress.',
+    },
+    leaderboard: {
+      title: 'Leaderboard - Compete with Other Learners',
+      description: 'See how you rank against other Japanese learners worldwide. Track your progress and stay motivated.',
+    },
+    achievements: {
+      title: 'Achievements - Track Your Milestones',
+      description: 'Unlock achievements as you progress in your Japanese learning journey. Celebrate your milestones and accomplishments.',
+    },
+    statistics: {
+      title: 'Statistics - Your Learning Analytics',
+      description: 'Detailed analytics of your Japanese learning progress including study time, accuracy rates, and improvement trends.',
+    },
+    settings: {
+      title: 'Settings - Customize Your Learning Experience',
+      description: 'Customize your learning preferences, notification settings, and account details.',
+    },
+    account: {
+      title: 'Account - Manage Your Profile',
+      description: 'Manage your profile, subscription, and account settings.',
+    },
+    about: {
+      title: 'About Moshimoshi - Best Japanese Learning App 2025',
+      description: 'Discover Moshimoshi: The comprehensive Japanese learning platform with SRS flashcards, YouTube shadowing, JLPT preparation, kanji browser, and gamified practice. Built by Japanese learners, for learners.',
+    },
+    contact: {
+      title: 'Contact Us - Japanese Learning Support | Moshimoshi',
+      description: 'Get help with Moshimoshi Japanese learning app. Contact our support team for technical assistance, feature requests, feedback, and questions about Japanese learning. Fast response time.',
+    },
+    credits: {
+      title: 'Credits & Attributions - Moshimoshi',
+      description: 'Credits and attributions for open source libraries, fonts, icons, and resources used in Moshimoshi Japanese learning platform.',
+    },
+    ankiImport: {
+      title: 'Import Anki Decks - Migrate from Anki to Moshimoshi | Best Anki Alternative',
+      description: 'Seamlessly import your Anki decks to Moshimoshi. Migrate from Anki with one click and experience modern Japanese SRS with better UI, YouTube shadowing integration, and smart review algorithm. Import APKG files, preserve scheduling data, and upgrade to the best Anki alternative for Japanese learning in 2025.',
+    },
+    reviewDashboard: {
+      title: 'Japanese SRS Review Dashboard - Spaced Repetition System',
+      description: 'Intelligent spaced repetition system (SRS) for Japanese vocabulary, kanji & grammar. Track your review schedule, manage flashcards, and optimize your learning with proven SM-2 algorithm.',
+    },
+    review: {
+      title: 'Review - Redirecting to Review Dashboard',
+      description: 'Redirecting to Japanese review dashboard.',
+    },
+    reviewSession: {
+      title: 'Japanese Review Session - Active SRS Practice',
+      description: 'Practice Japanese with active SRS review session. Review vocabulary, kanji, and grammar with intelligent spaced repetition. Optimize retention with smart scheduling algorithm.',
+    },
+    share: {
+      title: 'Share to Moshimoshi - Add Japanese Content to Your Lists',
+      description: 'Share Japanese content to Moshimoshi from other apps. Add vocabulary, kanji, and phrases directly to your custom learning lists.',
+    },
+    showcase: {
+      title: 'UI Showcase - Moshimoshi',
+      description: 'Component and UI element showcase for Moshimoshi development.',
+    },
+    stories: {
+      title: 'Japanese Reading Stories - Graded Readers for All JLPT Levels',
+      description: 'Read Japanese stories tailored to your level. Graded readers from N5 to N1 with furigana, translations, and audio. Improve reading comprehension through engaging short stories.',
+    },
+    studyGoals: {
+      title: 'Study Goals - Set Japanese Learning Objectives & Milestones',
+      description: 'Set and track Japanese study goals. Create JLPT preparation targets, daily review objectives, vocabulary milestones, and shadowing practice goals. Stay motivated with progress tracking.',
+    },
+    studyTimer: {
+      title: 'Japanese Study Timer - Pomodoro Timer for Focused Learning',
+      description: 'Stay focused with Japanese study timer. Pomodoro technique for vocabulary, kanji, and shadowing practice. Track study sessions, manage breaks, and maximize learning efficiency.',
+    },
+    terms: {
+      title: 'Terms of Service - Moshimoshi',
+      description: 'Moshimoshi terms of service. Read our terms and conditions for using the Japanese learning platform.',
+    },
+    textbookVocabulary: {
+      title: 'Japanese Textbook Vocabulary - Genki, Minna no Nihongo, Tobira Word Lists',
+      description: 'Complete vocabulary lists for popular Japanese textbooks. Master Genki I & II, Minna no Nihongo 1 & 2 (50 lessons), Tobira, Japanese from Zero, and Marugoto vocabulary with SRS flashcards and audio. Perfect companion for classroom Japanese learning with all textbook words organized by lesson.',
+    },
+    kanjiMastery: {
+      title: 'Kanji Mastery Tool - Progressive Learning System for 2136 Jōyō Kanji',
+      description: 'Master all 2136 jōyō kanji with progressive learning system. Intelligent algorithm adapts to your level, tracks mastery progress, and optimizes review scheduling. Complete kanji mastery from JLPT N5 to N1 with smart study sessions.',
+    },
+    kanjiMasteryLearn: {
+      title: 'Kanji Mastery Learning Session - Active Kanji Practice',
+      description: 'Active kanji mastery learning session. Progressive kanji study with intelligent algorithm and adaptive difficulty. Master jōyō kanji systematically.',
+    },
+    youtubeSeries: {
+      title: 'Japanese YouTube Series - Learn Japanese with Drama & YouTube Shadowing',
+      description: 'Master Japanese with authentic YouTube series and drama shadowing. Practice with native Japanese YouTube channels, improve listening comprehension, and perfect your accent through shadowing technique. Best Japanese series for learning.',
+    },
+    kanjiConnection: {
+      game: {
+        title: 'Kanji Connection Game - Interactive Memory Challenge',
+        description: 'Test your kanji recognition skills with our engaging connection game. Match kanji characters with their meanings, readings, or related concepts in this fun, educational memory challenge.',
+      },
+      families: {
+        title: 'Kanji Families - Learn Kanji by Component Groups',
+        description: 'Master kanji through family groups and shared components. Discover how kanji with similar parts share meanings and make learning more efficient and memorable.',
+      },
+      radicals: {
+        title: 'Kanji Radicals - Master Semantic Components',
+        description: 'Learn kanji through semantic radicals - the building blocks that give meaning. Explore water radicals, fire radicals, hand radicals and more to understand kanji patterns.',
+      },
     },
   },
 }

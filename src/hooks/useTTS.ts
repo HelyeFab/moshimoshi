@@ -431,6 +431,12 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
           audio.src = audioUrl
           audio.load()
 
+          // If it's a data/blob URL, resolve immediately after load kickoff
+          if (audioUrl.startsWith('data:audio') || audioUrl.startsWith('blob:')) {
+            onCanPlay()
+            return
+          }
+
           // THEN check if audio loaded instantly (browser cache for this specific URL)
           // readyState >= 3 means HAVE_FUTURE_DATA or HAVE_ENOUGH_DATA
           if (audio.readyState >= 3) {
@@ -438,14 +444,14 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             return
           }
 
-          // Timeout fallback
+          // Timeout fallback (extended to handle slower first-byte latency)
           timeoutId = setTimeout(() => {
             if (!resolved) {
               resolved = true
               cleanup()
-              reject(new Error('Audio loading timed out after 10 seconds'))
+              reject(new Error('Audio loading timed out after 30 seconds'))
             }
-          }, 10000)
+          }, 30000)
         })
 
         // Play the audio

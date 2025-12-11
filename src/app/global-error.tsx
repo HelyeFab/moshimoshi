@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import { buildLocalePath } from '@/i18n/I18nContext'
 
 export default function GlobalError({
   error,
@@ -59,7 +60,7 @@ export default function GlobalError({
                 </button>
                 
                 <button
-                  onClick={() => window.location.href = '/'}
+                  onClick={() => window.location.href = buildLocalePath('/')}
                   className="w-full px-6 py-3 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-300 dark:hover:bg-dark-600 transition-all duration-200"
                 >
                   Return to homepage

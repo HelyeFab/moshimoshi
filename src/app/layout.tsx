@@ -1,23 +1,7 @@
-import type { Metadata, Viewport } from 'next'
-import { ThemeProvider } from '@/lib/theme/ThemeContext'
-import { ToastProvider } from '@/components/ui/Toast/ToastContext'
-// import { ContentProtectionProvider } from '@/components/providers/ContentProtectionProvider'
-import { I18nProvider } from '@/i18n/I18nContext'
-import { AuthProvider } from '@/hooks/useAuth' // Compatibility wrapper - not actually needed but keeps layout consistent
-import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
-import { ServiceWorkerProvider } from '@/components/pwa/ServiceWorkerProvider'
-import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt'
-import { OfflineBanner } from '@/components/pwa/OfflineBanner'
-import { TTSLoadingProvider } from '@/components/tts'
-import CelebrationProvider from '@/components/gamification/CelebrationProvider'
-import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext'
-import { EmailVerificationBanner } from '@/components/EmailVerificationBanner'
-import { themeInitScript } from '@/lib/theme/theme-script'
-import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors'
-import BottomNav from '@/components/layout/BottomNav'
-import ConditionalCommandPalette from '@/components/ui/ConditionalCommandPalette'
-import '@/styles/globals.css'
-import TimeMachineButton from '@/components/dev/TimeMachineButton'
+import type { Metadata, Viewport } from 'next';
+import { themeInitScript } from '@/lib/theme/theme-script';
+import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +10,7 @@ export const metadata: Metadata = {
     template: '%s | Moshimoshi',
   },
   description:
-    'Revolutionary Japanese learning platform with YouTube shadowing for native pronunciation, one-click Anki deck import, complete Genki & Minna no Nihongo vocabulary, unique kanji connection system with visual patterns and families, 2136 jōyō kanji browser, SRS flashcards, JLPT N5-N1 preparation, interactive games, and progress tracking. Import your Anki decks, practice with real YouTube videos, master kanji through visual relationships, and study with worldwide textbooks. The complete Japanese learning solution.',
+    'Revolutionary Japanese learning platform with YouTube shadowing for native pronunciation, one-click Anki deck import, complete Genki & Minna no Nihongo vocabulary, unique kanji connection system with visual patterns and families, 2136 joyo kanji browser, SRS flashcards, JLPT N5-N1 preparation, interactive games, and progress tracking. Import your Anki decks, practice with real YouTube videos, master kanji through visual relationships, and study with worldwide textbooks. The complete Japanese learning solution.',
   keywords: [
     'best Japanese learning app 2025',
     'YouTube shadowing Japanese',
@@ -242,7 +226,7 @@ export const metadata: Metadata = {
   other: {
     'mobile-web-app-capable': 'yes', // Android Chrome full-screen
   },
-}
+};
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -255,8 +239,18 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#1a202c' },
   ],
-}
+};
 
+/**
+ * Root layout - minimal wrapper for HTML structure.
+ * All providers are in the locale-specific layout at /[locale]/layout.tsx.
+ *
+ * This root layout:
+ * 1. Provides the HTML structure with essential meta tags
+ * 2. Loads global CSS
+ * 3. Includes theme and error suppression scripts
+ * 4. Includes structured data for SEO
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // Schema.org JSON-LD structured data for SEO
   const schemaData = {
@@ -327,7 +321,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         },
       },
     ],
-  }
+  };
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -348,35 +342,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         suppressHydrationWarning
         className="min-h-screen flex flex-col bg-background-light dark:bg-dark-850"
       >
-        <AuthProvider>
-          <ReCaptchaProvider>
-            <ToastProvider defaultPosition="top-right">
-              <I18nProvider>
-                <ConjugationHelpProvider>
-                  <ThemeProvider>
-                    <ServiceWorkerProvider>
-                      <CelebrationProvider>
-                        <TTSLoadingProvider>
-                          <OfflineBanner />
-                          <EmailVerificationBanner />
-                          {children}
-                          {process.env.NODE_ENV === 'development' &&
-                            process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
-                              <TimeMachineButton />
-                            )}
-                          <BottomNav />
-                          <ConditionalCommandPalette />
-                          <PWAInstallPrompt />
-                        </TTSLoadingProvider>
-                      </CelebrationProvider>
-                    </ServiceWorkerProvider>
-                  </ThemeProvider>
-                </ConjugationHelpProvider>
-              </I18nProvider>
-            </ToastProvider>
-          </ReCaptchaProvider>
-        </AuthProvider>
+        {children}
       </body>
     </html>
-  )
+  );
 }

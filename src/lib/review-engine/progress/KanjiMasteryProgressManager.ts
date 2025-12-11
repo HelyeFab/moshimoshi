@@ -1,5 +1,5 @@
 import { UniversalProgressManager } from './UniversalProgressManager'
-import { SessionState, KanjiProgress } from '@/app/tools/kanji-mastery/learn/LearnContent'
+import { SessionState, KanjiProgress } from '@/app/[locale]/tools/kanji-mastery/learn/LearnContent'
 
 // Simplified user type - only uid is needed for progress tracking
 interface ProgressUser {

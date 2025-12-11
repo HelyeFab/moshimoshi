@@ -1692,20 +1692,14 @@ export default function EnhancedArticleReader({
       'background: #4CAF50; color: white; font-size: 14px; padding: 4px 8px; border-radius: 4px;'
     )
     console.log('Available audio sources:', {
-      nhkOriginal: article.nhkAudioUrl ? '✅ Available (Priority 1)' : '❌ Not available',
+      nhkOriginal: '⏩ Ignored (legacy)',
       voicevoxPreGenerated: article.generatedContentAudioUrl
-        ? '✅ Available (Priority 2)'
+        ? '✅ Available (Priority 1)'
         : '❌ Not available',
-      appTtsFallback: '✅ Always available (Priority 3)',
+      appTtsFallback: '✅ Always available (Priority 2)',
     })
 
-    // PRIORITY 1: NHK original audio (professional narrator)
-    if (article.nhkAudioUrl) {
-      handleNhkAudioPlayback()
-      return
-    }
-
-    // PRIORITY 2 & 3: VOICEVOX TTS or app TTS fallback
+    // Use pre-generated Kokoro if present; otherwise app TTS fallback
     handleKokoroOrTTSFallback()
   }
 
@@ -1809,15 +1803,10 @@ export default function EnhancedArticleReader({
         }
 
         // Create new audio element
-        // Route through TTS proxy to handle Firebase Storage CORS
-        const audioUrl =
-          audioUrlToUse.includes('firebasestorage') ||
-          audioUrlToUse.includes('storage.googleapis.com')
-            ? `/api/tts/proxy?url=${encodeURIComponent(audioUrlToUse)}`
-            : audioUrlToUse
+        // Firebase Storage files are public, load directly for instant playback
+        const audioUrl = audioUrlToUse
 
         console.log('[Article Reader] Loading audio URL:', audioUrl)
-        console.log('[Article Reader] Original URL:', audioUrlToUse)
 
         const audio = new Audio(audioUrl)
         // Validate playbackSpeed to prevent "non-finite" error
@@ -2317,46 +2306,34 @@ export default function EnhancedArticleReader({
 
           <button
             onClick={handlePlayArticle}
-            disabled={ttsLoading || nhkAudioLoading}
+            disabled={ttsLoading}
             className={`ml-auto px-5 py-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-sm font-medium ${
-              ttsLoading || nhkAudioLoading
+              ttsLoading
                 ? 'bg-gray-100 text-gray-400 cursor-wait'
-                : isNhkPlaying
-                  ? 'bg-red-600 text-white hover:bg-red-700 hover:shadow-md hover:shadow-red-500/20'
-                  : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
+                : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
             }`}
             aria-label={
-              ttsLoading || nhkAudioLoading
+              ttsLoading
                 ? t('common.loading')
-                : ttsPlaying || isNhkPlaying || isPreGeneratedPlaying
+                : ttsPlaying || isPreGeneratedPlaying
                   ? t('common.pause')
                   : t('common.play')
             }
           >
-            {ttsLoading || nhkAudioLoading ? (
+            {ttsLoading ? (
               <>
                 <div className="animate-spin w-4 h-4 border-2 border-white/80 border-t-transparent rounded-full" />
                 <span className="text-sm hidden sm:inline">{t('common.loading')}</span>
               </>
-            ) : ttsPlaying || isNhkPlaying || isPreGeneratedPlaying ? (
+            ) : ttsPlaying || isPreGeneratedPlaying ? (
               <>
                 <Pause className="w-4 h-4 fill-current" />
                 <span className="text-sm hidden sm:inline">{t('common.pause')}</span>
-                {isNhkPlaying && (
-                  <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded hidden sm:inline">
-                    NHK
-                  </span>
-                )}
               </>
             ) : (
               <>
                 <Play className="w-4 h-4 fill-current" />
                 <span className="text-sm hidden sm:inline">{t('common.play')}</span>
-                {article.nhkAudioUrl && (
-                  <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded hidden sm:inline">
-                    NHK
-                  </span>
-                )}
               </>
             )}
           </button>

@@ -1,7 +1,12 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { Language, defaultLanguage, translations, getTranslation, TranslationKeys, languages } from './config'
+
+// Valid locales - matches next-intl routing config
+const validLocales = ['en', 'ja', 'de', 'es', 'fr', 'it'] as const
+type ValidLocale = (typeof validLocales)[number]
 
 interface I18nContextType {
   language: Language
@@ -42,65 +47,88 @@ interface I18nProviderProps {
 }
 
 export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
-  const [language, setLanguageState] = useState<Language>(initialLanguage || defaultLanguage)
+  // Get locale from URL params (provided by [locale] segment)
+  const params = useParams()
+  const pathname = usePathname()
+  const router = useRouter()
 
-  // Hydrate language from localStorage after mount to avoid SSR mismatch
+  // Extract locale from URL - it's in the params from [locale] segment
+  const urlLocale = params?.locale as string | undefined
+
+  // Use URL locale as the source of truth, fallback to initialLanguage or default
+  const effectiveLanguage = (
+    urlLocale && validLocales.includes(urlLocale as ValidLocale)
+      ? urlLocale
+      : initialLanguage || defaultLanguage
+  ) as Language
+
+  const [language, setLanguageState] = useState<Language>(effectiveLanguage)
+
+  // Sync language state when URL locale changes
+  useEffect(() => {
+    if (urlLocale && validLocales.includes(urlLocale as ValidLocale)) {
+      setLanguageState(urlLocale as Language)
+    }
+  }, [urlLocale])
+
+  // Save user preference to localStorage when language changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // First try user-specific language
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, language)
       const userId = getCurrentUserId()
       if (userId) {
         const userKey = `${USER_LANGUAGE_STORAGE_KEY}-${userId}`
-        const userLang = localStorage.getItem(userKey)
-        if (userLang && languages.includes(userLang as Language)) {
-          setLanguageState(userLang as Language)
-          return
-        }
+        localStorage.setItem(userKey, language)
       }
-
-      // Fall back to global language
-      const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY)
-      if (stored && languages.includes(stored as Language)) {
-        setLanguageState(stored as Language)
-        return
-      }
-
-      // Check browser language - detect all supported languages
-      const browserLang = navigator.language.toLowerCase()
-      const detectedLang = languages.find(lang => browserLang.startsWith(lang))
-      if (detectedLang) {
-        setLanguageState(detectedLang)
-      }
-      // If no match, keeps the default language ('en')
+      // Update HTML lang attribute
+      document.documentElement.lang = language
     }
-  }, [])
+  }, [language])
 
+  /**
+   * Change language by navigating to the new locale URL.
+   * This keeps the URL in sync with the language and is SEO-friendly.
+   */
   const setLanguage = useCallback((lang: Language) => {
-    setLanguageState(lang)
+    console.log('[I18n] setLanguage called with:', lang)
+    console.log('[I18n] Current language:', language)
+    console.log('[I18n] Current pathname:', pathname)
+    console.log('[I18n] Current urlLocale:', urlLocale)
+
+    if (!languages.includes(lang)) {
+      console.log('[I18n] Invalid language, ignoring')
+      return
+    }
+
+    // Save preference to localStorage and cookie
     if (typeof window !== 'undefined') {
-      // Save both globally and user-specific if user is logged in
       localStorage.setItem(LANGUAGE_STORAGE_KEY, lang)
       const userId = getCurrentUserId()
       if (userId) {
         const userKey = `${USER_LANGUAGE_STORAGE_KEY}-${userId}`
         localStorage.setItem(userKey, lang)
       }
-      // Update HTML lang attribute
-      document.documentElement.lang = lang
+      // Set the NEXT_LOCALE cookie so middleware respects user's choice
+      // This prevents Accept-Language header from overriding user preference
+      document.cookie = `NEXT_LOCALE=${lang}; path=/; max-age=31536000; SameSite=Lax`
+      console.log('[I18n] Cookie set:', document.cookie)
     }
-  }, [])
+
+    // Navigate to the same path with new locale
+    if (pathname) {
+      // Remove current locale prefix and get the path
+      const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'
+      const newPath = `/${lang}${pathWithoutLocale}`
+      console.log('[I18n] Navigating to:', newPath)
+      // Navigate to new locale URL
+      router.push(newPath)
+    }
+  }, [pathname, router, language, urlLocale])
 
   const t = useCallback((path: string, paramsOrFallback?: Record<string, string | number> | string) => {
     // If second param is a string (fallback), ignore it - getTranslation handles fallbacks
     const params = typeof paramsOrFallback === 'object' ? paramsOrFallback : undefined
     return getTranslation(language, path, params)
-  }, [language])
-
-  useEffect(() => {
-    // Set initial HTML lang attribute
-    if (typeof window !== 'undefined') {
-      document.documentElement.lang = language
-    }
   }, [language])
 
   const value: I18nContextType = {
@@ -130,4 +158,57 @@ export function useI18n() {
 export function useTranslation() {
   const { t, language, strings } = useI18n()
   return { t, language, strings }
+}
+
+/**
+ * Get a locale-prefixed URL for navigation.
+ * Use this for all internal navigation to ensure locale is preserved.
+ *
+ * @param path - The path without locale prefix (e.g., '/dashboard')
+ * @param locale - Optional locale override, defaults to current language
+ * @returns Locale-prefixed path (e.g., '/en/dashboard')
+ */
+export function useLocalePath() {
+  const { language } = useI18n()
+
+  const getLocalePath = useCallback((path: string, localeOverride?: Language): string => {
+    const locale = localeOverride || language
+    // Ensure path starts with /
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`
+    // Don't double-prefix if path already has a locale
+    if (/^\/[a-z]{2}(?=\/|$)/.test(normalizedPath)) {
+      return normalizedPath
+    }
+    return `/${locale}${normalizedPath}`
+  }, [language])
+
+  return { getLocalePath, language }
+}
+
+/**
+ * Get locale from current path (client-side utility).
+ * Useful when you need the locale outside of React context.
+ */
+export function getLocaleFromPath(): Language {
+  if (typeof window === 'undefined') return defaultLanguage
+  const path = window.location.pathname
+  const match = path.match(/^\/([a-z]{2})(?=\/|$)/)
+  if (match && validLocales.includes(match[1] as ValidLocale)) {
+    return match[1] as Language
+  }
+  return defaultLanguage
+}
+
+/**
+ * Construct a locale-prefixed URL (client-side utility).
+ * Use this when you can't use the useLocalePath hook (e.g., in callbacks).
+ */
+export function buildLocalePath(path: string, locale?: Language): string {
+  const effectiveLocale = locale || getLocaleFromPath()
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  // Don't double-prefix if path already has a locale
+  if (/^\/[a-z]{2}(?=\/|$)/.test(normalizedPath)) {
+    return normalizedPath
+  }
+  return `/${effectiveLocale}${normalizedPath}`
 }

@@ -3,9 +3,10 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Home } from 'lucide-react'
 import DoshiMascot from './DoshiMascot'
 import { useTheme } from '@/lib/theme/ThemeContext'
+import { useI18n } from '@/i18n/I18nContext'
 
 interface PageHeaderProps {
   // Header content
@@ -60,7 +61,11 @@ export default function PageHeader({
 }: PageHeaderProps) {
   const { resolvedTheme } = useTheme()
   const router = useRouter()
+  const { language } = useI18n()
   const [isExpanded, setIsExpanded] = useState(false)
+
+  // Add locale prefix to backHref if it doesn't have one
+  const localizedBackHref = backHref.startsWith(`/${language}`) ? backHref : `/${language}${backHref}`
 
   const isLightTheme = resolvedTheme === 'light'
 
@@ -155,17 +160,17 @@ export default function PageHeader({
                 </button>
               )}
 
-              {/* Back Button - Mobile */}
+              {/* Back Button - Mobile (Home icon) */}
               <button
-                onClick={() => router.push(backHref)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex-shrink-0 shadow-md hover:scale-105 active:scale-95 text-white ${
+                onClick={() => router.push(localizedBackHref)}
+                className={`p-2 rounded-full transition-all flex-shrink-0 shadow-md hover:scale-105 active:scale-95 ${
                   isLightTheme
-                    ? 'bg-white/30 backdrop-blur [text-shadow:_1px_1px_2px_rgb(0_0_0_/_30%)] hover:bg-white/40'
+                    ? 'bg-white/30 backdrop-blur hover:bg-white/40'
                     : 'bg-primary-500 hover:bg-primary-600'
                 }`}
-                aria-label="Go back"
+                aria-label="Go to dashboard"
               >
-                Back
+                <Home className={`w-4 h-4 ${isLightTheme ? 'text-white' : 'text-white'}`} />
               </button>
             </div>
 

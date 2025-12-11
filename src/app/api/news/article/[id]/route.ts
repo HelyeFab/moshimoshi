@@ -3,7 +3,7 @@ import { db } from '@/lib/firebase/admin';
 
 // Cache for individual articles
 const articleCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 1000 * 60 * 30; // 30 minutes
+const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes (reduced from 30 to get fresh audio URLs faster)
 
 export async function GET(
   request: NextRequest,

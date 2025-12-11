@@ -2,6 +2,7 @@ import { getMessaging, getToken, onMessage, Messaging, deleteToken } from 'fireb
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { app } from '@/lib/firebase/config';
+import { buildLocalePath } from '@/i18n/I18nContext';
 
 interface FCMConfig {
   vapidKey: string;
@@ -321,7 +322,11 @@ export class FCMManager {
       notification.onclick = () => {
         window.focus();
         if (clickAction) {
-          window.location.href = clickAction;
+          // Add locale prefix if it's a relative URL
+          const url = clickAction.startsWith('http')
+            ? clickAction
+            : buildLocalePath(clickAction);
+          window.location.href = url;
         }
         notification.close();
       };

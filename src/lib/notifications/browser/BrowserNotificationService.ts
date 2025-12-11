@@ -7,6 +7,7 @@ import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase/config'
 import { reviewLogger } from '@/lib/monitoring/logger'
 import { NotificationContent, NotificationTokens } from '../types/notifications.types'
+import { buildLocalePath } from '@/i18n/I18nContext'
 
 /**
  * NotificationAction interface for browser notification actions
@@ -227,7 +228,11 @@ export class BrowserNotificationService {
 
         // Navigate to action URL if provided
         if (data.actionUrl) {
-          window.location.href = data.actionUrl
+          // If the actionUrl doesn't have a locale prefix, add one
+          const url = data.actionUrl.startsWith('http')
+            ? data.actionUrl
+            : buildLocalePath(data.actionUrl)
+          window.location.href = url
         }
 
         // Call custom onClick handler
@@ -297,7 +302,7 @@ export class BrowserNotificationService {
         { action: 'view', title: 'View Settings' }
       ],
       onClick: () => {
-        window.location.href = '/settings#notifications'
+        window.location.href = buildLocalePath('/settings#notifications')
       }
     })
   }

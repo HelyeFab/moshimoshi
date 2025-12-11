@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -154,14 +154,25 @@ interface BottomNavProps {
 export default function BottomNav({ className, hideOnScroll = false }: BottomNavProps) {
   const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
-  const { strings } = useI18n()
+  const { strings, language } = useI18n()
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
     window.dispatchEvent(new CustomEvent('openCommandPalette'))
   }
 
-  const NAV_ITEMS = createNavItems(handleOpenCommandPalette, strings)
+  const baseNavItems = createNavItems(handleOpenCommandPalette, strings)
+
+  // Add locale prefix to all hrefs
+  const NAV_ITEMS = useMemo(() =>
+    baseNavItems.map(item => ({
+      ...item,
+      href: item.href ? `/${language}${item.href}` : undefined,
+      // Also update matchPaths to include locale prefix
+      matchPaths: item.matchPaths?.map(path => `/${language}${path}`)
+    })),
+    [baseNavItems, language]
+  )
 
   // Content-aware visibility logic (OPTIONAL - disabled by default)
   useEffect(() => {
@@ -219,8 +230,9 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
     return item.matchPaths.some(path => pathname === path || pathname.startsWith(path + '/'))
   }
 
-  // Hide on landing page and auth pages
-  const shouldHide = pathname === '/' || pathname === '/landing' || pathname.startsWith('/auth/')
+  // Hide on landing page and auth pages (accounting for locale prefixes)
+  const pathWithoutLocale = pathname?.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'
+  const shouldHide = pathWithoutLocale === '/' || pathWithoutLocale === '/landing' || pathWithoutLocale.startsWith('/auth/')
 
   if (shouldHide) {
     return null

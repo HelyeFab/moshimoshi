@@ -46,7 +46,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
+exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
@@ -316,4 +316,12 @@ Object.defineProperty(exports, "autoBreakStreaks", { enumerable: true, get: func
 var contentIntegrityChecker_1 = require("./scheduled/contentIntegrityChecker");
 Object.defineProperty(exports, "contentIntegrityCheckerFunction", { enumerable: true, get: function () { return contentIntegrityChecker_1.contentIntegrityCheckerFunction; } });
 Object.defineProperty(exports, "manualIntegrityCheckerFunction", { enumerable: true, get: function () { return contentIntegrityChecker_1.manualIntegrityCheckerFunction; } });
+/**
+ * Export article audio generator functions
+ * Runs 30 minutes after each news scraper to generate VOICEVOX audio for new articles
+ * Schedule: 00:30, 06:30, 12:30, 18:30 JST
+ */
+var articleAudioGenerator_1 = require("./scheduled/articleAudioGenerator");
+Object.defineProperty(exports, "scheduledArticleAudioGenerator", { enumerable: true, get: function () { return articleAudioGenerator_1.scheduledArticleAudioGenerator; } });
+Object.defineProperty(exports, "manualArticleAudioGenerator", { enumerable: true, get: function () { return articleAudioGenerator_1.manualArticleAudioGenerator; } });
 //# sourceMappingURL=index.js.map

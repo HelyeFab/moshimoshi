@@ -356,3 +356,13 @@ export {
   contentIntegrityCheckerFunction,
   manualIntegrityCheckerFunction,
 } from './scheduled/contentIntegrityChecker'
+
+/**
+ * Export article audio generator functions
+ * Runs 30 minutes after each news scraper to generate VOICEVOX audio for new articles
+ * Schedule: 00:30, 06:30, 12:30, 18:30 JST
+ */
+export {
+  scheduledArticleAudioGenerator,
+  manualArticleAudioGenerator,
+} from './scheduled/articleAudioGenerator'

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -37,7 +37,7 @@ export default function Navbar({
 }: NavbarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { strings } = useI18n();
+  const { strings, language } = useI18n();
   const { isPremium } = useSubscription();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
@@ -45,13 +45,19 @@ export default function Navbar({
   const menuRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLDivElement>(null);
 
+  // Helper to add locale prefix to paths
+  const localePath = useCallback((path: string) => `/${language}${path}`, [language]);
+
+  // Get path without locale for comparisons
+  const pathWithoutLocale = pathname?.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
+
   // Determine if we should show the back to dashboard link
   // Show on all pages except dashboard, home page, and auth pages
   const shouldShowBackToDashboard =
     !backLink &&
-    pathname !== "/" &&
-    pathname !== "/dashboard" &&
-    !pathname.startsWith("/auth/");
+    pathWithoutLocale !== "/" &&
+    pathWithoutLocale !== "/dashboard" &&
+    !pathWithoutLocale.startsWith("/auth/");
 
   // Close dropdown when clicking outside or pressing Escape
   useEffect(() => {
@@ -127,7 +133,7 @@ export default function Navbar({
       <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
         <div className="flex justify-between items-center">
           {/* Enhanced Logo for blog pages */}
-          <Link href="/dashboard" className="group flex items-center gap-2">
+          <Link href={localePath("/dashboard")} className="group flex items-center gap-2">
             <div
               className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg sm:text-xl group-hover:animate-bounce transition-all duration-300 ${
                 isBlogPage
@@ -161,13 +167,13 @@ export default function Navbar({
             {isBlogPage && (
               <div className="hidden lg:flex items-center gap-4">
                 <Link
-                  href="/dashboard"
+                  href={localePath("/dashboard")}
                   className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-japanese-sakura dark:hover:text-japanese-sakuraDark transition-colors"
                 >
                   Learn Japanese
                 </Link>
                 <Link
-                  href="/blog"
+                  href={localePath("/blog")}
                   className="text-sm font-medium text-japanese-sakura dark:text-japanese-sakuraDark"
                 >
                   Blog
@@ -182,7 +188,7 @@ export default function Navbar({
             {/* Back Link - Show custom backLink or auto Back to Dashboard */}
             {(backLink || shouldShowBackToDashboard) && !isBlogPage && (
               <Link
-                href={typeof backLink === 'object' ? backLink?.href : (backLink || "/dashboard")}
+                href={typeof backLink === 'object' ? localePath(backLink?.href) : (backLink ? localePath(backLink) : localePath("/dashboard"))}
                 className="px-4 py-2 text-sm font-medium bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-all duration-200"
               >
                 {(typeof backLink === 'object' ? backLink?.label : null) ||
@@ -196,7 +202,7 @@ export default function Navbar({
               <div className="flex items-center gap-2">
                 {isBlogPage && (
                   <Link
-                    href="/dashboard"
+                    href={localePath("/dashboard")}
                     className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-japanese-sakura dark:hover:text-japanese-sakuraDark transition-colors"
                   >
                     <span>🚀</span>
@@ -204,7 +210,7 @@ export default function Navbar({
                   </Link>
                 )}
                 <Link
-                  href="/auth/signin"
+                  href={localePath("/auth/signin")}
                   className={`px-4 py-2 text-sm font-medium text-white rounded-lg transition-all duration-200 ${
                     isBlogPage
                       ? "bg-gradient-to-r from-japanese-sakura to-japanese-zen hover:from-japanese-sakuraDark hover:to-japanese-zenDark shadow-lg shadow-japanese-sakura/30 dark:shadow-japanese-sakuraDark/30 hover:scale-105"
@@ -285,7 +291,7 @@ export default function Navbar({
 
                     {/* Menu Items */}
                     <Link
-                      href="/dashboard"
+                      href={localePath("/dashboard")}
                       role="menuitem"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
                     >
@@ -308,7 +314,7 @@ export default function Navbar({
                     </Link>
 
                     <Link
-                      href="/account"
+                      href={localePath("/account")}
                       role="menuitem"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
                     >
@@ -331,7 +337,7 @@ export default function Navbar({
                     </Link>
 
                     <Link
-                      href="/settings"
+                      href={localePath("/settings")}
                       role="menuitem"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
                     >
@@ -362,7 +368,7 @@ export default function Navbar({
                     {/* Admin Link (if admin) */}
                     {user?.isAdmin === true && (
                       <Link
-                        href="/admin"
+                        href={localePath("/admin")}
                         role="menuitem"
                         className="block px-4 py-2 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
                       >

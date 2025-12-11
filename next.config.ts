@@ -1,4 +1,11 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+/**
+ * Create the next-intl plugin with the path to our i18n configuration.
+ * This enables server-side locale handling and message loading.
+ */
+const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -16,7 +23,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-    ]
+    ];
   },
   images: {
     domains: [
@@ -43,9 +50,9 @@ const nextConfig: NextConfig = {
         net: false,
         tls: false,
         child_process: false,
-      }
+      };
     }
-    return config
+    return config;
   },
   experimental: {
     // MVP: Optimize package imports to reduce bundle size
@@ -71,6 +78,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_STRIPE_YEARLY_AMOUNT: process.env.NEXT_PUBLIC_STRIPE_YEARLY_AMOUNT || '89.99',
     NEXT_PUBLIC_STRIPE_CURRENCY: process.env.NEXT_PUBLIC_STRIPE_CURRENCY || 'USD',
   },
-}
+};
 
-export default nextConfig
+// Apply the next-intl plugin to the Next.js configuration
+export default withNextIntl(nextConfig);

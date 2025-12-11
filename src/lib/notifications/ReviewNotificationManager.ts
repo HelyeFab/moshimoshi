@@ -4,6 +4,7 @@
  */
 
 import { reviewLogger } from '@/lib/monitoring/logger'
+import { buildLocalePath } from '@/i18n/I18nContext'
 
 interface ScheduledNotification {
   id: string
@@ -240,16 +241,16 @@ export class ReviewNotificationManager {
     browserNotification.onclick = (event) => {
       event.preventDefault()
       window.focus()
-      window.location.href = `/review?item=${notification.itemId}`
+      window.location.href = buildLocalePath(`/review?item=${notification.itemId}`)
       browserNotification.close()
     }
-    
+
     // Handle action clicks (if supported)
     if ('onaction' in browserNotification) {
       (browserNotification as any).onaction = (event: any) => {
         if (event.action === 'review') {
           window.focus()
-          window.location.href = `/review?item=${notification.itemId}`
+          window.location.href = buildLocalePath(`/review?item=${notification.itemId}`)
         } else if (event.action === 'snooze') {
           // Reschedule for 10 minutes later
           const snoozeTime = new Date(Date.now() + 10 * 60 * 1000)

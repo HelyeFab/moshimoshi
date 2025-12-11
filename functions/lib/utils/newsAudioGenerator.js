@@ -53,7 +53,7 @@ const EDGE_TTS_ENDPOINT = 'https://tts.selfmind.dev/speak';
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
 // VOICEVOX voices (high quality Japanese TTS)
 // Speaker IDs: 1=四国めたん, 3=ずんだもん, 11=玄野武宏(Nemo), 13=青山龍星
-const DEFAULT_VOICEVOX_VOICE = '11'; // Nemo - natural female voice
+const DEFAULT_VOICEVOX_VOICE = '23'; // Energetic female (requested default)
 const DEFAULT_EDGE_VOICE = 'ja-JP-NanamiNeural'; // Fallback voice
 const MAX_TEXT_LENGTH = 5000; // TTS limit
 /**
@@ -151,7 +151,7 @@ async function callVoicevoxTTS(text, voice) {
                 model: 'voicevox',
                 input: text,
                 voice: voice,
-                speed: 1.0,
+                speed: 0.85,
             }),
         });
         if (!response.ok) {
@@ -288,10 +288,11 @@ async function generateBatchAudio(article, options = {}) {
     const result = {
         errors: [],
     };
-    // Check if NHK original audio is available - skip content TTS if so
-    const hasNhkAudio = !!article.nhkAudioUrl;
-    if (hasNhkAudio) {
-        logger.info('[AudioGenerator] NHK original audio available - will skip content TTS generation', {
+    // Note: We always generate VOICEVOX audio for all articles, even if NHK audio exists
+    // NHK audio uses m3u8 streams which may not be reliably playable in all contexts
+    // Our VOICEVOX audio provides consistent, high-quality playback
+    if (article.nhkAudioUrl) {
+        logger.info('[AudioGenerator] NHK audio URL exists but will still generate VOICEVOX audio for consistency', {
             articleId: article.id,
             nhkAudioUrl: article.nhkAudioUrl,
         });
@@ -345,38 +346,28 @@ async function generateBatchAudio(article, options = {}) {
         result.errors.push(errorMsg);
         logger.error(errorMsg, { articleId: article.id });
     }
-    // Generate content audio (full article) - SKIP if NHK original audio is available
-    if (hasNhkAudio) {
-        // NHK audio available - no need to generate TTS for full content
-        logger.info('[AudioGenerator] Skipping content TTS - using NHK original audio', {
-            articleId: article.id,
-            nhkAudioUrl: article.nhkAudioUrl,
-        });
-        // Don't set contentAudio - the article reader will use nhkAudioUrl instead
+    // Generate content audio (full article) - ALWAYS generate regardless of NHK audio
+    try {
+        const existingContentUrl = await checkExistingAudio(article.id, article.source, 'content');
+        if (existingContentUrl) {
+            logger.info('Using existing content audio', { articleId: article.id });
+            result.contentAudio = {
+                url: existingContentUrl,
+                provider,
+                voice,
+                generatedAt: new Date(),
+                textLength: article.content.length,
+                audioType: 'content',
+            };
+        }
+        else {
+            result.contentAudio = await generateNewsAudio(article.content, article.id, article.source, 'content', options);
+        }
     }
-    else {
-        try {
-            const existingContentUrl = await checkExistingAudio(article.id, article.source, 'content');
-            if (existingContentUrl) {
-                logger.info('Using existing content audio', { articleId: article.id });
-                result.contentAudio = {
-                    url: existingContentUrl,
-                    provider,
-                    voice,
-                    generatedAt: new Date(),
-                    textLength: article.content.length,
-                    audioType: 'content',
-                };
-            }
-            else {
-                result.contentAudio = await generateNewsAudio(article.content, article.id, article.source, 'content', options);
-            }
-        }
-        catch (error) {
-            const errorMsg = `Content audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
-            result.errors.push(errorMsg);
-            logger.error(errorMsg, { articleId: article.id });
-        }
+    catch (error) {
+        const errorMsg = `Content audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
+        result.errors.push(errorMsg);
+        logger.error(errorMsg, { articleId: article.id });
     }
     // Save audio URLs to Firestore news_articles document
     // This enables smart skip detection in future scrapes

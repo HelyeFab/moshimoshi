@@ -18,7 +18,7 @@ import {
   clearCheckoutParams
 } from '@/lib/stripe/api';
 import { useToast } from '@/components/ui/Toast';
-import { useI18n } from '@/i18n/I18nContext';
+import { useI18n, getLocaleFromPath } from '@/i18n/I18nContext';
 import logger from '@/lib/logger';
 
 interface UseSubscriptionReturn {
@@ -270,7 +270,8 @@ export function useSubscription(): UseSubscriptionReturn {
   const manageBilling = useCallback(async () => {
     try {
       const origin = typeof window !== 'undefined' ? window.location.origin : '';
-      const returnUrl = `${origin}/account`;
+      const locale = getLocaleFromPath();
+      const returnUrl = `${origin}/${locale}/account`;
       await openBillingPortal(returnUrl);
     } catch (err) {
       logger.error('Failed to open billing portal:', err);
@@ -283,7 +284,8 @@ export function useSubscription(): UseSubscriptionReturn {
     try {
       // Open portal for cancellation
       const origin = typeof window !== 'undefined' ? window.location.origin : '';
-      const returnUrl = `${origin}/account?action=canceled`;
+      const locale = getLocaleFromPath();
+      const returnUrl = `${origin}/${locale}/account?action=canceled`;
       await openBillingPortal(returnUrl);
     } catch (err) {
       logger.error('Failed to cancel subscription:', err);

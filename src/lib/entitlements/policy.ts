@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-12-11T11:25:24.075Z
+ * Generated at: 2025-12-11T11:54:06.319Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -20,12 +20,12 @@ export interface PlanLimits {
 export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
   "guest": {
     "daily": {
-          "hiragana_practice": 3,
-          "katakana_practice": 3,
+          "hiragana_practice": 0,
+          "katakana_practice": 0,
           "kanji_browser": 0,
           "kanji_connection": 0,
-          "kanji_mastery": 3,
-          "conjugation_drill": 3,
+          "kanji_mastery": 0,
+          "conjugation_drill": 0,
           "grammar_explanations": 0,
           "youtube_shadowing": 0,
           "media_upload": 0,
@@ -37,8 +37,19 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_share_target": 0,
           "pwa_fs_access": 0,
           "pwa_badging": 0,
-          "pwa_media_session": -1,
-          "word_lookup": 5
+          "pwa_media_session": 0,
+          "word_lookup": 0,
+          "news": 0,
+          "story": 0,
+          "books": 0,
+          "kanji_mood_board": 0,
+          "drill": 0,
+          "my_list": 0,
+          "textbook_vocabulary": 0,
+          "flashcards": 0,
+          "resources": -1,
+          "blogs": -1,
+          "vocabulary": -1
     },
     "monthly": {
           "custom_lists": 0,
@@ -59,21 +70,32 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "youtube_shadowing": 3,
           "media_upload": 2,
           "stall_layout_customization": 1,
-          "flashcard_daily_reviews": 50,
-          "pwa_push": -1,
+          "flashcard_daily_reviews": 0,
+          "pwa_push": 0,
           "pwa_bg_sync": 0,
           "pwa_periodic_sync": 0,
-          "pwa_share_target": -1,
+          "pwa_share_target": 0,
           "pwa_fs_access": 0,
-          "pwa_badging": -1,
-          "pwa_media_session": -1,
-          "word_lookup": 5
+          "pwa_badging": 0,
+          "pwa_media_session": 0,
+          "word_lookup": 5,
+          "news": 2,
+          "story": 2,
+          "books": 2,
+          "kanji_mood_board": 5,
+          "drill": 5,
+          "my_list": 5,
+          "textbook_vocabulary": 0,
+          "flashcards": 0,
+          "resources": -1,
+          "blogs": -1,
+          "vocabulary": -1
     },
     "monthly": {
           "custom_lists": 3,
           "save_items": 50,
           "todos": 100,
-          "flashcard_decks": 10
+          "flashcard_decks": 0
     }
   },
   "premium_monthly": {
@@ -96,7 +118,18 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_fs_access": -1,
           "pwa_badging": -1,
           "pwa_media_session": -1,
-          "word_lookup": -1
+          "word_lookup": -1,
+          "news": -1,
+          "story": -1,
+          "books": -1,
+          "kanji_mood_board": -1,
+          "drill": -1,
+          "my_list": -1,
+          "textbook_vocabulary": -1,
+          "flashcards": -1,
+          "resources": -1,
+          "blogs": -1,
+          "vocabulary": -1
     },
     "monthly": {
           "custom_lists": -1,
@@ -125,7 +158,18 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_fs_access": -1,
           "pwa_badging": -1,
           "pwa_media_session": -1,
-          "word_lookup": -1
+          "word_lookup": -1,
+          "news": -1,
+          "story": -1,
+          "books": -1,
+          "kanji_mood_board": -1,
+          "drill": -1,
+          "my_list": -1,
+          "textbook_vocabulary": -1,
+          "flashcards": -1,
+          "resources": -1,
+          "blogs": -1,
+          "vocabulary": -1
     },
     "monthly": {
           "custom_lists": -1,

@@ -2,6 +2,8 @@
  * Client-side Stripe API helpers with idempotency and session-based auth
  */
 
+import { getLocaleFromPath } from '@/i18n/I18nContext';
+
 /**
  * Generic POST helper using session cookies for authentication
  * @param url - The API endpoint
@@ -98,7 +100,8 @@ export async function cancelSubscription(): Promise<void> {
   // For now, redirect to portal for cancellation
   // Could implement direct cancellation endpoint later
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const returnUrl = `${origin}/account?action=canceled`;
+  const locale = getLocaleFromPath();
+  const returnUrl = `${origin}/${locale}/account?action=canceled`;
   await openBillingPortal(returnUrl);
 }
 
@@ -109,7 +112,8 @@ export async function changeSubscription(newPriceId: string): Promise<void> {
   // For MVP, use portal for plan changes
   // Could implement direct update endpoint later
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const returnUrl = `${origin}/account?action=updated`;
+  const locale = getLocaleFromPath();
+  const returnUrl = `${origin}/${locale}/account?action=updated`;
   await openBillingPortal(returnUrl);
 }
 
@@ -119,9 +123,10 @@ export async function changeSubscription(newPriceId: string): Promise<void> {
 export function getCheckoutUrls(baseUrl?: string) {
   const defaultUrl = typeof window !== 'undefined' ? window.location.origin : '';
   const url = baseUrl || defaultUrl;
+  const locale = getLocaleFromPath();
   return {
-    success: `${url}/account?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
-    cancel: `${url}/pricing?checkout=canceled`
+    success: `${url}/${locale}/account?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel: `${url}/${locale}/pricing?checkout=canceled`
   };
 }
 

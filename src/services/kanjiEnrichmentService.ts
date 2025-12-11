@@ -5,7 +5,7 @@
 
 import fs from 'fs'
 import path from 'path'
-import { KanjiWithExamples } from '@/app/tools/kanji-mastery/learn/LearnContent'
+import { KanjiWithExamples } from '@/app/[locale]/tools/kanji-mastery/learn/LearnContent'
 
 interface JMDictEntry {
   word?: string

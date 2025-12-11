@@ -3,6 +3,8 @@
  * Handles registration, updates, and messaging between app and service workers
  */
 
+import { buildLocalePath } from '@/i18n/I18nContext';
+
 interface ServiceWorkerMessage {
   type: string;
   data?: any;
@@ -224,7 +226,11 @@ export class ServiceWorkerManager {
 
     // Navigate to target URL if provided
     if (data.actionUrl) {
-      window.location.href = data.actionUrl;
+      // Add locale prefix if it's a relative URL
+      const url = data.actionUrl.startsWith('http')
+        ? data.actionUrl
+        : buildLocalePath(data.actionUrl);
+      window.location.href = url;
     }
   }
 

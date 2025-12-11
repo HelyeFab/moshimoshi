@@ -356,11 +356,12 @@ export async function generateBatchAudio(
     errors: [],
   }
 
-  // Check if NHK original audio is available - skip content TTS if so
-  const hasNhkAudio = !!article.nhkAudioUrl
-  if (hasNhkAudio) {
+  // Note: We always generate VOICEVOX audio for all articles, even if NHK audio exists
+  // NHK audio uses m3u8 streams which may not be reliably playable in all contexts
+  // Our VOICEVOX audio provides consistent, high-quality playback
+  if (article.nhkAudioUrl) {
     logger.info(
-      '[AudioGenerator] NHK original audio available - will skip content TTS generation',
+      '[AudioGenerator] NHK audio URL exists but will still generate VOICEVOX audio for consistency',
       {
         articleId: article.id,
         nhkAudioUrl: article.nhkAudioUrl,
@@ -429,41 +430,32 @@ export async function generateBatchAudio(
     logger.error(errorMsg, { articleId: article.id })
   }
 
-  // Generate content audio (full article) - SKIP if NHK original audio is available
-  if (hasNhkAudio) {
-    // NHK audio available - no need to generate TTS for full content
-    logger.info('[AudioGenerator] Skipping content TTS - using NHK original audio', {
-      articleId: article.id,
-      nhkAudioUrl: article.nhkAudioUrl,
-    })
-    // Don't set contentAudio - the article reader will use nhkAudioUrl instead
-  } else {
-    try {
-      const existingContentUrl = await checkExistingAudio(article.id, article.source, 'content')
-      if (existingContentUrl) {
-        logger.info('Using existing content audio', { articleId: article.id })
-        result.contentAudio = {
-          url: existingContentUrl,
-          provider,
-          voice,
-          generatedAt: new Date(),
-          textLength: article.content.length,
-          audioType: 'content',
-        }
-      } else {
-        result.contentAudio = await generateNewsAudio(
-          article.content,
-          article.id,
-          article.source,
-          'content',
-          options
-        )
+  // Generate content audio (full article) - ALWAYS generate regardless of NHK audio
+  try {
+    const existingContentUrl = await checkExistingAudio(article.id, article.source, 'content')
+    if (existingContentUrl) {
+      logger.info('Using existing content audio', { articleId: article.id })
+      result.contentAudio = {
+        url: existingContentUrl,
+        provider,
+        voice,
+        generatedAt: new Date(),
+        textLength: article.content.length,
+        audioType: 'content',
       }
-    } catch (error) {
-      const errorMsg = `Content audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
-      result.errors.push(errorMsg)
-      logger.error(errorMsg, { articleId: article.id })
+    } else {
+      result.contentAudio = await generateNewsAudio(
+        article.content,
+        article.id,
+        article.source,
+        'content',
+        options
+      )
     }
+  } catch (error) {
+    const errorMsg = `Content audio generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+    result.errors.push(errorMsg)
+    logger.error(errorMsg, { articleId: article.id })
   }
 
   // Save audio URLs to Firestore news_articles document

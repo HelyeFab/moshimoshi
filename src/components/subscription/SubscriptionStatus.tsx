@@ -2,7 +2,7 @@
 
 import { useSubscription } from '@/hooks/useSubscription';
 import { useSessionRefresh } from '@/hooks/useSessionRefresh';
-import { useI18n } from '@/i18n/I18nContext';
+import { useI18n, buildLocalePath } from '@/i18n/I18nContext';
 import { formatDistanceToNow } from 'date-fns';
 import {
   CreditCardIcon,
@@ -237,7 +237,7 @@ export function SubscriptionStatus({ compact = false, showActions = true }: Subs
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               {subscription.plan === 'free' ? (
                 <button
-                  onClick={() => window.location.href = '/pricing'}
+                  onClick={() => window.location.href = buildLocalePath('/pricing')}
                   className="flex-1 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
                 >
                   {t('subscription.actions.upgrade')}

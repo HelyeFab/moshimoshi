@@ -9,6 +9,7 @@ import { idbClient } from './client';
 import { firebaseSync } from './firebase-sync';
 import { outboxManager } from './outbox';
 import { DB_NAME } from './types';
+import { buildLocalePath } from '@/i18n/I18nContext';
 
 export interface CleanupResult {
   success: boolean;
@@ -71,7 +72,7 @@ export class AccountCleanupManager {
 
     // Redirect to login or home
     if (result.success) {
-      window.location.href = '/';
+      window.location.href = buildLocalePath('/');
     }
   }
 

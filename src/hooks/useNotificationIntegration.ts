@@ -15,6 +15,7 @@ import {
 import { notificationService } from '@/lib/notifications/notification-service'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase/config'
+import { buildLocalePath } from '@/i18n/I18nContext'
 
 interface ScheduledNotification {
   itemId: string
@@ -294,13 +295,13 @@ export function useNotificationIntegration() {
         icon: '/icons/icon-192x192.svg',
         badge: '/icons/icon-72x72.svg',
         tag: `review-${itemId}`,
-        data: { itemId, actionUrl: `/review?item=${itemId}` },
+        data: { itemId, actionUrl: buildLocalePath(`/review?item=${itemId}`) },
         requireInteraction: true
       })
 
       notification.onclick = () => {
         window.focus()
-        window.location.href = `/review?item=${itemId}`
+        window.location.href = buildLocalePath(`/review?item=${itemId}`)
         notification.close()
       }
     }
