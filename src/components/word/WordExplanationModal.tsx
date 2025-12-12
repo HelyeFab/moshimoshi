@@ -13,16 +13,17 @@ import { TranslationResult } from '@/lib/ai/processors/TranslationProcessor'
 import { useContentTranslation } from '@/hooks/useContentTranslation'
 import {
   SpeakerWaveIcon,
-  ArrowLeftIcon,
   GlobeAsiaAustraliaIcon,
   AcademicCapIcon,
   LightBulbIcon,
   ExclamationCircleIcon,
   BookmarkIcon,
+  TableCellsIcon,
 } from '@heroicons/react/24/outline'
 import { motion, AnimatePresence } from 'framer-motion'
 import { searchTatoebaExamples, type ExampleSentence } from '@/utils/tatoebaSearch'
 import AddToListButton from '@/components/lists/AddToListButton'
+import CompactConjugationTable from '@/components/conjugation/CompactConjugationTable'
 
 // ============================================
 // Modal Props
@@ -73,7 +74,7 @@ export default function WordExplanationModal({
   // State and Hooks
   // ============================================
 
-  const [activeTab, setActiveTab] = useState<'explanation' | 'context' | 'related'>('explanation')
+  const [activeTab, setActiveTab] = useState<'explanation' | 'conjugation' | 'context' | 'related'>('explanation')
   const [relatedTranslations, setRelatedTranslations] = useState<TranslationResult | null>(null)
   const [tatoebaExamples, setTatoebaExamples] = useState<ExampleSentence[]>([])
   const [loadingTatoeba, setLoadingTatoeba] = useState(false)
@@ -156,9 +157,17 @@ export default function WordExplanationModal({
   // Render Helpers
   // ============================================
 
+  // Check if word is potentially conjugatable (verb or adjective)
+  const isConjugatable = explanation?.partOfSpeech?.toLowerCase().match(
+    /verb|ichidan|godan|suru|する|adjective|形容詞|形容動詞|adj/
+  )
+
   const renderTabButtons = () => {
     const tabs = [
       { id: 'explanation', label: 'Word Details', icon: BookmarkIcon },
+      ...(isConjugatable
+        ? [{ id: 'conjugation' as const, label: 'Conjugations', icon: TableCellsIcon }]
+        : []),
       ...(showTranslationContext && translationContext
         ? [{ id: 'context' as const, label: 'Context', icon: GlobeAsiaAustraliaIcon }]
         : []),
@@ -168,14 +177,14 @@ export default function WordExplanationModal({
     ]
 
     return (
-      <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6">
+      <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6 overflow-x-auto">
         {tabs.map(tab => {
           const Icon = tab.icon
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as 'explanation' | 'context' | 'related')}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+              onClick={() => setActiveTab(tab.id as 'explanation' | 'conjugation' | 'context' | 'related')}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === tab.id
                   ? 'border-blue-600 text-blue-600 dark:text-blue-400'
                   : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -535,7 +544,25 @@ export default function WordExplanationModal({
                   ? conjugation.forms as Record<string, string>
                   : conjugation as Record<string, string>
 
-                return Object.entries(forms).map(([form, value]) =>
+                // Define preferred order: present before past, positive before negative
+                const preferredOrder = [
+                  'present', 'past', 'negative', 'negativePast',
+                  'te', 'teForm', 'potential', 'passive', 'causative',
+                  'imperative', 'volitional', 'conditional', 'provisional'
+                ]
+
+                const sortedEntries = Object.entries(forms).sort(([a], [b]) => {
+                  const aLower = a.toLowerCase()
+                  const bLower = b.toLowerCase()
+                  const aIndex = preferredOrder.findIndex(p => aLower.includes(p.toLowerCase()))
+                  const bIndex = preferredOrder.findIndex(p => bLower.includes(p.toLowerCase()))
+                  if (aIndex === -1 && bIndex === -1) return 0
+                  if (aIndex === -1) return 1
+                  if (bIndex === -1) return -1
+                  return aIndex - bIndex
+                })
+
+                return sortedEntries.map(([form, value]) =>
                   value && typeof value === 'string' && (
                     <div key={form} className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
                       <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase mb-1">
@@ -743,9 +770,19 @@ export default function WordExplanationModal({
                         }`}
                       />
                     </button>
-                    <div className="text-lg text-gray-900 dark:text-white font-medium">
+                    <div className="flex-1 text-lg text-gray-900 dark:text-white font-medium">
                       {example.furigana}
                     </div>
+                    <AddToListButton
+                      content={example.japanese}
+                      type="sentence"
+                      metadata={{
+                        reading: example.furigana,
+                        meaning: example.translation,
+                        notes: example.notes,
+                      }}
+                      size="small"
+                    />
                   </div>
                   <div className="text-base text-gray-700 dark:text-gray-300 mb-2">
                     {example.translation}
@@ -798,9 +835,17 @@ export default function WordExplanationModal({
                           }`}
                         />
                       </button>
-                      <div className="text-lg text-gray-900 dark:text-white font-medium">
+                      <div className="flex-1 text-lg text-gray-900 dark:text-white font-medium">
                         {example.japanese}
                       </div>
+                      <AddToListButton
+                        content={example.japanese}
+                        type="sentence"
+                        metadata={{
+                          meaning: example.english || undefined,
+                        }}
+                        size="small"
+                      />
                     </div>
                     {example.english && (
                       <div className="text-base text-gray-700 dark:text-gray-300 ml-11">
@@ -834,20 +879,11 @@ export default function WordExplanationModal({
       closeOnEsc={true}
     >
       <div className="space-y-6">
-        {/* Header with Back Button */}
+        {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
             {word ? `Word: ${word}` : 'Word Explanation'}
           </h2>
-          {translationContext && (
-            <button
-              onClick={onClose}
-              className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-            >
-              <ArrowLeftIcon className="w-4 h-4" />
-              <span className="text-sm">Back to article</span>
-            </button>
-          )}
         </div>
 
         {/* Loading State */}
@@ -877,12 +913,24 @@ export default function WordExplanationModal({
         {explanation && !loading && !error && (
           <>
             {/* Tab Navigation */}
-            {(showTranslationContext || enableRelatedTranslations) && renderTabButtons()}
+            {(showTranslationContext || enableRelatedTranslations || isConjugatable) && renderTabButtons()}
 
             {/* Tab Content */}
             <AnimatePresence mode="wait">
               {activeTab === 'explanation' && (
                 <motion.div key="explanation">{renderMainExplanation()}</motion.div>
+              )}
+
+              {activeTab === 'conjugation' && isConjugatable && (
+                <motion.div
+                  key="conjugation"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <CompactConjugationTable explanation={explanation} />
+                </motion.div>
               )}
 
               {activeTab === 'context' && showTranslationContext && (

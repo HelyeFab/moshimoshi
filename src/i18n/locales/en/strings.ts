@@ -380,6 +380,7 @@ export const strings = {
     sentence: 'Sentence',
     submit: 'Submit',
     continue: 'Continue',
+    finish: 'Finish',
     clear: 'Clear',
     signIn: 'Sign In',
     signUp: 'Sign Up',

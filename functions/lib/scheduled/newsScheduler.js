@@ -46,6 +46,7 @@ const newsAudioGenerator_1 = require("../utils/newsAudioGenerator");
 const wordExtractor_1 = require("../utils/wordExtractor");
 const translationPreGenerator_1 = require("../utils/translationPreGenerator");
 const wordExplanationPreGenerator_1 = require("../utils/wordExplanationPreGenerator");
+const sentencePreGenerator_1 = require("../utils/sentencePreGenerator");
 // Define secrets needed for TTS audio generation, AI processing, and NHK API
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY'); // For VOICEVOX TTS and NHK API
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
@@ -369,6 +370,30 @@ async function scheduledNewsScraper() {
                         });
                         // Continue - don't fail whole job if word explanations fail
                     }
+                    // STEP 4: Generate sentence-level audio and translations
+                    logger.info('[NewsScheduler] Starting sentence-level pre-generation');
+                    const sentenceStartTime = Date.now();
+                    let sentenceSuccessCount = 0;
+                    let sentenceFailureCount = 0;
+                    for (const article of articles) {
+                        try {
+                            await (0, sentencePreGenerator_1.preGenerateArticleSentences)(article.id, article.content);
+                            sentenceSuccessCount++;
+                        }
+                        catch (sentenceError) {
+                            sentenceFailureCount++;
+                            logger.error('[NewsScheduler] Sentence pre-generation failed for article', {
+                                articleId: article.id,
+                                error: sentenceError instanceof Error ? sentenceError.message : 'Unknown error',
+                            });
+                        }
+                    }
+                    const sentenceDuration = Date.now() - sentenceStartTime;
+                    logger.info('[NewsScheduler] Sentence pre-generation completed', {
+                        articlesProcessed: sentenceSuccessCount,
+                        articlesFailed: sentenceFailureCount,
+                        durationMs: sentenceDuration,
+                    });
                 }
                 else {
                     logger.warn('[NewsScheduler] No articles found for pre-caching');

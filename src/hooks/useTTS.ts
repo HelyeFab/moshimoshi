@@ -359,6 +359,14 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
           audioRef.current.onerror = () => {
             const mediaError = audioRef.current?.error
+
+            // Ignore aborted loads (happens when switching audio quickly)
+            // MEDIA_ERR_ABORTED = 1, or null error (stopped mid-load)
+            if (!mediaError || mediaError.code === MediaError.MEDIA_ERR_ABORTED) {
+              console.log('[useTTS] Ignoring aborted audio load')
+              return
+            }
+
             const errorMessage = getMediaErrorMessage(mediaError)
             const error = new Error(errorMessage)
             console.error('Audio playback error:', {
@@ -412,6 +420,14 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
               resolved = true
               cleanup()
               const mediaError = audio.error
+
+              // Ignore aborted loads (happens when switching audio quickly)
+              if (!mediaError || mediaError.code === MediaError.MEDIA_ERR_ABORTED) {
+                console.log('[useTTS] Ignoring aborted audio load during setup')
+                reject(new Error('Audio load aborted'))
+                return
+              }
+
               const errorMessage = getMediaErrorMessage(mediaError)
               console.error('Audio load error:', {
                 code: mediaError?.code,
@@ -467,6 +483,16 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         }
       } catch (err: any) {
         const error = err instanceof Error ? err : new Error(String(err))
+
+        // Ignore aborted loads (happens when switching audio quickly)
+        if (error.message === 'Audio load aborted') {
+          console.log('[useTTS] Audio load was aborted, not treating as error')
+          setLoading(false)
+          setIsFetchingFromAPI(false)
+          ttsLoadingState.setFetching(false)
+          return
+        }
+
         console.error('[useTTS] Server TTS failed:', error.message)
 
         // Try Web Speech API fallback if enabled

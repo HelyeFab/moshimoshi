@@ -22,7 +22,7 @@ const DEFAULT_EDGE_VOICE = 'ja-JP-NanamiNeural' // Fallback voice
 const MAX_TEXT_LENGTH = 5000 // TTS limit
 
 export type AudioType = 'title' | 'summary' | 'content'
-export type TTSProvider = 'edge-tts' | 'voicevox' | 'kokoro' // 'kokoro' kept for backward compat
+export type TTSProvider = 'edge-tts' | 'voicevox'
 
 export interface AudioGenerationOptions {
   voice?: string
@@ -72,8 +72,7 @@ export async function generateNewsAudio(
     text = text.substring(0, MAX_TEXT_LENGTH)
   }
 
-  // Map 'kokoro' to 'voicevox' for backward compatibility
-  const provider = options.provider === 'kokoro' ? 'voicevox' : options.provider || 'voicevox'
+  const provider = options.provider || 'voicevox'
   const voice =
     options.voice || (provider === 'voicevox' ? DEFAULT_VOICEVOX_VOICE : DEFAULT_EDGE_VOICE)
 
@@ -88,7 +87,6 @@ export async function generateNewsAudio(
 
   try {
     // Step 1: Generate audio with selected TTS provider
-    // Note: 'kokoro' is already mapped to 'voicevox' above for backward compatibility
     const audioBuffer =
       provider === 'voicevox'
         ? await callVoicevoxTTS(text, voice)
@@ -369,8 +367,7 @@ export async function generateBatchAudio(
     )
   }
 
-  // Map 'kokoro' to 'voicevox' for backward compatibility
-  const provider = options.provider === 'kokoro' ? 'voicevox' : options.provider || 'voicevox'
+  const provider = options.provider || 'voicevox'
   const voice =
     options.voice || (provider === 'voicevox' ? DEFAULT_VOICEVOX_VOICE : DEFAULT_EDGE_VOICE)
 

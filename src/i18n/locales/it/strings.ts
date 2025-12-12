@@ -151,6 +151,7 @@ export const strings = {
     sentence: 'Frase',
     submit: 'Invia',
     continue: 'Continua',
+    finish: 'Fine',
     clear: 'Cancella',
     signIn: 'Accedi',
     signUp: 'Registrati',

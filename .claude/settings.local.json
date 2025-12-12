@@ -180,7 +180,20 @@
       "Bash(source .env)",
       "Bash(MODAL_API_KEY=\"x0nYn3nNmNVA3mqlhz5ABSfSS7voYWxrBCHGzkJASEU\" node scripts/backfill-article-audio.js:*)",
       "Bash(firebase deploy:*)",
-      "Bash(node scripts/check-single-article.js:*)"
+      "Bash(node scripts/check-single-article.js:*)",
+      "Bash(firebase functions:list:*)",
+      "Bash(OPENAI_API_KEY=\"$OPENAI_API_KEY:-$OPEN_AI_API_KEY\" node scripts/fix-missing-book-cover.mjs)",
+      "Bash(MODAL_API_KEY=\"$MODAL_API_KEY\" node scripts/run-sentence-backfill.mjs:*)",
+      "Bash(MODAL_API_KEY=\"x0nYn3nNmNVA3mqlVd3I2PqW\" node scripts/run-sentence-backfill.mjs:*)",
+      "Bash(MODAL_API_KEY=\"x0nYn3nNmNVA3mqlhz5ABSfSS7voYWxrBCHGzkJASEU\" node scripts/run-sentence-backfill.mjs:*)",
+      "Bash(modal app list:*)",
+      "Bash(modal app logs:*)",
+      "Bash(modal app deploy:*)",
+      "Bash(modal app start:*)",
+      "Bash(modal:*)",
+      "Bash(MODAL_API_KEY=\"x0nYn3nNmNVA3mqlhz5ABSfSS7voYWxrBCHGzkJASEU\" node:*)",
+      "Bash(pkill:*)",
+      "Bash(node scripts/test-sentence-collections.js:*)"
     ],
     "deny": [],
     "ask": []

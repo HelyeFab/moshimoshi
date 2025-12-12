@@ -5,18 +5,18 @@ import { EventEmitter } from 'events'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useTTS } from '@/hooks/useTTS'
-import { TTSOptions } from '@/lib/tts/types'
-import { RepeatModeConfig } from '@/types/youtube-player'
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText'
 import KuromojiService from '@/utils/kuromojiService'
 import MobileSettingsToolbar from './CompactSettingsToolbar'
 import Modal from '@/components/ui/Modal'
 import { useWordExplanation } from '@/hooks/useWordExplanation'
 import WordExplanationModal from '@/components/word/WordExplanationModal'
-import UnifiedShadowingMode from '@/components/shadowing/UnifiedShadowingMode'
+import MoshiShadowingPlayer from '@/components/shadowing/MoshiShadowingPlayer'
+import AddToListButton from '@/components/lists/AddToListButton'
 import { segmentLongSentence, shouldSegment } from '@/utils/sentenceSegmentation'
 import { ReadingSettings, TranslationMode, StoryPage, StoryQuizQuestion } from '@/types/story'
 import { useContentTranslation } from '@/hooks/useContentTranslation'
+import { useArticleSentenceData, useStorySentenceData, useBookSentenceData } from '@/hooks/useSentenceData'
 import { useNhkAudio } from '@/components/audio/NhkAudioPlayer'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { gamificationListener } from '@/lib/gamification/gamificationListener'
@@ -158,15 +158,12 @@ function StoryPageFallback({ pageIndex, title }: { pageIndex: number; title: str
 
 import {
   Volume2,
-  X,
   ArrowLeft,
   Type,
   Languages,
   Palette,
   Play,
   Pause,
-  ChevronDown,
-  ChevronUp,
   Settings,
   CheckCircle,
   Loader2,
@@ -231,7 +228,7 @@ function ArticleContentWithPlayButtons({
   fontSize: string
   highlightGrammar: boolean
   highlightMode: 'none' | 'all' | 'content' | 'grammar'
-  onWordClick?: (word: string, event: React.MouseEvent) => void
+  onWordClick?: (word: string, event: React.MouseEvent, sentenceContext?: string) => void
   onPlaySentence: (sentence: string, index: number) => void
   onTranslateSegment?: (segment: string, index: number) => void
   playingSentenceIndex: number | null
@@ -305,7 +302,7 @@ function ArticleContentWithPlayButtons({
                         fontSize={fontSize}
                         highlightGrammar={highlightGrammar}
                         highlightMode={highlightMode}
-                        onWordClick={onWordClick}
+                        onWordClick={onWordClick ? (word, event) => onWordClick(word, event, segment) : undefined}
                         className="inline"
                       />
                     </span>
@@ -370,6 +367,25 @@ function ArticleContentWithPlayButtons({
                         )}
                       </button>
                     )}
+
+                    {/* Save to list button */}
+                    <span
+                      className={`inline-flex ml-1 transition-all duration-200 ${
+                        playingSentenceIndex !== null || isFullArticlePlaying
+                          ? 'opacity-0'
+                          : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100'
+                      }`}
+                    >
+                      <AddToListButton
+                        content={segment}
+                        type="sentence"
+                        metadata={{
+                          meaning: segmentTranslations?.[currentGlobalIndex]?.translatedText,
+                        }}
+                        size="small"
+                        className="!w-6 !h-6"
+                      />
+                    </span>
                   </div>
 
                   {/* Display translation if available */}
@@ -733,459 +749,6 @@ function FuriganaTextCore({
   )
 }
 
-// Shadowing mode component for sentence practice
-function ShadowingMode({
-  sentences,
-  audioSpeed,
-  settings,
-  onSettingsChange,
-  onClose,
-  onPlayTTS,
-  ttsLoading,
-  ttsPlaying,
-}: {
-  sentences: string[]
-  audioSpeed: number
-  settings: ReadingSettings
-  onSettingsChange: (settings: ReadingSettings) => void
-  onClose: () => void
-  onPlayTTS: (text: string, options?: TTSOptions) => Promise<void>
-  ttsLoading: boolean
-  ttsPlaying: boolean
-}) {
-  const { t } = useI18n()
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isPlayingSequence, setIsPlayingSequence] = useState(false)
-
-  // Add logging for shadowing mode lifecycle
-  useEffect(() => {
-    console.log('ShadowingMode component mounted')
-    return () => console.log('ShadowingMode component unmounted')
-  }, [])
-
-  // Enhanced repeat configuration matching YouTube implementation
-  const [repeatConfig, setRepeatConfig] = useState<RepeatModeConfig>({
-    enabled: true,
-    count: 1,
-    currentRepeat: 0,
-    pauseDuration: 1000, // Default 1 second pause
-  })
-
-  const handlePlay = async () => {
-    setIsPlayingSequence(true)
-    const sentence = sentences[currentIndex]
-
-    try {
-      // Enhanced repeat logic matching YouTube implementation
-      for (let i = 0; i < repeatConfig.count; i++) {
-        // Update current repeat progress
-        setRepeatConfig(prev => ({ ...prev, currentRepeat: i }))
-
-        // Play the sentence with configured audio speed
-        await onPlayTTS(sentence, { speed: audioSpeed })
-
-        // Add configurable pause between repeats (except after last repeat)
-        if (i < repeatConfig.count - 1) {
-          await new Promise(resolve => setTimeout(resolve, repeatConfig.pauseDuration))
-        }
-      }
-
-      // Auto-advancement logic after completing all repeats
-      if (currentIndex < sentences.length - 1) {
-        // Move to next sentence
-        setCurrentIndex(currentIndex + 1)
-        setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }))
-      } else {
-        // Last sentence completed - stop shadowing mode
-        onClose()
-      }
-    } catch (error) {
-      console.error('TTS playback error:', error)
-    } finally {
-      setIsPlayingSequence(false)
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }))
-    }
-  }
-
-  // Auto-enable highlight mode when grammar highlighting is turned on
-  const handleGrammarToggle = () => {
-    const newGrammarState = !settings.highlightGrammar
-    const newSettings = { ...settings, highlightGrammar: newGrammarState }
-
-    // Auto-enable highlight mode if grammar highlighting is turned on and mode is 'none'
-    if (newGrammarState && settings.highlightMode === 'none') {
-      newSettings.highlightMode = 'content'
-    }
-
-    onSettingsChange(newSettings)
-  }
-
-  // Enhanced navigation with repeat state reset
-  const handleNext = () => {
-    if (currentIndex < sentences.length - 1) {
-      setCurrentIndex(currentIndex + 1)
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }))
-    }
-  }
-
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1)
-      setRepeatConfig(prev => ({ ...prev, currentRepeat: 0 }))
-    }
-  }
-
-  // YouTube-style repeat configuration handlers
-  const setRepeatCount = (newCount: number) => {
-    const clampedCount = Math.max(1, Math.min(20, newCount))
-    setRepeatConfig(prev => ({
-      ...prev,
-      count: clampedCount,
-      enabled: clampedCount > 1,
-      currentRepeat: 0, // Reset current repeat when count changes
-    }))
-  }
-
-  const setPauseDuration = (duration: number) => {
-    const clampedDuration = Math.max(500, Math.min(3000, duration))
-    setRepeatConfig(prev => ({ ...prev, pauseDuration: clampedDuration }))
-  }
-
-  return (
-    <div
-      className="fixed inset-0 z-30 overflow-y-auto animate-fade-in"
-      style={{ backgroundColor: 'var(--article-bg)' }}
-    >
-      <div className="min-h-screen w-full relative">
-        {/* Close Button - Top Right */}
-        <button
-          onClick={onClose}
-          className="fixed top-4 right-4 z-50 rounded-full p-3 transition-all duration-200 hover:scale-110 shadow-lg"
-          style={{
-            backgroundColor: 'var(--article-hover-bg)',
-            color: 'var(--article-text-secondary)',
-          }}
-        >
-          <X className="w-6 h-6" />
-        </button>
-
-        {/* Main Content */}
-        <div className="max-w-4xl mx-auto p-6 pt-16 pb-32">
-          {/* Extra top padding for close button, extra bottom padding for mobile */}
-
-          {/* Progress */}
-          <div className="mb-8">
-            <div className="flex justify-between text-sm mb-3">
-              <span style={{ color: 'var(--article-text-secondary)' }}>
-                {t('common.sentence')} {currentIndex + 1} / {sentences.length}
-              </span>
-              <span style={{ color: 'var(--article-text-secondary)' }}>
-                {Math.round(((currentIndex + 1) / sentences.length) * 100)}%
-              </span>
-            </div>
-            <div
-              className="h-2 rounded-full overflow-hidden"
-              style={{ backgroundColor: 'var(--article-accent-bg)' }}
-            >
-              <div
-                className="h-full transition-all duration-500"
-                style={{
-                  width: `${((currentIndex + 1) / sentences.length) * 100}%`,
-                  backgroundColor: 'rgb(var(--palette-primary-500))',
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Current Sentence - Enhanced for full page */}
-          <div
-            className="mb-10 p-10 rounded-3xl shadow-lg"
-            style={{
-              backgroundColor: 'var(--article-content-bg)',
-              border: '1px solid var(--article-border)',
-            }}
-          >
-            <div className="text-center mb-4">
-              <span
-                className="text-sm font-medium px-3 py-1 rounded-full"
-                style={{
-                  backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
-                  color: 'rgb(var(--palette-primary-600))',
-                }}
-              >
-                Sentence {currentIndex + 1} of {sentences.length}
-              </span>
-            </div>
-            <div className="text-center" style={{ fontSize: '2rem' }}>
-              <FuriganaText
-                text={sentences[currentIndex]}
-                showFurigana={settings.showFurigana}
-                fontSize={settings.fontSize}
-                highlightGrammar={settings.highlightGrammar ?? false}
-                highlightMode={settings.highlightMode}
-                className="japanese-text text-center font-medium"
-              />
-            </div>
-          </div>
-
-          {/* Controls */}
-          <div className="space-y-6">
-            {/* Repeat Count - YouTube Style */}
-            <div className="flex flex-col items-center gap-4">
-              <span className="text-lg font-semibold" style={{ color: 'var(--article-text)' }}>
-                {t('news.reader.repeatCount')}
-              </span>
-
-              {/* Counter Display with +/- Controls */}
-              <div className="flex items-center justify-center gap-4">
-                <button
-                  onClick={() => setRepeatCount(repeatConfig.count - 1)}
-                  disabled={repeatConfig.count <= 1}
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  style={{
-                    backgroundColor:
-                      repeatConfig.count <= 1
-                        ? 'var(--article-accent-bg)'
-                        : 'rgb(var(--palette-primary-500) / 0.1)',
-                    color:
-                      repeatConfig.count <= 1
-                        ? 'var(--article-text-secondary)'
-                        : 'rgb(var(--palette-primary-600))',
-                  }}
-                  title="Decrease"
-                >
-                  <ChevronDown className="w-5 h-5" />
-                </button>
-
-                <div className="flex flex-col items-center">
-                  <div
-                    className="text-4xl font-bold tabular-nums"
-                    style={{ color: 'rgb(var(--palette-primary-600))' }}
-                  >
-                    {repeatConfig.count}
-                  </div>
-                  <div
-                    className="text-xs font-medium"
-                    style={{ color: 'var(--article-text-secondary)' }}
-                  >
-                    {repeatConfig.count === 1 ? 'time' : 'times'}
-                  </div>
-                  {/* Progress indicator during playback */}
-                  {isPlayingSequence && repeatConfig.count > 1 && (
-                    <div
-                      className="text-xs mt-1"
-                      style={{ color: 'rgb(var(--palette-primary-600))' }}
-                    >
-                      {repeatConfig.currentRepeat + 1}/{repeatConfig.count}
-                    </div>
-                  )}
-                </div>
-
-                <button
-                  onClick={() => setRepeatCount(repeatConfig.count + 1)}
-                  disabled={repeatConfig.count >= 20}
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  style={{
-                    backgroundColor:
-                      repeatConfig.count >= 20
-                        ? 'var(--article-accent-bg)'
-                        : 'rgb(var(--palette-primary-500) / 0.1)',
-                    color:
-                      repeatConfig.count >= 20
-                        ? 'var(--article-text-secondary)'
-                        : 'rgb(var(--palette-primary-600))',
-                  }}
-                  title="Increase"
-                >
-                  <ChevronUp className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Quick Select Buttons */}
-              <div className="space-y-2">
-                <div
-                  className="text-xs font-medium text-center"
-                  style={{ color: 'var(--article-text-secondary)' }}
-                >
-                  Quick Select
-                </div>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 5, 10].map(count => (
-                    <button
-                      key={count}
-                      onClick={() => setRepeatCount(count)}
-                      className="w-12 h-9 rounded-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
-                      style={{
-                        backgroundColor:
-                          repeatConfig.count === count
-                            ? 'rgb(var(--palette-primary-500))'
-                            : 'var(--article-accent-bg)',
-                        color: repeatConfig.count === count ? 'white' : 'var(--article-text)',
-                        ...(repeatConfig.count === count && {
-                          boxShadow: '0 4px 12px rgb(var(--palette-primary-500) / 0.3)',
-                          border: '2px solid rgb(var(--palette-primary-500) / 0.5)',
-                        }),
-                      }}
-                    >
-                      {count}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Pause Duration Controls - Like YouTube */}
-            {repeatConfig.count > 1 && (
-              <div className="flex flex-col items-center gap-4">
-                <span className="text-lg font-semibold" style={{ color: 'var(--article-text)' }}>
-                  Pause Between Repeats
-                </span>
-
-                {/* Pause Duration Display with +/- Controls */}
-                <div className="flex items-center justify-center gap-4">
-                  <button
-                    onClick={() => setPauseDuration(repeatConfig.pauseDuration - 500)}
-                    disabled={repeatConfig.pauseDuration <= 500}
-                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                    style={{
-                      backgroundColor:
-                        repeatConfig.pauseDuration <= 500
-                          ? 'var(--article-accent-bg)'
-                          : 'rgb(var(--palette-primary-500) / 0.1)',
-                      color:
-                        repeatConfig.pauseDuration <= 500
-                          ? 'var(--article-text-secondary)'
-                          : 'rgb(var(--palette-primary-600))',
-                    }}
-                    title="Decrease pause duration"
-                  >
-                    <ChevronDown className="w-5 h-5" />
-                  </button>
-
-                  <div className="flex flex-col items-center">
-                    <div
-                      className="text-4xl font-bold tabular-nums"
-                      style={{ color: 'rgb(var(--palette-primary-600))' }}
-                    >
-                      {(repeatConfig.pauseDuration / 1000).toFixed(1)}
-                    </div>
-                    <div
-                      className="text-xs font-medium"
-                      style={{ color: 'var(--article-text-secondary)' }}
-                    >
-                      seconds
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setPauseDuration(repeatConfig.pauseDuration + 500)}
-                    disabled={repeatConfig.pauseDuration >= 3000}
-                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                    style={{
-                      backgroundColor:
-                        repeatConfig.pauseDuration >= 3000
-                          ? 'var(--article-accent-bg)'
-                          : 'rgb(var(--palette-primary-500) / 0.1)',
-                      color:
-                        repeatConfig.pauseDuration >= 3000
-                          ? 'var(--article-text-secondary)'
-                          : 'rgb(var(--palette-primary-600))',
-                    }}
-                    title="Increase pause duration"
-                  >
-                    <ChevronUp className="w-5 h-5" />
-                  </button>
-                </div>
-
-                {/* Quick Select Buttons for Pause Duration */}
-                <div className="space-y-2">
-                  <div
-                    className="text-xs font-medium text-center"
-                    style={{ color: 'var(--article-text-secondary)' }}
-                  >
-                    Quick Select
-                  </div>
-                  <div className="flex gap-2">
-                    {[0.5, 1.0, 1.5, 2.0, 3.0].map(seconds => (
-                      <button
-                        key={seconds}
-                        onClick={() => setPauseDuration(seconds * 1000)}
-                        className="w-12 h-9 rounded-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95 text-xs"
-                        style={{
-                          backgroundColor:
-                            repeatConfig.pauseDuration === seconds * 1000
-                              ? 'rgb(var(--palette-primary-500))'
-                              : 'var(--article-accent-bg)',
-                          color:
-                            repeatConfig.pauseDuration === seconds * 1000
-                              ? 'white'
-                              : 'var(--article-text)',
-                          ...(repeatConfig.pauseDuration === seconds * 1000 && {
-                            boxShadow: '0 4px 12px rgb(var(--palette-primary-500) / 0.3)',
-                            border: '2px solid rgb(var(--palette-primary-500) / 0.5)',
-                          }),
-                        }}
-                      >
-                        {seconds}s
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Playback Controls - More Compact */}
-            <div className="flex items-center justify-center gap-3">
-              <button
-                onClick={handlePrevious}
-                disabled={currentIndex === 0}
-                className="w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                style={{
-                  backgroundColor: 'var(--article-accent-bg)',
-                  color: 'var(--article-text)',
-                }}
-                title={t('common.previous')}
-              >
-                ←
-              </button>
-
-              <button
-                onClick={handlePlay}
-                disabled={isPlayingSequence || ttsLoading}
-                className="w-16 h-16 rounded-full font-semibold transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-1 shadow-lg"
-                style={{
-                  backgroundColor: 'rgb(var(--palette-primary-500))',
-                  color: 'white',
-                }}
-                title={isPlayingSequence || ttsPlaying ? t('common.playing') : t('common.play')}
-              >
-                {isPlayingSequence || ttsPlaying ? (
-                  <span className="animate-pulse text-lg">●</span>
-                ) : (
-                  <Play className="w-6 h-6" fill="currentColor" />
-                )}
-              </button>
-
-              <button
-                onClick={handleNext}
-                disabled={currentIndex === sentences.length - 1}
-                className="w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                style={{
-                  backgroundColor: 'var(--article-accent-bg)',
-                  color: 'var(--article-text)',
-                }}
-                title={t('common.next')}
-              >
-                →
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 // Main Enhanced Article Reader Component
 export default function EnhancedArticleReader({
   article,
@@ -1196,6 +759,7 @@ export default function EnhancedArticleReader({
   onComplete,
   onExit,
   storyTitle,
+  contentType = 'article',
 }: {
   article: NewsArticle
   onBack?: () => void
@@ -1205,6 +769,8 @@ export default function EnhancedArticleReader({
   onComplete?: () => void
   onExit?: () => void
   storyTitle?: string // For stories, display this instead of article.title
+  // Content type for sentence data fetching (determines which Firebase collection to use)
+  contentType?: 'article' | 'story' | 'book'
 }) {
   // Determine if we're in story mode (multi-page)
   const isStoryMode = pages && pages.length > 0
@@ -1271,6 +837,51 @@ export default function EnhancedArticleReader({
     autoAddToVocabulary: settings.autoAddToVocabulary,
     articleId: article.id, // Enable pre-cached translation lookup
   })
+
+  // Initialize pre-cached sentence data (audio URLs + translations)
+  // Fetch from the appropriate Firebase collection based on content type
+  const articleSentenceData = useArticleSentenceData(contentType === 'article' ? article.id : null)
+  const storySentenceData = useStorySentenceData(contentType === 'story' ? article.id : null)
+  const bookSentenceData = useBookSentenceData(contentType === 'book' ? article.id : null)
+
+  // Select the appropriate sentence data based on content type
+  const {
+    sentenceMap: preCachedSentences,
+    hasCachedData: hasSentenceCache,
+    getAudioUrl: getPreCachedAudioUrl,
+  } = (() => {
+    switch (contentType) {
+      case 'story':
+        // For stories, we need to get audio from page-based data
+        // The storySentenceData hook returns pageData, so we create compatible interface
+        const storyGetAudioUrl = (text: string): string | null => {
+          const sentence = storySentenceData.getSentenceByText(text)
+          return sentence?.audioUrl || null
+        }
+        return {
+          sentenceMap: new Map(), // Stories use getSentenceByText instead
+          hasCachedData: storySentenceData.hasCachedData,
+          getAudioUrl: storyGetAudioUrl,
+        }
+      case 'book':
+        const bookGetAudioUrl = (text: string): string | null => {
+          const sentence = bookSentenceData.getSentenceByText(text)
+          return sentence?.audioUrl || null
+        }
+        return {
+          sentenceMap: bookSentenceData.sentenceMap,
+          hasCachedData: bookSentenceData.hasCachedData,
+          getAudioUrl: bookGetAudioUrl,
+        }
+      case 'article':
+      default:
+        return {
+          sentenceMap: articleSentenceData.sentenceMap,
+          hasCachedData: articleSentenceData.hasCachedData,
+          getAudioUrl: articleSentenceData.getAudioUrl,
+        }
+    }
+  })()
 
   // Initialize news progress tracking for XP
   const {
@@ -1519,6 +1130,7 @@ export default function EnhancedArticleReader({
 
   // AI word explanation feature
   const [isWordModalOpen, setIsWordModalOpen] = useState(false)
+  const [wordContext, setWordContext] = useState<string | undefined>(undefined)
 
   // Detect if this is a book (from Toshokan Library) vs a news article
   const isBook = article.source === 'Toshokan Library'
@@ -1662,7 +1274,7 @@ export default function EnhancedArticleReader({
   }, [])
 
   // AI word tap handler - Moshimoshi feature
-  const handleWordClick = async (word: string, event: React.MouseEvent) => {
+  const handleWordClick = async (word: string, event: React.MouseEvent, sentenceContext?: string) => {
     console.log('[Article Reader] handleWordClick called with word:', word)
     const cleanWord = word.replace(/<[^>]*>/g, '').trim()
     console.log('[Article Reader] cleanWord:', cleanWord)
@@ -1671,14 +1283,18 @@ export default function EnhancedArticleReader({
       return
     }
 
-    console.log('[Article Reader] Opening word modal and explaining word')
+    // Use the specific sentence context if provided, otherwise fall back to current content
+    const context = sentenceContext || currentContent
+    console.log('[Article Reader] Opening word modal with context:', context?.substring(0, 100))
     setIsWordModalOpen(true)
-    await explainWord(cleanWord, article.content)
+    setWordContext(context)
+    await explainWord(cleanWord, context)
   }
 
   const handleCloseWordModal = () => {
     console.log('[Article Reader] Closing word modal')
     setIsWordModalOpen(false)
+    setWordContext(undefined)
     resetWordExplanation()
   }
 
@@ -1942,8 +1558,8 @@ export default function EnhancedArticleReader({
     return sentences
   }
 
-  // Handle playing individual sentence with on-demand Kokoro generation + caching
-  // Flow: Try Kokoro (cached or generate) → Fallback to app TTS if needed
+  // Handle playing individual sentence with pre-cached audio + fallback
+  // Flow: Pre-cached audio → VOICEVOX API → App TTS fallback
   const handlePlaySentence = async (sentence: string, index: number) => {
     // Stop full article playback if running (pre-generated or TTS)
     if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
@@ -1976,9 +1592,49 @@ export default function EnhancedArticleReader({
     )
     console.log('Sentence:', sentence.substring(0, 50) + '...')
 
-    // PRIORITY 1: Try Kokoro TTS (cached or on-demand generation)
+    // PRIORITY 0: Check for pre-cached audio URL (instant playback, no API call)
+    const preCachedAudioUrl = getPreCachedAudioUrl(sentence)
+    if (preCachedAudioUrl) {
+      try {
+        console.log(
+          '%c▶️ PLAYING: Pre-Cached Sentence Audio (Priority 0)',
+          'background: #2196F3; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;'
+        )
+        console.log('Source: Firebase Storage (pre-generated VOICEVOX)')
+
+        const audio = new Audio(preCachedAudioUrl)
+        audio.playbackRate = Number.isFinite(settings.playbackSpeed)
+          ? settings.playbackSpeed!
+          : 1.0
+
+        audio.onended = () => {
+          setSentenceAudioLoading(null)
+          setPlayingSentenceIndex(null)
+          console.log('[Article Reader] Pre-cached sentence playback completed')
+        }
+
+        audio.onerror = e => {
+          console.error('[Article Reader] Pre-cached audio playback error:', e)
+          setSentenceAudioLoading(null)
+          setPlayingSentenceIndex(null)
+        }
+
+        await audio.play()
+        setSentenceAudioLoading(null)
+        return // Success!
+      } catch (preCachedError) {
+        console.log(
+          '%c⚠️ Pre-cached audio failed, falling back to API...',
+          'color: #f44336; font-weight: bold;',
+          preCachedError
+        )
+        // Fall through to API-based generation
+      }
+    }
+
+    // PRIORITY 1: Try VOICEVOX TTS via API (cached or on-demand generation)
     try {
-      console.log('[Article Reader] Attempting Kokoro sentence audio (Priority 1)...')
+      console.log('[Article Reader] Attempting VOICEVOX sentence audio via API (Priority 1)...')
 
       const response = await fetch('/api/tts/generate-sentence', {
         method: 'POST',
@@ -1995,10 +1651,10 @@ export default function EnhancedArticleReader({
 
         if (data.success && data.audioUrl) {
           console.log(
-            '%c▶️ PLAYING: Kokoro Sentence TTS (Priority 1)',
+            '%c▶️ PLAYING: VOICEVOX Sentence TTS (Priority 1)',
             'background: #9C27B0; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;'
           )
-          console.log('Provider: Kokoro via Sheldon API', {
+          console.log('Provider: VOICEVOX via Modal API', {
             cached: data.cached ? '✅ From Cache' : '🔄 Freshly Generated',
             provider: data.provider,
           })
@@ -2013,11 +1669,11 @@ export default function EnhancedArticleReader({
           audio.onended = () => {
             setSentenceAudioLoading(null)
             setPlayingSentenceIndex(null)
-            console.log('[Article Reader] Kokoro sentence playback completed')
+            console.log('[Article Reader] VOICEVOX sentence playback completed')
           }
 
           audio.onerror = e => {
-            console.error('[Article Reader] Kokoro audio playback error:', e)
+            console.error('[Article Reader] VOICEVOX audio playback error:', e)
             setSentenceAudioLoading(null)
             setPlayingSentenceIndex(null)
           }
@@ -2030,14 +1686,14 @@ export default function EnhancedArticleReader({
 
       // If response not OK, fall through to app TTS
       console.log(
-        '%c⚠️ Kokoro sentence generation failed, falling back to app TTS...',
+        '%c⚠️ VOICEVOX sentence generation failed, falling back to app TTS...',
         'color: #f44336; font-weight: bold;'
       )
-    } catch (kokoroError) {
+    } catch (voicevoxError) {
       console.log(
-        '%c⚠️ Kokoro error, falling back to app TTS:',
+        '%c⚠️ VOICEVOX error, falling back to app TTS:',
         'color: #f44336; font-weight: bold;',
-        kokoroError
+        voicevoxError
       )
       // Fall through to app TTS
     }
@@ -2048,7 +1704,7 @@ export default function EnhancedArticleReader({
         '%c▶️ PLAYING: App TTS Fallback (Priority 2)',
         'background: #FF5722; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;'
       )
-      console.log('Provider chain: Kokoro → ElevenLabs → Edge-TTS')
+      console.log('Provider chain: VOICEVOX → ElevenLabs → Edge-TTS')
       await playTTS(sentence, { speed: settings.playbackSpeed })
       setSentenceAudioLoading(null)
       console.log('[Article Reader] App TTS sentence playback completed')
@@ -2400,7 +2056,7 @@ export default function EnhancedArticleReader({
                 fontSize="xlarge"
                 highlightGrammar={false}
                 highlightMode="none"
-                onWordClick={handleWordClick}
+                onWordClick={(word, event) => handleWordClick(word, event, displayTitle)}
               />
             </h1>
 
@@ -2790,22 +2446,25 @@ export default function EnhancedArticleReader({
         explanation={wordExplanation}
         loading={wordLoading}
         error={wordError}
-        showTranslationContext={false}
-        enableRelatedTranslations={false}
+        translationContext={wordContext ? { sentence: wordContext } : undefined}
+        showTranslationContext={true}
+        enableRelatedTranslations={true}
+        onWordLookup={(word) => handleWordClick(word, {} as React.MouseEvent)}
       />
 
-      {/* Shadowing Mode */}
+      {/* Shadowing Mode - MoshiPlayer Style */}
       {settings.shadowingMode && (
-        <UnifiedShadowingMode
+        <MoshiShadowingPlayer
           sentences={sentences}
           title={article.title}
           contentId={article.id}
-          contentType="article"
-          audioSpeed={settings.playbackSpeed}
-          showFurigana={settings.showFurigana}
-          highlightGrammar={settings.highlightGrammar ?? false}
-          highlightMode={settings.highlightMode}
+          contentType={isStoryMode ? 'story' : isBook ? 'book' : 'article'}
           onClose={() => setSettings(prev => ({ ...prev, shadowingMode: false }))}
+          initialSettings={{
+            showFurigana: settings.showFurigana,
+            highlightMode: settings.highlightMode,
+            repeatCount: 3,
+          }}
         />
       )}
     </div>

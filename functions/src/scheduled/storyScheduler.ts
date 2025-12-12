@@ -10,7 +10,8 @@
  * 5. Generate quiz
  * 6. Generate model sheet + page images
  * 7. Generate audio (VOICEVOX)
- * 8. Publish story
+ * 8. Pre-generate sentence-level audio and translations
+ * 9. Publish story
  */
 
 import * as admin from 'firebase-admin'
@@ -18,6 +19,7 @@ import * as logger from 'firebase-functions/logger'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
+import { preGenerateStorySentences } from '../utils/sentencePreGenerator'
 
 // Define secrets needed for story generation
 const OPENAI_API_KEY = defineSecret('OPENAI_API_KEY')
@@ -158,7 +160,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
 
   try {
     // Step 1: Generate Character Sheet
-    logger.info('[StoryScheduler] Step 1/7: Generating character sheet...')
+    logger.info('[StoryScheduler] Step 1/9: Generating character sheet...')
     const characterResult = await callStoryAPI(
       '/api/admin/generate-story',
       {
@@ -178,7 +180,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
     logger.info('[StoryScheduler] Character sheet created', { draftId })
 
     // Step 2: Generate Outline
-    logger.info('[StoryScheduler] Step 2/7: Generating outline...')
+    logger.info('[StoryScheduler] Step 2/9: Generating outline...')
     const outlineResult = await callStoryAPI(
       '/api/admin/generate-story',
       {
@@ -197,7 +199,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
     logger.info('[StoryScheduler] Outline created')
 
     // Step 3: Generate Pages
-    logger.info('[StoryScheduler] Step 3/7: Generating pages...')
+    logger.info('[StoryScheduler] Step 3/9: Generating pages...')
     for (let pageNum = 1; pageNum <= pageCount; pageNum++) {
       logger.info(`[StoryScheduler] Generating page ${pageNum}/${pageCount}...`)
 
@@ -219,7 +221,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
     logger.info('[StoryScheduler] All pages generated')
 
     // Step 4: Generate Quiz
-    logger.info('[StoryScheduler] Step 4/7: Generating quiz...')
+    logger.info('[StoryScheduler] Step 4/9: Generating quiz...')
     try {
       await callStoryAPI(
         '/api/admin/generate-story',
@@ -238,7 +240,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
     }
 
     // Step 5: Generate Model Sheet (for character consistency) - with retry
-    logger.info('[StoryScheduler] Step 5/7: Generating model sheet...')
+    logger.info('[StoryScheduler] Step 5/9: Generating model sheet...')
     const modelSheetResult = await callStoryAPIWithRetry(
       '/api/admin/generate-story',
       {
@@ -259,7 +261,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
     }
 
     // Step 6: Generate Page Images (with retry logic)
-    logger.info('[StoryScheduler] Step 6/7: Generating page images...')
+    logger.info('[StoryScheduler] Step 6/9: Generating page images...')
     let imagesGenerated = 0
     let imagesFailed = 0
 
@@ -299,7 +301,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
     })
 
     // Step 7: Generate Audio
-    logger.info('[StoryScheduler] Step 7/7: Generating audio...')
+    logger.info('[StoryScheduler] Step 7/9: Generating audio...')
     try {
       await callStoryAPI(
         '/api/admin/generate-story',
@@ -317,8 +319,44 @@ export async function generateDailyStory(adminKey: string): Promise<{
       })
     }
 
-    // Step 8: Publish the story
-    logger.info('[StoryScheduler] Publishing story...')
+    // Step 8: Pre-generate sentence-level audio and translations
+    logger.info('[StoryScheduler] Step 8/9: Generating sentence-level data...')
+    try {
+      // Fetch the draft to get page texts
+      const draftDoc = await db.collection('story_drafts').doc(draftId).get()
+      const draftData = draftDoc.data()
+
+      if (draftData?.pages && Array.isArray(draftData.pages)) {
+        const pages = draftData.pages.map((page: any, index: number) => ({
+          pageNumber: page.pageNumber || index + 1,
+          text: page.text || '',
+        })).filter((page: any) => page.text.length > 0)
+
+        logger.info('[StoryScheduler] Pre-generating sentences for pages', {
+          draftId,
+          pageCount: pages.length,
+        })
+
+        await preGenerateStorySentences(draftId, pages)
+
+        logger.info('[StoryScheduler] Sentence pre-generation completed', {
+          draftId,
+          pageCount: pages.length,
+        })
+      } else {
+        logger.warn('[StoryScheduler] No pages found in draft for sentence pre-generation', {
+          draftId,
+        })
+      }
+    } catch (sentenceError) {
+      logger.warn('[StoryScheduler] Sentence pre-generation failed', {
+        error: sentenceError instanceof Error ? sentenceError.message : 'Unknown',
+      })
+      // Continue - don't fail story generation if sentences fail
+    }
+
+    // Step 9: Publish the story
+    logger.info('[StoryScheduler] Step 9/9: Publishing story...')
     const publishResult = await callStoryAPI(
       '/api/admin/stories/publish-draft',
       { draftId },

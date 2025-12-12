@@ -9,6 +9,7 @@ import { generateBatchAudio } from '../utils/newsAudioGenerator'
 import { extractTopWords } from '../utils/wordExtractor'
 import { generateBatchTranslations } from '../utils/translationPreGenerator'
 import { generateBatchWordExplanations } from '../utils/wordExplanationPreGenerator'
+import { preGenerateArticleSentences } from '../utils/sentencePreGenerator'
 
 // Define secrets needed for TTS audio generation, AI processing, and NHK API
 const MODAL_API_KEY = defineSecret('MODAL_API_KEY') // For VOICEVOX TTS and NHK API
@@ -390,6 +391,34 @@ export async function scheduledNewsScraper() {
             })
             // Continue - don't fail whole job if word explanations fail
           }
+
+          // STEP 4: Generate sentence-level audio and translations
+          logger.info('[NewsScheduler] Starting sentence-level pre-generation')
+          const sentenceStartTime = Date.now()
+
+          let sentenceSuccessCount = 0
+          let sentenceFailureCount = 0
+
+          for (const article of articles) {
+            try {
+              await preGenerateArticleSentences(article.id, article.content)
+              sentenceSuccessCount++
+            } catch (sentenceError) {
+              sentenceFailureCount++
+              logger.error('[NewsScheduler] Sentence pre-generation failed for article', {
+                articleId: article.id,
+                error: sentenceError instanceof Error ? sentenceError.message : 'Unknown error',
+              })
+            }
+          }
+
+          const sentenceDuration = Date.now() - sentenceStartTime
+
+          logger.info('[NewsScheduler] Sentence pre-generation completed', {
+            articlesProcessed: sentenceSuccessCount,
+            articlesFailed: sentenceFailureCount,
+            durationMs: sentenceDuration,
+          })
         } else {
           logger.warn('[NewsScheduler] No articles found for pre-caching')
         }

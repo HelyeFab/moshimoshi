@@ -12,9 +12,6 @@ import {
   Clock,
   Eye,
   BookText,
-  Calendar,
-  Bookmark,
-  Share2,
   Tag,
   CheckCircle2,
   Sparkles
@@ -214,21 +211,6 @@ export default function BookReaderPage() {
               <span className="sm:hidden font-medium">Back</span>
             </Link>
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2">
-              <button
-                className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-800 hover:text-primary-600 dark:hover:text-primary-400 transition-all"
-                aria-label="Bookmark"
-              >
-                <Bookmark className="w-5 h-5" />
-              </button>
-              <button
-                className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-800 hover:text-primary-600 dark:hover:text-primary-400 transition-all"
-                aria-label="Share"
-              >
-                <Share2 className="w-5 h-5" />
-              </button>
-            </div>
           </div>
         </div>
       </motion.div>
@@ -385,6 +367,7 @@ export default function BookReaderPage() {
           article={articleForReader}
           pages={bookAsPages}
           storyTitle={book.titleJa}
+          contentType="book"
         />
 
         {/* Completion Section */}

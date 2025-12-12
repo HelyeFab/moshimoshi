@@ -117,6 +117,7 @@ export default function StoryDetailPage() {
         onComplete={handleComplete}
         onExit={handleExit}
         storyTitle={story.titleJa || story.title}
+        contentType="story"
       />
       <MobileNavSpacer />
     </div>

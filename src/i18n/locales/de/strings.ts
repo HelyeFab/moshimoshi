@@ -120,6 +120,7 @@ export const strings = {
     sentence: 'Satz',
     submit: 'Absenden',
     continue: 'Fortfahren',
+    finish: 'Fertig',
     clear: 'Löschen',
     signIn: 'Anmelden',
     signUp: 'Registrieren',

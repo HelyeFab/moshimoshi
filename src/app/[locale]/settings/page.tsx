@@ -200,7 +200,7 @@ export default function SettingsPage() {
     return (
       <LoadingOverlay
         isLoading={true}
-        message={strings.settings?.loading || strings.loading?.settings || 'Loading settings...'}
+        message={strings.settings?.loading || 'Loading settings...'}
         showDoshi={true}
         fullScreen={true}
       />

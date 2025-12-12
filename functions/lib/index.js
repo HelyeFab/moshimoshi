@@ -46,7 +46,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
+exports.backfillSentenceData = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
@@ -324,4 +324,11 @@ Object.defineProperty(exports, "manualIntegrityCheckerFunction", { enumerable: t
 var articleAudioGenerator_1 = require("./scheduled/articleAudioGenerator");
 Object.defineProperty(exports, "scheduledArticleAudioGenerator", { enumerable: true, get: function () { return articleAudioGenerator_1.scheduledArticleAudioGenerator; } });
 Object.defineProperty(exports, "manualArticleAudioGenerator", { enumerable: true, get: function () { return articleAudioGenerator_1.manualArticleAudioGenerator; } });
+/**
+ * Export sentence data backfill function
+ * One-time callable to pre-generate sentence audio/translations for existing content
+ * Usage: Call with contentType: 'articles' | 'stories' | 'books' | 'all'
+ */
+var backfillSentenceData_1 = require("./admin/backfillSentenceData");
+Object.defineProperty(exports, "backfillSentenceData", { enumerable: true, get: function () { return backfillSentenceData_1.backfillSentenceData; } });
 //# sourceMappingURL=index.js.map

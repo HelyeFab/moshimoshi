@@ -1,0 +1,2 @@
+Error: MODAL_API_KEY environment variable is required
+Usage: MODAL_API_KEY=your_key node scripts/run-sentence-backfill.mjs [contentType]

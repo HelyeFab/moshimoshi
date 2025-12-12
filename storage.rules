@@ -1,0 +1,63 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isUnderSizeLimit(maxSizeMB) {
+      return request.resource.size < maxSizeMB * 1024 * 1024;
+    }
+
+    // Book covers - admin upload only
+    match /books/covers/{fileName} {
+      // Public read (covers are displayed to all users)
+      allow read: if true;
+
+      // Admin can upload book covers (max 10MB images)
+      allow write: if isAdmin() && isValidImage() && isUnderSizeLimit(10);
+    }
+
+    // Blog covers - admin upload only
+    match /blog-covers/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage() && isUnderSizeLimit(10);
+    }
+
+    // User profile images
+    match /users/{userId}/profile/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() &&
+                     request.auth.uid == userId &&
+                     isValidImage() &&
+                     isUnderSizeLimit(5);
+    }
+
+    // TTS audio cache (server-generated)
+    match /tts/{allPaths=**} {
+      allow read: if true;
+      allow write: if false; // Server-only via Admin SDK
+    }
+
+    // AI-generated images (server-generated)
+    match /ai-images/{allPaths=**} {
+      allow read: if true;
+      allow write: if false; // Server-only via Admin SDK
+    }
+
+    // Default: deny all other paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

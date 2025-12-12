@@ -79,8 +79,7 @@ async function generateNewsAudio(text, articleId, source, audioType, options = {
         });
         text = text.substring(0, MAX_TEXT_LENGTH);
     }
-    // Map 'kokoro' to 'voicevox' for backward compatibility
-    const provider = options.provider === 'kokoro' ? 'voicevox' : options.provider || 'voicevox';
+    const provider = options.provider || 'voicevox';
     const voice = options.voice || (provider === 'voicevox' ? DEFAULT_VOICEVOX_VOICE : DEFAULT_EDGE_VOICE);
     logger.info('Generating audio', {
         articleId,
@@ -92,7 +91,6 @@ async function generateNewsAudio(text, articleId, source, audioType, options = {
     });
     try {
         // Step 1: Generate audio with selected TTS provider
-        // Note: 'kokoro' is already mapped to 'voicevox' above for backward compatibility
         const audioBuffer = provider === 'voicevox'
             ? await callVoicevoxTTS(text, voice)
             : await callEdgeTTS(text, {
@@ -297,8 +295,7 @@ async function generateBatchAudio(article, options = {}) {
             nhkAudioUrl: article.nhkAudioUrl,
         });
     }
-    // Map 'kokoro' to 'voicevox' for backward compatibility
-    const provider = options.provider === 'kokoro' ? 'voicevox' : options.provider || 'voicevox';
+    const provider = options.provider || 'voicevox';
     const voice = options.voice || (provider === 'voicevox' ? DEFAULT_VOICEVOX_VOICE : DEFAULT_EDGE_VOICE);
     // Generate title audio
     try {

@@ -11,6 +11,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import CreateListModal from './CreateListModal'
 import type { UserList, ListType } from '@/types/userLists'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ListPlus, Bookmark, Plus, Check } from 'lucide-react'
 
 interface AddToListButtonProps {
   content: string
@@ -163,20 +164,10 @@ export default function AddToListButton({
             transition-all group ${className}`}
           aria-label={t('lists.addToList')}
         >
-          <svg
+          <Bookmark
             className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-primary-500
             transition-colors"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-            />
-          </svg>
+          />
           {addedToLists.size > 0 && (
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full" />
           )}
@@ -191,7 +182,7 @@ export default function AddToListButton({
           className={`px-4 py-2 rounded-lg bg-primary-500 text-white hover:bg-primary-600
             transition-all font-medium flex items-center gap-2 ${className}`}
         >
-          <span>📚</span>
+          <ListPlus className="w-5 h-5" />
           {t('lists.addToList')}
         </button>
       )
@@ -206,7 +197,7 @@ export default function AddToListButton({
           transition-all group ${className}`}
         aria-label={t('lists.addToList')}
       >
-        <span className="group-hover:scale-110 transition-transform">📚</span>
+        <ListPlus className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform" />
         {addedToLists.size > 0 && (
           <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full" />
         )}
@@ -296,17 +287,7 @@ export default function AddToListButton({
                               </div>
                             </div>
                             {addedToLists.has(list.id) && (
-                              <svg
-                                className="w-5 h-5 text-green-500"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
+                              <Check className="w-5 h-5 text-green-500" />
                             )}
                           </button>
                         ))}
@@ -329,7 +310,7 @@ export default function AddToListButton({
                       flex items-center justify-center gap-2 text-primary-600 dark:text-primary-400
                       font-medium text-sm"
                     >
-                      <span>➕</span>
+                      <Plus className="w-4 h-4" />
                       {t('lists.createNew')}
                     </button>
                   </div>

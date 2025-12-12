@@ -11,6 +11,7 @@ import {
   generateBookWordExplanations,
   storeBookWordExplanations
 } from '@/lib/ai/utils/bookWordExplanationGenerator'
+import { preGenerateBookSentences } from '@/lib/ai/utils/sentencePreGenerator'
 import OpenAI from 'openai'
 
 // Initialize Firebase Admin
@@ -468,6 +469,51 @@ export async function POST(request: NextRequest) {
       // Clear word progress on error
       await draftRef.update({
         'metadata.wordProgress': null,
+      })
+    }
+
+    // Step 5: Generate sentence-level audio and translations (pre-cache)
+    console.log(`\n📝 [BookGeneration] Starting sentence-level pre-generation...`)
+
+    try {
+      await draftRef.update({
+        'metadata.generationStep': 'sentences',
+        'metadata.progress': 96,
+      })
+
+      const baseUrl = request.nextUrl.origin
+
+      await preGenerateBookSentences(
+        draftId,
+        result.data.content,
+        baseUrl,
+        async (current, total) => {
+          // Calculate progress: 96% + (current/total * 3%) = up to 99%
+          const stepProgress = 96 + Math.round((current / total) * 3)
+          try {
+            await draftRef.update({
+              'metadata.progress': stepProgress,
+              'metadata.sentenceProgress': { current, total },
+            })
+          } catch (updateError) {
+            // Non-critical
+          }
+        }
+      )
+
+      await draftRef.update({
+        'metadata.sentencesCached': true,
+        'metadata.sentenceProgress': null,
+      })
+
+      console.log(`✅ [BookGeneration] Sentence pre-generation complete`)
+    } catch (sentenceError) {
+      console.error('❌ [BookGeneration] Error generating sentences:', sentenceError)
+      // Continue without sentences - can be generated on-demand
+      console.log('⚠️ [BookGeneration] Continuing without pre-cached sentences')
+
+      await draftRef.update({
+        'metadata.sentenceProgress': null,
       })
     }
 

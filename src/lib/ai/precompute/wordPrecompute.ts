@@ -4,6 +4,8 @@ import { AIService } from '../AIService'
 import type { WordExplanation, JLPTLevel } from '../types'
 import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin'
 import { getCachedWordExplanation, setCachedWordExplanation } from '../cache/WordExplanationCache'
+import { ExtendedConjugationEngine } from '@/lib/conjugation/engine'
+import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 
 type ContentType = 'article' | 'book' | 'story' | 'video'
 
@@ -32,6 +34,81 @@ async function getTokenizer() {
     })
   }
   return tokenizerPromise
+}
+
+/**
+ * Generate full conjugations for a word if it's a verb or adjective.
+ * Uses the ExtendedConjugationEngine for accurate 100+ form generation.
+ */
+async function generateFullConjugations(
+  explanation: WordExplanation
+): Promise<WordExplanation['fullConjugations'] | undefined> {
+  const pos = explanation.partOfSpeech?.toLowerCase() || ''
+
+  // Check if word is conjugatable (verb or adjective)
+  const isConjugatable = pos.match(
+    /verb|ichidan|godan|suru|する|adjective|形容詞|形容動詞|adj/
+  )
+
+  if (!isConjugatable) {
+    return undefined
+  }
+
+  try {
+    // Convert to JapaneseWord format for the engine
+    const baseWord = {
+      id: `precompute-${explanation.word}`,
+      kanji: explanation.word,
+      kana: explanation.reading,
+      romaji: explanation.romaji,
+      meaning: explanation.meaning,
+      type: undefined as string | undefined,
+    }
+
+    // Detect verb type from partOfSpeech
+    if (pos.includes('ichidan') || pos.includes('ru-verb') || pos.includes('一段')) {
+      baseWord.type = 'Ichidan'
+    } else if (pos.includes('godan') || pos.includes('u-verb') || pos.includes('五段')) {
+      baseWord.type = 'Godan'
+    } else if (pos.includes('suru') || pos.includes('する') || pos.includes('irregular')) {
+      baseWord.type = 'Irregular'
+    } else if (pos.includes('i-adj') || pos.includes('い-adj') || pos.includes('形容詞')) {
+      baseWord.type = 'i-adjective'
+    } else if (pos.includes('na-adj') || pos.includes('な-adj') || pos.includes('形容動詞')) {
+      baseWord.type = 'na-adjective'
+    }
+
+    // Use enhanceWordWithType for accurate type detection
+    const enhancedWord = enhanceWordWithType(baseWord)
+
+    if (!enhancedWord.isConjugatable) {
+      return undefined
+    }
+
+    // Generate full conjugations
+    const conjugations = await ExtendedConjugationEngine.conjugate(enhancedWord)
+
+    // Check if we got valid conjugations
+    if (!conjugations || !conjugations.present) {
+      return undefined
+    }
+
+    // Convert to plain object (strip any class methods)
+    const formsObject: Record<string, string> = {}
+    for (const [key, value] of Object.entries(conjugations)) {
+      if (typeof value === 'string' && value.trim() !== '') {
+        formsObject[key] = value
+      }
+    }
+
+    return {
+      conjugationType: enhancedWord.conjugationType || enhancedWord.type || 'unknown',
+      forms: formsObject,
+    }
+  } catch (error) {
+    console.warn('[WordPrecompute] Failed to generate conjugations for:', explanation.word, error)
+    return undefined
+  }
 }
 
 // Basic tokenizer: extracts base forms of content words (nouns/verbs/adjectives)
@@ -116,6 +193,8 @@ export async function precomputeWordExplanations({
   // Process in order with small concurrency so earliest tokens finish first
   const concurrency = 3
   let index = 0
+  let conjugationsGenerated = 0
+
   while (index < missingWords.length) {
     const slice = missingWords.slice(index, index + concurrency)
     const results = await Promise.all(
@@ -123,6 +202,16 @@ export async function precomputeWordExplanations({
         const cached = await getCachedWordExplanation(word)
         if (cached) {
           cachedCount += 1
+          // If cached but missing fullConjugations, generate them now
+          if (!cached.fullConjugations) {
+            const fullConjugations = await generateFullConjugations(cached)
+            if (fullConjugations) {
+              cached.fullConjugations = fullConjugations
+              conjugationsGenerated += 1
+              // Update cache with conjugations
+              await setCachedWordExplanation(word, cached)
+            }
+          }
           return cached
         }
 
@@ -131,13 +220,24 @@ export async function precomputeWordExplanations({
           throw new Error(aiResponse.error || `Failed to generate explanation for ${word}`)
         }
 
-        await setCachedWordExplanation(word, aiResponse.data)
-        return aiResponse.data
+        const explanation = aiResponse.data
+
+        // Generate full conjugations for verbs/adjectives
+        const fullConjugations = await generateFullConjugations(explanation)
+        if (fullConjugations) {
+          explanation.fullConjugations = fullConjugations
+          conjugationsGenerated += 1
+        }
+
+        await setCachedWordExplanation(word, explanation)
+        return explanation
       })
     )
     generatedResults.push(...results)
     index += concurrency
   }
+
+  console.log(`[WordPrecompute] Generated ${conjugationsGenerated} full conjugation tables`)
 
   const merged = [...existingWords, ...generatedResults]
 

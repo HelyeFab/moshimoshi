@@ -741,7 +741,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.youtubeShadowing?.subtitle || 'YouTube',
         description: cards?.youtubeShadowing?.description || 'Practice with YouTube',
         href: '/youtube-shadowing',
-        icon: '📺',
+        icon: <DoshiMascot size="small" variant="animated" />,
         stallType: 'music',
         color: 'from-pink-400 to-rose-600',
         glow: 'shadow-pink-500/50',

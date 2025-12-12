@@ -366,3 +366,10 @@ export {
   scheduledArticleAudioGenerator,
   manualArticleAudioGenerator,
 } from './scheduled/articleAudioGenerator'
+
+/**
+ * Export sentence data backfill function
+ * One-time callable to pre-generate sentence audio/translations for existing content
+ * Usage: Call with contentType: 'articles' | 'stories' | 'books' | 'all'
+ */
+export { backfillSentenceData } from './admin/backfillSentenceData'

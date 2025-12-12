@@ -384,6 +384,7 @@ export const strings = {
     sentence: '文',
     submit: '送信',
     continue: '続ける',
+    finish: '完了',
     clear: 'クリア',
     signIn: 'サインイン',
     signUp: 'サインアップ',

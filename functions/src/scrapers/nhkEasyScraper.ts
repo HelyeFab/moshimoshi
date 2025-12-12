@@ -35,7 +35,7 @@ interface NewsArticle {
   generatedSummaryAudioUrl?: string // TTS-generated audio for summary
   generatedContentAudioUrl?: string // TTS-generated audio for full content
   audioGeneratedAt?: Date // When audio was generated
-  audioProvider?: 'edge-tts' | 'voicevox' | 'kokoro' // TTS provider used
+  audioProvider?: 'edge-tts' | 'voicevox' // TTS provider used
   audioVoice?: string // Voice ID used
   audioStatus?: 'pending' | 'generated' | 'failed' | 'partial' // Generation status
   audioError?: string // Error message if generation failed

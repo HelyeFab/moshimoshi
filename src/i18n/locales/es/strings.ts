@@ -108,6 +108,7 @@ export const strings = {
     sentence: 'Oración',
     submit: 'Enviar',
     continue: 'Continuar',
+    finish: 'Finalizar',
     clear: 'Borrar',
     signIn: 'Iniciar sesión',
     signUp: 'Registrarse',

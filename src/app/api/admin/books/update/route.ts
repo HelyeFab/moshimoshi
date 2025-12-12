@@ -68,12 +68,18 @@ export async function PUT(request: NextRequest) {
       }
     });
 
-    // Update in the appropriate collection
+    // Update in BOTH collections if they exist (for published books)
+    const updatePromises: Promise<any>[] = [];
+
     if (draftDoc.exists) {
-      await db.collection('book_drafts').doc(bookId).update(updateData);
-    } else {
-      await db.collection('books').doc(bookId).update(updateData);
+      updatePromises.push(db.collection('book_drafts').doc(bookId).update(updateData));
     }
+
+    if (bookDoc.exists) {
+      updatePromises.push(db.collection('books').doc(bookId).update(updateData));
+    }
+
+    await Promise.all(updatePromises);
 
     return NextResponse.json({
       success: true,

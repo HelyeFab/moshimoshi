@@ -250,10 +250,19 @@ export function useContentTranslation(
                   preCached = data.content
                   console.log('[Translation] Using pre-cached CONTENT translation')
                 } else if (data.sentences && Array.isArray(data.sentences)) {
-                  // Check if text matches any pre-cached sentence
-                  const matchingSentence = data.sentences.find((s: any) => s.originalText === text)
+                  // Check if text matches any pre-cached sentence (new schema: sentence.text or sentence.translation.originalText)
+                  const matchingSentence = data.sentences.find(
+                    (s: any) => s.text === text || s.translation?.originalText === text
+                  )
                   if (matchingSentence) {
-                    preCached = matchingSentence
+                    // Return the translation object in the expected format
+                    preCached = matchingSentence.translation || {
+                      originalText: matchingSentence.text,
+                      translatedText: '',
+                      grammarNotes: [],
+                      keyVocabulary: [],
+                      confidence: 0,
+                    }
                     console.log('[Translation] Using pre-cached SENTENCE translation')
                   }
                 }

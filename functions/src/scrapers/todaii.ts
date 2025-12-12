@@ -20,7 +20,7 @@ interface NewsArticle {
   generatedSummaryAudioUrl?: string
   generatedContentAudioUrl?: string
   audioGeneratedAt?: Date
-  audioProvider?: 'edge-tts' | 'voicevox' | 'kokoro'
+  audioProvider?: 'edge-tts' | 'voicevox'
   audioVoice?: string
   audioStatus?: 'pending' | 'generated' | 'failed' | 'partial'
   audioError?: string
