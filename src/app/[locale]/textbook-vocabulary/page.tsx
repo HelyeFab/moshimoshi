@@ -10,8 +10,9 @@ import { DoshiMascot } from '@/components/ui/DoshiMascot'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { TextbookSelector } from './components/TextbookSelector'
 import { VocabularyDisplay } from './components/VocabularyDisplay'
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 
-export default function TextbookVocabularyPage() {
+function TextbookVocabularyContent() {
   const { user } = useAuth()
   const { strings } = useI18n()
   const [selectedTextbook, setSelectedTextbook] = useState<string | null>(null)
@@ -66,5 +67,13 @@ export default function TextbookVocabularyPage() {
         </motion.div>
       </div>
     </div>
+  )
+}
+
+export default function TextbookVocabularyPage() {
+  return (
+    <EntitlementGate featureId="textbook_vocabulary">
+      <TextbookVocabularyContent />
+    </EntitlementGate>
   )
 }

@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-12-11T11:54:06.319Z
+ * Generated at: 2025-12-12T18:09:19.210Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -49,7 +49,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "flashcards": 0,
           "resources": -1,
           "blogs": -1,
-          "vocabulary": -1
+          "vocabulary": -1,
+          "comics": 0
     },
     "monthly": {
           "custom_lists": 0,
@@ -89,7 +90,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "flashcards": 0,
           "resources": -1,
           "blogs": -1,
-          "vocabulary": -1
+          "vocabulary": -1,
+          "comics": 0
     },
     "monthly": {
           "custom_lists": 3,
@@ -129,7 +131,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "flashcards": -1,
           "resources": -1,
           "blogs": -1,
-          "vocabulary": -1
+          "vocabulary": -1,
+          "comics": -1
     },
     "monthly": {
           "custom_lists": -1,
@@ -169,7 +172,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "flashcards": -1,
           "resources": -1,
           "blogs": -1,
-          "vocabulary": -1
+          "vocabulary": -1,
+          "comics": -1
     },
     "monthly": {
           "custom_lists": -1,

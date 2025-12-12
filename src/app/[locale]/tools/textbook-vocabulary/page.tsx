@@ -11,8 +11,9 @@ import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { TextbookSelector } from './components/TextbookSelector'
 import { VocabularyDisplay } from './components/VocabularyDisplay'
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 
-export default function TextbookVocabularyPage() {
+function TextbookVocabularyContent() {
   const { user } = useAuth()
   const { strings } = useI18n()
   const [selectedTextbook, setSelectedTextbook] = useState<string | null>(null)
@@ -71,5 +72,13 @@ export default function TextbookVocabularyPage() {
       </div>
       <MobileNavSpacer />
     </div>
+  )
+}
+
+export default function TextbookVocabularyPage() {
+  return (
+    <EntitlementGate featureId="textbook_vocabulary">
+      <TextbookVocabularyContent />
+    </EntitlementGate>
   )
 }

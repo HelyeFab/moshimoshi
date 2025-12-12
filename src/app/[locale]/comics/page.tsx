@@ -14,8 +14,9 @@ import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { ComicEpisode, ComicSeries } from '@/types/comic'
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 
-export default function ComicsPage() {
+function ComicsContent() {
   const { strings } = useI18n()
   const { user, loading: authLoading } = useAuth()
   const router = useRouter()
@@ -260,5 +261,13 @@ export default function ComicsPage() {
         <MobileNavSpacer />
       </div>
     </div>
+  )
+}
+
+export default function ComicsPage() {
+  return (
+    <EntitlementGate featureId="comics">
+      <ComicsContent />
+    </EntitlementGate>
   )
 }

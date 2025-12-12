@@ -119,36 +119,16 @@ export function InlineUpgradeModal({
           </p>
         </div>
 
-        {/* Current usage indicator */}
-        {currentLimit !== undefined && currentUsage !== undefined && (
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 mb-6">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-yellow-900 dark:text-yellow-200">
-                {t('entitlements.upgrade.currentUsage')}
-              </span>
-              <span className="text-lg font-bold text-yellow-900 dark:text-yellow-200">
-                {currentUsage} / {currentLimit}
-              </span>
-            </div>
-            <div className="mt-2 w-full bg-yellow-200 dark:bg-yellow-800 rounded-full h-2">
-              <div
-                className="bg-yellow-600 dark:bg-yellow-500 h-2 rounded-full transition-all"
-                style={{ width: `${Math.min((currentUsage / currentLimit) * 100, 100)}%` }}
-              />
-            </div>
-          </div>
-        )}
-
         {/* Pricing options */}
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           {pricingOptions.map((option) => (
             <div
               key={option.id}
               onClick={() => setSelectedPlan(option.id)}
-              className={`relative rounded-xl p-6 cursor-pointer transition-all ${
+              className={`relative rounded-xl p-6 cursor-pointer transition-all border-2 ${
                 selectedPlan === option.id
-                  ? 'bg-primary-50 dark:bg-primary-900/30 ring-2 ring-primary-500'
-                  : 'bg-soft-white dark:bg-dark-800 hover:bg-gray-50 dark:hover:bg-dark-700'
+                  ? 'bg-primary-500/10 dark:bg-primary-500/20 border-primary-500'
+                  : 'bg-transparent border-gray-200 dark:border-dark-600 hover:border-primary-300 dark:hover:border-primary-700'
               }`}
             >
               {/* Popular badge */}
@@ -209,10 +189,10 @@ export function InlineUpgradeModal({
         </div>
 
         {/* Premium benefits highlight */}
-        <div className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-4 mb-6">
+        <div className="bg-gray-100 dark:bg-dark-700 rounded-lg p-4 mb-6">
           <div className="flex items-center">
-            <SparklesIcon className="h-5 w-5 text-primary-600 dark:text-primary-400 mr-2 flex-shrink-0" />
-            <p className="text-sm font-medium text-primary-900 dark:text-primary-200">
+            <SparklesIcon className="h-5 w-5 text-primary-500 mr-2 flex-shrink-0" />
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
               {t('entitlements.upgrade.premiumNote')}
             </p>
           </div>
